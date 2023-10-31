@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-08 14:29:45 GMT (Sunday 8th January 2023)"
-	revision: "32"
+	date: "2023-10-31 14:02:30 GMT (Tuesday 31st October 2023)"
+	revision: "33"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -64,7 +64,7 @@ inherit
 		undefine
 			copy, is_equal
 		redefine
-			set_encrypter
+			set_encrypter, make_default
 		end
 
 	EL_STORABLE_HANDLER
@@ -78,6 +78,16 @@ inherit
 
 feature {NONE} -- Initialization
 
+	make_default
+		do
+			if not attached encrypter then
+				encrypter := Default_encrypter
+			end
+			reader_writer := new_reader_writer
+			create header.make
+			make_chain_implementation (0)
+		end
+
 	make_chain_implementation (a_count: INTEGER)
 		deferred
 		end
@@ -86,16 +96,13 @@ feature {NONE} -- Initialization
 		local
 			l_file: like new_file
 		do
-			if not attached encrypter then
-				make_default
-			end
+			make_default
 			Precursor (a_file_path)
-			reader_writer := new_reader_writer
 
 			if file_path.exists then
 				l_file := new_file (file_path)
 				l_file.open_read
-				create header.make (l_file)
+				header.set_from_file (l_file)
 
 				if header.version /= software_version then
 					on_version_mismatch (header.version)
@@ -105,9 +112,11 @@ feature {NONE} -- Initialization
 				make_chain_implementation (0)
 				create l_file.make_open_write (file_path)
 				put_header (l_file)
-				create header.make_default (software_version)
+				header.set_version (software_version)
 			end
 			l_file.close
+			
+			retrieve
 		end
 
 	make_from_file_and_encrypter (a_file_path: FILE_PATH; a_encrypter: EL_AES_ENCRYPTER)
@@ -148,30 +157,6 @@ feature -- Basic operations
 				end
 				forth
 			end
-		end
-
-	retrieve
-		local
-			l_file: like new_file; l_reader: like reader_writer; i, item_count: INTEGER
-		do
-			encrypter.reset
-			l_file := new_file (file_path)
-			l_file.open_read
-			l_reader := reader_writer
-			l_reader.set_for_reading
-
-			-- Skip header
-			l_file.move (header.size_of)
-
-			item_count := header.stored_count
-			from i := 1 until i > item_count or l_file.end_of_file loop
-				extend (l_reader.read_item (l_file))
-				progress_listener.notify_tick
-				i := i + 1
-			end
-			l_file.close
-		ensure
-			correct_stored_count: count = header.stored_count
 		end
 
 	store_as (a_file_path: like file_path)
@@ -292,6 +277,34 @@ feature {ECD_EDITIONS_FILE} -- Implementation
 		do
 			a_file.put_natural_32 (software_version)
 			a_file.put_integer (undeleted_count)
+		end
+
+	retrieve
+		local
+			i, item_count: INTEGER
+		do
+			item_count := header.stored_count
+			if item_count > 0 then
+				encrypter.reset
+				if attached new_file (file_path) as l_file then
+					l_file.open_read
+					if attached reader_writer as l_reader then
+						l_reader.set_for_reading
+
+						-- Skip header
+						l_file.move (header.size_of)
+
+						from i := 1 until i > item_count or l_file.end_of_file loop
+							extend (l_reader.read_item (l_file))
+							progress_listener.notify_tick
+							i := i + 1
+						end
+						l_file.close
+					end
+				end
+			end
+		ensure
+			correct_stored_count: count = header.stored_count
 		end
 
 	stored_successfully (a_file: like new_file): BOOLEAN

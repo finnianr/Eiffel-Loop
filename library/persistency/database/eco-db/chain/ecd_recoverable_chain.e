@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:16:23 GMT (Saturday 29th April 2023)"
-	revision: "32"
+	date: "2023-10-31 14:03:06 GMT (Tuesday 31st October 2023)"
+	revision: "33"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -29,7 +29,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			header, make_from_file, delete_file, rename_base, safe_store, is_closed
+			delete_file, header, make_default, retrieve, rename_base, safe_store, is_closed
 		end
 
 	EL_MODULE_LIO; EL_MODULE_NAMING
@@ -55,15 +55,14 @@ feature {NONE} -- Initialization
 			make_from_file (a_file_path)
 		end
 
-	make_from_file (a_file_path: FILE_PATH)
+	make_default
 		do
-			Precursor (a_file_path)
+			Precursor
 			if is_encrypted then
-				create {ECD_ENCRYPTABLE_EDITIONS_FILE [G]} editions.make (editions_file_path, Current)
+				create {ECD_ENCRYPTABLE_EDITIONS_FILE [G]} editions.make (Current)
 			else
-				create editions.make (editions_file_path, Current)
+				create editions.make (Current)
 			end
-			retrieve; apply_editions
 		end
 
 feature -- Access
@@ -255,6 +254,13 @@ feature {NONE} -- Implementation
 			Naming.to_kebab_case_lower (l_name, file_name)
 			Result := Default_data_dir + file_name
 			Result.add_extension (Default_file_extension)
+		end
+
+	retrieve
+		do
+			Precursor
+			editions.set_attributes (editions_file_path)
+			apply_editions
 		end
 
 feature {NONE} -- Deferred

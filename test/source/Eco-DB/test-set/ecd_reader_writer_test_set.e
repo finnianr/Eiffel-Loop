@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 14:45:12 GMT (Tuesday 15th August 2023)"
-	revision: "22"
+	date: "2023-10-31 14:01:42 GMT (Tuesday 31st October 2023)"
+	revision: "23"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -34,10 +34,11 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["collection_read_write", agent test_collection_read_write],
-				["print_fields", agent test_print_fields],
-				["pyxis_export", agent test_pyxis_export],
-				["read_write", agent test_read_write],
-				["write_meta_data", agent test_write_meta_data]
+				["print_fields",			  agent test_print_fields],
+				["pyxis_export",			  agent test_pyxis_export],
+				["read_write",				  agent test_read_write],
+				["storable_arrayed_list", agent test_storable_arrayed_list],
+				["write_meta_data",		  agent test_write_meta_data]
 			>>)
 		end
 
@@ -116,6 +117,33 @@ feature -- Tests
 					else
 						failed ("restored OK")
 					end
+				end
+			end
+		end
+
+	test_storable_arrayed_list
+		-- ECD_READER_WRITER_TEST_SET.test_storable_arrayed_list
+		local
+			country_list: ECD_STORABLE_ARRAYED_LIST [COUNTRY]
+			country: COUNTRY
+		do
+			File_path.set_base ("country.dat")
+			create country_list.make (1)
+			country := new_country
+			country_list.extend (country)
+			across 1 |..| 2 as n loop
+				if n.is_first then
+					country_list.store_as (File_path)
+				else
+					country_list.store
+				end
+				if File_path.exists then
+					create country_list.make_from_file (File_path)
+
+					assert ("one item", country_list.count = 1)
+					assert ("same item", country_list.first ~ country)
+				else
+					failed ("stored")
 				end
 			end
 		end

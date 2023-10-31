@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 9:54:00 GMT (Wednesday 28th June 2023)"
-	revision: "36"
+	date: "2023-10-31 12:55:43 GMT (Tuesday 31st October 2023)"
+	revision: "37"
 
 class
 	EL_LOCALE
@@ -254,7 +254,6 @@ feature {EL_LOCALE_CONSTANTS} -- Factory
 					l_language := default_language
 				end
 				create items_list.make_from_file (Locale_table [l_language])
-				items_list.retrieve
 				Result := items_list.to_table (l_language)
 				if attached Adhoc_translation_source_factory.item as factory then
 					factory.apply

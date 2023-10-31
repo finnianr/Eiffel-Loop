@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 15:25:22 GMT (Monday 30th October 2023)"
-	revision: "15"
+	date: "2023-10-31 14:07:02 GMT (Tuesday 31st October 2023)"
+	revision: "16"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -107,11 +107,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {EL_HACKER_INTERCEPT_SERVLET} -- Constants
-
-	Legacy_firewall_status_data_path: FILE_PATH
-		once
-			Result := Directory.Sub_app_data + "firewall-blocks.dat"
-		end
 
 	Firewall_status_data_path: FILE_PATH
 		once

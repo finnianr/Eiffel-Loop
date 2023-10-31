@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-10-31 9:46:24 GMT (Tuesday 31st October 2023)"
+	revision: "3"
 
 class
 	ECD_RECOVERABLE_CHAIN_HEADER
@@ -15,29 +15,30 @@ class
 inherit
 	ECD_CHAIN_HEADER
 		redefine
-			make_from_file, read_tick_count
+			set_from_file, read_tick_count
 		end
 
 	ECD_CONSTANTS
 
 create
-	make, make_from_file, make_default
+	make
 
 feature {NONE} -- Initialization
 
-	make_from_file (file_path: FILE_PATH)
+	set_from_file (file: RAW_FILE)
 		local
-			editions_file_path: FILE_PATH; file: RAW_FILE
+			file_path: FILE_PATH; editions: RAW_FILE
 		do
-			Precursor (file_path)
-			editions_file_path := file_path.with_new_extension (Editions_file_extension)
-			if editions_file_path.exists then
-				create file.make_open_read (editions_file_path)
-				if file.count >= {PLATFORM}.Integer_32_bytes then
-					file.read_integer_32
-					edition_count := file.last_integer_32
+			Precursor (file)
+			file_path := file.path
+
+			if attached editions_path (file_path) as path and then path.exists then
+				create editions.make_open_read (path)
+				if editions.count >= {PLATFORM}.Integer_32_bytes then
+					editions.read_integer_32
+					edition_count := editions.last_integer_32
 				end
-				file.close
+				editions.close
 			end
 		end
 

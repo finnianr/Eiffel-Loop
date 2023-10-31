@@ -6,60 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-10-31 9:33:40 GMT (Tuesday 31st October 2023)"
+	revision: "3"
 
 class
 	ECD_CHAIN_HEADER
 
 create
-	make, make_default, make_from_file
+	make
 
 feature {NONE} -- Initialization
 
-	make_from_file (file_path: FILE_PATH)
-		local
-			file: RAW_FILE
+	make
 		do
-			if file_path.exists then
-				create file.make_open_read (file_path)
-				if file.count >= size_of then
-					make (file)
-				else
-					make_default (0)
-				end
-				file.close
-			else
-				make_default (0)
-			end
-		end
-
-	make (file: RAW_FILE)
-		do
-			-- Check version
-			file.read_natural_32
-			version := file.last_natural_32
-			file.read_integer
-			stored_count := file.last_integer
-			stored_byte_count := file.count
-		end
-
-	make_default (a_version: NATURAL)
-		do
-			version := a_version
 			stored_byte_count := size_of
 		end
 
 feature -- Access
-
-	stored_byte_count: INTEGER
-		-- file size count
-
-	stored_count: INTEGER
-		-- stored item count
-
-	version: NATURAL
-		-- software version
 
 	read_tick_count: INTEGER
 		do
@@ -70,6 +33,45 @@ feature -- Access
 		-- size of header in bytes
 		do
 			Result := {PLATFORM}.real_32_bytes + {PLATFORM}.integer_32_bytes
+		end
+
+	stored_byte_count: INTEGER
+		-- file size count
+
+	stored_count: INTEGER
+		-- stored item count
+
+	version: NATURAL
+		-- software version
+
+feature -- Element change
+
+	set_from_file_path (file_path: FILE_PATH)
+		require
+			file_exists: file_path.exists
+		local
+			file: RAW_FILE
+		do
+			create file.make_open_read (file_path)
+			if file.count >= size_of then
+				set_from_file (file)
+			end
+			file.close
+		end
+
+	set_from_file (file: RAW_FILE)
+		do
+			-- Check version
+			file.read_natural_32
+			version := file.last_natural_32
+			file.read_integer
+			stored_count := file.last_integer
+			stored_byte_count := file.count
+		end
+
+	set_version (a_version: NATURAL)
+		do
+			version := a_version
 		end
 
 end

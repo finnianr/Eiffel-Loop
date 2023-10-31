@@ -6,21 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-29 17:24:30 GMT (Sunday 29th October 2023)"
-	revision: "1"
+	date: "2023-10-31 11:22:43 GMT (Tuesday 31st October 2023)"
+	revision: "2"
 
 class
 	ECD_STORABLE_ARRAYED_LIST  [G -> EL_STORABLE create make_default end]
 
 inherit
 	ECD_CHAIN [G]
-		rename
-			make_chain_implementation as make
-		end
 
 	ECD_ARRAYED_LIST [G]
-		redefine
-			make
+		rename
+			make as make_chain_implementation
 		end
 
 	EL_MODULE_BUILD_INFO
@@ -32,13 +29,8 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER)
 		do
-			if encrypter = Void then
-				encrypter := Default_encrypter
-			end
-			if file_path = Void then
-				create file_path
-			end
-			Precursor (n)
+			make_default
+			create area_v2.make_empty (n)
 		end
 
 feature -- Access

@@ -22,7 +22,7 @@
 	</tr>
 	<tr>
 		<td>Keyword count *</td>
-		<th id="number">metrics.keyword_count</th>
+		<th id="number">$metrics.keyword_count</th>
 	</tr>
 	<tr>
 		<td>Identifier count *</td>

@@ -1,13 +1,13 @@
 note
-	description: "Development environment"
+	description: "Development environment for Eiffel-Loop libraries"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 13:57:41 GMT (Monday 30th October 2023)"
-	revision: "3"
+	date: "2023-10-30 15:47:09 GMT (Monday 30th October 2023)"
+	revision: "4"
 
 frozen class
 	DEVELOPMENT_ENVIRONMENT

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-21 10:21:48 GMT (Saturday 21st October 2023)"
-	revision: "23"
+	date: "2023-10-31 8:06:20 GMT (Tuesday 31st October 2023)"
+	revision: "24"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -17,8 +17,7 @@ inherit
 		rename
 			extend as put,
 			item as iteration_item,
-			remove as remove_item,
-			linear_representation as to_list
+			remove as remove_item
 		undefine
 			is_equal, copy, default_create
 		redefine
@@ -29,7 +28,6 @@ inherit
 		rename
 			conflict as conflict_constant,
 			disjoint as ht_disjoint,
-			linear_representation as to_list,
 			item_for_iteration as iteration_item,
 			inserted as inserted_constant,
 			merge as ht_merge,
@@ -45,7 +43,6 @@ inherit
 
 	TRAVERSABLE [H]
 		rename
-			linear_representation as to_list,
 			item as iteration_item
 		undefine
 			changeable_comparison_criterion, compare_objects, compare_references, copy, is_equal
@@ -90,7 +87,7 @@ feature {NONE} -- Initialization
 			end
 			wrapper.do_for_all (agent put)
 			if count > 100 and then (count / l_count) < 0.5 then
-				make_from (to_list, a_object_comparison)
+				make_from (linear_representation, a_object_comparison)
 			end
 		end
 
@@ -142,6 +139,11 @@ feature -- Access
 	subset_include (is_member: PREDICATE [H]): like Current
 		do
 			Result := subset (is_member, False)
+		end
+
+	to_list: EL_ARRAYED_LIST [H]
+		do
+			create Result.make_from_array (linear_representation.to_array)
 		end
 
 	to_representation: EL_HASH_SET_REPRESENTATION [H]

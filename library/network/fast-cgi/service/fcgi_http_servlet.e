@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-10 8:10:44 GMT (Tuesday 10th October 2023)"
-	revision: "20"
+	date: "2023-10-31 9:03:56 GMT (Tuesday 31st October 2023)"
+	revision: "21"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -15,11 +15,9 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_LOG
+	EL_MODULE_IP_ADDRESS; EL_MODULE_LOG
 
-	EL_SHARED_HTTP_STATUS
-
-	EL_SHARED_DOCUMENT_TYPES
+	EL_SHARED_HTTP_STATUS; EL_SHARED_DOCUMENT_TYPES
 
 	FCGI_SHARED_HEADER
 
@@ -127,6 +125,18 @@ feature {NONE} -- Implementation
 		do
 			l_result := date_time.formatted_out (once "ddd, [0]dd mmm yyyy [0]hh:[0]mi:[0]ss GMT")
 			Result := l_result.as_proper_case
+		end
+
+	new_host_address: NATURAL
+		--	inconsistent: does not match ip address of a localhost curl request
+		local
+			host_info: EL_CAPTURED_OS_COMMAND
+		do
+			create host_info.make ("hostname -I")
+			host_info.execute
+			across host_info.lines as line until Result > 0 loop
+				Result := Ip_address.to_number (line.item.substring_to (' ', default_pointer))
+			end
 		end
 
 	serve

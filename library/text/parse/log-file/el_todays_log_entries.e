@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 11:25:05 GMT (Monday 30th October 2023)"
-	revision: "2"
+	date: "2023-10-31 8:05:48 GMT (Tuesday 31st October 2023)"
+	revision: "3"
 
 deferred class
 	EL_TODAYS_LOG_ENTRIES
@@ -154,7 +154,7 @@ feature {NONE} -- Factory
 
 	new_todays_lines (date_string: STRING): EL_STRING_8_LIST
 		local
-			log: PLAIN_TEXT_FILE; done: BOOLEAN
+			log: PLAIN_TEXT_FILE
 		do
 			create Result.make (300)
 			create log.make_open_read (log_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-10-31 12:48:39 GMT (Tuesday 31st October 2023)"
+	revision: "18"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -30,37 +30,12 @@ create
 
 feature -- Initialization
 
-	make (a_file_path: FILE_PATH; a_storable_chain: like item_chain)
-		local
-			i, l_position: INTEGER
+	make (a_storable_chain: like item_chain)
 		do
 			item_chain := a_storable_chain
 			reader_writer := item_chain.reader_writer
 			create crc.make
-			make_with_name (a_file_path)
-			if exists then
-				attributes := [file_count, date]
-				open_read
-				if not is_empty then
-					read_header
-					from i := 1 until i > count or end_of_file loop
-						read_edition_code
-						l_position := position
-						if not end_of_file then
-							skip_edition (last_edition_code)
-							if last_edition_code = Edition_code_extend then
-								extended_byte_count := extended_byte_count + position - l_position
-							end
-						end
-						i := i + 1
-					end
-					actual_count := i - 1
-				end
-				close
-			else
-				attributes := [0, 0]
-				open_write; put_header; close
-			end
+			make_with_name (Default_name)
 		end
 
 feature -- Access
@@ -128,6 +103,38 @@ feature -- Removal
 			Precursor
 			count := 0; actual_count := 0; extended_byte_count := 0
 			crc.reset
+		end
+
+feature {ECD_RECOVERABLE_CHAIN} -- Element change
+
+	set_attributes (a_file_path: FILE_PATH)
+		local
+			i, l_position: INTEGER
+		do
+			make_with_name (a_file_path)
+			if exists then
+				attributes := [file_count, date]
+				open_read
+				if not is_empty then
+					read_header
+					from i := 1 until i > count or end_of_file loop
+						read_edition_code
+						l_position := position
+						if not end_of_file then
+							skip_edition (last_edition_code)
+							if last_edition_code = Edition_code_extend then
+								extended_byte_count := extended_byte_count + position - l_position
+							end
+						end
+						i := i + 1
+					end
+					actual_count := i - 1
+				end
+				close
+			else
+				attributes := [0, 0]
+				open_write; put_header; close
+			end
 		end
 
 feature {ECD_RECOVERABLE_CHAIN} -- Basic operations
@@ -307,5 +314,7 @@ feature {NONE} -- Constants
 		once
 			Result := 50 -- Kb
 		end
+
+	Default_name: STRING = "default"
 
 end

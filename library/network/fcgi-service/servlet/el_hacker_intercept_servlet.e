@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 15:18:19 GMT (Monday 30th October 2023)"
-	revision: "23"
+	date: "2023-10-31 15:18:44 GMT (Tuesday 31st October 2023)"
+	revision: "24"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -24,7 +24,6 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
-	EL_MODULE_IP_ADDRESS
 
 	EL_STRING_8_CONSTANTS
 
@@ -43,9 +42,6 @@ feature {NONE} -- Initialization
 
 			monitored_logs := new_monitored_logs
 
-			create day_list.make (a_service.config.ban_rule_duration + 1)
-			day_list.extend (date.ordered_compact_date)
-
 			block_ip_path := a_service.config.server_socket_path.parent + "block-ip.txt"
 			create file_mutex.make (block_ip_path.with_new_extension ("lock"))
 
@@ -53,32 +49,15 @@ feature {NONE} -- Initialization
 				File.write_text (block_ip_path, "block:0.0.0.0:80%N") -- ignored by script
 			end
 			filter_table := a_service.config.filter_table
-			if attached a_service.Legacy_firewall_status_data_path as path and then path.exists then
-				load_legacy_status_table (path)
-				File_system.remove_file (path)
 
-			elseif attached a_service.Firewall_status_data_path as path and then path.exists then
-				load_status_table (path)
+			if attached a_service.Firewall_status_data_path as path and then path.exists then
+				firewall_status_table := new_stored_status_table (path)
+				log_firewall_summary ("Retrieved blocks")
 			else
 				create firewall_status_table.make (70)
 			end
-			if firewall_status_table.count > 0 then
-			-- Restore `day_list' state
-				if attached Firewall_status as status then
-					across firewall_status_table as table loop
-						status.set_from_compact (table.item)
-						if day_list.is_empty then
-							day_list.extend (status.compact_date)
-
-						elseif status.compact_date > day_list.last then
-							day_list.extend (status.compact_date)
-							if day_list.full then
-								day_list.remove_head (1)
-							end
-						end
-					end
-				end
-			end
+			create day_list.make (a_service.config.ban_rule_duration + 1)
+			fill_day_list
 		end
 
 feature -- Access
@@ -114,16 +93,9 @@ feature -- Basic operations
 		end
 
 	store_status_table (path: FILE_PATH)
-		local
-			status_list: ECD_STORABLE_ARRAYED_LIST [EL_ADDRESS_FIREWALL_STATUS]
 		do
-			log.put_labeled_substitution ("Storing", "%S entries", [firewall_status_table.count])
-			log.put_new_line
-			create status_list.make (firewall_status_table.count)
-			across firewall_status_table as table loop
-				status_list.extend (create {EL_ADDRESS_FIREWALL_STATUS}.make (table.item, table.key))
-			end
-			status_list.store_as (path)
+			log_firewall_summary ("Storing blocks")
+			new_firewall_status_list.store_as (path)
 		end
 
 feature {NONE} -- Factory
@@ -136,6 +108,14 @@ feature {NONE} -- Factory
 			>>
 		end
 
+	new_firewall_status_list: ECD_STORABLE_ARRAYED_LIST [EL_ADDRESS_FIREWALL_STATUS]
+		do
+			create Result.make (firewall_status_table.count)
+			across firewall_status_table as table loop
+				Result.extend (create {EL_ADDRESS_FIREWALL_STATUS}.make (table.item, table.key))
+			end
+		end
+
 	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, NATURAL_64]
 		-- map redeemed IP number to firewall status
 		do
@@ -144,6 +124,17 @@ feature {NONE} -- Factory
 				if shared_status (table.item).compact_date = first_date then
 					Result.extend (table.key, table.item)
 				end
+			end
+		end
+
+	new_stored_status_table (path: FILE_PATH): like firewall_status_table
+		local
+			status_list: ECD_STORABLE_ARRAYED_LIST [EL_ADDRESS_FIREWALL_STATUS]
+		do
+			create status_list.make_from_file (path)
+			create Result.make (status_list.count)
+			across status_list as list loop
+				Result.extend (list.item.compact_status, list.item.ip4_number)
 			end
 		end
 
@@ -234,49 +225,32 @@ feature {NONE} -- Implementation
 			Result := date.ordered_compact_date
 		end
 
-	load_legacy_status_table (path: FILE_PATH)
+	fill_day_list
 		local
-			data: RAW_FILE; ip_number: NATURAL; entry_count: INTEGER
-			legacy_status: EL_LEGACY_FIREWALL_STATUS
+			day_set: EL_HASH_SET [INTEGER]; max_day_count: INTEGER
 		do
-			create data.make_open_read (path)
-			log.put_path_field ("Loading data %S", path.relative_path (Directory.App_data))
-			log.put_new_line
-			data.read_integer; entry_count := data.last_integer
+			day_list.wipe_out
 
-			create firewall_status_table.make (entry_count)
+			max_day_count := day_list.capacity - 1
+			create day_set.make (day_list.capacity)
+			day_set.put (date.ordered_compact_date) -- todays
 
-			if attached Firewall_status as status then
-				create legacy_status
+			if firewall_status_table.count > 0 then
 
-				across 1 |..| entry_count as n until data.end_of_file loop
-					data.read_natural_32; ip_number := data.last_natural
-
-					data.read_natural_64 -- compact status `EL_LEGACY_FIREWALL_STATUS'
-					legacy_status.set_from_compact (data.last_natural_64)
-					status.reset
-					status.set_date (legacy_status.compact_date)
-					status.block (legacy_status.port)
-					if not legacy_status.is_blocked then
-						status.allow (legacy_status.port)
+			-- Restore `day_list' state
+				if attached Firewall_status as status then
+					across firewall_status_table as table loop
+						status.set_from_compact (table.item)
+						day_set.put (status.compact_date)
 					end
-
-					firewall_status_table.extend (status.compact_status, ip_number)
 				end
 			end
-			data.close
-			log.put_integer_field ("Entries read", entry_count)
-			log.put_new_line
-		end
-
-	load_status_table (path: FILE_PATH)
-		local
-			status_list: ECD_STORABLE_ARRAYED_LIST [EL_ADDRESS_FIREWALL_STATUS]
-		do
-			create status_list.make_from_file (path)
-			create firewall_status_table.make (status_list.count)
-			across status_list as list loop
-				firewall_status_table.extend (list.item.compact_status, list.item.ip4_number)
+			if attached day_set.to_list as set_list then
+				set_list.sort (True)
+				if set_list.count > max_day_count then
+					set_list.remove_head (set_list.count - max_day_count)
+				end
+				day_list.append (set_list)
 			end
 		end
 
@@ -307,6 +281,22 @@ feature {NONE} -- Implementation
 				"Multi-port attack", "%S {%S}", [ip_4_address, name_list.joined_with_string (", ")]
 			)
 			log.put_new_line
+		end
+
+	log_firewall_summary (label: STRING)
+		local
+			http_count, smtp_count, ssh_count: INTEGER
+		do
+			if attached Firewall_status as status then
+				across Firewall_status_table as table loop
+					status.set_from_compact (table.item)
+					http_count := http_count + status.http_blocked.to_integer
+					smtp_count := smtp_count + status.smtp_blocked.to_integer
+					ssh_count := ssh_count + status.ssh_blocked.to_integer
+				end
+			end
+			log.put_labeled_substitution (label, "HTTP = %S; SMTP = %S; SSH = %S", [http_count, smtp_count, ssh_count])
+			log.put_new_line_x2
 		end
 
 	put_rule (a_command: STRING; address: NATURAL_32; a_port: NATURAL_16)
@@ -416,7 +406,10 @@ note
 					# Scripts
 					item:
 						name = "IP address blocking"; history_count = 200; sudo = true
-						bash_script_name = "run_service_ip_address_blocking.sh myching.software"
+						bash_command:
+							"""
+								run_service_ip_address_blocking.sh myching.software
+							"""
 
 	]"
 
