@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-01 9:39:24 GMT (Wednesday 1st November 2023)"
-	revision: "84"
+	date: "2023-11-01 9:54:15 GMT (Wednesday 1st November 2023)"
+	revision: "85"
 
 deferred class
 	EL_REFLECTIVE
@@ -113,12 +113,13 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 		do
 			if use_field_table_equality then
+				Result := all_fields_equal (other)
+			else
+			-- make sure cached `field_table' is same for both to do built-in comparison
 				if internal_field_table /= other.internal_field_table then
 					internal_field_table := other.internal_field_table
 				end
-				Result := Precursor (other)
-			else
-				Result := all_fields_equal (other)
+				Result := Precursor (other) -- {ANY}.is_equal
 			end
 		end
 

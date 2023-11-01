@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-01 9:11:32 GMT (Wednesday 1st November 2023)"
-	revision: "47"
+	date: "2023-11-01 10:57:23 GMT (Wednesday 1st November 2023)"
+	revision: "48"
 
 class
 	REFLECTION_TEST_SET
@@ -215,8 +215,16 @@ feature -- Tests
 
 	test_natural_64_compactable_object
 		-- REFLECTION_TEST_SET.test_natural_64_compactable_object
+		note
+			testing: "[
+				covers/{EL_REFLECTED_FIELD_BIT_MASKS}.make,
+				covers/{EL_REFLECTIVE}.is_equal,
+				covers/{EL_COMPACTABLE_REFLECTIVE}.make_by_compact,
+				covers/{EL_COMPACTABLE_REFLECTIVE}.compact_value
+			]"
 		local
 			date: COMPACTABLE_DATE; date_2: DATE; status, status_2: EL_FIREWALL_STATUS
+			compact_64: NATURAL_64
 		do
 			create date.make (2005, 12, 30)
 			create date_2.make (2005, 12, 30)
@@ -231,6 +239,9 @@ feature -- Tests
 			create status
 			status.set_date (date_2.ordered_compact_date)
 			status.block (Service_port.http)
+
+			compact_64 := (compact_64.one |<< 32).bit_or (date_2.ordered_compact_date.to_natural_64)
+			assert ("compact_status OK", compact_64 = status.compact_status)
 
 			create status_2.make_by_compact (status.compact_status)
 			assert ("are equal", status ~ status_2)
