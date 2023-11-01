@@ -20,14 +20,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-25 9:11:51 GMT (Wednesday 25th October 2023)"
-	revision: "3"
+	date: "2023-11-01 9:12:46 GMT (Wednesday 1st November 2023)"
+	revision: "4"
 
 class
 	EL_REFLECTED_FIELD_BIT_MASKS
 
 inherit
 	ANY
+
+	EL_MODULE_CONVERT_STRING
 
 	EL_SIDE_ROUTINES
 
@@ -115,7 +117,25 @@ feature -- Contract Support
 	valid_mask_table_keys (object: EL_COMPACTABLE_REFLECTIVE; mask_table_manifest: STRING): BOOLEAN
 		do
 			Result := across new_mask_table (mask_table_manifest) as table all
-				object.field_table.has_immutable (table.key) and then table.item.has_substring ("..")
+				object.field_table.has_immutable (table.key) and then valid_interval (table.item)
+			end
+		end
+
+	valid_interval (a_range: IMMUTABLE_STRING_8): BOOLEAN
+		local
+			range: STRING_8
+		do
+			range := a_range
+			range.prune (' ')
+			if range.occurrences ('.') = 2 then
+				if attached range.split ('.') as parts
+					and then parts.count = 3
+					and then (parts [1].is_natural and parts [3].is_natural)
+				then
+					Result := 1 <= parts [1].to_integer and parts [3].to_integer <= {PLATFORM}.Natural_64_bits
+				end
+			else
+				Result := Convert_string.is_convertible (range, {NATURAL})
 			end
 		end
 
@@ -127,18 +147,19 @@ feature {NONE} -- Implementation
 			Result := Result.bit_not |>> ({PLATFORM}.Natural_64_bits - n)
 		end
 
-	new_mask_interval (range: ZSTRING): INTEGER_INTERVAL
+	new_mask_interval (range: IMMUTABLE_STRING_8): INTEGER_INTERVAL
 		local
-			dot_split: EL_SPLIT_ZSTRING_ON_CHARACTER; lower, upper, i: INTEGER
+			dot_split: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER; lower, upper, i: INTEGER
 		do
 			create dot_split.make_adjusted (range, '.', Both_sides)
 			across dot_split as list loop
 				i := i + 1
 				inspect i
 					when 1 then
-						lower := list.item.to_integer
+						lower := Convert_string.to_integer (list.item)
+						upper := lower
 					when 3 then
-						upper := list.item.to_integer
+						upper := Convert_string.to_integer (list.item)
 				else
 				end
 			end
@@ -147,9 +168,9 @@ feature {NONE} -- Implementation
 			valid_mask_bit_range: 1 <= Result.lower and Result.upper <= {PLATFORM}.Natural_64_bits
 		end
 
-	new_mask_table (mask_table_manifest: STRING): EL_IMMUTABLE_UTF_8_TABLE
+	new_mask_table (mask_table_manifest: STRING): EL_IMMUTABLE_STRING_8_TABLE
 		do
-			create Result.make_by_indented (mask_table_manifest)
+			create Result.make_by_assignment (mask_table_manifest)
 		end
 
 	no_masks_overlap: BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-20 11:23:04 GMT (Thursday 20th July 2023)"
-	revision: "5"
+	date: "2023-11-01 9:28:29 GMT (Wednesday 1st November 2023)"
+	revision: "6"
 
 class
 	NAME_CONSTANTS
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 		undefine
-			default_create
+			default_create, is_equal
 		end
 
 	EL_REFLECTIVE_STRING_CONSTANTS

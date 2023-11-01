@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 15:24:24 GMT (Monday 23rd October 2023)"
-	revision: "46"
+	date: "2023-11-01 9:11:32 GMT (Wednesday 1st November 2023)"
+	revision: "47"
 
 class
 	REFLECTION_TEST_SET
@@ -23,7 +23,7 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION; EL_SHARED_HTTP_STATUS
+	EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION; EL_SHARED_HTTP_STATUS; EL_SHARED_SERVICE_PORT
 
 create
 	make
@@ -216,7 +216,7 @@ feature -- Tests
 	test_natural_64_compactable_object
 		-- REFLECTION_TEST_SET.test_natural_64_compactable_object
 		local
-			date: COMPACTABLE_DATE; date_2: DATE
+			date: COMPACTABLE_DATE; date_2: DATE; status, status_2: EL_FIREWALL_STATUS
 		do
 			create date.make (2005, 12, 30)
 			create date_2.make (2005, 12, 30)
@@ -227,6 +227,13 @@ feature -- Tests
 			assert ("same year", date.year = date_2.year)
 			assert ("same month", date.month = date_2.month)
 			assert ("same day", date.day = date_2.day)
+
+			create status
+			status.set_date (date_2.ordered_compact_date)
+			status.block (Service_port.http)
+
+			create status_2.make_by_compact (status.compact_status)
+			assert ("are equal", status ~ status_2)
 		end
 
 	test_object_initialization_from_camel_case_table

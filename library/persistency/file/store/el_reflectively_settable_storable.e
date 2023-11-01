@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 9:28:59 GMT (Sunday 13th August 2023)"
-	revision: "74"
+	date: "2023-11-01 9:42:23 GMT (Wednesday 1st November 2023)"
+	revision: "75"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -31,7 +31,7 @@ inherit
 		export
 			{EL_MEMORY_READER_WRITER} make_default, generating_type
 		redefine
-			is_equal, make_default, new_meta_data, use_default_values
+			make_default, new_meta_data, use_default_values
 		end
 
 	EL_CSV_CONVERTABLE
@@ -111,14 +111,6 @@ feature -- Element change
 					i := i + 1
 				end
 			end
-		end
-
-feature -- Comparison
-
-	is_equal (other: like Current): BOOLEAN
-			-- Comparison
-		do
-			Result := all_fields_equal (other)
 		end
 
 feature {EL_CLASS_META_DATA} -- Access

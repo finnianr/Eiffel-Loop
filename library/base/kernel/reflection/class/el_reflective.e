@@ -8,14 +8,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:45:06 GMT (Monday 14th August 2023)"
-	revision: "83"
+	date: "2023-11-01 9:39:24 GMT (Wednesday 1st November 2023)"
+	revision: "84"
 
 deferred class
 	EL_REFLECTIVE
 
 inherit
 	ANY -- Needed to compile My Ching for some strange reason
+		redefine
+			is_equal
+		end
 
 	EL_REFLECTIVE_I
 
@@ -105,6 +108,18 @@ feature -- Comparison
 	all_fields_equal (other: like Current): BOOLEAN
 		do
 			Result := meta_data.all_fields_equal (Current, other)
+		end
+
+	is_equal (other: like Current): BOOLEAN
+		do
+			if use_field_table_equality then
+				if internal_field_table /= other.internal_field_table then
+					internal_field_table := other.internal_field_table
+				end
+				Result := Precursor (other)
+			else
+				Result := all_fields_equal (other)
+			end
 		end
 
 	same_fields (other: like Current; name_list: STRING): BOOLEAN
@@ -282,6 +297,11 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			end
 		end
 
+	use_field_table_equality: BOOLEAN
+		-- redefine as `True' to make `is_equal' use `all_fields_equal'
+		do
+		end
+
 feature {EL_CLASS_META_DATA, EL_REFLECTIVE_I} -- Implementation
 
 	current_reflective: like Current
@@ -301,7 +321,7 @@ feature {EL_CLASS_META_DATA, EL_REFLECTIVE_I} -- Implementation
 			Result := Field_info_table_by_type.item (Current)
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_REFLECTIVE} -- Internal attributes
 
 	internal_field_table: detachable like field_table note option: transient attribute end
 

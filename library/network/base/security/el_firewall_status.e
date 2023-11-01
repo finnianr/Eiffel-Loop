@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 14:45:39 GMT (Monday 30th October 2023)"
-	revision: "5"
+	date: "2023-11-01 8:45:54 GMT (Wednesday 1st November 2023)"
+	revision: "6"
 
 class
 	EL_FIREWALL_STATUS
@@ -114,14 +114,10 @@ feature {NONE} -- Constants
 	Field_masks: EL_REFLECTED_FIELD_BIT_MASKS
 		once
 			create Result.make (Current, "[
-				compact_date:
-					1 .. 32
-				http_blocked:
-					33 .. 33
-				smtp_blocked:
-					34 .. 34
-				ssh_blocked:
-					35 .. 35
+				compact_date := 1 .. 32
+				http_blocked := 33
+				smtp_blocked := 34
+				ssh_blocked := 35
 			]")
 		end
 

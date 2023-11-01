@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 13:40:42 GMT (Monday 30th October 2023)"
-	revision: "3"
+	date: "2023-11-01 8:45:13 GMT (Wednesday 1st November 2023)"
+	revision: "4"
 
 class
 	COMPACTABLE_DATE
@@ -44,12 +44,9 @@ feature {NONE} -- Constants
 	Field_masks: EL_REFLECTED_FIELD_BIT_MASKS
 		once
 			create Result.make (Current, "[
-				day:
-					1 .. 8
-				month:
-					9 .. 16
-				year:
-					17 .. 32
+				day := 1 .. 8
+				month := 9 .. 16
+				year := 17 .. 32
 			]")
 		end
 

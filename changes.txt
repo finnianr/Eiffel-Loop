@@ -649,3 +649,6 @@ Fixed to_canonically_spaced and hash table inserted
 Sun 29th Oct 2023, 17:50:14
 Add ssh blocking to EL_HACKER_INTERCEPT_SERVLET
 
+Tue 31st Oct 2023, 15:28:05
+Fixed void target in class ECD_STORABLE_ARRAYED_LIST and refactored ECD_RECOVERABLE_CHAIN
+
