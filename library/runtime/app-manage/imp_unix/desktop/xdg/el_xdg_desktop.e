@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 6:18:02 GMT (Monday 8th May 2023)"
-	revision: "3"
+	date: "2023-11-02 13:43:42 GMT (Thursday 2nd November 2023)"
+	revision: "4"
 
 class
 	EL_XDG_DESKTOP
@@ -45,6 +45,8 @@ feature -- Access
 	icon: FILE_PATH
 
 	name: ZSTRING
+
+	path: DIR_PATH
 
 	terminal: BOOLEAN
 

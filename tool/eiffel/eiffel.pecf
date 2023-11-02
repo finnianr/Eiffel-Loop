@@ -19,7 +19,7 @@ system:
 			class = APPLICATION_ROOT; feature = make
 		version:
 			# Special case: no automatic generation of ecf XML for this project
-			major = 1; minor = 5; release = 3; build = 527
+			major = 1; minor = 6; release = 0; build = 527
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -78,7 +78,10 @@ system:
 
 		# Testing
 		cluster:
-			Test_common = "$EIFFEL_LOOP/test/source/common/ftp"
+			Test_common = "$EIFFEL_LOOP/test/source/common"
+			# Needed for test_eiffel_pecf
+			sub_clusters:
+				ftp = ftp
 
 		cluster_tree:
 			root = "source/root"
@@ -90,6 +93,8 @@ system:
 			
 					See doc/eiffel.root.txt for details.
 				"""
+			platform_list:
+				"imp_mswin; imp_unix"
 		cluster_tree:
 			edit = "source/edit"
 			description:

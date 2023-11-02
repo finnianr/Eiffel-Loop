@@ -1,3 +1,6 @@
+1.6.0
+* New COMPILE_DESKTOP_PROJECTS_APP
+
 1.5.3
 * Fixed password prompt on REPOSITORY_SOURCE_LINK_EXPANDER
 

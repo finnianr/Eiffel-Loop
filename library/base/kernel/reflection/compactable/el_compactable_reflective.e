@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 18:47:09 GMT (Monday 23rd October 2023)"
-	revision: "2"
+	date: "2023-11-02 11:53:26 GMT (Thursday 2nd November 2023)"
+	revision: "3"
 
 deferred class
 	EL_COMPACTABLE_REFLECTIVE
@@ -31,6 +31,8 @@ inherit
 			foreign_naming as eiffel_naming
 		export
 			{EL_REFLECTED_FIELD_BIT_MASKS} field_table
+		redefine
+			is_equal
 		end
 
 feature {NONE} -- Initialization
@@ -52,6 +54,13 @@ feature -- Element change
 	set_from_compact (value: NATURAL_64)
 		do
 			field_masks.set_from_compact (Current, value)
+		end
+
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+		do
+			Result := is_equal_except (other) -- {ANY}.is_equal
 		end
 
 feature {NONE} -- Deferred

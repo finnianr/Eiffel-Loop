@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 13:02:36 GMT (Monday 28th August 2023)"
-	revision: "20"
+	date: "2023-11-02 12:15:20 GMT (Thursday 2nd November 2023)"
+	revision: "21"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -66,7 +66,6 @@ feature -- Tests
 				lio.put_string_field ("language", language.key)
 				lio.put_new_line
 				create restored_list.make_from_file (language.item)
-				restored_list.retrieve
 
 				restored_table := restored_list.to_table (language.key)
 				filled_table := translations_table.item (language.key).to_table (language.key)

@@ -8,17 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-01 9:54:15 GMT (Wednesday 1st November 2023)"
-	revision: "85"
+	date: "2023-11-02 11:54:02 GMT (Thursday 2nd November 2023)"
+	revision: "86"
 
 deferred class
 	EL_REFLECTIVE
 
 inherit
 	ANY -- Needed to compile My Ching for some strange reason
-		redefine
-			is_equal
-		end
 
 	EL_REFLECTIVE_I
 
@@ -107,19 +104,24 @@ feature -- Comparison
 
 	all_fields_equal (other: like Current): BOOLEAN
 		do
-			Result := meta_data.all_fields_equal (Current, other)
+			if Current = other then
+				Result := True
+			else
+				Result := meta_data.all_fields_equal (Current, other)
+			end
 		end
 
-	is_equal (other: like Current): BOOLEAN
+	is_equal_except (other: like Current): BOOLEAN
+		-- standard `is_equal' except for cached `internal_field_table'
 		do
-			if use_field_table_equality then
-				Result := all_fields_equal (other)
+			if Current = other then
+				Result := True
 			else
 			-- make sure cached `field_table' is same for both to do built-in comparison
 				if internal_field_table /= other.internal_field_table then
 					internal_field_table := other.internal_field_table
 				end
-				Result := Precursor (other) -- {ANY}.is_equal
+				Result := standard_is_equal (other)
 			end
 		end
 
@@ -298,7 +300,7 @@ feature {EL_REFLECTIVE_I} -- Implementation
 			end
 		end
 
-	use_field_table_equality: BOOLEAN
+	field_comparison: BOOLEAN
 		-- redefine as `True' to make `is_equal' use `all_fields_equal'
 		do
 		end

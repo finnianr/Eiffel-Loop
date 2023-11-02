@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-09 14:31:11 GMT (Saturday 9th September 2023)"
-	revision: "42"
+	date: "2023-11-02 15:41:41 GMT (Thursday 2nd November 2023)"
+	revision: "43"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -178,6 +178,7 @@ feature -- Tests
 					sub_cluster_count := sub_cluster_count + 1
 				end
 			end
+			assert ("1 sub clusters", sub_cluster_count = 1)
 			across ecf_xdoc.context_list ("//library[@readonly='false']") as writeable loop
 				if writeable.node ["name"].as_string_8 ~ "EL_i18n" then
 					assert ("precondition true", writeable.node.query ("option/assertions/@precondition").as_string_8 ~ "true")
@@ -187,7 +188,6 @@ feature -- Tests
 			end
 			assert ("has EL_i18n", has_i18n)
 			assert ("17 writeable", writeable_count = 17)
-			assert ("2 sub clusters", sub_cluster_count = 2)
 
 			if attached ecf_xdoc.find_node ("/system/target/variable[@name='eapml_limb_type']") as variable then
 				assert ("is natural_32", variable ["value"].as_string_8 ~ "natural_32")

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-27 8:39:49 GMT (Friday 27th October 2023)"
-	revision: "33"
+	date: "2023-11-02 15:45:19 GMT (Thursday 2nd November 2023)"
+	revision: "34"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -350,6 +350,7 @@ feature -- Removal
 	wipe_out
 		do
 			make_empty
+			index := 0
 		end
 
 feature -- Removal
