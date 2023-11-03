@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-21 8:35:27 GMT (Wednesday 21st June 2023)"
-	revision: "14"
+	date: "2023-11-03 18:46:41 GMT (Friday 3rd November 2023)"
+	revision: "15"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -113,11 +113,6 @@ feature -- Access
 
 	search_path: ZSTRING
 		do
-			Result := search_path_32
-		end
-
-	search_path_32: STRING_32
-		do
 			if attached Execution_environment.item (Var_path) as str then
 				Result := str
 			else
@@ -126,20 +121,16 @@ feature -- Access
 		end
 
 	search_path_list: ARRAYED_LIST [DIR_PATH]
-		local
-			splitter: EL_SPLIT_ON_CHARACTER [STRING_32]; l_search_path: STRING_32
 		do
 			Result := Once_search_path_list
 
-			l_search_path := search_path_32
-			if attached crc_generator as crc then
-				crc.add_string_32 (l_search_path)
+			if attached search_path as l_search_path and then attached crc_generator as crc then
+				crc.add_string (l_search_path)
 				-- Check if PATH has changed since last call
 				if path_check_sum /= crc.checksum then
 					path_check_sum := crc.checksum
-					create splitter.make (l_search_path, search_path_separator)
 					Result.wipe_out
-					across splitter as split loop
+					across l_search_path.split (search_path_separator) as split loop
 						if split.item_count > 0 then
 							Result.extend (split.item)
 						end

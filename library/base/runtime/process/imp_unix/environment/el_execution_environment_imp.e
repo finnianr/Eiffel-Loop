@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-11-03 18:37:35 GMT (Friday 3rd November 2023)"
+	revision: "12"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -34,14 +34,17 @@ feature {NONE} -- Implementation
 		do
 		end
 
+	new_environ_string (c_item: POINTER): ZSTRING
+		do
+			create Result.make_from_utf_8 (new_native_string (c_item))
+		end
+
 	new_language_code: STRING
 			-- By example: if LANG = "en_UK.utf-8"
 			-- then result = "en"
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			if attached item ("LANG") as lang then
-				Result := s.substring_to (lang, '_', default_pointer)
+				Result := lang.substring_to ('_', default_pointer)
 			else
 				create Result.make_empty
 			end

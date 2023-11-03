@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 11:53:26 GMT (Thursday 2nd November 2023)"
-	revision: "3"
+	date: "2023-11-03 9:48:33 GMT (Friday 3rd November 2023)"
+	revision: "4"
 
 deferred class
 	EL_COMPACTABLE_REFLECTIVE
@@ -37,23 +37,156 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_by_compact (value: NATURAL_64)
+	make_from_integer_16 (value: INTEGER_16)
 		do
-			set_from_compact (value)
+			set_from_natural_64 (value.to_natural_64)
 		end
 
-feature -- Access
+	make_from_integer_32 (value: INTEGER_32)
+		do
+			set_from_natural_64 (value.to_natural_64)
+		end
 
-	compact_value: NATURAL_64
+	make_from_integer_64 (value: INTEGER_64)
+		do
+			set_from_natural_64 (value.to_natural_64)
+		end
+
+	make_from_integer_8 (value: INTEGER_8)
+		do
+			set_from_natural_64 (value.to_natural_64)
+		end
+
+	make_from_natural_16 (value: NATURAL_16)
+		do
+			set_from_natural_64 (value)
+		end
+
+	make_from_natural_32 (value: NATURAL_32)
+		do
+			set_from_natural_64 (value)
+		end
+
+	make_from_natural_64 (value: NATURAL_64)
+		do
+			set_from_natural_64 (value)
+		end
+
+	make_from_natural_8 (value: NATURAL_8)
+		do
+			set_from_natural_64 (value)
+		end
+
+feature -- NATURAL_x conversion
+
+	compact_natural_16: NATURAL_16
+		require
+			valid_masks: upper_bit <= 16
+		do
+			Result := field_masks.compact_value (Current).to_natural_16
+		end
+
+	compact_natural_32: NATURAL_32
+		require
+			valid_masks: upper_bit <= 32
+		do
+			Result := field_masks.compact_value (Current).to_natural_32
+		end
+
+	compact_natural_64: NATURAL_64
 		do
 			Result := field_masks.compact_value (Current)
 		end
 
+	compact_natural_8: NATURAL_8
+		require
+			valid_masks: upper_bit <= 8
+		do
+			Result := field_masks.compact_value (Current).to_natural_8
+		end
+
+feature -- INTEGER_x conversion
+
+	compact_integer_16: INTEGER_16
+		require
+			valid_masks: upper_bit <= 16
+		do
+			Result := field_masks.compact_value (Current).to_integer_16
+		end
+
+	compact_integer_32: INTEGER_32
+		require
+			valid_masks: upper_bit <= 32
+		do
+			Result := field_masks.compact_value (Current).to_integer_32
+		end
+
+	compact_integer_64: INTEGER_64
+		do
+			Result := field_masks.compact_value (Current).to_integer_64
+		end
+
+	compact_integer_8: INTEGER_8
+		require
+			valid_masks: upper_bit <= 8
+		do
+			Result := field_masks.compact_value (Current).to_integer_8
+		end
+
+feature -- Measurement
+
+	maximum_value: NATURAL_64
+		do
+			Result := field_masks.maximum_value
+		end
+
+	upper_bit: INTEGER
+		do
+			Result := field_masks.upper_bit
+		end
+
 feature -- Element change
 
-	set_from_compact (value: NATURAL_64)
+	set_from_natural_64 (value: NATURAL_64)
+		require
+			fits_in_bit_mask_range: value <= maximum_value
 		do
 			field_masks.set_from_compact (Current, value)
+		end
+
+	set_from_integer_16 (value: INTEGER_16)
+		do
+			set_from_natural_64 (value.to_natural_64)
+		end
+
+	set_from_integer_32 (value: INTEGER_32)
+		do
+			set_from_natural_64 (value.to_natural_64)
+		end
+
+	set_from_integer_64 (value: INTEGER_64)
+		do
+			set_from_natural_64 (value.to_natural_64)
+		end
+
+	set_from_integer_8 (value: INTEGER_8)
+		do
+			set_from_natural_64 (value.to_natural_64)
+		end
+
+	set_from_natural_16 (value: NATURAL_16)
+		do
+			set_from_natural_64 (value)
+		end
+
+	set_from_natural_32 (value: NATURAL_32)
+		do
+			set_from_natural_64 (value)
+		end
+
+	set_from_natural_8 (value: NATURAL_8)
+		do
+			set_from_natural_64 (value)
 		end
 
 feature -- Comparison

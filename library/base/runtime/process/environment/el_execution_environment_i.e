@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:12:48 GMT (Thursday 17th August 2023)"
-	revision: "28"
+	date: "2023-11-03 18:33:53 GMT (Friday 3rd November 2023)"
+	revision: "29"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -15,13 +15,20 @@ deferred class
 inherit
 	EXECUTION_ENVIRONMENT
 		rename
+			item as item_32,
 			sleep as sleep_nanosecs,
 			current_working_directory as current_working_directory_obselete
 		redefine
-			item, launch, put, system
+			item_32, launch, put, system
 		end
 
+	NATIVE_STRING_HANDLER
+
+	EL_C_API_ROUTINES
+
 	EL_STRING_GENERAL_ROUTINES
+
+	STRING_HANDLER
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXCEPTION; EL_MODULE_DIRECTORY
 
@@ -57,9 +64,24 @@ feature -- Access
 		deferred
 		end
 
-	item (key: READABLE_STRING_GENERAL): detachable STRING_32
+	item (key: READABLE_STRING_GENERAL): detachable ZSTRING
+		require
+			not_has_null_character: not key.has ('%U')
+		local
+			c_item: POINTER
 		do
-			if attached Precursor (to_unicode_general (key)) as value and then not value.is_empty then
+			Shared_native.set_string (key)
+			c_item := eif_getenv (Shared_native.item)
+			if is_attached (c_item) and then attached new_environ_string (c_item) as str
+				and then str.count > 0
+			then
+				Result := str
+			end
+		end
+
+	item_32 (key: READABLE_STRING_GENERAL): detachable STRING_32
+		do
+			if attached Precursor (key) as value and then not value.is_empty then
 				Result := value
 			end
 			-- returns void if value is empty in order to satisfy postcondition on `put'
@@ -75,6 +97,9 @@ feature -- Access
 			end
 		end
 
+	last_code_page: NATURAL
+		-- last windows code page
+
 	user_configuration_directory_name: ZSTRING
 			--
 		deferred
@@ -88,9 +113,6 @@ feature -- Access
 				create Result
 			end
 		end
-
-	last_code_page: NATURAL
-		-- last windows code page
 
 feature -- Basic operations
 
@@ -187,8 +209,27 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	new_native_string (c_item: POINTER): STRING
+		require
+			attached_item: is_attached (c_item)
+		local
+			byte_count: INTEGER
+		do
+			byte_count := pointer_length_in_bytes (c_item)
+			create Result.make (byte_count)
+			Result.set_count (byte_count)
+			Result.area.base_address.memory_copy (c_item, byte_count)
+		end
+
+
 	set_console_code_page (code_page_id: NATURAL)
 			-- For windows commands. Does nothing in Unix
+		deferred
+		end
+
+	new_environ_string (c_item: POINTER): ZSTRING
+		require
+			attached_item: is_attached (c_item)
 		deferred
 		end
 
@@ -200,5 +241,12 @@ feature -- Constants
 		end
 
 	Nanosecs_per_millisec: INTEGER_64 = 1000_000
+
+feature {NONE} -- Constants
+
+	Shared_native: NATIVE_STRING
+		once
+			create Result.make_empty (0)
+		end
 
 end

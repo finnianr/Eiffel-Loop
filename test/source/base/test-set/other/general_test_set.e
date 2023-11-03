@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-09 10:55:42 GMT (Sunday 9th July 2023)"
-	revision: "48"
+	date: "2023-11-03 18:52:54 GMT (Friday 3rd November 2023)"
+	revision: "49"
 
 class
 	GENERAL_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_BASE_64; EL_MODULE_CONSOLE; EL_MODULE_DIRECTORY
+	EL_MODULE_BASE_64; EL_MODULE_CONSOLE; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE
 
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING; EL_MODULE_REUSEABLE
 
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 				["math_precision",						 agent test_math_precision],
 				["named_thread",							 agent test_named_thread],
 				["reverse_managed_pointer",			 agent test_reverse_managed_pointer],
+				["search_path",							 agent test_search_path],
 				["version_array",							 agent test_version_array],
 				["version_bump",							 agent test_version_bump]
 			>>)
@@ -139,13 +140,16 @@ feature -- Tests
 		end
 
 	test_environment_put
+		-- GENERAL_TEST_SET.test_environment_put
 		local
-			name: STRING
+			name: STRING; value: ZSTRING
 		do
 			name := "EIFFEL_LOOP_DOC"
-			Execution_environment.put ("eiffel-loop", name)
+			value := "eiffel-loop"
+			Execution_environment.put (value, name)
+			assert_same_string (Void, value, Execution_environment.item (name))
 			Execution_environment.put ("", name)
-			assert ("not attached", not attached Execution_environment.item (name))
+			assert ("not attached", not attached Execution_environment.item_32 (name))
 		end
 
 	test_is_file_writable
@@ -199,6 +203,12 @@ feature -- Tests
 			ptr.put_natural_64 (0x11_22_33_44_55_66_77_88, 0)
 			n_64 := reverse_ptr.read_natural_64 (0)
 			assert ("reversed", n_64 = 0x88_77_66_55_44_33_22_11)
+		end
+
+	test_search_path
+		do
+		-- find is on both Windows and Unix (but has different purpose)
+			assert ("find command available", Executable.search_path_has ("find"))
 		end
 
 	test_version_array

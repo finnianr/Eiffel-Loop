@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-11-03 18:34:53 GMT (Friday 3rd November 2023)"
+	revision: "14"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -57,12 +57,17 @@ feature {NONE} -- Implementation
 			Result := c_console_output_code_page
 		end
 
+	new_environ_string (c_item: POINTER): ZSTRING
+		do
+			create Result.make_from_utf_16_le (new_native_string (c_item))
+		end
+
 	new_language_code: STRING
 			-- Two letter code representing user language
 			-- Example: "en" is English
 		do
 			if Executable.Is_work_bench and then attached item ("LANG") as lang then
-				Result := lang
+				Result := lang.substring_to ('_', default_pointer)
 			else
 				Result := I18n.language
 			end

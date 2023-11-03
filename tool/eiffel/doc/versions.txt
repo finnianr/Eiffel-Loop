@@ -1,3 +1,6 @@
+1.6.1
+* Changed blog file expansion naming to EXPANDED-*
+
 1.6.0
 * New COMPILE_DESKTOP_PROJECTS_APP
 

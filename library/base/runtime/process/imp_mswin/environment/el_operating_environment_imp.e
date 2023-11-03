@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-11-03 19:01:22 GMT (Friday 3rd November 2023)"
+	revision: "7"
 
 class
 	EL_OPERATING_ENVIRONMENT_IMP
@@ -30,10 +30,14 @@ feature -- Constants
 	Temp_directory_name: ZSTRING
 			--
 		local
-			environment: EXECUTION_ENVIRONMENT
+			environment: EXECUTION_ENVIRONMENT -- particular reason not to use `EL_EXECUTION_ENVIRONMENT_IMP' ?
 		once
 			create environment
-			Result := environment.item ("TEMP")
+			if attached environment.item ("TEMP") as temp then
+				Result := temp
+			else
+				create Result.make_empty
+			end
 		end
 
 	Dynamic_module_extension: STRING = "dll"

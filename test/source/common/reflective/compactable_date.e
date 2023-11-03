@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-01 8:45:13 GMT (Wednesday 1st November 2023)"
-	revision: "4"
+	date: "2023-11-03 9:04:10 GMT (Friday 3rd November 2023)"
+	revision: "5"
 
 class
 	COMPACTABLE_DATE
@@ -15,11 +15,13 @@ class
 inherit
 	EL_COMPACTABLE_REFLECTIVE
 		rename
-			compact_value as compact_date
+			compact_integer_32 as compact_date,
+			make_from_integer_32 as make_from_compact_date,
+			set_from_integer_32 as set_from_compact_date
 		end
 
 create
-	make, make_by_compact
+	make, make_from_compact_date
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-01 8:45:54 GMT (Wednesday 1st November 2023)"
-	revision: "6"
+	date: "2023-11-03 9:04:54 GMT (Friday 3rd November 2023)"
+	revision: "7"
 
 class
 	EL_FIREWALL_STATUS
@@ -15,13 +15,15 @@ class
 inherit
 	EL_COMPACTABLE_REFLECTIVE
 		rename
-			compact_value as compact_status
+			compact_natural_64 as compact_status,
+			make_from_natural_64 as make_from_compact,
+			set_from_natural_64 as set_from_compact
 		end
 
 	EL_SHARED_SERVICE_PORT
 
 create
-	default_create, make_by_compact
+	default_create, make_from_compact
 
 feature -- Access
 

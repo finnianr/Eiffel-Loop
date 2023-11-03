@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-01 9:12:46 GMT (Wednesday 1st November 2023)"
-	revision: "4"
+	date: "2023-11-03 9:47:42 GMT (Friday 3rd November 2023)"
+	revision: "5"
 
 class
 	EL_REFLECTED_FIELD_BIT_MASKS
@@ -58,6 +58,7 @@ feature {NONE} -- Initialization
 						and then attached new_mask_interval (mask_table.found_item) as mask_interval
 					then
 						shift_count := mask_interval.lower - 1
+						upper_bit := upper_bit.max (mask_interval.upper)
 						mask := filled_bits (mask_interval.count) |<< shift_count
 						field_array.extend (field)
 						field_bitshift.extend (shift_count)
@@ -65,6 +66,7 @@ feature {NONE} -- Initialization
 					end
 					table.forth
 				end
+				maximum_value := new_maximum_value
 			end
 		ensure
 			no_masks_overlap: no_masks_overlap
@@ -87,6 +89,11 @@ feature -- Access
 				end
 			end
 		end
+
+	upper_bit: INTEGER
+		-- 1 based index of most significant bit
+
+	maximum_value: NATURAL_64
 
 feature -- Basic operations
 
@@ -171,6 +178,19 @@ feature {NONE} -- Implementation
 	new_mask_table (mask_table_manifest: STRING): EL_IMMUTABLE_STRING_8_TABLE
 		do
 			create Result.make_by_assignment (mask_table_manifest)
+		end
+
+	new_maximum_value: NATURAL_64
+		local
+			i, upper: INTEGER
+		do
+			upper := upper_bit
+			Result := 1
+			from i := 1 until i > upper loop
+				Result := Result * 2
+				i := i + 1
+			end
+			Result := Result - 1
 		end
 
 	no_masks_overlap: BOOLEAN

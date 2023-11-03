@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:27:04 GMT (Thursday 17th August 2023)"
-	revision: "16"
+	date: "2023-11-03 18:40:26 GMT (Friday 3rd November 2023)"
+	revision: "17"
 
 class
 	EL_PATH_STEPS
@@ -449,7 +449,7 @@ feature -- Element change
 						and then attached Execution_environment.item (variable_name (list.item)) as value
 					then
 						new_tokens.grow (new_tokens.count + value.occurrences (Separator) + 1)
-						Step_table.put_tokens (factory.new_split_on_character (value, Separator), new_tokens.area)
+						Step_table.put_tokens (value.split (Separator), new_tokens.area)
 					else
 						new_tokens.extend (i_th_token (list.cursor_index))
 					end

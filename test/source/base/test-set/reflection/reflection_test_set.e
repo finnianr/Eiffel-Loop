@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-01 10:57:23 GMT (Wednesday 1st November 2023)"
-	revision: "48"
+	date: "2023-11-03 9:08:05 GMT (Friday 3rd November 2023)"
+	revision: "49"
 
 class
 	REFLECTION_TEST_SET
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 				["field_value_setter",									agent test_field_value_setter],
 				["field_value_table",									agent test_field_value_table],
 				["initialized_object_factory",						agent test_initialized_object_factory],
-				["natural_64_compactable_object",					agent test_natural_64_compactable_object],
+				["compactable_objects",									agent test_compactable_objects],
 				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
 				["object_initialization_from_table",				agent test_object_initialization_from_table],
 				["reflected_collection_factory",						agent test_reflected_collection_factory],
@@ -213,8 +213,8 @@ feature -- Tests
 			end
 		end
 
-	test_natural_64_compactable_object
-		-- REFLECTION_TEST_SET.test_natural_64_compactable_object
+	test_compactable_objects
+		-- REFLECTION_TEST_SET.test_compactable_objects
 		note
 			testing: "[
 				covers/{EL_REFLECTED_FIELD_BIT_MASKS}.make,
@@ -231,7 +231,7 @@ feature -- Tests
 			assert ("same compact", date.compact_date.to_integer_32 = date_2.ordered_compact_date)
 
 			date_2.set_date (2023, 11, 2)
-			date.set_from_compact (date_2.ordered_compact_date.to_natural_64)
+			date.set_from_compact_date (date_2.ordered_compact_date)
 			assert ("same year", date.year = date_2.year)
 			assert ("same month", date.month = date_2.month)
 			assert ("same day", date.day = date_2.day)
@@ -243,7 +243,7 @@ feature -- Tests
 			compact_64 := (compact_64.one |<< 32).bit_or (date_2.ordered_compact_date.to_natural_64)
 			assert ("compact_status OK", compact_64 = status.compact_status)
 
-			create status_2.make_by_compact (status.compact_status)
+			create status_2.make_from_compact (status.compact_status)
 			assert ("are equal", status ~ status_2)
 		end
 
