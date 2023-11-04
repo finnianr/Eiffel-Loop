@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-11 13:31:46 GMT (Wednesday 11th October 2023)"
-	revision: "6"
+	date: "2023-11-04 18:21:26 GMT (Saturday 4th November 2023)"
+	revision: "7"
 
 class
 	EL_APPLICATION_MUTEX_IMP
@@ -58,7 +58,7 @@ feature -- Status change
 
 feature {NONE} -- Internal attributes
 
-	internal_mutex: detachable EL_FILE_MUTEX
+	internal_mutex: detachable EL_NAMED_FILE_LOCK
 
 	locked_file_path: FILE_PATH
 

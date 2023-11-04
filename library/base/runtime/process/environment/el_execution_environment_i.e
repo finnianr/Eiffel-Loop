@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 18:33:53 GMT (Friday 3rd November 2023)"
-	revision: "29"
+	date: "2023-11-04 16:52:37 GMT (Saturday 4th November 2023)"
+	revision: "30"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -21,8 +21,6 @@ inherit
 		redefine
 			item_32, launch, put, system
 		end
-
-	NATIVE_STRING_HANDLER
 
 	EL_C_API_ROUTINES
 
@@ -72,10 +70,10 @@ feature -- Access
 		do
 			Shared_native.set_string (key)
 			c_item := eif_getenv (Shared_native.item)
-			if is_attached (c_item) and then attached new_environ_string (c_item) as str
-				and then str.count > 0
+			if is_attached (c_item) and then attached new_native_string (c_item) as native
+				and then native.count > 0
 			then
-				Result := str
+				Result := native.to_string
 			end
 		end
 
@@ -199,7 +197,6 @@ feature -- Status setting
 			-- If the original code page is not restored on program exit after changing to 65001 (utf-8)
 			-- this could effect subsequent programs that run in the same shell.
 			-- Python scripts for example, might give a "LookupError: unknown encoding: cp65001".
-
 		do
 		end
 
@@ -209,28 +206,16 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	new_native_string (c_item: POINTER): STRING
-		require
-			attached_item: is_attached (c_item)
-		local
-			byte_count: INTEGER
-		do
-			byte_count := pointer_length_in_bytes (c_item)
-			create Result.make (byte_count)
-			Result.set_count (byte_count)
-			Result.area.base_address.memory_copy (c_item, byte_count)
-		end
-
-
 	set_console_code_page (code_page_id: NATURAL)
 			-- For windows commands. Does nothing in Unix
 		deferred
 		end
 
-	new_environ_string (c_item: POINTER): ZSTRING
+	new_native_string (c_item: POINTER): EL_NATIVE_STRING_8
 		require
 			attached_item: is_attached (c_item)
-		deferred
+		do
+			create Result.make_from_c (c_item)
 		end
 
 feature -- Constants

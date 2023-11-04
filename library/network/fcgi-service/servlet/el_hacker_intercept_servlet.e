@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 15:18:44 GMT (Tuesday 31st October 2023)"
-	revision: "24"
+	date: "2023-11-04 18:47:09 GMT (Saturday 4th November 2023)"
+	revision: "25"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -351,7 +351,7 @@ feature {NONE} -- Implementation
 			ends_with_new_line: rule_buffer.count > 0 implies rule_buffer [rule_buffer.count] = '%N'
 		do
 			if rule_buffer.count > 0 then
-				file_mutex.try_locking_until (50)
+				file_mutex.try_until_locked (50)
 				File.write_text (block_ip_path, rule_buffer)
 				file_mutex.unlock
 			end
@@ -367,7 +367,7 @@ feature {NONE} -- Internal attributes
 
 	day_list: EL_ARRAYED_LIST [INTEGER]
 
-	file_mutex: EL_FILE_MUTEX
+	file_mutex: EL_NAMED_FILE_LOCK
 		-- file_mutex for writing to `block_ip_path' so that script reading file must wait to process
 
 	filter_table: EL_URL_FILTER_TABLE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:04:55 GMT (Friday 9th December 2022)"
-	revision: "14"
+	date: "2023-11-04 11:05:09 GMT (Saturday 4th November 2023)"
+	revision: "15"
 
 class
 	EL_WORD_SEPARATION_ADAPTER
@@ -165,12 +165,12 @@ feature {NONE} -- Implementation
 
 	export_to_english (name_in, english_out: STRING)
 		do
-			Naming.to_english (name_in, english_out, Naming.no_words)
+			Naming.to_english (name_in, english_out, Naming.Empty_word_set)
 		end
 
 	export_to_title (name_in, title_out: STRING; separator_out: CHARACTER)
 		do
-			Naming.to_title (name_in, title_out, separator_out, Naming.empty_word_set)
+			Naming.to_title (name_in, title_out, separator_out, Naming.Empty_word_set)
 		end
 
 	import_from_camel_case_upper (name_in, a_name_out: STRING)

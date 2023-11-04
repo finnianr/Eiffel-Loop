@@ -1,37 +1,28 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!--
-	Pyxis as an acronym stands for: Pythonic XML ideal source.
-	It is also a Latin transliteration of a Greek word for a type of pottery used by women to hold
-	cosmetics, trinkets or jewellery.
--->
-<system name = "EL_compression" library_target = "EL_compression" uuid = "229b6f84-09aa-11df-87b0-ab7c62abf4b2" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
-	<description>
-ZLib Compression
+<system xmlns="http://www.eiffel.com/developers/xml/configuration-1-15-0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.eiffel.com/developers/xml/configuration-1-15-0 http://www.eiffel.com/developers/xml/configuration-1-15-0.xsd" name="el_compression" uuid="229B6F84-09AA-11DF-87B0-AB7C62ABF4B2" library_target="el_compression">
+	<description>ZLib Compression
 
 An Eiffel interface to the [https://www.zlib.net/ zlib C library].
-The main class is [$source EL_COMPRESSED_ARCHIVE_FILE] with a few helper classes.
-	</description>
-	<target name = "EL_compression">
-		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
-			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>
+The main class is [$source EL_COMPRESSED_ARCHIVE_FILE] with a few helper classes.</description>
+	<target name="el_compression">
+		<root all_classes="true"/>
+		<option trace="false" debug="false" warning="true" full_class_checking="false" void_safety="none" syntax="standard">
+			<assertions precondition="true" postcondition="true" check="true" invariant="true"/>
 		</option>
-		<root all_classes = "true"/>
-		<external_include location = "$(ISE_LIBRARY)/C_library/zlib"/>
-		<external_object location = "-L$(ISE_LIBRARY)/C_library/zlib -lz">
+		<external_include location="$(ISE_LIBRARY)/C_library/zlib"/>
+		<external_linker_flag value="-L$(ISE_LIBRARY)/C_library/zlib -lz">
 			<condition>
-				<platform value = "unix"/>
+				<platform value="unix"/>
 			</condition>
-		</external_object>
-		<!--ISE-->
-		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
-		<library name = "zlib" location = "$ISE_LIBRARY/C_library/zlib/clibs_zlib.ecf">
+		</external_linker_flag>
+		<library name="base" location="$ISE_LIBRARY\library\base\base.ecf"/>
+		<library name="el_base" location="base\base.ecf"/>
+		<library name="zlib" location="$ISE_LIBRARY\C_library\zlib\clibs_zlib.ecf">
 			<condition>
-				<platform value = "windows"/>
+				<platform value="windows"/>
 			</condition>
 		</library>
-		<!--Eiffel Loop-->
-		<library name = "EL_base" location = "base/base.ecf"/>
-		<!--Source code-->
-		<cluster name = "compression" location = "utility/compression"/>
+		<cluster name="compression" location="utility\compression\">
+		</cluster>
 	</target>
 </system>

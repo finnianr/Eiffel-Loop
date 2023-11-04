@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:48:57 GMT (Thursday 7th September 2023)"
-	revision: "31"
+	date: "2023-11-04 9:24:26 GMT (Saturday 4th November 2023)"
+	revision: "32"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -39,7 +39,7 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_PATH_MANAGER; EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
 
 	STRING_HANDLER
 
@@ -254,7 +254,7 @@ feature -- Add strings
 	add_ise_path (path: PATH)
 			--
 		do
-			add_data (path.native_string.managed_data)
+			add_string_8 (Path_manager.storage (path))
 		end
 
 	add_path (path: EL_PATH)

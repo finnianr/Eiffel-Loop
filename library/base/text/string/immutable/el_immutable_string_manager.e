@@ -8,37 +8,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 14:42:57 GMT (Sunday 27th August 2023)"
-	revision: "8"
+	date: "2023-11-04 8:38:27 GMT (Saturday 4th November 2023)"
+	revision: "9"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
 
 inherit
-	REFLECTED_REFERENCE_OBJECT
-		rename
-			field as i_th_field
-	 	export
-	 		{NONE} all
-	 	redefine
-	 		default_create
-	 	end
+	EL_OBJECT_MANGER [S]
 
-	 STRING_HANDLER
+	STRING_HANDLER
 	 	undefine
 	 		default_create
 	 	end
 
 	 EL_STRING_BIT_COUNTABLE [S]
-
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			create item.make_empty
-			make (item)
-			field_table := Shared_field_table
-		end
 
 feature -- Access
 
@@ -111,21 +95,9 @@ feature {NONE} -- Contract Support
 
 feature {NONE} -- Implementation
 
-	new_field_table: SPECIAL [INTEGER]
-		require
-			item_set: enclosing_object = item
-		local
-			list: EL_STRING_8_LIST; i, index: INTEGER
+	new_item: S
 		do
-			list := Field_names
-			create Result.make_filled (0, list.count)
-			from i := 1 until i > field_count loop
-				index := list.index_of (field_name (i), 1)
-				if index > 0 then
-					Result [index - 1] := i
-				end
-				i := i + 1
-			end
+			create Result.make_empty
 		end
 
 feature {NONE} -- Deferred
@@ -134,21 +106,9 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	shared_field_table: SPECIAL [INTEGER]
-		deferred
-		end
-
 	string_area (str: GENERAL): SPECIAL [C]
 		deferred
 		end
-
-feature {NONE} -- Internal attributes
-
-	field_table: SPECIAL [INTEGER]
-
-feature -- Access
-
-	item: S
 
 feature {NONE} -- Constants
 

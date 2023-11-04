@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-21 13:04:26 GMT (Saturday 21st October 2023)"
-	revision: "130"
+	date: "2023-11-04 16:43:36 GMT (Saturday 4th November 2023)"
+	revision: "131"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -111,8 +111,6 @@ inherit
 			new_cursor
 		end
 
-	EL_SHARED_IMMUTABLE_8_MANAGER
-
 feature {NONE} -- Initialization
 
 	make (n: INTEGER)
@@ -121,52 +119,6 @@ feature {NONE} -- Initialization
 			internal_make (n)
 			make_unencoded
 		end
-
-	make_from_latin_1_c (latin_1_ptr: POINTER)
-		local
-			latin: EL_STRING_8
-		do
-			latin := String_8.c_string (latin_1_ptr)
-			if latin.is_ascii then
-				make_unencoded
-				set_from_ascii (latin)
-			else
-				make_from_general (latin)
-			end
-		end
-
-	make_from_other (other: EL_READABLE_ZSTRING)
-		do
-			area := other.area.twin
-			count := other.count
-			make_unencoded_from_other (other)
-		end
-
-	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
-		local
-			z_code_i: NATURAL; i, l_count, last_upper: INTEGER
-		do
-			l_count := zcode_area.count
-			make (l_count)
-			if attached empty_unencoded_buffer as buffer and then attached area as l_area then
-				last_upper := buffer.last_upper
-				from i := 0 until i = l_count loop
-					z_code_i := zcode_area [i]
-					if z_code_i > 0xFF then
-						l_area [i] := Substitute
-						last_upper := buffer.extend_z_code (z_code_i, last_upper, i + 1)
-					else
-						l_area [i] := z_code_i.to_character_8
-					end
-					i := i + 1
-				end
-				set_count (l_count)
-				buffer.set_last_upper (last_upper)
-				set_unencoded_from_buffer (buffer)
-			end
-		end
-
-feature {NONE} -- Initialization
 
 	make_from_cil (a_system_string: detachable SYSTEM_STRING)
 		do
@@ -198,6 +150,26 @@ feature {NONE} -- Initialization
 				make_filled ('%U', s.count)
 				encode (s, 0)
 			end
+		end
+
+	make_from_latin_1_c (latin_1_ptr: POINTER)
+		local
+			latin: EL_STRING_8
+		do
+			latin := String_8.c_string (latin_1_ptr)
+			if latin.is_ascii then
+				make_unencoded
+				set_from_ascii (latin)
+			else
+				make_from_general (latin)
+			end
+		end
+
+	make_from_other (other: EL_READABLE_ZSTRING)
+		do
+			area := other.area.twin
+			count := other.count
+			make_unencoded_from_other (other)
 		end
 
 	make_from_string (s: READABLE_STRING_32)
@@ -238,6 +210,15 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_from_utf_16_le (utf_16_le_string: READABLE_STRING_8)
+		local
+			utf_16_le: EL_UTF_16_LE_CONVERTER; unicode_count: INTEGER
+		do
+			unicode_count := utf_16_le.unicode_count (utf_16_le_string)
+			make (unicode_count)
+			internal_append_utf (utf_16_le_string, 16, unicode_count)
+		end
+
 	make_from_utf_8 (utf_8_string: READABLE_STRING_8)
 		local
 			utf_8: EL_UTF_8_CONVERTER; unicode_count: INTEGER
@@ -247,13 +228,28 @@ feature {NONE} -- Initialization
 			internal_append_utf (utf_8_string, 8, unicode_count)
 		end
 
-	make_from_utf_16_le (utf_16_le_string: READABLE_STRING_8)
+	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		local
-			utf_16_le: EL_UTF_16_LE_CONVERTER; unicode_count: INTEGER
+			z_code_i: NATURAL; i, l_count, last_upper: INTEGER
 		do
-			unicode_count := utf_16_le.unicode_count (utf_16_le_string)
-			make (unicode_count)
-			internal_append_utf (utf_16_le_string, 16, unicode_count)
+			l_count := zcode_area.count
+			make (l_count)
+			if attached empty_unencoded_buffer as buffer and then attached area as l_area then
+				last_upper := buffer.last_upper
+				from i := 0 until i = l_count loop
+					z_code_i := zcode_area [i]
+					if z_code_i > 0xFF then
+						l_area [i] := Substitute
+						last_upper := buffer.extend_z_code (z_code_i, last_upper, i + 1)
+					else
+						l_area [i] := z_code_i.to_character_8
+					end
+					i := i + 1
+				end
+				set_count (l_count)
+				buffer.set_last_upper (last_upper)
+				set_unencoded_from_buffer (buffer)
+			end
 		end
 
 	make_shared (other: like Current)
@@ -433,11 +429,6 @@ feature -- Status query
 			end
 		end
 
-	has_unicode (uc: like unicode): BOOLEAN
-		do
-			Result := has_z_code (unicode_to_z_code (uc))
-		end
-
 	has_quotes (a_count: INTEGER): BOOLEAN
 		require
 			double_or_single: 1 <= a_count and a_count <= 2
@@ -452,13 +443,9 @@ feature -- Status query
 			Result := count >= 2 and then z_code (1) = quote_code and then z_code (count) = quote_code
 		end
 
-	is_space_filled: BOOLEAN
+	has_unicode (uc: like unicode): BOOLEAN
 		do
-			if count = 0 then
-				Result := True
-			else
-				Result := is_substring_whitespace (1, count)
-			end
+			Result := has_z_code (unicode_to_z_code (uc))
 		end
 
 	is_canonically_spaced: BOOLEAN
@@ -530,6 +517,15 @@ feature -- Status query
 		-- True if `right_adjust' will change the `count'
 		do
 			Result := not is_empty and then is_space_item (count)
+		end
+
+	is_space_filled: BOOLEAN
+		do
+			if count = 0 then
+				Result := True
+			else
+				Result := is_substring_whitespace (1, count)
+			end
 		end
 
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
@@ -699,13 +695,13 @@ feature {STRING_HANDLER} -- Access
 
 feature {NONE} -- Implementation
 
-	current_zstring: ZSTRING
-		deferred
-		end
-
 	current_readable: EL_READABLE_ZSTRING
 		do
 			Result := Current
+		end
+
+	current_zstring: ZSTRING
+		deferred
 		end
 
 	pointer: EL_POINTER_ROUTINES
@@ -717,14 +713,6 @@ feature {NONE} -- Implementation
 		do
 			internal_hash_code := 0
 			internal_case_insensitive_hash_code := 0
-		end
-
-	sum_count (cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]): INTEGER
-		do
-			from until cursor.after loop
-				Result := Result + cursor.item.count
-				cursor.forth
-			end
 		end
 
 feature {EL_ZSTRING_IMPLEMENTATION, STRING_HANDLER} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:40:19 GMT (Friday 11th August 2023)"
-	revision: "22"
+	date: "2023-11-04 9:33:51 GMT (Saturday 4th November 2023)"
+	revision: "23"
 
 class
 	PATH_TEST_SET
@@ -26,20 +26,21 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["comparisons", agent test_comparisons],
-				["extension", agent test_extension],
-				["first_step", agent test_first_step],
-				["initialization", agent test_initialization],
-				["joined_steps", agent test_joined_steps],
-				["ntfs_translation", agent test_ntfs_translation],
-				["parent", agent test_parent],
-				["parent_of", agent test_parent_of],
-				["path_sort", agent test_path_sort],
-				["path_steps", agent test_path_steps],
-				["relative_joins", agent test_relative_joins],
-				["set_parent", agent test_set_parent],
+				["comparisons",				 agent test_comparisons],
+				["extension",					 agent test_extension],
+				["first_step",					 agent test_first_step],
+				["initialization",			 agent test_initialization],
+				["ise_path_access",			 agent test_ise_path_access],
+				["joined_steps",				 agent test_joined_steps],
+				["ntfs_translation",			 agent test_ntfs_translation],
+				["parent",						 agent test_parent],
+				["parent_of",					 agent test_parent_of],
+				["path_sort",					 agent test_path_sort],
+				["path_steps",					 agent test_path_steps],
+				["relative_joins",			 agent test_relative_joins],
+				["set_parent",					 agent test_set_parent],
 				["universal_relative_path", agent test_universal_relative_path],
-				["version_number", agent test_version_number]
+				["version_number",			 agent test_version_number]
 			>>)
 		end
 
@@ -62,9 +63,11 @@ feature -- Tests
 
 	test_extension
 		note
-			testing:
-				"covers/{EL_PATH}.with_new_extension, covers/{EL_PATH}.without_extension,, covers/{EL_PATH}.has_dot_extension",
-				"covers/{EL_PATH}.replace_extension, covers/{EL_PATH}.remove_extension, covers/{EL_PATH}.add_extension"
+			testing: "[
+				covers/{EL_PATH}.with_new_extension, covers/{EL_PATH}.without_extension,
+				covers/{EL_PATH}.has_dot_extension, covers/{EL_PATH}.replace_extension,
+				covers/{EL_PATH}.remove_extension, covers/{EL_PATH}.add_extension
+			]"
 		local
 			eiffel_pdf: FILE_PATH
 		do
@@ -102,9 +105,26 @@ feature -- Tests
 			assert ("3 steps", mem_test_path.step_count = 3)
 		end
 
+	test_ise_path_access
+		-- PATH_TEST_SET.test_ise_path_access
+		note
+			testing: "[
+				covers/{EL_ISE_PATH_MANGER}.as_string,
+				covers/{EL_path}.make_from_path
+			]"
+		local
+			current_dir: DIRECTORY; current_path: EL_DIR_PATH
+		do
+			create current_dir.make_with_name (Directory.current_working)
+			current_path := current_dir.path
+			assert ("same path", current_path ~ Directory.current_working)
+		end
+
 	test_joined_steps
 		note
-			testing: "covers/{EL_PATH}.make_from_steps, covers/{EL_PATH}.make, covers/{EL_PATH}.to_string"
+			testing: "[
+				covers/{EL_PATH}.make_from_steps, covers/{EL_PATH}.make, covers/{EL_PATH}.to_string
+			]"
 		local
 			p1, p2: DIR_PATH
 		do

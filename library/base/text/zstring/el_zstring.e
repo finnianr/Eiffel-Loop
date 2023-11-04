@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 14:27:40 GMT (Wednesday 30th August 2023)"
-	revision: "89"
+	date: "2023-11-04 16:42:31 GMT (Saturday 4th November 2023)"
+	revision: "90"
 
 class
 	EL_ZSTRING
@@ -142,9 +142,11 @@ inherit
 		end
 
 create
-	make, make_empty, make_from_string, make_from_general, make_from_utf_8, make_from_utf_16_le,
-	make_shared, make_from_other, make_filled, make_from_file, make_from_substring, make_from_latin_1_c,
-	make_from_zcode_area
+	make, make_empty, make_from_string, make_from_general, make_from_zcode_area,
+	make_shared, make_from_other, make_filled, make_from_file, make_from_substring,
+
+--	Encodings
+	make_from_utf_8, make_from_utf_16_le, make_from_latin_1_c
 
 convert
 	make_from_general ({STRING_8, STRING_32, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}),
@@ -426,16 +428,42 @@ feature -- Removal
 			make_unencoded
 		end
 
+feature {NONE} -- Factory
+
+	new_list (a_count: INTEGER): EL_ZSTRING_LIST
+		do
+			create Result.make (a_count)
+		end
+
+	new_padding (uc: CHARACTER_32; a_count: INTEGER): like Current
+		local
+			delta: INTEGER
+		do
+			delta := a_count - count
+			if delta > 0 then
+				create Result.make_filled (uc, delta)
+			else
+				Result := Once_adapted_argument [0]
+				Result.wipe_out
+			end
+		end
+
+	new_string (n: INTEGER): like Current
+			-- New instance of current with space for at least `n' characters.
+		do
+			create Result.make (n)
+		end
+
 feature {NONE} -- Implementation
+
+	append_pointer (ptr: POINTER)
+		do
+			append_string_general (ptr.out)
+		end
 
 	append_raw_character_8 (c: CHARACTER)
 		do
 			append_character (c)
-		end
-
-	append_string_8 (str: READABLE_STRING_8)
-		do
-			append_string_general (str)
 		end
 
 	append_string_32 (str: READABLE_STRING_32)
@@ -443,9 +471,9 @@ feature {NONE} -- Implementation
 			append_string_general (str)
 		end
 
-	append_pointer (ptr: POINTER)
+	append_string_8 (str: READABLE_STRING_8)
 		do
-			append_string_general (ptr.out)
+			append_string_general (str)
 		end
 
 	current_zstring: ZSTRING
@@ -459,27 +487,11 @@ feature {NONE} -- Implementation
 			Result.wipe_out
 		end
 
-	new_list (a_count: INTEGER): EL_ZSTRING_LIST
+	sum_count (cursor: ITERATION_CURSOR [READABLE_STRING_GENERAL]): INTEGER
 		do
-			create Result.make (a_count)
-		end
-
-	new_string (n: INTEGER): like Current
-			-- New instance of current with space for at least `n' characters.
-		do
-			create Result.make (n)
-		end
-
-	new_padding (uc: CHARACTER_32; a_count: INTEGER): like Current
-		local
-			delta: INTEGER
-		do
-			delta := a_count - count
-			if delta > 0 then
-				create Result.make_filled (uc, delta)
-			else
-				Result := Once_adapted_argument [0]
-				Result.wipe_out
+			from until cursor.after loop
+				Result := Result + cursor.item.count
+				cursor.forth
 			end
 		end
 

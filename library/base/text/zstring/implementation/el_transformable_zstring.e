@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-21 13:06:57 GMT (Saturday 21st October 2023)"
-	revision: "53"
+	date: "2023-11-03 22:23:23 GMT (Friday 3rd November 2023)"
+	revision: "54"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -101,7 +101,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		-- adjust string so that `is_canonically_spaced' becomes true
 		local
 			c_i: CHARACTER; uc_i: CHARACTER_32; i, j, l_count, block_index, space_count, last_upper: INTEGER
-			is_space, is_space_state: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
+			is_space: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			if not is_canonically_spaced

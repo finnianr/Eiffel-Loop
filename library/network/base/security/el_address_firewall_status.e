@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 10:22:56 GMT (Monday 30th October 2023)"
-	revision: "2"
+	date: "2023-11-04 18:44:36 GMT (Saturday 4th November 2023)"
+	revision: "3"
 
 class
 	EL_ADDRESS_FIREWALL_STATUS
@@ -41,7 +41,7 @@ feature -- Access
 
 	status: EL_FIREWALL_STATUS
 		do
-			create Result.make_by_compact (compact_status)
+			create Result.make_from_compact (compact_status)
 		end
 
 feature {NONE} -- Constants

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 18:40:26 GMT (Friday 3rd November 2023)"
-	revision: "17"
+	date: "2023-11-03 22:23:24 GMT (Friday 3rd November 2023)"
+	revision: "18"
 
 class
 	EL_PATH_STEPS
@@ -440,7 +440,7 @@ feature -- Element change
 	expand
 		-- expand environment variables in each step
 		local
-			factory: EL_ITERABLE_SPLIT_FACTORY_ROUTINES; new_tokens: ARRAYED_LIST [INTEGER]
+			new_tokens: ARRAYED_LIST [INTEGER]
 		do
 			if attached filled_list as filled and then filled.there_exists (agent has_expansion_variable) then
 				create new_tokens.make (count)

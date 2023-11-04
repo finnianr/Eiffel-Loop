@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:03:27 GMT (Friday 18th August 2023)"
-	revision: "69"
+	date: "2023-11-04 9:27:59 GMT (Saturday 4th November 2023)"
+	revision: "70"
 
 deferred class
 	EL_PATH
@@ -30,7 +30,7 @@ inherit
 			is_equal, default_create, out, copy
 		end
 
-	EL_SHARED_WORD
+	EL_SHARED_PATH_MANAGER; EL_SHARED_WORD
 
 convert
 	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 
 	make_from_path (a_path: PATH)
 		do
-			make (a_path.name)
+			make (Path_manager.as_string (a_path))
 		end
 
 	make_from_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL])

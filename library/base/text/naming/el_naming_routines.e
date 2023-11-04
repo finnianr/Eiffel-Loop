@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 13:24:56 GMT (Saturday 19th August 2023)"
-	revision: "41"
+	date: "2023-11-04 11:07:26 GMT (Saturday 4th November 2023)"
+	revision: "42"
 
 class
 	EL_NAMING_ROUTINES
@@ -182,7 +182,7 @@ feature -- Import names
 			end
 		end
 
-	from_camel_case_upper (name_in: READABLE_STRING_8; name_out: STRING; boundary_hints: ARRAY [STRING])
+	from_camel_case_upper (name_in: READABLE_STRING_8; name_out: STRING; boundary_hints: EL_STRING_8_LIST)
 		-- Convert from UPPERCASECAMEL using word boundaries hints `boundary_hints'
 		-- For example `<< "sub" >>' is sufficient to convert BUTTONSUBTYPE to
 		-- button_sub_type.

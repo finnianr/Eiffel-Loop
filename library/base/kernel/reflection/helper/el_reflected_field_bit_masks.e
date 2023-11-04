@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 9:47:42 GMT (Friday 3rd November 2023)"
-	revision: "5"
+	date: "2023-11-04 8:20:16 GMT (Saturday 4th November 2023)"
+	revision: "6"
 
 class
 	EL_REFLECTED_FIELD_BIT_MASKS

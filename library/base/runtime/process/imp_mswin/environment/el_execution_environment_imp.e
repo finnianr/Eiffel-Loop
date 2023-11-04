@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 18:34:53 GMT (Friday 3rd November 2023)"
-	revision: "14"
+	date: "2023-11-04 16:29:43 GMT (Saturday 4th November 2023)"
+	revision: "15"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -22,12 +22,13 @@ inherit
 
 	EL_MS_WINDOWS_DIRECTORIES
 		rename
+			item as item_32,
 			sleep as sleep_nanosecs,
 			current_working_directory as current_working_directory_obselete
 		export
 			{NONE} all
 		undefine
-			put, item, launch, system
+			put, item_32, launch, system
 		end
 
 	EL_OS_IMPLEMENTATION
@@ -55,11 +56,6 @@ feature {NONE} -- Implementation
 	console_code_page: NATURAL
 		do
 			Result := c_console_output_code_page
-		end
-
-	new_environ_string (c_item: POINTER): ZSTRING
-		do
-			create Result.make_from_utf_16_le (new_native_string (c_item))
 		end
 
 	new_language_code: STRING

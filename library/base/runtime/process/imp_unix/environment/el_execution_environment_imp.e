@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 18:37:35 GMT (Friday 3rd November 2023)"
-	revision: "12"
+	date: "2023-11-03 22:30:00 GMT (Friday 3rd November 2023)"
+	revision: "13"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -32,11 +32,6 @@ feature {NONE} -- Implementation
 	console_code_page: NATURAL
 			-- For windows. Returns 0 in Unix
 		do
-		end
-
-	new_environ_string (c_item: POINTER): ZSTRING
-		do
-			create Result.make_from_utf_8 (new_native_string (c_item))
 		end
 
 	new_language_code: STRING

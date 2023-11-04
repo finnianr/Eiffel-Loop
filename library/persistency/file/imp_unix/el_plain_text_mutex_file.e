@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-12 14:32:34 GMT (Thursday 12th October 2023)"
-	revision: "1"
+	date: "2023-11-04 18:44:20 GMT (Saturday 4th November 2023)"
+	revision: "2"
 
 class
 	EL_PLAIN_TEXT_MUTEX_FILE
@@ -39,8 +39,8 @@ feature {NONE} -- Initialization
 	make_with_name (fn: READABLE_STRING_GENERAL)
 		do
 			Precursor (fn)
-			create lock.make (0) -- 0 means any length of file
 			descriptor := c_create_write_only (internal_name_pointer.item)
+			create mutex.make_write (descriptor)
 		end
 
 feature -- Status query
@@ -51,6 +51,9 @@ feature -- Status query
 		end
 
 	is_locked: BOOLEAN
+		do
+			Result := mutex.is_locked
+		end
 
 feature -- Status change
 
@@ -66,22 +69,17 @@ feature -- Status change
 			not_lockable: not is_lockable
 		end
 
-	do_until_locked (interval_ms: INTEGER)
-		-- keep trying to lock with `interval_ms' millisecs wait between attempts
+	try_until_locked (interval_ms: INTEGER)
+		-- keep trying to mutex with `interval_ms' millisecs wait between attempts
 		do
-			from until is_locked loop
-				try_lock
-				if not is_locked then
-					Execution_environment.sleep (interval_ms)
-				end
-			end
+			mutex.try_until_locked (interval_ms)
 		end
 
 	try_lock
 		require
 			is_lockable: is_lockable
 		do
-			is_locked := c_aquire_lock (descriptor, lock.self_ptr) /= -1
+			mutex.try_lock
 		end
 
 	unlock
@@ -89,8 +87,7 @@ feature -- Status change
 			locked: is_locked
 			is_lockable: is_lockable
 		do
-			lock.set_unlocked
-			is_locked := c_aquire_lock (descriptor, lock.self_ptr) = -1
+			mutex.unlock
 		ensure
 			unlocked: not is_locked
 		end
@@ -109,7 +106,7 @@ feature {NONE} -- Internal attributes
 
 	descriptor: INTEGER
 
-	lock: EL_FILE_LOCK
+	mutex: EL_FILE_LOCK
 
 feature {NONE} -- Constants
 

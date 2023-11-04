@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-12 14:29:59 GMT (Thursday 12th October 2023)"
-	revision: "9"
+	date: "2023-11-04 17:55:36 GMT (Saturday 4th November 2023)"
+	revision: "10"
 
 class
 	EL_FILE_LOCK_C_API
@@ -21,9 +21,9 @@ feature {NONE} -- C Externals
 		require
 			not_null_pointer: is_attached (path)
 		external
-			"C inline use <fcntl.h>"
+			"C inline use <unistd.h>"
 		alias
-			"open ((const char *)$path, O_WRONLY|O_CREAT, 0666)"
+			"open ((const char *)$path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)"
 		end
 
 	frozen c_aquire_lock (f_descriptor: INTEGER; fl: POINTER): INTEGER

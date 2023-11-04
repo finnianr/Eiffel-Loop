@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 18:13:12 GMT (Friday 3rd November 2023)"
-	revision: "2"
+	date: "2023-11-04 17:05:39 GMT (Saturday 4th November 2023)"
+	revision: "3"
 
 class
 	EL_PLAIN_TEXT_MUTEX_FILE
@@ -109,6 +109,8 @@ feature {NONE} -- Internal attributes
 	descriptor: INTEGER
 
 	lock: EL_FILE_LOCK
+
+	handle: FILE_HANDLE
 
 feature {NONE} -- Constants
 
