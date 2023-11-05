@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 19:01:22 GMT (Friday 3rd November 2023)"
-	revision: "7"
+	date: "2023-11-05 17:16:16 GMT (Sunday 5th November 2023)"
+	revision: "8"
 
 class
 	EL_OPERATING_ENVIRONMENT_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_OPERATING_ENVIRONMENT_I
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 feature -- Constants
 

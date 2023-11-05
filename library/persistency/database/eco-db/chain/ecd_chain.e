@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 14:02:30 GMT (Tuesday 31st October 2023)"
-	revision: "33"
+	date: "2023-11-05 9:18:25 GMT (Sunday 5th November 2023)"
+	revision: "34"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -92,7 +92,7 @@ feature {NONE} -- Initialization
 		deferred
 		end
 
-	make_from_file (a_file_path: like file_path)
+	make_from_file (a_file_path: FILE_PATH)
 		local
 			l_file: like new_file
 		do
@@ -115,7 +115,7 @@ feature {NONE} -- Initialization
 				header.set_version (software_version)
 			end
 			l_file.close
-			
+
 			retrieve
 		end
 

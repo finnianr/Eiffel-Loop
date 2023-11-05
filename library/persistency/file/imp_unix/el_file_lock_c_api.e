@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 17:55:36 GMT (Saturday 4th November 2023)"
-	revision: "10"
+	date: "2023-11-05 14:28:12 GMT (Sunday 5th November 2023)"
+	revision: "11"
 
 class
 	EL_FILE_LOCK_C_API
@@ -36,21 +36,41 @@ feature {NONE} -- C Externals
 			"fcntl((int)$f_descriptor, F_SETLK, (struct flock*)$fl)"
 		end
 
-	frozen c_close (f_descriptor: INTEGER): INTEGER
+	frozen c_close (descriptor: INTEGER): INTEGER
 		require
-			valid_descriptor: f_descriptor /= -1
+			valid_descriptor: descriptor /= -1
 		external
 			"C (int): EIF_INTEGER | <unistd.h>"
 		alias
 			"close"
 		end
 
-	frozen c_open_with_descriptor (a_descriptor: INTEGER; mode: POINTER): POINTER
-			-- FILE *fdopen(int fildes, const char *mode)
+	frozen c_file_truncate (descriptor, count: INTEGER): INTEGER
+			-- int ftruncate(int fildes, off_t length);
+			-- The ftruncate() function causes the regular file referenced by fildes to have a size of `count' bytes.
+			-- Upon successful completion, ftruncate() and truncate() return 0.
+			-- Otherwise a -1 is returned, and errno is set to indicate the error.
+
+		require
+			valid_descriptor: descriptor /= -1
 		external
-			"C (int, const char *): EIF_POINTER | <stdio.h>"
+			"C (int, off_t): EIF_INTEGER | <unistd.h>"
 		alias
-			"fdopen"
+			"ftruncate"
+		end
+
+	frozen c_write (descriptor: INTEGER; data: POINTER; byte_count: INTEGER): INTEGER
+		-- ssize_t write(int fildes, const void *buf, size_t nbyte);
+
+		-- The write() function attempts to write nbyte bytes from the buffer pointed to by buf to the file
+		-- associated with the open file descriptor, fildes. If nbyte is 0, write() will return 0 and have no
+		-- other results if the file is a regular file; otherwise, the results are unspecified.
+		-- https://pubs.opengroup.org/onlinepubs/7908799/xsh/write.html
+
+		external
+			"C (int, const void *, size_t): EIF_INTEGER | <unistd.h>"
+		alias
+			"write"
 		end
 
 feature {NONE} -- C struct flock
@@ -117,20 +137,4 @@ feature {NONE} -- C macro constants
 			"SEEK_SET"
 		end
 
-feature {NONE} -- Constants
-
-	File_write_lock: INTEGER
-		once
-			Result := c_file_write_lock
-		end
-
-	File_unlock: INTEGER
-		once
-			Result := c_file_unlock
-		end
-
-	Seek_set: INTEGER
-		once
-			Result := c_seek_set
-		end
 end

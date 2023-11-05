@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:30:05 GMT (Monday 10th July 2023)"
-	revision: "16"
+	date: "2023-11-05 15:13:35 GMT (Sunday 5th November 2023)"
+	revision: "17"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
 
 inherit
+	EL_OS_DEPENDENT
+	
 	EL_SINGLE_THREAD_ACCESS
 
 	EL_SHARED_BASE_OPTION

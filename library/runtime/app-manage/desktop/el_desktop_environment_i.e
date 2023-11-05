@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:46:39 GMT (Wednesday 16th August 2023)"
-	revision: "18"
+	date: "2023-11-05 15:13:35 GMT (Sunday 5th November 2023)"
+	revision: "19"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -24,6 +24,8 @@ inherit
 		redefine
 			make_default, new_command_args_template
 		end
+
+	EL_OS_DEPENDENT
 
 	EL_MODULE_BUILD_INFO
 

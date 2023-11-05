@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:37:20 GMT (Tuesday 14th February 2023)"
-	revision: "10"
+	date: "2023-11-05 14:55:33 GMT (Sunday 5th November 2023)"
+	revision: "11"
 
 class
 	EL_OS_RELEASE_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_OS_RELEASE_I
 
-	EL_OS_IMPLEMENTATION
+	EL_UNIX_IMPLEMENTATION
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		redefine

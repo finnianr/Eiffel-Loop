@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 7:43:11 GMT (Tuesday 14th February 2023)"
-	revision: "6"
+	date: "2023-11-05 15:13:35 GMT (Sunday 5th November 2023)"
+	revision: "7"
 
 deferred class
 	EL_BIT_ROUTINES_I
+
+inherit
+	EL_OS_DEPENDENT
 
 feature -- Measurement
 

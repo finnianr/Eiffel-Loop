@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 18:21:26 GMT (Saturday 4th November 2023)"
-	revision: "7"
+	date: "2023-11-05 14:55:33 GMT (Sunday 5th November 2023)"
+	revision: "8"
 
 class
 	EL_APPLICATION_MUTEX_IMP
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_OS_IMPLEMENTATION
+	EL_UNIX_IMPLEMENTATION
 
 create
 	make, make_for_application_mode
@@ -33,11 +33,10 @@ feature -- Status change
 
 	try_lock (name: ZSTRING)
 		do
-			locked_file_path := "/tmp/" + name
-			locked_file_path.add_extension ("lock")
-
-			create internal_mutex.make (locked_file_path)
-			if attached internal_mutex as mutex then
+		-- you don't need to be root to write this path
+			locked_file_path := Run_lock_path #$ [name]
+			create file_mutex.make (locked_file_path)
+			if attached file_mutex as mutex then
 				mutex.try_lock
 				is_locked := mutex.is_locked
 			end
@@ -45,12 +44,12 @@ feature -- Status change
 
 	unlock
 		do
-			if attached internal_mutex as mutex then
+			if attached file_mutex as mutex then
 				mutex.unlock
 				is_locked := mutex.is_locked
 				if not is_locked then
 					mutex.close
-					internal_mutex := Void
+					file_mutex := Void
 					File_system.remove_file (locked_file_path)
 				end
 			end
@@ -58,8 +57,15 @@ feature -- Status change
 
 feature {NONE} -- Internal attributes
 
-	internal_mutex: detachable EL_NAMED_FILE_LOCK
+	file_mutex: detachable EL_NAMED_FILE_LOCK
 
 	locked_file_path: FILE_PATH
+
+feature {NONE} -- Constants
+
+	Run_lock_path: ZSTRING
+		once
+			Result := "/run/lock/%S.lock"
+		end
 
 end

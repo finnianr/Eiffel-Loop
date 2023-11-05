@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 13:30:19 GMT (Wednesday 4th October 2023)"
-	revision: "9"
+	date: "2023-11-05 17:30:04 GMT (Sunday 5th November 2023)"
+	revision: "10"
 
 class
 	CAIRO_DRAWING_CONTEXT_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	CAIRO_DRAWING_CONTEXT_I
 
-	EL_OS_IMPLEMENTATION
+	EL_UNIX_IMPLEMENTATION
 
 	EL_SHARED_IMAGE_UTILS_API
 

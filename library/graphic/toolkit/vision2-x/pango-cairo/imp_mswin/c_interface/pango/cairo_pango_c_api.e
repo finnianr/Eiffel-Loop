@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-05 12:40:04 GMT (Thursday 5th October 2023)"
-	revision: "11"
+	date: "2023-11-05 17:20:32 GMT (Sunday 5th November 2023)"
+	revision: "12"
 
 class
 	CAIRO_PANGO_C_API
@@ -15,7 +15,7 @@ class
 inherit
 	EL_C_API_ROUTINES
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 feature -- Access
 

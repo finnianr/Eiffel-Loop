@@ -1,13 +1,13 @@
 note
-	description: "Gdk c api"
+	description: "Gdk C API"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-11-05 17:19:36 GMT (Sunday 5th November 2023)"
+	revision: "11"
 
 class
 	CAIRO_GDK_C_API
@@ -15,7 +15,7 @@ class
 inherit
 	EL_C_API_ROUTINES
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 feature -- Access
 

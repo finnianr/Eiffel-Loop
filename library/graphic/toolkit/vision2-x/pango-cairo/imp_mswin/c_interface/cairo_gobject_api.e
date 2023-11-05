@@ -1,13 +1,13 @@
 note
-	description: "Unix implementation of [$source CAIRO_GOBJECT_I]"
+	description: "Windows implementation of [$source CAIRO_GOBJECT_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-11-05 17:19:04 GMT (Sunday 5th November 2023)"
+	revision: "11"
 
 class
 	CAIRO_GOBJECT_API
@@ -19,7 +19,7 @@ inherit
 
 	CAIRO_GOBJECT_I
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 15:18:10 GMT (Saturday 8th July 2023)"
-	revision: "8"
+	date: "2023-11-05 17:14:38 GMT (Sunday 5th November 2023)"
+	revision: "9"
 
 class
 	EL_CONSOLE_MANAGER_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CONSOLE_MANAGER_I
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 create
 	make

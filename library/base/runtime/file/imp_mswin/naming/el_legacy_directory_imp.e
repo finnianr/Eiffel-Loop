@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-11-05 17:14:00 GMT (Sunday 5th November 2023)"
+	revision: "5"
 
 class
 	EL_LEGACY_DIRECTORY_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	EL_LEGACY_DIRECTORY_I
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 	EL_MS_WINDOWS_DIRECTORIES
 		rename

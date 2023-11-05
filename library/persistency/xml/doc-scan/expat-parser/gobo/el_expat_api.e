@@ -7,18 +7,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-11-05 10:18:21 GMT (Sunday 5th November 2023)"
+	revision: "9"
 
 class EL_EXPAT_API
 
 inherit
-	PLATFORM
-		export
-			{NONE} all
-		end
-
-	EL_C_API_ROUTINES
+	EL_C_API
 
 feature {NONE} -- Creating and destroying parsers
 
@@ -132,10 +127,7 @@ feature {NONE} -- Parsing
 		require
 			a_parser_attached: is_attached (a_parser)
 		local
-			int: INTEGER
-
-			c_str: ANY
-
+			int: INTEGER; c_str: ANY
 		do
 			if is_final then
 				int := 1

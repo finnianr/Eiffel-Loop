@@ -1,13 +1,13 @@
 note
-	description: "Test [$source EL_PLAIN_TEXT_MUTEX_FILE]"
+	description: "Test [$source EL_LOCKABLE_TEXT_FILE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 10:14:13 GMT (Saturday 4th November 2023)"
-	revision: "3"
+	date: "2023-11-05 14:33:28 GMT (Sunday 5th November 2023)"
+	revision: "4"
 
 class
 	MUTEX_FILE_TEST_SET
@@ -36,13 +36,13 @@ feature -- Tests
 		-- MUTEX_FILE_TEST_SET.test_mutex_file
 		note
 			testing: "[
-				covers/{EL_PLAIN_TEXT_MUTEX_FILE}.try_lock,
-				covers/{EL_PLAIN_TEXT_MUTEX_FILE}.unlock,
-				covers/{EL_PLAIN_TEXT_MUTEX_FILE}.open_write,
-				covers/{EL_PLAIN_TEXT_MUTEX_FILE}.close
+				covers/{EL_LOCKABLE_TEXT_FILE}.try_lock,
+				covers/{EL_LOCKABLE_TEXT_FILE}.unlock,
+				covers/{EL_LOCKABLE_TEXT_FILE}.open_write,
+				covers/{EL_LOCKABLE_TEXT_FILE}.close
 			]"
 		local
-			l_file: EL_PLAIN_TEXT_MUTEX_FILE; file_path: FILE_PATH
+			l_file: EL_LOCKABLE_TEXT_FILE; file_path: FILE_PATH
 			expected_list: EL_STRING_8_LIST
 		do
 			expected_list := "greetings, hello, one 1, two 2"
@@ -51,7 +51,7 @@ feature -- Tests
 				across file_list as path loop
 					file_path := path.item
 					assert ("same lines", expected_list ~ new_lines (file_path))
-					create l_file.make_with_name (file_path)
+					create l_file.make_open_write (file_path)
 					l_file.try_lock
 					assert ("locked", l_file.is_locked)
 					inspect n.item
@@ -63,25 +63,14 @@ feature -- Tests
 						-- Write content in reverse
 							expected_list.sort (False) -- reverse content
 							expected_list.remove_last
-							l_file.open_write
-							across expected_list as list loop
-								if not list.is_first then
-									l_file.put_new_line
-								end
-								l_file.put_string (list.item)
-							end
+							l_file.wipe_out
+							l_file.put_string (expected_list.joined_lines)
 
 					end
 					l_file.unlock
 					assert ("unlocked", not l_file.is_locked)
 					l_file.close
-					inspect n.item
-						when 1 then
-							assert ("same lines", expected_list ~ new_lines (file_path))
-						when 2 then
-						-- PROBLEM HERE, lists should be the same
-							assert ("needs fixing", expected_list /~ new_lines (file_path))
-					end
+					assert ("same lines", expected_list ~ new_lines (file_path))
 				end
 			end
 		end

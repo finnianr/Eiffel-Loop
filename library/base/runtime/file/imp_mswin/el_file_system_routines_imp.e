@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-11-05 17:12:00 GMT (Sunday 5th November 2023)"
+	revision: "16"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -18,7 +18,7 @@ inherit
 			rename_file
 		end
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 		rename
 			copy as copy_object
 		end

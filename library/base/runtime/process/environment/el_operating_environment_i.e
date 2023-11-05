@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-11-05 15:27:42 GMT (Sunday 5th November 2023)"
+	revision: "11"
 
 deferred class
 	EL_OPERATING_ENVIRONMENT_I
 
 inherit
 	OPERATING_ENVIRONMENT
+
+	EL_OS_DEPENDENT
 
 	EL_MODULE_DIRECTORY
 

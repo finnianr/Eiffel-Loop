@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-11-05 17:17:34 GMT (Sunday 5th November 2023)"
+	revision: "4"
 
 class
 	CAIRO_TEXT_LAYOUT_IMP
@@ -15,7 +15,7 @@ class
 inherit
 	CAIRO_TEXT_LAYOUT_I
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 	EL_MODULE_SYSTEM_FONTS
 

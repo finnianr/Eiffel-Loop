@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-27 8:57:18 GMT (Wednesday 27th September 2023)"
-	revision: "7"
+	date: "2023-11-05 17:25:04 GMT (Sunday 5th November 2023)"
+	revision: "8"
 
 class
 	EL_SYSTEM_ROUTINES_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 feature {NONE} -- Factory
 

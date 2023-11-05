@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-04 20:36:06 GMT (Saturday 4th February 2023)"
-	revision: "4"
+	date: "2023-11-05 14:55:32 GMT (Sunday 5th November 2023)"
+	revision: "5"
 
 expanded class
 	EL_BIT_ROUTINES
@@ -17,7 +17,7 @@ inherit
 
 	EL_EXPANDED_ROUTINES
 
-	EL_OS_IMPLEMENTATION
+	EL_UNIX_IMPLEMENTATION
 
 feature -- Measurement
 

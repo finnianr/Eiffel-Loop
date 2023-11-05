@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 18:45:01 GMT (Saturday 4th November 2023)"
-	revision: "2"
+	date: "2023-11-05 10:02:59 GMT (Sunday 5th November 2023)"
+	revision: "3"
 
 class
 	EL_FILE_LOCK
@@ -105,5 +105,22 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	descriptor: INTEGER
+
+feature {NONE} -- Constants
+
+	File_write_lock: INTEGER
+		once
+			Result := c_file_write_lock
+		end
+
+	File_unlock: INTEGER
+		once
+			Result := c_file_unlock
+		end
+
+	Seek_set: INTEGER
+		once
+			Result := c_seek_set
+		end
 
 end

@@ -6,16 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 10:46:05 GMT (Monday 30th October 2023)"
-	revision: "17"
+	date: "2023-11-05 15:15:51 GMT (Sunday 5th November 2023)"
+	revision: "18"
 
 deferred class
 	EL_FILE_ROUTINES_I
 
 inherit
-	NATIVE_STRING_HANDLER
+	EL_OS_DEPENDENT
 
-	STRING_HANDLER
+	EL_MODULE_FILE_SYSTEM
+
+	NATIVE_STRING_HANDLER; STRING_HANDLER
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -25,8 +27,6 @@ inherit
 		rename
 			Checksum as Mod_checksum
 		end
-
-	EL_MODULE_FILE_SYSTEM
 
 feature {NONE} -- Initialization
 

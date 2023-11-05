@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-11-05 14:55:32 GMT (Sunday 5th November 2023)"
+	revision: "6"
 
 class
 	EL_EXECUTABLE_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_OS_IMPLEMENTATION
+	EL_UNIX_IMPLEMENTATION
 
 create
 	make

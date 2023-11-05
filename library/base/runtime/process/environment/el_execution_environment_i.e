@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 16:52:37 GMT (Saturday 4th November 2023)"
-	revision: "30"
+	date: "2023-11-05 15:15:19 GMT (Sunday 5th November 2023)"
+	revision: "31"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -21,6 +21,8 @@ inherit
 		redefine
 			item_32, launch, put, system
 		end
+
+	EL_OS_DEPENDENT
 
 	EL_C_API_ROUTINES
 

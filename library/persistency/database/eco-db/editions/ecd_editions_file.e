@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 12:48:39 GMT (Tuesday 31st October 2023)"
-	revision: "18"
+	date: "2023-11-05 9:30:50 GMT (Sunday 5th November 2023)"
+	revision: "19"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -42,6 +42,9 @@ feature -- Access
 
 	actual_count: INTEGER
 		-- count of editions found
+
+	delta_count: INTEGER
+		-- difference that applied editions have made to `item_chain.count'
 
 	count: INTEGER
 		-- reported edition count
@@ -122,7 +125,7 @@ feature {ECD_RECOVERABLE_CHAIN} -- Element change
 						l_position := position
 						if not end_of_file then
 							skip_edition (last_edition_code)
-							if last_edition_code = Edition_code_extend then
+							if last_edition_code = Code_extend then
 								extended_byte_count := extended_byte_count + position - l_position
 							end
 						end
@@ -160,12 +163,12 @@ feature {ECD_RECOVERABLE_CHAIN} -- Basic operations
 		do
 			put_character (edition_code)
 			crc.add_character_8 (edition_code)
-			inspect edition_code when Edition_code_delete, Edition_code_remove, Edition_code_replace then
+			inspect edition_code when Code_delete, Code_remove, Code_replace then
 				put_integer (item_chain.index)
 				crc.add_integer (item_chain.index)
 			else
 			end
-			inspect edition_code when Edition_code_extend, Edition_code_replace then
+			inspect edition_code when Code_extend, Code_replace then
 				reader_writer.set_for_writing
 				reader_writer.write (a_item, Current)
 				crc.add_data (reader_writer.data)
@@ -212,13 +215,13 @@ feature {NONE} -- Implementation
 		do
 			read_edition_code
 			crc.add_character_8 (last_edition_code)
-			inspect last_edition_code when Edition_code_delete, Edition_code_remove, Edition_code_replace then
+			inspect last_edition_code when Code_delete, Code_remove, Code_replace then
 				read_integer
 				edition_index := last_integer
 				crc.add_integer (edition_index)
 			else
 			end
-			inspect last_edition_code when Edition_code_extend, Edition_code_replace then
+			inspect last_edition_code when Code_extend, Code_replace then
 				reader_writer.set_for_reading
 				l_item := reader_writer.read_item (Current)
 				crc.add_data (reader_writer.data)
@@ -228,16 +231,18 @@ feature {NONE} -- Implementation
 			checksum := last_natural
 			if checksum = crc.checksum then
 				inspect last_edition_code
-					when Edition_code_delete then
+					when Code_delete then
 						item_chain.go_i_th (edition_index); item_chain.delete
 
-					when Edition_code_extend then
+					when Code_extend then
 						item_chain.extend (l_item)
+						delta_count := delta_count + 1
 
-					when Edition_code_remove then
+					when Code_remove then
 						item_chain.go_i_th (edition_index); item_chain.remove
+						delta_count := delta_count - 1
 
-					when Edition_code_replace then
+					when Code_replace then
 						item_chain.go_i_th (edition_index); item_chain.replace (l_item)
 
 				else
@@ -265,12 +270,12 @@ feature {NONE} -- Implementation
 		local
 			item_size: INTEGER
 		do
-			inspect edition_code when Edition_code_remove, Edition_code_replace then
+			inspect edition_code when Code_remove, Code_replace then
 				read_integer -- list index
 			else
 			end
 			if not end_of_file then
-				inspect edition_code when Edition_code_replace, Edition_code_extend then
+				inspect edition_code when Code_replace, Code_extend then
 					read_integer
 					item_size := last_integer
 				else
@@ -299,13 +304,13 @@ feature {NONE} -- Internal attributes
 
 feature -- Constants
 
-	Edition_code_delete: CHARACTER = '4'
+	Code_delete: CHARACTER = '4'
 
-	Edition_code_extend: CHARACTER = '2'
+	Code_extend: CHARACTER = '2'
 
-	Edition_code_remove: CHARACTER = '3'
+	Code_remove: CHARACTER = '3'
 
-	Edition_code_replace: CHARACTER = '1'
+	Code_replace: CHARACTER = '1'
 
 feature {NONE} -- Constants
 

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-28 9:55:52 GMT (Thursday 28th September 2023)"
-	revision: "4"
+	date: "2023-11-05 17:23:39 GMT (Sunday 5th November 2023)"
+	revision: "5"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -27,7 +27,7 @@ class
 inherit
 	EL_NETWORK_DEVICE_I
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 	EL_C_OBJECT
 		rename

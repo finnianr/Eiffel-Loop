@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 9:07:24 GMT (Monday 10th July 2023)"
-	revision: "11"
+	date: "2023-11-05 17:24:33 GMT (Sunday 5th November 2023)"
+	revision: "12"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -18,7 +18,7 @@ inherit
 			write_remove_directory_lines
 		end
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 	EL_MODULE_CONSOLE
 

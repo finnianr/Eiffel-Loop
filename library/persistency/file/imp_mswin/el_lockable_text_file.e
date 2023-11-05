@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 17:05:39 GMT (Saturday 4th November 2023)"
-	revision: "3"
+	date: "2023-11-05 9:40:56 GMT (Sunday 5th November 2023)"
+	revision: "4"
 
 class
-	EL_PLAIN_TEXT_MUTEX_FILE
+	EL_LOCKABLE_TEXT_FILE
 
 inherit
 	PLAIN_TEXT_FILE

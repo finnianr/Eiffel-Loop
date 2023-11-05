@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-11-05 15:13:35 GMT (Sunday 5th November 2023)"
+	revision: "10"
 
 deferred class
 	EL_APPLICATION_MUTEX_I
 
 inherit
+	EL_OS_DEPENDENT
+
 	EL_MODULE_EXECUTABLE
 
 feature {NONE} -- Implementation

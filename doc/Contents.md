@@ -1609,7 +1609,7 @@ A few basic classes for constructing an application license manager. The most im
 
 The principle developer of Eiffel-loop has developed a sophisticated license management system using RSA public key cryptography, however it is not available as open source. If you are interested to license this system for your company, please contact the developer. It has been used for the [My Ching](http://myching.software) software product.
 ## ZLib Compression
-An Eiffel interface to the [zlib C library](https://www.zlib.net/). The main class is [EL_COMPRESSED_ARCHIVE_FILE](http://www.eiffel-loop.com/library/utility/compression/el_compressed_archive_file.html) with a few helper classes.
+An Eiffel interface to the [zlib C library](https://www.zlib.net/). The main class is [EL_COMPRESSED_ARCHIVE_FILE]($source) with a few helper classes.
 ## Currency Exchange
 Currency Exchange based on European Central bank Rates from [eurofxref-daily.xml](https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml)
 ## Windows Installer

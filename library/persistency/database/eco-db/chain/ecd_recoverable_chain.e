@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 14:03:06 GMT (Tuesday 31st October 2023)"
-	revision: "33"
+	date: "2023-11-05 9:29:39 GMT (Sunday 5th November 2023)"
+	revision: "34"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
@@ -29,7 +29,7 @@ inherit
 		rename
 			delete as chain_delete
 		redefine
-			delete_file, header, make_default, retrieve, rename_base, safe_store, is_closed
+			delete_file, header, make_default, make_from_file, rename_base, safe_store, is_closed
 		end
 
 	EL_MODULE_LIO; EL_MODULE_NAMING
@@ -53,6 +53,13 @@ feature {NONE} -- Initialization
 		do
 			encrypter := a_encrypter
 			make_from_file (a_file_path)
+		end
+
+	make_from_file (a_file_path: FILE_PATH)
+		do
+			Precursor (a_file_path)
+			editions.set_attributes (editions_file_path)
+			apply_editions
 		end
 
 	make_default
@@ -107,7 +114,7 @@ feature -- Element change
 		do
 			chain_extend (a_item)
 			if editions.is_open_write then
-				editions.put_edition (editions.Edition_code_extend, a_item)
+				editions.put_edition (editions.Code_extend, a_item)
 			end
 		end
 
@@ -116,7 +123,7 @@ feature -- Element change
 		do
 			chain_replace (a_item)
 			if editions.is_open_write then
-				editions.put_edition (editions.Edition_code_replace, a_item)
+				editions.put_edition (editions.Code_replace, a_item)
 			end
 		end
 
@@ -204,7 +211,7 @@ feature -- Removal
 	delete
 		do
 			if editions.is_open_write then
-				editions.put_edition (editions.Edition_code_delete, item)
+				editions.put_edition (editions.Code_delete, item)
 			end
 			chain_delete
 		end
@@ -223,7 +230,7 @@ feature -- Removal
 			--
 		do
 			if editions.is_open_write then
-				editions.put_edition (editions.Edition_code_remove, item)
+				editions.put_edition (editions.Code_remove, item)
 			end
 			chain_remove
 		end
@@ -238,6 +245,8 @@ feature {NONE} -- Implementation
 	apply_editions
 		do
 			editions.apply
+		ensure
+			valid_count: count = old count + editions.delta_count
 		end
 
 	editions_file_path: FILE_PATH
@@ -254,13 +263,6 @@ feature {NONE} -- Implementation
 			Naming.to_kebab_case_lower (l_name, file_name)
 			Result := Default_data_dir + file_name
 			Result.add_extension (Default_file_extension)
-		end
-
-	retrieve
-		do
-			Precursor
-			editions.set_attributes (editions_file_path)
-			apply_editions
 		end
 
 feature {NONE} -- Deferred

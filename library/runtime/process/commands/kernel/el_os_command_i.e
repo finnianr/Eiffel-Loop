@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:31:31 GMT (Thursday 17th August 2023)"
-	revision: "50"
+	date: "2023-11-05 15:28:18 GMT (Sunday 5th November 2023)"
+	revision: "51"
 
 deferred class
 	EL_OS_COMMAND_I
 
 inherit
 	EL_COMMAND
+
+	EL_OS_DEPENDENT
 
 	EL_FALLIBLE
 		rename
@@ -371,9 +373,10 @@ feature {EL_OS_COMMAND_I} -- Factory
 
 	new_transient_fields: STRING
 		do
-			Result := Precursor +
-				", dry_run, getter_functions, internal_error_list, is_forked,%
-				%has_error, on_encoding_change, encoding_other, output_path, template_path"
+			Result := Precursor + "[
+				, dry_run, getter_functions, internal_error_list, is_forked,
+				has_error, on_encoding_change, encoding_other, output_path, template_path
+			]"
 		end
 
 feature {NONE} -- Deferred implementation

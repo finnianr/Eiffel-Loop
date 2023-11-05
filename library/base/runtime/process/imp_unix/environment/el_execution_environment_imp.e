@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 22:30:00 GMT (Friday 3rd November 2023)"
-	revision: "13"
+	date: "2023-11-05 14:55:32 GMT (Sunday 5th November 2023)"
+	revision: "14"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -18,7 +18,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_OS_IMPLEMENTATION
+	EL_UNIX_IMPLEMENTATION
 
 	EL_MODULE_DIRECTORY
 

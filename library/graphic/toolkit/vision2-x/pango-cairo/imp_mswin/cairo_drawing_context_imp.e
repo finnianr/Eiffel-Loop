@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 12:47:27 GMT (Wednesday 4th October 2023)"
-	revision: "13"
+	date: "2023-11-05 17:17:15 GMT (Sunday 5th November 2023)"
+	revision: "14"
 
 class
 	CAIRO_DRAWING_CONTEXT_IMP
@@ -18,7 +18,7 @@ inherit
 			draw_scaled_area
 		end
 
-	EL_OS_IMPLEMENTATION
+	EL_WINDOWS_IMPLEMENTATION
 
 	EL_MODULE_GDI_BITMAP
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 18:41:20 GMT (Saturday 4th November 2023)"
-	revision: "2"
+	date: "2023-11-05 10:05:20 GMT (Sunday 5th November 2023)"
+	revision: "3"
 
 class
 	EL_NAMED_FILE_LOCK
@@ -21,23 +21,24 @@ inherit
 		end
 
 create
-	make, make_from_name
+	make
 
 feature {NONE} -- Initialization
 
-	make (path: EL_FILE_PATH)
+	make (a_path: EL_FILE_PATH)
 		do
-			make_from_name (path)
-		end
-
-	make_from_name (path_name: ZSTRING)
-		do
-			native_path := path_name
-			make_write (c_create_write_only (native_path.base_address))
-			set_length (1)
+			path := a_path
+			make_write (c_create_write_only (a_path.to_path.native_string.item))
+			if is_fixed_size then
+				set_length (1)
+			end
 		ensure
 			is_lockable: is_lockable
 		end
+
+feature -- Access
+
+	path: EL_FILE_PATH
 
 feature -- Status change
 
@@ -52,6 +53,11 @@ feature -- Status change
 
 feature {NONE} -- Implementation
 
+	is_fixed_size: BOOLEAN
+		do
+			Result := True
+		end
+
 	dispose
 		local
 			status: INTEGER
@@ -61,9 +67,5 @@ feature {NONE} -- Implementation
 			end
 			Precursor
 		end
-
-feature {NONE} -- Internal attributes
-
-	native_path: EL_C_UTF_STRING_8
 
 end

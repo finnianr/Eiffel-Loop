@@ -1,25 +1,28 @@
 note
-	description: "Finds the useable screen area excluding the taskbar etc"
+	description: "Object that is implemented for Windows OS"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 14:43:13 GMT (Sunday 5th November 2023)"
-	revision: "10"
+	date: "2023-11-05 15:04:04 GMT (Sunday 5th November 2023)"
+	revision: "1"
 
 deferred class
-	EL_USEABLE_SCREEN_I
+	EL_WINDOWS_IMPLEMENTATION
 
 inherit
 	ANY
-	
-	EL_SOLITARY
+		undefine
+			copy, is_equal
+		end
 
 feature -- Access
 
-	area: EV_RECTANGLE
-			-- useable area not obscured by taskbar
+	frozen os_type: NATURAL_8
+		do
+			Result := 2
+		end
 
 end
