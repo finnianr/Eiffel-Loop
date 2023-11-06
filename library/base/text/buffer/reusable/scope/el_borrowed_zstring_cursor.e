@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 6:10:24 GMT (Thursday 27th July 2023)"
-	revision: "4"
+	date: "2023-11-06 18:27:53 GMT (Monday 6th November 2023)"
+	revision: "5"
 
 class
 	EL_BORROWED_ZSTRING_CURSOR
@@ -37,7 +37,7 @@ feature -- Access
 
 	copied_item (general: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Result := item
+			Result := pooled_item (general.count)
 			if attached {EL_READABLE_ZSTRING} general as zstr then
 				Result.append (zstr)
 			else
@@ -47,14 +47,14 @@ feature -- Access
 
 	sized_item (n: INTEGER): ZSTRING
 		do
-			Result := item
+			Result := pooled_item (n)
 			Result.grow (n)
 			Result.set_count (n)
 		end
 
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): ZSTRING
 		do
-			Result := item
+			Result := pooled_item (end_index - start_index + 1)
 			if attached {EL_READABLE_ZSTRING} general as zstr then
 				Result.append_substring (zstr, start_index, end_index)
 			else

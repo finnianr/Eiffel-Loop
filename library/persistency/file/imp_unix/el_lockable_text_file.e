@@ -1,17 +1,13 @@
 note
 	description: "File that can be locked for exclusive writing operation"
-	notes: "[
-		Tested with [$source MUTEX_FILE_TEST_SET] but revealed a problem that the file count
-		is not changing when you overwrite with new content. So something not working.
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 14:55:32 GMT (Sunday 5th November 2023)"
-	revision: "3"
+	date: "2023-11-06 8:45:16 GMT (Monday 6th November 2023)"
+	revision: "4"
 
 class
 	EL_LOCKABLE_TEXT_FILE

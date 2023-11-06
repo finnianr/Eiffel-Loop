@@ -1,122 +1,72 @@
 note
-	description: "Shared file that can be locked for exclusive writing operation"
-	notes: "[
-		Not yet implemented on Windows. (Copied source from Unix version as a guide)
-	]"
+	description: "File that can be locked for exclusive writing operation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 9:40:56 GMT (Sunday 5th November 2023)"
+	date: "2023-11-06 8:49:25 GMT (Monday 6th November 2023)"
 	revision: "4"
 
 class
 	EL_LOCKABLE_TEXT_FILE
 
 inherit
-	PLAIN_TEXT_FILE
+	EL_NAMED_FILE_LOCK
 		rename
-			descriptor as new_descriptor -- from `file_pointer'
-		export
-			{NONE} all
-			{ANY} is_closed, put_string, put_new_line
+			make as make_open_write
 		redefine
-			close, open_write, make_with_name
+			is_fixed_size
 		end
 
--- 	EL_FILE_LOCK_C_API
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_WINDOWS_IMPLEMENTATION
 
 create
-	make_with_name
+	make_open_write
 
-feature {NONE} -- Initialization
+feature -- Basic operations
 
-	make_with_name (fn: READABLE_STRING_GENERAL)
+	put_string (str: STRING)
+		require
+			locked: is_locked
+		local
+			c_str: ANY
 		do
-			Precursor (fn)
-			create lock.make (0) -- 0 means any length of file
---			descriptor := c_create_write_only (internal_name_pointer.item)
+			c_str := str.to_c
+			last_put_count := c_write (descriptor, $c_str, str.count)
+		ensure
+			last_write_ok: last_write_ok
 		end
 
-feature -- Status query
-
-	is_lockable: BOOLEAN
+	wipe_out
+		-- wipe out existing file data
+		require
+			locked: is_locked
 		do
-			Result := descriptor.to_boolean
-		end
-
-	is_locked: BOOLEAN
-
-feature -- Status change
-
-	close
-		require else
-			unlocked: not is_locked
-		do
-			if descriptor.to_boolean then -- and then c_close (descriptor) = 0 then
-				mode := Closed_file
-				file_pointer := default_pointer; descriptor := 0
-			end
-		ensure then
-			not_lockable: not is_lockable
-		end
-
-	do_until_locked (interval_ms: INTEGER)
-		-- keep trying to lock with `interval_ms' millisecs wait between attempts
-		do
-			from until is_locked loop
-				try_lock
-				if not is_locked then
-					Execution_environment.sleep (interval_ms)
+			if c_file_truncate (descriptor, 0) /= 0 then
+				check
+					not_truncated: False
 				end
 			end
 		end
 
-	try_lock
-		require
-			is_lockable: is_lockable
+feature -- Measurement
+
+	last_put_count: INTEGER
+
+feature -- Status query
+
+	last_write_ok: BOOLEAN
 		do
---			is_locked := c_aquire_lock (descriptor, lock.self_ptr) /= -1
+			Result := last_put_count >= 0
 		end
 
-	unlock
-		require
-			locked: is_locked
-			is_lockable: is_lockable
+feature {NONE} -- Implementation
+
+	is_fixed_size: BOOLEAN
 		do
-			lock.set_unlocked
---			is_locked := c_aquire_lock (descriptor, lock.self_ptr) = -1
-		ensure
-			unlocked: not is_locked
-		end
-
-feature -- Status setting
-
-	open_write
-		require else
-			locked: is_locked
-		do
---			file_pointer := c_open_with_descriptor (descriptor, Write_mode.base_address)
-			mode := Write_file
-		end
-
-feature {NONE} -- Internal attributes
-
-	descriptor: INTEGER
-
-	lock: EL_FILE_LOCK
-
-	handle: FILE_HANDLE
-
-feature {NONE} -- Constants
-
-	Write_mode: EL_C_STRING_8
-		once
-			Result := "w"
+			Result := False
 		end
 
 end

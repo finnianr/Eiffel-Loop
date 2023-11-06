@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 17:23:48 GMT (Sunday 5th November 2023)"
-	revision: "13"
+	date: "2023-11-06 8:50:16 GMT (Monday 6th November 2023)"
+	revision: "14"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -24,9 +24,6 @@ inherit
 		end
 
 	EL_WINDOWS_IMPLEMENTATION
-		undefine
-			copy, is_equal
-		end
 
 	EL_MODULE_EXCEPTION
 

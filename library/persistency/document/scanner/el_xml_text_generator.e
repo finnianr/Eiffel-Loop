@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:53:15 GMT (Thursday 17th August 2023)"
-	revision: "28"
+	date: "2023-11-06 16:09:07 GMT (Monday 6th November 2023)"
+	revision: "29"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -298,8 +298,8 @@ feature {NONE} -- States
 feature {NONE} -- Constants
 
 	Default_pool: EL_STRING_POOL_SCOPE_CURSOR [STRING]
-		do
-			create Result.make (create {EL_STRING_FACTORY_POOL [STRING]}.make (0))
+		once
+			create Result.make_default
 		end
 
 	Decimal_formatter: FORMAT_DOUBLE

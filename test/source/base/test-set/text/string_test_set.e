@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 10:05:25 GMT (Monday 31st July 2023)"
-	revision: "14"
+	date: "2023-11-06 16:41:41 GMT (Monday 6th November 2023)"
+	revision: "15"
 
 class
 	STRING_TEST_SET
@@ -31,6 +31,8 @@ feature {NONE} -- Initialization
 				["expanded_string",					 agent test_expanded_string],
 				["immutable_comparison",			 agent test_immutable_comparison],
 				["reusable_zstrings",				 agent test_reusable_zstrings],
+				["string_pool",						 agent test_string_pool],
+				["string_pool_loan_list",			 agent test_string_pool_loan_list],
 				["l1_uc_string_conversion",		 agent test_l1_uc_string_conversion],
 				["l1_uc_string_unicode_by_index", agent test_l1_uc_string_unicode_by_index]
 			>>)
@@ -67,6 +69,7 @@ feature -- Tests
 		end
 
 	test_reusable_zstrings
+		-- STRING_TEST_SET.test_reusable_zstrings
 		local
 			s1, s2, s3, s4: ZSTRING
 		do
@@ -88,6 +91,80 @@ feature -- Tests
 			end
 			assert ("instance recycled", s1 = s2)
 			assert ("nested instances recycled", s3 = s4)
+		end
+
+	test_string_pool
+		-- STRING_TEST_SET.test_string_pool
+		local
+			pool: EL_STRING_POOL [STRING_32]; buffer: ARRAYED_LIST [STRING_32]
+			pool_item: STRING_32; old_count: INTEGER; line_list: EL_STRING_32_LIST
+		do
+			line_list := Text.lines
+
+			across 0 |..| 1 as ascending loop
+				across 1 |..| 5 as capacity loop
+					create pool.make (line_list.count)
+					create buffer.make (capacity.item)
+					line_list.sort (ascending.item.to_boolean)
+					across line_list as list loop
+						if attached list.item as str then
+							pool_item := pool.borrowed_item (str.count)
+							assert ("is empty", pool_item.is_empty)
+							pool_item.append (str)
+							buffer.extend (pool_item)
+						end
+						if buffer.full then
+							old_count := pool.available_count
+							across buffer as string loop
+								pool.return (string.item)
+							end
+							buffer.wipe_out
+							assert ("returned available", pool.available_count = old_count + buffer.capacity)
+						end
+					end
+					old_count := pool.available_count
+					across buffer as string loop
+						pool.return (string.item)
+					end
+					assert ("all returned", pool.available_count = old_count + buffer.count)
+				end
+			end
+		end
+
+	test_string_pool_loan_list
+		-- STRING_TEST_SET.test_string_pool_loan_list
+		local
+			pool: EL_STRING_POOL [STRING_32]; loan_indices: ARRAYED_LIST [INTEGER]
+			pool_item: STRING_32; old_count, old_indices_count: INTEGER; line_list: EL_STRING_32_LIST
+		do
+			line_list := Text.lines
+
+			across 0 |..| 1 as ascending loop
+				across 1 |..| 5 as capacity loop
+					create pool.make (line_list.count)
+					create loan_indices.make (capacity.item)
+					line_list.sort (ascending.item.to_boolean)
+					across line_list as list loop
+						if attached list.item as str then
+							pool_item := pool.borrowed_item (str.count)
+							assert ("is empty", pool_item.is_empty)
+							pool_item.append (str)
+							loan_indices.extend (pool.last_index)
+						end
+						if loan_indices.full then
+							old_count := pool.available_count
+							pool.return_list (loan_indices)
+							assert ("returned available", pool.available_count = old_count + loan_indices.capacity)
+						end
+					end
+					old_count := pool.available_count
+					old_indices_count := loan_indices.count
+					assert ("valid indices", loan_indices.for_all (agent pool.valid_index))
+					pool.return_list (loan_indices)
+					assert ("loan_indices empty", loan_indices.is_empty)
+					assert ("all returned", pool.available_count = old_count + old_indices_count)
+				end
+			end
 		end
 
 feature -- L1_UC_STRING tests

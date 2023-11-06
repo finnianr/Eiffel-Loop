@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 13:34:21 GMT (Friday 11th August 2023)"
-	revision: "32"
+	date: "2023-11-06 16:36:08 GMT (Monday 6th November 2023)"
+	revision: "33"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -15,7 +15,9 @@ class
 inherit
 	ANY
 
-	EL_MODULE_CONSOLE; EL_MODULE_ENVIRONMENT; EL_MODULE_REUSEABLE
+	EL_MODULE_CONSOLE; EL_MODULE_ENVIRONMENT
+
+	EL_SHARED_STRING_POOLS
 
 	EL_SHARED_UTF_8_ZCODEC
 
@@ -31,12 +33,10 @@ feature -- Initialization
 	make
 		do
 			create buffer.make (30)
-			across Reuseable.string_8_pool as pool loop
-				string_pool := pool
-			end
-			string_pool.start_scope
+			create buffer_indices.make (30)
 			create index_label_table.make (7)
 			create new_line_prompt.make_from_string ("%N")
+			string_pool := Shared_string_pool_8
 			std_output := io.Output
 		end
 
@@ -83,13 +83,13 @@ feature -- Output
 	put_boolean (b: BOOLEAN)
 			--
 		do
-			extended_buffer_last.append_boolean (b)
+			extended_buffer_last (5).append_boolean (b)
 		end
 
 	put_character (c: CHARACTER)
 			--
 		do
-			extended_buffer_last.append_character (c)
+			extended_buffer_last (1).append_character (c)
 		end
 
 	put_classname (a_name: READABLE_STRING_8)
@@ -141,7 +141,7 @@ feature -- Output
 			if leading.count > 0 then
 				put_string_general (leading)
 			end
-			extended_buffer_last.append_integer (index)
+			extended_buffer_last (11).append_integer (index)
 			if trailing.count > 0 then
 				put_string_general (trailing)
 			end
@@ -231,24 +231,26 @@ feature -- Numeric output
 	put_double (d: DOUBLE)
 			--
 		do
-			extended_buffer_last.append_double (d)
+		-- Using `extended_buffer_last' not more efficient
+			buffer.extend (d.out)
 		end
 
 	put_integer (i: INTEGER)
 			-- Add a string to the buffer
 		do
-			extended_buffer_last.append_integer (i)
+			extended_buffer_last (11).append_integer (i)
 		end
 
 	put_natural (n: NATURAL)
 		do
-			extended_buffer_last.append_natural_32 (n)
+			extended_buffer_last (10).append_natural_32 (n)
 		end
 
 	put_real (r: REAL)
 			--
 		do
-			extended_buffer_last.append_real (r)
+		-- Using `extended_buffer_last' not more efficient
+			buffer.extend (r.out)
 		end
 
 feature -- Basic operations
@@ -268,15 +270,15 @@ feature -- Basic operations
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out
-			string_pool.end_scope
-			string_pool.start_scope
+			string_pool.return_list (buffer_indices)
 		end
 
 feature {NONE} -- Implementation
 
-	extended_buffer_last: like string_pool.borrowed_item
+	extended_buffer_last (size: INTEGER): STRING_8
 		do
-			Result := string_pool.borrowed_item
+			Result := string_pool.borrowed_item (size)
+			buffer_indices.extend (string_pool.last_index)
 			buffer.extend (Result)
 		end
 
@@ -309,13 +311,15 @@ feature {NONE} -- Internal attributes
 
 	buffer: ARRAYED_LIST [READABLE_STRING_GENERAL]
 
+	buffer_indices: ARRAYED_LIST [INTEGER]
+
 	index_label_table: STRING_TABLE [TUPLE [leading, trailing: READABLE_STRING_GENERAL]]
 
 	new_line_prompt: STRING
 
 	std_output: PLAIN_TEXT_FILE
 
-	string_pool: EL_STRING_POOL_SCOPE_CURSOR [STRING]
+	string_pool: EL_STRING_POOL [STRING]
 		-- recycled strings
 
 	tab_repeat_count: INTEGER

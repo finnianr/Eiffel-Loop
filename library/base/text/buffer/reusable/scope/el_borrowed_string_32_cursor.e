@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 8:08:11 GMT (Friday 18th August 2023)"
-	revision: "6"
+	date: "2023-11-06 18:31:07 GMT (Monday 6th November 2023)"
+	revision: "7"
 
 class
 	EL_BORROWED_STRING_32_CURSOR
@@ -39,7 +39,7 @@ feature -- Access
 
 	copied_item (general: READABLE_STRING_GENERAL): STRING_32
 		do
-			Result := item
+			Result := pooled_item (general.count)
 			if attached {ZSTRING} general as zstr then
 				zstr.append_to_string_32 (Result)
 
@@ -50,18 +50,19 @@ feature -- Access
 
 	sized_item (n: INTEGER): STRING_32
 		do
-			Result := item
-			Result.grow (n)
-			Result.set_count (n)
+			Result := pooled_item (n)
+			Result.grow (n); Result.set_count (n)
 		end
 
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_32
 		do
-			Result := item
+			Result := pooled_item (end_index - start_index + 1)
 			if attached {ZSTRING} general as zstr then
 				across Reuseable.string as reuse loop
-					reuse.item.append_substring (zstr, start_index, end_index)
-					reuse.item.append_to_string_32 (Result)
+					if attached reuse.item as l_item then
+						l_item.append_substring (zstr, start_index, end_index)
+						l_item.append_to_string_32 (Result)
+					end
 				end
 
 			elseif attached {READABLE_STRING_32} general as str_32 then

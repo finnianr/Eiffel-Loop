@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-21 7:49:06 GMT (Sunday 21st May 2023)"
-	revision: "20"
+	date: "2023-11-06 8:53:06 GMT (Monday 6th November 2023)"
+	revision: "21"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -18,6 +18,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_UNIX_IMPLEMENTATION
 
 	EL_CAPTURED_OS_COMMAND_IMP
 		rename

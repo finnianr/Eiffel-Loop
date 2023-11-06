@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-11-06 18:15:09 GMT (Monday 6th November 2023)"
+	revision: "9"
 
 class
 	EL_BORROWED_STRING_SCOPE [
@@ -18,31 +18,32 @@ class
 	]
 
 inherit
-	EL_BORROWED_OBJECT_SCOPE [S]
-		redefine
-			new_cursor
-		end
+	ITERABLE [S]
 
 create
-	make, make_default
+	make
 
 feature {NONE} -- Initialization
 
-	make_default
+	make (a_pool: like pool)
 		do
-			create {EL_STRING_FACTORY_POOL [S]} pool.make (8)
+			pool := a_pool
 		end
 
 feature -- Access
 
 	new_cursor: C
 		do
-			create Result.make (Current)
+			create Result.make (pool)
 		end
 
 	new_pool_scope: EL_STRING_POOL_SCOPE [S]
 		do
 			create Result.make (pool)
 		end
+
+feature {EL_BORROWED_STRING_CURSOR} -- Internal attributes
+
+	pool: EL_STRING_POOL [S]
 
 end

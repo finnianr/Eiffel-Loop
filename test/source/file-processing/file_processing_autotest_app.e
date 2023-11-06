@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-11 14:39:06 GMT (Wednesday 11th October 2023)"
-	revision: "20"
+	date: "2023-11-06 8:56:27 GMT (Monday 6th November 2023)"
+	revision: "21"
 
 class
 	FILE_PROCESSING_AUTOTEST_APP
@@ -26,7 +26,7 @@ inherit
 	EL_AUTOTEST_APPLICATION [
 		FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET,
 		FILE_SYNC_MANAGER_TEST_SET,
-		MUTEX_FILE_TEST_SET,
+		FILE_LOCKING_TEST_SET,
 		UUID_TEST_SET
 	]
 

@@ -6,7 +6,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 10:39:17 GMT (Monday 6th November 2023)"
+	date: "2023-11-06 8:48:59 GMT (Monday 6th November 2023)"
 	revision: "12"
 
 class
@@ -18,31 +18,15 @@ inherit
 feature {NONE} -- C Externals
 
 	frozen c_create_write_only (path: POINTER): INTEGER
-		require
-			not_null_pointer: is_attached (path)
-		external
-			"C inline use <unistd.h>"
-		alias
-			"open ((const char *)$path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)"
+		do
 		end
 
-	frozen c_aquire_lock (descriptor: INTEGER; fl: POINTER): INTEGER
-		require
-			valid_descriptor: descriptor /= -1
-			not_null_pointer: is_attached (fl)
-		external
-			"C inline use <fcntl.h>"
-		alias
-			"fcntl((int)$descriptor, F_SETLK, (struct flock*)$fl)"
+	frozen c_aquire_lock (f_descriptor: INTEGER; fl: POINTER): INTEGER
+		do
 		end
 
 	frozen c_close (descriptor: INTEGER): INTEGER
-		require
-			valid_descriptor: descriptor /= -1
-		external
-			"C (int): EIF_INTEGER | <unistd.h>"
-		alias
-			"close"
+		do
 		end
 
 	frozen c_file_truncate (descriptor, count: INTEGER): INTEGER
@@ -50,13 +34,7 @@ feature {NONE} -- C Externals
 			-- The ftruncate() function causes the regular file referenced by fildes to have a size of `count' bytes.
 			-- Upon successful completion, ftruncate() and truncate() return 0.
 			-- Otherwise a -1 is returned, and errno is set to indicate the error.
-
-		require
-			valid_descriptor: descriptor /= -1
-		external
-			"C (int, off_t): EIF_INTEGER | <unistd.h>"
-		alias
-			"ftruncate"
+		do
 		end
 
 	frozen c_write (descriptor: INTEGER; data: POINTER; byte_count: INTEGER): INTEGER
@@ -66,75 +44,54 @@ feature {NONE} -- C Externals
 		-- associated with the open file descriptor, fildes. If nbyte is 0, write() will return 0 and have no
 		-- other results if the file is a regular file; otherwise, the results are unspecified.
 		-- https://pubs.opengroup.org/onlinepubs/7908799/xsh/write.html
-
-		external
-			"C (int, const void *, size_t): EIF_INTEGER | <unistd.h>"
-		alias
-			"write"
+		do
 		end
 
 feature {NONE} -- C struct flock
 
 	frozen c_flock_struct_size: INTEGER
-		external
-			"C [macro <fcntl.h>]"
-		alias
-			"sizeof(struct flock)"
+		do
 		end
+
 
 	frozen c_set_flock_type (p: POINTER; type: INTEGER)
 			--
-		external
-			"C [struct <fcntl.h>] (struct flock, int)"
-		alias
-			"l_type"
+		do
 		end
 
 	frozen c_set_flock_whence (p: POINTER; v: INTEGER)
 			--
-		external
-			"C [struct <fcntl.h>] (struct flock, int)"
-		alias
-			"l_whence"
+		do
 		end
+
 
 	frozen c_set_flock_start (p: POINTER; v: INTEGER)
 			--
-		external
-			"C [struct <fcntl.h>] (struct flock, int)"
-		alias
-			"l_start"
+		do
 		end
+
 
 	frozen c_set_flock_length (p: POINTER; v: INTEGER)
 			--
-		external
-			"C [struct <fcntl.h>] (struct flock, int)"
-		alias
-			"l_len"
+		do
 		end
+
 
 feature {NONE} -- C macro constants
 
 	frozen c_file_write_lock: INTEGER
-		external
-			"C [macro <fcntl.h>]"
-		alias
-			"F_WRLCK"
+		do
 		end
+
 
 	frozen c_file_unlock: INTEGER
-		external
-			"C [macro <fcntl.h>]"
-		alias
-			"F_UNLCK"
+		do
 		end
 
+
 	frozen c_seek_set: INTEGER
-		external
-			"C [macro <fcntl.h>]"
-		alias
-			"SEEK_SET"
+		do
 		end
+
 
 end

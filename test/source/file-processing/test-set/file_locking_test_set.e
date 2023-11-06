@@ -1,16 +1,16 @@
 note
-	description: "Test [$source EL_LOCKABLE_TEXT_FILE]"
+	description: "Test file locking mutex classes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 14:33:28 GMT (Sunday 5th November 2023)"
-	revision: "4"
+	date: "2023-11-06 8:57:14 GMT (Monday 6th November 2023)"
+	revision: "5"
 
 class
-	MUTEX_FILE_TEST_SET
+	FILE_LOCKING_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-11-06 16:29:34 GMT (Monday 6th November 2023)"
+	revision: "13"
 
 class
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -24,29 +24,27 @@ create
 feature {NONE} -- Implementation
 
 	buffer_color_sequence (code: INTEGER; light: BOOLEAN)
-		local
-			sequence: STRING
 		do
-			sequence := extended_buffer_last
-			sequence.append (Escape_start)
-			if code = 0 then
-				sequence.append_integer (code)
-			else
-				sequence.append_integer (light.to_integer)
-				sequence.append_character (';')
-				sequence.append_integer (code)
+			if attached extended_buffer_last (26) as sequence then
+				sequence.append (Escape_start) -- 2
+				if code = 0 then
+					sequence.append_integer (code)
+				else
+					sequence.append_integer (light.to_integer) -- 11
+					sequence.append_character (';') -- 1
+					sequence.append_integer (code) -- 11
+				end
+				sequence.append_character ('m') -- 1
 			end
-			sequence.append_character ('m')
 		end
 
 	clear
-		local
-			sequence: STRING
 		do
-			sequence := extended_buffer_last
-			across Clear_codes as code loop
-				sequence.append (Escape_start)
-				sequence.append (code.item)
+			if attached extended_buffer_last (12) as sequence then
+				across Clear_codes as code loop
+					sequence.append (Escape_start) -- 2 x 2
+					sequence.append (code.item) -- 4 x 2
+				end
 			end
 		end
 
@@ -61,13 +59,12 @@ feature {NONE} -- Implementation
 
 	move_cursor_up (n: INTEGER)
 		-- move cursor up `n' lines (Linux only)
-		local
-			sequence: STRING
 		do
-			sequence := extended_buffer_last
-			sequence.append (Escape_start)
-			sequence.append_integer (n)
-			sequence.append_character ('A')
+			if attached extended_buffer_last (14) as sequence then
+				sequence.append (Escape_start) -- 2
+				sequence.append_integer (n) -- 11
+				sequence.append_character ('A') -- 1
+			end
 		end
 
 	is_escape_sequence (seq: READABLE_STRING_8): BOOLEAN

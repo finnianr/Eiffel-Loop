@@ -7,11 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-11-06 16:01:38 GMT (Monday 6th November 2023)"
+	revision: "9"
 
 class
 	EL_REUSEABLE_STRINGS
+
+inherit
+	ANY
+
+	EL_SHARED_STRING_POOLS
 
 create
 	make
@@ -20,13 +25,13 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			create string.make_default
+			create string.make (Shared_string_pool)
 			string_pool := string.new_pool_scope
 
-			create string_8.make_default
+			create string_8.make (Shared_string_pool_8)
 			string_8_pool := string_8.new_pool_scope
 
-			create string_32.make_default
+			create string_32.make (Shared_string_pool_32)
 			string_32_pool := string_32.new_pool_scope
 		end
 

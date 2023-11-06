@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:17:55 GMT (Saturday 29th April 2023)"
-	revision: "51"
+	date: "2023-11-06 15:07:17 GMT (Monday 6th November 2023)"
+	revision: "52"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -84,7 +84,7 @@ feature -- Tests
 		end
 
 	test_conversion_to_xml
-			--
+		-- PYXIS_TO_XML_TEST_SET.test_conversion_to_xml
 		local
 			name, file_name, style_text, style_xpath: STRING; checksum: NATURAL; xsl_doc: EL_XML_DOC_CONTEXT
 			count: INTEGER
