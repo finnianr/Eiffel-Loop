@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 8:40:08 GMT (Friday 23rd December 2022)"
-	revision: "17"
+	date: "2023-11-08 13:54:36 GMT (Wednesday 8th November 2023)"
+	revision: "18"
 
 class
 	PP_DATE_TIME
@@ -66,8 +66,8 @@ feature {NONE} -- Implementation
 	selected_format (s: STRING): STRING
 		do
 			if s.has ('(') and then s.has (')') then
-				across Reuseable.string_8 as reuse loop
-					if attached reuse.item as week_day then
+				across String_8_scope as scope loop
+					if attached scope.item as week_day then
 						week_day.append_substring (s, 1, 3)
 						week_day.to_upper
 						if Date_time.Days_text.has (week_day) then

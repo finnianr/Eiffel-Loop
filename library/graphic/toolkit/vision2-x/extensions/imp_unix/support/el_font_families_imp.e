@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-05 14:56:30 GMT (Thursday 5th October 2023)"
-	revision: "2"
+	date: "2023-11-08 14:17:27 GMT (Wednesday 8th November 2023)"
+	revision: "3"
 
 class
 	EL_FONT_FAMILIES_IMP
@@ -45,8 +45,8 @@ feature {NONE} -- Implementation
 
 	is_true_type (true_type_set: EL_HASH_SET [ZSTRING]; family: STRING_32): BOOLEAN
 		do
-			across Reuseable.string as reuse loop
-				if attached reuse.copied_item (family) as name then
+			across String_scope as scope loop
+				if attached scope.copied_item (family) as name then
 					name.prune_all (' ')
 					Result := true_type_set.has (name)
 				end

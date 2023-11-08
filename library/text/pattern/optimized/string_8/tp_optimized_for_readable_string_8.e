@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:25:36 GMT (Saturday 3rd December 2022)"
-	revision: "4"
+	date: "2023-11-08 14:00:54 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 deferred class
 	TP_OPTIMIZED_FOR_READABLE_STRING_8
@@ -18,6 +18,8 @@ inherit
 	TP_SHARED_OPTIMIZED_FACTORY
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Implementation
 

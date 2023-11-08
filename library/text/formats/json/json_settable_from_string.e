@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 9:46:05 GMT (Sunday 12th March 2023)"
-	revision: "36"
+	date: "2023-11-08 10:34:57 GMT (Wednesday 8th November 2023)"
+	revision: "37"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -27,13 +27,11 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-	EL_MODULE_REUSEABLE
-
 	EL_MODULE_NAMING
 
 	JSON_CONSTANTS
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -59,7 +57,7 @@ feature -- Access
 		local
 			str, value: ZSTRING
 		do
-			across Reuseable.string_pool as pool loop
+			across String_pool_scope as pool loop
 				str := pool.borrowed_item; value := pool.borrowed_item
 				str.append (JSON.open_bracket)
 				across field_table as table loop

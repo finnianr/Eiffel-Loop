@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:49:22 GMT (Thursday 17th August 2023)"
-	revision: "32"
+	date: "2023-11-08 10:29:42 GMT (Wednesday 8th November 2023)"
+	revision: "33"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -17,9 +17,9 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_MODULE_REUSEABLE
-
 	EL_CHARACTER_8_CONSTANTS
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature -- Status
 
@@ -350,8 +350,8 @@ feature -- String output
 				if field_value.count > max_length then
 					leading_count := (max_length * 0.8).rounded; trailing_count := (max_length * 0.2).rounded
 
-					across Reuseable.string as reuse loop
-						if attached reuse.substring_item (field_value, 1, leading_count) as str then
+					across String_scope as scope loop
+						if attached scope.substring_item (field_value, 1, leading_count) as str then
 							str.right_adjust
 							str.append_string (Ellipisis_break)
 							str.append_from_right_general (field_value, trailing_count)

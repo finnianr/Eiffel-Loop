@@ -15,16 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 10:12:59 GMT (Friday 23rd December 2022)"
-	revision: "8"
+	date: "2023-11-08 13:54:22 GMT (Wednesday 8th November 2023)"
+	revision: "9"
 
 deferred class
 	EL_TIME_DATE_I
 
 inherit
 	EL_MODULE_DATE_TIME
-
-	EL_MODULE_REUSEABLE
 
 	EL_APPENDABLE_TO_STRING_GENERAL
 		rename
@@ -33,12 +31,14 @@ inherit
 			copy, is_equal, out
 		end
 
+	EL_SHARED_STRING_8_BUFFER_SCOPES
+
 feature {NONE} -- Initialization
 
 	make_with_format (s: STRING; format: STRING)
 		do
-			across Reuseable.string_8 as reuse loop
-				if attached reuse.item as str then
+			across String_8_scope as scope loop
+				if attached scope.item as str then
 					str.append (s)
 					if attached Factory.date_time_parser (format) as parser then
 						parser.parse_source (str)
@@ -52,8 +52,8 @@ feature -- Access
 
 	formatted_out (format: STRING): STRING
 		do
-			across Reuseable.string_8 as reuse loop
-				if attached reuse.item as str then
+			across String_8_scope as scope loop
+				if attached scope.item as str then
 					append_to (str, format)
 					Result := str.twin
 				end
@@ -72,9 +72,11 @@ feature -- Basic operations
 			if attached {STRING_8} general as str_8 then
 				append_to_string_8 (str_8, format)
 			else
-				across Reuseable.string_8 as reuse loop
-					append_to_string_8 (reuse.item, format)
-					general.append (reuse.item)
+				across String_8_scope as scope loop
+					if attached scope.item as str then
+						append_to_string_8 (str, format)
+						general.append (str)
+					end
 				end
 			end
 		end
@@ -102,8 +104,8 @@ feature -- Contract support
 
 	input_valid (s: STRING; format: STRING): BOOLEAN
 		do
-			across Reuseable.string_8 as reuse loop
-				if attached reuse.item as str then
+			across String_8_scope as scope loop
+				if attached scope.item as str then
 					str.append (s); str.to_upper
 					Result := upper_input_valid (str, format)
 				end

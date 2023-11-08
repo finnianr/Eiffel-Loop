@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "13"
+	date: "2023-11-08 14:24:38 GMT (Wednesday 8th November 2023)"
+	revision: "14"
 
 class
 	COM_OBJECT
@@ -21,7 +21,7 @@ inherit
 
 	EL_OWNED_CPP_OBJECT
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 feature {NONE}  -- Initialization
 
@@ -48,9 +48,9 @@ feature {NONE} -- Implementation
 			create output.make_empty (max_size)
 			last_status := get_c_string (self_ptr, output.item, max_size)
 			if last_status = 0 then
-				across Reuseable.string_32 as reuse loop
-					c.utf_16_0_pointer_into_escaped_string_32 (output.managed_data, reuse.item)
-					Result := reuse.item
+				across String_32_scope as scope loop
+					c.utf_16_0_pointer_into_escaped_string_32 (output.managed_data, scope.item)
+					Result := scope.item
 				end
 			else
 				create Result.make_empty
@@ -61,9 +61,9 @@ feature {NONE} -- Implementation
 		local
 			c: EL_UTF_CONVERTER; value_utf_16: SPECIAL [NATURAL_16]
 		do
-			across Reuseable.string_32 as reuse loop
-				value.append_to_string_32 (reuse.item)
-				value_utf_16 := c.utf_32_string_to_utf_16_0 (reuse.item)
+			across String_32_scope as scope loop
+				value.append_to_string_32 (scope.item)
+				value_utf_16 := c.utf_32_string_to_utf_16_0 (scope.item)
 			end
 			last_status := set_c_string (self_ptr, value_utf_16.base_address)
 		end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:49:46 GMT (Thursday 17th August 2023)"
-	revision: "23"
+	date: "2023-11-08 10:35:59 GMT (Wednesday 8th November 2023)"
+	revision: "24"
 
 class
 	EL_HTML_ROUTINES
@@ -15,7 +15,9 @@ class
 inherit
 	EL_MARKUP_ROUTINES
 
-	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE; EL_MODULE_XML
+	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_XML
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature -- Access
 
@@ -80,7 +82,7 @@ feature -- Access
 			if line.has ('&') and then line.has (';')
 				and then attached Utf_8_character_entity_table as table
 			then
-				across Reuseable.string_pool as pool loop
+				across String_pool_scope as pool loop
 					entity_name := pool.borrowed_item
 					entity :=  pool.borrowed_item
 					across pool.filled_borrowed_item (line).split ('&') as split loop

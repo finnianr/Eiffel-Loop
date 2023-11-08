@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 17:27:12 GMT (Sunday 13th August 2023)"
-	revision: "25"
+	date: "2023-11-08 13:52:15 GMT (Wednesday 8th November 2023)"
+	revision: "26"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -26,7 +26,7 @@ inherit
 			{ANY} has, has_type, found_item
 		end
 
-	EL_MODULE_EIFFEL; EL_MODULE_NAMING; EL_MODULE_REUSEABLE
+	EL_MODULE_EIFFEL; EL_MODULE_NAMING
 
 	EL_MODULE_TUPLE
 		rename
@@ -34,6 +34,10 @@ inherit
 		end
 
 	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES
+
+
 
 create
 	make
@@ -246,12 +250,12 @@ feature -- Basic operations
 					Result := factory.new_item (general)
 
 				elseif attached {READABLE_STRING_8} str as str_8 then
-					across Reuseable.string_8 as reuse loop
-						Result := factory.new_item (reuse.copied_item (str_8))
+					across String_8_scope as scope loop
+						Result := factory.new_item (scope.copied_item (str_8))
 					end
 				elseif attached {READABLE_STRING_32} str as str_32 then
-					across Reuseable.string_32 as reuse loop
-						Result := factory.new_item (reuse.copied_item (str_32))
+					across String_32_scope as scope loop
+						Result := factory.new_item (scope.copied_item (str_32))
 					end
 				end
 			end

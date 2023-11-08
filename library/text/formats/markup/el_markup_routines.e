@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 15:24:49 GMT (Wednesday 2nd August 2023)"
-	revision: "15"
+	date: "2023-11-08 13:46:43 GMT (Wednesday 8th November 2023)"
+	revision: "16"
 
 class
 	EL_MARKUP_ROUTINES
@@ -16,8 +16,6 @@ inherit
 	ANY
 
 	XML_ZSTRING_CONSTANTS
-
-	EL_MODULE_REUSEABLE
 
 feature -- Access
 

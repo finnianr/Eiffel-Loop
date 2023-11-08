@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 14:01:42 GMT (Tuesday 31st October 2023)"
-	revision: "23"
+	date: "2023-11-08 16:39:26 GMT (Wednesday 8th November 2023)"
+	revision: "24"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -22,7 +22,7 @@ inherit
 
 	COUNTRY_TEST_DATA
 
-	EL_SHARED_CURRENCY_ENUM
+	EL_SHARED_CURRENCY_ENUM; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -167,11 +167,13 @@ feature {NONE} -- Implementation
 
 	new_test_storable (str: STRING_32): TEST_STORABLE
 		local
-			byte_array: EL_BYTE_ARRAY; zstr: ZSTRING; uuid: EL_UUID
-			time: EL_TIME
+			byte_array: EL_BYTE_ARRAY; uuid: EL_UUID; time: EL_TIME
 		do
-			zstr := str
-			create byte_array.make_from_string (zstr.to_utf_8 (False))
+			across String_8_scope as scope loop
+				if attached scope.copied_utf_8_item (str) as l_utf_8 then
+					create byte_array.make_from_string (l_utf_8)
+				end
+			end
 			uuid := byte_array.to_uuid
 			create time.make_from_string ("3:08:01.947 PM")
 

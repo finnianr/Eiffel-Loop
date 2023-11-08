@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:31:16 GMT (Monday 10th July 2023)"
-	revision: "18"
+	date: "2023-11-08 10:31:07 GMT (Wednesday 8th November 2023)"
+	revision: "19"
 
 class
 	TB_SUBJECT_LINE_DECODER
@@ -27,9 +27,11 @@ inherit
 			make_default as make
 		end
 
-	EL_MODULE_BASE_64; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
+	EL_MODULE_BASE_64; EL_MODULE_TUPLE
 
 	STRING_HANDLER
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -58,8 +60,8 @@ feature -- Access
 				set_latin_encoding (1)
 				latin_str := line
 			end
-			across Reuseable.string as reuse loop
-				Result := reuse.item
+			across String_scope as scope loop
+				Result := scope.item
 				Result.append_encoded (latin_str, encoding)
 				Result := Result.twin
 			end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:33:50 GMT (Thursday 17th August 2023)"
-	revision: "11"
+	date: "2023-11-08 15:30:38 GMT (Wednesday 8th November 2023)"
+	revision: "12"
 
 class
 	XML_TEXT_ELEMENT
@@ -52,17 +52,22 @@ feature -- Access
 
 	to_string: ZSTRING
 		do
-			Result := buffer.copied (open)
-			if internal_attribute_list.count > 0 then
-				Result.remove_tail (1)
-				across internal_attribute_list as list loop
-					Result.append_character (' ')
-					Result.append (list.item.to_string (False))
+			across String_scope as scope loop
+				if attached scope.item as str then
+					str.append (open)
+					if internal_attribute_list.count > 0 then
+						str.remove_tail (1)
+						across internal_attribute_list as list loop
+							str.append_character (' ')
+							str.append (list.item.to_string (False))
+						end
+						str.append_character ('>')
+					end
+					str.append (text)
+					str.append (closed)
+					Result := str.twin
 				end
-				Result.append_character ('>')
 			end
-			Result.append (text)
-			Result.append (closed)
 		end
 
 feature -- Basic operations

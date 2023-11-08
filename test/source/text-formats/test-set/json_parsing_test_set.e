@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:21:42 GMT (Tuesday 15th August 2023)"
-	revision: "32"
+	date: "2023-11-08 16:31:29 GMT (Wednesday 8th November 2023)"
+	revision: "33"
 
 class
 	JSON_PARSING_TEST_SET
@@ -56,7 +56,7 @@ feature -- Tests
 			crc: like crc_generator
 		do
 			crc := crc_generator
-			create list.make (JSON_price.to_utf_8 (True))
+			create list.make (JSON_price.to_utf_8)
 			from list.start until list.after loop
 				crc.add_string (list.item_name (False))
 				crc.add_string (list.item_value (False))
@@ -189,7 +189,7 @@ feature -- Tests
 		local
 			list: JSON_NAME_VALUE_LIST
 		do
-			create list.make (JSON_price.to_utf_8 (True))
+			create list.make (JSON_price.to_utf_8)
 			from list.start until list.after loop
 				inspect list.index
 					when 1 then
@@ -210,7 +210,7 @@ feature -- Tests
 		local
 			person: PERSON
 		do
-			create person.make_from_json (JSON_person.to_utf_8 (True))
+			create person.make_from_json (JSON_person.to_utf_8)
 
 			assert_same_string ("same name", person.name, "John Smith")
 			assert_same_string ("Correct city", person.city, "New York")
@@ -228,7 +228,7 @@ feature -- Tests
 			currency, euro: JSON_CURRENCY
 		do
 			create euro.make ("Euro", {STRING_32}"€", "EUR")
-			create currency.make_from_json (euro.as_json.to_utf_8 (True))
+			create currency.make_from_json (euro.as_json.to_utf_8)
 			assert ("same value", euro ~ currency)
 		end
 

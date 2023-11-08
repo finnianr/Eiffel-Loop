@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 10:00:35 GMT (Friday 25th August 2023)"
-	revision: "29"
+	date: "2023-11-08 10:03:50 GMT (Wednesday 8th November 2023)"
+	revision: "30"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -21,11 +21,11 @@ inherit
 			set_from_memory, set_from_string, to_string, write
 		end
 
-	EL_MODULE_CONVERT_STRING; EL_MODULE_REUSEABLE
+	EL_MODULE_CONVERT_STRING
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_CLASS_ID; EL_SHARED_NEW_INSTANCE_TABLE
+	EL_SHARED_CLASS_ID; EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -265,9 +265,11 @@ feature {NONE} -- Implementation
 				Result := path.to_string
 
 			elseif attached reader_writer as writer then
-				across Reuseable.string as reuse loop
-					writer.write (item, reuse.item)
-					Result := reuse.item.twin
+				across String_scope as scope loop
+					if attached scope.item as str then
+						writer.write (item, str)
+						Result := str.twin
+					end
 				end
 			else
 				Result := item.out

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 16:36:08 GMT (Monday 6th November 2023)"
-	revision: "33"
+	date: "2023-11-08 10:13:34 GMT (Wednesday 8th November 2023)"
+	revision: "34"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -36,7 +36,7 @@ feature -- Initialization
 			create buffer_indices.make (30)
 			create index_label_table.make (7)
 			create new_line_prompt.make_from_string ("%N")
-			string_pool := Shared_string_pool_8
+			string_pool := Shared_string_8_pool
 			std_output := io.Output
 		end
 
@@ -270,7 +270,7 @@ feature -- Basic operations
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out
-			string_pool.return_list (buffer_indices)
+			string_pool.free_list (buffer_indices)
 		end
 
 feature {NONE} -- Implementation

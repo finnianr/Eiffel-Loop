@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:28:07 GMT (Saturday 3rd December 2022)"
-	revision: "4"
+	date: "2023-11-08 10:00:11 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 deferred class
 	TP_OPTIMIZED_FOR_ZSTRING
@@ -27,6 +27,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature {NONE} -- Implementation
 

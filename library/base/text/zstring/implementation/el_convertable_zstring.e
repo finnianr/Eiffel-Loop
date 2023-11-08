@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-20 12:03:25 GMT (Friday 20th October 2023)"
-	revision: "54"
+	date: "2023-11-08 17:06:07 GMT (Wednesday 8th November 2023)"
+	revision: "55"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -22,16 +22,14 @@ inherit
 
 	EL_WRITEABLE_ZSTRING
 
-	EL_MODULE_BUFFER_8
-
-	EL_SHARED_IMMUTABLE_8_MANAGER
+	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature -- To Strings
 
 	as_encoded_8 (a_codec: EL_ZCODEC): STRING
 		do
 			if a_codec.encoded_as_utf (8) then
-				Result := current_readable.to_utf_8 (True)
+				Result := current_readable.to_utf_8
 			else
 				create Result.make (count)
 				Result.set_count (count)
@@ -144,53 +142,14 @@ feature -- To Strings
 			end
 		end
 
-	to_utf_8 (keep_ref: BOOLEAN): STRING
+	to_utf_8: STRING
 		-- converted to UTF-8 encoding
-		-- use `keep_ref = True' if keeping a reference to `Result'
-		local
-			sequence: like Utf_8_sequence; buffer: like buffer_8
-			c_8: EL_CHARACTER_8_ROUTINES; l_area: like area
-			i, i_upper, block_index: INTEGER; l_codec: like codec; c_i: CHARACTER
-			area_32: like unencoded_area; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			sequence := Utf_8_sequence; buffer := buffer_8; l_area := area
-			Result := buffer.empty
-			if has_mixed_encoding then
-				i_upper := area_upper
-				l_codec := codec; area_32 := unencoded_area
-				from i := area_lower until i > i_upper loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						sequence.set (iter.item ($block_index, area_32, i + 1))
-						sequence.append_to_string (Result)
-					elseif c_i <= Max_7_bit_character then
-						Result.extend (c_i)
-					else
-						sequence.set (l_codec.unicode_table [c_i.code])
-						sequence.append_to_string (Result)
-					end
-					i := i + 1
+			across String_8_scope as scope loop
+				if attached scope.best_item (count) as utf_8 then
+					append_to_utf_8 (utf_8)
+					Result := utf_8.twin
 				end
-			elseif c_8.is_ascii_area (area, area_lower, area_upper) then
-				Result.grow (count)
-				Result.area.copy_data (l_area, area_lower, 0, count)
-				Result.area [count] := '%U'
-				Result.set_count (count)
-			else
-				i_upper := area_upper; l_codec := codec
-				from i := area_lower until i > i_upper loop
-					c_i := l_area [i]
-					if c_i <= Max_7_bit_character then
-						Result.extend (c_i)
-					else
-						sequence.set (l_codec.unicode_table [c_i.code])
-						sequence.append_to_string (Result)
-					end
-					i := i + 1
-				end
-			end
-			if keep_ref then
-				Result := Result.twin
 			end
 		end
 

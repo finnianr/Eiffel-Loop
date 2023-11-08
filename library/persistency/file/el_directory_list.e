@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 11:37:07 GMT (Monday 5th December 2022)"
-	revision: "9"
+	date: "2023-11-08 13:42:33 GMT (Wednesday 8th November 2023)"
+	revision: "10"
 
 class
 	EL_DIRECTORY_LIST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ARRAYED_LIST [EL_DIRECTORY]
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 create
 	make
@@ -24,17 +24,17 @@ feature -- Status query
 
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			across Reuseable.string_32 as reuse loop
+			across String_32_scope as scope loop
 --				Optimum to use {STRING_32}
-				Result := there_exists (agent {EL_DIRECTORY}.has_executable (reuse.copied_item (a_name)))
+				Result := there_exists (agent {EL_DIRECTORY}.has_executable (scope.copied_item (a_name)))
 			end
 		end
 
 	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			across Reuseable.string_32 as reuse loop
+			across String_32_scope as scope loop
 --				Optimum to use {STRING_32}
-				Result := there_exists (agent {EL_DIRECTORY}.has_file_name (reuse.copied_item (a_name)))
+				Result := there_exists (agent {EL_DIRECTORY}.has_file_name (scope.copied_item (a_name)))
 			end
 		end
 

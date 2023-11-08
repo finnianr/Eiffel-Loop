@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 17:45:36 GMT (Saturday 26th August 2023)"
-	revision: "2"
+	date: "2023-11-08 16:25:49 GMT (Wednesday 8th November 2023)"
+	revision: "3"
 
 class
 	EL_PYXIS_FTP_CONFIGURATION
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 			if attached open_lines (file_path, Utf_8) as config_lines then
 				do_with_lines (agent find_encrypted_url, config_lines)
 			end
-			make_from_string (pyxis_lines.joined_lines.to_utf_8 (True))
+			make_from_string (pyxis_lines.joined_lines.to_utf_8)
 		ensure
 			encrypted_url_found: encrypted_url_found
 		end

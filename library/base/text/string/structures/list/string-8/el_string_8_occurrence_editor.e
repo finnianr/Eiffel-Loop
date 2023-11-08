@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 7:25:16 GMT (Monday 7th August 2023)"
-	revision: "4"
+	date: "2023-11-08 10:19:02 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 class
 	EL_STRING_8_OCCURRENCE_EDITOR
 
 inherit
 	EL_OCCURRENCE_EDITOR [STRING_8]
+		rename
+			string_scope as string_8_scope
 		undefine
 			bit_count, same_i_th_character
 		redefine
@@ -49,11 +51,6 @@ feature {NONE} -- Implementation
 	default_target: STRING_8
 		do
 			Result := Empty_string_8
-		end
-
-	reuseable_scope: like Reuseable.string_8
-		do
-			Result := Reuseable.string_8
 		end
 
 	same_i_th_character (a_target: STRING_8; i: INTEGER; uc: CHARACTER_32): BOOLEAN

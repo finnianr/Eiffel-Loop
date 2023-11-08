@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 15:58:10 GMT (Wednesday 4th October 2023)"
-	revision: "42"
+	date: "2023-11-08 14:52:55 GMT (Wednesday 8th November 2023)"
+	revision: "43"
 
 class
 	EL_RENDERED_TEXT_ROUTINES
@@ -27,9 +27,7 @@ inherit
 
 	EV_FONT_CONSTANTS
 
-	EL_MODULE_REUSEABLE
-
-	EL_SHARED_DEFAULT_PIXMAPS
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -101,8 +99,8 @@ feature -- Contract support
 
 	is_word_wrappable (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
-			across Reuseable.string as reuse loop
-				Result := across reuse.same_item (a_text).split ('%N') as line all
+			across String_scope as scope loop
+				Result := across scope.same_item (a_text).split ('%N') as line all
 					all_words_fit_width (line.item, a_font, a_width)
 				end
 			end
@@ -124,8 +122,8 @@ feature -- Measurement
 
 	string_width (string: READABLE_STRING_GENERAL; a_font: EV_FONT): INTEGER
 		do
-			across Reuseable.string_32 as reuse loop
-				Result := a_font.string_width (reuse.same_item (string))
+			across String_32_scope as scope loop
+				Result := a_font.string_width (scope.same_item (string))
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 17:50:41 GMT (Sunday 16th July 2023)"
-	revision: "8"
+	date: "2023-11-08 13:55:06 GMT (Wednesday 8th November 2023)"
+	revision: "9"
 
 deferred class
 	EL_VTD_NATIVE_XPATH_I [T]
@@ -17,8 +17,6 @@ inherit
 		export
 			{NONE} area
 		end
-
-	EL_MODULE_REUSEABLE
 
 	EL_STRING_32_CONSTANTS
 

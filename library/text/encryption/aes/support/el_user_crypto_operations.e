@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 10:38:21 GMT (Saturday 26th August 2023)"
-	revision: "3"
+	date: "2023-11-08 16:24:27 GMT (Wednesday 8th November 2023)"
+	revision: "4"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 		local
 			utf_text: STRING
 		do
-			utf_text := a_text.to_utf_8 (True)
+			utf_text := a_text.to_utf_8
 			utf_text.replace_substring_all (Escaped_new_line, new_line * 1)
 
 			if eiffel_array_output then

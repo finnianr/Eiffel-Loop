@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 16:41:41 GMT (Monday 6th November 2023)"
-	revision: "15"
+	date: "2023-11-08 10:33:25 GMT (Wednesday 8th November 2023)"
+	revision: "16"
 
 class
 	STRING_TEST_SET
@@ -15,9 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_LIO; EL_MODULE_REUSEABLE
+	EL_MODULE_LIO
 
-	EL_SHARED_TEST_TEXT
+	EL_SHARED_TEST_TEXT; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -73,20 +73,20 @@ feature -- Tests
 		local
 			s1, s2, s3, s4: ZSTRING
 		do
-			across Reuseable.string as reuse loop
-				s1 := reuse.item
+			across String_scope as scope loop
+				s1 := scope.item
 				assert ("empty string", s1.is_empty)
 				s1.append_string_general ("abc")
-				across Reuseable.string as reuse2 loop
-					s3 := reuse2.item
+				across String_scope as scope_inner loop
+					s3 := scope_inner.item
 					assert ("s3 is new instance", s1 /= s3)
 				end
 			end
-			across Reuseable.string as reuse loop
-				s2 := reuse.item
+			across String_scope as scope loop
+				s2 := scope.item
 				assert ("empty string", s2.is_empty)
-				across Reuseable.string as reuse2 loop
-					s4 := reuse2.item
+				across String_scope as scope_inner loop
+					s4 := scope_inner.item
 				end
 			end
 			assert ("instance recycled", s1 = s2)
@@ -153,14 +153,14 @@ feature -- Tests
 						end
 						if loan_indices.full then
 							old_count := pool.available_count
-							pool.return_list (loan_indices)
+							pool.free_list (loan_indices)
 							assert ("returned available", pool.available_count = old_count + loan_indices.capacity)
 						end
 					end
 					old_count := pool.available_count
 					old_indices_count := loan_indices.count
 					assert ("valid indices", loan_indices.for_all (agent pool.valid_index))
-					pool.return_list (loan_indices)
+					pool.free_list (loan_indices)
 					assert ("loan_indices empty", loan_indices.is_empty)
 					assert ("all returned", pool.available_count = old_count + old_indices_count)
 				end

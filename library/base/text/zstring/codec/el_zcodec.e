@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-29 10:18:06 GMT (Tuesday 29th August 2023)"
-	revision: "55"
+	date: "2023-11-08 17:03:20 GMT (Wednesday 8th November 2023)"
+	revision: "56"
 
 deferred class
 	EL_ZCODEC
@@ -468,8 +468,8 @@ feature -- Encoding operations
 			i, count: INTEGER; string_8: STRING
 		do
 			count := unicode_in.count
-			across Reuseable.string_8 as reuse loop
-				string_8 := reuse.sized_item (count)
+			across String_8_scope as scope loop
+				string_8 := scope.best_item (count)
 				if attached string_8.area as l_area then
 					encode_as_string_8 (unicode_in, l_area, 0)
 					from i := 0 until i = count loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 9:16:58 GMT (Tuesday 15th August 2023)"
-	revision: "23"
+	date: "2023-11-08 16:30:23 GMT (Wednesday 8th November 2023)"
+	revision: "24"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_OS
 
-	EL_SHARED_DIGESTS; EL_SHARED_TEST_CRC
+	EL_SHARED_DIGESTS; EL_SHARED_TEST_CRC; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -64,7 +64,9 @@ feature {NONE} -- Implementation
 				eqa_assert (a_tag.to_string_8, a_condition)
 
 			elseif attached {EL_READABLE_ZSTRING} a_tag as zstr then
-				eqa_assert (zstr.to_utf_8 (False), a_condition)
+				across String_8_scope as scope loop
+					eqa_assert (scope.copied_utf_8_item (zstr), a_condition)
+				end
 			else
 				eqa_assert (utf.utf_32_string_to_utf_8_string_8 (a_tag), a_condition)
 			end

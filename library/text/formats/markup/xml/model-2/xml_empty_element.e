@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:56:28 GMT (Thursday 5th January 2023)"
-	revision: "19"
+	date: "2023-11-08 15:27:40 GMT (Wednesday 8th November 2023)"
+	revision: "20"
 
 class
 	XML_EMPTY_ELEMENT
@@ -18,9 +18,11 @@ inherit
 			write, copy, is_equal
 		end
 
+	EL_MODULE_ITERABLE
+
 	XML_ZSTRING_CONSTANTS
 
-	EL_MODULE_ITERABLE
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -128,21 +130,24 @@ feature {NONE} -- Implementation
 
 	write_open_element (medium: EL_OUTPUT_MEDIUM)
 		local
-			l_string: ZSTRING; escaper: like Xml_escaper
+			escaper: like Xml_escaper
 		do
 			if attribute_count > 0 then
-				l_string := buffer.copied_substring (open, 1, name_end_index)
-				if medium.encoded_as_latin (1) then
-					escaper := Xml_128_plus_escaper
-				else
-					escaper := Xml_escaper
+				across String_scope as scope loop
+					if attached scope.substring_item (open, 1, name_end_index) as str then
+						if medium.encoded_as_latin (1) then
+							escaper := Xml_128_plus_escaper
+						else
+							escaper := Xml_escaper
+						end
+						across internal_attribute_list as attrib loop
+							str.append_character (' ')
+							str.append (attrib.item.escaped (escaper, False))
+						end
+						str.append_substring (open, name_end_index + 1, open.count)
+						medium.put_string (str)
+					end
 				end
-				across internal_attribute_list as attrib loop
-					l_string.append_character (' ')
-					l_string.append (attrib.item.escaped (escaper, False))
-				end
-				l_string.append_substring (open, name_end_index + 1, open.count)
-				medium.put_string (l_string)
 			else
 				medium.put_string (open)
 			end

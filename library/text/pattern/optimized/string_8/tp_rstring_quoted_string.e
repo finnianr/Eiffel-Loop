@@ -8,28 +8,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:26:26 GMT (Saturday 3rd December 2022)"
-	revision: "4"
+	date: "2023-11-08 14:09:18 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 deferred class
 	TP_RSTRING_QUOTED_STRING
 
 inherit
 	TP_QUOTED_STRING
+		rename
+			string_scope as string_8_scope
 		undefine
-			core
+			core, string_8_scope
 		redefine
-			buffer_scope, default_unescaped_string, i_th_code
+			default_unescaped_string, i_th_code
 		end
 
 	TP_OPTIMIZED_FOR_READABLE_STRING_8
 
 feature {NONE} -- Implementation
-
-	buffer_scope: like Reuseable.string_8
-		do
-			Result := Reuseable.string_8
-		end
 
 	default_unescaped_string: STRING_GENERAL
 		do

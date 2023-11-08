@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-11-08 17:23:52 GMT (Wednesday 8th November 2023)"
+	revision: "8"
 
 class
 	EL_PYXIS_LINE
@@ -28,28 +28,8 @@ inherit
 
 	EL_PYXIS_PARSER_CONSTANTS
 
-	EL_MODULE_BUFFER_8
-
 create
 	make_empty
-
-feature -- Access
-
-	element_name: detachable STRING
-		-- name of element (tag) or `Void' if not a tag name
-		do
-			if is_element then
-				Result := Buffer_8.copied_substring (Current, start_index, end_index - 1)
-			end
-		end
-
-	xml_element: STRING
-		local
-			s_8: EL_STRING_8_ROUTINES
-		do
-			Result := Buffer_8.copied_substring (Current, start_index, end_index - 1)
-			s_8.replace_character (Result, '.', ':')
-		end
 
 feature -- Measurement
 
@@ -92,16 +72,6 @@ feature -- Measurement
 	start_index: INTEGER
 
 feature -- Element change
-
-	tab_left
-		-- remove first tab
-		require
-			has_tabs: indent_count > 0
-		do
-			remove_head (1)
-			start_index := start_index - 1
-			end_index := end_index - 1
-		end
 
 	rename_element (tag_name: STRING)
 		local
@@ -151,6 +121,16 @@ feature -- Element change
 			else
 				set_start_index (cursor_8 (line).leading_occurrences ('%T') + 1)
 			end
+		end
+
+	tab_left
+		-- remove first tab
+		require
+			has_tabs: indent_count > 0
+		do
+			remove_head (1)
+			start_index := start_index - 1
+			end_index := end_index - 1
 		end
 
 feature -- Basic operations
@@ -223,12 +203,37 @@ feature -- Status query
 
 	is_double: BOOLEAN
 		do
-			 Result := Buffer_8.copied_substring (Current, start_index, end_index).is_double
+			 Result := Buffer.copied_substring (Current, start_index, end_index).is_double
 		end
 
 	is_element: BOOLEAN
 		do
 			Result := count > 1 and then area [end_index - 1] = ':'
+		end
+
+feature {EL_PYXIS_PARSER} -- Implementation
+
+	element_name: detachable STRING
+		-- name of element (tag) or `Void' if not a tag name
+		do
+			if is_element then
+				Result := Buffer.copied_substring (Current, start_index, end_index - 1)
+			end
+		end
+
+	xml_element: STRING
+		local
+			s_8: EL_STRING_8_ROUTINES
+		do
+			Result := Buffer.copied_substring (Current, start_index, end_index - 1)
+			s_8.replace_character (Result, '.', ':')
+		end
+
+feature {NONE} -- Constants
+
+	Buffer: EL_STRING_8_BUFFER
+		once
+			create Result
 		end
 
 end

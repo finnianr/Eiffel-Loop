@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:28:40 GMT (Saturday 3rd December 2022)"
-	revision: "4"
+	date: "2023-11-08 14:05:45 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 deferred class
 	TP_ZSTRING_QUOTED_STRING
@@ -17,9 +17,9 @@ deferred class
 inherit
 	TP_QUOTED_STRING
 		undefine
-			core
+			core, string_scope
 		redefine
-			as_code, buffer_scope, default_unescaped_string, i_th_code
+			as_code, default_unescaped_string, i_th_code
 		end
 
 	TP_OPTIMIZED_FOR_ZSTRING
@@ -29,11 +29,6 @@ feature {NONE} -- Implementation
 	as_code (uc: CHARACTER_32): NATURAL
 		do
 			Result := Codec.as_z_code (uc)
-		end
-
-	buffer_scope: like Reuseable.string
-		do
-			Result := Reuseable.string
 		end
 
 	default_unescaped_string: STRING_GENERAL

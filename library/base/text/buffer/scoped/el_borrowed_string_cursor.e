@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 18:24:25 GMT (Monday 6th November 2023)"
-	revision: "11"
+	date: "2023-11-08 17:00:59 GMT (Wednesday 8th November 2023)"
+	revision: "12"
 
 class
 	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
@@ -39,9 +39,20 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	best_item (preferred_capacity: INTEGER): S
+		do
+			if attached internal_item as str then
+				Result := str
+			else
+				Result := pool.borrowed_item (preferred_capacity)
+				pool_index := pool.last_index
+				internal_item := Result
+			end
+		end
+
 	copied_item (general: READABLE_STRING_GENERAL): S
 		do
-			Result := pooled_item (general.count)
+			Result := best_item (general.count)
 			Result.append (general)
 		end
 
@@ -65,7 +76,7 @@ feature -- Access
 
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S
 		do
-			Result := item
+			Result := best_item (end_index - start_index + 1)
 			Result.append_substring (general, start_index, end_index)
 		end
 
@@ -73,7 +84,7 @@ feature -- Access
 
 	item: S
 		do
-			Result := pooled_item (0)
+			Result := best_item (0)
 		end
 
 feature -- Status query
@@ -90,28 +101,21 @@ feature -- Status change
 feature -- Cursor movement
 
 	forth
+		local
+			void_item: detachable S
 		do
 			after := True
 			if attached internal_item as str then
-				pool.return (str)
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	pooled_item (preferred_size: INTEGER): S
-		do
-			if attached internal_item as str then
-				Result := str
-			else
-				Result := pool.borrowed_item (preferred_size)
-				internal_item := Result
+				pool.free (pool_index)
+				internal_item := void_item
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
 	internal_item: detachable S
+
+	pool_index: INTEGER
 
 	pool: EL_STRING_POOL [S]
 

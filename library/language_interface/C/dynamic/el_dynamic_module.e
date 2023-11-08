@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 9:00:49 GMT (Wednesday 4th October 2023)"
-	revision: "14"
+	date: "2023-11-08 14:36:12 GMT (Wednesday 8th November 2023)"
+	revision: "15"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]
@@ -25,8 +25,6 @@ inherit
 		redefine
 			initialize
 		end
-
-	EL_MODULE_BUFFER
 
 	EL_MODULE_EXECUTABLE
 

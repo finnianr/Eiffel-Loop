@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-11-08 16:29:30 GMT (Wednesday 8th November 2023)"
+	revision: "6"
 
 deferred class
 	EL_CRC_32_LOG_OUTPUT
@@ -15,9 +15,7 @@ deferred class
 inherit
 	EL_SHARED_TEST_CRC
 
-	EL_MODULE_REUSEABLE
-
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Implementation
 
@@ -26,15 +24,19 @@ feature {NONE} -- Implementation
 			utf: EL_UTF_CONVERTER
 		do
 			if attached {ZSTRING} general as zstr then
-				append_to_crc_32 (zstr.to_utf_8 (False))
+				across String_8_scope as scope loop
+					append_to_crc_32 (scope.copied_utf_8_item (zstr))
+				end
 
 			elseif attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
 				append_to_crc_32 (str_8)
 
 			else
-				across Reuseable.string_8 as reuse loop
-					utf.utf_32_string_into_utf_8_string_8 (general, reuse.item)
-					append_to_crc_32 (reuse.item)
+				across String_8_scope as scope loop
+					if attached scope.item as str then
+						utf.utf_32_string_into_utf_8_string_8 (general, str)
+						append_to_crc_32 (str)
+					end
 				end
 			end
 		end

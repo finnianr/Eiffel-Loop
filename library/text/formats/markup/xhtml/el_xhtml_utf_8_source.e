@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:37:13 GMT (Sunday 1st January 2023)"
-	revision: "9"
+	date: "2023-11-08 13:55:30 GMT (Wednesday 8th November 2023)"
+	revision: "10"
 
 class
 	EL_XHTML_UTF_8_SOURCE
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -39,8 +39,8 @@ feature {NONE} -- Initialization
 			source.append (root_open)
 			source.append_character ('%N')
 
-			across Reuseable.string_8 as reuse loop
-				body := reuse.item
+			across String_8_scope as scope loop
+				body := scope.item
 				body.append (a_body)
 				from until body.is_empty loop
 					pos_right_bracket := body.index_of ('>', 1)

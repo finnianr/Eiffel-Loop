@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 18:52:54 GMT (Friday 3rd November 2023)"
-	revision: "49"
+	date: "2023-11-08 16:32:06 GMT (Wednesday 8th November 2023)"
+	revision: "50"
 
 class
 	GENERAL_TEST_SET
@@ -17,9 +17,9 @@ inherit
 
 	EL_MODULE_BASE_64; EL_MODULE_CONSOLE; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE
 
-	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING; EL_MODULE_REUSEABLE
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
 
-	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT
+	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 	SHARED_HEXAGRAM_STRINGS
 
@@ -88,7 +88,7 @@ feature -- Tests
 			across Hexagram.String_arrays as array loop
 				create parts.make_from_general (array.item)
 				zstr := parts.joined_words
-				base_64_str := Base_64.encoded (zstr.to_utf_8 (False), True)
+				base_64_str := Base_64.encoded (zstr.to_utf_8, True)
 				last_8_characters := base_64_str.substring (base_64_str.count - 8 + 1, base_64_str.count)
 				last_8_characters.prune ('%N')
 				trimmed := last_8_characters.twin; trimmed.prune_all_trailing ('=')

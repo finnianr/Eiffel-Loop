@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:42:22 GMT (Wednesday 2nd August 2023)"
-	revision: "4"
+	date: "2023-11-08 10:31:45 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -21,9 +21,9 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-	EL_MODULE_REUSEABLE; EL_MODULE_TUPLE
+	EL_MODULE_TUPLE
 
---	XML_ZSTRING_CONSTANTS
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make, make_default
@@ -61,8 +61,8 @@ feature -- Basic operations
 			else
 				field_list := object.meta_data.field_list
 			end
-			across Reuseable.string as reuse loop
-				value := reuse.item
+			across String_scope as scope loop
+				value := scope.item
 				output.put_indent (tab_count); output.put_character_8 ('<')
 				output.put_string_8 (name)
 				across field_list as field loop

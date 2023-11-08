@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 18:31:07 GMT (Monday 6th November 2023)"
-	revision: "7"
+	date: "2023-11-08 17:00:17 GMT (Wednesday 8th November 2023)"
+	revision: "8"
 
 class
 	EL_BORROWED_STRING_32_CURSOR
@@ -30,7 +30,7 @@ inherit
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -39,7 +39,7 @@ feature -- Access
 
 	copied_item (general: READABLE_STRING_GENERAL): STRING_32
 		do
-			Result := pooled_item (general.count)
+			Result := best_item (general.count)
 			if attached {ZSTRING} general as zstr then
 				zstr.append_to_string_32 (Result)
 
@@ -50,18 +50,17 @@ feature -- Access
 
 	sized_item (n: INTEGER): STRING_32
 		do
-			Result := pooled_item (n)
+			Result := best_item (n)
 			Result.grow (n); Result.set_count (n)
 		end
 
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_32
 		do
-			Result := pooled_item (end_index - start_index + 1)
+			Result := best_item (end_index - start_index + 1)
 			if attached {ZSTRING} general as zstr then
-				across Reuseable.string as reuse loop
-					if attached reuse.item as l_item then
-						l_item.append_substring (zstr, start_index, end_index)
-						l_item.append_to_string_32 (Result)
+				across String_scope as scope loop
+					if attached scope.substring_item (zstr, start_index, end_index) as z_substring then
+						z_substring.append_to_string_32 (Result)
 					end
 				end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 8:37:39 GMT (Monday 14th August 2023)"
-	revision: "29"
+	date: "2023-11-08 9:56:37 GMT (Wednesday 8th November 2023)"
+	revision: "30"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -24,7 +24,7 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -265,8 +265,8 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 		do
 			pos_dot := name.index_of ('.', 1)
 			if pos_dot > 0 then
-				across Reuseable.string as reuse loop
-					name_part := reuse.item
+				across String_scope as scope loop
+					name_part := scope.item
 					name_part.append_substring_general (name, 1, pos_dot - 1)
 					if table.has_imported_key (name_part)
 						and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object

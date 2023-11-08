@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-05 15:18:08 GMT (Friday 5th May 2023)"
-	revision: "25"
+	date: "2023-11-08 13:39:53 GMT (Wednesday 8th November 2023)"
+	revision: "26"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -29,7 +29,9 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_MODULE_DIGEST; EL_MODULE_REUSEABLE
+	EL_MODULE_DIGEST
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_from_string, make_signed
@@ -41,8 +43,8 @@ feature {NONE} -- Initialization
 			modified: STRING; field_list: EL_STRING_8_LIST
 		do
 			make
-			across Reuseable.string_8 as reuse loop
-				modified := reuse.copied_item (Algorithm_equals)
+			across String_8_scope as scope loop
+				modified := scope.copied_item (Algorithm_equals)
 				-- Tweak `str' to make it splittable as series of assignments
 				modified.append (str)
 				modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))

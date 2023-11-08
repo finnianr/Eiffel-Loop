@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 13:26:00 GMT (Thursday 5th January 2023)"
-	revision: "7"
+	date: "2023-11-08 14:47:54 GMT (Wednesday 8th November 2023)"
+	revision: "8"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -17,7 +17,9 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-	EL_MODULE_BUFFER; EL_MODULE_PYXIS; EL_MODULE_REUSEABLE
+	EL_MODULE_PYXIS
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make, make_default
@@ -59,10 +61,10 @@ feature -- Basic operations
 
 	put (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
-			name: STRING; value: ZSTRING; is_attribute: SPECIAL [BOOLEAN]
+			name: STRING; is_attribute: SPECIAL [BOOLEAN]
 		do
 			create is_attribute.make_filled (False, object.field_table.count)
-			value := buffer.empty
+
 			put_attributes (output, tab_count, is_attribute)
 
 			across object.meta_data.alphabetical_list as list loop
@@ -88,16 +90,19 @@ feature -- Basic operations
 							object := previous
 						end
 					else
-						value.wipe_out
-						list.item.append_to_string (object, value)
-						if value.has ('%N') then
-							put_field (output, name, tab_count)
-							put_manifest (output, value, tab_count + 1)
+						across String_scope as scope loop
+							if attached scope.item as value then
+								list.item.append_to_string (object, value)
+								if value.has ('%N') then
+									put_field (output, name, tab_count)
+									put_manifest (output, value, tab_count + 1)
 
-						elseif value.count > 0 then
-							value.enclose ('"', '"')
-							put_field (output, name, tab_count)
-							output.put_indented_line (tab_count + 1, value)
+								elseif value.count > 0 then
+									value.enclose ('"', '"')
+									put_field (output, name, tab_count)
+									output.put_indented_line (tab_count + 1, value)
+								end
+							end
 						end
 					end
 				end
@@ -111,9 +116,9 @@ feature {NONE} -- Implementation
 			value: ZSTRING; name: STRING; line_index: INTEGER
 			type: EL_ATTRIBUTE_TYPE_ROUTINES
 		do
-			value := buffer.empty
 			if attached Once_attribute_lines as attribute_lines then
-				across Reuseable.string_pool as pool loop
+				across String_pool_scope as pool loop
+					value := pool.borrowed_item
 					across object.meta_data.alphabetical_list as list loop
 						-- output numeric as Pyxis element attributes
 						name := list.item.name
@@ -199,7 +204,7 @@ feature {NONE} -- Implementation
 			value: ZSTRING; i: INTEGER
 		do
 			if attached Once_attribute_lines as attribute_lines then
-				across Reuseable.string_pool as pool loop
+				across String_pool_scope as pool loop
 					from i := 1 until i > tuple.count loop
 						value := pool.borrowed_item
 						value.append_tuple_item (tuple, i)

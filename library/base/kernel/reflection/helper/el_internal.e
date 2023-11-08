@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:09:17 GMT (Tuesday 15th August 2023)"
-	revision: "25"
+	date: "2023-11-08 13:46:22 GMT (Wednesday 8th November 2023)"
+	revision: "26"
 
 class
 	EL_INTERNAL
@@ -34,9 +34,9 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_MODULE_CONVERT_STRING; EL_MODULE_REUSEABLE
+	EL_MODULE_CONVERT_STRING
 
-	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
+	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 	EL_STRING_8_CONSTANTS
 
@@ -190,8 +190,8 @@ feature -- Access
 			intervals: EL_OCCURRENCE_INTERVALS; s_8: EL_STRING_8_ROUTINES
 		do
 			create intervals.make_by_string (generic_type.name, parameter_type.name)
-			across Reuseable.string_8 as reuse loop
-				Result := reuse.copied_item (generic_type.name)
+			across String_8_scope as scope loop
+				Result := scope.copied_item (generic_type.name)
 				from intervals.finish until intervals.before loop
 					if s_8.is_identifier_boundary (generic_type.name, intervals.item_lower, intervals.item_upper) then
 						Result.replace_substring (insert_type.name, intervals.item_lower, intervals.item_upper)

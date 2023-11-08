@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:45:31 GMT (Saturday 3rd December 2022)"
-	revision: "4"
+	date: "2023-11-08 14:03:57 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 deferred class
 	TP_QUOTED_STRING
@@ -18,11 +18,11 @@ inherit
 			internal_call_actions, action_count
 		end
 
-	EL_MODULE_REUSEABLE
-
 	TP_SHARED_OPTIMIZED_FACTORY
 
 	EL_STRING_32_CONSTANTS
+
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 				collecting_text := attached unescaped_action
 				offset := offset + 1
 
-				across buffer_scope as scope loop
+				across String_scope as scope loop
 					l_string := scope.item
 					from until offset = text_count or quote_closed loop
 						if i_th_code (offset + 1, text) = escape_code then
@@ -176,9 +176,10 @@ feature {NONE} -- Implementation
 			Result := uc.natural_32_code
 		end
 
-	buffer_scope: EL_BORROWED_STRING_SCOPE [STRING_GENERAL, EL_BORROWED_STRING_CURSOR [STRING_GENERAL]]
+	string_scope: EL_BORROWED_STRING_SCOPE [STRING_GENERAL, EL_BORROWED_STRING_CURSOR [STRING_GENERAL]]
+		-- string buffer scope
 		do
-			Result := Reuseable.string_32
+			Result := String_32_scope
 		end
 
 	core: TP_OPTIMIZED_FACTORY
@@ -231,4 +232,3 @@ feature {NONE} -- Constants
 			Result := "quoted %S string (%S)"
 		end
 end
-

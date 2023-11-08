@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
-	revision: "11"
+	date: "2023-11-08 14:38:59 GMT (Wednesday 8th November 2023)"
+	revision: "12"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -51,10 +51,6 @@ inherit
 			make_default as make
 		end
 
-	EL_MODULE_BUFFER
-
-	EL_MODULE_BUFFER_8
-
 create
 	make
 
@@ -71,16 +67,19 @@ feature -- Access
 
 	description: ZSTRING
 		do
-			Result := buffer.empty
-			across << vendor, product, type >> as list loop
-				if not valid_hardware_address (list.item) then
-					Result.append_string_general (list.item); Result.prune_all_trailing ('-')
-				end
-				if not Result.is_empty and not list.is_last then
-					Result.append_character (' ')
+			across String_scope as scope loop
+				if attached scope.item as str then
+					across << vendor, product, type >> as list loop
+						if not valid_hardware_address (list.item) then
+							str.append_string_general (list.item); Result.prune_all_trailing ('-')
+						end
+						if not str.is_empty and not list.is_last then
+							str.append_character (' ')
+						end
+					end
+					Result := str.twin
 				end
 			end
-			Result := Result.twin
 		end
 
 	name: ZSTRING

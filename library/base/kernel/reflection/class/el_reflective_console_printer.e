@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 17:20:40 GMT (Monday 14th August 2023)"
-	revision: "3"
+	date: "2023-11-08 10:30:26 GMT (Wednesday 8th November 2023)"
+	revision: "4"
 
 class
 	EL_REFLECTIVE_CONSOLE_PRINTER
@@ -17,9 +17,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_REUSEABLE
-
-	EL_SHARED_CLASS_ID
+	EL_SHARED_CLASS_ID; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make_default, make_with_hidden
@@ -97,8 +95,8 @@ feature {NONE} -- Implementation
 				a_lio.put_new_line
 				collection.print_items (a_object, a_lio)
 			else
-				across Reuseable.string as reuse loop
-					value := reuse.item
+				across String_scope as scope loop
+					value := scope.item
 					a_field.append_to_string (a_object, value)
 					if a_escape_table.has_key (a_field.name) then
 						value.escape (a_escape_table.found_item)

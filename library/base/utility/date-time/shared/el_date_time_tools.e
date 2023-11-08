@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-12 12:58:02 GMT (Wednesday 12th April 2023)"
-	revision: "12"
+	date: "2023-11-08 13:41:42 GMT (Wednesday 8th November 2023)"
+	revision: "13"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature -- Access
 
@@ -28,8 +28,8 @@ feature -- Access
 		local
 			zone_index: INTEGER; format_upper: STRING
 		do
-			across Reuseable.string_8 as reuse loop
-				format_upper := reuse.item
+			across String_8_scope as scope loop
+				format_upper := scope.item
 				format_upper.append (format); format_upper.to_upper
 				zone_index := format_upper.substring_index (Time_zone_designator, 1)
 				if zone_index.to_boolean then

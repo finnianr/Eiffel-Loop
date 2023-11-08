@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:42:48 GMT (Wednesday 2nd August 2023)"
-	revision: "26"
+	date: "2023-11-08 16:25:51 GMT (Wednesday 8th November 2023)"
+	revision: "27"
 
 class
 	MARKUP_ESCAPE_TEST_SET
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 					xml := XML_template #$ [escaped]
 					lio.put_line (escaped)
 				end
-				create root.make_from_string (xml.to_utf_8 (True))
+				create root.make_from_string (xml.to_utf_8)
 				assert ("same string", str_32.is_equal (root.query ("/TEXT")))
 			end
 		end

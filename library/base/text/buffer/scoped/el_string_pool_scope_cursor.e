@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 16:34:26 GMT (Monday 6th November 2023)"
-	revision: "5"
+	date: "2023-11-08 9:08:31 GMT (Wednesday 8th November 2023)"
+	revision: "6"
 
 class
 	EL_STRING_POOL_SCOPE_CURSOR [S -> STRING_GENERAL create make end]
@@ -64,7 +64,7 @@ feature -- Cursor movement
 	end_scope
 		do
 			after := True
-			pool.return_list (loan_indices)
+			pool.free_list (loan_indices)
 			loan_indices_pool.recycle (loan_indices)
 		end
 

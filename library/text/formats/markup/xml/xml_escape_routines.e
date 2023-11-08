@@ -6,16 +6,43 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
-	revision: "8"
+	date: "2023-11-08 17:12:07 GMT (Wednesday 8th November 2023)"
+	revision: "9"
 
 deferred class
 	XML_ESCAPE_ROUTINES
 
 inherit
-	EL_MODULE_BUFFER_8
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Implementation
+
+	entity (c: CHARACTER; keep_ref: BOOLEAN): STRING
+		-- standard character entity
+		do
+			Result := Entity_buffer.empty
+			Result.append_character ('&')
+			inspect c
+				when '<' then
+					Result.append (once "lt")
+				when '>' then
+					Result.append (once "gt")
+				when '&' then
+					Result.append (once "amp")
+				when '%'' then
+					Result.append (once "apos")
+				when '"' then
+					Result.append (once "quot")
+			else
+			end
+			Result.append_character (';')
+			if keep_ref then
+				Result := Result.twin
+			end
+		ensure
+			valid_count: Result.count >= 4
+			valid_leading_trailing: Result [1] = '&' and Result [Result.count] = ';'
+		end
 
 	hexadecimal_digit_count (code: NATURAL): INTEGER
 		local
@@ -31,7 +58,7 @@ feature {NONE} -- Implementation
 			digit_count, i: INTEGER; n, digit: NATURAL
 			hex: EL_HEXADECIMAL_CONVERTER
 		do
-			Result := buffer_8.empty
+			Result := Entity_buffer.empty
 			Result.append (once "&#x")
 
 			digit_count := hex.natural_digit_count (code)
@@ -55,31 +82,11 @@ feature {NONE} -- Implementation
 			valid_leading_trailing: Result [1] = '&' and Result [Result.count] = ';'
 		end
 
-	entity (c: CHARACTER; keep_ref: BOOLEAN): STRING
-		-- standard character entity
-		do
-			Result := buffer_8.empty
-			Result.append_character ('&')
-			inspect c
-				when '<' then
-					Result.append (once "lt")
-				when '>' then
-					Result.append (once "gt")
-				when '&' then
-					Result.append (once "amp")
-				when '%'' then
-					Result.append (once "apos")
-				when '"' then
-					Result.append (once "quot")
-			else
-			end
-			Result.append_character (';')
-			if keep_ref then
-				Result := Result.twin
-			end
-		ensure
-			valid_count: Result.count >= 4
-			valid_leading_trailing: Result [1] = '&' and Result [Result.count] = ';'
+feature {NONE} -- Constants
+
+	Entity_buffer: EL_STRING_8_BUFFER
+		once
+			create Result
 		end
 
 end

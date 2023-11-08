@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 9:39:47 GMT (Friday 25th August 2023)"
-	revision: "41"
+	date: "2023-11-08 14:35:48 GMT (Wednesday 8th November 2023)"
+	revision: "42"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -83,12 +83,9 @@ inherit
 
 	EL_XPATH_NODE_CONSTANTS
 
-	EL_SHARED_ENCODINGS
+	EL_SHARED_ENCODINGS; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
-	EL_MODULE_BUFFER
-		rename
-			Buffer as Name_buffer
-		end
+
 
 create
 	make, make_default
@@ -334,17 +331,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	as_enumeration_name: STRING
-		do
-			if is_empty then
-				Result := Current
-			elseif is_ascii and then not (item (1).is_space or item (count).is_space) then
-				Result := Current
-			else
-				Result := adjusted_8 (False)
-			end
-		end
-
 	append_to_string (zstr: ZSTRING; str_8: READABLE_STRING_8)
 		do
 			zstr.append_encoded (str_8, encoding_code)
@@ -395,6 +381,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	as_enumeration_name: STRING
+		do
+			if is_empty then
+				Result := Current
+			elseif is_ascii and then not (item (1).is_space or item (count).is_space) then
+				Result := Current
+			else
+				Result := adjusted_8 (False)
+			end
+		end
+
 	new_adjusted_lines (separator: CHARACTER_32): ZSTRING
 		-- left and right adjusted list of line strings
 		local
@@ -413,5 +410,13 @@ feature {NONE} -- Implementation
 feature {EL_DOCUMENT_CLIENT} -- Internal attributes
 
 	raw_name: EL_UTF_8_STRING
+
+
+feature {NONE} -- Constants
+
+	Name_buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
+		end
 
 end

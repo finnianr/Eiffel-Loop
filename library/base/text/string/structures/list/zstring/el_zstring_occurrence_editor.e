@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 7:21:30 GMT (Monday 7th August 2023)"
-	revision: "3"
+	date: "2023-11-08 10:17:16 GMT (Wednesday 8th November 2023)"
+	revision: "4"
 
 class
 	EL_ZSTRING_OCCURRENCE_EDITOR
@@ -52,11 +52,6 @@ feature {NONE} -- Implementation
 	default_target: ZSTRING
 		do
 			Result := Empty_string
-		end
-
-	reuseable_scope: like Reuseable.string
-		do
-			Result := Reuseable.string
 		end
 
 	shared_cursor: EL_STRING_ITERATION_CURSOR

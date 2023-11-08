@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-19 19:58:26 GMT (Wednesday 19th July 2023)"
-	revision: "5"
+	date: "2023-11-08 13:50:10 GMT (Wednesday 8th November 2023)"
+	revision: "6"
 
 class
 	EL_SPLIT_ZSTRING_ON_CHARACTER_CURSOR
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_CODEC
-
-	EL_MODULE_REUSEABLE
 
 create
 	make

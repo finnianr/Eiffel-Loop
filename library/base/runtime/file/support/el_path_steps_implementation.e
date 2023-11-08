@@ -6,15 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-11-08 13:47:38 GMT (Wednesday 8th November 2023)"
+	revision: "6"
 
 deferred class
 	EL_PATH_STEPS_IMPLEMENTATION
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM; EL_MODULE_ITERABLE
-	EL_MODULE_REUSEABLE
 
 	EL_PATH_CONSTANTS
 		export
@@ -27,6 +26,8 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 	STRING_HANDLER
+
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 feature -- Access
 

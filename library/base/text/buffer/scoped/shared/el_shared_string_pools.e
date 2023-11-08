@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 16:01:24 GMT (Monday 6th November 2023)"
-	revision: "1"
+	date: "2023-11-08 10:12:06 GMT (Wednesday 8th November 2023)"
+	revision: "2"
 
 deferred class
 	EL_SHARED_STRING_POOLS
@@ -22,12 +22,12 @@ feature {NONE} -- Constants
 			create Result.make (8)
 		end
 
-	Shared_string_pool_8: EL_STRING_POOL [STRING_8]
+	Shared_string_8_pool: EL_STRING_POOL [STRING_8]
 		once
 			create Result.make (8)
 		end
 
-	Shared_string_pool_32: EL_STRING_POOL [STRING_32]
+	Shared_string_32_pool: EL_STRING_POOL [STRING_32]
 		once
 			create Result.make (8)
 		end

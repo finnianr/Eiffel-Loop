@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 6:30:37 GMT (Monday 7th August 2023)"
-	revision: "2"
+	date: "2023-11-08 10:16:42 GMT (Wednesday 8th November 2023)"
+	revision: "3"
 
 class
 	EL_ZSTRING_OCCURRENCE_INTERVALS
@@ -19,6 +19,8 @@ inherit
 		redefine
 			fill_by_string
 		end
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make, make_empty, make_by_string, make_sized, make_from_special

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 12:53:11 GMT (Friday 18th August 2023)"
-	revision: "15"
+	date: "2023-11-08 10:05:47 GMT (Wednesday 8th November 2023)"
+	revision: "16"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -32,9 +32,7 @@ inherit
 
 	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]
 
-	EL_MODULE_REUSEABLE
-
-	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER
+	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	EL_ZSTRING_CONSTANTS
 
@@ -46,11 +44,11 @@ feature -- Measurement
 		local
 			str: ZSTRING
 		do
-			across Reuseable.string as reuse loop
+			across String_scope as scope loop
 				if a_str.is_canonically_spaced then
 					str := a_str
 				else
-					str := reuse.item
+					str := scope.item
 					str.append (a_str)
 					str.to_canonically_spaced
 				end

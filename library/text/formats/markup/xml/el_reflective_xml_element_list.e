@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 15:36:44 GMT (Wednesday 2nd August 2023)"
-	revision: "1"
+	date: "2023-11-08 9:56:37 GMT (Wednesday 8th November 2023)"
+	revision: "2"
 
 class
 	EL_REFLECTIVE_XML_ELEMENT_LIST [G]
@@ -18,7 +18,9 @@ inherit
 			make as make_sized
 		end
 
-	EL_MODULE_REUSEABLE; EL_MODULE_XML
+	EL_MODULE_XML
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make, make_exported, make_conforming, make_conforming_exported
@@ -55,8 +57,8 @@ feature {NONE} -- Initialization
 			create type_query.make (object, conforming_types)
 			if attached type_query.reference_fields as field_list then
 				make_sized (field_list.count)
-				across Reuseable.string as reuse loop
-					line := reuse.item
+				across String_scope as scope loop
+					line := scope.item
 					across field_list as list loop
 						line.wipe_out
 						if attached list.item as field then

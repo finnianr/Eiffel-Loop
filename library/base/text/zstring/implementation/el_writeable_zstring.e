@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-20 10:16:52 GMT (Friday 20th October 2023)"
-	revision: "8"
+	date: "2023-11-08 16:04:47 GMT (Wednesday 8th November 2023)"
+	revision: "9"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -107,8 +107,49 @@ feature -- Append to other
 		end
 
 	append_to_utf_8 (utf_8_out: STRING_8)
+		local
+			sequence: like Utf_8_sequence; c_8: EL_CHARACTER_8_ROUTINES; l_area: like area
+			i, i_upper, block_index, old_utf_8_count: INTEGER;
+			l_codec: like codec; c_i: CHARACTER
+			area_32: like unencoded_area; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			Utf_8_Codec.append_general_to_utf_8 (current_readable, utf_8_out)
+			sequence := Utf_8_sequence; l_area := area
+			old_utf_8_count := utf_8_out.count
+			utf_8_out.grow (old_utf_8_count + count)
+
+			if has_mixed_encoding then
+				i_upper := area_upper
+				l_codec := codec; area_32 := unencoded_area
+				from i := area_lower until i > i_upper loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						sequence.set (iter.item ($block_index, area_32, i + 1))
+						sequence.append_to_string (utf_8_out)
+					elseif c_i <= Max_7_bit_character then
+						utf_8_out.extend (c_i)
+					else
+						sequence.set (l_codec.unicode_table [c_i.code])
+						sequence.append_to_string (utf_8_out)
+					end
+					i := i + 1
+				end
+			elseif c_8.is_ascii_area (area, area_lower, area_upper) then
+				utf_8_out.area.copy_data (l_area, area_lower, old_utf_8_count, count)
+				utf_8_out.area [count + old_utf_8_count] := '%U'
+				utf_8_out.set_count (count + old_utf_8_count)
+			else
+				i_upper := area_upper; l_codec := codec
+				from i := area_lower until i > i_upper loop
+					c_i := l_area [i]
+					if c_i <= Max_7_bit_character then
+						utf_8_out.extend (c_i)
+					else
+						sequence.set (l_codec.unicode_table [c_i.code])
+						sequence.append_to_string (utf_8_out)
+					end
+					i := i + 1
+				end
+			end
 		end
 
 end

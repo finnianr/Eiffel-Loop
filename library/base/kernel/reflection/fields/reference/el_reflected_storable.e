@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:30:14 GMT (Saturday 31st December 2022)"
-	revision: "17"
+	date: "2023-11-08 13:49:13 GMT (Wednesday 8th November 2023)"
+	revision: "18"
 
 class
 	EL_REFLECTED_STORABLE
@@ -20,7 +20,7 @@ inherit
 
 	EL_STORABLE_HANDLER
 
-	EL_MODULE_BASE_64; EL_MODULE_REUSEABLE
+	EL_MODULE_BASE_64
 
 create
 	make

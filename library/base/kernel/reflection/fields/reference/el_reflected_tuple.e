@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:10:51 GMT (Monday 14th August 2023)"
-	revision: "35"
+	date: "2023-11-08 10:02:40 GMT (Wednesday 8th November 2023)"
+	revision: "36"
 
 class
 	EL_REFLECTED_TUPLE
@@ -21,11 +21,11 @@ inherit
 			write_crc, write_to_memory
 		end
 
-	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE
+	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_NEW_INSTANCE_TABLE
+	EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -145,8 +145,8 @@ feature -- Conversion
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
 			if attached value (a_object) as l_tuple then
-				across Reuseable.string as reuse loop
-					if attached reuse.item as str then
+				across String_scope as scope loop
+					if attached scope.item as str then
 						str.append_character_8 ('[')
 						Tuple.write_with_comma (l_tuple, str, True)
 						str.append_character_8 (']')

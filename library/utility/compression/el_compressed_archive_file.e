@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 10:47:09 GMT (Saturday 24th June 2023)"
-	revision: "17"
+	date: "2023-11-08 16:54:59 GMT (Wednesday 8th November 2023)"
+	revision: "18"
 
 class
 	EL_COMPRESSED_ARCHIVE_FILE
@@ -183,7 +183,7 @@ feature {NONE} -- Implementation
 			open_append: is_open_write
 		local
 			file_data: MANAGED_POINTER; compressed_data: SPECIAL [NATURAL_8]
-			utf8_path: STRING; l_checksum: NATURAL
+			l_checksum: NATURAL
 		do
 			file_data := File.data (a_file_path)
 			if is_checksum_enabled then
@@ -191,9 +191,10 @@ feature {NONE} -- Implementation
 			end
 			compressed_data := Zlib.compressed (file_data, level, expected_compression_ratio)
 
-			utf8_path := a_file_path.to_string.to_utf_8 (True)
-			put_integer (utf8_path.count)
-			put_string (utf8_path)
+			if attached a_file_path.to_utf_8 as utf_8_path then
+				put_integer (utf_8_path.count)
+				put_string (utf_8_path)
+			end
 
 			put_integer (file_data.count)
 			put_integer (compressed_data.count)

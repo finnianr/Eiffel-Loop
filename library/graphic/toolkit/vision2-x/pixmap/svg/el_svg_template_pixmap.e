@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-12 8:41:46 GMT (Monday 12th June 2023)"
-	revision: "19"
+	date: "2023-11-08 17:26:46 GMT (Wednesday 8th November 2023)"
+	revision: "20"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -23,8 +23,6 @@ inherit
 			update_pixmap_on_initialization, initialize, make_with_path_and_width, make_with_path_and_height,
 			rendering_variables, svg_xml
 		end
-
-	EL_MODULE_BUFFER
 
 create
 	default_create, make_from_other,

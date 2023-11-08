@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:58 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2023-11-08 14:10:21 GMT (Wednesday 8th November 2023)"
+	revision: "4"
 
 class
 	TP_RSTRING_QUOTED_EIFFEL_STRING
@@ -19,8 +19,6 @@ inherit
 		redefine
 			unescaped_code
 		end
-
-	TP_OPTIMIZED_FOR_READABLE_STRING_8
 
 	TP_EIFFEL_FACTORY
 		rename
@@ -43,5 +41,4 @@ feature {NONE} -- Implementation
 		end
 
 end
-
 

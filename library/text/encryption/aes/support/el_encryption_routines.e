@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:43:45 GMT (Tuesday 22nd November 2022)"
-	revision: "16"
+	date: "2023-11-08 13:43:06 GMT (Wednesday 8th November 2023)"
+	revision: "17"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_BASE_64
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature -- Conversion
 
@@ -63,8 +63,8 @@ feature {NONE} -- Implementation
 			create file.make_open_read (a_file_path)
 			file.set_line_start (a_line_start)
 			file.set_encrypter (a_encrypter)
-			across Reuseable.string_8 as reuse loop
-				Result := reuse.item
+			across string_8_scope as scope loop
+				Result := scope.item
 				from until file.end_of_file loop
 					file.read_line_8
 					if not Result.is_empty then

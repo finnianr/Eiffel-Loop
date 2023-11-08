@@ -1,13 +1,18 @@
 note
-	description: "Map string count to string with negative count indicating borrowed status"
+	description: "[
+		Map character capacities to reuseable buffer strings. A negative count indicates that the string item
+		is "on loan" as a buffer. A positive count indicates the string is available to borrow.
+		
+		The `borrowed_item' routine returns the best match for a preferred capacity.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 16:35:24 GMT (Monday 6th November 2023)"
-	revision: "1"
+	date: "2023-11-08 18:06:55 GMT (Wednesday 8th November 2023)"
+	revision: "2"
 
 class
 	EL_STRING_POOL [S -> STRING_GENERAL create make end]
@@ -26,7 +31,10 @@ create
 
 feature -- Access
 
-	borrowed_item (preferred_size: INTEGER): S
+	borrowed_item (preferred_capacity: INTEGER): S
+		-- returns string with biggest capacity if `preferred_capacity = 0'
+		-- else returns the item that is closest in capacity to `preferred_capacity'
+		-- if no item is available create a new item
 		local
 			i, match_index, match_size, string_capacity: INTEGER
 		do
@@ -35,22 +43,26 @@ feature -- Access
 
 				from i := 0 until i = size.count loop
 					string_capacity := size [i]
-					if string_capacity > 0 then
-					-- is available
-						if string_capacity > match_size then
-							match_size := string_capacity; match_index := i
-							if preferred_size > 0 and then match_size >= preferred_size then
-								i := size.count - 1 -- exit loop
+					if string_capacity > 0 then -- is available
+						if preferred_capacity > 0 and then string_capacity >= preferred_capacity
+							and then match_size >= preferred_capacity
+						then
+						-- check if this item is closer to `preferred_capacity'
+							if (string_capacity - preferred_capacity) < (match_size - preferred_capacity) then
+								match_size := string_capacity; match_index := i
 							end
+
+						elseif string_capacity > match_size then
+							match_size := string_capacity; match_index := i
 						end
 					end
 					i := i + 1
 				end
 				if match_index < 0 then
-					if preferred_size > 0 then
-						create Result.make (preferred_size.max (1))
+					if preferred_capacity > 0 then
+						create Result.make (preferred_capacity.max (1))
 					else
-						create Result.make (50)
+						create Result.make (1)
 					end
 					match_index := area.count; match_size := Result.capacity
 					extend (match_size.opposite, Result)
@@ -94,8 +106,15 @@ feature -- Measurement
 
 feature -- Element change
 
-	return_list (loan_indices: ARRAYED_LIST [INTEGER])
-		-- return all borrowed strings with index in `loan_indices' and
+	free (loan_index: INTEGER)
+		require
+			valid_index: valid_index (loan_index)
+		do
+			put_i_th (internal_value_list [loan_index].capacity, loan_index)
+		end
+
+	free_list (loan_indices: ARRAYED_LIST [INTEGER])
+		-- free all borrowed strings with index in `loan_indices' and
 		-- wipeout `loan_indices'
 		require
 			enough_loaned: loaned_count >= loan_indices.count

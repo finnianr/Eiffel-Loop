@@ -8,18 +8,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:40 GMT (Tuesday 14th February 2023)"
-	revision: "13"
+	date: "2023-11-08 16:27:18 GMT (Wednesday 8th November 2023)"
+	revision: "14"
 
 class
 	EL_PYXIS_RESOURCE_SET
 
 inherit
-	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_MODULE_PYXIS
-
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_PYXIS
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
@@ -28,7 +25,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_DIRECTORY
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_monolithic
@@ -98,7 +95,9 @@ feature {NONE} -- Line states
 
 	extend (line: ZSTRING; pyxis_out: PLAIN_TEXT_FILE)
 		do
-			pyxis_out.put_string (line.to_utf_8 (False))
+			across String_8_scope as scope loop
+				pyxis_out.put_string (scope.copied_utf_8_item (line))
+			end
 			pyxis_out.put_new_line
 		end
 

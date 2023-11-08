@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 18:15:09 GMT (Monday 6th November 2023)"
-	revision: "9"
+	date: "2023-11-08 9:45:32 GMT (Wednesday 8th November 2023)"
+	revision: "10"
 
 class
 	EL_BORROWED_STRING_SCOPE [
@@ -33,11 +33,6 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	new_cursor: C
-		do
-			create Result.make (pool)
-		end
-
-	new_pool_scope: EL_STRING_POOL_SCOPE [S]
 		do
 			create Result.make (pool)
 		end

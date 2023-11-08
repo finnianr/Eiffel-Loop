@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-05 15:02:35 GMT (Thursday 5th October 2023)"
-	revision: "3"
+	date: "2023-11-08 14:17:09 GMT (Wednesday 8th November 2023)"
+	revision: "4"
 
 deferred class
 	EL_FONT_FAMILIES_I
@@ -20,7 +20,9 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_REUSEABLE; EL_MODULE_TEXT
+	EL_MODULE_TEXT
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature -- Access
 
@@ -72,8 +74,8 @@ feature {NONE} -- Implementation
 			bitmap: NATURAL_8; manifest: ZSTRING; char_set_then_bitmap: INTEGER
 		do
 			if attached new_true_type_set as true_type_set then
-				across Reuseable.string as reuse loop
-					manifest := reuse.item
+				across String_scope as scope loop
+					manifest := scope.item
 					across new_font_families_map as family loop
 						if manifest.count > 0 then
 							manifest.append_character_8 (',')

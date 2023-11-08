@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-11 13:36:34 GMT (Wednesday 11th October 2023)"
-	revision: "9"
+	date: "2023-11-08 16:21:35 GMT (Wednesday 8th November 2023)"
+	revision: "10"
 
 class
 	EL_C_UTF_STRING_8
@@ -27,6 +27,8 @@ inherit
 			default_create, is_equal, copy
 		end
 
+	EL_SHARED_STRING_8_BUFFER_SCOPES
+
 create
 	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size, make,
 	make_from_utf_8, make_from_general
@@ -37,13 +39,11 @@ convert
 feature {NONE} -- Initialization
 
 	make_from_general (str: READABLE_STRING_GENERAL)
-		local
-			converter: EL_UTF_CONVERTER
 		do
-			if attached {ZSTRING} str as zstr then
-				make_from_utf_8 (zstr.to_utf_8 (False))
-			else
-				make_from_utf_8 (converter.utf_32_string_to_utf_8_string_8 (str))
+			across String_8_scope as scope loop
+				if attached scope.copied_utf_8_item (str) as utf_8 then
+					make_from_utf_8 (utf_8)
+				end
 			end
 		end
 

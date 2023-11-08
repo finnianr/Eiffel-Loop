@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-12 12:33:30 GMT (Saturday 12th August 2023)"
-	revision: "11"
+	date: "2023-11-08 16:31:29 GMT (Wednesday 8th November 2023)"
+	revision: "12"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
@@ -71,7 +71,7 @@ feature -- Tests
 							encoded := list.item
 							encoded.wipe_out
 							if encoded = Utf_8 then
-								encoded.append (padded_string.to_utf_8 (True))
+								encoded.append (padded_string.to_utf_8)
 
 							elseif attached padded_string.as_encoded_8 (latin_15_codec) as str_8 then
 								encoded.append (str_8)

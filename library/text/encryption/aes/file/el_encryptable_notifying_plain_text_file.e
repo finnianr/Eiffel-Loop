@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:43:46 GMT (Tuesday 22nd November 2022)"
-	revision: "13"
+	date: "2023-11-08 16:46:57 GMT (Wednesday 8th November 2023)"
+	revision: "14"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -28,6 +28,8 @@ inherit
 		redefine
 			make_default
 		end
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make_with_name, make_open_read, make_open_write
@@ -58,7 +60,9 @@ feature -- Write string
 
 	put_string (str: ZSTRING)
 		do
-			put_raw_string_8 (str.to_utf_8 (False))
+			across String_8_scope as scope loop
+				put_raw_string_8 (scope.copied_utf_8_item (str))
+			end
 		end
 
 	put_string_8 (str: STRING)

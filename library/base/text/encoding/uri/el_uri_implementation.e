@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-17 8:58:24 GMT (Saturday 17th June 2023)"
-	revision: "7"
+	date: "2023-11-08 10:25:22 GMT (Wednesday 8th November 2023)"
+	revision: "8"
 
 deferred class
 	EL_URI_IMPLEMENTATION
@@ -15,9 +15,9 @@ deferred class
 inherit
 	EL_PROTOCOL_CONSTANTS
 
-	EL_MODULE_REUSEABLE
-
 	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 	EL_SHARED_STRING_8_CURSOR
 
@@ -189,9 +189,11 @@ feature {NONE} -- Implementation
 			elseif attached Uri_query.emptied as l_query then
 				Result [1] := l_query
 				l_query.append_character ('?')
-				across Reuseable.string_32 as reuse loop
-					reuse.item.append_substring_general (str, index_qmark + 1, index_hash - 1)
-					l_query.append_query_string_32 (reuse.item)
+				across String_32_scope as scope loop
+					if attached scope.item as str_32 then
+						str_32.append_substring_general (str, index_qmark + 1, index_hash - 1)
+						l_query.append_query_string_32 (str_32)
+					end
 				end
 			end
 			Result [0] := once_encoded_substring (Uri_path, str, 1, index_qmark - 1)

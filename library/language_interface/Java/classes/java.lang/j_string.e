@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-11-08 14:25:16 GMT (Wednesday 8th November 2023)"
+	revision: "10"
 
 class
 	J_STRING
@@ -22,9 +22,7 @@ inherit
 
 	JAVA_LANG_JPACKAGE
 
-	EL_MODULE_REUSEABLE
-
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	default_create,
@@ -56,9 +54,9 @@ feature {NONE} -- Initialization
 			if cursor_8 (str).all_ascii then
 				make_from_pointer (jni.new_string (str))
 			else
-				across Reuseable.string_8 as reuse loop
-					conv.utf_32_string_into_utf_8_string_8 (str, reuse.item)
-					make_from_pointer (jni.new_string (reuse.item))
+				across String_8_scope as scope loop
+					conv.utf_32_string_into_utf_8_string_8 (str, scope.item)
+					make_from_pointer (jni.new_string (scope.item))
 				end
 			end
 		end

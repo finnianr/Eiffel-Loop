@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-20 16:09:28 GMT (Friday 20th October 2023)"
-	revision: "105"
+	date: "2023-11-08 16:25:50 GMT (Wednesday 8th November 2023)"
+	revision: "106"
 
 class
 	ZSTRING_TEST_SET
@@ -450,9 +450,9 @@ feature -- Appending tests
 		end
 
 	test_append_utf_8
+		-- ZSTRING_TEST_SET.test_append_utf_8
 		local
-			utf_8: STRING; conv: EL_UTF_CONVERTER
-			test: STRING_TEST
+			utf_8: STRING; conv: EL_UTF_CONVERTER; test: STRING_TEST
 		do
 			create test
 			across Text.lines as line loop
@@ -918,7 +918,7 @@ feature -- Element change tests
 			create test
 			across Text.words as word loop
 				test.set (word.item)
-				str_utf_8 := test.zs.to_utf_8 (True)
+				str_utf_8 := test.zs.to_utf_8
 				assert_same_string ("to_utf_8 OK", str_utf_8, Utf_8_codec.as_utf_8 (test.s_32, False))
 				create str_2.make_from_utf_8 (str_utf_8)
 				assert_same_string ("make_from_utf_8 OK", str_2, test.s_32)

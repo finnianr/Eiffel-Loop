@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 8:02:22 GMT (Friday 18th August 2023)"
-	revision: "5"
+	date: "2023-11-08 14:27:20 GMT (Wednesday 8th November 2023)"
+	revision: "6"
 
 deferred class
 	UNDERBIT_ID3_STRING_ROUTINES
@@ -17,9 +17,9 @@ inherit
 
 	UNDERBIT_ID3_STRING_C_API
 
-	EL_MODULE_REUSEABLE
-
 	STRING_HANDLER
+
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 feature {NONE} -- Implementation
 
@@ -87,8 +87,8 @@ feature {NONE} -- Implementation
 
 	new_string (utf_x_ptr: POINTER; count: INTEGER; decode: PROCEDURE [POINTER, POINTER]): ZSTRING
 		do
-			across Reuseable.string_32 as reuse loop
-				if attached reuse.item as buffer_32 then
+			across String_32_scope as scope loop
+				if attached scope.item as buffer_32 then
 					buffer_32.resize (count)
 					decode (utf_x_ptr, buffer_32.area.base_address)
 					buffer_32.set_count (count)

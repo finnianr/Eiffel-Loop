@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 16:09:07 GMT (Monday 6th November 2023)"
-	revision: "29"
+	date: "2023-11-08 13:56:34 GMT (Wednesday 8th November 2023)"
+	revision: "30"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -20,9 +20,11 @@ inherit
 			make_default, on_meta_data
 		end
 
-	EL_MODULE_LIO; EL_MODULE_REUSEABLE
+	EL_MODULE_LIO
 
 	EL_CHARACTER_8_CONSTANTS; EL_STRING_8_CONSTANTS; XML_STRING_8_CONSTANTS
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -182,7 +184,7 @@ feature {NONE} -- Implementation
 
 	do_scan (action: PROCEDURE)
 		do
-			across Reuseable.string_8_pool as scope loop
+			across String_8_pool_scope as scope loop
 				pool := scope
 				action.apply
 			end
@@ -205,8 +207,8 @@ feature {NONE} -- Implementation
 		local
 			text: STRING
 		do
-			across Reuseable.string_8 as reuse loop
-				text := reuse.item
+			across String_8_scope as scope loop
+				text := scope.item
 				node.append_adjusted_to (text)
 
 				Line_splitter.set_target (Xml_escaper.escaped (text, False))
@@ -222,8 +224,8 @@ feature {NONE} -- Implementation
 
 	put_single_line (node: EL_DOCUMENT_NODE_STRING)
 		do
-			across Reuseable.string_8 as reuse loop
-				if attached reuse.item as text then
+			across String_8_scope as scope loop
+				if attached scope.item as text then
 					Xml_escaper.escape_into (node, text)
 					output.put_string (text)
 				end

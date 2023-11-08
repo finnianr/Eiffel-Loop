@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 7:48:36 GMT (Friday 18th August 2023)"
-	revision: "6"
+	date: "2023-11-08 14:27:39 GMT (Wednesday 8th November 2023)"
+	revision: "7"
 
 class
 	UNDERBIT_ID3_STRING_LIST_FIELD
@@ -25,8 +25,6 @@ inherit
 	STRING_HANDLER
 
 	EL_MODULE_ITERABLE
-
-	EL_MODULE_REUSEABLE
 
 create
 	make
@@ -62,8 +60,8 @@ feature -- Element change
 			list_count := Iterable.count (a_list)
 			create c_strings.make_empty (list_count)
 			create c_ucs4_array.make_empty (list_count)
-			across Reuseable.string_32 as reuse loop
-				str_32 := reuse.item
+			across String_32_scope as scope loop
+				str_32 := scope.item
 				across a_list as l_list loop
 					str_32.wipe_out
 					l_list.item.append_to_string_32 (str_32)

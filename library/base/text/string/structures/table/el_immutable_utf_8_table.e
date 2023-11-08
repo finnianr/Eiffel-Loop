@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 15:30:37 GMT (Wednesday 4th October 2023)"
-	revision: "4"
+	date: "2023-11-08 16:22:20 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -34,8 +34,6 @@ inherit
 		redefine
 			new_cursor
 		end
-
-	EL_MODULE_REUSEABLE
 
 	EL_SHARED_STRING_8_CURSOR
 
@@ -91,7 +89,7 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 				Result := str_8
 
 			elseif attached {ZSTRING} manifest_string as zstr then
-				Result := zstr.to_utf_8 (True)
+				Result := zstr.to_utf_8
 			else
 
 				Result := c.utf_32_string_to_string_8 (manifest_string)

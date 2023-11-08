@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 8:03:00 GMT (Wednesday 16th August 2023)"
-	revision: "24"
+	date: "2023-11-08 16:40:22 GMT (Wednesday 8th November 2023)"
+	revision: "25"
 
 class
 	EL_AES_CREDENTIAL
@@ -152,7 +152,7 @@ feature {NONE} -- Implementation
 			create Result.make_filled (1, 32)
 			create md5.make
 			create md5_hash.make_filled (1, 16)
-			phrase_data := s.to_code_array (phrase.to_utf_8 (False))
+			phrase_data := s.to_code_array (phrase.to_utf_8)
 			from i := 0 until i > 50 loop
 				if i \\ 2 = 0 then
 					data := phrase_data

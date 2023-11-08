@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 6:28:20 GMT (Monday 7th August 2023)"
-	revision: "2"
+	date: "2023-11-08 10:18:34 GMT (Wednesday 8th November 2023)"
+	revision: "3"
 
 class
 	EL_STRING_32_OCCURRENCE_INTERVALS
@@ -23,6 +23,8 @@ inherit
 	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
 
 	EL_STRING_32_CONSTANTS
+
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 create
 	make, make_empty, make_by_string, make_sized, make_from_special

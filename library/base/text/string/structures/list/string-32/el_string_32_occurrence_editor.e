@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 7:22:03 GMT (Monday 7th August 2023)"
-	revision: "4"
+	date: "2023-11-08 10:18:43 GMT (Wednesday 8th November 2023)"
+	revision: "5"
 
 class
 	EL_STRING_32_OCCURRENCE_EDITOR
 
 inherit
 	EL_OCCURRENCE_EDITOR [STRING_32]
+		rename
+			string_scope as string_32_scope
 		undefine
 			bit_count, shared_cursor
 		redefine
@@ -49,11 +51,6 @@ feature {NONE} -- Implementation
 	default_target: STRING_32
 		do
 			Result := Empty_string_32
-		end
-
-	reuseable_scope: like Reuseable.string_32
-		do
-			Result := Reuseable.string_32
 		end
 
 	shared_cursor: EL_STRING_ITERATION_CURSOR

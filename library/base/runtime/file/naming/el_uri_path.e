@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:03:56 GMT (Friday 18th August 2023)"
-	revision: "40"
+	date: "2023-11-08 10:12:40 GMT (Wednesday 8th November 2023)"
+	revision: "41"
 
 deferred class
 	EL_URI_PATH
@@ -38,11 +38,9 @@ inherit
 
 	EL_MODULE_URI
 
-	EL_MODULE_REUSEABLE
+	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
 
-	EL_STRING_8_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
+	EL_SHARED_ZSTRING_BUFFER_SCOPES; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -64,8 +62,8 @@ feature -- Initialization
 			l_path := temporary_copy (a_uri)
 			start_index := a_uri.substring_index (Colon_slash_x2, 1)
 			if start_index > 0 then
-				across Reuseable.string_8 as reuse loop
-					set_scheme (reuse.substring_item (a_uri, 1, start_index - 1))
+				across String_8_scope as scope loop
+					set_scheme (scope.substring_item (a_uri, 1, start_index - 1))
 				end
 				l_path.remove_head (start_index + Colon_slash_x2.count - 1)
 			else
@@ -173,8 +171,8 @@ feature -- Element change
 
 	set_authority (a_authority: READABLE_STRING_GENERAL)
 		do
-			across Reuseable.string as reuse loop
-				Authority_set.put_copy (reuse.copied_item (a_authority))
+			across String_scope as scope loop
+				Authority_set.put_copy (scope.copied_item (a_authority))
 				authority := Authority_set.found_item
 			end
 		end

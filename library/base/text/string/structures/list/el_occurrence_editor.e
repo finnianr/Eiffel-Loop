@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 7:27:19 GMT (Monday 7th August 2023)"
-	revision: "2"
+	date: "2023-11-08 10:20:01 GMT (Wednesday 8th November 2023)"
+	revision: "3"
 
 deferred class
 	EL_OCCURRENCE_EDITOR [S -> STRING_GENERAL create make end]
@@ -19,8 +19,6 @@ inherit
 		redefine
 			make_empty
 		end
-
-	EL_MODULE_REUSEABLE
 
 feature {NONE} -- Initialization
 
@@ -37,28 +35,28 @@ feature -- Basic operations
 		--  `(input, output: S; start_index, end_index: INTEGER)'
 		local
 			previous_lower, previous_upper, lower, upper, i: INTEGER
-			buffer: S
 		do
 			if attached area as a and then attached target as l_target then
-				across reuseable_scope as reuse loop
-					buffer := reuse.item
-					from until i = a.count loop
-						lower := a [i]; upper := a [i + 1]
-						previous_lower := previous_upper + 1
-						previous_upper := lower - 1
-						if previous_upper - previous_lower + 1 > 0 then
-							buffer.append_substring (l_target, previous_lower, previous_upper)
+				across string_scope as scope loop
+					if attached scope.item as buffer then
+						from until i = a.count loop
+							lower := a [i]; upper := a [i + 1]
+							previous_lower := previous_upper + 1
+							previous_upper := lower - 1
+							if previous_upper - previous_lower + 1 > 0 then
+								buffer.append_substring (l_target, previous_lower, previous_upper)
+							end
+							edit_interval (l_target, buffer, lower, upper)
+							previous_upper := upper
+							i := i + 2
 						end
-						edit_interval (l_target, buffer, lower, upper)
-						previous_upper := upper
-						i := i + 2
+						if upper + 1 <= l_target.count then
+							buffer.append_substring (l_target, upper + 1, l_target.count)
+						end
+						wipe_out_target
+						l_target.append (buffer)
+						wipe_out_intervals
 					end
-					if upper + 1 <= l_target.count then
-						buffer.append_substring (l_target, upper + 1, l_target.count)
-					end
-					wipe_out_target
-					l_target.append (buffer)
-					wipe_out_intervals
 				end
 			end
 		ensure
@@ -79,7 +77,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	reuseable_scope: EL_BORROWED_STRING_SCOPE [S, EL_BORROWED_STRING_CURSOR [S]]
+	string_scope: EL_BORROWED_STRING_SCOPE [S, EL_BORROWED_STRING_CURSOR [S]]
 		deferred
 		end
 

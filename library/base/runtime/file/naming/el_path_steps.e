@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 22:23:24 GMT (Friday 3rd November 2023)"
-	revision: "18"
+	date: "2023-11-08 13:47:51 GMT (Wednesday 8th November 2023)"
+	revision: "19"
 
 class
 	EL_PATH_STEPS
@@ -281,7 +281,7 @@ feature -- Status query
 		local
 			token_string, other_token_string: STRING_32
 		do
-			across Reuseable.string_32_pool as pool loop
+			across String_32_pool_scope as pool loop
 				token_string := pool.borrowed_item
 				other_token_string := pool.borrowed_item
 				append_tokens_to (token_string)

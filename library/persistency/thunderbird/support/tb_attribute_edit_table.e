@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "9"
+	date: "2023-11-08 10:28:14 GMT (Wednesday 8th November 2023)"
+	revision: "10"
 
 class
 	TB_ATTRIBUTE_EDIT_TABLE
@@ -21,8 +21,6 @@ inherit
 			{NONE} all
 			{ANY} force, put, extend, force_key
 		end
-
-	EL_MODULE_REUSEABLE
 
 create
 	make, make_size
@@ -44,25 +42,27 @@ feature -- Basic operations
 					end_index := end_index - 1
 				end
 				if start_index < end_index then
-					across Reuseable.string as reuse loop
-						reuse.item.append_substring (element, start_index, end_index)
-						create quote_splitter.make_adjusted (reuse.item, '"', {EL_SIDE}.Both)
-						ending := element.substring_end (end_index + 1)
-						element.keep_head (start_index - 1)
-						element.right_adjust
-						across quote_splitter as split loop
-							if split.cursor_index \\ 2 = 1 then
-								name := split.item_copy
-								name.remove_tail (1)
-								name.right_adjust
-								search (name)
-							elseif found then
-								found_item (name, split.item, element)
-							else
-								XML.append_attribute (name, split.item, element)
+					across String_scope as scope loop
+						if attached scope.item as str then
+							str.append_substring (element, start_index, end_index)
+							create quote_splitter.make_adjusted (str, '"', {EL_SIDE}.Both)
+							ending := element.substring_end (end_index + 1)
+							element.keep_head (start_index - 1)
+							element.right_adjust
+							across quote_splitter as split loop
+								if split.cursor_index \\ 2 = 1 then
+									name := split.item_copy
+									name.remove_tail (1)
+									name.right_adjust
+									search (name)
+								elseif found then
+									found_item (name, split.item, element)
+								else
+									XML.append_attribute (name, split.item, element)
+								end
 							end
+							element.append (ending)
 						end
-						element.append (ending)
 					end
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 17:24:59 GMT (Sunday 16th July 2023)"
-	revision: "31"
+	date: "2023-11-08 14:20:22 GMT (Wednesday 8th November 2023)"
+	revision: "32"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -17,15 +17,13 @@ inherit
 
 	EL_SHARED_DOCUMENT_TYPES
 
-	EL_SHARED_HTTP_STATUS
-
-	EL_SHARED_UTF_8_ZCODEC
-
 	EL_STRING_8_CONSTANTS
 
 	FCGI_SHARED_HEADER
 
-	EL_MODULE_REUSEABLE
+	EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_UTF_8_ZCODEC
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -117,8 +115,8 @@ feature -- Basic operations
 				if status = Http_status.ok then
 					set_cookie_headers
 				end
-				across Reuseable.string_8 as reuse loop
-					buffer := reuse.item
+				across String_8_scope as scope loop
+					buffer := scope.item
 					header_list.sort_by_key (True)
 					if attached header_list as list then
 						from list.start until list.after loop

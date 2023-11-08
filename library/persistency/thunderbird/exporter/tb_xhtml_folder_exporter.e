@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:38:06 GMT (Thursday 17th August 2023)"
-	revision: "34"
+	date: "2023-11-08 16:39:47 GMT (Wednesday 8th November 2023)"
+	revision: "35"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -23,10 +23,12 @@ inherit
 			entity as xml_entity
 		end
 
-	EL_MODULE_BUFFER; EL_MODULE_DATE_TIME; EL_MODULE_FILE
+	EL_MODULE_DATE_TIME; EL_MODULE_FILE
 	EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
 
 	EL_CHARACTER_32_CONSTANTS; EL_HTML_CONSTANTS
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -147,8 +149,10 @@ feature {NONE} -- Implementation
 	write_html (html_doc: ZSTRING)
 		do
 			edit (html_doc)
-			if attached html_doc.to_utf_8 (False) as xhtml then
-				File.write_text (output_file_path, xhtml)
+			across String_8_scope as scope loop
+				if attached scope.copied_utf_8_item (html_doc) as xhtml then
+					File.write_text (output_file_path, xhtml)
+				end
 			end
 		end
 

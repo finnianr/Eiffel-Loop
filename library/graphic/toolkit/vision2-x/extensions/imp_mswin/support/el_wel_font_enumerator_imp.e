@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-05 15:12:38 GMT (Thursday 5th October 2023)"
-	revision: "1"
+	date: "2023-11-08 14:13:30 GMT (Wednesday 8th November 2023)"
+	revision: "2"
 
 class
 	EL_WEL_FONT_ENUMERATOR_IMP
@@ -31,8 +31,6 @@ inherit
 		undefine
 			copy, default_create
 		end
-
-	EL_MODULE_REUSEABLE
 
 create
 	default_create

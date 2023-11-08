@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-23 13:29:42 GMT (Wednesday 23rd August 2023)"
-	revision: "12"
+	date: "2023-11-08 13:44:47 GMT (Wednesday 8th November 2023)"
+	revision: "13"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -39,11 +39,13 @@ inherit
 
 	EL_MODULE_EXCEPTION; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_REUSEABLE; EL_MODULE_STRING_8
+	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_STRING_8
 
 	EL_MODULE_USER_INPUT
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Implementation
 
@@ -91,8 +93,8 @@ feature {NONE} -- Implementation
 
 	initiate_file_listing (dir_path: DIR_PATH)
 		do
-			across Reuseable.string_8 as reuse loop
-				push_address_path (unix_utf_8_path (reuse, dir_path))
+			across String_8_scope as scope loop
+				push_address_path (unix_utf_8_path (scope, dir_path))
 				set_passive_mode
 				initiating_listing := True
 				initiate_transfer
@@ -159,10 +161,10 @@ feature {NONE} -- Implementation
 			utf_8_cmd: STRING; substitute_index: INTEGER
 		do
 			substitute_index := cmd.index_of ('%S', 1)
-			across Reuseable.string_8 as reuse loop
+			across String_8_scope as scope loop
 				if substitute_index > 0 then
 					if attached utf_8_path as path then
-						utf_8_cmd := reuse.item
+						utf_8_cmd := scope.item
 						utf_8_cmd.append_substring (cmd, 1, substitute_index - 1)
 						utf_8_cmd.append (path)
 					else
@@ -196,8 +198,8 @@ feature {NONE} -- Implementation
 	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
 		-- send command `cmd' with `path' argument and possible success `codes'
 		do
-			across Reuseable.string_8 as reuse loop
-				send (cmd, unix_utf_8_path (reuse, a_path), codes)
+			across String_8_scope as scope loop
+				send (cmd, unix_utf_8_path (scope, a_path), codes)
 			end
 		end
 
@@ -287,8 +289,8 @@ feature {NONE} -- Implementation
 
 	try_transfer_file (source_path, destination_path: FILE_PATH; done: BOOLEAN_REF)
 		do
-			across Reuseable.string_8 as reuse loop
-				push_address_path (unix_utf_8_path (reuse, destination_path))
+			across String_8_scope as scope loop
+				push_address_path (unix_utf_8_path (scope, destination_path))
 				set_passive_mode
 				initiate_transfer
 				pop_address_path

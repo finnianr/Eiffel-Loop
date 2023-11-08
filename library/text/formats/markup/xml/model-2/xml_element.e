@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:31:32 GMT (Monday 10th July 2023)"
-	revision: "12"
+	date: "2023-11-08 14:48:49 GMT (Wednesday 8th November 2023)"
+	revision: "13"
 
 deferred class
 	XML_ELEMENT
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_XML
 
 	EL_ZSTRING_CONSTANTS
-
-	EL_MODULE_BUFFER
 
 feature -- Access
 

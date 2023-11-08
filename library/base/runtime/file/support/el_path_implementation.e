@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 8:42:38 GMT (Tuesday 22nd August 2023)"
-	revision: "35"
+	date: "2023-11-08 17:01:20 GMT (Wednesday 8th November 2023)"
+	revision: "36"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -36,7 +36,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
 
-
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature -- Measurement
 
@@ -120,19 +120,22 @@ feature -- Conversion
 	to_utf_8: STRING
 		local
 			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
-			c: EL_UTF_CONVERTER; buffer_8: EL_STRING_8_BUFFER_ROUTINES
+			c: EL_UTF_CONVERTER
 		do
-			Result := buffer_8.empty
-			from i := 1 until i > part_count loop
-				i_th_part := part_string (i)
-				if attached {ZSTRING} i_th_part as zstr then
-					zstr.append_to_utf_8 (Result)
-				else
-					c.utf_32_string_into_utf_8_string_8 (i_th_part, Result)
+			across String_8_scope as scope loop
+				if attached scope.best_item (count) as str then
+					from i := 1 until i > part_count loop
+						i_th_part := part_string (i)
+						if attached {ZSTRING} i_th_part as zstr then
+							zstr.append_to_utf_8 (str)
+						else
+							c.utf_32_string_into_utf_8_string_8 (i_th_part, str)
+						end
+						i := i + 1
+					end
+					Result := str.twin
 				end
-				i := i + 1
 			end
-			Result := Result.twin
 		end
 
 	to_windows, as_windows: ZSTRING
