@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 16:42:31 GMT (Saturday 4th November 2023)"
-	revision: "90"
+	date: "2023-11-09 17:26:17 GMT (Thursday 9th November 2023)"
+	revision: "91"
 
 class
 	EL_ZSTRING
@@ -64,7 +64,7 @@ inherit
 
 	EL_WRITABLE
 		rename
-			write_raw_character_8 as append_raw_character_8,
+			write_encoded_character_8 as append_raw_character_8,
 			write_character_8 as append_character_8,
 			write_character_32 as append_character,
 			write_integer_8 as append_integer_8,
@@ -75,7 +75,7 @@ inherit
 			write_natural_16 as append_natural_16,
 			write_natural_32 as append_natural_32,
 			write_natural_64 as append_natural_64,
-			write_raw_string_8 as append_raw_string_8,
+			write_encoded_string_8 as append_raw_string_8,
 			write_real_32 as append_real,
 			write_real_64 as append_double,
 			write_string as append_string,

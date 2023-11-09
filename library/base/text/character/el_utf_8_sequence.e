@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 7:49:57 GMT (Sunday 24th September 2023)"
-	revision: "13"
+	date: "2023-11-09 17:26:16 GMT (Thursday 9th November 2023)"
+	revision: "14"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -308,14 +308,19 @@ feature -- Basic operations
 			i, l_count, old_count: INTEGER; l_area: like area
 			buffer_area: like buffer.area
 		do
-			l_area := area; l_count := count; old_count := str.count
-			str.grow (old_count + l_count)
-			buffer_area := str.area
-			from i := 0 until i = l_count loop
-				buffer_area [old_count + i] := l_area.item (i).to_character_8
-				i := i + 1
+			l_count := count
+			if l_count = 1 then
+				str.extend (area [0].to_character_8)
+			else
+				l_area := area; old_count := str.count
+				str.grow (old_count + l_count)
+				buffer_area := str.area
+				from i := 0 until i = l_count loop
+					buffer_area [old_count + i] := l_area [i].to_character_8
+					i := i + 1
+				end
+				str.set_count (old_count + l_count)
 			end
-			str.set_count (old_count + l_count)
 		end
 
 	write (writeable: EL_WRITABLE)
@@ -324,7 +329,7 @@ feature -- Basic operations
 		do
 			l_area := area; l_count := count
 			from i := 0 until i = l_count loop
-				writeable.write_raw_character_8 (l_area.item (i).to_character_8)
+				writeable.write_encoded_character_8 (l_area [i].to_character_8)
 				i := i + 1
 			end
 		end

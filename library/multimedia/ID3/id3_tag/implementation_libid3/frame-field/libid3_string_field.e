@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-11-09 11:49:15 GMT (Thursday 9th November 2023)"
+	revision: "12"
 
 class
 	LIBID3_STRING_FIELD
@@ -25,6 +25,8 @@ inherit
 		redefine
 			Libid3_types
 		end
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -89,7 +91,9 @@ feature -- Element change
 				set_text_unicode (str.to_string_32)
 
 			elseif code = Encoding_enum.UTF_8 then
-				set_latin_1_string (str.to_utf_8 (False))
+				across String_8_scope as scope loop
+					set_latin_1_string (scope.copied_utf_8_item (str))
+				end
 
 			end
 		end

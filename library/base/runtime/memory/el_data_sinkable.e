@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 6:36:25 GMT (Monday 12th December 2022)"
-	revision: "23"
+	date: "2023-11-09 17:26:17 GMT (Thursday 9th November 2023)"
+	revision: "24"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -15,8 +15,8 @@ deferred class
 inherit
 	EL_WRITABLE
 		rename
-			write_raw_character_8 as sink_raw_character_8, -- Allows UTF-8 conversion
-			write_raw_string_8 as sink_raw_string_8,
+			write_encoded_character_8 as sink_raw_character_8, -- Allows UTF-8 conversion
+			write_encoded_string_8 as sink_raw_string_8,
 
 			write_character_8 as sink_character_8,
 			write_character_32 as sink_character_32,

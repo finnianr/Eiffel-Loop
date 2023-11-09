@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:25:50 GMT (Wednesday 8th November 2023)"
-	revision: "106"
+	date: "2023-11-09 11:01:44 GMT (Thursday 9th November 2023)"
+	revision: "107"
 
 class
 	ZSTRING_TEST_SET
@@ -23,8 +23,6 @@ inherit
 	EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 	EL_SHARED_ZSTRING_CODEC
-
-	EL_SHARED_UTF_8_ZCODEC
 
 	EL_SHARED_ENCODINGS
 
@@ -906,22 +904,32 @@ feature -- Element change tests
 		end
 
 	test_to_utf_8
+		-- ZSTRING_TEST_SET.test_to_utf_8
 		note
 			testing:	"[
 				covers/{ZSTRING}.to_utf_8,
+				covers/{EL_ZSTRING_IMPLEMENTATION}.leading_ascii_count,
+				covers/{EL_WRITEABLE_ZSTRING}.append_to_utf_8,
 				covers/{ZSTRING}.make_from_utf_8
 			]"
 		local
-			test: STRING_TEST
-			str_2: ZSTRING; str_utf_8: STRING
+			z_word, z_str: ZSTRING; utf_8: STRING; conv: EL_UTF_8_CONVERTER
 		do
-			create test
-			across Text.words as word loop
-				test.set (word.item)
-				str_utf_8 := test.zs.to_utf_8
-				assert_same_string ("to_utf_8 OK", str_utf_8, Utf_8_codec.as_utf_8 (test.s_32, False))
-				create str_2.make_from_utf_8 (str_utf_8)
-				assert_same_string ("make_from_utf_8 OK", str_2, test.s_32)
+			create utf_8.make_empty
+			across Text.lines as line loop
+				utf_8.wipe_out
+				across line.item.split (' ') as word loop
+					if word.cursor_index > 1 then
+						utf_8.append_character (' ')
+					end
+					z_word := word.item
+					z_word.append_to_utf_8 (utf_8)
+				end
+				if attached conv.string_32_to_string_8 (line.item) as line_utf_8 then
+					assert_same_string (Void, utf_8, line_utf_8)
+					z_str := line.item
+					assert_same_string (Void, z_str.to_utf_8, line_utf_8)
+				end
 			end
 		end
 

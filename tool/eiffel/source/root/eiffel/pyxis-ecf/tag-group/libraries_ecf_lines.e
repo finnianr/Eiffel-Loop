@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-11-09 12:16:25 GMT (Thursday 9th November 2023)"
+	revision: "11"
 
 class
 	LIBRARIES_ECF_LINES
@@ -28,6 +28,8 @@ inherit
 		redefine
 			set_from_line, adjust_value, exit, is_related_line, Template
 		end
+
+	STRING_HANDLER
 
 create
 	make

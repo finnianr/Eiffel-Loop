@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:01:09 GMT (Friday 11th August 2023)"
-	revision: "11"
+	date: "2023-11-09 17:23:53 GMT (Thursday 9th November 2023)"
+	revision: "12"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
@@ -21,8 +21,8 @@ inherit
 	EL_PARSER_OUTPUT_MEDIUM
 		rename
 			make as make_output,
-			put_character as put_raw_character_8,
-			put_string as put_raw_string_8
+			put_character as put_encoded_character_8,
+			put_string as put_encoded_string_8
 		end
 
 	EL_OUTPUT_MEDIUM

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:13:34 GMT (Wednesday 8th November 2023)"
-	revision: "34"
+	date: "2023-11-09 9:20:07 GMT (Thursday 9th November 2023)"
+	revision: "35"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -18,8 +18,6 @@ inherit
 	EL_MODULE_CONSOLE; EL_MODULE_ENVIRONMENT
 
 	EL_SHARED_STRING_POOLS
-
-	EL_SHARED_UTF_8_ZCODEC
 
 	EL_LOGGABLE_CONSTANTS
 

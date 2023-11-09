@@ -6,8 +6,8 @@ note
 	notes: "[
 		Descendants are optimized to handle [$source ZSTRING] or strings conforming to [$source READABLE_STRING_8]
 			
-			[$source TP_ZSTRING_FACTORY]
-			[$source TP_RSTRING_FACTORY]
+			[$source TP_ZSTRING_OPTIMIZED_FACTORY]
+			[$source TP_RSTRING_OPTIMIZED_FACTORY]
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 16:22:47 GMT (Thursday 9th February 2023)"
-	revision: "8"
+	date: "2023-11-09 13:27:45 GMT (Thursday 9th November 2023)"
+	revision: "9"
 
 class
 	TP_OPTIMIZED_FACTORY
@@ -165,7 +165,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 18:05:13 GMT (Saturday 3rd December 2022)"
-	revision: "6"
+	date: "2023-11-09 13:27:45 GMT (Thursday 9th November 2023)"
+	revision: "7"
 
 deferred class
 	TP_SHARED_OPTIMIZED_FACTORY
@@ -38,12 +38,12 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Factory_readable_string_8: TP_RSTRING_FACTORY
+	Factory_readable_string_8: TP_RSTRING_OPTIMIZED_FACTORY
 		once ("PROCESS")
 			create Result
 		end
 
-	Factory_zstring: TP_ZSTRING_FACTORY
+	Factory_zstring: TP_ZSTRING_OPTIMIZED_FACTORY
 		once ("PROCESS")
 			create Result
 		end

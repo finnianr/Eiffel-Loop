@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:00:17 GMT (Wednesday 8th November 2023)"
-	revision: "6"
+	date: "2023-11-09 18:15:58 GMT (Thursday 9th November 2023)"
+	revision: "7"
 
 class
 	EL_BORROWED_STRING_8_CURSOR
@@ -51,10 +51,12 @@ feature -- Access
 		local
 			converter: EL_UTF_CONVERTER
 		do
-			Result := best_item (general.count)
 			if attached {ZSTRING} general as zstr then
+				Result := best_item (zstr.count + zstr.unencoded_count * 2)
+
 				zstr.append_to_utf_8 (Result)
 			else
+				Result := best_item (converter.utf_8_bytes_count (general, 1, general.count))
 				converter.utf_32_string_into_utf_8_string_8 (general, Result)
 			end
 		end

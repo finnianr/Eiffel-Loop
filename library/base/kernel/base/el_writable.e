@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 11:52:35 GMT (Monday 12th December 2022)"
-	revision: "8"
+	date: "2023-11-09 17:26:44 GMT (Thursday 9th November 2023)"
+	revision: "9"
 
 deferred class
 	EL_WRITABLE
@@ -61,7 +61,7 @@ feature -- Real
 
 feature -- String
 
-	write_raw_string_8 (value: READABLE_STRING_8)
+	write_encoded_string_8 (value: READABLE_STRING_8)
 		-- write encoded string (usually UTF-8)
 		deferred
 		end
@@ -99,12 +99,12 @@ feature -- Access
 		deferred
 		end
 
-	write_pointer (value: POINTER)
+	write_encoded_character_8 (value: CHARACTER)
+		-- write an encoding character
 		deferred
 		end
 
-	write_raw_character_8 (value: CHARACTER)
-		-- write an encoding character
+	write_pointer (value: POINTER)
 		deferred
 		end
 

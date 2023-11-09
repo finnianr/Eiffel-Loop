@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-14 17:25:14 GMT (Friday 14th July 2023)"
-	revision: "29"
+	date: "2023-11-09 12:24:47 GMT (Thursday 9th November 2023)"
+	revision: "30"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 			command: FEATURE_EDITOR_COMMAND; source_path: FILE_PATH
 		do
 			source_path := Work_area_dir + (source_name + ".e")
-			assert (source_path.base_name + "exists", source_path.exists)
+			assert_32 (source_path.base_name + "exists", source_path.exists)
 			create command.make (source_path, False)
 			command.execute
 			log.put_labeled_string ("Digest", plain_text_digest (source_path).to_base_64_string)

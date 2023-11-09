@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 9:31:30 GMT (Monday 7th August 2023)"
-	revision: "24"
+	date: "2023-11-09 10:05:26 GMT (Thursday 9th November 2023)"
+	revision: "25"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
@@ -22,17 +22,8 @@ feature -- Status query
 		require
 			valid_start_index: start_index < area.count
 			valid_end_index: end_index < area.count
-		local
-			i: INTEGER
 		do
-			Result := True
-			from i := start_index until not Result or else i > end_index loop
-				if area [i] > max_ascii_character then
-					Result := False
-				else
-					i := i + 1
-				end
-			end
+			Result := leading_ascii_count (area, start_index, end_index) = end_index - start_index + 1
 		end
 
 	is_valid_eiffel_case (c: CHARACTER_8; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
@@ -71,6 +62,25 @@ feature -- Status query
 			Result := True
 			from i := 0 until not Result or i = comparison_count loop
 				Result := same_caseless_character (area_1 [offset_1 + i], area_2 [offset_2 + i])
+				i := i + 1
+			end
+		end
+
+feature -- Measurement
+
+	leading_ascii_count (area: SPECIAL [G]; start_index, end_index: INTEGER): INTEGER
+		require
+			valid_start_index: start_index < area.count
+			valid_end_index: end_index < area.count
+		local
+			i: INTEGER; non_ascii: BOOLEAN
+		do
+			from i := start_index until non_ascii or else i > end_index loop
+				if area [i] < max_ascii_character then
+					Result := Result + 1
+				else
+					non_ascii := True
+				end
 				i := i + 1
 			end
 		end

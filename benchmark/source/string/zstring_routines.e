@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 9:17:31 GMT (Wednesday 30th August 2023)"
-	revision: "1"
+	date: "2023-11-09 11:55:20 GMT (Thursday 9th November 2023)"
+	revision: "2"
 
 class
 	ZSTRING_ROUTINES
@@ -68,7 +68,7 @@ feature -- Conversion
 
 	to_utf_8 (string: ZSTRING): STRING
 		do
-			Result := string.to_utf_8 (True)
+			Result := string.to_utf_8
 		end
 
 	xml_escaped (target: ZSTRING): ZSTRING

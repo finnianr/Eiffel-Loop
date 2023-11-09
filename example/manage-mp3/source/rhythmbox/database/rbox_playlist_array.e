@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:54:36 GMT (Tuesday 14th February 2023)"
-	revision: "19"
+	date: "2023-11-08 23:24:13 GMT (Wednesday 8th November 2023)"
+	revision: "20"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -173,7 +173,7 @@ feature {RBOX_DATABASE} -- Implementation
 				do_once_with_file_lines (agent find_playlist, lines)
 			end
 			make_array (static_playlist_count)
-			build_from_string (xml_string.to_utf_8 (True))
+			build_from_string (xml_string.to_utf_8)
 		end
 
 	non_static_playlist_lines: EL_ZSTRING_LIST

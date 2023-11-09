@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:46:57 GMT (Wednesday 8th November 2023)"
-	revision: "14"
+	date: "2023-11-09 17:15:48 GMT (Thursday 9th November 2023)"
+	revision: "15"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -16,11 +16,11 @@ inherit
 	EL_NOTIFYING_PLAIN_TEXT_FILE
 		export
 			{NONE} all
-			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_raw_string_8, put_new_line,
+			{ANY} put_string, put_string_general, put_string_32, put_string_8, put_encoded_string_8, put_new_line,
 					read_line_8, last_string_8, close, count,
 					after, extendible, encoded_as_utf, file_readable, readable, is_closed, end_of_file
 		redefine
-			make_default, put_string, put_string_8, put_raw_string_8, put_string_general, read_line_8,
+			make_default, put_string, put_string_8, put_encoded_string_8, put_string_general, read_line_8,
 			open_append, open_write, open_read
 		end
 
@@ -52,16 +52,16 @@ feature -- Access
 feature -- Write string
 
 	put_string_general (str: READABLE_STRING_GENERAL)
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			put_raw_string_8 (s.to_utf_8 (s.from_general (str, False), False))
+			across String_8_scope as scope loop
+				put_encoded_string_8 (scope.copied_utf_8_item (str))
+			end
 		end
 
 	put_string (str: ZSTRING)
 		do
 			across String_8_scope as scope loop
-				put_raw_string_8 (scope.copied_utf_8_item (str))
+				put_encoded_string_8 (scope.copied_utf_8_item (str))
 			end
 		end
 
@@ -70,7 +70,7 @@ feature -- Write string
 			put_string_general (str)
 		end
 
-	put_raw_string_8 (s: STRING)
+	put_encoded_string_8 (s: STRING)
 		do
 			Precursor (encrypter.base_64_encrypted (s))
 		end

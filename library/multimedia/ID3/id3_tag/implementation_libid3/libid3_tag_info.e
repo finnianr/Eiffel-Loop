@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2023-11-09 11:51:20 GMT (Thursday 9th November 2023)"
+	revision: "11"
 
 class
 	LIBID3_TAG_INFO
@@ -191,10 +191,9 @@ feature {NONE} -- Implementation
 
 	link_tags (tag_types: INTEGER)
 		local
-			file_path: STRING
-			to_c: ANY
+			file_path: STRING; to_c: ANY
 		do
-			file_path := mp3_path.to_string.to_utf_8 (False)
+			file_path := mp3_path.to_utf_8
 			to_c := file_path.to_c
 			cpp_link (self_ptr, $to_c, tag_types)
 		end

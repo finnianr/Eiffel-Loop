@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-11-09 17:23:15 GMT (Thursday 9th November 2023)"
+	revision: "13"
 
 class
 	EL_NETWORK_STREAM_SOCKET
@@ -16,8 +16,8 @@ inherit
 	NETWORK_STREAM_SOCKET
 		rename
 			last_string as internal_last_string,
-			put_string as put_raw_string_8,
-			put_character as put_raw_character_8,
+			put_string as put_encoded_string_8,
+			put_character as put_encoded_character_8,
 			make_empty as make_default
 		export
 			{NONE} internal_last_string

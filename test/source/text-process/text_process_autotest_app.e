@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:20:47 GMT (Saturday 29th April 2023)"
-	revision: "18"
+	date: "2023-11-09 15:36:15 GMT (Thursday 9th November 2023)"
+	revision: "19"
 
 class
 	TEXT_PROCESS_AUTOTEST_APP
@@ -46,7 +46,7 @@ feature {NONE} -- Implementation
 		EL_PATTERN_SPLIT_STRING_LIST,
 		EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR,
 		EL_PASSPHRASE_EVALUATOR,
-		EL_TAB_REMOVER,
+		EL_TAB_REMOVER, TP_RSTRING_FACTORY,
 		EL_ZIP_FILE_LISTING_PARSER
 	]
 		do

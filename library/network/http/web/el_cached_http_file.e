@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:09:37 GMT (Thursday 17th August 2023)"
-	revision: "6"
+	date: "2023-11-09 17:25:12 GMT (Thursday 9th November 2023)"
+	revision: "7"
 
 class
 	EL_CACHED_HTTP_FILE
@@ -29,7 +29,7 @@ inherit
 			put_indented_line, put_indented_lines, put_integer, put_integer_16, put_integer_32,
 			put_integer_64, put_integer_8, put_latin_1, put_line, put_lines, put_managed_pointer,
 			put_natural, put_natural_8, put_natural_16, put_natural_32, put_natural_64,
-			put_new_line, put_pointer, put_raw_character_8, put_raw_string_8, put_real, put_string,
+			put_new_line, put_pointer, put_encoded_character_8, put_encoded_string_8, put_real, put_string,
 			put_string_32, put_string_8, put_string_general, putbool, putchar, putdouble, putint,
 			putreal, putstring
 		end

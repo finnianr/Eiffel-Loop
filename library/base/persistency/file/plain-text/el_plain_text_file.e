@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 9:55:14 GMT (Monday 10th July 2023)"
-	revision: "13"
+	date: "2023-11-09 17:23:44 GMT (Thursday 9th November 2023)"
+	revision: "14"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -18,8 +18,8 @@ class
 inherit
 	PLAIN_TEXT_FILE
 		rename
-			put_string as put_raw_string_8,
-			put_character as put_raw_character_8,
+			put_string as put_encoded_string_8,
+			put_character as put_encoded_character_8,
 			path as ise_path,
 			last_string as last_string_8,
 			read_line as read_line_8

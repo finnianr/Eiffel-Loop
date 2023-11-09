@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-25 9:51:05 GMT (Sunday 25th December 2022)"
-	revision: "11"
+	date: "2023-11-09 17:26:17 GMT (Thursday 9th November 2023)"
+	revision: "12"
 
 deferred class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
@@ -22,8 +22,8 @@ inherit
 
 	EL_WRITABLE
 		rename
-			write_raw_character_8 as write_character_8,
-			write_raw_string_8 as write_string_8
+			write_encoded_character_8 as write_character_8,
+			write_encoded_string_8 as write_string_8
 		export
 			{NONE} all
 		end

@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 16:23:40 GMT (Thursday 9th February 2023)"
-	revision: "8"
+	date: "2023-11-09 13:27:45 GMT (Thursday 9th November 2023)"
+	revision: "9"
 
 class
-	TP_ZSTRING_FACTORY
+	TP_ZSTRING_OPTIMIZED_FACTORY
 
 inherit
 	TP_OPTIMIZED_FACTORY
@@ -173,7 +173,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

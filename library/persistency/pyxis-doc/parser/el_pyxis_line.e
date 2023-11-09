@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:23:52 GMT (Wednesday 8th November 2023)"
-	revision: "8"
+	date: "2023-11-09 12:16:52 GMT (Thursday 9th November 2023)"
+	revision: "9"
 
 class
 	EL_PYXIS_LINE
@@ -211,7 +211,7 @@ feature -- Status query
 			Result := count > 1 and then area [end_index - 1] = ':'
 		end
 
-feature {EL_PYXIS_PARSER} -- Implementation
+feature {STRING_HANDLER, EL_PYXIS_PARSER} -- Implementation
 
 	element_name: detachable STRING
 		-- name of element (tag) or `Void' if not a tag name

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-22 17:04:28 GMT (Thursday 22nd June 2023)"
-	revision: "34"
+	date: "2023-11-08 23:24:20 GMT (Wednesday 8th November 2023)"
+	revision: "35"
 
 class
 	RBOX_PLAYLIST
@@ -41,9 +41,9 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_LOG
+	EL_MODULE_DIGEST; EL_MODULE_LOG
 
-	EL_MODULE_DIGEST
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_default
@@ -162,7 +162,9 @@ feature -- Element change
 			if a_name.is_empty then
 				id := Default_id
 			else
-				set_id_from_uuid (Digest.md5 (a_name.to_utf_8 (False)).to_uuid)
+				across String_8_scope as scope loop
+					set_id_from_uuid (Digest.md5 (scope.copied_utf_8_item (a_name)).to_uuid)
+				end
 			end
 		end
 

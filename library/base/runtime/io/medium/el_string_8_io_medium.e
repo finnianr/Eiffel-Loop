@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-09 10:13:33 GMT (Sunday 9th July 2023)"
-	revision: "12"
+	date: "2023-11-09 17:23:33 GMT (Thursday 9th November 2023)"
+	revision: "13"
 
 class
 	EL_STRING_8_IO_MEDIUM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_IO_MEDIUM
 		redefine
-			text, put_raw_string_8
+			text, put_encoded_string_8
 		end
 
 create
@@ -35,13 +35,13 @@ feature -- Resizing
 
 feature -- Output
 
-	put_raw_character_8 (c: CHARACTER)
+	put_encoded_character_8 (c: CHARACTER)
 			--
 		do
 			text.append_character (c)
 		end
 
-	put_raw_string_8 (a_encoded: STRING)
+	put_encoded_string_8 (a_encoded: STRING_8)
 		-- put encoded string
 		do
 			text.append (a_encoded)

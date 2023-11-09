@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 12:46:07 GMT (Monday 31st July 2023)"
-	revision: "8"
+	date: "2023-11-09 17:15:48 GMT (Thursday 9th November 2023)"
+	revision: "9"
 
 class
 	EVOLICITY_VARIABLE_SUBST_DIRECTIVE
@@ -39,10 +39,10 @@ feature -- Basic operations
 					output.put_string (path_value.to_string) -- Escaping is useful for OS commands
 
 				elseif attached {REAL_REF} value as real_ref then
-					output.put_raw_string_8 (replaced_separator (real_ref.out))
+					output.put_encoded_string_8 (replaced_separator (real_ref.out))
 
 				elseif attached {DOUBLE_REF} value as double_ref then
-					output.put_raw_string_8 (replaced_separator (double_ref.out))
+					output.put_encoded_string_8 (replaced_separator (double_ref.out))
 
 				elseif attached {INTEGER_REF} value as integer_ref then
 					output.put_integer_32 (integer_ref.item)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:21:51 GMT (Saturday 29th April 2023)"
-	revision: "11"
+	date: "2023-11-09 13:29:50 GMT (Thursday 9th November 2023)"
+	revision: "12"
 
 deferred class
 	TP_FACTORY
@@ -247,25 +247,3 @@ feature {NONE} -- Type definition
 			Result := Void
 		end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

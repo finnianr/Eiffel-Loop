@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 15:59:41 GMT (Wednesday 8th November 2023)"
-	revision: "74"
+	date: "2023-11-09 10:54:56 GMT (Thursday 9th November 2023)"
+	revision: "75"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -368,6 +368,25 @@ feature {NONE} -- Implementation
 		-- internal character at position `i'
 		do
 			Result := area [i - 1]
+		end
+
+	leading_ascii_count (a_area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
+		require
+			valid_order: start_index <= end_index
+			valid_start_index: a_area.valid_index (start_index)
+			valid_end_index: a_area.valid_index (end_index)
+		local
+			i: INTEGER; non_ascii: BOOLEAN; c: CHARACTER
+		do
+			from i := start_index until non_ascii or else i > end_index loop
+				c := a_area [i]
+				if c < Max_7_bit_character and then c /= Substitute then
+					Result := Result + 1
+					i := i + 1
+				else
+					non_ascii := True
+				end
+			end
 		end
 
 	put_unicode (a_code: NATURAL_32; i: INTEGER)

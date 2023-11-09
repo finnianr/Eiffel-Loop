@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:11:20 GMT (Friday 11th August 2023)"
-	revision: "30"
+	date: "2023-11-09 17:56:56 GMT (Thursday 9th November 2023)"
+	revision: "31"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -23,8 +23,8 @@ inherit
 
 	EL_WRITABLE
 		rename
-			write_raw_character_8 as put_raw_character_8, -- Allows UTF-8 conversion
-			write_raw_string_8 as put_raw_string_8,
+			write_encoded_character_8 as put_encoded_character_8, -- Allows UTF-8 conversion
+			write_encoded_string_8 as put_encoded_readable_string_8,
 
 			write_character_8 as put_character_8,
 			write_character_32 as put_character_32,
@@ -51,6 +51,8 @@ inherit
 	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY
 
 	EL_STRING_8_CONSTANTS
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -79,9 +81,9 @@ feature -- Output
 
 				when Latin_1 then
 					if c.is_character_8 then
-						put_raw_character_8 (c.to_character_8)
+						put_encoded_character_8 (c.to_character_8)
 					else
-						put_raw_character_8 ({EL_ZCODE_CONVERSION}.Substitute)
+						put_encoded_character_8 ({EL_ZCODE_CONVERSION}.Substitute)
 					end
 			else
 				codec.write_encoded_character (c, Current)
@@ -96,7 +98,7 @@ feature -- Output
 					put_other (One_character)
 
 				when Latin_1 then
-					put_raw_character_8 (c)
+					put_encoded_character_8 (c)
 			else
 				codec.write_encoded_character (c, Current)
 			end
@@ -113,7 +115,7 @@ feature -- Output
 
 	put_pointer (p: POINTER)
 		do
-			put_raw_string_8 (p.out)
+			put_encoded_string_8 (p.out)
 		end
 
 feature -- String output
@@ -125,7 +127,7 @@ feature -- String output
 		do
 			if is_bom_writeable then
 			--	0xEF,0xBB,0xBF
-				put_raw_string_8 ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
+				put_encoded_string_8 ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
 			end
 		end
 
@@ -134,7 +136,7 @@ feature -- String output
 			i: INTEGER
 		do
 			from i := 1 until i > tab_count loop
-				put_raw_character_8 ('%T')
+				put_encoded_character_8 ('%T')
 				i := i + 1
 			end
 		end
@@ -161,7 +163,7 @@ feature -- String output
 					not_first := True
 				end
 				if not indent.is_empty then -- Necessary for Network stream
-					put_raw_string_8 (indent)
+					put_encoded_string_8 (indent)
 				end
 				put_string_general (line.item)
 			end
@@ -178,17 +180,31 @@ feature -- String output
 			put_indented_lines (Empty_string_8, lines)
 		end
 
+	put_encoded_string_8 (str: STRING_8)
+		-- write encoded string (usually UTF-8)
+		deferred
+		end
+
+	put_encoded_readable_string_8 (str: READABLE_STRING_8)
+		do
+			put_encoded_string_8 (str.to_string_8)
+		end
+
 	put_string (str: EL_READABLE_ZSTRING)
 		require else
 			valid_encoding: str.has_mixed_encoding implies encoded_as_utf (8)
 		do
-			if encoding = Other_class then
-				put_other (str)
-
-			elseif str.encoded_with (codec) then
-				str.write_latin (Current)
+			inspect encoding
+				when Other_class, Utf_8 then
+					put_string_general (str)
 			else
-				codec.write_encoded (str, Current) -- Call back to `put_raw_character_8'
+				if str.encoded_with (codec) then
+					across String_8_scope as scope loop
+						put_encoded_string_8 (scope.copied_item (str.to_shared_immutable_8))
+					end
+				else
+					put_codec_encoded (str)
+				end
 			end
 		end
 
@@ -196,23 +212,28 @@ feature -- String output
 		require else
 			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
 		do
-			if encoding = Other_class then
-				put_other (str)
+			inspect encoding
+				when Other_class, Utf_8 then
+					put_string_general (str)
 			else
-				codec.write_encoded (str, Current)
+				if attached {EL_READABLE_ZSTRING} str as zstr then
+					put_string (zstr)
+				else
+					put_codec_encoded (str)
+				end
 			end
 		end
 
 	put_string_8, put_latin_1 (str: READABLE_STRING_8)
 		do
 			inspect encoding
-				when Other_class then
-					put_other (str)
+				when Other_class, Utf_8 then
+					put_string_general (str)
 
 				when Latin_1 then
-					put_raw_string_8 (str)
+					put_encoded_readable_string_8 (str)
 			else
-				codec.write_encoded (str, Current) -- Call back to `put_raw_character_8'
+				put_codec_encoded (str)
 			end
 		end
 
@@ -220,10 +241,21 @@ feature -- String output
 		require else
 			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
 		do
-			if encoding = Other_class then
-				put_other (str)
+			inspect encoding
+				when Other_class then
+					put_other (str)
+
+				when Utf_8 then
+					across String_8_scope as scope loop
+						put_encoded_string_8 (scope.copied_utf_8_item (str))
+					end
 			else
-				codec.write_encoded (str, Current)
+				if attached {READABLE_STRING_8} str as str_8 then
+					put_string_8 (str_8)
+
+				elseif attached {READABLE_STRING_32} str as str_32 then
+					put_string_32 (str_32)
+				end
 			end
 		end
 
@@ -261,6 +293,18 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	put_codec_encoded (str: READABLE_STRING_GENERAL)
+		require
+			not_utf_8: not codec.is_utf_encoded
+		do
+			across String_8_scope as scope loop
+				if attached scope.sized_item (str.count) as str_8 then
+					codec.encode_as_string_8 (str, str_8.area, 0)
+					put_encoded_string_8 (str_8)
+				end
+			end
+		end
+
 	put_other (str: READABLE_STRING_GENERAL)
 		require
 			encoding_class_other: encoding = Other_class
@@ -286,7 +330,7 @@ feature {NONE} -- Implementation
 						l_encoding := Encodings.Utf_8
 					end
 				end
-				put_raw_string_8 (unicode.last_converted_string_8)
+				put_encoded_string_8 (unicode.last_converted_string_8)
 			end
 		end
 

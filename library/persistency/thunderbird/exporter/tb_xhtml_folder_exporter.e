@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:39:47 GMT (Wednesday 8th November 2023)"
-	revision: "35"
+	date: "2023-11-09 11:32:07 GMT (Thursday 9th November 2023)"
+	revision: "36"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -150,9 +150,7 @@ feature {NONE} -- Implementation
 		do
 			edit (html_doc)
 			across String_8_scope as scope loop
-				if attached scope.copied_utf_8_item (html_doc) as xhtml then
-					File.write_text (output_file_path, xhtml)
-				end
+				File.write_text (output_file_path, scope.copied_utf_8_item (html_doc))
 			end
 		end
 

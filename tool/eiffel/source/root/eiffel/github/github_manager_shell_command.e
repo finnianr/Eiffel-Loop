@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-21 9:21:59 GMT (Saturday 21st October 2023)"
-	revision: "25"
+	date: "2023-11-09 12:13:38 GMT (Thursday 9th November 2023)"
+	revision: "26"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -114,7 +114,7 @@ feature {NONE} -- Commands
 			create credential.make_default
 			user.validate (credential)
 
-			encrypted_token := credential.new_aes_encrypter (256).base_64_encrypted (new_token.to_utf_8 (False))
+			encrypted_token := credential.new_aes_encrypter (256).base_64_encrypted (new_token.to_utf_8)
 
 			pyxis_fragment := Access_token_template #$ [encrypted_token, credential.salt_base_64, credential.digest_base_64]
 

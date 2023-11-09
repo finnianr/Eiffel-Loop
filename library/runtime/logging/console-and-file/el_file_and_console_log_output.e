@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:35:48 GMT (Thursday 17th August 2023)"
-	revision: "17"
+	date: "2023-11-09 9:22:50 GMT (Thursday 9th November 2023)"
+	revision: "18"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -43,6 +43,8 @@ inherit
 		rename
 			mutex as write_mutex
 		end
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -109,17 +111,17 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	write_console (str: READABLE_STRING_GENERAL)
-		local
-			l_utf_8: STRING
 		do
-			l_utf_8 := Utf_8_codec.as_utf_8 (str, False)
-			put_file_string (l_utf_8)
-
-			if is_directed_to_console then
-				if Console.is_utf_8_encoded then
-					std_output.put_string (l_utf_8)
-				else
-					Precursor (str)
+			across String_8_scope as scope loop
+				if attached scope.copied_utf_8_item (str) as l_utf_8 then
+					put_file_string (l_utf_8)
+					if is_directed_to_console then
+						if Console.is_utf_8_encoded then
+							std_output.put_string (l_utf_8)
+						else
+							Precursor (str)
+						end
+					end
 				end
 			end
 		end

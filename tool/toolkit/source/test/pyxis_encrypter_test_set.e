@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "4"
+	date: "2023-11-09 12:20:10 GMT (Thursday 9th November 2023)"
+	revision: "5"
 
 class
 	PYXIS_ENCRYPTER_TEST_SET
@@ -55,7 +55,7 @@ feature -- Tests
 					if decrypted_table.has_key (translation.key) then
 						assert ("same value", translation.item ~ decrypted_table.found_item)
 					else
-						assert (translation.key + " found", False)
+						assert_32 (translation.key + " found", False)
 					end
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 15:00:05 GMT (Friday 11th August 2023)"
-	revision: "10"
+	date: "2023-11-09 17:24:06 GMT (Thursday 9th November 2023)"
+	revision: "11"
 
 deferred class
 	EL_STREAM_SOCKET
@@ -15,8 +15,8 @@ deferred class
 inherit
 	STREAM_SOCKET
 		rename
-			put_string as put_raw_string_8,
-			put_character as put_raw_character_8,
+			put_string as put_encoded_string_8,
+			put_character as put_encoded_character_8,
 			last_string as internal_last_string
 		export
 			{NONE} internal_last_string
@@ -126,7 +126,7 @@ feature -- Output
 	put_end_of_string_delimiter
 			-- put end of string delimiter
 		do
-			put_raw_character_8 (End_of_string_delimiter)
+			put_encoded_character_8 (End_of_string_delimiter)
 		end
 
 feature -- Element change

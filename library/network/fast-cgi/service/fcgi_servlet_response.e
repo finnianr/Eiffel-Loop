@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:20:22 GMT (Wednesday 8th November 2023)"
-	revision: "32"
+	date: "2023-11-08 23:28:30 GMT (Wednesday 8th November 2023)"
+	revision: "33"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -154,7 +154,7 @@ feature -- Basic operations
 			if a_content_type.type ~ once "html" then
 				html := Error_page_template #$ [code_name, code_name, message]
 				if a_content_type.encoding.is_utf_encoded then
-					content := html.to_utf_8 (True)
+					content := html.to_utf_8
 				else
 					content := html.to_latin_1
 				end

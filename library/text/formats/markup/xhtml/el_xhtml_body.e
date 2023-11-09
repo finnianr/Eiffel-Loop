@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-11 14:21:25 GMT (Tuesday 11th July 2023)"
-	revision: "1"
+	date: "2023-11-08 23:17:44 GMT (Wednesday 8th November 2023)"
+	revision: "2"
 
 class
 	EL_XHTML_BODY
@@ -16,6 +16,8 @@ inherit
 	ANY
 
 	EL_MODULE_FILE
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -43,10 +45,12 @@ feature -- Access
 
 	to_xhtml_doc: STRING
 		do
-			XHTML_template.set_variables_from_array (<<
-				["title", name.to_utf_8 (True)], ["body", content]
-			>>)
-			Result := XHTML_template.substituted
+			across String_8_scope as scope loop
+				XHTML_template.set_variables_from_array (<<
+					["title", scope.copied_utf_8_item (name)], ["body", content]
+				>>)
+				Result := XHTML_template.substituted
+			end
 		end
 
 feature -- Element change

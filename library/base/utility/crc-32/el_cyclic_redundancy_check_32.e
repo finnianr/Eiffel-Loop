@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 9:24:26 GMT (Saturday 4th November 2023)"
-	revision: "32"
+	date: "2023-11-09 17:26:16 GMT (Thursday 9th November 2023)"
+	revision: "33"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -15,7 +15,7 @@ class
 inherit
 	EL_WRITABLE
 		rename
-			write_raw_character_8 as add_character_8,
+			write_encoded_character_8 as add_character_8,
 			write_character_8 as add_character_8,
 			write_character_32 as add_character_32,
 			write_integer_8 as add_integer_8,
@@ -26,7 +26,7 @@ inherit
 			write_natural_16 as add_natural_16,
 			write_natural_32 as add_natural_32,
 			write_natural_64 as add_natural_64,
-			write_raw_string_8 as add_string_8,
+			write_encoded_string_8 as add_string_8,
 			write_real_32 as add_real,
 			write_real_64 as add_double,
 			write_string as add_string,

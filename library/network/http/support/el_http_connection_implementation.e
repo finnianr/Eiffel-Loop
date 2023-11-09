@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:28:26 GMT (Wednesday 8th November 2023)"
-	revision: "11"
+	date: "2023-11-09 9:15:17 GMT (Thursday 9th November 2023)"
+	revision: "12"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -41,7 +41,7 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_URI
 
-	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS; EL_SHARED_UTF_8_ZCODEC; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 	EL_SHARED_PROGRESS_LISTENER
 		rename
@@ -134,7 +134,9 @@ feature {EL_HTTP_COMMAND} -- Implementation
 
 	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
 		do
-			Curl.setopt_string (self_ptr, a_option, Utf_8_codec.as_utf_8 (string, False))
+			across String_8_scope as scope loop
+				Curl.setopt_string (self_ptr, a_option, scope.copied_utf_8_item (string))
+			end
 		end
 
 	set_curl_string_8_option (a_option: INTEGER; string: STRING)

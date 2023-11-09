@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-25 14:51:53 GMT (Wednesday 25th October 2023)"
-	revision: "1"
+	date: "2023-11-09 11:56:28 GMT (Thursday 9th November 2023)"
+	revision: "2"
 
 class
 	COMPACTABLE_REFLECTIVE_VS_MANUAL_BIT_MASK
@@ -51,13 +51,13 @@ feature {NONE} -- Implementation
 	automated_date_compaction
 		local
 			date: COMPACTABLE_DATE; i, y, m, d: INTEGER
-			compact_date: NATURAL_64
+			compact_date: INTEGER
 		do
 			y := 2023; m := 10; d := 25
 			from i := 1 until i > 1000 loop
 				create date.make (y, m, d)
 				compact_date := date.compact_date
-				create date.make_by_compact (compact_date)
+				create date.make_from_compact_date (compact_date)
 				if date.day /= d or date.month /= m or date.year /= y then
 					lio.put_line ("Conversion failed")
 					i := 10_000

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:04:47 GMT (Wednesday 8th November 2023)"
-	revision: "9"
+	date: "2023-11-09 17:26:16 GMT (Thursday 9th November 2023)"
+	revision: "10"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -26,7 +26,7 @@ feature -- Write to other
 		do
 			l_area := area; l_count := count
 			from i := 0 until i = l_count loop
-				writeable.write_raw_character_8 (l_area [i])
+				writeable.write_encoded_character_8 (l_area [i])
 				i := i + 1
 			end
 		end
@@ -106,46 +106,93 @@ feature -- Append to other
 			other.set_count (other.count + count)
 		end
 
-	append_to_utf_8 (utf_8_out: STRING_8)
+	append_to_utf_8_x (a_utf_8: STRING_8)
 		local
 			sequence: like Utf_8_sequence; c_8: EL_CHARACTER_8_ROUTINES; l_area: like area
-			i, i_upper, block_index, old_utf_8_count: INTEGER;
-			l_codec: like codec; c_i: CHARACTER
-			area_32: like unencoded_area; iter: EL_UNENCODED_CHARACTER_ITERATION
+			i, i_upper, block_index, old_utf_8_count, ascii_count: INTEGER; c_i: CHARACTER
+			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			sequence := Utf_8_sequence; l_area := area
-			old_utf_8_count := utf_8_out.count
-			utf_8_out.grow (old_utf_8_count + count)
+			old_utf_8_count := a_utf_8.count
 
-			if has_mixed_encoding then
+			-- Mandarin for examples requires 3 bytes per character, so we add `unencoded_count * 2'
+			a_utf_8.grow (old_utf_8_count + count + unencoded_count * 2)
+
+			if has_mixed_encoding and then attached codec as l_codec
+				and then attached unencoded_area as area_32
+			then
 				i_upper := area_upper
-				l_codec := codec; area_32 := unencoded_area
 				from i := area_lower until i > i_upper loop
 					c_i := l_area [i]
 					if c_i = Substitute then
 						sequence.set (iter.item ($block_index, area_32, i + 1))
-						sequence.append_to_string (utf_8_out)
+						sequence.append_to_string (a_utf_8)
 					elseif c_i <= Max_7_bit_character then
-						utf_8_out.extend (c_i)
+						a_utf_8.extend (c_i)
 					else
 						sequence.set (l_codec.unicode_table [c_i.code])
-						sequence.append_to_string (utf_8_out)
+						sequence.append_to_string (a_utf_8)
 					end
 					i := i + 1
 				end
-			elseif c_8.is_ascii_area (area, area_lower, area_upper) then
-				utf_8_out.area.copy_data (l_area, area_lower, old_utf_8_count, count)
-				utf_8_out.area [count + old_utf_8_count] := '%U'
-				utf_8_out.set_count (count + old_utf_8_count)
-			else
-				i_upper := area_upper; l_codec := codec
-				from i := area_lower until i > i_upper loop
+
+			elseif attached codec as l_codec then
+				ascii_count := c_8.leading_ascii_count (area, area_lower, area_upper)
+				if ascii_count > 0 then
+					a_utf_8.area.copy_data (l_area, area_lower, old_utf_8_count, ascii_count)
+					a_utf_8.area [ascii_count + old_utf_8_count] := '%U'
+					a_utf_8.set_count (ascii_count + old_utf_8_count)
+				end
+
+				if ascii_count < count then
+					i_upper := area_upper
+					from i := area_lower + ascii_count until i > i_upper loop
+						c_i := l_area [i]
+						if c_i <= Max_7_bit_character then
+							a_utf_8.extend (c_i)
+						else
+							sequence.set (l_codec.unicode_table [c_i.code])
+							sequence.append_to_string (a_utf_8)
+						end
+						i := i + 1
+					end
+				end
+			end
+		end
+
+	append_to_utf_8 (a_utf_8: STRING_8)
+		local
+			sequence: like Utf_8_sequence; l_area: like area
+			i, i_upper, block_index, old_utf_8_count, ascii_count: INTEGER; c_i: CHARACTER
+			iter: EL_UNENCODED_CHARACTER_ITERATION
+		do
+			sequence := Utf_8_sequence; l_area := area
+			old_utf_8_count := a_utf_8.count
+
+			-- Mandarin for examples requires 3 bytes per character, so we add `unencoded_count * 2'
+			a_utf_8.grow (old_utf_8_count + count + unencoded_count * 2)
+
+			ascii_count := leading_ascii_count (area, area_lower, area_upper)
+			if ascii_count > 0 then
+				a_utf_8.area.copy_data (l_area, area_lower, old_utf_8_count, ascii_count)
+				a_utf_8.area [ascii_count + old_utf_8_count] := '%U'
+				a_utf_8.set_count (ascii_count + old_utf_8_count)
+			end
+			if ascii_count < count
+				and then attached codec as l_codec and then attached unencoded_area as area_32
+			then
+				i_upper := area_upper
+				from i := area_lower + ascii_count until i > i_upper loop
 					c_i := l_area [i]
-					if c_i <= Max_7_bit_character then
-						utf_8_out.extend (c_i)
+					if c_i = Substitute then
+						sequence.set (iter.item ($block_index, area_32, i + 1))
+						sequence.append_to_string (a_utf_8)
+
+					elseif c_i <= Max_7_bit_character then
+						a_utf_8.extend (c_i)
 					else
 						sequence.set (l_codec.unicode_table [c_i.code])
-						sequence.append_to_string (utf_8_out)
+						sequence.append_to_string (a_utf_8)
 					end
 					i := i + 1
 				end

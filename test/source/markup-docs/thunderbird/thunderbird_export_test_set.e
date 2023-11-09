@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:16:46 GMT (Thursday 7th September 2023)"
-	revision: "28"
+	date: "2023-11-09 12:11:46 GMT (Thursday 9th November 2023)"
+	revision: "29"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -168,7 +168,7 @@ feature -- Tests
 			-- check parseable as XML document
 			across About_myching_manifest as list loop
 				xhtml_path := Export_dir + list.item
-				assert (xhtml_path.base + " exists", xhtml_path.exists)
+				assert_32 (xhtml_path.base + " exists", xhtml_path.exists)
 				create xdoc.make_from_file (xhtml_path)
 
 				assert ("at least one paragraph", xdoc.context_list ("//p").count > 0)
@@ -193,7 +193,7 @@ feature -- Tests
 			across Pop_myching_co_manifest as list loop
 				body_path := Export_dir + list.item
 				modification_table.put (body_path.modification_time, body_path)
-				assert (body_path.base + " exists", body_path.exists)
+				assert_32 (body_path.base + " exists", body_path.exists)
 				name := body_path.base_name
 				xdoc := new_xdoc (body_path)
 

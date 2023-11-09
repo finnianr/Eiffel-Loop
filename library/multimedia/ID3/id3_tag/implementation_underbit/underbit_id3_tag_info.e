@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 11:41:54 GMT (Thursday 5th January 2023)"
-	revision: "10"
+	date: "2023-11-09 11:53:18 GMT (Thursday 9th November 2023)"
+	revision: "11"
 
 class
 	UNDERBIT_ID3_TAG_INFO
@@ -113,7 +113,7 @@ feature -- Element change
 		local
 			utf_8_path: STRING; to_c: ANY
 		do
-			utf_8_path := mp3_path.to_string.to_utf_8 (False)
+			utf_8_path := mp3_path.to_utf_8
 			to_c := utf_8_path.to_c
 			make_from_pointer (c_id3_file_open ($to_c, File_mode_read_and_write))
 		end
@@ -182,9 +182,9 @@ feature {NONE} -- Implementation
 		require
 			valid_mode: file_mode = File_mode_read_and_write or file_mode = File_mode_read_only
 		local
-			to_c: ANY
+			file_path: STRING; to_c: ANY
 		do
-			to_c := mp3_path.to_string.to_utf_8 (False).to_c
+			file_path := mp3_path.to_utf_8
 			Result := c_id3_file_open ($to_c, file_mode)
 		ensure
 			file_open: is_attached (Result)

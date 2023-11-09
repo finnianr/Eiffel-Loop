@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-11-09 17:23:27 GMT (Thursday 9th November 2023)"
+	revision: "9"
 
 class
 	EL_ZSTRING_IO_MEDIUM
@@ -18,8 +18,10 @@ inherit
 			last_string as last_string_8
 		redefine
 			text, make_default,
-			put_string_general, put_string, put_string_8, put_string_32, put_raw_string_8, put_character_32
+			put_string_general, put_string, put_string_8, put_string_32, put_encoded_string_8, put_character_32
 		end
+
+	EL_MAKEABLE_TO_SIZE
 
 create
 	make, make_open_write, make_open_write_to_text, make_open_read_from_text
@@ -53,7 +55,7 @@ feature -- Character output
 			text.append_unicode (c.natural_32_code)
 		end
 
-	put_raw_character_8 (c: CHARACTER)
+	put_encoded_character_8 (c: CHARACTER)
 			--
 		do
 			text.append_unicode (c.natural_32_code)
@@ -61,7 +63,7 @@ feature -- Character output
 
 feature -- String output
 
-	put_raw_string_8 (a_utf_8: STRING)
+	put_encoded_string_8 (a_utf_8: STRING)
 		do
 			text.append_utf_8 (a_utf_8)
 		end

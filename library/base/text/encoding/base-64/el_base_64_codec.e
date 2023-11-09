@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 10:01:11 GMT (Monday 12th December 2022)"
-	revision: "17"
+	date: "2023-11-09 17:18:05 GMT (Thursday 9th November 2023)"
+	revision: "18"
 
 class
 	EL_BASE_64_CODEC
@@ -78,7 +78,7 @@ feature -- Conversion
 		do
 			encoder.enable_line_breaks (line_breaks)
 			encoder.put_memory (bytes, nb)
-			writable.write_raw_string_8 (encoder.output (False))
+			writable.write_encoded_string_8 (encoder.output (False))
 			encoder.enable_line_breaks (False)
 		end
 

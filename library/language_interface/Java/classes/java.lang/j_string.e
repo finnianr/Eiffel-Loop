@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:25:16 GMT (Wednesday 8th November 2023)"
-	revision: "10"
+	date: "2023-11-09 11:46:37 GMT (Thursday 9th November 2023)"
+	revision: "11"
 
 class
 	J_STRING
@@ -43,7 +43,9 @@ feature {NONE} -- Initialization
 	make_from_string (str: ZSTRING)
 			--
 		do
-			make_from_utf_8 (str.to_utf_8 (False))
+			across String_8_scope as scope loop
+				make_from_utf_8 (scope.copied_utf_8_item (str))
+			end
 		end
 
 	make_from_string_8 (str: STRING)

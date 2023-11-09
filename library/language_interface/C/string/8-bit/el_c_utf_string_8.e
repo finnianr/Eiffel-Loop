@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:21:35 GMT (Wednesday 8th November 2023)"
-	revision: "10"
+	date: "2023-11-09 11:48:27 GMT (Thursday 9th November 2023)"
+	revision: "11"
 
 class
 	EL_C_UTF_STRING_8
@@ -41,9 +41,7 @@ feature {NONE} -- Initialization
 	make_from_general (str: READABLE_STRING_GENERAL)
 		do
 			across String_8_scope as scope loop
-				if attached scope.copied_utf_8_item (str) as utf_8 then
-					make_from_utf_8 (utf_8)
-				end
+				make_from_utf_8 (scope.copied_utf_8_item (str))
 			end
 		end
 

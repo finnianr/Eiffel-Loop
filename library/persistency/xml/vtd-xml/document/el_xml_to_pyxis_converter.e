@@ -6,29 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 18:20:28 GMT (Saturday 8th July 2023)"
-	revision: "29"
+	date: "2023-11-09 14:06:35 GMT (Thursday 9th November 2023)"
+	revision: "30"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
 
 inherit
-	TP_FACTORY
-		export
-			{NONE} all
-		end
-
 	EL_APPLICATION_COMMAND
 		redefine
 			description
 		end
 
-
 	EL_MODULE_LIO
 
 	EL_VTD_CONSTANTS
-
-	TP_SHARED_OPTIMIZED_FACTORY
 
 create
 	make, make_default
@@ -43,11 +35,15 @@ feature {EL_COMMAND_CLIENT} -- Initiliazation
 		end
 
 	make_default
+		local
+			factory: TP_ZSTRING_FACTORY
 		do
-			core := Factory_zstring
+			create factory
 			create text_matcher.make (
-				create {EL_TEXT_MATCHER}.make (agent one_of (<< xml_identifier, decimal_constant >>)),
-				create {EL_TEXT_MATCHER}.make (agent decimal_constant)
+				create {EL_TEXT_MATCHER}.make (
+					agent factory.one_of (<< factory.xml_identifier, factory.decimal_constant >>)
+				),
+				create {EL_TEXT_MATCHER}.make (agent factory.decimal_constant)
 			)
 			create attributes
 
@@ -351,8 +347,6 @@ feature {NONE} -- Internal attributes
 	attribute_node_depth: INTEGER
 
 	attributes: EL_ZSTRING_HASH_TABLE [ZSTRING]
-
-	core: TP_OPTIMIZED_FACTORY
 
 	last_attribute_name: ZSTRING
 

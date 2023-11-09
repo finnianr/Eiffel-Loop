@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:30:23 GMT (Wednesday 8th November 2023)"
-	revision: "24"
+	date: "2023-11-09 11:42:53 GMT (Thursday 9th November 2023)"
+	revision: "25"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -15,10 +15,9 @@ deferred class
 inherit
 	EQA_TEST_SET
 		rename
-			file_system as eqa_file_system,
-			assert as eqa_assert
+			file_system as eqa_file_system
 		redefine
-			on_clean, on_prepare
+			on_clean, on_prepare, assert_32
 		end
 
 	EL_MAKEABLE undefine default_create end
@@ -27,7 +26,7 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_OS
 
-	EL_SHARED_DIGESTS; EL_SHARED_TEST_CRC; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_DIGESTS; EL_SHARED_TEST_CRC
 
 feature {NONE} -- Initialization
 
@@ -56,20 +55,9 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
-	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
-		local
-			utf: EL_UTF_CONVERTER
+	assert_32 (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		do
-			if a_tag.is_valid_as_string_8 then
-				eqa_assert (a_tag.to_string_8, a_condition)
-
-			elseif attached {EL_READABLE_ZSTRING} a_tag as zstr then
-				across String_8_scope as scope loop
-					eqa_assert (scope.copied_utf_8_item (zstr), a_condition)
-				end
-			else
-				eqa_assert (utf.utf_32_string_to_utf_8_string_8 (a_tag), a_condition)
-			end
+			asserter.assert (a_tag.to_string_32, a_condition) -- incase `a_tag' is ZSTRING
 		end
 
 	assert_approximately_equal (a_tag: detachable STRING; decimal_places: INTEGER; a, b: DOUBLE)
@@ -97,7 +85,7 @@ feature {NONE} -- Implementation
 				lio.put_integer_field ("a.count", a.count); lio.put_integer_field (" b.count", b.count)
 				lio.put_new_line
 				if attached a_tag then
-					assert (tag, False)
+					assert_32 (tag, False)
 				else
 					assert ("String a.count = b.count", False)
 				end
@@ -107,13 +95,13 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				lio.put_curtailed_string_field (b.generator + " b", b, 200)
 				lio.put_new_line
-				assert (tag, False)
+				assert_32 (tag, False)
 			end
 		end
 
 	failed (a_tag: READABLE_STRING_GENERAL)
 		do
-			assert (a_tag, False)
+			assert_32 (a_tag, False)
 		end
 
 	os_checksum (unix, windows: NATURAL): NATURAL

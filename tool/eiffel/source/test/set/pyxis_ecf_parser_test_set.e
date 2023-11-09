@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 15:41:41 GMT (Thursday 2nd November 2023)"
-	revision: "43"
+	date: "2023-11-09 12:22:32 GMT (Thursday 9th November 2023)"
+	revision: "44"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -264,7 +264,7 @@ feature {NONE} -- Implementation
 
 	assert_parsed_xdoc (ecf_xdoc: EL_XML_DOC_CONTEXT)
 		do
-			assert (ecf_xdoc.file_path.base + " parsed OK", not ecf_xdoc.parse_failed)
+			assert_32 (ecf_xdoc.file_path.base + " parsed OK", not ecf_xdoc.parse_failed)
 		end
 
 	has_precompile (ecf_xdoc: EL_XML_DOC_CONTEXT; name: STRING): BOOLEAN

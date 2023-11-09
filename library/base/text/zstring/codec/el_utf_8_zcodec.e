@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-22 9:44:22 GMT (Friday 22nd September 2023)"
-	revision: "22"
+	date: "2023-11-09 17:18:05 GMT (Thursday 9th November 2023)"
+	revision: "23"
 
 class
 	EL_UTF_8_ZCODEC
@@ -54,7 +54,7 @@ feature -- Basic operations
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
 		do
 			Utf_8_buffer.set_from_general (unicode_in)
-			writeable.write_raw_string_8 (Utf_8_buffer)
+			writeable.write_encoded_string_8 (Utf_8_buffer)
 		end
 
 	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITABLE)
@@ -94,6 +94,8 @@ feature -- Conversion
 	as_utf_8 (str: READABLE_STRING_GENERAL; keeping_ref: BOOLEAN): EL_UTF_8_STRING
 		-- returns general string `str' as UTF-8 encoded string
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
+		obsolete
+			"Use String_8_scope and copied_utf_8_item instead"
 		do
 			Result := Utf_8_buffer
 			Result.set_from_general (str)

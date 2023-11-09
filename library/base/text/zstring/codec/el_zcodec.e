@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:03:20 GMT (Wednesday 8th November 2023)"
-	revision: "56"
+	date: "2023-11-09 17:26:16 GMT (Thursday 9th November 2023)"
+	revision: "57"
 
 deferred class
 	EL_ZCODEC
@@ -473,7 +473,7 @@ feature -- Encoding operations
 				if attached string_8.area as l_area then
 					encode_as_string_8 (unicode_in, l_area, 0)
 					from i := 0 until i = count loop
-						writeable.write_raw_character_8 (l_area [i])
+						writeable.write_encoded_character_8 (l_area [i])
 						i := i + 1
 					end
 				end
@@ -482,7 +482,7 @@ feature -- Encoding operations
 
 	write_encoded_character (uc: CHARACTER_32; writeable: EL_WRITABLE)
 		do
-			writeable.write_raw_character_8 (encoded_character (uc))
+			writeable.write_encoded_character_8 (encoded_character (uc))
 		end
 
 feature -- Basic operations

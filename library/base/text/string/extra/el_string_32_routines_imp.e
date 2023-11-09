@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 15:58:57 GMT (Thursday 17th August 2023)"
-	revision: "38"
+	date: "2023-11-09 12:00:12 GMT (Thursday 9th November 2023)"
+	revision: "39"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -116,15 +116,11 @@ feature -- Conversion
 			end
 		end
 
-	to_utf_8 (str: READABLE_STRING_32; keep_ref: BOOLEAN): STRING
+	to_utf_8 (str: READABLE_STRING_32): STRING
 		local
-			c: EL_UTF_CONVERTER; buffer: EL_STRING_8_BUFFER_ROUTINES
+			c: EL_UTF_CONVERTER
 		do
-			Result := buffer.empty
-			c.utf_32_string_into_utf_8_string_8 (str, Result)
-			if keep_ref then
-				Result := Result.twin
-			end
+			Result := c.string_32_to_utf_8_string_8 (str)
 		end
 
 feature -- Factory
