@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 8:59:33 GMT (Monday 31st July 2023)"
-	revision: "15"
+	date: "2023-11-12 13:25:38 GMT (Sunday 12th November 2023)"
+	revision: "16"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -23,9 +23,11 @@ inherit
 	EL_STRING_ITERATION_CURSOR
 		rename
 			Unicode_table as Shared_unicode_table,
-			i_th_character_32 as i_th_unicode
+			set_target as make
 		export
 			{NONE} fill_z_codes
+		redefine
+			utf_8_byte_count
 		end
 
 	EL_32_BIT_IMPLEMENTATION
@@ -118,6 +120,11 @@ feature -- Measurement
 			Result := target.trailing_white_space
 		end
 
+	utf_8_byte_count: INTEGER
+		do
+			Result := target.utf_8_byte_count
+		end
+
 feature -- Status query
 
 	all_ascii: BOOLEAN
@@ -160,18 +167,6 @@ feature -- Basic operations
 			end
 		end
 
-	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
-		local
-			i, last_i: INTEGER; l_area: like area
-		do
-			convertor.reset (type)
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i loop
-				convertor.parse_character (l_area [i])
-				i := i + 1
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	dispose
@@ -187,7 +182,22 @@ feature {NONE} -- Implementation
 			Result := c8.is_i_th_eiffel_identifier (a_area, i, case_code, first_i)
 		end
 
-	i_th_unicode (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): CHARACTER_32
+	i_th_ascii_character (a_area: like area; i: INTEGER): CHARACTER_8
+		local
+			c: CHARACTER_8
+		do
+			c := a_area [i]
+			if c.natural_32_code <= 127 then
+				Result := c
+			end
+		end
+
+	i_th_character_8 (a_area: like area; i: INTEGER): CHARACTER_8
+		do
+			Result := i_th_character_32 (a_area, i).to_character_8
+		end
+
+	i_th_character_32 (a_area: like area; i: INTEGER): CHARACTER_32
 		local
 			c_i: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
@@ -197,6 +207,11 @@ feature {NONE} -- Implementation
 			else
 				Result := unicode_table [c_i.code]
 			end
+		end
+
+	i_th_unicode (a_area: like area; i: INTEGER): NATURAL
+		do
+			Result := i_th_character_32 (a_area, i).natural_32_code
 		end
 
 feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Internal attriutes

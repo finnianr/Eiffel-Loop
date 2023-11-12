@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 6:24:23 GMT (Monday 7th August 2023)"
-	revision: "21"
+	date: "2023-11-12 16:50:35 GMT (Sunday 12th November 2023)"
+	revision: "22"
 
 class
 	EL_SPLIT_INTERVALS
@@ -73,7 +73,7 @@ feature {NONE} -- Implementation
 
 	is_white_space (a_target: READABLE_STRING_GENERAL; i: INTEGER): BOOLEAN
 		do
-			if attached {READABLE_STRING_8} a_target as str_8 then
+			if a_target.is_string_8 and then attached {READABLE_STRING_8} a_target as str_8 then
 				Result := str_8 [i].is_space
 			else
 				Result := Unicode_property.is_space (a_target [i])

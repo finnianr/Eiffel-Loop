@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 8:49:02 GMT (Wednesday 2nd August 2023)"
-	revision: "3"
+	date: "2023-11-12 13:00:14 GMT (Sunday 12th November 2023)"
+	revision: "4"
 
 class
 	EL_STRING_GENERAL_TABLE [G]
@@ -27,7 +27,7 @@ feature -- Comparison
 		local
 			s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES
 		do
-			if attached {READABLE_STRING_8} a_search_key as a
+			if a_search_key.is_string_8 and then attached {READABLE_STRING_8} a_search_key as a
 				and then attached {READABLE_STRING_8} a_key as b
 			then
 				Result := s8.same_strings (a, b)

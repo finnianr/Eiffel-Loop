@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:26:16 GMT (Thursday 9th November 2023)"
-	revision: "14"
+	date: "2023-11-10 14:52:50 GMT (Friday 10th November 2023)"
+	revision: "15"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -210,27 +210,6 @@ feature -- Measurement
 			from i := start_index until i > end_index loop
 				Result := Result + byte_count (str [i].natural_32_code)
 				i := i + 1
-			end
-		end
-
-	byte_count (unicode: NATURAL): INTEGER
-		-- number of bytes required to represent `unicode'
-		do
-			if unicode <= 0x7F then
-					-- 0xxxxxxx
-				Result := 1
-
-			elseif unicode <= 0x7FF then
-					-- 110xxxxx 10xxxxxx
-				Result := 2
-
-			elseif unicode <= 0xFFFF then
-					-- 1110xxxx 10xxxxxx 10xxxxxx
-				Result := 3
-			else
-					-- unicode <= 1FFFFF - there are no higher code points
-					-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-				Result := 4
 			end
 		end
 

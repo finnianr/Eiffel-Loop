@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:00:17 GMT (Wednesday 8th November 2023)"
-	revision: "6"
+	date: "2023-11-12 16:46:44 GMT (Sunday 12th November 2023)"
+	revision: "7"
 
 class
 	EL_BORROWED_ZSTRING_CURSOR
@@ -55,10 +55,6 @@ feature -- Access
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): ZSTRING
 		do
 			Result := best_item (end_index - start_index + 1)
-			if attached {EL_READABLE_ZSTRING} general as zstr then
-				Result.append_substring (zstr, start_index, end_index)
-			else
-				Result.append_substring_general (general, start_index, end_index)
-			end
+			Result.append_substring_general (general, start_index, end_index)
 		end
 end

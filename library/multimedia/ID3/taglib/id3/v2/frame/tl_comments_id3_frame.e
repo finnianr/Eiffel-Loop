@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-11-11 14:30:54 GMT (Saturday 11th November 2023)"
+	revision: "11"
 
 class
 	TL_COMMENTS_ID3_FRAME
@@ -50,7 +50,7 @@ feature -- Access
 			cpp_get_language (self_ptr, Once_byte_vector.self_ptr)
 			-- Filter anything that is not in set 'a' .. 'z', 'A' .. 'Z'
 			-- (weird characters found in test files)
-			if attached Once_byte_vector.to_temporary_string (False) as tmp_str then
+			if attached Once_byte_vector.to_string_8 as tmp_str then
 				Result := cursor_8 (tmp_str).filtered (agent c.is_a_to_z_caseless)
 			end
 		end

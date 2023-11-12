@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:25:49 GMT (Wednesday 8th November 2023)"
-	revision: "6"
+	date: "2023-11-12 16:52:40 GMT (Sunday 12th November 2023)"
+	revision: "7"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -49,15 +49,18 @@ feature {NONE} -- Initialization
 		do
 			create utf_8_list.make (Iterable.count (general_list))
 			across general_list as list loop
-				if attached {ZSTRING} list.item as zstr then
-					utf_8_list.extend (zstr.to_utf_8)
+				if attached list.item as general then
+					if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
+						and then cursor_8 (str_8).all_ascii
+					then
+						utf_8_list.extend (str_8)
 
-				elseif attached {READABLE_STRING_8} list.item as str_8
-					and then cursor_8 (str_8).all_ascii
-				then
-					utf_8_list.extend (str_8)
-				else
-					utf_8_list.extend (utf_32_string_to_string_8 (list.item))
+					elseif attached {EL_READABLE_ZSTRING} general as zstr then
+						utf_8_list.extend (zstr.to_utf_8)
+
+					else
+						utf_8_list.extend (utf_32_string_to_string_8 (general))
+					end
 				end
 			end
 			make_split (utf_8_list.joined (','), ',')

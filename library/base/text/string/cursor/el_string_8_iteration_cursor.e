@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 8:59:25 GMT (Monday 31st July 2023)"
-	revision: "14"
+	date: "2023-11-12 13:25:14 GMT (Sunday 12th November 2023)"
+	revision: "15"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -19,6 +19,9 @@ inherit
 		end
 
 	EL_STRING_ITERATION_CURSOR
+		rename
+			set_target as make
+		end
 
 	EL_8_BIT_IMPLEMENTATION
 
@@ -140,23 +143,31 @@ feature -- Basic operations
 			end
 		end
 
-	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
+feature {NONE} -- Implementation
+
+	i_th_ascii_character (a_area: like area; i: INTEGER): CHARACTER_8
 		local
-			i, last_i: INTEGER; l_area: like area
+			c: CHARACTER_8
 		do
-			convertor.reset (type)
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i loop
-				convertor.parse_character (l_area [i])
-				i := i + 1
+			c := a_area [i]
+			if c.natural_32_code <= 127 then
+				Result := c
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	i_th_character_32 (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): CHARACTER_32
+	i_th_character_8 (a_area: like area; i: INTEGER): CHARACTER_8
 		do
 			Result := a_area [i]
+		end
+
+	i_th_character_32 (a_area: like area; i: INTEGER): CHARACTER_32
+		do
+			Result := a_area [i]
+		end
+
+	i_th_unicode (a_area: like area; i: INTEGER): NATURAL
+		do
+			Result := a_area [i].natural_32_code
 		end
 
 	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 13:27:45 GMT (Thursday 9th November 2023)"
-	revision: "7"
+	date: "2023-11-12 17:25:17 GMT (Sunday 12th November 2023)"
+	revision: "8"
 
 deferred class
 	TP_SHARED_OPTIMIZED_FACTORY
@@ -20,11 +20,11 @@ feature {NONE} -- Implementation
 	optimal_core (text: READABLE_STRING_GENERAL): TP_OPTIMIZED_FACTORY
 		-- optimal `core' pattern factory for `text' type
 		do
-			if attached {ZSTRING} text then
-				Result := Factory_zstring
-
-			elseif attached {READABLE_STRING_8} text then
+			if text.is_string_8 then
 				Result := Factory_readable_string_8
+
+			elseif attached {EL_READABLE_ZSTRING} text then
+				Result := Factory_zstring
 
 			else
 				Result := factory_general

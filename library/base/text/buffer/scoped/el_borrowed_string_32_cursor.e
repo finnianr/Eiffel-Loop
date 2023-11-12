@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:00:17 GMT (Wednesday 8th November 2023)"
-	revision: "8"
+	date: "2023-11-12 17:09:46 GMT (Sunday 12th November 2023)"
+	revision: "9"
 
 class
 	EL_BORROWED_STRING_32_CURSOR
@@ -29,8 +29,6 @@ inherit
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
-
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -57,17 +55,6 @@ feature -- Access
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_32
 		do
 			Result := best_item (end_index - start_index + 1)
-			if attached {ZSTRING} general as zstr then
-				across String_scope as scope loop
-					if attached scope.substring_item (zstr, start_index, end_index) as z_substring then
-						z_substring.append_to_string_32 (Result)
-					end
-				end
-
-			elseif attached {READABLE_STRING_32} general as str_32 then
-				Result.append_substring (str_32, start_index, end_index)
-			else
-				Result.append_substring_general (general, start_index, end_index)
-			end
+			shared_cursor (general).append_substring_to_string_32 (Result, start_index, end_index)
 		end
 end

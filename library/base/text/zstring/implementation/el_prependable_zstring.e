@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 11:39:26 GMT (Wednesday 30th August 2023)"
-	revision: "48"
+	date: "2023-11-12 17:02:56 GMT (Sunday 12th November 2023)"
+	revision: "49"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -52,7 +52,9 @@ feature {NONE} -- Prepend general
 
 	prepend_string_general (general: READABLE_STRING_GENERAL)
 		do
-			if attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
+				and then cursor_8 (str_8).all_ascii 
+			then
 				prepend_ascii (str_8)
 			else
 				insert_string_general (general, 1)

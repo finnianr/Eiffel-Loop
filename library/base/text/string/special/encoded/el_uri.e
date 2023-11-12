@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:26:35 GMT (Wednesday 8th November 2023)"
-	revision: "43"
+	date: "2023-11-11 13:51:45 GMT (Saturday 11th November 2023)"
+	revision: "44"
 
 class
 	EL_URI
@@ -176,7 +176,7 @@ feature -- Conversion
 		do
 			if query_start_index > 0 then
 				across String_32_scope as scope loop
-					if attached scope.item as decoded then
+					if attached scope.best_item (count - occurrences ('%%') * 2) as decoded then
 						to_uri_path.decode_to (decoded)
 						decoded.append_character ('?')
 						decoded_query.append_to_string_32 (decoded)

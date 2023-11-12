@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:21:11 GMT (Thursday 9th November 2023)"
-	revision: "7"
+	date: "2023-11-12 17:23:47 GMT (Sunday 12th November 2023)"
+	revision: "8"
 
 deferred class
 	EL_CRC_32_LOG_OUTPUT
@@ -21,7 +21,9 @@ feature {NONE} -- Implementation
 
 	write_console (general: READABLE_STRING_GENERAL)
 		do
-			if attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
+				and then cursor_8 (str_8).all_ascii
+			then
 				append_to_crc_32 (str_8)
 			else
 				across String_8_scope as scope loop

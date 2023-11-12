@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 10:54:56 GMT (Thursday 9th November 2023)"
-	revision: "75"
+	date: "2023-11-12 17:21:36 GMT (Sunday 12th November 2023)"
+	revision: "76"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -97,7 +97,7 @@ inherit
 
 	EL_SHARED_ENCODINGS; EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_ZSTRING_CODEC
 
-	EL_SHARED_UTF_8_SEQUENCE
+	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_STRING_32_CURSOR
 
 feature -- Access
 
@@ -341,11 +341,13 @@ feature {NONE} -- Implementation
 	encode_substring (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER)
 		require
 			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
+		local
+			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			if attached Once_interval_list.emptied as unencoded_intervals then
 				codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
 
-				if unencoded_intervals.count > 0 and then attached shared_cursor (a_unicode) as l_cursor then
+				if unencoded_intervals.count > 0 and then attached r.shared_cursor (a_unicode) as l_cursor then
 					if has_mixed_encoding then
 						append_unencoded_intervals (l_cursor, unencoded_intervals, area_offset - start_index + 1)
 					else
@@ -372,9 +374,9 @@ feature {NONE} -- Implementation
 
 	leading_ascii_count (a_area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
 		require
-			valid_order: start_index <= end_index
-			valid_start_index: a_area.valid_index (start_index)
-			valid_end_index: a_area.valid_index (end_index)
+			valid_order: start_index <= end_index + 1
+			valid_start_index: start_index <= end_index implies a_area.valid_index (start_index)
+			valid_end_index: start_index <= end_index implies a_area.valid_index (end_index)
 		local
 			i: INTEGER; non_ascii: BOOLEAN; c: CHARACTER
 		do
@@ -461,6 +463,10 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		end
 
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
+		deferred
+		end
+
+	utf_8_byte_count: INTEGER
 		deferred
 		end
 

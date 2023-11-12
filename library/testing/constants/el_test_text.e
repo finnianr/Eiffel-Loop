@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 7:16:48 GMT (Thursday 31st August 2023)"
-	revision: "29"
+	date: "2023-11-12 10:42:55 GMT (Sunday 12th November 2023)"
+	revision: "30"
 
 class
 	EL_TEST_TEXT
@@ -56,6 +56,46 @@ feature -- Access
 				Result.append (Number.double_to_string (n.item).out)
 			end
 			Result.append (" >>")
+		end
+
+	natural_encoding (line: STRING_32; type: NATURAL): NATURAL
+		-- most natural encoding for `line' for encoding `type' from `lines'
+		do
+			inspect type
+				when Windows then
+					Result := natural_windows_x (line)
+
+				when Latin then
+					Result := natural_latin_x (line)
+			else
+				Result := Utf_8
+			end
+		end
+
+	natural_latin_x (line: STRING_32): NATURAL
+		-- most natural Latin-x encoding for `line' from `lines'
+		do
+			if across {STRING_32} "€Ž" as c some line.has (c.item)  end then
+				Result := Latin | 15
+
+			elseif line.has ('и')  then
+				Result := Latin | 5
+			else
+				Result := Latin | 1
+			end
+		end
+
+	natural_windows_x (line: STRING_32): NATURAL
+		-- most natural Windows-x encoding for `line' from `lines'
+		do
+			if line.has ('и') then
+				Result := Windows | 1251
+
+			elseif line.has ('¼') then
+				Result := Windows | 1252
+			else
+				Result := Windows | 1250
+			end
 		end
 
 feature -- Eiffel

@@ -6,24 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 12:00:12 GMT (Thursday 9th November 2023)"
-	revision: "39"
+	date: "2023-11-11 8:45:52 GMT (Saturday 11th November 2023)"
+	revision: "40"
 
 class
 	EL_STRING_32_ROUTINES_IMP
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_32, READABLE_STRING_32]
+		rename
+			shared_cursor_32 as cursor
 		undefine
 			bit_count
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
-
-	EL_SHARED_STRING_32_CURSOR
-		rename
-			cursor_32 as cursor
-		end
 
 	EL_STRING_32_CONSTANTS
 

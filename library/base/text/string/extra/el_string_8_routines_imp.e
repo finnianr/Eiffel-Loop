@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 14:58:41 GMT (Sunday 27th August 2023)"
-	revision: "14"
+	date: "2023-11-11 8:46:11 GMT (Saturday 11th November 2023)"
+	revision: "15"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -15,6 +15,7 @@ class
 inherit
 	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8]
 		rename
+			shared_cursor_8 as cursor,
 			replace_character as replace_character_32,
 			character_string as character_32_string,
 			n_character_string as n_character_32_string
@@ -27,11 +28,6 @@ inherit
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
-
-	EL_SHARED_STRING_8_CURSOR
-		rename
-			cursor_8 as cursor
-		end
 
 	EL_STRING_8_CONSTANTS
 
@@ -119,7 +115,7 @@ feature -- Status query
 				any_start := True
 			end
 			search_string := Immutable_8.shared_substring (wildcard, start_index, end_index)
-			
+
 			if any_ending and any_start then
 				Result := s.has_substring (search_string)
 

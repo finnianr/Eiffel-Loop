@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-03-11 9:36:34 GMT (Thursday 11th March 2021)"
-	revision: "7"
+	date: "2023-11-11 14:46:01 GMT (Saturday 11th November 2023)"
+	revision: "8"
 
 deferred class
 	JAVA_ROUTINE
@@ -85,19 +85,21 @@ feature {NONE} -- Implementation
 		 -- even though the results are identical to `method_signature'
 		 -- maybe something to do with somehow keeping a reference to the target
 		local
-			i: INTEGER; type_id: INTEGER; buffer: EL_STRING_8_BUFFER_ROUTINES
+			i: INTEGER; type_id: INTEGER;
 		do
-			Result := buffer.copied ("(")
-			from i := 1 until i > argument_types.count loop
-				type_id := argument_types.item (i).type_id
-				if attached {JAVA_TYPE} Eiffel.new_instance_of (type_id) as j_type then
-					Result.append_string (j_type.Jni_type_signature)
+			if attached Signature_buffer.empty as str then
+				str.append_character ('(')
+				from i := 1 until i > argument_types.count loop
+					type_id := argument_types.item (i).type_id
+					if attached {JAVA_TYPE} Eiffel.new_instance_of (type_id) as j_type then
+						str.append_string (j_type.Jni_type_signature)
+					end
+					i := i + 1
 				end
-				i := i + 1
+				str.append_character (')')
+				str.append_string (return_type_signature)
+				Result := str.twin
 			end
-			Result.append_character (')')
-			Result.append_string (return_type_signature)
-			Result := Result.twin
 		end
 
 	return_type_signature: STRING
@@ -116,5 +118,10 @@ feature {NONE} -- Constants
 	Java_type_id: INTEGER
 		once
 			Result := ({JAVA_TYPE}).type_id
+		end
+
+	Signature_buffer: EL_STRING_8_BUFFER
+		once
+			create Result
 		end
 end

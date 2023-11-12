@@ -11,14 +11,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 19:52:02 GMT (Wednesday 2nd August 2023)"
-	revision: "4"
+	date: "2023-11-10 14:53:41 GMT (Friday 10th November 2023)"
+	revision: "5"
 
 class
 	EL_UTF_SEQUENCE
 
 inherit
 	TO_SPECIAL [NATURAL]
+
+	EL_UC_ROUTINES
+		rename
+			utf_8_byte_count as byte_count
+		end
 
 feature -- Access
 

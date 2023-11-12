@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-11 7:50:00 GMT (Wednesday 11th October 2023)"
-	revision: "32"
+	date: "2023-11-12 11:31:29 GMT (Sunday 12th November 2023)"
+	revision: "33"
 
 class
 	EIFFEL_TEST_SET
@@ -19,6 +19,8 @@ inherit
 
 	EL_MODULE_UNIX_SIGNALS
 
+	EL_ZSTRING_CONSTANTS; EL_STRING_32_CONSTANTS
+
 create
 	make
 
@@ -29,7 +31,8 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["array_sizes",		agent test_array_sizes],
-				["natural_constant",	agent test_natural_constant]
+				["natural_constant",	agent test_natural_constant],
+				["string_sizes",		agent test_string_sizes]
 			>>)
 		end
 
@@ -62,6 +65,12 @@ feature -- Tests
 	test_natural_constant
 		do
 			assert ("same value", {EL_ASCII}.Newline = {EL_ASCII}.Line_feed)
+		end
+
+	test_string_sizes
+		-- EIFFEL_TEST_SET.test_string_sizes
+		do
+			assert ("same size", Eiffel.physical_size (Empty_string) = Eiffel.physical_size (Empty_string_32))
 		end
 
 feature -- Access

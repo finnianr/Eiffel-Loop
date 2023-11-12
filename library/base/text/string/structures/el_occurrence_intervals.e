@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 6:24:25 GMT (Monday 7th August 2023)"
-	revision: "26"
+	date: "2023-11-12 16:50:00 GMT (Sunday 12th November 2023)"
+	revision: "27"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 
 	shared_searcher (a_target: READABLE_STRING_GENERAL): STRING_SEARCHER
 		do
-			if attached {READABLE_STRING_8} a_target as str_8 then
+			if a_target.is_string_8 then
 				Result := String_8_searcher
 			else
 				Result := String_32_searcher

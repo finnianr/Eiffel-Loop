@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:26:16 GMT (Thursday 9th November 2023)"
-	revision: "57"
+	date: "2023-11-12 16:55:30 GMT (Sunday 12th November 2023)"
+	revision: "58"
 
 deferred class
 	EL_ZCODEC
@@ -19,6 +19,13 @@ inherit
 			{EL_ZSTRING_IMPLEMENTATION} shared_interval_list
 		end
 
+	EL_UC_ROUTINES
+		rename
+			utf_8_byte_count as character_utf_8_byte_count
+		export
+			{NONE} all
+		end
+
 feature {EL_ZCODEC_FACTORY} -- Initialization
 
 	make
@@ -26,9 +33,26 @@ feature {EL_ZCODEC_FACTORY} -- Initialization
 			make_default
 			create latin_characters.make_filled ('%U', 1)
 			unicode_table := new_unicode_table
+			utf_8_byte_count_table := new_utf_8_byte_count_table
 			shared_interval_list := Empty_string.Once_interval_list
 			create accumulator.make_empty (25)
 			initialize_latin_sets
+		end
+
+feature -- Measurement
+
+	utf_8_byte_count (latin_area: SPECIAL [CHARACTER]; count: INTEGER): INTEGER
+		require
+			valid_count: count > 0 implies latin_area.valid_index (count - 1)
+		local
+			i: INTEGER
+		do
+			if attached utf_8_byte_count_table as array then
+				from i := 0 until i = count loop
+					Result := Result + array [latin_area [i].code]
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Character query
@@ -57,23 +81,6 @@ feature -- Character query
 
 	is_upper (code: NATURAL): BOOLEAN
 		deferred
-		end
-
-	same_caseless_characters (area, other_area: SPECIAL [CHARACTER]; other_offset, start_index, count: INTEGER): BOOLEAN
-		local
-			i, j: INTEGER; c: CHARACTER
-		do
-			Result := True
-			from i := 0 until not Result or i = count loop
-				j := start_index + i
-				c := area [j]
-				if c = Substitute then
-					Result := other_area [j + other_offset] = Substitute
-				else
-					Result := same_caseless (c, other_area [j + other_offset], '%U')
-				end
-				i := i + 1
-			end
 		end
 
 	same_caseless (a, b: CHARACTER; b_unicode: CHARACTER_32): BOOLEAN
@@ -105,6 +112,23 @@ feature -- Character query
 						Result := unicode_substitute = b_unicode
 					end
 				end
+			end
+		end
+
+	same_caseless_characters (area, other_area: SPECIAL [CHARACTER]; other_offset, start_index, count: INTEGER): BOOLEAN
+		local
+			i, j: INTEGER; c: CHARACTER
+		do
+			Result := True
+			from i := 0 until not Result or i = count loop
+				j := start_index + i
+				c := area [j]
+				if c = Substitute then
+					Result := other_area [j + other_offset] = Substitute
+				else
+					Result := same_caseless (c, other_area [j + other_offset], '%U')
+				end
+				i := i + 1
 			end
 		end
 
@@ -149,19 +173,19 @@ feature -- Contract Support
 			end
 		end
 
-	valid_offset_and_count (source_count: INTEGER; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
-		do
-			if encoded_out.count >= source_count then
-				Result := source_count > 0 implies encoded_out.valid_index (source_count + out_offset - 1)
-			end
-		end
-
 	valid_caseless_argument (b: CHARACTER; b_unicode: CHARACTER_32): BOOLEAN
 		do
 			if b = Substitute then
 				Result := b_unicode.code.to_boolean
 			else
 				Result := b_unicode = '%U'
+			end
+		end
+
+	valid_offset_and_count (source_count: INTEGER; encoded_out: SPECIAL [CHARACTER]; out_offset: INTEGER;): BOOLEAN
+		do
+			if encoded_out.count >= source_count then
+				Result := source_count > 0 implies encoded_out.valid_index (source_count + out_offset - 1)
 			end
 		end
 
@@ -181,6 +205,9 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
 
 	unicode_table: like new_unicode_table
 		-- map latin to unicode
+
+	utf_8_byte_count_table: SPECIAL [INTEGER_8]
+		-- precomputed utf-8 byte counts for characters in `unicode_table'
 
 feature -- Encoding operations
 
@@ -219,6 +246,71 @@ feature -- Encoding operations
 			encode (unicode_in, encoded_out, out_offset, shared_interval_list.emptied)
 		end
 
+	encode_sub_zstring (
+		zstr_in: EL_READABLE_ZSTRING; encoded_out: SPECIAL [CHARACTER]
+		start_index, end_index, out_offset: INTEGER
+		unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
+	)
+		-- encode `unicode_in' characters as current `encoding'
+		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
+		require
+			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
+		local
+			i, out_i, code_i, in_offset, block_index, count: INTEGER; interval: NATURAL_64
+			uc_i: CHARACTER_32; c_i: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			unicode, zstring_unicode: like unicode_table
+		do
+			if attached zstr_in.area as area and then attached zstr_in.unencoded_area as area_32 then
+				unicode := unicode_table; zstring_unicode := zstr_in.codec.unicode_table
+				in_offset := zstr_in.area_lower
+				if unicode = zstring_unicode then
+					-- same encoding
+					count := end_index - start_index + 1
+					encoded_out.copy_data (area, start_index + in_offset - 1, out_offset, count)
+					if zstr_in.has_mixed_encoding then
+						from i := start_index until i > end_index loop
+							c_i := area [i + in_offset - 1]
+							if c_i = Substitute then
+								out_i := i + out_offset - start_index
+								interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
+							end
+							i := i + 1
+						end
+						unencoded_intervals.extend_compact (interval)
+					end
+				else
+					from i := start_index until i > end_index loop
+						c_i := area [i + in_offset - 1]
+						if c_i = Substitute then
+							uc_i := iter.item ($block_index, area_32, i)
+						else
+							uc_i := zstring_unicode [c_i.code]
+						end
+						code_i := uc_i.code
+						out_i := i + out_offset - start_index
+
+						if code_i <= Max_7_bit_code then
+							encoded_out [out_i] := uc_i.to_character_8
+
+						elseif code_i <= Max_8_bit_code and then unicode [code_i] = uc_i then
+							encoded_out [out_i] := uc_i.to_character_8
+
+						else
+							c_i := latin_character (uc_i)
+							if c_i = '%U' then
+								encoded_out [out_i] := Substitute
+								interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
+							else
+								encoded_out [out_i] := c_i
+							end
+						end
+						i := i + 1
+					end
+					unencoded_intervals.extend_compact (interval)
+				end
+			end
+		end
+
 	encode_substring (
 		unicode_in: READABLE_STRING_GENERAL; encoded_out: SPECIAL [CHARACTER]
 		start_index, end_index, out_offset: INTEGER; unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
@@ -232,7 +324,9 @@ feature -- Encoding operations
 			i, out_i, code_i, in_offset: INTEGER; interval: NATURAL_64; c: CHARACTER
 			c_8_area: SPECIAL [CHARACTER_8]; unicode: like unicode_table
 		do
-			if attached {READABLE_STRING_8} unicode_in as s_8 and then attached cursor_8 (s_8) as c_8 then
+			if unicode_in.is_string_8 and then attached {READABLE_STRING_8} unicode_in as s_8
+				and then attached cursor_8 (s_8) as c_8
+			then
 				unicode := unicode_table; in_offset := c_8.area_first_index
 				c_8_area := c_8.area
 				from i := start_index until i > end_index loop
@@ -300,71 +394,6 @@ feature -- Encoding operations
 					i := i + 1
 				end
 				unencoded_intervals.extend_compact (interval)
-			end
-		end
-
-	encode_sub_zstring (
-		zstr_in: EL_READABLE_ZSTRING; encoded_out: SPECIAL [CHARACTER]
-		start_index, end_index, out_offset: INTEGER
-		unencoded_intervals: EL_ARRAYED_INTERVAL_LIST
-	)
-		-- encode `unicode_in' characters as current `encoding'
-		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
-		require
-			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
-		local
-			i, out_i, code_i, in_offset, block_index, count: INTEGER; interval: NATURAL_64
-			uc_i: CHARACTER_32; c_i: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
-			unicode, zstring_unicode: like unicode_table
-		do
-			if attached zstr_in.area as area and then attached zstr_in.unencoded_area as area_32 then
-				unicode := unicode_table; zstring_unicode := zstr_in.codec.unicode_table
-				in_offset := zstr_in.area_lower
-				if unicode = zstring_unicode then
-					-- same encoding
-					count := end_index - start_index + 1
-					encoded_out.copy_data (area, start_index + in_offset - 1, out_offset, count)
-					if zstr_in.has_mixed_encoding then
-						from i := start_index until i > end_index loop
-							c_i := area [i + in_offset - 1]
-							if c_i = Substitute then
-								out_i := i + out_offset - start_index
-								interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
-							end
-							i := i + 1
-						end
-						unencoded_intervals.extend_compact (interval)
-					end
-				else
-					from i := start_index until i > end_index loop
-						c_i := area [i + in_offset - 1]
-						if c_i = Substitute then
-							uc_i := iter.item ($block_index, area_32, i)
-						else
-							uc_i := zstring_unicode [c_i.code]
-						end
-						code_i := uc_i.code
-						out_i := i + out_offset - start_index
-
-						if code_i <= Max_7_bit_code then
-							encoded_out [out_i] := uc_i.to_character_8
-
-						elseif code_i <= Max_8_bit_code and then unicode [code_i] = uc_i then
-							encoded_out [out_i] := uc_i.to_character_8
-
-						else
-							c_i := latin_character (uc_i)
-							if c_i = '%U' then
-								encoded_out [out_i] := Substitute
-								interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
-							else
-								encoded_out [out_i] := c_i
-							end
-						end
-						i := i + 1
-					end
-					unencoded_intervals.extend_compact (interval)
-				end
 			end
 		end
 
@@ -647,6 +676,21 @@ feature {NONE} -- Implementation
 				end
 				i := i + 1
 			end
+		end
+
+	new_utf_8_byte_count_table: SPECIAL [INTEGER_8]
+		local
+			i: INTEGER
+		do
+			if attached unicode_table as table then
+				create Result.make_empty (table.count)
+				from until i = 0xFF loop
+					Result.extend (character_utf_8_byte_count (table [i].natural_32_code).to_integer_8)
+					i := i + 1
+				end
+			end
+			-- special case for SUB character
+			Result [Substitute_code] := 0
 		end
 
 feature {EL_ZSTRING} -- Deferred implementation

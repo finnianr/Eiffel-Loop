@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 16:48:17 GMT (Saturday 26th August 2023)"
-	revision: "24"
+	date: "2023-11-12 17:19:45 GMT (Sunday 12th November 2023)"
+	revision: "25"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -24,10 +24,6 @@ inherit
 		end
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
-
-	EL_SHARED_STRING_8_CURSOR
-
-	EL_SHARED_STRING_32_CURSOR
 
 	EL_ZCODE_CONVERSION
 
@@ -250,18 +246,6 @@ feature {NONE} -- Implementation
 	section_count (a_area: like area; i: INTEGER): INTEGER
 		do
 			Result := a_area [i + 1].code - a_area [i].code + 1
-		end
-
-	shared_cursor (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
-		do
-			if attached {READABLE_STRING_32} general as str_32 then
-				Result := cursor_32 (str_32)
-
-			elseif attached {READABLE_STRING_8} general as str_8 then
-				Result := cursor_8 (str_8)
-			else
-				Result := cursor_32 (general.to_string_32)
-			end
 		end
 
 feature {NONE} -- `count_greater_than_zero_flags' values

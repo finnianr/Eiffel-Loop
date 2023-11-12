@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-11-10 16:45:47 GMT (Friday 10th November 2023)"
+	revision: "14"
 
 class
 	EL_UNIX_STREAM_SOCKET
@@ -15,8 +15,8 @@ class
 inherit
 	UNIX_STREAM_SOCKET
 		rename
-			put_string as put_raw_string_8,
-			put_character as put_raw_character_8,
+			put_string as put_encoded_string_8,
+			put_character as put_encoded_character_8,
 			make_server as make_named_server,
 			last_string as internal_last_string
 		undefine

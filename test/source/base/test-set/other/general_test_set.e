@@ -6,16 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:32:06 GMT (Wednesday 8th November 2023)"
-	revision: "50"
+	date: "2023-11-12 11:15:41 GMT (Sunday 12th November 2023)"
+	revision: "51"
 
 class
 	GENERAL_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	EL_FILE_DATA_TEST_SET
 
-	EL_MODULE_BASE_64; EL_MODULE_CONSOLE; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE
+	EL_MODULE_BASE_64; EL_MODULE_CONSOLE; EL_MODULE_EXECUTABLE
 
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
 
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 				["is_file_writable",						 agent test_is_file_writable],
 				["math_precision",						 agent test_math_precision],
 				["named_thread",							 agent test_named_thread],
+				["output_medium_encoding",				 agent test_output_medium_encoding],
 				["reverse_managed_pointer",			 agent test_reverse_managed_pointer],
 				["search_path",							 agent test_search_path],
 				["version_array",							 agent test_version_array],
@@ -62,7 +63,9 @@ feature -- Tests
 	test_base_64_codec_1
 		-- basic test from example in https://en.wikipedia.org/wiki/Base64
 		note
-			testing: "covers/{EL_BASE_64_CODEC}.decoded", "covers/{EL_BASE_64_CODEC}.encoded"
+			testing: "[
+				covers/{EL_BASE_64_CODEC}.decoded, covers/{EL_BASE_64_CODEC}.encoded
+			]"
 		local
 			str, encoded: STRING; str_encoded: ARRAY [STRING]
 		do
@@ -182,6 +185,57 @@ feature -- Tests
 		do
 			create t
 			assert ("same string", t.name.same_string ("Named Thread"))
+		end
+
+	test_output_medium_encoding
+		-- GENERAL_TEST_SET.test_output_medium_encoding
+		note
+			testing: "[
+				covers/{EL_OUTPUT_MEDIUM}.put_string, covers/{EL_OUTPUT_MEDIUM}.put_string_32,
+				covers/{EL_OUTPUT_MEDIUM}.put_string_8,
+				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.to_array, covers/{EL_PLAIN_TEXT_FILE}.read_line,
+				covers/{EL_FILE_OPEN_ROUTINES}.open_lines,
+				covers/{EL_ZCODEC}.encode_substring, covers/{EL_ZCODEC}.encode_substring_32,
+				covers/{EL_ZCODEC}.encode_sub_zstring
+			]"
+		local
+			encoding: EL_ENCODEABLE_AS_TEXT; file_out: EL_PLAIN_TEXT_FILE
+			path: FILE_PATH; str, str_item: ZSTRING; str_8: detachable STRING
+		do
+			across << Windows_class, Latin_class, Utf_8 >> as encoding_type loop
+				across Text.lines as list loop
+					if attached list.item as str_32 then
+						str := str_32
+						if str_32.is_valid_as_string_8 then
+							str_8 := str_32
+						else
+							str_8 := Void
+						end
+						encoding := Text.natural_encoding (str_32, encoding_type.item)
+						path := Work_area_dir + (encoding.encoding_name + ".txt")
+						create file_out.make_open_write (path)
+						file_out.set_encoding (encoding)
+						file_out.put_line (str)
+						if attached str_8 as s8 then
+							file_out.put_string_8 (s8)
+						else
+							file_out.put_line (str_32)
+						end
+						file_out.close
+						if attached open_lines (path, encoding.encoding).to_array as array then
+							assert ("two lines", array.count = 2)
+							str_item := array [1]
+							assert ("equal to ZSTRING", str ~ str_item)
+							if attached str_8 as s8 then
+								assert ("is latin-1", array [2].is_valid_as_string_8)
+								assert ("equal to STRING_8", str_8 ~ array [2].to_string_8)
+							else
+								assert ("equal to STRING_32", str_32 ~ array [2].to_string_32)
+							end
+						end
+					end
+				end
+			end
 		end
 
 	test_reverse_managed_pointer

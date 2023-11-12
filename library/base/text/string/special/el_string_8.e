@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-03 10:20:49 GMT (Thursday 3rd August 2023)"
-	revision: "22"
+	date: "2023-11-11 14:17:12 GMT (Saturday 11th November 2023)"
+	revision: "23"
 
 class
 	EL_STRING_8
@@ -23,6 +23,8 @@ inherit
 	EL_STRING_BIT_COUNTABLE [STRING_8]
 
 	EL_SHARED_STRING_8_CURSOR
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make_from_zstring, make_empty, make, make_from_string
@@ -156,15 +158,17 @@ feature -- Element change
 
 	unescape (unescaper: EL_STRING_8_UNESCAPER)
 		local
-			uc: CHARACTER_32; buffer: EL_STRING_8_BUFFER_ROUTINES
-			str: STRING
+			uc: CHARACTER_32
 		do
 			uc := unescaper.escape_code.to_character_32
 			if uc.is_character_8 and then has (uc.to_character_8) then
-				str := buffer.empty
-				unescaper.unescape_into (Current, str)
-				wipe_out
-				append (str)
+				across String_8_scope as scope loop
+					if attached scope.best_item (count) as str then
+						unescaper.unescape_into (Current, str)
+						wipe_out
+						append (str)
+					end
+				end
 			end
 		end
 

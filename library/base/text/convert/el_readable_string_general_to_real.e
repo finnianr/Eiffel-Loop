@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 9:16:55 GMT (Monday 31st July 2023)"
-	revision: "3"
+	date: "2023-11-11 8:56:57 GMT (Saturday 11th November 2023)"
+	revision: "4"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_REAL [N -> NUMERIC]
@@ -29,11 +29,9 @@ feature -- Contract Support
 
 	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `str' is convertible to type `N'
-		local
-			s: EL_STRING_CURSOR_ROUTINES
 		do
 			if attached Convertor as l_convertor then
-				s.shared (str).parse (l_convertor, numeric_type)
+				shared_cursor (str).parse (l_convertor, numeric_type)
 				Result := is_real (l_convertor)
 			end
 		end
@@ -41,11 +39,9 @@ feature -- Contract Support
 feature {NONE} -- Implementation
 
 	converted (str: READABLE_STRING_GENERAL): STRING_TO_REAL_CONVERTOR
-		local
-			s: EL_STRING_CURSOR_ROUTINES
 		do
 			Result := Convertor
-			s.shared (str).parse (Result, Type_no_limitation)
+			shared_cursor (str).parse (Result, Type_no_limitation)
 		end
 
 	is_real (a_convertor: like Convertor): BOOLEAN

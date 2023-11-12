@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:56:56 GMT (Thursday 9th November 2023)"
-	revision: "31"
+	date: "2023-11-12 13:06:50 GMT (Sunday 12th November 2023)"
+	revision: "32"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -250,7 +250,7 @@ feature -- String output
 						put_encoded_string_8 (scope.copied_utf_8_item (str))
 					end
 			else
-				if attached {READABLE_STRING_8} str as str_8 then
+				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 					put_string_8 (str_8)
 
 				elseif attached {READABLE_STRING_32} str as str_32 then

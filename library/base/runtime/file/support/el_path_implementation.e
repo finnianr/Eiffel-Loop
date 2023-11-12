@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:01:20 GMT (Wednesday 8th November 2023)"
-	revision: "36"
+	date: "2023-11-11 13:48:21 GMT (Saturday 11th November 2023)"
+	revision: "37"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -36,7 +36,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES
 
 feature -- Measurement
 
@@ -80,12 +80,13 @@ feature -- Conversion
 		end
 
 	to_path: PATH
-		local
-			str: STRING_32; buffer_32: EL_STRING_32_BUFFER_ROUTINES
 		do
-			str := buffer_32.empty
-			append_to_32 (str)
-			create Result.make_from_string (str)
+			across String_32_scope as scope loop
+				if attached scope.best_item (count) as str then
+					append_to_32 (str)
+					create Result.make_from_string (str)
+				end
+			end
 		end
 
 	to_string: ZSTRING

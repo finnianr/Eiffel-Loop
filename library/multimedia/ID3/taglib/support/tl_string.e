@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-01 10:34:25 GMT (Thursday 1st December 2022)"
-	revision: "15"
+	date: "2023-11-11 14:38:34 GMT (Saturday 11th November 2023)"
+	revision: "16"
 
 class
 	TL_STRING
@@ -24,6 +24,8 @@ inherit
 		end
 
 	TL_STRING_CPP_API
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES
 
 create
 	make, make_empty
@@ -64,31 +66,34 @@ feature -- Measurement
 
 feature -- Conversion
 
-	to_string: ZSTRING
+	to_integer: INTEGER
+		local
+			i: INTEGER
 		do
-			Result := to_string_32 (False)
+			from i := 1 until i > count loop
+				Result := Result * 10 + (i_th_code (i).to_integer_32 - {ASCII}.Zero)
+				i := i + 1
+			end
 		end
 
-	to_string_32 (keep_ref: BOOLEAN): STRING_32
-		-- unicode string
-		-- if `keep_ref' is `False', result is a shared instance
-		local
-			i: INTEGER; code: NATURAL; buffer: EL_STRING_32_BUFFER_ROUTINES
+	to_string: ZSTRING
 		do
-			Result := buffer.empty
-			from i := 1 until i > count loop
-				code := i_th_code (i)
-				i := i + 1
-				if code < 0xD800 or code >= 0xE000 then
-					-- Codepoint from Basic Multilingual Plane: one 16-bit code unit.
-					Result.extend (code.to_character_32)
-				elseif i <= count then
-					Result.extend (((code.as_natural_32 |<< 10) + i_th_code (i) - 0x35FDC00).to_character_32)
-					i := i + 1
+			across String_32_scope as scope loop
+				if attached scope.best_item (count) as str_32 then
+					append_to_string_32 (str_32)
+					Result := str_32
 				end
 			end
-			if keep_ref then
-				Result := Result.twin
+		end
+
+	to_string_32: STRING_32
+		-- unicode string
+		do
+			across String_32_scope as scope loop
+				if attached scope.best_item (count) as str_32 then
+					append_to_string_32 (str_32)
+					Result := str_32.twin
+				end
 			end
 		end
 
@@ -105,37 +110,51 @@ feature -- Conversion
 			end
 		end
 
-	to_integer: INTEGER
-		local
-			i: INTEGER
+feature -- Element change
+
+	set_from_integer (n: INTEGER)
 		do
-			from i := 1 until i > count loop
-				Result := Result * 10 + (i_th_code (i).to_integer_32 - {ASCII}.Zero)
-				i := i + 1
+			across String_8_scope as scope loop
+				if attached scope.best_item (11) as n_str then
+					n_str.append_integer (n)
+					set_from_string (n_str)
+				end
 			end
 		end
-
-feature -- Element change
 
 	set_from_string (str: READABLE_STRING_GENERAL)
 		do
 			Setter.set_text (Current, str)
 		ensure
-			set: to_string_32 (False).same_string_general (str)
-		end
-
-	set_from_integer (n: INTEGER)
-		local
-			n_str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
-		do
-			n_str := buffer.empty
-			n_str.append_integer (n)
-			set_from_string (n_str)
+			set: to_string_32.same_string_general (str)
 		end
 
 	wipe_out
 		do
 			cpp_clear (self_ptr)
+		end
+
+feature -- Basic operations
+
+	append_to_string_32 (str: STRING_32)
+		-- unicode string
+		-- if `keep_ref' is `False', result is a shared instance
+		local
+			i, l_count: INTEGER; code: NATURAL; utf_16: EL_UTF_16_LE_CONVERTER
+		do
+			l_count := count
+			str.grow (str.count + l_count)
+			from i := 1 until i > l_count loop
+				code := i_th_code (i)
+				i := i + 1
+				if utf_16.is_single_point (code) then
+					str.extend (code.to_character_32)
+
+				elseif i <= l_count then
+					str.extend (utf_16.merged_points (code, i_th_code (i)).to_character_32)
+					i := i + 1
+				end
+			end
 		end
 
 feature {TL_STRING_SETTER_I} -- Element change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 16:22:14 GMT (Saturday 17th December 2022)"
-	revision: "16"
+	date: "2023-11-11 9:04:39 GMT (Saturday 11th November 2023)"
+	revision: "17"
 
 deferred class
 	EROS_REMOTELY_ACCESSIBLE
@@ -20,7 +20,7 @@ inherit
 			make
 		end
 
-	EL_MODULE_LOG
+	EL_MODULE_LOG; EL_MODULE_CONVERT_STRING
 
 	EROS_REMOTE_CALL_CONSTANTS
 
@@ -137,9 +137,9 @@ feature {NONE} -- Implementation
 				elseif routine_table.has (argument) then
 					set_once_routine_argument (i, argument)
 
-				elseif s.is_convertible (argument, routine.argument_types [i]) then
+				elseif Convert_string.is_convertible (argument, routine.argument_types [i]) then
 					-- Convertible to one of 13 basic types
-					routine.arguments.put (s.to_type (argument, routine.argument_types [i]), i)
+					routine.arguments.put (Convert_string.to_type (argument, routine.argument_types [i]), i)
 
 				else
 					set_type_mismatch_error (i, argument)

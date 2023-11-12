@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 11:41:44 GMT (Wednesday 30th August 2023)"
-	revision: "39"
+	date: "2023-11-12 17:21:49 GMT (Sunday 12th November 2023)"
+	revision: "40"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -280,12 +280,14 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 
 	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL): STRING_32
 		do
-			if attached {EL_READABLE_ZSTRING} general as z_str then
-				Result := z_str.shared_z_code_pattern (1)
-
-			elseif attached {READABLE_STRING_8} general as str_8 and then attached cursor_8 (str_8) as c8 then
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
+				and then attached cursor_8 (str_8) as c8
+			then
 				Result := resized_z_code_pattern (1, str_8.count)
 				c8.fill_z_codes (Result.area)
+
+			elseif attached {EL_READABLE_ZSTRING} general as z_str then
+				Result := z_str.shared_z_code_pattern (1)
 
 			elseif attached {READABLE_STRING_32} general as str_32 and then attached cursor_32 (str_32) as c32 then
 				Result := resized_z_code_pattern (1, str_32.count)
@@ -299,10 +301,10 @@ feature {NONE} -- Implementation
 
 	as_ascii_pattern (str: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
 		do
-			if attached {READABLE_STRING_8} str as str_8 then
-				if attached cursor_8 (str_8) as cursor and then cursor.all_ascii then
-					Result := str_8
-				end
+			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8
+				and then cursor_8 (str_8).all_ascii
+			then
+				Result := str_8
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 9:56:37 GMT (Wednesday 8th November 2023)"
-	revision: "15"
+	date: "2023-11-11 14:19:50 GMT (Saturday 11th November 2023)"
+	revision: "16"
 
 class
 	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]
@@ -26,7 +26,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -111,10 +111,8 @@ feature {NONE} -- Implementation
 	string_8_value (i: NATURAL_16): STRING
 		require
 			valid_index: valid_index (i)
-		local
-			buffer_8: EL_STRING_8_BUFFER_ROUTINES
 		do
-			Result := buffer_8.copied (buffer_string_value (i).to_latin_1).twin
+			Result := buffer_string_value (i)
 		end
 
 	string_value (i: NATURAL_16): ZSTRING

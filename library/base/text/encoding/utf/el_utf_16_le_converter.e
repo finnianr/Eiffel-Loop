@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-11-11 13:18:44 GMT (Saturday 11th November 2023)"
+	revision: "4"
 
 expanded class
 	EL_UTF_16_LE_CONVERTER
@@ -18,6 +18,13 @@ inherit
 	EL_SHARED_STRING_8_CURSOR
 
 feature -- Conversion
+
+	merged_points (code_1, code_2: NATURAL): NATURAL
+		-- `True' if UTF-16 `code' matches a unicode value
+		-- i.e. is a codepoint from basic multilingual plane: one 16-bit code unit.
+		do
+			Result := (code_1 |<< 10) + code_2 - 0x35FDC00
+		end
 
 	frozen unicode (area: SPECIAL [CHARACTER_8]; code_1: NATURAL_32; offset, byte_count: INTEGER): NATURAL
 		-- return unicode encoded as `byte_count' bytes from `offset' in `area'
@@ -55,7 +62,7 @@ feature -- Measurement
 	frozen sequence_count (code: NATURAL): INTEGER
 		-- utf-16 byte count indicated by first NATURAL_16 code in sequence
 		do
-			if code < 0xD800 or code >= 0xE000 then
+			if is_single_point (code) then
 				Result := 2
 			else
 				Result := 4
@@ -84,6 +91,13 @@ feature -- Status report
 			c: UTF_CONVERTER
 		do
 			Result := c.is_valid_utf_16le_string_8 (s)
+		end
+
+	is_single_point (code: NATURAL): BOOLEAN
+		-- `True' if UTF-16 `code' matches a unicode value
+		-- i.e. is a codepoint from basic multilingual plane: one 16-bit code unit.
+		do
+			Result := code < 0xD800 or code >= 0xE000
 		end
 
 feature -- Basic operations

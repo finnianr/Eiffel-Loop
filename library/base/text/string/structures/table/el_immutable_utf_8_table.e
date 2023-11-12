@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:22:20 GMT (Wednesday 8th November 2023)"
-	revision: "5"
+	date: "2023-11-12 17:29:15 GMT (Sunday 12th November 2023)"
+	revision: "6"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -85,10 +85,12 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 		local
 			c: EL_UTF_8_CONVERTER
 		do
-			if attached {READABLE_STRING_8} manifest_string as str_8 and then cursor_8 (str_8).all_ascii then
+			if manifest_string.is_string_8 and then attached {READABLE_STRING_8} manifest_string as str_8
+				and then cursor_8 (str_8).all_ascii
+			then
 				Result := str_8
 
-			elseif attached {ZSTRING} manifest_string as zstr then
+			elseif attached {EL_READABLE_ZSTRING} manifest_string as zstr then
 				Result := zstr.to_utf_8
 			else
 

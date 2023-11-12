@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:21:29 GMT (Tuesday 15th August 2023)"
-	revision: "49"
+	date: "2023-11-11 13:33:48 GMT (Saturday 11th November 2023)"
+	revision: "50"
 
 class
 	TAGLIB_TEST_SET
@@ -162,7 +162,7 @@ feature -- Tests
 			create tl_string.make_empty
 			across Text.lines as line loop
 				tl_string.set_from_string (line.item)
-				assert ("same string", tl_string.to_string_32 (False) ~ line.item)
+				assert ("same string", tl_string.to_string_32 ~ line.item)
 			end
 		end
 

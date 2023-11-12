@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 14:18:56 GMT (Sunday 17th September 2023)"
-	revision: "16"
+	date: "2023-11-12 10:35:56 GMT (Sunday 12th November 2023)"
+	revision: "17"
 
 class
 	EL_ENCODEABLE_AS_TEXT
@@ -33,6 +33,9 @@ inherit
 
 create
 	make, make_default
+
+convert
+	make ({NATURAL}), encoding: {NATURAL}
 
 feature {NONE} -- Initialization
 

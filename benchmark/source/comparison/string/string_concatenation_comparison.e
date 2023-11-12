@@ -14,14 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 14:17:25 GMT (Monday 13th March 2023)"
-	revision: "10"
+	date: "2023-11-12 17:49:10 GMT (Sunday 12th November 2023)"
+	revision: "11"
 
 class
 	STRING_CONCATENATION_COMPARISON
 
 inherit
 	STRING_BENCHMARK_COMPARISON
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -33,60 +35,52 @@ feature -- Access
 feature -- Basic operations
 
 	execute
-		local
-			array: ARRAYED_LIST [STRING]
 		do
-			create array.make ((('z').natural_32_code - ('A').natural_32_code + 1).to_integer_32)
-			from until array.full loop
-				array.extend (create {STRING}.make_filled (('A').plus (array.count), 100))
-			end
 			compare (Description, <<
-				["append strings to Result", 							agent string_append (array)],
-				["append strings to once string", 					agent string_append_once_string (array)],
-				["append strings to once string with local",		agent string_append_once_string_with_local (array)]
+				["append to empty result",			 agent result_append],
+				["append to once buffer",			 agent buffer_append],
+				["append to across scope buffer", agent append_with_across_scope]
 			>>)
 		end
 
 feature {NONE} -- String append variations
 
-	string_append (array: ARRAYED_LIST [STRING]): STRING
+	append_with_across_scope: STRING
+		do
+			across String_8_scope as scope loop
+				if attached scope.item as joined then
+					across Hexagram.English_titles as title loop
+						joined.append (title.item)
+					end
+					Result := joined.twin
+				end
+			end
+		end
+
+	buffer_append: STRING
+		do
+			if attached Once_buffer.empty as buffer then
+				across Hexagram.English_titles as title loop
+					buffer.append (title.item)
+				end
+				Result := buffer.twin
+			end
+		end
+
+	result_append: STRING
 		do
 			create Result.make_empty
-			from array.start until array.after loop
-				Result.append (array.item)
-				array.forth
+			across Hexagram.English_titles as title loop
+				Result.append (title.item)
 			end
 			Result.trim
 		end
 
-	string_append_once_string (array: ARRAYED_LIST [STRING]): STRING
-		do
-			Once_string.wipe_out
-			from array.start until array.after loop
-				Once_string.append (array.item)
-				array.forth
-			end
-			Result := Once_string.twin
-		end
-
-	string_append_once_string_with_local (array: ARRAYED_LIST [STRING]): STRING
-		local
-			l_result: STRING
-		do
-			l_result := Once_string
-			l_result.wipe_out
-			from array.start until array.after loop
-				l_result.append (array.item)
-				array.forth
-			end
-			Result := l_result.twin
-		end
-
 feature {NONE} -- Constants
 
-	Once_string: STRING
+	Once_buffer: EL_STRING_8_BUFFER
 		once
-			create Result.make_empty
+			create Result
 		end
 
 end

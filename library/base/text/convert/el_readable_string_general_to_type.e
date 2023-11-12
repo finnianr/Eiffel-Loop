@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:48:40 GMT (Wednesday 8th November 2023)"
-	revision: "12"
+	date: "2023-11-12 13:12:12 GMT (Sunday 12th November 2023)"
+	revision: "13"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -20,7 +20,19 @@ inherit
 			actual_item as actual_type_description
 		end
 
+	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+		export
+			{NONE} all
+		end
+
 	EL_TYPE_CONVERSION_HANDLER
+
+	SED_UTILITIES
+		rename
+			abstract_type as abstract_type_of_type
+		export
+			{NONE} all
+		end
 
 	EL_MODULE_TUPLE
 
@@ -31,16 +43,17 @@ feature {EL_MODULE_EIFFEL} -- Initialization
 	make
 		do
 			type := {G}
+			type_id := type.type_id
+			abstract_type := abstract_type_of_type (type_id)
 		end
 
 feature -- Access
 
+	abstract_type: INTEGER
+
 	type: TYPE [ANY]
 
 	type_id: INTEGER
-		do
-			Result := type.type_id
-		end
 
 feature -- Status query
 
@@ -71,11 +84,8 @@ feature -- Conversion
 
 	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): G
 		do
-			if attached {READABLE_STRING_8} str as str_8 then
-				across string_8_scope as scope loop
-					Result := as_type (scope.substring_item (str_8, start_index, end_index))
-				end
-			else
+			across String_8_scope as scope loop
+				Result := as_type (scope.substring_item (str, start_index, end_index))
 			end
 		end
 

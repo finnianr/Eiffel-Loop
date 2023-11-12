@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:26:44 GMT (Thursday 9th November 2023)"
-	revision: "9"
+	date: "2023-11-12 13:03:17 GMT (Sunday 12th November 2023)"
+	revision: "10"
 
 deferred class
 	EL_WRITABLE
@@ -80,11 +80,11 @@ feature -- String
 
 	write_string_general (a_string: READABLE_STRING_GENERAL)
 		do
-			if attached {EL_READABLE_ZSTRING} a_string as str_z then
-				write_string (str_z)
-
-			elseif attached {READABLE_STRING_8} a_string as str_8 then
+			if a_string.is_string_8 and then attached {READABLE_STRING_8} a_string as str_8 then
 				write_string_8 (str_8)
+
+			elseif attached {EL_READABLE_ZSTRING} a_string as str_z then
+				write_string (str_z)
 
 			elseif attached {READABLE_STRING_32} a_string as str_32 then
 				write_string_32 (str_32)

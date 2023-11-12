@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-11-11 14:32:11 GMT (Saturday 11th November 2023)"
+	revision: "11"
 
 class
 	TL_BYTE_VECTOR
@@ -21,6 +21,8 @@ inherit
 	TL_BYTE_VECTOR_CPP_API
 
 	TL_SHARED_FRAME_ID_ENUM
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_from_pointer, make_empty
@@ -94,31 +96,25 @@ feature -- Conversion
 
 	to_frame_id_enum: NATURAL_8
 		do
-			Result := Frame_id.value (to_temporary_string (False))
+			Result := Frame_id.value (to_string_8)
 		end
 
 	to_string: ZSTRING
 		do
-			Result := to_temporary_string (False)
+			Result := to_string_8
 		end
 
 	to_string_8: STRING
-		do
-			Result := to_temporary_string (True)
-		end
-
-	to_temporary_string (keep_ref: BOOLEAN): STRING
 		local
-			i, l_count: INTEGER; buffer: EL_STRING_8_BUFFER_ROUTINES
+			i, l_count: INTEGER
 		do
-			Result := buffer.empty
 			l_count := count
-			from i := 1 until i > l_count loop
-				Result.extend (i_th (i))
-				i := i + 1
-			end
-			if keep_ref then
-				Result := Result.twin
+			create Result.make_filled ('%U', l_count)
+			if attached Result.area as area then
+				from i := 1 until i > l_count loop
+					area [i - 1] := i_th (i)
+					i := i + 1
+				end
 			end
 		end
 

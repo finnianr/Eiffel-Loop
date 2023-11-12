@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-06 17:40:56 GMT (Sunday 6th August 2023)"
-	revision: "1"
+	date: "2023-11-11 8:53:26 GMT (Saturday 11th November 2023)"
+	revision: "2"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]
@@ -188,9 +188,9 @@ feature {NONE} -- Implementation
 
 	shared_cursor: EL_STRING_ITERATION_CURSOR
 		local
-			c: EL_STRING_CURSOR_ROUTINES
+			c: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Result := c.shared (target)
+			Result := c.shared_cursor (target)
 		end
 
 	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER

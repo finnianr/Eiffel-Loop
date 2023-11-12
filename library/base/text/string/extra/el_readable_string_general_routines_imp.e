@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:02:10 GMT (Thursday 17th August 2023)"
-	revision: "10"
+	date: "2023-11-12 17:28:17 GMT (Sunday 12th November 2023)"
+	revision: "11"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -16,6 +16,38 @@ inherit
 	EL_MODULE_CONVERT_STRING
 
 	EL_SHARED_FILLED_STRING_TABLES
+
+	EL_SHARED_STRING_8_CURSOR
+		rename
+			cursor_8 as shared_cursor_8
+		end
+
+	EL_SHARED_STRING_32_CURSOR
+		rename
+			cursor_32 as shared_cursor_32
+		end
+
+	EL_SHARED_ZSTRING_CURSOR
+		rename
+			cursor as shared_cursor_z
+		end
+
+feature -- Access
+
+	shared_cursor (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
+		do
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8 then
+				Result := shared_cursor_8 (str_8)
+
+			elseif attached {EL_READABLE_ZSTRING} general as zstr then
+				Result := shared_cursor_z (zstr)
+
+			elseif attached {READABLE_STRING_32} general as str_32 then
+				Result := shared_cursor_32 (str_32)
+			else
+				Result := shared_cursor_32 (general.to_string_32)
+			end
+		end
 
 feature -- Measurement
 
@@ -82,10 +114,11 @@ feature -- Status query
 			definition: Result implies str.occurrences (uc) = 1
 		end
 
-	is_convertible (s: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): BOOLEAN
-		-- `True' if `str' is convertible to type `basic_type'
+	is_ascii_string (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := Convert_string.is_convertible (s, basic_type)
+			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
+				Result := shared_cursor_8 (str_8).all_ascii
+			end
 		end
 
 	valid_assignments (a_manifest: READABLE_STRING_GENERAL): BOOLEAN

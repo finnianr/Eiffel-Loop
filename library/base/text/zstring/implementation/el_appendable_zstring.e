@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-29 11:21:19 GMT (Tuesday 29th August 2023)"
-	revision: "56"
+	date: "2023-11-12 17:19:24 GMT (Sunday 12th November 2023)"
+	revision: "57"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -94,7 +94,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; u: UTF_CONVERTER
+			offset: INTEGER; u: UTF_CONVERTER; r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			-- UTF-16 must be first to test as it can look like ascii
 			if str_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 then
@@ -119,7 +119,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			then
 				offset := count; accommodate (str.count)
 				codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
-				if unencoded_intervals.count > 0 and then attached shared_cursor (str) as l_cursor then
+				if unencoded_intervals.count > 0 and then attached r.shared_cursor (str) as l_cursor then
 					if has_mixed_encoding then
 						append_unencoded_intervals (l_cursor, unencoded_intervals, offset)
 					else
@@ -215,10 +215,12 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		local
 			offset: INTEGER
 		do
-			if attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
+				and then cursor_8 (str_8).all_ascii
+			then
 				append_ascii (str_8)
 
-			elseif attached {EL_ZSTRING} general as str_z then
+			elseif attached {EL_READABLE_ZSTRING} general as str_z then
 				append_string (str_z)
 
 			else
@@ -320,13 +322,13 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		local
 			offset: INTEGER
 		do
-			if attached {EL_ZSTRING} general as str_z then
-				append_substring (str_z, start_index, end_index)
-
-			elseif attached {READABLE_STRING_8} general as str_8
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
 				and then cursor_8 (str_8).is_ascii_substring (start_index, end_index)
 			then
 				append_ascii_substring (str_8, start_index, end_index)
+
+			elseif attached {EL_ZSTRING} general as str_z then
+				append_substring (str_z, start_index, end_index)
 			else
 				offset := count
 				accommodate (end_index - start_index + 1)

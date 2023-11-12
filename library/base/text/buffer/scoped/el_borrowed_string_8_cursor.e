@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 18:15:58 GMT (Thursday 9th November 2023)"
-	revision: "7"
+	date: "2023-11-12 17:09:30 GMT (Sunday 12th November 2023)"
+	revision: "8"
 
 class
 	EL_BORROWED_STRING_8_CURSOR
@@ -30,8 +30,6 @@ inherit
 
 	EL_STRING_8_BIT_COUNTABLE [STRING_8]
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
-
 create
 	make
 
@@ -40,8 +38,11 @@ feature -- Access
 	copied_item (general: READABLE_STRING_GENERAL): STRING_8
 		do
 			Result := best_item (general.count)
-			if attached {READABLE_STRING_8} general as str_8 then
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8 then
 				Result.append (str_8)
+
+			elseif attached {EL_READABLE_ZSTRING} general as zstr then
+				zstr.append_to_utf_8 (Result)
 			else
 				Result.append_string_general (general)
 			end
@@ -51,12 +52,11 @@ feature -- Access
 		local
 			converter: EL_UTF_CONVERTER
 		do
+			Result := best_item (general.count)
 			if attached {ZSTRING} general as zstr then
-				Result := best_item (zstr.count + zstr.unencoded_count * 2)
-
 				zstr.append_to_utf_8 (Result)
 			else
-				Result := best_item (converter.utf_8_bytes_count (general, 1, general.count))
+				Result.grow (shared_cursor (general).utf_8_byte_count)
 				converter.utf_32_string_into_utf_8_string_8 (general, Result)
 			end
 		end
@@ -71,17 +71,6 @@ feature -- Access
 	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_8
 		do
 			Result := best_item (end_index - start_index + 1)
-			if attached {READABLE_STRING_8} general as str_8 then
-				Result.append_substring (str_8, start_index, end_index)
-
-			elseif attached {ZSTRING} general as zstr then
-				across String_scope as scope loop
-					if attached scope.substring_item (zstr, start_index, end_index) as z_substring then
-						z_substring.append_to_string_8 (Result)
-					end
-				end
-			else
-				Result.append_substring_general (general, start_index, end_index)
-			end
+			shared_cursor (general).append_substring_to_string_8 (Result, start_index, end_index)
 		end
 end

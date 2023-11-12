@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:52:15 GMT (Wednesday 8th November 2023)"
-	revision: "26"
+	date: "2023-11-12 16:14:55 GMT (Sunday 12th November 2023)"
+	revision: "27"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -26,6 +26,13 @@ inherit
 			{ANY} has, has_type, found_item
 		end
 
+	REFLECTOR_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			copy, default_create, is_equal
+		end
+
 	EL_MODULE_EIFFEL; EL_MODULE_NAMING
 
 	EL_MODULE_TUPLE
@@ -37,7 +44,7 @@ inherit
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES
 
-
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -46,19 +53,20 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			type_array: EL_TUPLE_TYPE_ARRAY
+			type_array: EL_TUPLE_TYPE_ARRAY; integer_converter: EL_STRING_TO_INTEGER_32
 		do
 			create type_array.make_from_tuple (converter_types)
 			make_size (type_array.count)
 			create integer_converter
+			create basic_type_converter.make_filled (integer_converter, Max_predefined_type + 1)
 
 			across type_array as type loop
-				if type.item ~ integer_converter.type then
-					extend (integer_converter, integer_converter.type_id)
-
-				elseif attached {like item} Eiffel.new_object (type.item) as converter then
+				if attached {like item} Eiffel.new_object (type.item) as converter then
 					converter.make
 					extend (converter, converter.type_id)
+					if converter.abstract_type /= Reference_type then
+						basic_type_converter [converter.abstract_type] := converter
+					end
 				end
 			end
 			create split_list_cache.make (7, agent new_split_list)
@@ -90,11 +98,36 @@ feature -- Access
 			end
 		end
 
-feature -- Conversion
+feature -- Numeric conversion
 
 	to_integer (str: READABLE_STRING_GENERAL): INTEGER
+		require
+			integer_string: is_integer (str)
 		do
-			Result := integer_converter.as_type (str)
+			if attached {EL_STRING_TO_INTEGER_32} basic_type_converter [Integer_32_type] as converter then
+				Result := converter.as_type (str)
+			end
+		end
+
+	to_natural (str: READABLE_STRING_GENERAL): NATURAL_32
+		require
+			natural_string: is_natural (str)
+		do
+			if attached {EL_STRING_TO_NATURAL_32} basic_type_converter [Natural_32_type] as converter then
+				Result := converter.as_type (str)
+			end
+		end
+
+feature -- Numeric tests
+
+	is_integer (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := basic_type_converter [Integer_32_type].is_convertible (str)
+		end
+
+	is_natural (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := basic_type_converter [Natural_32_type].is_convertible (str)
 		end
 
 feature -- Status query
@@ -106,7 +139,7 @@ feature -- Status query
 			Result := has_type (type.type_id)
 		end
 
-	is_convertible (str: like readable_string; type: TYPE [ANY]): BOOLEAN
+	is_convertible (str: READABLE_STRING_GENERAL; type: TYPE [ANY]): BOOLEAN
 		do
 			Result := is_convertible_to_type (str, type.type_id)
 		end
@@ -124,7 +157,7 @@ feature -- Status query
 			end
 		end
 
-	is_convertible_to_type (str: like readable_string; type_id: INTEGER): BOOLEAN
+	is_convertible_to_type (str: READABLE_STRING_GENERAL; type_id: INTEGER): BOOLEAN
 		-- `True' if `str' is convertible to type with `type_id'
 		do
 			if {ISE_RUNTIME}.dynamic_type (str) = type_id then
@@ -224,15 +257,56 @@ feature -- Basic operations
 			filled: Mod_tuple.is_filled (tuple, 1, tuple.count)
 		end
 
-	to_type (str: like readable_string; type: TYPE [ANY]): detachable ANY
-		-- `str' converted to type `type'
+	substring_to_type (
+		str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER; type: TYPE [ANY]
+	): detachable ANY
+		do
+			Result := substring_to_type_of_type (str, start_index, end_index, type.type_id)
+		end
+
+	substring_to_type_of_type (
+		str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER; type_id: INTEGER
+	): detachable ANY
+		-- `str.substring (start_index, end_index)' converted to type with `type_id'
 		require
-			convertible: is_convertible_to_type (str, type.type_id)
+			convertible: is_convertible_to_type (str.substring (start_index, end_index), type_id)
+		do
+			if {ISE_RUNTIME}.dynamic_type (str) = type_id then
+				Result := str.substring (start_index, end_index)
+
+			elseif has_type (type_id) then
+				Result := found_item.substring_as_type (str, start_index, end_index)
+
+			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
+			then
+				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
+					across String_8_scope as scope loop
+						Result := factory.new_item (scope.substring_item (str_8, start_index, end_index))
+					end
+				elseif attached {EL_READABLE_ZSTRING} str as zstr then
+					across String_scope as scope loop
+						Result := factory.new_item (scope.substring_item (zstr, start_index, end_index))
+					end
+				elseif attached {READABLE_STRING_32} str as str_32 then
+					across String_32_scope as scope loop
+						Result := factory.new_item (scope.substring_item (str_32, start_index, end_index))
+					end
+				else
+					across String_32_scope as scope loop
+						Result := factory.new_item (scope.substring_item (str.to_string_32, start_index, end_index))
+					end
+				end
+			end
+		end
+
+	to_type (str: READABLE_STRING_GENERAL; type: TYPE [ANY]): detachable ANY
+		-- `str' converted to type `type'
 		do
 			Result := to_type_of_type (str, type.type_id)
 		end
 
-	to_type_of_type (str: like readable_string; type_id: INTEGER): detachable ANY
+	to_type_of_type (str: READABLE_STRING_GENERAL; type_id: INTEGER): detachable ANY
 		-- `str' converted to type with `type_id'
 		require
 			convertible: is_convertible_to_type (str, type_id)
@@ -246,16 +320,21 @@ feature -- Basic operations
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
 			then
-				if attached {STRING_GENERAL} str as general then
-					Result := factory.new_item (general)
-
-				elseif attached {READABLE_STRING_8} str as str_8 then
+				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 					across String_8_scope as scope loop
 						Result := factory.new_item (scope.copied_item (str_8))
+					end
+				elseif attached {EL_READABLE_ZSTRING} str as zstr then
+					across String_scope as scope loop
+						Result := factory.new_item (scope.copied_item (zstr))
 					end
 				elseif attached {READABLE_STRING_32} str as str_32 then
 					across String_32_scope as scope loop
 						Result := factory.new_item (scope.copied_item (str_32))
+					end
+				else
+					across String_32_scope as scope loop
+						Result := factory.new_item (scope.copied_item (str.to_string_32))
 					end
 				end
 			end
@@ -320,7 +399,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	integer_converter: EL_STRING_TO_INTEGER_32
+	basic_type_converter: SPECIAL [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY]]
 
 	split_list_cache: EL_CACHE_TABLE [like new_split_list, TYPE [READABLE_STRING_GENERAL]];
 

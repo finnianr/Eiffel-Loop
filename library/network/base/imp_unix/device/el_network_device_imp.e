@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:38:59 GMT (Wednesday 8th November 2023)"
-	revision: "12"
+	date: "2023-11-11 14:13:51 GMT (Saturday 11th November 2023)"
+	revision: "13"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -92,7 +92,7 @@ feature -- Status change
 	set_type_enum_id
 		do
 			if type.has_substring (Protocol.wireless) then
-				if udi_plus_driver_lower (False).has_substring (Protocol.usb) then
+				if udi_plus_driver_lower.has_substring (Protocol.usb) then
 					type_enum_id := Network_device_type.USB_IEEE80211
 				else
 					type_enum_id := Network_device_type.IEEE80211
@@ -165,16 +165,10 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	udi_plus_driver_lower (keep_ref: BOOLEAN): STRING
-		local
-			l_buffer: EL_STRING_8_BUFFER_ROUTINES
+	udi_plus_driver_lower: STRING
 		do
-			Result := l_buffer.copied (udi)
-			Result.append (driver)
+			Result := udi + driver
 			Result.to_lower
-			if keep_ref then
-				Result := Result.twin
-			end
 		end
 
 feature {NONE} -- Constants

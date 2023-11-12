@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-25 17:25:23 GMT (Saturday 25th February 2023)"
-	revision: "20"
+	date: "2023-11-10 15:18:13 GMT (Friday 10th November 2023)"
+	revision: "21"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -141,21 +141,8 @@ feature -- Measurement
 		end
 
 	utf_8_byte_count: INTEGER
-		local
-			i, l_count: INTEGER; l_area: like area; unencoded_found: BOOLEAN
 		do
-			l_count := count; l_area := area
-			from i := 0 until i = l_count loop
-				if l_area [i] = Substitute then
-					unencoded_found := True
-				else
-					Result := Result + 1
-				end
-				i := i + 1
-			end
-			if unencoded_found then
-				Result := Result + unencoded_utf_8_byte_count
-			end
+			Result := Codec.utf_8_byte_count (area, count) + unencoded_utf_8_byte_count
 		end
 
 feature {NONE} -- Implementation

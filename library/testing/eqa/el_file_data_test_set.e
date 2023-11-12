@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 13:55:06 GMT (Tuesday 28th February 2023)"
-	revision: "23"
+	date: "2023-11-12 10:20:48 GMT (Sunday 12th November 2023)"
+	revision: "24"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -20,7 +20,7 @@ inherit
 			on_prepare, on_clean
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_DIGEST; EL_MODULE_LIO
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_DIGEST
 
 	EL_FILE_OPEN_ROUTINES
 

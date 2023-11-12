@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 9:16:49 GMT (Monday 31st July 2023)"
-	revision: "3"
+	date: "2023-11-11 8:57:31 GMT (Saturday 11th November 2023)"
+	revision: "4"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_NUMERIC [N -> NUMERIC]
@@ -29,11 +29,9 @@ feature -- Status query
 
 	is_convertible (str: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `str' is convertible to type `N'
-		local
-			s: EL_STRING_CURSOR_ROUTINES
 		do
 			if attached Convertor as l_convertor then
-				s.shared (str).parse (l_convertor, numeric_type)
+				shared_cursor (str).parse (l_convertor, numeric_type)
 				Result := l_convertor.is_integral_integer
 			end
 		end
@@ -46,11 +44,9 @@ feature -- Status query
 feature {NONE} -- Implementation
 
 	converted (str: READABLE_STRING_GENERAL): STRING_TO_INTEGER_CONVERTOR
-		local
-			s: EL_STRING_CURSOR_ROUTINES
 		do
 			Result := Convertor
-			s.shared (str).parse (Result, Type_no_limitation)
+			shared_cursor (str).parse (Result, Type_no_limitation)
 		end
 
 	new_type_description: STRING

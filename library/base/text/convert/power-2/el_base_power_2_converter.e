@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 10:15:53 GMT (Sunday 24th September 2023)"
-	revision: "7"
+	date: "2023-11-12 16:49:04 GMT (Sunday 12th November 2023)"
+	revision: "8"
 
 deferred class
 	EL_BASE_POWER_2_CONVERTER
@@ -171,12 +171,12 @@ feature {NONE} -- Implementation
 			substring: STRING
 		do
 			create Result
-			if attached {READABLE_STRING_8} str as str_8
+			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8
 				and then attached cursor_8 (str_8) as cursor
 			then
 				Result.offset := cursor.area_first_index
 				Result.area := cursor.area
-			elseif attached {ZSTRING} str as zstr then
+			elseif attached {EL_READABLE_ZSTRING} str as zstr then
 				Result.area := zstr.area
 			else
 				substring := Buffer.copied_substring_general (str, start_index, end_index)

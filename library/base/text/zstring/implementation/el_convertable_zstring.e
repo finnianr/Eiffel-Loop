@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:06:07 GMT (Wednesday 8th November 2023)"
-	revision: "55"
+	date: "2023-11-12 17:21:45 GMT (Sunday 12th November 2023)"
+	revision: "56"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -71,7 +71,7 @@ feature -- To Strings
 	to_shared_immutable_8: IMMUTABLE_STRING_8
 		-- immutable string that shares same `area' as `Current'
 		require
-			valid_as_string_8: is_valid_as_string_8
+			completely_encoded: not has_mixed_encoding
 		do
 			Result := Immutable_8.new_substring (area, 0, count)
 		end

@@ -6,11 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-11-11 9:02:53 GMT (Saturday 11th November 2023)"
+	revision: "5"
 
 class
 	EROS_RESULT [G]
+
+inherit
+	ANY
+
+	EL_MODULE_CONVERT_STRING
 
 create
 	make_call
@@ -23,7 +28,7 @@ feature {NONE} -- Initialization
 	make_call (proxy: EROS_PROXY; routine_name: STRING; argument_tuple: TUPLE)
 		-- make result `item' by calling remote `routine_name' with `argument_tuple'
 		local
-			log: EL_LOGGABLE; s: EL_STRING_8_ROUTINES
+			log: EL_LOGGABLE
 		do
 			proxy.call (routine_name, argument_tuple)
 			log := proxy.log
@@ -31,7 +36,10 @@ feature {NONE} -- Initialization
 				if attached {EROS_STRING_RESULT} proxy.result_object as l_result then
 					log.put_labeled_string (once "Received result", l_result.value)
 					log.put_new_line
-					if s.is_convertible (l_result.value, {G}) and then attached {G} s.to_type (l_result.value, {G}) as value then
+
+					if Convert_string.is_convertible (l_result.value, {G})
+						and then attached {G} Convert_string.to_type (l_result.value, {G}) as value
+					then
 						item := value
 					else
 						log.put_labeled_substitution (

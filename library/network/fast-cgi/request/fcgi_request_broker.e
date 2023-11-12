@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:55:15 GMT (Tuesday 14th February 2023)"
-	revision: "13"
+	date: "2023-11-10 16:50:11 GMT (Friday 10th November 2023)"
+	revision: "14"
 
 class
 	FCGI_REQUEST_BROKER
@@ -202,7 +202,7 @@ feature {FCGI_RECORD} -- Record events
 		do
 			if a_header.is_end_service then
 				-- Send from FCGI_SEPARATE_SERVLET_SERVICE
-				socket.put_raw_string_8 ("ok")
+				socket.put_encoded_string_8 ("ok")
 				request_read := True; is_end_service := True
 			else
 				record := a_header.type_record
