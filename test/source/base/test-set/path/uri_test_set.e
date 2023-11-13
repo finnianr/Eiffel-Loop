@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-08 13:15:53 GMT (Thursday 8th June 2023)"
-	revision: "28"
+	date: "2023-11-13 19:13:57 GMT (Monday 13th November 2023)"
+	revision: "29"
 
 class
 	URI_TEST_SET
@@ -43,9 +43,10 @@ feature -- Tests
 	test_uri_assignments
 		-- URI_TEST_SET.test_uri_assignments
 		note
-			testing:
-				"covers/{EL_PATH}.make, covers/{EL_URI_PATH}.authority, covers/{EL_URI_PATH}.scheme",
-				"covers/{EL_URI_PATH}.make_file, covers/{EL_URI_PATH}.make_scheme, covers/{EL_URI_PATH}.is_absolute"
+			testing: "[
+				covers/{EL_PATH}.make, covers/{EL_URI_PATH}.authority, covers/{EL_URI_PATH}.scheme,
+				covers/{EL_URI_PATH}.make_file, covers/{EL_URI_PATH}.make_scheme, covers/{EL_URI_PATH}.is_absolute
+			]"
 		local
 			uri: EL_DIR_URI_PATH; str_32: STRING_32; dir_path: DIR_PATH
 			parts: EL_STRING_8_LIST; scheme, line: STRING; index_slash: INTEGER

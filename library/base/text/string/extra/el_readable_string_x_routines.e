@@ -1,6 +1,7 @@
 note
 	description: "[
-		Routines to supplement handling of strings conforming to [$source READABLE_STRING_8] [$source READABLE_STRING_32]
+		Routines to supplement handling of strings conforming to
+		[$source READABLE_STRING_8] and [$source READABLE_STRING_32]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 8:42:53 GMT (Saturday 11th November 2023)"
-	revision: "24"
+	date: "2023-11-13 18:29:34 GMT (Monday 13th November 2023)"
+	revision: "25"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]

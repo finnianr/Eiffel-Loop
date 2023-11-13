@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 12:48:50 GMT (Sunday 13th August 2023)"
-	revision: "25"
+	date: "2023-11-13 17:13:58 GMT (Monday 13th November 2023)"
+	revision: "26"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -48,9 +48,9 @@ inherit
 			make_parser, set_fixed_address
 		end
 
-	EL_SHARED_ZCODEC_FACTORY
-
 	EL_MODULE_EXCEPTION
+
+	EL_SHARED_ZCODEC_FACTORY; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -82,22 +82,24 @@ feature -- Basic operations
 
 	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
 		local
-			callback: like new_callback; utf_8_line: STRING; c: EL_UTF_CONVERTER
+			callback: like new_callback; r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			reset
 			callback := new_callback
 			create source.make_from_general (a_lines.generator)
-			create utf_8_line.make (100)
-			across a_lines as line until not is_correct loop
-				utf_8_line.wipe_out
-				if attached {ZSTRING} line.item as zstr then
-					zstr.append_to_utf_8 (utf_8_line)
-				else
-					c.utf_32_string_into_utf_8_string_8 (line.item, utf_8_line)
+			across String_8_scope as scope loop
+				if attached scope.item as utf_8_lines then
+					across a_lines as line until not is_correct loop
+						if attached {ZSTRING} line.item as zstr then
+							zstr.append_to_utf_8 (utf_8_lines)
+						else
+							r.shared_cursor (line.item).append_to_utf_8 (utf_8_lines)
+						end
+					end
+					parse_string_and_set_error (utf_8_lines, False)
+					parse_final (callback)
 				end
-				parse_string_and_set_error (utf_8_line, False)
 			end
-			parse_final (callback)
 		end
 
 	parse_from_stream (a_stream: IO_MEDIUM)

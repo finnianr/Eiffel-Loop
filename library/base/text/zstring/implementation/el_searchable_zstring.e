@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:21:49 GMT (Sunday 12th November 2023)"
-	revision: "40"
+	date: "2023-11-13 17:49:02 GMT (Monday 13th November 2023)"
+	revision: "41"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -280,18 +280,25 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 
 	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL): STRING_32
 		do
-			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-				and then attached cursor_8 (str_8) as c8
-			then
-				Result := resized_z_code_pattern (1, str_8.count)
-				c8.fill_z_codes (Result.area)
-
-			elseif attached {EL_READABLE_ZSTRING} general as z_str then
-				Result := z_str.shared_z_code_pattern (1)
-
-			elseif attached {READABLE_STRING_32} general as str_32 and then attached cursor_32 (str_32) as c32 then
-				Result := resized_z_code_pattern (1, str_32.count)
-				c32.fill_z_codes (Result.area)
+			inspect Class_id.character_bytes (general)
+				when '1' then
+					if attached {READABLE_STRING_8} general as str_8
+						and then attached cursor_8 (str_8) as c8
+					then
+						Result := resized_z_code_pattern (1, str_8.count)
+						c8.fill_z_codes (Result.area)
+					end
+				when '4' then
+					if attached {READABLE_STRING_32} general as str_32
+						and then attached cursor_32 (str_32) as c32
+					then
+						Result := resized_z_code_pattern (1, str_32.count)
+						c32.fill_z_codes (Result.area)
+					end
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as z_str then
+						Result := z_str.shared_z_code_pattern (1)
+					end
 			end
 		ensure
 			same_as_zstring: valid_general_z_code_pattern (general, Result)

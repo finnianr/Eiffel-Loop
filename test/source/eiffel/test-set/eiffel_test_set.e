@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 11:31:29 GMT (Sunday 12th November 2023)"
-	revision: "33"
+	date: "2023-11-12 20:12:03 GMT (Sunday 12th November 2023)"
+	revision: "34"
 
 class
 	EIFFEL_TEST_SET
@@ -30,9 +30,10 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["array_sizes",		agent test_array_sizes],
-				["natural_constant",	agent test_natural_constant],
-				["string_sizes",		agent test_string_sizes]
+				["array_sizes",			agent test_array_sizes],
+				["natural_constant",		agent test_natural_constant],
+				["string_field_counts",	agent test_string_field_counts],
+				["string_sizes",			agent test_string_sizes]
 			>>)
 		end
 
@@ -65,6 +66,16 @@ feature -- Tests
 	test_natural_constant
 		do
 			assert ("same value", {EL_ASCII}.Newline = {EL_ASCII}.Line_feed)
+		end
+
+	test_string_field_counts
+		-- EIFFEL_TEST_SET.test_string_field_counts
+		local
+			object_str, object_str_32: REFLECTED_REFERENCE_OBJECT
+		do
+			create object_str.make (Empty_string)
+			create object_str_32.make (Empty_string_32)
+			assert ("ZSTRING has more fields", object_str.field_count > object_str_32.field_count)
 		end
 
 	test_string_sizes

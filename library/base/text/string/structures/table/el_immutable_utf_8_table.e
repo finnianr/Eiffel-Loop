@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:29:15 GMT (Sunday 12th November 2023)"
-	revision: "6"
+	date: "2023-11-13 15:45:29 GMT (Monday 13th November 2023)"
+	revision: "7"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -35,7 +35,7 @@ inherit
 			new_cursor
 		end
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_by_assignment, make_by_indented, make_empty, make_subset
@@ -82,19 +82,9 @@ feature -- Access
 feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 
 	as_utf_8 (manifest_string: READABLE_STRING_GENERAL): STRING
-		local
-			c: EL_UTF_8_CONVERTER
 		do
-			if manifest_string.is_string_8 and then attached {READABLE_STRING_8} manifest_string as str_8
-				and then cursor_8 (str_8).all_ascii
-			then
-				Result := str_8
-
-			elseif attached {EL_READABLE_ZSTRING} manifest_string as zstr then
-				Result := zstr.to_utf_8
-			else
-
-				Result := c.utf_32_string_to_string_8 (manifest_string)
+			across String_8_scope as scope loop
+				Result := scope.copied_utf_8_item (manifest_string).twin
 			end
 		end
 

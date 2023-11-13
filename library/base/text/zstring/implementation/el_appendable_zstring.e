@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:19:24 GMT (Sunday 12th November 2023)"
-	revision: "57"
+	date: "2023-11-13 18:16:49 GMT (Monday 13th November 2023)"
+	revision: "58"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -213,17 +213,24 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_string_general (general: READABLE_STRING_GENERAL)
 		local
-			offset: INTEGER
+			offset: INTEGER; not_ascii: BOOLEAN
 		do
-			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-				and then cursor_8 (str_8).all_ascii
-			then
-				append_ascii (str_8)
+			inspect Class_id.character_bytes (general)
+				when '1' then
+					if attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
+						append_ascii (str_8)
+					else
+						not_ascii := True
+					end
+				when '4' then
+					not_ascii := True
 
-			elseif attached {EL_READABLE_ZSTRING} general as str_z then
-				append_string (str_z)
-
-			else
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as zstr then
+						append_string (zstr)
+					end
+			end
+			if not_ascii then
 				offset := count
 				accommodate (general.count)
 				encode (general, offset)
@@ -320,16 +327,26 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_end_index: end_index <= general.count
 		local
-			offset: INTEGER
+			offset: INTEGER; not_ascii: BOOLEAN
 		do
-			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-				and then cursor_8 (str_8).is_ascii_substring (start_index, end_index)
-			then
-				append_ascii_substring (str_8, start_index, end_index)
+			inspect Class_id.character_bytes (general)
+				when '1' then
+					if attached {READABLE_STRING_8} general as str_8
+						and then cursor_8 (str_8).is_ascii_substring (start_index, end_index)
+					then
+						append_ascii_substring (str_8, start_index, end_index)
+					else
+						not_ascii := True
+					end
+				when '4' then
+					not_ascii := True
 
-			elseif attached {EL_ZSTRING} general as str_z then
-				append_substring (str_z, start_index, end_index)
-			else
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as zstr then
+						append_substring (zstr, start_index, end_index)
+					end
+			end
+			if not_ascii then
 				offset := count
 				accommodate (end_index - start_index + 1)
 				encode_substring (general, start_index, end_index, offset)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:24:37 GMT (Wednesday 8th November 2023)"
-	revision: "53"
+	date: "2023-11-13 17:20:22 GMT (Monday 13th November 2023)"
+	revision: "54"
 
 class
 	EL_PYXIS_PARSER
@@ -74,7 +74,7 @@ feature -- Basic operations
 
 	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
 		local
-			utf_8_line: STRING; c: EL_UTF_CONVERTER
+			utf_8_line: STRING; general: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			reset
 			scanner.on_start_document
@@ -85,7 +85,7 @@ feature -- Basic operations
 				if attached {ZSTRING} line.item as zstr then
 					zstr.append_to_utf_8 (utf_8_line)
 				else
-					c.utf_32_string_into_utf_8_string_8 (line.item, utf_8_line)
+					general.shared_cursor (line.item).append_to_utf_8 (utf_8_line)
 				end
 				call_state_procedure (utf_8_line)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 8:45:52 GMT (Saturday 11th November 2023)"
-	revision: "40"
+	date: "2023-11-13 17:23:51 GMT (Monday 13th November 2023)"
+	revision: "41"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -114,10 +114,11 @@ feature -- Conversion
 		end
 
 	to_utf_8 (str: READABLE_STRING_32): STRING
-		local
-			c: EL_UTF_CONVERTER
 		do
-			Result := c.string_32_to_utf_8_string_8 (str)
+			if attached cursor (str) as c then
+				create Result.make (c.utf_8_byte_count)
+				c.append_to_utf_8 (Result)
+			end
 		end
 
 feature -- Factory

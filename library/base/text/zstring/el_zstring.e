@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:26:17 GMT (Thursday 9th November 2023)"
-	revision: "91"
+	date: "2023-11-13 15:15:23 GMT (Monday 13th November 2023)"
+	revision: "92"
 
 class
 	EL_ZSTRING
@@ -85,7 +85,7 @@ inherit
 			write_boolean as append_boolean,
 			write_pointer as append_pointer
 		undefine
-			copy, is_equal, out, append_string_general
+			append_string_general
 		end
 
 	STRING_GENERAL

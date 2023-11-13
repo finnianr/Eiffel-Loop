@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 16:31:36 GMT (Sunday 12th November 2023)"
-	revision: "12"
+	date: "2023-11-13 19:03:10 GMT (Monday 13th November 2023)"
+	revision: "13"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -27,6 +27,8 @@ inherit
 		rename
 			utf_8_byte_count as utf_8_character_byte_count
 		end
+
+	EL_SHARED_UTF_8_SEQUENCE
 
 feature {NONE} -- Initialization
 
@@ -51,6 +53,51 @@ feature -- Basic operations
 		require
 			enough_space: n <= destination.capacity - destination.count
 		deferred
+		end
+
+	append_to_string_8 (str: STRING_8)
+		require
+			valid_as_string_8: is_valid_as_string_8
+		local
+			i, last_i, first_i, l_count, offset: INTEGER; code: NATURAL
+		do
+			l_count := target.count
+			if l_count > 0 then
+				offset := str.count
+				str.grow (offset + l_count)
+				str.set_count (offset + l_count)
+
+				first_i := area_first_index; last_i := area_last_index
+				if attached str.area as str_area and then attached area as l_area then
+					from i := first_i until i > last_i loop
+						str_area [offset] := i_th_character_8 (l_area, i)
+						offset := offset + 1
+						i := i + 1
+					end
+				end
+			end
+		ensure
+			correct_size: str.count = old str.count + target.count
+			substring_appended: str.ends_with_general (target)
+		end
+
+	append_to_utf_8 (utf_8: STRING_8)
+		local
+			i, last_i: INTEGER; uc: CHARACTER_32
+		do
+			last_i := area_last_index
+			if attached area as l_area and then attached Utf_8_sequence as sequence then
+				from i := area_first_index until i > last_i loop
+					uc := i_th_character_32 (l_area, i)
+					if uc.natural_32_code <= 0x7F then
+						utf_8.append_character (uc.to_character_8)
+					else
+						sequence.set (uc)
+						sequence.append_to_string (utf_8)
+					end
+					i := i + 1
+				end
+			end
 		end
 
 	append_substring_to_string_8 (str: STRING_8; start_index, end_index: INTEGER)
@@ -183,6 +230,11 @@ feature -- Status query
 		-- `True' if `target' is an upper-case Eiffel identifier
 		do
 			Result := is_area_eiffel_identifier ({EL_CASE}.Upper)
+		end
+
+	is_valid_as_string_8: BOOLEAN
+		do
+			Result := target.is_valid_as_string_8
 		end
 
 	valid_index (i: INTEGER): BOOLEAN

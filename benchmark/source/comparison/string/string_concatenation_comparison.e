@@ -3,9 +3,9 @@ note
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
-			append strings to once string with local :  69986.0 times (100%)
-			append strings to once string            :  68342.0 times (-2.3%)
-			append strings to Result                 :  52602.0 times (-24.8%)
+			append to once buffer         :  66567.0 times (100%)
+			append to across scope buffer :  57946.0 times (-13.0%)
+			append to empty result        :  35617.0 times (-46.5%)
 
 	]"
 
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:49:10 GMT (Sunday 12th November 2023)"
-	revision: "11"
+	date: "2023-11-12 17:55:21 GMT (Sunday 12th November 2023)"
+	revision: "12"
 
 class
 	STRING_CONCATENATION_COMPARISON

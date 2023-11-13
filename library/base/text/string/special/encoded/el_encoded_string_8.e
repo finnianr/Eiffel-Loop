@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-08 13:49:53 GMT (Thursday 8th June 2023)"
-	revision: "21"
+	date: "2023-11-13 17:05:31 GMT (Monday 13th November 2023)"
+	revision: "22"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -243,13 +243,6 @@ feature {NONE} -- Implementation
 			hi_c := hex.to_decimal (a_area [offset]) |<< 4
 			low_c := hex.to_decimal (a_area [offset + 1])
 			Result := (hi_c | low_c).to_natural_32
-		end
-
-	substring_utf_8 (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING
-		local
-			c: EL_UTF_CONVERTER
-		do
-			Result := c.utf_32_string_to_utf_8_string_8 (s.substring (start_index, end_index).to_string_32)
 		end
 
 feature {NONE} -- Deferred implementation

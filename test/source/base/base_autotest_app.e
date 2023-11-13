@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 13:34:53 GMT (Sunday 12th November 2023)"
-	revision: "172"
+	date: "2023-11-13 18:33:00 GMT (Monday 13th November 2023)"
+	revision: "173"
 
 class
 	BASE_AUTOTEST_APP
@@ -59,9 +59,11 @@ feature {NONE} -- Compile classes
 	text: TUPLE [
 		EL_CACHED_STRING [READABLE_STRING_GENERAL],
 		EL_CHARACTER_32, EL_CHARACTER_8,
+		EL_CASE_COMPARISON,
 
 		EL_IMMUTABLE_STRING_8_GRID,
 		EL_IMMUTABLE_STRING_32_TABLE,
+		EL_ITERABLE_SPLIT_FACTORY_ROUTINES,
 		EL_LINKED_STRING_LIST [STRING_GENERAL],
 		EL_SPLIT_IMMUTABLE_STRING_8_LIST, EL_SPLIT_IMMUTABLE_STRING_32_LIST,
 

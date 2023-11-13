@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:18:05 GMT (Thursday 9th November 2023)"
-	revision: "23"
+	date: "2023-11-13 17:39:49 GMT (Monday 13th November 2023)"
+	revision: "24"
 
 class
 	EL_UTF_8_ZCODEC
@@ -39,16 +39,15 @@ feature -- Basic operations
 
 	append_general_to_utf_8 (a_unicode_in: READABLE_STRING_GENERAL; utf_8_out: STRING)
 		local
-			unicode_in: READABLE_STRING_GENERAL; c: EL_UTF_CONVERTER
+			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			if attached {EL_READABLE_ZSTRING} a_unicode_in as zstr then
-				Unicode_buffer.set_from_string (zstr)
-				unicode_in := Unicode_buffer
-			else
-				unicode_in := a_unicode_in
+			if attached {ZSTRING} a_unicode_in as zstr then
+				zstr.append_to_utf_8 (utf_8_out)
+
+			elseif attached r.shared_cursor (a_unicode_in) as cursor_in then
+				utf_8_out.grow (utf_8_out.count + cursor_in.utf_8_byte_count)
+				cursor_in.append_to_utf_8 (utf_8_out)
 			end
-			utf_8_out.grow (utf_8_out.count + c.utf_8_bytes_count (unicode_in, 1, unicode_in.count))
-			c.utf_32_string_into_utf_8_string_8 (unicode_in, utf_8_out)
 		end
 
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)

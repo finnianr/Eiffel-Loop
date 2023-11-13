@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 13:48:21 GMT (Saturday 11th November 2023)"
-	revision: "37"
+	date: "2023-11-13 16:37:55 GMT (Monday 13th November 2023)"
+	revision: "38"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -48,6 +48,24 @@ feature -- Measurement
 		do
 			from i := 1 until i > part_count loop
 				Result := Result + part_string (i).count
+				i := i + 1
+			end
+		end
+
+	utf_8_byte_count: INTEGER
+		-- byte count to store path as UTF-8
+		-- (works for uri paths too)
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > part_count loop
+				if attached part_string (i) as i_th_part then
+					if attached {ZSTRING} i_th_part as zstr then
+						Result := Result + zstr.utf_8_byte_count
+					else
+						Result := Result + shared_cursor (i_th_part).utf_8_byte_count
+					end
+				end
 				i := i + 1
 			end
 		end
@@ -120,22 +138,18 @@ feature -- Conversion
 
 	to_utf_8: STRING
 		local
-			i: INTEGER; i_th_part: READABLE_STRING_GENERAL
-			c: EL_UTF_CONVERTER
+			i: INTEGER
 		do
-			across String_8_scope as scope loop
-				if attached scope.best_item (count) as str then
-					from i := 1 until i > part_count loop
-						i_th_part := part_string (i)
-						if attached {ZSTRING} i_th_part as zstr then
-							zstr.append_to_utf_8 (str)
-						else
-							c.utf_32_string_into_utf_8_string_8 (i_th_part, str)
-						end
-						i := i + 1
+			create Result.make (utf_8_byte_count)
+			from i := 1 until i > part_count loop
+				if attached part_string (i) as i_th_part then
+					if attached {ZSTRING} i_th_part as zstr then
+						zstr.append_to_utf_8 (Result)
+					else
+						shared_cursor (i_th_part).append_to_utf_8 (Result)
 					end
-					Result := str.twin
 				end
+				i := i + 1
 			end
 		end
 
@@ -201,15 +215,15 @@ feature -- Basic operations
 	append_to_utf_8 (utf_8_out: STRING)
 		-- append path to string `str'
 		local
-			i: INTEGER; c: EL_UTF_CONVERTER
+			i: INTEGER
 		do
-			utf_8_out.grow (utf_8_out.count + count)
+			utf_8_out.grow (utf_8_out.count + utf_8_byte_count)
 			from i := 1 until i > part_count loop
 				if attached part_string (i) as general then
 					if attached {ZSTRING} general as zstr then
 						zstr.append_to_utf_8 (utf_8_out)
 					else
-						c.utf_32_string_into_utf_8_string_8 (general, utf_8_out)
+						shared_cursor (general).append_to_utf_8 (utf_8_out)
 					end
 				end
 				i := i + 1

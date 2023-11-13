@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 7:55:36 GMT (Saturday 11th November 2023)"
-	revision: "1"
+	date: "2023-11-13 15:28:08 GMT (Monday 13th November 2023)"
+	revision: "2"
 
 class
 	STRING_ITERATION_CURSOR_TYPE_MAP

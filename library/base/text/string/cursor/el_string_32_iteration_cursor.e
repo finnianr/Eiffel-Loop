@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 13:25:29 GMT (Sunday 12th November 2023)"
-	revision: "14"
+	date: "2023-11-13 19:04:35 GMT (Monday 13th November 2023)"
+	revision: "15"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -149,8 +149,15 @@ feature {NONE} -- Implementation
 		end
 
 	i_th_character_8 (a_area: like area; i: INTEGER): CHARACTER_8
+		local
+			uc: CHARACTER_32
 		do
-			Result := a_area [i].to_character_8
+			uc := a_area [i]
+			if uc.is_character_8 then
+				Result := uc.to_character_8
+			else
+				Result := Substitute
+			end
 		end
 
 	i_th_character_32 (a_area: like area; i: INTEGER): CHARACTER_32

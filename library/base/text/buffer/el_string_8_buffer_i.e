@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 6:15:34 GMT (Thursday 27th July 2023)"
-	revision: "11"
+	date: "2023-11-13 17:29:30 GMT (Monday 13th November 2023)"
+	revision: "12"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
-
-	EL_SHARED_STRING_8_CURSOR
 
 feature -- Access
 
@@ -43,14 +41,12 @@ feature -- Access
 		end
 
 	copied_general_as_utf_8 (general: READABLE_STRING_GENERAL): STRING
-		local
-			c: EL_UTF_CONVERTER
 		do
 			Result := empty
 			if attached {ZSTRING} general as zstr then
 				zstr.append_to_utf_8 (Result)
 			else
-				c.utf_32_string_into_utf_8_string_8 (general, Result)
+				shared_cursor (general).append_to_utf_8 (Result)
 			end
 		end
 
@@ -80,12 +76,12 @@ feature {NONE} -- Implementation
 
 	leading_white_count (str: READABLE_STRING_8): INTEGER
 		do
-			Result := cursor_8 (str).leading_white_count
+			Result := shared_cursor_8 (str).leading_white_count
 		end
 
 	trailing_white_count (str: READABLE_STRING_8): INTEGER
 		do
-			Result := cursor_8 (str).trailing_white_count
+			Result := shared_cursor_8 (str).trailing_white_count
 		end
 
 	to_lower (str: STRING_8)

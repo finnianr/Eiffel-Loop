@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 5:33:15 GMT (Thursday 27th July 2023)"
-	revision: "3"
+	date: "2023-11-13 17:27:38 GMT (Monday 13th November 2023)"
+	revision: "4"
 
 deferred class
 	EL_STRING_BUFFER [S -> STRING_GENERAL, READABLE -> READABLE_STRING_GENERAL]
 
 inherit
 	ANY
+	
+	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+		export
+			{NONE} all
+		end
 
 	EL_STRING_BIT_COUNTABLE [READABLE]
 

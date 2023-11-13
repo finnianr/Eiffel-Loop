@@ -3,14 +3,17 @@ note
 		Run all sub-applications conforming to [$source EL_AUTOTEST_APPLICATION] except for
 		those listed in `Omissions' tuple.
 	]"
+	notes: "[
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-11-13 10:26:08 GMT (Monday 13th November 2023)"
+	revision: "6"
 
 class
 	EL_BATCH_AUTOTEST_APP
@@ -55,12 +58,9 @@ feature {NONE} -- Implementation
 			args_tuple: TUPLE
 		do
 			args_tuple := [' ', cmd_list.joined_words]
-			if Executable.is_finalized then
-				execution.system (Executable.path.to_string.joined (args_tuple))
-			else
-				lio.put_line (Executable.name.joined (args_tuple))
-				lio.put_new_line
-			end
+			lio.put_line (Executable.name.joined (args_tuple))
+			lio.put_new_line
+			execution.system (Executable.path.to_string.joined (args_tuple))
 		end
 
 	test (application: EL_APPLICATION)
