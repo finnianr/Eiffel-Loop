@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 15:47:00 GMT (Wednesday 15th March 2023)"
-	revision: "5"
+	date: "2023-11-14 17:26:36 GMT (Tuesday 14th November 2023)"
+	revision: "6"
 
 class
 	EL_STRING_TO_REAL_64
@@ -31,6 +31,11 @@ feature -- Conversion
 	as_type (str: READABLE_STRING_GENERAL): REAL_64
 		do
 			Result := converted (str).parsed_double
+		end
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): REAL_64
+		do
+			Result := converted_substring (str, start_index, end_index).parsed_double
 		end
 
 feature {NONE} -- Implementation

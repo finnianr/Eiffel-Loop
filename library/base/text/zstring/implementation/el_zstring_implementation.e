@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:21:36 GMT (Sunday 12th November 2023)"
-	revision: "76"
+	date: "2023-11-14 10:04:33 GMT (Tuesday 14th November 2023)"
+	revision: "77"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -317,19 +317,28 @@ feature {NONE} -- Implementation
 
 	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		require
+			not_zstring: Class_id.character_bytes (a_general) /= 'X'
 			valid_index: 1 <= index and index <= Once_adapted_argument.count
 		do
-			if attached {EL_ZSTRING} a_general as zstring then
-				Result := zstring
+			inspect index
+				when 1 .. 3 then
+					Result := Once_adapted_argument [index - 1]
+					Result.wipe_out
 			else
-				inspect index
-					when 1 .. 3 then
-						Result := Once_adapted_argument [index - 1]
-						Result.wipe_out
-				else
-					create Result.make (a_general.count)
-				end
-				Result.append_string_general (a_general)
+				create Result.make (a_general.count)
+			end
+			Result.append_string_general (a_general)
+		end
+
+	adapted_argument_general (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
+		do
+			inspect Class_id.character_bytes (a_general)
+				when 'X' then
+					if attached {EL_ZSTRING} a_general as zstring then
+						Result := zstring
+					end
+			else
+				Result := adapted_argument (a_general, index)
 			end
 		end
 

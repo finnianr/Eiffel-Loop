@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-11-14 17:31:56 GMT (Tuesday 14th November 2023)"
+	revision: "5"
 
 class
 	EL_STRING_TO_CHARACTER_8
@@ -40,6 +40,15 @@ feature -- Conversion
 		do
 			if str.count >= 1 then
 				Result := str [1].to_character_8
+			end
+		end
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): CHARACTER_8
+		require else
+			same_indices: start_index = end_index
+		do
+			if str.valid_index (start_index) then
+				Result := str.item (start_index).to_character_8
 			end
 		end
 

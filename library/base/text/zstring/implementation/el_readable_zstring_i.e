@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-19 14:08:12 GMT (Wednesday 19th July 2023)"
-	revision: "4"
+	date: "2023-11-13 21:10:28 GMT (Monday 13th November 2023)"
+	revision: "5"
 
 deferred class
 	EL_READABLE_ZSTRING_I
 
 inherit
-	ANY undefine copy, is_equal, out end
+	EL_SHARED_CLASS_ID
 
 feature -- Measurement
 

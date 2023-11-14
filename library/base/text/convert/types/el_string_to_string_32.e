@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 15:38:53 GMT (Saturday 10th December 2022)"
-	revision: "5"
+	date: "2023-11-14 17:18:22 GMT (Tuesday 14th November 2023)"
+	revision: "6"
 
 class
 	EL_STRING_TO_STRING_32
@@ -28,6 +28,12 @@ feature -- Conversion
 	as_type (str: READABLE_STRING_GENERAL): STRING_32
 		do
 			Result := str.to_string_32
+		end
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_32
+		do
+			create Result.make (end_index - start_index + 1)
+			shared_cursor (str).append_substring_to_string_32 (Result, start_index, end_index)
 		end
 
 end

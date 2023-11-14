@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 16:35:12 GMT (Wednesday 15th March 2023)"
-	revision: "6"
+	date: "2023-11-14 17:24:51 GMT (Tuesday 14th November 2023)"
+	revision: "7"
 
 class
 	EL_STRING_TO_INTEGER_32
@@ -33,6 +33,11 @@ feature -- Conversion
 	as_type (str: READABLE_STRING_GENERAL): INTEGER_32
 		do
 			Result := converted (str).parsed_integer_32
+		end
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_32
+		do
+			Result := converted_substring (str, start_index, end_index).parsed_integer_32
 		end
 
 feature -- Constants

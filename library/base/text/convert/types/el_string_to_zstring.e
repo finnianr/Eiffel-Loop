@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:24:41 GMT (Thursday 17th August 2023)"
-	revision: "7"
+	date: "2023-11-14 17:19:01 GMT (Tuesday 14th November 2023)"
+	revision: "8"
 
 class
 	EL_STRING_TO_ZSTRING
@@ -29,5 +29,13 @@ feature -- Status query
 
 	is_latin_1: BOOLEAN = False
 		-- `True' if type can be always be represented by Latin-1 encoded string
+
+feature -- Conversion
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): ZSTRING
+		do
+			create Result.make (end_index - start_index + 1)
+			Result.append_substring_general (str, start_index, end_index)
+		end
 
 end

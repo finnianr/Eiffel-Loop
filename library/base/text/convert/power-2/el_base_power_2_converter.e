@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 16:49:04 GMT (Sunday 12th November 2023)"
-	revision: "8"
+	date: "2023-11-14 18:00:36 GMT (Tuesday 14th November 2023)"
+	revision: "9"
 
 deferred class
 	EL_BASE_POWER_2_CONVERTER
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_CLASS_ID
 
 	STRING_HANDLER
 
@@ -167,20 +167,27 @@ feature {NONE} -- Implementation
 		str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER
 
 	): TUPLE [area: SPECIAL [CHARACTER]; offset: INTEGER]
-		local
-			substring: STRING
 		do
 			create Result
-			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8
-				and then attached cursor_8 (str_8) as cursor
-			then
-				Result.offset := cursor.area_first_index
-				Result.area := cursor.area
-			elseif attached {EL_READABLE_ZSTRING} str as zstr then
-				Result.area := zstr.area
-			else
-				substring := Buffer.copied_substring_general (str, start_index, end_index)
-				Result := character_array (substring, 1, end_index - start_index + 1)
+			inspect Class_id.character_bytes (str)
+				when '1' then
+					if attached {READABLE_STRING_8} str as str_8
+						and then attached cursor_8 (str_8) as cursor
+					then
+						Result.offset := cursor.area_first_index
+						Result.area := cursor.area
+					end
+				when '4' then
+					if attached {READABLE_STRING_32} str as str_32
+						and then attached Buffer.empty as substring
+					then
+						cursor_32 (str_32).append_substring_to_string_8 (substring, start_index, end_index)
+						Result.area := substring.area
+					end
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} str as zstr then
+						Result.area := zstr.area
+					end
 			end
 		end
 

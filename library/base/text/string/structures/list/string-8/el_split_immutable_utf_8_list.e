@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 16:52:40 GMT (Sunday 12th November 2023)"
-	revision: "7"
+	date: "2023-11-14 9:49:40 GMT (Tuesday 14th November 2023)"
+	revision: "8"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -32,7 +32,7 @@ inherit
 
 	EL_MODULE_ITERABLE
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_UTF_8_SEQUENCE
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_UTF_8_SEQUENCE
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string,
@@ -45,22 +45,31 @@ feature {NONE} -- Initialization
 		require
 			no_commas: across general_list as list all not list.item.has (',') end
 		local
-			utf_8_list: EL_STRING_8_LIST
+			utf_8_list: EL_STRING_8_LIST; utf_8_item: STRING_8
 		do
 			create utf_8_list.make (Iterable.count (general_list))
 			across general_list as list loop
 				if attached list.item as general then
-					if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-						and then cursor_8 (str_8).all_ascii
-					then
-						utf_8_list.extend (str_8)
+					inspect Class_id.character_bytes (general)
+						when '1' then
+							if attached {STRING_8} general as str_8 then
+								if cursor_8 (str_8).all_ascii then
+									utf_8_item := str_8
+								else
+									utf_8_item := cursor_8 (str_8).to_utf_8
+								end
+							end
+						when '4' then
+							if attached {READABLE_STRING_32} general as str_32 then
+								utf_8_item := cursor_32 (str_32).to_utf_8
+							end
 
-					elseif attached {EL_READABLE_ZSTRING} general as zstr then
-						utf_8_list.extend (zstr.to_utf_8)
-
-					else
-						utf_8_list.extend (utf_32_string_to_string_8 (general))
+						when 'X' then
+							if attached {EL_READABLE_ZSTRING} general as zstr then
+								utf_8_item := zstr.to_utf_8
+							end
 					end
+					utf_8_list.extend (utf_8_item)
 				end
 			end
 			make_split (utf_8_list.joined (','), ',')

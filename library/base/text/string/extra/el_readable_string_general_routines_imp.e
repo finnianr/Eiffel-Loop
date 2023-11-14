@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 17:43:07 GMT (Monday 13th November 2023)"
-	revision: "12"
+	date: "2023-11-14 11:29:18 GMT (Tuesday 14th November 2023)"
+	revision: "13"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -145,6 +145,15 @@ feature -- Conversion
 		-- `str' converted to type `basic_type'
 		do
 			Result := Convert_string.to_type (str, basic_type)
+		end
+
+	to_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		do
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
+				and then shared_cursor_8 (str_8).all_ascii
+			then
+				Result := str_8
+			end
 		end
 
 feature -- Basic operations

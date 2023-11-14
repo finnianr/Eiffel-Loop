@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-15 13:39:45 GMT (Wednesday 15th March 2023)"
-	revision: "5"
+	date: "2023-11-14 17:25:32 GMT (Tuesday 14th November 2023)"
+	revision: "6"
 
 class
 	EL_STRING_TO_NATURAL_16
@@ -31,6 +31,11 @@ feature -- Conversion
 	as_type (str: READABLE_STRING_GENERAL): NATURAL_16
 		do
 			Result := converted (str).parsed_natural_16
+		end
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_16
+		do
+			Result := converted_substring (str, start_index, end_index).parsed_natural_16
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 15:38:53 GMT (Saturday 10th December 2022)"
-	revision: "5"
+	date: "2023-11-14 17:31:09 GMT (Tuesday 14th November 2023)"
+	revision: "6"
 
 class
 	EL_STRING_TO_CHARACTER_32
@@ -45,6 +45,15 @@ feature -- Conversion
 		do
 			if str.count >= 1 then
 				Result := str.item (1)
+			end
+		end
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): CHARACTER_32
+		require else
+			same_indices: start_index = end_index
+		do
+			if str.valid_index (start_index) then
+				Result := str.item (start_index)
 			end
 		end
 

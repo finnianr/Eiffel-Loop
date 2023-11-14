@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:21:45 GMT (Sunday 12th November 2023)"
-	revision: "56"
+	date: "2023-11-14 9:53:23 GMT (Tuesday 14th November 2023)"
+	revision: "57"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -310,7 +310,9 @@ feature -- To substring
 
 	substring_between_general (start_string, end_string: READABLE_STRING_GENERAL; start_index: INTEGER): like Current
 		do
-			Result := substring_between (adapted_argument (start_string, 1), adapted_argument (end_string, 2), start_index)
+			Result := substring_between (
+				adapted_argument_general (start_string, 1), adapted_argument_general (end_string, 2), start_index
+			)
 		end
 
 	substring_end (start_index: INTEGER): like Current

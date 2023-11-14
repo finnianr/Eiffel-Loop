@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-11-14 17:29:15 GMT (Tuesday 14th November 2023)"
+	revision: "5"
 
 class
 	EL_STRING_TO_BOOLEAN
@@ -39,6 +39,13 @@ feature -- Conversion
 	as_type (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := str.to_boolean
+		end
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
+		do
+			across String_8_scope as scope loop
+				Result := scope.copied_item (str).to_boolean
+			end
 		end
 
 end

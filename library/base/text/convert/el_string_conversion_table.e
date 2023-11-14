@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 16:14:55 GMT (Sunday 12th November 2023)"
-	revision: "27"
+	date: "2023-11-14 16:39:18 GMT (Tuesday 14th November 2023)"
+	revision: "28"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -99,6 +99,34 @@ feature -- Access
 		end
 
 feature -- Numeric conversion
+
+	substring_to_integer_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER
+		do
+			if attached {EL_STRING_TO_INTEGER_32} basic_type_converter [Integer_32_type] as converter then
+				Result := converter.substring_as_type (str, start_index, end_index)
+			end
+		end
+
+	substring_to_natural_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_32
+		do
+			if attached {EL_STRING_TO_NATURAL_32} basic_type_converter [Natural_32_type] as converter then
+				Result := converter.substring_as_type (str, start_index, end_index)
+			end
+		end
+
+	substring_to_real_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): REAL_32
+		do
+			if attached {EL_STRING_TO_REAL_32} basic_type_converter [Real_32_type] as converter then
+				Result := converter.substring_as_type (str, start_index, end_index)
+			end
+		end
+
+	substring_to_real_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): REAL_64
+		do
+			if attached {EL_STRING_TO_REAL_64} basic_type_converter [Real_64_type] as converter then
+				Result := converter.substring_as_type (str, start_index, end_index)
+			end
+		end
 
 	to_integer (str: READABLE_STRING_GENERAL): INTEGER
 		require
@@ -280,22 +308,25 @@ feature -- Basic operations
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
 			then
-				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
-					across String_8_scope as scope loop
-						Result := factory.new_item (scope.substring_item (str_8, start_index, end_index))
-					end
-				elseif attached {EL_READABLE_ZSTRING} str as zstr then
-					across String_scope as scope loop
-						Result := factory.new_item (scope.substring_item (zstr, start_index, end_index))
-					end
-				elseif attached {READABLE_STRING_32} str as str_32 then
-					across String_32_scope as scope loop
-						Result := factory.new_item (scope.substring_item (str_32, start_index, end_index))
-					end
-				else
-					across String_32_scope as scope loop
-						Result := factory.new_item (scope.substring_item (str.to_string_32, start_index, end_index))
-					end
+				inspect Class_id.character_bytes (str)
+					when '1' then
+						if attached {READABLE_STRING_8} str as str_8 then
+							across String_8_scope as scope loop
+								Result := factory.new_item (scope.substring_item (str_8, start_index, end_index))
+							end
+						end
+					when '4' then
+						if attached {READABLE_STRING_32} str as str_32 then
+							across String_32_scope as scope loop
+								Result := factory.new_item (scope.substring_item (str_32, start_index, end_index))
+							end
+						end
+					when 'X' then
+						if attached {EL_READABLE_ZSTRING} str as zstr then
+							across String_scope as scope loop
+								Result := factory.new_item (scope.substring_item (zstr, start_index, end_index))
+							end
+						end
 				end
 			end
 		end

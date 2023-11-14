@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 12:11:46 GMT (Thursday 9th November 2023)"
-	revision: "29"
+	date: "2023-11-14 18:04:21 GMT (Tuesday 14th November 2023)"
+	revision: "30"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -122,6 +122,7 @@ feature -- Tests
 		end
 
 	test_subject_line_decoding
+		-- THUNDERBIRD_EXPORT_TEST_SET.test_subject_line_decoding
 		local
 			line: ZSTRING
 		do

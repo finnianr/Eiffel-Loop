@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 15:36:04 GMT (Monday 13th November 2023)"
-	revision: "3"
+	date: "2023-11-14 11:23:29 GMT (Tuesday 14th November 2023)"
+	revision: "4"
 
 deferred class
 	EL_IMMUTABLE_KEY_8_LOOKUP
 
 inherit
 	EL_SHARED_IMMUTABLE_8_MANAGER
+
+	EL_SHARED_CLASS_ID
 
 feature -- Status query
 
@@ -39,16 +41,24 @@ feature -- Status query
 		-- Is there an item in the table with key `a_key'?
 		-- If so, set `found_item' to the found item.
 		do
-			if a_key.is_string_8 and then attached {READABLE_STRING_8} a_key as key_8 then
-				Result := has_8 (key_8)
-
-			elseif attached {EL_READABLE_ZSTRING} a_key as z_key
-			-- works if all the characters are ASCII and is very fast
-				and then has_immutable (z_key.to_shared_immutable_8)
-			then
-				Result := True
-			else
-				Result := has_8 (Key_buffer.copied_general (a_key))
+			inspect Class_id.character_bytes (a_key)
+				when '1' then
+					if attached {READABLE_STRING_8} a_key as key_8 then
+						Result := has_8 (key_8)
+					end
+				when '4' then
+					if attached {READABLE_STRING_32} a_key as key_32 then
+						Result := has_8 (Key_buffer.copied_general (key_32))
+					end
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} a_key as z_key then
+						-- works if all the characters are ASCII and is very fast
+						if has_immutable (z_key.to_shared_immutable_8) then
+							Result := True
+						else
+							Result := has_8 (Key_buffer.copied_general (z_key))
+						end
+					end
 			end
 		end
 
@@ -71,16 +81,24 @@ feature -- Set found_item
 		-- Is there an item in the table with key `a_key'?
 		-- If so, set `found_item' to the found item.
 		do
-			if a_key.is_string_8 and then attached {READABLE_STRING_8} a_key as key_8 then
-				Result := has_key_8 (key_8)
-
-			elseif attached {EL_READABLE_ZSTRING} a_key as z_key
-			-- works if all the characters are ASCII and is very fast
-				and then has_immutable_key (z_key.to_shared_immutable_8)
-			then
-				Result := True
-			else
-				Result := has_key_8 (Key_buffer.copied_general (a_key))
+			inspect Class_id.character_bytes (a_key)
+				when '1' then
+					if attached {READABLE_STRING_8} a_key as key_8 then
+						Result := has_key_8 (key_8)
+					end
+				when '4' then
+					if attached {READABLE_STRING_32} a_key as key_32 then
+						Result := has_key_8 (Key_buffer.copied_general (key_32))
+					end
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} a_key as z_key then
+						-- works if all the characters are ASCII and is very fast
+						if has_immutable_key (z_key.to_shared_immutable_8) then
+							Result := True
+						else
+							Result := has_key_8 (Key_buffer.copied_general (z_key))
+						end
+					end
 			end
 		end
 

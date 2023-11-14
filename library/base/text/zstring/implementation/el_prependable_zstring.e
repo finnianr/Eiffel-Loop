@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:02:56 GMT (Sunday 12th November 2023)"
-	revision: "49"
+	date: "2023-11-14 11:55:02 GMT (Tuesday 14th November 2023)"
+	revision: "50"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -51,13 +51,23 @@ feature {NONE} -- Prepend general
 		end
 
 	prepend_string_general (general: READABLE_STRING_GENERAL)
+		local
+			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-				and then cursor_8 (str_8).all_ascii 
-			then
-				prepend_ascii (str_8)
-			else
-				insert_string_general (general, 1)
+			inspect Class_id.character_bytes (general)
+				when '1' then
+					if attached r.to_ascii_string_8 (general) as ascii_str then
+						prepend_ascii (ascii_str)
+					else
+						insert_string (adapted_argument (general, 1), 1)
+					end
+				when '4' then
+					insert_string (adapted_argument (general, 1), 1)
+
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as zstr then
+						insert_string (zstr, 1)
+					end
 			end
 		ensure then
 			unencoded_valid: is_valid
@@ -148,10 +158,6 @@ feature {NONE} -- Implementation
 		ensure
 			valid_unencoded: is_valid
 			inserted: elks_checking implies (Current ~ (old substring (1, i - 1) + old (s.twin) + old substring (i, count)))
-		end
-
-	insert_string_general (s: READABLE_STRING_GENERAL; i: INTEGER)
-		deferred
 		end
 
 end

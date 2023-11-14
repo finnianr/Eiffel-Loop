@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-19 20:15:16 GMT (Wednesday 19th July 2023)"
-	revision: "11"
+	date: "2023-11-14 16:24:44 GMT (Tuesday 14th November 2023)"
+	revision: "12"
 
 deferred class
 	EL_PARSER
@@ -16,6 +16,8 @@ inherit
 	TP_SHARED_OPTIMIZED_FACTORY
 
 	EL_STRING_8_CONSTANTS
+
+	EL_MODULE_CONVERT_STRING
 
 feature {NONE} -- Initialization
 
@@ -39,22 +41,22 @@ feature -- Source text substrings
 
 	integer_32_substring (start_index, end_index: INTEGER): INTEGER
 		do
-			Result := source_substring (start_index, end_index, False).to_integer
+			Result := Convert_string.substring_to_integer_32 (source_text, start_index, end_index)
 		end
 
 	natural_32_substring (start_index, end_index: INTEGER): NATURAL
 		do
-			Result := source_substring (start_index, end_index, False).to_natural
+			Result := Convert_string.substring_to_natural_32 (source_text, start_index, end_index)
 		end
 
 	real_32_substring, real_substring (start_index, end_index: INTEGER): REAL_32
 		do
-			Result := source_substring (start_index, end_index, False).to_real_32
+			Result := Convert_string.substring_to_real_32 (source_text, start_index, end_index)
 		end
 
 	real_64_substring, double_substring (start_index, end_index: INTEGER): REAL_64
 		do
-			Result := source_substring (start_index, end_index, False).to_real_64
+			Result := Convert_string.substring_to_real_64 (source_text, start_index, end_index)
 		end
 
 	new_source_substring (start_index, end_index: INTEGER): like default_source_text
@@ -94,31 +96,30 @@ feature -- Element change
 
 	set_substring_source_text (a_source_text: like default_source_text; start_index, end_index: INTEGER)
 		local
-			s_8: EL_STRING_8_ROUTINES; s_32: EL_STRING_32_ROUTINES
-			z: EL_ZSTRING_ROUTINES
+			s_8: EL_STRING_8_ROUTINES; s_32: EL_STRING_32_ROUTINES; z: EL_ZSTRING_ROUTINES
 		do
-			if a_source_text.is_string_8 then
-				if attached {STRING_8} a_source_text as str_8 then
-					set_source_text (s_8.shared_substring (str_8, end_index))
-					start_offset := start_index - 1
-					
-				elseif attached {IMMUTABLE_STRING_8} a_source_text as str_8 then
-					set_source_text (str_8.shared_substring (start_index, end_index))
-				end
+			inspect Class_id.character_bytes (a_source_text)
+				when '1' then
+					if a_source_text.is_immutable and then attached {IMMUTABLE_STRING_8} a_source_text as str_8 then
+						set_source_text (str_8.shared_substring (start_index, end_index))
 
-			elseif attached {ZSTRING} a_source_text as z_str then
-				set_source_text (z.shared_substring (z_str, end_index))
-				start_offset := start_index - 1
+					elseif attached {STRING_8} a_source_text as str_8 then
+						set_source_text (s_8.shared_substring (str_8, end_index))
+						start_offset := start_index - 1
+					end
+				when '4' then
+					if a_source_text.is_immutable and then attached {IMMUTABLE_STRING_32} a_source_text as str_32 then
+						set_source_text (str_32.shared_substring (start_index, end_index))
 
-			elseif attached {STRING_32} a_source_text as str_32 then
-				set_source_text (s_32.shared_substring (str_32, end_index))
-				start_offset := start_index - 1
-
-
-			elseif attached {IMMUTABLE_STRING_32} a_source_text as str_32 then
-				set_source_text (str_32.shared_substring (start_index, end_index))
-			else
-				set_source_text (a_source_text.substring (start_index, end_index))
+					elseif attached {STRING_32} a_source_text as str_32 then
+						set_source_text (s_32.shared_substring (str_32, end_index))
+						start_offset := start_index - 1
+					end
+				when 'X' then
+					if attached {ZSTRING} a_source_text as zstr then
+						set_source_text (z.shared_substring (zstr, end_index))
+						start_offset := start_index - 1
+					end
 			end
 		ensure
 			definition: attached a_source_text.substring (start_index, end_index) as substring

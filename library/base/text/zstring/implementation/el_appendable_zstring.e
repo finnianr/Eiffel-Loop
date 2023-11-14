@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 18:16:49 GMT (Monday 13th November 2023)"
-	revision: "58"
+	date: "2023-11-14 11:56:05 GMT (Tuesday 14th November 2023)"
+	revision: "59"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -213,27 +213,23 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_string_general (general: READABLE_STRING_GENERAL)
 		local
-			offset: INTEGER; not_ascii: BOOLEAN
+			offset: INTEGER; r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
+			offset := count
 			inspect Class_id.character_bytes (general)
 				when '1' then
-					if attached {READABLE_STRING_8} general as str_8 and then cursor_8 (str_8).all_ascii then
-						append_ascii (str_8)
+					if attached r.to_ascii_string_8 (general) as ascii_str then
+						append_ascii (ascii_str)
 					else
-						not_ascii := True
+						accommodate (general.count); encode (general, offset)
 					end
 				when '4' then
-					not_ascii := True
+					accommodate (general.count); encode (general, offset)
 
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} general as zstr then
 						append_string (zstr)
 					end
-			end
-			if not_ascii then
-				offset := count
-				accommodate (general.count)
-				encode (general, offset)
 			end
 		ensure
 			unencoded_valid: is_valid

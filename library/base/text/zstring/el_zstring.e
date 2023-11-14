@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 15:15:23 GMT (Monday 13th November 2023)"
-	revision: "92"
+	date: "2023-11-14 9:02:49 GMT (Tuesday 14th November 2023)"
+	revision: "93"
 
 class
 	EL_ZSTRING
@@ -293,7 +293,7 @@ feature -- Element change
 
 	insert_string_general (s: READABLE_STRING_GENERAL; i: INTEGER)
 		do
-			insert_string (adapted_argument (s, 1), i)
+			insert_string (adapted_argument_general (s, 1), i)
 		end
 
 	left_pad (uc: CHARACTER_32; a_count: INTEGER)

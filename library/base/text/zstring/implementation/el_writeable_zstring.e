@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-10 15:29:16 GMT (Friday 10th November 2023)"
-	revision: "11"
+	date: "2023-11-13 21:14:41 GMT (Monday 13th November 2023)"
+	revision: "12"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -48,7 +48,6 @@ feature -- Append to other
 
 			elseif attached {STRING_32} other as str_32 then
 				append_to_string_32 (str_32)
-
 			end
 		end
 
