@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 16:49:38 GMT (Sunday 16th July 2023)"
-	revision: "27"
+	date: "2023-11-16 15:10:42 GMT (Thursday 16th November 2023)"
+	revision: "28"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -28,6 +28,7 @@ inherit
 			foreign_naming as xml_naming
 		export
 			{NONE} all
+			{EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} current_reflective
 		redefine
 			make_default, new_meta_data
 		end
@@ -56,6 +57,8 @@ feature {EL_REFLECTION_HANDLER} -- Access
 feature {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 
 	new_build_action (field: EL_REFLECTED_REFERENCE [ANY]; node_type: INTEGER): TUPLE [xpath: STRING; procedure: PROCEDURE]
+		require
+			valid_current_type: field.valid_type (current_reflective)
 		local
 			reflective_context: EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
 		do
@@ -80,7 +83,7 @@ feature {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 				Result := [new_xpath (string_field, node_type), agent set_cached_field_from_node (string_field)]
 
 			elseif field.conforms_to_type (Class_id.EL_REFLECTIVE)
-				and then attached {EL_REFLECTIVE} field.value (field.enclosing_object) as reflective_value
+				and then attached {EL_REFLECTIVE} field.value (current_reflective) as reflective_value
 			then
 				create reflective_context.make (reflective_value)
 				Result := [new_xpath (field, Element_node), agent set_reflective_field_context (field, reflective_context)]
@@ -249,7 +252,7 @@ feature {NONE} -- Implementation
 		local
 			basic_type, type_id, item_type_id: INTEGER
 		do
-			basic_type := field.category_id; type_id := field.type_id
+			basic_type := field.abstract_type; type_id := field.type_id
 			if Eiffel.is_type_convertable_from_string (basic_type, type_id)
 				or else is_builder_context_field (type_id)
 			then

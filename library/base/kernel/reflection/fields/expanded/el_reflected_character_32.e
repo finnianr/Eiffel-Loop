@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 14:27:32 GMT (Monday 23rd October 2023)"
-	revision: "23"
+	date: "2023-11-16 16:05:45 GMT (Thursday 16th November 2023)"
+	revision: "24"
 
 class
 	EL_REFLECTED_CHARACTER_32
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [CHARACTER_32]
 		rename
-			field_value as character_32_field
+			abstract_type as Character_32_type
 		end
 
 create
@@ -23,11 +23,14 @@ create
 
 feature -- Access
 
-	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
+	value (a_object: EL_REFLECTIVE): CHARACTER_32
 		do
-			create Result
-			Result.set_item (value (a_object))
+			Result := {ISE_RUNTIME}.character_32_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0
+			)
 		end
+
+feature -- Measurement
 
 	size_of (a_object: EL_REFLECTIVE): INTEGER
 		-- size of field object
@@ -42,12 +45,19 @@ feature -- Conversion
 			Result := value (a_object).natural_32_code.to_natural_64
 		end
 
+	reference_value (a_object: EL_REFLECTIVE): like value.to_reference
+		do
+			create Result
+			Result.set_item (value (a_object))
+		end
+
 feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: CHARACTER_32)
 		do
-			enclosing_object := a_object
-			set_character_32_field (index, a_value)
+			{ISE_RUNTIME}.set_character_32_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+			)
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)

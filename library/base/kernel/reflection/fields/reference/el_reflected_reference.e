@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:10:29 GMT (Monday 14th August 2023)"
-	revision: "41"
+	date: "2023-11-16 16:25:46 GMT (Thursday 16th November 2023)"
+	revision: "42"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -16,6 +16,7 @@ class
 inherit
 	EL_REFLECTED_FIELD
 		rename
+			abstract_type as Reference_type,
 			reference_value as value
 		redefine
 			initialize, make, value, is_initialized, set_from_memory, write_to_memory
@@ -27,7 +28,7 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: like enclosing_object; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
 		do
 			Precursor (a_object, a_index, a_name)
 			if attached {EL_READER_WRITER_INTERFACE [G]} Reader_writer_table.item (type_id) as extra then
@@ -55,9 +56,11 @@ feature -- Access
 		end
 
 	value (a_object: EL_REFLECTIVE): G
+		local
+			object_ptr: POINTER
 		do
-			enclosing_object := a_object
-			if attached {G} reference_field (index) as l_value then
+			object_ptr := {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0)
+			if attached {G} {ISE_RUNTIME}.reference_field (index, object_ptr, 0) as l_value then
 				Result := l_value
 			else
 				Result := new_instance
@@ -91,8 +94,7 @@ feature -- Status query
 
 	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
 		do
-			enclosing_object := a_object
-			Result := attached reference_field (index)
+			Result := attached {ISE_RUNTIME}.reference_field (index, $a_object, 0)
 		end
 
 feature -- Basic operations
@@ -121,8 +123,9 @@ feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: G)
 		do
-			enclosing_object := a_object
-			set_reference_field (index, a_value)
+			{ISE_RUNTIME}.set_reference_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+			)
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER_32)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:02:40 GMT (Wednesday 8th November 2023)"
-	revision: "36"
+	date: "2023-11-16 16:52:37 GMT (Thursday 16th November 2023)"
+	revision: "37"
 
 class
 	EL_REFLECTED_TUPLE
@@ -34,7 +34,7 @@ feature {EL_CLASS_META_DATA} -- Initialization
 
 	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
 		do
-			make_reflected (a_object)
+			object_type := {ISE_RUNTIME}.dynamic_type (a_object) -- required for `field_static_type'
 			create member_types.make_from_static (field_static_type (a_index))
 			factory_array := new_factory_array
 			Precursor (a_object, a_index, a_name)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 13:29:14 GMT (Thursday 5th January 2023)"
-	revision: "2"
+	date: "2023-11-16 15:06:22 GMT (Thursday 16th November 2023)"
+	revision: "3"
 
 expanded class
 	EL_ATTRIBUTE_TYPE_ROUTINES
@@ -19,7 +19,9 @@ inherit
 
 feature -- Access
 
-	attribute_id (field: EL_REFLECTED_FIELD): INTEGER
+	attribute_id (object: EL_REFLECTIVE; field: EL_REFLECTED_FIELD): INTEGER
+		require
+			valid_field_object: field.valid_type (object)
 		do
 			if attached {EL_REFLECTED_BOOLEAN} field or else attached {EL_REFLECTED_BOOLEAN_REF} field then
 				Result := Type_boolean
@@ -30,12 +32,12 @@ feature -- Access
 				else
 					Result := Type_expanded
 				end
-			elseif attached {EL_ATTRIBUTE_NODE_HINTS} field.enclosing_object as hints
+			elseif attached {EL_ATTRIBUTE_NODE_HINTS} object as hints
 				and then hints.attribute_node_field_set.has (field.index)
 			then
 				Result := Type_quoted
 
-			elseif attached {EL_ELEMENT_NODE_HINTS} field.enclosing_object as hints
+			elseif attached {EL_ELEMENT_NODE_HINTS} object as hints
 				and then not hints.element_node_field_set.has (field.index)
 			then
 				Result := Type_quoted

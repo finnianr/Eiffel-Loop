@@ -6,8 +6,8 @@ note
 	notes: "[
 		Passes over 1000 millisecs (in descending order)
 
-		Manual compaction    :  6187.0 times (100%)
-		Automated compaction :  1535.0 times (-75.2%)
+			Manual compaction    :  6318.0 times (100%)
+			Automated compaction :  2388.0 times (-62.2%)
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:56:28 GMT (Thursday 9th November 2023)"
-	revision: "2"
+	date: "2023-11-16 15:30:55 GMT (Thursday 16th November 2023)"
+	revision: "3"
 
 class
 	COMPACTABLE_REFLECTIVE_VS_MANUAL_BIT_MASK

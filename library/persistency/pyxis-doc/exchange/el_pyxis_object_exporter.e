@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:47:54 GMT (Wednesday 8th November 2023)"
-	revision: "8"
+	date: "2023-11-16 15:07:10 GMT (Thursday 16th November 2023)"
+	revision: "9"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 					across object.meta_data.alphabetical_list as list loop
 						-- output numeric as Pyxis element attributes
 						name := list.item.name
-						line_index := type.attribute_id (list.item)
+						line_index := type.attribute_id (object, list.item)
 						if line_index > 0 then
 							is_attribute [list.cursor_index - 1] := True
 							value := pool.borrowed_item

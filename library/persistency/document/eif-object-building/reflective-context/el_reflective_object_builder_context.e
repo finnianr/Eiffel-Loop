@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 9:09:41 GMT (Thursday 27th July 2023)"
-	revision: "7"
+	date: "2023-11-16 15:06:39 GMT (Thursday 16th November 2023)"
+	revision: "8"
 
 class
 	EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
@@ -54,7 +54,7 @@ feature {NONE} -- Build from XML
 			create Result.make_size (object.field_table.count)
 			across object.field_table as table loop
 				field := table.item
-				if type.attribute_id (field) > 0 then
+				if type.attribute_id (object, field) > 0 then
 					l_xpath := s.character_string ('@') + field.name
 					if field.has_representation then
 						Result [l_xpath] := agent set_from_representation (field)

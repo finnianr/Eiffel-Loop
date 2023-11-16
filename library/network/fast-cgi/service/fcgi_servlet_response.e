@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 23:28:30 GMT (Wednesday 8th November 2023)"
-	revision: "33"
+	date: "2023-11-16 17:00:25 GMT (Thursday 16th November 2023)"
+	revision: "34"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -15,15 +15,13 @@ class
 inherit
 	SINGLE_MATH
 
-	EL_SHARED_DOCUMENT_TYPES
-
-	EL_STRING_8_CONSTANTS
-
 	FCGI_SHARED_HEADER
 
-	EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_UTF_8_ZCODEC
+	EL_SHARED_DOCUMENT_TYPES; EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_SCOPES
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_UTF_8_ZCODEC
+
+	EL_STRING_8_CONSTANTS
 
 create
 	make

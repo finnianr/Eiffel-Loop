@@ -7,54 +7,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:10:14 GMT (Monday 14th August 2023)"
-	revision: "58"
+	date: "2023-11-16 16:54:03 GMT (Thursday 16th November 2023)"
+	revision: "59"
 
 deferred class
 	EL_REFLECTED_FIELD
 
 inherit
-	REFLECTED_REFERENCE_OBJECT
-		rename
-			make as make_reflected,
-			is_expanded as is_current_expanded,
-			class_name as object_class_name,
-			physical_size as object_physical_size,
-			deep_physical_size as deep_object_physical_size
-		export
-			{NONE} all
-		redefine
-			is_equal, enclosing_object
-		end
-
 	EL_NAMEABLE [IMMUTABLE_STRING_8] undefine is_equal end
 
-	EL_REFLECTION_CONSTANTS
-
-	EL_REFLECTION_HANDLER
-
-	EL_MODULE_EIFFEL
-
-	EL_SHARED_IMMUTABLE_8_MANAGER
+	EL_REFLECTED_FIELD_IMPLEMENTATION
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: like enclosing_object; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+		require
+			reference_object: not a_object.generating_type.is_expanded
 		do
-			make_reflected (a_object)
-			index := a_index; name := a_name
+			index := a_index; name := a_name; export_name := a_name
+			object_type := {ISE_RUNTIME}.dynamic_type (a_object)
 			type_id := field_static_type (index)
 			type := Eiffel.type_of_type (type_id)
-			export_name := a_name
 		end
 
 feature -- Names
-
-	category_id: INTEGER
-		-- abstract type of field corresponding to `REFLECTOR_CONSTANTS' type constants
-		do
-			Result := field_type (index)
-		end
 
 	class_name: IMMUTABLE_STRING_8
 		do
@@ -67,11 +43,14 @@ feature -- Names
 
 feature -- Access
 
-	address (a_object: EL_REFLECTIVE): POINTER
+	abstract_type: INTEGER
+		-- abstract type of field corresponding to `REFLECTOR_CONSTANTS' type constants
 		deferred
 		end
 
-	index: INTEGER
+	address (a_object: EL_REFLECTIVE): POINTER
+		deferred
+		end
 
 	reference_value (a_object: EL_REFLECTIVE): ANY
 		deferred
@@ -87,18 +66,22 @@ feature -- Access
 
 	type_info: EL_FIELD_TYPE_PROPERTIES
 		do
-			create Result.make (index, dynamic_type)
+			create Result.make (index, object_type)
 		end
 
 	type_id: INTEGER
 		-- generating type
 
-	size_of (a_object: EL_REFLECTIVE): INTEGER
-		-- size of field object
+	value (a_object: EL_REFLECTIVE): ANY
+		require
+			valid_type: valid_type (a_object)
 		deferred
 		end
 
-	value (a_object: EL_REFLECTIVE): ANY
+feature -- Measurement
+
+	size_of (a_object: EL_REFLECTIVE): INTEGER
+		-- size of field object
 		deferred
 		end
 
@@ -115,7 +98,7 @@ feature -- Status query
 		end
 
 	is_abstract: BOOLEAN
-		-- `True' if field type is deferred
+		-- `True' if `type' of field is not specific to one type, but is conforming t
 		do
 			Result := False
 		end
@@ -151,6 +134,12 @@ feature -- Contract Support
 		-- `True' if `string' is valid argument for `set_from_string'
 		do
 			Result := True
+		end
+
+	valid_type (a_object: EL_REFLECTIVE): BOOLEAN
+		-- `True' if `a_object' type is correct for this field
+		do
+			Result := {ISE_RUNTIME}.dynamic_type (a_object) = object_type
 		end
 
 feature -- Comparison
@@ -246,22 +235,6 @@ feature {NONE} -- Implementation
 			crc.add_string_8 (class_name)
 		end
 
-feature {EL_REFLECTION_HANDLER} -- Internal attributes
-
-	enclosing_object: separate EL_REFLECTIVE
-		-- Enclosing object containing `object' or a reference to `object.
-
-feature {NONE} -- Constants
-
-	Buffer_8: EL_STRING_8_BUFFER
-		once
-			create Result
-		end
-
-	Buffer_32: EL_STRING_32_BUFFER
-		once
-			create Result
-		end
 note
 	descendants: "[
 			EL_REFLECTED_FIELD*

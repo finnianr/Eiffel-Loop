@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:03:50 GMT (Wednesday 8th November 2023)"
-	revision: "30"
+	date: "2023-11-16 16:37:09 GMT (Thursday 16th November 2023)"
+	revision: "31"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -43,7 +43,6 @@ feature {NONE} -- Initialization
 				and then attached {FUNCTION [G]} New_instance_table.found_item as new_instance_function
 				and then new_instance_function.target.same_type (a_object)
 			then
-
 				new_item_function := new_instance_function
 			end
 

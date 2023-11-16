@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 14:26:16 GMT (Monday 23rd October 2023)"
-	revision: "23"
+	date: "2023-11-16 16:06:27 GMT (Thursday 16th November 2023)"
+	revision: "24"
 
 class
 	EL_REFLECTED_NATURAL_16
@@ -15,23 +15,34 @@ class
 inherit
 	EL_REFLECTED_INTEGER_FIELD [NATURAL_16]
 		rename
-			field_value as natural_16_field
+			abstract_type as Natural_16_type
 		end
 
 create
 	make
+
+feature -- Access
+
+	value (a_object: EL_REFLECTIVE): NATURAL_16
+		do
+			Result := {ISE_RUNTIME}.natural_16_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0
+			)
+		end
+
+feature -- Measurement
+
+	size_of (a_object: EL_REFLECTIVE): INTEGER
+		-- size of field object
+		do
+			Result := {PLATFORM}.Natural_16_bytes
+		end
 
 feature -- Conversion
 
 	reference_value (a_object: EL_REFLECTIVE): NATURAL_16_REF
 		do
 			Result := value (a_object).to_reference
-		end
-
-	size_of (a_object: EL_REFLECTIVE): INTEGER
-		-- size of field object
-		do
-			Result := {PLATFORM}.Natural_16_bytes
 		end
 
 	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
@@ -43,8 +54,9 @@ feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: NATURAL_16)
 		do
-			enclosing_object := a_object
-			set_natural_16_field (index, a_value)
+			{ISE_RUNTIME}.set_natural_16_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+			)
 		end
 
 	set_from_double (a_object: EL_REFLECTIVE; a_value: DOUBLE)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 12:18:32 GMT (Friday 9th December 2022)"
-	revision: "28"
+	date: "2023-11-16 14:19:18 GMT (Thursday 16th November 2023)"
+	revision: "29"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 
 	to_string_directly (a_object: EL_REFLECTIVE): STRING
 		local
-			n, v: like field_value; str: STRING
+			n, v: like value; str: STRING
 		do
 			v := value (a_object)
 			if v = n.zero then

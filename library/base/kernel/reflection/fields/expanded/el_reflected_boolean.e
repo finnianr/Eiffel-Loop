@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 14:21:18 GMT (Monday 23rd October 2023)"
-	revision: "21"
+	date: "2023-11-16 16:05:35 GMT (Thursday 16th November 2023)"
+	revision: "22"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [BOOLEAN]
 		rename
-			field_value as boolean_field
+			abstract_type as Boolean_type
 		end
 
 create
@@ -35,6 +35,13 @@ feature -- Access
 			Result := {PLATFORM}.boolean_bytes
 		end
 
+	value (a_object: EL_REFLECTIVE): BOOLEAN
+		do
+			Result := {ISE_RUNTIME}.boolean_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0
+			)
+		end
+
 feature -- Conversion
 
 	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
@@ -48,8 +55,9 @@ feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: BOOLEAN)
 		do
-			enclosing_object := a_object
-			set_boolean_field (index, a_value)
+			{ISE_RUNTIME}.set_boolean_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+			)
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)

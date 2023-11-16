@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:34:57 GMT (Wednesday 8th November 2023)"
-	revision: "37"
+	date: "2023-11-16 14:40:24 GMT (Thursday 16th November 2023)"
+	revision: "38"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 
 	is_field_text (field: EL_REFLECTED_FIELD): BOOLEAN
 		do
-			inspect field.category_id
+			inspect field.abstract_type
 				when {REFLECTOR_CONSTANTS}.Character_8_type, {REFLECTOR_CONSTANTS}.Character_32_type then
 					Result := True
 			else

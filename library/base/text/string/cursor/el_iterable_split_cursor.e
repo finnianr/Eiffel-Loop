@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 13:19:35 GMT (Thursday 29th June 2023)"
-	revision: "11"
+	date: "2023-11-16 15:40:46 GMT (Thursday 16th November 2023)"
+	revision: "12"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -17,6 +17,8 @@ inherit
 		rename
 			item as item_copy
 		end
+
+	EL_LIST_ITEM_SUBSTRING_CONVERSION
 
 feature {NONE} -- Initialization
 

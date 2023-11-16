@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 8:53:26 GMT (Saturday 11th November 2023)"
-	revision: "2"
+	date: "2023-11-16 15:41:36 GMT (Thursday 16th November 2023)"
+	revision: "3"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]
@@ -21,6 +21,8 @@ inherit
 		export
 			{ANY} valid_adjustments
 		end
+
+	EL_LIST_ITEM_SUBSTRING_CONVERSION
 
 	EL_STRING_BIT_COUNTABLE [S]
 
@@ -80,23 +82,6 @@ feature -- Measurement
 			end
 		end
 
-feature -- Numeric items
-
-	double_item: DOUBLE
-		do
-			Result := item.to_double
-		end
-
-	integer_item: INTEGER
-		do
-			Result := item.to_integer
-		end
-
-	natural_item: NATURAL
-		do
-			Result := item.to_natural
-		end
-
 feature -- Status query
 
 	left_adjusted: BOOLEAN
@@ -151,14 +136,6 @@ feature -- Deferred
 		end
 
 	item: S
-		deferred
-		end
-
-	item_lower: INTEGER
-		deferred
-		end
-
-	item_upper: INTEGER
 		deferred
 		end
 

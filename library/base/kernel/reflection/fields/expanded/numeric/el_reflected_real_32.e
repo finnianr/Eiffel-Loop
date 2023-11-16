@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 14:29:45 GMT (Monday 23rd October 2023)"
-	revision: "20"
+	date: "2023-11-16 16:07:10 GMT (Thursday 16th November 2023)"
+	revision: "21"
 
 class
 	EL_REFLECTED_REAL_32
@@ -15,11 +15,20 @@ class
 inherit
 	EL_REFLECTED_NUMERIC_FIELD [REAL_32]
 		rename
-			field_value as real_32_field
+			abstract_type as Real_32_type
 		end
 
 create
 	make
+
+feature -- Access
+
+	value (a_object: EL_REFLECTIVE): REAL_32
+		do
+			Result := {ISE_RUNTIME}.real_32_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0
+			)
+		end
 
 feature -- Conversion
 
@@ -28,23 +37,26 @@ feature -- Conversion
 			Result := value (a_object).to_reference
 		end
 
+	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+		do
+			Result := value (a_object).truncated_to_integer_64.to_natural_64
+		end
+
+feature -- Measurement
+
 	size_of (a_object: EL_REFLECTIVE): INTEGER
 		-- size of field object
 		do
 			Result := {PLATFORM}.Real_32_bytes
 		end
 
-	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
-		do
-			Result := value (a_object).truncated_to_integer_64.to_natural_64
-		end
-
 feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: REAL_32)
 		do
-			enclosing_object := a_object
-			set_real_32_field (index, a_value)
+			{ISE_RUNTIME}.set_real_32_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+			)
 		end
 
 	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)

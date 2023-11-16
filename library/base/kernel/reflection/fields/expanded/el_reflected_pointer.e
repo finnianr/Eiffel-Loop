@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 14:24:14 GMT (Monday 23rd October 2023)"
-	revision: "20"
+	date: "2023-11-16 16:05:55 GMT (Thursday 16th November 2023)"
+	revision: "21"
 
 class
 	EL_REFLECTED_POINTER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [POINTER]
 		rename
-			field_value as pointer_field
+			abstract_type as Pointer_type
 		end
 
 create
@@ -49,12 +49,20 @@ feature -- Conversion
 			end
 		end
 
+	value (a_object: EL_REFLECTIVE): POINTER
+		do
+			Result := {ISE_RUNTIME}.pointer_field (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0
+			)
+		end
+
 feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: POINTER)
 		do
-			enclosing_object := a_object
-			set_pointer_field (index, a_value)
+			{ISE_RUNTIME}.set_pointer_field_at (
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+			)
 		end
 
 	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
