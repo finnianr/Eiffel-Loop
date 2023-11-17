@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 16:46:46 GMT (Tuesday 14th November 2023)"
-	revision: "14"
+	date: "2023-11-17 15:54:06 GMT (Friday 17th November 2023)"
+	revision: "15"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -59,7 +59,7 @@ feature -- Basic operations
 
 	append_substring_to_string_32 (str: STRING_32; start_index, end_index: INTEGER)
 		require
-			valid_start_end_index: start_index + 1 <= end_index
+			valid_start_end_index: start_index <= end_index + 1
 			valid_start: valid_index (start_index)
 			valid_end: end_index > 0 implies valid_index (end_index)
 		local
@@ -83,7 +83,7 @@ feature -- Basic operations
 			end
 		ensure
 			correct_size: str.count - old str.count = end_index - start_index + 1
-			substring_appended: str.ends_with_general (target.substring (start_index, end_index))
+			substring_appended: str.same_characters_general (target, start_index, end_index, old str.count + 1)
 		end
 
 	append_substring_to_string_8 (str: STRING_8; start_index, end_index: INTEGER)
@@ -112,7 +112,7 @@ feature -- Basic operations
 			end
 		ensure
 			correct_size: str.count - old str.count = end_index - start_index + 1
-			substring_appended: str.ends_with_general (target.substring (start_index, end_index))
+			substring_appended: str.same_characters_general (target, start_index, end_index, old str.count + 1)
 		end
 
 	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)

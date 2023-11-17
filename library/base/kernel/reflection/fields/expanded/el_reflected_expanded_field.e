@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 14:16:36 GMT (Thursday 16th November 2023)"
-	revision: "25"
+	date: "2023-11-17 13:42:22 GMT (Friday 17th November 2023)"
+	revision: "26"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -34,9 +34,11 @@ feature -- Basic operations
 feature -- Access
 
 	address (a_object: EL_REFLECTIVE): POINTER
+		local
+			offset: INTEGER
 		do
-			Result := {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0)
-			Result := Result + field_offset (index)
+			offset := {ISE_RUNTIME}.field_offset_of_type (index, object_type)
+			Result := {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0) + offset
 		end
 
 	value (a_object: EL_REFLECTIVE): G

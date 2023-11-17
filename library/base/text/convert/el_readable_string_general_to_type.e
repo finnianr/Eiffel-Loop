@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 16:59:46 GMT (Tuesday 14th November 2023)"
-	revision: "14"
+	date: "2023-11-17 16:05:50 GMT (Friday 17th November 2023)"
+	revision: "15"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -63,12 +63,6 @@ feature -- Status query
 			Result := True
 		end
 
-	is_convertible_substring (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `str' is convertible to type `G'
-		do
-			Result := True
-		end
-
 	is_latin_1: BOOLEAN
 		-- `True' if type can be always be represented by Latin-1 encoded string
 		do
@@ -78,6 +72,12 @@ feature -- Status query
 	is_path: BOOLEAN
 		do
 			Result := False
+		end
+
+	is_substring_convertible (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `str' is convertible to type `G'
+		do
+			Result := True
 		end
 
 feature -- Conversion
@@ -90,7 +90,7 @@ feature -- Conversion
 
 	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): G
 		require
-			valid_string: is_convertible_substring (str, start_index, end_index)
+			valid_string: is_substring_convertible (str, start_index, end_index)
 		deferred
 		end
 

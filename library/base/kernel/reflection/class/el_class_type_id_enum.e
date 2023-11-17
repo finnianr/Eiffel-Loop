@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 18:21:35 GMT (Monday 13th November 2023)"
-	revision: "26"
+	date: "2023-11-17 15:04:31 GMT (Friday 17th November 2023)"
+	revision: "27"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -32,12 +32,13 @@ feature {NONE} -- Initialization
 			>>
 			readable_string_8_types := << IMMUTABLE_STRING_8, STRING_8 >>
 			path_types := << EL_FILE_PATH, EL_DIR_PATH >>
+			valid_character_byte_codes := "14X"
 		end
 
 feature -- Access
 
 	character_bytes (general: READABLE_STRING_GENERAL): CHARACTER
-		-- number of bytes per character in `general' string with 'X' meaning indeterminate
+		-- code representing number of bytes per character in `general' string with 'X' meaning indeterminate
 		do
 			if general.is_string_8 then
 				Result := '1'
@@ -48,8 +49,10 @@ feature -- Access
 				Result := '4'
 			end
 		ensure
-			valid_code: ("14X").has (Result)
+			valid_code: valid_character_byte_codes.has (Result)
 		end
+
+	valid_character_byte_codes: IMMUTABLE_STRING_8
 
 feature -- Type sets
 

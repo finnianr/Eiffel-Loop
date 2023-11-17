@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 8:01:47 GMT (Sunday 24th September 2023)"
-	revision: "54"
+	date: "2023-11-17 15:57:37 GMT (Friday 17th November 2023)"
+	revision: "55"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -218,7 +218,7 @@ feature -- Tests
 		-- SPLIT_STRING_TEST_SET.test_fill_tuple
 		local
 			t1: TUPLE [animal: ZSTRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
-			t2: TUPLE [currency: STRING; symbol: STRING_32]
+			t2: TUPLE [currency: IMMUTABLE_STRING_8; symbol: STRING_32]
 			data_lines: STRING_32; data_str: READABLE_STRING_GENERAL
 			string_types: ARRAY [TYPE [ANY]]; type: TYPE [ANY]; is_string_8: BOOLEAN
 		do
@@ -244,7 +244,7 @@ feature -- Tests
 							else
 								create t2
 								tuple.fill (t2, data_str)
-								assert ("same currency", t2.currency ~ "Euro")
+								assert ("same currency", t2.currency.same_string ("Euro"))
 								assert ("same symbol", t2.symbol.count = 1 and data_lines.ends_with (t2.symbol))
 							end
 						end

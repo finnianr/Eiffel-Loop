@@ -7,16 +7,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:54:03 GMT (Thursday 16th November 2023)"
-	revision: "59"
+	date: "2023-11-17 13:51:11 GMT (Friday 17th November 2023)"
+	revision: "60"
 
 deferred class
 	EL_REFLECTED_FIELD
 
 inherit
-	EL_NAMEABLE [IMMUTABLE_STRING_8] undefine is_equal end
-
 	EL_REFLECTED_FIELD_IMPLEMENTATION
+		redefine
+			is_equal
+		end
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
@@ -49,6 +50,8 @@ feature -- Access
 		end
 
 	address (a_object: EL_REFLECTIVE): POINTER
+		require
+			valid_type: valid_type (a_object)
 		deferred
 		end
 
@@ -88,8 +91,10 @@ feature -- Measurement
 feature -- Status query
 
 	conforms_to_type (base_type_id: INTEGER): BOOLEAN
+		require
+			base_type_id_not_negative: base_type_id >= 0
 		do
-			Result := field_conforms_to (type_id, base_type_id)
+			Result := {ISE_RUNTIME}.type_conforms_to (type_id, {ISE_RUNTIME}.detachable_type (base_type_id))
 		end
 
 	has_representation: BOOLEAN
@@ -150,7 +155,7 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := name ~ other.name
+			Result := object_type = other.object_type and then name ~ other.name
 		end
 
 feature -- Basic operations
@@ -160,14 +165,20 @@ feature -- Basic operations
 		end
 
 	initialize (a_object: EL_REFLECTIVE)
+		require
+			valid_type: valid_type (a_object)
 		do
 		end
 
 	reset (a_object: EL_REFLECTIVE)
+		require
+			valid_type: valid_type (a_object)
 		deferred
 		end
 
 	set (a_object: EL_REFLECTIVE; a_value: like value)
+		require
+			valid_type: valid_type (a_object)
 		deferred
 		end
 

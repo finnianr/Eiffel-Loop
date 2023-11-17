@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 12:09:50 GMT (Tuesday 22nd August 2023)"
-	revision: "4"
+	date: "2023-11-17 13:59:17 GMT (Friday 17th November 2023)"
+	revision: "5"
 
 deferred class
 	EL_SPLIT_IMMUTABLE_STRING_LIST [
@@ -66,13 +66,6 @@ feature -- Numeric items
 		do
 			if attached {NATURAL_32} Convert_string.to_type_of_type (item, Class_id.NATURAL_32) as n32 then
 				Result := n32
-			end
-		end
-
-	natural_16_item: NATURAL_16
-		do
-			if attached {NATURAL_16} Convert_string.to_type_of_type (item, Class_id.NATURAL_16) as n16 then
-				Result := n16
 			end
 		end
 

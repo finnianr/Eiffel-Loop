@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 15:41:36 GMT (Thursday 16th November 2023)"
-	revision: "3"
+	date: "2023-11-17 15:22:54 GMT (Friday 17th November 2023)"
+	revision: "4"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]
@@ -194,7 +194,7 @@ feature {NONE} -- Implementation
 			Result := target.substring (lower, upper)
 		end
 
-feature {EL_STRING_SPLIT_CONTAINER} -- Internal attributes
+feature {EL_STRING_SPLIT_CONTAINER, STRING_HANDLER} -- Internal attributes
 
 	adjustments: INTEGER
 

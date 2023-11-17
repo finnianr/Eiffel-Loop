@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 15:45:19 GMT (Thursday 2nd November 2023)"
-	revision: "34"
+	date: "2023-11-17 15:26:21 GMT (Friday 17th November 2023)"
+	revision: "35"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -49,7 +49,7 @@ inherit
 		rename
 			target as target_string
 		export
-			{ARRAYED_LIST_ITERATION_CURSOR, EL_STRING_SPLIT_CONTAINER} target_string
+			{ARRAYED_LIST_ITERATION_CURSOR, EL_STRING_SPLIT_CONTAINER, STRING_HANDLER} target_string
 		redefine
 			make_empty
 		end

@@ -6,13 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:53:05 GMT (Thursday 16th November 2023)"
-	revision: "1"
+	date: "2023-11-17 13:50:53 GMT (Friday 17th November 2023)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTED_FIELD_IMPLEMENTATION
 
 inherit
+	EL_NAMEABLE [IMMUTABLE_STRING_8]
+
 	EL_REFLECTION_CONSTANTS
 
 	EL_REFLECTION_HANDLER
@@ -38,26 +40,6 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	field_conforms_to (a_source_type, a_field_type: INTEGER): BOOLEAN
-			-- Does `a_source_type' conform to `a_field_type'?
-			--| Different from `type_conforms_to' since possible attachment mark of `a_field_type'
-			--| is discarded.
-		require
-			a_source_type_non_negative: a_source_type >= 0
-			a_field_type_non_negative: a_field_type >= 0
-		do
-			Result := {ISE_RUNTIME}.type_conforms_to (a_source_type, {ISE_RUNTIME}.detachable_type (a_field_type))
-		end
-
-	field_offset (i: INTEGER): INTEGER
-			-- Offset of `i'-th field of `object'
-		require
-			index_large_enough: i >= 1
-			index_small_enough: i <= field_count
-		do
-			Result := {ISE_RUNTIME}.field_offset_of_type (i, object_type)
-		end
-
 	field_static_type (i: INTEGER): INTEGER
 			-- Static type of declared `i'-th field of dynamic type `dynamic_type'
 		require
@@ -65,17 +47,6 @@ feature {NONE} -- Implementation
 			index_small_enough: i <= field_count
 		do
 			Result := {ISE_RUNTIME}.field_static_type_of_type (i, object_type)
-		ensure
-			field_type_nonnegative: Result >= 0
-		end
-
-	field_type (i: INTEGER): INTEGER
-			-- Abstract type of `i'-th field of `object'
-		require
-			index_large_enough: i >= 1
-			index_small_enough: i <= field_count
-		do
-			Result := {ISE_RUNTIME}.field_type_of_type (i, object_type)
 		ensure
 			field_type_nonnegative: Result >= 0
 		end

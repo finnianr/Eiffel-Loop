@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 17:08:33 GMT (Tuesday 14th November 2023)"
-	revision: "5"
+	date: "2023-11-17 16:05:33 GMT (Friday 17th November 2023)"
+	revision: "6"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_NUMERIC [N -> NUMERIC]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_READABLE_STRING_GENERAL_TO_TYPE [N]
 		redefine
-			is_convertible, is_convertible_substring, new_type_description
+			is_convertible, is_substring_convertible, new_type_description
 		end
 
 	NUMERIC_INFORMATION
@@ -36,7 +36,7 @@ feature -- Status query
 			end
 		end
 
-	is_convertible_substring (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
+	is_substring_convertible (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
 		do
 			if attached Convertor as l_convertor then
 				shared_cursor (str).parse_substring (l_convertor, numeric_type, start_index, end_index)
