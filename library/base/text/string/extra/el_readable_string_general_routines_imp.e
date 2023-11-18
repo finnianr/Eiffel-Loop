@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 11:29:18 GMT (Tuesday 14th November 2023)"
-	revision: "13"
+	date: "2023-11-18 14:47:11 GMT (Saturday 18th November 2023)"
+	revision: "14"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -40,18 +40,13 @@ feature -- Access
 		do
 			inspect Class_id.character_bytes (general)
 				when '1' then
-					if attached {READABLE_STRING_8} general as str_8 then
-						Result := shared_cursor_8 (str_8)
-					end
+					Result := String_8_iteration_cursor
 				when '4' then
-					if attached {READABLE_STRING_32} general as str_32 then
-						Result := shared_cursor_32 (str_32)
-					end
+					Result := String_32_iteration_cursor
 				when 'X' then
-					if attached {EL_READABLE_ZSTRING} general as zstr then
-						Result := shared_cursor_z (zstr)
-					end
+					Result := String_iteration_cursor
 			end
+			Result.set_target (general)
 		end
 
 feature -- Measurement

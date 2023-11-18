@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 9:15:24 GMT (Sunday 16th July 2023)"
-	revision: "16"
+	date: "2023-11-18 10:34:05 GMT (Saturday 18th November 2023)"
+	revision: "17"
 
 class
 	NUMERIC_TEST_SET
@@ -33,6 +33,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["double_string_conversion", agent test_double_string_conversion],
 				["negative_to_natural",		  agent test_negative_to_natural],
+				["store_integer_in_natural", agent test_store_integer_in_natural],
 				["truncated_natural_64",	  agent test_truncated_natural_64]
 			>>)
 		end
@@ -75,6 +76,17 @@ feature -- Tests
 			-- reverse
 			i := n.to_integer_32
 			assert ("same as abs", i = -2)
+		end
+
+	test_store_integer_in_natural
+		-- NUMERIC_TEST_SET.test_store_integer_in_natural
+		local
+			natural_64: NATURAL_64; i: INTEGER
+		do
+			i := -1
+			natural_64 := i.to_natural_64
+			i := natural_64.to_integer_32
+			assert ("recovered i", i = -1)
 		end
 
 	test_truncated_natural_64

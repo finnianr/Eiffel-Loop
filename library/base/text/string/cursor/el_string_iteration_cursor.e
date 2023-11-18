@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-17 15:54:06 GMT (Friday 17th November 2023)"
-	revision: "15"
+	date: "2023-11-18 16:04:41 GMT (Saturday 18th November 2023)"
+	revision: "16"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -63,7 +63,7 @@ feature -- Basic operations
 			valid_start: valid_index (start_index)
 			valid_end: end_index > 0 implies valid_index (end_index)
 		local
-			i, last_i, first_i, l_count, offset: INTEGER; l_area: like area; code: NATURAL
+			i, last_i, first_i, l_count, offset: INTEGER; l_area: like area
 		do
 			l_count := end_index - start_index + 1
 			if l_count > 0 then
@@ -92,7 +92,7 @@ feature -- Basic operations
 			valid_start: valid_index (start_index)
 			valid_end: end_index > 0 implies valid_index (end_index)
 		local
-			i, last_i, first_i, l_count, offset: INTEGER; l_area: like area; code: NATURAL
+			i, last_i, first_i, l_count, offset: INTEGER; l_area: like area
 		do
 			l_count := end_index - start_index + 1
 			if l_count > 0 then
@@ -125,7 +125,7 @@ feature -- Basic operations
 		require
 			valid_as_string_8: is_valid_as_string_8
 		local
-			i, last_i, first_i, l_count, offset: INTEGER; code: NATURAL
+			i, last_i, first_i, l_count, offset: INTEGER
 		do
 			l_count := target.count
 			if l_count > 0 then
@@ -166,21 +166,24 @@ feature -- Basic operations
 			end
 		end
 
-	fill_z_codes (destination: SPECIAL [CHARACTER_32])
+	fill_z_codes (destination: STRING_32)
 		-- fill destination with z_codes
-		require
-			valid_size: destination.count >= target_count + 1
 		local
-			i, i_final: INTEGER; code: NATURAL
+			i, last_i, j: INTEGER; code: NATURAL
 		do
-			if attached area as l_area and then attached codec as l_codec then
-				i_final := target_count
-				from i := 0 until i = i_final loop
-					code := l_codec.as_z_code (i_th_character_32 (l_area, i + area_first_index))
-					destination [i] := code.to_character_32
-					i := i + 1
+			destination.grow (target.count)
+			destination.set_count (target.count)
+
+			if attached destination.area as destination_area and then attached area as l_area
+				and then attached codec as l_codec
+			then
+				last_i := area_last_index
+				from i := area_first_index until i > last_i loop
+					code := l_codec.as_z_code (i_th_character_32 (l_area, i))
+					destination_area [j] := code.to_character_32
+					i := i + 1; j := j +1
 				end
-				destination [i] := '%U'
+				destination_area [j] := '%U'
 			end
 		end
 

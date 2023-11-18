@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 17:25:54 GMT (Tuesday 14th November 2023)"
-	revision: "6"
+	date: "2023-11-18 13:02:59 GMT (Saturday 18th November 2023)"
+	revision: "7"
 
 class
 	EL_STRING_TO_NATURAL_64
@@ -17,6 +17,9 @@ inherit
 		rename
 			numeric_type as type_natural_64
 		end
+
+create
+	make
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 15:53:59 GMT (Tuesday 14th November 2023)"
-	revision: "42"
+	date: "2023-11-18 15:43:26 GMT (Saturday 18th November 2023)"
+	revision: "43"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -280,24 +280,28 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 			end
 		end
 
-	fill_with_z_codes (str_area: SPECIAL [CHARACTER_32])
-		require
-			valid_size: str_area.count >= count + 1
+	fill_with_z_codes (str: STRING_32)
 		local
 			i, l_count: INTEGER; c_i: CHARACTER
 		do
 			l_count := count
-			write_unencoded (str_area, 0, True)
-			if attached area as l_area then
-				from i := 0 until i = l_count loop
-					c_i := l_area [i]
-					if c_i /= Substitute then
-						str_area [i] := c_i
+			str.grow (l_count)
+			str.set_count (l_count)
+			if attached str.area as str_area then
+				write_unencoded (str_area, 0, True)
+				if attached area as l_area then
+					from i := 0 until i = l_count loop
+						c_i := l_area [i]
+						if c_i /= Substitute then
+							str_area [i] := c_i
+						end
+						i := i + 1
 					end
-					i := i + 1
+					str_area [i] := '%U'
 				end
-				str_area [i] := '%U'
 			end
+		ensure
+			reversible: is_reversible_z_code_pattern (current_readable, str)
 		end
 
 	shared_z_code_pattern (index: INTEGER): STRING_32
@@ -305,34 +309,18 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 		require
 			valid_index: 1 <= index and index <= 2
 		do
-			Result := resized_z_code_pattern (index, count)
-			fill_with_z_codes (Result.area)
+			Result := Z_code_pattern_array [index - 1]
+			fill_with_z_codes (Result)
 		end
 
 	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL): STRING_32
+		local
+			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			inspect Class_id.character_bytes (general)
-				when '1' then
-					if attached {READABLE_STRING_8} general as str_8
-						and then attached cursor_8 (str_8) as c8
-					then
-						Result := resized_z_code_pattern (1, str_8.count)
-						c8.fill_z_codes (Result.area)
-					end
-				when '4' then
-					if attached {READABLE_STRING_32} general as str_32
-						and then attached cursor_32 (str_32) as c32
-					then
-						Result := resized_z_code_pattern (1, str_32.count)
-						c32.fill_z_codes (Result.area)
-					end
-				when 'X' then
-					if attached {EL_READABLE_ZSTRING} general as z_str then
-						Result := z_str.shared_z_code_pattern (1)
-					end
-			end
+			Result := Z_code_pattern_array [0]
+			r.shared_cursor (general).fill_z_codes (Result)
 		ensure
-			same_as_zstring: valid_general_z_code_pattern (general, Result)
+			reversible: is_reversible_z_code_pattern (general, Result)
 		end
 
 feature {NONE} -- Implementation
@@ -417,16 +405,6 @@ feature {NONE} -- Implementation
 			Result.fill_by_string (current_readable, str, 0)
 		end
 
-	resized_z_code_pattern (index, a_count: INTEGER): STRING_32
-			-- Current expanded as `z_code' sequence
-		require
-			valid_index: 1 <= index and index <= 2
-		do
-			Result := Z_code_pattern_array [index - 1]
-			Result.grow (a_count)
-			Result.set_count (a_count)
-		end
-
 	substring_index_in_bounds_zstring (other: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
 		local
 			has_mixed_in_range: BOOLEAN
@@ -464,18 +442,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	valid_general_z_code_pattern (general: READABLE_STRING_GENERAL; a_z_code_string: STRING_32): BOOLEAN
+	is_reversible_z_code_pattern (general: READABLE_STRING_GENERAL; z_code_string: STRING_32): BOOLEAN
 		local
-			zstr: EL_ZSTRING; z_code_string: STRING_32
+			zstr, zstr_2: ZSTRING
 		do
-			if	attached {EL_READABLE_ZSTRING} general then
-				Result := True
-			else
-				create zstr.make_from_general (general)
-				create z_code_string.make_filled (' ', general.count)
-				zstr.fill_with_z_codes (z_code_string.area)
-				Result := z_code_string ~ a_z_code_string
+			create zstr.make_from_general (general)
+			create zstr_2.make (z_code_string.count)
+			across z_code_string as l_code loop
+				zstr_2.append_z_code (l_code.item.natural_32_code)
 			end
+			Result := zstr ~ zstr_2
 		end
 
 feature {NONE} -- Constants

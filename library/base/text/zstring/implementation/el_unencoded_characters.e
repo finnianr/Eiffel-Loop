@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 7:51:46 GMT (Thursday 31st August 2023)"
-	revision: "58"
+	date: "2023-11-18 11:16:46 GMT (Saturday 18th November 2023)"
+	revision: "59"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -180,16 +180,16 @@ feature -- Access
 
 	item (index: INTEGER): CHARACTER_32
 		local
-			i, lower, upper: INTEGER; l_area: like area
+			i, lower, upper: INTEGER
 		do
-			l_area := area
-			from i := 0 until Result > '%U' or else i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
---				copy_bounds (l_area, i, $lower, $upper)
-				if lower <= index and then index <= upper then
-					Result := l_area [i + index - lower + 2]
+			if attached area as l_area then
+				from until Result.code > 0 or else i = l_area.count loop
+					lower := l_area [i].code; upper := l_area [i + 1].code
+					if lower <= index and then index <= upper then
+						Result := l_area [i + index - lower + 2]
+					end
+					i := i + upper - lower + 3
 				end
-				i := i + upper - lower + 3
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 17:27:15 GMT (Tuesday 14th November 2023)"
-	revision: "6"
+	date: "2023-11-18 13:03:02 GMT (Saturday 18th November 2023)"
+	revision: "7"
 
 class
 	EL_STRING_TO_REAL_32
@@ -17,6 +17,9 @@ inherit
 		rename
 			numeric_type as type_real
 		end
+
+create
+	make
 
 feature -- Basic operations
 

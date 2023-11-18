@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 10:04:33 GMT (Tuesday 14th November 2023)"
-	revision: "77"
+	date: "2023-11-18 15:44:20 GMT (Saturday 18th November 2023)"
+	revision: "78"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION

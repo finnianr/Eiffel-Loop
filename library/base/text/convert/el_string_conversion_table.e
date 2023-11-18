@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-17 16:21:00 GMT (Friday 17th November 2023)"
-	revision: "30"
+	date: "2023-11-18 14:37:19 GMT (Saturday 18th November 2023)"
+	revision: "31"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -31,6 +31,8 @@ inherit
 			copy, default_create, is_equal
 		end
 
+	EL_SHARED_FACTORIES
+
 create
 	make
 
@@ -44,16 +46,21 @@ feature {NONE} -- Initialization
 
 			create type_array.make_from_tuple (converter_types)
 			make_size (type_array.count)
+			
+			if attached new_expanded_table as expanded_table then
+				across type_array as type loop
+					if expanded_table.has_key (type.item) and then attached expanded_table.found_item as converter then
+						extend (converter, converter.type_id)
 
-			across type_array as type loop
-				if attached {like item} Eiffel.new_object (type.item) as converter then
-					converter.make
-					extend (converter, converter.type_id)
-					if converter.abstract_type /= Reference_type then
-						basic_type_converter [converter.abstract_type] := converter
+					elseif attached Makeable_factory.new_item_factory (type.item.type_id) as factory
+						and then attached {like item} factory.new_item as converter
+					then
+						extend (converter, converter.type_id)
 					end
 				end
 			end
+		ensure
+			table_complete: count = converter_types.count
 		end
 
 feature -- Access
@@ -86,76 +93,56 @@ feature -- Integer substrings
 
 	substring_to_integer_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_8
 		do
-			if attached {EL_STRING_TO_INTEGER_8} basic_type_converter [Integer_8_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := integer_8_converter.substring_as_type (str, start_index, end_index)
 		end
 
 	substring_to_integer_16 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_16
 		do
-			if attached {EL_STRING_TO_INTEGER_16} basic_type_converter [Integer_16_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := integer_16_converter.substring_as_type (str, start_index, end_index)
 		end
 
 	substring_to_integer_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_32
 		do
-			if attached {EL_STRING_TO_INTEGER_32} basic_type_converter [Integer_32_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := integer_32_converter.substring_as_type (str, start_index, end_index)
 		end
 
 	substring_to_integer_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_64
 		do
-			if attached {EL_STRING_TO_INTEGER_64} basic_type_converter [Integer_64_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := integer_64_converter.substring_as_type (str, start_index, end_index)
 		end
 
 feature -- Natural substrings
 
 	substring_to_natural_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_8
 		do
-			if attached {EL_STRING_TO_NATURAL_8} basic_type_converter [Natural_8_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := natural_8_converter.substring_as_type (str, start_index, end_index)
 		end
 
 	substring_to_natural_16 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_16
 		do
-			if attached {EL_STRING_TO_NATURAL_16} basic_type_converter [Natural_16_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := natural_16_converter.substring_as_type (str, start_index, end_index)
 		end
 
 	substring_to_natural_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_32
 		do
-			if attached {EL_STRING_TO_NATURAL_32} basic_type_converter [Natural_32_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := natural_32_converter.substring_as_type (str, start_index, end_index)
 		end
 
 	substring_to_natural_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_64
 		do
-			if attached {EL_STRING_TO_NATURAL_64} basic_type_converter [Natural_64_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := natural_64_converter.substring_as_type (str, start_index, end_index)
 		end
 
 feature -- Real substrings
 
 	substring_to_real_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): REAL_32
 		do
-			if attached {EL_STRING_TO_REAL_32} basic_type_converter [Real_32_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := real_32_converter.substring_as_type (str, start_index, end_index)
 		end
 
 	substring_to_real_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): REAL_64
 		do
-			if attached {EL_STRING_TO_REAL_64} basic_type_converter [Real_64_type] as converter then
-				Result := converter.substring_as_type (str, start_index, end_index)
-			end
+			Result := real_64_converter.substring_as_type (str, start_index, end_index)
 		end
 
 feature -- Numeric conversion
@@ -164,44 +151,38 @@ feature -- Numeric conversion
 		require
 			integer_string: is_integer (str)
 		do
-			if attached {EL_STRING_TO_INTEGER_32} basic_type_converter [Integer_32_type] as converter then
-				Result := converter.as_type (str)
-			end
+			Result := integer_32_converter.as_type (str)
 		end
 
 	to_natural (str: READABLE_STRING_GENERAL): NATURAL_32
 		require
 			natural_string: is_natural (str)
 		do
-			if attached {EL_STRING_TO_NATURAL_32} basic_type_converter [Natural_32_type] as converter then
-				Result := converter.as_type (str)
-			end
+			Result := natural_32_converter.as_type (str)
 		end
 
 	to_natural_64 (str: READABLE_STRING_GENERAL): NATURAL_64
 		require
 			natural_string: is_natural (str)
 		do
-			if attached {EL_STRING_TO_NATURAL_64} basic_type_converter [Natural_64_type] as converter then
-				Result := converter.as_type (str)
-			end
+			Result := natural_64_converter.as_type (str)
 		end
 
 feature -- Numeric tests
 
 	is_integer (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := basic_type_converter [Integer_32_type].is_convertible (str)
+			Result := integer_32_converter.is_convertible (str)
 		end
 
 	is_natural (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := basic_type_converter [Natural_32_type].is_convertible (str)
+			Result := natural_32_converter.is_convertible (str)
 		end
 
 	is_natural_64 (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := basic_type_converter [Natural_64_type].is_convertible (str)
+			Result := natural_64_converter.is_convertible (str)
 		end
 
 feature -- Status query

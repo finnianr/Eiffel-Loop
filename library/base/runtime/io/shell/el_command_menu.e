@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-10 9:05:46 GMT (Thursday 10th August 2023)"
-	revision: "11"
+	date: "2023-11-18 10:13:33 GMT (Saturday 18th November 2023)"
+	revision: "12"
 
 class
 	EL_COMMAND_MENU
@@ -35,6 +35,8 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
+	EL_CHARACTER_8_CONSTANTS
+
 create
 	make
 
@@ -43,8 +45,8 @@ feature {NONE} -- Initialization
 	make (a_name: READABLE_STRING_GENERAL; a_options: like options; a_row_count: INTEGER)
 		do
 			create name.make_from_general (a_name); options := a_options; row_count := a_row_count
-			max_column_widths := new_max_column_widths
 			create option_number.make (log10 (a_options.count).ceiling)
+			max_column_widths := new_max_column_widths
 		end
 
 feature -- Access
@@ -82,7 +84,7 @@ feature -- Basic operations
 					index := (column - 1) * row_count + row + 1
 					if options.valid_index (index) then
 						if column > 1 then
-							lio.put_string (padding (row, column - 1))
+							lio.put_string (Space * padding_width (row, column - 1))
 						end
 						lio.put_labeled_string (option_number.formatted (index), options [index])
 					end
@@ -104,15 +106,16 @@ feature {NONE} -- Implementation
 
 	new_max_column_widths: ARRAY [INTEGER]
 		local
-			column, i, index: INTEGER; menu_item: ZSTRING
+			column, i, index, width: INTEGER; menu_item: ZSTRING
 		do
 			create Result.make_filled (0, 1, full_column_count)
 			from column := 1 until column > full_column_count loop
 				from i := 1 until i > row_count loop
 					index := (column - 1) * row_count + i
 					menu_item := options [index]
-					if menu_item.count > Result [column] then
-						Result [column] := menu_item.count
+					width := menu_item.count + option_number.width + 2 -- ": "
+					if width > Result [column] then
+						Result [column] := width
 					end
 					i := i + 1
 				end
@@ -120,12 +123,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	padding (row, column: INTEGER): STRING
+	padding_width (row, column: INTEGER): INTEGER
 		local
-			index: INTEGER
+			index, width: INTEGER
 		do
 			index := (column - 1) * row_count + row + 1
-			create Result.make_filled (' ', max_column_widths [column] - options.item (index).count + 1)
+			Result := max_column_widths [column] - options.item (index).count + 1 - option_number.width - 1
 		end
 
 feature {NONE} -- Internal attributes

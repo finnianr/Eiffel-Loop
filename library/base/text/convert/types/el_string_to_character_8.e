@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 17:31:56 GMT (Tuesday 14th November 2023)"
-	revision: "5"
+	date: "2023-11-18 13:01:51 GMT (Saturday 18th November 2023)"
+	revision: "6"
 
 class
 	EL_STRING_TO_CHARACTER_8
@@ -17,6 +17,9 @@ inherit
 		redefine
 			is_convertible
 		end
+
+create
+	make
 
 feature -- Contract Support
 

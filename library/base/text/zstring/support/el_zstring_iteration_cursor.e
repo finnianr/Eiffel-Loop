@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 13:25:38 GMT (Sunday 12th November 2023)"
-	revision: "16"
+	date: "2023-11-18 15:32:39 GMT (Saturday 18th November 2023)"
+	revision: "17"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -27,7 +27,7 @@ inherit
 		export
 			{NONE} fill_z_codes
 		redefine
-			utf_8_byte_count
+			utf_8_byte_count, fill_z_codes
 		end
 
 	EL_32_BIT_IMPLEMENTATION
@@ -165,6 +165,11 @@ feature -- Basic operations
 					i := i + 1
 				end
 			end
+		end
+
+	fill_z_codes (destination: STRING_32)
+		do
+			target.fill_with_z_codes (destination)
 		end
 
 feature {NONE} -- Implementation

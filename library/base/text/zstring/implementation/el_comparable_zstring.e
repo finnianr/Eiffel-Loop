@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 18:05:18 GMT (Monday 13th November 2023)"
-	revision: "37"
+	date: "2023-11-18 16:22:29 GMT (Saturday 18th November 2023)"
+	revision: "38"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -89,8 +89,11 @@ feature -- Start/End comparisons
 			is_pair: character_pair.count = 2
 		do
 			if count >= 2 and then character_pair.count = 2 then
-				if attached {EL_READABLE_ZSTRING} character_pair as zstr then
-					Result := z_code (1) = zstr.z_code (1) and then z_code (count) = zstr.z_code (2)
+				inspect Class_id.character_bytes (character_pair)
+					when 'X' then
+						if attached {EL_READABLE_ZSTRING} character_pair as zstr then
+							Result := z_code (1) = zstr.z_code (1) and then z_code (count) = zstr.z_code (2)
+						end
 				else
 					Result := item (1) = character_pair [1] and then item (count) = character_pair [2]
 				end
@@ -108,11 +111,15 @@ feature -- Start/End comparisons
 			elseif other.count > count then
 				do_nothing
 
-			elseif attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := same_characters_zstring (z_other, 1, other.count, count - other_count + 1)
-
-			elseif attached {READABLE_STRING_32} other as str_32 then
-				Result := same_characters (str_32, 1, other_count, count - other_count + 1)
+			else
+				inspect Class_id.character_bytes (other)
+					when 'X' then
+						if attached {EL_READABLE_ZSTRING} other as z_other then
+							Result := same_characters_zstring (z_other, 1, other.count, count - other_count + 1)
+						end
+				else
+					Result := same_characters_32 (other, 1, other_count, count - other_count + 1, False)
+				end
 			end
 		end
 
@@ -133,7 +140,7 @@ feature -- Start/End comparisons
 					end
 				when '4' then
 					if attached {READABLE_STRING_32} other as str_32 then
-						Result := same_characters (str_32, 1, other_count, count - other_count + 1)
+						Result := same_characters_32 (str_32, 1, other_count, count - other_count + 1, False)
 					end
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} other as z_other then
@@ -153,11 +160,15 @@ feature -- Start/End comparisons
 			elseif other_count > count then
 				do_nothing
 
-			elseif attached {EL_READABLE_ZSTRING} other as z_other then
-				Result := same_characters_zstring (z_other, 1, other.count, 1)
-
 			else
-				Result := same_characters (other, 1, other_count, 1)
+				inspect Class_id.character_bytes (other)
+					when 'X' then
+						if attached {EL_READABLE_ZSTRING} other as z_other then
+							Result := same_characters_zstring (z_other, 1, other.count, 1)
+						end
+				else
+					Result := same_characters_32 (other, 1, other_count, 1, False)
+				end
 			end
 		end
 
@@ -214,8 +225,11 @@ feature -- Comparison
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
 		-- caseless identical to characters of current string starting at index `start_index'.
 		do
-			if attached {EL_READABLE_ZSTRING} other as zstr then
-				Result := same_caseless_characters_zstring (zstr, start_pos, end_pos, start_index)
+			inspect Class_id.character_bytes (other)
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} other as zstr then
+						Result := same_caseless_characters_zstring (zstr, start_pos, end_pos, start_index)
+					end
 			else
 				Result := same_characters_32 (other, start_pos, end_pos, start_index, True)
 			end
@@ -230,7 +244,7 @@ feature -- Comparison
 					end
 				when '4' then
 					if attached {READABLE_STRING_32} other as str_32 then
-						Result := same_caseless_characters (str_32, start_pos, end_pos, start_index)
+						Result := same_characters_32 (str_32, start_pos, end_pos, start_index, True)
 					end
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} other as zstr then
@@ -243,8 +257,11 @@ feature -- Comparison
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		do
-			if attached {EL_READABLE_ZSTRING} other as zstr then
-				Result := same_characters_zstring (zstr, start_pos, end_pos, start_index)
+			inspect Class_id.character_bytes (other)
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} other as zstr then
+						Result := same_characters_zstring (zstr, start_pos, end_pos, start_index)
+					end
 			else
 				Result := same_characters_32 (other, start_pos, end_pos, start_index, False)
 			end
@@ -261,7 +278,7 @@ feature -- Comparison
 					end
 				when '4' then
 					if attached {READABLE_STRING_32} other as str_32 then
-						Result := same_characters (str_32, start_pos, end_pos, start_index)
+						Result := same_characters_32 (str_32, start_pos, end_pos, start_index, False)
 					end
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} other as zstr then
