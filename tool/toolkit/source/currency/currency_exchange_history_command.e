@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 10:03:55 GMT (Sunday 14th May 2023)"
-	revision: "16"
+	date: "2023-11-19 16:11:23 GMT (Sunday 19th November 2023)"
+	revision: "17"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -58,22 +58,26 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_output_path: FILE_PATH; a_year: INTEGER; a_base_currency: STRING; a_currency_list: EL_STRING_8_LIST)
+	make (
+		a_output_path: FILE_PATH; a_year: INTEGER; a_base_currency, a_date_format: STRING
+		a_currency_list: EL_STRING_8_LIST
+	)
 		local
-			date, next_jan_1st: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]
+			date, dec_30_th: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]
 		do
 			output_path := a_output_path; year := a_year; base_currency := a_base_currency
-			currency_list  := a_currency_list
+			date_format := a_date_format; currency_list := a_currency_list
 
 			make_default
 
 			create parsed
 			currency_code := Empty_string_8
 			create exchange_rate_table.make (365)
-			create date.make (a_year, 1, 1); create next_jan_1st.make (a_year + 1, 1, 1)
-			from until date ~ next_jan_1st loop
+			create dec_30_th.make (a_year, 12, 30)
+
+			from create date.make (a_year, 1, 1) until date > dec_30_th loop
 				create rate_array.make_filled (r.one, a_currency_list.count + 1)
-				exchange_rate_table.extend (date.formatted_out (Format_yyyyddmm).to_natural, rate_array)
+				exchange_rate_table.extend (date.ordered_compact_date, rate_array)
 				date.day_forth
 			end
 		end
@@ -114,7 +118,8 @@ feature -- Basic operations
 				csv_file.put_new_line
 
 				from table.start until table.after loop
-					csv_file.put_natural (table.item_key)
+					csv_file.put_string (formatted (table.item_key))
+
 					i_final := table.item_value.count
 					from i := 0 until i = i_final loop
 						csv_file.put_character (',')
@@ -134,13 +139,29 @@ feature {NONE} -- Implementation
 		local
 			page_file: EL_CACHED_HTTP_FILE
 		do
-			lio.put_labeled_string ("Adding", currency_code)
+			lio.put_labeled_string ("Data source", history_url)
+			lio.put_new_line
+			lio.put_string ("Parsing ")
 			previous_index := 0
 			create page_file.make (history_url, 10_000)
 			reset_pattern
 			set_source_text (File.plain_text (page_file.path))
 			find_all (Void)
+			lio.put_line (" OK")
 			lio.put_new_line
+		end
+
+	default_source_text: STRING
+		do
+			Result := Empty_string_8
+		end
+
+	formatted (compact_date: INTEGER): STRING
+		do
+			if attached Shared_date as date then
+				date.make_by_ordered_compact_date (compact_date)
+				Result := date.formatted_out (date_format)
+			end
 		end
 
 	history_url: ZSTRING
@@ -150,34 +171,35 @@ feature {NONE} -- Implementation
 
 	new_pattern: like all_of
 		-- match string like: "USD = &#8364;0.8857</td><td><a href="/USD-EUR-15_12_2021"
+		-- match string like: (02/01/2022)</td><td data-title="Closing Rate">&#36;1 USD = &#8364;0.8793</td>
 		do
 			Result := all_of (<<
-				string_literal (currency_code + " = "),
-				while_not_p_match_any (
-				-- match up to ";0.8857"
-					all_of (<< character_literal (';'), decimal_constant |to| agent on_exchange_rate >>)
-				),
-				while_not_p_match_any (
-				-- match up to "EUR-"
-					all_of (<< string_literal (base_currency), character_literal ('-') >>)
-				),
+			-- match "(02/01/2022)</td>"
+				character_literal ('('),
 				natural_number |to| agent on_day,
-				character_literal ('_'),
+				character_literal ('/'),
 				natural_number |to| agent on_month,
-				character_literal ('_'),
-				natural_number |to| agent on_year
+				character_literal ('/'),
+				natural_number |to| agent on_year,
+				string_literal (")</td>"),
+
+			-- match anything up to " USD = &#8364;"
+				while_not_p_match_any (
+					all_of (<< string_literal (currency_code + " = &#"), natural_number, character_literal (';') >>)
+				),
+			-- match 0.8793
+				decimal_constant |to| agent on_exchange_rate,
+				string_literal ("</td>")
 			>>)
 			Result.set_action_last (agent on_entry_found)
 		end
 
-	default_source_text: STRING
+	parsed_date: INTEGER
 		do
-			Result := Empty_string_8
-		end
-
-	parsed_date: NATURAL
-		do
-			Result := parsed.year * 10_000 + parsed.month * 100 + parsed.day
+			if attached Shared_date as date then
+				date.set_date (parsed.year, parsed.month, parsed.day)
+				Result := date.ordered_compact_date
+			end
 		end
 
 	reset
@@ -187,6 +209,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Event handlers
+
+	on_day (start_index, end_index: INTEGER)
+		do
+			parsed.day := integer_32_substring (start_index, end_index)
+		end
 
 	on_entry_found (start_index, end_index: INTEGER)
 		do
@@ -210,36 +237,33 @@ feature {NONE} -- Event handlers
 			parsed.rate := real_32_substring (start_index, end_index)
 		end
 
-	on_day (start_index, end_index: INTEGER)
-		do
-			parsed.day := natural_32_substring (start_index, end_index)
-		end
-
 	on_month (start_index, end_index: INTEGER)
 		do
-			parsed.month := natural_32_substring (start_index, end_index)
+			parsed.month := integer_32_substring (start_index, end_index)
 		end
 
 	on_year (start_index, end_index: INTEGER)
 		do
-			parsed.year := natural_32_substring (start_index, end_index)
+			parsed.year := integer_32_substring (start_index, end_index)
 		end
 
 feature {NONE} -- Internal attributes
 
 	base_currency: STRING
 
-	currency_list: EL_STRING_8_LIST
-
 	column_index: INTEGER
 
 	currency_code: STRING
 
-	exchange_rate_table: EL_KEY_INDEXED_ARRAYED_MAP_LIST [NATURAL, SPECIAL [REAL]]
+	currency_list: EL_STRING_8_LIST
+
+	date_format: STRING
+
+	exchange_rate_table: EL_KEY_INDEXED_ARRAYED_MAP_LIST [INTEGER, SPECIAL [REAL]]
 
 	output_path: FILE_PATH
 
-	parsed: TUPLE [rate: REAL; year, month, day: NATURAL]
+	parsed: TUPLE [rate: REAL; year, month, day: INTEGER]
 
 	previous_index: INTEGER
 
@@ -249,9 +273,12 @@ feature {NONE} -- Constants
 
 	Delimiter: STRING = "</a></td></tr>"
 
-	Format_yyyyddmm: STRING = "yyyy[0]mm[0]dd"
-
 	Link_suffix: STRING = "-exchange-rate-history"
+
+	Shared_date: EL_DATE
+		once
+			create Result.make_now
+		end
 
 	Url_template: ZSTRING
 		once

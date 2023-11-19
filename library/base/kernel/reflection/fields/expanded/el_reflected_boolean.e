@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:05:35 GMT (Thursday 16th November 2023)"
-	revision: "22"
+	date: "2023-11-18 21:58:12 GMT (Saturday 18th November 2023)"
+	revision: "23"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -92,7 +92,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append (string: STRING; a_value: BOOLEAN)
+	append_value (string: STRING; a_value: BOOLEAN)
 		do
 			string.append_boolean (a_value)
 		end

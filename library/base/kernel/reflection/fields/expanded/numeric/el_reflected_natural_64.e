@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:07:45 GMT (Thursday 16th November 2023)"
-	revision: "23"
+	date: "2023-11-18 21:58:12 GMT (Saturday 18th November 2023)"
+	revision: "24"
 
 class
 	EL_REFLECTED_NATURAL_64
@@ -86,7 +86,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append (string: STRING; a_value: NATURAL_64)
+	append_value (string: STRING; a_value: NATURAL_64)
 		do
 			string.append_natural_64 (a_value)
 		end

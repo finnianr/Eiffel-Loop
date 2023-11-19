@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 15:32:39 GMT (Saturday 18th November 2023)"
-	revision: "17"
+	date: "2023-11-18 21:39:43 GMT (Saturday 18th November 2023)"
+	revision: "18"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -27,7 +27,7 @@ inherit
 		export
 			{NONE} fill_z_codes
 		redefine
-			utf_8_byte_count, fill_z_codes
+			append_to_string_8, append_to_string_32, fill_z_codes, utf_8_byte_count
 		end
 
 	EL_32_BIT_IMPLEMENTATION
@@ -83,6 +83,45 @@ feature -- Access
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			Result := iter.i_th_z_code (block_index_ptr, area, unencoded_area, target_index)
+		end
+
+feature -- Basic operations
+
+	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		local
+			i, i_final, block_index: INTEGER; c_i: CHARACTER; uc: CHARACTER_32
+			iter: EL_UNENCODED_CHARACTER_ITERATION; unicode: like codec.unicode_table
+		do
+			codec.decode (n, area, destination, 0)
+			unicode := codec.unicode_table
+			if attached area as l_area and then attached unencoded_area as area_32 then
+				i_final := source_index + area_first_index + n
+				from i := source_index + area_first_index until i = i_final loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc := iter.item ($block_index, area_32, i - area_first_index + 1)
+					else
+						uc := unicode [c_i.code]
+					end
+					destination.extend (uc)
+					i := i + 1
+				end
+			end
+		end
+
+	append_to_string_8 (str: STRING_8)
+		do
+			target.append_to_string_8 (str)
+		end
+
+	append_to_string_32 (str: STRING_32)
+		do
+			target.append_to_string_32 (str)
+		end
+
+	fill_z_codes (destination: STRING_32)
+		do
+			target.fill_with_z_codes (destination)
 		end
 
 feature -- Measurement
@@ -141,35 +180,6 @@ feature -- Status query
 		-- `True' if `uc' occurrs between `start_index' and `end_index'
 		do
 			Result := target.has_between (uc, start_index, end_index)
-		end
-
-feature -- Basic operations
-
-	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
-		local
-			i, i_final, block_index: INTEGER; c_i: CHARACTER; uc: CHARACTER_32
-			iter: EL_UNENCODED_CHARACTER_ITERATION; unicode: like codec.unicode_table
-		do
-			codec.decode (n, area, destination, 0)
-			unicode := codec.unicode_table
-			if attached area as l_area and then attached unencoded_area as area_32 then
-				i_final := source_index + area_first_index + n
-				from i := source_index + area_first_index until i = i_final loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						uc := iter.item ($block_index, area_32, i - area_first_index + 1)
-					else
-						uc := unicode [c_i.code]
-					end
-					destination.extend (uc)
-					i := i + 1
-				end
-			end
-		end
-
-	fill_z_codes (destination: STRING_32)
-		do
-			target.fill_with_z_codes (destination)
 		end
 
 feature {NONE} -- Implementation

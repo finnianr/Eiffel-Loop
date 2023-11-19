@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 16:04:41 GMT (Saturday 18th November 2023)"
-	revision: "16"
+	date: "2023-11-18 21:39:29 GMT (Saturday 18th November 2023)"
+	revision: "17"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -137,6 +137,30 @@ feature -- Basic operations
 				if attached str.area as str_area and then attached area as l_area then
 					from i := first_i until i > last_i loop
 						str_area [offset] := i_th_character_8 (l_area, i)
+						offset := offset + 1
+						i := i + 1
+					end
+				end
+			end
+		ensure
+			correct_size: str.count = old str.count + target.count
+			substring_appended: str.ends_with_general (target)
+		end
+
+	append_to_string_32 (str: STRING_32)
+		local
+			i, last_i, first_i, l_count, offset: INTEGER
+		do
+			l_count := target.count
+			if l_count > 0 then
+				offset := str.count
+				str.grow (offset + l_count)
+				str.set_count (offset + l_count)
+
+				first_i := area_first_index; last_i := area_last_index
+				if attached str.area as str_area and then attached area as l_area then
+					from i := first_i until i > last_i loop
+						str_area [offset] := i_th_character_32 (l_area, i)
 						offset := offset + 1
 						i := i + 1
 					end

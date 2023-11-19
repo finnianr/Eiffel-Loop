@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 9:11:37 GMT (Tuesday 14th November 2023)"
-	revision: "55"
+	date: "2023-11-18 20:53:18 GMT (Saturday 18th November 2023)"
+	revision: "56"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -695,7 +695,7 @@ feature {NONE} -- Implementation
 
 	set_replaced_unencoded (a_index_list: ARRAYED_LIST [INTEGER]; count_delta, old_count, new_count: INTEGER; new: ZSTRING)
 		local
-			i, l_count, sum_count_delta, block_index, block_index_new: INTEGER
+			i, l_count, sum_count_delta, block_index, block_index_new,
 			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
 			l_area: like area; index_area: SPECIAL [INTEGER]; area_32: SPECIAL [CHARACTER_32]
 			buffer: like Unencoded_buffer; current_has_substitutes, new_has_substitutes: BOOLEAN

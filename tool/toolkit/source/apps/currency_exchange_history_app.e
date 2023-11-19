@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-28 8:54:42 GMT (Monday 28th November 2022)"
-	revision: "17"
+	date: "2023-11-19 15:03:24 GMT (Sunday 19th November 2023)"
+	revision: "18"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_APP
@@ -33,6 +33,7 @@ feature {NONE} -- Implementation
 				required_argument ("output", "Path to CSV output file", No_checks),
 				optional_argument ("year", "Historical year", No_checks),
 				optional_argument ("base", "Base currency", No_checks),
+				optional_argument ("date_format", "Format for output of dates", No_checks),
 				required_argument ("currencies", "List of currencies", << valid_currency_code >>)
 			>>
 		end
@@ -45,8 +46,13 @@ feature {NONE} -- Implementation
 		end
 
 	default_make: PROCEDURE [like command]
+		local
+			date: DATE
 		do
-			Result := agent {like command}.make (create {FILE_PATH}, 2021, "EUR", create {EL_STRING_8_LIST}.make_empty)
+			create date.make_now
+			Result := agent {like command}.make (
+				create {FILE_PATH}, date.year - 1, "EUR", "dd/mm/yyyy", create {EL_STRING_8_LIST}.make_empty
+			)
 		end
 
 	valid_currency_code: like No_checks.item

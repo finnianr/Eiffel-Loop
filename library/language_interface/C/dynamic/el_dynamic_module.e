@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:36:12 GMT (Wednesday 8th November 2023)"
-	revision: "15"
+	date: "2023-11-19 15:13:24 GMT (Sunday 19th November 2023)"
+	revision: "16"
 
 deferred class
 	EL_DYNAMIC_MODULE [G -> EL_DYNAMIC_MODULE_POINTERS create make end]
@@ -56,15 +56,11 @@ feature {EL_DYNAMIC_MODULE_POINTERS} -- Access
 
 	function_pointer (name: STRING): POINTER
 		-- API function pointer for `name_prefix + name'
-		local
-			l_name: STRING
 		do
-			l_name := Name_buffer; l_name.wipe_out
-			if not name_prefix.is_empty then
-				l_name.append (name_prefix)
+			if attached Name_buffer.copied (name_prefix) as l_name then
+				l_name.append (name)
+				Result := api_pointer (l_name)
 			end
-			l_name.append (name)
-			Result := api_pointer (l_name)
 		end
 
 	name_prefix: STRING
@@ -96,9 +92,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Name_buffer: STRING
+	Name_buffer: EL_STRING_8_BUFFER
 		once
-			create Result.make_empty
+			create Result
 		end
 
 note

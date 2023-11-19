@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 15:44:20 GMT (Saturday 18th November 2023)"
-	revision: "78"
+	date: "2023-11-18 21:18:04 GMT (Saturday 18th November 2023)"
+	revision: "79"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -354,7 +354,7 @@ feature {NONE} -- Implementation
 			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			if attached Once_interval_list.emptied as unencoded_intervals then
-				codec.encode_substring (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
+				codec.encode_substring_general (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
 
 				if unencoded_intervals.count > 0 and then attached r.shared_cursor (a_unicode) as l_cursor then
 					if has_mixed_encoding then

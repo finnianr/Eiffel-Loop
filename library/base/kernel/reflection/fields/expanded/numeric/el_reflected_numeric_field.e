@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 14:19:18 GMT (Thursday 16th November 2023)"
-	revision: "29"
+	date: "2023-11-18 21:58:12 GMT (Saturday 18th November 2023)"
+	revision: "30"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -53,16 +53,15 @@ feature {NONE} -- Implementation
 
 	to_string_directly (a_object: EL_REFLECTIVE): STRING
 		local
-			n, v: like value; str: STRING
+			n, v: like value
 		do
 			v := value (a_object)
 			if v = n.zero then
 				Result := Zero
 			elseif v = n.one then
 				Result := One
-			else
-				str := Buffer_8.empty
-				append (str, v)
+			elseif attached Buffer_8.empty as str then
+				append_value (str, v)
 				Result := str.twin
 			end
 		end

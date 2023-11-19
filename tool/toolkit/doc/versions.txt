@@ -1,3 +1,7 @@
+1.11.7
+*	Updated CURRENCY_EXCHANGE_HISTORY_COMMAND for 2023 format of 
+	https://www.exchangerates.org.uk/EUR-USD-spot-exchange-rates-history-2021.html
+
 1.11.6
 * Fixed corruption in VTD-XML library due to eif_adopt technique
 

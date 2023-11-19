@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:06:11 GMT (Thursday 16th November 2023)"
-	revision: "24"
+	date: "2023-11-18 21:58:12 GMT (Saturday 18th November 2023)"
+	revision: "25"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -92,7 +92,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append (string: STRING_GENERAL; a_value: CHARACTER)
+	append_value (string: STRING_GENERAL; a_value: CHARACTER)
 		do
 			string.append_code (a_value.natural_32_code)
 		end

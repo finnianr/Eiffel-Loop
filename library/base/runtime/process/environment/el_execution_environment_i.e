@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 15:15:19 GMT (Sunday 5th November 2023)"
-	revision: "31"
+	date: "2023-11-19 16:37:40 GMT (Sunday 19th November 2023)"
+	revision: "32"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -107,7 +107,7 @@ feature -- Access
 
 	variable_dir_path (name: READABLE_STRING_GENERAL): DIR_PATH
 		do
-			if attached {STRING_32} item (name) as environ_path then
+			if attached item (name) as environ_path then
 				Result := environ_path
 			else
 				create Result

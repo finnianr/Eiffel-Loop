@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:05:45 GMT (Thursday 16th November 2023)"
-	revision: "24"
+	date: "2023-11-18 21:58:12 GMT (Saturday 18th November 2023)"
+	revision: "25"
 
 class
 	EL_REFLECTED_CHARACTER_32
@@ -92,7 +92,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append (string: STRING_GENERAL; a_value: CHARACTER_32)
+	append_value (string: STRING_GENERAL; a_value: CHARACTER_32)
 		do
 			string.append_code (a_value.natural_32_code)
 		end
@@ -115,10 +115,7 @@ feature {NONE} -- Implementation
 
 	to_string_directly (a_object: EL_REFLECTIVE): STRING_32
 		do
-			if attached Buffer_32.empty as str then
-				str.extend (value (a_object))
-				Result := str.twin
-			end
+			create Result.make_filled (value (a_object), 1)
 		end
 
 end

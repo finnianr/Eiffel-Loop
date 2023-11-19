@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 10:13:33 GMT (Saturday 18th November 2023)"
-	revision: "12"
+	date: "2023-11-19 10:19:30 GMT (Sunday 19th November 2023)"
+	revision: "13"
 
 class
 	EL_COMMAND_MENU
@@ -125,7 +125,7 @@ feature {NONE} -- Implementation
 
 	padding_width (row, column: INTEGER): INTEGER
 		local
-			index, width: INTEGER
+			index: INTEGER
 		do
 			index := (column - 1) * row_count + row + 1
 			Result := max_column_widths [column] - options.item (index).count + 1 - option_number.width - 1

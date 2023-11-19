@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:05:55 GMT (Thursday 16th November 2023)"
-	revision: "21"
+	date: "2023-11-19 15:21:07 GMT (Sunday 19th November 2023)"
+	revision: "22"
 
 class
 	EL_REFLECTED_POINTER
@@ -60,7 +60,7 @@ feature -- Basic operations
 
 	set (a_object: EL_REFLECTIVE; a_value: POINTER)
 		do
-			{ISE_RUNTIME}.set_pointer_field_at (
+			{ISE_RUNTIME}.set_pointer_field (
 				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
 			)
 		end
@@ -99,7 +99,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append (string: STRING; a_value: POINTER)
+	append_value (string: STRING; a_value: POINTER)
 		do
 			string.append (a_value.out)
 		end

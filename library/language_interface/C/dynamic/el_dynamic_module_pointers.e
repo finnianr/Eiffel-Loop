@@ -32,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-20 7:38:26 GMT (Thursday 20th July 2023)"
-	revision: "16"
+	date: "2023-11-19 15:17:39 GMT (Sunday 19th November 2023)"
+	revision: "17"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 		-- since Eiffel identifiers are case insensitive, C API identifiers with upper case characters must be
 		-- listed by overriding the function `function_names_with_upper'
 		local
-			table: like field_table; names_with_upper: EL_HASH_TABLE [STRING, STRING]
+			names_with_upper: EL_HASH_TABLE [STRING, STRING]
 			name: STRING; function: POINTER
 		do
 			make_default
@@ -67,22 +67,23 @@ feature {NONE} -- Initialization
 			across function_names_with_upper as upper_name loop
 				names_with_upper [upper_name.item.as_lower] := upper_name.item
 			end
-			table := field_table
-			from table.start until table.after loop
-				name := table.key_for_iteration
-				if names_with_upper.has_key (name) then
-					name := names_with_upper.found_item
+			if attached field_table as table then
+				from table.start until table.after loop
+					name := table.key_for_iteration
+					if names_with_upper.has_key (name) then
+						name := names_with_upper.found_item
+					end
+					function := module.function_pointer (name)
+					if function = Default_pointer then
+						Exception.raise_developer (
+							"API initialization error. No such C routine %"%S%S%" in class %S",
+							[module.name_prefix, name, generator]
+						)
+					elseif attached {EL_REFLECTED_POINTER} table.item_for_iteration as pointer_field then
+						pointer_field.set (Current, function)
+					end
+					table.forth
 				end
-				function := module.function_pointer (name)
-				if function = Default_pointer then
-					Exception.raise_developer (
-						"API initialization error. No such C routine %"%S%S%" in class %S",
-						[module.name_prefix, name, generator]
-					)
-				elseif attached {EL_REFLECTED_POINTER} table.item_for_iteration as pointer_field then
-					pointer_field.set (Current, function)
-				end
-				table.forth
 			end
 		end
 

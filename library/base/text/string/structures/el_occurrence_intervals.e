@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 16:50:00 GMT (Sunday 12th November 2023)"
-	revision: "27"
+	date: "2023-11-18 21:04:57 GMT (Saturday 18th November 2023)"
+	revision: "28"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -33,9 +33,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS; EL_ZSTRING_CONSTANTS
 
-	EL_SHARED_ZSTRING_CODEC
-
-	EL_SHARED_UNICODE_PROPERTY
+	EL_SHARED_CLASS_ID; EL_SHARED_ZSTRING_CODEC; EL_SHARED_UNICODE_PROPERTY
 
 create
 	make, make_empty, make_by_string, make_sized
@@ -75,16 +73,21 @@ feature -- Element change
 		do
 			if a_pattern.count = 1 then
 				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], adjustments)
-
-			elseif attached {EL_READABLE_ZSTRING} a_target as zstr
-				and then attached zstr.z_code_pattern (a_pattern) as z_code_pattern
-			then
-				String_searcher.initialize_deltas (z_code_pattern)
-				fill_intervals (a_target, z_code_pattern, String_searcher, '%U', adjustments)
-
-			elseif attached shared_searcher (a_target) as searcher then
-				searcher.initialize_deltas (a_pattern)
-				fill_intervals (a_target, a_pattern, searcher, '%U', adjustments)
+			else
+				inspect Class_id.character_bytes (a_target)
+					when 'X' then
+						if attached {EL_READABLE_ZSTRING} a_target as zstr
+							and then attached zstr.z_code_pattern (a_pattern) as z_code_pattern
+						then
+							String_searcher.initialize_deltas (z_code_pattern)
+							fill_intervals (a_target, z_code_pattern, String_searcher, '%U', adjustments)
+						end
+				else
+					if attached shared_searcher (a_target) as searcher then
+						searcher.initialize_deltas (a_pattern)
+						fill_intervals (a_target, a_pattern, searcher, '%U', adjustments)
+					end
+				end
 			end
 		end
 
@@ -123,9 +126,12 @@ feature {NONE} -- Implementation
 				else
 					pattern_count := a_pattern.count
 				end
-				if pattern_count = 1 and then attached {READABLE_STRING_8} a_target as str_8 then
+				if pattern_count = 1 and then a_target.is_string_8 then
+					if attached {READABLE_STRING_8} a_target as str_8 then
+						string_8_target := str_8
+					end
 					character_outside_range := not uc.is_character_8
-					string_8_target := str_8; c := uc.to_character_8
+					c := uc.to_character_8
 					search_type := Index_of_character_8
 				else
 					string_8_target := Empty_string_8
