@@ -652,3 +652,6 @@ Add ssh blocking to EL_HACKER_INTERCEPT_SERVLET
 Tue 31st Oct 2023, 15:28:05
 Fixed void target in class ECD_STORABLE_ARRAYED_LIST and refactored ECD_RECOVERABLE_CHAIN
 
+Mon 20th Nov 2023, 20:10:58
+Optimization of EL_REFLECTED_FIELD and related classes
+

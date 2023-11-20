@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "11"
+	date: "2023-11-20 19:02:00 GMT (Monday 20th November 2023)"
+	revision: "12"
 
 class
 	ARRAYED_LIST_TEST_SET
@@ -24,11 +24,37 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["shift", agent test_shift]
+				["arrayed_representation_list", agent test_arrayed_representation_list],
+				["shift",							  agent test_shift]
 			>>)
 		end
 
 feature -- Tests
+
+	test_arrayed_representation_list
+		-- ARRAYED_LIST_TEST_SET.test_arrayed_representation_list
+		local
+			date_list: DATE_LIST; d1, d2: DATE
+			date_array: ARRAY [DATE]
+		do
+			create d1.make (2022, 1, 1); create d2.make (2022, 12, 31)
+			date_array := << d1, d2 >>
+			create date_list.make (2)
+			date_list.extend (d1)
+			date_list.extend_seed (d2.ordered_compact_date)
+
+			assert ("two items", date_list.count = 2)
+			across date_list as list loop
+				assert ("same item", list.item ~ date_array [list.cursor_index])
+			end
+			if attached date_list as list then
+				from list.start until list.after loop
+					assert ("same item", list.item ~ date_array [list.index])
+					list.forth
+				end
+			end
+
+		end
 
 	test_shift
 		local

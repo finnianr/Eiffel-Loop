@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
+	revision: "7"
 
 class
 	EL_REGISTRY_RAW_DATA_ITERATION_CURSOR
