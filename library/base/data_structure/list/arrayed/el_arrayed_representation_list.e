@@ -10,17 +10,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-20 19:01:16 GMT (Monday 20th November 2023)"
-	revision: "1"
+	date: "2023-11-21 16:01:33 GMT (Tuesday 21st November 2023)"
+	revision: "2"
 
 deferred class
 	EL_ARRAYED_REPRESENTATION_LIST [R, N]
 
 inherit
 	EL_ARRAYED_LIST [R]
+		rename
+			to_array as shared_to_array
 		export
 			{NONE} all
-			{ANY} forth, start, after, is_empty, extendible, lower, index, off, readable, valid_index
+			{ANY} forth, start, after, compare_objects, compare_references,
+				is_empty, extendible, lower, index, off, readable, valid_index
 		redefine
 			count, capacity, first, last, force, is_inserted, extend, item, make, upper, new_cursor
 		end
@@ -142,6 +145,26 @@ feature -- Element change
 		end
 
 feature -- Conversion
+
+	to_array: ARRAY [R]
+		local
+			i, last_i: INTEGER
+		do
+			if is_empty then
+				create Result.make_empty
+
+			elseif attached seed_area as l_area then
+				create Result.make_filled (first, 1, count)
+				last_i := count - 1
+				from i := 1 until i > last_i loop
+					Result [i + 1] := to_representation (l_area [i])
+					i := i + 1
+				end
+			end
+			if object_comparison then
+				Result.compare_objects
+			end
+		end
 
 	to_representation (seed: N): R
 		deferred
