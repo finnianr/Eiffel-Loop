@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 16:50:29 GMT (Wednesday 1st March 2023)"
-	revision: "15"
+	date: "2023-11-22 18:31:29 GMT (Wednesday 22nd November 2023)"
+	revision: "16"
 
 class
 	EL_ZCODE_CONVERSION
@@ -44,7 +44,17 @@ feature {EL_ZCODEC} -- Implementation
 
 feature {EL_OUTPUT_MEDIUM} -- Constants
 
+	Control_0: CHARACTER = '%U'
+		-- first ASCII character
+
+	Control_25: CHARACTER = '%/025/'
+		-- `Substitute - 1'
+
+	Control_27: CHARACTER = '%/027/'
+		-- `Substitute + 1'
+
 	Max_7_bit_code: INTEGER = 0x7F
+		-- last ASCII character
 		-- After this point different Latin and Window character sets start to diverge
 		-- (Apart from some control characters)
 

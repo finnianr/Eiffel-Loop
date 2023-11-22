@@ -37,6 +37,9 @@ system:
 			condition:
 				platform = windows
 			uuid = "uuid/uuid.ecf"
+			wel = "wel/wel.ecf"
+			condition:
+				platform = windows
 
 		# Eiffel Loop
 		libraries:

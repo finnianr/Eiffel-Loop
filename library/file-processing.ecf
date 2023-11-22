@@ -26,6 +26,11 @@ Class categories:
 			</condition>
 		</library>
 		<library name = "uuid" location = "$ISE_LIBRARY/library/uuid/uuid.ecf"/>
+		<library name = "wel" location = "$ISE_LIBRARY/library/wel/wel.ecf">
+			<condition>
+				<platform value = "windows"/>
+			</condition>
+		</library>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>

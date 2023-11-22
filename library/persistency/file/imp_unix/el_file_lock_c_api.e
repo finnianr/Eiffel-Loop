@@ -1,19 +1,21 @@
 note
-	description: "File C API"
+	description: "Unix file C API"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 10:39:17 GMT (Monday 6th November 2023)"
-	revision: "12"
+	date: "2023-11-22 16:26:08 GMT (Wednesday 22nd November 2023)"
+	revision: "13"
 
 class
 	EL_FILE_LOCK_C_API
 
 inherit
 	EL_C_API_ROUTINES
+
+	EL_UNIX_IMPLEMENTATION
 
 feature {NONE} -- C Externals
 

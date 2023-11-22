@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:01:44 GMT (Thursday 9th November 2023)"
-	revision: "107"
+	date: "2023-11-22 18:01:18 GMT (Wednesday 22nd November 2023)"
+	revision: "108"
 
 class
 	ZSTRING_TEST_SET
@@ -729,19 +729,37 @@ feature -- Element change tests
 
 	test_put_unicode
 		note
-			testing: "covers/{ZSTRING}.put_unicode"
+			testing: "[
+				covers/{ZSTRING}.put_unicode,
+				covers/{ZSTRING}.put_z_code
+			]"
 		local
 			test: STRING_TEST; uc, old_uc: CHARACTER_32; i: INTEGER
+			z_code, old_z_code: NATURAL
 		do
-			uc := 'д'
+			uc := 'д'; z_code := Codec.as_z_code (uc)
 			test := Text.russian
-			across Text.russian as c loop
-				i := c.cursor_index; old_uc := c.item
-				test.s_32.put (uc, i); test.zs.put (uc, i)
-				assert ("put_unicode OK", test.is_same)
-			--	Restore
-				test.s_32.put (old_uc, i); test.zs.put (old_uc, i)
-				assert ("put_unicode OK", test.is_same)
+			across << true, false >> as test_put_z_code loop
+				across Text.russian as c loop
+					i := c.cursor_index; old_uc := c.item
+					old_z_code := Codec.as_z_code (old_uc)
+
+					test.s_32.put (uc, i)
+					if test_put_z_code.item then
+						test.zs.put_z_code (z_code, i)
+					else
+						test.zs.put (uc, i)
+					end
+					assert ("put_unicode OK", test.is_same)
+				--	Restore
+					test.s_32.put (old_uc, i)
+					if test_put_z_code.item then
+						test.zs.put_z_code (old_z_code, i)
+					else
+						test.zs.put (old_uc, i)
+					end
+					assert ("put_unicode OK", test.is_same)
+				end
 			end
 		end
 

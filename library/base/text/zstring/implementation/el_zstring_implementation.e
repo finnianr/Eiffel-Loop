@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 21:18:04 GMT (Saturday 18th November 2023)"
-	revision: "79"
+	date: "2023-11-22 18:34:14 GMT (Wednesday 22nd November 2023)"
+	revision: "80"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -144,17 +144,21 @@ feature -- Element change
 		require else -- from STRING_GENERAL
 			valid_index: valid_index (i)
 		local
-			c, old_c: CHARACTER
+			old_c: CHARACTER
 		do
-			old_c := area [i - 1]
-			c := Codec.encoded_character (uc)
-			area [i - 1] := c
-			if c = Substitute then
-				put_unencoded (uc, i)
-			elseif old_c = Substitute then
-				remove_unencoded (i)
+			if attached area as c then
+				old_c := c [i - 1]
+				c [i - 1] := Codec.encoded_character (uc)
+				inspect c [i - 1]
+					when Substitute then
+						put_unencoded (uc, i)
+				else
+					if old_c = Substitute then
+						remove_unencoded (i)
+					end
+				end
+				reset_hash
 			end
-			reset_hash
 		ensure then
 			inserted: item (i) = uc
 			stable_count: count = old count
@@ -163,22 +167,24 @@ feature -- Element change
 		end
 
 	put_z_code (a_z_code: like z_code; i: INTEGER)
-
 		-- Passes over 3000 millisecs (in descending order)
 		-- append_zcode     :  7979.3 times (100%)
 		-- append_character :  7924.4 times (-0.7%)
-		local
-			c_i: CHARACTER
 		do
-			if a_z_code <= 0xFF then
-				c_i := area [i - 1]
-				area [i - 1] := a_z_code.to_character_8
-				if c_i = Substitute then
-					remove_unencoded (i + 1)
+			if attached area as c then
+				inspect a_z_code
+					when 0 .. 0xFF then
+						inspect c [i - 1]
+							when Substitute then
+								remove_unencoded (i)
+						else
+						end
+						c [i - 1] := a_z_code.to_character_8
+
+				else
+					c [i - 1] := Substitute
+					put_unencoded (z_code_to_unicode (a_z_code).to_character_32, i)
 				end
-			else
-				area [i - 1] := Substitute
-				put_unencoded (z_code_to_unicode (a_z_code).to_character_32, i)
 			end
 		end
 
@@ -280,19 +286,15 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
-	is_area_alpha_item (a_area: like area; i: INTEGER): BOOLEAN
-		local
-			c: CHARACTER
+	is_area_alpha_item (c: like area; i: INTEGER): BOOLEAN
 		do
-			c := a_area [i]
-			if c = Substitute then
-				Result := unencoded_item (i + 1).is_alpha
-
-			elseif c <= Max_7_bit_character then
-				Result := c.is_alpha
-
+			inspect c [i]
+				when Substitute then
+					Result := unencoded_item (i + 1).is_alpha
+				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					Result := c [i].is_alpha
 			else
-				Result := Codec.is_alpha (c.natural_32_code)
+				Result := Codec.is_alpha (c [i].natural_32_code)
 			end
 		end
 
@@ -381,19 +383,21 @@ feature {NONE} -- Implementation
 			Result := area [i - 1]
 		end
 
-	leading_ascii_count (a_area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
+	leading_ascii_count (c: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
 		require
 			valid_order: start_index <= end_index + 1
-			valid_start_index: start_index <= end_index implies a_area.valid_index (start_index)
-			valid_end_index: start_index <= end_index implies a_area.valid_index (end_index)
+			valid_start_index: start_index <= end_index implies c.valid_index (start_index)
+			valid_end_index: start_index <= end_index implies c.valid_index (end_index)
 		local
-			i: INTEGER; non_ascii: BOOLEAN; c: CHARACTER
+			i: INTEGER; non_ascii: BOOLEAN
 		do
 			from i := start_index until non_ascii or else i > end_index loop
-				c := a_area [i]
-				if c < Max_7_bit_character and then c /= Substitute then
-					Result := Result + 1
-					i := i + 1
+				inspect c [i]
+					when Substitute then
+						non_ascii := True
+					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						Result := Result + 1
+						i := i + 1
 				else
 					non_ascii := True
 				end

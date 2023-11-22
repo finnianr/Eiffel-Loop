@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 16:43:36 GMT (Saturday 4th November 2023)"
-	revision: "131"
+	date: "2023-11-22 18:43:01 GMT (Wednesday 22nd November 2023)"
+	revision: "132"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -299,18 +299,17 @@ feature -- Character status query
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
 		require else
 			valid_index: valid_index (i)
-		local
-			c: CHARACTER
 		do
-			c := area [i - 1]
-			if c = Substitute then
-				Result := unencoded_item (i).is_alpha_numeric
+			if attached area as c then
+				inspect c [i - 1]
+					when Substitute then
+						Result := unencoded_item (i).is_alpha_numeric
 
-			elseif c <= Max_7_bit_character then
-				Result := c.is_alpha_numeric
-
-			else
-				Result := Codec.is_alphanumeric (c.natural_32_code)
+					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						Result := c [i - 1].is_alpha_numeric
+				else
+					Result := Codec.is_alphanumeric (c [i - 1].natural_32_code)
+				end
 			end
 		end
 
@@ -318,17 +317,17 @@ feature -- Character status query
 		require
 			valid_index: valid_index (i)
 		local
-			c_i: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
+			c32: EL_CHARACTER_32_ROUTINES
 		do
-			c_i := area [i - 1]
-			if c_i = Substitute then
-				Result := c32.is_digit (unencoded_item (i))
-
-			elseif c_i <= Max_7_bit_character then
-				Result := c_i.is_digit
-
-			else
-				Result := Codec.is_numeric (c_i.natural_32_code)
+			if attached area as c then
+				inspect c [i - 1]
+					when Substitute then
+						Result := c32.is_digit (unencoded_item (i))
+					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						Result := c [i - 1].is_digit
+				else
+					Result := Codec.is_numeric (c [i - 1].natural_32_code)
+				end
 			end
 		end
 
@@ -365,44 +364,41 @@ feature -- Status query
 			end_index_small_enough: end_index <= count
 			consistent_indexes: start_index - 1 <= end_index
 		local
-			i: INTEGER; l_area: like area; c: CHARACTER
+			i: INTEGER
 		do
-			l_area := area
-			Result := True
-			from i := start_index until not Result or else i > end_index loop
-				c := l_area [i - 1]
-				if c = Substitute then
-					Result := Result and condition (unencoded_item (i))
-
-				elseif c <= Max_7_bit_character then
-					Result := Result and condition (c.to_character_32)
-
-				else
-					Result := Result and condition (Unicode_table [c.code])
+			if attached area as c then
+				Result := True
+				from i := start_index until not Result or else i > end_index loop
+					inspect c [i - 1]
+						when Substitute then
+							Result := Result and condition (unencoded_item (i))
+						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							Result := Result and condition (c [i - 1].to_character_32)
+					else
+						Result := Result and condition (Unicode_table [c [i - 1].code])
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
 	has_alpha_numeric: BOOLEAN
 		-- `True' if `str' has an alpha numeric character
 		local
-			c_i: CHARACTER; i, block_index, i_final: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			i, block_index, i_final: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			if attached unencoded_area as area_32 and then attached area as l_area
+			if attached unencoded_area as area_32 and then attached area as c
 				and then attached Codec as l_codec
 			then
 				i_final := count
 				from i := 0 until Result or else i = i_final loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						Result := iter.item ($block_index, area_32, i + 1).is_alpha_numeric
-
-					elseif c_i <= Max_7_bit_character then
-						Result := c_i.is_alpha_numeric
-
+					inspect c [i]
+						when Substitute then
+							Result := iter.item ($block_index, area_32, i + 1).is_alpha_numeric
+						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							Result := c [i].is_alpha_numeric
 					else
-						Result := l_codec.is_alphanumeric (c_i.natural_32_code)
+						Result := l_codec.is_alphanumeric (c [i].natural_32_code)
 					end
 					i := i + 1
 				end
@@ -451,20 +447,20 @@ feature -- Status query
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
 		local
-			c_i: CHARACTER; uc_i: CHARACTER_32; i, i_final, space_count, block_index: INTEGER
+			uc_i: CHARACTER_32; i, i_final, space_count, block_index: INTEGER
 			iter: EL_UNENCODED_CHARACTER_ITERATION; c32: EL_CHARACTER_32_ROUTINES
 			is_space: BOOLEAN
 		do
-			if attached area as l_area and then attached unencoded_area as area_32 then
+			if attached area as c and then attached unencoded_area as area_32 then
 				Result := True; i_final := count
 				from i := 0 until not Result or else i = i_final loop
-					c_i := l_area [i]
-					if c_i = Substitute then
+					inspect c [i]
+						when Substitute then
 						uc_i := iter.item ($block_index, area_32, i + 1)
 					-- `c32.is_space' is workaround for finalization bug
 						is_space := c32.is_space (uc_i)
 					else
-						is_space := c_i.is_space
+						is_space := c [i].is_space
 					end
 					if is_space then
 						space_count := space_count + 1
@@ -475,7 +471,7 @@ feature -- Status query
 						when 0 then
 							do_nothing
 						when 1 then
-							Result := c_i = ' '
+							Result := c [i] = ' '
 					else
 						Result := False
 					end

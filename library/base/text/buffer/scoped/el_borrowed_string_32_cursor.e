@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:09:46 GMT (Sunday 12th November 2023)"
-	revision: "9"
+	date: "2023-11-22 8:41:09 GMT (Wednesday 22nd November 2023)"
+	revision: "10"
 
 class
 	EL_BORROWED_STRING_32_CURSOR
@@ -38,9 +38,11 @@ feature -- Access
 	copied_item (general: READABLE_STRING_GENERAL): STRING_32
 		do
 			Result := best_item (general.count)
-			if attached {ZSTRING} general as zstr then
-				zstr.append_to_string_32 (Result)
-
+			inspect Class_id.character_bytes (general)
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as zstr then
+						zstr.append_to_string_32 (Result)
+					end
 			else
 				Result.append_string_general (general)
 			end

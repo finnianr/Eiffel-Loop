@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 9:53:23 GMT (Tuesday 14th November 2023)"
-	revision: "57"
+	date: "2023-11-22 18:32:23 GMT (Wednesday 22nd November 2023)"
+	revision: "58"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -100,36 +100,44 @@ feature -- To Strings
 
 	to_unicode, to_general: READABLE_STRING_GENERAL
 		local
-			result_8: STRING; c_i: CHARACTER; uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
-			encoding_to_latin_1_failed, already_latin_1: BOOLEAN
+			result_8: STRING; uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
+			encoding_to_latin_1_failed, already_latin_1: BOOLEAN; result_area: like area
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			already_latin_1 := Codec.same_as (Latin_1_codec)
 
 			create result_8.make (count)
 			result_8.set_count (count)
+			result_area := result_8.area
 
 			i_upper := area_upper
-			if attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
-				and then attached result_8.area as result_area and then attached area as l_area
+			if already_latin_1 and then not has_mixed_encoding then
+				result_area.copy_data (area, 0, 0, count)
+
+			elseif attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
+				and then attached area as c
 			then
 				from i := area_lower until encoding_to_latin_1_failed or i > i_upper loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						uc_i := iter.item ($block_index, area_32, i + 1)
-						if uc_i.code <= Max_8_bit_code then
-							result_area [i] := uc_i.to_character_8
-						else
-							encoding_to_latin_1_failed := True
-						end
-					elseif already_latin_1 or else c_i < Max_7_bit_character then
-						result_area [i] := c_i
+					inspect c [i]
+						when Substitute then
+							uc_i := iter.item ($block_index, area_32, i + 1)
+							if uc_i.code <= Max_8_bit_code then
+								result_area [i] := uc_i.to_character_8
+							else
+								encoding_to_latin_1_failed := True
+							end
+						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							result_area [i] := c [i]
 					else
-						uc_i := l_unicode_table [c_i.code]
-						if uc_i.code <= Max_8_bit_code then
-							result_area [i] := uc_i.to_character_8
+						if already_latin_1 then
+							result_area [i] := c [i]
 						else
-							encoding_to_latin_1_failed := True
+							uc_i := l_unicode_table [c [i].code]
+							if uc_i.code <= Max_8_bit_code then
+								result_area [i] := uc_i.to_character_8
+							else
+								encoding_to_latin_1_failed := True
+							end
 						end
 					end
 					i := i + 1

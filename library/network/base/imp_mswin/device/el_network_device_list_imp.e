@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 8:50:16 GMT (Monday 6th November 2023)"
-	revision: "14"
+	date: "2023-11-22 8:32:53 GMT (Wednesday 22nd November 2023)"
+	revision: "15"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -35,7 +35,6 @@ feature {NONE} -- Initialization
 	make
 		local
 			next_ptr: POINTER; trial_buffer: MANAGED_POINTER; size: INTEGER
-			device: EL_NETWORK_DEVICE_IMP
 		do
 			make_list (10)
 			from size := Minimum_buffer_size until attached adapter_buffer or else size > Maximum_buffer_size loop

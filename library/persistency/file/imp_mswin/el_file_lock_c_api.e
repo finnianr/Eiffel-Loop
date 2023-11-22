@@ -1,13 +1,13 @@
 note
-	description: "File C API"
+	description: "Windows file locking C API"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 8:48:59 GMT (Monday 6th November 2023)"
-	revision: "12"
+	date: "2023-11-22 12:21:17 GMT (Wednesday 22nd November 2023)"
+	revision: "13"
 
 class
 	EL_FILE_LOCK_C_API
@@ -15,83 +15,75 @@ class
 inherit
 	EL_C_API_ROUTINES
 
+	EL_WINDOWS_IMPLEMENTATION
+
 feature {NONE} -- C Externals
 
-	frozen c_create_write_only (path: POINTER): INTEGER
-		do
+	frozen c_lock_file (file_handle, overlapped: POINTER; n_bytes_low, n_bytes_high: NATURAL): BOOLEAN
+		-- BOOL LockFileEx(
+		--		[in]		HANDLE       hFile,
+		--		[in]		DWORD        dwFlags,
+		--	 				DWORD        dwReserved,
+		--		[in]		DWORD        nNumberOfBytesToLockLow,
+		--		[in]		DWORD        nNumberOfBytesToLockHigh,
+		--		[in, out] LPOVERLAPPED lpOverlapped
+		-- );
+		require
+			file_handle_attached: is_attached (file_handle)
+			overlapped_attached: is_attached (overlapped)
+		external
+			"C inline use <windows.h>"
+		alias
+			"[
+				LockFileEx (
+					(HANDLE)$file_handle, LOCKFILE_EXCLUSIVE_LOCK | LOCKFILE_FAIL_IMMEDIATELY, 0,
+					(DWORD)$n_bytes_low, (DWORD)$n_bytes_high, (LPOVERLAPPED)$overlapped
+				)
+			]"
 		end
 
-	frozen c_aquire_lock (f_descriptor: INTEGER; fl: POINTER): INTEGER
-		do
+	frozen c_unlock_file (file_handle, overlapped: POINTER; n_bytes_low, n_bytes_high: NATURAL): BOOLEAN
+		-- BOOL UnlockFileEx (
+		-- 	[in]			HANDLE			 hFile,
+		-- 					DWORD				dwReserved,
+		-- 	[in]			DWORD				nNumberOfBytesToUnlockLow,
+		-- 	[in]			DWORD				nNumberOfBytesToUnlockHigh,
+		-- 	[in, out]	LPOVERLAPPED lpOverlapped
+		-- );
+		require
+			file_handle_attached: is_attached (file_handle)
+			overlapped_attached: is_attached (overlapped)
+		external
+			"C inline use <windows.h>"
+		alias
+			"[
+				UnlockFileEx (
+					(HANDLE)$file_handle, 0,
+					(DWORD)$n_bytes_low, (DWORD)$n_bytes_high, (LPOVERLAPPED)$overlapped
+				)
+			]"
 		end
 
-	frozen c_close (descriptor: INTEGER): INTEGER
-		do
-		end
-
-	frozen c_file_truncate (descriptor, count: INTEGER): INTEGER
-			-- int ftruncate(int fildes, off_t length);
-			-- The ftruncate() function causes the regular file referenced by fildes to have a size of `count' bytes.
-			-- Upon successful completion, ftruncate() and truncate() return 0.
-			-- Otherwise a -1 is returned, and errno is set to indicate the error.
-		do
-		end
-
-	frozen c_write (descriptor: INTEGER; data: POINTER; byte_count: INTEGER): INTEGER
-		-- ssize_t write(int fildes, const void *buf, size_t nbyte);
-
-		-- The write() function attempts to write nbyte bytes from the buffer pointed to by buf to the file
-		-- associated with the open file descriptor, fildes. If nbyte is 0, write() will return 0 and have no
-		-- other results if the file is a regular file; otherwise, the results are unspecified.
-		-- https://pubs.opengroup.org/onlinepubs/7908799/xsh/write.html
-		do
+	frozen c_file_truncate (file_handle: POINTER)
+		external
+			"C inline use <windows.h>"
+		alias
+			"[
+				{
+					HANDLE hFile = (HANDLE)$file_handle;
+					SetFilePointer (hFile, 0, NULL, FILE_BEGIN);
+        			SetEndOfFile (hFile);
+				}
+			]"
 		end
 
 feature {NONE} -- C struct flock
 
-	frozen c_flock_struct_size: INTEGER
-		do
+	frozen c_overlap_struct_size: INTEGER
+		external
+			"C [macro <winbase.h>]"
+		alias
+			"sizeof(OVERLAPPED)"
 		end
-
-
-	frozen c_set_flock_type (p: POINTER; type: INTEGER)
-			--
-		do
-		end
-
-	frozen c_set_flock_whence (p: POINTER; v: INTEGER)
-			--
-		do
-		end
-
-
-	frozen c_set_flock_start (p: POINTER; v: INTEGER)
-			--
-		do
-		end
-
-
-	frozen c_set_flock_length (p: POINTER; v: INTEGER)
-			--
-		do
-		end
-
-
-feature {NONE} -- C macro constants
-
-	frozen c_file_write_lock: INTEGER
-		do
-		end
-
-
-	frozen c_file_unlock: INTEGER
-		do
-		end
-
-
-	frozen c_seek_set: INTEGER
-		do
-		end
-
 
 end

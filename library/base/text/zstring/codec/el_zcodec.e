@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 21:22:54 GMT (Saturday 18th November 2023)"
-	revision: "59"
+	date: "2023-11-22 19:03:42 GMT (Wednesday 22nd November 2023)"
+	revision: "60"
 
 deferred class
 	EL_ZCODEC
@@ -413,19 +413,21 @@ feature -- Basic operations
 			enough_latin_characters: latin_in.count > a_count
 			unicode_out_big_enough: unicode_out.count >= a_count + out_offset
 		local
-			i, code: INTEGER; c: CHARACTER; unicode: like unicode_table
-			already_latin_1: BOOLEAN
+			i: INTEGER; unicode: like unicode_table; already_latin_1: BOOLEAN
 		do
 			unicode := unicode_table; already_latin_1 := encoded_as_latin (1)
 			from i := 0 until i = a_count loop
-				c := latin_in [i]; code := c.code
-				if c = Substitute then
-					do_nothing -- Filled in later by call to `{EL_UNENCODED_CHARACTERS}.write'
-
-				elseif already_latin_1 or else c <= Max_7_bit_character then
-					unicode_out [i + out_offset] := c.to_character_32
+				inspect latin_in [i]
+					when Substitute then
+						do_nothing -- Filled in later by call to `{EL_UNENCODED_CHARACTERS}.write'
+					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						unicode_out [i + out_offset] := latin_in [i].code.to_character_32
 				else
-					unicode_out [i + out_offset] := unicode [code]
+					if already_latin_1 then
+						unicode_out [i + out_offset] := latin_in [i].to_character_32
+					else
+						unicode_out [i + out_offset] := unicode [latin_in [i].code]
+					end
 				end
 				i := i + 1
 			end
@@ -533,35 +535,37 @@ feature -- Character conversion
 feature {NONE} -- Implementation
 
 	change_case (
-		latin_array: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
+		latin_in: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
 		unencoded_characters: EL_UNENCODED_CHARACTERS
 	)
 		local
-			unicode_substitute: CHARACTER_32; c, new_c: CHARACTER; i: INTEGER
+			unicode_substitute: CHARACTER_32; new_c: CHARACTER; i: INTEGER
 		do
 			from i := start_index until i > end_index loop
-				c := latin_array [i]
-				if c <= Max_7_bit_character then
-					if change_to_upper then
-						latin_array [i] := c.as_upper
-					else
-						latin_array [i] := c.as_lower
-					end
+				inspect latin_in [i]
+					when Substitute then
+						do_nothing
+					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						if change_to_upper then
+							latin_in [i] := latin_in [i].as_upper
+						else
+							latin_in [i] := latin_in [i].as_lower
+						end
 				else
 					if change_to_upper then
-						new_c := as_upper (c.natural_32_code).to_character_8
+						new_c := as_upper (latin_in [i].natural_32_code).to_character_8
 					else
-						new_c := as_lower (c.natural_32_code).to_character_8
+						new_c := as_lower (latin_in [i].natural_32_code).to_character_8
 					end
-					if c >= '~' and then new_c = c then
-						unicode_substitute := unicode_case_change_substitute (c.natural_32_code)
+					if new_c = latin_in [i] then
+						unicode_substitute := unicode_case_change_substitute (latin_in [i].natural_32_code)
 						if unicode_substitute.natural_32_code > 0 then
 							new_c := Substitute
 							unencoded_characters.put (unicode_substitute, i + 1)
 						end
 					end
-					if new_c /= c then
-						latin_array [i] := new_c
+					if new_c /= latin_in [i] then
+						latin_in [i] := new_c
 					end
 				end
 				i := i + 1
@@ -726,8 +730,8 @@ feature {EL_ZSTRING} -- Deferred implementation
 		end
 
 	unicode_case_change_substitute (code: NATURAL): CHARACTER_32
-			-- Returns Unicode case change character if c does not have a latin case change
-			-- or else the Null character
+		-- Returns Unicode case change character if c does not have a latin case change
+		-- or else the Null character
 		deferred
 		end
 

@@ -6,24 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 10:02:59 GMT (Sunday 5th November 2023)"
-	revision: "3"
+	date: "2023-11-22 16:21:50 GMT (Wednesday 22nd November 2023)"
+	revision: "4"
 
 class
 	EL_FILE_LOCK
 
 inherit
-	EL_ALLOCATED_C_OBJECT
+	EL_FILE_LOCK_I [INTEGER]
 		rename
-			c_size_of as c_flock_struct_size
+			c_size_of as c_flock_struct_size,
+			file_handle as descriptor
 		end
 
 	EL_FILE_LOCK_C_API
 		undefine
 			copy, is_equal
 		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make, make_write
@@ -47,8 +46,6 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
-	is_locked: BOOLEAN
-
 	is_lockable: BOOLEAN
 		do
 			Result := descriptor.to_boolean
@@ -57,32 +54,14 @@ feature -- Status query
 feature -- Status change
 
 	try_lock
-		require
-			is_lockable: is_lockable
 		do
 			is_locked := c_aquire_lock (descriptor, self_ptr) /= -1
 		end
 
-	try_until_locked (interval_ms: INTEGER)
-		-- try to lock repeatedly until `is_locked' with `interval_ms' millisecs wait between attempts
-		do
-			from until is_locked loop
-				try_lock
-				if not is_locked then
-					Execution_environment.sleep (interval_ms)
-				end
-			end
-		end
-
 	unlock
-		require
-			locked: is_locked
-			is_lockable: is_lockable
 		do
 			set_unlocked
 			is_locked := c_aquire_lock (descriptor, self_ptr) = -1
-		ensure
-			unlocked: not is_locked
 		end
 
 feature {NONE} -- Implementation
@@ -101,10 +80,6 @@ feature {NONE} -- Implementation
 		do
 			c_set_flock_type (self_ptr, File_write_lock)
 		end
-
-feature {NONE} -- Internal attributes
-
-	descriptor: INTEGER
 
 feature {NONE} -- Constants
 

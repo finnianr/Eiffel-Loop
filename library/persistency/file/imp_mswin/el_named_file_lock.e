@@ -1,13 +1,19 @@
 note
 	description: "A special 1 byte created file that can be used as a file mutex"
+	notes: "[
+		STATUS 22 Nov 2023
+		
+		This is a Linux port but not yet implemented for Windows as a special 1 byte file.
+		The descendant class [$source EL_LOCKABLE_TEXT_FILE] however is fully tested.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 8:59:11 GMT (Monday 6th November 2023)"
-	revision: "4"
+	date: "2023-11-22 12:29:34 GMT (Wednesday 22nd November 2023)"
+	revision: "5"
 
 class
 	EL_NAMED_FILE_LOCK
@@ -20,18 +26,39 @@ inherit
 			dispose
 		end
 
+	FILE_HANDLE
+		rename
+			close as close_file,
+			put_string as put_file_string
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
+		end
+
+	WEL_FILE_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
+		end
+
 create
 	make
 
 feature {NONE} -- Initialization
 
 	make (a_path: EL_FILE_PATH)
+		local
+			NULL: POINTER
 		do
 			path := a_path
-			make_write (c_create_write_only (a_path.to_path.native_string.item))
-			if is_fixed_size then
-				set_length (1)
-			end
+			make_write (
+				cwin_create_file (
+					a_path.to_path.native_string.item, Generic_write, File_share_write,
+					NULL, Open_existing, File_attribute_normal, NULL
+				)
+			)
 		ensure
 			is_lockable: is_lockable
 		end
@@ -44,8 +71,8 @@ feature -- Status change
 
 	close
 		do
-			if descriptor.to_boolean and then c_close (descriptor) = 0 then
-				descriptor := 0
+			if is_attached (file_handle) and then close_file (file_handle) then
+				file_handle := default_pointer
 			end
 		ensure
 			not_lockable: not is_lockable
@@ -59,11 +86,9 @@ feature {NONE} -- Implementation
 		end
 
 	dispose
-		local
-			status: INTEGER
 		do
-			if descriptor.to_boolean then
-				status := c_close (descriptor)
+			if is_attached (file_handle) and then close_file (file_handle) then
+				do_nothing
 			end
 			Precursor
 		end

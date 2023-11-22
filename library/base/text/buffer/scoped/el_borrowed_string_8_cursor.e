@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 19:07:35 GMT (Monday 13th November 2023)"
-	revision: "9"
+	date: "2023-11-22 8:42:08 GMT (Wednesday 22nd November 2023)"
+	revision: "10"
 
 class
 	EL_BORROWED_STRING_8_CURSOR
@@ -57,12 +57,16 @@ feature -- Access
 	copied_utf_8_item (general: READABLE_STRING_GENERAL): STRING_8
 		do
 			Result := best_item (general.count)
-			if attached {ZSTRING} general as zstr then
-				zstr.append_to_utf_8 (Result)
-
-			elseif attached shared_cursor (general) as cursor then
-				Result.grow (cursor.utf_8_byte_count)
-				cursor.append_to_utf_8 (Result)
+			inspect Class_id.character_bytes (general)
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as zstr then
+						zstr.append_to_utf_8 (Result)
+					end
+			else
+				if attached shared_cursor (general) as cursor then
+					Result.grow (cursor.utf_8_byte_count)
+					cursor.append_to_utf_8 (Result)
+				end
 			end
 		end
 

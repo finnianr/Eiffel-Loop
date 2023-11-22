@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 21:14:41 GMT (Monday 13th November 2023)"
-	revision: "12"
+	date: "2023-11-22 18:32:11 GMT (Wednesday 22nd November 2023)"
+	revision: "13"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -69,34 +69,40 @@ feature -- Append to other
 	append_to_string_8 (other: STRING_8)
 		local
 			i, o_first_index, i_upper, block_index: INTEGER; already_latin_1: BOOLEAN
-			c_i: CHARACTER; uc_i: CHARACTER_32; iter: EL_UNENCODED_CHARACTER_ITERATION
+			uc_i: CHARACTER_32; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			other.grow (other.count + count)
 			o_first_index := other.count
 			i_upper := count - 1
 
 			already_latin_1 := Codec.same_as (Latin_1_codec)
+			if already_latin_1 and then not has_mixed_encoding then
+				other.area.copy_data (area, 0, o_first_index, count)
 
-			if attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
-				and then attached other.area as o_area and then attached area as l_area
+			elseif attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
+				and then attached other.area as o_area and then attached area as c
 			then
 				from i := area_lower until i > i_upper loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						uc_i := iter.item ($block_index, area_32, i + 1)
-						if uc_i.code <= Max_8_bit_code then
-							o_area [o_first_index + i] := uc_i.to_character_8
-						else
-							o_area [o_first_index + i] := Substitute
-						end
-					elseif already_latin_1 or else c_i < Max_7_bit_character then
-						o_area [o_first_index + i] := c_i
+					inspect c [i]
+						when Substitute then
+							uc_i := iter.item ($block_index, area_32, i + 1)
+							if uc_i.code <= Max_8_bit_code then
+								o_area [o_first_index + i] := uc_i.to_character_8
+							else
+								o_area [o_first_index + i] := Substitute
+							end
+						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							o_area [o_first_index + i] := c [i]
 					else
-						uc_i := l_unicode_table [c_i.code]
-						if uc_i.code <= Max_8_bit_code then
-							o_area [o_first_index + i] := uc_i.to_character_8
+						if already_latin_1 then
+							o_area [o_first_index + i] := c [i]
 						else
-							o_area [o_first_index + i] := Substitute
+							uc_i := l_unicode_table [c [i].code]
+							if uc_i.code <= Max_8_bit_code then
+								o_area [o_first_index + i] := uc_i.to_character_8
+							else
+								o_area [o_first_index + i] := Substitute
+							end
 						end
 					end
 					i := i + 1
@@ -107,34 +113,32 @@ feature -- Append to other
 
 	append_to_utf_8 (a_utf_8: STRING_8)
 		local
-			sequence: like Utf_8_sequence; l_area: like area
-			i, i_upper, block_index, offset, ascii_count: INTEGER; c_i: CHARACTER
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_UNENCODED_CHARACTER_ITERATION; sequence: like Utf_8_sequence
+			i, i_upper, block_index, offset, ascii_count: INTEGER
 		do
-			sequence := Utf_8_sequence; l_area := area
+			sequence := Utf_8_sequence
 			a_utf_8.grow (a_utf_8.count + utf_8_byte_count)
 
 			ascii_count := leading_ascii_count (area, area_lower, area_upper)
 			if ascii_count > 0 then
 				offset := a_utf_8.count
-				a_utf_8.area.copy_data (l_area, area_lower, offset, ascii_count)
+				a_utf_8.area.copy_data (area, area_lower, offset, ascii_count)
 				a_utf_8.area [ascii_count + offset] := '%U'
 				a_utf_8.set_count (a_utf_8.count + ascii_count)
 			end
-			if ascii_count < count
+			if ascii_count < count and then attached area as c
 				and then attached codec as l_codec and then attached unencoded_area as area_32
 			then
 				i_upper := area_upper
 				from i := area_lower + ascii_count until i > i_upper loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						sequence.set (iter.item ($block_index, area_32, i + 1))
-						sequence.append_to_string (a_utf_8)
-
-					elseif c_i <= Max_7_bit_character then
-						a_utf_8.extend (c_i)
+					inspect c [i]
+						when Substitute then
+							sequence.set (iter.item ($block_index, area_32, i + 1))
+							sequence.append_to_string (a_utf_8)
+						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							a_utf_8.extend (c [i])
 					else
-						sequence.set (l_codec.unicode_table [c_i.code])
+						sequence.set (l_codec.unicode_table [c [i].code])
 						sequence.append_to_string (a_utf_8)
 					end
 					i := i + 1
