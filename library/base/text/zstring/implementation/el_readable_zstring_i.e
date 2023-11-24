@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 21:10:28 GMT (Monday 13th November 2023)"
-	revision: "5"
+	date: "2023-11-24 16:13:23 GMT (Friday 24th November 2023)"
+	revision: "6"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -15,9 +15,10 @@ deferred class
 inherit
 	EL_SHARED_CLASS_ID
 
-feature -- Measurement
+feature -- Contract Support
 
 	substitution_marker_count: INTEGER
+		-- count of unescaped template substitution markers '%S' AKA '#'
 		deferred
 		end
 
@@ -65,6 +66,10 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	item_8 (index: INTEGER): CHARACTER
+		deferred
+		end
+
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
 		deferred
 		end
@@ -108,8 +113,11 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	substitution_marker: EL_ZSTRING
+	substitution_marker_index_list: ARRAYED_LIST [INTEGER]
+		-- shared list of indices of unescaped template substitution markers '%S' AKA '#'
 		deferred
+		ensure
+			valid_result: across Result as index all item_8 (index.item) = '%S' end
 		end
 
 	to_string_32: STRING_32

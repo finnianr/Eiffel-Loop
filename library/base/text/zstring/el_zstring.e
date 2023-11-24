@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 10:53:48 GMT (Friday 24th November 2023)"
-	revision: "94"
+	date: "2023-11-24 12:42:38 GMT (Friday 24th November 2023)"
+	revision: "95"
 
 class
 	EL_ZSTRING
@@ -249,8 +249,10 @@ feature -- Element change
 			c := encoded_character (uc)
 			String_8.insert_character (Current, c, i)
 			shift_unencoded_from (i, 1)
-			if c = Substitute then
-				put_unencoded (uc, i)
+			inspect c
+				when Substitute then
+					put_unencoded (uc, i)
+			else
 			end
 		ensure
 			one_more_character: count = old count + 1
@@ -355,13 +357,13 @@ feature -- Removal
 				last_upper := buffer.last_upper
 				from until i > i_upper loop
 					inspect c [i]
-					when Substitute then
-						uc_i := iter.item ($block_index, uc_area, i + 1)
-						if c_is_substitute implies uc_i /= uc then
-							c [j] := c [i]
-							last_upper := buffer.extend (uc_i, last_upper, j + 1)
-							j := j + 1
-						end
+						when Substitute then
+							uc_i := iter.item ($block_index, uc_area, i + 1)
+							if c_is_substitute implies uc_i /= uc then
+								c [j] := c [i]
+								last_upper := buffer.extend (uc_i, last_upper, j + 1)
+								j := j + 1
+							end
 
 					else
 						if encoded_c /= c [i] then

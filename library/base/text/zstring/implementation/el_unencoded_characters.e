@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 11:16:46 GMT (Saturday 18th November 2023)"
-	revision: "59"
+	date: "2023-11-24 17:26:15 GMT (Friday 24th November 2023)"
+	revision: "60"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -243,7 +243,7 @@ feature -- Index query
 			i, count: INTEGER
 		do
 			if attached area as l_area then
-				from  until i = l_area.count loop
+				from until i = l_area.count loop
 					count := l_area [i + 1].code - l_area [i].code + 1
 					i := i + count + 2
 				end
@@ -388,31 +388,17 @@ feature -- Measurement
 
 	utf_8_byte_count: INTEGER
 		local
-			i, j, count: INTEGER; l_area: like area
-			l_code: NATURAL_32
+			i, j, count: INTEGER; uc: EL_UC_ROUTINES
 		do
-			l_area := area
-			from i := 0 until i = l_area.count loop
-				count := section_count (l_area, i)
-				from j := 1 until j > count loop
-					l_code := l_area [i + 1 + j].natural_32_code
-					if l_code <= 0x7F then
-					-- 0xxxxxxx.
-						Result := Result + 1
-					elseif l_code <= 0x7FF then
-					-- 110xxxxx 10xxxxxx
-						Result := Result + 2
-					elseif l_code <= 0xFFFF then
-					-- 1110xxxx 10xxxxxx 10xxxxxx
-						Result := Result + 3
-					else
-					-- l_code <= 1FFFFF - there are no higher code points
-					-- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-						Result := Result + 4
+			if attached area as l_area then
+				from i := 0 until i = l_area.count loop
+					count := section_count (l_area, i)
+					from j := 1 until j > count loop
+						Result := Result + uc.utf_8_byte_count (l_area [i + 1 + j].natural_32_code)
+						j := j + 1
 					end
-					j := j + 1
+					i := i + count + 2
 				end
-				i := i + count + 2
 			end
 		end
 
@@ -819,10 +805,11 @@ feature -- Removal
 					from j := lower until j > upper loop
 						l_code := l_area [i + 2 + j - lower]
 						if l_code = uc_old then
-							if uc_new > '%U' then
+							inspect uc_new
+								when '%U' then
+									delta := delta + shift_remaining.to_integer
+							else
 								l_last_upper := l_buffer.extend (uc_new, l_last_upper, j)
-							elseif shift_remaining then
-								delta := delta + 1
 							end
 						else
 							l_last_upper := l_buffer.extend (l_code, l_last_upper, j - delta)
@@ -1064,8 +1051,10 @@ feature -- Basic operations
 				if as_zcode then
 					from j := lower until j > upper loop
 						uc := l_area.item (i + 2 + j - lower)
-						if uc <= '%/0xFF/' then
-							uc := (Sign_bit | uc.natural_32_code).to_character_32
+						inspect uc.natural_32_code
+							when 0 .. 0xFF then
+								uc := (Sign_bit | uc.natural_32_code).to_character_32
+						else
 						end
 						area_out [offset + j - 1] := uc
 						j := j + 1

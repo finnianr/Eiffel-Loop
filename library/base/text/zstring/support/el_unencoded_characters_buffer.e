@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 14:33:42 GMT (Wednesday 30th August 2023)"
-	revision: "28"
+	date: "2023-11-24 11:03:24 GMT (Friday 24th November 2023)"
+	revision: "29"
 
 class
 	EL_UNENCODED_CHARACTERS_BUFFER
@@ -62,9 +62,11 @@ feature -- Element change
 			l_last_upper := last_upper
 			from i := 0 until i = a_count loop
 				j := i + source_offset
-				if a_area [j] = Substitute then
-					uc := iter.item (block_index_ptr, unencoded_area, j + 1)
-					l_last_upper := extend (uc, l_last_upper, i + destination_offset + 1)
+				inspect a_area [j]
+					when Substitute then
+						uc := iter.item (block_index_ptr, unencoded_area, j + 1)
+						l_last_upper := extend (uc, l_last_upper, i + destination_offset + 1)
+				else
 				end
 				i := i + 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 10:16:46 GMT (Friday 24th November 2023)"
-	revision: "59"
+	date: "2023-11-24 16:17:01 GMT (Friday 24th November 2023)"
+	revision: "60"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -51,20 +51,27 @@ feature -- To Strings
 	out: STRING
 			-- Printable representation
 		local
-			code, i: INTEGER; l_area: like area
+			i, i_upper: INTEGER
 		do
 			create Result.make (count)
-			l_area := area
-			from i := 1 until i > count loop
-				code := l_area [i - 1].code
-				if code = Substitute_code then
-					Result.extend ('?')
-				elseif code <= Max_7_bit_code then
-					Result.extend (code.to_character_8)
-				else
-					Result.extend (Unicode_table [code].to_character_8)
+			Result.set_count (count)
+
+			if attached area as c and then attached Unicode_table as l_unicode
+				and then attached Result.area as l_area
+			then
+				i_upper := count - 1
+				from until i > i_upper loop
+					inspect c [i]
+						when Substitute then
+							l_area [i] := '?'
+
+						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							l_area [i] := c [i]
+					else
+						l_area [i] := l_unicode [c [i].code].to_character_8
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
@@ -202,8 +209,9 @@ feature -- To list
 			separator := encoded_character (a_separator)
 			l_count := count
 				-- Worse case allocation: every character is a separator
-			if separator = Substitute then
-				result_count := unencoded_occurrences (a_separator) + 1
+			inspect separator
+				when Substitute then
+					result_count := unencoded_occurrences (a_separator) + 1
 			else
 				result_count := String_8.occurrences (Current, separator) + 1
 				call_index_of_8 := True
@@ -453,25 +461,25 @@ feature -- Conversion
 		require
 			enough_substitution_markers: substitution_marker_count >= inserts.count
 		local
-			l_index_list: like internal_substring_index_list
-			marker_pos, index, previous_marker_pos: INTEGER
+			marker_pos, index, previous_marker_pos, i: INTEGER
 		do
-			l_index_list := internal_substring_index_list (Substitution_marker)
-			Result := new_string (count + tuple_as_string_count (inserts) - l_index_list.count)
-			from l_index_list.start until l_index_list.after loop
-				marker_pos := l_index_list.item
-				if marker_pos - 1 > 0 and then item (marker_pos - 1) = '%%' then
-					Result.append_substring (current_readable, previous_marker_pos + 1, marker_pos - 2)
-					Result.append_character ('%S')
-				else
-					index := index + 1
-					Result.append_substring (current_readable, previous_marker_pos + 1, marker_pos - 1)
-					Result.append_tuple_item (inserts, index)
+			if attached substitution_marker_index_list.area as marker_area then
+				Result := new_string (count + tuple_as_string_count (inserts) - marker_area.count)
+				from until i = marker_area.count loop
+					marker_pos := marker_area [i]
+					if marker_pos - 1 > 0 and then item_8 (marker_pos - 1) = '%%' then
+						Result.append_substring (current_readable, previous_marker_pos + 1, marker_pos - 2)
+						Result.append_character ('%S')
+					else
+						index := index + 1
+						Result.append_substring (current_readable, previous_marker_pos + 1, marker_pos - 1)
+						Result.append_tuple_item (inserts, index)
+					end
+					previous_marker_pos := marker_pos
+					i := i + 1
 				end
-				previous_marker_pos := marker_pos
-				l_index_list.forth
+				Result.append_substring (current_readable, previous_marker_pos + 1, count)
 			end
-			Result.append_substring (current_readable, previous_marker_pos + 1, count)
 		end
 
 	translated (old_characters, new_characters: READABLE_STRING_GENERAL): like Current

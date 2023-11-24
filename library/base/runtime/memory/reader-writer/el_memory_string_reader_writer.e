@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-29 10:18:06 GMT (Tuesday 29th August 2023)"
-	revision: "12"
+	date: "2023-11-24 11:22:05 GMT (Friday 24th November 2023)"
+	revision: "13"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -148,34 +148,35 @@ feature {NONE} -- Implementation
 		require
 			valid_string: str.is_empty and then char_count <= str.capacity
 		local
-			i, buffer_count, pos: INTEGER; area: SPECIAL [CHARACTER]; c: CHARACTER
-			done: BOOLEAN; code: NATURAL; l_last_upper: INTEGER
+			i, buffer_count, pos: INTEGER; done: BOOLEAN; code: NATURAL; l_last_upper: INTEGER
 		do
-			area := str.area
-			if attached buffer as l_buffer and then attached str.empty_unencoded_buffer as unencoded_buffer then
+			if attached str.area as c and then attached buffer as l_buffer
+				and then attached str.empty_unencoded_buffer as unencoded_buffer
+			then
 				buffer_count := l_buffer.count; pos := count
 				l_last_upper := unencoded_buffer.last_upper
 
 				from i := 0 until done or else i = char_count loop
 					if pos + Character_8_bytes < buffer_count then
-						c := l_buffer.read_character (pos)
+						c [i] := l_buffer.read_character (pos)
 						pos := pos + Character_8_bytes
-						area [i] := c
-						if c = Substitute then
-							if pos + Natural_32_bytes < buffer_count then
-								code := l_buffer.read_natural_32 (pos)
-								pos := pos + Natural_32_bytes
-								l_last_upper := unencoded_buffer.extend (code.to_character_32, l_last_upper, i + 1)
-							else
-								done := True
-							end
+						inspect c [i]
+							when Substitute then
+								if pos + Natural_32_bytes < buffer_count then
+									code := l_buffer.read_natural_32 (pos)
+									pos := pos + Natural_32_bytes
+									l_last_upper := unencoded_buffer.extend (code.to_character_32, l_last_upper, i + 1)
+								else
+									done := True
+								end
+						else
 						end
 						i := i + 1
 					else
 						done := True
 					end
 				end
-				area [i] := '%U'
+				c [i] := '%U'
 				str.set_count (i)
 				unencoded_buffer.set_last_upper (l_last_upper)
 				str.set_unencoded_from_buffer (unencoded_buffer)
@@ -213,25 +214,26 @@ feature -- Write operations
 		require else
 			valid_string: a_string.is_valid
 		local
-			i, l_count, pos, block_index: INTEGER
-			area: SPECIAL [CHARACTER]; area_32: SPECIAL [CHARACTER_32]
-			c: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			i, l_count, pos, block_index: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
-			l_count := a_string.count; area := a_string.area; area_32 := a_string.unencoded_area
+			l_count := a_string.count
 
-			if attached big_enough_buffer (size_of_string (a_string)) as buf then
+			if attached a_string.area as c and then attached a_string.unencoded_area as area_32
+				and then attached big_enough_buffer (size_of_string (a_string)) as buf
+			then
 				pos := count
 				buf.put_natural_32 (l_count.to_natural_32, pos)
 				pos := pos + Natural_32_bytes
 
 				from i := 0 until i = l_count loop
-					c := area [i]
-					buf.put_character (c, pos)
+					buf.put_character (c [i], pos)
 					pos := pos + Character_8_bytes
 
-					if c = Substitute then
-						buf.put_natural_32 (iter.code ($block_index, area_32, i + 1), pos)
-						pos := pos + Natural_32_bytes
+					inspect c [i]
+						when Substitute then
+							buf.put_natural_32 (iter.code ($block_index, area_32, i + 1), pos)
+							pos := pos + Natural_32_bytes
+					else
 					end
 					i := i + 1
 				end

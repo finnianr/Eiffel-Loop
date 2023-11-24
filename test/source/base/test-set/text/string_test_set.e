@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:33:25 GMT (Wednesday 8th November 2023)"
-	revision: "16"
+	date: "2023-11-24 17:58:04 GMT (Friday 24th November 2023)"
+	revision: "17"
 
 class
 	STRING_TEST_SET
@@ -28,6 +28,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["c_utf_string_8",					 agent test_c_utf_string_8],
 				["expanded_string",					 agent test_expanded_string],
 				["immutable_comparison",			 agent test_immutable_comparison],
 				["reusable_zstrings",				 agent test_reusable_zstrings],
@@ -39,6 +40,29 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
+
+	test_c_utf_string_8
+		 -- STRING_TEST_SET.test_c_utf_string_8
+		note
+			testing: "[
+				covers/{EL_C_UTF_STRING_8}.make_from_utf_8,
+				covers/{EL_C_UTF_STRING_8}.fill_string,
+				covers/{EL_UC_ROUTINES}.encoded_byte_count,
+				covers/{EL_UC_ROUTINES}.encoded_first_value,
+				covers/{EL_UC_ROUTINES}.encoded_next_value
+			]"
+		local
+			c_str: EL_C_UTF_STRING_8; str_32: STRING_32; zstr: ZSTRING
+		do
+			create str_32.make_empty
+			across Text.lines as line loop
+				zstr := line.item
+				create c_str.make_from_utf_8 (zstr.to_utf_8)
+				str_32.wipe_out
+				c_str.fill_string (str_32)
+				assert_same_string (Void, str_32, zstr)
+			end
+		end
 
 	test_expanded_string
 		-- TEXT_DATA_TEST_SET.test_expanded_string

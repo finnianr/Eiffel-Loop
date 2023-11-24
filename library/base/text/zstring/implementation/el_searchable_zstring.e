@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 18:33:13 GMT (Wednesday 22nd November 2023)"
-	revision: "44"
+	date: "2023-11-24 17:07:22 GMT (Friday 24th November 2023)"
+	revision: "45"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -23,12 +23,14 @@ feature -- Index position
 		local
 			c: CHARACTER
 		do
-			if uc.code <= Max_7_bit_code then
-				Result := internal_index_of (uc.to_character_8, start_index)
+			inspect uc.code
+				when 0 .. Max_7_bit_code then
+					Result := internal_index_of (uc.to_character_8, start_index)
 			else
 				c := Codec.encoded_character (uc)
-				if c = Substitute then
-					Result := unencoded_index_of (uc, start_index, default_pointer)
+				inspect c
+					when Substitute then
+						Result := unencoded_index_of (uc, start_index, default_pointer)
 				else
 					Result := internal_index_of (c, start_index)
 				end
@@ -43,8 +45,9 @@ feature -- Index position
 
 	index_of_z_code (a_z_code: NATURAL; start_index: INTEGER): INTEGER
 		do
-			if a_z_code <= 0xFF then
-				Result := internal_index_of (a_z_code.to_character_8, start_index)
+			inspect a_z_code
+				when 0 .. 0xFF then
+					Result := internal_index_of (a_z_code.to_character_8, start_index)
 			else
 				Result := unencoded_index_of (z_code_to_unicode (a_z_code).to_character_32, start_index, default_pointer)
 			end
@@ -62,12 +65,14 @@ feature -- Index position
 		local
 			c: CHARACTER
 		do
-			if uc.code <= Max_7_bit_code then
-				Result := internal_last_index_of (uc.to_character_8, start_index_from_end)
+			inspect uc.code
+				when 0 .. Max_7_bit_code then
+					Result := internal_last_index_of (uc.to_character_8, start_index_from_end)
 			else
 				c := Codec.encoded_character (uc)
-				if c = Substitute then
-					Result := unencoded_last_index_of (uc, start_index_from_end)
+				inspect c
+					when Substitute then
+						Result := unencoded_last_index_of (uc, start_index_from_end)
 				else
 					Result := internal_last_index_of (c, start_index_from_end)
 				end
@@ -79,16 +84,17 @@ feature -- Index position
 			r: EL_READABLE_STRING_GENERAL_ROUTINES; return_default: BOOLEAN; type_code: CHARACTER
 		do
 			type_code := Class_id.character_bytes (other)
-			if other.count = 1 then
-			-- character search
-				inspect type_code
-					when 'X' then
-						if attached {EL_READABLE_ZSTRING} other as z_str then
-							Result := index_of_z_code (z_str.z_code (1), start_index)
-						end
-				else
-					Result := index_of (other [1], start_index)
-				end
+			inspect other.count
+				when 1 then
+				-- character search
+					inspect type_code
+						when 'X' then
+							if attached {EL_READABLE_ZSTRING} other as z_str then
+								Result := index_of_z_code (z_str.z_code (1), start_index)
+							end
+					else
+						Result := index_of (other [1], start_index)
+					end
 			else
 			-- string search
 				inspect type_code
@@ -188,6 +194,25 @@ feature -- Occurrence index lists
 			end
 		end
 
+	substitution_marker_index_list: ARRAYED_LIST [INTEGER]
+		-- shared list of indices of unescaped template substitution markers '%S' AKA '#'
+		local
+			i, i_upper: INTEGER
+		do
+			Result := Once_substring_indices.emptied
+			i_upper := count - 1
+			if attached area as c then
+				from i := 0 until i > i_upper loop
+					inspect c [i]
+						when '%S' then
+							Result.extend (i + 1)
+					else
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	substring_intervals (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_OCCURRENCE_INTERVALS
 		do
 			Result := internal_substring_intervals (str)
@@ -283,18 +308,20 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 
 	fill_with_z_codes (str: STRING_32)
 		local
-			i, l_count: INTEGER; c_i: CHARACTER
+			i, l_count: INTEGER
 		do
 			l_count := count
 			str.grow (l_count)
 			str.set_count (l_count)
 			if attached str.area as str_area then
 				write_unencoded (str_area, 0, True)
-				if attached area as l_area then
+				if attached area as c then
 					from i := 0 until i = l_count loop
-						c_i := l_area [i]
-						if c_i /= Substitute then
-							str_area [i] := c_i
+						inspect c [i]
+							when Substitute then
+						-- do nothing
+						else
+							str_area [i] := c [i]
 						end
 						i := i + 1
 					end

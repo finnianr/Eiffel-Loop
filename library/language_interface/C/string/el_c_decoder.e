@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-11 13:36:34 GMT (Wednesday 11th October 2023)"
-	revision: "8"
+	date: "2023-11-24 17:34:22 GMT (Friday 24th November 2023)"
+	revision: "9"
 
 class
 	EL_C_DECODER
@@ -23,41 +23,41 @@ feature {NONE} -- Initialization
 	default_create
 			--
 		do
-			create utf8_c_string
+			create utf_8_c_string
 		end
 
 feature -- Basic operations
 
-	set_from_utf8 (target: STRING_GENERAL; source_utf8_ptr: POINTER)
+	set_from_utf_8 (target: STRING_GENERAL; source_utf_8_ptr: POINTER)
 			--
 		do
 			target.set_count (0)
-			append_from_utf8 (target, source_utf8_ptr)
+			append_from_utf_8 (target, source_utf_8_ptr)
 		end
 
-	set_from_utf8_of_size (target: STRING_GENERAL; source_utf8_ptr: POINTER; size: INTEGER)
+	set_from_utf_8_of_size (target: STRING_GENERAL; source_utf_8_ptr: POINTER; size: INTEGER)
 			--
 		do
 			target.set_count (0)
-			append_from_utf8_of_size (target, source_utf8_ptr, size)
+			append_from_utf_8_of_size (target, source_utf_8_ptr, size)
 		end
 
-	append_from_utf8 (destination: STRING_GENERAL; source_utf8_ptr: POINTER)
+	append_from_utf_8 (destination: STRING_GENERAL; source_utf_8_ptr: POINTER)
 			--
 		do
-			utf8_c_string.set_shared_from_c (source_utf8_ptr)
-			utf8_c_string.fill_string (destination)
+			utf_8_c_string.set_shared_from_c (source_utf_8_ptr)
+			utf_8_c_string.fill_string (destination)
 		end
 
-	append_from_utf8_of_size (destination: STRING_GENERAL; source_utf8_ptr: POINTER; size: INTEGER)
+	append_from_utf_8_of_size (destination: STRING_GENERAL; source_utf_8_ptr: POINTER; size: INTEGER)
 			--
 		do
-			utf8_c_string.set_shared_from_c_of_size (source_utf8_ptr, size)
-			utf8_c_string.fill_string (destination)
+			utf_8_c_string.set_shared_from_c_of_size (source_utf_8_ptr, size)
+			utf_8_c_string.fill_string (destination)
 		end
 
 feature {NONE} -- Implementation
 
-	utf8_c_string: EL_C_UTF_STRING_8
+	utf_8_c_string: EL_C_UTF_STRING_8
 
 end

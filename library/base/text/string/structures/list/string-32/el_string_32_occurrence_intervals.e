@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 21:08:37 GMT (Saturday 18th November 2023)"
-	revision: "4"
+	date: "2023-11-24 19:09:01 GMT (Friday 24th November 2023)"
+	revision: "5"
 
 class
 	EL_STRING_32_OCCURRENCE_INTERVALS
@@ -37,13 +37,15 @@ feature -- Element change
 				fill_intervals (a_target, Empty_string_32, String_32_searcher, a_pattern [1], a_adjustments)
 
 			elseif attached String_32_searcher as searcher then
-				inspect Class_id.character_bytes (a_target)
+				inspect Class_id.character_bytes (a_pattern)
 					when 'X' then
-						if attached {EL_READABLE_ZSTRING} a_pattern as zstr
-							and then attached zstr.to_string_32 as pattern
-						then
-							searcher.initialize_deltas (pattern)
-							fill_intervals (a_target, pattern, searcher, '%U', a_adjustments)
+						if attached {EL_READABLE_ZSTRING} a_pattern as zstr then
+							across String_32_scope as scope loop
+								if attached scope.copied_item (zstr) as pattern then
+									searcher.initialize_deltas (pattern)
+									fill_intervals (a_target, pattern, searcher, '%U', a_adjustments)
+								end
+							end
 						end
 				else
 					searcher.initialize_deltas (a_pattern)
