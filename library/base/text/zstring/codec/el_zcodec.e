@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 19:03:42 GMT (Wednesday 22nd November 2023)"
-	revision: "60"
+	date: "2023-11-24 8:56:41 GMT (Friday 24th November 2023)"
+	revision: "61"
 
 deferred class
 	EL_ZCODEC
@@ -249,30 +249,35 @@ feature -- Encoding operations
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 			empty_intervals: unencoded_intervals.is_empty
 		local
-			i, out_i, code_i, in_offset: INTEGER; interval: NATURAL_64; c: CHARACTER
-			c_8_area: SPECIAL [CHARACTER_8]; unicode: like unicode_table
+			i, out_i, in_offset, i_lower, i_upper: INTEGER; interval: NATURAL_64
+			c: SPECIAL [CHARACTER_8]; unicode: like unicode_table
 		do
 			inspect Class_id.character_bytes (unicode_in)
 				when '1' then
 					if attached {READABLE_STRING_8} unicode_in as s_8 and then attached cursor_8 (s_8) as c_8 then
-						unicode := unicode_table; in_offset := c_8.area_first_index
-						c_8_area := c_8.area
-						from i := start_index until i > end_index loop
-							c := c_8_area [i + in_offset - 1]; code_i := c.code
-							out_i := i + out_offset - start_index
+						unicode := unicode_table; in_offset := c_8.area_first_index; c := c_8.area
+						i_lower := start_index + in_offset - 1
+						i_upper := end_index + in_offset - 1
+						out_i := i_lower - in_offset + out_offset - start_index + 1
 
-							if code_i <= Max_7_bit_code or else unicode [code_i].to_character_8 = c then
-								encoded_out [out_i] := c
+						from i := i_lower until i > i_upper loop
+							inspect c [i]
+								when Control_0 .. Max_7_bit_character then
+									encoded_out [out_i] := c [i]
 							else
-								c := latin_character (c)
-								if c = '%U' then
-									encoded_out [out_i] := Substitute
-									interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
+								if unicode [c [i].code].to_character_8 = c [i] then
+									encoded_out [out_i] := c [i]
 								else
-									encoded_out [out_i] := c
+									inspect latin_character (c [i])
+										when '%U' then
+											encoded_out [out_i] := Substitute
+											interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
+									else
+										encoded_out [out_i] := c [i]
+									end
 								end
 							end
-							i := i + 1
+							i := i + 1; out_i := out_i + 1
 						end
 						unencoded_intervals.extend_compact (interval)
 					end
@@ -413,23 +418,25 @@ feature -- Basic operations
 			enough_latin_characters: latin_in.count > a_count
 			unicode_out_big_enough: unicode_out.count >= a_count + out_offset
 		local
-			i: INTEGER; unicode: like unicode_table; already_latin_1: BOOLEAN
+			i: INTEGER; already_latin_1: BOOLEAN
 		do
-			unicode := unicode_table; already_latin_1 := encoded_as_latin (1)
-			from i := 0 until i = a_count loop
-				inspect latin_in [i]
-					when Substitute then
-						do_nothing -- Filled in later by call to `{EL_UNENCODED_CHARACTERS}.write'
-					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-						unicode_out [i + out_offset] := latin_in [i].code.to_character_32
-				else
-					if already_latin_1 then
-						unicode_out [i + out_offset] := latin_in [i].to_character_32
+			 already_latin_1 := encoded_as_latin (1)
+			if attached unicode_table as unicode then
+				from i := 0 until i = a_count loop
+					inspect latin_in [i]
+						when Substitute then
+							do_nothing -- Filled in later by call to `{EL_UNENCODED_CHARACTERS}.write'
+						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							unicode_out [i + out_offset] := latin_in [i].code.to_character_32
 					else
-						unicode_out [i + out_offset] := unicode [latin_in [i].code]
+						if already_latin_1 then
+							unicode_out [i + out_offset] := latin_in [i].to_character_32
+						else
+							unicode_out [i + out_offset] := unicode [latin_in [i].code]
+						end
 					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 

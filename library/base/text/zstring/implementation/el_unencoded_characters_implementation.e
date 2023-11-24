@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 11:16:47 GMT (Saturday 18th November 2023)"
-	revision: "26"
+	date: "2023-11-24 9:23:37 GMT (Friday 24th November 2023)"
+	revision: "27"
 
 deferred class
 	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
@@ -169,6 +169,13 @@ feature {NONE} -- Implementation
 			end
 			Result := big_enough (a_area, l_insert.count)
 			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
+		end
+
+	interval_count (a_area: like area; start_index: INTEGER): INTEGER
+		do
+			if a_area.valid_index (start_index) then
+				Result := a_area [start_index - 1].code - a_area [start_index - 2].code + 1
+			end
 		end
 
 	index_of_overlapping (a_area: like area; lower_A, upper_A: INTEGER): INTEGER

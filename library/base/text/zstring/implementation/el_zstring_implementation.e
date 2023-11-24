@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 18:34:14 GMT (Wednesday 22nd November 2023)"
-	revision: "80"
+	date: "2023-11-24 9:26:28 GMT (Friday 24th November 2023)"
+	revision: "81"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -39,6 +39,7 @@ inherit
 			intersects as has_unencoded_between,
 			item as unencoded_item,
 			i_th_substring as unencoded_i_th_substring,
+			interval_count as unencoded_interval_count,
 			last_index_of as unencoded_last_index_of,
 			last_upper as unencoded_last_upper,
 			make as make_unencoded,
@@ -195,15 +196,18 @@ feature -- Status query
 		local
 			c: CHARACTER
 		do
-			if uc.code <= Max_7_bit_code then
-				c := uc.to_character_8
+			inspect uc.code
+			-- allow uc = 26 to map to unicode subtitute character
+				when 0 .. 25, 27 .. Max_7_bit_code then
+					Result := String_8.has (Current, uc.to_character_8)
 			else
 				c := Codec.encoded_character (uc)
-			end
-			if c = Substitute then
-				Result := unencoded_has (uc)
-			else
-				Result := String_8.has (Current, c)
+				inspect c
+					when Substitute then
+						Result := unencoded_has (uc)
+				else
+						Result := String_8.has (Current, c)
+				end
 			end
 		end
 
@@ -234,25 +238,25 @@ feature -- Contract Support
 			-- True position and number of `Unencoded_character' in `area' consistent with `unencoded_area' substrings
 		local
 			i, j, lower, upper, l_count, interval_count, sum_count: INTEGER
-			l_unencoded: like unencoded_area; l_area: like area
 		do
 			if has_mixed_encoding then
 				l_count := count
-				l_area := area; l_unencoded := unencoded_area
-				Result := True
-				from i := 0 until not Result or else i = l_unencoded.count loop
-					lower := l_unencoded [i].code; upper := l_unencoded [i + 1].code
-					interval_count := upper - lower + 1
-					if upper <= l_count then
-						from j := lower until not Result or else j > upper loop
-							Result := Result and l_area [j - 1] = Substitute
-							j := j + 1
+				if attached area as l_area and then attached unencoded_area as area_32 then
+					Result := True
+					from i := 0 until not Result or else i = area_32.count loop
+						lower := area_32 [i].code; upper := area_32 [i + 1].code
+						interval_count := upper - lower + 1
+						if upper <= l_count then
+							from j := lower until not Result or else j > upper loop
+								Result := Result and l_area [j - 1] = Substitute
+								j := j + 1
+							end
+						else
+							Result := False
 						end
-					else
-						Result := False
+						sum_count := sum_count + interval_count
+						i := i + interval_count + 2
 					end
-					sum_count := sum_count + interval_count
-					i := i + interval_count + 2
 				end
 				Result := Result and String_8.occurrences (Current, Substitute) = sum_count
 			else

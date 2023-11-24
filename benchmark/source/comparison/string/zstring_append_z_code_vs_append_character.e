@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:28:23 GMT (Tuesday 14th March 2023)"
-	revision: "6"
+	date: "2023-11-24 9:50:41 GMT (Friday 24th November 2023)"
+	revision: "7"
 
 class
-	APPEND_Z_CODE_VS_APPEND_CHARACTER
+	ZSTRING_APPEND_Z_CODE_VS_APPEND_CHARACTER
 
 inherit
 	STRING_BENCHMARK_COMPARISON

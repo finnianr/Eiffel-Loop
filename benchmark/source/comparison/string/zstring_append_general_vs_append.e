@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-29 16:10:08 GMT (Tuesday 29th August 2023)"
-	revision: "7"
+	date: "2023-11-24 9:52:12 GMT (Friday 24th November 2023)"
+	revision: "8"
 
 class
-	APPEND_GENERAL_VS_APPEND
+	ZSTRING_APPEND_GENERAL_VS_APPEND
 
 inherit
 	STRING_BENCHMARK_COMPARISON
@@ -37,6 +37,7 @@ feature -- Basic operations
 			list: EL_ZSTRING_LIST
 		do
 			create list.make_from_general (Hexagram.English_titles)
+			
 			compare ("compare append_general VS append", <<
 				["append_general", agent append_general (list)],
 				["append",			 agent append (list)]

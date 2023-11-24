@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 18:32:11 GMT (Wednesday 22nd November 2023)"
-	revision: "13"
+	date: "2023-11-24 10:16:25 GMT (Friday 24th November 2023)"
+	revision: "14"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -75,7 +75,8 @@ feature -- Append to other
 			o_first_index := other.count
 			i_upper := count - 1
 
-			already_latin_1 := Codec.same_as (Latin_1_codec)
+			already_latin_1 := Codec.encoded_as_latin (1)
+
 			if already_latin_1 and then not has_mixed_encoding then
 				other.area.copy_data (area, 0, o_first_index, count)
 
