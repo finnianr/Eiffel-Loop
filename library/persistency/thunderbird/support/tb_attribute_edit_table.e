@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:28:14 GMT (Wednesday 8th November 2023)"
-	revision: "10"
+	date: "2023-11-25 16:59:55 GMT (Saturday 25th November 2023)"
+	revision: "11"
 
 class
 	TB_ATTRIBUTE_EDIT_TABLE
@@ -22,6 +22,8 @@ inherit
 			{ANY} force, put, extend, force_key
 		end
 
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	
 create
 	make, make_size
 

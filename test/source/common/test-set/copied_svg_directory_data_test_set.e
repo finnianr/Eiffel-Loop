@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 8:45:29 GMT (Sunday 1st January 2023)"
-	revision: "15"
+	date: "2023-11-25 17:23:19 GMT (Saturday 25th November 2023)"
+	revision: "16"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 		local
 			context: EVOLICITY_CONTEXT_IMP
 		do
-			Precursor {EL_COPIED_DIRECTORY_DATA_TEST_SET}
+			Precursor
 			svg_path := file_path (Edit_button_svg)
 			create context.make
 			context.put_string ("png_path", Directory.current_working + file_path (Edit_icon_png))

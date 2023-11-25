@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 7:50:42 GMT (Monday 8th May 2023)"
-	revision: "30"
+	date: "2023-11-25 17:24:21 GMT (Saturday 25th November 2023)"
+	revision: "31"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	HELP_PAGES_TEST_SET
 		undefine
 			new_lio
-		redefine
-			on_prepare
 		end
 
 	EL_CRC_32_TESTABLE
@@ -104,13 +102,6 @@ feature -- Tests
 			destination_list [4] := directory_contents (Copied_dir)
 			assert ("unchanged", destination_list [4].count = destination_list [3].count)
 			assert ("synchronized", source_contents_list ~ destination_list [4])
-		end
-
-feature {NONE} -- Event handling
-
-	on_prepare
-		do
-			Precursor {HELP_PAGES_TEST_SET}
 		end
 
 feature {NONE} -- Implementation

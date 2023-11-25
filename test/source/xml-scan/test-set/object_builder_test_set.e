@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 13:25:00 GMT (Monday 10th July 2023)"
-	revision: "26"
+	date: "2023-11-25 17:37:54 GMT (Saturday 25th November 2023)"
+	revision: "27"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 
 	on_prepare
 		do
-			Precursor {EL_FILE_DATA_TEST_SET}
+			Precursor
 			factory_types := <<
 				create {BUILDER_FACTORY}.make, create {BINARY_BUILDER_FACTORY}.make (Work_area_dir)
 			>>

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 12:48:11 GMT (Friday 18th August 2023)"
-	revision: "13"
+	date: "2023-11-25 17:02:51 GMT (Saturday 25th November 2023)"
+	revision: "14"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
@@ -24,18 +24,9 @@ inherit
 			new_key
 		end
 
-	EL_ZSTRING_ROUTINES_IMP
+	EL_STRING_GENERAL_ROUTINES
 		rename
-			 as_zstring as new_key,
-			 cursor as string_cursor,
-			 wipe_out as string_wipe_out,
-			 occurrences as string_occurrences,
-			 replace as string_replace,
-			 word_count as string_word_count
-		export
-			{NONE} all
-		undefine
-			is_equal, copy, default_create
+			 as_zstring as new_key
 		end
 
 create
@@ -46,13 +37,13 @@ feature -- Status query
 	has (key: READABLE_STRING_GENERAL): BOOLEAN
 			-- Is there an item in the table with key `key'?
 		do
-			Result := table_has (to_z_key (key))
+			Result := table_has (Buffer.to_same (key))
 		end
 
 	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
 		-- Is there an item in the table with key `key'? Set `found_item' to the found item.
 		do
-			Result := table_has_key (to_z_key (key))
+			Result := table_has_key (Buffer.to_same (key))
 		end
 
 feature -- Basic operations
@@ -62,18 +53,13 @@ feature -- Basic operations
 			-- If found, set `found' to true, and set
 			-- `found_item' to item associated with `key'.
 		do
-			table_search (to_z_key (key))
+			table_search (Buffer.to_same (key))
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
-	to_z_key (key: READABLE_STRING_GENERAL): ZSTRING
-		do
-			if attached {ZSTRING} key as zstr then
-				Result := zstr
-			else
-				Result := Buffer.copied_general (key)
-			end
+	Buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
 		end
-
 end

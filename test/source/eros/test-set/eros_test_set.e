@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:20:18 GMT (Tuesday 15th August 2023)"
-	revision: "14"
+	date: "2023-11-25 17:34:49 GMT (Saturday 25th November 2023)"
+	revision: "15"
 
 class
 	EROS_TEST_SET
@@ -32,19 +32,6 @@ inherit
 
 create
 	make
-
-feature {NONE} -- Initiliazation
-
-	on_prepare
-			--
-		do
-			create server.make (Port_number)
-			server.launch
-			Execution_environment.sleep (150) -- Try increasing if connection error occcurs
-			create connection.make (Port_number, "localhost")
-			signal_array := << create {SIGNAL_MATH}.make, create {SIGNAL_MATH_PROXY}.make (connection) >>
-			fft_array := << create {FFT_COMPLEX_64}.make, create {FFT_COMPLEX_64_PROXY}.make (connection) >>
-		end
 
 feature {NONE} -- Initialization
 
@@ -108,6 +95,20 @@ feature {NONE} -- Implementation
 				failed ("is_power_of_two (wave_form.count)")
 			end
 			lio.exit
+		end
+
+feature {NONE} -- Events
+
+	on_prepare
+			--
+		do
+			Precursor
+			create server.make (Port_number)
+			server.launch
+			Execution_environment.sleep (150) -- Try increasing if connection error occcurs
+			create connection.make (Port_number, "localhost")
+			signal_array := << create {SIGNAL_MATH}.make, create {SIGNAL_MATH_PROXY}.make (connection) >>
+			fft_array := << create {FFT_COMPLEX_64}.make, create {FFT_COMPLEX_64_PROXY}.make (connection) >>
 		end
 
 	on_clean

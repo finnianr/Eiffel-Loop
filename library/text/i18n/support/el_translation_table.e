@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 9:21:24 GMT (Thursday 7th September 2023)"
-	revision: "28"
+	date: "2023-11-25 17:02:02 GMT (Saturday 25th November 2023)"
+	revision: "29"
 
 class
 	EL_TRANSLATION_TABLE
@@ -97,9 +97,11 @@ feature -- Measurement
 
 	word_count: INTEGER
 		-- count of all translation words except for variable references
+		local
+			z: EL_ZSTRING_ROUTINES
 		do
 			from start until after loop
-				Result := Result + string_word_count (item_for_iteration, True)
+				Result := Result + z.word_count (item_for_iteration, True)
 				forth
 			end
 		end
@@ -129,7 +131,7 @@ feature {NONE} -- Implementation
 
 	put (a_translation, translation_id: ZSTRING)
 		local
-			translation: ZSTRING
+			translation: ZSTRING; z: EL_ZSTRING_ROUTINES
 		do
 			if a_translation ~ id_variable then
 				translation := translation_id
@@ -137,7 +139,7 @@ feature {NONE} -- Implementation
 				translation := a_translation
 				translation.prune_all_leading ('%N')
 				translation.right_adjust
-				unescape_substitution_marks (translation)
+				z.unescape_substitution_marks (translation)
 			end
 			put_table (translation, translation_id)
 			if conflict then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-19 16:37:40 GMT (Sunday 19th November 2023)"
-	revision: "32"
+	date: "2023-11-25 13:47:11 GMT (Saturday 25th November 2023)"
+	revision: "33"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -31,6 +31,8 @@ inherit
 	STRING_HANDLER
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXCEPTION; EL_MODULE_DIRECTORY
+
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 	EL_SHARED_OPERATING_ENVIRON
 		export
@@ -128,8 +130,7 @@ feature -- Basic operations
 
 	launch (cmd: READABLE_STRING_GENERAL)
 		do
-			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
-			Precursor (to_unicode_general (cmd))
+			do_system_call (cmd, False)
 		end
 
 	open_url (url: EL_FILE_URI_PATH)
@@ -164,8 +165,7 @@ feature -- Basic operations
 
 	system (cmd: READABLE_STRING_GENERAL)
 		do
-			-- NATIVE_STRING calls {READABLE_STRING_GENERAL}.code
-			Precursor (to_unicode_general (cmd))
+			do_system_call (cmd, True)
 		end
 
 feature -- Status report
@@ -178,8 +178,20 @@ feature -- Status report
 feature -- Status setting
 
 	put (value, key: READABLE_STRING_GENERAL)
+		local
+			s32: EL_STRING_32_ROUTINES; c_env: NATIVE_STRING; l_key: IMMUTABLE_STRING_32
 		do
-			Precursor (to_unicode_general (value), to_unicode_general (key))
+			across String_32_scope as scope loop
+				if attached scope.best_item (value.count + key.count + 1) as str then
+					s32.append_to (str, key)
+					str.append_character ('=')
+					s32.append_to (str, value)
+					create c_env.make (str)
+				end
+			end
+			create l_key.make_from_string_general (to_unicode_general (key))
+			environ.force (c_env, l_key)
+			return_code := eif_putenv (c_env.item)
 		end
 
 	restore_last_code_page
@@ -203,6 +215,22 @@ feature -- Status setting
 		end
 
 feature {NONE} -- Implementation
+
+	do_system_call (cmd: READABLE_STRING_GENERAL; wait_to_return: BOOLEAN)
+		do
+			if attached Shared_native as c_str then
+				if cmd.is_empty then
+					c_str.set_string (default_shell)
+				else
+					c_str.set_string (cmd)
+				end
+				if wait_to_return then
+					return_code := system_call (c_str.item)
+				else
+					asynchronous_system_call (c_str.item)
+				end
+			end
+		end
 
 	new_language_code: STRING
 		deferred
@@ -231,7 +259,7 @@ feature -- Constants
 
 feature {NONE} -- Constants
 
-	Shared_native: NATIVE_STRING
+	Shared_native: EL_NATIVE_STRING
 		once
 			create Result.make_empty (0)
 		end

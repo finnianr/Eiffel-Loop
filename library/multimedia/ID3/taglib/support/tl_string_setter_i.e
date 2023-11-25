@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-11-25 16:51:10 GMT (Saturday 25th November 2023)"
+	revision: "5"
 
 deferred class
 	TL_STRING_SETTER_I [N -> NUMERIC]
@@ -32,19 +32,21 @@ feature -- Basic operations
 
 	set_text (target: TL_STRING; source: READABLE_STRING_GENERAL)
 		local
-			i, n: INTEGER; l_area: SPECIAL [CHARACTER_32]
-			utf_16: like utf_16_sequence; s: EL_STRING_32_ROUTINES
+			i, n: INTEGER
 		do
 			wipe_out
-			utf_16 := utf_16_sequence
-			l_area := s.from_general (source, False).area; n := source.count
-			from until i = n loop
-				utf_16.set (l_area [i])
+			if attached utf_16_sequence as utf_16
+				and then attached Buffer.to_same (source).area as l_area
+			then
+				n := source.count
+				from until i = n loop
+					utf_16.set (l_area [i])
+					append_sequence (utf_16)
+					i := i + 1
+				end
+				utf_16.set (Null_character)
 				append_sequence (utf_16)
-				i := i + 1
 			end
-			utf_16.set (Null_character)
-			append_sequence (utf_16)
 			target.set_from_utf_16 (area)
 		end
 
@@ -67,6 +69,11 @@ feature {NONE} -- Internal attributes
 	utf_16_sequence: EL_UTF_16_SEQUENCE
 
 feature {NONE} -- Constants
+
+	Buffer: EL_STRING_32_BUFFER
+		once
+			create Result
+		end
 
 	Null_character: CHARACTER_32 = '%/0/'
 

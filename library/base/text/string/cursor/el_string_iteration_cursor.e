@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 21:39:29 GMT (Saturday 18th November 2023)"
-	revision: "17"
+	date: "2023-11-25 16:11:17 GMT (Saturday 25th November 2023)"
+	revision: "18"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -83,7 +83,7 @@ feature -- Basic operations
 			end
 		ensure
 			correct_size: str.count - old str.count = end_index - start_index + 1
-			substring_appended: str.same_characters_general (target, start_index, end_index, old str.count + 1)
+			substring_appended: ends_with_target_substring (str, start_index, old str.count + 1)
 		end
 
 	append_substring_to_string_8 (str: STRING_8; start_index, end_index: INTEGER)
@@ -112,7 +112,7 @@ feature -- Basic operations
 			end
 		ensure
 			correct_size: str.count - old str.count = end_index - start_index + 1
-			substring_appended: str.same_characters_general (target, start_index, end_index, old str.count + 1)
+			substring_appended: ends_with_target_substring (str, start_index, old str.count + 1)
 		end
 
 	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
@@ -144,7 +144,7 @@ feature -- Basic operations
 			end
 		ensure
 			correct_size: str.count = old str.count + target.count
-			substring_appended: str.ends_with_general (target)
+			substring_appended: ends_with_target (str, old str.count + 1)
 		end
 
 	append_to_string_32 (str: STRING_32)
@@ -168,7 +168,7 @@ feature -- Basic operations
 			end
 		ensure
 			correct_size: str.count = old str.count + target.count
-			substring_appended: str.ends_with_general (target)
+			substring_appended: ends_with_target (str, old str.count + 1)
 		end
 
 	append_to_utf_8 (utf_8: STRING_8)
@@ -346,6 +346,16 @@ feature {NONE} -- Implementation
 				end
 				i := i + 1
 			end
+		end
+
+	ends_with_target (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+		do
+			Result := target.same_characters (str, index, str.count, 1)
+		end
+
+	ends_with_target_substring (str: READABLE_STRING_GENERAL; target_index, index: INTEGER): BOOLEAN
+		do
+			Result := target.same_characters (str, index, str.count, target_index)
 		end
 
 feature {STRING_HANDLER} -- Deferred

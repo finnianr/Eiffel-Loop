@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 13:33:48 GMT (Saturday 11th November 2023)"
-	revision: "50"
+	date: "2023-11-25 15:45:19 GMT (Saturday 25th November 2023)"
+	revision: "51"
 
 class
 	TAGLIB_TEST_SET
@@ -177,6 +177,7 @@ feature -- Tests
 		end
 
 	test_string_setting
+		-- TAGLIB_TEST_SET.string_setting
 		local
 			mp3: TL_MPEG_FILE; title: ZSTRING
 		do

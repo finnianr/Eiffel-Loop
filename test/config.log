@@ -1,7 +1,7 @@
-file C:\Program Files\Python27\Lib\site-packages\eiffel_loop\scons\eiffel.py,line 45:
+file /usr/local/lib/python2.7/dist-packages/eiffel_loop/scons/eiffel.py,line 45:
 	Configure(confdir = .sconf_temp)
-scons: Configure: Checking for C library IPHlpApi... 
-scons: Configure: ".sconf_temp\conftest_0.c" is up to date.
+scons: Configure: Checking for C library cairo... 
+scons: Configure: ".sconf_temp/conftest_0.c" is up to date.
 scons: Configure: The original builder output was:
   |.sconf_temp/conftest_0.c <-
   |  |
@@ -14,18 +14,18 @@ scons: Configure: The original builder output was:
   |  |}
   |  |
   |
-scons: Configure: ".sconf_temp\conftest_0.obj" is up to date.
+scons: Configure: ".sconf_temp/conftest_0.o" is up to date.
 scons: Configure: The original builder output was:
-  |cl /Fo.sconf_temp\conftest_0.obj /c .sconf_temp\conftest_0.c /nologo
+  |gcc -o .sconf_temp/conftest_0.o -c .sconf_temp/conftest_0.c
   |
-scons: Configure: ".sconf_temp\conftest_0.exe" is up to date.
+scons: Configure: ".sconf_temp/conftest_0" is up to date.
 scons: Configure: The original builder output was:
-  |link /nologo /OUT:.sconf_temp\conftest_0.exe IPHlpApi.lib .sconf_temp\conftest_0.obj
+  |gcc -o .sconf_temp/conftest_0 .sconf_temp/conftest_0.o -lcairo
   |
 scons: Configure: (cached) yes
 
-scons: Configure: Checking for C library WinMM... 
-scons: Configure: ".sconf_temp\conftest_1.c" is up to date.
+scons: Configure: Checking for C library Xrandr... 
+scons: Configure: ".sconf_temp/conftest_1.c" is up to date.
 scons: Configure: The original builder output was:
   |.sconf_temp/conftest_1.c <-
   |  |
@@ -38,18 +38,18 @@ scons: Configure: The original builder output was:
   |  |}
   |  |
   |
-scons: Configure: ".sconf_temp\conftest_1.obj" is up to date.
+scons: Configure: ".sconf_temp/conftest_1.o" is up to date.
 scons: Configure: The original builder output was:
-  |cl /Fo.sconf_temp\conftest_1.obj /c .sconf_temp\conftest_1.c /nologo
+  |gcc -o .sconf_temp/conftest_1.o -c .sconf_temp/conftest_1.c
   |
-scons: Configure: ".sconf_temp\conftest_1.exe" is up to date.
+scons: Configure: ".sconf_temp/conftest_1" is up to date.
 scons: Configure: The original builder output was:
-  |link /nologo /OUT:.sconf_temp\conftest_1.exe IPHlpApi.lib WinMM.lib .sconf_temp\conftest_1.obj
+  |gcc -o .sconf_temp/conftest_1 .sconf_temp/conftest_1.o -lcairo -lXrandr
   |
 scons: Configure: (cached) yes
 
-scons: Configure: Checking for C library UxTheme... 
-scons: Configure: ".sconf_temp\conftest_2.c" is up to date.
+scons: Configure: Checking for C library X11... 
+scons: Configure: ".sconf_temp/conftest_2.c" is up to date.
 scons: Configure: The original builder output was:
   |.sconf_temp/conftest_2.c <-
   |  |
@@ -62,13 +62,13 @@ scons: Configure: The original builder output was:
   |  |}
   |  |
   |
-scons: Configure: ".sconf_temp\conftest_2.obj" is up to date.
+scons: Configure: ".sconf_temp/conftest_2.o" is up to date.
 scons: Configure: The original builder output was:
-  |cl /Fo.sconf_temp\conftest_2.obj /c .sconf_temp\conftest_2.c /nologo
+  |gcc -o .sconf_temp/conftest_2.o -c .sconf_temp/conftest_2.c
   |
-scons: Configure: ".sconf_temp\conftest_2.exe" is up to date.
+scons: Configure: ".sconf_temp/conftest_2" is up to date.
 scons: Configure: The original builder output was:
-  |link /nologo /OUT:.sconf_temp\conftest_2.exe IPHlpApi.lib WinMM.lib UxTheme.lib .sconf_temp\conftest_2.obj
+  |gcc -o .sconf_temp/conftest_2 .sconf_temp/conftest_2.o -lcairo -lXrandr -lX11
   |
 scons: Configure: (cached) yes
 

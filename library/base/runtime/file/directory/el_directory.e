@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-17 8:45:59 GMT (Saturday 17th June 2023)"
-	revision: "25"
+	date: "2023-11-25 16:46:22 GMT (Saturday 25th November 2023)"
+	revision: "26"
 
 class
 	EL_DIRECTORY
@@ -43,6 +43,8 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 create
 	make_default, make
@@ -213,17 +215,13 @@ feature -- Status query
 		end
 
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			s_32: EL_STRING_32_ROUTINES
 		do
-			Result := has_entry_of_type (s_32.from_general (a_name, False), Type_executable_file)
+			Result := has_entry_of_type (a_name, Type_executable_file)
 		end
 
 	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			s_32: EL_STRING_32_ROUTINES
 		do
-			Result := has_entry_of_type (s_32.from_general (a_name, False), Type_file)
+			Result := has_entry_of_type (a_name, Type_file)
 		end
 
 	has_file_with_extension (extension: READABLE_STRING_GENERAL): BOOLEAN
@@ -328,18 +326,23 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			end
 		end
 
-	has_entry_of_type (a_name: STRING_32; a_type: INTEGER): BOOLEAN
+	has_entry_of_type (a_name: READABLE_STRING_GENERAL; a_type: INTEGER): BOOLEAN
+		local
+			name_32: STRING_32
 		do
-			across Current as entry until Result loop
-				if a_name ~ entry.item and then entry.exists then
-					inspect a_type
-						when Type_any then
-							Result := True
-						when Type_file then
-							Result := entry.is_plain
-						when Type_executable_file then
-							Result := entry.is_plain and then entry.is_executable
-						else
+			across String_32_scope as scope loop
+				name_32 := scope.same_item (a_name)
+				across Current as entry until Result loop
+					if name_32 ~ entry.item and then entry.exists then
+						inspect a_type
+							when Type_any then
+								Result := True
+							when Type_file then
+								Result := entry.is_plain
+							when Type_executable_file then
+								Result := entry.is_plain and then entry.is_executable
+							else
+						end
 					end
 				end
 			end

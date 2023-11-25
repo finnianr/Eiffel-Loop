@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 16:32:50 GMT (Sunday 12th November 2023)"
-	revision: "25"
+	date: "2023-11-25 10:13:15 GMT (Saturday 25th November 2023)"
+	revision: "26"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -283,7 +283,9 @@ feature -- Tests
 	test_unescape
 		-- STRING_CONVERSION_TEST_SET.test_unescape
 		note
-			testing:	"covers/{EL_ZSTRING_UNESCAPER}.unescape", "covers/{EL_STRING_32_UNESCAPER}.unescape"
+			testing:	"[
+				covers/{EL_ZSTRING_UNESCAPER}.unescape, covers/{EL_STRING_32_UNESCAPER}.unescape
+			]"
 		local
 			str, unescaped: ZSTRING; str_32, unescaped_32: STRING_32
 			unescaper: EL_ZSTRING_UNESCAPER; unescaper_32: EL_STRING_32_UNESCAPER

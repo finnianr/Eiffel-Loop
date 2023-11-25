@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 18:43:01 GMT (Wednesday 22nd November 2023)"
-	revision: "132"
+	date: "2023-11-25 10:37:47 GMT (Saturday 25th November 2023)"
+	revision: "133"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -144,8 +144,11 @@ feature {NONE} -- Initialization
 
 	make_from_general (s: READABLE_STRING_GENERAL)
 		do
-			if attached {EL_ZSTRING} s as other then
-				make_from_other (other)
+			inspect Class_id.character_bytes (s)
+				when 'X' then
+					if attached {EL_ZSTRING} s as other then
+						make_from_other (other)
+					end
 			else
 				make_filled ('%U', s.count)
 				encode (s, 0)
@@ -174,8 +177,11 @@ feature {NONE} -- Initialization
 
 	make_from_string (s: READABLE_STRING_32)
 		do
-			if attached {EL_READABLE_ZSTRING} s as other then
-				make_from_other (other)
+			inspect Class_id.character_bytes (s)
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} s as other then
+						make_from_other (other)
+					end
 			else
 				make_filled ('%U', s.count)
 				encode (s, 0)
@@ -202,11 +208,7 @@ feature {NONE} -- Initialization
 				make_empty
 			else
 				make (l_count)
-				if attached {EL_ZSTRING} general as other then
-					append_substring (other, start_index, end_index)
-				else
-					append_substring_general (general, start_index, end_index)
-				end
+				append_substring_general (general, start_index, end_index)
 			end
 		end
 
@@ -230,19 +232,19 @@ feature {NONE} -- Initialization
 
 	make_from_zcode_area (zcode_area: SPECIAL [NATURAL])
 		local
-			z_code_i: NATURAL; i, l_count, last_upper: INTEGER
+			i, l_count, last_upper: INTEGER
 		do
 			l_count := zcode_area.count
 			make (l_count)
 			if attached empty_unencoded_buffer as buffer and then attached area as l_area then
 				last_upper := buffer.last_upper
 				from i := 0 until i = l_count loop
-					z_code_i := zcode_area [i]
-					if z_code_i > 0xFF then
-						l_area [i] := Substitute
-						last_upper := buffer.extend_z_code (z_code_i, last_upper, i + 1)
+					inspect zcode_area [i]
+						when 0 .. 0xFF then
+							l_area [i] := zcode_area [i].to_character_8
 					else
-						l_area [i] := z_code_i.to_character_8
+						l_area [i] := Substitute
+						last_upper := buffer.extend_z_code (zcode_area [i], last_upper, i + 1)
 					end
 					i := i + 1
 				end
@@ -269,9 +271,11 @@ feature -- Access
 			-- Hash code value
 		do
 			Result := internal_hash_code
-			if Result = 0 then
-				Result := unencoded_hash_code (area_hash_code)
-				internal_hash_code := Result
+			inspect Result
+				when 0 then
+					Result := unencoded_hash_code (area_hash_code)
+					internal_hash_code := Result
+			else
 			end
 		end
 
@@ -338,9 +342,10 @@ feature -- Character status query
 			c: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
 		do
 			c := area [i - 1]
-			if c = Substitute then
-				-- Because of a compiler bug we need `is_space_32'
-				Result := c32.is_space (unencoded_item (i))
+			inspect c
+				when Substitute then
+					-- Because of a compiler bug we need `is_space_32'
+					Result := c32.is_space (unencoded_item (i))
 			else
 				Result := c.is_space
 			end
@@ -414,13 +419,15 @@ feature -- Status query
 			i: INTEGER; c: CHARACTER
 		do
 			c := codec.encoded_character (uc)
-			if c = Substitute then
-				Result := unencoded_has_between (uc, start_index, end_index)
-
-			elseif attached area as l_area then
-				from i := start_index - 1 until i = end_index or Result loop
-					Result := l_area [i] = c
-					i := i + 1
+			inspect c
+				when Substitute then
+					Result := unencoded_has_between (uc, start_index, end_index)
+			else
+				if attached area as l_area then
+					from i := start_index - 1 until i = end_index or Result loop
+						Result := l_area [i] = c
+						i := i + 1
+					end
 				end
 			end
 		end
@@ -431,8 +438,9 @@ feature -- Status query
 		local
 			quote_code: NATURAL
 		do
-			if a_count = 1 then
-				quote_code := ('%'').natural_32_code
+			inspect a_count
+				when 1 then
+					quote_code := ('%'').natural_32_code
 			else
 				quote_code := ('"').natural_32_code
 			end
@@ -483,15 +491,15 @@ feature -- Status query
 	is_code_identifier: BOOLEAN
 		-- is C, Eiffel or other language identifier
 		local
-			i, l_count: INTEGER; l_area: like area
+			i, l_count: INTEGER
 		do
-			l_area := area; l_count := count
-			if l_count > 0 then
-				Result := True
+			if attached area as l_area then
+				l_count := count; Result := True
+
 				from i := 0 until not Result or else i = l_count loop
 					inspect l_area [i]
 						when 'a' .. 'z', 'A' .. 'Z' then
-							do_nothing
+						--	do nothing
 
 						when '0' .. '9', '_' then
 							Result := i > 0
@@ -517,8 +525,9 @@ feature -- Status query
 
 	is_space_filled: BOOLEAN
 		do
-			if count = 0 then
-				Result := True
+			inspect count
+				when 0 then
+					Result := True
 			else
 				Result := is_substring_whitespace (1, count)
 			end
@@ -526,22 +535,22 @@ feature -- Status query
 
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
 		local
-			i: INTEGER; l_area: like area; c_i: CHARACTER
-			c: EL_CHARACTER_32_ROUTINES
+			i: INTEGER; c32: EL_CHARACTER_32_ROUTINES
 		do
-			l_area := area
-			if end_index = start_index - 1 then
-				Result := False
-			else
-				Result := True
-				from i := start_index - 1 until i = end_index or not Result loop
-					c_i := l_area [i]
-					if c_i = Substitute then
-						Result := Result and c.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
-					else
-						Result := Result and c_i.is_space
+			if attached area as c then
+				if end_index = start_index - 1 then
+					Result := False
+				else
+					Result := True
+					from i := start_index - 1 until i = end_index or not Result loop
+						inspect c [i]
+							when Substitute then
+								Result := Result and c32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
+						else
+							Result := Result and c [i].is_space
+						end
+						i := i + 1
 					end
-					i := i + 1
 				end
 			end
 		end

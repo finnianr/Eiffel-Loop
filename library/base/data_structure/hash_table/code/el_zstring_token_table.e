@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-22 16:37:54 GMT (Wednesday 22nd March 2023)"
-	revision: "15"
+	date: "2023-11-25 17:32:08 GMT (Saturday 25th November 2023)"
+	revision: "16"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -18,9 +18,9 @@ class
 inherit
 	EL_UNIQUE_CODE_TABLE [ZSTRING]
 		export
-			{ANY} is_empty, count, has_key
+			{ANY} is_empty, count, has_key, prunable
 		redefine
-			put, make, is_equal
+			put, make, is_equal, wipe_out
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -145,6 +145,16 @@ feature -- Access
 		ensure
 			reversible: string ~ joined (Result, separator)
 		end
+
+feature -- Removal
+
+	wipe_out
+			-- Reset all items to default values; reset status.
+		do
+			Precursor
+			word_list.wipe_out
+		end
+
 
 feature {STRING_HANDLER, EL_ZSTRING_TOKEN_TABLE} -- Implementation
 

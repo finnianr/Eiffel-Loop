@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 11:56:05 GMT (Tuesday 14th November 2023)"
-	revision: "59"
+	date: "2023-11-25 10:32:31 GMT (Saturday 25th November 2023)"
+	revision: "60"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -545,7 +545,10 @@ feature {NONE} -- Implementation
 			new_count, s_count: INTEGER
 		do
 			s_count := s.count
-			if s_count > 0 then
+			inspect s_count
+				when 0 then
+				-- do nothing
+			else
 				new_count := old_count + s_count
 				if new_count > capacity then
 					resize (new_count + additional_space)
@@ -603,12 +606,17 @@ feature {NONE} -- Implementation
 			valid_utf_type: utf_type = 8 or utf_type = 16
 			valid_utf_16_input: utf_type = 16 implies utf_encoded_string.count \\ 2 = 0
 		local
-			offset: INTEGER
+			offset: INTEGER; appended_as_ascii: BOOLEAN
 		do
-			if utf_type = 8 and then unicode_count = utf_encoded_string.count then
-				append_ascii (utf_encoded_string)
-
-			elseif attached empty_unencoded_buffer as buffer then
+			inspect utf_type
+				when 8 then
+					if unicode_count = utf_encoded_string.count then
+						append_ascii (utf_encoded_string)
+						appended_as_ascii := True
+					end
+			else
+			end
+			if not appended_as_ascii and then attached empty_unencoded_buffer as buffer then
 				offset := count; accommodate (unicode_count)
 				codec.encode_utf (utf_encoded_string, area, utf_type, unicode_count, offset, buffer)
 				if buffer.not_empty then

@@ -7,11 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 17:32:29 GMT (Wednesday 1st March 2023)"
-	revision: "17"
+	date: "2023-11-25 9:26:41 GMT (Saturday 25th November 2023)"
+	revision: "18"
 
 class
 	UNENCODED_CHARACTERS_INDEX
+
+obsolete
+	"Replaced by EL_UNENCODED_CHARACTER_ITERATION"
 
 inherit
 	EL_ZCODE_CONVERSION

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-11-25 12:37:34 GMT (Saturday 25th November 2023)"
+	revision: "10"
 
 class
 	AUTOTEST_APP
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 				ecf_name.to_lower
 				lio.put_labeled_string ("Library", ecf_name)
 				lio.put_new_line
-				create cmd_list.make_from_general (<< Hypen + application.option_name >>)
+				create cmd_list.make_from_general (<< hyphen * 1 + application.option_name >>)
 				call_command (cmd_list)
 				if application.generating_type ~ {BASE_AUTOTEST_APP} and then execution.return_code = 0 then
 					cmd_list.append_general (<<

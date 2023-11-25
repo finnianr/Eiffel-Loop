@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 17:23:51 GMT (Monday 13th November 2023)"
-	revision: "41"
+	date: "2023-11-25 16:36:27 GMT (Saturday 25th November 2023)"
+	revision: "42"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -74,8 +74,11 @@ feature -- Basic operations
 
 	append_to (str: STRING_32; extra: READABLE_STRING_GENERAL)
 		do
-			if attached {ZSTRING} extra as zstr then
-				zstr.append_to_string_32 (str)
+			inspect Class_id.character_bytes (extra)
+				when 'X' then
+					if attached {ZSTRING} extra as zstr then
+						zstr.append_to_string_32 (str)
+					end
 			else
 				str.append_string_general (extra)
 			end
@@ -87,20 +90,6 @@ feature -- Basic operations
 		end
 
 feature -- Conversion
-
-	from_general (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): STRING_32
-		local
-			buffer: EL_STRING_32_BUFFER_ROUTINES
-		do
-			if attached {STRING_32} str as str_32 then
-				Result := str_32
-			else
-				Result := buffer.copied_general (str)
-				if keep_ref then
-					Result := Result.twin
-				end
-			end
-		end
 
 	to_code_array (s: STRING_32): ARRAY [NATURAL_32]
 		local

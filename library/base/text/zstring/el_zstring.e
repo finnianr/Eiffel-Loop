@@ -1,9 +1,10 @@
 note
 	description: "[
-		Usually referenced with the alias **ZSTRING**, this string is a memory efficient alternative to using [$source STRING_32].
-		When an application mainly uses characters from the ISO-8859-15 character set, the memory saving can be as much as 70%,
-		while the execution efficiency is roughly the same as for [$source STRING_8]. For short strings the saving is much less:
-		about 50%. ISO-8859-15 covers most Western european languages.
+		Usually referenced with the alias **ZSTRING**, this string is a memory efficient alternative to using
+		[$source STRING_32].When an application mainly uses characters from the ISO-8859-15 character set,
+		the memory saving can be as much as 70%, while the execution efficiency is roughly the same as for
+		[$source STRING_8]. For short strings the saving is much less: about 50%.
+		ISO-8859-15 covers most Western european languages.
 	]"
 	tests: "Class [$source ZSTRING_TEST_SET]"
 	notes: "See end of class"
@@ -13,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 12:42:38 GMT (Friday 24th November 2023)"
-	revision: "95"
+	date: "2023-11-25 8:59:30 GMT (Saturday 25th November 2023)"
+	revision: "96"
 
 class
 	EL_ZSTRING

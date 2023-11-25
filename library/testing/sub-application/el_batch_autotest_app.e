@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 10:26:08 GMT (Monday 13th November 2023)"
-	revision: "6"
+	date: "2023-11-25 14:14:49 GMT (Saturday 25th November 2023)"
+	revision: "7"
 
 class
 	EL_BATCH_AUTOTEST_APP
@@ -21,13 +21,9 @@ class
 inherit
 	EL_APPLICATION
 
+	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
+
 	EL_SHARED_APPLICATION_LIST
-
-	EL_MODULE_NAMING
-
-	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	default_create
@@ -53,14 +49,22 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	call_command (cmd_list: EL_ZSTRING_LIST)
+	call_command (arguments_list: EL_ZSTRING_LIST)
 		local
-			args_tuple: TUPLE
+			cmd_list: EL_ZSTRING_LIST
 		do
-			args_tuple := [' ', cmd_list.joined_words]
-			lio.put_line (Executable.name.joined (args_tuple))
+			create cmd_list.make (arguments_list.count + 1)
+			cmd_list.extend (Executable.name)
+			cmd_list.append_sequence (arguments_list)
+
+			lio.put_line (cmd_list.joined_words)
 			lio.put_new_line
-			execution.system (Executable.path.to_string.joined (args_tuple))
+			if Args.word_option_exists ("workbench") then
+				cmd_list [1] := W_code_template #$ [execution.item ("ISE_PLATFORM"), Executable.name]
+			else
+				cmd_list [1] := Executable.path
+			end
+			execution.system (cmd_list.joined_words)
 		end
 
 	test (application: EL_APPLICATION)
@@ -68,7 +72,7 @@ feature {NONE} -- Implementation
 			cmd_list: EL_ZSTRING_LIST
 		do
 			if attached {EL_AUTOTEST_APPLICATION} application as test_app then
-				create cmd_list.make_from_general (<< Hypen + application.option_name >>)
+				create cmd_list.make_from_general (<< hyphen * 1 + application.option_name >>)
 				call_command (cmd_list)
 			end
 		end
@@ -89,14 +93,14 @@ feature {NONE} -- Constants
 			Result := ".ecf"
 		end
 
-	Hypen: ZSTRING
-		once
-			Result := "-"
-		end
-
 	Omissions: TUPLE
 		once
 			create Result
+		end
+
+	W_code_template: ZSTRING
+		once
+			Result := "build/%S/EIFGENs/classic/W_code/%S"
 		end
 
 end

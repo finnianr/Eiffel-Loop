@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 8:51:24 GMT (Saturday 11th November 2023)"
-	revision: "17"
+	date: "2023-11-25 16:53:15 GMT (Saturday 25th November 2023)"
+	revision: "18"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -144,18 +144,6 @@ feature -- Substring
 		end
 
 feature -- Conversion
-
-	from_general (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): ZSTRING
-		do
-			if attached {ZSTRING} str as z_str then
-				Result := z_str
-
-			elseif keep_ref then
-				create Result.make_from_general (str)
-			else
-				Result := Buffer.copied_general (str)
-			end
-		end
 
 	joined_list (a_list: ITERABLE [READABLE_STRING_GENERAL]; separator: CHARACTER_32): ZSTRING
 		local
@@ -352,11 +340,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Buffer: EL_ZSTRING_BUFFER
-		once
-			create Result
-		end
 
 	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
 		once
