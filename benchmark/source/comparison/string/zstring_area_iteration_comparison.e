@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 10:15:35 GMT (Friday 24th November 2023)"
-	revision: "17"
+	date: "2023-11-27 19:23:27 GMT (Monday 27th November 2023)"
+	revision: "18"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -48,10 +48,11 @@ feature -- Basic operations
 			mixed_string := Name_manifest
 
 			compare ("iterate over ZSTRING area", <<
-				["inspect branching (i = i_final)",		agent inspect_iteration (mixed_string)],
-				["inspect branching (i > area_upper)",	agent inspect_iteration_area_upper (mixed_string)],
-				["inspect area [i] (i > area_upper)",	agent inspect_iteration_area_upper_no_c_assign (mixed_string)],
-				["if branching",								agent if_then_iteration (mixed_string)]
+				["inspect c (i = i_final)",		  agent inspect_iteration (mixed_string)],
+				["inspect c (i > area_upper)",	  agent inspect_iteration_area_upper (mixed_string)],
+				["inspect c [i] (i > area_upper)", agent inspect_iteration_area_upper_no_c_assign (mixed_string)],
+				["if c [i] = Substitute then",	  agent if_then_iteration_no_c_assign (mixed_string)],
+				["if c = Substitute then",			  agent if_then_iteration (mixed_string)]
 			>>)
 		end
 
@@ -77,9 +78,28 @@ feature {NONE} -- Operations
 			end
 		end
 
+	if_then_iteration_no_c_assign (mixed_string: ZSTRING)
+		local
+			i, i_final: INTEGER
+		do
+			if attached mixed_string.area as c then
+				i_final := mixed_string.count
+				from i := 0 until i = i_final loop
+					if c [i] = Substitute then
+						do_with (c [i])
+					elseif c [i].natural_32_code <= 0x7F then
+						do_with (c [i])
+					else
+						do_with (c [i])
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	inspect_iteration (mixed_string: ZSTRING)
 		local
-			i, i_final: INTEGER c: CHARACTER
+			i, i_final: INTEGER; c: CHARACTER
 		do
 			if attached mixed_string.area as area then
 				i_final := mixed_string.count
@@ -123,16 +143,16 @@ feature {NONE} -- Operations
 		local
 			i, area_upper: INTEGER
 		do
-			if attached mixed_string.area as area then
+			if attached mixed_string.area as c then
 				area_upper := mixed_string.count - 1
 				from i := 0 until i > area_upper loop
-					inspect area [i]
+					inspect c [i]
 						when Substitute then
-							do_with (area [i])
+							do_with (c [i])
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-							do_with (area [i])
+							do_with (c [i])
 					else
-						do_with (area [i])
+						do_with (c [i])
 					end
 					i := i + 1
 				end

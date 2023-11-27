@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-12 12:22:00 GMT (Wednesday 12th April 2023)"
-	revision: "5"
+	date: "2023-11-27 6:54:13 GMT (Monday 27th November 2023)"
+	revision: "6"
 
 class
 	EL_FORMAT_ROUTINES
+
+inherit
+	ANY; EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -48,7 +51,7 @@ feature -- Integer formatting
 
 	percent (n: INTEGER): STRING
 		do
-			Result := integer_string (n, 1, False) + Percent_string
+			Result := integer_string (n, 1, False) + char ('%%')
 		end
 
 	padded_integer (n, width: INTEGER): STRING
@@ -69,7 +72,7 @@ feature -- Integer formatting
 
 	padded_percent (n, width: INTEGER): STRING
 		do
-			Result := integer_string (n, width, False) + Percent_string
+			Result := integer_string (n, width, False) + char ('%%')
 		end
 
 feature {NONE} -- Implementation
@@ -133,7 +136,5 @@ feature {NONE} -- Constants
 	Decimal_count_mask: INTEGER = 0xFFF0
 
 	Width_mask: INTEGER = 0xFFF_0000
-
-	Percent_string: STRING = "%%"
 
 end

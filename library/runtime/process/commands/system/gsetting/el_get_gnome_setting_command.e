@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:37:18 GMT (Thursday 17th August 2023)"
-	revision: "11"
+	date: "2023-11-27 7:15:54 GMT (Monday 27th November 2023)"
+	revision: "12"
 
 class
 	EL_GET_GNOME_SETTING_COMMAND
@@ -69,7 +69,7 @@ feature -- Setting values
 			put_string (Var.key, key_name)
 			execute
 			if lines.count > 0 then
-				if lines.first.occurrences ('%'') = 2 and then attached (char ('%'') * 1) as single_quote then
+				if lines.first.occurrences ('%'') = 2 and then attached char ('%'').to_string as single_quote then
 					Result := lines.first.substring_between (single_quote, single_quote, 1)
 				else
 					Result := lines.first

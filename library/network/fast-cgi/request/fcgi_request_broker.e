@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-10 16:50:11 GMT (Friday 10th November 2023)"
-	revision: "14"
+	date: "2023-11-27 17:12:27 GMT (Monday 27th November 2023)"
+	revision: "15"
 
 class
 	FCGI_REQUEST_BROKER
@@ -29,13 +29,13 @@ class
 inherit
 	FCGI_CONSTANTS
 
-	EL_MODULE_EXCEPTION
-
-	EL_MODULE_LIO
+	EL_MODULE_EXCEPTION; EL_MODULE_LIO
 
 	EL_STRING_8_CONSTANTS
 
 	FCGI_SHARED_RECORD_TYPE
+
+	EL_SHARED_DEFAULT_LISTENER
 
 create
 	make
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 			create relative_path_info.make_empty
 			create stdout_content
 			create header
-			end_request_listener := Default_event_listener
+			end_request_listener := Default_listener
 		end
 
 feature -- Access
@@ -153,7 +153,7 @@ feature -- Basic operations
 			if written_ok then
 				end_request_listener.notify
 			end
-			end_request_listener := Default_event_listener
+			end_request_listener := Default_listener
 		end
 
 	read
@@ -275,11 +275,6 @@ feature {FCGI_RECORD}
 	Cherokee: ZSTRING
 		once
 			Result := "Cherokee"
-		end
-
-	Default_event_listener: EL_DEFAULT_EVENT_LISTENER
-		once
-			create Result
 		end
 
 	Packet_size: INTEGER = 65535

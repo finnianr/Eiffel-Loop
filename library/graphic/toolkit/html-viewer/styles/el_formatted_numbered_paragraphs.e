@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 14:47:58 GMT (Thursday 17th August 2023)"
-	revision: "8"
+	date: "2023-11-27 7:10:34 GMT (Monday 27th November 2023)"
+	revision: "9"
 
 class
 	EL_FORMATTED_NUMBERED_PARAGRAPHS
@@ -48,6 +48,6 @@ feature {NONE} -- Implementation
 
 	new_numbered_text: ZSTRING
 		do
-			Result := index.out + Dot * 1
+			Result := index.out + Dot
 		end
 end

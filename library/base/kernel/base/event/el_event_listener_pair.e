@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2023-11-27 12:03:17 GMT (Monday 27th November 2023)"
+	revision: "3"
 
 class
 	EL_EVENT_LISTENER_PAIR
@@ -37,7 +37,7 @@ feature -- Basic operations
 
 feature -- Measurement
 
-	listener_count: INTEGER = 2
+	Listener_count: INTEGER = 2
 
 feature -- Access
 

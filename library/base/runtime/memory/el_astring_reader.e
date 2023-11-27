@@ -1,13 +1,16 @@
 note
-	description: "Reads obsolete `EL_ASTRING' data"
+	description: "Reads data for obsolete **EL_ASTRING** string type"
+	notes: "[
+		**EL_ASTRING** was the precursor of [$source ZSTRING]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-11-26 13:01:32 GMT (Sunday 26th November 2023)"
+	revision: "7"
 
 class
 	EL_ASTRING_READER

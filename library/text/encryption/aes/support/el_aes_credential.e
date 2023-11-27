@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:40:22 GMT (Wednesday 8th November 2023)"
-	revision: "25"
+	date: "2023-11-27 18:20:37 GMT (Monday 27th November 2023)"
+	revision: "26"
 
 class
 	EL_AES_CREDENTIAL
@@ -92,7 +92,7 @@ feature -- Element change
 			digest := other.digest
 		end
 
-	set_phrase (a_phrase: like phrase)
+	set_phrase (a_phrase: ZSTRING)
 		do
 			phrase := a_phrase
 		end
@@ -142,10 +142,10 @@ feature -- Factory
 
 feature {NONE} -- Implementation
 
-	actual_digest: like salt
+	actual_digest: like digest
 		local
 			md5: MD5; sha: SHA256
-			md5_hash, data, phrase_data: like salt
+			md5_hash, data, phrase_data: like digest
 			i, j: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			create sha.make
@@ -191,9 +191,9 @@ feature {NONE} -- Implementation
 
 feature {EL_AES_CREDENTIAL} -- Internal attributes
 
-	digest: like salt
+	digest: SPECIAL [NATURAL_8]
 
-	salt: SPECIAL [NATURAL_8]
+	salt: like digest
 
 feature {NONE} -- Evolicity fields
 

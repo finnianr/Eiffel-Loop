@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:12:14 GMT (Thursday 17th August 2023)"
-	revision: "19"
+	date: "2023-11-27 7:27:32 GMT (Monday 27th November 2023)"
+	revision: "20"
 
 class
 	EL_BOOK_CHAPTER
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 
 			h_tag := XML.tag ("h2")
 			text.edit (h_tag.open, h_tag.close, agent edit_heading_2)
-			text.edit (Src_attribute, char ('"') * 1, agent on_src_attribute)
+			text.edit (Src_attribute, char ('"'), agent on_src_attribute)
 		end
 
 feature -- Access

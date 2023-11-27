@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 16:40:10 GMT (Friday 24th November 2023)"
-	revision: "110"
+	date: "2023-11-27 7:29:20 GMT (Monday 27th November 2023)"
+	revision: "111"
 
 class
 	ZSTRING_TEST_SET
@@ -287,7 +287,7 @@ feature -- Appending tests
 						line_32 := list.item
 					end
 					line := line_32; str_32.append (line_32)
-					zstr.append_replaced (line, space * 1, entity)
+					zstr.append_replaced (line, space, entity)
 				end
 				str_32.replace_substring_all (space.as_string_32 (1), entity_32)
 				assert_same_string (Void, str_32, zstr)
@@ -1011,7 +1011,7 @@ feature -- Status query tests
 			across Text.lines as line_32 loop
 				line := line_32.item
 				create word_list.make_word_split (line)
-				assert ("word is in word_list", line.for_all_split (space * 1, agent word_list.has))
+				assert ("word is in word_list", line.for_all_split (space, agent word_list.has))
 			end
 		end
 
@@ -1183,7 +1183,7 @@ feature -- Status query tests
 				across word_list as word loop
 					assert (
 						"word is in word_list",
-						line.there_exists_split (space * 1, agent (word.item).is_equal)
+						line.there_exists_split (space, agent (word.item).is_equal)
 					)
 				end
 			end

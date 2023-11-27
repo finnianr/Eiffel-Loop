@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 8:59:30 GMT (Saturday 25th November 2023)"
-	revision: "96"
+	date: "2023-11-27 7:22:08 GMT (Monday 27th November 2023)"
+	revision: "97"
 
 class
 	EL_ZSTRING
@@ -150,8 +150,9 @@ create
 	make_from_utf_8, make_from_utf_16_le, make_from_latin_1_c
 
 convert
+--	from
 	make_from_general ({STRING_8, STRING_32, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}),
-
+--	to
 	to_string_32: {STRING_32}, to_latin_1: {STRING}
 
 feature -- Duplication

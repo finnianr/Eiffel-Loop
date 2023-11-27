@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:44:54 GMT (Thursday 17th August 2023)"
-	revision: "40"
+	date: "2023-11-27 7:05:27 GMT (Monday 27th November 2023)"
+	revision: "41"
 
 class
 	EL_TUPLE_ROUTINES
@@ -445,7 +445,7 @@ feature -- Basic operations
 			if extra_space then
 				write (tuple, writeable, Comma_space)
 			else
-				write (tuple, writeable, comma * 1)
+				write (tuple, writeable, comma)
 			end
 		end
 

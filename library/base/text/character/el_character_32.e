@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 6:31:54 GMT (Thursday 17th August 2023)"
-	revision: "4"
+	date: "2023-11-27 7:14:27 GMT (Monday 27th November 2023)"
+	revision: "5"
 
 class
 	EL_CHARACTER_32
@@ -23,7 +23,12 @@ create
 	make_8, make_32, default_create
 
 convert
-	make_8 ({CHARACTER_8}), make_32 ({CHARACTER_32}), item: {CHARACTER_32}
+-- to
+	make_8 ({CHARACTER_8}), make_32 ({CHARACTER_32}),
+
+-- from
+	to_string: {READABLE_STRING_GENERAL, ZSTRING, READABLE_STRING_32, EL_READABLE_ZSTRING},
+	item: {CHARACTER_32}
 
 feature {NONE} -- Initialization
 
@@ -64,4 +69,10 @@ feature -- Access
 		do
 			Result := Character_string_32_table.item (item, n)
 		end
+
+	to_string: ZSTRING
+		do
+			Result := multiplied (1)
+		end
+
 end

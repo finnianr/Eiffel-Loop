@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-30 8:21:00 GMT (Friday 30th June 2023)"
-	revision: "35"
+	date: "2023-11-27 7:17:53 GMT (Monday 27th November 2023)"
+	revision: "36"
 
 class
 	EL_DIR_PATH
@@ -49,8 +49,9 @@ create
 -- in `{PLAIN_TEXT_FILE}.file_open' for non-ascii characters
 
 convert
+--	from
 	make ({IMMUTABLE_STRING_8, ZSTRING, STRING, STRING_32}), make_from_path ({PATH}),
-
+--	to
 	to_string: {ZSTRING}, as_string_32: {READABLE_STRING_GENERAL, READABLE_STRING_32},
 	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:21:36 GMT (Thursday 17th August 2023)"
-	revision: "21"
+	date: "2023-11-27 7:13:26 GMT (Monday 27th November 2023)"
+	revision: "22"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -62,7 +62,7 @@ feature -- Access
 					lines.enable_shared_item
 					across lines as line until l_found loop
 						if line.item.has_substring (Digest_attribute) then
-							Result := line.item.substring_between (Digest_attribute, char ('"') * 1, 1).to_natural_32
+							Result := line.item.substring_between (Digest_attribute, char ('"'), 1).to_natural_32
 							l_found := True
 						end
 					end

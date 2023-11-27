@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:15:48 GMT (Thursday 9th November 2023)"
-	revision: "5"
+	date: "2023-11-27 7:05:54 GMT (Monday 27th November 2023)"
+	revision: "6"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 			utf_text: STRING
 		do
 			utf_text := a_text.to_utf_8
-			utf_text.replace_substring_all (Escaped_new_line, new_line * 1)
+			utf_text.replace_substring_all (Escaped_new_line, new_line)
 
 			if eiffel_array_output then
 				lio.put_labeled_string ("Key array", encrypter.out)

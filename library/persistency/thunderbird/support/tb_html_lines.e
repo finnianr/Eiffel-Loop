@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:20:24 GMT (Thursday 17th August 2023)"
-	revision: "3"
+	date: "2023-11-27 7:26:00 GMT (Monday 27th November 2023)"
+	revision: "4"
 
 class
 	TB_HTML_LINES
@@ -89,7 +89,7 @@ feature {NONE} -- Implementation
 			bracket_intervals: like intervals
 			right_bracket_pos: INTEGER
 		do
-			bracket_intervals := intervals (line, char ('<') * 1)
+			bracket_intervals := intervals (line, char ('<'))
 			if bracket_intervals.count = 2
 				and then line.is_substring_whitespace (1, bracket_intervals.first_lower - 1)
 				and then line.same_characters (Tag_close_start, 1, 2, bracket_intervals.last_lower)

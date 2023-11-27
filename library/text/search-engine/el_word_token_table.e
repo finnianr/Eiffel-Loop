@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 11:03:09 GMT (Sunday 27th August 2023)"
-	revision: "18"
+	date: "2023-11-27 7:00:07 GMT (Monday 27th November 2023)"
+	revision: "19"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -33,7 +33,7 @@ feature -- Initialization
 		do
 			Precursor (n)
 			create on_new_token_list.make
-			put (New_line * 1) -- paragraph separator for `New_line_token'
+			put (New_line) -- paragraph separator for `New_line_token'
 		end
 
 feature -- Access

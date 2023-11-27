@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 12:02:58 GMT (Saturday 24th June 2023)"
-	revision: "36"
+	date: "2023-11-27 7:17:29 GMT (Monday 27th November 2023)"
+	revision: "37"
 
 class
 	EL_FILE_PATH
@@ -25,9 +25,10 @@ create
 -- in `{PLAIN_TEXT_FILE}.file_open' for non-ascii characters
 
 convert
+--	from
 	make ({ZSTRING, STRING, STRING_32, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}),
 	make_from_path ({PATH}),
-
+--	to
 	to_string: {EL_ZSTRING}, as_string_32: {READABLE_STRING_GENERAL, READABLE_STRING_32},
 	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
 

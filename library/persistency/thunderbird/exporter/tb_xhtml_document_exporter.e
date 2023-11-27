@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:17:08 GMT (Thursday 17th August 2023)"
-	revision: "13"
+	date: "2023-11-27 7:26:58 GMT (Monday 27th November 2023)"
+	revision: "14"
 
 class
 	TB_XHTML_DOCUMENT_EXPORTER
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 	edit (html_doc: ZSTRING)
 		do
 			Precursor (html_doc)
-			html_doc.prepend_string_general (XML.header (1.0, "UTF-8") + New_line * 1)
+			html_doc.prepend_string_general (XML.header (1.0, "UTF-8") + New_line)
 			html_doc.edit ("content=%"text/html;", "%"", agent edit_content_type)
 		end
 

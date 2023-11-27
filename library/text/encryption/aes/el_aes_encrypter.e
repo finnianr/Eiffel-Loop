@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 17:02:39 GMT (Monday 13th November 2023)"
-	revision: "21"
+	date: "2023-11-27 18:54:24 GMT (Monday 27th November 2023)"
+	revision: "22"
 
 class
 	EL_AES_ENCRYPTER
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_BASE_64; EL_MODULE_DIGEST
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_STRING_GENERAL_ROUTINES
 
 create
 	default_create, make, make_from_key, make_from_other
@@ -43,9 +43,7 @@ feature {NONE} -- Initialization
 		local
 			size_bytes: INTEGER
 		do
-			across String_8_scope as scope loop
-				key_data := Digest.sha_256 (scope.copied_utf_8_item (pass_phrase))
-			end
+			key_data := Digest.sha_256 (as_zstring (pass_phrase).to_utf_8)
 			size_bytes := key_size_bits // 8
 			if size_bytes < key_data.count then
 				key_data.keep_head (size_bytes)

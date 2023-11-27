@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-11 14:02:34 GMT (Monday 11th September 2023)"
-	revision: "11"
+	date: "2023-11-27 7:09:37 GMT (Monday 27th November 2023)"
+	revision: "12"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
@@ -105,7 +105,7 @@ feature -- Element change
 			if a_text.ends_with_character ('%N') then
 				text := a_text
 			else
-				text := a_text + space * 1
+				text := a_text + space
 			end
 			extend (text, format.character)
 			character_count := character_count + text.count
@@ -113,11 +113,11 @@ feature -- Element change
 
 	append_new_line
 		do
-			if count > 0 and then last_text = new_line * 1 then
+			if count > 0 and then last_text = new_line.to_string then
 				finish
 				replace_text (new_line * 2)
 			else
-				extend (New_line * 1, New_line_format)
+				extend (New_line, New_line_format)
 			end
 			character_count := character_count + 1
 		end

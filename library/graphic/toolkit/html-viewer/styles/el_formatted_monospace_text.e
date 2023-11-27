@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 17:02:03 GMT (Thursday 17th August 2023)"
-	revision: "6"
+	date: "2023-11-27 7:09:59 GMT (Monday 27th November 2023)"
+	revision: "7"
 
 class
 	EL_FORMATTED_MONOSPACE_TEXT
@@ -52,8 +52,8 @@ feature -- Element change
 				--	Workaround for problem where bottom right hand character of preformmatted area seems to be missing
 				if count > 0 and then last_text = New_line * 2 then
 					finish
-					replace (New_line * 1, format.character)
-					extend (New_line * 1, New_line_format)
+					replace (New_line, format.character)
+					extend (New_line, New_line_format)
 				end
 			end
 		end

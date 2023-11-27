@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:14:08 GMT (Thursday 17th August 2023)"
-	revision: "17"
+	date: "2023-11-27 7:27:09 GMT (Monday 27th November 2023)"
+	revision: "18"
 
 class
 	TB_XHTML_BODY_EXPORTER
@@ -116,7 +116,7 @@ feature {NONE} -- Editing routines
 			h2_content.replace_character ('%N', ' ')
 			if h2_content.has ('<') then
 --				Remove formatting markup from headers like: <h2>Introduction to <i>My Ching</i></h2>
-				h2_content.edit (char ('<') * 1, char ('>') * 1, agent remove_markup)
+				h2_content.edit (char ('<'), char ('>'), agent remove_markup)
 			end
 			target.replace_substring (h2_content, start_index, target.count - 5)
 			target.share (Anchor_template #$ [Html.anchor_name (h2_content), target])

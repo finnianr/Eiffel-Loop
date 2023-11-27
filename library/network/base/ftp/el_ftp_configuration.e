@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 7:35:22 GMT (Friday 25th August 2023)"
-	revision: "14"
+	date: "2023-11-27 17:02:53 GMT (Monday 27th November 2023)"
+	revision: "15"
 
 class
 	EL_FTP_CONFIGURATION
@@ -82,7 +82,7 @@ feature -- Element change
 				if attached passphrase as pp then
 					credential.set_phrase (pp)
 					if not credential.is_valid then
-						authenticate (Void)
+						crypto.validate (credential)
 					end
 				else
 					crypto.validate (credential)

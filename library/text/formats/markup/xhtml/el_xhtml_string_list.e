@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:38:07 GMT (Thursday 17th August 2023)"
-	revision: "26"
+	date: "2023-11-27 7:25:47 GMT (Monday 27th November 2023)"
+	revision: "27"
 
 class
 	EL_XHTML_STRING_LIST
@@ -28,7 +28,7 @@ inherit
 		end
 
 	EL_STRING_GENERAL_ROUTINES
-	
+
 	XML_ZSTRING_CONSTANTS
 
 create
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 
 			create substitution_list.make_from_array (<<
 				[as_zstring ("&nbsp;"), XML.entity (' ')],
-				[Tab * 1,					XML.entity (Tab.item)],
+				[Tab.to_string,			XML.entity (Tab.item)],
 				[as_zstring ("<br>"),   break_tag]
 			>>)
 			create line_source.make_utf_8 (file_path)

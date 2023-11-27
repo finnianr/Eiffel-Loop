@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 17:11:18 GMT (Thursday 17th August 2023)"
-	revision: "31"
+	date: "2023-11-27 7:28:33 GMT (Monday 27th November 2023)"
+	revision: "32"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -107,7 +107,7 @@ feature -- Access
 			scalar: NATURAL
 		do
 			scalar := 1_000_000
-			if attached server_software.substring_between (char ('/') * 1, space * 1, 1) as substring then
+			if attached server_software.substring_between (char ('/'), space, 1) as substring then
 				across substring.split ('.') as list loop
 					Result := Result + scalar * list.item.to_natural
 					scalar := scalar // 1000

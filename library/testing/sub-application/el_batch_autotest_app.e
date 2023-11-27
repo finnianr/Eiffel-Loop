@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 14:14:49 GMT (Saturday 25th November 2023)"
-	revision: "7"
+	date: "2023-11-27 7:23:58 GMT (Monday 27th November 2023)"
+	revision: "8"
 
 class
 	EL_BATCH_AUTOTEST_APP
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 			cmd_list: EL_ZSTRING_LIST
 		do
 			if attached {EL_AUTOTEST_APPLICATION} application as test_app then
-				create cmd_list.make_from_general (<< hyphen * 1 + application.option_name >>)
+				create cmd_list.make_from_general (<< hyphen.to_string + application.option_name >>)
 				call_command (cmd_list)
 			end
 		end

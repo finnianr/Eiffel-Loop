@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:44:34 GMT (Thursday 17th August 2023)"
-	revision: "24"
+	date: "2023-11-27 7:12:58 GMT (Monday 27th November 2023)"
+	revision: "25"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -145,7 +145,7 @@ feature {NONE} -- Implementation
 
 	uninstall_option: ZSTRING
 		do
-			Result := hyphen * 1 + uninstall_app.Option_name
+			Result := hyphen.to_string + uninstall_app.Option_name
 		end
 
 feature {NONE} -- Internal attributes

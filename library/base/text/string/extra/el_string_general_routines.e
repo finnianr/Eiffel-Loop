@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 13:46:37 GMT (Saturday 25th November 2023)"
-	revision: "3"
+	date: "2023-11-27 18:56:42 GMT (Monday 27th November 2023)"
+	revision: "4"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES
@@ -40,11 +40,13 @@ feature {NONE} -- Implementation
 		do
 			inspect Class_id.character_bytes (general)
 				when 'X' then
-					if attached {ZSTRING} general as zstr then
+					if attached {EL_READABLE_ZSTRING} general as zstr then
 						Result := zstr.to_general
 					end
 			else
 				Result := general
 			end
+		ensure
+			not_zstring: not attached {EL_READABLE_ZSTRING} Result
 		end
 end

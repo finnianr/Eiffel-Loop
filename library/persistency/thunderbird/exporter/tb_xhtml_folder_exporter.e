@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:32:07 GMT (Thursday 9th November 2023)"
-	revision: "36"
+	date: "2023-11-27 7:26:38 GMT (Monday 27th November 2023)"
+	revision: "37"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -88,13 +88,13 @@ feature {NONE} -- Implementation
 
 			-- Change <br> to <br/>
 			across Unclosed_tags as l_tag loop
-				html_doc.edit (l_tag.item, char ('>') * 1, agent close_empty_tag)
+				html_doc.edit (l_tag.item, char ('>'), agent close_empty_tag)
 			end
-			html_doc.edit (char ('&') * 1, char (';') * 1, agent substitute_html_entities)
-			html_doc.edit (Tag_start.image, char ('>') * 1, agent edit_image_tag)
-			html_doc.edit (Tag_start.anchor, char ('>') * 1, agent edit_anchor_tag)
+			html_doc.edit (char ('&'), char (';'), agent substitute_html_entities)
+			html_doc.edit (Tag_start.image, char ('>'), agent edit_image_tag)
+			html_doc.edit (Tag_start.anchor, char ('>'), agent edit_anchor_tag)
 			across << Attribute_start.alt, Attribute_start.title >> as start loop
-				html_doc.edit (start.item, char ('"') * 1, agent normalize_attribute_text)
+				html_doc.edit (start.item, char ('"'), agent normalize_attribute_text)
 			end
 		end
 
@@ -222,7 +222,7 @@ feature {NONE} -- Editing
 			pos_trailing: INTEGER; trailing: ZSTRING
 		do
 			if is_tag_start (start_index, end_index, target) then
-	 			pos_trailing := target.substring_index (char ('>') * 1, start_index) + 1
+	 			pos_trailing := target.substring_index (char ('>'), start_index) + 1
 	 			if target.substring_index (Tag.break.open, pos_trailing) > 0 then
 		 			trailing := target.substring (pos_trailing, end_index)
 		 			trailing.replace_substring_all (Tag.break.open, Empty_string)

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 10:42:55 GMT (Sunday 12th November 2023)"
-	revision: "30"
+	date: "2023-11-27 7:28:17 GMT (Monday 27th November 2023)"
+	revision: "31"
 
 class
 	EL_TEST_TEXT
@@ -143,7 +143,7 @@ feature -- Lists
 			create Result.make (5)
 			across << Euro_symbol, G_clef [1], Mu_symbol, Dollor_symbol, Tab_character >> as c loop
 				uc := c.item
-				Result.extend (uc * 1)
+				Result.extend (uc.to_string)
 			end
 		end
 

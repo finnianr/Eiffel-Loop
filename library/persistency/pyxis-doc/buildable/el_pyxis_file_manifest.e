@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 13:16:47 GMT (Monday 28th August 2023)"
-	revision: "1"
+	date: "2023-11-27 7:25:11 GMT (Monday 27th November 2023)"
+	revision: "2"
 
 class
 	EL_PYXIS_FILE_MANIFEST
@@ -107,7 +107,7 @@ feature {NONE} -- Build from Pyxis
 		do
 			if location_dir.exists then
 				file_path := location_dir + node.adjusted (False)
-				if file_path.base ~ char ('*') * 1 then
+				if file_path.base ~ char ('*') then
 					parent_dir := file_path.parent
 					if parent_dir.exists then
 						if attached file_extension as extension then

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 12:36:07 GMT (Saturday 25th November 2023)"
-	revision: "76"
+	date: "2023-11-27 7:11:56 GMT (Monday 27th November 2023)"
+	revision: "77"
 
 deferred class
 	EL_APPLICATION
@@ -152,7 +152,7 @@ feature -- Basic operations
 	print_platform_help (indent_count: INTEGER)
 		do
 			lio.put_labeled_substitution (
-				hyphen * 1 + option_name, "this option is not designed for use on %S", [ OS_release.description]
+				hyphen.to_string + option_name, "this option is not designed for use on %S", [ OS_release.description]
 			)
 			lio.put_new_line
 		end

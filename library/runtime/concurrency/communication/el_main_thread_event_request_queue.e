@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-11-27 13:19:29 GMT (Monday 27th November 2023)"
+	revision: "12"
 
 deferred class
 	EL_MAIN_THREAD_EVENT_REQUEST_QUEUE
 
 inherit
 	EL_THREAD_ACCESS [ARRAYED_LIST [EL_EVENT_LISTENER]]
+
+	EL_SHARED_DEFAULT_LISTENER
 
 feature -- Element change
 
@@ -27,7 +29,7 @@ feature -- Element change
 		do
 			if attached restricted_access (Listener_pool) as pool then
 				event_listener := pool [index]
-				pool [index] := Default_event_listener
+				pool [index] := Default_listener
 
 				end_restriction
 			end
@@ -41,7 +43,7 @@ feature -- Element change
 		do
 			if attached restricted_access (Listener_pool) as pool then
 				pool.start
-				pool.search (Default_event_listener)
+				pool.search (Default_listener)
 				if pool.exhausted then
 					pool.extend (event_listener)
 				else
@@ -84,16 +86,10 @@ feature {NONE} -- Implementation
 
 	the_default (i: INTEGER): EL_EVENT_LISTENER
 		do
-			Result := Default_event_listener
+			Result := Default_listener
 		end
 
 feature {NONE} -- Constants
-
-	Default_event_listener: EL_DEFAULT_EVENT_LISTENER
-			--
-		once ("PROCESS")
-			create Result
-		end
 
 	Listener_pool: EL_MUTEX_REFERENCE [ARRAYED_LIST [EL_EVENT_LISTENER]]
 			-- Can't assume OS will return them in the same order
