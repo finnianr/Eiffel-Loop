@@ -5,10 +5,11 @@ note
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
-			inspect area [i] (i > area_upper)  :  8111750.0 times (100%)
-			inspect branching (i = i_final)    :  6682035.0 times (-17.6%)
-			inspect branching (i > area_upper) :  6656139.0 times (-17.9%)
-			if branching                       :   859713.0 times (-89.4%)
+			inspect c (i > area_upper)     :  7723081.0 times (100%)
+			inspect c (i = i_final)        :  7710823.0 times (-0.2%)
+			inspect c [i] (i > area_upper) :  7681708.0 times (-0.5%)
+			if c [i] = Substitute then     :   847092.0 times (-89.0%)
+			if c = Substitute then         :   846940.0 times (-89.0%)
 	]"
 
 	author: "Finnian Reilly"
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 19:23:27 GMT (Monday 27th November 2023)"
-	revision: "18"
+	date: "2023-11-27 19:32:28 GMT (Monday 27th November 2023)"
+	revision: "19"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
