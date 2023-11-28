@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 8:17:35 GMT (Wednesday 16th August 2023)"
-	revision: "6"
+	date: "2023-11-28 10:04:11 GMT (Tuesday 28th November 2023)"
+	revision: "7"
 
 class
 	EL_SECURE_KEY_FILE
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 			else
 				make_default
 				phrase := User_input.line (Text.secure_file_prompt #$ [a_key_path.base])
-				create credential.make (phrase)
+				create credential.make_valid (phrase)
 				File_system.make_directory (xml_path.parent)
 				file_path := xml_path
 				store
@@ -81,8 +81,8 @@ feature -- Basic operations
 			user: EL_USER_CRYPTO_OPERATIONS
 		do
 			if not secure_path.exists then
-				if not credential.is_phrase_set then
-					user.validate (credential)
+				if not credential.is_valid then
+					user.validate (credential, Void)
 				end
 				create secure_file.make_open_write (secure_path, credential.new_aes_encrypter (256))
 				secure_file.put_data (File.data (key_path))
@@ -107,7 +107,7 @@ feature -- Basic operations
 			user: EL_USER_CRYPTO_OPERATIONS
 		do
 			if is_locked then
-				user.validate (credential)
+				user.validate (credential, Void)
 				create secure_file.make_open_read (secure_path, credential.new_aes_encrypter (256))
 				create key_file.make_open_write (key_path)
 				if attached secure_file.plain_data as data then

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:05:54 GMT (Monday 27th November 2023)"
-	revision: "6"
+	date: "2023-11-28 10:03:47 GMT (Tuesday 28th November 2023)"
+	revision: "7"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -95,27 +95,24 @@ feature -- Basic operations
 			new_validated_credential.display (lio)
 		end
 
-	validate (credential: EL_AES_CREDENTIAL)
-		local
-			done: BOOLEAN; prompt: READABLE_STRING_GENERAL
+	validate (credential: EL_AES_CREDENTIAL; valid_phrase_out: detachable ZSTRING)
+		-- validate `credential' and set `valid_phrase_out' to valid phrase if attached
 		do
-			if attached Validation_prompt.item as p then
-				prompt := p
-			else
-				prompt := Text.enter_passphrase
-			end
-			from until done loop
-				credential.set_phrase (User_input.line (prompt))
-				lio.put_new_line
-				if credential.is_salt_set then
+			from until credential.is_valid loop
+				if attached new_input_phrase as phrase then
+					lio.put_new_line
+					if credential.is_salt_set then
+						credential.try_validating (phrase)
+					else
+						credential.force_validation (phrase)
+					end
 					if credential.is_valid then
-						done := True
+						if attached valid_phrase_out as phrase_out then
+							phrase_out.copy (phrase)
+						end
 					else
 						lio.put_line (Text.passphrase_is_invalid)
 					end
-				else
-					credential.validate
-					done := True
 				end
 			end
 			Validation_prompt.put (Void)
@@ -275,10 +272,23 @@ feature {NONE} -- Factory
 			lio.put_new_line
 		end
 
+	new_input_phrase: ZSTRING
+		local
+			prompt: READABLE_STRING_GENERAL
+		do
+			if attached Validation_prompt.item as p then
+				prompt := p
+			else
+				prompt := Text.enter_passphrase
+			end
+			Result := User_input.line (prompt)
+			lio.put_new_line
+		end
+
 	new_validated_credential: EL_AES_CREDENTIAL
 		do
-			create Result.make_default
-			validate (Result)
+			create Result.make
+			validate (Result, Void)
 		end
 
 feature {NONE} -- Constants

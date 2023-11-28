@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 8:33:15 GMT (Wednesday 16th August 2023)"
-	revision: "1"
+	date: "2023-11-28 9:29:25 GMT (Tuesday 28th November 2023)"
+	revision: "2"
 
 expanded class
 	EL_RSA_USER_CRYPTO_OPERATIONS
@@ -26,25 +26,25 @@ feature -- Basic operations
 	export_x509_private_key_to_aes
 		local
 			key_file_path, export_path: FILE_PATH; key_reader: like x509_certificate.private_reader
-			credential: like new_validated_credential; key_read: BOOLEAN
-			key: EL_RSA_PRIVATE_KEY
+			key_read: BOOLEAN; key: EL_RSA_PRIVATE_KEY; phrase: ZSTRING
 		do
 			key_file_path := new_drag_and_drop ("private X509", Extension.key)
 			from until key_read loop
-				credential := new_validated_credential
-				key_reader := X509_certificate.private_reader (key_file_path, credential.phrase)
+				phrase := new_input_phrase
+				key_reader := X509_certificate.private_reader (key_file_path, phrase)
 				key_reader.execute
 				if key_reader.has_error then
 					key_reader.print_error ("exporting")
 				else
 					key_read := True
+					Validation_prompt.put (Void)
 				end
 			end
 			if key_read then
 				key := key_reader.private_key
 				export_path := key_file_path.twin
 				export_path.add_extension (Extension.dat)
-				key.store (export_path, create {EL_AES_ENCRYPTER}.make (credential.phrase, new_bit_count))
+				key.store (export_path, create {EL_AES_ENCRYPTER}.make (phrase, new_bit_count))
 			end
 		end
 

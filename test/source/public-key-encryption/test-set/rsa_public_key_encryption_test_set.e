@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:25:13 GMT (Tuesday 15th August 2023)"
-	revision: "13"
+	date: "2023-11-28 9:20:18 GMT (Tuesday 28th November 2023)"
+	revision: "14"
 
 class
 	RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
@@ -53,11 +53,11 @@ feature -- Tests
 			else
 				lio.put_path_field ("Reading", file_list.first_path)
 				lio.put_new_line
-				key_1 := X509_certificate.private (file_list.first_path, Credential.phrase)
+				key_1 := X509_certificate.private (file_list.first_path, Phrase)
 				assert ("key read", not key_1.is_default)
 				assert_key_identity (key_1)
 
-				create encrypter.make (Credential.phrase, 128)
+				create encrypter.make (Phrase, 128)
 				create reader_writer.make (encrypter)
 				output_path := file_list.first_path.with_new_extension ("aes")
 				lio.put_path_field ("Writing", output_path)
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 			else
 				lio.put_path_field ("Reading", file_list.first_path)
 				lio.put_new_line
-				Result := X509_certificate.private_reader (file_list.first_path, Credential.phrase)
+				Result := X509_certificate.private_reader (file_list.first_path, Phrase)
 				Result.execute
 				assert ("key read", not Result.has_error)
 			end
@@ -106,8 +106,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Credential: EL_AES_CREDENTIAL
-		once
-			create Result.make ("hanami")
-		end
+	Phrase: STRING = "hanami"
+
 end

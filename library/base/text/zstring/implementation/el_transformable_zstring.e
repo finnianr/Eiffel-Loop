@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:23:43 GMT (Monday 27th November 2023)"
-	revision: "57"
+	date: "2023-11-28 12:16:33 GMT (Tuesday 28th November 2023)"
+	revision: "58"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -33,6 +33,12 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 	enclose (left, right: CHARACTER_32)
 		do
 			current_readable.copy (current_readable.enclosed (left, right))
+		end
+
+	fill_blank
+		-- Fill with `count' blank characters.
+		do
+			fill_character (' ')
 		end
 
 	fill_character (uc: CHARACTER_32)

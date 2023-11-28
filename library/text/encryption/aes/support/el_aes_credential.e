@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 18:20:37 GMT (Monday 27th November 2023)"
-	revision: "26"
+	date: "2023-11-28 17:28:34 GMT (Tuesday 28th November 2023)"
+	revision: "27"
 
 class
 	EL_AES_CREDENTIAL
@@ -19,8 +19,10 @@ inherit
 		end
 
 	EVOLICITY_EIFFEL_CONTEXT
+		rename
+			make_default as make
 		redefine
-			make_default
+			make
 		end
 
 	EL_AES_CONSTANTS
@@ -28,26 +30,28 @@ inherit
 			{ANY} valid_key_bit_count
 		end
 
-	EL_MODULE_BASE_64
+	EL_SHARED_DEFAULT_LISTENER
+
+	EL_MODULE_BASE_64; EL_MODULE_DIGEST; EL_MODULE_ENCRYPTION
 
 create
-	make, make_default
+	make_valid, make
 
 feature {NONE} -- Initialization
 
-	make (a_phrase: like phrase)
+	make_valid (a_phrase: READABLE_STRING_GENERAL)
 		do
-			make_default
-			set_phrase (a_phrase)
-			validate
+			make
+			force_validation (a_phrase)
 		end
 
-	make_default
+	make
 		do
 			Precursor
-			create phrase.make_empty
 			create salt.make_empty (0)
-			create digest.make_filled (1, 32)
+			create target.make_filled (1, 32)
+			create key_data.make_empty (0)
+			on_validation := Default_listener
 		end
 
 feature -- Access
@@ -55,11 +59,8 @@ feature -- Access
 	digest_base_64: STRING
 		-- pass phrase authentication digest
 		do
-			Result := Base_64.encoded_special (digest, False)
+			Result := Base_64.encoded_special (target, False)
 		end
-
-	phrase: ZSTRING
-		-- pass phrase
 
 	salt_base_64: STRING
 		do
@@ -80,21 +81,23 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_digest (a_digest_base_64: STRING)
+	force_validation (a_phrase: READABLE_STRING_GENERAL)
 		do
-			digest := Base_64.decoded_special (a_digest_base_64)
+			if attached Encryption.new_utf_8_phrase (a_phrase) as phrase_utf_8 then
+				set_random_salt
+				target := new_salted (phrase_utf_8)
+				key_data := Digest.sha_256 (phrase_utf_8)
+				on_validation.notify
+				phrase_utf_8.fill_blank
+			end
+		ensure
+			validated: is_valid
+			restorable: new_restored_credential (a_phrase).is_valid
 		end
 
 	set_from_other (other: EL_AES_CREDENTIAL)
 		do
-			phrase := other.phrase
-			salt := other.salt
-			digest := other.digest
-		end
-
-	set_phrase (a_phrase: ZSTRING)
-		do
-			phrase := a_phrase
+			salt := other.salt; target := other.target; key_data := other.key_data
 		end
 
 	set_salt (a_salt_base_64: STRING)
@@ -102,23 +105,37 @@ feature -- Element change
 			salt := Base_64.decoded_special (a_salt_base_64)
 		end
 
-	validate
-		-- set `salt' and `digest'
-		require
-			phrase_set: is_phrase_set
+	set_target (a_digest_base_64: STRING)
 		do
-			set_random_salt
-			digest := actual_digest
+			target := Base_64.decoded_special (a_digest_base_64)
+		end
+
+	set_validation_action (action: PROCEDURE)
+		do
+			create {EL_AGENT_EVENT_LISTENER} on_validation.make (action)
+		end
+
+	set_validation_listener (listener: EL_EVENT_LISTENER)
+		do
+			on_validation := listener
+		end
+
+	try_validating (a_phrase: READABLE_STRING_GENERAL)
+		require
+			salt_is_set: is_salt_set
+		do
+			if attached Encryption.new_utf_8_phrase (a_phrase) as phrase_utf_8 then
+				if target ~ new_salted (phrase_utf_8) then
+					key_data := Digest.sha_256 (phrase_utf_8)
+					on_validation.notify
+				end
+				phrase_utf_8.fill_blank
+			end
 		ensure
-			is_valid: is_valid
+			restorable: is_valid implies new_restored_credential (a_phrase).is_valid
 		end
 
 feature -- Status query
-
-	is_phrase_set: BOOLEAN
-		do
-			Result := phrase.count > 0
-		end
 
 	is_salt_set: BOOLEAN
 		do
@@ -127,7 +144,7 @@ feature -- Status query
 
 	is_valid: BOOLEAN
 		do
-			Result := is_salt_set and then digest ~ actual_digest
+			Result := key_data.count > 0
 		end
 
 feature -- Factory
@@ -137,22 +154,31 @@ feature -- Factory
 			valid_pass_phrase: is_valid
 			valid_bit_count: valid_key_bit_count (bit_count)
 		do
-			create Result.make (phrase, bit_count)
+			create Result.make_sized (key_data, bit_count)
+		end
+
+	new_restored_credential (a_phrase: READABLE_STRING_GENERAL): EL_AES_CREDENTIAL
+		-- contract support
+		do
+			create Result.make
+			Result.set_target (digest_base_64)
+			Result.set_salt (salt_base_64)
+			Result.try_validating (a_phrase)
 		end
 
 feature {NONE} -- Implementation
 
-	actual_digest: like digest
+	new_salted (phrase_utf_8: STRING_8): like target
 		local
 			md5: MD5; sha: SHA256
-			md5_hash, data, phrase_data: like digest
+			md5_hash, data, phrase_data: like target
 			i, j: INTEGER; s: EL_STRING_8_ROUTINES
 		do
 			create sha.make
 			create Result.make_filled (1, 32)
 			create md5.make
 			create md5_hash.make_filled (1, 16)
-			phrase_data := s.to_code_array (phrase.to_utf_8)
+			phrase_data := s.to_code_array (phrase_utf_8)
 			from i := 0 until i > 50 loop
 				if i \\ 2 = 0 then
 					data := phrase_data
@@ -191,9 +217,15 @@ feature {NONE} -- Implementation
 
 feature {EL_AES_CREDENTIAL} -- Internal attributes
 
-	digest: SPECIAL [NATURAL_8]
+	key_data: SPECIAL [NATURAL_8]
+		-- key data for AES encrypter from validated pass phrase
 
-	salt: like digest
+	on_validation: EL_EVENT_LISTENER
+
+	salt: like target
+
+	target: SPECIAL [NATURAL_8]
+		-- target digest for validation
 
 feature {NONE} -- Evolicity fields
 

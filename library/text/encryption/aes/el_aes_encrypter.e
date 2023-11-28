@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 18:54:24 GMT (Monday 27th November 2023)"
-	revision: "22"
+	date: "2023-11-28 16:23:00 GMT (Tuesday 28th November 2023)"
+	revision: "23"
 
 class
 	EL_AES_ENCRYPTER
@@ -22,10 +22,13 @@ inherit
 
 	EL_MODULE_BASE_64; EL_MODULE_DIGEST
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_MODULE_ENCRYPTION
+		rename
+			encryption as Mod_encryption
+		end
 
 create
-	default_create, make, make_from_key, make_from_other
+	default_create, make, make_from_key, make_sized, make_from_other
 
 feature {NONE} -- Initialization
 
@@ -36,19 +39,27 @@ feature {NONE} -- Initialization
 			is_default: is_default
 		end
 
-	make (pass_phrase: READABLE_STRING_GENERAL; key_size_bits: INTEGER)
-			--
+	make (a_phrase: READABLE_STRING_GENERAL; key_size_bits: INTEGER)
+		require
+			phrase_has_content: a_phrase.count > 0
+			valid_key_size: valid_key_bit_count (key_size_bits)
+		do
+			if attached Mod_encryption.new_utf_8_phrase (a_phrase) as utf_8 then
+				make_sized (Digest.sha_256 (utf_8), key_size_bits)
+				utf_8.fill_blank
+			end
+		end
+
+	make_sized (a_key_data: like new_block; key_size_bits: INTEGER)
 		require
 			valid_key_size: valid_key_bit_count (key_size_bits)
-		local
-			size_bytes: INTEGER
+			enough_data: a_key_data.count >= key_size_bits // 8
 		do
-			key_data := Digest.sha_256 (as_zstring (pass_phrase).to_utf_8)
-			size_bytes := key_size_bits // 8
-			if size_bytes < key_data.count then
-				key_data.keep_head (size_bytes)
+			if a_key_data.count = key_size_bits // 8 then
+				make_from_key (a_key_data)
+			else
+				make_from_key (a_key_data.resized_area (key_size_bits // 8))
 			end
-			make_from_key (key_data)
 		end
 
 	make_from_key (a_key_data: like new_block)

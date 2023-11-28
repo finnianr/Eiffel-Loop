@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-27 7:43:32 GMT (Friday 27th October 2023)"
-	revision: "25"
+	date: "2023-11-28 16:53:43 GMT (Tuesday 28th November 2023)"
+	revision: "26"
 
 class
 	EL_UUID
@@ -41,7 +41,8 @@ create
 	make_default, make, make_from_string_general, make_from_string, make_from_array, make_from_other
 
 convert
-	make_from_other ({UUID})
+--	from
+	make_from_other ({UUID}), make_from_string ({STRING}), make_from_string_general ({ZSTRING, STRING_32})
 
 feature {NONE} -- Implementation
 

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:22:08 GMT (Monday 27th November 2023)"
-	revision: "97"
+	date: "2023-11-28 17:45:28 GMT (Tuesday 28th November 2023)"
+	revision: "98"
 
 class
 	EL_ZSTRING
@@ -38,14 +38,13 @@ inherit
 				append_string, append, append_string_general, append_substring, append_substring_general,
 				append_utf_8, append_utf_16_le, append_encoded, append_encodeable, append_encoded_any,
 				append_tuple_item, append_unicode,
-				extend, enclose, fill_character, multiply,
+				extend, enclose, fill_blank, fill_character, multiply,
 
 				prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
 				prepend_real_32, prepend_real, prepend_real_64, prepend_double, prepend_substring,
 				prepend, prepend_string, prepend_string_general, prepend_ascii,
 
-				precede, put_unicode, quote,
-				translate,
+				precede, put_unicode, quote, translate,
 --				Transformation
 				crop, expand_tabs, mirror, replace_character, replace_delimited_substring,
 				replace_delimited_substring_general, replace_substring, replace_substring_all, replace_substring_general,

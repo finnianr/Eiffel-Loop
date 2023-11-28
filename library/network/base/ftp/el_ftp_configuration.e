@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 17:02:53 GMT (Monday 27th November 2023)"
-	revision: "15"
+	date: "2023-11-28 10:03:47 GMT (Tuesday 28th November 2023)"
+	revision: "16"
 
 class
 	EL_FTP_CONFIGURATION
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			create credential.make_default
+			create credential.make
 			create url.make (Empty_string_8)
 		end
 
@@ -80,12 +80,11 @@ feature -- Element change
 		do
 			if attached encrypted_url as cipher then
 				if attached passphrase as pp then
-					credential.set_phrase (pp)
 					if not credential.is_valid then
-						crypto.validate (credential)
+						crypto.validate (credential, Void)
 					end
 				else
-					crypto.validate (credential)
+					crypto.validate (credential, Void)
 				end
 				create url.make (credential.new_aes_encrypter (256).decrypted_base_64 (cipher))
 				encrypted_url := Void -- reclaim

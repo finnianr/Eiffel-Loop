@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:43:06 GMT (Wednesday 8th November 2023)"
-	revision: "17"
+	date: "2023-11-28 17:47:00 GMT (Tuesday 28th November 2023)"
+	revision: "18"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -20,7 +20,7 @@ inherit
 			{ANY} valid_key_bit_count
 		end
 
-	EL_MODULE_BASE_64
+	EL_MODULE_BASE_64; EL_MODULE_DIGEST
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
@@ -47,11 +47,31 @@ feature -- Conversion
 
 feature -- Factory
 
-	new_aes_encrypter (pass_phrase: ZSTRING; bit_count: INTEGER): EL_AES_ENCRYPTER
+	new_aes_encrypter (pass_phrase: READABLE_STRING_GENERAL; bit_count: INTEGER): EL_AES_ENCRYPTER
 		require
 			valid_bit_count: valid_key_bit_count (bit_count)
 		do
 			create Result.make (pass_phrase, bit_count)
+		end
+
+	new_key_data (a_phrase: READABLE_STRING_GENERAL): SPECIAL [NATURAL_8]
+		-- securely created key data
+		do
+			if attached new_utf_8_phrase (a_phrase) as phrase_utf_8 then
+				Result := Digest.sha_256 (phrase_utf_8)
+				phrase_utf_8.fill_blank -- erase in memory
+			end
+		end
+
+	new_utf_8_phrase (a_phrase: READABLE_STRING_GENERAL): STRING
+		-- securely create UTF-8 encoding of `a_phrase'
+		-- see `new_key_data' for usage example
+		local
+			l_phrase: ZSTRING
+		do
+			create l_phrase.make_from_general (a_phrase)
+			Result := l_phrase.to_utf_8
+			l_phrase.fill_blank -- erase in memory
 		end
 
 feature {NONE} -- Implementation
