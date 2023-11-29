@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-26 7:50:36 GMT (Monday 26th June 2023)"
-	revision: "24"
+	date: "2023-11-29 10:07:53 GMT (Wednesday 29th November 2023)"
+	revision: "25"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -26,19 +26,16 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_SHARED_APPLICATION_LIST
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_OS
 
-	EL_DEBIAN_CONSTANTS
-
-	EL_MODULE_BUILD_INFO; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO
-	EL_MODULE_OS; EL_MODULE_FILE
+	EL_SHARED_APPLICATION_LIST; EL_SHARED_SOFTWARE_VERSION
 
 	EL_SHARED_DIRECTORY
 		rename
 			Directory as Shared_directory
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_DEBIAN_CONSTANTS
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -121,7 +118,7 @@ feature {EL_DEBIAN_MAKE_SCRIPT} -- Implementation
 
 	package_name_parts: EL_ZSTRING_LIST
 		do
-			create Result.make_from_array (<< package, architecture, Build_info.version.string >>)
+			create Result.make_from_array (<< package, architecture, Software_version.string >>)
 		end
 
 	package_sub_dir (absolute_dir: DIR_PATH): DIR_PATH

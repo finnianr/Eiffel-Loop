@@ -655,3 +655,6 @@ Fixed void target in class ECD_STORABLE_ARRAYED_LIST and refactored ECD_RECOVERA
 Mon 20th Nov 2023, 20:10:58
 Optimization of EL_REFLECTED_FIELD and related classes
 
+Tue 28th Nov 2023, 17:54:34
+Made passphrase handling more secure by erasing in memory
+

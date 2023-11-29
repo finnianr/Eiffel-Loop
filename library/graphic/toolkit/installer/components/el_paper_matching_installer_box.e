@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 12:00:30 GMT (Friday 7th July 2023)"
-	revision: "12"
+	date: "2023-11-29 10:13:01 GMT (Wednesday 29th November 2023)"
+	revision: "13"
 
 class
 	EL_PAPER_MATCHING_INSTALLER_BOX
@@ -18,9 +18,7 @@ inherit
 			make as make_installer_box
 		end
 
-	EL_MODULE_BUILD_INFO
-
-	EL_SHARED_WORD; EL_SHARED_PAPER_DIMENSIONS
+	EL_SHARED_WORD; EL_SHARED_PAPER_DIMENSIONS; EL_SHARED_SOFTWARE_VERSION
 
 create
 	make
@@ -54,7 +52,7 @@ feature {NONE} -- Factory
 	new_button_box: EL_HORIZONTAL_BOX
 		do
 			create Result.make_unexpanded (0, 0.3, <<
-				Vision_2.new_label_with_font ("Version: " + Build_info.version.out, new_font (Size.tiny)),
+				Vision_2.new_label_with_font ("Version: " + Software_version.out, new_font (Size.tiny)),
 				create {EL_EXPANDED_CELL}, next_button, cancel_button
 			>>)
 		end

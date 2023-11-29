@@ -6,18 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 17:28:34 GMT (Tuesday 28th November 2023)"
-	revision: "27"
+	date: "2023-11-29 9:18:21 GMT (Wednesday 29th November 2023)"
+	revision: "28"
 
 class
 	EL_AES_CREDENTIAL
 
 inherit
-	UUID_GENERATOR
-		export
-			{NONE} all
-		end
-
 	EVOLICITY_EIFFEL_CONTEXT
 		rename
 			make_default as make
@@ -56,7 +51,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	digest_base_64: STRING
+	target_base_64: STRING
 		-- pass phrase authentication digest
 		do
 			Result := Base_64.encoded_special (target, False)
@@ -71,11 +66,9 @@ feature -- Basic operations
 
 	display (log: EL_LOGGABLE)
 		do
-			log.put_labeled_string ("Salt", salt_base_64)
-			log.put_new_line
-			log.put_labeled_string ("Digest", digest_base_64)
-			log.put_new_line
-			log.put_labeled_string ("Is valid", is_valid.out)
+			log.put_field_list (100, <<
+				["Salt", salt_base_64], ["Target digest", target_base_64], ["Is valid", is_valid.out]
+			>>)
 			log.put_new_line
 		end
 
@@ -84,8 +77,8 @@ feature -- Element change
 	force_validation (a_phrase: READABLE_STRING_GENERAL)
 		do
 			if attached Encryption.new_utf_8_phrase (a_phrase) as phrase_utf_8 then
-				set_random_salt
-				target := new_salted (phrase_utf_8)
+				salt := Digest.new_random_salt
+				target := Digest.new_salted (phrase_utf_8, salt)
 				key_data := Digest.sha_256 (phrase_utf_8)
 				on_validation.notify
 				phrase_utf_8.fill_blank
@@ -125,7 +118,7 @@ feature -- Element change
 			salt_is_set: is_salt_set
 		do
 			if attached Encryption.new_utf_8_phrase (a_phrase) as phrase_utf_8 then
-				if target ~ new_salted (phrase_utf_8) then
+				if target ~ Digest.new_salted (phrase_utf_8, salt) then
 					key_data := Digest.sha_256 (phrase_utf_8)
 					on_validation.notify
 				end
@@ -139,7 +132,7 @@ feature -- Status query
 
 	is_salt_set: BOOLEAN
 		do
-			Result := salt.count = Salt_count
+			Result := salt.count = Digest.Salt_count
 		end
 
 	is_valid: BOOLEAN
@@ -161,58 +154,9 @@ feature -- Factory
 		-- contract support
 		do
 			create Result.make
-			Result.set_target (digest_base_64)
+			Result.set_target (target_base_64)
 			Result.set_salt (salt_base_64)
 			Result.try_validating (a_phrase)
-		end
-
-feature {NONE} -- Implementation
-
-	new_salted (phrase_utf_8: STRING_8): like target
-		local
-			md5: MD5; sha: SHA256
-			md5_hash, data, phrase_data: like target
-			i, j: INTEGER; s: EL_STRING_8_ROUTINES
-		do
-			create sha.make
-			create Result.make_filled (1, 32)
-			create md5.make
-			create md5_hash.make_filled (1, 16)
-			phrase_data := s.to_code_array (phrase_utf_8)
-			from i := 0 until i > 50 loop
-				if i \\ 2 = 0 then
-					data := phrase_data
-				else
-					data := salt
-				end
-				if data.count > 0 then
-					j := i \\ data.count
-					if data [j] \\ 2 = 0 then
-						md5.sink_special (data, 0, data.count - 1)
-					else
-						sha.sink_special (data, 0, data.count - 1)
-					end
-				end
-				i := i + 1
-			end
-			sha.do_final (Result, 0)
-			md5.do_final (md5_hash, 0)
-			-- Merge hashes
-			from i := 0 until i = md5_hash.count loop
-				Result [i * 2] := Result.item (i * 2).bit_xor (md5_hash [i])
-				i := i + 1
-			end
-		end
-
-	set_random_salt
-		local
-			i: INTEGER
-		do
-			create salt.make_empty (Salt_count)
-			from i := 0 until i = salt.capacity loop
-				salt.extend (rand_byte)
-				i := i + 1
-			end
 		end
 
 feature {EL_AES_CREDENTIAL} -- Internal attributes
@@ -233,13 +177,9 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["digest", agent digest_base_64],
+				["digest", agent target_base_64],
 				["salt",	  agent salt_base_64]
 			>>)
 		end
-
-feature {NONE} -- Constants
-
-	Salt_count: INTEGER = 24
 
 end

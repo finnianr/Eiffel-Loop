@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 10:03:47 GMT (Tuesday 28th November 2023)"
-	revision: "16"
+	date: "2023-11-29 9:12:22 GMT (Wednesday 29th November 2023)"
+	revision: "17"
 
 class
 	EL_FTP_CONFIGURATION
@@ -55,7 +55,7 @@ feature -- Access
 		do
 			if attached encrypted_url as cipher and then attached crc_generator as crc then
 				crc.add_string (cipher)
-				crc.add_string (credential.digest_base_64)
+				crc.add_string (credential.target_base_64)
 				crc.add_string (credential.salt_base_64)
 				Result := crc.checksum
 			end

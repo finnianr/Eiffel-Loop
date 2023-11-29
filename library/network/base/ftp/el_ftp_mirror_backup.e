@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 9:43:32 GMT (Saturday 26th August 2023)"
-	revision: "2"
+	date: "2023-11-29 10:14:17 GMT (Wednesday 29th November 2023)"
+	revision: "3"
 
 class
 	EL_FTP_MIRROR_BACKUP
@@ -85,7 +85,7 @@ feature {NONE} -- Implementation
 
 	url_key: STRING
 		do
-			Result := site.credential.digest_base_64
+			Result := site.credential.target_base_64
 		end
 
 feature {NONE} -- Internal attributes

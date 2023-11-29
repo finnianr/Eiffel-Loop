@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 10:03:47 GMT (Tuesday 28th November 2023)"
-	revision: "7"
+	date: "2023-11-29 11:32:06 GMT (Wednesday 29th November 2023)"
+	revision: "8"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -69,7 +69,7 @@ feature -- Basic operations
 				and then attached credential.new_aes_encrypter (256) as encrypter
 			then
 				pyxis_text := Pyxis_ftp_config #$ [
-					encrypter.base_64_encrypted (url), credential.salt_base_64, credential.digest_base_64
+					encrypter.base_64_encrypted (url), credential.salt_base_64, credential.target_base_64
 				]
 				across pyxis_text.split ('%N') as line loop
 					lio.put_line (line.item)
@@ -96,7 +96,7 @@ feature -- Basic operations
 		end
 
 	validate (credential: EL_AES_CREDENTIAL; valid_phrase_out: detachable ZSTRING)
-		-- validate `credential' and set `valid_phrase_out' to valid phrase if attached
+		-- validate `credential' and set `valid_phrase_out' to valid input phrase if attached
 		do
 			from until credential.is_valid loop
 				if attached new_input_phrase as phrase then

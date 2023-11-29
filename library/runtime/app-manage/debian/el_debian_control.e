@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-11-29 10:13:30 GMT (Wednesday 29th November 2023)"
+	revision: "5"
 
 class
 	EL_DEBIAN_CONTROL
@@ -25,7 +25,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_BUILD_INFO
+	EL_SHARED_SOFTWARE_VERSION
 
 create
 	make
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			version := Build_info.version.string
+			version := Software_version.string
 			Precursor
 		end
 

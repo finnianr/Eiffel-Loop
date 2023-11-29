@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:11:56 GMT (Monday 27th November 2023)"
-	revision: "77"
+	date: "2023-11-29 10:04:49 GMT (Wednesday 29th November 2023)"
+	revision: "78"
 
 deferred class
 	EL_APPLICATION
@@ -36,7 +36,7 @@ inherit
 	EL_MODULE_BUILD_INFO; EL_MODULE_EXCEPTION; EL_MODULE_EXECUTABLE; EL_MODULE_DIRECTORY
 	EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_OS_RELEASE; EL_MODULE_OS
 
-	EL_SHARED_BASE_OPTION; EL_SHARED_APPLICATION_OPTION
+	EL_SHARED_BASE_OPTION; EL_SHARED_APPLICATION_OPTION; EL_SHARED_SOFTWARE_VERSION
 
 	EL_CHARACTER_32_CONSTANTS
 
@@ -294,14 +294,11 @@ feature {NONE} -- Implementation
 			if App_option.test then
 				build_version := test
 			else
-				build_version := Build_info.version.out
+				build_version := Software_version.out
 			end
-			lio.put_labeled_string ("Executable", Executable.name)
-			lio.put_labeled_string (" Version", build_version)
+			lio.put_field_list (100, << ["Executable", Executable.name], ["Version", build_version] >>)
 			lio.put_new_line
-
-			lio.put_labeled_string ("Class", generator)
-			lio.put_labeled_string (" Option", option_name)
+			lio.put_field_list (100, << ["Class", generator], ["Option", option_name] >>)
 			lio.put_new_line
 			if description.has ('%N') then
 				lio.put_labeled_lines ("Description", description.split ('%N'))

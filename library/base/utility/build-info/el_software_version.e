@@ -1,13 +1,18 @@
 note
 	description: "Software version"
+	notes: "[
+		**29 Nov 2023**
+		
+		Attempt was made to move this class to el_app_manage, but it turned out to be impractical.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 10:23:10 GMT (Saturday 4th March 2023)"
-	revision: "20"
+	date: "2023-11-29 11:02:00 GMT (Wednesday 29th November 2023)"
+	revision: "21"
 
 class
 	EL_SOFTWARE_VERSION
@@ -27,13 +32,21 @@ inherit
 			out
 		end
 
+	EL_MODULE_BUILD_INFO
+
 create
-	default_create, make, make_parts, make_from_string
+	default_create, make_build, make, make_parts, make_from_string
 
 convert
 	make_from_string ({STRING})
 
 feature -- Initialization
+
+	make_build
+		-- make from current application build info
+		do
+			make (Build_info.version_number, Build_info.build_number)
+		end
 
 	make (a_compact_version, a_build: NATURAL)
 			--

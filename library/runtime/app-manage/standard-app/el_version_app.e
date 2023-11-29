@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-11-29 10:05:32 GMT (Wednesday 29th November 2023)"
+	revision: "13"
 
 class
 	EL_VERSION_APP
@@ -43,11 +43,11 @@ feature -- Basic operations
 			version_out: PLAIN_TEXT_FILE
 		do
 			if file_path.is_empty then
-				io.put_string (Build_info.version.string)
+				io.put_string (Software_version.string)
 			else
 				File_system.make_directory (file_path.parent)
 				create version_out.make_open_write (file_path)
-				version_out.put_string (Build_info.version.string)
+				version_out.put_string (Software_version.string)
 				version_out.close
 			end
 		end
