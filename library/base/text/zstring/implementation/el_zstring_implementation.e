@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 9:26:28 GMT (Friday 24th November 2023)"
-	revision: "81"
+	date: "2023-11-29 20:03:58 GMT (Wednesday 29th November 2023)"
+	revision: "82"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -105,15 +105,17 @@ feature -- Access
 	item alias "[]", at alias "@" (i: INTEGER): CHARACTER_32 assign put
 		-- Unicode character at position `i'
 		local
-			code: INTEGER
+			c_i: CHARACTER
 		do
-			code := area [i - 1].code
-			if code = Substitute_code then
-				Result := unencoded_code (i).to_character_32
-			elseif code <= Max_7_bit_code then
-				Result := code.to_character_32
+			c_i := area [i - 1]
+			inspect c_i
+				when Substitute then
+					Result := unencoded_code (i).to_character_32
+
+				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					Result := c_i.to_character_32
 			else
-				Result := Unicode_table [code]
+				Result := Unicode_table [c_i.code]
 			end
 		end
 
@@ -126,15 +128,17 @@ feature -- Access
 
 	unicode (i: INTEGER): NATURAL
 		local
-			code: INTEGER
+			c_i: CHARACTER
 		do
-			code := area [i - 1].code
-			if code = Substitute_code then
-				Result := unencoded_code (i)
-			elseif code <= Max_7_bit_code then
-				Result := code.to_natural_32
+			c_i := area [i - 1]
+			inspect c_i
+				when Substitute then
+					Result := unencoded_code (i)
+
+				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					Result := c_i.natural_32_code
 			else
-				Result := Unicode_table [code].to_character_32.natural_32_code
+				Result := Unicode_table [c_i.code].natural_32_code
 			end
 		end
 
@@ -290,15 +294,18 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
-	is_area_alpha_item (c: like area; i: INTEGER): BOOLEAN
+	is_area_alpha_item (a_area: like area; i: INTEGER): BOOLEAN
+		local
+			c_i: CHARACTER
 		do
-			inspect c [i]
+			c_i := a_area [i]
+			inspect c_i
 				when Substitute then
 					Result := unencoded_item (i + 1).is_alpha
 				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-					Result := c [i].is_alpha
+					Result := c_i.is_alpha
 			else
-				Result := Codec.is_alpha (c [i].natural_32_code)
+				Result := Codec.is_alpha (c_i.natural_32_code)
 			end
 		end
 
@@ -387,16 +394,17 @@ feature {NONE} -- Implementation
 			Result := area [i - 1]
 		end
 
-	leading_ascii_count (c: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
+	leading_ascii_count (a_area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
 		require
 			valid_order: start_index <= end_index + 1
-			valid_start_index: start_index <= end_index implies c.valid_index (start_index)
-			valid_end_index: start_index <= end_index implies c.valid_index (end_index)
+			valid_start_index: start_index <= end_index implies a_area.valid_index (start_index)
+			valid_end_index: start_index <= end_index implies a_area.valid_index (end_index)
 		local
-			i: INTEGER; non_ascii: BOOLEAN
+			i: INTEGER; non_ascii: BOOLEAN; c_i: CHARACTER
 		do
 			from i := start_index until non_ascii or else i > end_index loop
-				inspect c [i]
+				c_i := a_area [i]
+				inspect c_i
 					when Substitute then
 						non_ascii := True
 					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
@@ -448,11 +456,9 @@ feature {NONE} -- Implementation
 			c: CHARACTER
 		do
 			c := area [i - 1]
-			if c = Substitute then
-				Result := unencoded_z_code (i)
-				if Result <= 0xFF then
-					Result := Sign_bit | Result
-				end
+			inspect c
+				when Substitute then
+					Result := unencoded_z_code (i)
 			else
 				Result := c.natural_32_code
 			end

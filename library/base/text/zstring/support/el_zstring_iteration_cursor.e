@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 21:39:43 GMT (Saturday 18th November 2023)"
-	revision: "18"
+	date: "2023-11-29 19:54:41 GMT (Wednesday 29th November 2023)"
+	revision: "19"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -121,7 +121,7 @@ feature -- Basic operations
 
 	fill_z_codes (destination: STRING_32)
 		do
-			target.fill_with_z_codes (destination)
+			target.fill_with_z_code (destination)
 		end
 
 feature -- Measurement
@@ -217,8 +217,9 @@ feature {NONE} -- Implementation
 			c_i: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			c_i := a_area [i]
-			if c_i = Substitute then
-				Result := iter.item (block_index_ptr, unencoded_area, i - area_first_index + 1)
+			inspect c_i
+				when Substitute then
+					Result := iter.item (block_index_ptr, unencoded_area, i - area_first_index + 1)
 			else
 				Result := unicode_table [c_i.code]
 			end

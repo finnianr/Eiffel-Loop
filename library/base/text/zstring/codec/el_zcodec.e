@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 18:58:52 GMT (Friday 24th November 2023)"
-	revision: "62"
+	date: "2023-11-29 19:29:48 GMT (Wednesday 29th November 2023)"
+	revision: "63"
 
 deferred class
 	EL_ZCODEC
@@ -133,9 +133,9 @@ feature -- Contract Support
 			valid_start_index: str.valid_index (start_index) and str.valid_index (end_index)
 		local
 			i, in_offset, block_index, i_upper, i_lower: INTEGER; uc_i: CHARACTER_32
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_UNENCODED_CHARACTER_ITERATION; c_i: CHARACTER
 		do
-			if attached str.area as c and then attached str.unencoded_area as area_32
+			if attached str.area as str_area and then attached str.unencoded_area as area_32
 				and then attached unicode_table as unicode
 				and then attached str.codec.unicode_table as zstring_unicode
 			then
@@ -147,11 +147,12 @@ feature -- Contract Support
 					i_lower := start_index + in_offset - 1
 					i_upper := end_index + in_offset - 1
 					from i := i_lower until not Result or i > i_upper loop
-						inspect c [i]
+						c_i := str_area [i]
+						inspect c_i
 							when Substitute then
 								uc_i := iter.item ($block_index, area_32, i - in_offset + 1)
 						else
-							uc_i := zstring_unicode [c [i].code]
+							uc_i := zstring_unicode [c_i.code]
 						end
 						inspect uc_i.code
 							when 0 .. Max_7_bit_code then
@@ -255,30 +256,31 @@ feature -- Encoding operations
 			empty_intervals: unencoded_intervals.is_empty
 		local
 			i, out_i, in_offset, i_lower, i_upper: INTEGER; interval: NATURAL_64
-			c: SPECIAL [CHARACTER_8]; unicode: like unicode_table
+			area: SPECIAL [CHARACTER]; unicode: like unicode_table; c_i: CHARACTER
 		do
 			inspect Class_id.character_bytes (unicode_in)
 				when '1' then
 					if attached {READABLE_STRING_8} unicode_in as s_8 and then attached cursor_8 (s_8) as c_8 then
-						unicode := unicode_table; in_offset := c_8.area_first_index; c := c_8.area
+						unicode := unicode_table; in_offset := c_8.area_first_index; area := c_8.area
 						i_lower := start_index + in_offset - 1
 						i_upper := end_index + in_offset - 1
 						out_i := i_lower - in_offset + out_offset - start_index + 1
 
 						from i := i_lower until i > i_upper loop
-							inspect c [i]
+							c_i := area [i]
+							inspect c_i
 								when Control_0 .. Max_7_bit_character then
-									encoded_out [out_i] := c [i]
+									encoded_out [out_i] := c_i
 							else
-								if unicode [c [i].code].to_character_8 = c [i] then
-									encoded_out [out_i] := c [i]
+								if unicode [c_i.code].to_character_8 = c_i then
+									encoded_out [out_i] := c_i
 								else
-									inspect latin_character (c [i])
+									inspect latin_character (c_i)
 										when '%U' then
 											encoded_out [out_i] := Substitute
 											interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
 									else
-										encoded_out [out_i] := c [i]
+										encoded_out [out_i] := c_i
 									end
 								end
 							end
@@ -595,10 +597,10 @@ feature {NONE} -- Implementation
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
 			i, i_lower, i_upper, out_i, code_i, in_offset, block_index, count: INTEGER; interval: NATURAL_64
-			uc_i: CHARACTER_32; iter: EL_UNENCODED_CHARACTER_ITERATION; latin_c: CHARACTER
+			uc_i: CHARACTER_32; iter: EL_UNENCODED_CHARACTER_ITERATION; latin_c, c_i: CHARACTER
 			encode_default: BOOLEAN
 		do
-			if attached zstr_in.area as c and then attached zstr_in.unencoded_area as area_32
+			if attached zstr_in.area as area and then attached zstr_in.unencoded_area as area_32
 				and then attached unicode_table as unicode
 				and then attached zstr_in.codec.unicode_table as zstring_unicode
 			then
@@ -613,7 +615,8 @@ feature {NONE} -- Implementation
 					encoded_out.copy_data (zstr_in.area, i_lower, out_offset, count)
 					if zstr_in.has_mixed_encoding then
 						from i := i_lower until i > i_upper loop
-							inspect c [i]
+							c_i := area [i]
+							inspect c_i
 								when Substitute then
 									interval := unencoded_intervals.extend_next_upper (interval, out_i + 1)
 							else
@@ -624,11 +627,12 @@ feature {NONE} -- Implementation
 					end
 				else
 					from i := i_lower until i > i_upper loop
-						inspect c [i]
+						c_i := area [i]
+						inspect c_i
 							when Substitute then
 								uc_i := iter.item ($block_index, area_32, i - in_offset + 1)
 						else
-							uc_i := zstring_unicode [c [i].code]
+							uc_i := zstring_unicode [c_i.code]
 						end
 						code_i := uc_i.code
 
@@ -675,9 +679,9 @@ feature {NONE} -- Implementation
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
 			i, i_lower, i_upper, out_i, in_offset: INTEGER; latin_c: CHARACTER
-			interval: NATURAL_64; encode_default: BOOLEAN
+			interval: NATURAL_64; encode_default: BOOLEAN; uc_i: CHARACTER_32
 		do
-			if attached cursor_32 (unicode_in) as c_32 and then attached c_32.area as uc
+			if attached cursor_32 (unicode_in) as c_32 and then attached c_32.area as area_32
 				 and then attached unicode_table as unicode
 			then
 				in_offset := c_32.area_first_index
@@ -686,13 +690,14 @@ feature {NONE} -- Implementation
 				out_i := i_lower - in_offset + out_offset - start_index + 1
 
 				from i := i_lower until i > i_upper loop
-					inspect uc [i].code
+					uc_i := area_32 [i]
+					inspect uc_i.code
 						when 0 .. Max_7_bit_code then
-							encoded_out [out_i] := uc [i].to_character_8
+							encoded_out [out_i] := uc_i.to_character_8
 
 						when 0x80 .. Max_8_bit_code then
-							if unicode [uc [i].code] = uc [i] then
-								encoded_out [out_i] := uc [i].to_character_8
+							if unicode [uc_i.code] = uc_i then
+								encoded_out [out_i] := uc_i.to_character_8
 							else
 								encode_default := True
 							end
@@ -700,7 +705,7 @@ feature {NONE} -- Implementation
 						encode_default := True
 					end
 					if encode_default then
-						latin_c := latin_character (uc [i])
+						latin_c := latin_character (uc_i)
 						inspect latin_c
 							when '%U' then
 								encoded_out [out_i] := Substitute

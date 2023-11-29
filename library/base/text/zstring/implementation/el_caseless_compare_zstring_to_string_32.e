@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-17 13:38:40 GMT (Friday 17th February 2023)"
-	revision: "5"
+	date: "2023-11-29 20:13:16 GMT (Wednesday 29th November 2023)"
+	revision: "6"
 
 class
 	EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 		encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER
 	): BOOLEAN
 		local
-			i, j, code, other_offset: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
+			i, j, other_offset: INTEGER; c_j: CHARACTER; l_unicodes: like unicode_table
 			l_other_area: SPECIAL [CHARACTER_32]; c32: EL_CHARACTER_32_ROUTINES
 			lower_case: CHARACTER_32
 		do
@@ -36,11 +36,12 @@ feature {NONE} -- Implementation
 			Result := True
 			from i := 0 until not Result or else i = a_count loop
 				j := i + offset
-				c := encoded_area [j]; code := c.code
-				if code <= Max_7_bit_code then
-					lower_case := c32.to_lower (code.to_character_32)
+				c_j := encoded_area [j]
+				inspect c_j
+					when Control_0 .. Max_7_bit_character then
+						lower_case := c32.to_lower (c_j.to_character_32)
 				else
-					lower_case := c32.to_lower (l_unicodes [code])
+					lower_case := c32.to_lower (l_unicodes [c_j.code])
 				end
 				Result := lower_case = c32.to_lower (l_other_area [j + other_offset])
 				i := i + 1

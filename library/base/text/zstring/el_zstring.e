@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 17:45:28 GMT (Tuesday 28th November 2023)"
-	revision: "98"
+	date: "2023-11-29 18:17:26 GMT (Wednesday 29th November 2023)"
+	revision: "99"
 
 class
 	EL_ZSTRING
@@ -347,28 +347,29 @@ feature -- Removal
 	prune_all (uc: CHARACTER_32)
 			-- Remove all occurrences of `c'.
 		local
-			i, j, i_upper, block_index, last_upper: INTEGER; encoded_c: CHARACTER_8; uc_i: CHARACTER_32
+			i, j, i_upper, block_index, last_upper: INTEGER; encoded_c, c_i: CHARACTER_8; uc_i: CHARACTER_32
 			c_is_substitute: BOOLEAN; iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			i_upper := count - 1
 			encoded_c := encoded_character (uc); c_is_substitute := encoded_c = Substitute
-			if attached area as c and then attached unencoded_area as uc_area and then uc_area.count > 0
+			if attached area as l_area and then attached unencoded_area as uc_area and then uc_area.count > 0
 				and then attached empty_unencoded_buffer as buffer
 			then
 				last_upper := buffer.last_upper
 				from until i > i_upper loop
-					inspect c [i]
+					c_i := l_area [i]
+					inspect c_i
 						when Substitute then
 							uc_i := iter.item ($block_index, uc_area, i + 1)
 							if c_is_substitute implies uc_i /= uc then
-								c [j] := c [i]
+								l_area [j] := c_i
 								last_upper := buffer.extend (uc_i, last_upper, j + 1)
 								j := j + 1
 							end
 
 					else
-						if encoded_c /= c [i] then
-							c [j] := c [i]
+						if encoded_c /= c_i then
+							l_area [j] := c_i
 							j := j + 1
 						end
 					end
@@ -377,10 +378,11 @@ feature -- Removal
 				buffer.set_last_upper (last_upper)
 				set_unencoded_from_buffer (buffer)
 
-			elseif attached area as c then
+			elseif attached area as l_area then
 				from until i > i_upper loop
-					if c [i] /= encoded_c then
-						c [j] := c [i]
+					c_i := l_area [i]
+					if c_i /= encoded_c then
+						l_area [j] := c_i
 						j := j + 1
 					end
 					i := i + 1

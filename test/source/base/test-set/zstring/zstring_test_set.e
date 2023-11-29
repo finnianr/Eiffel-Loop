@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:29:20 GMT (Monday 27th November 2023)"
-	revision: "111"
+	date: "2023-11-29 17:25:05 GMT (Wednesday 29th November 2023)"
+	revision: "112"
 
 class
 	ZSTRING_TEST_SET
@@ -37,6 +37,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["fill_with_z_code",					agent test_fill_with_z_code],
 				["as_expanded",						agent test_as_expanded],
 				["mirror",								agent test_mirror],
 				["split",								agent test_split],
@@ -47,7 +48,6 @@ feature {NONE} -- Initialization
 				["append_encoded",					agent test_append_encoded],
 				["append_replaced",					agent test_append_replaced],
 				["append_string_general",			agent test_append_string_general],
-				["substitute_tuple",					agent test_substitute_tuple],
 				["append_substring_general",		agent test_append_substring_general],
 				["append_to_string_32",				agent test_append_to_string_32],
 				["append_unicode",					agent test_append_unicode],
@@ -97,8 +97,31 @@ feature {NONE} -- Initialization
 				["unicode_index_of",					agent test_unicode_index_of],
 				["substring",							agent test_substring],
 				["substring_to",						agent test_substring_to],
-				["substring_to_reversed",			agent test_substring_to_reversed]
+				["substring_to_reversed",			agent test_substring_to_reversed],
+				["substitute_tuple",					agent test_substitute_tuple]
 			>>)
+		end
+
+feature -- General tests
+
+	test_fill_with_z_code
+		-- ZSTRING_TEST_SET.test_fill_with_z_code
+		note
+			testing:	"[
+				covers/{EL_READABLE_ZSTRING}.make_from_zcode_area,
+				covers/{EL_WRITEABLE_ZSTRING}.fill_with_z_code
+			]"
+		local
+			zstr, zstr_2: ZSTRING; str_32: STRING_32; z_code_area: SPECIAL [NATURAL]
+			s32: EL_STRING_32_ROUTINES
+		do
+			create str_32.make_empty
+			across Text.words as list loop
+				zstr := list.item
+				zstr.fill_with_z_code (str_32)
+				create zstr_2.make_from_zcode_area (s32.to_code_array (str_32))
+				assert_same_string (Void, zstr, zstr_2)
+			end
 		end
 
 feature -- Conversion tests
@@ -106,7 +129,10 @@ feature -- Conversion tests
 	test_as_expanded
 		-- ZSTRING_TEST_SET.test_as_expanded
 		note
-			testing:	"covers/{ZSTRING}.mirror, covers/{ZSTRING}.mirrored"
+			testing:	"[
+				covers/{ZSTRING}.mirror,
+				covers/{ZSTRING}.mirrored
+			]"
 		local
 			test: STRING_TEST; i: INTEGER
 			z_code_string: STRING_32; general: READABLE_STRING_GENERAL
@@ -1389,6 +1415,52 @@ feature -- Access tests
 
 feature -- Duplication tests
 
+	test_substitute_tuple
+		note
+			testing:	"[
+				covers/{ZSTRING}.append_substring,
+				covers/{ZSTRING}.substitute_tuple
+			]"
+		local
+			str_32, template_32: STRING_32; l_word: READABLE_STRING_GENERAL; str, substituted: ZSTRING
+			tuple: TUPLE; i, index: INTEGER
+		do
+			across Text.lines as line loop
+				str_32 := line.item
+				if line.cursor_index = 1 then
+					-- Test escaping the substitution marker
+					str_32.replace_substring_all ({STRING_32} "воду", Text.Escaped_substitution_marker)
+				end
+				template_32 := str_32.twin
+				tuple := Text.Substituted_words [line.cursor_index]
+				index := 0
+				from i := 1 until i > tuple.count loop
+					inspect tuple.item_code (i)
+						when {TUPLE}.Character_code then
+							create {STRING} l_word.make_filled (tuple.character_item (i), 1)
+						when {TUPLE}.Character_32_code then
+							create {STRING_32} l_word.make_filled (tuple.character_32_item (i), 1)
+						when {TUPLE}.Reference_code then
+							if  attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as word then
+								l_word := word
+							end
+					else
+						l_word := tuple.item (i).out
+					end
+					index := template_32.substring_index (l_word, 1)
+					template_32.replace_substring ({STRING_32} "%S", index, index + l_word.count - 1)
+					i := i + 1
+				end
+				str := template_32
+				substituted := str.substituted_tuple (tuple)
+				if line.cursor_index = 1 then
+					index := substituted.index_of ('%S', 1)
+					substituted.replace_substring_general (Text.Escaped_substitution_marker, index, index)
+				end
+				assert_same_string ("substitute_tuple OK", substituted, str_32)
+			end
+		end
+
 	test_substring
 		-- ZSTRING_TEST_SET.test_substring
 		note
@@ -1446,52 +1518,6 @@ feature -- Duplication tests
 				assert ("same string", full_text.substring_to_reversed ('%N', $start_end_index) ~ line)
 			end
 			assert ("valid start_end_index", start_end_index = 0)
-		end
-
-	test_substitute_tuple
-		note
-			testing:	"[
-				covers/{ZSTRING}.append_substring,
-				covers/{ZSTRING}.substitute_tuple
-			]"
-		local
-			str_32, template_32: STRING_32; l_word: READABLE_STRING_GENERAL; str, substituted: ZSTRING
-			tuple: TUPLE; i, index: INTEGER
-		do
-			across Text.lines as line loop
-				str_32 := line.item
-				if line.cursor_index = 1 then
-					-- Test escaping the substitution marker
-					str_32.replace_substring_all ({STRING_32} "воду", Text.Escaped_substitution_marker)
-				end
-				template_32 := str_32.twin
-				tuple := Text.Substituted_words [line.cursor_index]
-				index := 0
-				from i := 1 until i > tuple.count loop
-					inspect tuple.item_code (i)
-						when {TUPLE}.Character_code then
-							create {STRING} l_word.make_filled (tuple.character_item (i), 1)
-						when {TUPLE}.Character_32_code then
-							create {STRING_32} l_word.make_filled (tuple.character_32_item (i), 1)
-						when {TUPLE}.Reference_code then
-							if  attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as word then
-								l_word := word
-							end
-					else
-						l_word := tuple.item (i).out
-					end
-					index := template_32.substring_index (l_word, 1)
-					template_32.replace_substring ({STRING_32} "%S", index, index + l_word.count - 1)
-					i := i + 1
-				end
-				str := template_32
-				substituted := str.substituted_tuple (tuple)
-				if line.cursor_index = 1 then
-					index := substituted.index_of ('%S', 1)
-					substituted.replace_substring_general (Text.Escaped_substitution_marker, index, index)
-				end
-				assert_same_string ("substitute_tuple OK", substituted, str_32)
-			end
 		end
 
 feature {NONE} -- Implementation

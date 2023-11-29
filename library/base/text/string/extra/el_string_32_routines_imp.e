@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 16:36:27 GMT (Saturday 25th November 2023)"
-	revision: "42"
+	date: "2023-11-29 17:21:12 GMT (Wednesday 29th November 2023)"
+	revision: "43"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -97,7 +97,7 @@ feature -- Conversion
 		do
 			create Result.make_filled (0, 1, s.count)
 			from i := 1 until i > s.count loop
-				Result [i] := s.code (i).to_natural_8
+				Result [i] := s.code (i)
 				i := i + 1
 			end
 		end

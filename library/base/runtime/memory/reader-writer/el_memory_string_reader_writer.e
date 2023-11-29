@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 11:22:05 GMT (Friday 24th November 2023)"
-	revision: "13"
+	date: "2023-11-29 15:57:35 GMT (Wednesday 29th November 2023)"
+	revision: "14"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -149,8 +149,9 @@ feature {NONE} -- Implementation
 			valid_string: str.is_empty and then char_count <= str.capacity
 		local
 			i, buffer_count, pos: INTEGER; done: BOOLEAN; code: NATURAL; l_last_upper: INTEGER
+			c: CHARACTER
 		do
-			if attached str.area as c and then attached buffer as l_buffer
+			if attached str.area as str_area and then attached buffer as l_buffer
 				and then attached str.empty_unencoded_buffer as unencoded_buffer
 			then
 				buffer_count := l_buffer.count; pos := count
@@ -158,9 +159,10 @@ feature {NONE} -- Implementation
 
 				from i := 0 until done or else i = char_count loop
 					if pos + Character_8_bytes < buffer_count then
-						c [i] := l_buffer.read_character (pos)
+						c := l_buffer.read_character (pos)
+						str_area [i] := c
 						pos := pos + Character_8_bytes
-						inspect c [i]
+						inspect c
 							when Substitute then
 								if pos + Natural_32_bytes < buffer_count then
 									code := l_buffer.read_natural_32 (pos)
@@ -176,7 +178,7 @@ feature {NONE} -- Implementation
 						done := True
 					end
 				end
-				c [i] := '%U'
+				str_area [i] := '%U'
 				str.set_count (i)
 				unencoded_buffer.set_last_upper (l_last_upper)
 				str.set_unencoded_from_buffer (unencoded_buffer)
@@ -188,21 +190,22 @@ feature {NONE} -- Implementation
 
 	fill_string_32 (str: STRING_32; a_count: INTEGER)
 		local
-			i, read_count, pos: INTEGER; area: SPECIAL [CHARACTER_32]; code: NATURAL
+			i, read_count, pos: INTEGER; code: NATURAL
 			done: BOOLEAN
 		do
-			if attached buffer as l_buffer then
-				area := str.area; pos := count
+			if attached buffer as l_buffer and then  attached str.area as str_area then
+				pos := count
 				from i := 0 until done or else i = a_count loop
 					code := compressed_natural_32 (l_buffer, pos, $read_count)
 					if read_count.to_boolean then
-						area [i] := code.to_character_32
+						str_area [i] := code.to_character_32
 						pos := pos + read_count
 						i := i + 1
 					else
 						done := True
 					end
 				end
+				str_area [i] := '%U'
 				str.set_count (i)
 				count := pos
 			end
@@ -215,10 +218,11 @@ feature -- Write operations
 			valid_string: a_string.is_valid
 		local
 			i, l_count, pos, block_index: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c_i: CHARACTER
 		do
 			l_count := a_string.count
 
-			if attached a_string.area as c and then attached a_string.unencoded_area as area_32
+			if attached a_string.area as area and then attached a_string.unencoded_area as area_32
 				and then attached big_enough_buffer (size_of_string (a_string)) as buf
 			then
 				pos := count
@@ -226,10 +230,11 @@ feature -- Write operations
 				pos := pos + Natural_32_bytes
 
 				from i := 0 until i = l_count loop
-					buf.put_character (c [i], pos)
+					c_i := area [i]
+					buf.put_character (c_i, pos)
 					pos := pos + Character_8_bytes
 
-					inspect c [i]
+					inspect c_i
 						when Substitute then
 							buf.put_natural_32 (iter.code ($block_index, area_32, i + 1), pos)
 							pos := pos + Natural_32_bytes

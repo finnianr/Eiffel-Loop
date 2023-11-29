@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 16:13:23 GMT (Friday 24th November 2023)"
-	revision: "6"
+	date: "2023-11-29 17:14:16 GMT (Wednesday 29th November 2023)"
+	revision: "7"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -54,6 +54,12 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	fill_with_z_code (str: STRING_32)
+		deferred
+		ensure
+			reversible: is_reversible_z_code_pattern (current_readable, str)
+		end
+
 	internal_leading_white_space (a_area: SPECIAL [CHARACTER]; a_count: INTEGER): INTEGER
 		deferred
 		end
@@ -71,6 +77,10 @@ feature {NONE} -- Implementation
 		end
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
+		deferred
+		end
+
+	is_reversible_z_code_pattern (general: READABLE_STRING_GENERAL; z_code_string: STRING_32): BOOLEAN
 		deferred
 		end
 

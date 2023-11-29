@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 18:14:22 GMT (Friday 24th February 2023)"
-	revision: "4"
+	date: "2023-11-29 20:10:23 GMT (Wednesday 29th November 2023)"
+	revision: "5"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_32
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 		encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER
 	): BOOLEAN
 		local
-			i, j, code, other_offset: INTEGER; c: CHARACTER; l_unicodes: like unicode_table
+			i, j, other_offset: INTEGER; c_j: CHARACTER; l_unicodes: like unicode_table
 			l_other_area: SPECIAL [CHARACTER_32]
 		do
 			l_unicodes := unicode_table; l_other_area := other_area
@@ -48,11 +48,12 @@ feature {NONE} -- Implementation
 			Result := True
 			from i := 0 until not Result or else i = a_count loop
 				j := i + offset
-				c := encoded_area [j]; code := c.code
-				if code <= Max_7_bit_code then
-					Result := code.to_character_32 = l_other_area [j + other_offset]
+				c_j := encoded_area [j]
+				inspect c_j
+					when Control_0 .. Max_7_bit_character then
+						Result := c_j.to_character_32 = l_other_area [j + other_offset]
 				else
-					Result := l_unicodes [code] = l_other_area [j + other_offset]
+					Result := l_unicodes [c_j.code] = l_other_area [j + other_offset]
 				end
 				i := i + 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 16:59:35 GMT (Friday 24th November 2023)"
-	revision: "22"
+	date: "2023-11-29 19:48:30 GMT (Wednesday 29th November 2023)"
+	revision: "23"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -101,17 +101,17 @@ feature -- Measurement
 	trailing_occurrences (uc: CHARACTER_32): INTEGER
 			-- Returns count of continous occurrences of `uc' or white space starting from the end
 		local
-			i, block_index: INTEGER; c, c_i: CHARACTER
+			i, block_index: INTEGER; encoded_c: CHARACTER
 			iter: EL_UNENCODED_CHARACTER_ITERATION
 		do
 			inspect uc.code
 				when 0 .. Max_7_bit_code then
-					c := uc.to_character_8
+					encoded_c := uc.to_character_8
 			else
-				c := Codec.encoded_character (uc)
+				encoded_c := Codec.encoded_character (uc)
 			end
 			if attached area as l_area then
-				if c = Substitute then
+				if encoded_c = Substitute then
 					if attached unencoded_area as area_32 and then area_32.count > 0 then
 						from i := count - 1 until i < 0 loop
 							inspect l_area [i]
@@ -125,9 +125,8 @@ feature -- Measurement
 					end
 				else
 					from i := count - 1 until i < 0 loop
-						c_i := l_area [i]
 						-- `Unencoded_character' is space
-						if c_i = c then
+						if l_area [i] = encoded_c then
 							Result := Result + 1
 						else
 							i := 0 -- break out of loop
@@ -152,15 +151,16 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	internal_leading_white_space (c: like area; a_count: INTEGER): INTEGER
+	internal_leading_white_space (a_area: like area; a_count: INTEGER): INTEGER
 		local
 			c32: EL_CHARACTER_32_ROUTINES; iter: EL_UNENCODED_CHARACTER_ITERATION
-			block_index, i: INTEGER
+			block_index, i: INTEGER; c_i: CHARACTER
 		do
 			-- `Substitute' is space
 			if attached unencoded_area as area_32 and then area_32.count > 0 then
 				from i := 0 until i = a_count loop
-					inspect c [i]
+					c_i := a_area [i]
+					inspect c_i
 						when Substitute then
 							if c32.is_space (iter.item ($block_index, area_32, i + 1)) then
 								Result := Result + 1
@@ -168,7 +168,7 @@ feature {NONE} -- Implementation
 								i := a_count - 1 -- break out of loop
 							end
 					else
-						if c [i].is_space then
+						if c_i.is_space then
 							Result := Result + 1
 						else
 							i := a_count - 1 -- break out of loop
@@ -178,7 +178,8 @@ feature {NONE} -- Implementation
 				end
 			else
 				from i := 0 until i = a_count loop
-					if c [i].is_space then
+					c_i := a_area [i]
+					if c_i.is_space then
 						Result := Result + 1
 					else
 						i := a_count - 1 -- break out of loop
@@ -190,15 +191,16 @@ feature {NONE} -- Implementation
 			substring_agrees: substring (1, Result).is_space_filled
 		end
 
-	internal_trailing_white_space (c: like area): INTEGER
+	internal_trailing_white_space (a_area: like area): INTEGER
 		local
 			c32: EL_CHARACTER_32_ROUTINES; iter: EL_UNENCODED_CHARACTER_ITERATION
-			block_index, i: INTEGER
+			block_index, i: INTEGER; c_i: CHARACTER
 		do
 			-- `Substitute' is space
 			if attached unencoded_area as area_32 and then area_32.count > 0 then
 				from i := count - 1 until i < 0 loop
-					inspect c [i]
+					c_i := a_area [i]
+					inspect c_i
 						when Substitute then
 							if c32.is_space (iter.item ($block_index, area_32, i + 1)) then
 								Result := Result + 1
@@ -206,7 +208,7 @@ feature {NONE} -- Implementation
 								i := 0 -- break out of loop
 							end
 					else
-						if c [i].is_space then
+						if c_i.is_space then
 							Result := Result + 1
 						else
 							i := 0 -- break out of loop
@@ -216,7 +218,7 @@ feature {NONE} -- Implementation
 				end
 			else
 				from i := count - 1 until i < 0 loop
-					if c [i].is_space then
+					if a_area [i].is_space then
 						Result := Result + 1
 					else
 						i := 0 -- break out of loop

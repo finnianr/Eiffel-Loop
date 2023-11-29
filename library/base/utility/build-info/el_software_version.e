@@ -3,7 +3,7 @@ note
 	notes: "[
 		**29 Nov 2023**
 		
-		Attempt was made to move this class to el_app_manage, but it turned out to be impractical.
+		Attempt was made to move this class to **el_app_manage**, but it turned out to be impractical.
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 11:02:00 GMT (Wednesday 29th November 2023)"
-	revision: "21"
+	date: "2023-11-29 15:30:13 GMT (Wednesday 29th November 2023)"
+	revision: "22"
 
 class
 	EL_SOFTWARE_VERSION

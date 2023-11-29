@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-28 13:19:23 GMT (Tuesday 28th February 2023)"
-	revision: "5"
+	date: "2023-11-29 20:17:18 GMT (Wednesday 29th November 2023)"
+	revision: "6"
 
 class
 	EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
@@ -34,11 +34,13 @@ feature {NONE} -- Implementation
 			Result := True
 			from i := 0 until not Result or else i = a_count loop
 				j := i + offset
-				-- converting to UCS4 because of issues with {CHARACTER_8}.as_lower
+			-- converting to UCS4 because of issues with {CHARACTER_8}.as_lower
 				uc_i := encoded_area [j]; code_i := uc_i.code
 				o_uc_i := l_other_area [j + other_offset]
-				if code_i > Max_7_bit_code then
-					uc_i := l_unicodes [code_i]
+				inspect code_i
+					when 0 .. Max_7_bit_code then
+						uc_i := l_unicodes [code_i]
+				else
 				end
 				Result := c_32.to_lower (uc_i) = c_32.to_lower (o_uc_i)
 				i := i + 1

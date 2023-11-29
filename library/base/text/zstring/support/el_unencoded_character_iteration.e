@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 18:38:00 GMT (Wednesday 22nd November 2023)"
-	revision: "7"
+	date: "2023-11-29 16:46:22 GMT (Wednesday 29th November 2023)"
+	revision: "8"
 
 expanded class
 	EL_UNENCODED_CHARACTER_ITERATION
@@ -30,15 +30,18 @@ feature -- Access
 		end
 
 	i_th_z_code (
-		block_index_ptr: POINTER; c: SPECIAL [CHARACTER]; unencoded_area: SPECIAL [CHARACTER_32]; i: INTEGER
+		block_index_ptr: POINTER; area: SPECIAL [CHARACTER]; unencoded_area: SPECIAL [CHARACTER_32]; i: INTEGER
 	): NATURAL
+		local
+			c_i: CHARACTER
 		do
-			inspect c [i]
+			c_i := area [i]
+			inspect c_i
 				when Substitute then
 					Result := item (block_index_ptr, unencoded_area, i + 1).natural_32_code
 					Result := unicode_to_z_code (Result)
 			else
-				Result := c [i].natural_32_code
+				Result := c_i.natural_32_code
 			end
 		end
 

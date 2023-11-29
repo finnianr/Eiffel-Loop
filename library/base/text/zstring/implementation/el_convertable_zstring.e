@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 16:17:01 GMT (Friday 24th November 2023)"
-	revision: "60"
+	date: "2023-11-29 16:12:34 GMT (Wednesday 29th November 2023)"
+	revision: "61"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -51,24 +51,25 @@ feature -- To Strings
 	out: STRING
 			-- Printable representation
 		local
-			i, i_upper: INTEGER
+			i, i_upper: INTEGER; c_i: CHARACTER
 		do
 			create Result.make (count)
 			Result.set_count (count)
 
-			if attached area as c and then attached Unicode_table as l_unicode
-				and then attached Result.area as l_area
+			if attached area as l_area and then attached Unicode_table as l_unicode
+				and then attached Result.area as result_area
 			then
 				i_upper := count - 1
 				from until i > i_upper loop
-					inspect c [i]
+					c_i := l_area [i]
+					inspect c_i
 						when Substitute then
-							l_area [i] := '?'
+							result_area [i] := '?'
 
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-							l_area [i] := c [i]
+							result_area [i] := c_i
 					else
-						l_area [i] := l_unicode [c [i].code].to_character_8
+						result_area [i] := l_unicode [c_i.code].to_character_8
 					end
 					i := i + 1
 				end
@@ -109,7 +110,7 @@ feature -- To Strings
 		local
 			result_8: STRING; uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
 			encoding_to_latin_1_failed, already_latin_1: BOOLEAN; result_area: like area
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_UNENCODED_CHARACTER_ITERATION; c_i: CHARACTER
 		do
 			already_latin_1 := Codec.encoded_as_latin (1)
 
@@ -122,10 +123,11 @@ feature -- To Strings
 				result_area.copy_data (area, 0, 0, count)
 
 			elseif attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
-				and then attached area as c
+				and then attached area as l_area
 			then
 				from i := area_lower until encoding_to_latin_1_failed or i > i_upper loop
-					inspect c [i]
+					c_i := l_area [i]
+					inspect c_i
 						when Substitute then
 							uc_i := iter.item ($block_index, area_32, i + 1)
 							if uc_i.code <= Max_8_bit_code then
@@ -134,12 +136,12 @@ feature -- To Strings
 								encoding_to_latin_1_failed := True
 							end
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-							result_area [i] := c [i]
+							result_area [i] := c_i
 					else
 						if already_latin_1 then
-							result_area [i] := c [i]
+							result_area [i] := c_i
 						else
-							uc_i := l_unicode_table [c [i].code]
+							uc_i := l_unicode_table [c_i.code]
 							if uc_i.code <= Max_8_bit_code then
 								result_area [i] := uc_i.to_character_8
 							else

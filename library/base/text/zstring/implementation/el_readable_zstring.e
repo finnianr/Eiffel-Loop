@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 10:37:47 GMT (Saturday 25th November 2023)"
-	revision: "133"
+	date: "2023-11-29 16:10:13 GMT (Wednesday 29th November 2023)"
+	revision: "134"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -391,19 +391,21 @@ feature -- Status query
 		-- `True' if `str' has an alpha numeric character
 		local
 			i, block_index, i_final: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c_i: CHARACTER
 		do
-			if attached unencoded_area as area_32 and then attached area as c
+			if attached unencoded_area as area_32 and then attached area as l_area
 				and then attached Codec as l_codec
 			then
 				i_final := count
 				from i := 0 until Result or else i = i_final loop
-					inspect c [i]
+					c_i := l_area [i]
+					inspect c_i
 						when Substitute then
 							Result := iter.item ($block_index, area_32, i + 1).is_alpha_numeric
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-							Result := c [i].is_alpha_numeric
+							Result := c_i.is_alpha_numeric
 					else
-						Result := l_codec.is_alphanumeric (c [i].natural_32_code)
+						Result := l_codec.is_alphanumeric (c_i.natural_32_code)
 					end
 					i := i + 1
 				end
@@ -457,18 +459,19 @@ feature -- Status query
 		local
 			uc_i: CHARACTER_32; i, i_final, space_count, block_index: INTEGER
 			iter: EL_UNENCODED_CHARACTER_ITERATION; c32: EL_CHARACTER_32_ROUTINES
-			is_space: BOOLEAN
+			is_space: BOOLEAN; c_i: CHARACTER
 		do
-			if attached area as c and then attached unencoded_area as area_32 then
+			if attached area as l_area and then attached unencoded_area as area_32 then
 				Result := True; i_final := count
 				from i := 0 until not Result or else i = i_final loop
-					inspect c [i]
+					c_i := l_area [i]
+					inspect c_i
 						when Substitute then
 						uc_i := iter.item ($block_index, area_32, i + 1)
 					-- `c32.is_space' is workaround for finalization bug
 						is_space := c32.is_space (uc_i)
 					else
-						is_space := c [i].is_space
+						is_space := c_i.is_space
 					end
 					if is_space then
 						space_count := space_count + 1
@@ -479,7 +482,7 @@ feature -- Status query
 						when 0 then
 							do_nothing
 						when 1 then
-							Result := c [i] = ' '
+							Result := c_i = ' '
 					else
 						Result := False
 					end
@@ -535,19 +538,20 @@ feature -- Status query
 
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
 		local
-			i: INTEGER; c32: EL_CHARACTER_32_ROUTINES
+			i: INTEGER; c32: EL_CHARACTER_32_ROUTINES; c_i: CHARACTER
 		do
-			if attached area as c then
+			if attached area as l_area then
 				if end_index = start_index - 1 then
 					Result := False
 				else
 					Result := True
 					from i := start_index - 1 until i = end_index or not Result loop
-						inspect c [i]
+						c_i := l_area [i]
+						inspect c_i
 							when Substitute then
 								Result := Result and c32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
 						else
-							Result := Result and c [i].is_space
+							Result := Result and c_i.is_space
 						end
 						i := i + 1
 					end

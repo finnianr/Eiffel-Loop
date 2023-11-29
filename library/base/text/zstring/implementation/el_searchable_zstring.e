@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 17:07:22 GMT (Friday 24th November 2023)"
-	revision: "45"
+	date: "2023-11-29 17:14:18 GMT (Wednesday 29th November 2023)"
+	revision: "46"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -197,13 +197,14 @@ feature -- Occurrence index lists
 	substitution_marker_index_list: ARRAYED_LIST [INTEGER]
 		-- shared list of indices of unescaped template substitution markers '%S' AKA '#'
 		local
-			i, i_upper: INTEGER
+			i, i_upper: INTEGER; c_i: CHARACTER
 		do
 			Result := Once_substring_indices.emptied
 			i_upper := count - 1
-			if attached area as c then
+			if attached area as l_area then
 				from i := 0 until i > i_upper loop
-					inspect c [i]
+					c_i := l_area [i]
+					inspect c_i
 						when '%S' then
 							Result.extend (i + 1)
 					else
@@ -226,16 +227,17 @@ feature -- Basic operations
 	fill_alpha_numeric_intervals (interval_list: EL_ARRAYED_INTERVAL_LIST)
 		-- fill `interval_list' with substring intervals of contiguous alpha-numeric characters
 		local
-			i, j, block_index, i_upper, l_count: INTEGER
+			i, j, block_index, i_upper, l_count: INTEGER; c_i: CHARACTER
 			iter: EL_UNENCODED_CHARACTER_ITERATION; interval: NATURAL_64
 		do
-			if attached area as c and then attached unencoded_area as area_32
+			if attached area as l_area and then attached unencoded_area as area_32
 				and then attached Codec as l_codec
 			then
 				interval_list.wipe_out
 				i_upper := area_upper
 				from i := 0 until i > i_upper loop
-					inspect c [i]
+					c_i := l_area [i]
+					inspect c_i
 						when Substitute then
 							if attached iter.block_string (block_index, area_32) as str_32 then
 								block_index := iter.next_index (block_index, str_32)
@@ -249,12 +251,12 @@ feature -- Basic operations
 								i := i + l_count
 							end
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-							if c [i].is_alpha_numeric then
+							if c_i.is_alpha_numeric then
 								interval := interval_list.extend_next_upper (interval, i + 1)
 							end
 							i := i + 1
 					else
-						if l_codec.is_alphanumeric (c [i].natural_32_code) then
+						if l_codec.is_alphanumeric (c_i.natural_32_code) then
 							interval := interval_list.extend_next_upper (interval, i + 1)
 						end
 						i := i + 1
@@ -306,39 +308,13 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 			end
 		end
 
-	fill_with_z_codes (str: STRING_32)
-		local
-			i, l_count: INTEGER
-		do
-			l_count := count
-			str.grow (l_count)
-			str.set_count (l_count)
-			if attached str.area as str_area then
-				write_unencoded (str_area, 0, True)
-				if attached area as c then
-					from i := 0 until i = l_count loop
-						inspect c [i]
-							when Substitute then
-						-- do nothing
-						else
-							str_area [i] := c [i]
-						end
-						i := i + 1
-					end
-					str_area [i] := '%U'
-				end
-			end
-		ensure
-			reversible: is_reversible_z_code_pattern (current_readable, str)
-		end
-
 	shared_z_code_pattern (index: INTEGER): STRING_32
 			-- Current expanded as `z_code' sequence
 		require
 			valid_index: 1 <= index and index <= 2
 		do
 			Result := Z_code_pattern_array [index - 1]
-			fill_with_z_codes (Result)
+			fill_with_z_code (Result)
 		end
 
 	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL): STRING_32
