@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 10:26:54 GMT (Monday 23rd October 2023)"
-	revision: "7"
+	date: "2023-11-30 11:22:28 GMT (Thursday 30th November 2023)"
+	revision: "8"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -35,8 +35,9 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_bit_routines
+		-- BIT_ROUTINE_TEST_SET.test_bit_routines
 		local
-			l_bit: EL_BIT_ROUTINES
+			l_bit: EL_BIT_ROUTINES; i: NATURAL
 		do
 			assert ("ones count is 1", l_bit.ones_count_32 (0b01) = 1)
 			assert ("ones count is 4", l_bit.ones_count_32 (0b011001100) = 4)
@@ -45,6 +46,12 @@ feature -- Tests
 			assert ("ones count is 1", l_bit.ones_count_64 (0b01) = 1)
 			assert ("ones count is 4", l_bit.ones_count_64 (0b011001100) = 4)
 			assert ("ones count is 6", l_bit.ones_count_64 (0b011011001100) = 6)
+
+			from until i > 0xF loop
+				assert ("same for zero", i = 0 implies l_bit.zero_or_one (i) = 0 )
+				assert ("same for > zero", i > 0 implies l_bit.zero_or_one (i) = 1 )
+				i := i + 1
+			end
 		end
 
 	test_integer_32_bit_routines

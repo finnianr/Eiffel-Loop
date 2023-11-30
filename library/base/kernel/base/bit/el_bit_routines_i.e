@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 15:13:35 GMT (Sunday 5th November 2023)"
-	revision: "7"
+	date: "2023-11-30 11:25:24 GMT (Thursday 30th November 2023)"
+	revision: "8"
 
 deferred class
 	EL_BIT_ROUTINES_I
@@ -45,6 +45,14 @@ feature -- Measurement
 	trailing_zeros_count_64 (x: NATURAL_64): INTEGER
 		-- number of trailing zeros after LSB
 		deferred
+		end
+
+	zero_or_one (n: NATURAL_32): NATURAL_32
+		-- 1 if `n > 0' or else 0
+		deferred
+		ensure
+			valid_n_gt_zero: n > 0 implies Result = 1
+			valid_n_zero: n = 0 implies Result = 0
 		end
 
 end

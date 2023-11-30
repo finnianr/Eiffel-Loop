@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 13:43:54 GMT (Monday 5th December 2022)"
-	revision: "16"
+	date: "2023-11-30 9:10:32 GMT (Thursday 30th November 2023)"
+	revision: "17"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_WIN_REGISTRY; EL_MODULE_REG_KEY
 
-	EL_SHARED_APPLICATION_LIST
+	EL_SHARED_APPLICATION_LIST; EL_SHARED_SOFTWARE_VERSION
 
 create
 	make
@@ -62,7 +62,7 @@ feature -- Basic operations
 			set_uninstall_registry_entry ("DisplayIcon", main_launcher.windows_icon_path)
 			set_uninstall_registry_entry ("DisplayName", main_launcher.name)
 			set_uninstall_registry_entry ("Comments", launcher.comment)
-			set_uninstall_registry_entry ("DisplayVersion", Build_info.version.string)
+			set_uninstall_registry_entry ("DisplayVersion", Software_version.string)
 			set_uninstall_registry_entry ("InstallLocation", Directory.Application_installation)
 			set_uninstall_registry_entry ("Publisher", Build_info.installation_sub_directory.first_step)
 			set_uninstall_registry_entry ("UninstallString", command_path.escaped)

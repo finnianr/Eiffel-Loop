@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 19:32:28 GMT (Monday 27th November 2023)"
-	revision: "19"
+	date: "2023-11-30 7:52:05 GMT (Thursday 30th November 2023)"
+	revision: "20"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -30,8 +30,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	STRING_HANDLER
 
 create
 	make

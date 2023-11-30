@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 17:10:03 GMT (Sunday 5th November 2023)"
-	revision: "5"
+	date: "2023-11-30 9:18:23 GMT (Thursday 30th November 2023)"
+	revision: "6"
 
 expanded class
 	EL_BIT_ROUTINES
@@ -34,7 +34,7 @@ feature -- Measurement
 			pos: INTEGER
 		do
 			c_bit_scan_reverse_32 ($pos, mask)
-			Result := 31 - pos
+			Result := 31 - pos -- make compatible with gcc result
 		end
 
 	frozen leading_zeros_count_64 (mask: NATURAL_64): INTEGER
@@ -42,7 +42,7 @@ feature -- Measurement
 			pos: INTEGER
 		do
 			c_bit_scan_reverse_64 ($pos, mask)
-			Result := 63 - pos
+			Result := 63 - pos -- make compatible with gcc result
 		end
 
 	frozen ones_count_32 (a_bitmap: NATURAL_32): INTEGER
@@ -110,6 +110,7 @@ feature {NONE} -- C externals
 		-- unsigned char __BitScanReverse(unsigned long * Index, unsigned long Mask);
 		-- Search the mask data from least significant bit (LSB) to the most significant bit (MSB)
 		-- for a set bit (1)
+		-- Result is nonzero if any bit was set in Mask, or 0 if no set bits were found.
 		external
 			"C (unsigned long*, unsigned long) | <intrin.h>"
 		alias
@@ -120,6 +121,7 @@ feature {NONE} -- C externals
 		-- unsigned char _BitScanReverse64(unsigned long * Index, unsigned __int64 Mask);
 		-- Search the mask data from most significant bit (MSB) to least significant bit (LSB)
 		-- for a set bit (1)
+		-- Result is nonzero if any bit was set in Mask, or 0 if no set bits were found.
 		external
 			"C (unsigned long*, unsigned __int64) | <intrin.h>"
 		alias
@@ -130,6 +132,7 @@ feature {NONE} -- C externals
 		-- unsigned char __BitScanForward(unsigned long * Index, unsigned long Mask);
 		-- Search the mask data from most significant bit (MSB) to least significant bit (LSB)
 		-- for a set bit (1)
+		-- Result is 0 if the mask is zero; nonzero otherwise.
 		external
 			"C (unsigned long*, unsigned long) | <intrin.h>"
 		alias
@@ -140,6 +143,7 @@ feature {NONE} -- C externals
 		-- unsigned char _BitScanForward64(unsigned long * Index, unsigned __int64 Mask);
 		-- Search the mask data from least significant bit (LSB) to the most significant bit (MSB)
 		-- for a set bit (1)
+		-- Result is 0 if the mask is zero; nonzero otherwise.
 		external
 			"C (unsigned long*, unsigned __int64) | <intrin.h>"
 		alias

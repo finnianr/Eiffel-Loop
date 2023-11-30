@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 18:12:03 GMT (Wednesday 29th November 2023)"
-	revision: "17"
+	date: "2023-11-30 11:37:28 GMT (Thursday 30th November 2023)"
+	revision: "18"
 
 class
 	EL_ZCODE_CONVERSION
@@ -25,10 +25,10 @@ feature {EL_ZCODEC} -- Implementation
 	frozen unicode_to_z_code (unicode: NATURAL): NATURAL
 		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
 		do
-			if (unicode |>> 8).to_boolean then
-				Result := unicode
-			else
+			if unicode < 0x100 then
 				Result := Sign_bit | unicode
+			else
+				Result := unicode
 			end
 		ensure
 			reversbile: z_code_to_unicode (Result) = unicode
@@ -63,6 +63,8 @@ feature {EL_OUTPUT_MEDIUM} -- Constants
 		-- (Apart from some control characters)
 
 	Max_8_bit_code: INTEGER = 0xFF
+
+	One_bit: NATURAL = 1
 
 	Replacement_character: CHARACTER_32 = '%/0xFFFD/'
 		-- used to replace an unknown, unrecognized, or unrepresentable character
