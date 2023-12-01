@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-30 11:22:28 GMT (Thursday 30th November 2023)"
-	revision: "8"
+	date: "2023-12-01 10:02:30 GMT (Friday 1st December 2023)"
+	revision: "9"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["bit_routines", agent test_bit_routines],
+				["bit_routines",				 agent test_bit_routines],
 				["integer_32_bit_routines", agent test_integer_32_bit_routines],
 				["integer_64_bit_routines", agent test_integer_64_bit_routines],
 				["natural_32_bit_routines", agent test_natural_32_bit_routines],
@@ -37,7 +37,8 @@ feature -- Tests
 	test_bit_routines
 		-- BIT_ROUTINE_TEST_SET.test_bit_routines
 		local
-			l_bit: EL_BIT_ROUTINES; i: NATURAL
+			l_bit: EL_BIT_ROUTINES; i, mask: NATURAL
+			leading_zeros, trailing_zeros, leading_result, trailing_result: INTEGER
 		do
 			assert ("ones count is 1", l_bit.ones_count_32 (0b01) = 1)
 			assert ("ones count is 4", l_bit.ones_count_32 (0b011001100) = 4)
@@ -51,6 +52,29 @@ feature -- Tests
 				assert ("same for zero", i = 0 implies l_bit.zero_or_one (i) = 0 )
 				assert ("same for > zero", i > 0 implies l_bit.zero_or_one (i) = 1 )
 				i := i + 1
+			end
+			across << 32, 64 >> as bit_count loop
+				leading_zeros := bit_count.item - 1
+				trailing_zeros := 0
+				from mask := 0 until mask > 0xF loop
+					inspect bit_count.item
+						when 32 then
+							leading_result := l_bit.leading_zeros_count_32 (mask)
+							trailing_result := l_bit.trailing_zeros_count_32 (mask)
+						when 64 then
+							leading_result := l_bit.leading_zeros_count_64 (mask)
+							trailing_result := l_bit.trailing_zeros_count_64 (mask)
+					end
+					assert ("same leading zero count", leading_zeros = leading_result)
+					assert ("same trailing zero count", trailing_zeros = trailing_result)
+					if mask = 0 then
+						mask := 1
+					else
+						leading_zeros := leading_zeros - 1
+						trailing_zeros := trailing_zeros + 1
+						mask := mask |<< 1
+					end
+				end
 			end
 		end
 

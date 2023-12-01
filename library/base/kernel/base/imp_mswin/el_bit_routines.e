@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-30 9:18:23 GMT (Thursday 30th November 2023)"
-	revision: "6"
+	date: "2023-12-01 9:50:24 GMT (Friday 1st December 2023)"
+	revision: "7"
 
 expanded class
 	EL_BIT_ROUTINES
@@ -29,20 +29,33 @@ inherit
 
 feature -- Measurement
 
-	frozen leading_zeros_count_32 (mask: NATURAL_32): INTEGER
-		local
-			pos: INTEGER
-		do
-			c_bit_scan_reverse_32 ($pos, mask)
-			Result := 31 - pos -- make compatible with gcc result
+	frozen leading_zeros_count_32 (n: NATURAL_32): INTEGER
+		-- leading zero count compatible with gcc function: int ____builtin_clz (unsigned int x)
+		external
+			"C inline use <intrin.h>"
+		alias
+			"[
+				{ 
+					unsigned long index, mask = (unsigned long)$n;
+					_BitScanReverse (&index, mask);
+					return (EIF_NATURAL_32)(31 - index);
+				}
+			]"
 		end
 
-	frozen leading_zeros_count_64 (mask: NATURAL_64): INTEGER
-		local
-			pos: INTEGER
-		do
-			c_bit_scan_reverse_64 ($pos, mask)
-			Result := 63 - pos -- make compatible with gcc result
+	frozen leading_zeros_count_64 (n: NATURAL_64): INTEGER
+		-- leading zero count compatible with gcc function: int ____builtin_clzll (unsigned long long)
+		external
+			"C inline use <intrin.h>"
+		alias
+			"[
+				{ 
+					unsigned long index;
+					__int64 mask = (__int64)$n;
+					_BitScanReverse64 (&index, mask);
+					return (EIF_NATURAL_32)(63 - index);
+				}
+			]"
 		end
 
 	frozen ones_count_32 (a_bitmap: NATURAL_32): INTEGER
@@ -69,7 +82,6 @@ feature -- Measurement
 			end
 		end
 
-
 	frozen ones_count_64 (a_bitmap: NATURAL_64): INTEGER
 		-- count of 1's in `bitmap'
 		local
@@ -94,60 +106,47 @@ feature -- Measurement
 			end
 		end
 
-	frozen trailing_zeros_count_32 (mask: NATURAL_32): INTEGER
-		do
-			c_bit_scan_forward_count_32 ($Result, mask)
-		end
-
-	frozen trailing_zeros_count_64 (mask: NATURAL_64): INTEGER
-		do
-			c_bit_scan_forward_count_64 ($Result, mask)
-		end
-
-feature {NONE} -- C externals
-
-	frozen c_bit_scan_reverse_32 (index_ptr: POINTER; mask: NATURAL_32)
-		-- unsigned char __BitScanReverse(unsigned long * Index, unsigned long Mask);
-		-- Search the mask data from least significant bit (LSB) to the most significant bit (MSB)
-		-- for a set bit (1)
-		-- Result is nonzero if any bit was set in Mask, or 0 if no set bits were found.
+	frozen trailing_zeros_count_32 (n: NATURAL_32): INTEGER
+		-- trailing zero count compatible with gcc function: int __builtin_ctz (unsigned int x)
 		external
-			"C (unsigned long*, unsigned long) | <intrin.h>"
+			"C inline use <intrin.h>"
 		alias
-			"_BitScanReverse"
+			"[
+				{ 
+					unsigned long index, mask = (unsigned long)$n;
+					_BitScanForward (&index, mask);
+					return (EIF_NATURAL_32)index;
+				}
+			]"
 		end
 
-	frozen c_bit_scan_reverse_64 (index_ptr: POINTER; mask: NATURAL_64)
-		-- unsigned char _BitScanReverse64(unsigned long * Index, unsigned __int64 Mask);
-		-- Search the mask data from most significant bit (MSB) to least significant bit (LSB)
-		-- for a set bit (1)
-		-- Result is nonzero if any bit was set in Mask, or 0 if no set bits were found.
+	frozen trailing_zeros_count_64 (n: NATURAL_64): INTEGER
+		-- trailing zero count compatible with gcc function: int __builtin_clzll (unsigned long long)
 		external
-			"C (unsigned long*, unsigned __int64) | <intrin.h>"
+			"C inline use <intrin.h>"
 		alias
-			"_BitScanReverse64"
+			"[
+				{ 
+					unsigned long index;
+					__int64 mask = (__int64)$n;
+					_BitScanForward64 (&index, mask);
+					return (EIF_NATURAL_32)index;
+				}
+			]"
 		end
 
-	frozen c_bit_scan_forward_count_32 (index_ptr: POINTER; mask: NATURAL_32)
-		-- unsigned char __BitScanForward(unsigned long * Index, unsigned long Mask);
-		-- Search the mask data from most significant bit (MSB) to least significant bit (LSB)
-		-- for a set bit (1)
-		-- Result is 0 if the mask is zero; nonzero otherwise.
+	zero_or_one (n: NATURAL_32): NATURAL_32
+		-- 1 if `n > 0' or else 0
 		external
-			"C (unsigned long*, unsigned long) | <intrin.h>"
+			"C inline use <intrin.h>"
 		alias
-			"_BitScanForward"
-		end
-
-	frozen c_bit_scan_forward_count_64 (index_ptr: POINTER; mask: NATURAL_64)
-		-- unsigned char _BitScanForward64(unsigned long * Index, unsigned __int64 Mask);
-		-- Search the mask data from least significant bit (LSB) to the most significant bit (MSB)
-		-- for a set bit (1)
-		-- Result is 0 if the mask is zero; nonzero otherwise.
-		external
-			"C (unsigned long*, unsigned __int64) | <intrin.h>"
-		alias
-			"_BitScanForward64"
+			"[
+				{ 
+					unsigned long index, mask = (unsigned long)$n;
+					_BitScanReverse (&index, mask);
+					return (EIF_NATURAL_32)(mask >> index);
+				}
+			]"
 		end
 
 end
