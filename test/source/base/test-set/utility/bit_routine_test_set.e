@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-01 10:02:30 GMT (Friday 1st December 2023)"
-	revision: "9"
+	date: "2023-12-02 17:51:01 GMT (Saturday 2nd December 2023)"
+	revision: "10"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -38,15 +38,28 @@ feature -- Tests
 		-- BIT_ROUTINE_TEST_SET.test_bit_routines
 		local
 			l_bit: EL_BIT_ROUTINES; i, mask: NATURAL
-			leading_zeros, trailing_zeros, leading_result, trailing_result: INTEGER
+			leading_zeros, trailing_zeros, leading_result, trailing_result, n, precomputed_n: INTEGER
+			bit_table: EL_HASH_TABLE [NATURAL, INTEGER]
 		do
-			assert ("ones count is 1", l_bit.ones_count_32 (0b01) = 1)
-			assert ("ones count is 4", l_bit.ones_count_32 (0b011001100) = 4)
-			assert ("ones count is 6", l_bit.ones_count_32 (0b011011001100) = 6)
-
-			assert ("ones count is 1", l_bit.ones_count_64 (0b01) = 1)
-			assert ("ones count is 4", l_bit.ones_count_64 (0b011001100) = 4)
-			assert ("ones count is 6", l_bit.ones_count_64 (0b011011001100) = 6)
+			create bit_table.make (<<
+				[1, (0b01).to_natural_32],
+				[4, (0b011001100).to_natural_32],
+				[6, (0b011011001100).to_natural_32]
+			>>)
+			across << 32, 64 >> as bit_count loop
+				across bit_table as table loop
+					inspect bit_count.item
+						when 32 then
+							n := l_bit.ones_count_32 (table.item) -- on gcc: __builtin_popcount
+							precomputed_n := l_bit.precomputed_ones_count_32 (table.item)
+						when 64 then
+							n := l_bit.ones_count_64 (table.item.to_natural_64) -- on gcc: __builtin_popcountll
+							precomputed_n := l_bit.precomputed_ones_count_64 (table.item.to_natural_64)
+					end
+					assert ("ones count is " + table.key.out, n = table.key)
+					assert ("same as precomputed", n = precomputed_n)
+				end
+			end
 
 			from until i > 0xF loop
 				assert ("same for zero", i = 0 implies l_bit.zero_or_one (i) = 0 )

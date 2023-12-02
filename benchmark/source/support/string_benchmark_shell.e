@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 9:58:15 GMT (Friday 24th November 2023)"
-	revision: "41"
+	date: "2023-12-02 15:17:04 GMT (Saturday 2nd December 2023)"
+	revision: "42"
 
 class
 	STRING_BENCHMARK_SHELL
@@ -53,6 +53,7 @@ feature {NONE} -- Implementation
 		ZSTRING_APPEND_Z_CODE_VS_APPEND_CHARACTER,
 		ZSTRING_AREA_ITERATION_COMPARISON,
 		ZSTRING_DEVELOPER_COMPARISON,
+		ZSTRING_UNICODE_TO_Z_CODE,
 		ZSTRING_INTERVAL_SEARCH_COMPARISON,
 		ZSTRING_SAME_CHARACTERS_COMPARISON,
 		ZSTRING_SPLIT_COMPARISON,

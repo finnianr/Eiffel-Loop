@@ -14,14 +14,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-01 9:50:24 GMT (Friday 1st December 2023)"
-	revision: "7"
+	date: "2023-12-02 17:38:29 GMT (Saturday 2nd December 2023)"
+	revision: "8"
 
 expanded class
 	EL_BIT_ROUTINES
 
 inherit
 	EL_BIT_ROUTINES_I
+		rename
+			precomputed_ones_count_32 as ones_count_32,
+			precomputed_ones_count_64 as ones_count_64
+		end
 
 	EL_EXPANDED_ROUTINES
 
@@ -56,54 +60,6 @@ feature -- Measurement
 					return (EIF_NATURAL_32)(63 - index);
 				}
 			]"
-		end
-
-	frozen ones_count_32 (a_bitmap: NATURAL_32): INTEGER
-		-- count of 1's in `bitmap'
-		local
-			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
-			bitmap: NATURAL_32
-		do
-			if a_bitmap.to_boolean then
-				leading_count := leading_zeros_count_32 (a_bitmap)
-				trailing_count := trailing_zeros_count_32 (a_bitmap)
-				Result := 32 - leading_count - trailing_count
-				skip_ones := True
-				from bitmap := a_bitmap |>> trailing_count until bitmap = bitmap.zero loop
-					if skip_ones then
-						zero_count := trailing_zeros_count_32 (bitmap.bit_not) -- skip ones
-					else
-						zero_count := trailing_zeros_count_32 (bitmap) -- skip zeros
-						Result := Result - zero_count
-					end
-					skip_ones := not skip_ones
-					bitmap := bitmap |>> zero_count
-				end
-			end
-		end
-
-	frozen ones_count_64 (a_bitmap: NATURAL_64): INTEGER
-		-- count of 1's in `bitmap'
-		local
-			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
-			bitmap: NATURAL_64
-		do
-			if a_bitmap.to_boolean then
-				leading_count := leading_zeros_count_64 (a_bitmap)
-				trailing_count := trailing_zeros_count_64 (a_bitmap)
-				Result := 64 - leading_count - trailing_count
-				skip_ones := True
-				from bitmap := a_bitmap |>> trailing_count until bitmap = bitmap.zero loop
-					if skip_ones then
-						zero_count := trailing_zeros_count_64 (bitmap.bit_not) -- skip ones
-					else
-						zero_count := trailing_zeros_count_64 (bitmap) -- skip zeros
-						Result := Result - zero_count
-					end
-					skip_ones := not skip_ones
-					bitmap := bitmap |>> zero_count
-				end
-			end
 		end
 
 	frozen trailing_zeros_count_32 (n: NATURAL_32): INTEGER

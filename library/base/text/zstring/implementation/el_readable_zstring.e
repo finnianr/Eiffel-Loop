@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 16:10:13 GMT (Wednesday 29th November 2023)"
-	revision: "134"
+	date: "2023-12-02 14:37:01 GMT (Saturday 2nd December 2023)"
+	revision: "135"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -239,12 +239,11 @@ feature {NONE} -- Initialization
 			if attached empty_unencoded_buffer as buffer and then attached area as l_area then
 				last_upper := buffer.last_upper
 				from i := 0 until i = l_count loop
-					inspect zcode_area [i]
-						when 0 .. 0xFF then
-							l_area [i] := zcode_area [i].to_character_8
-					else
+					if zcode_area [i] > 0xFF then
 						l_area [i] := Substitute
 						last_upper := buffer.extend_z_code (zcode_area [i], last_upper, i + 1)
+					else
+						l_area [i] := zcode_area [i].to_character_8
 					end
 					i := i + 1
 				end

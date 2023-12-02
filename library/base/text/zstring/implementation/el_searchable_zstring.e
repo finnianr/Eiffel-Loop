@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 17:14:18 GMT (Wednesday 29th November 2023)"
-	revision: "46"
+	date: "2023-12-02 14:35:57 GMT (Saturday 2nd December 2023)"
+	revision: "47"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -45,11 +45,10 @@ feature -- Index position
 
 	index_of_z_code (a_z_code: NATURAL; start_index: INTEGER): INTEGER
 		do
-			inspect a_z_code
-				when 0 .. 0xFF then
-					Result := internal_index_of (a_z_code.to_character_8, start_index)
-			else
+			if a_z_code > 0xFF then
 				Result := unencoded_index_of (z_code_to_unicode (a_z_code).to_character_32, start_index, default_pointer)
+			else
+				Result := internal_index_of (a_z_code.to_character_8, start_index)
 			end
 		ensure then
 			valid_result: Result = 0 or (start_index <= Result and Result <= count)

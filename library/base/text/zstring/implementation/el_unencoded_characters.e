@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 17:26:15 GMT (Friday 24th November 2023)"
-	revision: "60"
+	date: "2023-12-02 14:39:01 GMT (Saturday 2nd December 2023)"
+	revision: "61"
 
 class
 	EL_UNENCODED_CHARACTERS
@@ -1051,10 +1051,8 @@ feature -- Basic operations
 				if as_zcode then
 					from j := lower until j > upper loop
 						uc := l_area.item (i + 2 + j - lower)
-						inspect uc.natural_32_code
-							when 0 .. 0xFF then
-								uc := (Sign_bit | uc.natural_32_code).to_character_32
-						else
+						if uc.natural_32_code <= 0xFF then
+							uc := (Sign_bit | uc.natural_32_code).to_character_32
 						end
 						area_out [offset + j - 1] := uc
 						j := j + 1

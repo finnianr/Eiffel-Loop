@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 20:03:58 GMT (Wednesday 29th November 2023)"
-	revision: "82"
+	date: "2023-12-02 14:40:50 GMT (Saturday 2nd December 2023)"
+	revision: "83"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -177,18 +177,16 @@ feature -- Element change
 		-- append_character :  7924.4 times (-0.7%)
 		do
 			if attached area as c then
-				inspect a_z_code
-					when 0 .. 0xFF then
-						inspect c [i - 1]
-							when Substitute then
-								remove_unencoded (i)
-						else
-						end
-						c [i - 1] := a_z_code.to_character_8
-
-				else
+				if a_z_code > 0xFF then
 					c [i - 1] := Substitute
 					put_unencoded (z_code_to_unicode (a_z_code).to_character_32, i)
+				else
+					inspect c [i - 1]
+						when Substitute then
+							remove_unencoded (i)
+					else
+					end
+					c [i - 1] := a_z_code.to_character_8
 				end
 			end
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-30 11:38:16 GMT (Thursday 30th November 2023)"
-	revision: "17"
+	date: "2023-12-02 17:15:26 GMT (Saturday 2nd December 2023)"
+	revision: "18"
 
 class
 	ZSTRING_DEVELOPER_COMPARISON
@@ -60,86 +60,16 @@ feature {NONE} -- Operations
 							uc := iter.item ($block_index, area_32, i + 1)
 							inspect id
 								when 1 then
-									z_code := unicode_to_z_code (uc.natural_32_code)
 								when 2 then
-									z_code := unicode_to_z_code_lt_eq_0xFF (uc.natural_32_code)
 								when 3 then
-									z_code := unicode_to_z_code_inspect_leading_zero_count (uc.natural_32_code)
 								when 4 then
-									z_code := unicode_to_z_code_when_0 (uc.natural_32_code)
 								when 5 then
-									z_code := unicode_to_z_code_bitshift_only (uc.natural_32_code)
 							end
 					else
 					end
 					i := i + 1
 				end
 			end
-		end
-
-	frozen unicode_to_z_code_when_0 (unicode: NATURAL): NATURAL
-		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
-		do
-			inspect unicode |>> 8
-				when 0 then
-					Result := Sign_bit | unicode
-			else
-				Result := unicode
-			end
-		ensure
-			same_as_simple: Result = unicode_to_z_code (unicode)
-		end
-
-	frozen unicode_to_z_code_inspect_leading_zero_count (unicode: NATURAL): NATURAL
-		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
-		local
-			b: EL_BIT_ROUTINES
-		do
-			inspect b.leading_zeros_count_32 (unicode)
-				when 0 .. 23 then
-					Result := unicode
-			else
-				Result := Sign_bit | unicode
-			end
-		ensure
-			same_as_simple: Result = unicode_to_z_code (unicode)
-		end
-
-	frozen unicode_to_z_code_leading_zeros_1_to_15 (unicode: NATURAL): NATURAL
-		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
-		local
-			b: EL_BIT_ROUTINES
-		do
-			inspect b.leading_zeros_count_32 (unicode |>> 8)
-				when 31 then
-					Result := Sign_bit | unicode
-			else
-				Result := unicode
-			end
-		ensure
-			same_as_simple: Result = unicode_to_z_code (unicode)
-		end
-
-	frozen unicode_to_z_code_lt_eq_0xFF (unicode: NATURAL): NATURAL
-		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
-		do
-			if unicode <= 0xFF then
-				Result := Sign_bit | unicode
-			else
-				Result := unicode
-			end
-		ensure
-			reversbile: z_code_to_unicode (Result) = unicode
-		end
-
-	frozen unicode_to_z_code_bitshift_only (unicode: NATURAL): NATURAL
-		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
-		local
-			b: EL_BIT_ROUTINES
-		do
-			Result := (Sign_bit & (b.zero_or_one (unicode |>> 8) |<< 31)) | unicode
-		ensure
-			reversbile: z_code_to_unicode (Result) = unicode
 		end
 
 note
