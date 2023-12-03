@@ -1,3 +1,6 @@
+1.6.2
+* Improved ZSTRING speed
+
 1.6.1
 * Changed blog file expansion naming to EXPANDED-*
 
