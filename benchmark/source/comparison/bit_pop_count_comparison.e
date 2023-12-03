@@ -1,14 +1,15 @@
 note
 	description: "Compare methods to caculate population of 1's in [$source NATURAL_64]"
 	notes: "[
-		Passes over 2000 millisecs (in descending order)
+		Passes over 500 millisecs (in descending order)
 
-			gcc built-in                   : 30581.0 times (100%)
-			Precomputed pop count for byte : 16925.0 times (-44.7%)
-			Precomputed pop count ver 3    : 16816.0 times (-45.0%)
-			Precomputed pop count ver 2    : 16802.0 times (-45.1%)
-			Alternating leading / trailing :  6011.0 times (-80.3%)
-			Nested 64, 32, 16, 8, inspect  :  2667.0 times (-91.3%)
+			gcc built-in                   :  5745.0 times (100%)
+			Precomputed pop count for byte :  3785.0 times (-34.1%)
+			Precomputed pop count ver 3    :  3251.0 times (-43.4%)
+			Precomputed pop count ver 2    :  2941.0 times (-48.8%)
+			Alternating leading / trailing :  1365.0 times (-76.2%)
+			Inspect 4 bits per shift       :  1107.0 times (-80.7%)
+			Nested 64, 32, 16, 8, inspect  :   631.0 times (-89.0%)
 	]"
 
 	author: "Finnian Reilly"
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 14:52:44 GMT (Saturday 2nd December 2023)"
-	revision: "7"
+	date: "2023-12-03 9:39:06 GMT (Sunday 3rd December 2023)"
+	revision: "8"
 
 class
 	BIT_POP_COUNT_COMPARISON
@@ -52,7 +53,8 @@ feature -- Basic operations
 				["Nested 64, 32, 16, 8, inspect",  agent do_pop_count (3)],
 				["Precomputed pop count for byte", agent do_pop_count (4)],
 				["Precomputed pop count ver 2",	  agent do_pop_count (5)],
-				["Precomputed pop count ver 3",	  agent do_pop_count (6)]
+				["Precomputed pop count ver 3",	  agent do_pop_count (6)],
+				["Inspect 4 bits per shift",		  agent do_pop_count (7)]
 			>>)
 		end
 
@@ -71,7 +73,7 @@ feature {NONE} -- Implementation
 						when 1 then
 							count := gcc_ones_count_64 (n)
 						when 2 then
-							count := slow_ones_count_64 (n)
+							count := leading_trailing_ones_count_64 (n)
 						when 3 then
 							count := nested_ones_count_64 (n)
 						when 4 then
@@ -80,11 +82,103 @@ feature {NONE} -- Implementation
 							count := precomputed_ones_count_64_v2 (n)
 						when 6 then
 							count := precomputed_ones_count_64_v3 (n)
+						when 7 then
+							count := inspect_4_bits_per_shift_count_64 (n)
 					end
 					i := i + 1
 				end
 			end
 		end
+
+feature {NONE} -- Other pop count
+
+	frozen inspect_4_bits_per_shift_count_64 (n: NATURAL_64): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := 0 until i > 60 loop
+				inspect (n |>> i) & 0xF
+					when 0b0000 then
+					-- do nothing
+					when 0b0001, 0b0010, 0b0100, 0b1000 then
+						Result := Result + 1
+					when 0b0011, 0b0101, 0b0110, 0b1001, 0b1010, 0b1100 then
+						Result := Result + 2
+					when 0b0111, 0b1011, 0b1101, 0b1110 then
+						Result := Result + 3
+					when 0b1111 then
+						Result := Result + 4
+				end
+				i := i + 4
+			end
+		ensure
+			same_as_built_in: Result = gcc_ones_count_64 (n)
+		end
+
+	frozen leading_trailing_ones_count_64 (a_bitmap: NATURAL_64): INTEGER
+		-- count of 1's in `bitmap' without using gcc built-in
+		local
+			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
+			bitmap: NATURAL_64
+		do
+			if a_bitmap.to_boolean then
+				leading_count := leading_zeros_count_64 (a_bitmap)
+				trailing_count := trailing_zeros_count_64 (a_bitmap)
+				Result := 64 - leading_count - trailing_count
+				skip_ones := True
+				from bitmap := a_bitmap |>> trailing_count until bitmap = bitmap.zero loop
+					if skip_ones then
+						zero_count := trailing_zeros_count_64 (bitmap.bit_not) -- skip ones
+					else
+						zero_count := trailing_zeros_count_64 (bitmap) -- skip zeros
+						Result := Result - zero_count
+					end
+					skip_ones := not skip_ones
+					bitmap := bitmap |>> zero_count
+				end
+			end
+		end
+
+feature {NONE} -- Precomputed table
+
+	frozen precomputed_ones_count_64_v2 (n: NATURAL_64): INTEGER
+		local
+			i, bits_1_8, bits_9_16, bits_17_24, bits_25_32, bits_33_40, bits_41_48, bits_49_56, bits_57_64: INTEGER
+		do
+			if attached Precomputed_pop_count as pop_count then
+				bits_1_8 := (n & 0xFF).to_integer_32
+				bits_9_16 := ((n |>> 8) & 0xFF).to_integer_32
+				bits_17_24 := ((n |>> 16) & 0xFF).to_integer_32
+				bits_25_32 := ((n |>> 24) & 0xFF).to_integer_32
+				bits_33_40 := ((n |>> 32) & 0xFF).to_integer_32
+				bits_41_48 := ((n |>> 40) & 0xFF).to_integer_32
+				bits_49_56 := ((n |>> 48) & 0xFF).to_integer_32
+				bits_57_64 := ((n |>> 56) & 0xFF).to_integer_32
+
+				Result := pop_count [bits_1_8] + pop_count [bits_9_16]
+							+ pop_count [bits_17_24] + pop_count [bits_25_32]
+							+ pop_count [bits_33_40] + pop_count [bits_41_48]
+							+ pop_count [bits_49_56] + pop_count [bits_57_64]
+			end
+		ensure
+			same_as_built_in: Result = gcc_ones_count_64 (n)
+		end
+
+	frozen precomputed_ones_count_64_v3 (n: NATURAL_64): INTEGER
+		local
+			i: INTEGER
+		do
+			if attached Precomputed_pop_count as pop_count then
+				from i := 0 until i > 56 loop
+					Result := Result + pop_count [((n |>> i) & 0xFF).to_integer_32]
+					i := i + 8
+				end
+			end
+		ensure
+			same_as_built_in: Result = gcc_ones_count_64 (n)
+		end
+
+feature {NONE} -- Russian dolls
 
 	frozen nested_ones_count_64 (n: NATURAL_64): INTEGER
 		do
@@ -134,65 +228,5 @@ feature {NONE} -- Implementation
 			Result := lower + upper
 		end
 
-	frozen precomputed_ones_count_64_v2 (n: NATURAL_64): INTEGER
-		local
-			i, bits_1_8, bits_9_16, bits_17_24, bits_25_32, bits_33_40, bits_41_48, bits_49_56, bits_57_64: INTEGER
-		do
-			if attached Precomputed_pop_count as pop_count then
-				bits_1_8 := (n & 0xFF).to_integer_32
-				bits_9_16 := ((n |>> 8) & 0xFF).to_integer_32
-				bits_17_24 := ((n |>> 16) & 0xFF).to_integer_32
-				bits_25_32 := ((n |>> 24) & 0xFF).to_integer_32
-				bits_33_40 := ((n |>> 32) & 0xFF).to_integer_32
-				bits_41_48 := ((n |>> 40) & 0xFF).to_integer_32
-				bits_49_56 := ((n |>> 48) & 0xFF).to_integer_32
-				bits_57_64 := ((n |>> 56) & 0xFF).to_integer_32
-
-				Result := pop_count [bits_1_8] + pop_count [bits_9_16]
-							+ pop_count [bits_17_24] + pop_count [bits_25_32]
-							+ pop_count [bits_33_40] + pop_count [bits_41_48]
-							+ pop_count [bits_49_56] + pop_count [bits_57_64]
-			end
-		ensure
-			same_as_built_in: Result = gcc_ones_count_64 (n)
-		end
-
-	frozen precomputed_ones_count_64_v3 (n: NATURAL_64): INTEGER
-		local
-			i: INTEGER
-		do
-			if attached Precomputed_pop_count as pop_count then
-				from i := 0 until i > 56 loop
-					Result := Result + pop_count [((n |>> i) & 0xFF).to_integer_32]
-					i := i + 8
-				end
-			end
-		ensure
-			same_as_built_in: Result = gcc_ones_count_64 (n)
-		end
-
-	frozen slow_ones_count_64 (a_bitmap: NATURAL_64): INTEGER
-		-- count of 1's in `bitmap' without using gcc built-in
-		local
-			leading_count, trailing_count, zero_count: INTEGER; skip_ones: BOOLEAN
-			bitmap: NATURAL_64
-		do
-			if a_bitmap.to_boolean then
-				leading_count := leading_zeros_count_64 (a_bitmap)
-				trailing_count := trailing_zeros_count_64 (a_bitmap)
-				Result := 64 - leading_count - trailing_count
-				skip_ones := True
-				from bitmap := a_bitmap |>> trailing_count until bitmap = bitmap.zero loop
-					if skip_ones then
-						zero_count := trailing_zeros_count_64 (bitmap.bit_not) -- skip ones
-					else
-						zero_count := trailing_zeros_count_64 (bitmap) -- skip zeros
-						Result := Result - zero_count
-					end
-					skip_ones := not skip_ones
-					bitmap := bitmap |>> zero_count
-				end
-			end
-		end
 
 end

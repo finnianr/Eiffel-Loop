@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 19:41:16 GMT (Wednesday 29th November 2023)"
-	revision: "5"
+	date: "2023-12-03 9:32:11 GMT (Sunday 3rd December 2023)"
+	revision: "6"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_8
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 		encoded_area: SPECIAL [CHARACTER]; a_count, offset, a_other_offset: INTEGER
 	): BOOLEAN
 		local
-			i, j, code_j, other_offset: INTEGER; c_j: CHARACTER; l_unicodes: like unicode_table
+			i, j, other_offset: INTEGER; c_j: CHARACTER; l_unicodes: like unicode_table
 			l_other_area: SPECIAL [CHARACTER]
 		do
 			l_unicodes := unicode_table; l_other_area := other_area

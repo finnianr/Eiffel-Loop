@@ -1,5 +1,7 @@
 note
-	description: "Compare arrayed intervals implemented as INTEGER_64 vs INTEGER_32 x 2"
+	description: "[
+		Compare arrayed intervals implemented as [$source INTEGER_64] vs [$source INTEGER_32] x 2
+	]"
 	notes: "[
 		Benchmark: compare extend
 
@@ -26,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-08 8:25:21 GMT (Tuesday 8th August 2023)"
-	revision: "3"
+	date: "2023-12-03 13:17:57 GMT (Sunday 3rd December 2023)"
+	revision: "4"
 
 class
 	ARRAYED_INTERVAL_LIST_COMPARISON

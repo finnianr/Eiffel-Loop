@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 12:13:38 GMT (Thursday 9th November 2023)"
-	revision: "26"
+	date: "2023-12-03 9:35:18 GMT (Sunday 3rd December 2023)"
+	revision: "27"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -111,12 +111,12 @@ feature {NONE} -- Commands
 			credential: EL_AES_CREDENTIAL; encrypted_token: STRING
 		do
 			new_token := User_input.line ("Cut and paste access token")
-			create credential.make_default
-			user.validate (credential)
+			create credential.make
+			user.validate (credential, Void)
 
 			encrypted_token := credential.new_aes_encrypter (256).base_64_encrypted (new_token.to_utf_8)
 
-			pyxis_fragment := Access_token_template #$ [encrypted_token, credential.salt_base_64, credential.digest_base_64]
+			pyxis_fragment := Access_token_template #$ [encrypted_token, credential.salt_base_64, credential.target_base_64]
 
 			lio.put_labeled_string ("Cut and paste lines", "")
 			lio.put_new_line

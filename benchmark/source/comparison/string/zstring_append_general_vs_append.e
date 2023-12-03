@@ -1,10 +1,13 @@
 note
 	description: "[
-		{ZSTRING}.append_general VS {ZSTRING}.append for ZSTRING argument
+		{[$source ZSTRING]}.append_general VS {[$source ZSTRING]}.append for [$source ZSTRING]
+		argument
 	]"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
+			append         : 28782.0 times (100%)
+			append_general : 21594.0 times (-25.0%)
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 9:52:12 GMT (Friday 24th November 2023)"
-	revision: "8"
+	date: "2023-12-03 13:44:54 GMT (Sunday 3rd December 2023)"
+	revision: "9"
 
 class
 	ZSTRING_APPEND_GENERAL_VS_APPEND
@@ -37,7 +40,7 @@ feature -- Basic operations
 			list: EL_ZSTRING_LIST
 		do
 			create list.make_from_general (Hexagram.English_titles)
-			
+
 			compare ("compare append_general VS append", <<
 				["append_general", agent append_general (list)],
 				["append",			 agent append (list)]

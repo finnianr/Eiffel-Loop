@@ -1,5 +1,5 @@
 note
-	description: "Compare `{L1_UC_STRING}.make_general' and `{ZSTRING}.make_general'"
+	description: "Compare {[$source L1_UC_STRING]}.make_general and {[$source ZSTRING]}.make_general"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 14:56:52 GMT (Monday 13th March 2023)"
-	revision: "9"
+	date: "2023-12-03 13:20:43 GMT (Sunday 3rd December 2023)"
+	revision: "10"
 
 class
 	MAKE_GENERAL_COMPARISON

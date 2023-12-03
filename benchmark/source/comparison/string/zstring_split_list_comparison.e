@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare {[$source EL_ZSTRING]}**.split_list** with {[$source EL_ZSTRING_LIST]}**.make_split**
+		Compare {[$source EL_ZSTRING]}.split_list with {[$source EL_ZSTRING_LIST]}.make_split
 	]"
 	notes: "[
 		[$source EL_ZSTRING].split_list now incorporated into [$source EL_ZSTRING_LIST].make_split,
@@ -9,7 +9,7 @@ note
 		Passes over 250 millisecs (in descending order)
 
 			ZSTRING.split_list         : 24500.0 times (100%)
-			EL_ZSTRING_LIST.make_split : 14231.0 times (-41.9%)	
+			EL_ZSTRING_LIST.make_split : 14231.0 times (-41.9%)
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 8:07:01 GMT (Thursday 24th August 2023)"
-	revision: "15"
+	date: "2023-12-03 13:46:23 GMT (Sunday 3rd December 2023)"
+	revision: "16"
 
 class
 	ZSTRING_SPLIT_LIST_COMPARISON

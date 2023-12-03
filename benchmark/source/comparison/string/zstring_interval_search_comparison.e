@@ -1,5 +1,7 @@
 note
-	description: "Once off benchmark to determine best algorithm for {ZSTRING}.same_characters_zstring"
+	description: "[
+		Compare {[$source ZSTRING]}.substring_index_list VS substring_intervals
+	]"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)
 
@@ -18,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-24 17:42:12 GMT (Wednesday 24th May 2023)"
-	revision: "10"
+	date: "2023-12-03 13:17:39 GMT (Sunday 3rd December 2023)"
+	revision: "11"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON

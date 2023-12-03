@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare getting dynamic_type for `{COLLECTION [ANY]}' from calls
+		Compare getting dynamic_type for [$source COLLECTION [ANY]]} from calls
 		 
 			1. {COLLECTION [ANY]}.type_id
 			2. Class_id.COLLECTION_ANY
@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 6:57:10 GMT (Saturday 22nd July 2023)"
-	revision: "1"
+	date: "2023-12-03 10:23:17 GMT (Sunday 3rd December 2023)"
+	revision: "2"
 
 class
 	CLASS_ID_ENUM_VS_TYPE_OBJECT

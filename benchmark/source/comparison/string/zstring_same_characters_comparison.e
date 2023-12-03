@@ -1,5 +1,7 @@
 note
-	description: "Once off benchmark to determine best algorithm for {ZSTRING}.same_characters_zstring"
+	description: "[
+		Once off benchmark to determine best algorithm for {[$source ZSTRING]}.same_characters_zstring
+	]"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)
 
@@ -15,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 17:45:01 GMT (Sunday 19th February 2023)"
-	revision: "8"
+	date: "2023-12-03 10:43:19 GMT (Sunday 3rd December 2023)"
+	revision: "9"
 
 class
 	ZSTRING_SAME_CHARACTERS_COMPARISON

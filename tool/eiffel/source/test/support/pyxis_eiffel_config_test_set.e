@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:12:13 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2023-12-03 9:33:15 GMT (Sunday 3rd December 2023)"
+	revision: "11"
 
 class
 	PYXIS_EIFFEL_CONFIG_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 
 	EL_MODULE_BUILD_INFO
+
+	EL_SHARED_SOFTWARE_VERSION
 
 create
 	make
@@ -65,7 +67,7 @@ feature -- Tests
 					lio.put_labeled_string ("Version", config.system.version.string)
 					lio.put_new_line
 
-					new_version := Build_info.version.twin
+					new_version := Software_version.twin
 					new_version.bump_major
 
 					assert ("same version", config.system.version.compact_version = new_version.compact_version)

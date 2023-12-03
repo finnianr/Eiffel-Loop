@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 17:51:43 GMT (Saturday 2nd December 2023)"
-	revision: "9"
+	date: "2023-12-03 14:10:14 GMT (Sunday 3rd December 2023)"
+	revision: "10"
 
 deferred class
 	EL_BIT_ROUTINES_I
@@ -19,11 +19,17 @@ feature -- Measurement
 
 	leading_zeros_count_32 (n: NATURAL_32): INTEGER
 		-- number of trailing zeros before MSB
+		-- `n = 0' is undefined on gcc
+		require
+			not_zero: n /= 0
 		deferred
 		end
 
 	leading_zeros_count_64 (n: NATURAL_64): INTEGER
 		-- number of trailing zeros before MSB
+		-- `n = 0' is undefined on gcc
+		require
+			not_zero: n /= 0
 		deferred
 		end
 
@@ -38,6 +44,7 @@ feature -- Measurement
 		end
 
 	frozen precomputed_ones_count_32 (n: NATURAL_32): INTEGER
+		-- count of 1's in 32-bit `n' without using gcc built-in
 		local
 			i: INTEGER; hi_bits, low_bits: NATURAL_32
 		do
@@ -52,6 +59,7 @@ feature -- Measurement
 		end
 
 	frozen precomputed_ones_count_64 (n: NATURAL_64): INTEGER
+		-- count of 1's in 64-bit `n' without using gcc built-in
 		local
 			i: INTEGER; hi_bits, low_bits: NATURAL_64
 		do
@@ -65,13 +73,19 @@ feature -- Measurement
 			end
 		end
 
-	trailing_zeros_count_32 (x: NATURAL_32): INTEGER
+	trailing_zeros_count_32 (n: NATURAL_32): INTEGER
 		-- number of trailing zeros after LSB
+		-- `n = 0' is undefined on gcc
+		require
+			not_zero: n /= 0
 		deferred
 		end
 
-	trailing_zeros_count_64 (x: NATURAL_64): INTEGER
+	trailing_zeros_count_64 (n: NATURAL_64): INTEGER
 		-- number of trailing zeros after LSB
+		-- `n = 0' is undefined on gcc
+		require
+			not_zero: n /= 0
 		deferred
 		end
 

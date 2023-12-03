@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 17:51:01 GMT (Saturday 2nd December 2023)"
-	revision: "10"
+	date: "2023-12-03 14:08:57 GMT (Sunday 3rd December 2023)"
+	revision: "11"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -37,17 +37,11 @@ feature -- Tests
 	test_bit_routines
 		-- BIT_ROUTINE_TEST_SET.test_bit_routines
 		local
-			l_bit: EL_BIT_ROUTINES; i, mask: NATURAL
 			leading_zeros, trailing_zeros, leading_result, trailing_result, n, precomputed_n: INTEGER
-			bit_table: EL_HASH_TABLE [NATURAL, INTEGER]
+			l_bit: EL_BIT_ROUTINES; i, mask: NATURAL
 		do
-			create bit_table.make (<<
-				[1, (0b01).to_natural_32],
-				[4, (0b011001100).to_natural_32],
-				[6, (0b011011001100).to_natural_32]
-			>>)
 			across << 32, 64 >> as bit_count loop
-				across bit_table as table loop
+				across Bit_count_table as table loop
 					inspect bit_count.item
 						when 32 then
 							n := l_bit.ones_count_32 (table.item) -- on gcc: __builtin_popcount
@@ -67,9 +61,13 @@ feature -- Tests
 				i := i + 1
 			end
 			across << 32, 64 >> as bit_count loop
+				lio.put_integer_field ("NATURAL", bit_count.item)
+				lio.put_new_line
 				leading_zeros := bit_count.item - 1
 				trailing_zeros := 0
-				from mask := 0 until mask > 0xF loop
+				from mask := 1 until mask > 0xF loop
+					lio.put_labeled_string ("mask", mask.to_hex_string)
+					lio.put_new_line
 					inspect bit_count.item
 						when 32 then
 							leading_result := l_bit.leading_zeros_count_32 (mask)
@@ -78,16 +76,15 @@ feature -- Tests
 							leading_result := l_bit.leading_zeros_count_64 (mask)
 							trailing_result := l_bit.trailing_zeros_count_64 (mask)
 					end
+					lio.put_labeled_substitution ("trailing zeros", "%S = %S", [trailing_zeros, trailing_result])
+					lio.put_new_line
 					assert ("same leading zero count", leading_zeros = leading_result)
 					assert ("same trailing zero count", trailing_zeros = trailing_result)
-					if mask = 0 then
-						mask := 1
-					else
-						leading_zeros := leading_zeros - 1
-						trailing_zeros := trailing_zeros + 1
-						mask := mask |<< 1
-					end
+					leading_zeros := leading_zeros - 1
+					trailing_zeros := trailing_zeros + 1
+					mask := mask |<< 1
 				end
+				lio.put_new_line
 			end
 		end
 
@@ -305,6 +302,17 @@ feature -- Tests
 				end
 				i := i + 1
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Bit_count_table: EL_HASH_TABLE [NATURAL, INTEGER]
+		once
+			create Result.make (<<
+				[1, (0b01).to_natural_32],
+				[4, (0b011001100).to_natural_32],
+				[6, (0b011011001100).to_natural_32]
+			>>)
 		end
 
 end

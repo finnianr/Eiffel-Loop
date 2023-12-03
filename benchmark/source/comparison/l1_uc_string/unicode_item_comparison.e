@@ -1,5 +1,5 @@
 note
-	description: "Compare `{L1_UC_STRING}.unicode' and `{ZSTRING}.unicode'"
+	description: "Compare `{[$source L1_UC_STRING]}.unicode' and `{[$source ZSTRING]}.unicode'"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 14:21:38 GMT (Monday 13th March 2023)"
-	revision: "9"
+	date: "2023-12-03 10:47:10 GMT (Sunday 3rd December 2023)"
+	revision: "10"
 
 class
 	UNICODE_ITEM_COMPARISON

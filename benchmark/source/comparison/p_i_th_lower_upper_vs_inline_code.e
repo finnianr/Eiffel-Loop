@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare call to {[$source EL_POINTER_ROUTINES]}.**i_th_lower_upper** with using inline code
+		Compare call to {[$source EL_POINTER_ROUTINES]}.i_th_lower_upper with using inline code
 	]"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-08 9:05:08 GMT (Tuesday 8th August 2023)"
-	revision: "10"
+	date: "2023-12-03 14:12:07 GMT (Sunday 3rd December 2023)"
+	revision: "11"
 
 class
 	P_I_TH_LOWER_UPPER_VS_INLINE_CODE

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 9:34:40 GMT (Friday 3rd November 2023)"
-	revision: "30"
+	date: "2023-12-03 9:33:50 GMT (Sunday 3rd December 2023)"
+	revision: "31"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -109,16 +109,16 @@ feature {NONE} -- Implementation
 
 	put_source_link (file_out: EL_PLAIN_TEXT_FILE; html_path: FILE_PATH; link_text: ZSTRING)
 		do
-			file_out.put_raw_character_8 ('[')
+			file_out.put_encoded_character_8 ('[')
 			file_out.put_string (web_address)
-			file_out.put_raw_character_8 ('/')
+			file_out.put_encoded_character_8 ('/')
 			file_out.put_string (html_path.to_string)
 			file_out.put_string (link_text)
 		end
 
 	put_ise_source_link (file_out: EL_PLAIN_TEXT_FILE; url: ZSTRING; link_text: ZSTRING)
 		do
-			file_out.put_raw_character_8 ('[')
+			file_out.put_encoded_character_8 ('[')
 			file_out.put_string (url)
 			file_out.put_string (link_text)
 		end

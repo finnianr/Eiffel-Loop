@@ -1,5 +1,5 @@
 note
-	description: "Zstring split comparison"
+	description: "[$source ZSTRING] split comparison"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)
 
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 8:04:32 GMT (Thursday 24th August 2023)"
-	revision: "14"
+	date: "2023-12-03 13:46:06 GMT (Sunday 3rd December 2023)"
+	revision: "15"
 
 class
 	ZSTRING_SPLIT_COMPARISON
