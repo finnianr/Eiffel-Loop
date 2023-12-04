@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 17:25:05 GMT (Wednesday 29th November 2023)"
-	revision: "112"
+	date: "2023-12-04 9:13:32 GMT (Monday 4th December 2023)"
+	revision: "113"
 
 class
 	ZSTRING_TEST_SET
@@ -670,7 +670,7 @@ feature -- Element change tests
 			testing:	"[
 				covers/{ZSTRING}.insert_string, 
 				covers/{ZSTRING}.remove_substring,
-				covers/{EL_UNENCODED_CHARACTERS}.shift_from
+				covers/{EL_COMPACT_SUBSTRINGS_32}.shift_from
 			]"
 		local
 			test: STRING_TEST; G_clef: ZSTRING; word_list: EL_SPLIT_ZSTRING_LIST

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 15:57:35 GMT (Wednesday 29th November 2023)"
-	revision: "14"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "15"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -217,7 +217,7 @@ feature -- Write operations
 		require else
 			valid_string: a_string.is_valid
 		local
-			i, l_count, pos, block_index: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			i, l_count, pos, block_index: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 			c_i: CHARACTER
 		do
 			l_count := a_string.count

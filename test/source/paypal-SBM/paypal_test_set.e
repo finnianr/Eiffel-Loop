@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 10:36:46 GMT (Monday 14th August 2023)"
-	revision: "21"
+	date: "2023-12-04 15:18:00 GMT (Monday 4th December 2023)"
+	revision: "22"
 
 class
 	PAYPAL_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_MODULE_DIRECTORY
 
 	PP_SHARED_PAYMENT_STATUS_ENUM
 
@@ -22,6 +24,8 @@ inherit
 	PP_SHARED_TRANSACTION_TYPE_ENUM
 
 	EL_SHARED_CURRENCY_ENUM
+
+	EL_FILE_OPEN_ROUTINES
 
 	EL_REFLECTION_HANDLER
 
@@ -34,13 +38,22 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["pp_date_format", agent test_pp_date_format],
-				["pp_transaction", agent test_pp_transaction],
-				["uri_query_table_conversion", agent test_uri_query_table_conversion]
+				["pp_date_format",				 agent test_pp_date_format],
+				["pp_transaction",				 agent test_pp_transaction],
+				["uri_query_table_conversion", agent test_uri_query_table_conversion],
+				["pp_button_query_results",	 agent test_pp_button_query_results]
 			>>)
 		end
 
 feature -- Test
+
+	test_pp_button_query_results
+		-- PAYPAL_TEST_SET.test_pp_button_query_results
+		local
+			results: PP_BUTTON_QUERY_RESULTS
+		do
+			create results.make (new_query (Button_result_error))
+		end
 
 	test_pp_date_format
 		local
@@ -68,7 +81,7 @@ feature -- Test
 		local
 			transaction: PP_TRANSACTION; date_time: EL_DATE_TIME
 		do
-			create transaction.make (ipn_url_query)
+			create transaction.make (new_query (IPN_message))
 			assert_same_string ("address_country=Ireland", transaction.address.country, "Ireland")
 			assert_same_string ("address_city=Dún Búinne", transaction.address.city, "Dún Búinne")
 			assert ("address_country_code=IE", transaction.address.country_code ~ "IE")
@@ -98,9 +111,9 @@ feature -- Test
 			value_table: EL_URI_QUERY_ZSTRING_HASH_TABLE; date_time: EL_DATE_TIME
 			name: STRING
 		do
-			create transaction.make (ipn_url_query)
+			create transaction.make (new_query (IPN_message))
 
-			create value_table.make_url (ipn_url_query)
+			create value_table.make_url (new_query (IPN_message))
 			if attached transaction.field_table as field_table then
 				across value_table as table loop
 					name := table.key
@@ -125,11 +138,11 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	ipn_url_query: STRING
+	new_query (line_query: STRING): STRING
 		local
 			param_list: EL_SPLIT_STRING_LIST [STRING]
 		do
-			create param_list.make (IPN_message, '%N')
+			create param_list.make (line_query, '%N')
 			Result := param_list.joined ('&')
 		end
 
@@ -139,6 +152,16 @@ feature {NONE} -- Constants
 		once
 			create Result.make
 		end
+
+	Button_result_error: STRING = "[
+		TIMESTAMP=2023%2d12%2d04T14%3a31%3a50Z
+		CORRELATIONID=b100381cb0e05
+		ACK=Failure
+		VERSION=95%2e0
+		BUILD=56068150
+		L_ERRORCODE0=11925
+		L_SEVERITYCODE0=Error
+	]"
 
 	IPN_message: STRING = "[
 		mc_gross=4.85

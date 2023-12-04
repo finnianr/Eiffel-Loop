@@ -7,14 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 9:26:41 GMT (Saturday 25th November 2023)"
-	revision: "18"
+	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
+	revision: "19"
 
 class
 	UNENCODED_CHARACTERS_INDEX
 
 obsolete
-	"Replaced by EL_UNENCODED_CHARACTER_ITERATION"
+	"Replaced by EL_COMPACT_SUBSTRINGS_32_ITERATION"
 
 inherit
 	EL_ZCODE_CONVERSION
@@ -111,7 +111,7 @@ feature -- Element change
 			area := a_area
 		end
 
-feature {EL_UNENCODED_CHARACTERS} -- Internal attributes
+feature {EL_COMPACT_SUBSTRINGS_32} -- Internal attributes
 
 	area: SPECIAL [CHARACTER_32]
 		-- unencoded character area

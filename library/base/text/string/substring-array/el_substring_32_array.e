@@ -1,6 +1,7 @@
 note
 	description: "[
-		Array of sequential substrings from an instance of [$source STRING_32] compacted into a single [$source SPECIAL] array:
+		Array of sequential substrings from an instance of [$source STRING_32] compacted into a single
+		[$source SPECIAL] array:
 		
 			area: [$source SPECIAL [NATURAL]]
 			
@@ -12,8 +13,9 @@ note
 	]"
 	notes: "[
 		Tried an experiment in Jan 2021 to implement [$source EL_ZSTRING] using [$source EL_SUBSTRING_32_ARRAY]
-		instead of [$source EL_UNENCODED_CHARACTERS]. It passed all the tests but the performance benchmarks indicated
-		that it was on average significantly slower the original [$source EL_UNENCODED_CHARACTERS] implementation.
+		instead of [$source EL_COMPACT_SUBSTRINGS_32]. It passed all the tests but the performance benchmarks
+		indicated that it was on average significantly slower the original [$source EL_COMPACT_SUBSTRINGS_32]
+		implementation.
 	]"
 
 	author: "Finnian Reilly"
@@ -21,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-09 15:54:49 GMT (Thursday 9th February 2023)"
-	revision: "23"
+	date: "2023-12-04 9:22:52 GMT (Monday 4th December 2023)"
+	revision: "24"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -71,7 +73,7 @@ feature {NONE} -- Initialization
 			valid_array: is_valid
 		end
 
-	make_from_unencoded (unencoded: EL_UNENCODED_CHARACTERS)
+	make_from_unencoded (unencoded: EL_COMPACT_SUBSTRINGS_32)
 		local
 			i, lower, upper, l_count, char_count, offset: INTEGER
 			l_area: like area

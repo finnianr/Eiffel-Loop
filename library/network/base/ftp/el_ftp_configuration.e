@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 9:12:22 GMT (Wednesday 29th November 2023)"
-	revision: "17"
+	date: "2023-12-04 12:36:20 GMT (Monday 4th December 2023)"
+	revision: "18"
 
 class
 	EL_FTP_CONFIGURATION
@@ -74,12 +74,13 @@ feature -- Status query
 
 feature -- Element change
 
-	authenticate (passphrase: detachable ZSTRING)
+	authenticate (a_phrase: detachable ZSTRING)
 		local
 			crypto: EL_USER_CRYPTO_OPERATIONS
 		do
 			if attached encrypted_url as cipher then
-				if attached passphrase as pp then
+				if attached a_phrase as phrase then
+					credential.try_validating (phrase)
 					if not credential.is_valid then
 						crypto.validate (credential, Void)
 					end

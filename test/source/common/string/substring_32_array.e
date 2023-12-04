@@ -3,11 +3,11 @@ note
 		Array of unicode substrings in order of occurence in source string.
 	]"
 	notes: "[
-		This is an experiment to try and improve on the performance of [$source EL_UNENCODED_CHARACTERS]
+		This is an experiment to try and improve on the performance of [$source EL_COMPACT_SUBSTRINGS_32]
 		
 		**Conclusion**
 		
-		Turns out that [$source EL_UNENCODED_CHARACTERS] is marginally faster:
+		Turns out that [$source EL_COMPACT_SUBSTRINGS_32] is marginally faster:
 
 			Average execution times over 10000 runs (in ascending order)
 			{ZSTRING}.make_general      :  0.083 millisecs
@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-12-04 9:13:32 GMT (Monday 4th December 2023)"
+	revision: "7"
 
 class
 	SUBSTRING_32_ARRAY
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	character_item (index: INTEGER): CHARACTER_32
-		-- {EL_UNENCODED_CHARACTERS}.item
+		-- {EL_COMPACT_SUBSTRINGS_32}.item
 		local
 			substring: like substring_area.item; i, offset: INTEGER
 		do
@@ -56,7 +56,7 @@ feature -- Access
 		end
 
 	code_item (index: INTEGER): NATURAL
-		-- {EL_UNENCODED_CHARACTERS}.code
+		-- {EL_COMPACT_SUBSTRINGS_32}.code
 		do
 			Result := character_item (index).natural_32_code
 		end

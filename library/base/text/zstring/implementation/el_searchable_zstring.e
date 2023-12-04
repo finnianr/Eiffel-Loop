@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 14:35:57 GMT (Saturday 2nd December 2023)"
-	revision: "47"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "48"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -227,7 +227,7 @@ feature -- Basic operations
 		-- fill `interval_list' with substring intervals of contiguous alpha-numeric characters
 		local
 			i, j, block_index, i_upper, l_count: INTEGER; c_i: CHARACTER
-			iter: EL_UNENCODED_CHARACTER_ITERATION; interval: NATURAL_64
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; interval: NATURAL_64
 		do
 			if attached area as l_area and then attached unencoded_area as area_32
 				and then attached Codec as l_codec

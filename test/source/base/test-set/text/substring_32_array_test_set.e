@@ -1,6 +1,6 @@
 ﻿note
 	description: "[
-		Test [$source EL_SUBSTRING_32_ARRAY] against [$source EL_UNENCODED_CHARACTERS]
+		Test [$source EL_SUBSTRING_32_ARRAY] against [$source EL_COMPACT_SUBSTRINGS_32]
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "26"
+	date: "2023-12-04 9:18:21 GMT (Monday 4th December 2023)"
+	revision: "27"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -58,7 +58,7 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.append", "covers/{EL_SUBSTRING_32_ARRAY}.shifted"
 		local
 			word, line: ZSTRING; count: INTEGER
-			unencoded: EL_UNENCODED_CHARACTERS; array, word_array, shifted_array: EL_SUBSTRING_32_ARRAY
+			unencoded: EL_COMPACT_SUBSTRINGS_32; array, word_array, shifted_array: EL_SUBSTRING_32_ARRAY
 		do
 			create line.make_empty
 			create array.make_from_unencoded (line)
@@ -81,10 +81,10 @@ feature -- Test
 
 	test_append_substring
 		note
-			testing: "covers/{EL_UNENCODED_CHARACTERS_BUFFER}.append_substring"
+			testing: "covers/{EL_COMPACT_SUBSTRINGS_32_BUFFER}.append_substring"
 		local
-			zstr: ZSTRING; unencoded, sub_unencoded: EL_UNENCODED_CHARACTERS
-			extendable: EL_UNENCODED_CHARACTERS_BUFFER; lower, upper: INTEGER
+			zstr: ZSTRING; unencoded, sub_unencoded: EL_COMPACT_SUBSTRINGS_32
+			extendable: EL_COMPACT_SUBSTRINGS_32_BUFFER; lower, upper: INTEGER
 		do
 			create extendable.make
 			across 1 |..| 7 as n loop
@@ -200,7 +200,7 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.prepend", "covers/{EL_SUBSTRING_32_ARRAY}.shifted"
 		local
 			word, line: ZSTRING; count: INTEGER
-			word_unencoded, line_unencoded: EL_UNENCODED_CHARACTERS
+			word_unencoded, line_unencoded: EL_COMPACT_SUBSTRINGS_32
 		do
 			create line.make_empty
 			across 0 |..| 1 as n loop
@@ -223,7 +223,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.put"
 		local
-			zstr: ZSTRING; index: INTEGER; unencoded: EL_UNENCODED_CHARACTERS
+			zstr: ZSTRING; index: INTEGER; unencoded: EL_COMPACT_SUBSTRINGS_32
 			uc: CHARACTER_32
 		do
 			uc := 'д'
@@ -243,7 +243,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.remove"
 		local
-			zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS
+			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32
 			index: INTEGER
 		do
 			across Text.russian as c loop
@@ -281,7 +281,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.shift_from"
 		local
-			array: EL_SUBSTRING_32_ARRAY; unencoded: EL_UNENCODED_CHARACTERS
+			array: EL_SUBSTRING_32_ARRAY; unencoded: EL_COMPACT_SUBSTRINGS_32
 			zstr, padded: ZSTRING; count: INTEGER
 		do
 			zstr := Text.russian
@@ -301,7 +301,7 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.sub_array"
 		local
 			zstr, substring: ZSTRING; i, i_last, substring_count: INTEGER
-			array, sub_array: EL_UNENCODED_CHARACTERS; extendable: EL_UNENCODED_CHARACTERS_BUFFER
+			array, sub_array: EL_COMPACT_SUBSTRINGS_32; extendable: EL_COMPACT_SUBSTRINGS_32_BUFFER
 		do
 			zstr := Text.russian
 			create extendable.make
@@ -349,7 +349,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.change_case"
 		local
-			zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS
+			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32
 		do
 			zstr := Text.russian
 			unencoded := zstr
@@ -366,13 +366,13 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	compare_character_count (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
+	compare_character_count (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		do
 			assert ("same character_count", unencoded.character_count = to_array (zstr).character_count)
 			assert ("same utf_8_byte_count", unencoded.utf_8_byte_count = to_array (zstr).utf_8_byte_count)
 		end
 
-	compare_codes (zstr: ZSTRING; array: EL_UNENCODED_CHARACTERS)
+	compare_codes (zstr: ZSTRING; array: EL_COMPACT_SUBSTRINGS_32)
 		local
 			i: INTEGER
 		do
@@ -384,7 +384,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_first_interval (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
+	compare_first_interval (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		do
 			if unencoded.not_empty then
 				assert ("same first_lower", unencoded.first_lower = to_array (zstr).first_lower)
@@ -394,12 +394,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_hash_code (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
+	compare_hash_code (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		do
 			assert ("same hash_code", to_array (zstr).hash_code (50) = unencoded.hash_code (50))
 		end
 
-	compare_index_of (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
+	compare_index_of (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		local
 			i, last_index: INTEGER; uc: CHARACTER_32
 		do
@@ -414,7 +414,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_occurrences (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
+	compare_occurrences (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		local
 			i: INTEGER; uc: CHARACTER_32
 		do
@@ -427,14 +427,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_write_output (zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS)
+	compare_write_output (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		do
 			assert ("same content", same_content (zstr, unencoded))
 		end
 
-	for_each_line (test: PROCEDURE [ZSTRING, EL_UNENCODED_CHARACTERS])
+	for_each_line (test: PROCEDURE [ZSTRING, EL_COMPACT_SUBSTRINGS_32])
 		local
-			zstr: ZSTRING; unencoded: EL_UNENCODED_CHARACTERS
+			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32
 		do
 			across Text.lines as line loop
 				zstr := line.item
@@ -448,7 +448,7 @@ feature {NONE} -- Implementation
 			Result := zstr
 		end
 
-	same_content (array: EL_SUBSTRING_32_ARRAY; unencoded: EL_UNENCODED_CHARACTERS): BOOLEAN
+	same_content (array: EL_SUBSTRING_32_ARRAY; unencoded: EL_COMPACT_SUBSTRINGS_32): BOOLEAN
 		local
 			output_1, output_2: STRING_32
 		do

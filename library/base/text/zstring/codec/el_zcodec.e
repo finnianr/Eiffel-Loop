@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 19:29:48 GMT (Wednesday 29th November 2023)"
-	revision: "63"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "64"
 
 deferred class
 	EL_ZCODEC
@@ -133,7 +133,7 @@ feature -- Contract Support
 			valid_start_index: str.valid_index (start_index) and str.valid_index (end_index)
 		local
 			i, in_offset, block_index, i_upper, i_lower: INTEGER; uc_i: CHARACTER_32
-			iter: EL_UNENCODED_CHARACTER_ITERATION; c_i: CHARACTER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; c_i: CHARACTER
 		do
 			if attached str.area as str_area and then attached str.unencoded_area as area_32
 				and then attached unicode_table as unicode
@@ -301,7 +301,7 @@ feature -- Encoding operations
 
 	encode_utf (
 		utf_in: READABLE_STRING_8; encoded_out: SPECIAL [CHARACTER]; utf_type, unicode_count, out_offset: INTEGER
-		unencoded_characters: EL_UNENCODED_CHARACTERS_BUFFER
+		unencoded_characters: EL_COMPACT_SUBSTRINGS_32_BUFFER
 	)
 		-- encode unicode characters as latin
 		-- Set unencodeable characters as the Substitute character (26) and record location in unencoded_intervals
@@ -432,7 +432,7 @@ feature -- Basic operations
 				from i := 0 until i = a_count loop
 					inspect latin_in [i]
 						when Substitute then
-							do_nothing -- Filled in later by call to `{EL_UNENCODED_CHARACTERS}.write'
+							do_nothing -- Filled in later by call to `{EL_COMPACT_SUBSTRINGS_32}.write'
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
 							unicode_out [i + out_offset] := latin_in [i].code.to_character_32
 					else
@@ -448,7 +448,7 @@ feature -- Basic operations
 		end
 
 	to_lower (
-		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_UNENCODED_CHARACTERS
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
 	)
 			-- Replace all characters in `a' between `start_index' and `end_index'
 			-- with their lower version when available.
@@ -457,7 +457,7 @@ feature -- Basic operations
 		end
 
 	to_upper (
-		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_UNENCODED_CHARACTERS
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
 	)
 			-- Replace all characters in `a' between `start_index' and `end_index'
 			-- with their lower version when available.
@@ -550,7 +550,7 @@ feature {NONE} -- Implementation
 
 	change_case (
 		latin_in: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
-		unencoded_characters: EL_UNENCODED_CHARACTERS
+		unencoded_characters: EL_COMPACT_SUBSTRINGS_32
 	)
 		local
 			unicode_substitute: CHARACTER_32; new_c: CHARACTER; i: INTEGER
@@ -597,7 +597,7 @@ feature {NONE} -- Implementation
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
 			i, i_lower, i_upper, out_i, code_i, in_offset, block_index, count: INTEGER; interval: NATURAL_64
-			uc_i: CHARACTER_32; iter: EL_UNENCODED_CHARACTER_ITERATION; latin_c, c_i: CHARACTER
+			uc_i: CHARACTER_32; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; latin_c, c_i: CHARACTER
 			encode_default: BOOLEAN
 		do
 			if attached zstr_in.area as area and then attached zstr_in.unencoded_area as area_32

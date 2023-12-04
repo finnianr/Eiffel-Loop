@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 16:22:29 GMT (Saturday 18th November 2023)"
-	revision: "38"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "39"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -315,7 +315,7 @@ feature {NONE} -- Implementation
 			i, j, i_final, block_index, other_block_index: INTEGER; found: BOOLEAN
 			uc_i, o_uc_i: CHARACTER_32; l_code, o_code: NATURAL; c_i, o_i: CHARACTER
 			o_unencoded, unencoded: like unencoded_area; o_area, l_area: like area
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			l_area := area; o_area := other.area
 			unencoded := unencoded_area; o_unencoded := other.unencoded_area

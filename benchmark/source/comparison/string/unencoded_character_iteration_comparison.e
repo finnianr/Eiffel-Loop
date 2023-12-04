@@ -1,10 +1,10 @@
 note
-	description: "Compare [$source EL_UNENCODED_CHARACTERS] iteration methods"
+	description: "Compare [$source EL_COMPACT_SUBSTRINGS_32] iteration methods"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
 			UNENCODED_CHARACTER_ITERATION_EXTERNAL :  3980.0 times (100%)
-			EL_UNENCODED_CHARACTER_ITERATION       :  3974.0 times (-0.2%)
+			EL_COMPACT_SUBSTRINGS_32_ITERATION       :  3974.0 times (-0.2%)
 			UNENCODED_CHARACTERS_INDEX             :  3356.0 times (-15.7%)
 
 		**Conclusion**
@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 9:46:20 GMT (Saturday 25th November 2023)"
-	revision: "4"
+	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
+	revision: "5"
 
 class
 	UNENCODED_CHARACTER_ITERATION_COMPARISON
@@ -36,7 +36,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{EL_UNENCODED_CHARACTERS}.area iteration methods"
+	Description: STRING = "{EL_COMPACT_SUBSTRINGS_32}.area iteration methods"
 
 feature -- Basic operations
 
@@ -46,7 +46,7 @@ feature -- Basic operations
 		do
 			russian := Text.lines.first
 			compare ("Iterate over ZSTRING characters", <<
-				["EL_UNENCODED_CHARACTER_ITERATION",		 agent unencoded_character_iteration (russian)],
+				["EL_COMPACT_SUBSTRINGS_32_ITERATION",		 agent unencoded_character_iteration (russian)],
 				["UNENCODED_CHARACTERS_INDEX",				 agent unencoded_characters_index (russian)],
 				["UNENCODED_CHARACTER_ITERATION_EXTERNAL", agent external_pointer_get_set (russian)]
 			>>)
@@ -61,7 +61,7 @@ feature {NONE} -- append_character
 			area_32: SPECIAL [CHARACTER_32]
 		do
 			across 1 |..| 1000 as n loop
-				if attached {EL_UNENCODED_CHARACTERS} str as unencoded then
+				if attached {EL_COMPACT_SUBSTRINGS_32} str as unencoded then
 					l_area := str.area; area_32 := unencoded.area
 					count := str.count
 					from until i = count loop
@@ -78,12 +78,12 @@ feature {NONE} -- append_character
 
 	unencoded_character_iteration (str: ZSTRING)
 		local
-			iter: EL_UNENCODED_CHARACTER_ITERATION; block_index, i, count: INTEGER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; block_index, i, count: INTEGER
 			l_area: SPECIAL [CHARACTER]; uc: CHARACTER_32; c_i: CHARACTER
 			area_32: SPECIAL [CHARACTER_32]
 		do
 			across 1 |..| 1000 as n loop
-				if attached {EL_UNENCODED_CHARACTERS} str as unencoded then
+				if attached {EL_COMPACT_SUBSTRINGS_32} str as unencoded then
 					l_area := str.area; area_32 := unencoded.area
 					count := str.count
 					from until i = count loop
@@ -104,7 +104,7 @@ feature {NONE} -- append_character
 			i, count: INTEGER; interval_index: UNENCODED_CHARACTERS_INDEX
 		do
 			across 1 |..| 1000 as n loop
-				if attached {EL_UNENCODED_CHARACTERS} str as unencoded then
+				if attached {EL_COMPACT_SUBSTRINGS_32} str as unencoded then
 					l_area := str.area
 					interval_index := Once_unencoded_index
 					interval_index.set_area (str.unencoded_area)

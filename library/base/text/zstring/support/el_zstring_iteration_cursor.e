@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 19:54:41 GMT (Wednesday 29th November 2023)"
-	revision: "19"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "20"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -65,7 +65,7 @@ feature -- Access
 
 	item: CHARACTER_32
 		local
-			code: INTEGER; i: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			code: INTEGER; i: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			i := target_index
 			code := area [i - 1].code
@@ -80,7 +80,7 @@ feature -- Access
 
 	z_code: NATURAL
 		local
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			Result := iter.i_th_z_code (block_index_ptr, area, unencoded_area, target_index)
 		end
@@ -90,7 +90,7 @@ feature -- Basic operations
 	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
 		local
 			i, i_final, block_index: INTEGER; c_i: CHARACTER; uc: CHARACTER_32
-			iter: EL_UNENCODED_CHARACTER_ITERATION; unicode: like codec.unicode_table
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; unicode: like codec.unicode_table
 		do
 			codec.decode (n, area, destination, 0)
 			unicode := codec.unicode_table
@@ -214,7 +214,7 @@ feature {NONE} -- Implementation
 
 	i_th_character_32 (a_area: like area; i: INTEGER): CHARACTER_32
 		local
-			c_i: CHARACTER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c_i: CHARACTER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			c_i := a_area [i]
 			inspect c_i

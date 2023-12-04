@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-27 19:02:04 GMT (Monday 27th February 2023)"
-	revision: "13"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "14"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -37,7 +37,7 @@ feature -- Search
 			-- 0 if there are no fuzzy matches.
 		local
 			i, j, l_min_offset, l_end_pos, l_area_lower, l_pattern_count, l_nb_mismatched, block_index: INTEGER
-			iter: EL_UNENCODED_CHARACTER_ITERATION; area_32: like String_type.unencoded_area
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; area_32: like String_type.unencoded_area
 			l_matched: BOOLEAN; l_deltas_array: like deltas_array
 			l_area: SPECIAL [CHARACTER]; l_char_code: NATURAL
 		do
@@ -123,7 +123,7 @@ feature -- Search
 		local
 			i, j, l_end_pos, l_pattern_count, l_area_lower, block_index: INTEGER; l_char_code: NATURAL
 			l_matched: BOOLEAN; l_deltas: like deltas; l_area: SPECIAL [CHARACTER]
-			iter: EL_UNENCODED_CHARACTER_ITERATION; area_32: like String_type.unencoded_area
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; area_32: like String_type.unencoded_area
 		do
 			if a_string = a_pattern then
 				if start_pos = 1 then

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 18:17:26 GMT (Wednesday 29th November 2023)"
-	revision: "99"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "100"
 
 class
 	EL_ZSTRING
@@ -348,7 +348,7 @@ feature -- Removal
 			-- Remove all occurrences of `c'.
 		local
 			i, j, i_upper, block_index, last_upper: INTEGER; encoded_c, c_i: CHARACTER_8; uc_i: CHARACTER_32
-			c_is_substitute: BOOLEAN; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c_is_substitute: BOOLEAN; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			i_upper := count - 1
 			encoded_c := encoded_character (uc); c_is_substitute := encoded_c = Substitute

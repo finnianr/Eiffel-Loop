@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2023-12-04 16:06:29 GMT (Monday 4th December 2023)"
+	revision: "16"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -48,14 +48,6 @@ feature -- Access
 
 	headers: FCGI_HTTP_HEADERS
 
-	item alias "[]" (name: READABLE_STRING_GENERAL): EL_URI_QUERY_ZSTRING_HASH_TABLE
-		require
-			has_parameter: has_parameter (name)
-		do
-			Result := method_parameters
-			Result.search (General.to_zstring (name))
-		end
-
 	parameters: like broker.parameters
 		do
 			Result := broker.parameters
@@ -87,9 +79,9 @@ feature -- Access
 feature -- Status query
 
 	has_parameter (name: READABLE_STRING_GENERAL): BOOLEAN
-			-- Does this request have a parameter named 'name'?
+		-- Does this request have a parameter with `name' ?
 		do
-			Result := method_parameters.has (General.to_zstring (name))
+			Result := method_parameters.has_general (name)
 		end
 
 feature -- Measurement
@@ -130,12 +122,5 @@ feature {NONE} -- Internal attributes
 		-- Internal request information and stream functionality.
 
 	servlet: FCGI_HTTP_SERVLET
-
-feature {NONE} -- Constants
-
-	General: EL_ZSTRING_CONVERTER
-		once
-			create Result.make
-		end
 
 end

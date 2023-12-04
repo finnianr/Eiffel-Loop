@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 14:37:01 GMT (Saturday 2nd December 2023)"
-	revision: "135"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "136"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -389,7 +389,7 @@ feature -- Status query
 	has_alpha_numeric: BOOLEAN
 		-- `True' if `str' has an alpha numeric character
 		local
-			i, block_index, i_final: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			i, block_index, i_final: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 			c_i: CHARACTER
 		do
 			if attached unencoded_area as area_32 and then attached area as l_area
@@ -457,7 +457,7 @@ feature -- Status query
 		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
 		local
 			uc_i: CHARACTER_32; i, i_final, space_count, block_index: INTEGER
-			iter: EL_UNENCODED_CHARACTER_ITERATION; c32: EL_CHARACTER_32_ROUTINES
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; c32: EL_CHARACTER_32_ROUTINES
 			is_space: BOOLEAN; c_i: CHARACTER
 		do
 			if attached area as l_area and then attached unencoded_area as area_32 then

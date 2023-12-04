@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-30 7:52:05 GMT (Thursday 30th November 2023)"
-	revision: "20"
+	date: "2023-12-04 9:00:58 GMT (Monday 4th December 2023)"
+	revision: "21"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -50,6 +50,7 @@ feature -- Basic operations
 				["inspect c (i = i_final)",		  agent inspect_iteration (mixed_string)],
 				["inspect c (i > area_upper)",	  agent inspect_iteration_area_upper (mixed_string)],
 				["inspect c [i] (i > area_upper)", agent inspect_iteration_area_upper_no_c_assign (mixed_string)],
+				["inspect type [c.code]",			  agent inspect_character_type (mixed_string)],
 				["if c [i] = Substitute then",	  agent if_then_iteration_no_c_assign (mixed_string)],
 				["if c = Substitute then",			  agent if_then_iteration (mixed_string)]
 			>>)
@@ -90,6 +91,29 @@ feature {NONE} -- Operations
 						do_with (c [i])
 					else
 						do_with (c [i])
+					end
+					i := i + 1
+				end
+			end
+		end
+
+	inspect_character_type (mixed_string: ZSTRING)
+		local
+			i, area_upper: INTEGER c: CHARACTER
+		do
+			if attached mixed_string.area as area
+				and then attached Character_type as type
+			then
+				area_upper := mixed_string.count - 1
+				from i := 0 until i > area_upper loop
+					c := area [i]
+					inspect Character_type [c.code]
+						when Type_unencoded then
+							do_with (c)
+						when Type_ascii then
+							do_with (c)
+					else
+						do_with (c)
 					end
 					i := i + 1
 				end
@@ -165,4 +189,21 @@ feature {NONE} -- Implementation
 		do
 		end
 
+feature {NONE} -- Constants
+
+	Character_type: SPECIAL [NATURAL_8]
+		local
+			i: INTEGER
+		once
+			create Result.make_filled (0, 0x100)
+			from i := 0 until i > 0x7F loop
+				Result [i] := Type_ascii
+				i := i + 1
+			end
+			Result [26] := Type_unencoded
+		end
+
+	Type_ascii: NATURAL_8 = 1
+
+	Type_unencoded: NATURAL_8 = 2
 end

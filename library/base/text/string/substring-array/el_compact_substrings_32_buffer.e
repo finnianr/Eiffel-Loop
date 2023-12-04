@@ -1,19 +1,19 @@
 note
-	description: "Extendable [$source EL_UNENCODED_CHARACTERS] temporary buffer"
+	description: "Extendable [$source EL_COMPACT_SUBSTRINGS_32] with fast appending"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 11:03:24 GMT (Friday 24th November 2023)"
-	revision: "29"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "30"
 
 class
-	EL_UNENCODED_CHARACTERS_BUFFER
+	EL_COMPACT_SUBSTRINGS_32_BUFFER
 
 inherit
-	EL_UNENCODED_CHARACTERS
+	EL_COMPACT_SUBSTRINGS_32
 		export
 			 {NONE} area
 		redefine
@@ -56,7 +56,7 @@ feature -- Element change
 		-- append all unencoded characters in `a_area' in the range indicated by `source_offset'
 		-- and `a_count'. Requires external call to `append_final' to complete.
 		local
-			i, j, l_last_upper: INTEGER; iter: EL_UNENCODED_CHARACTER_ITERATION
+			i, j, l_last_upper: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 			uc: CHARACTER_32
 		do
 			l_last_upper := last_upper
@@ -73,7 +73,7 @@ feature -- Element change
 			set_last_upper (l_last_upper)
 		end
 
-	append_substring (other: EL_UNENCODED_CHARACTERS; lower_A, upper_A, offset: INTEGER)
+	append_substring (other: EL_COMPACT_SUBSTRINGS_32; lower_A, upper_A, offset: INTEGER)
 		local
 			i, lower_B, upper_B, interval_offset, interval_lower, interval_upper: INTEGER
 			ir: EL_INTERVAL_ROUTINES; o_area: like area; overlapping: BOOLEAN

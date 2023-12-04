@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-01 16:49:49 GMT (Wednesday 1st March 2023)"
-	revision: "19"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "20"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -36,7 +36,7 @@ feature -- Access
 		local
 			l_count, i, seq_count, block_index: INTEGER; z_code_i, esc_code: NATURAL
 			l_area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 
 		do
 			l_count := str.count; l_area := str.area

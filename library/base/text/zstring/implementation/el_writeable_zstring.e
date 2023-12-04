@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 17:26:20 GMT (Wednesday 29th November 2023)"
-	revision: "15"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "16"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -69,7 +69,7 @@ feature -- Append to other
 	append_to_string_8 (other: STRING_8)
 		local
 			i, o_first_index, i_upper, block_index: INTEGER; already_latin_1: BOOLEAN
-			c_i: CHARACTER; uc_i: CHARACTER_32; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c_i: CHARACTER; uc_i: CHARACTER_32; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			other.grow (other.count + count)
 			o_first_index := other.count
@@ -115,7 +115,7 @@ feature -- Append to other
 
 	append_to_utf_8 (a_utf_8: STRING_8)
 		local
-			iter: EL_UNENCODED_CHARACTER_ITERATION; sequence: like Utf_8_sequence
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; sequence: like Utf_8_sequence
 			i, i_upper, block_index, offset, ascii_count: INTEGER; c_i: CHARACTER
 		do
 			sequence := Utf_8_sequence
@@ -157,7 +157,7 @@ feature -- Basic operations
 		-- fill `str' with z_code characters
 		local
 			i, l_count, block_index: INTEGER; c_i: CHARACTER; z_code_i: NATURAL
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			l_count := count
 			str.grow (l_count)

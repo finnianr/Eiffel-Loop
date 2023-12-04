@@ -1,11 +1,10 @@
 note
 	description: "[
-		Representation of consecutive substrings in a [$source STRING_32] string that could not be encoded using
-		a latin character set. The substring are held in the array 
+		A list of substrings from a [$source STRING_32] compacted into a single array of type
 		
-			area: [$source SPECIAL [NATURAL]]
+			area: [$source SPECIAL [CHARACTER_32]]
 			
-		Each substring is prececded by two 32 bit characters representing the lower and upper index.
+		Each substring is preceded by two 32 bit characters representing the lower and upper index.
 	]"
 
 	author: "Finnian Reilly"
@@ -13,14 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 14:39:01 GMT (Saturday 2nd December 2023)"
-	revision: "61"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "62"
 
 class
-	EL_UNENCODED_CHARACTERS
+	EL_COMPACT_SUBSTRINGS_32
 
 inherit
-	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
+	EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION
 		export
 			{EL_ZCODE_CONVERSION} is_valid, substring_list, Buffer
 			{ANY} interval_sequence
@@ -45,7 +44,7 @@ feature {NONE} -- Initialization
 			area.put (n.to_character_32, 1)
 		end
 
-	make_joined (a, b: EL_UNENCODED_CHARACTERS; offset: INTEGER)
+	make_joined (a, b: EL_COMPACT_SUBSTRINGS_32; offset: INTEGER)
 		-- make `a' joined with `b' shifted `offset' places to right
 		local
 			i, lower, upper: INTEGER; l_area, area_a, area_b, current_area: like area
@@ -93,7 +92,7 @@ feature {NONE} -- Initialization
 			valid_count: character_count = old (a.character_count + b.character_count)
 		end
 
-	make_from_other (other: EL_UNENCODED_CHARACTERS)
+	make_from_other (other: EL_COMPACT_SUBSTRINGS_32)
 		do
 			if other.not_empty then
 				area := other.area.twin
@@ -130,7 +129,7 @@ feature -- Access
 			Result := item (index).natural_32_code
 		end
 
-	count_greater_than_zero_flags (other: EL_UNENCODED_CHARACTERS): like current_other_bitmap
+	count_greater_than_zero_flags (other: EL_COMPACT_SUBSTRINGS_32): like current_other_bitmap
 		-- bitmap representing respective encodings
 		do
 			Result := current_other_bitmap (area.count > 0, other.area.count > 0)
@@ -474,7 +473,7 @@ feature -- Comparison
 	same_characters (other_area: like area; lower_A, upper_A, other_offset: INTEGER; case_insensitive: BOOLEAN): BOOLEAN
 		local
 			i, lower_B, upper_B, l_count, offset, comparison_count, other_block_index: INTEGER
-			iter: EL_UNENCODED_CHARACTER_ITERATION; ir: EL_INTERVAL_ROUTINES
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; ir: EL_INTERVAL_ROUTINES
 			overlapping: BOOLEAN; l_area: like area
 		do
 			l_area := area
@@ -525,7 +524,7 @@ feature -- Comparison
 			end
 		end
 
-	same_string (other: EL_UNENCODED_CHARACTERS): BOOLEAN
+	same_string (other: EL_COMPACT_SUBSTRINGS_32): BOOLEAN
 		local
 			l_area: like area
 		do
@@ -537,7 +536,7 @@ feature -- Comparison
 
 feature -- Element change
 
-	append (other: EL_UNENCODED_CHARACTERS; offset: INTEGER)
+	append (other: EL_COMPACT_SUBSTRINGS_32; offset: INTEGER)
 		local
 			i, capacity, lower, upper: INTEGER; l_area: like area
 		do
@@ -614,7 +613,7 @@ feature -- Element change
 			area := l_area
 		end
 
-	insert (other: EL_UNENCODED_CHARACTERS)
+	insert (other: EL_COMPACT_SUBSTRINGS_32)
 		require
 			no_overlap: not interval_sequence.overlaps (other.interval_sequence)
 		local
@@ -712,7 +711,7 @@ feature -- Element change
 			code_set: item (index) = uc
 		end
 
-	set_from_buffer (a_area: EL_UNENCODED_CHARACTERS_BUFFER)
+	set_from_buffer (a_area: EL_COMPACT_SUBSTRINGS_32_BUFFER)
 		do
 			if a_area.not_empty then
 				area := a_area.area_copy
@@ -1069,7 +1068,7 @@ feature -- Basic operations
 
 feature -- Duplication
 
-	shifted (offset: INTEGER): EL_UNENCODED_CHARACTERS
+	shifted (offset: INTEGER): EL_COMPACT_SUBSTRINGS_32
 		do
 			create Result.make_from_other (Current)
 			Result.shift (offset)

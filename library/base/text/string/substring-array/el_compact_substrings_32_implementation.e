@@ -1,16 +1,16 @@
 note
-	description: "Implementation routines for [$source EL_UNENCODED_CHARACTERS]"
+	description: "Implementation routines for [$source EL_COMPACT_SUBSTRINGS_32]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 9:23:37 GMT (Friday 24th November 2023)"
-	revision: "27"
+	date: "2023-12-04 9:21:51 GMT (Monday 4th December 2023)"
+	revision: "28"
 
 deferred class
-	EL_UNENCODED_CHARACTERS_IMPLEMENTATION
+	EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION
 
 inherit
 	EL_EXTENDABLE_AREA [CHARACTER_32]
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	empty_buffer: EL_UNENCODED_CHARACTERS_BUFFER
+	empty_buffer: EL_COMPACT_SUBSTRINGS_32_BUFFER
 		do
 			Result := Buffer
 			Result.wipe_out
@@ -267,7 +267,7 @@ feature {NONE} -- `count_greater_than_zero_flags' values
 
 feature {NONE} -- Constants
 
-	Buffer: EL_UNENCODED_CHARACTERS_BUFFER
+	Buffer: EL_COMPACT_SUBSTRINGS_32_BUFFER
 		once
 			create Result.make
 		end

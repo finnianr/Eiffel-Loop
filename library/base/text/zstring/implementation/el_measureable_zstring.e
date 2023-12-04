@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 19:48:30 GMT (Wednesday 29th November 2023)"
-	revision: "23"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "24"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -23,7 +23,7 @@ feature -- Measurement
 		-- Returns count of continous occurrences of `uc' or white space starting from the begining
 		local
 			i, i_upper, block_index: INTEGER; encoded_c: CHARACTER
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			inspect uc.code
 				when 0 .. Max_7_bit_code then
@@ -102,7 +102,7 @@ feature -- Measurement
 			-- Returns count of continous occurrences of `uc' or white space starting from the end
 		local
 			i, block_index: INTEGER; encoded_c: CHARACTER
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			inspect uc.code
 				when 0 .. Max_7_bit_code then
@@ -153,7 +153,7 @@ feature {NONE} -- Implementation
 
 	internal_leading_white_space (a_area: like area; a_count: INTEGER): INTEGER
 		local
-			c32: EL_CHARACTER_32_ROUTINES; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c32: EL_CHARACTER_32_ROUTINES; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 			block_index, i: INTEGER; c_i: CHARACTER
 		do
 			-- `Substitute' is space
@@ -193,7 +193,7 @@ feature {NONE} -- Implementation
 
 	internal_trailing_white_space (a_area: like area): INTEGER
 		local
-			c32: EL_CHARACTER_32_ROUTINES; iter: EL_UNENCODED_CHARACTER_ITERATION
+			c32: EL_CHARACTER_32_ROUTINES; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 			block_index, i: INTEGER; c_i: CHARACTER
 		do
 			-- `Substitute' is space

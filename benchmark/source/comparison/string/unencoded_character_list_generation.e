@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-29 10:37:29 GMT (Tuesday 29th August 2023)"
-	revision: "10"
+	date: "2023-12-04 9:18:21 GMT (Monday 4th December 2023)"
+	revision: "11"
 
 class
 	UNENCODED_CHARACTER_LIST_GENERATION
@@ -83,7 +83,7 @@ feature {NONE} -- String append variations
 	extendable_extend
 		local
 			i, last_upper: INTEGER; str: STRING_32; uc: CHARACTER_32
-			unencoded: like extendable; characters: EL_UNENCODED_CHARACTERS
+			unencoded: like extendable; characters: EL_COMPACT_SUBSTRINGS_32
 		do
 			str := String; unencoded := extendable
 			unencoded.wipe_out
@@ -117,7 +117,7 @@ feature {NONE} -- String append variations
 
 feature {NONE} -- Internal attributes
 
-	extendable: EL_UNENCODED_CHARACTERS_BUFFER
+	extendable: EL_COMPACT_SUBSTRINGS_32_BUFFER
 
 	substring_buffer: EL_SUBSTRING_32_BUFFER
 

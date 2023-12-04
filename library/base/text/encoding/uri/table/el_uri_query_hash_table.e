@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 13:06:41 GMT (Wednesday 7th June 2023)"
-	revision: "8"
+	date: "2023-12-04 18:44:05 GMT (Monday 4th December 2023)"
+	revision: "9"
 
 deferred class
 	EL_URI_QUERY_HASH_TABLE [S -> STRING_GENERAL create make end]
@@ -101,6 +101,14 @@ feature -- Conversion
 				create Result.make_from_string (uri)
 			else
 				Result := uri
+			end
+		end
+
+	to_table_32: HASH_TABLE [STRING_32, STRING_32]
+		do
+			create Result.make_equal (count)
+			across Current as table loop
+				Result.extend (table.item.to_string_32, table.key.to_string_32)
 			end
 		end
 

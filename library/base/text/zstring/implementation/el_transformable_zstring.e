@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 12:16:33 GMT (Tuesday 28th November 2023)"
-	revision: "58"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "59"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -58,7 +58,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			-- "Hello" -> "olleH".
 		local
 			c_i: CHARACTER; i, l_count, block_index, last_upper: INTEGER
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			l_count := count
 			if l_count > 1 then
@@ -108,7 +108,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		local
 			c_i: CHARACTER; uc_i: CHARACTER_32; i, j, l_count, block_index, space_count, last_upper: INTEGER
 			is_space: BOOLEAN; c: EL_CHARACTER_32_ROUTINES
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			if not is_canonically_spaced
 				and then attached unencoded_area as area_32 and then attached area as l_area
@@ -214,7 +214,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		local
 			i, j, index, l_count, block_index, last_upper: INTEGER; old_z_code, new_z_code: NATURAL
 			old_expanded, new_expanded: STRING_32; l_area, new_characters_area: like area
-			iter: EL_UNENCODED_CHARACTER_ITERATION
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			old_expanded := old_characters.shared_z_code_pattern (1); new_expanded := new_characters.shared_z_code_pattern (2)
 
@@ -268,7 +268,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
 			c_old, c_new: CHARACTER; i, l_count, block_index: INTEGER; l_area: like area
-			iter: EL_UNENCODED_CHARACTER_ITERATION; new_unencoded: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; new_unencoded: CHARACTER_32
 		do
 			c_old := encoded_character (uc_old)
 			c_new := encoded_character (uc_new)

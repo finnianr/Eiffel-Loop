@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 16:12:34 GMT (Wednesday 29th November 2023)"
-	revision: "61"
+	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
+	revision: "62"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -110,7 +110,7 @@ feature -- To Strings
 		local
 			result_8: STRING; uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
 			encoding_to_latin_1_failed, already_latin_1: BOOLEAN; result_area: like area
-			iter: EL_UNENCODED_CHARACTER_ITERATION; c_i: CHARACTER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; c_i: CHARACTER
 		do
 			already_latin_1 := Codec.encoded_as_latin (1)
 
@@ -204,7 +204,7 @@ feature -- To list
 	split_list (a_separator: CHARACTER_32): like new_list
 			-- Split on `a_separator'.
 		local
-			part: like substring; iter: EL_UNENCODED_CHARACTER_ITERATION
+			part: like substring; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 			separator: CHARACTER; call_index_of_8: BOOLEAN
 			i, j, l_count, result_count, block_index: INTEGER
 		do

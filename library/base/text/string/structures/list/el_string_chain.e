@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:23:18 GMT (Thursday 17th August 2023)"
-	revision: "38"
+	date: "2023-12-04 12:26:32 GMT (Monday 4th December 2023)"
+	revision: "39"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -130,8 +130,11 @@ feature -- Access
 feature -- Status query
 
 	is_indented: BOOLEAN
+		-- `True' if all non-empty lines start with a tab character
 		 do
-		 	Result := across Current as str all str.item.starts_with (Tabulation) end
+		 	Result := across Current as str all
+		 		str.item.count > 0 implies str.item.starts_with (Tabulation)
+		 	end
 		 end
 
 	same_items (a_list: ITERABLE [S]): BOOLEAN

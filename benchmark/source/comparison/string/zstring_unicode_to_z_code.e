@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 17:31:39 GMT (Saturday 2nd December 2023)"
-	revision: "18"
+	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
+	revision: "19"
 
 class
 	ZSTRING_UNICODE_TO_Z_CODE
@@ -57,7 +57,7 @@ feature {NONE} -- Operations
 
 	do_method (area: SPECIAL [CHARACTER]; area_32: SPECIAL [CHARACTER_32]; id, count: INTEGER)
 		local
-			iter: EL_UNENCODED_CHARACTER_ITERATION; block_index, i: INTEGER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; block_index, i: INTEGER
 			uc: CHARACTER_32; c_i: CHARACTER; z_code: NATURAL
 		do
 			across 1 |..| 1000 as n loop

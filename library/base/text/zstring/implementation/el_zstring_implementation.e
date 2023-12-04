@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 14:40:50 GMT (Saturday 2nd December 2023)"
-	revision: "83"
+	date: "2023-12-04 9:13:31 GMT (Monday 4th December 2023)"
+	revision: "84"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
 
 inherit
-	EL_UNENCODED_CHARACTERS
+	EL_COMPACT_SUBSTRINGS_32
 		rename
 			append as append_unencoded,
 			append_intervals as append_unencoded_intervals,

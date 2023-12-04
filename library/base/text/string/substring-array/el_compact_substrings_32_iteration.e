@@ -1,16 +1,22 @@
 note
-	description: "Efficient iteration over [$source SPECIAL] area of [$source EL_UNENCODED_CHARACTERS]"
+	description: "[
+		Stateless character iteration over [$source SPECIAL] area in [$source EL_COMPACT_SUBSTRINGS_32]
+	]"
+	notes: "[
+		For performance efficiency state is mantained externally in a local [$source INTEGER_32] variable.
+		The state is referenced by the routine argument `block_index_ptr: POINTER'.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 16:46:22 GMT (Wednesday 29th November 2023)"
-	revision: "8"
+	date: "2023-12-04 10:22:40 GMT (Monday 4th December 2023)"
+	revision: "9"
 
 expanded class
-	EL_UNENCODED_CHARACTER_ITERATION
+	EL_COMPACT_SUBSTRINGS_32_ITERATION
 
 inherit
 	EL_POINTER_ROUTINES
