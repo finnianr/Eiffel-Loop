@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 11:25:27 GMT (Monday 8th May 2023)"
-	revision: "26"
+	date: "2023-12-05 13:33:49 GMT (Tuesday 5th December 2023)"
+	revision: "27"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -52,12 +52,20 @@ feature -- Constants
 
 feature -- Basic operations
 
+	run_command_loop
+		do
+			Precursor
+			paypal.close
+		end
+
+feature {NONE} -- Commands
+
 	create_button
 		local
 			response: PP_BUTTON_QUERY_RESULTS
 		do
 			lio.put_line ("create_button")
-			response := paypal.create_buy_now_button ("en_US", new_single_license.to_parameter_list, new_buy_options (1.0))
+			response := paypal.create_buy_now_button ("en_US", new_single_license.to_parameter_list, new_buy_options (0))
 			response.print_values
 			lio.put_new_line
 		end
@@ -77,7 +85,6 @@ feature -- Basic operations
 				lio.put_line ("ERROR")
 			else
 				lio.put_line ("ALL BUTTONS DELETED")
-				list_buttons
 			end
 			lio.put_new_line
 		end
@@ -91,19 +98,48 @@ feature -- Basic operations
 			if response.is_ok then
 				lio.put_line ("BUTTON DELETED")
 				response.print_values
-				list_buttons
 			else
 				lio.put_line ("ERROR")
 			end
 			lio.put_new_line
 		end
 
-	get_button_details
+	display_button_menu (update_price: BOOLEAN)
 		local
-			results: PP_BUTTON_DETAILS_QUERY_RESULTS
+			button_table: EL_PROCEDURE_TABLE [ZSTRING]; id, name: STRING
+			search_results: like paypal.button_search_results
+			sub_menu: EL_COMMAND_SHELL
+		do
+			search_results := paypal.button_search_results
+			if search_results.is_ok and then attached search_results.button_list as button_list then
+				create button_table.make_size (button_list.count)
+				across button_list as button loop
+					id := button.item.l_hosted_button_id
+					button_table.extend (agent get_button_details (id, update_price), id)
+				end
+				if update_price then
+					name := "ADJUST BUTTON PRICE"
+				else
+					name := "GET BUTTON DETAILS"
+				end
+				create sub_menu.make (name, button_table, 10)
+				sub_menu.run_command_loop
+			else
+				lio.put_line ("ERROR in search results")
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	get_button_details (button_id: STRING; update_price: BOOLEAN)
+		local
+			results: PP_BUTTON_DETAILS_QUERY_RESULTS; hosted_button: PP_HOSTED_BUTTON
+			price_change_percent: INTEGER; price_input: EL_USER_INPUT_VALUE [INTEGER]
 		do
 			lio.put_line ("get_button_details")
-			results := paypal.get_button_details (new_hosted_button)
+			create hosted_button.make (button_id)
+
+			results := paypal.get_button_details (hosted_button)
 			if results.is_ok then
 				lio.put_line ("BUTTON DETAILS")
 				results.print_values
@@ -111,64 +147,60 @@ feature -- Basic operations
 				lio.put_line ("ERROR")
 			end
 			lio.put_new_line
-		end
-
-	list_buttons
-		local
-			search_results: like paypal.button_search_results
-		do
-			lio.put_line ("list_buttons")
-			lio.put_line ("ID list")
-			search_results := paypal.button_search_results
-			if search_results.is_ok then
-				across search_results.button_list as button loop
-					lio.put_index_labeled_string (button, Void, button.item.l_hosted_button_id)
-					lio.put_new_line
+			if update_price then
+				create price_input.make ("Enter percentage price change")
+				price_change_percent := price_input.value
+				if not price_input.escape_pressed then
+					update_button_price (hosted_button, price_change_percent)
 				end
-				lio.put_new_line
-			else
-				lio.put_line ("ERROR")
 			end
-			lio.put_new_line
 		end
 
-	run_command_loop
-		do
-			Precursor
-			paypal.close
-		end
-
-	update_button
+	update_button_price (hosted_button: PP_HOSTED_BUTTON; price_change_percent: INTEGER)
 		local
 			response: PP_BUTTON_QUERY_RESULTS
 		do
 			lio.put_line ("update_button")
 			response := paypal.update_buy_now_button (
-				"en_US", new_hosted_button, new_single_license.to_parameter_list, new_buy_options (1.1)
+				"en_US", hosted_button, new_single_license.to_parameter_list, new_buy_options (price_change_percent)
 			)
-			response.print_values
+			if response.has_errors then
+				response.print_errors
+			else
+				response.print_values
+			end
 			lio.put_new_line
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
-	new_buy_options (price_factor: REAL): PP_BUY_OPTIONS
+	new_buy_options (price_change_percent: INTEGER): PP_BUY_OPTIONS
+		local
+			price_factor: DOUBLE; price_x_100_table: EL_HASH_TABLE [INTEGER, STRING]
 		do
+			create price_x_100_table.make (<<
+				["1 year", 290], ["2 year", 530], ["5 year", 1200]
+			>>)
+			if price_change_percent.to_boolean then
+				price_factor := 1.0 + (price_change_percent / 100)
+				across price_x_100_table as table loop
+					price_x_100_table [table.key] := (table.item * price_factor).rounded
+				end
+			end
 			create Result.make (0, "Duration", currency_code)
-			Result.extend ("1 year", (290 * price_factor).rounded)
-			Result.extend ("2 years", (530 * price_factor).rounded)
-			Result.extend ("5 years", (1200 * price_factor).rounded)
+			across price_x_100_table as table loop
+				Result.extend (table.key, table.item)
+			end
 		end
 
 	new_command_table: like command_table
 		do
 			create Result.make (<<
-				["Create a test subscription 'buy now' button", agent create_button],
-				["List all buttons", agent list_buttons],
-				["Get button details", agent get_button_details],
-				["Delete button", agent delete_button],
-				["Delete all buttons", agent delete_all_buttons],
-				["Update button with 10%% price increase", agent update_button]
+				["Create a test subscription 'buy now' button",	agent create_button],
+				["Button details menu",									agent display_button_menu (False)],
+				["Delete button",											agent delete_button],
+				["Delete all buttons",									agent delete_all_buttons],
+				["Adjust button prices",								agent display_button_menu (True)]
 			>>)
 		end
 

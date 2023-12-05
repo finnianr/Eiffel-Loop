@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-26 10:33:08 GMT (Monday 26th December 2022)"
-	revision: "25"
+	date: "2023-12-05 15:25:39 GMT (Tuesday 5th December 2023)"
+	revision: "26"
 
 class
 	EL_REFLECTED_DATE_TIME
@@ -29,6 +29,15 @@ inherit
 
 create
 	make
+
+feature -- Access
+
+	format (a_object: EL_REFLECTIVE): STRING
+		do
+			if attached value (a_object) as date_time then
+				Result := date_time.default_format_string
+			end
+		end
 
 feature -- Basic operations
 

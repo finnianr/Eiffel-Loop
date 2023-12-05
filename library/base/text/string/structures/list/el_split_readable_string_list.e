@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-17 15:26:21 GMT (Friday 17th November 2023)"
-	revision: "35"
+	date: "2023-12-05 12:39:57 GMT (Tuesday 5th December 2023)"
+	revision: "36"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -343,6 +343,26 @@ feature -- Removal
 				then
 					a [0] := first_index + 1
 					a [a.count - 1] := last_index - 1
+				end
+			end
+		end
+
+	unindent
+		-- remove leading tab from all non-empty items
+		local
+			start_index, end_index, i, i_upper: INTEGER
+		do
+			if attached area as a and then a.count > 0 then
+				i_upper := a.count - 1
+				from i := 0 until i > i_upper loop
+					start_index := a [i]; end_index := a [i + 1]
+					if start_index <= end_index and then attached target_string as target
+						and then target.valid_index (start_index) and then target.valid_index (end_index)
+						and then target [start_index] = '%T'
+					then
+						a [i] := start_index + 1
+					end
+					i := i + 2
 				end
 			end
 		end

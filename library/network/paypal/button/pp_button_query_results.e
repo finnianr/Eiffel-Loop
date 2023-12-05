@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-12-05 8:22:14 GMT (Tuesday 5th December 2023)"
+	revision: "6"
 
 class
 	PP_BUTTON_QUERY_RESULTS
 
 inherit
 	PP_HTTP_RESPONSE
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make_default, make
@@ -24,7 +26,7 @@ feature -- Access
 		do
 			Result := website_code
 			if not Result.is_empty then
-				Result := Result.substring_between (Alt_attribute, Quote_character, 1)
+				Result := Result.substring_between (Alt_attribute, char ('"'), 1)
 			end
 		end
 
@@ -47,10 +49,5 @@ feature {NONE} -- Constants
 		end
 
 	Assignment: CHARACTER = '='
-
-	Quote_character: ZSTRING
-		once
-			Result := "%""
-		end
 
 end

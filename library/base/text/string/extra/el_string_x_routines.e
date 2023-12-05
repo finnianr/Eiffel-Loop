@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 10:48:55 GMT (Friday 18th August 2023)"
-	revision: "54"
+	date: "2023-12-05 8:17:22 GMT (Tuesday 5th December 2023)"
+	revision: "55"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -49,6 +49,20 @@ feature -- Factory
 			-- width * count spaces
 		do
 			create Result.make (n)
+		end
+
+	new_retrieved (file_path: FILE_PATH): STRING_X
+		-- new instace of type `STRING_X' restored from file saved by Studio debugger
+		local
+			file: RAW_FILE
+		do
+			create file.make_open_read (file_path)
+			if attached {STRING_X} file.retrieved as debug_str then
+				Result := debug_str
+			else
+				Result := new (0)
+			end
+			file.close
 		end
 
 	new_list (n: INTEGER): EL_STRING_LIST [STRING_X]

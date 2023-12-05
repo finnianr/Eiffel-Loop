@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-17 15:57:37 GMT (Friday 17th November 2023)"
-	revision: "55"
+	date: "2023-12-05 11:02:40 GMT (Tuesday 5th December 2023)"
+	revision: "56"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -594,8 +594,12 @@ feature -- Tests
 	test_split_sort
 		-- SPLIT_STRING_TEST_SET.test_split_sort
 		note
-			testing: "covers/{EL_SPLIT_READABLE_STRING_LIST}.sort", "covers/{EL_SPLIT_READABLE_STRING_LIST}.i_th",
-				"covers/{EL_SPLIT_ZSTRING_LIST}.string_strict_cmp", "covers/{ZSTRING}.order_comparison"
+			testing: "[
+				covers/{EL_SPLIT_READABLE_STRING_LIST}.sort,
+				covers/{EL_SPLIT_READABLE_STRING_LIST}.i_th,
+				covers/{EL_SPLIT_ZSTRING_LIST}.string_strict_cmp,
+				covers/{ZSTRING}.order_comparison
+			]"
 		local
 			split_list: EL_SPLIT_STRING_LIST [STRING]; copied_list: EL_STRING_8_LIST
 			split_zstring_list: EL_SPLIT_ZSTRING_LIST

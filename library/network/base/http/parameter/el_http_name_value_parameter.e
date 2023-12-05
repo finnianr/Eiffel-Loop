@@ -1,13 +1,13 @@
 note
-	description: "Http name value parameter"
+	description: "HTTP name value parameter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 16:57:07 GMT (Sunday 16th July 2023)"
-	revision: "11"
+	date: "2023-12-05 18:27:42 GMT (Tuesday 5th December 2023)"
+	revision: "12"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER
@@ -17,6 +17,8 @@ inherit
 		rename
 			extend as extend_table
 		end
+
+	DEBUG_OUTPUT
 
 create
 	make
@@ -33,6 +35,16 @@ feature -- Access
 	name: ZSTRING
 
 	value: ZSTRING
+
+feature -- Status report
+
+	debug_output: STRING_32
+		local
+			s: EL_STRING_32_ROUTINES
+		do
+
+			Result := s.joined_by (<< name.to_string_32, value.to_string_32 >>, '=')
+		end
 
 feature {EL_HTTP_PARAMETER} -- Implementation
 

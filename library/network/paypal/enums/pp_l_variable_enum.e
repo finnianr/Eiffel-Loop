@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 15:23:35 GMT (Monday 4th December 2023)"
-	revision: "12"
+	date: "2023-12-05 10:44:57 GMT (Tuesday 5th December 2023)"
+	revision: "13"
 
 class
 	PP_L_VARIABLE_ENUM
@@ -16,10 +16,21 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			foreign_naming as Paypal_naming
+		redefine
+			make
 		end
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			Precursor
+			option_variables := << l_option_0_select, l_option_0_price >>
+			error_variables := << l_error_code, l_severity_code >>
+		end
 
 feature -- L variables
 
@@ -28,6 +39,9 @@ feature -- L variables
 
 	l_button_var: NATURAL_8
 		-- "L_BUTTONVAR"
+
+	l_error_code: NATURAL_8
+		-- "L_ERRORCODE0=11925"
 
 	l_hosted_button_id: NATURAL_8
 		-- "L_HOSTEDBUTTONID"
@@ -44,12 +58,14 @@ feature -- L variables
 	l_option_0_select: NATURAL_8
 		-- "L_OPTION0SELECT"
 
-feature -- Constants
+	l_severity_code: NATURAL_8
+		-- "L_SEVERITYCODE0=Error"
 
-	L_options: ARRAY [NATURAL_8]
-		once
-			Result := << l_option_0_select, l_option_0_price >>
-		end
+feature -- Related variables
+
+	option_variables: ARRAY [NATURAL_8]
+
+	error_variables: ARRAY [NATURAL_8]
 
 feature {NONE} -- Constants
 

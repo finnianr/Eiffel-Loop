@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-21 19:27:17 GMT (Friday 21st July 2023)"
-	revision: "14"
+	date: "2023-12-05 10:49:44 GMT (Tuesday 5th December 2023)"
+	revision: "15"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -17,8 +17,6 @@ inherit
 		redefine
 			make_default, make, set_indexed_value, set_name_value, new_field_printer, print_values
 		end
-
-	PP_SHARED_L_VARIABLE_ENUM
 
 create
 	make_default, make
@@ -98,9 +96,10 @@ feature {NONE} -- Implementation
 
 	set_indexed_value (var_key: PP_L_VARIABLE; a_value: ZSTRING)
 		do
-			if L_variable.L_options.has (var_key.code) then
+			if var_key.is_option then
 				options_list.set_i_th (var_key, a_value)
-			elseif var_key.code = L_variable.l_button_var and then a_value.has (Assignment) then
+
+			elseif var_key.is_button_variable and then a_value.has (Assignment) then
 				detail.set_field_from_nvp (a_value, Assignment)
 			end
 		end

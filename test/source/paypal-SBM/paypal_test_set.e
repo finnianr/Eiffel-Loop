@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 15:18:00 GMT (Monday 4th December 2023)"
-	revision: "22"
+	date: "2023-12-05 15:38:21 GMT (Tuesday 5th December 2023)"
+	revision: "23"
 
 class
 	PAYPAL_TEST_SET
@@ -38,21 +38,36 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["pp_date_format",				 agent test_pp_date_format],
-				["pp_transaction",				 agent test_pp_transaction],
-				["uri_query_table_conversion", agent test_uri_query_table_conversion],
-				["pp_button_query_results",	 agent test_pp_button_query_results]
+				["pp_button_query_error_response",	agent test_pp_button_query_error_response],
+				["pp_date_format",						agent test_pp_date_format],
+				["pp_transaction",						agent test_pp_transaction],
+				["uri_query_table_conversion",		agent test_uri_query_table_conversion]
 			>>)
 		end
 
 feature -- Test
 
-	test_pp_button_query_results
-		-- PAYPAL_TEST_SET.test_pp_button_query_results
+	test_pp_button_query_error_response
+		-- PAYPAL_TEST_SET.test_pp_button_query_error_response
 		local
-			results: PP_BUTTON_QUERY_RESULTS
+			results: PP_BUTTON_QUERY_RESULTS; code: INTEGER; line: STRING; s: EL_STRING_8_ROUTINES
 		do
-			create results.make (new_query (Button_result_error))
+			across << Button_result_error, Internal_error >> as uri_query loop
+				if attached uri_query.item.split ('%N') as list then
+					line := list [list.count - 1]
+				end
+				code := s.substring_to_reversed (line, '=', default_pointer).to_integer
+				create results.make (new_query (uri_query.item))
+				if results.has_errors then
+					results.print_errors
+				end
+				if results.error_list.count = 1 then
+					assert_same_string (Void, "Error", results.error_list.first.severity)
+					assert ("Error is " + code.out, results.error_list.first.code = code)
+				else
+					failed ("has error")
+				end
+			end
 		end
 
 	test_pp_date_format
@@ -75,9 +90,11 @@ feature -- Test
 
 	test_pp_transaction
 		note
-			testing: "covers/{EL_URI_QUERY_TABLE}.make_url",
-				"covers/{EL_SETTABLE_FROM_STRING}.set_inner_table_field",
-				"covers/{EL_SETTABLE_FROM_STRING}.set_table_field"
+			testing: "[
+				covers/{EL_URI_QUERY_TABLE}.make_url,
+				covers/{EL_SETTABLE_FROM_STRING}.set_inner_table_field,
+				covers/{EL_SETTABLE_FROM_STRING}.set_table_field
+			]"
 		local
 			transaction: PP_TRANSACTION; date_time: EL_DATE_TIME
 		do
@@ -159,7 +176,17 @@ feature {NONE} -- Constants
 		ACK=Failure
 		VERSION=95%2e0
 		BUILD=56068150
-		L_ERRORCODE0=11925
+		L_ERRORCODE0=11933
+		L_SEVERITYCODE0=Error
+	]"
+
+	Internal_error: STRING = "[
+		TIMESTAMP=2023-12-05T05:56:21.668
+		CORRELATIONID=62288a65904c1
+		ACK=Failure
+		VERSION=95.0
+		BUILD=1234
+		L_ERRORCODE0=10001
 		L_SEVERITYCODE0=Error
 	]"
 

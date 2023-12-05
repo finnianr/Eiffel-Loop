@@ -1,13 +1,13 @@
 note
-	description: "Pp reflectively settable"
+	description: "Reflectively settable Paypal object"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-20 7:53:33 GMT (Thursday 20th July 2023)"
-	revision: "5"
+	date: "2023-12-05 18:14:57 GMT (Tuesday 5th December 2023)"
+	revision: "6"
 
 deferred class
 	PP_REFLECTIVELY_SETTABLE

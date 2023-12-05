@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-05 12:51:18 GMT (Friday 5th May 2023)"
-	revision: "17"
+	date: "2023-12-05 8:47:26 GMT (Tuesday 5th December 2023)"
+	revision: "18"
 
 class
 	PP_CREDENTIALS
@@ -54,10 +54,13 @@ feature -- Access
 
 feature -- Credentials
 
-	pwd: ZSTRING
+	pwd: STRING
+		-- ASCII pass word
 
-	signature: ZSTRING
+	signature: STRING
+		-- ASCII API key
 
-	user: ZSTRING
+	user: STRING
+		-- ASCII email address
 
 end

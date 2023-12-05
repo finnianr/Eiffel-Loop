@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 10:29:17 GMT (Monday 7th August 2023)"
-	revision: "7"
+	date: "2023-12-05 19:06:05 GMT (Tuesday 5th December 2023)"
+	revision: "8"
 
 class
 	PP_BUTTON_PARAMETER
@@ -23,17 +23,27 @@ create
 
 feature {NONE} -- Initialization
 
-	make (field_name: STRING)
+	make (field_name: IMMUTABLE_STRING_8)
 		-- use last part as value, remainder as name
+		require
+			has_underscore: field_name.has ('_')
+		local
+			split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
+			l_count, last_index: INTEGER
 		do
-			name := field_name
-			value := name.substring_to_reversed ('_', default_pointer)
-			value.to_upper
-
-			name.remove_tail (value.count + 1)
-			name.to_upper
-		ensure
-			reversible: field_name.as_upper ~ (name + "_" + value).to_latin_1
+			l_count := field_name.count
+			last_index := field_name.last_index_of ('_', l_count)
+			create name.make (last_index - 1)
+			create value.make (l_count - last_index)
+			create split_list.make (field_name, '_')
+			across split_list as list loop
+				if list.is_last then
+					value.append_string_general (list.item)
+				else
+					name.append_string_general (list.item)
+				end
+			end
+			value.to_upper; name.to_upper
 		end
 
 end

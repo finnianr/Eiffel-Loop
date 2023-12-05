@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-12-05 11:13:09 GMT (Tuesday 5th December 2023)"
+	revision: "11"
 
 class
 	PP_L_VARIABLE
@@ -23,9 +23,13 @@ inherit
 			is_equal
 		end
 
+	EL_MODULE_CONVERT_STRING
+
 	EL_STRING_8_CONSTANTS
 
 	PP_SHARED_L_VARIABLE_ENUM
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_default
@@ -74,6 +78,26 @@ feature -- Status query
 			Result := code = a_code
 		end
 
+	is_button_variable: BOOLEAN
+		do
+			Result := code = L_variable.l_button_var
+		end
+
+	is_error: BOOLEAN
+		do
+			Result := L_variable.error_variables.has (code)
+		end
+
+	is_error_code: BOOLEAN
+		do
+			Result := code = L_variable.l_error_code
+		end
+
+	is_option: BOOLEAN
+		do
+			Result := L_variable.option_variables.has (code)
+		end
+
 feature -- Element change
 
 	set_code (a_code: like code)
@@ -83,28 +107,25 @@ feature -- Element change
 
 	set_from_string (a_name: ZSTRING)
 		local
-			i: INTEGER; l_name, l_index: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
+			i: INTEGER
 		do
 			from i := a_name.count until not a_name.item (i).is_digit loop
 				i := i - 1
 			end
-			l_name := buffer.copied_general (a_name)
-
 			if i < a_name.count then
-				l_index := Once_index_string; l_index.wipe_out
-				l_index.append_substring (l_name, i + 1, a_name.count)
-				index := l_index.to_integer + 1
+				index := Convert_string.substring_to_integer_32 (a_name, i + 1, a_name.count) + 1
 			else
 				index := 0
 			end
-
-			l_name.remove_tail (a_name.count - i)
-			code := L_variable.value (l_name)
-
-			if code = 0 then
-				create internal_name.make_from_string (l_name)
-			else
-				internal_name := Empty_string_8
+			across String_8_scope as scope loop
+				if attached scope.substring_item (a_name, 1, i) as l_name then
+					code := L_variable.value (l_name)
+					if code = 0 then
+						internal_name := l_name.twin
+					else
+						internal_name := Empty_string_8
+					end
+				end
 			end
 		end
 
@@ -138,10 +159,4 @@ feature {PP_L_VARIABLE} -- Initialization
 
 	internal_name: STRING
 
-feature {NONE} -- Constants
-
-	Once_index_string: STRING
-		once
-			create Result.make_empty
-		end
 end

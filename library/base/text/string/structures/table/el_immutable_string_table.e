@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 15:30:07 GMT (Wednesday 4th October 2023)"
-	revision: "13"
+	date: "2023-12-05 12:23:16 GMT (Tuesday 5th December 2023)"
+	revision: "14"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -165,6 +165,13 @@ feature -- Access
 	found_item: IMMUTABLE
 		do
 			Result := new_item_substring (found_interval)
+		end
+
+	found_item_lines: like new_split_list
+		do
+			Result := new_split_list
+			Result.fill (found_item, '%N', 0)
+			Result.unindent
 		end
 
 	item (key: IMMUTABLE): IMMUTABLE
