@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 11:54:02 GMT (Thursday 2nd November 2023)"
-	revision: "86"
+	date: "2023-12-06 10:43:16 GMT (Wednesday 6th December 2023)"
+	revision: "87"
 
 deferred class
 	EL_REFLECTIVE
@@ -18,7 +18,6 @@ inherit
 	ANY -- Needed to compile My Ching for some strange reason
 
 	EL_REFLECTIVE_I
-
 	EL_REFLECTION_HANDLER
 
 	EL_NAMING_CONVENTIONS

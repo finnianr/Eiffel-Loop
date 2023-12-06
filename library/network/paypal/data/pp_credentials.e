@@ -19,14 +19,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 8:47:26 GMT (Tuesday 5th December 2023)"
-	revision: "18"
+	date: "2023-12-06 11:04:41 GMT (Wednesday 6th December 2023)"
+	revision: "19"
 
 class
 	PP_CREDENTIALS
 
 inherit
-	PP_CONVERTABLE_TO_PARAMETER_LIST
+	PP_REFLECTIVELY_CONVERTIBLE_TO_HTTP_PARAMETER
 
 	EL_SETTABLE_FROM_ZSTRING
 
@@ -43,14 +43,14 @@ feature {NONE} -- Initialization
 			create lines.make (credentials_path, decrypter)
 			set_from_lines (lines, ':')
 			lines.close
-			http_parameters := to_parameter_list
+			http_parameter := to_parameter
 		ensure
 			no_empty_fields: across << user, pwd, signature >> as str all not str.item.is_empty end
 		end
 
 feature -- Access
 
-	http_parameters: like to_parameter_list
+	http_parameter: EL_HTTP_PARAMETER
 
 feature -- Credentials
 

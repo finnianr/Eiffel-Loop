@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2023-12-06 11:04:41 GMT (Wednesday 6th December 2023)"
+	revision: "6"
 
 class
-	PP_CONVERTABLE_TO_PARAMETER_LIST
+	PP_REFLECTIVELY_CONVERTIBLE_TO_HTTP_PARAMETER
 
 inherit
-	EL_CONVERTABLE_TO_HTTP_PARAMETER_LIST
+	EL_REFLECTIVELY_CONVERTIBLE_TO_HTTP_PARAMETER
 		rename
 			field_included as is_paypal_field,
 			foreign_naming as Camel_case_upper

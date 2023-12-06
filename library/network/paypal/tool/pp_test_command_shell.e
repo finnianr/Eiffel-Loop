@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 13:33:49 GMT (Tuesday 5th December 2023)"
-	revision: "27"
+	date: "2023-12-06 15:33:30 GMT (Wednesday 6th December 2023)"
+	revision: "28"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -65,7 +65,7 @@ feature {NONE} -- Commands
 			response: PP_BUTTON_QUERY_RESULTS
 		do
 			lio.put_line ("create_button")
-			response := paypal.create_buy_now_button ("en_US", new_single_license.to_parameter_list, new_buy_options (0))
+			response := paypal.create_buy_now_button ("en_US", new_single_license.to_parameter_list, new_buy_options)
 			response.print_values
 			lio.put_new_line
 		end
@@ -104,9 +104,9 @@ feature {NONE} -- Commands
 			lio.put_new_line
 		end
 
-	display_button_menu (update_price: BOOLEAN)
+	display_button_menu
 		local
-			button_table: EL_PROCEDURE_TABLE [ZSTRING]; id, name: STRING
+			button_table: EL_PROCEDURE_TABLE [ZSTRING]; id: STRING
 			search_results: like paypal.button_search_results
 			sub_menu: EL_COMMAND_SHELL
 		do
@@ -115,14 +115,9 @@ feature {NONE} -- Commands
 				create button_table.make_size (button_list.count)
 				across button_list as button loop
 					id := button.item.l_hosted_button_id
-					button_table.extend (agent get_button_details (id, update_price), id)
+					button_table.extend (agent get_button_details (id), id)
 				end
-				if update_price then
-					name := "ADJUST BUTTON PRICE"
-				else
-					name := "GET BUTTON DETAILS"
-				end
-				create sub_menu.make (name, button_table, 10)
+				create sub_menu.make ("GET BUTTON DETAILS", button_table, 10)
 				sub_menu.run_command_loop
 			else
 				lio.put_line ("ERROR in search results")
@@ -131,10 +126,9 @@ feature {NONE} -- Commands
 
 feature {NONE} -- Implementation
 
-	get_button_details (button_id: STRING; update_price: BOOLEAN)
+	get_button_details (button_id: STRING)
 		local
 			results: PP_BUTTON_DETAILS_QUERY_RESULTS; hosted_button: PP_HOSTED_BUTTON
-			price_change_percent: INTEGER; price_input: EL_USER_INPUT_VALUE [INTEGER]
 		do
 			lio.put_line ("get_button_details")
 			create hosted_button.make (button_id)
@@ -147,46 +141,17 @@ feature {NONE} -- Implementation
 				lio.put_line ("ERROR")
 			end
 			lio.put_new_line
-			if update_price then
-				create price_input.make ("Enter percentage price change")
-				price_change_percent := price_input.value
-				if not price_input.escape_pressed then
-					update_button_price (hosted_button, price_change_percent)
-				end
-			end
-		end
-
-	update_button_price (hosted_button: PP_HOSTED_BUTTON; price_change_percent: INTEGER)
-		local
-			response: PP_BUTTON_QUERY_RESULTS
-		do
-			lio.put_line ("update_button")
-			response := paypal.update_buy_now_button (
-				"en_US", hosted_button, new_single_license.to_parameter_list, new_buy_options (price_change_percent)
-			)
-			if response.has_errors then
-				response.print_errors
-			else
-				response.print_values
-			end
-			lio.put_new_line
 		end
 
 feature {NONE} -- Factory
 
-	new_buy_options (price_change_percent: INTEGER): PP_BUY_OPTIONS
+	new_buy_options: PP_BUY_OPTIONS
 		local
-			price_factor: DOUBLE; price_x_100_table: EL_HASH_TABLE [INTEGER, STRING]
+			price_x_100_table: EL_HASH_TABLE [INTEGER, STRING]
 		do
 			create price_x_100_table.make (<<
-				["1 year", 290], ["2 year", 530], ["5 year", 1200]
+				["1 year", 290], ["2 year", 530], ["5 year", 1200], ["Lifetime", 48000]
 			>>)
-			if price_change_percent.to_boolean then
-				price_factor := 1.0 + (price_change_percent / 100)
-				across price_x_100_table as table loop
-					price_x_100_table [table.key] := (table.item * price_factor).rounded
-				end
-			end
 			create Result.make (0, "Duration", currency_code)
 			across price_x_100_table as table loop
 				Result.extend (table.key, table.item)
@@ -197,10 +162,9 @@ feature {NONE} -- Factory
 		do
 			create Result.make (<<
 				["Create a test subscription 'buy now' button",	agent create_button],
-				["Button details menu",									agent display_button_menu (False)],
+				["Button details menu",									agent display_button_menu],
 				["Delete button",											agent delete_button],
-				["Delete all buttons",									agent delete_all_buttons],
-				["Adjust button prices",								agent display_button_menu (True)]
+				["Delete all buttons",									agent delete_all_buttons]
 			>>)
 		end
 

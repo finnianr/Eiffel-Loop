@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 15:31:50 GMT (Monday 30th October 2023)"
-	revision: "27"
+	date: "2023-12-06 15:57:18 GMT (Wednesday 6th December 2023)"
+	revision: "28"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -20,27 +20,13 @@ deferred class
 inherit
 	EL_APPLICATION_COMMAND
 
-	EL_SHARED_HTTP_STATUS
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXCEPTION; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LOG
-
-	EL_MODULE_LOG_MANAGER
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_EXCEPTION
-
-	EL_MODULE_UNIX_SIGNALS
+	EL_MODULE_LOG; EL_MODULE_LOG_MANAGER; EL_MODULE_UNIX_SIGNALS
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_DOCUMENT_TYPES
-
-	EL_SHARED_OPERATING_ENVIRON
+	EL_SHARED_DOCUMENT_TYPES; 	EL_SHARED_HTTP_STATUS  EL_SHARED_OPERATING_ENVIRON
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -331,7 +317,7 @@ feature {FCGI_HTTP_SERVLET, FCGI_SERVLET_REQUEST} -- Access
 	broker: FCGI_REQUEST_BROKER
 		-- broker to read and write request messages from the web server
 
-feature {NONE} -- Implementation: attributes
+feature {NONE} -- Internal attributes
 
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.

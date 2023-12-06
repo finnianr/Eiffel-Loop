@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-12-06 11:04:41 GMT (Wednesday 6th December 2023)"
+	revision: "4"
 
 class
 	PP_DATE_TIME_RANGE
 
 inherit
-	PP_CONVERTABLE_TO_PARAMETER_LIST
+	PP_REFLECTIVELY_CONVERTIBLE_TO_HTTP_PARAMETER
 
 create
 	make, make_to_now

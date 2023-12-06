@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 8:32:57 GMT (Monday 14th August 2023)"
-	revision: "14"
+	date: "2023-12-06 11:03:56 GMT (Wednesday 6th December 2023)"
+	revision: "15"
 
 class
 	EL_HTTP_PARAMETER_LIST
@@ -20,10 +20,10 @@ inherit
 		end
 
 	EL_HTTP_PARAMETER
-		rename
-			extend as extend_table
 		undefine
 			is_equal, copy
+		redefine
+			add_to_list
 		end
 
 	EL_REFLECTION_HANDLER
@@ -37,9 +37,16 @@ convert
 feature {NONE} -- Initialization
 
 	make_from_object (object: EL_REFLECTIVE)
+		local
+			i: INTEGER
 		do
-			make_size (object.field_table.count)
-			append_object (object)
+			if attached object.meta_data.field_list as field_list then
+				make_size (field_list.count)
+				from i := 1 until i > field_list.count loop
+					extend (create {EL_HTTP_NAME_VALUE_PARAMETER}.make_from_field (object, field_list [i]))
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Conversion
@@ -47,25 +54,10 @@ feature -- Conversion
 	to_table: EL_URI_QUERY_ZSTRING_HASH_TABLE
 		do
 			create Result.make_equal (count)
-			extend_table (Result)
+			add_to_table (Result)
 		end
 
 feature -- Element change
-
-	append_object (object: EL_REFLECTIVE)
-		local
-			field_array: EL_FIELD_LIST; l_item: EL_HTTP_NAME_VALUE_PARAMETER
-			value: ZSTRING; i: INTEGER
-		do
-			field_array := object.meta_data.field_list
-			grow (field_array.count)
-			from i := 1 until i > field_array.count loop
-				create value.make_from_general (field_array.i_th (i).to_string (object))
-				create l_item.make (field_array.i_th (i).export_name, value)
-				extend (l_item)
-				i := i + 1
-			end
-		end
 
 	append_tuple (tuple: TUPLE)
 		local
@@ -74,8 +66,8 @@ feature -- Element change
 			from i := 1 until i > tuple.count loop
 				if attached {EL_HTTP_PARAMETER} tuple.reference_item (i) as p then
 					extend (p)
-				elseif attached {EL_CONVERTABLE_TO_HTTP_PARAMETER_LIST} tuple.reference_item (i) as c then
-					extend (c.to_parameter_list)
+				elseif attached {EL_REFLECTIVELY_CONVERTIBLE_TO_HTTP_PARAMETER} tuple.reference_item (i) as c then
+					extend (c.to_parameter)
 				end
 				i := i + 1
 			end
@@ -83,12 +75,17 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	extend_table (table: like to_table)
+	add_to_table (table: like to_table)
 		do
 			from start until after loop
-				item.extend (table)
+				item.add_to_table (table)
 				forth
 			end
+		end
+
+	add_to_list (list: EL_HTTP_PARAMETER_LIST)
+		do
+			list.append_sequence (Current)
 		end
 
 end

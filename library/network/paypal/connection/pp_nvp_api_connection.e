@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 18:52:05 GMT (Tuesday 5th December 2023)"
-	revision: "21"
+	date: "2023-12-06 11:16:17 GMT (Wednesday 6th December 2023)"
+	revision: "22"
 
 class
 	PP_NVP_API_CONNECTION
@@ -81,24 +81,26 @@ feature -- Button management
 	button_search_results: PP_BUTTON_SEARCH_RESULTS
 			-- list all buttons since year 2000
 		do
-			Result := button_search.query_result ([create {PP_DATE_TIME_RANGE}.make_to_now (Jan_1st_2000)])
+			Result := button_search.query_result (<< create {PP_DATE_TIME_RANGE}.make_to_now (Jan_1st_2000) >>)
 		end
 
 	create_buy_now_button (
 		locale: PP_BUTTON_LOCALE; sub_parameter_list: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
 	): PP_BUTTON_QUERY_RESULTS
 		do
-			Result := create_button.call ([locale, button_code_hosted, button_type_buynow, sub_parameter_list, buy_options])
+			Result := create_button.call (<<
+				locale, button_code_hosted, button_type_buynow, sub_parameter_list, buy_options
+			>>)
 		end
 
 	delete_button (button: PP_HOSTED_BUTTON): PP_HTTP_RESPONSE
 		do
-			Result := manage_button_status.call ([button, button_status_delete])
+			Result := manage_button_status.call (<< button, button_status_delete >>)
 		end
 
 	get_button_details (button: PP_HOSTED_BUTTON): PP_BUTTON_DETAILS_QUERY_RESULTS
 		do
-		 	Result := get_button_details_method.query_result ([button])
+		 	Result := get_button_details_method.query_result (<< button >>)
 		end
 
 	update_buy_now_button (
@@ -106,10 +108,10 @@ feature -- Button management
 		sub_parameter_list: PP_BUTTON_SUB_PARAMETER_LIST; buy_options: PP_BUY_OPTIONS
 	): PP_BUTTON_QUERY_RESULTS
 		do
-			Result := update_button.call ([
+			Result := update_button.call (<<
 				locale, button, button_code_hosted, button_type_buynow, button_sub_type_products,
 				sub_parameter_list, buy_options
-			])
+			>>)
 		end
 
 feature -- Basic operations
@@ -141,12 +143,16 @@ feature {NONE} -- Implementation
 feature {PP_BUTTON_METHOD} -- Paypal parameters
 
 	button_code_hosted: PP_BUTTON_PARAMETER
+		--> BUTTONCODE=HOSTED
 
 	button_status_delete: PP_BUTTON_PARAMETER
+		--> BUTTONSTATUS=DELETE
 
 	button_sub_type_products: PP_BUTTON_PARAMETER
+		--> BUTTONSUBTYPE=PRODUCTS
 
 	button_type_buynow: PP_BUTTON_PARAMETER
+		--> BUTTONTYPE=BUYNOW
 
 	credentials: PP_CREDENTIALS
 

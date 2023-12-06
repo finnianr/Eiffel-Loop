@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 19:06:05 GMT (Tuesday 5th December 2023)"
-	revision: "8"
+	date: "2023-12-06 9:12:22 GMT (Wednesday 6th December 2023)"
+	revision: "9"
 
 class
 	PP_BUTTON_PARAMETER
@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 
 	make (field_name: IMMUTABLE_STRING_8)
 		-- use last part as value, remainder as name
+		-- button_code_hosted => BUTTONCODE=HOSTED
 		require
 			has_underscore: field_name.has ('_')
 		local

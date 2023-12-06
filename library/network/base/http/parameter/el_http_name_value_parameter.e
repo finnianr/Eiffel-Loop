@@ -6,28 +6,32 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 18:27:42 GMT (Tuesday 5th December 2023)"
-	revision: "12"
+	date: "2023-12-06 10:36:03 GMT (Wednesday 6th December 2023)"
+	revision: "13"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER
 
 inherit
 	EL_HTTP_PARAMETER
-		rename
-			extend as extend_table
-		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 	DEBUG_OUTPUT
 
 create
-	make
+	make, make_from_field
 
 feature {NONE} -- Initialization
 
-	make (a_name: READABLE_STRING_GENERAL; a_value: like value)
+	make (a_name, a_value: READABLE_STRING_GENERAL)
 		do
-			create name.make_from_general (a_name); value := a_value
+			name := as_zstring (a_name); value := as_zstring (a_value)
+		end
+
+	make_from_field (object: EL_REFLECTIVE; field: EL_REFLECTED_FIELD)
+		do
+			make (field.export_name, field.to_string (object))
 		end
 
 feature -- Access
@@ -48,7 +52,7 @@ feature -- Status report
 
 feature {EL_HTTP_PARAMETER} -- Implementation
 
-	extend_table (table: EL_URI_QUERY_ZSTRING_HASH_TABLE)
+	add_to_table (table: EL_URI_QUERY_ZSTRING_HASH_TABLE)
 		do
 			table.set_string (name, value)
 		end
