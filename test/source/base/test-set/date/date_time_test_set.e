@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 19:25:08 GMT (Wednesday 29th November 2023)"
-	revision: "33"
+	date: "2023-12-07 16:37:36 GMT (Thursday 7th December 2023)"
+	revision: "34"
 
 class
 	DATE_TIME_TEST_SET
@@ -158,7 +158,7 @@ feature -- Tests
 					lio.put_labeled_string ("From", from_time.out); lio.put_labeled_string (" to", to_time.out)
 					lio.put_new_line
 					l_duration := to_time.relative_duration (from_time)
-					lio.put_double_field ("Fine seconds", l_duration.fine_seconds_count)
+					lio.put_double_field ("Fine seconds", l_duration.fine_seconds_count, Void)
 				else
 					assert ("Bug in `time_valid' precondition routine", True)
 				end

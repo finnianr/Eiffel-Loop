@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-24 17:58:04 GMT (Friday 24th November 2023)"
-	revision: "17"
+	date: "2023-12-07 17:08:52 GMT (Thursday 7th December 2023)"
+	revision: "18"
 
 class
 	STRING_TEST_SET
@@ -30,6 +30,8 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["c_utf_string_8",					 agent test_c_utf_string_8],
 				["expanded_string",					 agent test_expanded_string],
+				["format_double",						 agent test_format_double],
+				["format_integer",					 agent test_format_integer],
 				["immutable_comparison",			 agent test_immutable_comparison],
 				["reusable_zstrings",				 agent test_reusable_zstrings],
 				["string_pool",						 agent test_string_pool],
@@ -72,6 +74,76 @@ feature -- Tests
 			s := "abc"
 			ex.share (s)
 			assert ("same hash_code", ex.hash_code = 6382179)
+		end
+
+	test_format_double
+		-- STRING_TEST_SET.test_format_double
+		note
+			testing: "[
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_left_until,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_left_character,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_left_until,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_right_until,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_right_character,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_right_until,
+				covers/{EL_FORMAT_DOUBLE}.make
+			]"
+		local
+			double: EL_FORMAT_DOUBLE; pi: DOUBLE
+			format_table: EL_HASH_TABLE [STRING, STRING]
+		do
+			pi := {MATH_CONST}.Pi
+			create format_table.make (<<
+				["99.99",  "3.14"], ["99.99|", " 3.14"], ["|99.99", "3.14 "],
+				["|999.99|", " 3.14 "]
+			>>)
+			double := "99.99"
+			assert_same_string (Void, double.formatted (pi * 100), "314.16")
+
+			across format_table as table loop
+				double := table.key
+				if double.formatted (pi) /~ table.item then
+					lio.put_string_field (table.key, table.item)
+					lio.put_new_line
+					lio.put_string_field ("formatted", double.formatted (pi))
+					lio.put_new_line
+					assert ("same as formatted", False)
+				end
+			end
+		end
+
+	test_format_integer
+		-- STRING_TEST_SET.test_format_integer
+		note
+			testing: "[
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_left_until,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_left_character,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_left_until,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_right_until,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_right_character,
+				covers/{EL_SIMPLE_IMMUTABLE_PARSER_8}.try_remove_right_until,
+				covers/{EL_FORMAT_DOUBLE}.make
+			]"
+		local
+			integer: EL_FORMAT_INTEGER; format_table: EL_HASH_TABLE [STRING, STRING]
+			n: INTEGER
+		do
+			n := 64
+			create format_table.make (<<
+				["999", "64"], ["|999", "64 "], ["999|", " 64"], ["0999|", "064"],
+				["|9999|", " 64 "],
+				["999%%|", " 64%%"], ["|999%%", "64%% "]
+			>>)
+			across format_table as table loop
+				integer := table.key
+				if integer.formatted (n) /~ table.item then
+					lio.put_string_field (table.key, table.item)
+					lio.put_new_line
+					lio.put_string_field ("formatted", integer.formatted (n))
+					lio.put_new_line
+					assert ("same as formatted", False)
+				end
+			end
 		end
 
 	test_immutable_comparison

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 10:54:44 GMT (Monday 8th May 2023)"
-	revision: "19"
+	date: "2023-12-07 16:53:13 GMT (Thursday 7th December 2023)"
+	revision: "20"
 
 class
 	EL_SILENT_LOG
@@ -202,12 +202,12 @@ feature -- String output
 
 feature -- Numeric output
 
-	put_double (d: DOUBLE)
+	put_double (d: DOUBLE; a_format: detachable STRING)
 			--
 		do
 		end
 
-	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
+	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE; a_format: detachable STRING)
 			--
 		do
 		end
@@ -236,12 +236,12 @@ feature -- Numeric output
 		do
 		end
 
-	put_real (r: REAL)
+	put_real (r: REAL; a_format: detachable STRING)
 			--
 		do
 		end
 
-	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
+	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL; a_format: detachable STRING)
 			--
 		do
 		end

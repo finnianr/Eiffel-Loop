@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-12-07 17:27:04 GMT (Thursday 7th December 2023)"
+	revision: "9"
 
 class
 	EL_TIMED_PROGRESS_BAR
@@ -156,7 +156,7 @@ feature {NONE} -- Event handlers
 			end
 			log.put_integer_field ("event.count", event.count)
 			log.put_string (" ")
-			log.put_real_field ("percent_complete", percent_complete)
+			log.put_real_field ("percent_complete", percent_complete, "99.9%%")
 			log.put_new_line
 			log.exit
 		end

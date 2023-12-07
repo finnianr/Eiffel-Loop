@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 14:56:48 GMT (Saturday 24th June 2023)"
-	revision: "6"
+	date: "2023-12-07 16:27:53 GMT (Thursday 7th December 2023)"
+	revision: "7"
 
 class
 	REAL_PARAMETER
@@ -23,7 +23,7 @@ feature -- Basic operations
 	display_item
 			--
 		do
-			log.put_real_field (" value", item)
+			log.put_real_field (" value", item, Void)
 			log.put_new_line
 		end
 

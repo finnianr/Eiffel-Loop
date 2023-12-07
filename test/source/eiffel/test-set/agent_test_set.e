@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-25 12:26:08 GMT (Sunday 25th June 2023)"
-	revision: "11"
+	date: "2023-12-07 16:37:52 GMT (Thursday 7th December 2023)"
+	revision: "12"
 
 class
 	AGENT_TEST_SET
@@ -90,7 +90,7 @@ feature -- Basic operations
 			create event.make (1, 3)
 			duration.set_operands ([event])
 			duration.apply
-			lio.put_double_field ("duration.last_result", duration.item ([event]))
+			lio.put_double_field ("duration.last_result", duration.item ([event]), Void)
 		end
 
 	polymorphism

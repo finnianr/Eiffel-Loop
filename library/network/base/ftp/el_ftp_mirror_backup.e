@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 10:14:17 GMT (Wednesday 29th November 2023)"
-	revision: "3"
+	date: "2023-12-06 20:43:28 GMT (Wednesday 6th December 2023)"
+	revision: "4"
 
 class
 	EL_FTP_MIRROR_BACKUP
@@ -53,9 +53,9 @@ feature -- Access
 
 feature -- Element change
 
-	set_passphrase (a_passphrase: ZSTRING)
+	try_authenticate (a_phrase: ZSTRING)
 		do
-			site.authenticate (a_passphrase)
+			site.authenticate (a_phrase)
 			Url_table [url_key] := site.url
 		end
 

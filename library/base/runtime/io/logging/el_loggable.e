@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 11:21:48 GMT (Monday 8th May 2023)"
-	revision: "25"
+	date: "2023-12-07 16:52:53 GMT (Thursday 7th December 2023)"
+	revision: "26"
 
 deferred class
 	EL_LOGGABLE
@@ -226,12 +226,12 @@ feature -- String output
 
 feature -- Numeric output
 
-	put_double (d: DOUBLE)
+	put_double (d: DOUBLE; a_format: detachable STRING)
 			--
 		deferred
 		end
 
-	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
+	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE; a_format: detachable STRING)
 			--
 		deferred
 		end
@@ -261,12 +261,12 @@ feature -- Numeric output
 		deferred
 		end
 
-	put_real (r: REAL)
+	put_real (r: REAL; a_format: detachable STRING)
 			--
 		deferred
 		end
 
-	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
+	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL; a_format: detachable STRING)
 			--
 		deferred
 		end

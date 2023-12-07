@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 9:24:47 GMT (Friday 25th August 2023)"
-	revision: "12"
+	date: "2023-12-07 17:25:32 GMT (Thursday 7th December 2023)"
+	revision: "13"
 
 class
 	FTP_BACKUP_COMMAND
@@ -75,9 +75,9 @@ feature -- Basic operations
 			lio.put_new_line
 			if sum_mega_bytes > Max_mega_bytes_to_send then
 				lio.put_string ("WARNING, total backup size ")
-				lio.put_real (sum_mega_bytes)
+				lio.put_real (sum_mega_bytes, "99.99")
 				lio.put_string (" megabytes exceeds limit (")
-				lio.put_real (Max_mega_bytes_to_send)
+				lio.put_real (Max_mega_bytes_to_send, "99.99")
 				lio.put_string (")")
 				lio.put_new_line
 			end

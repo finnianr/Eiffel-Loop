@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 17:30:43 GMT (Sunday 17th September 2023)"
-	revision: "23"
+	date: "2023-12-07 17:21:16 GMT (Thursday 7th December 2023)"
+	revision: "24"
 
 class
 	CODEBASE_WORD_COUNTER
@@ -72,7 +72,7 @@ feature -- Basic operations
 			if byte_count < 100000 then
 				lio.put_integer_field ("Bytes", byte_count.to_integer_32)
 			else
-				lio.put_real_field ("Mega bytes", mega_bytes.truncated_to_real)
+				lio.put_real_field ("Mega bytes", mega_bytes.truncated_to_real, "99.99")
 			end
 			lio.put_new_line
 		end

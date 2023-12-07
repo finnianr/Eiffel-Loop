@@ -265,7 +265,7 @@ Classes providing the following:
 			<cluster name = "convert" location = "$|convert" recursive = "true"/>
 			<cluster name = "character" location = "$|character"/>
 			<cluster name = "error" location = "$|error"/>
-			<cluster name = "general" location = "$|general"/>
+			<cluster name = "format" location = "$|format"/>
 			<cluster name = "i18n" location = "$|i18n"/>
 			<cluster name = "styled" location = "$|styled"/>
 		</cluster>

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:31:52 GMT (Thursday 17th August 2023)"
-	revision: "27"
+	date: "2023-12-07 16:56:00 GMT (Thursday 7th December 2023)"
+	revision: "28"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -247,16 +247,16 @@ feature -- String output
 
 feature -- Numeric output
 
-	put_double (d: DOUBLE)
+	put_double (d: DOUBLE; a_format: detachable STRING)
 			--
 		do
-			log_sink.put_double (d)
+			log_sink.put_double (d, a_format)
 		end
 
-	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
+	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE; a_format: detachable STRING)
 			--
 		do
-			log_sink.put_double_field (label, field_value)
+			log_sink.put_double_field (label, field_value, a_format)
 		end
 
 	put_integer (i: INTEGER)
@@ -289,16 +289,16 @@ feature -- Numeric output
 			log_sink.put_natural_field (label, field_value)
 		end
 
-	put_real (r: REAL)
+	put_real (r: REAL; a_format: detachable STRING)
 			--
 		do
-			log_sink.put_real (r)
+			log_sink.put_real (r, a_format)
 		end
 
-	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
+	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL; a_format: detachable STRING)
 			--
 		do
-			log_sink.put_real_field (label, field_value)
+			log_sink.put_real_field (label, field_value, a_format)
 		end
 
 feature {EL_LOG_HANDLER} -- Element change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 15:07:10 GMT (Saturday 24th June 2023)"
-	revision: "7"
+	date: "2023-12-07 16:56:00 GMT (Thursday 7th December 2023)"
+	revision: "8"
 
 class
 	REAL_RANGE_LIST_PARAMETER
@@ -29,10 +29,10 @@ feature -- Basic operations
 			--
 		do
 			log.put_string ("Real range [")
-			log.put_real (index)
+			log.put_integer (index)
 			log.put_string ("]: ")
 			from item.start until item.after loop
-				log.put_real (item.item)
+				log.put_real (item.item, Void)
 				log.put_string (" ")
 				item.forth
 			end

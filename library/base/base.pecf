@@ -263,7 +263,7 @@ system:
 			sub_clusters:
 				character = character; error = error
 			sub_clusters:
-				general = general; i18n = i18n; styled = styled
+				format = format; i18n = i18n; styled = styled
 				
 		cluster_tree:
 			utility = utility

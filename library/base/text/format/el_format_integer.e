@@ -6,21 +6,46 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "4"
+	date: "2023-12-07 13:54:40 GMT (Thursday 7th December 2023)"
+	revision: "5"
 
 class
 	EL_FORMAT_INTEGER
 
 inherit
 	FORMAT_INTEGER
+		rename
+			make as make_width
+		redefine
+			formatted
+		end
+
+	EL_FORMAT_LIKENESS
 
 	EL_MODULE_TUPLE
 
 create
-	make
+	make, make_width
+
+convert
+	make ({STRING_8})
+
+feature {NONE} -- Initialization
+
+	make_sized (w, d: INTEGER)
+		do
+			make_width (w)
+		end
 
 feature -- Conversion
+
+	formatted (i: INTEGER): STRING
+		do
+			Result := Precursor (i)
+			if is_percentile then
+				insert_percent (Result)
+			end
+		end
 
 	spell (i: INTEGER): STRING
 		require
@@ -55,11 +80,13 @@ feature -- Conversion
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	parsed_decimal_count (parser: EL_SIMPLE_IMMUTABLE_PARSER_8): INTEGER
+		do
+		end
+
 feature {NONE} -- Constants
-
-	Suffix_teen: STRING = "teen"
-
-	Suffix_ty: STRING = "ty"
 
 	Spell_0_to_12: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		once
@@ -75,5 +102,9 @@ feature {NONE} -- Constants
 				"twen, thir, for, fif, six, seven, eigh, nine", ',', {EL_SIDE}.Left
 			)
 		end
+
+	Suffix_teen: STRING = "teen"
+
+	Suffix_ty: STRING = "ty"
 
 end

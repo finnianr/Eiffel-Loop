@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 13:21:15 GMT (Sunday 13th August 2023)"
-	revision: "12"
+	date: "2023-12-07 16:28:07 GMT (Thursday 7th December 2023)"
+	revision: "13"
 
 class
 	EL_DOCUMENT_NODE_LOGGER
@@ -51,7 +51,7 @@ feature {NONE} -- Parsing events
 		do
 			Precursor (version, a_encoding)
 			lio.put_line ("on_meta_data")
-			lio.put_real_field ("version", version)
+			lio.put_real_field ("version", version, Void)
 			lio.put_string_field (" encoding", a_encoding.name)
 			lio.put_new_line
 			lio.put_new_line

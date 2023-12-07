@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 9:09:15 GMT (Thursday 27th July 2023)"
-	revision: "10"
+	date: "2023-12-07 16:27:53 GMT (Thursday 7th December 2023)"
+	revision: "11"
 
 class
 	SMIL_AUDIO_CLIP
@@ -77,7 +77,7 @@ feature {NONE} -- Build from XML
 			lio.put_line ("on_context_exit")
 			lio.put_string_field ("Audio clip", title); lio.put_integer_field (" id", id); lio.put_new_line
 			lio.put_string_field ("source", source); lio.put_new_line
-			lio.put_real_field ("onset", onset); lio.put_real_field (" offset", offset)
+			lio.put_real_field ("onset", onset, Void); lio.put_real_field (" offset", offset, Void)
 			lio.put_new_line_x2
 		end
 

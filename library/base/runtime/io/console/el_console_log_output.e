@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 13:05:59 GMT (Sunday 12th November 2023)"
-	revision: "36"
+	date: "2023-12-07 16:59:05 GMT (Thursday 7th December 2023)"
+	revision: "37"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -17,11 +17,9 @@ inherit
 
 	EL_MODULE_CONSOLE; EL_MODULE_ENVIRONMENT
 
-	EL_SHARED_STRING_POOLS
+	EL_SHARED_STRING_POOLS; EL_SHARED_FORMAT_FACTORY
 
-	EL_LOGGABLE_CONSTANTS
-
-	EL_STRING_8_CONSTANTS
+	EL_LOGGABLE_CONSTANTS; EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -226,11 +224,15 @@ feature -- Output
 
 feature -- Numeric output
 
-	put_double (d: DOUBLE)
+	put_double (d: DOUBLE; a_format: detachable STRING)
 			--
 		do
 		-- Using `extended_buffer_last' not more efficient
-			buffer.extend (d.out)
+			if attached a_format as format then
+				buffer.extend (Format_factory.double (format).formatted (d))
+			else
+				buffer.extend (d.out)
+			end
 		end
 
 	put_integer (i: INTEGER)
@@ -244,11 +246,15 @@ feature -- Numeric output
 			extended_buffer_last (10).append_natural_32 (n)
 		end
 
-	put_real (r: REAL)
+	put_real (r: REAL; a_format: detachable STRING)
 			--
 		do
 		-- Using `extended_buffer_last' not more efficient
-			buffer.extend (r.out)
+			if attached a_format as format then
+				buffer.extend (Format_factory.double (format).formatted (r))
+			else
+				buffer.extend (r.out)
+			end
 		end
 
 feature -- Basic operations

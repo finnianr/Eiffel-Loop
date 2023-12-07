@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "22"
+	date: "2023-12-07 16:54:18 GMT (Thursday 7th December 2023)"
+	revision: "23"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -175,8 +175,8 @@ feature {NONE} -- Implementation
 			from i := 1 until i > 10 loop
 				c := vector [i]
 				lio.put_integer (i)
-				lio.put_string (": "); lio.put_double (c.r)
-				lio.put_string (" + "); lio.put_double (c.i); lio.put_line ("i")
+				lio.put_string (": "); lio.put_double (c.r, Void)
+				lio.put_string (" + "); lio.put_double (c.i, Void); lio.put_line ("i")
 				i := i + 1
 			end
 			lio.put_line ("..")

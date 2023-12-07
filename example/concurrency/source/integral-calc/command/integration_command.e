@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 10:47:22 GMT (Tuesday 10th January 2023)"
-	revision: "4"
+	date: "2023-12-07 17:36:29 GMT (Thursday 7th December 2023)"
+	revision: "5"
 
 deferred class
 	INTEGRATION_COMMAND
@@ -55,7 +55,7 @@ feature -- Basic operations
 			lio.put_line (Calculating_integral #$ [lower, upper])
 			calculate (lower, upper)
 			if not is_canceled then
-				lio.put_double_field ("integral is", integral_sum)
+				lio.put_double_field ("integral is", integral_sum, "99.999")
 				lio.put_new_line
 				lio.put_elapsed_time
 				lio.put_new_line

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 10:34:05 GMT (Saturday 18th November 2023)"
-	revision: "17"
+	date: "2023-12-07 16:54:18 GMT (Thursday 7th December 2023)"
+	revision: "18"
 
 class
 	NUMERIC_TEST_SET
@@ -186,11 +186,11 @@ feature -- Basic operations
 		do
 			equation :="x = 0.1 + 0.2 - 0.3 => x = "
 			lio.put_string (equation)
-			lio.put_double (0.1 + 0.2 - 0.3)
+			lio.put_double (0.1 + 0.2 - 0.3, Void)
 			lio.put_new_line
 
 			lio.put_string (equation)
-			lio.put_real ({REAL} 0.1 + {REAL} 0.2 - {REAL} 0.3)
+			lio.put_real ({REAL} 0.1 + {REAL} 0.2 - {REAL} 0.3, Void)
 			lio.put_new_line
 
 			lio.put_string (equation + ({REAL} 0.01 + {REAL} 0.02 - {REAL} 0.03).out)

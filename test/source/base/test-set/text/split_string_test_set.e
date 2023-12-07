@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 11:02:40 GMT (Tuesday 5th December 2023)"
-	revision: "56"
+	date: "2023-12-07 13:21:58 GMT (Thursday 7th December 2023)"
+	revision: "57"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -436,7 +436,7 @@ feature -- Tests
 			i: INTEGER; format: EL_FORMAT_INTEGER
 			spelling: STRING
 		do
-			create format.make (1)
+			create format.make_width (1)
 			if attached crc_generator as crc then
 				from i := 0 until i > 99 loop
 					spelling := Format.spell (i)

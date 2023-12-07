@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:29:42 GMT (Wednesday 8th November 2023)"
-	revision: "33"
+	date: "2023-12-07 16:59:55 GMT (Thursday 7th December 2023)"
+	revision: "34"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -382,21 +382,21 @@ feature -- String output
 
 feature -- Numeric output
 
-	put_double (d: DOUBLE)
+	put_double (d: DOUBLE; a_format: detachable STRING)
 			--
 		do
 			if attached output as op then
-				op.put_double (d)
+				op.put_double (d, a_format)
 				op.flush
 			end
 		end
 
-	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE)
+	put_double_field (label: READABLE_STRING_GENERAL; field_value: DOUBLE; a_format: detachable STRING)
 			--
 		do
 			if attached output as op then
 				op.put_label (label)
-				op.put_double (field_value)
+				op.put_double (field_value, a_format)
 
 				op.flush
 			end
@@ -457,21 +457,21 @@ feature -- Numeric output
 			end
 		end
 
-	put_real (r: REAL)
+	put_real (r: REAL; a_format: detachable STRING)
 			--
 		do
 			if attached output as op then
-				op.put_real (r)
+				op.put_real (r, a_format)
 				op.flush
 			end
 		end
 
-	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL)
+	put_real_field (label: READABLE_STRING_GENERAL; field_value: REAL; a_format: detachable STRING)
 			--
 		do
 			if attached output as op then
 				op.put_label (label)
-				op.put_real (field_value)
+				op.put_real (field_value, a_format)
 
 				op.flush
 			end

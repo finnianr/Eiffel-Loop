@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 20:12:03 GMT (Sunday 12th November 2023)"
-	revision: "34"
+	date: "2023-12-07 16:27:53 GMT (Thursday 7th December 2023)"
+	revision: "35"
 
 class
 	EIFFEL_TEST_SET
@@ -296,7 +296,7 @@ feature -- Basic operations
 			create event.make (1.25907 ,1.38513)
 			event_list.extend (event)
 
-			lio.put_real_field ("event_list.last.duration", event_list.last.duration)
+			lio.put_real_field ("event_list.last.duration", event_list.last.duration, Void)
 			lio.put_new_line
 		end
 
