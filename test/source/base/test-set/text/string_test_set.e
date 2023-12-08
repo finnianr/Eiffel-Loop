@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 17:08:52 GMT (Thursday 7th December 2023)"
-	revision: "18"
+	date: "2023-12-08 11:00:05 GMT (Friday 8th December 2023)"
+	revision: "19"
 
 class
 	STRING_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_SHARED_TEST_TEXT; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_TEST_TEXT; EL_SHARED_ZSTRING_BUFFER_SCOPES; EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -94,8 +94,13 @@ feature -- Tests
 		do
 			pi := {MATH_CONST}.Pi
 			create format_table.make (<<
-				["99.99",  "3.14"], ["99.99|", " 3.14"], ["|99.99", "3.14 "],
-				["|999.99|", " 3.14 "]
+				["99.99",  "3.14"],		-- width = 5, decimals = 2
+				["99,99",  "3,14"],		-- decimal point is a comma
+				["99.99%%",  "3.14%%"],	-- percentile
+				["99.99|", " 3.14"],		-- right justified
+				["|99.99", "3.14 "],		-- left justified
+				["|999.99|", " 3.14 "], -- centered and width = 6
+				["|99.99%%", "3.14%% "] -- left justified percentile
 			>>)
 			double := "99.99"
 			assert_same_string (Void, double.formatted (pi * 100), "314.16")
@@ -105,7 +110,7 @@ feature -- Tests
 				if double.formatted (pi) /~ table.item then
 					lio.put_string_field (table.key, table.item)
 					lio.put_new_line
-					lio.put_string_field ("formatted", double.formatted (pi))
+					lio.put_double_field ("formatted", pi, table.key)
 					lio.put_new_line
 					assert ("same as formatted", False)
 				end
@@ -130,9 +135,13 @@ feature -- Tests
 		do
 			n := 64
 			create format_table.make (<<
-				["999", "64"], ["|999", "64 "], ["999|", " 64"], ["0999|", "064"],
-				["|9999|", " 64 "],
-				["999%%|", " 64%%"], ["|999%%", "64%% "]
+				["999", "64"],			-- width = 3
+				["|999", "64 "],		-- left justified
+				["999|", " 64"],		-- right justified
+				["0999|", "064"],		-- left justified with zero padding
+				["|9999|", " 64 "],	-- centered
+				["999%%|", " 64%%"],	-- percentile
+				["|999%%", "64%% "] 	-- left justified percentile
 			>>)
 			across format_table as table loop
 				integer := table.key

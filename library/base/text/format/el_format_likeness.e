@@ -1,5 +1,10 @@
 note
-	description: "[$source FORMAT_DOUBLE] with ability to initialize from a format likeness string"
+	description: "Parses a formatting string that has a likeness to the output"
+	descendants: "[
+			EL_FORMAT_LIKENESS*
+				[$source EL_FORMAT_INTEGER]
+				[$source EL_FORMAT_DOUBLE]
+	]"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -7,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 14:11:19 GMT (Thursday 7th December 2023)"
-	revision: "1"
+	date: "2023-12-08 10:57:13 GMT (Friday 8th December 2023)"
+	revision: "2"
 
 deferred class
 	EL_FORMAT_LIKENESS
@@ -17,11 +22,12 @@ feature {NONE} -- Initialization
 
 	make (likeness: STRING)
 		local
-			parser: EL_SIMPLE_IMMUTABLE_PARSER_8
+			parser: EL_SIMPLE_IMMUTABLE_PARSER_8; decimal_point: CHARACTER_REF
 			decimal_count: INTEGER; justify_right, justify_left, zero_pad: BOOLEAN
 			l_width: INTEGER
 		do
 			parser := likeness
+			create decimal_point
 			parser.try_remove_right_character ('|')
 			justify_right := parser.was_removed
 
@@ -34,11 +40,13 @@ feature {NONE} -- Initialization
 			parser.try_remove_left_character ('0')
 			zero_pad := parser.was_removed
 
-			decimal_count := parsed_decimal_count (parser)
+			decimal_count := parsed_decimal_count (parser, decimal_point)
 			l_width := parser.target.count
 			l_width := l_width + decimal_count + decimal_count.to_boolean.to_integer
 
 			make_sized (l_width, decimal_count)
+			set_decimal_point (decimal_point.item)
+
 			if justify_left and justify_right then
 				center_justify
 
@@ -50,7 +58,6 @@ feature {NONE} -- Initialization
 			else
 				no_justify
 			end
-
 			if right_justified and zero_pad then
 				zero_fill
 			end
@@ -95,7 +102,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	parsed_decimal_count (parser: EL_SIMPLE_IMMUTABLE_PARSER_8): INTEGER
+	parsed_decimal_count (parser: EL_SIMPLE_IMMUTABLE_PARSER_8; decimal_point: CHARACTER_REF): INTEGER
 		deferred
 		end
 
@@ -107,27 +114,29 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	set_decimal_point (c: CHARACTER)
+		deferred
+		end
+
 	zero_fill
 		deferred
 		end
 
 note
 	notes: "[
-		LIKENESS FORMATTING STRINGS
+		**Formatting Test Set**
+		
+		Annotated table from {[$source STRING_TEST_SET]}.test_format_double
 
-		**999.99** same as:
-
-			make_sized (6, 2)
-
-		**|999.99** same as:
-
-			make_sized (6, 2)
-			left_justify
-
-		**|999.99|** same as:
-
-			make_sized (6, 2)
-			center_justify
+			create format_table.make (<<
+				["99.99",  "3.14"],		-- width = 5, decimals = 2
+				["99,99",  "3,14"],		-- decimal point is a comma
+				["99.99%%",  "3.14%%"],	-- percentile
+				["99.99|", " 3.14"],		-- right justified
+				["|99.99", "3.14 "],		-- left justified
+				["|999.99|", " 3.14 "], -- centered and width = 6
+				["|99.99%%", "3.14%% "] -- left justified percentile
+			>>)
 
 	]"
 

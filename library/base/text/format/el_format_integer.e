@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 13:54:40 GMT (Thursday 7th December 2023)"
-	revision: "5"
+	date: "2023-12-08 11:57:07 GMT (Friday 8th December 2023)"
+	revision: "6"
 
 class
 	EL_FORMAT_INTEGER
@@ -21,8 +21,6 @@ inherit
 		end
 
 	EL_FORMAT_LIKENESS
-
-	EL_MODULE_TUPLE
 
 create
 	make, make_width
@@ -82,8 +80,14 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	parsed_decimal_count (parser: EL_SIMPLE_IMMUTABLE_PARSER_8): INTEGER
+	parsed_decimal_count (parser: EL_SIMPLE_IMMUTABLE_PARSER_8; decimal_point: CHARACTER_REF): INTEGER
 		do
+			do_nothing
+		end
+
+	set_decimal_point (c: CHARACTER)
+		do
+			do_nothing
 		end
 
 feature {NONE} -- Constants
