@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:59:05 GMT (Thursday 7th December 2023)"
-	revision: "37"
+	date: "2023-12-09 9:22:30 GMT (Saturday 9th December 2023)"
+	revision: "38"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -228,8 +228,8 @@ feature -- Numeric output
 			--
 		do
 		-- Using `extended_buffer_last' not more efficient
-			if attached a_format as format then
-				buffer.extend (Format_factory.double (format).formatted (d))
+			if attached a_format as str then
+				buffer.extend (Format.double_as_string (d, str))
 			else
 				buffer.extend (d.out)
 			end
@@ -250,8 +250,8 @@ feature -- Numeric output
 			--
 		do
 		-- Using `extended_buffer_last' not more efficient
-			if attached a_format as format then
-				buffer.extend (Format_factory.double (format).formatted (r))
+			if attached a_format as l_format then
+				buffer.extend (Format.double_as_string (r, l_format))
 			else
 				buffer.extend (r.out)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 14:25:06 GMT (Thursday 7th December 2023)"
-	revision: "1"
+	date: "2023-12-09 9:16:41 GMT (Saturday 9th December 2023)"
+	revision: "2"
 
 deferred class
 	EL_SHARED_FORMAT_FACTORY
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	frozen Format_factory: EL_FORMAT_FACTORY
+	frozen Format: EL_FORMAT_FACTORY
 		once
 			create Result.make
 		end

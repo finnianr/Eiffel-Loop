@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-08 12:07:53 GMT (Friday 8th December 2023)"
-	revision: "3"
+	date: "2023-12-09 8:41:52 GMT (Saturday 9th December 2023)"
+	revision: "4"
 
 deferred class
 	EL_FORMAT_LIKENESS
@@ -71,7 +71,6 @@ feature -- Status query
 
 	is_percentile: BOOLEAN
 
-
 feature {NONE} -- Implementation
 
 	insert_percent (str: STRING)
@@ -81,11 +80,7 @@ feature {NONE} -- Implementation
 			from i := str.count until i = 0 or else str [i].is_digit loop
 				i := i - 1
 			end
-			if i = str.count then
-				str.append_character ('%%')
-			elseif i > 0 then
-				str.insert_character ('%%', i + 1)
-			end
+			str.insert_character ('%%', i + 1)
 		end
 
 feature {NONE} -- Deferred
