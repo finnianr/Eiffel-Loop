@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 14:11:44 GMT (Thursday 7th September 2023)"
-	revision: "9"
+	date: "2023-12-10 16:35:17 GMT (Sunday 10th December 2023)"
+	revision: "10"
 
 class
 	EL_DEFAULT_SERIALIZEABLE_XML
@@ -31,7 +31,7 @@ feature -- Conversion
 	to_xml: STRING
 			--
 		do
-			Result := new_line.joined (XML.header (1.0, {CODE_PAGE_CONSTANTS}.Utf8), "<default/>")
+			Result := new_line.joined (XML.header (1.0, {CODE_PAGE_CONSTANTS}.Utf8).to_latin_1, "<default/>")
 		end
 
 end

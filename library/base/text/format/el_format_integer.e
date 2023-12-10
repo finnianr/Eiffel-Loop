@@ -1,13 +1,14 @@
 note
 	description: "[$source FORMAT_INTEGER] with ability to spell numbers in English from 0 to 99"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-08 11:57:07 GMT (Friday 8th December 2023)"
-	revision: "6"
+	date: "2023-12-10 15:45:21 GMT (Sunday 10th December 2023)"
+	revision: "7"
 
 class
 	EL_FORMAT_INTEGER
@@ -90,6 +91,19 @@ feature {NONE} -- Implementation
 			do_nothing
 		end
 
+	set_jusitification (justify_right, justify_left: BOOLEAN)
+		-- defaults to right justification
+		do
+			if justify_left and justify_right then
+				center_justify
+
+			elseif justify_left then
+				left_justify
+			else
+				right_justify
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Spell_0_to_12: EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -110,5 +124,26 @@ feature {NONE} -- Constants
 	Suffix_teen: STRING = "teen"
 
 	Suffix_ty: STRING = "ty"
+
+note
+	notes: "[
+		Default justification: right
+	
+		**Formatting Test Set**
+		
+		Annotated table from {[$source STRING_TEST_SET]}.test_format_double
+
+			create format_table.make (<<
+				["999", " 64"],		-- width = 3, right justified by default
+				["|999", "64 "],		-- left justified
+				["999|", " 64"],		-- right justified
+				["999|", " 64"],		-- right justified
+				["0999|", "064"],		-- left justified with zero padding
+				["|9999|", " 64 "],	-- centered
+				["999%%|", " 64%%"],	-- percentile
+				["|999%%", "64%% "] 	-- left justified percentile
+			>>)
+
+	]"
 
 end

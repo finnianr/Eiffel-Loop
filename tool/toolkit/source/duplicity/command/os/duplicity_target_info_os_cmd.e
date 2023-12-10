@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:50:42 GMT (Tuesday 14th February 2023)"
-	revision: "10"
+	date: "2023-12-10 17:04:23 GMT (Sunday 10th December 2023)"
+	revision: "11"
 
 class
 	DUPLICITY_TARGET_INFO_OS_CMD
@@ -31,6 +31,8 @@ inherit
 	DUPLICITY_CONSTANTS
 
 	EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_TUPLE
+
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -58,14 +60,16 @@ feature -- Basic operations
 
 	display_size
 		local
-			mega_bytes: DOUBLE; pos_space: INTEGER
+			mega_bytes: DOUBLE; pos_space: INTEGER; label: STRING
 		do
 			lio.put_new_line
 			if not backup_contents.is_empty then
 				backup_contents.sort_by_size (True)
 				from backup_contents.start until backup_contents.after loop
 					mega_bytes := File.byte_count (backup_contents.path) / 10 ^ 6
-					lio.put_labeled_string (Double.formatted (mega_bytes) + " MB", backup_contents.path.relative_path (target_dir))
+
+					label := Format.double_as_string (mega_bytes, "99.99|") + " MB"
+					lio.put_labeled_string (label, backup_contents.path.relative_path (target_dir))
 					lio.put_new_line
 					backup_contents.forth
 				end
@@ -119,11 +123,6 @@ feature {NONE} -- Internal attributes
 	target_dir: DIR_PATH
 
 feature {NONE} -- Constants
-
-	Double: FORMAT_DOUBLE
-		once
-			create Result.make (5, 2)
-		end
 
 	Substring: TUPLE [backup_statistics, last_full_backup, A_for_add, M_for_modify: ZSTRING]
 		once

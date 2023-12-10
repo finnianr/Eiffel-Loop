@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2023-12-10 17:08:21 GMT (Sunday 10th December 2023)"
+	revision: "13"
 
 class
 	PRIMES_BENCHMARK_APP
@@ -24,6 +24,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -97,10 +99,12 @@ feature {NONE} -- Implementation
 		do
 			lio.put_labeled_string ("Implementation method", command.name)
 			lio.put_new_line
-			lio.put_substitution (
-				Results_template, [pass_count, Double.formatted (duration), Double.formatted (duration / pass_count),
-				sieve_size, command.prime_count, command.is_valid]
-			)
+			if attached Format.double ("9.999") as d then
+				lio.put_substitution (
+					Results_template, [pass_count, d.formatted (duration), d.formatted (duration / pass_count),
+					sieve_size, command.prime_count, command.is_valid]
+				)
+			end
 			lio.put_new_line_x2
 		end
 
@@ -115,12 +119,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Description: STRING = "Benchmark calculation of primes using the the sieve of Eratosthenes method"
-
-	Double: FORMAT_DOUBLE
-		once
-			create Result.make (5, 3)
-			Result.no_justify
-		end
 
 	Time_limit: INTEGER = 5000
 

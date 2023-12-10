@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-12-10 17:15:07 GMT (Sunday 10th December 2023)"
+	revision: "8"
 
 class
 	EL_QUANTITY_PROGRESS_INFO
+
+inherit
+	ANY; EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -21,20 +24,21 @@ feature {NONE} -- Initialization
 		do
 			sum_total := a_total
 			units := a_units
-			create formatter.make (10, decimals)
+			create double.make (10, decimals)
+			double.no_justify
+
 			create last_string.make_empty
-			formatter.no_justify
 		end
 
 feature -- Access
 
-	sum_total: DOUBLE
+	last_string: ZSTRING
 
 	sum: DOUBLE
 
-	units: STRING
+	sum_total: DOUBLE
 
-	last_string: ZSTRING
+	units: STRING
 
 feature -- Status query
 
@@ -42,31 +46,36 @@ feature -- Status query
 
 feature -- Status setting
 
-	enable_line_advance
-		do
-			line_advance_enabled := True
-		end
-
 	disable_line_advance
 		do
 			line_advance_enabled := False
+		end
+
+	enable_line_advance
+		do
+			line_advance_enabled := True
 		end
 
 feature -- Element change
 
 	increment (v: DOUBLE)
 		local
-			percentage: INTEGER; template: ZSTRING
+			percentage: STRING
 		do
 			sum := sum + v
-			percentage := (sum * 100 / sum_total).rounded
-			template := once "%S%% [%S of %S %S]"
-
-			last_string := template #$ [percentage, formatter.formatted (sum), formatter.formatted (sum_total), units]
+			percentage := Format.double_as_string (sum * 100 / sum_total, once "999.9%%|")
+			last_string := Template #$ [percentage, double.formatted (sum), double.formatted (sum_total), units]
 		end
 
 feature {NONE} -- Implementation
 
-	formatter: FORMAT_DOUBLE
+	double: FORMAT_DOUBLE
+
+feature {NONE} -- Constants
+
+	Template: ZSTRING
+		once
+			Result := "%S [%S of %S %S]"
+		end
 
 end

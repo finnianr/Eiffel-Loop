@@ -3,13 +3,16 @@ note
 		Compare methods of iterating over [$source ZSTRING].area
 	]"
 	notes: "[
-		Passes over 500 millisecs (in descending order)
+		Passes over 2000 millisecs (in descending order)
 
-			inspect c (i > area_upper)     :  7723081.0 times (100%)
-			inspect c (i = i_final)        :  7710823.0 times (-0.2%)
-			inspect c [i] (i > area_upper) :  7681708.0 times (-0.5%)
-			if c [i] = Substitute then     :   847092.0 times (-89.0%)
-			if c = Substitute then         :   846940.0 times (-89.0%)
+			inspect c [i] (i > area_upper) :  31844250.0 times (100%)
+			inspect c.code // 0x100        :  31809797.0 times (-0.1%)
+			inspect c (i > area_upper)     :  31695508.0 times (-0.5%)
+			inspect c (i = i_final)        :  31572676.0 times (-0.9%)
+			if c = Substitute then         :   3444165.0 times (-89.2%)
+			if c [i] = Substitute then     :   3441789.0 times (-89.2%)
+			inspect type [c.code]          :   1637486.0 times (-94.9%)
+
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 9:00:58 GMT (Monday 4th December 2023)"
-	revision: "21"
+	date: "2023-12-10 9:16:26 GMT (Sunday 10th December 2023)"
+	revision: "22"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -51,6 +54,7 @@ feature -- Basic operations
 				["inspect c (i > area_upper)",	  agent inspect_iteration_area_upper (mixed_string)],
 				["inspect c [i] (i > area_upper)", agent inspect_iteration_area_upper_no_c_assign (mixed_string)],
 				["inspect type [c.code]",			  agent inspect_character_type (mixed_string)],
+				["inspect c.code // 0x100",		  agent inspect_code_div_0x100 (mixed_string)],
 				["if c [i] = Substitute then",	  agent if_then_iteration_no_c_assign (mixed_string)],
 				["if c = Substitute then",			  agent if_then_iteration (mixed_string)]
 			>>)
@@ -154,6 +158,30 @@ feature {NONE} -- Operations
 							do_with (c)
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
 							do_with (c)
+					else
+						do_with (c)
+					end
+					i := i + 1
+				end
+			end
+		end
+
+	inspect_code_div_0x100 (mixed_string: ZSTRING)
+		local
+			i, area_upper: INTEGER c: CHARACTER
+		do
+			if attached mixed_string.area as area then
+				area_upper := mixed_string.count - 1
+				from i := 0 until i > area_upper loop
+					c := area [i]
+					inspect c.code // 0x100
+						when 0 then
+							inspect c
+								when Substitute then
+									do_with (c)
+							else
+								do_with (c)
+							end
 					else
 						do_with (c)
 					end

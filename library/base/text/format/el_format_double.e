@@ -1,13 +1,14 @@
 note
 	description: "[$source FORMAT_DOUBLE] with ability to initialize from a format likeness string"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-08 10:04:45 GMT (Friday 8th December 2023)"
-	revision: "2"
+	date: "2023-12-10 15:45:55 GMT (Sunday 10th December 2023)"
+	revision: "3"
 
 class
 	EL_FORMAT_DOUBLE
@@ -56,5 +57,42 @@ feature {NONE} -- Implementation
 		do
 			decimal := c
 		end
+
+	set_jusitification (justify_right, justify_left: BOOLEAN)
+		-- defaults to no justification
+		do
+			if justify_left and justify_right then
+				center_justify
+
+			elseif justify_left then
+				left_justify
+
+			elseif justify_right then
+				right_justify
+			else
+				no_justify
+			end
+		end
+
+note
+	notes: "[
+		Default justification: none
+
+		**Formatting Test Set**
+		
+		Annotated table from {[$source STRING_TEST_SET]}.test_format_double
+
+			create format_table.make (<<
+				["99.99",  "3.14"],		-- width = 5, decimals = 2, no justification by default
+				["99,99",  "3,14"],		-- decimal point is a comma
+				["99.99%%",  "3.14%%"],	-- percentile
+				["99.99|", " 3.14"],		-- right justified
+				["|99.99", "3.14 "],		-- left justified
+				["|999.99|", " 3.14 "], -- centered and width = 6
+				["|99.99%%", "3.14%% "] -- left justified percentile
+			>>)
+
+	]"
+
 
 end

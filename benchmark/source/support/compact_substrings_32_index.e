@@ -7,11 +7,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
-	revision: "19"
+	date: "2023-12-10 9:20:15 GMT (Sunday 10th December 2023)"
+	revision: "20"
 
 class
-	UNENCODED_CHARACTERS_INDEX
+	COMPACT_SUBSTRINGS_32_INDEX
 
 obsolete
 	"Replaced by EL_COMPACT_SUBSTRINGS_32_ITERATION"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-09 14:19:20 GMT (Saturday 9th September 2023)"
-	revision: "28"
+	date: "2023-12-10 16:42:56 GMT (Sunday 10th December 2023)"
+	revision: "29"
 
 class
 	XML_ROUTINES_IMP
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_SHARED_FORMAT_FACTORY
 
 feature -- Measurement
 
@@ -78,13 +80,11 @@ feature -- Access
 			Result := xml_escaper.escape_sequence (unicode)
 		end
 
-	header (a_version: REAL; encoding_name: STRING): STRING
-		local
-			f: FORMAT_DOUBLE
+	header (a_version: REAL; encoding_name: STRING): ZSTRING
 		do
-			create f.make (3, 1)
-			Result := Header_template #$ [f.formatted (a_version), encoding_name]
-			Result.left_adjust
+			Result := Header_template #$ [Format.double_as_string (a_version, once "9.9"), encoding_name]
+		ensure
+			no_leading_tab: not Result.starts_with_character ('%T')
 		end
 
 	root_element_name (a_xml: READABLE_STRING_GENERAL): STRING

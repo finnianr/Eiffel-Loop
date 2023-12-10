@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
-	revision: "19"
+	date: "2023-12-10 16:54:29 GMT (Sunday 10th December 2023)"
+	revision: "20"
 
 class
 	ZSTRING_DEVELOPER_COMPARISON
@@ -16,10 +16,9 @@ class
 inherit
 	STRING_BENCHMARK_COMPARISON
 
-	HEXAGRAM_NAMES
-		export
-			{NONE} all
-		end
+	XML_STRING_8_CONSTANTS
+
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -31,49 +30,38 @@ feature -- Access
 feature -- Basic operations
 
 	execute
-		local
-			str: ZSTRING
 		do
-			str := Name_manifest
-
 			compare ("perform benchmark", <<
-				["method 1", agent do_method (str.area, str.unencoded_area, 1, str.count)],
-				["method 2", agent do_method (str.area, str.unencoded_area, 2, str.count)],
-				["method 3", agent do_method (str.area, str.unencoded_area, 3, str.count)],
-				["method 4", agent do_method (str.area, str.unencoded_area, 4, str.count)],
-				["method 5", agent do_method (str.area, str.unencoded_area, 5, str.count)]
+				["method 1", agent do_method (1)],
+				["method 2", agent do_method (2)]
 			>>)
 		end
 
 feature {NONE} -- Operations
 
-	do_method (area: SPECIAL [CHARACTER]; area_32: SPECIAL [CHARACTER_32]; id, count: INTEGER)
+	do_method (id: INTEGER)
 		local
-			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; block_index, i: INTEGER
-			uc: CHARACTER_32; c_i: CHARACTER; z_code: NATURAL
 		do
 			across 1 |..| 1000 as n loop
-				block_index := 0
-				from until i = count loop
-					inspect area [i]
-						when Substitute then
-							uc := iter.item ($block_index, area_32, i + 1)
-							inspect id
-								when 1 then
-								when 2 then
-								when 3 then
-								when 4 then
-								when 5 then
-							end
-					else
-					end
-					i := i + 1
+				inspect id
+					when 1 then
+
+					when 2 then
 				end
 			end
 		end
 
 note
 	notes: "[
+		**10 Dec 2023**
+		
+		XML header template comparison
+		
+		Passes over 500 millisecs (in descending order)
+
+			header: EL_ZSTRING             :  63.0 times (100%)
+			header: EL_TEMPLATE [STRING_8] :  57.0 times (-9.5%)		
+	
 		**24 Nov 2023**
 		
 		**to_string_32_v2** uses technique:

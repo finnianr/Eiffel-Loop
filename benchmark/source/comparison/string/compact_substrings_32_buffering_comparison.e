@@ -1,19 +1,19 @@
 note
-	description: "Unencoded character list generation"
+	description: "Compact substrings buffering comparison"
 	notes: "[
 		**29 Aug 2023**
 		
 		Passes over 500 millisecs (in descending order)
 
-			{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend :  61134.0 times (100%)
-			{EL_SUBSTRING_32_LIST}.put_unicode          :  26462.0 times (-56.7%)
-			{EL_SUBSTRING_32_BUFFER}.put_unicode        :  18540.0 times (-69.7%)
+			{EL_COMPACT_SUBSTRINGS_32_BUFFER}.extend :  61134.0 times (100%)
+			{EL_SUBSTRING_32_LIST}.put_unicode       :  26462.0 times (-56.7%)
+			{EL_SUBSTRING_32_BUFFER}.put_unicode     :  18540.0 times (-69.7%)
 
 		Prior to adding **a_last_upper** argument to **extend**
 
-			{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend :  34646.0 times (100%)
-			{EL_SUBSTRING_32_LIST}.put_unicode          :  26534.0 times (-23.4%)
-			{EL_SUBSTRING_32_BUFFER}.put_unicode        :  16433.0 times (-52.6%)
+			{EL_COMPACT_SUBSTRINGS_32_BUFFER}.extend  :  34646.0 times (100%)
+			{EL_SUBSTRING_32_LIST}.put_unicode        :  26534.0 times (-23.4%)
+			{EL_SUBSTRING_32_BUFFER}.put_unicode      :  16433.0 times (-52.6%)
 	]"
 
 	author: "Finnian Reilly"
@@ -21,11 +21,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 9:18:21 GMT (Monday 4th December 2023)"
-	revision: "11"
+	date: "2023-12-10 9:28:47 GMT (Sunday 10th December 2023)"
+	revision: "12"
 
 class
-	UNENCODED_CHARACTER_LIST_GENERATION
+	COMPACT_SUBSTRINGS_32_BUFFERING_COMPARISON
 
 inherit
 	STRING_BENCHMARK_COMPARISON
@@ -55,9 +55,9 @@ feature -- Basic operations
 	execute
 		do
 			compare ("compare_character_extend", <<
-				["{EL_SUBSTRING_32_BUFFER}.put_unicode",			agent buffer_put_unicode],
-				["{EL_SUBSTRING_32_LIST}.put_unicode",				agent list_put_unicode],
-				["{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend",	agent extendable_extend]
+				["{EL_SUBSTRING_32_BUFFER}.put_unicode",		agent buffer_put_unicode],
+				["{EL_SUBSTRING_32_LIST}.put_unicode",			agent list_put_unicode],
+				["{EL_COMPACT_SUBSTRINGS_32_BUFFER}.extend",	agent extendable_extend]
 			>>)
 		end
 

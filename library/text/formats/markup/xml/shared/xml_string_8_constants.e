@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:38:52 GMT (Wednesday 2nd August 2023)"
-	revision: "6"
+	date: "2023-12-10 16:51:42 GMT (Sunday 10th December 2023)"
+	revision: "7"
 
 deferred class
 	XML_STRING_8_CONSTANTS
@@ -16,13 +16,6 @@ inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
-
-	Header_template: EL_TEMPLATE [STRING_8]
-		once
-			create Result.make ("[
-				<?xml version="$version" encoding="$encoding"?>
-			]")
-		end
 
 	Comment_close: STRING_8 = "-->"
 
@@ -35,10 +28,6 @@ feature {NONE} -- Constants
 	Left_angle_bracket: STRING_8 = "<"
 
 	Right_angle_bracket: STRING_8 = ">"
-
-	Var_version: STRING = "version"
-
-	Var_encoding: STRING = "encoding"
 
 feature {NONE} -- Escaping
 

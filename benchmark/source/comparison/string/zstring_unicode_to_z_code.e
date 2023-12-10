@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
-	revision: "19"
+	date: "2023-12-10 9:40:56 GMT (Sunday 10th December 2023)"
+	revision: "20"
 
 class
 	ZSTRING_UNICODE_TO_Z_CODE
@@ -48,8 +48,9 @@ feature -- Basic operations
 				["if unicode < 0x100 then",						  agent do_method (str.area, str.unencoded_area, 1, str.count)],
 				["if unicode <= 0xFF then",						  agent do_method (str.area, str.unencoded_area, 2, str.count)],
 				["inspect b.leading_zeros_count_32 (unicode)", agent do_method (str.area, str.unencoded_area, 3, str.count)],
-				["inspect unicode |>> 8",							  agent do_method (str.area, str.unencoded_area, 4, str.count)],
-				["Pure bit arithmetic, no branching",			  agent do_method (str.area, str.unencoded_area, 5, str.count)]
+				["inspect unicode // 0x100",						  agent do_method (str.area, str.unencoded_area, 4, str.count)],
+				["inspect unicode |>> 8",							  agent do_method (str.area, str.unencoded_area, 5, str.count)],
+				["Pure bit arithmetic, no branching",			  agent do_method (str.area, str.unencoded_area, 6, str.count)]
 			>>)
 		end
 
@@ -74,9 +75,11 @@ feature {NONE} -- Operations
 								when 3 then
 									z_code := unicode_to_z_code_inspect_leading_zero_count (uc.natural_32_code)
 								when 4 then
-									z_code := unicode_to_z_code_when_0 (uc.natural_32_code)
+									z_code := unicode_to_z_code_inspect_div_0x100 (uc.natural_32_code)
 								when 5 then
-									z_code := unicode_to_z_code_bitshift_only (uc.natural_32_code)
+									z_code := unicode_to_z_code_right_shift_8 (uc.natural_32_code)
+								when 6 then
+									z_code := unicode_to_z_code_bitwise_expression (uc.natural_32_code)
 							end
 					else
 					end
@@ -85,7 +88,7 @@ feature {NONE} -- Operations
 			end
 		end
 
-	frozen unicode_to_z_code_bitshift_only (unicode: NATURAL): NATURAL
+	frozen unicode_to_z_code_bitwise_expression (unicode: NATURAL): NATURAL
 		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
 		local
 			b: EL_BIT_ROUTINES
@@ -125,6 +128,19 @@ feature {NONE} -- Operations
 			same_as_simple: Result = unicode_to_z_code (unicode)
 		end
 
+	frozen unicode_to_z_code_inspect_div_0x100 (unicode: NATURAL): NATURAL
+		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
+		do
+			inspect unicode // 0x100
+				when 0 then
+					Result := Sign_bit | unicode
+			else
+				Result := unicode
+			end
+		ensure
+			reversbile: z_code_to_unicode (Result) = unicode
+		end
+
 	frozen unicode_to_z_code_lt_eq_0xFF (unicode: NATURAL): NATURAL
 		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
 		do
@@ -137,7 +153,7 @@ feature {NONE} -- Operations
 			reversbile: z_code_to_unicode (Result) = unicode
 		end
 
-	frozen unicode_to_z_code_when_0 (unicode: NATURAL): NATURAL
+	frozen unicode_to_z_code_right_shift_8 (unicode: NATURAL): NATURAL
 		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
 		do
 			inspect unicode |>> 8

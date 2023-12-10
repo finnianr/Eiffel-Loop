@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
-	revision: "2"
+	date: "2023-12-10 9:21:42 GMT (Sunday 10th December 2023)"
+	revision: "3"
 
 expanded class
-	UNENCODED_CHARACTER_ITERATION_EXTERNAL
+	COMPACT_SUBSTRINGS_32_C_EXTERNAL
 
 inherit
 	EL_COMPACT_SUBSTRINGS_32_ITERATION

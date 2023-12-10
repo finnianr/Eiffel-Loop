@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:40:19 GMT (Thursday 17th August 2023)"
-	revision: "17"
+	date: "2023-12-10 15:31:44 GMT (Sunday 10th December 2023)"
+	revision: "18"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -31,6 +31,8 @@ inherit
 	EL_MODULE_LIO; EL_MODULE_EXECUTABLE; EL_MODULE_MEMORY
 
 	EL_CHARACTER_32_CONSTANTS
+
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -86,7 +88,7 @@ feature -- Basic operations
 	print_comparison
 		local
 			description_width: INTEGER; highest_count, relative_difference: DOUBLE
-			l_label, formatted_value: STRING; l_double: FORMAT_DOUBLE
+			l_label, formatted_value, relative_percentile: STRING; l_double: FORMAT_DOUBLE
 		do
 			description_width := max_key_width
 			highest_count := application_count_list.first_value
@@ -107,9 +109,8 @@ feature -- Basic operations
 						lio.put_labeled_string (l_label, formatted_value + " times (100%%)")
 					else
 						relative_difference := ((highest_count - list.item_value) / highest_count) * 100
-						lio.put_labeled_string (
-							l_label, Template_relative #$ [formatted_value, Percent.formatted (relative_difference)]
-						)
+						relative_percentile := Format.double_as_string (relative_difference, once "999.9%%")
+						lio.put_labeled_string (l_label, Template_relative #$ [formatted_value, relative_percentile])
 					end
 					lio.put_new_line
 					list.forth
@@ -137,15 +138,9 @@ feature {NONE} -- Constants
 			Result := 500
 		end
 
-	Percent: FORMAT_DOUBLE
-		once
-			create Result.make (5, 1)
-			Result.no_justify
-		end
-
 	Template_relative: ZSTRING
 		once
-			Result := "%S times (-%S%%)"
+			Result := "%S times (-%S)"
 		end
 
 end

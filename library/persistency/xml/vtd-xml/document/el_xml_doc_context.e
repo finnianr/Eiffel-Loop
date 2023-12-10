@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-06 9:22:37 GMT (Friday 6th October 2023)"
-	revision: "27"
+	date: "2023-12-10 16:38:07 GMT (Sunday 10th December 2023)"
+	revision: "28"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -102,7 +102,7 @@ feature {NONE} -- Initialization
 
 	make_from_fragment (xml_fragment: READABLE_STRING_8; a_encoding: STRING)
 		do
-			make_from_string (new_line.joined (XML.header (1.0, a_encoding), xml_fragment))
+			make_from_string (new_line.joined (XML.header (1.0, a_encoding).to_latin_1, xml_fragment))
 		end
 
 	make_from_string (a_xml: READABLE_STRING_8)

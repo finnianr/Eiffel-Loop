@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-05 15:44:03 GMT (Sunday 5th February 2023)"
-	revision: "14"
+	date: "2023-12-10 10:05:42 GMT (Sunday 10th December 2023)"
+	revision: "15"
 
 expanded class
 	EL_BENCHMARK_ROUTINES
@@ -15,8 +15,9 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-
 	EL_MODULE_MEMORY
+
+	EL_SHARED_FORMAT_FACTORY
 
 feature -- Access
 
@@ -29,7 +30,7 @@ feature -- Access
 		do
 			if a = b then
 				create Result.make (10 + units.count + 1)
-				Result.append (Double.formatted (a))
+				Result.append (Format.double_as_string (a, once "99.999"))
 				Result.append_character (' ')
 				Result.append (units)
 			else
@@ -71,11 +72,6 @@ feature -- Access
 		end
 
 feature {NONE} -- Constants
-
-	Double: FORMAT_DOUBLE
-		once
-			create Result.make (6, 3)
-		end
 
 	Timer: EL_EXECUTION_TIMER
 		once

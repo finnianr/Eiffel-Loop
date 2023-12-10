@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 15:17:04 GMT (Saturday 2nd December 2023)"
-	revision: "42"
+	date: "2023-12-10 9:26:14 GMT (Sunday 10th December 2023)"
+	revision: "43"
 
 class
 	STRING_BENCHMARK_SHELL
@@ -45,8 +45,8 @@ feature {NONE} -- Implementation
 
 		REPLACE_SUBSTRING_ALL_VS_GENERAL,
 
-		UNENCODED_CHARACTER_ITERATION_COMPARISON,
-		UNENCODED_CHARACTER_LIST_GENERATION,
+		COMPACT_SUBSTRINGS_32_ITERATION_COMPARISON,
+		COMPACT_SUBSTRINGS_32_BUFFERING_COMPARISON,
 		UNICODE_ITEM_COMPARISON,
 
 		ZSTRING_APPEND_GENERAL_VS_APPEND,

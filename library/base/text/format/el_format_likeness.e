@@ -2,18 +2,17 @@ note
 	description: "Parses a formatting string that has a likeness to the output"
 	descendants: "[
 			EL_FORMAT_LIKENESS*
-				[$source EL_FORMAT_INTEGER]
-				[$source EL_FORMAT_DOUBLE]
+				[$source EL_FORMAT_INTEGER] (right justification by default)
+				[$source EL_FORMAT_DOUBLE] (no justification by default)
 	]"
-	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-09 8:41:52 GMT (Saturday 9th December 2023)"
-	revision: "4"
+	date: "2023-12-10 15:27:06 GMT (Sunday 10th December 2023)"
+	revision: "5"
 
 deferred class
 	EL_FORMAT_LIKENESS
@@ -46,25 +45,11 @@ feature {NONE} -- Initialization
 
 			make_sized (l_width, decimal_count)
 			set_decimal_point (decimal_point.item)
+			set_jusitification (justify_right, justify_left)
 
-			if justify_left and justify_right then
-				center_justify
-
-			elseif justify_left then
-				left_justify
-
-			elseif justify_right then
-				right_justify
-			else
-				no_justify
-			end
 			if right_justified and zero_pad then
 				zero_fill
 			end
-		end
-
-	make_sized (w, d: INTEGER)
-		deferred
 		end
 
 feature -- Status query
@@ -93,6 +78,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	make_sized (w, d: INTEGER)
+		deferred
+		end
+
 	no_justify
 		deferred
 		end
@@ -113,26 +102,12 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	zero_fill
+	set_jusitification (justify_right, justify_left: BOOLEAN)
 		deferred
 		end
 
-note
-	notes: "[
-		**Formatting Test Set**
-		
-		Annotated table from {[$source STRING_TEST_SET]}.test_format_double
-
-			create format_table.make (<<
-				["99.99",    "3.14"],	-- width = 5, decimals = 2
-				["99,99",    "3,14"],	-- decimal point is a comma
-				["99.99%%",  "3.14%%"],	-- percentile
-				["99.99|",   " 3.14"],	-- right justified
-				["|99.99",   "3.14 "],	-- left justified
-				["|999.99|", " 3.14 "], -- centered and width = 6
-				["|99.99%%", "3.14%% "] -- left justified percentile
-			>>)
-
-	]"
+	zero_fill
+		deferred
+		end
 
 end

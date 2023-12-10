@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 17:43:17 GMT (Tuesday 28th November 2023)"
-	revision: "13"
+	date: "2023-12-10 15:22:24 GMT (Sunday 10th December 2023)"
+	revision: "14"
 
 class
 	EL_CONSOLE_PROGRESS_DISPLAY
@@ -16,6 +16,8 @@ inherit
 	EL_PROGRESS_DISPLAY
 
 	EL_MODULE_LIO
+
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -55,6 +57,7 @@ feature -- Basic operations
 	set_progress (a_proportion: DOUBLE)
 		local
 			count, old_index: INTEGER; c: CHARACTER; proportion: DOUBLE
+			percentile: STRING
 		do
 			proportion := a_proportion.min (a_proportion.one)
 			count := (Space_count * proportion).rounded
@@ -75,7 +78,8 @@ feature -- Basic operations
 			end
 			if index > old_index or else a_proportion = One then
 				lio.put_character ('%R')
-				lio.put_substitution (Template, [filled_space, Double.formatted (100 * proportion)])
+				percentile := Format.double_as_string (100 * proportion, once "999.9%%|")
+				lio.put_substitution (Bar_template, [filled_space, percentile])
 			end
 		end
 
@@ -92,9 +96,9 @@ feature {NONE} -- Constants
 			Result := Result.one
 		end
 
-	Template: ZSTRING
+	Bar_template: ZSTRING
 		once
-			Result := "[%S] %S%%"
+			Result := "[%S] %S"
 		end
 
 	Space_count: INTEGER
@@ -102,8 +106,4 @@ feature {NONE} -- Constants
 			Result := 100
 		end
 
-	Double: FORMAT_DOUBLE
-		once
-			create Result.make (5, 1)
-		end
 end

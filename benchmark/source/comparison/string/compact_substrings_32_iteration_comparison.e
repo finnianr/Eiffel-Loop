@@ -3,9 +3,9 @@ note
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
-			UNENCODED_CHARACTER_ITERATION_EXTERNAL :  3980.0 times (100%)
+			COMPACT_SUBSTRINGS_32_C_EXTERNAL :  3980.0 times (100%)
 			EL_COMPACT_SUBSTRINGS_32_ITERATION       :  3974.0 times (-0.2%)
-			UNENCODED_CHARACTERS_INDEX             :  3356.0 times (-15.7%)
+			COMPACT_SUBSTRINGS_32_INDEX             :  3356.0 times (-15.7%)
 
 		**Conclusion**
 
@@ -18,11 +18,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:35 GMT (Monday 4th December 2023)"
-	revision: "5"
+	date: "2023-12-10 9:23:09 GMT (Sunday 10th December 2023)"
+	revision: "6"
 
 class
-	UNENCODED_CHARACTER_ITERATION_COMPARISON
+	COMPACT_SUBSTRINGS_32_ITERATION_COMPARISON
 
 inherit
 	STRING_BENCHMARK_COMPARISON
@@ -47,8 +47,8 @@ feature -- Basic operations
 			russian := Text.lines.first
 			compare ("Iterate over ZSTRING characters", <<
 				["EL_COMPACT_SUBSTRINGS_32_ITERATION",		 agent unencoded_character_iteration (russian)],
-				["UNENCODED_CHARACTERS_INDEX",				 agent unencoded_characters_index (russian)],
-				["UNENCODED_CHARACTER_ITERATION_EXTERNAL", agent external_pointer_get_set (russian)]
+				["COMPACT_SUBSTRINGS_32_INDEX",				 agent unencoded_characters_index (russian)],
+				["COMPACT_SUBSTRINGS_32_C_EXTERNAL", agent external_pointer_get_set (russian)]
 			>>)
 		end
 
@@ -56,7 +56,7 @@ feature {NONE} -- append_character
 
 	external_pointer_get_set (str: ZSTRING)
 		local
-			iter: UNENCODED_CHARACTER_ITERATION_EXTERNAL; block_index, i, count: INTEGER
+			iter: COMPACT_SUBSTRINGS_32_C_EXTERNAL; block_index, i, count: INTEGER
 			l_area: SPECIAL [CHARACTER]; uc: CHARACTER_32; c_i: CHARACTER
 			area_32: SPECIAL [CHARACTER_32]
 		do
@@ -101,7 +101,7 @@ feature {NONE} -- append_character
 	unencoded_characters_index (str: ZSTRING)
 		local
 			l_area: SPECIAL [CHARACTER]; uc: CHARACTER_32; c_i: CHARACTER
-			i, count: INTEGER; interval_index: UNENCODED_CHARACTERS_INDEX
+			i, count: INTEGER; interval_index: COMPACT_SUBSTRINGS_32_INDEX
 		do
 			across 1 |..| 1000 as n loop
 				if attached {EL_COMPACT_SUBSTRINGS_32} str as unencoded then
@@ -124,7 +124,7 @@ feature {NONE} -- append_character
 
 feature {NONE} -- Constants
 
-	Once_unencoded_index: UNENCODED_CHARACTERS_INDEX
+	Once_unencoded_index: COMPACT_SUBSTRINGS_32_INDEX
 		once
 			create Result.make_default
 		end

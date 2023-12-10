@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:31:45 GMT (Wednesday 8th November 2023)"
-	revision: "5"
+	date: "2023-12-10 16:38:25 GMT (Sunday 10th December 2023)"
+	revision: "6"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -46,7 +46,7 @@ feature -- Basic operations
 		local
 			XML: XML_ROUTINES
 		do
-			output.put_string_8 (XML.header (1.0, output.encoding_name))
+			output.put_string (XML.header (1.0, output.encoding_name))
 			output.put_new_line
 		end
 

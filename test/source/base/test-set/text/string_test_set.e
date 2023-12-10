@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-09 9:24:17 GMT (Saturday 9th December 2023)"
-	revision: "20"
+	date: "2023-12-10 15:41:13 GMT (Sunday 10th December 2023)"
+	revision: "21"
 
 class
 	STRING_TEST_SET
@@ -89,12 +89,15 @@ feature -- Tests
 				covers/{EL_FORMAT_DOUBLE}.make
 			]"
 		local
-			double: EL_FORMAT_DOUBLE; pi: DOUBLE
+			double, format_5_2: EL_FORMAT_DOUBLE; pi: DOUBLE
 			format_table: EL_HASH_TABLE [STRING, STRING]
 		do
+			create format_5_2.make ("999.99")
+			assert ("rounded and no justification", format_5_2.formatted (10.519) ~ "10.52")
+
 			pi := {MATH_CONST}.Pi
 			create format_table.make (<<
-				["99.99",  "3.14"],		-- width = 5, decimals = 2
+				["99.99",  "3.14"],		-- width = 5, decimals = 2, no justification by default
 				["99,99",  "3,14"],		-- decimal point is a comma
 				["99.99%%",  "3.14%%"],	-- percentile
 				["99.99|", " 3.14"],		-- right justified
@@ -135,8 +138,9 @@ feature -- Tests
 		do
 			n := 64
 			create format_table.make (<<
-				["999", "64"],			-- width = 3
+				["999", " 64"],		-- width = 3, right justified by default
 				["|999", "64 "],		-- left justified
+				["999|", " 64"],		-- right justified
 				["999|", " 64"],		-- right justified
 				["0999|", "064"],		-- left justified with zero padding
 				["|9999|", " 64 "],	-- centered

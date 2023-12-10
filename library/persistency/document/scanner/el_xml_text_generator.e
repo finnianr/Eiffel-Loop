@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:56:34 GMT (Wednesday 8th November 2023)"
-	revision: "30"
+	date: "2023-12-10 16:53:32 GMT (Sunday 10th December 2023)"
+	revision: "31"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -24,7 +24,7 @@ inherit
 
 	EL_CHARACTER_8_CONSTANTS; EL_STRING_8_CONSTANTS; XML_STRING_8_CONSTANTS
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -133,14 +133,14 @@ feature {NONE} -- Parsing events
 
 	on_meta_data (version: REAL; a_encoding: EL_ENCODING_BASE)
 		--
+		local
+			xml: XML_ROUTINES
 		do
 			Precursor (version, a_encoding)
 			if a_encoding.encoded_as_utf (8) then
 				output.put_string ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
 			end
-			Header_template.put (Var_version, Decimal_formatter.formatted (version))
-			Header_template.put (Var_encoding, a_encoding.name)
-			output.put_string (Header_template.substituted)
+			output.put_string (xml.header (version, a_encoding.name))
 			output.put_new_line
 		end
 
@@ -302,12 +302,6 @@ feature {NONE} -- Constants
 	Default_pool: EL_STRING_POOL_SCOPE_CURSOR [STRING]
 		once
 			create Result.make_default
-		end
-
-	Decimal_formatter: FORMAT_DOUBLE
-			--
-		once
-			create Result.make (3, 1)
 		end
 
 	Line_splitter: EL_SPLIT_ON_CHARACTER [STRING]
