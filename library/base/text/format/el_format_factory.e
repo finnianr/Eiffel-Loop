@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-09 9:22:05 GMT (Saturday 9th December 2023)"
-	revision: "2"
+	date: "2023-12-11 9:51:56 GMT (Monday 11th December 2023)"
+	revision: "3"
 
 class
 	EL_FORMAT_FACTORY
@@ -39,6 +39,11 @@ feature -- Access
 			Result := double (likeness).formatted (d)
 		end
 
+	found_double: EL_FORMAT_DOUBLE
+		do
+			Result := double_cache.found_item
+		end
+
 	integer (likeness: STRING): EL_FORMAT_INTEGER
 		do
 			Result := integer_cache.item (likeness)
@@ -47,6 +52,13 @@ feature -- Access
 	integer_as_string (n: INTEGER; likeness: STRING): STRING
 		do
 			Result := integer (likeness).formatted (n)
+		end
+
+feature -- Status query
+
+	has_double_key (likeness: STRING): BOOLEAN
+		do
+			Result := double_cache.has_key (likeness)
 		end
 
 feature {NONE} -- Implementation

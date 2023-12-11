@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 16:51:42 GMT (Sunday 10th December 2023)"
-	revision: "7"
+	date: "2023-12-11 17:05:59 GMT (Monday 11th December 2023)"
+	revision: "8"
 
 deferred class
 	XML_STRING_8_CONSTANTS
@@ -15,19 +15,16 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
+	EL_MODULE_TUPLE
+
 feature {NONE} -- Constants
 
-	Comment_close: STRING_8 = "-->"
-
-	Comment_open: STRING_8 = "<!--"
-
-	Close_tag_marker: STRING_8 = "</"
-
-	Empty_tag_marker: STRING_8 = "/>"
-
-	Left_angle_bracket: STRING_8 = "<"
-
-	Right_angle_bracket: STRING_8 = ">"
+	Bracket: TUPLE [left, left_comment, left_slash, right, right_comment, slash_right: STRING]
+		-- angle bracket markers
+		once
+			create Result
+			Tuple.fill (Result, "<, <!--, </, >, -->, />")
+		end
 
 feature {NONE} -- Escaping
 

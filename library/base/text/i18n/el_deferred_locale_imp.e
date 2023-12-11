@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2023-12-11 9:33:16 GMT (Monday 11th December 2023)"
+	revision: "21"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -38,6 +38,13 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	date_text: EL_DATE_TEXT
+
+	double_as_string (d: DOUBLE; likeness: STRING): STRING
+		do
+			Result := Format.double (likeness).formatted (d)
+		end
+
+	Decimal_point: CHARACTER = '.'
 
 feature -- Status query
 

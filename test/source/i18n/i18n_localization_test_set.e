@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-28 8:38:10 GMT (Friday 28th July 2023)"
-	revision: "24"
+	date: "2023-12-11 10:39:08 GMT (Monday 11th December 2023)"
+	revision: "25"
 
 class
 	I18N_LOCALIZATION_TEST_SET
@@ -83,6 +83,7 @@ feature {NONE} -- Implementation
 		EL_PHRASE_TEXTS,
 		EL_PASSPHRASE_ATTRIBUTES,
 		EL_PASSPHRASE_TEXTS,
+		EL_SYMBOL_TEXTS,
 
 		EL_UNINSTALL_TEXTS,
 		EL_WORD_TEXTS

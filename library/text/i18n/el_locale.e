@@ -17,8 +17,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 12:55:43 GMT (Tuesday 31st October 2023)"
-	revision: "37"
+	date: "2023-12-11 16:53:01 GMT (Monday 11th December 2023)"
+	revision: "38"
 
 class
 	EL_LOCALE
@@ -68,12 +68,19 @@ feature {NONE} -- Initialization
 			else
 				translation_table := new_translation_table (a_language)
 			end
+			if translation_table.has_key (Decimal_point_key)
+				and then attached translation_table.found_item as str
+				and then str.count = 1
+			then
+				decimal_point := str [1].to_character_8
+			end
 		end
 
 	make_default
 		do
 			Precursor
 			make_solitary
+			decimal_point := '.'
 		end
 
 feature -- Access
@@ -87,6 +94,30 @@ feature -- Access
 
 	default_language: STRING
 
+	double_as_string (d: DOUBLE; likeness: STRING): STRING
+		local
+			index_dot: INTEGER
+		do
+			if decimal_point /= '.' then
+				index_dot := likeness.last_index_of ('.', likeness.count)
+			end
+			if index_dot.to_boolean then
+				likeness [index_dot] := decimal_point
+				if Format.has_double_key (likeness) then
+					Result := Format.found_double.formatted (d)
+				else
+					Result := Format.double (likeness.twin).formatted (d)
+				end
+				likeness [index_dot] := '.' -- Restore
+			else
+				Result := Format.double (likeness).formatted (d)
+			end
+		ensure then
+			likeness_unchange: old likeness ~ likeness
+		end
+
+	decimal_point: CHARACTER
+
 	language: STRING
 		-- selected language code with translation, defaults to English if no
 		-- translation available
@@ -95,10 +126,10 @@ feature -- Access
 			Result := translation_table.language
 		end
 
-		substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
-			do
-				Result := translation (template_key).substituted_tuple (inserts)
-			end
+	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
+		do
+			Result := translation (template_key).substituted_tuple (inserts)
+		end
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language

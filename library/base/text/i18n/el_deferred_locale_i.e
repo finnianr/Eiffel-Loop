@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:38:06 GMT (Thursday 17th August 2023)"
-	revision: "25"
+	date: "2023-12-11 9:42:36 GMT (Monday 11th December 2023)"
+	revision: "26"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -25,13 +25,13 @@ deferred class
 inherit
 	EL_SOLITARY
 
-	EL_STRING_GENERAL_ROUTINES
-
-	EL_ZSTRING_CONSTANTS
-
 	EL_MODULE_TUPLE
 
-	EL_LOCALE_CONSTANTS
+	EL_STRING_GENERAL_ROUTINES
+
+	EL_ZSTRING_CONSTANTS; EL_LOCALE_CONSTANTS
+
+	EL_SHARED_FORMAT_FACTORY
 
 feature -- Access
 
@@ -44,6 +44,10 @@ feature -- Access
 		end
 
 	default_language: STRING
+		deferred
+		end
+
+	double_as_string (d: DOUBLE; likeness: STRING): STRING
 		deferred
 		end
 

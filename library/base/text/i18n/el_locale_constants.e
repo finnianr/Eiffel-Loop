@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-12-11 11:05:10 GMT (Monday 11th December 2023)"
+	revision: "8"
 
 deferred class
 	EL_LOCALE_CONSTANTS
@@ -16,6 +16,11 @@ inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
+
+	Decimal_point_key: ZSTRING
+		once
+			Result := "{decimal_point}"
+		end
 
 	Empty_substitutions: ARRAY [TUPLE [name: READABLE_STRING_8; value: READABLE_STRING_GENERAL]]
 		once

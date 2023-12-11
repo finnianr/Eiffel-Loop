@@ -1,6 +1,6 @@
 # localization for I18N_AUTOTEST_APP
 
 export EIFFEL_LOOP=$EIFFEL/library/Eiffel-Loop
-el_eiffel -compile_translations -manifest localization/manifest.txt
+el_eiffel -compile_translations -manifest localization/manifest.pyx
 
 ec_install_resources.py

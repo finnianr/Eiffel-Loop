@@ -1,6 +1,0 @@
-# Eiffel-Loop
-$EIFFEL_LOOP/library/localization/app-manage/
-$EIFFEL_LOOP/library/localization/base/
-$EIFFEL_LOOP/library/localization/currency/
-$EIFFEL_LOOP/library/localization/text-process/
-

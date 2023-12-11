@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 16:53:32 GMT (Sunday 10th December 2023)"
-	revision: "31"
+	date: "2023-12-11 17:04:41 GMT (Monday 11th December 2023)"
+	revision: "32"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -82,7 +82,7 @@ feature {NONE} -- Parsing events
 		do
 			put_last_tag (True)
 			output.put_string (tab * output_stack.count)
-			output.put_string (Comment_open)
+			output.put_string (Bracket.left_comment)
 			if attached last_node as node then
 				if node.has (New_line_character) then
 					output.put_new_line
@@ -92,7 +92,7 @@ feature {NONE} -- Parsing events
 					put_single_line (node)
 				end
 			end
-			output.put_string (Comment_close)
+			output.put_string (Bracket.right_comment)
 			output.put_new_line
 			last_state := State_comment
 		end
@@ -115,16 +115,16 @@ feature {NONE} -- Parsing events
 			last_tag_output, tag_output: EL_STRING_8_LIST
 		do
 			last_tag_output := output_stack.item
-			if last_tag_output.last = Empty_tag_marker then
+			if last_tag_output.last = Bracket.slash_right then
 				tag_output := last_tag_output
 			else
 				create tag_output.make (4)
 				if last_state /= State_content then
 					tag_output.extend (last_tag_output [1]) 		-- 1. Tabs
 				end
-				tag_output.extend (Close_tag_marker)				-- 2.
+				tag_output.extend (Bracket.left_slash)				-- 2.
 				tag_output.extend (last_tag_output [3]) 			-- 3. Element name
-				tag_output.extend (Right_angle_bracket)			-- 4.
+				tag_output.extend (Bracket.right)					-- 4.
 			end
 			put_output (tag_output, True)
 			output_stack.remove
@@ -163,7 +163,7 @@ feature {NONE} -- Parsing events
 			create tag_output.make (attribute_list.count + 5)
 
 			tag_output.extend (tab * output_stack.count)
-			tag_output.extend (Left_angle_bracket)
+			tag_output.extend (Bracket.left)
 
 			tag_output.extend (pool.borrowed_item)
 			tag_output.last.append (last_node_name)
@@ -174,7 +174,7 @@ feature {NONE} -- Parsing events
 					i := i + 1
 				end
 			end
-			tag_output.extend (Empty_tag_marker)
+			tag_output.extend (Bracket.slash_right)
 
 			output_stack.put (tag_output)
 			last_state := State_tag
@@ -239,9 +239,9 @@ feature {NONE} -- Implementation
 		do
 			if not output_stack.is_empty then
 				last_tag_output := output_stack.item
-				if last_tag_output.last = Empty_tag_marker then
+				if last_tag_output.last = Bracket.slash_right then
 					last_tag_output.finish
-					last_tag_output.replace (Right_angle_bracket)
+					last_tag_output.replace (Bracket.right)
 					put_output (last_tag_output, append_new_line)
 				end
 			end
