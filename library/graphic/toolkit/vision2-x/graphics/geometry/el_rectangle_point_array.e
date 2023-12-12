@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-12-12 12:47:34 GMT (Tuesday 12th December 2023)"
+	revision: "4"
 
 class
 	EL_RECTANGLE_POINT_ARRAY
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make_from_area, make_default
+	make_from_area, make
 
 convert
 	make_from_area ({SPECIAL [EV_COORDINATE]})
@@ -28,14 +28,14 @@ feature -- Access
 
 	center: EV_COORDINATE
 		do
-			Result := mid_point (p0, p2)
+			if attached area as p then
+				Result := mid_point (p [0], p [2])
+			end
 		end
 
 	p3: EV_COORDINATE
-		require
-			valid_index: valid_index (3)
 		do
-			Result := item (3)
+			Result := area [3]
 		end
 
 	line_count: INTEGER
@@ -46,10 +46,12 @@ feature -- Access
 	inner_radius: DOUBLE
 		-- radius of largest circle that fits inside center of rectangle
 		do
-			if point_distance (p0, p1) > point_distance (p1, p2) then
-				Result := point_distance (center, mid_point (p0, p1))
-			else
-				Result := point_distance (center, mid_point (p1, p2))
+			if attached area as p then
+				if point_distance (p [0], p [1]) > point_distance (p [1], p [2]) then
+					Result := point_distance (center, mid_point (p [0], p [1]))
+				else
+					Result := point_distance (center, mid_point (p [1], p [2]))
+				end
 			end
 		end
 
@@ -61,7 +63,7 @@ feature -- Status query
 			c: like center
 		do
 			c := center
-			Result := point_distance (point, c) <= point_distance (p0, c)
+			Result := point_distance (point, c) <= point_distance (area [0], c)
 		end
 
 	in_inner_circle (point: EV_COORDINATE): BOOLEAN

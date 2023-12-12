@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-05 7:51:48 GMT (Wednesday 5th July 2023)"
-	revision: "29"
+	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
+	revision: "30"
 
 class
 	EL_RECTANGLE
@@ -274,7 +274,7 @@ feature -- Element change
 
 feature -- Conversion
 
-	to_point_array: EL_COORDINATE_ARRAY
+	to_point_array: EL_POINT_ARRAY
 		do
 			create Result.make (4)
 			Result [0] := upper_left

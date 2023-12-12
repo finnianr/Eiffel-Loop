@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
+	revision: "9"
 
 class
-	EL_COORDINATE_ARRAY
+	EL_POINT_ARRAY
 
 inherit
 	EV_COORDINATE_ARRAY
@@ -38,32 +38,20 @@ feature {NONE} -- Initialization
 			i: INTEGER
 		do
 			make_filled (create {EV_COORDINATE}, 0, n - 1)
-			from i := 1 until i = n loop
+			from i := lower + 1 until i > upper loop
 				put (create {EV_COORDINATE}, i)
 				i := i + 1
 			end
 		end
 
-	make_from_area (a: SPECIAL [EV_COORDINATE])
+	make_from_area (a_area: SPECIAL [EV_COORDINATE])
 			-- Make an ARRAY using `a' as `area'.
 		do
-			area := a
-			upper := a.count - 1
+			area := a_area
+			upper := a_area.count - 1
 		end
 
 feature -- Access
-
-	p0: EV_COORDINATE
-		do
-			Result := item (0)
-		end
-
-	p1: EV_COORDINATE
-		require
-			valid_index: valid_index (1)
-		do
-			Result := item (1)
-		end
 
 	to_list: EL_ARRAYED_LIST [EV_COORDINATE]
 		do
@@ -78,9 +66,11 @@ feature -- Basic operations
 		local
 			i: INTEGER
 		do
-			from i := 0 until i = area.count loop
-				target.item (i).copy (area [i])
-				i := i + 1
+			if attached area as p then
+				from i := 0 until i = p.count loop
+					target.item (i).copy (p [i])
+					i := i + 1
+				end
 			end
 		end
 

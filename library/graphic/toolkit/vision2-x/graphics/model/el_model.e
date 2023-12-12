@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
+	revision: "11"
 
 deferred class
 	EL_MODEL
@@ -100,7 +100,7 @@ feature -- Comparison
 
 feature -- Conversion
 
-	to_point_array: EL_COORDINATE_ARRAY
+	to_point_array: EL_POINT_ARRAY
 		do
 			Result := point_array
 		end

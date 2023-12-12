@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-12-12 12:45:50 GMT (Tuesday 12th December 2023)"
+	revision: "11"
 
 class
 	REPLICATED_IMAGE_MODEL
@@ -28,7 +28,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_points: EL_COORDINATE_ARRAY; a_drawing: like drawing_area)
+	make (a_points: EL_POINT_ARRAY; a_drawing: like drawing_area)
 		do
 			Precursor (a_points, a_drawing)
 			set_foreground_color (Color.White)

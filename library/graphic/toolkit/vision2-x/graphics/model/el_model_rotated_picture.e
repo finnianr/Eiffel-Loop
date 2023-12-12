@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-29 7:46:23 GMT (Thursday 29th June 2023)"
-	revision: "25"
+	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
+	revision: "26"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			drawing_area := Default_drawing_area
 		end
 
-	make (a_points: EL_COORDINATE_ARRAY; a_pixel_buffer: like drawing_area)
+	make (a_points: EL_POINT_ARRAY; a_pixel_buffer: like drawing_area)
 		do
 			make_with_coordinates (a_points)
 			drawing_area := a_pixel_buffer
@@ -56,12 +56,14 @@ feature -- Access
 
 	outer_radial_square: EV_RECTANGLE
 		local
-			points: EL_RECTANGLE_POINT_ARRAY; l_width, l_height: INTEGER_32
+			l_width, l_height: INTEGER
 		do
-			points := outer_radial_square_coordinates
-			l_width := (points.p1.x_precise - points.p0.x_precise).rounded
-			l_height := (points.p2.y_precise - points.p1.y_precise).rounded
-			create Result.make (points.p0.x, points.p0.y, l_width, l_height)
+			if attached outer_radial_square_coordinates.area as p then
+				l_width := (p [1].x_precise - p [0].x_precise).rounded
+				l_height := (p [2].y_precise - p [1].y_precise).rounded
+
+				create Result.make (p [0].x, p [0].y, l_width, l_height)
+			end
 		end
 
 feature -- Constants

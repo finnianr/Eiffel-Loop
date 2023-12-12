@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
+	revision: "20"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			make_rotated (Screen.horizontal_pixels (width_cms), Screen.vertical_pixels (height_cms), a_angle)
 		end
 
-	make_with_coordinates (a_points: EL_COORDINATE_ARRAY)
+	make_with_coordinates (a_points: EL_POINT_ARRAY)
 		do
 			default_create
 			a_points.copy_to (point_array)
@@ -67,21 +67,12 @@ feature -- Access
 			Result := utmost_line (False)
 		end
 
-	center_line_points (axis: INTEGER): EL_COORDINATE_ARRAY
+	center_line_points (axis: INTEGER): EL_LINE_POINT_ARRAY
 		do
-			create Result.make (2)
 			if not is_center_valid then
 				set_center
 			end
-			inspect axis
-				when {EL_DIRECTION}.X_axis then
-					set_point_on_circle (Result.p0, center, angle, width_precise / 2)
-					set_point_on_circle (Result.p1, center, angle + radians (180), width_precise / 2)
-
-				when {EL_DIRECTION}.Y_axis then
-					set_point_on_circle (Result.p0, center, angle - radians (90), height_precise / 2)
-					set_point_on_circle (Result.p1, center, angle + radians (90), height_precise / 2)
-			else end
+			create Result.make_centered (Current, axis)
 		end
 
 	direction_lines: ARRAYED_LIST [EL_MODEL_LINE]
@@ -115,16 +106,17 @@ feature -- Access
 	outer_radial_square_coordinates: EL_RECTANGLE_POINT_ARRAY
 		-- coordinates of square that encloses circle circumscribing `Current'
 		local
-			i: INTEGER; alpha, l_radius: DOUBLE
-			p_top: EV_COORDINATE
+			i: INTEGER; alpha, l_radius: DOUBLE; p_top: EV_COORDINATE
 		do
 			alpha := angle
 			p_top := point_on_circle (center, alpha - radians (90), radius)
 			l_radius := point_distance (center, point_on_circle (p_top, alpha, radius))
-			create Result.make_default
-			from i := 0 until i = 4 loop
-				set_point_on_circle (Result.item (i), center, corner_angle (Orientation.clockwise_corners [i + 1]), l_radius)
-				i := i + 1
+			create Result.make
+			if attached Result.area as p then
+				from i := 0 until i > 3 loop
+					set_point_on_circle (p [i], center, corner_angle (Orientation.clockwise_corners [i + 1]), l_radius)
+					i := i + 1
+				end
 			end
 		end
 
