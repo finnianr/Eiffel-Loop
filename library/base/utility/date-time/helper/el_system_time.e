@@ -1,13 +1,13 @@
 note
-	description: "A more efficient version [$source C_DATE] (less GC)"
+	description: "A way to update [$source C_DATE] without GC and memory allocation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-13 15:44:15 GMT (Wednesday 13th December 2023)"
-	revision: "1"
+	date: "2023-12-13 17:54:44 GMT (Wednesday 13th December 2023)"
+	revision: "2"
 
 class
 	EL_SYSTEM_TIME
@@ -15,7 +15,13 @@ class
 inherit
 	C_DATE
 		rename
-			internal_item as tm_struct
+			internal_item as tm_struct,
+			millisecond_now as internal_millisecond_now,
+			tm_structure_size as size_of_tm,
+			timeb_structure_size as size_of_timeb,
+			time_t_structure_size as size_of_time_t
+		export
+			{NONE} internal_millisecond_now
 		redefine
 			default_create, make_utc, update
 		end
@@ -26,10 +32,10 @@ create
 feature {NONE} -- Initialization
 
 	default_create
-			-- Create an instance of C_DATA using current local time.
+		-- allocate C memory
 		do
-			create tm_struct.make (tm_structure_size)
-			create union_timeb_time_t.make (timeb_structure_size + time_t_structure_size)
+			create tm_struct.make (size_of_tm)
+			create union_timeb_time_t.make (size_of_timeb + size_of_time_t)
 		end
 
 	make_local
@@ -39,35 +45,38 @@ feature {NONE} -- Initialization
 		end
 
 	make_utc
-			-- Create an instance of C_DATE holding UTC values.
 		do
 			default_create; is_utc := True
 			update
 		end
 
+feature -- Measurement
+
+	millisecond_now: INTEGER
+		-- current millisecond at creation time or after last call to `update'
+		do
+			Result := get_millitm (union_timeb_time_t.item)
+			if Result < 0 or Result > 999 then
+				Result := 0
+			end
+		end
+
 feature -- Update
 
 	update
-		-- Pointer to `struct tm' area.
+		-- update `tm_struct' with current time
 		local
-			p_timeb, p_tm, p_time: POINTER; ms: INTEGER
+			p_timeb, p_tm, p_time: POINTER
 		do
 			p_timeb := union_timeb_time_t.item
-			p_time := union_timeb_time_t.item + timeb_structure_size
-			ftime (p_timeb)
-			get_time (p_timeb, p_time)
-			if is_utc then
-				p_tm := gmtime (p_time)
-			else
-				p_tm := localtime (p_time)
-			end
-			tm_struct.item.memory_copy (p_tm, tm_structure_size)
+			p_time := p_timeb + size_of_timeb
+			ftime (p_timeb); get_time (p_timeb, p_time)
 
-			ms := get_millitm (p_timeb)
-			if ms < 0 or ms > 999 then
-				millisecond_now := 0
+			p_tm := tm_struct.item
+			if is_utc then
+				p_tm.memory_copy (gmtime (p_time), size_of_tm)
 			else
-				millisecond_now := ms
+				p_tm.memory_copy (localtime (p_time), size_of_tm)
 			end
 		end
 
