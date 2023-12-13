@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:37:36 GMT (Thursday 7th December 2023)"
-	revision: "34"
+	date: "2023-12-13 15:28:31 GMT (Wednesday 13th December 2023)"
+	revision: "35"
 
 class
 	DATE_TIME_TEST_SET
@@ -50,12 +50,17 @@ feature -- Tests
 	test_compact_decimal_time
 		-- DATE_TIME_TEST_SET.test_compact_decimal_time
 		note
-			testing: "covers/{EL_TIME_ROUTINES}.compact_decimal",
-						"covers/{EL_TIME_ROUTINES}.set_from_compact_decimal",
-						"covers/{EL_TIME_ROUTINES}.same_time"
+			testing: "[
+				covers/{EL_TIME_ROUTINES}.compact_decimal,
+				covers/{EL_TIME_ROUTINES}.set_from_compact_decimal,
+				covers/{EL_TIME_ROUTINES}.same_time
+			]"
 		local
 			t1, t2: EL_TIME; time: EL_TIME_ROUTINES; double: EL_DOUBLE_MATH
 		do
+			create t1.make_now
+			create t1.make_now_utc
+
 			create t1.make_from_string ("3:08:01.947 PM")
 			create t2.make_by_compact_decimal (time.compact_decimal (t1))
 			assert ("same time", t1.compact_time = t2.compact_time)
@@ -187,10 +192,12 @@ feature -- Observation Tests
 
 	test_execution_timer
 		note
-			testing: "covers/{EL_EXECUTION_TIMER}.make",
-				"covers/{EL_EXECUTION_TIMER}.start",
-				"covers/{EL_EXECUTION_TIMER}.stop",
-				"covers/{EL_EXECUTION_TIMER}.resume"
+			testing: "[
+				covers/{EL_EXECUTION_TIMER}.make,
+				covers/{EL_EXECUTION_TIMER}.start,
+				covers/{EL_EXECUTION_TIMER}.stop,
+				covers/{EL_EXECUTION_TIMER}.resume
+			]"
 		local
 			this_year, last_year, now: DATE_TIME; elapsed: EL_TIME_DURATION
 			timer: EL_EXECUTION_TIMER

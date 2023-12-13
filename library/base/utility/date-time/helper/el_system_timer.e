@@ -1,19 +1,19 @@
 note
-	description: "[$source C_DATE] with time difference function"
+	description: "[$source EL_SYSTEM_TIME] with time difference function"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 15:58:44 GMT (Tuesday 12th December 2023)"
-	revision: "1"
+	date: "2023-12-13 15:40:15 GMT (Wednesday 13th December 2023)"
+	revision: "2"
 
 class
-	EL_TIMER
+	EL_SYSTEM_TIMER
 
 inherit
-	C_DATE
+	EL_SYSTEM_TIME
 		rename
 			make_utc as make
 		redefine
@@ -30,20 +30,26 @@ inherit
 create
 	make
 
+feature -- Access
+
+	day_milliseconds: INTEGER
+		local
+			p_tm: POINTER; seconds: INTEGER
+		do
+			seconds := get_tm_mday (p_tm) * Seconds_in_day
+						 	+ get_tm_hour (p_tm) * Seconds_in_hour
+							+ get_tm_min (p_tm) * Seconds_in_minute
+							+ get_tm_sec (p_tm)
+
+			Result := seconds * 1000 + millisecond_now
+		end
+
 feature -- Update
 
 	update
-		local
-			time_struct: POINTER; seconds: INTEGER
 		do
 			Precursor
-			time_struct := internal_item.item
-			seconds := get_tm_mday (time_struct) * Seconds_in_day
-						 	+ get_tm_hour (time_struct) * Seconds_in_hour
-							+ get_tm_min (time_struct) * Seconds_in_minute
-							+ get_tm_sec (time_struct)
-
-			last_milliseconds := seconds * 1000 + millisecond_now
+			last_milliseconds := day_milliseconds
 		end
 
 feature -- Measurement

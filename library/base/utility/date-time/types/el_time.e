@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-24 11:36:35 GMT (Saturday 24th December 2022)"
-	revision: "5"
+	date: "2023-12-13 15:45:18 GMT (Wednesday 13th December 2023)"
+	revision: "6"
 
 class
 	EL_TIME
@@ -20,7 +20,7 @@ inherit
 		undefine
 			make_with_format, formatted_out, time_valid
 		redefine
-			default_format_string
+			default_format_string, make_now, make_now_utc
 		end
 
 	EL_TIME_DATE_I
@@ -46,6 +46,25 @@ feature {NONE} -- Initialization
 			set: a_compact_decimal = compact_decimal
 		end
 
+	make_from_system (system: EL_SYSTEM_TIME)
+		do
+			system.update
+			make (system.hour_now, system.minute_now, system.second_now)
+			fractional_second := system.millisecond_now / 1000
+		end
+
+	make_now
+			-- Set current time according to timezone.
+		do
+			make_from_system (Local_time)
+		end
+
+	make_now_utc
+			-- Set the current object to today's date in utc format.
+		do
+			make_from_system (UTC_time)
+		end
+
 	make_with_parser (a_parser: EL_DATE_TIME_PARSER)
 		do
 			make_fine (a_parser.hour, a_parser.minute, a_parser.fine_second)
@@ -53,17 +72,17 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	default_format_string: STRING
-			-- Default output format string
-		do
-			Result := Date_time_tools.time_default_format_string
-		end
-
 	compact_decimal: NATURAL_64
 		local
 			time: EL_TIME_ROUTINES
 		do
 			Result := time.compact_decimal (Current)
+		end
+
+	default_format_string: STRING
+			-- Default output format string
+		do
+			Result := Date_time_tools.time_default_format_string
 		end
 
 feature -- Status query
@@ -88,6 +107,18 @@ feature {NONE} -- Implementation
 	valid_string_for_code (str: STRING; code: EL_DATE_TIME_CODE_STRING): BOOLEAN
 		do
 			Result := code.precise_time and code.correspond (str) and then code.is_time (str)
+		end
+
+feature {NONE} -- Constants
+
+	Local_time: EL_SYSTEM_TIME
+		once
+			create Result.make_local
+		end
+
+	UTC_time: EL_SYSTEM_TIME
+		once
+			create Result.make_utc
 		end
 
 end

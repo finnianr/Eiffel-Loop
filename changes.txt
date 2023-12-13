@@ -661,3 +661,6 @@ Made passphrase handling more secure by erasing in memory
 Thu 7th Dec 2023, 17:33:50
 New way to create formats using likeness strings 99.99
 
+Tue 12th Dec 2023, 17:43:25
+Optimizing EL_POINT_ARRAY and descendants
+

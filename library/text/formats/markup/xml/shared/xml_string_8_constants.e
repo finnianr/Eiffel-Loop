@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-11 17:05:59 GMT (Monday 11th December 2023)"
-	revision: "8"
+	date: "2023-12-13 14:17:26 GMT (Wednesday 13th December 2023)"
+	revision: "9"
 
 deferred class
 	XML_STRING_8_CONSTANTS
@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Bracket: TUPLE [left, left_comment, left_slash, right, right_comment, slash_right: STRING]
+	Bracket: TUPLE [left, left_comment, left_slash, right, right_comment, slash_right: IMMUTABLE_STRING_8]
 		-- angle bracket markers
 		once
 			create Result

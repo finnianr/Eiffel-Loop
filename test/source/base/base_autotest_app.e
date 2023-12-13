@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:01:56 GMT (Monday 4th December 2023)"
-	revision: "175"
+	date: "2023-12-13 15:39:34 GMT (Wednesday 13th December 2023)"
+	revision: "176"
 
 class
 	BASE_AUTOTEST_APP
@@ -105,7 +105,7 @@ feature {NONE} -- Compile classes
 
 		EL_REFLECTED_TIME,
 
-		EL_TIMEOUT_THREAD, EL_TIME,
+		EL_TIMEOUT_THREAD, EL_TIME, EL_SYSTEM_TIMER,
 
 		EL_WORD_SEPARATION_ADAPTER
 	]
