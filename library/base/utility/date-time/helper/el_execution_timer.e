@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 11:12:01 GMT (Friday 15th December 2023)"
-	revision: "11"
+	date: "2023-12-15 16:12:31 GMT (Friday 15th December 2023)"
+	revision: "12"
 
 class EL_EXECUTION_TIMER
 
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			make_utc
-			create time_area.make_empty (1)
+			last_time := Not_timing
 		end
 
 feature -- Access
@@ -54,18 +54,18 @@ feature -- Access
 
 feature --Element change
 
-	resume
-		require
-			not_is_timing: not is_timing
-		do
-			time_area.extend (new_time_now)
-		end
-
 	reset
 		require
 			not_is_timing: not is_timing
 		do
 			elapsed_millisecs_sum := 0
+		end
+
+	resume
+		require
+			not_is_timing: not is_timing
+		do
+			last_time := new_time_now
 		end
 
 	set_elapsed_millisecs (millisecs: INTEGER)
@@ -86,13 +86,13 @@ feature --Element change
 			now, previous: INTEGER
 		do
 			if is_timing then
-				now := new_time_now; previous := time_area [0]
+				now := new_time_now; previous := last_time
 			--	in case mid night is passed
 				if now < previous then
 					now := now + Milliseconds_in_day
 				end
 				elapsed_millisecs_sum := elapsed_millisecs_sum + (now - previous)
-				time_area.wipe_out
+				last_time := Not_timing
 			end
 		end
 
@@ -100,7 +100,7 @@ feature -- Status query
 
 	is_timing: BOOLEAN
 		do
-			Result := time_area.count > 0
+			Result := last_time /= Not_timing
 		end
 
 feature {NONE} -- Implementation
@@ -115,6 +115,13 @@ feature {NONE} -- Internal attributes
 
 	elapsed_millisecs_sum: INTEGER
 
-	time_area: SPECIAL [INTEGER]
+	last_time: INTEGER
+		-- holds value from `new_time_now'
+		-- Special array surprisingly faster than using `last_time: INTEGER'
+		-- DATE_TIME_TEST_SET.test_execution_timer fails with other method
+
+feature {NONE} -- Constants
+
+	Not_timing: INTEGER = -1
 
 end

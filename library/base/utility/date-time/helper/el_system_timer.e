@@ -1,13 +1,13 @@
 note
-	description: "[$source EL_SYSTEM_TIME] with elapsed time function"
+	description: "[$source EL_SYSTEM_TIME] with elapsed time function `elapsed_millisecs'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 10:02:30 GMT (Friday 15th December 2023)"
-	revision: "4"
+	date: "2023-12-15 15:53:08 GMT (Friday 15th December 2023)"
+	revision: "5"
 
 class
 	EL_SYSTEM_TIMER
@@ -35,6 +35,7 @@ feature -- Update
 feature -- Measurement
 
 	elapsed_millisecs: INTEGER
+		-- milliseconds since object creation or previous call to `elapsed_millisecs'
 		local
 			last, now: INTEGER
 		do
@@ -44,7 +45,7 @@ feature -- Measurement
 			if now < last then
 				now := now + Milliseconds_in_day
 			end
-			Result := last_milliseconds - last
+			Result := now - last
 		end
 
 end

@@ -1,13 +1,18 @@
 note
 	description: "A way to update [$source C_DATE] without GC and memory allocation"
+	descendants: "[
+			EL_SYSTEM_TIME
+				[$source EL_SYSTEM_TIMER]
+				[$source EL_EXECUTION_TIMER]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 10:37:25 GMT (Friday 15th December 2023)"
-	revision: "3"
+	date: "2023-12-15 15:50:25 GMT (Friday 15th December 2023)"
+	revision: "4"
 
 class
 	EL_SYSTEM_TIME

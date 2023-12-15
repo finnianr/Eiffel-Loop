@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 11:24:13 GMT (Friday 15th December 2023)"
-	revision: "36"
+	date: "2023-12-15 16:14:49 GMT (Friday 15th December 2023)"
+	revision: "37"
 
 class
 	DATE_TIME_TEST_SET
@@ -119,6 +119,7 @@ feature -- Tests
 		-- DATE_TIME_TEST_SET.test_execution_timer
 		note
 			testing: "[
+				covers/{EL_SYSTEM_TIME}.update,
 				covers/{EL_EXECUTION_TIMER}.make,
 				covers/{EL_EXECUTION_TIMER}.start,
 				covers/{EL_EXECUTION_TIMER}.stop,
@@ -147,7 +148,8 @@ feature -- Tests
 		-- DATE_TIME_TEST_SET.test_formatted_date
 		note
 			testing: "[
-				covers/{EL_TEMPLATE}.make, covers/{EL_TEMPLATE}.substituted
+				covers/{EL_TEMPLATE}.make,
+				covers/{EL_TEMPLATE}.substituted
 			]"
 		local
 			date_text: EL_DATE_TEXT; canonical_format: ZSTRING
