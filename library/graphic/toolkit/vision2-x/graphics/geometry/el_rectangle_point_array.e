@@ -1,13 +1,13 @@
 note
-	description: "Rectangle point coordinate array"
+	description: "4 point array forming a rectangle"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 12:47:34 GMT (Tuesday 12th December 2023)"
-	revision: "4"
+	date: "2023-12-14 10:22:16 GMT (Thursday 14th December 2023)"
+	revision: "5"
 
 class
 	EL_RECTANGLE_POINT_ARRAY

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 10:04:49 GMT (Wednesday 29th November 2023)"
-	revision: "78"
+	date: "2023-12-15 9:38:50 GMT (Friday 15th December 2023)"
+	revision: "79"
 
 deferred class
 	EL_APPLICATION
@@ -372,7 +372,7 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 					sum_elapsed_times := sum_elapsed_times + timer.elapsed_millisecs
 					data_count := data_count + 1
-					timer.set_elapsed_millisecs (sum_elapsed_times / data_count)
+					timer.set_elapsed_millisecs ((sum_elapsed_times / data_count).rounded)
 				end
 			end
 		end

@@ -1,13 +1,13 @@
 note
-	description: "Line point array"
+	description: "2 point array forming a line"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 12:49:33 GMT (Tuesday 12th December 2023)"
-	revision: "3"
+	date: "2023-12-14 10:37:35 GMT (Thursday 14th December 2023)"
+	revision: "4"
 
 class
 	EL_LINE_POINT_ARRAY
@@ -28,17 +28,17 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_from_area (a: SPECIAL [EV_COORDINATE])
+	make_from_area (other: SPECIAL [EV_COORDINATE])
 		do
-			if a.count = line_count then
-				Precursor (a)
+			if other.count = line_count then
+				Precursor (other)
 			else
 				make
-				area.copy_data (a, 0, 0, line_count)
-				upper := line_count - 1
+				area.copy_data (other, 0, 0, line_count)
+				upper := (line_count - 1).max (1)
 			end
 		ensure then
-			correct: line_count + 1 = count
+			correct: line_count.max (2) = count
 		end
 
 	make_centered (rectangle: EL_MODEL_ROTATED_RECTANGLE; axis: INTEGER)

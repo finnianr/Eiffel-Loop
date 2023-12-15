@@ -1,13 +1,13 @@
 note
-	description: "Triangle point array"
+	description: "3 point array forming a triangle"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 12:47:20 GMT (Tuesday 12th December 2023)"
-	revision: "3"
+	date: "2023-12-14 10:21:36 GMT (Thursday 14th December 2023)"
+	revision: "4"
 
 class
 	EL_TRIANGLE_POINT_ARRAY

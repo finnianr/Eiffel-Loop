@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-13 15:28:31 GMT (Wednesday 13th December 2023)"
-	revision: "35"
+	date: "2023-12-15 11:24:13 GMT (Friday 15th December 2023)"
+	revision: "36"
 
 class
 	DATE_TIME_TEST_SET
@@ -30,18 +30,18 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["compact_decimal_time", agent test_compact_decimal_time],
-				["date_time", agent test_date_time],
-				["date_time_proper_case", agent test_date_time_proper_case],
-				["date_time_subtract", agent test_date_time_subtract],
-				["epoch_date_time", agent test_epoch_date_time],
-				["formatted_date", agent test_formatted_date],
+				["compact_decimal_time",				  agent test_compact_decimal_time],
+				["date_time",								  agent test_date_time],
+				["date_time_proper_case",				  agent test_date_time_proper_case],
+				["date_time_subtract",					  agent test_date_time_subtract],
+				["epoch_date_time",						  agent test_epoch_date_time],
+				["execution_timer",						  agent test_execution_timer],
+				["formatted_date",						  agent test_formatted_date],
 				["from_canonical_iso_8601_formatted", agent test_from_canonical_iso_8601_formatted],
-				["from_iso_8601_formatted", agent test_from_iso_8601_formatted],
-				["time_input_formats", agent test_time_input_formats],
-				["time_zone_designator", agent test_time_zone_designator],
-				["execution_timer", agent test_execution_timer],
-				["time_format_out", agent test_time_format_out]
+				["from_iso_8601_formatted",			  agent test_from_iso_8601_formatted],
+				["time_input_formats",					  agent test_time_input_formats],
+				["time_zone_designator",				  agent test_time_zone_designator],
+				["time_format_out",						  agent test_time_format_out]
 			>>)
 		end
 
@@ -58,9 +58,6 @@ feature -- Tests
 		local
 			t1, t2: EL_TIME; time: EL_TIME_ROUTINES; double: EL_DOUBLE_MATH
 		do
-			create t1.make_now
-			create t1.make_now_utc
-
 			create t1.make_from_string ("3:08:01.947 PM")
 			create t2.make_by_compact_decimal (time.compact_decimal (t1))
 			assert ("same time", t1.compact_time = t2.compact_time)
@@ -116,6 +113,34 @@ feature -- Tests
 			create dt.make_from_string ("09/07/2021 3:08:01.947 PM")
 			create dt_2.make_from_epoch (dt.epoch_seconds)
 			assert ("same date", dt.is_almost_equal (dt_2))
+		end
+
+	test_execution_timer
+		-- DATE_TIME_TEST_SET.test_execution_timer
+		note
+			testing: "[
+				covers/{EL_EXECUTION_TIMER}.make,
+				covers/{EL_EXECUTION_TIMER}.start,
+				covers/{EL_EXECUTION_TIMER}.stop,
+				covers/{EL_EXECUTION_TIMER}.resume
+			]"
+		local
+			timer: EL_EXECUTION_TIMER; matched: BOOLEAN
+			secs_string: STRING
+		do
+			create timer.make
+			across 1 |..| 5 as n loop
+				timer.resume
+				execution.sleep (200)
+				timer.stop
+				execution.sleep (20)
+			end
+			secs_string := "1 secs 0 ms"
+			across "01" as digit until matched loop
+				secs_string [secs_string.count - 3] := digit.item
+				matched := timer.elapsed_time.out ~ secs_string
+			end
+			assert ("1 sec elapsed give or take 1 ms", matched)
 		end
 
 	test_formatted_date
@@ -189,42 +214,6 @@ feature -- Tests
 		end
 
 feature -- Observation Tests
-
-	test_execution_timer
-		note
-			testing: "[
-				covers/{EL_EXECUTION_TIMER}.make,
-				covers/{EL_EXECUTION_TIMER}.start,
-				covers/{EL_EXECUTION_TIMER}.stop,
-				covers/{EL_EXECUTION_TIMER}.resume
-			]"
-		local
-			this_year, last_year, now: DATE_TIME; elapsed: EL_TIME_DURATION
-			timer: EL_EXECUTION_TIMER
-		do
-			create this_year.make (2017, 6, 11, 23, 10, 10)
-			create last_year.make (2016, 6, 11, 23, 10, 10)
-
-			lio.put_integer_field ("Year days", this_year.relative_duration (last_year).date.day)
-			lio.put_new_line
-
-			create now.make_now
-			create elapsed.make_by_fine_seconds (now.relative_duration (this_year).fine_seconds_count)
-			lio.put_labeled_string ("TIME", elapsed.out)
-			lio.put_new_line
-
-			create timer.make
-			lio.put_labeled_string ("TIME", timer.elapsed_time.out)
-			lio.put_new_line
-			timer.start
-			execution.sleep (500)
-			timer.stop
-			timer.resume
-			execution.sleep (500)
-			timer.stop
-			lio.put_labeled_string ("TIME", timer.elapsed_time.out)
-			lio.put_new_line
-		end
 
 	test_time_format_out
 		local

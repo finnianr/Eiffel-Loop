@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 12:45:50 GMT (Tuesday 12th December 2023)"
-	revision: "11"
+	date: "2023-12-14 10:38:58 GMT (Thursday 14th December 2023)"
+	revision: "12"
 
 class
 	REPLICATED_IMAGE_MODEL
@@ -62,7 +62,7 @@ feature -- Visitor
 		do
 			l_width := width_precise.min (height_precise) * 0.17
 			p0 := point_on_circle (point_array [0], angle + radians (45), l_width / 6)
-			create points.make (p0, angle, l_width)
+			create points.make_at_angle (p0, angle, l_width)
 
 			circle := Once_circle
 			points.copy_to (circle.point_array)

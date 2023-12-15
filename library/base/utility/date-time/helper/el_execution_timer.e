@@ -1,29 +1,22 @@
 note
-	description: "Calculates elapsed time"
+	description: "Calculates elapsed time for a maximum of a 24 hour period"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-13 14:59:59 GMT (Wednesday 13th December 2023)"
-	revision: "10"
+	date: "2023-12-15 11:12:01 GMT (Friday 15th December 2023)"
+	revision: "11"
 
 class EL_EXECUTION_TIMER
 
 inherit
-	C_DATE
+	EL_SYSTEM_TIME
 		rename
 			update as update_time
 		export
 			{NONE} all
-		end
-
-	TIME_CONSTANTS
-		export
-			{NONE} all
-		undefine
-			default_create
 		end
 
 create
@@ -34,14 +27,13 @@ feature {NONE} -- Initialization
 	make
 			--
 		do
-			default_create
+			make_utc
 			create time_area.make_empty (1)
-			create duration_list.make (2)
 		end
 
 feature -- Access
 
-	elapsed_millisecs: DOUBLE
+	elapsed_millisecs: INTEGER
 			--
 		local
 			was_timing: BOOLEAN
@@ -49,9 +41,7 @@ feature -- Access
 			if is_timing then
 				stop; was_timing := True
 			end
-			across duration_list as duration loop
-				Result := Result + duration.item
-			end
+			Result := elapsed_millisecs_sum
 			if was_timing then
 				resume
 			end
@@ -71,28 +61,39 @@ feature --Element change
 			time_area.extend (new_time_now)
 		end
 
-	start
-			--
+	reset
+		require
+			not_is_timing: not is_timing
 		do
-			duration_list.wipe_out
-			resume
+			elapsed_millisecs_sum := 0
+		end
+
+	set_elapsed_millisecs (millisecs: INTEGER)
+		do
+			elapsed_millisecs_sum := millisecs
+		end
+
+	start
+		do
+			reset; resume
 		end
 
 	stop, update
 		-- Update stop time to now
 		require
 			is_timing: is_timing
+		local
+			now, previous: INTEGER
 		do
 			if is_timing then
-				duration_list.extend (new_time_now - time_area [0])
+				now := new_time_now; previous := time_area [0]
+			--	in case mid night is passed
+				if now < previous then
+					now := now + Milliseconds_in_day
+				end
+				elapsed_millisecs_sum := elapsed_millisecs_sum + (now - previous)
 				time_area.wipe_out
 			end
-		end
-
-	set_elapsed_millisecs (millisecs: DOUBLE)
-		do
-			duration_list.wipe_out
-			duration_list.extend (millisecs)
 		end
 
 feature -- Status query
@@ -104,19 +105,16 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_time_now: DOUBLE
+	new_time_now: INTEGER
 		do
 			update_time
-			Result := day_now * Hours_in_day + hour_now
-			Result := Result * Minutes_in_hour + minute_now
-			Result := Result * Seconds_in_minute + second_now
-			Result := Result * 1000 + millisecond_now
+			Result := day_milliseconds
 		end
 
 feature {NONE} -- Internal attributes
 
-	time_area: SPECIAL [DOUBLE]
+	elapsed_millisecs_sum: INTEGER
 
-	duration_list: ARRAYED_LIST [DOUBLE]
+	time_area: SPECIAL [INTEGER]
 
 end

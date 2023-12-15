@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-13 14:17:26 GMT (Wednesday 13th December 2023)"
-	revision: "9"
+	date: "2023-12-14 9:24:49 GMT (Thursday 14th December 2023)"
+	revision: "10"
 
 deferred class
 	XML_STRING_8_CONSTANTS
@@ -23,7 +23,7 @@ feature {NONE} -- Constants
 		-- angle bracket markers
 		once
 			create Result
-			Tuple.fill (Result, "<, <!--, </, >, -->, />")
+			Tuple.fill_immutable (Result, "<, <!--, </, >, -->, />")
 		end
 
 feature {NONE} -- Escaping

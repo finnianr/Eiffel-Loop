@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-13 17:46:42 GMT (Wednesday 13th December 2023)"
-	revision: "1"
+	date: "2023-12-15 10:13:09 GMT (Friday 15th December 2023)"
+	revision: "2"
 
 class
 	DEVELOPER_COMPARISON
 
 inherit
 	EL_BENCHMARK_COMPARISON
+
+	TIME_CONSTANTS
 
 create
 	make
@@ -37,14 +39,19 @@ feature {NONE} -- Operations
 
 	do_method (id: INTEGER)
 		local
+			day_milliseconds: INTEGER
 		do
 			across 1 |..| 10000 as n loop
 				inspect id
 					when 1 then
-						C_date.update
+						if attached C_date as time then
+							time.update
+							day_milliseconds := time.day_now
+						end
 
 					when 2 then
 						System_time.update
+						day_milliseconds := System_time.day_milliseconds
 				end
 			end
 		end

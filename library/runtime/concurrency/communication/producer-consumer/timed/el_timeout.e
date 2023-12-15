@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-12-15 9:36:33 GMT (Friday 15th December 2023)"
+	revision: "7"
 
 class
 	EL_TIMEOUT
@@ -46,7 +46,7 @@ feature -- Basic operations
 		do
 			if count > 0 then
 				timer.update
-				event_queue.put ([timer.elapsed_millisecs.rounded])
+				event_queue.put ([timer.elapsed_millisecs])
 				on_post_event
 			end
 			count := count + 1

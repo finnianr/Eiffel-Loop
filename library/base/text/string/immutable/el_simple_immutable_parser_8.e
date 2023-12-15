@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 13:02:28 GMT (Thursday 7th December 2023)"
-	revision: "1"
+	date: "2023-12-14 13:24:52 GMT (Thursday 14th December 2023)"
+	revision: "2"
 
 class
 	EL_SIMPLE_IMMUTABLE_PARSER_8
@@ -19,7 +19,8 @@ create
 	make, make_shared
 
 convert
-	make_shared ({STRING_8})
+--	from
+	make_shared ({STRING_8}), make ({IMMUTABLE_STRING_8})
 
 feature {NONE} -- Initialization
 

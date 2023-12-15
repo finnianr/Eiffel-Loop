@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-13 17:54:44 GMT (Wednesday 13th December 2023)"
-	revision: "2"
+	date: "2023-12-15 10:37:25 GMT (Friday 15th December 2023)"
+	revision: "3"
 
 class
 	EL_SYSTEM_TIME
@@ -24,6 +24,13 @@ inherit
 			{NONE} internal_millisecond_now
 		redefine
 			default_create, make_utc, update
+		end
+
+	TIME_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			default_create
 		end
 
 create
@@ -51,6 +58,20 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Measurement
+
+	day_milliseconds: INTEGER
+		-- number of millisecs since midnight: 00:00:00.000
+		local
+			p_tm: POINTER; seconds: INTEGER
+		do
+			p_tm := tm_struct.item
+			seconds := get_tm_mday (p_tm) * Seconds_in_day
+						 	+ get_tm_hour (p_tm) * Seconds_in_hour
+							+ get_tm_min (p_tm) * Seconds_in_minute
+							+ get_tm_sec (p_tm)
+
+			Result := seconds * 1000 + millisecond_now
+		end
 
 	millisecond_now: INTEGER
 		-- current millisecond at creation time or after last call to `update'
@@ -84,5 +105,9 @@ feature {NONE} -- Internal attributes
 
 	union_timeb_time_t: MANAGED_POINTER
 		-- area with `timeb' followed by `time_t' struct
+
+feature {NONE} -- Constants
+
+	Milliseconds_in_day: INTEGER = 86400_000
 
 end
