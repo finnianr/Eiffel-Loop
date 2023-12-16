@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 16:12:31 GMT (Friday 15th December 2023)"
-	revision: "12"
+	date: "2023-12-15 16:43:14 GMT (Friday 15th December 2023)"
+	revision: "13"
 
 class EL_EXECUTION_TIMER
 
@@ -117,8 +117,6 @@ feature {NONE} -- Internal attributes
 
 	last_time: INTEGER
 		-- holds value from `new_time_now'
-		-- Special array surprisingly faster than using `last_time: INTEGER'
-		-- DATE_TIME_TEST_SET.test_execution_timer fails with other method
 
 feature {NONE} -- Constants
 

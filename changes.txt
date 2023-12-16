@@ -664,3 +664,6 @@ New way to create formats using likeness strings 99.99
 Tue 12th Dec 2023, 17:43:25
 Optimizing EL_POINT_ARRAY and descendants
 
+Sat 16th Dec 2023, 17:32:34
+Vision2 model point_array optimizations
+

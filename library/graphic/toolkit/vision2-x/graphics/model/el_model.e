@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
-	revision: "11"
+	date: "2023-12-16 17:12:59 GMT (Saturday 16th December 2023)"
+	revision: "12"
 
 deferred class
 	EL_MODEL
@@ -109,14 +109,20 @@ feature -- Duplication
 
 	copy (other: like Current)
 		local
-			i, n: INTEGER
+			i, upper: INTEGER
 		do
 			standard_copy (other)
-			n := other.point_count
-			create point_array.make_empty (n)
-			from i := 0 until i = n loop
-				point_array.extend (other.point_array [i].twin)
-				i := i + 1
+			if attached other.point_array as o_p then
+				create point_array.make_empty (o_p.count)
+				if attached point_array as p then
+					upper := o_p.count - 1
+					from i := 0 until i > upper loop
+						p.extend (o_p [i].twin)
+						i := i + 1
+					end
+				end
+			else
+				create point_array.make_empty (0)
 			end
 			center := other.center.twin
 		end
@@ -137,17 +143,18 @@ feature -- Basic operations
 	move_in_direction (a_angle, a_distance: DOUBLE)
 		-- move model by `a_distance' in direction of `a_angle'
 		local
-			a_delta_y, a_delta_x: DOUBLE; i, nb: INTEGER
-			points: like point_array; p: EV_COORDINATE
+			a_delta_y, a_delta_x: DOUBLE; i, upper: INTEGER
+			p: EV_COORDINATE
 		do
-			points := point_array
-
 			a_delta_x := cosine (a_angle) * a_distance
 			a_delta_y := sine (a_angle) * a_distance
 
-			if a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero then
-				from i := 0; nb := points.count - 1 until i > nb loop
-					p := points [i]
+			if (a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero )
+				and then attached point_array as area
+			then
+				upper := area.count - 1
+				from i := 0 until i > upper loop
+					p := area [i]
 					p.set_precise (p.x_precise + a_delta_x, p.y_precise + a_delta_y)
 					i := i + 1
 				end
@@ -187,24 +194,24 @@ feature -- Element change
 			delta_angle := angle - line.angle
 			move_in_direction (orthogonal_angle, l_distance * 2)
 			rotate ((delta_angle * 2).opposite + Pi)
-			set_center
-			invalidate
+			
+			set_center; invalidate
 		end
 
 	set_coordinates_from (other: EV_MODEL)
 		require
 			equal_point_count: point_count = other.point_count
 		local
-			i: INTEGER
+			i, upper: INTEGER
 		do
-			if attached point_array as p then
-				from i := 0 until i = p.count loop
-					p [i].copy (other.point_array [i])
+			if attached point_array as p and attached other.point_array as o_p then
+				upper := p.count - 1
+				from i := 0 until i > upper loop
+					p [i].copy (o_p [i])
 					i := i + 1
 				end
 			end
-			set_center
-			invalidate
+			set_center; invalidate
 		end
 
 	set_x_y_precise (a_center: EV_COORDINATE)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-12-16 16:50:50 GMT (Saturday 16th December 2023)"
+	revision: "9"
 
 class
 	EL_MODEL_LINE
@@ -49,42 +49,50 @@ feature -- Measurement
 	angle: DOUBLE
 			-- actually we do care!
 		do
-			Result := point_angle (p0, p1)
+			if attached point_array as p then
+				Result := point_angle (p [0], p [1])
+			end
 		end
 
 	length_precise: DOUBLE
 		do
-			Result := point_distance (p0, p1)
+			if attached point_array as p then
+				Result := point_distance (p [0], p [1])
+			end
 		end
 
 	normal_angle: DOUBLE
 		-- normalized acute angle
 		do
-			if point_array.item (0).x_precise <= point_array.item (1).x_precise then
-				Result := point_angle (p0, p1)
-			else
-				Result := point_angle (p1, p0)
+			if attached point_array as p then
+				if p [0].x_precise <= p [1].x_precise then
+					Result := point_angle (p [0], p [1])
+				else
+					Result := point_angle (p [1], p [0])
+				end
 			end
 			if Result > Pi then
 				Result := Result - 2 * Pi
 			end
 		end
 
-	perpendicular_distance (p: EV_COORDINATE): DOUBLE
+	perpendicular_distance (point: EV_COORDINATE): DOUBLE
 		do
-			Result := perpendicular_distance_to_line (p, p0, p1)
+			if attached point_array as p then
+				Result := perpendicular_distance_to_line (point, p [0], p [1])
+			end
 		end
 
 feature -- Status query
 
-	is_left (p: EV_COORDINATE): BOOLEAN
+	is_left (point: EV_COORDINATE): BOOLEAN
 		do
-			Result := cross_product (p) > 0
+			Result := cross_product (point) > 0
 		end
 
-	is_right (p: EV_COORDINATE): BOOLEAN
+	is_right (point: EV_COORDINATE): BOOLEAN
 		do
-			Result := cross_product (p) < 0
+			Result := cross_product (point) < 0
 		end
 
 feature -- Element change
@@ -92,18 +100,22 @@ feature -- Element change
 	grow (delta: DOUBLE)
 		-- grow line by `delta' in the direction of `point_b'
 		do
-			set_point_on_circle (p1, p0, angle, length_precise + delta)
+			if attached point_array as p then
+				set_point_on_circle (p [1], p [0], angle, length_precise + delta)
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	cross_product (p: EV_COORDINATE): DOUBLE
+	cross_product (point: EV_COORDINATE): DOUBLE
 		local
 			a, b: EV_COORDINATE; a_x, a_y: DOUBLE
 		do
-			a := p0; b := p1
+			if attached point_array as p then
+				a := p [0]; b := p [1]
+			end
 			a_x := a.x_precise; a_y := a.y_precise
-			Result := (b.x_precise - a_x) * (p.y_precise - a_y) - (b.y_precise - a_y) * (p.x_precise - a_x)
+			Result := (b.x_precise - a_x) * (point.y_precise - a_y) - (b.y_precise - a_y) * (point.x_precise - a_x)
 		end
 
 end
