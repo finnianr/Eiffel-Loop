@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-16 17:12:59 GMT (Saturday 16th December 2023)"
-	revision: "12"
+	date: "2023-12-16 20:22:30 GMT (Saturday 16th December 2023)"
+	revision: "13"
 
 deferred class
 	EL_MODEL
@@ -109,21 +109,12 @@ feature -- Duplication
 
 	copy (other: like Current)
 		local
-			i, upper: INTEGER
+			l_array: EL_POINT_ARRAY
 		do
 			standard_copy (other)
-			if attached other.point_array as o_p then
-				create point_array.make_empty (o_p.count)
-				if attached point_array as p then
-					upper := o_p.count - 1
-					from i := 0 until i > upper loop
-						p.extend (o_p [i].twin)
-						i := i + 1
-					end
-				end
-			else
-				create point_array.make_empty (0)
-			end
+			create l_array.make_filled (other.point_count)
+			point_array := l_array.area
+			copy_points (other.point_array)
 			center := other.center.twin
 		end
 
@@ -139,6 +130,8 @@ feature -- Basic operations
 		do
 			canvas.draw_polyline (to_point_array, True)
 		end
+
+feature -- Transform
 
 	move_in_direction (a_angle, a_distance: DOUBLE)
 		-- move model by `a_distance' in direction of `a_angle'
@@ -167,8 +160,6 @@ feature -- Basic operations
 			set_x_y_precise (other.center)
 		end
 
-feature -- Element change
-
 	move (a_x, a_y: DOUBLE)
 		local
 			transformation: EV_MODEL_TRANSFORMATION
@@ -194,23 +185,15 @@ feature -- Element change
 			delta_angle := angle - line.angle
 			move_in_direction (orthogonal_angle, l_distance * 2)
 			rotate ((delta_angle * 2).opposite + Pi)
-			
+
 			set_center; invalidate
 		end
 
 	set_coordinates_from (other: EV_MODEL)
 		require
 			equal_point_count: point_count = other.point_count
-		local
-			i, upper: INTEGER
 		do
-			if attached point_array as p and attached other.point_array as o_p then
-				upper := p.count - 1
-				from i := 0 until i > upper loop
-					p [i].copy (o_p [i])
-					i := i + 1
-				end
-			end
+			copy_points (other.point_array)
 			set_center; invalidate
 		end
 
@@ -240,6 +223,21 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	copy_points (other_array: like point_array)
+		require
+			same_size: point_count = other_array.count
+		local
+			i, upper: INTEGER
+		do
+			if attached point_array as p and then attached other_array as o_p then
+				upper := p.count.min (o_p.count) - 1
+				from i := 0 until i > upper loop
+					p [i].copy (o_p [i])
+					i := i + 1
+				end
+			end
+		end
 
 	new_line (p1, p2: EV_COORDINATE): EL_MODEL_LINE
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-14 10:37:35 GMT (Thursday 14th December 2023)"
-	revision: "4"
+	date: "2023-12-16 19:24:26 GMT (Saturday 16th December 2023)"
+	revision: "5"
 
 class
 	EL_LINE_POINT_ARRAY
@@ -15,7 +15,7 @@ class
 inherit
 	EL_POINT_ARRAY
 		rename
-			make as make_sized
+			make_filled as make_sized
 		redefine
 			make_from_area
 		end

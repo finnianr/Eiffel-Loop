@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
-	revision: "20"
+	date: "2023-12-16 20:00:34 GMT (Saturday 16th December 2023)"
+	revision: "21"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 	make_with_coordinates (a_points: EL_POINT_ARRAY)
 		do
 			default_create
-			a_points.copy_to (point_array)
+			copy_points (a_points.area)
 			set_center
 		end
 
@@ -134,21 +134,17 @@ feature -- Measurement
 
 	height_precise: DOUBLE
 			-- The `height' of the parallelogram.
-		local
-			points: like point_array
-			p0, p3: EV_COORDINATE
 		do
-			points := point_array
-			p0 := points.item (0)
-			p3 := points.item (3)
-			Result := point_distance (p0, p3)
+			if attached point_array as p then
+				Result := point_distance (p [0], p [3])
+			end
 		ensure
 			height_positive: height >= Result.zero
 		end
 
 	radius: DOUBLE
 		do
-			Result := point_distance (center, point_array.item (0))
+			Result := point_distance (center, point_array [0])
 		end
 
 	shorter_dimension: DOUBLE
@@ -159,7 +155,9 @@ feature -- Measurement
 	width_precise: DOUBLE
 			-- The `width' of the parallelogram.
 		do
-			Result := point_distance (point_array.item (0), point_array.item (1))
+			if attached point_array as p then
+				Result := point_distance (p [0], p [1])
+			end
 		ensure
 			width_positive: width >= Result.zero
 		end
@@ -223,9 +221,8 @@ feature -- Element change
 
 	set_points (other: EL_RECTANGLE_POINT_ARRAY)
 		do
-			other.copy_to (point_array)
-			set_center
-			invalidate
+			copy_points (other.area)
+			set_center; invalidate
 		end
 
 feature -- Conversion
