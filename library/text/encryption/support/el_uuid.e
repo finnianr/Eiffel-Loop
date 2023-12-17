@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-17 10:35:15 GMT (Sunday 17th December 2023)"
-	revision: "27"
+	date: "2023-12-17 10:45:18 GMT (Sunday 17th December 2023)"
+	revision: "28"
 
 class
 	EL_UUID
@@ -79,7 +79,7 @@ feature -- Access
 			end
 		ensure
 			size_is_7: Result.count = 7
-			correct: base_32_as_integer_64 (Result) = data_5 & Thirty_five_bit_mask
+			equal_to_trailing_35_bits_of_data_5: base_32_as_integer_64 (Result) = data_5 & Thirty_five_bit_mask
 		end
 
 	to_delimited (c: CHARACTER): STRING
