@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 16:53:43 GMT (Tuesday 28th November 2023)"
-	revision: "26"
+	date: "2023-12-17 10:35:15 GMT (Sunday 17th December 2023)"
+	revision: "27"
 
 class
 	EL_UUID
@@ -46,17 +46,41 @@ convert
 
 feature {NONE} -- Implementation
 
-	make_from_string (str: STRING)
-		do
-			make_from_string_general (str)
-		end
-
 	make_from_other (other: UUID)
 		do
 			make (other.data_1, other.data_2, other.data_3, other.data_4, other.data_5)
 		end
 
+	make_from_string (str: STRING)
+		do
+			make_from_string_general (str)
+		end
+
 feature -- Access
+
+	to_7_character_code: STRING
+		-- trailing 35 bits of `data_5' represented as uppercase base 32 number
+		-- (Approx 34.36 billion permutations)
+		local
+			data: NATURAL_64; i, quintet: INTEGER
+		do
+			create Result.make_filled (' ', 7)
+			data := data_5
+			from until i > 6 loop
+				quintet := (data & Quintet_mask).to_integer_32
+				inspect quintet
+					when 0 .. 9 then
+						Result [7 - i] := '0' + quintet
+					when 10 .. 31 then
+						Result [7 - i] := 'A' + (quintet - 10)
+				end
+				data := data |>> 5
+				i := i + 1
+			end
+		ensure
+			size_is_7: Result.count = 7
+			correct: base_32_as_integer_64 (Result) = data_5 & Thirty_five_bit_mask
+		end
 
 	to_delimited (c: CHARACTER): STRING
 		local
@@ -109,6 +133,15 @@ feature -- Access
 			result_is_valid_uuid: is_valid_uuid (Result)
 		end
 
+feature -- Contract Support
+
+	base_32_as_integer_64 (code: STRING): NATURAL_64
+		local
+			converter: EL_BASE_32_CONVERTER
+		do
+			Result := converter.to_natural_64 (code)
+		end
+
 feature {NONE} -- Implementation
 
 	new_field_sorter: like Default_field_order
@@ -125,8 +158,12 @@ feature -- Constants
 			Result := (32 + 16 * 3 + 64) // 8
 		end
 
+	F_value_mask: NATURAL_64 = 0xF
+
 	Field_hash: NATURAL = 201719989
 
-	F_value_mask: NATURAL_64 = 0xF
+	Quintet_mask: NATURAL_64 = 0x1F
+
+	Thirty_five_bit_mask: NATURAL_64 = 0x7FFFFFFFF
 
 end

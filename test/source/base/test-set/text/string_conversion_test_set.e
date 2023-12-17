@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 10:13:15 GMT (Saturday 25th November 2023)"
-	revision: "26"
+	date: "2023-12-17 10:32:14 GMT (Sunday 17th December 2023)"
+	revision: "27"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -64,8 +64,10 @@ feature -- Tests
 	test_convert_string_to_makeable
 		-- STRING_CONVERSION_TEST_SET.test_convert_string_to_makeable
 		note
-			testing:	"covers/{EL_STRING_CONVERSION_TABLE}.is_convertible",
-			 	"covers/{EL_STRING_CONVERSION_TABLE}.make_from_zcode_area"
+			testing:	"[
+				covers/{EL_STRING_CONVERSION_TABLE}.is_convertible,
+			 	covers/{EL_STRING_CONVERSION_TABLE}.make_from_zcode_area
+			]"
 		local
 			encoding: EL_ENCODING; uuid: EL_UUID
 			name: IMMUTABLE_STRING_8; uuid_string: STRING
