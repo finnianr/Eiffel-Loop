@@ -2,9 +2,9 @@
 <!---->
 <system name = "EL_encryption" library_target = "EL_encryption" uuid = "229b74ac-09aa-11df-87bd-ff346cce6bd1" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
-AES Encryption and Hashing
+Encryption and Hashing
 
-**Encryption**
+**AES Encryption**
 
 An easy interface to basic AES encryption with extensions to Colin LeMahieu&apos;s
 [https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel AES
@@ -15,6 +15,13 @@ cipher [https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation block chain
 **Hashing**
 
 Routines for creating SHA-256 and MD5 hashes as well as UUID system time hashes.
+
+**XML Persistence**
+
+Library `xml-scan.ecf&apos; provides 2 classes for storing credentials
+
+1. [$source EL_BUILDABLE_AES_CREDENTIAL]
+2. [$source EL_SECURE_KEY_FILE]
 	</description>
 	<target name = "EL_encryption">
 		<description>
@@ -35,11 +42,6 @@ Extensions to Colin Le Mahieu&apos;s encryption library.
 		<library name = "integer_x" location = "$ISE_LIBRARY/contrib/library/math/eapml/eapml.ecf"/>
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
-		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
-		<library name = "EL_evolicity" location = "evolicity.ecf"/>
-		<library name = "EL_file_process" location = "file-processing.ecf"/>
-		<library name = "EL_text_process" location = "text-process.ecf"/>
-		<library name = "EL_xml_scan" location = "xml-scan.ecf"/>
 		<cluster name = "encryption" location = "text/encryption" recursive = "true"/>
 	</target>
 </system>

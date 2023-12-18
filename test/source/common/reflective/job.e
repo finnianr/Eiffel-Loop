@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-05 10:16:55 GMT (Thursday 5th January 2023)"
-	revision: "16"
+	date: "2023-12-18 9:10:57 GMT (Monday 18th December 2023)"
+	revision: "17"
 
 class
 	JOB
@@ -20,8 +20,6 @@ inherit
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
-
-	EL_CSV_CONVERTABLE
 
 create
 	make_default

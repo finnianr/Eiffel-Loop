@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 11:29:49 GMT (Monday 20th March 2023)"
-	revision: "24"
+	date: "2023-12-18 9:18:31 GMT (Monday 18th December 2023)"
+	revision: "25"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -38,10 +38,12 @@ feature -- Test
 	test_import_export
 			--
 		note
-			testing: "covers/{CSV_IMPORTABLE_ARRAYED_LIST}.import",
-				"covers/{CSV_LINE_PARSER}.parse",
-				"covers/{EL_COMMA_SEPARATED_VALUE_ESCAPER}.escaped",
-				"covers/{EL_REFLECTIVELY_SETTABLE}.comma_separated_values"
+			testing: "[
+				covers/{CSV_IMPORTABLE_ARRAYED_LIST}.import,
+				covers/{CSV_LINE_PARSER}.parse,
+				covers/{EL_COMMA_SEPARATED_VALUE_ESCAPER}.escaped,
+				covers/{EL_REFLECTIVELY_SETTABLE}.comma_separated_values
+			]"
 		do
 			if attached new_job_list as job_list then
 				do_import_test (job_list)
@@ -53,15 +55,15 @@ feature {NONE} -- Implementation
 
 	do_export_test (job_list: like new_job_list)
 		local
-			parser: CSV_LINE_PARSER
+			parser: CSV_LINE_PARSER; csv: EL_REFLECTIVE_CSV_ROUTINES
 			job, job_2: JOB; list: EL_ZSTRING_LIST
 		do
 			job_list.find_first_true (agent role_contains (?, "Change Manager"))
 			job := job_list.item
 
 			create parser.make
-			parser.parse (job.comma_separated_names)
-			create list.make_comma_split (job.comma_separated_values)
+			parser.parse (csv.comma_separated_names (job))
+			create list.make_comma_split (csv.comma_separated_values (job))
 			across list as value loop
 				if value.item.count > 140 then
 					lio.put_curtailed_string_field ("LONG", value.item, 140)
@@ -70,7 +72,7 @@ feature {NONE} -- Implementation
 					lio.put_line (value.item)
 				end
 			end
-			parser.parse (job.comma_separated_values)
+			parser.parse (csv.comma_separated_values (job))
 
 			create job_2.make_default
 			parser.set_object (job_2)

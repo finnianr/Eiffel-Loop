@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:48:18 GMT (Wednesday 8th November 2023)"
-	revision: "76"
+	date: "2023-12-18 9:15:19 GMT (Monday 18th December 2023)"
+	revision: "77"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -33,8 +33,6 @@ inherit
 		redefine
 			make_default, new_meta_data, use_default_values
 		end
-
-	EL_CSV_CONVERTABLE
 
 	EL_MODULE_EXECUTABLE; EL_MODULE_LIO
 

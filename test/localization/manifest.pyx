@@ -7,5 +7,5 @@ manifest:
 		files:
 			"app-manage/*"
 			"base/*"
-			"text-process/*"
+			"encryption/*"
 			"currency/*"

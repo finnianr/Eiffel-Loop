@@ -6,9 +6,9 @@ system:
 	name = EL_encryption; library_target = EL_encryption
 	description:
 		"""
-			AES Encryption and Hashing
+			Encryption and Hashing
 
-			**Encryption**
+			**AES Encryption**
 
 			An easy interface to basic AES encryption with extensions to Colin LeMahieu's
 			[https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel AES
@@ -19,6 +19,13 @@ system:
 			**Hashing**
 
 			Routines for creating SHA-256 and MD5 hashes as well as UUID system time hashes.
+
+			**XML Persistence**
+			
+			Library `xml-scan.ecf' provides 2 classes for storing credentials
+			
+			1. [$source EL_BUILDABLE_AES_CREDENTIAL]
+			2. [$source EL_SECURE_KEY_FILE]
 		"""
 	target:
 		name = EL_encryption
@@ -53,13 +60,8 @@ system:
 			integer_x = "math/eapml/eapml.ecf"
 
 		# Eiffel Loop
-		libraries:
-			EL_base = "base/base.ecf"
-			EL_doc_scan = "document-scan.ecf"
-			EL_evolicity = "evolicity.ecf"
-			EL_file_process = "file-processing.ecf"
-			EL_text_process = "text-process.ecf"
-			EL_xml_scan = "xml-scan.ecf"
+		library:
+			name = EL_base; location = "base/base.ecf"
 
 		cluster_tree:
 			encryption = "text/encryption"

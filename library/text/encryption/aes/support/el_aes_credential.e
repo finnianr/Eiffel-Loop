@@ -6,20 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 9:18:21 GMT (Wednesday 29th November 2023)"
-	revision: "28"
+	date: "2023-12-18 8:01:00 GMT (Monday 18th December 2023)"
+	revision: "29"
 
 class
 	EL_AES_CREDENTIAL
 
 inherit
-	EVOLICITY_EIFFEL_CONTEXT
-		rename
-			make_default as make
-		redefine
-			make
-		end
-
 	EL_AES_CONSTANTS
 		export
 			{ANY} valid_key_bit_count
@@ -42,7 +35,6 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			Precursor
 			create salt.make_empty (0)
 			create target.make_filled (1, 32)
 			create key_data.make_empty (0)
@@ -170,16 +162,5 @@ feature {EL_AES_CREDENTIAL} -- Internal attributes
 
 	target: SPECIAL [NATURAL_8]
 		-- target digest for validation
-
-feature {NONE} -- Evolicity fields
-
-	getter_function_table: like getter_functions
-			--
-		do
-			create Result.make (<<
-				["digest", agent target_base_64],
-				["salt",	  agent salt_base_64]
-			>>)
-		end
 
 end

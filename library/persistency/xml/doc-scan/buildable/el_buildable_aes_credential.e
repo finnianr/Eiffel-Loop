@@ -6,14 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 9:38:09 GMT (Tuesday 28th November 2023)"
-	revision: "13"
+	date: "2023-12-18 9:30:44 GMT (Monday 18th December 2023)"
+	revision: "14"
 
 class
 	EL_BUILDABLE_AES_CREDENTIAL
 
 inherit
 	EL_AES_CREDENTIAL
+		redefine
+			make
+		end
+
+	EVOLICITY_EIFFEL_CONTEXT
+		rename
+			make_default as make
 		redefine
 			make
 		end
@@ -34,6 +41,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			Precursor {EL_AES_CREDENTIAL}
+			Precursor {EVOLICITY_EIFFEL_CONTEXT}
 		end
 
 feature {NONE} -- Implementation
@@ -44,6 +52,15 @@ feature {NONE} -- Implementation
 			create Result.make (<<
 				["salt/text()",	agent do set_salt (node) end],
 				["digest/text()",	agent do set_target (node) end]
+			>>)
+		end
+
+	getter_function_table: like getter_functions
+			--
+		do
+			create Result.make (<<
+				["digest", agent target_base_64],
+				["salt",	  agent salt_base_64]
 			>>)
 		end
 

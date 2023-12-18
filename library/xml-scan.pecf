@@ -13,6 +13,7 @@ system:
 
 			* XML node scanning with mapping of xpath expressions to agent handler procedures. 
 			* Recursive building of Eiffel objects from XML data using context-relative Xpath expressions.
+			* Encryption credential persistence
 
 			**Parse Event Sources**
 			
@@ -68,6 +69,7 @@ system:
 			EL_base = "base/base.ecf"
 			EL_c_api = "C-language-interface.ecf"
 			EL_doc_scan = "document-scan.ecf"
+			EL_encryption = "encryption.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_file_process = "file-processing.ecf"
 			EL_text_formats = "text-formats.ecf"

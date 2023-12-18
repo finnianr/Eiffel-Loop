@@ -1,16 +1,16 @@
 # Eiffel-Loop Contents
 ## Submission for 99-bottles-of-beer.net
-Eiffel submission for [http://www.99-bottles-of-beer.net/ www.99-bottles-of-beer.net].
+Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
 
 This website contains sample programs for over 1500 languages and variations, all of which print the lyrics of the song "99 Bottles of Beer".
 ## Concurrency Demonstration
-Demonstration of classes that make the classic multi-threading ISE library `thread.ecf' easier to use.
+Demonstration of classes that make the classic multi-threading ISE library `thread.ecf` easier to use.
 
 
-1. `el_concurrency -horse_race' An [https://www.youtube.com/watch?v=s2-7pzmVjao animated version] of the classic concurrency horse-racing exercise.
-2. `el_concurrency -work_distributer' demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
+1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
+2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop [./library/vision2-x.html extension libraries for Vision-2 and Docking].
+Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
@@ -1560,8 +1560,14 @@ These are "out of the box" command for obtaining system information.
 
 ## Internationalization
 An internationalization library with support for translations rendered in Pyxis format. There are a number of tools in `el_toolkit` to support the use of this library.
-## AES Encryption
-Easy interface to basic AES encryption with extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+## AES Encryption and Hashing
+**Encryption**
+
+An easy interface to basic AES encryption with extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+
+**Hashing**
+
+Routines for creating SHA-256 and MD5 hashes as well as UUID system time hashes.
 ## RSA Public-key Encryption
 Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [EL_MODULE_X509_COMMAND]($source).
 
