@@ -1,13 +1,13 @@
 note
-	description: "UUID factory"
+	description: "Generates a UUID as a hash of number of millisecs since Unix epoch"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-17 10:36:01 GMT (Sunday 17th December 2023)"
-	revision: "8"
+	date: "2023-12-18 11:49:53 GMT (Monday 18th December 2023)"
+	revision: "9"
 
 class
 	EL_UUID_FACTORY

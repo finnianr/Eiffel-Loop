@@ -821,7 +821,7 @@ Some of the main features of this database system are as follows:
 
 **10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) recording Paypal transactions.
 
-**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/text/encryption/support/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
+**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/text/encryption/hash/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
 
 **12.** Application version awareness allows data to be migrated from a data table created by an earlier software version.
 
@@ -1068,6 +1068,7 @@ Provides:
 
 * XML node scanning with mapping of xpath expressions to agent handler procedures.
 * Recursive building of Eiffel objects from XML data using context-relative Xpath expressions.
+* Encryption credential persistence
 
 **Parse Event Sources**
 
@@ -1560,14 +1561,23 @@ These are "out of the box" command for obtaining system information.
 
 ## Internationalization
 An internationalization library with support for translations rendered in Pyxis format. There are a number of tools in `el_toolkit` to support the use of this library.
-## AES Encryption and Hashing
-**Encryption**
+## Encryption and Hashing
+**AES Encryption**
 
 An easy interface to basic AES encryption with extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
 
 **Hashing**
 
 Routines for creating SHA-256 and MD5 hashes as well as UUID system time hashes.
+
+**XML Persistence**
+
+Library `xml-scan.ecf` provides 2 classes for storing credentials
+
+
+1. [EL_BUILDABLE_AES_CREDENTIAL](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_buildable_aes_credential.html)
+2. [EL_SECURE_KEY_FILE](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_secure_key_file.html)
+
 ## RSA Public-key Encryption
 Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [EL_MODULE_X509_COMMAND]($source).
 
