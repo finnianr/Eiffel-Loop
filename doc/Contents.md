@@ -295,7 +295,7 @@ EL_LINEAR* [G]
 * Software versioning
 
 
-## Date Time
+## Date and Time
 Classes for parsing and formatting date and time strings.
 ## Files and Directories
 Classes for the following:
@@ -306,6 +306,17 @@ Classes for the following:
 * Processing directory data
 * Processing file data
 * File transfer synchronization
+
+## Class Creation and Initialization
+Classes for the following:
+
+
+* Creating and initializing instances of a class.
+* Factory indirection, i.e. factories for creating factories.
+* Managing cross-platform bridge initialization
+* Managing `Precursor` calls to avoid repeats
+* Managing creation and initialization of singleton objects
+* Managing creation of "lazy attributes"
 
 ## Input/Output
 Classes for the following:
@@ -443,7 +454,7 @@ Container classes for substrings
 * Lists of substrings
 * String occurrence interval lists
 * Tables of substrings
-## Utility
+## Software Versioning and CRC digest
 Classes providing the following facilities:
 
 

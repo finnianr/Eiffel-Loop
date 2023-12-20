@@ -55,7 +55,7 @@ See doc/base.data_structure.txt for details
 		</cluster>
 		<cluster name = "date_time" location = "text/date-time" recursive = "true">
 			<description>
-Date Time
+Date and Time
 
 Classes for parsing and formatting date and time strings.
 			</description>
@@ -294,7 +294,7 @@ Classes providing the following:
 		</cluster>
 		<cluster name = "utility" location = "utility" recursive = "true">
 			<description>
-Utility
+Software Versioning and CRC digest
 
 Classes providing the following facilities:
 

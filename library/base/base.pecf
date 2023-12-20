@@ -76,7 +76,7 @@ system:
 			date_time = "text/date-time"
 			description:
 				"""
-					Date Time
+					Date and Time
 					
 					Classes for parsing and formatting date and time strings.
 				"""
@@ -295,7 +295,7 @@ system:
 			utility = utility
 			description:
 				"""
-					Utility
+					Software Versioning and CRC digest
 					
 					Classes providing the following facilities:
 
