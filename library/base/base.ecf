@@ -53,6 +53,13 @@ Various hash-table, array, list, chain and linear types
 See doc/base.data_structure.txt for details
 			</description>
 		</cluster>
+		<cluster name = "date_time" location = "text/date-time" recursive = "true">
+			<description>
+Date Time
+
+Classes for parsing and formatting date and time strings.
+			</description>
+		</cluster>
 		<cluster name = "math" location = "math" recursive = "true">
 			<description>
 Math
@@ -111,7 +118,7 @@ Classes for the following:
 				</condition>
 			</file_rule>
 		</cluster>
-		<cluster name = "kernel" location = "kernel/base" recursive = "true">
+		<cluster name = "kernel" location = "kernel" recursive = "true">
 			<description>
 Kernel
 
@@ -129,6 +136,9 @@ Fundamental base classes
 					<platform value = "windows"/>
 				</condition>
 			</file_rule>
+			<file_rule>
+				<exclude>/reflection$</exclude>
+			</file_rule>
 		</cluster>
 		<cluster name = "reflection" location = "kernel/reflection" recursive = "true">
 			<description>
@@ -141,7 +151,7 @@ memory block conforming to [$source EL_MEMORY_READER_WRITER] (inherits [$source 
 See doc/base.reflection.txt for details
 			</description>
 		</cluster>
-		<cluster name = "runtime" location = "runtime">
+		<cluster name = "runtime" location = "runtime" recursive = "true">
 			<description>
 Runtime Operations
 
@@ -153,37 +163,22 @@ Classes for the following:
 * Tracking progress of time consuming operations
 * Managing shared resources for competing threads
 			</description>
-			<cluster name = "exception" location = "$|exception"/>
-			<cluster name = "memory" location = "$|memory" recursive = "true">
-				<file_rule>
-					<exclude>/imp_mswin$</exclude>
-					<condition>
-						<platform value = "unix"/>
-					</condition>
-				</file_rule>
-				<file_rule>
-					<exclude>/imp_unix$</exclude>
-					<condition>
-						<platform value = "windows"/>
-					</condition>
-				</file_rule>
-			</cluster>
-			<cluster name = "process" location = "$|process" recursive = "true">
-				<file_rule>
-					<exclude>/imp_mswin$</exclude>
-					<condition>
-						<platform value = "unix"/>
-					</condition>
-				</file_rule>
-				<file_rule>
-					<exclude>/imp_unix$</exclude>
-					<condition>
-						<platform value = "windows"/>
-					</condition>
-				</file_rule>
-			</cluster>
-			<cluster name = "progress_track" location = "$|progress-track" recursive = "true"/>
-			<cluster name = "resource_share" location = "$|resource-share" recursive = "true"/>
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/file$</exclude>
+				<exclude>/io$</exclude>
+			</file_rule>
 		</cluster>
 		<cluster name = "persistency" location = "persistency" recursive = "true">
 			<description>
@@ -210,12 +205,30 @@ String Handling
 
 Classes providing the following:
 
-* Managing lists of strings
-* String escaping
-* Efficient string splitting
-* Recording and managing string edit histories
 * Abstractions for objects createable from strings
+* Escaping and unescaping
+* Iterating substring splits based on a character or substring separator
+* Jail-breaking immutable strings
+* Recording and managing string edit histories
+* Specialized types of strings
+* String template substitution
+* Supplementary string routines for general use
+			</description>
+			<file_rule>
+				<exclude>/structures$</exclude>
+			</file_rule>
+		</cluster>
+		<cluster name = "string_structures" location = "text/string/structures" recursive = "true">
+			<description>
+Substring Structures
+
+Container classes for substrings
+
+* Compacted arrays of substrings
+* Grids of substrings
+* Lists of substrings
 * String occurrence interval lists
+* Tables of substrings
 			</description>
 		</cluster>
 		<cluster name = "zstring" location = "text/zstring" recursive = "true">
@@ -239,7 +252,7 @@ routines not found in [$source STRING_32], as for example: Python like tuple sub
 * [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]
 			</description>
 		</cluster>
-		<cluster name = "text" location = "text">
+		<cluster name = "text" location = "text" recursive = "true">
 			<description>
 Text Processing
 
@@ -257,17 +270,12 @@ Classes providing the following:
 * URI encoding/decoding
 * UTF encoding/decoding
 			</description>
-			<cluster name = "command_line" location = "$|command-line" recursive = "true"/>
-			<cluster name = "text_encoding" location = "$|encoding" recursive = "true"/>
-			<cluster name = "line_traversal" location = "$|line-traversal" recursive = "true"/>
-			<cluster name = "name_value" location = "$|name-value" recursive = "true"/>
-			<cluster name = "naming" location = "$|naming" recursive = "true"/>
-			<cluster name = "convert" location = "$|convert" recursive = "true"/>
-			<cluster name = "character" location = "$|character"/>
-			<cluster name = "error" location = "$|error"/>
-			<cluster name = "format" location = "$|format"/>
-			<cluster name = "i18n" location = "$|i18n"/>
-			<cluster name = "styled" location = "$|styled"/>
+			<file_rule>
+				<exclude>/buffer$</exclude>
+				<exclude>/date-time$</exclude>
+				<exclude>/string$</exclude>
+				<exclude>/zstring$</exclude>
+			</file_rule>
 		</cluster>
 		<cluster name = "utility" location = "utility" recursive = "true">
 			<description>
@@ -275,11 +283,8 @@ Utility
 
 Classes providing the following facilities:
 
-* Benchmarking
-* Memory writing
-* Cyclic redundancy check
-* Command shells
-* Extensions to ES uuid.ecf
+* Software version formatting and storing application build information
+* Cyclic redundancy checksum generation
 			</description>
 		</cluster>
 	</target>

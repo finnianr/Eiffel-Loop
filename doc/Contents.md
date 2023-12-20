@@ -179,6 +179,8 @@ All of the configurable values can also be set from the command line at startup.
 * Eiffel interface to the Windows sound input API  allowing streaming audio from the microphone to be processed in Eiffel using classes from the producer-consumer thread library. The wrapper is implemented as a WEL extension.
 * Eiffel interface to the Praat sound analysis engine and script interpreter. The wrapper allows Praat scripts to be run from Eiffel and the resulting values of script variables to be accessed from Eiffel. The wrapper uses a modified version of the Praat source code allowing operation from Eiffel and compilation as a library using the MSVC command line compiler.
 
+## String Buffering
+Classes for buffering string data in shared objects
 ## Data Structure
 Various hash-table, array, list, chain and linear types
 
@@ -293,6 +295,8 @@ EL_LINEAR* [G]
 * Software versioning
 
 
+## Date Time
+Classes for parsing and formatting date and time strings.
 ## Files and Directories
 Classes for the following:
 
@@ -338,9 +342,9 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
 * Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM]($source).
-* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/kernel/base/command/options/el_command_line_options.html)
+* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/kernel/command/options/el_command_line_options.html)
 * Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html)
-* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/base/el_readable.html) and writing to objects conforming to [EL_WRITEABLE]($source)
+* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE]($source)
 * Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
 * Support for sinking field data into object conforming to [EL_DATA_SINKABLE](http://www.eiffel-loop.com/library/base/runtime/memory/el_data_sinkable.html). Useful for creating MD5 or SHA-256 hashes.
@@ -403,15 +407,6 @@ Classes for the following:
 * Accessing operating environment information
 * Tracking progress of time consuming operations
 * Managing shared resources for competing threads
-## Utility
-Classes providing the following facilities:
-
-
-* Benchmarking
-* Memory writing
-* Cyclic redundancy check
-* Command shells
-* Extensions to ES uuid.ecf
 ## Text Processing
 Classes providing the following:
 
@@ -431,14 +426,29 @@ Classes providing the following:
 Classes providing the following:
 
 
-* Managing lists of strings
-* String escaping
-* Efficient string splitting
-* Recording and managing string edit histories
 * Abstractions for objects createable from strings
+* Escaping and unescaping
+* Iterating substring splits based on a character or substring separator
+* Jail-breaking immutable strings
+* Recording and managing string edit histories
+* Specialized types of strings
+* String template substitution
+* Supplementary string routines for general use
+## Substring Structures
+Container classes for substrings
+
+
+* Compacted arrays of substrings
+* Grids of substrings
+* Lists of substrings
 * String occurrence interval lists
-## String Buffering
-Classes for buffering string data in shared objects
+* Tables of substrings
+## Utility
+Classes providing the following facilities:
+
+
+* Software version formatting and storing application build information
+* Cyclic redundancy checksum generation
 ## Class ZSTRING
 An implementation of a memory compact string with the same unicode character range as the ''base.ecf'' class [$source STRING_32] and conforming to [$source STRING_GENERAL]. The [$source ZSTRING] class (alias for [$source EL_ZSTRING]) has many additional routines not found in [$source STRING_32], as for example: Python like tuple substitution.
 

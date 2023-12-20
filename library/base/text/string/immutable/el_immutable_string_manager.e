@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 8:38:27 GMT (Saturday 4th November 2023)"
-	revision: "9"
+	date: "2023-12-19 15:58:46 GMT (Tuesday 19th December 2023)"
+	revision: "10"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -22,7 +22,7 @@ inherit
 	 		default_create
 	 	end
 
-	 EL_STRING_BIT_COUNTABLE [S]
+	EL_STRING_BIT_COUNTABLE [S]
 
 feature -- Access
 

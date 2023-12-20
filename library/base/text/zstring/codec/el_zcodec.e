@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "64"
+	date: "2023-12-20 16:38:11 GMT (Wednesday 20th December 2023)"
+	revision: "65"
 
 deferred class
 	EL_ZCODEC
@@ -727,7 +727,7 @@ feature {NONE} -- Implementation
 		do
 			if attached unicode_table as table then
 				create Result.make_empty (table.count)
-				from until i = 0xFF loop
+				from until i > 0xFF loop
 					Result.extend (character_utf_8_byte_count (table [i].natural_32_code).to_integer_8)
 					i := i + 1
 				end

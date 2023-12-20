@@ -1,28 +1,26 @@
 note
-	description: "Object that edits substring intervals of a [$source STRING_32] instance"
+	description: "Object that edits substring intervals of a [$source ZSTRING] instance"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:18:43 GMT (Wednesday 8th November 2023)"
+	date: "2023-12-20 9:11:40 GMT (Wednesday 20th December 2023)"
 	revision: "5"
 
 class
-	EL_STRING_32_OCCURRENCE_EDITOR
+	EL_ZSTRING_OCCURRENCE_EDITOR
 
 inherit
-	EL_OCCURRENCE_EDITOR [STRING_32]
-		rename
-			string_scope as string_32_scope
+	EL_OCCURRENCE_EDITOR [ZSTRING]
 		undefine
-			bit_count, shared_cursor
+			shared_cursor
 		redefine
-			default_target, target
+			default_target, is_equal, target
 		end
 
-	EL_STRING_32_OCCURRENCE_INTERVALS
+	EL_ZSTRING_OCCURRENCE_INTERVALS
 		rename
 			item as interval_item,
 			fill_by_string as fill_intervals_by_string,
@@ -34,7 +32,10 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_ZSTRING_CURSOR
+		rename
+			Cursor as Z_cursor
+		end
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string
@@ -43,19 +44,19 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := target ~ other.target and then Precursor {EL_STRING_32_OCCURRENCE_INTERVALS} (other)
+			Result := target ~ other.target and then Precursor {EL_ZSTRING_OCCURRENCE_INTERVALS} (other)
 		end
 
 feature {NONE} -- Implementation
 
-	default_target: STRING_32
+	default_target: ZSTRING
 		do
-			Result := Empty_string_32
+			Result := Empty_string
 		end
 
 	shared_cursor: EL_STRING_ITERATION_CURSOR
 		do
-			Result := Cursor_32 (target)
+			Result := Z_cursor (target)
 		end
 
 	wipe_out_target
@@ -65,6 +66,6 @@ feature {NONE} -- Implementation
 
 feature {EL_OCCURRENCE_EDITOR} -- Internal attributes
 
-	target: STRING_32
+	target: ZSTRING
 
 end

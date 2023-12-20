@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-12-20 9:38:03 GMT (Wednesday 20th December 2023)"
+	revision: "8"
 
 class
 	EL_CACHED_STRING [STR -> READABLE_STRING_GENERAL create make_empty end]

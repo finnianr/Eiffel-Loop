@@ -73,6 +73,14 @@ system:
 					See doc/base.data_structure.txt for details
 				"""
 		cluster_tree:
+			date_time = "text/date-time"
+			description:
+				"""
+					Date Time
+					
+					Classes for parsing and formatting date and time strings.
+				"""
+		cluster_tree:
 			math = math
 			description:
 				"""
@@ -116,7 +124,7 @@ system:
 				"imp_mswin; imp_unix"
 
 		cluster_tree:
-			kernel = "kernel/base"
+			kernel = "kernel"
 			description:
 				"""
 					Kernel
@@ -125,6 +133,9 @@ system:
 				"""
 			platform_list:
 				"imp_mswin; imp_unix"
+			file_rule:
+				exclude:
+					"/reflection$"
 
 		cluster_tree:
 			reflection = "kernel/reflection"
@@ -138,7 +149,7 @@ system:
 
 					See doc/base.reflection.txt for details
 				"""
-		cluster:
+		cluster_tree:
 			runtime = runtime
 			description:
 				"""
@@ -152,23 +163,12 @@ system:
 					* Tracking progress of time consuming operations
 					* Managing shared resources for competing threads
 				"""
-			sub_clusters:
-				exception = exception
-
-			cluster_tree:
-				memory = "$|memory"
-				platform_list:
-					"imp_mswin; imp_unix"
-
-			cluster_tree:
-				process = "$|process"
-				platform_list:
-					"imp_mswin; imp_unix"
-
-			cluster_tree:
-				progress_track = "$|progress-track"
-			cluster_tree:
-				resource_share = "$|resource-share"
+			platform_list:
+				"imp_mswin; imp_unix"
+			file_rule:
+				exclude:
+					"/file$"
+					"/io$"
 
 		cluster_tree:
 			persistency = persistency
@@ -199,12 +199,32 @@ system:
 
 					Classes providing the following:
 
-					* Managing lists of strings
-					* String escaping
-					* Efficient string splitting
-					* Recording and managing string edit histories
 					* Abstractions for objects createable from strings
+					* Escaping and unescaping
+					* Iterating substring splits based on a character or substring separator
+					* Jail-breaking immutable strings
+					* Recording and managing string edit histories
+					* Specialized types of strings
+					* String template substitution
+					* Supplementary string routines for general use
+				"""
+			file_rule:
+				exclude:
+					"/structures$"
+
+		cluster_tree:
+			string_structures = "text/string/structures"
+			description:
+				"""
+					Substring Structures
+
+					Container classes for substrings
+
+					* Compacted arrays of substrings
+					* Grids of substrings
+					* Lists of substrings
 					* String occurrence interval lists
+					* Tables of substrings
 				"""
 		cluster_tree:
 			zstring = "text/zstring"
@@ -228,7 +248,7 @@ system:
 					* [./benchmark/ZSTRING-benchmarks-latin-1.html Base character-set Latin-1]
 					* [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]
 				"""
-		cluster:
+		cluster_tree:
 			text = text
 			description:
 				"""
@@ -248,23 +268,13 @@ system:
 					* URI encoding/decoding
 					* UTF encoding/decoding
 				"""
-			cluster_tree:
-				command_line = "$|command-line"
-			cluster_tree:
-				text_encoding = "$|encoding"
-			cluster_tree:
-				line_traversal = "$|line-traversal"
-			cluster_tree:
-				name_value = "$|name-value"
-			cluster_tree:
-				naming = "$|naming"
-			cluster_tree:
-				convert = "$|convert"
-			sub_clusters:
-				character = character; error = error
-			sub_clusters:
-				format = format; i18n = i18n; styled = styled
-				
+			file_rule:
+				exclude:
+					"/buffer$"
+					"/date-time$"
+					"/string$"
+					"/zstring$"
+
 		cluster_tree:
 			utility = utility
 			description:
@@ -273,11 +283,8 @@ system:
 					
 					Classes providing the following facilities:
 
-					* Benchmarking
-					* Memory writing
-					* Cyclic redundancy check
-					* Command shells
-					* Extensions to ES uuid.ecf
+					* Software version formatting and storing application build information
+					* Cyclic redundancy checksum generation
 				"""
 
 

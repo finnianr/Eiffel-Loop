@@ -1,26 +1,28 @@
 note
-	description: "Object that edits substring intervals of a [$source ZSTRING] instance"
+	description: "Object that edits substring intervals of a [$source STRING_8] instance"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:17:16 GMT (Wednesday 8th November 2023)"
-	revision: "4"
+	date: "2023-12-20 9:11:38 GMT (Wednesday 20th December 2023)"
+	revision: "6"
 
 class
-	EL_ZSTRING_OCCURRENCE_EDITOR
+	EL_STRING_8_OCCURRENCE_EDITOR
 
 inherit
-	EL_OCCURRENCE_EDITOR [ZSTRING]
+	EL_OCCURRENCE_EDITOR [STRING_8]
+		rename
+			string_scope as string_8_scope
 		undefine
-			shared_cursor
+			bit_count, same_i_th_character
 		redefine
-			default_target, is_equal, target
+			default_target, is_equal, shared_cursor, target
 		end
 
-	EL_ZSTRING_OCCURRENCE_INTERVALS
+	EL_STRING_8_OCCURRENCE_INTERVALS
 		rename
 			item as interval_item,
 			fill_by_string as fill_intervals_by_string,
@@ -32,10 +34,7 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_ZSTRING_CURSOR
-		rename
-			Cursor as Z_cursor
-		end
+	EL_SHARED_STRING_8_CURSOR
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string
@@ -44,19 +43,24 @@ feature -- Comparison
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := target ~ other.target and then Precursor {EL_ZSTRING_OCCURRENCE_INTERVALS} (other)
+			Result := target ~ other.target and then Precursor {EL_STRING_8_OCCURRENCE_INTERVALS} (other)
 		end
 
 feature {NONE} -- Implementation
 
-	default_target: ZSTRING
+	default_target: STRING_8
 		do
-			Result := Empty_string
+			Result := Empty_string_8
+		end
+
+	same_i_th_character (a_target: STRING_8; i: INTEGER; uc: CHARACTER_32): BOOLEAN
+		do
+			Result := a_target [i] = uc.to_character_8
 		end
 
 	shared_cursor: EL_STRING_ITERATION_CURSOR
 		do
-			Result := Z_cursor (target)
+			Result := Cursor_8 (target)
 		end
 
 	wipe_out_target
@@ -66,6 +70,6 @@ feature {NONE} -- Implementation
 
 feature {EL_OCCURRENCE_EDITOR} -- Internal attributes
 
-	target: ZSTRING
+	target: STRING_8
 
 end

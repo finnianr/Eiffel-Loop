@@ -61,7 +61,9 @@ publish-repository:
 
 		# Library Base
 		ecf:
+			"library/base/base.ecf#buffer"
 			"library/base/base.ecf#data_structure"
+			"library/base/base.ecf#date_time"
 			"library/base/base.ecf#file"
 			"library/base/base.ecf#io"
 			"library/base/base.ecf#kernel"
@@ -69,10 +71,10 @@ publish-repository:
 			"library/base/base.ecf#persistency"
 			"library/base/base.ecf#reflection"
 			"library/base/base.ecf#runtime"
-			"library/base/base.ecf#utility"
 			"library/base/base.ecf#text"
 			"library/base/base.ecf#string"
-			"library/base/base.ecf#buffer"
+			"library/base/base.ecf#string_structures"
+			"library/base/base.ecf#utility"
 		ecf:
 			"library/base/base.ecf#zstring"
 			alias-map:

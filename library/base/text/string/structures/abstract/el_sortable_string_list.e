@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 7:30:18 GMT (Sunday 24th September 2023)"
-	revision: "1"
+	date: "2023-12-20 9:40:04 GMT (Wednesday 20th December 2023)"
+	revision: "2"
 
 deferred class
 	EL_SORTABLE_STRING_LIST [S -> READABLE_STRING_GENERAL]

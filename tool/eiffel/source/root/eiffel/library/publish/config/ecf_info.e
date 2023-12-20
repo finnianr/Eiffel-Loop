@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 8:33:53 GMT (Saturday 24th June 2023)"
-	revision: "15"
+	date: "2023-12-20 13:23:52 GMT (Wednesday 20th December 2023)"
+	revision: "16"
 
 class
 	ECF_INFO
@@ -49,7 +49,7 @@ feature -- Access
 			if ignored_clusters.is_empty then
 				Result := Xpath_cluster
 			else
-				-- create expression: cluster[not (@name='a' or @name='b' or ..)]
+			-- create expression: cluster[not (@name='a' or @name='b' or ..)]
 				across ignored_clusters as name loop
 					if name.cursor_index = 1 then
 						exclusions := Name_equals #$ [name.item]
@@ -100,10 +100,15 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
+	new_ignored_clusters_from_node: EL_STRING_8_LIST
+		do
+			create Result.make_adjusted_split (node.adjusted_8 (False), ';', {EL_SIDE}.Left)
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@ignore",	agent do create ignored_clusters.make_adjusted_split (node.adjusted_8 (False), ';', {EL_SIDE}.Left) end],
+				["@ignore",	agent do ignored_clusters := new_ignored_clusters_from_node end],
 				["text()",	agent do path := node.to_string end]
 			>>)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:38:47 GMT (Thursday 17th August 2023)"
-	revision: "56"
+	date: "2023-12-20 17:09:30 GMT (Wednesday 20th December 2023)"
+	revision: "57"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -48,7 +48,19 @@ feature {NONE} -- Initialization
 			across root.context_list (Xpath_mapping) as map loop
 				extend_alias_table (map.node)
 			end
-			source_dir_list := new_source_dir_list (root.context_list (ecf.cluster_xpath), ecf_dir)
+			if attached new_source_dir_map_list (root.context_list (ecf.cluster_xpath), ecf_dir) as list then
+				source_dir_list.grow (list.count)
+				excluded_dir_table.accommodate (list.count)
+				from list.start until list.after loop
+					if attached list.item_key as source_dir then
+						source_dir_list.extend (source_dir)
+						if list.item_value.count > 0 then
+							excluded_dir_table.extend (list.item_value, source_dir)
+						end
+					end
+					list.forth
+				end
+			end
 			across source_dir_list as path loop
 				if path.is_first then
 					dir_path := path.item
@@ -64,6 +76,7 @@ feature {NONE} -- Initialization
 		do
 			alias_table := Default_alias_table
 			type_qualifier := Empty_string_8
+			create excluded_dir_table
 			create source_dir_list.make (0)
 			create directory_list.make_empty
 			create description_lines.make_empty
@@ -140,7 +153,7 @@ feature -- Access
 
 	relative_ecf_path: FILE_PATH
 
-	source_dir_list: like new_source_dir_list
+	source_dir_list: EL_ARRAYED_LIST [DIR_PATH]
 
 	sub_category: ZSTRING
 
@@ -295,14 +308,19 @@ feature -- Factory
 
 	new_path_list: EL_FILE_PATH_LIST
 		local
-			list: EL_FILE_PATH_LIST
+			file_list: EL_FILE_PATH_LIST; not_excluded: EL_PREDICATE_QUERY_CONDITION [FILE_PATH]
 		do
 			across source_dir_list as path loop
-				if path.cursor_index = 1 then
-					Result := OS.file_list (path.item, Symbol.star_dot_e)
+				if excluded_dir_table.has_key (path.item) then
+					not_excluded := agent not_excluded_path (excluded_dir_table.found_item, ?)
+					create file_list.make (OS.file_list (path.item, Symbol.star_dot_e).query (not_excluded))
 				else
-					list := OS.file_list (path.item, Symbol.star_dot_e)
-					Result.append (list)
+					file_list := OS.file_list (path.item, Symbol.star_dot_e)
+				end
+				if path.cursor_index = 1 then
+					Result := file_list
+				else
+					Result.append (file_list)
 				end
 			end
 		end
@@ -312,7 +330,18 @@ feature -- Factory
 			Result := category
 		end
 
-	new_source_dir_list (cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST; parent_dir: DIR_PATH): EL_ARRAYED_LIST [DIR_PATH]
+	new_source_dir_map_list (
+		cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST; parent_dir: DIR_PATH
+	): EL_ARRAYED_MAP_LIST [DIR_PATH, like Empty_dir_list]
+		-- map source directory path to excluded step list from file_rule like:
+
+		-- file_rule:
+		--		exclude:
+		-- 		"/file$"
+		--			"/io$"
+
+		-- (but ignoring exclusions with platform conditions)
+
 		local
 			source_dir: DIR_PATH; location: ZSTRING; is_recursive: BOOLEAN
 			sub_cluster_nodes: EL_XPATH_NODE_CONTEXT_LIST
@@ -332,16 +361,34 @@ feature -- Factory
 					source_dir := parent_dir #+ location
 				end
 				if is_recursive then
-					Result.extend (source_dir)
+					Result.extend (source_dir, new_excluded_dir_list (cluster.node, source_dir))
 				else
 					sub_cluster_nodes := cluster.node.context_list (Element_cluster)
 					if sub_cluster_nodes.count = 0 then
-						Result.extend (source_dir)
+						Result.extend (source_dir, Empty_dir_list)
 					else
 						-- Recursive call
-						Result.append (new_source_dir_list (sub_cluster_nodes, source_dir))
+						across new_source_dir_map_list (sub_cluster_nodes, source_dir) as list loop
+							Result.extend (list.key, list.value)
+						end
 					end
 				end
+			end
+		end
+
+	new_excluded_dir_list (cluster: EL_XPATH_NODE_CONTEXT; source_dir: DIR_PATH): like Empty_dir_list
+		do
+			create Result.make (10)
+			across cluster.context_list (Xpath_file_exclude) as file_rule loop
+				if attached file_rule.node.as_string as step then
+					if step.starts_with_character ('/') and step.ends_with_character ('$') then
+						step.remove_quotes
+						Result.extend (source_dir #+ step)
+					end
+				end
+			end
+			if Result.is_empty then
+				Result := Empty_dir_list
 			end
 		end
 
@@ -369,6 +416,13 @@ feature {NONE} -- Implementation
 			alias_table [map_node [Mapping.old_name]] := map_node [Mapping.new_name]
 		end
 
+	not_excluded_path (excluded_dir_list: like Empty_dir_list; source_path: FILE_PATH): BOOLEAN
+		do
+			Result := across excluded_dir_list as list all
+				not list.item.is_parent_of (source_path)
+			end
+		end
+
 	update_class (class_list: EL_ARRAYED_LIST [EIFFEL_CLASS]; e_class: EIFFEL_CLASS)
 		do
 			class_list.start; class_list.search (e_class)
@@ -378,6 +432,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation attributes
+
+	excluded_dir_table: EL_HASH_TABLE [like Empty_dir_list, DIR_PATH]
 
 	repository: REPOSITORY_PUBLISHER
 
@@ -393,6 +449,14 @@ feature {NONE} -- Evolicity fields
 		end
 
 feature {NONE} -- Constants
+
+	Empty_dir_list: ARRAYED_LIST [DIR_PATH]
+		once ("PROCESS")
+			create Result.make (0)
+		end
+
+	Xpath_file_exclude: STRING = "file_rule [count (condition) = 0]/exclude"
+		-- file rule excluding platform condition
 
 	Translater: MARKDOWN_TRANSLATER
 		once
