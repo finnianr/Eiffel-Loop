@@ -138,7 +138,22 @@ Fundamental base classes
 			</file_rule>
 			<file_rule>
 				<exclude>/reflection$</exclude>
+				<exclude>/initialization$</exclude>
 			</file_rule>
+		</cluster>
+		<cluster name = "initialization" location = "kernel/initialization" recursive = "true">
+			<description>
+Class Creation and Initialization
+
+Classes for the following:
+
+* Creating and initializing instances of a class.
+* Factory indirection, i.e. factories for creating factories.
+* Managing cross-platform bridge initialization
+* Managing `Precursor&apos; calls to avoid repeats
+* Managing creation and initialization of singleton objects
+* Managing creation of &quot;lazy attributes&quot;
+			</description>
 		</cluster>
 		<cluster name = "reflection" location = "kernel/reflection" recursive = "true">
 			<description>

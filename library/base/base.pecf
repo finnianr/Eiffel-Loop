@@ -136,7 +136,23 @@ system:
 			file_rule:
 				exclude:
 					"/reflection$"
+					"/initialization$"
 
+		cluster_tree:
+			initialization = "kernel/initialization"
+			description:
+				"""
+					Class Creation and Initialization
+
+					Classes for the following:
+					
+					* Creating and initializing instances of a class.
+					* Factory indirection, i.e. factories for creating factories.
+					* Managing cross-platform bridge initialization
+					* Managing `Precursor' calls to avoid repeats
+					* Managing creation and initialization of singleton objects
+					* Managing creation of "lazy attributes"
+				"""
 		cluster_tree:
 			reflection = "kernel/reflection"
 			description:

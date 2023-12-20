@@ -65,6 +65,7 @@ publish-repository:
 			"library/base/base.ecf#data_structure"
 			"library/base/base.ecf#date_time"
 			"library/base/base.ecf#file"
+			"library/base/base.ecf#initialization"
 			"library/base/base.ecf#io"
 			"library/base/base.ecf#kernel"
 			"library/base/base.ecf#math"

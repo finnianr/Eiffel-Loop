@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2023-12-20 19:31:24 GMT (Wednesday 20th December 2023)"
+	revision: "4"
 
 deferred class
 	EL_INITIALIZEABLE
 
-feature {NONE} -- Initialization
-
-	make
-		deferred
-		end
+inherit
+	EL_MAKEABLE
 
 feature -- Status query
 

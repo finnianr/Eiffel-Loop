@@ -15,7 +15,7 @@ note
 	]"
 	notes: "[
 		Benchmark [$source IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE] shows this is about
-		31% slower than equivalent branching attachment attempts.
+		7% slower than equivalent branching attachment attempts
 	]"
 
 	author: "Finnian Reilly"
@@ -23,16 +23,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 8:10:06 GMT (Saturday 11th November 2023)"
-	revision: "1"
+	date: "2023-12-20 19:36:51 GMT (Wednesday 20th December 2023)"
+	revision: "2"
 
 class
-	EL_CONFORMING_INSTANCE_TABLE [G]
+	EL_CONFORMING_INSTANCE_TYPE_MAP [G]
 
 inherit
-	EL_HASH_TABLE [G, INTEGER]
+	EL_ARRAYED_MAP_LIST [INTEGER, G]
 		rename
-			make as make_from_array
+			make as make_sized
 		end
 
 create
@@ -43,29 +43,35 @@ feature {NONE} -- Initialization
 	make (array: like type_mapping_array)
 			--
 		do
-			make_size (array.count)
+			make_sized (array.count)
 			type_mapping_array := array
 		end
 
-feature -- Status query
+feature -- Access
 
-	has_related (object: ANY): BOOLEAN
+	type_related_item (object: ANY): detachable G
 		local
-			type_id: INTEGER; type_conforms: BOOLEAN
+			type_id, i: INTEGER; found_type: BOOLEAN
 		do
 			type_id := {ISE_RUNTIME}.dynamic_type (object)
-			if has_key (type_id) then
-				Result := True
-			else
-				across type_mapping_array as array until type_conforms loop
+			if attached area as l_area then
+				from until i = l_area.count or found_type loop
+					if l_area [i] = type_id then
+						Result := internal_value_list.area [i]
+						found_type := True
+					end
+					i := i + 1
+				end
+			end
+			if not found_type then
+				across type_mapping_array as array until attached Result loop
 					if attached array.item as map then
 						if {ISE_RUNTIME}.type_conforms_to (type_id, map.parent_type.type_id) then
-							put (map.instance, type_id) -- `found_item' now `True'
-							type_conforms := True
+							Result := map.instance
+							extend (type_id, Result)
 						end
 					end
 				end
-				Result := type_conforms
 			end
 		end
 
