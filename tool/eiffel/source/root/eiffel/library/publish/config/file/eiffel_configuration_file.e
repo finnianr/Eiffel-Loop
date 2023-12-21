@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-20 17:09:30 GMT (Wednesday 20th December 2023)"
-	revision: "57"
+	date: "2023-12-21 10:34:17 GMT (Thursday 21st December 2023)"
+	revision: "58"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -378,18 +378,23 @@ feature -- Factory
 
 	new_excluded_dir_list (cluster: EL_XPATH_NODE_CONTEXT; source_dir: DIR_PATH): like Empty_dir_list
 		do
-			create Result.make (10)
+			Result := Empty_dir_list
 			across cluster.context_list (Xpath_file_exclude) as file_rule loop
 				if attached file_rule.node.as_string as step then
-					if step.starts_with_character ('/') and step.ends_with_character ('$') then
+					if step.starts_with_character ('/') and then step.ends_with_character ('$')
+						and then not step.ends_with_general (once ".e$")
+					then
 						step.remove_quotes
 						Result.extend (source_dir #+ step)
 					end
 				end
 			end
-			if Result.is_empty then
-				Result := Empty_dir_list
+			if Result.count > 0 then
+				Result := Result.twin
+				Empty_dir_list.wipe_out
 			end
+		ensure
+			always_empty: Empty_dir_list.is_empty
 		end
 
 	new_sub_category: ZSTRING

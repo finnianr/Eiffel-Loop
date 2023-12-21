@@ -32,6 +32,7 @@ publish-repository:
 		# Library Base
 		ecf:
 			"library/base/base.ecf#kernel"
+			"library/base/base.ecf#initialization"
 			"library/base/base.ecf#math"
 			"library/base/base.ecf#persistency"
 

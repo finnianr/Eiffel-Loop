@@ -1,3 +1,6 @@
+1.6.4
+* EIFFEL_CONFIGURATION_FILE file_rule condition: and then not step.ends_with_general (once ".e$")
+
 1.6.3
 * Repository publisher can now skip directories with file rules like:
 
