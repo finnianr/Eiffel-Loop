@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:53:13 GMT (Thursday 7th December 2023)"
-	revision: "20"
+	date: "2023-12-21 9:30:41 GMT (Thursday 21st December 2023)"
+	revision: "21"
 
 class
 	EL_SILENT_LOG
@@ -155,7 +155,7 @@ feature -- String output
 		do
 		end
 
-	put_index_labeled_string (indexable: ANY; label: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
+	put_index_labeled_string (indexable: ANY; label_or_format: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
 		do
 		end
 

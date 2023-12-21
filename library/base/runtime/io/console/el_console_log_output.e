@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-09 9:22:30 GMT (Saturday 9th December 2023)"
-	revision: "38"
+	date: "2023-12-21 9:44:05 GMT (Thursday 21st December 2023)"
+	revision: "39"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -19,7 +19,7 @@ inherit
 
 	EL_SHARED_STRING_POOLS; EL_SHARED_FORMAT_FACTORY
 
-	EL_LOGGABLE_CONSTANTS; EL_STRING_8_CONSTANTS
+	EL_LOGGABLE_CONSTANTS; EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -95,16 +95,20 @@ feature -- Output
 			set_text_color (Color.Default)
 		end
 
-	put_index_label (indexable: ANY; a_name: detachable READABLE_STRING_GENERAL)
+	put_index_label (indexable: ANY; label_or_format: detachable READABLE_STRING_GENERAL)
 		-- output integer index value associated with `indexable' object that may conform to one of:
 		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
 
-		-- `a_name' is an optional formatting `label' that may contain an index substitution character '%S'
-		-- (Eg. "item [%S]"). Otherwise `a_name' is used to prefix index value
+		-- An optional formatting `label_or_format' that may be interpreted in the following ways:
+
+		--		1. A template if it contains a substitution placeholder '%S' for the `indexable' value (Eg. "i_th [%S]")
+		--		2. A padding format for the `indexable' value if all the characters are equal to '9'
+		--		3. Or else a prefix before the `indexable' value
 		require
 			is_indexable: is_indexable (indexable)
 		local
-			substitution_index, index: INTEGER; leading, trailing: READABLE_STRING_GENERAL
+			substitution_index, index, width: INTEGER;
+			leading, trailing: READABLE_STRING_GENERAL; math: EL_INTEGER_MATH
 		do
 			if attached {INDEXABLE_ITERATION_CURSOR [ANY]} indexable as list then
 				index := list.cursor_index
@@ -119,18 +123,28 @@ feature -- Output
 				index := natural.item.to_integer_32
 			end
 			leading := Empty_string_8; trailing := Empty_string_8
-			if attached a_name as name then
-				if index_label_table.has_key (name) and then attached index_label_table.found_item as pair then
-					leading := pair.leading; trailing := pair.trailing
-				else
-					substitution_index := name.index_of ('%S', 1)
-					if substitution_index > 0 then
-						leading := name.substring (1, substitution_index - 1)
-						trailing := name.substring (substitution_index + 1, name.count)
-					else
-						leading := name
+			if attached label_or_format as str then
+				if str.occurrences ('9') = str.count then
+					width := math.digits (index)
+					if width < str.count then
+					-- create padding to right justify
+						leading := space * (str.count - width)
 					end
-					index_label_table.extend ([leading, trailing], name)
+
+				elseif attached index_label_table as table then
+					if table.has_key (str) and then attached table.found_item as pair then
+						leading := pair.leading; trailing := pair.trailing
+					else
+						substitution_index := str.index_of ('%S', 1)
+						if substitution_index > 0 then
+						-- split for example: "i_th [%S]"
+							leading := str.substring (1, substitution_index - 1) -- "i_th [
+							trailing := str.substring (substitution_index + 1, str.count) -- "]"
+						else
+							leading := str
+						end
+						table.extend ([leading, trailing], str)
+					end
 				end
 			end
 			set_text_color_light (Color.Purple)
@@ -312,6 +326,8 @@ feature {NONE} -- Internal attributes
 	buffer_indices: ARRAYED_LIST [INTEGER]
 
 	index_label_table: STRING_TABLE [TUPLE [leading, trailing: READABLE_STRING_GENERAL]]
+		-- substitution parts
+		-- Eg. "i_th [%S]" => ["i_th [", "]"]
 
 	new_line_prompt: STRING
 

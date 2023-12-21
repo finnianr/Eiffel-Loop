@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:50:36 GMT (Tuesday 14th February 2023)"
-	revision: "9"
+	date: "2023-12-21 8:47:54 GMT (Thursday 21st December 2023)"
+	revision: "10"
 
 class
 	DUPLICITY_COLLECTION_STATUS_OS_CMD
@@ -32,6 +32,8 @@ inherit
 
 	EL_MODULE_TUPLE
 
+	EL_CHARACTER_32_CONSTANTS
+
 create
 	make
 
@@ -50,7 +52,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	backup_list: EL_ARRAYED_LIST [ZSTRING]
+	backup_list: EL_ZSTRING_LIST
 
 feature {NONE} -- Line states
 
@@ -63,7 +65,7 @@ feature {NONE} -- Line states
 
 	find_end_of_backup_set (line: ZSTRING)
 		do
-			if line.starts_with (Dashed_line) then
+			if line.starts_with (hyphen * 10) then
 				state := agent find_backup_set
 			else
 				line.remove_tail (1) -- remove volume number
@@ -77,11 +79,6 @@ feature {NONE} -- Line states
 		end
 
 feature {NONE} -- Constants
-
-	Dashed_line: ZSTRING
-		once
-			create Result.make_filled ('-', 10)
-		end
 
 	Incremental: ZSTRING
 		once

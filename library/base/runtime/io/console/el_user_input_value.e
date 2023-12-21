@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 15:41:12 GMT (Thursday 17th August 2023)"
-	revision: "5"
+	date: "2023-12-21 10:13:55 GMT (Thursday 21st December 2023)"
+	revision: "6"
 
 class
 	EL_USER_INPUT_VALUE [G]
@@ -65,8 +65,8 @@ feature -- Access
 			escape_pressed := False
 			from until done loop
 				line := line_input
-				if line.is_character ({EL_ASCII}.Escape.to_character_8) then
-					line := Zero
+				if line.is_character ({EL_ASCII}.Escape.to_character_32) then
+					line := Zero -- we still need to return a value
 					escape_pressed := True
 				end
 				if converter.is_convertible (line) and then attached converter.as_type (line) as v then

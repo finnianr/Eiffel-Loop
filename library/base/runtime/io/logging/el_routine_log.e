@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:59:55 GMT (Thursday 7th December 2023)"
-	revision: "34"
+	date: "2023-12-21 9:32:02 GMT (Thursday 21st December 2023)"
+	revision: "35"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -235,15 +235,18 @@ feature -- String output
 			end
 		end
 
-	put_index_labeled_string (indexable: ANY; label: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
+	put_index_labeled_string (indexable: ANY; label_or_format: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
 		-- output integer index value associated with `indexable' object that may conform to one of:
 		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
 
-		-- An optional formatting `label' that may contain an index substitution character '%S' (Eg. "item [%S]")
-		-- otherwise `label' is used to prefix index value
+		-- An optional formatting `label_or_format' that may be interpreted in the following ways:
+
+		--		1. A template if it contains a substitution placeholder '%S' for the `indexable' value (Eg. "i_th [%S]")
+		--		2. A padding format for the `indexable' value if all the characters are equal to '9'
+		--		3. Or else a prefix before the `indexable' value
 		do
 			if attached output as op then
-				op.put_index_label (indexable, label)
+				op.put_index_label (indexable, label_or_format)
 				op.set_text_color (Color.Yellow)
 				op.put_string_general (str)
 				op.set_text_color (Color.Default)

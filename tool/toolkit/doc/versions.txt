@@ -1,3 +1,6 @@
+1.11.8
+* Fixed Duplicity file selection menu to respond to ESC
+
 1.11.7
 *	Updated CURRENCY_EXCHANGE_HISTORY_COMMAND for 2023 format of 
 	https://www.exchangerates.org.uk/EUR-USD-spot-exchange-rates-history-2021.html

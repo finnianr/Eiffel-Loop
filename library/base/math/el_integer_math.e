@@ -1,16 +1,19 @@
 note
-	description: "Integer math"
+	description: "Integer math routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-10 11:09:50 GMT (Tuesday 10th January 2023)"
-	revision: "10"
+	date: "2023-12-21 9:20:44 GMT (Thursday 21st December 2023)"
+	revision: "11"
 
-class
+expanded class
 	EL_INTEGER_MATH
+
+inherit
+	EL_EXPANDED_ROUTINES
 
 feature -- Access
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 9:22:50 GMT (Thursday 9th November 2023)"
-	revision: "18"
+	date: "2023-12-21 9:35:54 GMT (Thursday 21st December 2023)"
+	revision: "19"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -15,7 +15,8 @@ class
 inherit
 	EL_CONSOLE_LOG_OUTPUT
 		rename
-			make as make_output
+			make as make_output,
+			new_line as new_line_character
 		redefine
 			write_console, flush
 		end

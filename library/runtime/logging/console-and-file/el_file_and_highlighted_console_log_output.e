@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2023-12-21 9:36:18 GMT (Thursday 21st December 2023)"
+	revision: "10"
 
 class
 	EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
@@ -20,7 +20,8 @@ inherit
 
 	EL_HIGHLIGHTED_CONSOLE_LOG_OUTPUT
 		rename
-			make as make_output
+			make as make_output,
+			new_line as new_line_character
 		undefine
 			flush, write_console, write_escape_sequence
 		end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-09 9:52:15 GMT (Saturday 9th December 2023)"
-	revision: "30"
+	date: "2023-12-21 9:05:15 GMT (Thursday 21st December 2023)"
+	revision: "31"
 
 class
 	URI_TEST_SET
@@ -203,11 +203,14 @@ feature -- Tests
 		end
 
 	test_url_query_hash_table
+		-- URI_TEST_SET.test_url_query_hash_table
 		note
-			testing:	"covers/{EL_URI_QUERY_STRING_8}.append_general",
-						"covers/{EL_URI_QUERY_STRING_8}.to_utf_8",
-						"covers/{EL_URI_QUERY_HASH_TABLE}.make_url",
-						"covers/{EL_URI_QUERY_HASH_TABLE}.url_query"
+			testing:	"[
+				covers/{EL_URI_QUERY_STRING_8}.append_general,
+				covers/{EL_URI_QUERY_STRING_8}.to_utf_8,
+				covers/{EL_URI_QUERY_HASH_TABLE}.make_url,
+				covers/{EL_URI_QUERY_HASH_TABLE}.url_query
+			]"
 		local
 			book: EL_URI_QUERY_ZSTRING_HASH_TABLE; book_query_string: STRING
 		do

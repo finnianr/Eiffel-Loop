@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 9:44:28 GMT (Friday 25th August 2023)"
-	revision: "29"
+	date: "2023-12-21 10:12:36 GMT (Thursday 21st December 2023)"
+	revision: "30"
 
 class
 	DUPLICITY_RESTORE
@@ -28,12 +28,9 @@ inherit
 			description
 		end
 
-	EL_MODULE_FORMAT
-		rename
-			Format as Number_format
-		end
-
 	DUPLICITY_CONSTANTS
+
+	EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -83,26 +80,29 @@ feature {NONE} -- Implementation
 		local
 			cmd: DUPLICITY_LISTING_OS_CMD; restore_cmd: DUPLICITY_RESTORE_ALL_OS_CMD
 			path_list: EL_FILE_PATH_LIST; input: EL_USER_INPUT_VALUE [INTEGER]
-			i: INTEGER
+			i: INTEGER; integer: EL_INTEGER_MATH; padding_format: STRING
 		do
 			lio.put_line ("(%"library/%" to search for directory library)")
 			create cmd.make (a_time, backup_dir, User_input.line ("Enter search string"))
-			lio.put_new_line
-			lio.put_labeled_string (" 0.", "Quit")
 			lio.put_new_line
 			create path_list.make_with_count (cmd.path_list.count)
 			path_list.extend (target_dir_base)
 			across cmd.path_list as path loop
 				path_list.extend (path.item)
 			end
+			padding_format := char ('9') * integer.digits (path_list.count)
 			across path_list as path loop
-				lio.put_labeled_string (Number_format.padded_integer (path.cursor_index, 2), path.item)
+				lio.put_index_labeled_string (path, padding_format, path.item)
 				lio.put_new_line
 			end
 			lio.put_new_line
-			create input.make ("Enter a file option")
+			lio.put_line (User_input.Esc_to_quit)
+			create input.make_valid ("Enter a file option", "No such option number", agent (1 |..| path_list.count).has)
 			i := input.value
-			if path_list.valid_index (i) then
+			
+			if input.escape_pressed then
+				do_nothing -- exit
+			else
 				if not encryption_key.is_empty and then not attached Execution_environment.item (Var_passphrase) then
 					Execution_environment.put (User_input.line ("Enter passphrase"), Var_passphrase)
 					lio.put_new_line
@@ -115,8 +115,6 @@ feature {NONE} -- Implementation
 					end
 				end
 				restore_cmd.execute
-			else
-				-- exit and do nothing
 			end
 		end
 
@@ -160,8 +158,7 @@ feature {NONE} -- Factory
 
 	new_backup_shell (date_list: LIST [ZSTRING]): EL_COMMAND_SHELL
 		local
-			item_table: EL_PROCEDURE_TABLE [ZSTRING]
-			year: ZSTRING
+			item_table: EL_PROCEDURE_TABLE [ZSTRING]; year: ZSTRING
 		do
 			create item_table.make_size (date_list.count)
 			if date_list.is_empty then
