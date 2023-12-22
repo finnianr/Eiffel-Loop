@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:30:00 GMT (Thursday 17th August 2023)"
-	revision: "20"
+	date: "2023-12-22 15:44:38 GMT (Friday 22nd December 2023)"
+	revision: "21"
 
 class
 	EL_USER_INPUT
@@ -43,6 +43,14 @@ feature -- Status query
 				first := Console.decoded (io.last_string) [1]
 			end
 			Result := first.as_lower = a_letter.as_lower
+		end
+
+	escape_pressed: BOOLEAN
+		-- `True' if last user line input was ESC character
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.starts_with_character (io.last_string, {EL_ASCII}.Escape.to_character_8)
 		end
 
 feature -- Basic operations

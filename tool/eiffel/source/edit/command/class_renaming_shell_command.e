@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 12:29:20 GMT (Monday 6th March 2023)"
-	revision: "7"
+	date: "2023-12-22 15:43:41 GMT (Friday 22nd December 2023)"
+	revision: "8"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -21,7 +21,8 @@ class
 inherit
 	EL_APPLICATION_COMMAND_SHELL
 		rename
-			make as make_shell
+			make as make_shell,
+			user_exit as user_exit_shell
 		undefine
 			error_check
 		end
@@ -148,14 +149,14 @@ feature {NONE} -- Implementation
 			base_name: STRING
 		do
 			lio.put_new_line
-			lio.put_new_line
+			lio.put_line (User_input.Esc_to_quit)
 			create input.make ("Drag and drop class file")
 			class_path := input.value
-			base_name := class_path.base
-			base_name.adjust
-			if base_name.as_lower ~ Quit then
-				user_quit := true
+			if input.escape_pressed then
+				user_quit := True
 			else
+				base_name := class_path.base
+				base_name.adjust
 				old_name := class_path.base_name.as_upper
 				if prefix_letters.count > 0 then
 					if old_name.starts_with (prefix_letters) then
@@ -167,8 +168,11 @@ feature {NONE} -- Implementation
 					end
 				else
 					new_name := User_input.line ("New class name")
-					new_name.adjust
-					user_quit := new_name.as_lower ~ Quit
+					if User_input.escape_pressed then
+						user_quit := True
+					else
+						new_name.adjust
+					end
 				end
 				lio.put_new_line
 			end
@@ -195,7 +199,4 @@ feature {NONE} -- Internal attributes
 
 	user_quit: BOOLEAN
 
-feature {NONE} -- Constants
-
-	Quit: STRING = "quit"
 end

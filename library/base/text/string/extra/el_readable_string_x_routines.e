@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 18:29:34 GMT (Monday 13th November 2023)"
-	revision: "25"
+	date: "2023-12-22 11:54:47 GMT (Friday 22nd December 2023)"
+	revision: "26"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -96,7 +96,8 @@ feature -- Lists
 		end
 
 	to_list (text: READABLE_STRING_X; uc: CHARACTER_32; adjustments: INTEGER): EL_ARRAYED_LIST [READABLE_STRING_X]
-		-- `text' split by `uc' character and space adjusted according to `adjustments' (0 = None)
+		-- `text' split by `uc' character and space adjusted according to `adjustments':
+		-- `Both', `Left', `None', `Right' from class `EL_SIDE'.
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
@@ -324,6 +325,13 @@ feature -- Substring
 		end
 
 feature {NONE} -- Implementation
+
+	to_code (character: CHARACTER_32): NATURAL_32
+		do
+			Result := character.natural_32_code
+		end
+
+feature {NONE} -- Deferred
 
 	cursor (s: READABLE_STRING_X): EL_STRING_ITERATION_CURSOR
 		deferred

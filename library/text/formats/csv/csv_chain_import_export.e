@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-18 9:16:31 GMT (Monday 18th December 2023)"
-	revision: "4"
+	date: "2023-12-22 12:02:04 GMT (Friday 22nd December 2023)"
+	revision: "5"
 
 deferred class
 	CSV_CHAIN_IMPORT_EXPORT [G -> {EL_REFLECTIVELY_SETTABLE_STORABLE} create make_default end]
@@ -44,7 +44,7 @@ feature -- Basic operations
 			across Current as list loop
 				if attached list.item as item implies not item.is_deleted then
 					if file.position = 0 then
-						file.put_string_8 (s.joined_with (list.item.field_name_list, comma * 1))
+						file.put_string_8 (s.joined_list_with (list.item.field_name_list, comma * 1))
 						file.put_new_line
 					end
 					line.wipe_out

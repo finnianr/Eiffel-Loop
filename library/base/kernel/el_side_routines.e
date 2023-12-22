@@ -1,29 +1,29 @@
 note
-	description: "Constants identifiying side of an object that can be combined with ''bit_or'' operator"
+	description: "Routines for validating integer arguments that correspond to constants in [$source EL_SIDE]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 10:35:54 GMT (Monday 20th March 2023)"
-	revision: "1"
+	date: "2023-12-22 11:24:28 GMT (Friday 22nd December 2023)"
+	revision: "2"
 
 deferred class
 	EL_SIDE_ROUTINES
 
 inherit
-	EL_ANY_SHARED
-
-feature {NONE} -- Constants
-
-	Both_sides: INTEGER = 3
-
-	Left_side: INTEGER = 1
-
-	No_sides: INTEGER = 0
-
-	Right_side: INTEGER = 2
+	EL_SIDE
+		rename
+			Both as Both_sides,
+			Left as Left_side,
+			None as No_sides,
+			Right as Right_side
+		export
+			{NONE} all
+		undefine
+			copy, default_create, is_equal, out
+		end
 
 feature {NONE} -- Contract Support
 

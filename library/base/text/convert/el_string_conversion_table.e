@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 14:37:19 GMT (Saturday 18th November 2023)"
-	revision: "31"
+	date: "2023-12-22 11:28:30 GMT (Friday 22nd December 2023)"
+	revision: "32"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 			create type_array.make_from_tuple (converter_types)
 			make_size (type_array.count)
-			
+
 			if attached new_expanded_table as expanded_table then
 				across type_array as type loop
 					if expanded_table.has_key (type.item) and then attached expanded_table.found_item as converter then
@@ -66,6 +66,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	split_list (value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like filled_split_list
+		-- split `value_list' with white space adjustments: `Both', `Left', `None', `Right'. (See class `EL_SIDE')
 		do
 			Result := filled_split_list (value_list, separator, adjustments).twin
 		end
@@ -200,11 +201,12 @@ feature -- Status query
 		end
 
 	is_convertible_list (
-		item_type_id: INTEGER; value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER
+		item_type_id: INTEGER; value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; left_adjusted: BOOLEAN
 	): BOOLEAN
+		-- `True' if split items in `value_list' can be converted to type `item_type_id'
 		do
 			Result := True
-			if attached filled_split_list (value_list, separator, adjustments) as list then
+			if attached filled_split_list (value_list, separator, left_adjusted.to_integer) as list then
 				from list.start until not Result or else list.after loop
 					Result := is_convertible_to_type (list.item, item_type_id)
 					list.forth
@@ -269,7 +271,7 @@ feature -- Basic operations
 		item_type_id: INTEGER; chain: CHAIN [ANY]; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN
 	)
 		require
-			convertable: is_convertible_list (item_type_id, csv_list, ',', left_adjusted.to_integer)
+			convertable: is_convertible_list (item_type_id, csv_list, ',', left_adjusted)
 		local
 			lower, upper: INTEGER
 		do

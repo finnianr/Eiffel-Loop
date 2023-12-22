@@ -9,18 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 16:53:15 GMT (Saturday 25th November 2023)"
-	revision: "18"
+	date: "2023-12-22 15:12:31 GMT (Friday 22nd December 2023)"
+	revision: "19"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
 
 inherit
 	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING]
+		rename
+			to_code as to_z_code
 		undefine
 			bit_count
 		redefine
-			adjusted
+			adjusted, to_z_code, replace_character, translate_deleting_null_characters
 		end
 
 	EL_STRING_GENERAL_ROUTINES
@@ -33,6 +35,8 @@ inherit
 	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]
 
 	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_ZSTRING_BUFFER_SCOPES
+
+	EL_SHARED_ZSTRING_CODEC
 
 	EL_ZSTRING_CONSTANTS
 
@@ -145,26 +149,6 @@ feature -- Substring
 
 feature -- Conversion
 
-	joined_list (a_list: ITERABLE [READABLE_STRING_GENERAL]; separator: CHARACTER_32): ZSTRING
-		local
-			count: INTEGER
-		do
-			across a_list as list loop
-				if count > 0 then
-					count := count + 1
-				end
-				count := count + list.item.count
-				list.forth
-			end
-			create Result.make (count)
-			across a_list as list loop
-				if Result.count > 0 then
-					Result.append_character (separator)
-				end
-				Result.append_string_general (list.item)
-			end
-		end
-
 	new_paragraph_list (text: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
 		-- `text' lines joined together as paragraphs with
 		-- an empty line interpreted as a paragraph delimiter
@@ -187,6 +171,7 @@ feature -- Conversion
 		end
 
 	shared_substring (s: ZSTRING; new_count: INTEGER): ZSTRING
+		-- `s.substring (1, new_count)' with shared area
 		do
 			create Result.make (0)
 			Result.share (s)
@@ -327,6 +312,18 @@ feature -- Adjust
 			str.wipe_out
 		end
 
+feature -- Transform
+
+	replace_character (target: ZSTRING; uc_old, uc_new: CHARACTER_32)
+		do
+			target.replace_character (uc_old, uc_new)
+		end
+
+	translate_deleting_null_characters (target, old_characters, new_characters: ZSTRING; delete_null: BOOLEAN)
+		do
+			target.translate_deleting_null_characters (old_characters, new_characters, delete_null)
+		end
+
 feature {NONE} -- Implementation
 
 	cursor (s: EL_READABLE_ZSTRING): EL_ZSTRING_ITERATION_CURSOR
@@ -337,6 +334,11 @@ feature {NONE} -- Implementation
 	last_index_of (str: EL_READABLE_ZSTRING; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c, start_index_from_end)
+		end
+
+	to_z_code (character: CHARACTER_32): NATURAL_32
+		do
+			Result := Codec.as_z_code (character)
 		end
 
 feature {NONE} -- Constants

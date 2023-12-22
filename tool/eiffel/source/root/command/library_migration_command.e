@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 11:49:23 GMT (Saturday 16th September 2023)"
-	revision: "28"
+	date: "2023-12-22 12:03:29 GMT (Friday 22nd December 2023)"
+	revision: "29"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -155,7 +155,7 @@ feature {NONE} -- Implementation
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			if attached User_input.line ("Press <Enter> to copy file " + s.joined_with (name_array, " and ")) then
+			if attached User_input.line ("Press <Enter> to copy file " + s.joined_list_with (name_array, " and ")) then
 			end
 		end
 

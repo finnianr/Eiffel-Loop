@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 17:21:12 GMT (Wednesday 29th November 2023)"
-	revision: "43"
+	date: "2023-12-22 15:12:08 GMT (Friday 22nd December 2023)"
+	revision: "44"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -130,6 +130,7 @@ feature -- Factory
 		end
 
 	shared_substring (s: STRING_32; new_count: INTEGER): STRING_32
+		-- `s.substring (1, new_count)' with shared area
 		do
 			create Result.make (0)
 			Result.share (s)

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 9:26:58 GMT (Sunday 13th August 2023)"
-	revision: "28"
+	date: "2023-12-22 12:00:41 GMT (Friday 22nd December 2023)"
+	revision: "29"
 
 deferred class
 	EL_COMMAND_LINE_OPTIONS
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.joined_by (<< precursor_lines, lines >>,'%N')
+			Result := s.joined_list (<< precursor_lines, lines >>,'%N')
 		end
 
 note

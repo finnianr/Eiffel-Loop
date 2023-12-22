@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:37:09 GMT (Thursday 16th November 2023)"
-	revision: "31"
+	date: "2023-12-22 11:12:59 GMT (Friday 22nd December 2023)"
+	revision: "32"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -185,7 +185,7 @@ feature -- Basic operations
 		-- then fill with data from comma separated `csv_string' using left adjusted values
 		do
 			if attached {CHAIN [ANY]} collection (a_object) as chain then
-				if Convert_string.is_convertible_list (item_type_id, csv_string, ',', {EL_SIDE}.Left) then
+				if Convert_string.is_convertible_list (item_type_id, csv_string, ',', True) then
 					chain.wipe_out
 					Convert_string.append_to_chain (item_type_id, chain, csv_string, True)
 				else

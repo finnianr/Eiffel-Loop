@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-18 9:15:19 GMT (Monday 18th December 2023)"
-	revision: "77"
+	date: "2023-12-22 12:12:34 GMT (Friday 22nd December 2023)"
+	revision: "78"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -51,8 +51,9 @@ feature -- Basic operations
 
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
-			field_definition: STRING; collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
-			enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]; field: EL_REFLECTED_FIELD
+			collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
+			enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]
+			field_definition: STRING; field: EL_REFLECTED_FIELD
 		do
 			create enumeration_list.make (5)
 			create collection_item_list.make (0)
@@ -137,20 +138,20 @@ feature {NONE} -- Implementation
 
 	new_field_definition (field: EL_REFLECTED_FIELD): STRING
 		local
-			parts: EL_SPLIT_INTERVALS; index: INTEGER
+			parts: EL_SPLIT_INTERVALS; index: INTEGER; s: EL_STRING_8_ROUTINES
 		do
-			Result := field.name + ": " + field.class_name
+			Result := s.joined_with (field.name, field.class_name, Colon_separator)
 			if attached {EL_REFLECTED_TUPLE} field as tuple
 				and then attached tuple.field_name_list as name_list
 			then
-				create parts.make_by_string (Result, ", ")
+				create parts.make_adjusted (Result, ',', {EL_SIDE}.Left)
 				from parts.finish until parts.before loop
 					if parts.isfirst then
 						index := Result.index_of ('[', 1) + 1
 					else
 						index := parts.item_lower
 					end
-					Result.insert_string (name_list [parts.index] + ": ", index)
+					Result.insert_string (name_list [parts.index] + Colon_separator, index)
 					parts.back
 				end
 			end
@@ -188,6 +189,10 @@ feature {NONE} -- Implementation
 		do
 			Result := True
 		end
+
+feature {NONE} -- Constants
+
+	Colon_separator: STRING = ": "
 
 note
 	descendants: "[

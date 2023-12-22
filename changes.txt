@@ -667,3 +667,6 @@ Optimizing EL_POINT_ARRAY and descendants
 Sat 16th Dec 2023, 17:32:34
 Vision2 model point_array optimizations
 
+Thu 21st Dec 2023, 19:50:58
+Reorganized structure of base.ecf
+

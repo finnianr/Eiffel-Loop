@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-20 9:31:50 GMT (Wednesday 20th December 2023)"
-	revision: "3"
+	date: "2023-12-22 10:46:52 GMT (Friday 22nd December 2023)"
+	revision: "4"
 
 class
 	EL_STRING_32_SPLIT_INTERVALS
@@ -26,6 +26,6 @@ inherit
 		end
 
 create
-	make, make_empty, make_by_string, make_sized, make_from_special
+	make, make_adjusted, make_empty, make_by_string, make_sized, make_from_special
 
 end

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 8:17:22 GMT (Tuesday 5th December 2023)"
-	revision: "55"
+	date: "2023-12-22 15:11:52 GMT (Friday 22nd December 2023)"
+	revision: "56"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -70,21 +70,57 @@ feature -- Factory
 		end
 
 	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
+		-- `s.substring (1, new_count)' with shared area
 		require
 			valid_count: new_count <= s.count
 		deferred
 		end
 
-	spaces (width, count: INTEGER): STRING_X
-			-- width * count spaces
-		local
-			i, n: INTEGER
+feature -- List joining
+
+	joined (a, b: READABLE_STRING_X): STRING_X
 		do
-			n := width * count
-			create Result.make (n)
-			from i := 1 until i > n loop
-				Result.append_code (32)
-				i := i + 1
+			create Result.make (a.count + b.count)
+			append_to (Result, a); append_to (Result, b)
+		end
+
+	joined_with (a, b, separator: READABLE_STRING_X): STRING_X
+		do
+			create Result.make (a.count + b.count + separator.count)
+			append_to (Result, a); append_to (Result, separator); append_to (Result, b)
+		end
+
+	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): STRING_X
+		do
+			Result := joined_list (list, '%N')
+		end
+
+	joined_list (list: ITERABLE [READABLE_STRING_GENERAL]; separator: CHARACTER_32): STRING_X
+		local
+			char_count: INTEGER; code: NATURAL_32
+		do
+			code := to_code (separator) -- might be z_code for ZSTRING
+			char_count := character_count (list, 1)
+			create Result.make (char_count)
+			across list as ln loop
+				if Result.count > 0 then
+					Result.append_code (code)
+				end
+				append_to (Result, ln.item)
+			end
+		end
+
+	joined_list_with (list: ITERABLE [READABLE_STRING_GENERAL]; separator: READABLE_STRING_GENERAL): STRING_X
+		local
+			char_count: INTEGER
+		do
+			char_count := character_count (list, separator.count)
+			create Result.make (char_count)
+			across list as ln loop
+				if Result.count > 0 then
+					append_to (Result, separator)
+				end
+				append_to (Result, ln.item)
 			end
 		end
 
@@ -104,49 +140,9 @@ feature -- Transformed
 			--
 		do
 			create Result.make (str.count + 2)
-			Result.append_code (left.natural_32_code)
+			Result.append_code (to_code (left))
 			append_to (Result, str)
-			Result.append_code (right.natural_32_code)
-		end
-
-	joined (a, b: READABLE_STRING_X): STRING_X
-		do
-			create Result.make (a.count + b.count)
-			Result.append (a); Result.append (b)
-		end
-
-	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): STRING_X
-		do
-			Result := joined_by (list, '%N')
-		end
-
-	joined_by (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: CHARACTER_32): STRING_X
-		local
-			char_count: INTEGER; code: NATURAL_32
-		do
-			code := delimiter.natural_32_code
-			char_count := character_count (list, 1)
-			create Result.make (char_count)
-			across list as ln loop
-				if Result.count > 0 then
-					Result.append_code (code)
-				end
-				append_to (Result, ln.item)
-			end
-		end
-
-	joined_with (list: ITERABLE [READABLE_STRING_GENERAL]; delimiter: READABLE_STRING_GENERAL): STRING_X
-		local
-			char_count: INTEGER
-		do
-			char_count := character_count (list, delimiter.count)
-			create Result.make (char_count)
-			across list as ln loop
-				if Result.count > 0 then
-					append_to (Result, delimiter)
-				end
-				append_to (Result, ln.item)
-			end
+			Result.append_code (to_code (right))
 		end
 
 	leading_delimited (text, delimiter: STRING_X; include_delimiter: BOOLEAN): STRING_X
@@ -195,31 +191,35 @@ feature -- Transformed
 			append_to (str, content)
 		end
 
-	unbracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): STRING_X
-			-- Returns text enclosed in one of matching paired characters: {}, [], (), <>
+	bracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): STRING_X
+		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
 		require
-			valid_left_bracket: ({STRING_32} "{[(<").has (left_bracket)
+			valid_left_bracket: across "{[(<" as c some c.item = left_bracket end
 		local
 			right_chararacter: CHARACTER_32
 			offset: NATURAL; left_index, right_index, i: INTEGER
-			l_result: READABLE_STRING_GENERAL
+			content: READABLE_STRING_GENERAL
 		do
-			create Result.make (0)
-
-			if left_bracket = '(' then
-				offset := 1
+			inspect left_bracket
+				when '(' then
+					offset := 1
 			else
 				offset := 2
 			end
 			right_chararacter := (left_bracket.natural_32_code + offset).to_character_32
 			left_index := str.index_of (left_bracket, 1)
-			right_index := str.index_of (right_chararacter, left_index + 1)
-			if left_index > 0 and then right_index > 0 and then right_index - left_index > 1 then
-				l_result := str.substring (left_index + 1, right_index - 1)
-				from i := 1 until i > l_result.count loop
-					Result.append_code (l_result.code (i))
-					i := i + 1
+			if left_index > 0 then
+				right_index := str.index_of (right_chararacter, left_index + 1)
+				if right_index > 0 then
+					content := str.substring (left_index + 1, right_index - 1)
+					create Result.make (content.count)
+					append_to (Result, content)
+				else
+					create Result.make (0)
 				end
+			else
+				create Result.make (0)
 			end
 		end
 
@@ -270,7 +270,7 @@ feature -- Transform
 	first_to_upper (str: STRING_GENERAL)
 		do
 			if not str.is_empty then
-				str.put_code (str.item (1).as_upper.natural_32_code, 1)
+				str.put_code (to_code (str.item (1).as_upper), 1)
 			end
 		end
 
@@ -278,7 +278,7 @@ feature -- Transform
 		local
 			i: INTEGER; code_old, code_new: NATURAL
 		do
-			code_old := uc_old.natural_32_code; code_new := uc_new.natural_32_code
+			code_old := to_code (uc_old); code_new := to_code (uc_new)
 			from i := 1 until i > target.count loop
 				if target.code (i) = code_old then
 					target.put_code (code_new, i)
@@ -301,20 +301,21 @@ feature -- Transform
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
-			source: STRING_X; c, new_c: CHARACTER_32; i, index: INTEGER
+			source: STRING_X; uc: CHARACTER_32; i, index: INTEGER
+			new_code: NATURAL
 		do
 			source := target.twin
 			target.set_count (0)
 			from i := 1 until i > source.count loop
-				c := source [i]
-				index := old_characters.index_of (c, 1)
+				uc := source [i]
+				index := old_characters.index_of (uc, 1)
 				if index > 0 then
-					new_c := new_characters [index]
-					if delete_null implies new_c > '%U' then
-						target.append_code (new_c.natural_32_code)
+					new_code := to_code (new_characters [index])
+					if delete_null implies new_code > 0 then
+						target.append_code (new_code)
 					end
 				else
-					target.append_code (c.natural_32_code)
+					target.append_code (to_code (uc))
 				end
 				i := i + 1
 			end

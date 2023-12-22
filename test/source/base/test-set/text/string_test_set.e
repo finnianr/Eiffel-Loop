@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 15:41:13 GMT (Sunday 10th December 2023)"
-	revision: "21"
+	date: "2023-12-22 14:43:24 GMT (Friday 22nd December 2023)"
+	revision: "22"
 
 class
 	STRING_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_XML
 
 	EL_SHARED_TEST_TEXT; EL_SHARED_ZSTRING_BUFFER_SCOPES; EL_SHARED_FORMAT_FACTORY
 
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["c_utf_string_8",					 agent test_c_utf_string_8],
+				["bracketed",							 agent test_bracketed],
 				["expanded_string",					 agent test_expanded_string],
 				["format_double",						 agent test_format_double],
 				["format_integer",					 agent test_format_integer],
@@ -42,6 +43,15 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
+
+	test_bracketed
+		-- STRING_TEST_SET.test_bracketed
+		local
+			s: EL_STRING_8_ROUTINES; name: STRING
+		do
+			name := "cat"
+			assert_same_string (Void, s.bracketed (XML.open_tag (name), '<'), name)
+		end
 
 	test_c_utf_string_8
 		 -- STRING_TEST_SET.test_c_utf_string_8
@@ -97,11 +107,11 @@ feature -- Tests
 
 			pi := {MATH_CONST}.Pi
 			create format_table.make (<<
-				["99.99",  "3.14"],		-- width = 5, decimals = 2, no justification by default
-				["99,99",  "3,14"],		-- decimal point is a comma
-				["99.99%%",  "3.14%%"],	-- percentile
-				["99.99|", " 3.14"],		-- right justified
-				["|99.99", "3.14 "],		-- left justified
+				["99.99",	 "3.14"],		-- width = 5, decimals = 2, no justification by default
+				["99,99",	 "3,14"],		-- decimal point is a comma
+				["99.99%%",	 "3.14%%"],	-- percentile
+				["99.99|",	 " 3.14"],		-- right justified
+				["|99.99",	 "3.14 "],		-- left justified
 				["|999.99|", " 3.14 "], -- centered and width = 6
 				["|99.99%%", "3.14%% "] -- left justified percentile
 			>>)
@@ -138,11 +148,11 @@ feature -- Tests
 		do
 			n := 64
 			create format_table.make (<<
-				["999", " 64"],		-- width = 3, right justified by default
-				["|999", "64 "],		-- left justified
-				["999|", " 64"],		-- right justified
-				["999|", " 64"],		-- right justified
-				["0999|", "064"],		-- left justified with zero padding
+				["999",	  " 64"],		-- width = 3, right justified by default
+				["|999",	  "64 "],		-- left justified
+				["999|",	  " 64"],		-- right justified
+				["999|",	  " 64"],		-- right justified
+				["0999|",  "064"],		-- left justified with zero padding
 				["|9999|", " 64 "],	-- centered
 				["999%%|", " 64%%"],	-- percentile
 				["|999%%", "64%% "] 	-- left justified percentile

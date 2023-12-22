@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 16:50:35 GMT (Sunday 12th November 2023)"
-	revision: "22"
+	date: "2023-12-22 11:03:35 GMT (Friday 22nd December 2023)"
+	revision: "23"
 
 class
 	EL_SPLIT_INTERVALS
@@ -22,7 +22,19 @@ inherit
 		end
 
 create
-	make, make_empty, make_by_string, make_sized, make_from_special
+	make, make_adjusted, make_empty, make_by_string, make_sized, make_from_special
+
+feature {NONE} -- Initialization
+
+	make_adjusted (a_target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
+		-- make intervals with white space adjustments: `Both_sides', `Left_side', `No_sides', `Right_side'
+		-- See class `EL_SIDE_ROUTINES'
+		require
+			valid_adjustments: valid_adjustments (adjustments)
+		do
+			make_empty
+			fill (a_target, delimiter, adjustments)
+		end
 
 feature {NONE} -- Implementation
 

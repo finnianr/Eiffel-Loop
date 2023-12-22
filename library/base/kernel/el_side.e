@@ -1,28 +1,25 @@
 note
-	description: "Expanded version of [$source EL_SIDE_ROUTINES] with abbreviated names"
+	description: "Constants representing sides of lists, strings, geometric objects, etc"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 10:33:47 GMT (Monday 20th March 2023)"
-	revision: "5"
+	date: "2023-12-22 11:22:08 GMT (Friday 22nd December 2023)"
+	revision: "6"
 
-expanded class
+class
 	EL_SIDE
 
-inherit
-	EL_EXPANDED_ROUTINES
+feature -- Constants
 
-	EL_SIDE_ROUTINES
-		rename
-			Both_sides as Both,
-			Left_side as Left,
-			Right_side as Right,
-			No_sides as None
-		export
-			{ANY} all
-		end
+	Both: INTEGER = 3
+
+	Left: INTEGER = 1
+
+	None: INTEGER = 0
+
+	Right: INTEGER = 2
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-06 10:36:03 GMT (Wednesday 6th December 2023)"
-	revision: "13"
+	date: "2023-12-22 12:00:40 GMT (Friday 22nd December 2023)"
+	revision: "14"
 
 class
 	EL_HTTP_NAME_VALUE_PARAMETER
@@ -47,7 +47,7 @@ feature -- Status report
 			s: EL_STRING_32_ROUTINES
 		do
 
-			Result := s.joined_by (<< name.to_string_32, value.to_string_32 >>, '=')
+			Result := s.joined_list (<< name.to_string_32, value.to_string_32 >>, '=')
 		end
 
 feature {EL_HTTP_PARAMETER} -- Implementation
