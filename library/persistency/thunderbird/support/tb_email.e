@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 6:28:43 GMT (Thursday 17th August 2023)"
-	revision: "12"
+	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
+	revision: "13"
 
 class
 	TB_EMAIL
@@ -157,7 +157,7 @@ feature {NONE} -- Constants
 
 	Kebab_case_title: EL_NAME_TRANSLATER
 		once
-			Result := kebab_case_translater (Case.Title)
+			Result := kebab_case_translater (Case.Proper)
 		end
 
 	Mime_version_type: EL_VERSION_ARRAY

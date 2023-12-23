@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 16:11:17 GMT (Saturday 25th November 2023)"
-	revision: "18"
+	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
+	revision: "19"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -278,7 +278,7 @@ feature -- Status query
 	is_eiffel_title: BOOLEAN
 		-- `True' if `target' is an title-case Eiffel identifier
 		do
-			Result := is_area_eiffel_identifier ({EL_CASE}.Title | {EL_CASE}.Lower)
+			Result := is_area_eiffel_identifier ({EL_CASE}.Proper | {EL_CASE}.Lower)
 		end
 
 	is_eiffel_upper: BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 6:49:09 GMT (Thursday 31st August 2023)"
-	revision: "6"
+	date: "2023-12-23 13:02:31 GMT (Saturday 23rd December 2023)"
+	revision: "7"
 
 class
 	EL_EXTENDABLE_AREA [G]
@@ -35,7 +35,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	frozen set_if_changed (current_area, a_area: like area)
+	set_if_changed (current_area, a_area: like area)
 		do
 			if current_area /= a_area then
 				area := a_area

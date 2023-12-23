@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:44:30 GMT (Sunday 16th July 2023)"
-	revision: "10"
+	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
+	revision: "11"
 
 class
 	PP_PAYMENT_STATUS_ENUM
@@ -69,6 +69,6 @@ feature {NONE} -- Constants
 	Snake_case_title: EL_SNAKE_CASE_TRANSLATER
 		-- eg. Canceled_Reversal <--> canceled_reversal
 		once
-			Result := {EL_CASE}.Title
+			Result := {EL_CASE}.Proper
 		end
 end

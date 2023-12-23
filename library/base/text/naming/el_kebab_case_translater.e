@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 15:18:09 GMT (Tuesday 15th August 2023)"
-	revision: "6"
+	date: "2023-12-23 9:22:17 GMT (Saturday 23rd December 2023)"
+	revision: "7"
 
 class
 	EL_KEBAB_CASE_TRANSLATER
@@ -19,7 +19,7 @@ create
 	make, make_case
 
 convert
-	make_case ({NATURAL})
+	make_case ({NATURAL_8})
 
 feature -- Conversion
 
@@ -31,7 +31,7 @@ feature -- Conversion
 				when {EL_CASE}.upper then
 					to_kebab_case_upper (eiffel_name, Result)
 
-				when {EL_CASE}.title then
+				when {EL_CASE}.Proper then
 					to_title (eiffel_name, Result, '-', uppercase_exception_set)
 			else
 				to_kebab_case_lower (eiffel_name, Result)

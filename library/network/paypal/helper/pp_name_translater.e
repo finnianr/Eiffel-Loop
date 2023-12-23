@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 15:21:27 GMT (Tuesday 15th August 2023)"
-	revision: "4"
+	date: "2023-12-23 9:24:25 GMT (Saturday 23rd December 2023)"
+	revision: "5"
 
 class
 	PP_NAME_TRANSLATER
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Default_case: NATURAL
+	Default_case: NATURAL_8
 		once
 			Result := {EL_CASE}.upper
 		end

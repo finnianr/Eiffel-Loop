@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:22:40 GMT (Monday 4th December 2023)"
-	revision: "9"
+	date: "2023-12-23 10:40:51 GMT (Saturday 23rd December 2023)"
+	revision: "10"
 
 expanded class
 	EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -184,32 +184,30 @@ feature -- Comparison
 
 feature -- Contract Support
 
-	block_has (block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; index: INTEGER): BOOLEAN
+	block_has (area: SPECIAL [CHARACTER_32]; block_index, index: INTEGER): BOOLEAN
 		-- `True' if `index' is inside the substring interval referenced by `block_index_ptr'
 		require
 			area_has_at_least_one_block: area.count >= 3
 		local
-			i, upper, lower: INTEGER
+			upper, lower: INTEGER
 		do
-			i := read_integer_32 (block_index_ptr)
-			lower := area [i].code; upper := area [i + 1].code
+			lower := area [block_index].code; upper := area [block_index + 1].code
 			Result := lower <= index and index <= upper
 		end
 
 feature -- Basic operations
 
-	put (block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; uc: CHARACTER_32; index: INTEGER)
+	put (area: SPECIAL [CHARACTER_32]; uc: CHARACTER_32; block_index, index: INTEGER)
 		-- set character at `index' in block referenced by `block_index_ptr'
 		require
-			valid_block_reference: block_has (block_index_ptr, area, index)
+			valid_block_reference: block_has (area, block_index, index)
 		local
-			i, lower: INTEGER
+			lower: INTEGER
 		do
-			i := read_integer_32 (block_index_ptr)
-			lower := area [i].code
-			area [i + 2 + index - lower] := uc
+			lower := area [block_index].code
+			area [block_index + 2 + index - lower] := uc
 		ensure
-			character_set: item (block_index_ptr, area, index) = uc
+			character_set: item ($block_index, area, index) = uc
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 13:24:56 GMT (Saturday 19th August 2023)"
-	revision: "7"
+	date: "2023-12-23 9:22:17 GMT (Saturday 23rd December 2023)"
+	revision: "8"
 
 class
 	EL_CAMEL_CASE_TRANSLATER
@@ -22,7 +22,7 @@ create
 	make, make_case
 
 convert
-	make_case ({NATURAL})
+	make_case ({NATURAL_8})
 
 feature {NONE} -- Initialization
 
@@ -45,7 +45,7 @@ feature -- Conversion
 				when {EL_CASE}.upper then
 					to_camel_case_upper (eiffel_name, Result)
 
-				when {EL_CASE}.title then
+				when {EL_CASE}.Proper then
 					to_camel_case (eiffel_name, Result, True)
 			else
 				to_camel_case (eiffel_name, Result, False)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "59"
+	date: "2023-12-23 11:26:01 GMT (Saturday 23rd December 2023)"
+	revision: "60"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -160,39 +160,21 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		-- Convert to lower case.
 		do
 			to_lower_area (area, 0, count - 1)
-			unencoded_to_lower
 			reset_hash
 		ensure
 			length_and_content: elks_checking implies Current ~ (old as_lower)
 		end
 
-	to_proper_case
-		local
-			i, l_count: INTEGER; state_alpha: BOOLEAN
-			l_area: like area
+	to_proper
 		do
-			to_lower
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				if state_alpha then
-					if not is_area_alpha_item (l_area, i) then
-						state_alpha := False
-					end
-				else
-					if is_area_alpha_item (l_area, i) then
-						state_alpha := True
-						to_upper_area (l_area, i, i)
-					end
-				end
-				i := i + 1
-			end
+			to_proper_area (area, 0, count - 1)
+			reset_hash
 		end
 
 	to_upper
-			-- Convert to upper case.
+		-- Convert to upper case.
 		do
 			to_upper_area (area, 0, count - 1)
-			unencoded_to_upper
 			reset_hash
 		ensure
 			length_and_content: elks_checking implies Current ~ (old as_upper)

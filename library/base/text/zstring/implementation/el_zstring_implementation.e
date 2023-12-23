@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 9:13:31 GMT (Monday 4th December 2023)"
-	revision: "84"
+	date: "2023-12-23 11:27:18 GMT (Saturday 23rd December 2023)"
+	revision: "85"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -292,21 +292,6 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
-	is_area_alpha_item (a_area: like area; i: INTEGER): BOOLEAN
-		local
-			c_i: CHARACTER
-		do
-			c_i := a_area [i]
-			inspect c_i
-				when Substitute then
-					Result := unencoded_item (i + 1).is_alpha
-				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-					Result := c_i.is_alpha
-			else
-				Result := Codec.is_alpha (c_i.natural_32_code)
-			end
-		end
-
 	is_canonically_spaced: BOOLEAN
 		deferred
 		end
@@ -427,9 +412,16 @@ feature {NONE} -- Implementation
 			codec.to_lower (a, start_index, end_index, Current)
 		end
 
+	to_proper_area (a: like area; start_index, end_index: INTEGER)
+		-- Replace all characters in `a' between `start_index' and `end_index'
+		-- with their propercase version when available.
+		do
+			codec.to_proper (a, start_index, end_index, Current)
+		end
+
 	to_upper_area (a: like area; start_index, end_index: INTEGER)
-			-- Replace all characters in `a' between `start_index' and `end_index'
-			-- with their upper version when available.
+		-- Replace all characters in `a' between `start_index' and `end_index'
+		-- with their upper version when available.
 		do
 			codec.to_upper (a, start_index, end_index, Current)
 		end

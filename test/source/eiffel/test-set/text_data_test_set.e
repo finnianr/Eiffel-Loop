@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-09 10:33:47 GMT (Sunday 9th July 2023)"
-	revision: "38"
+	date: "2023-12-23 13:47:37 GMT (Saturday 23rd December 2023)"
+	revision: "39"
 
 class
 	TEXT_DATA_TEST_SET
@@ -32,12 +32,17 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["zstring_memory_on_boundary", agent test_zstring_memory_on_boundary]
 			>>)
 		end
 
 feature -- Tests
 
-
+	test_zstring_memory_on_boundary
+		-- TEXT_DATA_TEST_SET.test_zstring_memory_on_boundary
+		do
+			assert ("size = 64", Eiffel.physical_size (create {EL_ZSTRING}.make_empty) = 64)
+		end
 
 feature -- Basic operations
 

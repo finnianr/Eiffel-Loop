@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 9:21:51 GMT (Monday 4th December 2023)"
-	revision: "28"
+	date: "2023-12-23 15:47:44 GMT (Saturday 23rd December 2023)"
+	revision: "30"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION
@@ -29,6 +29,17 @@ inherit
 
 feature -- Contract Support
 
+	contains_all_intervals (interval_list: EL_ARRAYED_INTERVAL_LIST): BOOLEAN
+		do
+			if attached interval_list as list then
+				Result := True
+				from list.start until not Result or list.after loop
+					Result := contains_interval (list.item_lower, list.item_upper)
+					list.forth
+				end
+			end
+		end
+
 	contains_interval (lower_A, upper_A: INTEGER): BOOLEAN
 		local
 			ir: EL_INTERVAL_ROUTINES; l_area: like area
@@ -42,14 +53,16 @@ feature -- Contract Support
 			end
 		end
 
-	contains_all_intervals (interval_list: EL_ARRAYED_INTERVAL_LIST): BOOLEAN
+	interval_sequence: EL_SEQUENTIAL_INTERVALS
+		local
+			i, lower, upper: INTEGER; l_area: like area
 		do
-			if attached interval_list as list then
-				Result := True
-				from list.start until not Result or list.after loop
-					Result := contains_interval (list.item_lower, list.item_upper)
-					list.forth
-				end
+			create Result.make (3)
+			l_area := area
+			from i := 0 until i = l_area.count loop
+				lower := l_area [i].code; upper := l_area [i + 1].code
+				Result.extend (lower, upper)
+				i := i + upper - lower + 3
 			end
 		end
 
@@ -93,19 +106,6 @@ feature -- Contract Support
 				i := i + count + 2
 			end
 			Result := list.area_v2
-		end
-
-	interval_sequence: EL_SEQUENTIAL_INTERVALS
-		local
-			i, lower, upper: INTEGER; l_area: like area
-		do
-			create Result.make (3)
-			l_area := area
-			from i := 0 until i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				Result.extend (lower, upper)
-				i := i + upper - lower + 3
-			end
 		end
 
 feature {NONE} -- Deferred
@@ -171,10 +171,15 @@ feature {NONE} -- Implementation
 			Result.insert_data (l_insert, 0, destination_index, l_insert.count)
 		end
 
-	interval_count (a_area: like area; start_index: INTEGER): INTEGER
+	index_list: ARRAYED_LIST [INTEGER]
+		local
+			i, i_final: INTEGER; l_area: like area
 		do
-			if a_area.valid_index (start_index) then
-				Result := a_area [start_index - 1].code - a_area [start_index - 2].code + 1
+			Result := Once_index_list.emptied
+			l_area := area; i_final := l_area.count
+			from i := 0 until i = i_final loop
+				Result.extend (i)
+				i := i + section_count (l_area, i) + 2
 			end
 		end
 
@@ -202,15 +207,10 @@ feature {NONE} -- Implementation
 			Result := i
 		end
 
-	index_list: ARRAYED_LIST [INTEGER]
-		local
-			i, i_final: INTEGER; l_area: like area
+	interval_count (a_area: like area; start_index: INTEGER): INTEGER
 		do
-			Result := Once_index_list.emptied
-			l_area := area; i_final := l_area.count
-			from i := 0 until i = i_final loop
-				Result.extend (i)
-				i := i + section_count (l_area, i) + 2
+			if a_area.valid_index (start_index) then
+				Result := a_area [start_index - 1].code - a_area [start_index - 2].code + 1
 			end
 		end
 

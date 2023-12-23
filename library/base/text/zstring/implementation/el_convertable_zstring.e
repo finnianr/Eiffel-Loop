@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "62"
+	date: "2023-12-23 10:15:48 GMT (Saturday 23rd December 2023)"
+	revision: "63"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -516,7 +516,7 @@ feature -- Case changed
 	as_proper_case: like Current
 		do
 			Result := twin
-			Result.to_proper_case
+			Result.to_proper
 		end
 
 	as_upper: like Current

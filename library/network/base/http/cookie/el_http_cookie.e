@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-12-23 10:15:49 GMT (Saturday 23rd December 2023)"
+	revision: "11"
 
 class
 	EL_HTTP_COOKIE
@@ -150,7 +150,7 @@ feature -- Conversion
 			time.second_add (age)
 			create Result.make (Expired_date.count)
 			Result.append_string_general (Days_text [time.date.day_of_the_week])
-			Result.to_proper_case
+			Result.to_proper
 			Result.append_string_general (once ", ")
 			Result.append_string_general (time.formatted_out (Time_format))
 			Result.append_string_general (once " GMT")

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 10:04:03 GMT (Friday 9th December 2022)"
-	revision: "3"
+	date: "2023-12-23 9:23:46 GMT (Saturday 23rd December 2023)"
+	revision: "4"
 
 class
 	EL_NAME_TRANSLATER_TABLE
@@ -43,9 +43,9 @@ feature {NONE} -- Implementation
 
 	new_translator (combined_key: NATURAL): EL_NAME_TRANSLATER
 		local
-			separater: CHARACTER; case: NATURAL
+			separater: CHARACTER; case: NATURAL_8
 		do
-			separater := (combined_key |>> 8).to_character_8; case := combined_key & Case_mask
+			separater := (combined_key |>> 8).to_character_8; case := combined_key.to_natural_8
 			inspect separater
 				when '-' then
 					create {EL_KEBAB_CASE_TRANSLATER} Result.make_case (case)
@@ -57,9 +57,5 @@ feature {NONE} -- Implementation
 				create {EL_SNAKE_CASE_TRANSLATER} Result.make_case (case)
 			end
 		end
-
-feature {NONE} -- Constants
-
-	Case_mask: NATURAL = 0xFF
 
 end

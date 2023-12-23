@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "11"
+	date: "2023-12-23 10:15:47 GMT (Saturday 23rd December 2023)"
+	revision: "12"
 
 class
 	EL_NAMED_THREAD
@@ -36,7 +36,7 @@ feature {NONE} -- Factory
 				Result.remove_head (3)
 			end
 			Result.replace_character ('_', ' ')
-			Result.to_proper_case
+			Result.to_proper
 		end
 
 	new_name: READABLE_STRING_GENERAL

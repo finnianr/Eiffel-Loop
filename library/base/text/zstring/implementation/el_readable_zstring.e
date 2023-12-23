@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "136"
+	date: "2023-12-23 12:52:22 GMT (Saturday 23rd December 2023)"
+	revision: "137"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -295,23 +295,37 @@ feature -- Character status query
 	is_alpha_item (i: INTEGER): BOOLEAN
 		require
 			valid_index: valid_index (i)
+		local
+			c_i: CHARACTER
 		do
-			Result := is_area_alpha_item (area, i - 1)
+			c_i := area [i - 1]
+			inspect c_i
+				when Substitute then
+					Result := unencoded_item (i).is_alpha
+
+				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					Result := c_i.is_alpha
+			else
+				Result := Codec.is_alpha (c_i.natural_32_code)
+			end
 		end
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
 		require else
 			valid_index: valid_index (i)
+		local
+			c_i: CHARACTER
 		do
 			if attached area as c then
-				inspect c [i - 1]
+				c_i := area [i - 1]
+				inspect c_i
 					when Substitute then
 						Result := unencoded_item (i).is_alpha_numeric
 
 					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-						Result := c [i - 1].is_alpha_numeric
+						Result := c_i.is_alpha_numeric
 				else
-					Result := Codec.is_alphanumeric (c [i - 1].natural_32_code)
+					Result := Codec.is_alphanumeric (c_i.natural_32_code)
 				end
 			end
 		end
@@ -320,16 +334,17 @@ feature -- Character status query
 		require
 			valid_index: valid_index (i)
 		local
-			c32: EL_CHARACTER_32_ROUTINES
+			c32: EL_CHARACTER_32_ROUTINES; c_i: CHARACTER
 		do
 			if attached area as c then
-				inspect c [i - 1]
+				c_i := area [i - 1]
+				inspect c_i
 					when Substitute then
 						Result := c32.is_digit (unencoded_item (i))
 					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-						Result := c [i - 1].is_digit
+						Result := c_i.is_digit
 				else
-					Result := Codec.is_numeric (c [i - 1].natural_32_code)
+					Result := Codec.is_numeric (c_i.natural_32_code)
 				end
 			end
 		end
@@ -338,15 +353,15 @@ feature -- Character status query
 		require
 			valid_index: valid_index (i)
 		local
-			c: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
+			c_i: CHARACTER; c32: EL_CHARACTER_32_ROUTINES
 		do
-			c := area [i - 1]
-			inspect c
+			c_i := area [i - 1]
+			inspect c_i
 				when Substitute then
-					-- Because of a compiler bug we need `is_space_32'
+				-- Because of a compiler bug we need `is_space_32'
 					Result := c32.is_space (unencoded_item (i))
 			else
-				Result := c.is_space
+				Result := c_i.is_space
 			end
 		end
 
@@ -368,18 +383,21 @@ feature -- Status query
 			end_index_small_enough: end_index <= count
 			consistent_indexes: start_index - 1 <= end_index
 		local
-			i: INTEGER
+			i, block_index: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+			c_i: CHARACTER
 		do
-			if attached area as c then
+			if attached area as l_area and then attached unencoded_area as area_32 then
 				Result := True
-				from i := start_index until not Result or else i > end_index loop
-					inspect c [i - 1]
+
+				from i := start_index - 1 until not Result or else i = end_index loop
+					c_i := l_area [i]
+					inspect c_i
 						when Substitute then
-							Result := Result and condition (unencoded_item (i))
+							Result := Result and condition (iter.item ($block_index, area_32, i + 1))
 						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-							Result := Result and condition (c [i - 1].to_character_32)
+							Result := Result and condition (c_i.to_character_32)
 					else
-						Result := Result and condition (Unicode_table [c [i - 1].code])
+						Result := Result and condition (Unicode_table [c_i.code])
 					end
 					i := i + 1
 				end
@@ -537,9 +555,10 @@ feature -- Status query
 
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
 		local
-			i: INTEGER; c32: EL_CHARACTER_32_ROUTINES; c_i: CHARACTER
+			i, block_index: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+			c32: EL_CHARACTER_32_ROUTINES; c_i: CHARACTER
 		do
-			if attached area as l_area then
+			if attached area as l_area and then attached unencoded_area as area_32 then
 				if end_index = start_index - 1 then
 					Result := False
 				else
@@ -548,7 +567,8 @@ feature -- Status query
 						c_i := l_area [i]
 						inspect c_i
 							when Substitute then
-								Result := Result and c32.is_space (unencoded_item (i + 1)) -- Work around for finalization bug
+							-- `c32.is_space' is workaround for finalization bug
+								Result := Result and c32.is_space (iter.item ($block_index, area_32, i + 1))
 						else
 							Result := Result and c_i.is_space
 						end

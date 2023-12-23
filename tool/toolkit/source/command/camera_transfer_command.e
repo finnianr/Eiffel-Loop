@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:15:32 GMT (Thursday 7th September 2023)"
-	revision: "10"
+	date: "2023-12-23 10:16:48 GMT (Saturday 23rd December 2023)"
+	revision: "11"
 
 class
 	CAMERA_TRANSFER_COMMAND
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 			year := base.substring (offset + 1, offset + 4).to_integer
 			month := base.substring (offset + 5, offset + 6).to_integer
 			month_name := Date_time.Months_text [month]
-			month_name.to_proper_case
+			month_name.to_proper
 
 			Result := Date_sort_template #$ [alias_name, year, Format.zero_padded_integer (month, 2), month_name]
 		end

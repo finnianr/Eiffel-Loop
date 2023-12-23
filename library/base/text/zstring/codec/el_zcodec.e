@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-20 16:38:11 GMT (Wednesday 20th December 2023)"
-	revision: "65"
+	date: "2023-12-23 11:27:54 GMT (Saturday 23rd December 2023)"
+	revision: "66"
 
 deferred class
 	EL_ZCODEC
@@ -450,19 +450,28 @@ feature -- Basic operations
 	to_lower (
 		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
 	)
-			-- Replace all characters in `a' between `start_index' and `end_index'
-			-- with their lower version when available.
+		-- Replace all characters in `a' between `start_index' and `end_index'
+		-- with their lower version when available.
 		do
-			change_case (characters, start_index, end_index, False, unencoded_characters)
+			change_case (characters, start_index, end_index, {EL_CASE}.Lower, unencoded_characters)
+		end
+
+	to_proper (
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
+	)
+		-- Replace all characters in `a' between `start_index' and `end_index'
+		-- with their lower version when available.
+		do
+			change_case (characters, start_index, end_index, {EL_CASE}.Proper, unencoded_characters)
 		end
 
 	to_upper (
 		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
 	)
-			-- Replace all characters in `a' between `start_index' and `end_index'
-			-- with their lower version when available.
+		-- Replace all characters in `a' between `start_index' and `end_index'
+		-- with their propercase version when available.
 		do
-			change_case (characters, start_index, end_index, True, unencoded_characters)
+			change_case (characters, start_index, end_index, {EL_CASE}.Upper, unencoded_characters)
 		end
 
 feature -- Text conversion
@@ -549,36 +558,79 @@ feature -- Character conversion
 feature {NONE} -- Implementation
 
 	change_case (
-		latin_in: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; change_to_upper: BOOLEAN
+		latin_in: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; case: NATURAL_8
 		unencoded_characters: EL_COMPACT_SUBSTRINGS_32
 	)
+		require
+			valid_case: case /= {EL_CASE}.Default and then (create {EL_CASE}).is_valid (case)
 		local
-			unicode_substitute: CHARACTER_32; new_c: CHARACTER; i: INTEGER
+			unicode_substitute, uc_i: CHARACTER_32; new_c, c_i: CHARACTER; i: INTEGER
+			state_alpha, block_index: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+			area_32: SPECIAL [CHARACTER_32]
 		do
+			area_32 := unencoded_characters.area
 			from i := start_index until i > end_index loop
-				inspect latin_in [i]
+				c_i := latin_in [i]
+				inspect c_i
 					when Substitute then
-						do_nothing
-					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
-						if change_to_upper then
-							latin_in [i] := latin_in [i].as_upper
+						uc_i := iter.item ($block_index, area_32, i + 1)
+						inspect case
+							when {EL_CASE}.Upper then
+								if not uc_i.is_upper then
+									iter.put (area_32, uc_i.upper, block_index, i + 1)
+								end
+							when {EL_CASE}.Lower then
+								if not uc_i.is_lower then
+									iter.put (area_32, uc_i.lower, block_index, i + 1)
+								end
+							when {EL_CASE}.Proper then
+								if is_first_alpha ($state_alpha, state_alpha, uc_i.is_alpha) then
+									if not uc_i.is_upper then
+										iter.put (area_32, uc_i.upper, block_index, i + 1)
+									end
+								else
+									if not uc_i.is_lower then
+										iter.put (area_32, uc_i.lower, block_index, i + 1)
+									end
+								end
 						else
-							latin_in [i] := latin_in [i].as_lower
+						end
+					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						inspect case
+							when {EL_CASE}.Upper then
+								latin_in [i] := c_i.as_upper
+							when {EL_CASE}.Lower then
+								latin_in [i] := c_i.as_lower
+							when {EL_CASE}.Proper then
+								if is_first_alpha ($state_alpha, state_alpha, c_i.is_alpha) then
+									latin_in [i] := c_i.as_upper
+								else
+									latin_in [i] := c_i.as_lower
+								end
+						else
 						end
 				else
-					if change_to_upper then
-						new_c := as_upper (latin_in [i].natural_32_code).to_character_8
+					inspect case
+						when {EL_CASE}.Upper then
+							new_c := as_upper (c_i.natural_32_code).to_character_8
+						when {EL_CASE}.Lower then
+							new_c := as_lower (c_i.natural_32_code).to_character_8
+						when {EL_CASE}.Proper then
+							if is_first_alpha ($state_alpha, state_alpha, c_i.is_alpha) then
+								new_c := as_upper (c_i.natural_32_code).to_character_8
+							else
+								new_c := as_lower (c_i.natural_32_code).to_character_8
+							end
 					else
-						new_c := as_lower (latin_in [i].natural_32_code).to_character_8
 					end
-					if new_c = latin_in [i] then
-						unicode_substitute := unicode_case_change_substitute (latin_in [i].natural_32_code)
+					if new_c = c_i then
+						unicode_substitute := unicode_case_change_substitute (c_i.natural_32_code)
 						if unicode_substitute.natural_32_code > 0 then
 							new_c := Substitute
 							unencoded_characters.put (unicode_substitute, i + 1)
 						end
 					end
-					if new_c /= latin_in [i] then
+					if new_c /= c_i then
 						latin_in [i] := new_c
 					end
 				end
@@ -734,6 +786,23 @@ feature {NONE} -- Implementation
 			end
 			-- special case for SUB character
 			Result [Substitute_code] := 0
+		end
+
+	is_first_alpha (state_alpha_ptr: POINTER; state_alpha: INTEGER; is_alpha_item: BOOLEAN): BOOLEAN
+		local
+			p: EL_POINTER_ROUTINES
+		do
+			inspect state_alpha
+				when 1 then
+					if not is_alpha_item then
+						p.put_integer_32 (0, state_alpha_ptr)
+					end
+				when 0 then
+					if is_alpha_item then
+						p.put_integer_32 (1, state_alpha_ptr)
+						Result := True
+					end
+			end
 		end
 
 feature {EL_ZSTRING} -- Deferred implementation

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 9:13:32 GMT (Monday 4th December 2023)"
-	revision: "113"
+	date: "2023-12-23 10:15:47 GMT (Saturday 23rd December 2023)"
+	revision: "114"
 
 class
 	ZSTRING_TEST_SET
@@ -606,8 +606,15 @@ feature -- Element change tests
 
 	test_case_changing
 		-- ZSTRING_TEST_SET.test_case_changing
+		note
+			testing:	"[
+				covers/{ZSTRING}.to_lower,
+				covers/{ZSTRING}.to_upper,
+				covers/{ZSTRING}.to_proper_case
+			]"
 		local
-			lower, upper: STRING_32
+			lower, upper, str_32: STRING_32; str: ZSTRING
+			word_intervals: EL_SPLIT_INTERVALS
 		do
 			across Text.words as word loop
 				lower := word.item.as_lower
@@ -615,13 +622,27 @@ feature -- Element change tests
 				change_case (lower, upper)
 			end
 			change_case (Text.Lower_case_characters, Text.Upper_case_characters)
---			change_case (Lower_case_mu, Upper_case_mu)
+
+			across Text.lines as line until line.cursor_index > 2 loop
+				str_32 := line.item; str := str_32
+				create word_intervals.make (str_32, ' ')
+				if attached word_intervals as word then
+					from word.start until word.after loop
+						str_32 [word.item_lower] := str_32 [word.item_lower].upper
+						word.forth
+					end
+				end
+				str.to_proper
+				assert_same_string (Void, str_32, str)
+			end
 		end
 
 	test_enclose
 		-- ZSTRING_TEST_SET.test_enclose
 		note
-			testing:	"covers/{ZSTRING}.enclose", "covers/{ZSTRING}.quote"
+			testing:	"[
+				covers/{ZSTRING}.enclose, covers/{ZSTRING}.quote
+			]"
 		local
 			test: STRING_TEST
 		do

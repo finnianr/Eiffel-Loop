@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 16:14:49 GMT (Friday 15th December 2023)"
-	revision: "37"
+	date: "2023-12-23 10:15:46 GMT (Saturday 23rd December 2023)"
+	revision: "38"
 
 class
 	DATE_TIME_TEST_SET
@@ -224,7 +224,7 @@ feature -- Observation Tests
 			create const
 			create now.make_now
 			day_text := const.days_text.item (now.date.day_of_the_week)
-			day_text.to_proper_case
+			day_text.to_proper
 			lio.put_labeled_string ("Time", day_text + now.formatted_out (", yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss") + " GMT")
 			lio.put_new_line
 		end

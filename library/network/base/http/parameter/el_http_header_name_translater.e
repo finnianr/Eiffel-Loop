@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 15:22:03 GMT (Tuesday 15th August 2023)"
-	revision: "5"
+	date: "2023-12-23 9:24:16 GMT (Saturday 23rd December 2023)"
+	revision: "6"
 
 class
 	EL_HTTP_HEADER_NAME_TRANSLATER
@@ -37,9 +37,9 @@ feature -- Conversion
 
 feature {NONE} -- Constants
 
-	Default_case: NATURAL
+	Default_case: NATURAL_8
 		once
-			Result := {EL_CASE}.title
+			Result := {EL_CASE}.Proper
 		end
 
 	Etag: STRING = "ETag"

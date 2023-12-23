@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:39:53 GMT (Wednesday 8th November 2023)"
-	revision: "26"
+	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
+	revision: "27"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -110,7 +110,7 @@ feature {NONE} -- Implementation
 
 	camel_case_title: EL_NAME_TRANSLATER
 		do
-			Result := camel_case_translater ({EL_CASE}.Title)
+			Result := camel_case_translater ({EL_CASE}.Proper)
 		end
 
 feature {NONE} -- Constants

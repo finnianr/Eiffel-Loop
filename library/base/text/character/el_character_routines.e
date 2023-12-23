@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 10:05:26 GMT (Thursday 9th November 2023)"
-	revision: "25"
+	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
+	revision: "26"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
@@ -30,14 +30,14 @@ feature -- Status query
 		do
 			inspect c
 				when 'a' .. 'z' then
-					if (case_code & {EL_CASE}.Title).to_boolean and then first_i then
+					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
 						Result := False
 					else
 						Result := (case_code & {EL_CASE}.lower).to_boolean
 					end
 
 				when 'A' .. 'Z' then
-					if (case_code & {EL_CASE}.Title).to_boolean and then first_i then
+					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
 						Result := True
 					else
 						Result := (case_code & {EL_CASE}.upper).to_boolean

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 6:27:51 GMT (Thursday 17th August 2023)"
-	revision: "31"
+	date: "2023-12-23 10:15:49 GMT (Saturday 23rd December 2023)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -302,7 +302,7 @@ feature {NONE} -- Implementation
 					when Case_upper then
 						Result.to_upper
 					when Case_proper then
-						Result.to_proper_case
+						Result.to_proper
 				else
 					-- all lower case
 				end

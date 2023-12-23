@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 15:17:47 GMT (Tuesday 15th August 2023)"
-	revision: "9"
+	date: "2023-12-23 9:22:16 GMT (Saturday 23rd December 2023)"
+	revision: "10"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER
@@ -21,7 +21,7 @@ create
 	make, make_case
 
 convert
-	make_case ({NATURAL})
+	make_case ({NATURAL_8})
 
 feature -- Conversion
 
@@ -37,7 +37,7 @@ feature -- Conversion
 					Result.to_lower
 					s.set_upper (Result, 1)
 
-				when {EL_CASE}.title then
+				when {EL_CASE}.Proper then
 					if attached Split_intervals as list then
 						list.wipe_out
 						list.fill (Result, ' ', 0)

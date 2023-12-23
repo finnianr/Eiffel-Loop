@@ -670,3 +670,6 @@ Vision2 model point_array optimizations
 Thu 21st Dec 2023, 19:50:58
 Reorganized structure of base.ecf
 
+Sat 23rd Dec 2023, 15:35:11
+Tried caching block_offset in EL_COMPACT_SUBSTRINGS_32
+

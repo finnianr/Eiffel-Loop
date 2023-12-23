@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 15:11:52 GMT (Friday 22nd December 2023)"
-	revision: "56"
+	date: "2023-12-23 13:44:13 GMT (Saturday 23rd December 2023)"
+	revision: "57"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -197,8 +197,7 @@ feature -- Transformed
 		require
 			valid_left_bracket: across "{[(<" as c some c.item = left_bracket end
 		local
-			right_chararacter: CHARACTER_32
-			offset: NATURAL; left_index, right_index, i: INTEGER
+			right_chararacter: CHARACTER_32; offset: NATURAL; left_index, right_index: INTEGER
 			content: READABLE_STRING_GENERAL
 		do
 			inspect left_bracket

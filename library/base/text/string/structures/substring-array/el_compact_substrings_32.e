@@ -6,14 +6,15 @@ note
 			
 		Each substring is preceded by two 32 bit characters representing the lower and upper index.
 	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "62"
+	date: "2023-12-23 15:55:29 GMT (Saturday 23rd December 2023)"
+	revision: "64"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
@@ -662,7 +663,7 @@ feature -- Element change
 			l_area, current_area: like area
 		do
 			l_area := area; current_area := l_area; i_final := l_area.count
-			from i := 0 until found or i = i_final loop
+			from until found or i = i_final loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
 				count := upper - lower + 1
 				if lower <= index and then index <= upper then
@@ -1073,5 +1074,22 @@ feature -- Duplication
 			create Result.make_from_other (Current)
 			Result.shift (offset)
 		end
+
+note
+	notes: "[
+		23 Dec 2023
+
+		Tried caching offset to [upper, lower] for substrings in `block_offset' but got inferior benchmarks
+		when compared to [$source STRING_32].
+
+			  cached: "$B $C"       9887  +43%
+			uncached: "$B $C"       13269	+21%
+
+			  cached: "$A $B $C $D"	1316  +13%
+			uncached: "$A $B $C $D"	1483  1481
+			
+		But this is probably only for short strings. Made duplicity backup with this date in case I decide
+		to reinstate caching which did infact pass all tests.
+	]"
 
 end
