@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 13:47:37 GMT (Saturday 23rd December 2023)"
-	revision: "39"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "40"
 
 class
 	TEXT_DATA_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 	EL_SHARED_ZCODEC_FACTORY
 
-	EL_ENCODING_CONSTANTS
+	EL_ENCODING_TYPE
 
 	STRING_HANDLER undefine default_create end
 
@@ -41,7 +41,9 @@ feature -- Tests
 	test_zstring_memory_on_boundary
 		-- TEXT_DATA_TEST_SET.test_zstring_memory_on_boundary
 		do
-			assert ("size = 64", Eiffel.physical_size (create {EL_ZSTRING}.make_empty) = 64)
+			assert ("size = 48", Eiffel.physical_size (create {EL_ZSTRING}.make_empty) = 48)
+		-- Adding an INTEGER_32 attribute to ZSTRING will make size = 64 which is
+		-- a 16 byte increase equivalent to 2 x INTEGER_32. So 48 is aligned with some boundary.
 		end
 
 feature -- Basic operations

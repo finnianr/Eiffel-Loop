@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 12:39:57 GMT (Tuesday 5th December 2023)"
-	revision: "36"
+	date: "2023-12-24 17:00:04 GMT (Sunday 24th December 2023)"
+	revision: "37"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -70,6 +70,13 @@ inherit
 
 	PART_COMPARATOR [INTEGER] undefine is_equal, copy, out end
 
+	EL_SHAREABLE_CACHE_TABLE [SPECIAL [READABLE_STRING_GENERAL], INTEGER]
+		rename
+			once_cache_table as Empty_area_table,
+			new_item as new_empty_area,
+			item as empty_area_for_type
+		end
+
 create
 	make_by_string, make_adjusted, make_adjusted_by_string, make_empty, make
 
@@ -77,7 +84,7 @@ feature {NONE} -- Initialization
 
 	make_empty
 		do
-			if attached {like empty_area} Empty_area_factory.item (target_type_id) as l_area then
+			if attached {like empty_area} empty_area_for_type (target_type_id) as l_area then
 				empty_area_v2 := l_area
 			else
 				empty_area_v2 := new_empty_area (target_type_id)
@@ -464,9 +471,9 @@ feature {NONE} -- Constants
 			create Result.make_empty (0)
 		end
 
-	Empty_area_factory: EL_CACHE_TABLE [SPECIAL [READABLE_STRING_GENERAL], INTEGER]
+	Empty_area_table: HASH_TABLE [SPECIAL [READABLE_STRING_GENERAL], INTEGER]
 		once
-			create Result.make (7, agent new_empty_area)
+			create Result.make (7)
 		end
 
 end

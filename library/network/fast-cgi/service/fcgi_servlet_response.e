@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 17:00:25 GMT (Thursday 16th November 2023)"
-	revision: "34"
+	date: "2023-12-24 16:42:22 GMT (Sunday 24th December 2023)"
+	revision: "35"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -21,7 +21,17 @@ inherit
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_UTF_8_ZCODEC
 
+	EL_SHARED_DOCUMENT_TYPES
+		export
+			{ANY} Text_type
+		end
+
 	EL_STRING_8_CONSTANTS
+
+	EL_ENCODING_TYPE
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -73,7 +83,7 @@ feature -- Status query
 		end
 
 	is_encoded: BOOLEAN
-		-- `True' if content is encoded
+		-- `True' if `content' is already encoded as `content_type.encoding'
 
 	is_sent: BOOLEAN
 			-- `True' when response has already had it's status code and headers written.
@@ -140,18 +150,20 @@ feature -- Basic operations
 			end
 		end
 
-	send_error (sc: like status; message: READABLE_STRING_GENERAL; a_content_type: EL_DOC_TYPE)
+	send_error (sc: like status; message: READABLE_STRING_GENERAL; doc_type: NATURAL_8; encoding: NATURAL)
 			-- Send an error response to the client using the specified
 			-- status code and descriptive message. The server generally
 			-- creates the response to look like a normal server error page.
+		require
+			valid_type_and_encoding: Text_type.is_valid_value (doc_type)
 		local
 			code_name: IMMUTABLE_STRING_8; html: ZSTRING
 		do
 			code_name := Http_status.name (sc)
-			content_type := a_content_type
-			if a_content_type.type ~ once "html" then
+			content_type := document_type (doc_type, encoding)
+			if doc_type = Text_type.html then
 				html := Error_page_template #$ [code_name, code_name, message]
-				if a_content_type.encoding.is_utf_encoded then
+				if content_type.encoding.is_utf_encoded then
 					content := html.to_utf_8
 				else
 					content := html.to_latin_1
@@ -172,7 +184,7 @@ feature -- Element change
 			cookie_list.wipe_out
 			header_list.wipe_out
 			content := Empty_string_8
-			content_type := Doc_type_plain_latin_1
+			content_type := document_type (Text_type.plain, Latin_1)
 			content_length := 0
 			set_status (Http_status.ok)
 			write_ok := False
@@ -197,28 +209,31 @@ feature -- Element change
 		end
 
 	set_encoded_content (text: READABLE_STRING_8; type: EL_DOC_TYPE)
+		-- set 8-bit content that is already encode as `type.encoding'
 		require
-			valid_utf_8: type.encoding.encoded_as_utf (8) implies is_valid_utf_8_string_8 (text)
+			valid_utf_8: type.is_utf_8_encoded implies is_valid_utf_8_string_8 (text)
 		do
 			content := text; content_type := type
 			is_encoded := True
 		end
 
-	set_content (text: READABLE_STRING_GENERAL; type: EL_DOC_TYPE)
+	set_content (text: READABLE_STRING_GENERAL; doc_type: NATURAL_8; encoding: NATURAL)
+		require
+			valid_type_and_encoding: Text_type.is_valid_value (doc_type)
 		do
-			if type.encoding.encoded_as_latin (1)
+			if text.is_string_8 and then encoding = Latin_1
 				and then attached {READABLE_STRING_8} text as encoded_text
 			then
-				set_encoded_content (encoded_text, type)
+				set_encoded_content (encoded_text, document_type (doc_type, encoding))
 			else
-				content := text; content_type := type
+				content := text; set_content_type (document_type (doc_type, encoding))
 				is_encoded := False
 			end
 		end
 
 	set_content_ok
 		do
-			content_type := Doc_type_plain_latin_1
+			content_type := document_type (Text_type.plain, Latin_1)
 			content := once "OK"
 		end
 

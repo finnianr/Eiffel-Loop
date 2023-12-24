@@ -1,46 +1,44 @@
 note
-	description: "Shared document types"
+	description: "Shared cache table [$source HASH_TABLE [EL_DOC_TYPE, NATURAL]]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2023-12-24 16:44:35 GMT (Sunday 24th December 2023)"
+	revision: "12"
 
 deferred class
 	EL_SHARED_DOCUMENT_TYPES
 
 inherit
-	EL_ENCODING_CONSTANTS
+	EL_SHAREABLE_CACHE_TABLE [EL_DOC_TYPE, NATURAL]
 		rename
-			Other as Other_class,
-			Latin as Latin_class,
-			Utf as Utf_class,
-			Windows as Windows_class
+			item as cached_document_type
+		end
+
+	EL_SHARED_DOC_TEXT_TYPE_ENUM
+
+feature {NONE} -- Implementation
+
+	new_item (type_and_encoding: NATURAL): EL_DOC_TYPE
+		do
+			Result := type_and_encoding
+		end
+
+	document_type (doc_type, encoding: NATURAL): EL_DOC_TYPE
+		require
+			valid_type_and_encoding: Text_type.is_valid_value (doc_type.to_natural_8)
+		do
+			Result := cached_document_type ((doc_type |<< 16) | encoding)
 		end
 
 feature {NONE} -- Constants
 
-	Doc_type_html_utf_8: EL_DOC_TYPE
+	Once_cache_table: HASH_TABLE [EL_DOC_TYPE, NATURAL]
 		once
-			create Result.make ("html", Utf_8)
-		end
-
-	Doc_type_plain_latin_1: EL_DOC_TYPE
-		once
-			create Result.make ("plain", Latin_1)
-		end
-
-	Doc_type_plain_utf_8: EL_DOC_TYPE
-		once
-			create Result.make ("plain", Utf_8)
-		end
-
-	Doc_type_xml_utf_8: EL_DOC_TYPE
-		once
-			create Result.make ("xml", Utf_8)
+			create Result.make (5)
 		end
 
 end

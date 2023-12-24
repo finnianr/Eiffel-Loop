@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-06 15:57:18 GMT (Wednesday 6th December 2023)"
-	revision: "28"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "29"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -27,6 +27,11 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_DOCUMENT_TYPES; 	EL_SHARED_HTTP_STATUS  EL_SHARED_OPERATING_ENVIRON
+
+	EL_ENCODING_TYPE
+		export
+			{NONE} all
+		end
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -218,7 +223,7 @@ feature {NONE} -- Event handling
 	on_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
 			-- Send error page indicating missing servlet
 		do
-			resp.send_error (Http_status.not_found, "Resource not found", Doc_type_html_utf_8)
+			resp.send_error (Http_status.not_found, "Resource not found", Text_type.html, Utf_8)
 		end
 
 	on_shutdown

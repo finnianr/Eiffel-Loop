@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 11:27:18 GMT (Saturday 23rd December 2023)"
-	revision: "85"
+	date: "2023-12-24 16:08:53 GMT (Sunday 24th December 2023)"
+	revision: "86"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -487,7 +487,7 @@ feature {NONE} -- Constants
 
 	Latin_1_codec: EL_ZCODEC
 		once
-			Result := Codec_factory.codec_by ({EL_ENCODING_CONSTANTS}.Latin_1)
+			Result := Codec_factory.codec_by ({EL_ENCODING_TYPE}.Latin_1)
 		end
 
 	Once_adapted_argument: SPECIAL [ZSTRING]

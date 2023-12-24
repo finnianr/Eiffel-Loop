@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "7"
+	date: "2023-12-24 16:08:55 GMT (Sunday 24th December 2023)"
+	revision: "8"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -59,7 +59,7 @@ feature -- Tests
 			assert ("source exists", file_list.count > 0)
 			html_path := file_list.first_path.with_new_extension ("html")
 			if attached open (html_path, Write) as html_out then
-				html_out.set_encoding ({EL_ENCODING_CONSTANTS}.Latin_1)
+				html_out.set_encoding ({EL_ENCODING_TYPE}.Latin_1)
 				create writer.make (html_out)
 				writer.set_file_path (file_list.first_path)
 				lio.set_timer

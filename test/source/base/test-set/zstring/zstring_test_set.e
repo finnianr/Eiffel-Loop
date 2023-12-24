@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:15:47 GMT (Saturday 23rd December 2023)"
-	revision: "114"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "115"
 
 class
 	ZSTRING_TEST_SET
@@ -288,7 +288,7 @@ feature -- Appending tests
 		 		if line.item.is_valid_as_string_8 then
 			 		test.set (line.item)
 			 		test.zs.wipe_out
-			 		test.zs.append_encoded (test.s_32.to_string_8, {EL_ENCODING_CONSTANTS}.Latin_1)
+			 		test.zs.append_encoded (test.s_32.to_string_8, {EL_ENCODING_TYPE}.Latin_1)
 			 		assert ("same strings", test.is_same)
 		 		end
 		 	end

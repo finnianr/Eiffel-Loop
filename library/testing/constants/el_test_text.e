@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-09 9:28:36 GMT (Saturday 9th December 2023)"
-	revision: "32"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "33"
 
 class
 	EL_TEST_TEXT
@@ -19,7 +19,7 @@ inherit
 
 	EL_SHARED_TEST_NUMBERS
 
-	EL_ENCODING_CONSTANTS
+	EL_ENCODING_TYPE
 
 feature -- Access
 

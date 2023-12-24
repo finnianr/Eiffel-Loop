@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 14:18:33 GMT (Sunday 17th September 2023)"
-	revision: "24"
+	date: "2023-12-24 17:25:24 GMT (Sunday 24th December 2023)"
+	revision: "25"
 
 deferred class
 	EL_ENCODING_BASE
 
 inherit
 	ANY
-	
-	EL_ENCODING_CONSTANTS
+
+	EL_ENCODING_TYPE
 		rename
 			Other as Other_class,
 			Latin as Latin_class,
@@ -23,7 +23,7 @@ inherit
 			Windows as Windows_class
 		export
 			{NONE} all
-			{ANY} Other_class
+			{ANY} Other_class, valid_encoding, valid_windows, valid_utf, valid_latin
 		end
 
 	EL_SHARED_ENCODING_TABLE
@@ -277,56 +277,10 @@ feature -- Contract Support
 			Result := s.same_caseless (name, a_name.to_string_8)
 		end
 
-	frozen valid_encoding (a_encoding: NATURAL): BOOLEAN
-		-- `True' if `a_encoding' is valid Windows, UTF or Latin encoding
-		do
-			inspect a_encoding & Class_mask
-				when Utf_class then
-					Result := valid_utf (a_encoding & ID_mask)
-				when Latin_class then
-					Result := valid_latin (a_encoding & ID_mask)
-				when Windows_class then
-					Result := valid_windows (a_encoding & ID_mask)
-			else
-			end
-		end
-
-	frozen valid_latin (a_id: NATURAL): BOOLEAN
-		do
-			-- ISO 8859-12 was originally proposed to support the Celtic languages.[1] ISO 8859-12 was later
-			-- slated for Latin/Devanagari, but this was abandoned in 1997
-			inspect a_id
-				when 1 .. 11, 13 .. 15 then
-					Result := True
-			else
-			end
-		end
-
 	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if valid Windows, UTF or Latin encoding name
 		do
 			Result := a_name.count > 0 and then valid_encoding (name_to_encoding (a_name))
-		end
-
-	frozen valid_utf (a_id: NATURAL): BOOLEAN
-		do
-			inspect a_id
-				when 9 then
-				-- mixed UTF-8 and Latin-1
-					Result := True
-				when 8, 16, 32 then
-					Result := True
-			else
-			end
-		end
-
-	frozen valid_windows (a_id: NATURAL): BOOLEAN
-		do
-			inspect a_id
-				when 1250 .. 1258 then
-					Result := True
-			else
-			end
 		end
 
 feature {NONE} -- Implementation

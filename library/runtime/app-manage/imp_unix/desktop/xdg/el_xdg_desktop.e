@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 13:43:42 GMT (Thursday 2nd November 2023)"
-	revision: "4"
+	date: "2023-12-24 9:54:05 GMT (Sunday 24th December 2023)"
+	revision: "5"
 
 class
 	EL_XDG_DESKTOP
@@ -56,6 +56,6 @@ feature {NONE} -- Constants
 
 	Snake_case_title: EL_SNAKE_CASE_TRANSLATER
 		once
-			Result := {EL_CASE}.Title
+			Result := {EL_CASE}.Proper
 		end
 end

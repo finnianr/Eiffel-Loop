@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 15:55:29 GMT (Saturday 23rd December 2023)"
-	revision: "64"
+	date: "2023-12-23 16:00:25 GMT (Saturday 23rd December 2023)"
+	revision: "65"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
@@ -1077,10 +1077,10 @@ feature -- Duplication
 
 note
 	notes: "[
-		23 Dec 2023
+		Benchmark 23 Dec 2023
 
 		Tried caching offset to [upper, lower] for substrings in `block_offset' but got inferior benchmarks
-		when compared to [$source STRING_32].
+		when compared to [$source STRING_32]. So reverted to uncached.
 
 			  cached: "$B $C"       9887  +43%
 			uncached: "$B $C"       13269	+21%

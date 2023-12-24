@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 12:05:52 GMT (Saturday 16th September 2023)"
-	revision: "23"
+	date: "2023-12-24 16:08:55 GMT (Sunday 24th December 2023)"
+	revision: "24"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -28,7 +28,7 @@ inherit
 
 	EL_MODULE_STRING_8; EL_MODULE_USER_INPUT
 
-	EL_ENCODING_CONSTANTS
+	EL_ENCODING_TYPE
 
 	GREP_RESULT_CONSTANTS
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2023-12-24 16:39:38 GMT (Sunday 24th December 2023)"
+	revision: "15"
 
 class
 	EL_HTML_DOC_TYPE
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			valid_encoding: Mod_encoding.is_valid (a_encoding)
 		do
 			make_machine
-			make_doc_type ("html", a_encoding)
+			make_with_code ((Text_type.html.to_natural_32 |<< 16) | a_encoding)
 		end
 
 feature -- Element change

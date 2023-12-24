@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 12:14:43 GMT (Thursday 9th November 2023)"
-	revision: "22"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "23"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -167,7 +167,7 @@ feature {NONE} -- Implementation
 			if h2_list.count > 0 then
 				assert ("h2 heading file exists", h2_path.exists)
 				create h2_set.make (11)
-				if attached open_lines (h2_path, {EL_ENCODING_CONSTANTS}.Utf_8) as h2_lines then
+				if attached open_lines (h2_path, {EL_ENCODING_TYPE}.Utf_8) as h2_lines then
 					across h2_lines as line loop
 						h2_set.put (line.item)
 					end

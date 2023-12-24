@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 18:47:09 GMT (Saturday 4th November 2023)"
-	revision: "25"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "26"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -79,7 +79,9 @@ feature -- Basic operations
 
 			check_ip_address (ip_number, Service_port.HTTP)
 
-			response.send_error (Http_status.not_found, once "File not found", Doc_type_plain_latin_1)
+			response.send_error (
+				Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
+			)
 
 			update_day_list; update_firewall
 

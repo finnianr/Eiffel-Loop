@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2023-12-24 16:08:53 GMT (Sunday 24th December 2023)"
+	revision: "20"
 
 frozen class
 	EL_ZCODEC_FACTORY
@@ -26,7 +26,9 @@ inherit
 
 	EL_MODULE_EIFFEL; EL_MODULE_ENCODING
 
-	EL_ENCODING_CONSTANTS
+	EL_ENCODING_TYPE
+		rename
+			valid_encoding as valid_encoding_constant
 		export
 			{NONE} all
 		end

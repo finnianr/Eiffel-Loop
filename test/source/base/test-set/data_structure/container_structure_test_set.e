@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:54:04 GMT (Tuesday 28th March 2023)"
-	revision: "33"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "34"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -28,7 +28,7 @@ inherit
 
 	EL_SHARED_ZCODEC_FACTORY
 
-	EL_ENCODING_CONSTANTS
+	EL_ENCODING_TYPE
 
 create
 	make

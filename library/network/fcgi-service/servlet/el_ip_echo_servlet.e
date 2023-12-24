@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "11"
 
 class
 	EL_IP_ECHO_SERVLET
@@ -28,7 +28,9 @@ feature {NONE} -- Basic operations
 			log.enter ("serve")
 			log.put_labeled_string ("IP", request.parameters.remote_addr)
 			log.put_new_line
-			response.set_content ("Your IP address is: " + request.parameters.remote_addr, Doc_type_plain_latin_1)
+			response.set_content (
+				"Your IP address is: " + request.parameters.remote_addr, Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
+			)
 			log.exit
 		end
 

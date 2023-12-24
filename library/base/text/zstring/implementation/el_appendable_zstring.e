@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 10:32:31 GMT (Saturday 25th November 2023)"
-	revision: "60"
+	date: "2023-12-24 16:08:53 GMT (Sunday 24th December 2023)"
+	revision: "61"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -64,7 +64,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_encodeable (str: READABLE_STRING_8; str_encoding: EL_ENCODING_BASE)
 		do
-			if str_encoding.encoding = {EL_ENCODING_CONSTANTS}.Other then
+			if str_encoding.encoding = {EL_ENCODING_TYPE}.Other then
 				append_encoded_any (str, str_encoding.as_encoding)
 
 			elseif valid_encoding (str_encoding.encoding) then
@@ -97,38 +97,40 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			offset: INTEGER; u: UTF_CONVERTER; r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			-- UTF-16 must be first to test as it can look like ascii
-			if str_encoding = {EL_ENCODING_CONSTANTS}.Utf_16 then
-				append_utf_16_le (str)
+			inspect str_encoding
+				when {EL_ENCODING_TYPE}.Utf_16 then
+					append_utf_16_le (str)
 
-			elseif str_encoding = {EL_ENCODING_CONSTANTS}.Utf_8 then
-				append_utf_8 (str)
-
-			elseif str_encoding = {EL_ENCODING_CONSTANTS}.Mixed_utf_8_latin_1 then
-				if u.is_valid_utf_8_string_8 (str) then
+				when {EL_ENCODING_TYPE}.Utf_8 then
 					append_utf_8 (str)
-				else
-					append_encoded (str, {EL_ENCODING_CONSTANTS}.Latin_1)
-				end
 
-			elseif codec.encoding = str_encoding then
-				append_string_8 (str)
-
-			elseif Codec_factory.valid_encoding (str_encoding)
-				and then attached Codec_factory.codec_by (str_encoding) as l_codec
-				and then attached Once_interval_list.emptied as unencoded_intervals
-			then
-				offset := count; accommodate (str.count)
-				codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
-				if unencoded_intervals.count > 0 and then attached r.shared_cursor (str) as l_cursor then
-					if has_mixed_encoding then
-						append_unencoded_intervals (l_cursor, unencoded_intervals, offset)
+				when {EL_ENCODING_TYPE}.Mixed_utf_8_latin_1 then
+					if u.is_valid_utf_8_string_8 (str) then
+						append_utf_8 (str)
 					else
-						make_from_intervals (l_cursor, unencoded_intervals, offset)
+						append_encoded (str, {EL_ENCODING_TYPE}.Latin_1)
 					end
-					re_encode_intervals (l_codec, unencoded_intervals)
-				end
 			else
-				append_string_8 (str)
+				if codec.encoding = str_encoding then
+					append_string_8 (str)
+
+				elseif Codec_factory.valid_encoding (str_encoding)
+					and then attached Codec_factory.codec_by (str_encoding) as l_codec
+					and then attached Once_interval_list.emptied as unencoded_intervals
+				then
+					offset := count; accommodate (str.count)
+					codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
+					if unencoded_intervals.count > 0 and then attached r.shared_cursor (str) as l_cursor then
+						if has_mixed_encoding then
+							append_unencoded_intervals (l_cursor, unencoded_intervals, offset)
+						else
+							make_from_intervals (l_cursor, unencoded_intervals, offset)
+						end
+						re_encode_intervals (l_codec, unencoded_intervals)
+					end
+				else
+					append_string_8 (str)
+				end
 			end
 		end
 
@@ -521,7 +523,7 @@ feature {STRING_HANDLER} -- Contract support
 		-- `True' when `a_encoding' is `Mixed_utf_8_latin_1', UTF-8/16, Latin, or Windows
 		do
 			inspect a_encoding
-				when {EL_ENCODING_CONSTANTS}.Utf_16, {EL_ENCODING_CONSTANTS}.Mixed_utf_8_latin_1 then
+				when {EL_ENCODING_TYPE}.Utf_16, {EL_ENCODING_TYPE}.Mixed_utf_8_latin_1 then
 					Result := True
 			else
 				Result := Codec_factory.valid_encoding (a_encoding)

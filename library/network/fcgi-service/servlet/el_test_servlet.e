@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
+	revision: "5"
 
 class
 	EL_TEST_SERVLET
@@ -22,7 +22,7 @@ feature {NONE} -- Basic operations
 
 	serve
 		do
-			response.set_content (Hello_page, Doc_type_html_utf_8)
+			response.set_content (Hello_page, Text_type.HTML, {EL_ENCODING_TYPE}.UTF_8)
 		end
 
 	Hello_page: STRING
