@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-26 9:25:09 GMT (Tuesday 26th December 2023)"
-	revision: "12"
+	date: "2023-12-26 20:07:38 GMT (Tuesday 26th December 2023)"
+	revision: "13"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -57,8 +57,8 @@ feature -- Tests
 				covers/{EL_EXPAT_XML_PARSER}.parse_string_and_set_error
 			]"
 		do
-			do_test ("create_xhtml", 3342514762, agent create_xhtml, ["XML/Hexagrams.html"])
-			do_test ("create_xhtml", 744289745, agent create_xhtml, ["XML/Hexagrams.utf8.html"])
+			do_test ("create_xhtml", 4188040180, agent create_xhtml, ["XML/Hexagrams.html"])
+			do_test ("create_xhtml", 656333874, agent create_xhtml, ["XML/Hexagrams.utf8.html"])
 		end
 
 feature {NONE} -- Implementation
@@ -91,6 +91,8 @@ feature {NONE} -- Implementation
 			XHTML_match_events := <<
 				-- Fixed paths
 				[on_open, "/html/head/title/text()", agent on_title (?, title)],
+				[on_open, "/html/head/meta/@content", agent on_meta_content],
+				[on_open, "/html/body/h2/text()", agent on_heading],
 
 				-- Wild card paths
 				[on_open, "//p", agent on_paragraph (?, paragraph_count)]
@@ -105,6 +107,18 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- XPath match event handlers
+
+	on_heading (last_node: EL_DOCUMENT_NODE_STRING)
+		do
+			lio.put_string_field ("h2/text()", last_node.to_string)
+			lio.put_new_line
+		end
+
+	on_meta_content (last_node: EL_DOCUMENT_NODE_STRING)
+		do
+			lio.put_string_field ("content", last_node.to_string.as_canonically_spaced)
+			lio.put_new_line
+		end
 
 	on_paragraph (last_node: EL_DOCUMENT_NODE_STRING; count: INTEGER_REF)
 		do

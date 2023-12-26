@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 9:37:08 GMT (Friday 25th August 2023)"
-	revision: "16"
+	date: "2023-12-26 19:59:26 GMT (Tuesday 26th December 2023)"
+	revision: "17"
 
 class
 	EL_UTF_8_STRING
@@ -220,15 +220,30 @@ feature {NONE} -- Implementation
 		do
 			start_index := 1; end_index := count
 			if adjust_whitespace and then has_padding then
-				trailing_count := trailing_white_count; leading_count := leading_white_count
-				if leading_count > 0 or else trailing_count > 0 then
-					start_index := start_index + leading_count
-					end_index := end_index - trailing_count
-					Result := trailing_count + leading_count
+				leading_count := leading_white_count
+				if leading_count = end_index then
+					end_index := start_index - 1
+				else
+					trailing_count := trailing_white_count
+					if leading_count > 0 or else trailing_count > 0 then
+						start_index := start_index + leading_count
+						end_index := end_index - trailing_count
+					end
 				end
+				Result := trailing_count + leading_count
 			end
 			p.put_integer_32 (start_index, p_start_index)
 			p.put_integer_32 (end_index, p_end_index)
+		ensure
+			valid_result: Result >= 0
+			correct: Result = count - p_value (p_end_index) + p_value (p_start_index) - 1
+		end
+
+	p_value (int_ptr: POINTER): INTEGER
+		local
+			 p: EL_POINTER_ROUTINES
+		do
+			Result := p.read_integer_32 (int_ptr)
 		end
 
 feature {NONE} -- Constants

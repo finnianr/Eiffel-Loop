@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-19 15:58:46 GMT (Tuesday 19th December 2023)"
-	revision: "10"
+	date: "2023-12-26 10:17:08 GMT (Tuesday 26th December 2023)"
+	revision: "11"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -39,6 +39,9 @@ feature -- Access
 feature -- Element change
 
 	set_item (a_area: SPECIAL [C]; offset, a_count: INTEGER)
+		require
+			valid_count: a_count >= 0
+			valid_offset_and_count: a_count > 0 implies a_area.valid_index (offset + a_count - 1)
 		local
 			item_address: POINTER; i, index, value: INTEGER
 		do
