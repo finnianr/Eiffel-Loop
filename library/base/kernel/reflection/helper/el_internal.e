@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:46:22 GMT (Wednesday 8th November 2023)"
-	revision: "26"
+	date: "2023-12-25 11:24:14 GMT (Monday 25th December 2023)"
+	revision: "27"
 
 class
 	EL_INTERNAL
@@ -254,7 +254,7 @@ feature {NONE} -- Implementation
 		local
 			l_type_name: STRING; left_pos, right_pos: INTEGER
 		do
-			l_type_name := Factory_template_table.item (factory_type).twin
+			l_type_name := Factory_template_table.item (factory_type)
 			left_pos := l_type_name.index_of ('[', 1)
 			if left_pos > 0 then
 				right_pos := l_type_name.index_of (']', left_pos + 1)
@@ -265,17 +265,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_template (type: TYPE [ANY]): STRING_8
-		do
-			Result := type.name
-		end
-
 feature {NONE} -- Constants
 
-	Factory_template_table: EL_CACHE_TABLE [STRING_8, TYPE [ANY]]
+	Factory_template_table: EL_AGENT_CACHE_TABLE [IMMUTABLE_STRING_8, TYPE [ANY]]
 		once
-			create Result.make (17, agent new_template)
+			create Result.make (17, agent {TYPE [ANY]}.name)
 		end
+
 	Factory_type_id_table: HASH_TABLE [INTEGER, TYPE [ANY]]
 		once
 			create Result.make (17)

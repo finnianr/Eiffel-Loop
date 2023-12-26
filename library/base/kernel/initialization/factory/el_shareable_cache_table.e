@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:14:29 GMT (Sunday 24th December 2023)"
-	revision: "1"
+	date: "2023-12-25 17:32:47 GMT (Monday 25th December 2023)"
+	revision: "2"
 
 deferred class
 	EL_SHAREABLE_CACHE_TABLE [G, K -> HASHABLE]
@@ -22,18 +22,19 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	item (key: K): G
+	shared_item (key: K): G
 		do
-			if Once_cache_table.has_key (key) then
-				Result := Once_cache_table.found_item
-			else
-				Result := new_item (key)
-				Once_cache_table.extend (Result, key)
+			if attached once_cache_table as table then
+				if table.has_key (key) then
+					Result := table.found_item
+				else
+					Result := new_shared_item (key)
+					table.extend (Result, key)
+				end
 			end
 		end
 
-	new_item (key: K): G
+	new_shared_item (key: K): G
 		deferred
 		end
-
 end

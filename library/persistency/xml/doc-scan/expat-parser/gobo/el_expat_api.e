@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 10:18:21 GMT (Sunday 5th November 2023)"
-	revision: "9"
+	date: "2023-12-26 8:52:08 GMT (Tuesday 26th December 2023)"
+	revision: "10"
 
 class EL_EXPAT_API
 
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Creating and destroying parsers
 
-	exml_XML_ParserCreate (encoding: POINTER): POINTER
+	XML_ParserCreate (encoding: POINTER): POINTER
 			-- Create a new parser; encoding is the encoding
 			-- specified by the external protocol or null if there
 			-- is none specified.
@@ -27,7 +27,7 @@ feature {NONE} -- Creating and destroying parsers
 			"XML_ParserCreate"
 		end
 
-	exml_XML_ParserCreateNS (encoding: POINTER; namespace_separator: CHARACTER): POINTER
+	XML_ParserCreateNS (encoding: POINTER; namespace_separator: CHARACTER): POINTER
 			-- Create a new parser and namespace processor. Element
 			-- type names and attribute names that belong to a namespace
 			-- will be expanded; unprefixed attribute names are never
@@ -45,7 +45,7 @@ feature {NONE} -- Creating and destroying parsers
 			"XML_ParserCreateNS"
 		end
 
-	exml_XML_ParserCreate_MM (encoding, memsuite: POINTER; namespace_separator: POINTER): POINTER
+	XML_ParserCreate_MM (encoding, memsuite: POINTER; namespace_separator: POINTER): POINTER
 			-- Create a new parser using the memory management suit
 			-- referred to by `memsuite'. If `memsuite' is NULL, then use the
 			-- standard library memory suite. If `namespace_separator' is
@@ -60,7 +60,7 @@ feature {NONE} -- Creating and destroying parsers
 			"XML_ParserCreate_MM"
 		end
 
-	exml_XML_ExternalEntityParserCreate (parser_handle: POINTER; context: POINTER; encoding: POINTER): POINTER
+	XML_ExternalEntityParserCreate (parser_handle: POINTER; context: POINTER; encoding: POINTER): POINTER
 			-- Create an XM_Parser object that can parse an external general
 			-- entity;
 			-- `context' is a '\0'-terminated string specifying the parse context;
@@ -88,10 +88,10 @@ feature {NONE} -- Creating and destroying parsers
 			"XML_ExternalEntityParserCreate"
 		end
 
-	exml_XML_ParserFree (parser_handle: POINTER)
+	XML_ParserFree (parser_handle: POINTER)
 			-- Free memory used by the parser.
 			-- If an Eiffel callback has been specified, make sure you
-			-- have called `exml_XM_SetUserData' with a Void argument,
+			-- have called `XML_XM_SetUserData' with a Void argument,
 			-- else your callback is never available for the gc again.
 		external
 			"C (XML_Parser) | <expat.h>"
@@ -101,7 +101,7 @@ feature {NONE} -- Creating and destroying parsers
 
 feature {NONE} -- Parsing
 
-	exml_XML_GetBuffer (a_parser: POINTER; len: INTEGER): POINTER
+	XML_GetBuffer (a_parser: POINTER; len: INTEGER): POINTER
 			-- Obtain a buffer of size len to read a piece of the
 			-- document into. `default_pointer' value is returned if
 			-- expat can't allocate enough memory for this buffer. This
@@ -117,7 +117,7 @@ feature {NONE} -- Parsing
 			we_dont_handle_nil_yet: is_attached (Result)
 		end
 
-	exml_XML_Parse_string (a_parser: POINTER; str: STRING; is_final: BOOLEAN): INTEGER
+	XML_Parse_string (a_parser: POINTER; str: STRING; is_final: BOOLEAN): INTEGER
 			-- Parse some input. Return 0 if a fatal error is
 			-- detected. The last call to XML_Parse must have `is_final'
 			-- true; `str' may be empty.
@@ -132,12 +132,11 @@ feature {NONE} -- Parsing
 			if is_final then
 				int := 1
 			end
-
 			c_str := str.to_c
-			Result := exml_XML_Parse (a_parser, $c_str, str.count, int)
+			Result := XML_Parse (a_parser, $c_str, str.count, int)
 		end
 
-	exml_XML_Parse (a_parser: POINTER; s: POINTER; len: INTEGER; is_final: INTEGER): INTEGER
+	XML_Parse (a_parser: POINTER; s: POINTER; len: INTEGER; is_final: INTEGER): INTEGER
 			-- Parse some input. Return 0 if a fatal error is
 			-- detected. The last call to XML_Parse must have `is_final'
 			-- true; `len' may be zero for this call (or any other).
@@ -151,7 +150,7 @@ feature {NONE} -- Parsing
 			"XML_Parse"
 		end
 
-	exml_XML_ParseBuffer (a_parser: POINTER; len: INTEGER; is_final: INTEGER): INTEGER
+	XML_ParseBuffer (a_parser: POINTER; len: INTEGER; is_final: INTEGER): INTEGER
 			-- This is just like XML_Parse, except in this case expat
 			-- provides the buffer. By obtaining the buffer from expat
 			-- with the XML_GetBuffer function, the application can avoid
@@ -170,7 +169,7 @@ feature {NONE} -- Parsing
 
 feature {NONE} -- Error reporting
 
-	exml_XML_GetErrorCode (a_parser: POINTER): INTEGER
+	XML_GetErrorCode (a_parser: POINTER): INTEGER
 			-- If XML_Parse or XML_ParseBuffer have returned 0, then
 			-- XML_GetErrorCode returns information about the error.
 		require
@@ -181,7 +180,7 @@ feature {NONE} -- Error reporting
 			"XML_GetErrorCode"
 		end
 
-	exml_XML_ErrorString (code: INTEGER): POINTER
+	XML_ErrorString (code: INTEGER): POINTER
 			-- Return a string describing the error.
 		external
 			"C (int): EIF_POINTER | <expat.h>"
@@ -200,7 +199,7 @@ feature {NONE} -- Parse state
 -- report some parse event; in this the location is the location of the
 -- first of the sequence of characters that generated the event.
 
-	exml_XML_GetCurrentLineNumber (a_parser: POINTER): INTEGER
+	XML_GetCurrentLineNumber (a_parser: POINTER): INTEGER
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -209,7 +208,7 @@ feature {NONE} -- Parse state
 			"XML_GetCurrentLineNumber"
 		end
 
-	exml_XML_GetCurrentColumnNumber (a_parser: POINTER): INTEGER
+	XML_GetCurrentColumnNumber (a_parser: POINTER): INTEGER
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -218,7 +217,7 @@ feature {NONE} -- Parse state
 			"XML_GetCurrentColumnNumber"
 		end
 
-	exml_XML_GetCurrentByteIndex (a_parser: POINTER): INTEGER
+	XML_GetCurrentByteIndex (a_parser: POINTER): INTEGER
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -229,7 +228,7 @@ feature {NONE} -- Parse state
 
 feature {NONE} -- Miscellaneous
 
-	exml_XML_ParserReset (a_parser, encoding: POINTER): BOOLEAN
+	XML_ParserReset (a_parser, encoding: POINTER): BOOLEAN
 			-- Supposed to reset parser but doesn't seem to work
 			-- Better to create new one each time
 		require
@@ -240,7 +239,7 @@ feature {NONE} -- Miscellaneous
 			"XML_ParserReset"
 		end
 
-	exml_XML_SetUserData (a_parser, a_callback: POINTER)
+	XML_SetUserData (a_parser, a_callback: POINTER)
 
 			-- This value is passed as the userData argument to
 			-- callbacks.
@@ -252,7 +251,7 @@ feature {NONE} -- Miscellaneous
 			"XML_SetUserData"
 		end
 
-	exml_XML_SetBase_string (a_parser: POINTER; a_base: STRING): BOOLEAN
+	XML_SetBase_string (a_parser: POINTER; a_base: STRING): BOOLEAN
 			-- Set the base to be used for resolving relative URIs in
 			-- system identifiers in declarations. Resolving relative
 			-- identifiers is left to the application: this value will be
@@ -270,10 +269,10 @@ feature {NONE} -- Miscellaneous
 
 		do
 			c_str := a_base.to_c
-			Result := exml_XML_SetBase (a_parser, $c_str)
+			Result := XML_SetBase (a_parser, $c_str)
 		end
 
-	exml_XML_SetBase (a_parser: POINTER; a_base: POINTER): BOOLEAN
+	XML_SetBase (a_parser: POINTER; a_base: POINTER): BOOLEAN
 			-- Set the base to be used for resolving relative URIs in
 			-- system identifiers in declarations. Resolving relative
 			-- identifiers is left to the application: this value will be
@@ -291,7 +290,7 @@ feature {NONE} -- Miscellaneous
 			"XML_SetBase"
 		end
 
-	exml_XML_GetBase (a_parser: POINTER): POINTER
+	XML_GetBase (a_parser: POINTER): POINTER
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -300,7 +299,7 @@ feature {NONE} -- Miscellaneous
 			"XML_GetBase"
 		end
 
-	exml_XML_SetParamEntityParsing (a_parser: POINTER; parsing: INTEGER): BOOLEAN
+	XML_SetParamEntityParsing (a_parser: POINTER; parsing: INTEGER): BOOLEAN
 			-- Control parsing of parameter entities (including the
 			-- external DTD subset). If parsing of parameter entities is
 			-- enabled, then references to external parameter entities
@@ -331,7 +330,7 @@ feature {NONE} -- Miscellaneous
 			"XML_SetParamEntityParsing"
 		end
 
-	exml_XML_ExpatVersion: POINTER
+	XML_ExpatVersion: POINTER
 			-- Return a string containing the version number of this expat
 		external
 			"C (): EIF_POINTER | <expat.h>"
@@ -339,7 +338,7 @@ feature {NONE} -- Miscellaneous
 			"XML_ExpatVersion"
 		end
 
-feature {NONE} -- Encoding structure
+feature {NONE} -- Struct XML_Encoding
 
 --		typedef struct {
 --		  int map[256];
@@ -348,44 +347,44 @@ feature {NONE} -- Encoding structure
 --		  void (*release)(void *data);
 --		} XML_Encoding;
 
-	exml_encoding_info_map (struct_ptr: POINTER): POINTER
+	XML_encoding_info_map (struct_ptr: POINTER): POINTER
 		external
 			"C [struct <expat.h>] (XML_Encoding): EIF_POINTER"
 		alias
 			"map"
 		end
 
-	exml_set_encoding_info_callback_object (struct_ptr, callback_object: POINTER)
+	XML_set_encoding_info_callback_object (struct_ptr, callback_object: POINTER)
 		external
 			"C [struct <expat.h>] (XML_Encoding, void*)"
 		alias
 			"data"
 		end
 
-	exml_set_encoding_info_convert_callback (struct_ptr, convert_function: POINTER)
+	XML_set_encoding_info_convert_callback (struct_ptr, convert_function: POINTER)
 		external
 			"C [struct <expat.h>] (XML_Encoding, void*)"
 		alias
 			"convert"
 		end
 
-	exml_set_encoding_info_release_callback (struct_ptr, release_function: POINTER)
+	XML_set_encoding_info_release_callback (struct_ptr, release_function: POINTER)
 		external
 			"C [struct <expat.h>] (XML_Encoding, void*)"
 		alias
 			"release"
 		end
 
-	exml_XML_encoding_size: INTEGER
+	XML_encoding_size: INTEGER
 		external
 			"C [macro <expat.h>]: EIF_INTEGER"
 		alias
 			"sizeof(XML_Encoding)"
 		end
 
-feature {NONE} -- Handlers
+feature {NONE} -- XML_Parser handlers
 
-	exml_XML_SetElementDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetElementDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -394,7 +393,7 @@ feature {NONE} -- Handlers
 			"XML_SetElementDeclHandler"
 		end
 
-	exml_XML_SetAttlistDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetAttlistDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -403,7 +402,7 @@ feature {NONE} -- Handlers
 			"XML_SetAttlistDeclHandler"
 		end
 
-	exml_XML_SetXmlDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetXmlDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -412,7 +411,7 @@ feature {NONE} -- Handlers
 			"XML_SetXmlDeclHandler"
 		end
 
-	exml_XML_SetEntityDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetEntityDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -421,7 +420,7 @@ feature {NONE} -- Handlers
 			"XML_SetEntityDeclHandler"
 		end
 
-	exml_XML_SetElementHandler (a_parser, a_start, a_end: POINTER)
+	XML_SetElementHandler (a_parser, a_start, a_end: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -430,7 +429,7 @@ feature {NONE} -- Handlers
 			"XML_SetElementHandler"
 		end
 
-	exml_XML_SetStartElementHandler (a_parser, a_handler: POINTER)
+	XML_SetStartElementHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -439,7 +438,7 @@ feature {NONE} -- Handlers
 			"XML_SetStartElementHandler"
 		end
 
-	exml_XML_SetEndElementHandler (a_parser, a_hanlder: POINTER)
+	XML_SetEndElementHandler (a_parser, a_hanlder: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -448,7 +447,7 @@ feature {NONE} -- Handlers
 			"XML_SetEndElementHandler"
 		end
 
-	exml_XML_SetCharacterDataHandler (a_parser, a_hanlder: POINTER)
+	XML_SetCharacterDataHandler (a_parser, a_hanlder: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -457,7 +456,7 @@ feature {NONE} -- Handlers
 			"XML_SetCharacterDataHandler"
 		end
 
-	exml_XML_SetProcessingInstructionHandler (a_parser, a_hanlder: POINTER)
+	XML_SetProcessingInstructionHandler (a_parser, a_hanlder: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -466,7 +465,7 @@ feature {NONE} -- Handlers
 			"XML_SetProcessingInstructionHandler"
 		end
 
-	exml_XML_SetCommentHandler (a_parser, a_hanlder: POINTER)
+	XML_SetCommentHandler (a_parser, a_hanlder: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -475,7 +474,7 @@ feature {NONE} -- Handlers
 			"XML_SetCommentHandler"
 		end
 
-	exml_XML_SetCdataSectionHandler (a_parser, a_start, a_end: POINTER)
+	XML_SetCdataSectionHandler (a_parser, a_start, a_end: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -484,7 +483,7 @@ feature {NONE} -- Handlers
 			"XML_SetCdataSectionHandler"
 		end
 
-	exml_XML_SetStartCdataSectionHandler (a_parser, a_hanlder: POINTER)
+	XML_SetStartCdataSectionHandler (a_parser, a_hanlder: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -493,7 +492,7 @@ feature {NONE} -- Handlers
 			"XML_SetStartCdataSectionHandler"
 		end
 
-	exml_XML_SetEndCdataSectionHandler (a_parser, a_hanlder: POINTER)
+	XML_SetEndCdataSectionHandler (a_parser, a_hanlder: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -502,7 +501,7 @@ feature {NONE} -- Handlers
 			"XML_SetEndCdataSectionHandler"
 		end
 
-	exml_XML_SetDefaultHandler (a_parser, a_hanlder: POINTER)
+	XML_SetDefaultHandler (a_parser, a_hanlder: POINTER)
 			-- Set default handler and also inhibits expansion
 			-- of internal entities.
 			-- The entity reference will be passed to the default handler.
@@ -514,7 +513,7 @@ feature {NONE} -- Handlers
 			"XML_SetDefaultHandler"
 		end
 
-	exml_XML_SetDefaultHandlerExpand (a_parser, a_hanlder: POINTER)
+	XML_SetDefaultHandlerExpand (a_parser, a_hanlder: POINTER)
 			-- Set default handler but does not inhibit
 			-- expansion of internal entities.
 			-- The entity reference will not be passed to the default handler.
@@ -526,7 +525,7 @@ feature {NONE} -- Handlers
 			"XML_SetDefaultHandlerExpand"
 		end
 
-	exml_XML_SetDoctypeDeclHandler (a_parser, a_start, a_end: POINTER)
+	XML_SetDoctypeDeclHandler (a_parser, a_start, a_end: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -535,7 +534,7 @@ feature {NONE} -- Handlers
 			"XML_SetDoctypeDeclHandler"
 		end
 
-	exml_XML_SetStartDoctypeDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetStartDoctypeDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -544,7 +543,7 @@ feature {NONE} -- Handlers
 			"XML_SetStartDoctypeDeclHandler"
 		end
 
-	exml_XML_SetEndDoctypeDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetEndDoctypeDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -553,7 +552,7 @@ feature {NONE} -- Handlers
 			"XML_SetEndDoctypeDeclHandler"
 		end
 
-	exml_XML_SetNotationDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetNotationDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -562,7 +561,7 @@ feature {NONE} -- Handlers
 			"XML_SetNotationDeclHandler"
 		end
 
-	exml_XML_SetNamespaceDeclHandler (a_parser, a_start, a_end: POINTER)
+	XML_SetNamespaceDeclHandler (a_parser, a_start, a_end: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -571,7 +570,7 @@ feature {NONE} -- Handlers
 			"XML_SetNamespaceDeclHandler"
 		end
 
-	exml_XML_SetStartNamespaceDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetStartNamespaceDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -580,7 +579,7 @@ feature {NONE} -- Handlers
 			"XML_SetStartNamespaceDeclHandler"
 		end
 
-	exml_XML_SetEndNamespaceDeclHandler (a_parser, a_handler: POINTER)
+	XML_SetEndNamespaceDeclHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -589,7 +588,7 @@ feature {NONE} -- Handlers
 			"XML_SetEndNamespaceDeclHandler"
 		end
 
-	exml_XML_SetNotStandaloneHandler (a_parser, a_handler: POINTER)
+	XML_SetNotStandaloneHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -598,7 +597,7 @@ feature {NONE} -- Handlers
 			"XML_SetNotStandaloneHandler"
 		end
 
-	exml_XML_SetExternalEntityRefHandler (a_parser, a_handler: POINTER)
+	XML_SetExternalEntityRefHandler (a_parser, a_handler: POINTER)
 		require
 			a_parser_attached: is_attached (a_parser)
 		external
@@ -607,7 +606,7 @@ feature {NONE} -- Handlers
 			"XML_SetExternalEntityRefHandler"
 		end
 
-	exml_XML_SetExternalEntityRefHandlerArg (a_parser: POINTER; a_arg: POINTER)
+	XML_SetExternalEntityRefHandlerArg (a_parser: POINTER; a_arg: POINTER)
 
 		require
 			a_parser_attached: is_attached (a_parser)
@@ -617,7 +616,7 @@ feature {NONE} -- Handlers
 			"XML_SetExternalEntityRefHandlerArg"
 		end
 
-	exml_XML_SetUnknownEncodingHandler (a_parser, a_handler, object: POINTER)
+	XML_SetUnknownEncodingHandler (a_parser, a_handler, object: POINTER)
 			--
 		require
 			a_parser_attached: is_attached (a_parser)
@@ -918,14 +917,14 @@ feature -- XML_Error enum
 
 feature -- XML_cp members
 
-	exml_XML_cp_size: INTEGER
+	XML_cp_size: INTEGER
 		external
 			"C [macro <expat.h>]: EIF_INTEGER"
 		alias
 			"sizeof(XML_Content)"
 		end
 
-	exml_XML_cp_type (cp: POINTER): INTEGER
+	XML_cp_type (cp: POINTER): INTEGER
 		require
 			have_struct_pointer: is_attached (cp)
 		external
@@ -934,7 +933,7 @@ feature -- XML_cp members
 			"type"
 		end
 
-	exml_XML_cp_quant (cp: POINTER): INTEGER
+	XML_cp_quant (cp: POINTER): INTEGER
 			--
 		require
 			have_struct_pointer: is_attached (cp)
@@ -944,7 +943,7 @@ feature -- XML_cp members
 			"quant"
 		end
 
-	exml_XML_cp_name (cp: POINTER): POINTER
+	XML_cp_name (cp: POINTER): POINTER
 			--
 		require
 			have_struct_pointer: is_attached (cp)
@@ -954,7 +953,7 @@ feature -- XML_cp members
 			"name"
 		end
 
-	exml_XML_cp_numchildren (cp: POINTER): INTEGER
+	XML_cp_numchildren (cp: POINTER): INTEGER
 		require
 			have_struct_pointer: is_attached (cp)		external
 			"C [struct <expat.h>] (struct XML_cp): EIF_INTEGER"
@@ -962,30 +961,30 @@ feature -- XML_cp members
 			"numchildren"
 		end
 
-	exml_XML_cp_children_0 (cp: POINTER): POINTER
+	XML_cp_children_0 (cp: POINTER): POINTER
 		external
 			"C [struct <expat.h>] (struct XML_cp): EIF_INTEGER"
 		alias
 			"children"
 		end
 
-	exml_XML_cp_children (cp: POINTER; index: INTEGER): POINTER
+	XML_cp_children (cp: POINTER; index: INTEGER): POINTER
 		require
 			have_struct_pointer: is_attached (cp)
-			valid_index: index >= 0 and index < exml_XML_cp_numchildren (cp)
+			valid_index: index >= 0 and index < XML_cp_numchildren (cp)
 		local
 			children: POINTER
 		do
-			children := exml_XML_cp_children_0 (cp)
+			children := XML_cp_children_0 (cp)
 
-			Result := children + (index * exml_XML_cp_size)
+			Result := children + (index * XML_cp_size)
 		ensure
 			valid_struct: is_attached (Result)
 		end
 
 feature -- XML_Content freeing
 
-	exml_XML_cp_free (cp: POINTER)
+	XML_cp_free (cp: POINTER)
 			-- Free the Expat allocated XML_Content struct by assuming it
 			-- has been allocated by malloc so free likes it.
 		require
@@ -998,7 +997,7 @@ feature -- XML_Content freeing
 
 feature {NONE} -- Implementation
 
-	exml_XML_GetUserData (a_parser: POINTER): POINTER
+	XML_GetUserData (a_parser: POINTER): POINTER
 			-- Last value set by XML_SetUserData or null.
 		require
 			a_parser_attached: is_attached (a_parser)

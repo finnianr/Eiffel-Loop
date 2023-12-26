@@ -14,20 +14,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-02 17:38:29 GMT (Saturday 2nd December 2023)"
-	revision: "8"
+	date: "2023-12-25 14:57:54 GMT (Monday 25th December 2023)"
+	revision: "9"
 
 expanded class
 	EL_BIT_ROUTINES
 
 inherit
 	EL_BIT_ROUTINES_I
+
+	EL_EXPANDED_ROUTINES
+
+	EL_BIT_POPULATION_ROUTINES
 		rename
 			precomputed_ones_count_32 as ones_count_32,
 			precomputed_ones_count_64 as ones_count_64
 		end
-
-	EL_EXPANDED_ROUTINES
 
 	EL_WINDOWS_IMPLEMENTATION
 

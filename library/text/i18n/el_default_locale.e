@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 9:42:06 GMT (Wednesday 28th June 2023)"
-	revision: "20"
+	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
+	revision: "21"
 
 deferred class
 	EL_DEFAULT_LOCALE
@@ -96,7 +96,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	other_locales: EL_CACHE_TABLE [EL_LOCALE, STRING]
+	other_locales: EL_AGENT_CACHE_TABLE [EL_LOCALE, STRING]
 
 feature {NONE} -- Constants
 

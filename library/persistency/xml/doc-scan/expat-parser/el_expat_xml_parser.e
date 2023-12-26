@@ -11,16 +11,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 17:13:58 GMT (Monday 13th November 2023)"
-	revision: "26"
+	date: "2023-12-26 9:15:45 GMT (Tuesday 26th December 2023)"
+	revision: "27"
 
 class
 	EL_EXPAT_XML_PARSER
 
 inherit
-	EL_PARSE_EVENT_SOURCE
-		redefine
-			make, has_error, log_error
+	EL_OWNED_C_OBJECT
+		rename
+			c_free as XML_parserfree
+		export
+			{NONE} all
 		end
 
 	EL_EXPAT_API
@@ -28,11 +30,9 @@ inherit
 			{NONE} all
 		end
 
-	EL_OWNED_C_OBJECT
-		rename
-			c_free as exml_xml_parserfree
-		export
-			{NONE} all
+	EL_PARSE_EVENT_SOURCE
+		redefine
+			make, has_error, log_error
 		end
 
 	EL_C_CALLABLE
@@ -70,9 +70,9 @@ feature {NONE}  -- Initialisation
 			--
 		do
 			Precursor
-			make_from_pointer (exml_xml_parsercreate (Default_pointer))
+			make_from_pointer (XML_parsercreate (Default_pointer))
 			if not is_attached (self_ptr) then
-				Exception.raise_developer ("{%S} failed to create parser with exml_xml_parsercreate", [generator])
+				Exception.raise_developer ("{%S} failed to create parser with XML_parsercreate", [generator])
 			end
 			is_correct := true
 			last_error := xml_err_none
@@ -151,7 +151,7 @@ feature -- Error reporting
 	last_error_description: STRING
 		-- textual description of last error
 		do
-			create Result.make_from_c (exml_xml_errorstring (last_internal_error))
+			create Result.make_from_c (XML_errorstring (last_internal_error))
 		end
 
 	last_internal_error: INTEGER
@@ -207,12 +207,10 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 			-- parse `a_data' (which may be empty).
 			-- set the error flags according to result.
 			-- `is_final' signals end of data input.
-		require
-			a_data_not_void: a_data /= void
 		local
 			int_result: integer
 		do
-			int_result := exml_xml_parse_string (self_ptr, a_data, is_final)
+			int_result := XML_parse_string (self_ptr, a_data, is_final)
 			set_error_from_parse_result (int_result)
 		end
 
@@ -255,24 +253,24 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 			if error then
 				is_correct := false
 				last_error := xml_err_unknown
-				last_internal_error := exml_xml_geterrorcode (self_ptr)
+				last_internal_error := XML_geterrorcode (self_ptr)
 			end
 		end
 
 	set_fixed_address (fixed_address_ptr: POINTER)
 			-- Register Expat callback object
 		do
-			exml_XML_SetUserData (self_ptr, fixed_address_ptr)
-			exml_XML_SetExternalEntityRefHandlerArg (self_ptr, fixed_address_ptr)
---			exml_XML_SetUnknownEncodingHandler (self_ptr, $on_unknown_encoding, fixed_address_ptr)
+			XML_SetUserData (self_ptr, fixed_address_ptr)
+			XML_SetExternalEntityRefHandlerArg (self_ptr, fixed_address_ptr)
+--			XML_SetUnknownEncodingHandler (self_ptr, $on_unknown_encoding, fixed_address_ptr)
 
-			exml_XML_setElementHandler (self_ptr, $on_start_tag_parsed, $on_end_tag_parsed)
-			exml_XML_setCommentHandler (self_ptr, $on_comment_parsed)
-			exml_XML_setCharacterDatahandler (self_ptr, $on_content_parsed)
-			exml_XML_setProcessingInstructionHandler (self_ptr, $on_processing_instruction_parsed)
-			exml_XML_SetXmlDeclHandler (self_ptr, $on_xml_tag_declaration_parsed)
+			XML_setElementHandler (self_ptr, $on_start_tag_parsed, $on_end_tag_parsed)
+			XML_setCommentHandler (self_ptr, $on_comment_parsed)
+			XML_setCharacterDatahandler (self_ptr, $on_content_parsed)
+			XML_setProcessingInstructionHandler (self_ptr, $on_processing_instruction_parsed)
+			XML_SetXmlDeclHandler (self_ptr, $on_xml_tag_declaration_parsed)
 		ensure then
-			user_data_set: exml_XML_GetUserData (self_ptr) = fixed_address_ptr
+			user_data_set: XML_GetUserData (self_ptr) = fixed_address_ptr
 		end
 
 	set_last_state (next_state: like last_state)
@@ -291,7 +289,7 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 		local
 			base_ptr: pointer
 		do
-			base_ptr := exml_xml_getbase (self_ptr)
+			base_ptr := XML_getbase (self_ptr)
 			create Result.make_from_c (base_ptr)
 		ensure
 			relative_uri_base_not_void: result /= void
@@ -301,7 +299,7 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 	last_line_number: integer
 			-- current line number
 		do
-			Result := exml_xml_getcurrentlinenumber (self_ptr)
+			Result := XML_getcurrentlinenumber (self_ptr)
 			if Result < 1 then
 				Result := 1
 			end
@@ -312,7 +310,7 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 	last_column_number: integer
 			-- current column number
 		do
-			Result := exml_xml_getcurrentcolumnnumber (self_ptr) + 1
+			Result := XML_getcurrentcolumnnumber (self_ptr) + 1
 			if Result < 1 then
 				Result := 1
 			end
@@ -323,7 +321,7 @@ feature {EL_PARSER_OUTPUT_MEDIUM} -- Implementation
 	last_byte_index: integer
 			-- current byte index
 		do
-			Result := exml_xml_getcurrentbyteindex (self_ptr) + 1
+			Result := XML_getcurrentbyteindex (self_ptr) + 1
 			if Result < 1 then
 				Result := 1
 			end
@@ -434,7 +432,7 @@ feature {NONE} -- Expat callbacks
 			check
 				encoding_set: name ~ encoding_name
 			end
-			create encoding_info.share_from_pointer (exml_encoding_info_map (encoding_info_ptr), exml_XML_encoding_size)
+			create encoding_info.share_from_pointer (XML_encoding_info_map (encoding_info_ptr), XML_encoding_size)
 			if Codec_factory.has_codec (Current) then
 				codec := Codec_factory.codec (Current)
 				unicode_table := codec.unicode_table
@@ -442,9 +440,9 @@ feature {NONE} -- Expat callbacks
 					encoding_info.put_natural_32 (unicode_table.item (i).natural_32_code, i)
 					i := i + 1
 				end
-				exml_set_encoding_info_callback_object (encoding_info_ptr, Default_pointer)
-				exml_set_encoding_info_convert_callback (encoding_info_ptr, Default_pointer)
-				exml_set_encoding_info_release_callback (encoding_info_ptr, Default_pointer)
+				XML_set_encoding_info_callback_object (encoding_info_ptr, Default_pointer)
+				XML_set_encoding_info_convert_callback (encoding_info_ptr, Default_pointer)
+				XML_set_encoding_info_release_callback (encoding_info_ptr, Default_pointer)
 				Result := XML_status_ok
 			else
 				Result := XML_status_error
@@ -479,7 +477,7 @@ feature {NONE} -- Constants
 	Expat_version: STRING
 			-- expat library version (e.g. "expat_1.95.5").
 		once
-			create Result.make_from_c (exml_xml_expatversion)
+			create Result.make_from_c (XML_expatversion)
 		end
 
 end

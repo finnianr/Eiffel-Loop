@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:18:11 GMT (Thursday 17th August 2023)"
-	revision: "40"
+	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
+	revision: "41"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -227,7 +227,7 @@ feature {NONE} -- Constants
 			Result := "{%S}.template"
 		end
 
-	Template_names: EL_CACHE_TABLE [FILE_PATH, INTEGER]
+	Template_names: EL_AGENT_CACHE_TABLE [FILE_PATH, INTEGER]
 		once
 			create Result.make (7, agent new_template_name)
 		end

@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-12-25 17:31:14 GMT (Monday 25th December 2023)"
+	revision: "9"
 
 deferred class
 	EL_SHARED_INITIALIZER [G -> EL_INITIALIZEABLE create make end]
 
 inherit
-	EL_ANY_SHARED
+	EL_SHAREABLE_CACHE_TABLE [EL_INITIALIZEABLE, TYPE [EL_INITIALIZEABLE]]
 
 feature -- Access
 
 	item: G
 			--
 		do
-			if attached {G} Item_table.item ({G}) as l_result then
+			if attached {G} shared_item ({G}) as l_result then
 				Result := l_result
 			else
 				create Result.make
@@ -29,7 +29,7 @@ feature -- Access
 
 feature {EL_SHARED_INITIALIZER} -- Implementation
 
-	new_item (type: TYPE [EL_INITIALIZEABLE]): G
+	new_shared_item (type: TYPE [EL_INITIALIZEABLE]): G
 			--
 		do
 			create Result.make
@@ -37,9 +37,9 @@ feature {EL_SHARED_INITIALIZER} -- Implementation
 
 feature {NONE} -- Constants
 
-	Item_table: EL_CACHE_TABLE [EL_INITIALIZEABLE, TYPE [EL_INITIALIZEABLE]]
+	Once_cache_table: HASH_TABLE [EL_INITIALIZEABLE, TYPE [EL_INITIALIZEABLE]]
 		once
-			create Result.make (11, agent new_item)
+			create Result.make (11)
 		end
 
 end

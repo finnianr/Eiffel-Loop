@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:05:27 GMT (Monday 27th November 2023)"
-	revision: "41"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "42"
 
 class
 	EL_TUPLE_ROUTINES
@@ -460,7 +460,7 @@ feature {NONE} -- Internal attributes
 
 	procedure: EL_PROCEDURE
 
-	types_table: EL_CACHE_TABLE [EL_TUPLE_TYPE_ARRAY, INTEGER]
+	types_table: EL_AGENT_CACHE_TABLE [EL_TUPLE_TYPE_ARRAY, INTEGER]
 
 feature -- Contract Support
 

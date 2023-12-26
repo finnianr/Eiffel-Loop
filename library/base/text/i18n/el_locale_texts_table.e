@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-12-25 10:40:16 GMT (Monday 25th December 2023)"
+	revision: "7"
 
 class
 	EL_LOCALE_TEXTS_TABLE [TEXTS -> EL_REFLECTIVE_LOCALE_TEXTS create make, make_with_locale end]
@@ -18,7 +18,8 @@ class
 inherit
 	EL_CACHE_TABLE [TEXTS, STRING]
 		rename
-			make as make_cached,
+			make as make_table,
+			new_item as new_texts,
 			item as item_text
 		export
 			{NONE} all
@@ -34,7 +35,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_cached (Locale.all_languages.count, agent new_texts)
+			make_table (Locale.all_languages.count)
 		end
 
 feature {NONE} -- Implementation

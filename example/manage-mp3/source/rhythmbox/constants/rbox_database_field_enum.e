@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 10:54:09 GMT (Monday 14th August 2023)"
-	revision: "15"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "16"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -360,6 +360,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	element_cache_table: EL_CACHE_TABLE [XML_TEXT_ELEMENT, NATURAL_16]
+	element_cache_table: EL_AGENT_CACHE_TABLE [XML_TEXT_ELEMENT, NATURAL_16]
 
 end

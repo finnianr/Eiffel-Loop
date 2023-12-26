@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2023-12-25 17:35:09 GMT (Monday 25th December 2023)"
+	revision: "9"
 
 deferred class
 	EL_EXTERNAL_LIBRARY [G -> EL_INITIALIZEABLE create make end]
@@ -21,10 +21,10 @@ inherit
 feature {NONE}  -- Initialization
 
 	initialize_library
-		local
-			l_library: like library
 		do
-			l_library := library
+			if attached library then
+				do_nothing
+			end
 		ensure
 			initialized: library.is_initialized
 		end

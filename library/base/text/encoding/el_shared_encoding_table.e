@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 13:28:35 GMT (Monday 10th July 2023)"
-	revision: "5"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "6"
 
 deferred class
 	EL_SHARED_ENCODING_TABLE
@@ -35,7 +35,7 @@ feature {NONE} -- Constants
 
 	Prefix_cp: STRING = "cp"
 
-	Encoding_table: EL_CACHE_TABLE [ENCODING, STRING]
+	Encoding_table: EL_AGENT_CACHE_TABLE [ENCODING, STRING]
 		once
 			create Result.make_equal (5, agent new_encoding)
 			across Encodings.standard as encoding loop

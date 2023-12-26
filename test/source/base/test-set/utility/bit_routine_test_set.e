@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 14:08:57 GMT (Sunday 3rd December 2023)"
-	revision: "11"
+	date: "2023-12-25 15:03:17 GMT (Monday 25th December 2023)"
+	revision: "12"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -38,20 +38,24 @@ feature -- Tests
 		-- BIT_ROUTINE_TEST_SET.test_bit_routines
 		local
 			leading_zeros, trailing_zeros, leading_result, trailing_result, n, precomputed_n: INTEGER
-			l_bit: EL_BIT_ROUTINES; i, mask: NATURAL
+			l_bit: EL_BIT_ROUTINES; pop: EL_BIT_POPULATION_ROUTINES
+			i, mask: NATURAL
 		do
-			across << 32, 64 >> as bit_count loop
-				across Bit_count_table as table loop
-					inspect bit_count.item
-						when 32 then
-							n := l_bit.ones_count_32 (table.item) -- on gcc: __builtin_popcount
-							precomputed_n := l_bit.precomputed_ones_count_32 (table.item)
-						when 64 then
-							n := l_bit.ones_count_64 (table.item.to_natural_64) -- on gcc: __builtin_popcountll
-							precomputed_n := l_bit.precomputed_ones_count_64 (table.item.to_natural_64)
+			if {PLATFORM}.is_unix then
+			-- check builtin popcount equal to partially precomputed
+				across << 32, 64 >> as bit_count loop
+					across Bit_count_table as table loop
+						inspect bit_count.item
+							when 32 then
+								n := l_bit.ones_count_32 (table.item) -- on gcc: __builtin_popcount
+								precomputed_n := pop.precomputed_ones_count_32 (table.item)
+							when 64 then
+								n := l_bit.ones_count_64 (table.item.to_natural_64) -- on gcc: __builtin_popcountll
+								precomputed_n := pop.precomputed_ones_count_64 (table.item.to_natural_64)
+						end
+						assert ("ones count is " + table.key.out, n = table.key)
+						assert ("same as precomputed", n = precomputed_n)
 					end
-					assert ("ones count is " + table.key.out, n = table.key)
-					assert ("same as precomputed", n = precomputed_n)
 				end
 			end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:53 GMT (Sunday 24th December 2023)"
-	revision: "20"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "21"
 
 frozen class
 	EL_ZCODEC_FACTORY
@@ -177,7 +177,7 @@ feature {NONE} -- Constants
 
 	Codec_option_name: STRING = "-zstring_codec"
 
-	Codec_table: EL_CACHE_TABLE [EL_ZCODEC, NATURAL]
+	Codec_table: EL_AGENT_CACHE_TABLE [EL_ZCODEC, NATURAL]
 		once
 			create Result.make_equal (30, agent new_codec)
 		end

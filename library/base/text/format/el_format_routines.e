@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 6:54:13 GMT (Monday 27th November 2023)"
-	revision: "6"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "7"
 
 class
 	EL_FORMAT_ROUTINES
@@ -125,7 +125,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	format_table: EL_CACHE_TABLE [FORMAT_INTEGER, INTEGER]
+	format_table: EL_AGENT_CACHE_TABLE [FORMAT_INTEGER, INTEGER]
 
 feature {NONE} -- Constants
 

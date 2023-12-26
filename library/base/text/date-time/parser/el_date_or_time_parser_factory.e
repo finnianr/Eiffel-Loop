@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 10:15:41 GMT (Friday 23rd December 2022)"
-	revision: "1"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "2"
 
 class
 	EL_DATE_OR_TIME_PARSER_FACTORY
@@ -53,8 +53,8 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	code_string_table: EL_CACHE_TABLE [like code_string, STRING]
+	code_string_table: EL_AGENT_CACHE_TABLE [like code_string, STRING]
 
-	parser_table: EL_CACHE_TABLE [like date_time_parser, STRING]
+	parser_table: EL_AGENT_CACHE_TABLE [like date_time_parser, STRING]
 
 end

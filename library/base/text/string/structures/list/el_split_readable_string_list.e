@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 17:00:04 GMT (Sunday 24th December 2023)"
-	revision: "37"
+	date: "2023-12-25 17:31:33 GMT (Monday 25th December 2023)"
+	revision: "38"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -73,8 +73,8 @@ inherit
 	EL_SHAREABLE_CACHE_TABLE [SPECIAL [READABLE_STRING_GENERAL], INTEGER]
 		rename
 			once_cache_table as Empty_area_table,
-			new_item as new_empty_area,
-			item as empty_area_for_type
+			new_shared_item as new_empty_area,
+			shared_item as empty_area_for_type
 		end
 
 create

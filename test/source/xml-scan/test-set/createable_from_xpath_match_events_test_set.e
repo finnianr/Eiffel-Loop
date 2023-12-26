@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-26 17:42:20 GMT (Wednesday 26th July 2023)"
-	revision: "11"
+	date: "2023-12-26 9:25:09 GMT (Tuesday 26th December 2023)"
+	revision: "12"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -49,11 +49,16 @@ feature -- Tests
 		end
 
 	test_document_node_xpath_matcher
+		-- CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET.test_document_node_xpath_matcher
 		note
-			testing: "covers/{EL_DOCUMENT_NODE_XPATH_MATCHER}.scan_document"
+			testing: "[
+				covers/{EL_DOCUMENT_NODE_XPATH_MATCHER}.scan_document,
+				covers/{EL_HTML_ROUTINES}.to_xml,
+				covers/{EL_EXPAT_XML_PARSER}.parse_string_and_set_error
+			]"
 		do
-			do_test ("create_xhtml", 2030572575, agent create_xhtml, ["XML/Hexagrams.xhtml"])
-			do_test ("create_xhtml", 507394204, agent create_xhtml, ["XML/Hexagrams.utf8.xhtml"])
+			do_test ("create_xhtml", 3342514762, agent create_xhtml, ["XML/Hexagrams.html"])
+			do_test ("create_xhtml", 744289745, agent create_xhtml, ["XML/Hexagrams.utf8.html"])
 		end
 
 feature {NONE} -- Implementation
@@ -90,7 +95,7 @@ feature {NONE} -- Implementation
 				-- Wild card paths
 				[on_open, "//p", agent on_paragraph (?, paragraph_count)]
 			>>
-			create matcher.make ({EL_EXPAT_XML_PARSER}, XHTML_match_events)
+			create matcher.make ({EL_EXPAT_XHTML_PARSER}, XHTML_match_events)
 			matcher.scan_document (file_path)
 
 			lio.put_string_field ("Title", title)

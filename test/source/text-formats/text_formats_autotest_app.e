@@ -6,6 +6,7 @@ note
 		**Test Sets**
 		
 			[$source COMMA_SEPARATED_IMPORT_TEST_SET]
+			[$source DOC_TYPE_TEST_SET]
 			[$source JSON_PARSING_TEST_SET]
 			[$source MARKUP_ESCAPE_TEST_SET]
 			[$source XML_TEST_SET]
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 8:16:27 GMT (Thursday 9th November 2023)"
-	revision: "21"
+	date: "2023-12-26 8:14:20 GMT (Tuesday 26th December 2023)"
+	revision: "22"
 
 class
 	TEXT_FORMATS_AUTOTEST_APP
@@ -25,6 +26,7 @@ class
 inherit
 	EL_CRC_32_AUTOTEST_APPLICATION [
 		COMMA_SEPARATED_IMPORT_TEST_SET,
+		DOC_TYPE_TEST_SET,
 		JSON_PARSING_TEST_SET,
 		MARKUP_ESCAPE_TEST_SET,
 		XML_TEST_SET
@@ -40,7 +42,8 @@ feature {NONE} -- Implementation
 		EL_XHTML_STRING_LIST,
 		EL_XHTML_UTF_8_SOURCE,
 		XML_TAG_LIST, XML_LIST_ELEMENT, XML_TEXT_NODE,
-		XML_PARENT_TAG_LIST
+		XML_PARENT_TAG_LIST,
+		EL_DOC_TYPE
 	]
 		do
 			create Result

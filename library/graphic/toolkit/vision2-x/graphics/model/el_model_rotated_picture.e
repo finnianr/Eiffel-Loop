@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-12 12:45:51 GMT (Tuesday 12th December 2023)"
-	revision: "26"
+	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
+	revision: "27"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -175,7 +175,7 @@ feature {EV_MODEL_DRAWER, EV_MODEL} -- Access
 
 feature {NONE} -- Constants
 
-	Scaled_drawing_cache: EL_CACHE_TABLE [CAIRO_DRAWING_AREA, NATURAL]
+	Scaled_drawing_cache: EL_AGENT_CACHE_TABLE [CAIRO_DRAWING_AREA, NATURAL]
 		once
 			create Result.make (13, agent new_scaled_drawing_area)
 		end

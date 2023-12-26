@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2023-12-25 10:37:16 GMT (Monday 25th December 2023)"
+	revision: "5"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION_TABLE
@@ -18,7 +18,9 @@ class
 inherit
 	EL_CACHE_TABLE [ZSTRING, NATURAL]
 		rename
-			make as make_cache
+			new_item as new_location
+		redefine
+			make
 		end
 
 	EL_IP_ADDRESS_INFO_FACTORY [EL_IP_ADDRESS_GEOLOCATION]
@@ -28,9 +30,9 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (n: INTEGER)
 		do
-			make_cache (11, agent new_location)
+			Precursor (n)
 			create location_table.make (19)
 		end
 

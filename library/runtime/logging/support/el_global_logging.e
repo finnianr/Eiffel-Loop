@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
+	revision: "18"
 
 class
 	EL_GLOBAL_LOGGING
@@ -127,7 +127,7 @@ feature {NONE} -- Internal attributes
 	reusable_key: EL_LOGGED_ROUTINE
 		-- reusable key
 
-	type_table: EL_CACHE_TABLE [TYPE [ANY], INTEGER]
+	type_table: EL_AGENT_CACHE_TABLE [TYPE [ANY], INTEGER]
 
 	filter_table: HASH_TABLE [EL_LOG_FILTER, INTEGER]
 		-- class filter by type_id

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
+	revision: "7"
 
 class
 	EROS_XML_RESULT
@@ -56,7 +56,7 @@ feature {NONE} -- Building from XML
 
 feature {NONE} -- Constants
 
-	Root_node_name_table: EL_CACHE_TABLE [STRING, TYPE [EROS_XML_RESULT]]
+	Root_node_name_table: EL_AGENT_CACHE_TABLE [STRING, TYPE [EROS_XML_RESULT]]
 		once
 			create Result.make (17, agent new_root_node_name)
 		end

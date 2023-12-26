@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 9:08:05 GMT (Friday 3rd November 2023)"
-	revision: "49"
+	date: "2023-12-25 11:19:34 GMT (Monday 25th December 2023)"
+	revision: "50"
 
 class
 	REFLECTION_TEST_SET
@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 				["field_value_table",									agent test_field_value_table],
 				["initialized_object_factory",						agent test_initialized_object_factory],
 				["compactable_objects",									agent test_compactable_objects],
+				["makeable_object_factory",							agent test_makeable_object_factory],
 				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
 				["object_initialization_from_table",				agent test_object_initialization_from_table],
 				["reflected_collection_factory",						agent test_reflected_collection_factory],
@@ -64,6 +65,40 @@ feature -- Tests
 			create integer_list.make (0)
 			any_list := integer_list
 			assert ("zero count", any_list.count = 0)
+		end
+
+	test_compactable_objects
+		-- REFLECTION_TEST_SET.test_compactable_objects
+		note
+			testing: "[
+				covers/{EL_REFLECTED_FIELD_BIT_MASKS}.make,
+				covers/{EL_REFLECTIVE}.is_equal,
+				covers/{EL_COMPACTABLE_REFLECTIVE}.make_by_compact,
+				covers/{EL_COMPACTABLE_REFLECTIVE}.compact_value
+			]"
+		local
+			date: COMPACTABLE_DATE; date_2: DATE; status, status_2: EL_FIREWALL_STATUS
+			compact_64: NATURAL_64
+		do
+			create date.make (2005, 12, 30)
+			create date_2.make (2005, 12, 30)
+			assert ("same compact", date.compact_date.to_integer_32 = date_2.ordered_compact_date)
+
+			date_2.set_date (2023, 11, 2)
+			date.set_from_compact_date (date_2.ordered_compact_date)
+			assert ("same year", date.year = date_2.year)
+			assert ("same month", date.month = date_2.month)
+			assert ("same day", date.day = date_2.day)
+
+			create status
+			status.set_date (date_2.ordered_compact_date)
+			status.block (Service_port.http)
+
+			compact_64 := (compact_64.one |<< 32).bit_or (date_2.ordered_compact_date.to_natural_64)
+			assert ("compact_status OK", compact_64 = status.compact_status)
+
+			create status_2.make_from_compact (status.compact_status)
+			assert ("are equal", status ~ status_2)
 		end
 
 	test_default_tuple_initialization
@@ -213,38 +248,17 @@ feature -- Tests
 			end
 		end
 
-	test_compactable_objects
-		-- REFLECTION_TEST_SET.test_compactable_objects
-		note
-			testing: "[
-				covers/{EL_REFLECTED_FIELD_BIT_MASKS}.make,
-				covers/{EL_REFLECTIVE}.is_equal,
-				covers/{EL_COMPACTABLE_REFLECTIVE}.make_by_compact,
-				covers/{EL_COMPACTABLE_REFLECTIVE}.compact_value
-			]"
+	test_makeable_object_factory
 		local
-			date: COMPACTABLE_DATE; date_2: DATE; status, status_2: EL_FIREWALL_STATUS
-			compact_64: NATURAL_64
+			f: EL_MAKEABLE_OBJECT_FACTORY; type: TYPE [COLUMN_VECTOR_COMPLEX_64]
 		do
-			create date.make (2005, 12, 30)
-			create date_2.make (2005, 12, 30)
-			assert ("same compact", date.compact_date.to_integer_32 = date_2.ordered_compact_date)
-
-			date_2.set_date (2023, 11, 2)
-			date.set_from_compact_date (date_2.ordered_compact_date)
-			assert ("same year", date.year = date_2.year)
-			assert ("same month", date.month = date_2.month)
-			assert ("same day", date.day = date_2.day)
-
-			create status
-			status.set_date (date_2.ordered_compact_date)
-			status.block (Service_port.http)
-
-			compact_64 := (compact_64.one |<< 32).bit_or (date_2.ordered_compact_date.to_natural_64)
-			assert ("compact_status OK", compact_64 = status.compact_status)
-
-			create status_2.make_from_compact (status.compact_status)
-			assert ("are equal", status ~ status_2)
+			create f
+			type := {COLUMN_VECTOR_COMPLEX_64}
+			if attached {COLUMN_VECTOR_COMPLEX_64} f.new_item_from_name (type.name) as vector then
+				assert_same_string (Void, type.name, vector.generator)
+			else
+				failed ("vector created")
+			end
 		end
 
 	test_object_initialization_from_camel_case_table

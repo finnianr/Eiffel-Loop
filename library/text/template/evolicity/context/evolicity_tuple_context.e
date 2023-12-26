@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 14:19:54 GMT (Monday 31st July 2023)"
-	revision: "9"
+	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
+	revision: "10"
 
 class
 	EVOLICITY_TUPLE_CONTEXT
@@ -83,7 +83,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Name_list_cache: EL_CACHE_TABLE [EL_SPLIT_IMMUTABLE_STRING_8_LIST, INTEGER]
+	Name_list_cache: EL_AGENT_CACHE_TABLE [EL_SPLIT_IMMUTABLE_STRING_8_LIST, INTEGER]
 		once
 			 create Result.make (11, agent new_name_list)
 		end

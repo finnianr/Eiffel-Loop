@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 13:01:29 GMT (Friday 9th June 2023)"
-	revision: "24"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "25"
 
 class
 	EL_DATE_TEXT
@@ -256,7 +256,7 @@ feature {NONE} -- Internal attributes
 
 	month: EL_MONTH_TEXTS
 
-	template_table: EL_CACHE_TABLE [like template, STRING]
+	template_table: EL_AGENT_CACHE_TABLE [like template, STRING]
 
 feature {NONE} -- Constants
 

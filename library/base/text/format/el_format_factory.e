@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-11 9:51:56 GMT (Monday 11th December 2023)"
-	revision: "3"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "4"
 
 class
 	EL_FORMAT_FACTORY
@@ -75,8 +75,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	double_cache: EL_CACHE_TABLE [EL_FORMAT_DOUBLE, STRING]
+	double_cache: EL_AGENT_CACHE_TABLE [EL_FORMAT_DOUBLE, STRING]
 
-	integer_cache: EL_CACHE_TABLE [EL_FORMAT_INTEGER, STRING]
+	integer_cache: EL_AGENT_CACHE_TABLE [EL_FORMAT_INTEGER, STRING]
 
 end

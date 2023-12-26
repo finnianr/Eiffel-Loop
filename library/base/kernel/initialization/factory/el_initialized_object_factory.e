@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:03:02 GMT (Saturday 17th December 2022)"
-	revision: "4"
+	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
+	revision: "5"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -81,7 +81,7 @@ feature {NONE} -- Internal attributes
 
 	factory_factory: EL_OBJECT_FACTORY [F]
 
-	factory_table: EL_CACHE_TABLE [detachable F, INTEGER]
+	factory_table: EL_AGENT_CACHE_TABLE [detachable F, INTEGER]
 
 	parameter_type: TYPE [ANY]
 
