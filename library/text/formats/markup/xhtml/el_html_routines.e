@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:35:59 GMT (Wednesday 8th November 2023)"
-	revision: "24"
+	date: "2023-12-27 13:03:55 GMT (Wednesday 27th December 2023)"
+	revision: "25"
 
 class
 	EL_HTML_ROUTINES
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_XML
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
+
+	EL_CHARACTER_32_CONSTANTS
 
 feature -- Access
 
@@ -40,6 +42,29 @@ feature -- Access
 				[Variable.text, text]
 			>>)
 			Result := Bookmark_template.substituted
+		end
+
+	encoding_name (xhtml: READABLE_STRING_8): STRING
+		-- Works for parsing either of examples:
+		-- 	1. <meta charset="UTF-8" />
+		-- 	2. <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		local
+			index, i: INTEGER; s: EL_STRING_8_ROUTINES
+			cr: EL_CHARACTER_8_ROUTINES; c: CHARACTER_8
+		do
+			Result := {CODE_PAGE_CONSTANTS}.Utf8
+
+			index := xhtml.substring_index (Charset, 1)
+			if index > 0 and then s.is_identifier_boundary (xhtml, index, index + Charset.count - 1) then
+				create Result.make (10)
+				from i := index + Charset.count until Result.count > 3 and xhtml [i] = '"' loop
+					c := xhtml [i]
+					if cr.is_c_identifier (c, False) or else c = '-' then
+						Result.extend (c)
+					end
+					i := i + 1
+				end
+			end
 		end
 
 	hyperlink (url, title, text: ZSTRING): ZSTRING
@@ -115,35 +140,17 @@ feature -- Conversion
 
 	to_xml (xhtml: READABLE_STRING_8): STRING
 		local
-			encoding_name, header: STRING; index, i: INTEGER; s: EL_STRING_8_ROUTINES
-			cr: EL_CHARACTER_8_ROUTINES; c: CHARACTER_8
+			index: INTEGER
 		do
-			index := xhtml.substring_index (Charset, 1)
-			-- Works for parsing either of examples:
-			-- 	1. <meta charset="UTF-8" />
-			-- 	2. <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-			if index > 0 and then s.is_identifier_boundary (xhtml, index, index + Charset.count - 1) then
-				create encoding_name.make (10)
-
-				from i := index + Charset.count until encoding_name.count > 3 and xhtml [i] = '"' loop
-					c := xhtml [i]
-					if cr.is_c_identifier (c, False) or else c = '-' then
-						encoding_name.extend (c)
-					end
-					i := i + 1
+			if attached XML.header (1.0, encoding_name (xhtml)) as header then
+				if is_document (xhtml) then
+					index := xhtml.index_of ('>', 1)
+					create Result.make (xhtml.count - index + header.count)
+					header.append_to_string_8 (Result)
+					Result.append_substring (xhtml, index + 1, xhtml.count)
+				else
+					Result := new_line.joined (header, xhtml)
 				end
-			else
-				encoding_name := {CODE_PAGE_CONSTANTS}.Utf8
-			end
-			header := XML.header (1.0, encoding_name)
-			if is_document (xhtml) then
-				index := xhtml.index_of ('>', 1)
-				create Result.make (xhtml.count - index + header.count)
-				Result.append (header); Result.append_substring (xhtml, index + 1, xhtml.count)
-			else
-				header.append_character ('%N')
-				Result := header + xhtml
 			end
 		end
 

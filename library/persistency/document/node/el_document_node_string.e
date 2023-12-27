@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:35:48 GMT (Wednesday 8th November 2023)"
-	revision: "42"
+	date: "2023-12-27 10:27:49 GMT (Wednesday 27th December 2023)"
+	revision: "43"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -336,17 +336,16 @@ feature {NONE} -- Implementation
 			zstr.append_encoded (str_8, encoding_code)
 		end
 
-	append_to_string_32 (str_32: STRING_32; start_index, end_index: INTEGER)
+	append_to_string_32 (str_32: STRING_32; str_8: READABLE_STRING_8)
 		do
 			if encoded_as_utf (8) then
-				Precursor (str_32, start_index, end_index)
+				Precursor (str_32, str_8)
 
 			elseif encoded_as_latin (1) then
-				str_32.append_substring_general (Current, start_index, end_index)
+				str_32.append_string_general (str_8)
 
 			elseif attached as_encoding as encoding then
-				Immutable_8.set_item (area, start_index - 1, end_index - start_index + 1)
-				encoding.convert_to (Encodings.Unicode, Immutable_8.item)
+				encoding.convert_to (Encodings.Unicode, str_8)
 
 				if encoding.last_conversion_successful then
 					check
@@ -354,29 +353,28 @@ feature {NONE} -- Implementation
 					end
 					str_32.append_string_general (encoding.last_converted_string)
 				else
-					str_32.append_string_general (Immutable_8.item)
+					str_32.append_string_general (str_8)
 				end
 			end
 		end
 
-	append_to_string_8 (str_8: STRING_8; start_index, end_index: INTEGER)
+	append_to_string_8 (target: STRING; str_8: READABLE_STRING_8)
 		do
 			if encoded_as_utf (8) then
-				Precursor (str_8, start_index, end_index)
+				Precursor (target, str_8)
 
 			elseif encoded_as_latin (1) then
-				str_8.append_substring (Current, start_index, end_index)
+				target.append (str_8)
 
 			elseif attached as_encoding as encoding then
-				Immutable_8.set_item (area, start_index - 1, end_index - start_index + 1)
-				encoding.convert_to (Encodings.Latin_1, Immutable_8.item)
+				encoding.convert_to (Encodings.Latin_1, str_8)
 				if encoding.last_conversion_successful then
 					check
 						no_lost_data: not encoding.last_conversion_lost_data
 					end
-					str_8.append (encoding.last_converted_string_8)
+					target.append (encoding.last_converted_string_8)
 				else
-					str_8.append_substring (Current, start_index, end_index)
+					target.append (str_8)
 				end
 			end
 		end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-26 10:17:08 GMT (Tuesday 26th December 2023)"
-	revision: "11"
+	date: "2023-12-27 10:53:17 GMT (Wednesday 27th December 2023)"
+	revision: "12"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -24,6 +24,11 @@ inherit
 
 	EL_STRING_BIT_COUNTABLE [S]
 
+	EL_SIDE_ROUTINES
+		export
+			{ANY} valid_sides
+		end
+
 feature -- Access
 
 	shared_substring (str: GENERAL; start_index, end_index: INTEGER): like new_substring
@@ -37,6 +42,35 @@ feature -- Access
 		end
 
 feature -- Element change
+
+	set_adjusted_item (a_area: SPECIAL [C]; offset, a_count, sides: INTEGER)
+		-- set immutable `item' from `a_area' with white space removed from ends specified by `sides'
+		-- See class `EL_SIDE'
+		require
+			valid_count: a_count >= 0
+			valid_offset_and_count: a_count > 0 implies a_area.valid_index (offset + a_count - 1)
+			valid_sides: valid_sides (sides)
+		local
+			l_count, l_offset, offset_upper: INTEGER
+		do
+			l_count := a_count; l_offset := offset
+			if has_right_side (sides) then
+				from until l_count = 0 or else not is_space (a_area, l_offset + l_count - 1) loop
+					l_count := l_count - 1
+				end
+			end
+			if l_count > 0 and has_left_side (sides) then
+				offset_upper := l_offset + l_count - 1
+				from until l_offset > offset_upper or else not is_space (a_area, l_offset) loop
+					l_offset := l_offset + 1
+					l_count := l_count - 1
+				end
+			end
+			set_item (a_area, l_offset, l_count)
+		ensure
+			adjusted_left: has_left_side (sides) implies not item_has_left_padding
+			adjusted_right: has_right_side (sides) implies not item_has_right_padding
+		end
 
 	set_item (a_area: SPECIAL [C]; offset, a_count: INTEGER)
 		require
@@ -106,6 +140,18 @@ feature {NONE} -- Implementation
 feature {NONE} -- Deferred
 
 	cursor (str: GENERAL): EL_STRING_ITERATION_CURSOR
+		deferred
+		end
+
+	is_space (a_area: SPECIAL [C]; i: INTEGER): BOOLEAN
+		deferred
+		end
+
+	item_has_left_padding: BOOLEAN
+		deferred
+		end
+
+	item_has_right_padding: BOOLEAN
 		deferred
 		end
 

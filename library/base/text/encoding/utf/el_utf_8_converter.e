@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-23 12:20:09 GMT (Saturday 23rd September 2023)"
-	revision: "6"
+	date: "2023-12-27 10:33:38 GMT (Wednesday 27th December 2023)"
+	revision: "7"
 
 expanded class
 	EL_UTF_8_CONVERTER
@@ -16,6 +16,8 @@ inherit
 	EL_EXPANDED_ROUTINES
 
 	EL_SHARED_STRING_8_CURSOR
+
+	EL_SHARED_CLASS_ID
 
 feature -- Conversion
 
@@ -127,14 +129,19 @@ feature -- Basic operations
 					area_32.extend (unicode (area, code, i, byte_count).to_character_32)
 					i := i + byte_count
 				end
-				if attached {STRING_32} a_result as str_32 then
-					s32.append_area_32 (str_32, area_32)
-
-				elseif attached {STRING_8} a_result as str_8 then
-					s8.append_area_32 (str_8, area_32)
-
-				elseif attached {ZSTRING} a_result as zstr then
-					sz.append_area_32 (zstr, area_32)
+				inspect Class_id.character_bytes (a_result)
+					when '1' then
+						if attached {STRING_8} a_result as str_8 then
+							s8.append_area_32 (str_8, area_32)
+						end
+					when '4' then
+						if attached {STRING_32} a_result as str_32 then
+							s32.append_area_32 (str_32, area_32)
+						end
+					when 'X' then
+						if attached {ZSTRING} a_result as zstr then
+							sz.append_area_32 (zstr, area_32)
+						end
 				else
 					i_final := area_32.count
 					from i := 0 until i = i_final loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-26 19:59:26 GMT (Tuesday 26th December 2023)"
-	revision: "17"
+	date: "2023-12-27 10:36:21 GMT (Wednesday 27th December 2023)"
+	revision: "18"
 
 class
 	EL_UTF_8_STRING
@@ -19,8 +19,6 @@ inherit
 			to_string_8 as to_latin_1,
 			set as set_from
 		end
-
-	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
 	make, make_filled, make_from_string
@@ -152,28 +150,22 @@ feature -- String setting
 		end
 
 	set_string (zstr: ZSTRING; adjust_whitespace: BOOLEAN)
-		local
-			start_index, end_index: INTEGER
 		do
 			zstr.wipe_out
-			if trimmed_count ($start_index, $end_index, adjust_whitespace) > 0 then
-				Immutable_8.set_item (area, start_index - 1, end_index - start_index + 1)
-				append_to_string (zstr, Immutable_8.item)
-			else
-				append_to_string (zstr, Current)
-			end
+			append_to_string (zstr, space_adjusted (adjust_whitespace))
 		end
 
 	set_string_32 (str_32: STRING_32; adjust_whitespace: BOOLEAN)
-		local
-			start_index, end_index, l_count: INTEGER
 		do
 			str_32.wipe_out
-			l_count := trimmed_count ($start_index, $end_index, adjust_whitespace)
-			if has_multi_byte_character then
-				append_to_string_32 (str_32, start_index, end_index)
-			else
-				str_32.append_substring_general (Current, start_index, end_index)
+			if attached space_adjusted (adjust_whitespace) as l_adjusted then
+				if attached cursor_8 (l_adjusted) as c8 then
+					if c8.all_ascii then
+						c8.append_to_string_32 (str_32)
+					else
+						append_to_string_32 (str_32, l_adjusted)
+					end
+				end
 			end
 		end
 
@@ -182,11 +174,14 @@ feature -- String setting
 			start_index, end_index, l_count: INTEGER
 		do
 			str_8.wipe_out
-			l_count := trimmed_count ($start_index, $end_index, adjust_whitespace)
-			if has_multi_byte_character then
-				append_to_string_8 (str_8, start_index, end_index)
-			else
-				str_8.append_substring_general (Current, start_index, end_index)
+			if attached space_adjusted (adjust_whitespace) as l_adjusted then
+				if attached cursor_8 (l_adjusted) as c8 then
+					if c8.all_ascii then
+						c8.append_to_string_8 (str_8)
+					else
+						append_to_string_8 (str_8, l_adjusted)
+					end
+				end
 			end
 		end
 
@@ -197,53 +192,28 @@ feature {NONE} -- Implementation
 			zstr.append_utf_8 (utf_8)
 		end
 
-	append_to_string_32 (str_32: STRING_32; start_index, end_index: INTEGER)
+	append_to_string_32 (str_32: STRING_32; str_8: READABLE_STRING_8)
 		local
 			utf_8: EL_UTF_8_CONVERTER
 		do
-			utf_8.substring_8_into_string_general (Current, start_index, end_index, str_32)
+			utf_8.substring_8_into_string_general (str_8, 1, str_8.count, str_32)
 		end
 
-	append_to_string_8 (str_8: STRING_8; start_index, end_index: INTEGER)
+	append_to_string_8 (target: STRING; str_8: READABLE_STRING_8)
 		local
 			utf_8: EL_UTF_8_CONVERTER
 		do
-			utf_8.substring_8_into_string_general (Current, start_index, end_index, str_8)
+			utf_8.substring_8_into_string_general (str_8, 1, str_8.count, target)
 		end
 
-	trimmed_count (p_start_index, p_end_index: POINTER; adjust_whitespace: BOOLEAN): INTEGER
-		-- count of whitespace characters trimmed from ends and set values of supplied
-		-- integer parameters `$start_index' and `$end_index'
-		local
-			 start_index, end_index, trailing_count, leading_count: INTEGER
-			 p: EL_POINTER_ROUTINES
+	space_adjusted (adjust_whitespace: BOOLEAN): READABLE_STRING_8
 		do
-			start_index := 1; end_index := count
 			if adjust_whitespace and then has_padding then
-				leading_count := leading_white_count
-				if leading_count = end_index then
-					end_index := start_index - 1
-				else
-					trailing_count := trailing_white_count
-					if leading_count > 0 or else trailing_count > 0 then
-						start_index := start_index + leading_count
-						end_index := end_index - trailing_count
-					end
-				end
-				Result := trailing_count + leading_count
+				Immutable_8.set_adjusted_item (area, 0, count, {EL_SIDE}.Both)
+				Result := Immutable_8.item
+			else
+				Result := Current
 			end
-			p.put_integer_32 (start_index, p_start_index)
-			p.put_integer_32 (end_index, p_end_index)
-		ensure
-			valid_result: Result >= 0
-			correct: Result = count - p_value (p_end_index) + p_value (p_start_index) - 1
-		end
-
-	p_value (int_ptr: POINTER): INTEGER
-		local
-			 p: EL_POINTER_ROUTINES
-		do
-			Result := p.read_integer_32 (int_ptr)
 		end
 
 feature {NONE} -- Constants
@@ -262,4 +232,10 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+
+	Immutable_8: EL_IMMUTABLE_8_MANAGER
+		once
+			create Result
+		end
+
 end

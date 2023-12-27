@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-18 14:47:11 GMT (Saturday 18th November 2023)"
-	revision: "14"
+	date: "2023-12-27 8:54:31 GMT (Wednesday 27th December 2023)"
+	revision: "15"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -114,7 +114,8 @@ feature -- Status query
 			definition: Result implies str.occurrences (uc) = 1
 		end
 
-	is_ascii_string (str: READABLE_STRING_GENERAL): BOOLEAN
+	is_ascii_string_8 (str: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if str conforms to `READABLE_STRING_8' and all characters are in ASCII range
 		do
 			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 				Result := shared_cursor_8 (str_8).all_ascii

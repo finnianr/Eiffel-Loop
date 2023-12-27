@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:17:12 GMT (Saturday 11th November 2023)"
-	revision: "23"
+	date: "2023-12-27 8:55:20 GMT (Wednesday 27th December 2023)"
+	revision: "24"
 
 class
 	EL_STRING_8
@@ -47,7 +47,7 @@ feature -- Staus query
 		end
 
 	is_ascii: BOOLEAN
-		-- `True' if all characters in `Current' are in the ASCII character set: 0 .. 127
+		-- `True' if all characters in `Current' are in the ASCII character range
 		local
 			c: EL_CHARACTER_8_ROUTINES
 		do

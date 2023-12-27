@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-27 14:36:11 GMT (Sunday 27th August 2023)"
-	revision: "4"
+	date: "2023-12-27 12:54:25 GMT (Wednesday 27th December 2023)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_8_MANAGER
@@ -24,6 +24,18 @@ inherit
 
 	EL_SHARED_STRING_8_CURSOR
 
+feature -- Status query
+
+	item_has_left_padding: BOOLEAN
+		do
+			Result := item.count > 0 and then item [1].is_space
+		end
+
+	item_has_right_padding: BOOLEAN
+		do
+			Result := item.count > 0 and then item [item.count].is_space
+		end
+
 feature {NONE} -- Contract Support
 
 	same_area_items (a_area: SPECIAL [CHARACTER_8]; offset, a_count: INTEGER): BOOLEAN
@@ -32,8 +44,12 @@ feature {NONE} -- Contract Support
 				Result := c.area.same_items (a_area, offset, c.area_first_index, a_count)
 			end
 		end
-
 feature {NONE} -- Implementation
+
+	is_space (a_area: SPECIAL [CHARACTER_8]; i: INTEGER): BOOLEAN
+		do
+			Result := a_area [i].is_space
+		end
 
 	string_area (str: READABLE_STRING_8): SPECIAL [CHARACTER_8]
 		do

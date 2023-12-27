@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 9:34:18 GMT (Monday 7th August 2023)"
-	revision: "25"
+	date: "2023-12-27 8:42:08 GMT (Wednesday 27th December 2023)"
+	revision: "26"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -187,12 +187,14 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
+	character_code (area: SPECIAL [CHARACTER_8]; i: INTEGER): NATURAL
+		do
+			Result := area [i].natural_32_code
+		end
+
 	same_caseless_character (a, b: CHARACTER_8): BOOLEAN
 		do
 			Result := a.as_lower = b.as_lower
 		end
 
-feature {NONE} -- Constants
-
-	Max_ascii_character: CHARACTER_8 = '%/0x7F/'
 end

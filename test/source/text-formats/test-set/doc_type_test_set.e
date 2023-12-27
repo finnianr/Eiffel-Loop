@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-26 8:25:53 GMT (Tuesday 26th December 2023)"
-	revision: "1"
+	date: "2023-12-27 12:36:19 GMT (Wednesday 27th December 2023)"
+	revision: "2"
 
 class
 	DOC_TYPE_TEST_SET
@@ -47,10 +47,13 @@ feature -- Test
 				covers/{EL_REFLECTIVELY_SETTABLE}.comma_separated_values
 			]"
 		local
-			type: EL_DOC_TYPE
+			type: EL_DOC_TYPE; html_type: EL_HTML_DOC_TYPE
 		do
 			type := document_type (Text_type.HTML, {EL_ENCODING_TYPE}.UTF_8)
 			assert_same_string ("correct specification", type.specification, "text/html; charset=UTF-8")
+
+			create html_type.make_from_file ("data/XML/Hexagrams.html")
+			assert_same_string ("correct specification", html_type.specification, "text/html; charset=ISO-8859-1")
 		end
 
 end

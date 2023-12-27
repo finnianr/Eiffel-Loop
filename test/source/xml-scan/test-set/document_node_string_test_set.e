@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:31:29 GMT (Wednesday 8th November 2023)"
-	revision: "12"
+	date: "2023-12-27 10:41:40 GMT (Wednesday 27th December 2023)"
+	revision: "13"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
@@ -51,7 +51,8 @@ feature -- Tests
 				covers/{EL_UTF_8_STRING}.adjusted,
 				covers/{EL_UTF_8_STRING}.unicode_count,
 				covers/{EL_DOCUMENT_NODE_STRING}.set_string,
-				covers/{EL_DOCUMENT_NODE_STRING}.set_string_32
+				covers/{EL_DOCUMENT_NODE_STRING}.set_string_32,
+				covers/{EL_IMMUTABLE_STRING_MANAGER}.set_adjusted_item
 			]"
 		local
 			utf_8, encoded: EL_UTF_8_STRING; padded_string: ZSTRING; latin_15: EL_DOCUMENT_NODE_STRING

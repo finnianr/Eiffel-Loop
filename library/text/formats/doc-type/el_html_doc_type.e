@@ -1,13 +1,13 @@
 note
-	description: "Parses HTML document for MIME type and encoding"
+	description: "HTML [$source EL_DOC_TYPE] with ability to parse HTML document for `charset' encoding"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:39:38 GMT (Sunday 24th December 2023)"
-	revision: "15"
+	date: "2023-12-27 13:35:27 GMT (Wednesday 27th December 2023)"
+	revision: "16"
 
 class
 	EL_HTML_DOC_TYPE
@@ -18,14 +18,14 @@ inherit
 			make as make_doc_type
 		end
 
-	EL_PLAIN_TEXT_LINE_STATE_MACHINE
-		rename
-			make as make_machine
-		undefine
-			out
-		redefine
-			call
+	EL_MODULE_HTML
+
+	EL_ENCODING_TYPE
+		export
+			{NONE} all
 		end
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_from_file
@@ -42,58 +42,34 @@ feature {NONE} -- Initialization
 		require
 			valid_encoding: Mod_encoding.is_valid (a_encoding)
 		do
-			make_machine
-			make_with_code ((Text_type.html.to_natural_32 |<< 16) | a_encoding)
+			make_doc_type (Text_type.name (Text_type.HTML), a_encoding)
 		end
 
 feature -- Element change
 
 	set_from_file (a_file_path: FILE_PATH)
-		do
-			do_once_with_file_lines (agent find_charset, open_lines (a_file_path, Utf_8))
-		end
-
-feature {NONE} -- State handlers
-
-	find_charset (line: ZSTRING)
 		local
-			i: INTEGER
+			file: PLAIN_TEXT_FILE; found: BOOLEAN
 		do
-			if line.has_substring (Meta_tag) then
-				-- Parse
-				--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-				-- OR
-				--    <meta charset="UTF-8"/>
-				i := line.substring_index (Charset_attrib, 1)
-				if i > 0 then
-					i := i + Charset_attrib.count
-					if line [i] = '"' then
-						i := i + 1
+			create file.make_open_read (a_file_path)
+			if file.exists then
+				across String_8_scope as scope loop
+					if attached scope.item as buffer then
+						from until found or file.end_of_file loop
+							file.read_line
+							buffer.append (file.last_string)
+							buffer.append_character ('%N')
+							if file.last_string.has_substring ("charset=") then
+								found := True
+							end
+						end
+						if found then
+							encoding.set_from_name (HTML.encoding_name (buffer))
+							specification := new_specification
+						end
 					end
-					encoding.set_from_name (line.substring (i, line.index_of ('"', i) - 1))
-					state := final
 				end
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	call (line: ZSTRING)
-		-- call state procedure with item
-		do
-			line.left_adjust
-			state.call (line)
-		end
-
-feature {NONE} -- Constants
-
-	Charset_attrib: ZSTRING
-		once
-			Result := "charset="
-		end
-
-	Meta_tag: ZSTRING
-		once
-			Result := "<meta"
+			file.close
 		end
 end
