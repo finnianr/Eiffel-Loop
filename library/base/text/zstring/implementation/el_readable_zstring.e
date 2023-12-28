@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 12:52:22 GMT (Saturday 23rd December 2023)"
-	revision: "137"
+	date: "2023-12-28 13:11:00 GMT (Thursday 28th December 2023)"
+	revision: "138"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -292,6 +292,40 @@ feature -- Access
 
 feature -- Character status query
 
+	has_enclosing (c_first, c_last: CHARACTER_32): BOOLEAN
+			--
+		local
+			uc_at_position: CHARACTER_32; i, position: INTEGER; c_i: CHARACTER
+		do
+			inspect count
+				when 0, 1 then
+					do_nothing
+			else
+				if attached area as l_area then
+					Result := True
+					from position := 1 until not Result or position > 2 loop
+						inspect position
+							when 1 then
+								uc_at_position := c_first; i := 0
+							when 2 then
+								uc_at_position := c_last; i := count - 1
+						end
+						c_i := l_area [i]
+						inspect c_i
+							when Substitute then
+								Result := unencoded_item (i + 1) = uc_at_position
+
+							when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+								Result := c_i = uc_at_position
+						else
+							Result :=  Codec.unicode_table [c_i.code] = uc_at_position
+						end
+						position := position + 1
+					end
+				end
+			end
+		end
+
 	is_alpha_item (i: INTEGER): BOOLEAN
 		require
 			valid_index: valid_index (i)
@@ -455,15 +489,16 @@ feature -- Status query
 		require
 			double_or_single: 1 <= a_count and a_count <= 2
 		local
-			quote_code: NATURAL
+			qmark: CHARACTER_32
 		do
 			inspect a_count
 				when 1 then
-					quote_code := ('%'').natural_32_code
+					qmark := '%''
+				when 2 then
+					qmark := '"'
 			else
-				quote_code := ('"').natural_32_code
 			end
-			Result := count >= 2 and then z_code (1) = quote_code and then z_code (count) = quote_code
+			Result := has_enclosing (qmark, qmark)
 		end
 
 	has_unicode (uc: like unicode): BOOLEAN

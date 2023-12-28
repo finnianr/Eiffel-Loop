@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 10:41:17 GMT (Thursday 28th December 2023)"
-	revision: "20"
+	date: "2023-12-28 17:39:14 GMT (Thursday 28th December 2023)"
+	revision: "21"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -26,6 +26,8 @@ inherit
 	EL_UC_ROUTINES
 		rename
 			utf_8_byte_count as utf_8_character_byte_count
+		export
+			{NONE} all
 		end
 
 	EL_SHARED_UTF_8_SEQUENCE
@@ -63,7 +65,7 @@ feature -- Basic operations
 			valid_start: valid_index (start_index)
 			valid_end: end_index > 0 implies valid_index (end_index)
 		local
-			i, last_i, first_i, l_count, offset: INTEGER; l_area: like area
+			i, i_upper, i_lower, l_count, offset: INTEGER; l_area: like area
 		do
 			l_count := end_index - start_index + 1
 			if l_count > 0 then
@@ -71,10 +73,10 @@ feature -- Basic operations
 				str.grow (offset + l_count)
 				str.set_count (offset + l_count)
 
-				first_i := area_first_index + start_index - 1
-				last_i := first_i + l_count - 1; l_area := area
+				i_lower := area_first_index + start_index - 1
+				i_upper := i_lower + l_count - 1; l_area := area
 				if attached str.area as str_area then
-					from i := first_i until i > last_i loop
+					from i := i_lower until i > i_upper loop
 						str_area [offset] := i_th_character_32 (l_area, i)
 						offset := offset + 1
 						i := i + 1
@@ -92,7 +94,7 @@ feature -- Basic operations
 			valid_start: valid_index (start_index)
 			valid_end: end_index > 0 implies valid_index (end_index)
 		local
-			i, last_i, first_i, l_count, offset: INTEGER; l_area: like area
+			i, i_upper, i_lower, l_count, offset: INTEGER; l_area: like area
 		do
 			l_count := end_index - start_index + 1
 			if l_count > 0 then
@@ -100,10 +102,10 @@ feature -- Basic operations
 				str.grow (offset + l_count)
 				str.set_count (offset + l_count)
 
-				first_i := area_first_index + start_index - 1
-				last_i := first_i + l_count - 1; l_area := area
+				i_lower := area_first_index + start_index - 1
+				i_upper := i_lower + l_count - 1; l_area := area
 				if attached str.area as str_area then
-					from i := first_i until i > last_i loop
+					from i := i_lower until i > i_upper loop
 						str_area [offset] := i_th_character_8 (l_area, i)
 						offset := offset + 1
 						i := i + 1
@@ -125,7 +127,7 @@ feature -- Basic operations
 		require
 			valid_as_string_8: is_valid_as_string_8
 		local
-			i, last_i, first_i, l_count, offset: INTEGER
+			i, i_upper, i_lower, l_count, offset: INTEGER
 		do
 			l_count := target.count
 			if l_count > 0 then
@@ -133,9 +135,9 @@ feature -- Basic operations
 				str.grow (offset + l_count)
 				str.set_count (offset + l_count)
 
-				first_i := area_first_index; last_i := area_last_index
+				i_lower := area_first_index; i_upper := area_last_index
 				if attached str.area as str_area and then attached area as l_area then
-					from i := first_i until i > last_i loop
+					from i := i_lower until i > i_upper loop
 						str_area [offset] := i_th_character_8 (l_area, i)
 						offset := offset + 1
 						i := i + 1
@@ -149,7 +151,7 @@ feature -- Basic operations
 
 	append_to_string_32 (str: STRING_32)
 		local
-			i, last_i, first_i, l_count, offset: INTEGER
+			i, i_upper, i_lower, l_count, offset: INTEGER
 		do
 			l_count := target.count
 			if l_count > 0 then
@@ -157,9 +159,9 @@ feature -- Basic operations
 				str.grow (offset + l_count)
 				str.set_count (offset + l_count)
 
-				first_i := area_first_index; last_i := area_last_index
+				i_lower := area_first_index; i_upper := area_last_index
 				if attached str.area as str_area and then attached area as l_area then
-					from i := first_i until i > last_i loop
+					from i := i_lower until i > i_upper loop
 						str_area [offset] := i_th_character_32 (l_area, i)
 						offset := offset + 1
 						i := i + 1
@@ -173,11 +175,11 @@ feature -- Basic operations
 
 	append_to_utf_8 (utf_8: STRING_8)
 		local
-			i, last_i: INTEGER; uc: CHARACTER_32
+			i, i_upper: INTEGER; uc: CHARACTER_32
 		do
-			last_i := area_last_index
+			i_upper := area_last_index
 			if attached area as l_area and then attached Utf_8_sequence as sequence then
-				from i := area_first_index until i > last_i loop
+				from i := area_first_index until i > i_upper loop
 					uc := i_th_character_32 (l_area, i)
 					if uc.natural_32_code <= 0x7F then
 						utf_8.append_character (uc.to_character_8)
@@ -193,7 +195,7 @@ feature -- Basic operations
 	fill_z_codes (destination: STRING_32)
 		-- fill destination with z_codes
 		local
-			i, last_i, j: INTEGER; code: NATURAL
+			i, i_upper, j: INTEGER; code: NATURAL
 		do
 			destination.grow (target.count)
 			destination.set_count (target.count)
@@ -201,8 +203,8 @@ feature -- Basic operations
 			if attached destination.area as destination_area and then attached area as l_area
 				and then attached codec as l_codec
 			then
-				last_i := area_last_index
-				from i := area_first_index until i > last_i loop
+				i_upper := area_last_index
+				from i := area_first_index until i > i_upper loop
 					code := l_codec.as_z_code (i_th_character_32 (l_area, i))
 					destination_area [j] := code.to_character_32
 					i := i + 1; j := j +1
@@ -213,41 +215,47 @@ feature -- Basic operations
 
 	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
 		local
-			i, last_i: INTEGER; l_area: like area; c: CHARACTER; failed: BOOLEAN
+			i, i_upper, code: INTEGER; failed: BOOLEAN
 		do
 			convertor.reset (type)
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i or failed loop
-				inspect i_th_unicode (l_area, i) |>> 7 -- shift out of ASCII range
-					when 0 then
+			if attached area as l_area then
+				i_upper := area_last_index
+				from i := area_first_index until i > i_upper or failed loop
+					code := i_th_unicode (l_area, i)
+					inspect code // 0x100 -- Zero if in 7-bit ASCII range
+						when 0 then
+						-- is ASCII
+							convertor.parse_character (code.to_character_8)
+							failed := not convertor.parse_successful
+					else
 						failed := True
-				else
-				-- is ASCII
-					convertor.parse_character (c)
-					failed := not convertor.parse_successful
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
 	parse_substring (convertor: STRING_TO_NUMERIC_CONVERTOR; type, start_index, end_index: INTEGER)
 		local
-			i, last_i, first_i, l_count: INTEGER; l_area: like area; c: CHARACTER; failed: BOOLEAN
+			i, i_upper, i_lower, l_count, code: INTEGER; failed: BOOLEAN
 		do
 			l_count := end_index - start_index + 1
 			convertor.reset (type)
-			first_i := area_first_index + start_index - 1
-			last_i := first_i + l_count - 1; l_area := area
-			from i := first_i until i > last_i or failed loop
-				inspect i_th_unicode (l_area, i) |>> 7 -- shift out of ASCII range
-					when 0 then
+			i_lower := area_first_index + start_index - 1
+			if attached area as l_area then
+				i_upper := i_lower + l_count - 1
+				from i := i_lower until i > i_upper or failed loop
+					code := i_th_unicode (l_area, i)
+					inspect code // 0x100 -- Zero if in 7-bit ASCII range
+						when 0 then
+						-- is ASCII
+							convertor.parse_character (code.to_character_8)
+							failed := not convertor.parse_successful
+					else
 						failed := True
-				else
-				-- is ASCII
-					convertor.parse_character (c)
-					failed := not convertor.parse_successful
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 
@@ -289,6 +297,15 @@ feature -- Status query
 			Result := is_area_eiffel_identifier ({EL_CASE}.Upper)
 		end
 
+	is_left_bracket_at (index: INTEGER): BOOLEAN
+		require
+			valid_index: valid_index (index)
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_left_bracket (i_th_character_8 (area, area_first_index + index - 1))
+		end
+
 	is_valid_as_string_8: BOOLEAN
 		do
 			Result := target.is_valid_as_string_8
@@ -297,6 +314,45 @@ feature -- Status query
 	valid_index (i: INTEGER): BOOLEAN
 		do
 			Result := target.valid_index (i)
+		end
+
+feature -- Search
+
+	matching_bracket_index (index: INTEGER): INTEGER
+		require
+			valid_index: valid_index (index)
+			left_bracket_at_index: is_left_bracket_at (index)
+		local
+			i, i_upper, i_lower, nest_count: INTEGER; found: BOOLEAN
+			left_bracket, right_bracket, c: CHARACTER; c8: EL_CHARACTER_8_ROUTINES
+		do
+			i_upper := area_last_index
+			i_lower := area_first_index + index
+			if attached area as l_area then
+				left_bracket := i_th_character_8 (l_area, i_lower - 1)
+				right_bracket := c8.right_bracket (left_bracket)
+				from i := i_lower until found or i > i_upper loop
+					c := i_th_character_8 (l_area, i)
+					if c = left_bracket then
+						nest_count := nest_count + 1
+					else
+						inspect nest_count
+							when 0 then
+								if c = right_bracket then
+									found := True
+								end
+						else
+							if c = right_bracket then
+								nest_count := nest_count - 1
+							end
+						end
+					end
+					i := i + 1
+				end
+				if found then
+					Result := i
+				end
+			end
 		end
 
 feature -- Measurement
@@ -323,13 +379,15 @@ feature -- Measurement
 
 	utf_8_byte_count: INTEGER
 		local
-			i, last_i: INTEGER; l_area: like area; code: NATURAL
+			i, i_upper, code: INTEGER
 		do
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i loop
-				code := i_th_unicode (l_area, i)
-				Result := Result + utf_8_character_byte_count (code)
-				i := i + 1
+			i_upper := area_last_index
+			if attached area as l_area then
+				from i := area_first_index until i > i_upper loop
+					code := i_th_unicode (l_area, i)
+					Result := Result + utf_8_character_byte_count (code)
+					i := i + 1
+				end
 			end
 		end
 
@@ -337,14 +395,14 @@ feature {NONE} -- Implementation
 
 	is_area_eiffel_identifier (case_code: NATURAL): BOOLEAN
 		local
-			first_i: BOOLEAN; i, last_i: INTEGER; l_area: like area
+			i_lower: BOOLEAN; i, i_upper: INTEGER; l_area: like area
 		do
-			last_i := area_last_index; l_area := area
-			Result := target_count > 0; first_i := True
-			from i := area_first_index until i > last_i or not Result loop
-				Result := is_i_th_eiffel_identifier (l_area, i, case_code, first_i)
-				if first_i then
-					first_i := False
+			i_upper := area_last_index; l_area := area
+			Result := target_count > 0; i_lower := True
+			from i := area_first_index until i > i_upper or not Result loop
+				Result := is_i_th_eiffel_identifier (l_area, i, case_code, i_lower)
+				if i_lower then
+					i_lower := False
 				end
 				i := i + 1
 			end
@@ -378,10 +436,6 @@ feature {STRING_HANDLER} -- Deferred
 		deferred
 		end
 
-	i_th_ascii_character (a_area: like area; i: INTEGER): CHARACTER_8
-		deferred
-		end
-
 	i_th_character_32 (a_area: like area; i: INTEGER): CHARACTER_32
 		deferred
 		end
@@ -390,11 +444,11 @@ feature {STRING_HANDLER} -- Deferred
 		deferred
 		end
 
-	i_th_unicode (a_area: like area; i: INTEGER): NATURAL
+	i_th_unicode (a_area: like area; i: INTEGER): INTEGER
 		deferred
 		end
 
-	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
+	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; i_lower: BOOLEAN): BOOLEAN
 		deferred
 		end
 

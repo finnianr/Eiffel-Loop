@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 10:31:55 GMT (Thursday 28th December 2023)"
-	revision: "24"
+	date: "2023-12-28 17:40:19 GMT (Thursday 28th December 2023)"
+	revision: "25"
 
 class
 	STRING_TEST_SET
@@ -61,13 +61,17 @@ feature -- Tests
 		note
 			testing: "[
 				covers/{EL_STRING_X_ROUTINES}.bracketed,
-				covers/{EL_CHARACTER_ROUTINES}.right_bracket
+				covers/{EL_CHARACTER_ROUTINES}.right_bracket,
+				covers/{EL_STRING_ITERATION_CURSOR}.matching_bracket_index
 			]"
 		local
 			s: EL_STRING_8_ROUTINES; content: STRING
 		do
-			content := s.bracketed (({ARRAYED_LIST [INTEGER]}).name, ' ')
+			content := s.bracketed (({ARRAYED_LIST [INTEGER]}).name, '[')
 			assert_same_string (Void, content, ({INTEGER}).name)
+
+			content := s.bracketed (({ARRAYED_LIST [CELL [INTEGER]]}).name, '[')
+			assert_same_string (Void, content, ({CELL [INTEGER]}).name)
 		end
 
 	test_delimited_list

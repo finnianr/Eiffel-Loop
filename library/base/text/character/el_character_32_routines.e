@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 10:15:07 GMT (Thursday 28th December 2023)"
-	revision: "14"
+	date: "2023-12-28 13:52:31 GMT (Thursday 28th December 2023)"
+	revision: "15"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -70,9 +70,9 @@ feature -- Area query
 
 feature {NONE} -- Implementation
 
-	character_code (area: SPECIAL [CHARACTER_32]; i: INTEGER): NATURAL
+	character_code (area: SPECIAL [CHARACTER_32]; i: INTEGER): INTEGER
 		do
-			Result := area [i].natural_32_code
+			Result := area [i].code
 		end
 
 	same_caseless_character (a, b: CHARACTER_32): BOOLEAN

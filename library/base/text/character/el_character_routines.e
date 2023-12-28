@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 10:14:21 GMT (Thursday 28th December 2023)"
-	revision: "28"
+	date: "2023-12-28 13:52:11 GMT (Thursday 28th December 2023)"
+	revision: "29"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
@@ -93,7 +93,7 @@ feature -- Measurement
 			i: INTEGER; non_ascii: BOOLEAN
 		do
 			from i := start_index until non_ascii or else i > end_index loop
-				inspect character_code (area, i) |>> 7
+				inspect character_code (area, i) // 0x100 -- Zero if in 7-bit ASCII range
 					when 0 then
 						Result := Result + 1
 				else
@@ -111,7 +111,7 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	character_code (area: SPECIAL [G]; i: INTEGER): NATURAL
+	character_code (area: SPECIAL [G]; i: INTEGER): INTEGER
 		deferred
 		end
 

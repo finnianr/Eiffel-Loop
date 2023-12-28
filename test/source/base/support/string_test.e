@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 7:40:54 GMT (Thursday 31st August 2023)"
-	revision: "27"
+	date: "2023-12-28 13:01:02 GMT (Thursday 28th December 2023)"
+	revision: "28"
 
 class
 	STRING_TEST
@@ -392,6 +392,22 @@ feature -- Status query
 			if Result and then attached s_8_substring as s then
 				b3 := zs.ends_with_general (s)
 				Result := b1 = b3
+			end
+		end
+
+	has_enclosing: BOOLEAN
+		local
+			first, last: CHARACTER_32; s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES
+			offset: INTEGER
+		do
+			Result := True
+			from offset := 1 until not Result or offset < 0 loop
+				first := s_32 [1] + offset.to_natural_32; last := s_32 [s_32.count] + offset.to_natural_32
+				Result := zs.has_enclosing (first, last) = s32.has_enclosing (s_32, first, last)
+				offset := offset - 1
+			end
+			if Result and then attached s_8_substring as str_8 then
+				Result := zs.has_enclosing (first, last) = s8.has_enclosing (str_8, first, last)
 			end
 		end
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 10:20:42 GMT (Thursday 28th December 2023)"
-	revision: "58"
+	date: "2023-12-28 17:35:06 GMT (Thursday 28th December 2023)"
+	revision: "59"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -192,7 +192,7 @@ feature -- Transformed
 			append_to (str, content)
 		end
 
-	bracketed (str: READABLE_STRING_GENERAL; left_bracket: CHARACTER_32): STRING_X
+	bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32): STRING_X
 		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
 		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
 		require
@@ -202,8 +202,9 @@ feature -- Transformed
 			c32: EL_CHARACTER_32_ROUTINES
 		do
 			left_index := str.index_of (left_bracket, 1)
-			if left_index > 0 then
+			if left_index > 0 and then attached cursor (str) as l_cursor then
 				right_index := str.index_of (c32.right_bracket (left_bracket), left_index + 1)
+				right_index := l_cursor.matching_bracket_index (left_index)
 				if right_index > 0 then
 					content := str.substring (left_index + 1, right_index - 1)
 					create Result.make (content.count)

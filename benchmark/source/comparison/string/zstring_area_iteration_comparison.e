@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 9:16:26 GMT (Sunday 10th December 2023)"
-	revision: "22"
+	date: "2023-12-28 13:48:15 GMT (Thursday 28th December 2023)"
+	revision: "23"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -55,6 +55,7 @@ feature -- Basic operations
 				["inspect c [i] (i > area_upper)", agent inspect_iteration_area_upper_no_c_assign (mixed_string)],
 				["inspect type [c.code]",			  agent inspect_character_type (mixed_string)],
 				["inspect c.code // 0x100",		  agent inspect_code_div_0x100 (mixed_string)],
+				["inspect c.code |>> 7",			  agent inspect_7_bit_ascii_shift (mixed_string)],
 				["if c [i] = Substitute then",	  agent if_then_iteration_no_c_assign (mixed_string)],
 				["if c = Substitute then",			  agent if_then_iteration (mixed_string)]
 			>>)
@@ -101,6 +102,31 @@ feature {NONE} -- Operations
 			end
 		end
 
+	inspect_7_bit_ascii_shift (mixed_string: ZSTRING)
+		local
+			i, i_final: INTEGER; c: CHARACTER
+		do
+			if attached mixed_string.area as area then
+				i_final := mixed_string.count
+				from i := 0 until i = i_final loop
+					c := area [i]
+					inspect c.code |>> 7 -- remove ASCII bits
+						when 0 then
+						-- is ASCII
+							inspect c
+								when Substitute then
+									do_with (c)
+							else
+								do_with (c)
+							end
+					else
+						do_with (c)
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	inspect_character_type (mixed_string: ZSTRING)
 		local
 			i, area_upper: INTEGER c: CHARACTER
@@ -116,6 +142,30 @@ feature {NONE} -- Operations
 							do_with (c)
 						when Type_ascii then
 							do_with (c)
+					else
+						do_with (c)
+					end
+					i := i + 1
+				end
+			end
+		end
+
+	inspect_code_div_0x100 (mixed_string: ZSTRING)
+		local
+			i, area_upper: INTEGER c: CHARACTER
+		do
+			if attached mixed_string.area as area then
+				area_upper := mixed_string.count - 1
+				from i := 0 until i > area_upper loop
+					c := area [i]
+					inspect c.code // 0x100 -- Zero if in 7-bit ASCII range
+						when 0 then
+							inspect c
+								when Substitute then
+									do_with (c)
+							else
+								do_with (c)
+							end
 					else
 						do_with (c)
 					end
@@ -166,30 +216,6 @@ feature {NONE} -- Operations
 			end
 		end
 
-	inspect_code_div_0x100 (mixed_string: ZSTRING)
-		local
-			i, area_upper: INTEGER c: CHARACTER
-		do
-			if attached mixed_string.area as area then
-				area_upper := mixed_string.count - 1
-				from i := 0 until i > area_upper loop
-					c := area [i]
-					inspect c.code // 0x100
-						when 0 then
-							inspect c
-								when Substitute then
-									do_with (c)
-							else
-								do_with (c)
-							end
-					else
-						do_with (c)
-					end
-					i := i + 1
-				end
-			end
-		end
-
 	inspect_iteration_area_upper_no_c_assign (mixed_string: ZSTRING)
 		local
 			i, area_upper: INTEGER
@@ -209,7 +235,6 @@ feature {NONE} -- Operations
 				end
 			end
 		end
-
 
 feature {NONE} -- Implementation
 

@@ -6,20 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "20"
+	date: "2023-12-28 17:29:22 GMT (Thursday 28th December 2023)"
+	revision: "21"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
 
 inherit
-	STRING_32_ITERATION_CURSOR
-		rename
-			area as unencoded_area
-		redefine
-			item, make, target
-		end
-
 	EL_STRING_ITERATION_CURSOR
 		rename
 			Unicode_table as Shared_unicode_table,
@@ -28,6 +21,13 @@ inherit
 			{NONE} fill_z_codes
 		redefine
 			append_to_string_8, append_to_string_32, fill_z_codes, utf_8_byte_count
+		end
+
+	STRING_32_ITERATION_CURSOR
+		rename
+			area as unencoded_area
+		redefine
+			item, make, target
 		end
 
 	EL_32_BIT_IMPLEMENTATION
@@ -197,16 +197,6 @@ feature {NONE} -- Implementation
 			Result := c8.is_i_th_eiffel_identifier (a_area, i, case_code, first_i)
 		end
 
-	i_th_ascii_character (a_area: like area; i: INTEGER): CHARACTER_8
-		local
-			c: CHARACTER_8
-		do
-			c := a_area [i]
-			if c.natural_32_code <= 127 then
-				Result := c
-			end
-		end
-
 	i_th_character_8 (a_area: like area; i: INTEGER): CHARACTER_8
 		do
 			Result := i_th_character_32 (a_area, i).to_character_8
@@ -225,9 +215,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	i_th_unicode (a_area: like area; i: INTEGER): NATURAL
+	i_th_unicode (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := i_th_character_32 (a_area, i).natural_32_code
+			Result := i_th_character_32 (a_area, i).code
 		end
 
 feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Internal attriutes

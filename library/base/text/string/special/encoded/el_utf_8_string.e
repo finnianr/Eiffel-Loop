@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 10:36:21 GMT (Wednesday 27th December 2023)"
-	revision: "18"
+	date: "2023-12-28 13:21:54 GMT (Thursday 28th December 2023)"
+	revision: "19"
 
 class
 	EL_UTF_8_STRING
@@ -170,8 +170,6 @@ feature -- String setting
 		end
 
 	set_string_8 (str_8: STRING_8; adjust_whitespace: BOOLEAN)
-		local
-			start_index, end_index, l_count: INTEGER
 		do
 			str_8.wipe_out
 			if attached space_adjusted (adjust_whitespace) as l_adjusted then

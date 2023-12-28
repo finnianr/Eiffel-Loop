@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 9:39:06 GMT (Sunday 3rd December 2023)"
-	revision: "8"
+	date: "2023-12-28 13:24:15 GMT (Thursday 28th December 2023)"
+	revision: "9"
 
 class
 	BIT_POP_COUNT_COMPARISON
@@ -36,6 +36,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_BIT_POPULATION_ROUTINES
+	
 create
 	make
 

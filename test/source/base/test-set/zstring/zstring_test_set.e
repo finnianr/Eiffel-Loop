@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "115"
+	date: "2023-12-28 12:59:13 GMT (Thursday 28th December 2023)"
+	revision: "116"
 
 class
 	ZSTRING_TEST_SET
@@ -78,6 +78,7 @@ feature {NONE} -- Initialization
 				["for_all_split",						agent test_for_all_split],
 				["has",									agent test_has],
 				["has_between",						agent test_has_between],
+				["has_enclosing",						agent test_has_enclosing],
 				["is_canonically_spaced",			agent test_is_canonically_spaced],
 				["order_comparison",					agent test_order_comparison],
 				["same_caseless_characters",		agent test_same_caseless_characters],
@@ -95,10 +96,10 @@ feature {NONE} -- Initialization
 				["substring_index",					agent test_substring_index],
 				["substring_index_in_bounds",		agent test_substring_index_in_bounds],
 				["unicode_index_of",					agent test_unicode_index_of],
+				["substitute_tuple",					agent test_substitute_tuple],
 				["substring",							agent test_substring],
 				["substring_to",						agent test_substring_to],
-				["substring_to_reversed",			agent test_substring_to_reversed],
-				["substitute_tuple",					agent test_substitute_tuple]
+				["substring_to_reversed",			agent test_substring_to_reversed]
 			>>)
 		end
 
@@ -1099,6 +1100,23 @@ feature -- Status query tests
 						word.forth
 					end
 				end
+			end
+		end
+
+	test_has_enclosing
+		-- ZSTRING_TEST_SET.test_has_enclosing
+		note
+			testing: "[
+				covers/{EL_READABLE_ZSTRING}.has_enclosing,
+				covers/{EL_STRING_32_ROUTINES_IMP}.has_enclosing,
+				covers/{EL_STRING_8_ROUTINES_IMP}.has_enclosing
+			]"
+		local
+			test: STRING_TEST
+		do
+			across Text.words as word loop
+				create test.make (word.item)
+				assert ("has_enclosing OK", test.has_enclosing)
 			end
 		end
 

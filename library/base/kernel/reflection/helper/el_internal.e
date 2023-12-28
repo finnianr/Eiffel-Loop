@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 11:24:14 GMT (Monday 25th December 2023)"
-	revision: "27"
+	date: "2023-12-28 18:47:03 GMT (Thursday 28th December 2023)"
+	revision: "28"
 
 class
 	EL_INTERNAL
@@ -161,15 +161,11 @@ feature -- Access
 		require
 			valid_factory_type: valid_factory_type (factory_type, type)
 		local
-			type_id: INTEGER
+			factory_type_id: INTEGER; combined_type_id: NATURAL_64
 		do
-			if Factory_type_id_table.has_key (type) then
-				type_id := Factory_type_id_table.found_item
-			else
-				type_id := new_factory_type_id (factory_type, type)
-				Factory_type_id_table.extend (type_id, type)
-			end
-			if type_id > 0 and then attached new_instance_of (type_id) as new then
+			combined_type_id := (factory_type.type_id.to_natural_64 |<< 32) | type.type_id.to_natural_64
+			factory_type_id := Factory_type_id_table.item (combined_type_id)
+			if factory_type_id > 0 and then attached new_instance_of (factory_type_id) as new then
 				Result := new
 			end
 		end
@@ -248,31 +244,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_factory_type_id (factory_type, type: TYPE [ANY]): INTEGER
-		require
-			valid_factory_type: valid_factory_type (factory_type, type)
-		local
-			l_type_name: STRING; left_pos, right_pos: INTEGER
-		do
-			l_type_name := Factory_template_table.item (factory_type)
-			left_pos := l_type_name.index_of ('[', 1)
-			if left_pos > 0 then
-				right_pos := l_type_name.index_of (']', left_pos + 1)
-			end
-			if left_pos > 0 and right_pos > 0 then
-				l_type_name.replace_substring (type.name, left_pos + 1, right_pos - 1)
-				Result := dynamic_type_from_string (l_type_name)
-			end
-		end
-
 feature {NONE} -- Constants
 
-	Factory_template_table: EL_AGENT_CACHE_TABLE [IMMUTABLE_STRING_8, TYPE [ANY]]
-		once
-			create Result.make (17, agent {TYPE [ANY]}.name)
-		end
-
-	Factory_type_id_table: HASH_TABLE [INTEGER, TYPE [ANY]]
+	Factory_type_id_table: EL_FACTORY_TYPE_ID_TABLE
 		once
 			create Result.make (17)
 		end

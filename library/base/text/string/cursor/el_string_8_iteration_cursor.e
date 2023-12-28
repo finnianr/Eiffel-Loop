@@ -6,21 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 13:25:14 GMT (Sunday 12th November 2023)"
-	revision: "15"
+	date: "2023-12-28 17:28:58 GMT (Thursday 28th December 2023)"
+	revision: "16"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
 
 inherit
-	STRING_8_ITERATION_CURSOR
-		export
-			{EL_SHARED_STRING_8_CURSOR, STRING_HANDLER} area, area_first_index, area_last_index, make
-		end
-
 	EL_STRING_ITERATION_CURSOR
 		rename
 			set_target as make
+		end
+
+	STRING_8_ITERATION_CURSOR
+		export
+			{EL_SHARED_STRING_8_CURSOR, STRING_HANDLER} area, area_first_index, area_last_index, make
 		end
 
 	EL_8_BIT_IMPLEMENTATION
@@ -145,16 +145,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	i_th_ascii_character (a_area: like area; i: INTEGER): CHARACTER_8
-		local
-			c: CHARACTER_8
-		do
-			c := a_area [i]
-			if c.natural_32_code <= 127 then
-				Result := c
-			end
-		end
-
 	i_th_character_8 (a_area: like area; i: INTEGER): CHARACTER_8
 		do
 			Result := a_area [i]
@@ -165,9 +155,9 @@ feature {NONE} -- Implementation
 			Result := a_area [i]
 		end
 
-	i_th_unicode (a_area: like area; i: INTEGER): NATURAL
+	i_th_unicode (a_area: like area; i: INTEGER): INTEGER
 		do
-			Result := a_area [i].natural_32_code
+			Result := a_area [i].code
 		end
 
 	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
