@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 8:42:30 GMT (Wednesday 27th December 2023)"
-	revision: "13"
+	date: "2023-12-28 10:15:07 GMT (Thursday 28th December 2023)"
+	revision: "14"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -23,6 +23,13 @@ inherit
 
 	EL_SHARED_UTF_8_SEQUENCE
 
+feature -- Access
+
+	right_bracket (left_bracket: CHARACTER_32): CHARACTER_32
+		do
+			Result := left_bracket + right_bracket_offset (left_bracket).to_natural_32
+		end
+
 feature -- Basic operations
 
 	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITABLE)
@@ -32,6 +39,21 @@ feature -- Basic operations
 			sequence := Utf_8_sequence
 			sequence.set (uc)
 			sequence.write (writeable)
+		end
+
+feature -- Measurement
+
+	right_bracket_offset (c: CHARACTER_32): INTEGER
+		-- code offset to right bracket if `c' is a left bracket in ASCII range
+		-- or else zero
+		do
+			inspect c
+				when '(' then
+					Result := 1
+				when '{', '[', '<'  then
+					Result := 2
+			else
+			end
 		end
 
 feature -- Area query

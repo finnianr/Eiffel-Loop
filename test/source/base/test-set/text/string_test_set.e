@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 9:48:25 GMT (Wednesday 27th December 2023)"
-	revision: "23"
+	date: "2023-12-28 10:31:55 GMT (Thursday 28th December 2023)"
+	revision: "24"
 
 class
 	STRING_TEST_SET
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["adjusted_immutable_string",	agent test_adjusted_immutable_string],
+				["bracketed",						agent test_bracketed],
 				["delimited_list",				agent test_delimited_list],
 				["immutable_string_manager",	agent test_immutable_string_manager]
 			>>)
@@ -53,6 +54,20 @@ feature -- Tests
 				manager_8.set_adjusted_item (str.area, 0, str.count, {EL_SIDE}.Both)
 				assert_same_string ("adjusted immutable", manager_8.item, adjusted)
 			end
+		end
+
+	test_bracketed
+		-- STRING_TEST_SET.test_bracketed
+		note
+			testing: "[
+				covers/{EL_STRING_X_ROUTINES}.bracketed,
+				covers/{EL_CHARACTER_ROUTINES}.right_bracket
+			]"
+		local
+			s: EL_STRING_8_ROUTINES; content: STRING
+		do
+			content := s.bracketed (({ARRAYED_LIST [INTEGER]}).name, ' ')
+			assert_same_string (Void, content, ({INTEGER}).name)
 		end
 
 	test_delimited_list

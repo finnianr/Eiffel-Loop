@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-26 20:07:38 GMT (Tuesday 26th December 2023)"
-	revision: "13"
+	date: "2023-12-27 17:41:30 GMT (Wednesday 27th December 2023)"
+	revision: "14"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -53,8 +53,8 @@ feature -- Tests
 		note
 			testing: "[
 				covers/{EL_DOCUMENT_NODE_XPATH_MATCHER}.scan_document,
-				covers/{EL_HTML_ROUTINES}.to_xml,
-				covers/{EL_EXPAT_XML_PARSER}.parse_string_and_set_error
+				covers/{EL_EXPAT_XHTML_PARSER}.parse_string_and_set_error,
+				covers/{EL_HTML_ROUTINES}.to_xml
 			]"
 		do
 			do_test ("create_xhtml", 4188040180, agent create_xhtml, ["XML/Hexagrams.html"])

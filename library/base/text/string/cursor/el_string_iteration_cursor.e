@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
-	revision: "19"
+	date: "2023-12-28 10:41:17 GMT (Thursday 28th December 2023)"
+	revision: "20"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -218,12 +218,13 @@ feature -- Basic operations
 			convertor.reset (type)
 			last_i := area_last_index; l_area := area
 			from i := area_first_index until i > last_i or failed loop
-				c := i_th_ascii_character (l_area, i)
-				if c.natural_32_code > 0 then
+				inspect i_th_unicode (l_area, i) |>> 7 -- shift out of ASCII range
+					when 0 then
+						failed := True
+				else
+				-- is ASCII
 					convertor.parse_character (c)
 					failed := not convertor.parse_successful
-				else
-					failed := True
 				end
 				i := i + 1
 			end
@@ -238,12 +239,13 @@ feature -- Basic operations
 			first_i := area_first_index + start_index - 1
 			last_i := first_i + l_count - 1; l_area := area
 			from i := first_i until i > last_i or failed loop
-				c := i_th_ascii_character (l_area, i)
-				if c.natural_32_code > 0 then
+				inspect i_th_unicode (l_area, i) |>> 7 -- shift out of ASCII range
+					when 0 then
+						failed := True
+				else
+				-- is ASCII
 					convertor.parse_character (c)
 					failed := not convertor.parse_successful
-				else
-					failed := True
 				end
 				i := i + 1
 			end

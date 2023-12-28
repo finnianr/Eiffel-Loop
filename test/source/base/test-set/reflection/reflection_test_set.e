@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 11:19:34 GMT (Monday 25th December 2023)"
-	revision: "50"
+	date: "2023-12-28 9:35:13 GMT (Thursday 28th December 2023)"
+	revision: "51"
 
 class
 	REFLECTION_TEST_SET
@@ -249,6 +249,7 @@ feature -- Tests
 		end
 
 	test_makeable_object_factory
+		-- REFLECTION_TEST_SET.test_makeable_object_factory
 		local
 			f: EL_MAKEABLE_OBJECT_FACTORY; type: TYPE [COLUMN_VECTOR_COMPLEX_64]
 		do

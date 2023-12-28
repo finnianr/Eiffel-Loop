@@ -1,13 +1,23 @@
 note
-	description: "Parse event source"
+	description: "Parse event source for Pyxis or XML document"
+	descendants: "[
+			EL_PARSE_EVENT_SOURCE*
+				[$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]
+				[$source EL_DEFAULT_PARSE_EVENT_SOURCE]
+				[$source EL_PYXIS_PARSER]
+				[$source EL_EXPAT_XML_PARSER]
+					[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
+					[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
+					[$source EL_EXPAT_XHTML_PARSER]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-26 18:41:07 GMT (Wednesday 26th July 2023)"
-	revision: "14"
+	date: "2023-12-27 17:38:51 GMT (Wednesday 27th December 2023)"
+	revision: "15"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 8:42:08 GMT (Wednesday 27th December 2023)"
-	revision: "26"
+	date: "2023-12-28 10:14:34 GMT (Thursday 28th December 2023)"
+	revision: "27"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -20,6 +20,28 @@ inherit
 	EL_EXPANDED_ROUTINES
 
 	EL_LATIN_1
+
+feature -- Access
+
+	right_bracket (left_bracket: CHARACTER_8): CHARACTER_8
+		do
+			Result := left_bracket + right_bracket_offset (left_bracket)
+		end
+
+feature -- Measurement
+
+	right_bracket_offset (c: CHARACTER_8): INTEGER
+		-- code offset to right bracket if `c' is a left bracket in ASCII range
+		-- or else zero
+		do
+			inspect c
+				when '(' then
+					Result := 1
+				when '{', '[', '<'  then
+					Result := 2
+			else
+			end
+		end
 
 feature -- Status query
 

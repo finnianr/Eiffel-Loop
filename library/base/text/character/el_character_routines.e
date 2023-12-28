@@ -6,14 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 8:42:50 GMT (Wednesday 27th December 2023)"
-	revision: "27"
+	date: "2023-12-28 10:14:21 GMT (Thursday 28th December 2023)"
+	revision: "28"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
 
 inherit
 	EL_BIT_COUNTABLE
+
+feature -- Access
+
+	right_bracket (left_bracket: G): G
+		require
+			is_left: is_left_bracket (left_bracket)
+		deferred
+		end
 
 feature -- Status query
 
@@ -24,6 +32,15 @@ feature -- Status query
 			valid_end_index: end_index < area.count
 		do
 			Result := leading_ascii_count (area, start_index, end_index) = end_index - start_index + 1
+		end
+
+	is_left_bracket (c: G): BOOLEAN
+		do
+			inspect right_bracket_offset (c)
+				when 1, 2 then
+					Result := True
+			else
+			end
 		end
 
 	is_valid_eiffel_case (c: CHARACTER_8; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
@@ -84,6 +101,12 @@ feature -- Measurement
 				end
 				i := i + 1
 			end
+		end
+
+	right_bracket_offset (c: G): INTEGER
+		-- code offset to right bracket if `c' is a left bracket in ASCII range
+		-- or else zero
+		deferred
 		end
 
 feature {NONE} -- Implementation

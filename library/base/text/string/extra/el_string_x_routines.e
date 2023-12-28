@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 13:44:13 GMT (Saturday 23rd December 2023)"
-	revision: "57"
+	date: "2023-12-28 10:20:42 GMT (Thursday 28th December 2023)"
+	revision: "58"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -176,8 +176,9 @@ feature -- Transformed
 		local
 			c: CHARACTER
 		do
-			if quote_type = 1 then
-				c := '%''
+			inspect quote_type
+				when 1 then
+					c := '%''
 			else
 				c := '"'
 			end
@@ -195,21 +196,14 @@ feature -- Transformed
 		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
 		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
 		require
-			valid_left_bracket: across "{[(<" as c some c.item = left_bracket end
+			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
 		local
-			right_chararacter: CHARACTER_32; offset: NATURAL; left_index, right_index: INTEGER
-			content: READABLE_STRING_GENERAL
+			left_index, right_index: INTEGER; content: READABLE_STRING_GENERAL
+			c32: EL_CHARACTER_32_ROUTINES
 		do
-			inspect left_bracket
-				when '(' then
-					offset := 1
-			else
-				offset := 2
-			end
-			right_chararacter := (left_bracket.natural_32_code + offset).to_character_32
 			left_index := str.index_of (left_bracket, 1)
 			if left_index > 0 then
-				right_index := str.index_of (right_chararacter, left_index + 1)
+				right_index := str.index_of (c32.right_bracket (left_bracket), left_index + 1)
 				if right_index > 0 then
 					content := str.substring (left_index + 1, right_index - 1)
 					create Result.make (content.count)
