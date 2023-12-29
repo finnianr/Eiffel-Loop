@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "24"
+	date: "2023-12-29 10:51:34 GMT (Friday 29th December 2023)"
+	revision: "25"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -26,7 +26,7 @@ feature -- Measurement
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			inspect uc.code
-				when 0 .. Max_7_bit_code then
+				when 0 .. Max_ascii_code then
 					encoded_c := uc.to_character_8
 			else
 				encoded_c := Codec.encoded_character (uc)
@@ -69,7 +69,7 @@ feature -- Measurement
 			c: like area.item
 		do
 			inspect uc.code
-				when 0 .. Max_7_bit_code then
+				when 0 .. Max_ascii_code then
 					c := uc.to_character_8
 			else
 				c := Codec.encoded_character (uc)
@@ -105,7 +105,7 @@ feature -- Measurement
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			inspect uc.code
-				when 0 .. Max_7_bit_code then
+				when 0 .. Max_ascii_code then
 					encoded_c := uc.to_character_8
 			else
 				encoded_c := Codec.encoded_character (uc)

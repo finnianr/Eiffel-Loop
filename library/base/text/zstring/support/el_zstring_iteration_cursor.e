@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 17:29:22 GMT (Thursday 28th December 2023)"
-	revision: "21"
+	date: "2023-12-29 16:35:11 GMT (Friday 29th December 2023)"
+	revision: "22"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -71,7 +71,7 @@ feature -- Access
 			code := area [i - 1].code
 			if code = Substitute_code then
 				Result := iter.item (block_index_ptr, unencoded_area, i)
-			elseif code <= Max_7_bit_code then
+			elseif code <= Max_ascii_code then
 				Result := code.to_character_32
 			else
 				Result := Unicode_table [code]

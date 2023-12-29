@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:53 GMT (Sunday 24th December 2023)"
-	revision: "86"
+	date: "2023-12-29 10:49:50 GMT (Friday 29th December 2023)"
+	revision: "87"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -112,7 +112,7 @@ feature -- Access
 				when Substitute then
 					Result := unencoded_code (i).to_character_32
 
-				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+				when Control_0 .. Control_25, Control_27 .. Max_ascii then
 					Result := c_i.to_character_32
 			else
 				Result := Unicode_table [c_i.code]
@@ -135,7 +135,7 @@ feature -- Access
 				when Substitute then
 					Result := unencoded_code (i)
 
-				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+				when Control_0 .. Control_25, Control_27 .. Max_ascii then
 					Result := c_i.natural_32_code
 			else
 				Result := Unicode_table [c_i.code].natural_32_code
@@ -200,7 +200,7 @@ feature -- Status query
 		do
 			inspect uc.code
 			-- allow uc = 26 to map to unicode subtitute character
-				when 0 .. 25, 27 .. Max_7_bit_code then
+				when 0 .. 25, 27 .. Max_ascii_code then
 					Result := String_8.has (Current, uc.to_character_8)
 			else
 				c := Codec.encoded_character (uc)
@@ -215,7 +215,7 @@ feature -- Status query
 
 	has_z_code (a_z_code: NATURAL): BOOLEAN
 		do
-			if a_z_code <= 0xFF then
+			if a_z_code < 0x100 then
 				Result := String_8.has (Current, a_z_code.to_character_8)
 			else
 				Result := unencoded_has (z_code_to_unicode (a_z_code).to_character_32)
@@ -364,7 +364,7 @@ feature {NONE} -- Implementation
 
 	encoded_character (uc: CHARACTER_32): CHARACTER
 		do
-			if uc.code <= Max_7_bit_code then
+			if uc.code <= Max_ascii_code then
 				Result := uc.to_character_8
 			else
 				Result := codec.encoded_character (uc)
@@ -390,7 +390,7 @@ feature {NONE} -- Implementation
 				inspect c_i
 					when Substitute then
 						non_ascii := True
-					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					when Control_0 .. Control_25, Control_27 .. Max_ascii then
 						Result := Result + 1
 						i := i + 1
 				else

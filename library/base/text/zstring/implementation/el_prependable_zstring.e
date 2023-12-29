@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 11:55:02 GMT (Tuesday 14th November 2023)"
-	revision: "50"
+	date: "2023-12-29 10:50:38 GMT (Friday 29th December 2023)"
+	revision: "51"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -79,7 +79,7 @@ feature {NONE} -- Prepending
 		local
 			c: CHARACTER
 		do
-			if uc.code <= Max_7_bit_code then
+			if uc.code <= Max_ascii_code then
 				c := uc.to_character_8
 			else
 				c := Codec.encoded_character (uc)

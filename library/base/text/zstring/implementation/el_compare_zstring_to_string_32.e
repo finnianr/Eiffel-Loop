@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 20:10:23 GMT (Wednesday 29th November 2023)"
-	revision: "5"
+	date: "2023-12-29 10:42:49 GMT (Friday 29th December 2023)"
+	revision: "6"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_32
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 				j := i + offset
 				c_j := encoded_area [j]
 				inspect c_j
-					when Control_0 .. Max_7_bit_character then
+					when Control_0 .. Max_ascii then
 						Result := c_j.to_character_32 = l_other_area [j + other_offset]
 				else
 					Result := l_unicodes [c_j.code] = l_other_area [j + other_offset]

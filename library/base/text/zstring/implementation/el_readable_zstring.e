@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 13:11:00 GMT (Thursday 28th December 2023)"
-	revision: "138"
+	date: "2023-12-29 10:42:58 GMT (Friday 29th December 2023)"
+	revision: "139"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -315,7 +315,7 @@ feature -- Character status query
 							when Substitute then
 								Result := unencoded_item (i + 1) = uc_at_position
 
-							when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+							when Control_0 .. Control_25, Control_27 .. Max_ascii then
 								Result := c_i = uc_at_position
 						else
 							Result :=  Codec.unicode_table [c_i.code] = uc_at_position
@@ -337,7 +337,7 @@ feature -- Character status query
 				when Substitute then
 					Result := unencoded_item (i).is_alpha
 
-				when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+				when Control_0 .. Control_25, Control_27 .. Max_ascii then
 					Result := c_i.is_alpha
 			else
 				Result := Codec.is_alpha (c_i.natural_32_code)
@@ -356,7 +356,7 @@ feature -- Character status query
 					when Substitute then
 						Result := unencoded_item (i).is_alpha_numeric
 
-					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					when Control_0 .. Control_25, Control_27 .. Max_ascii then
 						Result := c_i.is_alpha_numeric
 				else
 					Result := Codec.is_alphanumeric (c_i.natural_32_code)
@@ -375,7 +375,7 @@ feature -- Character status query
 				inspect c_i
 					when Substitute then
 						Result := c32.is_digit (unencoded_item (i))
-					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					when Control_0 .. Control_25, Control_27 .. Max_ascii then
 						Result := c_i.is_digit
 				else
 					Result := Codec.is_numeric (c_i.natural_32_code)
@@ -428,7 +428,7 @@ feature -- Status query
 					inspect c_i
 						when Substitute then
 							Result := Result and condition (iter.item ($block_index, area_32, i + 1))
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							Result := Result and condition (c_i.to_character_32)
 					else
 						Result := Result and condition (Unicode_table [c_i.code])
@@ -453,7 +453,7 @@ feature -- Status query
 					inspect c_i
 						when Substitute then
 							Result := iter.item ($block_index, area_32, i + 1).is_alpha_numeric
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							Result := c_i.is_alpha_numeric
 					else
 						Result := l_codec.is_alphanumeric (c_i.natural_32_code)

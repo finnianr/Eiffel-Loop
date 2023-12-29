@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "16"
+	date: "2023-12-29 10:43:31 GMT (Friday 29th December 2023)"
+	revision: "17"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -93,7 +93,7 @@ feature -- Append to other
 							else
 								o_area [o_first_index + i] := Substitute
 							end
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							o_area [o_first_index + i] := c_i
 					else
 						if already_latin_1 then
@@ -138,7 +138,7 @@ feature -- Append to other
 						when Substitute then
 							sequence.set (iter.item ($block_index, area_32, i + 1))
 							sequence.append_to_string (a_utf_8)
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							a_utf_8.extend (c_i)
 					else
 						sequence.set (l_codec.unicode_table [c_i.code])

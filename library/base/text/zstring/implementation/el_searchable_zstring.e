@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 10:17:34 GMT (Monday 4th December 2023)"
-	revision: "48"
+	date: "2023-12-29 10:50:47 GMT (Friday 29th December 2023)"
+	revision: "49"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -24,7 +24,7 @@ feature -- Index position
 			c: CHARACTER
 		do
 			inspect uc.code
-				when 0 .. Max_7_bit_code then
+				when 0 .. Max_ascii_code then
 					Result := internal_index_of (uc.to_character_8, start_index)
 			else
 				c := Codec.encoded_character (uc)
@@ -65,7 +65,7 @@ feature -- Index position
 			c: CHARACTER
 		do
 			inspect uc.code
-				when 0 .. Max_7_bit_code then
+				when 0 .. Max_ascii_code then
 					Result := internal_last_index_of (uc.to_character_8, start_index_from_end)
 			else
 				c := Codec.encoded_character (uc)
@@ -249,7 +249,7 @@ feature -- Basic operations
 								end
 								i := i + l_count
 							end
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							if c_i.is_alpha_numeric then
 								interval := interval_list.extend_next_upper (interval, i + 1)
 							end

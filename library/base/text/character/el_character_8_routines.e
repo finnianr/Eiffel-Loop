@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 13:52:42 GMT (Thursday 28th December 2023)"
-	revision: "28"
+	date: "2023-12-29 10:59:16 GMT (Friday 29th December 2023)"
+	revision: "29"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -209,7 +209,7 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	character_code (area: SPECIAL [CHARACTER_8]; i: INTEGER): INTEGER
+	i_th_code (area: SPECIAL [CHARACTER_8]; i: INTEGER): INTEGER
 		do
 			Result := area [i].code
 		end

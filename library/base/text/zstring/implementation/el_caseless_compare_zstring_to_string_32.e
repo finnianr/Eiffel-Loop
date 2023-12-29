@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 20:13:16 GMT (Wednesday 29th November 2023)"
-	revision: "6"
+	date: "2023-12-29 10:44:16 GMT (Friday 29th December 2023)"
+	revision: "7"
 
 class
 	EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 				j := i + offset
 				c_j := encoded_area [j]
 				inspect c_j
-					when Control_0 .. Max_7_bit_character then
+					when Control_0 .. Max_ascii then
 						lower_case := c32.to_lower (c_j.to_character_32)
 				else
 					lower_case := c32.to_lower (l_unicodes [c_j.code])

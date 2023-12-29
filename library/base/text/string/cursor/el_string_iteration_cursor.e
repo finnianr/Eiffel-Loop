@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 17:39:14 GMT (Thursday 28th December 2023)"
-	revision: "21"
+	date: "2023-12-29 16:48:36 GMT (Friday 29th December 2023)"
+	revision: "22"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -126,51 +126,13 @@ feature -- Basic operations
 	append_to_string_8 (str: STRING_8)
 		require
 			valid_as_string_8: is_valid_as_string_8
-		local
-			i, i_upper, i_lower, l_count, offset: INTEGER
 		do
-			l_count := target.count
-			if l_count > 0 then
-				offset := str.count
-				str.grow (offset + l_count)
-				str.set_count (offset + l_count)
-
-				i_lower := area_first_index; i_upper := area_last_index
-				if attached str.area as str_area and then attached area as l_area then
-					from i := i_lower until i > i_upper loop
-						str_area [offset] := i_th_character_8 (l_area, i)
-						offset := offset + 1
-						i := i + 1
-					end
-				end
-			end
-		ensure
-			correct_size: str.count = old str.count + target.count
-			substring_appended: ends_with_target (str, old str.count + 1)
+			append_substring_to_string_8 (str, 1, target.count)
 		end
 
 	append_to_string_32 (str: STRING_32)
-		local
-			i, i_upper, i_lower, l_count, offset: INTEGER
 		do
-			l_count := target.count
-			if l_count > 0 then
-				offset := str.count
-				str.grow (offset + l_count)
-				str.set_count (offset + l_count)
-
-				i_lower := area_first_index; i_upper := area_last_index
-				if attached str.area as str_area and then attached area as l_area then
-					from i := i_lower until i > i_upper loop
-						str_area [offset] := i_th_character_32 (l_area, i)
-						offset := offset + 1
-						i := i + 1
-					end
-				end
-			end
-		ensure
-			correct_size: str.count = old str.count + target.count
-			substring_appended: ends_with_target (str, old str.count + 1)
+			append_substring_to_string_32 (str, 1, target.count)
 		end
 
 	append_to_utf_8 (utf_8: STRING_8)
@@ -214,30 +176,13 @@ feature -- Basic operations
 		end
 
 	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
-		local
-			i, i_upper, code: INTEGER; failed: BOOLEAN
 		do
-			convertor.reset (type)
-			if attached area as l_area then
-				i_upper := area_last_index
-				from i := area_first_index until i > i_upper or failed loop
-					code := i_th_unicode (l_area, i)
-					inspect code // 0x100 -- Zero if in 7-bit ASCII range
-						when 0 then
-						-- is ASCII
-							convertor.parse_character (code.to_character_8)
-							failed := not convertor.parse_successful
-					else
-						failed := True
-					end
-					i := i + 1
-				end
-			end
+			parse_substring (convertor, type, 1, target.count)
 		end
 
 	parse_substring (convertor: STRING_TO_NUMERIC_CONVERTOR; type, start_index, end_index: INTEGER)
 		local
-			i, i_upper, i_lower, l_count, code: INTEGER; failed: BOOLEAN
+			i, i_upper, i_lower, l_count: INTEGER; failed: BOOLEAN; c: CHARACTER_8
 		do
 			l_count := end_index - start_index + 1
 			convertor.reset (type)
@@ -245,16 +190,18 @@ feature -- Basic operations
 			if attached area as l_area then
 				i_upper := i_lower + l_count - 1
 				from i := i_lower until i > i_upper or failed loop
-					code := i_th_unicode (l_area, i)
-					inspect code // 0x100 -- Zero if in 7-bit ASCII range
-						when 0 then
-						-- is ASCII
-							convertor.parse_character (code.to_character_8)
-							failed := not convertor.parse_successful
+					c := i_th_character_8 (l_area, i)
+					inspect c
+						when '0' .. '9', 'e', 'E', '.', '+', '-' then
+							convertor.parse_character (c)
+							if convertor.parse_successful then
+								i := i + 1
+							else
+								failed := True
+							end
 					else
-						failed := True
+						convertor.reset (type); failed := True
 					end
-					i := i + 1
 				end
 			end
 		end

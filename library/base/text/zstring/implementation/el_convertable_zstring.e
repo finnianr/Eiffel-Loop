@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:15:48 GMT (Saturday 23rd December 2023)"
-	revision: "63"
+	date: "2023-12-29 10:42:51 GMT (Friday 29th December 2023)"
+	revision: "64"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -66,7 +66,7 @@ feature -- To Strings
 						when Substitute then
 							result_area [i] := '?'
 
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							result_area [i] := c_i
 					else
 						result_area [i] := l_unicode [c_i.code].to_character_8
@@ -135,7 +135,7 @@ feature -- To Strings
 							else
 								encoding_to_latin_1_failed := True
 							end
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							result_area [i] := c_i
 					else
 						if already_latin_1 then

@@ -5,14 +5,14 @@ note
 	notes: "[
 		Passes over 2000 millisecs (in descending order)
 
-			inspect c [i] (i > area_upper) :  31844250.0 times (100%)
-			inspect c.code // 0x100        :  31809797.0 times (-0.1%)
-			inspect c (i > area_upper)     :  31695508.0 times (-0.5%)
-			inspect c (i = i_final)        :  31572676.0 times (-0.9%)
-			if c = Substitute then         :   3444165.0 times (-89.2%)
-			if c [i] = Substitute then     :   3441789.0 times (-89.2%)
-			inspect type [c.code]          :   1637486.0 times (-94.9%)
-
+			inspect c (i > area_upper)     :  7951779.0 times (100%)
+			inspect c [i] (i > area_upper) :  7943184.0 times (-0.1%)
+			inspect c (i = i_final)        :  7809947.0 times (-1.8%)
+			if c = Substitute then         :   857938.0 times (-89.2%)
+			inspect c.code |>> 7           :   857684.0 times (-89.2%)
+			inspect c.code // 0x80         :   855976.0 times (-89.2%)
+			if c [i] = Substitute then     :   853939.0 times (-89.3%)
+			inspect type [c.code]          :   405349.0 times (-94.9%)
 	]"
 
 	author: "Finnian Reilly"
@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 13:48:15 GMT (Thursday 28th December 2023)"
-	revision: "23"
+	date: "2023-12-29 11:26:42 GMT (Friday 29th December 2023)"
+	revision: "24"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -54,7 +54,7 @@ feature -- Basic operations
 				["inspect c (i > area_upper)",	  agent inspect_iteration_area_upper (mixed_string)],
 				["inspect c [i] (i > area_upper)", agent inspect_iteration_area_upper_no_c_assign (mixed_string)],
 				["inspect type [c.code]",			  agent inspect_character_type (mixed_string)],
-				["inspect c.code // 0x100",		  agent inspect_code_div_0x100 (mixed_string)],
+				["inspect c.code // 0x80",		  agent inspect_code_div_0x100 (mixed_string)],
 				["inspect c.code |>> 7",			  agent inspect_7_bit_ascii_shift (mixed_string)],
 				["if c [i] = Substitute then",	  agent if_then_iteration_no_c_assign (mixed_string)],
 				["if c = Substitute then",			  agent if_then_iteration (mixed_string)]
@@ -158,7 +158,7 @@ feature {NONE} -- Operations
 				area_upper := mixed_string.count - 1
 				from i := 0 until i > area_upper loop
 					c := area [i]
-					inspect c.code // 0x100 -- Zero if in 7-bit ASCII range
+					inspect c.code // 0x80 -- Zero if in 7-bit ASCII range
 						when 0 then
 							inspect c
 								when Substitute then
@@ -185,7 +185,7 @@ feature {NONE} -- Operations
 					inspect c
 						when Substitute then
 							do_with (c)
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							do_with (c)
 					else
 						do_with (c)
@@ -206,7 +206,7 @@ feature {NONE} -- Operations
 					inspect c
 						when Substitute then
 							do_with (c)
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							do_with (c)
 					else
 						do_with (c)
@@ -226,7 +226,7 @@ feature {NONE} -- Operations
 					inspect c [i]
 						when Substitute then
 							do_with (c [i])
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							do_with (c [i])
 					else
 						do_with (c [i])

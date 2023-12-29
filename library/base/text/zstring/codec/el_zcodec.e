@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 14:02:34 GMT (Thursday 28th December 2023)"
-	revision: "67"
+	date: "2023-12-29 10:51:01 GMT (Friday 29th December 2023)"
+	revision: "68"
 
 deferred class
 	EL_ZCODEC
@@ -155,7 +155,7 @@ feature -- Contract Support
 							uc_i := zstring_unicode [c_i.code]
 						end
 						inspect uc_i.code
-							when 0 .. Max_7_bit_code then
+							when 0 .. Max_ascii_code then
 							--	do nothing for ASCII
 
 							when 0x80 .. Max_8_bit_code  then
@@ -269,7 +269,7 @@ feature -- Encoding operations
 						from i := i_lower until i > i_upper loop
 							c_i := area [i]
 							inspect c_i
-								when Control_0 .. Max_7_bit_character then
+								when Control_0 .. Max_ascii then
 									encoded_out [out_i] := c_i
 							else
 								if unicode [c_i.code].to_character_8 = c_i then
@@ -370,7 +370,7 @@ feature -- Encoding operations
 						c := c_8_area [i + in_offset - 1]; code_i := c.code
 						out_i := i + out_offset - start_index
 
-						if code_i <= Max_7_bit_code then -- ASCII characters are the same
+						if code_i <= Max_ascii_code then -- ASCII characters are the same
 							encoded_out [out_i] := c
 						else
 							uc := o_unicode [code_i]; code_i := uc.code
@@ -433,7 +433,7 @@ feature -- Basic operations
 					inspect latin_in [i]
 						when Substitute then
 							do_nothing -- Filled in later by call to `{EL_COMPACT_SUBSTRINGS_32}.write'
-						when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							unicode_out [i + out_offset] := latin_in [i].code.to_character_32
 					else
 						if already_latin_1 then
@@ -502,7 +502,7 @@ feature -- Character conversion
 			c: CHARACTER; uc_code: INTEGER
 		do
 			uc_code := uc.code
-			if uc_code <= Max_7_bit_code then
+			if uc_code <= Max_ascii_code then
 				Result := uc.natural_32_code
 
 			elseif uc_code <= Max_8_bit_code and then unicode_table [uc_code] = uc then
@@ -524,7 +524,7 @@ feature -- Character conversion
 			unicode: INTEGER
 		do
 			unicode := uc.code
-			if unicode <= Max_7_bit_code then
+			if unicode <= Max_ascii_code then
 				Result := uc.to_character_8
 
 			elseif unicode <= Max_8_bit_code and then unicode_table [unicode] = uc then
@@ -595,7 +595,7 @@ feature {NONE} -- Implementation
 								end
 						else
 						end
-					when Control_0 .. Control_25, Control_27 .. Max_7_bit_character then
+					when Control_0 .. Control_25, Control_27 .. Max_ascii then
 						inspect case
 							when {EL_CASE}.Upper then
 								latin_in [i] := c_i.as_upper
@@ -689,7 +689,7 @@ feature {NONE} -- Implementation
 						code_i := uc_i.code
 
 						inspect code_i
-							when 0 .. Max_7_bit_code then
+							when 0 .. Max_ascii_code then
 								encoded_out [out_i] := uc_i.to_character_8
 
 							when 0x80 .. Max_8_bit_code then
@@ -744,7 +744,7 @@ feature {NONE} -- Implementation
 				from i := i_lower until i > i_upper loop
 					uc_i := area_32 [i]
 					inspect uc_i.code
-						when 0 .. Max_7_bit_code then
+						when 0 .. Max_ascii_code then
 							encoded_out [out_i] := uc_i.to_character_8
 
 						when 0x80 .. Max_8_bit_code then

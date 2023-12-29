@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 20:17:18 GMT (Wednesday 29th November 2023)"
-	revision: "6"
+	date: "2023-12-29 10:50:52 GMT (Friday 29th December 2023)"
+	revision: "7"
 
 class
 	EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 				uc_i := encoded_area [j]; code_i := uc_i.code
 				o_uc_i := l_other_area [j + other_offset]
 				inspect code_i
-					when 0 .. Max_7_bit_code then
+					when 0 .. Max_ascii_code then
 						uc_i := l_unicodes [code_i]
 				else
 				end
