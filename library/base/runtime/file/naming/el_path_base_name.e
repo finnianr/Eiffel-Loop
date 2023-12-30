@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-06 16:03:19 GMT (Sunday 6th August 2023)"
-	revision: "10"
+	date: "2023-12-30 15:53:27 GMT (Saturday 30th December 2023)"
+	revision: "11"
 
 deferred class
 	EL_PATH_BASE_NAME
 
 inherit
 	EL_MODULE_FORMAT
+
+	EL_CHARACTER_32_CONSTANTS
 
 feature -- Access
 
@@ -32,7 +34,7 @@ feature -- Access
 				Result := base
 			end
 		ensure
-			definition: old has_dot_extension implies base ~ (Result + "." + old extension)
+			definition: old has_dot_extension implies base ~ dot.joined (Result, old extension)
 		end
 
 	extension: ZSTRING

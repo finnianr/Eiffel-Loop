@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 15:30:13 GMT (Wednesday 29th November 2023)"
-	revision: "22"
+	date: "2023-12-30 17:10:57 GMT (Saturday 30th December 2023)"
+	revision: "23"
 
 class
 	EL_SOFTWARE_VERSION
@@ -20,6 +20,11 @@ class
 inherit
 	COMPARABLE
 		redefine
+			out, is_equal
+		end
+
+	HASHABLE
+		undefine
 			out, is_equal
 		end
 
@@ -42,16 +47,16 @@ convert
 
 feature -- Initialization
 
-	make_build
-		-- make from current application build info
-		do
-			make (Build_info.version_number, Build_info.build_number)
-		end
-
 	make (a_compact_version, a_build: NATURAL)
 			--
 		do
 			compact_version := a_compact_version; build := a_build
+		end
+
+	make_build
+		-- make from current application build info
+		do
+			make (Build_info.version_number, Build_info.build_number)
 		end
 
 	make_from_string (a_version: STRING)
@@ -138,13 +143,25 @@ feature -- Access
 			create Result.make (3, 2, compact_version)
 		end
 
-feature -- Access
+feature -- Status query
+
+	is_default: BOOLEAN
+		do
+			Result := compact_version = 0
+		end
+
+feature -- Numbers
 
 	build: NATURAL
 			--
 	compact_version: NATURAL
-			-- version in form jj_nn_tt where: jj is major version, nn is minor version and tt is maintenance version
-			-- padded with leading zeros: eg. 01_02_15 is Version 1.2.15
+		-- version in form jj_nn_tt where: jj is major version, nn is minor version and tt is maintenance version
+		-- padded with leading zeros: eg. 01_02_15 is Version 1.2.15
+
+	hash_code: INTEGER
+		do
+			Result := compact_version.to_integer_32
+		end
 
 	maintenance: NATURAL
 			--

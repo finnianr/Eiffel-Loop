@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-22 12:41:21 GMT (Thursday 22nd June 2023)"
-	revision: "8"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "9"
 
 class
 	WINZIP_CREATE_SELF_EXTRACT_COMMAND
@@ -51,7 +51,7 @@ feature -- Basic operations
 		do
 			put_object (package)
 
-			create path_list.make_with_count (2)
+			create path_list.make (2)
 			-- write two fields as temporary text files
 			across package.field_table as table loop
 				if attached {EL_REFLECTED_ZSTRING} table.item as field

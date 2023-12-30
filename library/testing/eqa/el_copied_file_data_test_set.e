@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "8"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -29,7 +29,7 @@ feature {NONE} -- Events
 		do
 			Precursor
 			list := source_file_list
-			create file_list.make_with_count (list.count)
+			create file_list.make (list.count)
 			across list as path loop
 				relative_path := Work_area_dir + path.item.relative_path (data_dir)
 				relative_dir := relative_path.parent

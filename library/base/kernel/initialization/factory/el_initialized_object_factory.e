@@ -1,6 +1,6 @@
 note
 	description: "[
-		An [$source EL_OBJECT_FACTORY [G]] object that creates initialized objects using
+		[$source EL_OBJECT_FACTORY [G]] that can create initialized objects using
 		factory conforming to [$source EL_FACTORY [G]]
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 10:13:44 GMT (Saturday 30th December 2023)"
-	revision: "6"
+	date: "2023-12-30 11:54:14 GMT (Saturday 30th December 2023)"
+	revision: "7"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]

@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:48:26 GMT (Tuesday 14th February 2023)"
-	revision: "9"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "10"
 
 class
 	CROSS_PLATFORM_CLUSTER
@@ -59,8 +59,8 @@ feature {NONE} -- Initialization
 		do
 			cluster_dir := a_cluster_dir
 			ecf_name := ecf.path.base
-			create interface_list.make_with_count (5)
-			create implementation_list.make_with_count (5)
+			create interface_list.make (5)
+			create implementation_list.make (5)
 			implementation_list.compare_objects
 
 			across path_list as source loop
@@ -157,7 +157,7 @@ feature {NONE} -- Implementation
 			imp_name, interface_name: ZSTRING
 		do
 			interface_name := interface_path.base_name
-			create Result.make_with_count (2)
+			create Result.make (2)
 			across implementation_list as path loop
 				imp_name := path.item.base_name
 				if imp_name.starts_with (interface_name)

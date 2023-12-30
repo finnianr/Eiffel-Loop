@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 10:34:17 GMT (Thursday 21st December 2023)"
-	revision: "58"
+	date: "2023-12-30 16:13:18 GMT (Saturday 30th December 2023)"
+	revision: "59"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -313,7 +313,7 @@ feature -- Factory
 			across source_dir_list as path loop
 				if excluded_dir_table.has_key (path.item) then
 					not_excluded := agent not_excluded_path (excluded_dir_table.found_item, ?)
-					create file_list.make (OS.file_list (path.item, Symbol.star_dot_e).query (not_excluded))
+					create file_list.make_from_list (OS.file_list (path.item, Symbol.star_dot_e).query (not_excluded))
 				else
 					file_list := OS.file_list (path.item, Symbol.star_dot_e)
 				end

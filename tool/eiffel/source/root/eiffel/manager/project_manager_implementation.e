@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-10 7:59:57 GMT (Thursday 10th August 2023)"
-	revision: "2"
+	date: "2023-12-30 16:36:47 GMT (Saturday 30th December 2023)"
+	revision: "3"
 
 deferred class
 	PROJECT_MANAGER_IMPLEMENTATION
@@ -18,9 +18,7 @@ inherit
 			make as make_shell
 		end
 
-	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_OS
-
-	EL_MODULE_USER_INPUT
+	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_OS; EL_MODULE_USER_INPUT
 
 feature {NONE} -- Initialization
 

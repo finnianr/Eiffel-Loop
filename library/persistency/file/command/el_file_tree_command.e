@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "9"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "10"
 
 deferred class
 	EL_FILE_TREE_COMMAND
@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 
 	new_file_list: EL_FILE_PATH_LIST
 		do
-			create Result.make_with_count (0)
+			create Result.make (0)
 			across new_extensions_split as extension loop
 				Result.append (File_system.files_with_extension (tree_dir, extension.item, True))
 			end

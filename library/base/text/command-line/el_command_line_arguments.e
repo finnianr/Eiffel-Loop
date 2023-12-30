@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 12:42:09 GMT (Friday 9th December 2022)"
-	revision: "20"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "21"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -122,7 +122,7 @@ feature -- Access
 			l_remaining_items: like remaining_items
 		do
 			l_remaining_items := remaining_items (name)
-			create Result.make_with_count (l_remaining_items.count)
+			create Result.make (l_remaining_items.count)
 			across l_remaining_items as string loop
 				Result.extend (string.item)
 			end

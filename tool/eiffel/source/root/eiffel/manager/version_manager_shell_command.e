@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-23 13:10:28 GMT (Sunday 23rd July 2023)"
-	revision: "2"
+	date: "2023-12-30 18:03:40 GMT (Saturday 30th December 2023)"
+	revision: "3"
 
 class
 	VERSION_MANAGER_SHELL_COMMAND
@@ -48,33 +48,13 @@ feature {NONE} -- Factory
 feature {NONE} -- Commands
 
 	delete_installed_versions
-		local
-			count: INTEGER; range: INTEGER_INTERVAL; name_parts: EL_STRING_8_LIST
-			input: EL_USER_INPUT_VALUE [INTEGER]; version_path, executable_path: FILE_PATH
 		do
-			list_installed_versions
+			installed_executable_list.delete_range (config.executable_name)
+		end
 
-			executable_path := config.usr_local_executable_path
-			if attached new_installed_versions as version_list then
-				range := 0 |..| Versions_text_path.count
-				create input.make_valid ("Enter number to delete from earliest", "Invalid number", agent range.has)
-				count := input.value
-				across version_list as list until list.cursor_index > count loop
-					create name_parts.make_from_array (<< executable_path.base, list.item.string>>)
-					version_path := executable_path.parent + name_parts.joined ('-')
-					lio.put_path_field ("Delete", version_path)
-					if User_input.approved_action_y_n ("")
-						and then attached command.new_delete_file (version_path) as cmd
-					then
-						cmd.sudo.enable
-						cmd.execute
-						lio.put_line ("Deleted")
-					else
-						lio.put_line ("Skipped")
-					end
-				end
-				lio.put_new_line
-			end
+	list_installed_versions
+		do
+			installed_executable_list.display_versions (config.executable_name)
 		end
 
 feature {NONE} -- Implementation
@@ -100,50 +80,13 @@ feature {NONE} -- Implementation
 			config.set_version (new_version)
 		end
 
-	list_installed_versions
-		local
-			excutable_path: FILE_PATH
-		do
-			excutable_path := "/usr/local/bin/" + config.executable_name
-			lio.put_new_line
-			lio.put_path_field ("VERSIONS of " + config.executable_name + " in",  excutable_path.parent)
-			lio.put_new_line
-			if attached new_installed_versions as installed_list and then installed_list.count > 0 then
-				across installed_list as version loop
-					lio.put_index_labeled_string (version, Void, version.item.string)
-					lio.put_new_line
-				end
-			else
-				lio.put_line ("Nothing installed")
-			end
-			lio.put_new_line
-		end
-
-	new_installed_executable_list: EL_FILE_PATH_LIST
+	installed_executable_list: EL_VERSION_PATH_LIST
 		do
 			if attached config.usr_local_executable_path as excutable_path then
-				Result := OS.file_list (excutable_path.parent, excutable_path.base + "*")
+				create Result.make (excutable_path.parent, excutable_path.base + "*")
 			else
 				create Result.make_empty
 			end
-		end
-
-	new_installed_versions: EL_ARRAYED_LIST [EL_SOFTWARE_VERSION]
-		local
-			version_str: STRING
-		do
-			if attached new_installed_executable_list as file_list then
-				create Result.make (file_list.count)
-				across file_list as path loop
-					if attached path.item.base as name then
-						version_str := name.substring_to_reversed ('-', default_pointer)
-						if version_str.count < name.count then
-							Result.extend (version_str)
-						end
-					end
-				end
-			end
-			Result.sort (True)
 		end
 
 feature {NONE} -- Internal attributes

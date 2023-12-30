@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 12:00:39 GMT (Saturday 16th September 2023)"
-	revision: "31"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "32"
 
 class
 	SOURCE_MANIFEST
@@ -63,7 +63,7 @@ feature -- Access
 		require
 			source_trees_read: source_trees_read
 		do
-			create Result.make_with_count (file_count)
+			create Result.make (file_count)
 			across source_tree_list as list loop
 				Result.append_sequence (list.item.path_list)
 			end

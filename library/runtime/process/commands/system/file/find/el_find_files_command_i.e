@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 13:42:28 GMT (Monday 5th December 2022)"
-	revision: "15"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "16"
 
 deferred class
 	EL_FIND_FILES_COMMAND_I
@@ -54,6 +54,6 @@ feature {NONE} -- Implementation
 
 	new_path_list (n: INTEGER): EL_FILE_PATH_LIST
 		do
-			create Result.make_with_count (n)
+			create Result.make (n)
 		end
 end

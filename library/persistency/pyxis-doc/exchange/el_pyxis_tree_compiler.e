@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 13:20:07 GMT (Monday 28th August 2023)"
-	revision: "22"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "23"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 				end
 				Result := manifest.file_list
 			else
-				create Result.make_with_count (0)
+				create Result.make (0)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 10:50:32 GMT (Saturday 24th June 2023)"
-	revision: "25"
+	date: "2023-12-30 16:14:53 GMT (Saturday 30th December 2023)"
+	revision: "26"
 
 class
 	EL_FILE_PATH_LIST
@@ -15,19 +15,17 @@ class
 inherit
 	EL_SORTABLE_ARRAYED_LIST [FILE_PATH]
 		rename
-			make as make_with_count,
-			make_from_list as make,
 			first as first_path,
 			item as path,
 			last as last_path
 		redefine
-			make_from_tuple, make_with_count
+			make_from_tuple, make
 		end
 
 	EL_MODULE_FILE
 
 create
-	make, make_empty, make_with_count, make_from_array, make_from_tuple,
+	make, make_from_list, make_empty, make_from_array, make_from_tuple,
 	make_from, make_from_for, make_from_if
 
 convert
@@ -39,7 +37,7 @@ feature {NONE} -- Initialization
 		local
 			i: INTEGER
 		do
-			make_with_count (tuple.count)
+			make (tuple.count)
 			from i := 1 until i > tuple.count loop
 				if tuple.is_reference_item (i) then
 					if attached {FILE_PATH} tuple.reference_item (i) as file_path then
@@ -55,7 +53,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_with_count (n: INTEGER)
+	make (n: INTEGER)
 		do
 			Precursor (n)
 			compare_objects

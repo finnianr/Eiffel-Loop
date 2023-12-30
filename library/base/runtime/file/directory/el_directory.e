@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 16:46:22 GMT (Saturday 25th November 2023)"
-	revision: "26"
+	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
+	revision: "27"
 
 class
 	EL_DIRECTORY
@@ -107,7 +107,7 @@ feature -- Access
 
 	files: EL_FILE_PATH_LIST
 		do
-			create Result.make_with_count (20)
+			create Result.make (20)
 			read_entries (Result, Type_file, Empty_string_8)
 		ensure
 			object_comparison: Result.object_comparison
@@ -115,7 +115,7 @@ feature -- Access
 
 	files_with_extension (extension: READABLE_STRING_GENERAL): like files
 		do
-			create Result.make_with_count (20)
+			create Result.make (20)
 			read_entries (Result, Type_file, extension)
 		ensure
 			object_comparison: Result.object_comparison
@@ -136,7 +136,7 @@ feature -- Access
 
 	recursive_files: like files
 		do
-			create Result.make_with_count (20)
+			create Result.make (20)
 			read_recursive_entries (Result, Type_file, Empty_string_8)
 		ensure
 			object_comparison: Result.object_comparison
@@ -144,7 +144,7 @@ feature -- Access
 
 	recursive_files_with_extension (extension: READABLE_STRING_GENERAL): like files
 		do
-			create Result.make_with_count (20)
+			create Result.make (20)
 			read_recursive_entries (Result, Type_file, extension)
 		ensure
 			object_comparison: Result.object_comparison

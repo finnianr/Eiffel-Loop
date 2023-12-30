@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 11:48:10 GMT (Saturday 30th December 2023)"
-	revision: "1"
+	date: "2023-12-30 11:58:04 GMT (Saturday 30th December 2023)"
+	revision: "2"
 
 class
 	EL_FACTORY_ROUTINES_IMP
@@ -31,15 +31,19 @@ feature -- Access
 		local
 			intervals: EL_OCCURRENCE_INTERVALS; s_8: EL_STRING_8_ROUTINES
 			class_type: STRING; conforming_name: IMMUTABLE_STRING_8
+			lower, upper: INTEGER
 		do
 			conforming_name := type_of_type (conforming_target_id).name
 			create intervals.make_by_string (factory_type.name, target_type.name)
 			class_type := factory_type.name
-			from intervals.finish until intervals.before loop
-				if s_8.is_identifier_boundary (factory_type.name, intervals.item_lower, intervals.item_upper) then
-					class_type.replace_substring (conforming_name, intervals.item_lower, intervals.item_upper)
+			if attached intervals as list then
+				from list.finish until list.before loop
+					lower := list.item_lower; upper := list.item_upper
+					if s_8.is_identifier_boundary (factory_type.name, lower, upper) then
+						class_type.replace_substring (conforming_name, lower, upper)
+					end
+					list.back
 				end
-				intervals.back
 			end
 			Result := dynamic_type_from_string (class_type)
 		end

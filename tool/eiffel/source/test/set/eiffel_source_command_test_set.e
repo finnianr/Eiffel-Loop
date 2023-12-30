@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 17:54:31 GMT (Sunday 17th September 2023)"
-	revision: "22"
+	date: "2023-12-30 13:32:08 GMT (Saturday 30th December 2023)"
+	revision: "23"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["class_reader",			agent test_class_reader],
 				["class_analyzer",		agent test_class_analyzer],
-				["code_word_counter",	agent test_code_word_counter],
+				["code_metrics",			agent test_code_metrics],
 				["find_and_replace",		agent test_find_and_replace],
 				["space_cleaner",			agent test_space_cleaner]
 			>>)
@@ -119,24 +119,26 @@ feature -- Tests
 			end
 		end
 
-	test_code_word_counter
-		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_code_word_counter
+	test_code_metrics
+		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_code_metrics
 		local
-			command: CODEBASE_WORD_COUNTER; assertion_template: ZSTRING
+			command: MANIFEST_METRICS_COMMAND; assertion_template: ZSTRING
 			actual_results, expected_results: EL_ARRAYED_LIST [INTEGER]
 		do
 			create command.make (Manifest_path)
 			command.execute
-			create expected_results.make_from_array (<< 32, 10448, 99658 >>)
-			create actual_results.make_from_array (<< command.class_count, command.word_count, command.byte_count >>)
-			assertion_template := "%S classes %S words. Total size %S bytes"
+			create expected_results.make_from_array (<< 32, 279, 99658 >>)
+			if attached command.metrics as metrics then
+				create actual_results.make_from_array (<< metrics.class_count, metrics.routine_count, metrics.byte_count >>)
+			end
+			assertion_template := "%S classes %S routines. Total size %S bytes"
 
 			if expected_results /~ actual_results then
 				lio.put_labeled_string ("Actual", assertion_template #$ actual_results.to_tuple)
 				lio.put_new_line
 				lio.put_labeled_string ("Expected", assertion_template #$ expected_results.to_tuple)
 				lio.put_new_line
-				failed ("same class count, word count etc")
+				failed ("same class count, routine count etc")
 			end
 		end
 
