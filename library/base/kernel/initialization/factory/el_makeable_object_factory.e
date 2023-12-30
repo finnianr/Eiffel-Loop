@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-07 9:12:40 GMT (Wednesday 7th December 2022)"
-	revision: "7"
+	date: "2023-12-30 6:50:53 GMT (Saturday 30th December 2023)"
+	revision: "8"
 
 class
 	EL_MAKEABLE_OBJECT_FACTORY
@@ -19,7 +19,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_FACTORY
 
 	EL_SHARED_CLASS_ID
 
@@ -35,21 +35,19 @@ feature -- Factory
 			end
 		end
 
-	new_item_from_type (type: TYPE [EL_MAKEABLE]): detachable EL_MAKEABLE
+	new_item_from_type (makeable: TYPE [EL_MAKEABLE]): detachable EL_MAKEABLE
 		require
-			valid_type: valid_type_id (type.type_id)
+			valid_type: valid_makeable_id (makeable.type_id)
 		do
-			if attached new_cell (type) as cell then
-				Result := cell.new_item
-			end
+			Result := new_item_from_type_id (makeable.type_id)
 		end
 
-	new_item_from_type_id (a_type_id: INTEGER): detachable EL_MAKEABLE
+	new_item_from_type_id (makeable_type_id: INTEGER): detachable EL_MAKEABLE
 		require
-			valid_type: valid_type_id (a_type_id)
+			valid_type: valid_makeable_id (makeable_type_id)
 		do
-			if attached {TYPE [EL_MAKEABLE]} Eiffel.type_of_type (a_type_id) as type_id then
-				Result := new_item_from_type (type_id)
+			if attached new_cell (makeable_type_id) as cell then
+				Result := cell.new_item
 			end
 		end
 
@@ -58,20 +56,22 @@ feature -- Contract Support
 	valid_name (class_name: STRING): BOOLEAN
 		do
 			if not class_name.is_empty then
-				Result := valid_type_id (Eiffel.dynamic_type_from_string (class_name))
+				Result := valid_makeable_id (Eiffel.dynamic_type_from_string (class_name))
 			end
 		end
 
-	valid_type_id (type_id: INTEGER): BOOLEAN
+	valid_makeable_id (makeable_type_id: INTEGER): BOOLEAN
 		do
-			Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE)
+			Result := {ISE_RUNTIME}.type_conforms_to (makeable_type_id, Class_id.EL_MAKEABLE)
 		end
 
 feature {NONE} -- Implementation
 
-	new_cell (type: TYPE [EL_MAKEABLE]): EL_MAKEABLE_FACTORY [EL_MAKEABLE]
+	new_cell (makeable_type_id: INTEGER): EL_MAKEABLE_FACTORY [EL_MAKEABLE]
+		require
+			valid_target: valid_makeable_id (makeable_type_id)
 		do
-			if attached {like new_cell} Eiffel.new_factory_instance ({like new_cell}, type) as new then
+			if attached {like new_cell} Factory.new ({like new_cell}, makeable_type_id) as new then
 				Result := new
 			end
 		end

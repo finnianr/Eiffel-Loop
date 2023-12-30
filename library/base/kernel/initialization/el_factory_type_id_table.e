@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 18:57:35 GMT (Thursday 28th December 2023)"
-	revision: "1"
+	date: "2023-12-30 5:50:06 GMT (Saturday 30th December 2023)"
+	revision: "2"
 
 class
 	EL_FACTORY_TYPE_ID_TABLE
@@ -49,8 +49,11 @@ feature {NONE} -- Implementation
 
 	hash_code_of (key: NATURAL_64): INTEGER
 		-- a better hash code then {NATURAL_64}.hash_code
+		local
+			l_31_bit_value: NATURAL_64
 		do
-			Result := (key |>> 30).to_integer_32.bit_xor (key.to_integer_32)
+			l_31_bit_value := (key |>> 17).bit_xor (key) & Max_31_bits
+			Result := l_31_bit_value.to_integer_32
 		end
 
 	new_item (key: NATURAL_64): INTEGER
@@ -86,4 +89,7 @@ feature {NONE} -- Implementation
 				and then field_conforms_to (type.type_id, factory_type.generic_parameter_type (1).type_id)
 		end
 
+feature {NONE} -- Constants
+
+	Max_31_bits: NATURAL_64 = 0x7FFFFFFF
 end

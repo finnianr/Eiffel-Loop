@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 17:35:06 GMT (Thursday 28th December 2023)"
-	revision: "59"
+	date: "2023-12-30 11:50:14 GMT (Saturday 30th December 2023)"
+	revision: "60"
 
 deferred class
 	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -17,11 +17,24 @@ inherit
 
 feature -- Basic operations
 
+	replace (str: STRING_X; content: READABLE_STRING_GENERAL)
+		-- replace all characters of `str' wih new `content'
+		do
+			wipe_out (str)
+			append_to (str, content)
+		end
+
+feature -- Deferred operations
+
 	append_area_32 (str: STRING_X; area: SPECIAL [CHARACTER_32])
 		deferred
 		end
 
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	replace_substring (str: STRING_X; insert: READABLE_STRING_X; start_index, end_index: INTEGER)
 		deferred
 		end
 
@@ -51,6 +64,10 @@ feature -- Factory
 			create Result.make (n)
 		end
 
+	new_list (n: INTEGER): EL_STRING_LIST [STRING_X]
+		deferred
+		end
+
 	new_retrieved (file_path: FILE_PATH): STRING_X
 		-- new instace of type `STRING_X' restored from file saved by Studio debugger
 		local
@@ -63,10 +80,6 @@ feature -- Factory
 				Result := new (0)
 			end
 			file.close
-		end
-
-	new_list (n: INTEGER): EL_STRING_LIST [STRING_X]
-		deferred
 		end
 
 	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
@@ -82,12 +95,6 @@ feature -- List joining
 		do
 			create Result.make (a.count + b.count)
 			append_to (Result, a); append_to (Result, b)
-		end
-
-	joined_with (a, b, separator: READABLE_STRING_X): STRING_X
-		do
-			create Result.make (a.count + b.count + separator.count)
-			append_to (Result, a); append_to (Result, separator); append_to (Result, b)
 		end
 
 	joined_lines (list: ITERABLE [READABLE_STRING_GENERAL]): STRING_X
@@ -124,7 +131,38 @@ feature -- List joining
 			end
 		end
 
+	joined_with (a, b, separator: READABLE_STRING_X): STRING_X
+		do
+			create Result.make (a.count + b.count + separator.count)
+			append_to (Result, a); append_to (Result, separator); append_to (Result, b)
+		end
+
 feature -- Transformed
+
+	bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32): STRING_X
+		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
+		require
+			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
+		local
+			left_index, right_index: INTEGER; content: READABLE_STRING_GENERAL
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			left_index := str.index_of (left_bracket, 1)
+			if left_index > 0 and then attached cursor (str) as l_cursor then
+				right_index := str.index_of (c32.right_bracket (left_bracket), left_index + 1)
+				right_index := l_cursor.matching_bracket_index (left_index)
+				if right_index > 0 then
+					content := str.substring (left_index + 1, right_index - 1)
+					create Result.make (content.count)
+					append_to (Result, content)
+				else
+					create Result.make (0)
+				end
+			else
+				create Result.make (0)
+			end
+		end
 
 	curtailed (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
 		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
@@ -185,35 +223,25 @@ feature -- Transformed
 			Result := enclosed (str, c, c)
 		end
 
-	replace (str: STRING_X; content: READABLE_STRING_GENERAL)
-		-- replace all characters of `str' wih new `content'
-		do
-			wipe_out (str)
-			append_to (str, content)
-		end
-
-	bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32): STRING_X
-		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
-		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
+	replaced_identifier (str, old_id, new_id: READABLE_STRING_X): STRING_X
+		-- copy of `str' with each each Eiffel identifier `old_id' replaced with `new_id'
 		require
-			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
+			both_identifiers: is_eiffel (old_id) and is_eiffel (new_id)
 		local
-			left_index, right_index: INTEGER; content: READABLE_STRING_GENERAL
-			c32: EL_CHARACTER_32_ROUTINES
+			intervals: EL_OCCURRENCE_INTERVALS
 		do
-			left_index := str.index_of (left_bracket, 1)
-			if left_index > 0 and then attached cursor (str) as l_cursor then
-				right_index := str.index_of (c32.right_bracket (left_bracket), left_index + 1)
-				right_index := l_cursor.matching_bracket_index (left_index)
-				if right_index > 0 then
-					content := str.substring (left_index + 1, right_index - 1)
-					create Result.make (content.count)
-					append_to (Result, content)
-				else
-					create Result.make (0)
-				end
+			create intervals.make_by_string (str, old_id)
+			if new_id.count > old_id.count then
+				Result := new (str.count + (new_id.count - old_id.count) * intervals.count)
 			else
-				create Result.make (0)
+				Result := new (str.count)
+			end
+			Result.append (str)
+			from intervals.finish until intervals.before loop
+				if is_identifier_boundary (str, intervals.item_lower, intervals.item_upper) then
+					replace_substring (Result, new_id, intervals.item_lower, intervals.item_upper)
+				end
+				intervals.back
 			end
 		end
 

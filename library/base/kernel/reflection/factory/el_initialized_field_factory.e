@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:31:16 GMT (Monday 14th August 2023)"
-	revision: "3"
+	date: "2023-12-30 8:09:27 GMT (Saturday 30th December 2023)"
+	revision: "4"
 
 class
 	EL_INITIALIZED_FIELD_FACTORY
@@ -24,8 +24,8 @@ feature -- Factory
 		type: TYPE [EL_REFLECTED_FIELD]; a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8
 	): EL_REFLECTED_FIELD
 		do
-			if attached new_factory (type.type_id) as factory then
-				Result := factory.new_item (a_object, a_index, a_name)
+			if attached new_factory (type.type_id) as l_factory then
+				Result := l_factory.new_item (a_object, a_index, a_name)
 			else
 				create {EL_REFLECTED_REFERENCE_ANY} Result.make (a_object, a_index, a_name)
 			end

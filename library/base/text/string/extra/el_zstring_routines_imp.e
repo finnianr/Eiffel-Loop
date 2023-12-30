@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 15:12:31 GMT (Friday 22nd December 2023)"
-	revision: "19"
+	date: "2023-12-30 11:26:29 GMT (Saturday 30th December 2023)"
+	revision: "20"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -339,6 +339,11 @@ feature {NONE} -- Implementation
 	to_z_code (character: CHARACTER_32): NATURAL_32
 		do
 			Result := Codec.as_z_code (character)
+		end
+
+	replace_substring (str: ZSTRING; insert: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
+		do
+			str.replace_substring (insert, start_index, end_index)
 		end
 
 feature {NONE} -- Constants

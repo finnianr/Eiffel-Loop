@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 11:12:59 GMT (Friday 22nd December 2023)"
-	revision: "32"
+	date: "2023-12-30 9:19:11 GMT (Saturday 30th December 2023)"
+	revision: "33"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -28,7 +28,7 @@ inherit
 	EL_SHARED_CLASS_ID; EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
-	make
+	make, default_create -- to satisfy constraint of `EL_REFLECTED_COLLECTION_FACTORY'
 
 feature {NONE} -- Initialization
 

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 18:47:03 GMT (Thursday 28th December 2023)"
-	revision: "28"
+	date: "2023-12-30 8:59:59 GMT (Saturday 30th December 2023)"
+	revision: "29"
 
 class
 	EL_INTERNAL
@@ -32,13 +32,9 @@ inherit
 			{ANY} abstract_type
 		end
 
-	EL_REFLECTION_CONSTANTS
+	EL_REFLECTION_CONSTANTS; EL_STRING_8_CONSTANTS
 
-	EL_MODULE_CONVERT_STRING
-
-	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES; EL_SHARED_STRING_8_BUFFER_SCOPES
-
-	EL_STRING_8_CONSTANTS
+	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
 feature -- Type queries
 
@@ -157,19 +153,6 @@ feature -- Type queries
 
 feature -- Access
 
-	new_factory_instance (factory_type, type: TYPE [ANY]): detachable ANY
-		require
-			valid_factory_type: valid_factory_type (factory_type, type)
-		local
-			factory_type_id: INTEGER; combined_type_id: NATURAL_64
-		do
-			combined_type_id := (factory_type.type_id.to_natural_64 |<< 32) | type.type_id.to_natural_64
-			factory_type_id := Factory_type_id_table.item (combined_type_id)
-			if factory_type_id > 0 and then attached new_instance_of (factory_type_id) as new then
-				Result := new
-			end
-		end
-
 	new_object (type: TYPE [ANY]): detachable ANY
 		do
 			Result := new_instance_of (type.type_id)
@@ -180,25 +163,7 @@ feature -- Access
 			create Result.make (a_object)
 		end
 
-	substituted_type_name (generic_type, parameter_type, insert_type: TYPE [ANY]): STRING
-		--
-		local
-			intervals: EL_OCCURRENCE_INTERVALS; s_8: EL_STRING_8_ROUTINES
-		do
-			create intervals.make_by_string (generic_type.name, parameter_type.name)
-			across String_8_scope as scope loop
-				Result := scope.copied_item (generic_type.name)
-				from intervals.finish until intervals.before loop
-					if s_8.is_identifier_boundary (generic_type.name, intervals.item_lower, intervals.item_upper) then
-						Result.replace_substring (insert_type.name, intervals.item_lower, intervals.item_upper)
-					end
-					intervals.back
-				end
-			end
-			Result := Result.twin
-		end
-
-	type_from_string (class_type: STRING): TYPE [ANY]
+	type_from_string (class_type: STRING): detachable TYPE [ANY]
 		local
 			type_id: INTEGER
 		do
@@ -225,12 +190,6 @@ feature -- Contract Support
 			Result := type_conforms_to (type_id, Class_id.COLLECTION_ANY)
 		end
 
-	valid_factory_type (factory_type, type: TYPE [ANY]): BOOLEAN
-		do
-			Result := factory_type.generic_parameter_count = 1
-				and then field_conforms_to (type.type_id, factory_type.generic_parameter_type (1).type_id)
-		end
-
 feature {NONE} -- Implementation
 
 	conforms_to_one_of (type_id: INTEGER; types: ARRAY [INTEGER]): BOOLEAN
@@ -242,13 +201,6 @@ feature {NONE} -- Implementation
 				Result := field_conforms_to (type_id, types [i])
 				i := i + 1
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Factory_type_id_table: EL_FACTORY_TYPE_ID_TABLE
-		once
-			create Result.make (17)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 12:48:05 GMT (Thursday 28th December 2023)"
-	revision: "17"
+	date: "2023-12-30 11:26:22 GMT (Saturday 30th December 2023)"
+	revision: "18"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -316,6 +316,11 @@ feature {NONE} -- Implementation
 	last_index_of (str: READABLE_STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
+		end
+
+	replace_substring (str: STRING_8; insert: READABLE_STRING_8; start_index, end_index: INTEGER)
+		do
+			str.replace_substring (insert, start_index, end_index)
 		end
 
 feature {NONE} -- Constants

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 16:25:46 GMT (Thursday 16th November 2023)"
-	revision: "42"
+	date: "2023-12-30 7:36:34 GMT (Saturday 30th December 2023)"
+	revision: "43"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -181,7 +181,8 @@ feature {NONE} -- Implementation
 		local
 			agent_factory: EL_AGENT_FACILITATED_FACTORY [G]
 		do
-			if attached {EL_FACTORY [G]} Makeable_factory.new_item_factory (type_id) as f then
+			if ({G}).conforms_to ({EL_MAKEABLE})
+				and then attached {EL_FACTORY [G]} Makeable_factory.new_item_factory (type_id) as f then
 				Result := f
 			else
 				create agent_factory.make (type_id)

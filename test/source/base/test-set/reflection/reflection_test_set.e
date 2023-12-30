@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 9:35:13 GMT (Thursday 28th December 2023)"
-	revision: "51"
+	date: "2023-12-30 9:42:38 GMT (Saturday 30th December 2023)"
+	revision: "52"
 
 class
 	REFLECTION_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_FACTORY
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 				["reflective_string_constants",						agent test_reflective_string_constants],
 				["set_from_other",										agent test_set_from_other],
 				["size_reporting",										agent test_size_reporting],
-				["substituted_type_name",								agent test_substituted_type_name]
+				["substituted_type_id",									agent test_substituted_type_id]
 			>>)
 		end
 
@@ -286,23 +286,25 @@ feature -- Tests
 		end
 
 	test_reflected_collection_factory
+		-- REFLECTION_TEST_SET.test_reflected_collection_factory
 		local
-			type_list: ARRAY [TYPE [ANY]]; type_id: INTEGER
-			factory_type: TYPE [ANY]; type_name: STRING
+			type_list: ARRAY [TYPE [ANY]]; type_id: INTEGER; factory_type: TYPE [ANY]
+			integer_factory: EL_REFLECTED_COLLECTION_FACTORY [INTEGER, EL_REFLECTED_COLLECTION [INTEGER]]
 		do
+			create integer_factory -- {INTEGER} will fail without this
+
 			type_list := << {INTEGER}, {STRING}, {COUNTRY} >>
 			across type_list as type loop
-				type_name := Eiffel.substituted_type_name (
-					{EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]}, {ANY}, type.item
-				)
-				if attached Collection_field_factory_factory.new_item_factory (type.item.type_id) as factory then
-					lio.put_labeled_string ("Created", factory.generating_type.name)
+				if attached Collection_field_factory_factory.new_item_factory (type.item.type_id) as factory_item then
+					lio.put_labeled_string ("Created", factory_item.generating_type.name)
 					lio.put_new_line
 				else
-					lio.put_labeled_string ("Failed to create", type_name)
+					type_id := Factory.substituted_type_id (
+						{EL_REFLECTED_COLLECTION_FACTORY [ANY, EL_REFLECTED_COLLECTION [ANY]]}, {ANY}, type.item.type_id
+					)
+					lio.put_labeled_string ("Failed to create",  {ISE_RUNTIME}.generating_type_of_type (type_id))
 					lio.put_new_line
---					{INTEGER} expected to fail, (but at one point it was succeeding, why ??)
-					assert ("created factory", type.cursor_index = 1)
+					failed ("created factory")
 				end
 			end
 		end
@@ -384,14 +386,14 @@ feature -- Tests
 			assert ("same size", Eiffel.deep_physical_size (l_info) = Object_header_size + {PLATFORM}.Integer_64_bytes * 4)
 		end
 
-	test_substituted_type_name
+	test_substituted_type_id
 		note
-			testing: "covers/{EL_INTERNAL}.substituted_type_name"
+			testing: "covers/{EL_INTERNAL}.substituted_type_id"
 		local
-			type_name: STRING
+			type_id: INTEGER
 		do
-			type_name := Eiffel.substituted_type_name ({EL_MAKEABLE_FACTORY [EL_MAKEABLE]}, {EL_MAKEABLE}, {EL_UUID})
-			assert ("same string", type_name ~ "EL_MAKEABLE_FACTORY [EL_UUID]")
+			type_id := Factory.substituted_type_id ({EL_MAKEABLE_FACTORY [EL_MAKEABLE]}, {EL_MAKEABLE}, ({EL_UUID}).type_id)
+			assert_same_string (Void, {ISE_RUNTIME}.generating_type_of_type (type_id), "EL_MAKEABLE_FACTORY [EL_UUID]")
 		end
 
 feature {NONE} -- Implementation
