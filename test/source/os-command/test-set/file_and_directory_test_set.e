@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 15:27:08 GMT (Monday 22nd May 2023)"
-	revision: "40"
+	date: "2023-12-31 9:51:08 GMT (Sunday 31st December 2023)"
+	revision: "41"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -185,7 +185,7 @@ feature -- Tests
 			dir_path := work_area_path (Help_pages_windows_dir)
 			create l_dir.make (dir_path)
 			if attached OS.find_directories_command (dir_path) as cmd then
-				cmd.set_depth (1 |..| 1)
+				cmd.set_depth (1, 1)
 				cmd.execute
 				cmd.set_default_depths
 				assert_same_entries (l_dir.directories, cmd.path_list)
@@ -210,7 +210,7 @@ feature -- Tests
 
 			create l_dir.make (dir_path)
 			if attached OS.find_files_command (dir_path, "*") as cmd then
-				cmd.set_depth (1 |..| 1)
+				cmd.set_depth (1, 1)
 				cmd.execute
 				cmd.set_default_depths
 				assert_same_entries (l_dir.files, cmd.path_list)
@@ -414,7 +414,7 @@ feature {NONE} -- Implementation
 	--			Test with restricted depth
 				from upper := 1 until upper > 3 loop
 					from lower := 0 until lower > upper loop
-						cmd.set_depth (lower |..| upper)
+						cmd.set_depth (lower, upper)
 						execute_and_assert (
 							cmd, a_dir_set.subset_include (agent directory_within_depth (root_dir, ?, lower |..| upper))
 						)
@@ -442,7 +442,7 @@ feature {NONE} -- Implementation
 	--			Test depth
 				from upper := 3 until upper > 4 loop
 					from lower := 1 until lower > upper loop
-						cmd.set_depth (lower |..| upper)
+						cmd.set_depth (lower, upper)
 						execute_and_assert (
 							cmd, a_file_set.subset_include (agent file_within_depth (root_dir, ?, lower |..| upper))
 						)

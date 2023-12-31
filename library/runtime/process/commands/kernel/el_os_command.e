@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 8:37:39 GMT (Monday 14th August 2023)"
-	revision: "24"
+	date: "2023-12-31 9:49:31 GMT (Sunday 31st December 2023)"
+	revision: "25"
 
 class
 	EL_OS_COMMAND
@@ -16,6 +16,8 @@ inherit
 	EL_OS_COMMAND_I
 		rename
 			template as Empty_string
+		export
+			{ANY} put_any, put_string, put_integer, put_variables, put_double, put_natural, put_real
 		redefine
 			getter_function_table, has_variable, system_command, template_name,
 			new_temporary_name, temporary_error_file_path, put_any

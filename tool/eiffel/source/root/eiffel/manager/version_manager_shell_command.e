@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 18:03:40 GMT (Saturday 30th December 2023)"
-	revision: "3"
+	date: "2023-12-31 9:31:03 GMT (Sunday 31st December 2023)"
+	revision: "4"
 
 class
 	VERSION_MANAGER_SHELL_COMMAND
@@ -82,8 +82,8 @@ feature {NONE} -- Implementation
 
 	installed_executable_list: EL_VERSION_PATH_LIST
 		do
-			if attached config.usr_local_executable_path as excutable_path then
-				create Result.make (excutable_path.parent, excutable_path.base + "*")
+			if attached config.usr_local_executable_path as path then
+				create Result.make (path.parent, path.base + "*")
 			else
 				create Result.make_empty
 			end

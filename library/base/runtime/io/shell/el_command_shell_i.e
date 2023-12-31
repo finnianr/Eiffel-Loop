@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 7:17:16 GMT (Friday 11th August 2023)"
-	revision: "19"
+	date: "2023-12-31 14:43:50 GMT (Sunday 31st December 2023)"
+	revision: "20"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -18,7 +18,7 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_LIO; EL_MODULE_USER_INPUT
+	EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 feature {NONE} -- Initialization
 
@@ -29,12 +29,31 @@ feature {NONE} -- Initialization
 		end
 
 	make_table
+		-- make `command_table' with any variables in `new_command_table' keys
+		-- expanded with variable values defined by `new_expansion_table'
+		local
+			template: EL_TEMPLATE [ZSTRING]; description: ZSTRING
+			has_expansions: BOOLEAN
 		do
 			if attached new_command_table as table then
 				create command_table.make_size (table.count + 1)
 				set_standard_options (command_table)
-				across table as command loop
-					command_table [command.key] := command.item
+				if attached new_expansion_table as expansion_table then
+					has_expansions := expansion_table.count > 0
+					across table as command loop
+						description := command.key
+					-- Expand variables in description
+						if has_expansions and then description.has ('$') then
+							create template.make (description)
+							across expansion_table as variable loop
+								if template.has (variable.key) then
+									template.put (variable.key, variable.item)
+								end
+							end
+							description := template.substituted
+						end
+						command_table [description] := command.item
+					end
 				end
 			end
 		end
@@ -91,6 +110,13 @@ feature {NONE} -- Implementation
 
 	new_command_table: like command_table
 		deferred
+		end
+
+	new_expansion_table: EL_STRING_8_TABLE [ZSTRING]
+		-- expansion values for any variables names prefixed with $
+		-- in `new_command_table' keys
+		do
+			create Result
 		end
 
 	set_standard_options (table: like new_command_table)

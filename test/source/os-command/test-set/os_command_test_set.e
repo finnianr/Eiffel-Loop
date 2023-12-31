@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 15:26:52 GMT (Monday 22nd May 2023)"
-	revision: "26"
+	date: "2023-12-31 9:51:08 GMT (Sunday 31st December 2023)"
+	revision: "27"
 
 class
 	OS_COMMAND_TEST_SET
@@ -95,7 +95,7 @@ feature -- Tests
 			dir_path: DIR_PATH; steps: EL_PATH_STEPS; index: INTEGER
 		do
 			if attached OS.find_directories_command (Directory.home.parent) as cmd then
-				cmd.set_depth (1 |..| 1)
+				cmd.set_depth (1, 1)
 				cmd.set_predicate_filter (agent is_user_directory)
 				cmd.execute
 				across cmd.path_list as list loop

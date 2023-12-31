@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 13:57:46 GMT (Monday 6th February 2023)"
-	revision: "8"
+	date: "2023-12-31 8:08:55 GMT (Sunday 31st December 2023)"
+	revision: "9"
 
 class
 	DIRECTORY_WALK_VS_FIND_COMMAND
@@ -38,7 +38,7 @@ feature -- Basic operations
 		local
 			file_list: EL_FILE_PATH_LIST
 		do
-			create file_list.make_with_count (6000) -- 4225 for project test.ecf
+			create file_list.make (6000) -- 4225 for project test.ecf
 
 			compare ("list_w_code_c_files", <<
 				["With EL_DIRECTORY", 				agent el_directory (file_list)],

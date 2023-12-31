@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 9:45:51 GMT (Sunday 14th May 2023)"
-	revision: "9"
+	date: "2023-12-31 8:08:02 GMT (Sunday 31st December 2023)"
+	revision: "10"
 
 class
 	EL_GVFS_FILE_LIST_COMMAND
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			create file_list.make_with_count (10)
+			create file_list.make (10)
 			create dir_path
 			extension := Empty_string_8
 		end

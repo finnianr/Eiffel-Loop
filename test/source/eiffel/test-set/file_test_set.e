@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 14:43:34 GMT (Saturday 19th August 2023)"
-	revision: "20"
+	date: "2023-12-31 9:50:19 GMT (Sunday 31st December 2023)"
+	revision: "21"
 
 class
 	FILE_TEST_SET
@@ -51,7 +51,7 @@ feature -- Basic operations
 	find_directories
 		do
 			if attached OS.find_directories_command ("source") as cmd then
-				cmd.set_depth (1 |..| 1)
+				cmd.set_depth (1, 1)
 				cmd.execute
 				across cmd.path_list as dir loop
 					lio.put_path_field ("", dir.item)
@@ -64,7 +64,7 @@ feature -- Basic operations
 			--
 		do
 			if attached OS.find_files_command ("/", "*.rc") as cmd then
-				cmd.set_depth (1 |..| 1)
+				cmd.set_depth (1, 1)
 				cmd.execute
 				lio.put_new_line
 				across cmd.path_list as list loop

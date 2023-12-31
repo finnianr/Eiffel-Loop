@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 10:12:36 GMT (Thursday 21st December 2023)"
-	revision: "30"
+	date: "2023-12-31 8:09:41 GMT (Sunday 31st December 2023)"
+	revision: "31"
 
 class
 	DUPLICITY_RESTORE
@@ -85,7 +85,7 @@ feature {NONE} -- Implementation
 			lio.put_line ("(%"library/%" to search for directory library)")
 			create cmd.make (a_time, backup_dir, User_input.line ("Enter search string"))
 			lio.put_new_line
-			create path_list.make_with_count (cmd.path_list.count)
+			create path_list.make (cmd.path_list.count)
 			path_list.extend (target_dir_base)
 			across cmd.path_list as path loop
 				path_list.extend (path.item)

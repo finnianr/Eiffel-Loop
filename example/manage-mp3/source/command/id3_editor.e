@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2023-12-31 11:20:06 GMT (Sunday 31st December 2023)"
+	revision: "17"
 
 class
 	ID3_EDITOR
@@ -29,7 +29,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_media_dir: DIR_PATH; a_edition_name: like edition_name)
 		do
 			edition_name := a_edition_name
-			create file_paths.make (OS.file_list (a_media_dir, "*.mp3"))
+			create file_paths.make_from_list (OS.file_list (a_media_dir, "*.mp3"))
 			editions_table := new_editions_table
 		end
 

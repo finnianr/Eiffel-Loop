@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 15:17:31 GMT (Saturday 29th April 2023)"
-	revision: "19"
+	date: "2023-12-31 9:46:51 GMT (Sunday 31st December 2023)"
+	revision: "20"
 
 deferred class
 	TB_MULTI_LANG_ACCOUNT_READER
@@ -82,7 +82,7 @@ feature {NONE} -- Implementation
 	new_mail_folder_dir_list: EL_ARRAYED_LIST [DIR_PATH]
 		do
 			if attached OS.find_directories_command (mail_dir) as cmd then
-				cmd.set_depth (1 |..| 1)
+				cmd.set_depth (1, 1)
 				cmd.set_predicate_filter (agent is_folder_included)
 				cmd.execute
 				Result := cmd.path_list

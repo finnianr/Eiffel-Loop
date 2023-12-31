@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2023-12-31 9:46:51 GMT (Sunday 31st December 2023)"
+	revision: "14"
 
 class
 	INCLUSION_LIST_FILE
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 			if is_wild_card (file_specifier) then
 				specifier_path := Directory.new (Short_directory_current) #+ file_specifier
 				if attached OS.find_files_command (specifier_path.parent, specifier_path.base) as cmd then
-					cmd.set_depth (1 |..| 1)
+					cmd.set_depth (1, 1)
 					cmd.set_follow_symbolic_links (True)
 					cmd.set_working_directory (target_parent)
 

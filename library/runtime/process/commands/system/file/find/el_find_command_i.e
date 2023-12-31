@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 12:18:51 GMT (Saturday 22nd July 2023)"
-	revision: "26"
+	date: "2023-12-31 9:52:34 GMT (Sunday 31st December 2023)"
+	revision: "27"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -117,9 +117,11 @@ feature -- Element change
 			name_pattern.wipe_out
 		end
 
-	set_depth (interval: INTEGER_INTERVAL)
+	set_depth (a_min_depth, a_max_depth: INTEGER)
+		require
+			valid_range: a_min_depth >= 0 and a_min_depth <= a_max_depth
 		do
-			min_depth := interval.lower; max_depth := interval.upper
+			set_min_depth (a_min_depth); set_max_depth (a_max_depth)
 		end
 
 	set_max_depth (a_max_depth: like max_depth)
@@ -148,7 +150,7 @@ feature -- Basic operations
 		do
 			l_depth_range := depth_range
 
-			set_depth (1 |..| 1); execute
+			set_depth (1, 1); execute
 			across path_list as source_dir loop
 				if is_lio_enabled then
 					lio.put_path_field ("Copying", source_dir.item)
@@ -163,7 +165,7 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 			end
-			set_depth (l_depth_range)
+			set_depth (l_depth_range.lower, l_depth_range.upper)
 		end
 
 feature {NONE} -- Evolicity reflection

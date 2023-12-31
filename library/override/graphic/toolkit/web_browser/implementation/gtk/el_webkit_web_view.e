@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 		local
 			lib_paths: EL_FILE_PATH_LIST
 		once
-			create lib_paths.make_with_count (5)
+			create lib_paths.make (5)
 			across << "/usr/lib", "/usr/lib/x86_64-linux-gnu" >> as dir loop
 				-- Mac uses a different extension
 				if attached OS.find_files_command (dir.item, "libwebkit*.so") as cmd then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 21:17:29 GMT (Sunday 4th December 2022)"
-	revision: "17"
+	date: "2023-12-31 8:07:49 GMT (Sunday 31st December 2023)"
+	revision: "18"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			if attached implementation.new_file_list (input_dir, wild_card) as path_list then
-				create Result.make_with_count (path_list.count)
+				create Result.make (path_list.count)
 				across path_list as list loop
 					Result.extend (list.item.relative_path (input_dir))
 				end

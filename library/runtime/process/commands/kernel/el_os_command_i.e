@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 15:28:18 GMT (Sunday 5th November 2023)"
-	revision: "51"
+	date: "2023-12-31 9:44:45 GMT (Sunday 31st December 2023)"
+	revision: "52"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -32,6 +32,8 @@ inherit
 	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
 		rename
 			as_text as system_command
+		export
+			{NONE} all
 		redefine
 			make_default, system_command
 		end

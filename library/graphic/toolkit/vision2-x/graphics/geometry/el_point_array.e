@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-16 19:34:18 GMT (Saturday 16th December 2023)"
-	revision: "10"
+	date: "2023-12-31 10:11:24 GMT (Sunday 31st December 2023)"
+	revision: "11"
 
 class
 	EL_POINT_ARRAY
@@ -60,4 +60,19 @@ feature -- Access
 			create Result.make_from_array (Current)
 		end
 
+feature -- Basic operations
+
+	copy_to (target: like area)
+		require
+			same_size: count = target.count
+		local
+			i: INTEGER
+		do
+			if count = target.count then
+				from i := 0 until i = area.count loop
+					target.item (i).copy (area [i])
+					i := i + 1
+				end
+			end
+		end
 end

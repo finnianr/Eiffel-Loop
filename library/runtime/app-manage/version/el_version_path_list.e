@@ -1,8 +1,20 @@
 note
 	description: "[
-		Manage list of executable or package file paths with version number between hyphen and dot extension
+		Manage list of executable or package file paths with version number between hyphen and dot extension.
 		
-		Eg. `el_eiffel-1.4.1.exe'. Accepts user input by command line.
+		Example:
+		
+			download/myching-amd64-1.1.2.deb
+			download/MyChing-de-win32-1.1.2.exe
+			download/MyChing-de-win32-1.1.4.exe
+			download/MyChing-de-win64-1.1.2.exe
+			download/MyChing-de-win64-1.1.4.exe
+			download/MyChing-en-win32-1.1.2.exe
+			download/MyChing-en-win32-1.1.4.exe
+			download/MyChing-en-win64-1.1.2.exe
+			download/MyChing-en-win64-1.1.4.exe		
+		
+		Accepts user input by command line to confirm deletions.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 18:07:14 GMT (Saturday 30th December 2023)"
-	revision: "1"
+	date: "2023-12-31 11:11:30 GMT (Sunday 31st December 2023)"
+	revision: "2"
 
 class
 	EL_VERSION_PATH_LIST
@@ -21,11 +33,14 @@ inherit
 		rename
 			make as make_sized,
 			occurrences as path_occurrences
+		export
+			{NONE} all
+			{ANY} new_cursor, start, forth, after, path, first_path, last_path
 		redefine
 			make_empty
 		end
 
-	EL_MODULE_COMMAND; EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_USER_INPUT
+	EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_USER_INPUT
 
 create
 	make, make_empty
@@ -34,17 +49,35 @@ feature {NONE} -- Initialization
 
 	make (a_dir_path: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL)
 		do
-			make_from_list (OS.file_list (a_dir_path, a_file_pattern))
-			dir_path := a_dir_path
+			make_empty; dir_path := a_dir_path
+			append_files (a_file_pattern)
 		end
 
 	make_empty
 		do
 			Precursor
 			create dir_path
+			create {EL_DELETE_FILE_COMMAND_IMP} delete_file_command.make_default
 		end
 
 feature -- Access
+
+	path_version: EL_SOFTWARE_VERSION
+		-- version of current path item
+		do
+			Result := new_path_version (path)
+		end
+
+	new_version_path_list (version: EL_SOFTWARE_VERSION): EL_FILE_PATH_LIST
+		do
+			create Result.make (10)
+			from start until after loop
+				if path_version ~ version then
+					Result.extend (path)
+				end
+				forth
+			end
+		end
 
 	sorted_version_list: EL_ARRAYED_LIST [EL_SOFTWARE_VERSION]
 		do
@@ -52,30 +85,12 @@ feature -- Access
 			Result.sort (True)
 		end
 
-	path_version: EL_SOFTWARE_VERSION
-		local
-			version, name: ZSTRING
-		do
-			Result := Default_version
-			if path.has_dot_extension then
-				if path.extension.is_natural then
-					name := path.base -- el_eiffel-1.2.3
-				else
-					name := path.base_name -- el_eiffel-1.2.3.exe
-				end
-				version := name.substring_to_reversed ('-', default_pointer)
-				if version.occurrences ('.') = 2 then
-					Result := version.to_latin_1
-				end
-			end
-		end
-
 	version_set: EL_HASH_SET [EL_SOFTWARE_VERSION]
 		do
 			push_cursor
 			create Result.make (count)
 			from start until after loop
-				if attached path_version as version and then version /= Default_version then
+				if attached path_version as version then
 					Result.put (version)
 				end
 				forth
@@ -88,13 +103,9 @@ feature -- Basic operations
 	delete_range (name: READABLE_STRING_GENERAL)
 		-- delete user specified range of versions by menu number
 		local
-			input_count: INTEGER; range: INTEGER_INTERVAL; name_parts: EL_STRING_8_LIST
-			input: EL_USER_INPUT_VALUE [INTEGER]; version_path, executable_path: FILE_PATH
-			version: EL_SOFTWARE_VERSION; version_path_list: EL_FILE_PATH_LIST
-			template: STRING
+			input_count: INTEGER; range: INTEGER_INTERVAL; input: EL_USER_INPUT_VALUE [INTEGER]
+			version: EL_SOFTWARE_VERSION
 		do
-			create version_path_list.make (10)
-
 			display_versions (name)
 
 			if attached sorted_version_list as version_list then
@@ -103,26 +114,20 @@ feature -- Basic operations
 				input_count := input.value
 				across version_list as list until list.cursor_index > input_count loop
 					version := list.item
-					version_path_list.wipe_out
-					from start until after loop
-						if path_version ~ version then
-							lio.put_line (path.base)
-							version_path_list.extend (path)
-						end
-						forth
-					end
-					template := "%S version %S files"
-					if version_path_list.count = 1 then
-						template.remove_tail (1)
-					end
-					lio.put_labeled_substitution ("Delete", template, [version_path_list.count, version.string])
-					if User_input.approved_action_y_n ("") then
-						across version_path_list as l_path loop
-							if attached command.new_delete_file (l_path.item) as cmd then
-								cmd.sudo.enable
-								cmd.execute
+					if attached new_version_path_list (version) as version_path_list then
+						if version_path_list.count = 1 then
+							lio.put_labeled_string ("Delete file", version_path_list.first_path)
+						else
+							across version_path_list as l_list loop
+								lio.put_line (l_list.item.base)
 							end
+							lio.put_labeled_substitution (
+								"Delete", "%S version %S files", [version_path_list.count, version.string]
+							)
 						end
+					end
+					if User_input.approved_action_y_n ("") then
+						delete_version (version)
 						lio.put_line ("Deleted")
 					else
 						lio.put_line ("Skipped")
@@ -150,14 +155,84 @@ feature -- Basic operations
 			lio.put_new_line
 		end
 
+feature -- Status change
+
+	set_admin_access (yes: BOOLEAN)
+		-- sudo command on Unix
+		do
+			delete_file_command.sudo.set_state (yes)
+		end
+
+feature -- Element change
+
+	append_files (a_file_pattern: READABLE_STRING_GENERAL)
+		do
+			if dir_path.exists and then attached OS.find_files_command (dir_path, a_file_pattern) as cmd then
+				cmd.set_depth (1, 1) -- non-recursive
+				cmd.execute
+				if attached cmd.path_list as file_list then
+					resize (count + file_list.count)
+					across file_list as list loop
+						if new_path_version (list.item) /= Default_version then
+							extend (list.item)
+						end
+					end
+				end
+			end
+		ensure
+			all_versioned_paths:
+				across sub_list (old count + 1, count) as list all
+					new_path_version (list.item) /= Default_version
+				end
+		end
+
+	delete_version (version: EL_SOFTWARE_VERSION)
+		-- delete and remove all paths with `version'
+		do
+			if attached delete_file_command as cmd then
+				from start until after loop
+					if path_version ~ version then
+						cmd.set_target_path (path)
+						cmd.execute
+						remove
+					else
+						forth
+					end
+				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	new_path_version (a_path: FILE_PATH): EL_SOFTWARE_VERSION
+		-- parse version from path like "el_eiffel-1.2.3.exe" with or without extension
+		-- If not parseable `Result = Default_version'
+		local
+			version, name: ZSTRING
+		do
+			Result := Default_version
+			name := a_path.base -- el_eiffel-1.2.3.exe
+			if name.occurrences ('.') >= 2 and name.has ('-') then
+				if not a_path.extension.is_natural then
+					name := a_path.base_name -- el_eiffel-1.2.3
+				end
+				version := name.substring_to_reversed ('-', default_pointer)
+				if version.occurrences ('.') = 2 then
+					Result := version.to_latin_1
+				end
+			end
+		end
+
 feature {NONE} -- Internal attributes
+
+	delete_file_command: EL_DELETE_FILE_COMMAND_I
 
 	dir_path: DIR_PATH
 
 feature {NONE} -- Constants
 
 	Default_version: EL_SOFTWARE_VERSION
-		once
+		once ("PROCESS")
 			create Result
 		end
 
