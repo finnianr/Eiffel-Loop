@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 16:54:30 GMT (Tuesday 20th June 2023)"
-	revision: "22"
+	date: "2024-01-01 16:17:11 GMT (Monday 1st January 2024)"
+	revision: "23"
 
 class
 	ENCRYPTION_TEST_SET
@@ -78,7 +78,7 @@ feature -- Tests
 			create key_file.make (key_path)
 			key_file.unlock
 			assert ("key_file recreated", key_path.exists)
-			assert_same_digest (key_path, target_digest)
+			assert_same_digest (Plain_text, key_path, target_digest)
 			key_file.lock
 			assert ("key_file gone", not key_path.exists)
 

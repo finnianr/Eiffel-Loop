@@ -1,5 +1,7 @@
 note
-	description: "Finalized executable tests for library [./library/amazon-instant-access.html amazon-instant-access.ecf]"
+	description: "[
+		Finalized executable tests for library [./library/amazon-instant-access.html amazon-instant-access.ecf]
+	]"
 	notes: "[
 		Command option: `-amazon_instant_access_autotest'
 		
@@ -13,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "69"
+	date: "2024-01-01 11:57:51 GMT (Monday 1st January 2024)"
+	revision: "70"
 
 class
 	AMAZON_INSTANT_ACCESS_AUTOTEST_APP

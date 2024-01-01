@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2024-01-01 16:56:37 GMT (Monday 1st January 2024)"
+	revision: "14"
 
 class
 	COM_SHELL_LINK
@@ -25,6 +25,8 @@ inherit
 		end
 
 	COM_WINDOWS_SHELL_API
+
+	EL_ZSTRING_ROUTINES_IMP
 
 create
 	make, make_from_path
@@ -113,22 +115,25 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_arguments (a_arguments: ZSTRING)
+	set_arguments (a_arguments: READABLE_STRING_GENERAL)
 		-- set command arguments
 		do
-			set_string (agent cpp_set_arguments, a_arguments)
+			Native_string.set_string (a_arguments)
+			last_status := cpp_set_arguments (self_ptr, Native_string.item)
 		end
 
-	set_description (a_description: ZSTRING)
+	set_description (a_description: READABLE_STRING_GENERAL)
 		do
-			set_string (agent cpp_set_description, a_description)
+			Native_string.set_string (a_description)
+			last_status := cpp_set_description (self_ptr, Native_string.item)
 		end
 
 	set_icon (a_icon: like icon)
 		require
 			file_exists: a_icon.file_path.exists
 		do
-			set_string (agent cpp_set_icon_location (?, ?, a_icon.index - 1), a_icon.file_path)
+			Native_string.set_string (a_icon.file_path)
+			last_status := cpp_set_icon_location (self_ptr, Native_string.item, a_icon.index - 1)
 		end
 
 	set_target_path (a_target_path: FILE_PATH)
@@ -136,13 +141,15 @@ feature -- Element change
 		require
 			file_exists: a_target_path.exists
 		do
-			set_string (agent cpp_set_path, a_target_path)
+			Native_string.set_string (a_target_path)
+			last_status := cpp_set_path (self_ptr, Native_string.item)
 		end
 
 	set_working_directory (directory_path: DIR_PATH)
 			--
 		do
-			set_string (agent cpp_set_working_directory, directory_path)
+			Native_string.set_string (directory_path)
+			last_status := cpp_set_working_directory (self_ptr, Native_string.item)
 		end
 
 feature {NONE} -- Implementation

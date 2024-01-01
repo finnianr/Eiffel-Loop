@@ -80,7 +80,7 @@ system:
 			location = "$EIFFEL_LOOP/library"
 			EL_amazon_ia = "amazon-instant-access.ecf"
 			EL_app_manage = "app-manage.ecf"
-			EL_c_api = "C-language-interface.ecf"
+			EL_C_interface = "C-language-interface.ecf"
 			EL_compression = "compression.ecf"
 			EL_currency = "currency.ecf"
 			EL_doc_scan = "document-scan.ecf"
@@ -159,6 +159,16 @@ system:
 					base.ecf (Eiffel-Loop)
 					
 					Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
+				"""
+		cluster_tree:
+			c_language_interface = "source/C-language-interface"
+			platform_list:
+				"imp_mswin; imp_unix"
+			description:
+				"""
+					C-language-interface.ecf
+					
+					See class [$source C_LANGUAGE_INTERFACE_AUTOTEST_APP]
 				"""
 		cluster_tree:
 			common = "source/common"
@@ -393,8 +403,6 @@ system:
 				"""
 		cluster_tree:
 			wel_x_audio = "source/wel-x-audio"
-			platform_list:
-				"imp_mswin; imp_unix"
 			description:
 				"""
 					wel-x-audio.ecf
@@ -402,6 +410,9 @@ system:
 					Maintenance of Windows audio classes
 					See class [$source MEDIA_PLAYER_DUMMY_APP]
 				"""
+			condition:
+				platform = windows
+
 		cluster_tree:
 			xml_scan = "source/xml-scan"
 			description:

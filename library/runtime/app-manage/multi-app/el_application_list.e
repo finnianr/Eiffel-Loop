@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 14:59:56 GMT (Saturday 8th July 2023)"
-	revision: "26"
+	date: "2024-01-01 13:31:20 GMT (Monday 1st January 2024)"
+	revision: "27"
 
 class
 	EL_APPLICATION_LIST
@@ -36,30 +36,30 @@ create
 
 feature {NONE} -- Initialization
 
-	make (type_tuple: TUPLE)
-		require
-			all_conform_to_EL_APPLICATION: new_type_list (type_tuple).all_conform
-		local
-			type_list: like new_type_list
+	make (type_list: EL_TUPLE_TYPE_LIST [EL_APPLICATION])
 		do
 			make_solitary
-			type_list := new_type_list (type_tuple)
 			make_list (type_list.count)
 			create installable_list.make (5)
-			across type_list as type loop
-				if attached {EL_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
-					extend (app)
-					if attached {EL_INSTALLABLE_APPLICATION} app as installable_app then
-						installable_list.extend (installable_app)
-					end
-				end
-			end
+			append_types (type_list)
 			compare_objects
 		ensure
 			at_most_one_main_application: count_of (agent is_main) <= 1
 		end
 
 feature -- Access
+
+	Main_launcher: EL_DESKTOP_MENU_ITEM
+		require
+			has_main_application: has_main
+		once
+			if attached main as main_app
+				and then attached {EL_MENU_DESKTOP_ENVIRONMENT_I} main_app.desktop as main_app_installer then
+				Result := main_app_installer.launcher
+			else
+				create Result.make_default
+			end
+		end
 
 	application (type: TYPE [EL_APPLICATION]): detachable EL_APPLICATION
 		do
@@ -101,40 +101,7 @@ feature -- Access
 			end
 		end
 
-	Main_launcher: EL_DESKTOP_MENU_ITEM
-		require
-			has_main_application: has_main
-		once
-			if attached main as main_app
-				and then attached {EL_MENU_DESKTOP_ENVIRONMENT_I} main_app.desktop as main_app_installer then
-				Result := main_app_installer.launcher
-			else
-				create Result.make_default
-			end
-		end
-
 feature -- Basic operations
-
-	io_put_menu (lio: EL_LOGGABLE)
-		do
-			lio.put_new_line
-			across Current as app loop
-				lio.put_labeled_string (app.cursor_index.out + ". command switch", "-" + app.item.option_name)
-				lio.put_new_line
-				lio.put_labeled_lines ("Description", app.item.description.split ('%N'))
-				lio.put_new_line
-			end
-		end
-
-	install_menus
-		do
-			if has_main and then attached uninstall_script as script then
-				script.serialize
-			end
-			across installable_list as app loop
-				app.item.install
-			end
-		end
 
 	find (lio: EL_LOGGABLE; name: ZSTRING)
 			-- if `count = 1' go to first app
@@ -158,6 +125,27 @@ feature -- Basic operations
 						end
 					end
 				end
+			end
+		end
+
+	install_menus
+		do
+			if has_main and then attached uninstall_script as script then
+				script.serialize
+			end
+			across installable_list as app loop
+				app.item.install
+			end
+		end
+
+	io_put_menu (lio: EL_LOGGABLE)
+		do
+			lio.put_new_line
+			across Current as app loop
+				lio.put_labeled_string (app.cursor_index.out + ". command switch", "-" + app.item.option_name)
+				lio.put_new_line
+				lio.put_labeled_lines ("Description", app.item.description.split ('%N'))
+				lio.put_new_line
 			end
 		end
 
@@ -188,6 +176,21 @@ feature -- Status query
 			Result := attached uninstall_app
 		end
 
+feature -- Element change
+
+	append_types (type_list: EL_TUPLE_TYPE_LIST [EL_APPLICATION])
+		do
+			grow (count + type_list.count)
+			across type_list as type loop
+				if attached {EL_APPLICATION} Eiffel.new_instance_of (type.item.type_id) as app then
+					extend (app)
+					if attached {EL_INSTALLABLE_APPLICATION} app as installable_app then
+						installable_list.extend (installable_app)
+					end
+				end
+			end
+		end
+
 feature -- Removal
 
 	make_empty
@@ -201,11 +204,6 @@ feature {NONE} -- Implementation
 	is_main (app: EL_APPLICATION): BOOLEAN
 		do
 			Result := attached {EL_MAIN_INSTALLABLE_APPLICATION} app
-		end
-
-	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [EL_APPLICATION]
-		do
-			create Result.make_from_tuple (type_tuple)
 		end
 
 	user_selection: INTEGER

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2024-01-01 16:46:05 GMT (Monday 1st January 2024)"
+	revision: "12"
 
 class
 	COM_PERSIST_FILE
@@ -41,13 +41,15 @@ feature -- Basic operations
 	save (file_path: FILE_PATH)
 			--
 		do
-			set_string (agent cpp_save (?, ?, True), file_path)
+			Native_string.set_string (file_path)
+			last_status := cpp_save (self_ptr, Native_string.item, True)
 		end
 
 	load (file_path: FILE_PATH)
 			--
 		do
-			set_string (agent cpp_load (?, ?, 1), file_path)
+			Native_string.set_string (file_path)
+			last_status := cpp_load (self_ptr, Native_string.item, 1)
 		end
 
 end

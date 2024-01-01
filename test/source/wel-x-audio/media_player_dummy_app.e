@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-01-01 14:20:27 GMT (Monday 1st January 2024)"
+	revision: "8"
 
 class
 	MEDIA_PLAYER_DUMMY_APP
@@ -36,8 +36,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
---	player_thread: EL_AUDIO_PLAYER_THREAD [EL_16_BIT_AUDIO_PCM_SAMPLE]
-		-- compileable only on Windows
+	player_thread: EL_AUDIO_PLAYER_THREAD [EL_16_BIT_AUDIO_PCM_SAMPLE]
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-17 13:50:53 GMT (Friday 17th November 2023)"
-	revision: "2"
+	date: "2024-01-01 10:30:33 GMT (Monday 1st January 2024)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTED_FIELD_IMPLEMENTATION
@@ -41,7 +41,7 @@ feature -- Measurement
 feature {NONE} -- Implementation
 
 	field_static_type (i: INTEGER): INTEGER
-			-- Static type of declared `i'-th field of dynamic type `dynamic_type'
+		-- Static type of declared `i'-th field of dynamic type `field_static_type_of_type'
 		require
 			index_large_enough: i >= 1
 			index_small_enough: i <= field_count

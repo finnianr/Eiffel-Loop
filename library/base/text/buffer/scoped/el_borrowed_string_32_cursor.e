@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 8:41:09 GMT (Wednesday 22nd November 2023)"
-	revision: "10"
+	date: "2024-01-01 17:58:09 GMT (Monday 1st January 2024)"
+	revision: "11"
 
 class
 	EL_BORROWED_STRING_32_CURSOR
@@ -29,6 +29,8 @@ inherit
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
+
+	NATIVE_STRING_HANDLER
 
 create
 	make
@@ -46,6 +48,29 @@ feature -- Access
 			else
 				Result.append_string_general (general)
 			end
+		end
+
+	copied_utf_8_0_item (data: MANAGED_POINTER): STRING_32
+		-- copy zero terminated UTF-8 data sequence to borrowed item
+		local
+			utf: UTF_CONVERTER; utf_8: EL_UTF_8_CONVERTER; length: INTEGER
+		do
+			length := c_pointer_length_in_bytes (data.item).to_integer_32
+			if length > 0 then
+				Result := best_item (utf_8.memory_unicode_count (data, 0, length - 1))
+			else
+				Result := item
+			end
+			utf.utf_8_0_pointer_into_escaped_string_32 (data, Result)
+		end
+
+	copied_utf_16_0_item (data: MANAGED_POINTER): STRING_32
+		-- copy zero terminated UTF-16 data sequence to borrowed item
+		local
+			utf: UTF_CONVERTER
+		do
+			Result := best_item (data.count // 2)
+			utf.utf_16_0_pointer_into_escaped_string_32 (data, Result)
 		end
 
 	sized_item (n: INTEGER): STRING_32

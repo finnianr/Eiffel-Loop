@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 13:47:11 GMT (Saturday 25th November 2023)"
-	revision: "33"
+	date: "2024-01-01 16:33:57 GMT (Monday 1st January 2024)"
+	revision: "34"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -32,7 +32,7 @@ inherit
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXCEPTION; EL_MODULE_DIRECTORY
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_NATIVE_STRING
 
 	EL_SHARED_OPERATING_ENVIRON
 		export
@@ -72,8 +72,8 @@ feature -- Access
 		local
 			c_item: POINTER
 		do
-			Shared_native.set_string (key)
-			c_item := eif_getenv (Shared_native.item)
+			Native_string.set_string (key)
+			c_item := eif_getenv (Native_string.item)
 			if is_attached (c_item) and then attached new_native_string (c_item) as native
 				and then native.count > 0
 			then
@@ -218,7 +218,7 @@ feature {NONE} -- Implementation
 
 	do_system_call (cmd: READABLE_STRING_GENERAL; wait_to_return: BOOLEAN)
 		do
-			if attached Shared_native as c_str then
+			if attached Native_string as c_str then
 				if cmd.is_empty then
 					c_str.set_string (default_shell)
 				else
@@ -256,12 +256,5 @@ feature -- Constants
 		end
 
 	Nanosecs_per_millisec: INTEGER_64 = 1000_000
-
-feature {NONE} -- Constants
-
-	Shared_native: EL_NATIVE_STRING
-		once
-			create Result.make_empty (0)
-		end
 
 end

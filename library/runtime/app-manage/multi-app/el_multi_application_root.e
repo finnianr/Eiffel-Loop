@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 9:18:30 GMT (Sunday 1st January 2023)"
-	revision: "28"
+	date: "2024-01-01 14:25:51 GMT (Monday 1st January 2024)"
+	revision: "29"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -30,9 +30,7 @@ inherit
 
 	EL_FACTORY_CLIENT
 
-	EL_MODULE_ASCII; EL_MODULE_ARGS
-
-	EL_MODULE_ENVIRONMENT; EL_MODULE_EXECUTABLE
+	EL_MODULE_ASCII; EL_MODULE_ARGS; EL_MODULE_ENVIRONMENT; EL_MODULE_EXECUTABLE
 
 	EL_MODULE_LIO
 		rename
@@ -67,8 +65,14 @@ feature {NONE} -- Initialization
 --			this could effect subsequent programs that run in the same shell.
 --			Python for example might give a "LookupError: unknown encoding: cp65001" error.
 
-			create list.make (create {APPLICATION_TYPES})
+			create list.make (new_type_list (new_application_types))
+
+			if attached new_platform_types as extra_types and then extra_types.count > 0 then
+			-- platform specific
+				list.append_types (new_type_list (extra_types))
+			end
 			list.extend (create {EL_VERSION_APP})
+
 			list.find (lio, Args.option_name (1))
 			if list.found and then attached list.item as app then
 				app.make -- Initialize and run sub-application
@@ -98,4 +102,27 @@ feature {NONE} -- Implementation
 		do
 			create shared_build_info.make
 		end
+
+	new_application_types: APPLICATION_TYPES
+		-- TUPLE containing all sub-application types
+		do
+			create Result
+		ensure
+			all_conform_to_EL_APPLICATION: new_type_list (Result).all_conform
+		end
+
+	new_platform_types: TUPLE
+		-- extra platform specific types to supplement `new_application_types'
+		do
+			create Result
+		ensure
+			all_conform_to_EL_APPLICATION: new_type_list (Result).all_conform
+		end
+
+	new_type_list (type_tuple: TUPLE): EL_TUPLE_TYPE_LIST [EL_APPLICATION]
+		-- list of types in `type_tuple' conforming to `EL_APPLICATION'
+		do
+			create Result.make_from_tuple (type_tuple)
+		end
+
 end

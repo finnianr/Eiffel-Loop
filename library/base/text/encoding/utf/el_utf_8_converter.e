@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 10:33:38 GMT (Wednesday 27th December 2023)"
-	revision: "7"
+	date: "2024-01-01 17:49:25 GMT (Monday 1st January 2024)"
+	revision: "8"
 
 expanded class
 	EL_UTF_8_CONVERTER
@@ -89,6 +89,18 @@ feature -- Measurement
 			from i := first_index until i > last_index loop
 				Result := Result + 1
 				i := i + sequence_count (area [i].natural_32_code)
+			end
+		end
+
+	frozen memory_unicode_count (area: MANAGED_POINTER; first_index, last_index: INTEGER): INTEGER
+		require
+			valid_indices: first_index >= last_index + 1 and then last_index <= area.count
+		local
+			i: INTEGER
+		do
+			from i := first_index until i > last_index loop
+				Result := Result + 1
+				i := i + sequence_count (area.read_character (i).natural_32_code)
 			end
 		end
 

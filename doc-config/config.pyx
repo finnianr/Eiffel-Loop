@@ -185,6 +185,7 @@ publish-repository:
 		ecf:
 			"test/test.ecf#amazon_ia"
 			"test/test.ecf#base"
+			"test/test.ecf#c_language_interface"
 			"test/test.ecf#common"
 			"test/test.ecf#compression"
 			"test/test.ecf#currency"

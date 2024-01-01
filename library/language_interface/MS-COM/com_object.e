@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:24:38 GMT (Wednesday 8th November 2023)"
-	revision: "14"
+	date: "2024-01-01 17:34:31 GMT (Monday 1st January 2024)"
+	revision: "15"
 
 class
 	COM_OBJECT
@@ -21,7 +21,7 @@ inherit
 
 	EL_OWNED_CPP_OBJECT
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_NATIVE_STRING
 
 feature {NONE}  -- Initialization
 
@@ -41,31 +41,24 @@ feature {NONE} -- Implementation
 			ref_count := cpp_release (this)
 		end
 
-	new_string (get_c_string: FUNCTION [POINTER, POINTER, INTEGER]; max_size: INTEGER): ZSTRING
-		local
-			output: NATIVE_STRING; c: UTF_CONVERTER
+	new_native_string (c_item: POINTER): EL_NATIVE_STRING_8
+		require
+			attached_item: is_attached (c_item)
 		do
-			create output.make_empty (max_size)
-			last_status := get_c_string (self_ptr, output.item, max_size)
-			if last_status = 0 then
-				across String_32_scope as scope loop
-					c.utf_16_0_pointer_into_escaped_string_32 (output.managed_data, scope.item)
-					Result := scope.item
-				end
-			else
-				create Result.make_empty
-			end
+			create Result.make_from_c (c_item)
 		end
 
-	set_string (set_c_string: FUNCTION [POINTER, POINTER, INTEGER]; value: ZSTRING)
-		local
-			c: EL_UTF_CONVERTER; value_utf_16: SPECIAL [NATURAL_16]
+	new_string (get_c_string: FUNCTION [POINTER, POINTER, INTEGER]; max_size: INTEGER): ZSTRING
 		do
-			across String_32_scope as scope loop
-				value.append_to_string_32 (scope.item)
-				value_utf_16 := c.utf_32_string_to_utf_16_0 (scope.item)
+			if attached Native_string as str then
+				str.set_empty_capacity (max_size)
+				last_status := get_c_string (self_ptr, str.item, max_size)
+				if last_status = 0 then
+					Result := str.to_string
+				else
+					create Result.make_empty
+				end
 			end
-			last_status := set_c_string (self_ptr, value_utf_16.base_address)
 		end
 
 feature {NONE} -- Internal attributes

@@ -55,7 +55,7 @@
 		<variable name = "eros_server_enabled" value = "false"/>
 		<library name = "EL_amazon_ia" location = "$EIFFEL_LOOP/library/amazon-instant-access.ecf" readonly = "false"/>
 		<library name = "EL_app_manage" location = "$EIFFEL_LOOP/library/app-manage.ecf" readonly = "false"/>
-		<library name = "EL_c_api" location = "$EIFFEL_LOOP/library/C-language-interface.ecf" readonly = "false"/>
+		<library name = "EL_C_interface" location = "$EIFFEL_LOOP/library/C-language-interface.ecf" readonly = "false"/>
 		<library name = "EL_compression" location = "$EIFFEL_LOOP/library/compression.ecf" readonly = "false"/>
 		<library name = "EL_currency" location = "$EIFFEL_LOOP/library/currency.ecf" readonly = "false"/>
 		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf" readonly = "false"/>
@@ -139,6 +139,25 @@ See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
 base.ecf (Eiffel-Loop)
 
 Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
+			</description>
+		</cluster>
+		<cluster name = "c_language_interface" location = "source/C-language-interface" recursive = "true">
+			<file_rule>
+				<exclude>/imp_mswin$</exclude>
+				<condition>
+					<platform value = "unix"/>
+				</condition>
+			</file_rule>
+			<file_rule>
+				<exclude>/imp_unix$</exclude>
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+			</file_rule>
+			<description>
+C-language-interface.ecf
+
+See class [$source C_LANGUAGE_INTERFACE_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "common" location = "source/common" recursive = "true">
@@ -351,24 +370,15 @@ See class [$source VTD_XML_AUTOTEST_APP]
 			</description>
 		</cluster>
 		<cluster name = "wel_x_audio" location = "source/wel-x-audio" recursive = "true">
-			<file_rule>
-				<exclude>/imp_mswin$</exclude>
-				<condition>
-					<platform value = "unix"/>
-				</condition>
-			</file_rule>
-			<file_rule>
-				<exclude>/imp_unix$</exclude>
-				<condition>
-					<platform value = "windows"/>
-				</condition>
-			</file_rule>
 			<description>
 wel-x-audio.ecf
 
 Maintenance of Windows audio classes
 See class [$source MEDIA_PLAYER_DUMMY_APP]
 			</description>
+			<condition>
+				<platform value = "windows"/>
+			</condition>
 		</cluster>
 		<cluster name = "xml_scan" location = "source/xml-scan" recursive = "true">
 			<description>

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-17 13:51:11 GMT (Friday 17th November 2023)"
-	revision: "60"
+	date: "2024-01-01 10:33:00 GMT (Monday 1st January 2024)"
+	revision: "61"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -44,6 +44,20 @@ feature -- Names
 
 feature -- Access
 
+	representation: detachable EL_FIELD_REPRESENTATION [like value, ANY]
+
+	type: TYPE [ANY]
+
+	type_id: INTEGER
+		-- Static type of dynamic type `{ISE_RUNTIME}.field_static_type_of_type'
+
+	type_info: EL_FIELD_TYPE_PROPERTIES
+		do
+			create Result.make (index, object_type)
+		end
+
+feature -- Access deferred
+
 	abstract_type: INTEGER
 		-- abstract type of field corresponding to `REFLECTOR_CONSTANTS' type constants
 		deferred
@@ -59,21 +73,9 @@ feature -- Access
 		deferred
 		end
 
-	representation: detachable EL_FIELD_REPRESENTATION [like value, ANY]
-
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		deferred
 		end
-
-	type: TYPE [ANY]
-
-	type_info: EL_FIELD_TYPE_PROPERTIES
-		do
-			create Result.make (index, object_type)
-		end
-
-	type_id: INTEGER
-		-- generating type
 
 	value (a_object: EL_REFLECTIVE): ANY
 		require
@@ -112,6 +114,11 @@ feature -- Status query
 		deferred
 		end
 
+	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
+		do
+			Result := True
+		end
+
 	is_storable_type: BOOLEAN
 		-- is type storable using `EL_STORABLE' interface
 		do
@@ -121,11 +128,6 @@ feature -- Status query
 	is_type (a_type_id: INTEGER): BOOLEAN
 		do
 			Result := type_id = a_type_id
-		end
-
-	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
-		do
-			Result := True
 		end
 
 	is_uninitialized (a_object: EL_REFLECTIVE): BOOLEAN

@@ -673,3 +673,6 @@ Reorganized structure of base.ecf
 Sat 23rd Dec 2023, 15:35:11
 Tried caching block_offset in EL_COMPACT_SUBSTRINGS_32
 
+Sun 31st Dec 2023, 15:00:27
+Management of application versions in path list
+
