@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 17:24:56 GMT (Sunday 5th November 2023)"
-	revision: "19"
+	date: "2024-01-02 19:36:24 GMT (Tuesday 2nd January 2024)"
+	revision: "20"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -29,6 +29,16 @@ feature {NONE} -- Implementation
 	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create Result.make_encoded (Encodings.Console, file_path)
+		end
+
+	run_as_administrator (command_string: ZSTRING)
+		local
+			cmd: EL_WINDOWS_ADMIN_SHELL_COMMAND
+		do
+			create cmd.make
+			cmd.set_command_and_parameters (command_string)
+			cmd.execute
+			has_error := not cmd.is_successful
 		end
 
 feature -- Constants

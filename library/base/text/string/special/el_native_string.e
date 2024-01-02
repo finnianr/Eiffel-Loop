@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 17:55:23 GMT (Monday 1st January 2024)"
-	revision: "2"
+	date: "2024-01-02 18:24:58 GMT (Tuesday 2nd January 2024)"
+	revision: "3"
 
 class
 	EL_NATIVE_STRING
@@ -38,6 +38,27 @@ feature -- Access
 			end
 		end
 
+	trimmed_data: MANAGED_POINTER
+		-- trimmed copy of `managed_data' with NULL terminator if present
+		local
+			l_count: INTEGER
+		do
+			l_count := bytes_count
+			if managed_data.count >= bytes_count + unit_size then
+				inspect unit_size
+					when 2 then
+						if managed_data.read_natural_16_be (l_count) = 0 then
+							l_count := l_count + 2 -- allow {NATURAL_16}.zero terminator
+						end
+				else
+					if managed_data.read_natural_8 (l_count) = 0 then
+						l_count := l_count + 1 -- allow {NATURAL_8}.zero terminator
+					end
+				end
+			end
+			create Result.make_from_pointer (managed_data.item, l_count)
+		end
+
 feature -- Element change
 
 	set_empty_capacity (a_length: INTEGER)
@@ -58,5 +79,7 @@ feature -- Element change
 			else
 				Precursor (a_string, start_index, end_index)
 			end
+		ensure then
+			string_set: to_string_32.same_characters_general (a_string, start_index, end_index, 1)
 		end
 end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 9:44:45 GMT (Sunday 31st December 2023)"
-	revision: "52"
+	date: "2024-01-02 19:37:51 GMT (Tuesday 2nd January 2024)"
+	revision: "53"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -79,6 +79,13 @@ feature -- Access
 
 feature -- Status query
 
+	administrator: EL_BOOLEAN_OPTION
+		-- if option is enabled allows a permitted user to execute a command as the superuser
+		-- on Unix or Administrator on Windows platform
+		do
+			Result := sudo
+		end
+
 	back_quotes_escaped: BOOLEAN
 			-- If true, back quote characters ` are escaped on posix platforms
 			-- This means that commands that use BASH back-quote command substitution cannot be used
@@ -108,7 +115,8 @@ feature -- Status query
 		end
 
 	sudo: EL_BOOLEAN_OPTION
-		-- if sudo option is enabled allows a permitted user to execute a command as the superuser
+		-- if option is enabled allows a permitted user to execute a command as the superuser
+		-- on Unix or Administrator on Windows platform
 
 feature -- Element change
 
@@ -264,10 +272,11 @@ feature {NONE} -- Implementation
 	do_command (a_system_command: like system_command)
 			--
 		local
-			command_parts: EL_ZSTRING_LIST; error_path: FILE_PATH
+			command_parts: EL_ZSTRING_LIST; error_path: FILE_PATH; working_dir: DIR_PATH
 		do
-			if not working_directory.is_empty then
-				Execution_environment.push_current_working (working_directory)
+			working_dir := working_directory
+			if not working_dir.is_empty then
+				Execution_environment.push_current_working (working_dir)
 			end
 			create command_parts.make_from_array (new_command_parts (a_system_command))
 			if {PLATFORM}.is_unix and then sudo.is_enabled then
@@ -278,7 +287,7 @@ feature {NONE} -- Implementation
 			if is_forked then
 				Execution_environment.launch (command_parts.joined_words)
 
-				if not working_directory.is_empty then
+				if not working_dir.is_empty then
 					Execution_environment.pop_current_working
 				end
 			else
@@ -287,10 +296,14 @@ feature {NONE} -- Implementation
 					File_system.make_directory (error_path.parent)
 				File_system_mutex.unlock
 
-				Execution_environment.system (command_parts.joined_words)
+				if {PLATFORM}.is_windows and then administrator.is_enabled then
+					run_as_administrator (command_parts.joined_words)
+				else
+					Execution_environment.system (command_parts.joined_words)
+					set_has_error (Execution_environment.return_code)
+				end
 
-				set_has_error (Execution_environment.return_code)
-				if not working_directory.is_empty then
+				if not working_dir.is_empty then
 					Execution_environment.pop_current_working
 				end
 				if has_error and then attached new_error as error then
@@ -396,6 +409,10 @@ feature {NONE} -- Deferred implementation
 	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		require
 			path_exists: file_path.exists
+		deferred
+		end
+
+	run_as_administrator (command: ZSTRING)
 		deferred
 		end
 

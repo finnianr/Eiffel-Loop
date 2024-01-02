@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 14:55:33 GMT (Sunday 5th November 2023)"
-	revision: "18"
+	date: "2024-01-02 17:17:26 GMT (Tuesday 2nd January 2024)"
+	revision: "19"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -30,6 +30,11 @@ feature {NONE} -- Implementation
 	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create Result.make (output_encoding, file_path)
+		end
+
+	run_as_administrator (command: ZSTRING)
+		-- Windows only routines
+		do
 		end
 
 feature {NONE} -- Constants

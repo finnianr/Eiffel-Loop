@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 11:13:25 GMT (Monday 25th December 2023)"
-	revision: "36"
+	date: "2024-01-02 16:30:10 GMT (Tuesday 2nd January 2024)"
+	revision: "37"
 
 class
 	EIFFEL_TEST_SET
@@ -21,6 +21,8 @@ inherit
 
 	EL_ZSTRING_CONSTANTS; EL_STRING_32_CONSTANTS
 
+	EL_SHARED_NATIVE_STRING
+
 create
 	make
 
@@ -30,10 +32,11 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["array_sizes",			agent test_array_sizes],
-				["natural_constant",		agent test_natural_constant],
-				["string_field_counts",	agent test_string_field_counts],
-				["string_sizes",			agent test_string_sizes]
+				["array_sizes",			 agent test_array_sizes],
+				["natural_constant",		 agent test_natural_constant],
+				["managed_pointer_twin", agent test_managed_pointer_twin],
+				["string_field_counts",	 agent test_string_field_counts],
+				["string_sizes",			 agent test_string_sizes]
 			>>)
 		end
 
@@ -60,6 +63,19 @@ feature -- Tests
 				lio.put_integer_field ("c_1_size", c_1_size)
 				lio.put_new_line
 				failed ("special overhead is 32 bytes")
+			end
+		end
+
+	test_managed_pointer_twin
+		-- EIFFEL_TEST_SET.test_managed_pointer_twin
+		do
+			Native_string.set_string ("runas")
+			if attached Native_string.managed_data as data
+				and then attached data.twin as data_twin
+			then
+				assert ("different instance", Native_string.managed_data /= data_twin)
+				assert ("different pointer", Native_string.managed_data.item /= data_twin.item)
+				assert ("same data", Native_string.managed_data ~ data_twin)
 			end
 		end
 

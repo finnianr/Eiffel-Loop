@@ -314,6 +314,8 @@ system:
 				"""
 		cluster_tree:
 			os_command = "source/os-command"
+			platform_list:
+				"imp_mswin; imp_unix"
 			description:
 				"""
 					os-command.ecf

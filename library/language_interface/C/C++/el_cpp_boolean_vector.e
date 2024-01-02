@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-01-02 11:52:48 GMT (Tuesday 2nd January 2024)"
+	revision: "3"
 
 class
 	EL_CPP_BOOLEAN_VECTOR

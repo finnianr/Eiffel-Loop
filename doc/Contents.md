@@ -1831,6 +1831,8 @@ Due to C name space clashes with `TagLib.ecf` these tests have been separated fr
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP]($source)
 ## base.ecf (Eiffel-Loop)
 Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
+## C-language-interface.ecf
+See class [C_LANGUAGE_INTERFACE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/C-language-interface/c_language_interface_autotest_app.html)
 ## Common Classes
 **Project List**
 
