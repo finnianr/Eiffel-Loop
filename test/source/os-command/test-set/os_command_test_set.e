@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 9:51:08 GMT (Sunday 31st December 2023)"
-	revision: "27"
+	date: "2024-01-03 8:49:15 GMT (Wednesday 3rd January 2024)"
+	revision: "28"
 
 class
 	OS_COMMAND_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EL_MODULE_SYSTEM
+	EL_MODULE_EXECUTABLE; EL_MODULE_SYSTEM
 
 	SHARED_DEV_ENVIRON
 
@@ -28,14 +28,45 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["cpu_info",			  agent test_cpu_info],
-				["create_tar_command", agent test_create_tar_command],
-				["file_md5_sum",		  agent test_file_md5_sum],
-				["user_list",			  agent test_user_list]
+				["admin_level_execution", agent test_admin_level_execution],
+				["cpu_info",				  agent test_cpu_info],
+				["create_tar_command",	  agent test_create_tar_command],
+				["file_md5_sum",			  agent test_file_md5_sum],
+				["user_list",				  agent test_user_list]
 			>>)
 		end
 
 feature -- Tests
+
+	test_admin_level_execution
+		-- OS_COMMAND_TEST_SET.test_admin_level_execution
+		note
+			testing: "[
+				covers/{EL_WINDOWS_ADMIN_SHELL_COMMAND}.execute,
+				covers/{EL_WINDOWS_ADMIN_SHELL_COMMAND}.set_command_and_parameters
+			]"
+			status: "[
+				Commented out in `make_named'. Failing on Windows
+			]"
+		local
+			command: EL_OS_COMMAND_I; destination_path: FILE_PATH
+		do
+			if Executable.Is_work_bench then
+				create {EL_COPY_FILE_COMMAND_IMP} command.make ("data/txt/file.txt", Directory.applications)
+				command.administrator.enable
+				command.execute
+				assert ("successful", not command.has_error)
+				destination_path := Directory.applications + "file.txt"
+				if destination_path.exists then
+					create {EL_DELETE_FILE_COMMAND_IMP} command.make (destination_path)
+					command.administrator.enable
+					command.execute
+					assert ("File deleted", not destination_path.exists)
+				else
+					failed ("File exists")
+				end
+			end
+		end
 
 	test_cpu_info
 		-- OS_COMMAND_TEST_SET.test_cpu_info

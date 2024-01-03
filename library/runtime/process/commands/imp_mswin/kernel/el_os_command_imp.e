@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-02 19:36:24 GMT (Tuesday 2nd January 2024)"
-	revision: "20"
+	date: "2024-01-03 16:16:39 GMT (Wednesday 3rd January 2024)"
+	revision: "21"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -33,10 +33,12 @@ feature {NONE} -- Implementation
 
 	run_as_administrator (command_string: ZSTRING)
 		local
-			cmd: EL_WINDOWS_ADMIN_SHELL_COMMAND
+			cmd: EL_WINDOWS_SHELL_COMMAND
 		do
 			create cmd.make
 			cmd.set_command_and_parameters (command_string)
+			cmd.enable_hide
+			cmd.enable_administrator
 			cmd.execute
 			has_error := not cmd.is_successful
 		end

@@ -1,13 +1,13 @@
 note
-	description: "Ms windows folder constants"
+	description: "MS Windows folder constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-01-03 16:29:38 GMT (Wednesday 3rd January 2024)"
+	revision: "8"
 
 class
 	EL_MS_WINDOWS_FOLDER_CONSTANTS

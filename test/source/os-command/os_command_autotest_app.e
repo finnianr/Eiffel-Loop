@@ -7,7 +7,6 @@ note
 		
 			[$source FILE_AND_DIRECTORY_TEST_SET]
 			[$source OS_COMMAND_TEST_SET]
-			[$source SHELL_EXECUTE_TEST_SET]
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-02 18:32:22 GMT (Tuesday 2nd January 2024)"
-	revision: "76"
+	date: "2024-01-03 8:25:41 GMT (Wednesday 3rd January 2024)"
+	revision: "77"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -24,8 +23,7 @@ class
 inherit
 	EL_AUTOTEST_APPLICATION [
 		FILE_AND_DIRECTORY_TEST_SET,
-		OS_COMMAND_TEST_SET,
-		SHELL_EXECUTE_TEST_SET
+		OS_COMMAND_TEST_SET
 	]
 		redefine
 			visible_types

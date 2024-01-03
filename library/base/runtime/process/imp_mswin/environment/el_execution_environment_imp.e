@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 17:15:57 GMT (Sunday 5th November 2023)"
-	revision: "16"
+	date: "2024-01-03 14:53:04 GMT (Wednesday 3rd January 2024)"
+	revision: "17"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -71,10 +71,10 @@ feature {NONE} -- Implementation
 
 	open_url (url: EL_FILE_URI_PATH)
 		local
-			l_url: NATIVE_STRING; succeeded: BOOLEAN
+			succeeded: BOOLEAN
 		do
-			create l_url.make (url)
-			succeeded := c_open_url (l_url.item) > 32
+			Native_string.set_string (url)
+			succeeded := c_open_url (Native_string.item) > 32
 		end
 
 	set_utf_8_console_output
@@ -150,6 +150,8 @@ feature {NONE} -- C Externals
 		external
 			"C inline use <Shellapi.h>"
 		alias
-			"(ShellExecute (NULL, NULL, (LPCTSTR)$url, NULL, NULL, SW_SHOWNORMAL))"
+			"[
+				ShellExecute (NULL, L"open", (LPCTSTR)$url, NULL, NULL, SW_SHOWNORMAL)
+			]"
 		end
 end

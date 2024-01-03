@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-01-03 11:32:07 GMT (Wednesday 3rd January 2024)"
+	revision: "6"
 
 class
 	EL_TITLED_WINDOW_IMP
@@ -25,18 +25,20 @@ inherit
 			interface
 		end
 
+	EL_SHARED_NATIVE_STRING
+
 create
 	make
 
 feature -- Access
 
 	current_theme_name: STRING_32
-		local
-			name: NATIVE_STRING
 		do
-			create name.make_empty ({EL_WEL_API}.max_path)
-			if {EL_WEL_API}.get_current_theme_name (name.item, name.capacity) = 0 then
-				Result := name.string
+			Native_string.set_empty_capacity ({EL_WEL_API}.max_path_count)
+			if attached Native_string as name
+				and then {EL_WEL_API}.get_current_theme_name (name.item, name.capacity) = 0
+			then
+				Result := name.to_string_32
 			else
 				create Result.make_empty
 			end

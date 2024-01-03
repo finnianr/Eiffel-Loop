@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-01-03 11:28:54 GMT (Wednesday 3rd January 2024)"
+	revision: "7"
 
 class
 	EL_WEL_API
 
 feature -- Constants
 
-	max_path: INTEGER
+	max_path_count: INTEGER
 			-- Maximum number of characters in path
 		external
 			"C [macro <limits.h>]"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-02 18:24:58 GMT (Tuesday 2nd January 2024)"
-	revision: "3"
+	date: "2024-01-03 16:26:38 GMT (Wednesday 3rd January 2024)"
+	revision: "4"
 
 class
 	EL_NATIVE_STRING
@@ -59,9 +59,22 @@ feature -- Access
 			create Result.make_from_pointer (managed_data.item, l_count)
 		end
 
+	new_data (str: READABLE_STRING_GENERAL): MANAGED_POINTER
+		do
+			set_string (str)
+			Result := trimmed_data
+		end
+
+	new_substring_data (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): MANAGED_POINTER
+		do
+			set_substring (str, start_index, end_index)
+			Result := trimmed_data
+		end
+
 feature -- Element change
 
 	set_empty_capacity (a_length: INTEGER)
+		-- Allocate for `a_length' code units and the null character.
 		do
 			make_empty (a_length)
 		end

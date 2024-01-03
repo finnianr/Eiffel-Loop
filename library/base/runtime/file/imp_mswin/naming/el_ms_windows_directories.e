@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-01-03 11:30:34 GMT (Wednesday 3rd January 2024)"
+	revision: "11"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_MODULE_DIRECTORY
+
+	EL_SHARED_NATIVE_STRING
 
 feature -- Access
 
@@ -67,7 +69,7 @@ feature -- Access
 
 feature -- Constants
 
-	max_path: INTEGER
+	max_path_count: INTEGER
 		-- Maximum number of characters in path
 		external
 			"C [macro <limits.h>]"
@@ -79,11 +81,13 @@ feature {NONE} -- Implementation
 
 	win_folder_path (folder_id: INTEGER): DIR_PATH
 		local
-			folder_path: NATIVE_STRING; status_code: INTEGER
+			status_code: INTEGER
 		do
-			create folder_path.make_empty (max_path)
-			status_code := c_shell32_get_folder_path (folder_id, folder_path.item)
-			Result := folder_path.string
+			if attached Native_string as folder_path then
+				folder_path.set_empty_capacity (max_path_count)
+				status_code := c_shell32_get_folder_path (folder_id, folder_path.item)
+				Result := folder_path.to_string
+			end
 		end
 
 feature {NONE} -- C Externals
