@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 11:14:13 GMT (Saturday 1st July 2023)"
-	revision: "8"
+	date: "2024-01-04 19:43:10 GMT (Thursday 4th January 2024)"
+	revision: "9"
 
 class
 	EL_WIN_FILE_INFO_C_API
@@ -65,14 +65,6 @@ feature {NONE} -- C externals
 			"C signature (HANDLE, LPFILETIME, LPFILETIME, LPFILETIME): EIF_BOOLEAN use <Windows.h>"
 		alias
 			"GetFileTime"
-		end
-
-	frozen c_close_file (handle: NATURAL): BOOLEAN
-			-- BOOL WINAPI CloseHandle(_In_ HANDLE hObject);
-		external
-			"C (HANDLE): EIF_BOOLEAN | <Windows.h>"
-		alias
-			"CloseHandle"
 		end
 
 	frozen c_set_file_time (handle: NATURAL_32; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN

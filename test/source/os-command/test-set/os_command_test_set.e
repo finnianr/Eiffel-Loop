@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-03 8:49:15 GMT (Wednesday 3rd January 2024)"
-	revision: "28"
+	date: "2024-01-04 18:12:34 GMT (Thursday 4th January 2024)"
+	revision: "29"
 
 class
 	OS_COMMAND_TEST_SET
@@ -56,6 +56,7 @@ feature -- Tests
 				command.administrator.enable
 				command.execute
 				assert ("successful", not command.has_error)
+
 				destination_path := Directory.applications + "file.txt"
 				if destination_path.exists then
 					create {EL_DELETE_FILE_COMMAND_IMP} command.make (destination_path)

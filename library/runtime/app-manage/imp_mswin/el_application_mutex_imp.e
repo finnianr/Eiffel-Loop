@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 8:49:51 GMT (Monday 6th November 2023)"
-	revision: "7"
+	date: "2024-01-04 20:17:31 GMT (Thursday 4th January 2024)"
+	revision: "8"
 
 class
 	EL_APPLICATION_MUTEX_IMP
@@ -16,8 +16,8 @@ inherit
 	EL_APPLICATION_MUTEX_I
 
 	EL_WINDOWS_IMPLEMENTATION
-	
-	EL_WINDOWS_MUTEX_API
+
+	EL_WIN_32_C_API
 
 	EXECUTION_ENVIRONMENT
 
@@ -37,10 +37,10 @@ feature -- Status change
 			wide_name: EL_C_WIDE_CHARACTER_STRING
 		do
 			create wide_name.make_from_string (name.to_unicode)
-			mutex_ptr := c_open_mutex (wide_name.base_address)
-			if not is_attached (mutex_ptr) then
-				mutex_ptr := c_create_mutex (wide_name.base_address)
-				if is_attached (mutex_ptr) then
+			mutex_handle := c_open_mutex (wide_name.base_address)
+			if mutex_handle = 0 then
+				mutex_handle := c_create_mutex (wide_name.base_address)
+				if mutex_handle > 0 then
 					is_locked := True
 				end
 			end
@@ -50,14 +50,14 @@ feature -- Status change
 		local
 			closed: BOOLEAN
 		do
-			if is_attached (mutex_ptr) then
-				closed := c_close_handle (mutex_ptr)
+			if mutex_handle > 0 then
+				closed := c_close_handle (mutex_handle)
 				is_locked := True
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	mutex_ptr: POINTER
+	mutex_handle: NATURAL
 
 end

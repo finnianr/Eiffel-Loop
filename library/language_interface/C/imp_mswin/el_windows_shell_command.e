@@ -10,18 +10,32 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-03 16:41:33 GMT (Wednesday 3rd January 2024)"
-	revision: "2"
+	date: "2024-01-04 20:07:01 GMT (Thursday 4th January 2024)"
+	revision: "3"
 
 class
 	EL_WINDOWS_SHELL_COMMAND
 
 inherit
-	EL_COMMAND
+	EL_ALLOCATED_C_OBJECT
+		rename
+			make_default as make
+		redefine
+			make
+		end
 
 	EL_SHELL_EXECUTE_C_API
+		rename
+			c_size_of_SHELLEXECUTEINFOW as c_size_of
+		undefine
+			copy, is_equal
+		end
 
-	EL_OS_DEPENDENT
+	EL_WIN_32_C_API undefine copy, is_equal end
+
+	EL_COMMAND undefine copy, is_equal end
+
+	EL_OS_DEPENDENT undefine copy, is_equal end
 
 	EL_EXTERNAL_LIBRARY [COM_INITIALIZER]
 
@@ -39,10 +53,12 @@ feature {NONE} -- Initialization
 	make
 		do
 			initialize_library
-			command_name_arg := Empty_argument
-			directory_arg := Empty_argument
-			parameters_arg := Empty_argument
-			operation_arg := Empty_argument
+			Precursor
+			c_set_size (self_ptr, c_size_of)
+			c_set_f_mask (self_ptr, c_mask_no_close_process) -- ensures hProcess will be reported
+
+			command_name_arg := Empty_argument; directory_arg := Empty_argument
+			parameters_arg := Empty_argument; operation_arg := Empty_argument
 			show_type := c_show_normal
 		end
 
@@ -52,12 +68,15 @@ feature -- Basic operations
 		local
 			n: INTEGER
 		do
-			n := c_shell_execute (
-				default_pointer,
-				pointer (operation_arg), pointer (command_name_arg), pointer (parameters_arg),
-				pointer (directory_arg), show_type
-			)
-			is_successful := n > 32
+			c_set_n_show (self_ptr, show_type)
+			if c_shell_execute (self_ptr) then
+			-- make asynchronous process appear to be synchronous
+				n := c_wait_for_single_object (process_handle)
+				if c_close_handle (process_handle) then
+					do_nothing
+				end
+				is_successful := n >= 0
+			end
 		end
 
 feature -- Element change
@@ -69,7 +88,10 @@ feature -- Element change
 			space_index := string.index_of (' ', 1)
 			if space_index > 0 then
 				command_name_arg := Native_string.new_substring_data (string, 1, space_index - 1)
+				c_set_file (self_ptr, pointer (command_name_arg))
+
 				parameters_arg := Native_string.new_substring_data (string, space_index + 1, string.count)
+				c_set_parameters (self_ptr, pointer (parameters_arg))
 			else
 				set_command_name (string)
 			end
@@ -78,16 +100,19 @@ feature -- Element change
 	set_command_name (a_name: READABLE_STRING_GENERAL)
 		do
 			command_name_arg := Native_string.new_data (a_name)
+			c_set_file (self_ptr, pointer (command_name_arg))
 		end
 
 	set_directory (a_directory: READABLE_STRING_GENERAL)
 		do
 			directory_arg := Native_string.new_data (a_directory)
+			c_set_directory (self_ptr, pointer (directory_arg))
 		end
 
 	set_parameters (a_parameters: READABLE_STRING_GENERAL)
 		do
 			parameters_arg := Native_string.new_data (a_parameters)
+			c_set_parameters (self_ptr, pointer (parameters_arg))
 		end
 
 	set_operation (a_operation: IMMUTABLE_STRING_8)
@@ -95,6 +120,7 @@ feature -- Element change
 			valid_operation: Valid_operations.has (a_operation)
 		do
 			operation_arg := Native_string.new_data (a_operation)
+			c_set_verb (self_ptr, pointer (operation_arg))
 		end
 
 feature -- Status change
@@ -144,6 +170,11 @@ feature {NONE} -- Implementation
 			if arg.count > 0 then
 				Result := arg.item
 			end
+		end
+
+	process_handle: NATURAL
+		do
+			Result := c_process (self_ptr)
 		end
 
 feature {NONE} -- Internal attributes

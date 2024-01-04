@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-03 11:30:34 GMT (Wednesday 3rd January 2024)"
-	revision: "11"
+	date: "2024-01-04 18:38:24 GMT (Thursday 4th January 2024)"
+	revision: "12"
 
 class
 	EL_MS_WINDOWS_DIRECTORIES
@@ -21,6 +21,8 @@ inherit
 	EL_MODULE_DIRECTORY
 
 	EL_SHARED_NATIVE_STRING
+
+	EL_WIN_32_C_API
 
 feature -- Access
 
@@ -67,16 +69,6 @@ feature -- Access
 			Result := item ("PATHEXT")
 		end
 
-feature -- Constants
-
-	max_path_count: INTEGER
-		-- Maximum number of characters in path
-		external
-			"C [macro <limits.h>]"
-		alias
-			"MAX_PATH"
-		end
-
 feature {NONE} -- Implementation
 
 	win_folder_path (folder_id: INTEGER): DIR_PATH
@@ -88,16 +80,6 @@ feature {NONE} -- Implementation
 				status_code := c_shell32_get_folder_path (folder_id, folder_path.item)
 				Result := folder_path.to_string
 			end
-		end
-
-feature {NONE} -- C Externals
-
-	c_shell32_get_folder_path (folder_id: INTEGER; a_path_out: POINTER): INTEGER
-			--
-		external
-			"C inline use <Shlobj.h>"
-		alias
-			"SHGetFolderPath (NULL, $folder_id, NULL, 0, $a_path_out)"
 		end
 
 feature {NONE} -- Constants

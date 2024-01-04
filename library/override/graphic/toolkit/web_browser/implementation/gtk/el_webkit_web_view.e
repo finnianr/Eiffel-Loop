@@ -34,7 +34,7 @@ feature {NONE} -- Implementation
 			across << "/usr/lib", "/usr/lib/x86_64-linux-gnu" >> as dir loop
 				-- Mac uses a different extension
 				if attached OS.find_files_command (dir.item, "libwebkit*.so") as cmd then
-					cmd.set_depth (1 |..| 1)
+					cmd.set_depth (1, 1)
 					cmd.execute
 					lib_paths.append (cmd.path_list)
 				end

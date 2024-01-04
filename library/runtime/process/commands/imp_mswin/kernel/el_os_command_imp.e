@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-03 16:16:39 GMT (Wednesday 3rd January 2024)"
-	revision: "21"
+	date: "2024-01-04 19:44:46 GMT (Thursday 4th January 2024)"
+	revision: "22"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -24,6 +24,8 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
+	EL_CHARACTER_32_CONSTANTS
+
 feature {NONE} -- Implementation
 
 	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
@@ -31,12 +33,23 @@ feature {NONE} -- Implementation
 			create Result.make_encoded (Encodings.Console, file_path)
 		end
 
-	run_as_administrator (command_string: ZSTRING)
+	run_as_administrator (command_parts: EL_ZSTRING_LIST)
 		local
-			cmd: EL_WINDOWS_SHELL_COMMAND
+			cmd: EL_WINDOWS_SHELL_COMMAND; extended_parts: EL_ZSTRING_LIST
 		do
 			create cmd.make
-			cmd.set_command_and_parameters (command_string)
+		-- Create extended form of `command_parts': "cmd /C /U cd /D $CWD && $COMMAND"
+			create extended_parts.make (command_parts.count + 3)
+			extended_parts.extend (command_parts [1])
+			extended_parts.append (<<
+				Change_dir_command, effective_working_directory.to_string, char ('&') * 2
+			>>)
+			across command_parts as part loop
+				if part.cursor_index > 1 then
+					extended_parts.extend (part.item)
+				end
+			end
+			cmd.set_command_and_parameters (extended_parts.joined_words)
 			cmd.enable_hide
 			cmd.enable_administrator
 			cmd.execute
@@ -44,6 +57,11 @@ feature {NONE} -- Implementation
 		end
 
 feature -- Constants
+
+	Change_dir_command: ZSTRING
+		once
+			Result := "cd /D"
+		end
 
 	Command_prefix: STRING_32
 		-- Force output of command to be UTF-16

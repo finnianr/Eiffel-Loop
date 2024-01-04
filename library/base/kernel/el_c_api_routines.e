@@ -1,13 +1,15 @@
 note
-	description: "C API routines"
+	description: "[
+		Base class for all C API routines and containing a number of common Eiffel C routines
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-06 17:59:12 GMT (Friday 6th October 2023)"
-	revision: "9"
+	date: "2024-01-04 20:23:51 GMT (Thursday 4th January 2024)"
+	revision: "10"
 
 class
 	EL_C_API_ROUTINES

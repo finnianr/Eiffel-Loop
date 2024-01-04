@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-03 8:55:02 GMT (Wednesday 3rd January 2024)"
-	revision: "54"
+	date: "2024-01-04 17:37:40 GMT (Thursday 4th January 2024)"
+	revision: "55"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -69,11 +69,22 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	effective_working_directory: DIR_PATH
+		-- working directory for execution of the command
+		do
+			if working_directory.is_empty then
+				Result := Directory.current_working
+			else
+				Result := working_directory
+			end
+		end
+
 	success_code: INTEGER
 		-- exit code that indicates command ran without error
 		-- default is 0
 
 	working_directory: DIR_PATH
+		-- temporary working directory used only for the command execution
 
 	output_encoding: NATURAL
 
@@ -125,8 +136,8 @@ feature -- Element change
 			success_code := a_code
 		end
 
-	set_working_directory (a_working_directory: like working_directory)
-			--
+	set_working_directory (a_working_directory: DIR_PATH)
+		-- set a temporary working directory used only for the command execution
 		do
 			working_directory := a_working_directory
 		end
@@ -297,7 +308,7 @@ feature {NONE} -- Implementation
 				File_system_mutex.unlock
 
 				if {PLATFORM}.is_windows and then administrator.is_enabled then
-					run_as_administrator (command_parts.joined_words)
+					run_as_administrator (command_parts)
 				else
 					Execution_environment.system (command_parts.joined_words)
 					set_has_error (Execution_environment.return_code)
@@ -412,7 +423,7 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	run_as_administrator (command: ZSTRING)
+	run_as_administrator (command_parts: EL_ZSTRING_LIST)
 		deferred
 		end
 

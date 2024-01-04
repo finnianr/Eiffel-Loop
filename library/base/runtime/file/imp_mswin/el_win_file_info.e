@@ -8,14 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-01 11:14:27 GMT (Saturday 1st July 2023)"
-	revision: "7"
+	date: "2024-01-04 19:44:55 GMT (Thursday 4th January 2024)"
+	revision: "8"
 
 class
 	EL_WIN_FILE_INFO
 
 inherit
 	EL_WIN_FILE_INFO_C_API
+
+	EL_WIN_32_C_API
 
 create
 	make
@@ -125,7 +127,7 @@ feature -- Status change
 
 	close
 		do
-			if is_open and then c_close_file (handle) then
+			if is_open and then c_close_handle (handle) then
 				handle := invalid_handle_value
 				state := State_closed
 			end

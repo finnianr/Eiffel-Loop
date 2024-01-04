@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-03 14:53:04 GMT (Wednesday 3rd January 2024)"
-	revision: "17"
+	date: "2024-01-04 18:36:06 GMT (Thursday 4th January 2024)"
+	revision: "18"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -116,42 +116,4 @@ feature {NONE} -- Constants
 			Result := "config"
 		end
 
-feature {NONE} -- C Externals
-
-	frozen c_set_console_output_code_page (code_page_id: NATURAL): BOOLEAN
-			-- BOOL WINAPI SetConsoleOutputCP(_In_  UINT wCodePageID);
-		external
-			"C (UINT): EIF_BOOLEAN | <Windows.h>"
-		alias
-			"SetConsoleOutputCP"
-		end
-
-	frozen c_console_output_code_page: NATURAL
-			-- UINT WINAPI GetConsoleOutputCP(void);
-		external
-			"C (): EIF_NATURAL | <Windows.h>"
-		alias
-			"GetConsoleOutputCP"
-		end
-
-	c_open_url (url: POINTER): INTEGER
-			--	HINSTANCE ShellExecute(
-			--		_In_opt_ HWND    hwnd,
-			--		_In_opt_ LPCTSTR lpOperation,
-			--		_In_     LPCTSTR lpFile,
-			--		_In_opt_ LPCTSTR lpParameters,
-			--		_In_opt_ LPCTSTR lpDirectory,
-			--		_In_     INT     nShowCmd
-			--	);
-
-			-- If the function succeeds, it returns a value greater than 32. If the function fails,
-			-- it returns an error value that indicates the cause of the failure.
-
-		external
-			"C inline use <Shellapi.h>"
-		alias
-			"[
-				ShellExecute (NULL, L"open", (LPCTSTR)$url, NULL, NULL, SW_SHOWNORMAL)
-			]"
-		end
 end

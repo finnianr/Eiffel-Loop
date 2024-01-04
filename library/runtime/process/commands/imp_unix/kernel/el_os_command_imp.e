@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-02 17:17:26 GMT (Tuesday 2nd January 2024)"
-	revision: "19"
+	date: "2024-01-04 20:26:31 GMT (Thursday 4th January 2024)"
+	revision: "20"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 			create Result.make (output_encoding, file_path)
 		end
 
-	run_as_administrator (command: ZSTRING)
+	run_as_administrator (command_parts: EL_ZSTRING_LIST)
 		-- Windows only routines
 		do
 		end
