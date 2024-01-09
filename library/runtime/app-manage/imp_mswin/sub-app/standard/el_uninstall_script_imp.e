@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-09 18:06:47 GMT (Tuesday 9th January 2024)"
-	revision: "13"
+	date: "2024-01-09 18:58:58 GMT (Tuesday 9th January 2024)"
+	revision: "14"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -37,7 +37,7 @@ feature {NONE} -- Implementation
 		-- Makes sure that /D argument is a directory path and that program name is separate argument
 		-- Eg. start /WAIT /D "C:\Program Files\Hex 11 Software\My Ching\bin" myching.exe -uninstall -silent
 		do
-			Result := << Application_path.parent.escaped, Application_path, uninstall_option >>
+			Result := << Application_path.parent.escaped, Application_path.base, uninstall_option >>
 		end
 
 	write_remove_directory_lines (script: like new_script)
