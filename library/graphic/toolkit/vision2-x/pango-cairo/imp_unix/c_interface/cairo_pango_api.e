@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-05 14:34:22 GMT (Thursday 5th October 2023)"
-	revision: "9"
+	date: "2024-01-09 9:24:46 GMT (Tuesday 9th January 2024)"
+	revision: "10"
 
 class
 	CAIRO_PANGO_API
@@ -29,6 +29,11 @@ inherit
 		end
 
 	GTK2
+		rename
+			default_create as make
+		end
+
+	EL_UNIX_IMPLEMENTATION
 		rename
 			default_create as make
 		end

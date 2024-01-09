@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 12:20:10 GMT (Thursday 9th November 2023)"
-	revision: "5"
+	date: "2024-01-07 11:45:40 GMT (Sunday 7th January 2024)"
+	revision: "6"
 
 class
 	PYXIS_ENCRYPTER_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			Plain_text as Type_plain_text
+		end
 
 	EL_MODULE_ENCRYPTION
 

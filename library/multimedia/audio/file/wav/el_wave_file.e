@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 8:15:26 GMT (Monday 3rd July 2023)"
-	revision: "6"
+	date: "2024-01-07 11:17:22 GMT (Sunday 7th January 2024)"
+	revision: "7"
 
 class
 	EL_WAVE_FILE
@@ -40,7 +40,7 @@ inherit
 			num_channels as num_sample_source_channels
 		end
 
-	EL_C_API_ROUTINES
+	EL_C_API
 
 	EL_MODULE_LIO
 

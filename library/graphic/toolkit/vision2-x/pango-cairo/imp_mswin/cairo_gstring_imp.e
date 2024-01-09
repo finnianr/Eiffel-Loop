@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-01-09 11:36:24 GMT (Tuesday 9th January 2024)"
+	revision: "4"
 
 class
 	CAIRO_GSTRING_IMP
@@ -26,28 +26,30 @@ inherit
 
 	NATIVE_STRING_HANDLER
 
+	CAIRO_GLIB_SHARED_API
+
 create
-	set_with_eiffel_string, share_from_pointer, make_from_pointer, make_from_file_path, make_from_path
+	set_with_eiffel_string, share_from_pointer, make_from_pointer, make_from_path, make_from_ise_path
 
 convert
 	set_with_eiffel_string ({READABLE_STRING_GENERAL, STRING, STRING_32})
 
 feature {NONE} -- Initialization
 
-	make_from_file_path (file_path: FILE_PATH)
+	make_from_path (a_path: EL_PATH)
 			-- Set `item' to the content of `a_path'.
 		local
 			utf_8: STRING; c_str: ANY
 		do
-			utf_8 := file_path.to_utf_8
+			utf_8 := a_path.to_utf_8
 			string_length := utf_8.count
 			c_str := utf_8.to_c
-			item := Glib.malloc (utf_8.count + 1)
+			item := GLIB.malloc (utf_8.count + 1)
 			item.memory_copy ($c_str, utf_8.count + 1)
 			is_shared := False
 		end
 
-	make_from_path (a_path: PATH)
+	make_from_ise_path (a_path: PATH)
 		do
 		end
 
@@ -99,9 +101,7 @@ feature -- Access
 	string: STRING_32
 			-- Locale string representation of the UTF8 string
 		local
-			l_ptr: MANAGED_POINTER
-			l_nat8: NATURAL_8
-			l_code: NATURAL_32
+			l_ptr: MANAGED_POINTER; l_nat8: NATURAL_8; l_code: NATURAL_32
 			i, nb, cnt: INTEGER
 		do
 			from
@@ -184,7 +184,7 @@ feature {NONE} -- Implementation
 		do
 				-- This routine is also called from `set_from_pointer'.
 			if item /= default_pointer and then not is_shared then
-				Glib.free (item)
+				GLIB.free (item)
 				item := default_pointer
 			end
 		end
@@ -227,11 +227,11 @@ feature {NONE} -- Implementation
 				i := 1
 				if item /= default_pointer and then not is_shared then
 						-- Reuse memory pointed to by `item' instead of freeing it.
-					utf8_ptr := Glib.realloc (item, bytes_written + 1)
+					utf8_ptr := GLIB.realloc (item, bytes_written + 1)
 						-- Set `item' to `default_pointer' so that it won't be GC'd.
 					item := default_pointer
 				else
-					utf8_ptr := Glib.malloc (bytes_written + 1)
+					utf8_ptr := GLIB.malloc (bytes_written + 1)
 				end
 				l_ptr := shared_pointer_helper
 				l_ptr.set_from_pointer (utf8_ptr, bytes_written + 1)
@@ -268,6 +268,7 @@ feature {NONE} -- Implementation
 					bytes_written := bytes_written + 4
 				end
 				i := i + 1
+
 			end
 			l_ptr.put_integer_8 (0, bytes_written)
 
@@ -306,13 +307,6 @@ feature {NONE} -- Externals
 			"strlen"
 		end
 
-feature {NONE} -- Constants
-
-	Glib: CAIRO_GLIB_API
-		once
-			create Result.make
-		end
-
 note
 	copyright:	"Copyright (c) 1984-2012, Eiffel Software and others"
 	license:	"Eiffel Forum License v2 (see http://www.eiffel.com/licensing/forum.txt)"
@@ -325,7 +319,6 @@ note
 		]"
 
 end
-
 
 
 

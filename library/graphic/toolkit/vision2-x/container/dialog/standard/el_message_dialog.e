@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:10:42 GMT (Thursday 17th August 2023)"
-	revision: "12"
+	date: "2024-01-09 10:41:32 GMT (Tuesday 9th January 2024)"
+	revision: "13"
 
 class
 	EL_MESSAGE_DIALOG
@@ -51,7 +51,7 @@ feature -- Element change
 			if attached {STRING} a_title as key and then Title_text_table.has_key (key) then
 				Precursor (Title_text_table.found_item.to_unicode)
 			else
-				Precursor (a_title)
+				Precursor (a_title.to_string_32)
 			end
 		end
 

@@ -7,10 +7,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-26 8:52:08 GMT (Tuesday 26th December 2023)"
-	revision: "10"
+	date: "2024-01-07 10:15:48 GMT (Sunday 7th January 2024)"
+	revision: "11"
 
-class EL_EXPAT_API
+deferred class EL_EXPAT_API
 
 inherit
 	EL_C_API

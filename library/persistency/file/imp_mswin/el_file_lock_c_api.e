@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 12:21:17 GMT (Wednesday 22nd November 2023)"
-	revision: "13"
+	date: "2024-01-07 11:19:31 GMT (Sunday 7th January 2024)"
+	revision: "14"
 
 class
 	EL_FILE_LOCK_C_API
 
 inherit
-	EL_C_API_ROUTINES
+	EL_C_API
 
 	EL_WINDOWS_IMPLEMENTATION
 

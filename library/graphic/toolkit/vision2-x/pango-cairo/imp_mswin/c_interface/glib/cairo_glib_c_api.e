@@ -6,18 +6,33 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 17:20:04 GMT (Sunday 5th November 2023)"
-	revision: "10"
+	date: "2024-01-09 11:27:13 GMT (Tuesday 9th January 2024)"
+	revision: "11"
 
 class
 	CAIRO_GLIB_C_API
 
 inherit
-	EL_C_API_ROUTINES
+	EL_C_API
 
 	EL_WINDOWS_IMPLEMENTATION
 
 feature -- Access
+
+	frozen g_clear_error (function: POINTER; error_ptr: TYPED_POINTER [POINTER])
+		require
+			fn_ptr_attached: is_attached (function)
+		external
+			"C inline use <glib.h>"
+		alias
+			"[
+				return (
+					FUNCTION_CAST(void, (GError**))$function
+				) (
+					(GError**)$error_ptr
+				)
+			]"
+		end
 
 	frozen g_free (function, mem: POINTER)
 		require

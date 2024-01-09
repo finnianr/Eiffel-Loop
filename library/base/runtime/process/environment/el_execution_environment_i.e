@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 16:33:57 GMT (Monday 1st January 2024)"
-	revision: "34"
+	date: "2024-01-07 11:11:08 GMT (Sunday 7th January 2024)"
+	revision: "35"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -24,7 +24,7 @@ inherit
 
 	EL_OS_DEPENDENT
 
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
 
 	EL_STRING_GENERAL_ROUTINES
 

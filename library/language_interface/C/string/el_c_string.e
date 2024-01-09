@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-27 16:15:40 GMT (Wednesday 27th September 2023)"
-	revision: "16"
+	date: "2024-01-07 11:11:09 GMT (Sunday 7th January 2024)"
+	revision: "17"
 
 deferred class
 	EL_C_STRING
@@ -26,12 +26,7 @@ inherit
 			default_create
 		end
 
-	EL_C_API_ROUTINES
-		export
-			{NONE} all
-		undefine
-			default_create, is_equal, copy
-		end
+	EL_MEMORY_ROUTINES undefine copy, default_create, is_equal end
 
 	EL_BIT_COUNTABLE
 
@@ -102,11 +97,9 @@ feature {NONE} -- Initialization
 
 	make_with_ownership (c_ptr: POINTER; owned: BOOLEAN)
 			--
-		local
-			p: EL_POINTER_ROUTINES
 		do
 			if is_attached (c_ptr) then
-				make_with_size_and_ownership (c_ptr, p.string_length (c_ptr, width), owned)
+				make_with_size_and_ownership (c_ptr, c_string_length (c_ptr, width), owned)
 			else
 				make_with_size_and_ownership (c_ptr, 0, owned)
 			end

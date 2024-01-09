@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 11:31:26 GMT (Monday 7th August 2023)"
-	revision: "5"
+	date: "2024-01-07 10:57:39 GMT (Sunday 7th January 2024)"
+	revision: "6"
 
 class
 	EL_X11_COLOR
@@ -26,9 +26,11 @@ inherit
 		rename
 			c_size_of as c_size_of_XColor,
 			make_default as make
+		export
+			{EL_C_OBJECT} self_ptr
 		end
 
-	EL_X11_API
+	EL_X11_C_API
 		undefine
 			copy, is_equal
 		end

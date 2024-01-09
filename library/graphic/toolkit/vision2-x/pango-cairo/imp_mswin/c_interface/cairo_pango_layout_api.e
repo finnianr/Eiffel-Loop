@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 9:05:32 GMT (Wednesday 4th October 2023)"
-	revision: "11"
+	date: "2024-01-09 11:31:16 GMT (Tuesday 9th January 2024)"
+	revision: "12"
 
 class
 	CAIRO_PANGO_LAYOUT_API
@@ -18,6 +18,8 @@ inherit
 	CAIRO_PANGO_LAYOUT_I
 
 	CAIRO_PANGO_LAYOUT_C_API
+
+	EL_WINDOWS_IMPLEMENTATION
 
 create
 	make

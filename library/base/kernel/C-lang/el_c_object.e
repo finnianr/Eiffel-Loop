@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 10:01:08 GMT (Wednesday 4th October 2023)"
-	revision: "12"
+	date: "2024-01-07 11:15:52 GMT (Sunday 7th January 2024)"
+	revision: "13"
 
 deferred class
 	EL_C_OBJECT
 
 inherit
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -32,7 +32,7 @@ feature -- Status query
 			Result := is_attached (self_ptr)
 		end
 
-feature {EL_C_API_ROUTINES} -- Internal attributes
+feature {EL_C_API} -- Internal attributes
 
 	self_ptr: POINTER
 

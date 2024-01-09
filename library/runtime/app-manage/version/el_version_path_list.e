@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 11:11:30 GMT (Sunday 31st December 2023)"
-	revision: "2"
+	date: "2024-01-08 12:28:24 GMT (Monday 8th January 2024)"
+	revision: "3"
 
 class
 	EL_VERSION_PATH_LIST
@@ -57,10 +57,13 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create dir_path
+			create current_version
 			create {EL_DELETE_FILE_COMMAND_IMP} delete_file_command.make_default
 		end
 
 feature -- Access
+
+	current_version: EL_SOFTWARE_VERSION
 
 	path_version: EL_SOFTWARE_VERSION
 		-- version of current path item
@@ -99,6 +102,19 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	delete_last (name: READABLE_STRING_GENERAL)
+		-- delete newest version at last index of `sorted_version_list'
+		do
+			display_versions (name)
+			if attached sorted_version_list as version_list and then version_list.count > 0 then
+				lio.put_labeled_string ("Delete version", version_list.last.string)
+				if User_input.approved_action_y_n ("") then
+					delete_version (version_list.last)
+					lio.put_line ("Deleted")
+				end
+			end
+		end
 
 	delete_range (name: READABLE_STRING_GENERAL)
 		-- delete user specified range of versions by menu number
@@ -139,8 +155,14 @@ feature -- Basic operations
 
 	display_versions (name: READABLE_STRING_GENERAL)
 		-- display menu of available versions
+		local
+			template: ZSTRING
 		do
-			lio.put_new_line
+			if not current_version.is_default then
+				template := "Current version of %S"
+				lio.put_labeled_string (template #$ [name], current_version.string)
+				lio.put_new_line
+			end
 			lio.put_path_field (Versions_of #$ [name], dir_path)
 			lio.put_new_line
 

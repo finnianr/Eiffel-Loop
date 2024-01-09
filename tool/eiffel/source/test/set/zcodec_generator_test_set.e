@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-25 15:22:41 GMT (Wednesday 25th October 2023)"
-	revision: "13"
+	date: "2024-01-07 11:42:34 GMT (Sunday 7th January 2024)"
+	revision: "14"
 
 class
 	ZCODEC_GENERATOR_TEST_SET
@@ -43,7 +43,7 @@ feature -- Tests
 					lio.put_new_line
 					if Digest_table.has_key (id.to_integer) then
 						assert ("has BOM", File.has_utf_8_bom (path.item))
-						assert_same_digest (path.item, Digest_table.found_item)
+						assert_same_digest (Plain_text, path.item, Digest_table.found_item)
 						count := count + 1
 					else
 						assert ("Source has digest", False)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 17:15:26 GMT (Sunday 5th November 2023)"
-	revision: "3"
+	date: "2024-01-07 9:51:57 GMT (Sunday 7th January 2024)"
+	revision: "4"
 
 class
 	EL_BYTE_SWAP_ROUTINES_IMP
@@ -17,30 +17,11 @@ inherit
 	
 	EL_WINDOWS_IMPLEMENTATION
 
-feature {NONE} -- Implementation
-
-	reversed_16 (v: NATURAL_16): NATURAL_16
-		-- unsigned short _byteswap_ushort ( unsigned short val );
-		external
-			"C (unsigned short): EIF_NATURAL_16 | <stdlib.h>"
-		alias
-			"_byteswap_ushort"
-		end
-
-	reversed_32 (v: NATURAL_32): NATURAL_32
-		-- unsigned long _byteswap_ulong ( unsigned long val );
-		external
-			"C (unsigned long): EIF_NATURAL_32 | <stdlib.h>"
-		alias
-			"_byteswap_ulong"
-		end
-
-	reversed_64 (v: NATURAL_64): NATURAL_64
-		-- unsigned __int64 _byteswap_uint64 ( unsigned __int64 val );
-		external
-			"C (unsigned __int64): EIF_NATURAL_64 | <stdlib.h>"
-		alias
-			"_byteswap_uint64"
+	EL_WIN_32_C_API
+		rename
+			c_byte_swap_unsigned_short as reversed_16,
+			c_byte_swap_unsigned_long as reversed_32,
+			c_byte_swap_unsigned_int64 as reversed_64
 		end
 
 end

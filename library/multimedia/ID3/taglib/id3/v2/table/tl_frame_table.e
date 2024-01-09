@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-01-07 11:11:09 GMT (Sunday 7th January 2024)"
+	revision: "5"
 
 deferred class
 	TL_FRAME_TABLE [F -> TL_ID3_TAG_FRAME create make_from_pointer end]
 
 inherit
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
 
 	TL_SHARED_ONCE_STRING
 

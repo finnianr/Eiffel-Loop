@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-29 10:51:01 GMT (Friday 29th December 2023)"
-	revision: "68"
+	date: "2024-01-07 11:47:48 GMT (Sunday 7th January 2024)"
+	revision: "69"
 
 deferred class
 	EL_ZCODEC
@@ -66,7 +66,7 @@ feature -- Character query
 	is_numeric (code: NATURAL): BOOLEAN
 		do
 			inspect code
-				when 48..57 then
+				when 48 .. 57 then
 					Result := True
 			else
 			end

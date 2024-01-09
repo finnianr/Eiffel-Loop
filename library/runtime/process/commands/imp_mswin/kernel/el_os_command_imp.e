@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 19:44:46 GMT (Thursday 4th January 2024)"
-	revision: "22"
+	date: "2024-01-05 9:22:18 GMT (Friday 5th January 2024)"
+	revision: "23"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 			cmd: EL_WINDOWS_SHELL_COMMAND; extended_parts: EL_ZSTRING_LIST
 		do
 			create cmd.make
-		-- Create extended form of `command_parts': "cmd /C /U cd /D $CWD && $COMMAND"
+		-- Create extended form of `command_parts': "cmd /U /C cd /D $CWD && $COMMAND"
 			create extended_parts.make (command_parts.count + 3)
 			extended_parts.extend (command_parts [1])
 			extended_parts.append (<<

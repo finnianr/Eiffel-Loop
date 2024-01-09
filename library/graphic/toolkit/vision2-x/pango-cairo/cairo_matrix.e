@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 16:07:47 GMT (Monday 3rd July 2023)"
-	revision: "5"
+	date: "2024-01-07 10:54:20 GMT (Sunday 7th January 2024)"
+	revision: "6"
 
 class
 	CAIRO_MATRIX
@@ -16,6 +16,8 @@ inherit
 	EL_ALLOCATED_C_OBJECT
 		rename
 			c_size_of as c_size_of_matrix
+		export
+			{EL_C_OBJECT} self_ptr
 		end
 
 	CAIRO_SHARED_API

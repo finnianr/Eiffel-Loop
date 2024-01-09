@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:13:39 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2024-01-07 11:42:35 GMT (Sunday 7th January 2024)"
+	revision: "11"
 
 class
 	CLASS_RENAMING_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 			digest_table := new_file_digest_table
 			create manifest.make_from_file (Manifest_path)
 			manifest.read_source_trees
-			
+
 			create command.make (manifest, "STRING", "STRING_8")
 			command.execute
 
@@ -52,7 +52,7 @@ feature -- Tests
 				if attached list.item as source_path
 					and then not source_path.base.starts_with_general ("el_text_item")
 				then
-					assert_same_digest_hexadecimal (source_path, digest_table [source_path].to_hex_string)
+					assert_same_digest_hexadecimal (Plain_text, source_path, digest_table [source_path].to_hex_string)
 				end
 			end
 		end

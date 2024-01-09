@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 9:15:17 GMT (Thursday 9th November 2023)"
-	revision: "12"
+	date: "2024-01-07 11:11:09 GMT (Sunday 7th January 2024)"
+	revision: "13"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
 
 inherit
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
 
 	EL_CURL_OPTION_CONSTANTS
 		export

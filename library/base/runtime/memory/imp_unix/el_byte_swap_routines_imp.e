@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 14:55:32 GMT (Sunday 5th November 2023)"
-	revision: "3"
+	date: "2024-01-07 10:00:16 GMT (Sunday 7th January 2024)"
+	revision: "4"
 
 class
 	EL_BYTE_SWAP_ROUTINES_IMP
@@ -17,27 +17,11 @@ inherit
 	
 	EL_UNIX_IMPLEMENTATION
 
-feature {NONE} -- Implementation
-
-	reversed_16 (v: NATURAL_16): NATURAL_16
-		external
-			"C [macro <byteswap.h>]"
-		alias
-			"bswap_16"
-		end
-
-	reversed_32 (v: NATURAL_32): NATURAL_32
-		external
-			"C [macro <byteswap.h>]"
-		alias
-			"bswap_32"
-		end
-
-	reversed_64 (v: NATURAL_64): NATURAL_64
-		external
-			"C [macro <byteswap.h>]"
-		alias
-			"bswap_64"
+	EL_GNU_C_API
+		rename
+			c_byte_swap_16 as reversed_16,
+			c_byte_swap_32 as reversed_32,
+			c_byte_swap_64 as reversed_64
 		end
 
 end

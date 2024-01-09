@@ -1,21 +1,18 @@
 note
-	description: "C api"
+	description: "Base class for C API"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-01-07 11:11:08 GMT (Sunday 7th January 2024)"
+	revision: "4"
 
 class
 	EL_C_API
 
 inherit
-	EL_C_API_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_attached
-		end
+	EL_MEMORY_ROUTINES
+
 end

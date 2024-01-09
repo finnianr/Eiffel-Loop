@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 22:31:11 GMT (Saturday 29th April 2023)"
-	revision: "8"
+	date: "2024-01-07 11:43:45 GMT (Sunday 7th January 2024)"
+	revision: "9"
 
 class
 	FILE_MANIFEST_TEST_SET
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 			if template_name.is_empty then
 				assert ("same content", manifest ~ command.manifest)
 			else
-				assert_same_digest (output_path, "h+JTfAZXVugLmMokPnE4Hg==")
+				assert_same_digest (Plain_text, output_path, "h+JTfAZXVugLmMokPnE4Hg==")
 			end
 		end
 

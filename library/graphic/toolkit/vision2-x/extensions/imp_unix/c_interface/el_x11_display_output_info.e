@@ -37,8 +37,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-01-07 10:58:17 GMT (Sunday 7th January 2024)"
+	revision: "9"
 
 class
 	EL_X11_DISPLAY_OUTPUT_INFO
@@ -50,7 +50,7 @@ inherit
 			make_from_pointer as make
 		end
 
-	EL_X11_EXTENSIONS_API
+	EL_X11_EXTENSIONS_C_API
 
 create
 	make, default_create

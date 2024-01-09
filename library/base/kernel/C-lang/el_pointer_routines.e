@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-27 17:22:12 GMT (Wednesday 27th September 2023)"
-	revision: "12"
+	date: "2024-01-07 10:39:49 GMT (Sunday 7th January 2024)"
+	revision: "13"
 
 expanded class
 	EL_POINTER_ROUTINES
@@ -18,41 +18,6 @@ inherit
 	PLATFORM
 		export
 			{NONE} all
-		end
-
-feature -- Status query
-
-	is_attached (a_pointer: POINTER): BOOLEAN
-		do
-			Result := not a_pointer.is_default_pointer
-		end
-
-feature -- Measurement
-
-	string_length (c_str: POINTER; character_width: INTEGER): INTEGER
-		local
-			n_8: NATURAL_8; n_16: NATURAL_16; n_32: NATURAL_32
-			found: BOOLEAN; i: INTEGER
-		do
-			from until found loop
-				inspect character_width
-					when Natural_8_bytes then
-						($n_8).memory_copy (c_str + i, character_width)
-						found := n_8 = 0
-
-					when Natural_16_bytes then
-						($n_16).memory_copy (c_str + i, character_width)
-						found := n_16 = 0
-
-					when Natural_32_bytes then
-						($n_32).memory_copy (c_str + i, character_width)
-						found := n_32 = 0
-				else
-					found := True
-				end
-				i := i + character_width
-			end
-			Result := i // character_width - 1
 		end
 
 feature -- Write to memory

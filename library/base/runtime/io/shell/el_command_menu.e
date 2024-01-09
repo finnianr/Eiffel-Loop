@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-19 10:19:30 GMT (Sunday 19th November 2023)"
-	revision: "13"
+	date: "2024-01-08 11:23:46 GMT (Monday 8th January 2024)"
+	revision: "14"
 
 class
 	EL_COMMAND_MENU
@@ -93,7 +93,6 @@ feature -- Basic operations
 				lio.put_new_line
 				row := row + 1
 			end
-			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation

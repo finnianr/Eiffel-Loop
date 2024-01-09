@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:15:01 GMT (Friday 10th March 2023)"
-	revision: "6"
+	date: "2024-01-07 11:42:35 GMT (Sunday 7th January 2024)"
+	revision: "7"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 
 			across file_list as path loop
 				if path.item.base_matches ("el_application_mutex_impl", False) then
-					assert_same_digest (path.item, "tD/I28G5sVUFFyGKMJ6Lew==")
+					assert_same_digest (Plain_text, path.item, "tD/I28G5sVUFFyGKMJ6Lew==")
 				end
 			end
 		end

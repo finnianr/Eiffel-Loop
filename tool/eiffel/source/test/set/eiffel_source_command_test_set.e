@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 13:32:08 GMT (Saturday 30th December 2023)"
-	revision: "23"
+	date: "2024-01-07 11:42:35 GMT (Sunday 7th January 2024)"
+	revision: "24"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -175,7 +175,7 @@ feature -- Tests
 			cleaner.execute
 			assert ("expect edition count", cleaner.edited_list.count = Cleaned_file_table.count)
 			across cleaner.edited_list as list loop
-				assert_same_digest (list.item, Cleaned_file_table [list.item.base_name])
+				assert_same_digest (Plain_text, list.item, Cleaned_file_table [list.item.base_name])
 			end
 		end
 

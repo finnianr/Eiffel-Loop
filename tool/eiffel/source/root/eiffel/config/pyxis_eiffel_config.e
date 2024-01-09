@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-28 13:27:36 GMT (Monday 28th August 2023)"
-	revision: "9"
+	date: "2024-01-08 11:09:58 GMT (Monday 8th January 2024)"
+	revision: "10"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -18,7 +18,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_FILE
 
 	EL_FILE_OPEN_ROUTINES
 

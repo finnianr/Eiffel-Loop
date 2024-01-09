@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 9:31:03 GMT (Sunday 31st December 2023)"
-	revision: "4"
+	date: "2024-01-08 10:39:38 GMT (Monday 8th January 2024)"
+	revision: "5"
 
 class
 	VERSION_MANAGER_SHELL_COMMAND
@@ -84,6 +84,7 @@ feature {NONE} -- Implementation
 		do
 			if attached config.usr_local_executable_path as path then
 				create Result.make (path.parent, path.base + "*")
+				Result.current_version.copy (config.system.version)
 			else
 				create Result.make_empty
 			end

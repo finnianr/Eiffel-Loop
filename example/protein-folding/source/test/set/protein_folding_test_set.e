@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2023-03-10 17:51:13 GMT (Friday 10th March 2023)"
-	revision: "7"
+	date: "2024-01-07 13:28:01 GMT (Sunday 7th January 2024)"
+	revision: "8"
 
 class
 	PROTEIN_FOLDING_TEST_SET
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 					end
 					command.execute
 					result_digest := Digest.md5_plain_text (result_path).to_base_64_string
-					assert_same_digest (command.output_path, result_digest)
+					assert_same_digest (Plain_text, command.output_path, result_digest)
 				end
 			end
 		end

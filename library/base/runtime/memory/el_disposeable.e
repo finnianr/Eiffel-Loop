@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-01-07 11:11:08 GMT (Sunday 7th January 2024)"
+	revision: "7"
 
 deferred class
 	EL_DISPOSEABLE
@@ -15,6 +15,6 @@ deferred class
 inherit
 	DISPOSABLE
 
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
 
 end

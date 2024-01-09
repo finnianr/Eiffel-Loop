@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 8:12:33 GMT (Monday 3rd July 2023)"
-	revision: "8"
+	date: "2024-01-07 11:38:43 GMT (Sunday 7th January 2024)"
+	revision: "9"
 
 deferred class
 	EL_AUDIO_PCM_SAMPLE
@@ -16,6 +16,8 @@ inherit
 	EL_ALLOCATED_C_OBJECT
 		rename
 			make_default as make
+		export
+			{EL_MEMORY_ROUTINES} c_size_of, self_ptr
 		end
 
 feature -- Access

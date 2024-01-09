@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2024-01-09 12:13:49 GMT (Tuesday 9th January 2024)"
+	revision: "12"
 
 class
 	EL_PIXMAP_IMP
@@ -32,7 +32,7 @@ inherit
 			interface
 		end
 
-	EL_MODULE_GDI_BITMAP
+	EL_MODULE_GDI_BITMAP-- ; EL_MODULE_EXCEPTION
 
 create
 	make
@@ -116,8 +116,12 @@ feature {NONE} -- Implementation
 				disable_initialized
 				create bitmap.make_with_size (1, 1)
 				bitmap.load_image_from_path (pixmap_filename)
-				set_bitmap_and_mask (bitmap.new_bitmap, Void, bitmap.width, bitmap.height)
-				set_is_initialized (True)
+				if not (bitmap.width > 0 and bitmap.height > 0) then
+					exception_raise ("Could not load image file.")
+				else
+					set_bitmap_and_mask (bitmap.new_bitmap, Void, bitmap.width, bitmap.height)
+					set_is_initialized (True)
+				end
 			else
 				Precursor
 			end

@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-01-09 9:23:41 GMT (Tuesday 9th January 2024)"
+	revision: "5"
 
 class
 	CAIRO_GDK_PIXBUF_API
 
 inherit
 	CAIRO_GDK_PIXBUF_I
+		rename
+			default_create as make
+		end
+
+	EL_UNIX_IMPLEMENTATION
 		rename
 			default_create as make
 		end

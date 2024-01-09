@@ -18,8 +18,8 @@ system:
 		root:
 			class = APPLICATION_ROOT; feature = make
 		version:
-			# Special case: no automatic generation of ecf XML for this project
-			major = 1; minor = 6; release = 5; build = 527
+			# Special case: no automatic generation of ecf XML for this project because of circularity
+			major = 2; minor = 0; release = 0; build = 527
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 

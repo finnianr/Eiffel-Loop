@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 18:12:34 GMT (Thursday 4th January 2024)"
-	revision: "29"
+	date: "2024-01-04 20:42:18 GMT (Thursday 4th January 2024)"
+	revision: "30"
 
 class
 	OS_COMMAND_TEST_SET
@@ -42,11 +42,8 @@ feature -- Tests
 		-- OS_COMMAND_TEST_SET.test_admin_level_execution
 		note
 			testing: "[
-				covers/{EL_WINDOWS_ADMIN_SHELL_COMMAND}.execute,
-				covers/{EL_WINDOWS_ADMIN_SHELL_COMMAND}.set_command_and_parameters
-			]"
-			status: "[
-				Commented out in `make_named'. Failing on Windows
+				covers/{EL_WINDOWS_SHELL_COMMAND}.execute,
+				covers/{EL_WINDOWS_SHELL_COMMAND}.set_command_and_parameters
 			]"
 		local
 			command: EL_OS_COMMAND_I; destination_path: FILE_PATH

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-01-07 10:57:39 GMT (Sunday 7th January 2024)"
+	revision: "4"
 
 class
 	EL_X11_DISPLAY
@@ -18,7 +18,7 @@ inherit
 			{EL_X11_SCREEN_RESOURCES} self_ptr
 		end
 
-	EL_X11_API
+	EL_X11_C_API
 
 create
 	make

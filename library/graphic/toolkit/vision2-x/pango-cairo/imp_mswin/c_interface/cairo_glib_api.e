@@ -1,13 +1,13 @@
 note
-	description: "Windows implementation of [$source CAIRO_GLIB_C_API]"
+	description: "Windows implementation of [$source CAIRO_GLIB_I]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 17:18:26 GMT (Sunday 5th November 2023)"
-	revision: "12"
+	date: "2024-01-09 11:37:20 GMT (Tuesday 9th January 2024)"
+	revision: "13"
 
 class
 	CAIRO_GLIB_API
@@ -17,10 +17,20 @@ inherit
 
 	CAIRO_GLIB_C_API
 
+	CAIRO_GLIB_I
+
 	EL_WINDOWS_IMPLEMENTATION
 
 create
 	make
+
+feature -- Basic operations
+
+	clear_error (error_ptr: TYPED_POINTER [POINTER])
+		-- If err or err is NULL, does nothing. Otherwise, calls g_error_free() on err and sets *err to NULL.
+		do
+			g_clear_error (api.clear_error, error_ptr)
+		end
 
 feature -- Disposal
 

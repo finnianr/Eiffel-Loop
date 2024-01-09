@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-01-07 10:57:39 GMT (Sunday 7th January 2024)"
+	revision: "3"
 
 class
 	EL_X11_IMAGE
@@ -21,7 +21,7 @@ inherit
 			make_from_pointer as make
 		end
 
-	EL_X11_API
+	EL_X11_C_API
 
 create
 	make

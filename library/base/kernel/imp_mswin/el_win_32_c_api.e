@@ -6,14 +6,40 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 20:20:04 GMT (Thursday 4th January 2024)"
-	revision: "1"
+	date: "2024-01-07 11:06:15 GMT (Sunday 7th January 2024)"
+	revision: "2"
 
 class
 	EL_WIN_32_C_API
 
 inherit
-	EL_C_API_ROUTINES
+	EL_C_API
+
+feature {NONE} -- Standard library
+
+	c_byte_swap_unsigned_short (v: NATURAL_16): NATURAL_16
+		-- unsigned short _byteswap_ushort ( unsigned short val );
+		external
+			"C (unsigned short): EIF_NATURAL_16 | <stdlib.h>"
+		alias
+			"_byteswap_ushort"
+		end
+
+	c_byte_swap_unsigned_long (v: NATURAL_32): NATURAL_32
+		-- unsigned long _byteswap_ulong ( unsigned long val );
+		external
+			"C (unsigned long): EIF_NATURAL_32 | <stdlib.h>"
+		alias
+			"_byteswap_ulong"
+		end
+
+	c_byte_swap_unsigned_int64 (v: NATURAL_64): NATURAL_64
+		-- unsigned __int64 _byteswap_uint64 ( unsigned __int64 val );
+		external
+			"C (unsigned __int64): EIF_NATURAL_64 | <stdlib.h>"
+		alias
+			"_byteswap_uint64"
+		end
 
 feature {NONE} -- Path related
 
@@ -113,6 +139,83 @@ feature {NONE} -- Win32 base
 			"C inline use <Winbase.h>"
 		alias
 			"CreateMutex (NULL, FALSE, (LPCTSTR)$name)"
+		end
+
+feature {NONE} -- Internationalization
+
+	c_get_user_default_locale_id: INTEGER
+		-- the locale identifier for the user default locale, represented as LOCALE_USER_DEFAULT.
+		-- If the user default locale is a custom locale, this function always returns LOCALE_CUSTOM_DEFAULT,
+		-- regardless of the custom locale that is selected. For example, whether the user locale is Hawaiian
+		-- (US), haw-US, or Fijiian (Fiji), fj-FJ, the function returns the same value.
+		external
+			"C (): LCID| <windows.h>"
+		alias
+			"GetUserDefaultLCID"
+		end
+
+feature {NONE} -- Folder constants
+
+	c_folder_id_common_desktop: INTEGER
+			-- The file system directory that contains files and folders that appear on the desktop for all users.
+			-- A typical path is C:\Documents and Settings\All Users\Desktop.
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_COMMON_DESKTOPDIRECTORY"
+		end
+
+	c_folder_id_common_programs: INTEGER
+			-- The file system directory that contains the directories for the common program groups
+			-- that appear on the Start menu for all users.
+			-- typical path is C:\Documents and Settings\All Users\Start Menu\Programs
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_COMMON_PROGRAMS"
+		end
+
+	c_folder_id_desktop: INTEGER
+			-- The file system directory used to physically store file objects on the desktop
+			-- (not to be confused with the desktop folder itself).
+			-- A typical path is C:\Documents and Settings\username\Desktop.		
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_DESKTOPDIRECTORY"
+		end
+
+	c_folder_id_my_documents: INTEGER
+			-- typical path is "C:\Users\xxx\My Documents".
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_MYDOCUMENTS"
+		end
+
+	c_folder_id_program_files: INTEGER
+			-- typical path is C:\Program Files.
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_PROGRAM_FILES"
+		end
+
+	c_folder_id_user_profile: INTEGER
+			-- typical path is C:\Users\<username>.
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_PROFILE"
+		end
+
+	c_folder_id_system: INTEGER
+			-- The Windows System folder.
+			-- A typical path is C:\Windows\System32.
+		external
+			"C [macro <Shlobj.h>]"
+		alias
+			"CSIDL_SYSTEM"
 		end
 
 end

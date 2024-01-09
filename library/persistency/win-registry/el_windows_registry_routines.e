@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-23 8:32:32 GMT (Saturday 23rd September 2023)"
-	revision: "9"
+	date: "2024-01-07 11:19:46 GMT (Sunday 7th January 2024)"
+	revision: "10"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES
 
 inherit
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
 
 feature -- Access
 

@@ -1,3 +1,8 @@
+2.0.0
+
+* Found versions mistake. All versions from 1.1.0 to 1.6.5 should have been major = 2.
+* Version shell now displays current software version
+
 1.6.5
 * Allow user to escape from class rename
 
@@ -117,6 +122,8 @@
 
 1.1.0
 * Open grep results in gedit
+
+BIG MISTAKE IN VERSIONING HERE. SHOULD HAVE GONE TO 1.10.0 or 2.0.0
 
 1.9.8
 * Added ditto for repeating a grep search

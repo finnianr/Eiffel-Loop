@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-01-09 9:21:47 GMT (Tuesday 9th January 2024)"
+	revision: "5"
 
 deferred class
 	CAIRO_GDK_I
 
 inherit
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
+
+	EL_OS_DEPENDENT
 
 feature -- Access
 
@@ -24,11 +26,6 @@ feature -- Access
 
 	default_root_window: POINTER
 		deferred
-		end
-
-	error_message (error: POINTER): CAIRO_GSTRING_I
-		do
-			create {CAIRO_GSTRING_IMP} Result.share_from_pointer (error)
 		end
 
 	default_screen (display: POINTER): POINTER

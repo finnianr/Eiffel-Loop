@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 8:14:48 GMT (Monday 3rd July 2023)"
-	revision: "5"
+	date: "2024-01-07 11:19:16 GMT (Sunday 7th January 2024)"
+	revision: "6"
 
 deferred class
 	EL_AUDIO_SAMPLE_SOURCE [SAMPLE_TYPE -> EL_AUDIO_PCM_SAMPLE create make end]
@@ -20,7 +20,7 @@ inherit
 			item as data_item
 		end
 
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
 
 feature {NONE} -- Initialization
 

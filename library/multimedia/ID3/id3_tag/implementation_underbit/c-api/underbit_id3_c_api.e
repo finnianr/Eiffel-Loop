@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 6:45:30 GMT (Friday 18th August 2023)"
-	revision: "10"
+	date: "2024-01-07 11:18:13 GMT (Sunday 7th January 2024)"
+	revision: "11"
 
 class
 	UNDERBIT_ID3_C_API
 
 inherit
-	EL_C_API_ROUTINES
-		export
-			{NONE} all
-			{ANY} is_attached
-		end
+	EL_C_API
 
 feature {NONE} -- Frames
 

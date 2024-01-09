@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-01-07 11:25:53 GMT (Sunday 7th January 2024)"
+	revision: "6"
 
 class
 	EL_DIRECTORY_ITERATION_CURSOR
@@ -23,6 +23,8 @@ inherit
 			{NONE} all
 			{ANY} exists, is_directory, is_symlink, is_writable, is_plain, is_executable
 		end
+
+	EL_EIFFEL_C_API undefine copy, is_equal end
 
 	NATIVE_STRING_HANDLER undefine copy, is_equal end
 
@@ -49,13 +51,13 @@ feature {NONE} -- Initialization
 			create item.make_empty
 			path_name := a_directory.internal_path.twin
 			dir_name_pointer := file_name_to_pointer (path_name, dir_name_pointer)
-			directory_pointer := dir_open (dir_name_pointer.item)
+			directory_pointer := eif_dir_open (dir_name_pointer.item)
 
 			if not path_name.is_empty then
 				path_name.append_character (Operating_environment.Directory_separator)
 			end
 			parent_count := path_name.count
-			directory_pointer := dir_rewind (directory_pointer, dir_name_pointer.item)
+			directory_pointer := eif_dir_rewind (directory_pointer, dir_name_pointer.item)
 			read_next
 		end
 
@@ -112,7 +114,7 @@ feature {NONE} -- Implementation
 
 	close
 		do
-			dir_close (directory_pointer)
+			eif_dir_close (directory_pointer)
 			directory_pointer := default_pointer
 		end
 
@@ -156,37 +158,5 @@ feature {NONE} -- Internal attributes
 
 	path_name: STRING_32
 		-- directory path name
-
-feature {NONE} -- C Externals
-
-	dir_close (dir_ptr: POINTER)
-			-- Close the directory `dir_ptr'.
-		external
-			"C use %"eif_dir.h%""
-		alias
-			"eif_dir_close"
-		end
-
-	eif_dir_next (dir_ptr: POINTER): POINTER
-			-- Return pointer to the next entry in the current iteration.
-		external
-			"C use %"eif_dir.h%""
-		end
-
-	dir_open (dir_name: POINTER): POINTER
-			-- Open the directory `dir_name'.
-		external
-			"C signature (EIF_FILENAME): EIF_POINTER use %"eif_dir.h%""
-		alias
-			"eif_dir_open"
-		end
-
-	dir_rewind (dir_ptr: POINTER; dir_name: POINTER): POINTER
-			-- Rewind the directory `dir_ptr' with name `a_name' and return a new directory traversal pointer.
-		external
-			"C signature (EIF_POINTER, EIF_FILENAME): EIF_POINTER use %"eif_dir.h%""
-		alias
-			"eif_dir_rewind"
-		end
 
 end

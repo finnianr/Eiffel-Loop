@@ -6,26 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2024-01-09 8:47:35 GMT (Tuesday 9th January 2024)"
+	revision: "11"
 
 class
 	EL_GTK_2_C_API
 
 inherit
-	EL_C_API_ROUTINES
+	EL_C_API
 
 feature -- Access
-
-	frozen g_error_message (error: POINTER): POINTER
-				--
-		require
-			error_attached: is_attached (error)
-		external
-			"C [struct <ev_gtk.h>] (GError): EIF_POINTER"
-		alias
-			"message"
-		end
 
 	frozen widget_get_snapshot (a_widget, a_rectangle: POINTER): POINTER
 			-- GdkPixmap * gtk_widget_get_snapshot (GtkWidget *widget, GdkRectangle *clip_rect);		

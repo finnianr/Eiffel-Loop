@@ -6,28 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-01-09 12:33:07 GMT (Tuesday 9th January 2024)"
+	revision: "5"
 
 deferred class
 	CAIRO_GDK_PIXBUF_I
 
 inherit
-	EL_C_API_ROUTINES
+	EL_MEMORY_ROUTINES
+
+	EL_OS_DEPENDENT
+
+	CAIRO_GLIB_SHARED_API
 
 feature -- Access
 
 	new_from_file (file_path: FILE_PATH): POINTER
 		local
-			error_ptr: POINTER; path_str: CAIRO_GSTRING_I
-			exception: CAIRO_EXCEPTION
+			error_ptr: POINTER; path_string: CAIRO_GSTRING_I
 		do
-			create {CAIRO_GSTRING_IMP} path_str.make_from_file_path (file_path)
-			Result := new_pixbuf_from_file (path_str.item, $error_ptr)
-			if is_attached (error_ptr) then
-				create exception.make ({STRING_32} "Error loading " + file_path.base, error_ptr)
-				exception.raise
-			end
+			path_string := GLIB.new_path_string (file_path)
+			Result := new_pixbuf_from_file (path_string.item, $error_ptr)
+			GLIB.handle_error (error_ptr, $error_ptr)
 		end
 
 feature -- Measurement

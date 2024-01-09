@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-01-09 9:46:35 GMT (Tuesday 9th January 2024)"
+	revision: "3"
 
 class
 	CAIRO_EXCEPTION
@@ -15,15 +15,15 @@ class
 inherit
 	DEVELOPER_EXCEPTION
 
-	CAIRO_SHARED_GDK_API
+	CAIRO_GLIB_SHARED_API
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (heading: READABLE_STRING_GENERAL; error_ptr: POINTER)
+	make (error: CAIRO_GSTRING_I)
 		do
-			set_description (heading + ": " + Gdk.error_message (error_ptr).string)
+			set_description (error.string)
 		end
 end
