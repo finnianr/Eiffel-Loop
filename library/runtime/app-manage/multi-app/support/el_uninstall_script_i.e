@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:12:58 GMT (Monday 27th November 2023)"
-	revision: "25"
+	date: "2024-01-09 18:04:27 GMT (Tuesday 9th January 2024)"
+	revision: "26"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -91,6 +91,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	uninstall_command_parts: ARRAY [ZSTRING]
+		deferred
+		end
+
 feature {NONE} -- Implementation
 
 	remove_files_script_path: FILE_PATH
@@ -137,7 +141,7 @@ feature {NONE} -- Implementation
 
 	uninstall_command: EL_ZSTRING_LIST
 		do
-			create Result.make_from_array (<< Application_path.escaped, uninstall_option >>)
+			create Result.make_from_array (uninstall_command_parts)
 			if attached uninstall_app.Desktop.command_line_options as options and then options.count > 0 then
 				Result.extend (options)
 			end

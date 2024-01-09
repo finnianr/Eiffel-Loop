@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 9:03:43 GMT (Monday 10th July 2023)"
-	revision: "10"
+	date: "2024-01-09 18:03:54 GMT (Tuesday 9th January 2024)"
+	revision: "11"
 
 class
 	EL_UNINSTALL_SCRIPT_IMP
@@ -36,6 +36,11 @@ feature {NONE} -- Implementation
 	script_encoding: EL_ENCODEABLE_AS_TEXT
 		do
 			create Result.make_default
+		end
+
+	uninstall_command_parts: ARRAY [ZSTRING]
+		do
+			Result := << Application_path.escaped, uninstall_option >>
 		end
 
 feature {NONE} -- Constants
