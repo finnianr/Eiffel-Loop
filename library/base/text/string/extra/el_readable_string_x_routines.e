@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 11:54:47 GMT (Friday 22nd December 2023)"
-	revision: "26"
+	date: "2024-01-11 10:17:26 GMT (Thursday 11th January 2024)"
+	revision: "27"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -290,7 +290,9 @@ feature -- Substring
 			end
 		end
 
-	substring_to_reversed (str: READABLE_STRING_X; uc: CHARACTER_32; start_index_from_end_ptr: POINTER): READABLE_STRING_X
+	substring_to_reversed (
+		str: READABLE_STRING_X; uc: CHARACTER_32; start_index_from_end_ptr: POINTER
+	): READABLE_STRING_X
 		-- the same as `substring_to' except going from right to left
 		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local

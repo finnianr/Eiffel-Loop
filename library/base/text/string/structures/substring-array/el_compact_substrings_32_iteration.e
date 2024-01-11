@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:40:51 GMT (Saturday 23rd December 2023)"
-	revision: "10"
+	date: "2024-01-11 10:18:43 GMT (Thursday 11th January 2024)"
+	revision: "11"
 
 expanded class
 	EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -162,7 +162,9 @@ feature -- Comparison
 			if c32.to_lower (item (block_index_ptr, area, i)) = c32.to_lower (other_area [other_i]) then
 				block_index := read_integer_32 (block_index_ptr)
 				lower := area [block_index].code
-				Result := c32.same_caseless_sub_array (area, other_area, block_index + 2 + i - lower, other_i, comparison_count)
+				Result := c32.same_caseless_sub_array (
+					area, other_area, block_index + 2 + i - lower, other_i, comparison_count
+				)
 			end
 		end
 

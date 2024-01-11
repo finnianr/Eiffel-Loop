@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 14:02:33 GMT (Thursday 28th December 2023)"
-	revision: "66"
+	date: "2024-01-11 10:19:01 GMT (Thursday 11th January 2024)"
+	revision: "67"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
