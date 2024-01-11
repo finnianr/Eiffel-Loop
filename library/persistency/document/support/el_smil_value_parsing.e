@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 6:45:02 GMT (Saturday 24th June 2023)"
-	revision: "8"
+	date: "2024-01-11 14:45:05 GMT (Thursday 11th January 2024)"
+	revision: "9"
 
 deferred class
 	EL_SMIL_VALUE_PARSING
@@ -21,7 +21,7 @@ feature {NONE} -- Implementation
 		local
 			s8: EL_STRING_8_ROUTINES
 		do
-			Result := s8.substring_to (node.adjusted_8 (False), 's', default_pointer).to_real
+			Result := s8.substring_to (node.adjusted_8 (False), 's').to_real
 		end
 
 	node_as_integer_suffix: INTEGER
@@ -30,7 +30,7 @@ feature {NONE} -- Implementation
 		local
 			s8: EL_STRING_8_ROUTINES
 		do
-			Result := s8.substring_to_reversed (node.adjusted_8 (False), '_', default_pointer).to_integer
+			Result := s8.substring_to_reversed (node.adjusted_8 (False), '_').to_integer
 		end
 
 	node: EL_DOCUMENT_NODE_STRING
@@ -45,7 +45,7 @@ feature {NONE} -- Status query
 		local
 			s8: EL_STRING_8_ROUTINES
 		do
-			Result := s8.substring_to (node.adjusted_8 (False), 's', default_pointer).is_real
+			Result := s8.substring_to (node.adjusted_8 (False), 's').is_real
 		end
 
 end

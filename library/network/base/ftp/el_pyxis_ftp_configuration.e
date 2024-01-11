@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:25:49 GMT (Wednesday 8th November 2023)"
-	revision: "3"
+	date: "2024-01-11 14:46:57 GMT (Thursday 11th January 2024)"
+	revision: "4"
 
 class
 	EL_PYXIS_FTP_CONFIGURATION
@@ -102,7 +102,7 @@ feature {NONE} -- Implementation
 				encrypted_url_found := True
 				if attached pyxis_lines as list then
 					last_line := list.last
-					ftp_element_name := last_line.substring_to (':', default_pointer)
+					ftp_element_name := last_line.substring_to (':')
 					ftp_element_name.left_adjust
 
 					from list.go_i_th (3) until list.item = last_line loop

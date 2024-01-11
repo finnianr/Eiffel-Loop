@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-08 12:28:24 GMT (Monday 8th January 2024)"
-	revision: "3"
+	date: "2024-01-11 14:55:45 GMT (Thursday 11th January 2024)"
+	revision: "4"
 
 class
 	EL_VERSION_PATH_LIST
@@ -238,7 +238,7 @@ feature {NONE} -- Implementation
 				if not a_path.extension.is_natural then
 					name := a_path.base_name -- el_eiffel-1.2.3
 				end
-				version := name.substring_to_reversed ('-', default_pointer)
+				version := name.substring_to_reversed ('-')
 				if version.occurrences ('.') = 2 then
 					Result := version.to_latin_1
 				end

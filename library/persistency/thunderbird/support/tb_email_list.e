@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 17:52:29 GMT (Wednesday 25th January 2023)"
-	revision: "4"
+	date: "2024-01-11 14:46:09 GMT (Thursday 11th January 2024)"
+	revision: "5"
 
 class
 	TB_EMAIL_LIST
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 				field_list.last_value.append (line)
 			else
 				start_index := 1
-				name := s.substring_to (line, ':', $start_index)
+				name := s.substring_to_from (line, ':', $start_index)
 				value := line.substring (start_index + 1, line.count)
 				field_list.extend (name, value)
 			end

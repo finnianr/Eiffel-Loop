@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 15:47:44 GMT (Saturday 23rd December 2023)"
-	revision: "30"
+	date: "2024-01-11 14:25:08 GMT (Thursday 11th January 2024)"
+	revision: "31"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION
@@ -212,6 +212,10 @@ feature {NONE} -- Implementation
 			if a_area.valid_index (start_index) then
 				Result := a_area [start_index - 1].code - a_area [start_index - 2].code + 1
 			end
+		end
+
+	null: TYPED_POINTER [INTEGER]
+		do
 		end
 
 	put_lower (a_area: like area; i, lower: INTEGER)

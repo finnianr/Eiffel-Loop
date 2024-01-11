@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 9:05:15 GMT (Thursday 21st December 2023)"
-	revision: "31"
+	date: "2024-01-11 14:46:08 GMT (Thursday 11th January 2024)"
+	revision: "32"
 
 class
 	URI_TEST_SET
@@ -149,7 +149,7 @@ feature -- Tests
 			url_string.append_string (book_info.author_title)
 			create url.make_from_general (url_string)
 
-			encoded_author_title := s.substring_to (Book_data.encoded, '&', Default_pointer)
+			encoded_author_title := s.substring_to (Book_data.encoded, '&')
 			assert_same_string (Void, amazon_query + "?" + encoded_author_title, url)
 
 			title_fragment := "#title"

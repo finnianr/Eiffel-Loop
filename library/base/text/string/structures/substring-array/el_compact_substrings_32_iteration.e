@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 10:18:43 GMT (Thursday 11th January 2024)"
-	revision: "11"
+	date: "2024-01-11 14:15:02 GMT (Thursday 11th January 2024)"
+	revision: "12"
 
 expanded class
 	EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -30,13 +30,14 @@ inherit
 
 feature -- Access
 
-	code (block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; i: INTEGER): NATURAL
+	code (block_index_ptr: TYPED_POINTER [INTEGER]; area: SPECIAL [CHARACTER_32]; i: INTEGER): NATURAL
 		do
 			Result := item (block_index_ptr, area, i).natural_32_code
 		end
 
 	i_th_z_code (
-		block_index_ptr: POINTER; area: SPECIAL [CHARACTER]; unencoded_area: SPECIAL [CHARACTER_32]; i: INTEGER
+		block_index_ptr: TYPED_POINTER [INTEGER]; area: SPECIAL [CHARACTER]
+		unencoded_area: SPECIAL [CHARACTER_32]; i: INTEGER
 	): NATURAL
 		local
 			c_i: CHARACTER
@@ -51,7 +52,9 @@ feature -- Access
 			end
 		end
 
-	index_of (block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; uc: CHARACTER_32; start_index: INTEGER): INTEGER
+	index_of (
+		block_index_ptr: TYPED_POINTER [INTEGER]; area: SPECIAL [CHARACTER_32]; uc: CHARACTER_32; start_index: INTEGER
+	): INTEGER
 		-- index of `unicode' starting from `start_index'
 		local
 			lower, upper, i, j: INTEGER; found: BOOLEAN
@@ -93,7 +96,7 @@ feature -- Access
 			valid_result: Result > 0 implies item (block_index_ptr, area, Result) = uc
 		end
 
-	item (block_index_ptr: POINTER; area: SPECIAL [CHARACTER_32]; index: INTEGER): CHARACTER_32
+	item (block_index_ptr: TYPED_POINTER [INTEGER]; area: SPECIAL [CHARACTER_32]; index: INTEGER): CHARACTER_32
 		require
 			at_least_one_block: area.count >= 3
 		local
@@ -152,7 +155,7 @@ feature -- Access
 feature -- Comparison
 
 	same_caseless_characters (
-		block_index_ptr: POINTER; area, other_area: SPECIAL [CHARACTER_32]
+		block_index_ptr: TYPED_POINTER [INTEGER]; area, other_area: SPECIAL [CHARACTER_32]
 		i, other_i, comparison_count: INTEGER
 	): BOOLEAN
 		local
@@ -169,7 +172,7 @@ feature -- Comparison
 		end
 
 	same_characters (
-		block_index_ptr: POINTER; area, other_area: SPECIAL [CHARACTER_32]
+		block_index_ptr: TYPED_POINTER [INTEGER]; area, other_area: SPECIAL [CHARACTER_32]
 		i, other_i, comparison_count: INTEGER
 
 	): BOOLEAN

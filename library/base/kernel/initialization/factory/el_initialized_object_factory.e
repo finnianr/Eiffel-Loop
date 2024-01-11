@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 11:54:14 GMT (Saturday 30th December 2023)"
-	revision: "7"
+	date: "2024-01-11 15:13:30 GMT (Thursday 11th January 2024)"
+	revision: "8"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -79,10 +79,11 @@ feature {NONE} -- Implementation
 			factory_id: INTEGER; target_type: TYPE [ANY]
 		do
 			target_type := factory_type.generic_parameter_type (1)
-			factory_id := Factory.substituted_type_id (factory_type, target_type, factory_type_id)
-
-			if factory_id >= 0 and then factory_factory.valid_type_id (factory_id) then
-				Result := factory_factory.new_item_from_type_id (factory_id)
+			if {ISE_RUNTIME}.type_conforms_to (factory_type_id, target_type.type_id) then
+				factory_id := Factory.substituted_type_id (factory_type, target_type, factory_type_id)
+				if factory_id >= 0 and then factory_factory.valid_type_id (factory_id) then
+					Result := factory_factory.new_item_from_type_id (factory_id)
+				end
 			end
 		end
 

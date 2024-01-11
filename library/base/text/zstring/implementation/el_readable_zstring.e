@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 10:15:57 GMT (Thursday 11th January 2024)"
-	revision: "140"
+	date: "2024-01-11 14:51:33 GMT (Thursday 11th January 2024)"
+	revision: "141"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -653,7 +653,13 @@ feature -- Conversion
 			unencoded_valid: Result.is_valid
 		end
 
-	substring_to (uc: CHARACTER_32; start_index_int32_ptr: POINTER): like Current
+	substring_to (uc: CHARACTER_32): like Current
+		-- `substring_to_from' from start of string
+		do
+			Result := substring_to_from (uc, null)
+		end
+
+	substring_to_from (uc: CHARACTER_32; start_index_int32_ptr: TYPED_POINTER [INTEGER]): like Current
 		-- substring from INTEGER at memory location `start_index_int32_ptr' up to but not including index of `uc'
 		-- or else `substring_end (start_index)' if `uc' not found
 		-- `start_index' is 1 if `start_index_int32_ptr = Default_pointer'
@@ -662,7 +668,7 @@ feature -- Conversion
 		local
 			start_index, index: INTEGER
 		do
-			if start_index_int32_ptr = Default_pointer then
+			if start_index_int32_ptr.is_default_pointer then
 				start_index := 1
 			else
 				start_index := pointer.read_integer_32 (start_index_int32_ptr)
@@ -675,18 +681,24 @@ feature -- Conversion
 				Result := substring_end (start_index)
 				start_index := count + 1
 			end
-			if start_index_int32_ptr /= Default_pointer then
+			if not start_index_int32_ptr.is_default_pointer then
 				pointer.put_integer_32 (start_index, start_index_int32_ptr)
 			end
 		end
 
-	substring_to_reversed (uc: CHARACTER_32; start_index_from_end_ptr: POINTER): like Current
+	substring_to_reversed (uc: CHARACTER_32): like Current
+		-- `substring_to_reversed_from' from end of string
+		do
+			Result := substring_to_reversed_from (uc, null)
+		end
+
+	substring_to_reversed_from (uc: CHARACTER_32; start_index_from_end_ptr: TYPED_POINTER [INTEGER]): like Current
 		-- the same as `substring_to' except going from right to left
 		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local
 			start_index_from_end, index: INTEGER
 		do
-			if start_index_from_end_ptr = Default_pointer then
+			if start_index_from_end_ptr.is_default_pointer then
 				start_index_from_end := count
 			else
 				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
@@ -699,7 +711,7 @@ feature -- Conversion
 				Result := substring (1, start_index_from_end)
 				start_index_from_end := 0
 			end
-			if start_index_from_end_ptr /= Default_pointer then
+			if not start_index_from_end_ptr.is_default_pointer then
 				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end

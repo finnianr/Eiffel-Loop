@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:47:48 GMT (Sunday 7th January 2024)"
-	revision: "69"
+	date: "2024-01-11 14:49:09 GMT (Thursday 11th January 2024)"
+	revision: "70"
 
 deferred class
 	EL_ZCODEC
@@ -788,7 +788,9 @@ feature {NONE} -- Implementation
 			Result [Substitute_code] := 0
 		end
 
-	is_first_alpha (state_alpha_ptr: POINTER; state_alpha: INTEGER; is_alpha_item: BOOLEAN): BOOLEAN
+	is_first_alpha (state_alpha_ptr: TYPED_POINTER [INTEGER]; state_alpha: INTEGER; is_alpha_item: BOOLEAN): BOOLEAN
+		require
+			not_default_pointer: not state_alpha_ptr.is_default_pointer
 		local
 			p: EL_POINTER_ROUTINES
 		do

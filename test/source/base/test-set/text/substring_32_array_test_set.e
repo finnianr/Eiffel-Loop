@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 15:46:25 GMT (Saturday 23rd December 2023)"
-	revision: "28"
+	date: "2024-01-11 14:27:06 GMT (Thursday 11th January 2024)"
+	revision: "29"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -406,7 +406,7 @@ feature {NONE} -- Implementation
 			from i := 1 until i > zstr.count loop
 				if zstr.z_code (i) > 0xFF then
 					uc := zstr [i]
-					assert ("same index_of", to_array (zstr).index_of (uc, 1) = unencoded.index_of (uc, 1, default_pointer))
+					assert ("same index_of", to_array (zstr).index_of (uc, 1) = unencoded.index_of (uc, 1, null))
 					last_index := to_array (zstr).last_index_of (uc, zstr.count)
 					assert ("same last_index_of", last_index = unencoded.last_index_of (uc, zstr.count))
 				end
@@ -441,6 +441,10 @@ feature {NONE} -- Implementation
 				unencoded := zstr
 				test (zstr, unencoded)
 			end
+		end
+
+	null: TYPED_POINTER [INTEGER]
+		do
 		end
 
 	to_array (zstr: ZSTRING): EL_SUBSTRING_32_ARRAY

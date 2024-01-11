@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 15:38:21 GMT (Tuesday 5th December 2023)"
-	revision: "23"
+	date: "2024-01-11 14:46:08 GMT (Thursday 11th January 2024)"
+	revision: "24"
 
 class
 	PAYPAL_TEST_SET
@@ -56,7 +56,7 @@ feature -- Test
 				if attached uri_query.item.split ('%N') as list then
 					line := list [list.count - 1]
 				end
-				code := s.substring_to_reversed (line, '=', default_pointer).to_integer
+				code := s.substring_to_reversed (line, '=').to_integer
 				create results.make (new_query (uri_query.item))
 				if results.has_errors then
 					results.print_errors

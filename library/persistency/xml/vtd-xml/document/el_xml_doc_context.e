@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 16:38:07 GMT (Sunday 10th December 2023)"
-	revision: "28"
+	date: "2024-01-11 14:49:56 GMT (Thursday 11th January 2024)"
+	revision: "29"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -260,7 +260,7 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 								if ns_name ~ XML.xmlns then
 									Result.put (create {STRING}.make_empty, Default_name)
 								else
-									Result.put (create {STRING}.make_empty, s.substring_to_reversed (ns_name, ':', default_pointer))
+									Result.put (create {STRING}.make_empty, s.substring_to_reversed (ns_name, ':'))
 								end
 							end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "7"
+	date: "2024-01-11 15:19:28 GMT (Thursday 11th January 2024)"
+	revision: "8"
 
 class
 	VCF_CONTACT_TEST_SET
@@ -73,7 +73,7 @@ feature -- Tests
 				assert ("output generated", contacts_2_path.exists)
 				across File.plain_text_lines (contacts_2_path) as line loop
 					if line.item.starts_with ("N:") then
-						last_name := s.substring_to (line.item, ';', default_pointer)
+						last_name := s.substring_to (line.item, ';')
 						last_name.remove_head (2)
 					elseif line.item.starts_with ("FN:") then
 						assert ("names reversed", line.item.ends_with (" " + last_name))

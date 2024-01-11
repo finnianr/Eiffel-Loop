@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 11:07:26 GMT (Saturday 4th November 2023)"
-	revision: "42"
+	date: "2024-01-11 14:49:09 GMT (Thursday 11th January 2024)"
+	revision: "43"
 
 class
 	EL_NAMING_ROUTINES
@@ -83,7 +83,7 @@ feature -- Class name derivations
 			word_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			word, name: STRING; s: EL_STRING_8_ROUTINES
 		do
-			name := s.substring_to (a_type_name, '[', default_pointer)
+			name := s.substring_to (a_type_name, '[')
 			name.right_adjust
 
 			create word_split.make (name, '_')
@@ -106,7 +106,7 @@ feature -- Class name derivations
 			end
 			Result [1] := Result [1].as_upper
 			if name.count < a_type_name.count then
-				name := s.substring_to_reversed (a_type_name, '[', default_pointer)
+				name := s.substring_to_reversed (a_type_name, '[')
 				name.remove_tail (1)
 				Result.append (" for type ")
 				Result.append (name)
@@ -126,7 +126,7 @@ feature -- Class name derivations
 		local
 			s: EL_STRING_8_ROUTINES; name: STRING
 		do
-			name := s.substring_to (type_name (object_or_type), ' ', default_pointer) -- Removes any generic parameters
+			name := s.substring_to (type_name (object_or_type), ' ') -- Removes any generic parameters
 			Result := s.sandwiched_parts (name, '_', head_count, tail_count)
 			if separator /= '_' then
 				s.replace_character (Result, '_', separator)

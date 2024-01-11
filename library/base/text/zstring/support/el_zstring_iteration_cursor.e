@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:04:38 GMT (Thursday 11th January 2024)"
-	revision: "23"
+	date: "2024-01-11 14:10:45 GMT (Thursday 11th January 2024)"
+	revision: "24"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -236,7 +236,7 @@ feature {TYPED_INDEXABLE_ITERATION_CURSOR} -- Internal attriutes
 	area: SPECIAL [CHARACTER]
 
 	block_index: INTEGER
-		-- location of unencoded substring
+		-- index into substring block contained in `unencoded_area'
 
 	target: EL_READABLE_ZSTRING
 

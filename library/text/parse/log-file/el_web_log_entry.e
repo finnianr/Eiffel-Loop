@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-19 14:05:03 GMT (Thursday 19th October 2023)"
-	revision: "11"
+	date: "2024-01-11 14:45:06 GMT (Thursday 11th January 2024)"
+	revision: "12"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -30,13 +30,13 @@ feature {NONE} -- Initialization
 				part := list.item
 				inspect list.cursor_index
 					when 1 then
-						ip_address := part.substring_to (' ', default_pointer)
+						ip_address := part.substring_to (' ')
 						index := part.index_of ('[', ip_address.count + 3) + 1
 						date := Date_factory.new_date (part.substring (index, index + 10))
 						index := index + 12
 						time := Time_factory.new_time (part.substring (index, index + 7))
 					when 2 then
-						http_command := part.substring_to (' ', default_pointer)
+						http_command := part.substring_to (' ')
 						index := part.substring_index (Http_protocol, http_command.count + 1)
 						if index.to_boolean then
 							request_uri := part.substring (http_command.count + 1, index - 2)

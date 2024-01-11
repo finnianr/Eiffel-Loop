@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 12:06:21 GMT (Sunday 24th December 2023)"
-	revision: "22"
+	date: "2024-01-11 14:57:11 GMT (Thursday 11th January 2024)"
+	revision: "23"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -135,7 +135,7 @@ feature {NONE} -- Implementation
 			create host_info.make ("hostname -I")
 			host_info.execute
 			across host_info.lines as line until Result > 0 loop
-				Result := Ip_address.to_number (line.item.substring_to (' ', default_pointer))
+				Result := Ip_address.to_number (line.item.substring_to (' '))
 			end
 		end
 

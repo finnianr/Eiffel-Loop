@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 17:25:30 GMT (Sunday 16th July 2023)"
-	revision: "24"
+	date: "2024-01-11 14:49:58 GMT (Thursday 11th January 2024)"
+	revision: "25"
 
 class
 	EL_HTTP_HEADERS
@@ -127,7 +127,7 @@ feature -- Access
 			part: STRING; s: EL_STRING_8_ROUTINES
 		do
 			if content_type.has (';') then
-				part := s.substring_to_reversed (content_type, ';', Default_pointer)
+				part := s.substring_to_reversed (content_type, ';')
 				if part.has ('=') then
 					name_value.set_from_string (part, '=')
 					Result := name_value.value
@@ -143,7 +143,7 @@ feature -- Access
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.substring_to (content_type, ';', Default_pointer)
+			Result := s.substring_to (content_type, ';')
 		end
 
 	response_code: NATURAL_16

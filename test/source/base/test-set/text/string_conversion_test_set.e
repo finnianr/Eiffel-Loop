@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-17 10:32:14 GMT (Sunday 17th December 2023)"
-	revision: "27"
+	date: "2024-01-11 14:46:10 GMT (Thursday 11th January 2024)"
+	revision: "28"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -165,7 +165,7 @@ feature -- Tests
 			across Text.lines as line loop
 				if line.item.starts_with (Latin) then
 					zstr := line.item
-					name := zstr.substring_to (':', default_pointer)
+					name := zstr.substring_to (':')
 					name.replace_substring_general ("ISO-8859", 1, Latin.count)
 					create encoding.make_from_name (name)
 					buffer.wipe_out

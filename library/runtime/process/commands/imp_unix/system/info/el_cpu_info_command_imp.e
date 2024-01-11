@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-21 7:49:06 GMT (Sunday 21st May 2023)"
-	revision: "11"
+	date: "2024-01-11 14:49:59 GMT (Thursday 11th January 2024)"
+	revision: "12"
 
 class
 	EL_CPU_INFO_COMMAND_IMP
@@ -24,7 +24,7 @@ inherit
 		rename
 			do_with_lines as do_with_output_lines
 		end
-		
+
 create
 	make, make_default
 
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 	call (line: ZSTRING)
 		-- call state procedure with item
 		do
-			if attached line.substring_to (Delimiter, default_pointer) as name then
+			if attached line.substring_to (Delimiter) as name then
 				line.remove_head (name.count)
 				name.right_adjust
 				line.prepend (name)

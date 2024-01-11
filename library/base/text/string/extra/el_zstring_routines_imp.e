@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 11:26:29 GMT (Saturday 30th December 2023)"
-	revision: "20"
+	date: "2024-01-11 14:39:20 GMT (Thursday 11th January 2024)"
+	revision: "21"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -121,7 +121,7 @@ feature -- Substring
 			end
 		end
 
-	last_word_start_index (str: ZSTRING; end_index_ptr: POINTER): INTEGER
+	last_word_start_index (str: ZSTRING; end_index_ptr: TYPED_POINTER [INTEGER]): INTEGER
 		-- start index of last alpha-numeric word in `str' and end index
 		-- written to `end_index_ptr' if not equal to `default_pointer'
 		local
@@ -129,7 +129,7 @@ feature -- Substring
 		do
 			from i := str.count until i = 0 or found loop
 				if str.is_alpha_numeric_item (i) then
-					if end_index_ptr /= default_pointer then
+					if not end_index_ptr.is_default_pointer then
 						p.put_integer_32 (i, end_index_ptr)
 					end
 					found := True

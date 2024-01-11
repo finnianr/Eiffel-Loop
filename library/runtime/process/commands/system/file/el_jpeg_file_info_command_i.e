@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 12:38:47 GMT (Saturday 19th August 2023)"
-	revision: "16"
+	date: "2024-01-11 14:49:58 GMT (Thursday 11th January 2024)"
+	revision: "17"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -151,7 +151,7 @@ feature {NONE} -- Implementation
 								line.remove_head (qualifier.count + 1)
 								value_column := value_column - qualifier.count - 1
 							end
-							field_name := line.substring_to (' ', default_pointer)
+							field_name := line.substring_to (' ')
 							if field_name ~ Name.make then
 								field_name.prepend_ascii ("Device")
 							end

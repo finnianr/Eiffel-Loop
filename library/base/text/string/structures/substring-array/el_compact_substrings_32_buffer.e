@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 10:19:09 GMT (Thursday 11th January 2024)"
-	revision: "31"
+	date: "2024-01-11 14:22:32 GMT (Thursday 11th January 2024)"
+	revision: "32"
 
 class
 	EL_COMPACT_SUBSTRINGS_32_BUFFER
@@ -51,7 +51,7 @@ feature -- Element change
 
 	append_substituted (
 		a_area: SPECIAL [CHARACTER]; unencoded_area: SPECIAL [CHARACTER_32]
-		block_index_ptr: POINTER; source_offset, destination_offset, a_count: INTEGER
+		block_index_ptr: TYPED_POINTER [INTEGER]; source_offset, destination_offset, a_count: INTEGER
 	)
 		-- append all unencoded characters in `a_area' in the range indicated by `source_offset'
 		-- and `a_count'. Requires external call to `append_final' to complete.

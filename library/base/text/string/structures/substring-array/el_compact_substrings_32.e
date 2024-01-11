@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 10:19:01 GMT (Thursday 11th January 2024)"
-	revision: "67"
+	date: "2024-01-11 14:25:52 GMT (Thursday 11th January 2024)"
+	revision: "68"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
@@ -261,7 +261,7 @@ feature -- Index query
 
 feature -- Search index
 
-	index_of (uc: CHARACTER_32; start_index: INTEGER; block_index_ptr: POINTER): INTEGER
+	index_of (uc: CHARACTER_32; start_index: INTEGER; block_index_ptr: TYPED_POINTER [INTEGER]): INTEGER
 		local
 			i, j, lower, upper, count: INTEGER; l_area: like area
 			pointer: EL_POINTER_ROUTINES; persistent_block_index: BOOLEAN
@@ -406,7 +406,7 @@ feature -- Status query
 
 	has (uc: CHARACTER_32): BOOLEAN
 		do
-			Result := index_of (uc, 1, default_pointer) > 0
+			Result := index_of (uc, 1, null) > 0
 		end
 
 	has_between (uc: CHARACTER_32; lower_A, upper_A: INTEGER): BOOLEAN

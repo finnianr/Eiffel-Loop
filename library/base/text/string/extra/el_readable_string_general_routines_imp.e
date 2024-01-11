@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 10:17:40 GMT (Thursday 11th January 2024)"
-	revision: "16"
+	date: "2024-01-11 14:26:30 GMT (Thursday 11th January 2024)"
+	revision: "17"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -81,7 +81,7 @@ feature -- Measurement
 			end
 		end
 
-	start_plus_end_assignment_indices (line: READABLE_STRING_GENERAL; p_end_index: POINTER): INTEGER
+	start_plus_end_assignment_indices (line: READABLE_STRING_GENERAL; p_end_index: TYPED_POINTER [INTEGER]): INTEGER
 		local
 			p: EL_POINTER_ROUTINES; assign_index, end_index: INTEGER
 		do

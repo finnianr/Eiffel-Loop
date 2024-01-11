@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:28:35 GMT (Thursday 17th August 2023)"
-	revision: "8"
+	date: "2024-01-11 14:57:10 GMT (Thursday 11th January 2024)"
+	revision: "9"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
@@ -23,7 +23,7 @@ feature -- Access
 
 	user_name: ZSTRING
 		do
-			Result := user_domain.substring_to ('@', Default_pointer)
+			Result := user_domain.substring_to ('@')
 		end
 
 	destination_dir: DIR_PATH

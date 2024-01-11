@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 17:22:20 GMT (Wednesday 26th April 2023)"
-	revision: "23"
+	date: "2024-01-11 15:19:28 GMT (Thursday 11th January 2024)"
+	revision: "24"
 
 class
 	EL_YOUTUBE_VIDEO_DOWNLOADER
@@ -48,7 +48,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				create input.make_drag_and_drop
 				a_url.copy (input.value)
 --				cut off any http parameters
-				a_url.set_base (a_url.base.substring_to ('&', default_pointer))
+				a_url.set_base (a_url.base.substring_to ('&'))
 			end
 			if a_url.base_matches ("quit", True) then
 				create video.make_default

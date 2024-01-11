@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-11 10:55:44 GMT (Monday 11th September 2023)"
-	revision: "2"
+	date: "2024-01-11 14:57:10 GMT (Thursday 11th January 2024)"
+	revision: "3"
 
 class
 	EL_SERVICE_SCREEN_LIST
@@ -43,7 +43,7 @@ feature -- Basic operations
 			across Current as list loop
 				name := list.item.name
 				if name.is_empty then
-					option_name := list.item.command_args.substring_to (' ', default_pointer)
+					option_name := list.item.command_args.substring_to (' ')
 					option_name.prune_all_leading ('-')
 					name.append_string_general (Naming.class_description (option_name, Naming.No_words))
 				end
@@ -73,9 +73,9 @@ feature {NONE} -- Implementation
 				line := list.item
 				if line.occurrences ('(').to_boolean and line.occurrences (')').to_boolean then
 					line_index := 1
-					id := line.substring_to ('.', $line_index)
+					id := line.substring_to_from ('.', $line_index)
 					id.left_adjust
-					name := line.substring_to ('(', $line_index)
+					name := line.substring_to_from ('(', $line_index)
 					name.right_adjust
 					find_first_equal (name, agent {like item}.name)
 					if found then

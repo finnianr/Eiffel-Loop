@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-23 13:54:17 GMT (Wednesday 23rd August 2023)"
-	revision: "38"
+	date: "2024-01-11 14:49:08 GMT (Thursday 11th January 2024)"
+	revision: "39"
 
 class
 	EL_FTP_PROTOCOL
@@ -107,7 +107,7 @@ feature -- Measurement
 		do
 			send_path (Command.size, file_path, << Reply.file_status >>)
 			if last_succeeded then
-				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ', default_pointer).to_integer
+				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ').to_integer
 			end
 		end
 

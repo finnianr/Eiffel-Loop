@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 10:16:51 GMT (Thursday 11th January 2024)"
-	revision: "15"
+	date: "2024-01-11 14:45:06 GMT (Thursday 11th January 2024)"
+	revision: "16"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -206,7 +206,7 @@ feature -- Contract Support
 					str := list.item
 					if str.count > 0 and then str [1] /= '%T' then
 						Result := str.has (':')
-						if Result and then attached string.substring_to (str, ':', default_pointer) as name then
+						if Result and then attached string.substring_to (str, ':') as name then
 							Result := string.is_eiffel_lower (name)
 							if Result and then list.cursor_index = 1 then
 								is_first_line_name := True

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 10:17:26 GMT (Thursday 11th January 2024)"
-	revision: "27"
+	date: "2024-01-11 14:44:12 GMT (Thursday 11th January 2024)"
+	revision: "28"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
@@ -263,7 +263,13 @@ feature -- Substring
 			end
 		end
 
-	substring_to (str: READABLE_STRING_X; uc: CHARACTER_32; start_index_ptr: POINTER): READABLE_STRING_X
+	substring_to (str: READABLE_STRING_X; uc: CHARACTER_32): READABLE_STRING_X
+		-- `substring_to_from' from start of string
+		do
+			Result := substring_to_from (str, uc, null)
+		end
+
+	substring_to_from (str: READABLE_STRING_X; uc: CHARACTER_32; start_index_ptr: TYPED_POINTER [INTEGER]): READABLE_STRING_X
 		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
 		-- or else `substring_end (start_index)' if `uc' not found
 		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
@@ -272,7 +278,7 @@ feature -- Substring
 		local
 			start_index, index: INTEGER; pointer: EL_POINTER_ROUTINES
 		do
-			if start_index_ptr = Default_pointer then
+			if start_index_ptr.is_default_pointer then
 				start_index := 1
 			else
 				start_index := pointer.read_integer_32 (start_index_ptr)
@@ -285,20 +291,26 @@ feature -- Substring
 				Result := str.substring (start_index, str.count)
 				start_index := str.count + 1
 			end
-			if start_index_ptr /= Default_pointer then
+			if not start_index_ptr.is_default_pointer then
 				start_index_ptr.memory_copy ($start_index, {PLATFORM}.Integer_32_bytes)
 			end
 		end
 
-	substring_to_reversed (
-		str: READABLE_STRING_X; uc: CHARACTER_32; start_index_from_end_ptr: POINTER
+	substring_to_reversed (str: READABLE_STRING_X; uc: CHARACTER_32): READABLE_STRING_X
+		-- `substring_to_reversed_from' from end of string
+		do
+			Result := substring_to_reversed_from (str, uc, null)
+		end
+
+	substring_to_reversed_from (
+		str: READABLE_STRING_X; uc: CHARACTER_32; start_index_from_end_ptr: TYPED_POINTER [INTEGER]
 	): READABLE_STRING_X
 		-- the same as `substring_to' except going from right to left
 		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local
 			start_index_from_end, index: INTEGER; pointer: EL_POINTER_ROUTINES
 		do
-			if start_index_from_end_ptr = Default_pointer then
+			if start_index_from_end_ptr.is_default_pointer then
 				start_index_from_end := str.count
 			else
 				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
@@ -311,7 +323,7 @@ feature -- Substring
 				Result := str.substring (1, start_index_from_end)
 				start_index_from_end := 0
 			end
-			if start_index_from_end_ptr /= Default_pointer then
+			if not start_index_from_end_ptr.is_default_pointer then
 				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
@@ -331,6 +343,10 @@ feature {NONE} -- Implementation
 	to_code (character: CHARACTER_32): NATURAL_32
 		do
 			Result := character.natural_32_code
+		end
+
+	null: TYPED_POINTER [INTEGER]
+		do
 		end
 
 feature {NONE} -- Deferred

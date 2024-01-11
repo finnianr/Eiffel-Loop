@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 9:21:42 GMT (Sunday 10th December 2023)"
-	revision: "3"
+	date: "2024-01-11 15:16:45 GMT (Thursday 11th January 2024)"
+	revision: "4"
 
 expanded class
 	COMPACT_SUBSTRINGS_32_C_EXTERNAL
@@ -20,14 +20,14 @@ inherit
 
 feature {NONE} -- Implementation
 
-	put_integer_32 (value: INTEGER; integer_ptr: POINTER)
+	put_integer_32 (value: INTEGER; integer_ptr: TYPED_POINTER [INTEGER])
 		external
 			"C inline"
 		alias
 			"*(int*)$integer_ptr = (int)$value"
 		end
 
-	read_integer_32 (integer_ptr: POINTER): INTEGER
+	read_integer_32 (integer_ptr: TYPED_POINTER [INTEGER]): INTEGER
 		external
 			"C inline"
 		alias

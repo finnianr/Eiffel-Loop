@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:44:47 GMT (Wednesday 8th November 2023)"
-	revision: "13"
+	date: "2024-01-11 14:49:08 GMT (Thursday 11th January 2024)"
+	revision: "14"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 			upper_command: STRING
 		do
 			if is_lio_enabled then
-				upper_command := String_8.substring_to (cmd, ' ', default_pointer)
+				upper_command := String_8.substring_to (cmd, ' ')
 				upper_command.to_upper
 				lio.put_labeled_string (upper_command + " error", message)
 				lio.put_new_line
@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 
 	reply_code_ok (a_reply: STRING; codes: ARRAY [NATURAL_16]): BOOLEAN
 		do
-			if attached String_8.substring_to (a_reply, ' ', default_pointer) as part then
+			if attached String_8.substring_to (a_reply, ' ') as part then
 				Result := codes.has (part.to_natural_16)
 			end
 		end

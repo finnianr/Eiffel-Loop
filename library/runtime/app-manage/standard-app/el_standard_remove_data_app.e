@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2024-01-11 14:46:09 GMT (Thursday 11th January 2024)"
+	revision: "13"
 
 class
 	EL_STANDARD_REMOVE_DATA_APP
@@ -97,7 +97,7 @@ feature {NONE} -- Application constants
 
 	Description: ZSTRING
 		once
-			Result := Text.remove_all_data_prompt.substring_to ('(', Default_pointer)
+			Result := Text.remove_all_data_prompt.substring_to ('(')
 			Result.right_adjust
 		end
 

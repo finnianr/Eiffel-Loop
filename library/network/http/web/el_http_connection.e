@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 17:26:03 GMT (Sunday 16th July 2023)"
-	revision: "48"
+	date: "2024-01-11 14:46:57 GMT (Thursday 11th January 2024)"
+	revision: "49"
 
 class
 	EL_HTTP_CONNECTION
@@ -71,7 +71,7 @@ feature -- Access
 				create bracket_split.make (last_string, '>')
 				across bracket_split as split until Result > 0 loop
 					if last_string [split.item_lower].is_digit
-						and then attached s.substring_to (split.item, ' ', default_pointer) as code_string
+						and then attached s.substring_to (split.item, ' ') as code_string
 					then
 						Result := code_string.to_natural_16
 					end

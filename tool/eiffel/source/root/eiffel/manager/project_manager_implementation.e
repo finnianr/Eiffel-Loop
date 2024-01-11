@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 16:36:47 GMT (Saturday 30th December 2023)"
-	revision: "3"
+	date: "2024-01-11 14:55:46 GMT (Thursday 11th January 2024)"
+	revision: "4"
 
 deferred class
 	PROJECT_MANAGER_IMPLEMENTATION
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 		local
 			title: STRING; s: EL_STRING_8_ROUTINES
 		do
-			title := s.substring_to (generator, '_', default_pointer)
+			title := s.substring_to (generator, '_')
 			make_shell (Menu_template #$ [title, config.ecf_pyxis_path.base], 10)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 14:55:32 GMT (Sunday 5th November 2023)"
-	revision: "14"
+	date: "2024-01-11 14:46:57 GMT (Thursday 11th January 2024)"
+	revision: "15"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -39,7 +39,7 @@ feature {NONE} -- Implementation
 			-- then result = "en"
 		do
 			if attached item ("LANG") as lang then
-				Result := lang.substring_to ('_', default_pointer)
+				Result := lang.substring_to ('_')
 			else
 				create Result.make_empty
 			end

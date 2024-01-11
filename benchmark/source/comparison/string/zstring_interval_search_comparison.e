@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 13:17:39 GMT (Sunday 3rd December 2023)"
-	revision: "11"
+	date: "2024-01-11 15:17:05 GMT (Thursday 11th January 2024)"
+	revision: "12"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON
@@ -67,7 +67,7 @@ feature {NONE} -- append_character
 				if use_space then
 					create end_string.make_filled (' ', 1)
 				else
-					end_string := line.item.substring_to_reversed (' ', default_pointer)
+					end_string := line.item.substring_to_reversed (' ')
 				end
 				across line.item.substring_index_list (end_string, False) as list loop
 					lower := list.item; upper := lower + end_string.count - 1
@@ -84,7 +84,7 @@ feature {NONE} -- append_character
 				if use_space then
 					create end_string.make_filled (' ', 1)
 				else
-					end_string := line.item.substring_to_reversed (' ', default_pointer)
+					end_string := line.item.substring_to_reversed (' ')
 				end
 				across line.item.substring_intervals (end_string, False) as list loop
 					l_item := list.item_compact

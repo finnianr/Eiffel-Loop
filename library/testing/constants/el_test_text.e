@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "33"
+	date: "2024-01-11 14:49:57 GMT (Thursday 11th January 2024)"
+	revision: "34"
 
 class
 	EL_TEST_TEXT
@@ -133,7 +133,7 @@ feature -- Lists
 		local
 			s: EL_STRING_32_ROUTINES
 		do
-			Result := s.substring_to (Russian_and_english, '%N', default_pointer)
+			Result := s.substring_to (Russian_and_english, '%N')
 		end
 
 	symbol_32_list: EL_STRING_32_LIST

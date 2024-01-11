@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 11:01:59 GMT (Monday 30th October 2023)"
-	revision: "5"
+	date: "2024-01-11 14:49:57 GMT (Thursday 11th January 2024)"
+	revision: "6"
 
 class
 	EL_TODAYS_SENDMAIL_LOG
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 				start_index := line.index_of ('[', start_index + Message_start_marker.count)
 				if start_index > 0 then
 					start_index := start_index + 1
-					address := s.substring_to (line, ']', $start_index)
+					address := s.substring_to_from (line, ']', $start_index)
 					Result := IP_address.to_number (address)
 				end
 			end

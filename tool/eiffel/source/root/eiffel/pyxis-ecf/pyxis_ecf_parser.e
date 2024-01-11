@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "32"
+	date: "2024-01-11 14:55:45 GMT (Thursday 11th January 2024)"
+	revision: "33"
 
 class
 	PYXIS_ECF_PARSER
@@ -113,7 +113,7 @@ feature {NONE} -- Implemenatation
 					Precursor (line)
 				end
 			elseif attached line.element_name as tag and then Name.externals_set.has (tag) then
-				c_platform := s.substring_to (tag, '_', default_pointer)
+				c_platform := s.substring_to (tag, '_')
 				c_platform_indent := line.indent_count
 			else
 				Precursor (line)

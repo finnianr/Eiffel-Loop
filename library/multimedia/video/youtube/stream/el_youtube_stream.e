@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-25 13:23:03 GMT (Tuesday 25th April 2023)"
-	revision: "14"
+	date: "2024-01-11 15:19:28 GMT (Thursday 11th January 2024)"
+	revision: "15"
 
 deferred class
 	EL_YOUTUBE_STREAM
@@ -155,7 +155,7 @@ feature {NONE} -- Implementation
 
 					when 4, 5 then
 						if list.item_has ('k') then
-							data_rate := list.item.substring_to ('k', default_pointer).to_integer
+							data_rate := list.item.substring_to ('k').to_integer
 						end
 				else
 				end

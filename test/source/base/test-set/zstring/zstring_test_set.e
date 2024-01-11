@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 13:31:25 GMT (Thursday 11th January 2024)"
-	revision: "117"
+	date: "2024-01-11 14:46:56 GMT (Thursday 11th January 2024)"
+	revision: "118"
 
 class
 	ZSTRING_TEST_SET
@@ -832,7 +832,7 @@ feature -- Element change tests
 			create word_list.make (20)
 			create test
 			across Text.lines as line loop
-				first_word := s32.substring_to (line.item, ' ', default_pointer)
+				first_word := s32.substring_to (line.item, ' ')
 				word_A := "A"
 				test.set (line.item)
 				across << word_A, first_word + first_word >> as list loop
@@ -1541,7 +1541,7 @@ feature -- Duplication tests
 			start_index := 1
 			across Text.lines as list loop
 				line := list.item
-				assert ("same string", full_text.substring_to ('%N', $start_index) ~ line)
+				assert ("same string", full_text.substring_to_from ('%N', $start_index) ~ line)
 			end
 			assert ("valid start_index", start_index = full_text.count + 1)
 		end
@@ -1557,7 +1557,7 @@ feature -- Duplication tests
 			start_end_index := full_text.count
 			across Text.lines.new_cursor.reversed as list loop
 				line := list.item
-				assert ("same string", full_text.substring_to_reversed ('%N', $start_end_index) ~ line)
+				assert ("same string", full_text.substring_to_reversed_from ('%N', $start_end_index) ~ line)
 			end
 			assert ("valid start_end_index", start_end_index = 0)
 		end
