@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-03 12:12:16 GMT (Sunday 3rd September 2023)"
-	revision: "23"
+	date: "2024-01-12 22:33:02 GMT (Friday 12th January 2024)"
+	revision: "24"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -50,10 +50,11 @@ feature -- Tests
 			if attached command.greater_than_0_list as list then
 				assert ("3 in list", list.count = 3)
 				from list.start until list.after loop
-					if list.index = 1 then
-						expected_count := 1
+					inspect list.index
+						when 3 then
+							expected_count := 2
 					else
-						expected_count := 2
+						expected_count := 1
 					end
 					assert ("expected number", list.item_value = expected_count)
 					assert ("matches type",
@@ -80,8 +81,10 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		do
-			Result := OS.file_list (Data_dir #+ "kernel/reflection/settable", "*.e")
-			Result.append (OS.file_list (Data_dir #+ "runtime/file/naming", "*.e"))
+			create Result.make_empty
+			across << "kernel/reflection/settable", "runtime/file/naming" >> as path loop
+				Result.append (OS.file_list (Data_dir #+ path.item, "*.e"))
+			end
 		end
 
 feature {NONE} -- Constants
