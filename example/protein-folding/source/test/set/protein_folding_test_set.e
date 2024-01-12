@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2024-01-07 13:28:01 GMT (Sunday 7th January 2024)"
-	revision: "8"
+	date: "2024-01-11 15:25:08 GMT (Thursday 11th January 2024)"
+	revision: "9"
 
 class
 	PROTEIN_FOLDING_TEST_SET
@@ -33,14 +33,14 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["multi_core_2_1_with_grid_2_5", agent test_multi_core_2_1_with_grid_2_5],
-				["one_core_1_0", agent test_one_core_1_0],
-				["one_core_2_0_with_grid_2_2", agent test_one_core_2_0_with_grid_2_2],
-				["one_core_2_0_with_grid_2_3", agent test_one_core_2_0_with_grid_2_3],
-				["one_core_2_0_with_grid_2_4", agent test_one_core_2_0_with_grid_2_4],
-				["one_core_2_0_with_grid_2_5", agent test_one_core_2_0_with_grid_2_5],
-				["one_core_2_0_with_grid_2_6", agent test_one_core_2_0_with_grid_2_6],
-				["one_core_2_0_with_grid_2_7", agent test_one_core_2_0_with_grid_2_7]
+				["multi_core_2_1_with_grid_2_5",	agent test_multi_core_2_1_with_grid_2_5],
+				["one_core_1_0",						agent test_one_core_1_0],
+				["one_core_2_0_with_grid_2_2",	agent test_one_core_2_0_with_grid_2_2],
+				["one_core_2_0_with_grid_2_3",	agent test_one_core_2_0_with_grid_2_3],
+				["one_core_2_0_with_grid_2_4",	agent test_one_core_2_0_with_grid_2_4],
+				["one_core_2_0_with_grid_2_5",	agent test_one_core_2_0_with_grid_2_5],
+				["one_core_2_0_with_grid_2_6",	agent test_one_core_2_0_with_grid_2_6],
+				["one_core_2_0_with_grid_2_7",	agent test_one_core_2_0_with_grid_2_7]
 			>>)
 		end
 

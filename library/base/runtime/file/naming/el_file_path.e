@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:17:29 GMT (Monday 27th November 2023)"
-	revision: "37"
+	date: "2024-01-12 15:15:32 GMT (Friday 12th January 2024)"
+	revision: "38"
 
 class
 	EL_FILE_PATH
@@ -69,6 +69,16 @@ feature -- Access
 		-- localized description
 		do
 			Result := Word.file
+		end
+
+feature -- Conversion
+
+	to_ntfs_compatible (uc: CHARACTER_32): like Current
+		-- NT file system compatible path string using `uc' to substitue invalid characters
+		local
+			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
+		do
+			Result := ntfs.translated (Current, uc)
 		end
 
 feature -- Status report

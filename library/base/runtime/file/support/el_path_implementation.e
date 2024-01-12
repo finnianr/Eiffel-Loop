@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 16:37:55 GMT (Monday 13th November 2023)"
-	revision: "38"
+	date: "2024-01-12 20:25:00 GMT (Friday 12th January 2024)"
+	revision: "39"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -250,7 +250,7 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	set_parent_path (a_parent: READABLE_STRING_GENERAL)
+	set_parent_path (a_parent: ZSTRING)
 		deferred
 		end
 
@@ -355,6 +355,13 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
+	empty_temp_path: ZSTRING
+		-- temporary shared path
+		do
+			Result := Temp_path
+			Result.wipe_out
+		end
+
 	has_expansion_variable (a_path: ZSTRING): BOOLEAN
 		-- a step contains what might be an expandable variable
 		local
@@ -434,8 +441,7 @@ feature {EL_PATH} -- Implementation
 	temporary_path: ZSTRING
 		-- temporary shared copy of current path
 		do
-			Result := Temp_path
-			Result.wipe_out
+			Result := empty_temp_path
 			append_to (Result)
 		end
 

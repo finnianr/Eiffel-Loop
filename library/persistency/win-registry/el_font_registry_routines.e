@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-03 10:15:21 GMT (Tuesday 3rd October 2023)"
-	revision: "1"
+	date: "2024-01-12 7:53:36 GMT (Friday 12th January 2024)"
+	revision: "2"
 
 expanded class
 	EL_FONT_REGISTRY_ROUTINES
@@ -54,8 +54,8 @@ feature -- Constants
 		once
 			create Result.make_equal (30)
 			across Win_registry.string_list (HKLM_font_substitutes) as list loop
-				name := list.item.name.substring_to (',', default_pointer)
-				Result [name] := list.item.value.substring_to (',', default_pointer)
+				name := list.item.name.substring_to (',')
+				Result [name] := list.item.value.substring_to (',')
 			end
 		end
 

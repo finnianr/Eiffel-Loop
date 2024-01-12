@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:10:45 GMT (Thursday 11th January 2024)"
-	revision: "24"
+	date: "2024-01-11 17:21:19 GMT (Thursday 11th January 2024)"
+	revision: "25"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -45,7 +45,7 @@ feature {EL_SHARED_ZSTRING_CURSOR} -- Initialization
 	make (a_target: EL_READABLE_ZSTRING)
 		do
 			Precursor (a_target)
-			area := a_target.area
+			block_index := 0; area := a_target.area
 			unicode_table := Shared_unicode_table
 		end
 

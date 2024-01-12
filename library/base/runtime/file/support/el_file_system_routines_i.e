@@ -1,54 +1,36 @@
 note
-	description: "OS file system routines"
+	description: "OS file system accessible via class [$source EL_MODULE_FILE_SYSTEM]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-30 16:57:48 GMT (Friday 30th June 2023)"
-	revision: "54"
+	date: "2024-01-12 13:01:38 GMT (Friday 12th January 2024)"
+	revision: "55"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
 
 inherit
-	EL_SHARED_DIRECTORY
-		rename
-			copy as copy_object
-		end
+	ANY
 
-	EL_MODULE_FILE
-		rename
-			copy as copy_object
-		end
+	EL_STRING_GENERAL_ROUTINES
 
-	EL_MODULE_ITERABLE
-		rename
-			copy as copy_object
-		end
+	EL_MODULE_FILE; EL_MODULE_ITERABLE
 
 	EL_MODULE_DIRECTORY
 		rename
-			copy as copy_object,
-			Directory as Stanard_directory
+			Directory as Standard_directory
 		end
 
-	STRING_HANDLER
-		rename
-			copy as copy_object
-		end
-
-	EL_STRING_8_CONSTANTS
-		rename
-			copy as copy_object
-		end
+	EL_SHARED_DIRECTORY
 
 feature -- Access
 
 	cached (relative_path: FILE_PATH; write_file: PROCEDURE [FILE_PATH]): FILE_PATH
 		do
-			Result := Stanard_directory.App_cache + relative_path
+			Result := Standard_directory.App_cache + relative_path
 			if not Result.exists then
 				write_file (Result)
 			end

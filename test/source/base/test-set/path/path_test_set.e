@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 9:33:51 GMT (Saturday 4th November 2023)"
-	revision: "23"
+	date: "2024-01-12 20:22:20 GMT (Friday 12th January 2024)"
+	revision: "24"
 
 class
 	PATH_TEST_SET
@@ -137,20 +137,41 @@ feature -- Tests
 
 	test_ntfs_translation
 		note
-			testing: "covers/{EL_PATH}.is_valid_ntfs, covers/{EL_PATH}.to_ntfs_compatible"
+			testing: "[
+				covers/{EL_PATH}.is_valid_ntfs,
+				covers/{EL_PATH}.to_ntfs_compatible
+			]"
 		local
-			path_name: ZSTRING; path: FILE_PATH; index_dot: INTEGER
+			parent, path_name, ntfs_compatible: ZSTRING; path: FILE_PATH
+			invalidate_base, invalidate_parent: BOOLEAN
 		do
-			path_name := Mem_test_exe
-			path := path_name
-			assert ("valid path", path.is_valid_ntfs)
-			index_dot := path_name.index_of ('.', 1)
-			path_name [index_dot] := ':'
-			path := path_name
-			assert ("invalid path", not path.is_valid_ntfs)
-
-			path_name [index_dot] := '-'
-			assert ("same path", path.to_ntfs_compatible ('-').same_as (path_name))
+			across 1 |..| 4 as n loop
+				path := Mem_test_exe -- C:/Boot/memtest.exe
+				assert ("valid path", path.is_valid_ntfs)
+				inspect n.item
+					when 1 then
+						invalidate_base := True
+					when 2 then
+						invalidate_parent := True
+					when 3 then
+						invalidate_base := True; invalidate_parent := True
+					when 4 then
+						do_nothing
+				end
+				if invalidate_base then
+					path.base.insert_character ('?', 2)
+				end
+				if invalidate_parent then
+					parent := path.parent_string (False)
+					parent.insert_character ('?', 5)
+					path.set_parent (parent)
+				end
+				assert ("invalid path", (invalidate_base or invalidate_parent) implies not path.is_valid_ntfs)
+				path_name := path
+				path_name.replace_character ('?', '-')
+				ntfs_compatible := path.to_ntfs_compatible ('-')
+				assert_same_string (Void, ntfs_compatible, path_name)
+			end
 		end
 
 	test_parent

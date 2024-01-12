@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:13:51 GMT (Thursday 7th September 2023)"
-	revision: "9"
+	date: "2024-01-12 20:31:24 GMT (Friday 12th January 2024)"
+	revision: "10"
 
 class
 	JOBSERVE_SEARCHER
@@ -57,7 +57,7 @@ feature {EL_APPLICATION} -- Initialization
 
 			results_path := xml_path.with_new_extension ("results.html")
 			if not output_dir.is_empty then
-				results_path.set_parent_path (output_dir)
+				results_path.set_parent (output_dir)
 			end
 			if not query_filter.is_empty then
 				query_filter.prepend_string_general (" and (")

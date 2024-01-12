@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 18:36:06 GMT (Thursday 4th January 2024)"
-	revision: "18"
+	date: "2024-01-12 7:53:36 GMT (Friday 12th January 2024)"
+	revision: "19"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 			-- Example: "en" is English
 		do
 			if Executable.Is_work_bench and then attached item ("LANG") as lang then
-				Result := lang.substring_to ('_', default_pointer)
+				Result := lang.substring_to ('_')
 			else
 				Result := I18n.language
 			end

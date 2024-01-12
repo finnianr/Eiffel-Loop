@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 14:55:32 GMT (Sunday 5th November 2023)"
-	revision: "18"
+	date: "2024-01-12 12:48:58 GMT (Friday 12th January 2024)"
+	revision: "19"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -15,20 +15,9 @@ class
 inherit
 	EL_FILE_SYSTEM_ROUTINES_I
 
-	EL_STRING_GENERAL_ROUTINES
-		rename
-			copy as copy_object
-		end
-
 	EL_UNIX_IMPLEMENTATION
-		rename
-			copy as copy_object
-		end
 
 	EL_SHARED_ESCAPE_TABLE
-		rename
-			copy as copy_object
-		end
 
 feature {NONE} -- Implementation
 

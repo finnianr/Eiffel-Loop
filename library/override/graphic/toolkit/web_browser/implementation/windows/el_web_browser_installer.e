@@ -44,7 +44,7 @@ feature {NONE} -- Constants
 			across << "svcVersion", "Version" >> as key_name until Result > 0 loop
 				version := Win_registry.string (Reg_key.Internet_explorer.path, key_name.item)
 				if not version.is_empty then
-					Result := version.substring_to ('.', default_pointer).to_integer
+					Result := version.substring_to ('.').to_integer
 				end
 			end
 		end

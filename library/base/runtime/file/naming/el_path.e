@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 9:27:59 GMT (Saturday 4th November 2023)"
-	revision: "70"
+	date: "2024-01-12 20:28:47 GMT (Friday 12th January 2024)"
+	revision: "71"
 
 deferred class
 	EL_PATH
@@ -26,6 +26,8 @@ inherit
 	EL_PATH_BASE_NAME
 
 	EL_PATH_IMPLEMENTATION
+		export
+			{ANY} Invalid_ntfs_characters
 		undefine
 			is_equal, default_create, out, copy
 		end
@@ -295,13 +297,10 @@ feature -- Status Query
 
 	is_valid_ntfs: BOOLEAN
 		local
-			nt: EL_NT_FILE_SYSTEM_ROUTINES
+			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
 		do
-			Result :=	across to_string.split (Separator) as list all
-								nt.is_valid_step_at (list.item, list.cursor_index)
-							end
+			Result := ntfs.is_valid (parent_path, True) and then ntfs.is_valid (base, False)
 		end
-
 
 feature -- Conversion
 
@@ -323,20 +322,11 @@ feature -- Conversion
 			create Result.make_from_path (Current)
 		end
 
-	to_ntfs_compatible (c: CHARACTER): like Current
-		-- NT file system compatible path string using `c' to substitue invalid characters
-		local
-			nt: EL_NT_FILE_SYSTEM_ROUTINES; substitutes: ZSTRING
-			step_list: EL_ZSTRING_LIST
-		do
-			substitutes := n_character_string (c, Invalid_NTFS_characters.count)
-			create step_list.make_split (to_string, Separator)
-			across step_list as list loop
-				if not nt.is_valid_step_at (list.item, list.cursor_index) then
-					step_list [list.cursor_index] := list.item.translated (Invalid_NTFS_characters, substitutes)
-				end
-			end
-			Result := new_path (step_list.joined (Separator))
+	to_ntfs_compatible (uc: CHARACTER_32): like Current
+		require
+			not_invalid_substitute: not Invalid_ntfs_characters.has (uc)
+		-- NT file system compatible path string using `uc' to substitue invalid characters
+		deferred
 		end
 
 feature -- Element change
@@ -359,12 +349,9 @@ feature -- Element change
 		local
 			l_parent_path: like parent_path
 		do
-			create l_parent_path.make (parent_path.count + base.count + 1)
+			l_parent_path := empty_temp_path
 			l_parent_path.append (parent_path)
-			if not base.is_empty then
-				l_parent_path.append (base)
-				l_parent_path.append_character (Separator)
-			end
+			l_parent_path.append (base)
 			set_parent_path (l_parent_path)
 			base.wipe_out
 			base.append_string_general (a_step)
@@ -407,21 +394,31 @@ feature -- Element change
 			end
 		end
 
-	set_parent_path (a_parent: READABLE_STRING_GENERAL)
+	set_parent_path (a_parent: ZSTRING)
 		local
-			l_path: ZSTRING
+			l_path: ZSTRING; last_index: INTEGER
 		do
-			if a_parent.is_empty then
+			last_index := a_parent.count
+			if last_index = 0 then
 				parent_path := Empty_path
 			else
-				l_path := temporary_copy (a_parent)
-				if a_parent [a_parent.count] /= Separator then
+				l_path := a_parent
+				if l_path [last_index] /= Separator then
+					if l_path /= Temp_path then
+						l_path := empty_temp_path
+						l_path.append (a_parent)
+					end
 					l_path.append_character (Separator)
 				end
 				Parent_set.put_copy (l_path)
 				parent_path := Parent_set.found_item
 			end
 			internal_hash_code := 0
+		end
+
+	set_parent_path_general (a_parent: READABLE_STRING_GENERAL)
+		do
+			set_parent_path (temporary_copy (a_parent))
 		end
 
 	set_parent (dir_path: EL_DIR_PATH)
