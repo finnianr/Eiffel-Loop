@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:27:06 GMT (Thursday 11th January 2024)"
-	revision: "29"
+	date: "2024-01-13 10:17:25 GMT (Saturday 13th January 2024)"
+	revision: "30"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -396,12 +396,12 @@ feature {NONE} -- Implementation
 
 	compare_hash_code (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		do
-			assert ("same hash_code", to_array (zstr).hash_code (50) = unencoded.hash_code (50))
+			assert ("same hash_code", to_array (zstr).hash_code (50) = unencoded.extended_hash_code (50, zstr.count))
 		end
 
 	compare_index_of (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
 		local
-			i, last_index: INTEGER; uc: CHARACTER_32
+			i, last_index: INTEGER; uc: CHARACTER_32; null: TYPED_POINTER [INTEGER]
 		do
 			from i := 1 until i > zstr.count loop
 				if zstr.z_code (i) > 0xFF then
@@ -443,10 +443,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	null: TYPED_POINTER [INTEGER]
-		do
-		end
-
 	to_array (zstr: ZSTRING): EL_SUBSTRING_32_ARRAY
 		do
 			Result := zstr
@@ -462,7 +458,7 @@ feature {NONE} -- Implementation
 					array.write (output_1.area, 0)
 
 					create output_2.make_filled (' ', unencoded.last_upper)
-					unencoded.write (output_2.area, 0, False)
+					unencoded.write (output_2.area, 0, unencoded.last_upper, False)
 
 					Result := output_1 ~ output_2
 				end

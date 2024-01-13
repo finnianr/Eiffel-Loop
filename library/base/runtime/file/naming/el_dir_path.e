@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 15:15:17 GMT (Friday 12th January 2024)"
-	revision: "37"
+	date: "2024-01-13 17:14:40 GMT (Saturday 13th January 2024)"
+	revision: "38"
 
 class
 	EL_DIR_PATH
@@ -43,7 +43,7 @@ inherit
 		end
 
 create
-	default_create, make, make_from_path, make_from_other, make_from_steps
+	default_create, make, make_from_path, make_from_other, make_from_steps, make_parent
 
 -- Cannot use `to_general: {READABLE_STRING_GENERAL}' due to bug
 -- in `{PLAIN_TEXT_FILE}.file_open' for non-ascii characters
@@ -54,6 +54,51 @@ convert
 --	to
 	to_string: {ZSTRING}, as_string_32: {READABLE_STRING_GENERAL, READABLE_STRING_32},
 	steps: {EL_PATH_STEPS}, to_path: {PATH}, to_uri: {EL_URI}
+
+feature {NONE} -- Initialization
+
+	make_parent (other: EL_PATH)
+		-- make the parent path of `other' and avoid making a copy of `other.parent_path' if
+		-- already existing in `Parent_set'
+		local
+			index, l_count: INTEGER
+		do
+			if other.has_parent then
+				if attached other.parent_string (False) as parent_key then
+					inspect parent_key.count
+						when 0, 1 then
+							index := 0
+					else
+						index := parent_key.last_index_of (Separator, parent_key.count - 1)
+					end
+					inspect index
+						when 0 then
+							if parent_key [1] = Separator then
+							-- Eg: `other' is /etc
+								create base.make_filled (Separator, 1)
+							else
+							-- Eg. `other' is C:/Users
+								base := parent_key.substring (1, parent_key.count - 1)
+							end
+							set_parent_path (Empty_path)
+					else
+						l_count := parent_key.count
+					-- Avoids making a copy of `parent_key' if existing already
+						parent_key.set_count (index) -- Must restore later
+						Parent_set.put_copy (parent_key) -- safe to make a twin
+						parent_path := Parent_set.found_item
+						parent_key.set_count (l_count) -- restored
+
+						base := parent_key.substring (index + 1, parent_key.count - 1)
+					end
+				end
+			else
+				default_create
+			end
+		ensure
+			other_parent_string_unchanged: old other.parent_string (True) ~ other.parent_string (False)
+			definition: plus_dir (other.base).to_string ~ other.to_string
+		end
 
 feature -- Access
 
@@ -80,15 +125,15 @@ feature -- Conversion
 
 feature -- Aliased joins
 
+	plus alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
+		do
+			create Result.make_from_other (Current); Result.append (a_file_path)
+		end
+
 	plus_dir alias "#+" (a_dir_path: EL_DIR_PATH): like Current
 		do
 			create Result.make_from_other (Current)
 			Result.append_dir_path (a_dir_path)
-		end
-
-	plus alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
-		do
-			create Result.make_from_other (Current); Result.append (a_file_path)
 		end
 
 feature -- Path joining

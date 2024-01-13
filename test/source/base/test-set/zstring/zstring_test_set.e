@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:46:56 GMT (Thursday 11th January 2024)"
-	revision: "118"
+	date: "2024-01-13 16:41:09 GMT (Saturday 13th January 2024)"
+	revision: "119"
 
 class
 	ZSTRING_TEST_SET
@@ -18,9 +18,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_ZSTRING_CONSTANTS
+	STRING_HANDLER undefine default_create end
 
-	EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 	EL_SHARED_ZSTRING_CODEC
 
@@ -90,6 +90,7 @@ feature {NONE} -- Initialization
 				["remove_head",						agent test_remove_head],
 				["remove_tail",						agent test_remove_tail],
 				["index_of",							agent test_index_of],
+				["hash_code",							agent test_hash_code],
 				["last_index_of",						agent test_last_index_of],
 				["new_cursor",							agent test_new_cursor],
 				["occurrences",						agent test_occurrences],
@@ -1310,6 +1311,30 @@ feature -- Removal tests
 		end
 
 feature -- Access tests
+
+	test_hash_code
+		-- ZSTRING_TEST_SET.test_hash_code
+		local
+			substring_line_set, line_set: EL_HASH_SET [ZSTRING]
+			substring_count, old_count: INTEGER; line, line_substring: ZSTRING
+		do
+			create substring_line_set.make (10)
+			create line_set.make (10)
+			across << 1, 2, 3, 4 >> as fifth loop
+				line := Text.russian
+				line_set.put (line)
+				substring_count := (line.count * fifth.item / 5).rounded
+				line_substring := line.substring (1, substring_count)
+				substring_line_set.put (line_substring)
+				old_count := line.count
+				line.set_count (substring_count)
+				assert_same_string (Void, line.twin, line_substring)
+
+				assert ("found half line", substring_line_set.has (line))
+				line.set_count (old_count)
+				assert ("found line", line_set.has (line))
+			end
+		end
 
 	test_index_of
 		note

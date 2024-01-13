@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:46:08 GMT (Thursday 11th January 2024)"
-	revision: "32"
+	date: "2024-01-13 16:29:20 GMT (Saturday 13th January 2024)"
+	revision: "33"
 
 class
 	URI_TEST_SET
@@ -26,15 +26,16 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["uri_assignments", agent test_uri_assignments],
-				["uri_join", agent test_uri_join],
-				["uri_path_plus_joins", agent test_uri_path_plus_joins],
-				["url", agent test_url],
-				["url_parts", agent test_url_parts],
+				["uri_assignments",		 agent test_uri_assignments],
+				["uri_join",				 agent test_uri_join],
+				["uri_path_plus_joins",	 agent test_uri_path_plus_joins],
+				["uri_parent",				 agent test_uri_parent],
+				["url",						 agent test_url],
+				["url_parts",				 agent test_url_parts],
 				["url_query_hash_table", agent test_url_query_hash_table],
-				["url_query_part", agent test_url_query_part],
-				["url_to_string", agent test_url_to_string],
-				["utf_8_sequence", agent test_utf_8_sequence]
+				["url_query_part",		 agent test_url_query_part],
+				["url_to_string",			 agent test_url_to_string],
+				["utf_8_sequence",		 agent test_utf_8_sequence]
 			>>)
 		end
 
@@ -86,12 +87,36 @@ feature -- Tests
 			assert_same_string (Void, uri.to_string_8, usb_uri + relative_dir.to_string.to_latin_1)
 		end
 
+	test_uri_parent
+		-- URI_TEST_SET.test_uri_parent
+		local
+			line, parent_string: STRING; index_slash: INTEGER
+			uri: EL_FILE_URI_PATH
+		do
+			across URI_list as list loop
+				line := list.item; uri := line
+				inspect list.cursor_index
+					when 2, 5 then
+						assert ("no parent", not uri.has_parent)
+				else
+					assert ("has parent", uri.has_parent)
+					index_slash := line.last_index_of ('/', line.count)
+					parent_string := line.substring (1, index_slash - 1)
+					if uri.authority.count > 0 and then parent_string.ends_with (uri.authority.to_latin_1) then
+						parent_string.append_character ('/')
+					end
+					assert_same_string (Void, uri.parent.to_string, parent_string)
+				end
+			end
+		end
+
 	test_uri_path_plus_joins
 		-- URI_TEST_SET.test_uri_path_plus_joins
 		note
-			testing:
-				"covers/{EL_PATH}.append_path, covers/{EL_DIR_URI_PATH}.hash_plus",
-				"covers/{EL_URI_PATH}.to_file_path"
+			testing:"[
+				covers/{EL_PATH}.append_path, covers/{EL_DIR_URI_PATH}.hash_plus,
+				covers/{EL_URI_PATH}.to_file_path
+			]"
 		local
 			uri: EL_DIR_URI_PATH; dir_path: DIR_PATH; file_path: FILE_PATH
 			file_uri: EL_FILE_URI_PATH; index_slash: INTEGER; line: ZSTRING

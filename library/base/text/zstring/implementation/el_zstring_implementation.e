@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-29 10:49:50 GMT (Friday 29th December 2023)"
-	revision: "87"
+	date: "2024-01-13 10:15:25 GMT (Saturday 13th January 2024)"
+	revision: "88"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -30,7 +30,7 @@ inherit
 			fill_list as unencoded_fill_list,
 			first_lower as unencoded_first_lower,
 			first_upper as unencoded_first_upper,
-			hash_code as unencoded_hash_code,
+			extended_hash_code as unencoded_hash_code_to,
 			has as unencoded_has,
 			has_between as unencoded_has_between,
 			index_of as unencoded_index_of,
@@ -237,7 +237,7 @@ feature -- Status query
 feature -- Contract Support
 
 	is_valid: BOOLEAN
-			-- True position and number of `Unencoded_character' in `area' consistent with `unencoded_area' substrings
+			-- True position and number of `Substitute' in `area' consistent with `unencoded_area' substrings
 		local
 			i, j, lower, upper, l_count, interval_count, sum_count: INTEGER
 		do

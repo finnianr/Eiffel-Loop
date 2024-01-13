@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 20:22:20 GMT (Friday 12th January 2024)"
-	revision: "24"
+	date: "2024-01-13 17:30:52 GMT (Saturday 13th January 2024)"
+	revision: "25"
 
 class
 	PATH_TEST_SET
@@ -175,9 +175,13 @@ feature -- Tests
 		end
 
 	test_parent
+		-- PATH_TEST_SET.test_parent
 		note
-			testing: "covers/{EL_PATH}.has_parent, covers/{EL_PATH}.parent, covers/{EL_PATH}.parent_string",
-				"covers/{EL_PATH}.set_parent, covers/{EL_PATH_STEPS}.remove_until"
+			testing: "[
+				covers/{EL_PATH}.has_parent, covers/{EL_PATH}.parent, covers/{EL_PATH}.parent_string,
+				covers/{EL_PATH}.set_parent, covers/{EL_PATH_STEPS}.remove_until,
+				covers/{EL_DIR_PATH}.make_parent
+			]"
 		local
 			dir_path: DIR_PATH; root_name: ZSTRING; file_path: FILE_PATH
 		do
@@ -191,15 +195,18 @@ feature -- Tests
 				else
 					root_name := "/"
 				end
-				assert ("same string" + root_name, dir_path.parent.parent.to_string ~ root_name)
+				assert_same_string ("same string" + root_name, dir_path.parent.parent.to_string, root_name)
 				assert_same_string (Void, dir_path.parent.to_string + OS.separator.out, dir_path.parent_string (False))
 			end
 
 			file_path := Documents_eiffel_pdf
 			file_path.set_parent (Dev_eiffel)
 			assert_same_string (Void, file_path, Dev_eiffel + OS.separator.out + file_path.base)
-
 			assert_same_string (Void, Dev_environ.Eiffel_loop_dir.base, Dev_environ.Eiffel_loop)
+
+			file_path := Documents_eiffel_pdf
+			file_path := file_path.base
+			assert ("empty parent", file_path.parent.is_empty)
 		end
 
 	test_parent_of

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 20:28:47 GMT (Friday 12th January 2024)"
-	revision: "71"
+	date: "2024-01-13 17:25:26 GMT (Saturday 13th January 2024)"
+	revision: "72"
 
 deferred class
 	EL_PATH
@@ -45,6 +45,25 @@ feature {NONE} -- Initialization
 			parent_path := Empty_path; base := Empty_path
 		end
 
+	make (a_path: READABLE_STRING_GENERAL)
+			--
+		local
+			pos_last_separator: INTEGER; l_path: ZSTRING
+		do
+			l_path := normalized_copy (a_path)
+			if not l_path.is_empty then
+				pos_last_separator := l_path.last_index_of (Separator, l_path.count)
+				if pos_last_separator = 0 then
+					if not is_uri and then {PLATFORM}.is_windows then
+						pos_last_separator := l_path.last_index_of (':', l_path.count)
+					end
+				end
+			end
+			base := l_path.substring_end (pos_last_separator + 1)
+			l_path.keep_head (pos_last_separator)
+			set_parent_path (l_path)
+		end
+
 	make_from_path (a_path: PATH)
 		do
 			make (Path_manager.as_string (a_path))
@@ -73,25 +92,6 @@ feature {NONE} -- Initialization
 			internal_hash_code := other.internal_hash_code
 		ensure
 			same_string: same_as (other.to_string)
-		end
-
-	make (a_path: READABLE_STRING_GENERAL)
-			--
-		local
-			pos_last_separator: INTEGER; l_path: ZSTRING
-		do
-			l_path := normalized_copy (a_path)
-			if not l_path.is_empty then
-				pos_last_separator := l_path.last_index_of (Separator, l_path.count)
-				if pos_last_separator = 0 then
-					if not is_uri and then {PLATFORM}.is_windows then
-						pos_last_separator := l_path.last_index_of (':', l_path.count)
-					end
-				end
-			end
-			base := l_path.substring_end (pos_last_separator + 1)
-			l_path.keep_head (pos_last_separator)
-			set_parent_path (l_path)
 		end
 
 feature -- Access
@@ -141,12 +141,7 @@ feature -- Access
 
 	parent: like Type_parent
 		do
-			if has_parent then
-				create Result.make_from_other (Current)
-				Result.prune_tail
-			else
-				create Result
-			end
+			create Result.make_parent (Current)
 		end
 
 	parent_string (keep_ref: BOOLEAN): ZSTRING
@@ -232,42 +227,41 @@ feature -- Status Query
 		end
 
 	has_parent: BOOLEAN
-		local
-			l_count: INTEGER
 		do
-			l_count := parent_path.count
 			if is_absolute then
-				Result := not base.is_empty and then l_count >= 1 and then is_separator (parent_path, l_count)
+				if base.count > 0 then
+					Result := parent_path.count >= 1 and then parent_path.ends_with_character (Separator)
+				end
 			else
-				Result := not parent_path.is_empty and then is_separator (parent_path, l_count)
+				Result := parent_path.ends_with_character (Separator)
 			end
 		end
 
 	has_step (a_step: READABLE_STRING_GENERAL): BOOLEAN
 			-- true if path has directory step
 		local
-			pos_left_separator, pos_right_separator: INTEGER
-			step: ZSTRING
+			step: ZSTRING; pos_left_separator, pos_right_separator: INTEGER
 		do
-			step := as_zstring (a_step)
-			pos_left_separator := parent_path.substring_index (step, 1) - 1
-			pos_right_separator := pos_left_separator + step.count + 1
-			if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
-				if is_separator (parent_path, pos_right_separator) then
-					Result := pos_left_separator > 0 implies is_separator (parent_path, pos_left_separator)
+			across String_scope as scope loop
+				step := scope.same_item (a_step)
+				pos_left_separator := parent_path.substring_index (step, 1) - 1
+				pos_right_separator := pos_left_separator + step.count + 1
+				if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
+					if is_separator (parent_path, pos_right_separator) then
+						Result := pos_left_separator > 0 implies is_separator (parent_path, pos_left_separator)
+					end
 				end
 			end
 		end
 
 	is_absolute: BOOLEAN
-		local
-			str: ZSTRING
 		do
-			str := parent_path
-			if {PLATFORM}.is_windows then
-				Result := starts_with_drive (str)
-			else
-				Result := not str.is_empty and then is_separator (str, 1)
+			if attached parent_path as str then
+				if {PLATFORM}.is_windows then
+					Result := starts_with_drive (str)
+				else
+					Result := str.starts_with_character (Separator)
+				end
 			end
 		end
 
@@ -382,15 +376,17 @@ feature -- Element change
 		do
 			l_path := temporary_path
 			index := l_path.last_index_of (Separator, l_path.count)
-			if index = 1 then
-				-- Eg. /etc
-				base := parent_path.twin
-				set_parent_path (Empty_path)
-			elseif index > 0 then
+			inspect index
+				when 0 then
+					base.wipe_out
+
+				when 1 then
+					-- Eg. /etc
+					base := parent_path.twin
+					set_parent_path (Empty_path)
+			else
 				l_path.keep_head (index - 1)
 				set_path (l_path)
-			else
-				base.wipe_out
 			end
 		end
 
@@ -399,8 +395,9 @@ feature -- Element change
 			l_path: ZSTRING; last_index: INTEGER
 		do
 			last_index := a_parent.count
-			if last_index = 0 then
-				parent_path := Empty_path
+			inspect last_index
+				when 0 then
+					parent_path := Empty_path
 			else
 				l_path := a_parent
 				if l_path [last_index] /= Separator then

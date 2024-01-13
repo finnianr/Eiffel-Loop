@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 20:25:00 GMT (Friday 12th January 2024)"
-	revision: "39"
+	date: "2024-01-13 17:22:50 GMT (Saturday 13th January 2024)"
+	revision: "40"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -36,7 +36,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature -- Measurement
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 9:04:36 GMT (Tuesday 14th November 2023)"
-	revision: "28"
+	date: "2024-01-13 10:52:27 GMT (Saturday 13th January 2024)"
+	revision: "29"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -34,14 +34,16 @@ feature -- Access
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, nb: INTEGER; l_area: like area
+			i, i_upper: INTEGER
 		do
-			l_area := area
 				-- The magic number `8388593' below is the greatest prime lower than
 				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-			from i := 0; nb := count until i = nb loop
-				Result := ((Result \\ 8388593) |<< 8) + l_area.item (i).natural_32_code.to_integer_32
-				i := i + 1
+			if attached area as l_area then
+				i_upper := count - 1
+				from i := 0 until i > i_upper loop
+					Result := ((Result \\ 8388593) |<< 8) + l_area [i].code
+					i := i + 1
+				end
 			end
 		end
 
@@ -355,14 +357,18 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- I
 			area_upper_in_bound: area_lower <= Result + 1
 		end
 
-	copy_area (old_area: like area; other: like Current)
+	copy_area (a_old_area: detachable like area; other: like Current)
 		do
-			if old_area = Void or else old_area = other.area or else old_area.count <= count then
-					-- Prevent copying of large `area' if only a few characters are actually used.
-				area := area.resized_area (count + 1)
+			if attached a_old_area as old_area then
+				if old_area = other.area or else old_area.count <= count then
+						-- Prevent copying of large `area' if only a few characters are actually used.
+					area := area.resized_area (count + 1)
+				else
+					old_area.copy_data (area, 0, 0, count)
+					area := old_area
+				end
 			else
-				old_area.copy_data (area, 0, 0, count)
-				area := old_area
+				area := area.resized_area (count + 1)
 			end
 		end
 

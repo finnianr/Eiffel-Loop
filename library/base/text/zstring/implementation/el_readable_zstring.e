@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:51:33 GMT (Thursday 11th January 2024)"
-	revision: "141"
+	date: "2024-01-13 16:47:22 GMT (Saturday 13th January 2024)"
+	revision: "142"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -272,7 +272,12 @@ feature -- Access
 			Result := internal_hash_code
 			inspect Result
 				when 0 then
-					Result := unencoded_hash_code (area_hash_code)
+					inspect unencoded_area.count
+						when 0 then
+							Result := area_hash_code
+					else
+						Result := unencoded_hash_code_to (area_hash_code, count)
+					end
 					internal_hash_code := Result
 			else
 			end
@@ -743,15 +748,19 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Duplication
 			-- Reinitialize by copying the characters of `other'.
 			-- (This is also used by `twin'.)
 		local
-			old_area: like area
+			old_area: like area; last_upper: INTEGER
 		do
 			if other /= Current then
 				old_area := area
 				standard_copy (other)
-					-- Note: <= is needed as all Eiffel string should have an
-					-- extra character to insert null character at the end.
 				copy_area (old_area, other)
 				make_unencoded_from_other (other)
+				last_upper := unencoded_last_upper
+				if last_upper > count and then attached empty_unencoded_buffer as buffer then
+				-- in case was `other' was shortened by use of `set_count'
+					buffer.append_substring (other, 1, count, 0)
+					set_unencoded_from_buffer (buffer)
+				end
 				internal_hash_code := 0
 			end
 		ensure then
@@ -762,7 +771,11 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Duplication
 feature {STRING_HANDLER} -- Access
 
 	frozen set_count (number: INTEGER)
-			-- Set `count' to `number' of characters.
+		-- Set `count' to `number' of characters.
+
+		-- NOTE: this is dangerous to set if `has_unencoded' is true
+		-- but can be temporarily set to smaller value to look up hash table.
+		-- See `ZSTRING_TEST_SET.test_hash_code'
 		do
 			count := number
 			reset_hash

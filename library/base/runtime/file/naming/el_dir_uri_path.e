@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-09 11:21:19 GMT (Friday 9th June 2023)"
-	revision: "27"
+	date: "2024-01-13 17:11:20 GMT (Saturday 13th January 2024)"
+	revision: "28"
 
 class
 	EL_DIR_URI_PATH
@@ -23,11 +23,12 @@ class
 inherit
 	EL_DIR_PATH
 		undefine
-			append, append_file_prefix, default_create, escaped, make, make_from_other, normalized_copy,
+			append, append_file_prefix, default_create, escaped,
+			make, make_from_other, normalized_copy,
 			is_absolute, is_equal, is_less, is_uri, first_index, type_alias,
 			Type_parent, Separator, set_path, part_count, part_string
 		redefine
-			Type_file_path
+			Type_file_path, make_parent
 		end
 
 	EL_URI_PATH
@@ -41,7 +42,7 @@ inherit
 		end
 
 create
-	default_create, make, make_file, make_scheme, make_from_path, make_from_dir_path,
+	default_create, make, make_file, make_scheme, make_from_path, make_from_dir_path, make_parent,
 	make_from_encoded, make_from_uri
 
 convert
@@ -58,6 +59,13 @@ feature {NONE} -- Initialization
 	make_from_dir_path (a_path: EL_DIR_PATH)
 		do
 			Precursor (a_path)
+		end
+
+	make_parent (other: EL_URI_PATH)
+		do
+			authority := other.authority.twin
+			scheme := other.scheme
+			Precursor (other)
 		end
 
 feature -- Conversion

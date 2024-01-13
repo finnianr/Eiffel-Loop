@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:25:52 GMT (Thursday 11th January 2024)"
-	revision: "68"
+	date: "2024-01-13 10:15:25 GMT (Saturday 13th January 2024)"
+	revision: "69"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
@@ -141,24 +141,6 @@ feature -- Access
 		-- `Both_have_mixed_encoding', `Only_current', `Only_other', `Neither'
 		do
 			Result := is_current.to_integer |<< 1 | is_other.to_integer
-		end
-
-	hash_code (seed: INTEGER): INTEGER
-			-- Hash code value
-		local
-			i, offset, count: INTEGER; l_area: like area
-		do
-			Result := seed; l_area := area
-			from i := 0 until i = l_area.count loop
-				count := section_count (l_area, i)
-				from i := i + 2; offset := 0 until offset = count loop
-					-- The magic number `8388593' below is the greatest prime lower than
-					-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-					Result := ((Result \\ 8388593) |<< 8) + l_area.item (i + offset).code
-					offset := offset + 1
-				end
-				i := i + count
-			end
 		end
 
 	i_th_substring (index: INTEGER): detachable IMMUTABLE_STRING_32
@@ -354,6 +336,35 @@ feature -- Measurement
 				count := section_count (l_area, i)
 				Result := Result + count
 				i := i + count + 2
+			end
+		end
+
+	extended_hash_code (seed, end_index: INTEGER): INTEGER
+		-- extended hash code value based on `seed' value up to `end_index'
+		local
+			i, offset, count, lower, upper: INTEGER; break: BOOLEAN
+		do
+			Result := seed
+			if attached area as l_area then
+				from i := 0 until i = l_area.count or break loop
+					lower := l_area [i].code; upper := l_area [i + 1].code
+					if lower <= end_index then
+						if upper > end_index then
+							upper := end_index
+							break := True
+						end
+						count := upper - lower + 1
+						from i := i + 2; offset := 0 until offset = count loop
+							-- The magic number `8388593' below is the greatest prime lower than
+							-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
+							Result := ((Result \\ 8388593) |<< 8) + l_area.item (i + offset).code
+							offset := offset + 1
+						end
+						i := i + count
+					else
+						break := True
+					end
+				end
 			end
 		end
 
@@ -1036,34 +1047,42 @@ feature -- Basic operations
 			end
 		end
 
-	write (area_out: SPECIAL [CHARACTER_32]; offset: INTEGER; as_zcode: BOOLEAN)
+	write (area_out: SPECIAL [CHARACTER_32]; offset, upper_index: INTEGER; as_zcode: BOOLEAN)
 		-- write substrings into expanded string 'str'
 		-- if `as_zcode' is `True' write characters as `unicode_to_z_code'
 		require
 			string_big_enough: last_upper + offset <= area_out.count
 		local
-			i, j, lower, upper: INTEGER; l_area: like area
-			uc: CHARACTER_32
+			i, j, lower, upper: INTEGER; uc: CHARACTER_32; break: BOOLEAN
 		do
-			l_area := area
-			from i := 0 until i = l_area.count loop
-				lower := l_area [i].code; upper := l_area [i + 1].code
-				if as_zcode then
-					from j := lower until j > upper loop
-						uc := l_area.item (i + 2 + j - lower)
-						if uc.natural_32_code <= 0xFF then
-							uc := (Sign_bit | uc.natural_32_code).to_character_32
+			if attached area as l_area then
+				from i := 0 until i = l_area.count or break loop
+					lower := l_area [i].code; upper := l_area [i + 1].code
+					if lower <= upper_index then
+						if upper > upper_index then
+							upper := upper_index
+							break := True
 						end
-						area_out [offset + j - 1] := uc
-						j := j + 1
-					end
-				else
-					from j := lower until j > upper loop
-						area_out [offset + j - 1] := l_area.item (i + 2 + j - lower)
-						j := j + 1
+						if as_zcode then
+							from j := lower until j > upper loop
+								uc := l_area.item (i + 2 + j - lower)
+								if uc.natural_32_code <= 0xFF then
+									uc := (Sign_bit | uc.natural_32_code).to_character_32
+								end
+								area_out [offset + j - 1] := uc
+								j := j + 1
+							end
+						else
+							from j := lower until j > upper loop
+								area_out [offset + j - 1] := l_area.item (i + 2 + j - lower)
+								j := j + 1
+							end
+						end
+						i := i + upper - lower + 3
+					else
+						break := True
 					end
 				end
-				i := i + upper - lower + 3
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 20:14:54 GMT (Friday 12th January 2024)"
-	revision: "7"
+	date: "2024-01-13 9:22:25 GMT (Saturday 13th January 2024)"
+	revision: "8"
 
 expanded class
 	EL_NT_FILE_SYSTEM_ROUTINES
@@ -144,8 +144,7 @@ feature {NONE} -- Implementation
 
 	translate (path: EL_PATH; uc: CHARACTER_32; status: NATURAL_8)
 		local
-			parent, substitutes: ZSTRING; valid_step: BOOLEAN
-			start_index, end_index: INTEGER
+			parent, substitutes: ZSTRING; start_index, end_index: INTEGER
 		do
 			substitutes := char (uc) * Invalid_NTFS_characters.count
 			if (status & Parent_valid) = 0 then

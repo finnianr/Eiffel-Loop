@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 20:23:49 GMT (Friday 12th January 2024)"
-	revision: "42"
+	date: "2024-01-13 17:05:08 GMT (Saturday 13th January 2024)"
+	revision: "43"
 
 deferred class
 	EL_URI_PATH
@@ -25,7 +25,8 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			append, append_file_prefix, default_create, make, make_from_other, normalized_copy,
+			append, append_file_prefix, default_create, make, make_from_other,
+			normalized_copy,
 			is_absolute, is_uri, is_equal, is_less,
 			set_path, part_count, part_string, first_index,
 			Separator, Type_parent

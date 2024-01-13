@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-29 10:42:51 GMT (Friday 29th December 2023)"
-	revision: "64"
+	date: "2024-01-13 10:13:05 GMT (Saturday 13th January 2024)"
+	revision: "65"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -89,7 +89,7 @@ feature -- To Strings
 			create Result.make_filled (' ', count)
 			if attached cursor_32 (Result) as immutable then
 				codec.decode (count, area, immutable.area, 0)
-				write_unencoded (immutable.area, 0, False)
+				write_unencoded (immutable.area, 0, count, False)
 			end
 		end
 
@@ -178,7 +178,7 @@ feature -- To list
 		do
 			create result_array.make_filled ('%U', 1, count)
 			Codec.decode (count, area, result_array.area, 0)
-			write_unencoded (result_array.area, 0, False)
+			write_unencoded (result_array.area, 0, count, False)
 			create {ARRAYED_LIST [CHARACTER_32]} Result.make_from_array (result_array)
 		ensure
 			same_size: Result.count = count
