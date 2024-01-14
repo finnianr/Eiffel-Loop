@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 8:21:20 GMT (Monday 8th May 2023)"
-	revision: "16"
+	date: "2024-01-14 14:17:11 GMT (Sunday 14th January 2024)"
+	revision: "17"
 
 class
 	EXPORT_MUSIC_TO_DEVICE_TASK_TEST_SET
@@ -70,7 +70,6 @@ feature {NONE} -- Implementation
 		do
 			a_task.apply
 			assert_expected_count (condition)
-
 			a_task.apply
 		end
 
@@ -88,7 +87,7 @@ feature {NONE} -- Constants
 
 	Checksum: NATURAL
 		once
-			Result := 3359056829
+			Result := 2621705155
 		end
 
 	Export_dir: DIR_PATH

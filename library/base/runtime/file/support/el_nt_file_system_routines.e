@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 9:22:25 GMT (Saturday 13th January 2024)"
-	revision: "8"
+	date: "2024-01-14 13:43:22 GMT (Sunday 14th January 2024)"
+	revision: "9"
 
 expanded class
 	EL_NT_FILE_SYSTEM_ROUTINES
@@ -17,16 +17,21 @@ inherit
 
 	STRING_HANDLER
 
+	EL_SET [CHARACTER_8]
+		rename
+			has as invalid_ntfs_character
+		end
+
 	EL_PATH_CONSTANTS
 		export
 			{NONE} all
 		end
 
-	EL_CHARACTER_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS
 
 feature -- Conversion
 
-	translated (path: FILE_PATH; uc: CHARACTER_32): FILE_PATH
+	translated (path: FILE_PATH; c: CHARACTER): FILE_PATH
 		-- path with invalid characters in each step translated to `uc' character
 		local
 			status: NATURAL_8
@@ -36,11 +41,11 @@ feature -- Conversion
 				Result := path
 			else
 				Result := path.twin
-				translate (Result, uc, status)
+				translate (Result, c, status)
 			end
 		end
 
-	translated_dir_path (path: DIR_PATH; uc: CHARACTER_32): DIR_PATH
+	translated_dir_path (path: DIR_PATH; c: CHARACTER): DIR_PATH
 		-- path with invalid characters in each step translated to `uc' character
 		local
 			status: NATURAL_8
@@ -50,7 +55,7 @@ feature -- Conversion
 				Result := path
 			else
 				Result := path.twin
-				translate (Result, uc, status)
+				translate (Result, c, status)
 			end
 		end
 
@@ -68,9 +73,8 @@ feature -- Status query
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	is_ntfs_character (c: CHARACTER): BOOLEAN
+	invalid_ntfs_character (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is an invalid character fot NTFS file system path
 		do
 			inspect c
 				when '/', '?', '<', '>', '\', ':', '*', '|', '"' then
@@ -79,6 +83,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Implementation
+
 	is_valid_interval (path: ZSTRING; start_index, end_index: INTEGER): BOOLEAN
 		local
 			i, i_upper: INTEGER
@@ -86,7 +92,7 @@ feature {NONE} -- Implementation
 			if attached path.area as area then
 				i_upper := end_index - 1; Result := True
 				from i := start_index - 1 until i > i_upper or not Result loop
-					Result := not is_ntfs_character (area [i])
+					Result := not invalid_ntfs_character (area [i])
 					i := i + 1
 				end
 			end
@@ -142,11 +148,10 @@ feature {NONE} -- Implementation
 			Result.fill (path, Separator, 0)
 		end
 
-	translate (path: EL_PATH; uc: CHARACTER_32; status: NATURAL_8)
+	translate (path: EL_PATH; c: CHARACTER; status: NATURAL_8)
 		local
-			parent, substitutes: ZSTRING; start_index, end_index: INTEGER
+			parent: ZSTRING; start_index, end_index: INTEGER
 		do
-			substitutes := char (uc) * Invalid_NTFS_characters.count
 			if (status & Parent_valid) = 0 then
 				create parent.make (path.parent_count)
 				if attached path.parent_string (False) as parent_string
@@ -161,7 +166,8 @@ feature {NONE} -- Implementation
 							parent.append_substring (parent_string, start_index, end_index)
 
 						elseif attached parent_string.substring (start_index, end_index) as substring then
-							parent.append (substring.translated (Invalid_NTFS_characters, substitutes))
+							substring.replace_set_members_8 (Current, c)
+							parent.append (substring)
 						end
 						list.forth
 					end
@@ -169,7 +175,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			if (status & Base_valid) = 0 then
-				path.set_base (path.base.translated (Invalid_NTFS_characters, substitutes))
+				path.base.replace_set_members_8 (Current, c)
 			end
 		end
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 16:47:22 GMT (Saturday 13th January 2024)"
-	revision: "142"
+	date: "2024-01-13 19:35:25 GMT (Saturday 13th January 2024)"
+	revision: "143"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -671,7 +671,7 @@ feature -- Conversion
 		-- write new start_index back to `start_index_int32_ptr'
 		-- if `uc' not found then new `start_index' is `count + 1'
 		local
-			start_index, index: INTEGER
+			start_index, index: INTEGER; pointer: EL_POINTER_ROUTINES
 		do
 			if start_index_int32_ptr.is_default_pointer then
 				start_index := 1
@@ -701,7 +701,7 @@ feature -- Conversion
 		-- the same as `substring_to' except going from right to left
 		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local
-			start_index_from_end, index: INTEGER
+			start_index_from_end, index: INTEGER; pointer: EL_POINTER_ROUTINES
 		do
 			if start_index_from_end_ptr.is_default_pointer then
 				start_index_from_end := count
@@ -745,8 +745,8 @@ feature -- Comparison
 feature {EL_ZSTRING_IMPLEMENTATION} -- Duplication
 
 	copy (other: like Current)
-			-- Reinitialize by copying the characters of `other'.
-			-- (This is also used by `twin'.)
+		-- Reinitialize by copying the characters of `other'.
+		-- (This is also used by `twin'.)
 		local
 			old_area: like area; last_upper: INTEGER
 		do
@@ -790,11 +790,6 @@ feature {NONE} -- Implementation
 
 	current_zstring: ZSTRING
 		deferred
-		end
-
-	pointer: EL_POINTER_ROUTINES
-		-- expanded instance
-		do
 		end
 
 	reset_hash

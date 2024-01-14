@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:47:38 GMT (Wednesday 8th November 2023)"
-	revision: "6"
+	date: "2024-01-14 10:35:22 GMT (Sunday 14th January 2024)"
+	revision: "7"
 
 deferred class
 	EL_PATH_STEPS_IMPLEMENTATION
@@ -20,6 +20,8 @@ inherit
 			{NONE} all
 			{ANY} Separator
 		end
+
+	EL_PATH_BUFFER_ROUTINES
 
 	EL_PROTOCOL_CONSTANTS
 
@@ -69,12 +71,6 @@ feature -- Status report
 			-- Is `i' a valid index?
 		do
 			Result := (1 <= i) and (i <= count)
-		end
-
-feature {NONE} -- Deferred
-
-	append_to (str: EL_APPENDABLE_ZSTRING)
-		deferred
 		end
 
 feature {EL_PATH_STEPS_IMPLEMENTATION} -- Implementation
@@ -150,23 +146,6 @@ feature {NONE} -- Implementation
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
 		end
 
-	temporary_copy (path: READABLE_STRING_GENERAL): ZSTRING
-		do
-			Result := Temp_path
-			if Result /= path then
-				Result.wipe_out
-				Result.append_string_general (path)
-			end
-		end
-
-	temporary_path: ZSTRING
-		-- temporary shared copy of current path
-		do
-			Result := Temp_path
-			Result.wipe_out
-			append_to (Result)
-		end
-
 	token_list: EL_STEP_TOKEN_LIST
 		do
 			Result := Shared_token_list
@@ -202,19 +181,9 @@ feature {NONE} -- Constants
 			create Result.make
 		end
 
-	Temp_path: ZSTRING
-		once
-			create Result.make_empty
-		end
-
 	Temporary_dir: DIR_PATH
 		once
 			create Result
-		end
-
-	URI_path_string: EL_URI_PATH_STRING_8
-		once
-			create Result.make_empty
 		end
 
 end

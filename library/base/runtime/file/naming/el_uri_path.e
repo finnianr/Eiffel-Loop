@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 17:05:08 GMT (Saturday 13th January 2024)"
-	revision: "43"
+	date: "2024-01-14 9:51:01 GMT (Sunday 14th January 2024)"
+	revision: "44"
 
 deferred class
 	EL_URI_PATH
@@ -160,7 +160,7 @@ feature -- Element change
 		do
 			if is_empty and then a_path.is_absolute then
 				if scheme ~ Protocol.file and {PLATFORM}.is_windows then
-					set_parent_path (character_string (Unix_separator) + a_path.parent_path)
+					set_parent_path (char (Unix_separator) + a_path.parent_path)
 				else
 					parent_path := a_path.parent_path
 				end

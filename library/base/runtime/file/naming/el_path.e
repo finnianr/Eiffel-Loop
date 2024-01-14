@@ -1,38 +1,26 @@
 note
-	description: "Path name"
+	description: "File system path with cached parent strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 17:25:26 GMT (Saturday 13th January 2024)"
-	revision: "72"
+	date: "2024-01-14 10:46:26 GMT (Sunday 14th January 2024)"
+	revision: "73"
 
 deferred class
 	EL_PATH
 
 inherit
-	HASHABLE
-		redefine
-			is_equal, default_create, out, copy
-		end
-
-	COMPARABLE
-		undefine
-			is_equal, default_create, out, copy
-		end
-
 	EL_PATH_BASE_NAME
 
 	EL_PATH_IMPLEMENTATION
 		export
-			{ANY} Invalid_ntfs_characters
+			{EL_PATH} temporary_path
 		undefine
-			is_equal, default_create, out, copy
+			default_create, out, copy
 		end
-
-	EL_SHARED_PATH_MANAGER; EL_SHARED_WORD
 
 convert
 	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
@@ -201,101 +189,6 @@ feature -- Access
 			Result.remove_extension
 		end
 
-feature -- Measurement
-
-	hash_code: INTEGER
-			-- Hash code value
-		local
-			i: INTEGER
-		do
-			Result := internal_hash_code
-			if Result = 0 then
-				from i := 1 until i > part_count loop
-					Result := Result + part_string (i).hash_code
-					i := i + 1
-				end
-				Result := Result.abs
-				internal_hash_code := Result
-			end
-		end
-
-feature -- Status Query
-
-	exists: BOOLEAN
-		do
-			Result := not is_empty and then File_system.path_exists (Current)
-		end
-
-	has_parent: BOOLEAN
-		do
-			if is_absolute then
-				if base.count > 0 then
-					Result := parent_path.count >= 1 and then parent_path.ends_with_character (Separator)
-				end
-			else
-				Result := parent_path.ends_with_character (Separator)
-			end
-		end
-
-	has_step (a_step: READABLE_STRING_GENERAL): BOOLEAN
-			-- true if path has directory step
-		local
-			step: ZSTRING; pos_left_separator, pos_right_separator: INTEGER
-		do
-			across String_scope as scope loop
-				step := scope.same_item (a_step)
-				pos_left_separator := parent_path.substring_index (step, 1) - 1
-				pos_right_separator := pos_left_separator + step.count + 1
-				if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
-					if is_separator (parent_path, pos_right_separator) then
-						Result := pos_left_separator > 0 implies is_separator (parent_path, pos_left_separator)
-					end
-				end
-			end
-		end
-
-	is_absolute: BOOLEAN
-		do
-			if attached parent_path as str then
-				if {PLATFORM}.is_windows then
-					Result := starts_with_drive (str)
-				else
-					Result := str.starts_with_character (Separator)
-				end
-			end
-		end
-
-	is_directory: BOOLEAN
-		deferred
-		end
-
-	is_empty: BOOLEAN
-		do
-			Result := parent_path.is_empty and base.is_empty
-		end
-
-	is_expandable: BOOLEAN
-		-- `True' if `base' or `parent' contain what maybe expandable variables
-		do
-			Result := has_expansion_variable (parent_path) or else has_expansion_variable (base)
-		end
-
-	is_file: BOOLEAN
-		do
-			Result := not is_directory
-		end
-
-	is_uri: BOOLEAN
-		do
-		end
-
-	is_valid_ntfs: BOOLEAN
-		local
-			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
-		do
-			Result := ntfs.is_valid (parent_path, True) and then ntfs.is_valid (base, False)
-		end
-
 feature -- Conversion
 
 	escaped: ZSTRING
@@ -316,9 +209,9 @@ feature -- Conversion
 			create Result.make_from_path (Current)
 		end
 
-	to_ntfs_compatible (uc: CHARACTER_32): like Current
+	to_ntfs_compatible (c: CHARACTER): like Current
 		require
-			not_invalid_substitute: not Invalid_ntfs_characters.has (uc)
+			not_invalid_substitute: not invalid_ntfs_character (c)
 		-- NT file system compatible path string using `uc' to substitue invalid characters
 		deferred
 		end
@@ -453,25 +346,6 @@ feature -- Removal
 
 feature -- Comparison
 
-	is_equal (other: like Current): BOOLEAN
-			--
-		do
-			Result := base.is_equal (other.base) and parent_path.is_equal (other.parent_path)
-		end
-
-	is_less alias "<" (other: like Current): BOOLEAN
-			-- Is current object less than `other'?
-		local
-			other_parent: like parent_path
-		do
-			other_parent := other.parent_path
-			if parent_path ~ other_parent then
-				Result := base < other.base
-			else
-				Result := parent_path < other_parent
-			end
-		end
-
 	same_as (path: READABLE_STRING_GENERAL): BOOLEAN
 		local
 			i, start_index: INTEGER; l_path: ZSTRING
@@ -504,6 +378,11 @@ feature -- Duplication
 
 feature {EL_PATH} -- Implementation
 
+	current_path: EL_PATH
+		do
+			Result := Current
+		end
+
 	reset_hash
 		do
 			internal_hash_code := 0
@@ -512,12 +391,6 @@ feature {EL_PATH} -- Implementation
 	new_path (a_path: ZSTRING): like Current
 		deferred
 		end
-
-feature {EL_PATH_IMPLEMENTATION} -- Internal attributes
-
-	internal_hash_code: INTEGER
-
-	parent_path: ZSTRING
 
 feature {NONE} -- Type definitions
 

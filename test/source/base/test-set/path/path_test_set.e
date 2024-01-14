@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 17:30:52 GMT (Saturday 13th January 2024)"
-	revision: "25"
+	date: "2024-01-14 8:47:40 GMT (Sunday 14th January 2024)"
+	revision: "26"
 
 class
 	PATH_TEST_SET
@@ -136,6 +136,7 @@ feature -- Tests
 		end
 
 	test_ntfs_translation
+		-- PATH_TEST_SET.test_ntfs_translation
 		note
 			testing: "[
 				covers/{EL_PATH}.is_valid_ntfs,

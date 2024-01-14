@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 16:54:29 GMT (Sunday 10th December 2023)"
-	revision: "20"
+	date: "2024-01-14 14:36:24 GMT (Sunday 14th January 2024)"
+	revision: "21"
 
 class
 	ZSTRING_DEVELOPER_COMPARISON
@@ -32,22 +32,44 @@ feature -- Basic operations
 	execute
 		do
 			compare ("perform benchmark", <<
-				["method 1", agent do_method (1)],
-				["method 2", agent do_method (2)]
+				["if branch",		 agent do_method (1)],
+				["inspect branch", agent do_method (2)]
 			>>)
+		end
+
+feature {NONE} -- Implementation
+
+	do_method (id: INTEGER)
+		local
+			divisible_by_2: BOOLEAN; divisible_by_2_bool: NATURAL_8
+		do
+			across 1 |..| 10_000 as n loop
+				divisible_by_2 := divisible_by_2_bool.to_boolean; divisible_by_2_bool := (n.item \\ 2).to_natural_8
+				inspect id
+					when 1 then
+						do_if_branch (divisible_by_2, divisible_by_2_bool)
+
+					when 2 then
+						do_inspect_branch (divisible_by_2, divisible_by_2_bool)
+				end
+			end
 		end
 
 feature {NONE} -- Operations
 
-	do_method (id: INTEGER)
-		local
+	do_if_branch (divisible_by_2: BOOLEAN; divisible_by_2_bool: NATURAL_8)
 		do
-			across 1 |..| 1000 as n loop
-				inspect id
-					when 1 then
+			if divisible_by_2 then
+				do_nothing
+			end
+		end
 
-					when 2 then
-				end
+	do_inspect_branch (divisible_by_2: BOOLEAN; divisible_by_2_bool: NATURAL_8)
+		do
+			inspect divisible_by_2_bool
+				when 1 then
+					do_nothing
+			else
 			end
 		end
 
@@ -96,7 +118,13 @@ note
 			when 0 .. 0xFF then  : 16610377.0 times (-0.2%)
 			if code <= 0x7F then : 16558972.0 times (-0.5%)
 			if code <= 0xFF then : 13450191.0 times (-19.2%)
+			
+		**if boolean then VS inspect boolean_value when 1 then**
+					
+		Passes over 500 millisecs (in descending order)
 
+			if branch      : 194.0 times (100%)
+			inspect branch : 194.0 times (-0.0%)	
 	]"
 
 end

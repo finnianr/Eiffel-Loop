@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 17:14:40 GMT (Saturday 13th January 2024)"
-	revision: "38"
+	date: "2024-01-14 9:08:51 GMT (Sunday 14th January 2024)"
+	revision: "39"
 
 class
 	EL_DIR_PATH
@@ -83,7 +83,7 @@ feature {NONE} -- Initialization
 							set_parent_path (Empty_path)
 					else
 						l_count := parent_key.count
-					-- Avoids making a copy of `parent_key' if existing already
+					-- Avoids making a substring of `parent_key' if existing already
 						parent_key.set_count (index) -- Must restore later
 						Parent_set.put_copy (parent_key) -- safe to make a twin
 						parent_path := Parent_set.found_item
@@ -115,12 +115,12 @@ feature -- Access
 
 feature -- Conversion
 
-	to_ntfs_compatible (uc: CHARACTER_32): like Current
-		-- NT file system compatible path string using `uc' to substitue invalid characters
+	to_ntfs_compatible (c: CHARACTER): like Current
+		-- NT file system compatible path string using `c' to substitue invalid characters
 		local
 			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
 		do
-			Result := ntfs.translated_dir_path (Current, uc)
+			Result := ntfs.translated_dir_path (Current, c)
 		end
 
 feature -- Aliased joins

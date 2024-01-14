@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 10:15:25 GMT (Saturday 13th January 2024)"
-	revision: "69"
+	date: "2024-01-13 19:24:49 GMT (Saturday 13th January 2024)"
+	revision: "70"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
@@ -348,7 +348,9 @@ feature -- Measurement
 			if attached area as l_area then
 				from i := 0 until i = l_area.count or break loop
 					lower := l_area [i].code; upper := l_area [i + 1].code
-					if lower <= end_index then
+					if lower > end_index then
+						break := True
+					else
 						if upper > end_index then
 							upper := end_index
 							break := True
@@ -361,8 +363,6 @@ feature -- Measurement
 							offset := offset + 1
 						end
 						i := i + count
-					else
-						break := True
 					end
 				end
 			end
@@ -1047,7 +1047,7 @@ feature -- Basic operations
 			end
 		end
 
-	write (area_out: SPECIAL [CHARACTER_32]; offset, upper_index: INTEGER; as_zcode: BOOLEAN)
+	write (area_out: SPECIAL [CHARACTER_32]; offset, end_index: INTEGER; as_zcode: BOOLEAN)
 		-- write substrings into expanded string 'str'
 		-- if `as_zcode' is `True' write characters as `unicode_to_z_code'
 		require
@@ -1058,9 +1058,11 @@ feature -- Basic operations
 			if attached area as l_area then
 				from i := 0 until i = l_area.count or break loop
 					lower := l_area [i].code; upper := l_area [i + 1].code
-					if lower <= upper_index then
-						if upper > upper_index then
-							upper := upper_index
+					if lower > end_index then
+						break := True
+					else
+						if upper > end_index then
+							upper := end_index
 							break := True
 						end
 						if as_zcode then
@@ -1079,8 +1081,6 @@ feature -- Basic operations
 							end
 						end
 						i := i + upper - lower + 3
-					else
-						break := True
 					end
 				end
 			end

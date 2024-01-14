@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:15:46 GMT (Saturday 23rd December 2023)"
-	revision: "101"
+	date: "2024-01-14 11:54:37 GMT (Sunday 14th January 2024)"
+	revision: "102"
 
 class
 	EL_ZSTRING
@@ -48,6 +48,7 @@ inherit
 --				Transformation
 				crop, expand_tabs, mirror, replace_character, replace_delimited_substring,
 				replace_delimited_substring_general, replace_substring, replace_substring_all, replace_substring_general,
+				replace_set_members_8, replace_set_members,
 				to_canonically_spaced, to_lower, to_proper, to_upper, translate_deleting_null_characters,
 				unescape,
 --				Removal

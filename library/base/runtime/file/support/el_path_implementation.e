@@ -6,37 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 17:22:50 GMT (Saturday 13th January 2024)"
-	revision: "40"
+	date: "2024-01-14 10:44:47 GMT (Sunday 14th January 2024)"
+	revision: "41"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
 
 inherit
-	EL_PATH_CONSTANTS
-		export
-			{NONE} all
-			{ANY} Separator
-		end
+	HASHABLE undefine is_equal end
 
-	EL_ZSTRING_ROUTINES_IMP
-		rename
-			append_to as string_append_to,
-			translate as string_translate,
-			wipe_out as string_wipe_out
-		export
-			{NONE} all
-		undefine
-			copy, default_create, is_equal, out
-		end
+	EL_PATH_PROPERTIES
 
-	DEBUG_OUTPUT
-
-	STRING_HANDLER
-
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_PATH_BUFFER_ROUTINES
 
 feature -- Measurement
 
@@ -50,6 +31,16 @@ feature -- Measurement
 				Result := Result + part_string (i).count
 				i := i + 1
 			end
+		end
+
+	parent_count: INTEGER
+		do
+			Result := parent_path.count
+		end
+
+	step_count: INTEGER
+		do
+			Result := parent_path.occurrences (Separator) + 1
 		end
 
 	utf_8_byte_count: INTEGER
@@ -70,24 +61,7 @@ feature -- Measurement
 			end
 		end
 
-	parent_count: INTEGER
-		do
-			Result := parent_path.count
-		end
-
-	step_count: INTEGER
-		do
-			Result := parent_path.occurrences (Separator) + 1
-		end
-
 feature -- Conversion
-
-	to_general: READABLE_STRING_GENERAL
-		do
-			Result := temporary_path.to_general
-		ensure
-			same_as_to_string: to_string.same_string_general (Result)
-		end
 
 	as_string_32: STRING_32
 		do
@@ -95,6 +69,13 @@ feature -- Conversion
 			append_to_32 (Result)
 		ensure then
 			same_as_to_string: to_string.as_string_32 ~ Result
+		end
+
+	to_general: READABLE_STRING_GENERAL
+		do
+			Result := temporary_path.to_general
+		ensure
+			same_as_to_string: to_string.same_string_general (Result)
 		end
 
 	to_path: PATH
@@ -230,25 +211,25 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Status query
+feature -- Measurement
 
-	is_empty: BOOLEAN
-		deferred
+	hash_code: INTEGER
+			-- Hash code value
+		local
+			i: INTEGER
+		do
+			Result := internal_hash_code
+			if Result = 0 then
+				from i := 1 until i > part_count loop
+					Result := Result + part_string (i).hash_code
+					i := i + 1
+				end
+				Result := Result.abs
+				internal_hash_code := Result
+			end
 		end
 
 feature {NONE} -- Deferred implementation
-
-	base: ZSTRING
-		deferred
-		end
-
-	is_absolute: BOOLEAN
-		deferred
-		end
-
-	parent_path: ZSTRING
-		deferred
-		end
 
 	set_parent_path (a_parent: ZSTRING)
 		deferred
@@ -355,22 +336,6 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
-	empty_temp_path: ZSTRING
-		-- temporary shared path
-		do
-			Result := Temp_path
-			Result.wipe_out
-		end
-
-	has_expansion_variable (a_path: ZSTRING): BOOLEAN
-		-- a step contains what might be an expandable variable
-		local
-			pos_dollor: INTEGER
-		do
-			pos_dollor := a_path.index_of ('$', 1)
-			Result := pos_dollor > 0 and then (pos_dollor = 1 or else is_separator (a_path, pos_dollor - 1))
-		end
-
 	is_separator (str: ZSTRING; i: INTEGER): BOOLEAN
 		-- `True' if `str [i] = Separator'
 		do
@@ -405,7 +370,7 @@ feature {EL_PATH} -- Implementation
 		do
 			Result := temporary_path
 			remove_count := a_parent.count
-			if Result.count > remove_count and then is_separator (Result, remove_count + 1) then
+			if Result.count > remove_count and then Result [remove_count + 1] = Separator then
 				remove_count := remove_count + 1
 			end
 			Result.remove_head (remove_count)
@@ -429,52 +394,10 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
-	temporary_copy (path: READABLE_STRING_GENERAL): ZSTRING
-		do
-			Result := Temp_path
-			if Result /= path then
-				Result.wipe_out
-				Result.append_string_general (path)
-			end
-		end
+feature {EL_PATH_IMPLEMENTATION} -- Internal attributes
 
-	temporary_path: ZSTRING
-		-- temporary shared copy of current path
-		do
-			Result := empty_temp_path
-			append_to (Result)
-		end
+	internal_hash_code: INTEGER
 
-feature {NONE} -- Constants
-
-	Empty_path: ZSTRING
-		once
-			create Result.make_empty
-		end
-
-	Magic_number: INTEGER = 8388593
-		-- Greatest prime lower than 2^23
-		-- so that this magic number shifted to the left does not exceed 2^31.
-
-	Parent_set: EL_HASH_SET [ZSTRING]
-			--
-		once
-			create Result.make (100)
-		end
-
-	Square_brackets: STRING_32
-		once
-			Result := "[] "
-		end
-
-	Temp_path: ZSTRING
-		once
-			create Result.make_empty
-		end
-
-	URI_path_string: EL_URI_PATH_STRING_8
-		once
-			create Result.make_empty
-		end
+	parent_path: ZSTRING
 
 end

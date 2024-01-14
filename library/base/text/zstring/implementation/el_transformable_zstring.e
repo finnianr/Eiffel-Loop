@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 11:26:01 GMT (Saturday 23rd December 2023)"
-	revision: "60"
+	date: "2024-01-14 14:42:42 GMT (Sunday 14th January 2024)"
+	revision: "61"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -249,34 +249,35 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
-			c_old, c_new: CHARACTER; i, l_count, block_index: INTEGER; l_area: like area
-			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; new_unencoded: CHARACTER_32
+			c_old, c_new: CHARACTER; new_unencoded: CHARACTER_32; i, l_count, block_index: INTEGER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			c_old := encoded_character (uc_old)
-			c_new := encoded_character (uc_new)
+			l_count := count
+			c_old := encoded_character (uc_old); c_new := encoded_character (uc_new)
 			if c_new = Substitute then
 				new_unencoded := uc_new
 			end
-			l_area := area; l_count := count
-			if c_old = Substitute then
-				if attached unencoded_area as area_32 and then area_32.count > 0 then
+			if attached area as l_area and then attached unencoded_area as area_32 then
+				if c_old = Substitute then
+					if area_32.count > 0 then
+						from i := 0 until i = l_count loop
+							if l_area [i] = Substitute and then uc_old = iter.item ($block_index, area_32, i + 1) then
+								l_area [i] := c_new
+							end
+							i := i + 1
+						end
+						replace_unencoded_character (uc_old, new_unencoded, False)
+					end
+				else
 					from i := 0 until i = l_count loop
-						if l_area [i] = Substitute and then uc_old = iter.item ($block_index, area_32, i + 1) then
+						if l_area [i] = c_old then
 							l_area [i] := c_new
+							if c_new = Substitute then
+								put_unencoded (new_unencoded, i + 1)
+							end
 						end
 						i := i + 1
 					end
-					replace_unencoded_character (uc_old, new_unencoded, False)
-				end
-			else
-				from i := 0 until i = l_count loop
-					if l_area [i] = c_old then
-						l_area [i] := c_new
-						if c_new = Substitute then
-							put_unencoded (new_unencoded, i + 1)
-						end
-					end
-					i := i + 1
 				end
 			end
 			reset_hash
@@ -314,6 +315,72 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 				adapted_argument_general (left, 1), adapted_argument_general (right, 2),
 				adapted_argument_general (new, 3), include_delimiter, start_index
 			)
+		end
+
+	replace_set_members (set: EL_SET [CHARACTER_32]; uc_new: CHARACTER_32)
+		-- Replace all encoded characters that are member of `set' with the `uc_new' character
+		local
+			i, l_count, block_index: INTEGER; c_i, c_new: CHARACTER_8; uc_i: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			l_count := count; c_new := encoded_character (uc_new)
+			if attached unicode_table as l_unicode_table and then attached area as l_area
+				and then attached unencoded_area as area_32
+			then
+				from i := 0 until i = l_count loop
+					c_i := l_area [i]
+					inspect c_i
+						when Substitute then
+							uc_i:= iter.item ($block_index, area_32, i + 1)
+
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+							uc_i := c_i
+					else
+						uc_i := l_unicode_table [c_i.code]
+					end
+					if set.has (uc_i) then
+						l_area [i] := c_new
+						inspect c_new
+							when Substitute then
+								put (uc_new, i + 1)
+						else
+						end
+					end
+					i := i + 1
+				end
+			end
+			reset_hash
+		ensure
+			valid_unencoded: is_valid
+		end
+
+	replace_set_members_8 (set: EL_SET [CHARACTER_8]; new: CHARACTER_8)
+		-- Replace all encoded characters that are member of `set' with the `new' character
+		-- useful only if `set' consists of ASCII characters or characters which match the current
+		-- `Codec' character set
+		require
+			substitute_reserved: not set.has (Substitute) and new /= Substitute
+		local
+			i, l_count: INTEGER; c_i: CHARACTER_8
+		do
+			l_count := count
+			if attached area as l_area then
+				from i := 0 until i = l_count loop
+					c_i := l_area [i]
+					inspect c_i
+						when Substitute then
+							do_nothing -- unencoded character
+					else
+						if set.has (c_i) then
+							l_area [i] := new
+						end
+					end
+					i := i + 1
+				end
+			end
+			reset_hash
+		ensure
+			valid_unencoded: is_valid
 		end
 
 	replace_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
@@ -508,6 +575,52 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
+	replace_area_substrings (a_old, new: ZSTRING)
+		local
+			i, l_count, count_delta, old_count, sum_count_delta, new_current_count: INTEGER
+			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
+			l_area, replaced_area, new_area: like area; index_area: SPECIAL [INTEGER]
+			old_index_list: ARRAYED_LIST [INTEGER]
+		do
+			old_count := a_old.count; count_delta := new.count - old_count
+
+			old_index_list := internal_substring_index_list (a_old)
+			if old_index_list.count > 0 then
+				new_current_count := count + count_delta * old_index_list.count
+
+				if has_mixed_encoding or new.has_mixed_encoding then
+					set_replaced_unencoded (old_index_list, count_delta, a_old.count, new_current_count, new)
+				end
+
+				l_area := area; new_area := new.area; index_area := old_index_list.area
+				create replaced_area.make_empty (new_current_count + 1)
+				previous_upper_plus_1 := 1
+				from until i = index_area.count loop
+					lower := index_area [i]; upper := lower + old_count - 1
+					new_lower := lower + sum_count_delta; new_upper := lower + old_count + count_delta - 1
+					sum_count_delta := sum_count_delta + count_delta
+
+					l_count := lower - previous_upper_plus_1
+					if l_count > 0 then
+						replaced_area.copy_data (l_area, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count)
+					end
+					replaced_area.copy_data (new_area, 0, new_lower - 1, new.count)
+					previous_upper_plus_1 := upper + 1
+					i := i + 1
+				end
+				l_count := count - previous_upper_plus_1 + 1
+				if l_count > 0 then
+					replaced_area.copy_data (l_area, previous_upper_plus_1 - 1, new_upper, l_count)
+				end
+				replaced_area.extend ('%U')
+				check
+					filled: replaced_area.count = new_current_count + 1
+				end
+				area := replaced_area
+				set_count (new_current_count)
+			end
+		end
+
 	replace_substring_all_zstring (old_substring, new_substring: EL_READABLE_ZSTRING)
 		local
 			old_count, l_count, new_substring_count, old_substring_count: INTEGER
@@ -632,52 +745,6 @@ feature {NONE} -- Implementation
 					end
 					set_unencoded_from_buffer (buffer)
 				end
-			end
-		end
-
-	replace_area_substrings (a_old, new: ZSTRING)
-		local
-			i, l_count, count_delta, old_count, sum_count_delta, new_current_count: INTEGER
-			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
-			l_area, replaced_area, new_area: like area; index_area: SPECIAL [INTEGER]
-			old_index_list: ARRAYED_LIST [INTEGER]
-		do
-			old_count := a_old.count; count_delta := new.count - old_count
-
-			old_index_list := internal_substring_index_list (a_old)
-			if old_index_list.count > 0 then
-				new_current_count := count + count_delta * old_index_list.count
-
-				if has_mixed_encoding or new.has_mixed_encoding then
-					set_replaced_unencoded (old_index_list, count_delta, a_old.count, new_current_count, new)
-				end
-
-				l_area := area; new_area := new.area; index_area := old_index_list.area
-				create replaced_area.make_empty (new_current_count + 1)
-				previous_upper_plus_1 := 1
-				from until i = index_area.count loop
-					lower := index_area [i]; upper := lower + old_count - 1
-					new_lower := lower + sum_count_delta; new_upper := lower + old_count + count_delta - 1
-					sum_count_delta := sum_count_delta + count_delta
-
-					l_count := lower - previous_upper_plus_1
-					if l_count > 0 then
-						replaced_area.copy_data (l_area, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count)
-					end
-					replaced_area.copy_data (new_area, 0, new_lower - 1, new.count)
-					previous_upper_plus_1 := upper + 1
-					i := i + 1
-				end
-				l_count := count - previous_upper_plus_1 + 1
-				if l_count > 0 then
-					replaced_area.copy_data (l_area, previous_upper_plus_1 - 1, new_upper, l_count)
-				end
-				replaced_area.extend ('%U')
-				check
-					filled: replaced_area.count = new_current_count + 1
-				end
-				area := replaced_area
-				set_count (new_current_count)
 			end
 		end
 

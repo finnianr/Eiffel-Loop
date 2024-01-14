@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 15:15:32 GMT (Friday 12th January 2024)"
-	revision: "38"
+	date: "2024-01-14 9:10:38 GMT (Sunday 14th January 2024)"
+	revision: "39"
 
 class
 	EL_FILE_PATH
@@ -73,12 +73,12 @@ feature -- Access
 
 feature -- Conversion
 
-	to_ntfs_compatible (uc: CHARACTER_32): like Current
-		-- NT file system compatible path string using `uc' to substitue invalid characters
+	to_ntfs_compatible (c: CHARACTER): like Current
+		-- NT file system compatible path string using `c' to substitue invalid characters
 		local
 			ntfs: EL_NT_FILE_SYSTEM_ROUTINES
 		do
-			Result := ntfs.translated (Current, uc)
+			Result := ntfs.translated (Current, c)
 		end
 
 feature -- Status report

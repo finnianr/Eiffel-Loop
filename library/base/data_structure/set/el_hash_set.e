@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 8:06:20 GMT (Tuesday 31st October 2023)"
-	revision: "24"
+	date: "2024-01-14 13:47:57 GMT (Sunday 14th January 2024)"
+	revision: "25"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -54,6 +54,11 @@ inherit
 			intersection as intersection_query
 		undefine
 			copy, object_comparison, is_equal
+		end
+
+	EL_SET [H]
+		undefine
+			copy, is_equal
 		end
 
 	EL_MODULE_ITERABLE
