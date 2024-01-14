@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 9:08:51 GMT (Sunday 14th January 2024)"
-	revision: "39"
+	date: "2024-01-14 18:32:08 GMT (Sunday 14th January 2024)"
+	revision: "40"
 
 class
 	EL_DIR_PATH
@@ -64,32 +64,33 @@ feature {NONE} -- Initialization
 			index, l_count: INTEGER
 		do
 			if other.has_parent then
-				if attached other.parent_string (False) as parent_key then
-					inspect parent_key.count
+				if attached Shared_key_path as key_path then
+					key_path.share (other.parent_string (False))
+					inspect key_path.count
 						when 0, 1 then
 							index := 0
 					else
-						index := parent_key.last_index_of (Separator, parent_key.count - 1)
+						index := key_path.last_index_of (Separator, key_path.count - 1)
 					end
 					inspect index
 						when 0 then
-							if parent_key [1] = Separator then
+							if key_path [1] = Separator then
 							-- Eg: `other' is /etc
 								create base.make_filled (Separator, 1)
 							else
 							-- Eg. `other' is C:/Users
-								base := parent_key.substring (1, parent_key.count - 1)
+								base := key_path.substring (1, key_path.count - 1)
 							end
 							set_parent_path (Empty_path)
 					else
-						l_count := parent_key.count
-					-- Avoids making a substring of `parent_key' if existing already
-						parent_key.set_count (index) -- Must restore later
-						Parent_set.put_copy (parent_key) -- safe to make a twin
+						l_count := key_path.count
+					-- Avoids making a substring of `key_path' if found in set
+						key_path.set_count (index) -- Must restore later
+						Parent_set.put_copy (key_path) -- safe to make a twin
 						parent_path := Parent_set.found_item
-						parent_key.set_count (l_count) -- restored
+						key_path.set_count (l_count) -- restored
 
-						base := parent_key.substring (index + 1, parent_key.count - 1)
+						base := key_path.substring (index + 1, key_path.count - 1)
 					end
 				end
 			else
@@ -242,5 +243,10 @@ feature {NONE} -- Type definitions
 feature -- Constants
 
 	Is_directory: BOOLEAN = True
+
+	Shared_key_path: ZSTRING
+		once
+			create Result.make_empty
+		end
 
 end

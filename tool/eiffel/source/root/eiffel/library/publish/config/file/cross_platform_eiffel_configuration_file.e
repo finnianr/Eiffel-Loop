@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2024-01-14 17:21:49 GMT (Sunday 14th January 2024)"
+	revision: "12"
 
 class
 	CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
@@ -25,9 +25,6 @@ inherit
 		end
 
 	CROSS_PLATFORM_CONSTANTS
-		undefine
-			is_equal
-		end
 
 	EL_ZSTRING_CONSTANTS
 

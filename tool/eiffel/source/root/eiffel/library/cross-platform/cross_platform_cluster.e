@@ -25,28 +25,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
-	revision: "10"
+	date: "2024-01-14 17:21:36 GMT (Sunday 14th January 2024)"
+	revision: "11"
 
 class
 	CROSS_PLATFORM_CLUSTER
 
 inherit
+	ANY
+
 	CROSS_PLATFORM_CONSTANTS
 
 	EL_MODULE_LIO
 
-	EL_MODULE_TUPLE
+	EL_MODULE_OS; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
 
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_OS
-
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
-
-	EL_MODULE_EXECUTABLE
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXECUTABLE; EL_MODULE_FILE_SYSTEM
 
 create
 	make

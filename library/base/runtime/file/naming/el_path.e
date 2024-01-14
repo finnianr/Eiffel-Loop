@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 10:46:26 GMT (Sunday 14th January 2024)"
-	revision: "73"
+	date: "2024-01-14 16:09:03 GMT (Sunday 14th January 2024)"
+	revision: "74"
 
 deferred class
 	EL_PATH
@@ -189,33 +189,6 @@ feature -- Access
 			Result.remove_extension
 		end
 
-feature -- Conversion
-
-	escaped: ZSTRING
-		-- escaped for use as command line argument
-		-- On Unix characters like colon, space etc are prefixed with a backslash
-		-- On Windows this results in a quoted string
-		do
-			Result := File_system.escaped_path (temporary_path)
-		end
-
-	out: STRING
-		do
-			Result := debug_output
-		end
-
-	steps: EL_PATH_STEPS
-		do
-			create Result.make_from_path (Current)
-		end
-
-	to_ntfs_compatible (c: CHARACTER): like Current
-		require
-			not_invalid_substitute: not invalid_ntfs_character (c)
-		-- NT file system compatible path string using `uc' to substitue invalid characters
-		deferred
-		end
-
 feature -- Element change
 
 	append_dir_path (a_dir_path: EL_DIR_PATH)
@@ -333,6 +306,33 @@ feature -- Element change
 			base.translate (originals, substitutions)
 			parent_path.translate (originals, substitutions)
 			internal_hash_code := 0
+		end
+
+feature -- Conversion
+
+	escaped: ZSTRING
+		-- escaped for use as command line argument
+		-- On Unix characters like colon, space etc are prefixed with a backslash
+		-- On Windows this results in a quoted string
+		do
+			Result := File_system.escaped_path (temporary_path)
+		end
+
+	out: STRING
+		do
+			Result := debug_output
+		end
+
+	steps: EL_PATH_STEPS
+		do
+			create Result.make_from_path (Current)
+		end
+
+	to_ntfs_compatible (c: CHARACTER): like Current
+		require
+			not_invalid_substitute: not invalid_ntfs_character (c)
+		-- NT file system compatible path string using `uc' to substitue invalid characters
+		deferred
 		end
 
 feature -- Removal

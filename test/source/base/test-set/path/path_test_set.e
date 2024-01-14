@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 8:47:40 GMT (Sunday 14th January 2024)"
-	revision: "26"
+	date: "2024-01-14 18:10:29 GMT (Sunday 14th January 2024)"
+	revision: "27"
 
 class
 	PATH_TEST_SET
@@ -189,6 +189,9 @@ feature -- Tests
 			assert ("2 parents", parent_count (Home_finnian) = 2)
 			assert ("1 parents", parent_count (Documents_eiffel_pdf) = 1)
 
+			dir_path := "base/kernel/reflection"
+			assert_same_string (Void, dir_path.parent.to_string, "base/kernel")
+
 			across << Mem_test_exe, Home_finnian >> as list loop
 				dir_path := list.item
 				if list.cursor_index = 1 then
@@ -291,23 +294,22 @@ feature -- Tests
 
 	test_universal_relative_path
 		note
-			testing:
-				"covers/{DIR_PATH}.relative_path, covers/{FILE_PATH}.relative_path",
-				"covers/{EL_PATH}.universal_relative_path, covers/{EL_PATH}.exists, covers/{EL_PATH}.expand"
-
+			testing: "[
+				covers/{DIR_PATH}.relative_path, covers/{FILE_PATH}.relative_path,
+				covers/{EL_PATH}.universal_relative_path, covers/{EL_PATH}.exists, covers/{EL_PATH}.expand
+			]"
 		local
 			path_1, p1, relative_path: FILE_PATH; path_2, p2: DIR_PATH
 		do
-			lio.enter ("test_universal_relative_path")
-			across OS.file_list (Eiffel_tool_dir.to_string, "*.e") as list loop
+			across OS.file_list (Eiffel_latin_1_sources.to_string, "*.e") as list loop
 				p1 := list.item.to_string
-				path_1 := p1.relative_path (Eiffel_tool_dir)
+				path_1 := p1.relative_path (Eiffel_latin_1_sources)
 				lio.put_labeled_string ("class", path_1.to_string)
 				lio.put_new_line
-				across OS.directory_list (Eiffel_tool_dir.to_string) as dir loop
+				across OS.directory_list (Eiffel_latin_1_sources.to_string) as dir loop
 					p2 := dir.item.to_string
-					if Eiffel_tool_dir.is_parent_of (p2) then
-						path_2 := p2.relative_path (Eiffel_tool_dir)
+					if Eiffel_latin_1_sources.is_parent_of (p2) then
+						path_2 := p2.relative_path (Eiffel_latin_1_sources)
 						relative_path := path_1.universal_relative_path (path_2)
 
 						Execution_environment.push_current_working (p2)
@@ -316,7 +318,6 @@ feature -- Tests
 					end
 				end
 			end
-			lio.exit
 		end
 
 	test_version_number
@@ -367,9 +368,9 @@ feature {NONE} -- Constants
 			Result := "Documents/Eiffel-spec.pdf"
 		end
 
-	Eiffel_tool_dir: DIR_PATH
+	Eiffel_latin_1_sources: DIR_PATH
 		once
-			Result := "$EIFFEL_LOOP/tool/eiffel/test-data"
+			Result := "$EIFFEL_LOOP/tool/eiffel/test-data/sources/latin-1"
 			Result.expand
 		ensure
 			valid_expansion: Result.exists

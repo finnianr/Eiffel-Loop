@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 11:52:43 GMT (Saturday 16th September 2023)"
-	revision: "9"
+	date: "2024-01-14 18:41:48 GMT (Sunday 14th January 2024)"
+	revision: "10"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -20,6 +20,8 @@ inherit
 	EL_LOGGABLE_CONSTANTS; EL_ZSTRING_CONSTANTS
 
 	FEATURE_CONSTANTS
+
+	CROSS_PLATFORM_CONSTANTS
 
 create
 	make
@@ -112,18 +114,21 @@ feature {NONE} -- Commands
 			create shell.make (Directory.current_working + "source", Grep_results_path)
 			shell.read_manifest_files
 			shell.execute
-			Command.launch_gedit (Grep_results)
+			Command.launch_gedit (Grep_results_path)
 		end
 
 	remove_eifgens
 		local
-			eifgens_dir: DIR_PATH
+			prompt: ZSTRING; target_dir: DIR_PATH
 		do
-			eifgens_dir := "build/$ISE_PLATFORM/EIFGENs"
-			eifgens_dir.expand
-			if User_input.approved_action_y_n ("Are you sure ?") then
-				OS.delete_tree (eifgens_dir)
-				lio.put_line ("Removed")
+			across Platform_list as list loop
+				target_dir := Eifgens_dir #$ [list.item]
+				lio.put_labeled_string ("Remove", target_dir.to_string)
+				lio.put_new_line
+				if User_input.approved_action_y_n ("Are you sure ?") then
+					OS.delete_tree (target_dir)
+					lio.put_line ("Removed")
+				end
 			end
 		end
 

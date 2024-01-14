@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 7:32:46 GMT (Sunday 24th September 2023)"
-	revision: "1"
+	date: "2024-01-14 17:08:14 GMT (Sunday 14th January 2024)"
+	revision: "2"
 
 class
 	EL_IMMUTABLE_STRING_8_LIST
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	make, make_empty
+	make, make_empty, make_from_tuple
 
 feature -- Measurement
 

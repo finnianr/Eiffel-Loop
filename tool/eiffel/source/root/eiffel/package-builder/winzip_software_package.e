@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 19:56:33 GMT (Saturday 22nd July 2023)"
-	revision: "28"
+	date: "2024-01-14 17:20:19 GMT (Sunday 14th January 2024)"
+	revision: "29"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -38,15 +38,11 @@ inherit
 			is_equal
 		end
 
+	CROSS_PLATFORM_CONSTANTS
+
 	WZIPSE32_ARGUMENTS undefine is_equal end
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_DEFERRED_LOCALE
-
-	EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO
+	EL_MODULE_DIRECTORY; EL_MODULE_DEFERRED_LOCALE; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO
 
 create
 	make
@@ -259,13 +255,13 @@ feature {NONE} -- Implementation
 					inserts := [language, bit_count, version.string]
 				end
 			end
-			platform_dir := ISE_platform_table [bit_count]
+			platform_dir := Windows_platform_table [bit_count]
 			Result := output_dir.joined_file_steps (<< platform_dir, name_template #$ inserts >>)
 		end
 
-	ise_platform: STRING
+	ise_platform: IMMUTABLE_STRING_8
 		do
-			Result := ISE_platform_table [bit_count]
+			Result := Windows_platform_table [bit_count]
 		end
 
 	languages: STRING
@@ -320,19 +316,7 @@ feature {NONE} -- Implementation: attributes
 	project_config: PYXIS_EIFFEL_CONFIG
 		-- Pyxis Eiffel configuration translateable to ecf XML
 
-	sign_tool: SIGN_TOOL
-
-feature {NONE} -- Constants
-
-	Exe_path_template: ZSTRING
-		once
-			Result := "build/%S/package/bin/%S"
-		end
-
-	ISE_platform_table: EL_HASH_TABLE [STRING, INTEGER]
-		once
-			create Result.make (<< [32, "windows"], [64, "win64"] >>)
-		end
+	sign_tool: SIGN_TOOL;
 
 note
 	notes: "[

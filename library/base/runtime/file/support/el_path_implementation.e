@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 10:44:47 GMT (Sunday 14th January 2024)"
-	revision: "41"
+	date: "2024-01-14 18:37:02 GMT (Sunday 14th January 2024)"
+	revision: "42"
 
 deferred class
 	EL_PATH_IMPLEMENTATION
@@ -250,7 +250,7 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			if not a_path.is_empty then
 				l_path := temporary_path
 				i := l_path.count
-				if i > 0 and then not is_separator (l_path, i) then
+				if i > 0 and then l_path [i] /= Separator then
 					l_path.append_character (Separator)
 				end
 				back_step_count := leading_back_step_count (a_path.parent_path)
@@ -334,12 +334,6 @@ feature {EL_PATH} -- Implementation
 			else
 				Result.remove_head (Square_brackets.count)
 			end
-		end
-
-	is_separator (str: ZSTRING; i: INTEGER): BOOLEAN
-		-- `True' if `str [i] = Separator'
-		do
-			Result := str [i] = Separator
 		end
 
 	leading_back_step_count (a_path: ZSTRING): INTEGER
