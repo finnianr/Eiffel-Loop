@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-24 9:31:45 GMT (Wednesday 24th May 2023)"
-	revision: "6"
+	date: "2024-01-15 12:16:12 GMT (Monday 15th January 2024)"
+	revision: "7"
 
 class
 	STRING_SPLIT_ITERATION_COMPARISON
@@ -35,7 +35,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{STRING_8} split iteration methods"
+	Description: STRING = "STRING_8: split iteration methods"
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 18:41:48 GMT (Sunday 14th January 2024)"
-	revision: "10"
+	date: "2024-01-15 17:24:13 GMT (Monday 15th January 2024)"
+	revision: "11"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -114,21 +114,26 @@ feature {NONE} -- Commands
 			create shell.make (Directory.current_working + "source", Grep_results_path)
 			shell.read_manifest_files
 			shell.execute
-			Command.launch_gedit (Grep_results_path)
 		end
 
 	remove_eifgens
 		local
-			prompt: ZSTRING; target_dir: DIR_PATH
+			target_dir: DIR_PATH; count: INTEGER
 		do
 			across Platform_list as list loop
 				target_dir := Eifgens_dir #$ [list.item]
-				lio.put_labeled_string ("Remove", target_dir.to_string)
-				lio.put_new_line
-				if User_input.approved_action_y_n ("Are you sure ?") then
-					OS.delete_tree (target_dir)
-					lio.put_line ("Removed")
+				if target_dir.exists then
+					count := count + 1
+					lio.put_labeled_string ("Remove", target_dir.to_string)
+					lio.put_new_line
+					if User_input.approved_action_y_n ("Are you sure ?") then
+						OS.delete_tree (target_dir)
+						lio.put_line ("Removed")
+					end
 				end
+			end
+			if count = 0 then
+				lio.put_line ("No EIFGENs directory found for any ISE platform")
 			end
 		end
 

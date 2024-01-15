@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
-	revision: "10"
+	date: "2024-01-15 12:46:34 GMT (Monday 15th January 2024)"
+	revision: "11"
 
 class
 	EVOLICITY_TUPLE_CONTEXT
@@ -27,13 +27,13 @@ feature {NONE} -- Initialization
 		require
 			enough_field_names: tuple.count = a_field_names.occurrences (',') + 1
 		local
-			index, hash_code: INTEGER
+			index, hash_code: INTEGER; b: EL_BIT_ROUTINES
 		do
 			make_context
 			field_names := a_field_names
 
 --			digest for tuple types and field names
-			hash_code := ((a_field_names.hash_code \\ 8388593) |<< 8) + {ISE_RUNTIME}.dynamic_type (tuple)
+			hash_code := b.extended_hash (a_field_names.hash_code, {ISE_RUNTIME}.dynamic_type (tuple))
 
 			Name_list_cache.set_new_item_target (Current)
 

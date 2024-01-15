@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 9:38:55 GMT (Sunday 14th January 2024)"
-	revision: "20"
+	date: "2024-01-15 12:36:32 GMT (Monday 15th January 2024)"
+	revision: "21"
 
 class
 	EL_PATH_STEPS
@@ -221,12 +221,12 @@ feature -- Measurement
 	hash_code: INTEGER
 		-- Hash code value
 		local
-			i: INTEGER
+			i: INTEGER; b: EL_BIT_ROUTINES
 		do
 			Result := internal_hash_code
 			if Result = 0 then
 				from i := 1 until i > count loop
-					Result := ((Result \\ 8388593) |<< 8) + i_th_token (i)
+					Result := b.extended_hash (Result, i_th_token (i))
 					i := i + 1
 				end
 				Result := Result.abs

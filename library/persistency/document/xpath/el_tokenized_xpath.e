@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-06 15:59:49 GMT (Sunday 6th August 2023)"
-	revision: "12"
+	date: "2024-01-15 12:35:50 GMT (Monday 15th January 2024)"
+	revision: "13"
 
 class
 	EL_TOKENIZED_XPATH
@@ -126,20 +126,16 @@ feature -- Access
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, nb: INTEGER; l_area: like area
+			i, nb: INTEGER; b: EL_BIT_ROUTINES
 		do
 			Result := internal_hash_code
-			if Result = 0 then
-					-- The magic number `8388593' below is the greatest prime lower than
-					-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
+			if Result = 0 and then attached area as l_area then
 				from
-					i := 0
-					nb := count
-					l_area := area
+					i := 0; nb := count
 				until
 					i = nb
 				loop
-					Result := ((Result \\ 8388593) |<< 8) + l_area [i].as_integer_32
+					Result := b.extended_hash (Result, l_area [i].as_integer_32)
 					i := i + 1
 				end
 				internal_hash_code := Result

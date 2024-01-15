@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-20 9:39:49 GMT (Wednesday 20th December 2023)"
-	revision: "40"
+	date: "2024-01-15 12:31:24 GMT (Monday 15th January 2024)"
+	revision: "41"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -82,17 +82,15 @@ feature -- Access
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, nb: INTEGER
+			i, nb: INTEGER; b: EL_BIT_ROUTINES
 		do
-			-- The magic number `8388593' below is the greatest prime lower than
-			-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
 			from
 				i := 1
 				nb := count
 			until
 				i > nb
 			loop
-				Result := ((Result \\ 8388593) |<< 8) + i_th (i).hash_code
+				Result := b.extended_hash (Result, i_th (i).hash_code)
 				i := i + 1
 			end
 		end

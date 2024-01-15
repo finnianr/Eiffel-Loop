@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 19:24:49 GMT (Saturday 13th January 2024)"
-	revision: "70"
+	date: "2024-01-15 12:30:20 GMT (Monday 15th January 2024)"
+	revision: "71"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
@@ -343,6 +343,7 @@ feature -- Measurement
 		-- extended hash code value based on `seed' value up to `end_index'
 		local
 			i, offset, count, lower, upper: INTEGER; break: BOOLEAN
+			b: EL_BIT_ROUTINES
 		do
 			Result := seed
 			if attached area as l_area then
@@ -357,9 +358,7 @@ feature -- Measurement
 						end
 						count := upper - lower + 1
 						from i := i + 2; offset := 0 until offset = count loop
-							-- The magic number `8388593' below is the greatest prime lower than
-							-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-							Result := ((Result \\ 8388593) |<< 8) + l_area.item (i + offset).code
+							Result := b.extended_hash (Result, l_area.item (i + offset).code)
 							offset := offset + 1
 						end
 						i := i + count

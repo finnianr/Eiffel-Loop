@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 10:13:09 GMT (Friday 15th December 2023)"
-	revision: "2"
+	date: "2024-01-15 11:32:59 GMT (Monday 15th January 2024)"
+	revision: "3"
 
 class
 	DEVELOPER_COMPARISON
@@ -44,35 +44,22 @@ feature {NONE} -- Operations
 			across 1 |..| 10000 as n loop
 				inspect id
 					when 1 then
-						if attached C_date as time then
-							time.update
-							day_milliseconds := time.day_now
-						end
 
 					when 2 then
-						System_time.update
-						day_milliseconds := System_time.day_milliseconds
 				end
 			end
 		end
 
 feature {NONE} -- Constants
 
-	C_date: C_DATE
-		once
-			create Result.make_utc
-		end
-
-	System_time: EL_SYSTEM_TIME
-		once
-			create Result.make_utc
-		end
 
 note
 	notes: "[
 		**13 Dec 2023**
 		
 		Passes over 500 millisecs (in descending order)
+		
+			C_date: C_DATE; System_time: EL_SYSTEM_TIME
 
 			System_time.update:	231.0 times (100%)
 			C_date.update:			105.0 times (-54.5%)

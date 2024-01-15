@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 9:22:52 GMT (Monday 4th December 2023)"
-	revision: "24"
+	date: "2024-01-15 12:28:38 GMT (Monday 15th January 2024)"
+	revision: "25"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -143,15 +143,15 @@ feature -- Access
 	hash_code (seed: INTEGER): INTEGER
 			-- Hash code value
 		local
-			i, i_final: INTEGER; l_area: like area
+			i, i_final: INTEGER; b: EL_BIT_ROUTINES
 		do
-			l_area := area; i_final := first_index (l_area) + character_count
-			Result := seed
-			from i := first_index (l_area) until i = i_final loop
-				-- The magic number `8388593' below is the greatest prime lower than
-				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-				Result := ((Result \\ 8388593) |<< 8) + l_area [i].code
-				i := i + 1
+			if attached area as l_area then
+				i_final := first_index (l_area) + character_count
+				Result := seed
+				from i := first_index (l_area) until i = i_final loop
+					Result := b.extended_hash (Result, l_area [i].code)
+					i := i + 1
+				end
 			end
 		end
 

@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-14 17:39:39 GMT (Tuesday 14th March 2023)"
-	revision: "12"
+	date: "2024-01-15 11:55:52 GMT (Monday 15th January 2024)"
+	revision: "13"
 
 class
 	REPLACE_SUBSTRING_ALL_VS_GENERAL
@@ -26,7 +26,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING}.replace_substring"
+	Description: STRING = "ZSTRING.replace_substring"
 
 feature -- Basic operations
 

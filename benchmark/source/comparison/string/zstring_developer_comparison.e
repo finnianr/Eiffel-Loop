@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 14:36:24 GMT (Sunday 14th January 2024)"
-	revision: "21"
+	date: "2024-01-15 12:49:49 GMT (Monday 15th January 2024)"
+	revision: "22"
 
 class
 	ZSTRING_DEVELOPER_COMPARISON
@@ -25,15 +25,16 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING} development methods"
+	Description: STRING = "ZSTRING: development methods"
 
 feature -- Basic operations
 
 	execute
 		do
 			compare ("perform benchmark", <<
-				["if branch",		 agent do_method (1)],
-				["inspect branch", agent do_method (2)]
+				["method 1", agent do_method (1)],
+				["method 2", agent do_method (2)],
+				["method 3", agent do_method (3)]
 			>>)
 		end
 
@@ -41,51 +42,29 @@ feature {NONE} -- Implementation
 
 	do_method (id: INTEGER)
 		local
-			divisible_by_2: BOOLEAN; divisible_by_2_bool: NATURAL_8
 		do
-			across 1 |..| 10_000 as n loop
-				divisible_by_2 := divisible_by_2_bool.to_boolean; divisible_by_2_bool := (n.item \\ 2).to_natural_8
+			across 1 |..| 100 as n loop
 				inspect id
 					when 1 then
-						do_if_branch (divisible_by_2, divisible_by_2_bool)
-
 					when 2 then
-						do_inspect_branch (divisible_by_2, divisible_by_2_bool)
+
+					when 3 then
 				end
 			end
 		end
 
 feature {NONE} -- Operations
 
-	do_if_branch (divisible_by_2: BOOLEAN; divisible_by_2_bool: NATURAL_8)
-		do
-			if divisible_by_2 then
-				do_nothing
-			end
-		end
-
-	do_inspect_branch (divisible_by_2: BOOLEAN; divisible_by_2_bool: NATURAL_8)
-		do
-			inspect divisible_by_2_bool
-				when 1 then
-					do_nothing
-			else
-			end
-		end
 
 note
 	notes: "[
-		**10 Dec 2023**
-		
-		XML header template comparison
+		**XML header template comparison**
 		
 		Passes over 500 millisecs (in descending order)
 
 			header: EL_ZSTRING             :  63.0 times (100%)
 			header: EL_TEMPLATE [STRING_8] :  57.0 times (-9.5%)		
 	
-		**24 Nov 2023**
-		
 		**to_string_32_v2** uses technique:
 
 			when Substitute then
@@ -120,11 +99,22 @@ note
 			if code <= 0xFF then : 13450191.0 times (-19.2%)
 			
 		**if boolean then VS inspect boolean_value when 1 then**
+
+			boolean_value: NATURAL_8; boolean: BOOLEAN
 					
 		Passes over 500 millisecs (in descending order)
 
 			if branch      : 194.0 times (100%)
-			inspect branch : 194.0 times (-0.0%)	
+			inspect branch : 194.0 times (-0.0%)
+			
+		**Hash Code Bitshifting Calculation**
+			
+		Passes over 2000 millisecs (in descending order)
+
+			b.extended_hash (Result, area [i].code)                            : 1128.0 times (100%)
+			((Result \\ 8388593) |<< 8) + area [i].code                        : 1125.0 times (-0.3%)
+			((Result \\ {EL_BIT_ROUTINES}.Magic_number) |<< 8) + area [i].code : 1124.0 times (-0.4%)
+
 	]"
 
 end

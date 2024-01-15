@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 9:23:09 GMT (Sunday 10th December 2023)"
-	revision: "6"
+	date: "2024-01-15 12:15:43 GMT (Monday 15th January 2024)"
+	revision: "7"
 
 class
 	COMPACT_SUBSTRINGS_32_ITERATION_COMPARISON
@@ -36,7 +36,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{EL_COMPACT_SUBSTRINGS_32}.area iteration methods"
+	Description: STRING = "EL_COMPACT_SUBSTRINGS_32.area iteration methods"
 
 feature -- Basic operations
 

@@ -6,6 +6,8 @@ note
 			class MY_CLASS
 			inherit
 				A_CLASS
+					rename
+						x as y
 					undefine
 						<feature list>
 					end
@@ -23,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-03 12:11:32 GMT (Sunday 3rd September 2023)"
-	revision: "23"
+	date: "2024-01-15 16:56:05 GMT (Monday 15th January 2024)"
+	revision: "24"
 
 class
 	UNDEFINE_PATTERN_COUNTER_COMMAND
@@ -108,7 +110,9 @@ feature {NONE} -- Line state handlers
 		do
 			if code_line ~ Keyword.end_ then
 				state := agent find_class_name
+
 			elseif code_line ~ Keyword.redefine_ then
+
 				state := agent find_class_name
 				pattern_count := pattern_count - 1
 			end
@@ -149,10 +153,26 @@ feature {NONE} -- Line state handlers
 			end
 		end
 
+	find_not_renamed_as (line: ZSTRING)
+		do
+			if not code_line.has_substring (Padded_as) then
+				if code_line ~ Keyword.end_ then
+					state := agent find_class_name
+				else
+					state := agent find_undefine
+					find_undefine (line)
+				end
+			end
+		end
+
 	find_undefine (line: ZSTRING)
 		do
 			if Excluded_keywords.has (code_line) then
 				state := agent find_class_name
+
+			elseif code_line ~ Keyword.rename_ then
+				state := agent find_not_renamed_as
+
 			elseif code_line ~ Keyword.undefine_ then
 				state := agent expect_feature_list
 			else
@@ -162,6 +182,11 @@ feature {NONE} -- Line state handlers
 
 feature {NONE} -- Constants
 
+	Padded_as: ZSTRING
+		once
+			Result := " as "
+		end
+
 	Common_undefines: EL_ZSTRING_LIST
 		once
 			Result := "default_create, is_equal, out, copy"
@@ -169,7 +194,7 @@ feature {NONE} -- Constants
 
 	Excluded_keywords: EL_ZSTRING_LIST
 		once
-			Result := "redefine, export, rename"
+			Result := "redefine, export"
 		end
 
 end

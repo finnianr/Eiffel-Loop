@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-15 10:36:05 GMT (Friday 15th December 2023)"
-	revision: "1"
+	date: "2024-01-15 12:16:34 GMT (Monday 15th January 2024)"
+	revision: "2"
 
 class
 	SYSTEM_TIME_COMPARISON
@@ -33,7 +33,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{EL_SYSTEM_TIME}.day_milliseconds VS C_DATE"
+	Description: STRING = "EL_SYSTEM_TIME.day_milliseconds VS C_DATE"
 
 feature -- Basic operations
 

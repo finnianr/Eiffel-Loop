@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 10:47:10 GMT (Sunday 3rd December 2023)"
-	revision: "10"
+	date: "2024-01-15 12:15:30 GMT (Monday 15th January 2024)"
+	revision: "11"
 
 class
 	UNICODE_ITEM_COMPARISON
@@ -26,7 +26,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{L1_UC_STRING}.unicode"
+	Description: STRING = "L1_UC_STRING.unicode"
 
 feature -- Basic operations
 
@@ -38,8 +38,8 @@ feature -- Basic operations
 			create zstr.make_from_general (Text.Russian_and_english)
 
 			compare ("compare unicode", <<
-				["{L1_UC_STRING}.unicode", agent l1_uc_string_unicode (l1)],
-				["{ZSTRING}.unicode", 		agent zstring_unicode (zstr)]
+				["L1_UC_STRING.unicode", agent l1_uc_string_unicode (l1)],
+				["ZSTRING.unicode", 		 agent zstring_unicode (zstr)]
 			>>)
 		end
 

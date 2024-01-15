@@ -1,22 +1,28 @@
 note
-	description: "Implementation of [$source EL_PATH] status properties"
+	description: "[
+		Implementation of [$source EL_PATH] for `parent_path', status properties, comparison and hashing
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 10:19:47 GMT (Sunday 14th January 2024)"
-	revision: "1"
+	date: "2024-01-15 9:44:15 GMT (Monday 15th January 2024)"
+	revision: "2"
 
 deferred class
-	EL_PATH_PROPERTIES
+	EL_PATH_PARENT
 
 inherit
 	COMPARABLE
-		undefine
+		redefine
 			is_equal
 		end
+
+	HASHABLE undefine is_equal end
+
+	EL_PATH_BUFFER_ROUTINES
 
 	EL_PATH_CONSTANTS
 		export
@@ -38,6 +44,24 @@ inherit
 	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	EL_SHARED_PATH_MANAGER; EL_SHARED_WORD
+
+feature -- Measurement
+
+	hash_code: INTEGER
+			-- Hash code value
+		local
+			i: INTEGER
+		do
+			Result := internal_hash_code
+			if Result = 0 then
+				from i := 1 until i > part_count loop
+					Result := Result + part_string (i).hash_code
+					i := i + 1
+				end
+				Result := Result.abs
+				internal_hash_code := Result
+			end
+		end
 
 feature -- Status Query
 
@@ -148,6 +172,47 @@ feature -- Contract Support
 			Result := ntfs.invalid_ntfs_character (c)
 		end
 
+feature -- Element change
+
+	set_parent_path (a_parent: ZSTRING)
+		local
+			l_path: ZSTRING; last_index: INTEGER
+		do
+			last_index := a_parent.count
+			inspect last_index
+				when 0 then
+					parent_path := Empty_path
+			else
+				l_path := a_parent
+				if l_path [last_index] /= Separator then
+					if l_path /= Temp_path then
+						l_path := empty_temp_path
+						l_path.append (a_parent)
+					end
+					l_path.append_character (Separator)
+				end
+				Parent_set.put_copy (l_path)
+				parent_path := Parent_set.found_item
+			end
+			internal_hash_code := 0
+		end
+
+	set_parent_path_general (a_parent: READABLE_STRING_GENERAL)
+		do
+			set_parent_path (temporary_copy (a_parent))
+		end
+
+	set_parent (dir_path: EL_DIR_PATH)
+		do
+			set_parent_path (dir_path.temporary_path)
+		end
+
+	set_path (a_path: READABLE_STRING_GENERAL)
+		-- set `parent_path' and `base' from `a_path' string
+		do
+			make (a_path)
+		end
+
 feature {NONE} -- Implementation
 
 	has_expansion_variable (a_path: ZSTRING): BOOLEAN
@@ -159,7 +224,37 @@ feature {NONE} -- Implementation
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
 		end
 
-feature {EL_PATH_PROPERTIES} -- Deferred implementation
+	part_count: INTEGER
+		-- count of string components
+		-- (5 in the case of URI paths)
+		do
+			Result := 2
+		end
+
+	part_string (index: INTEGER): READABLE_STRING_GENERAL
+		require
+			valid_index: 1 <= index and index <= part_count
+		do
+			inspect index
+				when 1 then
+					Result := parent_path
+			else
+				Result := base
+			end
+		end
+
+	reset_hash
+		do
+			internal_hash_code := 0
+		end
+
+feature {EL_PATH_PARENT} -- Internal attributes
+
+	parent_path: ZSTRING
+
+	internal_hash_code: INTEGER
+
+feature {EL_PATH_PARENT} -- Deferred implementation
 
 	base: ZSTRING
 		deferred
@@ -169,8 +264,16 @@ feature {EL_PATH_PROPERTIES} -- Deferred implementation
 		deferred
 		end
 
-	parent_path: ZSTRING
+	make (a_path: READABLE_STRING_GENERAL)
 		deferred
+		end
+
+feature {NONE} -- Constants
+
+	Parent_set: EL_HASH_SET [ZSTRING]
+		-- cached set of all `parent_path' strings
+		once
+			create Result.make (100)
 		end
 
 end

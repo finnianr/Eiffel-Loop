@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 10:52:27 GMT (Saturday 13th January 2024)"
-	revision: "29"
+	date: "2024-01-15 12:30:56 GMT (Monday 15th January 2024)"
+	revision: "30"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -34,14 +34,12 @@ feature -- Access
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, i_upper: INTEGER
+			i, i_upper: INTEGER; b: EL_BIT_ROUTINES
 		do
-				-- The magic number `8388593' below is the greatest prime lower than
-				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
 			if attached area as l_area then
 				i_upper := count - 1
 				from i := 0 until i > i_upper loop
-					Result := ((Result \\ 8388593) |<< 8) + l_area [i].code
+					Result := b.extended_hash (Result, l_area [i].code)
 					i := i + 1
 				end
 			end

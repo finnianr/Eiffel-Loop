@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:42:35 GMT (Sunday 7th January 2024)"
-	revision: "24"
+	date: "2024-01-15 17:17:07 GMT (Monday 15th January 2024)"
+	revision: "25"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -47,7 +47,7 @@ feature -- Tests
 		local
 			analyzer: EIFFEL_SOURCE_ANALYZER
 		do
-			create analyzer.make_from_file (Data_dir + "latin-1/parse/thunderbird_mail_to_html_body_converter.e")
+			create analyzer.make_from_file (Latin_1_sources_dir + "parse/thunderbird_mail_to_html_body_converter.e")
 			assert ("249 identifiers", analyzer.identifier_count = 249)
 			assert ("81 keywords", analyzer.keyword_count = 81)
 		end
@@ -61,14 +61,14 @@ feature -- Tests
 			reader: TEST_SOURCE_READER; hexadecimal_count, integer_count: INTEGER
 			number: STRING; char_string: ZSTRING
 		do
-			create reader.make_from_file (Data_dir + "utf-8/test_el_astring.e")
+			create reader.make_from_file (Utf_8_sources_dir + "test_el_astring.e")
 			assert_same_string ("parsed percent character '%%'", reader.quoted_character_list [2], "%%%%")
 
-			create reader.make_from_file (Data_dir + "latin-1/os-command/file-system/EL_FIND_OS_COMMAND.e")
+			create reader.make_from_file (Latin_1_sources_dir + "os-command/file-system/EL_FIND_OS_COMMAND.e")
 			assert ("7 items", reader.operator_list.count = 7)
 			assert_same_string ("5th is and", reader.operator_list [5], "and")
 
-			create reader.make_from_file (Data_dir + "utf-8/el_iso_8859_10_codec.e")
+			create reader.make_from_file (Utf_8_sources_dir + "el_iso_8859_10_codec.e")
 			assert ("101 comments", reader.comment_list.count = 101)
 			assert_same_string ("Access comment", reader.comment_list.first, "-- Access")
 
@@ -195,11 +195,6 @@ feature {NONE} -- Constants
 				["ev_pixmap_imp_drawable",	"BGfhfW0ucYUTtNmjtmbBPQ=="],
 				["el_x11_extensions_api",	"K1NL9HUytsKAAorC63jBiA=="]
 			>>)
-		end
-
-	Data_dir: DIR_PATH
-		once
-			Result := "test-data/sources"
 		end
 
 	Integer_32_type: STRING = "INTEGER_32 ="

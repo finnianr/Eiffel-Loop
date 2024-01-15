@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 13:23:27 GMT (Sunday 3rd December 2023)"
-	revision: "14"
+	date: "2024-01-15 11:38:37 GMT (Monday 15th January 2024)"
+	revision: "15"
 
 class
 	STRING_ITEM_8_VS_ITEM
@@ -31,13 +31,10 @@ feature -- Access
 feature -- Basic operations
 
 	execute
-		local
-			big_string: STRING
 		do
-			big_string := Hexagram.English_titles.joined_lines
 			compare ("compare_item", <<
-				["iterate_with_item_8", agent iterate_with_item_8 (big_string)],
-				["iterate_with_item",	agent iterate_with_item (big_string)]
+				["iterate_with_item_8", agent iterate_with_item_8 (Big_string)],
+				["iterate_with_item",	agent iterate_with_item (Big_string)]
 			>>)
 		end
 

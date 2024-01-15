@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 22:33:02 GMT (Friday 12th January 2024)"
-	revision: "24"
+	date: "2024-01-15 16:54:44 GMT (Monday 15th January 2024)"
+	revision: "25"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -17,7 +17,7 @@ inherit
 		undefine
 			new_lio
 		redefine
-			source_file_list
+			Sources_sub_dir
 		end
 
 	EL_CRC_32_TESTABLE
@@ -48,18 +48,13 @@ feature -- Tests
 			create command.make (Manifest_path)
 			command.execute
 			if attached command.greater_than_0_list as list then
-				assert ("3 in list", list.count = 3)
+				assert ("2 in list", list.count = 2)
 				from list.start until list.after loop
-					inspect list.index
-						when 3 then
-							expected_count := 2
+					if Standard_undefines_table.has_key (to_class_name (list.item_key)) then
+						assert ("expected number", list.item_value = Standard_undefines_table.found_item)
 					else
-						expected_count := 1
+						failed ("matches type")
 					end
-					assert ("expected number", list.item_value = expected_count)
-					assert ("matches type",
-						some_type_matches (<< {EL_SETTABLE_FROM_STRING}, {EL_PATH}, {EL_PATH_STEPS} >>, list.item_key)
-					)
 					list.forth
 				end
 			end
@@ -67,30 +62,26 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	some_type_matches (type_list: ARRAY [TYPE [ANY]]; file_name: ZSTRING): BOOLEAN
-		local
-			src_name: ZSTRING
+	to_class_name (file_name: ZSTRING): STRING
 		do
-			across type_list as type until Result loop
-				create src_name.make_from_general (type.item.name)
-				src_name.to_lower
-				src_name.append_string_general (".e")
-				Result := src_name ~ file_name
-			end
-		end
-
-	source_file_list: EL_FILE_PATH_LIST
-		do
-			create Result.make_empty
-			across << "kernel/reflection/settable", "runtime/file/naming" >> as path loop
-				Result.append (OS.file_list (Data_dir #+ path.item, "*.e"))
-			end
+			Result := file_name
+			Result.to_upper
+			Result.remove_tail (2) -- .e
 		end
 
 feature {NONE} -- Constants
 
-	Data_dir: DIR_PATH
+	Sources_sub_dir: DIR_PATH
 		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "library/base"
+			Result := "utf-8"
 		end
+
+	Standard_undefines_table: EL_HASH_TABLE [INTEGER, STRING]
+		once
+			create Result.make (<<
+				["TEST_EL_ASTRING", 1],
+				["EL_TEXT_ITEM_TRANSLATIONS_TABLE", 6]
+			>>)
+		end
+
 end

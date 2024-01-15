@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 13:46:38 GMT (Sunday 3rd December 2023)"
-	revision: "18"
+	date: "2024-01-15 12:08:48 GMT (Monday 15th January 2024)"
+	revision: "19"
 
 class
 	ZSTRING_TOKENIZATION_COMPARISON
@@ -34,7 +34,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING} fill_alpha_numeric_intervals VS str.zcode (i)"
+	Description: STRING = "ZSTRING.fill_alpha_numeric_intervals VS str.zcode (i)"
 
 feature -- Basic operations
 

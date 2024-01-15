@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-29 11:26:42 GMT (Friday 29th December 2023)"
-	revision: "24"
+	date: "2024-01-15 12:08:08 GMT (Monday 15th January 2024)"
+	revision: "25"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -39,7 +39,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING} methods of iterating area: SPECIAL [CHARACTER]"
+	Description: STRING = "ZSTRING: methods of iterating area: SPECIAL [CHARACTER]"
 
 feature -- Basic operations
 

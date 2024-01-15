@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-12 17:55:21 GMT (Sunday 12th November 2023)"
-	revision: "12"
+	date: "2024-01-15 12:15:56 GMT (Monday 15th January 2024)"
+	revision: "13"
 
 class
 	STRING_CONCATENATION_COMPARISON
@@ -30,7 +30,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{STRING_8} concatenation methods"
+	Description: STRING = "STRING_8: concatenation methods"
 
 feature -- Basic operations
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 13:46:06 GMT (Sunday 3rd December 2023)"
-	revision: "15"
+	date: "2024-01-15 11:56:57 GMT (Monday 15th January 2024)"
+	revision: "16"
 
 class
 	ZSTRING_SPLIT_COMPARISON
@@ -26,7 +26,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING}.split_intervals"
+	Description: STRING = "ZSTRING.split_intervals"
 
 feature -- Basic operations
 

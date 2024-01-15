@@ -25,14 +25,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 18:32:08 GMT (Sunday 14th January 2024)"
-	revision: "40"
+	date: "2024-01-15 9:26:00 GMT (Monday 15th January 2024)"
+	revision: "41"
 
 class
 	EL_DIR_PATH
 
 inherit
 	EL_PATH
+		export
+			{EL_PATH_PARENT} temporary_path
 		redefine
 			has_step
 		end

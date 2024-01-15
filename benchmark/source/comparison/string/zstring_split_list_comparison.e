@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 13:46:23 GMT (Sunday 3rd December 2023)"
-	revision: "16"
+	date: "2024-01-15 12:08:33 GMT (Monday 15th January 2024)"
+	revision: "17"
 
 class
 	ZSTRING_SPLIT_LIST_COMPARISON
@@ -36,7 +36,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING} split_list VS make_split"
+	Description: STRING = "ZSTRING.split_list VS make_split"
 
 feature -- Basic operations
 

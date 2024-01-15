@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:11:56 GMT (Thursday 9th November 2023)"
-	revision: "11"
+	date: "2024-01-15 12:37:40 GMT (Monday 15th January 2024)"
+	revision: "12"
 
 class
 	EL_BYTE_ARRAY
@@ -97,14 +97,13 @@ feature -- Measurement
 	hash_code: INTEGER
 			-- Hash code value
 		local
-			i, nb: INTEGER; l_area: like area
+			i, nb: INTEGER; b: EL_BIT_ROUTINES
 		do
-			l_area := area
-				-- The magic number `8388593' below is the greatest prime lower than
-				-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-			from i := 0; nb := count until i = nb loop
-				Result := ((Result \\ 8388593) |<< 8) + l_area.item (i).to_integer_32
-				i := i + 1
+			if attached area as l_area then
+				from i := 0; nb := count until i = nb loop
+					Result := b.extended_hash (Result, l_area.item (i).to_integer_32)
+					i := i + 1
+				end
 			end
 		end
 

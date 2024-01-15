@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 16:09:03 GMT (Sunday 14th January 2024)"
-	revision: "74"
+	date: "2024-01-15 9:34:22 GMT (Monday 15th January 2024)"
+	revision: "75"
 
 deferred class
 	EL_PATH
 
 inherit
-	EL_PATH_BASE_NAME
-
-	EL_PATH_IMPLEMENTATION
-		export
-			{EL_PATH} temporary_path
+	EL_CONVERTABLE_PATH
 		undefine
 			default_create, out, copy
 		end
@@ -256,44 +252,6 @@ feature -- Element change
 			end
 		end
 
-	set_parent_path (a_parent: ZSTRING)
-		local
-			l_path: ZSTRING; last_index: INTEGER
-		do
-			last_index := a_parent.count
-			inspect last_index
-				when 0 then
-					parent_path := Empty_path
-			else
-				l_path := a_parent
-				if l_path [last_index] /= Separator then
-					if l_path /= Temp_path then
-						l_path := empty_temp_path
-						l_path.append (a_parent)
-					end
-					l_path.append_character (Separator)
-				end
-				Parent_set.put_copy (l_path)
-				parent_path := Parent_set.found_item
-			end
-			internal_hash_code := 0
-		end
-
-	set_parent_path_general (a_parent: READABLE_STRING_GENERAL)
-		do
-			set_parent_path (temporary_copy (a_parent))
-		end
-
-	set_parent (dir_path: EL_DIR_PATH)
-		do
-			set_parent_path (dir_path.temporary_path)
-		end
-
-	set_path (a_path: READABLE_STRING_GENERAL)
-		do
-			make (a_path)
-		end
-
 	share (other: like Current)
 		do
 			base := other.base
@@ -381,11 +339,6 @@ feature {EL_PATH} -- Implementation
 	current_path: EL_PATH
 		do
 			Result := Current
-		end
-
-	reset_hash
-		do
-			internal_hash_code := 0
 		end
 
 	new_path (a_path: ZSTRING): like Current

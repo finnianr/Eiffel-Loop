@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-01-15 12:29:24 GMT (Monday 15th January 2024)"
+	revision: "6"
 
 class
 	EL_ROUTINE_KEY
@@ -36,10 +36,10 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	hash_code: INTEGER
+		local
+			b: EL_BIT_ROUTINES
 		do
-			-- The magic number `8388593' below is the greatest prime lower than
-			-- 2^23 so that this magic number shifted to the left does not exceed 2^31.
-			Result := ((name.hash_code \\ 8388593) |<< 8) + type_id
+			Result := b.extended_hash (name.hash_code, type_id)
 		end
 
 	name: STRING

@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:42:35 GMT (Sunday 7th January 2024)"
-	revision: "11"
+	date: "2024-01-15 15:54:21 GMT (Monday 15th January 2024)"
+	revision: "12"
 
 class
 	CLASS_RENAMING_TEST_SET
 
 inherit
 	COPIED_SOURCES_TEST_SET
+		redefine
+			Sources_sub_dir
+		end
 
 create
 	make
@@ -59,8 +62,8 @@ feature -- Tests
 
 feature {NONE} -- Constants
 
-	Data_dir: DIR_PATH
+	Sources_sub_dir: DIR_PATH
 		once
-			Result := "test-data/sources/utf-8"
+			Result := "utf-8"
 		end
 end

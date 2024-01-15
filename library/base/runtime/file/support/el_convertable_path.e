@@ -1,23 +1,24 @@
 note
-	description: "Implemention routines for class [$source EL_PATH]"
+	description: "[
+		Implemention routines for class [$source EL_PATH] with routines to convert
+		path to other types
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 18:37:02 GMT (Sunday 14th January 2024)"
-	revision: "42"
+	date: "2024-01-15 9:36:43 GMT (Monday 15th January 2024)"
+	revision: "43"
 
 deferred class
-	EL_PATH_IMPLEMENTATION
+	EL_CONVERTABLE_PATH
 
 inherit
-	HASHABLE undefine is_equal end
+	EL_PATH_PARENT
 
-	EL_PATH_PROPERTIES
-
-	EL_PATH_BUFFER_ROUTINES
+	EL_PATH_BASE_NAME
 
 feature -- Measurement
 
@@ -142,7 +143,7 @@ feature -- Conversion
 			end
 		end
 
-feature -- Basic operations
+feature -- Append to other
 
 	append_to (str: EL_APPENDABLE_ZSTRING)
 		-- append path to string `str'
@@ -211,34 +212,6 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Measurement
-
-	hash_code: INTEGER
-			-- Hash code value
-		local
-			i: INTEGER
-		do
-			Result := internal_hash_code
-			if Result = 0 then
-				from i := 1 until i > part_count loop
-					Result := Result + part_string (i).hash_code
-					i := i + 1
-				end
-				Result := Result.abs
-				internal_hash_code := Result
-			end
-		end
-
-feature {NONE} -- Deferred implementation
-
-	set_parent_path (a_parent: ZSTRING)
-		deferred
-		end
-
-	set_path (a_path: READABLE_STRING_GENERAL)
-		deferred
-		end
-
 feature {EL_PATH, STRING_HANDLER} -- Implementation
 
 	append (a_path: EL_PATH)
@@ -278,46 +251,6 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			end
 		end
 
-	empty_uri_path: like URI_path_string
-		do
-			Result := URI_path_string; Result.wipe_out
-		end
-
-	first_index: INTEGER
-		do
-			Result := 1
-		end
-
-	part_count: INTEGER
-		-- count of string components
-		-- (5 in the case of URI paths)
-		do
-			Result := 2
-		end
-
-	part_string (index: INTEGER): READABLE_STRING_GENERAL
-		require
-			valid_index: 1 <= index and index <= part_count
-		do
-			inspect index
-				when 1 then
-					Result := parent_path
-			else
-				Result := base
-			end
-		end
-
-	replace_separator (separator_old, separator_new: CHARACTER_32)
-		local
-			l_path: ZSTRING
-		do
-			l_path := temporary_copy (parent_path)
-			l_path.replace_character (separator_old, separator_new)
-			set_parent_path (l_path)
-		end
-
-feature {EL_PATH} -- Implementation
-
 	debug_output: STRING_32
 		local
 			index: INTEGER; l_base: STRING_32
@@ -334,6 +267,16 @@ feature {EL_PATH} -- Implementation
 			else
 				Result.remove_head (Square_brackets.count)
 			end
+		end
+
+	empty_uri_path: like URI_path_string
+		do
+			Result := URI_path_string; Result.wipe_out
+		end
+
+	first_index: INTEGER
+		do
+			Result := 1
 		end
 
 	leading_back_step_count (a_path: ZSTRING): INTEGER
@@ -388,10 +331,13 @@ feature {EL_PATH} -- Implementation
 			end
 		end
 
-feature {EL_PATH_IMPLEMENTATION} -- Internal attributes
-
-	internal_hash_code: INTEGER
-
-	parent_path: ZSTRING
+	replace_separator (separator_old, separator_new: CHARACTER_32)
+		local
+			l_path: ZSTRING
+		do
+			l_path := temporary_copy (parent_path)
+			l_path.replace_character (separator_old, separator_new)
+			set_parent_path (l_path)
+		end
 
 end

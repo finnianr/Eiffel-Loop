@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-01-15 17:15:46 GMT (Monday 15th January 2024)"
+	revision: "6"
 
 deferred class
 	COPIED_SOURCES_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
+		rename
+			Data_dir as Sources_dir
 		redefine
 			on_prepare
 		end
@@ -60,12 +62,14 @@ feature {NONE} -- Implementation
 	source_file_list: EL_FILE_PATH_LIST
 		local
 			files: like selected_files
+			source_path: DIR_PATH
 		do
 			files := selected_files
+			source_path := Sources_dir #+ Sources_sub_dir
 			if files.is_empty then
-				Result := OS.file_list (Data_dir, "*.e")
+				Result := OS.file_list (source_path, "*.e")
 			else
-				Result := OS.filtered_file_list (Data_dir, "*.e", Filter.base_name_in (files))
+				Result := OS.filtered_file_list (source_path, "*.e", Filter.base_name_in (files))
 			end
 		end
 
@@ -93,17 +97,40 @@ feature {NONE} -- Implementation
 			Result := line.has_substring ("año")
 		end
 
+feature {NONE} -- Path constants
+
+	Latin_1_sources_dir: DIR_PATH
+		once
+			Result := Sources_dir #+ "latin-1"
+		end
+
+	Sources_dir: DIR_PATH
+		once
+			Result := "test-data/sources"
+		end
+
+	Sources_sub_dir: DIR_PATH
+		-- directory relative to `Sources_dir'
+		once
+			create Result
+		end
+
+	Manifest_path: FILE_PATH
+		once
+			Result := Work_area_dir + "manifest.pyx"
+		end
+
+	Utf_8_sources_dir: DIR_PATH
+		once
+			Result := Sources_dir #+ "utf-8"
+		end
+
 feature {NONE} -- Constants
 
 	Encoding_sample: TUPLE [utf_8, latin_1: ZSTRING]
 		once
 			create Result
 			Tuple.fill (Result, "el_iso_8859_10_codec.e, job_duration_parser.e")
-		end
-
-	Manifest_path: FILE_PATH
-		once
-			Result := Work_area_dir + "manifest.pyx"
 		end
 
 	Source_manifest: STRING

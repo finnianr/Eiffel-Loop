@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 9:20:44 GMT (Thursday 21st December 2023)"
-	revision: "11"
+	date: "2024-01-15 9:45:42 GMT (Monday 15th January 2024)"
+	revision: "12"
 
 expanded class
 	EL_INTEGER_MATH
@@ -16,6 +16,13 @@ inherit
 	EL_EXPANDED_ROUTINES
 
 feature -- Access
+
+	digits (n: INTEGER): INTEGER
+		local
+			double: EL_DOUBLE_MATH
+		do
+			Result := double.digit_count (n.to_natural_64)
+		end
 
 	modulo (number, modulus: INTEGER): INTEGER
 		do
@@ -42,13 +49,6 @@ feature -- Access
 			else
 				Result := number
 			end
-		end
-
-	digits (n: INTEGER): INTEGER
-		local
-			double: EL_DOUBLE_MATH
-		do
-			Result := double.digit_count (n.to_natural_64)
 		end
 
 end

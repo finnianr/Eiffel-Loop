@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:13:33 GMT (Friday 10th March 2023)"
-	revision: "41"
+	date: "2024-01-15 15:47:43 GMT (Monday 15th January 2024)"
+	revision: "42"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -215,11 +215,6 @@ feature {NONE} -- Internal attributes
 	editor: NOTE_EDITOR
 
 feature {NONE} -- Constants
-
-	Data_dir: DIR_PATH
-		once
-			Result := "test-data/sources"
-		end
 
 	Default_fields: EL_ZSTRING_LIST
 		once

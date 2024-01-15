@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 13:45:36 GMT (Sunday 3rd December 2023)"
-	revision: "8"
+	date: "2024-01-15 11:56:31 GMT (Monday 15th January 2024)"
+	revision: "9"
 
 class
 	ZSTRING_APPEND_Z_CODE_VS_APPEND_CHARACTER
@@ -28,7 +28,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING}.append_zcode VS append_character"
+	Description: STRING = "ZSTRING.append_zcode VS append_character"
 
 feature -- Basic operations
 

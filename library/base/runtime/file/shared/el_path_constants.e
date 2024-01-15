@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 10:32:05 GMT (Sunday 14th January 2024)"
-	revision: "17"
+	date: "2024-01-15 9:42:41 GMT (Monday 15th January 2024)"
+	revision: "18"
 
 deferred class
 	EL_PATH_CONSTANTS
@@ -50,6 +50,7 @@ feature -- Strings
 feature -- Characters
 
 	Separator: CHARACTER_32
+		-- Character used to separate subdirectories in a path name on this platform.
 		once
 			Result := Operating_environment.Directory_separator
 		end
@@ -59,16 +60,6 @@ feature -- Characters
 	Windows_separator: CHARACTER_32 = '\'
 
 feature {NONE} -- Constants
-
-	Magic_number: INTEGER = 8388593
-		-- Greatest prime lower than 2^23
-		-- so that this magic number shifted to the left does not exceed 2^31.
-
-	Parent_set: EL_HASH_SET [ZSTRING]
-			--
-		once
-			create Result.make (100)
-		end
 
 	URI_path_string: EL_URI_PATH_STRING_8
 		once

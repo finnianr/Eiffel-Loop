@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 15:17:05 GMT (Thursday 11th January 2024)"
-	revision: "12"
+	date: "2024-01-15 11:58:08 GMT (Monday 15th January 2024)"
+	revision: "13"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON
@@ -36,7 +36,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING}.substring_index_list to substring_intervals"
+	Description: STRING = "ZSTRING.substring_index_list V substring_intervals"
 
 feature -- Basic operations
 

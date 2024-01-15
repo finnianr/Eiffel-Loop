@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-30 7:52:14 GMT (Thursday 30th November 2023)"
-	revision: "11"
+	date: "2024-01-15 11:37:32 GMT (Monday 15th January 2024)"
+	revision: "12"
 
 deferred class
 	STRING_BENCHMARK_COMPARISON
@@ -26,6 +26,11 @@ inherit
 	STRING_HANDLER
 
 feature {NONE} -- Constants
+
+	Big_string: STRING
+		once
+			Result := Hexagram.English_titles.joined_lines
+		end
 
 	Hanzi_strings: ARRAY [ZSTRING]
 		local

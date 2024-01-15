@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 9:40:56 GMT (Sunday 10th December 2023)"
-	revision: "20"
+	date: "2024-01-15 11:57:30 GMT (Monday 15th January 2024)"
+	revision: "21"
 
 class
 	ZSTRING_UNICODE_TO_Z_CODE
@@ -34,7 +34,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "{ZSTRING}.unicode_to_z_code variations"
+	Description: STRING = "ZSTRING.unicode_to_z_code variations"
 
 feature -- Basic operations
 
