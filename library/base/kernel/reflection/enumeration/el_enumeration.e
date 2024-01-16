@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-15 9:17:09 GMT (Sunday 15th October 2023)"
-	revision: "56"
+	date: "2024-01-16 11:18:21 GMT (Tuesday 16th January 2024)"
+	revision: "57"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -94,7 +94,7 @@ feature {NONE} -- Initialization
 			array_count := upper_index - lower_index + 1
 			if lower_index = 1 and upper_index = map_list.count then
 				name_by_value := map_list.value_list.to_array
-				
+
 			elseif array_count = map_list.count or else physical_array_size < physical_table_size then
 				name_by_value := new_name_value_array (map_list)
 			else
@@ -117,7 +117,7 @@ feature -- Access
 
 	description (a_value: N): ZSTRING
 		do
-			if description_table.has_immutable_key (field_name (a_value)) then
+			if description_table.has_immutable_key_utf_8 (field_name (a_value)) then
 				Result := description_table.found_item
 			else
 				create Result.make_empty

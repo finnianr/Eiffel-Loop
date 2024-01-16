@@ -1,7 +1,6 @@
 note
 	description: "[
-		Implemention routines for class [$source EL_PATH] with routines to convert
-		path to other types
+		Implemention routines for class ${EL_PATH} with routines to convert path to other types
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 9:36:43 GMT (Monday 15th January 2024)"
-	revision: "43"
+	date: "2024-01-16 9:23:21 GMT (Tuesday 16th January 2024)"
+	revision: "44"
 
 deferred class
 	EL_CONVERTABLE_PATH

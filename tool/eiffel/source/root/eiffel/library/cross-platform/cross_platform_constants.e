@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 17:19:55 GMT (Sunday 14th January 2024)"
-	revision: "3"
+	date: "2024-01-16 9:20:31 GMT (Tuesday 16th January 2024)"
+	revision: "4"
 
 deferred class
 	CROSS_PLATFORM_CONSTANTS
@@ -44,7 +44,7 @@ feature {NONE} -- Constants
 	Platform: TUPLE [linux_x86_64, win64, windows: IMMUTABLE_STRING_8]
 		once
 			create Result
-			Tuple.fill (Result, "linux-x86-64, win64, windows")
+			Tuple.fill_immutable (Result, "linux-x86-64, win64, windows")
 		end
 
 	Platform_list: EL_IMMUTABLE_STRING_8_LIST

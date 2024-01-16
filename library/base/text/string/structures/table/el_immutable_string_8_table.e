@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 15:30:30 GMT (Wednesday 4th October 2023)"
-	revision: "9"
+	date: "2024-01-16 13:39:49 GMT (Tuesday 16th January 2024)"
+	revision: "10"
 
 class
 	EL_IMMUTABLE_STRING_8_TABLE
@@ -30,8 +30,10 @@ inherit
 
 	EL_MODULE_STRING_8
 
+	EL_SHARED_STRING_8_CURSOR
+
 create
-	make, make_by_assignment, make_by_indented, make_empty, make_subset
+	make, make_by_assignment, make_by_indented, make_empty, make_subset, make_reversed
 
 feature {NONE} -- Implementation
 
@@ -48,6 +50,11 @@ feature {NONE} -- Implementation
 	new_substring (start_index, end_index: INTEGER): IMMUTABLE_STRING_8
 		do
 			Result := manifest.shared_substring (start_index, end_index)
+		end
+
+	shared_cursor (str: IMMUTABLE_STRING_8): EL_STRING_ITERATION_CURSOR
+		do
+			Result := cursor_8 (str)
 		end
 
 end

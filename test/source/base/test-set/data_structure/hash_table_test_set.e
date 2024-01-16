@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-21 10:19:15 GMT (Saturday 21st October 2023)"
-	revision: "26"
+	date: "2024-01-16 17:41:43 GMT (Tuesday 16th January 2024)"
+	revision: "27"
 
 class
 	HASH_TABLE_TEST_SET
@@ -20,6 +20,8 @@ inherit
 	FEATURE_CONSTANTS
 
 	EL_MODULE_EIFFEL; EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
+
+	EL_SHARED_TEST_TEXT
 
 create
 	make
@@ -191,16 +193,24 @@ feature -- Test
 		-- HASH_TABLE_TEST_SET.test_immutable_utf_8_table
 		note
 			testing: "[
-				covers/{EL_IMMUTABLE_UTF_8_TABLE}.make,
-				covers/{EL_IMMUTABLE_UTF_8_TABLE}.found_item_list,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment,
-				covers/{EL_IMMUTABLE_STRING_TABLE}.found_item
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_indented,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_reversed,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.key_for_iteration,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.item_for_iteration,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.found_item,
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.found_item,
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.new_item,
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.key_for_iteration,
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.item_for_iteration
 			]"
 		local
-			table_utf_8: EL_IMMUTABLE_UTF_8_TABLE; value: ZSTRING
+			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
 			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
+			value, euro_symbol, line: ZSTRING; euro_name, currency_manifest_utf_8: STRING
 		do
 			create table_utf_8.make_by_indented (Table_manifest)
+
 			create zstring_table.make (Table_manifest)
 			across zstring_table as table loop
 				if table_utf_8.has_key_general (table.key) then
@@ -211,13 +221,44 @@ feature -- Test
 				end
 			end
 			if table_utf_8.has_key_8 ("currency_symbols") then
+				euro_name := "euro"; create euro_symbol.make_filled (Text.Euro_symbol, 1)
 				create currency_table.make_by_assignment (table_utf_8.found_item.to_string_32)
-				if currency_table.has_key_general ("euro") and then
+				currency_manifest_utf_8 := table_utf_8.found_utf_8_item
+				currency_manifest_utf_8.prune_all ('%T')
+				create currency_table_utf_8.make_by_assignment_utf_8 (currency_manifest_utf_8)
+
+				if currency_table.has_key_general (euro_name) and then
 					attached currency_table.found_item as symbol
 				then
-					assert ("is euro symbol", symbol.count = 1 and then symbol [1] = '€')
+					assert ("is euro symbol", symbol.count = 1 and then symbol [1] = Text.Euro_symbol)
 				else
 					failed ("found euro")
+				end
+				if currency_table_utf_8.has_key_8 (euro_name) then
+					assert_same_string (Void, currency_table_utf_8.found_item, euro_symbol)
+				else
+					failed ("has euro entry")
+				end
+				create currency_table_utf_8_reversed.make_reversed (currency_table_utf_8)
+				if attached currency_table_utf_8 as table then
+					from table.start until table.after loop
+						if currency_table_utf_8_reversed.has_key_general (table.item_for_iteration) then
+							assert_same_string (Void, table.key_for_iteration, currency_table_utf_8_reversed.found_item)
+						else
+							failed ("reverse lookup succeeded")
+						end
+						table.forth
+					end
+				end
+				if attached currency_table_utf_8_reversed as table then
+					from table.start until table.after loop
+						if currency_table_utf_8.has_key_general (table.item_for_iteration) then
+							assert_same_string (Void, table.key_for_iteration, currency_table_utf_8.found_item)
+						else
+							failed ("lookup succeeded")
+						end
+						table.forth
+					end
 				end
 			else
 				failed ("found currency_symbols")

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:45:06 GMT (Thursday 11th January 2024)"
-	revision: "16"
+	date: "2024-01-16 17:53:05 GMT (Tuesday 16th January 2024)"
+	revision: "17"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -32,12 +32,9 @@ inherit
 
 	EL_STRING_BIT_COUNTABLE [GENERAL]
 
-feature {NONE} -- Initialization
+	STRING_HANDLER undefine copy, is_equal end
 
-	make_empty
-		do
-			make_equal (0)
-		end
+feature {NONE} -- Initialization
 
 	make (a_manifest: GENERAL)
 		-- make with comma separated list with values on odd indices and keys on even indices
@@ -99,7 +96,7 @@ feature {NONE} -- Initialization
 			ir: EL_INTERVAL_ROUTINES; interval: INTEGER_64; colon_index, start_index: INTEGER
 			name, line: IMMUTABLE
 		do
-			manifest := new_shared (a_manifest)
+			manifest := new_shared (a_manifest); has_indentation := True
 			name := new_substring (1, 0)
 			if attached new_split_list as list then
 				list.fill (manifest, '%N', 0)
@@ -131,6 +128,24 @@ feature {NONE} -- Initialization
 			end
 		end
 
+	make_empty
+		do
+			make_equal (0)
+		end
+
+	make_reversed (other: like Current)
+		-- make with keys and items of `other' swapped
+		do
+			make_size (other.count)
+			manifest := other.manifest; has_indentation := other.has_indentation
+			from other.start until other.after loop
+				extend (compact_interval (other.key_for_iteration), other.item_for_iteration)
+				other.forth
+			end
+		ensure
+			definition: across Current as table all table.key ~ other.item (table.item) end
+		end
+
 	make_subset (other: like Current; excluded_set: EL_HASH_SET [IMMUTABLE])
 		do
 			manifest := other.manifest
@@ -145,13 +160,16 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
+	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
+		deferred
+		end
+
 	has_key_x (a_key: READABLE_STRING_GENERAL): BOOLEAN
 		deferred
 		end
 
-	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
-		deferred
-		end
+	has_indentation: BOOLEAN
+		-- `True' if created with `make_by_indented'
 
 feature -- Access
 
@@ -184,6 +202,8 @@ feature -- Access
 			Result := new_item_substring (interval_item_for_iteration)
 		end
 
+feature -- Factory
+
 	new_cursor: EL_IMMUTABLE_STRING_TABLE_CURSOR [IMMUTABLE]
 			-- <Precursor>
 		do
@@ -192,6 +212,36 @@ feature -- Access
 		end
 
 feature -- Contract Support
+
+	valid_assignments (a_manifest: GENERAL): BOOLEAN
+		-- `True' if each line contains a ":=" substring with optional
+		-- whitespace padding either side
+		do
+			Result := string.valid_assignments (a_manifest)
+		end
+
+	valid_comma_separated (a_manifest: GENERAL): BOOLEAN
+		-- `True' if each line has 2 commas and ends with a comma
+		-- except for the last line which only has one comma
+		local
+			line_list: EL_SPLIT_STRING_LIST [GENERAL]; str: GENERAL
+		do
+			if a_manifest.has ('%N') then
+				create line_list.make (a_manifest, '%N')
+				Result := True
+				across line_list as list until not Result loop
+					str := list.item
+					if list.is_last then
+						Result := str.occurrences (',') = 1
+
+					else
+						Result := str.occurrences (',') = 2 and then str [str.count] = ','
+					end
+				end
+			else
+				Result := (a_manifest.occurrences (',') + 1) \\ 2 = 0
+			end
+		end
 
 	valid_indented (a_manifest: GENERAL): BOOLEAN
 		-- `True' if each line is either tab-indented or a name key ending with ':'
@@ -218,36 +268,6 @@ feature -- Contract Support
 			end
 		end
 
-	valid_comma_separated (a_manifest: GENERAL): BOOLEAN
-		-- `True' if each line has 2 commas and ends with a comma
-		-- except for the last line which only has one comma
-		local
-			line_list: EL_SPLIT_STRING_LIST [GENERAL]; str: GENERAL
-		do
-			if a_manifest.has ('%N') then
-				create line_list.make (a_manifest, '%N')
-				Result := True
-				across line_list as list until not Result loop
-					str := list.item
-					if list.is_last then
-						Result := str.occurrences (',') = 1
-
-					else
-						Result := str.occurrences (',') = 2 and then str [str.count] = ','
-					end
-				end
-			else
-				Result := (a_manifest.occurrences (',') + 1) \\ 2 = 0
-			end
-		end
-
-	valid_assignments (a_manifest: GENERAL): BOOLEAN
-		-- `True' if each line contains a ":=" substring with optional
-		-- whitespace padding either side
-		do
-			Result := string.valid_assignments (a_manifest)
-		end
-
 feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
 
 	new_item_substring (interval: INTEGER_64): IMMUTABLE
@@ -257,7 +277,22 @@ feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
 			Result := new_substring (ir.to_lower (interval), ir.to_upper (interval))
 		end
 
+	compact_interval (str: IMMUTABLE): INTEGER_64
+		local
+			ir: EL_INTERVAL_ROUTINES
+		do
+			if attached shared_cursor (str) as c then
+				Result := ir.compact (c.area_first_index + 1, c.area_last_index + 1)
+			end
+		ensure
+			reversible: new_item_substring (Result) ~ str
+		end
+
 feature {NONE} -- Deferred
+
+	shared_cursor (str: IMMUTABLE): EL_STRING_ITERATION_CURSOR
+		deferred
+		end
 
 	new_shared (a_manifest: GENERAL): IMMUTABLE
 		deferred

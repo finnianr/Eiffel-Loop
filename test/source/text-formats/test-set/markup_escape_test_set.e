@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:25:51 GMT (Wednesday 8th November 2023)"
-	revision: "27"
+	date: "2024-01-16 14:04:35 GMT (Tuesday 16th January 2024)"
+	revision: "28"
 
 class
 	MARKUP_ESCAPE_TEST_SET
@@ -48,12 +48,29 @@ feature -- Tests
 
 	test_html_entity_substitution
 		-- MARKUP_ESCAPE_TEST_SET.html_entity_substitution
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.make_by_assignment,
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.item_for_iteration,
+				covers/{EL_HTML_ROUTINES}.as_entity
+			]"
 		local
-			markup: ZSTRING
+			escaped_symbols, unescaped: ZSTRING; unescaped_symbols: STRING; character: CHARACTER_32
 		do
-			markup := "cent: &cent; & yen: &yen; & copy: &copy; & nbsp: &nbsp;"
-			Html.unescape_character_entities (markup)
-			assert_same_string (Void, markup, "cent: ¢ & yen: ¥ & copy: © & nbsp:  ")
+			escaped_symbols := "cent: &cent; & yen: &yen; & copy: &copy; & nbsp: &nbsp;"
+			unescaped_symbols := "cent: ¢ & yen: ¥ & copy: © & nbsp:  "
+
+			unescaped := escaped_symbols.twin
+			Html.unescape_character_entities (unescaped)
+			assert_same_string (Void, unescaped, unescaped_symbols)
+
+		-- Test reverse lookup
+			across unescaped.split (':') as list loop
+				if list.cursor_index > 1 then
+					character := list.item [2]
+					assert ("entity name found", escaped_symbols.has_substring (HTML.as_entity (character)))
+				end
+			end
 		end
 
 	test_xml_escape

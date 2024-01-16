@@ -1,13 +1,13 @@
 ﻿note
-	description: "Html routines"
+	description: "HTML markup routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 13:03:55 GMT (Wednesday 27th December 2023)"
-	revision: "25"
+	date: "2024-01-16 16:16:48 GMT (Tuesday 16th January 2024)"
+	revision: "26"
 
 class
 	EL_HTML_ROUTINES
@@ -42,6 +42,18 @@ feature -- Access
 				[Variable.text, text]
 			>>)
 			Result := Bookmark_template.substituted
+		end
+
+	as_entity (uc: CHARACTER_32): STRING
+		do
+			if Entity_name_table.has_key (uc) and then attached Entity_name_table.found_item as name then
+				create Result.make (name.count + 2)
+				Result.append_character ('&')
+				Result.append (name)
+				Result.append_character (';')
+			else
+				create Result.make_empty
+			end
 		end
 
 	encoding_name (xhtml: READABLE_STRING_8): STRING
@@ -108,8 +120,8 @@ feature -- Access
 				and then attached Utf_8_character_entity_table as table
 			then
 				across String_pool_scope as pool loop
-					entity_name := pool.borrowed_item
-					entity :=  pool.borrowed_item
+					entity_name := pool.borrowed_item; entity :=  pool.borrowed_item
+
 					across pool.filled_borrowed_item (line).split ('&') as split loop
 						if split.cursor_index = 1 then
 							line.wipe_out
@@ -122,7 +134,7 @@ feature -- Access
 							entity_name.wipe_out
 							entity_name.append_substring (section, 1, pos_semicolon - 1)
 							if table.has_key_general (entity_name) then
-								set_character_entity (entity, table.found_item)
+								set_character_entity (entity, table.found_utf_8_item)
 								line [line.count] := entity [1] -- overwrite '&'
 								line.append_substring (section, pos_semicolon + 1, section.count)
 							else
@@ -162,7 +174,7 @@ feature -- Query
 		do
 			create entity.make_empty
 			across Utf_8_character_entity_table as table loop
-				set_character_entity (entity, table.item)
+				set_character_entity (entity, table.utf_8_item)
 				log.put_substitution ("%S := %S", [table.key, entity])
 				log.put_new_line
 			end
@@ -221,12 +233,24 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Utf_8_character_entity_table: EL_IMMUTABLE_STRING_8_TABLE
-		local
-			utf_8: EL_UTF_8_CONVERTER
+	Entity_name_table: EL_HASH_TABLE [IMMUTABLE_STRING_8, CHARACTER_32]
+		-- Look up HTML entity name by character
+		once
+			if attached Utf_8_character_entity_table as table then
+				create Result.make_equal (table.count)
+				from table.start until table.after loop
+					Result.extend (table.utf_8_key_for_iteration, table.item_for_iteration [1])
+					table.forth
+				end
+			else
+				create Result
+			end
+		end
+
+	Utf_8_character_entity_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
 --			note: nbsp requires quotes ' '
-			create Result.make_by_assignment (utf_8.string_32_to_string_8 ({STRING_32} "[
+			create Result.make_by_assignment ({STRING_32} "[
 				aacute := á
 				Aacute := Á
 				acirc := â
@@ -324,7 +348,7 @@ feature {NONE} -- Constants
 				yacute := ý
 				Yacute := Ý
 				yen := ¥
-			]"))
+			]")
 		end
 
 	Variable: TUPLE [id, description, text, title, url: ZSTRING]
