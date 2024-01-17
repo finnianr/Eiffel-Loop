@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 19:35:25 GMT (Saturday 13th January 2024)"
-	revision: "143"
+	date: "2024-01-17 10:33:01 GMT (Wednesday 17th January 2024)"
+	revision: "144"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -486,6 +486,61 @@ feature -- Status query
 						Result := l_area [i] = c
 						i := i + 1
 					end
+				end
+			end
+		end
+
+	has_only (set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if `Current' only contains characters in `set'
+		local
+			i, l_count, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			l_count := count
+			if attached unicode_table as l_unicode_table and then attached area as l_area
+				and then attached unencoded_area as area_32
+			then
+				Result := True
+				from i := 0 until i = l_count or not Result loop
+					c_i := l_area [i]
+					inspect c_i
+						when Substitute then
+							uc_i:= iter.item ($block_index, area_32, i + 1)
+
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+							uc_i := c_i
+					else
+						uc_i := l_unicode_table [c_i.code]
+					end
+					if not set.has (uc_i) then
+						Result := False
+					end
+					i := i + 1
+				end
+			end
+		end
+
+	has_only_8 (set: EL_SET [CHARACTER_8]): BOOLEAN
+		-- `True' if `Current' only contains encoded characters in `set'
+		-- (encoded with same `Codec')
+		require
+			substitute_not_in_set: not set.has ((26).to_character_8)
+		local
+			i, l_count: INTEGER; c_i: CHARACTER_8
+		do
+			if not has_mixed_encoding and then attached area as l_area then
+				Result := True; l_count := count
+				from i := 0 until i = l_count or not Result loop
+					c_i := l_area [i]
+					inspect c_i
+						when Substitute then
+							Result := False
+					else
+						if not set.has (c_i) then
+							Result := False
+						end
+					end
+					i := i + 1
 				end
 			end
 		end

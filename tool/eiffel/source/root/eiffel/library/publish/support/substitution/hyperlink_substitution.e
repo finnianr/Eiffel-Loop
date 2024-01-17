@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-01-17 8:54:56 GMT (Wednesday 17th January 2024)"
+	revision: "4"
 
 class
 	HYPERLINK_SUBSTITUTION
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make (a_delimiter_start: ZSTRING)
 		do
-			make_substitution (a_delimiter_start, Square_bracket.right, Empty_string, Empty_string)
+			make_substitution (a_delimiter_start, char (']'), Empty_string, Empty_string)
 		end
 
 feature -- Basic operations
@@ -77,7 +77,7 @@ feature {NONE} -- Constants
 			]"
 		end
 
-	None_breaking_space: ZSTRING
+	NB_space_entity: ZSTRING
 		once
 			Result := "&nbsp;"
 		end

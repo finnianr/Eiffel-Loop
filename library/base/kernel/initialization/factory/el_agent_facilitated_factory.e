@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_FACTORY] that looks up a shared factory [$source FUNCTION] by type_id
+		${EL_FACTORY} that looks up a shared factory ${FUNCTION} by type_id
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-08 7:06:11 GMT (Thursday 8th December 2022)"
-	revision: "1"
+	date: "2024-01-17 11:29:07 GMT (Wednesday 17th January 2024)"
+	revision: "2"
 
 class
 	EL_AGENT_FACILITATED_FACTORY [G]

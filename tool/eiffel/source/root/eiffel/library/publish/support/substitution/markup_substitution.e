@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2024-01-17 8:47:24 GMT (Wednesday 17th January 2024)"
+	revision: "14"
 
 class
 	MARKUP_SUBSTITUTION
@@ -15,9 +15,9 @@ class
 inherit
 	ANY
 
-	EL_ZSTRING_CONSTANTS
-
 	EL_MODULE_TUPLE
+
+	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -72,13 +72,5 @@ feature {NONE} -- Internal attributes
 
 	relative_page_dir: DIR_PATH
 		-- class page relative to index page directory tree
-
-feature {NONE} -- Constants
-
-	Square_bracket: TUPLE [left, right: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "[, ]")
-		end
 
 end

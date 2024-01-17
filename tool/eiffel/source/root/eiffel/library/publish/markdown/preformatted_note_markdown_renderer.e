@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-01-17 10:50:59 GMT (Wednesday 17th January 2024)"
+	revision: "7"
 
 class
 	PREFORMATTED_NOTE_MARKDOWN_RENDERER
@@ -15,24 +15,24 @@ class
 inherit
 	NOTE_MARKDOWN_RENDERER
 		redefine
-			new_source_substitution, Link_substitutions, Markup_substitutions
+			is_preformatted, Link_substitutions, Markup_substitutions
 		end
 
 create
 	default_create
 
-feature {NONE} -- Implementation
+feature -- Status query
 
-	new_source_substitution: PREFORMATTED_SOURCE_LINK_SUBSTITUTION
-		do
-			create Result.make
-		end
+	is_preformatted: BOOLEAN = True
+		-- `True' if note is for preformatted Eiffel
 
 feature {NONE} -- Constants
 
 	Link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
 		once
-			create Result.make_from_array (<< new_source_substitution >>)
+			create Result.make_from_array (<<
+				new_source_substitution, new_type_variable_substitution
+			>>)
 		end
 
 	Markup_substitutions: ARRAYED_LIST [MARKUP_SUBSTITUTION]

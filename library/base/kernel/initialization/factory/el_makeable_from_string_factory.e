@@ -1,13 +1,13 @@
 note
-	description: "A factory cell to create objects conforming to [$source EL_EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]"
+	description: "A factory cell to create objects conforming to ${EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 11:43:39 GMT (Wednesday 14th December 2022)"
-	revision: "1"
+	date: "2024-01-17 10:38:12 GMT (Wednesday 17th January 2024)"
+	revision: "2"
 
 class
 	EL_MAKEABLE_FROM_STRING_FACTORY [

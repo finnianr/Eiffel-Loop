@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:48:03 GMT (Thursday 17th August 2023)"
-	revision: "8"
+	date: "2024-01-17 10:06:55 GMT (Wednesday 17th January 2024)"
+	revision: "9"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -21,20 +21,34 @@ inherit
 			substitute_html, expand_as_source_link, new_expanded_link, A_href_template
 		end
 
-	PUBLISHER_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	PUBLISHER_CONSTANTS
 
 	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
 
 create
-	make
+	make, make_preformatted
 
 feature {NONE} -- Initialization
 
 	make
 		do
-			make_hyperlink (Square_bracket.left)
-			create delimiter_start.make_filled ('[', 1)
-			delimiter_start.append (Source_variable)
+			make_hyperlink (char ('[') + Source_variable)
+			anchor_id := " id=%"source%""
+		ensure
+			leading_space: anchor_id [1] = ' '
+		end
+
+	make_preformatted
+		-- link with empty `anchor_id'
+		-- The output will appear in a preformated HTML section so there is no need for identifier
+		-- <a id="source"> in the anchor tag.
+
+		--		<pre>
+		--			The class <a href="http://.." target="_blank">MY_CLASS</a>
+		--		</pre>
+		do
+			make_hyperlink (char ('[') + Source_variable)
+			create anchor_id.make_empty
 		end
 
 feature -- Basic operations
@@ -61,8 +75,8 @@ feature {NONE} -- Implementation
 			l_path, link_text: ZSTRING
 		do
 			if text.has (' ') then
-				create link_text.make (text.count + text.occurrences (' ') * None_breaking_space.count)
-				link_text.append_replaced (text, space * 1, None_breaking_space)
+				create link_text.make (text.count + text.occurrences (' ') * NB_space_entity.count)
+				link_text.append_replaced (text, space * 1, NB_space_entity)
 			else
 				link_text := text
 			end
@@ -73,8 +87,12 @@ feature {NONE} -- Implementation
 			else
 				l_path := path
 			end
-			Result := A_href_template #$ [l_path, link_text]
+			Result := A_href_template #$ [l_path, anchor_id, link_text]
 		end
+
+feature {NONE} -- Internal attributes
+
+	anchor_id: STRING
 
 feature {NONE} -- Constants
 
@@ -82,7 +100,7 @@ feature {NONE} -- Constants
 			-- contains to '%S' markers
 		once
 			Result := "[
-				<a href="#" id="source" target="_blank">#</a>
+				<a href="#"# target="_blank">#</a>
 			]"
 		end
 
