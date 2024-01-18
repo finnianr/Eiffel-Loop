@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-01-18 19:03:12 GMT (Thursday 18th January 2024)"
+	revision: "8"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -16,6 +16,19 @@ inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
+
+	A_href_template: ZSTRING
+		-- contains to '%S' markers
+		once
+			Result := "[
+				<a href="#"# target="_blank">#</a>
+			]"
+		end
+
+	Dollor_left_brace: ZSTRING
+		once
+			Result := "${"
+		end
 
 	Editor: EL_ZSTRING_EDITOR
 		once
@@ -50,6 +63,18 @@ feature {NONE} -- Constants
 	Source_variable: ZSTRING
 		once
 			Result := "$source"
+		end
+
+	Source_variable_padded: ZSTRING
+		once
+			Result := Source_variable.twin
+			Result.append_character (' ')
+		end
+
+	Wiki_source_link: ZSTRING
+		once
+			Result := Source_variable.twin
+			Result.prepend_character ('[')
 		end
 
 end

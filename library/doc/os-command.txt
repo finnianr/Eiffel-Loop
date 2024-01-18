@@ -4,13 +4,13 @@
 
 * Support for command output capture, and error output capture.
 
-* Automatic escaping of path arguments conforming to [$source EL_PATH], namely [$source EL_FILE_PATH] and [$source EL_DIR_PATH]. All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
+* Automatic escaping of path arguments conforming to ${EL_PATH}, namely ${EL_FILE_PATH} and ${EL_DIR_PATH}. All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
 
-* Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [$source EL_FIND_DIRECTORIES_COMMAND_I] and [$source EL_FIND_FILES_COMMAND_I] as an example. Here the Unix `find' command and the Windows `dir' command are made to appear exactly the same for specific tasks.
+* Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes ${EL_FIND_DIRECTORIES_COMMAND_I} and ${EL_FIND_FILES_COMMAND_I} as an example. Here the Unix `find' command and the Windows `dir' command are made to appear exactly the same for specific tasks.
 
-* Support for making "convenience wrappers" without any need to create a new class. These are classes: [$source EL_OS_COMMAND] and [$source EL_CAPTURED_OS_COMMAND].
+* Support for making "convenience wrappers" without any need to create a new class. These are classes: ${EL_OS_COMMAND} and ${EL_CAPTURED_OS_COMMAND}.
 
-* Has factory class [$source EL_OS_ROUTINES_IMP] (accessible via [$source EL_MODULE_OS]) which contains factory functions for common OS system commands.
+* Has factory class ${EL_OS_ROUTINES_IMP} (accessible via ${EL_MODULE_OS}) which contains factory functions for common OS system commands.
 
 **Information Commands**
 

@@ -161,7 +161,7 @@ system:
 					
 					Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way
 					of exchanging data between Eiffel objects and any structured plaintext format, and also a binary
-					memory block conforming to [$source EL_MEMORY_READER_WRITER] (inherits [$source SED_MEMORY_READER_WRITER])
+					memory block conforming to ${EL_MEMORY_READER_WRITER} (inherits ${SED_MEMORY_READER_WRITER})
 
 					See doc/base.reflection.txt for details
 				"""
@@ -194,9 +194,9 @@ system:
 
 					Classes providing the following facilities:
 
-					* Reading and writing arrays of floating-point type [$source REAL_64].
+					* Reading and writing arrays of floating-point type ${REAL_64}.
 					* Files that notify a listener of byte-count written and read.
-					* A file conforming to [$source PLAIN_TEXT_FILE] that implements [$source EL_OUTPUT_MEDIUM]
+					* A file conforming to ${PLAIN_TEXT_FILE} that implements ${EL_OUTPUT_MEDIUM}
 					* File line source and other abstractions
 				"""
 		cluster_tree:
@@ -249,9 +249,9 @@ system:
 					Class ZSTRING
 
 					An implementation of a memory compact string with the same unicode character range as the ''base.ecf''
-					class [$source STRING_32] and conforming to [$source STRING_GENERAL].
-					The [$source ZSTRING] class (alias for [$source EL_ZSTRING]) has many additional
-					routines not found in [$source STRING_32], as for example: Python like tuple substitution.
+					class ${STRING_32} and conforming to ${STRING_GENERAL}.
+					The ${ZSTRING} class (alias for ${EL_ZSTRING}) has many additional
+					routines not found in ${STRING_32}, as for example: Python like tuple substitution.
 					
 					**See Articles**
 
@@ -259,7 +259,7 @@ system:
 					* [https://www.eiffel.org/blog/finnianr/introducing_class_zstring Introducing class ZSTRING]
 					* [https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859 ISO-8859 is dead, long live ISO-8859]
 
-					**Benchmarks [$source ZSTRING] vs [$source STRING_32]**
+					**Benchmarks ${ZSTRING} vs ${STRING_32}**
 
 					* [./benchmark/ZSTRING-benchmarks-latin-1.html Base character-set Latin-1]
 					* [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]

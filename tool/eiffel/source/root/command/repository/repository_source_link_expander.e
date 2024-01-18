@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 9:33:50 GMT (Sunday 3rd December 2023)"
-	revision: "31"
+	date: "2024-01-18 18:30:27 GMT (Thursday 18th January 2024)"
+	revision: "32"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -126,12 +126,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	file_path: FILE_PATH
-
-feature {NONE} -- Constants
-
-	Wiki_source_link: ZSTRING
-		once
-			Result := "[$source"
-		end
 
 end

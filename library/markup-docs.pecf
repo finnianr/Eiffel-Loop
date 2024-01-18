@@ -55,7 +55,7 @@ system:
 					[http://www.datypic.com/sc/odf/e-office_spreadsheet.html OpenDocument Flat XML spreadsheets]
 					using [http://vtd-xml.sourceforge.net/ VTD-XML].
 					
-					Test class [$source OPEN_OFFICE_TEST_APP]
+					Test class ${OPEN_OFFICE_TEST_APP}
 				"""
 		cluster_tree:
 			thunderbird = "persistency/thunderbird"
@@ -66,7 +66,7 @@ system:
 					Classes to read and export emails from the [https://www.thunderbird.net/ Thunderbird email client]
 					including a class to generate a Kindle book from a folder of chapter emails.
 
-					Test class [$source THUNDERBIRD_TEST_APP]
+					Test class ${THUNDERBIRD_TEST_APP}
 				"""
 
 		cluster_tree:

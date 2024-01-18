@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:26:00 GMT (Friday 18th August 2023)"
-	revision: "31"
+	date: "2024-01-18 18:28:39 GMT (Thursday 18th January 2024)"
+	revision: "32"
 
 class
 	EIFFEL_NOTES
@@ -22,9 +22,13 @@ inherit
 
 	EL_EIFFEL_KEYWORDS
 
-	EL_MODULE_STRING; EL_MODULE_USER_INPUT; EL_MODULE_XML
+	EL_MODULE_STRING; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT; EL_MODULE_XML
 
 	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_INVALID_CLASSNAMES
+
+	PUBLISHER_CONSTANTS
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make, make_default
@@ -179,7 +183,7 @@ feature {NONE} -- Line states
 			line.right_adjust
 			indent := line.leading_occurrences ('%T')
 			line.remove_head (indent.min (2))
-			if line ~ Manifest_string_end then
+			if line ~ Manifest_string.end_ then
 				state := agent find_note_section_end
 			else
 				note_lines.extend (line)
@@ -242,10 +246,10 @@ feature {NONE} -- Implementation
 		local
 			pos_close: INTEGER; text: ZSTRING
 		do
-			if str.starts_with (Source_variable) then
-				pos_close := str.index_of (']', Source_variable.count)
+			if str.starts_with (Source_variable_padded) then
+				pos_close := str.index_of (']', Source_variable_padded.count)
 				if pos_close > 0 then
-					text := str.substring (Source_variable.count + 1, pos_close - 1)
+					text := str.substring (Source_variable_padded.count + 1, pos_close - 1)
 					if Class_path_table.has_class (text) then
 						do_nothing
 					elseif ISE_class_table.has_class (text) then
@@ -259,7 +263,7 @@ feature {NONE} -- Implementation
 
 	check_links_for_line (line, base_name: ZSTRING)
 		do
-			line.do_with_splits (Left_square_bracket, agent check_link_candidate (?, base_name))
+			line.do_with_splits (char ('['), agent check_link_candidate (?, base_name))
 		end
 
 	new_title (name: ZSTRING): ZSTRING
@@ -297,30 +301,16 @@ feature {NONE} -- Constants
 			Result := "description"
 		end
 
-	Left_square_bracket: ZSTRING
+	Manifest_string: TUPLE [start, end_: ZSTRING]
 		once
-			Result := "["
-		end
-
-	Manifest_string_end: ZSTRING
-		once
-			Result := "]%""
-		end
-
-	Manifest_string_start: ZSTRING
-		once
-			Result := "%"["
+			create Result
+			Tuple.fill (Result, "%"[, ]%"")
 		end
 
 	Note_end_keywords: EL_ZSTRING_LIST
 		once
 			Result := Class_declaration_keywords.twin
 			Result.extend ("end")
-		end
-
-	Source_variable: ZSTRING
-		once
-			Result := "$source "
 		end
 
 	Standard_descriptions: ARRAY [ZSTRING]

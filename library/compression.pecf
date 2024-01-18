@@ -13,7 +13,7 @@ system:
 			ZLib Compression
 
 			An Eiffel interface to the [https://www.zlib.net/ zlib C library].
-			The main class is [$source EL_COMPRESSED_ARCHIVE_FILE] with a few helper classes.
+			The main class is ${EL_COMPRESSED_ARCHIVE_FILE} with a few helper classes.
 		"""
 	target:
 		name = EL_compression

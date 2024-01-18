@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-17 10:06:55 GMT (Wednesday 17th January 2024)"
-	revision: "9"
+	date: "2024-01-18 18:57:07 GMT (Thursday 18th January 2024)"
+	revision: "10"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -18,7 +18,7 @@ inherit
 			make as make_hyperlink,
 			expand_hyperlink_markup as expand_as_source_link
 		redefine
-			substitute_html, expand_as_source_link, new_expanded_link, A_href_template
+			substitute_html, expand_as_source_link, new_expanded_link
 		end
 
 	PUBLISHER_CONSTANTS
@@ -93,15 +93,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	anchor_id: STRING
-
-feature {NONE} -- Constants
-
-	A_href_template: ZSTRING
-			-- contains to '%S' markers
-		once
-			Result := "[
-				<a href="#"# target="_blank">#</a>
-			]"
-		end
 
 end

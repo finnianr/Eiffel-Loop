@@ -1,6 +1,6 @@
 **1.** Perform the normal database [https://en.wikipedia.org/wiki/Create,_read,_update_and_delete CRUD] operations.
 
-**2.** Table joins, meaning a field in one [$source CHAIN] table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
+**2.** Table joins, meaning a field in one ${CHAIN [G]} table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
 
 **3.** Option to store data securely using [https://en.wikipedia.org/wiki/Advanced_Encryption_Standard AES encryption].
 
@@ -8,17 +8,17 @@
 
 **5.** A simple centralised method to specify which fields should maintain a hash index for fast row look-ups by field value. A caveat is it only useful for unique id fields, like email addresses for examples.
 
-**6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [$source PREDICATE] agents.
+**6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with ${PREDICATE} agents.
 
-**7.** Leverages a feature of the [./library/base/base.reflection.html reflection cluster] to link selected fields of an expanded type to a textual representation, as defined for example by a [$source DATE] or [$source EL_ENUMERATION [N -> NUMERIC]] object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+**7.** Leverages a feature of the [./library/base/base.reflection.html reflection cluster] to link selected fields of an expanded type to a textual representation, as defined for example by a ${DATE} or ${EL_ENUMERATION [N -> NUMERIC]} object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
 
-**8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [$source CHAIN] table. This guards against accidental changes of field type, field order, field name or textual representation.
+**8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each ${CHAIN} table. This guards against accidental changes of field type, field order, field name or textual representation.
 
 **9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [./download/myching.software-meta-data.tar.gz myching.software-meta-data.tar.gz]
 
-**10.** Fully automated import/export of [$source CHAIN] tables in either CSV or [https://www.eiffel.org/node/143 Pyxis format] (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [https://www.eiffel.org/node/143 Pyxis format] is very compact and readable allowing easy manual inspection of data. The [https://en.wikipedia.org/wiki/Gedit gedit] text editor has syntax highlighting for this format. See for example: [./download/payment.pyx payment.pyx] recording Paypal transactions.
+**10.** Fully automated import/export of ${CHAIN} tables in either CSV or [https://www.eiffel.org/node/143 Pyxis format] (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [https://www.eiffel.org/node/143 Pyxis format] is very compact and readable allowing easy manual inspection of data. The [https://en.wikipedia.org/wiki/Gedit gedit] text editor has syntax highlighting for this format. See for example: [./download/payment.pyx payment.pyx] recording Paypal transactions.
 
-**11.** Unlike a relational database, the data rows of a [$source CHAIN] table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [$source EL_UUID] (inheriting [$source UUID]) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
+**11.** Unlike a relational database, the data rows of a ${CHAIN} table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class ${EL_UUID} (inheriting ${UUID}) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
 
 **12.**
 Application version awareness allows data to be migrated from a data table created by an earlier software version.
@@ -31,15 +31,15 @@ Of course this is the fundamental property of any database. ''Eco-DB'' offers 2 
 
 **1. CHAIN level persistence**
 
-This type of persistence involves storing the entire chain to a file in one operation. This is useful for data that is more or less static, like for example the localisation table [$source EL_TRANSLATION_ITEMS_LIST]. 
+This type of persistence involves storing the entire chain to a file in one operation. This is useful for data that is more or less static, like for example the localisation table ${EL_TRANSLATION_ITEMS_LIST}. 
 
-See class [$source ECD_CHAIN].
+See class ${ECD_CHAIN}.
 
 **2. item level persistence**
 
-Item level, or "incremental persistence" is where the effects of any of the basic [$source CHAIN] operations `(extend/replace/delete**)' are recorded as they happen in a separate editions file. When the chain is loaded during object initialisation, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
+Item level, or "incremental persistence" is where the effects of any of the basic ${CHAIN} operations `(extend/replace/delete**)' are recorded as they happen in a separate editions file. When the chain is loaded during object initialisation, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
 
-See class [$source ECD_RECOVERABLE_CHAIN] for more details.
+See class ${ECD_RECOVERABLE_CHAIN} for more details.
 
 **TABLE JOINS**
 
@@ -47,7 +47,7 @@ Being able to join*** tables via a common field is the essence of a relational d
 
 **1. Field Indexing** 
 
-For a large number of chain items, performing joins can be slow without the use of field indices. ''Eco-DB'' offers an easy way to maintain field indices with very little code via the implementing class [$source ECD_ARRAYED_LIST [EL_STORABLE]] which does all the work of maintaining the index. To index selected fields you just need to redefine the function ''new_index_by'' found in [$source ECD_ARRAYED_LIST] as in this example:
+For a large number of chain items, performing joins can be slow without the use of field indices. ''Eco-DB'' offers an easy way to maintain field indices with very little code via the implementing class ${ECD_ARRAYED_LIST [EL_STORABLE]} which does all the work of maintaining the index. To index selected fields you just need to redefine the function ''new_index_by'' found in ${ECD_ARRAYED_LIST} as in this example:
 
 	class
 		SUBSCRIPTION_LIST
@@ -98,13 +98,13 @@ And here is an example showing how to use the created index:
 
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. ''Eco-DB'' offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [$source ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]] when used in conjunction with [$source ECD_ARRAYED_LIST [EL_STORABLE]]. The class parameter implies that the storable item must conform to [$source EL_KEY_IDENTIFIABLE_STORABLE]. Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. ''Eco-DB'' offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class ${ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]} when used in conjunction with ${ECD_ARRAYED_LIST [EL_STORABLE]}. The class parameter implies that the storable item must conform to ${EL_KEY_IDENTIFIABLE_STORABLE}. Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
 
 **QUERY LANGUAGE**
 
-Of course the Eiffel language itself can be used to query any [$source CHAIN] list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [$source EL_QUERYABLE_CHAIN] and it's helper [$source EL_QUERY_CONDITION_FACTORY]. The implementing class [$source ECD_ARRAYED_LIST] inherits [$source EL_QUERYABLE_CHAIN].
+Of course the Eiffel language itself can be used to query any ${CHAIN} list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class ${EL_QUERYABLE_CHAIN} and it's helper ${EL_QUERY_CONDITION_FACTORY}. The implementing class ${ECD_ARRAYED_LIST} inherits ${EL_QUERYABLE_CHAIN}.
 
-Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [$source COLLATE_SONGS_TASK] found in project [./example/manage-mp3/manage-mp3.html Eiffel-Loop/example/manage-mp3].
+Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class ${COLLATE_SONGS_TASK} found in project [./example/manage-mp3/manage-mp3.html Eiffel-Loop/example/manage-mp3].
 
 	apply
 		-- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
@@ -132,13 +132,13 @@ The routine ''existing_songs_query'' passes a modified form of the query to ''so
 
 	songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
 
-The query atoms ''song_is_cortina'' and ''song_has_normalized_mp3_path'' are defined in class [$source SONG_QUERY_CONDITIONS] which is defined as follows
+The query atoms ''song_is_cortina'' and ''song_has_normalized_mp3_path'' are defined in class ${SONG_QUERY_CONDITIONS} which is defined as follows
 
 	class
-		[$source SONG_QUERY_CONDITIONS]
+		${SONG_QUERY_CONDITIONS}
 
 	inherit
-		[$source EL_QUERY_CONDITION_FACTORY] [RBOX_SONG]
+		${EL_QUERY_CONDITION_FACTORY} [RBOX_SONG]
 			rename
 				any as any_song
 			export
@@ -147,7 +147,7 @@ The query atoms ''song_is_cortina'' and ''song_has_normalized_mp3_path'' are def
 
 **META-DATA EXPORT**
 
-The routine ''export_meta_data'' in class [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN] stores in a versioned directory the precise specification of the data layout, including the correct order, field types and names. The specification is formatted as pseudo Eiffel code so it can be easily viewed in an editor equipped with Eiffel syntax highlighting.
+The routine ''export_meta_data'' in class ${ECD_REFLECTIVE_RECOVERABLE_CHAIN} stores in a versioned directory the precise specification of the data layout, including the correct order, field types and names. The specification is formatted as pseudo Eiffel code so it can be easily viewed in an editor equipped with Eiffel syntax highlighting.
 
 See for example: [./download/myching.software-meta-data.tar.gz myching.software-meta-data.tar.gz] (missing the version directory)
 
@@ -155,15 +155,15 @@ See for example: [./download/myching.software-meta-data.tar.gz myching.software-
 
 It is important to have a way to backup data that offer some degree of independence from the precise binary data structure for the purpose of replacing data with data from another software version, which may have fields stored in a different order, or types etc. ''Eco-DB'' supports two export formats:
 
-1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [$source EL_STORABLE] or  [$source TUPLE].
+1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either ${EL_STORABLE} or  ${TUPLE}.
 
 2. [https://www.eiffel.org/node/143 Pyxis format] which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [./download/payment.pyx payment.pyx] which is a record of Paypal transactions.
 
-The relevant class for importing or exporting is [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN]
+The relevant class for importing or exporting is ${ECD_REFLECTIVE_RECOVERABLE_CHAIN}
 
 **VERSION MANAGEMENT**
 
-A record of the software version is stored in each table. By defining procedure ''read_version'' from class [$source EL_STORABLE]
+A record of the software version is stored in each table. By defining procedure ''read_version'' from class ${EL_STORABLE}
 
 	read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
 		deferred
@@ -185,6 +185,6 @@ A preview of classes which will form the basis of reusable abstractions are as f
 
 **Foot Notes**
 
-** `delete' is a routine from [$source ECD_CHAIN] and not from [$source CHAIN].
+** `delete' is a routine from ${ECD_CHAIN} and not from ${CHAIN}.
 
 *** We are using the term ''join'' somewhat loosely and mean only that if you have two chains ''CHAIN [A]'' and ''CHAIN [B]'', you can produce a subchain of ''CHAIN [B]'' where each ''B'' item has a matching field value with an item from ''CHAIN [A]''.

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:35:02 GMT (Thursday 17th August 2023)"
-	revision: "16"
+	date: "2024-01-18 19:10:15 GMT (Thursday 18th January 2024)"
+	revision: "17"
 
 class
 	MARKDOWN_TRANSLATER
@@ -26,7 +26,7 @@ inherit
 
 	SHARED_ISE_CLASS_TABLE
 
-	EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS; PUBLISHER_CONSTANTS
 
 create
 	make
@@ -132,7 +132,7 @@ feature {NONE} -- Implementation
 			-- in order to be compatible with Github markdown
 		do
 			across Link_types as type loop
-				text.edit (type.item, Right_bracket, agent to_github_link)
+				text.edit (type.item, char (']'), agent to_github_link)
 			end
 		end
 
@@ -181,7 +181,7 @@ feature {NONE} -- Constants
 
 	Code_block_delimiter: ZSTRING
 		once
-			create Result.make_filled ('`', 4)
+			Result := char ('`') * 4
 		end
 
 	Github_link: ZSTRING
@@ -196,11 +196,7 @@ feature {NONE} -- Constants
 
 	Link_types: ARRAY [ZSTRING]
 		once
-			Result := << "[http://", "[https://", "[./", "[$source" >>
+			Result := << "[http://", "[https://", "[./", Wiki_source_link >>
 		end
 
-	Right_bracket: ZSTRING
-		once
-			Result := "]"
-		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-17 8:54:56 GMT (Wednesday 17th January 2024)"
-	revision: "4"
+	date: "2024-01-18 18:59:10 GMT (Thursday 18th January 2024)"
+	revision: "5"
 
 class
 	HYPERLINK_SUBSTITUTION
@@ -64,18 +64,10 @@ feature {NONE} -- Implementation
 
 	new_expanded_link (path, text: ZSTRING): ZSTRING
 		do
-			Result := A_href_template #$ [path, text]
+			Result := A_href_template #$ [path, Empty_string, text]
 		end
 
 feature {NONE} -- Constants
-
-	A_href_template: ZSTRING
-			-- contains to '%S' markers
-		once
-			Result := "[
-				<a href="#" target="_blank">#</a>
-			]"
-		end
 
 	NB_space_entity: ZSTRING
 		once

@@ -1,3 +1,6 @@
+2.0.3
+* Recompile CLASS_DESCENDANTS_APP for format ${MY_CLASS}
+
 2.0.1
 Tool to migrate from [$source MY_CLASS] to ${MY_CLASS} in class notes
 

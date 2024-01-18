@@ -22,7 +22,7 @@ system:
 			The original VTX-XML code was forked to make it possible to compile it with the MSC compiler.
 			This fork is found under `contrib/C'.
 
-			Test class [$source VTD_XML_AUTOTEST_APP]
+			Test class ${VTD_XML_AUTOTEST_APP}
 		"""
 	target:
 		name = EL_vtd_xml

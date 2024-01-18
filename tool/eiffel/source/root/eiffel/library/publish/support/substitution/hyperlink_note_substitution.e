@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:47:26 GMT (Tuesday 14th February 2023)"
-	revision: "6"
+	date: "2024-01-18 18:59:55 GMT (Thursday 18th January 2024)"
+	revision: "7"
 
 class
 	HYPERLINK_NOTE_SUBSTITUTION
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 				end
 
 			end
-			Result := A_href_template #$ [l_path, text]
+			Result := A_href_template #$ [l_path, Empty_string, text]
 		end
 
 feature {NONE} -- Constants

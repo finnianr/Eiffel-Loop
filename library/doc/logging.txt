@@ -6,7 +6,7 @@
 
 * Global filtering mechanism to restrict output to selected classes and routines. A wildcard constant can be used to log all routines for a particular class.
 
-* By implementing the [$source EL_CONSOLE_MANAGER] class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [./library/vision2-x.html Vision2-x library] has once such component [$source EL_CONSOLE_MANAGER_TOOLBAR]. See this example [./images/screenshot/console-thread-switch.png screenshot]. The [./library/wel-x.html wel-x library] partially implements it with class [$source EL_CONSOLE_MANAGER_DIALOG].
+* By implementing the ${EL_CONSOLE_MANAGER} class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [./library/vision2-x.html Vision2-x library] has once such component ${EL_CONSOLE_MANAGER_TOOLBAR}. See this example [./images/screenshot/console-thread-switch.png screenshot]. The [./library/wel-x.html wel-x library] partially implements it with class ${EL_CONSOLE_MANAGER_DIALOG}.
 
 **Output Format**
 
@@ -70,7 +70,7 @@ Part of the code which produced the above output is as follows:
 				log.exit
 			end
 
-Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [$source ARRAY [ANY]] and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY' for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
+Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type ${ARRAY [ANY]} and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY' for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
 
 **Comment on Java**
 
@@ -111,21 +111,21 @@ In order to maintain the integrity of the logging routine stack it is important 
 
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit [$source EL_LOGGED_SUB_APPLICATION] in your root class and implement the function `Log_filter' (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [$source EL_SUB_APPLICATION] in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit ${EL_LOGGED_SUB_APPLICATION} in your root class and implement the function `Log_filter' (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class ${EL_SUB_APPLICATION} in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
-Inheriting from class [$source EL_SUB_APPLICATION] has some incidental benefits including:
+Inheriting from class ${EL_SUB_APPLICATION} has some incidental benefits including:
 
 * Graceful handling of the ctrl-c program interrupt with the possibility of putting application cleanup into a redefinition of procedure `on_operating_system_signal'.
 
 * Integration with the Eiffel Loop multi mode application framework. This framework allows you to select from different applications by a command line switch. Useful for managing many small applications that hardly justify the disk resources of a separate project.
 
-To including logging facilities in any class, inherit from class [$source EL_MODULE_LOG] and add an entry for that class in the log filter array. (see below)
+To including logging facilities in any class, inherit from class ${EL_MODULE_LOG} and add an entry for that class in the log filter array. (see below)
 
 By default logging is not active in the application. It must be turned on using the `-logging' command line switch.
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [$source EL_LOGGED_SUB_APPLICATION] and implement the routine `log_filter_set' as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected' procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set' routine for class [$source FOURIER_MATH_CLIENT_TEST_APP] illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class ${EL_LOGGED_SUB_APPLICATION} and implement the routine `log_filter_set' as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected' procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set' routine for class ${FOURIER_MATH_CLIENT_TEST_APP} illustrates:
 
 	feature {NONE} -- Implementation
 
@@ -143,7 +143,7 @@ The class filter is compared only with the generating class name so all child cl
 
 **Command Options**
 
-A list of command options which effect the logging system can be found in class [$source EL_LOG_COMMAND_OPTIONS].
+A list of command options which effect the logging system can be found in class ${EL_LOG_COMMAND_OPTIONS}.
 
 **User step-through logging**
 
@@ -151,11 +151,11 @@ For debugging purposes you may wish to pause execution on the exit of each logge
 
 	Logging.set_prompt_user_on_exit (true)
 
-The logging object is available in the root class or by inheriting [$source EL_MODULE_LOGGING].
+The logging object is available in the root class or by inheriting ${EL_MODULE_LOGGING}.
 
 **Logging threads**
 
-Logging a separate thread just requires that you inherit from [$source EL_LOGGED_IDENTIFIED_THREAD] and make sure the routine `on_start' gets called. It will anyway unless you do something to over-ride this routine.
+Logging a separate thread just requires that you inherit from ${EL_LOGGED_IDENTIFIED_THREAD} and make sure the routine `on_start' gets called. It will anyway unless you do something to over-ride this routine.
 
 	feature {NONE} -- Event handling
 
@@ -174,17 +174,17 @@ It is this index which is displayed as part of the log output prompt. If you are
 
 **Synchronization Monitor**
 
-A generic synchronization monitor allows synchronization on an object to be protected with a contract requiring that the object is locked before being referenced. It is integrated with the logging framework to help detect deadlock conditions. If a thread needs to wait for a lock on a synchronized object, both the waiting and acquiring of the lock is logged in the thread's log. See class [$source EL_LOGGED_MUTEX_REFERENCE]
+A generic synchronization monitor allows synchronization on an object to be protected with a contract requiring that the object is locked before being referenced. It is integrated with the logging framework to help detect deadlock conditions. If a thread needs to wait for a lock on a synchronized object, both the waiting and acquiring of the lock is logged in the thread's log. See class ${EL_LOGGED_MUTEX_REFERENCE}
 
 **Logging Routines**
 
-Access to the logging routines is through feature log of class [$source EL_MODULE_LOG]. The log object conforms to type [$source EL_LOGGABLE] which has numerous procedures for writing to the log as well as some useful functions.
+Access to the logging routines is through feature log of class ${EL_MODULE_LOG}. The log object conforms to type ${EL_LOGGABLE} which has numerous procedures for writing to the log as well as some useful functions.
 
 The procedure form: 
 
 	put_<lowercase type name>
 
-is use to output the following types: [$source STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64'.
+is use to output the following types: ${STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64'.
 
 The procedure form:
 
@@ -196,11 +196,11 @@ The procedure `put_string_field_to_max_length' is used to output a multi-line bl
 
 **Always on logging**
 
-Class [$source EL_MODULE_LOG] also has a special logging object named `lio', short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class `ANY'.
+Class ${EL_MODULE_LOG} also has a special logging object named `lio', short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class `ANY'.
 
 **Log files**
 
-All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [$source EL_SUB_APPLICATION] then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
+All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using ${EL_SUB_APPLICATION} then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
 
 Use the command line switch `-keep_logs'. The log files will not be deleted and will not be overwritten during subsequent application runs. It is recommended to delete them manually.
 

@@ -24,8 +24,8 @@ system:
 			
 			Library `xml-scan.ecf' provides 2 classes for storing credentials
 			
-			1. [$source EL_BUILDABLE_AES_CREDENTIAL]
-			2. [$source EL_SECURE_KEY_FILE]
+			1. ${EL_BUILDABLE_AES_CREDENTIAL}
+			2. ${EL_SECURE_KEY_FILE}
 		"""
 	target:
 		name = EL_encryption

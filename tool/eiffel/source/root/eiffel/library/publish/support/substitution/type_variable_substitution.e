@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-17 10:37:45 GMT (Wednesday 17th January 2024)"
-	revision: "1"
+	date: "2024-01-18 19:02:56 GMT (Thursday 18th January 2024)"
+	revision: "2"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 	make_hyperlink (a_delimiter_start: ZSTRING)
 		do
-			make_substitution (Left_delimiter, char ('}'), Empty_string, Empty_string)
+			make_substitution (Dollor_left_brace, char ('}'), Empty_string, Empty_string)
 		end
 
 feature -- Basic operations
@@ -66,10 +66,4 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Left_delimiter: ZSTRING
-		once
-			Result := "${"
-		end
 end

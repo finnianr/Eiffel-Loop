@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-17 8:47:24 GMT (Wednesday 17th January 2024)"
-	revision: "14"
+	date: "2024-01-18 18:58:21 GMT (Thursday 18th January 2024)"
+	revision: "15"
 
 class
 	MARKUP_SUBSTITUTION
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_TUPLE
 
 	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+
+	PUBLISHER_CONSTANTS
 
 create
 	make

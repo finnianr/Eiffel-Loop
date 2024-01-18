@@ -16,7 +16,7 @@ system:
 			It was used to create the help system in the [http://myching.software My Ching software]
 			with page content authored in the Thunderbird email client and then exported as XHTML.
 
-			See class [$source EL_HTML_TEXT] below for supported XHTML tags. This component facilitates
+			See class ${EL_HTML_TEXT} below for supported XHTML tags. This component facilitates
 			the creation of a hyperlinked contents side bar in a split window. 
 		"""
 	
