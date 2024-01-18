@@ -1,8 +1,9 @@
 note
 	description: "[
-		8-bit PCM data contained in WAV files is usually stored as
-		unsigned numbers, whereas the LM4549 codec (and most 16-bit WAV files) work with signed
-		quantities.
+		[$source EL_AUDIO_PCM_SAMPLE] implemented using [$source INTEGER_8] sample size.
+
+		8-bit PCM data contained in WAV files is usually stored as unsigned numbers,
+		whereas the LM4549 codec (and most 16-bit WAV files) work with signed quantities.
 	]"
 	notes: "[
 		Attempting to play unsigned samples directly will produce a horribly distorted

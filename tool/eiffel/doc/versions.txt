@@ -1,3 +1,6 @@
+2.0.1
+Tool to migrate from [$source MY_CLASS] to ${MY_CLASS} in class notes
+
 2.0.0
 
 * Found versions mistake. All versions from 1.1.0 to 1.6.5 should have been major = 2.

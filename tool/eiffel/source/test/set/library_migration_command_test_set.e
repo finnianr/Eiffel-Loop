@@ -1,13 +1,13 @@
 note
-	description: "Test class [$source LIBRARY_MIGRATION_COMMAND]"
+	description: "Test class ${LIBRARY_MIGRATION_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:14:28 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2024-01-17 16:19:14 GMT (Wednesday 17th January 2024)"
+	revision: "10"
 
 class
 	LIBRARY_MIGRATION_COMMAND_TEST_SET
@@ -24,13 +24,13 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["migration", agent test_migration]
+				["library_migration", agent test_library_migration]
 			>>)
 		end
 
 feature -- Tests
 
-	test_migration
+	test_library_migration
 		local
 			command: LIBRARY_MIGRATION_TEST_COMMAND; home_dir, destination_dir: DIR_PATH
 			relative_path: FILE_PATH; suffix: STRING

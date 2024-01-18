@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 17:17:07 GMT (Monday 15th January 2024)"
-	revision: "25"
+	date: "2024-01-18 16:57:38 GMT (Thursday 18th January 2024)"
+	revision: "26"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -29,11 +29,12 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["class_reader",			agent test_class_reader],
-				["class_analyzer",		agent test_class_analyzer],
-				["code_metrics",			agent test_code_metrics],
-				["find_and_replace",		agent test_find_and_replace],
-				["space_cleaner",			agent test_space_cleaner]
+				["class_analyzer",					agent test_class_analyzer],
+				["class_note_link_reformatting",	agent test_class_note_link_reformatting],
+				["class_reader",						agent test_class_reader],
+				["code_metrics",						agent test_code_metrics],
+				["find_and_replace",					agent test_find_and_replace],
+				["space_cleaner",						agent test_space_cleaner]
 			>>)
 		end
 
@@ -50,6 +51,33 @@ feature -- Tests
 			create analyzer.make_from_file (Latin_1_sources_dir + "parse/thunderbird_mail_to_html_body_converter.e")
 			assert ("249 identifiers", analyzer.identifier_count = 249)
 			assert ("81 keywords", analyzer.keyword_count = 81)
+		end
+
+	test_class_note_link_reformatting
+		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_class_note_link_reformatting
+		note
+			testing: "[
+				covers/{EIFFEL_SOURCE_ANALYZER}.make
+			]"
+		local
+			command: CLASS_NOTE_LINK_REFORMATTING_COMMAND
+		do
+			create command.make (Manifest_path)
+			command.execute
+			assert ("2 class updated", command.updated_count = 2)
+			across <<
+				"latin-1/audio/el_8_bit_audio_pcm_sample.e", "utf-8/el_text_item_translations_table.e"
+			>> as path loop
+				if attached File.plain_text (Work_area_dir + path.item) as source then
+					inspect path.cursor_index
+						when 1 then
+							assert ("updated", source.has_substring ("${EL_AUDIO_PCM_SAMPLE}"))
+						when 2 then
+							assert ("has BOM", source.starts_with ({EL_UTF_CONVERTER}.utf_8_bom_to_string_8))
+							assert ("updated", source.has_substring ("${HASH_TABLE [STRING, STRING]}"))
+					end
+				end
+			end
 		end
 
 	test_class_reader
@@ -127,7 +155,7 @@ feature -- Tests
 		do
 			create command.make (Manifest_path)
 			command.execute
-			create expected_results.make_from_array (<< 32, 279, 99658 >>)
+			create expected_results.make_from_array (<< 32, 279, 99772 >>)
 			if attached command.metrics as metrics then
 				create actual_results.make_from_array (<< metrics.class_count, metrics.routine_count, metrics.byte_count >>)
 			end

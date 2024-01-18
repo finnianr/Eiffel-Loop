@@ -1,6 +1,6 @@
 ﻿note
 	description: "[
-		Translation table for text item serializeable as XML
+		Translation [$source HASH_TABLE [STRING, STRING]] for text item serializeable as XML
 		
 		EG.
 	

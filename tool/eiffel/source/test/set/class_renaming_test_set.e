@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 15:54:21 GMT (Monday 15th January 2024)"
-	revision: "12"
+	date: "2024-01-18 16:59:59 GMT (Thursday 18th January 2024)"
+	revision: "13"
 
 class
 	CLASS_RENAMING_TEST_SET
@@ -49,7 +49,7 @@ feature -- Tests
 			file_list.find_first_base ("el_text_item_translations_table.e")
 			assert ("found EL_TEXT_ITEM_TRANSLATIONS_TABLE", file_list.found)
 			create string_8_counter.make (File.plain_text (file_list.path), "STRING_8")
-			assert ("11 items counted", string_8_counter.count - 1 = 11)
+			assert ("13 items counted", string_8_counter.count - 1 = 13)
 
 			across file_list as list loop
 				if attached list.item as source_path
