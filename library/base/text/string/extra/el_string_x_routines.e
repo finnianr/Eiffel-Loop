@@ -1,5 +1,5 @@
 ﻿note
-	description: "Routines to supplement handling of [$source STRING_8] [$source STRING_32] strings"
+	description: "Routines to supplement handling of ${STRING_8} ${STRING_32} strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

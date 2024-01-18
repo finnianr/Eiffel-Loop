@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_NATURAL_32_BIT_ROUTINES] that calculates **shift_count** using a de Bruijn sequence
+		${EL_NATURAL_32_BIT_ROUTINES} that calculates **shift_count** using a de Bruijn sequence
 	]"
 
 	author: "Finnian Reilly"

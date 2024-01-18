@@ -3,8 +3,8 @@
 		Compare conditional assignment depending on consecutive **elseif** attachment attempts to
 		two experimental techniques:
 		
-		1. [$source STRING_ITERATION_CURSOR_TABLE] uses a hash table lookup of type id
-		2. [$source STRING_ITERATION_CURSOR_TYPE_MAP] uses a linear array search of type id.
+		1. ${STRING_ITERATION_CURSOR_TABLE} uses a hash table lookup of type id
+		2. ${STRING_ITERATION_CURSOR_TYPE_MAP} uses a linear array search of type id.
 	]"
 	notes: "[
 		**BENCHMARKS**

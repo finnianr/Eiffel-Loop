@@ -1,6 +1,6 @@
 note
 	description: "[
-		Convert [$source READABLE_STRING_GENERAL] string to type conforming to [$source EL_PATH]
+		Convert ${READABLE_STRING_GENERAL} string to type conforming to ${EL_PATH}
 	]"
 
 	author: "Finnian Reilly"

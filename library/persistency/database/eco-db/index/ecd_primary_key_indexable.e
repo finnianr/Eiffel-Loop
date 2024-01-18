@@ -1,11 +1,11 @@
 note
 	description: "[
-		Assigns values to storable items conforming to [$source EL_KEY_IDENTIFIABLE_STORABLE],
-		and augments classes [$source ECD_ARRAYED_LIST] and [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN]
+		Assigns values to storable items conforming to ${EL_KEY_IDENTIFIABLE_STORABLE},
+		and augments classes ${ECD_ARRAYED_LIST} and ${ECD_REFLECTIVE_RECOVERABLE_CHAIN}
 		with a primary key index.
 	]"
 	instructions: "[
-		Inherit this class in parallel with class inheriting [$source ECD_ARRAYED_LIST] and undefine
+		Inherit this class in parallel with class inheriting ${ECD_ARRAYED_LIST} and undefine
 		the routine `assign_key' as in this example:
 
 			deferred class

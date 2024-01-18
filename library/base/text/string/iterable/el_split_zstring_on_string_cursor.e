@@ -1,6 +1,6 @@
 note
 	description: "[
-		Optimized implementation of [$source EL_SPLIT_ON_STRING_CURSOR [ZSTRING]]
+		Optimized implementation of ${EL_SPLIT_ON_STRING_CURSOR [ZSTRING]}
 	]"
 
 	author: "Finnian Reilly"

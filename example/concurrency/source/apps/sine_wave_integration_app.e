@@ -1,6 +1,6 @@
 note
 	description: "[
-		Example program to demonstrate use of [$source EL_FUNCTION_DISTRIBUTER] and [$source EL_PROCEDURE_DISTRIBUTER]
+		Example program to demonstrate use of ${EL_FUNCTION_DISTRIBUTER} and ${EL_PROCEDURE_DISTRIBUTER}
 		for distributing the work of executing agent routines over a maximum number of threads.
 	]"
 	instructions: "[

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Routines for populating tuple fields and converting to and from string types.
-		Accessible via shared instance [$source EL_MODULE_TUPLE]
+		Accessible via shared instance ${EL_MODULE_TUPLE}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
-		[$source EL_AUTOTEST_APPLICATION] object with support for test sets conforming
-		to [$source EL_CRC_32_TESTABLE]
+		${EL_AUTOTEST_APPLICATION} object with support for test sets conforming
+		to ${EL_CRC_32_TESTABLE}
 	]"
 
 	author: "Finnian Reilly"

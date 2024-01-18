@@ -1,5 +1,5 @@
 note
-	description: "Password security attributes for use in class [$source EL_PASSPHRASE_EVALUATOR]"
+	description: "Password security attributes for use in class ${EL_PASSPHRASE_EVALUATOR}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

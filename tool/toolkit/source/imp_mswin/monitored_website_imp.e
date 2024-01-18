@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source MONITORED_WEBSITE_I]"
+	description: "Windows implementation of ${MONITORED_WEBSITE_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

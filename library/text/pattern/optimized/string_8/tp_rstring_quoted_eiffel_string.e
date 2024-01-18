@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_RSTRING_QUOTED_STRING] implemented for Eiffel language
+		${TP_RSTRING_QUOTED_STRING} implemented for Eiffel language
 	]"
 
 	author: "Finnian Reilly"

@@ -48,7 +48,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	Description: STRING = "Expand [$source MY_CLASS] links in text file using repository configuration"
+	Description: STRING = "Expand ${MY_CLASS} links in text file using repository configuration"
 
 	expanded_file_path: FILE_PATH
 		do

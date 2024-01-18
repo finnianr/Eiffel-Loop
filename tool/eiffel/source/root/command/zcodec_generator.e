@@ -1,5 +1,5 @@
 note
-	description: "Generate Eiffel classes conforming to [$source EL_ZCODEC] from VTD-XML C code"
+	description: "Generate Eiffel classes conforming to ${EL_ZCODEC} from VTD-XML C code"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

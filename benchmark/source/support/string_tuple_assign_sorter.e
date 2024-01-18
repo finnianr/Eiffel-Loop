@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sort a string conforming to [$source READABLE_STRING_GENERAL] into a tuple slot
+		Sort a string conforming to ${READABLE_STRING_GENERAL} into a tuple slot
 		of the appropiate character_bytes
 	]"
 

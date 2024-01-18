@@ -1,5 +1,5 @@
 note
-	description: "Extensions to ISE class [$source CHARACTER_PROPERTY]"
+	description: "Extensions to ISE class ${CHARACTER_PROPERTY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

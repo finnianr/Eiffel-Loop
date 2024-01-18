@@ -1,9 +1,9 @@
 note
 	description: "[
-		Stateless character iteration over [$source SPECIAL] area in [$source EL_COMPACT_SUBSTRINGS_32]
+		Stateless character iteration over ${SPECIAL} area in ${EL_COMPACT_SUBSTRINGS_32}
 	]"
 	notes: "[
-		For performance efficiency state is mantained externally in a local [$source INTEGER_32] variable.
+		For performance efficiency state is mantained externally in a local ${INTEGER_32} variable.
 		The state is referenced by the routine argument `block_index_ptr: POINTER'.
 	]"
 

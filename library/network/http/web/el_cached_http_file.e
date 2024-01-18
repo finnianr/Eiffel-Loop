@@ -1,7 +1,7 @@
 note
 	description: "[
 		Cache HTTP GET content under standard cache directory defined by
-		[$source EL_STANDARD_DIRECTORY_I].**App_cache**
+		${EL_STANDARD_DIRECTORY_I}.**App_cache**
 	]"
 
 	author: "Finnian Reilly"

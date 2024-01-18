@@ -1,9 +1,9 @@
 note
-	description: "Abstraction to set a field conforming to [$source STRING_GENERAL] from a document node"
+	description: "Abstraction to set a field conforming to ${STRING_GENERAL} from a document node"
 	descendants: "[
 			EL_STRING_NODE*
-				[$source EL_DOCUMENT_NODE_STRING]
-					[$source EL_ELEMENT_ATTRIBUTE_NODE_STRING]
+				${EL_DOCUMENT_NODE_STRING}
+					${EL_ELEMENT_ATTRIBUTE_NODE_STRING}
 	]"
 
 	author: "Finnian Reilly"

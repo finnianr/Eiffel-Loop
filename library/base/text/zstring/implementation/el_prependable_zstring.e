@@ -1,5 +1,5 @@
 note
-	description: "Prependable aspects of [$source ZSTRING] that use only 8-bit implemenation"
+	description: "Prependable aspects of ${ZSTRING} that use only 8-bit implemenation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

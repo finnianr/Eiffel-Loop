@@ -1,5 +1,5 @@
 note
-	description: "Test [$source J_VELOCITY] and related classes to wrap Java Apache Velocity package"
+	description: "Test ${J_VELOCITY} and related classes to wrap Java Apache Velocity package"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

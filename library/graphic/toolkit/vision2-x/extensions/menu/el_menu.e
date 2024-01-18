@@ -1,6 +1,6 @@
 note
 	description: "[
-		Application menu with optional localization via class [$source EL_MODULE_LOCALE]
+		Application menu with optional localization via class ${EL_MODULE_LOCALE}
 	]"
 
 	author: "Finnian Reilly"

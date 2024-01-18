@@ -1,5 +1,5 @@
 note
-	description: "Access control for features of class [$source EL_REFLECTIVE]"
+	description: "Access control for features of class ${EL_REFLECTIVE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

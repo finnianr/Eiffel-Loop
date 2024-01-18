@@ -1,5 +1,5 @@
 note
-	description: "Routines to query compact [$source NATURAL_32] version numbers like 01_02_03"
+	description: "Routines to query compact ${NATURAL_32} version numbers like 01_02_03"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

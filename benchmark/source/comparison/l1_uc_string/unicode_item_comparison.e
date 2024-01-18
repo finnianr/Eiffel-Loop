@@ -1,5 +1,5 @@
 note
-	description: "Compare `{[$source L1_UC_STRING]}.unicode' and `{[$source ZSTRING]}.unicode'"
+	description: "Compare `{${L1_UC_STRING}}.unicode' and `{${ZSTRING}}.unicode'"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 

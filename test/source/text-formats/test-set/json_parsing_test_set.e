@@ -1,5 +1,5 @@
 ﻿note
-	description: "Test set for [$source JSON_SETTABLE_FROM_STRING] and [$source JSON_NAME_VALUE_LIST]"
+	description: "Test set for ${JSON_SETTABLE_FROM_STRING} and ${JSON_NAME_VALUE_LIST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

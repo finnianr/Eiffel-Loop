@@ -227,7 +227,7 @@ note
 		**AN EXAMPLE OF AN EROS XML PROCEDURE CALL**
 
 		Suppose for example we have an audio player application that is able to play SMIL play lists. The audio player
-		has a class `[$source SMIL_PRESENTATION]'
+		has a class `${SMIL_PRESENTATION}'
 		that knows how to build itself from a SMIL document. The application has a remotely
 		accessible class `AUDIO_DEVICE' with a procedure play_presentation taking an argument of type `SMIL_PRESENTATION'. In
 		this example a SMIL document defines some clips to be played sequentially from an audio file. An EXP call message

@@ -1,5 +1,5 @@
 note
-	description: "Index for [$source ECD_ARRAYED_LIST [G]]"
+	description: "Index for ${ECD_ARRAYED_LIST [G]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

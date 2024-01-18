@@ -1,5 +1,5 @@
 note
-	description: "[$source TP_WHITE_SPACE] optimized for string conforming to [$source READABLE_STRING_8]"
+	description: "${TP_WHITE_SPACE} optimized for string conforming to ${READABLE_STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

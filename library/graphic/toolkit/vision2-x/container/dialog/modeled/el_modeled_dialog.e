@@ -1,6 +1,6 @@
 note
 	description: "[
-		Dialog created from a model of type [$source EL_DIALOG_MODEL] with support for
+		Dialog created from a model of type ${EL_DIALOG_MODEL} with support for
 		title bars with customizeable background pixmaps.
 	]"
 

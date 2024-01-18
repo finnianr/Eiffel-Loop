@@ -1,5 +1,5 @@
 note
-	description: "Matches white space character in [$source ZSTRING]"
+	description: "Matches white space character in ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

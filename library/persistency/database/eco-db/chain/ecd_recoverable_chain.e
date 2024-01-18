@@ -1,6 +1,6 @@
 note
 	description: "[
-		A [$source ECD_CHAIN] that is recoverable despite write any errors. 
+		A ${ECD_CHAIN} that is recoverable despite write any errors. 
 		The former class can store and load the complete state of all chain items, 
 		while this class immediately stores any of the following
 		chain editions: `extend', `replace', `remove', `delete'.
@@ -305,14 +305,14 @@ feature {NONE} -- Constants
 
 note
 	instructions: "[
-		Items must implement the deferred class [$source EL_STORABLE].
+		Items must implement the deferred class ${EL_STORABLE}.
 
-		To implement the class you can use any Eiffel container which conforms to [$source CHAIN],
-		however it is recommended to use the class [$source ECD_ARRAYED_LIST [EL_STORABLE]] as is offers
+		To implement the class you can use any Eiffel container which conforms to ${CHAIN},
+		however it is recommended to use the class ${ECD_ARRAYED_LIST [EL_STORABLE]} as is offers
 		the following functionality:
 
 		* Ability to do complex queries in Eiffel with logial conjunctions using the features of
-		[$source EL_QUERYABLE_CHAIN] and [$source EL_QUERY_CONDITION_FACTORY]
+		${EL_QUERYABLE_CHAIN} and ${EL_QUERY_CONDITION_FACTORY}
 
 		* Ability to store objects using class reflection with safe-guards for the integrity of the
 		stores in the form of cyclical reduancy checks on the

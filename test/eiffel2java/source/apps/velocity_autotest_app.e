@@ -1,5 +1,5 @@
 note
-	description: "Execute test set [$source VELOCITY_TEST_SET]"
+	description: "Execute test set ${VELOCITY_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

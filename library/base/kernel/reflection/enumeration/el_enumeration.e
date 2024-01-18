@@ -1,15 +1,15 @@
 note
 	description: "[
 		Abstraction for mapping names to code numbers with bi-directional lookups, i.e. obtain the code from
-		a name and the name from a code. The generic parameter can be any [$source NUMERIC] type.
+		a name and the name from a code. The generic parameter can be any ${NUMERIC} type.
 	]"
 	notes: "[
 		**ARRAY VS HASH_TABLE**
 		
 		In most cases implementing field `name_by_value: READABLE_INDEXABLE [IMMUTABLE_STRING_8]' as an
-		[$source ARRAY] is both faster and has a lower memory footprint than using a [$source HASH_TABLE].
+		${ARRAY} is both faster and has a lower memory footprint than using a ${HASH_TABLE}.
 		
-		Taking class [$source EL_HTTP_STATUS_ENUM] as an example:
+		Taking class ${EL_HTTP_STATUS_ENUM} as an example:
 			
 			ARRAY: requires 496 bytes 
 			HASH_TABLE: requires 1088 bytes
@@ -460,33 +460,33 @@ note
 		Typically you would make a shared instance of an implementation class inheriting
 		this class.
 
-		Overriding ''import_name'' from [$source EL_REFLECTIVELY_SETTABLE] allows you to lookup
+		Overriding ''import_name'' from ${EL_REFLECTIVELY_SETTABLE} allows you to lookup
 		a code using a foreign naming convention, camelCase, for example. Overriding
 		''export_name'' allows the name returned by `code_name' to use a foreign convention.
 		Choose a convention from the ''Naming'' object.
 	]"
 	descendants: "[
 			EL_ENUMERATION* [N -> NUMERIC]
-				[$source EL_ENUMERATION_NATURAL_16]*
-					[$source EL_IPAPI_CO_JSON_FIELD_ENUM]
-					[$source EL_HTTP_STATUS_ENUM]
-				[$source EL_ENUMERATION_NATURAL_8]*
-					[$source EL_NETWORK_DEVICE_TYPE_ENUM]
-					[$source EL_BOOLEAN_ENUMERATION]*
-						[$source PP_ADDRESS_STATUS_ENUM]
-					[$source PP_PAYMENT_STATUS_ENUM]
-					[$source PP_PAYMENT_PENDING_REASON_ENUM]
-					[$source PP_TRANSACTION_TYPE_ENUM]
-					[$source EL_CURRENCY_ENUM]
-					[$source TL_PICTURE_TYPE_ENUM]
-					[$source AIA_RESPONSE_ENUM]
-					[$source AIA_REASON_ENUM]
-					[$source TL_MUSICBRAINZ_ENUM]
-					[$source TL_FRAME_ID_ENUM]
-					[$source TL_STRING_ENCODING_ENUM]
-					[$source EROS_ERRORS_ENUM]
-				[$source EL_ENUMERATION_NATURAL_32]*
-					[$source EVOLICITY_TOKEN_ENUM]
+				${EL_ENUMERATION_NATURAL_16}*
+					${EL_IPAPI_CO_JSON_FIELD_ENUM}
+					${EL_HTTP_STATUS_ENUM}
+				${EL_ENUMERATION_NATURAL_8}*
+					${EL_NETWORK_DEVICE_TYPE_ENUM}
+					${EL_BOOLEAN_ENUMERATION}*
+						${PP_ADDRESS_STATUS_ENUM}
+					${PP_PAYMENT_STATUS_ENUM}
+					${PP_PAYMENT_PENDING_REASON_ENUM}
+					${PP_TRANSACTION_TYPE_ENUM}
+					${EL_CURRENCY_ENUM}
+					${TL_PICTURE_TYPE_ENUM}
+					${AIA_RESPONSE_ENUM}
+					${AIA_REASON_ENUM}
+					${TL_MUSICBRAINZ_ENUM}
+					${TL_FRAME_ID_ENUM}
+					${TL_STRING_ENCODING_ENUM}
+					${EROS_ERRORS_ENUM}
+				${EL_ENUMERATION_NATURAL_32}*
+					${EVOLICITY_TOKEN_ENUM}
 	]"
 
 end -- class EL_ENUMERATION

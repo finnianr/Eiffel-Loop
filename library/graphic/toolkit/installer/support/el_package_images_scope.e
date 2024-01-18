@@ -4,10 +4,10 @@ note
 		of an across-loop, before reverting back to installed image locations.
 	]"
 	notes: "[
-		To use: inherit from [$source EL_SHARED_PACKAGE_IMAGES_SCOPE] and write a loop
+		To use: inherit from ${EL_SHARED_PACKAGE_IMAGES_SCOPE} and write a loop
 		
 			across Use_package_images as image loop
-				-- call routines on objects descended from [$source EL_APPLICATION_PIXMAP]
+				-- call routines on objects descended from ${EL_APPLICATION_PIXMAP}
 			end
 
 	]"

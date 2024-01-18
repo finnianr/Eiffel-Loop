@@ -7,7 +7,7 @@ note
 		[https://developer.paypal.com/docs/classic/api/button-manager/BMUpdateButton_API_Operation_NVP/
 		BMUpdateButton]
 		
-		Createable from instance of [$source PP_PRODUCT_INFO] using `make_from_object'.
+		Createable from instance of ${PP_PRODUCT_INFO} using `make_from_object'.
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Evaluates security level of passphrase based on a number of attributes defined in
-		[$source EL_PASSPHRASE_ATTRIBUTES]. The passphrase has 1 point for each attribute which
+		${EL_PASSPHRASE_ATTRIBUTES}. The passphrase has 1 point for each attribute which
 		are added together to give a score.
 	]"
 

@@ -7,7 +7,7 @@ note
 		
 		**Test Sets**
 		
-			[$source AMAZON_INSTANT_ACCESS_TEST_SET]
+			${AMAZON_INSTANT_ACCESS_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

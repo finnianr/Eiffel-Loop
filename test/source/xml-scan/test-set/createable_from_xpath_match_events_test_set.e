@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test set for class [$source EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS]
+		Test set for class ${EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS}
 	]"
 
 	author: "Finnian Reilly"

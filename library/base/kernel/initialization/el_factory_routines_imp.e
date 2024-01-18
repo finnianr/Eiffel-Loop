@@ -1,6 +1,6 @@
 note
 	description: "[
-		Routines for creating instances of factory classes. Accessible via [$source EL_MODULE_FACTORY].
+		Routines for creating instances of factory classes. Accessible via ${EL_MODULE_FACTORY}.
 	]"
 
 	author: "Finnian Reilly"

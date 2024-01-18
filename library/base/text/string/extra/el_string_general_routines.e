@@ -1,6 +1,6 @@
 note
 	description: "[
-		Convert [$source ZSTRING] to [$source READABLE_STRING_GENERAL] as [$source STRING_32]
+		Convert ${ZSTRING} to ${READABLE_STRING_GENERAL} as ${STRING_32}
 	]"
 
 	author: "Finnian Reilly"

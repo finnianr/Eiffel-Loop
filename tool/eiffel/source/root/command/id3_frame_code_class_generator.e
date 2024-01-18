@@ -1,6 +1,6 @@
 note
 	description: "[
-		Tool for `TagLib.ecf' library to generate [$source TL_FRAME_ID_ENUM] from the ID3v2 specification
+		Tool for `TagLib.ecf' library to generate ${TL_FRAME_ID_ENUM} from the ID3v2 specification
 		documents versions 2.2, 2.3 and 2.4.
 	]"
 

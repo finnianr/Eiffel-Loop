@@ -2,7 +2,7 @@ note
 	description: "[
 		Application to execute file tree transformation scripts.
 
-		See class [$source FILE_TREE_TRANSFORMER_SCRIPT]
+		See class ${FILE_TREE_TRANSFORMER_SCRIPT}
 	]"
 
 	author: "Finnian Reilly"

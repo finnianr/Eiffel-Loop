@@ -3,7 +3,7 @@ note
 		Sub-application allowing execution of multiple EQA unit tests. A summary of any failed tests is
 		printed when all tests have finished executing.
 
-		See [$source BASE_AUTOTEST_APP] as an example.
+		See ${BASE_AUTOTEST_APP} as an example.
 	]"
 	notes: "[
 		Add command option `-test_set' <name> to test with named test
@@ -163,31 +163,31 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
-				[$source AMAZON_INSTANT_ACCESS_AUTOTEST_APP]
-				[$source COMPRESSION_AUTOTEST_APP]
-				[$source CURRENCY_AUTOTEST_APP]
-				[$source ENCRYPTION_AUTOTEST_APP]
-				[$source HTTP_CLIENT_AUTOTEST_APP]
-				[$source OS_COMMAND_AUTOTEST_APP]
-				[$source PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP]
-				[$source PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP]
-				[$source SEARCH_ENGINE_AUTOTEST_APP]
-				[$source TEXT_PROCESS_AUTOTEST_APP]
-				[$source EROS_AUTOTEST_APP]
-				[$source BASE_AUTOTEST_APP]
-				[$source MULTIMEDIA_AUTOTEST_APP]
-				[$source ECO_DB_AUTOTEST_APP]
-				[$source EL_CRC_32_AUTOTEST_APPLICATION]* [EQA_TYPES -> [$source TUPLE] create default_create end]
-					[$source NETWORK_AUTOTEST_APP]
-					[$source EVOLICITY_AUTOTEST_APP]
-					[$source I18N_AUTOTEST_APP]
-					[$source IMAGE_UTILS_AUTOTEST_APP]
-					[$source OPEN_OFFICE_AUTOTEST_APP]
-					[$source PYXIS_SCAN_AUTOTEST_APP]
-					[$source TAGLIB_AUTOTEST_APP]
-					[$source TEXT_FORMATS_AUTOTEST_APP]
-					[$source VTD_XML_AUTOTEST_APP]
-					[$source XML_SCAN_AUTOTEST_APP]
-				[$source THUNDERBIRD_AUTOTEST_APP]
+				${AMAZON_INSTANT_ACCESS_AUTOTEST_APP}
+				${COMPRESSION_AUTOTEST_APP}
+				${CURRENCY_AUTOTEST_APP}
+				${ENCRYPTION_AUTOTEST_APP}
+				${HTTP_CLIENT_AUTOTEST_APP}
+				${OS_COMMAND_AUTOTEST_APP}
+				${PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP}
+				${PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP}
+				${SEARCH_ENGINE_AUTOTEST_APP}
+				${TEXT_PROCESS_AUTOTEST_APP}
+				${EROS_AUTOTEST_APP}
+				${BASE_AUTOTEST_APP}
+				${MULTIMEDIA_AUTOTEST_APP}
+				${ECO_DB_AUTOTEST_APP}
+				${EL_CRC_32_AUTOTEST_APPLICATION}* [EQA_TYPES -> ${TUPLE} create default_create end]
+					${NETWORK_AUTOTEST_APP}
+					${EVOLICITY_AUTOTEST_APP}
+					${I18N_AUTOTEST_APP}
+					${IMAGE_UTILS_AUTOTEST_APP}
+					${OPEN_OFFICE_AUTOTEST_APP}
+					${PYXIS_SCAN_AUTOTEST_APP}
+					${TAGLIB_AUTOTEST_APP}
+					${TEXT_FORMATS_AUTOTEST_APP}
+					${VTD_XML_AUTOTEST_APP}
+					${XML_SCAN_AUTOTEST_APP}
+				${THUNDERBIRD_AUTOTEST_APP}
 	]"
 end

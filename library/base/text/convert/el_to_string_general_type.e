@@ -1,6 +1,6 @@
 note
 	description: "[
-		Convert [$source READABLE_STRING_GENERAL] string to type conforming to [$source STRING_GENERAL]
+		Convert ${READABLE_STRING_GENERAL} string to type conforming to ${STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

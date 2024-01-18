@@ -2,8 +2,8 @@ note
 	description: "UTF sequence for single unicode character."
 	descendants: "[
 			EL_UTF_SEQUENCE
-				[$source EL_UTF_8_SEQUENCE]
-				[$source EL_UTF_16_SEQUENCE]
+				${EL_UTF_8_SEQUENCE}
+				${EL_UTF_16_SEQUENCE}
 	]"
 
 	author: "Finnian Reilly"

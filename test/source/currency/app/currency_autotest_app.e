@@ -5,7 +5,7 @@ note
 
 		**Test Sets**
 
-			[$source CURRENCY_TEST_SET]
+			${CURRENCY_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

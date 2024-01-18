@@ -1,5 +1,5 @@
 note
-	description: "Provides access to make routines of classes descended from `[$source EL_COMMAND]'"
+	description: "Provides access to make routines of classes descended from `${EL_COMMAND}'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

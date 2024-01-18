@@ -4,7 +4,7 @@ note
 		
 			HH:MM:SS Mmm DD, YYYY PST
 			
-		Used in `{[$source PP_TRANSACTION]}.payment_date'
+		Used in `{${PP_TRANSACTION}}.payment_date'
 	]"
 	notes: "[
 		In the Paypal NVP manual it says `PDT' for the timezone, but this is incorrect.

@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_CONSOLE_MANAGER_I]"
+	description: "Shared access to routines of class ${EL_CONSOLE_MANAGER_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

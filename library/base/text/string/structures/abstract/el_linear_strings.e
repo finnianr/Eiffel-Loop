@@ -1,5 +1,5 @@
 note
-	description: "Abstraction for joining strings using routines in [$source EL_LINEAR [S]]"
+	description: "Abstraction for joining strings using routines in ${EL_LINEAR [S]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

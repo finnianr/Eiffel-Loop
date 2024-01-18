@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source UNDATED_PHOTO_FINDER] which compiles a
+		Command line interface to ${UNDATED_PHOTO_FINDER} which compiles a
 		list of JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
 	]"
 

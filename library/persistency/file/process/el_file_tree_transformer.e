@@ -2,7 +2,7 @@ note
 	description: "[
 		Object to transform selected input files placing the results in a created output directory
 		with matching structure. The conversion is carrried out by a supplied argument to routine `do_all'
-		conforming to [$source EL_FILE_INPUT_OUTPUT_COMMAND].
+		conforming to ${EL_FILE_INPUT_OUTPUT_COMMAND}.
 	]"
 
 	author: "Finnian Reilly"

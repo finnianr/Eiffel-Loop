@@ -2,8 +2,8 @@ note
 	description: "[
 		Compare parsing comma separated list of reals using across iteration over:
 		
-		1. [$source STRING_8].**split**
-		2. [$source EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]]
+		1. ${STRING_8}.**split**
+		2. ${EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]}
 	]"
 	notes: "[
 		Passes over 500 millisecs (in descending order)

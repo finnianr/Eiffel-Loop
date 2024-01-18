@@ -1,5 +1,5 @@
 note
-	description: "[$source NAME_VALUE_ECF_LINE] for **old_name new_name** renaming attribute pair"
+	description: "${NAME_VALUE_ECF_LINE} for **old_name new_name** renaming attribute pair"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

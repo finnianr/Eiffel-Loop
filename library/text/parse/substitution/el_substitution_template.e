@@ -6,7 +6,7 @@ note
 		To differentiate variable names from contiguous text, the variable name can be enclosed by
 		curly braces as for example `$code' in the template `"Country: ${code}"'
 
-		If you need to have a literal $ sign use class [$source EL_TEMPLATE [STRING_GENERAL]] instead,
+		If you need to have a literal $ sign use class ${EL_TEMPLATE [STRING_GENERAL]} instead,
 		as it supports dollor escaping with the % character.
 	]"
 

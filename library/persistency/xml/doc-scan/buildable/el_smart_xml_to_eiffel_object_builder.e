@@ -1,7 +1,7 @@
 note
 	description: "[
 		Detects the desired target type from XML processing instruction `create {G}' 
-		and sets the type of target_object to G where G is a type conforming to [$source EL_BUILDABLE_FROM_XML]. 
+		and sets the type of target_object to G where G is a type conforming to ${EL_BUILDABLE_FROM_XML}. 
 		Built object is made available as `product'.
 	]"
 

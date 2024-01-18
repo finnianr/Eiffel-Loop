@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_WHITE_SPACE_CHAR] optimized fro source text conforming to [$source READABLE_STRING_8]
+		${TP_WHITE_SPACE_CHAR} optimized fro source text conforming to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

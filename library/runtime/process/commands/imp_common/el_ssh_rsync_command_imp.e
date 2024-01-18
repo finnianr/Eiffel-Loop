@@ -1,5 +1,5 @@
 note
-	description: "Common implementation of [$source EL_SSH_RSYNC_COMMAND_I]"
+	description: "Common implementation of ${EL_SSH_RSYNC_COMMAND_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

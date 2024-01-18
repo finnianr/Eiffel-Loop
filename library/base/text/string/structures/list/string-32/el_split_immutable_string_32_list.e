@@ -1,7 +1,7 @@
 note
 	description: "[
-		A list of substring index intervals conforming to [$source EL_SPLIT_INTERVALS]
-		for a string of type [$source IMMUTABLE_STRING_32]
+		A list of substring index intervals conforming to ${EL_SPLIT_INTERVALS}
+		for a string of type ${IMMUTABLE_STRING_32}
 	]"
 
 	author: "Finnian Reilly"

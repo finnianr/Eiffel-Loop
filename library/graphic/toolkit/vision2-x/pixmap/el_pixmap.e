@@ -1,5 +1,5 @@
 note
-	description: "Extended [$source EV_PIXMAP]"
+	description: "Extended ${EV_PIXMAP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to command [$source PYXIS_ECF_CONVERTER]"
+	description: "Command line interface to command ${PYXIS_ECF_CONVERTER}"
 	notes: "[
 		Converts Pyxis format Eiffel project configuration with `.pecf' extension to `.ecf' XML file
 		

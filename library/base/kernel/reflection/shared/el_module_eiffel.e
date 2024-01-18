@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_INTERNAL] and ISE base class [$source INTERNAL]"
+	description: "Shared access to routines of class ${EL_INTERNAL} and ISE base class ${INTERNAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

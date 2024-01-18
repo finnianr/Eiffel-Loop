@@ -1,8 +1,8 @@
 note
-	description: "Shared access to instance of class [$source EL_IMAGE_PATH_LOCATIONS]"
+	description: "Shared access to instance of class ${EL_IMAGE_PATH_LOCATIONS}"
 	notes: "[
 		It is possible to temporarily change the image locations by copying a new
-		instance of [$source EL_IMAGE_PATH_LOCATIONS] on to **Image**.
+		instance of ${EL_IMAGE_PATH_LOCATIONS} on to **Image**.
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Represents keyboard key using a virtual key code. `code' can be any
-		of the constant values defined in [$source EV_KEY_CONSTANTS].
+		of the constant values defined in ${EV_KEY_CONSTANTS}.
 	]"
 
 	author: "Finnian Reilly"

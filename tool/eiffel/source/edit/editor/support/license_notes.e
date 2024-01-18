@@ -1,5 +1,5 @@
 note
-	description: "Default license notes for Eiffel source. See class [$source SOURCE_MANIFEST]"
+	description: "Default license notes for Eiffel source. See class ${SOURCE_MANIFEST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

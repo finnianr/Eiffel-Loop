@@ -1,5 +1,5 @@
 note
-	description: "Test set for [$source STOCK_CONSUMPTION_CALCULATOR]"
+	description: "Test set for ${STOCK_CONSUMPTION_CALCULATOR}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

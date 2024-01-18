@@ -1,5 +1,5 @@
 note
-	description: "Unescape strings conforming to [$source EL_READABLE_ZSTRING]"
+	description: "Unescape strings conforming to ${EL_READABLE_ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

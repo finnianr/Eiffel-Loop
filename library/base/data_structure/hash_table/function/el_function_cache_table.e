@@ -86,10 +86,10 @@ feature {NONE} -- Initialization
 note
 	descendants: "[
 			EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
-				[$source EL_FILLED_STRING_8_TABLE]
-				[$source EL_LOCALIZED_CURRENCY_TABLE]
-				[$source EL_FILLED_STRING_TABLE]* [STR -> [$source READABLE_STRING_GENERAL]]
-					[$source EL_FILLED_ZSTRING_TABLE]
-					[$source EL_FILLED_STRING_32_TABLE]
+				${EL_FILLED_STRING_8_TABLE}
+				${EL_LOCALIZED_CURRENCY_TABLE}
+				${EL_FILLED_STRING_TABLE}* [STR -> ${READABLE_STRING_GENERAL}]
+					${EL_FILLED_ZSTRING_TABLE}
+					${EL_FILLED_STRING_32_TABLE}
 	]"
 end

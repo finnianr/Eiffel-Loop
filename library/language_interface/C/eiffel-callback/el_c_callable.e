@@ -1,7 +1,7 @@
 note
 	description: "[
 		Ancestor for classes that are intended to handle callbacks from a C language routine. 
-		See also: [$source EL_C_TO_EIFFEL_CALLBACK_STRUCT]
+		See also: ${EL_C_TO_EIFFEL_CALLBACK_STRUCT}
 	]"
 	instructions: "[
 		To enable the descendant object item for callbacks, assign the result of the function
@@ -124,16 +124,16 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_C_CALLABLE*
-				[$source EL_EXPAT_XML_PARSER]
-					[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
-					[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
-				[$source EL_VTD_CALLABLE_EXCEPTIONS]
-				[$source EL_HTTP_COMMAND]*
-					[$source EL_DOWNLOAD_HTTP_COMMAND]*
-						[$source EL_STRING_DOWNLOAD_HTTP_COMMAND]
-							[$source EL_GET_HTTP_COMMAND]
-							[$source EL_HEAD_HTTP_COMMAND]
-							[$source EL_POST_HTTP_COMMAND]
-						[$source EL_FILE_DOWNLOAD_HTTP_COMMAND]
+				${EL_EXPAT_XML_PARSER}
+					${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}
+					${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}
+				${EL_VTD_CALLABLE_EXCEPTIONS}
+				${EL_HTTP_COMMAND}*
+					${EL_DOWNLOAD_HTTP_COMMAND}*
+						${EL_STRING_DOWNLOAD_HTTP_COMMAND}
+							${EL_GET_HTTP_COMMAND}
+							${EL_HEAD_HTTP_COMMAND}
+							${EL_POST_HTTP_COMMAND}
+						${EL_FILE_DOWNLOAD_HTTP_COMMAND}
 	]"
 end

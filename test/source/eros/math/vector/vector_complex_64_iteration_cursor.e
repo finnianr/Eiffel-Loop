@@ -1,10 +1,10 @@
 note
 	description: "[
-		Iteration cursor for descendants of [$source VECTOR_COMPLEX_64]
+		Iteration cursor for descendants of ${VECTOR_COMPLEX_64}
 
 			VECTOR_COMPLEX_64*
-				[$source COLUMN_VECTOR_COMPLEX_64]
-				[$source ROW_VECTOR_COMPLEX_64]
+				${COLUMN_VECTOR_COMPLEX_64}
+				${ROW_VECTOR_COMPLEX_64}
 	]"
 
 	author: "Finnian Reilly"

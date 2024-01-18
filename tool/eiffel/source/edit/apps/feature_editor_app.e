@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to command [$source FEATURE_EDITOR_COMMAND]"
+	description: "Command line interface to command ${FEATURE_EDITOR_COMMAND}"
 	notes: "[
 		This application can save a lot of unnecessary keyboard typing during Eiffel development. It performs 
 		a series of expansions on shorthand expressions present in a single Eiffel class. In addition to performing
@@ -53,7 +53,7 @@ note
 		becomes:
 			feature -- Element change
 	
-		A list of title codes is defined in class [$source FEATURE_CONSTANTS].
+		A list of title codes is defined in class ${FEATURE_CONSTANTS}.
 			
 		**2.** Similar to 1 but for unexported feature blocks as for example:
 			@f {ia

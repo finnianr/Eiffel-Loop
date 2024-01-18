@@ -1,5 +1,5 @@
 note
-	description: "Reflected [$source BOOLEAN] field"
+	description: "Reflected ${BOOLEAN} field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to class [$source EL_BENCHMARK_COMMAND_SHELL] which
+		Command line interface to class ${EL_BENCHMARK_COMMAND_SHELL} which
 		contains a menu of benchmarks for various classes.
 	]"
 	notes: "[

@@ -1,5 +1,5 @@
 note
-	description: "Storable object with a primary key of type [$source NATURAL_32]"
+	description: "Storable object with a primary key of type ${NATURAL_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

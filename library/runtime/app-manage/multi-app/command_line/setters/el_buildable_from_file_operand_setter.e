@@ -1,6 +1,6 @@
 note
 	description: "[
-		Builds an operand conforming to [$source EL_BUILDABLE_FROM_FILE] in `make' routine argument tuple
+		Builds an operand conforming to ${EL_BUILDABLE_FROM_FILE} in `make' routine argument tuple
 	]"
 
 	author: "Finnian Reilly"

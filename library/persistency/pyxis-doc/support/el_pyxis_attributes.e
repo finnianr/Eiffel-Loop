@@ -1,5 +1,5 @@
 note
-	description: "List of Pyxis attribute lines for output to [$source EL_OUTPUT_MEDIUM]"
+	description: "List of Pyxis attribute lines for output to ${EL_OUTPUT_MEDIUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,9 +1,9 @@
 note
 	description: "[
-		Array of sequential substrings from an instance of [$source STRING_32] compacted into a single
-		[$source SPECIAL] array:
+		Array of sequential substrings from an instance of ${STRING_32} compacted into a single
+		${SPECIAL} array:
 		
-			area: [$source SPECIAL [NATURAL]]
+			area: ${SPECIAL [NATURAL]}
 			
 		`area [0]' contains the substring count: `count'
 		
@@ -12,9 +12,9 @@ note
 		`area [count * 2 + 1] -> area [area.count - 1]' contains the combined substring character data
 	]"
 	notes: "[
-		Tried an experiment in Jan 2021 to implement [$source EL_ZSTRING] using [$source EL_SUBSTRING_32_ARRAY]
-		instead of [$source EL_COMPACT_SUBSTRINGS_32]. It passed all the tests but the performance benchmarks
-		indicated that it was on average significantly slower the original [$source EL_COMPACT_SUBSTRINGS_32]
+		Tried an experiment in Jan 2021 to implement ${EL_ZSTRING} using ${EL_SUBSTRING_32_ARRAY}
+		instead of ${EL_COMPACT_SUBSTRINGS_32}. It passed all the tests but the performance benchmarks
+		indicated that it was on average significantly slower the original ${EL_COMPACT_SUBSTRINGS_32}
 		implementation.
 	]"
 

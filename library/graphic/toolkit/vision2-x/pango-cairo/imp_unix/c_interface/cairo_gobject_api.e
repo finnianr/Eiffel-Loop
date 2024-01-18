@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source CAIRO_GOBJECT_I]"
+	description: "Unix implementation of ${CAIRO_GOBJECT_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

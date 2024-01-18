@@ -1,7 +1,7 @@
 note
 	description: "[
-		Split `target' string conforming to [$source READABLE_STRING_GENERAL] with
-		`separator' of type [$source READABLE_STRING_GENERAL]
+		Split `target' string conforming to ${READABLE_STRING_GENERAL} with
+		`separator' of type ${READABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
-		Adapter interface to read item of type **G** from [$source EL_READABLE]
-		and write an item to [$source EL_WRITABLE]
+		Adapter interface to read item of type **G** from ${EL_READABLE}
+		and write an item to ${EL_WRITABLE}
 	]"
 
 	author: "Finnian Reilly"

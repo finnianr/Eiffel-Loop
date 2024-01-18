@@ -1,5 +1,5 @@
 note
-	description: "Dialog to implement [$source EL_MODELED_DIALOG]"
+	description: "Dialog to implement ${EL_MODELED_DIALOG}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,11 +1,11 @@
 ﻿note
 	description: "[
-		Test objects conforming to [$source EL_BASE_POWER_2_CONVERTER]
+		Test objects conforming to ${EL_BASE_POWER_2_CONVERTER}
 
 			EL_BASE_POWER_2_CONVERTER*
-				[$source EL_OCTAL_CONVERTER]
-				[$source EL_BINARY_CONVERTER]
-				[$source EL_HEXADECIMAL_CONVERTER]
+				${EL_OCTAL_CONVERTER}
+				${EL_BINARY_CONVERTER}
+				${EL_HEXADECIMAL_CONVERTER}
 		
 	]"
 

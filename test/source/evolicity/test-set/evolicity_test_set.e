@@ -1,5 +1,5 @@
 note
-	description: "Test [$source EVOLICITY_TEMPLATES] and related classes"
+	description: "Test ${EVOLICITY_TEMPLATES} and related classes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		A [$source EL_CAPTURED_OS_COMMAND] with arguments parsed and set in the attribute **var** with type
+		A ${EL_CAPTURED_OS_COMMAND} with arguments parsed and set in the attribute **var** with type
 		defined as a class parameter
 	]"
 	notes: "[
@@ -8,7 +8,7 @@ note
 	]"
 	descendants: "[
 			EL_PARSED_CAPTURED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]
-				[$source EL_MD5_SUM_COMMAND]
+				${EL_MD5_SUM_COMMAND}
 	]"
 
 	author: "Finnian Reilly"

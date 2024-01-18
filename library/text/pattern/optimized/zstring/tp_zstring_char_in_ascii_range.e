@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_CHAR_IN_ASCII_RANGE] optimized for [$source ZSTRING] source text
+		${TP_CHAR_IN_ASCII_RANGE} optimized for ${ZSTRING} source text
 	]"
 
 	author: "Finnian Reilly"

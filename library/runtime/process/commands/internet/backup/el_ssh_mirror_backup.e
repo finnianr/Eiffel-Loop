@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_MIRROR_BACKUP] for **ssh** protocol using [$source EL_RSYNC_SSH_COMMAND] command
+		${EL_MIRROR_BACKUP} for **ssh** protocol using ${EL_RSYNC_SSH_COMMAND} command
 	]"
 
 	author: "Finnian Reilly"

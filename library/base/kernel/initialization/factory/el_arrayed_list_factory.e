@@ -1,5 +1,5 @@
 note
-	description: "Factory to create items conforming to [$source ARRAYED_LIST]"
+	description: "Factory to create items conforming to ${ARRAYED_LIST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

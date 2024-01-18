@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_COMPARE_ZSTRING_TO_STRING_8] with case-insensitive comparisons"
+	description: "${EL_COMPARE_ZSTRING_TO_STRING_8} with case-insensitive comparisons"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -5,8 +5,8 @@ note
 		
 		**Test Sets**
 		
-			[$source FILE_AND_DIRECTORY_TEST_SET]
-			[$source OS_COMMAND_TEST_SET]
+			${FILE_AND_DIRECTORY_TEST_SET}
+			${OS_COMMAND_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

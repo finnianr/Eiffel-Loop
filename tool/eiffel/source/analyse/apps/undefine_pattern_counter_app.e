@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to the command [$source UNDEFINE_PATTERN_COUNTER_COMMAND]"
+	description: "Command line interface to the command ${UNDEFINE_PATTERN_COUNTER_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

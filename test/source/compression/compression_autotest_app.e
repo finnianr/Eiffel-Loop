@@ -3,7 +3,7 @@ note
 	notes: "[
 		Command option: `-compression_autotest'
 		
-		Test set: [$source COMPRESSION_TEST_SET]
+		Test set: ${COMPRESSION_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

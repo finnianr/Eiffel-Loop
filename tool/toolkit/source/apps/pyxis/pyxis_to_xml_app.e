@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to command [$source EL_PYXIS_TO_XML_CONVERTER]"
+	description: "Command line interface to command ${EL_PYXIS_TO_XML_CONVERTER}"
 	notes: "[
 		Usage:
 			

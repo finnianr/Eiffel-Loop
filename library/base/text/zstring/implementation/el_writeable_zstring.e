@@ -1,5 +1,5 @@
 note
-	description: "Writing contents of [$source ZSTRING] to external strings/objects"
+	description: "Writing contents of ${ZSTRING} to external strings/objects"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

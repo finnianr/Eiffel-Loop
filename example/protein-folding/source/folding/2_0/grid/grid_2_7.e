@@ -1,5 +1,5 @@
 note
-	description: "Two-dimensional [$source BOOLEAN_GRID]"
+	description: "Two-dimensional ${BOOLEAN_GRID}"
 	notes: "[
 		Merged `a' and 'used' into one array of NATURAL_8. This method proved to be surprisingly slow.
 		TIME: 0 hrs 4 mins 38 secs 532 ms

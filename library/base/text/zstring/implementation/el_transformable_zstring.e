@@ -1,5 +1,5 @@
 note
-	description: "Implementation routines to transform instance of [$source ZSTRING]"
+	description: "Implementation routines to transform instance of ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

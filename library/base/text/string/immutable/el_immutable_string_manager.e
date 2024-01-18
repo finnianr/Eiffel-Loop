@@ -1,6 +1,6 @@
 note
 	description: "[
-		Injects shared string data into an instance of a string conforming to [$source IMMUTABLE_STRING_GENERAL]
+		Injects shared string data into an instance of a string conforming to ${IMMUTABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

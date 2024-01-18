@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_END_OF_LINE_CHAR] optimized for string conforming to [$source READABLE_STRING_8]
+		${TP_END_OF_LINE_CHAR} optimized for string conforming to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

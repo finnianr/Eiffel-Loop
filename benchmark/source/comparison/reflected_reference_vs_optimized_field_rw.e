@@ -1,10 +1,10 @@
 note
 	description: "[
 		Compare optimized way of field read/write by reflection to the original
-		implementation of [$source EL_REFLECTED_FIELD]
+		implementation of ${EL_REFLECTED_FIELD}
 	]"
 	notes: "[
-		For basic getting/setting fields the original implementation of [$source EL_REFLECTED_INTEGER_32] was
+		For basic getting/setting fields the original implementation of ${EL_REFLECTED_INTEGER_32} was
 		97% slower than the current optimized version.
 	]"
 

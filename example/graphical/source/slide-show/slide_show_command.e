@@ -2,7 +2,7 @@ note
 	description: "Create slides for video"
 	notes: "[
 		Unfortunately this app has a memory leak possibly due to a bug in GDK API.
-		See routine {[$source CAIRO_PIXEL_BUFFER]}**.c_free**.
+		See routine {${CAIRO_PIXEL_BUFFER}}**.c_free**.
 	]"
 
 	author: "Finnian Reilly"

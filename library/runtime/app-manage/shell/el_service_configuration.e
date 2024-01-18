@@ -1,5 +1,5 @@
 note
-	description: "Service management configuration for [$source EL_SERVICE_MANAGER_SHELL]"
+	description: "Service management configuration for ${EL_SERVICE_MANAGER_SHELL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

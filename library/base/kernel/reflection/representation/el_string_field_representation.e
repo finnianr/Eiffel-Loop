@@ -1,11 +1,11 @@
 note
 	description: "[
 		A field value `G' that represents an item of type `H' capable of conversion to and from
-		a string conforming to [$source READABLE_STRING_GENERAL].
+		a string conforming to ${READABLE_STRING_GENERAL}.
 	]"
 	notes: "[
 		See `representation' attribute in class
-		[$source EL_REFLECTED_EXPANDED_FIELD [G]] and `new_representations' function in class [$source EL_REFLECTIVE]
+		${EL_REFLECTED_EXPANDED_FIELD [G]} and `new_representations' function in class ${EL_REFLECTIVE}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
-		2 dimensional array of [$source IMMUTABLE_STRING_8] strings that share the same
-		comma separated text of a [$source STRING_8] manifest constant
+		2 dimensional array of ${IMMUTABLE_STRING_8} strings that share the same
+		comma separated text of a ${STRING_8} manifest constant
 	]"
 
 	author: "Finnian Reilly"

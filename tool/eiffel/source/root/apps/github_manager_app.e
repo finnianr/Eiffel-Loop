@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source GITHUB_MANAGER_SHELL_COMMAND]"
+	description: "Command line interface to ${GITHUB_MANAGER_SHELL_COMMAND}"
 	notes: "[
 		USAGE
 			el_eiffel -github_manager -config <file-path>

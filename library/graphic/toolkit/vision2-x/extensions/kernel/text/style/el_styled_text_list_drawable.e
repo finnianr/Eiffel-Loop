@@ -1,10 +1,10 @@
 ﻿note
 	description: "[
-		Drawable component that can draw string lists with a mix of font-styles conforming to [$source EL_STYLED_TEXT_LIST]
+		Drawable component that can draw string lists with a mix of font-styles conforming to ${EL_STYLED_TEXT_LIST}
 	]"
 	notes: "[
 		`draw_text_top_left' can be implemented either as `{EV_DRAWING_AREA}.draw_text_top_left' or as
-		`{EV_FIXED}.put_label_top_left'. See class [$source EL_MIXED_STYLE_FIXED_LABELS] for example of latter.
+		`{EV_FIXED}.put_label_top_left'. See class ${EL_MIXED_STYLE_FIXED_LABELS} for example of latter.
 	]"
 
 	author: "Finnian Reilly"

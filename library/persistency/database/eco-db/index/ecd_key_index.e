@@ -1,7 +1,7 @@
 note
 	description: "[
-		A field index conforming to [$source ECD_INDEX_TABLE [EL_STORABLE, HASHABLE]] that indexes
-		a primary key of type [$source NATURAL_32]
+		A field index conforming to ${ECD_INDEX_TABLE [EL_STORABLE, HASHABLE]} that indexes
+		a primary key of type ${NATURAL_32}
 	]"
 
 	author: "Finnian Reilly"

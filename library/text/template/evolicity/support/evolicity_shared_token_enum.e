@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EVOLICITY_TOKEN_ENUM]"
+	description: "Shared instance of ${EVOLICITY_TOKEN_ENUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

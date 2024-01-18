@@ -1,5 +1,5 @@
 ﻿note
-	description: "Shared instance of [$source EL_TEST_TEXT]"
+	description: "Shared instance of ${EL_TEST_TEXT}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

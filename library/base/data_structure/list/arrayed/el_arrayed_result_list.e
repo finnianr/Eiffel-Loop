@@ -1,7 +1,7 @@
 note
 	description: "[
-		An [$source EL_ARRAYED_LIST [R]] that is the result of applying a function to all the items in
-		a container conforming to [$source CONTAINER [G]] where **R** is the result type,
+		An ${EL_ARRAYED_LIST [R]} that is the result of applying a function to all the items in
+		a container conforming to ${CONTAINER [G]} where **R** is the result type,
 		and **G** is the function operand type.
 	]"
 

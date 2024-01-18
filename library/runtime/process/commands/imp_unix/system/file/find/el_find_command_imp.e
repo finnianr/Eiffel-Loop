@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source EL_OS_COMMAND_IMP] for find commands"
+	description: "Unix implementation of ${EL_OS_COMMAND_IMP} for find commands"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Table of functions converting date measurements to type [$source ZSTRING]"
+	description: "Table of functions converting date measurements to type ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

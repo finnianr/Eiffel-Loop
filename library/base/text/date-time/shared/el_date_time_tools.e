@@ -1,5 +1,5 @@
 note
-	description: "Extension to [$source DATE_TIME_TOOLS]"
+	description: "Extension to ${DATE_TIME_TOOLS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

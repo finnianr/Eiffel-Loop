@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source NOTE_EDITOR_COMMAND]"
+	description: "Command line interface to ${NOTE_EDITOR_COMMAND}"
 	notes: "[
 		USAGE
 			

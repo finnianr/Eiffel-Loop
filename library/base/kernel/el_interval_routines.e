@@ -1,5 +1,5 @@
 note
-	description: "Routines for comparing [$source INTEGER_32] intervals. (Useful for string processing)"
+	description: "Routines for comparing ${INTEGER_32} intervals. (Useful for string processing)"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

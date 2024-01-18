@@ -2,8 +2,8 @@ note
 	description: "[
 		Shared access to instances of classes:
 
-			[$source EL_EXECUTION_ENVIRONMENT_I]
-			[$source EL_OPERATING_ENVIRONMENT_I]
+			${EL_EXECUTION_ENVIRONMENT_I}
+			${EL_OPERATING_ENVIRONMENT_I}
 	]"
 
 	author: "Finnian Reilly"

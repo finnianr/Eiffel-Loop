@@ -2,13 +2,13 @@
 	description: "[
 		Test classes from library `vtd-xml.ecf'
 		
-		* [$source EL_XPATH_NODE_CONTEXT]
-		* [$source EL_XML_DOC_CONTEXT]
-		* [$source EL_XPATH_NODE_CONTEXT_LIST]
+		* ${EL_XPATH_NODE_CONTEXT}
+		* ${EL_XML_DOC_CONTEXT}
+		* ${EL_XPATH_NODE_CONTEXT_LIST}
 	]"
 	notes: "[
-		Test sets conforming to [$source EL_CRC_32_TESTABLE] (like this one) can only be run
-		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_APPLICATION]
+		Test sets conforming to ${EL_CRC_32_TESTABLE} (like this one) can only be run
+		from a sub-application conforming to ${EL_CRC_32_AUTOTEST_APPLICATION}
 	]"
 
 	author: "Finnian Reilly"

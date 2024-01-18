@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source STRING_TEST] for testing **same_caseless_characters**
+		${STRING_TEST} for testing **same_caseless_characters**
 	]"
 
 	author: "Finnian Reilly"

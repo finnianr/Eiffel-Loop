@@ -3,8 +3,8 @@ note
 	notes: "[
 		Use one of the following classes in a once routine to retrieve this object from `Singleton_table'
 			
-		* [$source EL_SINGLETON]
-		* [$source EL_CONFORMING_SINGLETON]
+		* ${EL_SINGLETON}
+		* ${EL_CONFORMING_SINGLETON}
 
 		For example:
 
@@ -15,7 +15,7 @@ note
 						Result := create {EL_CONFORMING_SINGLETON [RBOX_DATABASE]}
 					end
 
-		In this example the routine will return either [$source RBOX_DATABASE] or [$source RBOX_TEST_DATABASE]
+		In this example the routine will return either ${RBOX_DATABASE} or ${RBOX_TEST_DATABASE}
 		depending on which instance is found in `Singleton_table'.
 	]"
 

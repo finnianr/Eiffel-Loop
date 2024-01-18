@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source EL_IMAGE_MAGICK_SLIDE_SHOW] command"
+	description: "Command line interface to ${EL_IMAGE_MAGICK_SLIDE_SHOW} command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

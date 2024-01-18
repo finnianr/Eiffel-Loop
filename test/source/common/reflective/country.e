@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test for reflective classes [$source EL_REFLECTIVELY_SETTABLE] and [$source EL_SETTABLE_FROM_ZSTRING]
+		Test for reflective classes ${EL_REFLECTIVELY_SETTABLE} and ${EL_SETTABLE_FROM_ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

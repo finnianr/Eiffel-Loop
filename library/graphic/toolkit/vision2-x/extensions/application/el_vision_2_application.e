@@ -4,7 +4,7 @@ note
 		
 		* Positioning of Windows that takes into account usable area, i.e. total area less the system toolbar
 		* management of multi-threaded logging output in terminal console
-		* Execution of events sent to shared instance of [$source EL_MAIN_THREAD_EVENT_REQUEST_QUEUE] by main GUI thread.
+		* Execution of events sent to shared instance of ${EL_MAIN_THREAD_EVENT_REQUEST_QUEUE} by main GUI thread.
 	]"
 
 	author: "Finnian Reilly"

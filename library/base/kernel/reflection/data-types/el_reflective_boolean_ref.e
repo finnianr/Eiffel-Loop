@@ -6,7 +6,7 @@ note
 		In a descendant, rename `item' to the "true name", `on' for example, and redefine `false_name' as the opposite,
 		which in this example would be `off'.
 	]"
-	tests: "Class [$source PAYPAL_TEST_SET]"
+	tests: "Class ${PAYPAL_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

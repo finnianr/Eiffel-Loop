@@ -2,7 +2,7 @@ note
 	description: "[
 		Example of a class that does not exemplify the
 		[https://en.wikipedia.org/wiki/Don%27t_repeat_yourself DRY principle].
-		Contrast 87 lines with [$source MY_DRY_CLASS].
+		Contrast 87 lines with ${MY_DRY_CLASS}.
 	]"
 
 	author: "Finnian Reilly"

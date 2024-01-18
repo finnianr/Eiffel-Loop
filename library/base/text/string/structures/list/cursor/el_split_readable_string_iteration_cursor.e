@@ -1,5 +1,5 @@
 note
-	description: "Iteration_cursor for [$source EL_SPLIT_READABLE_STRING_LIST]"
+	description: "Iteration_cursor for ${EL_SPLIT_READABLE_STRING_LIST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

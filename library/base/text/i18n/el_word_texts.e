@@ -1,6 +1,6 @@
 note
 	description: "[
-		Deferred i18n of common words accessible via [$source EL_SHARED_WORD] as `Word'
+		Deferred i18n of common words accessible via ${EL_SHARED_WORD} as `Word'
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Pattern match routines optimized for strings of type [$source ZSTRING]
+		Pattern match routines optimized for strings of type ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

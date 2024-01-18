@@ -1,5 +1,5 @@
 note
-	description: "CRC 32 checksum routines accessible via [$source EL_MODULE_CHECKSUM]"
+	description: "CRC 32 checksum routines accessible via ${EL_MODULE_CHECKSUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

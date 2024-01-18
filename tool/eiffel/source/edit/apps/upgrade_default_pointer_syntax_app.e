@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND]
+		Command line interface to ${UPGRADE_DEFAULT_POINTER_SYNTAX_COMMAND}
 	]"
 
 	author: "Finnian Reilly"

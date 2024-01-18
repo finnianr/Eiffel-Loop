@@ -1,6 +1,6 @@
 note
 	description: "[
-		Same as [$source STRING_TEST] but with shared immutable substrings
+		Same as ${STRING_TEST} but with shared immutable substrings
 	]"
 
 	author: "Finnian Reilly"

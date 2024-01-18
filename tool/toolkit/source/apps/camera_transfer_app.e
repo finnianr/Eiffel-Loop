@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source CAMERA_TRANSFER_COMMAND]"
+	description: "Command line interface to ${CAMERA_TRANSFER_COMMAND}"
 	notes: "[
 		Usage:
 			el_toolkit -camera_transfer -config <config-path>

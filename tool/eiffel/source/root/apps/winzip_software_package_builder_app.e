@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source WINZIP_SOFTWARE_PACKAGE] command"
+	description: "Command line interface to ${WINZIP_SOFTWARE_PACKAGE} command"
 	notes: "[
 		**Usage**
 

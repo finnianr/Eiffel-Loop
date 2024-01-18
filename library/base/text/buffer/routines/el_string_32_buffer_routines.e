@@ -1,5 +1,5 @@
 note
-	description: "Temporary once buffer of type [$source STRING_32]"
+	description: "Temporary once buffer of type ${STRING_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "[$source STRING_32] implementation of [$source XML_ESCAPER_IMP [STRING_GENERAL]]"
+	description: "${STRING_32} implementation of ${XML_ESCAPER_IMP [STRING_GENERAL]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

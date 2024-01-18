@@ -1,6 +1,6 @@
 note
 	description: "[
-		Cache table of localized currencies accessible via [$source EL_SHARED_LOCALIZED_CURRENCY_TABLE]
+		Cache table of localized currencies accessible via ${EL_SHARED_LOCALIZED_CURRENCY_TABLE}
 	]"
 
 	author: "Finnian Reilly"

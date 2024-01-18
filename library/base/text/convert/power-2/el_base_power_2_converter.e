@@ -1,5 +1,5 @@
 note
-	description: "Convert binary, octal or hexadecimal strings to [$source NUMERIC] types"
+	description: "Convert binary, octal or hexadecimal strings to ${NUMERIC} types"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

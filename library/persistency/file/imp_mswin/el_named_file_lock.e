@@ -4,7 +4,7 @@ note
 		STATUS 22 Nov 2023
 		
 		This is a Linux port but not yet implemented for Windows as a special 1 byte file.
-		The descendant class [$source EL_LOCKABLE_TEXT_FILE] however is fully tested.
+		The descendant class ${EL_LOCKABLE_TEXT_FILE} however is fully tested.
 	]"
 
 	author: "Finnian Reilly"

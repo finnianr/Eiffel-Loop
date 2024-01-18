@@ -1,7 +1,7 @@
 note
 	description: "[
 		List of all occurrence intervals of a pattern or character in a string conforming to
-		[$source READABLE_STRING_GENERAL]
+		${READABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

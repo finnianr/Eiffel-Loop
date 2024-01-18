@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source HTML_BODY_WORD_COUNTER]"
+	description: "Test class ${HTML_BODY_WORD_COUNTER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

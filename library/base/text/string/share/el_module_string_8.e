@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_STRING_8_ROUTINES_IMP]"
+	description: "Shared access to routines of class ${EL_STRING_8_ROUTINES_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

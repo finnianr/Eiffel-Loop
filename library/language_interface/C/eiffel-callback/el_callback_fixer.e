@@ -5,7 +5,7 @@ note
 	]"
 	instructions: "[
 		Use this class by making a call to the `new_callback' function in a descendant of 
-		class [$source EL_C_CALLABLE].
+		class ${EL_C_CALLABLE}.
 	]"
 
 	author: "Finnian Reilly"

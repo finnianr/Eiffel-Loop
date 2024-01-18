@@ -186,13 +186,13 @@ feature {NONE} -- Implementation
 		end
 
 	text_count (line: ZSTRING): INTEGER
-		-- count excluding [$source MY_CLASS] characters
+		-- count excluding ${MY_CLASS} characters
 		local
 			variable_count: INTEGER
 		do
 			Result := line.count
 			if line.has_substring (Source_variable) then
-				-- substract all extra characters from [$source MY_CLASS]
+				-- substract all extra characters from ${MY_CLASS}
 				variable_count := line.substring_index_list (Source_variable, False).count
 				Result := Result - variable_count * (Source_variable.count + 3)
 			end

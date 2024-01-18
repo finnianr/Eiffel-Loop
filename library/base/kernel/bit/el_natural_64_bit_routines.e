@@ -1,5 +1,5 @@
 note
-	description: "Multi-bit set and get routines for [$source NATURAL_64] numbers"
+	description: "Multi-bit set and get routines for ${NATURAL_64} numbers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

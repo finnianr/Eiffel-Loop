@@ -1,8 +1,8 @@
 note
 	description: "[
-		Object to find the maximum [$source NUMERIC] result value of a function applied to a
-		[$source CONTAINER [G]] list of items filtered by an optional query condition
-		[$source EL_QUERY_CONDITION [G]].
+		Object to find the maximum ${NUMERIC} result value of a function applied to a
+		${CONTAINER [G]} list of items filtered by an optional query condition
+		${EL_QUERY_CONDITION [G]}.
 	]"
 
 	author: "Finnian Reilly"

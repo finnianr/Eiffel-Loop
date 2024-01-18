@@ -1,6 +1,6 @@
 note
 	description: "[
-		Initialize `ftp: [$source EL_FTP_CONFIGURATION]' instance from any Pyxis file with
+		Initialize `ftp: ${EL_FTP_CONFIGURATION}' instance from any Pyxis file with
 		named elements **encrypted_url** etc as shown in notes below.
 	]"
 	notes: "[

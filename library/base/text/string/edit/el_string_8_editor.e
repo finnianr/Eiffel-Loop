@@ -1,9 +1,9 @@
 note
 	description: "[
-		Edit strings of type [$source STRING_8] by applying an editing procedure to all
+		Edit strings of type ${STRING_8} by applying an editing procedure to all
 		occurrences of substrings that begin and end with a pair of delimiters.
 
-		See `{[$source EL_STRING_EDITOR]}.delete_interior' for an example of an editing procedure
+		See `{${EL_STRING_EDITOR}}.delete_interior' for an example of an editing procedure
 	]"
 
 	author: "Finnian Reilly"

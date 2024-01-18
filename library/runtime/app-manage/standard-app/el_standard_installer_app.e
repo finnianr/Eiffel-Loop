@@ -1,6 +1,6 @@
 note
 	description: "[
-		Standard command-line installer for application with root conforming to [$source EL_MULTI_APPLICATION_ROOT].
+		Standard command-line installer for application with root conforming to ${EL_MULTI_APPLICATION_ROOT}.
 		To use it include the type representation in the list `{EL_MULTI_APPLICATION_ROOT}.application_types'.
 		Assumes the following directory structure:
 			package/bin/<application name>

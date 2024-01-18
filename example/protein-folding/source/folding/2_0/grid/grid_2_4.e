@@ -1,5 +1,5 @@
 note
-	description: "Two-dimensional [$source BOOLEAN_GRID]"
+	description: "Two-dimensional ${BOOLEAN_GRID}"
 	notes: "[
 		Failed experiment to use dispatch table `loss_calculators' in place of `inspect' for loss calculations
 	]"

@@ -1,8 +1,8 @@
 note
 	description: "[
-		Table for grouping items of type `G' into lists of type [$source EL_ARRAYED_LIST [G]] according to
-		the result of applying a function agent of type [$source FUNCTION [G, K]] where **K** conforms to
-		[$source HASHABLE].
+		Table for grouping items of type `G' into lists of type ${EL_ARRAYED_LIST [G]} according to
+		the result of applying a function agent of type ${FUNCTION [G, K]} where **K** conforms to
+		${HASHABLE}.
 	]"
 
 	author: "Finnian Reilly"

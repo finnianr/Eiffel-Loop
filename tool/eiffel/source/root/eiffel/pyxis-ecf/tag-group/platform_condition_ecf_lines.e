@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source GROUPED_ECF_LINES] for adding C externals group platform condition
+		${GROUPED_ECF_LINES} for adding C externals group platform condition
 	]"
 
 	author: "Finnian Reilly"

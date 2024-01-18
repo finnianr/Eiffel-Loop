@@ -1,5 +1,5 @@
 note
-	description: "Execute test set [$source JAVA_TEST_SET]"
+	description: "Execute test set ${JAVA_TEST_SET}"
 	notes: "[
 		Launch option: `-java_autotest'
 	]"

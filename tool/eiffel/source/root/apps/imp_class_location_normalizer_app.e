@@ -1,5 +1,5 @@
 note
-	description: "Command-line interface to command [$source IMP_CLASS_LOCATION_NORMALIZER]"
+	description: "Command-line interface to command ${IMP_CLASS_LOCATION_NORMALIZER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

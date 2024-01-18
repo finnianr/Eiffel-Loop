@@ -1,5 +1,5 @@
 note
-	description: "Set of fonts corresponding to the 4 font styles defined by [$source EL_TEXT_STYLE]"
+	description: "Set of fonts corresponding to the 4 font styles defined by ${EL_TEXT_STYLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

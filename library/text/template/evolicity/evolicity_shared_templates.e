@@ -35,7 +35,7 @@ note
 		**VARIABLE CONTEXTS**
 		
 		Variables which can be referenced in the template are specified by implementing the function `getter_function_table'
-		in classes conforming to [$source EVOLICITY_CONTEXT]. It returns a table mapping variable names to agent functions.
+		in classes conforming to ${EVOLICITY_CONTEXT}. It returns a table mapping variable names to agent functions.
 		
 			getter_function_table: like getter_functions
 					--
@@ -50,26 +50,26 @@ note
 
 		**1.** Basic Types
 
-		A basic type is one of: [$source READABLE_STRING_GENERAL], [$source INTEGER_32_REF], [$source NATURAL_32_REF],
-		[$source BOOLEAN_REF] or [$source REAL_64_REF]
+		A basic type is one of: ${READABLE_STRING_GENERAL}, ${INTEGER_32_REF}, ${NATURAL_32_REF},
+		${BOOLEAN_REF} or ${REAL_64_REF}
 
 		**2.** Evolicity Context
 
-		A type conforming to [$source EVOLICITY_CONTEXT] or [$source EVOLICITY_CONTEXT_IMP]
-		or [$source EVOLICITY_SERIALIZEABLE]. In the
+		A type conforming to ${EVOLICITY_CONTEXT} or ${EVOLICITY_CONTEXT_IMP}
+		or ${EVOLICITY_SERIALIZEABLE}. In the
 		client template page, you use the standard feature call dot notation to select which object within
 		the context you want to substitute into the template.
 		
 		**3.** An Iterable List
 		
-		An iterable list [$source ITERABLE [G]] where `G' recursively conforms to one of the types 1 to 3.
+		An iterable list ${ITERABLE [G]} where `G' recursively conforms to one of the types 1 to 3.
 		
 		**STANDARD VARIABLES**
 		
-		Contexts which inherit [$source EVOLICITY_SERIALIZEABLE] have a number of built-in standard variables. These are:
+		Contexts which inherit ${EVOLICITY_SERIALIZEABLE} have a number of built-in standard variables. These are:
 		
 		* **encoding_name:** the output encoding for the current template. For example: `UTF-8'
-		* **template_name:** the name of the current template. Internally this is of type [$source FILE_PATH].
+		* **template_name:** the name of the current template. Internally this is of type ${FILE_PATH}.
 		* **current:** the current context of the template
 
 		**SYNTAX REFERENCE**
@@ -96,15 +96,15 @@ note
 		* Logical conjunction: `<expr> and <expr>' where <expr> is a numeric comparison or boolean reference variable.
 		* Logical negation: `not <expr>' where <expr> is a numeric comparison or boolean reference variable.
 		* Container status: `<sequence-name>.is_empty' where ''<sequence-name>'' is a reference to an Eiffel object conforming to
-		type [$source SEQUENCE [G]].
+		type ${SEQUENCE [G]}.
 
 		More complicated expressions can be implemented an Eiffel function returning a boolean and then
 		referenced as an Evolicity variable.
 
-		**Iteration of [$source ITERABLE [G]] containers**
+		**Iteration of ${ITERABLE [G]} containers**
 		
-		There are two loop syntax alternatives to iterate any object which conforms to the type [$source ITERABLE [G]]
-		where `G' is an object that satisfies the condition `{[$source EVOLICITY_CONTEXT]}.is_valid_type'.
+		There are two loop syntax alternatives to iterate any object which conforms to the type ${ITERABLE [G]}
+		where `G' is an object that satisfies the condition `{${EVOLICITY_CONTEXT}}.is_valid_type'.
 		
 		**1. foreach** loop
 
@@ -113,7 +113,7 @@ note
 			#end
 
 		The loop index can be referenced using the implicit variable: `$loop_index'. If in addition the container
-		also conforms to [$source TABLE_ITERABLE [G]], then the table key value can be referenced
+		also conforms to ${TABLE_ITERABLE [G]}, then the table key value can be referenced
 		by inserting an additional variable name, separated by a comma. This is similar to Python.
 
 			#foreach $<variable-name>, $<key-name> in $<table-name> loop
@@ -128,10 +128,10 @@ note
 				<directive block>
 			#end
 
-		The object referenced by `<iterable-name>' must conform to type [$source ITERABLE [G]]. Exactly like in Eiffel
+		The object referenced by `<iterable-name>' must conform to type ${ITERABLE [G]}. Exactly like in Eiffel
 		you reference the item values in the directive block using the syntax `$<variable-name>.item', and the
 		cursor index can be referenced as: `$<variable-name>.cursor_index'. If in addition the container also conforms to
-		[$source TABLE_ITERABLE [G]], then the table key value can be referenced as `$<variable-name>.key'.
+		${TABLE_ITERABLE [G]}, then the table key value can be referenced as `$<variable-name>.key'.
 
 		**The Evaluate Directive**
 
@@ -145,7 +145,7 @@ note
 
 			#evaluate ({<CLASS-NAME>}.template, $<variable-name>)
 
-		Here `<CLASS-NAME>' must be some type which conforms to type [$source EVOLICITY_SERIALIZEABLE]
+		Here `<CLASS-NAME>' must be some type which conforms to type ${EVOLICITY_SERIALIZEABLE}
 		and therefore has a template. The variable in the second argument is some Eiffel data accessible
 		as an Evolicity variable which is referenced by the nested template.
 
@@ -153,7 +153,7 @@ note
 		
 			#evaluate ($<variable-name>.template_name, $<variable-name>)
 
-		Here the first argument is a reference to an object that conforms to type [$source EVOLICITY_SERIALIZEABLE]
+		Here the first argument is a reference to an object that conforms to type ${EVOLICITY_SERIALIZEABLE}
 		and therefore has a template name which be referenced with the implicit variable name `template_name'.
 
 		**3.** Template path reference
@@ -168,7 +168,7 @@ note
 				#evaluate ($<variable-name>.item.template_name, $<variable-name>.item)
 			#end
 
-		Here the iterable container must conform to type [$source ITERABLE [EVOLICITY_SERIALIZEABLE]]. Note that even if the
+		Here the iterable container must conform to type ${ITERABLE [EVOLICITY_SERIALIZEABLE]}. Note that even if the
 		the nested text spans multiple lines, as it most likely will do, it will be indented to same indent level as
 		the `#evaluate' directive.
 

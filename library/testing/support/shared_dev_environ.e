@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source DEVELOPMENT_ENVIRONMENT]"
+	description: "Shared instance of ${DEVELOPMENT_ENVIRONMENT}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

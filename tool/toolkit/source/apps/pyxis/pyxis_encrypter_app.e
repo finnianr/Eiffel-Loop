@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source PYXIS_ENCRYPTER] which encrypts a file using AES cryptography
+		Command line interface to ${PYXIS_ENCRYPTER} which encrypts a file using AES cryptography
 		
 		Usage:
 			el_toolkit -pyxis_encrypt -in <input-name> -out <output-name>

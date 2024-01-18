@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare arrayed intervals implemented as [$source INTEGER_64] vs [$source INTEGER_32] x 2
+		Compare arrayed intervals implemented as ${INTEGER_64} vs ${INTEGER_32} x 2
 	]"
 	notes: "[
 		Benchmark: compare extend

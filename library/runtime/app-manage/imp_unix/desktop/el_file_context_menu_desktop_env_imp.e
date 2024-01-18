@@ -1,6 +1,6 @@
 note
 	description: "[
-		Unix implementation of [$source EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I] interface
+		Unix implementation of ${EL_FILE_CONTEXT_MENU_DESKTOP_ENV_I} interface
 		Installer for GNOME desktop. Creates Nautilus script program launcher.
 	]"
 

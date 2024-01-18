@@ -1,6 +1,6 @@
 note
 	description: "[
-		Override to [$source EV_FONT_IMP] fixing issue of setting font height in pixels.
+		Override to ${EV_FONT_IMP} fixing issue of setting font height in pixels.
 		This version is compiled only if ISE_C_COMPILER = msc_vc140. It scales the font
 		height differently if the deployment platform is Windows 10
 	]"

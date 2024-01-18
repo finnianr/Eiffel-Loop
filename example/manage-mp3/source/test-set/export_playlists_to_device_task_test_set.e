@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source EXPORT_MUSIC_TO_DEVICE_TASK]"
+	description: "Test set for class ${EXPORT_MUSIC_TO_DEVICE_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

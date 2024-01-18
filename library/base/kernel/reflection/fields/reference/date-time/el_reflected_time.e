@@ -1,5 +1,5 @@
 note
-	description: "Reflected field of type [$source TIME]"
+	description: "Reflected field of type ${TIME}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

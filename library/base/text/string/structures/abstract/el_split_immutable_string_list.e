@@ -1,5 +1,5 @@
 note
-	description: "Splits strings conforming to [$source IMMUTABLE_STRING_GENERAL]"
+	description: "Splits strings conforming to ${IMMUTABLE_STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

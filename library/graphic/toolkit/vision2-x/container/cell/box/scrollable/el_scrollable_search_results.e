@@ -1,10 +1,10 @@
 note
 	description: "[
-		List of scrollable search result hyperlinks for data list conforming to [$source DYNAMIC_CHAIN [G]]
+		List of scrollable search result hyperlinks for data list conforming to ${DYNAMIC_CHAIN [G]}
 	]"
 	descendants: "[
 			EL_SCROLLABLE_SEARCH_RESULTS
-				[$source EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS]
+				${EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS}
 	]"
 	notes: "See end of class"
 
@@ -416,17 +416,17 @@ note
 		The function `new_styled_description' creates a hyperlink description for navigating to the `i_th'
 		element of the `result_set' by attempting to make the following casts of type `G' in the order given:
 
-		1. Cast to type [$source EL_DESCRIBEABLE]
-		2. Cast to type [$source EL_STYLED_TEXT_LIST]
-		3. Cast to type [$source EL_NAMEABLE [READABLE_STRING_GENERAL]]
-		3. Cast to type [$source READABLE_STRING_GENERAL]
-		4. Cast to type [$source DEBUG_OUTPUT]
+		1. Cast to type ${EL_DESCRIBEABLE}
+		2. Cast to type ${EL_STYLED_TEXT_LIST}
+		3. Cast to type ${EL_NAMEABLE [READABLE_STRING_GENERAL]}
+		3. Cast to type ${READABLE_STRING_GENERAL}
+		4. Cast to type ${DEBUG_OUTPUT}
 		4. Default to using `{ANY}.out' as description
 
-		If `G' conforms to [$source EL_DATEABLE] then a date is displayed below the navigable heading in a "result details"
+		If `G' conforms to ${EL_DATEABLE} then a date is displayed below the navigable heading in a "result details"
 		section. See routine `new_detail_lines'.
 
-		The `style' attribute [$source EL_SEARCH_RESULTS_STYLE] defines the following properties:
+		The `style' attribute ${EL_SEARCH_RESULTS_STYLE} defines the following properties:
 
 		1. Visual appearance for fonts and colors
 		2. The number of links per page

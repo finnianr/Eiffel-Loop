@@ -1,5 +1,5 @@
 note
-	description: "Windows implemenation of [$source CAIRO_PANGO_LAYOUT_I]"
+	description: "Windows implemenation of ${CAIRO_PANGO_LAYOUT_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

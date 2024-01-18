@@ -1,5 +1,5 @@
 note
-	description: "A command line interface to the class [$source REPEATED_DUPLICITY_BACKUP]"
+	description: "A command line interface to the class ${REPEATED_DUPLICITY_BACKUP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

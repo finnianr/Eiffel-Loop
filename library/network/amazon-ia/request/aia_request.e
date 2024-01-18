@@ -2,9 +2,9 @@ note
 	description: "Parent class for instant access requests"
 	descendants: "[
 			AIA_REQUEST*
-				[$source AIA_PURCHASE_REQUEST]
-					[$source AIA_REVOKE_REQUEST]
-				[$source AIA_GET_USER_ID_REQUEST]
+				${AIA_PURCHASE_REQUEST}
+					${AIA_REVOKE_REQUEST}
+				${AIA_GET_USER_ID_REQUEST}
 	]"
 
 	author: "Finnian Reilly"

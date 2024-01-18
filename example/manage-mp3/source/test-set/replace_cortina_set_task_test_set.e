@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source REPLACE_CORTINA_SET_TASK]"
+	description: "Test set for class ${REPLACE_CORTINA_SET_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

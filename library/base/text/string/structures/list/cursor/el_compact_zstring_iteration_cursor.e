@@ -1,5 +1,5 @@
 note
-	description: "Iteration_cursor for [$source EL_COMPACT_ZSTRING_LIST]"
+	description: "Iteration_cursor for ${EL_COMPACT_ZSTRING_LIST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

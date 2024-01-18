@@ -1,5 +1,5 @@
 note
-	description: "Routines for validating integer arguments that correspond to constants in [$source EL_SIDE]"
+	description: "Routines for validating integer arguments that correspond to constants in ${EL_SIDE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

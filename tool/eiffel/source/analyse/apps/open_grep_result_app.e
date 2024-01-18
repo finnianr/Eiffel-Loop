@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the command [$source OPEN_GREP_RESULT_COMMAND].
+		A command line interface to the command ${OPEN_GREP_RESULT_COMMAND}.
 	]"
 	notes: "[
 		**Command Line Usage**

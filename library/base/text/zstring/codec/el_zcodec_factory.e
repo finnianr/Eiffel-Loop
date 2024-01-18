@@ -1,7 +1,7 @@
 note
-	description: "Factory for character codecs conforming to [$source EL_ZCODEC]"
+	description: "Factory for character codecs conforming to ${EL_ZCODEC}"
 	notes: "[
-		This class must not have any dependencies on [$source ZSTRING] since it is used
+		This class must not have any dependencies on ${ZSTRING} since it is used
 		to set the `ZSTRING.codec'. See routine `default_codec'.
 	]"
 

@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_CACHE_TABLE] with `new_item' calling a supplied agent function"
+	description: "${EL_CACHE_TABLE} with `new_item' calling a supplied agent function"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

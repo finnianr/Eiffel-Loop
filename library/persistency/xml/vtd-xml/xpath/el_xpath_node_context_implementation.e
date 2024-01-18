@@ -1,5 +1,5 @@
 note
-	description: "Implementation routines for [$source EL_XPATH_NODE_CONTEXT]"
+	description: "Implementation routines for ${EL_XPATH_NODE_CONTEXT}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

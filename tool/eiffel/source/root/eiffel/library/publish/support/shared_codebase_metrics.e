@@ -1,5 +1,5 @@
 note
-	description: "Shared mutex protected instance of [$source CODEBASE_METRICS]"
+	description: "Shared mutex protected instance of ${CODEBASE_METRICS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

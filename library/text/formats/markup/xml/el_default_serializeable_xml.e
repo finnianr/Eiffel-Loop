@@ -1,6 +1,6 @@
 note
 	description: "[
-		Default implementation of [$source EL_SERIALIZEABLE_AS_XML]
+		Default implementation of ${EL_SERIALIZEABLE_AS_XML}
 		
 		**to_xml:**
 		

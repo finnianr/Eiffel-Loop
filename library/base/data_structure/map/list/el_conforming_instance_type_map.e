@@ -14,7 +14,7 @@ note
 			end
 	]"
 	notes: "[
-		Benchmark [$source IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE] shows this is about
+		Benchmark ${IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE} shows this is about
 		7% slower than equivalent branching attachment attempts
 	]"
 

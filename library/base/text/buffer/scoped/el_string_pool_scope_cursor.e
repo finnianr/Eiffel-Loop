@@ -1,7 +1,7 @@
 note
 	description: "[
 		Artificial scope defined by an **across** loop in which strings can be borrowed from a pool
-		See class [$source EL_STRING_POOL_SCOPE]
+		See class ${EL_STRING_POOL_SCOPE}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source DISPLAY_MUSIC_BRAINZ_INFO_TASK]"
+	description: "Test set for class ${DISPLAY_MUSIC_BRAINZ_INFO_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

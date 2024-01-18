@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_ACTION_MANAGER]"
+	description: "Shared instance of ${EL_ACTION_MANAGER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Path filters applicable to classes conforming to [$source EL_FIND_COMMAND_I]"
+	description: "Path filters applicable to classes conforming to ${EL_FIND_COMMAND_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

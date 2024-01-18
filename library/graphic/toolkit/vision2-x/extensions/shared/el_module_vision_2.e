@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class [$source EL_VISION_2_FACTORY]"
+	description: "Shared instance of class ${EL_VISION_2_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

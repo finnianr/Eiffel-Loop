@@ -1,6 +1,6 @@
 note
-	description: "Get access to `storage' field in [$source PATH] object"
-	notes: "Accessible via [$source EL_SHARED_PATH_MANAGER]"
+	description: "Get access to `storage' field in ${PATH} object"
+	notes: "Accessible via ${EL_SHARED_PATH_MANAGER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		A list of strings each associated with a text style defined by class [$source EL_TEXT_STYLE].
+		A list of strings each associated with a text style defined by class ${EL_TEXT_STYLE}.
 
 			feature -- Styles
 
@@ -14,7 +14,7 @@ note
 
 		When rendered the strings are usually joined together first separated by a space character.
 		It is up to the rendering class what font to use for the text style. See
-		[$source EL_HYPERLINK_AREA] for example.
+		${EL_HYPERLINK_AREA} for example.
 	]"
 
 	author: "Finnian Reilly"

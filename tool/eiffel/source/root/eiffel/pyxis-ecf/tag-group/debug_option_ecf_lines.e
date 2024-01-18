@@ -1,5 +1,5 @@
 note
-	description: "[$source OPTION_ECF_LINES] for **debug** tag"
+	description: "${OPTION_ECF_LINES} for **debug** tag"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

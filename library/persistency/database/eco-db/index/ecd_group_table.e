@@ -1,7 +1,7 @@
 note
 	description: "[
-		A field group index table for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST [EL_STORABLE]]
-		[$source EL_STORABLE] items are grouped according to the value of a specified agent of type [$source FUNCTION [G, K]]
+		A field group index table for Eco-DB arrayed lists conforming to ${ECD_ARRAYED_LIST [EL_STORABLE]}
+		${EL_STORABLE} items are grouped according to the value of a specified agent of type ${FUNCTION [G, K]}
 	]"
 
 	author: "Finnian Reilly"

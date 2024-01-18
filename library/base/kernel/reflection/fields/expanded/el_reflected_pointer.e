@@ -1,5 +1,5 @@
 note
-	description: "Reflected [$source POINTER] field"
+	description: "Reflected ${POINTER} field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

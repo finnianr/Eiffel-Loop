@@ -1,6 +1,6 @@
 note
-	description: "Read only interface to class [$source ZSTRING]"
-	tests: "Class [$source ZSTRING_TEST_SET]"
+	description: "Read only interface to class ${ZSTRING}"
+	tests: "Class ${ZSTRING_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

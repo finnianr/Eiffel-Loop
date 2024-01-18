@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source CHARACTER_PROPERTY]"
+	description: "Shared instance of ${CHARACTER_PROPERTY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

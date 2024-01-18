@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source VCF_CONTACT_SPLITTER]"
+	description: "Command line interface to ${VCF_CONTACT_SPLITTER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -2,19 +2,19 @@ note
 	description: "[
 		Provides the features below when used in conjunction with either of these 2 classes:
 		
-			1. [$source ECD_CHAIN [EL_STORABLE]]
-			2. [$source ECD_RECOVERABLE_CHAIN [EL_STORABLE]]
+			1. ${ECD_CHAIN [EL_STORABLE]}
+			2. ${ECD_RECOVERABLE_CHAIN [EL_STORABLE]}
 
 		from the [./library/Eco-DB.html Eco-DB library].
 		
-		* An Eiffel-orientated data query language via the features of [$source EL_CHAIN] and [$source EL_QUERYABLE_CHAIN].
-		The class [$source EL_QUERYABLE_ARRAYED_LIST] has links to some examples in the
+		* An Eiffel-orientated data query language via the features of ${EL_CHAIN} and ${EL_QUERYABLE_CHAIN}.
+		The class ${EL_QUERYABLE_ARRAYED_LIST} has links to some examples in the
 		[./example/manage-mp3/manage-mp3.html mp3-manager] project.
 		
 		* Automatically maintained field indexes accessible via the tuple attribute `index_by'
 		
 		* Automatic maintenance of a primary key index when used in conjunction with class
-		[$source ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]]
+		${ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]}
 	]"
 	instructions: "See end of class"
 
@@ -125,8 +125,8 @@ feature {NONE} -- Internal attributes
 
 note
 	instructions: "[
-		To create field indexes for a list, inherit from [$source ECD_ARRAYED_LIST] or
-		[$source ECD_REFLECTIVE_RECOVERABLE_CHAIN] and redefine the function `new_index_by' with
+		To create field indexes for a list, inherit from ${ECD_ARRAYED_LIST} or
+		${ECD_REFLECTIVE_RECOVERABLE_CHAIN} and redefine the function `new_index_by' with
 		any number of index members as in this example:
 
 			deferred class

@@ -1,5 +1,5 @@
 note
-	description: "Shared global instance of [$source Default_listener]"
+	description: "Shared global instance of ${Default_listener}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

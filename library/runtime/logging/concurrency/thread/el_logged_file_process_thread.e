@@ -1,5 +1,5 @@
 note
-	description: "Logged version of [$source EL_FILE_PROCESS_THREAD]"
+	description: "Logged version of ${EL_FILE_PROCESS_THREAD}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

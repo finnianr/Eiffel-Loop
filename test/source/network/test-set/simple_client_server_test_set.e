@@ -1,5 +1,5 @@
 note
-	description: "Test [$source EL_SIMPLE_SERVER] and [$source EL_NETWORK_STREAM_SOCKET]"
+	description: "Test ${EL_SIMPLE_SERVER} and ${EL_NETWORK_STREAM_SOCKET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

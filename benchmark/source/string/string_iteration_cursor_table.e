@@ -1,6 +1,6 @@
 note
 	description: "[
-		Provides access to shared string iteration cursor for string conforming to [$source READABLE_STRING_GENERAL]
+		Provides access to shared string iteration cursor for string conforming to ${READABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

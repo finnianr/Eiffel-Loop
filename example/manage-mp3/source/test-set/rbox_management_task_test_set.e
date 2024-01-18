@@ -1,5 +1,5 @@
 note
-	description: "Generic test set for tests conforming to [$source RBOX_MANAGEMENT_TASK]"
+	description: "Generic test set for tests conforming to ${RBOX_MANAGEMENT_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

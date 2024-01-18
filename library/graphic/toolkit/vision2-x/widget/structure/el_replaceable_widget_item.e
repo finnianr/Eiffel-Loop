@@ -1,5 +1,5 @@
 note
-	description: "Replaceable attribute conforming to [$source EV_WIDGET]"
+	description: "Replaceable attribute conforming to ${EV_WIDGET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

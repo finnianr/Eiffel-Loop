@@ -1,7 +1,7 @@
 note
-	description: "Factory to create objects conforming to [$source EL_MAKEABLE]"
+	description: "Factory to create objects conforming to ${EL_MAKEABLE}"
 	notes: "[
-		Use this factory instead of [$source EL_OBJECT_FACTORY] for cases where applying
+		Use this factory instead of ${EL_OBJECT_FACTORY} for cases where applying
 		an agent make procedure after the creation of the object violates a class invariant.
 	]"
 

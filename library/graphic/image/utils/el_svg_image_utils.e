@@ -2,7 +2,7 @@ note
 	description: "SVG image utils"
 	notes: "[
 		The Windows C implementation hangs if you try to render a UTF-8 encoded `svg_path' so for this reason
-		using `{[$source EL_PNG_IMAGE_FILE]}.render_svg_of_width' is the recommended alternative.
+		using `{${EL_PNG_IMAGE_FILE}}.render_svg_of_width' is the recommended alternative.
 	]"
 
 	author: "Finnian Reilly"

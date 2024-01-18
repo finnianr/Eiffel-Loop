@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of [$source EL_IMAGE_ACCESS_IMP]"
+	description: "Shared access to routines of ${EL_IMAGE_ACCESS_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

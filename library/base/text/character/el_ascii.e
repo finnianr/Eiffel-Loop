@@ -1,5 +1,5 @@
 note
-	description: "ASCII [$source NATURAL_32] codes"
+	description: "ASCII ${NATURAL_32} codes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

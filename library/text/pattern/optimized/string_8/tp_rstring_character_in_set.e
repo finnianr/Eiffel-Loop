@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_CHARACTER_IN_SET] optimized for strings conforming to [$source READABLE_STRING_8]
+		${TP_CHARACTER_IN_SET} optimized for strings conforming to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

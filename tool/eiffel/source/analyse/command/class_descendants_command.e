@@ -158,7 +158,7 @@ feature {NONE} -- Implementation
 				end
 			end
 			if line.has ('{') then
-				-- for example: [$source EL_DESCRIPTIVE_ENUMERATION]* [N -> {NUMERIC, HASHABLE}]
+				-- for example: ${EL_DESCRIPTIVE_ENUMERATION}* [N -> {NUMERIC, HASHABLE}]
 				line.edit ("{", "}", agent expand_constraint_list)
 			end
 		end
@@ -243,7 +243,7 @@ feature {NONE} -- Constants
 
 	Source_link_template: ZSTRING
 		once
-			Result := "[$source %S]"
+			Result := "${%S}"
 		end
 
 	Quote: ZSTRING

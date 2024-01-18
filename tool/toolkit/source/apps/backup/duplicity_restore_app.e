@@ -1,5 +1,5 @@
 note
-	description: "A command line interface to the class [$source DUPLICITY_RESTORE]"
+	description: "A command line interface to the class ${DUPLICITY_RESTORE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

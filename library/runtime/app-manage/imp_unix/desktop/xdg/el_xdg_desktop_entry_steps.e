@@ -1,5 +1,5 @@
 note
-	description: "List of items conforming to [$source EL_XDG_DESKTOP_MENU_ITEM]"
+	description: "List of items conforming to ${EL_XDG_DESKTOP_MENU_ITEM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

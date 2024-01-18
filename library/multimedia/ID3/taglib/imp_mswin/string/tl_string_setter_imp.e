@@ -1,5 +1,5 @@
 note
-	description: "Windows implemenation of interface [$source TL_STRING_SETTER_I]"
+	description: "Windows implemenation of interface ${TL_STRING_SETTER_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

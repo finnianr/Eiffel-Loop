@@ -1,7 +1,7 @@
 note
 	description: "Reads data for obsolete **EL_ASTRING** string type"
 	notes: "[
-		**EL_ASTRING** was the precursor of [$source ZSTRING]
+		**EL_ASTRING** was the precursor of ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

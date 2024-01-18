@@ -1,6 +1,6 @@
 note
 	description: "[
-		For use with class [$source ZSTRING] which redefines `{READABLE_STRING_GENERAL}.code' as `z_code'.
+		For use with class ${ZSTRING} which redefines `{READABLE_STRING_GENERAL}.code' as `z_code'.
 		A `z_code' is a hybrid of a Latin-x or Windows-x encoding and a UCS4 encoding.
 		(We only refer to "latin" from here on)
 		

@@ -7,7 +7,7 @@ note
 		
 		**Test Sets**
 		
-			[$source THUNDERBIRD_EXPORT_TEST_SET]
+			${THUNDERBIRD_EXPORT_TEST_SET}
 	]"
 	description: "[
 		Finalized executable tests for library cluster [./library/markup-docs.thunderbird.html markup-docs.ecf#thunderbird]

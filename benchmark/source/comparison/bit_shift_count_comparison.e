@@ -13,10 +13,10 @@ note
 		**Bit-routine classes**
 
 			EL_NUMERIC_BIT_ROUTINES*
-				[$source EL_NATURAL_32_BIT_ROUTINES] (built-in C)
-					[$source NATURAL_32_BIT_ROUTINES_V1] (iterative shift)
-					[$source NATURAL_32_BIT_ROUTINES_V2] (De Bruijn)
-					[$source NATURAL_32_BIT_ROUTINES_V3] (branching)
+				${EL_NATURAL_32_BIT_ROUTINES} (built-in C)
+					${NATURAL_32_BIT_ROUTINES_V1} (iterative shift)
+					${NATURAL_32_BIT_ROUTINES_V2} (De Bruijn)
+					${NATURAL_32_BIT_ROUTINES_V3} (branching)
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Stock colors accessible via [$source EL_MODULE_COLOR]"
+	description: "Stock colors accessible via ${EL_MODULE_COLOR}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Extensions for [$source STRING_8]"
+	description: "Extensions for ${STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

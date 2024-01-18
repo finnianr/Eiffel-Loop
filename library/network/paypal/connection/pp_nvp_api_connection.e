@@ -1,5 +1,5 @@
 note
-	description: "Paypal NVP API connection accessible via `{[$source PP_SHARED_API_CONNECTION]}.paypal'"
+	description: "Paypal NVP API connection accessible via `{${PP_SHARED_API_CONNECTION}}.paypal'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

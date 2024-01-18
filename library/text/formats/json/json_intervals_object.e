@@ -1,7 +1,7 @@
 note
 	description: "[
 		List of JSON parsed string value substring intervals indexed by cached field:
-		[$source EL_ENUMERATION [NATURAL_16]]
+		${EL_ENUMERATION [NATURAL_16]}
 	]"
 
 	author: "Finnian Reilly"

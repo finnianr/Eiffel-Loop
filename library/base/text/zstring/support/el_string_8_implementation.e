@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_STRING_8] argument wrappers for [$source EL_READABLE_ZSTRING]"
+	description: "${EL_STRING_8} argument wrappers for ${EL_READABLE_ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

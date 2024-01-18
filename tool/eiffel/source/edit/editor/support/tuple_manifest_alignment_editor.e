@@ -1,6 +1,6 @@
 note
 	description: "[
-		Align the right columns of an array of name-value tuples in some [$source SOURCE_LINES] so the
+		Align the right columns of an array of name-value tuples in some ${SOURCE_LINES} so the
 		value item is left-justified.
 	]"
 	notes: "See end of class"

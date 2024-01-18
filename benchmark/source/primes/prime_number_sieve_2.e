@@ -1,5 +1,5 @@
 note
-	description: "[$source MANAGED_POINTER] implementation of [$source PRIME_NUMBER_COMMAND]"
+	description: "${MANAGED_POINTER} implementation of ${PRIME_NUMBER_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

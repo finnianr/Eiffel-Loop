@@ -1,5 +1,5 @@
 note
-	description: "[$source GROUPED_ECF_LINES] **name value** attribute pair line"
+	description: "${GROUPED_ECF_LINES} **name value** attribute pair line"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

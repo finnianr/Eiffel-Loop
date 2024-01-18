@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test routine `write_png_of_width' from class [$source EL_SVG_IMAGE_UTILS]. Found in `image-utils.ecf'
+		Test routine `write_png_of_width' from class ${EL_SVG_IMAGE_UTILS}. Found in `image-utils.ecf'
 	]"
 
 	author: "Finnian Reilly"

@@ -5,7 +5,7 @@ note
 	]"
 	notes: "[
 		The `type_alias' function converts the target types defined by `TYPE_SET' into a string.
-		Typically it will use a routine from [$source EL_NAMING_ROUTINES] (accessible via [$source EL_MODULE_NAMING]
+		Typically it will use a routine from ${EL_NAMING_ROUTINES} (accessible via ${EL_MODULE_NAMING}
 	]"
 
 	author: "Finnian Reilly"

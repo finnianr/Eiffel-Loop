@@ -1,5 +1,5 @@
 note
-	description: "Interface for buffer of type [$source STRING_8]"
+	description: "Interface for buffer of type ${STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

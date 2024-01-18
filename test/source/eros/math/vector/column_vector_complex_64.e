@@ -1,5 +1,5 @@
 note
-	description: "Column vector form of [$source VECTOR_COMPLEX_64]"
+	description: "Column vector form of ${VECTOR_COMPLEX_64}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

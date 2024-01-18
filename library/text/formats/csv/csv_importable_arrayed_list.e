@@ -4,7 +4,7 @@ note
 		Comma Separated Value (CSV) file. The first line must contain field names that match
 		the settable fields of type G.
 	]"
-	tests: "Class [$source COMMA_SEPARATED_IMPORT_TEST_SET]"
+	tests: "Class ${COMMA_SEPARATED_IMPORT_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

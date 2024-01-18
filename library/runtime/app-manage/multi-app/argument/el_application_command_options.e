@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line options for `app-manage.ecf' library accessible from [$source EL_SHARED_APPLICATION_OPTION]
+		Command line options for `app-manage.ecf' library accessible from ${EL_SHARED_APPLICATION_OPTION}
 	]"
 
 	author: "Finnian Reilly"

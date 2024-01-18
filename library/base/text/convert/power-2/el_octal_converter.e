@@ -1,5 +1,5 @@
 note
-	description: "Convert octal numeric strings to [$source NUMERIC] types"
+	description: "Convert octal numeric strings to ${NUMERIC} types"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

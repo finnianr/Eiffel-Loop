@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source ECD_READER_WRITER_TEST_SET]
+			${ECD_READER_WRITER_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Expanded implementation of [$source EL_STRING_8_BUFFER_I] with shared buffer of type [$source STRING_8]
+		Expanded implementation of ${EL_STRING_8_BUFFER_I} with shared buffer of type ${STRING_8}
 	]"
 
 	author: "Finnian Reilly"

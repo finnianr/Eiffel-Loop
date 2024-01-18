@@ -1,7 +1,7 @@
 note
 	description: "[
-		RSA key reflectively createable from PKCS1 standard names. Base class for [$source EL_RSA_PUBLIC_KEY]
-		and [$source EL_RSA_PRIVATE_KEY].
+		RSA key reflectively createable from PKCS1 standard names. Base class for ${EL_RSA_PUBLIC_KEY}
+		and ${EL_RSA_PRIVATE_KEY}.
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Textable widget settable from string of type [$source ZSTRING]"
+	description: "Textable widget settable from string of type ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

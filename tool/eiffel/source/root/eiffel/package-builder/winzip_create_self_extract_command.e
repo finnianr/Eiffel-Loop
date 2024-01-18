@@ -1,7 +1,7 @@
 note
 	description: "Wrapper for [https://www.winzip.com/win/en/prodpagese.html wzipse32 command]"
 	notes: "[
-		Template arguments match wzipse32 arguments fields in [$source WINZIP_SOFTWARE_PACKAGE]
+		Template arguments match wzipse32 arguments fields in ${WINZIP_SOFTWARE_PACKAGE}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "XML [$source STRING_8] constants"
+	description: "XML ${STRING_8} constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

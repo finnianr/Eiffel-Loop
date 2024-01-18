@@ -1,5 +1,5 @@
 note
-	description: "Unix implemenation of [$source EL_BIT_ROUTINES_I] interface"
+	description: "Unix implemenation of ${EL_BIT_ROUTINES_I} interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,8 +1,8 @@
 note
 	description: "[
-		Memory efficient list of [$source ZSTRING] with character data stored as a single
-		UTF-8 encoding instance of [$source IMMUTABLE_STRING_8] using class
-		[$source EL_SPLIT_IMMUTABLE_UTF_8_LIST]
+		Memory efficient list of ${ZSTRING} with character data stored as a single
+		UTF-8 encoding instance of ${IMMUTABLE_STRING_8} using class
+		${EL_SPLIT_IMMUTABLE_UTF_8_LIST}
 	]"
 
 	author: "Finnian Reilly"

@@ -7,7 +7,7 @@ note
 		
 		**Test Sets**
 		
-			[$source PAYPAL_TEST_SET]
+			${PAYPAL_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

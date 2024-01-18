@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_IMMUTABLE_STRING_8_LIST] encoded as UTF-8"
+	description: "${EL_IMMUTABLE_STRING_8_LIST} encoded as UTF-8"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

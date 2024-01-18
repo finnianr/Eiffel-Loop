@@ -67,12 +67,12 @@ feature {NONE} -- Implementation
 note
 	descendants: "[
 			EL_COMMAND_LINE_OPTIONS*
-				[$source EL_APPLICATION_COMMAND_OPTIONS]
-					[$source EROS_APPLICATION_COMMAND_OPTIONS]
-					[$source FTP_LOGIN_OPTIONS]
-					[$source INTEGRATION_COMMAND_OPTIONS]
-				[$source EL_BASE_COMMAND_OPTIONS]
-				[$source EL_LOG_COMMAND_OPTIONS]
+				${EL_APPLICATION_COMMAND_OPTIONS}
+					${EROS_APPLICATION_COMMAND_OPTIONS}
+					${FTP_LOGIN_OPTIONS}
+					${INTEGRATION_COMMAND_OPTIONS}
+				${EL_BASE_COMMAND_OPTIONS}
+				${EL_LOG_COMMAND_OPTIONS}
 	]"
 	notes: "[
 		Each class attribute maps to a command line word option of the same name.
@@ -92,11 +92,11 @@ note
 
 		The `help_table' function converts the text from `help_text' into a table of tuples each
 		containing a description and the default value. A usage example can be seen in
-		command line help system found in class [$source EL_APPLICATION].
+		command line help system found in class ${EL_APPLICATION}.
 
 		If the help text is not implemented as an empty string, then it should be formatted as
 		a series of option names ending with `:', and the description indented by 1 tab on the next
-		line. See [$source EL_BASE_COMMAND_OPTIONS] for an example.
+		line. See ${EL_BASE_COMMAND_OPTIONS} for an example.
 
 		Use the `joined' function to join `Help_text' with it's precursor.
 	]"

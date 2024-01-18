@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_ERROR_DESCRIPTION] for command line argument errors"
+	description: "${EL_ERROR_DESCRIPTION} for command line argument errors"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

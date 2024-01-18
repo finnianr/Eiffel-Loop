@@ -1,5 +1,5 @@
 note
-	description: "Defines codec to be used by class [$source EL_ZSTRING] for encoding characters in `area'"
+	description: "Defines codec to be used by class ${EL_ZSTRING} for encoding characters in `area'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

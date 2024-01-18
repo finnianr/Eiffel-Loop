@@ -4,7 +4,7 @@ note
 		**Demonstrates**
 		
 		1. Replaceable widgets
-		2. Class [$source EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP]
+		2. Class ${EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP}
 	]"
 
 	author: "Finnian Reilly"

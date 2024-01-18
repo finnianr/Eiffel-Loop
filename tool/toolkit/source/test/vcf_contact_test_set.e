@@ -1,5 +1,5 @@
 note
-	description: "Test command classes [$source VCF_CONTACT_SPLITTER] and [$source VCF_CONTACT_NAME_SWITCHER]"
+	description: "Test command classes ${VCF_CONTACT_SPLITTER} and ${VCF_CONTACT_NAME_SWITCHER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

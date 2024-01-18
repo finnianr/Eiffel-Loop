@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_SUBSTITUTION_TEMPLATE] for [$source STRING_32]"
+	description: "${EL_SUBSTITUTION_TEMPLATE} for ${STRING_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

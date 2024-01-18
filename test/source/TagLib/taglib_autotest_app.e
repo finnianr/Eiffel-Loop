@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source TAGLIB_TEST_SET]
+			${TAGLIB_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

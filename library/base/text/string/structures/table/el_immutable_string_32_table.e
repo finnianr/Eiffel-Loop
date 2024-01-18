@@ -1,7 +1,7 @@
 note
 	description: "[
-		Implementation of [$source EL_IMMUTABLE_STRING_TABLE] for keys and virtual items of type
-		[$source IMMUTABLE_STRING_32] and initialized by a manifest string of type [$source STRING_32]
+		Implementation of ${EL_IMMUTABLE_STRING_TABLE} for keys and virtual items of type
+		${IMMUTABLE_STRING_32} and initialized by a manifest string of type ${STRING_32}
 	]"
 
 	author: "Finnian Reilly"

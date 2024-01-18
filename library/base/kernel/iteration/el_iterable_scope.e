@@ -5,9 +5,9 @@ note
 	]"
 	descendants: "[
 			EL_ITERABLE_SCOPE* [G]
-				[$source EL_BORROWED_OBJECT_SCOPE] [G]
-					[$source EL_BORROWED_STRING_SCOPE] [S -> [$source STRING_GENERAL] create make end]
-				[$source EL_PACKAGE_IMAGES_SCOPE]
+				${EL_BORROWED_OBJECT_SCOPE} [G]
+					${EL_BORROWED_STRING_SCOPE} [S -> ${STRING_GENERAL} create make end]
+				${EL_PACKAGE_IMAGES_SCOPE}
 	]"
 
 	author: "Finnian Reilly"

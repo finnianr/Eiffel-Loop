@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_STRING_X_ROUTINES] implemented for [$source EL_READABLE_ZSTRING]
+		${EL_STRING_X_ROUTINES} implemented for ${EL_READABLE_ZSTRING}
 		plus a few extra convenience routines
 	]"
 

@@ -1,5 +1,5 @@
 note
-	description: "A [$source EL_ARRAYED_MAP_LIST] indexed by key conforming to [$source COMPARABLE]"
+	description: "A ${EL_ARRAYED_MAP_LIST} indexed by key conforming to ${COMPARABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

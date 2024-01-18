@@ -1,6 +1,6 @@
 note
 	description: "[
-		Query an object conforming to type [$source EL_REFLECTIVE] for fields of parameter type **G**
+		Query an object conforming to type ${EL_REFLECTIVE} for fields of parameter type **G**
 		or optionally conforming to type **G**
 	]"
 

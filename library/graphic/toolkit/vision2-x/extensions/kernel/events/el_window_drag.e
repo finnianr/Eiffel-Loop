@@ -1,5 +1,5 @@
 note
-	description: "Allows any [$source EV_WIDGET] to be used as handle to drag a window to a new position"
+	description: "Allows any ${EV_WIDGET} to be used as handle to drag a window to a new position"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

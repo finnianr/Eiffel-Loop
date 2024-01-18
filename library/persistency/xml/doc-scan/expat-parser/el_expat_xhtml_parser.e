@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_EXPAT_XML_PARSER] for parsing XHTML staring with `<!DOCTYPE html>'"
+	description: "${EL_EXPAT_XML_PARSER} for parsing XHTML staring with `<!DOCTYPE html>'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

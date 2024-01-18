@@ -1,5 +1,5 @@
 note
-	description: "Repository publisher test set. See class [$source REPOSITORY_TEST_PUBLISHER]"
+	description: "Repository publisher test set. See class ${REPOSITORY_TEST_PUBLISHER}"
 	notes: "[
 		FILE: config-1.pyx
 

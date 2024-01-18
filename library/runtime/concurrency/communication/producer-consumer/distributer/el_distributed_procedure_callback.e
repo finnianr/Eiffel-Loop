@@ -7,8 +7,8 @@ note
 	]"
 	descendants: "[
 			EL_DISTRIBUTED_PROCEDURE_CALLBACK
-				[$source EIFFEL_CLASS_PARSER]
-				[$source EIFFEL_CLASS_UPDATE_CHECKER]
+				${EIFFEL_CLASS_PARSER}
+				${EIFFEL_CLASS_UPDATE_CHECKER}
 	]"
 
 	author: "Finnian Reilly"

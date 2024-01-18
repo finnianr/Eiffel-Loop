@@ -1,6 +1,6 @@
 note
 	description: "[
-		A reflected [$source BOOLEAN] field representing set of two strings conforming to [$source READABLE_STRING_GENERAL]
+		A reflected ${BOOLEAN} field representing set of two strings conforming to ${READABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

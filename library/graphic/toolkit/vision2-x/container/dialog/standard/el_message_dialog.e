@@ -1,5 +1,5 @@
 note
-	description: "Message dialog with deferred localization text from [$source EL_WORD_TEXTS]"
+	description: "Message dialog with deferred localization text from ${EL_WORD_TEXTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

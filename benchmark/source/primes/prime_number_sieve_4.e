@@ -1,5 +1,5 @@
 note
-	description: "Implementation using bits compacted into an array of type [$source SPECIAL [NATURAL_32]]"
+	description: "Implementation using bits compacted into an array of type ${SPECIAL [NATURAL_32]}"
 
 	author: "Alexander Kogtenkov"
 	copyright: "Copyright (c) 2001-2021 Alexander Kogtenkov"

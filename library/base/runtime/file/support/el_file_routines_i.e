@@ -1,5 +1,5 @@
 note
-	description: "File related routines accessible via [$source EL_MODULE_FILE]"
+	description: "File related routines accessible via ${EL_MODULE_FILE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

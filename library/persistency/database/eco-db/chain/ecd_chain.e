@@ -5,16 +5,16 @@ note
 		
 		* Support for AES encryption
 		* Ability to mark items for deletion without actually having to remove them immediately. This allows
-		implementations like class [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN] to support field indexing.
+		implementations like class ${ECD_REFLECTIVE_RECOVERABLE_CHAIN} to support field indexing.
 		* Ability to store software version information which is available to the item
-		implementing [$source EL_STORABLE].
+		implementing ${EL_STORABLE}.
 	]"
 	notes: "[
 		Items must implement either the
-		class [$source EL_STORABLE] or [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
+		class ${EL_STORABLE} or ${EL_REFLECTIVELY_SETTABLE_STORABLE}.
 
-		The descendant class [$source ECD_RECOVERABLE_CHAIN] can be used to implement a proper
-		indexed transactional database when used in conjunction with class [$source ECD_REFLECTIVE_RECOVERABLE_CHAIN].
+		The descendant class ${ECD_RECOVERABLE_CHAIN} can be used to implement a proper
+		indexed transactional database when used in conjunction with class ${ECD_REFLECTIVE_RECOVERABLE_CHAIN}.
 		
 		The routine `safe_store' stores the complete chain in a temporary file and then does a quick check
 		on the integrity of the save by checking all the item headers. Only then is the stored file substituted

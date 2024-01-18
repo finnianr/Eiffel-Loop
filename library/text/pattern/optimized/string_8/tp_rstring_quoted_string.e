@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_QUOTED_STRING] optimized for strings conforming to [$source READABLE_STRING_8]
+		${TP_QUOTED_STRING} optimized for strings conforming to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

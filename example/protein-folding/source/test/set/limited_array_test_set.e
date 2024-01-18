@@ -1,5 +1,5 @@
 note
-	description: "Test set for [$source LIMITED_FOLD_ARRAY]"
+	description: "Test set for ${LIMITED_FOLD_ARRAY}"
 
 	author: "Finnian Reilly"
 	copyright: "[

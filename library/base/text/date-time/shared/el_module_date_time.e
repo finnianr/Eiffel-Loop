@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of [$source EL_DATE_TIME_TOOLS]"
+	description: "Shared access to instance of ${EL_DATE_TIME_TOOLS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

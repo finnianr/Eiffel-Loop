@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_UNINSTALL_SCRIPT_I]"
+	description: "Windows implementation of ${EL_UNINSTALL_SCRIPT_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

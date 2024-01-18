@@ -5,7 +5,7 @@ note
 
 		**Test Sets**
 
-			[$source EROS_TEST_SET]
+			${EROS_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

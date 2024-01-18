@@ -1,5 +1,5 @@
 note
-	description: "[$source TP_END_OF_LINE_CHAR] optimized for [$source ZSTRING] text"
+	description: "${TP_END_OF_LINE_CHAR} optimized for ${ZSTRING} text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

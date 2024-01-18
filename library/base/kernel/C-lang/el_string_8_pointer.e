@@ -1,6 +1,6 @@
 note
 	description: "[
-		Manages [$source SPECIAL [CHARACTER]] data from a string conforming to [$source READABLE_STRING_8]
+		Manages ${SPECIAL [CHARACTER]} data from a string conforming to ${READABLE_STRING_8}
 	]"
 	notes: "[
 		The character data is frozen in place and cannot be moved by garbage collector until such

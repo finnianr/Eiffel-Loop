@@ -1,5 +1,5 @@
 note
-	description: "Expanded version of class [$source EL_URI_ROUTINES_IMP]"
+	description: "Expanded version of class ${EL_URI_ROUTINES_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

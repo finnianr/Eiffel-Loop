@@ -1,6 +1,6 @@
 note
 	description: "[
-		Unix implementation of [$source EL_MENU_DESKTOP_ENVIRONMENT_I] interface
+		Unix implementation of ${EL_MENU_DESKTOP_ENVIRONMENT_I} interface
 		Creates a [https://wiki.archlinux.org/index.php/desktop_entries XDG desktop] menu application launcher
 	]"
 

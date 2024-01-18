@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source ZCODEC_GENERATOR]"
+	description: "Test class ${ZCODEC_GENERATOR}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

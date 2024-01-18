@@ -1,7 +1,7 @@
 note
 	description: "[
 		Miscellaneous graphical routines related to Cairo and librsvg library.
-		Accessible via class [$source EL_SHARED_IMAGE_UTILS_API]
+		Accessible via class ${EL_SHARED_IMAGE_UTILS_API}
 	]"
 
 	author: "Finnian Reilly"

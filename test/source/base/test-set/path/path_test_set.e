@@ -1,5 +1,5 @@
 note
-	description: "Test classes conforming to [$source EL_PATH]"
+	description: "Test classes conforming to ${EL_PATH}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

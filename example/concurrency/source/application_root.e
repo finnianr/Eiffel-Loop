@@ -2,8 +2,8 @@ note
 	description: "[
 		Root for two concurrency demonstrations:
 		
-		1. [$source HORSE_RACE_APP]
-		2. [$source SINE_WAVE_INTEGRATION_APP]
+		1. ${HORSE_RACE_APP}
+		2. ${SINE_WAVE_INTEGRATION_APP}
 	]"
 
 	author: "Finnian Reilly"

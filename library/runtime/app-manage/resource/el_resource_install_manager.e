@@ -1,11 +1,11 @@
 note
 	description: "[
 		Manager to install/update a directory of file items with common extension by HTTP download
-		A related class [$source EL_RESOURCE_UPDATE_MANAGER] can be used to make an update
+		A related class ${EL_RESOURCE_UPDATE_MANAGER} can be used to make an update
 		manager that checks for an installs updates in a user directory.
 	]"
 	instructions: "[
-		Implement the function `resource_set: [$source EL_UPDATEABLE_RESOURCE_SET]' to provide the following data
+		Implement the function `resource_set: ${EL_UPDATEABLE_RESOURCE_SET}' to provide the following data
 		
 		1. file extension of installed resource files
 		2. installation directory for this resource

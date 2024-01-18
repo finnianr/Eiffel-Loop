@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the command [$source MANIFEST_METRICS_COMMAND].
+		A command line interface to the command ${MANIFEST_METRICS_COMMAND}.
 	]"
 	notes: "[
 		Usage:

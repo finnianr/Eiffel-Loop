@@ -1,5 +1,5 @@
 note
-	description: "Share instances of classes conforming to [$source EL_STRING_POOL [S -> STRING_GENERAL]]"
+	description: "Share instances of classes conforming to ${EL_STRING_POOL [S -> STRING_GENERAL]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

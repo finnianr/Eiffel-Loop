@@ -1,5 +1,5 @@
 note
-	description: "Names of punctuation and control keys accessible via [$source EL_SHARED_KEY_TEXTS]"
+	description: "Names of punctuation and control keys accessible via ${EL_SHARED_KEY_TEXTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

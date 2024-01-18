@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source IMAGE_UTILS_TEST_SET]
+			${IMAGE_UTILS_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

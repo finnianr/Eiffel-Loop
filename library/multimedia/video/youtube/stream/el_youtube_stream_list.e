@@ -1,5 +1,5 @@
 note
-	description: "List of [$source EL_YOUTUBE_STREAM] in descending order of **data_rate**"
+	description: "List of ${EL_YOUTUBE_STREAM} in descending order of **data_rate**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

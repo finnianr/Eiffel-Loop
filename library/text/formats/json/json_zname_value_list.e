@@ -1,5 +1,5 @@
 note
-	description: "Iterable [$source JSON_NAME_VALUE_LIST] with name items of type [$source ZSTRING]"
+	description: "Iterable ${JSON_NAME_VALUE_LIST} with name items of type ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

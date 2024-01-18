@@ -1,7 +1,7 @@
 note
 	description: "[
 		Calculate monthly stock consumption based on an import_list import_list of stock orders represented by
-		class [$source STOCK_ORDER]
+		class ${STOCK_ORDER}
 	]"
 
 	author: "Finnian Reilly"

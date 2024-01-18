@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_COMMAND_LINE_ARGUMENTS]"
+	description: "Shared access to routines of class ${EL_COMMAND_LINE_ARGUMENTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

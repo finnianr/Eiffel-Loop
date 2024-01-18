@@ -1,12 +1,12 @@
 note
 	description: "[
-		A virtual split-list of strings conforming to [$source STRING_GENERAL] represented
+		A virtual split-list of strings conforming to ${STRING_GENERAL} represented
 		as an array of substring intervals
 	]"
 	notes: "[
 		This is a more efficient way to process split strings as it doesn't create a new string
-		instance for each split part. The split intervals are stored using class [$source EL_SEQUENTIAL_INTERVALS]
-		inherited by [$source EL_OCCURRENCE_INTERVALS].
+		instance for each split part. The split intervals are stored using class ${EL_SEQUENTIAL_INTERVALS}
+		inherited by ${EL_OCCURRENCE_INTERVALS}.
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "Encrypt contents of a file adding the aes extension"
-	tests: "[$source PYXIS_ENCRYPTER_TEST_SET]"
+	tests: "${PYXIS_ENCRYPTER_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

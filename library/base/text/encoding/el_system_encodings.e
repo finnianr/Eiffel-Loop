@@ -1,5 +1,5 @@
 note
-	description: "System encodings accessible via [$source EL_SHARED_ENCODINGS]"
+	description: "System encodings accessible via ${EL_SHARED_ENCODINGS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

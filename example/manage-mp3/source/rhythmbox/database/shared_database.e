@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of class conforming to [$source RBOX_DATABASE]"
+	description: "Shared access to instance of class conforming to ${RBOX_DATABASE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

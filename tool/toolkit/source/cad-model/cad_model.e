@@ -4,7 +4,7 @@ note
 		**JSON Assumptions**
 		
 		This model makes a number of assumptions about the JSON data in order to use the highly efficient
-		[$source EL_SPLIT_STRING_8_LIST] class. (avoids creating a new string for each split)
+		${EL_SPLIT_STRING_8_LIST} class. (avoids creating a new string for each split)
 		
 		1. The data is all on one line
 		2. the arrays are delimited with `"], ["'

@@ -1,5 +1,5 @@
 note
-	description: "For access to ''self_ptr'' on [$source CAIRO_OWNED_G_OBJECT]"
+	description: "For access to ''self_ptr'' on ${CAIRO_OWNED_G_OBJECT}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

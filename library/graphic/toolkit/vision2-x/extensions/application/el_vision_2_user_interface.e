@@ -1,7 +1,7 @@
 note
 	description: "[
-		Instance of [$source EL_VISION_2_APPLICATION] that creates a titled application window conforming to
-		[$source EL_TITLED_WINDOW]
+		Instance of ${EL_VISION_2_APPLICATION} that creates a titled application window conforming to
+		${EL_TITLED_WINDOW}
 	]"
 
 	author: "Finnian Reilly"

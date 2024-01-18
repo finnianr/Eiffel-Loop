@@ -2,7 +2,7 @@ note
 	description: "[
 		Example of a class that exemplifies the
 		[https://en.wikipedia.org/wiki/Don%27t_repeat_yourself DRY principle] using class reflection.
-		Contrast 25 lines with [$source MY_WET_CLASS].
+		Contrast 25 lines with ${MY_WET_CLASS}.
 	]"
 
 	author: "Finnian Reilly"

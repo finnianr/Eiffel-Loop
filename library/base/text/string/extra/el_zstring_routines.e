@@ -1,5 +1,5 @@
 note
-	description: "Expanded instance of [$source EL_ZSTRING_ROUTINES_IMP]"
+	description: "Expanded instance of ${EL_ZSTRING_ROUTINES_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
-		Adapter interface to read a string conforming to [$source READABLE_STRING_GENERAL] item
-		from [$source EL_READABLE] and write an item to [$source EL_WRITABLE]
+		Adapter interface to read a string conforming to ${READABLE_STRING_GENERAL} item
+		from ${EL_READABLE} and write an item to ${EL_WRITABLE}
 	]"
 
 	author: "Finnian Reilly"

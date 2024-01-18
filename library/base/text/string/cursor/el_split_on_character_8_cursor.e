@@ -1,6 +1,6 @@
 note
 	description: "[
-		Optimized implementation of [$source EL_SPLIT_ON_CHARACTER_CURSOR [READABLE_STRING_8]]
+		Optimized implementation of ${EL_SPLIT_ON_CHARACTER_CURSOR [READABLE_STRING_8]}
 	]"
 
 	author: "Finnian Reilly"

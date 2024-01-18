@@ -1,5 +1,5 @@
 note
-	description: "Object that creates a [$source TP_PATTERN] using a supplied [$source FUNCTION] agent"
+	description: "Object that creates a ${TP_PATTERN} using a supplied ${FUNCTION} agent"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

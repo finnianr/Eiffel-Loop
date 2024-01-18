@@ -1,6 +1,6 @@
 note
 	description: "[
-		Two-dimensional [$source BOOLEAN_GRID] with base class ''GRID_2_*'' classes
+		Two-dimensional ${BOOLEAN_GRID} with base class ''GRID_2_*'' classes
 	]"
 
 	author: "Finnian Reilly"

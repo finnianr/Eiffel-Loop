@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source CAIRO_TEXT_LAYOUT_I]"
+	description: "Windows implementation of ${CAIRO_TEXT_LAYOUT_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

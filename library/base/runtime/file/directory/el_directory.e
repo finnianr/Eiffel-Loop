@@ -1,5 +1,5 @@
 note
-	description: "Object to manage file system directory accessible via [$source EL_SHARED_DIRECTORY]"
+	description: "Object to manage file system directory accessible via ${EL_SHARED_DIRECTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

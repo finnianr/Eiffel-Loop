@@ -1,5 +1,5 @@
 note
-	description: "C decoder accessible via [$source EL_MODULE_C_DECODER]"
+	description: "C decoder accessible via ${EL_MODULE_C_DECODER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

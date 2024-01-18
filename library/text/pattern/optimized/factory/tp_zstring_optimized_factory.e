@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_OPTIMIZED_FACTORY] optimized for strings of type [$source ZSTRING]
+		${TP_OPTIMIZED_FACTORY} optimized for strings of type ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

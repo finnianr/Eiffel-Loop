@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_CHAR_IN_ASCII_RANGE] optimized fro source text conforming to [$source READABLE_STRING_8]
+		${TP_CHAR_IN_ASCII_RANGE} optimized fro source text conforming to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

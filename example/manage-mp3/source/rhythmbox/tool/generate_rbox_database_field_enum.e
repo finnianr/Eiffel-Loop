@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command to generate class [$source RBOX_DATABASE_FIELD_ENUM] from C source file `rhythmdb.c'
+		Command to generate class ${RBOX_DATABASE_FIELD_ENUM} from C source file `rhythmdb.c'
 	]"
 
 	author: "Finnian Reilly"

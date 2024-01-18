@@ -1,8 +1,8 @@
 note
 	description: "Arrayed list"
 	tests: "[
-		1. [$source ARRAYED_LIST_TEST_SET]
-		2. [$source CONTAINER_STRUCTURE_TEST_SET]
+		1. ${ARRAYED_LIST_TEST_SET}
+		2. ${CONTAINER_STRUCTURE_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,10 +1,10 @@
 note
 	description: "[
-		Descendant of [$source EL_WORK_DISTRIBUTER] specialized for procedures.
+		Descendant of ${EL_WORK_DISTRIBUTER} specialized for procedures.
 		`G' is the target type of the procedures you wish to execute.
 	]"
 	notes: "[
-		For an example on how to use it see class [$source NOTE_EDITOR_COMMAND]
+		For an example on how to use it see class ${NOTE_EDITOR_COMMAND}
 	]"
 
 	author: "Finnian Reilly"

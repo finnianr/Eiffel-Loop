@@ -1,7 +1,7 @@
 note
 	description: "[
 		Implementation of field ordering and shifting to be applied to an instance of
-		[$source EL_FIELD_LIST] associated with object conforming to [$source EL_REFLECTIVE]
+		${EL_FIELD_LIST} associated with object conforming to ${EL_REFLECTIVE}
 	]"
 
 	author: "Finnian Reilly"

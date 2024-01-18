@@ -4,7 +4,7 @@ note
 		to a website as static html and generate a `Contents.md' file in Github markdown. 
 		
 		See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18
-		eiffel.org article] and the [$source REPOSITORY_PUBLISHER] command.
+		eiffel.org article] and the ${REPOSITORY_PUBLISHER} command.
 	]"
 
 	author: "Finnian Reilly"

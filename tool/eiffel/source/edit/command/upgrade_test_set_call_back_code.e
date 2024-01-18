@@ -1,6 +1,6 @@
 note
 	description: "[
-		Upgrade [$source EL_EQA_TEST_SET] descendants to use new initialization method for naming
+		Upgrade ${EL_EQA_TEST_SET} descendants to use new initialization method for naming
 		test routines instead of using call-backs.
 	]"
 	notes: "See end of class"

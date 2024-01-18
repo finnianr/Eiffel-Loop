@@ -1,5 +1,5 @@
 note
-	description: "Duplicate of [$source EL_REPLACEABLE_WIDGET_ITEM] for a second class attribute"
+	description: "Duplicate of ${EL_REPLACEABLE_WIDGET_ITEM} for a second class attribute"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

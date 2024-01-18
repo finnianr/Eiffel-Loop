@@ -1,5 +1,5 @@
 note
-	description: "Logged version of [$source EL_COMMAND_LINE_APPLICATION]"
+	description: "Logged version of ${EL_COMMAND_LINE_APPLICATION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

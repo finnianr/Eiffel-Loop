@@ -1,5 +1,5 @@
 note
-	description: "Do one or many executions of [$source DUPLICITY_BACKUP] command"
+	description: "Do one or many executions of ${DUPLICITY_BACKUP} command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

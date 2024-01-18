@@ -1,7 +1,7 @@
 note
 	description: "[
-		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
-		from name-value pairs, where value conforms to [$source READABLE_STRING_GENERAL].
+		Used in conjunction with ${EL_REFLECTIVELY_SETTABLE} to reflectively set fields
+		from name-value pairs, where value conforms to ${READABLE_STRING_GENERAL}.
 	]"
 	descendants: "See end of class"
 
@@ -304,26 +304,26 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 note
 	descendants: "[
 			EL_SETTABLE_FROM_STRING*
-				[$source EL_SETTABLE_FROM_ZSTRING]*
-					[$source EL_HTML_META_VALUES]
-					[$source PP_TRANSACTION]
-					[$source JOB]
-					[$source COUNTRY]
-						[$source CAMEL_CASE_COUNTRY]
-					[$source FCGI_REQUEST_PARAMETERS]
-					[$source EL_COMMA_SEPARATED_WORDS]
-					[$source PROVINCE]
-					[$source FCGI_HTTP_HEADERS]
-				[$source EL_SETTABLE_FROM_STRING_8]*
-					[$source EL_NETWORK_DEVICE_IMP]
-					[$source TB_EMAIL]
-					[$source AIA_AUTHORIZATION_HEADER]
-					[$source AIA_CREDENTIAL_ID]
-					[$source EL_HTTP_HEADERS]
-					[$source EL_REFLECTIVE_RSA_KEY]*
-						[$source EL_RSA_PRIVATE_KEY]
-						[$source EL_RSA_PUBLIC_KEY]
-				[$source EL_SETTABLE_FROM_STRING_32]*
-					[$source MY_DRY_CLASS]
+				${EL_SETTABLE_FROM_ZSTRING}*
+					${EL_HTML_META_VALUES}
+					${PP_TRANSACTION}
+					${JOB}
+					${COUNTRY}
+						${CAMEL_CASE_COUNTRY}
+					${FCGI_REQUEST_PARAMETERS}
+					${EL_COMMA_SEPARATED_WORDS}
+					${PROVINCE}
+					${FCGI_HTTP_HEADERS}
+				${EL_SETTABLE_FROM_STRING_8}*
+					${EL_NETWORK_DEVICE_IMP}
+					${TB_EMAIL}
+					${AIA_AUTHORIZATION_HEADER}
+					${AIA_CREDENTIAL_ID}
+					${EL_HTTP_HEADERS}
+					${EL_REFLECTIVE_RSA_KEY}*
+						${EL_RSA_PRIVATE_KEY}
+						${EL_RSA_PUBLIC_KEY}
+				${EL_SETTABLE_FROM_STRING_32}*
+					${MY_DRY_CLASS}
 	]"
 end

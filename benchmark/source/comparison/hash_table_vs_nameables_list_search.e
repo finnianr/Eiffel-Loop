@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare key search speed of [$source HASH_TABLE] and [$source EL_NAMEABLES_LIST]
+		Compare key search speed of ${HASH_TABLE} and ${EL_NAMEABLES_LIST}
 	]"
 	notes: "[
 		Passes over 500 millisecs (in descending order)

@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_EIF_OBJ_BUILDER_CONTEXT] for [$source EL_REFLECTIVE] object attribute"
+	description: "${EL_EIF_OBJ_BUILDER_CONTEXT} for ${EL_REFLECTIVE} object attribute"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

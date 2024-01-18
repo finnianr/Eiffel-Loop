@@ -1,5 +1,5 @@
 note
-	description: "Thunderbird email headers and content reflectively settable from [$source STRING_8] lines"
+	description: "Thunderbird email headers and content reflectively settable from ${STRING_8} lines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

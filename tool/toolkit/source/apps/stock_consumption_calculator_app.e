@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source STOCK_CONSUMPTION_CALCULATOR]"
+	description: "Command line interface to ${STOCK_CONSUMPTION_CALCULATOR}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

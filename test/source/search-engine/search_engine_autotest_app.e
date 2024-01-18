@@ -5,8 +5,8 @@ note
 		
 		**Test Sets**
 		
-			[$source ENCRYPTED_SEARCH_ENGINE_TEST_SET]
-			[$source SEARCH_ENGINE_TEST_SET]
+			${ENCRYPTED_SEARCH_ENGINE_TEST_SET}
+			${SEARCH_ENGINE_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

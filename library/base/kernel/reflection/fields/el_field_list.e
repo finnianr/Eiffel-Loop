@@ -1,5 +1,5 @@
 note
-	description: "List of fields conforming to [$source EL_REFLECTED_FIELD]"
+	description: "List of fields conforming to ${EL_REFLECTED_FIELD}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

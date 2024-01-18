@@ -1,11 +1,11 @@
 note
 	description: "[
-		Run all sub-application tests conforming to [$source EL_AUTOTEST_APPLICATION]
-		and call [$source ZSTRING_TEST_SET] a second time using codec [$source EL_ISO_8859_1_ZCODEC].
+		Run all sub-application tests conforming to ${EL_AUTOTEST_APPLICATION}
+		and call ${ZSTRING_TEST_SET} a second time using codec ${EL_ISO_8859_1_ZCODEC}.
 		
 			el_test -autotest -test_set ZSTRING_TEST_SET -zstring_codec ISO-8859-1
 
-		(Default is [$source EL_ISO_8859_15_ZCODEC])
+		(Default is ${EL_ISO_8859_15_ZCODEC})
 	]"
 
 	author: "Finnian Reilly"

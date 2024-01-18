@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_USEABLE_SCREEN_I]"
+	description: "Windows implementation of ${EL_USEABLE_SCREEN_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

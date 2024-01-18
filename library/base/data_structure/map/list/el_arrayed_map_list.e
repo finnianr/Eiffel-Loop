@@ -363,11 +363,11 @@ invariant
 note
 	descendants: "[
 			EL_ARRAYED_MAP_LIST [K, G]
-				[$source EL_DECOMPRESSED_DATA_LIST]
-				[$source EL_STYLED_TEXT_LIST]* [S -> [$source STRING_GENERAL]]
-					[$source EL_STYLED_ZSTRING_LIST]
-					[$source EL_STYLED_STRING_8_LIST]
-					[$source EL_STYLED_STRING_32_LIST]
+				${EL_DECOMPRESSED_DATA_LIST}
+				${EL_STYLED_TEXT_LIST}* [S -> ${STRING_GENERAL}]
+					${EL_STYLED_ZSTRING_LIST}
+					${EL_STYLED_STRING_8_LIST}
+					${EL_STYLED_STRING_32_LIST}
 	]"
 
 end

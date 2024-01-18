@@ -1,6 +1,6 @@
 note
 	description: "[
-		Abstractions for mapping a data object conforming to [$source FINITE [G]] to a selectable widget,
+		Abstractions for mapping a data object conforming to ${FINITE [G]} to a selectable widget,
 		a combo box for example. The default sort-order defined by `less_than' is alphabetical `display_value'.
 	]"
 	descendants: "See end of class"
@@ -91,13 +91,13 @@ feature {NONE} -- Internal attributes
 note
 	descendants: "[
 			EL_FINITE_DATA_SET_WIDGET*
-				[$source EL_RADIO_BUTTON_GROUP]*
-					[$source EL_INTEGER_ITEM_RADIO_BUTTON_GROUP]
-					[$source EL_THUMBNAIL_RADIO_BUTTON_GROUP]
-					[$source EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP]
-				[$source EL_DROP_DOWN_BOX]
-					[$source EL_ZSTRING_DROP_DOWN_BOX]
-						[$source EL_LOCALE_ZSTRING_DROP_DOWN_BOX]
-					[$source EL_MONTH_DROP_DOWN_BOX]
+				${EL_RADIO_BUTTON_GROUP}*
+					${EL_INTEGER_ITEM_RADIO_BUTTON_GROUP}
+					${EL_THUMBNAIL_RADIO_BUTTON_GROUP}
+					${EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP}
+				${EL_DROP_DOWN_BOX}
+					${EL_ZSTRING_DROP_DOWN_BOX}
+						${EL_LOCALE_ZSTRING_DROP_DOWN_BOX}
+					${EL_MONTH_DROP_DOWN_BOX}
 	]"
 end

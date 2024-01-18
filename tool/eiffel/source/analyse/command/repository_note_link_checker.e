@@ -77,7 +77,7 @@ feature -- Basic operations
 				end
 				file_out.close
 			else
-				lio.put_line ("All [$source XXX] class references OK")
+				lio.put_line ("All ${XXX} class references OK")
 				if invalid_names_output_path.exists then
 					File_system.remove_file (invalid_names_output_path)
 				end
@@ -106,7 +106,7 @@ feature {NONE} -- Constants
 
 	Source_reference: ZSTRING
 		once
-			Result := "%T[$source %S]"
+			Result := "%T${%S}"
 		end
 
 end

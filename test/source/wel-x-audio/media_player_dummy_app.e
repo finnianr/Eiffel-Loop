@@ -1,6 +1,6 @@
 note
 	description: "[
-		For Windows only. A 'do nothing app' for maintenance of class [$source EL_AUDIO_PLAYER_THREAD].
+		For Windows only. A 'do nothing app' for maintenance of class ${EL_AUDIO_PLAYER_THREAD}.
 	]"
 
 	author: "Finnian Reilly"

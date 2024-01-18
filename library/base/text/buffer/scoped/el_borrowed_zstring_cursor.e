@@ -1,12 +1,12 @@
 note
 	description: "[
 		Cursor to use an **across** loop as an artificial scope in which a temporary
-		[$source ZSTRING] buffer can be borrowed from a shared pool. After iterating
+		${ZSTRING} buffer can be borrowed from a shared pool. After iterating
 		just once the scope finishes and the buffer item is automatically returned to
 		the shared `pool' stack.
 	]"
 	tests: "[
-		[$source GENERAL_TEST_SET].test_reusable_strings
+		${GENERAL_TEST_SET}.test_reusable_strings
 	]"
 
 	author: "Finnian Reilly"

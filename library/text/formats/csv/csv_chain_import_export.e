@@ -1,5 +1,5 @@
 note
-	description: "Import/Export routines for [$source ITERABLE [EL_REFLECTIVELY_SETTABLE]]"
+	description: "Import/Export routines for ${ITERABLE [EL_REFLECTIVELY_SETTABLE]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

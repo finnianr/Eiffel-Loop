@@ -1,5 +1,5 @@
 note
-	description: "Test descendants of [$source EL_NUMERIC_BIT_ROUTINES]"
+	description: "Test descendants of ${EL_NUMERIC_BIT_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

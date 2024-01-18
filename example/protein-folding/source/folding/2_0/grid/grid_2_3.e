@@ -1,5 +1,5 @@
 note
-	description: "Two-dimensional [$source BOOLEAN_GRID]"
+	description: "Two-dimensional ${BOOLEAN_GRID}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"

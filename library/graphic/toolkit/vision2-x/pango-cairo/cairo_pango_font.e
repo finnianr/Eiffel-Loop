@@ -1,6 +1,6 @@
 note
 	description: "[
-		Wrapper for PangoFontDescription convertable from class [$source EV_FONT].
+		Wrapper for PangoFontDescription convertable from class ${EV_FONT}.
 	]"
 
 	author: "Finnian Reilly"

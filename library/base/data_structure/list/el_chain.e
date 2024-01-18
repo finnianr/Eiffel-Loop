@@ -1,6 +1,6 @@
 note
 	description: "Sequence of items"
-	tests: "Class [$source CONTAINER_STRUCTURE_TEST_SET]"
+	tests: "Class ${CONTAINER_STRUCTURE_TEST_SET}"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -230,54 +230,54 @@ feature {NONE} -- Implementation
 note
 	descendants: "[
 			EL_CHAIN* [G]
-				[$source EL_ARRAYED_LIST] [G]
-					[$source EL_FIELD_LIST]
-					[$source EL_APPLICATION_LIST]
-					[$source EL_TUPLE_TYPE_LIST] [T]
-					[$source EL_DEFAULT_COMMAND_OPTION_LIST]
-					[$source EL_SEQUENTIAL_INTERVALS]
-						[$source EL_OCCURRENCE_INTERVALS] [S -> [$source STRING_GENERAL] create make end]
-							[$source EL_SPLIT_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
-								[$source EL_SPLIT_ZSTRING_LIST]
-								[$source EL_SPLIT_STRING_32_LIST]
-								[$source EL_IP_ADDRESS_ROUTINES]
-								[$source EL_SPLIT_STRING_8_LIST]
-						[$source JSON_INTERVALS_OBJECT] [FIELD_ENUM -> [$source EL_ENUMERATION] [NATURAL_16] create make end]
-							[$source EL_IP_ADDRESS_META_DATA]
-					[$source EL_SORTABLE_ARRAYED_LIST] [G -> [$source COMPARABLE]]
-						[$source EL_FILE_PATH_LIST]
-						[$source EL_FILE_MANIFEST_LIST]
-						[$source EL_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
-							[$source EL_ZSTRING_LIST]
-								[$source EL_XHTML_STRING_LIST]
-								[$source XML_TAG_LIST]
-									[$source XML_PARENT_TAG_LIST]
-									[$source XML_VALUE_TAG_PAIR]
-							[$source EL_STRING_8_LIST]
-								[$source EVOLICITY_VARIABLE_REFERENCE]
-									[$source EVOLICITY_FUNCTION_REFERENCE]
-								[$source AIA_CANONICAL_REQUEST]
-							[$source EL_STRING_32_LIST]
-					[$source EL_COMMA_SEPARATED_WORDS_LIST]
-					[$source CSV_IMPORTABLE_ARRAYED_LIST] [G -> [$source EL_REFLECTIVELY_SETTABLE] create make_default end]
-					[$source EL_QUERYABLE_ARRAYED_LIST] [G]
-						[$source ECD_ARRAYED_LIST] [G -> [$source EL_STORABLE] create make_default end]
-						[$source AIA_CREDENTIAL_LIST]
-							[$source AIA_STORABLE_CREDENTIAL_LIST]
-					[$source EL_ARRAYED_MAP_LIST] [K, G]
-						[$source EL_STYLED_TEXT_LIST]* [S -> [$source STRING_GENERAL]]
-							[$source EL_STYLED_STRING_32_LIST]
-							[$source EL_STYLED_STRING_8_LIST]
-							[$source EL_STYLED_ZSTRING_LIST]
-						[$source EL_DECOMPRESSED_DATA_LIST]
-					[$source EL_TRANSLATION_ITEMS_LIST]
-					[$source EL_XDG_DESKTOP_ENTRY_STEPS]
-					[$source EL_ARRAYED_RESULT_LIST] [R, G]
-				[$source EL_QUERYABLE_CHAIN]* [G]
-					[$source EL_QUERYABLE_ARRAYED_LIST] [G]
-				[$source EL_STRING_CHAIN]* [S -> [$source STRING_GENERAL] create make, make_empty end]
-					[$source EL_LINKED_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
-					[$source EL_STRING_LIST] [S -> [$source STRING_GENERAL] create make, make_empty end]
+				${EL_ARRAYED_LIST} [G]
+					${EL_FIELD_LIST}
+					${EL_APPLICATION_LIST}
+					${EL_TUPLE_TYPE_LIST} [T]
+					${EL_DEFAULT_COMMAND_OPTION_LIST}
+					${EL_SEQUENTIAL_INTERVALS}
+						${EL_OCCURRENCE_INTERVALS} [S -> ${STRING_GENERAL} create make end]
+							${EL_SPLIT_STRING_LIST} [S -> ${STRING_GENERAL} create make, make_empty end]
+								${EL_SPLIT_ZSTRING_LIST}
+								${EL_SPLIT_STRING_32_LIST}
+								${EL_IP_ADDRESS_ROUTINES}
+								${EL_SPLIT_STRING_8_LIST}
+						${JSON_INTERVALS_OBJECT} [FIELD_ENUM -> ${EL_ENUMERATION} [NATURAL_16] create make end]
+							${EL_IP_ADDRESS_META_DATA}
+					${EL_SORTABLE_ARRAYED_LIST} [G -> ${COMPARABLE}]
+						${EL_FILE_PATH_LIST}
+						${EL_FILE_MANIFEST_LIST}
+						${EL_STRING_LIST} [S -> ${STRING_GENERAL} create make, make_empty end]
+							${EL_ZSTRING_LIST}
+								${EL_XHTML_STRING_LIST}
+								${XML_TAG_LIST}
+									${XML_PARENT_TAG_LIST}
+									${XML_VALUE_TAG_PAIR}
+							${EL_STRING_8_LIST}
+								${EVOLICITY_VARIABLE_REFERENCE}
+									${EVOLICITY_FUNCTION_REFERENCE}
+								${AIA_CANONICAL_REQUEST}
+							${EL_STRING_32_LIST}
+					${EL_COMMA_SEPARATED_WORDS_LIST}
+					${CSV_IMPORTABLE_ARRAYED_LIST} [G -> ${EL_REFLECTIVELY_SETTABLE} create make_default end]
+					${EL_QUERYABLE_ARRAYED_LIST} [G]
+						${ECD_ARRAYED_LIST} [G -> ${EL_STORABLE} create make_default end]
+						${AIA_CREDENTIAL_LIST}
+							${AIA_STORABLE_CREDENTIAL_LIST}
+					${EL_ARRAYED_MAP_LIST} [K, G]
+						${EL_STYLED_TEXT_LIST}* [S -> ${STRING_GENERAL}]
+							${EL_STYLED_STRING_32_LIST}
+							${EL_STYLED_STRING_8_LIST}
+							${EL_STYLED_ZSTRING_LIST}
+						${EL_DECOMPRESSED_DATA_LIST}
+					${EL_TRANSLATION_ITEMS_LIST}
+					${EL_XDG_DESKTOP_ENTRY_STEPS}
+					${EL_ARRAYED_RESULT_LIST} [R, G]
+				${EL_QUERYABLE_CHAIN}* [G]
+					${EL_QUERYABLE_ARRAYED_LIST} [G]
+				${EL_STRING_CHAIN}* [S -> ${STRING_GENERAL} create make, make_empty end]
+					${EL_LINKED_STRING_LIST} [S -> ${STRING_GENERAL} create make, make_empty end]
+					${EL_STRING_LIST} [S -> ${STRING_GENERAL} create make, make_empty end]
 	]"
 
 end

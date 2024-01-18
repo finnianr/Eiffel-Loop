@@ -1,7 +1,7 @@
 note
 	description: "[
-		The same as class [$source EL_SCROLLABLE_SEARCH_RESULTS] except result items `G' 
-		additionally conform to [$source EL_WORD_SEARCHABLE] and search results
+		The same as class ${EL_SCROLLABLE_SEARCH_RESULTS} except result items `G' 
+		additionally conform to ${EL_WORD_SEARCHABLE} and search results
 		display search match extract quotes.
 	]"
 

@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of object [$source EL_IMAGE_UTILS_API]"
+	description: "Shared instance of object ${EL_IMAGE_UTILS_API}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

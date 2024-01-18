@@ -1,6 +1,6 @@
 note
 	description: "CSV parser for lines encoded as Latin-1"
-	tests: "Class [$source COMMA_SEPARATED_IMPORT_TEST_SET]"
+	tests: "Class ${COMMA_SEPARATED_IMPORT_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_DATE_TIME_CODE_STRING] class with support for time zone designators"
+	description: "${EL_DATE_TIME_CODE_STRING} class with support for time zone designators"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

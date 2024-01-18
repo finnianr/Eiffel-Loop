@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of object conforming to [$source EL_APPLICATION_COMMAND_OPTIONS]"
+	description: "Shared instance of object conforming to ${EL_APPLICATION_COMMAND_OPTIONS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

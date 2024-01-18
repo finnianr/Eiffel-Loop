@@ -1,6 +1,6 @@
 note
 	description: "[
-		Interface to classes [$source EL_STRING_8_ITERATION_CURSOR] and [$source EL_STRING_32_ITERATION_CURSOR]
+		Interface to classes ${EL_STRING_8_ITERATION_CURSOR} and ${EL_STRING_32_ITERATION_CURSOR}
 	]"
 
 	author: "Finnian Reilly"

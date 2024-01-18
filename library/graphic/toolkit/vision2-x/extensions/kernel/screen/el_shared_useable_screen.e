@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_USEABLE_SCREEN_IMP]"
+	description: "Shared instance of ${EL_USEABLE_SCREEN_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

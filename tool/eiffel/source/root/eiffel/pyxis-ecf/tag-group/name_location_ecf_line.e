@@ -1,5 +1,5 @@
 note
-	description: "[$source NAME_VALUE_ECF_LINE] for **name location** attribute pair"
+	description: "${NAME_VALUE_ECF_LINE} for **name location** attribute pair"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

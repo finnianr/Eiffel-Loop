@@ -1,5 +1,5 @@
 note
-	description: "Shared access to base class [$source ASCII]"
+	description: "Shared access to base class ${ASCII}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

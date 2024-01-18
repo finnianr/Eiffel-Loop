@@ -1,5 +1,5 @@
 note
-	description: "Get user input value for type G convertable by [$source EL_STRING_CONVERSION_TABLE]"
+	description: "Get user input value for type G convertable by ${EL_STRING_CONVERSION_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

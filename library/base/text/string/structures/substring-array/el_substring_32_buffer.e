@@ -1,5 +1,5 @@
 note
-	description: "Temporary fast buffer contents of a [$source EL_SUBSTRING_32_ARRAY]"
+	description: "Temporary fast buffer contents of a ${EL_SUBSTRING_32_ARRAY}"
 	notes: "[
 		Average execution times (in ascending order)
 		{EL_SUBSTRING_32_BUFFER}.put_unicode        : 0.105 millisecs

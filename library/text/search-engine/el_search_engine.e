@@ -1,5 +1,5 @@
 note
-	description: "Search engine for word searchable `list' items conforming to [$source EL_WORD_SEARCHABLE]"
+	description: "Search engine for word searchable `list' items conforming to ${EL_WORD_SEARCHABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

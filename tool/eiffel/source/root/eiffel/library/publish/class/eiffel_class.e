@@ -190,7 +190,7 @@ feature -- Basic operations
 		end
 
 	sink_source_substitutions
-		-- sink the values of $source occurrences `code_text'. Eg. [$source CLASS_NAME]
+		-- sink the values of $source occurrences `code_text'. Eg. ${CLASS_NAME}
 		local
 			crc: like crc_generator
 		do

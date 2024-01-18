@@ -1,5 +1,5 @@
 note
-	description: "[$source GROUPED_ECF_LINES] for **setting** tag"
+	description: "${GROUPED_ECF_LINES} for **setting** tag"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

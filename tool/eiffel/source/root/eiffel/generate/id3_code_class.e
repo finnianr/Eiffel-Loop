@@ -4,8 +4,8 @@ note
 		**Note on 21 July 2023**
 		
 		It looks perhaps as though this class was never used as there were missing lines of code.
-		The target class [$source TL_FRAME_ID_ENUM] was likely created manually instead.
-		Missing code completed on above date with update of code for [$source EVOLICITY_TUPLE_CONTEXT]
+		The target class ${TL_FRAME_ID_ENUM} was likely created manually instead.
+		Missing code completed on above date with update of code for ${EVOLICITY_TUPLE_CONTEXT}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
 		An object providing fast sequential lookups of character code at a subarray index of an `area' belonging
-		to an instance of [$source EL_SUBSTRING_32_ARRAY]
+		to an instance of ${EL_SUBSTRING_32_ARRAY}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command for command-line sub-application: [$source FEATURE_EDITOR_APP]
+		Command for command-line sub-application: ${FEATURE_EDITOR_APP}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Button to expand sub-links in level 3 link [$source EL_SUPER_HTML_TEXT_HYPERLINK_AREA]"
+	description: "Button to expand sub-links in level 3 link ${EL_SUPER_HTML_TEXT_HYPERLINK_AREA}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

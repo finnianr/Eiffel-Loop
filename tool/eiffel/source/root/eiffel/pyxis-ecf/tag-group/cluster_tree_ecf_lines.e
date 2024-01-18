@@ -1,5 +1,5 @@
 note
-	description: "[$source GROUPED_ECF_LINES] for recursive **cluster** tag"
+	description: "${GROUPED_ECF_LINES} for recursive **cluster** tag"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

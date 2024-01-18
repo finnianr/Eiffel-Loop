@@ -1,5 +1,5 @@
 note
-	description: "Implementation routeins for class [$source EL_URI]"
+	description: "Implementation routeins for class ${EL_URI}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

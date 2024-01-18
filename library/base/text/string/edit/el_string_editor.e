@@ -6,10 +6,10 @@ note
 		See `delete_interior' for an example of an editing procedure
 	]"
 	descendants: "[
-			EL_STRING_EDITOR [S -> [$source STRING_GENERAL] create make end]*
-				[$source EL_ZSTRING_EDITOR]
-				[$source EL_STRING_8_EDITOR]
-				[$source EL_STRING_32_EDITOR]
+			EL_STRING_EDITOR [S -> ${STRING_GENERAL} create make end]*
+				${EL_ZSTRING_EDITOR}
+				${EL_STRING_8_EDITOR}
+				${EL_STRING_32_EDITOR}
 	]"
 
 	author: "Finnian Reilly"

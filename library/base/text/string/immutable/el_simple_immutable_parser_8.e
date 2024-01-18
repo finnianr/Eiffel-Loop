@@ -1,5 +1,5 @@
 note
-	description: "A simple pruning parser based on [$source IMMUTABLE_STRING_8]"
+	description: "A simple pruning parser based on ${IMMUTABLE_STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

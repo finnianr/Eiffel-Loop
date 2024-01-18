@@ -115,7 +115,7 @@ feature {NONE} -- Constants
 
 	Inherits_template: ZSTRING
 		once
-			Result := "Class [$source %S] inherits from class [$source %S]"
+			Result := "Class ${%S} inherits from class ${%S}"
 		end
 
 end

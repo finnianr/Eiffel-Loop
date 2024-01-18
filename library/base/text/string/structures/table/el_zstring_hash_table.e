@@ -1,5 +1,5 @@
 note
-	description: "Hash table with [$source ZSTRING] as lookup key"
+	description: "Hash table with ${ZSTRING} as lookup key"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Shared access to [$source TL_STRING_ENCODING_ENUM]"
+	description: "Shared access to ${TL_STRING_ENCODING_ENUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

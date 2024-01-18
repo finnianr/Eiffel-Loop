@@ -1,5 +1,5 @@
 note
-	description: "Factory to create new instances of text patterns optimized for [$source ZSTRING]"
+	description: "Factory to create new instances of text patterns optimized for ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

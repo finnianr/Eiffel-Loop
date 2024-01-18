@@ -1,7 +1,7 @@
 note
 	description: "[
 		A second object attribute that is created only if it is needed.
-		This is a duplicate of [$source EL_LAZY_ATTRIBUTE] to solve any inheritance conflict.
+		This is a duplicate of ${EL_LAZY_ATTRIBUTE} to solve any inheritance conflict.
 	]"
 
 	author: "Finnian Reilly"

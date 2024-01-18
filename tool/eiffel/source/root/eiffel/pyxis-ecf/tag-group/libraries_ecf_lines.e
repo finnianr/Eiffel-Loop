@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source GROUPED_ECF_LINES] for **library** tags with an option with an optional common ''location''
+		${GROUPED_ECF_LINES} for **library** tags with an option with an optional common ''location''
 	]"
 	notes: "[
 		**location** is interpreted as a location prefix only if it's on the first line

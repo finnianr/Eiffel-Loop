@@ -1,5 +1,5 @@
 note
-	description: "Convert [$source READABLE_STRING_GENERAL] to type [$source CHARACTER_8]"
+	description: "Convert ${READABLE_STRING_GENERAL} to type ${CHARACTER_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

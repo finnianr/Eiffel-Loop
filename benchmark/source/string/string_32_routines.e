@@ -1,5 +1,5 @@
 note
-	description: "[$source STRING_32] routines for benchmarking"
+	description: "${STRING_32} routines for benchmarking"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "List of items conforming to [$source EL_NAMEABLE [READABLE_STRING_GENERAL]] and searchable by item name"
+	description: "List of items conforming to ${EL_NAMEABLE [READABLE_STRING_GENERAL]} and searchable by item name"
 	notes: "[
 		Benchmarks show that for small lists the search performance is almost identical to a hash table.
 	]"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source PYXIS_TREE_TO_XML_COMPILER] which compiles a tree of
+		Command line interface to ${PYXIS_TREE_TO_XML_COMPILER} which compiles a tree of
 		Pyxis source files into single XML file.
 	]"
 

@@ -1,9 +1,9 @@
 note
-	description: "Access to shared descendant of [$source EL_BUILD_INFO]"
+	description: "Access to shared descendant of ${EL_BUILD_INFO}"
 	notes: "[
 		Somewhere at the start of your application you need to create an instance of
-		and object that inherits [$source EL_BUILD_INFO]
-		If you use [$source EL_MULTI_APPLICATION_ROOT [EL_BUILD_INFO, TUPLE]] to implement your root class, this
+		and object that inherits ${EL_BUILD_INFO}
+		If you use ${EL_MULTI_APPLICATION_ROOT [EL_BUILD_INFO, TUPLE]} to implement your root class, this
 		will done for you automatically. A class `BUILD_INFO' is automatically generated
 		by the Eiffel-Loop scons build system.
 	]"

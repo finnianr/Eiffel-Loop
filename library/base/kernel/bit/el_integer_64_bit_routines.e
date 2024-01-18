@@ -1,5 +1,5 @@
 note
-	description: "Multi-bit set and get routines for [$source INTEGER_64] numbers"
+	description: "Multi-bit set and get routines for ${INTEGER_64} numbers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

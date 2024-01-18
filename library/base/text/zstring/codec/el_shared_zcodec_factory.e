@@ -1,5 +1,5 @@
 note
-	description: "Shared access to frozen class [$source EL_ZCODEC_FACTORY]"
+	description: "Shared access to frozen class ${EL_ZCODEC_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

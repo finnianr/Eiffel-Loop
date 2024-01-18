@@ -1,5 +1,5 @@
 note
-	description: "Localized texts for [$source EL_STANDARD_UNINSTALL_APP]"
+	description: "Localized texts for ${EL_STANDARD_UNINSTALL_APP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

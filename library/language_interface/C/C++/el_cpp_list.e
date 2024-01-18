@@ -1,5 +1,5 @@
 note
-	description: "Iterable list of C++ objects conforming to [$source EL_CPP_OBJECT]"
+	description: "Iterable list of C++ objects conforming to ${EL_CPP_OBJECT}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "ANSI escape sequence codes for foreground color"
-	notes: "Accessible via {[$source EL_LOGGABLE_CONSTANTS]}.Color"
+	notes: "Accessible via {${EL_LOGGABLE_CONSTANTS}}.Color"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source EL_DATE_TIME_CONVERSION] for the extended form of the
+		Implementation of ${EL_DATE_TIME_CONVERSION} for the extended form of the
 		[https://en.wikipedia.org/wiki/ISO_8601 ISO-8601 date-time format]
 	]"
 

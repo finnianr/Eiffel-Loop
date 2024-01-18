@@ -2,7 +2,7 @@ note
 	description: "[
 		Sub-application to create an XML file manifest of a target directory using either the default
 		Evolicity template or an optional external Evolicity template.
-		See class [$source EL_FILE_MANIFEST_GENERATOR] for details.
+		See class ${EL_FILE_MANIFEST_GENERATOR} for details.
 	]"
 
 	author: "Finnian Reilly"

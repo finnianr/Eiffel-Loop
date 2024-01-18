@@ -1,11 +1,11 @@
 note
 	description: "[
-		Routines for use with [$source EL_EQA_TEST_SET] to do regression testing based on CRC-32 checksum
+		Routines for use with ${EL_EQA_TEST_SET} to do regression testing based on CRC-32 checksum
 		of logged/console output. See **do_test* routine.
 	]"
 	notes: "[
-		The type of `log' must be set to [$source EL_CRC_32_CONSOLE_ONLY_LOG] by running the test
-		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_APPLICATION]
+		The type of `log' must be set to ${EL_CRC_32_CONSOLE_ONLY_LOG} by running the test
+		from a sub-application conforming to ${EL_CRC_32_AUTOTEST_APPLICATION}
 	]"
 
 	author: "Finnian Reilly"

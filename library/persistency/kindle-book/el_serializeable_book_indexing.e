@@ -2,9 +2,9 @@ note
 	description: "Serializeable book indexing"
 	descendants: "[
 			EL_SERIALIZEABLE_BOOK_INDEXING*
-				[$source EL_BOOK_HTML_CONTENTS_TABLE]
-				[$source EL_BOOK_NAVIGATION_CONTROL_FILE]
-				[$source EL_BOOK_PACKAGE]
+				${EL_BOOK_HTML_CONTENTS_TABLE}
+				${EL_BOOK_NAVIGATION_CONTROL_FILE}
+				${EL_BOOK_PACKAGE}
 	]"
 
 	author: "Finnian Reilly"

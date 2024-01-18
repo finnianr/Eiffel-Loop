@@ -1,5 +1,5 @@
 note
-	description: "Modify or query the base name (last step) of path conforming to [$source EL_PATH]"
+	description: "Modify or query the base name (last step) of path conforming to ${EL_PATH}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

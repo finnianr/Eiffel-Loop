@@ -35,12 +35,12 @@ feature -- Access
 note
 	descendants: "[
 			TP_SEARCHABLE*
-				[$source TP_LITERAL_CHAR]
-					[$source TP_RSTRING_LITERAL_CHAR]
-					[$source TP_ZSTRING_LITERAL_CHAR]
-				[$source TP_LITERAL_PATTERN]
-					[$source TP_RSTRING_LITERAL]
-					[$source TP_ZSTRING_LITERAL]
+				${TP_LITERAL_CHAR}
+					${TP_RSTRING_LITERAL_CHAR}
+					${TP_ZSTRING_LITERAL_CHAR}
+				${TP_LITERAL_PATTERN}
+					${TP_RSTRING_LITERAL}
+					${TP_ZSTRING_LITERAL}
 	]"
 
 end

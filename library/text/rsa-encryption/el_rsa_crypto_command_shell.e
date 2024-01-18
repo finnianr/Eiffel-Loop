@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_CRYPTO_COMMAND_SHELL] with addition of RSA public-key cryptography operations
+		${EL_CRYPTO_COMMAND_SHELL} with addition of RSA public-key cryptography operations
 	]"
 
 	author: "Finnian Reilly"

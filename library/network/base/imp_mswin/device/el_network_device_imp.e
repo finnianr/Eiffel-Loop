@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_NETWORK_DEVICE_I]"
+	description: "Windows implementation of ${EL_NETWORK_DEVICE_I}"
 	notes: "[
 		**Example USB wireless adapter**
 		

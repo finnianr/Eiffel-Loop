@@ -1,5 +1,5 @@
 note
-	description: "Array that is indexable by a [$source BOOLEAN] value"
+	description: "Array that is indexable by a ${BOOLEAN} value"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

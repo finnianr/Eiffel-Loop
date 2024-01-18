@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_STANDARD_DIRECTORY_I]"
+	description: "Shared access to routines of class ${EL_STANDARD_DIRECTORY_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

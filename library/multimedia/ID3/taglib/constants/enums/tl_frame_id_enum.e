@@ -3,7 +3,7 @@ note
 		Combined frame ID enumeration codes for ID3 versions: 2.2.0, 2.3.0, 2.4.0
 	]"
 	notes: "[
-		Enumerations are generated from extract of ID3 specification by [$source ID3_FRAME_CODE_CLASS_GENERATOR_APP]
+		Enumerations are generated from extract of ID3 specification by ${ID3_FRAME_CODE_CLASS_GENERATOR_APP}
 		from cluster [./tool/eiffel/eiffel.root.html eiffel.ecf#root]
 	]"
 

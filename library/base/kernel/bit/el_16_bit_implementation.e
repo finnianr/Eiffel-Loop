@@ -1,5 +1,5 @@
 note
-	description: "16-bit implementation of [$source EL_BIT_COUNTABLE]"
+	description: "16-bit implementation of ${EL_BIT_COUNTABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

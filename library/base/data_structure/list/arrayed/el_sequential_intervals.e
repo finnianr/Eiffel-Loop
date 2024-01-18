@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sequence of consecutive [$source INTEGER_32] intervals (compressed as [$source INTEGER_64]'s for better performance)
+		Sequence of consecutive ${INTEGER_32} intervals (compressed as ${INTEGER_64}'s for better performance)
 			
 			<< a1..b1, a2..b2, .. >>
 		

@@ -1,5 +1,5 @@
 note
-	description: "List of Thunderbird email content and headers of type [$source TB_EMAIL]"
+	description: "List of Thunderbird email content and headers of type ${TB_EMAIL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

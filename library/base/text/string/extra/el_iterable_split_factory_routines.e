@@ -1,5 +1,5 @@
 note
-	description: "Create optimal [$source EL_ITERABLE_SPLIT] instance for [$source READABLE_STRING_GENERAL]"
+	description: "Create optimal ${EL_ITERABLE_SPLIT} instance for ${READABLE_STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

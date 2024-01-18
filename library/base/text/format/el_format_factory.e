@@ -1,8 +1,8 @@
 note
 	description: "[
-		Factory for [$source EL_FORMAT_DOUBLE] and [$source EL_FORMAT_INTEGER] formats
-		initialized using format likeness strings. Accessible via [$source EL_SHARED_FORMAT_FACTORY].
-		See class [$source EL_FORMAT_LIKENESS]
+		Factory for ${EL_FORMAT_DOUBLE} and ${EL_FORMAT_INTEGER} formats
+		initialized using format likeness strings. Accessible via ${EL_SHARED_FORMAT_FACTORY}.
+		See class ${EL_FORMAT_LIKENESS}
 	]"
 
 	author: "Finnian Reilly"

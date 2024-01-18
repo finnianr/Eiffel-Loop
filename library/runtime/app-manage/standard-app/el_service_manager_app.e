@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source EL_SERVICE_MANAGER_SHELL] for managing
+		Command line interface to ${EL_SERVICE_MANAGER_SHELL} for managing
 		services specified in a configuration file from a shell menu
 	]"
 

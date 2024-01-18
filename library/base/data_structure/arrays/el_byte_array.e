@@ -1,5 +1,5 @@
 note
-	description: "Array of 8 bit bytes: [$source TO_SPECIAL [NATURAL_8]]"
+	description: "Array of 8 bit bytes: ${TO_SPECIAL [NATURAL_8]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

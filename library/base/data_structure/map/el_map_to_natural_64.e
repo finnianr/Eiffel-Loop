@@ -1,5 +1,5 @@
 note
-	description: "Map an object item to a [$source NATURAL_64] value"
+	description: "Map an object item to a ${NATURAL_64} value"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

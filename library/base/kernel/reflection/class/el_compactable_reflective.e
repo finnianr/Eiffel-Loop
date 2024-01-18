@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object whose expanded fields can be compactly represented as a single [$source NATURAL_64] number
+		Object whose expanded fields can be compactly represented as a single ${NATURAL_64} number
 	]"
 	notes: "[
 		Using a compact date as an example the table manifest string can be formatted as follows:

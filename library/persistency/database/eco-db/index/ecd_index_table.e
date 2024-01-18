@@ -1,6 +1,6 @@
 note
 	description: "[
-		A field index table for Eco-DB arrayed lists conforming to [$source ECD_ARRAYED_LIST [EL_STORABLE]]
+		A field index table for Eco-DB arrayed lists conforming to ${ECD_ARRAYED_LIST [EL_STORABLE]}
 	]"
 	notes: "[
 		The index is only maintained for field values that are unique. 

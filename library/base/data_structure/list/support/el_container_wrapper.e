@@ -1,5 +1,5 @@
 note
-	description: "Createable version of class [$source EL_CONTAINER_STRUCTURE]"
+	description: "Createable version of class ${EL_CONTAINER_STRUCTURE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

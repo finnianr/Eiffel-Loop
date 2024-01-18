@@ -1,5 +1,5 @@
 note
-	description: "Allows descendants access to initialization agents for [$source EL_OBJECT_FACTORY]"
+	description: "Allows descendants access to initialization agents for ${EL_OBJECT_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

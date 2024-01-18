@@ -5,9 +5,9 @@ note
 
 		**Test Sets**
 
-			[$source DIGEST_ROUTINES_TEST_SET]
-			[$source ENCRYPTION_TEST_SET]
-			[$source UUID_TEST_SET]
+			${DIGEST_ROUTINES_TEST_SET}
+			${ENCRYPTION_TEST_SET}
+			${UUID_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Windows version object with support for Windows 10 by registry query, and accessible via
-		class [$source EL_MODULE_WINDOWS_VERSION]
+		class ${EL_MODULE_WINDOWS_VERSION}
 	]"
 
 	author: "Finnian Reilly"

@@ -2,7 +2,7 @@ note
 	description: "Log manager"
 	descendants: "[
 			EL_LOG_MANAGER
-				[$source EL_CRC_32_LOG_MANAGER]
+				${EL_CRC_32_LOG_MANAGER}
 	]"
 
 	author: "Finnian Reilly"

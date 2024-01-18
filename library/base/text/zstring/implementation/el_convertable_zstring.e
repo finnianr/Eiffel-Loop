@@ -1,5 +1,5 @@
 note
-	description: "Routines to convert instance of [$source ZSTRING] to another type or form"
+	description: "Routines to convert instance of ${ZSTRING} to another type or form"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

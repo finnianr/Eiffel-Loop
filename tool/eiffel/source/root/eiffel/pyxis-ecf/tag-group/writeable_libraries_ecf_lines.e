@@ -1,5 +1,5 @@
 note
-	description: "[$source LIBRARIES_ECF_LINES] for libraries that can be modified in EiffelStudio"
+	description: "${LIBRARIES_ECF_LINES} for libraries that can be modified in EiffelStudio"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

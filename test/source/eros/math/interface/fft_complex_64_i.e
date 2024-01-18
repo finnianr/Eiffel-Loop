@@ -4,8 +4,8 @@ note
 	]"
 	descendants: "[
 			FFT_COMPLEX_64_I*
-				[$source FFT_COMPLEX_64_PROXY]
-				[$source FFT_COMPLEX_64]
+				${FFT_COMPLEX_64_PROXY}
+				${FFT_COMPLEX_64}
 	]"
 
 	author: "Finnian Reilly"

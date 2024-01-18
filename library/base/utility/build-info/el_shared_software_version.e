@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of object conforming to [$source EL_SOFTWARE_VERSION]"
+	description: "Shared instance of object conforming to ${EL_SOFTWARE_VERSION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

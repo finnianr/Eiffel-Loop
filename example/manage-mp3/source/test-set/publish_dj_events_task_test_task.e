@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source PUBLISH_DJ_EVENTS_TASK]"
+	description: "Test set for class ${PUBLISH_DJ_EVENTS_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

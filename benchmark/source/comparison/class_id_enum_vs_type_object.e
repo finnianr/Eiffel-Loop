@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare getting dynamic_type for [$source COLLECTION [ANY]]} from calls
+		Compare getting dynamic_type for ${COLLECTION [ANY]}} from calls
 		 
 			1. {COLLECTION [ANY]}.type_id
 			2. Class_id.COLLECTION_ANY

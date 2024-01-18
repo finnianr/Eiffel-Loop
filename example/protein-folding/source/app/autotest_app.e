@@ -2,9 +2,9 @@ note
 	description: "[
 		Command line interface to test sets
 		
-			[$source LIMITED_ARRAY_TEST_SET]
-			[$source BOOLEAN_GRID_TEST_SET]
-			[$source PROTEIN_FOLDING_TEST_SET]
+			${LIMITED_ARRAY_TEST_SET}
+			${BOOLEAN_GRID_TEST_SET}
+			${PROTEIN_FOLDING_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

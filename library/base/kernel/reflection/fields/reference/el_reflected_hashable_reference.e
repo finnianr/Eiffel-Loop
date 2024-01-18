@@ -1,7 +1,7 @@
 note
 	description: "[
-		Reflected reference field conforming to [$source HASHABLE] with the possibility to
-		eliminate duplicate values by looking up values in a [$source EL_HASH_SET] object.
+		Reflected reference field conforming to ${HASHABLE} with the possibility to
+		eliminate duplicate values by looking up values in a ${EL_HASH_SET} object.
 	]"
 	descendants: "See end of class"
 
@@ -61,14 +61,14 @@ feature {NONE} -- Internal attributes
 note
 	descendants: "[
 			EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
-				[$source EL_REFLECTED_STRING]* [S -> [$source READABLE_STRING_GENERAL] create make end]
-					[$source EL_REFLECTED_STRING_8]
-					[$source EL_REFLECTED_ZSTRING]
-					[$source EL_REFLECTED_STRING_32]
-					[$source EL_REFLECTED_IMMUTABLE_STRING_8]
-					[$source EL_REFLECTED_IMMUTABLE_STRING_32]
-					[$source EL_REFLECTED_URI]
-				[$source EL_REFLECTED_PATH]
+				${EL_REFLECTED_STRING}* [S -> ${READABLE_STRING_GENERAL} create make end]
+					${EL_REFLECTED_STRING_8}
+					${EL_REFLECTED_ZSTRING}
+					${EL_REFLECTED_STRING_32}
+					${EL_REFLECTED_IMMUTABLE_STRING_8}
+					${EL_REFLECTED_IMMUTABLE_STRING_32}
+					${EL_REFLECTED_URI}
+				${EL_REFLECTED_PATH}
 	]"
 
 end

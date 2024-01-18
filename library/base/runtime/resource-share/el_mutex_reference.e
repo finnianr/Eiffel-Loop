@@ -1,14 +1,14 @@
 note
 	description: "[
 		Restricts access to objects that require thread synchronization.
-		For debugging it is recommended to use [$source EL_LOGGED_MUTEX_REFERENCE] to detect deadlock.
+		For debugging it is recommended to use ${EL_LOGGED_MUTEX_REFERENCE} to detect deadlock.
 		Any time a thread is forced to wait for a lock it is reported to the thread's log.
 	]"
 	notes: "[
 		23 April 2022
 		
-		As an experiment tried to inherit class [$source EL_ITERABLE_SCOPE] as way to define locked scope
-		but this was unsuccessful. The test class [$source HORSE_RACE_APP] just froze.
+		As an experiment tried to inherit class ${EL_ITERABLE_SCOPE} as way to define locked scope
+		but this was unsuccessful. The test class ${HORSE_RACE_APP} just froze.
 	]"
 
 	author: "Finnian Reilly"

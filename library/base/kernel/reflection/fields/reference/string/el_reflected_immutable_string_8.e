@@ -1,5 +1,5 @@
 note
-	description: "Reflected field of type [$source IMMUTABLE_STRING_8]"
+	description: "Reflected field of type ${IMMUTABLE_STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source SPLIT_INTERVALS] optimized for strings conforming to [$source READABLE_STRING_32]
+		${SPLIT_INTERVALS} optimized for strings conforming to ${READABLE_STRING_32}
 	]"
 
 	author: "Finnian Reilly"

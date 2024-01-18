@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of [$source EL_VIDEO_COMMAND_FACTORY]"
+	description: "Shared access to instance of ${EL_VIDEO_COMMAND_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

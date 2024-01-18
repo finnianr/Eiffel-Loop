@@ -1,6 +1,6 @@
 note
 	description: "[
-		An experimental string for testing class [$source SUBSTRING_32_ARRAY] and [$source SUBSTRING_32_LIST]
+		An experimental string for testing class ${SUBSTRING_32_ARRAY} and ${SUBSTRING_32_LIST}
 	]"
 
 	author: "Finnian Reilly"

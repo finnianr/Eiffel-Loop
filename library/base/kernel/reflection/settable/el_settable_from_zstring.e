@@ -1,9 +1,9 @@
 note
 	description: "[
-		Used in conjunction with [$source EL_REFLECTIVE] to reflectively set fields
-		from name-value pairs, where value conforms to [$source EL_ZSTRING] (aka ''ZSTRING'')
+		Used in conjunction with ${EL_REFLECTIVE} to reflectively set fields
+		from name-value pairs, where value conforms to ${EL_ZSTRING} (aka ''ZSTRING'')
 	]"
-	tests: "Class [$source REFLECTION_TEST_SET]"
+	tests: "Class ${REFLECTION_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

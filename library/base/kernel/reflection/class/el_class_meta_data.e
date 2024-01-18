@@ -2,7 +2,7 @@ note
 	description: "Class reflective meta data"
 	descendants: "[
 			EL_CLASS_META_DATA
-				[$source EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA]
+				${EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA}
 	]"
 
 	author: "Finnian Reilly"

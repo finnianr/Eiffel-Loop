@@ -1,7 +1,7 @@
 note
 	description: "[
 		Reflected field can be associated with a string representation type `G', for example an
-		[$source INTEGER_32] field can be associated with a [$source DATE] type.
+		${INTEGER_32} field can be associated with a ${DATE} type.
 	]"
 
 	author: "Finnian Reilly"

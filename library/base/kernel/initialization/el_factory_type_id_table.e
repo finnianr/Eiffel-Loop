@@ -11,7 +11,7 @@ note
 			EL_MAKEABLE*
 				COLUMN_VECTOR_COMPLEX_64
 				
-		calling `item' with a composite [$source NATURAL_64] key defined as :
+		calling `item' with a composite ${NATURAL_64} key defined as :
 			
 			(factory_type.type_id.to_natural_64 |<< 32) | target_type.type_id.to_natural_64
 			

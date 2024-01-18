@@ -1,5 +1,5 @@
 note
-	description: "Array of [$source TUPLE] parameter types: [$source ARRAY [TYPE [ANY]]]"
+	description: "Array of ${TUPLE} parameter types: ${ARRAY [TYPE [ANY]]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

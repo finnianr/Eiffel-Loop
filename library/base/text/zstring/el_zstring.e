@@ -1,12 +1,12 @@
 note
 	description: "[
 		Usually referenced with the alias **ZSTRING**, this string is a memory efficient alternative to using
-		[$source STRING_32].When an application mainly uses characters from the ISO-8859-15 character set,
+		${STRING_32}.When an application mainly uses characters from the ISO-8859-15 character set,
 		the memory saving can be as much as 70%, while the execution efficiency is roughly the same as for
-		[$source STRING_8]. For short strings the saving is much less: about 50%.
+		${STRING_8}. For short strings the saving is much less: about 50%.
 		ISO-8859-15 covers most Western european languages.
 	]"
-	tests: "Class [$source ZSTRING_TEST_SET]"
+	tests: "Class ${ZSTRING_TEST_SET}"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -513,7 +513,7 @@ note
 	notes: "[
 		**DEFAULT CODEC**
 		
-		By default `area' characters are encoded using the codec {[$source EL_ZCODEC_FACTORY]}.default_codec. By
+		By default `area' characters are encoded using the codec {${EL_ZCODEC_FACTORY}}.default_codec. By
 		default this is ISO-8859-15 but can be set for the application using the command line option:
 		
 			-system_codec [name]
@@ -524,7 +524,7 @@ note
 		
 		**FEATURES**
 		
-		`ZSTRING' has many useful routines not found in [$source STRING_32]. Probably the most useful is Python style templates 
+		`ZSTRING' has many useful routines not found in ${STRING_32}. Probably the most useful is Python style templates 
 		using the `#$' as an alias for `substituted_tuple', and place holders indicated by `%S', which by coincidence is
 		both an Eiffel escape sequence and a Python one (Python is actually `%s').
 		
@@ -534,7 +534,7 @@ note
 
 		**BENCHMARKS**
 
-		Comparison of `ZSTRING' against [$source STRING_32] for basic string operations
+		Comparison of `ZSTRING' against ${STRING_32} for basic string operations
 
 		* [./benchmark/ZSTRING-benchmarks-latin-1.html Latin-1 base encoding]
 		* [./benchmark/ZSTRING-benchmarks-latin-15.html Latin-15 base encoding]
@@ -547,7 +547,7 @@ note
 		This is something to consider if your application is going to be used in for example: Russia or Japan.
 		If the user locale is for a language that is supported by a ISO-8859-x what you can do is over-ride
 		
-			{[$source EL_SHARED_ZSTRING_CODEC]}.Default_codec
+			{${EL_SHARED_ZSTRING_CODEC}}.Default_codec
 			
 		and initialize it immediately after application launch. This will force `ZSTRING' to switch to a more optimal
 		character-set for the user-locale. The execution performance will be worst for Asian characters.
@@ -557,9 +557,9 @@ note
 
 		There two ways to go about achieving an efficient implementation for Asian character sets:
 
-		1. Change the implementation to inherit from [$source STRING_32]. This will be the fastest and easiest to implement.
-		2. Change the area array to type: [$source SPECIAL [NATURAL_16]] and then the same basic algorithm can be applied to Asian characters.
-		The problem is [$source NATURAL_16] is not a character and there is no `CHARACTER_16', so it will entail a lot of changes.
+		1. Change the implementation to inherit from ${STRING_32}. This will be the fastest and easiest to implement.
+		2. Change the area array to type: ${SPECIAL [NATURAL_16]} and then the same basic algorithm can be applied to Asian characters.
+		The problem is ${NATURAL_16} is not a character and there is no `CHARACTER_16', so it will entail a lot of changes.
 		The upside is that there will still be a substantial memory saving.
 	]"
 

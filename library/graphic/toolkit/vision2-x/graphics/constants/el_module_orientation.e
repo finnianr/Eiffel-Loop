@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of [$source EL_ORIENTATION_ROUTINES]"
+	description: "Shared access to instance of ${EL_ORIENTATION_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

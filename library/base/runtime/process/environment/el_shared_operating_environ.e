@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_OPERATING_ENVIRONMENT_I]"
+	description: "Shared access to routines of class ${EL_OPERATING_ENVIRONMENT_I}"
 	notes: "[
 		Routine `Operating_environment' is found in class `ANY' so it is impractical to clash
 		with this name, hence abbreviation to `Operating_environ'

@@ -1,5 +1,5 @@
 note
-	description: "Object that is convertible to type conforming to [$source EL_HTTP_PARAMETER]"
+	description: "Object that is convertible to type conforming to ${EL_HTTP_PARAMETER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

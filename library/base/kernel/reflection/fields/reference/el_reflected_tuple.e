@@ -1,5 +1,5 @@
 note
-	description: "Reflected field conforming to type [$source TUPLE]"
+	description: "Reflected field conforming to type ${TUPLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

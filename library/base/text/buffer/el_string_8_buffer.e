@@ -1,5 +1,5 @@
 note
-	description: "Implementation of [$source EL_STRING_8_BUFFER_I]"
+	description: "Implementation of ${EL_STRING_8_BUFFER_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

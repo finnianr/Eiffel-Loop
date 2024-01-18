@@ -1,6 +1,6 @@
 note
 	description: "[
-		Helper class for [$source EL_DIRECTORY] to manage notification of file/directory deletion events
+		Helper class for ${EL_DIRECTORY} to manage notification of file/directory deletion events
 		and cancellation of deletion procedures.
 	]"
 	notes: "[

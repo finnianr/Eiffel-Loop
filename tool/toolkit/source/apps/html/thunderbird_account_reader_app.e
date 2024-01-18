@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to command conforming to [$source TB_MULTI_LANG_ACCOUNT_READER]"
+	description: "Command line interface to command conforming to ${TB_MULTI_LANG_ACCOUNT_READER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

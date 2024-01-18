@@ -1,15 +1,15 @@
 note
 	description: "[
-		Compare XML processing using tokenized xpaths in class [$source EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS] 
-		versus using a regular string path in [$source EL_BUILDABLE_FROM_XML].
+		Compare XML processing using tokenized xpaths in class ${EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS} 
+		versus using a regular string path in ${EL_BUILDABLE_FROM_XML}.
 	]"
 	notes: "[
 		**BENCHMARKS**
 		
 		Add total file sizes from Rhythmbox database using
 		
-		1. [$source TOKENIZED_FILE_SIZE_SCANNER]
-		2. [$source REGULAR_FILE_SIZE_SCANNER]
+		1. ${TOKENIZED_FILE_SIZE_SCANNER}
+		2. ${REGULAR_FILE_SIZE_SCANNER}
 
 		Passes over 10000 millisecs (in descending order)
 

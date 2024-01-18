@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source CLASS_NOTE_LINK_REFORMATTING_COMMAND]"
+	description: "Command line interface to ${CLASS_NOTE_LINK_REFORMATTING_COMMAND}"
 	notes: "[
 			el_eiffel -class_note_link_reformatting -sources <directory or manifest path>
 	]"

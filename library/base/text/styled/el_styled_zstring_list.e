@@ -1,5 +1,5 @@
 note
-	description: "Implementation of [$source EL_STYLED_TEXT_LIST [ZSTRING]]"
+	description: "Implementation of ${EL_STYLED_TEXT_LIST [ZSTRING]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

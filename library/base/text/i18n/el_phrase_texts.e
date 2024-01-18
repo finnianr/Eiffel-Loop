@@ -1,5 +1,5 @@
 note
-	description: "Common phrases and titles accessible via [$source EL_SHARED_PHRASE] as `Phrase'"
+	description: "Common phrases and titles accessible via ${EL_SHARED_PHRASE} as `Phrase'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

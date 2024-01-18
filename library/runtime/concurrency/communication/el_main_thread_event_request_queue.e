@@ -1,7 +1,7 @@
 note
 	description: "[
 		Queue to notify an event listener from main application thread. A shared instance is accessible
-		via [$source EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE]
+		via ${EL_SHARED_MAIN_THREAD_EVENT_REQUEST_QUEUE}
 	]"
 
 	author: "Finnian Reilly"

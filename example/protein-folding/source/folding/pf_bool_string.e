@@ -1,5 +1,5 @@
 note
-	description: "[$source BOOL_STRING] with added string conversion functions"
+	description: "${BOOL_STRING} with added string conversion functions"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"

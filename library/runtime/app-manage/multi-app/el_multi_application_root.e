@@ -1,17 +1,17 @@
 note
 	description: "[
-		Selects a sub-application to launch from a shared list of uninitialized instances conforming to [$source EL_APPLICATION].
+		Selects a sub-application to launch from a shared list of uninitialized instances conforming to ${EL_APPLICATION}.
 		The list is created using types defined by the `APPLICATION_TYPES' tuple parameter. A command line option matching the string
 		value `{EL_APPLICATION}.option_name' selects that instance. Calling `make' on the selected instance executes the sub-application.
 	]"
 	notes: "[
-		The [$source EL_VERSION_APP] application is automatically added to list of instances defined by `APPLICATION_TYPES' tuple.
+		The ${EL_VERSION_APP} application is automatically added to list of instances defined by `APPLICATION_TYPES' tuple.
 
-		Can also install/uninstall any sub-application conforming to [$source EL_INSTALLABLE_APPLICATION].
+		Can also install/uninstall any sub-application conforming to ${EL_INSTALLABLE_APPLICATION}.
 		(System file context menu or system application launch menu) See sub-applications:
 
-			[$source EL_STANDARD_INSTALLER_APP]
-			[$source EL_STANDARD_UNINSTALL_APP]
+			${EL_STANDARD_INSTALLER_APP}
+			${EL_STANDARD_UNINSTALL_APP}
 	]"
 
 	author: "Finnian Reilly"

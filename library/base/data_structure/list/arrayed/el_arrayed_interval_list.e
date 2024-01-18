@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sequence of [$source INTEGER_32] intervals (compressed as [$source INTEGER_64]'s for better performance)
+		Sequence of ${INTEGER_32} intervals (compressed as ${INTEGER_64}'s for better performance)
 	]"
 
 	author: "Finnian Reilly"

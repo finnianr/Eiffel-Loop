@@ -1,8 +1,8 @@
 note
-	description: "Shared access to routines of class [$source EL_LOG_MANAGER]"
+	description: "Shared access to routines of class ${EL_LOG_MANAGER}"
 	descendants: "[
 			EL_LOG_MANAGER
-				[$source EL_CRC_32_LOG_MANAGER]
+				${EL_CRC_32_LOG_MANAGER}
 	]"
 
 	author: "Finnian Reilly"

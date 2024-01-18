@@ -2,9 +2,9 @@ note
 	description: "[
 		Shared access to instances of classes:
 			
-			[$source EL_PROGRESS_TRACKING]
-			[$source EL_CONSOLE_PROGRESS_DISPLAY]
-			[$source EL_DEFAULT_PROGRESS_DISPLAY]
+			${EL_PROGRESS_TRACKING}
+			${EL_CONSOLE_PROGRESS_DISPLAY}
+			${EL_DEFAULT_PROGRESS_DISPLAY}
 
 	]"
 

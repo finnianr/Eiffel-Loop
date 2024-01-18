@@ -1,5 +1,5 @@
 note
-	description: "Style information for object conforming to [$source EL_SCROLLABLE_SEARCH_RESULTS]"
+	description: "Style information for object conforming to ${EL_SCROLLABLE_SEARCH_RESULTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Unix implemenation of [$source EL_MOVE_TO_DIRECTORY_COMMAND_I]"
+	description: "Unix implemenation of ${EL_MOVE_TO_DIRECTORY_COMMAND_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

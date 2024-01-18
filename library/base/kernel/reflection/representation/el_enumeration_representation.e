@@ -1,6 +1,6 @@
 note
 	description: "[
-		A reflected type `N' conforming to [$source NUMERIC] representing a [$source EL_ENUMERATION [N]]]
+		A reflected type `N' conforming to ${NUMERIC} representing a ${EL_ENUMERATION [N]}]
 	]"
 
 	author: "Finnian Reilly"

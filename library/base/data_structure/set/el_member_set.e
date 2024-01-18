@@ -1,5 +1,5 @@
 note
-	description: "Set of objects conforming to [$source EL_SET_MEMBER [HASHABLE]]"
+	description: "Set of objects conforming to ${EL_SET_MEMBER [HASHABLE]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

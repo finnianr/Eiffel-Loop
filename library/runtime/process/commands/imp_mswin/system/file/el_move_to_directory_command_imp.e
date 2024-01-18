@@ -1,5 +1,5 @@
 note
-	description: "Windows implemenation of [$source EL_MOVE_TO_DIRECTORY_COMMAND_I]"
+	description: "Windows implemenation of ${EL_MOVE_TO_DIRECTORY_COMMAND_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

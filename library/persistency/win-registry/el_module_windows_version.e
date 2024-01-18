@@ -1,5 +1,5 @@
 note
-	description: "Access to shared instance of [$source EL_WEL_WINDOWS_VERSION]"
+	description: "Access to shared instance of ${EL_WEL_WINDOWS_VERSION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

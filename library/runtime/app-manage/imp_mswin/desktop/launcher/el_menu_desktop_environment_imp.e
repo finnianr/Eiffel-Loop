@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_MENU_DESKTOP_ENVIRONMENT_I] interface"
+	description: "Windows implementation of ${EL_MENU_DESKTOP_ENVIRONMENT_I} interface"
 	notes: "[
 		In Windows 2000, Windows XP, and Windows Server 2003, the folder is located in %userprofile%\Start Menu for individual users, 
 		or %allusersprofile%\Start Menu for all users collectively.

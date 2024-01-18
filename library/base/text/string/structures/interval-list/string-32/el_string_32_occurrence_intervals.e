@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source OCCURRENCE_INTERVALS] optimized for strings conforming to [$source READABLE_STRING_32]
+		${OCCURRENCE_INTERVALS} optimized for strings conforming to ${READABLE_STRING_32}
 	]"
 
 	author: "Finnian Reilly"

@@ -93,13 +93,13 @@ feature -- Access
 note
 	descendants: "[
 			EL_READABLE*
-				[$source EL_DOCUMENT_NODE_STRING]
-					[$source EL_ELEMENT_ATTRIBUTE_NODE_STRING]
-				[$source EL_MEMORY_READER_WRITER]
-					[$source ECD_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-						[$source ECD_ENCRYPTABLE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-							[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-						[$source ECD_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
-							[$source ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER] [G -> [$source EL_STORABLE] create make_default end]
+				${EL_DOCUMENT_NODE_STRING}
+					${EL_ELEMENT_ATTRIBUTE_NODE_STRING}
+				${EL_MEMORY_READER_WRITER}
+					${ECD_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
+						${ECD_ENCRYPTABLE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
+							${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
+						${ECD_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
+							${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
 	]"
 end

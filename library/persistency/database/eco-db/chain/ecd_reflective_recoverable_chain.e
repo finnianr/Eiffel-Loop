@@ -1,8 +1,8 @@
 note
 	description: "[
-		Adds features to [$source ECD_RECOVERABLE_CHAIN] to do reflective CSV and Pyxis format exports
+		Adds features to ${ECD_RECOVERABLE_CHAIN} to do reflective CSV and Pyxis format exports
 		By 'reflective' is meant that the exported CSV field names match the fields name of the
-		class implementing [$source EL_REFLECTIVELY_SETTABLE_STORABLE].
+		class implementing ${EL_REFLECTIVELY_SETTABLE_STORABLE}.
 	]"
 
 	author: "Finnian Reilly"

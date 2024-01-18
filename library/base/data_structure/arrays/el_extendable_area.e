@@ -1,5 +1,5 @@
 note
-	description: "Object with extendible [$source SPECIAL [G]] area"
+	description: "Object with extendible ${SPECIAL [G]} area"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

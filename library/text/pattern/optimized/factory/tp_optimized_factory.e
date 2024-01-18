@@ -1,13 +1,13 @@
 note
 	description: "[
 		Factory for creating new instances of core text-patterns matched against strings
-		conforming to [$source READABLE_STRING_GENERAL]
+		conforming to ${READABLE_STRING_GENERAL}
 	]"
 	notes: "[
-		Descendants are optimized to handle [$source ZSTRING] or strings conforming to [$source READABLE_STRING_8]
+		Descendants are optimized to handle ${ZSTRING} or strings conforming to ${READABLE_STRING_8}
 			
-			[$source TP_ZSTRING_OPTIMIZED_FACTORY]
-			[$source TP_RSTRING_OPTIMIZED_FACTORY]
+			${TP_ZSTRING_OPTIMIZED_FACTORY}
+			${TP_RSTRING_OPTIMIZED_FACTORY}
 	]"
 
 	author: "Finnian Reilly"

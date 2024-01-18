@@ -2,7 +2,7 @@ note
 	description: "[
 		Iteration cursor defining a scope in which multiple items can be borrowed from a factory pool
 		and then all returned when **across** loop exits after first iteration.
-		See class [$source EL_ITERABLE_POOL_SCOPE]
+		See class ${EL_ITERABLE_POOL_SCOPE}
 	]"
 
 	author: "Finnian Reilly"

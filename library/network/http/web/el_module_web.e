@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_HTTP_CONNECTION]"
+	description: "Shared access to routines of class ${EL_HTTP_CONNECTION}"
 	notes: "[
 		Using a shared web connection did not work well when tested, but maybe this
 		problem will have been resolved with the changes of Sep 2016 to fix the underlying C API.

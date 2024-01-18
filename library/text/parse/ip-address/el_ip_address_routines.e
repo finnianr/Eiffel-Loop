@@ -1,6 +1,6 @@
 note
 	description: "[
-		Routines for converting IP.4 addresses from [$source STRING_8] to [$source NATURAL_32] and vice-versa
+		Routines for converting IP.4 addresses from ${STRING_8} to ${NATURAL_32} and vice-versa
 	]"
 
 	author: "Finnian Reilly"

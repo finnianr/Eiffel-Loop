@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source UPDATE_DJ_PLAYLISTS_TASK]"
+	description: "Test set for class ${UPDATE_DJ_PLAYLISTS_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

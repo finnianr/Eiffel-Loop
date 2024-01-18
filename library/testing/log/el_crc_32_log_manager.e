@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_LOG_MANAGER] with CRC-32 checksum attached to log outputs"
+	description: "${EL_LOG_MANAGER} with CRC-32 checksum attached to log outputs"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_VTD_EXCEPTION] for XML document parsing errors"
+	description: "${EL_VTD_EXCEPTION} for XML document parsing errors"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

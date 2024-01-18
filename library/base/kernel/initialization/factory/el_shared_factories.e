@@ -1,6 +1,6 @@
 note
 	description: "[
-		Shared access to factory objects conforming to [$source EL_INITIALIZED_OBJECT_FACTORY]
+		Shared access to factory objects conforming to ${EL_INITIALIZED_OBJECT_FACTORY}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_MIRROR_BACKUP] implementing remote protocol such as **ftp** or **ssh**
+		${EL_MIRROR_BACKUP} implementing remote protocol such as **ftp** or **ssh**
 	]"
 
 	author: "Finnian Reilly"

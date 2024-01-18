@@ -1,5 +1,5 @@
 note
-	description: "Factory for objects conforming to [$source EL_IP_ADDRESS_GEOLOCATION]"
+	description: "Factory for objects conforming to ${EL_IP_ADDRESS_GEOLOCATION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Constants related to class [$source STRING_8]"
+	description: "Constants related to class ${STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

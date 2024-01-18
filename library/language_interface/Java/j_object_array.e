@@ -1,5 +1,5 @@
 note
-	description: "Java object array of types conforming to [$source JAVA_OBJECT_REFERENCE]"
+	description: "Java object array of types conforming to ${JAVA_OBJECT_REFERENCE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

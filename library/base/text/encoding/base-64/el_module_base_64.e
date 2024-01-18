@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of [$source EL_BASE_64_CODEC]"
+	description: "Shared access to instance of ${EL_BASE_64_CODEC}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

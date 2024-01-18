@@ -1,6 +1,6 @@
 note
 	description: "[
-		Radio buttons mapped to [$source FINITE [ZSTRING]] list. The displayed strings can be optionally localized.
+		Radio buttons mapped to ${FINITE [ZSTRING]} list. The displayed strings can be optionally localized.
 	]"
 
 	author: "Finnian Reilly"

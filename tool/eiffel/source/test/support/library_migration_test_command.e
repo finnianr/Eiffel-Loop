@@ -1,5 +1,5 @@
 note
-	description: "[$source LIBRARY_MIGRATION_COMMAND] with debugging output"
+	description: "${LIBRARY_MIGRATION_COMMAND} with debugging output"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

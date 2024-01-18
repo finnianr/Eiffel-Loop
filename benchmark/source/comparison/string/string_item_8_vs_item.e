@@ -1,5 +1,5 @@
 ﻿note
-	description: "Compare {[$source STRING_8]}.item VS character_32_item"
+	description: "Compare {${STRING_8}}.item VS character_32_item"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 

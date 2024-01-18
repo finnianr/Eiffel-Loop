@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_WORD_TOKEN_TABLE] using previous implementation of **paragraph_list_tokens**
+		${EL_WORD_TOKEN_TABLE} using previous implementation of **paragraph_list_tokens**
 	]"
 
 	author: "Finnian Reilly"

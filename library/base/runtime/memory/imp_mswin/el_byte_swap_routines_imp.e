@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_BYTE_SWAP_ROUTINES_I]"
+	description: "Windows implementation of ${EL_BYTE_SWAP_ROUTINES_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

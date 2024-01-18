@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_C_DECODER]"
+	description: "Shared access to routines of class ${EL_C_DECODER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

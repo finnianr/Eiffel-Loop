@@ -84,7 +84,7 @@ feature -- Factory
 
 note
 	notes: "[
-		Create an instance of this class first before accessing {[$source PP_SHARED_API_CONNECTION]}.API_connection
+		Create an instance of this class first before accessing {${PP_SHARED_API_CONNECTION}}.API_connection
 
 		**Example Configuration File**
 

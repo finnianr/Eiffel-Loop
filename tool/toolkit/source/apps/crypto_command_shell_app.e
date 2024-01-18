@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source EL_CRYPTO_COMMAND_SHELL] class.
+		Command line interface to ${EL_CRYPTO_COMMAND_SHELL} class.
 		This is a menu driven shell of various cryptographic functions listed in function
 		`{EL_CRYPTO_COMMAND_SHELL}.new_command_table'
 		

@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_MIRROR_BACKUP] for **file** protocol using [$source EL_RSYNC_COMMAND] command
+		${EL_MIRROR_BACKUP} for **file** protocol using ${EL_RSYNC_COMMAND} command
 	]"
 
 	author: "Finnian Reilly"

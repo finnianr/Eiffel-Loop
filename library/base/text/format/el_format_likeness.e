@@ -2,8 +2,8 @@ note
 	description: "Parses a formatting string that has a likeness to the output"
 	descendants: "[
 			EL_FORMAT_LIKENESS*
-				[$source EL_FORMAT_INTEGER] (right justification by default)
-				[$source EL_FORMAT_DOUBLE] (no justification by default)
+				${EL_FORMAT_INTEGER} (right justification by default)
+				${EL_FORMAT_DOUBLE} (no justification by default)
 	]"
 
 	author: "Finnian Reilly"

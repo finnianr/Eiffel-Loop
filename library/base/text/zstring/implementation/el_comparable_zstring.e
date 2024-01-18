@@ -1,5 +1,5 @@
 note
-	description: "Comparable aspects of [$source ZSTRING]"
+	description: "Comparable aspects of ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

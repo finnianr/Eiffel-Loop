@@ -1,5 +1,5 @@
 note
-	description: "Table of filled strings of type conforming to [$source READABLE_STRING_GENERAL]"
+	description: "Table of filled strings of type conforming to ${READABLE_STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

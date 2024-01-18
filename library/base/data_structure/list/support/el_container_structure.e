@@ -1,6 +1,6 @@
 note
 	description: "[
-		Routines that can be applied to current object if it conforms to [$source CONTAINER [G]]
+		Routines that can be applied to current object if it conforms to ${CONTAINER [G]}
 	]"
 
 	author: "Finnian Reilly"

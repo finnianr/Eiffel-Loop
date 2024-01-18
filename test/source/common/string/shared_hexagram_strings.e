@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source HEXAGRAM_STRINGS]"
+	description: "Shared instance of ${HEXAGRAM_STRINGS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

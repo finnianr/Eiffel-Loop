@@ -52,7 +52,7 @@ feature {NONE} -- Internal attributes
 note
 	notes: "[
 		Although only a tiny subset of the xpath standard is implemented, it is still quite useful as this rudimentary
-		XHTML renderer, [$source EL_HTML_TEXT], illustrates.
+		XHTML renderer, ${EL_HTML_TEXT}, illustrates.
 
 		The following xpath to agent map is from the example class
 		[http://www.eiffel-loop.com/test/source/xpath-events/bioinfo_xpath_match_events.html BIOINFO_XPATH_MATCH_EVENTS].

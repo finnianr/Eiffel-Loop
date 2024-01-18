@@ -1,6 +1,6 @@
 ﻿note
 	description: "[
-		Development testing for [$source EL_HACKER_INTERCEPT_SERVLET] using *.log data in
+		Development testing for ${EL_HACKER_INTERCEPT_SERVLET} using *.log data in
 		
 			$EIFFEL_LOOP/test/data/network
 	]"

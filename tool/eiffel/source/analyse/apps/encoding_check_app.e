@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the command [$source ENCODING_CHECK_COMMAND].
+		A command line interface to the command ${ENCODING_CHECK_COMMAND}.
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source EL_DIRECTORY_PATH_LIST] that uses native
+		Implementation of ${EL_DIRECTORY_PATH_LIST} that uses native
 		OS commands to obtain file listings
 	]"
 

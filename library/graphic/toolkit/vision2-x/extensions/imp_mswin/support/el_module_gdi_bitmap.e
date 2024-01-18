@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_GDI_BITMAP_ROUTINES]"
+	description: "Shared instance of ${EL_GDI_BITMAP_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

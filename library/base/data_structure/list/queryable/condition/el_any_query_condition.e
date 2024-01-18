@@ -1,6 +1,6 @@
 note
 	description: "Query condition that returns **True** for every item if type **G**"
-	tests: "Class [$source CONTAINER_STRUCTURE_TEST_SET]"
+	tests: "Class ${CONTAINER_STRUCTURE_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

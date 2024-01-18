@@ -1,6 +1,6 @@
 note
 	description: "[
-		Shared instances of tables conforming to [$source EL_FILLED_STRING_TABLE [READABLE_STRING_GENERAL]]
+		Shared instances of tables conforming to ${EL_FILLED_STRING_TABLE [READABLE_STRING_GENERAL]}
 	]"
 
 	author: "Finnian Reilly"

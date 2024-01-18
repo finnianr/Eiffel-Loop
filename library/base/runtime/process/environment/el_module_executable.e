@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of class conforming to [$source EL_EXECUTABLE_I]"
+	description: "Shared access to instance of class conforming to ${EL_EXECUTABLE_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

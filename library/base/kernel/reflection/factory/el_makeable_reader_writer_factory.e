@@ -1,5 +1,5 @@
 note
-	description: "Factory for objects of type [$source EL_MAKEABLE_READER_WRITER [EL_MAKEABLE]]"
+	description: "Factory for objects of type ${EL_MAKEABLE_READER_WRITER [EL_MAKEABLE]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

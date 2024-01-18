@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object that can read and write itself to a memory buffer of type [$source EL_MEMORY_READER_WRITER].
+		Object that can read and write itself to a memory buffer of type ${EL_MEMORY_READER_WRITER}.
 		Field reading, writing and object comparison is handled using class reflection.
 	]"
 	descendants: "See end of class"
@@ -197,19 +197,19 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_REFLECTIVELY_SETTABLE_STORABLE*
-				[$source COUNTRY]
-					[$source CAMEL_CASE_COUNTRY]
-				[$source AIA_CREDENTIAL]
-				[$source TEST_STORABLE]
-				[$source EL_UUID]
-				[$source EL_REFLECTIVE_RSA_KEY]*
-					[$source EL_RSA_PRIVATE_KEY]
-					[$source EL_RSA_PUBLIC_KEY]
-				[$source EL_COMMA_SEPARATED_WORDS]
-				[$source PROVINCE]
-				[$source EL_IP_ADDRESS_GEOLOCATION]
-					[$source EL_IP_ADDRESS_GEOGRAPHIC_INFO]
-				[$source EL_TRANSLATION_ITEM]
+				${COUNTRY}
+					${CAMEL_CASE_COUNTRY}
+				${AIA_CREDENTIAL}
+				${TEST_STORABLE}
+				${EL_UUID}
+				${EL_REFLECTIVE_RSA_KEY}*
+					${EL_RSA_PRIVATE_KEY}
+					${EL_RSA_PUBLIC_KEY}
+				${EL_COMMA_SEPARATED_WORDS}
+				${PROVINCE}
+				${EL_IP_ADDRESS_GEOLOCATION}
+					${EL_IP_ADDRESS_GEOGRAPHIC_INFO}
+				${EL_TRANSLATION_ITEM}
 	]"
 
 	notes: "[
@@ -217,9 +217,9 @@ note
 
 		**1.** All basic types and string references
 
-		**2.** All references conforming to [$source EL_STORABLE]
+		**2.** All references conforming to ${EL_STORABLE}
 
-		**3.** [$source TUPLE] with type members that are either basic types or string references
+		**3.** ${TUPLE} with type members that are either basic types or string references
 
 		Fields which have a note option marking them as ''transient'' are excluded from the `field_table'
 		Also any fields listed in the `new_transient_fields' string will be treated the same.
@@ -238,7 +238,7 @@ note
 		**2.** TUPLE references are initialized with a new tuple of the appropriate type.
 		Any string tuple members are initialized to a shared empty string.
 
-		**3.** Any type that is listed in a redefinition of routine `{[$source EL_REFLECTIVE]}.default_values'
+		**3.** Any type that is listed in a redefinition of routine `{${EL_REFLECTIVE}}.default_values'
 	]"
 
 end

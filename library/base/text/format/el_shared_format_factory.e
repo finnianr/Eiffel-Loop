@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_FORMAT_FACTORY]"
+	description: "Shared instance of ${EL_FORMAT_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

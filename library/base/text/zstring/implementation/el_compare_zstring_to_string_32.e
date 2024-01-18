@@ -1,7 +1,7 @@
 note
 	description: "[
-		Implementation of [$source EL_ZSTRING_INTERVALS] for comparing with strings conforming
-		to [$source READABLE_STRING_32]
+		Implementation of ${EL_ZSTRING_INTERVALS} for comparing with strings conforming
+		to ${READABLE_STRING_32}
 	]"
 
 	author: "Finnian Reilly"

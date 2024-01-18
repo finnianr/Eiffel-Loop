@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class conforming to [$source CAIRO_GDK_I]"
+	description: "Shared instance of class conforming to ${CAIRO_GDK_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

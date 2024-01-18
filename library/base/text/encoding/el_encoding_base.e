@@ -1,5 +1,5 @@
 note
-	description: "Base class for [$source EL_ENCODEABLE_AS_TEXT] and [$source EL_ENCODING]"
+	description: "Base class for ${EL_ENCODEABLE_AS_TEXT} and ${EL_ENCODING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

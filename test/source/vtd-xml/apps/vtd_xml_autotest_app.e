@@ -5,9 +5,9 @@ note
 		
 		**Test Sets**
 		
-			[$source JOBSERVE_SEARCHER_TEST_SET]
-			[$source VTD_XML_TEST_SET]
-			[$source XML_TO_PYXIS_CONVERTER_TEST_SET]
+			${JOBSERVE_SEARCHER_TEST_SET}
+			${VTD_XML_TEST_SET}
+			${XML_TO_PYXIS_CONVERTER_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

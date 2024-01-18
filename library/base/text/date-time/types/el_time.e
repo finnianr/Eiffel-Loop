@@ -1,5 +1,5 @@
 note
-	description: "Optimized string conversion for [$source TIME]"
+	description: "Optimized string conversion for ${TIME}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Unix implemenation of interface [$source EL_PIXMAP_I]"
+	description: "Unix implemenation of interface ${EL_PIXMAP_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

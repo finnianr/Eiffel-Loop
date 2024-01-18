@@ -1,5 +1,5 @@
 note
-	description: "OS file system accessible via class [$source EL_MODULE_FILE_SYSTEM]"
+	description: "OS file system accessible via class ${EL_MODULE_FILE_SYSTEM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

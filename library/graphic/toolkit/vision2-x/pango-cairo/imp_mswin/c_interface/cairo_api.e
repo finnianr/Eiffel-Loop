@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source CAIRO_I]"
+	description: "Windows implementation of ${CAIRO_I}"
 	notes: "Using Cairo version 1.12.16 from package gtk+-bundle_3.10.4-20131202_win64.zip"
 
 	author: "Finnian Reilly"

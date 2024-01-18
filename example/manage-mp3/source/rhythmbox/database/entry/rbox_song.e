@@ -2,7 +2,7 @@ note
 	description: "[
 		Object representing Rhythmbox 3.0.1 song entry in rhythmdb.xml
 		
-		See field enumeration class [$source RBOX_DATABASE_FIELD_ENUM]
+		See field enumeration class ${RBOX_DATABASE_FIELD_ENUM}
 	]"
 
 	author: "Finnian Reilly"

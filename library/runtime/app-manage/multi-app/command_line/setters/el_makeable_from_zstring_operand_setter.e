@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets an operand conforming to [$source EL_MAKEABLE_FROM_STRING [STRING_GENERAL]] in `make' routine argument tuple
+		Sets an operand conforming to ${EL_MAKEABLE_FROM_STRING [STRING_GENERAL]} in `make' routine argument tuple
 	]"
 
 	author: "Finnian Reilly"

@@ -5,7 +5,7 @@ note
 
 		**Test Sets**
 
-			[$source HTTP_CONNECTION_TEST_SET]
+			${HTTP_CONNECTION_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

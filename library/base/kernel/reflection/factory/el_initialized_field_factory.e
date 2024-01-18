@@ -1,5 +1,5 @@
 note
-	description: "Factory to create initialized instances of objects conforming to [$source EL_REFLECTED_FIELD]"
+	description: "Factory to create initialized instances of objects conforming to ${EL_REFLECTED_FIELD}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

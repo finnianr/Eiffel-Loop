@@ -1,6 +1,6 @@
 note
 	description: "[
-		Shared instances of reusable string buffers for type [$source ZSTRING] accessible
+		Shared instances of reusable string buffers for type ${ZSTRING} accessible
 		via **across** loop scope.
 	]"
 	notes: "[

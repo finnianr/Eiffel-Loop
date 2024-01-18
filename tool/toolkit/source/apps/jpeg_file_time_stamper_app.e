@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source JPEG_FILE_TIME_STAMPER]
+		Command line interface to ${JPEG_FILE_TIME_STAMPER}
 		which ensures JPEG file modified time corresponds to `Exif.Image.DateTime'
 	]"
 	notes: "[

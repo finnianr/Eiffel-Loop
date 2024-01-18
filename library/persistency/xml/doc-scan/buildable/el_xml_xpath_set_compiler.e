@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compile set of unique xpaths from document parsed by [$source EL_BUILDABLE_FROM_XML]
+		Compile set of unique xpaths from document parsed by ${EL_BUILDABLE_FROM_XML}
 	]"
 
 	author: "Finnian Reilly"

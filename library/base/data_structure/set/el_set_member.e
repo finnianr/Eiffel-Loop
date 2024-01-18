@@ -1,5 +1,5 @@
 note
-	description: "Object that is a member of a set of type [$source EL_MEMBER_SET [EL_SET_MEMBER]]"
+	description: "Object that is a member of a set of type ${EL_MEMBER_SET [EL_SET_MEMBER]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source PROTEIN_FOLDING_COMMAND_2_0] with a grid conforming to [$source GRID_2_X]
+		Implementation of ${PROTEIN_FOLDING_COMMAND_2_0} with a grid conforming to ${GRID_2_X}
 	]"
 
 	author: "Finnian Reilly"

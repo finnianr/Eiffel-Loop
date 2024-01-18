@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to class [$source SOURCE_LOG_LINE_REMOVER_COMMAND]"
+	description: "Command line interface to class ${SOURCE_LOG_LINE_REMOVER_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

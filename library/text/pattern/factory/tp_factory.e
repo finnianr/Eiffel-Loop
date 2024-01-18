@@ -1,7 +1,7 @@
 note
 	description: "Factory to create new instances of text patterns"
 	notes: "[
-		Implement **optimal_core** feature using [$source TP_SHARED_OPTIMIZED_FACTORY]
+		Implement **optimal_core** feature using ${TP_SHARED_OPTIMIZED_FACTORY}
 	]"
 
 	author: "Finnian Reilly"

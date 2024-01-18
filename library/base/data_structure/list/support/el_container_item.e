@@ -1,6 +1,6 @@
 note
 	description: "[
-		First or else uninitialized [$source CONTAINER] item for testing as valid routine operand
+		First or else uninitialized ${CONTAINER} item for testing as valid routine operand
 	]"
 
 	author: "Finnian Reilly"

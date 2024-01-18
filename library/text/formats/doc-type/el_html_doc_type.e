@@ -1,5 +1,5 @@
 note
-	description: "HTML [$source EL_DOC_TYPE] with ability to parse HTML document for `charset' encoding"
+	description: "HTML ${EL_DOC_TYPE} with ability to parse HTML document for `charset' encoding"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

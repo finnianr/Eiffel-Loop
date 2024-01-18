@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_CPP_BOOLEAN_VECTOR] implementation of [$source PRIME_NUMBER_COMMAND]"
+	description: "${EL_CPP_BOOLEAN_VECTOR} implementation of ${PRIME_NUMBER_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

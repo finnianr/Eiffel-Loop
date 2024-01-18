@@ -1,5 +1,5 @@
 note
-	description: "Access to a shared instance of [$source EL_HTTP_STATUS_ENUM]"
+	description: "Access to a shared instance of ${EL_HTTP_STATUS_ENUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

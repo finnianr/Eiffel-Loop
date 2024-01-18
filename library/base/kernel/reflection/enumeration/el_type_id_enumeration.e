@@ -1,7 +1,7 @@
 note
 	description: "[
 		Enumeration of type ids by correspondence of fields names to type names.
-		Example: [$source EL_CLASS_TYPE_ID_ENUM]
+		Example: ${EL_CLASS_TYPE_ID_ENUM}
 	]"
 
 	author: "Finnian Reilly"

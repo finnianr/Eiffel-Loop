@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source ISE_CLASS_TABLE]"
+	description: "Shared instance of ${ISE_CLASS_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

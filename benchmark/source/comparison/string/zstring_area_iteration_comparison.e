@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare methods of iterating over [$source ZSTRING].area
+		Compare methods of iterating over ${ZSTRING}.area
 	]"
 	notes: "[
 		Passes over 2000 millisecs (in descending order)

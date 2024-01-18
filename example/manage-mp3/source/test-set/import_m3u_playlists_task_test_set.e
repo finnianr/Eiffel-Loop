@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source IMPORT_M3U_PLAYLISTS_TASK]"
+	description: "Test set for class ${IMPORT_M3U_PLAYLISTS_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

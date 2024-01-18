@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test set for class [$source PYXIS_EIFFEL_CONFIG] and [$source SCONS_PROJECT_PY_CONFIG]
+		Test set for class ${PYXIS_EIFFEL_CONFIG} and ${SCONS_PROJECT_PY_CONFIG}
 	]"
 
 	author: "Finnian Reilly"

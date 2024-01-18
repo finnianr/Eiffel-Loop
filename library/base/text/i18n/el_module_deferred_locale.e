@@ -1,7 +1,7 @@
 note
 	description: "[
 		Shared access to `Locale' object with deferred localization implementation.
-		See class [$source EL_DEFERRED_LOCALE_I].
+		See class ${EL_DEFERRED_LOCALE_I}.
 	]"
 
 	author: "Finnian Reilly"

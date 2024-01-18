@@ -1,5 +1,5 @@
 note
-	description: "Test [$source LIBRARY_MIGRATION_COMMAND] with classes containing circular dependencies"
+	description: "Test ${LIBRARY_MIGRATION_COMMAND} with classes containing circular dependencies"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

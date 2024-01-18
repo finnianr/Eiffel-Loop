@@ -1,6 +1,6 @@
 note
 	description: "[
-		Decodes [https://en.wikipedia.org/wiki/Base64 base 64 encoded text] as type [$source SPECIAL [NATURAL_8]]
+		Decodes [https://en.wikipedia.org/wiki/Base64 base 64 encoded text] as type ${SPECIAL [NATURAL_8]}
 	]"
 
 	author: "Finnian Reilly"

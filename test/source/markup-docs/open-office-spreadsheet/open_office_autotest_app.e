@@ -7,7 +7,7 @@ note
 		
 		**Test Sets**
 		
-			[$source OPEN_OFFICE_TEST_SET]
+			${OPEN_OFFICE_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

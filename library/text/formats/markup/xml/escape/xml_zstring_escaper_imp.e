@@ -1,5 +1,5 @@
 note
-	description: "[$source ZSTRING] implementation of [$source XML_ESCAPER_IMP [STRING_GENERAL]]"
+	description: "${ZSTRING} implementation of ${XML_ESCAPER_IMP [STRING_GENERAL]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -3,8 +3,8 @@ note
 	notes: "See end of class"
 	descendants: "[
 			EL_SLIDE_SHOW*
-				[$source EL_IMAGE_MAGICK_SLIDE_SHOW]
-				[$source SLIDE_SHOW]
+				${EL_IMAGE_MAGICK_SLIDE_SHOW}
+				${SLIDE_SHOW}
 	]"
 
 	author: "Finnian Reilly"

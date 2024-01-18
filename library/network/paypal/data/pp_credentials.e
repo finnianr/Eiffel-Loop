@@ -3,7 +3,7 @@ note
 		Reads name value pairs from file encrypted using the Eiffel-Loop 
 		`[./tool/toolkit/toolkit.html el_toolkit -crypto]' command line utility.
 			
-		See sub-application class: [$source CRYPTO_COMMAND_SHELL_APP]
+		See sub-application class: ${CRYPTO_COMMAND_SHELL_APP}
 		
 		Example file:
 		

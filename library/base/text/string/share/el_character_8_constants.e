@@ -1,6 +1,6 @@
 note
 	description: "[
-		Character constants that be multiplied as a [$source STRING_8] instance with * operator.
+		Character constants that be multiplied as a ${STRING_8} instance with * operator.
 		Use **char** function for uncommon characters.
 	]"
 

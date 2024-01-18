@@ -1,5 +1,5 @@
 note
-	description: "Command line options for `base.ecf' accessible vias [$source EL_SHARED_BASE_OPTION]"
+	description: "Command line options for `base.ecf' accessible vias ${EL_SHARED_BASE_OPTION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

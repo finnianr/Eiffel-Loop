@@ -1,5 +1,5 @@
 note
-	description: "Creates a tuple with uniform type and initializes it with a supplied [$source FUNCTION]"
+	description: "Creates a tuple with uniform type and initializes it with a supplied ${FUNCTION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

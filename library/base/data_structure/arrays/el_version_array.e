@@ -1,9 +1,9 @@
 note
-	description: "An array of decimal version numbers that can be compacted into a [$source NATURAL_32] number"
+	description: "An array of decimal version numbers that can be compacted into a ${NATURAL_32} number"
 	notes: "[
 		**Permutations digit/part count**
 		
-		The maximum value of [$source NATURAL_32] is 4_294_967_295 which supports up to 9 decimal places.
+		The maximum value of ${NATURAL_32} is 4_294_967_295 which supports up to 9 decimal places.
 		This allows the following permutations:
 		
 			9_9_9_9_9_9_9_9 (8 parts with 1 decimal place each)

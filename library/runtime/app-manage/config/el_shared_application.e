@@ -1,5 +1,5 @@
 note
-	description: "Shared access to first created instance of object conforming to [$source EL_APPLICATION]"
+	description: "Shared access to first created instance of object conforming to ${EL_APPLICATION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Object that edits substring intervals of a [$source STRING_8] instance"
+	description: "Object that edits substring intervals of a ${STRING_8} instance"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
-		Table of [$source EL_IP_ADDRESS_GEOGRAPHIC_INFO] objects for IP address keys.
-		Accessible via [$source EL_SHARED_GEOGRAPHIC_INFO_TABLE]
+		Table of ${EL_IP_ADDRESS_GEOGRAPHIC_INFO} objects for IP address keys.
+		Accessible via ${EL_SHARED_GEOGRAPHIC_INFO_TABLE}
 	]"
 
 	author: "Finnian Reilly"

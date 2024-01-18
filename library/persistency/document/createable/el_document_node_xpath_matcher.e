@@ -1,6 +1,6 @@
 note
 	description: "[
-		Map xpath node matches of XML/Pyxis document to [$source EL_XPATH_TO_AGENT_MAP] handlers
+		Map xpath node matches of XML/Pyxis document to ${EL_XPATH_TO_AGENT_MAP} handlers
 	]"
 
 	author: "Finnian Reilly"

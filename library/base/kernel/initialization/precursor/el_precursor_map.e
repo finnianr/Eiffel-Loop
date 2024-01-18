@@ -59,8 +59,8 @@ note
 	notes: "[
 		This class maps each routine address to a single bit in a 32 bit natural.
 		Each bit indicates whether the routine has been called already or not. For hierarchies
-		with more than 32 members you will need to use class [$source EL_PRECURSOR_MAP_64].
-		With 16 or few members you can use [$source EL_PRECURSOR_MAP_16].
+		with more than 32 members you will need to use class ${EL_PRECURSOR_MAP_64}.
+		With 16 or few members you can use ${EL_PRECURSOR_MAP_16}.
 		A new bit mask is added to the table for each new routine address.
 
 		**For Eiffel Newbies**

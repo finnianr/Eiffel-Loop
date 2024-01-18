@@ -1,5 +1,5 @@
 note
-	description: "Reflected field conforming to temporal object [$source ABSOLUTE]"
+	description: "Reflected field conforming to temporal object ${ABSOLUTE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

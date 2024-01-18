@@ -1,5 +1,5 @@
 note
-	description: "Factory for objects of type [$source EL_REFLECTED_COLLECTION [G]]"
+	description: "Factory for objects of type ${EL_REFLECTED_COLLECTION [G]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class [$source EL_WIDGET_ROUTINES]"
+	description: "Shared instance of class ${EL_WIDGET_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

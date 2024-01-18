@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_CPU_INFO_COMMAND_I]"
+	description: "Windows implementation of ${EL_CPU_INFO_COMMAND_I}"
 	notes: "[
 		Sample output:
 		

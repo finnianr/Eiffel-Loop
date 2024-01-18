@@ -1,5 +1,5 @@
 note
-	description: "Test [$source EL_DOC_TYPE]."
+	description: "Test ${EL_DOC_TYPE}."
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

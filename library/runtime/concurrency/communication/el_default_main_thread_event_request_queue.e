@@ -1,7 +1,7 @@
 note
 	description: "[
-		Saves event indexes for processing in descendant of [$source EL_MAIN_THREAD_EVENT_REQUEST_QUEUE],
-		[$source EL_APPLICATION_IMP].
+		Saves event indexes for processing in descendant of ${EL_MAIN_THREAD_EVENT_REQUEST_QUEUE},
+		${EL_APPLICATION_IMP}.
 	]"
 
 	author: "Finnian Reilly"

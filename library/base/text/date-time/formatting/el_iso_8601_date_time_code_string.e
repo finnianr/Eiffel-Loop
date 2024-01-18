@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_DATE_TIME_CODE_STRING] for ISO-8601 date-time formats"
+	description: "${EL_DATE_TIME_CODE_STRING} for ISO-8601 date-time formats"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

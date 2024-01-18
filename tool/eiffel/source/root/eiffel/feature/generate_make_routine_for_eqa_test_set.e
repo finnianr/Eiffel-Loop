@@ -1,6 +1,6 @@
 note
 	description: "[
-		Generate make routine content for test set conforming to [$source EL_EQA_TEST_SET]
+		Generate make routine content for test set conforming to ${EL_EQA_TEST_SET}
 		
 		For example:
 		

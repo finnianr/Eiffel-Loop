@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_ZSTRING_INTERVALS] that is comparable to string types other than [$source ZSTRING]
+		${EL_ZSTRING_INTERVALS} that is comparable to string types other than ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_COMPACT_SUBSTRINGS_32_ITERATION] that uses inline C for pointer get/set"
+	description: "${EL_COMPACT_SUBSTRINGS_32_ITERATION} that uses inline C for pointer get/set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

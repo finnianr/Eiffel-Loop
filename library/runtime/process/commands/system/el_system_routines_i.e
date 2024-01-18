@@ -3,7 +3,7 @@ note
 	notes: "[
 		If you are creating an application on Windows with a graphical UI then these commands are not suitable
 		as they cause a command console to momentarily appear. This might be off-putting to some users.
-		For Windows GUI apps use instead the routines accessible via [$source EL_MODULE_FILE_SYSTEM]
+		For Windows GUI apps use instead the routines accessible via ${EL_MODULE_FILE_SYSTEM}
 		
 		But maybe something can be done about this by appending `>null' to the command strings or
 		something.

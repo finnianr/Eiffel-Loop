@@ -1,5 +1,5 @@
 note
-	description: "Implementation of [$source EL_ARRAYED_MAP_LIST] where **K** conforms to [$source HASHABLE]"
+	description: "Implementation of ${EL_ARRAYED_MAP_LIST} where **K** conforms to ${HASHABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

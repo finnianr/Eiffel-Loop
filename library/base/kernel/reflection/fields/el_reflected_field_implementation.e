@@ -1,5 +1,5 @@
 note
-	description: "Implementation routines for [$source EL_REFLECTED_FIELD]"
+	description: "Implementation routines for ${EL_REFLECTED_FIELD}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

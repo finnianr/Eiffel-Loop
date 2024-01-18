@@ -1,6 +1,6 @@
 note
 	description: "[
-		Standard command-line uninstall for application with root conforming to [$source EL_MULTI_APPLICATION_ROOT].
+		Standard command-line uninstall for application with root conforming to ${EL_MULTI_APPLICATION_ROOT}.
 		
 		After removing data, configuration and menu files, it generates a forked script to remove the program files
 		after the application has exited. The script has a pause in it to allow time for the parent process to exit.
@@ -128,7 +128,7 @@ feature {NONE} -- Application constants
 note
 	instructions: "[
 		**1.** Include the class name EL_STANDARD_UNINSTALL_APP in the generic parameters to class
-		[$source EL_MULTI_APPLICATION_ROOT]
+		${EL_MULTI_APPLICATION_ROOT}
 
 			class
 				APPLICATION_ROOT
@@ -144,7 +144,7 @@ note
 			end
 
 		**2.** Designate one application to be the "main application" by over-riding
-		`{[$source EL_INSTALLABLE_APPLICATION]}.is_main' with value `True'.
+		`{${EL_INSTALLABLE_APPLICATION}}.is_main' with value `True'.
 
 		**3.** By default the launcher menu is put in the System submenu. Over-ride `Desktop_menu_path' to put
 		it somewhere else.

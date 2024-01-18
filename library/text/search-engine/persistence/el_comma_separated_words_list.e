@@ -1,7 +1,7 @@
 note
 	description: "[
 		Comma separated words list storable as a recoverable chain. It's intended use is for making the entries
-		of a [$source EL_WORD_TOKEN_TABLE] persistent.
+		of a ${EL_WORD_TOKEN_TABLE} persistent.
 	]"
 
 	author: "Finnian Reilly"

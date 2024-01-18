@@ -1,7 +1,7 @@
 note
 	description: "[
-		Agent actions to be applied on each match of a tokenized xpath [$source EL_TOKENIZED_XPATH] 
-		while scanning a document object conforming to [$source EL_XPATH_MATCH_SCAN_SOURCE]
+		Agent actions to be applied on each match of a tokenized xpath ${EL_TOKENIZED_XPATH} 
+		while scanning a document object conforming to ${EL_XPATH_MATCH_SCAN_SOURCE}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Reflected field of type [$source MANAGED_POINTER]"
+	description: "Reflected field of type ${MANAGED_POINTER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

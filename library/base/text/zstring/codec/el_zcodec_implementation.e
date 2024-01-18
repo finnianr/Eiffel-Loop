@@ -1,5 +1,5 @@
 note
-	description: "Implementation routines for [$source EL_ZCODEC]"
+	description: "Implementation routines for ${EL_ZCODEC}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

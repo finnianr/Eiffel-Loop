@@ -1,5 +1,5 @@
 note
-	description: "Console manager interface accessible via [$source EL_MODULE_CONSOLE]"
+	description: "Console manager interface accessible via ${EL_MODULE_CONSOLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

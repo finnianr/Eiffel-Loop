@@ -1,5 +1,5 @@
 note
-	description: "Test suite for class [$source EL_FILE_TREE_TRANSFORMER]"
+	description: "Test suite for class ${EL_FILE_TREE_TRANSFORMER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

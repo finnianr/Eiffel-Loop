@@ -1,5 +1,5 @@
 note
-	description: "Installable version of [$source FOURIER_MATH_CLIENT_TEST_APP]"
+	description: "Installable version of ${FOURIER_MATH_CLIENT_TEST_APP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "Relatives positions, dimensions and axes"
 	notes: "[
-		See class [$source EL_MODULE_ORIENTATION] for validation routines in `Orientation'.
+		See class ${EL_MODULE_ORIENTATION} for validation routines in `Orientation'.
 	]"
 
 	author: "Finnian Reilly"

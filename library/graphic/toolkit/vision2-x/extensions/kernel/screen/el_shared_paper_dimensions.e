@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_PAPER_DIMENSIONS]"
+	description: "Shared instance of ${EL_PAPER_DIMENSIONS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

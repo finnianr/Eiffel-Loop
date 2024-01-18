@@ -1,6 +1,6 @@
 note
 	description: "[
-		Table of items conforming to [$source EL_REFLECTIVE_LOCALE_TEXTS] 
+		Table of items conforming to ${EL_REFLECTIVE_LOCALE_TEXTS} 
 		for each language in `Locale.all_languages'
 	]"
 

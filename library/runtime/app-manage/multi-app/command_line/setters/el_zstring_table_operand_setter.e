@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets values in [$source EL_ZSTRING_HASH_TABLE [ZSTRING]] operand in `make' routine argument tuple
+		Sets values in ${EL_ZSTRING_HASH_TABLE [ZSTRING]} operand in `make' routine argument tuple
 		Values are set for existing keys which match a command line argument.
 	]"
 

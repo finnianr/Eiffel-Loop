@@ -3,7 +3,7 @@ note
 	notes: "[
 		STATUS 22 Nov 2023
 
-		Passes test [$source FILE_LOCKING_TEST_SET].test_mutex_file
+		Passes test ${FILE_LOCKING_TEST_SET}.test_mutex_file
 	]"
 
 	author: "Finnian Reilly"

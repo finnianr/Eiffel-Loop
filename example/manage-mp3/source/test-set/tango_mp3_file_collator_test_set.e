@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source TANGO_MP3_FILE_COLLATOR]"
+	description: "Test set for class ${TANGO_MP3_FILE_COLLATOR}"
 	notes: "[
 		TANGO_MP3_FILE_COLLATOR is actually a command and not a task but it's possible
 		to test it like this.

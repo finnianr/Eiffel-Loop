@@ -1,7 +1,7 @@
 note
 	description: "[
 		Table of actions to add XML element attribute to output string.
-		See class [$source TB_XHTML_FOLDER_EXPORTER]
+		See class ${TB_XHTML_FOLDER_EXPORTER}
 	]"
 
 	author: "Finnian Reilly"

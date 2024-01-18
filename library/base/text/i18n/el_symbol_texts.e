@@ -1,6 +1,6 @@
 note
 	description: "[
-		Decimal point character and other common symboles accessible via {[$source EL_SHARED_SYMBOL]}.Symbol
+		Decimal point character and other common symboles accessible via `${EL_SHARED_SYMBOL}.Symbol'
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-11 16:47:01 GMT (Monday 11th December 2023)"
-	revision: "1"
+	date: "2024-01-18 17:13:10 GMT (Thursday 18th January 2024)"
+	revision: "2"
 
 class
 	EL_SYMBOL_TEXTS

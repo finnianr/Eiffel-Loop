@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class [$source EL_WORD_TEXTS]"
+	description: "Shared instance of class ${EL_WORD_TEXTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

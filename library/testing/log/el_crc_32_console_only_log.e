@@ -1,5 +1,5 @@
 note
-	description: "Extends [$source EL_CONSOLE_ONLY_LOG] for CRC-32 regression testing"
+	description: "Extends ${EL_CONSOLE_ONLY_LOG} for CRC-32 regression testing"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

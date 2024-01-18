@@ -1,7 +1,7 @@
 note
 	description: "[
 		Routines to supplement handling of strings conforming to
-		[$source READABLE_STRING_8] and [$source READABLE_STRING_32]
+		${READABLE_STRING_8} and ${READABLE_STRING_32}
 	]"
 
 	author: "Finnian Reilly"

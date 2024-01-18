@@ -1,6 +1,6 @@
 note
 	description: "[
-		Supporting class for lists implementing [$source EL_QUERYABLE_CHAIN]
+		Supporting class for lists implementing ${EL_QUERYABLE_CHAIN}
 		Use it to create various compound query conditions and derive a query condition object
 		from an agent predicate.
 	]"

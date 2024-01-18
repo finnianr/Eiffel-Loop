@@ -2,7 +2,7 @@ note
 	description: "Localized application with English as the default locale"
 	notes: "[
 		* Redefine `set_adhoc_translations' to add a function to create Pyxis source for adhoc-translations
-		* Inherit [$source EL_APPLICATION] and undefine **make_solitary**
+		* Inherit ${EL_APPLICATION} and undefine **make_solitary**
 	]"
 
 	author: "Finnian Reilly"

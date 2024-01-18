@@ -7,7 +7,7 @@ note
 		
 		**Test Sets**
 		
-			[$source COM_OBJECT_TEST_SET]
+			${COM_OBJECT_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

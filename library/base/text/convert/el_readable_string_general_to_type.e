@@ -1,5 +1,5 @@
 note
-	description: "Convert [$source READABLE_STRING_GENERAL] to type `G'"
+	description: "Convert ${READABLE_STRING_GENERAL} to type `G'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_USER_CRYPTO_OPERATIONS] with addition of RSA public-key cryptography operations
+		${EL_USER_CRYPTO_OPERATIONS} with addition of RSA public-key cryptography operations
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_UNINSTALL_APP_MENU_DESKTOP_ENV_I] interface"
+	description: "Windows implementation of ${EL_UNINSTALL_APP_MENU_DESKTOP_ENV_I} interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

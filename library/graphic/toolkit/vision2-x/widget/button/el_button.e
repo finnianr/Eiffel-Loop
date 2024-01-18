@@ -1,6 +1,6 @@
 note
 	description: "[
-		Button with hand-pointer for mouse-over and settable from [$source ZSTRING]
+		Button with hand-pointer for mouse-over and settable from ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

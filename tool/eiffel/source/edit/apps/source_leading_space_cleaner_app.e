@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to class [$source SOURCE_LEADING_SPACE_CLEANER]"
+	description: "Command line interface to class ${SOURCE_LEADING_SPACE_CLEANER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

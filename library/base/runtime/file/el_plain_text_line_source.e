@@ -1,7 +1,7 @@
 note
 	description: "[
-		Iterates over lines of a plain text file lines using either the [$source ITERABLE [G]] or
-		[$source LINEAR [G]] interface. If a UTF-8 BOM is detected the encoding changes accordingly.
+		Iterates over lines of a plain text file lines using either the ${ITERABLE [G]} or
+		${LINEAR [G]} interface. If a UTF-8 BOM is detected the encoding changes accordingly.
 	]"
 
 	author: "Finnian Reilly"

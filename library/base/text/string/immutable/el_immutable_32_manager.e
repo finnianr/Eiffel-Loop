@@ -1,5 +1,5 @@
 note
-	description: "Forces shared string data into an instance of [$source IMMUTABLE_STRING_32]"
+	description: "Forces shared string data into an instance of ${IMMUTABLE_STRING_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

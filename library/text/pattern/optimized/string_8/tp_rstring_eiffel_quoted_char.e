@@ -1,7 +1,7 @@
 note
 	description: "[
 		Match quoted character with escaping for Eiffel language and optimized for
-		strings conforming to [$source READABLE_STRING_8]
+		strings conforming to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,7 +1,7 @@
 note
 	description: "[
-		[$source EL_BIT_COUNTABLE] applicable to generic class taking a string parameter conforming
-		to [$source READABLE_STRING_GENERAL]
+		${EL_BIT_COUNTABLE} applicable to generic class taking a string parameter conforming
+		to ${READABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

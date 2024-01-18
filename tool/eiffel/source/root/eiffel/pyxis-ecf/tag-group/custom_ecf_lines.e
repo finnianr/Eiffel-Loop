@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source GROUPED_ECF_LINES] for **custom** condition tag
+		${GROUPED_ECF_LINES} for **custom** condition tag
 	]
 	notes: "[	
 		Shorthand:

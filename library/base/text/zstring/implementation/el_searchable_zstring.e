@@ -1,5 +1,5 @@
 note
-	description: "Searchable aspects of [$source ZSTRING]"
+	description: "Searchable aspects of ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Windows implementation of [$source EL_FONT_FAMILIES_I] for fonts compatible with Cairo Pango API compatible
+		Windows implementation of ${EL_FONT_FAMILIES_I} for fonts compatible with Cairo Pango API compatible
 	]"
 
 	author: "Finnian Reilly"

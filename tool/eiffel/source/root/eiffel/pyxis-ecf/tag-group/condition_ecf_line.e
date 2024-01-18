@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source GROUPED_ECF_LINES] to expand shorthand for 'platform' or 'custom' conditions
+		${GROUPED_ECF_LINES} to expand shorthand for 'platform' or 'custom' conditions
 	]"
 
 	author: "Finnian Reilly"

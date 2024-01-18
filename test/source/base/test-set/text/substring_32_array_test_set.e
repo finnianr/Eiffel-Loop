@@ -1,6 +1,6 @@
 ﻿note
 	description: "[
-		Test [$source EL_SUBSTRING_32_ARRAY] against [$source EL_COMPACT_SUBSTRINGS_32]
+		Test ${EL_SUBSTRING_32_ARRAY} against ${EL_COMPACT_SUBSTRINGS_32}
 	]"
 
 	author: "Finnian Reilly"

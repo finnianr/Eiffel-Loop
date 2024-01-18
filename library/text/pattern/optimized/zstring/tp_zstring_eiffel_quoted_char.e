@@ -1,7 +1,7 @@
 note
 	description: "[
 		Match quoted character with escaping for Eiffel language and optimized for
-		strings of type [$source ZSTRING]
+		strings of type ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

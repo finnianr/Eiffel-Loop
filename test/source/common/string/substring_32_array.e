@@ -3,11 +3,11 @@ note
 		Array of unicode substrings in order of occurence in source string.
 	]"
 	notes: "[
-		This is an experiment to try and improve on the performance of [$source EL_COMPACT_SUBSTRINGS_32]
+		This is an experiment to try and improve on the performance of ${EL_COMPACT_SUBSTRINGS_32}
 		
 		**Conclusion**
 		
-		Turns out that [$source EL_COMPACT_SUBSTRINGS_32] is marginally faster:
+		Turns out that ${EL_COMPACT_SUBSTRINGS_32} is marginally faster:
 
 			Average execution times over 10000 runs (in ascending order)
 			{ZSTRING}.make_general      :  0.083 millisecs

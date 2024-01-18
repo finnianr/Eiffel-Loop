@@ -1,5 +1,5 @@
 note
-	description: "Table of filled strings of type [$source STRING_8]"
+	description: "Table of filled strings of type ${STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

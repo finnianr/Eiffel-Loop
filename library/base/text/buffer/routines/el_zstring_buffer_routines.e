@@ -1,5 +1,5 @@
 note
-	description: "Routines to acccess shared buffer of type [$source EL_ZSTRING]"
+	description: "Routines to acccess shared buffer of type ${EL_ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

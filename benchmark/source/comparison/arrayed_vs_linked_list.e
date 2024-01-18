@@ -1,5 +1,5 @@
 note
-	description: "Compare filling [$source LINKED_LIST] with filling [$source ARRAYED_LIST]"
+	description: "Compare filling ${LINKED_LIST} with filling ${ARRAYED_LIST}"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 

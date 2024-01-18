@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the class [$source TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER].
+		A command line interface to the class ${TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER}.
 		
 		This application takes one argument `-config' which is a path to a Thunderbird export
 		configuration file.
@@ -9,7 +9,7 @@ note
 		single HTML book with chapter numbers and titles derived from subject line.
 		The output files are used to generate a Kindle book.
 		
-		See class [$source TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER] for configuration example.
+		See class ${TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER} for configuration example.
 	]"
 
 	author: "Finnian Reilly"

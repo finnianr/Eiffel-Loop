@@ -1,6 +1,6 @@
 note
 	description: "[
-		Shared instances of reusable string buffers for type [$source STRING_32] accessible
+		Shared instances of reusable string buffers for type ${STRING_32} accessible
 		via **across** loop scope.
 	]"
 	notes: "[

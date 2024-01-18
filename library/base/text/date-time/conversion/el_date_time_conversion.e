@@ -1,5 +1,5 @@
 note
-	description: "Routines to convert between objects of type [$source STRING_8] and [$source EL_DATE_TIME]"
+	description: "Routines to convert between objects of type ${STRING_8} and ${EL_DATE_TIME}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

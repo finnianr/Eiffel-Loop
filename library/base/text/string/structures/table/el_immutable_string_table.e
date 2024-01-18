@@ -1,9 +1,9 @@
 note
 	description: "[
-		A table mapping keys conforming to type [$source IMMUTABLE_STRING_GENERAL] to virtual
+		A table mapping keys conforming to type ${IMMUTABLE_STRING_GENERAL} to virtual
 		items of the same type. The table with all the keys and items uses a shared character area.
 		The looked up items are virtual because they are created on demand from a compact interval of type
-		[$source INTEGER_64].
+		${INTEGER_64}.
 	]"
 
 	author: "Finnian Reilly"

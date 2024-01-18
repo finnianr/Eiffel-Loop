@@ -1,6 +1,6 @@
 note
 	description: "[
-		A [$source EL_OS_COMMAND] with arguments parsed and set in the attribute **var** with type
+		A ${EL_OS_COMMAND} with arguments parsed and set in the attribute **var** with type
 		defined as a class parameter
 	]"
 	notes: "[
@@ -8,10 +8,10 @@ note
 	]"
 	descendants: "[
 			EL_PARSED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]
-				[$source EL_CREATE_TAR_COMMAND]
-				[$source EL_PARSED_CAPTURED_OS_COMMAND]* [VARIABLES -> [$source TUPLE] create default_create end]
-					[$source EL_MD5_SUM_COMMAND]
-				[$source EL_GENERATE_PATCH_COMMAND]
+				${EL_CREATE_TAR_COMMAND}
+				${EL_PARSED_CAPTURED_OS_COMMAND}* [VARIABLES -> ${TUPLE} create default_create end]
+					${EL_MD5_SUM_COMMAND}
+				${EL_GENERATE_PATCH_COMMAND}
 	]"
 
 	author: "Finnian Reilly"

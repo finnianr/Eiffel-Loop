@@ -1,12 +1,12 @@
 note
 	description: "[
 		Cursor to use an **across** loop as an artificial scope in which a temporary string buffer
-		conforming to [$source STRING_GENERAL] can be borrowed from a shared pool. After iterating
+		conforming to ${STRING_GENERAL} can be borrowed from a shared pool. After iterating
 		just once the scope finishes and the buffer item is automatically returned to the shared `pool'
 		stack.
 	]"
 	notes: "[
-		See `[$source GENERAL_TEST_SET].test_reusable_strings' for an example
+		See `${GENERAL_TEST_SET}.test_reusable_strings' for an example
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "An object that as field `date' conforming to [$source DATE]"
+	description: "An object that as field `date' conforming to ${DATE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

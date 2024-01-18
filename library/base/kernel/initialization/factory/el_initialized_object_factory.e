@@ -1,7 +1,7 @@
 note
 	description: "[
-		[$source EL_OBJECT_FACTORY [G]] that can create initialized objects using
-		factory conforming to [$source EL_FACTORY [G]]
+		${EL_OBJECT_FACTORY [G]} that can create initialized objects using
+		factory conforming to ${EL_FACTORY [G]}
 	]"
 
 	author: "Finnian Reilly"

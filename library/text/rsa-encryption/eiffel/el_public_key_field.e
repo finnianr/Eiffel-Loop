@@ -1,5 +1,5 @@
 note
-	description: "Obfuscates an [$source INTEGER_X] into an array of factorized numbers"
+	description: "Obfuscates an ${INTEGER_X} into an array of factorized numbers"
 	notes: "[
 		Example
 		

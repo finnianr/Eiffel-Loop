@@ -1,5 +1,5 @@
 note
-	description: "Compare methods to caculate population of 1's in [$source NATURAL_64]"
+	description: "Compare methods to caculate population of 1's in ${NATURAL_64}"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 

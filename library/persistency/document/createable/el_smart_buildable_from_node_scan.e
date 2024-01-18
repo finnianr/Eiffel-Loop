@@ -8,7 +8,7 @@ note
 			..
 			</smil>
 			
-		[$source SMIL_PRESENTATION]' implements the deferred class [$source EL_BUILDABLE_FROM_NODE_SCAN].
+		${SMIL_PRESENTATION}' implements the deferred class ${EL_BUILDABLE_FROM_NODE_SCAN}.
 		The created object is accessible via the stack container `result_stack'.
 	]"
 

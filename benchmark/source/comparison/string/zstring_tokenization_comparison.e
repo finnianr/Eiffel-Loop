@@ -1,7 +1,7 @@
 note
 	description: "[
-		Compare original {[$source WORD_TOKEN_TABLE]}.paragraph_list_tokens implementation to
-		new one using routine {[$source ZSTRING]}.fill_alpha_numeric_intervals
+		Compare original {${WORD_TOKEN_TABLE}}.paragraph_list_tokens implementation to
+		new one using routine {${ZSTRING}}.fill_alpha_numeric_intervals
 	]"
 	notes: "[
 		Passes over 2500 millisecs (in descending order)

@@ -1,5 +1,5 @@
 note
-	description: "[$source TP_CHARACTER_IN_SET] optimized for [$source ZSTRING] source text"
+	description: "${TP_CHARACTER_IN_SET} optimized for ${ZSTRING} source text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

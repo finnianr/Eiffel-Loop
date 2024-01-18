@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source EL_FONT_FAMILIES_I]"
+	description: "Unix implementation of ${EL_FONT_FAMILIES_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

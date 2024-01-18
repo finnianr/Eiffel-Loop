@@ -1,5 +1,5 @@
 note
-	description: "[$source EQA_TEST_SET] that can be invoked in finalized application"
+	description: "${EQA_TEST_SET} that can be invoked in finalized application"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Core implementation of [$source ZSTRING] using an 8 bit array to store characters encodeable
+		Core implementation of ${ZSTRING} using an 8 bit array to store characters encodeable
 		by `codec', and a compacted array of 32-bit arrays to encode any character not defined by the 8-bit encoding.
 	]"
 

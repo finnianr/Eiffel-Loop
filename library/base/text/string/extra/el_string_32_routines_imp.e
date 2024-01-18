@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_STRING_X_ROUTINES] implemented for [$source READABLE_STRING_32]"
+	description: "${EL_STRING_X_ROUTINES} implemented for ${READABLE_STRING_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

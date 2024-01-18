@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of class conforming to [$source CAIRO_PANGO_I]"
+	description: "Shared access to instance of class conforming to ${CAIRO_PANGO_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

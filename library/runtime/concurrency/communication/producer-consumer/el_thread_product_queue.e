@@ -118,8 +118,8 @@ feature {NONE} -- Implementation
 note
 	descendants: "[
 			EL_THREAD_PRODUCT_QUEUE [P]
-				[$source EL_PROCEDURE_CALL_QUEUE]
-				[$source EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE] [P, T -> [$source EL_MANY_TO_ONE_CONSUMER_THREAD [P]] create make end]
+				${EL_PROCEDURE_CALL_QUEUE}
+				${EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE} [P, T -> ${EL_MANY_TO_ONE_CONSUMER_THREAD [P]} create make end]
 	]"
 end
 

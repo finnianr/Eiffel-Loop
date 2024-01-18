@@ -1,5 +1,5 @@
 note
-	description: "List of [$source INTEGER_32] tokens representing a path step"
+	description: "List of ${INTEGER_32} tokens representing a path step"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

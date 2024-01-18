@@ -1,5 +1,5 @@
 note
-	description: "A reflected [$source INTEGER_32] representing a [$source TIME]"
+	description: "A reflected ${INTEGER_32} representing a ${TIME}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

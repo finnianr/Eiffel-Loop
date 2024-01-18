@@ -450,9 +450,9 @@ note
 		
 		This routine automatically adds the following field types to the table
 		
-		1. [$source EL_BOOLEAN_OPTION] will be added with the modified name: `<field-name>_enabled'
+		1. ${EL_BOOLEAN_OPTION} will be added with the modified name: `<field-name>_enabled'
 
-		2. [$source BOOLEAN] fields will be added with the field name as is.
+		2. ${BOOLEAN} fields will be added with the field name as is.
 	]"
 
 end

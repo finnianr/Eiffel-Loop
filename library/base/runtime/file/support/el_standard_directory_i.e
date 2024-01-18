@@ -1,7 +1,7 @@
 note
 	description: "[
 		Platform independent interface to standard user and application directories accessible
-		via [$source EL_MODULE_DIRECTORY]
+		via ${EL_MODULE_DIRECTORY}
 	]"
 	notes: "[
 		**Gnome Convention**

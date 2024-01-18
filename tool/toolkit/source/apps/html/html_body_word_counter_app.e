@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the [$source HTML_BODY_WORD_COUNTER] class.
+		A command line interface to the ${HTML_BODY_WORD_COUNTER} class.
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Match numeric character optimized for [$source ZSTRING] text"
+	description: "Match numeric character optimized for ${ZSTRING} text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Widget field that can be notified to replace itself by implementing [$source EL_EVENT_LISTENER]"
+	description: "Widget field that can be notified to replace itself by implementing ${EL_EVENT_LISTENER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -3,7 +3,7 @@ note
 		EQA test set evaluator that makes it possible to run inherited test procedures
 		as finalized executables.
 
-		Can be used in conjunction with class [$source EL_AUTOTEST_APPLICATION] to
+		Can be used in conjunction with class ${EL_AUTOTEST_APPLICATION} to
 		create unit testing sub-applications.
 	]"
 

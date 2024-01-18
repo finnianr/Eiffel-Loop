@@ -1,5 +1,5 @@
 note
-	description: "Implementation of [$source EL_SEND_MAIL_COMMAND_I]"
+	description: "Implementation of ${EL_SEND_MAIL_COMMAND_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

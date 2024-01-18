@@ -2,9 +2,9 @@ note
 	description: "[
 		Fixed length alpha-numeric 8-bit codes stored in one of:
 		
-			1. [$source NATURAL_16] (2 byte code string)
-			2. [$source NATURAL_32] (4 byte code string)
-			3. [$source NATURAL_64] (8 byte code string)
+			1. ${NATURAL_16} (2 byte code string)
+			2. ${NATURAL_32} (4 byte code string)
+			3. ${NATURAL_64} (8 byte code string)
 	]"
 	descendants: "See end of class"
 
@@ -92,10 +92,10 @@ feature {NONE} -- Implementation
 note
 	descendants: "[
 			EL_CODE_REPRESENTATION* [N -> NUMERIC]
-				[$source EL_CODE_16_REPRESENTATION]
-				[$source EL_CODE_32_REPRESENTATION]
-					[$source EL_IP_ADDRESS_REPRESENTATION]
-				[$source EL_CODE_64_REPRESENTATION]
+				${EL_CODE_16_REPRESENTATION}
+				${EL_CODE_32_REPRESENTATION}
+					${EL_IP_ADDRESS_REPRESENTATION}
+				${EL_CODE_64_REPRESENTATION}
 	]"
 
 end

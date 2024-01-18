@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets the command operands for the generic `command` in class `[$source EL_COMMAND_LINE_APPLICATION]`
+		Sets the command operands for the generic `command` in class `${EL_COMMAND_LINE_APPLICATION}`
 	]"
 
 	author: "Finnian Reilly"

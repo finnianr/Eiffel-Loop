@@ -1,5 +1,5 @@
 note
-	description: "GTK routines accessible via [$source EL_MODULE_GTK]"
+	description: "GTK routines accessible via ${EL_MODULE_GTK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

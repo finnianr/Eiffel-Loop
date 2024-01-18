@@ -1,5 +1,5 @@
 note
-	description: "[$source ZSTRING] routines for benchmarking"
+	description: "${ZSTRING} routines for benchmarking"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

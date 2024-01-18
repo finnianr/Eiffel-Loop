@@ -1,5 +1,5 @@
 note
-	description: "Implemention of iteration of a container conforming to [$source ITERABLE [G]]"
+	description: "Implemention of iteration of a container conforming to ${ITERABLE [G]}"
 	notes: "[
 	 		The loop syntax is as follows:
 			
@@ -7,7 +7,7 @@ note
 				
 			#end
 			
-		But if the container additionally conforms to [$source TABLE_ITERABLE [G]], an extra loop
+		But if the container additionally conforms to ${TABLE_ITERABLE [G]}, an extra loop
 		variable can be optionally used to reference the table key as follows:
 
 			#foreach $<item-variable-name>, $<key-variable-name> in $<iterable-container> loop

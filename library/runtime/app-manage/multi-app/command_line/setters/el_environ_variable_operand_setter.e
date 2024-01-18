@@ -1,5 +1,5 @@
 note
-	description: "Sets a `make' routine argument conforming to type `[$source EL_ENVIRON_VARIABLE]'"
+	description: "Sets a `make' routine argument conforming to type `${EL_ENVIRON_VARIABLE}'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

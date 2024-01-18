@@ -1,5 +1,5 @@
 note
-	description: "Test set for [$source CAD_MODEL]"
+	description: "Test set for ${CAD_MODEL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

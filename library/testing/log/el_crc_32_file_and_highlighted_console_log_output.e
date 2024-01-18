@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT] with CRC-32 checksum"
+	description: "${EL_FILE_AND_HIGHLIGHTED_CONSOLE_LOG_OUTPUT} with CRC-32 checksum"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

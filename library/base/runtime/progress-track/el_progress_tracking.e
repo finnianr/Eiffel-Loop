@@ -1,6 +1,6 @@
 note
 	description: "[
-		General operation progress tracking routines. Accessible from [$source EL_MODULE_TRACK].
+		General operation progress tracking routines. Accessible from ${EL_MODULE_TRACK}.
 	]"
 
 	author: "Finnian Reilly"

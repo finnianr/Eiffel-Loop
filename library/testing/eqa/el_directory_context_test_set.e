@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_EQA_TEST_SET] that uses read-only file data in a designated working
+		${EL_EQA_TEST_SET} that uses read-only file data in a designated working
 		directory.
 	]"
 

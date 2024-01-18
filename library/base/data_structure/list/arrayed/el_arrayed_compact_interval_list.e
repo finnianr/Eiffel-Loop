@@ -1,7 +1,7 @@
 note
 	description: "[
-		Alternative implementation of [$source EL_ARRAYED_INTERVAL_LIST] by bit-shifting each 32-bit upper and lower
-		into a [$source INTEGER_64]. Turns out to be not as efficient as using a [$source SPECIAL [INTEGER_32]]
+		Alternative implementation of ${EL_ARRAYED_INTERVAL_LIST} by bit-shifting each 32-bit upper and lower
+		into a ${INTEGER_64}. Turns out to be not as efficient as using a ${SPECIAL [INTEGER_32]}
 		with twice as many items.
 	]"
 

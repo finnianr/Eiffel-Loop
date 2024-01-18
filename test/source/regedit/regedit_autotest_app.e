@@ -5,7 +5,7 @@ note
 
 		**Test Sets**
 
-			[$source REGEDIT_TEST_SET]
+			${REGEDIT_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

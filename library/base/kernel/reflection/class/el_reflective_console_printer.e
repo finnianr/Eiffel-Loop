@@ -1,6 +1,6 @@
 note
 	description: "[
-		Displays reflective fields conforming to [$source EL_REFLECTED_FIELD] in call to [$source EL_REFLECTIVE].print_fields
+		Displays reflective fields conforming to ${EL_REFLECTED_FIELD} in call to ${EL_REFLECTIVE}.print_fields
 	]"
 
 	author: "Finnian Reilly"

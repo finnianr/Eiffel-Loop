@@ -1,5 +1,5 @@
 note
-	description: "Radio button implementation of widget abstraction [$source EL_FINITE_DATA_SET_WIDGET [G]]"
+	description: "Radio button implementation of widget abstraction ${EL_FINITE_DATA_SET_WIDGET [G]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

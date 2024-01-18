@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the command [$source CHECK_LOCALE_STRINGS_COMMAND].
+		A command line interface to the command ${CHECK_LOCALE_STRINGS_COMMAND}.
 	]"
 
 	author: "Finnian Reilly"

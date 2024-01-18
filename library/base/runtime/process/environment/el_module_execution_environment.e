@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_EXECUTION_ENVIRONMENT_I]"
+	description: "Shared access to routines of class ${EL_EXECUTION_ENVIRONMENT_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

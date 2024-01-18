@@ -1,5 +1,5 @@
 note
-	description: "Factory for objects of type [$source EL_REFLECTIVELY_SETTABLE]"
+	description: "Factory for objects of type ${EL_REFLECTIVELY_SETTABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

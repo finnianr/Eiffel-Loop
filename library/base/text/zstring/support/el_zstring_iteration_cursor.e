@@ -1,5 +1,5 @@
 note
-	description: "[$source CHARACTER_32] iterator for [$source EL_READABLE_ZSTRING]"
+	description: "${CHARACTER_32} iterator for ${EL_READABLE_ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

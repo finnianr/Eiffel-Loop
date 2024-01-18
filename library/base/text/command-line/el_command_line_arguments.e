@@ -1,5 +1,5 @@
 note
-	description: "Object to query command line arguments. Accessible via [$source EL_MODULE_ARGS]"
+	description: "Object to query command line arguments. Accessible via ${EL_MODULE_ARGS}"
 	notes: "[
 		As of June 2022 it can now parse options with the form `-name=value' as an alternative to `-name value'.
 		This is useful in the case of a value being mistaken for an option if it starts with '-'. In that case you 

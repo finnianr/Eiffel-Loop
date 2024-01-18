@@ -1,5 +1,5 @@
 note
-	description: "Access to routines for classes inherited by [$source EL_READABLE_ZSTRING]"
+	description: "Access to routines for classes inherited by ${EL_READABLE_ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

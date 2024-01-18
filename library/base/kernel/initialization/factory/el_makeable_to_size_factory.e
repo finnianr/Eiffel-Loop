@@ -1,5 +1,5 @@
 note
-	description: "A factory cell to create objects conforming to [$source EL_MAKEABLE_TO_SIZE]"
+	description: "A factory cell to create objects conforming to ${EL_MAKEABLE_TO_SIZE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

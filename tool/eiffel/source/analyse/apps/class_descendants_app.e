@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source CLASS_DESCENDANTS_COMMAND]"
+	description: "Command line interface to ${CLASS_DESCENDANTS_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

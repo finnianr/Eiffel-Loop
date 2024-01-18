@@ -1,5 +1,5 @@
 note
-	description: "XML [$source ZSTRING] constants"
+	description: "XML ${ZSTRING} constants"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

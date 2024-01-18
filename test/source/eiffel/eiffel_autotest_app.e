@@ -5,15 +5,15 @@ note
 
 		**Test Sets**
 
-			[$source AGENT_TEST_SET]
-			[$source DATE_TIME_2_TEST_SET]
-			[$source EIFFEL_TEST_SET]
-			[$source FILE_TEST_SET]
-			[$source NUMERIC_TEST_SET]
-			[$source STRUCTURE_TEST_SET]
-			[$source TEXT_DATA_TEST_SET]
-			[$source TUPLE_TEST_SET]
-			[$source TYPE_TEST_SET]
+			${AGENT_TEST_SET}
+			${DATE_TIME_2_TEST_SET}
+			${EIFFEL_TEST_SET}
+			${FILE_TEST_SET}
+			${NUMERIC_TEST_SET}
+			${STRUCTURE_TEST_SET}
+			${TEXT_DATA_TEST_SET}
+			${TUPLE_TEST_SET}
+			${TYPE_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

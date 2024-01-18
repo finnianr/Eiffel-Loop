@@ -2,7 +2,7 @@ note
 	description: "[
 		Fractal image model world
 		
-		(First class to make use of [$source EL_BOOLEAN_OPTION])
+		(First class to make use of ${EL_BOOLEAN_OPTION})
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Exports object conforming to [$source EL_REFLECTIVELY_SETTABLE] as Pyxis document format"
+	description: "Exports object conforming to ${EL_REFLECTIVELY_SETTABLE} as Pyxis document format"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

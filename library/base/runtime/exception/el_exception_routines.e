@@ -1,5 +1,5 @@
 note
-	description: "Exception routines that make use of [$source EL_ZSTRING] templating feature"
+	description: "Exception routines that make use of ${EL_ZSTRING} templating feature"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

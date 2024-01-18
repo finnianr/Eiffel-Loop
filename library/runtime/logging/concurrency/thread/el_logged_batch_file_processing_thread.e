@@ -1,5 +1,5 @@
 note
-	description: "Logged [$source EL_BATCH_FILE_PROCESSING_THREAD]"
+	description: "Logged ${EL_BATCH_FILE_PROCESSING_THREAD}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

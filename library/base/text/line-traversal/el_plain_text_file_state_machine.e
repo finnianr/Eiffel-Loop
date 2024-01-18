@@ -1,5 +1,5 @@
 note
-	description: "Line state machine for [$source STRING_8] lines read from [$source PLAIN_TEXT_FILE]"
+	description: "Line state machine for ${STRING_8} lines read from ${PLAIN_TEXT_FILE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

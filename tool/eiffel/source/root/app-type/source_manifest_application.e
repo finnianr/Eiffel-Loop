@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to command conforming to [$source SOURCE_MANIFEST_COMMAND]"
+	description: "Command line interface to command conforming to ${SOURCE_MANIFEST_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

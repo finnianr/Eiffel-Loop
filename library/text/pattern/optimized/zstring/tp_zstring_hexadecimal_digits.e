@@ -1,5 +1,5 @@
 note
-	description: "[$source TP_HEXADECIMAL_DIGITS] optimized for [$source ZSTRING] source text"
+	description: "${TP_HEXADECIMAL_DIGITS} optimized for ${ZSTRING} source text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

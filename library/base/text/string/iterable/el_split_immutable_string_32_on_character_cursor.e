@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_SPLIT_ON_CHARACTER_CURSOR [IMMUTABLE_STRING_32]] implemented using
+		${EL_SPLIT_ON_CHARACTER_CURSOR [IMMUTABLE_STRING_32]} implemented using
 		`shared_substring' for `item_copy'
 	]"
 

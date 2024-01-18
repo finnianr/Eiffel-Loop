@@ -1,5 +1,5 @@
 note
-	description: "Command factory accessible via [$source EL_MODULE_COMMAND]"
+	description: "Command factory accessible via ${EL_MODULE_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

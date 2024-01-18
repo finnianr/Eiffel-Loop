@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR] which is a
+		Command line interface to ${PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR} which is a
 		tool to convert Praat C source file directory and make file to compile with MS Visual C++
 	]"
 

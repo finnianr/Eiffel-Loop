@@ -3,7 +3,7 @@ note
 	notes: "[
 		**WARNING**
 
-		Be careful not to allow node itself to be a assigned to a fields of type [$source STRING_8].
+		Be careful not to allow node itself to be a assigned to a fields of type ${STRING_8}.
 		Use explict conversion:
 
 			str := node.to_string_8

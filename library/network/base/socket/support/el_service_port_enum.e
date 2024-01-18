@@ -1,7 +1,7 @@
 note
 	description: "[
 		[https://utho.com/docs/tutorial/most-common-network-port-numbers-for-linux/
-		Most common default network port numbers for Linux]. Accessible via class [$source EL_SHARED_SERVICE_PORT]
+		Most common default network port numbers for Linux]. Accessible via class ${EL_SHARED_SERVICE_PORT}
 	]"
 
 	author: "Finnian Reilly"

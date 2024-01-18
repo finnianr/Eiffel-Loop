@@ -1,7 +1,7 @@
 note
 	description: "[
 		Restore files from a backup made using the [http://duplicity.nongnu.org/ duplicity] utility
-		and configured from a file in Pyxis format. See class [$source DUPLICITY_CONFIG] for details.
+		and configured from a file in Pyxis format. See class ${DUPLICITY_CONFIG} for details.
 	]"
 
 	author: "Finnian Reilly"

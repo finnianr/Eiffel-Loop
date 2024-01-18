@@ -1,6 +1,6 @@
 note
 	description: "Stores AIA credentials securely in AES encrypted data chain"
-	tests: "See: [$source AMAZON_INSTANT_ACCESS_TEST_SET]"
+	tests: "See: ${AMAZON_INSTANT_ACCESS_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

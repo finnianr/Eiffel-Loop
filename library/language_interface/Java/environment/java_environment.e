@@ -1,5 +1,5 @@
 note
-	description: "Java environment configuration accessible from [$source EL_MODULE_JAVA]"
+	description: "Java environment configuration accessible from ${EL_MODULE_JAVA}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

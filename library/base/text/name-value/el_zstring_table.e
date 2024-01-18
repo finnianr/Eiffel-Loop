@@ -1,6 +1,6 @@
 note
 	description: "[
-		Table of [$source EL_ZSTRING] strings with keys of type [$source STRING_8] and createable from
+		Table of ${EL_ZSTRING} strings with keys of type ${STRING_8} and createable from
 		parsed general text with format
 		
 			key_1:

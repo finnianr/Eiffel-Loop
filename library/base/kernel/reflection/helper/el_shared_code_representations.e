@@ -1,7 +1,7 @@
 note
 	description: "[
-		Shared instances of [$source EL_CODE_16_REPRESENTATION], [$source EL_CODE_32_REPRESENTATION]
-		and [$source EL_CODE_64_REPRESENTATION]
+		Shared instances of ${EL_CODE_16_REPRESENTATION}, ${EL_CODE_32_REPRESENTATION}
+		and ${EL_CODE_64_REPRESENTATION}
 	]"
 
 	author: "Finnian Reilly"

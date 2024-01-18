@@ -1,5 +1,5 @@
 note
-	description: "Fields conforming to [$source READABLE_STRING_8] are initialized from the attribute name"
+	description: "Fields conforming to ${READABLE_STRING_8} are initialized from the attribute name"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "expanded form or [$source XML_ROUTINES_IMP]"
+	description: "expanded form or ${XML_ROUTINES_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

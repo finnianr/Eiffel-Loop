@@ -1,7 +1,7 @@
 note
 	description: "[
-		Reflectively convertible to HTTP parameter either as a [$source EL_HTTP_PARAMETER_LIST]
-		or a [$source EL_HTTP_NAME_VALUE_PARAMETER]
+		Reflectively convertible to HTTP parameter either as a ${EL_HTTP_PARAMETER_LIST}
+		or a ${EL_HTTP_NAME_VALUE_PARAMETER}
 	]"
 
 	author: "Finnian Reilly"

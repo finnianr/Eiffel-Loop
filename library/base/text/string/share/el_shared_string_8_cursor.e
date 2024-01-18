@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_STRING_8_ITERATION_CURSOR]"
+	description: "Shared instance of ${EL_STRING_8_ITERATION_CURSOR}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

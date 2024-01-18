@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_COMMAND_FACTORY]"
+	description: "Shared access to routines of class ${EL_COMMAND_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

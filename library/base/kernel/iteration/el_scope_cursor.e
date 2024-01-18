@@ -1,5 +1,5 @@
 note
-	description: "Cursor used in conjunction with [$source EL_ITERABLE_SCOPE]"
+	description: "Cursor used in conjunction with ${EL_ITERABLE_SCOPE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

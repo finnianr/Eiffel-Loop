@@ -1,7 +1,7 @@
 note
 	description: "[
 		Test routines in libary cluster [./library/text-process-fast.pattern_match.html Pattern-matching]
-		using [$source STRING_32] source text.
+		using ${STRING_32} source text.
 	]"
 
 	author: "Finnian Reilly"

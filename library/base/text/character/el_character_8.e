@@ -1,5 +1,5 @@
 note
-	description: "[$source CHARACTER_8_REF] with conversion to [$source STRING_8] by `*' operator"
+	description: "${CHARACTER_8_REF} with conversion to ${STRING_8} by `*' operator"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

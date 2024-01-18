@@ -1,6 +1,6 @@
 note
-	description: "Expanded form of [$source EL_ITERABLE_ROUTINES_IMP]"
-	notes: "Accessible via [$source EL_MODULE_ITERABLE]"
+	description: "Expanded form of ${EL_ITERABLE_ROUTINES_IMP}"
+	notes: "Accessible via ${EL_MODULE_ITERABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_NATIVE_STRING]"
+	description: "Shared instance of ${EL_NATIVE_STRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

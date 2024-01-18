@@ -1,5 +1,5 @@
 note
-	description: "Internal thread for class [$source EL_IDENTIFIED_THREAD]"
+	description: "Internal thread for class ${EL_IDENTIFIED_THREAD}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

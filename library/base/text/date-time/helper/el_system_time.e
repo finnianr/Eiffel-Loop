@@ -1,9 +1,9 @@
 note
-	description: "A way to update [$source C_DATE] without GC and memory allocation"
+	description: "A way to update ${C_DATE} without GC and memory allocation"
 	descendants: "[
 			EL_SYSTEM_TIME
-				[$source EL_SYSTEM_TIMER]
-				[$source EL_EXECUTION_TIMER]
+				${EL_SYSTEM_TIMER}
+				${EL_EXECUTION_TIMER}
 	]"
 
 	author: "Finnian Reilly"

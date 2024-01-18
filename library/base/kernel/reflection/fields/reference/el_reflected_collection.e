@@ -1,5 +1,5 @@
 note
-	description: "Reflected field conforming to [$source COLLECTION]"
+	description: "Reflected field conforming to ${COLLECTION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

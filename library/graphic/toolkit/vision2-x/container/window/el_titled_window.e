@@ -3,7 +3,7 @@ note
 	notes: "[
 		*MAKE PRECONDITION*
 		
-		The launcher application must conform to [$source EL_LOGGED_APPLICATION]
+		The launcher application must conform to ${EL_LOGGED_APPLICATION}
 	]"
 
 	author: "Finnian Reilly"

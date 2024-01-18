@@ -43,7 +43,7 @@ feature -- Access
 feature -- Element change
 
 	sink_source_substitutions
-		-- sink the values of $source occurrences `code_text'. Eg. [$source CLASS_NAME]
+		-- sink the values of $source occurrences `code_text'. Eg. ${CLASS_NAME}
 		-- and populate `client_examples' while adding the client paths to `current_digest'
 		-- in alphabetical order of class name.
 		local

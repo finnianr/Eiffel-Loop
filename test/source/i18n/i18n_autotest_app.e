@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source I18N_LOCALIZATION_TEST_SET]
+			${I18N_LOCALIZATION_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

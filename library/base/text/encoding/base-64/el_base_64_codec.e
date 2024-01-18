@@ -1,5 +1,5 @@
 note
-	description: "Base 64 routines accessible via [$source EL_MODULE_BASE_64]"
+	description: "Base 64 routines accessible via ${EL_MODULE_BASE_64}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

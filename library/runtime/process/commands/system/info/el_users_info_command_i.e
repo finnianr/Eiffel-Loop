@@ -3,7 +3,7 @@ note
 		Creates a list of system users that have a directory in `Directory.home'.		
 		For Windows this is usually `C:\Users' and for Linux `/home'
 
-		The user list is best accessed via {[$source EL_MODULE_SYSTEM]}.user_list
+		The user list is best accessed via {${EL_MODULE_SYSTEM}}.user_list
 	]"
 
 	author: "Finnian Reilly"

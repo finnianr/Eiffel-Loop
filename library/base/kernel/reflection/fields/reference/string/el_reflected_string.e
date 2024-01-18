@@ -1,5 +1,5 @@
 note
-	description: "Reflected field that conforms to [$source READABLE_STRING_GENERAL]"
+	description: "Reflected field that conforms to ${READABLE_STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

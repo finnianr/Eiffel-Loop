@@ -1,5 +1,5 @@
 note
-	description: "Factory to create items conforming to [$source TIME]"
+	description: "Factory to create items conforming to ${TIME}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

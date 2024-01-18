@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of object conforming to [$source TP_OPTIMIZED_FACTORY]"
+	description: "Shared instance of object conforming to ${TP_OPTIMIZED_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -2,10 +2,10 @@ note
 	description: "Abstraction to perform integral calculations on a function"
 	descendants: "[
 			INTEGRATION_COMMAND*
-				[$source SINGLE_THREAD_INTEGRATION]
-				[$source DISTRIBUTED_INTEGRATION_COMMAND]* [G]
-					[$source DISTRIBUTED_FUNCTION_INTEGRATION]
-					[$source DISTRIBUTED_PROCEDURE_INTEGRATION]
+				${SINGLE_THREAD_INTEGRATION}
+				${DISTRIBUTED_INTEGRATION_COMMAND}* [G]
+					${DISTRIBUTED_FUNCTION_INTEGRATION}
+					${DISTRIBUTED_PROCEDURE_INTEGRATION}
 	]"
 
 	author: "Finnian Reilly"

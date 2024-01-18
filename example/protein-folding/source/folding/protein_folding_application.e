@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to commands conforming to [$source PROTEIN_FOLDING_COMMAND]"
+	description: "Command line interface to commands conforming to ${PROTEIN_FOLDING_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Object that is serializeable to string of type [$source STRING_8]"
+	description: "Object that is serializeable to string of type ${STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

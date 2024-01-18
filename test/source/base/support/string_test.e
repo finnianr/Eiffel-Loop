@@ -1,7 +1,7 @@
 note
 	description: "[
-		Compare result of [$source ZSTRING] routines with [$source STRING_32] and [$source STRING_8].
-		See test set [$source ZSTRING_TEST_SET].
+		Compare result of ${ZSTRING} routines with ${STRING_32} and ${STRING_8}.
+		See test set ${ZSTRING_TEST_SET}.
 	]"
 
 	author: "Finnian Reilly"

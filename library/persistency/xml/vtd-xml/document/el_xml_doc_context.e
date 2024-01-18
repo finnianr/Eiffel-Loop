@@ -1,5 +1,5 @@
 note
-	description: "Top level [$source EL_XPATH_NODE_CONTEXT] object representing an XML document"
+	description: "Top level ${EL_XPATH_NODE_CONTEXT} object representing an XML document"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

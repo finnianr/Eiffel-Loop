@@ -1,5 +1,5 @@
 note
-	description: "Implementation routines for [$source EL_SUBSTRING_32_ARRAY]"
+	description: "Implementation routines for ${EL_SUBSTRING_32_ARRAY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

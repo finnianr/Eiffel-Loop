@@ -1,7 +1,7 @@
 note
 	description: "[
-		Table of converters conforming to [$source EL_READABLE_STRING_GENERAL_TO_TYPE [ANY]]
-		for converting strings conforming to [$source READABLE_STRING_GENERAL] to common data types
+		Table of converters conforming to ${EL_READABLE_STRING_GENERAL_TO_TYPE [ANY]}
+		for converting strings conforming to ${READABLE_STRING_GENERAL} to common data types
 	]"
 	notes: "See end of class"
 
@@ -423,21 +423,21 @@ note
 	notes: "[
 		Conversion targets:
 
-			[$source INTEGER_8], [$source INTEGER_16], [$source INTEGER_32], [$source INTEGER_64],
+			${INTEGER_8}, ${INTEGER_16}, ${INTEGER_32}, ${INTEGER_64},
 
-			[$source NATURAL_8], [$source NATURAL_16], [$source NATURAL_32, [$source NATURAL_64],
+			${NATURAL_8}, ${NATURAL_16}, ${NATURAL_32, ${NATURAL_64},
 
-			[$source REAL_32], [$source REAL_64],
+			${REAL_32}, ${REAL_64},
 
-			[$source BOOLEAN], [$source CHARACTER_8], [$source CHARACTER_32],
+			${BOOLEAN}, ${CHARACTER_8}, ${CHARACTER_32},
 
-			[$source STRING_8], [$source STRING_32],
-			[$source IMMUTABLE_STRING_8], [$source IMMUTABLE_STRING_32],
+			${STRING_8}, ${STRING_32},
+			${IMMUTABLE_STRING_8}, ${IMMUTABLE_STRING_32},
 
-			[$source ZSTRING],
-			[$source DIR_PATH], [$source FILE_PATH],
+			${ZSTRING},
+			${DIR_PATH}, ${FILE_PATH},
 
-			[$source EL_DIR_URI_PATH], [$source EL_FILE_URI_PATH]
+			${EL_DIR_URI_PATH}, ${EL_FILE_URI_PATH}
 
-	]"
+	}"
 end

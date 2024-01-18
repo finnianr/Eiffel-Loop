@@ -2,7 +2,7 @@ note
 	description: "[
 		Indexed Paypal variable. Initializing with Paypal variable `L_BUTTONTYPE0' for example,
 		will set `code' to the enumeration value of `L_BUTTONTYPE' specified in class 
-		[$source PP_L_VARIABLE_ENUM]. `index' will be set to `0 + 1' since Eiffel generally uses
+		${PP_L_VARIABLE_ENUM}. `index' will be set to `0 + 1' since Eiffel generally uses
 		1 based indices.
 	]"
 

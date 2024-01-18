@@ -1,5 +1,5 @@
 ﻿note
-	description: "Tests for class [$source EL_ZSTRING]"
+	description: "Tests for class ${EL_ZSTRING}"
 	notes: "[
 		Don't forget to also run the test with the latin-15 codec. See `on_prepare'
 	]"

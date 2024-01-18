@@ -1,5 +1,5 @@
 note
-	description: "Windows implemenation of [$source EL_BIT_ROUTINES_I] interface"
+	description: "Windows implemenation of ${EL_BIT_ROUTINES_I} interface"
 	notes: "[
 		Cannot use _popcnt on MS VC compiler because it says in manual:
 		

@@ -1,5 +1,5 @@
 note
-	description: "Test variations of class [$source CSV_LINE_PARSER]"
+	description: "Test variations of class ${CSV_LINE_PARSER}"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 

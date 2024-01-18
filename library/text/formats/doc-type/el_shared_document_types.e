@@ -1,5 +1,5 @@
 note
-	description: "Shared cache table [$source HASH_TABLE [EL_DOC_TYPE, NATURAL]]"
+	description: "Shared cache table ${HASH_TABLE [EL_DOC_TYPE, NATURAL]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

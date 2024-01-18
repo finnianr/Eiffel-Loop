@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_LOG_COMMAND_OPTIONS]"
+	description: "Shared instance of ${EL_LOG_COMMAND_OPTIONS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

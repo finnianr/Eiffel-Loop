@@ -1,6 +1,6 @@
 note
 	description: "[
-		Fields and implementation for class [$source STRING_TEST]
+		Fields and implementation for class ${STRING_TEST}
 	]"
 
 	author: "Finnian Reilly"

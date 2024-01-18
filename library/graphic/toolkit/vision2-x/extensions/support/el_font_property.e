@@ -1,5 +1,5 @@
 note
-	description: "Font properties that can be combined into a [$source NATURAL_8] bitmap"
+	description: "Font properties that can be combined into a ${NATURAL_8} bitmap"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

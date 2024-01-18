@@ -1,5 +1,5 @@
 note
-	description: "Winzip self-extracting package builder implementing [$source EL_COMMAND]"
+	description: "Winzip self-extracting package builder implementing ${EL_COMMAND}"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"

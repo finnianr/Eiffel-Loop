@@ -1,5 +1,5 @@
 note
-	description: "Access to shared instance of [$source EL_OS_RELEASE_I]"
+	description: "Access to shared instance of ${EL_OS_RELEASE_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

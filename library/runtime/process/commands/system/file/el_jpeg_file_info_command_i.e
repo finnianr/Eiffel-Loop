@@ -14,7 +14,7 @@ note
 			Exif.Thumbnail.ImageWidth                    Long        1  512
 			Exif.Thumbnail.ImageLength                   Long        1  384
 	]"
-	tests: "Class [$source JPEG_FILE_INFO_COMMAND_TEST_SET]"
+	tests: "Class ${JPEG_FILE_INFO_COMMAND_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare call to {[$source EL_POINTER_ROUTINES]}.i_th_lower_upper with using inline code
+		Compare call to {${EL_POINTER_ROUTINES}}.i_th_lower_upper with using inline code
 	]"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)

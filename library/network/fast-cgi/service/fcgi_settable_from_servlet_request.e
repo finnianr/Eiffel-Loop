@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object that is reflectively settable from `{[$source FCGI_SERVLET_REQUEST]}.method_parameters'
+		Object that is reflectively settable from `{${FCGI_SERVLET_REQUEST}}.method_parameters'
 	]"
 
 	author: "Finnian Reilly"

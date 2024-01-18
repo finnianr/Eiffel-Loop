@@ -1,6 +1,6 @@
 note
 	description: "[
-		Shared instance of class [$source EV_STOCK_COLORS]
+		Shared instance of class ${EV_STOCK_COLORS}
 	]"
 
 	author: "Finnian Reilly"

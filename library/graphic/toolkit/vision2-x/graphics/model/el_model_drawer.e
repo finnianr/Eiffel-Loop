@@ -1,5 +1,5 @@
 note
-	description: "Model drawer with support for rotated pictures using features of [$source CAIRO_DRAWING_AREA]"
+	description: "Model drawer with support for rotated pictures using features of ${CAIRO_DRAWING_AREA}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

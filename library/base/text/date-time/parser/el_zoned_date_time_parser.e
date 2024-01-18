@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_DATE_TIME_PARSER] for formats with a time zone designator"
+	description: "${EL_DATE_TIME_PARSER} for formats with a time zone designator"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

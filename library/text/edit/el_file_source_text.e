@@ -1,6 +1,6 @@
 note
 	description: "[
-		Encoded source text read from file as [$source ZSTRING] lines or set externally
+		Encoded source text read from file as ${ZSTRING} lines or set externally
 	]"
 
 	author: "Finnian Reilly"

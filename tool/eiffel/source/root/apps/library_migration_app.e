@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source LIBRARY_MIGRATION_COMMAND]"
+	description: "Command line interface to ${LIBRARY_MIGRATION_COMMAND}"
 	notes: "[
 			el_eiffel -library_migration -sources <directory or manifest path> \
 				-home <current library home directory> -suffix <basename suffix>

@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source PYXIS_ENCRYPTER]"
+	description: "Test class ${PYXIS_ENCRYPTER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

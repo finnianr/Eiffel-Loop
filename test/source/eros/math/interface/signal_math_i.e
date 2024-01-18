@@ -4,8 +4,8 @@ note
 	]"
 	descendants: "[
 			SIGNAL_MATH_I*
-				[$source SIGNAL_MATH]
-				[$source SIGNAL_MATH_PROXY]
+				${SIGNAL_MATH}
+				${SIGNAL_MATH_PROXY}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Name table for tuple fields in object conforming to [$source EL_REFLECTIVE]
+		Name table for tuple fields in object conforming to ${EL_REFLECTIVE}
 		
 		Also contains a table of agent functions to convert `READABLE_STRING_GENERAL' 
 		to adjusted `EL_SPLIT_READABLE_STRING_LIST' for initializing tuple field

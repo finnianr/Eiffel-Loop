@@ -1,5 +1,5 @@
 note
-	description: "[$source TP_ALPHANUMERIC_CHAR] optimized for strings conforming to [$source READABLE_STRING_8]"
+	description: "${TP_ALPHANUMERIC_CHAR} optimized for strings conforming to ${READABLE_STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

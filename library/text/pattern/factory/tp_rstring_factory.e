@@ -1,7 +1,7 @@
 note
 	description: "[
 		Factory to create new instances of text patterns optimized for strings conforming to
-		[$source READABLE_STRING_8]
+		${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

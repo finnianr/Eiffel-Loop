@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source CAIRO_DRAWING_AREA_I]"
+	description: "Windows implementation of ${CAIRO_DRAWING_AREA_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

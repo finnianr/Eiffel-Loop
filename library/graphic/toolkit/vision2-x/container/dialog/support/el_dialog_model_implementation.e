@@ -1,5 +1,5 @@
 note
-	description: "Implementation classes and routines for [$source EL_DIALOG_MODEL]"
+	description: "Implementation classes and routines for ${EL_DIALOG_MODEL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "A precursor to [$source EL_STANDARD_DIRECTORY_IMP] prior to April 2020"
+	description: "A precursor to ${EL_STANDARD_DIRECTORY_IMP} prior to April 2020"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Multi-bit set and get routines for types conforming to [$source NUMERIC]"
+	description: "Multi-bit set and get routines for types conforming to ${NUMERIC}"
 	descendants: "See end of class"
 
 	author: "Finnian Reilly"
@@ -84,12 +84,12 @@ feature {NONE} -- Implemenation
 note
 	descendants: "[
 			EL_NUMERIC_BIT_ROUTINES*
-				[$source EL_NATURAL_8_BIT_ROUTINES]
-				[$source EL_NATURAL_32_BIT_ROUTINES]
-				[$source EL_INTEGER_BIT_ROUTINES]*
-					[$source EL_INTEGER_32_BIT_ROUTINES]
-					[$source EL_INTEGER_64_BIT_ROUTINES]
-				[$source EL_NATURAL_64_BIT_ROUTINES]
+				${EL_NATURAL_8_BIT_ROUTINES}
+				${EL_NATURAL_32_BIT_ROUTINES}
+				${EL_INTEGER_BIT_ROUTINES}*
+					${EL_INTEGER_32_BIT_ROUTINES}
+					${EL_INTEGER_64_BIT_ROUTINES}
+				${EL_NATURAL_64_BIT_ROUTINES}
 	]"
 
 end

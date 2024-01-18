@@ -6,17 +6,17 @@ note
 	notes: "[
 		Event sources that have been implemented are as follows:
 		
-		**1.** [$source EL_EXPAT_XML_PARSER]: Expat XML parser
+		**1.** ${EL_EXPAT_XML_PARSER}: Expat XML parser
 		
-		**2.** [$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]: Expat XML parser of XML serializeable objects conforming to
-		[$source EVOLICITY_SERIALIZEABLE_AS_XML].
+		**2.** ${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}: Expat XML parser of XML serializeable objects conforming to
+		${EVOLICITY_SERIALIZEABLE_AS_XML}.
 		
-		**3.** [$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]: Expat XML parser with input stream end delimited
+		**3.** ${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}: Expat XML parser with input stream end delimited
 		by Ctrl-Z character. Useful for parsing network streams.
 		
-		**4.** [$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]: a binary encoded XML event source.
+		**4.** ${EL_BINARY_ENCODED_PARSE_EVENT_SOURCE}: a binary encoded XML event source.
 		
-		**5.** [$source EL_PYXIS_PARSER]: event from a Pyxis format parser. Pyxis is a direct analog of XML that is
+		**5.** ${EL_PYXIS_PARSER}: event from a Pyxis format parser. Pyxis is a direct analog of XML that is
 		easier to read and edit thus making it more suitable for configuration files.
 	]"
 

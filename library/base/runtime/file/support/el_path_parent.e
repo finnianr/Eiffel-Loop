@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source EL_PATH] for `parent_path', status properties, comparison and hashing
+		Implementation of ${EL_PATH} for `parent_path', status properties, comparison and hashing
 	]"
 
 	author: "Finnian Reilly"

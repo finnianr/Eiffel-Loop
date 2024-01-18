@@ -1,6 +1,6 @@
 note
 	description: "[
-		Prediction of protein-folding in the 2D HP Model for grids conforming to [$source GRID_2_X].
+		Prediction of protein-folding in the 2D HP Model for grids conforming to ${GRID_2_X}.
 		Version 2.0
 	]"
 

@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_USER_INPUT]"
+	description: "Shared access to routines of class ${EL_USER_INPUT}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

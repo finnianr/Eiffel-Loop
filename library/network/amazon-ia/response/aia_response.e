@@ -2,9 +2,9 @@ note
 	description: "Parent class for instant access responses to requests"
 	descendants: "[
 			AIA_RESPONSE
-				[$source AIA_GET_USER_ID_RESPONSE]
-				[$source AIA_PURCHASE_RESPONSE]
-					[$source AIA_REVOKE_RESPONSE]
+				${AIA_GET_USER_ID_RESPONSE}
+				${AIA_PURCHASE_RESPONSE}
+					${AIA_REVOKE_RESPONSE}
 	]"
 
 	author: "Finnian Reilly"

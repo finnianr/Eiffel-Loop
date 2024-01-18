@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_NATURAL_32_BIT_ROUTINES] that calculates **shift_count** using branching algorithm described on 
+		${EL_NATURAL_32_BIT_ROUTINES} that calculates **shift_count** using branching algorithm described on 
 		[https://stackoverflow.com/questions/31601190/given-a-bit-mask-how-to-compute-bit-shift-count Stackoverflow]
 		article
 	]"

@@ -1,5 +1,5 @@
 note
-	description: "Format routines for [$source INTEGER_32]"
+	description: "Format routines for ${INTEGER_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

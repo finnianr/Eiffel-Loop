@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of class [$source EL_FILE_ROUTINES_I]"
+	description: "Windows implementation of class ${EL_FILE_ROUTINES_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

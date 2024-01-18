@@ -1,6 +1,6 @@
 note
 	description: "[
-		Shared access to first created instance of object conforming to [$source PP_NVP_API_CONNECTION]
+		Shared access to first created instance of object conforming to ${PP_NVP_API_CONNECTION}
 	]"
 
 	author: "Finnian Reilly"

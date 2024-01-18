@@ -1,13 +1,13 @@
 note
 	description: "[
-		Used in conjunction with [$source EL_REFLECTIVELY_SETTABLE] to reflectively set fields
+		Used in conjunction with ${EL_REFLECTIVELY_SETTABLE} to reflectively set fields
 		from corresponding JSON name-value pairs.
 	]"
 	tests: "[
-			[$source JSON_PARSING_TEST_SET]
-			[$source HTTP_CONNECTION_TEST_SET]
-			[$source HASH_TABLE_TEST_SET]
-			[$source AMAZON_INSTANT_ACCESS_TEST_SET]
+			${JSON_PARSING_TEST_SET}
+			${HTTP_CONNECTION_TEST_SET}
+			${HASH_TABLE_TEST_SET}
+			${AMAZON_INSTANT_ACCESS_TEST_SET}
 	]"
 	descendants: "See end of class"
 
@@ -150,19 +150,19 @@ feature {NONE} -- Implementation
 note
 	descendants: "[
 			EL_SETTABLE_FROM_JSON_STRING*
-				[$source PERSON]
-				[$source AIA_RESPONSE]
-					[$source AIA_FAIL_RESPONSE]
-					[$source AIA_PURCHASE_RESPONSE]
-						[$source AIA_REVOKE_RESPONSE]
-					[$source AIA_GET_USER_ID_RESPONSE]
-				[$source JSON_CURRENCY]
-				[$source AIA_REQUEST]*
-					[$source AIA_PURCHASE_REQUEST]
-						[$source AIA_REVOKE_REQUEST]
-					[$source AIA_GET_USER_ID_REQUEST]
-				[$source EL_IP_ADDRESS_GEOLOCATION]
-					[$source EL_IP_ADDRESS_GEOGRAPHIC_INFO]
+				${PERSON}
+				${AIA_RESPONSE}
+					${AIA_FAIL_RESPONSE}
+					${AIA_PURCHASE_RESPONSE}
+						${AIA_REVOKE_RESPONSE}
+					${AIA_GET_USER_ID_RESPONSE}
+				${JSON_CURRENCY}
+				${AIA_REQUEST}*
+					${AIA_PURCHASE_REQUEST}
+						${AIA_REVOKE_REQUEST}
+					${AIA_GET_USER_ID_REQUEST}
+				${EL_IP_ADDRESS_GEOLOCATION}
+					${EL_IP_ADDRESS_GEOGRAPHIC_INFO}
 	]"
 
 end

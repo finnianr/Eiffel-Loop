@@ -1,5 +1,5 @@
 note
-	description: "Shared access to first created instance of [$source PP_CONFIGURATION]"
+	description: "Shared access to first created instance of ${PP_CONFIGURATION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

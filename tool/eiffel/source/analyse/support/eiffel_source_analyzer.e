@@ -9,7 +9,7 @@ note
 		
 		In addition it also records the total source byte count (excluding any BOM).
 	]"
-	tests: "{[$source EIFFEL_SOURCE_COMMAND_TEST_SET]}.class_analyzer"
+	tests: "{${EIFFEL_SOURCE_COMMAND_TEST_SET}}.class_analyzer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

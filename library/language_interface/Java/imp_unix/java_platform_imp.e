@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source JAVA_PLATFORM_I] interface"
+	description: "Unix implementation of ${JAVA_PLATFORM_I} interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

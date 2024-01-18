@@ -1,6 +1,6 @@
 note
 	description: "[
-		Mask and bit-shift information for object conforming to [$source EL_COMPACTABLE_REFLECTIVE]
+		Mask and bit-shift information for object conforming to ${EL_COMPACTABLE_REFLECTIVE}
 	]"
 	notes: "[
 		Using a compact date as an example the table manifest string must be formatted as follows:

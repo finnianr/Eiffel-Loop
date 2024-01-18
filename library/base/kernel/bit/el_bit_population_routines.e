@@ -1,6 +1,6 @@
 note
 	description: "[
-		Bit routines to count number of binary 1's in a [$source NATURAL_32] or  [$source NATURAL_64]
+		Bit routines to count number of binary 1's in a ${NATURAL_32} or  ${NATURAL_64}
 		using a table of precomputed bytes.
 	]"
 

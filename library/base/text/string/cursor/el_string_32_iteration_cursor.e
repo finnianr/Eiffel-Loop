@@ -1,5 +1,5 @@
 note
-	description: "External forward one-step iteration cursor for [$source STRING_32]"
+	description: "External forward one-step iteration cursor for ${STRING_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

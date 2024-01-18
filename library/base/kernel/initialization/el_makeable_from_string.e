@@ -1,5 +1,5 @@
 note
-	description: "Object is makeable from string conforming to [$source STRING_GENERAL]"
+	description: "Object is makeable from string conforming to ${STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

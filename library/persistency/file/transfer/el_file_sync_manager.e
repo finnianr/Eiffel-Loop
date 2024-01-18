@@ -1,13 +1,13 @@
 note
 	description: "[
 		Manages a set of files in a common directory tree that can be synchronized with remote medium
-		conforming to [$source EL_FILE_SYNC_MEDIUM]
+		conforming to ${EL_FILE_SYNC_MEDIUM}
 	]"
 	notes: "[
-		Each synchronizeable file has a [$source NATURAL_32] CRC-32 checksum file associated with it. The
+		Each synchronizeable file has a ${NATURAL_32} CRC-32 checksum file associated with it. The
 		checksums are stored a separate tree mirroring the file item locations.
 				
-			{[$source EL_FILE_SYNC_ITEM]}.digest_path
+			{${EL_FILE_SYNC_ITEM}}.digest_path
 		
 		This checksum determines if the sync-item has been modified.
 	]"

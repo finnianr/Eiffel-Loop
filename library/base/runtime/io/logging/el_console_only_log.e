@@ -1,6 +1,6 @@
 note
 	description: "[
-		Minimal console only log accessed by the `lio' object in class [$source EL_MODULE_LIO]
+		Minimal console only log accessed by the `lio' object in class ${EL_MODULE_LIO}
 		It is effectively just an extension of the standard `io' object. It can be optionally integrated with
 		the Eiffel-Loop logging system.
 	]"

@@ -1,5 +1,5 @@
 note
-	description: "Table of compressed objects conforming to [$source EL_STORABLE]"
+	description: "Table of compressed objects conforming to ${EL_STORABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

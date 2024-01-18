@@ -1,5 +1,5 @@
 note
-	description: "{[$source ZSTRING]}.append_z_code VS append_character"
+	description: "{${ZSTRING}}.append_z_code VS append_character"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 

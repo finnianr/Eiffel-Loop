@@ -1,5 +1,5 @@
 note
-	description: "Set of 2 file paths indexable by [$source BOOLEAN] values **True** or **False**"
+	description: "Set of 2 file paths indexable by ${BOOLEAN} values **True** or **False**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

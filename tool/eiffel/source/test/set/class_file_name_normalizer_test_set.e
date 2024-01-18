@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source CLASS_FILE_NAME_NORMALIZER]"
+	description: "Test class ${CLASS_FILE_NAME_NORMALIZER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

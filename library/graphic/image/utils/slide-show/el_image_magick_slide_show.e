@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implements [$source EL_SLIDE_SHOW] using [https://www.imagemagick.org ImageMagick] convert command
+		Implements ${EL_SLIDE_SHOW} using [https://www.imagemagick.org ImageMagick] convert command
 		to fit images into specified geometry and generate title pages.
 	]"
 

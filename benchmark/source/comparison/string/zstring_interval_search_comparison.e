@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare {[$source ZSTRING]}.substring_index_list VS substring_intervals
+		Compare {${ZSTRING}}.substring_index_list VS substring_intervals
 	]"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)

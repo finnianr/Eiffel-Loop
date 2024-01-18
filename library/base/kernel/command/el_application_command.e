@@ -1,5 +1,5 @@
 note
-	description: "A [$source EL_COMMAND] with a description and error checking"
+	description: "A ${EL_COMMAND} with a description and error checking"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

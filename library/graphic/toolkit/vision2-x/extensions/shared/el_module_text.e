@@ -1,5 +1,5 @@
 note
-	description: "Shared global instance of object conforming to [$source EL_RENDERED_TEXT_ROUTINES]"
+	description: "Shared global instance of object conforming to ${EL_RENDERED_TEXT_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

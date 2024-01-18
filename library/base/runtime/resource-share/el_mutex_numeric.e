@@ -1,5 +1,5 @@
 note
-	description: "Mutually exclusive thread access to an expanded value item conforming to [$source NUMERIC]"
+	description: "Mutually exclusive thread access to an expanded value item conforming to ${NUMERIC}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

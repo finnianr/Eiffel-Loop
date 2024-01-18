@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_SVG_IMAGE_UTILS]"
+	description: "Shared access to routines of class ${EL_SVG_IMAGE_UTILS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

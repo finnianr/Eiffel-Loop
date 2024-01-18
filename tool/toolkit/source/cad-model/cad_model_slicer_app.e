@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to command [$source CAD_MODEL_SLICER]"
+	description: "Command line interface to command ${CAD_MODEL_SLICER}"
 	instructions: "[
 		**Usage:**
 		

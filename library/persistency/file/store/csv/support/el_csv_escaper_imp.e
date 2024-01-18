@@ -1,5 +1,5 @@
 note
-	description: "Abstract implementation for [$source EL_CSV_ESCAPER]"
+	description: "Abstract implementation for ${EL_CSV_ESCAPER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

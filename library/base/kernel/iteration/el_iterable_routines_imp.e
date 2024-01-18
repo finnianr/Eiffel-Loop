@@ -1,6 +1,6 @@
 note
-	description: "Routines related to [$source ITERABLE]"
-	notes: "Accessible via [$source EL_MODULE_ITERABLE]"
+	description: "Routines related to ${ITERABLE}"
+	notes: "Accessible via ${EL_MODULE_ITERABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

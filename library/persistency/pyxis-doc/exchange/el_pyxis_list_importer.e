@@ -1,5 +1,5 @@
 note
-	description: "Import items from file created by {[$source EL_PYXIS_CHAIN_IMPORT_EXPORT]}.export_pyxis"
+	description: "Import items from file created by {${EL_PYXIS_CHAIN_IMPORT_EXPORT}}.export_pyxis"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

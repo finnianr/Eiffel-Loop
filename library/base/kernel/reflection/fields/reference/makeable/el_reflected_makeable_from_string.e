@@ -1,5 +1,5 @@
 note
-	description: "Field that conforms to type [$source EL_REFLECTED_REFERENCE [EL_MAKEABLE_FROM_STRING_GENERAL]]"
+	description: "Field that conforms to type ${EL_REFLECTED_REFERENCE [EL_MAKEABLE_FROM_STRING_GENERAL]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

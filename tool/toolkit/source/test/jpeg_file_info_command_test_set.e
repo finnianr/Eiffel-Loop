@@ -1,5 +1,5 @@
 note
-	description: "Test command class [$source UNDATED_PHOTO_FINDER]"
+	description: "Test command class ${UNDATED_PHOTO_FINDER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

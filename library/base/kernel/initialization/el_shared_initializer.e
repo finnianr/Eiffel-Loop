@@ -1,5 +1,5 @@
 note
-	description: "Shared objects conforming to [$source EL_INITIALIZEABLE]"
+	description: "Shared objects conforming to ${EL_INITIALIZEABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

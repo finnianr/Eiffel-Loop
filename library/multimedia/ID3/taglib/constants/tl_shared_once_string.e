@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class [$source TL_STRING]"
+	description: "Shared instance of class ${TL_STRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

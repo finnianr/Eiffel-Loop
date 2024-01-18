@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source CAIRO_GDK_I]"
+	description: "Unix implementation of ${CAIRO_GDK_I}"
 	notes: "[
 		GDK wrapped to find physical dimensions of monitor, but not returning correct values
 		on Windows.

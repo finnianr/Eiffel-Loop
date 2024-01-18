@@ -1,5 +1,5 @@
 note
-	description: "Test [$source EL_UTF_CONVERTER]"
+	description: "Test ${EL_UTF_CONVERTER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

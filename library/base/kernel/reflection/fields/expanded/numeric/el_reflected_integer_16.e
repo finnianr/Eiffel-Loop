@@ -1,5 +1,5 @@
 note
-	description: "Reflected [$source INTEGER_16] field"
+	description: "Reflected ${INTEGER_16} field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

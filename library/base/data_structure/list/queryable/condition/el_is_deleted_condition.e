@@ -1,5 +1,5 @@
 note
-	description: "Condition is met if [$source EL_STORABLE] item is deleted"
+	description: "Condition is met if ${EL_STORABLE} item is deleted"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

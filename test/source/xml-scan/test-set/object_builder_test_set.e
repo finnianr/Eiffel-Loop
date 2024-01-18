@@ -2,11 +2,11 @@ note
 	description: "[
 		Test set for classes
 		
-		* [$source EL_BUILDABLE_FROM_NODE_SCAN]
-		* [$source EL_PARSE_EVENT_GENERATOR]
-		* [$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]
-		* [$source EL_EXPAT_XML_PARSER]
-		* [$source EVOLICITY_SERIALIZEABLE_AS_XML]
+		* ${EL_BUILDABLE_FROM_NODE_SCAN}
+		* ${EL_PARSE_EVENT_GENERATOR}
+		* ${EL_BINARY_ENCODED_PARSE_EVENT_SOURCE}
+		* ${EL_EXPAT_XML_PARSER}
+		* ${EVOLICITY_SERIALIZEABLE_AS_XML}
 	]"
 
 	author: "Finnian Reilly"

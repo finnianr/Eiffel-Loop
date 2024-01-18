@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source RBOX_DATABASE_FIELD_ENUM]"
+	description: "Shared instance of ${RBOX_DATABASE_FIELD_ENUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

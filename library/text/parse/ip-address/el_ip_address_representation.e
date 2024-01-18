@@ -1,5 +1,5 @@
 note
-	description: "A reflected [$source NATURAL_32] representing an IP 4 internet address [$source STRING_8]"
+	description: "A reflected ${NATURAL_32} representing an IP 4 internet address ${STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

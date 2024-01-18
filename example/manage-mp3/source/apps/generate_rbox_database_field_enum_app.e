@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sub-application to generate class [$source RBOX_DATABASE_FIELD_ENUM] from C source file `rhythmdb.c'
+		Sub-application to generate class ${RBOX_DATABASE_FIELD_ENUM} from C source file `rhythmdb.c'
 	]"
 	notes: "[
 		**Usage:**

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Question: at what point does a linear search of an [$source INTEGER_32] array
+		Question: at what point does a linear search of an ${INTEGER_32} array
 		stop being faster than a hash set?
 		
 		Answer: count > 10

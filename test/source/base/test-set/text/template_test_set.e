@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source EL_TEMPLATE]"
+	description: "Test class ${EL_TEMPLATE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Shared [$source FUNCTION] to create Pyxis source for adhoc-translations.
+		Shared ${FUNCTION} to create Pyxis source for adhoc-translations.
 		Useful for decrypted credit titles for application "about dialog".
 	]"
 

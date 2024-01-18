@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_INSTALL_UNINSTALL_TESTER]"
+	description: "Shared instance of ${EL_INSTALL_UNINSTALL_TESTER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

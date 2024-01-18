@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source WEBSITE_MONITOR]"
+	description: "Command line interface to ${WEBSITE_MONITOR}"
 	notes: "[
 		Usage:
 		

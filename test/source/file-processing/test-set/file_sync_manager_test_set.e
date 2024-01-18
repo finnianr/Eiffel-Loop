@@ -1,5 +1,5 @@
 note
-	description: "Test classes [$source EL_FILE_SYNC_MANAGER] and [$source EL_LOCAL_FILE_SYNC_MEDIUM]"
+	description: "Test classes ${EL_FILE_SYNC_MANAGER} and ${EL_LOCAL_FILE_SYNC_MEDIUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source FTP_BACKUP_COMMAND]"
+	description: "Command line interface to ${FTP_BACKUP_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

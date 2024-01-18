@@ -1,5 +1,5 @@
 note
-	description: "Object that is nameable with string conforming to [$source READABLE_STRING_GENERAL]"
+	description: "Object that is nameable with string conforming to ${READABLE_STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

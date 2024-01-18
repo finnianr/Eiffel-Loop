@@ -1,7 +1,7 @@
 note
 	description: "[
 		Cached table of geographic locations for IP address accessible via
-		[$source EL_SHARED_IP_ADDRESS_GEOLOCATION]
+		${EL_SHARED_IP_ADDRESS_GEOLOCATION}
 	]"
 
 	author: "Finnian Reilly"

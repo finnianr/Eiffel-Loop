@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source EL_STOCK_COLORS_I] interface"
+	description: "Unix implementation of ${EL_STOCK_COLORS_I} interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

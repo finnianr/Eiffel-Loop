@@ -1,5 +1,5 @@
 note
-	description: "Hash table conforming to [$source EL_HASH_TABLE [G, IMMUTABLE_STRING_8]]"
+	description: "Hash table conforming to ${EL_HASH_TABLE [G, IMMUTABLE_STRING_8]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

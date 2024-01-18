@@ -1,5 +1,5 @@
 note
-	description: "Expand class notes with source hyperlink: [$source MY_CLASS [ANY]]"
+	description: "Expand class notes with source hyperlink: ${MY_CLASS [ANY]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

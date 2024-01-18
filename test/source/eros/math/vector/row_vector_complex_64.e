@@ -1,5 +1,5 @@
 note
-	description: "Row vector from of [$source VECTOR_COMPLEX_64]"
+	description: "Row vector from of ${VECTOR_COMPLEX_64}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

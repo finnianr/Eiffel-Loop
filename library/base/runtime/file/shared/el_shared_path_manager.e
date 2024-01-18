@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of [$source EL_ISE_PATH_MANGER]"
+	description: "Shared access to instance of ${EL_ISE_PATH_MANGER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

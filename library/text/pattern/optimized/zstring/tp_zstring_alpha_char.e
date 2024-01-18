@@ -1,5 +1,5 @@
 note
-	description: "Match alphabetical character for [$source ZSTRING] text"
+	description: "Match alphabetical character for ${ZSTRING} text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

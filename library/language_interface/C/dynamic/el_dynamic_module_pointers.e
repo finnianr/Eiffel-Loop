@@ -7,7 +7,7 @@ note
 	instructions: "[
 		To use this class, define a descendant and define a pointer attribute for each API function.
 		The attibute must be named to match the API name with any common prefix stripped from the beginning.
-		A common prefix is defined by creating a descendant of [$source EL_DYNAMIC_MODULE] and defining a value for
+		A common prefix is defined by creating a descendant of ${EL_DYNAMIC_MODULE} and defining a value for
 		`name_prefix'. The name of the C function will be automatically inferred from the attribute names
 		
 		In the `make' routine these pointer attributes will be automatically initialized, by inferring the

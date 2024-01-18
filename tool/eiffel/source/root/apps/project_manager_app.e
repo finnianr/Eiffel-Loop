@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source PROJECT_MANAGER_SHELL]"
+	description: "Command line interface to ${PROJECT_MANAGER_SHELL}"
 	notes: "[
 		USAGE
 			el_eiffel -project_manager

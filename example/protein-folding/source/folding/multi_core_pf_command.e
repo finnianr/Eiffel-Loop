@@ -1,5 +1,5 @@
 note
-	description: "[$source PROTEIN_FOLDING_COMMAND] with the computations distributed over multiple cores"
+	description: "${PROTEIN_FOLDING_COMMAND} with the computations distributed over multiple cores"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (C) 2016-2017  Gerrit Leder, Finnian Reilly"

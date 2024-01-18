@@ -1,5 +1,5 @@
 note
-	description: "Windows (do nothing) implementation of [$source PROJECT_LAUNCHER_I]"
+	description: "Windows (do nothing) implementation of ${PROJECT_LAUNCHER_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

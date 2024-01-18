@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_OCCURRENCE_INTERVALS] optimized for strings conforming to [$source READABLE_STRING_8]
+		${EL_OCCURRENCE_INTERVALS} optimized for strings conforming to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"

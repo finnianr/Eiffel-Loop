@@ -1,5 +1,5 @@
 note
-	description: "Extendable [$source EL_COMPACT_SUBSTRINGS_32] with fast appending"
+	description: "Extendable ${EL_COMPACT_SUBSTRINGS_32} with fast appending"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,8 +1,8 @@
 note
-	description: "A queryable list of AIA credentials. See class [$source AIA_CREDENTIAL]."
+	description: "A queryable list of AIA credentials. See class ${AIA_CREDENTIAL}."
 	notes: "[
 		Creating an instance of this class automatically makes it globally shared from class
-		[$source AIA_SHARED_CREDENTIAL_LIST]
+		${AIA_SHARED_CREDENTIAL_LIST}
 	]"
 
 	author: "Finnian Reilly"

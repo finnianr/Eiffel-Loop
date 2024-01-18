@@ -1,5 +1,5 @@
 note
-	description: "Reflected field conforming to [$source DATE_TIME]"
+	description: "Reflected field conforming to ${DATE_TIME}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

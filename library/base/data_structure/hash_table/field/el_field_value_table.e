@@ -1,5 +1,5 @@
 note
-	description: "Table of field values of type **G** from an object conforming to [$source EL_REFLECTIVE]"
+	description: "Table of field values of type **G** from an object conforming to ${EL_REFLECTIVE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

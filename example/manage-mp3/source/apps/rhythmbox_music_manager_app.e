@@ -6,7 +6,7 @@
 		[https://github.com/finnianr/Eiffel-Loop/tree/master/example/manage-mp3/doc/tasks example/manage-mp3/doc/tasks]
 		for configuration examples.
 		
-		See the class hierarchy with [$source RBOX_MANAGEMENT_TASK] as it's root.
+		See the class hierarchy with ${RBOX_MANAGEMENT_TASK} as it's root.
 		
 		Usage:
 			el_rhythmbox -manager -config <task-configuration>

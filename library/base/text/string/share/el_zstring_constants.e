@@ -1,5 +1,5 @@
 note
-	description: "Constants for class [$source EL_ZSTRING] (AKA `ZSTRING')"
+	description: "Constants for class ${EL_ZSTRING} (AKA `ZSTRING')"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

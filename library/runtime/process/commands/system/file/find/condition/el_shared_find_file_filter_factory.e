@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of [$source EL_FIND_FILE_FILTER_FACTORY]"
+	description: "Shared access to instance of ${EL_FIND_FILE_FILTER_FACTORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

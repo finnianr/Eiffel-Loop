@@ -2,13 +2,13 @@ note
 	description: "Parse event source for Pyxis or XML document"
 	descendants: "[
 			EL_PARSE_EVENT_SOURCE*
-				[$source EL_BINARY_ENCODED_PARSE_EVENT_SOURCE]
-				[$source EL_DEFAULT_PARSE_EVENT_SOURCE]
-				[$source EL_PYXIS_PARSER]
-				[$source EL_EXPAT_XML_PARSER]
-					[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
-					[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
-					[$source EL_EXPAT_XHTML_PARSER]
+				${EL_BINARY_ENCODED_PARSE_EVENT_SOURCE}
+				${EL_DEFAULT_PARSE_EVENT_SOURCE}
+				${EL_PYXIS_PARSER}
+				${EL_EXPAT_XML_PARSER}
+					${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}
+					${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}
+					${EL_EXPAT_XHTML_PARSER}
 	]"
 
 	author: "Finnian Reilly"

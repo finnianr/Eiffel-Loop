@@ -1,5 +1,5 @@
 note
-	description: "Implementation routines for [$source EL_PATH_STEPS]"
+	description: "Implementation routines for ${EL_PATH_STEPS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

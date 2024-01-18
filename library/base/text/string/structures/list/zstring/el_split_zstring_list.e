@@ -1,7 +1,7 @@
 note
 	description: "[
-		A list of substring index intervals conforming to [$source EL_SPLIT_INTERVALS]
-		for a string of type [$source ZSTRING]
+		A list of substring index intervals conforming to ${EL_SPLIT_INTERVALS}
+		for a string of type ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

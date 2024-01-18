@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_OCCURRENCE_INTERVALS] optimized for strings of type [$source ZSTRING]
+		${EL_OCCURRENCE_INTERVALS} optimized for strings of type ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

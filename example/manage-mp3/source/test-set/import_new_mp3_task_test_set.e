@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source IMPORT_NEW_MP3_TASK]"
+	description: "Test set for class ${IMPORT_NEW_MP3_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

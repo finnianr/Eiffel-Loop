@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation routines for memory buffer reader/writer class [$source EL_MEMORY_READER_WRITER]
+		Implementation routines for memory buffer reader/writer class ${EL_MEMORY_READER_WRITER}
 	]"
 
 	author: "Finnian Reilly"

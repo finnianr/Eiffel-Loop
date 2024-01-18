@@ -1,5 +1,5 @@
 note
-	description: "Eco-DB file reader/writer for storing types conforming to types [$source EL_STORABLE]"
+	description: "Eco-DB file reader/writer for storing types conforming to types ${EL_STORABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

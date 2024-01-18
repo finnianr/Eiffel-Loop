@@ -1,5 +1,5 @@
 note
-	description: "Iteration cursor for [$source EL_IMMUTABLE_STRING_TABLE]"
+	description: "Iteration cursor for ${EL_IMMUTABLE_STRING_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

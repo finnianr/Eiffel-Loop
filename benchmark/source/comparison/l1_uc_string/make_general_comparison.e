@@ -1,5 +1,5 @@
 note
-	description: "Compare {[$source L1_UC_STRING]}.make_general and {[$source ZSTRING]}.make_general"
+	description: "Compare {${L1_UC_STRING}}.make_general and {${ZSTRING}}.make_general"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 

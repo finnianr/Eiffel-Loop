@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source EL_OPERATING_ENVIRONMENT_I] interface"
+	description: "Unix implementation of ${EL_OPERATING_ENVIRONMENT_I} interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

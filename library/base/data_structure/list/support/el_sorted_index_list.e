@@ -1,5 +1,5 @@
 note
-	description: "List of sorted indices for [$source SPECIAL [COMPARABLE]] array"
+	description: "List of sorted indices for ${SPECIAL [COMPARABLE]} array"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

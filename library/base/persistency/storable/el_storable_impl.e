@@ -1,5 +1,5 @@
 note
-	description: "Do nothing implemention of [$source EL_STORABLE]"
+	description: "Do nothing implemention of ${EL_STORABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

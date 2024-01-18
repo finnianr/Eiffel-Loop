@@ -1,5 +1,5 @@
 note
-	description: "Mutex for object conforming to [$source EL_MAKEABLE] and createable with call to `make'"
+	description: "Mutex for object conforming to ${EL_MAKEABLE} and createable with call to `make'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -2,7 +2,7 @@ note
 	description: "[
 		An arrayed list abstraction of objects of type **R**, that are representations of a seed object of
 		type **N**. Only the seed objects are actually stored and the representations are created on the fly
-		during iteration. More often that not, the seed object will conform to a [$source NUMERIC type].
+		during iteration. More often that not, the seed object will conform to a ${NUMERIC type}.
 	]"
 
 	author: "Finnian Reilly"

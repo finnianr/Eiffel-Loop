@@ -1,6 +1,6 @@
 note
 	description: "[
-		Routines acting on array of type [$source SPECIAL [INTEGER]] containing substring interval
+		Routines acting on array of type ${SPECIAL [INTEGER]} containing substring interval
 		indices. The current item is determined by the implementation of **index**.
 	]"
 

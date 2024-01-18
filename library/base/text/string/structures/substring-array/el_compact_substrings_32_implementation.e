@@ -1,5 +1,5 @@
 note
-	description: "Implementation routines for [$source EL_COMPACT_SUBSTRINGS_32]"
+	description: "Implementation routines for ${EL_COMPACT_SUBSTRINGS_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

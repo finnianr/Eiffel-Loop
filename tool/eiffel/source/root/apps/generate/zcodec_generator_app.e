@@ -1,5 +1,5 @@
 note
-	description: "Command-line interface to [$source ZCODEC_GENERATOR] command"
+	description: "Command-line interface to ${ZCODEC_GENERATOR} command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

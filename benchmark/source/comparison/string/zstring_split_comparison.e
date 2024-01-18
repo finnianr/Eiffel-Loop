@@ -1,5 +1,5 @@
 note
-	description: "[$source ZSTRING] split comparison"
+	description: "${ZSTRING} split comparison"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)
 

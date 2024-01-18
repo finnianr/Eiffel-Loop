@@ -1,6 +1,6 @@
 note
 	description: "[
-		Upgrade syntax of Eiffel Loop logging filter arrays with commend [$source UPGRADE_LOG_FILTERS_COMMAND]
+		Upgrade syntax of Eiffel Loop logging filter arrays with commend ${UPGRADE_LOG_FILTERS_COMMAND}
 	]"
 
 	author: "Finnian Reilly"

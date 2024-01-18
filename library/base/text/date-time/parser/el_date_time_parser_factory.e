@@ -1,5 +1,5 @@
 note
-	description: "Factory for [$source EL_DATE_TIME] related parsers"
+	description: "Factory for ${EL_DATE_TIME} related parsers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

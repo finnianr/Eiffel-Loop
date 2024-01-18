@@ -4,7 +4,7 @@ note
 		Eiffel logical operators: `and', `or', `not'.
 	]"
 	notes: "[
-		Access more query constructs by inheriting class `[$source EL_QUERY_CONDITION_FACTORY]'
+		Access more query constructs by inheriting class `${EL_QUERY_CONDITION_FACTORY}'
 		in client classes.
 	]"
 

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Split `target' string of type [$source IMMUTABLE_STRING_8] with `separator' of type [$source CHARACTER_32]
+		Split `target' string of type ${IMMUTABLE_STRING_8} with `separator' of type ${CHARACTER_32}
 	]"
 
 	author: "Finnian Reilly"

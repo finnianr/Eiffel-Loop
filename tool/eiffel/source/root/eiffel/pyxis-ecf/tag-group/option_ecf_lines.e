@@ -1,5 +1,5 @@
 note
-	description: "[$source GROUPED_ECF_LINES] for one of **option** tags: **warning** or **debug**"
+	description: "${GROUPED_ECF_LINES} for one of **option** tags: **warning** or **debug**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

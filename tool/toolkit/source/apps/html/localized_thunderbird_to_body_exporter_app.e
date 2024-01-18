@@ -2,7 +2,7 @@ note
 	description: "[
 		Export folders of Thunderbird HTML as XHTML bodies and recreating the folder structure.
 		
-		See class [$source TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER]
+		See class ${TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER}
 	]"
 
 	author: "Finnian Reilly"

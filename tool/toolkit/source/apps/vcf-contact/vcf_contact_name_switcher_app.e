@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source VCF_CONTACT_NAME_SWITCHER]"
+	description: "Command line interface to ${VCF_CONTACT_NAME_SWITCHER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

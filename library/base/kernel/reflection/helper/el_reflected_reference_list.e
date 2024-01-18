@@ -1,5 +1,5 @@
 note
-	description: "List of uninitialized [$source EL_REFLECTED_REFERENCE] fields for type query purposes"
+	description: "List of uninitialized ${EL_REFLECTED_REFERENCE} fields for type query purposes"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

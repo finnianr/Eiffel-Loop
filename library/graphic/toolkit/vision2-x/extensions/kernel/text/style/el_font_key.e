@@ -1,6 +1,6 @@
 note
 	description: "Hashable font key based on 5 characteristics"
-	notes: "Useful for implementing a font cache such as [$source EL_FONT_SET_CACHE]"
+	notes: "Useful for implementing a font cache such as ${EL_FONT_SET_CACHE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

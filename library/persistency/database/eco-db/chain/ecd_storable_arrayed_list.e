@@ -1,5 +1,5 @@
 note
-	description: "Storable arrayed list of objects conforming to [$source EL_STORABLE]"
+	description: "Storable arrayed list of objects conforming to ${EL_STORABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

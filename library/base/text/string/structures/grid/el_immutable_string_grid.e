@@ -1,7 +1,7 @@
 note
 	description: "[
 		2 dimensional array of immutable strings that share the same text of a
-		comma separated manifest constant conforming to [$source STRING_GENERAL]
+		comma separated manifest constant conforming to ${STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

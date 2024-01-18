@@ -1,5 +1,5 @@
 note
-	description: "Test [$source EL_FILE_MANIFEST_GENERATOR] command"
+	description: "Test ${EL_FILE_MANIFEST_GENERATOR} command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_BEGINNING_OF_LINE] optimized for [$source ZSTRING] source text
+		${TP_BEGINNING_OF_LINE} optimized for ${ZSTRING} source text
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Character constants that be multiplied as a [$source ZSTRING] instance with the * operator
+		Character constants that be multiplied as a ${ZSTRING} instance with the * operator
 	]"
 
 	author: "Finnian Reilly"

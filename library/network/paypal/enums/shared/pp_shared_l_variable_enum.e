@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source PP_L_VARIABLE_ENUM]"
+	description: "Shared instance of ${PP_L_VARIABLE_ENUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

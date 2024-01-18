@@ -1,5 +1,5 @@
 note
-	description: "Button state enumeration accessible via [$source EL_SHARED_BUTTON_STATE]"
+	description: "Button state enumeration accessible via ${EL_SHARED_BUTTON_STATE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

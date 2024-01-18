@@ -1,5 +1,5 @@
 note
-	description: "Parses text using text pattern [$source TP_PATTERN]"
+	description: "Parses text using text pattern ${TP_PATTERN}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

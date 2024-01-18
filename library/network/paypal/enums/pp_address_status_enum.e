@@ -1,10 +1,10 @@
 note
 	description: "[
-		{[$source PP_ADDRESS]}.address_status: `confirmed' or `unconfirmed' 
+		{${PP_ADDRESS}}.address_status: `confirmed' or `unconfirmed' 
 		See [https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/#buyer-information-variables
 		Buyer information variables]
 	]"
-	tests: "Class [$source PAYPAL_TEST_SET]"
+	tests: "Class ${PAYPAL_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

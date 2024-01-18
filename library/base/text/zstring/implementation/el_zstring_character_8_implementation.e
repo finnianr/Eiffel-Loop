@@ -1,5 +1,5 @@
 note
-	description: "Aspect of [$source ZSTRING] as an array of 8-bit characters"
+	description: "Aspect of ${ZSTRING} as an array of 8-bit characters"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Iteration cursor for [$source HASH_TABLE [ANY, HASHABLE]] to fix problem with `cursor_index'
+		Iteration cursor for ${HASH_TABLE [ANY, HASHABLE]} to fix problem with `cursor_index'
 		when items have been deleted
 	]"
 

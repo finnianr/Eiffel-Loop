@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source MONITORED_WEBSITE_I]"
+	description: "Unix implementation of ${MONITORED_WEBSITE_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

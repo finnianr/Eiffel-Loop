@@ -9,8 +9,8 @@ note
 	                      
 			See: [https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html java/util/stream/Stream]
 	       
-			This example has now become a test set for the [$source EL_CHAIN] class.
-			See [$source CONTAINER_STRUCTURE_TEST_SET]
+			This example has now become a test set for the ${EL_CHAIN} class.
+			See ${CONTAINER_STRUCTURE_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

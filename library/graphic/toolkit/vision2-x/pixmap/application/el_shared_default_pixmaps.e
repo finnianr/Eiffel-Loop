@@ -1,5 +1,5 @@
 note
-	description: "Default pixmaps for descendants of [$source EV_WINDOW]"
+	description: "Default pixmaps for descendants of ${EV_WINDOW}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

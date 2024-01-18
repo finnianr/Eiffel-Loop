@@ -1,5 +1,5 @@
 note
-	description: "Implementation [$source EL_ENUMERATION [NATURAL_16]]"
+	description: "Implementation ${EL_ENUMERATION [NATURAL_16]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

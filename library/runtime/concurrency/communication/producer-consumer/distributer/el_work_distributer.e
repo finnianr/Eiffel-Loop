@@ -225,16 +225,16 @@ feature {NONE} -- Internal attributes
 note
 	descendants: "[
 			EL_WORK_DISTRIBUTER* [G, R -> ROUTINE]
-				[$source EL_FUNCTION_DISTRIBUTER] [G]
-					[$source EL_DISTRIBUTED_PROCEDURE_CALLBACK]
-						[$source EIFFEL_CLASS_UPDATE_CHECKER]
-						[$source EIFFEL_CLASS_PARSER]
-				[$source EL_PROCEDURE_DISTRIBUTER] [G]
+				${EL_FUNCTION_DISTRIBUTER} [G]
+					${EL_DISTRIBUTED_PROCEDURE_CALLBACK}
+						${EIFFEL_CLASS_UPDATE_CHECKER}
+						${EIFFEL_CLASS_PARSER}
+				${EL_PROCEDURE_DISTRIBUTER} [G]
 	]"
 	instructions: "[
 		**USAGE:**
 
-		**1.** Declare an instance of a descendant [$source EL_PROCEDURE_DISTRIBUTER] or [$source EL_FUNCTION_DISTRIBUTER].
+		**1.** Declare an instance of a descendant ${EL_PROCEDURE_DISTRIBUTER} or ${EL_FUNCTION_DISTRIBUTER}.
 
 		**2.** Repeatedly call `wait_apply' with the routines you want to execute in parallel.
 			distributer.wait_apply (agent my_routine)

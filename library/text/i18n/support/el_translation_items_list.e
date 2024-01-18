@@ -1,5 +1,5 @@
 note
-	description: "Storable chain of translation items conforming to [$source EL_TRANSLATION_ITEM]"
+	description: "Storable chain of translation items conforming to ${EL_TRANSLATION_ITEM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

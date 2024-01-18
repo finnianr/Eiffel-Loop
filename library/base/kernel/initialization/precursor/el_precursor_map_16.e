@@ -1,8 +1,8 @@
 note
 	description: "[
 		Tracks whether a routine has been called already or not during `make' precursor calls.
-		This is a variation of class [$source EL_PRECURSOR_MAP] but with the `done_bitmap' defined
-		as [$source NATURAL_16] instead of [$source NATURAL_32].
+		This is a variation of class ${EL_PRECURSOR_MAP} but with the `done_bitmap' defined
+		as ${NATURAL_16} instead of ${NATURAL_32}.
 	]"
 
 	author: "Finnian Reilly"

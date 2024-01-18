@@ -1,5 +1,5 @@
 note
-	description: "File info for manifest list [$source EL_FILE_MANIFEST_LIST]"
+	description: "File info for manifest list ${EL_FILE_MANIFEST_LIST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

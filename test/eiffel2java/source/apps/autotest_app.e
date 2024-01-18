@@ -1,6 +1,6 @@
 note
 	description: "[
-		Calls [$source JAVA_AUTOTEST_APP] and [$source VELOCITY_AUTOTEST_APP] as external applications
+		Calls ${JAVA_AUTOTEST_APP} and ${VELOCITY_AUTOTEST_APP} as external applications
 		(This ensures JNI VM is removed between tests)
 	]"
 

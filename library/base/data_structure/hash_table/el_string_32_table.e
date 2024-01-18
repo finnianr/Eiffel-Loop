@@ -1,5 +1,5 @@
 note
-	description: "Table with keys conforming to [$source READABLE_STRING_32]"
+	description: "Table with keys conforming to ${READABLE_STRING_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

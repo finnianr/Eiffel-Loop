@@ -1,5 +1,5 @@
 note
-	description: "Test command [$source EIFFEL_GREP_COMMAND]"
+	description: "Test command ${EIFFEL_GREP_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

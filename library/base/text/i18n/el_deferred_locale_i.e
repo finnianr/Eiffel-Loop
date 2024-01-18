@@ -1,8 +1,8 @@
 note
 	description: "[
-		Object available via `{[$source EL_MODULE_DEFERRED_LOCALE]}.Locale' that allows strings in descendants of
-		[$source EL_MODULE_DEFERRED_LOCALE] to be optionally localized at an application level by including class
-		[$source EL_MODULE_LOCALE] from the `i18n.ecf' library. By default `translation' returns the key as a `ZSTRING'
+		Object available via `{${EL_MODULE_DEFERRED_LOCALE}}.Locale' that allows strings in descendants of
+		${EL_MODULE_DEFERRED_LOCALE} to be optionally localized at an application level by including class
+		${EL_MODULE_LOCALE} from the `i18n.ecf' library. By default `translation' returns the key as a `ZSTRING'
 		
 		Localized strings are referred to using the shorthand syntax:
 		

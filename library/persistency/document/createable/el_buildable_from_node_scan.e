@@ -2,15 +2,15 @@ note
 	description: "[
 		Top level abstraction for building nested Eiffel objects by matching relative xpaths to an XML
 		parse event source defined by `new_node_source'. The xpaths are mapped to agents by implementing the function
-		`building_action_table' found in class [$source EL_EIF_OBJ_BUILDER_CONTEXT]. Typically the agents assign a class attribute
+		`building_action_table' found in class ${EL_EIF_OBJ_BUILDER_CONTEXT}. Typically the agents assign a class attribute
 		value by calling a value function of the `last_node' object. But the agent might also change the Eiffel object
 		context by calling the procedure `set_next_context'. The new context is mapped to some element in the document
 		and all xpaths in the new current context are relative to this element. Returning to the parent context happens
 		automatically when all the nodes in the current element have been visited. The top level context is defined by
 		implementing the attribute `root_node_name' which defines the root element name.
 		
-		The most useful descendants of this class are [$source EL_BUILDABLE_FROM_XML]
-		and [$source EL_BUILDABLE_FROM_PYXIS]. The latter
+		The most useful descendants of this class are ${EL_BUILDABLE_FROM_XML}
+		and ${EL_BUILDABLE_FROM_PYXIS}. The latter
 		implements a parser for Pyxis, an XML analog with a Python inspired syntax.
 	]"
 	descendants: "See end of class"
@@ -141,17 +141,17 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_BUILDABLE_FROM_NODE_SCAN*
-				[$source EL_SMART_BUILDABLE_FROM_NODE_SCAN]
-					[$source EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER]
-				[$source EL_BUILDABLE_FROM_XML]*
-					[$source BIOINFORMATIC_COMMANDS]
-					[$source MATRIX_CALCULATOR]
-				[$source EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN]*
-					[$source EL_FILE_PERSISTENT_BUILDABLE_FROM_XML]*
-						[$source WEB_FORM]
-						[$source SMIL_PRESENTATION]
-				[$source EL_BUILDABLE_FROM_PYXIS]*
-					[$source EL_TRANSLATION_TABLE]
+				${EL_SMART_BUILDABLE_FROM_NODE_SCAN}
+					${EL_SMART_XML_TO_EIFFEL_OBJECT_BUILDER}
+				${EL_BUILDABLE_FROM_XML}*
+					${BIOINFORMATIC_COMMANDS}
+					${MATRIX_CALCULATOR}
+				${EL_FILE_PERSISTENT_BUILDABLE_FROM_NODE_SCAN}*
+					${EL_FILE_PERSISTENT_BUILDABLE_FROM_XML}*
+						${WEB_FORM}
+						${SMIL_PRESENTATION}
+				${EL_BUILDABLE_FROM_PYXIS}*
+					${EL_TRANSLATION_TABLE}
 
 	]"
 end

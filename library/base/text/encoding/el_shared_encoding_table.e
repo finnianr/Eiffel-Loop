@@ -1,5 +1,5 @@
 note
-	description: "Shared table of [$source ENCODING] objects by `code_page'"
+	description: "Shared table of ${ENCODING} objects by `code_page'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

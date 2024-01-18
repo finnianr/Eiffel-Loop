@@ -1,8 +1,8 @@
 note
 	description: "[
-		Descendant of [$source EL_WORK_DISTRIBUTER] specialized for functions.
+		Descendant of ${EL_WORK_DISTRIBUTER} specialized for functions.
 		`G' is the return type of functions you wish to execute. For an example on how to use see class
-		[$source SINE_WAVE_INTEGRATION_APP]
+		${SINE_WAVE_INTEGRATION_APP}
 	]"
 
 	author: "Finnian Reilly"

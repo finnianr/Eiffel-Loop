@@ -65,7 +65,7 @@ note
 					end
 			end
 			
-		See also class: [$source EL_SINGLETON [G]]
+		See also class: ${EL_SINGLETON [G]}
 	]"
 
 end

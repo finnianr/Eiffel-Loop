@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to create object conforming to interface [$source EL_DEBIAN_PACKAGER_I]
+		Command line interface to create object conforming to interface ${EL_DEBIAN_PACKAGER_I}
 	]"
 
 	author: "Finnian Reilly"

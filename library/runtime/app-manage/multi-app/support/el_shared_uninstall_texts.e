@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_UNINSTALL_TEXTS]"
+	description: "Shared instance of ${EL_UNINSTALL_TEXTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

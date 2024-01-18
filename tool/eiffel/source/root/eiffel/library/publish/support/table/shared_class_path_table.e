@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source CLASS_HTML_PATH_TABLE]"
+	description: "Shared instance of ${CLASS_HTML_PATH_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

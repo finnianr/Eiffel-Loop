@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_FACTORY_ROUTINES_IMP]"
+	description: "Shared instance of ${EL_FACTORY_ROUTINES_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

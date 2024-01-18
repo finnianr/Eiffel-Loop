@@ -1,5 +1,5 @@
 note
-	description: "[$source FORMAT_DOUBLE] with ability to initialize from a format likeness string"
+	description: "${FORMAT_DOUBLE} with ability to initialize from a format likeness string"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -80,7 +80,7 @@ note
 
 		**Formatting Test Set**
 		
-		Annotated table from {[$source STRING_TEST_SET]}.test_format_double
+		Annotated table from {${STRING_TEST_SET}}.test_format_double
 
 			create format_table.make (<<
 				["99.99",  "3.14"],		-- width = 5, decimals = 2, no justification by default

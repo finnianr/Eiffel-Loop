@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source ADD_ALBUM_ART_TASK]"
+	description: "Test set for class ${ADD_ALBUM_ART_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

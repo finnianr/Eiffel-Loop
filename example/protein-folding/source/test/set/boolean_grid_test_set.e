@@ -1,5 +1,5 @@
 note
-	description: "Tests for class [$source FOLD_SEQUENCE] and [$source BOOLEAN_GRID]"
+	description: "Tests for class ${FOLD_SEQUENCE} and ${BOOLEAN_GRID}"
 
 	author: "Finnian Reilly"
 	copyright: "[

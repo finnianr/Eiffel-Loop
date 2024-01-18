@@ -1,5 +1,5 @@
 note
-	description: "Reflected field conforming to type [$source EL_PATH]"
+	description: "Reflected field conforming to type ${EL_PATH}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

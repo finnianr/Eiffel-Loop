@@ -1,5 +1,5 @@
 note
-	description: "Compare [$source EL_COMPACT_SUBSTRINGS_32] iteration methods"
+	description: "Compare ${EL_COMPACT_SUBSTRINGS_32} iteration methods"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
@@ -10,7 +10,7 @@ note
 		**Conclusion**
 
 		Using external C routine to get/set integer from pointer is only marginally faster (0.2%) than using
-		[$source POINTER] routines.
+		${POINTER} routines.
 	]"
 
 	author: "Finnian Reilly"

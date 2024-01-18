@@ -1,5 +1,5 @@
 note
-	description: "Object that edits substring intervals in a string conforming to [$source STRING_GENERAL]"
+	description: "Object that edits substring intervals in a string conforming to ${STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Extended [$source EV_MODEL]"
+	description: "Extended ${EV_MODEL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

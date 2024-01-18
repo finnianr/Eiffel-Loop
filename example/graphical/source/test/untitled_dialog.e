@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test to see if possible to make swap implemention with [$source EV_UNTITLED_DIALOG_IMP] without
+		Test to see if possible to make swap implemention with ${EV_UNTITLED_DIALOG_IMP} without
 		breaking any contracts
 	]"
 

@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_VISION_2_TEXTS]"
+	description: "Shared instance of ${EL_VISION_2_TEXTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,8 +1,8 @@
 note
 	description: "[
-		A list of substrings from a [$source STRING_32] compacted into a single array of type
+		A list of substrings from a ${STRING_32} compacted into a single array of type
 		
-			area: [$source SPECIAL [CHARACTER_32]]
+			area: ${SPECIAL [CHARACTER_32]}
 			
 		Each substring is preceded by two 32 bit characters representing the lower and upper index.
 	]"
@@ -1098,7 +1098,7 @@ note
 		Benchmark 23 Dec 2023
 
 		Tried caching offset to [upper, lower] for substrings in `block_offset' but got inferior benchmarks
-		when compared to [$source STRING_32]. So reverted to uncached.
+		when compared to ${STRING_32}. So reverted to uncached.
 
 			  cached: "$B $C"       9887  +43%
 			uncached: "$B $C"       13269	+21%

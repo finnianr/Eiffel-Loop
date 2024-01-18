@@ -1,5 +1,5 @@
 note
-	description: "Launch GUI of type [$source EL_VISION_2_USER_INTERFACE [FRACTAL_MAIN_WINDOW]]"
+	description: "Launch GUI of type ${EL_VISION_2_USER_INTERFACE [FRACTAL_MAIN_WINDOW]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

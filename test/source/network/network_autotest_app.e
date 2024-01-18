@@ -5,7 +5,7 @@ note
 
 		**Test Sets**
 
-			[$source SIMPLE_CLIENT_SERVER_TEST_SET]
+			${SIMPLE_CLIENT_SERVER_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Product button information reflectively convertible to type [$source PP_BUTTON_SUB_PARAMETER_LIST]
+		Product button information reflectively convertible to type ${PP_BUTTON_SUB_PARAMETER_LIST}
 	]"
 
 	author: "Finnian Reilly"

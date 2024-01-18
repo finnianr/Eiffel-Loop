@@ -1,7 +1,7 @@
 note
 	description: "[
 		Analyzes each class in a specified source manifest or source directory
-		using the class [$source CODEBASE_METRICS] and displays metrics
+		using the class ${CODEBASE_METRICS} and displays metrics
 	]"
 
 	author: "Finnian Reilly"

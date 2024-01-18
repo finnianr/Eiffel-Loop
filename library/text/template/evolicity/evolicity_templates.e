@@ -1,6 +1,6 @@
 note
 	description: "[
-		Top level class for Evolicity accessible via class [$source EVOLICITY_SHARED_TEMPLATES]
+		Top level class for Evolicity accessible via class ${EVOLICITY_SHARED_TEMPLATES}
 
 		The templating substitution language was named `Evolicity' as a portmanteau of "Evolve" and "Felicity" 
 		which is also a partial anagram of "Velocity" the Apache project which inspired it. 

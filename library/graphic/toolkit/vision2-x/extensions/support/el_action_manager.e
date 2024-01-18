@@ -1,5 +1,5 @@
 note
-	description: "Action management routines accessible via [$source EL_MODULE_ACTION]"
+	description: "Action management routines accessible via ${EL_MODULE_ACTION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

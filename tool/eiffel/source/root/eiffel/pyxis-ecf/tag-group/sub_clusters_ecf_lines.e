@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source GROUPED_ECF_LINES] for **cluster** tag that maps to a named sub-directory of parent cluster
+		${GROUPED_ECF_LINES} for **cluster** tag that maps to a named sub-directory of parent cluster
 	]"
 
 	author: "Finnian Reilly"

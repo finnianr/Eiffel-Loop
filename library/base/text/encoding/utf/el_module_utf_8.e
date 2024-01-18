@@ -1,5 +1,5 @@
 note
-	description: "Access to routines of [$source EL_UTF_CONVERTER_IMP]"
+	description: "Access to routines of ${EL_UTF_CONVERTER_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

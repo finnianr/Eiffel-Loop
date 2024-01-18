@@ -1,10 +1,10 @@
 note
 	description: "[
 		Shared access to table of object creation functions to initialize reference attributes
-		reflectively. See class [$source EL_REFLECTED_REFERENCE].
+		reflectively. See class ${EL_REFLECTED_REFERENCE}.
 		
 		You can indirectly add to this table by overriding `new_instance_functions' from class
-		[$source EL_REFLECTIVE].
+		${EL_REFLECTIVE}.
 	]"
 
 	author: "Finnian Reilly"

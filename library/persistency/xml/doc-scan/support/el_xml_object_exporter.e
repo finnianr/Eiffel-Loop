@@ -1,5 +1,5 @@
 note
-	description: "Exports object conforming to [$source EL_REFLECTIVELY_SETTABLE] as XML document"
+	description: "Exports object conforming to ${EL_REFLECTIVELY_SETTABLE} as XML document"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

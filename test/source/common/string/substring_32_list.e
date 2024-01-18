@@ -1,5 +1,5 @@
 note
-	description: "A descendant of [$source SUBSTRING_32_ARRAY] that can be extended as a list"
+	description: "A descendant of ${SUBSTRING_32_ARRAY} that can be extended as a list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Model of a flippable, rotatable picture. Requires projector of type [$source EL_MODEL_BUFFER_PROJECTOR]
+		Model of a flippable, rotatable picture. Requires projector of type ${EL_MODEL_BUFFER_PROJECTOR}
 		to be rendered. Flipping is achieved via routine `mirror'.
 	]"
 

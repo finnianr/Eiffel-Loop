@@ -1,7 +1,7 @@
 note
 	description: "[
-		List of formatted paragraph texts of type [$source ZSTRING] with format
-		of type [$source EV_CHARACTER_FORMAT]
+		List of formatted paragraph texts of type ${ZSTRING} with format
+		of type ${EV_CHARACTER_FORMAT}
 	]"
 
 	author: "Finnian Reilly"

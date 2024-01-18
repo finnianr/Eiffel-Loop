@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source REPOSITORY_NOTE_LINK_CHECKER] command"
+	description: "Command line interface to ${REPOSITORY_NOTE_LINK_CHECKER} command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

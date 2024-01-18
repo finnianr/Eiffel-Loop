@@ -1,7 +1,7 @@
 note
 	description: "[
-		UTF-8 sequence for single unicode [$source CHARACTER_32].
-		Accessible via [$source EL_SHARED_UTF_8_SEQUENCE]
+		UTF-8 sequence for single unicode ${CHARACTER_32}.
+		Accessible via ${EL_SHARED_UTF_8_SEQUENCE}
 	]"
 
 	author: "Finnian Reilly"

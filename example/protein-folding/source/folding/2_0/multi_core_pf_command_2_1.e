@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source MULTI_CORE_PF_COMMAND] with a grid conforming to [$source GRID_2_X]
+		Implementation of ${MULTI_CORE_PF_COMMAND} with a grid conforming to ${GRID_2_X}
 	]"
 
 	author: "Finnian Reilly"

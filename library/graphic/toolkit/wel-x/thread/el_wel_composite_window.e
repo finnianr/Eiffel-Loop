@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source EL_MAIN_THREAD_EVENT_REQUEST_QUEUE]
+		Implementation of ${EL_MAIN_THREAD_EVENT_REQUEST_QUEUE}
 		for calling procedures from main application thread
 	]"
 

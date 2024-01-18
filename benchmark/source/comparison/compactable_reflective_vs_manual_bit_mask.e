@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare using [$source EL_COMPACTABLE_REFLECTIVE] to automate object data compaction to numeric types
+		Compare using ${EL_COMPACTABLE_REFLECTIVE} to automate object data compaction to numeric types
 		vs traditional manual method.
 	]"
 	notes: "[

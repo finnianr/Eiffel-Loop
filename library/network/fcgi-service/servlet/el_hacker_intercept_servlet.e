@@ -2,7 +2,7 @@
 	description: "[
 		Intercept hacking attempts, returning 404 file not found message as plaintext
 		and creating firewall rule blocking IP address. The ban is temporary and lasts for
-		the number of days specified by {[$source EL_HACKER_INTERCEPT_CONFIG]}.ban_rule_duration.
+		the number of days specified by {${EL_HACKER_INTERCEPT_CONFIG}}.ban_rule_duration.
 	]"
 	notes: "See end of class"
 
@@ -400,7 +400,7 @@ note
 		
 			sudo cp --update $EIFFEL_LOOP/Bash_library/network/run_service_ip_address_blocking.sh /usr/local/bin
 
-		The configuration file for [$source EL_SERVICE_CONFIGURATION] needs an entry like the following to invoke
+		The configuration file for ${EL_SERVICE_CONFIGURATION} needs an entry like the following to invoke
 		the script:
 
 			service_configuration:

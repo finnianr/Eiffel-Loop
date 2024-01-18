@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_PACKAGE_IMAGES_SCOPE]"
+	description: "Shared instance of ${EL_PACKAGE_IMAGES_SCOPE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

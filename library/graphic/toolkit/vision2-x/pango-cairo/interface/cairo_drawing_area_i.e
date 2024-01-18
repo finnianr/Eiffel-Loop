@@ -1,5 +1,5 @@
 note
-	description: "Cross-platform interface for [$source CAIRO_DRAWING_AREA]"
+	description: "Cross-platform interface for ${CAIRO_DRAWING_AREA}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

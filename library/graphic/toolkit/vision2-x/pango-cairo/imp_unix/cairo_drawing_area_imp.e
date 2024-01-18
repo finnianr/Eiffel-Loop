@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source CAIRO_DRAWING_AREA_I]"
+	description: "Unix implementation of ${CAIRO_DRAWING_AREA_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

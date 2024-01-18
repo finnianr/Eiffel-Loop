@@ -1,7 +1,7 @@
 note
 	description: "[
-		Abstraction for looking up tables with keys of type [$source IMMUTABLE_STRING_8] with
-		a key conforming to [$source READABLE_STRING_GENERAL]
+		Abstraction for looking up tables with keys of type ${IMMUTABLE_STRING_8} with
+		a key conforming to ${READABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

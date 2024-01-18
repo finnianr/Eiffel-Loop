@@ -1,5 +1,5 @@
 note
-	description: "Reflected [$source REAL_32] field"
+	description: "Reflected ${REAL_32} field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Implementation of [$source EL_FACTORY_POOL [G]] using a supplied agent to create new items"
+	description: "Implementation of ${EL_FACTORY_POOL [G]} using a supplied agent to create new items"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

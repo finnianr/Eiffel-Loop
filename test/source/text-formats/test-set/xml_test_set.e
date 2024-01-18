@@ -1,6 +1,6 @@
 ﻿note
 	description: "[
-		Test routines in class [$source is_namespace_aware_file]
+		Test routines in class ${is_namespace_aware_file}
 	]"
 
 	author: "Finnian Reilly"

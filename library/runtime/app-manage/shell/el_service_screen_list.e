@@ -1,5 +1,5 @@
 note
-	description: "List of Unix service screens conforming to [$source EL_SERVICE_SCREEN]"
+	description: "List of Unix service screens conforming to ${EL_SERVICE_SCREEN}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

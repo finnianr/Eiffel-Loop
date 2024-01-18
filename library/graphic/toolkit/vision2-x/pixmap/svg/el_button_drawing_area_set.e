@@ -1,5 +1,5 @@
 note
-	description: "Set of [$source CAIRO_DRAWING_AREA] objects for class [$source EL_DRAWING_AREA_BUTTON]"
+	description: "Set of ${CAIRO_DRAWING_AREA} objects for class ${EL_DRAWING_AREA_BUTTON}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

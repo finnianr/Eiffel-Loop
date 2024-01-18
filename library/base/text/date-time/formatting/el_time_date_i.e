@@ -2,12 +2,12 @@ note
 	description: "Base class for date time classes"
 	descendants: "[
 			EL_TIME_DATE_I*
-				[$source EL_DATE]
-				[$source EL_TIME]
-				[$source EL_DATE_TIME]
-					[$source EL_ISO_8601_DATE_TIME]
-					[$source PP_DATE_TIME]
-					[$source EL_SHORT_ISO_8601_DATE_TIME]
+				${EL_DATE}
+				${EL_TIME}
+				${EL_DATE_TIME}
+					${EL_ISO_8601_DATE_TIME}
+					${PP_DATE_TIME}
+					${EL_SHORT_ISO_8601_DATE_TIME}
 	]"
 
 	author: "Finnian Reilly"

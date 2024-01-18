@@ -1,7 +1,7 @@
 note
 	description: "[
-		Used in conjunction with [$source EL_REFLECTIVE] to reflectively set fields
-		from name-value pairs, where value conforms to [$source STRING_8].
+		Used in conjunction with ${EL_REFLECTIVE} to reflectively set fields
+		from name-value pairs, where value conforms to ${STRING_8}.
 	]"
 
 	author: "Finnian Reilly"

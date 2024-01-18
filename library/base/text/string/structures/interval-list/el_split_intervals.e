@@ -1,6 +1,6 @@
 note
 	description: "[
-		List of all split-intervals in a string conforming to [$source READABLE_STRING_GENERAL]
+		List of all split-intervals in a string conforming to ${READABLE_STRING_GENERAL}
 		split by a string or character delimiter.
 	]"
 

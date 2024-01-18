@@ -1,6 +1,6 @@
 note
-	description: "Reflected field conforming to [$source BOOLEAN_REF]"
-	tests: "Class [$source PAYPAL_TEST_SET]"
+	description: "Reflected field conforming to ${BOOLEAN_REF}"
+	tests: "Class ${PAYPAL_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

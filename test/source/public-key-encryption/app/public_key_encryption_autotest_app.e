@@ -7,7 +7,7 @@ note
 
 		**Test Sets**
 
-			[$source RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET]
+			${RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

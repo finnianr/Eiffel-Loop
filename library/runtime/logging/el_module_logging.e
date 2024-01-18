@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_GLOBAL_LOGGING] as `Logging'"
+	description: "Shared instance of ${EL_GLOBAL_LOGGING} as `Logging'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

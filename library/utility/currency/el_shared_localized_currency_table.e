@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_LOCALIZED_CURRENCY_TABLE]"
+	description: "Shared instance of ${EL_LOCALIZED_CURRENCY_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

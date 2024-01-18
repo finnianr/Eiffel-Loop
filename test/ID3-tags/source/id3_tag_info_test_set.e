@@ -1,5 +1,5 @@
 note
-	description: "Test set for classes [$source LIBID3_TAG_INFO] and [$source UNDERBIT_ID3_TAG_INFO]"
+	description: "Test set for classes ${LIBID3_TAG_INFO} and ${UNDERBIT_ID3_TAG_INFO}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

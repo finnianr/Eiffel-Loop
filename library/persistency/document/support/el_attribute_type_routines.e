@@ -1,5 +1,5 @@
 note
-	description: "Type of [$source EL_REFLECTED_FIELD] for purposes of mapping to XML attribute"
+	description: "Type of ${EL_REFLECTED_FIELD} for purposes of mapping to XML attribute"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

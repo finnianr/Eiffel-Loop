@@ -1,7 +1,7 @@
 note
 	description: "[
 		Allow implementation of shared [https://en.wikipedia.org/wiki/Singleton_pattern singleton] for type `G'.
-		See class [$source EL_SHARED_SINGLETONS] for details.
+		See class ${EL_SHARED_SINGLETONS} for details.
 		
 		if `descendant_allowed' is enabled then `item' may also be a type conforming to `G'
 	]"

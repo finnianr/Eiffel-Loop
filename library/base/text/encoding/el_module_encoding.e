@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class [$source EL_ENCODING]"
+	description: "Shared instance of class ${EL_ENCODING}"
 	notes: "Mostly used for contract suppor"
 
 	author: "Finnian Reilly"

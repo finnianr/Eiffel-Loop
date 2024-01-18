@@ -1,6 +1,6 @@
 note
 	description: "[
-		A series of path steps represented as a [$source ARRAYED_LIST] of shared path-step tokens
+		A series of path steps represented as a ${ARRAYED_LIST} of shared path-step tokens
 	]"
 	notes: "[
 		`Step_table', a once per process instance, stores a table of step tokens. Access is thread-safe.

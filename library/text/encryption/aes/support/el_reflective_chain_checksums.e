@@ -1,6 +1,6 @@
 note
 	description: "[
-		Checksum/digest routines for chains conforming to [$source ITERABLE [EL_REFLECTIVELY_SETTABLE]]
+		Checksum/digest routines for chains conforming to ${ITERABLE [EL_REFLECTIVELY_SETTABLE]}
 	]"
 
 	author: "Finnian Reilly"

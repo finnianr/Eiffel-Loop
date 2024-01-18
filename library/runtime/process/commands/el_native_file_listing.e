@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source EL_FILE_LISTING] that uses native OS commands
+		Implementation of ${EL_FILE_LISTING} that uses native OS commands
 		**find** (on Unix) and **dir** (on Windows). These are highly optimized so
 		better performance can be expected, especially on large listings.
 	]"

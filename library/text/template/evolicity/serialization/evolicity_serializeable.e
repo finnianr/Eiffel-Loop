@@ -3,9 +3,9 @@ note
 		Objects conforming to this class can be serialized as text files using an Evolicity
 		template. A template contains a mixture of literal text and Evolicity code that outputs data from Eiffel
 		objects. The template can be an either an external file or hard coded in the class by implementing the
-		function `template: [$source READABLE_STRING_GENERAL]'.
+		function `template: ${READABLE_STRING_GENERAL}'.
 	]"
-	notes: "See class [$source EVOLICITY_SHARED_TEMPLATES] for documentation"
+	notes: "See class ${EVOLICITY_SHARED_TEMPLATES} for documentation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "A table index for assignment to a reflected field conforming to [$source HASHABLE]"
+	description: "A table index for assignment to a reflected field conforming to ${HASHABLE}"
 	notes: "[
 		This is an experimental idea which in the end may not any better than existing TUPLE based
 		indices. More thought required before finishing implemenation.

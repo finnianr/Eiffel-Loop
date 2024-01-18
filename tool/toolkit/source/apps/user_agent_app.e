@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to class [$source USER_AGENT_COMMAND]"
+	description: "Command line interface to class ${USER_AGENT_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

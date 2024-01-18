@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source REPOSITORY_SOURCE_LINK_EXPANDER] command"
+	description: "Command line interface to ${REPOSITORY_SOURCE_LINK_EXPANDER} command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

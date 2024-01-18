@@ -1,6 +1,6 @@
 note
 	description: "[
-		Run all sub-applications conforming to [$source EL_AUTOTEST_APPLICATION] except for
+		Run all sub-applications conforming to ${EL_AUTOTEST_APPLICATION} except for
 		those listed in `Omissions' tuple.
 	]"
 	notes: "[

@@ -1,7 +1,7 @@
 note
 	description: "[
-		A field index conforming to [$source ECD_INDEX_TABLE [EL_STORABLE, HASHABLE]] that uses
-		a [$source EL_REFLECTED_FIELD] instance `field' to obtain the value of the indexed field.
+		A field index conforming to ${ECD_INDEX_TABLE [EL_STORABLE, HASHABLE]} that uses
+		a ${EL_REFLECTED_FIELD} instance `field' to obtain the value of the indexed field.
 	]"
 
 	author: "Finnian Reilly"

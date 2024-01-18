@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source AUDIO_COMMAND_TEST_SET]
+			${AUDIO_COMMAND_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

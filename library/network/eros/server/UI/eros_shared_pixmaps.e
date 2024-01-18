@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EROS_STOCK_PIXMAPS]"
+	description: "Shared instance of ${EROS_STOCK_PIXMAPS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

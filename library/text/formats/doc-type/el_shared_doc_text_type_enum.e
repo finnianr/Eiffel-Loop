@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_DOC_TEXT_TYPE_ENUM]"
+	description: "Shared instance of ${EL_DOC_TEXT_TYPE_ENUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

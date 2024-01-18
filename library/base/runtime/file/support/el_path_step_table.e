@@ -1,6 +1,6 @@
 note
 	description: "[
-		Thread safe map of file path step tokens to [$source ZSTRING]
+		Thread safe map of file path step tokens to ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source REGULAR_EXPRESSION_SEARCH_COMMAND]"
+	description: "Command line interface to ${REGULAR_EXPRESSION_SEARCH_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

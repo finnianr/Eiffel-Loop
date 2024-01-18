@@ -1,5 +1,5 @@
 note
-	description: "Common class type identifiers accesible via [$source EL_SHARED_CLASS_ID]"
+	description: "Common class type identifiers accesible via ${EL_SHARED_CLASS_ID}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

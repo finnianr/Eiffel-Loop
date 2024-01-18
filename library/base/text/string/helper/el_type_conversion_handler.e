@@ -1,7 +1,7 @@
 note
 	description: "[
 		Allows access to **Ctoi_convertor** and **Ctor_convertor** in class
-		[$source READABLE_STRING_GENERAL]
+		${READABLE_STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

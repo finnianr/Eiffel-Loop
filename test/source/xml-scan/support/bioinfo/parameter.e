@@ -187,20 +187,20 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			PARAMETER
-				[$source CONTAINER_PARAMETER]
-					[$source CHOICE_PARAMETER]
-				[$source DATA_PARAMETER]
-				[$source LIST_PARAMETER]* [G]
-					[$source INTEGER_RANGE_LIST_PARAMETER]
-					[$source REAL_RANGE_LIST_PARAMETER]
-					[$source RULES_LIST_PARAMETER]
-					[$source STRING_LIST_PARAMETER]
-				[$source DEFAULT_PARAMETER]
-				[$source TEXT_NODE_PARAMETER]* [G]
-					[$source REAL_PARAMETER]
-					[$source BOOLEAN_PARAMETER]
-					[$source INTEGER_PARAMETER]
-					[$source VALUE_PARAMETER]
-						[$source TITLE_PARAMETER]
-						[$source URL_PARAMETER]
+				${CONTAINER_PARAMETER}
+					${CHOICE_PARAMETER}
+				${DATA_PARAMETER}
+				${LIST_PARAMETER}* [G]
+					${INTEGER_RANGE_LIST_PARAMETER}
+					${REAL_RANGE_LIST_PARAMETER}
+					${RULES_LIST_PARAMETER}
+					${STRING_LIST_PARAMETER}
+				${DEFAULT_PARAMETER}
+				${TEXT_NODE_PARAMETER}* [G]
+					${REAL_PARAMETER}
+					${BOOLEAN_PARAMETER}
+					${INTEGER_PARAMETER}
+					${VALUE_PARAMETER}
+						${TITLE_PARAMETER}
+						${URL_PARAMETER}
 	]"end

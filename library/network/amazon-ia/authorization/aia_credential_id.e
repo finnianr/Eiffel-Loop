@@ -1,6 +1,6 @@
 note
-	description: "ID for [$source AIA_CREDENTIAL]"
-	tests: "See: [$source AMAZON_INSTANT_ACCESS_TEST_SET]"
+	description: "ID for ${AIA_CREDENTIAL}"
+	tests: "See: ${AMAZON_INSTANT_ACCESS_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

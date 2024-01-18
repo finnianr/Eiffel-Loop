@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_ARRAYED_LIST] that starts discarding items from the head once the capacity has been reached
+		${EL_ARRAYED_LIST} that starts discarding items from the head once the capacity has been reached
 	]"
 
 	author: "Finnian Reilly"

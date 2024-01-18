@@ -2,7 +2,7 @@ note
 	description: "[
 		Sub app to compile tree of Pyxis translation files into multiple locale files named `locale.x'
 		where `x' is a 2 letter country code. Does nothing if source files are all older
-		than locale files. See class [$source EL_LOCALE]
+		than locale files. See class ${EL_LOCALE}
 		
 		Syntax:
 		

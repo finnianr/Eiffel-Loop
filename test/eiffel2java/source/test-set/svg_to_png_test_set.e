@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source J_SVG_TO_PNG_TRANSCODER]. See ''java_code'' note for Java source."
+	description: "Test set for class ${J_SVG_TO_PNG_TRANSCODER}. See ''java_code'' note for Java source."
 	notes: "[
 		[https://issues.apache.org/jira/browse/BATIK-1304 Reported Issue]
 

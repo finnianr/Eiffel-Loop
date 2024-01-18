@@ -1,5 +1,5 @@
 note
-	description: "Integer item radio button group displayed in ascending order of [$source INTEGER_32] value"
+	description: "Integer item radio button group displayed in ascending order of ${INTEGER_32} value"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

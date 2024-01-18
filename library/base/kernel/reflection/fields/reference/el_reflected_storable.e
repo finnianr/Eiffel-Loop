@@ -1,5 +1,5 @@
 note
-	description: "Reflected field conforming to type [$source EL_STORABLE]"
+	description: "Reflected field conforming to type ${EL_STORABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

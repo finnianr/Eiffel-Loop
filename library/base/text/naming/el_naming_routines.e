@@ -3,9 +3,9 @@ note
 		Object with attribute names that are translateable TO and FROM another naming convention
 		There are also routines to derive a name from the class generator name.
 		
-		Accessible from shared object_or_type `Naming' in class [$source EL_MODULE_NAMING]
+		Accessible from shared object_or_type `Naming' in class ${EL_MODULE_NAMING}
 	]"
-	tests: "See: [$source EIFFEL_NAME_TRANSLATEABLE_TEST_SET]"
+	tests: "See: ${EIFFEL_NAME_TRANSLATEABLE_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

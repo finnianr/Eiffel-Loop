@@ -1,5 +1,5 @@
 note
-	description: "Filter condition for appending to `path_list' in class [$source EL_FIND_COMMAND_I]"
+	description: "Filter condition for appending to `path_list' in class ${EL_FIND_COMMAND_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

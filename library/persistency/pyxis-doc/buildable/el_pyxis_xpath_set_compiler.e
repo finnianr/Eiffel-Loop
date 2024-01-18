@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compile set of unique xpaths from document parsed by [$source EL_PYXIS_PARSER]
+		Compile set of unique xpaths from document parsed by ${EL_PYXIS_PARSER}
 	]"
 
 	author: "Finnian Reilly"

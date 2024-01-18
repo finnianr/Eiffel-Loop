@@ -1,10 +1,10 @@
 note
 	description: "[
-		Object to add together the [$source NUMERIC] results of a function applied to a
-		[$source CONTAINER [G]] list of items filtered by an optional query condition
-		[$source EL_QUERY_CONDITION [G]].
+		Object to add together the ${NUMERIC} results of a function applied to a
+		${CONTAINER [G]} list of items filtered by an optional query condition
+		${EL_QUERY_CONDITION [G]}.
 	]"
-	tests: "Class [$source CONTAINER_STRUCTURE_TEST_SET]"
+	tests: "Class ${CONTAINER_STRUCTURE_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

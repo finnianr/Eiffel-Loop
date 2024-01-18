@@ -1,7 +1,7 @@
 note
 	description: "[
 		Command to create an XML file manifest of a target directory using either the default Evolicity template
-		or an optional external Evolicity template. See class [$source EVOLICITY_SERIALIZEABLE]
+		or an optional external Evolicity template. See class ${EVOLICITY_SERIALIZEABLE}
 	]"
 
 	author: "Finnian Reilly"

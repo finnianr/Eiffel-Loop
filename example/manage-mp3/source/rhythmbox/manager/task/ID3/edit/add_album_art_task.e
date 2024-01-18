@@ -1,7 +1,7 @@
 note
 	description: "[
 		Add album art from folder `album_art_dir' and organized in sub-folders matching
-		{[$source TL_PICTURE_TYPE_ENUM]}.name for all enumeration types.
+		{${TL_PICTURE_TYPE_ENUM}}.name for all enumeration types.
 	]"
 	notes: "[
 		If `create_folders' is true, create sub-folders for all picture types.

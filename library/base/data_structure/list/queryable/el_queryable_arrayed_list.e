@@ -1,5 +1,5 @@
 note
-	description: "An arrayed list implementation of [$source EL_QUERYABLE_CHAIN]"
+	description: "An arrayed list implementation of ${EL_QUERYABLE_CHAIN}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

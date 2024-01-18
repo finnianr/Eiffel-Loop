@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source GROUPED_ECF_LINES] **renaming_map** element followed by class name 
+		${GROUPED_ECF_LINES} **renaming_map** element followed by class name 
 		
 			renaming_map:
 				OLD_NAME = NEW_NAME

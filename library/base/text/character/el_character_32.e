@@ -1,5 +1,5 @@
 note
-	description: "[$source CHARACTER_32_REF] with conversion to [$source ZSTRING] by `*' operator"
+	description: "${CHARACTER_32_REF} with conversion to ${ZSTRING} by `*' operator"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

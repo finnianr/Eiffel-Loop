@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_NAME_VALUE_PAIR [STRING]] with possibility of `/=' indicating an **excluded_value**"
+	description: "${EL_NAME_VALUE_PAIR [STRING]} with possibility of `/=' indicating an **excluded_value**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

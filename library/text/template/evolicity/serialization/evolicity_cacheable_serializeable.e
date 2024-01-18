@@ -1,7 +1,7 @@
 note
 	description: "[
-		Caches the output of `as_text' for either [$source EVOLICITY_SERIALIZEABLE_AS_STRING_8] or
-		[$source EVOLICITY_SERIALIZEABLE_AS_ZSTRING]
+		Caches the output of `as_text' for either ${EVOLICITY_SERIALIZEABLE_AS_STRING_8} or
+		${EVOLICITY_SERIALIZEABLE_AS_ZSTRING}
 	]"
 
 	author: "Finnian Reilly"

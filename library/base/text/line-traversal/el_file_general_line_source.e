@@ -1,7 +1,7 @@
 note
 	description: "[
-		Interface for object that interates over the lines of an file object conforming to [$source PLAIN_TEXT_FILE].
-		The line items conform to [$source STRING_GENERAL]
+		Interface for object that interates over the lines of an file object conforming to ${PLAIN_TEXT_FILE}.
+		The line items conform to ${STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

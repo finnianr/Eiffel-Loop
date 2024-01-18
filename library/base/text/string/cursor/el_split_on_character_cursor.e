@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_ITERABLE_SPLIT_CURSOR] implemented with [$source CHARACTER_32] separator
+		${EL_ITERABLE_SPLIT_CURSOR} implemented with ${CHARACTER_32} separator
 	]"
 
 	author: "Finnian Reilly"

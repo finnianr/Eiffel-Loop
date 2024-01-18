@@ -1,5 +1,5 @@
 note
-	description: "Network proxy for remote instance of class [$source SIGNAL_MATH]"
+	description: "Network proxy for remote instance of class ${SIGNAL_MATH}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

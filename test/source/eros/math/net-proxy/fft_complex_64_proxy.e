@@ -1,5 +1,5 @@
 note
-	description: "Network proxy for remote instance of class [$source FFT_COMPLEX_64]"
+	description: "Network proxy for remote instance of class ${FFT_COMPLEX_64}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

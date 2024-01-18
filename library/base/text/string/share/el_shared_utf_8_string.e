@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of [$source EL_UTF_8_STRING]"
+	description: "Shared instance of ${EL_UTF_8_STRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

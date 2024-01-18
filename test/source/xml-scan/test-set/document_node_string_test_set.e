@@ -1,5 +1,5 @@
 ﻿note
-	description: "Test [$source EL_DOCUMENT_NODE_STRING]"
+	description: "Test ${EL_DOCUMENT_NODE_STRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

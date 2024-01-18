@@ -1,7 +1,7 @@
 note
 	description: "[
 		Fixes an Eiffel object in memory so that it can be the target of callbacks from a
-		C routine. This is same as class [$source EL_CALLBACK_FIXER] except it assumes the garbage collector has
+		C routine. This is same as class ${EL_CALLBACK_FIXER} except it assumes the garbage collector has
 		been disabled.
 	]"
 

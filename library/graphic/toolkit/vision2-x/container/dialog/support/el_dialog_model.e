@@ -1,6 +1,6 @@
 note
 	description: "[
-		Dialog style, layout and information for display by dialog conforming to [$source EL_MODELED_DIALOG]
+		Dialog style, layout and information for display by dialog conforming to ${EL_MODELED_DIALOG}
 	]"
 
 	author: "Finnian Reilly"

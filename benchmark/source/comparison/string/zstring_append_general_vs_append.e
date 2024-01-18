@@ -1,6 +1,6 @@
 note
 	description: "[
-		{[$source ZSTRING]}.append_general VS {[$source ZSTRING]}.append for [$source ZSTRING]
+		{${ZSTRING}}.append_general VS {${ZSTRING}}.append for ${ZSTRING}
 		argument
 	]"
 	notes: "[

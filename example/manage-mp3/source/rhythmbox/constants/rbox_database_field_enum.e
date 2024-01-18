@@ -1,7 +1,7 @@
 note
 	description: "Fields from `rhythmdb.c' for Rhythmbox version 3.0.1"
 	notes: "[
-		Generated from C array by utility [$source GENERATE_RBOX_DATABASE_FIELD_ENUM_APP]
+		Generated from C array by utility ${GENERATE_RBOX_DATABASE_FIELD_ENUM_APP}
 		
 		**C array**
 			static const RhythmDBPropertyDef rhythmdb_properties[] = {

@@ -1,5 +1,5 @@
 note
-	description: "Shared instance of class [$source EL_SYSTEM_ENCODINGS]"
+	description: "Shared instance of class ${EL_SYSTEM_ENCODINGS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

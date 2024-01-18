@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_ZSTRING_QUOTED_STRING] implemented for C language
+		${TP_ZSTRING_QUOTED_STRING} implemented for C language
 	]"
 
 	author: "Finnian Reilly"

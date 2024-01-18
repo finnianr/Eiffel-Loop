@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to create and execute [$source ZSTRING_BENCHMARK_COMMAND]"
+	description: "Command line interface to create and execute ${ZSTRING_BENCHMARK_COMMAND}"
 	notes: "[
 		**Usage**
 		

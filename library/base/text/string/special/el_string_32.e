@@ -1,5 +1,5 @@
 note
-	description: "Extended [$source STRING_32]"
+	description: "Extended ${STRING_32}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

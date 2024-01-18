@@ -1,5 +1,5 @@
 note
-	description: "Date formats accessible via of [$source EL_SHARED_DATE_FORMAT]"
+	description: "Date formats accessible via of ${EL_SHARED_DATE_FORMAT}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source JOBSERVE_SEARCHER]"
+	description: "Test class ${JOBSERVE_SEARCHER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

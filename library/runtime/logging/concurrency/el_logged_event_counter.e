@@ -1,7 +1,7 @@
 note
 	description: "[
 		Intermittently log counting of timed event activity in thread classes like 
-		[$source EL_REGULAR_INTERVAL_EVENT_PRODUCER] or [$source EL_CONSUMER]. Output frequency is determined
+		${EL_REGULAR_INTERVAL_EVENT_PRODUCER} or ${EL_CONSUMER}. Output frequency is determined
 		by `Logs_per_minute' constant.
 	]"
 

@@ -1,5 +1,5 @@
 note
-	description: "Shared access to routines of class [$source EL_HTML_ROUTINES]"
+	description: "Shared access to routines of class ${EL_HTML_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

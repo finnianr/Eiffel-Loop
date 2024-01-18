@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_NETWORK_DEVICE_LIST_I]"
+	description: "Windows implementation of ${EL_NETWORK_DEVICE_LIST_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

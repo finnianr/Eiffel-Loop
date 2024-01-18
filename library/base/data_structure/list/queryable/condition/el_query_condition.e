@@ -1,6 +1,6 @@
 note
 	description: "Query condition"
-	tests: "Class [$source CONTAINER_STRUCTURE_TEST_SET]"
+	tests: "Class ${CONTAINER_STRUCTURE_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

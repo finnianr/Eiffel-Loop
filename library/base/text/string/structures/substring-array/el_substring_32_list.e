@@ -1,5 +1,5 @@
 note
-	description: "An extendible buffer for creating instances of [$source EL_SUBSTRING_32_ARRAY]"
+	description: "An extendible buffer for creating instances of ${EL_SUBSTRING_32_ARRAY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

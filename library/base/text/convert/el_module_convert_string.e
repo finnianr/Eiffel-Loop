@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of class [$source EL_STRING_CONVERSION_TABLE]"
+	description: "Shared access to instance of class ${EL_STRING_CONVERSION_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

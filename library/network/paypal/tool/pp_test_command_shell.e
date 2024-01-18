@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command shell that can be used for testing purposes. Use the class [$source EL_COMMAND_SHELL_APPLICATION]
+		Command shell that can be used for testing purposes. Use the class ${EL_COMMAND_SHELL_APPLICATION}
 		in conjunction with this class to make a sub-application. The source page has some links to examples that
 		demonstrates how it's done.
 	]"

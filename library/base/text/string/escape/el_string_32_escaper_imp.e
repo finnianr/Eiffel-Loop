@@ -1,5 +1,5 @@
 note
-	description: "[$source STRING_32] implementation of [$source EL_STRING_ESCAPER_IMP [STRING_GENERAL]]"
+	description: "${STRING_32} implementation of ${EL_STRING_ESCAPER_IMP [STRING_GENERAL]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

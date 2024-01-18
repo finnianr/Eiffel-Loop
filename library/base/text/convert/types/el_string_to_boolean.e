@@ -1,5 +1,5 @@
 note
-	description: "Convert [$source READABLE_STRING_GENERAL] to type [$source BOOLEAN]"
+	description: "Convert ${READABLE_STRING_GENERAL} to type ${BOOLEAN}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

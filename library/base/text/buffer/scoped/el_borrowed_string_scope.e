@@ -1,6 +1,6 @@
 note
 	description: "[
-		Defines an **across** loop scope in which a string conforming to [$source STRING_GENERAL] can be borrowed
+		Defines an **across** loop scope in which a string conforming to ${STRING_GENERAL} can be borrowed
 		from a factory pool and then automatically returned after the first and only iteration of the cursor.
 	]"
 

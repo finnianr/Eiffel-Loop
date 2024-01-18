@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source PYXIS_TO_XML_TEST_SET]
+			${PYXIS_TO_XML_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

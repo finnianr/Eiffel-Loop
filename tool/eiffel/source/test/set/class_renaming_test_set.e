@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source CLASS_RENAMING_COMMAND]"
+	description: "Test class ${CLASS_RENAMING_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

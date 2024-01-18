@@ -1,5 +1,5 @@
 note
-	description: "Table of filled strings of type [$source EL_ZSTRING]"
+	description: "Table of filled strings of type ${EL_ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

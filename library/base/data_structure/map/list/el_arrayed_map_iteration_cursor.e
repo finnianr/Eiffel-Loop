@@ -1,5 +1,5 @@
 note
-	description: "Iteration cursor for [$source EL_ARRAYED_MAP_LIST]"
+	description: "Iteration cursor for ${EL_ARRAYED_MAP_LIST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

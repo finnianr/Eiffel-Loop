@@ -1,5 +1,5 @@
 note
-	description: "Constants for [$source EIFFEL_CONFIGURATION_FILE]"
+	description: "Constants for ${EIFFEL_CONFIGURATION_FILE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

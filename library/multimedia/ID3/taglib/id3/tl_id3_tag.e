@@ -1,5 +1,5 @@
 note
-	description: "ID3 tag that is owned by [$source TL_MPEG_FILE]"
+	description: "ID3 tag that is owned by ${TL_MPEG_FILE}"
 	notes: "[
 		**Tag Types**
 		

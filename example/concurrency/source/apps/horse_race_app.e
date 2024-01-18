@@ -1,6 +1,6 @@
 note
 	description: "[
-		Simulates a horse race as a concurrency exercise using class [$source EL_PROCEDURE_DISTRIBUTER].
+		Simulates a horse race as a concurrency exercise using class ${EL_PROCEDURE_DISTRIBUTER}.
 	]"
 	notes: "[
 		**Finalized Usage**
@@ -9,7 +9,7 @@ note
 			
 		**Related**
 		
-		See also [$source SINE_WAVE_INTEGRATION_APP] for an example of integral calculation
+		See also ${SINE_WAVE_INTEGRATION_APP} for an example of integral calculation
 	]"
 
 	author: "Finnian Reilly"

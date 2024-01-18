@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_ITERABLE_SPLIT_CURSOR] implemented with [$source READABLE_STRING_GENERAL] separator
+		${EL_ITERABLE_SPLIT_CURSOR} implemented with ${READABLE_STRING_GENERAL} separator
 	]"
 
 	author: "Finnian Reilly"

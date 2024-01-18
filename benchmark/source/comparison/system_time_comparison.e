@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare [$source EL_SYSTEM_TIME] with [$source C_DATE] for calculating milliseconds elapsed since
+		Compare ${EL_SYSTEM_TIME} with ${C_DATE} for calculating milliseconds elapsed since
 		mid night.
 	]"
 	notes: "[

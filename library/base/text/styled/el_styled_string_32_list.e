@@ -1,5 +1,5 @@
 note
-	description: "[$source STRING_32] implementation of [$source EL_STYLED_TEXT_LIST]"
+	description: "${STRING_32} implementation of ${EL_STYLED_TEXT_LIST}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

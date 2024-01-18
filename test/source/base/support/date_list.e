@@ -1,5 +1,5 @@
 note
-	description: "[$source DATE] objects stored as list of [$source INTEGER] numbers"
+	description: "${DATE} objects stored as list of ${INTEGER} numbers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

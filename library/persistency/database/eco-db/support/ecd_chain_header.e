@@ -1,5 +1,5 @@
 note
-	description: "Header information for data chain conforming to [$source ECD_CHAIN]"
+	description: "Header information for data chain conforming to ${ECD_CHAIN}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

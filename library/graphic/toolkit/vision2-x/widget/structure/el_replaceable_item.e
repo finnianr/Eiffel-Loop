@@ -1,5 +1,5 @@
 note
-	description: "Replaceable attribute conforming to [$source EV_ITEM]"
+	description: "Replaceable attribute conforming to ${EV_ITEM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

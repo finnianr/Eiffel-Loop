@@ -1,7 +1,7 @@
 note
 	description: "Count classes, code words and combined source file size for Eiffel source trees"
-	notes: "This class has been superceded by [$source MANIFEST_METRICS_COMMAND]"
-	tests: "[$source EIFFEL_SOURCE_COMMAND_TEST_SET]"
+	notes: "This class has been superceded by ${MANIFEST_METRICS_COMMAND}"
+	tests: "${EIFFEL_SOURCE_COMMAND_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

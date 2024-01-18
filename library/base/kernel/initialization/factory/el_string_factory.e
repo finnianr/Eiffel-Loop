@@ -1,5 +1,5 @@
 note
-	description: "Factory to create empty strings conforming to [$source READABLE_STRING_GENERAL]"
+	description: "Factory to create empty strings conforming to ${READABLE_STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

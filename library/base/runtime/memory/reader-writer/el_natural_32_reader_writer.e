@@ -1,7 +1,7 @@
 note
 	description: "[
-		Adapter interface to read a [$source NATURAL_32] item from [$source EL_READABLE]
-		and write an item to [$source EL_WRITABLE]
+		Adapter interface to read a ${NATURAL_32} item from ${EL_READABLE}
+		and write an item to ${EL_WRITABLE}
 	]"
 
 	author: "Finnian Reilly"

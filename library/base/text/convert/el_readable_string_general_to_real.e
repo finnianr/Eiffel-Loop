@@ -1,5 +1,5 @@
 note
-	description: "Convert [$source READABLE_STRING_GENERAL] to type [$source REAL_32] or  [$source REAL_64]"
+	description: "Convert ${READABLE_STRING_GENERAL} to type ${REAL_32} or  ${REAL_64}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

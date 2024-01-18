@@ -1,6 +1,6 @@
 note
 	description: "[
-		Implementation of [$source EL_DIRECTORY_CONTENT_PROCESSOR] that uses native
+		Implementation of ${EL_DIRECTORY_CONTENT_PROCESSOR} that uses native
 		OS commands to obtain file listings
 	]"
 

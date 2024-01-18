@@ -1,7 +1,7 @@
 note
 	description: "[
 		Object that can append a text representation of it self to a string conforming to
-		[$source STRING_GENERAL]
+		${STRING_GENERAL}
 	]"
 
 	author: "Finnian Reilly"

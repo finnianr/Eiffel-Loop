@@ -1,5 +1,5 @@
 note
-	description: "Chain of strings conforming to [$source STRING_GENERAL]"
+	description: "Chain of strings conforming to ${STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

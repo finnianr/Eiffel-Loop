@@ -1,5 +1,5 @@
 note
-	description: "Reflected [$source CHARACTER_32] field"
+	description: "Reflected ${CHARACTER_32} field"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

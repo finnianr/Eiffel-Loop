@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to command [$source COMPILE_DESKTOP_PROJECTS]"
+	description: "Command line interface to command ${COMPILE_DESKTOP_PROJECTS}"
 	notes: "[
 		Usage:
 			el_eiffel -compile_desktop_projects -location <dir-path>

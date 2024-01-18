@@ -1,5 +1,5 @@
 note
-	description: "Eiffel keyword constants using [$source EL_IMMUTABLE_STRING_8_TABLE]"
+	description: "Eiffel keyword constants using ${EL_IMMUTABLE_STRING_8_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of [$source TL_MUSICBRAINZ_ENUM]"
+	description: "Shared access to instance of ${TL_MUSICBRAINZ_ENUM}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

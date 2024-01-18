@@ -1,5 +1,5 @@
 note
-	description: "Widget and menu-item routines accessible via [$source EL_MODULE_WIDGET]"
+	description: "Widget and menu-item routines accessible via ${EL_MODULE_WIDGET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

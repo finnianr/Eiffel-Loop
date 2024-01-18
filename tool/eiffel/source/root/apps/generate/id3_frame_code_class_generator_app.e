@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source ID3_FRAME_CODE_CLASS_GENERATOR]"
+	description: "Command line interface to ${ID3_FRAME_CODE_CLASS_GENERATOR}"
 	notes: "[
 		Usage:
 		

@@ -1,5 +1,5 @@
 note
-	description: "[$source FORMAT_INTEGER] with ability to spell numbers in English from 0 to 99"
+	description: "${FORMAT_INTEGER} with ability to spell numbers in English from 0 to 99"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -131,7 +131,7 @@ note
 	
 		**Formatting Test Set**
 		
-		Annotated table from {[$source STRING_TEST_SET]}.test_format_double
+		Annotated table from {${STRING_TEST_SET}}.test_format_double
 
 			create format_table.make (<<
 				["999", " 64"],		-- width = 3, right justified by default

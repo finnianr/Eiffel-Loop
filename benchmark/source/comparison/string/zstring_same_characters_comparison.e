@@ -1,6 +1,6 @@
 note
 	description: "[
-		Once off benchmark to determine best algorithm for {[$source ZSTRING]}.same_characters_zstring
+		Once off benchmark to determine best algorithm for {${ZSTRING}}.same_characters_zstring
 	]"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)

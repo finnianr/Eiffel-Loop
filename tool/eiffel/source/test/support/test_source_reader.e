@@ -1,5 +1,5 @@
 note
-	description: "Test implementation of [$source EIFFEL_SOURCE_READER]"
+	description: "Test implementation of ${EIFFEL_SOURCE_READER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

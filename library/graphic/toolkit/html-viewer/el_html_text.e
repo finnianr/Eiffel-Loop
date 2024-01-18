@@ -1,6 +1,6 @@
 note
 	description: "[
-		A basic XHTML text renderer based on the [$source EV_RICH_TEXT] component with support for the following markup:
+		A basic XHTML text renderer based on the ${EV_RICH_TEXT} component with support for the following markup:
 		
 		* Any text between elements
 		* Headings: `<h1>, <h2> ..' and so forth
@@ -18,8 +18,8 @@ note
 	notes: "[
 		**Hyperlinks**
 		Any hyper-links in the markup are highlighted with the `link_text_color' but are not navigable in
-		the text due to limitations of [$source EL_RICH_TEXT]. However they are accessible in `external_links'
-		and can be made navigable using class [$source EL_HYPERLINK_AREA], perhaps in a split Window page
+		the text due to limitations of ${EL_RICH_TEXT}. However they are accessible in `external_links'
+		and can be made navigable using class ${EL_HYPERLINK_AREA}, perhaps in a split Window page
 		contents area.
 		
 		**Building Contents**

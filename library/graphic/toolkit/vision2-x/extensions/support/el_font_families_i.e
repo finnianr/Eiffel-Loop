@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compact table of fonts available on system with query by property specified in [$source EL_FONT_PROPERTY]
+		Compact table of fonts available on system with query by property specified in ${EL_FONT_PROPERTY}
 	]"
 
 	author: "Finnian Reilly"

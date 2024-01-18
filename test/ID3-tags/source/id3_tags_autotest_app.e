@@ -5,7 +5,7 @@ note
 		
 		**Test Sets**
 		
-			[$source ID3_TAG_INFO_TEST_SET]
+			${ID3_TAG_INFO_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

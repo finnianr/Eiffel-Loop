@@ -1,7 +1,7 @@
 note
 	description: "[
 		Sub-application to Filter out all invalid UTF-8 lines from file
-		See class [$source FILTER_INVALID_UTF_8] for details.
+		See class ${FILTER_INVALID_UTF_8} for details.
 	]"
 
 	author: "Finnian Reilly"

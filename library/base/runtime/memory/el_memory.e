@@ -1,5 +1,5 @@
 note
-	description: "[$source MEMORY] with extra features from [$source EL_DISPOSEABLE]"
+	description: "${MEMORY} with extra features from ${EL_DISPOSEABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

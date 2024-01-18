@@ -1,5 +1,5 @@
 note
-	description: "Shared access to instance of object conforming to [$source EL_INSTALLER_MAIN_WINDOW]"
+	description: "Shared access to instance of object conforming to ${EL_INSTALLER_MAIN_WINDOW}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

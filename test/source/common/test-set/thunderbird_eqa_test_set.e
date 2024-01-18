@@ -1,5 +1,5 @@
 note
-	description: "Test classes conforming to [$source TB_ACCOUNT_READER]"
+	description: "Test classes conforming to ${TB_ACCOUNT_READER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

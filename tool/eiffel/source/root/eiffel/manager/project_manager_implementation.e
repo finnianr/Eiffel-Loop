@@ -1,5 +1,5 @@
 note
-	description: "Common routines for [$source PROJECT_MANAGER_SHELL] and [$source VERSION_MANAGER_SHELL_COMMAND]"
+	description: "Common routines for ${PROJECT_MANAGER_SHELL} and ${VERSION_MANAGER_SHELL_COMMAND}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

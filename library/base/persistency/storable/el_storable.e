@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object that can read and write itself to a memory buffer of type [$source EL_MEMORY_READER_WRITER].
+		Object that can read and write itself to a memory buffer of type ${EL_MEMORY_READER_WRITER}.
 	]"
 
 	author: "Finnian Reilly"

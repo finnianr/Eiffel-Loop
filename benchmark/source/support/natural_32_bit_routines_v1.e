@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_NATURAL_32_BIT_ROUTINES] with **shift_count** calculated using iterative bit-shifts
+		${EL_NATURAL_32_BIT_ROUTINES} with **shift_count** calculated using iterative bit-shifts
 	]"
 
 	author: "Finnian Reilly"

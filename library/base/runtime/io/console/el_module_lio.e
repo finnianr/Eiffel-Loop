@@ -1,6 +1,6 @@
 note
 	description: "[
-		Access to instance of [$source EL_CONSOLE_ONLY_LOG] which serves as an extension of the standard `io'
+		Access to instance of ${EL_CONSOLE_ONLY_LOG} which serves as an extension of the standard `io'
 		object. As the name implies, output is sent only to the terminal console.
 		
 		**Features**

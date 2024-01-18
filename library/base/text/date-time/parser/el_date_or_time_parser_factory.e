@@ -1,8 +1,8 @@
 note
-	description: "Factory for [$source EL_DATE] and [$source EL_TIME] related parsers"
+	description: "Factory for ${EL_DATE} and ${EL_TIME} related parsers"
 	descendants: "[
 			EL_DATE_OR_TIME_PARSER_FACTORY
-				[$source EL_DATE_TIME_PARSER_FACTORY]
+				${EL_DATE_TIME_PARSER_FACTORY}
 	]"
 
 	author: "Finnian Reilly"

@@ -2,7 +2,7 @@ note
 	description: "Principle or main application for installation"
 	notes: "[
 		This is the main or principle application in the set of sub-applications defined by the
-		system root class implementing [$source EL_MULTI_APPLICATION_ROOT]. By default it is invoked by
+		system root class implementing ${EL_MULTI_APPLICATION_ROOT}. By default it is invoked by
 		using the standard command-option:
 		
 			<application-command> -main

@@ -1,5 +1,5 @@
 note
-	description: "Convert [$source READABLE_STRING_GENERAL] to type [$source DIR_PATH]"
+	description: "Convert ${READABLE_STRING_GENERAL} to type ${DIR_PATH}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

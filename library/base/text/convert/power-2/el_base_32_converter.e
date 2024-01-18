@@ -1,5 +1,5 @@
 note
-	description: "Convert base 32 numeric strings to [$source NUMERIC] types"
+	description: "Convert base 32 numeric strings to ${NUMERIC} types"
 	notes: "[
 		Base 32 strings use the character ranges `0 .. 9, A .. V, a .. v' to represent 5 bit numbers 0 to 31.
 

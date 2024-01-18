@@ -4,9 +4,9 @@ note
 		
 		**1. ** an initial value of type `G'
 		
-		**2. ** a container conforming to [$source FINITE [G]]
+		**2. ** a container conforming to ${FINITE [G]}
 		
-		**3. ** a change agent of type [$source PROCEDURE [G]]
+		**3. ** a change agent of type ${PROCEDURE [G]}
 
 		Optional initialization settings:
 		

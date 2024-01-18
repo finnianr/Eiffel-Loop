@@ -1,5 +1,5 @@
 note
-	description: "Unix implementation of [$source EL_NETWORK_DEVICE_LIST_I]"
+	description: "Unix implementation of ${EL_NETWORK_DEVICE_LIST_I}"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -101,7 +101,7 @@ note
 
 	notes: "[
 		Parses terse output of [https://developer.gnome.org/NetworkManager/stable/nmcli.html nmcli tool]
-		to get list of network adapter devices [$source EL_NETWORK_DEVICE_I].
+		to get list of network adapter devices ${EL_NETWORK_DEVICE_I}.
 
 			nmcli --terse --fields GENERAL dev list
 

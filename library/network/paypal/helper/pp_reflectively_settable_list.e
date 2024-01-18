@@ -1,5 +1,5 @@
 note
-	description: "List of objects conforming to [$source PP_SETTABLE_FROM_UPPER_CAMEL_CASE]"
+	description: "List of objects conforming to ${PP_SETTABLE_FROM_UPPER_CAMEL_CASE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

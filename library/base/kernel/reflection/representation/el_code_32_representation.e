@@ -1,5 +1,5 @@
 note
-	description: "4 byte implementation of [$source EL_CODE_REPRESENTATION]"
+	description: "4 byte implementation of ${EL_CODE_REPRESENTATION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

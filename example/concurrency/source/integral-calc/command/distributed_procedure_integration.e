@@ -1,5 +1,5 @@
 note
-	description: "Distributed integration using class [$source EL_PROCEDURE_DISTRIBUTER]"
+	description: "Distributed integration using class ${EL_PROCEDURE_DISTRIBUTER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Test class [$source PYXIS_TREE_TO_XML_COMPILER]"
+	description: "Test class ${PYXIS_TREE_TO_XML_COMPILER}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

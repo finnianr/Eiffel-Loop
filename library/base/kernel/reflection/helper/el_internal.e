@@ -1,7 +1,7 @@
 note
-	description: "Internal reflection routines accessible via [$source EL_MODULE_EIFFEL]"
+	description: "Internal reflection routines accessible via ${EL_MODULE_EIFFEL}"
 	notes: "[
-		The [$source INTERNAL] class has a problem with routines that use the once function
+		The ${INTERNAL} class has a problem with routines that use the once function
 		`reflected_object' because the call will retain a reference to the argument inside
 		the once object. Calling `dynamic_type' for example will retain a reference to the
 		object being queryed.

@@ -1,5 +1,5 @@
 note
-	description: "[$source ZSTRING] IO medium line source"
+	description: "${ZSTRING} IO medium line source"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

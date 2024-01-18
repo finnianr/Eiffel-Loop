@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source EL_OS_COMMAND_I] interface"
+	description: "Windows implementation of ${EL_OS_COMMAND_I} interface"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

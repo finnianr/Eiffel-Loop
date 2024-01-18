@@ -1,5 +1,5 @@
 note
-	description: "[$source EL_SYSTEM_TIME] with elapsed time function `elapsed_millisecs'"
+	description: "${EL_SYSTEM_TIME} with elapsed time function `elapsed_millisecs'"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

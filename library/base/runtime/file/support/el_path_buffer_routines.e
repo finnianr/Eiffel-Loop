@@ -1,5 +1,5 @@
 note
-	description: "Routines to buffer path strings of type [$source ZSTRING]"
+	description: "Routines to buffer path strings of type ${ZSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

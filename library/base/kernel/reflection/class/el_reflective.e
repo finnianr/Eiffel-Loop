@@ -342,7 +342,7 @@ feature {EL_CLASS_META_DATA} -- Constants
 note
 	notes: "[
 		Any fields that are marked as being transient are not included in `field_table'. For example in
-		[$source EL_REFLECTIVELY_SETTABLE], the field `field_table' is marked as transient.
+		${EL_REFLECTIVELY_SETTABLE}, the field `field_table' is marked as transient.
 
 			field_table: EL_FIELD_TABLE note option: transient attribute end
 
@@ -372,7 +372,7 @@ note
 
 		Override `new_instance_functions' to add creation functions for any attributes
 		that do not have a default factory. These functions are added to **New_instance_table**
-		in class [$source EL_SHARED_NEW_INSTANCE_TABLE].
+		in class ${EL_SHARED_NEW_INSTANCE_TABLE}.
 		
 		For example:
 
@@ -384,48 +384,48 @@ note
 
 	descendants: "[
 			EL_REFLECTIVE*
-				[$source EL_REFLECTIVELY_SETTABLE]*
-					[$source MY_DRY_CLASS]
-					[$source AIA_CREDENTIAL_ID]
-					[$source FCGI_REQUEST_PARAMETERS]
-					[$source AIA_RESPONSE]
-						[$source AIA_GET_USER_ID_RESPONSE]
-						[$source AIA_FAIL_RESPONSE]
-						[$source AIA_PURCHASE_RESPONSE]
-							[$source AIA_REVOKE_RESPONSE]
-					[$source COUNTRY]
-						[$source CAMEL_CASE_COUNTRY]
-					[$source EL_HTTP_HEADERS]
-					[$source PP_TRANSACTION]
-					[$source JOB]
-					[$source JSON_CURRENCY]
-					[$source PERSON]
-					[$source AIA_REQUEST]*
-						[$source AIA_GET_USER_ID_REQUEST]
-						[$source AIA_PURCHASE_REQUEST]
-							[$source AIA_REVOKE_REQUEST]
-					[$source FCGI_HTTP_HEADERS]
-					[$source EL_IP_ADDRESS_GEOLOCATION]
-					[$source PP_ADDRESS]
-					[$source EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT]*
-						[$source EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN]*
-							[$source EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML]*
-								[$source TEST_CONFIGURATION]
-							[$source EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS]*
-						[$source TEST_VALUES]
-						[$source EL_FILE_MANIFEST_ITEM]
-					[$source EL_DYNAMIC_MODULE_POINTERS]
-						[$source EL_IMAGE_UTILS_API_POINTERS]
-						[$source EL_CURL_API_POINTERS]
-					[$source AIA_AUTHORIZATION_HEADER]
-				[$source EL_REFLECTIVE_BOOLEAN_REF]
+				${EL_REFLECTIVELY_SETTABLE}*
+					${MY_DRY_CLASS}
+					${AIA_CREDENTIAL_ID}
+					${FCGI_REQUEST_PARAMETERS}
+					${AIA_RESPONSE}
+						${AIA_GET_USER_ID_RESPONSE}
+						${AIA_FAIL_RESPONSE}
+						${AIA_PURCHASE_RESPONSE}
+							${AIA_REVOKE_RESPONSE}
+					${COUNTRY}
+						${CAMEL_CASE_COUNTRY}
+					${EL_HTTP_HEADERS}
+					${PP_TRANSACTION}
+					${JOB}
+					${JSON_CURRENCY}
+					${PERSON}
+					${AIA_REQUEST}*
+						${AIA_GET_USER_ID_REQUEST}
+						${AIA_PURCHASE_REQUEST}
+							${AIA_REVOKE_REQUEST}
+					${FCGI_HTTP_HEADERS}
+					${EL_IP_ADDRESS_GEOLOCATION}
+					${PP_ADDRESS}
+					${EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}*
+						${EL_REFLECTIVELY_BUILDABLE_FROM_NODE_SCAN}*
+							${EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML}*
+								${TEST_CONFIGURATION}
+							${EL_REFLECTIVELY_BUILDABLE_FROM_PYXIS}*
+						${TEST_VALUES}
+						${EL_FILE_MANIFEST_ITEM}
+					${EL_DYNAMIC_MODULE_POINTERS}
+						${EL_IMAGE_UTILS_API_POINTERS}
+						${EL_CURL_API_POINTERS}
+					${AIA_AUTHORIZATION_HEADER}
+				${EL_REFLECTIVE_BOOLEAN_REF}
 				
 		See also:
 		
-		1. descendants of [$source EL_ENUMERATION]
-		2. descendants of [$source EL_REFLECTIVE_LOCALE_TEXTS]
-		3. descendants of [$source EL_COMMAND_LINE_OPTIONS]
-		4. descendants of [$source EL_REFLECTIVELY_SETTABLE_STORABLE]
+		1. descendants of ${EL_ENUMERATION}
+		2. descendants of ${EL_REFLECTIVE_LOCALE_TEXTS}
+		3. descendants of ${EL_COMMAND_LINE_OPTIONS}
+		4. descendants of ${EL_REFLECTIVELY_SETTABLE_STORABLE}
 	]"
 
 end

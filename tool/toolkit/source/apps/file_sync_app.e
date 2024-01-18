@@ -1,5 +1,5 @@
 note
-	description: "Command line interface to [$source FILE_SYNC_COMMAND]"
+	description: "Command line interface to ${FILE_SYNC_COMMAND}"
 	notes: "[
 		Usage:
 			el_toolkit -file_sync -config <config-path>

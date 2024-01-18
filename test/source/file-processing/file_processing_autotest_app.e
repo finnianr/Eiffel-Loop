@@ -5,10 +5,10 @@ note
 		
 		**Test Sets**
 		
-			[$source FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET]
-			[$source FILE_SYNC_MANAGER_TEST_SET]
-			[$source MUTEX_FILE_TEST_SET]
-			[$source UUID_TEST_SET]
+			${FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET}
+			${FILE_SYNC_MANAGER_TEST_SET}
+			${MUTEX_FILE_TEST_SET}
+			${UUID_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

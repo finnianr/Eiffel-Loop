@@ -1,5 +1,5 @@
 note
-	description: "Hash table with keys conforming to [$source READABLE_STRING_GENERAL]"
+	description: "Hash table with keys conforming to ${READABLE_STRING_GENERAL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

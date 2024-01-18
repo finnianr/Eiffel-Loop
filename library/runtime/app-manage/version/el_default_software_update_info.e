@@ -1,5 +1,5 @@
 note
-	description: "Default implementation of [$source EL_SOFTWARE_UPDATE_INFO]"
+	description: "Default implementation of ${EL_SOFTWARE_UPDATE_INFO}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

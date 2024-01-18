@@ -1,5 +1,5 @@
 note
-	description: "[$source DEVELOPER_EXCEPTION] for VTD navigation and xpath parsing errors"
+	description: "${DEVELOPER_EXCEPTION} for VTD navigation and xpath parsing errors"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

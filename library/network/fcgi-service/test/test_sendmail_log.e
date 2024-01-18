@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test [$source EL_TODAYS_SENDMAIL_LOG] using data from: `test/data/network/mail.log'
+		Test ${EL_TODAYS_SENDMAIL_LOG} using data from: `test/data/network/mail.log'
 	]"
 
 	author: "Finnian Reilly"

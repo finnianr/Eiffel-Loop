@@ -1,9 +1,9 @@
 note
 	description: "[
-		Compare {[$source EL_ZSTRING]}.split_list with {[$source EL_ZSTRING_LIST]}.make_split
+		Compare {${EL_ZSTRING}}.split_list with {${EL_ZSTRING_LIST}}.make_split
 	]"
 	notes: "[
-		[$source EL_ZSTRING].split_list now incorporated into [$source EL_ZSTRING_LIST].make_split,
+		${EL_ZSTRING}.split_list now incorporated into ${EL_ZSTRING_LIST}.make_split,
 		so benchmark cannot be repeated, but originally this is the score:
 		
 		Passes over 250 millisecs (in descending order)

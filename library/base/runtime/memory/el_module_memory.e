@@ -1,5 +1,5 @@
 note
-	description: "Access to shared instance of [$source MEMORY]"
+	description: "Access to shared instance of ${MEMORY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

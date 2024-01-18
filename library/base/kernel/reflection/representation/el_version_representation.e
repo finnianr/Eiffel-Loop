@@ -1,5 +1,5 @@
 note
-	description: "A reflected [$source NATURAL_32] representing a [$source EL_VERSION_ARRAY]"
+	description: "A reflected ${NATURAL_32} representing a ${EL_VERSION_ARRAY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,5 +1,5 @@
 note
-	description: "Expanded class of [$source CHARACTER_32] routines"
+	description: "Expanded class of ${CHARACTER_32} routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

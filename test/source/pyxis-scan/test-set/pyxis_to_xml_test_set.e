@@ -1,8 +1,8 @@
 note
-	description: "Test class [$source EL_PYXIS_TO_XML_CONVERTER] from library `xdoc-scanning.ecf'"
+	description: "Test class ${EL_PYXIS_TO_XML_CONVERTER} from library `xdoc-scanning.ecf'"
 	notes: "[
-		Test sets conforming to [$source EL_CRC_32_TESTABLE] (like this one) can only be run
-		from a sub-application conforming to [$source EL_CRC_32_AUTOTEST_APPLICATION]
+		Test sets conforming to ${EL_CRC_32_TESTABLE} (like this one) can only be run
+		from a sub-application conforming to ${EL_CRC_32_AUTOTEST_APPLICATION}
 	]"
 
 	author: "Finnian Reilly"

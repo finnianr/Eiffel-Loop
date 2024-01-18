@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source CAIRO_PIXEL_SURFACE_I]"
+	description: "Windows implementation of ${CAIRO_PIXEL_SURFACE_I}"
 	notes: "[
 		Might be desirable to use gdk_cairo_surface_create_from_pixbuf
 	]"

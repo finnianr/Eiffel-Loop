@@ -1,5 +1,5 @@
 note
-	description: "Test set for class [$source REPLACE_SONGS_TASK]"
+	description: "Test set for class ${REPLACE_SONGS_TASK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Eros server command for serializeable list of **TYPES** conforming to [$source EROS_REMOTELY_ACCESSIBLE]
+		Eros server command for serializeable list of **TYPES** conforming to ${EROS_REMOTELY_ACCESSIBLE}
 	]"
 
 	author: "Finnian Reilly"

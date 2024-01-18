@@ -1,5 +1,5 @@
 note
-	description: "Partially initialized version of [$source I18N_NLS_LCID_TOOLS]"
+	description: "Partially initialized version of ${I18N_NLS_LCID_TOOLS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

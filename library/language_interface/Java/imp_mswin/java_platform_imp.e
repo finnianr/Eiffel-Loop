@@ -1,5 +1,5 @@
 note
-	description: "Windows implementation of [$source JAVA_PLATFORM_I] interface"
+	description: "Windows implementation of ${JAVA_PLATFORM_I} interface"
 	notes: "[
 		`deployment.properties' file location
 

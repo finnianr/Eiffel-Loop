@@ -1,5 +1,5 @@
 note
-	description: "Extend version of [$source EV_WEL_FONT_ENUMERATOR_IMP]"
+	description: "Extend version of ${EV_WEL_FONT_ENUMERATOR_IMP}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

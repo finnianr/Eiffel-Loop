@@ -1,5 +1,5 @@
 note
-	description: "Abstraction to obtain count of [$source STRING_32] substrings"
+	description: "Abstraction to obtain count of ${STRING_32} substrings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

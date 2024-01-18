@@ -1,5 +1,5 @@
 note
-	description: "Literal text pattern for source text conforming to [$source READABLE_STRING_8]"
+	description: "Literal text pattern for source text conforming to ${READABLE_STRING_8}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

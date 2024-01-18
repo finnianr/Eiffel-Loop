@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to [$source CURRENCY_EXCHANGE_HISTORY_COMMAND]
+		Command line interface to ${CURRENCY_EXCHANGE_HISTORY_COMMAND}
 	]"
 	notes: "[
 		Usage:

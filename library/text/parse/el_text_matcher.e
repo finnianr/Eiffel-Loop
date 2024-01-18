@@ -1,5 +1,5 @@
 note
-	description: "Text matcher for [$source ZSTRING] source text"
+	description: "Text matcher for ${ZSTRING} source text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"

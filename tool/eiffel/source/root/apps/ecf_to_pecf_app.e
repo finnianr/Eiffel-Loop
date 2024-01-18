@@ -1,5 +1,5 @@
 note
-	description: "Command-line interface to [$source ECF_TO_PECF_COMMAND]"
+	description: "Command-line interface to ${ECF_TO_PECF_COMMAND}"
 	to_do: "[
 		* 1st Aug 2020 Throw an exception for invalid cluster names in form doc/config.pyx
 	]"

@@ -1,6 +1,6 @@
 note
 	description: "[
-		A [$source MANAGED_POINTER] that reads/writes numbers with opposite endianness to native
+		A ${MANAGED_POINTER} that reads/writes numbers with opposite endianness to native
 	]"
 
 	author: "Finnian Reilly"

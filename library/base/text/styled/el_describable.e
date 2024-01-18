@@ -1,7 +1,7 @@
 note
 	description: "[
-		Object that is describable by a [$source EL_STYLED_TEXT_LIST] list of strings where each string is
-		mapped to a text style defined by class [$source EL_TEXT_STYLE].
+		Object that is describable by a ${EL_STYLED_TEXT_LIST} list of strings where each string is
+		mapped to a text style defined by class ${EL_TEXT_STYLE}.
 	]"
 
 	author: "Finnian Reilly"

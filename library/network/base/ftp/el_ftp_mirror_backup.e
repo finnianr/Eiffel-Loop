@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source EL_MIRROR_BACKUP] for **ftp** protocol using [$source EL_FTP_MIRROR_COMMAND] command
+		${EL_MIRROR_BACKUP} for **ftp** protocol using ${EL_FTP_MIRROR_COMMAND} command
 	]"
 
 	author: "Finnian Reilly"

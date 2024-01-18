@@ -1,6 +1,6 @@
 note
 	description: "[
-		A [$source NATURAL_32_REF] for counting increments of 1 and with a zero-padding convenience function
+		A ${NATURAL_32_REF} for counting increments of 1 and with a zero-padding convenience function
 	]"
 
 	author: "Finnian Reilly"

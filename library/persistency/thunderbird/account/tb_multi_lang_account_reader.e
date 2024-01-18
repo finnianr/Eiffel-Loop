@@ -14,7 +14,7 @@ note
 			bar/de
 			bar/fr
 			
-		Each document folder is read and processed by a class conforming to [$source TB_FOLDER_EXPORTER]
+		Each document folder is read and processed by a class conforming to ${TB_FOLDER_EXPORTER}
 	]"
 
 	author: "Finnian Reilly"

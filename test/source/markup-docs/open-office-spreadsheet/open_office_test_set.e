@@ -2,9 +2,9 @@ note
 	description: "[
 		Test classes from library cluster `markup-docs.ecf#open_office'
 
-		* [$source EL_SPREAD_SHEET]
-		* [$source EL_SPREAD_SHEET_TABLE]
-		* [$source EL_SPREAD_SHEET_ROW]
+		* ${EL_SPREAD_SHEET}
+		* ${EL_SPREAD_SHEET_TABLE}
+		* ${EL_SPREAD_SHEET_ROW}
 	]"
 
 	author: "Finnian Reilly"

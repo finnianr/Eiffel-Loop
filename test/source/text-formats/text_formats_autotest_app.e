@@ -5,11 +5,11 @@ note
 		
 		**Test Sets**
 		
-			[$source COMMA_SEPARATED_IMPORT_TEST_SET]
-			[$source DOC_TYPE_TEST_SET]
-			[$source JSON_PARSING_TEST_SET]
-			[$source MARKUP_ESCAPE_TEST_SET]
-			[$source XML_TEST_SET]
+			${COMMA_SEPARATED_IMPORT_TEST_SET}
+			${DOC_TYPE_TEST_SET}
+			${JSON_PARSING_TEST_SET}
+			${MARKUP_ESCAPE_TEST_SET}
+			${XML_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"

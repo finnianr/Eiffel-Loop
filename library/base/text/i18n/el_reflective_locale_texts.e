@@ -1,7 +1,7 @@
 note
 	description: "[
 		Reflective initialization of localized string fields based on deferred `Locale'
-		conforming to [$source EL_DEFERRED_LOCALE_I]
+		conforming to ${EL_DEFERRED_LOCALE_I}
 	]"
 	descendants: "See end of class"
 	notes: "See end of class"
@@ -369,14 +369,14 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_REFLECTIVE_LOCALE_TEXTS*
-				[$source EL_PASSPHRASE_ATTRIBUTES]
-				[$source EL_DAY_OF_WEEK_TEXTS]
-				[$source EL_CURRENCY_TEXTS]
-				[$source EL_MONTH_TEXTS]
-				[$source EL_PHRASE_TEXTS]
-				[$source EL_PASSPHRASE_TEXTS]
-				[$source EL_UNINSTALL_TEXTS]
-				[$source EL_WORD_TEXTS]
+				${EL_PASSPHRASE_ATTRIBUTES}
+				${EL_DAY_OF_WEEK_TEXTS}
+				${EL_CURRENCY_TEXTS}
+				${EL_MONTH_TEXTS}
+				${EL_PHRASE_TEXTS}
+				${EL_PASSPHRASE_TEXTS}
+				${EL_UNINSTALL_TEXTS}
+				${EL_WORD_TEXTS}
 	]"
 	notes: "[
 		Inherit this class and then string fields will be initialized with a localized value. 
@@ -407,7 +407,7 @@ note
 			uninstall_application:
 				Uninstall %S application
 
-		Note the use of `%S' as a [$source EL_ZSTRING] template placeholder. This will be translated to
+		Note the use of `%S' as a ${EL_ZSTRING} template placeholder. This will be translated to
 		the `#' character.
 
 		The lookup keys for the localization files will be hypenated and enclosed with curly braces as in
@@ -416,6 +416,6 @@ note
 			{install-application}
 			{uninstall-application}
 
-		See [$source EL_UNINSTALL_TEXTS] as an example.
+		See ${EL_UNINSTALL_TEXTS} as an example.
 	]"
 end

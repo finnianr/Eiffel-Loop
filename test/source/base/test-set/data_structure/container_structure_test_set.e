@@ -1,15 +1,15 @@
 note
-	description: "Test set for [$source EL_CONTAINER_STRUCTURE] descendants and related classes"
+	description: "Test set for ${EL_CONTAINER_STRUCTURE} descendants and related classes"
 	notes: "[
 		Covers various routines from the following:
 		
-		* [$source EL_CONTAINER_STRUCTURE]
-		* [$source EL_ARRAYED_RESULT_LIST]
-		* [$source EL_ARRAYED_LIST]
-		* [$source EL_QUERY_CONDITION]
-		* [$source EL_RESULT_SUMMATOR]
-		* [$source EL_PREDICATE_QUERY_CONDITION]
-		* [$source EL_ANY_QUERY_CONDITION]
+		* ${EL_CONTAINER_STRUCTURE}
+		* ${EL_ARRAYED_RESULT_LIST}
+		* ${EL_ARRAYED_LIST}
+		* ${EL_QUERY_CONDITION}
+		* ${EL_RESULT_SUMMATOR}
+		* ${EL_PREDICATE_QUERY_CONDITION}
+		* ${EL_ANY_QUERY_CONDITION}
 	]"
 
 	author: "Finnian Reilly"

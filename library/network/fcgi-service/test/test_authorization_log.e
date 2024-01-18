@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test [$source EL_TODAYS_AUTHORIZATION_LOG] using data from `test/data/network/auth.log'
+		Test ${EL_TODAYS_AUTHORIZATION_LOG} using data from `test/data/network/auth.log'
 	]"
 
 	author: "Finnian Reilly"

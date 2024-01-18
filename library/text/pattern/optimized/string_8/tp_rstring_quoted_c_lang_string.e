@@ -1,6 +1,6 @@
 note
 	description: "[
-		[$source TP_RSTRING_QUOTED_STRING] implemented for C language
+		${TP_RSTRING_QUOTED_STRING} implemented for C language
 	]"
 
 	author: "Finnian Reilly"
