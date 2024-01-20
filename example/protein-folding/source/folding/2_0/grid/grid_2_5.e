@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-02-08 15:51:43 GMT (Tuesday 8th February 2022)"
-	revision: "3"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "4"
 
 class
 	GRID_2_5

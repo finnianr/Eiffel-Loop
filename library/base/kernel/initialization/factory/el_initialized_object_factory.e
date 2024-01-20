@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 15:13:30 GMT (Thursday 11th January 2024)"
-	revision: "8"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "9"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]

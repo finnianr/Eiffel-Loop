@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 14:20:27 GMT (Monday 1st January 2024)"
-	revision: "8"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "9"
 
 class
 	MEDIA_PLAYER_DUMMY_APP

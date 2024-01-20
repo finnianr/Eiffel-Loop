@@ -11,8 +11,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "26"
+	date: "2024-01-20 19:27:37 GMT (Saturday 20th January 2024)"
+	revision: "27"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET

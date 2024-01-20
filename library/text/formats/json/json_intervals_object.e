@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:19:50 GMT (Saturday 11th November 2023)"
-	revision: "16"
+	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
+	revision: "17"
 
 class
 	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]

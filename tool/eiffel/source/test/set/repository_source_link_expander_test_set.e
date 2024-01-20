@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 12:09:57 GMT (Friday 10th March 2023)"
-	revision: "16"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "18"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -46,9 +46,8 @@ feature -- Tests
 			publisher := new_publisher
 			publisher.execute
 			check_expanded_contents (publisher)
-			if Executable.Is_work_bench
-				and then attached User_input.line ("Return to finish") as line
-			then
+			if Executable.Is_work_bench and then attached User_input.line ("Return to finish") then
+				do_nothing
 			end
 		end
 
@@ -58,7 +57,10 @@ feature {NONE} -- Events
 		do
 			Precursor
 			if attached open (File_path, Write) as f then
-				f.put_string (Inherits_template #$ [Type_descendant.name, Type_base.name])
+				across Type_array as type loop
+					f.put_string (Inherits_template #$ [type.item.descendant.name, type.item.base.name])
+					f.new_line
+				end
 				f.close
 			end
 		end
@@ -72,17 +74,19 @@ feature {NONE} -- Implementation
 		do
 			web_url := publisher.web_address + "/"
 			blog_text := File.plain_text (publisher.expanded_file_path)
-			across << Type_base, Type_descendant >> as type loop
-				name := type.item.name
-				if Class_path_table.has_class (name) then
-					class_url := web_url + Class_path_table.found_item
+			across Type_array as array loop
+				across << array.item.base, array.item.descendant >> as type loop
+					name := type.item.name
+					if Class_path_table.has_class (name) then
+						class_url := web_url + Class_path_table.found_item
 
-				elseif ISE_class_table.has_class (name) then
-					class_url := ISE_class_table.found_item
-				else
-					class_url := web_url + ""
+					elseif ISE_class_table.has_class (name) then
+						class_url := ISE_class_table.found_item
+					else
+						class_url := web_url + ""
+					end
+					assert ("has uri path", blog_text.has_substring (class_url.to_string))
 				end
-				assert ("has uri path", blog_text.has_substring (class_url.to_string))
 			end
 		end
 
@@ -101,6 +105,14 @@ feature {NONE} -- Constants
 	File_path: FILE_PATH
 		once
 			Result := Work_area_dir + "blog.txt"
+		end
+
+	Type_array: ARRAY [TUPLE [base, descendant: TYPE [ANY]]]
+		once
+			Result := <<
+				[{EL_STORABLE}, {EL_STORABLE_IMPL}],
+				[{READABLE_STRING_8}, {STRING_8}]
+			>>
 		end
 
 	Type_base: TYPE [ANY]

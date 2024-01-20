@@ -1,3 +1,9 @@
+2.0.5
+* New class link parsing with class CLASS_REFERENCE_MAP_LIST
+
+2.0.4
+* Removed code that uses [$source links
+
 2.0.3
 * Recompile CLASS_DESCENDANTS_APP for format ${MY_CLASS}
 

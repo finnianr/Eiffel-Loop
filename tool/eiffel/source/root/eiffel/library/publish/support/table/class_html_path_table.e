@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 7:13:26 GMT (Saturday 8th July 2023)"
-	revision: "10"
+	date: "2024-01-20 11:35:43 GMT (Saturday 20th January 2024)"
+	revision: "12"
 
 class
 	CLASS_HTML_PATH_TABLE
@@ -18,7 +18,7 @@ inherit
 			make as table_make
 		export
 			{NONE} all
-			{ANY} found_item, has_key, extend, remove
+			{ANY} found_item, extend, remove
 		end
 
 	PUBLISHER_CONSTANTS
@@ -31,12 +31,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_equal (1000)
-			create last_name.make_empty
 		end
-
-feature -- Access
-
-	last_name: ZSTRING
 
 feature -- Element change
 
@@ -47,7 +42,7 @@ feature -- Element change
 		do
 			across alias_table as table loop
 				alias_name := table.key; actual_name := table.item
-				if has_key (actual_name) then
+				if has_class (actual_name) then
 					put (found_item, alias_name)
 				end
 			end
@@ -60,16 +55,11 @@ feature -- Element change
 
 feature -- Status query
 
-	has_class (text: ZSTRING): BOOLEAN
-		local
-			eif: EL_EIFFEL_SOURCE_ROUTINES
+	has_class (name: ZSTRING): BOOLEAN
+		require
+			not_empty: name.count > 0
 		do
-			if text.is_empty then
-				last_name.wipe_out
-			else
-				last_name := eif.parsed_class_name (text)
-				Result := has_key (last_name)
-			end
+			Result := has_key (name)
 		end
 
 end

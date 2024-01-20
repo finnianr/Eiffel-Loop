@@ -6,8 +6,8 @@ note
 	contact: "kwaxer at eiffel dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2021-04-02 11:10:59 GMT (Friday 2nd April 2021)"
-	revision: "5"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "6"
 
 class
 	PRIME_NUMBER_SIEVE_4

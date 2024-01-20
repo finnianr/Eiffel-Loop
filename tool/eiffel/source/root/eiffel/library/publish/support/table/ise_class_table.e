@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 8:41:35 GMT (Thursday 6th April 2023)"
-	revision: "7"
+	date: "2024-01-20 12:55:11 GMT (Saturday 20th January 2024)"
+	revision: "8"
 
 class
 	ISE_CLASS_TABLE
 
 inherit
-	EL_ZSTRING_HASH_TABLE [ZSTRING]
+	EL_ZSTRING_HASH_TABLE [EL_FILE_URI_PATH]
 		rename
 			make as table_make
 		export
@@ -50,44 +50,38 @@ feature {NONE} -- Initialization
 				end
 			end
 			ise_directories := << ise_library_path, ise_contrib_path >>
-			create last_name.make_empty
 		end
-
-feature -- Access
-
-	last_name: ZSTRING
 
 feature -- Status query
 
-	has_class (text: ZSTRING): BOOLEAN
+	has_class (name: ZSTRING): BOOLEAN
+		require
+			not_empty: name.count > 0
 		local
-			file_name: ZSTRING; eif: EL_EIFFEL_SOURCE_ROUTINES
-			relative_source_path: FILE_PATH
+			file_name: ZSTRING; relative_source_path: FILE_PATH
 		do
-			if text.is_empty then
-				last_name.wipe_out
+			if has_key (name) then
+				Result := True
 
 			elseif attached Find_ise_class as finder then
-				last_name := eif.parsed_class_name (text)
-				if has_key (last_name) then
-					Result := True
-				else
-					file_name := last_name.as_lower + Dot_e
-					across ise_directories as dir_path until Result loop
-						finder.set_dir_path (dir_path.item)
-						finder.set_name_pattern (file_name)
-						finder.execute
-						if finder.path_list.count > 0 then
-							relative_source_path := finder.path_list.first_path.relative_path (dir_path.item)
-							if dir_path.item = ise_library_path then
-								put (ise_chart_template #$ [relative_source_path.first_step, last_name.as_lower], last_name)
-							else
-								put (github_base + relative_source_path.to_string, last_name)
-							end
-							Result := True
+				file_name := name + Dot_e
+				file_name.to_lower
+
+				across ise_directories as dir_path until Result loop
+					finder.set_dir_path (dir_path.item)
+					finder.set_name_pattern (file_name)
+					finder.execute
+					if finder.path_list.count > 0 then
+						relative_source_path := finder.path_list.first_path.relative_path (dir_path.item)
+					-- Need to put `name.twin' as `name' might be a shared buffer string
+						if dir_path.item = ise_library_path then
+							put (ise_chart_template #$ [relative_source_path.first_step, name.as_lower], name.twin)
 						else
-							create found_item.make_empty
+							put (github_base + relative_source_path.to_string, name.twin)
 						end
+						Result := True
+					else
+						create found_item
 					end
 				end
 			end
@@ -107,10 +101,7 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Constants
 
-	Dot_e: ZSTRING
-		once
-			Result := ".e"
-		end
+	Dot_e: STRING = ".e"
 
 	Find_ise_class: EL_FIND_FILES_COMMAND_I
 		once

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
+	revision: "15"
 
 class
 	EL_VISION_2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end, P -> {EL_STOCK_PIXMAPS} create make end]

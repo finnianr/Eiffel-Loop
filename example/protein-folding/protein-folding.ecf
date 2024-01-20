@@ -19,7 +19,7 @@ This project was a joint collaboration between Gerrit Leder and Finnian Reilly.
 Gerrit developed the implemented the 2D HP algorithm in Eiffel and Finnian optimized
 it&apos;s performance and created a multi-core parallel computation version.
 
-The multi-core version showcases the Eiffel-Loop class [$source EL_PROCEDURE_DISTRIBUTER].
+The multi-core version showcases the Eiffel-Loop class ${EL_PROCEDURE_DISTRIBUTER}.
 
 See: [https://sourceforge.net/p/pfhp/PF_HP-mt Sourceforge repository PF_HP-mt]
 	</description>

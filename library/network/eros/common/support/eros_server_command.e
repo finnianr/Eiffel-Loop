@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-26 6:14:53 GMT (Saturday 26th November 2022)"
-	revision: "6"
+	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
+	revision: "7"
 
 deferred class
 	EROS_SERVER_COMMAND [TYPES -> TUPLE create default_create end]

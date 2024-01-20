@@ -1,5 +1,5 @@
 ﻿note
-	description: "Compare {${STRING_8}}.item VS character_32_item"
+	description: "Compare `${STRING_8}.item' VS `character_32_item'"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 11:38:37 GMT (Monday 15th January 2024)"
-	revision: "15"
+	date: "2024-01-20 20:10:01 GMT (Saturday 20th January 2024)"
+	revision: "16"
 
 class
 	STRING_ITEM_8_VS_ITEM

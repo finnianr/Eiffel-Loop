@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 15:07:17 GMT (Monday 6th November 2023)"
-	revision: "52"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "53"
 
 class
 	PYXIS_TO_XML_TEST_SET

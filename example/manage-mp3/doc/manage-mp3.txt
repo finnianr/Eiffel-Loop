@@ -32,7 +32,7 @@ This is a full-blown MP3 collection manager that is designed to work in conjunct
 
 **Manual**
 
-For details on how to use, read the source documentation notes in class [$source RHYTHMBOX_MUSIC_MANAGER_APP].
+For details on how to use, read the source documentation notes in class ${RHYTHMBOX_MUSIC_MANAGER_APP}.
 
 **Download**
 

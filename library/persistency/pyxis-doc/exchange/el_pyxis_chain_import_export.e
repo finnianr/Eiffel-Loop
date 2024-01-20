@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 10:03:55 GMT (Tuesday 3rd January 2023)"
-	revision: "3"
+	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
+	revision: "4"
 
 deferred class
 	EL_PYXIS_CHAIN_IMPORT_EXPORT [G -> EL_REFLECTIVELY_SETTABLE create make_default end]

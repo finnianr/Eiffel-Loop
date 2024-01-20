@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-23 10:24:57 GMT (Tuesday 23rd May 2023)"
-	revision: "22"
+	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
+	revision: "23"
 
 deferred class
 	EL_GVFS_OS_COMMAND [VARIABLES -> TUPLE create default_create end]

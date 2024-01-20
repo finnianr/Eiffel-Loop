@@ -1,25 +1,25 @@
 **Sub-applications**
 
-[$source CLASS_PREFIX_REMOVAL_APP] removes all classname prefixes over a source directory
+${CLASS_PREFIX_REMOVAL_APP} removes all classname prefixes over a source directory
 
 Command switch: `-remove_prefix'
 
-[$source NOTE_EDITOR_APP] add default values to note fields using a source tree manifest.
+${NOTE_EDITOR_APP} add default values to note fields using a source tree manifest.
 
 Command switch: `-edit_notes'
 
-[$source FEATURE_EDITOR_APP] expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+${FEATURE_EDITOR_APP} expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
 
 Command switch: `-feature_edit'
 
-[$source FIND_AND_REPLACE_APP] finds and replaces text in Eiffel source files specified by a source tree manifest
+${FIND_AND_REPLACE_APP} finds and replaces text in Eiffel source files specified by a source tree manifest
 Command switch: `-find_replace'
 
-[$source SOURCE_LOG_LINE_REMOVER_APP] comments out logging lines from Eiffel source code tree
+${SOURCE_LOG_LINE_REMOVER_APP} comments out logging lines from Eiffel source code tree
 
 Command switch: `-elog_remover'
 
-[$source SOURCE_TREE_CLASS_RENAME_APP] renames classes defined by a source manifest file
+${SOURCE_TREE_CLASS_RENAME_APP} renames classes defined by a source manifest file
 
 Command switch: `-class_rename'
 

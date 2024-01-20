@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-16 17:53:05 GMT (Tuesday 16th January 2024)"
-	revision: "17"
+	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
+	revision: "18"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]

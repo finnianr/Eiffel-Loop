@@ -1,13 +1,13 @@
 note
-	description: "Html text element list"
+	description: "HTML text element list"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 16:10:21 GMT (Sunday 19th February 2023)"
-	revision: "20"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "22"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -28,6 +28,8 @@ inherit
 			is_equal, copy
 		end
 
+	EL_MODULE_XML
+
 	MARKDOWN_ROUTINES
 		undefine
 			is_equal, copy
@@ -35,11 +37,7 @@ inherit
 
 	PUBLISHER_CONSTANTS
 
-	EL_STRING_8_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
-
-	EL_MODULE_XML
+	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
 
 create
 	make, make_empty
@@ -191,16 +189,14 @@ feature {NONE} -- Implementation
 			variable_count: INTEGER
 		do
 			Result := line.count
-			if line.has_substring (Source_variable) then
-				-- substract all extra characters from ${MY_CLASS}
-				variable_count := line.substring_index_list (Source_variable, False).count
-				Result := Result - variable_count * (Source_variable.count + 3)
-			end
+		-- Substract all extra characters from ${MY_CLASS}
+			variable_count := line.substring_index_list (Dollor_left_brace, False).count
+			Result := Result - variable_count * (Dollor_left_brace.count + 1)
 		end
 
 	wrapped_lines: EL_ZSTRING_LIST
 		local
-			line, word, l_last: ZSTRING; l_count, removed_count, space_count: INTEGER
+			line, l_word, l_last: ZSTRING; l_count, removed_count, space_count: INTEGER
 			word_list: EL_ZSTRING_LIST; separator: CHARACTER; done: BOOLEAN
 		do
 			create Result.make (lines.count)
@@ -216,28 +212,28 @@ feature {NONE} -- Implementation
 						create word_list.make_split (line, separator)
 						done := word_list.first.count <= Maximum_code_width
 					end
-					Result.extend (create {ZSTRING}.make_filled (' ', space_count))
+					Result.extend (Space * space_count)
 					l_count := space_count
 					across word_list as list loop
-						word := list.item
+						l_word := list.item
 						if Result.last.count > 0 then
 							l_count := l_count + 1
 							Result.last.append_character (separator)
 						end
-						l_count := l_count + word.count
-						if word ~ Source_link then
-							l_count := l_count - (Source_variable.count + 3)
+						l_count := l_count + l_word.count
+						if l_word ~ Dollor_left_brace then
+							l_count := l_count - (Dollor_left_brace.count + 1)
 						end
-						Result.last.append (word)
-						Word_stack.put (word)
+						Result.last.append (l_word)
+						Word_stack.put (l_word)
 						if l_count > Maximum_code_width then
 							-- undo appending until small enough
 							removed_count := 0
-							from until Word_stack.item /~ Source_link and then l_count - removed_count <= Maximum_code_width loop
-								word := Word_stack.item; Word_stack.remove
-								removed_count := removed_count + word.count + 1
-								if word ~ Source_link then
-									removed_count := removed_count - (Source_variable.count + 3)
+							from until Word_stack.item /~ Dollor_left_brace and then l_count - removed_count <= Maximum_code_width loop
+								l_word := Word_stack.item; Word_stack.remove
+								removed_count := removed_count + l_word.count + 1
+								if l_word ~ Dollor_left_brace then
+									removed_count := removed_count - (Dollor_left_brace.count + 1)
 								end
 							end
 							l_last := Result.last
@@ -270,12 +266,6 @@ feature {NONE} -- Constants
 	Markdown: MARKDOWN_RENDERER
 		once
 			create Result
-		end
-
-	Source_link: ZSTRING
-		once
-			Result := "["
-			Result.append (Source_variable)
 		end
 
 	Word_stack: ARRAYED_STACK [ZSTRING]

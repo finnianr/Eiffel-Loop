@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2023-07-08 18:39:36 GMT (Saturday 8th July 2023)"
-	revision: "6"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "7"
 
 deferred class
 	PROTEIN_FOLDING_COMMAND_2_0 [G -> GRID_2_X create make end]

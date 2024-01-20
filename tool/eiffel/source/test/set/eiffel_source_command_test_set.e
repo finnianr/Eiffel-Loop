@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 16:57:38 GMT (Thursday 18th January 2024)"
-	revision: "26"
+	date: "2024-01-20 19:19:33 GMT (Saturday 20th January 2024)"
+	revision: "27"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -171,8 +171,9 @@ feature -- Tests
 		end
 
 	test_find_and_replace
+		-- EIFFEL_SOURCE_COMMAND_TEST_SET.test_find_and_replace
 		local
-			command: FIND_AND_REPLACE_COMMAND; replace_count: INTEGER
+			command: FIND_AND_REPLACE_COMMAND; replace_count, sample_count: INTEGER
 			plain_text_lines: like File.plain_text_lines
 		do
 			create command.make (Manifest_path, "INTEGER =", Integer_32_type)
@@ -184,14 +185,15 @@ feature -- Tests
 						replace_count := replace_count + line.item.has_substring (Integer_32_type).to_integer
 					end
 				end
-				if list.item.base ~ Encoding_sample.utf_8 or list.item.base ~ Encoding_sample.latin_1 then
+				if across Encoding_sample_list as sample some sample.item ~ list.item.base end then
 					assert ("has replacement", File.plain_text (list.item).has_substring (Integer_32_type))
+					sample_count := sample_count + 1
 				end
 			end
+		-- job_duration_parser.e is in both "feature-edits" and  "latin-1/parse"
+			assert ("both samples replaced", sample_count = 3)
 			assert ("24 replacements", replace_count = 24)
 			assert_valid_encodings
-			check attached command as cmd then
-			end
 		end
 
 	test_space_cleaner

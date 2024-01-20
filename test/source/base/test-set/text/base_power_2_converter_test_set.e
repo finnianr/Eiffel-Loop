@@ -6,7 +6,7 @@
 				${EL_OCTAL_CONVERTER}
 				${EL_BINARY_CONVERTER}
 				${EL_HEXADECIMAL_CONVERTER}
-		
+
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-29 17:10:55 GMT (Saturday 29th April 2023)"
-	revision: "6"
+	date: "2024-01-20 19:23:01 GMT (Saturday 20th January 2024)"
+	revision: "7"
 
 class
 	BASE_POWER_2_CONVERTER_TEST_SET

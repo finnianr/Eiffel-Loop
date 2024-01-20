@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-06 11:16:48 GMT (Monday 6th March 2023)"
-	revision: "2"
+	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
+	revision: "3"
 
 deferred class
 	EL_SHARED_IMMUTABLE_8_MANAGER

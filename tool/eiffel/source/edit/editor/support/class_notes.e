@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:46:36 GMT (Tuesday 14th February 2023)"
-	revision: "13"
+	date: "2024-01-20 9:21:24 GMT (Saturday 20th January 2024)"
+	revision: "14"
 
 class
 	CLASS_NOTES
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	class_name: ZSTRING
+	class_name: STRING
 
 	fields: NOTE_FIELD_LIST
 

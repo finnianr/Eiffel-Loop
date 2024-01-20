@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 7:49:10 GMT (Friday 25th August 2023)"
-	revision: "8"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "9"
 
 class
 	FTP_BACKUP_TEST_SET

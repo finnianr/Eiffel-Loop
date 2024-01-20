@@ -10,8 +10,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 15:08:18 GMT (Monday 30th October 2023)"
-	revision: "4"
+	date: "2024-01-20 19:27:43 GMT (Saturday 20th January 2024)"
+	revision: "5"
 
 class
 	TEST_HACKER_INTERCEPT_SERVLET

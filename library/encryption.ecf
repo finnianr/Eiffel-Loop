@@ -20,8 +20,8 @@ Routines for creating SHA-256 and MD5 hashes as well as UUID system time hashes.
 
 Library `xml-scan.ecf&apos; provides 2 classes for storing credentials
 
-1. [$source EL_BUILDABLE_AES_CREDENTIAL]
-2. [$source EL_SECURE_KEY_FILE]
+1. ${EL_BUILDABLE_AES_CREDENTIAL}
+2. ${EL_SECURE_KEY_FILE}
 	</description>
 	<target name = "EL_encryption">
 		<description>

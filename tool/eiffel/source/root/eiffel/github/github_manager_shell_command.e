@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 9:35:18 GMT (Sunday 3rd December 2023)"
-	revision: "27"
+	date: "2024-01-20 19:05:02 GMT (Saturday 20th January 2024)"
+	revision: "28"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -81,6 +81,29 @@ feature {NONE} -- Commands
 					push_cmd.execute
 					if push_cmd.has_error then
 						push_cmd.print_error ("pushing to master")
+					else
+						lio.put_labeled_string ("push", "DONE")
+						lio.put_new_line
+					end
+				end
+			end
+		end
+
+	git_force_push_origin
+		-- force-push the new HEAD commit (DANGEROUS so not in menu)
+		-- (Used after rolling back the most recent commit locally with: git reset HEAD^ )
+		-- https://stackoverflow.com/questions/8225125/remove-last-commit-from-remote-git-repository
+		local
+			push_cmd: EL_OS_COMMAND
+		do
+			across << True, False >> as is_plain_text loop
+				File.write_text (Credentials_path, config.new_credentials_text (is_plain_text.item))
+				if is_plain_text.item then
+					create push_cmd.make ("git push origin +HEAD")
+					push_cmd.set_working_directory (config.github_dir)
+					push_cmd.execute
+					if push_cmd.has_error then
+						push_cmd.print_error ("force pushing to master")
 					else
 						lio.put_labeled_string ("push", "DONE")
 						lio.put_new_line

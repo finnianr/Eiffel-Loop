@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-21 14:17:37 GMT (Wednesday 21st June 2023)"
-	revision: "13"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "15"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER
@@ -48,7 +48,7 @@ feature -- Basic operations
 			file_out: EL_PLAIN_TEXT_FILE
 		do
 			lio.put_new_line
-			lio.put_line ("Checking $source links")
+			lio.put_line ("Checking ${CLASS_NAME} links")
 			across ecf_list as tree loop
 				lio.put_character ('.')
 				across tree.item.directory_list as directory loop

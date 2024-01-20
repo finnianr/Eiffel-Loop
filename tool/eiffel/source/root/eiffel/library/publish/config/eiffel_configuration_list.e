@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:14 GMT (Thursday 30th March 2023)"
-	revision: "11"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "13"
 
 class
 	EIFFEL_CONFIGURATION_LIST [G -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -71,7 +71,7 @@ feature -- Basic operations
 	sink_source_subsitutions
 		do
 			lio.put_labeled_string (
-				"Adding to current_digest", "description $source variable paths and client example paths"
+				"Adding to current_digest", "description ${CLASS_NAME} variable paths and client example paths"
 			)
 			lio.put_new_line
 			across Current as tree loop

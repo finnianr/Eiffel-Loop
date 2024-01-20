@@ -1,26 +1,26 @@
 **Sub-applications**
 
-[$source CHECK_LOCALE_STRINGS_APP] verifies localization translation identifiers against various kinds of source texts.
+${CHECK_LOCALE_STRINGS_APP} verifies localization translation identifiers against various kinds of source texts.
 
 Command switch: `-check_locale_strings'
 
-[$source CLASS_DESCENDANTS_APP] outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+${CLASS_DESCENDANTS_APP} outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
 
 Command switch: `-descendants'
 
-[$source CODEBASE_STATISTICS_APP] counts classes, code words and combined source file size for Eiffel source trees specified in manifest
+${CODEBASE_STATISTICS_APP} counts classes, code words and combined source file size for Eiffel source trees specified in manifest
 
 Command switch: `-codebase_stats'
 
-[$source ENCODING_CHECK_APP] checks for UTF-8 files that could be encoded as Latin-1
+${ENCODING_CHECK_APP} checks for UTF-8 files that could be encoded as Latin-1
 
 Command switch: `-check_encoding'
 
-[$source REPOSITORY_NOTE_LINK_CHECKER_APP] checks for invalid class references in repository note links
+${REPOSITORY_NOTE_LINK_CHECKER_APP} checks for invalid class references in repository note links
 
 Command switch: `-check_note_links'
 
-[$source UNDEFINE_PATTERN_COUNTER_APP] counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
+${UNDEFINE_PATTERN_COUNTER_APP} counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 
 Command switch: `-undefine_counter'
 

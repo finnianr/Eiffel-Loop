@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 19:04:09 GMT (Thursday 18th January 2024)"
-	revision: "2"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "4"
 
 class
 	CLASS_NOTE_LINK_REFORMATTING_COMMAND
@@ -36,7 +36,7 @@ feature {EL_APPLICATION} -- Initialization
 	make_default
 		do
 			Precursor
-			source_pattern := Wiki_source_link + char (' ')
+			source_pattern := Source_link_start + char (' ')
 		end
 
 feature -- Constants

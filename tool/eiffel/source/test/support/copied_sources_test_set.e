@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 17:15:46 GMT (Monday 15th January 2024)"
-	revision: "6"
+	date: "2024-01-20 17:36:31 GMT (Saturday 20th January 2024)"
+	revision: "7"
 
 deferred class
 	COPIED_SOURCES_TEST_SET
@@ -131,6 +131,11 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill (Result, "el_iso_8859_10_codec.e, job_duration_parser.e")
+		end
+
+	Encoding_sample_list: EL_ZSTRING_LIST
+		once
+			create Result.make_from_tuple (Encoding_sample)
 		end
 
 	Source_manifest: STRING

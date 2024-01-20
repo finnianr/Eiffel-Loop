@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:31:29 GMT (Wednesday 8th November 2023)"
-	revision: "33"
+	date: "2024-01-20 19:22:09 GMT (Saturday 20th January 2024)"
+	revision: "34"
 
 class
 	JSON_PARSING_TEST_SET

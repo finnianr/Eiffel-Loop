@@ -1,6 +1,6 @@
 note
 	description: "[
-		Use a supplied repository publishing configuration to expand `$source' variable path in wiki-links 
+		Use a supplied repository publishing configuration to expand `${<type-name>}' variable path in wiki-links 
 		containined in a wiki-markup text file. Write the expanded output to file named as follows:
 		
 			<file name>.expanded.<file extension>
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 18:30:27 GMT (Thursday 18th January 2024)"
-	revision: "32"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "34"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -30,10 +30,6 @@ inherit
 	EL_APPLICATION_COMMAND
 
 	EL_FILE_OPEN_ROUTINES
-
-	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
-
-	EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -73,32 +69,34 @@ feature -- Basic operations
 
 	expand_links (line: ZSTRING; file_out: EL_PLAIN_TEXT_FILE)
 		local
-			link: EL_OCCURRENCE_INTERVALS; link_text, inside_text: ZSTRING
-			pos_right_bracket, previous_pos: INTEGER
+			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
+			type_name: ZSTRING
 		do
 			line.expand_tabs (3)
-			previous_pos := 1
-			create link.make_by_string (line, Wiki_source_link)
-			from link.start until link.after loop
-				pos_right_bracket := line.index_of (']', link.item_upper)
-				file_out.put_string (line.substring (previous_pos, link.item_lower - 1))
-				if pos_right_bracket > 0 and then line.is_space_item (link.item_upper + 1)then
-					link_text := line.substring (link.item_upper + 1, pos_right_bracket)
-					inside_text := link_text.substring (2, link_text.count - 1)
-					if Class_path_table.has_class (inside_text) then
-						put_source_link (file_out, Class_path_table.found_item, link_text)
-					elseif ISE_class_table.has_class (inside_text) then
-						put_ise_source_link (file_out, ISE_class_table.found_item, link_text)
+			if attached Class_reference_list as list then
+				list.parse (line)
+				from list.start until list.after loop
+					preceding_start_index := previous_end_index + 1
+					preceding_end_index := list.item_start_index - 1
+					if (preceding_end_index - preceding_start_index + 1) > 0 then
+						file_out.put_string (line.substring (preceding_start_index, preceding_end_index))
 					end
-					previous_pos := pos_right_bracket + 1
-				else
-					file_out.put_string (Wiki_source_link)
-					previous_pos := link.item_upper + 1
+					if attached list.item_value.path as path then
+						type_name := list.item_type_name
+						if list.item_value.is_ise_path then
+							file_out.put_string (ISE_link_template #$ [path, type_name])
+						else
+							file_out.put_string (Wiki_link_template #$ [web_address, path, type_name])
+						end
+					end
+					previous_end_index := list.item_end_index
+					list.forth
 				end
-				link.forth
+				if line.count - previous_end_index > 0 then
+					file_out.put_string (line.substring (previous_end_index + 1, line.count))
+				end
 			end
-			file_out.put_string (line.substring (previous_pos, line.count))
-			file_out.put_new_line
+			file_out.new_line
 		end
 
 feature {NONE} -- Implementation
@@ -107,24 +105,19 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	put_source_link (file_out: EL_PLAIN_TEXT_FILE; html_path: FILE_PATH; link_text: ZSTRING)
-		do
-			file_out.put_encoded_character_8 ('[')
-			file_out.put_string (web_address)
-			file_out.put_encoded_character_8 ('/')
-			file_out.put_string (html_path.to_string)
-			file_out.put_string (link_text)
-		end
-
-	put_ise_source_link (file_out: EL_PLAIN_TEXT_FILE; url: ZSTRING; link_text: ZSTRING)
-		do
-			file_out.put_encoded_character_8 ('[')
-			file_out.put_string (url)
-			file_out.put_string (link_text)
-		end
-
 feature {NONE} -- Internal attributes
 
 	file_path: FILE_PATH
 
+feature {NONE} -- Constants
+
+	ISE_link_template: ZSTRING
+		once
+			Result := "[%S %S]"
+		end
+
+	Wiki_link_template: ZSTRING
+		once
+			Result := "[%S/%S %S]"
+		end
 end

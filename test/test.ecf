@@ -131,14 +131,14 @@ See doc/test.root.txt for details
 amazon-instant-access.ecf
 
 Tests for Eiffel interface to Amazon Instant Access API.
-See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
+See class ${AMAZON_INSTANT_ACCESS_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "base" location = "source/base" recursive = "true">
 			<description>
 base.ecf (Eiffel-Loop)
 
-Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
+Test Eiffel-Loop base classes. See ${BASE_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "c_language_interface" location = "source/C-language-interface" recursive = "true">
@@ -157,7 +157,7 @@ Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
 			<description>
 C-language-interface.ecf
 
-See class [$source C_LANGUAGE_INTERFACE_AUTOTEST_APP]
+See class ${C_LANGUAGE_INTERFACE_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "common" location = "source/common" recursive = "true">
@@ -171,14 +171,14 @@ See doc/test.common.txt for details
 			<description>
 compression.ecf
 
-See class [$source COMPRESSION_TEST_APP]
+See class ${COMPRESSION_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "currency" location = "source/currency" recursive = "true">
 			<description>
 currency.ecf
 
-See class [$source CURRENCY_TEST_APP]
+See class ${CURRENCY_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "eiffel" location = "source/eiffel" recursive = "true">
@@ -186,14 +186,14 @@ See class [$source CURRENCY_TEST_APP]
 Eiffel Core Concepts
 
 Test core concepts and behaviour of basic Eiffel code and libraries.
-See class [$source EIFFEL_AUTOTEST_APP]
+See class ${EIFFEL_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "encryption" location = "source/encryption" recursive = "true">
 			<description>
 encryption.ecf
 
-See class [$source ENCRYPTION_AUTOTEST_APP]
+See class ${ENCRYPTION_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "eco_db" location = "source/Eco-DB" recursive = "true">
@@ -202,7 +202,7 @@ Eco-DB.ecf
 
 Test [./library/Eco-DB.html Eco-DB (Eiffel CHAIN Orientated Database)] library.
 
-Test application: [$source ECO_DB_AUTOTEST_APP]
+Test application: ${ECO_DB_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "eros" location = "source/eros" recursive = "true">
@@ -213,11 +213,11 @@ Test [./library/eros.html Eiffel Remote Object Server (EROS)] protocol library.
 
 **Test Apps**
 
-* [$source EROS_AUTOTEST_APP]
-* [$source BEXT_CLIENT_TEST_APP]
-* [$source BEXT_SERVER_TEST_APP]
-* [$source FOURIER_MATH_CLIENT_TEST_APP]
-* [$source FOURIER_MATH_SERVER_TEST_APP]
+* ${EROS_AUTOTEST_APP}
+* ${BEXT_CLIENT_TEST_APP}
+* ${BEXT_SERVER_TEST_APP}
+* ${FOURIER_MATH_CLIENT_TEST_APP}
+* ${FOURIER_MATH_SERVER_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "evolicity" location = "source/evolicity" recursive = "true">
@@ -225,7 +225,7 @@ Test [./library/eros.html Eiffel Remote Object Server (EROS)] protocol library.
 evolicity.ecf
 
 Test of Evolicity text substitution engine.
-See class [$source EVOLICITY_TEST_APP]
+See class ${EVOLICITY_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "file_processing" location = "source/file-processing" recursive = "true">
@@ -234,14 +234,14 @@ file-processing.ecf
 
 Test [./library/file-processing.html File and Directory Processing)] library.
 
-See class [$source FILE_PROCESSING_AUTOTEST_APP]
+See class ${FILE_PROCESSING_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "http_client" location = "source/http-client" recursive = "true">
 			<description>
 http-client.ecf
 
-See class [$source HTTP_CLIENT_AUTOTEST_APP]
+See class ${HTTP_CLIENT_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "i18n" location = "source/i18n" recursive = "true">
@@ -249,22 +249,22 @@ See class [$source HTTP_CLIENT_AUTOTEST_APP]
 i18n.ecf
 
 Test localization library.
-See class [$source I18N_AUTOTEST_APP]
+See class ${I18N_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "image_utils" location = "source/image-utils" recursive = "true">
 			<description>
 image-utils.ecf
 
-See class [$source SVG_TO_PNG_CONVERSION_TEST_APP]
+See class ${SVG_TO_PNG_CONVERSION_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "markup_docs" location = "source/markup-docs" recursive = "true">
 			<description>
 markup-docs.ecf
 
-* Test subject line decoding for Thunderbird Email Export with [$source THUNDERBIRD_TEST_APP]
-* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
+* Test subject line decoding for Thunderbird Email Export with ${THUNDERBIRD_TEST_APP}
+* Regression test reading of Open Office Spreadsheet with ${OPEN_OFFICE_TEST_APP}
 			</description>
 		</cluster>
 		<!--Excluded on Windows because TagLib.ecf is not yet available for Windows-->
@@ -284,8 +284,8 @@ network.ecf
 
 Test network library classes
 
-* [$source TEST_SIMPLE_CLIENT]
-* [$source SIMPLE_SERVER_TEST_APP]
+* ${TEST_SIMPLE_CLIENT}
+* ${SIMPLE_SERVER_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "os_command" location = "source/os-command" recursive = "true">
@@ -304,8 +304,8 @@ Test network library classes
 			<description>
 os-command.ecf
 
-* Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
-* Test set for classes that manage and read file system content. See class [$source FILE_AND_DIRECTORY_TEST_SET]
+* Test OS command interface library. See class ${OS_COMMAND_AUTOTEST_APP}
+* Test set for classes that manage and read file system content. See class ${FILE_AND_DIRECTORY_TEST_SET}
 			</description>
 		</cluster>
 		<cluster name = "paypal_sbm" location = "source/paypal-SBM" recursive = "true">
@@ -313,7 +313,7 @@ os-command.ecf
 paypal-SBM.ecf
 
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API.
-See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
+See class ${PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "public_key_encryption" location = "source/public-key-encryption" recursive = "true">
@@ -321,21 +321,21 @@ See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
 public-key-encryption.ecf
 
 Tests for RSA public key encryption tools.
-See class [$source PUBLIC_KEY_ENCRYPTION_TEST_APP]
+See class ${PUBLIC_KEY_ENCRYPTION_TEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "pyxis_scan" location = "source/pyxis-scan" recursive = "true">
 			<description>
 pyxis-scan.ecf
 
-Test application class: [$source PYXIS_SCAN_AUTOTEST_APP]
+Test application class: ${PYXIS_SCAN_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "regedit" location = "source/regedit" recursive = "true">
 			<description>
 wel-regedit-x.ecf
 
-See class [$source REGEDIT_AUTOTEST_APP]
+See class ${REGEDIT_AUTOTEST_APP}
 			</description>
 			<condition>
 				<platform value = "windows"/>
@@ -345,14 +345,14 @@ See class [$source REGEDIT_AUTOTEST_APP]
 			<description>
 search-engine.ecf
 
-See class [$source SEARCH_ENGINE_AUTOTEST_APP]
+See class ${SEARCH_ENGINE_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "taglib" location = "source/TagLib" recursive = "true">
 			<description>
 TagLib.ecf
 
-See class [$source TAGLIB_AUTOTEST_APP]
+See class ${TAGLIB_AUTOTEST_APP}
 			</description>
 			<condition>
 				<platform value = "unix"/>
@@ -362,14 +362,14 @@ See class [$source TAGLIB_AUTOTEST_APP]
 			<description>
 text-formats.ecf
 
-See class [$source TEXT_FORMATS_AUTOTEST_APP]
+See class ${TEXT_FORMATS_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "text_process" location = "source/text-process" recursive = "true">
 			<description>
 text-process.ecf
 
-See class [$source TEXT_PROCESS_AUTOTEST_APP]
+See class ${TEXT_PROCESS_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "vtd_xml" location = "source/vtd-xml" recursive = "true">
@@ -378,7 +378,7 @@ vtd-xml.ecf
 
 Tests for Eiffel interface VTD-XML C API
 
-See class [$source VTD_XML_AUTOTEST_APP]
+See class ${VTD_XML_AUTOTEST_APP}
 			</description>
 		</cluster>
 		<cluster name = "wel_x_audio" location = "source/wel-x-audio" recursive = "true">
@@ -386,7 +386,7 @@ See class [$source VTD_XML_AUTOTEST_APP]
 wel-x-audio.ecf
 
 Maintenance of Windows audio classes
-See class [$source MEDIA_PLAYER_DUMMY_APP]
+See class ${MEDIA_PLAYER_DUMMY_APP}
 			</description>
 			<condition>
 				<platform value = "windows"/>
@@ -396,7 +396,7 @@ See class [$source MEDIA_PLAYER_DUMMY_APP]
 			<description>
 xml-scan.ecf
 
-Test application class: [$source XML_SCAN_AUTOTEST_APP]
+Test application class: ${XML_SCAN_AUTOTEST_APP}
 			</description>
 		</cluster>
 	</target>

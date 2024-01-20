@@ -7,7 +7,7 @@ Python Interface
 Some extensions to Daniel Rodríguez&apos;s
 [https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel].
 This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags
-in an MP3 file: [$source EL_EYED3_TAG].
+in an MP3 file: ${EL_EYED3_TAG}.
 	</description>
 	<target name = "EL_eiffel2python">
 		<option namespace = "Eiffel-Loop.Library.Eiffel2Python" syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "true" warning = "true">

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 12:12:34 GMT (Friday 22nd December 2023)"
-	revision: "78"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "79"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE

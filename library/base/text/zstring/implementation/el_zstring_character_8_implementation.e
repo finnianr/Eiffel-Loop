@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 12:30:56 GMT (Monday 15th January 2024)"
-	revision: "30"
+	date: "2024-01-20 19:40:57 GMT (Saturday 20th January 2024)"
+	revision: "31"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
@@ -359,7 +359,7 @@ feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- I
 		do
 			if attached a_old_area as old_area then
 				if old_area = other.area or else old_area.count <= count then
-						-- Prevent copying of large `area' if only a few characters are actually used.
+				-- Prevent copying of large `area' if only a few characters are actually used.
 					area := area.resized_area (count + 1)
 				else
 					old_area.copy_data (area, 0, 0, count)

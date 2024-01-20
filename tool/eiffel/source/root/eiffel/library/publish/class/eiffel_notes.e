@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 18:28:39 GMT (Thursday 18th January 2024)"
-	revision: "32"
+	date: "2024-01-20 13:17:19 GMT (Saturday 20th January 2024)"
+	revision: "34"
 
 class
 	EIFFEL_NOTES
@@ -24,7 +24,9 @@ inherit
 
 	EL_MODULE_STRING; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT; EL_MODULE_XML
 
-	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_INVALID_CLASSNAMES
+	SHARED_INVALID_CLASSNAMES
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	PUBLISHER_CONSTANTS
 
@@ -192,7 +194,7 @@ feature {NONE} -- Line states
 
 	find_note_section (line: ZSTRING)
 		do
-			if across Indexing_keywords as word some line.starts_with (word.item) end then
+			if across Indexing_keywords as l_word some line.starts_with (l_word.item) end then
 				state := agent find_note_section_end
 			end
 		end
@@ -242,28 +244,19 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	check_link_candidate (str, base_name: ZSTRING)
-		local
-			pos_close: INTEGER; text: ZSTRING
+	check_links_for_line (line, base_name: ZSTRING)
 		do
-			if str.starts_with (Source_variable_padded) then
-				pos_close := str.index_of (']', Source_variable_padded.count)
-				if pos_close > 0 then
-					text := str.substring (Source_variable_padded.count + 1, pos_close - 1)
-					if Class_path_table.has_class (text) then
-						do_nothing
-					elseif ISE_class_table.has_class (text) then
-						do_nothing
-					else
-						Invalid_source_name_table.extend (relative_class_dir + base_name, Class_path_table.last_name)
+			if attached Class_reference_list as list then
+				list.parse (line)
+				if list.has_invalid_class then
+					from list.start until list.after loop
+						if not list.item_has_path then
+							Invalid_source_name_table.extend (relative_class_dir + base_name, list.item_class_name)
+						end
+						list.forth
 					end
 				end
 			end
-		end
-
-	check_links_for_line (line, base_name: ZSTRING)
-		do
-			line.do_with_splits (char ('['), agent check_link_candidate (?, base_name))
 		end
 
 	new_title (name: ZSTRING): ZSTRING

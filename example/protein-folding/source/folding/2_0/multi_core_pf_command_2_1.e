@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com; gerrit.leder@gmail.com"
 
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
-	date: "2022-06-07 11:13:04 GMT (Tuesday 7th June 2022)"
-	revision: "4"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "5"
 
 class
 	MULTI_CORE_PF_COMMAND_2_1 [G -> GRID_2_X create make end]
@@ -90,6 +90,5 @@ feature {NONE} -- Factory
 		end
 
 end
-
 
 

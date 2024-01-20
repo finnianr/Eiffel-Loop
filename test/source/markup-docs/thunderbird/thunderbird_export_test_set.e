@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 18:04:21 GMT (Tuesday 14th November 2023)"
-	revision: "30"
+	date: "2024-01-20 19:23:24 GMT (Saturday 20th January 2024)"
+	revision: "31"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET

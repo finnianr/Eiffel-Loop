@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 17:59:16 GMT (Sunday 5th March 2023)"
-	revision: "9"
+	date: "2024-01-19 10:47:04 GMT (Friday 19th January 2024)"
+	revision: "10"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -19,24 +19,25 @@ inherit
 
 	EL_EIFFEL_CONSTANTS
 
+	STRING_HANDLER
+
 feature -- Conversion
 
 	class_name (text: ZSTRING): ZSTRING
 		local
-			done, first_found: BOOLEAN
+			break: BOOLEAN; i: INTEGER; c: CHARACTER
 		do
 			create Result.make (text.count)
-			across text as c until done loop
-				if first_found then
-					inspect c.item
-						when 'A' .. 'Z', '0' .. '9', '_' then
-							Result.append_character (c.item)
+			if starts_with_upper_letter (text) then
+				Result.append_character (text [1])
+				from i := 2 until i > text.count or break loop
+					c := text.item_8 (i)
+					if Class_name_character_set.has (c) then
+						Result.append_character (c)
 					else
-						done := True
+						break := True
 					end
-				elseif c.item.is_alpha then
-					first_found := True
-					Result.append_character (c.item)
+					i := i + 1
 				end
 			end
 		end
@@ -60,29 +61,50 @@ feature -- Conversion
 
 feature -- Status query
 
-	is_class_name (text: ZSTRING): BOOLEAN
-		do
-			Result := text.count > 0
-			across text as c until not Result loop
-				inspect c.item
-					when 'A' .. 'Z'  then
-						Result := True
-					when '_', '0' .. '9' then
-						Result := not c.is_first
-				else
-					Result := False
-				end
-			end
-		end
-
 	is_class_definition_start (line: ZSTRING): BOOLEAN
 		do
 			Result := across Class_declaration_keywords as list some line.starts_with (list.item) end
 		end
 
+	is_class_name (text: ZSTRING): BOOLEAN
+		do
+			Result := starts_with_upper_letter (text) and then text.has_only_8 (Class_name_character_set)
+		end
+
 	is_reserved_word (word: ZSTRING): BOOLEAN
 		do
 			Result := Reserved_word_set.has (word)
+		end
+
+	is_type_name (text: ZSTRING): BOOLEAN
+		do
+			Result := starts_with_upper_letter (text) and then text.has_only_8 (Type_name_character_set)
+		end
+
+feature {NONE} -- Implementation
+
+	starts_with_upper_letter (text: ZSTRING): BOOLEAN
+		do
+			if text.count > 0 then
+				inspect text.item_8 (1)
+					when 'A' .. 'Z' then
+						Result := True
+				else
+				end
+			end
+		end
+
+feature -- Constants
+
+	Class_name_character_set: EL_EIFFEL_CLASS_NAME_CHARACTER_SET
+		-- Set of characters permissible in class name
+		once
+			create Result
+		end
+	Type_name_character_set: EL_EIFFEL_TYPE_NAME_CHARACTER_SET
+		-- Set of characters permissible in type name (which may have generic parameters)
+		once
+			create Result
 		end
 
 end

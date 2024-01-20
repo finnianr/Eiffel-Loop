@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 17:31:14 GMT (Monday 25th December 2023)"
-	revision: "9"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "10"
 
 deferred class
 	EL_SHARED_INITIALIZER [G -> EL_INITIALIZEABLE create make end]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 19:10:15 GMT (Thursday 18th January 2024)"
-	revision: "17"
+	date: "2024-01-19 15:55:22 GMT (Friday 19th January 2024)"
+	revision: "18"
 
 class
 	MARKDOWN_TRANSLATER
@@ -37,6 +37,7 @@ feature {NONE} -- Initialization
 		do
 			repository_web_address := a_repository_web_address
 			create output.make_empty
+			create variable_substitution.make (a_repository_web_address)
 			make_machine
 		end
 
@@ -128,12 +129,13 @@ feature {NONE} -- Implementation
 		end
 
 	replace_links (text: ZSTRING)
-			-- change [http://address.com click here] to [click here](http://address.com)
-			-- in order to be compatible with Github markdown
+		-- change [http://address.com click here] to [click here](http://address.com)
+		-- in order to be compatible with Github markdown
 		do
 			across Link_types as type loop
 				text.edit (type.item, char (']'), agent to_github_link)
 			end
+			variable_substitution.substitute_links (text)
 		end
 
 	to_github_link (start_index, end_index: INTEGER; substring: ZSTRING)
@@ -145,17 +147,8 @@ feature {NONE} -- Implementation
 			if space_index > 0 then
 				link_address := substring.substring (2, space_index - 1)
 				link_text := substring.substring (space_index + 1, substring.count - 1)
-				inspect link_address [1]
-					when '.' then
-						link_address.replace_substring (repository_web_address, 1, 1)
-					when '$' then
-						if Class_path_table.has_class (link_text) then
-							link_address := Join_path #$ [repository_web_address, Class_path_table.found_item]
-
-						elseif ISE_class_table.has_class (link_text) then
-							link_address := ISE_class_table.found_item
-						end
-				else
+				if link_address.starts_with_character ('.') then
+					link_address.replace_substring (repository_web_address, 1, 1)
 				end
 			else
 				link_text := Empty_string
@@ -163,7 +156,7 @@ feature {NONE} -- Implementation
 			if link_text.is_empty then
 				substring.share (substring.substring (2, substring.count - 1))
 			else
-				substring.share (Github_link #$ [link_text, link_address])
+				substring.share (Github_link_template #$ [link_text, link_address])
 			end
 		end
 
@@ -177,6 +170,8 @@ feature {NONE} -- Internal attributes
 
 	last_is_line_item: BOOLEAN
 
+	variable_substitution: GITHUB_TYPE_VARIABLE_SUBSTITUTION
+
 feature {NONE} -- Constants
 
 	Code_block_delimiter: ZSTRING
@@ -184,19 +179,9 @@ feature {NONE} -- Constants
 			Result := char ('`') * 4
 		end
 
-	Github_link: ZSTRING
+	Link_types: EL_ZSTRING_LIST
 		once
-			Result := "[%S](%S)"
-		end
-
-	Join_path: ZSTRING
-		once
-			Result := "%S/%S"
-		end
-
-	Link_types: ARRAY [ZSTRING]
-		once
-			Result := << "[http://", "[https://", "[./", Wiki_source_link >>
+			Result := "[http://, [https://, [./"
 		end
 
 end

@@ -18,7 +18,7 @@ A substantial C-bridge was developed to make Eiffel work better with VTD-XML.
 The original VTX-XML code was forked to make it possible to compile it with the MSC compiler.
 This fork is found under `contrib/C&apos;.
 
-Test class [$source VTD_XML_AUTOTEST_APP]
+Test class ${VTD_XML_AUTOTEST_APP}
 	</description>
 	<target name = "EL_vtd_xml">
 		<root all_classes = "true"/>

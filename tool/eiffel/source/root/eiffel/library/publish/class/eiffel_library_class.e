@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:39:16 GMT (Tuesday 28th March 2023)"
-	revision: "15"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "17"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -43,7 +43,7 @@ feature -- Access
 feature -- Element change
 
 	sink_source_substitutions
-		-- sink the values of $source occurrences `code_text'. Eg. ${CLASS_NAME}
+		-- sink the values of ${<type-name>} occurrences `code_text'. Eg. ${CLASS_NAME}
 		-- and populate `client_examples' while adding the client paths to `current_digest'
 		-- in alphabetical order of class name.
 		local

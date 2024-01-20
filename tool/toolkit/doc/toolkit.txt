@@ -1,48 +1,48 @@
 The most useful ones are listed below with the option name:
 
-[$source HTML_BODY_WORD_COUNTER_APP] counts the number of words in a HTML document.
+${HTML_BODY_WORD_COUNTER_APP} counts the number of words in a HTML document.
 
 Command switch: `-body_word_counts'
 
-[$source CRYPTO_COMMAND_SHELL_APP] is a menu driven shell of useful cryptographic operations.
+${CRYPTO_COMMAND_SHELL_APP} is a menu driven shell of useful cryptographic operations.
 
 Command switch: `-crypto'
 
-[$source THUNDERBIRD_BOOK_EXPORTER_APP] merges a localized folder of emails in the Thunderbird email client into a
+${THUNDERBIRD_BOOK_EXPORTER_APP} merges a localized folder of emails in the Thunderbird email client into a
 single HTML book with chapter numbers and titles derived from subject line.
 The output files are used to generate a Kindle book.
 
 Command switch: `-export_book'
 
-[$source THUNDERBIRD_WWW_EXPORTER_APP] exports emails from selected Thunderbird email folders as HTML bodies (extension: `body'). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
+${THUNDERBIRD_WWW_EXPORTER_APP} exports emails from selected Thunderbird email folders as HTML bodies (extension: `body'). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
 
 Command switch: `-export_www'
 
-[$source PYXIS_TRANSLATION_TREE_COMPILER_APP] compiles tree of Pyxis translation files into multiple locale files named `locale.x' where `x' is a 2 letter country code. Does nothing if source files are all older than locale files. See class [$source EL_LOCALE_I].
+${PYXIS_TRANSLATION_TREE_COMPILER_APP} compiles tree of Pyxis translation files into multiple locale files named `locale.x' where `x' is a 2 letter country code. Does nothing if source files are all older than locale files. See class ${EL_LOCALE_I}.
 
 Command switch: `-compile_translations'
 
-[$source PYXIS_TO_XML_APP] converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf'). The attribute `configuration_ns' can be used as convenient shorthand for the ECF schema configuration information.
+${PYXIS_TO_XML_APP} converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf'). The attribute `configuration_ns' can be used as convenient shorthand for the ECF schema configuration information.
 
 Command switch: `-pyxis_to_xml'
 
-[$source YOUTUBE_VIDEO_DOWNLOADER_APP] downloads and merges selected audio and video streams from a Youtube video.
+${YOUTUBE_VIDEO_DOWNLOADER_APP} downloads and merges selected audio and video streams from a Youtube video.
 
 Command switch: `-youtube_dl'
 
-[$source FILE_MANIFEST_APP] creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [$source EVOLICITY_SERIALIZEABLE]
+${FILE_MANIFEST_APP} creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class ${EVOLICITY_SERIALIZEABLE}
 
 Command switch: `-file_manifest'
 
-[$source UNDATED_PHOTO_FINDER_APP] lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
+${UNDATED_PHOTO_FINDER_APP} lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal'.
 
 Command switch: `-undated_photos'
 
-[$source DUPLICITY_BACKUP_APP] creates incremental duplicity backups using a configuration file in Pyxis format.
+${DUPLICITY_BACKUP_APP} creates incremental duplicity backups using a configuration file in Pyxis format.
 
 Command switch: `-duplicity'
 
-[$source DUPLICITY_RESTORE_APP] restores either an entire duplicity backup or a selected file or directory. 
+${DUPLICITY_RESTORE_APP} restores either an entire duplicity backup or a selected file or directory. 
 Restoration output directory is defined in same configuration file as backup.
 
 Command switch: `-duplicity_restore'

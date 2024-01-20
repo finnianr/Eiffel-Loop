@@ -12,16 +12,16 @@ Provides:
 
 **Parse Event Sources**
 
-[$source EL_EXPAT_XML_PARSER]
+${EL_EXPAT_XML_PARSER}
 
 An Eiffel binding to the [http://expat.sourceforge.net/ eXpat XML parser]
 
-[$source EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM]
+${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}
 
 [http://expat.sourceforge.net/ eXpat XML parser] of XML serializeable objects conforming to
-[$source EVOLICITY_SERIALIZEABLE_AS_XML].
+${EVOLICITY_SERIALIZEABLE_AS_XML}.
 
-[$source EL_EXPAT_XML_WITH_CTRL_Z_PARSER]
+${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}
 
 [http://expat.sourceforge.net/ eXpat XML parser] with input stream end delimited by Ctrl-Z character.
 Useful for parsing network streams.

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-30 10:19:57 GMT (Monday 30th January 2023)"
-	revision: "7"
+	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
+	revision: "8"
 
 class
 	EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]

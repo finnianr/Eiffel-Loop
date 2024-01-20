@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-03 13:14:36 GMT (Tuesday 3rd January 2023)"
-	revision: "6"
+	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
+	revision: "7"
 
 class
 	EL_PYXIS_OBJECT_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]

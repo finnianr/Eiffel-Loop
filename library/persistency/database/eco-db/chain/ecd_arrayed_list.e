@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-21 8:28:08 GMT (Friday 21st July 2023)"
-	revision: "19"
+	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
+	revision: "20"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]

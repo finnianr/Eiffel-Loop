@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-24 18:29:48 GMT (Friday 24th February 2023)"
-	revision: "4"
+	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
+	revision: "5"
 
 deferred class
 	EL_COMPARABLE_ZSTRING_INTERVALS [C, S -> READABLE_INDEXABLE [C]]

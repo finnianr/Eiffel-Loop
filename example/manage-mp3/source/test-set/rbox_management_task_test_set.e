@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:13:05 GMT (Thursday 7th September 2023)"
-	revision: "22"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "23"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:44:15 GMT (Friday 10th March 2023)"
-	revision: "7"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "8"
 
 class
 	TANGO_MP3_FILE_COLLATOR_TEST_SET

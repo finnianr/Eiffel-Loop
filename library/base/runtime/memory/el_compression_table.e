@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:28:08 GMT (Saturday 31st December 2022)"
-	revision: "4"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "5"
 
 class
 	EL_COMPRESSION_TABLE [G -> EL_STORABLE create make_default end, K -> HASHABLE]

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 17:32:21 GMT (Sunday 17th September 2023)"
-	revision: "50"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "52"
 
 class
 	EIFFEL_CLASS
@@ -44,7 +44,9 @@ inherit
 
 	PUBLISHER_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
-	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_CODEBASE_METRICS
+	SHARED_CODEBASE_METRICS
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -58,7 +60,8 @@ feature {NONE} -- Initialization
 		do
 			relative_source_path := a_source_path.relative_path (a_repository.root_dir)
 			make_from_template_and_output (
-				a_repository.templates.eiffel_source, a_repository.output_dir + relative_source_path.with_new_extension (Html)
+				a_repository.templates.eiffel_source,
+				a_repository.output_dir + relative_source_path.with_new_extension (Html)
 			)
 			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
 			name := source_path.base_name.as_upper
@@ -190,7 +193,7 @@ feature -- Basic operations
 		end
 
 	sink_source_substitutions
-		-- sink the values of $source occurrences `code_text'. Eg. ${CLASS_NAME}
+		-- sink the values of ${<type-name>} occurrences `code_text'. Eg. ${CLASS_NAME}
 		local
 			crc: like crc_generator
 		do
@@ -201,8 +204,15 @@ feature -- Basic operations
 				initial_current_digest := current_digest
 			end
 			crc.set_checksum (current_digest)
-			Editor.set_target (code_text)
-			Editor.for_each_balanced ('[', ']', Source_variable, agent sink_source_path (?, ?, ?, crc))
+			if attached Class_reference_list as list then
+				list.parse (code_text)
+				from list.start until list.after loop
+					if attached list.item_value.path as path then
+						crc.add_path (path)
+					end
+					list.forth
+				end
+			end
 			current_digest := crc.checksum
 		end
 
@@ -281,21 +291,6 @@ feature {NONE} -- Implementation
 			crc.add_string (relative_source_path)
 		end
 
-	sink_source_path (start_index, end_index: INTEGER; substring: ZSTRING; crc: like crc_generator)
-		local
-			l_name: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
-		do
-			l_name := buffer.copied_substring (substring, start_index, end_index)
-			l_name.adjust
-			if Class_path_table.has_class (l_name) then
-				crc.add_path (Class_path_table.found_item)
-
-			elseif ISE_class_table.has_class (l_name) then
-				crc.add_string (ISE_class_table.found_item)
-
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
 	library_ecf: EIFFEL_CONFIGURATION_FILE
@@ -340,8 +335,8 @@ feature {NONE} -- Constants
 	Class_begin_strings: EL_ZSTRING_LIST
 		once
 			create Result.make (3)
-			across Class_declaration_keywords as word loop
-				Result.extend (new_line * 1 + word.item)
+			across Class_declaration_keywords as l_word loop
+				Result.extend (new_line * 1 + l_word.item)
 			end
 		end
 

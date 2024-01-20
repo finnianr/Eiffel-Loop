@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 18:57:07 GMT (Thursday 18th January 2024)"
-	revision: "10"
+	date: "2024-01-20 19:53:27 GMT (Saturday 20th January 2024)"
+	revision: "12"
 
 class
 	SOURCE_LINK_SUBSTITUTION
@@ -67,31 +67,48 @@ feature {NONE} -- Implementation
 		do
 			link_text := substring.substring (start_index, end_index)
 			link_text.adjust
-			substring.share (new_expanded_link (Source_variable, link_text))
+			substring.share (new_expanded_link (Unknown, link_text))
 		end
 
-	new_expanded_link (path, text: ZSTRING): ZSTRING
+	new_expanded_link (unknown_path, type_name: ZSTRING): ZSTRING
 		local
-			l_path, link_text: ZSTRING
+			path: ZSTRING; class_name: ZSTRING; eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			if text.has (' ') then
-				create link_text.make (text.count + text.occurrences (' ') * NB_space_entity.count)
-				link_text.append_replaced (text, space * 1, NB_space_entity)
+			class_name := eif.parsed_class_name (type_name)
+			if Class_path_table.has_class (class_name) then
+				path := Class_path_table.found_item.universal_relative_path (relative_page_dir)
+
+			elseif ISE_class_table.has_class (class_name) then
+				path := ISE_class_table.found_item
 			else
-				link_text := text
+				path := unknown_path
 			end
-			if Class_path_table.has_class (text) then
-				l_path := Class_path_table.found_item.universal_relative_path (relative_page_dir)
-			elseif ISE_class_table.has_class (text) then
-				l_path := ISE_class_table.found_item
+			Result := A_href_template #$ [path, anchor_id, new_link_text (type_name)]
+		end
+
+	new_link_text (type_name: ZSTRING): ZSTRING
+		do
+			if type_name.has (' ') then
+				create Result.make (type_name.count + type_name.occurrences (' ') * NB_space_entity.count)
+				Result.append_replaced (type_name, space, NB_space_entity)
 			else
-				l_path := path
+				Result := type_name
 			end
-			Result := A_href_template #$ [l_path, anchor_id, link_text]
 		end
 
 feature {NONE} -- Internal attributes
 
 	anchor_id: STRING
 
+feature {NONE} -- Constants
+
+	Editor: EL_ZSTRING_EDITOR
+		once
+			create Result.make_empty
+		end
+
+	Unknown: ZSTRING
+		once
+			Result := "unknown"
+		end
 end

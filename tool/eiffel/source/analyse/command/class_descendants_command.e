@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 12:02:24 GMT (Thursday 2nd November 2023)"
-	revision: "31"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "33"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -33,6 +33,8 @@ inherit
 	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
 	EL_MODULE_LIO; EL_MODULE_OS
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -91,7 +93,7 @@ feature {NONE} -- Line states
 			l_target_name: ZSTRING
 		do
 			if line.begins_with (Element_target_name) then
-				l_target_name := line.substring_between (Quote, Quote, 1).as_lower
+				l_target_name := line.substring_between (char ('"'), char ('"'), 1).as_lower
 				if l_target_name ~ target_name then
 					ecf_path := a_ecf_path
 				end
@@ -125,6 +127,10 @@ feature {NONE} -- Implementation
 			word_list: EL_ZSTRING_LIST; word: ZSTRING
 			last_character: CHARACTER_32; eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
+			if line.has ('{') then
+				-- for example: ${EL_DESCRIPTIVE_ENUMERATION}* [N -> {NUMERIC, HASHABLE}]
+				line.edit ("{", "}", agent expand_constraint_list)
+			end
 			create word_list.make_word_split (line.substring_end (tab_count + 1))
 			line.keep_head (tab_count)
 			across word_list as list loop
@@ -156,10 +162,6 @@ feature {NONE} -- Implementation
 				if last_character.code.to_boolean then
 					line.append_character (last_character)
 				end
-			end
-			if line.has ('{') then
-				-- for example: ${EL_DESCRIPTIVE_ENUMERATION}* [N -> {NUMERIC, HASHABLE}]
-				line.edit ("{", "}", agent expand_constraint_list)
 			end
 		end
 
@@ -246,10 +248,4 @@ feature {NONE} -- Constants
 			Result := "${%S}"
 		end
 
-	Quote: ZSTRING
-		local
-			s: EL_ZSTRING_ROUTINES
-		once
-			Result := s.character_string ('"')
-		end
 end

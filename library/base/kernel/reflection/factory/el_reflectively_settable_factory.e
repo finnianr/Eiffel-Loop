@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-17 9:12:01 GMT (Saturday 17th December 2022)"
-	revision: "2"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "3"
 
 class
 	EL_REFLECTIVELY_SETTABLE_FACTORY [S -> EL_REFLECTIVELY_SETTABLE create make_default end]

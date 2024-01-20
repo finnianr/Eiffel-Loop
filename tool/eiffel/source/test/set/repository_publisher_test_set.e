@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 11:08:09 GMT (Thursday 21st December 2023)"
-	revision: "64"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "66"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -108,7 +108,7 @@ feature -- Tests
 						lio.put_new_line
 					end
 				end
-				assert ("same list digest", crc.checksum = 3283580708)
+				assert ("same list digest", crc.checksum = 1278806107)
 			end
 		end
 
@@ -156,9 +156,7 @@ feature -- Tests
 					assert ("removed regenerated", path.item.exists)
 				end
 			end
-
 			assert ("checker html gone", not html_path (checker_path).exists)
-
 			assert ("same list", base_name_list ~ sorted_base_names (publisher.uploaded_path_list))
 		end
 

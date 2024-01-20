@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 14:32:58 GMT (Sunday 14th January 2024)"
-	revision: "11"
+	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
+	revision: "12"
 
 class
 	EXPORT_PLAYLISTS_TO_DEVICE_TASK_TEST_SET

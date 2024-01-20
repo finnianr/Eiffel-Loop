@@ -32,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-19 15:17:39 GMT (Sunday 19th November 2023)"
-	revision: "17"
+	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
+	revision: "18"
 
 class
 	EL_DYNAMIC_MODULE_POINTERS

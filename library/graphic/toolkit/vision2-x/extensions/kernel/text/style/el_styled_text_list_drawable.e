@@ -3,8 +3,8 @@
 		Drawable component that can draw string lists with a mix of font-styles conforming to ${EL_STYLED_TEXT_LIST}
 	]"
 	notes: "[
-		`draw_text_top_left' can be implemented either as `{EV_DRAWING_AREA}.draw_text_top_left' or as
-		`{EV_FIXED}.put_label_top_left'. See class ${EL_MIXED_STYLE_FIXED_LABELS} for example of latter.
+		`draw_text_top_left' can be implemented either as `${EV_DRAWING_AREA}.draw_text_top_left' or as
+		`${EV_FIXED}.put_label_top_left'. See class ${EL_MIXED_STYLE_FIXED_LABELS} for example of latter.
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +12,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-01-20 20:12:11 GMT (Saturday 20th January 2024)"
+	revision: "10"
 
 deferred class
 	EL_STYLED_TEXT_LIST_DRAWABLE

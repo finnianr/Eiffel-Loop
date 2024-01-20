@@ -150,7 +150,7 @@ system:
 					amazon-instant-access.ecf
 					
 					Tests for Eiffel interface to Amazon Instant Access API.
-					See class [$source AMAZON_INSTANT_ACCESS_TEST_APP]
+					See class ${AMAZON_INSTANT_ACCESS_TEST_APP}
 				"""
 		cluster_tree:
 			base = "source/base"
@@ -158,7 +158,7 @@ system:
 				"""
 					base.ecf (Eiffel-Loop)
 					
-					Test Eiffel-Loop base classes. See [$source BASE_AUTOTEST_APP]
+					Test Eiffel-Loop base classes. See ${BASE_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			c_language_interface = "source/C-language-interface"
@@ -168,7 +168,7 @@ system:
 				"""
 					C-language-interface.ecf
 					
-					See class [$source C_LANGUAGE_INTERFACE_AUTOTEST_APP]
+					See class ${C_LANGUAGE_INTERFACE_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			common = "source/common"
@@ -184,7 +184,7 @@ system:
 				"""
 					compression.ecf
 					
-					See class [$source COMPRESSION_TEST_APP]
+					See class ${COMPRESSION_TEST_APP}
 				"""
 		cluster_tree:
 			currency = "source/currency"
@@ -192,7 +192,7 @@ system:
 				"""
 					currency.ecf
 					
-					See class [$source CURRENCY_TEST_APP]
+					See class ${CURRENCY_TEST_APP}
 				"""
 		cluster_tree:
 			eiffel = "source/eiffel"
@@ -201,7 +201,7 @@ system:
 					Eiffel Core Concepts
 
 					Test core concepts and behaviour of basic Eiffel code and libraries.
-					See class [$source EIFFEL_AUTOTEST_APP]
+					See class ${EIFFEL_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			encryption = "source/encryption"
@@ -209,7 +209,7 @@ system:
 				"""
 					encryption.ecf
 					
-					See class [$source ENCRYPTION_AUTOTEST_APP]
+					See class ${ENCRYPTION_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			eco_db = "source/Eco-DB"
@@ -219,7 +219,7 @@ system:
 					
 					Test [./library/Eco-DB.html Eco-DB (Eiffel CHAIN Orientated Database)] library.
 
-					Test application: [$source ECO_DB_AUTOTEST_APP]
+					Test application: ${ECO_DB_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			eros = "source/eros"
@@ -231,11 +231,11 @@ system:
 
 					**Test Apps**
 
-					* [$source EROS_AUTOTEST_APP]					
-					* [$source BEXT_CLIENT_TEST_APP]
-					* [$source BEXT_SERVER_TEST_APP]
-					* [$source FOURIER_MATH_CLIENT_TEST_APP]
-					* [$source FOURIER_MATH_SERVER_TEST_APP]
+					* ${EROS_AUTOTEST_APP}					
+					* ${BEXT_CLIENT_TEST_APP}
+					* ${BEXT_SERVER_TEST_APP}
+					* ${FOURIER_MATH_CLIENT_TEST_APP}
+					* ${FOURIER_MATH_SERVER_TEST_APP}
 				"""
 		cluster_tree:
 			evolicity = "source/evolicity"
@@ -244,7 +244,7 @@ system:
 					evolicity.ecf
 					
 					Test of Evolicity text substitution engine.
-					See class [$source EVOLICITY_TEST_APP]
+					See class ${EVOLICITY_TEST_APP}
 				"""
 		cluster_tree:
 			file_processing = "source/file-processing"
@@ -254,7 +254,7 @@ system:
 					
 					Test [./library/file-processing.html File and Directory Processing)] library.
 
-					See class [$source FILE_PROCESSING_AUTOTEST_APP]
+					See class ${FILE_PROCESSING_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			http_client = "source/http-client"
@@ -262,7 +262,7 @@ system:
 				"""
 					http-client.ecf
 					
-					See class [$source HTTP_CLIENT_AUTOTEST_APP]
+					See class ${HTTP_CLIENT_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			i18n = "source/i18n"
@@ -271,7 +271,7 @@ system:
 					i18n.ecf
 					
 					Test localization library.
-					See class [$source I18N_AUTOTEST_APP]
+					See class ${I18N_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			image_utils = "source/image-utils"
@@ -279,7 +279,7 @@ system:
 				"""
 					image-utils.ecf
 					
-					See class [$source SVG_TO_PNG_CONVERSION_TEST_APP]
+					See class ${SVG_TO_PNG_CONVERSION_TEST_APP}
 				"""
 		cluster_tree:
 			markup_docs = "source/markup-docs"
@@ -287,8 +287,8 @@ system:
 				"""
 					markup-docs.ecf
 					
-					* Test subject line decoding for Thunderbird Email Export with [$source THUNDERBIRD_TEST_APP]
-					* Regression test reading of Open Office Spreadsheet with [$source OPEN_OFFICE_TEST_APP]
+					* Test subject line decoding for Thunderbird Email Export with ${THUNDERBIRD_TEST_APP}
+					* Regression test reading of Open Office Spreadsheet with ${OPEN_OFFICE_TEST_APP}
 				"""
 		# Excluded on Windows because TagLib.ecf is not yet available for Windows
 		cluster_tree:
@@ -309,8 +309,8 @@ system:
 					
 					Test network library classes
 
-					* [$source TEST_SIMPLE_CLIENT]
-					* [$source SIMPLE_SERVER_TEST_APP]
+					* ${TEST_SIMPLE_CLIENT}
+					* ${SIMPLE_SERVER_TEST_APP}
 				"""
 		cluster_tree:
 			os_command = "source/os-command"
@@ -320,8 +320,8 @@ system:
 				"""
 					os-command.ecf
 					
-					* Test OS command interface library. See class [$source OS_COMMAND_AUTOTEST_APP]
-					* Test set for classes that manage and read file system content. See class [$source FILE_AND_DIRECTORY_TEST_SET]
+					* Test OS command interface library. See class ${OS_COMMAND_AUTOTEST_APP}
+					* Test set for classes that manage and read file system content. See class ${FILE_AND_DIRECTORY_TEST_SET}
 				"""
 		cluster_tree:
 			paypal_sbm = "source/paypal-SBM"
@@ -330,7 +330,7 @@ system:
 					paypal-SBM.ecf
 					
 					Tests for Eiffel interface to PayPal Payments Standard Button Manager API.
-					See class [$source PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP]
+					See class ${PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP}
 				"""
 		cluster_tree:
 			public_key_encryption = "source/public-key-encryption"
@@ -339,7 +339,7 @@ system:
 					public-key-encryption.ecf
 					
 					Tests for RSA public key encryption tools.
-					See class [$source PUBLIC_KEY_ENCRYPTION_TEST_APP]
+					See class ${PUBLIC_KEY_ENCRYPTION_TEST_APP}
 				"""
 		cluster_tree:
 			pyxis_scan = "source/pyxis-scan"
@@ -347,7 +347,7 @@ system:
 				"""
 					pyxis-scan.ecf
 					
-					Test application class: [$source PYXIS_SCAN_AUTOTEST_APP]
+					Test application class: ${PYXIS_SCAN_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			regedit = "source/regedit"
@@ -355,7 +355,7 @@ system:
 				"""
 					wel-regedit-x.ecf
 					
-					See class [$source REGEDIT_AUTOTEST_APP]
+					See class ${REGEDIT_AUTOTEST_APP}
 				"""
 			condition:
 				platform = windows
@@ -365,7 +365,7 @@ system:
 				"""
 					search-engine.ecf
 					
-					See class [$source SEARCH_ENGINE_AUTOTEST_APP]
+					See class ${SEARCH_ENGINE_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			taglib = "source/TagLib"
@@ -373,7 +373,7 @@ system:
 				"""
 					TagLib.ecf
 					
-					See class [$source TAGLIB_AUTOTEST_APP]
+					See class ${TAGLIB_AUTOTEST_APP}
 				"""
 			condition:
 				platform = unix
@@ -383,7 +383,7 @@ system:
 				"""
 					text-formats.ecf
 					
-					See class [$source TEXT_FORMATS_AUTOTEST_APP]
+					See class ${TEXT_FORMATS_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			text_process = "source/text-process"
@@ -391,7 +391,7 @@ system:
 				"""
 					text-process.ecf
 					
-					See class [$source TEXT_PROCESS_AUTOTEST_APP]
+					See class ${TEXT_PROCESS_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			vtd_xml = "source/vtd-xml"
@@ -401,7 +401,7 @@ system:
 					
 					Tests for Eiffel interface VTD-XML C API
 
-					See class [$source VTD_XML_AUTOTEST_APP]
+					See class ${VTD_XML_AUTOTEST_APP}
 				"""
 		cluster_tree:
 			wel_x_audio = "source/wel-x-audio"
@@ -410,7 +410,7 @@ system:
 					wel-x-audio.ecf
 					
 					Maintenance of Windows audio classes
-					See class [$source MEDIA_PLAYER_DUMMY_APP]
+					See class ${MEDIA_PLAYER_DUMMY_APP}
 				"""
 			condition:
 				platform = windows
@@ -421,6 +421,6 @@ system:
 				"""
 					xml-scan.ecf
 					
-					Test application class: [$source XML_SCAN_AUTOTEST_APP]
+					Test application class: ${XML_SCAN_AUTOTEST_APP}
 				"""
 

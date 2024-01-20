@@ -1,25 +1,25 @@
 **Client Modes**
 
-`-test_client' Sub-application [$source FFT_MATH_CLIENT_TEST_APP]
+`-test_client' Sub-application ${FFT_MATH_CLIENT_TEST_APP}
 
 Test client to generate random wave forms and do fourier transforms for 25 seconds
 
-`-bext_test_client' Sub-application [$source BEXT_CLIENT_TEST_APP]
+`-bext_test_client' Sub-application ${BEXT_CLIENT_TEST_APP}
 
 Client to test Binary Encoded XML Transfer (BEXT).
 
 **Server Modes**
 
-`-bext_test_server' Sub-application [$source BEXT_CLIENT_TEST_APP]
+`-bext_test_server' Sub-application ${BEXT_CLIENT_TEST_APP}
 
 Server to test Binary Encoded XML Transfer (BEXT). Ctrl-c shuts down the server.
 
-`-test_server' Sub-application [$source FFT_MATH_SERVER_TEST_APP]
+`-test_server' Sub-application ${FFT_MATH_SERVER_TEST_APP}
 
 Single connection test server for fourier math. Ctrl-c shuts down the server.
 
 **Installer Mode**
 
-`-install' Sub-application [$source EL_STANDARD_INSTALLER_APP]
+`-install' Sub-application ${EL_STANDARD_INSTALLER_APP}
 
 Installs application with desktop menu options for each mode.

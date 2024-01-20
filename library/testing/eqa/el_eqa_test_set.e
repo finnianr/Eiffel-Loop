@@ -1,13 +1,17 @@
 note
-	description: "${EQA_TEST_SET} that can be invoked in finalized application"
+	description: "[
+		${EQA_TEST_SET} with tests that can be invoked individually or consecutively
+		from the command line. Useful also for testing in a finalized application which
+		sometimes reveals a different behaviour to that of the workbench mode.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 17:37:24 GMT (Saturday 25th November 2023)"
-	revision: "26"
+	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
+	revision: "27"
 
 deferred class
 	EL_EQA_TEST_SET

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 19:03:12 GMT (Thursday 18th January 2024)"
-	revision: "8"
+	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
+	revision: "10"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -15,14 +15,19 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-feature {NONE} -- Constants
+	EL_MODULE_TUPLE
+
+	EL_CHARACTER_32_CONSTANTS
+
+feature {NONE} -- Strings
 
 	A_href_template: ZSTRING
-		-- contains to '%S' markers
 		once
 			Result := "[
 				<a href="#"# target="_blank">#</a>
 			]"
+		ensure
+			three_markers: Result.occurrences ('%S') = 3
 		end
 
 	Dollor_left_brace: ZSTRING
@@ -30,9 +35,9 @@ feature {NONE} -- Constants
 			Result := "${"
 		end
 
-	Editor: EL_ZSTRING_EDITOR
+	Github_link_template: ZSTRING
 		once
-			create Result.make_empty
+			Result := "[%S](%S)"
 		end
 
 	Html: ZSTRING
@@ -40,24 +45,9 @@ feature {NONE} -- Constants
 			Result := "html"
 		end
 
-	Library: ZSTRING
-		once
-			Result := "library"
-		end
-
 	Maximum_code_width: INTEGER
 		once
 			Result := 110
-		end
-
-	Note_description: ZSTRING
-		once
-			Result := "description"
-		end
-
-	Relative_root: DIR_PATH
-		once
-			create Result
 		end
 
 	Source_variable: ZSTRING
@@ -65,16 +55,17 @@ feature {NONE} -- Constants
 			Result := "$source"
 		end
 
-	Source_variable_padded: ZSTRING
+	Source_link_start: ZSTRING
+		-- "[$source"
 		once
-			Result := Source_variable.twin
-			Result.append_character (' ')
+			Result := char ('[') + Source_variable
 		end
 
-	Wiki_source_link: ZSTRING
+feature {NONE} -- Constants
+
+	Class_reference_list: CLASS_REFERENCE_MAP_LIST
 		once
-			Result := Source_variable.twin
-			Result.prepend_character ('[')
+			create Result.make (20)
 		end
 
 end

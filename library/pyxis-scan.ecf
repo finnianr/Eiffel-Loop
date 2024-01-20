@@ -12,7 +12,7 @@ Provides:
 * Recursive building of Eiffel objects from Pyxis data using context-relative Xpath expressions.
 * Reflective building of Eiffel objects from Pyxis data with corresponding element and attribute names
 
-Class [$source EL_PYXIS_PARSER] generates events from a [https://www.eiffel.org/node/143 Pyxis format] parser.
+Class ${EL_PYXIS_PARSER} generates events from a [https://www.eiffel.org/node/143 Pyxis format] parser.
 Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
 	</description>
 	<target name = "EL_pyxis_scan">
