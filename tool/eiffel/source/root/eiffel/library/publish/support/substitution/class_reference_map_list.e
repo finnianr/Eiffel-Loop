@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 10:44:10 GMT (Sunday 21st January 2024)"
-	revision: "2"
+	date: "2024-01-21 11:18:02 GMT (Sunday 21st January 2024)"
+	revision: "3"
 
 class
 	CLASS_REFERENCE_MAP_LIST
@@ -66,7 +66,7 @@ feature -- Measurement
 						and then attached buffer.copied_substring (line, type_start_index, type_end_index) as type_name
 						and then eif.is_type_name (type_name)
 					then
-						Result := Result - Class_marker_count
+						Result := Result - Class_marker_count -- subtract "${}" characters
 					end
 					list.forth
 				end

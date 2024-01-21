@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:38:43 GMT (Sunday 7th January 2024)"
-	revision: "9"
+	date: "2024-01-21 12:44:08 GMT (Sunday 21st January 2024)"
+	revision: "10"
 
 deferred class
 	EL_AUDIO_PCM_SAMPLE
@@ -15,17 +15,19 @@ deferred class
 inherit
 	EL_ALLOCATED_C_OBJECT
 		rename
-			make_default as make
+			make_default as make,
+			count as byte_count
 		export
 			{EL_MEMORY_ROUTINES} c_size_of, self_ptr
+			{ANY} byte_count
 		end
 
 feature -- Access
 
-	value: INTEGER
+	to_double_unit: DOUBLE
 			--
 		do
-			Result := read_value - Bias
+			Result := value / Max_value
 		end
 
 	to_real_unit: REAL
@@ -34,13 +36,30 @@ feature -- Access
 			Result := (value / Max_value).truncated_to_real
 		end
 
-	to_double_unit: DOUBLE
+	value: INTEGER
 			--
 		do
-			Result := value / Max_value
+			Result := read_value - Bias
 		end
 
 feature -- Element change
+
+	read_from (file: RAW_FILE)
+		do
+			file.read_to_managed_pointer (Current, 0, byte_count)
+		end
+
+	set_from_double_unit (a_unit_value: DOUBLE)
+			--
+		do
+			set_value ((a_unit_value * Max_value).rounded)
+		end
+
+	set_from_real_unit (a_unit_value: REAL)
+			--
+		do
+			set_value ((a_unit_value * Max_value).rounded)
+		end
 
 	set_value (a_value: like value)
 			-- Set `value' to `a_value'.
@@ -58,31 +77,31 @@ feature -- Element change
 			put_value (clipped_value)
 		end
 
-	set_from_real_unit (a_unit_value: REAL)
-			--
-		do
-			set_value ((a_unit_value * Max_value).rounded)
-		end
+feature -- Basic operations
 
-	set_from_double_unit (a_unit_value: DOUBLE)
-			--
+	write_to (file: RAW_FILE)
 		do
-			set_value ((a_unit_value * Max_value).rounded)
+			file.put_managed_pointer (Current, 0, byte_count)
 		end
 
 feature {NONE} -- Implementation
-
-	read_value: INTEGER
-			--
-		deferred
-		end
 
 	put_value (a_value: like value)
 			--
 		deferred
 		end
 
+	read_value: INTEGER
+			--
+		deferred
+		end
+
 feature -- Constants
+
+	Bias: INTEGER
+			--
+		deferred
+		end
 
 	Max_value: INTEGER_64
 			--
@@ -90,11 +109,6 @@ feature -- Constants
 		end
 
 	Min_value: INTEGER
-			--
-		deferred
-		end
-
-	Bias: INTEGER
 			--
 		deferred
 		end

@@ -1,13 +1,21 @@
 note
 	description: "Wave sample file abs"
+	notes: "[
+		**TO DO**
+		
+		Performance optimizations:
+		
+		1. Use compact ${INTEGER_64} intervals instead of ${INTEGER_INTERVAL}
+		2. Use ${SPECIAL [REAL]} instead of ${ARRAY [REAL]}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-01-21 13:00:27 GMT (Sunday 21st January 2024)"
+	revision: "7"
 
 deferred class
 	EL_WAVE_SAMPLE_FILE_ABS
@@ -51,7 +59,7 @@ feature -- Cursor movement
 		local
 			file_offset: INTEGER
 		do
-			file_offset := Size_of_header + (unit_relative_pos * sample_block_count).rounded * sample.Bytes
+			file_offset := Size_of_header + (unit_relative_pos * sample_block_count).rounded * sample.byte_count
 			move (file_offset - position)
 		end
 
@@ -60,7 +68,7 @@ feature -- Cursor movement
 		local
 			file_offset: INTEGER
 		do
-			file_offset := Size_of_header + (index - 1 * sample_block_size) + sample.Bytes * (channel - 1)
+			file_offset := Size_of_header + (index - 1 * sample_block_size) + sample.byte_count * (channel - 1)
 			move (file_offset - position)
 		end
 
@@ -69,7 +77,6 @@ feature -- Access
 	last_sample_block: ARRAY [INTEGER]
 
 	num_channels: INTEGER
-			--
 		do
 			Result := last_sample_block.count
 		end
@@ -77,14 +84,14 @@ feature -- Access
 	sample_block_count: INTEGER
 
 	sample_block_size: INTEGER
-			-- Combined size of samples for all channels
+		-- Combined size of samples for all channels
 		do
-			Result := sample.Bytes * num_channels
+			Result := sample.byte_count * num_channels
 		end
 
 	unit_double_samples_segment_for_channel (channel: INTEGER; interval: INTEGER_INTERVAL): ARRAY [DOUBLE]
-			-- Unitized samples for channel
-			-- Zero padded to make up full interval length
+		-- Unitized samples for channel
+		-- Zero padded to make up full interval length
 		local
 			i: INTEGER
 		do
@@ -92,7 +99,7 @@ feature -- Access
 			from i := interval.lower until i > interval.upper loop
 				if i <= sample_block_count then
 					move_to_sample_on_channel (i, channel)
-					read_to_managed_pointer (sample, 0, sample.bytes)
+					sample.read_from (Current)
 					Result [i] := sample.to_double_unit
 				else
 					Result [i] := 0.0
@@ -109,7 +116,7 @@ feature -- Access
 			create Result.make (interval.lower, interval.upper)
 			from i := interval.lower until i > interval.upper loop
 				move_to_sample_on_channel (i, channel)
-				read_to_managed_pointer (sample, 0, sample.bytes)
+				sample.read_from (Current)
 				Result [i] := sample.to_real_unit
 				i := i + 1
 			end
@@ -126,7 +133,7 @@ feature -- Element change
 		do
 			from i := 1 until i > num_channels loop
 				sample.set_value (sample_block [i])
-				put_managed_pointer (sample, 0, sample.bytes)
+				sample.write_to (Current)
 				i := i + 1
 			end
 		end
@@ -140,7 +147,7 @@ feature -- Element change
 		do
 			from i := 1 until i > num_channels loop
 				sample.set_from_real_unit (sample_block [i])
-				put_managed_pointer (sample, 0, sample.bytes)
+				sample.write_to (Current)
 				i := i + 1
 			end
 		end
@@ -155,7 +162,7 @@ feature -- Element change
 			from i := 1 until i > num_channels loop
 				from channel := 1 until channel > num_channels loop
 					sample.set_from_double_unit (segment_array.item (i).item (channel))
-					put_managed_pointer (sample, 0, sample.bytes)
+					sample.write_to (Current)
 					channel := channel + 1
 				end
 				i := i + 1
@@ -170,7 +177,7 @@ feature -- Basic operations
 			i: INTEGER
 		do
 			from i := 1 until i > num_channels loop
-				read_to_managed_pointer (sample, 0, sample.bytes)
+				sample.read_from (Current)
 				last_sample_block [i] := sample.value
 				i := i + 1
 			end

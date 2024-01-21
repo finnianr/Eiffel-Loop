@@ -1,13 +1,13 @@
 note
-	description: "Mp3 to wav clip saver command i"
+	description: "Abstract interface for command to convert MP3 clips to WAV format"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-01-21 12:27:11 GMT (Sunday 21st January 2024)"
+	revision: "11"
 
 deferred class
 	EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I

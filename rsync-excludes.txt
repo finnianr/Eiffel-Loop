@@ -5,7 +5,7 @@ contrib/C/**/spec/
 C_library/**/spec/
 test/data/XML.archive
 projects.data/XML/Legislation.xml
-**/Descendant*.txt
+**/descendant/*.txt
 **/.sconf_temp/
 **/build/**
 **/workarea/**
