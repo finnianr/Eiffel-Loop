@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 17:07:20 GMT (Thursday 18th January 2024)"
-	revision: "59"
+	date: "2024-01-21 15:06:53 GMT (Sunday 21st January 2024)"
+	revision: "60"
 
 class
 	APPLICATION_ROOT
@@ -45,7 +45,6 @@ inherit
 		LIBRARY_OVERRIDE_APP,
 
 	-- Source code migration
-		CLASS_NOTE_LINK_REFORMATTING_APP,
 		LIBRARY_MIGRATION_APP,
 		UPGRADE_DEFAULT_POINTER_SYNTAX_APP,
 		UPGRADE_LOG_FILTERS_APP,

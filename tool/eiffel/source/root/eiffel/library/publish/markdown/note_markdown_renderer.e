@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-17 10:51:40 GMT (Wednesday 17th January 2024)"
-	revision: "14"
+	date: "2024-01-21 14:38:58 GMT (Sunday 21st January 2024)"
+	revision: "15"
 
 class
 	NOTE_MARKDOWN_RENDERER
@@ -43,15 +43,6 @@ feature {NONE} -- Implementation
 			create Result.make (delimiter_start)
 		end
 
-	new_source_substitution: SOURCE_LINK_SUBSTITUTION
-		do
-			if is_preformatted then
-				create Result.make_preformatted
-			else
-				create Result.make
-			end
-		end
-
 	new_type_variable_substitution: TYPE_VARIABLE_SUBSTITUTION
 		do
 			if is_preformatted then
@@ -68,7 +59,6 @@ feature {NONE} -- Constants
 			Result := new_link_substitutions
 			Result.put_front (new_hyperlink_substitution ("[../"))
 			Result.put_front (new_type_variable_substitution)
-			Result.put_front (new_source_substitution)
 		end
 
 end

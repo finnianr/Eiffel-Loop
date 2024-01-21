@@ -12,14 +12,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 11:18:02 GMT (Sunday 21st January 2024)"
-	revision: "3"
+	date: "2024-01-21 16:11:11 GMT (Sunday 21st January 2024)"
+	revision: "4"
 
 class
 	CLASS_REFERENCE_MAP_LIST
 
 inherit
-	EL_ARRAYED_MAP_LIST [INTEGER_64, TUPLE [path: detachable FILE_PATH; is_ise_path: BOOLEAN]]
+	EL_ARRAYED_MAP_LIST [INTEGER_64, TUPLE [path: FILE_PATH; class_category: NATURAL_8]]
+		rename
+			item_value as item_link
 		redefine
 			make
 		end
@@ -45,7 +47,7 @@ feature -- Measurement
 	adjusted_count (line: ZSTRING): INTEGER
 		-- `line.count' adjusted to exclude "${}" characters for valid class substitutions
 		local
-			start_index, end_index, type_start_index, type_end_index, index_bracket, type_name_count: INTEGER
+			start_index, end_index, type_start_index, type_end_index, type_name_count: INTEGER
 			eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			Result := line.count
@@ -76,12 +78,13 @@ feature -- Measurement
 feature -- Status query
 
 	has_invalid_class: BOOLEAN
+		-- `True' if at least one item entry has class_category = Unknown_class
 
 feature -- Iteration item status
 
 	item_has_path: BOOLEAN
 		do
-			Result := attached item_value.path
+			Result := item_link.class_category /= Unknown_class
 		end
 
 feature -- Iteration item
@@ -117,6 +120,14 @@ feature -- Iteration item
 		do
 			Result := code_text.substring (item_start_index + 2, item_end_index - 1)
 		end
+
+feature -- Class categories
+
+	Developer_class: NATURAL_8 = 2
+
+	ISE_class: NATURAL_8 = 1
+
+	Unknown_class: NATURAL_8 = 3
 
 feature -- Element change
 
@@ -154,18 +165,30 @@ feature -- Element change
 								type_name.right_adjust
 							end
 							if Class_path_table.has_class (type_name) then
-								extend (occurrence_interval, [Class_path_table.found_item, False])
+								extend (occurrence_interval, [Class_path_table.found_item, Developer_class])
 
 							elseif ISE_class_table.has_class (type_name) then
-								extend (occurrence_interval, [ISE_class_table.found_item, True])
+								extend (occurrence_interval, [ISE_class_table.found_item, Ise_class])
 							else
 								has_invalid_class := True
-								extend (occurrence_interval, [Void, False])
+								extend (occurrence_interval, [Unknown_path, Unknown_class])
 							end
 						end
 					end
 					list.forth
 				end
+			end
+		end
+
+feature -- Basic operations
+
+	add_to_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
+		do
+			from start until after loop
+				if item_has_path then
+					crc.add_path (item_link.path)
+				end
+				forth
 			end
 		end
 
@@ -183,5 +206,10 @@ feature {NONE} -- Constants
 		-- same as: `("${}").count'
 
 	Maximum_type_length: INTEGER = 80
+
+	Unknown_path: FILE_PATH
+		once
+			Result := "Unknown-path"
+		end
 
 end

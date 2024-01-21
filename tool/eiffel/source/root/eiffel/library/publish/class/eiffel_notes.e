@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 13:17:19 GMT (Saturday 20th January 2024)"
-	revision: "34"
+	date: "2024-01-21 15:25:01 GMT (Sunday 21st January 2024)"
+	revision: "35"
 
 class
 	EIFFEL_NOTES
@@ -250,8 +250,10 @@ feature {NONE} -- Implementation
 				list.parse (line)
 				if list.has_invalid_class then
 					from list.start until list.after loop
-						if not list.item_has_path then
-							Invalid_source_name_table.extend (relative_class_dir + base_name, list.item_class_name)
+						inspect list.item_link.class_category
+							when {CLASS_REFERENCE_MAP_LIST}.Unknown_class then
+								Invalid_source_name_table.extend (relative_class_dir + base_name, list.item_class_name)
+						else
 						end
 						list.forth
 					end

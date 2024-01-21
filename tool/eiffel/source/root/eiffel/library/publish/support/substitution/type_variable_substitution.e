@@ -9,16 +9,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:57:04 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-01-21 15:42:28 GMT (Sunday 21st January 2024)"
+	revision: "5"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
 
 inherit
-	SOURCE_LINK_SUBSTITUTION
+	HYPERLINK_SUBSTITUTION
+		rename
+			make as make_hyperlink
 		redefine
-			make_hyperlink, substitute_html
+			substitute_html
 		end
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
@@ -28,9 +30,25 @@ create
 
 feature {NONE} -- Initialization
 
-	make_hyperlink (a_delimiter_start: ZSTRING)
+	make
 		do
 			make_substitution (Dollor_left_brace, char ('}'), Empty_string, Empty_string)
+			anchor_id := " id=%"source%""
+		ensure
+			leading_space: anchor_id [1] = ' '
+		end
+
+	make_preformatted
+		-- link with empty `anchor_id'
+		-- The output will appear in a preformated HTML section so there is no need for identifier
+		-- <a id="source"> in the anchor tag.
+
+		--		<pre>
+		--			The class <a href="http://.." target="_blank">MY_CLASS</a>
+		--		</pre>
+		do
+			make
+			create anchor_id.make_empty
 		end
 
 feature -- Basic operations
@@ -38,7 +56,7 @@ feature -- Basic operations
 	substitute_html (html_string: ZSTRING)
 		local
 			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
-			path: FILE_PATH; type_name, link_markup, buffer: ZSTRING
+			buffer: ZSTRING
 		do
 			if attached Class_reference_list as list then
 				list.parse (html_string)
@@ -51,13 +69,7 @@ feature -- Basic operations
 						if (preceding_end_index - preceding_start_index + 1) > 0 then
 							buffer.append_substring (html_string, preceding_start_index, preceding_end_index)
 						end
-						type_name := list.item_type_name
-						if attached list.item_value.path as class_path then
-							path := class_path
-						else
-							path := Unknown
-						end
-						buffer.append (new_link_markup (path, type_name, list.item_value.is_ise_path))
+						buffer.append (new_link_markup (list.item_link, list.item_type_name))
 						previous_end_index := list.item_end_index
 						list.forth
 					end
@@ -71,16 +83,31 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_link_markup (a_path: FILE_PATH; type_name: ZSTRING; is_ise_path: BOOLEAN): ZSTRING
+	new_link_markup (link: like Class_reference_list.item_link; type_name: ZSTRING): ZSTRING
 		local
 			path: FILE_PATH
 		do
-			if a_path.base /~ Unknown and then not is_ise_path then
-				path := a_path.universal_relative_path (relative_page_dir)
+			inspect link.class_category
+				when {CLASS_REFERENCE_MAP_LIST}.Developer_class then
+					path := link.path.universal_relative_path (relative_page_dir)
 			else
-				path := a_path
+				path := link.path
 			end
 			Result := A_href_template #$ [path, anchor_id, new_link_text (type_name)]
 		end
+
+	new_link_text (type_name: ZSTRING): ZSTRING
+		do
+			if type_name.has (' ') then
+				create Result.make (type_name.count + type_name.occurrences (' ') * NB_space_entity.count)
+				Result.append_replaced (type_name, space, NB_space_entity)
+			else
+				Result := type_name
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	anchor_id: STRING
 
 end

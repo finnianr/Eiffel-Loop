@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "34"
+	date: "2024-01-21 15:33:15 GMT (Sunday 21st January 2024)"
+	revision: "35"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -70,7 +70,6 @@ feature -- Basic operations
 	expand_links (line: ZSTRING; file_out: EL_PLAIN_TEXT_FILE)
 		local
 			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
-			type_name: ZSTRING
 		do
 			line.expand_tabs (3)
 			if attached Class_reference_list as list then
@@ -81,12 +80,14 @@ feature -- Basic operations
 					if (preceding_end_index - preceding_start_index + 1) > 0 then
 						file_out.put_string (line.substring (preceding_start_index, preceding_end_index))
 					end
-					if attached list.item_value.path as path then
-						type_name := list.item_type_name
-						if list.item_value.is_ise_path then
-							file_out.put_string (ISE_link_template #$ [path, type_name])
+					if list.item_has_path then
+						inspect list.item_link.class_category
+							when {CLASS_REFERENCE_MAP_LIST}.Ise_class then
+								file_out.put_string (ISE_link_template #$ [list.item_link.path, list.item_type_name])
+								
+							when {CLASS_REFERENCE_MAP_LIST}.Developer_class then
+								file_out.put_string (Wiki_link_template #$ [web_address, list.item_link.path, list.item_type_name])
 						else
-							file_out.put_string (Wiki_link_template #$ [web_address, path, type_name])
 						end
 					end
 					previous_end_index := list.item_end_index

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-01-21 16:04:45 GMT (Sunday 21st January 2024)"
+	revision: "19"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -70,24 +70,27 @@ feature {NONE} -- Implementation
 	check_expanded_contents (publisher: like new_publisher)
 		local
 			web_url: EL_DIR_URI_PATH; class_url: EL_FILE_URI_PATH
-			blog_text, name: ZSTRING
+			blog_text, name: ZSTRING; count: INTEGER
 		do
-			web_url := publisher.web_address + "/"
+			web_url := publisher.web_address
 			blog_text := File.plain_text (publisher.expanded_file_path)
 			across Type_array as array loop
 				across << array.item.base, array.item.descendant >> as type loop
 					name := type.item.name
 					if Class_path_table.has_class (name) then
 						class_url := web_url + Class_path_table.found_item
+						count := count + 1
 
 					elseif ISE_class_table.has_class (name) then
 						class_url := ISE_class_table.found_item
+						count := count + 1
 					else
-						class_url := web_url + ""
+						create class_url
 					end
-					assert ("has uri path", blog_text.has_substring (class_url.to_string))
+					assert ("has uri path", not class_url.is_empty implies blog_text.has_substring (class_url.to_string))
 				end
 			end
+			assert ("4 links", count = 4)
 		end
 
 	generated_files: like OS.file_list

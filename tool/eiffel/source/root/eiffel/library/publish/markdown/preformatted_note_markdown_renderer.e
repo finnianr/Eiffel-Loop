@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-17 10:50:59 GMT (Wednesday 17th January 2024)"
-	revision: "7"
+	date: "2024-01-21 14:39:13 GMT (Sunday 21st January 2024)"
+	revision: "8"
 
 class
 	PREFORMATTED_NOTE_MARKDOWN_RENDERER
@@ -30,9 +30,7 @@ feature {NONE} -- Constants
 
 	Link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
 		once
-			create Result.make_from_array (<<
-				new_source_substitution, new_type_variable_substitution
-			>>)
+			create Result.make_from_array (<< new_type_variable_substitution >>)
 		end
 
 	Markup_substitutions: ARRAYED_LIST [MARKUP_SUBSTITUTION]
