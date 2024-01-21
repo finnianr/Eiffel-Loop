@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Test strings"
 
 	author: "Finnian Reilly"

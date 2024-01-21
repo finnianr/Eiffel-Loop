@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Fixed area with multiple lines of labels with a mixture of font styles"
 
 	author: "Finnian Reilly"

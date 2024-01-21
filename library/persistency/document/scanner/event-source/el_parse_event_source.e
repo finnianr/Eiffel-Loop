@@ -3,12 +3,12 @@ note
 	descendants: "[
 			EL_PARSE_EVENT_SOURCE*
 				${EL_BINARY_ENCODED_PARSE_EVENT_SOURCE}
-				${EL_DEFAULT_PARSE_EVENT_SOURCE}
-				${EL_PYXIS_PARSER}
 				${EL_EXPAT_XML_PARSER}
 					${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}
 					${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}
 					${EL_EXPAT_XHTML_PARSER}
+				${EL_DEFAULT_PARSE_EVENT_SOURCE}
+				${EL_PYXIS_PARSER}
 	]"
 
 	author: "Finnian Reilly"
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2024-01-21 10:53:34 GMT (Sunday 21st January 2024)"
+	revision: "17"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE

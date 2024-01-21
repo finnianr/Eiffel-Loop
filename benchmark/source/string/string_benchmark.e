@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Benchmark using pure Latin encodable string data"
 
 	author: "Finnian Reilly"

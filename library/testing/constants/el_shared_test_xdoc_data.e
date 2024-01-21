@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Shared instance of ${EL_TEST_XDOC_DATA}"
 
 	author: "Finnian Reilly"

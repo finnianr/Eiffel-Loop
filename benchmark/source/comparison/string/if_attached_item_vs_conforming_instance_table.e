@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Compare conditional assignment depending on consecutive **elseif** attachment attempts to
 		two experimental techniques:

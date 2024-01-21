@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Test ${EL_DOCUMENT_NODE_STRING}"
 
 	author: "Finnian Reilly"

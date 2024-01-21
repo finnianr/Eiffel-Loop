@@ -1,6 +1,6 @@
 note
 	description: "[
-		A command line interface to the command ${ENCODING_CHECK_COMMAND}.
+		Command line interface to the command ${ENCODING_CHECK_COMMAND}.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-01-21 8:55:40 GMT (Sunday 21st January 2024)"
+	revision: "19"
 
 class
 	ENCODING_CHECK_APP

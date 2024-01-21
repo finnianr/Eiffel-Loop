@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "PF_HP Ver 1.0: brute force proteinfolding in the 2D HP Model"
 	license: "[https://www.gnu.org/licenses/gpl-3.0.en.html GNU General Public License]"
 

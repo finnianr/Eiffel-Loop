@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Converts to and from UTF-8"
 
 	author: "Finnian Reilly"

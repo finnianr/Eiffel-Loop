@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Parses a non-recursive JSON list into name value pairs assuming each field ends with a new line character. 
 		Iterate using `from start until after loop'.

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-01-21 10:48:32 GMT (Sunday 21st January 2024)"
+	revision: "23"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -37,7 +37,9 @@ inherit
 
 	PUBLISHER_CONSTANTS
 
-	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make, make_empty
@@ -132,11 +134,6 @@ feature {NONE} -- Line states Eiffel
 
 feature {NONE} -- Factory
 
-	new_filler (n: INTEGER): ZSTRING
-		do
-			create Result.make_filled (' ', n)
-		end
-
 	new_list_item_tag (type: STRING; is_open: BOOLEAN): STRING
 		-- returns one of: [li], [oli], [/li], [/oli]
 		do
@@ -183,17 +180,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	text_count (line: ZSTRING): INTEGER
-		-- count excluding ${MY_CLASS} characters
-		local
-			variable_count: INTEGER
-		do
-			Result := line.count
-		-- Substract all extra characters from ${MY_CLASS}
-			variable_count := line.substring_index_list (Dollor_left_brace, False).count
-			Result := Result - variable_count * (Dollor_left_brace.count + 1)
-		end
-
 	wrapped_lines: EL_ZSTRING_LIST
 		local
 			line, l_word, l_last: ZSTRING; l_count, removed_count, space_count: INTEGER
@@ -202,7 +188,7 @@ feature {NONE} -- Implementation
 			create Result.make (lines.count)
 			across lines as l loop
 				line := l.item
-				if text_count (line) > Maximum_code_width then
+				if Class_reference_list.adjusted_count (line) > Maximum_code_width then
 					Word_stack.wipe_out
 					space_count := line.leading_occurrences (' ')
 					line.remove_head (space_count)
@@ -244,7 +230,10 @@ feature {NONE} -- Implementation
 						end
 					end
 					-- Shift last line to right as much as possible
-					Result.last.prepend (new_filler (Maximum_code_width - Result.last.count))
+					space_count := Maximum_code_width - Result.last.count
+					if space_count > 0 then
+						Result.last.prepend (space * space_count)
+					end
 				else
 					Result.extend (line)
 				end

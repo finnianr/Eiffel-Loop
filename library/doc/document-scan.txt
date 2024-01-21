@@ -7,8 +7,10 @@ The abstraction ${EL_PARSE_EVENT_SOURCE} representing a parse-event source has 5
 		${EL_EXPAT_XML_PARSER}
 			${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}
 			${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}
+			${EL_EXPAT_XHTML_PARSER}
 		${EL_DEFAULT_PARSE_EVENT_SOURCE}
 		${EL_PYXIS_PARSER}
+
 
 Class ${EL_BINARY_ENCODED_PARSE_EVENT_SOURCE} is a binary encoded XML event source, useful for reducing the size of large documents for transfer across a network.
 

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Object accessible via ${EL_MODULE_LOCALE} that returns translated strings using the syntax:
 		

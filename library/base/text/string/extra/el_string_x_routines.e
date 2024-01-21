@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Routines to supplement handling of ${STRING_8} ${STRING_32} strings"
 
 	author: "Finnian Reilly"

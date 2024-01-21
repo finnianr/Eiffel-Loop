@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "String related benchmark comparisons"
 
 	author: "Finnian Reilly"

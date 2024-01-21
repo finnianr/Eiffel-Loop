@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Currency code names"
 	notes: "[
 		**Problem to Solve**

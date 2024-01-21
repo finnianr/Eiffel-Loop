@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Test routines in class ${is_namespace_aware_file}
 	]"

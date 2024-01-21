@@ -1,4 +1,4 @@
-ï»¿note
+note
 	description: "Latin 1"
 
 	author: "Finnian Reilly"
@@ -25,18 +25,18 @@ feature -- Ascii
 feature -- Latin 1 upper boundaries
 
 	Ucase_A_GRAVE: NATURAL = 192
-		-- Ã€ Capital A, grave accent
+		-- À Capital A, grave accent
 
 	Ucase_THORN: NATURAL = 222
-		-- Ãž Capital THORN, Icelandic
+		-- Þ Capital THORN, Icelandic
 
 feature -- Latin 1 lower boundaries
 
 	Lcase_a_grave: NATURAL = 224
-		-- Ã  Small a, grave accent
+		-- à Small a, grave accent
 
 	Lcase_thorn: NATURAL = 254
-		-- Ã¾ Small thorn, Icelandic
+		-- þ Small thorn, Icelandic
 
 feature -- Latin 1 upper/lower exceptions
 
@@ -47,9 +47,9 @@ feature -- Latin 1 upper/lower exceptions
 feature -- Latin 1 undefined case
 
 	Sharp_s: NATURAL = 223
-		-- ÃŸ Small sharp s
+		-- ß Small sharp s
 
 	Y_dieresis: NATURAL = 255
-		-- Ã¿ Small y, dieresis
+		-- ÿ Small y, dieresis
 
 end

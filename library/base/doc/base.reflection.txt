@@ -2,58 +2,56 @@
 
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
-* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [$source EL_PASSPHRASE_ATTRIBUTES_ENUM].
-* Basis for reflective initialization of class attributes from command line arguments. See class [$source EL_COMMAND_LINE_OPTIONS]
-* Support for reading and writing to strings conforming to [$source STRING_GENERAL]
-* Support for reading from objects conforming to [$source EL_READABLE] and writing to objects conforming to [$source EL_WRITEABLE]
-* Support for reading writing to instance of [$source EL_MEMORY_READER_WRITER] (inherits [$source SED_MEMORY_READER_WRITER])
+* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: ${EL_PASSPHRASE_ATTRIBUTES_ENUM}.
+* Basis for reflective initialization of class attributes from command line arguments. See class ${EL_COMMAND_LINE_OPTIONS}
+* Support for reading and writing to strings conforming to ${STRING_GENERAL}
+* Support for reading from objects conforming to ${EL_READABLE} and writing to objects conforming to ${EL_WRITEABLE}
+* Support for reading writing to instance of ${EL_MEMORY_READER_WRITER} (inherits ${SED_MEMORY_READER_WRITER})
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
-* Support for sinking field data into object conforming to [$source EL_DATA_SINKABLE]. Useful for creating MD5 or SHA-256 hashes.
+* Support for sinking field data into object conforming to ${EL_DATA_SINKABLE}. Useful for creating MD5 or SHA-256 hashes.
 * Flexible way to include and exclude fields stored in field table.
 * Support for extracting useful type information from agents in an easily accessible form.
-* Support over 50 standard field types and composite types with ad-hoc support for other classes to serialize to [$source EL_MEMORY_READER_WRITER].
+* Support over 50 standard field types and composite types with ad-hoc support for other classes to serialize to ${EL_MEMORY_READER_WRITER}.
 
 	EL_REFLECTED_FIELD*
-		[$source EL_REFLECTED_REFERENCE] [G]
-			[$source EL_REFLECTED_STORABLE]
-			[$source EL_REFLECTED_TUPLE]
-			[$source EL_REFLECTED_BOOLEAN_REF]
-			[$source EL_REFLECTED_DATE]
-			[$source EL_REFLECTED_TIME]
-			[$source EL_REFLECTED_DATE_TIME]
-			[$source EL_REFLECTED_PATH]
-			[$source EL_REFLECTED_MAKEABLE_FROM_STRING]* [MAKEABLE -> [$source EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]]
-				[$source EL_REFLECTED_MAKEABLE_FROM_ZSTRING]
-				[$source EL_REFLECTED_MAKEABLE_FROM_STRING_8]
-				[$source EL_REFLECTED_MAKEABLE_FROM_STRING_32]
-			[$source EL_REFLECTED_EIF_OBJ_BUILDER_CONTEXT]
-			[$source EL_REFLECTED_COLLECTION_EIF_OBJ_BUILDER_CONTEXT]
-			[$source EL_REFLECTED_COLLECTION] [G]
-			[$source EL_REFLECTED_STRING]* [S -> [$source STRING_GENERAL]]
-				[$source EL_REFLECTED_ZSTRING]
-					[$source EL_REFLECTED_MEMBER_ZSTRING]
-				[$source EL_REFLECTED_STRING_8]
-					[$source EL_REFLECTED_MEMBER_STRING_8]
-				[$source EL_REFLECTED_STRING_32]
-					[$source EL_REFLECTED_MEMBER_STRING_32]
-				[$source EL_REFLECTED_URI]
-				[$source EL_REFLECTED_MEMBER_STRING]* [S -> [$source STRING_GENERAL]]
-					[$source EL_REFLECTED_MEMBER_ZSTRING]
-					[$source EL_REFLECTED_MEMBER_STRING_8]
-					[$source EL_REFLECTED_MEMBER_STRING_32]
-		[$source EL_REFLECTED_EXPANDED_FIELD]* [G]
-			[$source EL_REFLECTED_BOOLEAN]
-			[$source EL_REFLECTED_CHARACTER_32]
-			[$source EL_REFLECTED_POINTER]
-			[$source EL_REFLECTED_CHARACTER_8]
-			[$source EL_REFLECTED_NUMERIC_FIELD]* [N -> [$source NUMERIC]]
-				[$source EL_REFLECTED_REAL_32]
-				[$source EL_REFLECTED_INTEGER_32]
-				[$source EL_REFLECTED_INTEGER_8]
-				[$source EL_REFLECTED_INTEGER_16]
-				[$source EL_REFLECTED_INTEGER_64]
-				[$source EL_REFLECTED_NATURAL_8]
-				[$source EL_REFLECTED_NATURAL_16]
-				[$source EL_REFLECTED_NATURAL_32]
-				[$source EL_REFLECTED_NATURAL_64]
-				[$source EL_REFLECTED_REAL_64]
+		${EL_REFLECTED_REFERENCE} [G]
+			${EL_REFLECTED_REFERENCE_ANY}
+			${EL_REFLECTED_TEMPORAL}* [G -> ${ABSOLUTE}]
+				${EL_REFLECTED_TIME}
+				${EL_REFLECTED_DATE_TIME}
+				${EL_REFLECTED_DATE}
+			${EL_REFLECTED_COLLECTION} [G]
+			${EL_REFLECTED_TUPLE}
+			${EL_REFLECTED_BOOLEAN_REF}
+			${EL_REFLECTED_MANAGED_POINTER}
+			${EL_REFLECTED_STORABLE}
+			${EL_REFLECTED_HASHABLE_REFERENCE} [H -> ${HASHABLE}]
+				${EL_REFLECTED_STRING}* [S -> ${READABLE_STRING_GENERAL} create make end]
+					${EL_REFLECTED_URI} [U -> ${EL_URI} create make end]
+					${EL_REFLECTED_STRING_8}
+					${EL_REFLECTED_IMMUTABLE_STRING_8}
+					${EL_REFLECTED_IMMUTABLE_STRING_32}
+					${EL_REFLECTED_ZSTRING}
+					${EL_REFLECTED_STRING_32}
+				${EL_REFLECTED_PATH}
+			${EL_REFLECTED_MAKEABLE_FROM_STRING}* [MAKEABLE -> ${EL_MAKEABLE_FROM_STRING} [STRING_GENERAL]]
+				${EL_REFLECTED_MAKEABLE_FROM_STRING_8}
+				${EL_REFLECTED_MAKEABLE_FROM_STRING_32}
+				${EL_REFLECTED_MAKEABLE_FROM_ZSTRING}
+		${EL_REFLECTED_EXPANDED_FIELD}* [G]
+			${EL_REFLECTED_NUMERIC_FIELD}* [N -> ${NUMERIC}]
+				${EL_REFLECTED_INTEGER_FIELD}* [N -> ${NUMERIC}]
+					${EL_REFLECTED_NATURAL_16}
+					${EL_REFLECTED_NATURAL_8}
+					${EL_REFLECTED_NATURAL_32}
+					${EL_REFLECTED_INTEGER_8}
+					${EL_REFLECTED_INTEGER_16}
+					${EL_REFLECTED_INTEGER_32}
+					${EL_REFLECTED_INTEGER_64}
+					${EL_REFLECTED_NATURAL_64}
+				${EL_REFLECTED_REAL_32}
+				${EL_REFLECTED_REAL_64}
+			${EL_REFLECTED_BOOLEAN}
+			${EL_REFLECTED_POINTER}
+			${EL_REFLECTED_CHARACTER_8}
+			${EL_REFLECTED_CHARACTER_32}

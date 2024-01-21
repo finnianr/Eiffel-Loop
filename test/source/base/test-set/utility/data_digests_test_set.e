@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Test various ways of creating data digests include CRC-32"
 
 	author: "Finnian Reilly"

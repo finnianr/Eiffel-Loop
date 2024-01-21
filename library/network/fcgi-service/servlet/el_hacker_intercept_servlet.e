@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Intercept hacking attempts, returning 404 file not found message as plaintext
 		and creating firewall rule blocking IP address. The ban is temporary and lasts for

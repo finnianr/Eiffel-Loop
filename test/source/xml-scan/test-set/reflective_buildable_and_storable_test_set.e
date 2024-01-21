@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Test classes that use reflective persistence"
 
 	author: "Finnian Reilly"

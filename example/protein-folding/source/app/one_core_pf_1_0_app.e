@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "PF_HP Ver 1.0: brute force proteinfolding in the 2D HP Model"
 	instructions: "[
 		 To compile type command:

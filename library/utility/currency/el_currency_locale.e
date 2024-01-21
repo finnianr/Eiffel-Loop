@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Currency locale"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Development testing for ${EL_HACKER_INTERCEPT_SERVLET} using *.log data in
 		

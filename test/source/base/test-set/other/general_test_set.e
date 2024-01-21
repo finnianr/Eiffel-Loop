@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "General test set"
 
 	author: "Finnian Reilly"

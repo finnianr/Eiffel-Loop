@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Test numbers"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Command shell for various kinds of performance comparison benchmarks"
 
 	author: "Finnian Reilly"

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Drawable component that can draw string lists with a mix of font-styles conforming to ${EL_STYLED_TEXT_LIST}
 	]"

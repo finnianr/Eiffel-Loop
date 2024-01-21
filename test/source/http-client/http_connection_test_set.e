@@ -1,4 +1,4 @@
-ï»¿note
+note
 	description: "[
 		Eiffel tests for class ${EL_HTTP_CONNECTION} that can be executed with testing tool.
 	]"
@@ -188,7 +188,7 @@ feature -- Tests
 			query_string: STRING
 		do
 			create table_1.make_equal (2)
-			table_1.set_string_general ("city", "DÃºn BÃºinne")
+			table_1.set_string_general ("city", "Dún Búinne")
 			table_1.set_string_general ("code", "+/xPVBTmoka3ZBeARZ8uKA==")
 			query_string := table_1.url_query
 			lio.put_line (query_string)
@@ -284,7 +284,7 @@ feature -- Tests
 		local
 			url: STRING; s: EL_STRING_8_ROUTINES
 		do
-			across << "einfÃ¼hrung.html", "einf%%C3%%BChrung.html" >> as name loop
+			across << "einführung.html", "einf%%C3%%BChrung.html" >> as name loop
 				url := "http://myching.software/de/manual/" + name.item
 				web.open (url)
 				web.read_string_head
@@ -320,13 +320,13 @@ feature -- Unused
 		local
 			url: EL_URL
 		do
-			-- This works on command line: curl -I http://www.acadÃ©mie-franÃ§aise.fr/
+			-- This works on command line: curl -I http://www.académie-française.fr/
 
 			-- If libcurl is built with IDN support, the server name part of the URL can use an
 			-- "international name" by using the current encoding (according to locale) or UTF-8
 			-- (when winidn is used; or a Windows Unicode build using libidn2)
 
-			create url.make ("http://www.acadÃ©mie-franÃ§aise.fr/")
+			create url.make ("http://www.académie-française.fr/")
 			web.open_url (url)
 			web.read_string_head
 			assert ("correct title", web.last_headers.location ~ "https://www.academie-francaise.fr/")
@@ -459,8 +459,8 @@ feature {NONE} -- Factory
 	new_city_location: EL_URI_QUERY_ZSTRING_HASH_TABLE
 		do
 			create Result.make_equal (2)
-			Result.set_string ("city", "KÃ¶ln")
-			Result.set_string ("district", "KÃ¶ln-Altstadt-SÃ¼d")
+			Result.set_string ("city", "Köln")
+			Result.set_string ("district", "Köln-Altstadt-Süd")
 		end
 
 	new_image_path (name: STRING): FILE_PATH
@@ -523,7 +523,7 @@ feature {NONE} -- Constants
 
 	Cookie_path: FILE_PATH
 		once
-			Result := Work_area_absolute_dir + {STRING_32} "GefÃ¤ÃŸ/cookie.txt"
+			Result := Work_area_absolute_dir + {STRING_32} "Gefäß/cookie.txt"
 		end
 
 	Cookies_url: STRING = "http://httpbin.org/cookies"

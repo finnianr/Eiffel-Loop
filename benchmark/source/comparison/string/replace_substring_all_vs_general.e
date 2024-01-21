@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Replace substring comparison"
 	notes: "[
 		Passes over 500 millisecs (in descending order)

@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "Shared instance of ${EL_TEST_NUMBERS}"
 
 	author: "Finnian Reilly"

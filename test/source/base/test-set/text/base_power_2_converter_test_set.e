@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		Test objects conforming to ${EL_BASE_POWER_2_CONVERTER}
 

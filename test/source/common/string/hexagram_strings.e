@@ -1,4 +1,4 @@
-﻿note
+note
 	description: "[
 		I Ching hexagram names and titles in Chinese and English that can be used for testing
 		string processing classes.
