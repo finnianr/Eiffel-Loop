@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 18:59:10 GMT (Thursday 18th January 2024)"
-	revision: "5"
+	date: "2024-01-22 14:15:42 GMT (Monday 22nd January 2024)"
+	revision: "6"
 
 class
 	HYPERLINK_SUBSTITUTION
@@ -65,13 +65,6 @@ feature {NONE} -- Implementation
 	new_expanded_link (path, text: ZSTRING): ZSTRING
 		do
 			Result := A_href_template #$ [path, Empty_string, text]
-		end
-
-feature {NONE} -- Constants
-
-	NB_space_entity: ZSTRING
-		once
-			Result := "&nbsp;"
 		end
 
 end

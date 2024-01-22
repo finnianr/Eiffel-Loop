@@ -1,5 +1,5 @@
 note
-	description: "HTML link to Eiffel class documentation page"
+	description: "HTML link to Eiffel class documentation page (invalid by default)"
 	descendants: "[
 			CLASS_LINK
 				${ISE_CLASS_LINK}
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 10:27:44 GMT (Monday 22nd January 2024)"
-	revision: "1"
+	date: "2024-01-22 14:21:05 GMT (Monday 22nd January 2024)"
+	revision: "2"
 
 class
 	CLASS_LINK
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 feature -- Status query
 
 	is_valid: BOOLEAN
+		-- `True' in descendants
 		do
 			Result := False
 		end
@@ -65,22 +66,37 @@ feature -- Access
 			end
 		end
 
+	path: FILE_PATH
+
 	reference_marker: ZSTRING
 		-- Eg. ${My_CLASS}
 		do
 			Result := code_text.substring (start_index, end_index)
 		end
 
+	type_name: ZSTRING
+		do
+			Result := code_text.substring (start_index + 2, end_index - 1)
+		end
+
+feature -- Markup
+
 	github_markup (repository_web_address: ZSTRING): ZSTRING
 		do
 			Result := Github_link_template #$ [path, type_name]
 		end
 
-	path: FILE_PATH
-
-	type_name: ZSTRING
+	html_type_name: ZSTRING
+		-- `type_name' with spaces substituted by non-breaking space
 		do
-			Result := code_text.substring (start_index + 2, end_index - 1)
+			if attached type_name as name then
+				if name.has (' ') then
+					create Result.make (name.count + name.occurrences (' ') * NB_space_entity.count)
+					Result.append_replaced (name, space, NB_space_entity)
+				else
+					Result := name
+				end
+			end
 		end
 
 	wiki_markup (web_address: ZSTRING): ZSTRING
@@ -99,5 +115,12 @@ feature -- Code substring indices
 feature {NONE} -- Internal attributes
 
 	code_text: ZSTRING
+
+feature {NONE} -- Constants
+
+	NB_space_entity: ZSTRING
+		once
+			Result := "&nbsp;"
+		end
 
 end

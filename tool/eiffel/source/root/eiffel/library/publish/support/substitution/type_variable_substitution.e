@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 9:51:57 GMT (Monday 22nd January 2024)"
-	revision: "6"
+	date: "2024-01-22 14:19:52 GMT (Monday 22nd January 2024)"
+	revision: "7"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -85,19 +85,7 @@ feature {NONE} -- Implementation
 
 	new_link_markup (link: CLASS_LINK): ZSTRING
 		do
-			Result := A_href_template #$ [
-				link.adjusted_path (relative_page_dir), anchor_id, new_link_text (link.type_name)
-			]
-		end
-
-	new_link_text (type_name: ZSTRING): ZSTRING
-		do
-			if type_name.has (' ') then
-				create Result.make (type_name.count + type_name.occurrences (' ') * NB_space_entity.count)
-				Result.append_replaced (type_name, space, NB_space_entity)
-			else
-				Result := type_name
-			end
+			Result := A_href_template #$ [link.adjusted_path (relative_page_dir), anchor_id, link.html_type_name]
 		end
 
 feature {NONE} -- Internal attributes

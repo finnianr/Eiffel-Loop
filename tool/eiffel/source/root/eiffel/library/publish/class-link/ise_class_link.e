@@ -1,13 +1,13 @@
 note
-	description: "Link to class distributed with EiffelStudio"
+	description: "Link to published documentation page of class distributed with EiffelStudio"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 10:14:46 GMT (Monday 22nd January 2024)"
-	revision: "1"
+	date: "2024-01-22 14:23:03 GMT (Monday 22nd January 2024)"
+	revision: "2"
 
 class
 	ISE_CLASS_LINK

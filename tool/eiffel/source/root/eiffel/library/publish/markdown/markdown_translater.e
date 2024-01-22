@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-19 15:55:22 GMT (Friday 19th January 2024)"
-	revision: "18"
+	date: "2024-01-22 14:25:06 GMT (Monday 22nd January 2024)"
+	revision: "19"
 
 class
 	MARKDOWN_TRANSLATER
@@ -72,7 +72,7 @@ feature {NONE} -- Line states
 					if line.is_empty then
 						output.last.append (new_line * 2)
 					elseif is_list_item (line) then
-						output.last.append (New_line * 1)
+						output.last.append_character ('%N')
 					elseif not output.last.ends_with (new_line * 2) then
 						output.last.append_character (' ')
 					end
