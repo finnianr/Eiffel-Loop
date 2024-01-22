@@ -9,7 +9,7 @@ pyxis-doc:
 
 publish-repository:
 	name = "Eiffel-Loop"; root_dir = "$EIFFEL/library/Eiffel-Loop"; output_dir = "eiffel-loop.com"
-	web_address = "http://www.eiffel-loop.com"; github_url = "https://github.com/finnianr/eiffel-loop"
+	web_address = "http://www.eiffel-loop.com"; github_url = "https://github.com/finnianr/eiffel-loop/tree/master"
 	invalid_names_output_path = "$HOME/Desktop/Eiffel Apps/invalid-name-references.e"
 	ise_library = "https://www.eiffel.org/files/doc/static/trunk/libraries/%S/%S_chart.html"
 	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"

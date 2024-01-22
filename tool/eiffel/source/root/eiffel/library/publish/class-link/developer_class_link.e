@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 17:23:31 GMT (Monday 22nd January 2024)"
-	revision: "3"
+	date: "2024-01-22 18:14:19 GMT (Monday 22nd January 2024)"
+	revision: "4"
 
 class
 	DEVELOPER_CLASS_LINK
@@ -15,7 +15,7 @@ class
 inherit
 	CLASS_LINK
 		redefine
-			adjusted_path, github_markup, is_valid, wiki_markup
+			adjusted_path, github_markdown, is_valid, wiki_markup
 		end
 
 	EL_CHARACTER_32_CONSTANTS
@@ -34,13 +34,9 @@ feature -- Access
 			Result := path.universal_relative_path (relative_page_dir)
 		end
 
-	github_markup (repository_web_address: ZSTRING): ZSTRING
+	github_markdown (github_url: EL_DIR_URI_PATH): ZSTRING
 		do
-			if attached char ('/').joined (repository_web_address, path.to_string) as l_path then
-				Result := Github_link_template #$ [type_name, path]
-			else
-				create Result.make_empty
-			end
+			Result := Github_link_template #$ [type_name, github_url + path]
 		end
 
 	wiki_markup (web_address: ZSTRING): ZSTRING

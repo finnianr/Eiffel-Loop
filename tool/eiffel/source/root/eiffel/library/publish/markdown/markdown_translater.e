@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 17:23:01 GMT (Monday 22nd January 2024)"
-	revision: "20"
+	date: "2024-01-22 18:16:39 GMT (Monday 22nd January 2024)"
+	revision: "21"
 
 class
 	MARKDOWN_TRANSLATER
@@ -33,11 +33,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository_web_address: like repository_web_address)
+	make (a_github_url: EL_DIR_URI_PATH)
 		do
-			repository_web_address := a_repository_web_address
+			github_url_string := a_github_url
 			create output.make_empty
-			create variable_substitution.make (a_repository_web_address)
+			create variable_substitution.make (a_github_url)
 			make_machine
 		end
 
@@ -148,7 +148,7 @@ feature {NONE} -- Implementation
 				link_address := substring.substring (2, space_index - 1)
 				link_text := substring.substring (space_index + 1, substring.count - 1)
 				if link_address.starts_with_character ('.') then
-					link_address.replace_substring (repository_web_address, 1, 1)
+					link_address.replace_substring (github_url_string, 1, 1)
 				end
 			else
 				link_text := Empty_string
@@ -164,7 +164,7 @@ feature {NONE} -- Internal attributes
 
 	output: EL_ZSTRING_LIST
 
-	repository_web_address: ZSTRING
+	github_url_string: ZSTRING
 
 	is_code_block: BOOLEAN
 

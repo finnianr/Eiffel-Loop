@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 9:44:01 GMT (Monday 22nd January 2024)"
-	revision: "4"
+	date: "2024-01-22 18:13:24 GMT (Monday 22nd January 2024)"
+	revision: "5"
 
 class
 	GITHUB_TYPE_VARIABLE_SUBSTITUTION
@@ -28,21 +28,21 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository_web_address: ZSTRING)
+	make (a_github_url: EL_DIR_URI_PATH)
 		do
 			make_type
-			repository_web_address := a_repository_web_address
+			github_url := a_github_url
 		end
 
 feature {NONE} -- Implementation
 
 	new_link_markup (link: CLASS_LINK): ZSTRING
 		do
-			Result := link.github_markup (repository_web_address)
+			Result := link.github_markdown (github_url)
 		end
 
 feature {NONE} -- Internal attributes
 
-	repository_web_address: ZSTRING
+	github_url: EL_DIR_URI_PATH
 
 end
