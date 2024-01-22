@@ -477,10 +477,10 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
-* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [http://www.eiffel-loop.com/unknown](EL_PASSPHRASE_ATTRIBUTES_ENUM).
+* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [Unknown-path](EL_PASSPHRASE_ATTRIBUTES_ENUM).
 * Basis for reflective initialization of class attributes from command line arguments. See class [http://www.eiffel-loop.com/library/base/kernel/command/options/el_command_line_options.html](EL_COMMAND_LINE_OPTIONS)
 * Support for reading and writing to strings conforming to [https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html](STRING_GENERAL)
-* Support for reading from objects conforming to [http://www.eiffel-loop.com/library/base/kernel/el_readable.html](EL_READABLE) and writing to objects conforming to [http://www.eiffel-loop.com/unknown](EL_WRITEABLE)
+* Support for reading from objects conforming to [http://www.eiffel-loop.com/library/base/kernel/el_readable.html](EL_READABLE) and writing to objects conforming to [Unknown-path](EL_WRITEABLE)
 * Support for reading writing to instance of [http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html](EL_MEMORY_READER_WRITER) (inherits [https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html](SED_MEMORY_READER_WRITER))
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
 * Support for sinking field data into object conforming to [http://www.eiffel-loop.com/library/base/runtime/memory/el_data_sinkable.html](EL_DATA_SINKABLE). Useful for creating MD5 or SHA-256 hashes.
@@ -1185,11 +1185,11 @@ Classes for generating Kindle OPF packages from HTML content.
 ## Thunderbird Email Export
 Classes to read and export emails from the [Thunderbird email client](https://www.thunderbird.net/) including a class to generate a Kindle book from a folder of chapter emails.
 
-Test class [http://www.eiffel-loop.com/unknown](THUNDERBIRD_TEST_APP)
+Test class [Unknown-path](THUNDERBIRD_TEST_APP)
 ## Open Office Spreadsheets
 Classes for reading the contents of [OpenDocument Flat XML spreadsheets](http://www.datypic.com/sc/odf/e-office_spreadsheet.html) using [VTD-XML](http://vtd-xml.sourceforge.net/).
 
-Test class [http://www.eiffel-loop.com/unknown](OPEN_OFFICE_TEST_APP)
+Test class [Unknown-path](OPEN_OFFICE_TEST_APP)
 ## Pyxis Document Node-scanning and Object Building
 Library for parsing and scanning documents in [Pyxis format](https://www.eiffel.org/node/143)
 
@@ -1251,14 +1251,14 @@ This library has two main purposes:
 
 **"Swiss-army-knife applications"**
 
-Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/el_multi_application_root.html](EL_MULTI_APPLICATION_ROOT) and [http://www.eiffel-loop.com/unknown](EL_SUB_APPLICATION) provide this capability.
+Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/el_multi_application_root.html](EL_MULTI_APPLICATION_ROOT) and [Unknown-path](EL_SUB_APPLICATION) provide this capability.
 
 **Command line sub-applications**
 
 The following features exist for creating command line applications:
 
 
-* The class [http://www.eiffel-loop.com/unknown](EL_COMMAND_LINE_SUB_APPLICATION) provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string conversion according to type.
+* The class [Unknown-path](EL_COMMAND_LINE_SUB_APPLICATION) provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string conversion according to type.
 * Built-in help system with usage help.
 * Create menu driven command line shells.
 
@@ -1533,9 +1533,9 @@ my_routine is
 ````
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit [http://www.eiffel-loop.com/unknown](EL_LOGGED_SUB_APPLICATION) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [http://www.eiffel-loop.com/unknown](EL_SUB_APPLICATION) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit [Unknown-path](EL_LOGGED_SUB_APPLICATION) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [Unknown-path](EL_SUB_APPLICATION) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
-Inheriting from class [http://www.eiffel-loop.com/unknown](EL_SUB_APPLICATION) has some incidental benefits including:
+Inheriting from class [Unknown-path](EL_SUB_APPLICATION) has some incidental benefits including:
 
 
 * Graceful handling of the ctrl-c program interrupt with the possibility of putting application cleanup into a redefinition of procedure `on_operating_system_signal`.
@@ -1549,7 +1549,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [http://www.eiffel-loop.com/unknown](EL_LOGGED_SUB_APPLICATION) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html](FOURIER_MATH_CLIENT_TEST_APP) illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [Unknown-path](EL_LOGGED_SUB_APPLICATION) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html](FOURIER_MATH_CLIENT_TEST_APP) illustrates:
 
 
 ````
@@ -1642,7 +1642,7 @@ Class [http://www.eiffel-loop.com/library/runtime/logging/el_module_log.html](EL
 
 **Log files**
 
-All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [http://www.eiffel-loop.com/unknown](EL_SUB_APPLICATION) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
+All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [Unknown-path](EL_SUB_APPLICATION) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
 
 Use the command line switch `-keep_logs`. The log files will not be deleted and will not be overwritten during subsequent application runs. It is recommended to delete them manually.
 
@@ -1688,7 +1688,7 @@ Classes for creating cross platform wrappers of OS commands with about 30 "out o
 * Support for making "convenience wrappers" without any need to create a new class. These are classes: [http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_os_command.html](EL_OS_COMMAND) and [http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_captured_os_command.html](EL_CAPTURED_OS_COMMAND).
 
 
-* Has factory class [http://www.eiffel-loop.com/unknown](EL_OS_ROUTINES_IMP) (accessible via [http://www.eiffel-loop.com/library/runtime/process/commands/system/el_module_os.html](EL_MODULE_OS)) which contains factory functions for common OS system commands.
+* Has factory class [Unknown-path](EL_OS_ROUTINES_IMP) (accessible via [http://www.eiffel-loop.com/library/runtime/process/commands/system/el_module_os.html](EL_MODULE_OS)) which contains factory functions for common OS system commands.
 
 **Information Commands**
 
@@ -1724,13 +1724,13 @@ Library `xml-scan.ecf` provides 2 classes for storing credentials
 2. [http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_secure_key_file.html](EL_SECURE_KEY_FILE)
 
 ## RSA Public-key Encryption
-Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [http://www.eiffel-loop.com/unknown](EL_MODULE_X509_COMMAND).
+Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [Unknown-path](EL_MODULE_X509_COMMAND).
 
 The private key reader however uses a non-standard encryption scheme. It assumes the file is en	crypted using the Eiffel-Loop utility contained in `el_toolkit`.
 ## Evolicity Text Substitution Engine
 *Evolicity* is a text substitution language that was inspired by the [Velocity text substitution language](http://velocity.apache.org/) for Java. *Evolicity* provides a way to merge the data from Eiffel objects into a text template. The template can be either supplied externally or hard-coded into an Eiffel class. The language includes, substitution variables, conditional statements and loops. Substitution variables have a BASH like syntax. Conditionals and loops have an Eiffel like syntax.
 
-The text of this web site was generated by the Eiffel-view repository publisher (See class [http://www.eiffel-loop.com/unknown](REPOSITORY_PUBLISHER_APP)) using the following combination of *Evolicity* templates:
+The text of this web site was generated by the Eiffel-view repository publisher (See class [Unknown-path](REPOSITORY_PUBLISHER_APP)) using the following combination of *Evolicity* templates:
 
 
 1. [doc-config/main-template.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/main-template.html.evol)
@@ -1834,7 +1834,7 @@ A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-l
 
 **Sub-applications**
 
-[http://www.eiffel-loop.com/unknown](CLASS_PREFIX_REMOVAL_APP) removes all classname prefixes over a source directory
+[Unknown-path](CLASS_PREFIX_REMOVAL_APP) removes all classname prefixes over a source directory
 
 Command switch: `-remove_prefix`
 
@@ -1852,7 +1852,7 @@ Command switch: `-feature_edit`
 
 Command switch: `-elog_remover`
 
-[http://www.eiffel-loop.com/unknown](SOURCE_TREE_CLASS_RENAME_APP) renames classes defined by a source manifest file
+[Unknown-path](SOURCE_TREE_CLASS_RENAME_APP) renames classes defined by a source manifest file
 
 Command switch: `-class_rename`
 
@@ -1872,7 +1872,7 @@ Command switch: `-check_locale_strings`
 
 Command switch: `-descendants`
 
-[http://www.eiffel-loop.com/unknown](CODEBASE_STATISTICS_APP) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
+[Unknown-path](CODEBASE_STATISTICS_APP) counts classes, code words and combined source file size for Eiffel source trees specified in manifest
 
 Command switch: `-codebase_stats`
 
@@ -1914,7 +1914,7 @@ Command switch: `-export_book`
 
 Command switch: `-export_www`
 
-[http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html](PYXIS_TRANSLATION_TREE_COMPILER_APP) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [http://www.eiffel-loop.com/unknown](EL_LOCALE_I).
+[http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html](PYXIS_TRANSLATION_TREE_COMPILER_APP) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [Unknown-path](EL_LOCALE_I).
 
 Command switch: `-compile_translations`
 
@@ -1952,7 +1952,7 @@ See class [$source ID3_TAGS_AUTOTEST_APP]
 
 Due to C name space clashes with `TagLib.ecf` these tests have been separated from `test.ecf`
 ## amazon-instant-access.ecf
-Tests for Eiffel interface to Amazon Instant Access API. See class [http://www.eiffel-loop.com/unknown](AMAZON_INSTANT_ACCESS_TEST_APP)
+Tests for Eiffel interface to Amazon Instant Access API. See class [Unknown-path](AMAZON_INSTANT_ACCESS_TEST_APP)
 ## base.ecf (Eiffel-Loop)
 Test Eiffel-Loop base classes. See [http://www.eiffel-loop.com/test/source/base/base_autotest_app.html](BASE_AUTOTEST_APP)
 ## C-language-interface.ecf
@@ -1972,9 +1972,9 @@ tool/eiffel/eiffel.ecf
 ````
 
 ## compression.ecf
-See class [http://www.eiffel-loop.com/unknown](COMPRESSION_TEST_APP)
+See class [Unknown-path](COMPRESSION_TEST_APP)
 ## currency.ecf
-See class [http://www.eiffel-loop.com/unknown](CURRENCY_TEST_APP)
+See class [Unknown-path](CURRENCY_TEST_APP)
 ## Eco-DB.ecf
 Test [Eco-DB (Eiffel CHAIN Orientated Database)](http://www.eiffel-loop.com/library/Eco-DB.html) library.
 
@@ -1996,7 +1996,7 @@ Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/ero
 * [http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_server_test_app.html](FOURIER_MATH_SERVER_TEST_APP)
 
 ## evolicity.ecf
-Test of Evolicity text substitution engine. See class [http://www.eiffel-loop.com/unknown](EVOLICITY_TEST_APP)
+Test of Evolicity text substitution engine. See class [Unknown-path](EVOLICITY_TEST_APP)
 ## file-processing.ecf
 Test [File and Directory Processing)](http://www.eiffel-loop.com/library/file-processing.html) library.
 
@@ -2006,10 +2006,10 @@ See class [http://www.eiffel-loop.com/test/source/http-client/http_client_autote
 ## i18n.ecf
 Test localization library. See class [http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html](I18N_AUTOTEST_APP)
 ## image-utils.ecf
-See class [http://www.eiffel-loop.com/unknown](SVG_TO_PNG_CONVERSION_TEST_APP)
+See class [Unknown-path](SVG_TO_PNG_CONVERSION_TEST_APP)
 ## markup-docs.ecf
-* Test subject line decoding for Thunderbird Email Export with [http://www.eiffel-loop.com/unknown](THUNDERBIRD_TEST_APP)
-* Regression test reading of Open Office Spreadsheet with [http://www.eiffel-loop.com/unknown](OPEN_OFFICE_TEST_APP)
+* Test subject line decoding for Thunderbird Email Export with [Unknown-path](THUNDERBIRD_TEST_APP)
+* Regression test reading of Open Office Spreadsheet with [Unknown-path](OPEN_OFFICE_TEST_APP)
 
 ## multimedia.ecf
 * Test wav to mp3 conversion
@@ -2018,17 +2018,17 @@ See class [http://www.eiffel-loop.com/unknown](SVG_TO_PNG_CONVERSION_TEST_APP)
 Test network library classes
 
 
-* [http://www.eiffel-loop.com/unknown](TEST_SIMPLE_CLIENT)
-* [http://www.eiffel-loop.com/unknown](SIMPLE_SERVER_TEST_APP)
+* [Unknown-path](TEST_SIMPLE_CLIENT)
+* [Unknown-path](SIMPLE_SERVER_TEST_APP)
 
 ## os-command.ecf
 * Test OS command interface library. See class [http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html](OS_COMMAND_AUTOTEST_APP)
 * Test set for classes that manage and read file system content. See class [http://www.eiffel-loop.com/test/source/os-command/test-set/file_and_directory_test_set.html](FILE_AND_DIRECTORY_TEST_SET)
 
 ## paypal-SBM.ecf
-Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [http://www.eiffel-loop.com/unknown](PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP)
+Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [Unknown-path](PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP)
 ## public-key-encryption.ecf
-Tests for RSA public key encryption tools. See class [http://www.eiffel-loop.com/unknown](PUBLIC_KEY_ENCRYPTION_TEST_APP)
+Tests for RSA public key encryption tools. See class [Unknown-path](PUBLIC_KEY_ENCRYPTION_TEST_APP)
 ## pyxis-scan.ecf
 Test application class: [http://www.eiffel-loop.com/test/source/pyxis-scan/pyxis_scan_autotest_app.html](PYXIS_SCAN_AUTOTEST_APP)
 ## Root class and Experiments

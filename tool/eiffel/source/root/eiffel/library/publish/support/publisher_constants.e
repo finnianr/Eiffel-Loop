@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 10:44:02 GMT (Sunday 21st January 2024)"
-	revision: "11"
+	date: "2024-01-22 14:05:12 GMT (Monday 22nd January 2024)"
+	revision: "12"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -45,11 +45,6 @@ feature {NONE} -- Strings
 			Result := "html"
 		end
 
-	Maximum_code_width: INTEGER
-		once
-			Result := 110
-		end
-
 	Source_variable: ZSTRING
 		once
 			Result := "$source"
@@ -63,7 +58,7 @@ feature {NONE} -- Strings
 
 feature {NONE} -- Constants
 
-	Class_reference_list: CLASS_REFERENCE_MAP_LIST
+	Class_link_list: CLASS_LINK_LIST
 		once
 			create Result.make (20)
 		end

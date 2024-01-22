@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 15:42:28 GMT (Sunday 21st January 2024)"
-	revision: "5"
+	date: "2024-01-22 9:51:57 GMT (Monday 22nd January 2024)"
+	revision: "6"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -58,19 +58,19 @@ feature -- Basic operations
 			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
 			buffer: ZSTRING
 		do
-			if attached Class_reference_list as list then
+			if attached Class_link_list as list then
 				list.parse (html_string)
 			-- In reverse order to allow substitutions
 				across String_scope as scope loop
 					buffer := scope.best_item (html_string.count + list.count * 50)
 					from list.start until list.after loop
 						preceding_start_index := previous_end_index + 1
-						preceding_end_index := list.item_start_index - 1
+						preceding_end_index := list.item.start_index - 1
 						if (preceding_end_index - preceding_start_index + 1) > 0 then
 							buffer.append_substring (html_string, preceding_start_index, preceding_end_index)
 						end
-						buffer.append (new_link_markup (list.item_link, list.item_type_name))
-						previous_end_index := list.item_end_index
+						buffer.append (new_link_markup (list.item))
+						previous_end_index := list.item.end_index
 						list.forth
 					end
 					if html_string.count - previous_end_index > 0 then
@@ -83,17 +83,11 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_link_markup (link: like Class_reference_list.item_link; type_name: ZSTRING): ZSTRING
-		local
-			path: FILE_PATH
+	new_link_markup (link: CLASS_LINK): ZSTRING
 		do
-			inspect link.class_category
-				when {CLASS_REFERENCE_MAP_LIST}.Developer_class then
-					path := link.path.universal_relative_path (relative_page_dir)
-			else
-				path := link.path
-			end
-			Result := A_href_template #$ [path, anchor_id, new_link_text (type_name)]
+			Result := A_href_template #$ [
+				link.adjusted_path (relative_page_dir), anchor_id, new_link_text (link.type_name)
+			]
 		end
 
 	new_link_text (type_name: ZSTRING): ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 10:48:32 GMT (Sunday 21st January 2024)"
-	revision: "23"
+	date: "2024-01-22 14:05:21 GMT (Monday 22nd January 2024)"
+	revision: "24"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -188,7 +188,7 @@ feature {NONE} -- Implementation
 			create Result.make (lines.count)
 			across lines as l loop
 				line := l.item
-				if Class_reference_list.adjusted_count (line) > Maximum_code_width then
+				if Class_link_list.adjusted_count (line) > Maximum_code_width then
 					Word_stack.wipe_out
 					space_count := line.leading_occurrences (' ')
 					line.remove_head (space_count)
@@ -255,6 +255,11 @@ feature {NONE} -- Constants
 	Markdown: MARKDOWN_RENDERER
 		once
 			create Result
+		end
+
+	Maximum_code_width: INTEGER
+		once
+			Result := 110
 		end
 
 	Word_stack: ARRAYED_STACK [ZSTRING]

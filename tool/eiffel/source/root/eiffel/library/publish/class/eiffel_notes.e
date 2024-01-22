@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 15:25:01 GMT (Sunday 21st January 2024)"
-	revision: "35"
+	date: "2024-01-22 10:08:51 GMT (Monday 22nd January 2024)"
+	revision: "36"
 
 class
 	EIFFEL_NOTES
@@ -246,14 +246,12 @@ feature {NONE} -- Implementation
 
 	check_links_for_line (line, base_name: ZSTRING)
 		do
-			if attached Class_reference_list as list then
+			if attached Class_link_list as list then
 				list.parse (line)
 				if list.has_invalid_class then
 					from list.start until list.after loop
-						inspect list.item_link.class_category
-							when {CLASS_REFERENCE_MAP_LIST}.Unknown_class then
-								Invalid_source_name_table.extend (relative_class_dir + base_name, list.item_class_name)
-						else
+						if not list.item.is_valid then
+							Invalid_source_name_table.extend (relative_class_dir + base_name, list.item.class_name)
 						end
 						list.forth
 					end

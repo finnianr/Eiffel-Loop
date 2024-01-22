@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 15:41:29 GMT (Sunday 21st January 2024)"
-	revision: "3"
+	date: "2024-01-22 9:44:01 GMT (Monday 22nd January 2024)"
+	revision: "4"
 
 class
 	GITHUB_TYPE_VARIABLE_SUBSTITUTION
@@ -36,17 +36,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	new_link_markup (link: like Class_reference_list.item_link; type_name: ZSTRING): ZSTRING
-		local
-			path: ZSTRING
+	new_link_markup (link: CLASS_LINK): ZSTRING
 		do
-			inspect link.class_category
-				when {CLASS_REFERENCE_MAP_LIST}.Developer_class then
-					path := char ('/').joined (repository_web_address, link.path.to_string)
-			else
-				path := link.path
-			end
-			Result := Github_link_template #$ [path, type_name]
+			Result := link.github_markup (repository_web_address)
 		end
 
 feature {NONE} -- Internal attributes
