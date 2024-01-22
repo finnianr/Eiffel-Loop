@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 14:21:05 GMT (Monday 22nd January 2024)"
-	revision: "2"
+	date: "2024-01-22 17:23:16 GMT (Monday 22nd January 2024)"
+	revision: "3"
 
 class
 	CLASS_LINK
@@ -83,7 +83,7 @@ feature -- Markup
 
 	github_markup (repository_web_address: ZSTRING): ZSTRING
 		do
-			Result := Github_link_template #$ [path, type_name]
+			Result := Github_link_template #$ [type_name, path]
 		end
 
 	html_type_name: ZSTRING

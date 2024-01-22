@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 18:59:55 GMT (Thursday 18th January 2024)"
-	revision: "7"
+	date: "2024-01-22 17:15:52 GMT (Monday 22nd January 2024)"
+	revision: "8"
 
 class
 	HYPERLINK_NOTE_SUBSTITUTION
@@ -27,24 +27,23 @@ create
 
 feature {NONE} -- Implementation
 
-	new_expanded_link (path, text: ZSTRING): ZSTRING
+	new_expanded_link (a_path, text: ZSTRING): ZSTRING
 		local
-			l_path: ZSTRING; html_path: FILE_PATH
+			path: ZSTRING; html_path: FILE_PATH
 			first_index: INTEGER
 		do
-			l_path := path
+			path := a_path
 			if path.starts_with (Current_dir_forward_slash) then
 				first_index := Current_dir_forward_slash.count + 1
 				if path.occurrences ('/') > 1 then
 					html_path := path.substring_end (first_index)
-					l_path := html_path.universal_relative_path (relative_page_dir)
+					path := html_path.universal_relative_path (relative_page_dir)
 
 				elseif path.valid_index (first_index) and then path [first_index] = '#' then
-					l_path := Back_dir_step.multiplied (relative_page_dir.step_count) + path.substring_end (first_index)
+					path := Back_dir_step.multiplied (relative_page_dir.step_count) + path.substring_end (first_index)
 				end
-
 			end
-			Result := A_href_template #$ [l_path, Empty_string, text]
+			Result := Html_link_template #$ [path, Empty_string, text]
 		end
 
 feature {NONE} -- Constants

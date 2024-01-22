@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 14:19:52 GMT (Monday 22nd January 2024)"
-	revision: "7"
+	date: "2024-01-22 17:15:52 GMT (Monday 22nd January 2024)"
+	revision: "8"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -85,7 +85,7 @@ feature {NONE} -- Implementation
 
 	new_link_markup (link: CLASS_LINK): ZSTRING
 		do
-			Result := A_href_template #$ [link.adjusted_path (relative_page_dir), anchor_id, link.html_type_name]
+			Result := Html_link_template #$ [link.adjusted_path (relative_page_dir), anchor_id, link.html_type_name]
 		end
 
 feature {NONE} -- Internal attributes

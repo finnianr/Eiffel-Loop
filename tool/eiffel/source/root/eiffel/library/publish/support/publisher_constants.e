@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 14:05:12 GMT (Monday 22nd January 2024)"
-	revision: "12"
+	date: "2024-01-22 17:22:41 GMT (Monday 22nd January 2024)"
+	revision: "13"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -19,9 +19,9 @@ inherit
 
 	EL_CHARACTER_32_CONSTANTS
 
-feature {NONE} -- Strings
+feature {NONE} -- Templates
 
-	A_href_template: ZSTRING
+	Html_link_template: ZSTRING
 		once
 			Result := "[
 				<a href="#"# target="_blank">#</a>
@@ -30,14 +30,17 @@ feature {NONE} -- Strings
 			three_markers: Result.occurrences ('%S') = 3
 		end
 
+	Github_link_template: ZSTRING
+		-- [link text] plus (web address)
+		once
+			Result := "[%S](%S)"
+		end
+
+feature {NONE} -- Strings
+
 	Dollor_left_brace: ZSTRING
 		once
 			Result := "${"
-		end
-
-	Github_link_template: ZSTRING
-		once
-			Result := "[%S](%S)"
 		end
 
 	Html: ZSTRING
