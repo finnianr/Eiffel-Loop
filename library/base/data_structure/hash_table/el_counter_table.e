@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 11:44:14 GMT (Tuesday 28th March 2023)"
-	revision: "3"
+	date: "2024-01-23 16:19:45 GMT (Tuesday 23rd January 2024)"
+	revision: "4"
 
 class
 	EL_COUNTER_TABLE [K -> HASHABLE]
@@ -49,15 +49,15 @@ feature -- Element change
 
 	put (v: K)
 		local
-			counter: NATURAL_32_REF
+			put_count: NATURAL_32_REF
 		do
 			if has_key (v) then
-				found_count.set_item (found_count.item + 1)
+				put_count := found_count
 			else
-				create counter
-				counter.set_item (1)
-				extend (counter, v)
+				create put_count
+				extend (put_count, v)
 			end
+			put_count.set_item (put_count.item + 1)
 		end
 
 end

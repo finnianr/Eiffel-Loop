@@ -1,3 +1,6 @@
+2.0.8
+* Improved synchronisation with Github directory, and removal of ${} in code blocks for markdown
+
 2.0.7
 * Smarter translation to github markdown, so links only point within repository
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-23 12:01:46 GMT (Tuesday 23rd January 2024)"
-	revision: "22"
+	date: "2024-01-23 17:33:39 GMT (Tuesday 23rd January 2024)"
+	revision: "23"
 
 class
 	MARKDOWN_TRANSLATER
@@ -82,17 +82,30 @@ feature {NONE} -- Line states
 			end
 		end
 
-	add_code_block (line: ZSTRING)
+	add_code_block (a_line: ZSTRING)
+		local
+			line: ZSTRING
 		do
 			output.last.append_character ('%N')
-			if line.starts_with_character ('%T') then
-				output.last.append (line.substring_end (2))
+			if a_line.starts_with_character ('%T') then
+				line := a_line.substring_end (2)
+			-- Remove any class links because they won't work in Github markdown
+				if line.has_substring (Dollor_left_brace) and then attached Class_link_list as list then
+					list.parse (line)
+				-- iterate in reverse to allow removals
+					from list.finish until list.before loop
+						line.remove (list.item.end_index) -- '}'
+						line.remove_substring (list.item.start_index, list.item.start_index + 1) -- "${"
+						list.back
+					end
+				end
+				output.last.append (line)
 			else
 				output.last.append (Code_block_delimiter)
 				output.extend (new_string)
 				state := agent add_normal_text
 				is_code_block := False
-				add_normal_text (line)
+				add_normal_text (a_line)
 			end
 		end
 

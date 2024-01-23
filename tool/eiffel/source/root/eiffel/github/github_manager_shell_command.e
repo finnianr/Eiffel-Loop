@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:05:02 GMT (Saturday 20th January 2024)"
-	revision: "28"
+	date: "2024-01-23 17:03:15 GMT (Tuesday 23rd January 2024)"
+	revision: "33"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -45,6 +45,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			config_path := a_config_path
 			create config.make (a_config_path)
 			create manifest.make_from_file (config.source_manifest_path)
+			create source_change_table.make (100)
 		end
 
 feature -- Constants
@@ -117,8 +118,17 @@ feature {NONE} -- Commands
 			rsync_cmd: EL_OS_COMMAND; valid_arguments: BOOLEAN_REF
 		do
 			update_notes
+			lio.put_new_line
 
-			if change_count > 0 then
+			if source_change_table.sum_count = 0 and deletion_count = 0 then
+				lio.put_line ("No project or source changes found")
+			else
+				across source_change_table as table loop
+					lio.put_labeled_substitution ("Changes to", "%"*.%S%" files = %S", [table.key, table.item.item])
+					lio.put_new_line
+				end
+				lio.put_integer_field ("Deleted count", deletion_count)
+				lio.put_new_line_x2
 				create rsync_cmd.make (config.rsync_template)
 				create valid_arguments
 				set_rsync_arguments (rsync_cmd, Empty_string_8, valid_arguments)
@@ -206,10 +216,11 @@ feature {NONE} -- Implementation
 	update_notes
 		local
 			rsync_cmd: EL_CAPTURED_OS_COMMAND; path, source_path: FILE_PATH
-			valid_arguments: BOOLEAN_REF; line: ZSTRING
+			valid_arguments: BOOLEAN_REF; line: ZSTRING; deleted: BOOLEAN
 		do
-			change_count := 0
-
+			source_change_table.wipe_out
+			deletion_count := 0
+			create path
 			create rsync_cmd.make (config.rsync_template)
 			create valid_arguments
 			set_rsync_arguments (rsync_cmd, "--dry-run", valid_arguments)
@@ -217,27 +228,32 @@ feature {NONE} -- Implementation
 				rsync_cmd.execute
 				across rsync_cmd.lines as list loop
 					line := list.item
-					if line.starts_with (config.source_dir.base) then
-						path := line
-						if path.has_extension ("e") then
-							source_path := config.source_dir.parent + path
-							edit_notes (source_path)
-							change_count := change_count +1
+					if not line.has_substring (Dry_run) then
+						deleted := line.starts_with (Deleting)
+						if deleted then
+							line.remove_head (Deleting.count)
 						end
-					elseif line.starts_with ("deleting ") then
-						change_count := change_count + 1
+						if deleted then
+							deletion_count := deletion_count + 1
+						else
+							path.set_path (line)
+							if line.starts_with (config.source_dir.base)
+								and then path.has_extension (eiffel_source_extension)
+							then
+								edit_notes (config.source_dir.parent + path)
+							end
+							if path.has_dot_extension then
+								source_change_table.put (path.extension)
+							end
+						end
 					end
 				end
 			end
-			if change_count = 0 then
-				lio.put_line ("No changes found")
-			end
-			lio.put_new_line
 		end
 
 feature {NONE} -- Internal attributes
 
-	change_count: INTEGER
+	deletion_count: INTEGER
 
 	config: GITHUB_CONFIGURATION
 
@@ -245,11 +261,28 @@ feature {NONE} -- Internal attributes
 
 	manifest: SOURCE_MANIFEST
 
+	source_change_table: EL_COUNTER_TABLE [ZSTRING]
+
 feature {NONE} -- Constants
 
 	Credentials_path: FILE_PATH
 		once
 			Result := Directory.home + ".git-credentials"
+		end
+
+	Deleting: ZSTRING
+		once
+			Result := "deleting "
+		end
+
+	Dry_run: ZSTRING
+		once
+			Result := "(DRY RUN)"
+		end
+
+	Eiffel_source_extension: ZSTRING
+		do
+			Result := "e"
 		end
 
 	Git_commit_template: ZSTRING
