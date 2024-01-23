@@ -10,12 +10,11 @@ Demonstration of classes that make the classic multi-threading ISE library `thre
 1. `el_concurrency -horse_race` An [animated version](https://www.youtube.com/watch?v=s2-7pzmVjao) of the classic concurrency horse-racing exercise.
 2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions distributed across a specified number of threads
 ## Vision-2 Extensions Demo
-Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](http://www.eiffel-loop.com/library/vision2-x.html).
+Test application for selected components from Eiffel-Loop [extension libraries for Vision-2 and Docking](https://github.com/finnianr/eiffel-loop/tree/master/library/vision2-x.pecf).
 ## Rhythmbox MP3 Collection Manager
 This is a full-blown MP3 collection manager that is designed to work in conjunction with the [Rhythmbox media player](https://wiki.gnome.org/Apps/Rhythmbox) and has a number of features of particular interest to Tango DJs.
 
 **Manger Syntax**
-
 
 ````
 el_rhythmbox -manager -config <task-configuration>.pyx
@@ -51,7 +50,7 @@ el_rhythmbox -manager -config <task-configuration>.pyx
 
 **Manual**
 
-For details on how to use, read the source documentation notes in class [RHYTHMBOX_MUSIC_MANAGER_APP](http://www.eiffel-loop.com/example/manage-mp3/source/apps/rhythmbox_music_manager_app.html).
+For details on how to use it, read the source documentation notes in class [RHYTHMBOX_MUSIC_MANAGER_APP](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/apps/rhythmbox_music_manager_app.e).
 
 **Download**
 
@@ -59,35 +58,35 @@ Download the latest executable for *Ubuntu 14.04* or *Linux Mint 17.x* at the bo
 
 Warning: **Use at your own risk.** It is recommended that you have a backup of your MP3 collection and rhythmbox configuration files (Usually in `$HOME/.local/share/rhythmbox`). The developer does not take any responsibility for any data loss that may occur as a result of using *el_rhythmbox*.
 ## Signal Math Demo of the EROS Protocol
-A multi-mode application demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application calculates Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html). It has two client modes and two server modes, accessible via a command line option.
+A multi-mode application demonstrating the [EROS remote object protocol](https://github.com/finnianr/eiffel-loop/tree/master/library/eros.pecf). The application calculates Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html). It has two client modes and two server modes, accessible via a command line option.
 
 **Client Modes**
 
-`-test_client` Sub-application [FFT_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_client_test_app.html)
+`-test_client` Sub-application [FFT_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/example/net/EROS/signal-math/source/apps/fft_math_client_test_app.e)
 
 Test client to generate random wave forms and do fourier transforms for 25 seconds
 
-`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
+`-bext_test_client` Sub-application [BEXT_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/bext_client_test_app.e)
 
 Client to test Binary Encoded XML Transfer (BEXT).
 
 **Server Modes**
 
-`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
+`-bext_test_server` Sub-application [BEXT_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/bext_client_test_app.e)
 
 Server to test Binary Encoded XML Transfer (BEXT). Ctrl-c shuts down the server.
 
-`-test_server` Sub-application [FFT_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/example/net/EROS/signal-math/source/apps/fft_math_server_test_app.html)
+`-test_server` Sub-application [FFT_MATH_SERVER_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/example/net/EROS/signal-math/source/apps/fft_math_server_test_app.e)
 
 Single connection test server for fourier math. Ctrl-c shuts down the server.
 
 **Installer Mode**
 
-`-install` Sub-application [EL_STANDARD_INSTALLER_APP](http://www.eiffel-loop.com/library/runtime/app-manage/standard-app/el_standard_installer_app.html)
+`-install` Sub-application [EL_STANDARD_INSTALLER_APP](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/standard-app/el_standard_installer_app.e)
 
 Installs application with desktop menu options for each mode.
 ## Signal Math EROS Server with GUI
-A multi-threaded EROS server demonstrating the [EROS remote object protocol](http://www.eiffel-loop.com/library/eros.html). The application performs signal math including Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html)
+A multi-threaded EROS server demonstrating the [EROS remote object protocol](https://github.com/finnianr/eiffel-loop/tree/master/library/eros.pecf). The application performs signal math including Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html)
 
 **Features**
 
@@ -98,13 +97,13 @@ A multi-threaded EROS server demonstrating the [EROS remote object protocol](htt
 
 **Screenshot**
 
-[Server GUI and terminal window displaying logging output](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png)
+[Server GUI and terminal window displaying logging output](https://github.com/finnianr/eiffel-loop/tree/master/images/screenshot/console-thread-switch.png)
 ## Protein Folding using 2D HP model
 Various implementations of an optimal protein folding algorithm using the 2D HP model Includes both a single and multi-core implementation.
 
 This project was a joint collaboration between Gerrit Leder and Finnian Reilly. Gerrit developed the implemented the 2D HP algorithm in Eiffel and Finnian optimized it's performance and created a multi-core parallel computation version.
 
-The multi-core version showcases the Eiffel-Loop class [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html).
+The multi-core version showcases the Eiffel-Loop class [EL_PROCEDURE_DISTRIBUTER](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.e).
 
 See: [Sourceforge repository PF_HP-mt](https://sourceforge.net/p/pfhp/PF_HP-mt)
 ## Audio Processing
@@ -118,7 +117,7 @@ Classes for reading and writing ID3 tags to MP3 files using a common interface t
 
 **Status Obsolete**
 
-Due to numerous problems with the id3lib C++ library this project has been abandoned in favor of the [TagLib library](http://www.eiffel-loop.com/library/TagLib.html) which is still maintained and supports many more meta-data types besides ID3.
+Due to numerous problems with the id3lib C++ library this project has been abandoned in favor of the [TagLib library](https://github.com/finnianr/eiffel-loop/tree/master/library/TagLib.pecf) which is still maintained and supports many more meta-data types besides ID3.
 ## TagLib Audio Meta-Data Library
 Eiffel binding for the ID3 v1 and v2 tag manager from the [TagLib C++ library](https://taglib.org/).
 
@@ -126,7 +125,7 @@ TagLib can read and edit the meta-data of many popular audio formats. Currently 
 
 **Test Set**
 
-[test/test.ecf#taglib](http://www.eiffel-loop.com/test/test.taglib.html)
+[test/test.ecf#taglib](https://github.com/finnianr/eiffel-loop/tree/master/test/test.taglib.html)
 
 **Future Development**
 
@@ -138,7 +137,7 @@ Special thanks to [Scott Wheeler](https://github.com/scotchi), the original auth
 ## Windows Audio
 Audio extensions for the [WEL GUI library](https://www.eiffel.org/doc/solutions/WEL) that facilitate playback and other audio functions.
 ## Vision2 Audio
-Audio extensions for Windows implementation of Vision2 GUI library. This depends on the [WEL audio extensions](http://www.eiffel-loop.com/library/wel-x-audio.html) library.
+Audio extensions for Windows implementation of Vision2 GUI library. This depends on the [WEL audio extensions](https://github.com/finnianr/eiffel-loop/tree/master/library/wel-x-audio.pecf) library.
 ## Laabhair Audio Analysis Framework
 **Status:** No longer maintained
 
@@ -466,11 +465,11 @@ Classes providing the following facilities:
 
 * Reading and writing arrays of floating-point type [REAL_64](https://www.eiffel.org/files/doc/static/trunk/libraries/base/real_64_chart.html).
 * Files that notify a listener of byte-count written and read.
-* A file conforming to [PLAIN_TEXT_FILE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/plain_text_file_chart.html) that implements [EL_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/base/runtime/io/medium/el_output_medium.html)
+* A file conforming to [PLAIN_TEXT_FILE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/plain_text_file_chart.html) that implements [EL_OUTPUT_MEDIUM](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/io/medium/el_output_medium.e)
 * File line source and other abstractions
 
 ## Class Reflection
-Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way of exchanging data between Eiffel objects and any structured plaintext format, and also a binary memory block conforming to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
+Building on the basic ISE reflection mechanisms, this cluster makes possible a very flexible way of exchanging data between Eiffel objects and any structured plaintext format, and also a binary memory block conforming to [EL_MEMORY_READER_WRITER](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/memory/reader-writer/el_memory_reader_writer.e) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
 
 **Key Features**
 
@@ -478,15 +477,15 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
 * Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM](invalid-class-name).
-* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](http://www.eiffel-loop.com/library/base/kernel/command/options/el_command_line_options.html)
+* Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](https://github.com/finnianr/eiffel-loop/tree/master/library/base/kernel/command/options/el_command_line_options.e)
 * Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html)
-* Support for reading from objects conforming to [EL_READABLE](http://www.eiffel-loop.com/library/base/kernel/el_readable.html) and writing to objects conforming to [EL_WRITEABLE](invalid-class-name)
-* Support for reading writing to instance of [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
+* Support for reading from objects conforming to [EL_READABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/kernel/el_readable.e) and writing to objects conforming to [EL_WRITEABLE](invalid-class-name)
+* Support for reading writing to instance of [EL_MEMORY_READER_WRITER](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/memory/reader-writer/el_memory_reader_writer.e) (inherits [SED_MEMORY_READER_WRITER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/sed_memory_reader_writer_chart.html))
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
-* Support for sinking field data into object conforming to [EL_DATA_SINKABLE](http://www.eiffel-loop.com/library/base/runtime/memory/el_data_sinkable.html). Useful for creating MD5 or SHA-256 hashes.
+* Support for sinking field data into object conforming to [EL_DATA_SINKABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/memory/el_data_sinkable.e). Useful for creating MD5 or SHA-256 hashes.
 * Flexible way to include and exclude fields stored in field table.
 * Support for extracting useful type information from agents in an easily accessible form.
-* Support over 50 standard field types and composite types with ad-hoc support for other classes to serialize to [EL_MEMORY_READER_WRITER](http://www.eiffel-loop.com/library/base/runtime/memory/reader-writer/el_memory_reader_writer.html).
+* Support over 50 standard field types and composite types with ad-hoc support for other classes to serialize to [EL_MEMORY_READER_WRITER](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/memory/reader-writer/el_memory_reader_writer.e).
 
 
 ````
@@ -707,9 +706,9 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 **Drop-down Combo Boxes**
 
 
-* Drop-downs linked to data containers conforming to [FINITE [G]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/finite_chart.html) and initialized with a value of type `G`, and a selection change agent of type [PROCEDURE [G]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/procedure_chart.html). See class [EL_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.html)
-* Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
-* Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.html)
+* Drop-downs linked to data containers conforming to [FINITE [G]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/finite_chart.html) and initialized with a value of type `G`, and a selection change agent of type [PROCEDURE [G]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/procedure_chart.html). See class [EL_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.e)
+* Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.e)
+* Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.e)
 
 ** Primitive Widget Descendants**
 
@@ -892,12 +891,12 @@ Provides:
 Base library for:
 
 
-* [XML Document Node-scanning and Object Building library](http://www.eiffel-loop.com/library/xml-scan.html)
-* [Pyxis Document Node-scanning and Object Building library](http://www.eiffel-loop.com/library/pyxis-scan.html)
+* [XML Document Node-scanning and Object Building library](https://github.com/finnianr/eiffel-loop/tree/master/library/xml-scan.pecf)
+* [Pyxis Document Node-scanning and Object Building library](https://github.com/finnianr/eiffel-loop/tree/master/library/pyxis-scan.pecf)
 
 **XML Node Scanning**
 
-The abstraction [EL_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/document/scanner/event-source/el_parse_event_source.html) representing a parse-event source has 5 useful descendants:
+The abstraction [EL_PARSE_EVENT_SOURCE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/document/scanner/event-source/el_parse_event_source.e) representing a parse-event source has 5 useful descendants:
 
 
 ````
@@ -910,13 +909,13 @@ EL_PARSE_EVENT_SOURCE*
 	${EL_DEFAULT_PARSE_EVENT_SOURCE}
 	${EL_PYXIS_PARSER}
 ````
-Class [EL_BINARY_ENCODED_PARSE_EVENT_SOURCE](http://www.eiffel-loop.com/library/persistency/document/scanner/event-source/el_binary_encoded_parse_event_source.html) is a binary encoded XML event source, useful for reducing the size of large documents for transfer across a network.
+Class [EL_BINARY_ENCODED_PARSE_EVENT_SOURCE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/document/scanner/event-source/el_binary_encoded_parse_event_source.e) is a binary encoded XML event source, useful for reducing the size of large documents for transfer across a network.
 
 The following are the various kinds of scanners which can process the output from these event sources.
 
 **Eiffel Object Building Scanners**
 
-The classes [EL_BUILDABLE_FROM_XML](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_buildable_from_xml.html) and [EL_BUILDABLE_FROM_PYXIS](http://www.eiffel-loop.com/library/persistency/pyxis-doc/buildable/el_buildable_from_pyxis.html) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
+The classes [EL_BUILDABLE_FROM_XML](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/buildable/el_buildable_from_xml.e) and [EL_BUILDABLE_FROM_PYXIS](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/pyxis-doc/buildable/el_buildable_from_pyxis.e) can be used to implement a sophisticated Eiffel object building scheme based on the idea of mapping builder agents to xpaths relative to particular element contexts. Only a small subset of the xpath standard is used. The framework has the following features:
 
 
 * Map particular XML element contexts to Eiffel classes and then map xpaths that are relative to these elements, to attribute assigning agents.
@@ -925,24 +924,24 @@ The classes [EL_BUILDABLE_FROM_XML](http://www.eiffel-loop.com/library/persisten
 
 **General Xpath to Eiffel agent mapper**
 
-The class [EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS](http://www.eiffel-loop.com/library/persistency/document/createable/el_createable_from_xpath_match_events.html) implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
+The class [EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/document/createable/el_createable_from_xpath_match_events.e) implements a method for scanning a document and triggering various Eiffel agents according to a table of xpath to agent mappings.
 
 **Eiffel Aware Document Scanner**
 
-The class [EL_SMART_BUILDABLE_FROM_NODE_SCAN](http://www.eiffel-loop.com/library/persistency/document/createable/el_smart_buildable_from_node_scan.html) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
+The class [EL_SMART_BUILDABLE_FROM_NODE_SCAN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/document/createable/el_smart_buildable_from_node_scan.e) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
 ## Eco-DB (Eiffel CHAIN Orientated Database)
 **DEPENDS**
 
 
 * Eiffel-Loop base.ecf
-* [document-scan.ecf](http://www.eiffel-loop.com/library/document-scan.html)
-* [Eiffel-Loop encryption.ecf](http://www.eiffel-loop.com/library/encryption.html)
-* [pyxis-scan.ecf](http://www.eiffel-loop.com/library/pyxis-scan.html)
-* [text-formats.ecf](http://www.eiffel-loop.com/library/text-formats.html)
+* [document-scan.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/document-scan.pecf)
+* [Eiffel-Loop encryption.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/encryption.pecf)
+* [pyxis-scan.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/pyxis-scan.pecf)
+* [text-formats.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/text-formats.pecf)
 
 **INTRODUCTION**
 
-*Eco-DB* is an acronym for **E**iffel **C**HAIN **O**rientated **D**atabase, so called because it allows the extension by inheritance of a container conforming to [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) to assume many of the characteristics of a relational database table. *Eco-DB* leverages many of the facilities of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) from the Eiffel-Loop base library, allowing class attributes to be managed as data table fields.
+*Eco-DB* is an acronym for **E**iffel **C**HAIN **O**rientated **D**atabase, so called because it allows the extension by inheritance of a container conforming to [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) to assume many of the characteristics of a relational database table. *Eco-DB* leverages many of the facilities of the [reflection cluster](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf) from the Eiffel-Loop base library, allowing class attributes to be managed as data table fields.
 
 Some of the main features of this database system are as follows:
 
@@ -958,15 +957,15 @@ Some of the main features of this database system are as follows:
 
 **6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [PREDICATE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/predicate_chart.html) agents.
 
-**7.** Leverages a feature of the [reflection cluster](http://www.eiffel-loop.com/library/base/base.reflection.html) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or ${EL_ENUMERATION [N -> NUMERIC]} object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+**7.** Leverages a feature of the [reflection cluster](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or ${EL_ENUMERATION [N -> NUMERIC]} object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
 
 **8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
 
-**9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/download/myching.software-meta-data.tar.gz)
+**9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [myching.software-meta-data.tar.gz](https://github.com/finnianr/eiffel-loop/tree/master/download/myching.software-meta-data.tar.gz)
 
-**10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) recording Paypal transactions.
+**10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](https://github.com/finnianr/eiffel-loop/tree/master/download/payment.pyx) recording Paypal transactions.
 
-**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](http://www.eiffel-loop.com/library/text/encryption/hash/el_uuid.html) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
+**11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](https://github.com/finnianr/eiffel-loop/tree/master/library/text/encryption/hash/el_uuid.e) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
 
 **12.** Application version awareness allows data to be migrated from a data table created by an earlier software version.
 
@@ -978,15 +977,15 @@ Of course this is the fundamental property of any database. *Eco-DB* offers 2 ki
 
 **1. CHAIN level persistence**
 
-This type of persistence involves storing the entire chain to a file in one operation. This is useful for data that is more or less static, like for example the localisation table [EL_TRANSLATION_ITEMS_LIST](http://www.eiffel-loop.com/library/text/i18n/support/el_translation_items_list.html). 
+This type of persistence involves storing the entire chain to a file in one operation. This is useful for data that is more or less static, like for example the localisation table [EL_TRANSLATION_ITEMS_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/text/i18n/support/el_translation_items_list.e). 
 
-See class [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html).
+See class [ECD_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_chain.e).
 
 **2. item level persistence**
 
 Item level, or "incremental persistence" is where the effects of any of the basic [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) operations `(extend/replace/delete**)` are recorded as they happen in a separate editions file. When the chain is loaded during object initialisation, a chain level store is loaded first, and then the stored editions are applied to bring the chain to it's final state.
 
-See class [ECD_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_recoverable_chain.html) for more details.
+See class [ECD_RECOVERABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_recoverable_chain.e) for more details.
 
 **TABLE JOINS**
 
@@ -994,7 +993,7 @@ Being able to join*** tables via a common field is the essence of a relational d
 
 **1. Field Indexing** 
 
-For a large number of chain items, performing joins can be slow without the use of field indices. *Eco-DB* offers an easy way to maintain field indices with very little code via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE]](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) which does all the work of maintaining the index. To index selected fields you just need to redefine the function *new_index_by* found in [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) as in this example:
+For a large number of chain items, performing joins can be slow without the use of field indices. *Eco-DB* offers an easy way to maintain field indices with very little code via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) which does all the work of maintaining the index. To index selected fields you just need to redefine the function *new_index_by* found in [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) as in this example:
 
 
 ````
@@ -1063,13 +1062,13 @@ feature -- Status query
 ````
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]](http://www.eiffel-loop.com/library/persistency/database/eco-db/index/ecd_primary_key_indexable.html) when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE]](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html). The class parameter implies that the storable item must conform to [EL_KEY_IDENTIFIABLE_STORABLE](http://www.eiffel-loop.com/library/persistency/file/store/id/el_key_identifiable_storable.html). Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/index/ecd_primary_key_indexable.e) when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e). The class parameter implies that the storable item must conform to [EL_KEY_IDENTIFIABLE_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/file/store/id/el_key_identifiable_storable.e). Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
 
 **QUERY LANGUAGE**
 
-Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html) and it's helper [EL_QUERY_CONDITION_FACTORY](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_query_condition_factory.html). The implementing class [ECD_ARRAYED_LIST](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_arrayed_list.html) inherits [EL_QUERYABLE_CHAIN](http://www.eiffel-loop.com/library/base/data_structure/list/queryable/el_queryable_chain.html).
+Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/queryable/el_queryable_chain.e) and it's helper [EL_QUERY_CONDITION_FACTORY](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/queryable/el_query_condition_factory.e). The implementing class [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) inherits [EL_QUERYABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/queryable/el_queryable_chain.e).
 
-Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.html) found in project [Eiffel-Loop/example/manage-mp3](http://www.eiffel-loop.com/example/manage-mp3/manage-mp3.html).
+Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.e) found in project [Eiffel-Loop/example/manage-mp3](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/manage-mp3.html).
 
 
 ````
@@ -1103,7 +1102,7 @@ existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.que
 ````
 songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
 ````
-The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined in class [SONG_QUERY_CONDITIONS](http://www.eiffel-loop.com/example/manage-mp3/source/rhythmbox/database/song_query_conditions.html) which is defined as follows
+The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined in class [SONG_QUERY_CONDITIONS](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/database/song_query_conditions.e) which is defined as follows
 
 
 ````
@@ -1122,25 +1121,25 @@ inherit
 ````
 **META-DATA EXPORT**
 
-The routine *export_meta_data* in class [ECD_REFLECTIVE_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.html) stores in a versioned directory the precise specification of the data layout, including the correct order, field types and names. The specification is formatted as pseudo Eiffel code so it can be easily viewed in an editor equipped with Eiffel syntax highlighting.
+The routine *export_meta_data* in class [ECD_REFLECTIVE_RECOVERABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.e) stores in a versioned directory the precise specification of the data layout, including the correct order, field types and names. The specification is formatted as pseudo Eiffel code so it can be easily viewed in an editor equipped with Eiffel syntax highlighting.
 
-See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/download/myching.software-meta-data.tar.gz) (missing the version directory)
+See for example: [myching.software-meta-data.tar.gz](https://github.com/finnianr/eiffel-loop/tree/master/download/myching.software-meta-data.tar.gz) (missing the version directory)
 
 **IMPORT/EXPORT**
 
 It is important to have a way to backup data that offer some degree of independence from the precise binary data structure for the purpose of replacing data with data from another software version, which may have fields stored in a different order, or types etc. *Eco-DB* supports two export formats:
 
 
-1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [EL_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_storable.html) or  [TUPLE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/tuple_chart.html).
+1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [EL_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/persistency/storable/el_storable.e) or  [TUPLE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/tuple_chart.html).
 
 
-2. [Pyxis format](https://www.eiffel.org/node/143) which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) which is a record of Paypal transactions.
+2. [Pyxis format](https://www.eiffel.org/node/143) which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [payment.pyx](https://github.com/finnianr/eiffel-loop/tree/master/download/payment.pyx) which is a record of Paypal transactions.
 
-The relevant class for importing or exporting is [ECD_REFLECTIVE_RECOVERABLE_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.html)
+The relevant class for importing or exporting is [ECD_REFLECTIVE_RECOVERABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.e)
 
 **VERSION MANAGEMENT**
 
-A record of the software version is stored in each table. By defining procedure *read_version* from class [EL_STORABLE](http://www.eiffel-loop.com/library/base/persistency/storable/el_storable.html)
+A record of the software version is stored in each table. By defining procedure *read_version* from class [EL_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/persistency/storable/el_storable.e)
 
 
 ````
@@ -1157,15 +1156,15 @@ There is work in progress to create an abstraction representing the concept of a
 A preview of classes which will form the basis of reusable abstractions are as follows:
 
 
-* [DATABASE](http://www.eiffel-loop.com/download/database.e) contains fields conforming to DATA_TABLE and various routines that operate on all the tables at once. For example: make_open, close, delete, backup, export_as_pyxis etc
-* [DATABASE_CONFIG](http://www.eiffel-loop.com/download/database_config.e) for storing/reading the database credentials etc.
-* [DATA_TABLE](http://www.eiffel-loop.com/download/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
-* [DATABASE_MANAGER_SHELL](http://www.eiffel-loop.com/download/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
-* [DATABASE_CREDENTIAL](http://www.eiffel-loop.com/download/database_credential.e) is an authenticated credential for opening an encrypted database.
+* [DATABASE](https://github.com/finnianr/eiffel-loop/tree/master/download/database.e) contains fields conforming to DATA_TABLE and various routines that operate on all the tables at once. For example: make_open, close, delete, backup, export_as_pyxis etc
+* [DATABASE_CONFIG](https://github.com/finnianr/eiffel-loop/tree/master/download/database_config.e) for storing/reading the database credentials etc.
+* [DATA_TABLE](https://github.com/finnianr/eiffel-loop/tree/master/download/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
+* [DATABASE_MANAGER_SHELL](https://github.com/finnianr/eiffel-loop/tree/master/download/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
+* [DATABASE_CREDENTIAL](https://github.com/finnianr/eiffel-loop/tree/master/download/database_credential.e) is an authenticated credential for opening an encrypted database.
 
 **Foot Notes**
 
-** `delete` is a routine from [ECD_CHAIN](http://www.eiffel-loop.com/library/persistency/database/eco-db/chain/ecd_chain.html) and not from [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html).
+** `delete` is a routine from [ECD_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_chain.e) and not from [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html).
 
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
 ## File and Directory Data Processing
@@ -1200,13 +1199,13 @@ Provides:
 * Recursive building of Eiffel objects from Pyxis data using context-relative Xpath expressions.
 * Reflective building of Eiffel objects from Pyxis data with corresponding element and attribute names
 
-Class [EL_PYXIS_PARSER](http://www.eiffel-loop.com/library/persistency/pyxis-doc/parser/el_pyxis_parser.html) generates events from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
+Class [EL_PYXIS_PARSER](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/pyxis-doc/parser/el_pyxis_parser.e) generates events from a [Pyxis format](https://www.eiffel.org/node/143) parser. Pyxis is a direct analog of XML that is easier to read and edit making it suitable for configuration files.
 ## Eiffel LIST-orientated XML Database
 **Status:** No longer maintained
 
 (Last compiled November 2022)
 
-A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST [EL_STORABLE_XML_ELEMENT]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/list_chart.html) can be turned into a database. This library has now been superceded by [Eco-DB.ecf](http://www.eiffel-loop.com/library/Eco-DB.html) which is faster, more powerful and uses a binary format.
+A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST [EL_STORABLE_XML_ELEMENT]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/list_chart.html) can be turned into a database. This library has now been superceded by [Eco-DB.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/Eco-DB.pecf) which is faster, more powerful and uses a binary format.
 ## XML Document Node-scanning and Object Building
 Provides:
 
@@ -1217,15 +1216,15 @@ Provides:
 
 **Parse Event Sources**
 
-[EL_EXPAT_XML_PARSER](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_parser.html)
+[EL_EXPAT_XML_PARSER](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_parser.e)
 
 An Eiffel binding to the [eXpat XML parser](http://expat.sourceforge.net/)
 
-[EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_parser_output_medium.html)
+[EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_parser_output_medium.e)
 
-[eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to [EVOLICITY_SERIALIZEABLE_AS_XML](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable_as_xml.html).
+[eXpat XML parser](http://expat.sourceforge.net/) of XML serializeable objects conforming to [EVOLICITY_SERIALIZEABLE_AS_XML](https://github.com/finnianr/eiffel-loop/tree/master/library/text/template/evolicity/serialization/evolicity_serializeable_as_xml.e).
 
-[EL_EXPAT_XML_WITH_CTRL_Z_PARSER](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_with_ctrl_z_parser.html)
+[EL_EXPAT_XML_WITH_CTRL_Z_PARSER](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/expat-parser/el_expat_xml_with_ctrl_z_parser.e)
 
 [eXpat XML parser](http://expat.sourceforge.net/) with input stream end delimited by Ctrl-Z character. Useful for parsing network streams.
 ## XML parsing and Xpath navigation with VTD-XML
@@ -1237,7 +1236,7 @@ Using the Eiffel API is considerably easier and more intuitive to use than the o
 
 A substantial C-bridge was developed to make Eiffel work better with VTD-XML. The original VTX-XML code was forked to make it possible to compile it with the MSC compiler. This fork is found under `contrib/C`.
 
-Test class [VTD_XML_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/vtd-xml/apps/vtd_xml_autotest_app.html)
+Test class [VTD_XML_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/vtd-xml/apps/vtd_xml_autotest_app.e)
 ## Windows Registry Management
 Classes for Windows registry searching, reading and editing.
 
@@ -1251,7 +1250,7 @@ This library has two main purposes:
 
 **"Swiss-army-knife applications"**
 
-Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT](http://www.eiffel-loop.com/library/runtime/app-manage/multi-app/el_multi_application_root.html) and [EL_SUB_APPLICATION](invalid-class-name) provide this capability.
+Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/el_multi_application_root.e) and [EL_SUB_APPLICATION](invalid-class-name) provide this capability.
 
 **Command line sub-applications**
 
@@ -1283,7 +1282,7 @@ Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc
 
 **Work Distribution**
 
-Classes [EL_PROCEDURE_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.html) and [EL_FUNCTION_DISTRIBUTER](http://www.eiffel-loop.com/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.html) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](http://www.eiffel-loop.com/tool/eiffel/source/root/eiffel/library/publish/config/file/eiffel_configuration_file.html) for an example.
+Classes [EL_PROCEDURE_DISTRIBUTER](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/concurrency/communication/producer-consumer/distributer/el_procedure_distributer.e) and [EL_FUNCTION_DISTRIBUTER](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/concurrency/communication/producer-consumer/distributer/el_function_distributer.e) offer a convenient way to distribute the work of executing routines using a specific number of cores. See routine `read_source_files` in class [EIFFEL_CONFIGURATION_FILE](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/eiffel/library/publish/config/file/eiffel_configuration_file.e) for an example.
 
 **Producer-Consumer Framework**
 
@@ -1345,7 +1344,7 @@ EL_THREAD_PRODUCT_QUEUE [P]
 ````
 **Specialized Threads**
 
-The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I](http://www.eiffel-loop.com/library/runtime/concurrency/thread-types/el_identified_thread_i.html) that perform specialized tasks.
+The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/concurrency/thread-types/el_identified_thread_i.e) that perform specialized tasks.
 
 *Examples*
 
@@ -1403,17 +1402,17 @@ Logging library featuring color highlighted output and mimicry of Eiffel routine
 * Output is indented to reflect the state of the call stack. Shows the entry and exit from routines in a way that is designed to mimic the routines code definition.
 
 
-* On Unix platforms console output is syntax high-lighted by default. See this [screenshot](http://www.eiffel-loop.com/images/screenshot/color-highlighting.png).
+* On Unix platforms console output is syntax high-lighted by default. See this [screenshot](https://github.com/finnianr/eiffel-loop/tree/master/images/screenshot/color-highlighting.png).
 
 
 * Global filtering mechanism to restrict output to selected classes and routines. A wildcard constant can be used to log all routines for a particular class.
 
 
-* By implementing the [EL_CONSOLE_MANAGER](http://www.eiffel-loop.com/library/runtime/logging/support/el_console_manager.html) class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](http://www.eiffel-loop.com/library/vision2-x.html) has once such component [EL_CONSOLE_MANAGER_TOOLBAR](http://www.eiffel-loop.com/library/graphic/toolkit/vision2-x/container/cell/box/special/el_console_manager_toolbar.html). See this example [screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). The [wel-x library](http://www.eiffel-loop.com/library/wel-x.html) partially implements it with class [EL_CONSOLE_MANAGER_DIALOG](http://www.eiffel-loop.com/library/graphic/toolkit/wel-x/logging/el_console_manager_dialog.html).
+* By implementing the [EL_CONSOLE_MANAGER](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/support/el_console_manager.e) class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](https://github.com/finnianr/eiffel-loop/tree/master/library/vision2-x.pecf) has once such component [EL_CONSOLE_MANAGER_TOOLBAR](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/container/cell/box/special/el_console_manager_toolbar.e). See this example [screenshot](https://github.com/finnianr/eiffel-loop/tree/master/images/screenshot/console-thread-switch.png). The [wel-x library](https://github.com/finnianr/eiffel-loop/tree/master/library/wel-x.pecf) partially implements it with class [EL_CONSOLE_MANAGER_DIALOG](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/wel-x/logging/el_console_manager_dialog.e).
 
 **Output Format**
 
-The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [Eiffel Loop VTD-XML API](http://www.eiffel-loop.com/library/vtd-xml.html). The test function executes an xpath query looking for http urls in an XML document.
+The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [Eiffel Loop VTD-XML API](https://github.com/finnianr/eiffel-loop/tree/master/library/vtd-xml.pecf). The test function executes an xpath query looking for http urls in an XML document.
 
 
 ````
@@ -1543,13 +1542,13 @@ Inheriting from class [EL_SUB_APPLICATION](invalid-class-name) has some incident
 
 * Integration with the Eiffel Loop multi mode application framework. This framework allows you to select from different applications by a command line switch. Useful for managing many small applications that hardly justify the disk resources of a separate project.
 
-To including logging facilities in any class, inherit from class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_module_log.html) and add an entry for that class in the log filter array. (see below)
+To including logging facilities in any class, inherit from class [EL_MODULE_LOG](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_module_log.e) and add an entry for that class in the log filter array. (see below)
 
 By default logging is not active in the application. It must be turned on using the `-logging` command line switch.
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](invalid-class-name) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html) illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](invalid-class-name) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_client_test_app.e) illustrates:
 
 
 ````
@@ -1571,7 +1570,7 @@ The class filter is compared only with the generating class name so all child cl
 
 **Command Options**
 
-A list of command options which effect the logging system can be found in class [EL_LOG_COMMAND_OPTIONS](http://www.eiffel-loop.com/library/runtime/logging/support/el_log_command_options.html).
+A list of command options which effect the logging system can be found in class [EL_LOG_COMMAND_OPTIONS](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/support/el_log_command_options.e).
 
 **User step-through logging**
 
@@ -1581,11 +1580,11 @@ For debugging purposes you may wish to pause execution on the exit of each logge
 ````
 Logging.set_prompt_user_on_exit (true)
 ````
-The logging object is available in the root class or by inheriting [EL_MODULE_LOGGING](http://www.eiffel-loop.com/library/runtime/logging/el_module_logging.html).
+The logging object is available in the root class or by inheriting [EL_MODULE_LOGGING](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_module_logging.e).
 
 **Logging threads**
 
-Logging a separate thread just requires that you inherit from [EL_LOGGED_IDENTIFIED_THREAD](http://www.eiffel-loop.com/library/runtime/logging/concurrency/thread/el_logged_identified_thread.html) and make sure the routine `on_start` gets called. It will anyway unless you do something to over-ride this routine.
+Logging a separate thread just requires that you inherit from [EL_LOGGED_IDENTIFIED_THREAD](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/concurrency/thread/el_logged_identified_thread.e) and make sure the routine `on_start` gets called. It will anyway unless you do something to over-ride this routine.
 
 
 ````
@@ -1612,11 +1611,11 @@ my_thread_index := Log_manager.thread_index ("My thread")
 ````
 **Synchronization Monitor**
 
-A generic synchronization monitor allows synchronization on an object to be protected with a contract requiring that the object is locked before being referenced. It is integrated with the logging framework to help detect deadlock conditions. If a thread needs to wait for a lock on a synchronized object, both the waiting and acquiring of the lock is logged in the thread's log. See class [EL_LOGGED_MUTEX_REFERENCE](http://www.eiffel-loop.com/library/runtime/logging/concurrency/el_logged_mutex_reference.html)
+A generic synchronization monitor allows synchronization on an object to be protected with a contract requiring that the object is locked before being referenced. It is integrated with the logging framework to help detect deadlock conditions. If a thread needs to wait for a lock on a synchronized object, both the waiting and acquiring of the lock is logged in the thread's log. See class [EL_LOGGED_MUTEX_REFERENCE](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/concurrency/el_logged_mutex_reference.e)
 
 **Logging Routines**
 
-Access to the logging routines is through feature log of class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_module_log.html). The log object conforms to type [EL_LOGGABLE](http://www.eiffel-loop.com/library/base/runtime/io/logging/el_loggable.html) which has numerous procedures for writing to the log as well as some useful functions.
+Access to the logging routines is through feature log of class [EL_MODULE_LOG](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_module_log.e). The log object conforms to type [EL_LOGGABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/io/logging/el_loggable.e) which has numerous procedures for writing to the log as well as some useful functions.
 
 The procedure form: 
 
@@ -1638,7 +1637,7 @@ The procedure `put_string_field_to_max_length` is used to output a multi-line bl
 
 **Always on logging**
 
-Class [EL_MODULE_LOG](http://www.eiffel-loop.com/library/runtime/logging/el_module_log.html) also has a special logging object named `lio`, short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class `ANY`.
+Class [EL_MODULE_LOG](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_module_log.e) also has a special logging object named `lio`, short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class `ANY`.
 
 **Log files**
 
@@ -1673,22 +1672,22 @@ Classes for creating cross platform wrappers of OS commands with about 30 "out o
 **General Features**
 
 
-* Command templates are based on the powerful [Evolicity text substitution library](http://www.eiffel-loop.com/library/evolicity.html).
+* Command templates are based on the powerful [Evolicity text substitution library](https://github.com/finnianr/eiffel-loop/tree/master/library/evolicity.pecf).
 
 
 * Support for command output capture, and error output capture.
 
 
-* Automatic escaping of path arguments conforming to [EL_PATH](http://www.eiffel-loop.com/library/base/runtime/file/naming/el_path.html), namely [EL_FILE_PATH](http://www.eiffel-loop.com/library/base/runtime/file/naming/el_file_path.html) and [EL_DIR_PATH](http://www.eiffel-loop.com/library/base/runtime/file/naming/el_dir_path.html). All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
+* Automatic escaping of path arguments conforming to [EL_PATH](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/file/naming/el_path.e), namely [EL_FILE_PATH](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/file/naming/el_file_path.e) and [EL_DIR_PATH](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/file/naming/el_dir_path.e). All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
 
 
-* Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [EL_FIND_DIRECTORIES_COMMAND_I](http://www.eiffel-loop.com/library/runtime/process/commands/system/file/find/el_find_directories_command_i.html) and [EL_FIND_FILES_COMMAND_I](http://www.eiffel-loop.com/library/runtime/process/commands/system/file/find/el_find_files_command_i.html) as an example. Here the Unix `find` command and the Windows `dir` command are made to appear exactly the same for specific tasks.
+* Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [EL_FIND_DIRECTORIES_COMMAND_I](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/system/file/find/el_find_directories_command_i.e) and [EL_FIND_FILES_COMMAND_I](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/system/file/find/el_find_files_command_i.e) as an example. Here the Unix `find` command and the Windows `dir` command are made to appear exactly the same for specific tasks.
 
 
-* Support for making "convenience wrappers" without any need to create a new class. These are classes: [EL_OS_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_os_command.html) and [EL_CAPTURED_OS_COMMAND](http://www.eiffel-loop.com/library/runtime/process/commands/kernel/el_captured_os_command.html).
+* Support for making "convenience wrappers" without any need to create a new class. These are classes: [EL_OS_COMMAND](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/kernel/el_os_command.e) and [EL_CAPTURED_OS_COMMAND](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/kernel/el_captured_os_command.e).
 
 
-* Has factory class [EL_OS_ROUTINES_IMP](invalid-class-name) (accessible via [EL_MODULE_OS](http://www.eiffel-loop.com/library/runtime/process/commands/system/el_module_os.html)) which contains factory functions for common OS system commands.
+* Has factory class [EL_OS_ROUTINES_IMP](invalid-class-name) (accessible via [EL_MODULE_OS](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/system/el_module_os.e)) which contains factory functions for common OS system commands.
 
 **Information Commands**
 
@@ -1720,11 +1719,11 @@ Routines for creating SHA-256 and MD5 hashes as well as UUID system time hashes.
 Library `xml-scan.ecf` provides 2 classes for storing credentials
 
 
-1. [EL_BUILDABLE_AES_CREDENTIAL](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_buildable_aes_credential.html)
-2. [EL_SECURE_KEY_FILE](http://www.eiffel-loop.com/library/persistency/xml/doc-scan/buildable/el_secure_key_file.html)
+1. [EL_BUILDABLE_AES_CREDENTIAL](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/buildable/el_buildable_aes_credential.e)
+2. [EL_SECURE_KEY_FILE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/buildable/el_secure_key_file.e)
 
 ## RSA Public-key Encryption
-Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [EL_MODULE_X509_COMMAND](invalid-class-name).
+Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [EL_MODULE_X509](https://github.com/finnianr/eiffel-loop/tree/master/library/text/rsa-encryption/x509/el_module_x509.e).
 
 The private key reader however uses a non-standard encryption scheme. It assumes the file is en	crypted using the Eiffel-Loop utility contained in `el_toolkit`.
 ## Evolicity Text Substitution Engine
@@ -1738,17 +1737,17 @@ The text of this web site was generated by the Eiffel-view repository publisher 
 3. [doc-config/directory-tree-content.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/directory-tree-content.html.evol)
 4. [doc-config/eiffel-source-code.html.evol](https://github.com/finnianr/Eiffel-Loop/blob/master/doc-config/eiffel-source-code.html.evol)
 
-To make an Eiffel class serializable with *Evolicity* you inherit from class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html). Read the class notes for details on how to use. You can also access the substitution engine directly from the shared instance in class [EVOLICITY_SHARED_TEMPLATES](http://www.eiffel-loop.com/library/text/template/evolicity/evolicity_shared_templates.html)
+To make an Eiffel class serializable with *Evolicity* you inherit from class [EVOLICITY_SERIALIZEABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/text/template/evolicity/serialization/evolicity_serializeable.e). Read the class notes for details on how to use. You can also access the substitution engine directly from the shared instance in class [EVOLICITY_SHARED_TEMPLATES](https://github.com/finnianr/eiffel-loop/tree/master/library/text/template/evolicity/evolicity_shared_templates.e)
 
 **Features**
 
 
 * Templates are compiled to an intermediate byte code stored in `.evc` files. This saves time consuming lexing operations on large templates.
-* Has a class [EVOLICITY_CACHEABLE_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_cacheable_serializeable.html) for caching the substituted output. Useful for generating pages on a web-server.
+* Has a class [EVOLICITY_CACHEABLE_SERIALIZEABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/text/template/evolicity/serialization/evolicity_cacheable_serializeable.e) for caching the substituted output. Useful for generating pages on a web-server.
 
 **Syntax Documentation**
 
-See class [EVOLICITY_SHARED_TEMPLATES](http://www.eiffel-loop.com/library/text/template/evolicity/evolicity_shared_templates.html)
+See class [EVOLICITY_SHARED_TEMPLATES](https://github.com/finnianr/eiffel-loop/tree/master/library/text/template/evolicity/evolicity_shared_templates.e)
 
 
 ## Search Engine
@@ -1770,7 +1769,7 @@ A few basic classes for constructing an application license manager. The most im
 
 The principle developer of Eiffel-loop has developed a sophisticated license management system using RSA public key cryptography, however it is not available as open source. If you are interested to license this system for your company, please contact the developer. It has been used for the [My Ching](http://myching.software) software product.
 ## ZLib Compression
-An Eiffel interface to the [zlib C library](https://www.zlib.net/). The main class is [EL_COMPRESSED_ARCHIVE_FILE](http://www.eiffel-loop.com/library/utility/compression/el_compressed_archive_file.html) with a few helper classes.
+An Eiffel interface to the [zlib C library](https://www.zlib.net/). The main class is [EL_COMPRESSED_ARCHIVE_FILE](https://github.com/finnianr/eiffel-loop/tree/master/library/utility/compression/el_compressed_archive_file.e) with a few helper classes.
 ## Currency Exchange
 Currency Exchange based on European Central bank Rates from [eurofxref-daily.xml](https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml)
 ## Windows Installer
@@ -1778,33 +1777,33 @@ Currency Exchange based on European Central bank Rates from [eurofxref-daily.xml
 
 Classes to create a Windows install program.
 
-This library has been superceded by the capabilities of the [Multi-Application Management](http://www.eiffel-loop.com/library/app-manage.html) library.
+This library has been superceded by the capabilities of the [Multi-Application Management](https://github.com/finnianr/eiffel-loop/tree/master/library/app-manage.pecf) library.
 ## Eiffel Development Utilities
 A "Swiss-army knife" of Eiffel development utilities invokeable by a command-line switch.
 
 **Sub-applications**
 
-[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
+[CLASS_DESCENDANTS_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/class_descendants_app.e) outputs class descendants for selected class as a text file and is designed to be used as an external tool from within EiffelStudio.
 
 Command switch: `-class_descendants`
 
-[EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
+[EIFFEL_VIEW_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/eiffel_view_app.e) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
 
 Command switch: `-eiffel_view`
 
-[ZCODEC_GENERATOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/zcodec_generator_app.html) generates Eiffel classes conforming to [EL_ZCODEC](http://www.eiffel-loop.com/library/base/text/zstring/codec/el_zcodec.html) from VTD-XML C code
+[ZCODEC_GENERATOR_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/generate/zcodec_generator_app.e) generates Eiffel classes conforming to [EL_ZCODEC](https://github.com/finnianr/eiffel-loop/tree/master/library/base/text/zstring/codec/el_zcodec.e) from VTD-XML C code
 
 Command switch: `-generate_codecs`
 
-[ECF_TO_PECF_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/ecf_to_pecf_app.html) converts Eiffel configuration files to Pyxis format
+[ECF_TO_PECF_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/ecf_to_pecf_app.e) converts Eiffel configuration files to Pyxis format
 
 Command switch: `-ecf_to_pecf`
 
-[LIBRARY_OVERRIDE_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/generate/library_override_app.html) generates override of standard libaries to work with Eiffel-Loop
+[LIBRARY_OVERRIDE_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/generate/library_override_app.e) generates override of standard libaries to work with Eiffel-Loop
 
 Command switch: `-library_override`: 
 
-[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/eiffel_view_app.html) publishing configuration. Write the expanded output to file named as follows:
+[REPOSITORY_NOTE_LINK_CHECKER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.e) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/eiffel_view_app.e) publishing configuration. Write the expanded output to file named as follows:
 
 
 ````
@@ -1814,15 +1813,15 @@ An incidental function is to expand all tabs in the markup as 3 spaces.
 
 Command switch: `-expand_links`
 
-[SOURCE_FILE_NAME_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_file_name_normalizer_app.html) normalize class filenames as lowercase classnames within a source directory
+[SOURCE_FILE_NAME_NORMALIZER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/edit/apps/source_file_name_normalizer_app.e) normalize class filenames as lowercase classnames within a source directory
 
 Command switch: `-normalize_class_file_name` 
 
-[IMP_CLASS_LOCATION_NORMALIZER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.html) normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
+[IMP_CLASS_LOCATION_NORMALIZER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/imp_class_location_normalizer_app.e) normalizes location of implementation classes in relation to respective interfaces for all projects listed in publisher configuration.
 
 Command switch: `normalize_imp_location`
 
-[WINZIP_SOFTWARE_PACKAGE_BUILDER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/winzip_software_package_builder_app.html) builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
+[WINZIP_SOFTWARE_PACKAGE_BUILDER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/winzip_software_package_builder_app.e) builds a signed self-extracting software installer for Windows OS using signtool and WinZip tools.
 
 Command switch: `-winzip_exe_builder`
 
@@ -1838,17 +1837,17 @@ A "Swiss-army knife" of Eiffel class editing utilities invokeable by a command-l
 
 Command switch: `-remove_prefix`
 
-[NOTE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/note_editor_app.html) add default values to note fields using a source tree manifest.
+[NOTE_EDITOR_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/edit/apps/note_editor_app.e) add default values to note fields using a source tree manifest.
 
 Command switch: `-edit_notes`
 
-[FEATURE_EDITOR_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/feature_editor_app.html) expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
+[FEATURE_EDITOR_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/edit/apps/feature_editor_app.e) expands Eiffel shorthand code in source file and reorders feature blocks alphabetically.
 
 Command switch: `-feature_edit`
 
-[FIND_AND_REPLACE_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/find_and_replace_app.html) finds and replaces text in Eiffel source files specified by a source tree manifest Command switch: `-find_replace`
+[FIND_AND_REPLACE_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/edit/apps/find_and_replace_app.e) finds and replaces text in Eiffel source files specified by a source tree manifest Command switch: `-find_replace`
 
-[SOURCE_LOG_LINE_REMOVER_APP](http://www.eiffel-loop.com/tool/eiffel/source/edit/apps/source_log_line_remover_app.html) comments out logging lines from Eiffel source code tree
+[SOURCE_LOG_LINE_REMOVER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/edit/apps/source_log_line_remover_app.e) comments out logging lines from Eiffel source code tree
 
 Command switch: `-elog_remover`
 
@@ -1864,11 +1863,11 @@ A "Swiss-army knife" of Eiffel class analysis utilities invokeable by a command-
 
 **Sub-applications**
 
-[CHECK_LOCALE_STRINGS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/check_locale_strings_app.html) verifies localization translation identifiers against various kinds of source texts.
+[CHECK_LOCALE_STRINGS_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/check_locale_strings_app.e) verifies localization translation identifiers against various kinds of source texts.
 
 Command switch: `-check_locale_strings`
 
-[CLASS_DESCENDANTS_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/class_descendants_app.html) outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
+[CLASS_DESCENDANTS_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/class_descendants_app.e) outputs a list of descendants for a class as an Eiffel note field that can be copy/pasted into Eiffel source code.
 
 Command switch: `-descendants`
 
@@ -1876,15 +1875,15 @@ Command switch: `-descendants`
 
 Command switch: `-codebase_stats`
 
-[ENCODING_CHECK_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/encoding_check_app.html) checks for UTF-8 files that could be encoded as Latin-1
+[ENCODING_CHECK_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/encoding_check_app.e) checks for UTF-8 files that could be encoded as Latin-1
 
 Command switch: `-check_encoding`
 
-[REPOSITORY_NOTE_LINK_CHECKER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.html) checks for invalid class references in repository note links
+[REPOSITORY_NOTE_LINK_CHECKER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.e) checks for invalid class references in repository note links
 
 Command switch: `-check_note_links`
 
-[UNDEFINE_PATTERN_COUNTER_APP](http://www.eiffel-loop.com/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.html) counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
+[UNDEFINE_PATTERN_COUNTER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/undefine_pattern_counter_app.e) counts the number of classes in the source tree manifest that exhibit multiple inheritance of classes with an identical pattern of feature undefining.
 
 Command switch: `-undefine_counter`
 
@@ -1898,47 +1897,47 @@ A "Swiss-army knife" of command line utilities accessible via a command line opt
 
 The most useful ones are listed below with the option name:
 
-[HTML_BODY_WORD_COUNTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/html_body_word_counter_app.html) counts the number of words in a HTML document.
+[HTML_BODY_WORD_COUNTER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/html/html_body_word_counter_app.e) counts the number of words in a HTML document.
 
 Command switch: `-body_word_counts`
 
-[CRYPTO_COMMAND_SHELL_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/crypto_command_shell_app.html) is a menu driven shell of useful cryptographic operations.
+[CRYPTO_COMMAND_SHELL_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/crypto_command_shell_app.e) is a menu driven shell of useful cryptographic operations.
 
 Command switch: `-crypto`
 
-[THUNDERBIRD_BOOK_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/thunderbird_book_exporter_app.html) merges a localized folder of emails in the Thunderbird email client into a single HTML book with chapter numbers and titles derived from subject line. The output files are used to generate a Kindle book.
+[THUNDERBIRD_BOOK_EXPORTER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/thunderbird_book_exporter_app.e) merges a localized folder of emails in the Thunderbird email client into a single HTML book with chapter numbers and titles derived from subject line. The output files are used to generate a Kindle book.
 
 Command switch: `-export_book`
 
-[THUNDERBIRD_WWW_EXPORTER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.html) exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
+[THUNDERBIRD_WWW_EXPORTER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/html/thunderbird_www_exporter_app.e) exports emails from selected Thunderbird email folders as HTML bodies (extension: `body`). As the name implies, only the body of the HTML is preserved. A matching folder structure is also created. This is useful for HTML content managers.
 
 Command switch: `-export_www`
 
-[PYXIS_TRANSLATION_TREE_COMPILER_APP](http://www.eiffel-loop.com/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.html) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](invalid-class-name).
+[PYXIS_TRANSLATION_TREE_COMPILER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.e) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](invalid-class-name).
 
 Command switch: `-compile_translations`
 
-[PYXIS_TO_XML_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.html) converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
+[PYXIS_TO_XML_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/pyxis/pyxis_to_xml_app.e) converts Pyxis format to XML with special support for Eiffel configuration files in Pyxis format (extension `pecf`). The attribute `configuration_ns` can be used as convenient shorthand for the ECF schema configuration information.
 
 Command switch: `-pyxis_to_xml`
 
-[YOUTUBE_VIDEO_DOWNLOADER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/youtube_video_downloader_app.html) downloads and merges selected audio and video streams from a Youtube video.
+[YOUTUBE_VIDEO_DOWNLOADER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/youtube_video_downloader_app.e) downloads and merges selected audio and video streams from a Youtube video.
 
 Command switch: `-youtube_dl`
 
-[FILE_MANIFEST_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/file_manifest_app.html) creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](http://www.eiffel-loop.com/library/text/template/evolicity/serialization/evolicity_serializeable.html)
+[FILE_MANIFEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/file_manifest_app.e) creates an XML file manifest of a target directory using either the default Evolicity template or an optional external Evolicity template. See class [EVOLICITY_SERIALIZEABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/text/template/evolicity/serialization/evolicity_serializeable.e)
 
 Command switch: `-file_manifest`
 
-[UNDATED_PHOTO_FINDER_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/undated_photo_finder_app.html) lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
+[UNDATED_PHOTO_FINDER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/undated_photo_finder_app.e) lists JPEG photos that lack the EXIF field `Exif.Photo.DateTimeOriginal`.
 
 Command switch: `-undated_photos`
 
-[DUPLICITY_BACKUP_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/backup/duplicity_backup_app.html) creates incremental duplicity backups using a configuration file in Pyxis format.
+[DUPLICITY_BACKUP_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/backup/duplicity_backup_app.e) creates incremental duplicity backups using a configuration file in Pyxis format.
 
 Command switch: `-duplicity`
 
-[DUPLICITY_RESTORE_APP](http://www.eiffel-loop.com/tool/toolkit/source/apps/backup/duplicity_restore_app.html) restores either an entire duplicity backup or a selected file or directory.  Restoration output directory is defined in same configuration file as backup.
+[DUPLICITY_RESTORE_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/toolkit/source/apps/backup/duplicity_restore_app.e) restores either an entire duplicity backup or a selected file or directory.  Restoration output directory is defined in same configuration file as backup.
 
 Command switch: `-duplicity_restore`
 
@@ -1954,9 +1953,9 @@ Due to C name space clashes with `TagLib.ecf` these tests have been separated fr
 ## amazon-instant-access.ecf
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](invalid-class-name)
 ## base.ecf (Eiffel-Loop)
-Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/base/base_autotest_app.html)
+Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/base/base_autotest_app.e)
 ## C-language-interface.ecf
-See class [C_LANGUAGE_INTERFACE_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/C-language-interface/c_language_interface_autotest_app.html)
+See class [C_LANGUAGE_INTERFACE_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/C-language-interface/c_language_interface_autotest_app.e)
 ## Common Classes
 **Project List**
 
@@ -1976,35 +1975,35 @@ See class [COMPRESSION_TEST_APP](invalid-class-name)
 ## currency.ecf
 See class [CURRENCY_TEST_APP](invalid-class-name)
 ## Eco-DB.ecf
-Test [Eco-DB (Eiffel CHAIN Orientated Database)](http://www.eiffel-loop.com/library/Eco-DB.html) library.
+Test [Eco-DB (Eiffel CHAIN Orientated Database)](https://github.com/finnianr/eiffel-loop/tree/master/library/Eco-DB.pecf) library.
 
-Test application: [ECO_DB_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/Eco-DB/eco_db_autotest_app.html)
+Test application: [ECO_DB_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/Eco-DB/eco_db_autotest_app.e)
 ## Eiffel Core Concepts
-Test core concepts and behaviour of basic Eiffel code and libraries. See class [EIFFEL_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/eiffel/eiffel_autotest_app.html)
+Test core concepts and behaviour of basic Eiffel code and libraries. See class [EIFFEL_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eiffel/eiffel_autotest_app.e)
 ## encryption.ecf
-See class [ENCRYPTION_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/encryption/app/encryption_autotest_app.html)
+See class [ENCRYPTION_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/encryption/app/encryption_autotest_app.e)
 ## eros.ecf
-Test [Eiffel Remote Object Server (EROS)](http://www.eiffel-loop.com/library/eros.html) protocol library.
+Test [Eiffel Remote Object Server (EROS)](https://github.com/finnianr/eiffel-loop/tree/master/library/eros.pecf) protocol library.
 
 **Test Apps**
 
 
-* [EROS_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/eros_autotest_app.html)
-* [BEXT_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_client_test_app.html)
-* [BEXT_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/bext_server_test_app.html)
-* [FOURIER_MATH_CLIENT_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_client_test_app.html)
-* [FOURIER_MATH_SERVER_TEST_APP](http://www.eiffel-loop.com/test/source/eros/apps/fourier_math_server_test_app.html)
+* [EROS_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/eros_autotest_app.e)
+* [BEXT_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/bext_client_test_app.e)
+* [BEXT_SERVER_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/bext_server_test_app.e)
+* [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_client_test_app.e)
+* [FOURIER_MATH_SERVER_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_server_test_app.e)
 
 ## evolicity.ecf
 Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP](invalid-class-name)
 ## file-processing.ecf
-Test [File and Directory Processing)](http://www.eiffel-loop.com/library/file-processing.html) library.
+Test [File and Directory Processing)](https://github.com/finnianr/eiffel-loop/tree/master/library/file-processing.pecf) library.
 
-See class [FILE_PROCESSING_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/file-processing/file_processing_autotest_app.html)
+See class [FILE_PROCESSING_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/file-processing/file_processing_autotest_app.e)
 ## http-client.ecf
-See class [HTTP_CLIENT_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/http-client/http_client_autotest_app.html)
+See class [HTTP_CLIENT_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/http-client/http_client_autotest_app.e)
 ## i18n.ecf
-Test localization library. See class [I18N_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/i18n/i18n_autotest_app.html)
+Test localization library. See class [I18N_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/i18n/i18n_autotest_app.e)
 ## image-utils.ecf
 See class [SVG_TO_PNG_CONVERSION_TEST_APP](invalid-class-name)
 ## markup-docs.ecf
@@ -2022,17 +2021,17 @@ Test network library classes
 * [SIMPLE_SERVER_TEST_APP](invalid-class-name)
 
 ## os-command.ecf
-* Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/os-command/os_command_autotest_app.html)
-* Test set for classes that manage and read file system content. See class [FILE_AND_DIRECTORY_TEST_SET](http://www.eiffel-loop.com/test/source/os-command/test-set/file_and_directory_test_set.html)
+* Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/os-command/os_command_autotest_app.e)
+* Test set for classes that manage and read file system content. See class [FILE_AND_DIRECTORY_TEST_SET](https://github.com/finnianr/eiffel-loop/tree/master/test/source/os-command/test-set/file_and_directory_test_set.e)
 
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](invalid-class-name)
 ## public-key-encryption.ecf
 Tests for RSA public key encryption tools. See class [PUBLIC_KEY_ENCRYPTION_TEST_APP](invalid-class-name)
 ## pyxis-scan.ecf
-Test application class: [PYXIS_SCAN_AUTOTEST_APP](http://www.eiffel-loop.com/test/source/pyxis-scan/pyxis_scan_autotest_app.html)
+Test application class: [PYXIS_SCAN_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/pyxis-scan/pyxis_scan_autotest_app.e)
 ## Root class and Experiments
-Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
+Root class [APPLICATION_ROOT](https://github.com/finnianr/eiffel-loop/tree/master/test/source/root/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
 
 **Autotest Sub-applications**
 

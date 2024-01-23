@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-23 11:28:14 GMT (Tuesday 23rd January 2024)"
-	revision: "67"
+	date: "2024-01-23 13:59:41 GMT (Tuesday 23rd January 2024)"
+	revision: "68"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -219,10 +219,10 @@ feature {NONE} -- Implementation
 		end
 
 	check_markdown_link_translation (publisher: like new_publisher)
+		-- check Contents.md
 		local
 			contents_md_path: FILE_PATH; md_name, url, github_url: STRING
 			link_index, index_left_bracket, index_right_bracket: INTEGER
-
 		do
 			github_url := publisher.github_url.to_string
 
