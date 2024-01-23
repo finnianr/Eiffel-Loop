@@ -5,7 +5,7 @@ pyxis-doc:
 
 publish-repository:
 	name = "Eiffel-Loop"; root_dir = "workarea"; output_dir = "workarea/doc"
-	web_address = "http://www.eiffel-loop.com"; github_url = "https://github.com/finnianr/eiffel-loop"
+	web_address = "http://www.eiffel-loop.com"; github_url = "https://github.com/finnianr/eiffel-loop/tree/master"
 	invalid_names_output_path = "invalid-name-references.e"
 	ise_library = "https://www.eiffel.org/files/doc/static/18.01/libraries/%S/%S_chart.html"
 	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"

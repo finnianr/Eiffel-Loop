@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2024-01-23 9:14:06 GMT (Tuesday 23rd January 2024)"
+	revision: "14"
 
 class
 	MARKDOWN_RENDERER
@@ -67,11 +67,10 @@ feature {NONE} -- Factory
 
 	new_link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
 		do
-			create Result.make_from_array (<<
-				new_hyperlink_substitution ("[http://"),
-				new_hyperlink_substitution ("[https://"),
-				new_hyperlink_substitution ("[./")
-			>>)
+			create Result.make (3)
+			across << "[http://", "[https://", "[./" >> as list loop
+				Result.extend (new_hyperlink_substitution (list.item))
+			end
 		end
 
 feature {NONE} -- Internal attributes

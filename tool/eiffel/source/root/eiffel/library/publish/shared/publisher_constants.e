@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 17:22:41 GMT (Monday 22nd January 2024)"
-	revision: "13"
+	date: "2024-01-23 9:33:44 GMT (Tuesday 23rd January 2024)"
+	revision: "14"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -37,6 +37,11 @@ feature {NONE} -- Templates
 		end
 
 feature {NONE} -- Strings
+
+	Current_dir_forward_slash: ZSTRING
+		once
+			Result := "./"
+		end
 
 	Dollor_left_brace: ZSTRING
 		once

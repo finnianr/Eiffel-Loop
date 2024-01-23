@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 18:14:19 GMT (Monday 22nd January 2024)"
-	revision: "4"
+	date: "2024-01-23 10:34:55 GMT (Tuesday 23rd January 2024)"
+	revision: "5"
 
 class
 	DEVELOPER_CLASS_LINK
@@ -17,8 +17,6 @@ inherit
 		redefine
 			adjusted_path, github_markdown, is_valid, wiki_markup
 		end
-
-	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -35,8 +33,16 @@ feature -- Access
 		end
 
 	github_markdown (github_url: EL_DIR_URI_PATH): ZSTRING
+		local
+			index_left, index_right: INTEGER
 		do
 			Result := Github_link_template #$ [type_name, github_url + path]
+		-- Change .html to .e
+			index_right := Result.count - 1
+			index_left := index_right - 3
+			if Result.valid_index (index_left) then
+				Result.replace_substring (char ('e'), index_left, index_right)
+			end
 		end
 
 	wiki_markup (web_address: ZSTRING): ZSTRING

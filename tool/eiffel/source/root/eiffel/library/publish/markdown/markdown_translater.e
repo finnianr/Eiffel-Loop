@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 18:16:39 GMT (Monday 22nd January 2024)"
-	revision: "21"
+	date: "2024-01-23 12:01:46 GMT (Tuesday 23rd January 2024)"
+	revision: "22"
 
 class
 	MARKDOWN_TRANSLATER
@@ -18,15 +18,15 @@ inherit
 			make as make_machine
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_MODULE_TUPLE
 
 	MARKDOWN_ROUTINES
 
-	SHARED_CLASS_PATH_TABLE
+	EL_ZSTRING_CONSTANTS
 
-	SHARED_ISE_CLASS_TABLE
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
-	EL_CHARACTER_32_CONSTANTS; PUBLISHER_CONSTANTS
+	PUBLISHER_CONSTANTS
 
 create
 	make
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 	make (a_github_url: EL_DIR_URI_PATH)
 		do
-			github_url_string := a_github_url
+			github_url := a_github_url
 			create output.make_empty
 			create variable_substitution.make (a_github_url)
 			make_machine
@@ -140,23 +140,32 @@ feature {NONE} -- Implementation
 
 	to_github_link (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
-			link_address, link_text: ZSTRING; space_index: INTEGER
+			link_text: ZSTRING; space_index: INTEGER; link_address: FILE_PATH
 		do
 			substring.to_canonically_spaced
 			space_index := substring.index_of (' ', 1)
 			if space_index > 0 then
-				link_address := substring.substring (2, space_index - 1)
-				link_text := substring.substring (space_index + 1, substring.count - 1)
-				if link_address.starts_with_character ('.') then
-					link_address.replace_substring (github_url_string, 1, 1)
+				if substring.count > 4 and then substring.same_characters (Current_dir_forward_slash, 1, 2, 2) then
+					link_address := substring.substring (4, space_index - 1)
+					if link_address.first_step ~ Library and then link_address.has_extension (Extension.html) then
+					-- Eg. "library/base/base.reflection.html" -> "library/base/base.pecf"
+						link_address.remove_extension
+						if link_address.has_dot_extension then
+							link_address.remove_extension
+						end
+						link_address.add_extension (Extension.pecf)
+					-- possibility here to add a line number for github like: base/base.pecf#L75
+					end
+					link_address := github_url + link_address
+				else
+					link_address := substring.substring (2, space_index - 1)
 				end
+				link_text := substring.substring (space_index + 1, substring.count - 1)
+				substring.wipe_out
+				substring.append (Github_link_template #$ [link_text, link_address])
 			else
-				link_text := Empty_string
-			end
-			if link_text.is_empty then
-				substring.share (substring.substring (2, substring.count - 1))
-			else
-				substring.share (Github_link_template #$ [link_text, link_address])
+				substring.remove_head (1)
+				substring.remove_tail (1)
 			end
 		end
 
@@ -164,7 +173,7 @@ feature {NONE} -- Internal attributes
 
 	output: EL_ZSTRING_LIST
 
-	github_url_string: ZSTRING
+	github_url: EL_DIR_URI_PATH
 
 	is_code_block: BOOLEAN
 
@@ -179,9 +188,20 @@ feature {NONE} -- Constants
 			Result := char ('`') * 4
 		end
 
+	Extension: TUPLE [html, pecf: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "html, pecf")
+		end
+
 	Link_types: EL_ZSTRING_LIST
 		once
 			Result := "[http://, [https://, [./"
+		end
+
+	Library: ZSTRING
+		once
+			Result := "library"
 		end
 
 end

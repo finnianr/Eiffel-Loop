@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "66"
+	date: "2024-01-23 11:28:14 GMT (Tuesday 23rd January 2024)"
+	revision: "67"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -122,6 +122,7 @@ feature -- Tests
 			publisher := new_publisher
 			publisher.execute
 			check_html_exists (publisher)
+			check_markdown_link_translation (publisher)
 
 			broadcaster_path := Kernel_event.class_dir + "el_event_broadcaster.e"
 			checker_path := Kernel_event.class_dir + "el_event_checker.e"
@@ -217,6 +218,42 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	check_markdown_link_translation (publisher: like new_publisher)
+		local
+			contents_md_path: FILE_PATH; md_name, url, github_url: STRING
+			link_index, index_left_bracket, index_right_bracket: INTEGER
+
+		do
+			github_url := publisher.github_url.to_string
+
+			contents_md_path := Work_area_dir + "doc/Contents.md"
+			if contents_md_path.exists and then attached File.plain_text (contents_md_path) as markdown then
+				across Markdown_link_table as table loop
+					md_name := "[]"; md_name.insert_string (table.key, 2)
+					link_index := markdown.substring_index (md_name, 1)
+					if link_index > 0 then
+						index_left_bracket := link_index + md_name.count
+						assert ("( at index", markdown [index_left_bracket] = '(')
+						index_right_bracket := markdown.index_of (')', index_left_bracket)
+						if index_right_bracket > 0 then
+							url := markdown.substring (index_left_bracket + 1, index_right_bracket - 1)
+							if table.is_first then
+								assert_same_string (Void, url, table.item)
+							else
+								assert_same_string (Void, url, github_url + table.item)
+							end
+						else
+							failed ("found matching )")
+						end
+					else
+						failed ("Found link " + table.key)
+					end
+				end
+			else
+				failed ("Contents.md found")
+			end
+		end
+
 	file_content_checksum: NATURAL
 		local
 			crc: like crc_generator
@@ -297,5 +334,17 @@ feature {NONE} -- Constants
 			l_dir := "library/base/kernel/event"
 			Result := [Work_area_dir #+ l_dir, Work_area_dir #+ "doc" #+ l_dir]
 		end
+
+	Markdown_link_table: EL_HASH_TABLE [STRING, STRING]
+		-- expect links in doc/Contents.md
+		once
+			create Result.make (<<
+				["X509 PKCS1 standard", "https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates"],
+				["text-formats.ecf", "/library/text-formats.pecf"],
+				["reflection cluster", "/library/base/base.pecf"],
+				["EL_MODULE_X509", "/library/text/rsa-encryption/x509/el_module_x509.e"]
+			>>)
+		end
+
 
 end

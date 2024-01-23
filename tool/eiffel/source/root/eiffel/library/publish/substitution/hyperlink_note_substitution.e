@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 17:15:52 GMT (Monday 22nd January 2024)"
-	revision: "8"
+	date: "2024-01-23 9:33:27 GMT (Tuesday 23rd January 2024)"
+	revision: "9"
 
 class
 	HYPERLINK_NOTE_SUBSTITUTION
@@ -44,13 +44,6 @@ feature {NONE} -- Implementation
 				end
 			end
 			Result := Html_link_template #$ [path, Empty_string, text]
-		end
-
-feature {NONE} -- Constants
-
-	Current_dir_forward_slash: ZSTRING
-		once
-			Result := "./"
 		end
 
 end
