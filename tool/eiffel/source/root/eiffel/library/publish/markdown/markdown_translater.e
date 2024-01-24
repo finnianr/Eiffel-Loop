@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 9:26:24 GMT (Wednesday 24th January 2024)"
-	revision: "24"
+	date: "2024-01-24 10:40:17 GMT (Wednesday 24th January 2024)"
+	revision: "26"
 
 class
 	MARKDOWN_TRANSLATER
@@ -54,7 +54,7 @@ feature -- Basic operations
 				if last_is_line_item then
 					extend_new_line
 				end
-				translate (line_list.last)
+				translate (last_line)
 			end
 			Result := line_list.joined_lines
 			line_list.wipe_out
@@ -67,23 +67,23 @@ feature {NONE} -- Line states
 	add_normal_text (line: ZSTRING)
 		do
 			if line.starts_with_character ('%T') then
-				translate (line_list.last)
-				line_list.extend (Code_block_delimiter.twin)
+				translate (last_line)
+				extend_code_block_marker
 				state := state_add_code_lines
 				add_code_lines (line)
 			else
-				if not line_list.last.is_empty then
+				if not last_line.is_empty then
 					if line.is_empty then
 						append_new_line (2)
 
 					elseif is_list_item (line) then
 						append_new_line (1)
 
-					elseif not line_list.last.ends_with (new_line_character * 2) then
-						line_list.last.append_character (' ')
+					elseif not last_line.ends_with (new_line_character * 2) then
+						last_line.append_character (' ')
 					end
 				end
-				line_list.last.append (line)
+				last_line.append (line)
 				last_is_line_item := is_list_item (line)
 			end
 		end
@@ -105,7 +105,7 @@ feature {NONE} -- Line states
 						list.back
 					end
 				end
-				line_list.last.append (line)
+				last_line.append (line)
 			else
 				close_code_block (a_line)
 			end
@@ -113,8 +113,7 @@ feature {NONE} -- Line states
 
 	close_code_block (a_line: ZSTRING)
 		do
-			line_list.last.append (Code_block_delimiter)
-			extend_new_line
+			extend_code_block_marker
 			state := agent add_normal_text
 			add_normal_text (a_line)
 		end
@@ -123,12 +122,23 @@ feature {NONE} -- Implementation
 
 	append_new_line (n: INTEGER)
 		do
-			line_list.last.append (new_line_character * n)
+			last_line.append (new_line_character * n)
 		end
 
 	extend_new_line
 		do
 			line_list.extend (new_line)
+		end
+
+	extend_code_block_marker
+		do
+			line_list.extend (char ('`') * 4)
+			extend_new_line
+		end
+
+	last_line: ZSTRING
+		do
+			Result := line_list.last
 		end
 
 	translate (text: ZSTRING)
@@ -215,11 +225,6 @@ feature {NONE} -- Internal attributes
 	variable_substitution: GITHUB_TYPE_VARIABLE_SUBSTITUTION
 
 feature {NONE} -- Constants
-
-	Code_block_delimiter: ZSTRING
-		once
-			Result := char ('`') * 4
-		end
 
 	Extension: TUPLE [html, pecf: ZSTRING]
 		once
