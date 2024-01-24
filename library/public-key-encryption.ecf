@@ -10,7 +10,7 @@ The most important is the ability to read key-pairs conforming to the
 The top level class to access these facilities is ${EL_MODULE_X509}.
 
 The private key reader however uses a non-standard encryption scheme. It assumes the file
-is en	crypted using the Eiffel-Loop utility contained in `el_toolkit&apos;.
+is encrypted using the Eiffel-Loop utility contained in `el_toolkit&apos;.
 See class ${CRYPTO_COMMAND_SHELL_APP} for details.
 	</description>
 	<target name = "EL_public_key_encryption">

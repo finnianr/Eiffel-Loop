@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 18:45:43 GMT (Monday 22nd January 2024)"
-	revision: "60"
+	date: "2024-01-24 12:32:50 GMT (Wednesday 24th January 2024)"
+	revision: "61"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -354,6 +354,7 @@ feature -- Factory
 				end
 				if location.starts_with (Symbol.parent_dir) then
 					source_dir := parent_dir.parent #+ location.substring_end (4)
+					
 				elseif location.starts_with (Symbol.relative_location) then
 					location.remove_head (Symbol.relative_location.count)
 					source_dir := parent_dir #+ location

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 17:21:49 GMT (Sunday 14th January 2024)"
-	revision: "12"
+	date: "2024-01-24 12:47:41 GMT (Wednesday 24th January 2024)"
+	revision: "13"
 
 class
 	CROSS_PLATFORM_EIFFEL_CONFIGURATION_FILE
@@ -78,11 +78,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Asterisk: ZSTRING
-		once
-			Result := "*"
-		end
-
 	Override: ZSTRING
 		once
 			Result := "override"
@@ -91,8 +86,7 @@ feature {NONE} -- Constants
 	Wildcards: ARRAY [ZSTRING]
 		once
 			Result := <<
-				Asterisk + Interface_ending,
-				Asterisk + Implementation_ending
+				char ('*') + Interface_ending, char ('*') + Implementation_ending
 			>>
 		end
 

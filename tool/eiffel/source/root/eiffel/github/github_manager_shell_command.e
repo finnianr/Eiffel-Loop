@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-23 17:03:15 GMT (Tuesday 23rd January 2024)"
-	revision: "33"
+	date: "2024-01-24 13:41:16 GMT (Wednesday 24th January 2024)"
+	revision: "34"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -215,7 +215,7 @@ feature {NONE} -- Implementation
 
 	update_notes
 		local
-			rsync_cmd: EL_CAPTURED_OS_COMMAND; path, source_path: FILE_PATH
+			rsync_cmd: EL_CAPTURED_OS_COMMAND; path: FILE_PATH
 			valid_arguments: BOOLEAN_REF; line: ZSTRING; deleted: BOOLEAN
 		do
 			source_change_table.wipe_out

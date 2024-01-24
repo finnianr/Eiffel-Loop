@@ -14,7 +14,7 @@ system:
 			The top level class to access these facilities is ${EL_MODULE_X509}.
 
 			The private key reader however uses a non-standard encryption scheme. It assumes the file
-			is en	crypted using the Eiffel-Loop utility contained in `el_toolkit'.
+			is encrypted using the Eiffel-Loop utility contained in `el_toolkit'.
 			See class ${CRYPTO_COMMAND_SHELL_APP} for details.
 		"""
 	target:

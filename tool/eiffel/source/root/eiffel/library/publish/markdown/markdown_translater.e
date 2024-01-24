@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 10:56:51 GMT (Wednesday 24th January 2024)"
-	revision: "27"
+	date: "2024-01-24 15:57:46 GMT (Wednesday 24th January 2024)"
+	revision: "28"
 
 class
 	MARKDOWN_TRANSLATER
@@ -27,6 +27,10 @@ inherit
 			new_line as new_line_character
 		end
 
+	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
+
 create
 	make
 
@@ -35,7 +39,7 @@ feature {NONE} -- Initialization
 	make (a_github_url: EL_DIR_URI_PATH)
 		do
 			github_url := a_github_url
-			create line_list.make_empty
+			create line_type_list.make (50)
 			create variable_substitution.make (a_github_url)
 			state_add_code_lines := agent add_code_lines
 			make_machine
@@ -45,21 +49,56 @@ feature -- Basic operations
 
 	to_github_markdown (class_note_markdown_lines: EL_ZSTRING_LIST): ZSTRING
 		-- Github markdown string translated from `class_note_markdown_lines'
+		local
+			line_list: EL_ZSTRING_LIST; type, last_type: NATURAL_8; buffer: ZSTRING
 		do
-			extend_new_line
 			do_with_lines (agent add_normal_text, class_note_markdown_lines)
 			if state = state_add_code_lines then
-				close_code_block (new_line)
-			else
-				if last_is_line_item then
-					extend_new_line
-				end
-				translate (last_line)
+				close_code_block (Empty_string.twin)
 			end
+			create line_list.make (line_type_list.count * 2)
+--			line_list.extend (Empty_string)
+			across String_scope as scope loop
+				buffer := scope.best_item (200)
+				if attached line_type_list as list then
+					from list.start until list.after loop
+						type := list.item_key
+						buffer.wipe_out; buffer.append (list.item_value)
+						inspect type
+							when Empty_line then
+								line_list.extend (list.item_value)
+
+							when Code_marker then
+								line_list.extend (list.item_value)
+
+							when Code_line then
+								remove_class_link_markers (buffer)
+								line_list.extend (buffer.twin)
+
+							when List_item then
+								translate (buffer)
+								line_list.extend (buffer.twin)
+
+							when Normal_line then
+								translate (buffer)
+								if last_type = Normal_line then
+									line_list.last.append_character (' ')
+									line_list.last.append (buffer)
+								else
+									line_list.extend (buffer.twin)
+								end
+						else
+						end
+						last_type := type
+						list.forth
+					end
+				end
+			end
+			line_list.extend (Empty_string)
 			Result := line_list.joined_lines
-			line_list.wipe_out
+			line_type_list.wipe_out
 		ensure
-			empty_line_list: line_list.is_empty
+			empty_line_type_list: line_type_list.is_empty
 		end
 
 feature {NONE} -- Line states
@@ -67,88 +106,69 @@ feature {NONE} -- Line states
 	add_normal_text (line: ZSTRING)
 		do
 			if line.starts_with_character ('%T') then
-				translate (last_line)
 				extend_code_block_marker
 				state := state_add_code_lines
 				add_code_lines (line)
+
+			elseif line.count = 0 then
+				line_type_list.extend (Empty_line, line)
+
+			elseif is_list_item (line) then
+				line_type_list.extend (List_item, line)
 			else
-				if not last_line.is_empty then
-					if line.is_empty then
-						append_new_line (2)
-
-					elseif is_list_item (line) then
-						append_new_line (1)
-
-					elseif not last_line.ends_with (new_line_character * 2) then
-						last_line.append_character (' ')
-					end
-				end
-				last_line.append (line)
-				last_is_line_item := is_list_item (line)
+				line_type_list.extend (Normal_line, line)
 			end
 		end
 
-	add_code_lines (a_line: ZSTRING)
-		local
-			line: ZSTRING
+	add_code_lines (line: ZSTRING)
 		do
-			if a_line.is_empty or else a_line.starts_with_character ('%T') then
-				line := a_line.substring_end (2)
-			-- Remove any class links because they won't work in Github markdown
-				if line.has_substring (Dollor_left_brace) and then attached Class_link_list as list then
-					list.parse (line)
-				-- iterate in reverse to allow removals
-					from list.finish until list.before loop
-						line.remove (list.item.end_index) -- '}'
-						line.remove_substring (list.item.start_index, list.item.start_index + 1) -- "${"
-						list.back
-					end
-				end
-				line_list.extend (line)
+			if line.is_empty or else line.starts_with_character ('%T') then
+				line_type_list.extend (Code_line, line)
 			else
-				close_code_block (a_line)
+				close_code_block (line)
 			end
 		end
 
-	close_code_block (a_line: ZSTRING)
+	close_code_block (line: ZSTRING)
 		do
 			extend_code_block_marker
 			state := agent add_normal_text
-			add_normal_text (a_line)
+			add_normal_text (line)
 		end
 
 feature {NONE} -- Implementation
 
-	append_new_line (n: INTEGER)
-		do
-			last_line.append (new_line_character * n)
-		end
-
-	extend_new_line
-		do
-			line_list.extend (new_line)
-		end
-
 	extend_code_block_marker
 		do
-			line_list.extend (char ('`') * 4)
-			extend_new_line
-		end
-
-	last_line: ZSTRING
-		do
-			Result := line_list.last
+			line_type_list.extend (Code_marker, char ('`') * 4)
 		end
 
 	translate (text: ZSTRING)
 		do
-			replace_links (text); replace_apostrophes (text)
-			text.replace_substring_all ("''", "*")
+		-- change [http://address.com click here] to [click here](http://address.com)
+		-- in order to be compatible with Github markdown
+			across Link_types as type loop
+				text.edit (type.item, char (']'), agent to_github_link)
+			end
+			variable_substitution.substitute_links (text)
+			replace_apostrophes (text); text.replace_substring_all ("''", "*")
 		end
 
-	new_line: ZSTRING
+	remove_class_link_markers (line: ZSTRING)
+		-- Remove any class links because they won't work in Github markdown
 		do
-			create Result.make (100)
+			if line.starts_with_character ('%T') then
+				line.remove_head (1)
+			end
+			if line.has_substring (Dollor_left_brace) and then attached Class_link_list as list then
+				list.parse (line)
+			-- iterate in reverse to allow removals
+				from list.finish until list.before loop
+					line.remove (list.item.end_index) -- '}'
+					line.remove_substring (list.item.start_index, list.item.start_index + 1) -- "${"
+					list.back
+				end
+			end
 		end
 
 	replace_apostrophes (text: ZSTRING)
@@ -168,16 +188,6 @@ feature {NONE} -- Implementation
 					done := True
 				end
 			end
-		end
-
-	replace_links (text: ZSTRING)
-		-- change [http://address.com click here] to [click here](http://address.com)
-		-- in order to be compatible with Github markdown
-		do
-			across Link_types as type loop
-				text.edit (type.item, char (']'), agent to_github_link)
-			end
-			variable_substitution.substitute_links (text)
 		end
 
 	to_github_link (start_index, end_index: INTEGER; substring: ZSTRING)
@@ -213,7 +223,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	line_list: EL_ZSTRING_LIST
+	line_type_list: EL_ARRAYED_MAP_LIST [NATURAL_8, ZSTRING]
 
 	state_add_code_lines: PROCEDURE [ZSTRING]
 
@@ -222,6 +232,18 @@ feature {NONE} -- Internal attributes
 	last_is_line_item: BOOLEAN
 
 	variable_substitution: GITHUB_TYPE_VARIABLE_SUBSTITUTION
+
+feature {NONE} -- Line types
+
+	Code_line: NATURAL_8 = 1
+
+	Code_marker: NATURAL_8 = 2
+
+	Empty_line: NATURAL_8 = 3
+
+	List_item: NATURAL_8 = 4
+
+	Normal_line: NATURAL_8 = 5
 
 feature {NONE} -- Constants
 

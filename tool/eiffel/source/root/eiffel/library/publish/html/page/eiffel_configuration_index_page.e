@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 6:38:23 GMT (Thursday 24th August 2023)"
-	revision: "26"
+	date: "2024-01-24 12:42:39 GMT (Wednesday 24th January 2024)"
+	revision: "27"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -85,14 +85,14 @@ feature -- Access
 
 feature -- Status query
 
-	has_sub_directory: BOOLEAN
-		do
-			Result := eiffel_config.directory_list.count > 1
-		end
-
 	has_ecf_name: BOOLEAN
 		do
 			Result := not eiffel_config.relative_ecf_path.is_empty
+		end
+
+	has_sub_directory: BOOLEAN
+		do
+			Result := eiffel_config.directory_list.count > 1
 		end
 
 	is_modified: BOOLEAN
@@ -170,22 +170,24 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor +
+			Result := Precursor
+			Result.append_tuples (<<
 				-- Status query
-				["has_ecf_name",					agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end] +
-				["has_sub_directory", 			agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end] +
+				["has_ecf_name",				agent: BOOLEAN_REF do Result := has_ecf_name.to_reference end],
+				["has_sub_directory", 		agent: BOOLEAN_REF do Result := has_sub_directory.to_reference end],
 
-				["description_count",			agent: INTEGER_REF do Result := eiffel_config.description_lines.character_count end] +
-				["class_count",					agent: INTEGER_REF do Result := eiffel_config.class_count.to_reference end] +
+				["description_count",		agent: INTEGER_REF do Result := eiffel_config.description_lines.character_count end],
+				["class_count",				agent: INTEGER_REF do Result := eiffel_config.class_count.to_reference end],
 
-				["directory_list", 				agent: ITERABLE [SOURCE_DIRECTORY] do Result := eiffel_config.directory_list end] +
-				["description_elements",		agent description_elements] +
-				["category_title",	 			agent: ZSTRING do Result := eiffel_config.category_title end] +
-				["ecf_name",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path.base end] +
-				["ecf_path",			 			agent: ZSTRING do Result := eiffel_config.relative_ecf_path end] +
-				["github_url",			 			agent: ZSTRING do Result := repository.github_url end] +
-				["relative_path",					agent: ZSTRING do Result := relative_path end] +
-				["type",								agent: STRING do Result := eiffel_config.type end]
+				["directory_list", 			agent: ITERABLE [SOURCE_DIRECTORY] do Result := eiffel_config.directory_list end],
+				["description_elements",	agent description_elements],
+				["category_title",	 		agent: ZSTRING do Result := eiffel_config.category_title end],
+				["ecf_name",			 		agent: ZSTRING do Result := eiffel_config.relative_ecf_path.base end],
+				["ecf_path",			 		agent: ZSTRING do Result := eiffel_config.relative_ecf_path end],
+				["github_url",			 		agent: ZSTRING do Result := repository.github_url end],
+				["relative_path",				agent: ZSTRING do Result := relative_path end],
+				["type",							agent: STRING do Result := eiffel_config.type end]
+			>>)
 		end
 
 feature {NONE} -- Internal attributes
