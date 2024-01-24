@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 15:57:46 GMT (Wednesday 24th January 2024)"
-	revision: "28"
+	date: "2024-01-24 16:16:54 GMT (Wednesday 24th January 2024)"
+	revision: "29"
 
 class
 	MARKDOWN_TRANSLATER
@@ -72,6 +72,7 @@ feature -- Basic operations
 								line_list.extend (list.item_value)
 
 							when Code_line then
+								buffer.replace_substring_all (tab, space * 3)
 								remove_class_link_markers (buffer)
 								line_list.extend (buffer.twin)
 
