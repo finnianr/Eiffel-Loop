@@ -4,7 +4,7 @@
 * Drop-downs with localized display strings. See class ${EL_LOCALE_ZSTRING_DROP_DOWN_BOX}
 * Drop downs for months of year specified as integers and displayed with English names and a localized variant ${EL_LOCALE_ZSTRING_DROP_DOWN_BOX}
 
-** Primitive Widget Descendants**
+**Primitive Widget Descendants**
 
 	EV_PRIMITIVE*
 		${EV_TEXT_COMPONENT}*
@@ -65,3 +65,4 @@
 				${EL_PIXMAP_BUTTON}
 				${EL_DECORATED_BUTTON}
 			${EL_COLOR_BUTTON}
+

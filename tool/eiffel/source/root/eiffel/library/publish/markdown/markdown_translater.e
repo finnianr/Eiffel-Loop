@@ -1,13 +1,13 @@
 note
-	description: "Translates Eiffel-View publisher markdown to Github markdown"
+	description: "Translates class note markdown to Github markdown"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-23 17:33:39 GMT (Tuesday 23rd January 2024)"
-	revision: "23"
+	date: "2024-01-24 9:26:24 GMT (Wednesday 24th January 2024)"
+	revision: "24"
 
 class
 	MARKDOWN_TRANSLATER
@@ -22,11 +22,10 @@ inherit
 
 	MARKDOWN_ROUTINES
 
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
-
 	PUBLISHER_CONSTANTS
+		rename
+			new_line as new_line_character
+		end
 
 create
 	make
@@ -36,25 +35,31 @@ feature {NONE} -- Initialization
 	make (a_github_url: EL_DIR_URI_PATH)
 		do
 			github_url := a_github_url
-			create output.make_empty
+			create line_list.make_empty
 			create variable_substitution.make (a_github_url)
+			state_add_code_lines := agent add_code_lines
 			make_machine
 		end
 
 feature -- Basic operations
 
-	to_github_markdown (markdown: EL_ZSTRING_LIST): ZSTRING
-		-- return Eiffel-View publisher markdown lines as Github markdown
+	to_github_markdown (class_note_markdown_lines: EL_ZSTRING_LIST): ZSTRING
+		-- Github markdown string translated from `class_note_markdown_lines'
 		do
-			output.wipe_out; output.extend (new_string)
-			do_with_lines (agent add_normal_text, markdown)
-			if not is_code_block then
+			extend_new_line
+			do_with_lines (agent add_normal_text, class_note_markdown_lines)
+			if state = state_add_code_lines then
+				close_code_block (new_line)
+			else
 				if last_is_line_item then
-					output.last.append (New_line * 1)
+					extend_new_line
 				end
-				translate (output.last)
+				translate (line_list.last)
 			end
-			Result := output.joined_lines
+			Result := line_list.joined_lines
+			line_list.wipe_out
+		ensure
+			empty_line_list: line_list.is_empty
 		end
 
 feature {NONE} -- Line states
@@ -62,31 +67,32 @@ feature {NONE} -- Line states
 	add_normal_text (line: ZSTRING)
 		do
 			if line.starts_with_character ('%T') then
-				translate (output.last)
-				output.extend (Code_block_delimiter.twin)
-				state := agent add_code_block
-				is_code_block := True
-				add_code_block (line)
+				translate (line_list.last)
+				line_list.extend (Code_block_delimiter.twin)
+				state := state_add_code_lines
+				add_code_lines (line)
 			else
-				if not output.last.is_empty then
+				if not line_list.last.is_empty then
 					if line.is_empty then
-						output.last.append (new_line * 2)
+						append_new_line (2)
+
 					elseif is_list_item (line) then
-						output.last.append_character ('%N')
-					elseif not output.last.ends_with (new_line * 2) then
-						output.last.append_character (' ')
+						append_new_line (1)
+
+					elseif not line_list.last.ends_with (new_line_character * 2) then
+						line_list.last.append_character (' ')
 					end
 				end
-				output.last.append (line)
+				line_list.last.append (line)
 				last_is_line_item := is_list_item (line)
 			end
 		end
 
-	add_code_block (a_line: ZSTRING)
+	add_code_lines (a_line: ZSTRING)
 		local
 			line: ZSTRING
 		do
-			output.last.append_character ('%N')
+			append_new_line (1)
 			if a_line.starts_with_character ('%T') then
 				line := a_line.substring_end (2)
 			-- Remove any class links because they won't work in Github markdown
@@ -99,17 +105,31 @@ feature {NONE} -- Line states
 						list.back
 					end
 				end
-				output.last.append (line)
+				line_list.last.append (line)
 			else
-				output.last.append (Code_block_delimiter)
-				output.extend (new_string)
-				state := agent add_normal_text
-				is_code_block := False
-				add_normal_text (a_line)
+				close_code_block (a_line)
 			end
 		end
 
+	close_code_block (a_line: ZSTRING)
+		do
+			line_list.last.append (Code_block_delimiter)
+			extend_new_line
+			state := agent add_normal_text
+			add_normal_text (a_line)
+		end
+
 feature {NONE} -- Implementation
+
+	append_new_line (n: INTEGER)
+		do
+			line_list.last.append (new_line_character * n)
+		end
+
+	extend_new_line
+		do
+			line_list.extend (new_line)
+		end
 
 	translate (text: ZSTRING)
 		do
@@ -117,9 +137,9 @@ feature {NONE} -- Implementation
 			text.replace_substring_all ("''", "*")
 		end
 
-	new_string: ZSTRING
+	new_line: ZSTRING
 		do
-			create Result.make_empty
+			create Result.make (100)
 		end
 
 	replace_apostrophes (text: ZSTRING)
@@ -184,11 +204,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	output: EL_ZSTRING_LIST
+	line_list: EL_ZSTRING_LIST
+
+	state_add_code_lines: PROCEDURE [ZSTRING]
 
 	github_url: EL_DIR_URI_PATH
-
-	is_code_block: BOOLEAN
 
 	last_is_line_item: BOOLEAN
 

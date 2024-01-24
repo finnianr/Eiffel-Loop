@@ -8,11 +8,14 @@ system:
 		"""
 			Eco-DB (Eiffel CHAIN Orientated Database)
 
-			**DEPENDS**
+			**DEPENDS EIFFEL-LOOP**
 
-			* Eiffel-Loop base.ecf
+			* [./library/base/base.kernel.html base.ecf#kernel]
+			* [./library/base/base.data_structure.html base.ecf#data_structure]
+			* [./library/base/base.reflection.html base.ecf#reflection]
 			* [./library/document-scan.html document-scan.ecf]
 			* [./library/encryption.html Eiffel-Loop encryption.ecf]
+			* [./library/file-processing.html file-processing.ecf]
 			* [./library/pyxis-scan.html pyxis-scan.ecf]
 			* [./library/text-formats.html text-formats.ecf]
 

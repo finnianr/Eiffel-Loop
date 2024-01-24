@@ -142,19 +142,19 @@ Audio extensions for Windows implementation of Vision2 GUI library. This depends
 ## Laabhair Audio Analysis Framework
 **Status:** No longer maintained
 
-The *Laabhair** audio analysis framework was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/) to do audio analysis with Eiffel in real-time, presenting graphical audio representations using an [Adobe Flash player](https://www.adobe.com/products/flashplayer.html) GUI.
+The ''Laabhair''* audio analysis framework was developed at the [https://arrow.dit.ie/dmc/ Digital Media Centre at the Dublin Institute of Technology] to do audio analysis with Eiffel in real-time, presenting graphical audio representations using an [https://www.adobe.com/products/flashplayer.html Adobe Flash player] GUI.
 
-(**Laabhair is the Gaelic for talk.*)
+(*''Laabhair is the Gaelic for talk.'')
 
 **Benefits for various developer audiences**
 
-*Eiffel Programmers*
+''Eiffel Programmers''
 
 
 1. Easy access to the advanced sound analysis capabilities of Praat and conversely gives Praat programmers easy access to the advanced engineering capabilities of Eiffel. Praat script is an elegant little language with an ADA like syntax that does for sound analysis what PL/SQL does for database querying. The level of Eiffel required to make use of the framework is very minimal. The essence of a Laabhair application can be understood from a single Eiffel class.
 2. Easy access to the advanced presentation capabilities of Flash and conversely gives Flash programmers easy access to the advanced engineering capabilities of Eiffel. The most significant part of this framework is an elegantly simple XML-orientated network-RPC protocol allowing Eiffel to make asynchronous calls to ActionScript procedures in a Flash application. Unlike SOAP, Laabhair RPC messages have a very transparent syntax that is self-explanatory. Communication in the other direction is through parameterless commands representing Flash button clicks.
 
-*Praat programmers*
+''Praat programmers''
 
 Easy access to the advanced presentation capabilities of Flash and conversely gives Flash programmers easy access to the advanced sound analysis capabilities of Praat.
 
@@ -439,7 +439,7 @@ Classes for the following:
 * Creating and initializing instances of a class.
 * Factory indirection, i.e. factories for creating factories.
 * Managing cross-platform bridge initialization
-* Managing `Precursor` calls to avoid repeats
+* Managing `Precursor' calls to avoid repeats
 * Managing creation and initialization of singleton objects
 * Managing creation of "lazy attributes"
 
@@ -464,9 +464,9 @@ Some basic math classes for the following:
 Classes providing the following facilities:
 
 
-* Reading and writing arrays of floating-point type [REAL_64](https://www.eiffel.org/files/doc/static/trunk/libraries/base/real_64_chart.html).
+* Reading and writing arrays of floating-point type ${REAL_64}.
 * Files that notify a listener of byte-count written and read.
-* A file conforming to [PLAIN_TEXT_FILE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/plain_text_file_chart.html) that implements [EL_OUTPUT_MEDIUM](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/io/medium/el_output_medium.e)
+* A file conforming to ${PLAIN_TEXT_FILE} that implements ${EL_OUTPUT_MEDIUM}
 * File line source and other abstractions
 
 ## Class Reflection
@@ -531,7 +531,8 @@ EL_REFLECTED_FIELD*
 		EL_REFLECTED_BOOLEAN
 		EL_REFLECTED_POINTER
 		EL_REFLECTED_CHARACTER_8
-		EL_REFLECTED_CHARACTER_32
+		EL_REFLECTED_CHARACTER_32````
+
 ## Runtime Operations
 Classes for the following:
 
@@ -541,6 +542,7 @@ Classes for the following:
 * Accessing operating environment information
 * Tracking progress of time consuming operations
 * Managing shared resources for competing threads
+
 ## Text Processing
 Classes providing the following:
 
@@ -556,6 +558,7 @@ Classes providing the following:
 * Associating formatting styles with strings
 * URI encoding/decoding
 * UTF encoding/decoding
+
 ## String Handling
 Classes providing the following:
 
@@ -568,6 +571,7 @@ Classes providing the following:
 * Specialized types of strings
 * String template substitution
 * Supplementary string routines for general use
+
 ## Substring Structures
 Container classes for substrings
 
@@ -577,12 +581,14 @@ Container classes for substrings
 * Lists of substrings
 * String occurrence interval lists
 * Tables of substrings
+
 ## Software Versioning and CRC digest
 Classes providing the following facilities:
 
 
 * Software version formatting and storing application build information
 * Cyclic redundancy checksum generation
+
 ## Class ZSTRING
 An implementation of a memory compact string with the same unicode character range as the ''base.ecf'' class ${STRING_32} and conforming to ${STRING_GENERAL}. The ${ZSTRING} class (alias for ${EL_ZSTRING}) has many additional routines not found in ${STRING_32}, as for example: Python like tuple substitution.
 
@@ -598,22 +604,24 @@ An implementation of a memory compact string with the same unicode character ran
 
 * [./benchmark/ZSTRING-benchmarks-latin-1.html Base character-set Latin-1]
 * [./benchmark/ZSTRING-benchmarks-latin-15.html Base character-set Latin-15]
+
 ## Image Utilities
 Image utilities providing:
 
 
 1. SVG to PNG conversion using C library [http://librsvg.sourceforge.net/ librsvg]
 2. Miscellaneous routines from the [https://cairographics.org/ Cairo graphics C library]
+
 ## Installer Vision-2 GUI
 A graphical user-interface for installing and uninstalling applications using Vision-2 and Vision-2-x components
 
 Includes a special user interface to provide an accurate determination of the display size for Windows users. The user is asked to resize a window to the size of an A5 piece of paper.
 ## XHTML Viewer
-A basic XHTML text renderer based on the [https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html EV_RICH_TEXT] component found in the [https://www.eiffel.org/doc/solutions/EiffelVision_2 EiffelVision2 library].
+A basic XHTML text renderer based on the [EV_RICH_TEXT](https://www.eiffel.org/files/doc/static/17.05/libraries/vision2/ev_rich_text_flatshort.html) component found in the [EiffelVision2 library](https://www.eiffel.org/doc/solutions/EiffelVision_2).
 
-It was used to create the help system in the [http://myching.software My Ching software] with page content authored in the Thunderbird email client and then exported as XHTML.
+It was used to create the help system in the [My Ching software](http://myching.software) with page content authored in the Thunderbird email client and then exported as XHTML.
 
-See class ${EL_HTML_TEXT} below for supported XHTML tags. This component facilitates the creation of a hyperlinked contents side bar in a split window.
+See class [EL_HTML_TEXT](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/html-viewer/el_html_text.e) below for supported XHTML tags. This component facilitates the creation of a hyperlinked contents side bar in a split window.
 ## Vision2-X UI Container Extensions
 Window, dialogs and other widget-container extensions for the [EiffelVision2](https://www.eiffel.org/resources/libraries/eiffelvision2) library.
 
@@ -711,7 +719,7 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 * Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.e)
 * Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.e)
 
-** Primitive Widget Descendants**
+**Primitive Widget Descendants**
 
 
 ````
@@ -774,8 +782,10 @@ EV_PRIMITIVE*
 			EL_PIXMAP_BUTTON
 			EL_DECORATED_BUTTON
 		EL_COLOR_BUTTON
+````
+
 ## Windows Eiffel Library Extensions
-Extensions for [https://www.eiffel.org/doc/solutions/WEL WEL GUI library].
+Extensions for [WEL GUI library](https://www.eiffel.org/doc/solutions/WEL).
 ## C and C++
 Support creation of Eiffel interfaces to C and C++ API's
 ## MS Component Object Model
@@ -784,23 +794,24 @@ Eiffel interfaces to some basic Microsoft Component Object Model classes includi
 
 * IPersistFile
 * IShellLinkW
+
 ## Java
-A high-level framework for wrapping Java classes that adds a useful layer of abstraction to Eiffel Software's interface to the JNI ([https://en.wikipedia.org/wiki/Java_Native_Interface Java Native Interface]) called [https://www.eiffel.org/doc/solutions/Eiffel2Java eiffel2java].
+A high-level framework for wrapping Java classes that adds a useful layer of abstraction to Eiffel Software's interface to the JNI ([Java Native Interface](https://en.wikipedia.org/wiki/Java_Native_Interface)) called [eiffel2java](https://www.eiffel.org/doc/solutions/Eiffel2Java).
 
 **Features**
 * Better Java environment discovery for initialization.
 * Automates composition of JNI call signature strings.
 * Automates cleanup of Java objects.
 
-The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: ${JAVA_FUNCTION} and ${JAVA_PROCEDURE} that inherit ${JAVA_ROUTINE}. These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
+The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: [JAVA_FUNCTION](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Java/java_agents/java_function.e) and [JAVA_PROCEDURE](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Java/java_agents/java_procedure.e) that inherit [JAVA_ROUTINE](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Java/java_agents/java_routine.e). These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
 
-See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf] for an example of it's use.
+See [example/eiffel2java/eiffel2java.ecf](https://github.com/finnianr/eiffel-loop/tree/master/example/eiffel2java/eiffel2java.html) for an example of it's use.
 ## Python Interface
-Some extensions to Daniel RodrÃ­guez's [https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel]. This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: ${EL_EYED3_TAG}.
+Some extensions to Daniel RodrÃ­guez's [PEPE library for Eiffel](https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE). This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [EL_EYED3_TAG](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Python/example/el_eyed3_tag.e).
 ## Matlab
 **Status:** No longer maintained
 
-An Eiffel interface to [http://uk.mathworks.com/products/matlab/ Matlab], a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2 and successfully used in a number of linguistic research projects.
+An Eiffel interface to [Matlab](http://uk.mathworks.com/products/matlab/), a popular math orientated scripting language. This interface was developed with Matlab Version 6.5, VC++ 8.0 Express Edition and Windows XP SP2 and successfully used in a number of linguistic research projects.
 
 **NOTE** This ECF is for documentation purposes only and will not compile.
 ## Praat-script
@@ -808,9 +819,9 @@ An Eiffel interface to [http://uk.mathworks.com/products/matlab/ Matlab], a popu
 
 Eiffel interface to the Praat scripting language
 
-[http://www.fon.hum.uva.nl/praat Praat] is a free tool for doing acoustic and phonetic analysis and has it's own scripting language, Praat-script.
+[Praat](http://www.fon.hum.uva.nl/praat) is a free tool for doing acoustic and phonetic analysis and has it's own scripting language, Praat-script.
 
-The `el_toolkit' utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC. (Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
+The `el_toolkit` utility has an option for converting the source code of Praat ver. 4.4 to compile with MSC. (Praat compiles "out of the box" with the mingw compiler, but at the time EiffelStudio didn't support mingw)
 
 Developed with VC++ 8.0 Express Edition, Windows XP SP2, Praat source code version 4.4.30. The conversion tool will not work with later versions of Praat.
 
@@ -841,6 +852,7 @@ Two demo applications are provided that do signal math including Fourier transfo
 
 1. [./example/net/EROS/signal-math/signal-math.html signal-math.ecf] is a multi-mode command-line application with 2 client modes and 2 server-test modes.
 2. [./example/net/EROS/server/signal-math-server.html signal-math-server.ecf] performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
+
 ## Networking Common
 Common networking classes
 
@@ -849,36 +861,38 @@ Common networking classes
 * Class to obtain the MAC address of network devices on both Windows and Linux.
 * Classes for managing HTTP cookies, query parameters, headers and status codes.
 * FTP upload and download
+
 ## Adobe Flash to Laabhair
 **Status:** No longer maintained
 
-Eiffel network interface to [https://github.com/finnianr/Eiffel-Loop/blob/master/Flash_library/eiffel_loop/laabhair Flash ActionScript objects] used in the **Laabhair** digital signal processing framework. This framework allows you to create applications that process speech with a [http://www.fon.hum.uva.nl/praat Praat] script in real time and create visual representations of the the data using Adobe Flash. Depends on the Eiffel-Loop Praat-script interface library.
+Eiffel network interface to [Flash ActionScript objects](https://github.com/finnianr/Eiffel-Loop/blob/master/Flash_library/eiffel_loop/laabhair) used in the **Laabhair** digital signal processing framework. This framework allows you to create applications that process speech with a [Praat](http://www.fon.hum.uva.nl/praat) script in real time and create visual representations of the the data using Adobe Flash. Depends on the Eiffel-Loop Praat-script interface library.
 
 Developed on Windows XP SP2 with Flash Professional 8 IDE, EiffelStudio 6.1, VC++ 8.0 Express Edition.
 
-Laabhair was developed at the [https://arrow.dit.ie/dmc/ Digital Media Centre at the Dublin Institute of Technology]
+Laabhair was developed at the [Digital Media Centre at the Dublin Institute of Technology](https://arrow.dit.ie/dmc/)
 ## Amazon Instant Access API
-An Eiffel interface to the [https://s3-us-west-2.amazonaws.com/dtg-docs/index.html Amazon Instant Access API]. This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
+An Eiffel interface to the [Amazon Instant Access API](https://s3-us-west-2.amazonaws.com/dtg-docs/index.html). This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 ## PayPal Payments Standard Button Manager API
-An Eiffel interface to the [http://web.archive.org/web/20171124085630/https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API]. (Now deprecated by Paypal)
+An Eiffel interface to the [PayPal Payments Standard Button Manager NVP HTTP API](http://web.archive.org/web/20171124085630/https://developer.paypal.com/docs/classic/button-manager/integration-guide/). (Now deprecated by Paypal)
 ## HTTP Client Services
 Classes for remotely interacting with a HTTP server. Supports the HTTP commands: POST, GET and HEAD.
 ## Fast CGI Protocol
-This implemenation of the [http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html Fast CGI protocol] allows you to create Fast-CGI services that service HTTP requests forwarded by a web server via a local network socket.
+This implemenation of the [Fast CGI protocol](http://www.mit.edu/~yandros/doc/specs/fcgi-spec.html) allows you to create Fast-CGI services that service HTTP requests forwarded by a web server via a local network socket.
 
 Each service implements a table of servlets to service particular requests. The service is configured from a Pyxis format configuration file and listens either on a port number or a Unix socket for request from the web server.
 
-This API has been tested in production with the [https://cherokee-project.com/ Cherokee Web Server] Ver. 1.2.101
+This API has been tested in production with the [Cherokee Web Server](https://cherokee-project.com/) Ver. 1.2.101
 ## HTTP Servlet Services
 Some basic HTTP services implemented using the [./library/fast-cgi.protocol.html Fast-CGI API] including:
 
 
 * IP address echo
 * Anti-hacking service that can used to block IP addresses of malicious attack sources.
+
 ## Override of EiffelVision2
-Override of Eiffel Software's EiffelVision2 for use with [./library/vision2-x.html Eiffel-Loop Vision2 extensions]
+Override of Eiffel Software's EiffelVision2 for use with [Eiffel-Loop Vision2 extensions](https://github.com/finnianr/eiffel-loop/tree/master/library/vision2-x.pecf)
 ## Override of Eiffel2Java
-Override of Eiffel Software's [https://www.eiffel.org/doc/solutions/Eiffel2Java Eiffel2Java] library for use with the [./library/eiffel2java.html  Eiffel-Loop Eiffel to Java] library.
+Override of Eiffel Software's [Eiffel2Java](https://www.eiffel.org/doc/solutions/Eiffel2Java) library for use with the [Eiffel-Loop Eiffel to Java](https://github.com/finnianr/eiffel-loop/tree/master/library/eiffel2java.pecf) library.
 ## Document Node-scanning and Object Building
 A set of abstractions for scanning the nodes of an XML-like document without any commitment to a particular document syntax. Parsers to generate events are provided by separate libraries.
 
@@ -931,12 +945,15 @@ The class [EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS](https://github.com/finnianr/ei
 
 The class [EL_SMART_BUILDABLE_FROM_NODE_SCAN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/document/createable/el_smart_buildable_from_node_scan.e) is an XML parser that reacts to a special XML processing instruction, telling it to build an Eiffel object of a particular type.
 ## Eco-DB (Eiffel CHAIN Orientated Database)
-**DEPENDS**
+**DEPENDS EIFFEL-LOOP**
 
 
-* Eiffel-Loop base.ecf
+* [base.ecf#kernel](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf)
+* [base.ecf#data_structure](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf)
+* [base.ecf#reflection](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf)
 * [document-scan.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/document-scan.pecf)
 * [Eiffel-Loop encryption.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/encryption.pecf)
+* [file-processing.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/file-processing.pecf)
 * [pyxis-scan.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/pyxis-scan.pecf)
 * [text-formats.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/text-formats.pecf)
 
@@ -1673,22 +1690,22 @@ Classes for creating cross platform wrappers of OS commands with about 30 "out o
 **General Features**
 
 
-* Command templates are based on the powerful [Evolicity text substitution library](https://github.com/finnianr/eiffel-loop/tree/master/library/evolicity.pecf).
+* Command templates are based on the powerful [./library/evolicity.html Evolicity text substitution library].
 
 
 * Support for command output capture, and error output capture.
 
 
-* Automatic escaping of path arguments conforming to [EL_PATH](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/file/naming/el_path.e), namely [EL_FILE_PATH](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/file/naming/el_file_path.e) and [EL_DIR_PATH](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/file/naming/el_dir_path.e). All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
+* Automatic escaping of path arguments conforming to ${EL_PATH}, namely ${EL_FILE_PATH} and ${EL_DIR_PATH}. All Windows paths are automatically put in quotes. Unix paths are automatically escaped with \ for reserved characters. This has some advantages over putting them in quotes.
 
 
-* Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes [EL_FIND_DIRECTORIES_COMMAND_I](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/system/file/find/el_find_directories_command_i.e) and [EL_FIND_FILES_COMMAND_I](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/system/file/find/el_find_files_command_i.e) as an example. Here the Unix `find` command and the Windows `dir` command are made to appear exactly the same for specific tasks.
+* Designed for cross platform use, with special features for post-capture processing of output lines so they are consistent across platforms. See classes ${EL_FIND_DIRECTORIES_COMMAND_I} and ${EL_FIND_FILES_COMMAND_I} as an example. Here the Unix `find' command and the Windows `dir' command are made to appear exactly the same for specific tasks.
 
 
-* Support for making "convenience wrappers" without any need to create a new class. These are classes: [EL_OS_COMMAND](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/kernel/el_os_command.e) and [EL_CAPTURED_OS_COMMAND](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/kernel/el_captured_os_command.e).
+* Support for making "convenience wrappers" without any need to create a new class. These are classes: ${EL_OS_COMMAND} and ${EL_CAPTURED_OS_COMMAND}.
 
 
-* Has factory class [EL_OS_ROUTINES_IMP](invalid-class-name) (accessible via [EL_MODULE_OS](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/process/commands/system/el_module_os.e)) which contains factory functions for common OS system commands.
+* Has factory class ${EL_OS_ROUTINES_IMP} (accessible via ${EL_MODULE_OS}) which contains factory functions for common OS system commands.
 
 **Information Commands**
 
@@ -1702,14 +1719,14 @@ These are "out of the box" command for obtaining system information.
 
 ## Development Testing
 * Regression tests based on CRC checksum comparisons of logging output and output files. These are used extensively in Eiffel-Loop projects.
-* Helper classes for unit tests based on `EQA_TEST_SET`
+* Helper classes for unit tests based on `EQA_TEST_SET'
 
 ## Internationalization
 An internationalization library with support for translations rendered in Pyxis format. There are a number of tools in `el_toolkit` to support the use of this library.
 ## Encryption and Hashing
 **AES Encryption**
 
-An easy interface to basic AES encryption with extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+An easy interface to basic AES encryption with extensions to Colin LeMahieu's [https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel AES encryption library]. Includes a class for reading and writing encrypted files using [https://en.wikipedia.org/wiki/Advanced_Encryption_Standard AES] cipher [https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation block chains].
 
 **Hashing**
 
@@ -1717,11 +1734,11 @@ Routines for creating SHA-256 and MD5 hashes as well as UUID system time hashes.
 
 **XML Persistence**
 
-Library `xml-scan.ecf` provides 2 classes for storing credentials
+Library `xml-scan.ecf' provides 2 classes for storing credentials
 
 
-1. [EL_BUILDABLE_AES_CREDENTIAL](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/buildable/el_buildable_aes_credential.e)
-2. [EL_SECURE_KEY_FILE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/xml/doc-scan/buildable/el_secure_key_file.e)
+1. ${EL_BUILDABLE_AES_CREDENTIAL}
+2. ${EL_SECURE_KEY_FILE}
 
 ## RSA Public-key Encryption
 Extends Colin LeMahieu's arbitrary precision integer library to conform to some RSA standards. The most important is the ability to read key-pairs conforming to the [X509 PKCS1 standard](https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates). The top level class to access these facilities is [EL_MODULE_X509](https://github.com/finnianr/eiffel-loop/tree/master/library/text/rsa-encryption/x509/el_module_x509.e).
@@ -1984,16 +2001,16 @@ Test core concepts and behaviour of basic Eiffel code and libraries. See class [
 ## encryption.ecf
 See class [ENCRYPTION_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/encryption/app/encryption_autotest_app.e)
 ## eros.ecf
-Test [Eiffel Remote Object Server (EROS)](https://github.com/finnianr/eiffel-loop/tree/master/library/eros.pecf) protocol library.
+Test [./library/eros.html Eiffel Remote Object Server (EROS)] protocol library.
 
 **Test Apps**
 
 
-* [EROS_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/eros_autotest_app.e)
-* [BEXT_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/bext_client_test_app.e)
-* [BEXT_SERVER_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/bext_server_test_app.e)
-* [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_client_test_app.e)
-* [FOURIER_MATH_SERVER_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_server_test_app.e)
+* ${EROS_AUTOTEST_APP}
+* ${BEXT_CLIENT_TEST_APP}
+* ${BEXT_SERVER_TEST_APP}
+* ${FOURIER_MATH_CLIENT_TEST_APP}
+* ${FOURIER_MATH_SERVER_TEST_APP}
 
 ## evolicity.ecf
 Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP](invalid-class-name)
@@ -2008,8 +2025,8 @@ Test localization library. See class [I18N_AUTOTEST_APP](https://github.com/finn
 ## image-utils.ecf
 See class [SVG_TO_PNG_CONVERSION_TEST_APP](invalid-class-name)
 ## markup-docs.ecf
-* Test subject line decoding for Thunderbird Email Export with [THUNDERBIRD_TEST_APP](invalid-class-name)
-* Regression test reading of Open Office Spreadsheet with [OPEN_OFFICE_TEST_APP](invalid-class-name)
+* Test subject line decoding for Thunderbird Email Export with ${THUNDERBIRD_TEST_APP}
+* Regression test reading of Open Office Spreadsheet with ${OPEN_OFFICE_TEST_APP}
 
 ## multimedia.ecf
 * Test wav to mp3 conversion
@@ -2018,12 +2035,12 @@ See class [SVG_TO_PNG_CONVERSION_TEST_APP](invalid-class-name)
 Test network library classes
 
 
-* [TEST_SIMPLE_CLIENT](invalid-class-name)
-* [SIMPLE_SERVER_TEST_APP](invalid-class-name)
+* ${TEST_SIMPLE_CLIENT}
+* ${SIMPLE_SERVER_TEST_APP}
 
 ## os-command.ecf
-* Test OS command interface library. See class [OS_COMMAND_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/os-command/os_command_autotest_app.e)
-* Test set for classes that manage and read file system content. See class [FILE_AND_DIRECTORY_TEST_SET](https://github.com/finnianr/eiffel-loop/tree/master/test/source/os-command/test-set/file_and_directory_test_set.e)
+* Test OS command interface library. See class ${OS_COMMAND_AUTOTEST_APP}
+* Test set for classes that manage and read file system content. See class ${FILE_AND_DIRECTORY_TEST_SET}
 
 ## paypal-SBM.ecf
 Tests for Eiffel interface to PayPal Payments Standard Button Manager API. See class [PAYPAL_STANDARD_BUTTON_MANAGER_TEST_APP](invalid-class-name)
@@ -2185,22 +2202,23 @@ EL_EQA_TEST_SET*
 	EL_DEFAULT_TEST_SET
 	BIT_ROUTINE_TEST_SET
 	HASH_TABLE_TEST_SET
-	MARKUP_ESCAPE_TEST_SET
+	MARKUP_ESCAPE_TEST_SET````
+
 ## search-engine.ecf
-See class ${SEARCH_ENGINE_AUTOTEST_APP}
+See class [SEARCH_ENGINE_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/search-engine/search_engine_autotest_app.e)
 ## TagLib.ecf
-See class ${TAGLIB_AUTOTEST_APP}
+See class [TAGLIB_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/TagLib/taglib_autotest_app.e)
 ## text-formats.ecf
-See class ${TEXT_FORMATS_AUTOTEST_APP}
+See class [TEXT_FORMATS_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/text-formats/text_formats_autotest_app.e)
 ## text-process.ecf
-See class ${TEXT_PROCESS_AUTOTEST_APP}
+See class [TEXT_PROCESS_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/text-process/text_process_autotest_app.e)
 ## vtd-xml.ecf
 Tests for Eiffel interface VTD-XML C API
 
-See class ${VTD_XML_AUTOTEST_APP}
+See class [VTD_XML_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/vtd-xml/apps/vtd_xml_autotest_app.e)
 ## wel-x-audio.ecf
-Maintenance of Windows audio classes See class ${MEDIA_PLAYER_DUMMY_APP}
+Maintenance of Windows audio classes See class [MEDIA_PLAYER_DUMMY_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/wel-x-audio/media_player_dummy_app.e)
 ## xml-scan.ecf
-Test application class: ${XML_SCAN_AUTOTEST_APP}
+Test application class: [XML_SCAN_AUTOTEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/xml-scan/xml_scan_autotest_app.e)
 ## eiffel2java.ecf (Eiffel-Loop)
-Test sets for the [./library/eiffel2java.html Eiffel-Loop Java interface library]. This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
+Test sets for the [Eiffel-Loop Java interface library](https://github.com/finnianr/eiffel-loop/tree/master/library/eiffel2java.pecf). This library provides a useful layer of abstraction over the Eiffel Software JNI interface.
