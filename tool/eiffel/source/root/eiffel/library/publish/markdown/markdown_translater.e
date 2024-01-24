@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 10:40:17 GMT (Wednesday 24th January 2024)"
-	revision: "26"
+	date: "2024-01-24 10:56:51 GMT (Wednesday 24th January 2024)"
+	revision: "27"
 
 class
 	MARKDOWN_TRANSLATER
@@ -92,8 +92,7 @@ feature {NONE} -- Line states
 		local
 			line: ZSTRING
 		do
-			append_new_line (1)
-			if a_line.starts_with_character ('%T') then
+			if a_line.is_empty or else a_line.starts_with_character ('%T') then
 				line := a_line.substring_end (2)
 			-- Remove any class links because they won't work in Github markdown
 				if line.has_substring (Dollor_left_brace) and then attached Class_link_list as list then
@@ -105,7 +104,7 @@ feature {NONE} -- Line states
 						list.back
 					end
 				end
-				last_line.append (line)
+				line_list.extend (line)
 			else
 				close_code_block (a_line)
 			end
