@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-25 12:35:25 GMT (Thursday 25th January 2024)"
-	revision: "31"
+	date: "2024-01-25 16:51:05 GMT (Thursday 25th January 2024)"
+	revision: "32"
 
 class
 	MARKDOWN_TRANSLATER
@@ -66,8 +66,10 @@ feature -- Basic operations
 						inspect type
 							when Empty_line, Code_marker then
 								line_list.extend (list.item_value)
-
 							when Code_line then
+								if buffer.starts_with_character ('%T') then
+									buffer.remove_head (1)
+								end
 								buffer.replace_substring_all (tab, space * 3)
 								remove_class_link_markers (buffer)
 								line_list.extend (buffer.twin)
@@ -75,7 +77,6 @@ feature -- Basic operations
 							when List_item, Normal_line then
 								translate (buffer)
 								line_list.extend (buffer.twin)
-
 						else
 						end
 						list.forth

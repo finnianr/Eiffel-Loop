@@ -25,7 +25,7 @@ This is a full-blown MP3 collection manager that is designed to work in conjunct
 **Manger Syntax**
 
 ````
-   el_rhythmbox -manager -config <task-configuration>.pyx
+el_rhythmbox -manager -config <task-configuration>.pyx
 
 ````
 **Features**
@@ -35,7 +35,7 @@ This is a full-blown MP3 collection manager that is designed to work in conjunct
 * Collate songs into a directory structure according to song tags:
 
 ````
-   <genre>/<artist-name>/<song-title>.<unique id>.mp3
+<genre>/<artist-name>/<song-title>.<unique id>.mp3
 
 ````
 * Import videos in various formats as MP3 files automatically adding ID3 tags according to folder location. Includes facility for mapping video segments to individual MP3 files.
@@ -213,227 +213,227 @@ Various hash-table, array, list, chain and linear types
 **Hash Tables**
 
 ````
-   HASH_TABLE [G, K -> HASHABLE]
-      SED_OBJECTS_TABLE
-      CLASS_NAME_TRANSLATIONS
-      MISMATCH_INFORMATION
-      HASH_TABLE_EX [G, K -> HASHABLE]
-      EQUALITY_HASH_TABLE [G -> ANY, H -> HASHABLE]
-      STRING_TABLE [G]
-      EL_HASH_TABLE [G, K -> HASHABLE]
-         EL_TYPE_TABLE [G]
-         EL_STRING_32_TABLE [G]
-         EL_STRING_GENERAL_TABLE [G]
-         EL_CONFORMING_INSTANCE_TABLE [G]
-         EL_STRING_8_TABLE [G]
-            EVOLICITY_FUNCTION_TABLE
-            EL_XPATH_TOKEN_TABLE
-            EL_FIELD_VALUE_TABLE [G]
-            EL_DATE_FUNCTION_TABLE
-         EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]
-            EL_PROCEDURE_TABLE [K -> STRING_GENERAL create make end]
-            EL_ZSTRING_HASH_TABLE [G]
-               EL_TRANSLATION_TABLE
-               TB_ATTRIBUTE_EDIT_TABLE
-         EL_STRING_CONVERSION_TABLE
-         EL_IMMUTABLE_KEY_8_TABLE [G]
-            EL_FIELD_TABLE
-            EL_OBJECT_FIELDS_TABLE
-      EL_LOG_FILTER_SET [TYPE_LIST -> TUPLE create default_create end]
-      EL_COUNTER_TABLE [K -> HASHABLE]
-      EL_OBJECTS_BY_TYPE
-      EL_EIF_OBJ_TEXT_TABLE_CONTEXT
-      EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
-         XML_ESCAPER [S -> STRING_GENERAL create make end]
-         EL_CSV_ESCAPER [S -> STRING_GENERAL create make end]
-      EL_FUNCTION_RESULT_TABLE [TARGET, R]
-      EL_STRING_GENERAL_UNESCAPER* [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
-         EL_STRING_8_UNESCAPER
-         EL_STRING_32_UNESCAPER
-         EL_ZSTRING_UNESCAPER
-            JSON_UNESCAPER
-      EL_URI_QUERY_HASH_TABLE* [S -> STRING_GENERAL create make end]
-         EL_URI_QUERY_STRING_8_HASH_TABLE
-         EL_URI_QUERY_STRING_32_HASH_TABLE
-         EL_URI_QUERY_ZSTRING_HASH_TABLE
-      EL_GROUP_TABLE [G, K -> HASHABLE]
-         EL_FUNCTION_GROUP_TABLE [G, K -> HASHABLE]
-      EL_CODE_TABLE [K -> HASHABLE]
-         EL_UNIQUE_CODE_TABLE [K -> HASHABLE]
-            EL_ZSTRING_TOKEN_TABLE
-               EL_WORD_TOKEN_TABLE
-      EL_ESCAPE_TABLE
-      EL_LOCALE_TABLE
-      XML_NAME_SPACE_TABLE
-      EL_HTTP_COOKIE_TABLE
-      EL_CACHE_TABLE* [G, K -> HASHABLE]
-         EL_NAME_TRANSLATER_TABLE
-         EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
-            EL_INITIALIZED_FIELD_FACTORY
-         EL_AGENT_CACHE_TABLE [G, K -> HASHABLE]
-         EL_LOCALE_TEXTS_TABLE [TEXTS -> EL_REFLECTIVE_LOCALE_TEXTS create make, make_with_locale end]
-         EL_IP_ADDRESS_GEOLOCATION_TABLE
-         EL_FACTORY_TYPE_ID_TABLE
-      EVOLICITY_TEMPLATE_STACK_TABLE
-      EL_SINGLETON_TABLE
-      EL_FUNCTIONS_BY_RESULT_TYPE
-      EL_CURL_HEADER_TABLE
-      EL_PASSPHRASE_EVALUATOR
-      EL_ZSTRING_TABLE
-      EL_COMPRESSION_TABLE [G -> EL_STORABLE create make_default end, K -> HASHABLE]
-         EL_GEOGRAPHIC_INFO_TABLE
-      EL_IMMUTABLE_STRING_TABLE* [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
-         EL_IMMUTABLE_STRING_32_TABLE
-         EL_IMMUTABLE_STRING_8_TABLE
-            EL_IMMUTABLE_UTF_8_TABLE
-            EL_TUPLE_FIELD_TABLE
-      ECD_INDEX_TABLE* [G -> EL_STORABLE create make_default end, K -> HASHABLE]
-         ECD_REFLECTIVE_INDEX_TABLE [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end, K -> HASHABLE]
-      EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
-         EL_FILLED_STRING_8_TABLE
-         EL_LOCALIZED_CURRENCY_TABLE
-         EL_FILLED_STRING_TABLE* [STR -> READABLE_STRING_GENERAL]
-            EL_FILLED_STRING_32_TABLE
-            EL_FILLED_ZSTRING_TABLE
-      EL_XPATH_ACTION_TABLE
+HASH_TABLE [G, K -> HASHABLE]
+   SED_OBJECTS_TABLE
+   CLASS_NAME_TRANSLATIONS
+   MISMATCH_INFORMATION
+   HASH_TABLE_EX [G, K -> HASHABLE]
+   EQUALITY_HASH_TABLE [G -> ANY, H -> HASHABLE]
+   STRING_TABLE [G]
+   EL_HASH_TABLE [G, K -> HASHABLE]
+      EL_TYPE_TABLE [G]
+      EL_STRING_32_TABLE [G]
+      EL_STRING_GENERAL_TABLE [G]
+      EL_CONFORMING_INSTANCE_TABLE [G]
+      EL_STRING_8_TABLE [G]
+         EVOLICITY_FUNCTION_TABLE
+         EL_XPATH_TOKEN_TABLE
+         EL_FIELD_VALUE_TABLE [G]
+         EL_DATE_FUNCTION_TABLE
+      EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]
+         EL_PROCEDURE_TABLE [K -> STRING_GENERAL create make end]
+         EL_ZSTRING_HASH_TABLE [G]
+            EL_TRANSLATION_TABLE
+            TB_ATTRIBUTE_EDIT_TABLE
+      EL_STRING_CONVERSION_TABLE
+      EL_IMMUTABLE_KEY_8_TABLE [G]
+         EL_FIELD_TABLE
+         EL_OBJECT_FIELDS_TABLE
+   EL_LOG_FILTER_SET [TYPE_LIST -> TUPLE create default_create end]
+   EL_COUNTER_TABLE [K -> HASHABLE]
+   EL_OBJECTS_BY_TYPE
+   EL_EIF_OBJ_TEXT_TABLE_CONTEXT
+   EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
+      XML_ESCAPER [S -> STRING_GENERAL create make end]
+      EL_CSV_ESCAPER [S -> STRING_GENERAL create make end]
+   EL_FUNCTION_RESULT_TABLE [TARGET, R]
+   EL_STRING_GENERAL_UNESCAPER* [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
+      EL_STRING_8_UNESCAPER
+      EL_STRING_32_UNESCAPER
+      EL_ZSTRING_UNESCAPER
+         JSON_UNESCAPER
+   EL_URI_QUERY_HASH_TABLE* [S -> STRING_GENERAL create make end]
+      EL_URI_QUERY_STRING_8_HASH_TABLE
+      EL_URI_QUERY_STRING_32_HASH_TABLE
+      EL_URI_QUERY_ZSTRING_HASH_TABLE
+   EL_GROUP_TABLE [G, K -> HASHABLE]
+      EL_FUNCTION_GROUP_TABLE [G, K -> HASHABLE]
+   EL_CODE_TABLE [K -> HASHABLE]
+      EL_UNIQUE_CODE_TABLE [K -> HASHABLE]
+         EL_ZSTRING_TOKEN_TABLE
+            EL_WORD_TOKEN_TABLE
+   EL_ESCAPE_TABLE
+   EL_LOCALE_TABLE
+   XML_NAME_SPACE_TABLE
+   EL_HTTP_COOKIE_TABLE
+   EL_CACHE_TABLE* [G, K -> HASHABLE]
+      EL_NAME_TRANSLATER_TABLE
+      EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
+         EL_INITIALIZED_FIELD_FACTORY
+      EL_AGENT_CACHE_TABLE [G, K -> HASHABLE]
+      EL_LOCALE_TEXTS_TABLE [TEXTS -> EL_REFLECTIVE_LOCALE_TEXTS create make, make_with_locale end]
+      EL_IP_ADDRESS_GEOLOCATION_TABLE
+      EL_FACTORY_TYPE_ID_TABLE
+   EVOLICITY_TEMPLATE_STACK_TABLE
+   EL_SINGLETON_TABLE
+   EL_FUNCTIONS_BY_RESULT_TYPE
+   EL_CURL_HEADER_TABLE
+   EL_PASSPHRASE_EVALUATOR
+   EL_ZSTRING_TABLE
+   EL_COMPRESSION_TABLE [G -> EL_STORABLE create make_default end, K -> HASHABLE]
+      EL_GEOGRAPHIC_INFO_TABLE
+   EL_IMMUTABLE_STRING_TABLE* [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
+      EL_IMMUTABLE_STRING_32_TABLE
+      EL_IMMUTABLE_STRING_8_TABLE
+         EL_IMMUTABLE_UTF_8_TABLE
+         EL_TUPLE_FIELD_TABLE
+   ECD_INDEX_TABLE* [G -> EL_STORABLE create make_default end, K -> HASHABLE]
+      ECD_REFLECTIVE_INDEX_TABLE [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end, K -> HASHABLE]
+   EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
+      EL_FILLED_STRING_8_TABLE
+      EL_LOCALIZED_CURRENCY_TABLE
+      EL_FILLED_STRING_TABLE* [STR -> READABLE_STRING_GENERAL]
+         EL_FILLED_STRING_32_TABLE
+         EL_FILLED_ZSTRING_TABLE
+   EL_XPATH_ACTION_TABLE
 
 ````
 **Linear Chains**
 
 ````
-   EL_LINEAR* [G]
-      EL_CHAIN* [G]
-         EL_ARRAYED_LIST [G]
-            EL_TUPLE_TYPE_LIST [T]
-            EL_CALL_SEQUENCE [CALL_ARGS -> TUPLE create default_create end]
-            EL_UNIQUE_ARRAYED_LIST [G -> HASHABLE]
-            EL_DIRECTORY_LIST
-            EL_APPLICATION_LIST
-            EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
-               EL_FILE_PATH_LIST
-               EL_DIRECTORY_PATH_LIST
-                  EL_NATIVE_DIRECTORY_PATH_LIST
-               EL_FILE_MANIFEST_LIST
-               EL_STRING_LIST [S -> STRING_GENERAL create make end]
-                  EL_STRING_8_LIST
-                     EVOLICITY_VARIABLE_REFERENCE
-                        EVOLICITY_FUNCTION_REFERENCE
-                     AIA_CANONICAL_REQUEST
-                  EL_ZSTRING_LIST
-                     EL_XHTML_STRING_LIST
-                     XML_TAG_LIST
-                        XML_PARENT_TAG_LIST
-                        XML_VALUE_TAG_PAIR
-                     EL_ERROR_DESCRIPTION
-                        EL_COMMAND_ARGUMENT_ERROR
-                     TB_HTML_LINES
-                  EL_STRING_32_LIST
-                  EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
-                     EL_DATE_TEXT_TEMPLATE
-               EL_IMMUTABLE_STRING_8_LIST
-                  EL_IMMUTABLE_UTF_8_LIST
-            EL_DEFAULT_COMMAND_OPTION_LIST
-            EL_NETWORK_DEVICE_LIST_I*
-               EL_NETWORK_DEVICE_LIST_IMP
-            TP_ALL_IN_LIST
-               TP_FIRST_MATCH_IN_LIST
-            JOBS_RESULT_SET
-            EL_HTTP_PARAMETER_LIST
-            EL_OPF_MANIFEST_LIST
-            EL_ARRAYED_COMPACT_INTERVAL_LIST
-            EL_DISCARDING_ARRAYED_LIST [G]
-            EL_NAMEABLES_LIST [G -> EL_NAMEABLE [READABLE_STRING_GENERAL]]
-            EL_ARRAYED_MAP_LIST [K, G]
-               EL_APPLICATION_HELP_LIST
-               EL_DECOMPRESSED_DATA_LIST
-               EL_STRING_POOL [S -> STRING_GENERAL create make end]
-               EL_BOOK_ASSEMBLY
-               EL_CONFORMING_INSTANCE_TYPE_MAP [G]
-               EL_HASHABLE_KEY_ARRAYED_MAP_LIST [K -> HASHABLE, G]
-               EL_KEY_INDEXED_ARRAYED_MAP_LIST [K -> COMPARABLE, G]
-               EL_STYLED_TEXT_LIST* [S -> STRING_GENERAL]
-                  EL_STYLED_STRING_8_LIST
-                  EL_STYLED_STRING_32_LIST
-                  EL_STYLED_ZSTRING_LIST
-            EL_ARRAYED_RESULT_LIST [G, R]
-            EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
-               EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
-                  EL_SPLIT_ZSTRING_LIST
-                  EL_SPLIT_STRING_32_LIST
-                  EL_SPLIT_STRING_8_LIST
-               EL_SPLIT_IMMUTABLE_STRING_LIST* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
-                  EL_SPLIT_IMMUTABLE_STRING_8_LIST
-                     EL_SPLIT_IMMUTABLE_UTF_8_LIST
-                  EL_SPLIT_IMMUTABLE_STRING_32_LIST
-               EL_COMPACT_ZSTRING_LIST
-               EL_IMMUTABLE_STRING_GRID* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
-                  EL_IMMUTABLE_STRING_8_GRID
-                  EL_IMMUTABLE_STRING_32_GRID
-            EL_TRANSLATION_ITEMS_LIST
-            TB_EMAIL_LIST
-            EL_COMMA_SEPARATED_WORDS_LIST
-            CSV_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
-            EL_ARRAYED_INTERVAL_LIST
-               TP_REPEATED_PATTERN*
-                  TP_COUNT_WITHIN_BOUNDS
-                     TP_ONE_OR_MORE_TIMES
-                     TP_ZERO_OR_MORE_TIMES
-                  TP_LOOP*
-                     TP_P1_UNTIL_P2_MATCH
-                     TP_P2_WHILE_NOT_P1_MATCH
-               EL_SEQUENTIAL_INTERVALS
-                  EL_OCCURRENCE_INTERVALS
-                     JSON_PARSED_INTERVALS
-                        JSON_NAME_VALUE_LIST
-                           JSON_ZNAME_VALUE_LIST
-                     EL_SPLIT_INTERVALS
-                        EL_ZSTRING_SPLIT_INTERVALS
-                        EL_STRING_8_SPLIT_INTERVALS
-                        EL_STRING_32_SPLIT_INTERVALS
-                     EL_ZSTRING_OCCURRENCE_INTERVALS
-                        EL_ZSTRING_SPLIT_INTERVALS
-                        EL_ZSTRING_OCCURRENCE_EDITOR
-                     EL_STRING_8_OCCURRENCE_INTERVALS
-                        EL_STRING_8_SPLIT_INTERVALS
-                        EL_STRING_8_OCCURRENCE_EDITOR
-                     EL_STRING_32_OCCURRENCE_INTERVALS
-                        EL_STRING_32_SPLIT_INTERVALS
-                        EL_STRING_32_OCCURRENCE_EDITOR
-                  JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]
-                     EL_IP_ADDRESS_META_DATA
-                  EL_ZSTRING_INTERVALS
-                     EL_COMPARABLE_ZSTRING_INTERVALS* [C, S -> READABLE_INDEXABLE [C]]
-                        EL_COMPARE_ZSTRING_TO_STRING_32
-                           EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32
-                        EL_COMPARE_ZSTRING_TO_STRING_8
-                           EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
-            EL_FIELD_LIST
-            EL_ARRAYED_REPRESENTATION_LIST* [R, N]
-               DATE_LIST
-            EL_REFLECTED_REFERENCE_LIST
-            EL_QUERYABLE_ARRAYED_LIST [G]
-               ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
-                  COUNTRY_DATA_TABLE
-                  ECD_STORABLE_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
-               AIA_CREDENTIAL_LIST
-                  AIA_STORABLE_CREDENTIAL_LIST
-            EL_PATH_STEP_TABLE
-            EL_EVENT_LISTENER_LIST
-               EL_EVENT_BROADCASTER
-            EL_XDG_DESKTOP_ENTRY_STEPS
-         EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]
-            EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
+EL_LINEAR* [G]
+   EL_CHAIN* [G]
+      EL_ARRAYED_LIST [G]
+         EL_TUPLE_TYPE_LIST [T]
+         EL_CALL_SEQUENCE [CALL_ARGS -> TUPLE create default_create end]
+         EL_UNIQUE_ARRAYED_LIST [G -> HASHABLE]
+         EL_DIRECTORY_LIST
+         EL_APPLICATION_LIST
+         EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
+            EL_FILE_PATH_LIST
+            EL_DIRECTORY_PATH_LIST
+               EL_NATIVE_DIRECTORY_PATH_LIST
+            EL_FILE_MANIFEST_LIST
             EL_STRING_LIST [S -> STRING_GENERAL create make end]
-         EL_QUERYABLE_CHAIN* [G]
-            EL_QUERYABLE_ARRAYED_LIST [G]
-      EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]
-         EL_STRING_8_IO_MEDIUM_LINE_SOURCE
-         EL_PLAIN_TEXT_LINE_SOURCE
-            EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
-         EL_ZSTRING_IO_MEDIUM_LINE_SOURCE
-      EL_LINEAR_STRINGS* [S -> STRING_GENERAL create make end]
-         EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
-         EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]
+               EL_STRING_8_LIST
+                  EVOLICITY_VARIABLE_REFERENCE
+                     EVOLICITY_FUNCTION_REFERENCE
+                  AIA_CANONICAL_REQUEST
+               EL_ZSTRING_LIST
+                  EL_XHTML_STRING_LIST
+                  XML_TAG_LIST
+                     XML_PARENT_TAG_LIST
+                     XML_VALUE_TAG_PAIR
+                  EL_ERROR_DESCRIPTION
+                     EL_COMMAND_ARGUMENT_ERROR
+                  TB_HTML_LINES
+               EL_STRING_32_LIST
+               EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
+                  EL_DATE_TEXT_TEMPLATE
+            EL_IMMUTABLE_STRING_8_LIST
+               EL_IMMUTABLE_UTF_8_LIST
+         EL_DEFAULT_COMMAND_OPTION_LIST
+         EL_NETWORK_DEVICE_LIST_I*
+            EL_NETWORK_DEVICE_LIST_IMP
+         TP_ALL_IN_LIST
+            TP_FIRST_MATCH_IN_LIST
+         JOBS_RESULT_SET
+         EL_HTTP_PARAMETER_LIST
+         EL_OPF_MANIFEST_LIST
+         EL_ARRAYED_COMPACT_INTERVAL_LIST
+         EL_DISCARDING_ARRAYED_LIST [G]
+         EL_NAMEABLES_LIST [G -> EL_NAMEABLE [READABLE_STRING_GENERAL]]
+         EL_ARRAYED_MAP_LIST [K, G]
+            EL_APPLICATION_HELP_LIST
+            EL_DECOMPRESSED_DATA_LIST
+            EL_STRING_POOL [S -> STRING_GENERAL create make end]
+            EL_BOOK_ASSEMBLY
+            EL_CONFORMING_INSTANCE_TYPE_MAP [G]
+            EL_HASHABLE_KEY_ARRAYED_MAP_LIST [K -> HASHABLE, G]
+            EL_KEY_INDEXED_ARRAYED_MAP_LIST [K -> COMPARABLE, G]
+            EL_STYLED_TEXT_LIST* [S -> STRING_GENERAL]
+               EL_STYLED_STRING_8_LIST
+               EL_STYLED_STRING_32_LIST
+               EL_STYLED_ZSTRING_LIST
+         EL_ARRAYED_RESULT_LIST [G, R]
+         EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
+            EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
+               EL_SPLIT_ZSTRING_LIST
+               EL_SPLIT_STRING_32_LIST
+               EL_SPLIT_STRING_8_LIST
+            EL_SPLIT_IMMUTABLE_STRING_LIST* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
+               EL_SPLIT_IMMUTABLE_STRING_8_LIST
+                  EL_SPLIT_IMMUTABLE_UTF_8_LIST
+               EL_SPLIT_IMMUTABLE_STRING_32_LIST
+            EL_COMPACT_ZSTRING_LIST
+            EL_IMMUTABLE_STRING_GRID* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
+               EL_IMMUTABLE_STRING_8_GRID
+               EL_IMMUTABLE_STRING_32_GRID
+         EL_TRANSLATION_ITEMS_LIST
+         TB_EMAIL_LIST
+         EL_COMMA_SEPARATED_WORDS_LIST
+         CSV_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
+         EL_ARRAYED_INTERVAL_LIST
+            TP_REPEATED_PATTERN*
+               TP_COUNT_WITHIN_BOUNDS
+                  TP_ONE_OR_MORE_TIMES
+                  TP_ZERO_OR_MORE_TIMES
+               TP_LOOP*
+                  TP_P1_UNTIL_P2_MATCH
+                  TP_P2_WHILE_NOT_P1_MATCH
+            EL_SEQUENTIAL_INTERVALS
+               EL_OCCURRENCE_INTERVALS
+                  JSON_PARSED_INTERVALS
+                     JSON_NAME_VALUE_LIST
+                        JSON_ZNAME_VALUE_LIST
+                  EL_SPLIT_INTERVALS
+                     EL_ZSTRING_SPLIT_INTERVALS
+                     EL_STRING_8_SPLIT_INTERVALS
+                     EL_STRING_32_SPLIT_INTERVALS
+                  EL_ZSTRING_OCCURRENCE_INTERVALS
+                     EL_ZSTRING_SPLIT_INTERVALS
+                     EL_ZSTRING_OCCURRENCE_EDITOR
+                  EL_STRING_8_OCCURRENCE_INTERVALS
+                     EL_STRING_8_SPLIT_INTERVALS
+                     EL_STRING_8_OCCURRENCE_EDITOR
+                  EL_STRING_32_OCCURRENCE_INTERVALS
+                     EL_STRING_32_SPLIT_INTERVALS
+                     EL_STRING_32_OCCURRENCE_EDITOR
+               JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]
+                  EL_IP_ADDRESS_META_DATA
+               EL_ZSTRING_INTERVALS
+                  EL_COMPARABLE_ZSTRING_INTERVALS* [C, S -> READABLE_INDEXABLE [C]]
+                     EL_COMPARE_ZSTRING_TO_STRING_32
+                        EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32
+                     EL_COMPARE_ZSTRING_TO_STRING_8
+                        EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
+         EL_FIELD_LIST
+         EL_ARRAYED_REPRESENTATION_LIST* [R, N]
+            DATE_LIST
+         EL_REFLECTED_REFERENCE_LIST
+         EL_QUERYABLE_ARRAYED_LIST [G]
+            ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
+               COUNTRY_DATA_TABLE
+               ECD_STORABLE_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
+            AIA_CREDENTIAL_LIST
+               AIA_STORABLE_CREDENTIAL_LIST
+         EL_PATH_STEP_TABLE
+         EL_EVENT_LISTENER_LIST
+            EL_EVENT_BROADCASTER
+         EL_XDG_DESKTOP_ENTRY_STEPS
+      EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]
+         EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
+         EL_STRING_LIST [S -> STRING_GENERAL create make end]
+      EL_QUERYABLE_CHAIN* [G]
+         EL_QUERYABLE_ARRAYED_LIST [G]
+   EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]
+      EL_STRING_8_IO_MEDIUM_LINE_SOURCE
+      EL_PLAIN_TEXT_LINE_SOURCE
+         EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE
+      EL_ZSTRING_IO_MEDIUM_LINE_SOURCE
+   EL_LINEAR_STRINGS* [S -> STRING_GENERAL create make end]
+      EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
+      EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]
 
 ````
 **Other Classes**
@@ -518,48 +518,48 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support over 50 standard field types and composite types with ad-hoc support for other classes to serialize to [EL_MEMORY_READER_WRITER](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/memory/reader-writer/el_memory_reader_writer.e).
 
 ````
-   EL_REFLECTED_FIELD*
-      EL_REFLECTED_REFERENCE [G]
-         EL_REFLECTED_REFERENCE_ANY
-         EL_REFLECTED_TEMPORAL* [G -> ABSOLUTE]
-            EL_REFLECTED_TIME
-            EL_REFLECTED_DATE_TIME
-            EL_REFLECTED_DATE
-         EL_REFLECTED_COLLECTION [G]
-         EL_REFLECTED_TUPLE
-         EL_REFLECTED_BOOLEAN_REF
-         EL_REFLECTED_MANAGED_POINTER
-         EL_REFLECTED_STORABLE
-         EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
-            EL_REFLECTED_STRING* [S -> READABLE_STRING_GENERAL create make end]
-               EL_REFLECTED_URI [U -> EL_URI create make end]
-               EL_REFLECTED_STRING_8
-               EL_REFLECTED_IMMUTABLE_STRING_8
-               EL_REFLECTED_IMMUTABLE_STRING_32
-               EL_REFLECTED_ZSTRING
-               EL_REFLECTED_STRING_32
-            EL_REFLECTED_PATH
-         EL_REFLECTED_MAKEABLE_FROM_STRING* [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
-            EL_REFLECTED_MAKEABLE_FROM_STRING_8
-            EL_REFLECTED_MAKEABLE_FROM_STRING_32
-            EL_REFLECTED_MAKEABLE_FROM_ZSTRING
-      EL_REFLECTED_EXPANDED_FIELD* [G]
-         EL_REFLECTED_NUMERIC_FIELD* [N -> NUMERIC]
-            EL_REFLECTED_INTEGER_FIELD* [N -> NUMERIC]
-               EL_REFLECTED_NATURAL_16
-               EL_REFLECTED_NATURAL_8
-               EL_REFLECTED_NATURAL_32
-               EL_REFLECTED_INTEGER_8
-               EL_REFLECTED_INTEGER_16
-               EL_REFLECTED_INTEGER_32
-               EL_REFLECTED_INTEGER_64
-               EL_REFLECTED_NATURAL_64
-            EL_REFLECTED_REAL_32
-            EL_REFLECTED_REAL_64
-         EL_REFLECTED_BOOLEAN
-         EL_REFLECTED_POINTER
-         EL_REFLECTED_CHARACTER_8
-         EL_REFLECTED_CHARACTER_32
+EL_REFLECTED_FIELD*
+   EL_REFLECTED_REFERENCE [G]
+      EL_REFLECTED_REFERENCE_ANY
+      EL_REFLECTED_TEMPORAL* [G -> ABSOLUTE]
+         EL_REFLECTED_TIME
+         EL_REFLECTED_DATE_TIME
+         EL_REFLECTED_DATE
+      EL_REFLECTED_COLLECTION [G]
+      EL_REFLECTED_TUPLE
+      EL_REFLECTED_BOOLEAN_REF
+      EL_REFLECTED_MANAGED_POINTER
+      EL_REFLECTED_STORABLE
+      EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
+         EL_REFLECTED_STRING* [S -> READABLE_STRING_GENERAL create make end]
+            EL_REFLECTED_URI [U -> EL_URI create make end]
+            EL_REFLECTED_STRING_8
+            EL_REFLECTED_IMMUTABLE_STRING_8
+            EL_REFLECTED_IMMUTABLE_STRING_32
+            EL_REFLECTED_ZSTRING
+            EL_REFLECTED_STRING_32
+         EL_REFLECTED_PATH
+      EL_REFLECTED_MAKEABLE_FROM_STRING* [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
+         EL_REFLECTED_MAKEABLE_FROM_STRING_8
+         EL_REFLECTED_MAKEABLE_FROM_STRING_32
+         EL_REFLECTED_MAKEABLE_FROM_ZSTRING
+   EL_REFLECTED_EXPANDED_FIELD* [G]
+      EL_REFLECTED_NUMERIC_FIELD* [N -> NUMERIC]
+         EL_REFLECTED_INTEGER_FIELD* [N -> NUMERIC]
+            EL_REFLECTED_NATURAL_16
+            EL_REFLECTED_NATURAL_8
+            EL_REFLECTED_NATURAL_32
+            EL_REFLECTED_INTEGER_8
+            EL_REFLECTED_INTEGER_16
+            EL_REFLECTED_INTEGER_32
+            EL_REFLECTED_INTEGER_64
+            EL_REFLECTED_NATURAL_64
+         EL_REFLECTED_REAL_32
+         EL_REFLECTED_REAL_64
+      EL_REFLECTED_BOOLEAN
+      EL_REFLECTED_POINTER
+      EL_REFLECTED_CHARACTER_8
+      EL_REFLECTED_CHARACTER_32
 ````
 
 
@@ -662,76 +662,76 @@ Window, dialogs and other widget-container extensions for the [EiffelVision2](ht
 **Container Descendants**
 
 ````
-   EV_CONTAINER*
-      EV_CELL
-         EV_VIEWPORT
-            EV_SCROLLABLE_AREA
-               EV_TOP_LEFT_SCROLLABLE_AREA
-            EL_CENTERED_VIEWPORT
-         EV_WINDOW
-            EV_TITLED_WINDOW
-               EV_DIALOG
-                  EV_UNTITLED_DIALOG
-                     EL_PROGRESS_DIALOG
-                  EV_MESSAGE_DIALOG
-                     EV_CONFIRMATION_DIALOG
-                        EL_CONFIRMATION_DIALOG
-                           EL_SAVE_CHANGES_CONFIRMATION_DIALOG
-                           EL_APPLY_CHANGES_CONFIRMATION_DIALOG
-                     EV_INFORMATION_DIALOG
-                        EL_INFORMATION_DIALOG
-                     EV_WARNING_DIALOG
-                        EL_LOCALE_WARNING_DIALOG
-                     EV_ERROR_DIALOG
-                        EL_ERROR_DIALOG
-                     EL_MESSAGE_DIALOG
-                        EL_CONFIRMATION_DIALOG
-                        EL_ERROR_DIALOG
-                        EL_INFORMATION_DIALOG
-               EL_TITLED_WINDOW
-                  EL_TITLED_TAB_BOOK_WINDOW
-                  EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER*
-         EV_MODEL_WORLD_CELL
-            EL_MODEL_WORLD_CELL
-         EV_FRAME
-            EL_FRAME [B -> EL_BOX create make end]
-         EL_EXPANDED_CELL
-      EV_WIDGET_LIST*
-         EV_BOX*
-            EV_HORIZONTAL_BOX
-               EL_DIRECTORY_USER_SELECT
-               EL_HORIZONTAL_BOX
-                  EL_DATE_INPUT_BOX
-                  EL_CONSOLE_MANAGER_TOOLBAR
-                  EL_SCROLLABLE_BOX [B -> EL_BOX create make end]
-                     EL_SCROLLABLE_PAGE
-                     EL_SCROLLABLE_VERTICAL_BOX
-                        EL_SCROLLABLE_SEARCH_RESULTS [G]
-                           EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
-                  EL_AUTO_CELL_HIDING_HORIZONTAL_BOX
-                  EL_CENTERED_VERTICAL_BOX
-                  EL_PROGRESS_METER
-                  EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
-            EV_VERTICAL_BOX
-               EL_TOOL_BAR_RADIO_BUTTON_GRID
-               EL_DOCKED_TAB_BOOK
-                  EL_SPLIT_AREA_DOCKED_TAB_BOOK
-               EL_VERTICAL_BOX
-                  EL_AUTO_CELL_HIDING_VERTICAL_BOX
-                  EL_WIDGET_PROGRESS_BOX [W -> EV_WIDGET create default_create end]
-                     EL_BUTTON_PROGRESS_BOX [B -> EV_BUTTON create default_create end]
-                  EL_PASSPHRASE_RATING_TABLE
-            EL_BOX*
-               EL_HORIZONTAL_BOX
-               EL_VERTICAL_BOX
-               EL_AUTO_CELL_HIDING_BOX*
-                  EL_AUTO_CELL_HIDING_HORIZONTAL_BOX
-                  EL_AUTO_CELL_HIDING_VERTICAL_BOX
-         EV_NOTEBOOK
-            EL_FIXED_TAB_BOOK* [W -> EV_POSITIONABLE]
-            EL_TAB_BOOK [B -> EL_BOX create make end]
-         EV_FIXED
-            EL_MIXED_STYLE_FIXED_LABELS
+EV_CONTAINER*
+   EV_CELL
+      EV_VIEWPORT
+         EV_SCROLLABLE_AREA
+            EV_TOP_LEFT_SCROLLABLE_AREA
+         EL_CENTERED_VIEWPORT
+      EV_WINDOW
+         EV_TITLED_WINDOW
+            EV_DIALOG
+               EV_UNTITLED_DIALOG
+                  EL_PROGRESS_DIALOG
+               EV_MESSAGE_DIALOG
+                  EV_CONFIRMATION_DIALOG
+                     EL_CONFIRMATION_DIALOG
+                        EL_SAVE_CHANGES_CONFIRMATION_DIALOG
+                        EL_APPLY_CHANGES_CONFIRMATION_DIALOG
+                  EV_INFORMATION_DIALOG
+                     EL_INFORMATION_DIALOG
+                  EV_WARNING_DIALOG
+                     EL_LOCALE_WARNING_DIALOG
+                  EV_ERROR_DIALOG
+                     EL_ERROR_DIALOG
+                  EL_MESSAGE_DIALOG
+                     EL_CONFIRMATION_DIALOG
+                     EL_ERROR_DIALOG
+                     EL_INFORMATION_DIALOG
+            EL_TITLED_WINDOW
+               EL_TITLED_TAB_BOOK_WINDOW
+               EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER*
+      EV_MODEL_WORLD_CELL
+         EL_MODEL_WORLD_CELL
+      EV_FRAME
+         EL_FRAME [B -> EL_BOX create make end]
+      EL_EXPANDED_CELL
+   EV_WIDGET_LIST*
+      EV_BOX*
+         EV_HORIZONTAL_BOX
+            EL_DIRECTORY_USER_SELECT
+            EL_HORIZONTAL_BOX
+               EL_DATE_INPUT_BOX
+               EL_CONSOLE_MANAGER_TOOLBAR
+               EL_SCROLLABLE_BOX [B -> EL_BOX create make end]
+                  EL_SCROLLABLE_PAGE
+                  EL_SCROLLABLE_VERTICAL_BOX
+                     EL_SCROLLABLE_SEARCH_RESULTS [G]
+                        EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
+               EL_AUTO_CELL_HIDING_HORIZONTAL_BOX
+               EL_CENTERED_VERTICAL_BOX
+               EL_PROGRESS_METER
+               EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
+         EV_VERTICAL_BOX
+            EL_TOOL_BAR_RADIO_BUTTON_GRID
+            EL_DOCKED_TAB_BOOK
+               EL_SPLIT_AREA_DOCKED_TAB_BOOK
+            EL_VERTICAL_BOX
+               EL_AUTO_CELL_HIDING_VERTICAL_BOX
+               EL_WIDGET_PROGRESS_BOX [W -> EV_WIDGET create default_create end]
+                  EL_BUTTON_PROGRESS_BOX [B -> EV_BUTTON create default_create end]
+               EL_PASSPHRASE_RATING_TABLE
+         EL_BOX*
+            EL_HORIZONTAL_BOX
+            EL_VERTICAL_BOX
+            EL_AUTO_CELL_HIDING_BOX*
+               EL_AUTO_CELL_HIDING_HORIZONTAL_BOX
+               EL_AUTO_CELL_HIDING_VERTICAL_BOX
+      EV_NOTEBOOK
+         EL_FIXED_TAB_BOOK* [W -> EV_POSITIONABLE]
+         EL_TAB_BOOK [B -> EL_BOX create make end]
+      EV_FIXED
+         EL_MIXED_STYLE_FIXED_LABELS
 
 ````
 
@@ -765,65 +765,65 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 **Primitive Widget Descendants**
 
 ````
-   EV_PRIMITIVE*
-      EV_TEXT_COMPONENT*
-         EV_TEXT_FIELD
-            EV_COMBO_BOX
-               EL_COMBO_BOX
-                  EL_DROP_DOWN_BOX [G]
-                     EL_MONTH_DROP_DOWN_BOX
-                     EL_ZSTRING_DROP_DOWN_BOX
-                        EL_LOCALE_ZSTRING_DROP_DOWN_BOX
-            EL_TEXT_FIELD
-               EL_INPUT_FIELD* [G]
-                  EL_INTEGER_INPUT_FIELD
-         EV_TEXT
-            EV_RICH_TEXT
-               EL_RICH_TEXT
+EV_PRIMITIVE*
+   EV_TEXT_COMPONENT*
+      EV_TEXT_FIELD
+         EV_COMBO_BOX
+            EL_COMBO_BOX
+               EL_DROP_DOWN_BOX [G]
+                  EL_MONTH_DROP_DOWN_BOX
+                  EL_ZSTRING_DROP_DOWN_BOX
+                     EL_LOCALE_ZSTRING_DROP_DOWN_BOX
+         EL_TEXT_FIELD
+            EL_INPUT_FIELD* [G]
+               EL_INTEGER_INPUT_FIELD
+      EV_TEXT
+         EV_RICH_TEXT
+            EL_RICH_TEXT
+         EL_TEXT
+      EL_TEXT_COMPONENT*
+         EL_UNDOABLE_TEXT_COMPONENT*
             EL_TEXT
-         EL_TEXT_COMPONENT*
-            EL_UNDOABLE_TEXT_COMPONENT*
-               EL_TEXT
-               EL_TEXT_FIELD
-      EV_LABEL
-         EL_LABEL
-            EL_WRAPPED_LABEL
-      EV_TOOL_BAR
-         EL_SHARED_RADIO_GROUP_TOOL_BAR
-      EV_DRAWING_AREA
-         EL_BUSY_PROCESS_ANIMATION
-         EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA
-         EL_TIMED_PROGRESS_BAR
-         EL_DRAWING_AREA_BASE*
-            EL_DRAWING_AREA
-               EL_DRAWING_AREA_LABEL
-            EL_CHECK_AREA
-            EL_MIXED_FONT_LABEL_AREA
-            EL_HYPERLINK_AREA
-         EL_PROGRESS_BAR
-      EV_PIXMAP
-         EL_BUTTON_PIXMAP
-         EL_PIXMAP
-            EL_DRAWING_PIXMAP*
-               EL_LABEL_PIXMAP
-            EL_SVG_PIXMAP
-               EL_SVG_TEMPLATE_PIXMAP
-                  EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP
-      EV_GAUGE*
-         EV_SCROLL_BAR*
-         EV_RANGE*
-            EV_VERTICAL_RANGE
-               EL_SCALE_SLIDER
-         EV_SPIN_BUTTON
-      EV_BUTTON
-         EV_TOGGLE_BUTTON
-            EV_CHECK_BUTTON
-               EL_CHECK_BUTTON
-            EL_TOGGLE_BUTTON
-         EL_BUTTON
-            EL_PIXMAP_BUTTON
-            EL_DECORATED_BUTTON
-         EL_COLOR_BUTTON
+            EL_TEXT_FIELD
+   EV_LABEL
+      EL_LABEL
+         EL_WRAPPED_LABEL
+   EV_TOOL_BAR
+      EL_SHARED_RADIO_GROUP_TOOL_BAR
+   EV_DRAWING_AREA
+      EL_BUSY_PROCESS_ANIMATION
+      EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA
+      EL_TIMED_PROGRESS_BAR
+      EL_DRAWING_AREA_BASE*
+         EL_DRAWING_AREA
+            EL_DRAWING_AREA_LABEL
+         EL_CHECK_AREA
+         EL_MIXED_FONT_LABEL_AREA
+         EL_HYPERLINK_AREA
+      EL_PROGRESS_BAR
+   EV_PIXMAP
+      EL_BUTTON_PIXMAP
+      EL_PIXMAP
+         EL_DRAWING_PIXMAP*
+            EL_LABEL_PIXMAP
+         EL_SVG_PIXMAP
+            EL_SVG_TEMPLATE_PIXMAP
+               EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP
+   EV_GAUGE*
+      EV_SCROLL_BAR*
+      EV_RANGE*
+         EV_VERTICAL_RANGE
+            EL_SCALE_SLIDER
+      EV_SPIN_BUTTON
+   EV_BUTTON
+      EV_TOGGLE_BUTTON
+         EV_CHECK_BUTTON
+            EL_CHECK_BUTTON
+         EL_TOGGLE_BUTTON
+      EL_BUTTON
+         EL_PIXMAP_BUTTON
+         EL_DECORATED_BUTTON
+      EL_COLOR_BUTTON
 
 ````
 
@@ -982,14 +982,14 @@ Base library for:
 The abstraction [EL_PARSE_EVENT_SOURCE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/document/scanner/event-source/el_parse_event_source.e) representing a parse-event source has 5 useful descendants:
 
 ````
-   EL_PARSE_EVENT_SOURCE*
-      EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
-      EL_EXPAT_XML_PARSER
-         EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
-         EL_EXPAT_XML_WITH_CTRL_Z_PARSER
-         EL_EXPAT_XHTML_PARSER
-      EL_DEFAULT_PARSE_EVENT_SOURCE
-      EL_PYXIS_PARSER
+EL_PARSE_EVENT_SOURCE*
+   EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
+   EL_EXPAT_XML_PARSER
+      EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
+      EL_EXPAT_XML_WITH_CTRL_Z_PARSER
+      EL_EXPAT_XHTML_PARSER
+   EL_DEFAULT_PARSE_EVENT_SOURCE
+   EL_PYXIS_PARSER
 
 
 ````
@@ -1083,54 +1083,54 @@ Being able to join*** tables via a common field is the essence of a relational d
 For a large number of chain items, performing joins can be slow without the use of field indices. *Eco-DB* offers an easy way to maintain field indices with very little code via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) which does all the work of maintaining the index. To index selected fields you just need to redefine the function *new_index_by* found in [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) as in this example:
 
 ````
-   class
-      SUBSCRIPTION_LIST
+class
+   SUBSCRIPTION_LIST
 
-   inherit
-      ECD_ARRAYED_LIST [SUBSCRIPTION]
-         rename
-            item as subscription_item
-         redefine
-            new_index_by
+inherit
+   ECD_ARRAYED_LIST [SUBSCRIPTION]
+      rename
+         item as subscription_item
+      redefine
+         new_index_by
+      end
+
+feature {NONE} -- Factory
+
+   new_index_by: TUPLE [machine_id: like new_index_by_string_8; activation_code: like new_index_by_uuid]
+      do
+         create Result
+         Result.machine_id := new_index_by_string_8 (agent machine_id_index)
+         Result.activation_code := new_index_by_uuid (agent {SUBSCRIPTION}.activation_code)
+      end
+
+feature {NONE} -- Implementation
+
+   machine_id_index (subsription: SUBSCRIPTION): STRING
+      do
+         if subsription.is_expired then
+            create Result.make_empty
+         else
+            Result := subsription.machine_id
          end
-
-   feature {NONE} -- Factory
-
-      new_index_by: TUPLE [machine_id: like new_index_by_string_8; activation_code: like new_index_by_uuid]
-         do
-            create Result
-            Result.machine_id := new_index_by_string_8 (agent machine_id_index)
-            Result.activation_code := new_index_by_uuid (agent {SUBSCRIPTION}.activation_code)
-         end
-
-   feature {NONE} -- Implementation
-
-      machine_id_index (subsription: SUBSCRIPTION): STRING
-         do
-            if subsription.is_expired then
-               create Result.make_empty
-            else
-               Result := subsription.machine_id
-            end
-         end
+      end
 
 ````
 And here is an example showing how to use the created index:
 
 ````
-   class SUBSCRIPTION_LIST
+class SUBSCRIPTION_LIST
 
-   feature -- Status query
+feature -- Status query
 
-      is_subscription_current (activation_code: EL_UUID): BOOLEAN
-         do
-            if attached index_by.activation_code as table then
-               table.search (activation_code)
-               if table.found then
-                  Result := table.found_item.is_current
-               end
+   is_subscription_current (activation_code: EL_UUID): BOOLEAN
+      do
+         if attached index_by.activation_code as table then
+            table.search (activation_code)
+            if table.found then
+               Result := table.found_item.is_current
             end
          end
+      end
 
 ````
 **2. Primary Keys**
@@ -1144,48 +1144,48 @@ Of course the Eiffel language itself can be used to query any [CHAIN](https://ww
 Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.e) found in project [Eiffel-Loop/example/manage-mp3](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/manage-mp3.pecf).
 
 ````
-   apply
-      -- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
-      -- Playlist locations will be updated to match new locations.
-      local
-         new_mp3_path: EL_FILE_PATH; song: RBOX_SONG; query_result: LIST [RBOX_SONG]
-      do
-         query_result := Database.existing_songs_query (not (song_is_cortina or song_has_normalized_mp3_path))
-         if query_result.is_empty then
-            lio.put_line ("All songs are normalized")
-         else
-            across query_result as query loop
-               song := query.item
-               ..
-            end
+apply
+   -- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
+   -- Playlist locations will be updated to match new locations.
+   local
+      new_mp3_path: EL_FILE_PATH; song: RBOX_SONG; query_result: LIST [RBOX_SONG]
+   do
+      query_result := Database.existing_songs_query (not (song_is_cortina or song_has_normalized_mp3_path))
+      if query_result.is_empty then
+         lio.put_line ("All songs are normalized")
+      else
+         across query_result as query loop
+            song := query.item
+            ..
          end
       end
+   end
 
 ````
 The routine *existing_songs_query* passes a modified form of the query to *songs* list.
 
 ````
-   existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.query
-      do
-         Result := songs.query (not song_is_hidden and condition)
-      end
+existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.query
+   do
+      Result := songs.query (not song_is_hidden and condition)
+   end
 
-   songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
+songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
 
 ````
 The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined in class [SONG_QUERY_CONDITIONS](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/database/song_query_conditions.e) which is defined as follows
 
 ````
-   class
-      SONG_QUERY_CONDITIONS
+class
+   SONG_QUERY_CONDITIONS
 
-   inherit
-      EL_QUERY_CONDITION_FACTORY [RBOX_SONG]
-         rename
-            any as any_song
-         export
-            {NONE} all
-         end
+inherit
+   EL_QUERY_CONDITION_FACTORY [RBOX_SONG]
+      rename
+         any as any_song
+      export
+         {NONE} all
+      end
 
 ````
 **META-DATA EXPORT**
@@ -1209,9 +1209,9 @@ The relevant class for importing or exporting is [ECD_REFLECTIVE_RECOVERABLE_CHA
 A record of the software version is stored in each table. By defining procedure *read_version* from class [EL_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/persistency/storable/el_storable.e)
 
 ````
-   read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
-      deferred
-      end
+read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
+   deferred
+   end
 
 ````
 it is possible to migrate data written by an earlier version of the software. If this is not required, this routine can be renamed to *read_default_version* in the inheritance section.
@@ -1380,47 +1380,47 @@ A generic producer-consumer thread communication framework where a producing thr
 *Consumer Descendants*
 
 ````
-   EL_CONSUMER* [P]
-      EL_NONE_CONSUMER [P]
-      EL_COUNT_CONSUMER*
-         EL_COUNT_CONSUMER_MAIN_THREAD*
-            EL_TIMED_PROCEDURE_MAIN_THREAD
-         EL_TIMED_PROCEDURE*
-            EL_TIMED_PROCEDURE_MAIN_THREAD
-            EL_TIMED_PROCEDURE_THREAD
-         EL_COUNT_CONSUMER_THREAD*
-            EL_TIMED_PROCEDURE_THREAD
-      EL_REGULAR_INTERVAL_EVENT_CONSUMER*
-         EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-         EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-      EL_CONSUMER_MAIN_THREAD* [P]
-         EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-         EL_COUNT_CONSUMER_MAIN_THREAD*
-         EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
-         EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [ARGS -> TUPLE create default_create end]
-      EL_PROCEDURE_CALL_CONSUMER*
-         EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
-         EL_PROCEDURE_CALL_CONSUMER_THREAD
-      EL_ACTION_ARGUMENTS_CONSUMER* [ARGS -> TUPLE create default_create end]
-         EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [ARGS -> TUPLE create default_create end]
-         EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
-            EL_BATCH_FILE_PROCESSING_THREAD*
-               EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
-      EL_CONSUMER_THREAD* [P]
-         EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-         EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
-         EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
-         EL_COUNT_CONSUMER_THREAD*
-         EL_PROCEDURE_CALL_CONSUMER_THREAD
-         EL_DELEGATING_CONSUMER_THREAD [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+EL_CONSUMER* [P]
+   EL_NONE_CONSUMER [P]
+   EL_COUNT_CONSUMER*
+      EL_COUNT_CONSUMER_MAIN_THREAD*
+         EL_TIMED_PROCEDURE_MAIN_THREAD
+      EL_TIMED_PROCEDURE*
+         EL_TIMED_PROCEDURE_MAIN_THREAD
+         EL_TIMED_PROCEDURE_THREAD
+      EL_COUNT_CONSUMER_THREAD*
+         EL_TIMED_PROCEDURE_THREAD
+   EL_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+   EL_CONSUMER_MAIN_THREAD* [P]
+      EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_COUNT_CONSUMER_MAIN_THREAD*
+      EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
+      EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [ARGS -> TUPLE create default_create end]
+   EL_PROCEDURE_CALL_CONSUMER*
+      EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
+      EL_PROCEDURE_CALL_CONSUMER_THREAD
+   EL_ACTION_ARGUMENTS_CONSUMER* [ARGS -> TUPLE create default_create end]
+      EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [ARGS -> TUPLE create default_create end]
+      EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
+         EL_BATCH_FILE_PROCESSING_THREAD*
+            EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
+   EL_CONSUMER_THREAD* [P]
+      EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
+      EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
+      EL_COUNT_CONSUMER_THREAD*
+      EL_PROCEDURE_CALL_CONSUMER_THREAD
+      EL_DELEGATING_CONSUMER_THREAD [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
 
 ````
 *Product Queue Descendants*
 
 ````
-   EL_THREAD_PRODUCT_QUEUE [P]
-      EL_PROCEDURE_CALL_QUEUE
-      EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+EL_THREAD_PRODUCT_QUEUE [P]
+   EL_PROCEDURE_CALL_QUEUE
+   EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
 
 ````
 **Specialized Threads**
@@ -1436,32 +1436,32 @@ The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I
 *Descendants*
 
 ````
-   EL_IDENTIFIED_THREAD_I*
-      EL_IDENTIFIED_MAIN_THREAD
-      EL_IDENTIFIED_THREAD*
-         EL_LOGGED_IDENTIFIED_THREAD*
-            SIMPLE_SERVER_THREAD
-            EROS_SERVER_THREAD
-         EL_CONTINUOUS_ACTION_THREAD*
-            EL_WORK_DISTRIBUTION_THREAD
-            EL_DORMANT_ACTION_LOOP_THREAD*
-               EL_REGULAR_INTERVAL_EVENT_PRODUCER
-            EL_RHYTHMIC_ACTION_THREAD*
-               EL_TIMED_COUNT_PRODUCER
-               EL_TIMEOUT
-            EL_CONSUMER_THREAD* [P]
-               EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-               EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
-               EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
-                  EL_BATCH_FILE_PROCESSING_THREAD*
-                     EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
-               EL_COUNT_CONSUMER_THREAD*
-                  EL_TIMED_PROCEDURE_THREAD
-               EL_PROCEDURE_CALL_CONSUMER_THREAD
-               EL_DELEGATING_CONSUMER_THREAD [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
-         EL_WORKER_THREAD
-         EL_FILE_PROCESS_THREAD
-            EL_LOGGED_FILE_PROCESS_THREAD
+EL_IDENTIFIED_THREAD_I*
+   EL_IDENTIFIED_MAIN_THREAD
+   EL_IDENTIFIED_THREAD*
+      EL_LOGGED_IDENTIFIED_THREAD*
+         SIMPLE_SERVER_THREAD
+         EROS_SERVER_THREAD
+      EL_CONTINUOUS_ACTION_THREAD*
+         EL_WORK_DISTRIBUTION_THREAD
+         EL_DORMANT_ACTION_LOOP_THREAD*
+            EL_REGULAR_INTERVAL_EVENT_PRODUCER
+         EL_RHYTHMIC_ACTION_THREAD*
+            EL_TIMED_COUNT_PRODUCER
+            EL_TIMEOUT
+         EL_CONSUMER_THREAD* [P]
+            EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+            EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
+            EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
+               EL_BATCH_FILE_PROCESSING_THREAD*
+                  EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
+            EL_COUNT_CONSUMER_THREAD*
+               EL_TIMED_PROCEDURE_THREAD
+            EL_PROCEDURE_CALL_CONSUMER_THREAD
+            EL_DELEGATING_CONSUMER_THREAD [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+      EL_WORKER_THREAD
+      EL_FILE_PROCESS_THREAD
+         EL_LOGGED_FILE_PROCESS_THREAD
 
 
 ````
@@ -1492,65 +1492,65 @@ Logging library featuring color highlighted output and mimicry of Eiffel routine
 The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [Eiffel Loop VTD-XML API](https://github.com/finnianr/eiffel-loop/tree/master/library/vtd-xml.pecf). The test function executes an xpath query looking for http urls in an XML document.
 
 ````
-   1> JOBSERVE_SEARCH_APP.make
-   1>   doing
-   1>     
-   1>     JOBSERVE_SEARCHER.execute
-   1>       doing
-   1>         XPATH: "/job-serve/row[type/@value='Contract']"
-   1>         Position: PMO Analyst
-   1>         Duration: [180, 270]
-   1>         Position: Business Analyst (London Market)
-   1>         Duration: [180, 180]
-   1>         Position: SAP MM consultant- English
-   1>         Duration: [371, 371]
-   1>         Position: Oracle Hyperion Strategic Finance Management Consultant
-   1>         Duration: [180, 270]
-   1>         Saving to file: "/home/finnian/Desktop/jobserve.results.html"
-   1>         
-   1>       end -- JOBSERVE_SEARCHER
-   1>     
-   1>   end -- JOBSERVE_SEARCH_APP
-   1> 
+1> JOBSERVE_SEARCH_APP.make
+1>   doing
+1>     
+1>     JOBSERVE_SEARCHER.execute
+1>       doing
+1>         XPATH: "/job-serve/row[type/@value='Contract']"
+1>         Position: PMO Analyst
+1>         Duration: [180, 270]
+1>         Position: Business Analyst (London Market)
+1>         Duration: [180, 180]
+1>         Position: SAP MM consultant- English
+1>         Duration: [371, 371]
+1>         Position: Oracle Hyperion Strategic Finance Management Consultant
+1>         Duration: [180, 270]
+1>         Saving to file: "/home/finnian/Desktop/jobserve.results.html"
+1>         
+1>       end -- JOBSERVE_SEARCHER
+1>     
+1>   end -- JOBSERVE_SEARCH_APP
+1> 
 
 
 ````
 Part of the code which produced the above output is as follows:
 
 ````
-   class
-      JOBSERVE_SEARCHER
+class
+   JOBSERVE_SEARCHER
 
-   inherit
-      EL_COMMAND
+inherit
+   EL_COMMAND
 
-      EL_MODULE_LOG
+   EL_MODULE_LOG
 
-   feature -- Basic operations
+feature -- Basic operations
 
-      execute
-         local
-            jobs_result_set: JOBS_RESULT_SET; xpath: STRING
-            root_node: EL_XPATH_ROOT_NODE_CONTEXT
-         do
-            log.enter ("execute")
-            create root_node.make_from_file (xml_path)
-            xpath := Xpath_template #$ [query_filter]
-            log.put_string_field ("XPATH", xpath)
-            log.put_new_line
-            create jobs_result_set.make (root_node, xpath)
-            across jobs_result_set as job loop
-               lio.put_labeled_string ("Position", job.item.position)
-               lio.put_new_line
-               lio.put_integer_interval_field ("Duration", job.item.duration_interval)
-               lio.put_new_line
-            end
-
-            log.put_path_field ("Saving to", results_path)
-            log.put_new_line
-            jobs_result_set.save_as_xml (results_path)
-            log.exit
+   execute
+      local
+         jobs_result_set: JOBS_RESULT_SET; xpath: STRING
+         root_node: EL_XPATH_ROOT_NODE_CONTEXT
+      do
+         log.enter ("execute")
+         create root_node.make_from_file (xml_path)
+         xpath := Xpath_template #$ [query_filter]
+         log.put_string_field ("XPATH", xpath)
+         log.put_new_line
+         create jobs_result_set.make (root_node, xpath)
+         across jobs_result_set as job loop
+            lio.put_labeled_string ("Position", job.item.position)
+            lio.put_new_line
+            lio.put_integer_interval_field ("Duration", job.item.duration_interval)
+            lio.put_new_line
          end
+
+         log.put_path_field ("Saving to", results_path)
+         log.put_new_line
+         jobs_result_set.save_as_xml (results_path)
+         log.exit
+      end
 
 ````
 Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [ARRAY [ANY]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/array_chart.html) and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY` for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
@@ -1566,15 +1566,15 @@ A number of variations exist for the enter and exit procedures in the log object
 If you do not wish to log any routine arguments you can use the form:
 
 ````
-   log.enter ("test_bio_2")
+log.enter ("test_bio_2")
 
 ````
 If you wish to suppress the routine header and trailer output text you can use the form:
 
 ````
-   log.enter_no_header ("test_bio_2")
-   ..
-   log.exit_no_trailer
+log.enter_no_header ("test_bio_2")
+..
+log.exit_no_trailer
 
 ````
 **Managing exceptions**
@@ -1582,20 +1582,20 @@ If you wish to suppress the routine header and trailer output text you can use t
 In order to maintain the integrity of the logging routine stack it is important to balance every call to log.enter with a call `log.exit` on exiting a logged routine. However if your routine has a rescue clause and an exception occurs, these exit calls are skipped not only in the current routine but also in all sub routines before the point where the exception was thrown.  If you wish to recover from the exception by doing a routine retry you need a way to restore the logging routine stack back to what it was before the first `log.enter` call at the start of the routine. You can accomplish this by saving the state of the logging stack to a local variable before the log.enter call and use this variable to restore the logging stack in the rescue clause. The following code illustrates:
 
 ````
-   my_routine is
-         -- Exception handling routine
-      local
-         log_stack_pos: INTEGER
-      do
-         log_stack_pos := log.call_stack_count
-         log.enter ("my_routine")
-         ..
-         log.exit
-      rescue
-         log.restore (log_stack_pos)
-         ..
-         retry
-      end
+my_routine is
+      -- Exception handling routine
+   local
+      log_stack_pos: INTEGER
+   do
+      log_stack_pos := log.call_stack_count
+      log.enter ("my_routine")
+      ..
+      log.exit
+   rescue
+      log.restore (log_stack_pos)
+      ..
+      retry
+   end
 
 ````
 **Including logging in your application**
@@ -1617,17 +1617,17 @@ By default logging is not active in the application. It must be turned on using 
 The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](invalid-class-name) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_client_test_app.e) illustrates:
 
 ````
-   feature {NONE} -- Implementation
+feature {NONE} -- Implementation
 
-      log_filter_set: EL_LOG_FILTER_SET [
-         like Current,
-         EROS_CALL_REQUEST_HANDLER_PROXY,
-         FFT_COMPLEX_64_PROXY
-      ]
-         do
-            create Result.make
-            Result.show_selected ({SIGNAL_MATH_PROXY}, "cosine_waveform")
-         end
+   log_filter_set: EL_LOG_FILTER_SET [
+      like Current,
+      EROS_CALL_REQUEST_HANDLER_PROXY,
+      FFT_COMPLEX_64_PROXY
+   ]
+      do
+         create Result.make
+         Result.show_selected ({SIGNAL_MATH_PROXY}, "cosine_waveform")
+      end
 
 ````
 The class filter is compared only with the generating class name so all child classes in a particular inheritance tree must be listed individually.
@@ -1641,7 +1641,7 @@ A list of command options which effect the logging system can be found in class 
 For debugging purposes you may wish to pause execution on the exit of each logged routine. The following call causes the application to stop execution on the exit of every logged routine and prompts the user to press enter to continue:
 
 ````
-   Logging.set_prompt_user_on_exit (true)
+Logging.set_prompt_user_on_exit (true)
 
 ````
 The logging object is available in the root class or by inheriting [EL_MODULE_LOGGING](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_module_logging.e).
@@ -1651,24 +1651,24 @@ The logging object is available in the root class or by inheriting [EL_MODULE_LO
 Logging a separate thread just requires that you inherit from [EL_LOGGED_IDENTIFIED_THREAD](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/concurrency/thread/el_logged_identified_thread.e) and make sure the routine `on_start` gets called. It will anyway unless you do something to over-ride this routine.
 
 ````
-   feature {NONE} -- Event handling
+feature {NONE} -- Event handling
 
-      on_start
-         do
-            Log_manager.add_thread (Current)
-         end
+   on_start
+      do
+         Log_manager.add_thread (Current)
+      end
 
 ````
 By default it is the log output of the main thread that is visible in the console terminal. To change the logging output visible in the console to another thread call redirect_thread_to_console with the thread's index. The index of the main launch thread is 1. Subsequently added threads have indexes of 2, 3, 4 etc. Use function is_valid_console_index to check if the index is valid.
 
 ````
-   Log_manager.redirect_thread_to_console (index)
+Log_manager.redirect_thread_to_console (index)
 
 ````
 It is this index which is displayed as part of the log output prompt. If you are not sure what the index of the thread is you can obtain it from the thread name with a call like:
 
 ````
-   my_thread_index := Log_manager.thread_index ("My thread")
+my_thread_index := Log_manager.thread_index ("My thread")
 
 ````
 **Synchronization Monitor**
@@ -1682,7 +1682,7 @@ Access to the logging routines is through feature log of class [EL_MODULE_LOG](h
 The procedure form: 
 
 ````
-   put_<lowercase type name>
+put_<lowercase type name>
 
 ````
 is use to output the following types: ${STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64'.
@@ -1690,7 +1690,7 @@ is use to output the following types: ${STRING_8, INTEGER_32, CHARACTER_8, REAL_
 The procedure form:
 
 ````
-   put_<lowercase type name>_field
+put_<lowercase type name>_field
 
 ````
 is used to output the following types prefixed with a field label: `STRING, INTEGER, INTEGER_INTERVAL, REAL and DOUBLE`.
@@ -1710,13 +1710,13 @@ Use the command line switch `-keep_logs`. The log files will not be deleted and 
 If you are using the Eiffel Loop multi application mode framework then the log files are placed in the following subdirectory of the user home directory derived from the executable name and sub application name.
 
 ````
-   /<user>/home/.<executable name>/<sub app name>/logs   
+/<user>/home/.<executable name>/<sub app name>/logs   
 
 ````
 For example if the executable is named foo and the sub application is bar then for user joeblogs the log directory path is:
 
 ````
-   /joeblogs/home/.foo/bar/logs
+/joeblogs/home/.foo/bar/logs
 
 ````
 **Commenting out log lines**
@@ -1882,7 +1882,7 @@ Command switch: `-library_override`:
 [REPOSITORY_NOTE_LINK_CHECKER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.e) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/eiffel_view_app.e) publishing configuration. Write the expanded output to file named as follows:
 
 ````
-   <file name>.expanded.<file extension>
+<file name>.expanded.<file extension>
 
 ````
 An incidental function is to expand all tabs in the markup as 3 spaces.
@@ -2057,11 +2057,11 @@ See class [C_LANGUAGE_INTERFACE_AUTOTEST_APP](https://github.com/finnianr/eiffel
 Eiffel coding experiments and classes containing test data that are used in the following projects:
 
 ````
-   benchmark/benchmark.ecf
-   test/test.ecf
-   test/eiffel2java/eiffel2java.ecf
-   tool/toolkit/toolkit.ecf
-   tool/eiffel/eiffel.ecf
+benchmark/benchmark.ecf
+test/test.ecf
+test/eiffel2java/eiffel2java.ecf
+tool/toolkit/toolkit.ecf
+tool/eiffel/eiffel.ecf
 
 ````
 
@@ -2162,155 +2162,155 @@ Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/applic
 **Autotest Sub-applications**
 
 ````
-   EL_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
-      MULTIMEDIA_AUTOTEST_APP
-      EL_CRC_32_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
-         TAGLIB_AUTOTEST_APP
-         NETWORK_AUTOTEST_APP
-         ECO_DB_AUTOTEST_APP
-         EVOLICITY_AUTOTEST_APP
-         I18N_AUTOTEST_APP
-         IMAGE_UTILS_AUTOTEST_APP
-         OPEN_OFFICE_AUTOTEST_APP
-         THUNDERBIRD_AUTOTEST_APP
-         PYXIS_SCAN_AUTOTEST_APP
-         TEXT_FORMATS_AUTOTEST_APP
-         VTD_XML_AUTOTEST_APP
-         XML_SCAN_AUTOTEST_APP
-      AMAZON_INSTANT_ACCESS_AUTOTEST_APP
-      BASE_AUTOTEST_APP
-      C_LANGUAGE_INTERFACE_AUTOTEST_APP
-      COMPRESSION_AUTOTEST_APP
-      CURRENCY_AUTOTEST_APP
-      EIFFEL_AUTOTEST_APP
-      ENCRYPTION_AUTOTEST_APP
-      FILE_PROCESSING_AUTOTEST_APP
-      OS_COMMAND_AUTOTEST_APP
-      PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP
-      PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP
-      SEARCH_ENGINE_AUTOTEST_APP
-      TEXT_PROCESS_AUTOTEST_APP
-      EROS_AUTOTEST_APP
-      HTTP_CLIENT_AUTOTEST_APP
+EL_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
+   MULTIMEDIA_AUTOTEST_APP
+   EL_CRC_32_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
+      TAGLIB_AUTOTEST_APP
+      NETWORK_AUTOTEST_APP
+      ECO_DB_AUTOTEST_APP
+      EVOLICITY_AUTOTEST_APP
+      I18N_AUTOTEST_APP
+      IMAGE_UTILS_AUTOTEST_APP
+      OPEN_OFFICE_AUTOTEST_APP
+      THUNDERBIRD_AUTOTEST_APP
+      PYXIS_SCAN_AUTOTEST_APP
+      TEXT_FORMATS_AUTOTEST_APP
+      VTD_XML_AUTOTEST_APP
+      XML_SCAN_AUTOTEST_APP
+   AMAZON_INSTANT_ACCESS_AUTOTEST_APP
+   BASE_AUTOTEST_APP
+   C_LANGUAGE_INTERFACE_AUTOTEST_APP
+   COMPRESSION_AUTOTEST_APP
+   CURRENCY_AUTOTEST_APP
+   EIFFEL_AUTOTEST_APP
+   ENCRYPTION_AUTOTEST_APP
+   FILE_PROCESSING_AUTOTEST_APP
+   OS_COMMAND_AUTOTEST_APP
+   PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP
+   PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP
+   SEARCH_ENGINE_AUTOTEST_APP
+   TEXT_PROCESS_AUTOTEST_APP
+   EROS_AUTOTEST_APP
+   HTTP_CLIENT_AUTOTEST_APP
 
 
 ````
 **General Test Sub-applications**
 
 ````
-   EL_APPLICATION*
-      EL_STANDARD_REMOVE_DATA_APP
-      EL_LOGGED_APPLICATION*
-         BEXT_CLIENT_TEST_APP
-         FOURIER_MATH_CLIENT_TEST_APP
-         EL_LOGGED_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]
-            EROS_SERVER_APPLICATION* [C -> EROS_SERVER_COMMAND create make end]
-               BEXT_SERVER_TEST_APP
-               FOURIER_MATH_SERVER_TEST_APP
-      EL_BATCH_AUTOTEST_APP
-         AUTOTEST_APP
-      EL_VERSION_APP
-      EL_STANDARD_UNINSTALL_APP
-      EL_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]
-         EL_LOGGED_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]
+EL_APPLICATION*
+   EL_STANDARD_REMOVE_DATA_APP
+   EL_LOGGED_APPLICATION*
+      BEXT_CLIENT_TEST_APP
+      FOURIER_MATH_CLIENT_TEST_APP
+      EL_LOGGED_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]
+         EROS_SERVER_APPLICATION* [C -> EROS_SERVER_COMMAND create make end]
+            BEXT_SERVER_TEST_APP
+            FOURIER_MATH_SERVER_TEST_APP
+   EL_BATCH_AUTOTEST_APP
+      AUTOTEST_APP
+   EL_VERSION_APP
+   EL_STANDARD_UNINSTALL_APP
+   EL_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]
+      EL_LOGGED_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]
 
 ````
 **Test Sets**
 
 ````
-   EL_EQA_TEST_SET*
-      EL_FILE_DATA_TEST_SET*
-         AUDIO_COMMAND_TEST_SET
-         EL_COPIED_FILE_DATA_TEST_SET*
-            TAGLIB_TEST_SET
-            FTP_TEST_SET
-            SIMPLE_CLIENT_SERVER_TEST_SET
-            FILE_LOCKING_TEST_SET
-            PYXIS_TO_XML_TEST_SET
-            RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
-            EIFFEL_PARSING_TEST_SET
-            JOBSERVE_SEARCHER_TEST_SET
-            XML_TO_PYXIS_CONVERTER_TEST_SET
-         AMAZON_INSTANT_ACCESS_TEST_SET
-         DATA_DIGESTS_TEST_SET
-         GENERAL_TEST_SET
-         COM_OBJECT_TEST_SET
-         ECD_READER_WRITER_TEST_SET
-         SEARCH_ENGINE_TEST_SET
-            ENCRYPTED_SEARCH_ENGINE_TEST_SET
-         OBJECT_BUILDER_TEST_SET
-         REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
-         HTTP_CONNECTION_TEST_SET
-         EL_COPIED_DIRECTORY_DATA_TEST_SET*
-            COMPRESSION_TEST_SET
-            ENCRYPTION_TEST_SET
-            EVOLICITY_TEST_SET
-            OS_COMMAND_TEST_SET
-            COPIED_SVG_DIRECTORY_DATA_TEST_SET*
-               IMAGE_UTILS_TEST_SET
-            THUNDERBIRD_EQA_TEST_SET*
-               THUNDERBIRD_EXPORT_TEST_SET
-         EL_GENERATED_FILE_DATA_TEST_SET*
-            HELP_PAGES_TEST_SET*
-               FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
-               FILE_SYNC_MANAGER_TEST_SET
-               FILE_AND_DIRECTORY_TEST_SET
-      ZSTRING_TEST_SET
-      NETWORK_TEST_SET
-      ARRAYED_LIST_TEST_SET
-      CHARACTER_TEST_SET
-      CONTAINER_STRUCTURE_TEST_SET
-         WIDGET_TEST_SET
-      DATE_TIME_TEST_SET
-      EIFFEL_NAME_TRANSLATEABLE_TEST_SET
-      BASE_POWER_2_CONVERTER_TEST_SET
-      REFLECTION_TEST_SET
-      SE_ARRAY2_TEST_SET
-      SPLIT_STRING_TEST_SET
-      STRING_CONVERSION_TEST_SET
-      STRING_ITERATION_CURSOR_TEST_SET
-      STRING_TEST_SET
-      SUBSTRING_32_ARRAY_TEST_SET
-      TEMPLATE_TEST_SET
-      URI_TEST_SET
-      UTF_CONVERTER_TEST_SET
-      ZSTRING_EDITOR_TEST_SET
-      ZSTRING_TOKEN_TABLE_TEST_SET
-      CURRENCY_TEST_SET
-      AGENT_TEST_SET
-      DATE_TIME_2_TEST_SET
-      EIFFEL_TEST_SET
-      FILE_TEST_SET
-      NUMERIC_TEST_SET
-      STRUCTURE_TEST_SET
-      TEXT_DATA_TEST_SET
-      TUPLE_TEST_SET
-      TYPE_TEST_SET
-      UUID_TEST_SET
-      DIGEST_ROUTINES_TEST_SET
-      PAYPAL_TEST_SET
-      COMMA_SEPARATED_IMPORT_TEST_SET
-      DOC_TYPE_TEST_SET
-      JSON_PARSING_TEST_SET
-      PATTERN_MATCH_TEST_SET
-         STRING_32_PATTERN_MATCH_TEST_SET
-         ZSTRING_PATTERN_MATCH_TEST_SET
-      STRING_EDITION_HISTORY_TEST_SET
-      EROS_TEST_SET
-      EL_DIRECTORY_CONTEXT_TEST_SET*
-         XML_TEST_SET
-         VTD_XML_TEST_SET
-         EIFFEL_LOOP_TEST_SET*
-            I18N_LOCALIZATION_TEST_SET
-            OPEN_OFFICE_TEST_SET
-            CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
-            DOCUMENT_NODE_STRING_TEST_SET
-            PATH_TEST_SET
-      EL_TEST_DATA_TEST_SET*
-      EL_DEFAULT_TEST_SET
-      BIT_ROUTINE_TEST_SET
-      HASH_TABLE_TEST_SET
-      MARKUP_ESCAPE_TEST_SET
+EL_EQA_TEST_SET*
+   EL_FILE_DATA_TEST_SET*
+      AUDIO_COMMAND_TEST_SET
+      EL_COPIED_FILE_DATA_TEST_SET*
+         TAGLIB_TEST_SET
+         FTP_TEST_SET
+         SIMPLE_CLIENT_SERVER_TEST_SET
+         FILE_LOCKING_TEST_SET
+         PYXIS_TO_XML_TEST_SET
+         RSA_PUBLIC_KEY_ENCRYPTION_TEST_SET
+         EIFFEL_PARSING_TEST_SET
+         JOBSERVE_SEARCHER_TEST_SET
+         XML_TO_PYXIS_CONVERTER_TEST_SET
+      AMAZON_INSTANT_ACCESS_TEST_SET
+      DATA_DIGESTS_TEST_SET
+      GENERAL_TEST_SET
+      COM_OBJECT_TEST_SET
+      ECD_READER_WRITER_TEST_SET
+      SEARCH_ENGINE_TEST_SET
+         ENCRYPTED_SEARCH_ENGINE_TEST_SET
+      OBJECT_BUILDER_TEST_SET
+      REFLECTIVE_BUILDABLE_AND_STORABLE_TEST_SET
+      HTTP_CONNECTION_TEST_SET
+      EL_COPIED_DIRECTORY_DATA_TEST_SET*
+         COMPRESSION_TEST_SET
+         ENCRYPTION_TEST_SET
+         EVOLICITY_TEST_SET
+         OS_COMMAND_TEST_SET
+         COPIED_SVG_DIRECTORY_DATA_TEST_SET*
+            IMAGE_UTILS_TEST_SET
+         THUNDERBIRD_EQA_TEST_SET*
+            THUNDERBIRD_EXPORT_TEST_SET
+      EL_GENERATED_FILE_DATA_TEST_SET*
+         HELP_PAGES_TEST_SET*
+            FILE_TREE_INPUT_OUTPUT_COMMAND_TEST_SET
+            FILE_SYNC_MANAGER_TEST_SET
+            FILE_AND_DIRECTORY_TEST_SET
+   ZSTRING_TEST_SET
+   NETWORK_TEST_SET
+   ARRAYED_LIST_TEST_SET
+   CHARACTER_TEST_SET
+   CONTAINER_STRUCTURE_TEST_SET
+      WIDGET_TEST_SET
+   DATE_TIME_TEST_SET
+   EIFFEL_NAME_TRANSLATEABLE_TEST_SET
+   BASE_POWER_2_CONVERTER_TEST_SET
+   REFLECTION_TEST_SET
+   SE_ARRAY2_TEST_SET
+   SPLIT_STRING_TEST_SET
+   STRING_CONVERSION_TEST_SET
+   STRING_ITERATION_CURSOR_TEST_SET
+   STRING_TEST_SET
+   SUBSTRING_32_ARRAY_TEST_SET
+   TEMPLATE_TEST_SET
+   URI_TEST_SET
+   UTF_CONVERTER_TEST_SET
+   ZSTRING_EDITOR_TEST_SET
+   ZSTRING_TOKEN_TABLE_TEST_SET
+   CURRENCY_TEST_SET
+   AGENT_TEST_SET
+   DATE_TIME_2_TEST_SET
+   EIFFEL_TEST_SET
+   FILE_TEST_SET
+   NUMERIC_TEST_SET
+   STRUCTURE_TEST_SET
+   TEXT_DATA_TEST_SET
+   TUPLE_TEST_SET
+   TYPE_TEST_SET
+   UUID_TEST_SET
+   DIGEST_ROUTINES_TEST_SET
+   PAYPAL_TEST_SET
+   COMMA_SEPARATED_IMPORT_TEST_SET
+   DOC_TYPE_TEST_SET
+   JSON_PARSING_TEST_SET
+   PATTERN_MATCH_TEST_SET
+      STRING_32_PATTERN_MATCH_TEST_SET
+      ZSTRING_PATTERN_MATCH_TEST_SET
+   STRING_EDITION_HISTORY_TEST_SET
+   EROS_TEST_SET
+   EL_DIRECTORY_CONTEXT_TEST_SET*
+      XML_TEST_SET
+      VTD_XML_TEST_SET
+      EIFFEL_LOOP_TEST_SET*
+         I18N_LOCALIZATION_TEST_SET
+         OPEN_OFFICE_TEST_SET
+         CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
+         DOCUMENT_NODE_STRING_TEST_SET
+         PATH_TEST_SET
+   EL_TEST_DATA_TEST_SET*
+   EL_DEFAULT_TEST_SET
+   BIT_ROUTINE_TEST_SET
+   HASH_TABLE_TEST_SET
+   MARKUP_ESCAPE_TEST_SET
 ````
 
 
