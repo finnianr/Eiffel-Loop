@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 16:16:54 GMT (Wednesday 24th January 2024)"
-	revision: "29"
+	date: "2024-01-24 18:16:01 GMT (Wednesday 24th January 2024)"
+	revision: "30"
 
 class
 	MARKDOWN_TRANSLATER
@@ -27,9 +27,7 @@ inherit
 			new_line as new_line_character
 		end
 
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_ZSTRING_CONSTANTS; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make

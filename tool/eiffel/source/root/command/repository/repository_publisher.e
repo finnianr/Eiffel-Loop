@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-19 14:22:25 GMT (Friday 19th January 2024)"
-	revision: "73"
+	date: "2024-01-25 10:32:33 GMT (Thursday 25th January 2024)"
+	revision: "74"
 
 class
 	REPOSITORY_PUBLISHER
@@ -115,7 +115,6 @@ feature -- Basic operations
 
 	execute
 		local
-			github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 			sync_manager: EL_FILE_SYNC_MANAGER; current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM]
 			update_checker: EIFFEL_CLASS_UPDATE_CHECKER
 		do
@@ -140,7 +139,6 @@ feature -- Basic operations
 				end
 				current_set.put (page.item)
 			end
-			create github_contents.make (Current, output_dir + "Contents.md")
 			github_contents.serialize
 			write_version
 
@@ -199,6 +197,11 @@ feature {NONE} -- Implementation
 				create converter.make (pecf_path, ecf_path)
 				converter.execute
 			end
+		end
+
+	github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN
+		do
+			create Result.make (Current, output_dir + "Contents.md")
 		end
 
 	login (medium: EL_FILE_SYNC_MEDIUM)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 8:43:00 GMT (Saturday 3rd December 2022)"
-	revision: "9"
+	date: "2024-01-25 10:25:19 GMT (Thursday 25th January 2024)"
+	revision: "10"
 
 class
 	EL_PYTHON_INTERPRETER
@@ -100,7 +100,7 @@ feature -- Nested attribute values
 	): PYTHON_SEQUENCE
 			-- create Python sequence from generator iteration statement of form:
 			--
-			-- 		[<lambda_expression> for <assignment_list> in <sequence_attribute_specifier> if <filter_expression>]
+			-- 	[<lambda_expression> for <assignment_list> in <sequence_attribute_specifier> if <filter_expression>]
 		local
 			sequence_expression: STRING
 		do

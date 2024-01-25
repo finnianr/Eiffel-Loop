@@ -8,7 +8,7 @@ system:
 		"""
 			Python Interface
 
-			Some extensions to Daniel RodrÃ­guez's
+			Some extensions to Daniel Rodríguez's
 			[https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE PEPE library for Eiffel].
 			This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags
 			in an MP3 file: ${EL_EYED3_TAG}.

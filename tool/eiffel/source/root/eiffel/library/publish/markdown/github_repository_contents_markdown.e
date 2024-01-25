@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-01-25 10:34:00 GMT (Thursday 25th January 2024)"
+	revision: "9"
 
 class
 	GITHUB_REPOSITORY_CONTENTS_MARKDOWN
 
 inherit
 	EVOLICITY_SERIALIZEABLE
+		redefine
+			is_bom_enabled
+		end
 
 create
 	make
@@ -25,6 +28,10 @@ feature {NONE} -- Initialization
 			repository := a_repository
 			make_from_file (a_output_path)
 		end
+
+feature -- Status query
+
+	is_bom_enabled: BOOLEAN = True
 
 feature {NONE} -- Evolicity fields
 

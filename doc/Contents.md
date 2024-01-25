@@ -858,7 +858,7 @@ See [example/eiffel2java/eiffel2java.ecf](https://github.com/finnianr/eiffel-loo
 
 ## Python Interface
 
-Some extensions to Daniel RodrÃ­guez's [PEPE library for Eiffel](https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE). This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [EL_EYED3_TAG](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Python/example/el_eyed3_tag.e).
+Some extensions to Daniel Rodríguez's [PEPE library for Eiffel](https://github.com/finnianr/Eiffel-Loop/tree/master/contrib/Eiffel/PEPE). This library allows you to call Python objects from Eiffel. Here is one example to query ID3 tags in an MP3 file: [EL_EYED3_TAG](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Python/example/el_eyed3_tag.e).
 
 ## Matlab
 
