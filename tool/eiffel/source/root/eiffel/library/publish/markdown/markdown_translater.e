@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-25 16:51:05 GMT (Thursday 25th January 2024)"
-	revision: "32"
+	date: "2024-01-25 17:09:09 GMT (Thursday 25th January 2024)"
+	revision: "33"
 
 class
 	MARKDOWN_TRANSLATER
@@ -95,7 +95,7 @@ feature {NONE} -- Line states
 	add_normal_text (line: ZSTRING)
 		do
 			if line.starts_with_character ('%T') then
-				extend_code_block_marker
+				line_type_list.extend (Code_marker, Eiffel_code_marker)
 				state := state_add_code_lines
 				add_code_lines (line)
 
@@ -120,7 +120,7 @@ feature {NONE} -- Line states
 
 	close_code_block (line: ZSTRING)
 		do
-			extend_code_block_marker
+			line_type_list.extend (Code_marker, char ('`') * 4)
 			state := agent add_normal_text
 			add_normal_text (line)
 		end
@@ -136,11 +136,6 @@ feature {NONE} -- Implementation
 				Result.remove_extension
 			end
 			Result.add_extension (Extension.pecf)
-		end
-
-	extend_code_block_marker
-		do
-			line_type_list.extend (Code_marker, char ('`') * 4)
 		end
 
 	normalized_paragraphs (markdown_lines: EL_ZSTRING_LIST): EL_ZSTRING_LIST
@@ -287,6 +282,11 @@ feature {NONE} -- Constants
 	Link_types: EL_ZSTRING_LIST
 		once
 			Result := "[http://, [https://, [./"
+		end
+
+	Eiffel_code_marker: ZSTRING
+		once
+			Result := char ('`').to_string + "eiffel"
 		end
 
 end

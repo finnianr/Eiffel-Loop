@@ -24,7 +24,7 @@ This is a full-blown MP3 collection manager that is designed to work in conjunct
 
 **Manger Syntax**
 
-````
+`eiffel
 el_rhythmbox -manager -config <task-configuration>.pyx
 
 ````
@@ -34,7 +34,7 @@ el_rhythmbox -manager -config <task-configuration>.pyx
 * Automatically add album art to MP3 files from a directory based on album name or artist name.
 * Collate songs into a directory structure according to song tags:
 
-````
+`eiffel
 <genre>/<artist-name>/<song-title>.<unique id>.mp3
 
 ````
@@ -212,7 +212,7 @@ Various hash-table, array, list, chain and linear types
 
 **Hash Tables**
 
-````
+`eiffel
 HASH_TABLE [G, K -> HASHABLE]
    SED_OBJECTS_TABLE
    CLASS_NAME_TRANSLATIONS
@@ -300,7 +300,7 @@ HASH_TABLE [G, K -> HASHABLE]
 ````
 **Linear Chains**
 
-````
+`eiffel
 EL_LINEAR* [G]
    EL_CHAIN* [G]
       EL_ARRAYED_LIST [G]
@@ -517,7 +517,7 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 * Support for extracting useful type information from agents in an easily accessible form.
 * Support over 50 standard field types and composite types with ad-hoc support for other classes to serialize to [EL_MEMORY_READER_WRITER](https://github.com/finnianr/eiffel-loop/tree/master/library/base/runtime/memory/reader-writer/el_memory_reader_writer.e).
 
-````
+`eiffel
 EL_REFLECTED_FIELD*
    EL_REFLECTED_REFERENCE [G]
       EL_REFLECTED_REFERENCE_ANY
@@ -661,7 +661,7 @@ Window, dialogs and other widget-container extensions for the [EiffelVision2](ht
 
 **Container Descendants**
 
-````
+`eiffel
 EV_CONTAINER*
    EV_CELL
       EV_VIEWPORT
@@ -764,7 +764,7 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 
 **Primitive Widget Descendants**
 
-````
+`eiffel
 EV_PRIMITIVE*
    EV_TEXT_COMPONENT*
       EV_TEXT_FIELD
@@ -981,7 +981,7 @@ Base library for:
 
 The abstraction [EL_PARSE_EVENT_SOURCE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/document/scanner/event-source/el_parse_event_source.e) representing a parse-event source has 5 useful descendants:
 
-````
+`eiffel
 EL_PARSE_EVENT_SOURCE*
    EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
    EL_EXPAT_XML_PARSER
@@ -1082,7 +1082,7 @@ Being able to join*** tables via a common field is the essence of a relational d
 
 For a large number of chain items, performing joins can be slow without the use of field indices. *Eco-DB* offers an easy way to maintain field indices with very little code via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) which does all the work of maintaining the index. To index selected fields you just need to redefine the function *new_index_by* found in [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) as in this example:
 
-````
+`eiffel
 class
    SUBSCRIPTION_LIST
 
@@ -1117,7 +1117,7 @@ feature {NONE} -- Implementation
 ````
 And here is an example showing how to use the created index:
 
-````
+`eiffel
 class SUBSCRIPTION_LIST
 
 feature -- Status query
@@ -1143,7 +1143,7 @@ Of course the Eiffel language itself can be used to query any [CHAIN](https://ww
 
 Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.e) found in project [Eiffel-Loop/example/manage-mp3](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/manage-mp3.pecf).
 
-````
+`eiffel
 apply
    -- sort mp3 files into directories according to genre and artist set in Rhythmbox music library Database.
    -- Playlist locations will be updated to match new locations.
@@ -1164,7 +1164,7 @@ apply
 ````
 The routine *existing_songs_query* passes a modified form of the query to *songs* list.
 
-````
+`eiffel
 existing_songs_query (condition: EL_QUERY_CONDITION [RBOX_SONG]): like songs.query
    do
       Result := songs.query (not song_is_hidden and condition)
@@ -1175,7 +1175,7 @@ songs: EL_QUERYABLE_ARRAYED_LIST [RBOX_SONG]
 ````
 The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined in class [SONG_QUERY_CONDITIONS](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/database/song_query_conditions.e) which is defined as follows
 
-````
+`eiffel
 class
    SONG_QUERY_CONDITIONS
 
@@ -1208,7 +1208,7 @@ The relevant class for importing or exporting is [ECD_REFLECTIVE_RECOVERABLE_CHA
 
 A record of the software version is stored in each table. By defining procedure *read_version* from class [EL_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/persistency/storable/el_storable.e)
 
-````
+`eiffel
 read_version (a_reader: EL_MEMORY_READER_WRITER; version: NATURAL)
    deferred
    end
@@ -1379,7 +1379,7 @@ A generic producer-consumer thread communication framework where a producing thr
 
 *Consumer Descendants*
 
-````
+`eiffel
 EL_CONSUMER* [P]
    EL_NONE_CONSUMER [P]
    EL_COUNT_CONSUMER*
@@ -1417,7 +1417,7 @@ EL_CONSUMER* [P]
 ````
 *Product Queue Descendants*
 
-````
+`eiffel
 EL_THREAD_PRODUCT_QUEUE [P]
    EL_PROCEDURE_CALL_QUEUE
    EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
@@ -1435,7 +1435,7 @@ The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I
 
 *Descendants*
 
-````
+`eiffel
 EL_IDENTIFIED_THREAD_I*
    EL_IDENTIFIED_MAIN_THREAD
    EL_IDENTIFIED_THREAD*
@@ -1491,7 +1491,7 @@ Logging library featuring color highlighted output and mimicry of Eiffel routine
 
 The beauty of Eiffel-Loop logging is that the output is indented to show the entry and exit from routines. Each entry and exit to a routine is documented with a header and trailer output text based on the class name and routine name. The following is some sample output from a test program for the [Eiffel Loop VTD-XML API](https://github.com/finnianr/eiffel-loop/tree/master/library/vtd-xml.pecf). The test function executes an xpath query looking for http urls in an XML document.
 
-````
+`eiffel
 1> JOBSERVE_SEARCH_APP.make
 1>   doing
 1>     
@@ -1517,7 +1517,7 @@ The beauty of Eiffel-Loop logging is that the output is indented to show the ent
 ````
 Part of the code which produced the above output is as follows:
 
-````
+`eiffel
 class
    JOBSERVE_SEARCHER
 
@@ -1565,13 +1565,13 @@ A number of variations exist for the enter and exit procedures in the log object
 
 If you do not wish to log any routine arguments you can use the form:
 
-````
+`eiffel
 log.enter ("test_bio_2")
 
 ````
 If you wish to suppress the routine header and trailer output text you can use the form:
 
-````
+`eiffel
 log.enter_no_header ("test_bio_2")
 ..
 log.exit_no_trailer
@@ -1581,7 +1581,7 @@ log.exit_no_trailer
 
 In order to maintain the integrity of the logging routine stack it is important to balance every call to log.enter with a call `log.exit` on exiting a logged routine. However if your routine has a rescue clause and an exception occurs, these exit calls are skipped not only in the current routine but also in all sub routines before the point where the exception was thrown.  If you wish to recover from the exception by doing a routine retry you need a way to restore the logging routine stack back to what it was before the first `log.enter` call at the start of the routine. You can accomplish this by saving the state of the logging stack to a local variable before the log.enter call and use this variable to restore the logging stack in the rescue clause. The following code illustrates:
 
-````
+`eiffel
 my_routine is
       -- Exception handling routine
    local
@@ -1616,7 +1616,7 @@ By default logging is not active in the application. It must be turned on using 
 
 The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](invalid-class-name) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_client_test_app.e) illustrates:
 
-````
+`eiffel
 feature {NONE} -- Implementation
 
    log_filter_set: EL_LOG_FILTER_SET [
@@ -1640,7 +1640,7 @@ A list of command options which effect the logging system can be found in class 
 
 For debugging purposes you may wish to pause execution on the exit of each logged routine. The following call causes the application to stop execution on the exit of every logged routine and prompts the user to press enter to continue:
 
-````
+`eiffel
 Logging.set_prompt_user_on_exit (true)
 
 ````
@@ -1650,7 +1650,7 @@ The logging object is available in the root class or by inheriting [EL_MODULE_LO
 
 Logging a separate thread just requires that you inherit from [EL_LOGGED_IDENTIFIED_THREAD](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/concurrency/thread/el_logged_identified_thread.e) and make sure the routine `on_start` gets called. It will anyway unless you do something to over-ride this routine.
 
-````
+`eiffel
 feature {NONE} -- Event handling
 
    on_start
@@ -1661,13 +1661,13 @@ feature {NONE} -- Event handling
 ````
 By default it is the log output of the main thread that is visible in the console terminal. To change the logging output visible in the console to another thread call redirect_thread_to_console with the thread's index. The index of the main launch thread is 1. Subsequently added threads have indexes of 2, 3, 4 etc. Use function is_valid_console_index to check if the index is valid.
 
-````
+`eiffel
 Log_manager.redirect_thread_to_console (index)
 
 ````
 It is this index which is displayed as part of the log output prompt. If you are not sure what the index of the thread is you can obtain it from the thread name with a call like:
 
-````
+`eiffel
 my_thread_index := Log_manager.thread_index ("My thread")
 
 ````
@@ -1681,7 +1681,7 @@ Access to the logging routines is through feature log of class [EL_MODULE_LOG](h
 
 The procedure form: 
 
-````
+`eiffel
 put_<lowercase type name>
 
 ````
@@ -1689,7 +1689,7 @@ is use to output the following types: ${STRING_8, INTEGER_32, CHARACTER_8, REAL_
 
 The procedure form:
 
-````
+`eiffel
 put_<lowercase type name>_field
 
 ````
@@ -1709,13 +1709,13 @@ Use the command line switch `-keep_logs`. The log files will not be deleted and 
 
 If you are using the Eiffel Loop multi application mode framework then the log files are placed in the following subdirectory of the user home directory derived from the executable name and sub application name.
 
-````
+`eiffel
 /<user>/home/.<executable name>/<sub app name>/logs   
 
 ````
 For example if the executable is named foo and the sub application is bar then for user joeblogs the log directory path is:
 
-````
+`eiffel
 /joeblogs/home/.foo/bar/logs
 
 ````
@@ -1881,7 +1881,7 @@ Command switch: `-library_override`:
 
 [REPOSITORY_NOTE_LINK_CHECKER_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/analyse/apps/repository_note_link_checker_app.e) expands `$source` variable path in wiki-links contained in a wiki-markup text file. The app use a [EIFFEL_VIEW_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/eiffel_view_app.e) publishing configuration. Write the expanded output to file named as follows:
 
-````
+`eiffel
 <file name>.expanded.<file extension>
 
 ````
@@ -2056,7 +2056,7 @@ See class [C_LANGUAGE_INTERFACE_AUTOTEST_APP](https://github.com/finnianr/eiffel
 
 Eiffel coding experiments and classes containing test data that are used in the following projects:
 
-````
+`eiffel
 benchmark/benchmark.ecf
 test/test.ecf
 test/eiffel2java/eiffel2java.ecf
@@ -2161,7 +2161,7 @@ Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/applic
 
 **Autotest Sub-applications**
 
-````
+`eiffel
 EL_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
    MULTIMEDIA_AUTOTEST_APP
    EL_CRC_32_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
@@ -2197,7 +2197,7 @@ EL_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]
 ````
 **General Test Sub-applications**
 
-````
+`eiffel
 EL_APPLICATION*
    EL_STANDARD_REMOVE_DATA_APP
    EL_LOGGED_APPLICATION*
@@ -2217,7 +2217,7 @@ EL_APPLICATION*
 ````
 **Test Sets**
 
-````
+`eiffel
 EL_EQA_TEST_SET*
    EL_FILE_DATA_TEST_SET*
       AUDIO_COMMAND_TEST_SET
