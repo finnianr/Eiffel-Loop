@@ -1,4 +1,4 @@
-# Eiffel-Loop Contents
+﻿# Eiffel-Loop Contents
 ## Submission for 99-bottles-of-beer.net
 
 Eiffel submission for [www.99-bottles-of-beer.net](http://www.99-bottles-of-beer.net/).
@@ -108,7 +108,7 @@ A multi-threaded EROS server demonstrating the [EROS remote object protocol](htt
 
 **Screenshot**
 
-[Server GUI and terminal window displaying logging output](https://github.com/finnianr/eiffel-loop/tree/master/images/screenshot/console-thread-switch.png)
+[Server GUI and terminal window displaying logging output](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png)
 
 ## Protein Folding using 2D HP model
 
@@ -146,7 +146,7 @@ TagLib can read and edit the meta-data of many popular audio formats. Currently 
 
 **Test Set**
 
-[test/test.ecf#taglib](https://github.com/finnianr/eiffel-loop/tree/master/test/test.taglib.html)
+[test/test.ecf#taglib](https://github.com/finnianr/eiffel-loop/tree/master/test/test.pecf)
 
 **Future Development**
 
@@ -631,8 +631,8 @@ An implementation of a memory compact string with the same unicode character ran
 
 **Benchmarks [ZSTRING](https://github.com/finnianr/eiffel-loop/tree/master/library/base/text/zstring/el_zstring.e) vs [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html)**
 
-* [Base character-set Latin-1](https://github.com/finnianr/eiffel-loop/tree/master/benchmark/ZSTRING-benchmarks-latin-1.html)
-* [Base character-set Latin-15](https://github.com/finnianr/eiffel-loop/tree/master/benchmark/ZSTRING-benchmarks-latin-15.html)
+* [Base character-set Latin-1](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html)
+* [Base character-set Latin-15](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-15.html)
 
 ## Image Utilities
 
@@ -854,7 +854,7 @@ A high-level framework for wrapping Java classes that adds a useful layer of abs
 
 The framework is based on the concept of a Java agent that is similar to an Eiffel agent. You will find classes: [JAVA_FUNCTION](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Java/java_agents/java_function.e) and [JAVA_PROCEDURE](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Java/java_agents/java_procedure.e) that inherit [JAVA_ROUTINE](https://github.com/finnianr/eiffel-loop/tree/master/library/language_interface/Java/java_agents/java_routine.e). These agent classes automatically generate correct JNI call signatures. The library allows the creation of recursively wrapped classes where the arguments and return types to wrapped routines are themselves wrapped classes.
 
-See [example/eiffel2java/eiffel2java.ecf](https://github.com/finnianr/eiffel-loop/tree/master/example/eiffel2java/eiffel2java.html) for an example of it's use.
+See [example/eiffel2java/eiffel2java.ecf](http://www.eiffel-loop.com/example/eiffel2java/eiffel2java.html) for an example of it's use.
 
 ## Python Interface
 
@@ -905,8 +905,8 @@ When including `eros.ecf` in your project it is necessary to define a custom var
 
 Two demo applications are provided that do signal math including Fourier transformations based on Greg Lee's [Numeric Eiffel Library](https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html).
 
-1. [signal-math.ecf](https://github.com/finnianr/eiffel-loop/tree/master/example/net/EROS/signal-math/signal-math.html) is a multi-mode command-line application with 2 client modes and 2 server-test modes.
-2. [signal-math-server.ecf](https://github.com/finnianr/eiffel-loop/tree/master/example/net/EROS/server/signal-math-server.html) performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
+1. [signal-math.ecf](https://github.com/finnianr/eiffel-loop/tree/master/example/net/EROS/signal-math/signal-math.pecf) is a multi-mode command-line application with 2 client modes and 2 server-test modes.
+2. [signal-math-server.ecf](https://github.com/finnianr/eiffel-loop/tree/master/example/net/EROS/server/signal-math-server.pecf) performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
 
 ## Networking Common
 
@@ -932,7 +932,8 @@ Laabhair was developed at the [Digital Media Centre at the Dublin Institute of T
 An Eiffel interface to the [Amazon Instant Access API](https://s3-us-west-2.amazonaws.com/dtg-docs/index.html). This API enables third party vendors to fulfil orders for digital goods on the Amazon store. It enables One-time purchases but not subscriptions. It passes a basic test suite but has not yet been tested in production.
 
 ## PayPal Payments Standard Button Manager API
-An Eiffel interface to the [http://web.archive.org/web/20171124085630/https://developer.paypal.com/docs/classic/button-manager/integration-guide/ PayPal Payments Standard Button Manager NVP HTTP API]. (Now deprecated by Paypal)
+
+An Eiffel interface to the original [PayPal HTTP Button Manager API](http://web.archive.org/web/20171124085630/https://developer.paypal.com/docs/classic/button-manager/integration-guide/). (Now deprecated by Paypal)
 
 ## HTTP Client Services
 
@@ -1047,9 +1048,9 @@ Some of the main features of this database system are as follows:
 
 **8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
 
-**9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [myching.software-meta-data.tar.gz](https://github.com/finnianr/eiffel-loop/tree/master/download/myching.software-meta-data.tar.gz)
+**9.** Facility to export a meta-data record of the precise definition of the persistent data structure as a pseudo-Eiffel class. See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/download/myching.software-meta-data.tar.gz)
 
-**10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](https://github.com/finnianr/eiffel-loop/tree/master/download/payment.pyx) recording Paypal transactions.
+**10.** Fully automated import/export of [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) tables in either CSV or [Pyxis format](https://www.eiffel.org/node/143) (an XML analogue with superior readability). This can be used as a very safe form of backup allowing data to be re-imported even if the field order has changed. The [Pyxis format](https://www.eiffel.org/node/143) is very compact and readable allowing easy manual inspection of data. The [gedit](https://en.wikipedia.org/wiki/Gedit) text editor has syntax highlighting for this format. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) recording Paypal transactions.
 
 **11.** Unlike a relational database, the data rows of a [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table do not have to be flat, since class attributes in a store-able item, can themselves be declared to be store-able. For example class [EL_UUID](https://github.com/finnianr/eiffel-loop/tree/master/library/text/encryption/hash/el_uuid.e) (inheriting [UUID](https://www.eiffel.org/files/doc/static/trunk/libraries/uuid/uuid_chart.html)) can be a storable attribute, which itself is reflectively stored as 5 integer attributes of various types.
 
@@ -1140,7 +1141,7 @@ Being able to assign a unique identifier to each item in a chain is essential to
 
 Of course the Eiffel language itself can be used to query any [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) list, but sometimes the meaning of the query is obscured in implementation details. What is needed is a slightly more abstract way of expressing queries that makes the meaning more apparent. This is provided by the class [EL_QUERYABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/queryable/el_queryable_chain.e) and it's helper [EL_QUERY_CONDITION_FACTORY](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/queryable/el_query_condition_factory.e). The implementing class [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) inherits [EL_QUERYABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/queryable/el_queryable_chain.e).
 
-Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.e) found in project [Eiffel-Loop/example/manage-mp3](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/manage-mp3.html).
+Conditions can be combined using the logical operators: **and**, **or** and **not** as in this example from class [COLLATE_SONGS_TASK](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/source/rhythmbox/manager/task/manage/collate_songs_task.e) found in project [Eiffel-Loop/example/manage-mp3](https://github.com/finnianr/eiffel-loop/tree/master/example/manage-mp3/manage-mp3.pecf).
 
 ````
    apply
@@ -1191,7 +1192,7 @@ The query atoms *song_is_cortina* and *song_has_normalized_mp3_path* are defined
 
 The routine *export_meta_data* in class [ECD_REFLECTIVE_RECOVERABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.e) stores in a versioned directory the precise specification of the data layout, including the correct order, field types and names. The specification is formatted as pseudo Eiffel code so it can be easily viewed in an editor equipped with Eiffel syntax highlighting.
 
-See for example: [myching.software-meta-data.tar.gz](https://github.com/finnianr/eiffel-loop/tree/master/download/myching.software-meta-data.tar.gz) (missing the version directory)
+See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/download/myching.software-meta-data.tar.gz) (missing the version directory)
 
 **IMPORT/EXPORT**
 
@@ -1199,7 +1200,7 @@ It is important to have a way to backup data that offer some degree of independe
 
 1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [EL_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/persistency/storable/el_storable.e) or  [TUPLE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/tuple_chart.html).
 
-2. [Pyxis format](https://www.eiffel.org/node/143) which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [payment.pyx](https://github.com/finnianr/eiffel-loop/tree/master/download/payment.pyx) which is a record of Paypal transactions.
+2. [Pyxis format](https://www.eiffel.org/node/143) which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) which is a record of Paypal transactions.
 
 The relevant class for importing or exporting is [ECD_REFLECTIVE_RECOVERABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.e)
 
@@ -1221,11 +1222,11 @@ There is work in progress to create an abstraction representing the concept of a
 
 A preview of classes which will form the basis of reusable abstractions are as follows:
 
-* [DATABASE](https://github.com/finnianr/eiffel-loop/tree/master/download/database.e) contains fields conforming to DATA_TABLE and various routines that operate on all the tables at once. For example: make_open, close, delete, backup, export_as_pyxis etc
-* [DATABASE_CONFIG](https://github.com/finnianr/eiffel-loop/tree/master/download/database_config.e) for storing/reading the database credentials etc.
-* [DATA_TABLE](https://github.com/finnianr/eiffel-loop/tree/master/download/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
-* [DATABASE_MANAGER_SHELL](https://github.com/finnianr/eiffel-loop/tree/master/download/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
-* [DATABASE_CREDENTIAL](https://github.com/finnianr/eiffel-loop/tree/master/download/database_credential.e) is an authenticated credential for opening an encrypted database.
+* [DATABASE](http://www.eiffel-loop.com/download/database.e) contains fields conforming to DATA_TABLE and various routines that operate on all the tables at once. For example: make_open, close, delete, backup, export_as_pyxis etc
+* [DATABASE_CONFIG](http://www.eiffel-loop.com/download/database_config.e) for storing/reading the database credentials etc.
+* [DATA_TABLE](http://www.eiffel-loop.com/download/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
+* [DATABASE_MANAGER_SHELL](http://www.eiffel-loop.com/download/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
+* [DATABASE_CREDENTIAL](http://www.eiffel-loop.com/download/database_credential.e) is an authenticated credential for opening an encrypted database.
 
 **Foot Notes**
 
@@ -1480,11 +1481,11 @@ Logging library featuring color highlighted output and mimicry of Eiffel routine
 
 * Output is indented to reflect the state of the call stack. Shows the entry and exit from routines in a way that is designed to mimic the routines code definition.
 
-* On Unix platforms console output is syntax high-lighted by default. See this [screenshot](https://github.com/finnianr/eiffel-loop/tree/master/images/screenshot/color-highlighting.png).
+* On Unix platforms console output is syntax high-lighted by default. See this [screenshot](http://www.eiffel-loop.com/images/screenshot/color-highlighting.png).
 
 * Global filtering mechanism to restrict output to selected classes and routines. A wildcard constant can be used to log all routines for a particular class.
 
-* By implementing the [EL_CONSOLE_MANAGER](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/support/el_console_manager.e) class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](https://github.com/finnianr/eiffel-loop/tree/master/library/vision2-x.pecf) has once such component [EL_CONSOLE_MANAGER_TOOLBAR](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/container/cell/box/special/el_console_manager_toolbar.e). See this example [screenshot](https://github.com/finnianr/eiffel-loop/tree/master/images/screenshot/console-thread-switch.png). The [wel-x library](https://github.com/finnianr/eiffel-loop/tree/master/library/wel-x.pecf) partially implements it with class [EL_CONSOLE_MANAGER_DIALOG](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/wel-x/logging/el_console_manager_dialog.e).
+* By implementing the [EL_CONSOLE_MANAGER](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/support/el_console_manager.e) class in a GUI library it is possible to create a UI component that is able to switch the logged console output to that of a different thread of execution. The [Vision2-x library](https://github.com/finnianr/eiffel-loop/tree/master/library/vision2-x.pecf) has once such component [EL_CONSOLE_MANAGER_TOOLBAR](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/container/cell/box/special/el_console_manager_toolbar.e). See this example [screenshot](http://www.eiffel-loop.com/images/screenshot/console-thread-switch.png). The [wel-x library](https://github.com/finnianr/eiffel-loop/tree/master/library/wel-x.pecf) partially implements it with class [EL_CONSOLE_MANAGER_DIALOG](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/wel-x/logging/el_console_manager_dialog.e).
 
 **Output Format**
 
@@ -1767,7 +1768,7 @@ An internationalization library with support for translations rendered in Pyxis 
 
 **AES Encryption**
 
-An easy interface to basic AES encryption with extensions to Colin LeMahieu's [https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel AES encryption library]. Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
+An easy interface to basic AES encryption with extensions to Colin LeMahieu's [AES encryption library](https://github.com/EiffelSoftware/EiffelStudio/tree/master/Src/contrib/library/text/encryption/eel). Includes a class for reading and writing encrypted files using [AES](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard) cipher [block chains](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation).
 
 **Hashing**
 
@@ -1862,7 +1863,7 @@ A "Swiss-army knife" of Eiffel development utilities invokeable by a command-lin
 
 Command switch: `-class_descendants`
 
-[EIFFEL_VIEW_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/eiffel_view_app.e) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18  eiffel.org article]
+[EIFFEL_VIEW_APP](https://github.com/finnianr/eiffel-loop/tree/master/tool/eiffel/source/root/apps/eiffel_view_app.e) publishes source code and descriptions of Eiffel projects to a website as static html and generate a `Contents.md` file in Github markdown. See [eiffel.org article](https://www.eiffel.org/blog/Finnian%20Reilly/2018/10/eiffel-view-repository-publisher-version-1-0-18)
 
 Command switch: `-eiffel_view`
 
@@ -2156,7 +2157,7 @@ Test application class: [PYXIS_SCAN_AUTOTEST_APP](https://github.com/finnianr/ei
 
 ## Root class and Experiments
 
-Root class [APPLICATION_ROOT](https://github.com/finnianr/eiffel-loop/tree/master/test/source/root/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
+Root class [APPLICATION_ROOT](http://www.eiffel-loop.com/test/source/root/application_root.html) and a collection of developer experiments to verify understanding of ISE base classes.
 
 **Autotest Sub-applications**
 

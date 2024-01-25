@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 18:16:01 GMT (Wednesday 24th January 2024)"
-	revision: "30"
+	date: "2024-01-25 12:35:25 GMT (Thursday 25th January 2024)"
+	revision: "31"
 
 class
 	MARKDOWN_TRANSLATER
@@ -34,11 +34,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_github_url: EL_DIR_URI_PATH)
+	make (a_repository: REPOSITORY_PUBLISHER)
 		do
-			github_url := a_github_url
+			repository := a_repository
+			website_root := a_repository.web_address + char ('/')
 			create line_type_list.make (50)
-			create variable_substitution.make (a_github_url)
+			create variable_substitution.make (repository.github_url)
 			state_add_code_lines := agent add_code_lines
 			make_machine
 		end
@@ -48,9 +49,9 @@ feature -- Basic operations
 	to_github_markdown (class_note_markdown_lines: EL_ZSTRING_LIST): ZSTRING
 		-- Github markdown string translated from `class_note_markdown_lines'
 		local
-			line_list: EL_ZSTRING_LIST; type, last_type: NATURAL_8; buffer: ZSTRING
+			line_list: EL_ZSTRING_LIST; type: NATURAL_8; buffer: ZSTRING
 		do
-			do_with_lines (agent add_normal_text, class_note_markdown_lines)
+			do_with_lines (agent add_normal_text, normalized_paragraphs (class_note_markdown_lines))
 			if state = state_add_code_lines then
 				close_code_block (Empty_string.twin)
 			end
@@ -63,10 +64,7 @@ feature -- Basic operations
 						type := list.item_key
 						buffer.wipe_out; buffer.append (list.item_value)
 						inspect type
-							when Empty_line then
-								line_list.extend (list.item_value)
-
-							when Code_marker then
+							when Empty_line, Code_marker then
 								line_list.extend (list.item_value)
 
 							when Code_line then
@@ -74,21 +72,12 @@ feature -- Basic operations
 								remove_class_link_markers (buffer)
 								line_list.extend (buffer.twin)
 
-							when List_item then
+							when List_item, Normal_line then
 								translate (buffer)
 								line_list.extend (buffer.twin)
 
-							when Normal_line then
-								translate (buffer)
-								if last_type = Normal_line then
-									line_list.last.append_character (' ')
-									line_list.last.append (buffer)
-								else
-									line_list.extend (buffer.twin)
-								end
 						else
 						end
-						last_type := type
 						list.forth
 					end
 				end
@@ -137,9 +126,45 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
+	as_pecf_path (link_address: FILE_PATH): FILE_PATH
+		-- Eg. "library/base/base.reflection.html" -> "library/base/base.pecf"
+		do
+			Result := link_address.twin
+			Result.remove_extension
+			if Result.has_dot_extension then
+				Result.remove_extension
+			end
+			Result.add_extension (Extension.pecf)
+		end
+
 	extend_code_block_marker
 		do
 			line_type_list.extend (Code_marker, char ('`') * 4)
+		end
+
+	normalized_paragraphs (markdown_lines: EL_ZSTRING_LIST): EL_ZSTRING_LIST
+		-- join consecutive "normal lines" that are not bullet point or numbered items
+		local
+			line: ZSTRING; previous_type, type: NATURAL_8; i: INTEGER
+		do
+			create Result.make_from_array (markdown_lines.to_array)
+			from Result.start until Result.after loop
+				line := Result.item
+				if line.count > 0 and then not (line.starts_with_character ('%T') or is_list_item (line)) then
+					type := Normal_line
+				else
+					type := 0
+				end
+				if type = Normal_line and previous_type = Normal_line then
+				-- join with previous line to make a paragraph
+					i := Result.index - 1
+					Result [i] := space.joined (Result [i], line)
+					Result.remove
+				else
+					Result.forth
+				end
+				previous_type := type
+			end
 		end
 
 	translate (text: ZSTRING)
@@ -198,16 +223,19 @@ feature {NONE} -- Implementation
 			if space_index > 0 then
 				if substring.count > 4 and then substring.same_characters (Current_dir_forward_slash, 1, 2, 2) then
 					link_address := substring.substring (4, space_index - 1)
-					if link_address.first_step ~ Library and then link_address.has_extension (Extension.html) then
-					-- Eg. "library/base/base.reflection.html" -> "library/base/base.pecf"
-						link_address.remove_extension
-						if link_address.has_dot_extension then
-							link_address.remove_extension
-						end
-						link_address.add_extension (Extension.pecf)
+					if link_address.has_extension (Extension.html) and then attached as_pecf_path (link_address) as pecf_path
+						and then (repository.root_dir + pecf_path).exists
+					then
+						link_address := pecf_path
 					-- possibility here to add a line number for github like: base/base.pecf#L75
+						link_address := repository.github_url + link_address
+
+					elseif not (repository.root_dir + link_address).exists then
+					-- Eg. http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html
+						link_address := website_root + link_address
+					else
+						link_address := repository.github_url + link_address
 					end
-					link_address := github_url + link_address
 				else
 					link_address := substring.substring (2, space_index - 1)
 				end
@@ -226,11 +254,14 @@ feature {NONE} -- Internal attributes
 
 	state_add_code_lines: PROCEDURE [ZSTRING]
 
-	github_url: EL_DIR_URI_PATH
+	repository: REPOSITORY_PUBLISHER
 
 	last_is_line_item: BOOLEAN
 
 	variable_substitution: GITHUB_TYPE_VARIABLE_SUBSTITUTION
+
+	website_root: EL_DIR_URI_PATH
+		-- Eg. http://www.eiffel-loop.com/
 
 feature {NONE} -- Line types
 
@@ -255,11 +286,6 @@ feature {NONE} -- Constants
 	Link_types: EL_ZSTRING_LIST
 		once
 			Result := "[http://, [https://, [./"
-		end
-
-	Library: ZSTRING
-		once
-			Result := "library"
 		end
 
 end

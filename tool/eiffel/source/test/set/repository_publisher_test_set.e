@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-23 14:06:02 GMT (Tuesday 23rd January 2024)"
-	revision: "69"
+	date: "2024-01-25 15:53:14 GMT (Thursday 25th January 2024)"
+	revision: "70"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -142,7 +142,7 @@ feature -- Tests
 					crc_path.replace_extension (Crc_extension)
 					File_system.remove_file (crc_path)
 				end
-				base_name_list := "base.kernel.html, index.html"
+				base_name_list := "Eco-DB.html, base.kernel.html, index.html, public-key-encryption.html"
 				base_name_list.extend (broadcaster_path.base_name + ".html")
 				base_name_list.append (sorted_base_names (cmd.path_list))
 				base_name_list.ascending_sort
@@ -150,7 +150,6 @@ feature -- Tests
 				if Executable.Is_work_bench then
 					line := User_input.line ("Enter to continue")
 				end
---				publisher := new_publisher
 				publisher.execute
 
 				across cmd.path_list as path loop
@@ -165,41 +164,48 @@ feature {NONE} -- Events
 
 	on_prepare
 		local
-			lib_dir, library_doc_dir: DIR_PATH; list: EL_STRING_8_LIST; steps: EL_PATH_STEPS
+			dir_path: DIR_PATH; file_path: FILE_PATH; extension: STRING
 		do
 			Precursor
-			OS.copy_tree (Dev_environ.Eiffel_loop_dir #+ "doc-config", Work_area_dir)
-			OS.copy_file ("test-data/publish/config-1.pyx", Doc_config_dir)
-			list := "dummy, images, css, js"
-			across << Doc_dir, Ftp_dir >> as destination_dir loop
-				across list as name loop
-					OS.copy_tree (Dev_environ.Eiffel_loop_dir.joined_dir_steps (<< "doc", name.item >>), destination_dir.item)
+			OS.copy_tree (el_source_dir (Work_dir.doc_config), Work_dir.doc_config.parent)
+			OS.copy_file ("test-data/publish/config-1.pyx", Work_dir.doc_config)
+			if attached new_csv_list ("dummy, images, css, js") as www_name_list then
+				across << Work_dir.doc, Work_dir.ftp_doc >> as destination_dir loop
+					across www_name_list as list loop
+						dir_path := Dev_environ.Eiffel_loop_dir.joined_dir_steps (<< "doc", list.item >>)
+						OS.copy_tree (dir_path, destination_dir.item)
+					end
 				end
 			end
-			list := "library/base/kernel/event, library/base/kernel/initialization, library/base/kernel/reflection,%
-						%library/base/math, library/base/persistency, library/persistency/database/eco-db,%
-						%library/text/rsa-encryption"
-
-			across list as dir loop
-				from steps := dir.item.twin until steps.is_empty loop
-					lib_dir := Work_area_dir #+ steps
-					File_system.make_directory (lib_dir)
-					steps.remove_tail (1)
+			if attached new_csv_list (
+					"base/kernel/event, base/kernel/initialization, base/kernel/reflection, base/math,%
+					%base/persistency, persistency/database/eco-db, text/rsa-encryption"
+				) as library_list
+			then
+				across library_list as list loop
+					File_system.make_directory (Work_dir.library #+ list.item)
+				end
+				across library_list as list loop
+					dir_path := Work_dir.library #+ list.item
+					OS.copy_tree (el_source_dir (dir_path), dir_path.parent)
 				end
 			end
-			across list as dir loop
-				lib_dir := dir.item
-				OS.copy_tree (Dev_environ.Eiffel_loop_dir #+ lib_dir, Work_area_dir #+ lib_dir.parent)
-			end
-			list := "library/base/base.ecf, library/Eco-DB.ecf, library/public-key-encryption.ecf"
-			if attached Dev_environ.Eiffel_loop_dir as el_dir then
-				across list as path loop
-					OS.copy_file (el_dir + path.item, (Work_area_dir + path.item).parent)
+			if attached new_csv_list ("base/base.ecf, Eco-DB.ecf, public-key-encryption.ecf") as library_list then
+				across library_list as list loop
+					file_path := Work_dir.library + list.item
+					OS.copy_file (el_source_path (file_path), file_path.parent)
 				end
-				library_doc_dir := Work_area_dir #+ "library/doc"
-				File_system.make_directory (library_doc_dir)
-				across Shared_directory.named (el_dir #+ "library").files_with_extension ("txt") as path loop
-					OS.copy_file (path.item, library_doc_dir)
+				across << Work_dir.library, Work_dir.library #+ "base", Work_dir.library #+ "doc" >> as dir loop
+					File_system.make_directory (dir.item)
+					inspect dir.cursor_index
+						when 1 , 2 then
+							extension := "pecf"
+					else
+						extension := "txt"
+					end
+					across Shared_directory.named (el_source_dir (dir.item)).files_with_extension (extension) as path loop
+						OS.copy_file (path.item, dir.item)
+					end
 				end
 			end
 		end
@@ -212,7 +218,7 @@ feature {NONE} -- Implementation
 		do
 			across publisher.ecf_list as tree loop
 				across tree.item.path_list as path loop
-					html_file_path := Doc_dir + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
+					html_file_path := Work_dir.doc + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
 					assert ("html exists", html_file_path.exists)
 				end
 			end
@@ -254,6 +260,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	el_source_dir (work_area_sub_dir: DIR_PATH): DIR_PATH
+		do
+			REsult := Dev_environ.Eiffel_loop_dir #+ work_area_sub_dir.relative_path (Work_area_dir)
+		end
+
+	el_source_path (work_area_file_path: FILE_PATH): FILE_PATH
+		do
+			REsult := Dev_environ.Eiffel_loop_dir + work_area_file_path.relative_path (Work_area_dir)
+		end
+
 	file_content_checksum: NATURAL
 		local
 			crc: like crc_generator
@@ -271,7 +287,7 @@ feature {NONE} -- Implementation
 			modification_time: DATE_TIME
 		do
 			crc := crc_generator
-			across OS.file_list (Doc_dir, "*.html") as html loop
+			across OS.file_list (Work_dir.doc, "*.html") as html loop
 				modification_time := Date_time.modification_time (html.item)
 				crc.add_integer (modification_time.date.ordered_compact_date)
 				crc.add_integer (modification_time.time.compact_time)
@@ -281,7 +297,7 @@ feature {NONE} -- Implementation
 
 	generated_files: like OS.file_list
 		do
-			Result := OS.file_list (Doc_dir, "*.html")
+			Result := OS.file_list (Work_dir.doc, "*.html")
 		end
 
 	html_path (a_path: FILE_PATH): FILE_PATH
@@ -290,14 +306,19 @@ feature {NONE} -- Implementation
 			Result.add_extension ("html")
 		end
 
+	new_csv_list (str: STRING): EL_STRING_8_LIST
+		do
+			Result := str
+		end
+
 	new_link_checker: REPOSITORY_NOTE_LINK_CHECKER
 		do
-			create Result.make (Doc_config_dir + "config-1.pyx", "1.4.0", 0)
+			create Result.make (Work_dir.doc_config + "config-1.pyx", "1.4.0", 0)
 		end
 
 	new_publisher: REPOSITORY_TEST_PUBLISHER
 		do
-			create Result.make (Doc_config_dir + "config-1.pyx", "1.4.0", 0)
+			create Result.make (Work_dir.doc_config + "config-1.pyx", "1.4.0", 0)
 		end
 
 	sorted_base_names (list: LIST [FILE_PATH]): EL_ZSTRING_LIST
@@ -312,19 +333,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Doc_config_dir: DIR_PATH
+	Work_dir: TUPLE [doc, doc_config, ftp_doc, library: DIR_PATH]
 		once
-			Result := Work_area_dir #+ "doc-config"
-		end
-
-	Doc_dir: DIR_PATH
-		once
-			Result := Work_area_dir #+ "doc"
-		end
-
-	Ftp_dir: DIR_PATH
-		once
-			Result := Work_area_dir #+ "ftp.doc"
+			create Result
+			across new_csv_list ("doc, doc-config, ftp.doc, library") as list loop
+				Result.put_reference (Work_area_dir #+ list.item, list.cursor_index)
+			end
 		end
 
 	Kernel_event: TUPLE [class_dir, html_dir: DIR_PATH]
@@ -332,7 +346,7 @@ feature {NONE} -- Constants
 			l_dir: DIR_PATH
 		once
 			l_dir := "library/base/kernel/event"
-			Result := [Work_area_dir #+ l_dir, Work_area_dir #+ "doc" #+ l_dir]
+			Result := [Work_area_dir #+ l_dir, Work_dir.doc #+ l_dir]
 		end
 
 	Markdown_link_table: EL_HASH_TABLE [STRING, STRING]

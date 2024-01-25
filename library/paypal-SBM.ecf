@@ -3,9 +3,10 @@
 <system name = "EL_paypal_SBM" library_target = "EL_paypal_SBM" uuid = "229b6c64-09aa-11df-87a8-a3de564c1248" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
 PayPal Payments Standard Button Manager API
-An Eiffel interface to the
+
+An Eiffel interface to the original
 [http://web.archive.org/web/20171124085630/https://developer.paypal.com/docs/classic/button-manager/integration-guide/
-PayPal Payments Standard Button Manager NVP HTTP API]. (Now deprecated by Paypal)
+PayPal HTTP Button Manager API]. (Now deprecated by Paypal)
 	</description>
 	<target name = "EL_paypal_SBM">
 		<root all_classes = "true"/>
