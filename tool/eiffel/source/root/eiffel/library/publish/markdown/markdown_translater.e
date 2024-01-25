@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-25 17:09:09 GMT (Thursday 25th January 2024)"
-	revision: "33"
+	date: "2024-01-25 17:18:10 GMT (Thursday 25th January 2024)"
+	revision: "34"
 
 class
 	MARKDOWN_TRANSLATER
@@ -286,7 +286,7 @@ feature {NONE} -- Constants
 
 	Eiffel_code_marker: ZSTRING
 		once
-			Result := char ('`').to_string + "eiffel"
+			Result := char ('`') * 4 + "eiffel"
 		end
 
 end
