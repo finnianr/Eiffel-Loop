@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "28"
+	date: "2024-01-28 18:12:55 GMT (Sunday 28th January 2024)"
+	revision: "29"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -117,19 +117,22 @@ feature -- Basic operations
 		require
 			valid_width: width <= Max_width
 		local
-			p0: EV_COORDINATE; scaled_drawing: CAIRO_DRAWING_AREA
+			scaled_drawing: CAIRO_DRAWING_AREA
+			l_width: NATURAL
 		do
-			p0 := point_array [0]
-			drawing.save
-			drawing.translate (p0.x, p0.y)
-			drawing.rotate (angle)
+			l_width := width.to_natural_32
+			if l_width > 0 and then attached point_array as p then
+				drawing.save
+				drawing.translate (p [0].x, p [0].y)
+				drawing.rotate (angle)
 
-			drawing.flip (width, height, mirror_state)
-			Scaled_drawing_cache.set_new_item_target (Current) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
-			scaled_drawing := Scaled_drawing_cache.item ((drawing_area.id.to_natural_32 |<< 16) | width.to_natural_32)
-			drawing.draw_area (0, 0, scaled_drawing)
-			drawing.restore
-			progress_listener.notify_tick
+				drawing.flip (width, height, mirror_state)
+				Scaled_drawing_cache.set_new_item_target (Current) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
+				scaled_drawing := Scaled_drawing_cache.item ((drawing_area.id.to_natural_32 |<< 16) | l_width)
+				drawing.draw_area (0, 0, scaled_drawing)
+				drawing.restore
+				progress_listener.notify_tick
+			end
 		end
 
 feature -- Duplication

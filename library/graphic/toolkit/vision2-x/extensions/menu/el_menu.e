@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-01-28 15:37:02 GMT (Sunday 28th January 2024)"
+	revision: "16"
 
 deferred class
 	EL_MENU
@@ -36,6 +36,11 @@ inherit
 			{ANY} menu
 		end
 
+	EL_KEYBOARD_ACCELERATED
+		rename
+			new_accelerator_table as default_accelerator_table
+		end
+
 feature {NONE} -- Initialization
 
 	make (a_window: like window)
@@ -45,7 +50,6 @@ feature {NONE} -- Initialization
 			window := a_window
 			menu := new_menu
 			Widget.insert_at (menu_item_list, menu, position)
-			create keyboard_shortcuts.make (window)
 			create shortcut_descriptions.make (11)
 
 			fill; add_keyboard_shortcuts; adjust_menu_texts
@@ -144,6 +148,15 @@ feature -- Status change
 			enable_items_sensitive (<< id >>)
 		end
 
+	enable_item_sensitive_if (id: INTEGER; condition: BOOLEAN)
+		do
+			if condition then
+				enable_items_sensitive (<< id >>)
+			else
+				disable_items_sensitive (<< id >>)
+			end
+		end
+
 	enable_items_sensitive (selected_ids: ARRAY [INTEGER])
 		do
 			apply_action (agent internal_enable_sensitive, selected_ids)
@@ -195,14 +208,14 @@ feature -- Basic operations
 
 feature {NONE} -- Factory
 
-	new_key (key_code: INTEGER): EL_KEY
-		do
-			Result := key_code
-		end
-
 	new_item (a_name: READABLE_STRING_GENERAL; action: PROCEDURE): EV_MENU_ITEM
 		do
 			create Result.make_with_text_and_action (a_name.to_string_32, action)
+		end
+
+	new_key (key_code: INTEGER): EL_KEY
+		do
+			Result := key_code
 		end
 
 	new_menu: EV_MENU
@@ -225,19 +238,25 @@ feature {NONE} -- Event handler
 
 feature {NONE} -- Implementation
 
+	accelerators: EV_ACCELERATOR_LIST
+		do
+			Result := window.accelerators
+		end
+
 	add_keyboard_shortcuts
 		do
 		end
 
-	add_shortcut (id, key_code: INTEGER; combined_key_modifiers: NATURAL)
+	add_shortcut (id: INTEGER; combined_keys: like combined)
 			-- add keyboard shortcut with modifiers combined with logical OR
 		require
 			valid_id: is_valid_id (id)
+		local
+			key_code: NATURAL_16; key_modifiers: NATURAL
 		do
-			keyboard_shortcuts.add_key_action (
-				key_code, agent on_keyboard_shortcut (item (id).select_actions), combined_key_modifiers
-			)
-			shortcut_descriptions [id] := new_key (key_code).description (combined_key_modifiers)
+			key_code := combined_keys.to_natural_16; key_modifiers := combined_keys |>> 16
+			add_accelerator_action (combined_keys, agent on_keyboard_shortcut (item (id).select_actions))
+			shortcut_descriptions [id] := new_key (key_code.to_integer_32).description (key_modifiers)
 		end
 
 	adjust_menu_item_text (menu_item: EV_MENU_ITEM)
@@ -266,11 +285,6 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	menu_item_list: EV_MENU_ITEM_LIST
-		do
-			Result := window.menu_bar
-		end
-
 	fill
 		deferred
 		end
@@ -287,6 +301,11 @@ feature {NONE} -- Implementation
 			menu_item.select_actions.resume
 		end
 
+	menu_item_list: EV_MENU_ITEM_LIST
+		do
+			Result := window.menu_bar
+		end
+
 	position: INTEGER
 		-- position at which to enter menu
 		-- if 0 then extend menu_bar
@@ -294,8 +313,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
 
 	shortcut_descriptions: HASH_TABLE [ZSTRING, INTEGER]
 		-- keyboard shortcuts info indexed by menu item id

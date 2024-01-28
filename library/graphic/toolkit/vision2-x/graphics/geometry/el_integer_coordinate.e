@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-01-27 12:54:24 GMT (Saturday 27th January 2024)"
+	revision: "3"
 
 class
 	EL_INTEGER_COORDINATE
 
 create
-	make
+	make, default_create
 
 feature {NONE} -- Initialization
 
@@ -35,4 +35,10 @@ feature -- Element change
 			x := x + delta_x
 			y := y + delta_y
 		end
+
+	set (a_x, a_y: INTEGER)
+		do
+			make (a_x, a_y)
+		end
+		
 end

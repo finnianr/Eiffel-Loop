@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-01-28 12:27:45 GMT (Sunday 28th January 2024)"
+	revision: "9"
 
 deferred class
 	EL_TAB_SHORTCUTS
@@ -22,9 +22,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_KEY
-
-	EL_MODULE_ACTION
+	EL_SHARED_KEY_CONSTANTS; EL_MODULE_ACTION
 
 feature {NONE} -- Initialization
 
@@ -33,10 +31,8 @@ feature {NONE} -- Initialization
 			shortcuts: EL_KEYBOARD_SHORTCUTS
 		do
 			create shortcuts.make (a_window)
-			if attached shortcuts as s then
-				s.create_accelerator (Key.Key_page_up, Modifier_ctrl).actions.extend (agent select_left_tab)
-				s.create_accelerator (Key.Key_page_down, Modifier_ctrl).actions.extend (agent select_right_tab)
-			end
+			shortcuts.extend (Ctrl, Key.Key_page_up, agent select_left_tab)
+			shortcuts.extend (Ctrl, Key.Key_page_down, agent select_right_tab)
 		end
 
 feature -- Basic operations

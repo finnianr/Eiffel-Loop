@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-01-28 17:45:20 GMT (Sunday 28th January 2024)"
+	revision: "15"
 
 class
 	EL_TITLED_WINDOW
@@ -22,7 +22,7 @@ inherit
 		undefine
 			Default_pixmaps
 		redefine
-			implementation, create_implementation, initialize
+			implementation, create_implementation
 		end
 
 	EL_MODULE_ACTION; EL_MODULE_LOG; EL_MODULE_LOG_MANAGER; EL_MODULE_SCREEN
@@ -33,12 +33,6 @@ create
 	make
 
 feature {EL_VISION_2_USER_INTERFACE} -- Initialization
-
-	initialize
-		do
-			Precursor
-			create keyboard_shortcuts.make (Current)
-		end
 
 	make
 		require
@@ -56,10 +50,6 @@ feature {EL_VISION_2_USER_INTERFACE} -- Initialization
 			--
 		do
 		end
-
-feature -- Access
-
-	keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS
 
 feature -- Basic operations
 

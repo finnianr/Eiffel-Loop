@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-01-28 12:18:44 GMT (Sunday 28th January 2024)"
+	revision: "5"
 
 class
 	EL_KEY
@@ -101,9 +101,9 @@ feature {NONE} -- Constants
 	Modifier_list: ARRAY [TUPLE [code: NATURAL; name: ZSTRING]]
 		once
 			Result := <<
-				[Modifier_ctrl, Key_text.table [Key_ctrl]],
-				[Modifier_alt, Key_text.table [Key_alt]],
-				[Modifier_shift, Key_text.table [Key_shift]]
+				[Alt, Key_text.table [Key_alt]],
+				[Ctrl, Key_text.table [Key_ctrl]],
+				[Shift, Key_text.table [Key_shift]]
 			>>
 		end
 

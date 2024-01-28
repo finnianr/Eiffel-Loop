@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "41"
+	date: "2024-01-27 15:47:03 GMT (Saturday 27th January 2024)"
+	revision: "42"
 
 class
 	EL_ACTION_MANAGER
@@ -38,7 +38,7 @@ feature -- Action management
 			end
 		end
 
-	do_later (millisecs_interval: INTEGER_32; a_action: PROCEDURE)
+	do_later (millisecs_interval: INTEGER; a_action: PROCEDURE)
 		local
 			timer: EV_TIMEOUT
 		do

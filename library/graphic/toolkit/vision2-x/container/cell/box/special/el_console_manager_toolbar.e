@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:06:55 GMT (Friday 10th March 2023)"
-	revision: "10"
+	date: "2024-01-28 15:40:17 GMT (Sunday 28th January 2024)"
+	revision: "11"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR
@@ -27,6 +27,8 @@ inherit
 			is_equal, copy
 		end
 
+	EL_KEYBOARD_ACCELERATED
+
 	EL_NAVIGATION_ICONS
 
 	EL_HORIZONTAL_BOX
@@ -37,24 +39,23 @@ inherit
 			make_default_box
 		end
 
-	EL_MODULE_SCREEN
-
-	EL_MODULE_TEXT
+	EL_MODULE_SCREEN; EL_MODULE_TEXT
 
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS; accelerator_keys_enabled: BOOLEAN)
+	make (accelerator_list: EV_ACCELERATOR_LIST; accelerator_keys_enabled: BOOLEAN)
 			--
 		local
 			label: EV_LABEL; label_text: STRING; thread_list_box: EL_VERTICAL_BOX
 		do
 			make_console_manager
 			make_default_box
+			accelerators := accelerator_list
 			if accelerator_keys_enabled then
-				add_keyboard_shortcuts (keyboard_shortcuts)
+				initialize_accelerators
 			end
 
 			label_text := "Thread"
@@ -122,13 +123,6 @@ feature {NONE} -- GUI event handlers
 
 feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 
-	add_keyboard_shortcuts (keyboard_shortcuts: EL_KEYBOARD_SHORTCUTS)
-			--
-		do
-			keyboard_shortcuts.add_alt_key_action ({EV_KEY_CONSTANTS}.Key_left, agent go_history_previous)
-			keyboard_shortcuts.add_alt_key_action ({EV_KEY_CONSTANTS}.Key_right, agent go_history_next)
-		end
-
 	add_thread (a_thread: EL_IDENTIFIED_THREAD_I)
 			--
 		local
@@ -142,11 +136,25 @@ feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 			thread_name_drop_down_list.set_minimum_width_in_characters (list_item.text.count + 3)
 		end
 
+	new_accelerator_table (ev: EV_KEY_CONSTANTS): like default_accelerator_table
+		-- table of key codes and left-shifted modifiers mapped to procedures
+		-- using `single' or `combination' to create key
+		do
+			create Result.make (<<
+				[combined (Alt, ev.Key_left), agent go_history_previous],
+				[combined (Alt, ev.Key_right), agent go_history_next]
+			>>)
+		end
+
 	select_drop_down_list_item (an_index: INTEGER)
 			--
 		do
 			thread_name_drop_down_list.select_item (an_index)
 		end
+
+feature {NONE} -- Internal attributes
+
+	accelerators: EV_ACCELERATOR_LIST
 
 	thread_name_drop_down_list: EL_COMBO_BOX
 
@@ -155,11 +163,11 @@ feature {NONE} -- Constants
 	Action_table: EL_PROCEDURE_TABLE [ZSTRING]
 		once
 			create Result.make (<<
-				["start", agent go_history_start],
+				["start",	 agent go_history_start],
 				["previous", agent go_history_previous],
-				["next", agent go_history_next],
-				["last", agent go_history_last],
-				["refresh", agent refresh_console_from_log_file]
+				["next",		 agent go_history_next],
+				["last",		 agent go_history_last],
+				["refresh",	 agent refresh_console_from_log_file]
 			>>)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-01-28 11:17:05 GMT (Sunday 28th January 2024)"
+	revision: "8"
 
 deferred class
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 				tool_bar_frame.extend (tool_bar)
 				if has_console_manager then
 					tool_bar.extend_unexpanded (
-						create {EL_CONSOLE_MANAGER_TOOLBAR}.make (keyboard_shortcuts, console_accelerator_keys_enabled)
+						create {EL_CONSOLE_MANAGER_TOOLBAR}.make (accelerators, console_accelerator_keys_enabled)
 					)
 				end
 				window_extend (Vision_2.new_vertical_box (window_border_cms, 0, << tool_bar_frame, window_box >>))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-25 17:18:10 GMT (Thursday 25th January 2024)"
-	revision: "34"
+	date: "2024-01-27 11:23:03 GMT (Saturday 27th January 2024)"
+	revision: "35"
 
 class
 	MARKDOWN_TRANSLATER
@@ -56,9 +56,8 @@ feature -- Basic operations
 				close_code_block (Empty_string.twin)
 			end
 			create line_list.make (line_type_list.count * 2)
---			line_list.extend (Empty_string)
 			across String_scope as scope loop
-				buffer := scope.best_item (200)
+				buffer := scope.best_item (500)
 				if attached line_type_list as list then
 					from list.start until list.after loop
 						type := list.item_key

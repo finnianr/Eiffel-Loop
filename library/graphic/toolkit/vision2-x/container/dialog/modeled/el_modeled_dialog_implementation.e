@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-01-28 12:05:31 GMT (Sunday 28th January 2024)"
+	revision: "15"
 
 deferred class
 	EL_MODELED_DIALOG_IMPLEMENTATION
@@ -17,11 +17,9 @@ inherit
 
 	EL_MODULE_ACTION; EL_MODULE_ITERABLE
 
-	EL_MODULE_KEY; EL_MODULE_SCREEN; EL_MODULE_VISION_2;  EL_MODULE_WIDGET
+	EL_MODULE_SCREEN; EL_MODULE_VISION_2;  EL_MODULE_WIDGET
 
-	EL_SHARED_WORD
-
-	EV_SHARED_APPLICATION
+	EL_SHARED_WORD; EV_SHARED_APPLICATION
 
 feature -- Access
 
@@ -217,6 +215,12 @@ feature {NONE} -- Event handling
 		end
 
 feature {NONE} -- Implementation
+
+	accelerators: EV_ACCELERATOR_LIST
+		-- Key combination shortcuts associated with this window.
+		do
+			Result := window.accelerators
+		end
 
 	cancel_action: PROCEDURE
 		do

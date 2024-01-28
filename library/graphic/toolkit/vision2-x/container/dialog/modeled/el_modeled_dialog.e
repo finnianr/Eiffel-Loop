@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-01-28 15:38:30 GMT (Sunday 28th January 2024)"
+	revision: "12"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -18,13 +18,13 @@ deferred class
 inherit
 	EL_MODELED_DIALOG_IMPLEMENTATION
 
+	EL_KEYBOARD_ACCELERATED
+
 	EL_MODULE_ORIENTATION; EL_MODULE_TUPLE
 
 feature {NONE} -- Initialization
 
 	make (a_model: like model; a_default_action: like default_action)
-		local
-			shortcuts: EL_KEYBOARD_SHORTCUTS
 		do
 			model := a_model; default_action := a_default_action
 
@@ -48,8 +48,7 @@ feature {NONE} -- Initialization
 
 			-- make sure escape key works even without any buttons
 			if not a_model.has_buttons and a_model.escape_key_enabled then
-				create shortcuts.make (window)
-				shortcuts.add_unmodified_key_action (Key.Key_escape, agent on_cancel)
+				initialize_accelerators
 			end
 			if attached window.show_actions as sequence then
 				if {PLATFORM}.is_windows then
@@ -229,6 +228,13 @@ feature {NONE} -- Implementation
 			else
 				create cancel_button
 			end
+		end
+
+	new_accelerator_table (ev: EV_KEY_CONSTANTS): like default_accelerator_table
+		-- table of key codes and left-shifted modifiers mapped to procedures
+		-- using `single' or `combination' to create key
+		do
+			create Result.make (<< [single (ev.Key_escape) , agent on_cancel] >>)
 		end
 
 	set_dialog_buttons

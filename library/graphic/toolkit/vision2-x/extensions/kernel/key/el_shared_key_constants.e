@@ -1,19 +1,19 @@
 note
-	description: "Module key"
+	description: "Shared instance of ${EV_KEY_CONSTANTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-01-28 12:28:43 GMT (Sunday 28th January 2024)"
+	revision: "10"
 
 deferred class
-	EL_MODULE_KEY
+	EL_SHARED_KEY_CONSTANTS
 
 inherit
-	EL_MODULE
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

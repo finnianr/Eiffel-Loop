@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:40:00 GMT (Thursday 17th August 2023)"
-	revision: "9"
+	date: "2024-01-27 11:07:41 GMT (Saturday 27th January 2024)"
+	revision: "10"
 
 class
 	EL_FILE_OPEN_DIALOG
@@ -69,6 +69,7 @@ feature {NONE} -- Constants
 		once
 			Result := "%S (%S)"
 		end
+		
 	Star_dot: ZSTRING
 		once
 			Result := "*."

@@ -1,85 +1,58 @@
 note
-	description: "Keyboard shortcuts"
+	description: "Adds keyboard shortcuts to ${EV_WINDOW}.accelerators"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-01-28 15:39:25 GMT (Sunday 28th January 2024)"
+	revision: "7"
 
 class
 	EL_KEYBOARD_SHORTCUTS
 
 inherit
-	EL_KEY_MODIFIER_CONSTANTS
+	ANY
+
+	EL_KEYBOARD_ACCELERATED
+		rename
+			new_accelerator_table as default_accelerator_table
+		end
 
 create
-	make, make_from_accelerators
+	make, make_from_list
 
 feature {NONE} -- Initialization
 
 	make (a_window: EV_WINDOW)
 			--
 		do
-			make_from_accelerators (a_window.accelerators)
+			make_from_list (a_window.accelerators)
 		end
 
-	make_from_accelerators (a_accelerators: like accelerators)
+	make_from_list (list: EV_ACCELERATOR_LIST)
 			--
 		do
-			accelerators := a_accelerators
-		end
-
-feature -- Access
-
-	create_accelerator (key_code: INTEGER; modifier_keys: NATURAL): EV_ACCELERATOR
-		do
-			create Result.make_with_key_combination (
-				create {EV_KEY}.make_with_code (key_code),
-
-				(modifier_keys & Modifier_ctrl).to_boolean, 		-- require_control
-				(modifier_keys & Modifier_alt).to_boolean, 			-- require_alt
-				(modifier_keys & Modifier_shift).to_boolean			-- require_shift
-			)
-			accelerators.extend (Result)
+			accelerators := list
 		end
 
 feature -- Element change
 
-	add_unmodified_key_action (key_code: INTEGER; action: PROCEDURE)
-			--
+	extend (modifiers: NATURAL; key_code: INTEGER; action: PROCEDURE)
 		do
-			add_key_action (key_code, action, Modifier_none)
+			add_accelerator_action (combined (modifiers, key_code), action)
 		end
 
-	add_ctrl_shift_key_action (key_code: INTEGER; action: PROCEDURE)
-			--
+	remove_last
 		do
-			add_key_action (key_code, action, Modifier_ctrl | Modifier_shift)
+			accelerators.finish
+			if not accelerators.off then
+				accelerators.remove
+			end
 		end
 
-	add_ctrl_key_action (key_code: INTEGER; action: PROCEDURE)
-			--
-		do
-			add_key_action (key_code, action, Modifier_ctrl)
-		end
-
-	add_alt_key_action (key_code: INTEGER; action: PROCEDURE)
-			--
-		do
-			add_key_action (key_code, action, Modifier_alt)
-		end
-
-	add_key_action (key_code: INTEGER; action: PROCEDURE; modifier_keys: NATURAL)
-			--
-		local
-			accelerator: EV_ACCELERATOR
-		do
-			accelerator := create_accelerator (key_code, modifier_keys)
-			accelerator.actions.extend (action)
-		end
+feature {NONE} -- Internal attributes
 
 	accelerators: EV_ACCELERATOR_LIST
 
