@@ -1,3 +1,6 @@
+2.0.10
+* Added command to parse workarea/gdb.txt
+
 2.0.9
 * Fixed links split across lines in github markdown, and relative links that are not in github
 

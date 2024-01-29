@@ -1,13 +1,13 @@
 note
-	description: "Zero based coordinate array"
+	description: "Extended version of ${EV_COORDINATE_ARRAY}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 10:11:24 GMT (Sunday 31st December 2023)"
-	revision: "11"
+	date: "2024-01-29 19:13:02 GMT (Monday 29th January 2024)"
+	revision: "12"
 
 class
 	EL_POINT_ARRAY
@@ -18,7 +18,7 @@ inherit
 			make as make_array,
 			make_filled as make_filled_array
 		redefine
-			make_from_area
+			at, item, put
 		end
 
 	EL_GEOMETRY_MATH
@@ -27,7 +27,7 @@ inherit
 		end
 
 create
-	make_from_area, make_filled
+	make_from_area, make_filled, make_copy
 
 convert
 	make_from_area ({SPECIAL [EV_COORDINATE]})
@@ -36,21 +36,31 @@ feature {NONE} -- Initialization
 
 	make_filled (n: INTEGER)
 		local
-			i, l_upper: INTEGER
+			i, i_upper: INTEGER; l_area: like area
 		do
-			make_filled_array (create {EV_COORDINATE}, 0, n - 1)
-			l_upper := upper
-			from i := lower + 1 until i > l_upper loop
-				put (create {EV_COORDINATE}, i)
+			create l_area.make_filled (create {EV_COORDINATE}, n)
+			i_upper := n - 1
+			from i := 1 until i > i_upper loop
+				l_area [i] := create {EV_COORDINATE}
 				i := i + 1
 			end
+			make_from_area (l_area)
 		end
 
-	make_from_area (a_area: SPECIAL [EV_COORDINATE])
-			-- Make an ARRAY using `a' as `area'.
+	make_copy (a_area: like area)
+		local
+			i, i_upper: INTEGER
 		do
-			area := a_area
-			upper := a_area.count - 1
+			make_filled (a_area.count)
+			if attached area as l_area then
+				i_upper := a_area.count - 1
+				from i := 0 until i > i_upper loop
+					l_area [i].copy (a_area [i])
+					i := i + 1
+				end
+			end
+		ensure
+			valid_bounds: lower = 1 and upper = a_area.count
 		end
 
 feature -- Access
@@ -60,17 +70,32 @@ feature -- Access
 			create Result.make_from_array (Current)
 		end
 
+	item alias "[]", at alias "@" (i: INTEGER): EV_COORDINATE assign put
+			-- Entry at index `i', if in index interval
+		do
+			Result := area.item (i - lower)
+		end
+
+feature -- Element change
+
+	put (v: like item; i: INTEGER)
+			-- Replace `i'-th entry, if in index interval, by `v'.
+		do
+			area.put (v, i - lower)
+		end
+
 feature -- Basic operations
 
 	copy_to (target: like area)
 		require
 			same_size: count = target.count
 		local
-			i: INTEGER
+			i, i_upper: INTEGER
 		do
-			if count = target.count then
-				from i := 0 until i = area.count loop
-					target.item (i).copy (area [i])
+			if attached area as l_area then
+				i_upper := l_area.count.min (target.count) - 1
+				from i := 0 until i > i_upper loop
+					target [i].copy (l_area [i])
 					i := i + 1
 				end
 			end

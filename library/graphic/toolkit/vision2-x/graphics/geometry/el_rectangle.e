@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-16 19:24:26 GMT (Saturday 16th December 2023)"
-	revision: "31"
+	date: "2024-01-29 18:56:04 GMT (Monday 29th January 2024)"
+	revision: "32"
 
 class
 	EL_RECTANGLE
@@ -16,6 +16,15 @@ inherit
 	EV_RECTANGLE
 
 	EL_MODULE_SCREEN; EL_MODULE_ORIENTATION ; EL_MODULE_TEXT
+
+	EL_DOUBLE_MATH
+		rename
+			log as natural_log
+		export
+			{NONE} all
+		undefine
+			out
+		end
 
 create
 	default_create, make, make_cms, make_for_text,
@@ -130,6 +139,19 @@ feature -- Measurement
 			Result := width * height
 		end
 
+	aspect_precision: DOUBLE
+		-- the larger the dimensions the more accurate the `aspect_ratio'
+		local
+			smaller: INTEGER
+		do
+			smaller := width.min (height)
+			if smaller = 0 then
+				Result := 1
+			else
+				Result := 0.1 / log10 (smaller)
+			end
+		end
+
 	aspect_ratio: DOUBLE
 		do
 			Result := width / height
@@ -234,7 +256,8 @@ feature -- Basic operations
 				l_name := generator
 			end
 			log.put_labeled_substitution (
-				l_name, "position = (%S, %S); dimensions = %Sx%S; aspect ratio = %S", [x, y, width, height, aspect_ratio_formatted]
+				l_name, "position = (%S, %S); dimensions = %Sx%S; aspect ratio = %S",
+				[x, y, width, height, aspect_ratio_formatted]
 			)
 			log.put_new_line
 		end
@@ -257,14 +280,14 @@ feature -- Element change
 			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
 			if dimension = {EL_DIRECTION}.By_width then
-				height := (height * size / width).rounded
+				height := (height * size / width).rounded.max (1)
 				width := size
 			else
-				width := (width * size / height).rounded
+				width := (width * size / height).rounded.max (1)
 				height := size
 			end
 		ensure
-			proportions_unchanged: old (height / width).rounded = (height / width).rounded
+			same_aspect: height > 0 implies approximately_equal (old aspect_ratio, aspect_ratio, aspect_precision)
 		end
 
 	scale_to_width (a_width: INTEGER)
@@ -276,11 +299,9 @@ feature -- Conversion
 
 	to_point_array: EL_POINT_ARRAY
 		do
-			create Result.make_filled (4)
-			Result [0] := upper_left
-			Result [1] := upper_right
-			Result [2] := lower_right
-			Result [3] := lower_left
+			if attached (<< upper_left, upper_right, lower_right, lower_left >>) as array then
+				Result := array.area
+			end
 		end
 
 end

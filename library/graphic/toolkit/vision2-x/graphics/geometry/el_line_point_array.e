@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-16 19:24:26 GMT (Saturday 16th December 2023)"
-	revision: "5"
+	date: "2024-01-29 18:42:51 GMT (Monday 29th January 2024)"
+	revision: "6"
 
 class
 	EL_LINE_POINT_ARRAY
 
 inherit
 	EL_POINT_ARRAY
-		rename
-			make_filled as make_sized
 		redefine
 			make_from_area
 		end
@@ -29,16 +27,21 @@ convert
 feature {NONE} -- Initialization
 
 	make_from_area (other: SPECIAL [EV_COORDINATE])
+		require else
+			compatible_count: other.count = point_count
 		do
-			if other.count = line_count then
+			if other.count = point_count then
 				Precursor (other)
 			else
-				make
-				area.copy_data (other, 0, 0, line_count)
-				upper := (line_count - 1).max (1)
+				lower := 1; upper := point_count
+				create area.make_empty (point_count)
+				area.copy_data (other, 0, 0, point_count.min (other.count))
+				from until area.count = point_count loop
+					area.extend (create {EV_COORDINATE}) -- pad up to `point_count'
+				end
 			end
 		ensure then
-			correct: line_count.max (2) = count
+			correct: point_count = count
 		end
 
 	make_centered (rectangle: EL_MODEL_ROTATED_RECTANGLE; axis: INTEGER)
@@ -70,7 +73,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_sized (line_count)
+			make_filled (point_count)
 		end
 
 feature -- Access
@@ -85,8 +88,9 @@ feature -- Access
 			Result := area [1]
 		end
 
-	line_count: INTEGER
+	point_count: INTEGER
 		do
-			Result := 1
+			Result := 2
 		end
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-14 10:21:36 GMT (Thursday 14th December 2023)"
-	revision: "4"
+	date: "2024-01-29 18:30:15 GMT (Monday 29th January 2024)"
+	revision: "5"
 
 class
 	EL_TRIANGLE_POINT_ARRAY
@@ -15,7 +15,7 @@ class
 inherit
 	EL_LINE_POINT_ARRAY
 		redefine
-			line_count
+			point_count
 		end
 
 create
@@ -31,7 +31,7 @@ feature -- Access
 			Result := area [2]
 		end
 
-	line_count: INTEGER
+	point_count: INTEGER
 		do
 			Result := 3
 		end

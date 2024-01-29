@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 18:12:55 GMT (Sunday 28th January 2024)"
-	revision: "29"
+	date: "2024-01-29 17:03:37 GMT (Monday 29th January 2024)"
+	revision: "30"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -118,17 +118,17 @@ feature -- Basic operations
 			valid_width: width <= Max_width
 		local
 			scaled_drawing: CAIRO_DRAWING_AREA
-			l_width: NATURAL
 		do
-			l_width := width.to_natural_32
-			if l_width > 0 and then attached point_array as p then
+			if attached point_array as p then
 				drawing.save
 				drawing.translate (p [0].x, p [0].y)
 				drawing.rotate (angle)
 
 				drawing.flip (width, height, mirror_state)
-				Scaled_drawing_cache.set_new_item_target (Current) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
-				scaled_drawing := Scaled_drawing_cache.item ((drawing_area.id.to_natural_32 |<< 16) | l_width)
+				if attached Scaled_drawing_cache as cache then
+					cache.set_drawing_area (drawing_area) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
+					scaled_drawing := cache.dimension_item (width, height)
+				end
 				drawing.draw_area (0, 0, scaled_drawing)
 				drawing.restore
 				progress_listener.notify_tick
@@ -178,14 +178,14 @@ feature {EV_MODEL_DRAWER, EV_MODEL} -- Access
 
 feature {NONE} -- Constants
 
-	Scaled_drawing_cache: EL_AGENT_CACHE_TABLE [CAIRO_DRAWING_AREA, NATURAL]
-		once
-			create Result.make (13, agent new_scaled_drawing_area)
-		end
-
 	Default_drawing_area: CAIRO_DRAWING_AREA
 		once
 			create Result.make_with_size (1, 1)
+		end
+
+	Scaled_drawing_cache: EL_DRAWING_AREA_CACHE_TABLE
+		once
+			create Result.make (13)
 		end
 
 	Width_mask: NATURAL = 0xFFFF

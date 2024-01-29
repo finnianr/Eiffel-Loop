@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-14 10:36:35 GMT (Thursday 14th December 2023)"
-	revision: "5"
+	date: "2024-01-29 18:43:52 GMT (Monday 29th January 2024)"
+	revision: "6"
 
 class
 	EL_SQUARE_POINT_ARRAY
@@ -36,7 +36,7 @@ feature -- Element change
 		do
 			if attached area as p then
 				p [0].copy (a_p0)
-				from i := 1; alpha := angle  until i > 3 loop
+				from i := 1; alpha := angle until i > 3 loop
 					set_point_on_circle (p [i], p [i - 1], alpha, width)
 					alpha := alpha + radians (90)
 					i := i + 1

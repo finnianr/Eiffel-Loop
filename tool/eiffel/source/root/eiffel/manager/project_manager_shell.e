@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 17:24:13 GMT (Monday 15th January 2024)"
-	revision: "11"
+	date: "2024-01-29 17:41:59 GMT (Monday 29th January 2024)"
+	revision: "12"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -15,13 +15,13 @@ class
 inherit
 	PROJECT_MANAGER_IMPLEMENTATION
 
-	EL_MODULE_COMMAND
+	EL_ITERATION_OUTPUT
 
-	EL_LOGGABLE_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_MODULE_COMMAND; EL_MODULE_FILE
 
-	FEATURE_CONSTANTS
+	EL_LOGGABLE_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_STRING_8_CONSTANTS
 
-	CROSS_PLATFORM_CONSTANTS
+	FEATURE_CONSTANTS; CROSS_PLATFORM_CONSTANTS
 
 create
 	make
@@ -46,19 +46,20 @@ feature {NONE} -- Factory
 			project_py := "project.py"
 
 			create Result.make (<<
-				["Edit " + project_py,				agent edit_file (project_py)],
-				["Edit " + pecf_name,				agent edit_file (config.ecf_pyxis_path)],
-				["Edit " + ecf_name,					agent edit_file (config.ecf_xml_path)],
-				["Install F_code executable",		agent install_f_code_executable],
-				["List feature code expansions",	agent list_feature_expansions],
-				["Manage versions",					agent manage_versions],
-				["Open cache directory",			agent open_directory (config.app_cache_path)],
-				["Open configuration directory",	agent open_directory (config.app_configuration_path)],
-				["Open data directory",				agent open_directory (config.app_data_path)],
-				["Open project directory",			agent open_directory (Directory.current_working)],
-				["Remove EIFGENs directory",		agent remove_eifgens],
-				["Rename classes in source",		agent rename_source_classes],
-				["Search classes in source",		agent regular_expression_search]
+				["Edit " + project_py,						  agent edit_file (project_py)],
+				["Edit " + pecf_name,						  agent edit_file (config.ecf_pyxis_path)],
+				["Edit " + ecf_name,							  agent edit_file (config.ecf_xml_path)],
+				["Install F_code executable",				  agent install_f_code_executable],
+				["List feature code expansions",			  agent list_feature_expansions],
+				["Manage versions",							  agent manage_versions],
+				["Open cache directory",					  agent open_directory (config.app_cache_path)],
+				["Open configuration directory",			  agent open_directory (config.app_configuration_path)],
+				["Open data directory",						  agent open_directory (config.app_data_path)],
+				["Open project directory",					  agent open_directory (Directory.current_working)],
+				["Put Eiffel names in workarea/gdb.txt", agent lookup_gdb_functions],
+				["Remove EIFGENs directory",				  agent remove_eifgens],
+				["Rename classes in source",				  agent rename_source_classes],
+				["Search classes in source",				  agent regular_expression_search]
 			>>)
 			if Default_localization_manifest.exists then
 				Result ["Update " + Locale_resources_dir.to_string_8] := agent update_locale_resources
@@ -66,6 +67,16 @@ feature {NONE} -- Factory
 		end
 
 feature {NONE} -- Commands
+
+	install_f_code_executable
+		local
+			install_command: EL_OS_COMMAND
+		do
+			create install_command.make_with_name (
+				"ec_install_app", "python -m eiffel_loop.scripts.ec_install_app --f_code --install /usr/local/bin"
+			)
+			install_command.execute
+		end
 
 	list_feature_expansions
 		local
@@ -89,14 +100,41 @@ feature {NONE} -- Commands
 			end
 		end
 
-	install_f_code_executable
+	lookup_gdb_functions
+		-- replace pointer with Eiffel name for gdb stacktrace in workarea/gdb.txt
+		-- #7  0x0000000000fb0f21 in F2009_11721 ()
+		--	#8  0x0000000000a15a1b in F3252_38179 ()
 		local
-			install_command: EL_OS_COMMAND
+			f_marker_index: INTEGER; s: EL_STRING_8_ROUTINES; gdb_txt_path: FILE_PATH
+			f_marker, line, f_name: STRING
 		do
-			create install_command.make_with_name (
-				"ec_install_app", "python -m eiffel_loop.scripts.ec_install_app --f_code --install /usr/local/bin"
-			)
-			install_command.execute
+			gdb_txt_path := "workarea/gdb.txt"; f_marker := " in F"
+
+			if gdb_txt_path.exists then
+				lio.put_line ("Creating Eiffel function lookup table from F_code *.c")
+				if attached new_eiffel_name_table as name_table then
+					lio.put_new_line
+					across File.plain_text_lines (gdb_txt_path) as list loop
+						line := list.item_copy
+						f_marker_index := line.substring_index (f_marker, 1)
+						if f_marker_index > 0 then
+							f_marker_index := f_marker_index + f_marker.count - 1
+							f_name := s.substring_to_from (line, ' ', $f_marker_index)
+							if name_table.has_key (f_name) then
+								line.append_character (' ')
+								line.append (name_table.found_item)
+							end
+						end
+						if line.count > 25 then
+							line.remove_substring (4, 25) -- remove pointer address
+						end
+						lio.put_line (line)
+					end
+				end
+			else
+				lio.put_path_field ("Save stacktrace from gdb in %S", gdb_txt_path)
+				lio.put_new_line
+			end
 		end
 
 	manage_versions
@@ -163,6 +201,50 @@ feature {NONE} -- Commands
 
 feature {NONE} -- Implementation
 
+	new_eiffel_name_table: EL_HASH_TABLE [STRING, STRING]
+		-- Code example 1:
+		-- 	EIF_REFERENCE F2009_11721 (EIF_REFERENCE Current)
+
+		-- Code example 2:
+		-- 	static EIF_REFERENCE F2009_11721 (EIF_REFERENCE Current)
+
+		-- Code example 3:
+		-- 	/* {EL_APPLICATION}.do_application */
+		-- 	#undef EIF_VOLATILE
+		-- 	#define EIF_VOLATILE volatile
+		-- 	void F3291_32332 (EIF_REFERENCE Current)
+
+		local
+			s: EL_STRING_8_ROUTINES; line, function_name, comment_start, comment_end, static: STRING
+			word_index: INTEGER; word_split: EL_SPLIT_ON_CHARACTER [STRING]
+		do
+			create Result.make_size (5000)
+			comment_start := "/* {"; comment_end := " */"; static := "static "
+			across OS.file_list (F_code_dir, "*.c") as src loop
+				print_progress (src.cursor_index.to_natural_32)
+				function_name := Empty_string_8
+
+				across File.plain_text_lines (src.item) as list loop
+					line := list.item
+					if function_name /= Empty_string_8 and then not s.starts_with_character (line, '#') then
+						word_index := 2 + line.starts_with (static).to_integer
+						create word_split.make (line, ' ')
+						across word_split as split until split.cursor_index > word_index loop
+							if split.cursor_index = word_index then
+								Result.extend (function_name, split.item_copy)
+							end
+						end
+						function_name := Empty_string_8
+
+					elseif line.starts_with (comment_start) and then line.ends_with (comment_end) then
+					-- line example: /* {EV_MODEL}.pointer_enter_actions */
+						function_name := line.substring (comment_start.count + 1, line.count - comment_end.count)
+						function_name.prune ('}')
+					end
+				end
+			end
+		end
+
 	open_directory (path: DIR_PATH)
 		do
 			if path.exists and then attached Nautilus_command as cmd then
@@ -181,10 +263,12 @@ feature {NONE} -- Constants
 			Result := "localization/manifest.pyx"
 		end
 
-	Locale_resources_dir: ZSTRING
+	Expansion_template: ZSTRING
 		once
-			Result := "resources/locales"
+			Result := "@f %S -> "
 		end
+
+	Grep_results: STRING = "grep_results.e"
 
 	Grep_results_path: FILE_PATH
 		-- Find /home/finnian/Desktop/Eiffel Apps/grep_results.e
@@ -198,11 +282,11 @@ feature {NONE} -- Constants
 			end
 		end
 
-	Grep_results: STRING = "grep_results.e"
+	Iterations_per_dot: NATURAL_32 = 10
 
-	Expansion_template: ZSTRING
+	Locale_resources_dir: ZSTRING
 		once
-			Result := "@f %S -> "
+			Result := "resources/locales"
 		end
 
 end

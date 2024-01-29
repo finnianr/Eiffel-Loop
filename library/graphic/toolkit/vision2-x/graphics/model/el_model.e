@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-01-29 19:08:18 GMT (Monday 29th January 2024)"
+	revision: "15"
 
 deferred class
 	EL_MODEL
@@ -56,7 +56,7 @@ feature -- Access
 		do
 			if attached point_array as p then
 				Result := p [0]
-				from i := 1 until i = point_count loop
+				from i := 1 until i = p.count loop
 					inspect direction
 						when {EL_DIRECTION}.Top then
 							exceeded := p [i].y_precise < Result.y_precise
@@ -109,12 +109,11 @@ feature -- Duplication
 
 	copy (other: like Current)
 		local
-			l_array: EL_POINT_ARRAY
+			other_array: EL_POINT_ARRAY
 		do
 			standard_copy (other)
-			create l_array.make_filled (other.point_count)
-			point_array := l_array.area
-			copy_points (other.point_array)
+			create other_array.make_copy (other.point_array)
+			point_array := other_array.area
 			center := other.center.twin
 		end
 

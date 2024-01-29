@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-16 9:20:31 GMT (Tuesday 16th January 2024)"
-	revision: "4"
+	date: "2024-01-29 13:40:12 GMT (Monday 29th January 2024)"
+	revision: "5"
 
 deferred class
 	CROSS_PLATFORM_CONSTANTS
@@ -40,6 +40,12 @@ feature {NONE} -- Strings
 		end
 
 feature {NONE} -- Constants
+
+	F_code_dir: DIR_PATH
+		once
+			Result := "build/$ISE_PLATFORM/EIFGENs/classic/F_code"
+			Result.expand
+		end
 
 	Platform: TUPLE [linux_x86_64, win64, windows: IMMUTABLE_STRING_8]
 		once
