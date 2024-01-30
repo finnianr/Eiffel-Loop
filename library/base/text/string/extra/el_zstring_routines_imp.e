@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-01-30 10:14:12 GMT (Tuesday 30th January 2024)"
+	revision: "23"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
 
 inherit
-	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING]
+	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING, CHARACTER_32]
 		rename
 			to_code as to_z_code
 		undefine
@@ -190,6 +190,12 @@ feature -- Status query
 					Result := s [1] = c_first and then s [s.count] = c_last
 				end
 			end
+		end
+
+	has_only (str: EL_READABLE_ZSTRING; set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if `str' only has characters in `set'
+		do
+			Result := str.has_only (set)
 		end
 
 	is_identifier_character (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "19"
+	date: "2024-01-30 10:15:59 GMT (Tuesday 30th January 2024)"
+	revision: "20"
 
 class
 	EL_STRING_8_ROUTINES_IMP
 
 inherit
-	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8]
+	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8, CHARACTER_8]
 		rename
 			shared_cursor_8 as cursor,
 			replace_character as replace_character_32,
@@ -91,6 +91,16 @@ feature -- Status query
 					do_nothing
 			else
 				Result := s [1] = c_first and then s [upper] = c_last
+			end
+		end
+
+	has_only (str: READABLE_STRING_8; set: EL_SET [CHARACTER_8]): BOOLEAN
+		-- `True' if `str' only has characters in `set'
+		local
+			r: EL_CHARACTER_8_ROUTINES
+		do
+			if attached cursor (str) as c then
+				Result := r.has_only (set, c.area, c.area_first_index, c.area_last_index)
 			end
 		end
 

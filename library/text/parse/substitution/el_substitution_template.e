@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-01-30 10:06:50 GMT (Tuesday 30th January 2024)"
+	revision: "8"
 
 deferred class
 	EL_SUBSTITUTION_TEMPLATE
@@ -250,7 +250,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred implementation
 
-	string: EL_STRING_X_ROUTINES [STRING_GENERAL, READABLE_STRING_GENERAL]
+	string: EL_STRING_X_ROUTINES [STRING_GENERAL, READABLE_STRING_GENERAL, COMPARABLE]
 		deferred
 		end
 

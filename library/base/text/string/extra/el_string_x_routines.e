@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:20:01 GMT (Saturday 20th January 2024)"
-	revision: "61"
+	date: "2024-01-30 17:16:30 GMT (Tuesday 30th January 2024)"
+	revision: "62"
 
 deferred class
-	EL_STRING_X_ROUTINES [STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL]
+	EL_STRING_X_ROUTINES [
+		STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL,
+		C -> COMPARABLE -- CHARACTER_X
+	]
 
 inherit
-	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X]
+	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X, C]
 
 feature -- Basic operations
 

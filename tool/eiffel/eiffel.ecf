@@ -8,7 +8,7 @@
 	<!--&quot;Swiss army knife&quot; toolkit containing a suite of command line tools for Eiffel development-->
 	<target name = "classic">
 		<root class = "APPLICATION_ROOT" feature = "make"/>
-		<version major = "2" minor = "0" release = "10" build = "531" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
+		<version major = "2" minor = "0" release = "10" build = "535" company = "Eiffel-Loop" product = "eiffel" copyright = "Finnian Reilly"/>
 		<!--Special case: no automatic generation of ecf XML for this project because of circularity-->
 		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true">
 			<assertions precondition = "true" postcondition = "true" check = "true" invariant = "true"/>

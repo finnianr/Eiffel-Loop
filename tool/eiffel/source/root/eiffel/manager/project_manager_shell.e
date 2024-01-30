@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-29 17:41:59 GMT (Monday 29th January 2024)"
-	revision: "12"
+	date: "2024-01-30 17:08:42 GMT (Tuesday 30th January 2024)"
+	revision: "13"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -19,9 +19,14 @@ inherit
 
 	EL_MODULE_COMMAND; EL_MODULE_FILE
 
-	EL_LOGGABLE_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_STRING_8_CONSTANTS
+	EL_LOGGABLE_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 	FEATURE_CONSTANTS; CROSS_PLATFORM_CONSTANTS
+
+	EL_SET [CHARACTER_8]
+		rename
+			has as is_eiffel_c_name_character
+		end
 
 create
 	make
@@ -108,7 +113,7 @@ feature {NONE} -- Commands
 			f_marker_index: INTEGER; s: EL_STRING_8_ROUTINES; gdb_txt_path: FILE_PATH
 			f_marker, line, f_name: STRING
 		do
-			gdb_txt_path := "workarea/gdb.txt"; f_marker := " in F"
+			gdb_txt_path := "workarea/gdb.txt"; f_marker := " F"
 
 			if gdb_txt_path.exists then
 				lio.put_line ("Creating Eiffel function lookup table from F_code *.c")
@@ -116,17 +121,21 @@ feature {NONE} -- Commands
 					lio.put_new_line
 					across File.plain_text_lines (gdb_txt_path) as list loop
 						line := list.item_copy
-						f_marker_index := line.substring_index (f_marker, 1)
-						if f_marker_index > 0 then
-							f_marker_index := f_marker_index + f_marker.count - 1
-							f_name := s.substring_to_from (line, ' ', $f_marker_index)
-							if name_table.has_key (f_name) then
-								line.append_character (' ')
-								line.append (name_table.found_item)
-							end
-						end
 						if line.count > 25 then
 							line.remove_substring (4, 25) -- remove pointer address
+							f_marker_index := line.substring_index (f_marker, 1)
+							if f_marker_index > 0 then
+								f_marker_index := f_marker_index + f_marker.count - 1
+								f_name := s.substring_to_from (line, ' ', $f_marker_index)
+								if name_table.has_key (f_name) then
+									line.remove_tail (2)
+									if line.count < 16 then
+										line.append (space * (16 - line.count))
+									end
+									line.append_string_general ("-> ")
+									line.append (name_table.found_item)
+								end
+							end
 						end
 						lio.put_line (line)
 					end
@@ -215,33 +224,51 @@ feature {NONE} -- Implementation
 		-- 	void F3291_32332 (EIF_REFERENCE Current)
 
 		local
-			s: EL_STRING_8_ROUTINES; line, function_name, comment_start, comment_end, static: STRING
-			word_index: INTEGER; word_split: EL_SPLIT_ON_CHARACTER [STRING]
+			s: EL_STRING_8_ROUTINES; function_name, c_name, comment_end, source: STRING
+			word_index, end_index, c_name_index: INTEGER; found: BOOLEAN
 		do
 			create Result.make_size (5000)
-			comment_start := "/* {"; comment_end := " */"; static := "static "
+			comment_end := " */"
 			across OS.file_list (F_code_dir, "*.c") as src loop
 				print_progress (src.cursor_index.to_natural_32)
-				function_name := Empty_string_8
-
-				across File.plain_text_lines (src.item) as list loop
-					line := list.item
-					if function_name /= Empty_string_8 and then not s.starts_with_character (line, '#') then
-						word_index := 2 + line.starts_with (static).to_integer
-						create word_split.make (line, ' ')
-						across word_split as split until split.cursor_index > word_index loop
-							if split.cursor_index = word_index then
-								Result.extend (function_name, split.item_copy)
+				source := File.plain_text (src.item)
+				if attached s.occurrence_intervals (source, "/* {") as list then
+					from list.start until list.after loop
+						end_index := source.substring_index (comment_end, list.item_upper + 1)
+						if end_index > 0 then
+							function_name := source.substring (list.item_upper + 1, end_index - 1)
+							function_name.prune ('}')
+							c_name_index := end_index + comment_end.count
+							from found := False until found loop
+								c_name := s.substring_to_from (source, ' ', $c_name_index)
+								if is_eiffel_c_name (c_name) then
+									Result.extend (function_name, c_name)
+									found := True
+								end
 							end
 						end
-						function_name := Empty_string_8
-
-					elseif line.starts_with (comment_start) and then line.ends_with (comment_end) then
-					-- line example: /* {EV_MODEL}.pointer_enter_actions */
-						function_name := line.substring (comment_start.count + 1, line.count - comment_end.count)
-						function_name.prune ('}')
+						list.forth
 					end
 				end
+			end
+		end
+
+	is_eiffel_c_name (name: STRING): BOOLEAN
+		-- `True' if `name' is something like "F2009_11721"
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			if s.starts_with_character (name, 'F') and then name.occurrences ('_') = 1 then
+				Result := s.has_only (name, Current) -- `is_eiffel_c_name_character'
+			end
+		end
+
+	is_eiffel_c_name_character (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when '0' .. '9', '_', 'F' then
+					Result := True
+			else
 			end
 		end
 

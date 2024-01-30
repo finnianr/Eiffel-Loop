@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-29 10:59:55 GMT (Friday 29th December 2023)"
-	revision: "30"
+	date: "2024-01-30 9:59:45 GMT (Tuesday 30th January 2024)"
+	revision: "31"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
@@ -24,6 +24,20 @@ feature -- Access
 		end
 
 feature -- Status query
+
+	has_only (set: EL_SET [G]; area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `area' has only characters in `set' from `start_index' to `end_index'
+		local
+			i: INTEGER
+		do
+			from Result := True; i := start_index until not Result or i > end_index loop
+				if set.has (area [i]) then
+					i := i + 1
+				else
+					Result := False
+				end
+			end
+		end
 
 	is_ascii_area (area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `area' are in the ASCII character set range: 0 .. 127

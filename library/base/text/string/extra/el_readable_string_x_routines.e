@@ -9,11 +9,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "29"
+	date: "2024-01-30 17:16:43 GMT (Tuesday 30th January 2024)"
+	revision: "30"
 
 deferred class
-	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL]
+	EL_READABLE_STRING_X_ROUTINES [
+		READABLE_STRING_X -> READABLE_STRING_GENERAL, C -> COMPARABLE -- CHARACTER_X
+	]
 
 inherit
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -117,6 +119,11 @@ feature -- Status query
 
 	has_enclosing (s: READABLE_STRING_X; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
+		deferred
+		end
+
+	has_only (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
+		-- `True' if `str' only has characters in `set'
 		deferred
 		end
 
