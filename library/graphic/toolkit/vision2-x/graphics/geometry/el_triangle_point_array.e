@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-29 18:30:15 GMT (Monday 29th January 2024)"
-	revision: "5"
+	date: "2024-01-31 10:58:43 GMT (Wednesday 31st January 2024)"
+	revision: "6"
 
 class
 	EL_TRIANGLE_POINT_ARRAY
@@ -25,11 +25,6 @@ convert
 	make_from_area ({SPECIAL [EV_COORDINATE]})
 
 feature -- Access
-
-	p2: EV_COORDINATE
-		do
-			Result := area [2]
-		end
 
 	point_count: INTEGER
 		do

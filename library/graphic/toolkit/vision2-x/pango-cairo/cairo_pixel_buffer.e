@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-01-31 13:24:30 GMT (Wednesday 31st January 2024)"
+	revision: "4"
 
 class
 	CAIRO_PIXEL_BUFFER
@@ -58,10 +58,9 @@ feature {NONE} -- Implementation
 		do
 			if not is_in_final_collect then
 --				Nothing works to free image memory !!! This is a widely reported bug.
---				Gdk.pixbuf_unref (this) -- (Deprecated function)
+				Gdk_pixbuf.unref (this) -- (Deprecated function)
 --				Gobject.clear ($this)
-
-				Gobject.unref (this)
+--				Gobject.unref (this)
 			end
 		end
 

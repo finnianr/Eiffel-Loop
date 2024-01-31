@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-29 19:08:18 GMT (Monday 29th January 2024)"
-	revision: "15"
+	date: "2024-01-31 13:11:39 GMT (Wednesday 31st January 2024)"
+	revision: "16"
 
 deferred class
 	EL_MODEL
@@ -49,6 +49,20 @@ feature -- Access
 			Result := point_array [modulo (i, point_count)]
 		end
 
+	point_array_twin: like point_array
+		local
+			i, i_upper: INTEGER
+		do
+			if attached point_array as p then
+				create Result.make_empty (p.count)
+				i_upper := p.count - 1
+				from i := 0 until i > i_upper loop
+					Result.extend (p [i].twin)
+					i := i + 1
+				end
+			end
+		end
+
 	furthest (direction: INTEGER): EV_COORDINATE
 		-- furthest point in `direction'
 		local
@@ -84,14 +98,14 @@ feature -- Comparison
 
 	same_points (other: like Current): BOOLEAN
 		local
-			i, n: INTEGER
+			i, i_upper: INTEGER
 		do
-			if attached point_array as p and then attached other.point_array as p_o then
-				Result := p.count = p_o.count
+			if attached point_array as p and then attached other.point_array as o_p then
+				Result := p.count = o_p.count
 				if Result then
-					n := p.count
-					from i := 0 until not Result or else i = n loop
-						Result := p [i] ~ p_o [i]
+					i_upper := p.count - 1
+					from i := 0 until not Result or else i > i_upper loop
+						Result := p [i] ~ o_p [i]
 						i := i + 1
 					end
 				end
@@ -108,12 +122,9 @@ feature -- Conversion
 feature -- Duplication
 
 	copy (other: like Current)
-		local
-			other_array: EL_POINT_ARRAY
 		do
 			standard_copy (other)
-			create other_array.make_copy (other.point_array)
-			point_array := other_array.area
+			point_array := other.point_array_twin
 			center := other.center.twin
 		end
 
@@ -135,8 +146,7 @@ feature -- Transform
 	move_in_direction (a_angle, a_distance: DOUBLE)
 		-- move model by `a_distance' in direction of `a_angle'
 		local
-			a_delta_y, a_delta_x: DOUBLE; i, upper: INTEGER
-			p: EV_COORDINATE
+			a_delta_y, a_delta_x: DOUBLE; i, upper: INTEGER; p: EV_COORDINATE
 		do
 			a_delta_x := cosine (a_angle) * a_distance
 			a_delta_y := sine (a_angle) * a_distance
@@ -198,16 +208,16 @@ feature -- Transform
 
 	set_x_y_precise (a_center: EV_COORDINATE)
 		local
-			a_delta_y, a_delta_x: DOUBLE; i, nb: INTEGER
+			a_delta_y, a_delta_x: DOUBLE; i, i_upper: INTEGER
 			l_coordinate: EV_COORDINATE
 		do
 			a_delta_y := a_center.y_precise - center.y_precise
 			a_delta_x := a_center.x_precise - center.x_precise
 			if attached point_array as p and then (a_delta_y /= a_delta_y.zero or a_delta_x /= a_delta_x.zero) then
 				from
-					i := 0; nb := p.count - 1
+					i := 0; i_upper := p.count - 1
 				until
-					i > nb
+					i > i_upper
 				loop
 					l_coordinate := p [i]
 					l_coordinate.set_precise (l_coordinate.x_precise + a_delta_x, l_coordinate.y_precise + a_delta_y)

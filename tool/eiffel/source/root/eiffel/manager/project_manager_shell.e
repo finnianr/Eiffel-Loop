@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 17:08:42 GMT (Tuesday 30th January 2024)"
-	revision: "13"
+	date: "2024-01-31 11:13:16 GMT (Wednesday 31st January 2024)"
+	revision: "14"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -118,7 +118,6 @@ feature {NONE} -- Commands
 			if gdb_txt_path.exists then
 				lio.put_line ("Creating Eiffel function lookup table from F_code *.c")
 				if attached new_eiffel_name_table as name_table then
-					lio.put_new_line
 					across File.plain_text_lines (gdb_txt_path) as list loop
 						line := list.item_copy
 						if line.count > 25 then
@@ -208,50 +207,11 @@ feature {NONE} -- Commands
 			lio.put_new_line
 		end
 
+feature {NONE} -- Internal attributes
+
+	internal_eiffel_name_table: detachable like new_eiffel_name_table
+
 feature {NONE} -- Implementation
-
-	new_eiffel_name_table: EL_HASH_TABLE [STRING, STRING]
-		-- Code example 1:
-		-- 	EIF_REFERENCE F2009_11721 (EIF_REFERENCE Current)
-
-		-- Code example 2:
-		-- 	static EIF_REFERENCE F2009_11721 (EIF_REFERENCE Current)
-
-		-- Code example 3:
-		-- 	/* {EL_APPLICATION}.do_application */
-		-- 	#undef EIF_VOLATILE
-		-- 	#define EIF_VOLATILE volatile
-		-- 	void F3291_32332 (EIF_REFERENCE Current)
-
-		local
-			s: EL_STRING_8_ROUTINES; function_name, c_name, comment_end, source: STRING
-			word_index, end_index, c_name_index: INTEGER; found: BOOLEAN
-		do
-			create Result.make_size (5000)
-			comment_end := " */"
-			across OS.file_list (F_code_dir, "*.c") as src loop
-				print_progress (src.cursor_index.to_natural_32)
-				source := File.plain_text (src.item)
-				if attached s.occurrence_intervals (source, "/* {") as list then
-					from list.start until list.after loop
-						end_index := source.substring_index (comment_end, list.item_upper + 1)
-						if end_index > 0 then
-							function_name := source.substring (list.item_upper + 1, end_index - 1)
-							function_name.prune ('}')
-							c_name_index := end_index + comment_end.count
-							from found := False until found loop
-								c_name := s.substring_to_from (source, ' ', $c_name_index)
-								if is_eiffel_c_name (c_name) then
-									Result.extend (function_name, c_name)
-									found := True
-								end
-							end
-						end
-						list.forth
-					end
-				end
-			end
-		end
 
 	is_eiffel_c_name (name: STRING): BOOLEAN
 		-- `True' if `name' is something like "F2009_11721"
@@ -269,6 +229,56 @@ feature {NONE} -- Implementation
 				when '0' .. '9', '_', 'F' then
 					Result := True
 			else
+			end
+		end
+
+	new_eiffel_name_table: EL_HASH_TABLE [STRING, STRING]
+		-- Code example 1:
+		-- 	EIF_REFERENCE F2009_11721 (EIF_REFERENCE Current)
+
+		-- Code example 2:
+		-- 	static EIF_REFERENCE F2009_11721 (EIF_REFERENCE Current)
+
+		-- Code example 3:
+		-- 	/* {EL_APPLICATION}.do_application */
+		-- 	#undef EIF_VOLATILE
+		-- 	#define EIF_VOLATILE volatile
+		-- 	void F3291_32332 (EIF_REFERENCE Current)
+
+		local
+			s: EL_STRING_8_ROUTINES; function_name, c_name, comment_end, source: STRING
+			end_index, c_name_index: INTEGER; found: BOOLEAN
+		do
+			if attached internal_eiffel_name_table as table then
+				Result := table
+			else
+				create Result.make_size (5000)
+				internal_eiffel_name_table := Result
+				
+				comment_end := " */"
+				across OS.file_list (F_code_dir, "*.c") as src loop
+					print_progress (src.cursor_index.to_natural_32)
+					source := File.plain_text (src.item)
+					if attached s.occurrence_intervals (source, "/* {") as list then
+						from list.start until list.after loop
+							end_index := source.substring_index (comment_end, list.item_upper + 1)
+							if end_index > 0 then
+								function_name := source.substring (list.item_upper + 1, end_index - 1)
+								function_name.prune ('}')
+								c_name_index := end_index + comment_end.count
+								from found := False until found loop
+									c_name := s.substring_to_from (source, ' ', $c_name_index)
+									if is_eiffel_c_name (c_name) then
+										Result.extend (function_name, c_name)
+										found := True
+									end
+								end
+							end
+							list.forth
+						end
+					end
+				end
+				lio.put_new_line
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-16 19:55:29 GMT (Saturday 16th December 2023)"
-	revision: "6"
+	date: "2024-01-31 10:57:16 GMT (Wednesday 31st January 2024)"
+	revision: "7"
 
 class
 	EL_MODEL_TRIANGLE
@@ -44,9 +44,11 @@ feature {NONE} -- Initialization
 			i: INTEGER
 		do
 			default_create
-			from i := 0 until i > 2 loop
-				set_point_on_circle (point_array [i], apex, a_angle + radians (90 * (i - 1)), size)
-				i := i + 1
+			if attached point_array as p then
+				from i := 0 until i > 2 loop
+					set_point_on_circle (p [i], apex, a_angle + radians (90 * (i - 1)), size)
+					i := i + 1
+				end
 			end
 		end
 
