@@ -1,13 +1,13 @@
 note
-	description: "Reflected makeable from string 8"
+	description: "Reflected field for object conforming to ${EL_MAKEABLE_FROM_STRING [STRING_8]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 7:31:30 GMT (Monday 12th December 2022)"
-	revision: "5"
+	date: "2024-02-02 11:01:01 GMT (Friday 2nd February 2024)"
+	revision: "6"
 
 class
 	EL_REFLECTED_MAKEABLE_FROM_STRING_8

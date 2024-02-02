@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "29"
+	date: "2024-02-02 12:11:41 GMT (Friday 2nd February 2024)"
+	revision: "30"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -77,10 +77,10 @@ feature {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 				Result := [new_xpath (field, node_type), agent set_path_field_from_node (path_field)]
 
 			elseif attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
-				and then string_field.is_value_cached
+				and then (string_field.is_value_cached or string_field.is_conforming)
 			then
-				-- Field value caching
-				Result := [new_xpath (string_field, node_type), agent set_cached_field_from_node (string_field)]
+			-- The default `set_field_from_readable' is faster for other reflected strings
+				Result := [new_xpath (string_field, node_type), agent set_field_from_node (string_field)]
 
 			elseif field.conforms_to_type (Class_id.EL_REFLECTIVE)
 				and then attached {EL_REFLECTIVE} field.value (current_reflective) as reflective_value
@@ -88,7 +88,7 @@ feature {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 				create reflective_context.make (reflective_value)
 				Result := [new_xpath (field, Element_node), agent set_reflective_field_context (field, reflective_context)]
 			else
-				Result := [new_xpath (field, node_type), agent set_field_from_node (field)]
+				Result := [new_xpath (field, node_type), agent set_field_from_readable (field)]
 			end
 		end
 
@@ -176,7 +176,7 @@ feature {NONE} -- Build from XML
 				then
 					Result [action.xpath] := action.procedure
 				else
-					Result [new_xpath (field, node_type)] := agent set_field_from_node (field)
+					Result [new_xpath (field, node_type)] := agent set_field_from_readable (field)
 				end
 			end
 		end
@@ -215,12 +215,12 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	set_field_from_node (field: EL_REFLECTED_FIELD)
+	set_field_from_readable (field: EL_REFLECTED_FIELD)
 		do
 			field.set_from_readable (Current, node)
 		end
 
-	set_cached_field_from_node (field: EL_REFLECTED_STRING [READABLE_STRING_GENERAL])
+	set_field_from_node (field: EL_REFLECTED_STRING [READABLE_STRING_GENERAL])
 		-- set string `field' with a cached value from `field.hash_set'
 		do
 			field.set_from_node (Current, node)

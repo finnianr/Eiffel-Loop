@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "27"
+	date: "2024-02-02 12:21:26 GMT (Friday 2nd February 2024)"
+	revision: "28"
 
 deferred class
 	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
@@ -19,22 +19,35 @@ inherit
 		undefine
 			reset, set_from_readable, set_from_memory, write, write_to_memory
 		redefine
-			append_to_string, group_type, new_factory, to_string, set_from_string_general
+			append_to_string, group_type, make, new_factory, to_string, set_from_string_general
 		end
 
 	STRING_HANDLER undefine is_equal end
 
+feature {EL_CLASS_META_DATA} -- Initialization
+
+	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+		do
+			Precursor (a_object, a_index, a_name)
+			is_conforming := type_id /= strict_type_id
+		end
+
 feature -- Access
+
+	group_type: TYPE [ANY]
+		do
+			Result := {READABLE_STRING_GENERAL}
+		end
 
 	to_string (a_object: EL_REFLECTIVE): S
 		do
 			Result := value (a_object)
 		end
 
-	group_type: TYPE [ANY]
-		do
-			Result := {READABLE_STRING_GENERAL}
-		end
+feature -- Status query
+
+	is_conforming: BOOLEAN
+		-- `True' is `S' parameter is not the same as generator name suffix: EL_REFLECTED_*
 
 feature -- Basic operations
 
@@ -67,10 +80,6 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	replaced (str: S; content: READABLE_STRING_GENERAL): S
-		deferred
-		end
-
 	new_factory: detachable EL_FACTORY [S]
 		do
 			if attached {EL_FACTORY [S]} String_factory.new_item_factory (type_id) as f then
@@ -78,6 +87,15 @@ feature {NONE} -- Implementation
 			else
 				Result := Precursor
 			end
+		end
+
+	replaced (str: S; content: READABLE_STRING_GENERAL): S
+		deferred
+		end
+
+	strict_type_id: INTEGER
+		-- type that matches generator name suffix EL_REFLECTED_*
+		deferred
 		end
 
 end

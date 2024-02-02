@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-02-02 12:20:37 GMT (Friday 2nd February 2024)"
+	revision: "15"
 
 class
 	EL_REFLECTED_ZSTRING
@@ -76,6 +76,12 @@ feature {NONE} -- Implementation
 			Result := str
 			str.wipe_out
 			str.append_string_general (general)
+		end
+
+	strict_type_id: INTEGER
+		-- type that matches generator name suffix EL_REFLECTED_*
+		do
+			Result := ({ZSTRING}).type_id
 		end
 
 end

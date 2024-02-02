@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 11:31:00 GMT (Tuesday 14th November 2023)"
-	revision: "16"
+	date: "2024-02-02 12:20:26 GMT (Friday 2nd February 2024)"
+	revision: "17"
 
 class
 	EL_REFLECTED_URI [U -> EL_URI create make end]
@@ -104,6 +104,12 @@ feature {NONE} -- Implementation
 	new_uri (str: READABLE_STRING_8): U
 		do
 			create Result.make (str)
+		end
+
+	strict_type_id: INTEGER
+		-- type that matches generator name suffix EL_REFLECTED_*
+		do
+			Result := ({EL_URI}).type_id
 		end
 
 end
