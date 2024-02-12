@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 9:32:02 GMT (Thursday 21st December 2023)"
-	revision: "35"
+	date: "2024-02-10 11:34:14 GMT (Saturday 10th February 2024)"
+	revision: "36"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -430,11 +430,11 @@ feature -- Numeric output
 		do
 			if attached output as op then
 				op.put_label (label)
-				op.put_string (once "[")
+				op.put_string (char ('['))
 				op.put_integer (field_value.lower)
 				op.put_string (once ", ")
 				op.put_integer (field_value.upper)
-				op.put_string (once "]")
+				op.put_string (char (']'))
 
 				op.flush
 			end

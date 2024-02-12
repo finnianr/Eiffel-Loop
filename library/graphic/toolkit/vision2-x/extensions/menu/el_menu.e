@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 15:37:02 GMT (Sunday 28th January 2024)"
-	revision: "16"
+	date: "2024-02-09 15:25:23 GMT (Friday 9th February 2024)"
+	revision: "17"
 
 deferred class
 	EL_MENU
@@ -226,13 +226,15 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Event handler
 
-	on_keyboard_shortcut (select_actions: EV_NOTIFY_ACTION_SEQUENCE)
-		local
-
+	on_keyboard_shortcut (id: INTEGER)
 		do
 			adjust_items_sensitivity
-			if is_menu_sensitive and then select_actions.state /= select_actions.Blocked_state then
-				select_actions.call ([])
+			if is_menu_sensitive
+				and then attached {EV_MENU_ITEM} menu.retrieve_item_by_data (id, True) as menu_item
+				and then attached menu_item.select_actions as actions
+				and then actions.state = actions.Normal_state
+			then
+				actions.call (Void)
 			end
 		end
 
@@ -255,7 +257,7 @@ feature {NONE} -- Implementation
 			key_code: NATURAL_16; key_modifiers: NATURAL
 		do
 			key_code := combined_keys.to_natural_16; key_modifiers := combined_keys |>> 16
-			add_accelerator_action (combined_keys, agent on_keyboard_shortcut (item (id).select_actions))
+			add_accelerator_action (combined_keys, agent on_keyboard_shortcut (id))
 			shortcut_descriptions [id] := new_key (key_code.to_integer_32).description (key_modifiers)
 		end
 
@@ -279,10 +281,6 @@ feature {NONE} -- Implementation
 			-- adjust menu texts to include shortcut information and extra space for Windows Aero themes
 		do
 			menu.do_all (agent adjust_menu_item_text)
-		end
-
-	call (object: ANY)
-		do
 		end
 
 	fill

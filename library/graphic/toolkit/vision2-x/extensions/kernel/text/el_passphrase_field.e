@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:54:06 GMT (Tuesday 14th February 2023)"
-	revision: "7"
+	date: "2024-02-06 17:47:24 GMT (Tuesday 6th February 2024)"
+	revision: "8"
 
 class
 	EL_PASSPHRASE_FIELD
@@ -42,6 +42,15 @@ feature -- Access
 	text: ZSTRING
 
 feature -- Element change
+
+	fill_blank
+		do
+			text.fill_blank
+			item.set_text (text.to_unicode)
+			if attached mirror as m then
+				m.fill_blank
+			end
+		end
 
 	set_mirror (a_mirror: like Current)
 		do

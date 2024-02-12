@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-18 15:26:33 GMT (Tuesday 18th July 2023)"
-	revision: "30"
+	date: "2024-02-05 10:39:32 GMT (Monday 5th February 2024)"
+	revision: "31"
 
 deferred class
 	EL_REFLECTIVE_BUILDABLE_AND_STORABLE_AS_XML
@@ -48,7 +48,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_from_file (a_file_path: like file_path)
+	make_from_file (a_file_path: FILE_PATH)
 			--
 		do
 			file_path := a_file_path

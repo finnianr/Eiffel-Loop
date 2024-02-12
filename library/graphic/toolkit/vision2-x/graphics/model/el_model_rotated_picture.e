@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-29 17:03:37 GMT (Monday 29th January 2024)"
-	revision: "30"
+	date: "2024-02-02 14:05:17 GMT (Friday 2nd February 2024)"
+	revision: "31"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -79,16 +79,6 @@ feature -- Status query
 			valid_axis: Orientation.is_valid_axis (axis)
 		do
 			Result := (mirror_state.to_integer_32 & axis).to_boolean
-		end
-
-	is_mirrored_x: BOOLEAN
-		do
-			Result := is_mirrored ({EL_DIRECTION}.X_axis)
-		end
-
-	is_mirrored_y: BOOLEAN
-		do
-			Result := is_mirrored ({EL_DIRECTION}.Y_axis)
 		end
 
 feature -- Comparison
