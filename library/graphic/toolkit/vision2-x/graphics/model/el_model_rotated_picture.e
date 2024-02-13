@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-02 14:05:17 GMT (Friday 2nd February 2024)"
-	revision: "31"
+	date: "2024-02-13 9:56:33 GMT (Tuesday 13th February 2024)"
+	revision: "32"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -106,23 +106,16 @@ feature -- Basic operations
 	render (drawing: CAIRO_DRAWING_AREA)
 		require
 			valid_width: width <= Max_width
-		local
-			scaled_drawing: CAIRO_DRAWING_AREA
 		do
-			if attached point_array as p then
-				drawing.save
-				drawing.translate (p [0].x, p [0].y)
+			drawing.save
+			if attached point_array [0] as p then
+				drawing.translate (p.x, p.y)
 				drawing.rotate (angle)
-
 				drawing.flip (width, height, mirror_state)
-				if attached Scaled_drawing_cache as cache then
-					cache.set_drawing_area (drawing_area) -- Ensure `new_scaled_pixel_buffer' refers to `pixel_buffer'
-					scaled_drawing := cache.dimension_item (width, height)
-				end
-				drawing.draw_area (0, 0, scaled_drawing)
-				drawing.restore
-				progress_listener.notify_tick
+				drawing.draw_area (0, 0, drawing_area.scaled_to_size (width, height, Void))
 			end
+			drawing.restore
+			progress_listener.notify_tick
 		end
 
 feature -- Duplication
@@ -147,21 +140,6 @@ feature -- Duplication
 			mirror_state := other.mirror_state
 		end
 
-feature {NONE} -- Implementation
-
-	new_scaled_drawing_area (id_width_key: NATURAL): like drawing_area
-		local
-			scaled_width: INTEGER
-		do
-			scaled_width := (id_width_key & Width_mask).to_integer_32
-
-			if scaled_width = drawing_area.width then
-				Result := drawing_area
-			else
-				create Result.make_scaled_to_width (drawing_area, scaled_width, Void)
-			end
-		end
-
 feature {EV_MODEL_DRAWER, EV_MODEL} -- Access
 
 	drawing_area: CAIRO_DRAWING_AREA
@@ -171,11 +149,6 @@ feature {NONE} -- Constants
 	Default_drawing_area: CAIRO_DRAWING_AREA
 		once
 			create Result.make_with_size (1, 1)
-		end
-
-	Scaled_drawing_cache: EL_DRAWING_AREA_CACHE_TABLE
-		once
-			create Result.make (13)
 		end
 
 	Width_mask: NATURAL = 0xFFFF
