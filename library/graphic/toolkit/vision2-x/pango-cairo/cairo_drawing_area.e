@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-13 12:28:51 GMT (Tuesday 13th February 2024)"
-	revision: "16"
+	date: "2024-02-13 12:52:23 GMT (Tuesday 13th February 2024)"
+	revision: "17"
 
 class
 	CAIRO_DRAWING_AREA
@@ -73,14 +73,9 @@ feature {NONE} -- Initialization
 
 	make_scaled_to_size (other: CAIRO_DRAWING_AREA; a_width, a_height: INTEGER; fill_color: detachable EV_COLOR)
 		-- make area scaled to greater of dimension: `a_width' or `a_height'
-		local
-			l_width, l_height: INTEGER
 		do
-			l_width := a_width.max (1); l_height := a_height.max (1);
-			if l_width >= l_height then
-				make_scaled_to_width (other, l_width, fill_color)
-			else
-				make_scaled_to_height (other, l_height, fill_color)
+			if attached new_scale (a_width, a_height) as s then
+				make_scaled (s.dimension, s.size, other, fill_color)
 			end
 		end
 
@@ -388,14 +383,9 @@ feature -- Draw drawing area
 
 	draw_scaled_area (x, y, a_width, a_height: INTEGER; drawing_area: CAIRO_DRAWING_AREA)
 		-- draw `drawing_area' scaled to greater of dimension: `a_width' or `a_height'
-		local
-			l_width, l_height: INTEGER
 		do
-			l_width := a_width.max (1); l_height := a_height.max (1);
-			if l_width >= l_height then
-				implementation.draw_scaled_area (Orientation.By_width, x, y, l_width, drawing_area)
-			else
-				implementation.draw_scaled_area (Orientation.By_height, x, y, l_height, drawing_area)
+			if attached new_scale (a_width, a_height) as s then
+				draw_scaled_in_dimension (s.dimension, x, y, s.size, drawing_area)
 			end
 		end
 
@@ -474,6 +464,18 @@ feature {NONE} -- Implementation
 
 	create_interface_objects
 		do
+		end
+
+	new_scale (a_width, a_height: INTEGER): TUPLE [dimension: NATURAL_8; size: INTEGER]
+		local
+			l_width, l_height: INTEGER
+		do
+			l_width := a_width.max (1); l_height := a_height.max (1);
+			if l_width >= l_height then
+				Result := [Orientation.By_width, l_width]
+			else
+				Result := [Orientation.By_height, l_height]
+			end
 		end
 
 feature {EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes

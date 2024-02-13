@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-13 11:47:09 GMT (Tuesday 13th February 2024)"
-	revision: "1"
+	date: "2024-02-13 12:55:53 GMT (Tuesday 13th February 2024)"
+	revision: "2"
 
 class
 	CAIRO_FAST_SCALE_DRAWING_AREA
@@ -43,13 +43,16 @@ feature -- Conversion
 	scaled_to_size (a_width, a_height: INTEGER; fill_color: detachable EV_COLOR): CAIRO_DRAWING_AREA
 		-- scaled to greater of dimension: `a_width' or `a_height'
 		local
-			l_width, l_height: INTEGER
+			size: INTEGER
 		do
-			l_width := a_width.max (1); l_height := a_height.max (1);
-			if l_width >= l_height then
-				Result := scaled_to_size_cache_table.item (l_width)
-			else
-				Result := scaled_to_size_cache_table.item (l_height.opposite)
+			if attached new_scale (a_width, a_height) as s then
+				inspect s.dimension
+					when {EL_DIRECTION}.By_height then
+						size := s.size.opposite
+				else
+					size := s.size
+				end
+				Result := scaled_to_size_cache_table.item (size)
 			end
 		end
 
