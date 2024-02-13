@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-13 11:47:41 GMT (Tuesday 13th February 2024)"
-	revision: "15"
+	date: "2024-02-13 12:28:51 GMT (Tuesday 13th February 2024)"
+	revision: "16"
 
 class
 	CAIRO_DRAWING_AREA
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 			if attached fill_color as background then
 				set_color (background); fill
 			end
-			draw_scaled_area (dimension, 0, 0, size, other)
+			draw_scaled_in_dimension (dimension, 0, 0, size, other)
 		end
 
 	make_scaled_to_height (other: CAIRO_DRAWING_AREA; a_height: INTEGER; fill_color: detachable EV_COLOR)
@@ -366,7 +366,7 @@ feature -- Draw drawing area
 		do
 			if attached drawing.fit_adjustment (dimensions) as fit then
 				if fit.dimension.to_boolean then
-					draw_scaled_area (fit.dimension, fit.x, fit.y, fit.size, drawing)
+					draw_scaled_in_dimension (fit.dimension, fit.x, fit.y, fit.size, drawing)
 				else
 					draw_area (0, 0, drawing)
 				end
@@ -379,11 +379,24 @@ feature -- Draw drawing area
 			implementation.draw_rounded_area (x, y, radius, corners_bitmap, drawing)
 		end
 
-	draw_scaled_area (dimension: NATURAL_8; x, y, a_size: INTEGER; drawing: CAIRO_DRAWING_AREA)
+	draw_scaled_in_dimension (dimension: NATURAL_8; x, y, a_size: INTEGER; drawing_area: CAIRO_DRAWING_AREA)
 		require
 			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
-			implementation.draw_scaled_area (dimension, x, y, a_size, drawing)
+			implementation.draw_scaled_area (dimension, x, y, a_size, drawing_area)
+		end
+
+	draw_scaled_area (x, y, a_width, a_height: INTEGER; drawing_area: CAIRO_DRAWING_AREA)
+		-- draw `drawing_area' scaled to greater of dimension: `a_width' or `a_height'
+		local
+			l_width, l_height: INTEGER
+		do
+			l_width := a_width.max (1); l_height := a_height.max (1);
+			if l_width >= l_height then
+				implementation.draw_scaled_area (Orientation.By_width, x, y, l_width, drawing_area)
+			else
+				implementation.draw_scaled_area (Orientation.By_height, x, y, l_height, drawing_area)
+			end
 		end
 
 feature -- Draw a surface

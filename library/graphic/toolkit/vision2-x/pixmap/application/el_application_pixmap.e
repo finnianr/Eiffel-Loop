@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "23"
+	date: "2024-02-13 12:12:10 GMT (Tuesday 13th February 2024)"
+	revision: "24"
 
 deferred class
 	EL_APPLICATION_PIXMAP
@@ -109,7 +109,7 @@ feature -- Colored PNG
 			create bottom_layer.make_with_size (rectangle.width, rectangle.height)
 			bottom_layer.set_color (background_color)
 			bottom_layer.fill
-			bottom_layer.draw_scaled_area (dimension, 0, 0, size, top_layer)
+			bottom_layer.draw_scaled_in_dimension (dimension, 0, 0, size, top_layer)
 			Result := bottom_layer.to_pixmap
 		end
 

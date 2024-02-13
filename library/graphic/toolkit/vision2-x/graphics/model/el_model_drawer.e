@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-02-13 12:37:35 GMT (Tuesday 13th February 2024)"
+	revision: "13"
 
 deferred class
 	EL_MODEL_DRAWER
@@ -17,10 +17,6 @@ inherit
 		redefine
 			draw_figure_parallelogram
 		end
-
-	EL_MODULE_COLOR
-
-	EL_MODULE_DIRECTORY
 
 feature -- Basic operations
 
@@ -39,7 +35,7 @@ feature -- Basic operations
 	draw_figure_rotated_picture (picture: EL_MODEL_ROTATED_PICTURE)
 		local
 			radial_square, drawable_rectangle, intersection: EV_RECTANGLE; half_width: DOUBLE
-			drawing: detachable CAIRO_DRAWING_AREA; x, y: INTEGER
+			drawing_area: detachable CAIRO_DRAWING_AREA; x, y: INTEGER
 		do
 			radial_square := picture.outer_radial_square
 			radial_square.move (radial_square.x + offset_x, radial_square.y + offset_y)
@@ -47,40 +43,42 @@ feature -- Basic operations
 
 			create drawable_rectangle.make (0, 0, drawable.width, drawable.height)
 			if drawable_rectangle.contains (radial_square) then
-				create drawing.make_with_pixmap (drawable.sub_pixmap (radial_square))
+				create drawing_area.make_with_pixmap (drawable.sub_pixmap (radial_square))
 
 			elseif drawable_rectangle.intersects (radial_square) then
 				intersection := drawable_rectangle.intersection (radial_square)
-				create drawing.make_with_size (radial_square.width, radial_square.height)
-				if attached picture.world.background_color as background_color then
-					drawing.set_color (background_color)
-					drawing.fill
+				create drawing_area.make_with_size (radial_square.width, radial_square.height)
+				if attached drawing_area as area then
+					if attached picture.world.background_color as background_color then
+						area.set_color (background_color)
+						area.fill
+					end
+					if intersection.x > radial_square.x then
+						x := intersection.x - radial_square.x
+					end
+					if intersection.y > radial_square.y then
+						y := intersection.y - radial_square.y
+					end
+					area.draw_pixmap (x, y, drawable.sub_pixmap (intersection))
 				end
-				if intersection.x > radial_square.x then
-					x := intersection.x - radial_square.x
-				end
-				if intersection.y > radial_square.y then
-					y := intersection.y - radial_square.y
-				end
-				drawing.draw_pixmap (x, y, drawable.sub_pixmap (intersection))
 			end
 --			Show corners of square	
---			drawing.set_color (Color.cyan)
---			drawing.fill_convex_corners ((picture.width_precise / 5).rounded, Top_left | Top_right | Bottom_right | Bottom_left)
+--			drawing_area.set_color (Color.cyan)
+--			drawing_area.fill_convex_corners ((picture.width_precise / 5).rounded, Top_left | Top_right | Bottom_right | Bottom_left)
 
-			if attached drawing as l_drawing then
-				l_drawing.translate (half_width, half_width)
-				l_drawing.rotate (picture.angle)
-				l_drawing.translate (picture.width_precise.opposite / 2, picture.height_precise.opposite / 2)
+			if attached drawing_area as area then
+				area.translate (half_width, half_width)
+				area.rotate (picture.angle)
+				area.translate (picture.width_precise.opposite / 2, picture.height_precise.opposite / 2)
 
-				l_drawing.flip (picture.width, picture.height, picture.mirror_state)
+				area.flip (picture.width, picture.height, picture.mirror_state)
+				area.draw_scaled_area (0, 0, picture.width, picture.height, picture.drawing_area)
 
-				l_drawing.draw_scaled_area ({EL_DIRECTION}.By_width, 0, 0, picture.width, picture.drawing_area)
 				if attached intersection then
 					intersection.move (x, y)
-					drawable.draw_sub_pixel_buffer (radial_square.x + x, radial_square.y + y, l_drawing, intersection)
+					drawable.draw_sub_pixel_buffer (radial_square.x + x, radial_square.y + y, area, intersection)
 				else
-					drawable.draw_pixmap (radial_square.x, radial_square.y, l_drawing.to_pixmap)
+					drawable.draw_pixmap (radial_square.x, radial_square.y, area.to_pixmap)
 				end
 			end
 		end
