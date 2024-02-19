@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2024-02-14 9:28:58 GMT (Wednesday 14th February 2024)"
+	revision: "20"
 
 frozen class
 	EL_ORIENTATION_ROUTINES

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-02-14 10:09:20 GMT (Wednesday 14th February 2024)"
+	revision: "7"
 
 class
 	EL_GDI_BITMAP_ROUTINES
@@ -63,8 +63,9 @@ feature -- Factory
 			graphics: WEL_GDIP_GRAPHICS; dest_rect, source_rect: WEL_RECT
 			proportion: DOUBLE
 		do
-			if dimension = {EL_DIRECTION}.By_width then
-				proportion := size / bitmap.width
+			inspect dimension
+				when {EL_DIRECTION}.By_width then
+					proportion := size / bitmap.width
 			else
 				proportion := size / bitmap.height
 			end

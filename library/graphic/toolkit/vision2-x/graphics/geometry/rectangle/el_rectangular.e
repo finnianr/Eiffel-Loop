@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-02-14 11:31:19 GMT (Wednesday 14th February 2024)"
+	revision: "3"
 
 deferred class
 	EL_RECTANGULAR
@@ -15,7 +15,21 @@ deferred class
 inherit
 	EL_MODULE_ORIENTATION
 
+	EL_DIRECTION_CONSTANTS
+
 feature -- Measurement
+
+	dimension_size (dimension: NATURAL_8): INTEGER
+		require
+			valid_dimension: Orientation.is_valid_dimension (dimension)
+		do
+			inspect dimension
+				when By_width then
+					Result := width
+			else
+				Result := height
+			end
+		end
 
 	height: INTEGER
 		deferred
@@ -27,28 +41,27 @@ feature -- Measurement
 
 feature -- Access
 
-	fit_adjustment (target: EL_RECTANGLE): TUPLE [dimension: NATURAL_8; x, y, size: INTEGER]
+	fit_adjustment (target: EL_RECTANGLE): TUPLE [dimension: NATURAL_8; x, y, size: INTEGER; same_size: BOOLEAN]
 		-- adjustments needed to center and fit current rectangle on `target' rectangle
-		local
-			rect: EL_RECTANGLE
 		do
-			rect := dimensions
-			if rect.same_size (target) then
-				Result := [{EL_DIRECTION}.By_width.zero, 0, 0, 0]
+			if attached dimensions as this then
+				if this.same_size (target) then
+					Result := [By_width.zero, 0, 0, 0, True]
 
-			elseif rect.same_aspect (target) then
-				Result := [{EL_DIRECTION}.By_width, 0, 0, target.width]
+				elseif this.same_aspect (target) then
+					Result := [By_width, 0, 0, target.width, False]
 
-			elseif rect.aspect_ratio < target.aspect_ratio then
-				-- adjust height and center horizontally
-				rect.scale_to_height (target.height)
-				rect.move_center (target)
-				Result := [{EL_DIRECTION}.By_height, rect.x, rect.y, target.height]
-			else
-				-- adjust width and center vertically
-				rect.scale_to_width (target.width)
-				rect.move_center (target)
-				Result := [{EL_DIRECTION}.By_width, rect.x, rect.y, target.width]
+				elseif this.aspect_ratio < target.aspect_ratio then
+					-- adjust height and center horizontally
+					this.scale_to_height (target.height)
+					this.move_center (target)
+					Result := [By_height, this.x, this.y, target.height, False]
+				else
+					-- adjust width and center vertically
+					this.scale_to_width (target.width)
+					this.move_center (target)
+					Result := [By_width, this.x, this.y, target.width, False]
+				end
 			end
 		end
 

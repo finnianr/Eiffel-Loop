@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 10:42:49 GMT (Wednesday 29th November 2023)"
-	revision: "52"
+	date: "2024-02-16 10:21:40 GMT (Friday 16th February 2024)"
+	revision: "53"
 
 class
 	GENERAL_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT; EL_SHARED_STRING_8_BUFFER_SCOPES
 
-	SHARED_HEXAGRAM_STRINGS
+	SHARED_HEXAGRAM_STRINGS; EL_PROTOCOL_CONSTANTS
 
 create
 	make

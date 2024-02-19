@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:23:15 GMT (Thursday 9th November 2023)"
-	revision: "13"
+	date: "2024-02-16 10:02:46 GMT (Friday 16th February 2024)"
+	revision: "14"
 
 class
 	EL_NETWORK_STREAM_SOCKET
@@ -25,6 +25,11 @@ inherit
 			read_stream, readstream, put_pointer_content, read_into_pointer
 		redefine
 			make_default, do_accept
+		end
+
+	EL_PROTOCOL_CONSTANTS
+		rename
+			Protocol as Protocol_type
 		end
 
 	EL_MODULE_EXCEPTION
@@ -54,15 +59,15 @@ feature -- Initialization
 feature -- Access
 
 	description: STRING
-		local
-			l_name: STRING
 		do
+			Result := "TCP socket "
 			if address.host_address.raw_address.for_all (agent is_zero) then
-				l_name := "localhost:" + port.out
+				Result.append (Localhost)
 			else
-				l_name := address.host_address.host_name + ":" + port.out
+				Result.append (address.host_address.host_name)
 			end
-			Result := "TCP socket " + l_name
+			Result.append_character (':')
+			Result.append_integer (port)
 		end
 
 feature -- Status query

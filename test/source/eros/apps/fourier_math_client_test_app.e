@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:54:18 GMT (Thursday 7th December 2023)"
-	revision: "23"
+	date: "2024-02-16 10:16:38 GMT (Friday 16th February 2024)"
+	revision: "24"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -26,6 +26,8 @@ inherit
 
 	EVOLICITY_SHARED_TEMPLATES
 
+	EL_PROTOCOL_CONSTANTS
+
 create
 	make
 
@@ -36,7 +38,7 @@ feature {NONE} -- Initiliazation
 		local
 			time: TIME
 		do
-			create connection.make (8000, "localhost")
+			create connection.make (8000, Localhost)
 
 			create signal_math.make (connection)
 			create fft.make (connection)

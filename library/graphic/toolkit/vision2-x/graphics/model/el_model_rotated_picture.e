@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-13 9:56:33 GMT (Tuesday 13th February 2024)"
-	revision: "32"
+	date: "2024-02-14 11:40:31 GMT (Wednesday 14th February 2024)"
+	revision: "33"
 
 class
 	EL_MODEL_ROTATED_PICTURE
@@ -152,8 +152,5 @@ feature {NONE} -- Constants
 		end
 
 	Width_mask: NATURAL = 0xFFFF
-
-invariant
-	valid_pixel_buffer_id: drawing_area.id.to_integer_32 <= Max_width
 
 end

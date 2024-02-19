@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-02-17 18:04:25 GMT (Saturday 17th February 2024)"
+	revision: "5"
 
 class
 	EL_SERVICE_SCREEN_LIST
@@ -36,7 +36,7 @@ feature -- Measurement
 
 feature -- Basic operations
 
-	initialize (notification_email: ZSTRING)
+	initialize (variable_table: EL_ZSTRING_TABLE)
 		local
 			name, option_name: ZSTRING
 		do
@@ -47,9 +47,9 @@ feature -- Basic operations
 					option_name.prune_all_leading ('-')
 					name.append_string_general (Naming.class_description (option_name, Naming.No_words))
 				end
-				-- substitute $EMAIL
-				across << list.item.bash_script, list.item.command_args >> as text loop
-					text.item.replace_substring_all (Var_email, notification_email)
+			-- substitute $EMAIL and $DOMAIN
+				across variable_table as table loop
+					list.item.command_args.replace_substring_all (table.key, table.item)
 				end
 			end
 			replace_active
@@ -88,13 +88,6 @@ feature {NONE} -- Implementation
 	name_count (screen: like item): INTEGER
 		do
 			Result := screen.name.count
-		end
-
-feature {NONE} -- Constants
-
-	Var_email: ZSTRING
-		once
-			Result := "$EMAIL"
 		end
 
 end

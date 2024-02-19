@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "104"
+	date: "2024-02-18 15:24:23 GMT (Sunday 18th February 2024)"
+	revision: "105"
 
 class
 	EL_ZSTRING
@@ -140,6 +140,13 @@ inherit
 			copy, is_equal, out
 		redefine
 			changeable_comparison_criterion
+		end
+
+	DEBUG_OUTPUT -- not working
+		rename
+			debug_output as to_string_32
+		undefine
+			copy, is_equal, out
 		end
 
 create

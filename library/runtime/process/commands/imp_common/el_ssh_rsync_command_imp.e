@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-02-17 19:03:01 GMT (Saturday 17th February 2024)"
+	revision: "11"
 
 class
 	EL_SSH_RSYNC_COMMAND_IMP

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-06 11:04:41 GMT (Wednesday 6th December 2023)"
-	revision: "3"
+	date: "2024-02-19 9:07:33 GMT (Monday 19th February 2024)"
+	revision: "4"
 
 class
 	PP_HOSTED_BUTTON
@@ -20,13 +20,20 @@ create
 
 feature {NONE} -- Initialization
 
-	make (id: STRING)
+	make (button_id: STRING)
 		do
 			make_default
-			hosted_button_id := id
+			hosted_button_id := button_id
 		end
 
 feature -- Access
+
+	id: STRING
+		do
+			Result := hosted_button_id
+		end
+
+feature {NONE} -- Paypal API name
 
 	hosted_button_id: STRING
 

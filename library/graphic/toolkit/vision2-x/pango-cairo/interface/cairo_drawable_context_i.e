@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 8:38:56 GMT (Wednesday 4th October 2023)"
-	revision: "17"
+	date: "2024-02-14 9:25:41 GMT (Wednesday 14th February 2024)"
+	revision: "18"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -28,11 +28,6 @@ inherit
 		export
 			{NONE} all
 			{ANY} Orientation
-		end
-
-	EL_DIRECTION
-		export
-			{NONE} all
 		end
 
 	CAIRO_SHARED_GDK_API
@@ -123,16 +118,16 @@ feature -- Status change
 		do
 			define_sub_path
 			inspect corner
-				when Top_left then
+				when Top_left_corner then
 					move_to (x, y)
 					arc (x + radius, y + radius, radius, radians (180), radians (270))
-				when Top_right then
+				when Top_right_corner then
 					move_to (x + radius, y)
 					arc (x, y + radius, radius, radians (90).opposite, 0.0)
-				when Bottom_right then
+				when Bottom_right_corner then
 					move_to (x + radius, y + radius)
 					arc (x, y, radius, 0.0, radians (90))
-				when Bottom_left then
+				when Bottom_left_corner then
 					move_to (x, y + radius)
 					arc (x + radius, y, radius, radians (90), radians (180))
 			else end
@@ -141,25 +136,25 @@ feature -- Status change
 		end
 
 	set_clip_rounded_rectangle (x, y, a_width, a_height, radius: DOUBLE; corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from EL_DIRECTION, eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from EL_DIRECTION, eg. Top_left | Top_right_corner
 		do
 			define_sub_path
-			if (Top_right & corners_bitmap).to_boolean then
+			if (Top_right_corner & corners_bitmap).to_boolean then
 				arc (x + radius, y + radius, radius, radians (180), radians (270));
 			else
 				line_to (x + a_width, y)
 			end
-			if (Top_left & corners_bitmap).to_boolean then
+			if (Top_left_corner & corners_bitmap).to_boolean then
 				arc (x + a_width - radius, y + radius, radius, radians (270), radians (360));
 			else
 				line_to (x + width, y)
 			end
-			if (Bottom_right & corners_bitmap).to_boolean then
+			if (Bottom_right_corner & corners_bitmap).to_boolean then
 				arc (x + a_width - radius, y + a_height - radius, radius, radians (0), radians (90));
 			else
 				line_to (x + a_width, y + a_height)
 			end
-			if (Bottom_left & corners_bitmap).to_boolean then
+			if (Bottom_left_corner & corners_bitmap).to_boolean then
 				arc (x + radius, y + a_height - radius, radius, radians (90), radians (180));
 			else
 				line_to (x, y + a_height)
@@ -326,7 +321,7 @@ feature -- Drawing operations
 feature -- Filling operations
 
 	fill_concave_corners (radius, corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from `EL_DIRECTION', eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from `EL_DIRECTION', eg. Top_left | Top_right_corner
 		local
 			x, y, corner, i: INTEGER
 		do
@@ -334,13 +329,13 @@ feature -- Filling operations
 				corner := Orientation.clockwise_corners [i]
 				if (corner & corners_bitmap).to_boolean then
 					inspect corner
-						when Top_left then
+						when Top_left_corner then
 							x := 0; y := 0
-						when Top_right then
+						when Top_right_corner then
 							x := width - radius; y := 0
-						when Bottom_right then
+						when Bottom_right_corner then
 							x := width - radius; y := height - radius
-						when Bottom_left then
+						when Bottom_left_corner then
 							x := 0; y := height - radius
 					else end
 					set_clip_concave_corner (x, y, radius, corner)
@@ -358,16 +353,16 @@ feature -- Filling operations
 			define_sub_path
 			move_to (x, y)
 			inspect corner
-				when Top_left then
+				when Top_left_corner then
 					arc (x, y, radius, 0, radians (90))
 
-				when Top_right then
+				when Top_right_corner then
 					arc (x, y, radius, radians (90), radians (180))
 
-				when Bottom_right then
+				when Bottom_right_corner then
 					arc (x, y, radius, radians (180), radians (270))
 
-				when Bottom_left then
+				when Bottom_left_corner then
 					arc (x, y, radius, radians (270), radians (360))
 			else end
 			close_sub_path
@@ -375,7 +370,7 @@ feature -- Filling operations
 		end
 
 	fill_convex_corners (radius, corners_bitmap: INTEGER)
-		-- `corners_bitmap' are OR'd corner values from `EL_DIRECTION', eg. Top_left | Top_right
+		-- `corners_bitmap' are OR'd corner values from `EL_DIRECTION', eg. Top_left | Top_right_corner
 		local
 			x, y, corner, i: INTEGER
 		do
@@ -383,13 +378,13 @@ feature -- Filling operations
 				corner := Orientation.clockwise_corners [i]
 				if (corner & corners_bitmap).to_boolean then
 					inspect corner
-						when Top_left then
+						when Top_left_corner then
 							x := 0; y := 0
-						when Top_right then
+						when Top_right_corner then
 							x := width; y := 0
-						when Bottom_right then
+						when Bottom_right_corner then
 							x := width; y := height
-						when Bottom_left then
+						when Bottom_left_corner then
 							x := 0; y := height
 					else end
 					fill_convex_corner (x, y, radius, corner)

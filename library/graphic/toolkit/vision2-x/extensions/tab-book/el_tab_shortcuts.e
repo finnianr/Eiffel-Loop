@@ -1,15 +1,13 @@
 note
-	description: "[
-		Base class for notebooks
-	]"
+	description: "Base class for notebooks"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 12:27:45 GMT (Sunday 28th January 2024)"
-	revision: "9"
+	date: "2024-02-15 9:23:59 GMT (Thursday 15th February 2024)"
+	revision: "10"
 
 deferred class
 	EL_TAB_SHORTCUTS

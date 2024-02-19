@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2024-02-16 9:52:32 GMT (Friday 16th February 2024)"
+	revision: "14"
 
 deferred class
 	EL_PROTOCOL_CONSTANTS
@@ -24,12 +24,15 @@ feature {NONE} -- Constants
 		end
 
 	Protocol: TUPLE [file, ftp, http, https, ssh: STRING]
-			-- common protocols
+		-- common protocols
+		-- (Tried using IMMUTABLE_STRING_8 but too many ramifications)
 		once
 			create Result
 			Tuple.fill (Result, "file, ftp, http, https, ssh")
 		end
 
 	Colon_slash_x2: STRING = "://"
+
+	Localhost: STRING = "localhost"
 
 end

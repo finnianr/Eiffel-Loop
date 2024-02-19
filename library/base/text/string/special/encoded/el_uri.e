@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 13:51:45 GMT (Saturday 11th November 2023)"
-	revision: "44"
+	date: "2024-02-16 9:49:47 GMT (Friday 16th February 2024)"
+	revision: "45"
 
 class
 	EL_URI
@@ -325,19 +325,29 @@ feature -- Status query
 			Result := last_separator_index.to_boolean
 		end
 
+	has_scheme (a_scheme: READABLE_STRING_8): BOOLEAN
+		local
+			end_index: INTEGER
+		do
+			end_index := scheme_end_index
+			if a_scheme.count = end_index then
+				Result := same_characters (a_scheme, 1, end_index, 1)
+			end
+		end
+
 	is_file: BOOLEAN
 		do
-			Result := scheme ~ Protocol.file
+			Result := has_scheme (Protocol.file)
 		end
 
 	is_http: BOOLEAN
 		do
-			Result := scheme ~ Protocol.http
+			Result := has_scheme (Protocol.http)
 		end
 
 	is_https: BOOLEAN
 		do
-			Result := scheme ~ Protocol.https
+			Result := has_scheme (Protocol.https)
 		end
 
 	is_url: BOOLEAN

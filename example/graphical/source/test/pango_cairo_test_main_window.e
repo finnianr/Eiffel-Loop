@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "33"
+	date: "2024-02-15 9:22:33 GMT (Thursday 15th February 2024)"
+	revision: "34"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -41,13 +41,6 @@ inherit
 	EL_GEOMETRY_MATH
 		rename
 			log as natural_log
-		undefine
-			default_create, copy, is_equal
-		end
-
-	EL_DIRECTION
-		export
-			{NONE} all
 		undefine
 			default_create, copy, is_equal
 		end
@@ -156,7 +149,9 @@ feature {NONE} -- Factory
 
 			Result.set_color (Color.White)
 			Result.fill_rectangle (0, 0, l_pixmap.width, l_pixmap.height)
-			Result.draw_rounded_pixmap (0, 0, 35, Top_left | Top_right | Bottom_right | Bottom_left, l_pixmap)
+			Result.draw_rounded_pixmap (
+				0, 0, 35, Top_left_corner | Top_right_corner | Bottom_right_corner | Bottom_left_corner, l_pixmap
+			)
 			Result.set_font (title_font)
 		-- Draw text with Pango-Cairo
 			if text_angle = 0 then

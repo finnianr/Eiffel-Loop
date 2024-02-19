@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-02-17 18:10:13 GMT (Saturday 17th February 2024)"
+	revision: "10"
 
 class
 	EL_SERVICE_CONFIGURATION
@@ -26,6 +26,8 @@ create
 
 feature -- Configuration fields
 
+	domain: ZSTRING
+
 	notification_email: ZSTRING
 
 	screen_list: EL_SERVICE_SCREEN_LIST
@@ -34,7 +36,17 @@ feature {NONE} -- Event handler
 
 	on_context_exit
 		do
-			screen_list.initialize (notification_email)
+			screen_list.initialize (new_variable_table)
+		end
+
+feature {NONE} -- Factory
+
+	new_variable_table: EL_ZSTRING_TABLE
+		do
+			create Result.make_from_array (<<
+				["$EMAIL",	notification_email],
+				["$DOMAIN",	domain]
+			>>)
 		end
 
 feature {NONE} -- Constants

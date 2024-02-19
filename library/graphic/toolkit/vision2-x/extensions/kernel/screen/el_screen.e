@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 20:37:46 GMT (Friday 7th July 2023)"
-	revision: "16"
+	date: "2024-02-14 10:09:35 GMT (Wednesday 14th February 2024)"
+	revision: "17"
 
 class
 	EL_SCREEN
@@ -106,8 +106,9 @@ feature -- Conversion
 		require
 			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
-			if dimension = {EL_DIRECTION}.By_width then
-				Result := horizontal_pixels (distance_cms)
+			inspect dimension
+				when {EL_DIRECTION}.By_width then
+					Result := horizontal_pixels (distance_cms)
 			else
 				Result := vertical_pixels (distance_cms)
 			end

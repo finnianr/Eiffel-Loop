@@ -17,22 +17,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-02-17 17:35:43 GMT (Saturday 17th February 2024)"
+	revision: "16"
 
 class
 	EL_ZSTRING_TABLE
 
 inherit
-	HASH_TABLE [ZSTRING, STRING]
+	EL_HASH_TABLE [ZSTRING, STRING]
 		rename
-			make as make_with_count
+			make as make_from_array
 		end
 
 	EL_STRING_GENERAL_ROUTINES
 
 create
-	make, make_with_count
+	make, make_size, make_from_array
 
 feature {NONE} -- Initialization
 

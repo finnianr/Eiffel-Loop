@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-02-18 16:26:46 GMT (Sunday 18th February 2024)"
+	revision: "8"
 
 class
 	PP_BUTTON_OPTION
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: like name; a_price_x100: like price_x100; a_currency: like currency_code)
+	make (a_name: ZSTRING; a_price_x100: INTEGER; a_currency: NATURAL_8)
 		do
 			l_option_0_select := a_name; currency_code := a_currency
 			l_option_0_price := (a_price_x100 / 100).truncated_to_real

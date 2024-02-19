@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 10:40:42 GMT (Sunday 14th May 2023)"
-	revision: "2"
+	date: "2024-02-15 16:40:48 GMT (Thursday 15th February 2024)"
+	revision: "3"
 
 class
 	EL_FALLIBLE
@@ -42,7 +42,7 @@ feature -- Element change
 		local
 			error: EL_ERROR_DESCRIPTION
 		do
-			create error.make_default
+			create error.make_empty
 			error.set_lines (message)
 			put (error)
 		end

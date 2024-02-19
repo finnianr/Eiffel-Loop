@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-13 12:52:23 GMT (Tuesday 13th February 2024)"
-	revision: "17"
+	date: "2024-02-14 11:27:10 GMT (Wednesday 14th February 2024)"
+	revision: "18"
 
 class
 	CAIRO_DRAWING_AREA
@@ -28,7 +28,7 @@ inherit
 
 	EL_RECTANGULAR
 
-	EL_MODULE_ORIENTATION
+	EL_GEOMETRY_MATH undefine copy, default_create, out end
 
 	EL_IMAGE_DEBUG
 
@@ -74,8 +74,8 @@ feature {NONE} -- Initialization
 	make_scaled_to_size (other: CAIRO_DRAWING_AREA; a_width, a_height: INTEGER; fill_color: detachable EV_COLOR)
 		-- make area scaled to greater of dimension: `a_width' or `a_height'
 		do
-			if attached new_scale (a_width, a_height) as s then
-				make_scaled (s.dimension, s.size, other, fill_color)
+			if attached longer (a_width, a_height) as l then
+				make_scaled (l.dimension, l.size.max (1), other, fill_color)
 			end
 		end
 
@@ -323,10 +323,10 @@ feature -- Draw pixmaps
 		-- draw `pixmap' scaled and centered to fit in current area
 		do
 			if attached pixmap.fit_adjustment (dimensions) as fit then
-				if fit.dimension.to_boolean then
-					draw_scaled_pixmap (fit.dimension, fit.x, fit.y, fit.size, pixmap)
-				else
+				if fit.same_size then
 					draw_pixmap (0, 0, pixmap)
+				else
+					draw_scaled_pixmap (fit.dimension, fit.x, fit.y, fit.size, pixmap)
 				end
 			end
 		end
@@ -360,10 +360,10 @@ feature -- Draw drawing area
 		-- draw `drawing' scaled and centered to fit in current area
 		do
 			if attached drawing.fit_adjustment (dimensions) as fit then
-				if fit.dimension.to_boolean then
-					draw_scaled_in_dimension (fit.dimension, fit.x, fit.y, fit.size, drawing)
-				else
+				if fit.same_size then
 					draw_area (0, 0, drawing)
+				else
+					draw_scaled_in_dimension (fit.dimension, fit.x, fit.y, fit.size, drawing)
 				end
 			end
 		end
@@ -384,8 +384,8 @@ feature -- Draw drawing area
 	draw_scaled_area (x, y, a_width, a_height: INTEGER; drawing_area: CAIRO_DRAWING_AREA)
 		-- draw `drawing_area' scaled to greater of dimension: `a_width' or `a_height'
 		do
-			if attached new_scale (a_width, a_height) as s then
-				draw_scaled_in_dimension (s.dimension, x, y, s.size, drawing_area)
+			if attached longer (a_width, a_height) as l then
+				draw_scaled_in_dimension (l.dimension, x, y, l.size.max (1), drawing_area)
 			end
 		end
 
@@ -395,10 +395,10 @@ feature -- Draw a surface
 		-- draw `a_surface' scaled and centered to fit in current area
 		do
 			if attached a_surface.fit_adjustment (dimensions) as fit then
-				if fit.dimension.to_boolean then
-					draw_scaled_surface (fit.dimension, fit.x, fit.y, fit.size, a_surface)
-				else
+				if fit.same_size then
 					draw_surface (0, 0, a_surface)
+				else
+					draw_scaled_surface (fit.dimension, fit.x, fit.y, fit.size, a_surface)
 				end
 			end
 		end
@@ -464,18 +464,6 @@ feature {NONE} -- Implementation
 
 	create_interface_objects
 		do
-		end
-
-	new_scale (a_width, a_height: INTEGER): TUPLE [dimension: NATURAL_8; size: INTEGER]
-		local
-			l_width, l_height: INTEGER
-		do
-			l_width := a_width.max (1); l_height := a_height.max (1);
-			if l_width >= l_height then
-				Result := [Orientation.By_width, l_width]
-			else
-				Result := [Orientation.By_height, l_height]
-			end
 		end
 
 feature {EV_ANY_I, EV_ANY_HANDLER} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:01:56 GMT (Thursday 17th August 2023)"
-	revision: "18"
+	date: "2024-02-14 10:31:45 GMT (Wednesday 14th February 2024)"
+	revision: "19"
 
 deferred class
 	EL_DRAWABLE
@@ -19,9 +19,7 @@ inherit
 			draw_sub_pixel_buffer
 		end
 
-	EL_MODULE_ACTION
-
-	EL_MODULE_COLOR
+	EL_MODULE_ACTION; EL_MODULE_COLOR
 
 	EL_RECTANGULAR
 

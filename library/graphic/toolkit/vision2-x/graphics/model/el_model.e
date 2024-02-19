@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-31 13:11:39 GMT (Wednesday 31st January 2024)"
-	revision: "16"
+	date: "2024-02-14 10:25:32 GMT (Wednesday 14th February 2024)"
+	revision: "17"
 
 deferred class
 	EL_MODEL
@@ -72,16 +72,16 @@ feature -- Access
 				Result := p [0]
 				from i := 1 until i = p.count loop
 					inspect direction
-						when {EL_DIRECTION}.Top then
+						when Top_side then
 							exceeded := p [i].y_precise < Result.y_precise
 
-						when {EL_DIRECTION}.Bottom then
+						when Bottom_side then
 							exceeded := p [i].y_precise > Result.y_precise
 
-						when {EL_DIRECTION}.Left then
+						when Left_side then
 							exceeded := p [i].x_precise < Result.x_precise
 
-						when {EL_DIRECTION}.Right then
+						when Right_side then
 							exceeded := p [i].x_precise > Result.x_precise
 					else
 						exceeded := False

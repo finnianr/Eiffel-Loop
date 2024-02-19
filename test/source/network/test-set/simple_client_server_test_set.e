@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-02-16 10:17:19 GMT (Friday 16th February 2024)"
+	revision: "14"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -25,6 +25,8 @@ inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	SHARED_DEV_ENVIRON
+
+	EL_PROTOCOL_CONSTANTS
 
 create
 	make
@@ -70,7 +72,7 @@ feature {NONE} -- Implementation
 		local
 			socket: EL_NETWORK_STREAM_SOCKET
 		do
-			create socket.make_client_by_port (8000, "localhost")
+			create socket.make_client_by_port (8000, Localhost)
 			socket.set_latin_encoding (1)
 			lio.put_line ("Connecting")
 			socket.connect

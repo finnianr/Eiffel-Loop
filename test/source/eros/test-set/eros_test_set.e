@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 17:34:49 GMT (Saturday 25th November 2023)"
-	revision: "15"
+	date: "2024-02-16 10:14:56 GMT (Friday 16th February 2024)"
+	revision: "16"
 
 class
 	EROS_TEST_SET
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EROS_REMOTE_CALL_CONSTANTS undefine default_create end
+	EROS_REMOTE_CALL_CONSTANTS; EL_PROTOCOL_CONSTANTS
 
 	FFT_ONCE_ROUTINE_NAMES
 		rename
@@ -106,7 +106,7 @@ feature {NONE} -- Events
 			create server.make (Port_number)
 			server.launch
 			Execution_environment.sleep (150) -- Try increasing if connection error occcurs
-			create connection.make (Port_number, "localhost")
+			create connection.make (Port_number, Localhost)
 			signal_array := << create {SIGNAL_MATH}.make, create {SIGNAL_MATH_PROXY}.make (connection) >>
 			fft_array := << create {FFT_COMPLEX_64}.make, create {FFT_COMPLEX_64_PROXY}.make (connection) >>
 		end

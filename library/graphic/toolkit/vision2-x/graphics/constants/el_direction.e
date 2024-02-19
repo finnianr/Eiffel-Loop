@@ -1,6 +1,10 @@
 note
-	description: "Relatives positions, dimensions and axes"
-	notes: "[
+	description: "[
+		Direction constants:
+		
+		* relative positions on 3 x 3 grid
+		* dimensions and axes
+		
 		See class ${EL_MODULE_ORIENTATION} for validation routines in `Orientation'.
 	]"
 
@@ -9,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-02-14 9:56:36 GMT (Wednesday 14th February 2024)"
+	revision: "4"
 
 class
 	EL_DIRECTION

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-29 18:56:04 GMT (Monday 29th January 2024)"
-	revision: "32"
+	date: "2024-02-14 10:00:09 GMT (Wednesday 14th February 2024)"
+	revision: "33"
 
 class
 	EL_RECTANGLE
@@ -25,6 +25,8 @@ inherit
 		undefine
 			out
 		end
+
+	EL_DIRECTION_CONSTANTS
 
 create
 	default_create, make, make_cms, make_for_text,
@@ -103,28 +105,28 @@ feature -- Access
 			inspect position_enum
 				-- Going clockwise
 
-				when {EL_DIRECTION}.Top_left then
+				when Top_left_corner then
 					Result.move (0, 0)
 
-				when {EL_DIRECTION}.Top then
+				when Top_side then
 					Result.move (width // 2, 0)
 
-				when {EL_DIRECTION}.Top_right then
+				when Top_right_corner then
 					Result.move (width, 0)
 
-				when {EL_DIRECTION}.Right then
+				when Right_side then
 					Result.move (width, height // 2)
 
-				when {EL_DIRECTION}.Bottom_right then
+				when Bottom_right_corner then
 					Result.move (width, height)
 
-				when {EL_DIRECTION}.Bottom then
+				when Bottom_side then
 					Result.move (width // 2, height)
 
-				when {EL_DIRECTION}.Bottom_left then
+				when Bottom_left_corner then
 					Result.move (0, height)
 
-				when {EL_DIRECTION}.Left then
+				when Left_side then
 					Result.move (0, height // 2)
 
 			else -- Center
@@ -272,14 +274,14 @@ feature -- Element change
 
 	scale_to_height (a_height: INTEGER)
 		do
-			scale_to_size ({EL_DIRECTION}.By_height, a_height)
+			scale_to_size (By_height, a_height)
 		end
 
 	scale_to_size (dimension: NATURAL_8; size: INTEGER)
 		require
 			valid_dimension: Orientation.is_valid_dimension (dimension)
 		do
-			if dimension = {EL_DIRECTION}.By_width then
+			if dimension = By_width then
 				height := (height * size / width).rounded.max (1)
 				width := size
 			else
@@ -292,7 +294,7 @@ feature -- Element change
 
 	scale_to_width (a_width: INTEGER)
 		do
-			scale_to_size ({EL_DIRECTION}.By_width, a_width)
+			scale_to_size (By_width, a_width)
 		end
 
 feature -- Conversion

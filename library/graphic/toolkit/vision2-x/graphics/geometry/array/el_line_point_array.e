@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-29 18:42:51 GMT (Monday 29th January 2024)"
-	revision: "6"
+	date: "2024-02-14 9:42:49 GMT (Wednesday 14th February 2024)"
+	revision: "7"
 
 class
 	EL_LINE_POINT_ARRAY
@@ -54,11 +54,11 @@ feature {NONE} -- Initialization
 		do
 			center := rectangle.center
 			inspect axis
-				when {EL_DIRECTION}.X_axis then
+				when X_axis then
 					angle := rectangle.angle
 					radius_precise := rectangle.width_precise / 2
 
-				when {EL_DIRECTION}.Y_axis then
+				when Y_axis then
 					angle := rectangle.angle - radians (90)
 					radius_precise := rectangle.height_precise / 2
 			else end

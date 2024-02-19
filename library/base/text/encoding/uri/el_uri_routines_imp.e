@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:25:35 GMT (Thursday 17th August 2023)"
-	revision: "18"
+	date: "2024-02-18 14:40:47 GMT (Sunday 18th February 2024)"
+	revision: "19"
 
 class
 	EL_URI_ROUTINES_IMP
 
 inherit
 	ANY
-	
+
 	EL_STRING_GENERAL_ROUTINES
 
 	EL_PROTOCOL_CONSTANTS
@@ -22,9 +22,12 @@ inherit
 feature -- Status query
 
 	has_scheme (uri: READABLE_STRING_GENERAL; a_scheme: STRING): BOOLEAN
+		local
+			index: INTEGER
 		do
-			if uri.starts_with (a_scheme) then
-				Result := uri.substring_index (Colon_slash_x2, a_scheme.count) = a_scheme.count + 1
+			index := uri.index_of (':', 1)
+			if index - 1 = a_scheme.count then
+				Result := uri.same_characters (a_scheme, 1, a_scheme.count, 1)
 			end
 		end
 

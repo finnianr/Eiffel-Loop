@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2024-02-19 10:41:04 GMT (Monday 19th February 2024)"
+	revision: "24"
 
 class
 	PP_NVP_API_CONNECTION
@@ -35,6 +35,8 @@ inherit
 			make as make_solitary
 		end
 
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
+
 create
 	make
 
@@ -55,6 +57,8 @@ feature {NONE} -- Initialization
 			across field_table as button loop
 				button.item.set (Current, create {PP_BUTTON_PARAMETER}.make (button.key))
 			end
+			cache_dir := Directory.App_cache #+ domain_name
+			File_system.make_directory (cache_dir)
 		end
 
 feature -- Access
@@ -64,16 +68,17 @@ feature -- Access
 			Result := configuration.api_url
 		end
 
+	domain_name: STRING
+		-- Eg. www.sandbox.paypal.com
+		do
+			Result := configuration.domain_name
+		end
+
 	notify_url: STRING
 		-- The URL to which PayPal posts information about the payment,
 		-- in the form of Instant Payment Notification messages.
 		do
 			Result := configuration.notify_url
-		end
-
-	domain_name: STRING
-		do
-			Result := configuration.domain_name
 		end
 
 feature -- Button management
@@ -96,11 +101,29 @@ feature -- Button management
 	delete_button (button: PP_HOSTED_BUTTON): PP_HTTP_RESPONSE
 		do
 			Result := manage_button_status.call (<< button, button_status_delete >>)
+			if Result.is_ok then
+				remove_cached (button.id)
+			end
 		end
 
-	get_button_details (button: PP_HOSTED_BUTTON): PP_BUTTON_DETAILS_QUERY_RESULTS
+	get_button_details (a_meta_data: PP_BUTTON_META_DATA): PP_BUTTON_DETAILS_QUERY_RESULTS
+		-- get button details either from local cache or from API call
+		local
+			cache_path: FILE_PATH
 		do
-		 	Result := get_button_details_method.query_result (<< button >>)
+			error_code := 0
+			cache_path := new_cache_path (a_meta_data.l_hosted_button_id)
+			if cache_path.exists and then cache_path.modification_time = a_meta_data.l_modify_date.to_unix then
+				lio.put_string (" from cache")
+				create Result.make (File.plain_text (cache_path))
+			else
+		 		Result := get_button_details_method.query_result (<< a_meta_data.hosted_button >>)
+				if last_call_succeeded then
+				-- save in cache file
+					File.write_text (cache_path, last_string)
+					File.set_modification_time (cache_path, a_meta_data.l_modify_date.to_unix)
+				end
+		 	end
 		end
 
 	update_buy_now_button (
@@ -123,14 +146,21 @@ feature -- Basic operations
 
 feature -- Status query
 
+	has_notify_url: BOOLEAN
+		do
+			Result := not notify_url.is_empty
+		end
+
 	last_call_succeeded: BOOLEAN
 		do
 			Result := not has_error
 		end
 
-	has_notify_url: BOOLEAN
+feature {NONE} -- Factory
+
+	new_cache_path (button_id: STRING): FILE_PATH
 		do
-			Result := not notify_url.is_empty
+			Result := cache_dir + button_id
 		end
 
 feature {NONE} -- Implementation
@@ -169,6 +199,21 @@ feature {NONE} -- Methods
 	manage_button_status: PP_MANAGE_BUTTON_STATUS_METHOD
 
 	update_button: PP_UPDATE_BUTTON_METHOD
+
+feature {PP_SHARED_API_CONNECTION} -- Implementation
+
+	remove_cached (button_id: STRING)
+		do
+			if attached new_cache_path (button_id) as cache_path then
+				if cache_path.exists then
+					File_system.remove_file (cache_path)
+				end
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	cache_dir: DIR_PATH
 
 feature {NONE} -- Constants
 

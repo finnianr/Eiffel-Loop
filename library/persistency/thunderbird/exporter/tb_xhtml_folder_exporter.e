@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:26:38 GMT (Monday 27th November 2023)"
-	revision: "37"
+	date: "2024-02-16 10:04:51 GMT (Friday 16th February 2024)"
+	revision: "38"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -26,7 +26,7 @@ inherit
 	EL_MODULE_DATE_TIME; EL_MODULE_FILE
 	EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
 
-	EL_CHARACTER_32_CONSTANTS; EL_HTML_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS; EL_HTML_CONSTANTS; EL_PROTOCOL_CONSTANTS
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
@@ -290,7 +290,7 @@ feature {NONE} -- Constants
 
 	Localhost_domain: ZSTRING
 		once
-			Result := "://localhost"
+			Result := Colon_slash_x2 + Localhost
 		end
 
 	Unclosed_tags: EL_ZSTRING_LIST

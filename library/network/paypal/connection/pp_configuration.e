@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-02-19 9:20:39 GMT (Monday 19th February 2024)"
+	revision: "18"
 
 class
 	PP_CONFIGURATION
@@ -56,6 +56,7 @@ feature -- Access
 	credentials_path: FILE_PATH
 
 	domain_name: STRING
+		-- Eg. www.sandbox.paypal.com
 
 	decrypter: EL_AES_ENCRYPTER
 		-- credentials decrypter

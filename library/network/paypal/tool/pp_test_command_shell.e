@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "29"
+	date: "2024-02-19 9:55:34 GMT (Monday 19th February 2024)"
+	revision: "30"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -90,12 +90,9 @@ feature {NONE} -- Commands
 		end
 
 	delete_button
-		local
-			response: PP_HTTP_RESPONSE
 		do
 			lio.put_line ("delete_button")
-			response := paypal.delete_button (new_hosted_button)
-			if response.is_ok then
+			if attached paypal.delete_button (new_hosted_button) as response and then response.is_ok then
 				lio.put_line ("BUTTON DELETED")
 				response.print_values
 			else
@@ -107,15 +104,17 @@ feature {NONE} -- Commands
 	display_button_menu
 		local
 			button_table: EL_PROCEDURE_TABLE [ZSTRING]; id: STRING
-			search_results: like paypal.button_search_results
 			sub_menu: EL_COMMAND_SHELL
 		do
-			search_results := paypal.button_search_results
-			if search_results.is_ok and then attached search_results.button_list as button_list then
+
+			if attached paypal.button_search_results as search_results and then search_results.is_ok
+				and then attached search_results.button_list as button_list
+			then
 				create button_table.make_size (button_list.count)
-				across button_list as button loop
-					id := button.item.l_hosted_button_id
-					button_table.extend (agent get_button_details (id), id)
+				across button_list as list loop
+					if attached list.item as button then
+						button_table.extend (agent get_button_details (button), button.l_hosted_button_id)
+					end
 				end
 				create sub_menu.make ("GET BUTTON DETAILS", button_table, 10)
 				sub_menu.run_command_loop
@@ -126,15 +125,10 @@ feature {NONE} -- Commands
 
 feature {NONE} -- Implementation
 
-	get_button_details (button_id: STRING)
-		local
-			results: PP_BUTTON_DETAILS_QUERY_RESULTS; hosted_button: PP_HOSTED_BUTTON
+	get_button_details (meta_data: PP_BUTTON_META_DATA)
 		do
 			lio.put_line ("get_button_details")
-			create hosted_button.make (button_id)
-
-			results := paypal.get_button_details (hosted_button)
-			if results.is_ok then
+			if attached paypal.get_button_details (meta_data) as results and then results.is_ok then
 				lio.put_line ("BUTTON DETAILS")
 				results.print_values
 			else

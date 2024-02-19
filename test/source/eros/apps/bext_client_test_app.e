@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2024-02-16 10:06:13 GMT (Friday 16th February 2024)"
+	revision: "15"
 
 class
 	BEXT_CLIENT_TEST_APP
@@ -18,6 +18,8 @@ inherit
 			Ask_user_to_quit
 		end
 
+	EL_PROTOCOL_CONSTANTS
+
 create
 	make
 
@@ -26,7 +28,7 @@ feature {NONE} -- Initiliazation
 	initialize
 			--
 		do
-			create net_socket.make_client_by_port (8001, "localhost")
+			create net_socket.make_client_by_port (8001, Localhost)
 			create parse_event_generator.make
 			create signal_math.make
 		end

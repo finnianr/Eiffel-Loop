@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 9:51:01 GMT (Sunday 14th January 2024)"
-	revision: "44"
+	date: "2024-02-18 14:34:40 GMT (Sunday 18th February 2024)"
+	revision: "45"
 
 deferred class
 	EL_URI_PATH
@@ -127,7 +127,7 @@ feature -- Initialization
 		require
 			path_absolute_for_file_scheme: a_scheme ~ Protocol.file implies a_path.is_absolute
 			path_relative_for_other_schemes:
-				(a_scheme /= Protocol.file and not attached {EL_URI_PATH} a_path) implies not a_path.is_absolute
+				(a_scheme /~ Protocol.file and not attached {EL_URI_PATH} a_path) implies not a_path.is_absolute
 		local
 			l_path: ZSTRING
 		do
@@ -193,7 +193,7 @@ feature -- Status query
 
 	is_absolute: BOOLEAN
 		do
-			if has_scheme (Protocol.file) and then attached parent_path as str then
+			if scheme ~ Protocol.file and then attached parent_path as str then
 				Result := str.starts_with_character (Separator)
 			else
 				Result := True
@@ -205,9 +205,9 @@ feature -- Status query
 			Result := True
 		end
 
-	has_scheme (a_scheme: STRING): BOOLEAN
+	has_scheme (a_scheme: READABLE_STRING_8): BOOLEAN
 		do
-			Result := scheme ~ a_scheme
+			Result := scheme.same_string (a_scheme)
 		end
 
 feature -- Conversion

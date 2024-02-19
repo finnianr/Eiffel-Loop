@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "26"
+	date: "2024-02-15 15:50:26 GMT (Thursday 15th February 2024)"
+	revision: "27"
 
 deferred class
 	EL_DEBIAN_PACKAGER_I
@@ -21,7 +21,9 @@ inherit
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename
-			make as make_machine
+			make as make_default
+		redefine
+			make_default
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -42,13 +44,17 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_debian_dir, a_output_dir, a_package_dir: DIR_PATH)
 		do
 			debian_dir := a_debian_dir; output_dir := a_output_dir; package_dir := a_package_dir
-			make_machine
-			create package.make_empty
-
-			create configuration_file_list.make_empty
+			make_default
 			do_once_with_file_lines (agent find_package, open_lines (debian_dir + Name.control, Utf_8))
 			versioned_package := package_name_parts.joined ('-')
 			versioned_package_dir := Directory.temporary.joined_dir_tuple ([versioned_package])
+		end
+
+	make_default
+		do
+			Precursor
+			create package.make_empty
+			create configuration_file_list.make_empty
 		end
 
 feature -- Constants
