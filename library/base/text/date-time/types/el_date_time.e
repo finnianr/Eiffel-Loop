@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 10:12:45 GMT (Friday 23rd February 2024)"
-	revision: "28"
+	date: "2024-02-23 14:54:08 GMT (Friday 23rd February 2024)"
+	revision: "29"
 
 class
 	EL_DATE_TIME
@@ -44,7 +44,7 @@ feature -- Initialization
 	make_default
 		do
 			create date.make_by_days (0)
-			create time.make_by_compact_time (0)
+			create time.make_fine (0, 0, 0)
 		end
 
 	make_ISO_8601 (s: STRING)

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 10:28:51 GMT (Friday 23rd February 2024)"
-	revision: "11"
+	date: "2024-02-23 15:40:01 GMT (Friday 23rd February 2024)"
+	revision: "12"
 
 deferred class
 	EL_TIME_DATE_I
@@ -38,15 +38,13 @@ feature {NONE} -- Initialization
 	make_now
 		-- set current time/date according to timezone.
 		do
-			make_default
-			update_with (Time_local)
+			make_default; update
 		end
 
 	make_now_utc
 		-- set the current object to today's date/time in UTC format.
 		do
-			make_default
-			update_with (Time_utc)
+			make_default; update_utc
 		end
 
 	make_with_format (s: STRING; format: STRING)
