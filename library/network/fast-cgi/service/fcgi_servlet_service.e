@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-22 17:49:56 GMT (Thursday 22nd February 2024)"
-	revision: "30"
+	date: "2024-02-23 9:58:38 GMT (Friday 23rd February 2024)"
+	revision: "31"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -29,28 +29,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			make_with_config (new_config (config_path))
 		end
 
-	make_default
-		do
-			create broker.make
-			create {EL_NETWORK_STREAM_SOCKET} socket.make
-			create servlet_table
-			create date_time.make_now
-			state := agent do_nothing; final := state.twin
-			server_backlog := 10
-		end
-
 	make_port (a_port: INTEGER)
 		do
-			make_with_config (create {like config}.make ("", a_port))
-		end
-
-	make_with_config (a_config: like config)
-		do
-			make_default
-			config := a_config
-			if not config.unix_socket_exists then
-				create_server_socket_dir
-			end
+			make_with_config (create {like config}.make (create {FILE_PATH}, a_port))
 		end
 
 feature {NONE} -- Initialization
@@ -86,6 +67,25 @@ feature {NONE} -- Initialization
 	initialize_servlets
 		-- initialize servlets
 		deferred
+		end
+
+	make_default
+		do
+			create broker.make
+			create {EL_NETWORK_STREAM_SOCKET} socket.make
+			create servlet_table
+			create date_time.make_now
+			state := agent do_nothing; final := state.twin
+			server_backlog := 10
+		end
+
+	make_with_config (a_config: like config)
+		do
+			make_default
+			config := a_config
+			if not config.unix_socket_exists then
+				create_server_socket_dir
+			end
 		end
 
 feature -- Access
@@ -176,7 +176,7 @@ feature {NONE} -- States
 			end
 			if table.found then
 				path := Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info]
-				date_time.make_now
+				date_time.update
 				if date_time.date.ordered_compact_date /= compact_date then
 					lio.put_line (Date.formatted (date_time.date, Date_format))
 					compact_date := date_time.date.ordered_compact_date
@@ -211,23 +211,7 @@ feature {NONE} -- States
 			end
 		end
 
-feature {NONE} -- Event handling
-
-	on_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
-			-- Send error page indicating missing servlet
-		do
-			resp.send_error (Http_status.not_found, "Resource not found", Text_type.html, Utf_8)
-		end
-
-	on_shutdown
-		do
-		end
-
 feature {NONE} -- Implementation
-
-	call (object: ANY)
-		do
-		end
 
 	create_server_socket_dir
 		local
@@ -283,28 +267,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	log_error (label, message: READABLE_STRING_GENERAL)
-		do
-			log_message ("ERROR", generator)
-			log_message (label, message)
-		end
-
-	log_message (label, message: READABLE_STRING_GENERAL)
-		do
-			if not label.is_empty then
-				lio.put_labeled_string (label, message)
-				lio.put_new_line
-			else
-				lio.put_line (message)
-			end
-		end
-
-	log_separator
-		-- log new-line or something after each request
-		do
-			do_nothing
-		end
-
 	new_config (file_path: FILE_PATH): like config
 		do
 			create Result.make_from_file (file_path)
@@ -317,9 +279,9 @@ feature {FCGI_HTTP_SERVLET, FCGI_SERVLET_REQUEST} -- Access
 
 feature {NONE} -- Internal attributes
 
-	date_time: EL_DATE_TIME
-
 	compact_date: INTEGER
+
+	date_time: EL_DATE_TIME
 
 	final: PROCEDURE
 

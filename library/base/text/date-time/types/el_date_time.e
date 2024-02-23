@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-25 10:08:23 GMT (Sunday 25th December 2022)"
-	revision: "27"
+	date: "2024-02-23 10:12:45 GMT (Friday 23rd February 2024)"
+	revision: "28"
 
 class
 	EL_DATE_TIME
@@ -20,9 +20,9 @@ inherit
 			make_from_string_default as make_from_string
 		export
 			{ANY} ordered_compact_date
-			{NONE} duration -- buggy as hell
+			{NONE} duration -- really buggy
 		undefine
-			Date_time, formatted_out, date_time_valid, make_with_format
+			Date_time, formatted_out, date_time_valid, make_with_format, make_now, make_now_utc
 		end
 
 	EL_TIME_DATE_I
@@ -33,12 +33,19 @@ inherit
 		end
 
 create
-	make, make_fine, make_by_date_time, make_by_date, make_from_epoch, make_now, make_now_utc,
+	make, make_default, make_fine,
+	make_by_date_time, make_by_date, make_from_epoch, make_now, make_now_utc,
 	make_from_other, make_with_format, make_from_string,
 	make_from_string_with_base, make_from_string_default_with_base,
 	make_ISO_8601_extended, make_ISO_8601
 
 feature -- Initialization
+
+	make_default
+		do
+			create date.make_by_days (0)
+			create time.make_by_compact_time (0)
+		end
 
 	make_ISO_8601 (s: STRING)
 		do
@@ -52,7 +59,7 @@ feature -- Initialization
 
 	make_from_other (other: DATE_TIME)
 		do
-			make_from_epoch (0)
+			make_default
 			set_from_other (other)
 		end
 
@@ -116,10 +123,11 @@ feature -- Element change
 
 	set_from_other (other: DATE_TIME)
 		do
-			date.make_by_ordered_compact_date (other.date.ordered_compact_date)
-			
-			time.make_by_compact_time (other.time.compact_time)
-			time.set_fractionals (other.time.fractional_second)
+			date.copy (other.date)
+			time.copy (other.time)
+			if attached {EL_DATE_TIME} other as dt then
+				zone_offset := dt.zone_offset
+			end
 		end
 
 feature -- Conversion
@@ -174,6 +182,12 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Implementation
+
+	update_with (system: EL_SYSTEM_TIME)
+		do
+			date.make (system.year_now, system.month_now, system.day_now)
+			time.make_fine (system.hour_now, system.minute_now, system.second_now + system.millisecond_now / 1000)
+		end
 
 	valid_string_for_code (str: STRING; code: EL_DATE_TIME_CODE_STRING): BOOLEAN
 		do

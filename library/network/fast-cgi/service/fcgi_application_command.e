@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-22 17:46:18 GMT (Thursday 22nd February 2024)"
-	revision: "1"
+	date: "2024-02-23 9:40:09 GMT (Friday 23rd February 2024)"
+	revision: "2"
 
 deferred class
 	FCGI_APPLICATION_COMMAND
@@ -28,6 +28,46 @@ inherit
 	EL_ENCODING_TYPE
 		export
 			{NONE} all
+		end
+
+feature {NONE} -- Event handling
+
+	on_missing_servlet (resp: FCGI_SERVLET_RESPONSE)
+			-- Send error page indicating missing servlet
+		do
+			resp.send_error (Http_status.not_found, "Resource not found", Text_type.html, Utf_8)
+		end
+
+	on_shutdown
+		do
+		end
+
+feature {NONE} -- Implementation
+
+	call (object: ANY)
+		do
+		end
+
+	log_error (label, message: READABLE_STRING_GENERAL)
+		do
+			log_message ("ERROR", generator)
+			log_message (label, message)
+		end
+
+	log_message (label, message: READABLE_STRING_GENERAL)
+		do
+			if not label.is_empty then
+				lio.put_labeled_string (label, message)
+				lio.put_new_line
+			else
+				lio.put_line (message)
+			end
+		end
+
+	log_separator
+		-- log new-line or something after each request
+		do
+			do_nothing
 		end
 
 feature {NONE} -- String constants

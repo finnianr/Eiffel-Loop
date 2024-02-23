@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-02-23 10:28:51 GMT (Friday 23rd February 2024)"
+	revision: "11"
 
 deferred class
 	EL_TIME_DATE_I
@@ -34,6 +34,20 @@ inherit
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
+
+	make_now
+		-- set current time/date according to timezone.
+		do
+			make_default
+			update_with (Time_local)
+		end
+
+	make_now_utc
+		-- set the current object to today's date/time in UTC format.
+		do
+			make_default
+			update_with (Time_utc)
+		end
 
 	make_with_format (s: STRING; format: STRING)
 		do
@@ -100,6 +114,22 @@ feature -- Basic operations
 			append_to (general, default_format_string)
 		end
 
+	update
+		-- update to local time for current time-zone
+		do
+			if attached Time_local as t then
+				t.update; update_with (t)
+			end
+		end
+
+	update_utc
+		-- update to UTC time
+		do
+			if attached Time_utc as t then
+				t.update; update_with (t)
+			end
+		end
+
 feature -- Contract support
 
 	input_valid (s: STRING; format: STRING): BOOLEAN
@@ -146,11 +176,19 @@ feature {NONE} -- Deferred Implementation
 		deferred
 		end
 
+	make_default
+		deferred
+		end
+
 	make_with_parser (parser: EL_DATE_TIME_PARSER)
 		deferred
 		end
 
 	to_shared_date_time: DATE_TIME
+		deferred
+		end
+
+	update_with (system: EL_SYSTEM_TIME)
 		deferred
 		end
 
@@ -160,14 +198,24 @@ feature {NONE} -- Deferred Implementation
 
 feature {NONE} -- Constants
 
-	Once_date_time: DATE_TIME
-		once
-			create Result.make (1, 1, 1, 1, 1, 1)
-		end
-
 	Factory: EL_DATE_OR_TIME_PARSER_FACTORY
 		once
 			create Result.make
+		end
+
+	Time_local: EL_SYSTEM_TIME
+		once
+			create Result.make_local
+		end
+
+	Time_utc: EL_SYSTEM_TIME
+		once
+			create Result.make_utc
+		end
+
+	Once_date_time: DATE_TIME
+		once
+			create Result.make (1, 1, 1, 1, 1, 1)
 		end
 
 	Propercase_table: EL_HASH_TABLE [ARRAY [STRING], STRING]

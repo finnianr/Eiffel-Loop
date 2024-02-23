@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-19 18:08:11 GMT (Monday 19th February 2024)"
-	revision: "25"
+	date: "2024-02-23 10:23:11 GMT (Friday 23rd February 2024)"
+	revision: "26"
 
 class
 	PP_NVP_API_CONNECTION
@@ -84,9 +84,9 @@ feature -- Access
 feature -- Button management
 
 	button_search_results: PP_BUTTON_SEARCH_RESULTS
-			-- list all buttons since year 2000
+		-- list all buttons since Jan 1st 2000
 		do
-			Result := button_search.query_result (<< create {PP_DATE_TIME_RANGE}.make_to_now (Jan_1st_2000) >>)
+			Result := button_search.query_result (<< create {PP_DATE_TIME_RANGE}.make_millenium >>)
 		end
 
 	create_buy_now_button (
@@ -216,11 +216,6 @@ feature {NONE} -- Constants
 	Button_parameter_type: INTEGER
 		once
 			Result := ({PP_BUTTON_PARAMETER}).type_id
-		end
-
-	Jan_1st_2000: DATE_TIME
-		once
-			create Result.make (2000, 1, 1, 0, 0, 0)
 		end
 
 end

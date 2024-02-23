@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "19"
+	date: "2024-02-23 9:57:38 GMT (Friday 23rd February 2024)"
+	revision: "20"
 
 class
 	PP_DATE_TIME
@@ -44,7 +44,7 @@ inherit
 	EL_MODULE_DATE_TIME
 
 create
-	make, make_now
+	make, make_default, make_now, make_now_utc
 
 feature {EL_DATE_TEXT} -- Initialization
 

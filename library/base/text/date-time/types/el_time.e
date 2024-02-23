@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-02-23 9:57:53 GMT (Friday 23rd February 2024)"
+	revision: "8"
 
 class
 	EL_TIME
@@ -18,9 +18,9 @@ inherit
 			make_from_string as make_with_format,
 			make_from_string_default as make_from_string
 		undefine
-			make_with_format, formatted_out, time_valid
+			formatted_out, make_with_format, time_valid, make_now, make_now_utc
 		redefine
-			default_format_string, make_now, make_now_utc
+			default_format_string
 		end
 
 	EL_TIME_DATE_I
@@ -32,7 +32,7 @@ inherit
 		end
 
 create
-	make, make_fine, make_now, make_now_utc, make_by_seconds, make_by_fine_seconds,
+	make, make_default, make_fine, make_now, make_now_utc, make_by_seconds, make_by_fine_seconds,
 	make_with_format, make_from_string, make_by_compact_time, make_by_compact_decimal
 
 feature {NONE} -- Initialization
@@ -46,23 +46,9 @@ feature {NONE} -- Initialization
 			set: a_compact_decimal = compact_decimal
 		end
 
-	make_from_system (system: EL_SYSTEM_TIME)
+	make_default
 		do
-			system.update
-			make (system.hour_now, system.minute_now, system.second_now)
-			fractional_second := system.millisecond_now / 1000
-		end
-
-	make_now
-			-- Set current time according to timezone.
-		do
-			make_from_system (Local_time)
-		end
-
-	make_now_utc
-			-- Set the current object to today's date in utc format.
-		do
-			make_from_system (UTC_time)
+			make_by_compact_time (0)
 		end
 
 	make_with_parser (a_parser: EL_DATE_TIME_PARSER)
@@ -104,21 +90,14 @@ feature {NONE} -- Implementation
 			Result.time.make_by_fine_seconds (fine_seconds)
 		end
 
+	update_with (system: EL_SYSTEM_TIME)
+		do
+			make_fine (system.hour_now, system.minute_now, system.second_now + system.millisecond_now / 1000)
+		end
+
 	valid_string_for_code (str: STRING; code: EL_DATE_TIME_CODE_STRING): BOOLEAN
 		do
 			Result := code.precise_time and code.correspond (str) and then code.is_time (str)
-		end
-
-feature {NONE} -- Constants
-
-	Local_time: EL_SYSTEM_TIME
-		once
-			create Result.make_local
-		end
-
-	UTC_time: EL_SYSTEM_TIME
-		once
-			create Result.make_utc
 		end
 
 end

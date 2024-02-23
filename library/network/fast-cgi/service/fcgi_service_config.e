@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2024-02-23 9:45:32 GMT (Friday 23rd February 2024)"
+	revision: "13"
 
 class
 	FCGI_SERVICE_CONFIG
@@ -41,11 +41,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_server_socket_path: like server_socket_path; a_server_port: like server_port)
+	make (socket_path: FILE_PATH; a_server_port: INTEGER)
 		-- make with either a UNIX socket path or a TCP port
 		do
 			make_default
-			server_socket_path := a_server_socket_path; server_port := a_server_port
+			server_socket_path := socket_path; server_port := a_server_port
 		end
 
 	make_default
