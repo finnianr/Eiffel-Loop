@@ -11,27 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "29"
+	date: "2024-02-22 17:49:56 GMT (Thursday 22nd February 2024)"
+	revision: "30"
 
 deferred class
 	FCGI_SERVLET_SERVICE
 
 inherit
-	EL_APPLICATION_COMMAND
-
-	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXCEPTION; EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LOG; EL_MODULE_LOG_MANAGER; EL_MODULE_UNIX_SIGNALS
-
-	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_DOCUMENT_TYPES; 	EL_SHARED_HTTP_STATUS  EL_SHARED_OPERATING_ENVIRON
-
-	EL_ENCODING_TYPE
-		export
-			{NONE} all
-		end
+	FCGI_APPLICATION_COMMAND
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -47,7 +34,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create broker.make
 			create {EL_NETWORK_STREAM_SOCKET} socket.make
 			create servlet_table
-			state := agent do_nothing
+			create date_time.make_now
+			state := agent do_nothing; final := state.twin
 			server_backlog := 10
 		end
 
@@ -188,7 +176,12 @@ feature {NONE} -- States
 			end
 			if table.found then
 				path := Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info]
-				log_message (once "Servicing path", path)
+				date_time.make_now
+				if date_time.date.ordered_compact_date /= compact_date then
+					lio.put_line (Date.formatted (date_time.date, Date_format))
+					compact_date := date_time.date.ordered_compact_date
+				end
+				log_message (date_time.time.formatted_out (Time_format), path)
 				table.found_item.serve_request
 				log_separator
 			else
@@ -324,6 +317,12 @@ feature {FCGI_HTTP_SERVLET, FCGI_SERVLET_REQUEST} -- Access
 
 feature {NONE} -- Internal attributes
 
+	date_time: EL_DATE_TIME
+
+	compact_date: INTEGER
+
+	final: PROCEDURE
+
 	server_backlog: INTEGER
 		-- The number of requests that can remain outstanding.
 
@@ -332,38 +331,7 @@ feature {NONE} -- Internal attributes
 	socket: EL_STREAM_SOCKET
 		-- server socket
 
-	state: PROCEDURE
-
-feature {NONE} -- String constants
-
-	frozen Default_servlet_key: ZSTRING
-		once
-			Result := "<DEFAULT>"
-		end
-
-	Fcgi_web_server_addrs: STRING = "FCGI_WEB_SERVER_ADDRS"
-
-	Final: PROCEDURE
-		once
-			Result := agent do_nothing
-		end
-
-	Service_info_template: ZSTRING
-		once
-			Result := "[
-				"#" with servlet #
-			]"
-		end
-
-	Servlet_app_log_category: STRING = "servlet.app"
-
-feature {NONE} -- Constants
-
-	Max_initialization_retry_count: INTEGER
-		-- The maximum number of times application will retry
-		once
-			Result := 3
-		end
+	state: PROCEDURE;
 
 note
 	notes: "[

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:15:46 GMT (Saturday 23rd December 2023)"
-	revision: "38"
+	date: "2024-02-22 16:31:54 GMT (Thursday 22nd February 2024)"
+	revision: "39"
 
 class
 	DATE_TIME_TEST_SET
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 				["date_time",								  agent test_date_time],
 				["date_time_proper_case",				  agent test_date_time_proper_case],
 				["date_time_subtract",					  agent test_date_time_subtract],
+				["date_time_update",						  agent test_date_time_update],
 				["epoch_date_time",						  agent test_epoch_date_time],
 				["execution_timer",						  agent test_execution_timer],
 				["formatted_date",						  agent test_formatted_date],
@@ -100,6 +101,31 @@ feature -- Tests
 			create dt_2.make (2000, 1, 2, 23, 0, 0)
 			dt.hour_add (-2)
 			assert ("substracting 2 hours is 11 PM previous day", dt ~ dt_2)
+		end
+
+	test_date_time_update
+		note
+			testing: "[
+				covers/{EL_SYSTEM_TIME}.update,
+				covers/{EL_TIME_DATE_I}.make_now,
+				covers/{EL_TIME_DATE_I}.update,
+				covers/{EL_DATE}.update_with,
+				covers/{EL_TIME}.update_with,
+				covers/{EL_DATE_TIME}.update_with
+			]"
+		local
+			d_1: DATE; d_2: EL_DATE; t_1: TIME; t_2: EL_TIME
+			dt_1: DATE_TIME; dt_2: EL_DATE_TIME
+		do
+			create dt_1.make_now; create dt_2.make_now
+			assert ("same date", dt_1.date.ordered_compact_date = dt_2.date.ordered_compact_date)
+			assert ("same time", dt_1.time.compact_time = dt_2.time.compact_time)
+
+			create d_1.make_now; create d_2.make_now
+			assert ("same date", d_1.ordered_compact_date = d_2.ordered_compact_date)
+
+			create t_1.make_now; create t_2.make_now
+			assert ("same date", t_1.compact_time = t_2.compact_time)
 		end
 
 	test_epoch_date_time

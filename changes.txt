@@ -682,3 +682,6 @@ Cairo interface to Glib with GError handling
 Sun 28th Jan 2024, 18:28:55
 Change to note class link place holder notation
 
+Mon 19th Feb 2024, 18:29:59
+Refactored caching of hosted Paypal button information
+

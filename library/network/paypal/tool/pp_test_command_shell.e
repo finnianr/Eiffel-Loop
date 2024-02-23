@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-19 9:55:34 GMT (Monday 19th February 2024)"
-	revision: "30"
+	date: "2024-02-22 16:52:59 GMT (Thursday 22nd February 2024)"
+	revision: "31"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -103,8 +103,7 @@ feature {NONE} -- Commands
 
 	display_button_menu
 		local
-			button_table: EL_PROCEDURE_TABLE [ZSTRING]; id: STRING
-			sub_menu: EL_COMMAND_SHELL
+			button_table: EL_PROCEDURE_TABLE [ZSTRING]; sub_menu: EL_COMMAND_SHELL
 		do
 
 			if attached paypal.button_search_results as search_results and then search_results.is_ok

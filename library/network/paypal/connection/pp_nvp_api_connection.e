@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-19 10:41:04 GMT (Monday 19th February 2024)"
-	revision: "24"
+	date: "2024-02-19 18:08:11 GMT (Monday 19th February 2024)"
+	revision: "25"
 
 class
 	PP_NVP_API_CONNECTION
@@ -119,7 +119,7 @@ feature -- Button management
 			else
 		 		Result := get_button_details_method.query_result (<< a_meta_data.hosted_button >>)
 				if last_call_succeeded then
-				-- save in cache file
+				-- cache `last_string' that made `Result' in file
 					File.write_text (cache_path, last_string)
 					File.set_modification_time (cache_path, a_meta_data.l_modify_date.to_unix)
 				end
@@ -156,20 +156,6 @@ feature -- Status query
 			Result := not has_error
 		end
 
-feature {NONE} -- Factory
-
-	new_cache_path (button_id: STRING): FILE_PATH
-		do
-			Result := cache_dir + button_id
-		end
-
-feature {NONE} -- Implementation
-
-	is_button_parameter (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
-		do
-			Result := field.static_type = Button_parameter_type
-		end
-
 feature {PP_BUTTON_METHOD} -- Paypal parameters
 
 	button_code_hosted: PP_BUTTON_PARAMETER
@@ -201,6 +187,16 @@ feature {NONE} -- Methods
 	update_button: PP_UPDATE_BUTTON_METHOD
 
 feature {PP_SHARED_API_CONNECTION} -- Implementation
+
+	is_button_parameter (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
+		do
+			Result := field.static_type = Button_parameter_type
+		end
+
+	new_cache_path (button_id: STRING): FILE_PATH
+		do
+			Result := cache_dir + button_id
+		end
 
 	remove_cached (button_id: STRING)
 		do

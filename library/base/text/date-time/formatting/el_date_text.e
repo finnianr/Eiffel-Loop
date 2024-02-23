@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
-	revision: "25"
+	date: "2024-02-22 17:47:44 GMT (Thursday 22nd February 2024)"
+	revision: "26"
 
 class
 	EL_DATE_TEXT
@@ -21,6 +21,7 @@ inherit
 	EL_DATE_FORMATS
 		export
 			{NONE} all
+			{ANY} Var, new_format
 		end
 
 	EL_MODULE_DEFERRED_LOCALE

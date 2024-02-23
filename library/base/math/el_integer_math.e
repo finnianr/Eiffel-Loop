@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 9:45:42 GMT (Monday 15th January 2024)"
-	revision: "12"
+	date: "2024-02-19 16:58:17 GMT (Monday 19th February 2024)"
+	revision: "13"
 
 expanded class
 	EL_INTEGER_MATH
@@ -33,7 +33,7 @@ feature -- Access
 		end
 
 	rounded (number, n: INTEGER): INTEGER
-			-- number rounded to n significant digit_count
+		-- number rounded to n significant digit_count
 		local
 			digit_count, zeros, divisor: INTEGER
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-02-23 9:24:41 GMT (Friday 23rd February 2024)"
+	revision: "13"
 
 class
 	EL_DATE_FORMATS
@@ -26,12 +26,12 @@ feature -- Constants
 
 	Var: TUPLE [
 		canonical_numeric_day, long_day_name, long_month_name, numeric_day, numeric_month,
-		short_day_name, short_month_name, short_year, year: STRING
+		short_day_name, short_month_name, short_year, year: IMMUTABLE_STRING_8
 	]
 		-- Template variable names
 		once
 			create Result
-			Tuple.fill (Result,
+			Tuple.fill_immutable (Result,
 				"canonical_numeric_day, long_day_name, long_month_name, numeric_day, numeric_month,%
 				%short_day_name, short_month_name, short_year, year"
 			)
@@ -68,9 +68,9 @@ feature -- Format strings
 			Result := new_format (<< Var.year, Var.short_month_name, Var.canonical_numeric_day >>)
 		end
 
-feature {NONE} -- Implementation
+feature -- Factory
 
-	new_format (parts: ARRAY [STRING]): STRING
+	new_format (parts: ARRAY [IMMUTABLE_STRING_8]): STRING
 		local
 			s: EL_STRING_8_ROUTINES
 		do
