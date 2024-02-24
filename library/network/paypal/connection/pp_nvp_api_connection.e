@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 10:23:11 GMT (Friday 23rd February 2024)"
-	revision: "26"
+	date: "2024-02-24 11:06:09 GMT (Saturday 24th February 2024)"
+	revision: "27"
 
 class
 	PP_NVP_API_CONNECTION
@@ -47,6 +47,7 @@ feature {NONE} -- Initialization
 			make_solitary
 			Precursor (a_configuration)
 			credentials := a_configuration.new_credentials
+			create mutex.make (Current)
 			create version.make (configuration.api_version)
 			create button_search.make (Current)
 			create create_button.make (Current)
@@ -67,6 +68,9 @@ feature -- Access
 		do
 			Result := configuration.api_url
 		end
+
+	mutex: EL_MUTEX_REFERENCE [like Current]
+		-- mutex for {PP_BUTTON_METHOD}.call
 
 	domain_name: STRING
 		-- Eg. www.sandbox.paypal.com

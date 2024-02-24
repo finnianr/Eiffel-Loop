@@ -685,3 +685,6 @@ Change to note class link place holder notation
 Mon 19th Feb 2024, 18:29:59
 Refactored caching of hosted Paypal button information
 
+Fri 23rd Feb 2024, 17:37:51
+EL_TIME_DATE_I now uses EL_SYSTEM time for updates
+

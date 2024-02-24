@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-10 17:40:27 GMT (Saturday 10th February 2024)"
-	revision: "4"
+	date: "2024-02-24 15:27:27 GMT (Saturday 24th February 2024)"
+	revision: "5"
 
 class
 	EL_INTEGER_COORDINATE
