@@ -1,6 +1,17 @@
 note
 	description: "[
+		Generates links in an output folder to all PNG files >= 128x128 in size.
 
+		If the PNG path has the structure
+		
+			/usr/share/a/b/c/file.png
+			
+		then the output path relative to `/usr/share' is abbreviated to
+		
+			a/b/file.png
+
+		If there are icons with duplicate relative paths, then only the icon with the
+		largest size has a link created.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-24 16:32:04 GMT (Saturday 24th February 2024)"
-	revision: "1"
+	date: "2024-02-25 10:58:42 GMT (Sunday 25th February 2024)"
+	revision: "2"
 
 class
 	PNG_LINK_GENERATOR
@@ -32,11 +43,12 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_jpeg_tree_dir, a_output_dir: DIR_PATH)
+	make (source_tree_dir, a_output_dir: DIR_PATH; step_list: STRING)
 		do
-			make_command (a_jpeg_tree_dir)
-			output_dir := a_output_dir
+			make_command (source_tree_dir)
+			output_dir := a_output_dir; exclude_list := step_list
 			output_dir.expand
+			remove_step_count := source_tree_dir.step_count.min (3)
 			create size_table.make_size (1000)
 		end
 
@@ -68,7 +80,10 @@ feature {NONE} -- Implementation
 		local
 			data: ZSTRING; png_info: like new_png_info
 		do
-			if not File.is_symlink (file_path) and then attached Png_info_command as cmd then
+			if across exclude_list as step all not file_path.has_step (step.item) end
+				and then not File.is_symlink (file_path)
+				and then attached Png_info_command as cmd
+			then
 				cmd.put_path (Var_path, file_path)
 				cmd.execute
 				if cmd.lines.count > 0 and then cmd.lines.first.count > file_path.count then
@@ -115,10 +130,10 @@ feature {NONE} -- Implementation
 			steps: EL_PATH_STEPS
 		do
 			steps := file_path
-			if steps.count >= 5 then
-				steps.remove_head (3)
+			if steps.count >= remove_step_count + 2 then
+				steps.remove_head (remove_step_count)
 				from until steps.count <= 3 loop
-					steps.remove (3)
+					steps.remove (steps.count - 1)
 				end
 			end
 			Result := steps
@@ -126,14 +141,18 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	exclude_list: EL_ZSTRING_LIST
+
 	output_dir: DIR_PATH
+
+	remove_step_count: INTEGER
 
 	size_table: EL_HASH_TABLE [like new_png_info, FILE_PATH]
 
 feature {NONE} -- Constants
 
 	Description: STRING = "[
-		Generates links to PNG files >= 128x128 ins
+		Generates links in an output folder to PNG files >= 128x128 in size
 	]"
 
 	File_extensions: STRING = "png"

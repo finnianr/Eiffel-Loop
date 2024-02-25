@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:25:53 GMT (Sunday 7th January 2024)"
-	revision: "6"
+	date: "2024-02-25 11:40:39 GMT (Sunday 25th February 2024)"
+	revision: "7"
 
 class
 	EL_DIRECTORY_ITERATION_CURSOR

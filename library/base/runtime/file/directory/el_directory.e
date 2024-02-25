@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "28"
+	date: "2024-02-25 11:57:14 GMT (Sunday 25th February 2024)"
+	revision: "29"
 
 class
 	EL_DIRECTORY
@@ -40,9 +40,9 @@ inherit
 
 	ITERABLE [STRING_32]
 
-	EL_STRING_8_CONSTANTS
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_FILE_SYSTEM
+	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_STRING_32_BUFFER_SCOPES
 
@@ -116,7 +116,9 @@ feature -- Access
 	files_with_extension (extension: READABLE_STRING_GENERAL): like files
 		do
 			create Result.make (20)
-			read_entries (Result, Type_file, extension)
+			if is_readable then
+				read_entries (Result, Type_file, extension)
+			end
 		ensure
 			object_comparison: Result.object_comparison
 		end
@@ -287,7 +289,7 @@ feature -- Removal
 			internal_delete_with_action (manager, True)
 		end
 
-feature {NONE} -- Status setting
+feature -- Status setting
 
 	set_is_following_symlinks (v: BOOLEAN)
 			-- Should `read_entries' follow symlinks or not?
@@ -431,17 +433,20 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			is_open: true
 		do
 			list.compare_objects
-			across Current as entry loop
-				if not entry.is_current_or_parent and then entry.exists
-					and then extension_matches (entry.item, extension)
-					and then matches_type (entry, type)
-				then
-					if entry.is_directory then
-						if (type = Type_any or type = Type_directory) then
-							list.extend (entry.item_dir_path)
+		-- check for permission
+			if is_readable then
+				across Current as entry loop
+					if not entry.is_current_or_parent and then entry.exists
+						and then extension_matches (entry.item, extension)
+						and then matches_type (entry, type)
+					then
+						if entry.is_directory then
+							if (type = Type_any or type = Type_directory) then
+								list.extend (entry.item_dir_path)
+							end
+						elseif (type = Type_any or type = Type_file) then
+							list.extend (entry.item_file_path)
 						end
-					elseif (type = Type_any or type = Type_file) then
-						list.extend (entry.item_file_path)
 					end
 				end
 			end
