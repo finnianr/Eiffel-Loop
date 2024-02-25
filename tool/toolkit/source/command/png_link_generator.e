@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-25 10:58:42 GMT (Sunday 25th February 2024)"
-	revision: "2"
+	date: "2024-02-25 12:49:01 GMT (Sunday 25th February 2024)"
+	revision: "3"
 
 class
 	PNG_LINK_GENERATOR
@@ -56,12 +56,20 @@ feature -- Basic operations
 
 	execute
 		local
-			link_path: FILE_PATH
+			link_path: FILE_PATH; counter_table: EL_COUNTER_TABLE [DIR_PATH]
 		do
 			Precursor
 			File_system.make_directory (output_dir)
+			create counter_table.make (size_table.count // 10)
 			across size_table as list loop
-				link_path := output_dir + list.key
+				counter_table.put (list.key.parent)
+			end
+			across size_table as list loop
+				if counter_table.has_key (list.key.parent) and then counter_table.found_count.item <= 2 then
+					link_path := (output_dir #+ "other") + list.key.base
+				else
+					link_path := output_dir + list.key
+				end
 				lio.put_index_labeled_string (list, Void, list.key.to_string)
 				lio.put_labeled_substitution (" size", "%Sx%S", [list.item.width, list.item.height])
 				lio.put_new_line

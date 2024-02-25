@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-25 11:57:14 GMT (Sunday 25th February 2024)"
-	revision: "29"
+	date: "2024-02-25 12:26:58 GMT (Sunday 25th February 2024)"
+	revision: "30"
 
 class
 	EL_DIRECTORY
@@ -424,6 +424,8 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 		end
 
 	new_cursor: EL_DIRECTORY_ITERATION_CURSOR
+		require else
+			read_permission: is_readable
 		do
 			create Result.make (Current)
 		end
@@ -433,7 +435,7 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			is_open: true
 		do
 			list.compare_objects
-		-- check for permission
+		-- check for read permission
 			if is_readable then
 				across Current as entry loop
 					if not entry.is_current_or_parent and then entry.exists
