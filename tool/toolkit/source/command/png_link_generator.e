@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-27 11:29:45 GMT (Tuesday 27th February 2024)"
-	revision: "4"
+	date: "2024-02-27 11:36:08 GMT (Tuesday 27th February 2024)"
+	revision: "5"
 
 class
 	PNG_LINK_GENERATOR
@@ -58,6 +58,8 @@ feature -- Basic operations
 			across size_table as list loop
 				counter_table.put (list.key.parent)
 			end
+			lio.put_integer_field ("Creating links", size_table.count)
+			lio.put_new_line
 			across size_table as list loop
 				if counter_table.has_key (list.key.parent) and then counter_table.found_count.item <= 2 then
 					link_path := (output_dir #+ "other") + list.key.base
