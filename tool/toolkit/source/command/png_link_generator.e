@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-27 11:36:08 GMT (Tuesday 27th February 2024)"
-	revision: "5"
+	date: "2024-02-27 14:01:19 GMT (Tuesday 27th February 2024)"
+	revision: "6"
 
 class
 	PNG_LINK_GENERATOR
@@ -37,9 +37,10 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_source_dir, a_output_dir: DIR_PATH; step_list: STRING)
+	make (a_source_dir, a_output_dir: DIR_PATH; step_list: STRING; a_minimum_width: INTEGER)
 		do
 			source_dir := a_source_dir; output_dir := a_output_dir; exclude_list := step_list
+			minimum_width := a_minimum_width
 			output_dir.expand
 			remove_step_count := source_dir.step_count.min (3)
 			create size_table.make_size (1000)
@@ -50,6 +51,7 @@ feature -- Basic operations
 	execute
 		local
 			link_path: FILE_PATH; counter_table: EL_COUNTER_TABLE [DIR_PATH]
+			size: STRING
 		do
 			fill_size_table
 
@@ -66,8 +68,8 @@ feature -- Basic operations
 				else
 					link_path := output_dir + list.key
 				end
-				lio.put_index_labeled_string (list, Void, list.key.to_string)
-				lio.put_labeled_substitution (" size", "%Sx%S", [list.item.width, list.item.height])
+				size := Size_template #$ [list.item.width, list.item.height]
+				lio.put_index_labeled_string (list, "%S. " + size, list.key.to_string)
 				lio.put_new_line
 				OS.File_system.make_directory (link_path.parent)
 				if not link_path.exists
@@ -82,17 +84,17 @@ feature {NONE} -- Implementation
 
 	extend_size_table (file_path: FILE_PATH; size: ZSTRING)
 		do
-		-- Square icons > 128 in width
-			if attached new_png_info (file_path, size) as png_info
-				and then png_info.width >= 128 and then png_info.width = png_info.height
+		-- Square icons > `minimum_width' in width
+			if attached new_png_info (file_path, size) as png
+				and then png.width >= minimum_width and then png.width = png.height
 			then
 				if attached new_short_path (file_path) as path then
 					if size_table.has_key (path) then
-						if size_table.found_item.width > png_info.width then
-							size_table [path] := png_info
+						if size_table.found_item.width > png.width then
+							size_table [path] := png
 						end
 					else
-						size_table.extend (png_info, path)
+						size_table.extend (png, path)
 					end
 				end
 			end
@@ -108,6 +110,7 @@ feature {NONE} -- Implementation
 				cmd.set_filter (not has_small_step)
 				cmd.set_follow_symbolic_links (False)
 				cmd.execute
+--				iterate_directories (cmd.path_list)
 				Track.progress (Console_display, cmd.path_list.count, agent iterate_directories (cmd.path_list))
 			end
 		end
@@ -132,6 +135,7 @@ feature {NONE} -- Implementation
 								and then attached str.substring_to_from ('G', $index)
 							then
 								index := index + 1
+--								lio.put_line (png_path)
 								extend_size_table (png_path, str.substring_to_from (' ', $index))
 							end
 						end
@@ -141,20 +145,27 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_png_info (file_path: FILE_PATH; data: ZSTRING): TUPLE [file_path: FILE_PATH; width, height: INTEGER]
+	new_png_info (file_path: FILE_PATH; str: ZSTRING): TUPLE [file_path: FILE_PATH; width, height: INTEGER]
 		do
 			create Result
 			Result.file_path := file_path
-			size_list.fill (data.substring_to (' '), 'x', 0)
-			if attached Size_list as list and then list.count = 2 then
-				from list.start until list.after loop
-					inspect list.index
-						when 1 then
-							Result.width := list.integer_32_item
-					else
-						Result.height := list.integer_32_item
+			if str.is_integer then
+				Result.width := str.to_integer
+				Result.height := Result.width
+			else
+				size_list.fill (str, 'x', 0)
+				if attached Size_list as list and then list.count = 2 then
+					from list.start until list.after loop
+						if list.item_is_number then
+							inspect list.index
+								when 1 then
+									Result.width := list.integer_32_item
+							else
+								Result.height := list.integer_32_item
+							end
+						end
+						list.forth
 					end
-					list.forth
 				end
 			end
 		end
@@ -178,19 +189,12 @@ feature {NONE} -- Implementation
 			index: INTEGER
 		do
 			Result := False
-			across Small_size_list as list until Result loop
-				index := path.substring_index (list.item, 1)
-				if index > 0 then
-					index := index + list.item.count
-					if index - 1 = path.count then
-						Result := True
-					else
-						inspect path [index]
-							when '/', 'x' then
-								Result := True
-						else
-						end
-					end
+			across path.split ('/') as split until Result loop
+				if attached split.item as step and then attached new_png_info (Empty_path, step) as png
+					and then (png.width > 0 and png.width = png.height)
+					and then png.width < minimum_width
+				then
+					Result := True
 				end
 			end
 		end
@@ -198,6 +202,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	exclude_list: EL_ZSTRING_LIST
+
+	minimum_width: INTEGER
 
 	output_dir: DIR_PATH
 
@@ -218,6 +224,11 @@ feature {NONE} -- Constants
 			Result := ".png"
 		end
 
+	Empty_path: FILE_PATH
+		once
+			create Result
+		end
+
 	Png_info_command: EL_CAPTURED_OS_COMMAND
 		once
 			create Result.make ("identify $PATH")
@@ -228,12 +239,9 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Small_size_list: EL_ZSTRING_LIST
+	Size_template: ZSTRING
 		once
-			create Result.make (5)
-			across << 8, 16, 22, 24, 32, 48, 64 >> as size loop
-				Result.extend ("/" + size.item.out)
-			end
+			Result := "%Sx%S"
 		end
 
 	Var_path: STRING = "PATH"
