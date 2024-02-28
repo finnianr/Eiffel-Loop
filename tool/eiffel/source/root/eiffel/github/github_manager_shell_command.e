@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 13:41:16 GMT (Wednesday 24th January 2024)"
-	revision: "34"
+	date: "2024-02-28 10:41:31 GMT (Wednesday 28th February 2024)"
+	revision: "35"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -65,8 +65,9 @@ feature {NONE} -- Commands
 			across command_list as list loop
 				create cmd.make (list.item)
 				cmd.set_working_directory (config.github_dir)
---				cmd.set_dry_run (True)
+--				cmd.dry_run.enable
 				cmd.execute
+				lio.put_new_line_x2
 			end
 		end
 
@@ -109,6 +110,35 @@ feature {NONE} -- Commands
 						lio.put_labeled_string ("push", "DONE")
 						lio.put_new_line
 					end
+				end
+			end
+		end
+
+	git_log
+		local
+			day_count: INTEGER; date: EL_DATE; template, date_string, line: ZSTRING
+			log_cmd: EL_CAPTURED_OS_COMMAND; index: INTEGER
+		do
+			template := "git --no-pager log --after='%S' --date=short --pretty=format:'%%ad %%s'"
+			day_count := User_input.integer ("Number of days to print comments")
+			if day_count > 0 then
+				create date.make_now_utc
+				date.day_add (day_count.opposite)
+				create log_cmd.make (template #$ [date.formatted_out ("yyyy-[0]mm-[0]dd")])
+				log_cmd.set_working_directory (config.github_dir)
+--				log_cmd.dry_run.enable
+				log_cmd.execute
+				if log_cmd.has_error then
+					lio.put_line ("Command error")
+				else
+					lio.put_new_line
+					across log_cmd.lines as list loop
+						line := list.item; index := 1
+						date_string := line.substring_to_from (' ', $index)
+						lio.put_labeled_string (date_string, line.substring_end (index))
+						lio.put_new_line
+					end
+					lio.put_new_line
 				end
 			end
 		end
@@ -169,6 +199,7 @@ feature {NONE} -- Factory
 				["Update github directory",		agent rsync_to_github_dir],
 				["Update personal access token",	agent update_personal_access_token],
 				["git add + commit",					agent git_commit],
+				["git log --after='X'",				agent git_log],
 				["git push -u origin master",		agent git_push_origin_master]
 			>>)
 		end

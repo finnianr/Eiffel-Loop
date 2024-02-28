@@ -1,3 +1,6 @@
+2.0.11
+* Added git log function to github manager
+
 2.0.10
 * Added command to parse workarea/gdb.txt
 

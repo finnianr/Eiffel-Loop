@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-27 14:01:19 GMT (Tuesday 27th February 2024)"
-	revision: "6"
+	date: "2024-02-27 17:14:38 GMT (Tuesday 27th February 2024)"
+	revision: "7"
 
 class
 	PNG_LINK_GENERATOR
@@ -68,7 +68,7 @@ feature -- Basic operations
 				else
 					link_path := output_dir + list.key
 				end
-				size := Size_template #$ [list.item.width, list.item.height]
+				size := Dimensions #$ [list.item.width, list.item.height]
 				lio.put_index_labeled_string (list, "%S. " + size, list.key.to_string)
 				lio.put_new_line
 				OS.File_system.make_directory (link_path.parent)
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 
 	iterate_directories (path_list: EL_ARRAYED_LIST [DIR_PATH])
 		local
-			index: INTEGER; png_path: FILE_PATH; str: ZSTRING
+			index: INTEGER; png_path: FILE_PATH; str, size: ZSTRING
 		do
 			across path_list as list loop
 				if attached Png_info_command as info_cmd then
@@ -136,7 +136,8 @@ feature {NONE} -- Implementation
 							then
 								index := index + 1
 --								lio.put_line (png_path)
-								extend_size_table (png_path, str.substring_to_from (' ', $index))
+								size := str.substring_to_from (' ', $index)
+								extend_size_table (png_path, size)
 							end
 						end
 					end
@@ -216,7 +217,7 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Description: STRING = "[
-		Generates links in an output folder to PNG files >= 128x128 in size
+		Generates links in an output folder to PNG files >= a minimum width
 	]"
 
 	Dot_png: ZSTRING
@@ -239,7 +240,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Size_template: ZSTRING
+	Dimensions: ZSTRING
 		once
 			Result := "%Sx%S"
 		end
