@@ -6,13 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-02-29 9:42:16 GMT (Thursday 29th February 2024)"
+	revision: "8"
 
-class
+deferred class
 	EL_EIFFEL_CONSTANTS
 
+inherit
+	EL_ANY_SHARED
+
 feature {NONE} -- Constants
+
+	E_extension: ZSTRING
+		once
+			Result := "e"
+		end
 
 	Reserved_word_list: EL_ZSTRING_LIST
 			--

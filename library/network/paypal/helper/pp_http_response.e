@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 15:50:48 GMT (Tuesday 5th December 2023)"
-	revision: "16"
+	date: "2024-03-01 11:53:02 GMT (Friday 1st March 2024)"
+	revision: "17"
 
 class
 	PP_HTTP_RESPONSE
@@ -91,7 +91,7 @@ feature -- Status query
 	is_ok: BOOLEAN
 		do
 			Result := http_read_ok and ack.starts_with (Success)
-			-- "SuccessWithWarning" is a possible ACK response
+			-- `starts_with' because "SuccessWithWarning" is a possible ACK value
 		end
 
 	has_errors: BOOLEAN

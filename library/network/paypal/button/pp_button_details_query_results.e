@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 10:49:44 GMT (Tuesday 5th December 2023)"
-	revision: "15"
+	date: "2024-03-01 11:49:16 GMT (Friday 1st March 2024)"
+	revision: "16"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 			across options_list as list loop
 				list.item.set_currency_code (detail.currency_code)
 			end
+			http_read_ok := True
 		end
 
 	make_default

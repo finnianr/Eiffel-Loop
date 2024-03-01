@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-28 14:25:07 GMT (Wednesday 28th February 2024)"
-	revision: "36"
+	date: "2024-02-29 9:51:35 GMT (Thursday 29th February 2024)"
+	revision: "37"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -31,7 +31,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_EIFFEL_CONSTANTS
 
 create
 	make
@@ -56,18 +56,24 @@ feature {NONE} -- Commands
 
 	git_commit
 		local
-			commit_message: ZSTRING; command_list: EL_ZSTRING_LIST
-			cmd: EL_OS_COMMAND
+			comment, template: ZSTRING; cmd: EL_OS_COMMAND
 		do
-			commit_message := User_input.line ("Enter a commit message")
+			comment := User_input.line ("Enter a commitment comment")
 			lio.put_new_line
-			create command_list.make_with_lines (Git_commit_template #$ [commit_message])
-			across command_list as list loop
-				create cmd.make (list.item)
-				cmd.set_working_directory (config.github_dir)
---				cmd.dry_run.enable
-				cmd.execute
-				lio.put_new_line
+			if not User_input.escape_pressed then
+				template := "[
+					git add -u
+					git add .
+					git commit -m "#"
+				]"
+				template.substitute_tuple ([comment])
+				across template.split ('%N') as list loop
+					create cmd.make (list.item)
+					cmd.set_working_directory (config.github_dir)
+--					cmd.dry_run.enable
+					cmd.execute
+					lio.put_new_line
+				end
 			end
 		end
 
@@ -269,7 +275,7 @@ feature {NONE} -- Implementation
 						else
 							path.set_path (line)
 							if line.starts_with (config.source_dir.base)
-								and then path.has_extension (eiffel_source_extension)
+								and then path.has_extension (E_extension)
 							then
 								edit_notes (config.source_dir.parent + path)
 							end
@@ -309,20 +315,6 @@ feature {NONE} -- Constants
 	Dry_run: ZSTRING
 		once
 			Result := "(DRY RUN)"
-		end
-
-	Eiffel_source_extension: ZSTRING
-		do
-			Result := "e"
-		end
-
-	Git_commit_template: ZSTRING
-		once
-			Result := "[
-				git add -u
-				git add .
-				git commit -m "#"
-			]"
 		end
 
 	Access_token_template: ZSTRING

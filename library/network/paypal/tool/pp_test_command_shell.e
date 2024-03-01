@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-22 16:52:59 GMT (Thursday 22nd February 2024)"
-	revision: "31"
+	date: "2024-03-01 17:06:09 GMT (Friday 1st March 2024)"
+	revision: "32"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -90,15 +90,22 @@ feature {NONE} -- Commands
 		end
 
 	delete_button
+		local
+			button_id: ZSTRING; hosted_button: PP_HOSTED_BUTTON
 		do
-			lio.put_line ("delete_button")
-			if attached paypal.delete_button (new_hosted_button) as response and then response.is_ok then
-				lio.put_line ("BUTTON DELETED")
-				response.print_values
-			else
-				lio.put_line ("ERROR")
-			end
+			button_id := User_input.line ("Enter button code")
 			lio.put_new_line
+			if not User_input.escape_pressed then
+				lio.put_line ("delete_button")
+				create hosted_button.make (button_id)
+				if attached paypal.delete_button (hosted_button) as response and then response.is_ok then
+					lio.put_line ("BUTTON DELETED")
+					response.print_values
+				else
+					lio.put_line ("ERROR")
+				end
+				lio.put_new_line
+			end
 		end
 
 	display_button_menu
@@ -126,12 +133,14 @@ feature {NONE} -- Implementation
 
 	get_button_details (meta_data: PP_BUTTON_META_DATA)
 		do
-			lio.put_line ("get_button_details")
-			if attached paypal.get_button_details (meta_data) as results and then results.is_ok then
-				lio.put_line ("BUTTON DETAILS")
-				results.print_values
-			else
-				lio.put_line ("ERROR")
+			lio.put_line ("Getting button details " + meta_data.l_hosted_button_id)
+			if attached paypal.get_button_details (meta_data) as results then
+				lio.put_new_line
+				if results.is_ok then
+					results.print_values
+				else
+					results.print_errors
+				end
 			end
 			lio.put_new_line
 		end
@@ -161,12 +170,6 @@ feature {NONE} -- Factory
 			>>)
 		end
 
-	new_hosted_button: PP_HOSTED_BUTTON
-		do
-			create Result.make (User_input.line ("Enter button code"))
-			lio.put_new_line
-		end
-
 	new_single_license: PP_PRODUCT_INFO
 		do
 			create Result.make
@@ -178,12 +181,5 @@ feature {NONE} -- Factory
 feature {NONE} -- Internal attributes
 
 	paypal: PP_NVP_API_CONNECTION
-
-feature {NONE} -- Constants
-
-	Cert_authority_info_path: FILE_PATH
-		once
-			Result := Directory.Home + "Documents/Certificates/cacert.pem"
-		end
 
 end
