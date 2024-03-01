@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-29 9:51:35 GMT (Thursday 29th February 2024)"
-	revision: "37"
+	date: "2024-03-01 17:12:57 GMT (Friday 1st March 2024)"
+	revision: "38"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -72,8 +72,8 @@ feature {NONE} -- Commands
 					cmd.set_working_directory (config.github_dir)
 --					cmd.dry_run.enable
 					cmd.execute
-					lio.put_new_line
 				end
+				lio.put_new_line
 			end
 		end
 
