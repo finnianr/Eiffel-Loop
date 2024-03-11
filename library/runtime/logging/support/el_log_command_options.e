@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-17 16:35:50 GMT (Monday 17th July 2023)"
-	revision: "11"
+	date: "2024-03-05 11:29:17 GMT (Tuesday 5th March 2024)"
+	revision: "12"
 
 class
 	EL_LOG_COMMAND_OPTIONS
@@ -50,7 +50,7 @@ feature {NONE} -- Constants
 		logging:
 			Activate application logging to console
 		keep_logs:
-			Do not delete log file on program exit
+			Do not delete log files on program exit
 		log_filters:
 			Display class and routine filtering information for log output
 		thread_toolbar:

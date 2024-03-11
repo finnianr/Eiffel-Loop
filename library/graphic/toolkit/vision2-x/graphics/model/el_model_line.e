@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-16 16:50:50 GMT (Saturday 16th December 2023)"
-	revision: "9"
+	date: "2024-03-11 9:51:12 GMT (Monday 11th March 2024)"
+	revision: "10"
 
 class
 	EL_MODEL_LINE
@@ -15,7 +15,10 @@ class
 inherit
 	EV_MODEL_LINE
 		rename
-			modulo as modulo_double
+			modulo as modulo_double,
+			Pi as Radian_180,
+			Pi_2 as Radian_90,
+			Pi_4 as Radian_45
 		export
 			{EV_MODEL} set_center
 		undefine
@@ -71,8 +74,8 @@ feature -- Measurement
 					Result := point_angle (p [1], p [0])
 				end
 			end
-			if Result > Pi then
-				Result := Result - 2 * Pi
+			if Result > Radian_180 then
+				Result := Result - 2 * Radian_180
 			end
 		end
 

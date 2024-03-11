@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-14 9:15:18 GMT (Wednesday 14th February 2024)"
-	revision: "22"
+	date: "2024-03-11 9:48:05 GMT (Monday 11th March 2024)"
+	revision: "23"
 
 class
 	EL_MODEL_ROTATED_RECTANGLE
@@ -15,7 +15,10 @@ class
 inherit
 	EV_MODEL_PARALLELOGRAM
 		rename
-			modulo as modulo_double
+			modulo as modulo_double,
+			Pi as Radian_180,
+			Pi_2 as Radian_90,
+			Pi_4 as Radian_45
 		export
 			{EV_MODEL} center, set_center
 		undefine
@@ -109,7 +112,7 @@ feature -- Access
 			i: INTEGER; alpha, l_radius: DOUBLE; p_top: EV_COORDINATE
 		do
 			alpha := angle
-			p_top := point_on_circle (center, alpha - radians (90), radius)
+			p_top := point_on_circle (center, alpha - Radian_90, radius)
 			l_radius := point_distance (center, point_on_circle (p_top, alpha, radius))
 			create Result.make
 			if attached Result.area as p then

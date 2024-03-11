@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-14 9:25:41 GMT (Wednesday 14th February 2024)"
-	revision: "18"
+	date: "2024-03-11 9:51:45 GMT (Monday 11th March 2024)"
+	revision: "19"
 
 deferred class
 	CAIRO_DRAWABLE_CONTEXT_I
@@ -20,9 +20,9 @@ inherit
 			{EL_OWNED_C_OBJECT} context
 		end
 
-	CAIRO_COMMAND_CONTEXT
+	EV_ANY_HANDLER
 
-	EV_ANY_HANDLER; CAIRO_G_OBJECT_HANDLER
+	CAIRO_COMMAND_CONTEXT; CAIRO_G_OBJECT_HANDLER
 
 	EL_GEOMETRY_MATH
 		export
@@ -55,10 +55,10 @@ feature -- Transformations
 		do
 			if mirror_state.to_boolean then
 				x_factor := x_factor.one; y_factor := y_factor.one
-				if (mirror_state & X_axis).to_boolean then
+				if mirror_state & X_axis > 0 then
 					l_height := a_height; y_factor := y_factor.opposite
 				end
-				if (mirror_state & Y_axis).to_boolean then
+				if mirror_state & Y_axis > 0 then
 					l_width := a_width; x_factor := x_factor.opposite
 				end
 				translate (l_width, l_height)
@@ -80,7 +80,7 @@ feature -- Transformations
 			if n /= 0 then
 				half_width := (width / 2).rounded; half_height := (height / 2).rounded
 				translate (half_width, half_height)
-				rotate (n * {MATH_CONST}.Pi_2)
+				rotate (n * Radian_90)
 				if n.abs \\ 2 = 1 then
 					translate (half_height.opposite, half_width.opposite)
 				else
@@ -120,16 +120,16 @@ feature -- Status change
 			inspect corner
 				when Top_left_corner then
 					move_to (x, y)
-					arc (x + radius, y + radius, radius, radians (180), radians (270))
+					arc (x + radius, y + radius, radius, Radian_180, 3 * Radian_90)
 				when Top_right_corner then
 					move_to (x + radius, y)
-					arc (x, y + radius, radius, radians (90).opposite, 0.0)
+					arc (x, y + radius, radius, Radian_90.opposite, 0.0)
 				when Bottom_right_corner then
 					move_to (x + radius, y + radius)
-					arc (x, y, radius, 0.0, radians (90))
+					arc (x, y, radius, 0.0, Radian_90)
 				when Bottom_left_corner then
 					move_to (x, y + radius)
-					arc (x + radius, y, radius, radians (90), radians (180))
+					arc (x + radius, y, radius, Radian_90, Radian_180)
 			else end
 			close_sub_path
 			clip
@@ -139,23 +139,23 @@ feature -- Status change
 		-- `corners_bitmap' are OR'd corner values from EL_DIRECTION, eg. Top_left | Top_right_corner
 		do
 			define_sub_path
-			if (Top_right_corner & corners_bitmap).to_boolean then
-				arc (x + radius, y + radius, radius, radians (180), radians (270));
+			if Top_right_corner & corners_bitmap > 0 then
+				arc (x + radius, y + radius, radius, Radian_180, 3 * Radian_90);
 			else
 				line_to (x + a_width, y)
 			end
-			if (Top_left_corner & corners_bitmap).to_boolean then
-				arc (x + a_width - radius, y + radius, radius, radians (270), radians (360));
+			if Top_left_corner & corners_bitmap > 0 then
+				arc (x + a_width - radius, y + radius, radius, 3 * Radian_90, 2 * Radian_180);
 			else
 				line_to (x + width, y)
 			end
-			if (Bottom_right_corner & corners_bitmap).to_boolean then
-				arc (x + a_width - radius, y + a_height - radius, radius, radians (0), radians (90));
+			if Bottom_right_corner & corners_bitmap > 0 then
+				arc (x + a_width - radius, y + a_height - radius, radius, 0, Radian_90);
 			else
 				line_to (x + a_width, y + a_height)
 			end
-			if (Bottom_left_corner & corners_bitmap).to_boolean then
-				arc (x + radius, y + a_height - radius, radius, radians (90), radians (180));
+			if Bottom_left_corner & corners_bitmap > 0 then
+				arc (x + radius, y + a_height - radius, radius, Radian_90, Radian_180);
 			else
 				line_to (x, y + a_height)
 			end
@@ -327,7 +327,7 @@ feature -- Filling operations
 		do
 			from i := 1 until i > 4 loop
 				corner := Orientation.clockwise_corners [i]
-				if (corner & corners_bitmap).to_boolean then
+				if corner & corners_bitmap > 0 then
 					inspect corner
 						when Top_left_corner then
 							x := 0; y := 0
@@ -354,16 +354,16 @@ feature -- Filling operations
 			move_to (x, y)
 			inspect corner
 				when Top_left_corner then
-					arc (x, y, radius, 0, radians (90))
+					arc (x, y, radius, 0, Radian_90)
 
 				when Top_right_corner then
-					arc (x, y, radius, radians (90), radians (180))
+					arc (x, y, radius, Radian_90, Radian_180)
 
 				when Bottom_right_corner then
-					arc (x, y, radius, radians (180), radians (270))
+					arc (x, y, radius, Radian_180, 3 * Radian_90)
 
 				when Bottom_left_corner then
-					arc (x, y, radius, radians (270), radians (360))
+					arc (x, y, radius, 3 * Radian_90, 2 * Radian_180)
 			else end
 			close_sub_path
 			fill
@@ -376,7 +376,7 @@ feature -- Filling operations
 		do
 			from i := 1 until i > 4 loop
 				corner := Orientation.clockwise_corners [i]
-				if (corner & corners_bitmap).to_boolean then
+				if corner & corners_bitmap > 0 then
 					inspect corner
 						when Top_left_corner then
 							x := 0; y := 0

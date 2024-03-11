@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-14 10:25:32 GMT (Wednesday 14th February 2024)"
-	revision: "17"
+	date: "2024-03-11 9:51:12 GMT (Monday 11th March 2024)"
+	revision: "18"
 
 deferred class
 	EL_MODEL
@@ -15,7 +15,10 @@ deferred class
 inherit
 	EV_MODEL
 		rename
-			modulo as modulo_double
+			modulo as modulo_double,
+			Pi as Radian_180,
+			Pi_2 as Radian_90,
+			Pi_4 as Radian_45
 		export
 			{ANY} center
 		undefine
@@ -187,13 +190,13 @@ feature -- Transform
 			c := center
 			l_distance := line.perpendicular_distance (c)
 			if line.is_left (c) then
-				orthogonal_angle := line.angle - radians (90)
+				orthogonal_angle := line.angle - Radian_90
 			else
-				orthogonal_angle := line.angle + radians (90)
+				orthogonal_angle := line.angle + Radian_90
 			end
 			delta_angle := angle - line.angle
 			move_in_direction (orthogonal_angle, l_distance * 2)
-			rotate ((delta_angle * 2).opposite + Pi)
+			rotate ((delta_angle * 2).opposite + Radian_180)
 
 			set_center; invalidate
 		end

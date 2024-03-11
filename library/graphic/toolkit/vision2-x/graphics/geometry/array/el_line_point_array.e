@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-14 9:42:49 GMT (Wednesday 14th February 2024)"
-	revision: "7"
+	date: "2024-03-11 9:51:54 GMT (Monday 11th March 2024)"
+	revision: "8"
 
 class
 	EL_LINE_POINT_ARRAY
@@ -59,13 +59,13 @@ feature {NONE} -- Initialization
 					radius_precise := rectangle.width_precise / 2
 
 				when Y_axis then
-					angle := rectangle.angle - radians (90)
+					angle := rectangle.angle - Radian_90
 					radius_precise := rectangle.height_precise / 2
 			else end
 			if attached area as coord then
 				from i := 0 until i > 1 loop
 					set_point_on_circle (coord [i], center, angle, radius_precise)
-					angle := angle + radians (180)
+					angle := angle + Radian_180
 					i := i + 1
 				end
 			end

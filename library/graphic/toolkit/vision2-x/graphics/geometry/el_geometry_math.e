@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-14 10:26:48 GMT (Wednesday 14th February 2024)"
-	revision: "16"
+	date: "2024-03-11 10:07:53 GMT (Monday 11th March 2024)"
+	revision: "17"
 
 class
 	EL_GEOMETRY_MATH
 
 inherit
 	EV_MODEL_DOUBLE_MATH
+		rename
+			Pi as Radian_180,
+			Pi_2 as Radian_90,
+			Pi_4 as Radian_45
 		export
 			{NONE} all
 		end
@@ -30,29 +34,13 @@ feature {NONE} -- Radian angles
 		do
 			inspect corner
 				when Top_left_corner then
-					Result := radians (135).opposite
+					Result :=  3 * Radian_45.opposite
 				when Top_right_corner then
-					Result := radians (45).opposite
+					Result := Radian_45.opposite
 				when Bottom_right_corner then
-					Result := radians (45)
+					Result := Radian_45
 				when Bottom_left_corner then
-					Result := radians (135)
-			else end
-		end
-
-	direction_angle (direction: INTEGER): DOUBLE
-		require
-			valid_corner: Orientation.is_valid_side (direction)
-		do
-			inspect direction
-				when Left_side then
-					Result := radians (0)
-				when Bottom_side then
-					Result := radians (90)
-				when Right_side then
-					Result := radians (180)
-				when Top_side then
-					Result := radians (270)
+					Result := 3 * Radian_45
 			else end
 		end
 
@@ -64,7 +52,7 @@ feature {NONE} -- Radian angles
 	positive_angle (alpha: DOUBLE): DOUBLE
 		do
 			if alpha <  Result.zero then
-				Result := alpha + radians (360)
+				Result := alpha + 2 * Radian_180
 			else
 				Result := alpha
 			end
@@ -72,7 +60,7 @@ feature {NONE} -- Radian angles
 
 	radians (a_degrees: INTEGER): DOUBLE
 		do
-			Result := a_degrees * Pi / 180
+			Result := a_degrees * Radian_180 / 180
 		end
 
 feature {NONE} -- Degree angles
@@ -80,8 +68,7 @@ feature {NONE} -- Degree angles
 	degrees (a_radians: DOUBLE): INTEGER
 		-- `a_radians' rounded to nearest degree <= 360
 		do
---			Result = (360 * a_radians / (2 * Pi)).rounded \\ 360
-			Result := (180 * a_radians / Pi).rounded \\ 360
+			Result := (180 * a_radians / Radian_180).rounded \\ 360
 		end
 
 	degrees_plus_or_minus (a_radians: DOUBLE): INTEGER
@@ -123,8 +110,7 @@ feature {NONE} -- Measurement
 			-- Normalize
 			mag := sqrt (dx * dx + dy * dy)
 			if mag > mag.zero then
-				dx := dx / mag
-				dy := dy / mag
+				dx := dx / mag; dy := dy / mag
 			end
 			pvx := p.x_precise - line_p1.x_precise
 			pvy := p.y_precise - line_p1.y_precise
@@ -133,15 +119,18 @@ feature {NONE} -- Measurement
 			pvdot := dx * pvx + dy * pvy
 
 			-- Scale line direction vector and subtract it from pv
-			ax := pvx - pvdot * dx
-			ay := pvy - pvdot * dy
+			ax := pvx - pvdot * dx; ay := pvy - pvdot * dy
 
 			Result := sqrt (ax * ax + ay * ay)
 		end
 
 	point_distance (p1, p2: EV_COORDINATE): DOUBLE
+		local
+			x_distance, y_distance: DOUBLE
 		do
-			Result := sqrt ((p1.x_precise - p2.x_precise) ^ 2 + (p1.y_precise - p2.y_precise) ^ 2)
+			x_distance := p1.x_precise - p2.x_precise
+			y_distance := p1.y_precise - p2.y_precise
+			Result := sqrt (x_distance * x_distance + y_distance * y_distance)
 		end
 
 feature {NONE} -- Position

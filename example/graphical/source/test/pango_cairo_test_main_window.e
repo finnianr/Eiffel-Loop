@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-15 9:22:33 GMT (Thursday 15th February 2024)"
-	revision: "34"
+	date: "2024-03-11 9:53:34 GMT (Monday 11th March 2024)"
+	revision: "35"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -157,7 +157,7 @@ feature {NONE} -- Factory
 			if text_angle = 0 then
 				Result.draw_text_top_left (name_rect.x, name_rect.y, l_title)
 			else
-				Result.draw_rotated_text_top_left (name_rect.x + name_rect.width, name_rect.y, Pi_2, l_title)
+				Result.draw_rotated_text_top_left (name_rect.x + name_rect.width, name_rect.y, Radian_90, l_title)
 			end
 		end
 

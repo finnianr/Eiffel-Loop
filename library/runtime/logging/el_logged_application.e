@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-20 14:59:03 GMT (Tuesday 20th June 2023)"
-	revision: "23"
+	date: "2024-03-05 11:26:18 GMT (Tuesday 5th March 2024)"
+	revision: "24"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -85,7 +85,7 @@ feature {NONE} -- Implementation
 			Log_manager.close_logs
 
 			if not other_exception then
-				Log_manager.delete_logs
+				try_deleting_logs
 			end
 		rescue
 			if Exception.is_termination_signal then
@@ -110,6 +110,7 @@ feature {NONE} -- Implementation
 		do
 			Precursor
 			manager := new_log_manager
+			try_deleting_logs
 			manager.initialize
 
 			create global_logging.make (is_logging_active)
@@ -147,6 +148,13 @@ feature {NONE} -- Implementation
 	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
 		do
 			Result := Precursor + Log_option
+		end
+
+	try_deleting_logs
+		do
+			if not Log_option.keep_logs then
+				Log_manager.delete_logs
+			end
 		end
 
 feature {EL_LOGGED_APPLICATION} -- Factory

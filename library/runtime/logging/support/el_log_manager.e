@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-03-05 11:26:30 GMT (Tuesday 5th March 2024)"
+	revision: "21"
 
 class
 	EL_LOG_MANAGER
@@ -60,7 +60,6 @@ feature -- Initialization
 	initialize
 			--
 		do
-			delete_logs
 			create thread_registration_consumer.make
 
 			create thread_registration_queue.make (10)
@@ -255,7 +254,7 @@ feature -- Removal
 	delete_logs
 			--
 		do
-			if not Log_option.keep_logs and then output_directory.exists then
+			if output_directory.exists then
 				Shared_directory.named (output_directory).delete_content
 			end
 		end
