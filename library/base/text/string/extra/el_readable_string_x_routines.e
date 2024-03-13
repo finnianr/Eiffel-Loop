@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 17:16:43 GMT (Tuesday 30th January 2024)"
-	revision: "30"
+	date: "2024-03-12 13:37:58 GMT (Tuesday 12th March 2024)"
+	revision: "31"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -201,7 +201,7 @@ feature -- Comparison
 		end
 
 	same_caseless (a, b: READABLE_STRING_X): BOOLEAN
-		-- `True' if all characters in `str' are in the ASCII character set: 0 .. 127
+		-- `True' `a' and `b' are the same regardless of case
 		do
 			if a.count = b.count then
 				Result := occurs_caseless_at (a, b, 1)

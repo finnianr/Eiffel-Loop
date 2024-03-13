@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "45"
+	date: "2024-03-13 11:25:14 GMT (Wednesday 13th March 2024)"
+	revision: "46"
 
 deferred class
 	EL_CONVERTABLE_PATH
@@ -180,16 +180,8 @@ feature -- Append to other
 			old_count := uri.count
 			append_file_prefix (uri)
 			from i := 1 until i > part_count loop
-				uri.append_general (part_string (i))
+				uri.append_general (unix_part_string (i))
 				i := i + 1
-			end
-			if {PLATFORM}.is_windows then
-				from i := old_count + 1 until i > uri.count loop
-					if uri [i] = '\' then
-						uri.put ('/', i)
-					end
-					i := i + 1
-				end
 			end
 		end
 
@@ -295,8 +287,23 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 		-- temporary path string normalized for platform
 		do
 			Result := temporary_copy (path)
-			if {PLATFORM}.is_windows and then path.has (Unix_separator) then
-				Result.replace_character (Unix_separator, Separator)
+			if {PLATFORM}.is_windows then
+				if is_uri then
+					Result.replace_character (Windows_separator, Unix_separator)
+				else
+					Result.replace_character (Unix_separator, Windows_separator)
+				end
+			end
+		end
+
+	unix_part_string (index: INTEGER): READABLE_STRING_GENERAL
+		do
+			Result := part_string (index)
+			if {PLATFORM}.is_windows and then Result.has (Windows_separator)
+				and then attached temporary_copy (Result) as part
+			then
+				part.replace_character (Windows_separator, Unix_separator)
+				Result := part
 			end
 		end
 

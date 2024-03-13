@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-16 9:49:47 GMT (Friday 16th February 2024)"
-	revision: "45"
+	date: "2024-03-13 11:59:52 GMT (Wednesday 13th March 2024)"
+	revision: "46"
 
 class
 	EL_URI
@@ -151,14 +151,14 @@ feature -- Access
 
 feature -- Conversion
 
-	to_dir_path: DIR_PATH
+	to_dir_uri_path: EL_DIR_URI_PATH
 		do
-			create Result.make (shared_path_copy.decoded_32 (False))
+			Result := to_uri_path.decoded
 		end
 
-	to_file_path: FILE_PATH
+	to_file_uri_path: EL_FILE_URI_PATH
 		do
-			create Result.make (shared_path_copy.decoded_32 (False))
+			Result := to_uri_path.decoded
 		end
 
 	to_string: ZSTRING

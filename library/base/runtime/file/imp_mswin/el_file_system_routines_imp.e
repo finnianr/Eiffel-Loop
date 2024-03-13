@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-03-12 13:44:11 GMT (Tuesday 12th March 2024)"
+	revision: "19"
 
 class
 	EL_FILE_SYSTEM_ROUTINES_IMP
@@ -34,26 +34,25 @@ feature {NONE} -- Implementation
 		end
 
 	rename_file (a_file_path, new_file_path: FILE_PATH)
+		--	Workaround for the fact that Windows cannot rename files with case-insensitive base-name match
 		local
-			modified_path: FILE_PATH
+			tweaked_path: FILE_PATH; c: CHARACTER_32; s: EL_ZSTRING_ROUTINES
+			tweaked: BOOLEAN
 		do
-			if same_caseless (a_file_path.base, new_file_path.base) and then attached new_file_path.base as new_base then
---				Workaround for fact Windows does not rename files with case-insensitive base match
-				new_base.append_character ('_')
-				Precursor (a_file_path, new_file_path)
-				
-				modified_path := new_file_path.twin
-				new_base.remove_tail (1)
-				Precursor (modified_path, new_file_path)
+			if s.same_caseless (a_file_path.base, new_file_path.base) then
+				tweaked_path := new_file_path.twin
+			-- tweak path so that first letter is different and path does not exist
+				if attached tweaked_path.base as name and then name.count > 0 then
+					from c := name [1] until tweaked loop
+						c := c + 1
+						name [1] := c
+						tweaked := not tweaked_path.exists
+					end
+				end
+				Precursor (a_file_path, tweaked_path)
+				Precursor (tweaked_path, new_file_path)
 			else
 				Precursor (a_file_path, new_file_path)
-			end
-		end
-
-	same_caseless (base, new_base: ZSTRING): BOOLEAN
-		do
-			if base.count = new_base.count then
-				Result := base.same_caseless_characters_general (new_base, 1, new_base.count, 1)
 			end
 		end
 

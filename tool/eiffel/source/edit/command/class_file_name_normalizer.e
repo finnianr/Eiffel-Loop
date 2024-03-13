@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-07 8:58:56 GMT (Tuesday 7th March 2023)"
-	revision: "10"
+	date: "2024-03-12 10:09:28 GMT (Tuesday 12th March 2024)"
+	revision: "11"
 
 class
 	CLASS_FILE_NAME_NORMALIZER
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_MODULE_FILE_SYSTEM
+
+	EL_EIFFEL_CONSTANTS
 
 create
 	make
@@ -91,8 +93,9 @@ feature {NONE} -- Implementation
 			new_path: FILE_PATH
 		do
 			do_once_with_file_lines (agent find_class_declaration, open_lines (source_path, Latin_1))
-			if source_path.base_name /~ class_name.as_lower then
-				new_path := source_path.parent + (class_name.as_lower + ".e")
+			if attached class_name.as_lower as name_lower and then source_path.base_name /~ name_lower then
+				new_path := source_path.parent + name_lower
+				new_path.add_extension (E_extension)
 				File_system.rename_file (source_path, new_path)
 				renamed_table [source_path.base] := new_path.base
 			end

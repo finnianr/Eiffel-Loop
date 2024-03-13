@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 16:14:53 GMT (Saturday 30th December 2023)"
-	revision: "26"
+	date: "2024-03-12 10:00:31 GMT (Tuesday 12th March 2024)"
+	revision: "27"
 
 class
 	EL_FILE_PATH_LIST
@@ -66,6 +66,14 @@ feature -- Conversion
 			create Result.make (count)
 			across Current as l_path loop
 				Result.extend (l_path.item.escaped)
+			end
+		end
+
+	as_string_32_list: EL_STRING_32_LIST
+		do
+			create Result.make (count)
+			across Current as l_path loop
+				Result.extend (l_path.item.to_string)
 			end
 		end
 

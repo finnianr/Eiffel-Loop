@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-03-12 9:56:59 GMT (Tuesday 12th March 2024)"
+	revision: "7"
 
 class
 	CLASS_FILE_NAME_NORMALIZER_TEST_SET
@@ -35,14 +35,15 @@ feature -- Tests
 
 	test_renaming
 		local
-			command: CLASS_FILE_NAME_NORMALIZER
+			command: CLASS_FILE_NAME_NORMALIZER; name: ZSTRING
 		do
 			create command.make (Manifest_path)
 			command.execute
 			assert ("renamed 6", command.renamed_table.count = 6)
 			if attached OS.file_list (Work_area_dir, "*.e") as list then
 				across command.renamed_table as table loop
-					list.find_first_base (table.item)
+					name := table.item
+					list.find_first_base (name)
 					assert ("renamed exists", list.found)
 				end
 				across command.renamed_table as table loop

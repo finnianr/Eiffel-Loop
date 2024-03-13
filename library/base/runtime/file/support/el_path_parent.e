@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-03-13 10:51:37 GMT (Wednesday 13th March 2024)"
+	revision: "4"
 
 deferred class
 	EL_PATH_PARENT
@@ -102,13 +102,17 @@ feature -- Status Query
 		local
 			z: EL_ZSTRING_ROUTINES
 		do
-			if attached parent_path as str then
-				if {PLATFORM}.is_windows then
-					Result := z.starts_with_drive (str)
-				else
-					Result := str.starts_with_character (Separator)
-				end
+			if {PLATFORM}.is_windows then
+				Result := z.starts_with_drive (parent_path)
+			else
+				Result := is_unix_absolute
 			end
+		end
+
+	is_unix_absolute: BOOLEAN
+		-- is absolute using Unix definition
+		do
+			Result := parent_path.starts_with_character (Separator)
 		end
 
 	is_directory: BOOLEAN

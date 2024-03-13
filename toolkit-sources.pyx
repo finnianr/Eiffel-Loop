@@ -3,5 +3,5 @@ pyxis-doc:
 
 manifest:
 	location:
-		"$EIFFEL_LOOP/tool/toolkit/source"
+		"tool/toolkit/source"
 

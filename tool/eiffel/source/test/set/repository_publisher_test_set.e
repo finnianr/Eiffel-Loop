@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-25 15:53:14 GMT (Thursday 25th January 2024)"
-	revision: "70"
+	date: "2024-03-12 14:09:56 GMT (Tuesday 12th March 2024)"
+	revision: "71"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -246,7 +246,7 @@ feature {NONE} -- Implementation
 							if table.is_first then
 								assert_same_string (Void, url, table.item)
 							else
-								assert_same_string (Void, url, github_url + table.item)
+								assert_same_string (Void, url, (github_url + table.item))
 							end
 						else
 							failed ("found matching )")

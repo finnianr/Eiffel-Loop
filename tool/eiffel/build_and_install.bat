@@ -36,5 +36,5 @@ set batch_path=%~p0
 cd %batch_path%
 
 Rem build using ecf only (not .pecf) because "el_eiffel -pecf_to_xml" requires this project to be built first
-ec_build_finalized --ecf --autotest --install "%ProgramFiles%\Eiffel-Loop\bin"
+ec_build_finalized --ecf --autotest --install default
 pause

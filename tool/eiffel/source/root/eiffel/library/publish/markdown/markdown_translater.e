@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-27 11:23:03 GMT (Saturday 27th January 2024)"
-	revision: "35"
+	date: "2024-03-12 16:05:23 GMT (Tuesday 12th March 2024)"
+	revision: "36"
 
 class
 	MARKDOWN_TRANSLATER
@@ -126,10 +126,10 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	as_pecf_path (link_address: FILE_PATH): FILE_PATH
+	as_pecf_path (link_path: FILE_PATH): FILE_PATH
 		-- Eg. "library/base/base.reflection.html" -> "library/base/base.pecf"
 		do
-			Result := link_address.twin
+			Result := link_path.twin
 			Result.remove_extension
 			if Result.has_dot_extension then
 				Result.remove_extension
@@ -211,32 +211,31 @@ feature {NONE} -- Implementation
 
 	to_github_link (start_index, end_index: INTEGER; substring: ZSTRING)
 		local
-			link_text: ZSTRING; space_index: INTEGER; link_address: FILE_PATH
+			link_text: ZSTRING; space_index: INTEGER; link_path: FILE_PATH; link_uri: EL_FILE_URI_PATH
 		do
 			substring.to_canonically_spaced
 			space_index := substring.index_of (' ', 1)
 			if space_index > 0 then
 				if substring.count > 4 and then substring.same_characters (Current_dir_forward_slash, 1, 2, 2) then
-					link_address := substring.substring (4, space_index - 1)
-					if link_address.has_extension (Extension.html) and then attached as_pecf_path (link_address) as pecf_path
+					link_path := substring.substring (4, space_index - 1)
+					if link_path.has_extension (Extension.html) and then attached as_pecf_path (link_path) as pecf_path
 						and then (repository.root_dir + pecf_path).exists
 					then
-						link_address := pecf_path
 					-- possibility here to add a line number for github like: base/base.pecf#L75
-						link_address := repository.github_url + link_address
+						link_uri := repository.github_url + pecf_path
 
-					elseif not (repository.root_dir + link_address).exists then
+					elseif not (repository.root_dir + link_path).exists then
 					-- Eg. http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html
-						link_address := website_root + link_address
+						link_uri := website_root + link_path
 					else
-						link_address := repository.github_url + link_address
+						link_uri := repository.github_url + link_path
 					end
 				else
-					link_address := substring.substring (2, space_index - 1)
+					link_uri := substring.substring (2, space_index - 1)
 				end
 				link_text := substring.substring (space_index + 1, substring.count - 1)
 				substring.wipe_out
-				substring.append (Github_link_template #$ [link_text, link_address])
+				substring.append (Github_link_template #$ [link_text, link_uri])
 			else
 				substring.remove_head (1)
 				substring.remove_tail (1)

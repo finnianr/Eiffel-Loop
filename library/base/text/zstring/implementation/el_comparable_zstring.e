@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "40"
+	date: "2024-03-12 13:25:16 GMT (Tuesday 12th March 2024)"
+	revision: "41"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -248,7 +248,7 @@ feature -- Comparison
 					end
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} other as zstr then
-						Result := same_characters_zstring (zstr, start_pos, end_pos, start_index)
+						Result := same_caseless_characters_zstring (zstr, start_pos, end_pos, start_index)
 					end
 			end
 		end

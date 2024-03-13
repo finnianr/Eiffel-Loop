@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 16:04:45 GMT (Sunday 21st January 2024)"
-	revision: "19"
+	date: "2024-03-12 16:15:38 GMT (Tuesday 12th March 2024)"
+	revision: "20"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_link_expander
+		-- REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET.test_link_expander
 		local
 			publisher: like new_publisher
 		do

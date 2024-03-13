@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-13 16:29:20 GMT (Saturday 13th January 2024)"
-	revision: "33"
+	date: "2024-03-13 11:55:37 GMT (Wednesday 13th March 2024)"
+	revision: "34"
 
 class
 	URI_TEST_SET
@@ -74,17 +74,18 @@ feature -- Tests
 	test_uri_join
 		-- URI_TEST_SET.test_uri_join
 		note
-			testing:
-				"covers/{EL_URI}.join"
+			testing:"[
+				covers/{EL_URI}.join, covers/{EL_DIR_URI_PATH}.plus_dir
+			]"
 		local
-			uri: EL_URI; relative_dir: DIR_PATH
-			usb_uri: STRING
+			uri: EL_URI; uri_dir: EL_DIR_URI_PATH; relative_dir: DIR_PATH; usb_uri: STRING
 		do
 			usb_uri := "mtp://[usb:003,007]/"
+			uri_dir := usb_uri
 			relative_dir := "Card/Music"
 			create uri.make (usb_uri)
 			uri.join (relative_dir)
-			assert_same_string (Void, uri.to_string_8, usb_uri + relative_dir.to_string.to_latin_1)
+			assert_same_string (Void, uri.to_string_8, (uri_dir #+ relative_dir).to_string)
 		end
 
 	test_uri_parent
@@ -114,7 +115,7 @@ feature -- Tests
 		-- URI_TEST_SET.test_uri_path_plus_joins
 		note
 			testing:"[
-				covers/{EL_PATH}.append_path, covers/{EL_DIR_URI_PATH}.hash_plus,
+				covers/{EL_PATH}.append_path, covers/{EL_DIR_URI_PATH}.plus_dir,
 				covers/{EL_URI_PATH}.to_file_path
 			]"
 		local
@@ -187,7 +188,7 @@ feature -- Tests
 		local
 			end_index, index: INTEGER; table: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			url: EL_URL; scheme, authority, path, query, s, base_uri, uri_string: STRING
-			name, value: ZSTRING; trade_mark_path: STRING_32
+			name, value: ZSTRING; trade_mark_path: STRING_32; uri_path: ZSTRING
 		do
 			across << "", "?name=ferret", "#nose", "?name=ferret#nose" >> as tail loop
 				uri_string := "foo://example.com:8042/over/there" + tail.item
@@ -213,7 +214,10 @@ feature -- Tests
 
 				trade_mark_path := {STRING_32} "/trade/mark™.txt"
 				url.set_path (trade_mark_path)
-				assert ("same path", url.to_file_path.as_string_32 ~ trade_mark_path)
+				uri_path := url.to_file_uri_path
+				assert ("ends with trademark", uri_path.ends_with (trade_mark_path))
+				uri_path.remove_tail (trade_mark_path.count)
+				assert ("same port", uri_path.substring_to_reversed (':').to_integer = 8042)
 
 				if attached new_book_table (Book_data.values) as book_table then
 					url.set_query_from_table (book_table)

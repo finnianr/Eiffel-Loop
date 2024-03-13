@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-18 14:34:40 GMT (Sunday 18th February 2024)"
-	revision: "45"
+	date: "2024-03-13 16:53:00 GMT (Wednesday 13th March 2024)"
+	revision: "46"
 
 deferred class
 	EL_URI_PATH
@@ -26,7 +26,6 @@ inherit
 			{ANY} Forward_slash
 		redefine
 			append, append_file_prefix, default_create, make, make_from_other,
-			normalized_copy,
 			is_absolute, is_uri, is_equal, is_less,
 			set_path, part_count, part_string, first_index,
 			Separator, Type_parent
@@ -125,9 +124,7 @@ feature -- Initialization
 
 	make_scheme (a_scheme: STRING; a_path: EL_PATH)
 		require
-			path_absolute_for_file_scheme: a_scheme ~ Protocol.file implies a_path.is_absolute
-			path_relative_for_other_schemes:
-				(a_scheme /~ Protocol.file and not attached {EL_URI_PATH} a_path) implies not a_path.is_absolute
+			valid_scheme_path: is_valid_scheme_path (a_scheme, a_path)
 		local
 			l_path: ZSTRING
 		do
@@ -158,11 +155,12 @@ feature -- Element change
 
 	append (a_path: EL_PATH)
 		do
-			if is_empty and then a_path.is_absolute then
-				if scheme ~ Protocol.file and {PLATFORM}.is_windows then
-					set_parent_path (char (Unix_separator) + a_path.parent_path)
-				else
-					parent_path := a_path.parent_path
+			if is_empty and then (a_path.is_absolute or else a_path.is_unix_absolute) then
+				if attached normalized_copy (a_path.parent_path) as path then
+					if not path.starts_with_character (Separator) then
+						path.prepend_character (Separator)
+					end
+					set_parent_path (path)
 				end
 				base := a_path.base.twin
 			else
@@ -262,6 +260,18 @@ feature -- Contract Support
 			Result := URI.is_valid (a_uri)
 		end
 
+	is_valid_scheme_path (a_scheme: STRING; a_path: EL_PATH): BOOLEAN
+		local
+			path_is_absolute: BOOLEAN
+		do
+			path_is_absolute := a_path.is_absolute or else a_path.is_unix_absolute
+			if a_scheme ~ Protocol.file then
+				Result := path_is_absolute
+			else
+				Result := not a_path.is_uri implies not path_is_absolute
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	append_file_prefix (a_uri: EL_URI_STRING_8)
@@ -271,12 +281,6 @@ feature {NONE} -- Implementation
 	first_index: INTEGER
 		do
 			Result := scheme.count + Colon_slash_x2.count + authority.count + 1
-		end
-
-	normalized_copy (path: READABLE_STRING_GENERAL): ZSTRING
-		-- temporary path string normalized for platform
-		do
-			Result := temporary_copy (path)
 		end
 
 	part_count: INTEGER

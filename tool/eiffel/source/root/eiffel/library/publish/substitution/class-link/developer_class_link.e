@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-23 10:34:55 GMT (Tuesday 23rd January 2024)"
-	revision: "5"
+	date: "2024-03-12 16:21:34 GMT (Tuesday 12th March 2024)"
+	revision: "6"
 
 class
 	DEVELOPER_CLASS_LINK
@@ -47,7 +47,7 @@ feature -- Access
 
 	wiki_markup (web_address: ZSTRING): ZSTRING
 		do
-			Result := Wiki_link_template #$ [web_address, path, type_name]
+			Result := Wiki_link_template #$ [web_address, path.to_unix, type_name]
 		end
 
 feature {NONE} -- Constants
