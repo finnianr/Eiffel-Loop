@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 10:33:01 GMT (Thursday 14th March 2024)"
-	revision: "1"
+	date: "2024-03-14 13:03:00 GMT (Thursday 14th March 2024)"
+	revision: "2"
 
 class
-	COMPARABLE_ZSTRING_TEST_SET
+	ZSTRING_COMPARABLE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
@@ -68,9 +68,11 @@ feature -- Tests
 	test_same_caseless_characters
 		-- ZSTRING_TEST_SET.test_same_caseless_characters
 		note
-			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_caseless_characters",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
+			testing: "[
+				covers/{EL_COMPARABLE_ZSTRING}.same_caseless_characters,
+				covers/{EL_COMPARABLE_ZSTRING}.same_characters_8,
+				covers/{EL_COMPARABLE_ZSTRING}.same_characters_32			
+			]"
 
 		do
 			assert_same_characters ("same_caseless_characters OK", True)
@@ -79,10 +81,11 @@ feature -- Tests
 	test_same_characters
 		-- ZSTRING_TEST_SET.test_same_characters
 		note
-			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_characters",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
-
+			testing: "[
+				covers/{EL_COMPARABLE_ZSTRING}.same_characters,
+				covers/{EL_COMPARABLE_ZSTRING}.same_characters_8,
+				covers/{EL_COMPARABLE_ZSTRING}.same_characters_32
+			]"
 		do
 			assert_same_characters ("same_characters OK", False)
 		end
