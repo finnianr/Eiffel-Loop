@@ -1,13 +1,13 @@
 note
-	description: "Smil presentation"
+	description: "SMIL presentation"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-13 11:33:06 GMT (Wednesday 13th March 2024)"
-	revision: "15"
+	date: "2024-03-14 13:23:29 GMT (Thursday 14th March 2024)"
+	revision: "16"
 
 class
 	SMIL_PRESENTATION
@@ -87,7 +87,7 @@ feature {NONE} -- Build from XML
 			lio.put_line ("on_context_exit")
 			lio.put_string_field ("Presentation", title); lio.put_new_line
 			lio.put_string_field ("author", author); lio.put_new_line
-			lio.put_string_field ("location %S", location.to_string)
+			lio.put_path_field ("location", location.to_dir_uri_path)
 			lio.put_new_line_x2
 		end
 

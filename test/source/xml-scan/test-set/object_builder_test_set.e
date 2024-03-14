@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "28"
+	date: "2024-03-14 14:10:13 GMT (Thursday 14th March 2024)"
+	revision: "29"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 		do
 			lio.enter_with_args ("build", [type])
 			l_name := Routine_name
-			do_test (l_name, os_checksum (4129697351, 1575710143),
+			do_test (l_name, os_checksum (3138840400, 282829992),
 				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_smil_presentation]
 			)
 			do_test (l_name, os_checksum (3086032535, 3664224275),
@@ -135,7 +135,7 @@ feature {NONE} -- Implementation
 		do
 			lio.enter_with_args ("smart_build", [type])
 			l_name := Routine_name
-			do_test (l_name, os_checksum (3153713107, 271881259),
+			do_test (l_name, os_checksum (2818342120, 204554000),
 				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_serializeable]
 			)
 			do_test (l_name, os_checksum (540764938, 1303238030),
