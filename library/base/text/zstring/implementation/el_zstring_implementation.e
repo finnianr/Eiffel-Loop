@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "89"
+	date: "2024-03-14 9:45:35 GMT (Thursday 14th March 2024)"
+	revision: "90"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -467,6 +467,13 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 		deferred
 		end
 
+	leading_occurrences (uc: CHARACTER_32): INTEGER
+		-- Returns count of continous occurrences of `uc' or white space starting from the begining
+		deferred
+		ensure
+			substring_agrees: substring (1, Result).occurrences (uc) = Result
+		end
+
 	reset_hash
 		deferred
 		end
@@ -477,6 +484,13 @@ feature {EL_READABLE_ZSTRING} -- Deferred Implementation
 
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		deferred
+		end
+
+	trailing_occurrences (uc: CHARACTER_32): INTEGER
+		-- Returns count of continous occurrences of `uc' or white space starting from the end
+		deferred
+		ensure
+			substring_agrees: substring (count - Result + 1, count).occurrences (uc) = Result
 		end
 
 	utf_8_byte_count: INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "26"
+	date: "2024-03-14 9:45:34 GMT (Thursday 14th March 2024)"
+	revision: "27"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
@@ -55,8 +55,6 @@ feature -- Measurement
 					end
 				end
 			end
-		ensure
-			substring_agrees: substring (1, Result).occurrences (uc) = Result
 		end
 
 	leading_white_space: INTEGER
@@ -99,7 +97,7 @@ feature -- Measurement
 		end
 
 	trailing_occurrences (uc: CHARACTER_32): INTEGER
-			-- Returns count of continous occurrences of `uc' or white space starting from the end
+		-- Returns count of continous occurrences of `uc' or white space starting from the end
 		local
 			i, block_index: INTEGER; encoded_c: CHARACTER
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -135,8 +133,6 @@ feature -- Measurement
 					end
 				end
 			end
-		ensure
-			substring_agrees: substring (count - Result + 1, count).occurrences (uc) = Result
 		end
 
 	trailing_white_space: INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "62"
+	date: "2024-03-14 10:03:21 GMT (Thursday 14th March 2024)"
+	revision: "63"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -54,8 +54,8 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		end
 
 	mirror
-			-- Reverse the order of characters.
-			-- "Hello" -> "olleH".
+		-- Reverse the order of characters.
+		-- "Hello" -> "olleH".
 		local
 			c_i: CHARACTER; i, l_count, block_index, last_upper: INTEGER
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -513,6 +513,18 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			end
 		end
 
+	prune_all_leading (uc: CHARACTER_32)
+			-- Remove all leading occurrences of `c'.
+		do
+			remove_head (leading_occurrences (uc))
+		end
+
+	prune_all_trailing (uc: CHARACTER_32)
+			-- Remove all trailing occurrences of `c'.
+		do
+			remove_tail (trailing_occurrences (uc))
+		end
+
 	remove_head (n: INTEGER)
 			-- Remove first `n' characters;
 			-- if `n' > `count', remove all.
@@ -527,6 +539,13 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			end
 		ensure
 			removed: elks_checking implies current_readable ~ (old substring (n.min (count) + 1, count))
+		end
+
+	remove_quotes
+		require
+			long_enough: count >= 2
+		do
+			remove_head (1); remove_tail (1)
 		end
 
 	remove_tail (n: INTEGER)

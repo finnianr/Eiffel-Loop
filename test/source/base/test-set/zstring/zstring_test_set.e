@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:21:50 GMT (Saturday 20th January 2024)"
-	revision: "120"
+	date: "2024-03-14 10:34:33 GMT (Thursday 14th March 2024)"
+	revision: "121"
 
 class
 	ZSTRING_TEST_SET
@@ -38,12 +38,9 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["fill_with_z_code",					agent test_fill_with_z_code],
-				["as_expanded",						agent test_as_expanded],
-				["mirror",								agent test_mirror],
-				["split",								agent test_split],
+				["shared_z_code_pattern",			agent test_shared_z_code_pattern],
 				["substring_split",					agent test_substring_split],
 				["to_general",							agent test_to_general],
-				["to_string_32",						agent test_to_string_32],
 				["append",								agent test_append],
 				["append_encoded",					agent test_append_encoded],
 				["append_replaced",					agent test_append_replaced],
@@ -55,25 +52,11 @@ feature {NONE} -- Initialization
 				["prepend",								agent test_prepend],
 				["prepend_string_general",			agent test_prepend_string_general],
 				["prepend_substring",				agent test_prepend_substring],
-				["adjustments",						agent test_adjustments],
-				["prune_all",							agent test_prune_all],
-				["prune_leading",						agent test_prune_leading],
-				["prune_trailing",					agent test_prune_trailing],
 				["remove_substring",					agent test_remove_substring],
-				["case_changing",						agent test_case_changing],
-				["enclose",								agent test_enclose],
-				["fill_character",					agent test_fill_character],
 				["insert_character",					agent test_insert_character],
 				["insert_remove",						agent test_insert_remove],
 				["joined",								agent test_joined],
 				["put_unicode",						agent test_put_unicode],
-				["replace_character",				agent test_replace_character],
-				["replace_substring",				agent test_replace_substring],
-				["replace_substring_all",			agent test_replace_substring_all],
-				["to_canonically_spaced",			agent test_to_canonically_spaced],
-				["to_utf_8",							agent test_to_utf_8],
-				["translate",							agent test_translate],
-				["ends_with",							agent test_ends_with],
 				["fill_alpha_numeric_intervals",	agent test_fill_alpha_numeric_intervals],
 				["for_all_split",						agent test_for_all_split],
 				["has",									agent test_has],
@@ -81,16 +64,11 @@ feature {NONE} -- Initialization
 				["has_enclosing",						agent test_has_enclosing],
 				["is_canonically_spaced",			agent test_is_canonically_spaced],
 				["order_comparison",					agent test_order_comparison],
-				["same_caseless_characters",		agent test_same_caseless_characters],
-				["same_characters",					agent test_same_characters],
 				["sort",									agent test_sort],
-				["starts_with",						agent test_starts_with],
 				["there_exists_split",				agent test_there_exists_split],
 				["remove",								agent test_remove],
-				["remove_head",						agent test_remove_head],
-				["remove_tail",						agent test_remove_tail],
-				["index_of",							agent test_index_of],
 				["hash_code",							agent test_hash_code],
+				["index_of",							agent test_index_of],
 				["last_index_of",						agent test_last_index_of],
 				["new_cursor",							agent test_new_cursor],
 				["occurrences",						agent test_occurrences],
@@ -128,12 +106,11 @@ feature -- General tests
 
 feature -- Conversion tests
 
-	test_as_expanded
-		-- ZSTRING_TEST_SET.test_as_expanded
+	test_shared_z_code_pattern
+		-- ZSTRING_TEST_SET.test_shared_z_code_pattern
 		note
 			testing:	"[
-				covers/{ZSTRING}.mirror,
-				covers/{ZSTRING}.mirrored
+				covers/{EL_SEARCHABLE_ZSTRING}.shared_z_code_pattern
 			]"
 		local
 			test: STRING_TEST; i: INTEGER
@@ -153,41 +130,6 @@ feature -- Conversion tests
 		 			failed ("expanded same length")
 		 		end
 		 	end
-		end
-
-	test_mirror
-		note
-			testing:	"covers/{ZSTRING}.mirror, covers/{ZSTRING}.mirrored"
-		local
-			test: STRING_TEST
-		do
-			create test
-			across Text.words as word loop
-				test.set (word.item)
-				assert_same_string ("mirror OK", test.zs.mirrored, test.s_32.mirrored)
-			end
-		end
-
-	test_split
-		note
-			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.split", "covers/{ZSTRING}.index_of"
-		local
-			list: LIST [ZSTRING]; list_32: LIST [STRING_32]
-			test: STRING_TEST; i: INTEGER
-		do
-			create test
-			across Text.lines as line loop
-				test.set (line.item)
-				from i := 1 until i > 3 loop
-					list := test.zs.split_list (test.s_32 [i])
-					list_32 := test.s_32.split (test.s_32 [i])
-					assert ("same count", list.count = list_32.count)
-					if list.count = list_32.count then
-						assert ("same content", across list as ls all ls.item.same_string (list_32.i_th (ls.cursor_index)) end)
-					end
-					i := i + 1
-				end
-			end
 		end
 
 	test_substring_split
@@ -234,20 +176,6 @@ feature -- Conversion tests
 			across Text.lines as line loop
 				test.set (line.item)
 				assert ("to_general OK", test.to_general)
-			end
-		end
-
-	test_to_string_32
-		-- ZSTRING_TEST_SET.test_to_string_32
-		note
-			testing:	"covers/{ZSTRING}.to_string_32", "covers/{ZSTRING}.make_from_general"
-		local
-			test: STRING_TEST
-		do
-			create test
-			across Text.lines as line loop
-				test.set (line.item)
-				assert ("strings equal", test.is_same)
 			end
 		end
 
@@ -518,60 +446,6 @@ feature -- Prepending tests
 
 feature -- Removal tests
 
-	test_adjustments
-		note
-			testing:	"covers/{ZSTRING}.left_adjust"
-		do
-			do_pruning_test ({STRING_TEST_FIELDS}.Left_adjust)
-			do_pruning_test ({STRING_TEST_FIELDS}.Right_adjust)
-			do_pruning_test ({STRING_TEST_FIELDS}.Both_adjust)
-		end
-
-	test_prune_all
-		local
-			test: STRING_TEST; uc: CHARACTER_32
-		do
-			create test
-			across Text.character_set as set loop
-				uc := set.item
-				across Text.lines as line loop
-					test.set (line.item)
-					test.zs.prune_all (uc); test.s_32.prune_all (uc)
-					assert ("prune_all OK", test.is_same)
-				end
-			end
-			across Text.words as word loop
-				test.set (word.item)
-				from until test.s_32.is_empty loop
-					uc := test.s_32 [1]
-					test.s_32.prune_all (uc); test.zs.prune_all (uc)
-					assert ("prune_all OK", test.is_same)
-				end
-			end
-		end
-
-	test_prune_leading
-		note
-			testing:	"[
-				covers/{ZSTRING}.prune_all_leading,
-				covers/{EL_TRANSFORMABLE_ZSTRING}.keep_tail
-			]"
-		local
-			russian: ZSTRING
-		do
-			russian := Text.russian
-			russian.prune_all_leading ('%N') -- tests `keep_tail (count)'
-
-			do_pruning_test ({STRING_TEST_FIELDS}.Prune_leading)
-		end
-
-	test_prune_trailing
-		note
-			testing:	"covers/{ZSTRING}.prune_all_trailing"
-		do
-			do_pruning_test ({STRING_TEST_FIELDS}.Prune_trailing)
-		end
-
 	test_remove_substring
 		note
 			testing: "covers/{ZSTRING}.remove_substring"
@@ -605,69 +479,6 @@ feature -- Removal tests
 		end
 
 feature -- Element change tests
-
-	test_case_changing
-		-- ZSTRING_TEST_SET.test_case_changing
-		note
-			testing:	"[
-				covers/{ZSTRING}.to_lower,
-				covers/{ZSTRING}.to_upper,
-				covers/{ZSTRING}.to_proper_case
-			]"
-		local
-			lower, upper, str_32: STRING_32; str: ZSTRING
-			word_intervals: EL_SPLIT_INTERVALS
-		do
-			across Text.words as word loop
-				lower := word.item.as_lower
-				upper := lower.as_upper
-				change_case (lower, upper)
-			end
-			change_case (Text.Lower_case_characters, Text.Upper_case_characters)
-
-			across Text.lines as line until line.cursor_index > 2 loop
-				str_32 := line.item; str := str_32
-				create word_intervals.make (str_32, ' ')
-				if attached word_intervals as word then
-					from word.start until word.after loop
-						str_32 [word.item_lower] := str_32 [word.item_lower].upper
-						word.forth
-					end
-				end
-				str.to_proper
-				assert_same_string (Void, str_32, str)
-			end
-		end
-
-	test_enclose
-		-- ZSTRING_TEST_SET.test_enclose
-		note
-			testing:	"[
-				covers/{ZSTRING}.enclose, covers/{ZSTRING}.quote
-			]"
-		local
-			test: STRING_TEST
-		do
-			create test
-			across Text.words as word loop
-				test.set (word.item)
-				test.s_32.prepend_character ('"'); test.s_32.append_character ('"')
-				test.zs.quote (2)
-				assert ("enclose OK", test.is_same)
-			end
-		end
-
-	test_fill_character
-		note
-			testing:	"covers/{ZSTRING}.fill_character"
-		local
-			test: STRING_TEST
-		do
-			across 1 |..| 2 as index loop
-				create test.make_filled (Text.russian [index.item], 3)
-				assert ("same string", test.is_same)
-			end
-		end
 
 	test_insert_character
 		note
@@ -769,260 +580,7 @@ feature -- Element change tests
 			end
 		end
 
-	test_replace_character
-		note
-			testing:	"covers/{ZSTRING}.replace_character"
-		local
-			test: STRING_TEST; uc_new, uc_old: CHARACTER_32
-			s: EL_STRING_32_ROUTINES
-		do
-			across Text.russian as uc loop
-				test := Text.russian
-				if not uc.is_last then
-					uc_old := uc.item
-					uc_new := test.s_32 [uc.cursor_index + 1]
-				end
-				s.replace_character (test.s_32, uc_old, uc_new)
-				test.zs.replace_character (uc_old, uc_new)
-				assert ("replace_character OK", test.is_same)
-			end
-		end
-
-	test_replace_substring
-		note
-			testing:	"covers/{ZSTRING}.replace_substring"
-		local
-			test, word_pair: STRING_TEST
-			word_list_32: EL_STRING_32_LIST; index, start_index, end_index: INTEGER
-			space_intervals: EL_OCCURRENCE_INTERVALS
-			line_list: like Text.lines
-		do
-			create test; create word_pair
-			create space_intervals.make_empty
-			create word_list_32.make (50)
-			line_list := Text.lines
-			across line_list as line loop
-				if line.is_first or line.is_last then
-					across line.item.split (' ') as list loop
-						word_list_32.extend (list.item)
-					end
-				end
-			end
-			across word_list_32 as list loop
-				word_pair.set (list.item)
-				across Text.lines as line loop
-					test.set (line.item)
-					space_intervals.fill (test.s_32, ' ', 0)
-					start_index := space_intervals.first_lower + 1
-					end_index := space_intervals.i_th_lower (2) - 1
-					test.s_32.replace_substring (word_pair.s_32, start_index, end_index)
-					test.zs.replace_substring (word_pair.zs, start_index, end_index)
-					assert ("same characters", test.is_same)
-				end
-			end
-		end
-
-	test_replace_substring_all
-		-- ZSTRING_TEST_SET.test_replace_substring_all
-		note
-			testing:	"covers/{ZSTRING}.replace_substring_all"
-		local
-			test: STRING_TEST; word_list, s_32_words: EL_STRING_32_LIST
-			word, word_A, first_word: STRING_32; i: INTEGER; s32: EL_STRING_32_ROUTINES
-		do
-			create word_list.make (20)
-			create test
-			across Text.lines as line loop
-				first_word := s32.substring_to (line.item, ' ')
-				word_A := "A"
-				test.set (line.item)
-				across << word_A, first_word + first_word >> as list loop
-					word := list.item
-					test.set_old_new (first_word, word)
-					assert ("replace_substring_all OK", test.replace_substring_all)
-				end
-			end
-			from i := 1 until i > 4 loop
-				across Text.lines as line loop
-					test.set (line.item.as_lower)
-
-					word_list.wipe_out
-					-- Replace each word with A, B, C letters
-					create s_32_words.make_word_split (test.s_32)
-					across s_32_words as list loop
-						word := list.item
-						word.to_lower
-						if not list.is_last then
-							inspect i
-								when 2 then
---									word plus a space
-									word.append_character (' ')
-								when 3 then
---									2 words
-									word.append (s_32_words.i_th (list.cursor_index + 1).as_lower)
-								when 4 then
---									2 split words
-									word.append (s_32_words.i_th (list.cursor_index + 1).as_lower)
-									word.remove_head (list.item.count // 2)
-									word.remove_tail (s_32_words.i_th (list.cursor_index + 1).count // 2)
-							else
-							end
-						end
-						if test.zs.substring_index_list (word, False).count = 1 then
-							test.set_old_new (word, ('A' + word_list.count).out)
-							word_list.extend (word)
-							assert ("replace_substring_all OK", test.replace_substring_all)
-						end
-					end
-					-- Reverse replacements
-					across word_list as list loop
-						word := list.item
-						test.set_old_new (('A' + list.cursor_index - 1).out, word)
-						assert ("replace_substring_all OK", test.replace_substring_all)
-					end
-					assert ("line restored", test.s_32 ~ line.item.as_lower)
-				end
-				i := i + 1
-			end
-		end
-
-	test_to_canonically_spaced
-		note
-			testing:	"[
-				covers/{ZSTRING}.to_canonically_spaced, covers/{ZSTRING}.is_canonically_spaced
-			]"
-		local
-			canonical, line, not_canonical_line: ZSTRING
-			count: INTEGER
-		do
-		-- Basic test
-			canonical := "2023 Oct 8"
-			not_canonical_line := canonical.twin
-			not_canonical_line.insert_character (' ', canonical.count - 1)
-
-			if attached not_canonical_line as str then
-				if str.is_canonically_spaced then
-					failed ("is not canonically spaced")
-				else
-					str.to_canonically_spaced
-					assert_same_string (Void, canonical, str)
-				end
-			end
-
-		-- Rigorous test
-			across Text.lines as list loop
-				line := list.item
-				create not_canonical_line.make (line.count * 2)
-				count := 0
-				across line.split (' ') as split loop
-					if count > 0 then
-					-- insert bigger and bigger space strings
-						not_canonical_line.append (Space * count)
-					end
-					not_canonical_line.append (split.item)
-					count := count + 1
-				end
-				not_canonical_line.to_canonically_spaced
-				assert_same_string ("same as canonical", line, not_canonical_line)
-			end
-		end
-
-	test_to_utf_8
-		-- ZSTRING_TEST_SET.test_to_utf_8
-		note
-			testing:	"[
-				covers/{ZSTRING}.to_utf_8,
-				covers/{EL_ZSTRING_IMPLEMENTATION}.leading_ascii_count,
-				covers/{EL_WRITEABLE_ZSTRING}.append_to_utf_8,
-				covers/{ZSTRING}.make_from_utf_8
-			]"
-		local
-			z_word, z_str: ZSTRING; utf_8: STRING; conv: EL_UTF_8_CONVERTER
-		do
-			create utf_8.make_empty
-			across Text.lines as line loop
-				utf_8.wipe_out
-				across line.item.split (' ') as word loop
-					if word.cursor_index > 1 then
-						utf_8.append_character (' ')
-					end
-					z_word := word.item
-					z_word.append_to_utf_8 (utf_8)
-				end
-				if attached conv.string_32_to_string_8 (line.item) as line_utf_8 then
-					assert_same_string (Void, utf_8, line_utf_8)
-					z_str := line.item
-					assert_same_string (Void, z_str.to_utf_8, line_utf_8)
-				end
-			end
-		end
-
-	test_translate
-		note
-			testing:	"covers/{ZSTRING}.translate"
-		local
-			test: STRING_TEST
-			old_characters, new_characters: ZSTRING
-			old_characters_32, new_characters_32: STRING_32
-			i, j, count: INTEGER; s: EL_STRING_32_ROUTINES
-		do
-			create test
-			create old_characters_32.make (3); create new_characters_32.make (3)
-			count := (Text.character_set.count // 3 - 1)
-			from i := 0  until i = count loop
-				old_characters_32.wipe_out; new_characters_32.wipe_out
-				from j := 1 until j > 3 loop
-					old_characters_32.extend (Text.character_set [i * 3 + j])
-					new_characters_32.extend (Text.character_set [i * 3 + j + 3])
-					j := j + 1
-				end
-				from j := 1 until j > 2 loop
-					if j = 2 then
-						new_characters_32 [2] := '%U'
-					end
-					old_characters := old_characters_32; new_characters := new_characters_32
-					test.set (Text.russian_and_english.twin)
-					s.translate_deleting_null_characters (test.s_32, old_characters_32, new_characters_32, j = 2)
-					test.zs.translate_deleting_null_characters (old_characters, new_characters, j = 2)
-					assert ("translate OK", test.is_same)
-					j := j + 1
-				end
-				i := i + 1
-			end
-		end
-
 feature -- Status query tests
-
-	test_ends_with
-		-- ZSTRING_TEST_SET.test_ends_with
-		note
-			testing: "[
-				covers/{ZSTRING}.ends_with,
-				covers/{ZSTRING}.ends_with_character,
-				covers/{ZSTRING}.remove_tail,
-				covers/{EL_SUBSTRING_32_ARRAY}.same_substring
-			]"
-		local
-			test: STRING_TEST; assertion_OK: STRING
-			index, start_index, end_index: INTEGER
-		do
-			across Text.lines as line loop
-				create test.make (line.item)
-				if attached test.word_intervals as list then
-					from list.start until list.is_empty loop
-						start_index := list.item_lower; end_index := list.last_upper
-						test.set_substrings (start_index, end_index)
-						assert ("ends_with OK", test.ends_with)
-						start_index := start_index - 1
-						if test.s_32.valid_index (start_index) then
-							test.set_substrings (start_index, end_index)
-							assert ("ends_with OK", test.ends_with)
-						end
-						list.remove
-					end
-				end
-			end
-		end
 
 	test_fill_alpha_numeric_intervals
 		note
@@ -1159,28 +717,6 @@ feature -- Status query tests
 			end
 		end
 
-	test_same_caseless_characters
-		-- ZSTRING_TEST_SET.test_same_caseless_characters
-		note
-			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_caseless_characters",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
-
-		do
-			assert_same_characters ("same_caseless_characters OK", True)
-		end
-
-	test_same_characters
-		-- ZSTRING_TEST_SET.test_same_characters
-		note
-			testing: "covers/{EL_COMPARABLE_ZSTRING}.same_characters",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_8",
-						"covers/{EL_COMPARABLE_ZSTRING}.same_characters_32"
-
-		do
-			assert_same_characters ("same_characters OK", False)
-		end
-
 	test_sort
 		note
 			testing: "covers/{ZSTRING}.is_less", "covers/{ZSTRING}.order_comparison"
@@ -1202,38 +738,6 @@ feature -- Status query tests
 						l_a.item.same_string (sorted_32.i_th (l_a.cursor_index))
 					end
 				)
-			end
-		end
-
-	test_starts_with
-		note
-			testing: "[
-				covers/{ZSTRING}.starts_with,
-				covers/{ZSTRING}.starts_with_character,
-				covers/{ZSTRING}.remove_head,
-				covers/{EL_SUBSTRING_32_ARRAY}.same_substring
-			]"
-		local
-			test: STRING_TEST; assertion_OK: STRING
-			index, start_index, end_index: INTEGER
-		do
-			across Text.lines as line loop
-				create test.make (line.item)
-				if attached test.word_intervals as list then
-					from list.start until list.is_empty loop
-						list.start
-						start_index := list.item_lower; end_index := list.last_upper
-						test.set_substrings (start_index, end_index)
-						assert ("starts_with OK", test.starts_with)
-						start_index := start_index + 1
-						if test.s_32.valid_index (start_index) then
-							test.set_substrings (start_index, end_index)
-							assert ("starts_with OK", test.starts_with)
-						end
-						list.finish
-						list.remove
-					end
-				end
 			end
 		end
 
@@ -1271,42 +775,6 @@ feature -- Removal tests
 					assert ("remove OK", test.is_same)
 					i := i + 1
 				end
-			end
-		end
-
-	test_remove_head
-		note
-			testing: "covers/{ZSTRING}.remove_head", "covers/{ZSTRING}.keep_tail"
-		local
-			test: STRING_TEST; pos: INTEGER
-		do
-			test := Text.russian_and_english.twin
-			from until test.s_32.is_empty loop
-				pos := test.s_32.index_of (' ', test.s_32.count)
-				if pos > 0 then
-					test.s_32.remove_head (pos); test.zs.remove_head (pos)
-				else
-					test.s_32.remove_head (test.s_32.count) test.zs.remove_head (test.zs.count)
-				end
-				assert ("remove_head OK", test.is_same)
-			end
-		end
-
-	test_remove_tail
-		note
-			testing: "covers/{ZSTRING}.remove_tail", "covers/{ZSTRING}.keep_head"
-		local
-			test: STRING_TEST; pos: INTEGER
-		do
-			test := Text.russian_and_english.twin
-			from until test.s_32.is_empty loop
-				pos := test.s_32.last_index_of (' ', test.s_32.count)
-				if pos > 0 then
-					test.s_32.remove_tail (pos); test.zs.remove_tail (pos)
-				else
-					test.s_32.remove_tail (test.s_32.count) test.zs.remove_tail (test.zs.count)
-				end
-				assert ("remove_tail OK", test.is_same)
 			end
 		end
 
@@ -1588,75 +1056,6 @@ feature -- Duplication tests
 		end
 
 feature {NONE} -- Implementation
-
-	assert_same_characters (assertion_OK: STRING; is_case_insenstive: BOOLEAN)
-		local
-			start_index, end_index: INTEGER; test: STRING_TEST
-		do
-			across Text.lines as line loop
-				if is_case_insenstive then
-					create {CASELESS_STRING_TEST} test.make (line.item)
-				else
-					create test.make (line.item)
-				end
-				across test.all_word_interval_permutations as permutation loop
-					if attached permutation.item as list then
-						from list.start until list.after loop
-							start_index := list.item_lower; end_index := list.item_upper
-							test.set_substrings (start_index, end_index)
-							assert (assertion_OK, test.same_characters (start_index))
-							list.forth
-						end
-					end
-				end
-			end
-		end
-
-	change_case (lower_32, upper_32: STRING_32)
-		local
-			lower, upper: ZSTRING
-		do
-			lower := lower_32; upper :=  upper_32
-			assert_same_string ("to_upper OK", lower.as_upper, upper_32)
-			assert_same_string ("to_lower OK", upper.as_lower, lower_32)
-		end
-
-	compare_ends_with (str_32, left_32, right_32: STRING_32; str, left, right: ZSTRING)
-		local
-			ends_with: BOOLEAN
-		do
-			ends_with := str_32.ends_with (right_32)
-			assert ("same result", ends_with = str.ends_with (right))
-			assert ("same result", ends_with = str.ends_with (right_32))
-		end
-
-	do_pruning_test (type: INTEGER)
-		local
-			test: STRING_TEST; op_name: STRING
-		do
-			create test
-			across Text.words as word loop
-				test.set (word.item)
-				across << Text.Tab_character, Text.Ogham_space_mark >> as c loop
-					across 1 |..| 2 as n loop
-						inspect type
-							when {STRING_TEST_FIELDS}.Right_adjust, {STRING_TEST_FIELDS}.Prune_trailing then
-								test.s_32.append_character (c.item)
-								op_name := "append_character"
-						else
-							test.s_32.prepend_character (c.item)
-							op_name := "prepend_character"
-						end
-						test.set_z_from_uc
-					end
-					assert (op_name + " OK", test.is_same)
-
-					test.prune (type, c.item)
-
-					assert (test.prune_type_name (type) + " OK", test.is_same)
-				end
-			end
-		end
 
 	test_concatenation (type: INTEGER)
 		local

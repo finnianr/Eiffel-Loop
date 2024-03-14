@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-18 15:24:23 GMT (Sunday 18th February 2024)"
-	revision: "105"
+	date: "2024-03-14 10:06:35 GMT (Thursday 14th March 2024)"
+	revision: "106"
 
 class
 	EL_ZSTRING
@@ -52,7 +52,8 @@ inherit
 				to_canonically_spaced, to_lower, to_proper, to_upper, translate_deleting_null_characters,
 				unescape,
 --				Removal
-				keep_head, keep_tail, left_adjust, remove_head, remove_tail, right_adjust,
+				keep_head, keep_tail, left_adjust, remove_head, remove_quotes, remove_tail, right_adjust,
+				prune_all_leading, prune_all_trailing,
 --				Contract support
 				Encoding
 			{EL_SHARED_ZSTRING_CODEC} order_comparison
@@ -343,6 +344,7 @@ feature -- Element change
 feature -- Removal
 
 	prune (uc: CHARACTER_32)
+		-- Remove one occurrence of `uc' if any. (`INDEXABLE' implementation)
 		local
 			i: INTEGER
 		do
@@ -353,7 +355,7 @@ feature -- Removal
 		end
 
 	prune_all (uc: CHARACTER_32)
-			-- Remove all occurrences of `c'.
+		-- Remove all occurrences of `c'.  (`INDEXABLE' redefinition)
 		local
 			i, j, i_upper, block_index, last_upper: INTEGER; encoded_c, c_i: CHARACTER_8; uc_i: CHARACTER_32
 			c_is_substitute: BOOLEAN; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
@@ -399,31 +401,12 @@ feature -- Removal
 			set_count (j)
 		end
 
-	prune_all_leading (uc: CHARACTER_32)
-			-- Remove all leading occurrences of `c'.
-		do
-			remove_head (leading_occurrences (uc))
-		end
-
-	prune_all_trailing (uc: CHARACTER_32)
-			-- Remove all trailing occurrences of `c'.
-		do
-			remove_tail (trailing_occurrences (uc))
-		end
-
 	remove (i: INTEGER)
 		do
 			internal_remove (i)
 			remove_unencoded_substring (i, i)
 		ensure then
 			valid_unencoded: is_valid
-		end
-
-	remove_quotes
-		require
-			long_enough: count >= 2
-		do
-			remove_head (1); remove_tail (1)
 		end
 
 	remove_substring (start_index, end_index: INTEGER)
