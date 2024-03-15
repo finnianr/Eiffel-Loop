@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2024-03-15 9:10:37 GMT (Friday 15th March 2024)"
+	revision: "24"
 
 deferred class
 	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -32,12 +32,6 @@ inherit
 	EL_MODULE_ARGS; EL_MODULE_EIFFEL; EL_MODULE_NAMING
 
 feature {NONE} -- Initialization
-
-	initialize
-		do
-		ensure then
-			all_conform_to_EL_EQA_TEST_SET: test_type_list.all_conform
-		end
 
 	init_console_and_logging
 		local
@@ -53,11 +47,21 @@ feature {NONE} -- Initialization
 			else
 				create test_name.make_empty
 			end
-			test_type_list := new_test_type_list
-			if App_option.test_set.count > 0 then
-				create test_type_list.make_from_array (test_type_list.query_if (agent test_set_matches).to_array)
+			if test_set_name.is_empty then
+				create test_type_list.make_from_list (new_test_type_list)
+
+			elseif test_set_name.has ('*') then
+				create test_type_list.make_from_if (new_test_type_list, agent matching_type_name)
+			else
+				create test_type_list.make_from_if (new_test_type_list, agent same_type_name)
 			end
 			Precursor
+		end
+
+	initialize
+		do
+		ensure then
+			all_conform_to_EL_EQA_TEST_SET: test_type_list.all_conform
 		end
 
 feature -- Basic operations
@@ -116,11 +120,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	test_set_matches (type: TYPE [EL_EQA_TEST_SET]): BOOLEAN
-		do
-			Result := type.name.same_string (test_set_name)
-		end
-
 	is_logging_active: BOOLEAN
 		do
 			Result := True
@@ -141,16 +140,28 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	matching_type_name (type: TYPE [EL_EQA_TEST_SET]): BOOLEAN
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.matches_wildcard (type.name, test_set_name)
+		end
+
 	new_test_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET]
 		do
 			create Result.make_from_tuple (create {EQA_TYPES})
 		end
 
+	same_type_name (type: TYPE [EL_EQA_TEST_SET]): BOOLEAN
+		do
+			Result := type.name.same_string (test_set_name)
+		end
+
 feature {NONE} -- Internal attributes
 
-	test_set_name: STRING
-
 	test_name: STRING
+
+	test_set_name: STRING
 
 	test_type_list: like new_test_type_list
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 13:31:20 GMT (Monday 1st January 2024)"
-	revision: "27"
+	date: "2024-03-15 9:25:49 GMT (Friday 15th March 2024)"
+	revision: "28"
 
 class
 	EL_APPLICATION_LIST
@@ -16,8 +16,10 @@ inherit
 	EL_ARRAYED_LIST [EL_APPLICATION]
 		rename
 			make as make_list
+		export
+			{EL_MULTI_APPLICATION_ROOT} make_empty
 		redefine
-			make_empty
+			initialize
 		end
 
 	EL_SOLITARY
@@ -38,13 +40,18 @@ feature {NONE} -- Initialization
 
 	make (type_list: EL_TUPLE_TYPE_LIST [EL_APPLICATION])
 		do
-			make_solitary
 			make_list (type_list.count)
-			create installable_list.make (5)
 			append_types (type_list)
-			compare_objects
 		ensure
 			at_most_one_main_application: count_of (agent is_main) <= 1
+		end
+
+	initialize
+		do
+			Precursor
+			make_solitary
+			create installable_list.make (5)
+			compare_objects
 		end
 
 feature -- Access
@@ -189,14 +196,6 @@ feature -- Element change
 					end
 				end
 			end
-		end
-
-feature -- Removal
-
-	make_empty
-		do
-			Precursor
-			create installable_list.make_empty
 		end
 
 feature {NONE} -- Implementation

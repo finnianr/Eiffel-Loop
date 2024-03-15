@@ -1,5 +1,9 @@
 note
-	description: "Arrayed list"
+	description: "${ARRAYED_LIST [G]} with extra features"
+	notes: "[
+		All initialization routines call `make_from_special', so redefine this routine to assign
+		default attribute values in descendants.
+	]"
 	tests: "[
 		1. ${ARRAYED_LIST_TEST_SET}
 		2. ${CONTAINER_STRUCTURE_TEST_SET}
@@ -10,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "63"
+	date: "2024-03-15 9:14:10 GMT (Friday 15th March 2024)"
+	revision: "64"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -23,6 +27,8 @@ inherit
 			append as append_sequence
 		undefine
 			index_of
+		redefine
+			make, make_from_array, make_default_filled
 		end
 
 	EL_CHAIN [G]
@@ -48,6 +54,27 @@ convert
 	make_from_array ({ARRAY [G]}), to_array: {ARRAY [G]}
 
 feature {NONE} -- Initialization
+
+	make (n: INTEGER)
+			-- Allocate list with `n' items.
+			-- (`n' may be zero for empty list.)
+		do
+			make_from_special (create {like area}.make_empty (n))
+		end
+
+	make_default_filled (n: INTEGER)
+		-- Allocate list with `n' items.
+		-- (`n' may be zero for empty list.)
+		-- This list will be full.
+		do
+			make_from_special (create {like area}.make_filled (({G}).default, n))
+		end
+
+	make_from_array (a: ARRAY [G])
+		-- Create list from array `a'.
+		do
+			make_from_special (a.area)
+		end
 
 	make_empty
 		do
@@ -75,8 +102,10 @@ feature {NONE} -- Initialization
 		do
 			create wrapper.make (container)
 			if attached wrapper.query (condition) as result_list then
-				area_v2 := result_list.area
+				make_from_special (result_list.area)
 				object_comparison := container.object_comparison
+			else
+				make_empty
 			end
 		end
 
@@ -87,15 +116,17 @@ feature {NONE} -- Initialization
 		do
 			create wrapper.make (container)
 			if attached wrapper.query_if (condition) as result_list then
-				area_v2 := result_list.area
+				make_from_special (result_list.area)
 				object_comparison := container.object_comparison
+			else
+				make_empty
 			end
 		end
 
 	make_from_list (list: ITERABLE [G])
 		do
 			if attached {ARRAYED_LIST [G]} list as arrayed_list then
-				make_from_array (arrayed_list.to_array)
+				make_from_special (arrayed_list.to_array.area)
 			else
 				make (Iterable.count (list))
 				across list as l_path loop
@@ -107,6 +138,7 @@ feature {NONE} -- Initialization
 	make_from_special (a_area: like area)
 		do
 			area_v2 := a_area
+			initialize
 		end
 
 	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
@@ -144,6 +176,12 @@ feature {NONE} -- Initialization
 		do
 			make (array_1.count + array_2.count)
 			append (array_1); append (array_2)
+		end
+
+	initialize
+		-- initialize default attribute values
+		do
+			index := 0
 		end
 
 feature -- Access

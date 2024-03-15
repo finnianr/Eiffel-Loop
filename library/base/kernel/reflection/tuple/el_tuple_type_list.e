@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 11:52:07 GMT (Monday 31st July 2023)"
-	revision: "14"
+	date: "2024-03-15 9:15:58 GMT (Friday 15th March 2024)"
+	revision: "15"
 
 class
 	EL_TUPLE_TYPE_LIST [T]
@@ -18,19 +18,18 @@ inherit
 			make as make_list,
 			make_from_tuple as make_list_from_tuple
 		redefine
-			make_from_array
+			initialize
 		end
 
 create
-	make, make_from_static, make_from_tuple, make_from_array
+	make, make_from_static, make_from_tuple, make_from_array, make_from_if, make_from_list,
+	make_from_special
 
 feature {NONE} -- Initialization
 
 	make (type_array: EL_TUPLE_TYPE_ARRAY)
 		do
 			make_list (type_array.count)
-			compare_objects
-			non_conforming_list := Empty_list
 			across type_array as type loop
 				-- skip non-conforming types
 				if attached {like item} type.item as l_type then
@@ -44,16 +43,15 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_array (a: ARRAY [TYPE [T]])
-		do
-			Precursor (a)
-			compare_objects
-			non_conforming_list := Empty_list
-		end
-
 	make_from_static (static_type: INTEGER)
 		do
 			make (create {EL_TUPLE_TYPE_ARRAY}.make_from_static (static_type))
+		end
+
+	initialize
+		do
+			compare_objects
+			non_conforming_list := Empty_list
 		end
 
 	make_from_tuple (tuple: TUPLE)
