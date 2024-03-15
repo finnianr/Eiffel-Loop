@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "30"
+	date: "2024-03-15 9:34:13 GMT (Friday 15th March 2024)"
+	revision: "31"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -47,8 +47,7 @@ feature {NONE} -- Initialization
 		do
 			create_singletons
 			if {PLATFORM}.is_windows and then not Base_option.silent then
-				-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
-
+			-- Force console creation. Needed to set `{EL_EXECUTION_ENVIRONMENT_I}.last_codepage'
 				io.put_character (ASCII.back_space.to_character_8)
 
 --				Environment.Execution.set_utf_8_console_output
@@ -83,9 +82,9 @@ feature {NONE} -- Initialization
 				lio.put_new_line
 			end
 
-			list.make_empty
+			list.make_empty -- Allow GC collect on applications in `list.installable_list'
 
-				-- Can cause a crash on multi-threaded applications if implementation of `dispose' has errors
+		-- Can cause a crash on multi-threaded applications if implementation of `dispose' has errors
 			{MEMORY}.full_collect
 
 			if exit_code > 0 then
