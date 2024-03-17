@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:27:37 GMT (Saturday 20th January 2024)"
-	revision: "27"
+	date: "2024-03-17 14:09:32 GMT (Sunday 17th March 2024)"
+	revision: "28"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -21,6 +21,8 @@ inherit
 	FCGI_HTTP_SERVLET
 		rename
 			make as make_servlet
+		redefine
+			service
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
@@ -83,7 +85,20 @@ feature -- Basic operations
 				Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
 			)
 
-			update_day_list; update_firewall
+			update_day_list
+
+			if service.is_blocking_script_operational then
+				if script_alert_sent then
+					script_alert_sent := False
+				end
+				update_firewall
+
+			elseif not script_alert_sent then
+			-- accummulates rules in `rule_buffer' until such time as
+			-- run_service_ip_address_blocking.sh is relaunched
+				service.send_blocking_script_alert
+				script_alert_sent := True
+			end
 
 		-- While geo-location is being looked up for address, (which can take a second or two)
 		-- a firewall rule is being added in time for next intrusion from same address
@@ -100,15 +115,12 @@ feature -- Basic operations
 			new_firewall_status_list.store_as (path)
 		end
 
-feature {NONE} -- Factory
+feature -- Status query
 
-	new_monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
-		do
-			Result := <<
-				create {EL_TODAYS_AUTHORIZATION_LOG}.make,
-				create {EL_TODAYS_SENDMAIL_LOG}.make
-			>>
-		end
+	script_alert_sent: BOOLEAN
+		-- `True' if alert was sent after `service.is_blocking_script_operational' became false
+
+feature {NONE} -- Factory
 
 	new_firewall_status_list: ECD_STORABLE_ARRAYED_LIST [EL_ADDRESS_FIREWALL_STATUS]
 		do
@@ -116,6 +128,14 @@ feature {NONE} -- Factory
 			across firewall_status_table as table loop
 				Result.extend (create {EL_ADDRESS_FIREWALL_STATUS}.make (table.item, table.key))
 			end
+		end
+
+	new_monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
+		do
+			Result := <<
+				create {EL_TODAYS_AUTHORIZATION_LOG}.make,
+				create {EL_TODAYS_SENDMAIL_LOG}.make
+			>>
 		end
 
 	new_redeemed_ip_list (first_date: INTEGER): EL_ARRAYED_MAP_LIST [NATURAL, NATURAL_64]
@@ -256,18 +276,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	log_status (ip_number: NATURAL; port: NATURAL_16; is_blocked: BOOLEAN)
+	log_firewall_summary (label: STRING)
 		local
-			ip_4_address, name: STRING
+			http_count, smtp_count, ssh_count: INTEGER
 		do
-			ip_4_address := IP_address.to_string (ip_number)
-			name := Service_port.name (port)
-			if is_blocked then
-				log.put_labeled_string ("Is blocked on port " + name, ip_4_address)
-			else
-				log.put_labeled_string ("Blocking on port " + name, ip_4_address)
+			if attached Firewall_status as status then
+				across Firewall_status_table as table loop
+					status.set_from_compact (table.item)
+					http_count := http_count + status.http_blocked.to_integer
+					smtp_count := smtp_count + status.smtp_blocked.to_integer
+					ssh_count := ssh_count + status.ssh_blocked.to_integer
+				end
 			end
-			log.put_new_line
+			log.put_labeled_substitution (label, "HTTP = %S; SMTP = %S; SSH = %S", [http_count, smtp_count, ssh_count])
+			log.put_new_line_x2
 		end
 
 	log_multi_status (ip_number: NATURAL; status: like Firewall_status)
@@ -285,20 +307,18 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
-	log_firewall_summary (label: STRING)
+	log_status (ip_number: NATURAL; port: NATURAL_16; is_blocked: BOOLEAN)
 		local
-			http_count, smtp_count, ssh_count: INTEGER
+			ip_4_address, name: STRING
 		do
-			if attached Firewall_status as status then
-				across Firewall_status_table as table loop
-					status.set_from_compact (table.item)
-					http_count := http_count + status.http_blocked.to_integer
-					smtp_count := smtp_count + status.smtp_blocked.to_integer
-					ssh_count := ssh_count + status.ssh_blocked.to_integer
-				end
+			ip_4_address := IP_address.to_string (ip_number)
+			name := Service_port.name (port)
+			if is_blocked then
+				log.put_labeled_string ("Is blocked on port " + name, ip_4_address)
+			else
+				log.put_labeled_string ("Blocking on port " + name, ip_4_address)
 			end
-			log.put_labeled_substitution (label, "HTTP = %S; SMTP = %S; SSH = %S", [http_count, smtp_count, ssh_count])
-			log.put_new_line_x2
+			log.put_new_line
 		end
 
 	put_rule (a_command: STRING; address: NATURAL_32; a_port: NATURAL_16)
@@ -377,6 +397,8 @@ feature {NONE} -- Internal attributes
 	monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
 
 	rule_buffer: STRING
+
+	service: EL_HACKER_INTERCEPT_SERVICE
 
 feature {NONE} -- Constants
 

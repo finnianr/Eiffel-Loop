@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:24:00 GMT (Thursday 30th March 2023)"
-	revision: "48"
+	date: "2024-03-15 9:44:19 GMT (Friday 15th March 2024)"
+	revision: "49"
 
 class
 	RBOX_DATABASE
@@ -186,7 +186,7 @@ feature -- Access
 			l_template := "item [%S]: %S"
 			create Result.make (songs_by_location.count)
 			across songs_by_location.current_keys as key loop
-				Result.extend (l_template #$ [key.cursor_index, key.item.to_file_path.base])
+				Result.extend (l_template #$ [key.cursor_index, key.item.to_file_uri_path.base])
 			end
 		end
 

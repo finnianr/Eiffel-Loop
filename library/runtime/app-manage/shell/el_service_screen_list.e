@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-17 18:04:25 GMT (Saturday 17th February 2024)"
-	revision: "5"
+	date: "2024-03-17 19:19:37 GMT (Sunday 17th March 2024)"
+	revision: "7"
 
 class
 	EL_SERVICE_SCREEN_LIST
 
 inherit
 	EL_ARRAYED_LIST [EL_SERVICE_SCREEN]
+		rename
+			initialize as initialize_list
+		end
 
 	EL_MODULE_NAMING
 
@@ -61,25 +64,15 @@ feature {NONE} -- Implementation
 	replace_active
 		-- replace screens that are active with `ACTIVE_SERVICE_SCREEN'
 		local
-			list_cmd: EL_CAPTURED_OS_COMMAND; line_index: INTEGER
-			id: STRING; name, line: ZSTRING
+			screen_list: EL_SCREEN_SESSIONS_COMMAND
 		do
-			create list_cmd.make_with_name ("screen_list", "screen -list")
-			list_cmd.set_success_code (256)
-			list_cmd.execute
-
-			-- Parse output of screen command
-			across list_cmd.lines as list loop
-				line := list.item
-				if line.occurrences ('(').to_boolean and line.occurrences (')').to_boolean then
-					line_index := 1
-					id := line.substring_to_from ('.', $line_index)
-					id.left_adjust
-					name := line.substring_to_from ('(', $line_index)
-					name.right_adjust
-					find_first_equal (name, agent {like item}.name)
+			create screen_list.make
+			screen_list.execute
+			across screen_list.session_list as list loop
+				if attached list.item as session then
+					find_first_equal (session.name, agent {like item}.name)
 					if found then
-						replace (create {EL_ACTIVE_SERVICE_SCREEN}.make (item, id.to_integer))
+						replace (create {EL_ACTIVE_SERVICE_SCREEN}.make (item, session.id))
 					end
 				end
 			end

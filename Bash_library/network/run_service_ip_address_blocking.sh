@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
-name=$1
-dir_path=/var/local/$name
+# notifications received from service HACKER_INTERCEPT_SERVICE_APP
+
+domain_name=$1
+name=${domain_name%%.*}
+
+dir_path=/var/local/$domain_name
 txt_path=$dir_path/block-ip.txt
 lock_path=$dir_path/block-ip.lock
 

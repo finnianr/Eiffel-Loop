@@ -688,3 +688,6 @@ Refactored caching of hosted Paypal button information
 Fri 23rd Feb 2024, 17:37:51
 EL_TIME_DATE_I now uses EL_SYSTEM time for updates
 
+Sat 16th Mar 2024, 12:45:20
+Split ZSTRING_TEST_SET into smaller tests
+

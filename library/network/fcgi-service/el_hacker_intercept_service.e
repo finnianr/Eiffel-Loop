@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 14:07:02 GMT (Tuesday 31st October 2023)"
-	revision: "16"
+	date: "2024-03-17 14:14:35 GMT (Sunday 17th March 2024)"
+	revision: "17"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -43,10 +43,9 @@ feature -- Basic operations
 			sendmail: EL_TODAYS_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
 		do
 			create sendmail.make
-			if sendmail.is_log_readable then
-				do_nothing
-			else
+			if not sendmail.is_log_readable then
 				create error.make (sendmail.Default_log_path)
+				application.put (error)
 				if is_user_in_admin_group then
 					error.set_lines ("File not readable")
 				else
@@ -59,8 +58,19 @@ feature -- Basic operations
 						Then re-login for command to take effect.
 					]")
 				end
-				application.put (error)
 			end
+		end
+
+	send_blocking_script_alert
+		do
+			do_nothing
+		end
+
+feature -- Status query
+
+	is_blocking_script_operational: BOOLEAN
+		do
+			Result := True
 		end
 
 feature {NONE} -- Event handling
@@ -108,8 +118,11 @@ feature {NONE} -- Implementation
 
 feature {EL_HACKER_INTERCEPT_SERVLET} -- Constants
 
+	IP_blocking_script_name: STRING = "run_service_ip_address_blocking.sh"
+
 	Firewall_status_data_path: FILE_PATH
 		once
 			Result := Directory.Sub_app_data + "firewall-status.dat"
 		end
+
 end

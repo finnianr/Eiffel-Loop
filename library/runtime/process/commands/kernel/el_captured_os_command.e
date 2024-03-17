@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 13:29:44 GMT (Monday 31st July 2023)"
-	revision: "13"
+	date: "2024-03-17 17:40:22 GMT (Sunday 17th March 2024)"
+	revision: "14"
 
 class
 	EL_CAPTURED_OS_COMMAND
@@ -15,7 +15,7 @@ class
 inherit
 	EL_OS_COMMAND
 		undefine
-			make_default, is_captured, do_command, new_command_parts
+			make_default, is_captured, do_command, new_command_parts, reset
 		end
 
 	EL_CAPTURED_OS_COMMAND_I
@@ -25,7 +25,7 @@ inherit
 			getter_function_table, has_variable, system_command, template_name, new_temporary_name,
 			temporary_error_file_path, put_any
 		redefine
-			make_default, do_command
+			make_default, reset
 		end
 
 create
@@ -47,10 +47,10 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	do_command (a_system_command: like system_command)
+	reset
 		do
 			lines.wipe_out
-			Precursor {EL_CAPTURED_OS_COMMAND_I} (a_system_command)
+			Precursor
 		end
 
 	do_with_lines (a_lines: like new_output_lines)

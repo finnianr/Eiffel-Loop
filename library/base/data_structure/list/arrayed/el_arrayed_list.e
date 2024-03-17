@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-15 9:14:10 GMT (Friday 15th March 2024)"
-	revision: "64"
+	date: "2024-03-16 15:05:57 GMT (Saturday 16th March 2024)"
+	revision: "66"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -111,16 +111,8 @@ feature {NONE} -- Initialization
 
 	make_from_if (container: CONTAINER [G]; condition: PREDICATE [G])
 		-- initialize from `container' of items if `condition (item)' is true
-		local
-			wrapper: EL_CONTAINER_WRAPPER [G]
 		do
-			create wrapper.make (container)
-			if attached wrapper.query_if (condition) as result_list then
-				make_from_special (result_list.area)
-				object_comparison := container.object_comparison
-			else
-				make_empty
-			end
+			make_from_for (container, create {EL_PREDICATE_QUERY_CONDITION [G]}.make (condition))
 		end
 
 	make_from_list (list: ITERABLE [G])
@@ -141,9 +133,9 @@ feature {NONE} -- Initialization
 			initialize
 		end
 
-	make_from_sub_list (list: EL_ARRAYED_LIST [G]; start_index, end_index: INTEGER)
+	make_from_sub_list (list: READABLE_INDEXABLE [G]; start_index, end_index: INTEGER)
 		require
-			valid_range: start_index <= end_index implies start_index >= 1 and end_index <= list.count
+			valid_range: start_index <= end_index implies list.lower <= start_index and list.upper <= end_index
 		local
 			i: INTEGER
 		do

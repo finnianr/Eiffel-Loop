@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "58"
+	date: "2024-03-17 17:36:25 GMT (Sunday 17th March 2024)"
+	revision: "59"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -336,7 +336,7 @@ feature {NONE} -- Implementation
 		end
 
 	reset
-			-- Executed before do_command
+		-- Executed before do_command
 		do
 			Precursor
 			has_error := False
@@ -394,7 +394,6 @@ feature {EL_OS_COMMAND_I} -- Factory
 	new_temporary_name: ZSTRING
 		do
 			Result := generator
-			Result.enclose ('{', '}')
 		end
 
 	new_transient_fields: STRING

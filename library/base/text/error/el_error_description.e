@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-15 16:50:34 GMT (Thursday 15th February 2024)"
-	revision: "5"
+	date: "2024-03-17 11:42:55 GMT (Sunday 17th March 2024)"
+	revision: "6"
 
 class
 	EL_ERROR_DESCRIPTION
@@ -25,13 +25,13 @@ inherit
 			{ANY} extend, first_line, last_line, append, append_sequence,
 				line_count, line, new_cursor, forth, start, after
 		redefine
-			make_empty
+			initialize
 		end
 
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_code, make_empty, make_with_lines
+	make, make_code, make_empty, make_with_lines, make_from_array
 
 feature {NONE} -- Initialization
 
@@ -47,10 +47,10 @@ feature {NONE} -- Initialization
 			code := a_code
 		end
 
-	make_empty
+	initialize
 		do
 			Precursor
-			id := Empty_string_8
+			code := 0; id := Empty_string_8
 		end
 
 feature -- Access

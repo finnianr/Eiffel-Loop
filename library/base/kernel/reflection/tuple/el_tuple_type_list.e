@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-15 9:15:58 GMT (Friday 15th March 2024)"
-	revision: "15"
+	date: "2024-03-16 13:25:09 GMT (Saturday 16th March 2024)"
+	revision: "16"
 
 class
 	EL_TUPLE_TYPE_LIST [T]
@@ -50,6 +50,7 @@ feature {NONE} -- Initialization
 
 	initialize
 		do
+			Precursor
 			compare_objects
 			non_conforming_list := Empty_list
 		end

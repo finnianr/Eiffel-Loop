@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-03-17 19:15:03 GMT (Sunday 17th March 2024)"
+	revision: "12"
 
 class
 	EL_APPLICATION_COMMAND_OPTIONS
@@ -50,6 +50,9 @@ feature -- Access
 	no_app_header: BOOLEAN
 		-- `True' if command line option of same name exists
 
+	pause_on_error: BOOLEAN
+		-- when `True' user will be prompted to quit after displaying error message
+
 	test: BOOLEAN
 
 	test_set: STRING
@@ -68,6 +71,8 @@ feature {NONE} -- Constants
 					Show application help
 				no_app_header:
 					Suppress output of application information
+				pause_on_error:
+					Prompt user to quit after displaying error message
 				show_benchmarks:
 					As application exits, show execution time and average execution time since last version update
 				test:

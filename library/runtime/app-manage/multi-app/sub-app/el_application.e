@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "80"
+	date: "2024-03-17 19:15:54 GMT (Sunday 17th March 2024)"
+	revision: "81"
 
 deferred class
 	EL_APPLICATION
@@ -246,6 +246,9 @@ feature {NONE} -- Implementation
 				read_command_options
 				if has_error then
 					print_errors (lio)
+					if App_option.pause_on_error then
+						return_to_quit
+					end
 				else
 					call (new_configuration)
 					initialize; run
@@ -253,10 +256,8 @@ feature {NONE} -- Implementation
 					if attached internal_timer as timer then
 						show_benchmarks (timer)
 					end
-					if Ask_user_to_quit then
-						lio.put_new_line
-						io.put_string ("<RETURN TO QUIT>")
-						io.read_character
+					if ask_user_to_quit then
+						return_to_quit
 					end
 				end
 			end
@@ -326,6 +327,13 @@ feature {NONE} -- Implementation
 	read_command_options
 		-- read command line options
 		do
+		end
+
+	return_to_quit
+		do
+			lio.put_new_line
+			io.put_string ("<RETURN TO QUIT>")
+			io.read_character
 		end
 
 	show_benchmarks (timer: EL_EXECUTION_TIMER)

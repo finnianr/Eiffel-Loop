@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-24 16:09:49 GMT (Tuesday 24th October 2023)"
-	revision: "12"
+	date: "2024-03-17 14:21:08 GMT (Sunday 17th March 2024)"
+	revision: "13"
 
 class
 	EL_HACKER_INTERCEPT_CONFIG
@@ -55,8 +55,7 @@ feature {NONE} -- Build from XML
 		local
 			l_xpath: STRING
 		do
-			Result := Precursor + ["@ban_rule_duration", agent do ban_rule_duration := node end]
-
+			Result := Precursor+ ["@ban_rule_duration",	 agent do ban_rule_duration := node end]
 			across filter_table.new_predicate_list as list loop
 				l_xpath := Xpath_match_list #$ [list.item]
 				Result [l_xpath] := agent append_filter (list.item)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "25"
+	date: "2024-03-15 9:44:36 GMT (Friday 15th March 2024)"
+	revision: "26"
 
 class
 	RBOX_IGNORED_ENTRY
@@ -25,7 +25,7 @@ feature -- Access
 
 	file_path: FILE_PATH
 		do
-			Result := location.to_file_path
+			Result := location.to_file_uri_path.to_file_path
 		end
 
 feature {NONE} -- Implemenatation
