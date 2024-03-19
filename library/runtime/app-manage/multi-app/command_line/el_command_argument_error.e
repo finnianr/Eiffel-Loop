@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-15 16:40:37 GMT (Thursday 15th February 2024)"
-	revision: "16"
+	date: "2024-03-19 15:13:05 GMT (Tuesday 19th March 2024)"
+	revision: "17"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR
@@ -16,10 +16,24 @@ inherit
 	EL_ERROR_DESCRIPTION
 		rename
 			id as word_option
+		redefine
+			initialize, print_to
 		end
 
 create
 	make, make_empty
+
+feature {NONE} -- Initialization
+
+	initialize
+		do
+			Precursor
+			create argument.make_empty
+		end
+
+feature -- Access
+
+	argument: ZSTRING
 
 feature -- Element change
 
@@ -55,6 +69,11 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
+	Error: ZSTRING
+		once
+			Result := "ERROR"
+		end
+
 	Template: TUPLE [
 		invalid_argument, missing_argument, no_default_argument, path_error,
 		required_argument, type_error: ZSTRING
@@ -72,7 +91,7 @@ feature {NONE} -- Constants
 				The word option `-#' does not have a default.
 			]"
 			Result.path_error := "[
-				ERROR in `-#' # path argument
+				ERROR: in `-#' # path argument
 				The #: "#" does not exist.
 			]"
 			Result.required_argument := "[
@@ -81,6 +100,28 @@ feature {NONE} -- Constants
 			Result.type_error := "[
 				ERROR: option `-#' is not followed by a #
 			]"
+		end
+
+feature -- Basic operations
+
+	print_to (log: EL_LOGGABLE)
+		do
+			if argument.count > 0 then
+				log.put_string_field (hyphen + word_option, argument)
+				log.put_new_line
+			end
+			across Current as list loop
+				if attached list.item as l_line then
+					if l_line.starts_with (Error) and then l_line.count > Error.count
+						and then l_line [Error.count + 1] = ':'
+					then
+						log.put_labeled_string (Error, l_line.substring_end (Error.count + 3))
+						log.put_new_line
+					else
+						log.put_line (l_line)
+					end
+				end
+			end
 		end
 
 end

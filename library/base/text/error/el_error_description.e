@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 11:42:55 GMT (Sunday 17th March 2024)"
-	revision: "6"
+	date: "2024-03-19 11:32:30 GMT (Tuesday 19th March 2024)"
+	revision: "7"
 
 class
 	EL_ERROR_DESCRIPTION
@@ -35,6 +35,12 @@ create
 
 feature {NONE} -- Initialization
 
+	initialize
+		do
+			Precursor
+			code := 0; id := Empty_string_8
+		end
+
 	make (a_id: like id)
 		do
 			make_empty
@@ -45,12 +51,6 @@ feature {NONE} -- Initialization
 		do
 			make_empty
 			code := a_code
-		end
-
-	initialize
-		do
-			Precursor
-			code := 0; id := Empty_string_8
 		end
 
 feature -- Access
@@ -74,7 +74,7 @@ feature -- Element change
 
 	set_lines (a_string: READABLE_STRING_GENERAL)
 		do
-			make_with_lines (a_string)
+			append_split (a_string, '%N', 0)
 		end
 
 	set_list (a_list: ARRAYED_LIST [ZSTRING])

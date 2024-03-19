@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 19:15:54 GMT (Sunday 17th March 2024)"
-	revision: "81"
+	date: "2024-03-19 10:32:45 GMT (Tuesday 19th March 2024)"
+	revision: "82"
 
 deferred class
 	EL_APPLICATION
@@ -81,9 +81,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 			call (Build_info)
 
 			Exception.catch ({EXCEP_CONST}.Signal_exception)
-			across standard_options as opt loop
-				do_nothing
-			end
+			standard_options.do_all (agent do_with_options)
 		end
 
 feature -- Access
@@ -275,6 +273,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	do_with_options (options: EL_COMMAND_LINE_OPTIONS)
+		do
+		end
+
 	init_console
 		local
 			list: like visible_types_list
@@ -385,10 +387,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
+	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
 		-- Standard command line options
 		do
-			create Result.make (<< Base_option, new_command_options >>)
+			create Result.make_from_array (<< Base_option, new_command_options >>)
 		end
 
 	visible_types: TUPLE

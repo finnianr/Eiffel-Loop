@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-05 11:26:18 GMT (Tuesday 5th March 2024)"
-	revision: "24"
+	date: "2024-03-19 10:29:33 GMT (Tuesday 19th March 2024)"
+	revision: "25"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -145,7 +145,7 @@ feature {NONE} -- Implementation
 			Exception.put_last_trace (log)
 		end
 
-	standard_options: EL_DEFAULT_COMMAND_OPTION_LIST
+	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
 		do
 			Result := Precursor + Log_option
 		end

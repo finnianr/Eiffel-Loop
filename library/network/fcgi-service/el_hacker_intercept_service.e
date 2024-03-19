@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 14:14:35 GMT (Sunday 17th March 2024)"
-	revision: "17"
+	date: "2024-03-18 14:40:50 GMT (Monday 18th March 2024)"
+	revision: "18"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -69,6 +69,7 @@ feature -- Basic operations
 feature -- Status query
 
 	is_blocking_script_operational: BOOLEAN
+		-- `True' if run_service_ip_address_blocking.sh script is operational
 		do
 			Result := True
 		end

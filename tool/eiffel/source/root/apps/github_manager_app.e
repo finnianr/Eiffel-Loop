@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-03-19 11:12:34 GMT (Tuesday 19th March 2024)"
+	revision: "14"
 
 class
 	GITHUB_MANAGER_APP
@@ -19,22 +19,25 @@ class
 inherit
 	EL_COMMAND_LINE_APPLICATION [GITHUB_MANAGER_SHELL_COMMAND]
 		redefine
-			visible_types
+			standard_options, visible_types
 		end
 
 feature {NONE} -- Implementation
 
 	argument_specs: ARRAY [EL_COMMAND_ARGUMENT]
 		do
-			Result := <<
-				config_argument (Void),
-				optional_argument ("define", "Define an environment variable: name=<value>", No_checks)
-			>>
+			Result := << config_argument (Void) >>
 		end
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (create {FILE_PATH}, create {EL_DIR_PATH_ENVIRON_VARIABLE})
+			Result := agent {like command}.make (create {FILE_PATH})
+		end
+
+	standard_options: EL_ARRAYED_LIST [EL_COMMAND_LINE_OPTIONS]
+		-- Standard command line options
+		do
+			Result := Precursor + Environment_variable
 		end
 
 	visible_types: TUPLE [GITHUB_MANAGER_SHELL_COMMAND, EL_OS_COMMAND, EL_CAPTURED_OS_COMMAND]

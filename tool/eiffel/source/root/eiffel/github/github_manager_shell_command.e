@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-01 17:12:57 GMT (Friday 1st March 2024)"
-	revision: "38"
+	date: "2024-03-19 11:04:04 GMT (Tuesday 19th March 2024)"
+	revision: "39"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -38,10 +38,9 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_config_path: FILE_PATH; environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE)
+	make (a_config_path: FILE_PATH)
 		do
 			make_shell ("GITHUB MENU", 10)
-			environ_variable.apply
 			config_path := a_config_path
 			create config.make (a_config_path)
 			create manifest.make_from_file (config.source_manifest_path)

@@ -3,14 +3,25 @@ note
 		Command to obtain list of session information for the 
 		[https://linux.die.net/man/1/screen Unix screen command].
 	]"
+	notes: "[
+		Parses output as for example:
+
+			screen -list
+			
+			There are screens on:
+				3211.IP address blocking (18/03/24 14:31:56)	(Detached)
+				3195.I Ching page service (18/03/24 14:31:40)	(Detached)
+				3185.Screenshot service (18/03/24 14:31:34)	(Detached)
+			3 Sockets in /var/run/screen/S-finnian.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 19:21:21 GMT (Sunday 17th March 2024)"
-	revision: "1"
+	date: "2024-03-18 14:38:39 GMT (Monday 18th March 2024)"
+	revision: "2"
 
 class
 	EL_SCREEN_SESSIONS_COMMAND
@@ -21,8 +32,8 @@ inherit
 			make as make_command,
 			lines as name_list
 		export
-			{NONE} all
 			{ANY} execute, name_list
+			{NONE} all
 		redefine
 			do_with_lines, make_default, reset
 		end
@@ -50,16 +61,15 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	do_with_lines (a_lines: like new_output_lines)
+	do_with_lines (list: like new_output_lines)
 		do
-			from a_lines.start until a_lines.after loop
-				if attached a_lines.item as line
-					and then line.occurrences ('(') >= 1 and then line.occurrences (')') >= 1
-				then
+			from list.start until list.after loop
+				if attached list.item as line and then line.starts_with_character ('%T') then
+					line.remove_head (1)
 					session_list.extend (new_session_info (line))
 					name_list.extend (session_list.last.name)
 				end
-				a_lines.forth
+				list.forth
 			end
 		end
 
@@ -71,9 +81,8 @@ feature {NONE} -- Implementation
 		do
 			index := 1
 			id := line.substring_to_from ('.', $index)
-			id.left_adjust
 			name := line.substring_to_from ('(', $index)
-			name.right_adjust
+			name.remove_tail (1)
 			status := line.substring_to_reversed ('(')
 			Result := [id.to_integer, name, status.starts_with (Attach)]
 		end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 9:48:49 GMT (Monday 5th December 2022)"
-	revision: "8"
+	date: "2024-03-19 10:59:47 GMT (Tuesday 19th March 2024)"
+	revision: "9"
 
 class
 	EL_ENVIRON_VARIABLE
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_STRING_GENERAL_ROUTINES
 
 create
 	make, make_from_string, default_create
@@ -35,8 +37,7 @@ feature {NONE} -- Initialization
 
 	make (a_name, a_value: READABLE_STRING_GENERAL)
 		do
-			create name.make_from_general (a_name)
-			create value.make_from_general (a_value)
+			name := as_zstring (a_name); value := as_zstring (a_value)
 		end
 
 	make_from_string (str: READABLE_STRING_GENERAL)
