@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 15:13:05 GMT (Tuesday 19th March 2024)"
-	revision: "17"
+	date: "2024-03-20 10:35:31 GMT (Wednesday 20th March 2024)"
+	revision: "18"
 
 class
 	EL_COMMAND_ARGUMENT_ERROR
@@ -107,9 +107,11 @@ feature -- Basic operations
 	print_to (log: EL_LOGGABLE)
 		do
 			if argument.count > 0 then
-				log.put_string_field (hyphen + word_option, argument)
-				log.put_new_line
+				log.put_labeled_string ("OPTION -" + word_option, argument)
+			else
+				log.put_labeled_string (Error, hyphen + word_option + " option")
 			end
+			log.put_new_line
 			across Current as list loop
 				if attached list.item as l_line then
 					if l_line.starts_with (Error) and then l_line.count > Error.count

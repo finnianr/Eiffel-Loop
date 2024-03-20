@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 11:51:25 GMT (Tuesday 19th March 2024)"
-	revision: "11"
+	date: "2024-03-20 8:53:52 GMT (Wednesday 20th March 2024)"
+	revision: "12"
 
 deferred class
 	EL_LOGGED_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -23,7 +23,7 @@ inherit
 
 	EL_LOGGED_APPLICATION
 		undefine
-			do_with_options, read_command_options, options_help
+			read_command_options, options_help
 		redefine
 			print_help
 		end

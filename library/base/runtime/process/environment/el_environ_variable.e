@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 8:47:31 GMT (Wednesday 20th March 2024)"
-	revision: "10"
+	date: "2024-03-20 13:01:47 GMT (Wednesday 20th March 2024)"
+	revision: "11"
 
 class
 	EL_ENVIRON_VARIABLE
@@ -61,6 +61,12 @@ feature -- Access
 
 	value: ZSTRING
 
+	path_value: EL_PATH_STEPS
+		do
+			Result := value
+			Result.expand
+		end
+
 feature -- Status query
 
 	is_valid: BOOLEAN
@@ -84,9 +90,14 @@ feature -- Basic operations
 		require
 			valid_name_value_pair: is_valid
 		do
-			Execution_environment.put (value, name)
+			if value.has ('$') then
+				Execution_environment.put (path_value, name)
+			else
+				Execution_environment.put (value, name)
+			end
 		ensure
-			assigned: Execution_environment.item (name) ~ value
+			assigned: not value.has ('$') implies Execution_environment.item (name) ~ value
+			assigned_path: value.has ('$') implies Execution_environment.item (name) ~ path_value
 		end
 
 end

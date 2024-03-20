@@ -184,7 +184,7 @@ The procedure form:
 
 	put_<lowercase type name>
 
-is use to output the following types: ${STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64'.
+is used to output the following types: `STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64'.
 
 The procedure form:
 

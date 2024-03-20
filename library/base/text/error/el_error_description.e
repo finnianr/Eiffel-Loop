@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 11:32:30 GMT (Tuesday 19th March 2024)"
-	revision: "7"
+	date: "2024-03-20 10:36:32 GMT (Wednesday 20th March 2024)"
+	revision: "8"
 
 class
 	EL_ERROR_DESCRIPTION
@@ -74,6 +74,7 @@ feature -- Element change
 
 	set_lines (a_string: READABLE_STRING_GENERAL)
 		do
+			wipe_out
 			append_split (a_string, '%N', 0)
 		end
 

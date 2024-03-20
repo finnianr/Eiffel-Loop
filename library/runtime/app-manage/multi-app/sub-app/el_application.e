@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 8:52:31 GMT (Wednesday 20th March 2024)"
-	revision: "83"
+	date: "2024-03-20 10:24:11 GMT (Wednesday 20th March 2024)"
+	revision: "84"
 
 deferred class
 	EL_APPLICATION
@@ -273,30 +273,10 @@ feature {NONE} -- Implementation
 		end
 
 	do_with_options (options: EL_COMMAND_LINE_OPTIONS)
-		-- defines an environment variable if `Environment_variable' is added to redefinition of `standard_options'
-		-- and command line has option: -define
-		local
-			error: EL_COMMAND_ARGUMENT_ERROR; environ_variable: EL_ENVIRON_VARIABLE
-			template: ZSTRING
+		-- do something with each of `standard_options'
 		do
-			if Environment_variable = options and then attached Environment_variable.define as assignment
-				and then assignment.count > 0
-			then
-				environ_variable := assignment
-				if environ_variable.is_valid then
-					environ_variable.apply
-				else
-					create error.make ("define")
-					error.argument.share (assignment)
-					if environ_variable.is_empty then
-						error.set_invalid_argument ("Use format: -define name=<value>")
-
-					elseif not environ_variable.is_valid_name then
-						template := "'%S' is not a valid environment label"
-						error.set_invalid_argument (template #$ [environ_variable.name])
-					end
-					put (error)
-				end
+			if options = Environment_variable and then Environment_variable.define.count > 0 then
+				set_environment_variable (Environment_variable.define)
 			end
 		end
 
@@ -359,6 +339,30 @@ feature {NONE} -- Implementation
 			lio.put_new_line
 			io.put_string ("<RETURN TO QUIT>")
 			io.read_character
+		end
+
+	set_environment_variable (assignment: ZSTRING)
+		-- defines an environment variable if `Environment_variable' is added to
+		-- redefinition of `standard_options' and command line has option: -define
+		local
+			error: EL_COMMAND_ARGUMENT_ERROR; environ_variable: EL_ENVIRON_VARIABLE
+			template: ZSTRING
+		do
+			environ_variable := assignment
+			if environ_variable.is_valid then
+				environ_variable.apply
+			else
+				create error.make ("define")
+				error.argument.share (assignment)
+				if environ_variable.is_empty then
+					error.set_invalid_argument ("Use format: -define name=<value>")
+
+				elseif not environ_variable.is_valid_name then
+					template := "'%S' is not a valid environment label"
+					error.set_invalid_argument (template #$ [environ_variable.name])
+				end
+				put (error)
+			end
 		end
 
 	show_benchmarks (timer: EL_EXECUTION_TIMER)
