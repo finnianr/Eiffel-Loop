@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 9:05:36 GMT (Sunday 1st January 2023)"
-	revision: "27"
+	date: "2024-03-20 8:04:10 GMT (Wednesday 20th March 2024)"
+	revision: "28"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -171,11 +171,7 @@ feature {NONE} -- Constants
 				[{FILE_PATH},								{EL_PATH_OPERAND_SETTER [FILE_PATH]}],
 				[{DIR_PATH},								{EL_PATH_OPERAND_SETTER [DIR_PATH]}],
 
-				[{EL_ZSTRING_HASH_TABLE [ZSTRING]}, {EL_ZSTRING_TABLE_OPERAND_SETTER}],
-
-				[{EL_ENVIRON_VARIABLE},					{EL_ENVIRON_VARIABLE_OPERAND_SETTER [EL_ENVIRON_VARIABLE]}],
-				[{EL_DIR_PATH_ENVIRON_VARIABLE},		{EL_ENVIRON_VARIABLE_OPERAND_SETTER [EL_DIR_PATH_ENVIRON_VARIABLE]}],
-				[{EL_FILE_PATH_ENVIRON_VARIABLE},	{EL_ENVIRON_VARIABLE_OPERAND_SETTER [EL_FILE_PATH_ENVIRON_VARIABLE]}]
+				[{EL_ZSTRING_HASH_TABLE [ZSTRING]}, {EL_ZSTRING_TABLE_OPERAND_SETTER}]
 			>>)
 		end
 

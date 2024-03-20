@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 14:17:53 GMT (Monday 1st January 2024)"
-	revision: "6"
+	date: "2024-03-20 8:09:36 GMT (Wednesday 20th March 2024)"
+	revision: "7"
 
 class
 	COMPILED_CLASSES
@@ -22,6 +22,7 @@ feature {NONE} -- Compiled
 		end
 
 	el_app_manage: TUPLE [
+		EL_ENVIRON_VARIABLE,
 		EL_STANDARD_REMOVE_DATA_APP
 	]
 		-- app-manage.ecf

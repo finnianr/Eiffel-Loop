@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "35"
+	date: "2024-03-20 7:49:57 GMT (Wednesday 20th March 2024)"
+	revision: "36"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -40,7 +40,7 @@ inherit
 			{ANY} insert
 			{NONE} array_subchain
 		redefine
-			is_equal, make, make_from_array, make_from_tuple
+			is_equal, initialize, make_from_tuple
 		end
 
 create
@@ -52,14 +52,9 @@ convert
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	initialize
 		do
-			Precursor (n); compare_objects
-		end
-
-	make_from_array (array: ARRAY [S])
-		do
-			Precursor {EL_SORTABLE_ARRAYED_LIST} (array); compare_objects
+			Precursor; compare_objects
 		end
 
 	make_from_general (list: ITERABLE [READABLE_STRING_GENERAL])

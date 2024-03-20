@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 10:59:47 GMT (Tuesday 19th March 2024)"
-	revision: "9"
+	date: "2024-03-20 8:47:31 GMT (Wednesday 20th March 2024)"
+	revision: "10"
 
 class
 	EL_ENVIRON_VARIABLE
@@ -25,7 +25,10 @@ inherit
 	EL_STRING_GENERAL_ROUTINES
 
 create
-	make, make_from_string, default_create
+	make, make_assigned, default_create
+
+convert
+	make_assigned ({STRING_32, STRING_8, ZSTRING})
 
 feature {NONE} -- Initialization
 
@@ -40,9 +43,7 @@ feature {NONE} -- Initialization
 			name := as_zstring (a_name); value := as_zstring (a_value)
 		end
 
-	make_from_string (str: READABLE_STRING_GENERAL)
-		require
-			splittable_by_equal_sign: str.occurrences ('=') = 1 and then across str.split ('=') as s all s.item.count > 0 end
+	make_assigned (str: READABLE_STRING_GENERAL)
 		local
 			parts: EL_ZSTRING_LIST
 		do
@@ -64,22 +65,28 @@ feature -- Status query
 
 	is_valid: BOOLEAN
 		do
-			Result := not name.is_empty
+			Result := not is_empty and then is_valid_name
+		end
+
+	is_empty: BOOLEAN
+		do
+			Result := name.is_empty and value.is_empty
+		end
+
+	is_valid_name: BOOLEAN
+		do
+			Result := name.count > 0 and then name.is_code_identifier
 		end
 
 feature -- Basic operations
 
 	apply
+		require
+			valid_name_value_pair: is_valid
 		do
-			if is_valid then
-				Execution_environment.put (general_value, name)
-			end
+			Execution_environment.put (value, name)
+		ensure
+			assigned: Execution_environment.item (name) ~ value
 		end
 
-feature {NONE} -- Implementation
-
-	general_value: READABLE_STRING_GENERAL
-		do
-			Result := value.to_unicode
-		end
 end

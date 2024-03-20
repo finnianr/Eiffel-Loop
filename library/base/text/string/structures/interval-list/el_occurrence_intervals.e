@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "30"
+	date: "2024-03-20 7:41:57 GMT (Wednesday 20th March 2024)"
+	revision: "31"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 
 	make_empty
 		do
-			area_v2 := Default_area
+			make_from_special (Default_area)
 		end
 
 feature -- Element change

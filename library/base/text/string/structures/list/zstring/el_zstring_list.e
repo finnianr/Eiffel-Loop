@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-15 16:49:09 GMT (Thursday 15th February 2024)"
-	revision: "26"
+	date: "2024-03-20 7:54:14 GMT (Wednesday 20th March 2024)"
+	revision: "27"
 
 class
 	EL_ZSTRING_LIST
@@ -35,14 +35,12 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
+	make_split (general: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
 		do
-			if attached {ZSTRING} a_string as zstr and then attached zstr.split_list (delimiter) as list then
-				make_empty
-				area_v2 := list.area_v2
-				compare_objects
+			if attached {ZSTRING} general as zstr then
+				make_from_special (zstr.split_list (delimiter).area_v2)
 			else
-				Precursor (a_string, delimiter)
+				Precursor (general, delimiter)
 			end
 		end
 

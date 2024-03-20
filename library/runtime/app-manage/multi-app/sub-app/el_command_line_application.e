@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 15:08:14 GMT (Tuesday 19th March 2024)"
-	revision: "56"
+	date: "2024-03-20 8:26:09 GMT (Wednesday 20th March 2024)"
+	revision: "57"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -21,7 +21,7 @@ deferred class
 inherit
 	EL_APPLICATION
 		redefine
-			do_with_options, read_command_options, options_help, print_help
+			read_command_options, options_help, print_help
 		end
 
 	EL_APPLICATION_CONSTANTS
@@ -164,36 +164,6 @@ feature {NONE} -- Implementation
 			target_is_open: Result.target /= Current implies not Result.is_target_closed
 		end
 
-	do_with_options (options: EL_COMMAND_LINE_OPTIONS)
-		-- define an environment variable if `Environment_variable' is included in `standard_options'
-		-- and command line has option: -define
-		local
-			error: EL_COMMAND_ARGUMENT_ERROR; error_description: detachable ZSTRING
-			environ_variable: EL_DIR_PATH_ENVIRON_VARIABLE; template: ZSTRING
-		do
-			if attached Environment_variable as var
-				and then options = var and then var.define.count > 0
-				and then attached var.define.split_list ('=') as name_value
-			then
-				if name_value.count /= 2 then
-					error_description := "Use format: -define name=<value>"
-
-				elseif not name_value [1].is_code_identifier then
-					template := "'%S' is not a valid environment label"
-					error_description := template #$ [name_value [1]]
-				end
-				if attached error_description as l_description then
-					create error.make ("define")
-					error.argument.share (var.define)
-					error.set_invalid_argument (l_description)
-					put (error)
-				else
-					create environ_variable.make (name_value [1], name_value [2])
-					environ_variable.apply
-				end
-			end
-		end
-
 	first_operand_offset: INTEGER
 		do
 			Result := make_command.is_target_closed.to_integer
@@ -274,13 +244,6 @@ feature {NONE} -- Internal attributes
 	make_command: PROCEDURE [like command]
 
 feature {NONE} -- Constants
-
-	Environment_variable: EL_DEFINE_VARIABLE_COMMAND_OPTION
-		-- Define an environment variable: -define name=<value>
-		-- redefine `standard_options' in descendant to include this
-		once
-			create Result.make
-		end
 
 	No_checks: ARRAY [TUPLE [key: READABLE_STRING_GENERAL; value: PREDICATE]]
 		once

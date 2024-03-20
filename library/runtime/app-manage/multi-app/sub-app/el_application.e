@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 10:32:45 GMT (Tuesday 19th March 2024)"
-	revision: "82"
+	date: "2024-03-20 8:52:31 GMT (Wednesday 20th March 2024)"
+	revision: "83"
 
 deferred class
 	EL_APPLICATION
@@ -48,7 +48,6 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		end
 
 	make
-			--
 		do
 			make_default
 			across App_directory_list as list loop
@@ -274,7 +273,31 @@ feature {NONE} -- Implementation
 		end
 
 	do_with_options (options: EL_COMMAND_LINE_OPTIONS)
+		-- defines an environment variable if `Environment_variable' is added to redefinition of `standard_options'
+		-- and command line has option: -define
+		local
+			error: EL_COMMAND_ARGUMENT_ERROR; environ_variable: EL_ENVIRON_VARIABLE
+			template: ZSTRING
 		do
+			if Environment_variable = options and then attached Environment_variable.define as assignment
+				and then assignment.count > 0
+			then
+				environ_variable := assignment
+				if environ_variable.is_valid then
+					environ_variable.apply
+				else
+					create error.make ("define")
+					error.argument.share (assignment)
+					if environ_variable.is_empty then
+						error.set_invalid_argument ("Use format: -define name=<value>")
+
+					elseif not environ_variable.is_valid_name then
+						template := "'%S' is not a valid environment label"
+						error.set_invalid_argument (template #$ [environ_variable.name])
+					end
+					put (error)
+				end
+			end
 		end
 
 	init_console
@@ -416,6 +439,13 @@ feature {EL_DESKTOP_ENVIRONMENT_I} -- Constants
 	App_directory_list: EL_ARRAYED_LIST [DIR_PATH]
 		once
 			Result := Directory.app_list
+		end
+
+	Environment_variable: EL_DEFINE_VARIABLE_COMMAND_OPTION
+		-- Define an environment variable: -define name=<value>
+		-- To use, add this to redefinition of `standard_options' in descendant
+		once
+			create Result.make
 		end
 
 note
