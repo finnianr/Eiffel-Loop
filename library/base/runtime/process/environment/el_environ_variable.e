@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 13:01:47 GMT (Wednesday 20th March 2024)"
-	revision: "11"
+	date: "2024-03-21 16:10:18 GMT (Thursday 21st March 2024)"
+	revision: "12"
 
 class
 	EL_ENVIRON_VARIABLE
@@ -61,10 +61,12 @@ feature -- Access
 
 	value: ZSTRING
 
-	path_value: EL_PATH_STEPS
+	substituted_value: ZSTRING
+		local
+			template: EL_TEMPLATE [ZSTRING]
 		do
-			Result := value
-			Result.expand
+			create template.make (value)
+			Result := template.environ_substituted
 		end
 
 feature -- Status query
@@ -91,13 +93,13 @@ feature -- Basic operations
 			valid_name_value_pair: is_valid
 		do
 			if value.has ('$') then
-				Execution_environment.put (path_value, name)
+				Execution_environment.put (substituted_value, name)
 			else
 				Execution_environment.put (value, name)
 			end
 		ensure
 			assigned: not value.has ('$') implies Execution_environment.item (name) ~ value
-			assigned_path: value.has ('$') implies Execution_environment.item (name) ~ path_value
+			assigned_path: value.has ('$') implies Execution_environment.item (name) ~ substituted_value
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-03-21 16:14:19 GMT (Thursday 21st March 2024)"
+	revision: "13"
 
 class
 	TEMPLATE_TEST_SET
@@ -26,11 +26,12 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["basic", agent test_basic],
-				["date", agent test_date],
-				["name_separation", agent test_name_separation],
-				["dollor_escaping", agent test_dollor_escaping],
-				["repeated_variable", agent test_repeated_variable]
+				["basic",						 agent test_basic],
+				["date",							 agent test_date],
+				["dollor_escaping",			 agent test_dollor_escaping],
+				["name_separation",			 agent test_name_separation],
+				["repeated_variable",		 agent test_repeated_variable],
+				["substituted_environment", agent test_substituted_environment]
 			>>)
 		end
 
@@ -107,6 +108,16 @@ feature -- Tests
 			create template.make ("$s $s $s")
 			template.put ("s", "one")
 			assert ("same string", template.substituted ~ "one one one")
+		end
+
+	test_substituted_environment
+		-- TEMPLATE_TEST_SET.test_substituted_environment
+		local
+			template: EL_TEMPLATE [STRING]; base_path: FILE_PATH
+		do
+			create template.make ("$ISE_LIBRARY/library/base/base.ecf")
+			base_path := template.environ_substituted
+			assert ("base.ecf exists", base_path.exists)
 		end
 
 feature {NONE} -- Constants
