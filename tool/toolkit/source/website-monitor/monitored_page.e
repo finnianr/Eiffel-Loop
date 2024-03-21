@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 8:28:55 GMT (Thursday 21st March 2024)"
-	revision: "3"
+	date: "2024-03-21 9:37:41 GMT (Thursday 21st March 2024)"
+	revision: "4"
 
 class
 	MONITORED_PAGE
@@ -50,6 +50,7 @@ feature -- Basic operations
 
 	check_url (base_url: STRING)
 		do
+			has_fault := False
 			Web.open (base_url + url)
 			Web.set_timeout_seconds (time_out)
 			Web.read_string_head

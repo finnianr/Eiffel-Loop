@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 8:49:34 GMT (Thursday 21st March 2024)"
-	revision: "3"
+	date: "2024-03-21 9:36:53 GMT (Thursday 21st March 2024)"
+	revision: "4"
 
 deferred class
 	MONITORED_WEBSITE_I
@@ -66,9 +66,13 @@ feature -- Basic operations
 			lio.put_labeled_string ("CHECKING SITE", base_url)
 			lio.put_new_line_x2
 			timed_out_page := Void
-			across page_list as page until has_fault loop
-				page.item.check_url (base_url)
-				timed_out_page := page.item
+			across page_list as list until has_fault loop
+				if attached list.item as page then
+					page.check_url (base_url)
+					if page.has_fault then
+						timed_out_page := page
+					end
+				end
 			end
 			lio.put_new_line
 		end
