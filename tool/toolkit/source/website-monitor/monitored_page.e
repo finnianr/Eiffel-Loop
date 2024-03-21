@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-25 14:53:57 GMT (Tuesday 25th April 2023)"
-	revision: "2"
+	date: "2024-03-21 8:28:55 GMT (Thursday 21st March 2024)"
+	revision: "3"
 
 class
 	MONITORED_PAGE
@@ -16,7 +16,6 @@ inherit
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
 		rename
 			element_node_fields as Empty_set,
-			make_default as make,
 			field_included as is_any_field,
 			xml_naming as eiffel_naming
 		end
@@ -26,9 +25,20 @@ inherit
 create
 	make
 
+feature {NONE} -- Initialization
+
+	make (a_time_out: INTEGER)
+		do
+			make_default
+			time_out := a_time_out
+		end
+
 feature -- Access
 
 	min_count: INTEGER
+
+	time_out: INTEGER note option: transient attribute end
+		-- time out in seconds
 
 	url: STRING
 
@@ -41,6 +51,7 @@ feature -- Basic operations
 	check_url (base_url: STRING)
 		do
 			Web.open (base_url + url)
+			Web.set_timeout_seconds (time_out)
 			Web.read_string_head
 			if attached web.last_headers as headers then
 				if not (headers.response_code = 200 and then headers.content_length >= min_count) then

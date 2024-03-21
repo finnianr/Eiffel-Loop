@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-20 10:05:46 GMT (Saturday 20th May 2023)"
-	revision: "4"
+	date: "2024-03-21 9:18:45 GMT (Thursday 21st March 2024)"
+	revision: "5"
 
 class
 	WEBSITE_MONITOR
@@ -44,8 +44,6 @@ feature {NONE} -- Initialization
 
 feature -- Pyxis configured
 
-	website_list: EL_ARRAYED_LIST [MONITORED_WEBSITE_I]
-
 	checks_per_day: INTEGER
 
 	minute_interval_count: INTEGER
@@ -53,6 +51,8 @@ feature -- Pyxis configured
 		do
 			Result := (24 * 60) // checks_per_day
 		end
+
+	website_list: EL_ARRAYED_LIST [MONITORED_WEBSITE_I]
 
 feature -- Access
 
@@ -62,26 +62,34 @@ feature -- Basic operations
 
 	execute
 		local
-			has_fault: BOOLEAN; next_time: EL_TIME
+			site_ok: BOOLEAN; next_time: EL_TIME
 		do
-			from until has_fault loop
-				across website_list as site until has_fault loop
-					site.item.check_pages
-					has_fault := site.item.has_fault
-					if has_fault then
-						execution.launch (site.item.terminal_command)
+			from until False loop
+				across website_list as site loop
+					from site_ok := False until site_ok loop
+						site.item.check_pages
+						if site.item.has_fault then
+							lio.put_labeled_string ("FAULT DETECTED", site.item.domain)
+							lio.put_new_line
+							if attached Notification_command as cmd then
+								cmd.put_string (cmd.var.error, site.item.domain)
+								cmd.put_string (cmd.var.urgency, cmd.Urgency.critical)
+								if attached site.item.timed_out_page as page then
+									cmd.put_string (cmd.var.message, page.url)
+								end
+								cmd.execute
+							end
+							User_input.press_enter
+						else
+							site_ok := True
+						end
 					end
 				end
-				if has_fault then
-					lio.put_line ("FAULT DETECTED")
-					User_input.press_enter
-				else
-					create next_time.make_now
-					next_time.minute_add (minute_interval_count)
-					lio.put_labeled_string ("Next check at", next_time.formatted_out ("[0]hh:[0]mi"))
-					lio.put_new_line
-					execution.sleep (minute_interval_count * 60_000)
-				end
+				create next_time.make_now
+				next_time.minute_add (minute_interval_count)
+				lio.put_labeled_string ("Next check at", next_time.formatted_out ("[0]hh:[0]mi"))
+				lio.put_new_line
+				execution.sleep (minute_interval_count * 60_000)
 			end
 		end
 
@@ -92,13 +100,20 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["@checks_per_day", agent do checks_per_day := node end],
-				["site",	agent do set_collection_context (website_list, new_site) end]
+				["site",				  agent do set_collection_context (website_list, new_site) end]
 			>>)
 		end
 
 	new_site: MONITORED_WEBSITE_I
 		do
 			create {MONITORED_WEBSITE_IMP} Result.make
+		end
+
+feature {NONE} -- Constants
+
+	Notification_command: EL_NOTIFY_SEND_ERROR_COMMAND
+		once
+			create Result.make
 		end
 
 end
