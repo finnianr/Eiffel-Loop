@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-08 10:39:38 GMT (Monday 8th January 2024)"
-	revision: "5"
+	date: "2024-03-23 9:07:23 GMT (Saturday 23rd March 2024)"
+	revision: "6"
 
 class
 	VERSION_MANAGER_SHELL_COMMAND
@@ -17,6 +17,10 @@ inherit
 		redefine
 			display_menu
 		end
+
+	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -39,7 +43,7 @@ feature {NONE} -- Factory
 				["Bump minor number",			 agent do do_bump (agent {EL_SOFTWARE_VERSION}.bump_minor) end],
 				["Bump release number",			 agent do do_bump (agent {EL_SOFTWARE_VERSION}.bump_release) end],
 				["Delete installed versions",	 agent delete_installed_versions],
-				["Edit version notes",			 agent edit_file (Versions_text_path)],
+				["Edit version notes",			 agent edit_version_notes],
 				["List installed versions",	 agent list_installed_versions],
 				["Revert to previous version", agent do config.set_version (previous_version) end]
 			>>)
@@ -50,6 +54,14 @@ feature {NONE} -- Commands
 	delete_installed_versions
 		do
 			installed_executable_list.delete_range (config.executable_name)
+		end
+
+	edit_version_notes
+		do
+			if not Version_notes_path.exists then
+				update_version_notes
+			end
+			edit_file (Version_notes_path)
 		end
 
 	list_installed_versions
@@ -78,6 +90,7 @@ feature {NONE} -- Implementation
 			new_version := config.system.version
 			bump (new_version)
 			config.set_version (new_version)
+			update_version_notes
 		end
 
 	installed_executable_list: EL_VERSION_PATH_LIST
@@ -90,15 +103,42 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	update_version_notes
+		local
+			has_bom: BOOLEAN; leading_text: ZSTRING; text: STRING
+			today: EL_DATE
+		do
+			create today.make_now_utc
+			leading_text := Version_note_template #$ [config.system.version.string, today.formatted_out ("dd Mmm yyyy")]
+			if attached Version_notes_path as path then
+				if path.exists then
+					has_bom := File.has_utf_8_bom (path)
+					text := File.plain_text_bomless (path)
+				else
+					File_system.make_directory (path.parent)
+					create text.make_empty
+				end
+			end
+			File.write_marked_text (Version_notes_path, leading_text.to_latin_1 + text, has_bom)
+		end
+
 feature {NONE} -- Internal attributes
 
 	previous_version: EL_SOFTWARE_VERSION
 
 feature {NONE} -- Constants
 
-	Versions_text_path: FILE_PATH
+	Version_note_template: ZSTRING
+		once
+			Result := "[
+				Ver. # (#)
+				* 
+			]"
+			Result.append (new_line * 2)
+		end
+
+	Version_notes_path: FILE_PATH
 		once
 			Result := "doc/versions.txt"
 		end
-
 end

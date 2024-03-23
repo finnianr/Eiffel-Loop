@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:11:08 GMT (Sunday 7th January 2024)"
-	revision: "35"
+	date: "2024-03-23 8:22:05 GMT (Saturday 23rd March 2024)"
+	revision: "36"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -105,6 +105,20 @@ feature -- Access
 	user_configuration_directory_name: ZSTRING
 			--
 		deferred
+		end
+
+	substituted (template_string: READABLE_STRING_GENERAL): ZSTRING
+		-- copy of `template_string' with environment variables substituted
+		local
+			template: EL_TEMPLATE [ZSTRING]
+		do
+			create template.make (as_zstring (template_string))
+			across template.variable_values as list loop
+				if attached list.key as name and then attached item (name) as value then
+					template.put (name, value)
+				end
+			end
+			Result := template.substituted
 		end
 
 	variable_dir_path (name: READABLE_STRING_GENERAL): DIR_PATH

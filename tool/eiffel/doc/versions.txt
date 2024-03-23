@@ -1,3 +1,6 @@
+Ver 2.0.14 (23 Mar 2024)
+* versions.txt now automatically updated when bumping version numbers
+
 2.0.12
 * Fixed parsing bug for unterminated ${
 

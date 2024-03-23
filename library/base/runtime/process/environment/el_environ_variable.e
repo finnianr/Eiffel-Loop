@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 16:10:18 GMT (Thursday 21st March 2024)"
-	revision: "12"
+	date: "2024-03-23 8:27:30 GMT (Saturday 23rd March 2024)"
+	revision: "13"
 
 class
 	EL_ENVIRON_VARIABLE
@@ -62,14 +62,17 @@ feature -- Access
 	value: ZSTRING
 
 	substituted_value: ZSTRING
-		local
-			template: EL_TEMPLATE [ZSTRING]
 		do
-			create template.make (value)
-			Result := template.environ_substituted
+			Result := Execution_environment.substituted (value)
 		end
 
 feature -- Status query
+
+	has_variable: BOOLEAN
+		-- `True' if value has substitution variables
+		do
+			Result := value.has ('$')
+		end
 
 	is_valid: BOOLEAN
 		do
@@ -92,14 +95,14 @@ feature -- Basic operations
 		require
 			valid_name_value_pair: is_valid
 		do
-			if value.has ('$') then
+			if has_variable then
 				Execution_environment.put (substituted_value, name)
 			else
 				Execution_environment.put (value, name)
 			end
 		ensure
-			assigned: not value.has ('$') implies Execution_environment.item (name) ~ value
-			assigned_path: value.has ('$') implies Execution_environment.item (name) ~ substituted_value
+			assigned_value: not has_variable implies Execution_environment.item (name) ~ value
+			assigned_substituted_value: has_variable implies Execution_environment.item (name) ~ substituted_value
 		end
 
 end

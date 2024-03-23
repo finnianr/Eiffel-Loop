@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 16:17:10 GMT (Thursday 21st March 2024)"
-	revision: "17"
+	date: "2024-03-23 8:14:31 GMT (Saturday 23rd March 2024)"
+	revision: "18"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -60,8 +60,6 @@ inherit
 		undefine
 			copy, is_equal
 		end
-
-	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make
@@ -127,19 +125,6 @@ feature -- Access
 
 	variable_values: EL_STRING_8_TABLE [S]
 		-- variable name list
-
-	environ_substituted: S
-		-- joined string with substituted environment variables
-		do
-			across variable_values as list loop
-				if attached list.key.to_string_8 as name
-					and then attached Execution_environment.item (name) as value
-				then
-					put_general (name, value)
-				end
-			end
-			Result := substituted
-		end
 
 feature -- Element change
 

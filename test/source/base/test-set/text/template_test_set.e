@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 16:14:19 GMT (Thursday 21st March 2024)"
-	revision: "13"
+	date: "2024-03-23 8:20:14 GMT (Saturday 23rd March 2024)"
+	revision: "14"
 
 class
 	TEMPLATE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 	EL_SHARED_DATE_FORMAT
 
@@ -101,7 +103,9 @@ feature -- Tests
 
 	test_repeated_variable
 		note
-			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
+			testing: "[
+				covers/{EL_TEMPLATE}.make, covers/{EL_TEMPLATE}.substituted
+			]"
 		local
 			template: EL_TEMPLATE [STRING]
 		do
@@ -112,11 +116,15 @@ feature -- Tests
 
 	test_substituted_environment
 		-- TEMPLATE_TEST_SET.test_substituted_environment
+		note
+			testing: "[
+				covers/{EL_TEMPLATE}.make, covers/{EL_TEMPLATE}.substituted,
+				covers/{EL_EXECUTION_ENVIRONMENT_I}.substituted
+			]"
 		local
-			template: EL_TEMPLATE [STRING]; base_path: FILE_PATH
+			base_path: FILE_PATH
 		do
-			create template.make ("$ISE_LIBRARY/library/base/base.ecf")
-			base_path := template.environ_substituted
+			base_path := Execution_environment.substituted ("$ISE_LIBRARY/library/base/base.ecf")
 			assert ("base.ecf exists", base_path.exists)
 		end
 

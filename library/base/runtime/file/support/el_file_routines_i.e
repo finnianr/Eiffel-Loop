@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "19"
+	date: "2024-03-23 8:40:33 GMT (Saturday 23rd March 2024)"
+	revision: "20"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -396,10 +396,19 @@ feature -- Basic operations
 
 	write_text (file_path: FILE_PATH; text: STRING)
 		-- write plain text
+		do
+			write_marked_text (file_path, text, False)
+		end
+
+	write_marked_text (file_path: FILE_PATH; text: STRING; utf_bom: BOOLEAN)
+		-- write plain text with optional byte order mark
 		local
 			file: PLAIN_TEXT_FILE
 		do
 			create file.make_open_write (file_path)
+			if utf_bom then
+				file.put_string ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
+			end
 			file.put_string (text)
 			file.close
 		end
