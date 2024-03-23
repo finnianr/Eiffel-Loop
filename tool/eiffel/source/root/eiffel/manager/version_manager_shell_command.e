@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 9:07:23 GMT (Saturday 23rd March 2024)"
-	revision: "6"
+	date: "2024-03-23 9:24:48 GMT (Saturday 23rd March 2024)"
+	revision: "7"
 
 class
 	VERSION_MANAGER_SHELL_COMMAND
@@ -131,8 +131,8 @@ feature {NONE} -- Constants
 	Version_note_template: ZSTRING
 		once
 			Result := "[
-				Ver. # (#)
-				* 
+				Ver # (#)
+				*
 			]"
 			Result.append (new_line * 2)
 		end

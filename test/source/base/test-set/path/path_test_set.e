@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "28"
+	date: "2024-03-23 11:51:23 GMT (Saturday 23rd March 2024)"
+	revision: "29"
 
 class
 	PATH_TEST_SET
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 				["ntfs_translation",			 agent test_ntfs_translation],
 				["parent",						 agent test_parent],
 				["parent_of",					 agent test_parent_of],
+				["path_expansion",			 agent test_path_expansion],
 				["path_sort",					 agent test_path_sort],
 				["path_steps",					 agent test_path_steps],
 				["relative_joins",			 agent test_relative_joins],
@@ -235,6 +236,15 @@ feature -- Tests
 			end
 		end
 
+	test_path_expansion
+		-- PATH_TEST_SET.test_path_expansion
+		note
+			testing: "covers/{EL_PATH}.expand"
+		do
+			assert ("variable expanded", not Eiffel_latin_1_sources.to_string.starts_with_general ("$EIFFEL_LOOP"))
+			assert ("valid path", Eiffel_latin_1_sources.exists)
+		end
+
 	test_path_sort
 		-- PATH_TEST_SET.test_path_sort
 		note
@@ -293,6 +303,7 @@ feature -- Tests
 		end
 
 	test_universal_relative_path
+		-- PATH_TEST_SET.test_universal_relative_path
 		note
 			testing: "[
 				covers/{DIR_PATH}.relative_path, covers/{FILE_PATH}.relative_path,

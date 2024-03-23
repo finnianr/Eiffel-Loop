@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 9:34:22 GMT (Monday 15th January 2024)"
-	revision: "75"
+	date: "2024-03-23 11:53:41 GMT (Saturday 23rd March 2024)"
+	revision: "76"
 
 deferred class
 	EL_PATH
@@ -17,6 +17,8 @@ inherit
 		undefine
 			default_create, out, copy
 		end
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 convert
 	to_string: {EL_ZSTRING}, as_string_32: {STRING_32, READABLE_STRING_GENERAL},
@@ -216,11 +218,8 @@ feature -- Element change
 	expand
 		-- expand environment variables in each step
 		do
-			if is_expandable and then attached steps as l_steps then
-				l_steps.expand
-				base := l_steps.base
-				l_steps.remove_tail (1)
-				set_parent_path (l_steps.to_string)
+			if is_expandable then
+				make (Execution_environment.substituted (temporary_path))
 			end
 		end
 

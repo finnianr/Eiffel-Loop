@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-16 15:05:57 GMT (Saturday 16th March 2024)"
-	revision: "66"
+	date: "2024-03-23 11:59:46 GMT (Saturday 23rd March 2024)"
+	revision: "67"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -135,7 +135,7 @@ feature {NONE} -- Initialization
 
 	make_from_sub_list (list: READABLE_INDEXABLE [G]; start_index, end_index: INTEGER)
 		require
-			valid_range: start_index <= end_index implies list.lower <= start_index and list.upper <= end_index
+			valid_range: start_index <= end_index implies list.lower <= start_index and end_index <= list.upper
 		local
 			i: INTEGER
 		do
