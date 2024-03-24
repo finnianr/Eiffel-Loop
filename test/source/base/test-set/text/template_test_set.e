@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-24 11:46:41 GMT (Sunday 24th March 2024)"
-	revision: "15"
+	date: "2024-03-24 11:57:49 GMT (Sunday 24th March 2024)"
+	revision: "16"
 
 class
 	TEMPLATE_TEST_SET
@@ -110,6 +110,8 @@ feature -- Tests
 			assert ("same string", template.substituted ~ "one, ${s_2}")
 			template.put ("s_2", "two")
 			assert ("same string", template.substituted ~ "one, two")
+			template.put ("s_2", "")
+			assert ("same string", template.substituted ~ "one, ")
 		end
 
 	test_repeated_variable

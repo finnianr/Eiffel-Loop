@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-24 11:47:16 GMT (Sunday 24th March 2024)"
-	revision: "19"
+	date: "2024-03-24 12:05:10 GMT (Sunday 24th March 2024)"
+	revision: "20"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -28,12 +28,15 @@ class
 inherit
 	EL_STRING_LIST [S]
 		rename
+			append_to as substitute_to,
+			joined_strings as substituted,
 			item as list_item,
 			has as has_item,
 			put as put_item,
 			make as make_list
 		export
 			{NONE} all
+			{ANY} substituted, substitute_to
 		end
 
 create
@@ -100,29 +103,13 @@ feature -- Access
 	variable_values: EL_STRING_8_TABLE [S]
 		-- variable name list
 
-	substituted: S
-		do
-			fill_empty
-			Result := joined_strings
-		end
-
-feature -- Basic operations
-
-	substitute_to (str: S)
-		do
-			fill_empty
-			append_to (str)
-		end
-
 feature -- Element change
 
 	put (name: READABLE_STRING_8; value: S)
 		require
 			has_name: has (name)
 		do
-			if variable_values.has_key (name)
-				and then attached variable_values.found_item as place_holder
-			then
+			if variable_values.has_key (name) and then attached variable_values.found_item as place_holder then
 				place_holder.keep_head (0)
 				place_holder.append (value)
 			end
@@ -142,18 +129,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	fill_empty
-		-- fill any empty place holders with canonical form of variable name
-		do
-			across variable_values as list loop
-				if attached list.item as value and then value.is_empty
-					and then attached list.key as name
-				then
-					value.append (new_string (new_canonical_name (name)))
-				end
-			end
-		end
-
 	new_canonical_name (name: READABLE_STRING_8): STRING_8
 		-- canonical form of variable name
 		do
@@ -166,9 +141,11 @@ feature {NONE} -- Implementation
 			place_holder: S
 		do
 			if variable_values.has_key (name) then
+			-- same `place_holder' can appear repeatedly in `Current' list
 				place_holder := variable_values.found_item
 			else
 				create place_holder.make_empty
+				place_holder.append (new_string (new_canonical_name (name)))
 				variable_values.extend (place_holder, name)
 			end
 			extend (place_holder)
