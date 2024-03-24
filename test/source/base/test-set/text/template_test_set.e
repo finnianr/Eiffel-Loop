@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 8:20:14 GMT (Saturday 23rd March 2024)"
-	revision: "14"
+	date: "2024-03-24 11:46:41 GMT (Sunday 24th March 2024)"
+	revision: "15"
 
 class
 	TEMPLATE_TEST_SET
@@ -41,7 +41,10 @@ feature -- Tests
 
 	test_basic
 		note
-			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
+			testing: "[
+				covers/{EL_TEMPLATE}.make,
+				covers/{EL_TEMPLATE}.substituted
+			]"
 		local
 			template: EL_TEMPLATE [ZSTRING]
 			template_string, prefix_string: STRING
@@ -80,7 +83,10 @@ feature -- Tests
 
 	test_dollor_escaping
 		note
-			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
+			testing: "[
+				covers/{EL_TEMPLATE}.make,
+				covers/{EL_TEMPLATE}.substituted
+			]"
 		local
 			template: EL_TEMPLATE [STRING]
 		do
@@ -90,13 +96,18 @@ feature -- Tests
 		end
 
 	test_name_separation
+		-- TEMPLATE_TEST_SET.test_name_separation
 		note
-			testing: "covers/{EL_TEMPLATE}.make", "covers/{EL_TEMPLATE}.substituted"
+			testing: "[
+				covers/{EL_TEMPLATE}.make,
+				covers/{EL_TEMPLATE}.substituted
+			]"
 		local
 			template: EL_TEMPLATE [STRING]
 		do
 			create template.make ("$s, $s_2")
 			template.put ("s", "one")
+			assert ("same string", template.substituted ~ "one, ${s_2}")
 			template.put ("s_2", "two")
 			assert ("same string", template.substituted ~ "one, two")
 		end
@@ -118,7 +129,8 @@ feature -- Tests
 		-- TEMPLATE_TEST_SET.test_substituted_environment
 		note
 			testing: "[
-				covers/{EL_TEMPLATE}.make, covers/{EL_TEMPLATE}.substituted,
+				covers/{EL_TEMPLATE}.make,
+				covers/{EL_TEMPLATE}.substituted,
 				covers/{EL_EXECUTION_ENVIRONMENT_I}.substituted
 			]"
 		local

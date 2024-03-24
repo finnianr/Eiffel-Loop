@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 8:14:31 GMT (Saturday 23rd March 2024)"
-	revision: "18"
+	date: "2024-03-24 11:47:16 GMT (Sunday 24th March 2024)"
+	revision: "19"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -28,37 +28,12 @@ class
 inherit
 	EL_STRING_LIST [S]
 		rename
-			joined_strings as substituted,
-			append_to as substitute_to,
 			item as list_item,
 			has as has_item,
 			put as put_item,
 			make as make_list
 		export
 			{NONE} all
-			{ANY} substituted, substitute_to
-		end
-
-	EL_LAZY_ATTRIBUTE
-		rename
-			item as variable_map_array,
-			new_item as new_variable_map_array,
-			actual_item as actual_variable_map_array
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
-		end
-
-	EL_LAZY_ATTRIBUTE_2
-		rename
-			item as repeated_variable,
-			new_item as new_repeated_variable,
-			actual_item_2 as actual_repeated_variable
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
 		end
 
 create
@@ -108,7 +83,6 @@ feature {NONE} -- Initialization
 						start_index := 1; end_index := length
 					end
 					put_variable (item.substring (start_index, end_index).to_string_8)
-					extend (last_value)
 					if length < item.count then
 						extend (item.substring (length + 1, item.count))
 					end
@@ -126,31 +100,31 @@ feature -- Access
 	variable_values: EL_STRING_8_TABLE [S]
 		-- variable name list
 
+	substituted: S
+		do
+			fill_empty
+			Result := joined_strings
+		end
+
+feature -- Basic operations
+
+	substitute_to (str: S)
+		do
+			fill_empty
+			append_to (str)
+		end
+
 feature -- Element change
 
 	put (name: READABLE_STRING_8; value: S)
 		require
 			has_name: has (name)
 		do
-			if variable_values.has_key (name) then
-				if variable_values.found_item = repeated_variable
-					and then attached actual_variable_map_array as list
-				then
-					from list.start until list.after loop
-						if list.item_key.same_string (name)
-							and then attached {BAG [ANY]} list.item_value as bag
-						then
-							bag.wipe_out
-							list.item_value.append (value)
-						end
-						list.forth
-					end
-				else
-					if attached {BAG [ANY]} variable_values.found_item as bag then
-						bag.wipe_out
-					end
-					variable_values.found_item.append (value)
-				end
+			if variable_values.has_key (name)
+				and then attached variable_values.found_item as place_holder
+			then
+				place_holder.keep_head (0)
+				place_holder.append (value)
 			end
 		end
 
@@ -168,31 +142,36 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_repeated_variable: S
+	fill_empty
+		-- fill any empty place holders with canonical form of variable name
 		do
-			create Result.make_empty
-		end
-
-	new_variable_map_array: EL_ARRAYED_MAP_LIST [READABLE_STRING_8, S]
-		do
-			create Result.make_empty
-		end
-
-	put_variable (name: READABLE_STRING_8)
-		do
-			create last_value.make_empty
-			variable_values.put (last_value, name)
-			if not variable_values.inserted then
-				if variable_map_array.is_empty then
-					variable_map_array.extend (name, variable_values.found_item)
+			across variable_values as list loop
+				if attached list.item as value and then value.is_empty
+					and then attached list.key as name
+				then
+					value.append (new_string (new_canonical_name (name)))
 				end
-				variable_map_array.extend (name, last_value)
-				variable_values [name] := repeated_variable
 			end
 		end
 
-feature {NONE} -- Internal attributes
+	new_canonical_name (name: READABLE_STRING_8): STRING_8
+		-- canonical form of variable name
+		do
+			Result := "${}"
+			Result.insert_string (name, 3)
+		end
 
-	last_value: S
+	put_variable (name: READABLE_STRING_8)
+		local
+			place_holder: S
+		do
+			if variable_values.has_key (name) then
+				place_holder := variable_values.found_item
+			else
+				create place_holder.make_empty
+				variable_values.extend (place_holder, name)
+			end
+			extend (place_holder)
+		end
 
 end
