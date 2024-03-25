@@ -1,13 +1,13 @@
 note
-	description: "Hash table"
+	description: "Extended version of base class ${HASH_TABLE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 11:04:11 GMT (Tuesday 15th August 2023)"
-	revision: "25"
+	date: "2024-03-25 11:17:02 GMT (Monday 25th March 2024)"
+	revision: "26"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]

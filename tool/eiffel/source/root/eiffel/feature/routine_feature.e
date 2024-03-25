@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 8:48:25 GMT (Thursday 6th April 2023)"
-	revision: "7"
+	date: "2024-03-25 13:49:02 GMT (Monday 25th March 2024)"
+	revision: "8"
 
 class
 	ROUTINE_FEATURE
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 			pos_space, pos_dot: INTEGER; loop_code, l_name: ZSTRING
 		do
 			create loop_code.make_empty
-			Loop_template.set_variable ("expression", until_expression)
+			Loop_template.put ("expression", until_expression)
 			if until_expression.ends_with (Cursor.after)
 				or else until_expression.ends_with (Cursor.before)
 			then
@@ -80,11 +80,11 @@ feature {NONE} -- Implementation
 				if pos_dot > 0 then
 					l_name := until_expression.substring (1, pos_dot - 1)
 					if until_expression.ends_with (Cursor.after) then
-						Loop_template.set_variable (Var.initial, l_name + Cursor.start)
-						Loop_template.set_variable (Var.increment, l_name + Cursor.forth)
+						Loop_template.put (Var.initial, l_name + Cursor.start)
+						Loop_template.put (Var.increment, l_name + Cursor.forth)
 					else
-						Loop_template.set_variable (Var.initial, l_name + Cursor.finish)
-						Loop_template.set_variable (Var.increment, l_name + Cursor.back)
+						Loop_template.put (Var.initial, l_name + Cursor.finish)
+						Loop_template.put (Var.increment, l_name + Cursor.back)
 					end
 					loop_code := Loop_template.substituted
 				end
@@ -92,8 +92,8 @@ feature {NONE} -- Implementation
 				pos_space := until_expression.index_of (' ', 1)
 				if pos_space > 0 then
 					l_name := until_expression.substring (1, pos_space - 1)
-					Loop_template.set_variable (Var.initial, l_name + " := 1")
-					Loop_template.set_variable (Var.increment, Numeric_increment #$ [l_name, l_name])
+					Loop_template.put (Var.initial, l_name + " := 1")
+					Loop_template.put (Var.increment, Numeric_increment #$ [l_name, l_name])
 					loop_code := Loop_template.substituted
 				end
 			end
@@ -159,10 +159,10 @@ feature {NONE} -- String Constants
 			Result := "%S := %S + 1"
 		end
 
-	Var: TUPLE [increment, initial: ZSTRING]
+	Var: TUPLE [increment, initial: IMMUTABLE_STRING_8]
 		once
 			create Result
-			Tuple.fill (Result, "increment, initial")
+			Tuple.fill_immutable (Result, "increment, initial")
 		end
 
 end

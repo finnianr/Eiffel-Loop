@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:26:46 GMT (Wednesday 8th November 2023)"
-	revision: "20"
+	date: "2024-03-25 13:38:55 GMT (Monday 25th March 2024)"
+	revision: "21"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -97,7 +97,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 						check_for_xlink_uri (a_svg_template_path, line)
 						template.set_template (line)
 						across variables as variable loop
-							if template.has_variable (variable.key) then
+							if template.has (variable.key) then
 								template.set_variable (variable.key, variable.item)
 							end
 						end

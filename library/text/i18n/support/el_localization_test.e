@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-11 12:53:55 GMT (Friday 11th August 2023)"
-	revision: "10"
+	date: "2024-03-25 15:35:08 GMT (Monday 25th March 2024)"
+	revision: "11"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -74,10 +74,10 @@ feature {NONE} -- Implementation
 					translated_quantity := new_quanity (translated_texts, field)
 					across quantity as template loop
 						i := template.cursor_index
-						create quantity_keys.make_from_array (template.item.variable_values.current_keys)
+						create quantity_keys.make_from_array (template.item.name_list)
 						quantity_keys.compare_objects; quantity_keys.sort
 						create translated_quantity_keys.make_from_array (
-							translated_quantity [i].variable_values.current_keys
+							translated_quantity [i].name_list
 						)
 						translated_quantity_keys.compare_objects; translated_quantity_keys.sort
 						assert ("same quantity keys", quantity_keys ~ translated_quantity_keys)

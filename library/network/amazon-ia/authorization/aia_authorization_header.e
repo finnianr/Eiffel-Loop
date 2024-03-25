@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
-	revision: "27"
+	date: "2024-03-25 14:01:32 GMT (Monday 25th March 2024)"
+	revision: "28"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -88,10 +88,10 @@ feature -- Access
 			template: like Signed_string_template
 		do
 			template := Signed_string_template
-			template.wipe_out_variables
+			template.set_empty_variables
 
-			template.set_variables_from_object (Current)
-			template.set_variables_from_object (credential)
+			template.put_fields (Current)
+			template.put_fields (credential)
 			Result := template.substituted
 		end
 

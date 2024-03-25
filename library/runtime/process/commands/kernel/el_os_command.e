@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 10:41:10 GMT (Monday 25th March 2024)"
-	revision: "27"
+	date: "2024-03-25 16:33:02 GMT (Monday 25th March 2024)"
+	revision: "28"
 
 class
 	EL_OS_COMMAND
@@ -61,7 +61,7 @@ feature -- Status query
 
 	has_variable (name: READABLE_STRING_8): BOOLEAN
 		do
-			Result:= template.has_variable (name)
+			Result:= template.has (name)
 		end
 
 feature -- Element change
@@ -73,13 +73,13 @@ feature -- Element change
 			table := object.field_table
 			from table.start until table.after loop
 				field := table.item_for_iteration
-				if template.has_variable (field.name) then
+				if template.has (field.name) then
 					if attached {EL_REFLECTED_PATH} field as path_field then
-						template.set_variable (field.name, path_field.value (object).escaped)
+						template.put_any (field.name, path_field.value (object).escaped)
 					elseif attached {EL_REFLECTED_URI [EL_URI]} field as uri_field then
-						template.set_variable (field.name, File_system.escaped_path (uri_field.value (object)))
+						template.put_any (field.name, File_system.escaped_path (uri_field.value (object)))
 					else
-						template.set_variable (field.name, field.to_string (object))
+						template.put_any (field.name, field.to_string (object))
 					end
 				end
 				table.forth
@@ -88,14 +88,14 @@ feature -- Element change
 
 	put_path (variable_name: READABLE_STRING_8; a_path: EL_PATH)
 		do
-			template.set_variable (variable_name, a_path.escaped)
+			template.put_any (variable_name, a_path.escaped)
 		end
 
 	put_uri (variable_name: READABLE_STRING_8; uri: EL_URI)
 		require
 			has_variable: has_variable (variable_name)
 		do
-			template.set_variable (variable_name, File_system.escaped_path (uri))
+			template.put_any (variable_name, File_system.escaped_path (uri))
 		end
 
 	put_any (variable_name: READABLE_STRING_8; object: ANY)
@@ -103,7 +103,7 @@ feature -- Element change
 			if attached {EL_PATH} object as path then
 				put_path (variable_name, path)
 			else
-				template.set_variable (variable_name, object)
+				template.put_any (variable_name, object)
 			end
 		end
 
@@ -111,9 +111,7 @@ feature -- Contract Support
 
 	valid_tuple (var_names: TUPLE): BOOLEAN
 		do
-			if template.variables.count = var_names.count then
-				Result := template.variables.for_all (agent {ZSTRING}.is_valid_as_string_8)
-			end
+			Result := template.name_list.count = var_names.count
 		end
 
 	all_string_8_types (var_names: TUPLE): BOOLEAN
@@ -130,9 +128,9 @@ feature -- Basic operations
 			all_string_8_types: all_string_8_types (var_names)
 			valid_variable_tuple: valid_tuple (var_names)
 		do
-			across template.variables as name loop
+			across template.name_list as name loop
 				if var_names.valid_index (name.cursor_index) then
-					var_names.put_reference (name.item.to_latin_1, name.cursor_index)
+					var_names.put_reference (name.item, name.cursor_index)
 				end
 			end
 		end
@@ -182,7 +180,7 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Internal attributes
 
-	template: EL_ZSTRING_TEMPLATE
+	template: EL_TEMPLATE [ZSTRING]
 
 	template_name: FILE_PATH
 

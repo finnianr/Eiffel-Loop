@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-03-25 13:49:58 GMT (Monday 25th March 2024)"
+	revision: "3"
 
 deferred class
 	DUPLICITY_OS_COMMAND
@@ -19,7 +19,7 @@ feature {NONE} -- Implementation
 
 	set_target_dir (a_target_dir: EL_DIR_URI_PATH)
 		do
-			template.set_variable (Var_target_dir, File_system.escaped_path (a_target_dir.to_string))
+			template.put (Var_target_dir, File_system.escaped_path (a_target_dir.to_string))
 		end
 
 	template: EL_ZSTRING_TEMPLATE
@@ -31,5 +31,5 @@ feature {NONE} -- Constants
 	Var_target_dir: STRING = "target_dir"
 
 invariant
-	valid_template: template.has_variable (Var_target_dir)
+	valid_template: template.has (Var_target_dir)
 end

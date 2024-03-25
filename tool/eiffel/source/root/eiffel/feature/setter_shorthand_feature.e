@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 13:34:15 GMT (Friday 7th April 2023)"
-	revision: "5"
+	date: "2024-03-25 13:47:35 GMT (Monday 25th March 2024)"
+	revision: "6"
 
 class
 	SETTER_SHORTHAND_FEATURE
@@ -41,7 +41,7 @@ feature -- Element change
 
 			variable_name := line.substring_end (line.index_of (' ', 1) + 1)
 
-			Atttribute_setter_template.set_variable (once "name", variable_name)
+			Atttribute_setter_template.put (once "name", variable_name)
 			lines.wipe_out
 			create setter_lines.make_with_lines (Atttribute_setter_template.substituted)
 			setter_lines.indent (1)

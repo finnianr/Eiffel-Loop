@@ -1,13 +1,13 @@
 note
-	description: "Storable rsa key"
+	description: "Storable RSA key"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:18:57 GMT (Thursday 7th September 2023)"
-	revision: "11"
+	date: "2024-03-25 13:45:55 GMT (Monday 25th March 2024)"
+	revision: "12"
 
 deferred class
 	EL_STORABLE_RSA_KEY
@@ -21,9 +21,9 @@ feature {NONE} -- Implementation
 			--
 		do
 			if not id.is_empty then
-				Value_xpath.set_variable ("id", id)
+				Value_xpath.put ("id", id)
 			end
-			Result := Rsa.integer_x_from_base_64 (xdoc.query (Value_xpath.substituted))
+			Result := RSA.integer_x_from_base_64 (xdoc.query (Value_xpath.substituted))
 		end
 
 	value_xpath: EL_STRING_8_TEMPLATE

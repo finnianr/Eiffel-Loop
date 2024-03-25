@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 23:17:44 GMT (Wednesday 8th November 2023)"
-	revision: "2"
+	date: "2024-03-25 13:57:07 GMT (Monday 25th March 2024)"
+	revision: "3"
 
 class
 	EL_XHTML_BODY
@@ -46,7 +46,7 @@ feature -- Access
 	to_xhtml_doc: STRING
 		do
 			across String_8_scope as scope loop
-				XHTML_template.set_variables_from_array (<<
+				XHTML_template.put_array (<<
 					["title", scope.copied_utf_8_item (name)], ["body", content]
 				>>)
 				Result := XHTML_template.substituted

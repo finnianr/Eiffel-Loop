@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 9:06:50 GMT (Monday 25th March 2024)"
-	revision: "33"
+	date: "2024-03-25 13:58:24 GMT (Monday 25th March 2024)"
+	revision: "34"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -43,21 +43,22 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["alpha_character_match", agent test_alpha_character_match],
-				["back_reference_match", agent test_back_reference_match],
-				["end_of_line", agent test_end_of_line],
-				["find_all", agent test_find_all],
-				["literal_find_all", agent test_literal_find_all],
-				["integer_match", agent test_integer_match],
-				["numbers_array_parsing", agent test_numbers_array_parsing],
-				["numeric_match", agent test_numeric_match],
-				["pyxis_attribute_parser", agent test_pyxis_attribute_parser],
+				["alpha_character_match",			  agent test_alpha_character_match],
+				["back_reference_match",			  agent test_back_reference_match],
+				["end_of_line",						  agent test_end_of_line],
+				["find_all",							  agent test_find_all],
+				["integer_match",						  agent test_integer_match],
+				["literal_find_all",					  agent test_literal_find_all],
+				["numbers_array_parsing",			  agent test_numbers_array_parsing],
+				["numeric_match",						  agent test_numeric_match],
+				["pyxis_attribute_parser",			  agent test_pyxis_attribute_parser],
 				["quoted_character_array_parsing", agent test_quoted_character_array_parsing],
-				["quoted_string", agent test_quoted_string],
-				["recursive_match", agent test_recursive_match],
-				["string_substitution", agent test_string_substitution],
-				["text_matcher", agent test_text_matcher],
-				["xpath_parser", agent test_xpath_parser]
+				["quoted_string",						  agent test_quoted_string],
+				["recursive_match",					  agent test_recursive_match],
+				["string_substitution",				  agent test_string_substitution],
+				["html_substitution",				  agent test_html_substitution],
+				["text_matcher",						  agent test_text_matcher],
+				["xpath_parser",						  agent test_xpath_parser]
 			>>)
 		end
 
@@ -154,6 +155,19 @@ feature -- Test
 				pattern.find_all (source_text, agent append_to (?, ?, output))
 				assert_same_string ("text reconstructed", output, source_text)
 			end
+		end
+
+	test_html_substitution
+		-- PATTERN_MATCH_TEST_SET.test_html_substitution
+		note
+			testing: "[
+				covers/{EL_SUBST_VARIABLE_PARSER}.parse,
+				covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object,
+				covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array,
+				covers/{EL_MARKUP_ROUTINES}.book_mark_anchor_markup
+			]"
+		do
+			assert_same_string ("same HTML", HTML.book_mark_anchor_markup ("1", "one"), "<a id=%"1%">one</a>")
 		end
 
 	test_integer_match
@@ -357,8 +371,7 @@ feature -- Test
 				covers/{EL_MARKUP_ROUTINES}.book_mark_anchor_markup
 			]"
 		local
-			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE]
-			target_text: STRING
+			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE [STRING_GENERAL]]; target_text: STRING
 		do
 			across << True, False >> as use_reflection loop
 				across << Text.country_template, Text.Country_template_canonical >> as l_type loop
@@ -370,9 +383,9 @@ feature -- Test
 					>>
 					across template_list as template loop
 						if use_reflection.item then
-							template.item.set_variables_from_object (ireland)
+							template.item.put_fields (ireland)
 						else
-							template.item.set_variables_from_array (<<
+							template.item.put_array (<<
 								[Text.Country.name, Ireland.name],
 								[Text.Country.code, Ireland.code],
 								[Text.Country.population, Ireland.population]
@@ -382,7 +395,6 @@ feature -- Test
 					end
 				end
 			end
-			assert_same_string ("same HTML", HTML.book_mark_anchor_markup ("1", "one"), "<a id=%"1%">one</a>")
 		end
 
 	test_text_matcher

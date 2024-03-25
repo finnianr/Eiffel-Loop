@@ -20,26 +20,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 10:30:09 GMT (Monday 25th March 2024)"
-	revision: "22"
+	date: "2024-03-25 16:26:01 GMT (Monday 25th March 2024)"
+	revision: "23"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
 
 inherit
-	EL_STRING_LIST [S]
-		rename
-			append_to as substitute_to,
-			joined_strings as substituted,
-			item as list_item,
-			item_count as list_item_count,
-			has as has_item,
-			put as put_item,
-			make as make_list
-		export
-			{NONE} all
-			{ANY} substituted, substitute_to
-		end
+	EL_TEMPLATE_LIST [S, READABLE_STRING_8]
 
 create
 	make
@@ -58,7 +46,7 @@ feature {NONE} -- Initialization
 			template := new_string (a_template)
 			create dollor_split.make (template, '$')
 			variable_count := a_template.occurrences ('$')
-			create variable_values.make_size (variable_count)
+			create place_holder_table.make_size (variable_count)
 			make_list (variable_count * 2)
 			across dollor_split as list loop
 				item_count := list.item_count
@@ -99,34 +87,37 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	variable_values: EL_STRING_8_TABLE [S]
+	name_list: EL_ARRAYED_LIST [READABLE_STRING_8]
 		-- variable name list
-
-feature -- Element change
-
-	put (name: READABLE_STRING_8; value: S)
-		require
-			has_name: has (name)
 		do
-			if variable_values.has_key (name) and then attached variable_values.found_item as place_holder then
-				place_holder.keep_head (0)
-				place_holder.append (value)
-			end
-		end
-
-	put_general (name: READABLE_STRING_8; value: READABLE_STRING_GENERAL)
-		do
-			put (name, new_string (value))
+			create Result.make_from_array (place_holder_table.current_keys)
 		end
 
 feature -- Status query
 
 	has (name: READABLE_STRING_8): BOOLEAN
 		do
-			Result := variable_values.has (name)
+			Result := place_holder_table.has (name)
 		end
 
 feature {NONE} -- Implementation
+
+	field_key (name: READABLE_STRING_8): READABLE_STRING_8
+		do
+			Result := name
+		end
+
+	found_item (name: READABLE_STRING_8): detachable S
+		do
+			if place_holder_table.has_key (name) then
+				Result := place_holder_table.found_item
+			end
+		end
+
+	key (str: READABLE_STRING_8): READABLE_STRING_8
+		do
+			Result := str
+		end
 
 	put_substitution (variable: S)
 		require
@@ -144,15 +135,20 @@ feature {NONE} -- Implementation
 			else
 				name.remove_head (1)
 			end
-			if variable_values.has_key (name) then
+			if place_holder_table.has_key (name) then
 			-- same `place_holder' can appear repeatedly in `Current' list
-				place_holder := variable_values.found_item
+				place_holder := place_holder_table.found_item
 			else
 				place_holder := variable
-				variable_values.extend (place_holder, name)
+				place_holder_table.extend (place_holder, name)
 			end
 			extend (place_holder)
 		end
+
+feature {NONE} -- Internal attributes
+
+	place_holder_table: EL_STRING_8_TABLE [S];
+		-- variable name list
 
 note
 	notes: "[

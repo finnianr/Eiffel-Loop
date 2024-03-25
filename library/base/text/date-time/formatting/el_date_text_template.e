@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-03-25 15:34:19 GMT (Monday 25th March 2024)"
+	revision: "7"
 
 class
 	EL_DATE_TEXT_TEMPLATE
@@ -37,7 +37,7 @@ feature -- Access
 	substituted (date: DATE): ZSTRING
 			--
 		do
-			across variable_values as name loop
+			across place_holder_table as name loop
 				if function_table.has_key (name.key) then
 					name.item.share (function_table.found_item (date))
 				end
@@ -49,7 +49,7 @@ feature -- Contract Support
 
 	valid_variables: BOOLEAN
 		do
-			Result := variable_values.current_keys.for_all (agent function_table.has)
+			Result := place_holder_table.current_keys.for_all (agent function_table.has)
 		end
 
 feature {NONE} -- Internal attributes

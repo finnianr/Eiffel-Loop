@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 9:11:19 GMT (Monday 25th March 2024)"
-	revision: "27"
+	date: "2024-03-25 13:56:08 GMT (Monday 25th March 2024)"
+	revision: "28"
 
 class
 	EL_HTML_ROUTINES
@@ -37,7 +37,7 @@ feature -- Access
 
 	book_mark_anchor_markup (id, text: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Bookmark_template.set_variables_from_array (<<
+			Bookmark_template.put_array (<<
 				[Var.id, anchor_name (id)], [Var.text, text]
 			>>)
 			Result := Bookmark_template.substituted
@@ -80,7 +80,7 @@ feature -- Access
 
 	hyperlink (url, title, text: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Hyperlink_template.set_variables_from_array (<<
+			Hyperlink_template.put_array (<<
 				[Var.url, url], [Var.title, title], [Var.text, text]
 			>>)
 			Result := Hyperlink_template.substituted
@@ -88,7 +88,7 @@ feature -- Access
 
 	image (url, description: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Image_template.set_variables_from_array (<<
+			Image_template.put_array (<<
 				[Var.url, url], [Var.description, description]
 			>>)
 			Result := Image_template.substituted
@@ -211,7 +211,7 @@ feature {NONE} -- Templates
 
 	Bookmark_template: EL_ZSTRING_TEMPLATE
 		once
-			create Result.make ("<a id=%"$id%">$text</a>")
+			create Result.make ("<a id=%"$id%">${text}</a>")
 		end
 
 	Hyperlink_template: EL_ZSTRING_TEMPLATE
