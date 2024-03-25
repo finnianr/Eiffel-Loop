@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-24 11:57:49 GMT (Sunday 24th March 2024)"
-	revision: "16"
+	date: "2024-03-25 8:18:28 GMT (Monday 25th March 2024)"
+	revision: "17"
 
 class
 	TEMPLATE_TEST_SET
@@ -105,7 +105,7 @@ feature -- Tests
 		local
 			template: EL_TEMPLATE [STRING]
 		do
-			create template.make ("$s, $s_2")
+			create template.make ("$s, ${s_2}")
 			template.put ("s", "one")
 			assert ("same string", template.substituted ~ "one, ${s_2}")
 			template.put ("s_2", "two")

@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-24 12:05:10 GMT (Sunday 24th March 2024)"
-	revision: "20"
+	date: "2024-03-25 8:46:30 GMT (Monday 25th March 2024)"
+	revision: "21"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -31,6 +31,7 @@ inherit
 			append_to as substitute_to,
 			joined_strings as substituted,
 			item as list_item,
+			item_count as list_item_count,
 			has as has_item,
 			put as put_item,
 			make as make_list
@@ -49,49 +50,46 @@ feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
 		local
-			dollor_split: EL_SPLIT_ON_CHARACTER [S]; item: S; previous_end_character: CHARACTER_32
-			i, length, start_index, end_index, variable_count: INTEGER; has_braces: BOOLEAN
+			dollor_split: EL_SPLIT_ON_CHARACTER [S]; item, template: S
+			i, length, variable_count, offset, item_count: INTEGER
+			previous_end_character: CHARACTER_32
 		do
-			create dollor_split.make (new_string (a_template), '$')
+			template := new_string (a_template)
+			create dollor_split.make (template, '$')
 			variable_count := a_template.occurrences ('$')
 			create variable_values.make_size (variable_count)
 			make_list (variable_count * 2)
 			across dollor_split as list loop
-				item := list.item
+				item_count := list.item_count
+				item := list.item; offset := list.item_lower
 				if list.cursor_index = 1 or else previous_end_character = '%%' then
 					if previous_end_character = '%%' then
 						last.put_code ({EL_ASCII}.Dollar, last.count)
 					end
-					if not item.is_empty then
+					if item_count > 0 then
 						extend (item.twin)
 					end
 				else
-					length := 0; has_braces := False
-					from i := 1 until i > item.count loop
+					length := 0
+					from i := 1 until i > item_count loop
 						inspect item [i]
 							when 'a'.. 'z', 'A'.. 'Z', '0' .. '9', '_', '{' then
 								length := length + 1
 								i := i + 1
 							when '}' then
 								length := length + 1
-								i := item.count + 1
-								has_braces := True
+								i := item_count + 1
 						else
-							i := item.count + 1
+							i := item_count + 1
 						end
 					end
-					if has_braces then
-						start_index := 2; end_index := length - 1
-					else
-						start_index := 1; end_index := length
-					end
-					put_variable (item.substring (start_index, end_index).to_string_8)
-					if length < item.count then
-						extend (item.substring (length + 1, item.count))
+					put_substitution (template.substring (offset - 1, offset + length - 1))
+					if length < item_count then
+						extend (item.substring (length + 1, item_count))
 					end
 				end
-				if item.count > 0 then
-					previous_end_character := item [item.count]
+				if item_count > 0 then
+					previous_end_character := item [item_count]
 				else
 					previous_end_character := '%U'
 				end
@@ -129,23 +127,27 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_canonical_name (name: READABLE_STRING_8): STRING_8
-		-- canonical form of variable name
-		do
-			Result := "${}"
-			Result.insert_string (name, 3)
-		end
-
-	put_variable (name: READABLE_STRING_8)
+	put_substitution (variable: S)
+		require
+			latin_1_characters: variable.is_valid_as_string_8
 		local
-			place_holder: S
+			place_holder: S; name: STRING_8
 		do
+			name := variable.to_string_8
+			if name.same_type (variable) then
+				name := name.twin
+			end
+			if name [2] = '{' then
+			-- canonical form: ${var}
+				name.remove_head (2); name.remove_tail (1)
+			else
+				name.remove_head (1)
+			end
 			if variable_values.has_key (name) then
 			-- same `place_holder' can appear repeatedly in `Current' list
 				place_holder := variable_values.found_item
 			else
-				create place_holder.make_empty
-				place_holder.append (new_string (new_canonical_name (name)))
+				place_holder := variable
 				variable_values.extend (place_holder, name)
 			end
 			extend (place_holder)
