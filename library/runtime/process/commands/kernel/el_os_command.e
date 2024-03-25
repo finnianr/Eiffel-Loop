@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 16:57:20 GMT (Sunday 17th March 2024)"
-	revision: "26"
+	date: "2024-03-25 10:41:10 GMT (Monday 25th March 2024)"
+	revision: "27"
 
 class
 	EL_OS_COMMAND
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
-	has_variable (name: STRING): BOOLEAN
+	has_variable (name: READABLE_STRING_8): BOOLEAN
 		do
 			Result:= template.has_variable (name)
 		end
@@ -86,12 +86,12 @@ feature -- Element change
 			end
 		end
 
-	put_path (variable_name: STRING; a_path: EL_PATH)
+	put_path (variable_name: READABLE_STRING_8; a_path: EL_PATH)
 		do
 			template.set_variable (variable_name, a_path.escaped)
 		end
 
-	put_uri (variable_name: STRING; uri: EL_URI)
+	put_uri (variable_name: READABLE_STRING_8; uri: EL_URI)
 		require
 			has_variable: has_variable (variable_name)
 		do

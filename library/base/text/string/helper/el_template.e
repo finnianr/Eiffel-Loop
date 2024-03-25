@@ -13,14 +13,15 @@ note
 			
 		For a literal dollar sign use % to escape it, for example: "USD 100 %$"
 	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 8:46:30 GMT (Monday 25th March 2024)"
-	revision: "21"
+	date: "2024-03-25 10:30:09 GMT (Monday 25th March 2024)"
+	revision: "22"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -152,5 +153,19 @@ feature {NONE} -- Implementation
 			end
 			extend (place_holder)
 		end
+
+note
+	notes: "[
+		An alternative to this class is ${EL_SUBSTITUTION_TEMPLATE} found in libary
+		[./library/text-process.html text-process.ecf].
+
+			EL_SUBSTITUTION_TEMPLATE*
+				${EL_STRING_8_TEMPLATE}
+				${EL_STRING_32_TEMPLATE}
+				${EL_ZSTRING_TEMPLATE}
+				
+		Template classes ${EL_STRING_32_TEMPLATE} and ${EL_ZSTRING_TEMPLATE} permit variable
+		names with characters outside the Latin-1 set.
+	]"
 
 end

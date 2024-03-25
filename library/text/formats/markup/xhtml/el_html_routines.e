@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-16 16:16:48 GMT (Tuesday 16th January 2024)"
-	revision: "26"
+	date: "2024-03-25 9:11:19 GMT (Monday 25th March 2024)"
+	revision: "27"
 
 class
 	EL_HTML_ROUTINES
@@ -23,23 +23,22 @@ inherit
 
 feature -- Access
 
-	anchor_name (name: ZSTRING): ZSTRING
+	anchor_name (name: READABLE_STRING_GENERAL): ZSTRING
 		do
-			Result := name.twin
+			create Result.make_from_general (name)
 			Result.replace_character (' ', '_')
 		end
 
-	anchor_reference (name: ZSTRING): ZSTRING
+	anchor_reference (name: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Result := anchor_name (name)
 			Result.prepend_character ('#')
 		end
 
-	book_mark_anchor_markup (id, text: ZSTRING): ZSTRING
+	book_mark_anchor_markup (id, text: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Bookmark_template.set_variables_from_array (<<
-				[Variable.id, anchor_name (id)],
-				[Variable.text, text]
+				[Var.id, anchor_name (id)], [Var.text, text]
 			>>)
 			Result := Bookmark_template.substituted
 		end
@@ -79,23 +78,23 @@ feature -- Access
 			end
 		end
 
-	hyperlink (url, title, text: ZSTRING): ZSTRING
+	hyperlink (url, title, text: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Hyperlink_template.set_variables_from_array (<<
-				[Variable.url, url], [Variable.title, title], [Variable.text, text]
+				[Var.url, url], [Var.title, title], [Var.text, text]
 			>>)
 			Result := Hyperlink_template.substituted
 		end
 
-	image (url, description: ZSTRING): ZSTRING
+	image (url, description: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Image_template.set_variables_from_array (<<
-				[Variable.url, url], [Variable.description, description]
+				[Var.url, url], [Var.description, description]
 			>>)
 			Result := Image_template.substituted
 		end
 
-	table_data (data: ZSTRING): ZSTRING
+	table_data (data: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Result := value_element ("td", data, Void)
 		end
@@ -208,16 +207,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Templates
 
 	Bookmark_template: EL_ZSTRING_TEMPLATE
 		once
 			create Result.make ("<a id=%"$id%">$text</a>")
 		end
-
-	Charset: STRING = "charset"
-
-	Doctype_declaration: STRING = "<!DOCTYPE"
 
 	Hyperlink_template: EL_ZSTRING_TEMPLATE
 		once
@@ -232,6 +227,20 @@ feature {NONE} -- Constants
 				<img src="$url" alt="$description">
 			]")
 		end
+
+feature {NONE} -- String Constants
+
+	Charset: STRING = "charset"
+
+	Doctype_declaration: STRING = "<!DOCTYPE"
+
+	Var: TUPLE [id, description, text, title, url: IMMUTABLE_STRING_8]
+		once
+			create Result
+			Tuple.fill_immutable (Result, "id, description, text, title, url")
+		end
+
+feature {NONE} -- Character Tables
 
 	Entity_name_table: EL_HASH_TABLE [IMMUTABLE_STRING_8, CHARACTER_32]
 		-- Look up HTML entity name by character
@@ -349,12 +358,6 @@ feature {NONE} -- Constants
 				Yacute := Ý
 				yen := ¥
 			]")
-		end
-
-	Variable: TUPLE [id, description, text, title, url: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "id, description, text, title, url")
 		end
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "32"
+	date: "2024-03-25 9:06:50 GMT (Monday 25th March 2024)"
+	revision: "33"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -26,13 +26,11 @@ inherit
 			default_create
 		end
 
+	EL_MODULE_HTML
+
 	TP_SHARED_OPTIMIZED_FACTORY
 
-	EL_SHARED_TEST_TEXT
-
-	EL_SHARED_TEST_NUMBERS
-
-	EL_SHARED_TEST_XDOC_DATA
+	EL_SHARED_TEST_TEXT; EL_SHARED_TEST_NUMBERS; EL_SHARED_TEST_XDOC_DATA
 
 	EL_STRING_8_CONSTANTS
 
@@ -350,10 +348,14 @@ feature -- Test
 		end
 
 	test_string_substitution
+		-- PATTERN_MATCH_TEST_SET.test_string_substitution
 		note
-			testing: "covers/{EL_SUBST_VARIABLE_PARSER}.parse",
-					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object",
-					"covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array"
+			testing: "[
+				covers/{EL_SUBST_VARIABLE_PARSER}.parse,
+				covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object,
+				covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array,
+				covers/{EL_MARKUP_ROUTINES}.book_mark_anchor_markup
+			]"
 		local
 			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE]
 			target_text: STRING
@@ -380,6 +382,7 @@ feature -- Test
 					end
 				end
 			end
+			assert_same_string ("same HTML", HTML.book_mark_anchor_markup ("1", "one"), "<a id=%"1%">one</a>")
 		end
 
 	test_text_matcher
