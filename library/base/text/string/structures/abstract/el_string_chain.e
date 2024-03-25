@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 14:17:31 GMT (Monday 25th March 2024)"
-	revision: "43"
+	date: "2024-03-25 16:41:33 GMT (Monday 25th March 2024)"
+	revision: "44"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -348,8 +348,6 @@ feature -- Contract Support
 feature {NONE} -- Implementation
 
 	new_string (general: READABLE_STRING_GENERAL): S
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			if attached {S} general as str then
 				Result := str

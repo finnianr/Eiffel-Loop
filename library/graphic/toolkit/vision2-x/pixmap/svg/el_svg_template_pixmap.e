@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 13:38:55 GMT (Monday 25th March 2024)"
-	revision: "21"
+	date: "2024-03-25 16:43:53 GMT (Monday 25th March 2024)"
+	revision: "22"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -96,9 +96,9 @@ feature {EL_SVG_PIXMAP} -- Implementation
 					if line.has ('$') then
 						check_for_xlink_uri (a_svg_template_path, line)
 						template.set_template (line)
-						across variables as variable loop
-							if template.has (variable.key) then
-								template.set_variable (variable.key, variable.item)
+						across variables as table loop
+							if template.has (table.key) then
+								template.put_any (table.key, table.item)
 							end
 						end
 						Result.append (template.substituted)

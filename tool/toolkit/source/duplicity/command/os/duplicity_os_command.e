@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 13:49:58 GMT (Monday 25th March 2024)"
-	revision: "3"
+	date: "2024-03-25 16:47:18 GMT (Monday 25th March 2024)"
+	revision: "4"
 
 deferred class
 	DUPLICITY_OS_COMMAND
@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 			template.put (Var_target_dir, File_system.escaped_path (a_target_dir.to_string))
 		end
 
-	template: EL_ZSTRING_TEMPLATE
+	template: EL_TEMPLATE [ZSTRING]
 		deferred
 		end
 

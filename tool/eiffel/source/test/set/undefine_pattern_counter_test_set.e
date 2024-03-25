@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 16:54:44 GMT (Monday 15th January 2024)"
-	revision: "25"
+	date: "2024-03-25 16:45:51 GMT (Monday 25th March 2024)"
+	revision: "26"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -43,7 +43,7 @@ feature -- Tests
 
 	test_command
 		local
-			command: UNDEFINE_PATTERN_COUNTER_COMMAND; expected_count: INTEGER
+			command: UNDEFINE_PATTERN_COUNTER_COMMAND
 		do
 			create command.make (Manifest_path)
 			command.execute

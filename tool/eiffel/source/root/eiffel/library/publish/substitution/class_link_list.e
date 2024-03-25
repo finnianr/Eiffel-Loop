@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 11:49:02 GMT (Wednesday 20th March 2024)"
-	revision: "2"
+	date: "2024-03-25 16:45:51 GMT (Monday 25th March 2024)"
+	revision: "3"
 
 class
 	CLASS_LINK_LIST
@@ -118,7 +118,7 @@ feature {NONE} -- Implementation
 
 	): TUPLE [name: ZSTRING; is_valid: BOOLEAN; start_index, end_index: INTEGER]
 		local
-			type_start_index, type_end_index, index_bracket, type_name_count: INTEGER
+			type_start_index, type_end_index, type_name_count: INTEGER
 			eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			type_start_index := list.item_upper + 1
