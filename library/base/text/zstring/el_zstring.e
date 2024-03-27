@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 10:06:35 GMT (Thursday 14th March 2024)"
-	revision: "106"
+	date: "2024-03-27 11:04:37 GMT (Wednesday 27th March 2024)"
+	revision: "107"
 
 class
 	EL_ZSTRING
@@ -503,7 +503,7 @@ note
 	notes: "[
 		**DEFAULT CODEC**
 		
-		By default `area' characters are encoded using the codec {${EL_ZCODEC_FACTORY}}.default_codec. By
+		By default `area' characters are encoded using the codec `{${EL_ZCODEC_FACTORY}}.default_codec'. By
 		default this is ISO-8859-15 but can be set for the application using the command line option:
 		
 			-system_codec [name]
@@ -514,7 +514,7 @@ note
 		
 		**FEATURES**
 		
-		`ZSTRING' has many useful routines not found in ${STRING_32}. Probably the most useful is Python style templates 
+		**ZSTRING** has many useful routines not found in ${STRING_32}. Probably the most useful is Python style templates 
 		using the `#$' as an alias for `substituted_tuple', and place holders indicated by `%S', which by coincidence is
 		both an Eiffel escape sequence and a Python one (Python is actually `%s').
 		
@@ -524,14 +524,14 @@ note
 
 		**BENCHMARKS**
 
-		Comparison of `ZSTRING' against ${STRING_32} for basic string operations
+		Comparison of **ZSTRING** against ${STRING_32} for basic string operations
 
 		* [./benchmark/ZSTRING-benchmarks-latin-1.html Latin-1 base encoding]
 		* [./benchmark/ZSTRING-benchmarks-latin-15.html Latin-15 base encoding]
 
 		**CAVEAT**
 
-		There is a caveat attached to using `ZSTRING' which is that if your application uses very many characters outside of
+		There is a caveat attached to using **ZSTRING** which is that if your application uses very many characters outside of
 		the ISO-8859-15 character-set, the execution efficiency does down substantially.
 
 		This is something to consider if your application is going to be used in for example: Russia or Japan.
@@ -539,7 +539,7 @@ note
 		
 			{${EL_SHARED_ZSTRING_CODEC}}.Default_codec
 			
-		and initialize it immediately after application launch. This will force `ZSTRING' to switch to a more optimal
+		and initialize it immediately after application launch. This will force **ZSTRING** to switch to a more optimal
 		character-set for the user-locale. The execution performance will be worst for Asian characters.
 
 		A planned solution is to make a swappable alternative implementation that works equally well with Asian character sets
@@ -549,7 +549,7 @@ note
 
 		1. Change the implementation to inherit from ${STRING_32}. This will be the fastest and easiest to implement.
 		2. Change the area array to type: ${SPECIAL [NATURAL_16]} and then the same basic algorithm can be applied to Asian characters.
-		The problem is ${NATURAL_16} is not a character and there is no `CHARACTER_16', so it will entail a lot of changes.
+		The problem is ${NATURAL_16} is not a character and there is no **CHARACTER_16**, so it will entail a lot of changes.
 		The upside is that there will still be a substantial memory saving.
 	]"
 

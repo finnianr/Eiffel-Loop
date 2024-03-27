@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:45:51 GMT (Monday 25th March 2024)"
-	revision: "3"
+	date: "2024-03-27 13:21:19 GMT (Wednesday 27th March 2024)"
+	revision: "4"
 
 class
 	CLASS_LINK_LIST
@@ -32,7 +32,6 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			Precursor (n)
-			create buffer
 			create dollor_intervals.make_sized (n)
 		end
 
@@ -47,11 +46,12 @@ feature -- Measurement
 		-- `line.count' adjusted to exclude "${}" characters for valid class substitutions
 		do
 			Result := line.count
-			if attached dollor_intervals as list then
+			if attached dollor_intervals as list and then attached Bracketed_type as type then
 				list.wipe_out
 				list.fill_by_string (line, Dollor_left_brace, 0)
 				from list.start until list.after loop
-					if new_bracketed_type (line, list).is_valid then
+					set_bracketed_type (type, line, list)
+					if type.is_valid then
 						Result := Result - Class_marker_count -- subtract "${}" characters
 					end
 					list.forth
@@ -62,37 +62,17 @@ feature -- Measurement
 feature -- Element change
 
 	parse (code_text: ZSTRING)
-		local
-			index_bracket: INTEGER; link: CLASS_LINK
 		do
 			wipe_out
 			has_invalid_class := False
 			dollor_intervals.wipe_out
 			dollor_intervals.fill_by_string (code_text, Dollor_left_brace, 0)
 
-			if attached dollor_intervals as list then
+			if attached dollor_intervals as list and then attached Bracketed_type as type then
 				from list.start until list.after loop
-					if attached new_bracketed_type (code_text, list) as type and then type.is_valid
-						and then attached type.name as type_name
-					then
-						index_bracket := type_name.index_of ('[', 1)
-						if index_bracket > 0 then
-							type_name.keep_head (index_bracket - 1)
-							type_name.right_adjust
-						end
-						if Class_path_table.has_class (type_name) then
-							create {DEVELOPER_CLASS_LINK} link.make (
-								Class_path_table.found_item, code_text, type.start_index, type.end_index
-							)
-						elseif ISE_class_table.has_class (type_name) then
-							create {ISE_CLASS_LINK} link.make (
-								ISE_class_table.found_item, code_text, type.start_index, type.end_index
-							)
-						else
-							has_invalid_class := True
-							create link.make (Invalid_class, code_text, type.start_index, type.end_index)
-						end
-						extend (link)
+					set_bracketed_type (type, code_text, list)
+					if type.is_valid then
+						extend (new_link (code_text, type.name, type.start_index, type.end_index))
 					end
 					list.forth
 				end
@@ -113,37 +93,62 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_bracketed_type (
-		code_text: ZSTRING; list: EL_OCCURRENCE_INTERVALS
-
-	): TUPLE [name: ZSTRING; is_valid: BOOLEAN; start_index, end_index: INTEGER]
-		local
-			type_start_index, type_end_index, type_name_count: INTEGER
-			eif: EL_EIFFEL_SOURCE_ROUTINES
+	new_link (code_text, name: ZSTRING; start_index, end_index: INTEGER): CLASS_LINK
 		do
-			type_start_index := list.item_upper + 1
-			Result := [Empty_string, False, list.item_lower, code_text.index_of ('}', type_start_index)]
-			if Result.end_index > 0 then
-				type_end_index := Result.end_index - 1
-				type_name_count := type_end_index - type_start_index + 1
+			if Class_path_table.has_class (name) then
+				create {DEVELOPER_CLASS_LINK} Result.make (
+					Class_path_table.found_item, code_text, start_index, end_index
+				)
+			elseif ISE_class_table.has_class (name) then
+				create {ISE_CLASS_LINK} Result.make (
+					ISE_class_table.found_item, code_text, start_index, end_index
+				)
 			else
-				type_name_count := 0
+				has_invalid_class := True
+				create Result.make (Invalid_class, code_text, start_index, end_index)
 			end
-			if Valid_type_name_length.has (type_name_count)
-				and then attached buffer.copied_substring (code_text, type_start_index, type_end_index) as type_name
-			then
-				Result.name := type_name
-				Result.is_valid := eif.is_type_name (type_name)
+		end
+
+	set_bracketed_type (type: like Bracketed_type; code_text: ZSTRING; list: EL_OCCURRENCE_INTERVALS)
+		local
+			start_index, end_index, name_count, index_bracket: INTEGER; eif: EL_EIFFEL_SOURCE_ROUTINES
+			type_name: ZSTRING
+		do
+			start_index := list.item_upper + 1
+			type_name := type.name; type_name.wipe_out
+			type.is_valid := False
+			type.start_index := list.item_lower
+			type.end_index := code_text.index_of ('}', start_index)
+
+			if type.end_index > 0 then
+				end_index := type.end_index - 1
+				name_count := end_index - start_index + 1
+			else
+				name_count := 0
+			end
+			if 1 <= name_count and name_count <= Max_type_name_count then
+				type_name.append_substring (code_text, start_index, end_index)
+				if eif.is_type_name (type_name) then
+					type.is_valid := True
+					index_bracket := type_name.index_of ('[', 1)
+					if index_bracket > 0 then
+						type_name.keep_head (index_bracket - 1)
+						type_name.right_adjust
+					end
+				end
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	buffer: EL_ZSTRING_BUFFER
-
 	dollor_intervals: EL_OCCURRENCE_INTERVALS
 
 feature {NONE} -- Constants
+
+	Bracketed_type: TUPLE [name: ZSTRING; is_valid: BOOLEAN; start_index, end_index: INTEGER]
+		once
+			Result := [Empty_string.twin, False, 0, 0]
+		end
 
 	Class_marker_count: INTEGER = 3
 		-- same as: `("${}").count'
@@ -153,9 +158,9 @@ feature {NONE} -- Constants
 			Result := "invalid-class-name"
 		end
 
-	Valid_type_name_length: INTEGER_INTERVAL
+	Max_type_name_count: INTEGER
 		once
-			Result := 1 |..| 80
+			Result := 80
 		end
 
 end

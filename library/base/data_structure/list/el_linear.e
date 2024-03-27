@@ -1,13 +1,15 @@
 note
-	description: "Structures whose items may be accessed sequentially, one-way"
+	description: "[
+		Extension to ${LINEAR} abstract structure whose items may be accessed sequentially, one-way
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-21 9:46:05 GMT (Friday 21st July 2023)"
-	revision: "16"
+	date: "2024-03-26 8:05:17 GMT (Tuesday 26th March 2024)"
+	revision: "17"
 
 deferred class
 	EL_LINEAR [G]

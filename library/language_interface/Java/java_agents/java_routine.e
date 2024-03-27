@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:46:01 GMT (Saturday 11th November 2023)"
-	revision: "8"
+	date: "2024-03-25 16:54:49 GMT (Monday 25th March 2024)"
+	revision: "9"
 
 deferred class
 	JAVA_ROUTINE
@@ -17,9 +17,7 @@ inherit
 
 	EL_MEMORY
 
-	EL_MODULE_LIO
-
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_LIO
 
 	EL_ROUTINE_INFO_FACTORY
 

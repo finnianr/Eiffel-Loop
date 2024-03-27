@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-29 9:42:28 GMT (Thursday 29th February 2024)"
-	revision: "11"
+	date: "2024-03-27 14:48:43 GMT (Wednesday 27th March 2024)"
+	revision: "12"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -15,16 +15,21 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
+	EL_STRING_GENERAL_ROUTINES
+
 	EL_EIFFEL_KEYWORDS; EL_EIFFEL_CONSTANTS
 
 	STRING_HANDLER
 
+	EL_SHARED_ZSTRING_CURSOR
+
 feature -- Conversion
 
-	class_name (text: ZSTRING): ZSTRING
+	class_name (a_text: READABLE_STRING_GENERAL): ZSTRING
 		local
-			break: BOOLEAN; i: INTEGER; c: CHARACTER
+			break: BOOLEAN; i: INTEGER; c: CHARACTER; text: ZSTRING
 		do
+			text := as_zstring (a_text)
 			create Result.make (text.count)
 			if starts_with_upper_letter (text) then
 				Result.append_character (text [1])
@@ -40,12 +45,52 @@ feature -- Conversion
 			end
 		end
 
-	parsed_class_name (text: ZSTRING): ZSTRING
+	class_parameter_list (a_text: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
+		-- list of parameter type substring intervals
+		require
+			has_left_bracket: a_text.has ('[')
+			all_brackets_matched: a_text.occurrences ('[') = a_text.occurrences (']')
+		local
+			i, index, upper, start_index, end_index: INTEGER; c: CHARACTER
+			text: ZSTRING; s: EL_ZSTRING_ROUTINES; appending: BOOLEAN
+		do
+			text := as_zstring (a_text)
+			create Result.make (2)
+			index := text.index_of ('[', 1)
+			if index > 0 then
+				upper:= cursor (text).matching_bracket_index (index) - 1
+				from i := index + 1 until i > upper loop
+					c := text.item_8 (i)
+					if Class_name_character_set.has (c) then
+						if appending then
+							end_index := i
+						else
+							start_index := i
+							end_index := i
+							appending := True
+						end
+					else
+						if appending then
+							Result.extend (start_index, end_index)
+							start_index := 0; end_index := 0
+							appending := False
+						end
+					end
+					i := i + 1
+				end
+				if end_index - start_index + 1  > 0 then
+					Result.extend (start_index, end_index)
+				end
+			end
+		end
+
+	parsed_class_name (a_text: READABLE_STRING_GENERAL): ZSTRING
 		-- class name parsed from text with possible generic parameter list
 		-- Eg. "HASH_TABLE [G, K -> HASHABLE]"
 		local
-			pos_bracket: INTEGER
+			pos_bracket: INTEGER; text: ZSTRING
 		do
+			text := as_zstring (a_text)
 			pos_bracket := text.index_of ('[', 1)
 			if pos_bracket > 0 then
 				-- remove class parameter

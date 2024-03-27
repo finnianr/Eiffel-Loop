@@ -1,6 +1,6 @@
 note
 	description: "[
-		Routines acting on array of type ${SPECIAL [INTEGER]} containing substring interval
+		Routines acting on array of type ${SPECIAL [INTEGER_32]} containing substring interval
 		indices. The current item is determined by the implementation of **index**.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-03-27 17:21:23 GMT (Wednesday 27th March 2024)"
+	revision: "6"
 
 deferred class
 	EL_INTERVAL_LIST

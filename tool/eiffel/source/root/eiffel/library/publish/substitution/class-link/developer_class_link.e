@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 16:21:34 GMT (Tuesday 12th March 2024)"
-	revision: "6"
+	date: "2024-03-27 7:34:26 GMT (Wednesday 27th March 2024)"
+	revision: "7"
 
 class
 	DEVELOPER_CLASS_LINK
@@ -15,7 +15,7 @@ class
 inherit
 	CLASS_LINK
 		redefine
-			adjusted_path, github_markdown, is_valid, wiki_markup
+			adjust_path, github_markdown, is_valid, wiki_markup
 		end
 
 create
@@ -26,11 +26,6 @@ feature -- Status query
 	is_valid: BOOLEAN = True
 
 feature -- Access
-
-	adjusted_path (relative_page_dir: DIR_PATH): FILE_PATH
-		do
-			Result := path.universal_relative_path (relative_page_dir)
-		end
 
 	github_markdown (github_url: EL_DIR_URI_PATH): ZSTRING
 		local
@@ -48,6 +43,13 @@ feature -- Access
 	wiki_markup (web_address: ZSTRING): ZSTRING
 		do
 			Result := Wiki_link_template #$ [web_address, path.to_unix, type_name]
+		end
+
+feature -- Element change
+
+	adjust_path (relative_page_dir: DIR_PATH)
+		do
+			path := path.universal_relative_path (relative_page_dir)
 		end
 
 feature {NONE} -- Constants

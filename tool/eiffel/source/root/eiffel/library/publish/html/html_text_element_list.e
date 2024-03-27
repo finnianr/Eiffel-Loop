@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 14:05:21 GMT (Monday 22nd January 2024)"
-	revision: "24"
+	date: "2024-03-27 10:18:08 GMT (Wednesday 27th March 2024)"
+	revision: "25"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -182,60 +182,29 @@ feature {NONE} -- Implementation
 
 	wrapped_lines: EL_ZSTRING_LIST
 		local
-			line, l_word, l_last: ZSTRING; l_count, removed_count, space_count: INTEGER
-			word_list: EL_ZSTRING_LIST; separator: CHARACTER; done: BOOLEAN
+			space_count, line_count, excess_count: INTEGER; short_enough: BOOLEAN
+			spaces, line: ZSTRING
 		do
 			create Result.make (lines.count)
-			across lines as l loop
-				line := l.item
-				if Class_link_list.adjusted_count (line) > Maximum_code_width then
-					Word_stack.wipe_out
-					space_count := line.leading_occurrences (' ')
-					line.remove_head (space_count)
-					done := False
-					across << ' ', '/' >> as c until done loop
-						separator := c.item
-						create word_list.make_split (line, separator)
-						done := word_list.first.count <= Maximum_code_width
-					end
-					Result.extend (Space * space_count)
-					l_count := space_count
-					across word_list as list loop
-						l_word := list.item
-						if Result.last.count > 0 then
-							l_count := l_count + 1
-							Result.last.append_character (separator)
-						end
-						l_count := l_count + l_word.count
-						if l_word ~ Dollor_left_brace then
-							l_count := l_count - (Dollor_left_brace.count + 1)
-						end
-						Result.last.append (l_word)
-						Word_stack.put (l_word)
-						if l_count > Maximum_code_width then
-							-- undo appending until small enough
-							removed_count := 0
-							from until Word_stack.item /~ Dollor_left_brace and then l_count - removed_count <= Maximum_code_width loop
-								l_word := Word_stack.item; Word_stack.remove
-								removed_count := removed_count + l_word.count + 1
-								if l_word ~ Dollor_left_brace then
-									removed_count := removed_count - (Dollor_left_brace.count + 1)
-								end
-							end
-							l_last := Result.last
-							Result.extend (l_last.substring_end (l_last.count - removed_count + 1))
-							l_last.remove_tail (removed_count)
-							Word_stack.wipe_out
-							l_count := 0
-						end
-					end
-					-- Shift last line to right as much as possible
-					space_count := Maximum_code_width - Result.last.count
-					if space_count > 0 then
-						Result.last.prepend (space * space_count)
-					end
-				else
+			if attached Word_list as words then
+				across lines as list loop
+					line := list.item
 					Result.extend (line)
+					if line.count > Maximum_code_width then
+						excess_count := line.count - Maximum_code_width
+						words.wipe_out
+						from short_enough := False until short_enough loop
+							words.put_front (line.substring_to_reversed (' '))
+							line.remove_tail (words.first.count + 1)
+							if line.count < Maximum_code_width then
+								short_enough := True
+							end
+						end
+						if attached words.joined_words as tail_line then
+							create spaces.make_filled (' ', Class_link_list.adjusted_count (line) - excess_count)
+							Result.extend (spaces + tail_line)
+						end
+					end
 				end
 			end
 		end
@@ -262,9 +231,9 @@ feature {NONE} -- Constants
 			Result := 110
 		end
 
-	Word_stack: ARRAYED_STACK [ZSTRING]
+	Word_list: EL_ZSTRING_LIST
 		once
-			create Result.make (0)
+			create Result.make_empty
 		end
 
 end
