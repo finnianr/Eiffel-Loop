@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-03-28 8:58:24 GMT (Thursday 28th March 2024)"
+	revision: "6"
 
 class
 	EL_ZSTRING_EDITOR
@@ -33,9 +33,20 @@ feature {NONE} -- Implementation
 			string.extend (c)
 		end
 
+	area_count: INTEGER
+		do
+			Result := target.area.count
+		end
+
 	modify_target (str: ZSTRING)
 		do
 			target.share (str)
+		end
+
+	trim
+		-- trim target
+		do
+			target.trim
 		end
 
 	wipe_out (str: ZSTRING)

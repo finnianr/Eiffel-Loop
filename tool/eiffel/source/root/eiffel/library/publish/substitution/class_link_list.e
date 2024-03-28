@@ -6,16 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 13:21:19 GMT (Wednesday 27th March 2024)"
-	revision: "4"
+	date: "2024-03-28 17:21:53 GMT (Thursday 28th March 2024)"
+	revision: "5"
 
 class
 	CLASS_LINK_LIST
 
 inherit
 	EL_ARRAYED_LIST [CLASS_LINK]
+		rename
+			fill as fill_list
+		export
+			{NONE} all
+			{ANY} back, start, forth, finish, before, after, item, off, do_all
 		redefine
-			make
+			initialize
 		end
 
 	PUBLISHER_CONSTANTS
@@ -29,11 +34,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	initialize
 		do
-			Precursor (n)
-			create dollor_intervals.make_sized (n)
+			Precursor
+			create class_link_intervals.make_sized (count)
+			create parameter_link_intervals.make_sized (5)
 		end
+
+feature -- Access
+
+	class_link_intervals: CLASS_LINK_OCCURRENCE_INTERVALS
 
 feature -- Status query
 
@@ -46,12 +56,11 @@ feature -- Measurement
 		-- `line.count' adjusted to exclude "${}" characters for valid class substitutions
 		do
 			Result := line.count
-			if attached dollor_intervals as list and then attached Bracketed_type as type then
-				list.wipe_out
-				list.fill_by_string (line, Dollor_left_brace, 0)
+			class_link_intervals.fill (line)
+			if attached class_link_intervals as list then
 				from list.start until list.after loop
-					set_bracketed_type (type, line, list)
-					if type.is_valid then
+					list.update_item_type (line)
+					if attached list.item_type.is_valid then
 						Result := Result - Class_marker_count -- subtract "${}" characters
 					end
 					list.forth
@@ -59,20 +68,31 @@ feature -- Measurement
 			end
 		end
 
+	character_count (template_count: INTEGER): INTEGER
+		-- approx. count of expanded characters
+		do
+			Result := template_count + sum_integer (agent {CLASS_LINK}.path_count)
+		end
+
 feature -- Element change
 
-	parse (code_text: ZSTRING)
+	fill (code_text: ZSTRING)
+		do
+			class_link_intervals.fill (code_text)
+			fill_with_intervals (code_text, class_link_intervals)
+		end
+
+	fill_with_intervals (code_text: ZSTRING; interval_list: like class_link_intervals)
 		do
 			wipe_out
 			has_invalid_class := False
-			dollor_intervals.wipe_out
-			dollor_intervals.fill_by_string (code_text, Dollor_left_brace, 0)
-
-			if attached dollor_intervals as list and then attached Bracketed_type as type then
+			if attached interval_list as list then
 				from list.start until list.after loop
-					set_bracketed_type (type, code_text, list)
-					if type.is_valid then
-						extend (new_link (code_text, type.name, type.start_index, type.end_index))
+					list.update_item_type (code_text)
+					if attached list.item_type as type and then type.is_valid then
+						extend (new_link (code_text, type.name, list))
+					else
+						has_invalid_class := True
 					end
 					list.forth
 				end
@@ -81,74 +101,61 @@ feature -- Element change
 
 feature -- Basic operations
 
-	add_to_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
+	add_to_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32; code_text: ZSTRING)
+		local
+			parameter_code_text: ZSTRING
 		do
-			from start until after loop
-				if item.is_valid then
-					crc.add_path (item.path)
+			class_link_intervals.fill (code_text)
+			if attached class_link_intervals as list then
+				from list.start until list.after loop
+					if list.item_has_parameter (code_text) then
+						parameter_code_text := code_text.substring (list.item_lower, list.item_upper)
+						parameter_link_intervals.fill (parameter_code_text)
+						parameter_link_intervals.edit_class_parameters (parameter_code_text)
+						parameter_link_intervals.fill (parameter_code_text)
+						if attached parameter_link_intervals as interval then
+							from interval.start until interval.after loop
+								add_intervals_to_crc (crc, parameter_code_text, interval)
+								interval.forth
+							end
+						end
+					else
+						add_intervals_to_crc (crc, code_text, list)
+					end
+					list.forth
 				end
-				forth
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	new_link (code_text, name: ZSTRING; start_index, end_index: INTEGER): CLASS_LINK
+	add_intervals_to_crc (
+		crc: EL_CYCLIC_REDUNDANCY_CHECK_32; code_text: ZSTRING; intervals: CLASS_LINK_OCCURRENCE_INTERVALS
+	)
 		do
-			if Class_path_table.has_class (name) then
-				create {DEVELOPER_CLASS_LINK} Result.make (
-					Class_path_table.found_item, code_text, start_index, end_index
-				)
-			elseif ISE_class_table.has_class (name) then
-				create {ISE_CLASS_LINK} Result.make (
-					ISE_class_table.found_item, code_text, start_index, end_index
-				)
-			else
-				has_invalid_class := True
-				create Result.make (Invalid_class, code_text, start_index, end_index)
+			intervals.update_item_type (code_text)
+			if attached intervals.item_type as type and then type.is_valid then
+				crc.add_path (new_link (code_text, type.name, intervals).path)
 			end
 		end
 
-	set_bracketed_type (type: like Bracketed_type; code_text: ZSTRING; list: EL_OCCURRENCE_INTERVALS)
-		local
-			start_index, end_index, name_count, index_bracket: INTEGER; eif: EL_EIFFEL_SOURCE_ROUTINES
-			type_name: ZSTRING
+	new_link (code_text, name: ZSTRING; intervals: CLASS_LINK_OCCURRENCE_INTERVALS): CLASS_LINK
 		do
-			start_index := list.item_upper + 1
-			type_name := type.name; type_name.wipe_out
-			type.is_valid := False
-			type.start_index := list.item_lower
-			type.end_index := code_text.index_of ('}', start_index)
+			if Class_path_table.has_class (name) then
+				create {DEVELOPER_CLASS_LINK} Result.make (Class_path_table.found_item, code_text, intervals)
 
-			if type.end_index > 0 then
-				end_index := type.end_index - 1
-				name_count := end_index - start_index + 1
+			elseif ISE_class_table.has_class (name) then
+				create {ISE_CLASS_LINK} Result.make (ISE_class_table.found_item, code_text, intervals)
 			else
-				name_count := 0
-			end
-			if 1 <= name_count and name_count <= Max_type_name_count then
-				type_name.append_substring (code_text, start_index, end_index)
-				if eif.is_type_name (type_name) then
-					type.is_valid := True
-					index_bracket := type_name.index_of ('[', 1)
-					if index_bracket > 0 then
-						type_name.keep_head (index_bracket - 1)
-						type_name.right_adjust
-					end
-				end
+				create Result.make (Invalid_class, code_text, intervals)
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	dollor_intervals: EL_OCCURRENCE_INTERVALS
+	parameter_link_intervals: CLASS_LINK_OCCURRENCE_INTERVALS
 
 feature {NONE} -- Constants
-
-	Bracketed_type: TUPLE [name: ZSTRING; is_valid: BOOLEAN; start_index, end_index: INTEGER]
-		once
-			Result := [Empty_string.twin, False, 0, 0]
-		end
 
 	Class_marker_count: INTEGER = 3
 		-- same as: `("${}").count'
@@ -156,11 +163,6 @@ feature {NONE} -- Constants
 	Invalid_class: FILE_PATH
 		once
 			Result := "invalid-class-name"
-		end
-
-	Max_type_name_count: INTEGER
-		once
-			Result := 80
 		end
 
 end

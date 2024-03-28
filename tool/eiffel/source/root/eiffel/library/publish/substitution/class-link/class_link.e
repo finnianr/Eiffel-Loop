@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 14:51:46 GMT (Wednesday 27th March 2024)"
-	revision: "5"
+	date: "2024-03-28 13:39:44 GMT (Thursday 28th March 2024)"
+	revision: "6"
 
 class
 	CLASS_LINK
@@ -27,15 +27,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_path: FILE_PATH; a_code_text: ZSTRING; a_start_index, a_end_index: INTEGER)
+	make (a_path: FILE_PATH; a_code_text: ZSTRING; class_link_intervals: CLASS_LINK_OCCURRENCE_INTERVALS)
 		require
-			valid_start_index: a_code_text.valid_index (a_start_index + 1)
-				and then a_code_text.substring (a_start_index, a_start_index + 1) ~ Dollor_left_brace
-
-			valid_end_index: a_code_text.valid_index (a_end_index) and then a_code_text [a_end_index] = '}'
+			valid_item: not class_link_intervals.off and then class_link_intervals.valid_item (a_code_text)
 		do
 			path := a_path; code_text := a_code_text
-			start_index := a_start_index; end_index := a_end_index
+			start_index := class_link_intervals.item_lower; end_index := class_link_intervals.item_upper
 		end
 
 feature -- Status query

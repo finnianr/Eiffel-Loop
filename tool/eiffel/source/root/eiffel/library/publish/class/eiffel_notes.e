@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 10:08:51 GMT (Monday 22nd January 2024)"
-	revision: "36"
+	date: "2024-03-28 14:47:03 GMT (Thursday 28th March 2024)"
+	revision: "37"
 
 class
 	EIFFEL_NOTES
@@ -247,7 +247,7 @@ feature {NONE} -- Implementation
 	check_links_for_line (line, base_name: ZSTRING)
 		do
 			if attached Class_link_list as list then
-				list.parse (line)
+				list.fill (line)
 				if list.has_invalid_class then
 					from list.start until list.after loop
 						if not list.item.is_valid then

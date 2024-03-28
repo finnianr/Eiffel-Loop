@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-03-28 8:58:24 GMT (Thursday 28th March 2024)"
+	revision: "7"
 
 class
 	EL_STRING_32_EDITOR
@@ -28,6 +28,11 @@ create
 
 feature {NONE} -- Implementation
 
+	area_count: INTEGER
+		do
+			Result := target.area.count
+		end
+
 	modify_target (str: STRING_32)
 		do
 			target.share (str)
@@ -36,6 +41,12 @@ feature {NONE} -- Implementation
 	new_string (general: READABLE_STRING_GENERAL): STRING_32
 		do
 			Result := general.to_string_32
+		end
+
+	trim
+		-- trim target
+		do
+			target.trim
 		end
 
 	wipe_out (str: STRING_32)

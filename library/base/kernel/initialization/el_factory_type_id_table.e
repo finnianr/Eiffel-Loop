@@ -6,16 +6,16 @@ note
 	instructions: "[
 		**Example Usage** 
 		
-		Given factory of type `{EL_MAKEABLE_FACTORY [EL_MAKEABLE]}' and target type
+		Given factory of type ${EL_MAKEABLE_FACTORY [EL_MAKEABLE]} and target type
 		
 			EL_MAKEABLE*
-				COLUMN_VECTOR_COMPLEX_64
+				${COLUMN_VECTOR_COMPLEX_64}
 				
 		calling `item' with a composite ${NATURAL_64} key defined as :
 			
 			(factory_type.type_id.to_natural_64 |<< 32) | target_type.type_id.to_natural_64
 			
-		returns a type id for `{EL_MAKEABLE_FACTORY [COLUMN_VECTOR_COMPLEX_64]}'
+		returns a type id for ${EL_MAKEABLE_FACTORY [COLUMN_VECTOR_COMPLEX_64]}
 	]"
 
 	author: "Finnian Reilly"
@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-03-28 15:39:58 GMT (Thursday 28th March 2024)"
+	revision: "4"
 
 class
 	EL_FACTORY_TYPE_ID_TABLE

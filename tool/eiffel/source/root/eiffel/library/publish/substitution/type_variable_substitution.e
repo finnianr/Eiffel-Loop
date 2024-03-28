@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 15:04:02 GMT (Wednesday 27th March 2024)"
-	revision: "9"
+	date: "2024-03-28 15:47:33 GMT (Thursday 28th March 2024)"
+	revision: "10"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 		do
 			make_substitution (Dollor_left_brace, char ('}'), Empty_string, Empty_string)
 			anchor_id := " id=%"source%""
+			link_text_count := anchor_id.count + Html_link_template.count - Html_link_template.occurrences ('%S')
 		ensure
 			leading_space: anchor_id [1] = ' '
 		end
@@ -55,19 +56,21 @@ feature -- Basic operations
 
 	substitute_html (html_string: ZSTRING)
 		local
-			previous_end_index, preceding_start_index, preceding_end_index, approx_count: INTEGER
+			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
 			buffer: ZSTRING
 		do
-			if attached Class_link_list as list then
-				list.parse (html_string)
+			if attached Class_link_list as list and then attached list.class_link_intervals as link_intervals then
+				link_intervals.fill (html_string)
+				if link_intervals.has_parameter_type (html_string) then
+					link_intervals.edit_class_parameters (html_string)
+					link_intervals.fill (html_string)
+				end
+				list.fill_with_intervals (html_string, link_intervals)
+
 				list.do_all (agent {CLASS_LINK}.adjust_path (relative_page_dir))
 
 				across String_scope as scope loop
-					approx_count := html_string.count 	+ list.count * Html_link_template.count
-																	+ list.sum_integer (agent {CLASS_LINK}.path_count)
-																	+ list.count * anchor_id.count
-
-					buffer := scope.best_item (approx_count)
+					buffer := scope.best_item (html_string.count + list.character_count (link_text_count))
 					from list.start until list.after loop
 						preceding_start_index := previous_end_index + 1
 						preceding_end_index := list.item.start_index - 1
@@ -97,5 +100,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	anchor_id: STRING
+
+	link_text_count: INTEGER
 
 end

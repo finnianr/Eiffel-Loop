@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-03-28 9:45:35 GMT (Thursday 28th March 2024)"
+	revision: "25"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -36,7 +36,6 @@ inherit
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string,
 	make_from_for, make_from, make_from_if
-
 
 feature -- Status query
 

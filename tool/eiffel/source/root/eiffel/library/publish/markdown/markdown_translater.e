@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 16:05:23 GMT (Tuesday 12th March 2024)"
-	revision: "36"
+	date: "2024-03-28 14:47:03 GMT (Thursday 28th March 2024)"
+	revision: "37"
 
 class
 	MARKDOWN_TRANSLATER
@@ -137,6 +137,11 @@ feature {NONE} -- Implementation
 			Result.add_extension (Extension.pecf)
 		end
 
+	expand_class_types (start_index, end_index: INTEGER; substring: ZSTRING)
+		-- expand "${CONTAINER [ITEM_CLASS]}" to "${CONTAINER} [${ITEM_CLASS}]"
+		do
+		end
+
 	normalized_paragraphs (markdown_lines: EL_ZSTRING_LIST): EL_ZSTRING_LIST
 		-- join consecutive "normal lines" that are not bullet point or numbered items
 		local
@@ -180,7 +185,7 @@ feature {NONE} -- Implementation
 				line.remove_head (1)
 			end
 			if line.has_substring (Dollor_left_brace) and then attached Class_link_list as list then
-				list.parse (line)
+				list.fill (line)
 			-- iterate in reverse to allow removals
 				from list.finish until list.before loop
 					line.remove (list.item.end_index) -- '}'

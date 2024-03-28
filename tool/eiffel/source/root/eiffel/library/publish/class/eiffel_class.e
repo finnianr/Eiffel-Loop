@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 10:28:58 GMT (Monday 22nd January 2024)"
-	revision: "54"
+	date: "2024-03-28 17:01:49 GMT (Thursday 28th March 2024)"
+	revision: "55"
 
 class
 	EIFFEL_CLASS
@@ -204,9 +204,7 @@ feature -- Basic operations
 				initial_current_digest := current_digest
 			end
 			crc.set_checksum (current_digest)
-			if attached Class_link_list as list then
-				list.parse (code_text); list.add_to_crc (crc)
-			end
+			Class_link_list.add_to_crc (crc, code_text)
 			current_digest := crc.checksum
 		end
 

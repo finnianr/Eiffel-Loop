@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 10:18:08 GMT (Wednesday 27th March 2024)"
-	revision: "25"
+	date: "2024-03-28 10:52:48 GMT (Thursday 28th March 2024)"
+	revision: "26"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -182,8 +182,7 @@ feature {NONE} -- Implementation
 
 	wrapped_lines: EL_ZSTRING_LIST
 		local
-			space_count, line_count, excess_count: INTEGER; short_enough: BOOLEAN
-			spaces, line: ZSTRING
+			excess_count: INTEGER; short_enough: BOOLEAN; spaces, line: ZSTRING
 		do
 			create Result.make (lines.count)
 			if attached Word_list as words then

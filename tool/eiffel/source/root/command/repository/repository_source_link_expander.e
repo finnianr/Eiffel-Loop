@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 10:28:03 GMT (Monday 22nd January 2024)"
-	revision: "36"
+	date: "2024-03-28 14:47:03 GMT (Thursday 28th March 2024)"
+	revision: "37"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -73,7 +73,7 @@ feature -- Basic operations
 		do
 			line.expand_tabs (3)
 			if attached Class_link_list as list then
-				list.parse (line)
+				list.fill (line)
 				from list.start until list.after loop
 					preceding_start_index := previous_end_index + 1
 					preceding_end_index := list.item.start_index - 1

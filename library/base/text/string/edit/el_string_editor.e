@@ -17,11 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-03-28 9:14:45 GMT (Thursday 28th March 2024)"
+	revision: "14"
 
 deferred class
 	EL_STRING_EDITOR [S -> STRING_GENERAL create make end]
+
+inherit
+	STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -53,8 +56,8 @@ feature -- Basic operations
 			end_index, left_index, right_index: INTEGER; done: BOOLEAN
 		do
 			l_target := target
-			create section.make (80)
-			create output.make (l_target.count)
+			create section.make (80); output := new_output
+
 			left_delimiter := new_string (a_left_delimiter); right_delimiter := new_string (a_right_delimiter)
 			from until done loop
 				left_index := l_target.substring_index (left_delimiter, end_index + 1)
@@ -76,7 +79,7 @@ feature -- Basic operations
 			end
 			if end_index > 0 then
 				output.append_substring (l_target, end_index + 1, l_target.count)
-				modify_target (output)
+				modify_target (output); check_area
 			end
 		end
 
@@ -95,8 +98,7 @@ feature -- Basic operations
 			done: BOOLEAN
 		do
 			l_target := target
-			create section.make (80)
-			create output.make (l_target.count)
+			create section.make (80); output := new_output
 			if leading.count > 0 then
 				create left_string.make (leading.count + 1)
 				append_character (left_string, left_bracket)
@@ -149,7 +151,7 @@ feature -- Basic operations
 			end
 			if end_index > 0 then
 				output.append_substring (l_target, end_index + 1, l_target.count)
-				modify_target (output)
+				modify_target (output); check_area
 			end
 		end
 
@@ -177,6 +179,11 @@ feature {STRING_HANDLER} -- Implementation
 			string.append_code (c.natural_32_code)
 		end
 
+	area_count: INTEGER
+		-- target.area.count
+		deferred
+		end
+
 	modify_target (str: S)
 		deferred
 		end
@@ -191,6 +198,11 @@ feature {STRING_HANDLER} -- Implementation
 			end
 		end
 
+	new_output: S
+		do
+			create Result.make ((target.count * 1.1).ceiling) -- 10% bigger
+		end
+
 	occurrences (str: S; c: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
 		local
 			i: INTEGER
@@ -200,6 +212,22 @@ feature {STRING_HANDLER} -- Implementation
 					Result := Result + 1
 				end
 				i := i + 1
+			end
+		end
+
+	trim
+		-- trim target
+		deferred
+		end
+
+	check_area
+		-- check if `target.area' should be reallocated
+		local
+			count: INTEGER
+		do
+			count := target.count
+			if count > 100 and then (area_count / count) > 1.1 then
+				trim
 			end
 		end
 
