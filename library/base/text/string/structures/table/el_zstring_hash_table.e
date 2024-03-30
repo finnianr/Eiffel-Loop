@@ -6,20 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-03-29 18:02:32 GMT (Friday 29th March 2024)"
+	revision: "16"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
 
 inherit
 	EL_STRING_HASH_TABLE [G, ZSTRING]
-		rename
-			has_key as table_has_key,
-			has as table_has,
-			search as table_search
-		export
-			{NONE} table_has_key, table_has, table_search
 		undefine
 			new_key
 		end
@@ -34,26 +28,26 @@ create
 
 feature -- Status query
 
-	has (key: READABLE_STRING_GENERAL): BOOLEAN
+	has_general (key: READABLE_STRING_GENERAL): BOOLEAN
 			-- Is there an item in the table with key `key'?
 		do
-			Result := table_has (Buffer.to_same (key))
+			Result := has (Buffer.to_same (key))
 		end
 
-	has_key (key: READABLE_STRING_GENERAL): BOOLEAN
+	has_general_key (key: READABLE_STRING_GENERAL): BOOLEAN
 		-- Is there an item in the table with key `key'? Set `found_item' to the found item.
 		do
-			Result := table_has_key (Buffer.to_same (key))
+			Result := has_key (Buffer.to_same (key))
 		end
 
 feature -- Basic operations
 
-	search (key: READABLE_STRING_GENERAL)
+	search_general (key: READABLE_STRING_GENERAL)
 			-- Search for item of key `key'.
 			-- If found, set `found' to true, and set
 			-- `found_item' to item associated with `key'.
 		do
-			table_search (Buffer.to_same (key))
+			search (Buffer.to_same (key))
 		end
 
 feature {NONE} -- Constants

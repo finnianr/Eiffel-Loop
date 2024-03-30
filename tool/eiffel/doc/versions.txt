@@ -1,3 +1,6 @@
+Ver 2.1.1 (30 Mar 2024)
+* Optimized creation of CLASS_LINKS for crc and for HTML substitution
+
 Ver 2.1.0 (28 Mar 2024)
 * Fixed publisher to expand class links with parameters
 

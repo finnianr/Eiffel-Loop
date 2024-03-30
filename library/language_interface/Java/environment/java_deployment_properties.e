@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 19:07:25 GMT (Tuesday 14th February 2023)"
-	revision: "12"
+	date: "2024-03-29 17:57:32 GMT (Friday 29th March 2024)"
+	revision: "13"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES

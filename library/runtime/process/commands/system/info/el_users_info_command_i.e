@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-03-29 11:44:40 GMT (Friday 29th March 2024)"
+	revision: "21"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I
@@ -33,6 +33,8 @@ inherit
 		redefine
 			make_default, do_with_lines
 		end
+
+	EL_OS_DEPENDENT
 
 feature {NONE} -- Initialization
 

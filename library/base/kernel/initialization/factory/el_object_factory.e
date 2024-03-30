@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 18:51:01 GMT (Sunday 31st December 2023)"
-	revision: "28"
+	date: "2024-03-29 9:22:53 GMT (Friday 29th March 2024)"
+	revision: "29"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -85,7 +85,7 @@ feature -- Factory
 			valid_type: a_alias /= default_alias implies valid_alias (a_alias)
 			valid_default_type: a_alias = default_alias implies valid_alias (default_alias)
 		do
-			if types_indexed_by_name.has_key (a_alias) then
+			if types_indexed_by_name.has_general_key (a_alias) then
 				Result := new_item_from_type (types_indexed_by_name.found_item)
 			else
 				Result := new_item_from_alias (default_alias)
@@ -130,12 +130,12 @@ feature -- Contract support
 
 	has_alias (a_alias: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := types_indexed_by_name.has (a_alias)
+			Result := types_indexed_by_name.has_general (a_alias)
 		end
 
 	valid_alias (a_alias: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if types_indexed_by_name.has_key (a_alias) then
+			if types_indexed_by_name.has_general_key (a_alias) then
 				Result := valid_name (types_indexed_by_name.found_item)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-09 13:54:05 GMT (Thursday 9th March 2023)"
-	revision: "20"
+	date: "2024-03-30 9:41:06 GMT (Saturday 30th March 2024)"
+	revision: "21"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -111,10 +111,14 @@ feature {NONE} -- Implementation
 		local
 			index: INTEGER
 		do
+		-- passes test for comment line: "%T%T-- index of %"${%""
+		-- See CLASS_LINK `start_index' 
 			if attached code_line as line and then line.count >= 2 then
-				index := line.index_of ('"', line.count)
-				if index > 0 then
-					Result := Verbatim_markers.open.has (line.item_8 (index + 1))
+				index := line.last_index_of ('"', 1)
+				if index > 0 and then line.valid_index (index + 1)
+					and then Verbatim_markers.open.has (line.item_8 (index + 1))
+				then
+					Result := line.leading_white_space = index - 1
 				end
 			end
 		end

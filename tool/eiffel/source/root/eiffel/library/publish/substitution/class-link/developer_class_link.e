@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 7:34:26 GMT (Wednesday 27th March 2024)"
-	revision: "7"
+	date: "2024-03-30 15:38:32 GMT (Saturday 30th March 2024)"
+	revision: "8"
 
 class
 	DEVELOPER_CLASS_LINK
@@ -15,7 +15,7 @@ class
 inherit
 	CLASS_LINK
 		redefine
-			adjust_path, github_markdown, is_valid, wiki_markup
+			adjust_path, github_markdown, relative_path, is_valid, wiki_markup
 		end
 
 create
@@ -31,7 +31,7 @@ feature -- Access
 		local
 			index_left, index_right: INTEGER
 		do
-			Result := Github_link_template #$ [type_name, github_url + path]
+			Result := Github_link_template #$ [class_name, github_url + path]
 		-- Change .html to .e
 			index_right := Result.count - 1
 			index_left := index_right - 3
@@ -40,9 +40,14 @@ feature -- Access
 			end
 		end
 
+	relative_path (relative_page_dir: DIR_PATH): FILE_PATH
+		do
+			Result := path.universal_relative_path (relative_page_dir)
+		end
+
 	wiki_markup (web_address: ZSTRING): ZSTRING
 		do
-			Result := Wiki_link_template #$ [web_address, path.to_unix, type_name]
+			Result := Wiki_link_template #$ [web_address, path.to_unix, class_name]
 		end
 
 feature -- Element change

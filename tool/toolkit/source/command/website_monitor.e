@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 9:37:47 GMT (Thursday 21st March 2024)"
-	revision: "6"
+	date: "2024-03-29 11:23:47 GMT (Friday 29th March 2024)"
+	revision: "7"
 
 class
 	WEBSITE_MONITOR
@@ -113,9 +113,9 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Constants
 
-	Notification_command: EL_NOTIFY_SEND_ERROR_COMMAND
+	Notification_command: EL_NOTIFY_SEND_ERROR_COMMAND_I
 		once
-			create Result.make
+			create {EL_NOTIFY_SEND_ERROR_COMMAND} Result.make
 		end
 
 end

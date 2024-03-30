@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 15:47:22 GMT (Thursday 28th March 2024)"
-	revision: "1"
+	date: "2024-03-30 18:17:20 GMT (Saturday 30th March 2024)"
+	revision: "2"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -24,6 +24,8 @@ inherit
 			initialize
 		end
 
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
+
 	PUBLISHER_CONSTANTS
 
 create
@@ -34,18 +36,12 @@ feature {NONE} -- Initialization
 	initialize
 		do
 			Precursor
-			item_type := [create {ZSTRING}.make_empty, False, 0, 0]
+			create buffer
+			create name_buffer
+			create class_link_table.make_size (500)
 		end
 
 feature -- Status query
-
-	has_parameter_type (code_text: EL_READABLE_ZSTRING): BOOLEAN
-		do
-			from start until after or Result loop
-				Result := item_has_parameter (code_text)
-				forth
-			end
-		end
 
 	item_has_parameter (code_text: EL_READABLE_ZSTRING): BOOLEAN
 		-- `True' if `code_text' has '[' in item interval
@@ -61,71 +57,85 @@ feature -- Status query
 			end
 		end
 
-	valid_item (code_text: EL_READABLE_ZSTRING): BOOLEAN
+	valid_item_type (code_text: EL_READABLE_ZSTRING): BOOLEAN
+		local
+			name_count, start_index, end_index: INTEGER; eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			if code_text.valid_index (item_lower) and then code_text.valid_index (item_upper)
-				and then code_text.same_characters (Dollor_left_brace, 1, 2, item_lower)
+			start_index := item_lower; end_index := item_upper
+			if code_text.valid_index (start_index) and then code_text.valid_index (end_index)
+				and then code_text.same_characters (Dollor_left_brace, 1, 2, start_index)
+				and then code_text [end_index] = '}'
 			then
-				Result := code_text [item_upper] = '}'
+				name_count := end_index - start_index - 2
+				if 1 <= name_count and name_count <= Max_type_name_count then
+					Result := eif.is_type_name (buffer.copied_substring (code_text, start_index + 2, end_index - 1))
+				end
 			end
 		end
 
 feature -- Access
 
-	item_type: TUPLE [name: ZSTRING; is_valid: BOOLEAN; start_index, end_index: INTEGER]
+	item_debug (code_text: ZSTRING): STRING
+		do
+			if off then
+				create Result.make_empty
+			else
+				Result := code_text.substring (item_lower, item_upper)
+			end
+		end
+
+	item_class_link (code_text: ZSTRING): CLASS_LINK
+		require
+			valid_item: not off and then valid_item_type (code_text)
+		local
+			place_holder, name: ZSTRING; expanded_parameters: detachable ZSTRING
+			left_brace_index: INTEGER
+		do
+			place_holder := buffer.copied_substring (code_text, item_lower, item_upper)
+			if item_has_parameter (code_text) then
+				expanded_parameters := place_holder.twin
+				if attached expanded_parameters as parameters then
+					enclose_class_parameters (parameters)
+					left_brace_index := parameters.index_of ('}', 3)
+					name := name_buffer.copied_substring (parameters, 3, (left_brace_index - 1).max (3))
+				end
+			else
+				name := name_buffer.copied_substring (place_holder, 3, place_holder.count - 1)
+			end
+			if class_link_table.has_key (place_holder) then
+			-- need twin possibly different `item_lower' and `item_upper'
+				Result := class_link_table.found_item.twin
+			else
+				Result := new_class_link (name)
+				class_link_table.extend (Result, place_holder.twin)
+			end
+			if attached expanded_parameters as parameters then
+				Result.set_expanded_parameters (parameters)
+			end
+			Result.set_start_index (item_lower)
+			Result.set_end_index (item_upper)
+		end
 
 feature -- Element change
 
 	fill (code_text: EL_READABLE_ZSTRING)
 		local
-			right_index: INTEGER
+			right_index, next_dollor_index: INTEGER
 		do
 			fill_by_string (code_text, Dollor_left_brace, 0)
 			from start until after loop
 				right_index := code_text.index_of ('}', item_upper + 1)
-				if right_index > 0 then
+				if index < count then
+					next_dollor_index := i_th_lower (index + 1)
+				else
+					next_dollor_index := code_text.count + 1
+				end
+				if right_index > 0 and right_index < next_dollor_index then
 					put_i_th (item_lower, right_index, index)
 					forth
 				else
 					remove
 				end
-			end
-		end
-
-	update_item_type (code_text: ZSTRING)
-		local
-			start_index, end_index, name_count: INTEGER
-			type_name: ZSTRING; eif: EL_EIFFEL_SOURCE_ROUTINES
-		do
-			start_index := item_lower + 2; end_index := item_upper - 1
-			if attached item_type as type then
-				type_name := type.name; type_name.wipe_out
-				type.is_valid := False
-				type.start_index := start_index
-				type.end_index := end_index
-				name_count := end_index - start_index + 1
-				if 1 <= name_count and name_count <= Max_type_name_count then
-					type_name.append_substring (code_text, start_index, end_index)
-					type.is_valid := eif.is_type_name (type_name)
-				end
-			end
-		end
-
-feature -- Basic operations
-
-	edit_class_parameters (code_text: ZSTRING)
-		local
-			buffer: ZSTRING; start_index, end_index: INTEGER
-		do
-			create buffer.make_empty
-			from finish until before loop
-				if item_has_parameter (code_text) then
-					start_index := item_lower; end_index := item_upper
-					buffer.wipe_out; buffer.append_substring (code_text, start_index, end_index)
-					enclose_class_parameters (buffer)
-					code_text.replace_substring (buffer, start_index, end_index)
-				end
-				back
 			end
 		end
 
@@ -158,11 +168,36 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_class_link (name: ZSTRING): CLASS_LINK
+		do
+			if Class_path_table.has_class (name) then
+				create {DEVELOPER_CLASS_LINK} Result.make (Class_path_table.found_item, name.twin)
+
+			elseif ISE_class_table.has_class (name) then
+				create {ISE_CLASS_LINK} Result.make (ISE_class_table.found_item, name.twin)
+			else
+				create Result.make (Invalid_class, name.twin)
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	buffer: EL_ZSTRING_BUFFER
+
+	name_buffer: EL_ZSTRING_BUFFER
+
+	class_link_table: EL_ZSTRING_HASH_TABLE [CLASS_LINK]
+
 feature {NONE} -- Constants
 
 	Max_type_name_count: INTEGER
 		once
 			Result := 80
+		end
+
+	Invalid_class: FILE_PATH
+		once
+			Result := "invalid-class-name"
 		end
 
 end

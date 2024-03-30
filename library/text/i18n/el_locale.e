@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:20:13 GMT (Saturday 20th January 2024)"
-	revision: "39"
+	date: "2024-03-29 17:58:37 GMT (Friday 29th March 2024)"
+	revision: "40"
 
 class
 	EL_LOCALE
@@ -166,7 +166,7 @@ feature -- Status query
 	has_all_keys (key_list: ITERABLE [READABLE_STRING_GENERAL]): BOOLEAN
 		do
 			restrict_access
-				Result := across key_list as key all translation_table.has (key.item) end
+				Result := across key_list as key all translation_table.has_general (key.item) end
 			end_restriction
 		end
 
@@ -303,7 +303,7 @@ feature {NONE} -- Implementation
 	has_item_key (key: READABLE_STRING_GENERAL): BOOLEAN
 			-- translation for source code string in current user language
 		do
-			Result := translation_table.has (key)
+			Result := translation_table.has_general (key)
 		end
 
 	in (a_language: STRING): EL_LOCALE
@@ -342,7 +342,7 @@ feature {NONE} -- Implementation
 		-- translation for `key'
 		do
 			if attached translation_table as table then
-				if table.has_key (key) then
+				if table.has_general_key (key) then
 					Result := table.found_item
 				else
 					Result := Unknown_key_template #$ [key]

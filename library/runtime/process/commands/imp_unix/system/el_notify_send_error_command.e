@@ -8,31 +8,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 9:18:45 GMT (Thursday 21st March 2024)"
-	revision: "1"
+	date: "2024-03-29 11:41:52 GMT (Friday 29th March 2024)"
+	revision: "2"
 
 class
 	EL_NOTIFY_SEND_ERROR_COMMAND
 
 inherit
-	EL_PARSED_OS_COMMAND [TUPLE [urgency, error, message: STRING]]
-		export
-			{ANY} put_string
-		end
+	EL_NOTIFY_SEND_ERROR_COMMAND_I
+	
+	EL_UNIX_IMPLEMENTATION
 
 create
 	make
 
-feature -- Constants
-
-	Urgency: TUPLE [low, normal, critical: IMMUTABLE_STRING_8]
-		-- urgency=LEVEL Specifies the urgency level (low, normal, critical).
-		once
-			create Result
-			Tuple.fill_immutable (Result, "low, normal, critical")
-		end
-
 feature {NONE} -- Constants
+
+	Urgency_list: STRING = "low, normal, critical"
 
 	template: STRING = "[
 		notify-send --urgency $URGENCY --icon=error "$ERROR" "$MESSAGE"

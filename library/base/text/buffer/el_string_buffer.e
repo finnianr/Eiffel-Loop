@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 17:27:38 GMT (Monday 13th November 2023)"
-	revision: "4"
+	date: "2024-03-29 9:31:23 GMT (Friday 29th March 2024)"
+	revision: "5"
 
 deferred class
 	EL_STRING_BUFFER [S -> STRING_GENERAL, READABLE -> READABLE_STRING_GENERAL]
 
 inherit
 	ANY
-	
+
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 		export
 			{NONE} all
@@ -76,7 +76,7 @@ feature -- Access
 
 	to_same (general: READABLE_STRING_GENERAL): S
 		do
-			if attached {S} general as str then
+			if buffer.same_type (general) and then attached {S} general as str then
 				Result := str
 			else
 				Result := copied_general (general)

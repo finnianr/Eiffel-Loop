@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 9:58:38 GMT (Friday 23rd February 2024)"
-	revision: "31"
+	date: "2024-03-29 18:02:54 GMT (Friday 29th March 2024)"
+	revision: "32"
 
 deferred class
 	FCGI_SERVLET_SERVICE

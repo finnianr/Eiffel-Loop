@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 15:47:33 GMT (Thursday 28th March 2024)"
-	revision: "10"
+	date: "2024-03-30 18:17:33 GMT (Saturday 30th March 2024)"
+	revision: "11"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -57,28 +57,23 @@ feature -- Basic operations
 	substitute_html (html_string: ZSTRING)
 		local
 			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
-			buffer: ZSTRING
+			buffer: ZSTRING; class_link: CLASS_LINK
 		do
-			if attached Class_link_list as list and then attached list.class_link_intervals as link_intervals then
-				link_intervals.fill (html_string)
-				if link_intervals.has_parameter_type (html_string) then
-					link_intervals.edit_class_parameters (html_string)
-					link_intervals.fill (html_string)
-				end
-				list.fill_with_intervals (html_string, link_intervals)
-
-				list.do_all (agent {CLASS_LINK}.adjust_path (relative_page_dir))
+			if attached Class_link_list as list then
+				list.fill (html_string)
+--				list.adjust_path_all (relative_page_dir)
 
 				across String_scope as scope loop
-					buffer := scope.best_item (html_string.count + list.character_count (link_text_count))
+					buffer := scope.best_item (html_string.count + list.character_count (link_text_count, relative_page_dir))
 					from list.start until list.after loop
+						class_link := list.item
 						preceding_start_index := previous_end_index + 1
-						preceding_end_index := list.item.start_index - 1
+						preceding_end_index := class_link.start_index - 1
 						if (preceding_end_index - preceding_start_index + 1) > 0 then
 							buffer.append_substring (html_string, preceding_start_index, preceding_end_index)
 						end
-						buffer.append (new_link_markup (list.item))
-						previous_end_index := list.item.end_index
+						buffer.append (new_link_markup (class_link))
+						previous_end_index := class_link.end_index
 						list.forth
 					end
 					if html_string.count - previous_end_index > 0 then
@@ -93,8 +88,24 @@ feature {NONE} -- Implementation
 
 	new_link_markup (link: CLASS_LINK): ZSTRING
 		-- HTML with spaces substituted by non-breaking space
+		local
+			html_text: ZSTRING; relative_path: FILE_PATH
 		do
-			Result := Html_link_template #$ [link.path, anchor_id, link.class_name]
+			if link.has_parameters then
+				Result := link.expanded_parameters.twin
+				if attached Class_link_list.expanded_list (link) as list then
+					from list.finish until list.before loop
+						if attached list.item as class_link then
+							relative_path := class_link.relative_path (relative_page_dir)
+							html_text := Html_link_template #$ [relative_path, anchor_id, class_link.class_name]
+							Result.replace_substring (html_text, class_link.start_index, class_link.end_index)
+						end
+						list.back
+					end
+				end
+			else
+				Result := Html_link_template #$ [link.relative_path (relative_page_dir), anchor_id, link.class_name]
+			end
 		end
 
 feature {NONE} -- Internal attributes

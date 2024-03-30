@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-03-29 9:16:01 GMT (Friday 29th March 2024)"
+	revision: "23"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -102,7 +102,7 @@ feature -- Access
 		require
 			integer_value_exists: has_integer (name)
 		do
-			if value_table.has_key (name) and then value_table.found_item.is_integer then
+			if value_table.has_general_key (name) and then value_table.found_item.is_integer then
 				Result := value_table.found_item.to_integer
 			end
 		end
@@ -145,7 +145,7 @@ feature -- Access
 		require
 			has_value: has_value (name)
 		do
-			if value_table.has_key (name) and then value_table.found_item /= Default_value then
+			if value_table.has_general_key (name) and then value_table.found_item /= Default_value then
 				Result := value_table.found_item
 			else
 				create Result.make_empty
@@ -167,12 +167,12 @@ feature -- Status query
 
 	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := value_table.has_key (name) and then value_table.found_item /= Default_value
+			Result := value_table.has_general_key (name) and then value_table.found_item /= Default_value
 		end
 
 	is_last_word_option (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if value_table.has (name) and attached value_table.current_keys as keys then
+			if value_table.has_general (name) and attached value_table.current_keys as keys then
 				Result := keys [keys.upper].same_string_general (name)
 			end
 		end
@@ -180,7 +180,7 @@ feature -- Status query
 	word_option_exists (name: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
-			Result := value_table.has (name)
+			Result := value_table.has_general (name)
 		end
 
 feature -- Measurement
@@ -205,7 +205,7 @@ feature -- Basic operations
 		-- set attribute in object that match command command options
 		do
 			across object.field_table as table loop
-				if value_table.has_key (table.key) then
+				if value_table.has_general_key (table.key) then
 					if attached {EL_REFLECTED_BOOLEAN} table.item as boolean then
 						boolean.set (object, True)
 					elseif attached {EL_REFLECTED_BOOLEAN_REF} table.item as boolean then

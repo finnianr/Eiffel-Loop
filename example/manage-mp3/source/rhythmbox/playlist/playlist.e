@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-03-29 18:00:40 GMT (Friday 29th March 2024)"
+	revision: "10"
 
 deferred class
 	PLAYLIST
@@ -107,8 +107,7 @@ feature {NONE} -- Implementation
 
 	replace_template (cortina_set: CORTINA_SET)
 		local
-			tanda_type: ZSTRING
-			i: INTEGER; cortina_list: ARRAYED_LIST [RBOX_CORTINA_SONG]
+			i: INTEGER; cortina_list: ARRAYED_LIST [RBOX_CORTINA_SONG]; tanda_type: ZSTRING
 		do
 			from start until after loop
 				if song.title ~ Tanda.the_end then

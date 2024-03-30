@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 17:01:49 GMT (Thursday 28th March 2024)"
-	revision: "55"
+	date: "2024-03-29 9:08:15 GMT (Friday 29th March 2024)"
+	revision: "56"
 
 class
 	EIFFEL_CLASS
@@ -99,7 +99,7 @@ feature -- Access
 
 	code_text: ZSTRING
 
-	name: STRING
+	name: ZSTRING
 
 	notes: EIFFEL_NOTES
 

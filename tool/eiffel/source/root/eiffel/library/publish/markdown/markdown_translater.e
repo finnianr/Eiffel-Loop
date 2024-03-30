@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 14:47:03 GMT (Thursday 28th March 2024)"
-	revision: "37"
+	date: "2024-03-30 10:46:07 GMT (Saturday 30th March 2024)"
+	revision: "38"
 
 class
 	MARKDOWN_TRANSLATER
@@ -184,12 +184,12 @@ feature {NONE} -- Implementation
 			if line.starts_with_character ('%T') then
 				line.remove_head (1)
 			end
-			if line.has_substring (Dollor_left_brace) and then attached Class_link_list as list then
+			if attached Class_link_list.link_intervals as list then
 				list.fill (line)
 			-- iterate in reverse to allow removals
 				from list.finish until list.before loop
-					line.remove (list.item.end_index) -- '}'
-					line.remove_substring (list.item.start_index, list.item.start_index + 1) -- "${"
+					line.remove (list.item_upper) -- '}'
+					line.remove_substring (list.item_lower, list.item_lower + 1) -- "${"
 					list.back
 				end
 			end

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 13:39:44 GMT (Thursday 28th March 2024)"
-	revision: "6"
+	date: "2024-03-30 15:38:04 GMT (Saturday 30th March 2024)"
+	revision: "7"
 
 class
 	CLASS_LINK
@@ -22,17 +22,17 @@ inherit
 
 	PUBLISHER_CONSTANTS
 
+	EL_ZSTRING_CONSTANTS
+
 create
 	make
 
 feature {NONE} -- Initialization
 
-	make (a_path: FILE_PATH; a_code_text: ZSTRING; class_link_intervals: CLASS_LINK_OCCURRENCE_INTERVALS)
-		require
-			valid_item: not class_link_intervals.off and then class_link_intervals.valid_item (a_code_text)
+	make (a_path: FILE_PATH; a_class_name: ZSTRING)
 		do
-			path := a_path; code_text := a_code_text
-			start_index := class_link_intervals.item_lower; end_index := class_link_intervals.item_upper
+			path := a_path; class_name := a_class_name
+			expanded_parameters := Empty_string
 		end
 
 feature -- Status query
@@ -43,33 +43,23 @@ feature -- Status query
 			Result := False
 		end
 
+	has_parameters: BOOLEAN
+		do
+			Result := expanded_parameters /= Empty_string
+		end
+
 feature -- Access
 
-	class_name: ZSTRING
-		local
-			bracket_index: INTEGER
+	relative_path (relative_page_dir: DIR_PATH): FILE_PATH
 		do
-			Result := type_name
-			bracket_index := Result.index_of ('[', 1)
-			if bracket_index > 0 then
-				-- remove class parameter
-				Result.keep_head (bracket_index - 1)
-				Result.right_adjust
-			end
+			Result := path
 		end
+
+	class_name: ZSTRING
+
+	expanded_parameters: ZSTRING
 
 	path: FILE_PATH
-
-	reference_marker: ZSTRING
-		-- Eg. ${MY_CLASS}
-		do
-			Result := code_text.substring (start_index, end_index)
-		end
-
-	type_name: ZSTRING
-		do
-			Result := code_text.substring (start_index + 2, end_index - 1)
-		end
 
 feature -- Measurement
 
@@ -82,12 +72,12 @@ feature -- Markup
 
 	github_markdown (github_url: EL_DIR_URI_PATH): ZSTRING
 		do
-			Result := Github_link_template #$ [type_name, path]
+			Result := Github_link_template #$ [class_name, path]
 		end
 
 	wiki_markup (web_address: ZSTRING): ZSTRING
 		do
-			Result := reference_marker
+			Result := class_name
 		end
 
 feature -- Code substring indices
@@ -104,8 +94,19 @@ feature -- Element change
 		do
 		end
 
-feature {NONE} -- Internal attributes
+	set_end_index (a_end_index: INTEGER)
+		do
+			end_index := a_end_index
+		end
 
-	code_text: ZSTRING
+	set_expanded_parameters (a_expanded_parameters: ZSTRING)
+		do
+			expanded_parameters := a_expanded_parameters
+		end
+
+	set_start_index (a_start_index: INTEGER)
+		do
+			start_index := a_start_index
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 9:57:16 GMT (Wednesday 28th December 2022)"
-	revision: "13"
+	date: "2024-03-29 11:43:14 GMT (Friday 29th March 2024)"
+	revision: "14"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -22,6 +22,8 @@ inherit
 		redefine
 			do_with_output_lines
 		end
+
+	EL_OS_DEPENDENT
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 		rename

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-18 14:40:50 GMT (Monday 18th March 2024)"
-	revision: "18"
+	date: "2024-03-29 17:57:40 GMT (Friday 29th March 2024)"
+	revision: "19"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE

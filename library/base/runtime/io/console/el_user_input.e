@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 15:44:38 GMT (Friday 22nd December 2023)"
-	revision: "21"
+	date: "2024-03-29 9:23:20 GMT (Friday 29th March 2024)"
+	revision: "22"
 
 class
 	EL_USER_INPUT
@@ -99,7 +99,7 @@ feature -- Input
 			--
 		do
 			lio.put_labeled_string (prompt, "")
-			if Preinput_table.has_key (as_zstring (prompt)) then
+			if Preinput_table.has_general_key (prompt) then
 				Result := Preinput_table.found_item
 				lio.put_new_line
 			else
