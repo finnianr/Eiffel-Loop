@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 9:45:35 GMT (Thursday 14th March 2024)"
-	revision: "90"
+	date: "2024-03-31 10:02:41 GMT (Sunday 31st March 2024)"
+	revision: "91"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -263,6 +263,13 @@ feature -- Contract Support
 				Result := Result and String_8.occurrences (Current, Substitute) = sum_count
 			else
 				Result := String_8.occurrences (Current, Substitute) = 0
+			end
+		end
+
+	valid_substring_indices (start_index, end_index: INTEGER): BOOLEAN
+		do
+			if valid_index (start_index) then
+				Result := end_index >= start_index and end_index <= count
 			end
 		end
 

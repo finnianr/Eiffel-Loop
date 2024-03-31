@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "19"
+	date: "2024-03-31 7:58:14 GMT (Sunday 31st March 2024)"
+	revision: "20"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -20,7 +20,7 @@ class
 inherit
 	EL_COMMAND_LINE_APPLICATION [CLASS_DESCENDANTS_COMMAND]
 		redefine
-			Option_name
+			Option_name, visible_types
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -54,6 +54,13 @@ feature {NONE} -- Implementation
 	log_filter_set: EL_LOG_FILTER_SET [like Current, CLASS_DESCENDANTS_COMMAND]
 		do
 			create Result.make
+		end
+
+	visible_types: TUPLE [EL_OS_COMMAND]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
+		do
+			create Result
 		end
 
 feature {NONE} -- Constants

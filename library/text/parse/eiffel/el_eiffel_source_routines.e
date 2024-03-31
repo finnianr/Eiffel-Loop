@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 14:48:43 GMT (Wednesday 27th March 2024)"
-	revision: "12"
+	date: "2024-03-31 9:52:50 GMT (Sunday 31st March 2024)"
+	revision: "13"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -52,7 +52,7 @@ feature -- Conversion
 			all_brackets_matched: a_text.occurrences ('[') = a_text.occurrences (']')
 		local
 			i, index, upper, start_index, end_index: INTEGER; c: CHARACTER
-			text: ZSTRING; s: EL_ZSTRING_ROUTINES; appending: BOOLEAN
+			text: ZSTRING; appending: BOOLEAN
 		do
 			text := as_zstring (a_text)
 			create Result.make (2)
@@ -144,6 +144,7 @@ feature -- Constants
 		once
 			create Result
 		end
+
 	Type_name_character_set: EL_EIFFEL_TYPE_NAME_CHARACTER_SET
 		-- Set of characters permissible in type name (which may have generic parameters)
 		once

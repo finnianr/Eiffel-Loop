@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 10:13:04 GMT (Friday 29th March 2024)"
-	revision: "73"
+	date: "2024-03-31 7:32:48 GMT (Sunday 31st March 2024)"
+	revision: "74"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -108,7 +108,7 @@ feature -- Tests
 						lio.put_new_line
 					end
 				end
-				assert ("same list digest", crc.checksum = 2717188820)
+				assert ("same list digest: " + crc.checksum.out, crc.checksum = 570835526)
 			end
 		end
 

@@ -1,13 +1,13 @@
 note
-	description: "Comparable aspects of ${ZSTRING}"
+	description: "Comparison of current ${EL_READABLE_ZSTRING} with other strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 13:25:16 GMT (Tuesday 12th March 2024)"
-	revision: "41"
+	date: "2024-03-31 9:39:29 GMT (Sunday 31st March 2024)"
+	revision: "42"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -22,49 +22,6 @@ feature -- Status query
 	matches (a_pattern: EL_TEXT_PATTERN_I): BOOLEAN
 		do
 			Result := a_pattern.matches_string_general (current_readable)
-		end
-
-feature -- Character comparison
-
-	ends_with_character (uc: CHARACTER_32): BOOLEAN
-		-- `True' if last character in string is same as `uc'
-		local
-			i: INTEGER
-		do
-			i := count
-			if i > 0 then
-				if uc.natural_32_code <= 0x7F then
-				-- ASCII
-					Result := area [i - 1] = uc.to_character_8
-				else
-					Result := item (i) = uc
-				end
-			end
-		end
-
-	has_first (uc: CHARACTER_32): BOOLEAN
-		-- `True' if first character in string is same as `uc'
-		do
-			Result := count > 0 and then item (1) = uc
-		end
-
-	is_character (uc: CHARACTER_32): BOOLEAN
-		-- `True' if string is same as single character `uc'
-		do
-			Result := count = 1 and then item (1) = uc
-		end
-
-	starts_with_character (uc: CHARACTER_32): BOOLEAN
-		-- `True' if last character in string is same as `uc'
-		do
-			if count > 0 then
-				if uc.natural_32_code <= 0x7F then
-				-- ASCII
-					Result := area [0] = uc.to_character_8
-				else
-					Result := item (1) = uc
-				end
-			end
 		end
 
 feature -- Start/End comparisons

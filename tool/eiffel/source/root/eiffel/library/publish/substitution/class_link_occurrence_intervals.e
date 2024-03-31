@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-30 18:17:20 GMT (Saturday 30th March 2024)"
-	revision: "2"
+	date: "2024-03-31 9:15:17 GMT (Sunday 31st March 2024)"
+	revision: "3"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -158,7 +158,7 @@ feature {NONE} -- Implementation
 				if bracket_index > 0 then
 					from until break loop
 						bracket_index := bracket_index - 1
-						if class_link [bracket_index] /= ' ' then
+						if class_link [bracket_index].is_alpha_numeric then
 							break := True
 						end
 					end
