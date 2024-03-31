@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:22:02 GMT (Saturday 20th January 2024)"
-	revision: "31"
+	date: "2024-03-31 11:21:32 GMT (Sunday 31st March 2024)"
+	revision: "32"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -58,7 +58,7 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.append", "covers/{EL_SUBSTRING_32_ARRAY}.shifted"
 		local
 			word, line: ZSTRING; count: INTEGER
-			unencoded: EL_COMPACT_SUBSTRINGS_32; array, word_array, shifted_array: EL_SUBSTRING_32_ARRAY
+			unencoded: EL_COMPACT_SUBSTRINGS_32_I; array, word_array, shifted_array: EL_SUBSTRING_32_ARRAY
 		do
 			create line.make_empty
 			create array.make_from_unencoded (line)
@@ -83,7 +83,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_COMPACT_SUBSTRINGS_32_BUFFER}.append_substring"
 		local
-			zstr: ZSTRING; unencoded, sub_unencoded: EL_COMPACT_SUBSTRINGS_32
+			zstr: ZSTRING; unencoded, sub_unencoded: EL_COMPACT_SUBSTRINGS_32_I
 			extendable: EL_COMPACT_SUBSTRINGS_32_BUFFER; lower, upper: INTEGER
 		do
 			create extendable.make
@@ -94,7 +94,7 @@ feature -- Test
 					lower := index.item; upper := index.item + n.item - 1
 					unencoded := zstr
 					extendable.append_substring (unencoded, lower, upper, 0)
-					create sub_unencoded.make_from_other (extendable)
+					create {EL_COMPACT_SUBSTRINGS_32} sub_unencoded.make_from_other (extendable)
 					zstr := zstr.substring (lower, upper)
 					assert ("same content", same_content (zstr, sub_unencoded))
 				end
@@ -103,7 +103,10 @@ feature -- Test
 
 	test_character_count
 		note
-			testing: "covers/{EL_SUBSTRING_32_ARRAY}.character_count", "covers/{EL_SUBSTRING_32_ARRAY}.utf_8_byte_count"
+			testing: "[
+				covers/{EL_SUBSTRING_32_ARRAY}.character_count,
+				covers/{EL_SUBSTRING_32_ARRAY}.utf_8_byte_count
+			]"
 		do
 			for_each_line (agent compare_character_count)
 		end
@@ -200,7 +203,7 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.prepend", "covers/{EL_SUBSTRING_32_ARRAY}.shifted"
 		local
 			word, line: ZSTRING; count: INTEGER
-			word_unencoded, line_unencoded: EL_COMPACT_SUBSTRINGS_32
+			word_unencoded, line_unencoded: EL_COMPACT_SUBSTRINGS_32_I
 		do
 			create line.make_empty
 			across 0 |..| 1 as n loop
@@ -223,7 +226,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.put"
 		local
-			zstr: ZSTRING; index: INTEGER; unencoded: EL_COMPACT_SUBSTRINGS_32
+			zstr: ZSTRING; index: INTEGER; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 			uc: CHARACTER_32
 		do
 			uc := 'д'
@@ -243,7 +246,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.remove"
 		local
-			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32
+			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 			index: INTEGER
 		do
 			across Text.russian as c loop
@@ -281,7 +284,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.shift_from"
 		local
-			array: EL_SUBSTRING_32_ARRAY; unencoded: EL_COMPACT_SUBSTRINGS_32
+			array: EL_SUBSTRING_32_ARRAY; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 			zstr, padded: ZSTRING; count: INTEGER
 		do
 			zstr := Text.russian
@@ -290,7 +293,7 @@ feature -- Test
 				padded := zstr + create {ZSTRING}.make_filled (' ', count)
 				array := padded; unencoded := padded
 				array.shift_from (index.item, count)
-				create unencoded.make_from_other (unencoded)
+				create {EL_COMPACT_SUBSTRINGS_32} unencoded.make_from_other (unencoded)
 				unencoded.shift_from (index.item, count)
 				assert ("same content", same_content (array, unencoded))
 			end
@@ -301,7 +304,7 @@ feature -- Test
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.sub_array"
 		local
 			zstr, substring: ZSTRING; i, i_last, substring_count: INTEGER
-			array, sub_array: EL_COMPACT_SUBSTRINGS_32; extendable: EL_COMPACT_SUBSTRINGS_32_BUFFER
+			array, sub_array: EL_COMPACT_SUBSTRINGS_32_I; extendable: EL_COMPACT_SUBSTRINGS_32_BUFFER
 		do
 			zstr := Text.russian
 			create extendable.make
@@ -313,7 +316,7 @@ feature -- Test
 					array := zstr
 					extendable.wipe_out
 					extendable.append_substring (array, i, i + substring_count - 1, 0)
-					create sub_array.make_from_other (extendable)
+					create {EL_COMPACT_SUBSTRINGS_32} sub_array.make_from_other (extendable)
 					assert ("same content", same_content (substring, sub_array))
 					i := i + 1
 				end
@@ -349,7 +352,7 @@ feature -- Test
 		note
 			testing: "covers/{EL_SUBSTRING_32_ARRAY}.change_case"
 		local
-			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32
+			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 		do
 			zstr := Text.russian
 			unencoded := zstr
@@ -366,13 +369,13 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
-	compare_character_count (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
+	compare_character_count (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I)
 		do
 			assert ("same character_count", unencoded.character_count = to_array (zstr).character_count)
 			assert ("same utf_8_byte_count", unencoded.utf_8_byte_count = to_array (zstr).utf_8_byte_count)
 		end
 
-	compare_codes (zstr: ZSTRING; array: EL_COMPACT_SUBSTRINGS_32)
+	compare_codes (zstr: ZSTRING; array: EL_COMPACT_SUBSTRINGS_32_I)
 		local
 			i: INTEGER
 		do
@@ -384,22 +387,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_first_interval (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
+	compare_first_interval (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I)
 		do
 			if unencoded.not_empty then
 				assert ("same first_lower", unencoded.first_lower = to_array (zstr).first_lower)
 				assert ("same first_upper", unencoded.first_upper = to_array (zstr).first_upper)
 			else
-				assert ("empty unencoded", unencoded.area.count = 0)
+				assert ("empty unencoded", unencoded.area_count = 0)
 			end
 		end
 
-	compare_hash_code (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
+	compare_hash_code (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I)
 		do
 			assert ("same hash_code", to_array (zstr).hash_code (50) = unencoded.extended_hash_code (50, zstr.count))
 		end
 
-	compare_index_of (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
+	compare_index_of (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I)
 		local
 			i, last_index: INTEGER; uc: CHARACTER_32; null: TYPED_POINTER [INTEGER]
 		do
@@ -414,7 +417,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_occurrences (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
+	compare_occurrences (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I)
 		local
 			i: INTEGER; uc: CHARACTER_32
 		do
@@ -427,14 +430,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compare_write_output (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32)
+	compare_write_output (zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I)
 		do
 			assert ("same content", same_content (zstr, unencoded))
 		end
 
-	for_each_line (test: PROCEDURE [ZSTRING, EL_COMPACT_SUBSTRINGS_32])
+	for_each_line (test: PROCEDURE [ZSTRING, EL_COMPACT_SUBSTRINGS_32_I])
 		local
-			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32
+			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 		do
 			across Text.lines as line loop
 				zstr := line.item
@@ -448,7 +451,7 @@ feature {NONE} -- Implementation
 			Result := zstr
 		end
 
-	same_content (array: EL_SUBSTRING_32_ARRAY; unencoded: EL_COMPACT_SUBSTRINGS_32): BOOLEAN
+	same_content (array: EL_SUBSTRING_32_ARRAY; unencoded: EL_COMPACT_SUBSTRINGS_32_I): BOOLEAN
 		local
 			output_1, output_2: STRING_32
 		do

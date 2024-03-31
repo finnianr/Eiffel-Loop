@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-03-31 11:15:15 GMT (Sunday 31st March 2024)"
+	revision: "9"
 
-class
+deferred class
 	EL_EXTENDABLE_AREA [G]
 
 feature -- Status query
@@ -17,6 +17,13 @@ feature -- Status query
 	not_empty: BOOLEAN
 		do
 			Result := area.count > 0
+		end
+
+feature -- Measurement
+
+	area_count: INTEGER
+		do
+			Result := area.count
 		end
 
 feature {NONE} -- Implementation
@@ -38,13 +45,23 @@ feature {NONE} -- Implementation
 	set_if_changed (current_area, a_area: like area)
 		do
 			if current_area /= a_area then
-				area := a_area
+				set_area (a_area)
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {NONE} -- Deferred
 
 	area: SPECIAL [G]
+		deferred
+		end
+
+	new_filled_area (item: G; n: INTEGER): SPECIAL [G]
+		deferred
+		end
+
+	set_area (a_area: like area)
+		deferred
+		end
 
 feature {NONE} -- Constants
 

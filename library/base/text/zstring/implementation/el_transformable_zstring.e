@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 10:03:21 GMT (Thursday 14th March 2024)"
-	revision: "63"
+	date: "2024-03-31 11:12:26 GMT (Sunday 31st March 2024)"
+	revision: "64"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -416,7 +416,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 					shift_unencoded_from (start_index, s.count)
 
 				when Only_other then
-					unencoded_area := s.unencoded_area.twin
+					set_unencoded_area (s.unencoded_area.twin)
 					shift_unencoded (start_index - 1)
 			else
 			end

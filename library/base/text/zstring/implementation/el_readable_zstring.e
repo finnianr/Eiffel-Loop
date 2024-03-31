@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 9:55:42 GMT (Sunday 31st March 2024)"
-	revision: "146"
+	date: "2024-03-31 11:27:54 GMT (Sunday 31st March 2024)"
+	revision: "147"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -26,6 +26,7 @@ inherit
 			to_upper_area as unencoded_to_upper_area
 		export
 			{NONE} unencoded_to_lower_area, unencoded_to_upper_area
+			{EL_ZSTRING_IMPLEMENTATION, STRING_HANDLER} unencoded_area
 		undefine
 --			Initialization
 			make,
@@ -56,7 +57,7 @@ inherit
 --			Initialization
 			make_from_string,
 --			Access
-			hash_code, unencoded_area, new_cursor,
+			hash_code, new_cursor,
 --			Comparison
 			is_equal,
 --			Duplication
@@ -64,9 +65,6 @@ inherit
 		end
 
 	EL_CHARACTER_TESTABLE_ZSTRING
-		redefine
-			unencoded_area
-		end
 
 	EL_COMPARABLE_ZSTRING
 		export
@@ -78,32 +76,19 @@ inherit
 				unencoded_i_th_substring, unencoded_first_lower, unencoded_first_upper, unencoded_interval_sequence,
 				unencoded_fill_list
 			{EL_ZCODEC} codec
-		redefine
-			unencoded_area
 		end
 
 	EL_CONVERTABLE_ZSTRING
-		redefine
-			unencoded_area
-		end
 
 	EL_MEASUREABLE_ZSTRING
-		redefine
-			unencoded_area
-		end
 
 	EL_SEARCHABLE_ZSTRING
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
 			{EL_ZSTRING_CONSTANTS} String_searcher
-		redefine
-			unencoded_area
 		end
 
 	EL_ZSTRING_TO_BASIC_TYPES
-		redefine
-			unencoded_area
-		end
 
 	READABLE_INDEXABLE [CHARACTER_32]
 		rename
@@ -526,14 +511,20 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	new_filled_unencoded_area (uc: CHARACTER_32; n: INTEGER): like unencoded_area
+		do
+			create Result.make_filled (uc, n)
+		end
+
 	reset_hash
 		do
 			internal_hash_code := 0
 			internal_case_insensitive_hash_code := 0
 		end
 
-feature {EL_ZSTRING_IMPLEMENTATION, STRING_HANDLER} -- Internal attributes
-
-	unencoded_area: SPECIAL [CHARACTER_32]
+	set_unencoded_area (a_unencoded_area: like unencoded_area)
+		do
+			unencoded_area := a_unencoded_area
+		end
 
 end

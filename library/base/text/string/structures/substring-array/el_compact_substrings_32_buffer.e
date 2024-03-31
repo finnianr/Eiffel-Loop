@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "33"
+	date: "2024-03-31 11:11:18 GMT (Sunday 31st March 2024)"
+	revision: "34"
 
 class
 	EL_COMPACT_SUBSTRINGS_32_BUFFER
@@ -73,7 +73,7 @@ feature -- Element change
 			set_last_upper (l_last_upper)
 		end
 
-	append_substring (other: EL_COMPACT_SUBSTRINGS_32; lower_A, upper_A, offset: INTEGER)
+	append_substring (other: EL_COMPACT_SUBSTRINGS_32_I; lower_A, upper_A, offset: INTEGER)
 		local
 			i, lower_B, upper_B, interval_offset, interval_lower, interval_upper: INTEGER
 			ir: EL_INTERVAL_ROUTINES; o_area: like area; overlapping: BOOLEAN

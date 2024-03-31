@@ -13,18 +13,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-03-31 11:39:53 GMT (Sunday 31st March 2024)"
+	revision: "7"
 
 class
 	EL_SUBSTRING_32_BUFFER
 
 inherit
 	EL_EXTENDABLE_AREA [CHARACTER_32]
-		export
-			{EL_SUBSTRING_32_CONTAINER} area
+		rename
+			area_count as buffer_area_count
 		undefine
 			not_empty
+		end
+
+	EL_EXTENDABLE_AREA_IMP [CHARACTER_32]
+		export
+			{EL_SUBSTRING_32_CONTAINER} area
 		end
 
 	EL_SUBSTRING_32_CONTAINER

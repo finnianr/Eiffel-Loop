@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 10:02:41 GMT (Sunday 31st March 2024)"
-	revision: "91"
+	date: "2024-03-31 11:27:55 GMT (Sunday 31st March 2024)"
+	revision: "92"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
 
 inherit
-	EL_COMPACT_SUBSTRINGS_32
+	EL_COMPACT_SUBSTRINGS_32_I
 		rename
 			append as append_unencoded,
 			append_intervals as append_unencoded_intervals,
@@ -45,7 +45,8 @@ inherit
 			make as make_unencoded,
 			make_filled as make_unencoded_filled,
 			make_from_other as make_unencoded_from_other,
-			minimal_increase as minimal_area_increase,
+			minimal_increase as minimal_unencoded_increase,
+			new_filled_area as new_filled_unencoded_area,
 			not_empty as has_mixed_encoding,
 			occurrences as unencoded_occurrences,
 			overlaps as overlaps_unencoded,
@@ -55,6 +56,7 @@ inherit
 			replace_character as replace_unencoded_character,
 			same_characters as same_unencoded_characters,
 			same_string as same_unencoded_string,
+			set_area as set_unencoded_area,
 			set_from_buffer as set_unencoded_from_buffer,
 			shift as shift_unencoded,
 			shift_from as shift_unencoded_from,

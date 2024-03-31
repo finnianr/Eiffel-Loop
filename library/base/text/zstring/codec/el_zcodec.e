@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:49:09 GMT (Thursday 11th January 2024)"
-	revision: "70"
+	date: "2024-03-31 11:03:24 GMT (Sunday 31st March 2024)"
+	revision: "71"
 
 deferred class
 	EL_ZCODEC
@@ -432,7 +432,7 @@ feature -- Basic operations
 				from i := 0 until i = a_count loop
 					inspect latin_in [i]
 						when Substitute then
-							do_nothing -- Filled in later by call to `{EL_COMPACT_SUBSTRINGS_32}.write'
+							do_nothing -- Filled in later by call to `{EL_COMPACT_SUBSTRINGS_32_I}.write'
 						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							unicode_out [i + out_offset] := latin_in [i].code.to_character_32
 					else
@@ -448,7 +448,7 @@ feature -- Basic operations
 		end
 
 	to_lower (
-		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32_I
 	)
 		-- Replace all characters in `a' between `start_index' and `end_index'
 		-- with their lower version when available.
@@ -457,7 +457,7 @@ feature -- Basic operations
 		end
 
 	to_proper (
-		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32_I
 	)
 		-- Replace all characters in `a' between `start_index' and `end_index'
 		-- with their lower version when available.
@@ -466,7 +466,7 @@ feature -- Basic operations
 		end
 
 	to_upper (
-		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32
+		characters: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; unencoded_characters: EL_COMPACT_SUBSTRINGS_32_I
 	)
 		-- Replace all characters in `a' between `start_index' and `end_index'
 		-- with their propercase version when available.
@@ -559,7 +559,7 @@ feature {NONE} -- Implementation
 
 	change_case (
 		latin_in: SPECIAL [CHARACTER]; start_index, end_index: INTEGER; case: NATURAL_8
-		unencoded_characters: EL_COMPACT_SUBSTRINGS_32
+		unencoded_characters: EL_COMPACT_SUBSTRINGS_32_I
 	)
 		require
 			valid_case: case /= {EL_CASE}.Default and then (create {EL_CASE}).is_valid (case)
