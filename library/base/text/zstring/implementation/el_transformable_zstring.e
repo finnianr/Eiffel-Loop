@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:12:26 GMT (Sunday 31st March 2024)"
-	revision: "64"
+	date: "2024-04-01 7:58:57 GMT (Monday 1st April 2024)"
+	revision: "65"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_IMPLEMENTATION
-
-	EL_READABLE_ZSTRING_I
 
 	EL_APPENDABLE_ZSTRING
 

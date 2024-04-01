@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 10:14:12 GMT (Tuesday 30th January 2024)"
-	revision: "23"
+	date: "2024-04-01 8:13:04 GMT (Monday 1st April 2024)"
+	revision: "24"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -192,12 +192,6 @@ feature -- Status query
 			end
 		end
 
-	has_only (str: EL_READABLE_ZSTRING; set: EL_SET [CHARACTER_32]): BOOLEAN
-		-- `True' if `str' only has characters in `set'
-		do
-			Result := str.has_only (set)
-		end
-
 	is_identifier_character (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
 		do
 			Result := str.is_alpha_numeric_item (i) or else str.item_8 (i) = '_'
@@ -206,6 +200,12 @@ feature -- Status query
 	is_punctuation (c: CHARACTER_32): BOOLEAN
 		do
 			Result := not (c = '$' or c = '_') and then c.is_punctuation
+		end
+
+	is_subset_of (str: EL_READABLE_ZSTRING; set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if set of all characters in `str' is a subset of `set'
+		do
+			Result := str.is_subset_of (set)
 		end
 
 	is_variable_name (str: ZSTRING): BOOLEAN

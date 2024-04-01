@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 10:16:25 GMT (Tuesday 30th January 2024)"
-	revision: "48"
+	date: "2024-04-01 8:13:16 GMT (Monday 1st April 2024)"
+	revision: "49"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -40,22 +40,22 @@ feature -- Status query
 			end
 		end
 
-	has_only (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN
-		-- `True' if `str' only has characters in `set'
-		local
-			r: EL_CHARACTER_32_ROUTINES
-		do
-			if attached cursor (str) as c then
-				Result := r.has_only (set, c.area, c.area_first_index, c.area_last_index)
-			end
-		end
-
 	is_identifier_character (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
 		local
 			c: CHARACTER_32
 		do
 			c := str [i]
 			Result := c.is_alpha_numeric or c = '_'
+		end
+
+	is_subset_of (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if set of all characters in `str' is a subset of `set'
+		local
+			r: EL_CHARACTER_32_ROUTINES
+		do
+			if attached cursor (str) as c then
+				Result := r.is_subset_of (set, c.area, c.area_first_index, c.area_last_index)
+			end
 		end
 
 feature -- Comparison

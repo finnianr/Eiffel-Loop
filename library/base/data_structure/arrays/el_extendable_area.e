@@ -1,13 +1,16 @@
 note
-	description: "Object with extendible ${SPECIAL [G]} area"
+	description: "[
+		Abstraction with extendible area of type ${SPECIAL [G]} area. 
+		It can be implemented with the aid of class ${EL_EXTENDABLE_AREA_IMP [G]}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:15:15 GMT (Sunday 31st March 2024)"
-	revision: "9"
+	date: "2024-03-31 15:18:15 GMT (Sunday 31st March 2024)"
+	revision: "10"
 
 deferred class
 	EL_EXTENDABLE_AREA [G]

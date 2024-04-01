@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "33"
+	date: "2024-03-31 16:01:54 GMT (Sunday 31st March 2024)"
+	revision: "34"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -34,7 +34,7 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_OS
 
-	EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS; EL_EIFFEL_CONSTANTS
 
 create
 	make
@@ -103,66 +103,14 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	expand_constraint_list (start_index, end_index: INTEGER; substring: ZSTRING)
-		local
-			constraint_list: EL_ZSTRING_LIST; expanded_string, word: ZSTRING
-			eif: EL_EIFFEL_SOURCE_ROUTINES
-		do
-			create expanded_string.make (end_index - start_index + 1)
-			create constraint_list.make_comma_split (substring.substring (start_index, end_index))
-			across constraint_list as c_list loop
-				word := c_list.item
-				if not c_list.is_first then
-					expanded_string.append_string_general (", ")
-				end
-				if eif.is_class_name (word) then
-					expanded_string.append (Source_link_template #$ [word])
-				end
-			end
-			substring.replace_substring (expanded_string, start_index, end_index)
-		end
-
 	expand_links (line: ZSTRING; tab_count: INTEGER)
-		local
-			word_list: EL_ZSTRING_LIST; word: ZSTRING
-			last_character: CHARACTER_32; eif: EL_EIFFEL_SOURCE_ROUTINES
+		-- Change for example: EL_DESCRIPTIVE_ENUMERATION* [N -> {NUMERIC, HASHABLE}]
+		-- to: ${EL_DESCRIPTIVE_ENUMERATION* [N -> (NUMERIC, HASHABLE)]}
 		do
-			if line.has ('{') then
-				-- for example: ${EL_DESCRIPTIVE_ENUMERATION}* [N -> {NUMERIC, HASHABLE}]
-				line.edit ("{", "}", agent expand_constraint_list)
-			end
-			create word_list.make_word_split (line.substring_end (tab_count + 1))
-			line.keep_head (tab_count)
-			across word_list as list loop
-				word := list.item
-				if word.count > 0 then
-					last_character := word [word.count]
-					inspect last_character
-						when '*', ']', ',' then
-							do_nothing
-					else
-						last_character := '%U'
-					end
-				else
-					last_character := '%U'
-				end
-				if last_character.code.to_boolean then
-					word.remove_tail (1)
-				end
-				if not list.is_first then
-					line.append_character (' ')
-				end
-				if word.count > 1 and then eif.is_class_name (word)
-					and then (not list.is_last implies word_list.i_th (list.cursor_index + 1) /~ Constraint_symbol)
-				then
-					line.append (Source_link_template #$ [word])
-				else
-					line.append (word)
-				end
-				if last_character.code.to_boolean then
-					line.append_character (last_character)
-				end
-			end
+			line.translate ("{}", "()") -- change:  [N -> {NUMERIC, HASHABLE}]
+			line.insert_string (Dollor_left_brace, tab_count + 1)
+			line.prune_all_trailing ('.') -- remove ellipsis "..." on last line
+			line.append_character ('}')
 		end
 
 	reformat_output
@@ -225,11 +173,6 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Constraint_symbol: ZSTRING
-		once
-			Result := "->"
-		end
-
 	Descendants_command: EL_OS_COMMAND
 		once
 			create Result.make_with_name (
@@ -241,11 +184,6 @@ feature {NONE} -- Constants
 	Element_target_name: ZSTRING
 		once
 			Result := "<target name"
-		end
-
-	Source_link_template: ZSTRING
-		once
-			Result := "${%S}"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-29 9:42:16 GMT (Thursday 29th February 2024)"
-	revision: "8"
+	date: "2024-03-31 15:58:50 GMT (Sunday 31st March 2024)"
+	revision: "9"
 
 deferred class
 	EL_EIFFEL_CONSTANTS
@@ -20,6 +20,13 @@ feature {NONE} -- Constants
 	E_extension: ZSTRING
 		once
 			Result := "e"
+		end
+
+	Dollor_left_brace: ZSTRING
+		-- Used to indicate hyperlink substitution of class name in notes
+		-- Eg. ${ZSTRING]
+		once
+			Result := "${"
 		end
 
 	Reserved_word_list: EL_ZSTRING_LIST
@@ -68,5 +75,25 @@ feature {NONE} -- Constants
 		when
 		xor
 	]"
+
+feature {NONE} -- Character sets
+
+	Class_name_character_set: EL_EIFFEL_CLASS_NAME_CHARACTER_SET
+		-- Set of characters permissible in class name
+		once
+			create Result
+		end
+
+	Type_name_character_set: EL_EIFFEL_TYPE_NAME_CHARACTER_SET
+		-- Set of characters permissible in type name (which may have generic parameters)
+		once
+			create Result
+		end
+
+	Type_definition_character_set: EL_EIFFEL_TYPE_DEFINITION_CHARACTER_SET
+		-- Set of characters permissible in type name (which may have generic parameters)
+		once
+			create Result
+		end
 
 end

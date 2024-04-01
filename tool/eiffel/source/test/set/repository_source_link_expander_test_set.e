@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 16:15:38 GMT (Tuesday 12th March 2024)"
-	revision: "20"
+	date: "2024-04-01 12:23:26 GMT (Monday 1st April 2024)"
+	revision: "21"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -18,9 +18,7 @@ inherit
 			make, new_publisher, on_prepare, generated_files
 		end
 
-	SHARED_CLASS_PATH_TABLE
-
-	SHARED_ISE_CLASS_TABLE
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
 
 	EL_MODULE_EXECUTABLE; EL_MODULE_FILE
 

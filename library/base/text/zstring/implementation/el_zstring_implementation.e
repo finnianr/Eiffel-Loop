@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:27:55 GMT (Sunday 31st March 2024)"
-	revision: "92"
+	date: "2024-04-01 12:15:47 GMT (Monday 1st April 2024)"
+	revision: "93"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -98,9 +98,7 @@ inherit
 			copy, is_equal, out
 		end
 
-	EL_SHARED_ENCODINGS; EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_ZSTRING_CODEC
-
-	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_STRING_32_CURSOR
+	EL_READABLE_ZSTRING_I
 
 feature -- Access
 
@@ -119,6 +117,12 @@ feature -- Access
 			else
 				Result := Unicode_table [c_i.code]
 			end
+		end
+
+	item_8 (i: INTEGER): CHARACTER_8
+		-- internal character at position `i'
+		do
+			Result := area [i - 1]
 		end
 
 	item_code (i: INTEGER): INTEGER
@@ -268,6 +272,15 @@ feature -- Contract Support
 			end
 		end
 
+	shared_substring (start_index, end_index: INTEGER): EL_READABLE_ZSTRING
+		-- `Current' if `start_index = 1' and `end_index = count'
+		do
+			if start_index = 1 and then end_index = count then
+			else
+				Result := substring (start_index, end_index)
+			end
+		end
+
 	valid_substring_indices (start_index, end_index: INTEGER): BOOLEAN
 		do
 			if valid_index (start_index) then
@@ -380,12 +393,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	item_8 (i: INTEGER): CHARACTER_8
-		-- internal character at position `i'
-		do
-			Result := area [i - 1]
-		end
-
 	leading_ascii_count (a_area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
 		require
 			valid_order: start_index <= end_index + 1
@@ -464,46 +471,6 @@ feature {NONE} -- Implementation
 		ensure then
 			first_byte_is_reserved_for_latin: area [i - 1] = Substitute implies Result > 0xFF
 			reversible: Codec.z_code_as_unicode (Result) = unicode (i)
-		end
-
-feature {EL_READABLE_ZSTRING} -- Deferred Implementation
-
-	index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
-		deferred
-		end
-
-	last_index_of (uc: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		deferred
-		end
-
-	leading_occurrences (uc: CHARACTER_32): INTEGER
-		-- Returns count of continous occurrences of `uc' or white space starting from the begining
-		deferred
-		ensure
-			substring_agrees: substring (1, Result).occurrences (uc) = Result
-		end
-
-	reset_hash
-		deferred
-		end
-
-	substring (start_index, end_index: INTEGER): EL_READABLE_ZSTRING
-		deferred
-		end
-
-	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
-		deferred
-		end
-
-	trailing_occurrences (uc: CHARACTER_32): INTEGER
-		-- Returns count of continous occurrences of `uc' or white space starting from the end
-		deferred
-		ensure
-			substring_agrees: substring (count - Result + 1, count).occurrences (uc) = Result
-		end
-
-	utf_8_byte_count: INTEGER
-		deferred
 		end
 
 feature {NONE} -- Constants

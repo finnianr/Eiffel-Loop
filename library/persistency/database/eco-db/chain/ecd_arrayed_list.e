@@ -2,8 +2,8 @@ note
 	description: "[
 		Provides the features below when used in conjunction with either of these 2 classes:
 		
-			1. ${ECD_CHAIN [EL_STORABLE]}
-			2. ${ECD_RECOVERABLE_CHAIN [EL_STORABLE]}
+		1. ${ECD_CHAIN [EL_STORABLE]}
+		2. ${ECD_RECOVERABLE_CHAIN [EL_STORABLE]}
 
 		from the [./library/Eco-DB.html Eco-DB library].
 		
@@ -13,8 +13,8 @@ note
 		
 		* Automatically maintained field indexes accessible via the tuple attribute `index_by'
 		
-		* Automatic maintenance of a primary key index when used in conjunction with class
-		${ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]}
+		* Class ${ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]} allows automatic maintenance
+		of a primary key index
 	]"
 	instructions: "See end of class"
 
@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-04-01 11:48:26 GMT (Monday 1st April 2024)"
+	revision: "21"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]

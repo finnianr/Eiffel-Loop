@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 13:37:58 GMT (Tuesday 12th March 2024)"
-	revision: "31"
+	date: "2024-04-01 8:12:08 GMT (Monday 1st April 2024)"
+	revision: "32"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -122,11 +122,6 @@ feature -- Status query
 		deferred
 		end
 
-	has_only (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
-		-- `True' if `str' only has characters in `set'
-		deferred
-		end
-
 	has_quotes (s: READABLE_STRING_X; type: INTEGER): BOOLEAN
 		require
 			double_or_single: 1 <= type and type <= 2
@@ -175,6 +170,11 @@ feature -- Status query
 			if Result and then lower - 1 >= 1 then
 				Result := not is_identifier_character (str, lower - 1)
 			end
+		end
+
+	is_subset_of (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
+		-- `True' if set of all characters in `str' is a subset of `set'
+		deferred
 		end
 
 feature -- Comparison

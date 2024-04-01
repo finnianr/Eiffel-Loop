@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 9:52:50 GMT (Sunday 31st March 2024)"
-	revision: "13"
+	date: "2024-04-01 7:20:06 GMT (Monday 1st April 2024)"
+	revision: "14"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -111,7 +111,7 @@ feature -- Status query
 
 	is_class_name (text: ZSTRING): BOOLEAN
 		do
-			Result := starts_with_upper_letter (text) and then text.has_only_8 (Class_name_character_set)
+			Result := starts_with_upper_letter (text) and then text.is_subset_of_8 (Class_name_character_set)
 		end
 
 	is_reserved_word (word: ZSTRING): BOOLEAN
@@ -121,7 +121,7 @@ feature -- Status query
 
 	is_type_name (text: ZSTRING): BOOLEAN
 		do
-			Result := starts_with_upper_letter (text) and then text.has_only_8 (Type_name_character_set)
+			Result := starts_with_upper_letter (text) and then text.is_subset_of_8 (Type_name_character_set)
 		end
 
 feature {NONE} -- Implementation
@@ -135,20 +135,6 @@ feature {NONE} -- Implementation
 				else
 				end
 			end
-		end
-
-feature -- Constants
-
-	Class_name_character_set: EL_EIFFEL_CLASS_NAME_CHARACTER_SET
-		-- Set of characters permissible in class name
-		once
-			create Result
-		end
-
-	Type_name_character_set: EL_EIFFEL_TYPE_NAME_CHARACTER_SET
-		-- Set of characters permissible in type name (which may have generic parameters)
-		once
-			create Result
 		end
 
 end

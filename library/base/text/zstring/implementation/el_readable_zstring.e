@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:27:54 GMT (Sunday 31st March 2024)"
-	revision: "147"
+	date: "2024-03-31 11:57:49 GMT (Sunday 31st March 2024)"
+	revision: "148"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -500,15 +500,17 @@ feature {STRING_HANDLER} -- Access
 			reset_hash
 		end
 
+feature -- Deferred
+
+	current_zstring: ZSTRING
+		deferred
+		end
+
 feature {NONE} -- Implementation
 
 	current_readable: EL_READABLE_ZSTRING
 		do
 			Result := Current
-		end
-
-	current_zstring: ZSTRING
-		deferred
 		end
 
 	new_filled_unencoded_area (uc: CHARACTER_32; n: INTEGER): like unencoded_area

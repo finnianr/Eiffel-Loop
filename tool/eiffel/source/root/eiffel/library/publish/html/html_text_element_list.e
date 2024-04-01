@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 10:52:48 GMT (Thursday 28th March 2024)"
-	revision: "26"
+	date: "2024-04-01 12:13:56 GMT (Monday 1st April 2024)"
+	revision: "27"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -134,17 +134,26 @@ feature {NONE} -- Line states Eiffel
 
 feature {NONE} -- Factory
 
-	new_list_item_tag (type: STRING; is_open: BOOLEAN): STRING
-		-- returns one of: [li], [oli], [/li], [/oli]
+	new_list_item_tag (type: STRING; is_open: BOOLEAN): ZSTRING
+		-- returns one of: [li], [/li], [oli], [/oli]
 		do
-			create Result.make (6)
-			Result.append (once "[li]")
 			if type = Type_ordered_list then
-				Result.insert_character ('o', 2)
+				if is_open then
+					Result := Tag.oli
+				else
+					Result := Tag.oli_close
+				end
+			elseif type = Type_unordered_list then
+				if is_open then
+					Result := Tag.li
+				else
+					Result := Tag.li_close
+				end
+			else
+				create Result.make_empty
 			end
-			if not is_open then
-				Result.insert_character ('/', 2)
-			end
+		ensure
+			not_empty: Result.count > 0
 		end
 
 	new_html_element: HTML_TEXT_ELEMENT

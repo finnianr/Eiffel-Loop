@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-31 11:13:16 GMT (Wednesday 31st January 2024)"
-	revision: "14"
+	date: "2024-04-01 8:14:42 GMT (Monday 1st April 2024)"
+	revision: "15"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -219,7 +219,7 @@ feature {NONE} -- Implementation
 			s: EL_STRING_8_ROUTINES
 		do
 			if s.starts_with_character (name, 'F') and then name.occurrences ('_') = 1 then
-				Result := s.has_only (name, Current) -- `is_eiffel_c_name_character'
+				Result := s.is_subset_of (name, Current) -- `is_eiffel_c_name_character'
 			end
 		end
 

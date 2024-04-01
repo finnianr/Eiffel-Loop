@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-23 9:14:06 GMT (Tuesday 23rd January 2024)"
-	revision: "14"
+	date: "2024-04-01 11:04:02 GMT (Monday 1st April 2024)"
+	revision: "15"
 
 class
 	MARKDOWN_RENDERER
@@ -55,12 +55,14 @@ feature -- Access
 
 feature {NONE} -- Factory
 
-	new_substitution (delimiter_start, delimiter_end, markup_open, markup_close: STRING): MARKUP_SUBSTITUTION
+	new_substitution (
+		delimiter_start, delimiter_end, markup_open, markup_close: READABLE_STRING_GENERAL
+	): MARKUP_SUBSTITUTION
 		do
 			create Result.make (delimiter_start, delimiter_end, markup_open, markup_close)
 		end
 
-	new_hyperlink_substitution (delimiter_start: STRING): HYPERLINK_SUBSTITUTION
+	new_hyperlink_substitution (delimiter_start: READABLE_STRING_GENERAL): HYPERLINK_SUBSTITUTION
 		do
 			create Result.make (delimiter_start)
 		end
@@ -95,10 +97,10 @@ feature {NONE} -- Constants
 	Markup_substitutions: ARRAYED_LIST [MARKUP_SUBSTITUTION]
 		once
 			create Result.make_from_array (<<
-				new_substitution ("[li]", "[/li]", "<li>", "</li>"),
+				new_substitution (Tag.li, Tag.li_close, "<li>", "</li>"),
 
-				-- Ordered list item with span to allow bold numbering using CSS
-				new_substitution ("[oli]", "[/oli]", "<li><span>", "</span></li>"),
+			-- Ordered list item with span to allow bold numbering using CSS
+				new_substitution (Tag.oli, Tag.oli_close, "<li><span>", "</span></li>"),
 
 				new_substitution ("`", "&apos;", "<em id=%"code%">", "</em>"),
 				new_substitution ("**", "**", "<b>", "</b>"),

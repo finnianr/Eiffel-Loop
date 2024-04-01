@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 9:15:17 GMT (Sunday 31st March 2024)"
-	revision: "3"
+	date: "2024-04-01 11:01:20 GMT (Monday 1st April 2024)"
+	revision: "4"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -24,9 +24,14 @@ inherit
 			initialize
 		end
 
+	EL_SHARED_ZSTRING_CURSOR
+		rename
+			cursor as z_cursor
+		end
+
 	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
 
-	PUBLISHER_CONSTANTS
+	EL_EIFFEL_CONSTANTS
 
 create
 	make_sized
@@ -45,21 +50,13 @@ feature -- Status query
 
 	item_has_parameter (code_text: EL_READABLE_ZSTRING): BOOLEAN
 		-- `True' if `code_text' has '[' in item interval
-		local
-			i, end_index: INTEGER
 		do
-			end_index := item_upper - 1
-			from i := item_lower + 2 until i > end_index or Result loop
-				if code_text.item_8 (i) = '[' then
-					Result := True
-				end
-				i := i + 1
-			end
+			Result := index_of_bracket (code_text, item_lower + 2, item_upper - 1) > 0
 		end
 
 	valid_item_type (code_text: EL_READABLE_ZSTRING): BOOLEAN
 		local
-			name_count, start_index, end_index: INTEGER; eif: EL_EIFFEL_SOURCE_ROUTINES
+			name_count, start_index, end_index, bracket_index: INTEGER
 		do
 			start_index := item_lower; end_index := item_upper
 			if code_text.valid_index (start_index) and then code_text.valid_index (end_index)
@@ -68,7 +65,13 @@ feature -- Status query
 			then
 				name_count := end_index - start_index - 2
 				if 1 <= name_count and name_count <= Max_type_name_count then
-					Result := eif.is_type_name (buffer.copied_substring (code_text, start_index + 2, end_index - 1))
+					bracket_index := index_of_bracket (code_text, start_index + 2, end_index - 1)
+					if bracket_index > 0 then
+					-- check [] brackets are evenly balanced and finish just before '}'
+						Result := z_cursor (code_text).matching_bracket_index (bracket_index) = end_index - 1
+					else
+						Result := code_text.is_substring_subset_of_8 (Class_name_character_set, start_index + 2, end_index - 1)
+					end
 				end
 			end
 		end
@@ -148,15 +151,16 @@ feature {NONE} -- Implementation
 		do
 			if attached eif.class_parameter_list (class_link) as list then
 				from list.finish until list.before loop
-					if list.item_count > 1 then
+					if list.item_count > 3 then -- Excludes: G, KEY, ANY
 						class_link.insert_character ('}', list.item_upper + 1)
 						class_link.insert_string (Dollor_left_brace, list.item_lower)
 					end
 					list.back
 				end
+			-- Go backwards from '[' until last character of class name is found
 				bracket_index := class_link.index_of ('[', 1)
 				if bracket_index > 0 then
-					from until break loop
+					from until break or bracket_index = 0 loop
 						bracket_index := bracket_index - 1
 						if class_link [bracket_index].is_alpha_numeric then
 							break := True
@@ -165,6 +169,19 @@ feature {NONE} -- Implementation
 					class_link.insert_character ('}', bracket_index + 1)
 				end
 				class_link.remove_tail (1)
+			end
+		end
+
+	index_of_bracket (code_text: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := start_index until i > end_index or Result > 0 loop
+				if code_text.item_8 (i) = '[' then
+					Result := i
+				else
+					i := i + 1
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 10:15:59 GMT (Tuesday 30th January 2024)"
-	revision: "20"
+	date: "2024-04-01 8:12:41 GMT (Monday 1st April 2024)"
+	revision: "21"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -94,16 +94,6 @@ feature -- Status query
 			end
 		end
 
-	has_only (str: READABLE_STRING_8; set: EL_SET [CHARACTER_8]): BOOLEAN
-		-- `True' if `str' only has characters in `set'
-		local
-			r: EL_CHARACTER_8_ROUTINES
-		do
-			if attached cursor (str) as c then
-				Result := r.has_only (set, c.area, c.area_first_index, c.area_last_index)
-			end
-		end
-
 	is_character (str: STRING; uc: CHARACTER_32): BOOLEAN
 		-- `True' if `str.same_string (uc.out)' is true
 		do
@@ -116,6 +106,16 @@ feature -- Status query
 		do
 			c := str [i]
 			Result := c.is_alpha_numeric or else c = '_'
+		end
+
+	is_subset_of (str: READABLE_STRING_8; set: EL_SET [CHARACTER_8]): BOOLEAN
+		-- `True' if set of all characters in `str' is a subset of `set'
+		local
+			r: EL_CHARACTER_8_ROUTINES
+		do
+			if attached cursor (str) as c then
+				Result := r.is_subset_of (set, c.area, c.area_first_index, c.area_last_index)
+			end
 		end
 
 	matches_wildcard (s, wildcard: READABLE_STRING_8): BOOLEAN

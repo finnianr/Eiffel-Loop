@@ -9,16 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 10:08:51 GMT (Sunday 31st March 2024)"
-	revision: "1"
+	date: "2024-04-01 8:32:11 GMT (Monday 1st April 2024)"
+	revision: "2"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_IMPLEMENTATION
-
-	EL_READABLE_ZSTRING_I
+		export
+			{ANY} Max_ascii, Substitute
+		end
 
 feature -- Substring query
 
@@ -115,15 +116,15 @@ feature -- Substring query
 			Result := has_enclosing (qmark, qmark)
 		end
 
-	has_substring_only (set: EL_SET [CHARACTER_32]; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `Current' only contains characters in `set'
+	is_substring_subset_of (set: EL_SET [CHARACTER_32]; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if set of all characters in `substring (start_index, end_index)' is a subset of `set'
 		require
 			valid_substring_indices: valid_substring_indices (start_index, end_index)
 		local
 			i, upper_index, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			upper_index := count - 1
+			upper_index := end_index - 1
 			if attached unicode_table as l_unicode_table and then attached area as l_area
 				and then attached unencoded_area as area_32
 			then
@@ -145,20 +146,23 @@ feature -- Substring query
 					i := i + 1
 				end
 			end
+--		ensure
+--			valid_true: Result implies across start_index |..| end_index as index all set.has (item (index.item)) end
+--			valid_false: not Result implies across start_index |..| end_index as index some not set.has (item (index.item)) end
 		end
 
-	has_substring_only_8 (set: EL_SET [CHARACTER_8]; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `Current' only contains encoded characters in `set'
+	is_substring_subset_of_8 (set: EL_SET [CHARACTER_8]; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if set of all 8-bit characters in `substring (start_index, end_index)' is a subset of `set'
 		-- (encoded with same `Codec')
 		require
 			valid_substring_indices: valid_substring_indices (start_index, end_index)
-			substitute_not_in_set: not set.has ((26).to_character_8)
+			valid_character_set: is_latin_1_encoded
+				or else across start_index |..| end_index as index all item_8 (index.item) <= Max_ascii end
 		local
 			i, upper_index: INTEGER; c_i: CHARACTER_8
 		do
-
-			if not has_mixed_encoding and then attached area as l_area then
-				Result := True; upper_index := count - 1
+			if attached area as l_area then
+				Result := True; upper_index := end_index - 1
 				from i := start_index - 1 until i > upper_index or not Result loop
 					c_i := l_area [i]
 					inspect c_i
@@ -172,6 +176,9 @@ feature -- Substring query
 					i := i + 1
 				end
 			end
+--		ensure
+--			valid_true: Result implies across start_index |..| end_index as index all set.has (item_8 (index.item)) end
+--			valid_false: not Result implies across start_index |..| end_index as index some not set.has (item_8 (index.item)) end
 		end
 
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN
@@ -316,25 +323,25 @@ feature -- Presence query
 			end
 		end
 
-	has_only (set: EL_SET [CHARACTER_32]): BOOLEAN
-		-- `True' if `Current' only contains characters in `set'
-		do
-			Result := has_substring_only (set, 1, count)
-		end
-
-	has_only_8 (set: EL_SET [CHARACTER_8]): BOOLEAN
-		-- `True' if `Current' only contains encoded characters in `set'
-		-- (encoded with same `Codec')
-		do
-			Result := has_substring_only_8 (set, 1, count)
-		end
-
 	has_unicode (uc: like unicode): BOOLEAN
 		do
 			Result := has_z_code (unicode_to_z_code (uc))
 		end
 
-feature -- All character query
+	is_subset_of (set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if set of all characters in `Current' is a subset of `set'
+		do
+			Result := is_substring_subset_of (set, 1, count)
+		end
+
+	is_subset_of_8 (set: EL_SET [CHARACTER_8]): BOOLEAN
+		-- `True' if set of all 8-bit characters in `Current' is a subset of `set'
+		-- (encoded with same `Codec')
+		do
+			Result := is_substring_subset_of_8 (set, 1, count)
+		end
+
+feature -- All characters query
 
 	for_all (start_index, end_index: INTEGER; condition: PREDICATE [CHARACTER_32]): BOOLEAN
 		-- True if `condition' is true for all characters in range `start_index' .. `end_index'
@@ -409,4 +416,10 @@ feature -- All character query
 			Result := Latin_1_codec.is_encodeable_as_string_8 (current_readable, 1, count)
 		end
 
+feature -- Contract Support
+
+	is_latin_1_encoded: BOOLEAN
+		do
+			Result := Codec.same_as (Latin_1_codec)
+		end
 end

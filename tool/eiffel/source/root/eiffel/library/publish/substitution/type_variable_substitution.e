@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-30 18:17:33 GMT (Saturday 30th March 2024)"
-	revision: "11"
+	date: "2024-04-01 11:43:58 GMT (Monday 1st April 2024)"
+	revision: "12"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -22,6 +22,8 @@ inherit
 		redefine
 			substitute_html
 		end
+
+	EL_EIFFEL_CONSTANTS
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
@@ -52,6 +54,13 @@ feature {NONE} -- Initialization
 			create anchor_id.make_empty
 		end
 
+feature -- Status query
+
+	is_preformatted: BOOLEAN
+		do
+			Result := anchor_id.is_empty
+		end
+
 feature -- Basic operations
 
 	substitute_html (html_string: ZSTRING)
@@ -61,7 +70,6 @@ feature -- Basic operations
 		do
 			if attached Class_link_list as list then
 				list.fill (html_string)
---				list.adjust_path_all (relative_page_dir)
 
 				across String_scope as scope loop
 					buffer := scope.best_item (html_string.count + list.character_count (link_text_count, relative_page_dir))
@@ -89,18 +97,25 @@ feature {NONE} -- Implementation
 	new_link_markup (link: CLASS_LINK): ZSTRING
 		-- HTML with spaces substituted by non-breaking space
 		local
-			html_text: ZSTRING; relative_path: FILE_PATH
+			html_text, markup: ZSTRING; relative_path: FILE_PATH
 		do
 			if link.has_parameters then
-				Result := link.expanded_parameters.twin
-				if attached Class_link_list.expanded_list (link) as list then
-					from list.finish until list.before loop
-						if attached list.item as class_link then
-							relative_path := class_link.relative_path (relative_page_dir)
-							html_text := Html_link_template #$ [relative_path, anchor_id, class_link.class_name]
-							Result.replace_substring (html_text, class_link.start_index, class_link.end_index)
+				across String_scope as scope loop
+					markup := scope.copied_item (link.expanded_parameters)
+					if attached Class_link_list.expanded_list (link) as list then
+						from list.finish until list.before loop
+							if attached list.item as class_link then
+								relative_path := class_link.relative_path (relative_page_dir)
+								html_text := Html_link_template #$ [relative_path, Empty_string, class_link.class_name]
+								markup.replace_substring (html_text, class_link.start_index, class_link.end_index)
+							end
+							list.back
 						end
-						list.back
+						if is_preformatted then
+							Result := markup.twin
+						else
+							Result := Source_span_template #$ [markup]
+						end
 					end
 				end
 			else

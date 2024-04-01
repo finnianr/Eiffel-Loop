@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-18 18:58:21 GMT (Thursday 18th January 2024)"
-	revision: "15"
+	date: "2024-04-01 9:37:16 GMT (Monday 1st April 2024)"
+	revision: "16"
 
 class
 	MARKUP_SUBSTITUTION
@@ -16,6 +16,8 @@ inherit
 	ANY
 
 	EL_MODULE_TUPLE
+
+	EL_STRING_GENERAL_ROUTINES
 
 	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
@@ -26,10 +28,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_delimiter_start, a_delimiter_end, a_markup_open, a_markup_close: ZSTRING)
+	make (a_delimiter_start, a_delimiter_end, a_markup_open, a_markup_close: READABLE_STRING_GENERAL)
 		do
-			delimiter_start := a_delimiter_start; delimiter_end := a_delimiter_end
-			markup_open := a_markup_open; markup_close := a_markup_close
+			delimiter_start := as_zstring (a_delimiter_start); delimiter_end := as_zstring (a_delimiter_end)
+			markup_open := as_zstring (a_markup_open); markup_close := as_zstring (a_markup_close)
 			create relative_page_dir
 		end
 

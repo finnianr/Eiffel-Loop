@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-22 17:15:52 GMT (Monday 22nd January 2024)"
-	revision: "7"
+	date: "2024-04-01 9:38:33 GMT (Monday 1st April 2024)"
+	revision: "8"
 
 class
 	HYPERLINK_SUBSTITUTION
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_delimiter_start: ZSTRING)
+	make (a_delimiter_start: READABLE_STRING_GENERAL)
 		do
 			make_substitution (a_delimiter_start, char (']'), Empty_string, Empty_string)
 		end
