@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "32"
+	date: "2024-04-01 16:02:04 GMT (Monday 1st April 2024)"
+	revision: "33"
 
 class
 	EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
@@ -61,13 +61,13 @@ feature {NONE} -- Internal attributes
 note
 	descendants: "[
 			EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
-				${EL_REFLECTED_STRING}* [S -> ${READABLE_STRING_GENERAL} create make end]
+				${EL_REFLECTED_STRING* [S -> READABLE_STRING_GENERAL create make end]}
 					${EL_REFLECTED_STRING_8}
-					${EL_REFLECTED_ZSTRING}
-					${EL_REFLECTED_STRING_32}
 					${EL_REFLECTED_IMMUTABLE_STRING_8}
 					${EL_REFLECTED_IMMUTABLE_STRING_32}
-					${EL_REFLECTED_URI}
+					${EL_REFLECTED_STRING_32}
+					${EL_REFLECTED_URI [U -> EL_URI create make end]}
+					${EL_REFLECTED_ZSTRING}
 				${EL_REFLECTED_PATH}
 	]"
 

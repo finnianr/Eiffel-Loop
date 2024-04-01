@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-01 12:54:13 GMT (Monday 1st April 2024)"
+	revision: "7"
 
 class
 	EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
@@ -88,7 +88,7 @@ note
 			EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
 				${EL_FILLED_STRING_8_TABLE}
 				${EL_LOCALIZED_CURRENCY_TABLE}
-				${EL_FILLED_STRING_TABLE}* [STR -> ${READABLE_STRING_GENERAL}]
+				${EL_FILLED_STRING_TABLE* [STR -> READABLE_STRING_GENERAL]}
 					${EL_FILLED_ZSTRING_TABLE}
 					${EL_FILLED_STRING_32_TABLE}
 	]"

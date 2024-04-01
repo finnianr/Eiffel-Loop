@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 11:43:58 GMT (Monday 1st April 2024)"
-	revision: "12"
+	date: "2024-04-01 14:37:15 GMT (Monday 1st April 2024)"
+	revision: "13"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -107,6 +107,9 @@ feature {NONE} -- Implementation
 							if attached list.item as class_link then
 								relative_path := class_link.relative_path (relative_page_dir)
 								html_text := Html_link_template #$ [relative_path, Empty_string, class_link.class_name]
+								if class_link.type = Link_type_abstract then
+									html_text.append (Bold_asterisk)
+								end
 								markup.replace_substring (html_text, class_link.start_index, class_link.end_index)
 							end
 							list.back
@@ -120,6 +123,9 @@ feature {NONE} -- Implementation
 				end
 			else
 				Result := Html_link_template #$ [link.relative_path (relative_page_dir), anchor_id, link.class_name]
+				if link.type = Link_type_abstract then
+					Result.append (Bold_asterisk)
+				end
 			end
 		end
 
@@ -128,5 +134,12 @@ feature {NONE} -- Internal attributes
 	anchor_id: STRING
 
 	link_text_count: INTEGER
+
+feature {NONE} -- Constants
+
+	Bold_asterisk: ZSTRING
+		once
+			Result := "<b>*</b>"
+		end
 
 end

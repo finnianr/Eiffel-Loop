@@ -9,17 +9,8 @@ note
 		* Ability to store software version information which is available to the item
 		implementing ${EL_STORABLE}.
 	]"
-	notes: "[
-		Items must implement either the
-		class ${EL_STORABLE} or ${EL_REFLECTIVELY_SETTABLE_STORABLE}.
-
-		The descendant class ${ECD_RECOVERABLE_CHAIN} can be used to implement a proper
-		indexed transactional database when used in conjunction with class ${ECD_REFLECTIVE_RECOVERABLE_CHAIN}.
-		
-		The routine `safe_store' stores the complete chain in a temporary file and then does a quick check
-		on the integrity of the save by checking all the item headers. Only then is the stored file substituted
-		for the previously stored file.
-	]"
+	descendants: "See end of class"
+	notes: "See end of class"
 	to_do: "[
 		Change `delete' routine to replace item with a shared default deleted item. This will allow deleted item to
 		be garbage collected
@@ -30,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "35"
+	date: "2024-04-01 14:41:39 GMT (Monday 1st April 2024)"
+	revision: "36"
 
 deferred class
 	ECD_CHAIN  [G -> EL_STORABLE create make_default end]
@@ -337,4 +328,26 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
+note
+	notes: "[
+		Items must implement either the
+		class ${EL_STORABLE} or ${EL_REFLECTIVELY_SETTABLE_STORABLE}.
+
+		The descendant class ${ECD_RECOVERABLE_CHAIN} can be used to implement a proper
+		indexed transactional database when used in conjunction with class ${ECD_REFLECTIVE_RECOVERABLE_CHAIN}.
+
+		The routine `safe_store' stores the complete chain in a temporary file and then does a quick check
+		on the integrity of the save by checking all the item headers. Only then is the stored file substituted
+		for the previously stored file.
+	]"
+	descendants: "[
+			ECD_CHAIN* [G -> EL_STORABLE create make_default end]
+				${ECD_STORABLE_ARRAYED_LIST [G -> EL_STORABLE create make_default end]}
+				${EL_TRANSLATION_ITEMS_LIST}
+				${ECD_RECOVERABLE_CHAIN* [G -> EL_STORABLE create make_default end]}
+					${EL_COMMA_SEPARATED_WORDS_LIST}
+					${AIA_STORABLE_CREDENTIAL_LIST}
+					${ECD_REFLECTIVE_RECOVERABLE_CHAIN* [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]}
+						${COUNTRY_DATA_TABLE}
+	]"
 end

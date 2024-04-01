@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-04-01 13:47:32 GMT (Monday 1st April 2024)"
+	revision: "13"
 
 deferred class
 	EL_WRITABLE
@@ -125,31 +125,32 @@ feature -- Access
 note
 	descendants: "[
 			EL_WRITABLE*
-				${EL_ZSTRING}
-				${EL_OUTPUT_MEDIUM}*
-					${EL_STREAM_SOCKET}*
-						${EL_NETWORK_STREAM_SOCKET}
-						${EL_UNIX_STREAM_SOCKET}
-					${EL_STRING_IO_MEDIUM}*
-						${EL_STRING_8_IO_MEDIUM}
-						${EL_ZSTRING_IO_MEDIUM}
+				${EL_CYCLIC_REDUNDANCY_CHECK_32}
+					${EL_DOCUMENT_CRC_32_HANDLER}
+				${EL_OUTPUT_MEDIUM*}
 					${EL_PLAIN_TEXT_FILE}
+						${EL_CACHED_HTTP_FILE}
 						${EL_NOTIFYING_PLAIN_TEXT_FILE}
 							${EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE}
-				${EL_MEMORY_READER_WRITER_IMPLEMENTATION}*
-					${EL_MEMORY_STRING_READER_WRITER}*
-						${EL_MEMORY_READER_WRITER}
-							${FCGI_MEMORY_READER_WRITER}
-							${ECD_READER_WRITER} [G -> ${EL_STORABLE}]
-								${ECD_ENCRYPTABLE_READER_WRITER} [G -> ${EL_STORABLE}]
-									${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE}]
-								${ECD_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE}]
-									${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE}]
-					${EL_MEMORY_READER_WRITER}
-				${EL_DATA_SINKABLE}*
+					${EL_STREAM_SOCKET*}
+						${EL_NETWORK_STREAM_SOCKET}
+					${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}
+					${EL_STRING_IO_MEDIUM*}
+						${EL_STRING_8_IO_MEDIUM}
+						${EL_ZSTRING_IO_MEDIUM}
+				${EL_DATA_SINKABLE*}
+					${EL_MD5_128}
 					${EL_HMAC_SHA_256}
 					${EL_SHA_256}
-					${EL_MD5_128}
-				${EL_CYCLIC_REDUNDANCY_CHECK_32}
+				${EL_MEMORY_READER_WRITER_IMPLEMENTATION*}
+					${EL_MEMORY_READER_WRITER}
+						${ECD_READER_WRITER [G -> EL_STORABLE create make_default end]}
+							${ECD_ENCRYPTABLE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+								${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+							${ECD_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+								${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+					${EL_MEMORY_STRING_READER_WRITER*}
+						${EL_MEMORY_READER_WRITER}
+				${EL_ZSTRING}
 	]"
 end

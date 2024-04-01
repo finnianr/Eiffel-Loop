@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "79"
+	date: "2024-04-01 15:57:52 GMT (Monday 1st April 2024)"
+	revision: "80"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -197,12 +197,13 @@ feature {NONE} -- Constants
 note
 	descendants: "[
 			EL_REFLECTIVELY_SETTABLE_STORABLE*
+				${EL_UUID}
+				${EL_MP3_IDENTIFIER}
 				${COUNTRY}
 					${CAMEL_CASE_COUNTRY}
 				${AIA_CREDENTIAL}
 				${TEST_STORABLE}
-				${EL_UUID}
-				${EL_REFLECTIVE_RSA_KEY}*
+				${EL_REFLECTIVE_RSA_KEY*}
 					${EL_RSA_PRIVATE_KEY}
 					${EL_RSA_PUBLIC_KEY}
 				${EL_COMMA_SEPARATED_WORDS}

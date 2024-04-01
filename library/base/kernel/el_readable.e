@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-04-01 13:46:42 GMT (Monday 1st April 2024)"
+	revision: "6"
 
 deferred class
 	EL_READABLE
@@ -95,11 +95,15 @@ note
 			EL_READABLE*
 				${EL_DOCUMENT_NODE_STRING}
 					${EL_ELEMENT_ATTRIBUTE_NODE_STRING}
-				${EL_MEMORY_READER_WRITER}
-					${ECD_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
-						${ECD_ENCRYPTABLE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
-							${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
-						${ECD_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
-							${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER} [G -> ${EL_STORABLE} create make_default end]
+				${EL_MEMORY_READER_WRITER_IMPLEMENTATION*}
+					${EL_MEMORY_READER_WRITER}
+						${ECD_READER_WRITER [G -> EL_STORABLE create make_default end]}
+							${ECD_ENCRYPTABLE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+								${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+							${ECD_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+								${ECD_ENCRYPTABLE_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]}
+					${EL_MEMORY_STRING_READER_WRITER*}
+						${EL_MEMORY_READER_WRITER}
+				${EL_VTD_XPATH_QUERY}
 	]"
 end

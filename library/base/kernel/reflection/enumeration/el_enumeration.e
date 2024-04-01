@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "58"
+	date: "2024-04-01 15:58:46 GMT (Monday 1st April 2024)"
+	revision: "59"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -467,25 +467,29 @@ note
 	]"
 	descendants: "[
 			EL_ENUMERATION* [N -> NUMERIC]
-				${EL_ENUMERATION_NATURAL_16}*
-					${EL_IPAPI_CO_JSON_FIELD_ENUM}
+				${EL_ENUMERATION_NATURAL_16*}
 					${EL_HTTP_STATUS_ENUM}
-				${EL_ENUMERATION_NATURAL_8}*
+					${EL_IPAPI_CO_JSON_FIELD_ENUM}
+					${EL_SERVICE_PORT_ENUM}
+					${EL_FTP_SERVER_REPLY_ENUM}
+				${EL_ENUMERATION_NATURAL_8*}
+					${TL_PICTURE_TYPE_ENUM}
 					${EL_NETWORK_DEVICE_TYPE_ENUM}
-					${EL_BOOLEAN_ENUMERATION}*
+					${TL_FRAME_ID_ENUM}
+					${TL_MUSICBRAINZ_ENUM}
+					${TL_STRING_ENCODING_ENUM}
+					${EL_BOOLEAN_ENUMERATION*}
 						${PP_ADDRESS_STATUS_ENUM}
 					${PP_PAYMENT_STATUS_ENUM}
 					${PP_PAYMENT_PENDING_REASON_ENUM}
 					${PP_TRANSACTION_TYPE_ENUM}
 					${EL_CURRENCY_ENUM}
-					${TL_PICTURE_TYPE_ENUM}
+					${EL_DOC_TEXT_TYPE_ENUM}
 					${AIA_RESPONSE_ENUM}
 					${AIA_REASON_ENUM}
-					${TL_MUSICBRAINZ_ENUM}
-					${TL_FRAME_ID_ENUM}
-					${TL_STRING_ENCODING_ENUM}
 					${EROS_ERRORS_ENUM}
-				${EL_ENUMERATION_NATURAL_32}*
+					${PP_L_VARIABLE_ENUM}
+				${EL_ENUMERATION_NATURAL_32*}
 					${EVOLICITY_TOKEN_ENUM}
 	]"
 

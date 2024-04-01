@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "28"
+	date: "2024-04-01 16:01:09 GMT (Monday 1st April 2024)"
+	revision: "29"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -85,20 +85,21 @@ feature {NONE} -- Implementation
 note
 	descendants: "[
 			EL_REFLECTED_EXPANDED_FIELD* [G]
-				${EL_REFLECTED_NUMERIC_FIELD}* [N -> ${NUMERIC}]
-					${EL_REFLECTED_INTEGER_8}
-					${EL_REFLECTED_INTEGER_16}
-					${EL_REFLECTED_INTEGER_32}
-					${EL_REFLECTED_INTEGER_64}
-					${EL_REFLECTED_NATURAL_8}
-					${EL_REFLECTED_NATURAL_32}
-					${EL_REFLECTED_NATURAL_16}
+				${EL_REFLECTED_BOOLEAN}
+				${EL_REFLECTED_NUMERIC_FIELD* [N -> NUMERIC]}
 					${EL_REFLECTED_REAL_32}
+					${EL_REFLECTED_INTEGER_FIELD* [N -> NUMERIC]}
+						${EL_REFLECTED_INTEGER_8}
+						${EL_REFLECTED_INTEGER_32}
+						${EL_REFLECTED_INTEGER_64}
+						${EL_REFLECTED_NATURAL_8}
+						${EL_REFLECTED_NATURAL_16}
+						${EL_REFLECTED_NATURAL_32}
+						${EL_REFLECTED_NATURAL_64}
+						${EL_REFLECTED_INTEGER_16}
 					${EL_REFLECTED_REAL_64}
-					${EL_REFLECTED_NATURAL_64}
 				${EL_REFLECTED_CHARACTER_8}
 				${EL_REFLECTED_CHARACTER_32}
-				${EL_REFLECTED_BOOLEAN}
 				${EL_REFLECTED_POINTER}
 	]"
 end

@@ -5,9 +5,8 @@ note
 	]"
 	descendants: "[
 			EL_ITERABLE_SCOPE* [G]
-				${EL_BORROWED_OBJECT_SCOPE} [G]
-					${EL_BORROWED_STRING_SCOPE} [S -> ${STRING_GENERAL} create make end]
 				${EL_PACKAGE_IMAGES_SCOPE}
+				${EL_BORROWED_OBJECT_SCOPE [G]}
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-04-01 15:47:25 GMT (Monday 1st April 2024)"
+	revision: "5"
 
 deferred class
 	EL_ITERABLE_SCOPE [G]

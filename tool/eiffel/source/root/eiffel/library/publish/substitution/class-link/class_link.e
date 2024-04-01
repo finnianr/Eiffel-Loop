@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-30 15:38:04 GMT (Saturday 30th March 2024)"
-	revision: "7"
+	date: "2024-04-01 14:31:30 GMT (Monday 1st April 2024)"
+	revision: "8"
 
 class
 	CLASS_LINK
@@ -29,10 +29,11 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_path: FILE_PATH; a_class_name: ZSTRING)
+	make (a_path: FILE_PATH; a_class_name: ZSTRING; a_type: NATURAL_8)
 		do
-			path := a_path; class_name := a_class_name
+			path := a_path; class_name := a_class_name.twin
 			expanded_parameters := Empty_string
+			type := a_type
 		end
 
 feature -- Status query
@@ -58,6 +59,8 @@ feature -- Access
 	class_name: ZSTRING
 
 	expanded_parameters: ZSTRING
+
+	type: NATURAL_8
 
 	path: FILE_PATH
 

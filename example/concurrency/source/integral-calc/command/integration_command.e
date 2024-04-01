@@ -3,7 +3,7 @@ note
 	descendants: "[
 			INTEGRATION_COMMAND*
 				${SINGLE_THREAD_INTEGRATION}
-				${DISTRIBUTED_INTEGRATION_COMMAND}* [G]
+				${DISTRIBUTED_INTEGRATION_COMMAND* [G]}
 					${DISTRIBUTED_FUNCTION_INTEGRATION}
 					${DISTRIBUTED_PROCEDURE_INTEGRATION}
 	]"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-01 12:52:04 GMT (Monday 1st April 2024)"
+	revision: "7"
 
 deferred class
 	INTEGRATION_COMMAND

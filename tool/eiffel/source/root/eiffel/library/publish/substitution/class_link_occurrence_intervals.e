@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 11:01:20 GMT (Monday 1st April 2024)"
-	revision: "4"
+	date: "2024-04-01 15:34:22 GMT (Monday 1st April 2024)"
+	revision: "5"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -29,9 +29,9 @@ inherit
 			cursor as z_cursor
 		end
 
-	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
+	EL_EIFFEL_CONSTANTS; PUBLISHER_CONSTANTS
 
-	EL_EIFFEL_CONSTANTS
+	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
 
 create
 	make_sized
@@ -48,15 +48,11 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
-	item_has_parameter (code_text: EL_READABLE_ZSTRING): BOOLEAN
-		-- `True' if `code_text' has '[' in item interval
-		do
-			Result := index_of_bracket (code_text, item_lower + 2, item_upper - 1) > 0
-		end
-
-	valid_item_type (code_text: EL_READABLE_ZSTRING): BOOLEAN
+	item_link_type (code_text: EL_READABLE_ZSTRING): NATURAL_8
+		-- one of values: `Link_type_normal', `Link_type_abstract', `Link_type_parameterized'
+		-- or zero if link is invalid
 		local
-			name_count, start_index, end_index, bracket_index: INTEGER
+			name_count, start_index, end_index, bracket_index, offset: INTEGER
 		do
 			start_index := item_lower; end_index := item_upper
 			if code_text.valid_index (start_index) and then code_text.valid_index (end_index)
@@ -68,12 +64,27 @@ feature -- Status query
 					bracket_index := index_of_bracket (code_text, start_index + 2, end_index - 1)
 					if bracket_index > 0 then
 					-- check [] brackets are evenly balanced and finish just before '}'
-						Result := z_cursor (code_text).matching_bracket_index (bracket_index) = end_index - 1
+						if z_cursor (code_text).matching_bracket_index (bracket_index) = end_index - 1 then
+							Result := Link_type_parameterized
+						end
 					else
-						Result := code_text.is_substring_subset_of_8 (Class_name_character_set, start_index + 2, end_index - 1)
+						offset := 1
+						if code_text [end_index - offset] = '*' then
+							offset := 2
+						end
+						if code_text.is_substring_subset_of_8 (Class_name_character_set, start_index + 2, end_index - offset) then
+							inspect offset
+								when 1 then
+									Result := Link_type_normal
+							else
+								Result := Link_type_abstract
+							end
+						end
 					end
 				end
 			end
+		ensure
+			valid_result: Result > 0 implies Link_type_normal <= Result and Result <= Link_type_parameterized
 		end
 
 feature -- Access
@@ -87,29 +98,33 @@ feature -- Access
 			end
 		end
 
-	item_class_link (code_text: ZSTRING): CLASS_LINK
+	item_class_link (code_text: ZSTRING; link_type: NATURAL_8): CLASS_LINK
 		require
-			valid_item: not off and then valid_item_type (code_text)
+			valid_item: not off and link_type > 0
 		local
 			place_holder, name: ZSTRING; expanded_parameters: detachable ZSTRING
 			left_brace_index: INTEGER
 		do
 			place_holder := buffer.copied_substring (code_text, item_lower, item_upper)
-			if item_has_parameter (code_text) then
-				expanded_parameters := place_holder.twin
-				if attached expanded_parameters as parameters then
-					enclose_class_parameters (parameters)
-					left_brace_index := parameters.index_of ('}', 3)
-					name := name_buffer.copied_substring (parameters, 3, (left_brace_index - 1).max (3))
-				end
+			inspect link_type
+				when Link_type_normal then
+					name := name_buffer.copied_substring (place_holder, 3, place_holder.count - 1)
+				when Link_type_abstract then
+					name := name_buffer.copied_substring (place_holder, 3, place_holder.count - 2)
+				when Link_type_parameterized then
+					expanded_parameters := place_holder.twin
+					if attached expanded_parameters as parameters then
+						enclose_class_parameters (parameters)
+						left_brace_index := parameters.index_of ('}', 3)
+						name := name_buffer.copied_substring (parameters, 3, (left_brace_index - 1).max (3))
+					end
 			else
-				name := name_buffer.copied_substring (place_holder, 3, place_holder.count - 1)
 			end
 			if class_link_table.has_key (place_holder) then
 			-- need twin possibly different `item_lower' and `item_upper'
 				Result := class_link_table.found_item.twin
 			else
-				Result := new_class_link (name)
+				Result := new_class_link (name, link_type)
 				class_link_table.extend (Result, place_holder.twin)
 			end
 			if attached expanded_parameters as parameters then
@@ -145,7 +160,7 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	enclose_class_parameters (class_link: ZSTRING)
-		-- change for example: "${CONTAINER [INTEGER_32]}" to "${CONTAINER} [${INTEGER_32}]"
+		-- change for example: "${CONTAINER* [INTEGER_32]}" to "${CONTAINER*} [${INTEGER_32}]"
 		local
 			eif: EL_EIFFEL_SOURCE_ROUTINES; bracket_index: INTEGER; break: BOOLEAN
 		do
@@ -170,6 +185,8 @@ feature {NONE} -- Implementation
 				end
 				class_link.remove_tail (1)
 			end
+		-- "}*" -> "*}"
+			class_link.replace_substring_all (Brace_asterisk, Asterisk_brace)
 		end
 
 	index_of_bracket (code_text: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): INTEGER
@@ -185,15 +202,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_class_link (name: ZSTRING): CLASS_LINK
+	new_class_link (name: ZSTRING; link_type: NATURAL_8): CLASS_LINK
 		do
 			if Class_path_table.has_class (name) then
-				create {DEVELOPER_CLASS_LINK} Result.make (Class_path_table.found_item, name.twin)
+				create {DEVELOPER_CLASS_LINK} Result.make (Class_path_table.found_item, name, link_type)
 
 			elseif ISE_class_table.has_class (name) then
-				create {ISE_CLASS_LINK} Result.make (ISE_class_table.found_item, name.twin)
+				create {ISE_CLASS_LINK} Result.make (ISE_class_table.found_item, name, link_type)
 			else
-				create Result.make (Invalid_class, name.twin)
+				create Result.make (Invalid_class, name, link_type)
 			end
 		end
 
@@ -206,6 +223,16 @@ feature {NONE} -- Internal attributes
 	class_link_table: EL_ZSTRING_HASH_TABLE [CLASS_LINK]
 
 feature {NONE} -- Constants
+
+	Asterisk_brace: ZSTRING
+		once
+			Result := "}*"
+		end
+
+	Brace_asterisk: ZSTRING
+		once
+			Result := "*}"
+		end
 
 	Max_type_name_count: INTEGER
 		once

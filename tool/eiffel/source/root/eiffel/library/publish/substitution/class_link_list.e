@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-30 15:42:06 GMT (Saturday 30th March 2024)"
-	revision: "6"
+	date: "2024-04-01 14:17:08 GMT (Monday 1st April 2024)"
+	revision: "7"
 
 class
 	CLASS_LINK_LIST
@@ -44,13 +44,18 @@ feature -- Access
 	expanded_list (link: CLASS_LINK): like internal_list
 		require
 			has_parameters: link.has_parameters
+		local
+			link_type: NATURAL_8
 		do
 			Result := internal_list
 			Result.wipe_out
 			if attached link_intervals as list and attached link.expanded_parameters as parameters then
 				list.fill (parameters)
 				from list.start until list.after loop
-					Result.extend (list.item_class_link (parameters))
+					link_type := list.item_link_type (parameters)
+					if link_type > 0 then
+						Result.extend (list.item_class_link (parameters, link_type))
+					end
 					list.forth
 				end
 			end
@@ -109,13 +114,16 @@ feature -- Measurement
 feature -- Element change
 
 	fill (code_text: ZSTRING)
+		local
+			link_type: NATURAL_8
 		do
 			wipe_out
 			link_intervals.fill (code_text)
 			if attached link_intervals as list then
 				from list.start until list.after loop
-					if list.valid_item_type (code_text) then
-						extend (list.item_class_link (code_text))
+					link_type := list.item_link_type (code_text)
+					if link_type > 0 then
+						extend (list.item_class_link (code_text, link_type))
 					end
 					list.forth
 				end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "29"
+	date: "2024-04-01 13:45:13 GMT (Monday 1st April 2024)"
+	revision: "30"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -363,11 +363,17 @@ invariant
 note
 	descendants: "[
 			EL_ARRAYED_MAP_LIST [K, G]
-				${EL_DECOMPRESSED_DATA_LIST}
-				${EL_STYLED_TEXT_LIST}* [S -> ${STRING_GENERAL}]
-					${EL_STYLED_ZSTRING_LIST}
+				${EL_KEY_INDEXED_ARRAYED_MAP_LIST [K -> COMPARABLE, G]}
+				${EL_CONFORMING_INSTANCE_TYPE_MAP [G]}
+				${EL_HASHABLE_KEY_ARRAYED_MAP_LIST [K -> HASHABLE, G]}
+				${EL_STYLED_TEXT_LIST* [S -> STRING_GENERAL]}
 					${EL_STYLED_STRING_8_LIST}
 					${EL_STYLED_STRING_32_LIST}
+					${EL_STYLED_ZSTRING_LIST}
+				${EL_APPLICATION_HELP_LIST}
+				${EL_DECOMPRESSED_DATA_LIST}
+				${EL_STRING_POOL [S -> STRING_GENERAL create make end]}
+				${EL_BOOK_ASSEMBLY}
 	]"
 
 end

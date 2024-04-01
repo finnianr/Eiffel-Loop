@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 12:05:33 GMT (Monday 1st April 2024)"
-	revision: "16"
+	date: "2024-04-01 14:12:53 GMT (Monday 1st April 2024)"
+	revision: "17"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -67,5 +67,15 @@ feature {NONE} -- Constants
 		once
 			create Result.make (20)
 		end
+
+	Link_type_normal: NATURAL_8 = 1
+		-- ${MY_CLASS}
+
+	Link_type_abstract: NATURAL_8 = 2
+		-- ${MY_CLASS_I*}
+
+	Link_type_parameterized: NATURAL_8 = 3
+		-- ${MY_CONTAINER [G -> [MY_ITEM]]}
+
 
 end
