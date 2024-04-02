@@ -1,13 +1,14 @@
 note
-	description: "Logged sub application"
+	description: "${EL_APPLICATION} with logging facility"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 10:29:33 GMT (Tuesday 19th March 2024)"
-	revision: "25"
+	date: "2024-04-02 10:03:20 GMT (Tuesday 2nd April 2024)"
+	revision: "26"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -193,4 +194,45 @@ feature {NONE} -- Constants
 			Result := Directory.Sub_app_data #+ "logs"
 		end
 
+note
+	descendants: "[
+		**test.ecf**
+			EL_LOGGED_APPLICATION*
+				${BEXT_CLIENT_TEST_APP}
+				${FOURIER_MATH_CLIENT_TEST_APP}
+				${EL_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]}
+					${MULTIMEDIA_AUTOTEST_APP}
+					${EL_CRC_32_AUTOTEST_APPLICATION* [EQA_TYPES -> TUPLE create default_create end]}
+						${TAGLIB_AUTOTEST_APP}
+						${PYXIS_SCAN_AUTOTEST_APP}
+						${TEXT_FORMATS_AUTOTEST_APP}
+						${VTD_XML_AUTOTEST_APP}
+						${XML_SCAN_AUTOTEST_APP}
+						${NETWORK_AUTOTEST_APP}
+						${ECO_DB_AUTOTEST_APP}
+						${EVOLICITY_AUTOTEST_APP}
+						${I18N_AUTOTEST_APP}
+						${IMAGE_UTILS_AUTOTEST_APP}
+						${OPEN_OFFICE_AUTOTEST_APP}
+						${THUNDERBIRD_AUTOTEST_APP}
+					${PAYPAL_STANDARD_BUTTON_MANAGER_AUTOTEST_APP}
+					${PUBLIC_KEY_ENCRYPTION_AUTOTEST_APP}
+					${SEARCH_ENGINE_AUTOTEST_APP}
+					${TEXT_PROCESS_AUTOTEST_APP}
+					${EROS_AUTOTEST_APP}
+					${HTTP_CLIENT_AUTOTEST_APP}
+					${AMAZON_INSTANT_ACCESS_AUTOTEST_APP}
+					${C_LANGUAGE_INTERFACE_AUTOTEST_APP}
+					${COMPRESSION_AUTOTEST_APP}
+					${CURRENCY_AUTOTEST_APP}
+					${EIFFEL_AUTOTEST_APP}
+					${ENCRYPTION_AUTOTEST_APP}
+					${FILE_PROCESSING_AUTOTEST_APP}
+					${OS_COMMAND_AUTOTEST_APP}
+					${BASE_AUTOTEST_APP}
+				${EL_LOGGED_COMMAND_LINE_APPLICATION* [C -> EL_APPLICATION_COMMAND]}
+					${EROS_SERVER_APPLICATION* [C -> EROS_SERVER_COMMAND create make end]}
+						${BEXT_SERVER_TEST_APP}
+						${FOURIER_MATH_SERVER_TEST_APP}
+	]"
 end

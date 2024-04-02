@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-04-02 10:19:32 GMT (Tuesday 2nd April 2024)"
+	revision: "8"
 
 class
 	EL_THREAD_PRODUCT_QUEUE [P]
@@ -119,7 +119,7 @@ note
 	descendants: "[
 			EL_THREAD_PRODUCT_QUEUE [P]
 				${EL_PROCEDURE_CALL_QUEUE}
-				${EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE} [P, T -> ${EL_MANY_TO_ONE_CONSUMER_THREAD [P]} create make end]
+				${EL_LOGGED_THREAD_PRODUCT_QUEUE [P]}
+				${EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]}
 	]"
 end
-

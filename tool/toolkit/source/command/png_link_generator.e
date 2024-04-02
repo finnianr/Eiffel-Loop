@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-27 17:14:38 GMT (Tuesday 27th February 2024)"
-	revision: "7"
+	date: "2024-04-02 9:50:56 GMT (Tuesday 2nd April 2024)"
+	revision: "8"
 
 class
 	PNG_LINK_GENERATOR
@@ -103,7 +103,6 @@ feature {NONE} -- Implementation
 	fill_size_table
 		local
 			has_small_step: EL_PREDICATE_FIND_CONDITION
-			png_info_list: EL_ZSTRING_LIST
 		do
 			has_small_step := agent path_has_small_size_step
 			if attached OS.find_directories_command (source_dir) as cmd then
@@ -186,8 +185,6 @@ feature {NONE} -- Implementation
 		end
 
 	path_has_small_size_step (path: ZSTRING): BOOLEAN
-		local
-			index: INTEGER
 		do
 			Result := False
 			across path.split ('/') as split until Result loop

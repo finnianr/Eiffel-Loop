@@ -1,17 +1,13 @@
 note
 	description: "Shared access to routines of class ${EL_LOG_MANAGER}"
-	descendants: "[
-			EL_LOG_MANAGER
-				${EL_CRC_32_LOG_MANAGER}
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-04-02 10:23:34 GMT (Tuesday 2nd April 2024)"
+	revision: "14"
 
 deferred class
 	EL_MODULE_LOG_MANAGER

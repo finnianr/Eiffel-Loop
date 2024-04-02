@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-04-02 10:21:07 GMT (Tuesday 2nd April 2024)"
+	revision: "14"
 
 deferred class
 	EL_WORK_DISTRIBUTER [G, R -> ROUTINE]
@@ -224,12 +224,14 @@ feature {NONE} -- Internal attributes
 
 note
 	descendants: "[
-			EL_WORK_DISTRIBUTER* [G, R -> ROUTINE]
-				${EL_FUNCTION_DISTRIBUTER} [G]
+			EL_WORK_DISTRIBUTER* [G, R -> ${ROUTINE}]
+				${EL_PROCEDURE_DISTRIBUTER [G]}
+					${EL_LOGGED_PROCEDURE_DISTRIBUTER [G]}
+				${EL_FUNCTION_DISTRIBUTER [G]}
 					${EL_DISTRIBUTED_PROCEDURE_CALLBACK}
-						${EIFFEL_CLASS_UPDATE_CHECKER}
 						${EIFFEL_CLASS_PARSER}
-				${EL_PROCEDURE_DISTRIBUTER} [G]
+						${EIFFEL_CLASS_UPDATE_CHECKER}
+					${EL_LOGGED_FUNCTION_DISTRIBUTER [G]}
 	]"
 	instructions: "[
 		**USAGE:**
