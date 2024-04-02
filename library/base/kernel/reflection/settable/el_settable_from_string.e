@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "31"
+	date: "2024-04-02 7:56:52 GMT (Tuesday 2nd April 2024)"
+	revision: "32"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -304,7 +304,9 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 note
 	descendants: "[
 			EL_SETTABLE_FROM_STRING*
-				${EL_SETTABLE_FROM_ZSTRING}*
+				${EL_SETTABLE_FROM_STRING_32*}
+					${MY_DRY_CLASS}
+				${EL_SETTABLE_FROM_ZSTRING*}
 					${EL_HTML_META_VALUES}
 					${PP_TRANSACTION}
 					${JOB}
@@ -314,16 +316,20 @@ note
 					${EL_COMMA_SEPARATED_WORDS}
 					${PROVINCE}
 					${FCGI_HTTP_HEADERS}
-				${EL_SETTABLE_FROM_STRING_8}*
+					${EL_GVFS_FILE_INFO_COMMAND}
+					${PP_SETTABLE_FROM_UPPER_CAMEL_CASE}
+						${PP_HTTP_RESPONSE}
+							${PP_BUTTON_QUERY_RESULTS}
+					${EL_JPEG_FILE_INFO_COMMAND_I*}
+						${EL_JPEG_FILE_INFO_COMMAND_IMP}
+				${EL_SETTABLE_FROM_STRING_8*}
 					${EL_NETWORK_DEVICE_IMP}
-					${TB_EMAIL}
-					${AIA_AUTHORIZATION_HEADER}
-					${AIA_CREDENTIAL_ID}
 					${EL_HTTP_HEADERS}
-					${EL_REFLECTIVE_RSA_KEY}*
+					${AIA_CREDENTIAL_ID}
+					${TB_EMAIL}
+					${EL_REFLECTIVE_RSA_KEY*}
 						${EL_RSA_PRIVATE_KEY}
 						${EL_RSA_PUBLIC_KEY}
-				${EL_SETTABLE_FROM_STRING_32}*
-					${MY_DRY_CLASS}
+					${AIA_AUTHORIZATION_HEADER}
 	]"
 end

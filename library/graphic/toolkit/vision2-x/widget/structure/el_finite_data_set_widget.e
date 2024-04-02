@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-04-02 9:36:57 GMT (Tuesday 2nd April 2024)"
+	revision: "15"
 
 deferred class
 	EL_FINITE_DATA_SET_WIDGET [G]
@@ -90,14 +90,14 @@ feature {NONE} -- Internal attributes
 
 note
 	descendants: "[
-			EL_FINITE_DATA_SET_WIDGET*
-				${EL_RADIO_BUTTON_GROUP}*
-					${EL_INTEGER_ITEM_RADIO_BUTTON_GROUP}
-					${EL_THUMBNAIL_RADIO_BUTTON_GROUP}
-					${EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP}
-				${EL_DROP_DOWN_BOX}
+			EL_FINITE_DATA_SET_WIDGET* [G]
+				${EL_DROP_DOWN_BOX [G]}
 					${EL_ZSTRING_DROP_DOWN_BOX}
+						${EL_FONT_FAMILY_DROP_DOWN_BOX}
 						${EL_LOCALE_ZSTRING_DROP_DOWN_BOX}
-					${EL_MONTH_DROP_DOWN_BOX}
+				${EL_RADIO_BUTTON_GROUP* [G]}
+					${EL_BOOLEAN_ITEM_RADIO_BUTTON_GROUP}
+					${EL_THUMBNAIL_RADIO_BUTTON_GROUP}
+					${EL_INTEGER_ITEM_RADIO_BUTTON_GROUP}
 	]"
 end

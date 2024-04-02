@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 7:20:06 GMT (Monday 1st April 2024)"
-	revision: "14"
+	date: "2024-04-02 9:26:24 GMT (Tuesday 2nd April 2024)"
+	revision: "15"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -78,7 +78,7 @@ feature -- Conversion
 					end
 					i := i + 1
 				end
-				if end_index - start_index + 1  > 0 then
+				if start_index > 0 and then end_index - start_index + 1  > 0 then
 					Result.extend (start_index, end_index)
 				end
 			end
@@ -124,7 +124,53 @@ feature -- Status query
 			Result := starts_with_upper_letter (text) and then text.is_subset_of_8 (Type_name_character_set)
 		end
 
+feature -- Basic operations
+
+	enclose_class_parameters (code_text: ZSTRING)
+		-- change for example: "${CONTAINER* [INTEGER_32]}" to "${CONTAINER*} [${INTEGER_32}]"
+		local
+			bracket_index: INTEGER; break: BOOLEAN
+		do
+			if attached class_parameter_list (code_text) as list then
+				from list.finish until list.before loop
+					if not is_parameter_name (code_text, list.item_lower, list.item_upper) then -- Excludes: G, KEY etc
+						code_text.insert_character ('}', list.item_upper + 1)
+						code_text.insert_string (Dollor_left_brace, list.item_lower)
+					end
+					list.back
+				end
+			-- Go backwards from '[' until last character of class name is found
+				bracket_index := code_text.index_of ('[', 1)
+				if bracket_index > 0 then
+					from until break or bracket_index = 0 loop
+						bracket_index := bracket_index - 1
+						if code_text [bracket_index].is_alpha_numeric then
+							break := True
+						end
+					end
+					code_text.insert_character ('}', bracket_index + 1)
+				end
+				code_text.remove_tail (1)
+			end
+		-- "}*" -> "*}"
+			code_text.replace_substring_all (Brace_asterisk, Asterisk_brace)
+		end
+
 feature {NONE} -- Implementation
+
+	is_parameter_name (code_text: ZSTRING; start_index, end_index: INTEGER): BOOLEAN
+		local
+			index: INTEGER
+		do
+			if start_index = end_index then
+				Result := True -- count is 1
+			else
+				index := code_text.index_of ('-', end_index) -- "->" might be HTML escaped
+				if index > 0 then
+					Result := code_text.is_substring_whitespace (end_index + 1, index - 1)
+				end
+			end
+		end
 
 	starts_with_upper_letter (text: ZSTRING): BOOLEAN
 		do
@@ -135,6 +181,18 @@ feature {NONE} -- Implementation
 				else
 				end
 			end
+		end
+
+feature {NONE} -- Constants
+
+	Asterisk_brace: ZSTRING
+		once
+			Result := "}*"
+		end
+
+	Brace_asterisk: ZSTRING
+		once
+			Result := "*}"
 		end
 
 end

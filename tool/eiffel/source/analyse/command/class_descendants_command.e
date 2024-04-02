@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 16:01:54 GMT (Sunday 31st March 2024)"
-	revision: "34"
+	date: "2024-04-02 8:45:07 GMT (Tuesday 2nd April 2024)"
+	revision: "35"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -103,23 +103,37 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
-	expand_links (line: ZSTRING; tab_count: INTEGER)
+	expand_links (line: ZSTRING; tab_count: INTEGER; is_first_line: BOOLEAN)
 		-- Change for example: EL_DESCRIPTIVE_ENUMERATION* [N -> {NUMERIC, HASHABLE}]
 		-- to: ${EL_DESCRIPTIVE_ENUMERATION* [N -> (NUMERIC, HASHABLE)]}
+		local
+			eif: EL_EIFFEL_SOURCE_ROUTINES; index: INTEGER
 		do
+			line.prune_all_trailing ('.') -- remove ellipsis "..." on last line
 			line.translate ("{}", "()") -- change:  [N -> {NUMERIC, HASHABLE}]
 			line.insert_string (Dollor_left_brace, tab_count + 1)
-			line.prune_all_trailing ('.') -- remove ellipsis "..." on last line
 			line.append_character ('}')
+
+			if is_first_line then
+			-- First line is current class so we make a change like this:
+			-- 	EL_STRING_EDITOR [S -> ${STRING_GENERAL} create make end]*
+				eif.enclose_class_parameters (line)
+				across << Dollor_left_brace, char ('}') * 1 >> as str loop
+					index := line.substring_index (str.item, 1)
+					if index > 0 then
+						line.remove_substring (index, index + str.item.count - 1)
+					end
+				end
+			end
 		end
 
 	reformat_output
 		local
 			tab_count, count: INTEGER; line: ZSTRING
-			text_lines: EL_ITERABLE_SPLIT [STRING, ANY]
 		do
-			text_lines := File.plain_text_lines (output_path)
-			if attached open (output_path, Write) as file_out then
+			if attached File.plain_text_lines (output_path) as text_lines
+				and then attached open (output_path, Write) as file_out
+			then
 				file_out.put_lines (<<
 					"note",
 					"%Tdescendants: %"See end of class%"",
@@ -130,11 +144,8 @@ feature {NONE} -- Implementation
 					line := text.item
 					tab_count := line.leading_occurrences ('%T')
 					if line.count > tab_count then
-						line.prune_all_trailing ('.')
 						count := count + 1
-						if count > 1 then
-							expand_links (line, tab_count)
-						end
+						expand_links (line, tab_count, count = 1)
 						file_out.put_string_8 ("%T%T")
 						file_out.put_string (line)
 						file_out.put_new_line

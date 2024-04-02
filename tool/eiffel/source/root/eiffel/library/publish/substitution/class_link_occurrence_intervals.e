@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 15:34:22 GMT (Monday 1st April 2024)"
-	revision: "5"
+	date: "2024-04-02 8:12:50 GMT (Tuesday 2nd April 2024)"
+	revision: "6"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -103,7 +103,7 @@ feature -- Access
 			valid_item: not off and link_type > 0
 		local
 			place_holder, name: ZSTRING; expanded_parameters: detachable ZSTRING
-			left_brace_index: INTEGER
+			left_brace_index: INTEGER; eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			place_holder := buffer.copied_substring (code_text, item_lower, item_upper)
 			inspect link_type
@@ -114,7 +114,7 @@ feature -- Access
 				when Link_type_parameterized then
 					expanded_parameters := place_holder.twin
 					if attached expanded_parameters as parameters then
-						enclose_class_parameters (parameters)
+						eif.enclose_class_parameters (parameters)
 						left_brace_index := parameters.index_of ('}', 3)
 						name := name_buffer.copied_substring (parameters, 3, (left_brace_index - 1).max (3))
 					end
@@ -159,36 +159,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	enclose_class_parameters (class_link: ZSTRING)
-		-- change for example: "${CONTAINER* [INTEGER_32]}" to "${CONTAINER*} [${INTEGER_32}]"
-		local
-			eif: EL_EIFFEL_SOURCE_ROUTINES; bracket_index: INTEGER; break: BOOLEAN
-		do
-			if attached eif.class_parameter_list (class_link) as list then
-				from list.finish until list.before loop
-					if list.item_count > 3 then -- Excludes: G, KEY, ANY
-						class_link.insert_character ('}', list.item_upper + 1)
-						class_link.insert_string (Dollor_left_brace, list.item_lower)
-					end
-					list.back
-				end
-			-- Go backwards from '[' until last character of class name is found
-				bracket_index := class_link.index_of ('[', 1)
-				if bracket_index > 0 then
-					from until break or bracket_index = 0 loop
-						bracket_index := bracket_index - 1
-						if class_link [bracket_index].is_alpha_numeric then
-							break := True
-						end
-					end
-					class_link.insert_character ('}', bracket_index + 1)
-				end
-				class_link.remove_tail (1)
-			end
-		-- "}*" -> "*}"
-			class_link.replace_substring_all (Brace_asterisk, Asterisk_brace)
-		end
-
 	index_of_bracket (code_text: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): INTEGER
 		local
 			i: INTEGER
@@ -223,16 +193,6 @@ feature {NONE} -- Internal attributes
 	class_link_table: EL_ZSTRING_HASH_TABLE [CLASS_LINK]
 
 feature {NONE} -- Constants
-
-	Asterisk_brace: ZSTRING
-		once
-			Result := "}*"
-		end
-
-	Brace_asterisk: ZSTRING
-		once
-			Result := "*}"
-		end
 
 	Max_type_name_count: INTEGER
 		once

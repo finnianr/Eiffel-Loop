@@ -1,3 +1,6 @@
+Ver 2.1.4 (2 Apr 2024)
+* CLASS_DESCENDANTS_COMMAND marks parameters on first line like EL_STRING_EDITOR
+
 Ver 2.1.3 (1 Apr 2024)
 * Add category of class link: ${MY_CLASS_I*}
 

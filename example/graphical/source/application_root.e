@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-14 10:38:40 GMT (Thursday 14th December 2023)"
-	revision: "20"
+	date: "2024-04-02 9:39:19 GMT (Tuesday 2nd April 2024)"
+	revision: "21"
 
 class
 	APPLICATION_ROOT
@@ -21,56 +21,9 @@ inherit
 		SLIDE_SHOW_APP
 	]
 
+	COMPILE_CLASSES
+
 create
 	make
 
-feature {NONE} -- Compiled classes
-
-	cairo: TUPLE [CAIRO_SHARED_GDK_API, CAIRO_SHARED_GDK_PIXBUF_API]
-		do
-			create Result
-		end
-
-	compile: TUPLE [
-		EL_ACTION_EXCEPTION_MANAGER [EL_MODELED_INFORMATION_DIALOG],
-		EL_SEPARATE_PROGRESS_DISPLAY, EL_RECTANGLE_ARRAY,
-		EL_STYLED_STRING_8_LIST, EL_STYLED_STRING_32_LIST
-	]
-		do
-			create Result
-		end
-
-	dialogs: TUPLE [
-		EL_APPLY_CHANGES_CONFIRMATION_DIALOG, EL_SAVE_CHANGES_CONFIRMATION_DIALOG,
-		EL_FILE_OPEN_DIALOG, EL_FILE_SAVE_DIALOG, EL_PROGRESS_DIALOG,
-		EL_MODELED_DIALOG, EL_MODELED_INFORMATION_DIALOG, EL_MODELED_COLUMNS_DIALOG,
-		EL_HYPERLINK_MENU [EL_NAMEABLE [ZSTRING]]
-	]
-		do
-			create Result
-		end
-
-	containers: TUPLE [
-		EL_AUTO_CELL_HIDING_HORIZONTAL_BOX,
-		EL_BUTTON_PROGRESS_BOX [EV_BUTTON],
-		EL_CENTERED_VIEWPORT,
-		EL_TAB_BOOK [EL_BOX],
-		EL_WIDGET_PROGRESS_BOX [EV_WIDGET]
-	]
-		do
-			create Result
-		end
-
-	primitives: TUPLE [EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA, EL_TIMED_PROGRESS_BAR]
-		do
-			create Result
-		end
-
-	widgets: TUPLE [
-		EL_SCALE_SLIDER, EL_MIXED_FONT_LABEL_AREA, EL_MIXED_STYLE_FIXED_LABELS,
-		EL_GENERATED_SVG_BUTTON_PIXMAP_SET
-	]
-		do
-			create Result
-		end
 end
