@@ -2,14 +2,15 @@ note
 	description: "[
 		Sequence of ${INTEGER_32} intervals (compressed as ${INTEGER_64}'s for better performance)
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-04-03 15:52:08 GMT (Wednesday 3rd April 2024)"
+	revision: "21"
 
 class
 	EL_ARRAYED_INTERVAL_LIST
@@ -290,5 +291,38 @@ feature {NONE} -- Implementation
 				Result := a [i] <= n and then n <= a [i + 1]
 			end
 		end
-
+note
+	descendants: "[
+			EL_ARRAYED_INTERVAL_LIST
+				${EL_SEQUENTIAL_INTERVALS}
+					${EL_OCCURRENCE_INTERVALS}
+						${CLASS_RENAMER}
+						${EL_SPLIT_INTERVALS}
+							${EL_ZSTRING_SPLIT_INTERVALS}
+							${EL_STRING_8_SPLIT_INTERVALS}
+							${EL_STRING_32_SPLIT_INTERVALS}
+						${EL_ZSTRING_OCCURRENCE_INTERVALS}
+							${EL_ZSTRING_SPLIT_INTERVALS}
+							${CLASS_LINK_OCCURRENCE_INTERVALS}
+						${EL_STRING_8_OCCURRENCE_INTERVALS}
+							${EL_STRING_8_SPLIT_INTERVALS}
+							${EL_STRING_8_OCCURRENCE_EDITOR}
+								${CLASS_LEADING_SPACE_EDITOR}
+						${EL_STRING_32_OCCURRENCE_INTERVALS}
+							${EL_STRING_32_SPLIT_INTERVALS}
+					${EL_ZSTRING_INTERVALS}
+						${EL_COMPARABLE_ZSTRING_INTERVALS* [C, S -> READABLE_INDEXABLE [C]]}
+							${EL_COMPARE_ZSTRING_TO_STRING_8}
+								${EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8}
+							${EL_COMPARE_ZSTRING_TO_STRING_32}
+								${EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32}
+				${CODE_INTERVAL_LIST}
+				${TP_REPEATED_PATTERN*}
+					${TP_COUNT_WITHIN_BOUNDS}
+						${TP_ONE_OR_MORE_TIMES}
+						${TP_ZERO_OR_MORE_TIMES}
+					${TP_LOOP*}
+						${TP_P1_UNTIL_P2_MATCH}
+						${TP_P2_WHILE_NOT_P1_MATCH}
+	]"
 end

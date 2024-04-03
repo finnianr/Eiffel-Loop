@@ -1,13 +1,14 @@
 note
 	description: "Abstraction for joining strings using routines in ${EL_LINEAR [S]}"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-04-03 16:06:03 GMT (Wednesday 3rd April 2024)"
+	revision: "16"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -210,4 +211,35 @@ feature {NONE} -- Implementation
 			Result := a_separator.natural_32_code
 		end
 
+note
+	descendants: "[
+			EL_LINEAR_STRINGS* [S -> ${STRING_GENERAL} create make end]
+				${EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]}
+					${EL_SPLIT_STRING_8_LIST}
+					${EL_SPLIT_STRING_32_LIST}
+					${EL_SPLIT_ZSTRING_LIST}
+				${EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]}
+					${EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]}
+					${EL_STRING_LIST [S -> STRING_GENERAL create make end]}
+						${EL_STRING_8_LIST}
+							${EVOLICITY_VARIABLE_REFERENCE}
+								${EVOLICITY_FUNCTION_REFERENCE}
+							${AIA_CANONICAL_REQUEST}
+						${EL_STRING_32_LIST}
+						${EL_ZSTRING_LIST}
+							${EL_XHTML_STRING_LIST}
+							${XML_TAG_LIST}
+								${XML_PARENT_TAG_LIST}
+								${XML_VALUE_TAG_PAIR}
+							${TB_HTML_LINES}
+							${EL_ERROR_DESCRIPTION}
+								${EL_COMMAND_ARGUMENT_ERROR}
+						${EL_TEMPLATE_LIST* [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]}
+							${EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]}
+								${EL_STRING_8_TEMPLATE}
+								${EL_STRING_32_TEMPLATE}
+								${EL_ZSTRING_TEMPLATE}
+							${EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]}
+								${EL_DATE_TEXT_TEMPLATE}
+	]"
 end

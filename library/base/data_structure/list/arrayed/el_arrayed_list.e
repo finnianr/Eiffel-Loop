@@ -8,14 +8,15 @@ note
 		1. ${ARRAYED_LIST_TEST_SET}
 		2. ${CONTAINER_STRUCTURE_TEST_SET}
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 11:59:46 GMT (Saturday 23rd March 2024)"
-	revision: "67"
+	date: "2024-04-03 16:03:49 GMT (Wednesday 3rd April 2024)"
+	revision: "68"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -501,4 +502,41 @@ feature {EL_ARRAYED_LIST} -- Implementation
 			same_item: attached old item_cell as old_item implies old_item.item = item
 		end
 
+note
+	descendants: "[
+			EL_ARRAYED_LIST [G]
+				${EL_NAMEABLES_LIST [G -> EL_NAMEABLE [READABLE_STRING_GENERAL]]}
+				${EL_UNIQUE_ARRAYED_LIST [G -> HASHABLE]}
+				${EL_ARRAYED_COMPACT_INTERVAL_LIST}
+				${EL_CALL_SEQUENCE [CALL_ARGS -> TUPLE create default_create end]}
+				${EL_DISCARDING_ARRAYED_LIST [G]}
+				${EL_DIRECTORY_LIST}
+				${EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]}
+				${EL_COMMA_SEPARATED_WORDS_LIST}
+				${CSV_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]}
+				${EL_NETWORK_DEVICE_LIST_I*}
+					${EL_NETWORK_DEVICE_LIST_IMP}
+				${EL_ARRAYED_RESULT_LIST [G, R]}
+				${EL_TRANSLATION_ITEMS_LIST}
+				${TB_EMAIL_LIST}
+				${TP_ALL_IN_LIST}
+					${TP_FIRST_MATCH_IN_LIST}
+				${JOBS_RESULT_SET}
+				${EL_FIELD_LIST}
+				${EL_ARRAYED_REPRESENTATION_LIST* [R, N]}
+					${DATE_LIST}
+				${EL_REFLECTED_REFERENCE_LIST}
+				${EL_QUERYABLE_ARRAYED_LIST [G]}
+				${EL_PATH_STEP_TABLE}
+				${EL_HTTP_PARAMETER_LIST}
+				${EL_EVENT_LISTENER_LIST}
+					${EL_EVENT_BROADCASTER}
+				${EL_XDG_DESKTOP_ENTRY_STEPS}
+				${EL_OPF_MANIFEST_LIST}
+				${EL_APPLICATION_LIST}
+				${EL_TUPLE_TYPE_LIST [T]}
+				${EL_ARRAYED_MAP_LIST [K, G]}
+				${EL_ARRAYED_INTERVAL_LIST}
+				${EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]}
+	]"
 end

@@ -6,14 +6,15 @@ note
 		
 		such that b(n) < a(n + 1)
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-04-03 15:59:43 GMT (Wednesday 3rd April 2024)"
+	revision: "18"
 
 class
 	EL_SEQUENTIAL_INTERVALS
@@ -135,4 +136,33 @@ feature -- Element change
 			Precursor (a_lower, a_upper)
 		end
 
+note
+	descendants: "[
+			EL_SEQUENTIAL_INTERVALS
+				${JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]}
+					${EL_IP_ADDRESS_META_DATA}
+				${EL_ZSTRING_INTERVALS}
+					${EL_COMPARABLE_ZSTRING_INTERVALS* [C, S -> READABLE_INDEXABLE [C]]}
+						${EL_COMPARE_ZSTRING_TO_STRING_8}
+							${EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8}
+						${EL_COMPARE_ZSTRING_TO_STRING_32}
+							${EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32}
+				${EL_OCCURRENCE_INTERVALS}
+					${EL_SPLIT_INTERVALS}
+						${EL_ZSTRING_SPLIT_INTERVALS}
+						${EL_STRING_8_SPLIT_INTERVALS}
+						${EL_STRING_32_SPLIT_INTERVALS}
+					${EL_ZSTRING_OCCURRENCE_INTERVALS}
+						${EL_ZSTRING_SPLIT_INTERVALS}
+						${EL_ZSTRING_OCCURRENCE_EDITOR}
+					${JSON_PARSED_INTERVALS}
+						${JSON_NAME_VALUE_LIST}
+							${JSON_ZNAME_VALUE_LIST}
+					${EL_STRING_8_OCCURRENCE_INTERVALS}
+						${EL_STRING_8_SPLIT_INTERVALS}
+						${EL_STRING_8_OCCURRENCE_EDITOR}
+					${EL_STRING_32_OCCURRENCE_INTERVALS}
+						${EL_STRING_32_SPLIT_INTERVALS}
+						${EL_STRING_32_OCCURRENCE_EDITOR}
+	]"
 end

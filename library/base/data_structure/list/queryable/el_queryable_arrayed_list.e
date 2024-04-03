@@ -1,13 +1,14 @@
 note
 	description: "An arrayed list implementation of ${EL_QUERYABLE_CHAIN}"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-04-03 16:01:47 GMT (Wednesday 3rd April 2024)"
+	revision: "16"
 
 class
 	EL_QUERYABLE_ARRAYED_LIST [G]
@@ -62,4 +63,13 @@ feature -- Initialization
 			Precursor (a)
 		end
 
+note
+	descendants: "[
+			EL_QUERYABLE_ARRAYED_LIST [G]
+				${AIA_CREDENTIAL_LIST}
+					${AIA_STORABLE_CREDENTIAL_LIST}
+				${ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]}
+					${COUNTRY_DATA_TABLE}
+					${ECD_STORABLE_ARRAYED_LIST [G -> EL_STORABLE create make_default end]}
+	]"
 end

@@ -691,3 +691,6 @@ EL_TIME_DATE_I now uses EL_SYSTEM time for updates
 Sat 16th Mar 2024, 12:45:20
 Split ZSTRING_TEST_SET into smaller tests
 
+Wed 3rd Apr 2024, 14:42:20
+Refactor of EL_ZSTRING to use STRING_32.area
+

@@ -2,14 +2,15 @@ note
 	description: "[
 		Extension to ${LINEAR [G]} abstract structure whose items may be accessed sequentially, one-way
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 11:12:00 GMT (Tuesday 2nd April 2024)"
-	revision: "18"
+	date: "2024-04-03 16:06:14 GMT (Wednesday 3rd April 2024)"
+	revision: "19"
 
 deferred class
 	EL_LINEAR [G]
@@ -206,4 +207,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
+note
+	descendants: "[
+			EL_LINEAR* [G]
+				${EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]}
+					${EL_STRING_8_IO_MEDIUM_LINE_SOURCE}
+					${EL_PLAIN_TEXT_LINE_SOURCE}
+						${EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}
+					${EL_ZSTRING_IO_MEDIUM_LINE_SOURCE}
+				${EL_LINEAR_STRINGS* [S -> STRING_GENERAL create make end]}
+				${EL_CHAIN* [G]}
+	]"
 end

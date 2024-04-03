@@ -1,13 +1,14 @@
 note
 	description: "List of strings conforming to ${STRING_GENERAL}"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 7:49:57 GMT (Wednesday 20th March 2024)"
-	revision: "36"
+	date: "2024-04-03 15:55:15 GMT (Wednesday 3rd April 2024)"
+	revision: "37"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -188,4 +189,28 @@ feature -- Contract Support
 			Result := joined_strings.substring (l_count - n + 1, l_count)
 		end
 
+note
+	descendants: "[
+			EL_STRING_LIST [S -> ${STRING_GENERAL} create make end]
+				${EL_STRING_8_LIST}
+					${EVOLICITY_VARIABLE_REFERENCE}
+						${EVOLICITY_FUNCTION_REFERENCE}
+					${AIA_CANONICAL_REQUEST}
+				${EL_STRING_32_LIST}
+				${EL_ZSTRING_LIST}
+					${EL_XHTML_STRING_LIST}
+					${XML_TAG_LIST}
+						${XML_PARENT_TAG_LIST}
+						${XML_VALUE_TAG_PAIR}
+					${TB_HTML_LINES}
+					${EL_ERROR_DESCRIPTION}
+						${EL_COMMAND_ARGUMENT_ERROR}
+				${EL_TEMPLATE_LIST* [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]}
+					${EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]}
+						${EL_STRING_8_TEMPLATE}
+						${EL_STRING_32_TEMPLATE}
+						${EL_ZSTRING_TEMPLATE}
+					${EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]}
+						${EL_DATE_TEXT_TEMPLATE}
+	]"
 end

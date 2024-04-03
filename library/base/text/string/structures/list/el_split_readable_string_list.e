@@ -8,14 +8,15 @@ note
 		instance for each split part. The split intervals are stored using class ${EL_SEQUENTIAL_INTERVALS}
 		inherited by ${EL_OCCURRENCE_INTERVALS}.
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "39"
+	date: "2024-04-03 15:53:58 GMT (Wednesday 3rd April 2024)"
+	revision: "40"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -476,4 +477,20 @@ feature {NONE} -- Constants
 			create Result.make (7)
 		end
 
+note
+	descendants: "[
+			EL_SPLIT_READABLE_STRING_LIST [S -> ${READABLE_STRING_GENERAL} create make end]
+				${EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]}
+					${EL_SPLIT_STRING_8_LIST}
+					${EL_SPLIT_STRING_32_LIST}
+					${EL_SPLIT_ZSTRING_LIST}
+				${EL_COMPACT_ZSTRING_LIST}
+				${EL_IMMUTABLE_STRING_GRID* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]}
+					${EL_IMMUTABLE_STRING_8_GRID}
+					${EL_IMMUTABLE_STRING_32_GRID}
+				${EL_SPLIT_IMMUTABLE_STRING_LIST* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]}
+					${EL_SPLIT_IMMUTABLE_STRING_8_LIST}
+						${EL_SPLIT_IMMUTABLE_UTF_8_LIST}
+					${EL_SPLIT_IMMUTABLE_STRING_32_LIST}
+	]"
 end

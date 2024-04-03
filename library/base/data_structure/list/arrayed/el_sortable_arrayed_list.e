@@ -1,13 +1,14 @@
 note
 	description: "Sortable arrayed list"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 5:26:03 GMT (Sunday 24th September 2023)"
-	revision: "15"
+	date: "2024-04-03 16:00:39 GMT (Wednesday 3rd April 2024)"
+	revision: "16"
 
 class
 	EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
@@ -62,4 +63,35 @@ feature {NONE} -- Implementation
 			Result := u.is_less (v)
 		end
 
+note
+	descendants: "[
+			EL_SORTABLE_ARRAYED_LIST [G -> ${COMPARABLE}]
+				${EL_FILE_PATH_LIST}
+				${EL_DIRECTORY_PATH_LIST}
+					${EL_NATIVE_DIRECTORY_PATH_LIST}
+				${EL_FILE_MANIFEST_LIST}
+				${EL_IMMUTABLE_STRING_8_LIST}
+					${EL_IMMUTABLE_UTF_8_LIST}
+				${EL_STRING_LIST [S -> STRING_GENERAL create make end]}
+					${EL_STRING_8_LIST}
+						${EVOLICITY_VARIABLE_REFERENCE}
+							${EVOLICITY_FUNCTION_REFERENCE}
+						${AIA_CANONICAL_REQUEST}
+					${EL_STRING_32_LIST}
+					${EL_ZSTRING_LIST}
+						${EL_XHTML_STRING_LIST}
+						${XML_TAG_LIST}
+							${XML_PARENT_TAG_LIST}
+							${XML_VALUE_TAG_PAIR}
+						${TB_HTML_LINES}
+						${EL_ERROR_DESCRIPTION}
+							${EL_COMMAND_ARGUMENT_ERROR}
+					${EL_TEMPLATE_LIST* [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]}
+						${EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]}
+							${EL_STRING_8_TEMPLATE}
+							${EL_STRING_32_TEMPLATE}
+							${EL_ZSTRING_TEMPLATE}
+						${EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]}
+							${EL_DATE_TEXT_TEMPLATE}
+	]"
 end
