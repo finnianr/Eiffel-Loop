@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 14:37:15 GMT (Monday 1st April 2024)"
-	revision: "13"
+	date: "2024-04-03 9:56:44 GMT (Wednesday 3rd April 2024)"
+	revision: "14"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_substitution (Dollor_left_brace, char ('}'), Empty_string, Empty_string)
-			anchor_id := " id=%"source%""
+			anchor_id := new_faux_markup (" id=%"source%"")
 			link_text_count := anchor_id.count + Html_link_template.count - Html_link_template.occurrences ('%S')
 		ensure
 			leading_space: anchor_id [1] = ' '
@@ -131,7 +131,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	anchor_id: STRING
+	anchor_id: ZSTRING
 
 	link_text_count: INTEGER
 
@@ -139,7 +139,14 @@ feature {NONE} -- Constants
 
 	Bold_asterisk: ZSTRING
 		once
-			Result := "<b>*</b>"
+			Result := new_faux_markup ("<b>*</b>")
+		end
+
+	Source_span_template: ZSTRING
+		once
+			Result := new_faux_markup ("[
+				<span id="source">#</span>
+			]")
 		end
 
 end

@@ -13,14 +13,15 @@ note
 					"<folder name 1>"
 					"<folder name 2>"
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 9:09:19 GMT (Thursday 27th July 2023)"
-	revision: "32"
+	date: "2024-04-02 13:56:21 GMT (Tuesday 2nd April 2024)"
+	revision: "33"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -180,4 +181,13 @@ feature {NONE} -- Constants
 			Result := "Path="
 		end
 
+note
+	descendants: "[
+			TB_ACCOUNT_READER*
+				${TB_WWW_XHTML_CONTENT_EXPORTER}
+				${TB_MULTI_LANG_ACCOUNT_READER*}
+					${TB_MULTI_LANG_ACCOUNT_XHTML_BODY_EXPORTER}
+					${TB_MULTI_LANG_ACCOUNT_XHTML_DOC_EXPORTER}
+					${TB_MULTI_LANG_ACCOUNT_BOOK_EXPORTER}
+	]"
 end

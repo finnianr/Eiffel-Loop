@@ -1,0 +1,29 @@
+pyxis-doc:
+	version = 1.0; encoding = "ISO-8859-1"
+
+system:
+	configuration_ns = "1-16-0"; uuid = "2DA5BF4C-F1BC-11EE-8FB3-634EE9DE7189"
+	name = Eco_db; library_target = Eco_db
+	description: 
+		"""
+			Eco-DB Example
+
+			Some classes from a proprietary [https://www.hex11software.com/ Hex 11 Software] library
+			to illustrate the use of the [./library/Eco-DB.html Eco-DB library].
+
+			**Note**: this library is not compile-able and is for documentation purposes only.
+		"""
+	target:
+		name = Eco_db
+		option: 
+			syntax = standard; full_class_checking = false; void_safety = none
+			trace = false; debug = false; warning = true
+		root:
+			all_classes = true
+
+		# Source code
+		cluster_tree:
+			example = "example/Eco-DB"
+			
+
+

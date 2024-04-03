@@ -36,6 +36,9 @@ publish-repository:
 			"library/base/base.ecf#math"
 			"library/base/base.ecf#persistency"
 
+		# Library (Example)
+			"library/Eco-DB-example.ecf"
+
 		# Library (Persistence)
 		ecf:
 			"library/Eco-DB.ecf"

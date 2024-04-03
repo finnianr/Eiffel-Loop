@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 9:38:33 GMT (Monday 1st April 2024)"
-	revision: "8"
+	date: "2024-04-03 10:07:02 GMT (Wednesday 3rd April 2024)"
+	revision: "9"
 
 class
 	HYPERLINK_SUBSTITUTION
@@ -64,7 +64,8 @@ feature {NONE} -- Implementation
 
 	new_expanded_link (path, text: ZSTRING): ZSTRING
 		do
-			Result := Html_link_template #$ [path, Empty_string, text]
+		-- `path' might contain a '&' character
+			Result := Html_link_template #$ [new_faux_markup (path), Empty_string, text]
 		end
 
 end

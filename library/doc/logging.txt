@@ -70,7 +70,7 @@ Part of the code which produced the above output is as follows:
 				log.exit
 			end
 
-Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type ${ARRAY [ANY]} and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY' for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
+Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type ${ARRAY [ANY]} and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class ${ANY} for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
 
 **Comment on Java**
 
@@ -111,9 +111,9 @@ In order to maintain the integrity of the logging routine stack it is important 
 
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit ${EL_LOGGED_SUB_APPLICATION} in your root class and implement the function `Log_filter' (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class ${EL_SUB_APPLICATION} in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit ${EL_LOGGED_APPLICATION} in your root class and implement the function `Log_filter' (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class ${EL_APPLICATION} in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
-Inheriting from class ${EL_SUB_APPLICATION} has some incidental benefits including:
+Inheriting from class ${EL_APPLICATION} has some incidental benefits including:
 
 * Graceful handling of the ctrl-c program interrupt with the possibility of putting application cleanup into a redefinition of procedure `on_operating_system_signal'.
 
@@ -125,7 +125,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class ${EL_LOGGED_SUB_APPLICATION} and implement the routine `log_filter_set' as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected' procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set' routine for class ${FOURIER_MATH_CLIENT_TEST_APP} illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class ${EL_LOGGED_APPLICATION} and implement the routine `log_filter_set' as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected' procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set' routine for class ${FOURIER_MATH_CLIENT_TEST_APP} illustrates:
 
 	feature {NONE} -- Implementation
 
@@ -184,23 +184,23 @@ The procedure form:
 
 	put_<lowercase type name>
 
-is used to output the following types: `STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64'.
+is used to output the following types: ${STRING_8}, ${INTEGER_32}, ${CHARACTER_8}, ${REAL_32} and ${REAL_64}.
 
 The procedure form:
 
 	put_<lowercase type name>_field
 
-is used to output the following types prefixed with a field label: `STRING, INTEGER, INTEGER_INTERVAL, REAL and DOUBLE'.
+is used to output the following types prefixed with a field label: ${STRING_8}, ${INTEGER_32}, ${INTEGER_INTERVAL}, ${REAL_32} and ${REAL_64}.
 
 The procedure `put_string_field_to_max_length' is used to output a multi-line block of text in abbreviated form. The beginning and last 30 characters of the string is output up to a maximum number of characters (or 1/3 of the maximum length, whichever is smaller). If the text contains more than one line, tab indents are inserted to left align the text to the correct logging indent. The boolean function `current_routine_is_active' can be tested in order to conditionally execute a block of code if the current routine is unfiltered by any routine filter.
 
 **Always on logging**
 
-Class ${EL_MODULE_LOG} also has a special logging object named `lio', short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class `ANY'.
+Class ${EL_MODULE_LOG} also has a special logging object named `lio', short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class ${ANY}.
 
 **Log files**
 
-All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using ${EL_SUB_APPLICATION} then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
+All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using ${EL_APPLICATION} then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
 
 Use the command line switch `-keep_logs'. The log files will not be deleted and will not be overwritten during subsequent application runs. It is recommended to delete them manually.
 

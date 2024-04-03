@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 8:12:50 GMT (Tuesday 2nd April 2024)"
-	revision: "6"
+	date: "2024-04-03 10:18:26 GMT (Wednesday 3rd April 2024)"
+	revision: "8"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -46,57 +46,7 @@ feature {NONE} -- Initialization
 			create class_link_table.make_size (500)
 		end
 
-feature -- Status query
-
-	item_link_type (code_text: EL_READABLE_ZSTRING): NATURAL_8
-		-- one of values: `Link_type_normal', `Link_type_abstract', `Link_type_parameterized'
-		-- or zero if link is invalid
-		local
-			name_count, start_index, end_index, bracket_index, offset: INTEGER
-		do
-			start_index := item_lower; end_index := item_upper
-			if code_text.valid_index (start_index) and then code_text.valid_index (end_index)
-				and then code_text.same_characters (Dollor_left_brace, 1, 2, start_index)
-				and then code_text [end_index] = '}'
-			then
-				name_count := end_index - start_index - 2
-				if 1 <= name_count and name_count <= Max_type_name_count then
-					bracket_index := index_of_bracket (code_text, start_index + 2, end_index - 1)
-					if bracket_index > 0 then
-					-- check [] brackets are evenly balanced and finish just before '}'
-						if z_cursor (code_text).matching_bracket_index (bracket_index) = end_index - 1 then
-							Result := Link_type_parameterized
-						end
-					else
-						offset := 1
-						if code_text [end_index - offset] = '*' then
-							offset := 2
-						end
-						if code_text.is_substring_subset_of_8 (Class_name_character_set, start_index + 2, end_index - offset) then
-							inspect offset
-								when 1 then
-									Result := Link_type_normal
-							else
-								Result := Link_type_abstract
-							end
-						end
-					end
-				end
-			end
-		ensure
-			valid_result: Result > 0 implies Link_type_normal <= Result and Result <= Link_type_parameterized
-		end
-
 feature -- Access
-
-	item_debug (code_text: ZSTRING): STRING
-		do
-			if off then
-				create Result.make_empty
-			else
-				Result := code_text.substring (item_lower, item_upper)
-			end
-		end
 
 	item_class_link (code_text: ZSTRING; link_type: NATURAL_8): CLASS_LINK
 		require
@@ -132,6 +82,54 @@ feature -- Access
 			end
 			Result.set_start_index (item_lower)
 			Result.set_end_index (item_upper)
+		end
+
+	item_debug (code_text: ZSTRING): STRING
+		do
+			if off then
+				create Result.make_empty
+			else
+				Result := code_text.substring (item_lower, item_upper)
+			end
+		end
+
+	item_link_type (code_text: EL_READABLE_ZSTRING): NATURAL_8
+		-- one of values: `Link_type_normal', `Link_type_abstract', `Link_type_parameterized'
+		-- or zero if link is invalid
+		local
+			name_count, start_index, end_index, bracket_index, offset: INTEGER
+		do
+			start_index := item_lower; end_index := item_upper
+			if code_text.valid_index (start_index) and then code_text.valid_index (end_index)
+				and then code_text.same_characters (Dollor_left_brace, 1, 2, start_index)
+				and then code_text [end_index] = '}'
+			then
+				name_count := end_index - start_index - 2
+				if 1 <= name_count and upper_case_count (code_text, start_index, end_index) <= Max_type_name_count then
+					bracket_index := index_of_bracket (code_text, start_index + 2, end_index - 1)
+					if bracket_index > 0 then
+					-- check [] brackets are evenly balanced and finish just before '}'
+						if z_cursor (code_text).matching_bracket_index (bracket_index) = end_index - 1 then
+							Result := Link_type_parameterized
+						end
+					else
+						offset := 1
+						if code_text [end_index - offset] = '*' then
+							offset := 2
+						end
+						if code_text.is_substring_subset_of_8 (Class_name_character_set, start_index + 2, end_index - offset) then
+							inspect offset
+								when 1 then
+									Result := Link_type_normal
+							else
+								Result := Link_type_abstract
+							end
+						end
+					end
+				end
+			end
+		ensure
+			valid_result: Result > 0 implies Link_type_normal <= Result and Result <= Link_type_parameterized
 		end
 
 feature -- Element change
@@ -184,24 +182,38 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	upper_case_count (code_text: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := start_index until i > end_index loop
+				inspect code_text.item_8 (i)
+					when 'A' .. 'Z' then
+						Result := Result + 1
+				else
+				end
+				i := i + 1
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	buffer: EL_ZSTRING_BUFFER
 
-	name_buffer: EL_ZSTRING_BUFFER
-
 	class_link_table: EL_ZSTRING_HASH_TABLE [CLASS_LINK]
 
-feature {NONE} -- Constants
+	name_buffer: EL_ZSTRING_BUFFER
 
-	Max_type_name_count: INTEGER
-		once
-			Result := 80
-		end
+feature {NONE} -- Constants
 
 	Invalid_class: FILE_PATH
 		once
 			Result := "invalid-class-name"
+		end
+
+	Max_type_name_count: INTEGER
+		once
+			Result := 80
 		end
 
 end

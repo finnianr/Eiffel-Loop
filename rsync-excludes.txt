@@ -20,6 +20,7 @@ projects.data/XML/Legislation.xml
 **.dll
 **.evc
 **.exp
+**.fuse_hidden*
 **.goutput*
 **.gz
 **.jar

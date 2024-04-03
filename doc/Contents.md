@@ -214,222 +214,40 @@ Various hash-table, array, list, chain and linear types
 
 ````eiffel
 HASH_TABLE [G, K -> HASHABLE]
-   SED_OBJECTS_TABLE
-   CLASS_NAME_TRANSLATIONS
-   MISMATCH_INFORMATION
-   HASH_TABLE_EX [G, K -> HASHABLE]
-   EQUALITY_HASH_TABLE [G -> ANY, H -> HASHABLE]
-   STRING_TABLE [G]
-   EL_HASH_TABLE [G, K -> HASHABLE]
-      EL_TYPE_TABLE [G]
-      EL_STRING_32_TABLE [G]
-      EL_STRING_GENERAL_TABLE [G]
-      EL_CONFORMING_INSTANCE_TABLE [G]
-      EL_STRING_8_TABLE [G]
-         EVOLICITY_FUNCTION_TABLE
-         EL_XPATH_TOKEN_TABLE
-         EL_FIELD_VALUE_TABLE [G]
-         EL_DATE_FUNCTION_TABLE
-      EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]
-         EL_PROCEDURE_TABLE [K -> STRING_GENERAL create make end]
-         EL_ZSTRING_HASH_TABLE [G]
-            EL_TRANSLATION_TABLE
-            TB_ATTRIBUTE_EDIT_TABLE
-      EL_STRING_CONVERSION_TABLE
-      EL_IMMUTABLE_KEY_8_TABLE [G]
-         EL_FIELD_TABLE
-         EL_OBJECT_FIELDS_TABLE
-   EL_LOG_FILTER_SET [TYPE_LIST -> TUPLE create default_create end]
    EL_COUNTER_TABLE [K -> HASHABLE]
-   EL_OBJECTS_BY_TYPE
-   EL_EIF_OBJ_TEXT_TABLE_CONTEXT
    EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
-      XML_ESCAPER [S -> STRING_GENERAL create make end]
-      EL_CSV_ESCAPER [S -> STRING_GENERAL create make end]
    EL_FUNCTION_RESULT_TABLE [TARGET, R]
-   EL_STRING_GENERAL_UNESCAPER* [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
-      EL_STRING_8_UNESCAPER
-      EL_STRING_32_UNESCAPER
-      EL_ZSTRING_UNESCAPER
-         JSON_UNESCAPER
-   EL_URI_QUERY_HASH_TABLE* [S -> STRING_GENERAL create make end]
-      EL_URI_QUERY_STRING_8_HASH_TABLE
-      EL_URI_QUERY_STRING_32_HASH_TABLE
-      EL_URI_QUERY_ZSTRING_HASH_TABLE
-   EL_GROUP_TABLE [G, K -> HASHABLE]
-      EL_FUNCTION_GROUP_TABLE [G, K -> HASHABLE]
+   EL_HTTP_COOKIE_TABLE
    EL_CODE_TABLE [K -> HASHABLE]
       EL_UNIQUE_CODE_TABLE [K -> HASHABLE]
-         EL_ZSTRING_TOKEN_TABLE
-            EL_WORD_TOKEN_TABLE
    EL_ESCAPE_TABLE
-   EL_LOCALE_TABLE
-   XML_NAME_SPACE_TABLE
-   EL_HTTP_COOKIE_TABLE
+   EL_IMMUTABLE_STRING_TABLE* [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
+         EL_TUPLE_FIELD_TABLE
+   EL_STRING_GENERAL_UNESCAPER* [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
+   EL_GROUP_TABLE [G, K -> HASHABLE]
+      EL_FUNCTION_GROUP_TABLE [G, K -> HASHABLE]
+   ECD_INDEX_TABLE* [G -> EL_STORABLE create make_default end, K -> HASHABLE]
+      ECD_REFLECTIVE_INDEX_TABLE [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end, K -> HASHABLE]
    EL_CACHE_TABLE* [G, K -> HASHABLE]
-      EL_NAME_TRANSLATER_TABLE
       EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
          EL_INITIALIZED_FIELD_FACTORY
       EL_AGENT_CACHE_TABLE [G, K -> HASHABLE]
-      EL_LOCALE_TEXTS_TABLE [TEXTS -> EL_REFLECTIVE_LOCALE_TEXTS create make, make_with_locale end]
-      EL_IP_ADDRESS_GEOLOCATION_TABLE
-      EL_FACTORY_TYPE_ID_TABLE
-   EVOLICITY_TEMPLATE_STACK_TABLE
-   EL_SINGLETON_TABLE
-   EL_FUNCTIONS_BY_RESULT_TYPE
-   EL_CURL_HEADER_TABLE
-   EL_PASSPHRASE_EVALUATOR
-   EL_ZSTRING_TABLE
-   EL_COMPRESSION_TABLE [G -> EL_STORABLE create make_default end, K -> HASHABLE]
-      EL_GEOGRAPHIC_INFO_TABLE
-   EL_IMMUTABLE_STRING_TABLE* [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
-      EL_IMMUTABLE_STRING_32_TABLE
-      EL_IMMUTABLE_STRING_8_TABLE
-         EL_IMMUTABLE_UTF_8_TABLE
-         EL_TUPLE_FIELD_TABLE
-   ECD_INDEX_TABLE* [G -> EL_STORABLE create make_default end, K -> HASHABLE]
-      ECD_REFLECTIVE_INDEX_TABLE [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end, K -> HASHABLE]
+   EL_HASH_TABLE [G, K -> HASHABLE]
+      EL_STRING_GENERAL_TABLE [G]
+      EL_CONFORMING_INSTANCE_TABLE [G]
+      EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]
+      EL_STRING_CONVERSION_TABLE
+      EL_TYPE_TABLE [G]
+      EL_IMMUTABLE_KEY_8_TABLE [G]
    EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
       EL_FILLED_STRING_8_TABLE
-      EL_LOCALIZED_CURRENCY_TABLE
       EL_FILLED_STRING_TABLE* [STR -> READABLE_STRING_GENERAL]
-         EL_FILLED_STRING_32_TABLE
-         EL_FILLED_ZSTRING_TABLE
-   EL_XPATH_ACTION_TABLE
 
 ````
 **Linear Chains**
 
 ````eiffel
 EL_LINEAR* [G]
-   EL_CHAIN* [G]
-      EL_QUERYABLE_CHAIN* [G]
-         EL_QUERYABLE_ARRAYED_LIST [G]
-            ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
-               COUNTRY_DATA_TABLE
-               ECD_STORABLE_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
-            AIA_CREDENTIAL_LIST
-               AIA_STORABLE_CREDENTIAL_LIST
-      EL_ARRAYED_LIST [G]
-         EL_NAMEABLES_LIST [G -> EL_NAMEABLE [READABLE_STRING_GENERAL]]
-         EL_UNIQUE_ARRAYED_LIST [G -> HASHABLE]
-         EL_ARRAYED_COMPACT_INTERVAL_LIST
-         EL_CALL_SEQUENCE [CALL_ARGS -> TUPLE create default_create end]
-         EL_DISCARDING_ARRAYED_LIST [G]
-         EL_DIRECTORY_LIST
-         EL_ARRAYED_MAP_LIST [K, G]
-            EL_KEY_INDEXED_ARRAYED_MAP_LIST [K -> COMPARABLE, G]
-            EL_CONFORMING_INSTANCE_TYPE_MAP [G]
-            EL_HASHABLE_KEY_ARRAYED_MAP_LIST [K -> HASHABLE, G]
-            EL_STYLED_TEXT_LIST* [S -> STRING_GENERAL]
-               EL_STYLED_STRING_8_LIST
-               EL_STYLED_STRING_32_LIST
-               EL_STYLED_ZSTRING_LIST
-            EL_APPLICATION_HELP_LIST
-            EL_DECOMPRESSED_DATA_LIST
-            EL_STRING_POOL [S -> STRING_GENERAL create make end]
-            EL_BOOK_ASSEMBLY
-         EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
-            EL_FILE_PATH_LIST
-            EL_DIRECTORY_PATH_LIST
-               EL_NATIVE_DIRECTORY_PATH_LIST
-            EL_FILE_MANIFEST_LIST
-            EL_IMMUTABLE_STRING_8_LIST
-               EL_IMMUTABLE_UTF_8_LIST
-            EL_STRING_LIST [S -> STRING_GENERAL create make end]
-               EL_STRING_8_LIST
-                  EVOLICITY_VARIABLE_REFERENCE
-                     EVOLICITY_FUNCTION_REFERENCE
-                  AIA_CANONICAL_REQUEST
-               EL_STRING_32_LIST
-               EL_ZSTRING_LIST
-                  EL_XHTML_STRING_LIST
-                  XML_TAG_LIST
-                     XML_PARENT_TAG_LIST
-                     XML_VALUE_TAG_PAIR
-                  TB_HTML_LINES
-                  EL_ERROR_DESCRIPTION
-                     EL_COMMAND_ARGUMENT_ERROR
-               EL_TEMPLATE_LIST* [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]
-                  EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
-                     EL_STRING_8_TEMPLATE
-                     EL_STRING_32_TEMPLATE
-                     EL_ZSTRING_TEMPLATE
-                  EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
-                     EL_DATE_TEXT_TEMPLATE
-         EL_COMMA_SEPARATED_WORDS_LIST
-         CSV_IMPORTABLE_ARRAYED_LIST [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
-         EL_NETWORK_DEVICE_LIST_I*
-            EL_NETWORK_DEVICE_LIST_IMP
-         EL_ARRAYED_RESULT_LIST [G, R]
-         EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
-            EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
-               EL_SPLIT_ZSTRING_LIST
-               EL_SPLIT_STRING_8_LIST
-               EL_SPLIT_STRING_32_LIST
-            EL_COMPACT_ZSTRING_LIST
-            EL_IMMUTABLE_STRING_GRID* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
-               EL_IMMUTABLE_STRING_8_GRID
-               EL_IMMUTABLE_STRING_32_GRID
-            EL_SPLIT_IMMUTABLE_STRING_LIST* [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
-               EL_SPLIT_IMMUTABLE_STRING_8_LIST
-                  EL_SPLIT_IMMUTABLE_UTF_8_LIST
-               EL_SPLIT_IMMUTABLE_STRING_32_LIST
-         EL_TRANSLATION_ITEMS_LIST
-         TB_EMAIL_LIST
-         EL_ARRAYED_INTERVAL_LIST
-            EL_SEQUENTIAL_INTERVALS
-               JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]
-                  EL_IP_ADDRESS_META_DATA
-               EL_ZSTRING_INTERVALS
-                  EL_COMPARABLE_ZSTRING_INTERVALS* [C, S -> READABLE_INDEXABLE [C]]
-                     EL_COMPARE_ZSTRING_TO_STRING_8
-                        EL_CASELESS_COMPARE_ZSTRING_TO_STRING_8
-                     EL_COMPARE_ZSTRING_TO_STRING_32
-                        EL_CASELESS_COMPARE_ZSTRING_TO_STRING_32
-               EL_OCCURRENCE_INTERVALS
-                  EL_SPLIT_INTERVALS
-                     EL_ZSTRING_SPLIT_INTERVALS
-                     EL_STRING_8_SPLIT_INTERVALS
-                     EL_STRING_32_SPLIT_INTERVALS
-                  EL_ZSTRING_OCCURRENCE_INTERVALS
-                     EL_ZSTRING_SPLIT_INTERVALS
-                     EL_ZSTRING_OCCURRENCE_EDITOR
-                  JSON_PARSED_INTERVALS
-                     JSON_NAME_VALUE_LIST
-                        JSON_ZNAME_VALUE_LIST
-                  EL_STRING_8_OCCURRENCE_INTERVALS
-                     EL_STRING_8_SPLIT_INTERVALS
-                     EL_STRING_8_OCCURRENCE_EDITOR
-                  EL_STRING_32_OCCURRENCE_INTERVALS
-                     EL_STRING_32_SPLIT_INTERVALS
-                     EL_STRING_32_OCCURRENCE_EDITOR
-            TP_REPEATED_PATTERN*
-               TP_COUNT_WITHIN_BOUNDS
-                  TP_ONE_OR_MORE_TIMES
-                  TP_ZERO_OR_MORE_TIMES
-               TP_LOOP*
-                  TP_P1_UNTIL_P2_MATCH
-                  TP_P2_WHILE_NOT_P1_MATCH
-         TP_ALL_IN_LIST
-            TP_FIRST_MATCH_IN_LIST
-         JOBS_RESULT_SET
-         EL_FIELD_LIST
-         EL_ARRAYED_REPRESENTATION_LIST* [R, N]
-            DATE_LIST
-         EL_REFLECTED_REFERENCE_LIST
-         EL_QUERYABLE_ARRAYED_LIST [G]
-         EL_PATH_STEP_TABLE
-         EL_HTTP_PARAMETER_LIST
-         EL_EVENT_LISTENER_LIST
-            EL_EVENT_BROADCASTER
-         EL_XDG_DESKTOP_ENTRY_STEPS
-         EL_OPF_MANIFEST_LIST
-         EL_APPLICATION_LIST
-         EL_TUPLE_TYPE_LIST [T]
-      EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]
-         EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
-         EL_STRING_LIST [S -> STRING_GENERAL create make end]
    EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]
       EL_STRING_8_IO_MEDIUM_LINE_SOURCE
       EL_PLAIN_TEXT_LINE_SOURCE
@@ -438,6 +256,54 @@ EL_LINEAR* [G]
    EL_LINEAR_STRINGS* [S -> STRING_GENERAL create make end]
       EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
       EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]
+         EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
+         EL_STRING_LIST [S -> STRING_GENERAL create make end]
+   EL_CHAIN* [G]
+      EL_QUERYABLE_CHAIN* [G]
+         EL_QUERYABLE_ARRAYED_LIST [G]
+            ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
+               ECD_STORABLE_ARRAYED_LIST [G -> EL_STORABLE create make_default end]
+      EL_ARRAYED_LIST [G]
+         EL_NAMEABLES_LIST [G -> EL_NAMEABLE [READABLE_STRING_GENERAL]]
+         EL_UNIQUE_ARRAYED_LIST [G -> HASHABLE]
+         EL_ARRAYED_COMPACT_INTERVAL_LIST
+         EL_CALL_SEQUENCE [CALL_ARGS -> TUPLE create default_create end]
+         EL_DISCARDING_ARRAYED_LIST [G]
+         EL_DIRECTORY_LIST
+         EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
+         EL_ARRAYED_RESULT_LIST [G, R]
+         EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
+         EL_TRANSLATION_ITEMS_LIST
+         EL_ARRAYED_INTERVAL_LIST
+            EL_SEQUENTIAL_INTERVALS
+               EL_OCCURRENCE_INTERVALS
+         EL_ARRAYED_MAP_LIST [K, G]
+            EL_KEY_INDEXED_ARRAYED_MAP_LIST [K -> COMPARABLE, G]
+            EL_CONFORMING_INSTANCE_TYPE_MAP [G]
+            EL_HASHABLE_KEY_ARRAYED_MAP_LIST [K -> HASHABLE, G]
+            EL_STYLED_TEXT_LIST* [S -> STRING_GENERAL]
+      EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]
+
+````
+**Container Structure Extensions**
+
+This [EL_CONTAINER_STRUCTURE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/support/el_container_structure.e) abstraction provides many extra facilities for classes that implement  the [CONTAINER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/container_chart.html) base class. It inherits class [EL_CONTAINER_NUMERIC_CALCULATER](https://github.com/finnianr/eiffel-loop/tree/master/library/base/data_structure/list/support/el_container_numeric_calculater.e).
+
+````eiffel
+EL_CONTAINER_STRUCTURE* [G]
+   EL_HASH_SET [H -> HASHABLE]
+      EL_MEMBER_SET [G -> EL_SET_MEMBER [G]]
+      EL_FIELD_NAME_SET
+   EL_CONTAINER_WRAPPER [G]
+      EL_SAVED_CURSOR [G]
+   EL_RESULT_SUMMATOR [G, N -> NUMERIC]
+   EL_CONTAINER_ITEM [G]
+   EL_RESULT_MAXIMUM [G, N -> (NUMERIC, COMPARABLE)]
+   EL_LINEAR* [G]
+      EL_CHAIN* [G]
+         EL_QUERYABLE_CHAIN* [G]
+            EL_QUERYABLE_ARRAYED_LIST [G]
+         EL_ARRAYED_LIST [G]
 
 ````
 **Other Classes**
@@ -524,46 +390,46 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 ````eiffel
 EL_REFLECTED_FIELD*
    EL_REFLECTED_REFERENCE [G]
-      EL_REFLECTED_REFERENCE_ANY
+      EL_REFLECTED_COLLECTION [G]
       EL_REFLECTED_TEMPORAL* [G -> ABSOLUTE]
          EL_REFLECTED_TIME
          EL_REFLECTED_DATE_TIME
          EL_REFLECTED_DATE
-      EL_REFLECTED_COLLECTION [G]
       EL_REFLECTED_TUPLE
       EL_REFLECTED_BOOLEAN_REF
       EL_REFLECTED_MANAGED_POINTER
       EL_REFLECTED_STORABLE
+      EL_REFLECTED_REFERENCE_ANY
       EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
          EL_REFLECTED_STRING* [S -> READABLE_STRING_GENERAL create make end]
-            EL_REFLECTED_URI [U -> EL_URI create make end]
             EL_REFLECTED_STRING_8
             EL_REFLECTED_IMMUTABLE_STRING_8
             EL_REFLECTED_IMMUTABLE_STRING_32
-            EL_REFLECTED_ZSTRING
             EL_REFLECTED_STRING_32
+            EL_REFLECTED_URI [U -> EL_URI create make end]
+            EL_REFLECTED_ZSTRING
          EL_REFLECTED_PATH
       EL_REFLECTED_MAKEABLE_FROM_STRING* [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
          EL_REFLECTED_MAKEABLE_FROM_STRING_8
          EL_REFLECTED_MAKEABLE_FROM_STRING_32
          EL_REFLECTED_MAKEABLE_FROM_ZSTRING
    EL_REFLECTED_EXPANDED_FIELD* [G]
+      EL_REFLECTED_BOOLEAN
       EL_REFLECTED_NUMERIC_FIELD* [N -> NUMERIC]
+         EL_REFLECTED_REAL_32
          EL_REFLECTED_INTEGER_FIELD* [N -> NUMERIC]
-            EL_REFLECTED_NATURAL_16
-            EL_REFLECTED_NATURAL_8
-            EL_REFLECTED_NATURAL_32
             EL_REFLECTED_INTEGER_8
-            EL_REFLECTED_INTEGER_16
             EL_REFLECTED_INTEGER_32
             EL_REFLECTED_INTEGER_64
+            EL_REFLECTED_NATURAL_8
+            EL_REFLECTED_NATURAL_16
+            EL_REFLECTED_NATURAL_32
             EL_REFLECTED_NATURAL_64
-         EL_REFLECTED_REAL_32
+            EL_REFLECTED_INTEGER_16
          EL_REFLECTED_REAL_64
-      EL_REFLECTED_BOOLEAN
-      EL_REFLECTED_POINTER
       EL_REFLECTED_CHARACTER_8
       EL_REFLECTED_CHARACTER_32
+      EL_REFLECTED_POINTER
 ````
 
 
@@ -669,74 +535,68 @@ Window, dialogs and other widget-container extensions for the [EiffelVision2](ht
 EV_CONTAINER*
    EV_CELL
       EV_VIEWPORT
-         EV_SCROLLABLE_AREA
-            EV_TOP_LEFT_SCROLLABLE_AREA
          EL_CENTERED_VIEWPORT
       EV_WINDOW
          EV_TITLED_WINDOW
             EV_DIALOG
                EV_UNTITLED_DIALOG
+                  EV_FAKE_FOCUS_DIALOG
                   EL_PROGRESS_DIALOG
+                  EL_CUSTOM_TITLED_DIALOG
                EV_MESSAGE_DIALOG
+                  EV_QUESTION_DIALOG
                   EV_CONFIRMATION_DIALOG
                      EL_CONFIRMATION_DIALOG
-                        EL_SAVE_CHANGES_CONFIRMATION_DIALOG
                         EL_APPLY_CHANGES_CONFIRMATION_DIALOG
+                        EL_SAVE_CHANGES_CONFIRMATION_DIALOG
                   EV_INFORMATION_DIALOG
-                     EL_INFORMATION_DIALOG
                   EV_WARNING_DIALOG
-                     EL_LOCALE_WARNING_DIALOG
                   EV_ERROR_DIALOG
-                     EL_ERROR_DIALOG
                   EL_MESSAGE_DIALOG
                      EL_CONFIRMATION_DIALOG
-                     EL_ERROR_DIALOG
-                     EL_INFORMATION_DIALOG
+               EL_DIALOG
+                  EL_STANDARD_DIALOG
+                     EL_CUSTOM_TITLED_DIALOG
+               UNTITLED_DIALOG
             EL_TITLED_WINDOW
                EL_TITLED_TAB_BOOK_WINDOW
+                  POSTCARD_VIEWER_MAIN_WINDOW
+               FRACTAL_MAIN_WINDOW
+               SLIDE_SHOW_WINDOW
                EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER*
+                  QUANTUM_BALL_MAIN_WINDOW
+               PANGO_CAIRO_TEST_MAIN_WINDOW
       EV_MODEL_WORLD_CELL
+         QUANTUM_BALL_ANIMATION_AREA_CELL
          EL_MODEL_WORLD_CELL
+            FRACTAL_WORLD_CELL
       EV_FRAME
          EL_FRAME [B -> EL_BOX create make end]
       EL_EXPANDED_CELL
    EV_WIDGET_LIST*
       EV_BOX*
          EV_HORIZONTAL_BOX
-            EL_DIRECTORY_USER_SELECT
+            MULTIPLE_SPLIT_AREA_TOOL_HOLDER
             EL_HORIZONTAL_BOX
-               EL_DATE_INPUT_BOX
-               EL_CONSOLE_MANAGER_TOOLBAR
-               EL_SCROLLABLE_BOX [B -> EL_BOX create make end]
-                  EL_SCROLLABLE_PAGE
-                  EL_SCROLLABLE_VERTICAL_BOX
-                     EL_SCROLLABLE_SEARCH_RESULTS [G]
-                        EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [G -> EL_WORD_SEARCHABLE]
                EL_AUTO_CELL_HIDING_HORIZONTAL_BOX
-               EL_CENTERED_VERTICAL_BOX
+               EL_SCROLLABLE_BOX [B -> EL_BOX create make end]
+                  EL_SCROLLABLE_VERTICAL_BOX
                EL_PROGRESS_METER
-               EL_MULTI_MODE_HTML_COLOR_SELECTOR_BOX
+               EL_CONSOLE_MANAGER_TOOLBAR
          EV_VERTICAL_BOX
-            EL_TOOL_BAR_RADIO_BUTTON_GRID
-            EL_DOCKED_TAB_BOOK
-               EL_SPLIT_AREA_DOCKED_TAB_BOOK
             EL_VERTICAL_BOX
-               EL_AUTO_CELL_HIDING_VERTICAL_BOX
                EL_WIDGET_PROGRESS_BOX [W -> EV_WIDGET create default_create end]
                   EL_BUTTON_PROGRESS_BOX [B -> EV_BUTTON create default_create end]
-               EL_PASSPHRASE_RATING_TABLE
+            EL_DOCKED_TAB_BOOK
          EL_BOX*
-            EL_HORIZONTAL_BOX
             EL_VERTICAL_BOX
+            EL_HORIZONTAL_BOX
             EL_AUTO_CELL_HIDING_BOX*
                EL_AUTO_CELL_HIDING_HORIZONTAL_BOX
-               EL_AUTO_CELL_HIDING_VERTICAL_BOX
       EV_NOTEBOOK
-         EL_FIXED_TAB_BOOK* [W -> EV_POSITIONABLE]
          EL_TAB_BOOK [B -> EL_BOX create make end]
       EV_FIXED
          EL_MIXED_STYLE_FIXED_LABELS
-
 ````
 
 
@@ -762,7 +622,7 @@ Widget extensions for the [EiffelVision2](https://www.eiffel.org/resources/libra
 
 **Drop-down Combo Boxes**
 
-* Drop-downs linked to data containers conforming to [FINITE [G]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/finite_chart.html) and initialized with a value of type `G`, and a selection change agent of type [PROCEDURE [G]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/procedure_chart.html). See class [EL_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.e)
+* Drop-downs linked to data containers conforming to [FINITE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/finite_chart.html) and initialized with a value of type `G`, and a selection change agent of type [PROCEDURE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/procedure_chart.html). See class [EL_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_drop_down_box.e)
 * Drop-downs with localized display strings. See class [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.e)
 * Drop downs for months of year specified as integers and displayed with English names and a localized variant [EL_LOCALE_ZSTRING_DROP_DOWN_BOX](https://github.com/finnianr/eiffel-loop/tree/master/library/graphic/toolkit/vision2-x/widget/item-list/el_locale_zstring_drop_down_box.e)
 
@@ -775,38 +635,24 @@ EV_PRIMITIVE*
          EV_COMBO_BOX
             EL_COMBO_BOX
                EL_DROP_DOWN_BOX [G]
-                  EL_MONTH_DROP_DOWN_BOX
                   EL_ZSTRING_DROP_DOWN_BOX
+                     EL_FONT_FAMILY_DROP_DOWN_BOX
                      EL_LOCALE_ZSTRING_DROP_DOWN_BOX
          EL_TEXT_FIELD
-            EL_INPUT_FIELD* [G]
-               EL_INTEGER_INPUT_FIELD
-      EV_TEXT
-         EV_RICH_TEXT
-            EL_RICH_TEXT
-         EL_TEXT
       EL_TEXT_COMPONENT*
          EL_UNDOABLE_TEXT_COMPONENT*
-            EL_TEXT
             EL_TEXT_FIELD
    EV_LABEL
       EL_LABEL
          EL_WRAPPED_LABEL
-   EV_TOOL_BAR
-      EL_SHARED_RADIO_GROUP_TOOL_BAR
    EV_DRAWING_AREA
-      EL_BUSY_PROCESS_ANIMATION
       EL_RED_GREEN_STATUS_LIGHTS_DRAWING_AREA
-      EL_TIMED_PROGRESS_BAR
       EL_DRAWING_AREA_BASE*
-         EL_DRAWING_AREA
-            EL_DRAWING_AREA_LABEL
-         EL_CHECK_AREA
          EL_MIXED_FONT_LABEL_AREA
          EL_HYPERLINK_AREA
+      EL_TIMED_PROGRESS_BAR
       EL_PROGRESS_BAR
    EV_PIXMAP
-      EL_BUTTON_PIXMAP
       EL_PIXMAP
          EL_DRAWING_PIXMAP*
             EL_LABEL_PIXMAP
@@ -814,21 +660,15 @@ EV_PRIMITIVE*
             EL_SVG_TEMPLATE_PIXMAP
                EL_STRETCHABLE_SVG_TEMPLATE_PIXMAP
    EV_GAUGE*
-      EV_SCROLL_BAR*
       EV_RANGE*
          EV_VERTICAL_RANGE
             EL_SCALE_SLIDER
-      EV_SPIN_BUTTON
    EV_BUTTON
-      EV_TOGGLE_BUTTON
-         EV_CHECK_BUTTON
-            EL_CHECK_BUTTON
-         EL_TOGGLE_BUTTON
       EL_BUTTON
-         EL_PIXMAP_BUTTON
          EL_DECORATED_BUTTON
-      EL_COLOR_BUTTON
-
+   EV_SEPARATOR*
+      EV_HORIZONTAL_SEPARATOR
+      EV_VERTICAL_SEPARATOR
 ````
 
 
@@ -1038,7 +878,7 @@ Some of the main features of this database system are as follows:
 
 **1.** Perform the normal database [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations.
 
-**2.** Table joins, meaning a field in one [CHAIN [G]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
+**2.** Table joins, meaning a field in one [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table can be used to look up a row-item in another using a hash table index. A supporting feature is the ability to generate indexed primary keys in an automated fashion.
 
 **3.** Option to store data securely using [AES encryption](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard).
 
@@ -1048,7 +888,7 @@ Some of the main features of this database system are as follows:
 
 **6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [PREDICATE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/predicate_chart.html) agents.
 
-**7.** Leverages a feature of the [reflection cluster](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or ${EL_ENUMERATION [N -> NUMERIC]} object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+**7.** Leverages a feature of the [reflection cluster](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or [EL_ENUMERATION](https://github.com/finnianr/eiffel-loop/tree/master/library/base/kernel/reflection/enumeration/el_enumeration.e) object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
 
 **8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
 
@@ -1084,7 +924,7 @@ Being able to join*** tables via a common field is the essence of a relational d
 
 **1. Field Indexing** 
 
-For a large number of chain items, performing joins can be slow without the use of field indices. *Eco-DB* offers an easy way to maintain field indices with very little code via the implementing class [ECD_ARRAYED_LIST [EL_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) which does all the work of maintaining the index. To index selected fields you just need to redefine the function *new_index_by* found in [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) as in this example:
+For a large number of chain items, performing joins can be slow without the use of field indices. *Eco-DB* offers an easy way to maintain field indices with very little code via the implementing class [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) which does all the work of maintaining the index. To index selected fields you just need to redefine the function *new_index_by* found in [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e) as in this example:
 
 ````eiffel
 class
@@ -1139,7 +979,7 @@ feature -- Status query
 ````
 **2. Primary Keys**
 
-Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [ECD_PRIMARY_KEY_INDEXABLE [EL_KEY_IDENTIFIABLE_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/index/ecd_primary_key_indexable.e) when used in conjunction with [ECD_ARRAYED_LIST [EL_STORABLE]](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e). The class parameter implies that the storable item must conform to [EL_KEY_IDENTIFIABLE_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/file/store/id/el_key_identifiable_storable.e). Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
+Being able to assign a unique identifier to each item in a chain is essential to creating many kinds of data-joins. *Eco-DB* offers a convenient way to both generate primary keys and maintain an index for it. This is achieved with the auxiliary class [ECD_PRIMARY_KEY_INDEXABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/index/ecd_primary_key_indexable.e) when used in conjunction with [ECD_ARRAYED_LIST](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_arrayed_list.e). The class parameter implies that the storable item must conform to [EL_KEY_IDENTIFIABLE_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/file/store/id/el_key_identifiable_storable.e). Generation of primary key values is automatic when the list is extended, as is maintenance of the primary key hash-table index.
 
 **QUERY LANGUAGE**
 
@@ -1284,7 +1124,7 @@ Class [EL_PYXIS_PARSER](https://github.com/finnianr/eiffel-loop/tree/master/libr
 
 (Last compiled November 2022)
 
-A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST [EL_STORABLE_XML_ELEMENT]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/list_chart.html) can be turned into a database. This library has now been superceded by [Eco-DB.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/Eco-DB.pecf) which is faster, more powerful and uses a binary format.
+A simple XML database based on VTD-XML xpath and XML parsing library. Supports transactions and encryption. Any list conforming to [LIST](https://www.eiffel.org/files/doc/static/trunk/libraries/base/list_chart.html) can be turned into a database. This library has now been superceded by [Eco-DB.ecf](https://github.com/finnianr/eiffel-loop/tree/master/library/Eco-DB.pecf) which is faster, more powerful and uses a binary format.
 
 ## XML Document Node-scanning and Object Building
 
@@ -1336,13 +1176,13 @@ application.
 
 **"Swiss-army-knife applications"**
 
-Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/el_multi_application_root.e) and [EL_SUB_APPLICATION](invalid-class-name) provide this capability.
+Creating a new project application in Eiffel is expensive both in terms of time to create a new ECF and project directory structure, and in terms of diskspace. If all you want to do is create a small utility to do some relatively minor task, it makes sense to include it with a other such utilities in a single application. But you need some framework to manage all these sub-applications. In this package, the two classes [EL_MULTI_APPLICATION_ROOT](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/el_multi_application_root.e) and [EL_APPLICATION](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/sub-app/el_application.e) provide this capability.
 
 **Command line sub-applications**
 
 The following features exist for creating command line applications:
 
-* The class [EL_COMMAND_LINE_SUB_APPLICATION](invalid-class-name)
+* The class [EL_COMMAND_LINE_APPLICATION](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/sub-app/el_command_line_application.e)
 provides a smart way of mapping command line arguments to the arguments of a creation procedure with automatic string conversion according to type.
 * Built-in help system with usage help.
 * Create menu driven command line shells.
@@ -1385,38 +1225,45 @@ A generic producer-consumer thread communication framework where a producing thr
 
 ````eiffel
 EL_CONSUMER* [P]
-   EL_NONE_CONSUMER [P]
-   EL_COUNT_CONSUMER*
+   EL_LOGGED_CONSUMER* [P]
+   EL_CONSUMER_MAIN_THREAD* [P]
       EL_COUNT_CONSUMER_MAIN_THREAD*
          EL_TIMED_PROCEDURE_MAIN_THREAD
+      EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
+      EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [OPEN_ARGS -> TUPLE create default_create end]
+   EL_CONSUMER_THREAD* [P]
+      EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
+         EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD* [P]
+      EL_COUNT_CONSUMER_THREAD*
+         EL_TIMED_PROCEDURE_THREAD
+      EL_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+         EL_LOGGED_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+      EL_PROCEDURE_CALL_CONSUMER_THREAD
+      EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_XML_NETWORK_MESSENGER
+      EL_LOGGED_CONSUMER_THREAD* [P]
+         EL_LOGGED_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+         EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD* [P]
+      EL_ACTION_ARGUMENTS_CONSUMER_THREAD [OPEN_ARGS -> TUPLE create default_create end]
+         EL_BATCH_FILE_PROCESSING_THREAD*
+            EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
+   EL_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+      EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+   EL_COUNT_CONSUMER*
+      EL_COUNT_CONSUMER_THREAD*
+      EL_COUNT_CONSUMER_MAIN_THREAD*
       EL_TIMED_PROCEDURE*
          EL_TIMED_PROCEDURE_MAIN_THREAD
          EL_TIMED_PROCEDURE_THREAD
-      EL_COUNT_CONSUMER_THREAD*
-         EL_TIMED_PROCEDURE_THREAD
-   EL_REGULAR_INTERVAL_EVENT_CONSUMER*
-      EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-      EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-   EL_CONSUMER_MAIN_THREAD* [P]
-      EL_MAIN_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-      EL_COUNT_CONSUMER_MAIN_THREAD*
-      EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
-      EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [ARGS -> TUPLE create default_create end]
    EL_PROCEDURE_CALL_CONSUMER*
       EL_PROCEDURE_CALL_CONSUMER_MAIN_THREAD
       EL_PROCEDURE_CALL_CONSUMER_THREAD
-   EL_ACTION_ARGUMENTS_CONSUMER* [ARGS -> TUPLE create default_create end]
-      EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [ARGS -> TUPLE create default_create end]
-      EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
-         EL_BATCH_FILE_PROCESSING_THREAD*
-            EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
-   EL_CONSUMER_THREAD* [P]
-      EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-      EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
-      EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
-      EL_COUNT_CONSUMER_THREAD*
-      EL_PROCEDURE_CALL_CONSUMER_THREAD
-      EL_DELEGATING_CONSUMER_THREAD [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+   EL_ACTION_ARGUMENTS_CONSUMER* [OPEN_ARGS -> TUPLE create default_create end]
+      EL_ACTION_ARGUMENTS_CONSUMER_THREAD [OPEN_ARGS -> TUPLE create default_create end]
+      EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [OPEN_ARGS -> TUPLE create default_create end]
+   EL_NONE_CONSUMER [P]
 
 ````
 *Product Queue Descendants*
@@ -1424,7 +1271,8 @@ EL_CONSUMER* [P]
 ````eiffel
 EL_THREAD_PRODUCT_QUEUE [P]
    EL_PROCEDURE_CALL_QUEUE
-   EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+   EL_LOGGED_THREAD_PRODUCT_QUEUE [P]
+   EL_ONE_TO_MANY_THREAD_PRODUCT_QUEUE [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
 
 ````
 **Specialized Threads**
@@ -1441,31 +1289,43 @@ The library includes many thread classes inheriting from [EL_IDENTIFIED_THREAD_I
 
 ````eiffel
 EL_IDENTIFIED_THREAD_I*
-   EL_IDENTIFIED_MAIN_THREAD
    EL_IDENTIFIED_THREAD*
-      EL_LOGGED_IDENTIFIED_THREAD*
-         SIMPLE_SERVER_THREAD
-         EROS_SERVER_THREAD
+      EL_FILE_PROCESS_THREAD
+         EL_LOGGED_FILE_PROCESS_THREAD
+      EL_WORKER_THREAD
+      EL_TIMEOUT_THREAD
       EL_CONTINUOUS_ACTION_THREAD*
-         EL_WORK_DISTRIBUTION_THREAD
+         EL_CONSUMER_THREAD* [P]
+            EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
+               EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD* [P]
+            EL_COUNT_CONSUMER_THREAD*
+               EL_TIMED_PROCEDURE_THREAD
+            EL_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+               EL_LOGGED_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+            EL_PROCEDURE_CALL_CONSUMER_THREAD
+            EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
+            EL_XML_NETWORK_MESSENGER
+            EL_LOGGED_CONSUMER_THREAD* [P]
+               EL_LOGGED_DELEGATING_CONSUMER_THREAD [P, CONSUMER_TYPE -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
+               EL_LOGGED_MANY_TO_ONE_CONSUMER_THREAD* [P]
+            EL_ACTION_ARGUMENTS_CONSUMER_THREAD [OPEN_ARGS -> TUPLE create default_create end]
+               EL_BATCH_FILE_PROCESSING_THREAD*
+                  EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
          EL_DORMANT_ACTION_LOOP_THREAD*
             EL_REGULAR_INTERVAL_EVENT_PRODUCER
+               EL_LOGGED_REGULAR_INTERVAL_EVENT_PRODUCER
          EL_RHYTHMIC_ACTION_THREAD*
             EL_TIMED_COUNT_PRODUCER
             EL_TIMEOUT
-         EL_CONSUMER_THREAD* [P]
-            EL_THREAD_REGULAR_INTERVAL_EVENT_CONSUMER*
-            EL_MANY_TO_ONE_CONSUMER_THREAD* [P]
-            EL_ACTION_ARGUMENTS_CONSUMER_THREAD [ARGS -> TUPLE create default_create end]
-               EL_BATCH_FILE_PROCESSING_THREAD*
-                  EL_LOGGED_BATCH_FILE_PROCESSING_THREAD*
-            EL_COUNT_CONSUMER_THREAD*
-               EL_TIMED_PROCEDURE_THREAD
-            EL_PROCEDURE_CALL_CONSUMER_THREAD
-            EL_DELEGATING_CONSUMER_THREAD [P, T -> EL_MANY_TO_ONE_CONSUMER_THREAD [P] create make end]
-      EL_WORKER_THREAD
-      EL_FILE_PROCESS_THREAD
-         EL_LOGGED_FILE_PROCESS_THREAD
+               EL_LOGGED_TIMEOUT
+         EL_WORK_DISTRIBUTION_THREAD
+            EL_LOGGED_WORK_DISTRIBUTION_THREAD
+      EL_LOGGED_IDENTIFIED_THREAD*
+         SIMPLE_SERVER_THREAD
+         EL_LOGGED_CONSUMER_THREAD* [P]
+         EL_LOGGED_WORK_DISTRIBUTION_THREAD
+         EROS_SERVER_THREAD [TYPES -> TUPLE create default_create end]
+   EL_IDENTIFIED_MAIN_THREAD
 
 
 ````
@@ -1557,7 +1417,7 @@ feature -- Basic operations
       end
 
 ````
-Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [ARRAY [ANY]](https://www.eiffel.org/files/doc/static/trunk/libraries/base/array_chart.html) and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class `ANY` for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
+Note that each logged routine must start and finish with a paired call to enter_with_args and exit and that the first argument to enter_with_args matches the name of the routine. The log object maintains a logging call stack. A call to enter_with_args pushes a new routine onto the stack and exit pops the entry. The second argument is of type [ARRAY](https://www.eiffel.org/files/doc/static/trunk/libraries/base/array_chart.html) and is used to log any routine arguments. Routine enter_with_args calls the out function from the universal ancestor class [ANY](https://www.eiffel.org/files/doc/static/trunk/libraries/base/any_chart.html) for each of the array items and lists them each on a separate line as argument (1), argument (2) etc.
 
 **Comment on Java**
 
@@ -1604,9 +1464,9 @@ my_routine is
 ````
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_SUB_APPLICATION](invalid-class-name) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_SUB_APPLICATION](invalid-class-name) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_APPLICATION](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_logged_application.e) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_APPLICATION](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/sub-app/el_application.e) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
-Inheriting from class [EL_SUB_APPLICATION](invalid-class-name) has some incidental benefits including:
+Inheriting from class [EL_APPLICATION](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/sub-app/el_application.e) has some incidental benefits including:
 
 * Graceful handling of the ctrl-c program interrupt with the possibility of putting application cleanup into a redefinition of procedure `on_operating_system_signal`.
 
@@ -1618,7 +1478,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_SUB_APPLICATION](invalid-class-name) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_client_test_app.e) illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_APPLICATION](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_logged_application.e) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/eiffel-loop/tree/master/test/source/eros/apps/fourier_math_client_test_app.e) illustrates:
 
 ````eiffel
 feature {NONE} -- Implementation
@@ -1689,7 +1549,7 @@ The procedure form:
 put_<lowercase type name>
 
 ````
-is used to output the following types: `STRING_8, INTEGER_32, CHARACTER_8, REAL_32 and REAL_64`.
+is used to output the following types: [STRING_8](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_8_chart.html), [INTEGER_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/integer_32_chart.html), [CHARACTER_8](https://www.eiffel.org/files/doc/static/trunk/libraries/base/character_8_chart.html), [REAL_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/real_32_chart.html) and [REAL_64](https://www.eiffel.org/files/doc/static/trunk/libraries/base/real_64_chart.html).
 
 The procedure form:
 
@@ -1697,17 +1557,17 @@ The procedure form:
 put_<lowercase type name>_field
 
 ````
-is used to output the following types prefixed with a field label: `STRING, INTEGER, INTEGER_INTERVAL, REAL and DOUBLE`.
+is used to output the following types prefixed with a field label: [STRING_8](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_8_chart.html), [INTEGER_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/integer_32_chart.html), [INTEGER_INTERVAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/integer_interval_chart.html), [REAL_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/real_32_chart.html) and [REAL_64](https://www.eiffel.org/files/doc/static/trunk/libraries/base/real_64_chart.html).
 
 The procedure `put_string_field_to_max_length` is used to output a multi-line block of text in abbreviated form. The beginning and last 30 characters of the string is output up to a maximum number of characters (or 1/3 of the maximum length, whichever is smaller). If the text contains more than one line, tab indents are inserted to left align the text to the correct logging indent. The boolean function `current_routine_is_active` can be tested in order to conditionally execute a block of code if the current routine is unfiltered by any routine filter.
 
 **Always on logging**
 
-Class [EL_MODULE_LOG](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_module_log.e) also has a special logging object named `lio`, short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class `ANY`.
+Class [EL_MODULE_LOG](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/logging/el_module_log.e) also has a special logging object named `lio`, short for "log or io". This is used in the same way as the usual log object with the difference that the output will still be written to the console even if logging is globally disabled. It can be used to write to the console instead of the usual io medium from class [ANY](https://www.eiffel.org/files/doc/static/trunk/libraries/base/any_chart.html).
 
 **Log files**
 
-All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [EL_SUB_APPLICATION](invalid-class-name) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
+All log files are put in a sub directory logs of the current working directory. If you are making your application loggable using [EL_APPLICATION](https://github.com/finnianr/eiffel-loop/tree/master/library/runtime/app-manage/multi-app/sub-app/el_application.e) then these log files are automatically deleted when the application exits. If you want a chance to inspect the log files in an editor before they disappear there are a number of ways to do this:
 
 Use the command line switch `-keep_logs`. The log files will not be deleted and will not be overwritten during subsequent application runs. It is recommended to delete them manually.
 

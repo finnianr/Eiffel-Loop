@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 12:13:56 GMT (Monday 1st April 2024)"
-	revision: "27"
+	date: "2024-04-03 9:34:34 GMT (Wednesday 3rd April 2024)"
+	revision: "28"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -224,6 +224,17 @@ feature {NONE} -- Internal attributes
 	lines: EL_ZSTRING_LIST
 
 feature {NONE} -- Constants
+
+	Tag: TUPLE [li, li_close, oli, oli_close: ZSTRING]
+		local
+			tag_list: ZSTRING
+		once
+			create Result
+		-- Ordered list item with span to allow bold numbering using CSS
+			tag_list := "<li>, </li>, <li><span>, </span></li>"
+			tag_list.translate (Html_reserved, Html_substitutes)
+			Tuple.fill (Result, tag_list)
+		end
 
 	Type_paragraph: STRING = "p"
 

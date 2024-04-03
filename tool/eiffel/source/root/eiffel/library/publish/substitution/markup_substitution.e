@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 9:37:16 GMT (Monday 1st April 2024)"
-	revision: "16"
+	date: "2024-04-03 9:57:32 GMT (Wednesday 3rd April 2024)"
+	revision: "17"
 
 class
 	MARKUP_SUBSTITUTION
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 	make (a_delimiter_start, a_delimiter_end, a_markup_open, a_markup_close: READABLE_STRING_GENERAL)
 		do
 			delimiter_start := as_zstring (a_delimiter_start); delimiter_end := as_zstring (a_delimiter_end)
-			markup_open := as_zstring (a_markup_open); markup_close := as_zstring (a_markup_close)
+			markup_open := new_faux_markup (a_markup_open); markup_close := new_faux_markup (a_markup_close)
 			create relative_page_dir
 		end
 
@@ -72,9 +72,27 @@ feature {NONE} -- Implementation
 			substring.replace_substring (markup_open, 1, start_index - 1)
 		end
 
+	new_faux_markup (markup: READABLE_STRING_GENERAL): ZSTRING
+		-- markup with `Html_reserved' characters swapped for control characters
+		do
+			Result := as_zstring (markup)
+			Result.translate (Html_reserved, Html_substitutes)
+		end
+
 feature {NONE} -- Internal attributes
 
 	relative_page_dir: DIR_PATH
 		-- class page relative to index page directory tree
+
+feature {NONE} -- Constants
+
+	Html_link_template: ZSTRING
+		once
+			Result := new_faux_markup ("[
+				<a href="#"# target="_blank">#</a>
+			]")
+		ensure
+			three_markers: Result.occurrences ('%S') = 3
+		end
 
 end

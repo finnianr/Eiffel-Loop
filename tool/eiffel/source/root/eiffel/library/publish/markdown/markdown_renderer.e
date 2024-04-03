@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 11:04:02 GMT (Monday 1st April 2024)"
-	revision: "15"
+	date: "2024-04-03 9:50:09 GMT (Wednesday 3rd April 2024)"
+	revision: "16"
 
 class
 	MARKDOWN_RENDERER
@@ -18,9 +18,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_XML
-
-	EL_ZSTRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS; XML_ZSTRING_CONSTANTS
 
 	PUBLISHER_CONSTANTS
 
@@ -38,9 +36,9 @@ feature -- Access
 
 	as_html (markdown: ZSTRING): ZSTRING
 		do
-			Result := XML.escaped (markdown)
-			across Escaped_square_brackets as bracket loop
-				Result.replace_substring_all (bracket.key, bracket.item)
+			Result := markdown.twin
+			across Escaped_square_brackets as table loop
+				Result.replace_substring_all (table.key, table.item)
 			end
 			across Markup_substitutions as list loop
 				list.item.substitute_html (Result)
@@ -51,6 +49,13 @@ feature -- Access
 					list.item.substitute_html (Result)
 				end
 			end
+			Result.escape (Xml_escaper)
+			across Escaped_square_brackets as table loop
+				across Result.substring_index_list (table.item, False) as i loop
+					Result [i.item] := '&' -- "\lsqb;" -> "&lsqb;"
+				end
+			end
+			Result.translate (Html_substitutes, Html_reserved)
 		end
 
 feature {NONE} -- Factory
@@ -84,9 +89,10 @@ feature {NONE} -- Constants
 
 	Escaped_square_brackets: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		once
+		-- cannot use '&' here because of XML escaping
 			create Result.make_equal (3)
-			Result ["\["] := "&lsqb;"
-			Result ["\]"] := "&rsqb;"
+			Result ["\["] := "\lsqb;"
+			Result ["\]"] := "\rsqb;"
 		end
 
 	Link_substitutions: EL_ARRAYED_LIST [HYPERLINK_SUBSTITUTION]
@@ -97,14 +103,9 @@ feature {NONE} -- Constants
 	Markup_substitutions: ARRAYED_LIST [MARKUP_SUBSTITUTION]
 		once
 			create Result.make_from_array (<<
-				new_substitution (Tag.li, Tag.li_close, "<li>", "</li>"),
-
-			-- Ordered list item with span to allow bold numbering using CSS
-				new_substitution (Tag.oli, Tag.oli_close, "<li><span>", "</span></li>"),
-
-				new_substitution ("`", "&apos;", "<em id=%"code%">", "</em>"),
+				new_substitution ("`", "'", "<em id=%"code%">", "</em>"),
 				new_substitution ("**", "**", "<b>", "</b>"),
-				new_substitution ("&apos;&apos;", "&apos;&apos;", "<i>", "</i>")
+				new_substitution ("''", "''", "<i>", "</i>")
 			>>)
 		end
 

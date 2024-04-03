@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 14:12:53 GMT (Monday 1st April 2024)"
-	revision: "17"
+	date: "2024-04-03 13:32:39 GMT (Wednesday 3rd April 2024)"
+	revision: "18"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -21,35 +21,13 @@ inherit
 
 feature {NONE} -- Templates
 
-	Html_link_template: ZSTRING
-		once
-			Result := "[
-				<a href="#"# target="_blank">#</a>
-			]"
-		ensure
-			three_markers: Result.occurrences ('%S') = 3
-		end
-
 	Github_link_template: ZSTRING
 		-- [link text] plus (web address)
 		once
 			Result := "[%S](%S)"
 		end
 
-	Source_span_template: ZSTRING
-		once
-			Result := "[
-				<span id="source">#</span>
-			]"
-		end
-
 feature {NONE} -- Strings
-
-	Tag: TUPLE [li, li_close, oli, oli_close: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "[li], [/li], [oli], [/oli]")
-		end
 
 	Current_dir_forward_slash: ZSTRING
 		once
@@ -59,6 +37,23 @@ feature {NONE} -- Strings
 	Html: ZSTRING
 		once
 			Result := "html"
+		end
+
+	Html_reserved: ZSTRING
+		once
+			Result := "<>%"&"
+		end
+
+	Html_substitutes: ZSTRING
+		-- temporary control character substitutes for `Html_reserved'
+		-- Allows HTML to be inserted in note texts prior to XML escaping
+		local
+			array: ARRAY [NATURAL]; code: EL_ASCII
+		once
+			array := << code.Start_of_text, code.End_of_text, code.Shift_in, code.Shift_out >>
+			create Result.make_from_zcode_area (array.area)
+		ensure
+			same_count: Result.count = Html_reserved.count
 		end
 
 feature {NONE} -- Constants

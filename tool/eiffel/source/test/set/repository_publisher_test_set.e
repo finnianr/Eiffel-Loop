@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 7:32:48 GMT (Sunday 31st March 2024)"
-	revision: "74"
+	date: "2024-04-03 13:41:18 GMT (Wednesday 3rd April 2024)"
+	revision: "75"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -179,7 +179,7 @@ feature {NONE} -- Events
 			end
 			if attached new_csv_list (
 					"base/kernel/event, base/kernel/initialization, base/kernel/reflection, base/math,%
-					%base/persistency, persistency/database/eco-db, text/rsa-encryption"
+					%base/persistency, example/Eco-DB, persistency/database/eco-db, text/rsa-encryption"
 				) as library_list
 			then
 				across library_list as list loop
@@ -190,7 +190,7 @@ feature {NONE} -- Events
 					OS.copy_tree (el_source_dir (dir_path), dir_path.parent)
 				end
 			end
-			if attached new_csv_list ("base/base.ecf, Eco-DB.ecf, public-key-encryption.ecf") as library_list then
+			if attached new_csv_list ("base/base.ecf, Eco-DB.ecf, Eco-DB-example.ecf, public-key-encryption.ecf") as library_list then
 				across library_list as list loop
 					file_path := Work_dir.library + list.item
 					OS.copy_file (el_source_path (file_path), file_path.parent)

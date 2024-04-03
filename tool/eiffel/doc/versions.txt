@@ -1,3 +1,6 @@
+Ver 2.1.5 (3 Apr 2024)
+* MARKDOWN_RENDERER does substitutions before XML escaping using Html_substitutes
+
 Ver 2.1.4 (2 Apr 2024)
 * CLASS_DESCENDANTS_COMMAND marks parameters on first line like EL_STRING_EDITOR
 

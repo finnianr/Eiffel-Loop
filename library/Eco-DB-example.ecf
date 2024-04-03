@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!---->
+<system name = "Eco_db" library_target = "Eco_db" uuid = "2DA5BF4C-F1BC-11EE-8FB3-634EE9DE7189" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
+	<description>
+Eco-DB Usage Example
+
+Some classes from a proprietary [https://www.hex11software.com/ Hex 11 Software] library
+to illustrate the use of the [./library/Eco-DB.html Eco-DB library].
+
+**Note**: this library is not compile-able and is for documentation purposes only.
+	</description>
+	<target name = "Eco_db">
+		<option syntax = "standard" full_class_checking = "false" void_safety = "none" trace = "false" debug = "false" warning = "true"/>
+		<root all_classes = "true"/>
+		<!--Source code-->
+		<cluster name = "example" location = "example/Eco-DB" recursive = "true"/>
+	</target>
+</system>

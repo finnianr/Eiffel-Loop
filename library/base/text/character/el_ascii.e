@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-04-03 13:29:38 GMT (Wednesday 3rd April 2024)"
+	revision: "6"
 
-class
+expanded class
 	EL_ASCII
+
+inherit
+	EL_EXPANDED_ROUTINES
 
 feature -- Punctuation
 
@@ -23,6 +26,10 @@ feature -- Control
 	Ctrl_j, Newline, Line_feed: NATURAL = 10
 
 	Escape: NATURAL = 27
+
+	Shift_out, SO: NATURAL = 14
+
+	Shift_in, SI: NATURAL = 15
 
 feature -- Symbol
 
@@ -37,6 +44,12 @@ feature -- Separator
 	Blank, Space: NATURAL = 32
 
 	Ctrl_i, Horizontal_tab, Tab, Tabulation: NATURAL = 9
+
+	Start_of_text, STX: NATURAL = 2
+		-- see also `End_of_text'
+
+	End_of_text, ETX: NATURAL = 3
+		-- see also `Start_of_text'
 
 feature -- Numbers
 

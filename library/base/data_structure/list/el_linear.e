@@ -1,6 +1,6 @@
 note
 	description: "[
-		Extension to ${LINEAR} abstract structure whose items may be accessed sequentially, one-way
+		Extension to ${LINEAR [G]} abstract structure whose items may be accessed sequentially, one-way
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-26 8:05:17 GMT (Tuesday 26th March 2024)"
-	revision: "17"
+	date: "2024-04-02 11:12:00 GMT (Tuesday 2nd April 2024)"
+	revision: "18"
 
 deferred class
 	EL_LINEAR [G]
