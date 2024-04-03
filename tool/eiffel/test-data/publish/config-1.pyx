@@ -37,6 +37,7 @@ publish-repository:
 			"library/base/base.ecf#persistency"
 
 		# Library (Example)
+		ecf:
 			"library/Eco-DB-example.ecf"
 
 		# Library (Persistence)

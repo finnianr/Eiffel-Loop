@@ -50,6 +50,7 @@ publish-repository:
 			"example/protein-folding/protein-folding.ecf"
 
 		# Library (Example)
+		ecf:
 			"library/Eco-DB-example.ecf"
 
 		# Library Multimedia

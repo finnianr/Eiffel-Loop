@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 14:17:08 GMT (Monday 1st April 2024)"
-	revision: "7"
+	date: "2024-04-03 14:04:38 GMT (Wednesday 3rd April 2024)"
+	revision: "8"
 
 class
 	CLASS_LINK_LIST
@@ -145,23 +145,6 @@ feature -- Basic operations
 					end
 				else
 					crc.add_path (class_link.path)
-				end
-				forth
-			end
-		end
-
-	adjust_path_all (relative_page_dir: DIR_PATH)
-		local
-			class_link: CLASS_LINK
-		do
-			from start until after loop
-				class_link := item
-				if class_link.has_parameters then
-					across expanded_list (class_link) as list loop
-						list.item.adjust_path (relative_page_dir)
-					end
-				else
-					class_link.adjust_path (relative_page_dir)
 				end
 				forth
 			end

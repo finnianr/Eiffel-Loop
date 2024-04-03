@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 15:58:50 GMT (Sunday 31st March 2024)"
-	revision: "9"
+	date: "2024-04-03 14:07:42 GMT (Wednesday 3rd April 2024)"
+	revision: "10"
 
 deferred class
 	EL_EIFFEL_CONSTANTS
@@ -16,6 +16,12 @@ inherit
 	EL_ANY_SHARED
 
 feature {NONE} -- Constants
+
+	Constraint_symbol: ZSTRING
+		-- symbol used to constrain generic parameter
+		once
+			Result := "->"
+		end
 
 	E_extension: ZSTRING
 		once

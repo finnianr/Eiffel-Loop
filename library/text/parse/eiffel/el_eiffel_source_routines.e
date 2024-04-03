@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 9:26:24 GMT (Tuesday 2nd April 2024)"
-	revision: "15"
+	date: "2024-04-03 14:08:54 GMT (Wednesday 3rd April 2024)"
+	revision: "16"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 			if start_index = end_index then
 				Result := True -- count is 1
 			else
-				index := code_text.index_of ('-', end_index) -- "->" might be HTML escaped
+				index := code_text.substring_index (Constraint_symbol, end_index) -- finds "->"
 				if index > 0 then
 					Result := code_text.is_substring_whitespace (end_index + 1, index - 1)
 				end

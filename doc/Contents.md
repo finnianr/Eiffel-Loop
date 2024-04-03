@@ -120,6 +120,12 @@ The multi-core version showcases the Eiffel-Loop class [EL_PROCEDURE_DISTRIBUTER
 
 See: [Sourceforge repository PF_HP-mt](https://sourceforge.net/p/pfhp/PF_HP-mt)
 
+## Eco-DB Example
+
+Some classes from a proprietary [Hex 11 Software](https://www.hex11software.com/) library to illustrate the use of the [Eco-DB library](https://github.com/finnianr/eiffel-loop/tree/master/library/Eco-DB.pecf).
+
+**Note**: this library is not compile-able and is for documentation purposes only.
+
 ## Audio Processing
 
 Classes for processing audio files and sample data.
@@ -888,7 +894,7 @@ Some of the main features of this database system are as follows:
 
 **6.** Powerful Eiffel-orientated query facility that leverages the Eiffel conjunctive, disjunctive and negated keywords. Can also be used with [PREDICATE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/predicate_chart.html) agents.
 
-**7.** Leverages a feature of the [reflection cluster](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or [EL_ENUMERATION](https://github.com/finnianr/eiffel-loop/tree/master/library/base/kernel/reflection/enumeration/el_enumeration.e) object. This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
+**7.** Leverages a feature of the [reflection cluster](https://github.com/finnianr/eiffel-loop/tree/master/library/base/base.pecf) to link selected fields of an expanded type to a textual representation, as defined for example by a [DATE](https://www.eiffel.org/files/doc/static/trunk/libraries/time/date_chart.html) or implementation of [EL_ENUMERATION](https://github.com/finnianr/eiffel-loop/tree/master/library/base/kernel/reflection/enumeration/el_enumeration.e). This is important when it comes to importing or exporting tables to/from a human readable form, or for setting the fields reflectively from a string based source.
 
 **8.** Contract support to protect database integrity by the inclusion of a CRC check-sum for each [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html) table. This guards against accidental changes of field type, field order, field name or textual representation.
 
@@ -1043,7 +1049,6 @@ See for example: [myching.software-meta-data.tar.gz](http://www.eiffel-loop.com/
 It is important to have a way to backup data that offer some degree of independence from the precise binary data structure for the purpose of replacing data with data from another software version, which may have fields stored in a different order, or types etc. *Eco-DB* supports two export formats:
 
 1. **CSV** or Comma Separated Values if the data is flat, i.e. all the fields are basic types and are not compound types conforming to either [EL_STORABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/persistency/storable/el_storable.e) or  [TUPLE](https://www.eiffel.org/files/doc/static/trunk/libraries/base/tuple_chart.html).
-
 2. [Pyxis format](https://www.eiffel.org/node/143) which is very readable and compact. Shorter fields are grouped together as attributes on separate lines. See for example: [payment.pyx](http://www.eiffel-loop.com/download/payment.pyx) which is a record of Paypal transactions.
 
 The relevant class for importing or exporting is [ECD_REFLECTIVE_RECOVERABLE_CHAIN](https://github.com/finnianr/eiffel-loop/tree/master/library/persistency/database/eco-db/chain/ecd_reflective_recoverable_chain.e)
@@ -1066,11 +1071,10 @@ There is work in progress to create an abstraction representing the concept of a
 
 A preview of classes which will form the basis of reusable abstractions are as follows:
 
-* [DATABASE](http://www.eiffel-loop.com/download/database.e) contains fields conforming to DATA_TABLE and various routines that operate on all the tables at once. For example: make_open, close, delete, backup, export_as_pyxis etc
-* [DATABASE_CONFIG](http://www.eiffel-loop.com/download/database_config.e) for storing/reading the database credentials etc.
-* [DATA_TABLE](http://www.eiffel-loop.com/download/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
-* [DATABASE_MANAGER_SHELL](http://www.eiffel-loop.com/download/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
-* [DATABASE_CREDENTIAL](http://www.eiffel-loop.com/download/database_credential.e) is an authenticated credential for opening an encrypted database.
+* [DATABASE](https://github.com/finnianr/eiffel-loop/tree/master/library/example/Eco-DB/database.e) contains fields conforming to [DATA_TABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/example/Eco-DB/data_table.e) and various routines that operate on all the tables at once. For example: `make_open, close, delete, backup, export_as_pyxis` etc
+* [DATABASE_CONFIGURATION](https://github.com/finnianr/eiffel-loop/tree/master/library/example/Eco-DB/database_configuration.e) for storing/reading the database credentials etc.
+* [DATA_TABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/example/Eco-DB/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
+* [DATABASE_MANAGER_SHELL](https://github.com/finnianr/eiffel-loop/tree/master/library/example/Eco-DB/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
 
 **Foot Notes**
 

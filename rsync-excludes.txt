@@ -3,6 +3,7 @@ build/
 contrib/C++/**/spec/
 contrib/C/**/spec/
 C_library/**/spec/
+library/example/Eco-DB
 test/data/XML.archive
 projects.data/XML/Legislation.xml
 **/doc/descendant/*.txt

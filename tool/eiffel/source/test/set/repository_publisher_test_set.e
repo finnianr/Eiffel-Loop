@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 13:41:18 GMT (Wednesday 3rd April 2024)"
-	revision: "75"
+	date: "2024-04-03 13:57:52 GMT (Wednesday 3rd April 2024)"
+	revision: "76"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -142,8 +142,10 @@ feature -- Tests
 					crc_path.replace_extension (Crc_extension)
 					File_system.remove_file (crc_path)
 				end
-				base_name_list := "Eco-DB.html, base.kernel.html, index.html, public-key-encryption.html"
-				base_name_list.extend (broadcaster_path.base_name + ".html")
+				base_name_list := "Eco-DB, Eco-DB-example, base.kernel, index, public-key-encryption"
+				base_name_list.extend (broadcaster_path.base_name)
+				base_name_list.do_all (agent {EL_ZSTRING}.append_string_general (".html"))
+
 				base_name_list.append (sorted_base_names (cmd.path_list))
 				base_name_list.ascending_sort
 
