@@ -3,14 +3,19 @@ note
 		2 dimensional array of immutable strings that share the same text of a
 		comma separated manifest constant conforming to ${STRING_GENERAL}
 	]"
+	descendants: "[
+			EL_IMMUTABLE_STRING_GRID*
+				${EL_IMMUTABLE_STRING_8_GRID}
+				${EL_IMMUTABLE_STRING_32_GRID}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-04 15:08:16 GMT (Thursday 4th April 2024)"
+	revision: "7"
 
 deferred class
 	EL_IMMUTABLE_STRING_GRID [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]

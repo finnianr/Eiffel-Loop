@@ -2,7 +2,7 @@ note
 	description: "[
 		An arrayed list abstraction of objects of type **R**, that are representations of a seed object of
 		type **N**. Only the seed objects are actually stored and the representations are created on the fly
-		during iteration. More often that not, the seed object will conform to a ${NUMERIC type}.
+		during iteration. More often that not, the seed object will conform to type ${NUMERIC}.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-04-04 15:03:05 GMT (Thursday 4th April 2024)"
+	revision: "4"
 
 deferred class
 	EL_ARRAYED_REPRESENTATION_LIST [R, N]

@@ -1,13 +1,20 @@
 note
 	description: "Table with keys conforming to ${READABLE_STRING_8}"
+	descendants: "[
+			EL_STRING_8_TABLE [G]
+				${EL_FIELD_VALUE_TABLE [G]}
+				${EL_DATE_FUNCTION_TABLE}
+				${EVOLICITY_FUNCTION_TABLE}
+				${EL_XPATH_TOKEN_TABLE}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-04-04 15:05:44 GMT (Thursday 4th April 2024)"
+	revision: "5"
 
 class
 	EL_STRING_8_TABLE [G]

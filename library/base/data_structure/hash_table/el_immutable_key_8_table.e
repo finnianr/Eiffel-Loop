@@ -1,13 +1,18 @@
 note
 	description: "Hash table conforming to ${EL_HASH_TABLE} [G, ${IMMUTABLE_STRING_8}]"
+	descendants: "[
+			EL_IMMUTABLE_KEY_8_TABLE [G]
+				${EL_OBJECT_FIELDS_TABLE}
+				${EL_FIELD_TABLE}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 11:09:54 GMT (Wednesday 27th March 2024)"
-	revision: "3"
+	date: "2024-04-04 15:05:12 GMT (Thursday 4th April 2024)"
+	revision: "4"
 
 class
 	EL_IMMUTABLE_KEY_8_TABLE [G]
