@@ -1,7 +1,7 @@
 note
 	description: "[
 		Usually referenced with the alias **ZSTRING**, this string is a memory efficient alternative to using
-		${STRING_32}.When an application mainly uses characters from the ISO-8859-15 character set,
+		${STRING_32}. When an application mainly uses characters from the ISO-8859-15 character set,
 		the memory saving can be as much as 70%, while the execution efficiency is roughly the same as for
 		${STRING_8}. For short strings the saving is much less: about 50%.
 		ISO-8859-15 covers most Western european languages.
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:28:45 GMT (Thursday 4th April 2024)"
-	revision: "108"
+	date: "2024-04-04 10:57:12 GMT (Thursday 4th April 2024)"
+	revision: "109"
 
 class
 	EL_ZSTRING
@@ -536,14 +536,12 @@ note
 
 		This is something to consider if your application is going to be used in for example: Russia or Japan.
 		If the user locale is for a language that is supported by a ISO-8859-x what you can do is over-ride
+		${EL_SHARED_ZSTRING_CODEC}.Default_codec and initialize it immediately after application launch. 
+		This will force **ZSTRING** to switch to a more optimal character-set for the user-locale.
 		
-			${EL_SHARED_ZSTRING_CODEC}.Default_codec
-			
-		and initialize it immediately after application launch. This will force **ZSTRING** to switch to a more optimal
-		character-set for the user-locale. The execution performance will be worst for Asian characters.
-
-		A planned solution is to make a swappable alternative implementation that works equally well with Asian character sets
-		and non-Western European sets. The version used can be set by changing an ECF variable or perhaps the build target.
+		The execution performance will be slow for Asian characters, but a planned solution is to make a swappable alternative
+		implementation that works equally well with Asian character sets and non-Western European sets.
+		The version used can be set by changing an ECF variable or perhaps the build target.
 
 		There two ways to go about achieving an efficient implementation for Asian character sets:
 

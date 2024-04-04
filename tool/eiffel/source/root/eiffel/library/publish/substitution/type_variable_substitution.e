@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:01:21 GMT (Thursday 4th April 2024)"
-	revision: "15"
+	date: "2024-04-04 10:53:33 GMT (Thursday 4th April 2024)"
+	revision: "16"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -123,7 +123,11 @@ feature {NONE} -- Implementation
 				end
 			elseif link.type = Link_type_routine then
 				Result := Html_link_template #$ [link.relative_path (relative_page_dir), Empty_string, link.class_name]
-				Result := Routine_name_span_template #$ [Result, link.routine_name]
+				if is_preformatted then
+					Result := Routine_name_template #$ [Result, link.routine_name]
+				else
+					Result := Routine_name_span_template #$ [Result, link.routine_name]
+				end
 
 			else
 				Result := Html_link_template #$ [link.relative_path (relative_page_dir), anchor_id, link.class_name]
@@ -155,7 +159,12 @@ feature {NONE} -- Constants
 
 	Routine_name_span_template: ZSTRING
 		once
-			Result := Source_span_template #$ ["{#}.#"]
+			Result := Source_span_template #$ [Routine_name_template]
+		end
+
+	Routine_name_template: ZSTRING
+		once
+			Result := "{#}.#"
 		end
 
 end
