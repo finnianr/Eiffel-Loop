@@ -1,7 +1,6 @@
 note
 	description: "[
-		{${ZSTRING}}.append_general VS {${ZSTRING}}.append for ${ZSTRING}
-		argument
+		${ZSTRING}.append_general VS ${ZSTRING}.append for ${ZSTRING} argument
 	]"
 	notes: "[
 		Passes over 500 millisecs (in descending order)
@@ -15,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-04-04 10:36:17 GMT (Thursday 4th April 2024)"
+	revision: "12"
 
 class
 	ZSTRING_APPEND_GENERAL_VS_APPEND

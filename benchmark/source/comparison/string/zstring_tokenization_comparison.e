@@ -1,7 +1,7 @@
 note
 	description: "[
-		Compare original {${WORD_TOKEN_TABLE}}.paragraph_list_tokens implementation to
-		new one using routine {${ZSTRING}}.fill_alpha_numeric_intervals
+		Compare original ${WORD_TOKEN_TABLE}.paragraph_list_tokens implementation to
+		new one using routine ${ZSTRING}.fill_alpha_numeric_intervals
 	]"
 	notes: "[
 		Passes over 2500 millisecs (in descending order)
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-04-04 10:38:04 GMT (Thursday 4th April 2024)"
+	revision: "21"
 
 class
 	ZSTRING_TOKENIZATION_COMPARISON

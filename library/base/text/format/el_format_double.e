@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-04-04 10:25:41 GMT (Thursday 4th April 2024)"
+	revision: "5"
 
 class
 	EL_FORMAT_DOUBLE
@@ -80,7 +80,7 @@ note
 
 		**Formatting Test Set**
 		
-		Annotated table from {${STRING_TEST_SET}}.test_format_double
+		Annotated table from ${STRING_TEST_SET}.test_format_double
 
 			create format_table.make (<<
 				["99.99",  "3.14"],		-- width = 5, decimals = 2, no justification by default

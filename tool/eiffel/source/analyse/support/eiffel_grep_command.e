@@ -4,6 +4,12 @@ note
 		grep distributed as part of Eiffel Studio for Windows lacks `--include' option
 		
 			D:\Program Files\Eiffel_16.05\gcc\win64\msys\1.0\bin
+			
+		**Fixed Strings**
+			
+		When using --fixed-strings option (-F), make sure any '$' character is escaped.
+		
+			grep --recursive --line-number --include "*.e" -F "{\${"
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-21 12:35:24 GMT (Wednesday 21st June 2023)"
-	revision: "8"
+	date: "2024-04-04 8:45:47 GMT (Thursday 4th April 2024)"
+	revision: "9"
 
 class
 	EIFFEL_GREP_COMMAND

@@ -1,6 +1,6 @@
 note
 	description: "[
-		{${PP_ADDRESS}}.address_status: `confirmed' or `unconfirmed' 
+		${PP_ADDRESS}.address_status: `confirmed' or `unconfirmed' 
 		See [https://developer.paypal.com/docs/api-basics/notifications/ipn/IPNandPDTVariables/#buyer-information-variables
 		Buyer information variables]
 	]"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-04-04 10:33:01 GMT (Thursday 4th April 2024)"
+	revision: "5"
 
 class
 	PP_ADDRESS_STATUS_ENUM

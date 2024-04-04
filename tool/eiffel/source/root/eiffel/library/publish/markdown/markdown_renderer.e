@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 9:50:09 GMT (Wednesday 3rd April 2024)"
-	revision: "16"
+	date: "2024-04-03 21:35:57 GMT (Wednesday 3rd April 2024)"
+	revision: "17"
 
 class
 	MARKDOWN_RENDERER
@@ -50,9 +50,11 @@ feature -- Access
 				end
 			end
 			Result.escape (Xml_escaper)
+
+		-- "\lsqb;" -> "&lsqb;"
 			across Escaped_square_brackets as table loop
 				across Result.substring_index_list (table.item, False) as i loop
-					Result [i.item] := '&' -- "\lsqb;" -> "&lsqb;"
+					Result [i.item] := '&'
 				end
 			end
 			Result.translate (Html_substitutes, Html_reserved)

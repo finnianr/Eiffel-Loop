@@ -1,13 +1,13 @@
 note
-	description: "Paypal NVP API connection accessible via `{${PP_SHARED_API_CONNECTION}}.paypal'"
+	description: "Paypal NVP API connection accessible via ${PP_SHARED_API_CONNECTION}.paypal"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-24 11:06:09 GMT (Saturday 24th February 2024)"
-	revision: "27"
+	date: "2024-04-04 10:32:29 GMT (Thursday 4th April 2024)"
+	revision: "28"
 
 class
 	PP_NVP_API_CONNECTION

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Compare {${ZSTRING}}.substring_index_list VS substring_intervals
+		Compare ${ZSTRING}.substring_index_list VS ${ZSTRING}.substring_intervals
 	]"
 	notes: "[
 		Passes over 1000 millisecs (in descending order)
@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-04-04 10:37:08 GMT (Thursday 4th April 2024)"
+	revision: "15"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON

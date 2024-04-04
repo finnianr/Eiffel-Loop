@@ -3,7 +3,7 @@ note
 		Creates a list of system users that have a directory in `Directory.home'.		
 		For Windows this is usually `C:\Users' and for Linux `/home'
 
-		The user list is best accessed via {${EL_MODULE_SYSTEM}}.user_list
+		The user list is best accessed via ${EL_MODULE_SYSTEM}.user_list
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 11:44:40 GMT (Friday 29th March 2024)"
-	revision: "21"
+	date: "2024-04-04 10:34:28 GMT (Thursday 4th April 2024)"
+	revision: "22"
 
 deferred class
 	EL_USERS_INFO_COMMAND_I

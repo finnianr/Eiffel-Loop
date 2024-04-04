@@ -1,7 +1,7 @@
 note
 	description: "[
 		Instant Access response codes with corresponding names accessible as `message'. 
-		Accessible via `{${AIA_SHARED_ENUMERATIONS}}.Response_enum'. 
+		Accessible via ${AIA_SHARED_ENUMERATIONS}.Response_enum. 
 		See also class ${AIA_PURCHASE_REQUEST}.
 	]"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-04-04 10:31:32 GMT (Thursday 4th April 2024)"
+	revision: "13"
 
 class
 	AIA_RESPONSE_ENUM

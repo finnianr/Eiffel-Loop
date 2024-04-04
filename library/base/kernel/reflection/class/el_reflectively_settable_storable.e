@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 15:57:52 GMT (Monday 1st April 2024)"
-	revision: "80"
+	date: "2024-04-04 10:25:07 GMT (Thursday 4th April 2024)"
+	revision: "81"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -239,7 +239,7 @@ note
 		**2.** TUPLE references are initialized with a new tuple of the appropriate type.
 		Any string tuple members are initialized to a shared empty string.
 
-		**3.** Any type that is listed in a redefinition of routine `{${EL_REFLECTIVE}}.default_values'
+		**3.** Any type that is listed in a redefinition of routine ${EL_REFLECTIVE}.default_values
 	]"
 
 end

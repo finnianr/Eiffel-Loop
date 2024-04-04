@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 10:18:26 GMT (Wednesday 3rd April 2024)"
-	revision: "8"
+	date: "2024-04-04 10:18:39 GMT (Thursday 4th April 2024)"
+	revision: "9"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -52,13 +52,18 @@ feature -- Access
 		require
 			valid_item: not off and link_type > 0
 		local
-			place_holder, name: ZSTRING; expanded_parameters: detachable ZSTRING
-			left_brace_index: INTEGER; eif: EL_EIFFEL_SOURCE_ROUTINES
+			place_holder, name: ZSTRING; expanded_parameters, routine_name: detachable ZSTRING
+			left_brace_index, routine_name_offset: INTEGER; eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			place_holder := buffer.copied_substring (code_text, item_lower, item_upper)
 			inspect link_type
 				when Link_type_normal then
 					name := name_buffer.copied_substring (place_holder, 3, place_holder.count - 1)
+				when Link_type_routine then
+					name := name_buffer.copied_substring (place_holder, 3, place_holder.count - 1)
+					append_routine_name (code_text, place_holder)
+					routine_name := place_holder.substring_to_reversed ('.')
+
 				when Link_type_abstract then
 					name := name_buffer.copied_substring (place_holder, 3, place_holder.count - 2)
 				when Link_type_parameterized then
@@ -80,8 +85,12 @@ feature -- Access
 			if attached expanded_parameters as parameters then
 				Result.set_expanded_parameters (parameters)
 			end
+			if attached routine_name as routine then
+				Result.set_routine_name (routine)
+				routine_name_offset := routine.count + 1
+			end
 			Result.set_start_index (item_lower)
-			Result.set_end_index (item_upper)
+			Result.set_end_index (item_upper + routine_name_offset)
 		end
 
 	item_debug (code_text: ZSTRING): STRING
@@ -120,7 +129,13 @@ feature -- Access
 						if code_text.is_substring_subset_of_8 (Class_name_character_set, start_index + 2, end_index - offset) then
 							inspect offset
 								when 1 then
-									Result := Link_type_normal
+									if code_text.count >= end_index + 2 and then code_text.item_8 (end_index + 1) = '.'
+										and then First_letter_character_set.has (code_text.item_8 (end_index + 2))
+									then
+										Result := Link_type_routine
+									else
+										Result := Link_type_normal
+									end
 							else
 								Result := Link_type_abstract
 							end
@@ -129,7 +144,7 @@ feature -- Access
 				end
 			end
 		ensure
-			valid_result: Result > 0 implies Link_type_normal <= Result and Result <= Link_type_parameterized
+			valid_result: Result > 0 implies First_link_type <= Result and Result <= Last_link_type
 		end
 
 feature -- Element change
@@ -156,6 +171,20 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	append_routine_name (code_text, place_holder: ZSTRING)
+		require
+			valid_text: code_text.valid_index (item_upper + 2) and then code_text.item_8 (item_upper + 1) = '.'
+		local
+			i: INTEGER
+		do
+			from i := item_upper + 2 until
+				i > code_text.count or else not Identifier_character_set.has (code_text.item_8 (i))
+			loop
+				i := i + 1
+			end
+			place_holder.append_substring (code_text, item_upper + 1, i - 1)
+		end
 
 	index_of_bracket (code_text: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): INTEGER
 		local

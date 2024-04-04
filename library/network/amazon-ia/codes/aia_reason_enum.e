@@ -1,6 +1,6 @@
 note
 	description: "[
-		Reasons for purchase/purchase revokation. Accessible via `{${AIA_SHARED_ENUMERATIONS}}.Reason_enum'.
+		Reasons for purchase/purchase revokation. Accessible via ${AIA_SHARED_ENUMERATIONS}.Reason_enum.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-04-04 10:31:17 GMT (Thursday 4th April 2024)"
+	revision: "12"
 
 class
 	AIA_REASON_ENUM

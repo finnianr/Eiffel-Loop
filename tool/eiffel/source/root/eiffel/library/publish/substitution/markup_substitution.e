@@ -1,13 +1,17 @@
 note
-	description: "Markup substitution"
+	description: "[
+		Replace substrings between delimiters with faux HTML markup.
+		Faux markup is made real by translating with characters from `Html_reserved' before
+		doing XML escaping.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 9:57:32 GMT (Wednesday 3rd April 2024)"
-	revision: "17"
+	date: "2024-04-03 16:13:06 GMT (Wednesday 3rd April 2024)"
+	revision: "18"
 
 class
 	MARKUP_SUBSTITUTION
@@ -73,7 +77,7 @@ feature {NONE} -- Implementation
 		end
 
 	new_faux_markup (markup: READABLE_STRING_GENERAL): ZSTRING
-		-- markup with `Html_reserved' characters swapped for control characters
+		-- faux HTML markup with `Html_reserved' characters replaced with temporary control characters
 		do
 			Result := as_zstring (markup)
 			Result.translate (Html_reserved, Html_substitutes)

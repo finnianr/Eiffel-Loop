@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "31"
+	date: "2024-04-04 10:34:15 GMT (Thursday 4th April 2024)"
+	revision: "32"
 
 class
 	EL_STANDARD_UNINSTALL_APP
@@ -144,7 +144,7 @@ note
 			end
 
 		**2.** Designate one application to be the "main application" by over-riding
-		`{${EL_INSTALLABLE_APPLICATION}}.is_main' with value `True'.
+		${EL_INSTALLABLE_APPLICATION}.is_main with value `True'.
 
 		**3.** By default the launcher menu is put in the System submenu. Over-ride `Desktop_menu_path' to put
 		it somewhere else.

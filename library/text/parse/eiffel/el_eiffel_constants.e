@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 14:07:42 GMT (Wednesday 3rd April 2024)"
-	revision: "10"
+	date: "2024-04-04 9:30:21 GMT (Thursday 4th April 2024)"
+	revision: "11"
 
 deferred class
 	EL_EIFFEL_CONSTANTS
@@ -86,6 +86,18 @@ feature {NONE} -- Character sets
 
 	Class_name_character_set: EL_EIFFEL_CLASS_NAME_CHARACTER_SET
 		-- Set of characters permissible in class name
+		once
+			create Result
+		end
+
+	First_letter_character_set: EL_EIFFEL_FIRST_LETTER_CHARACTER_SET
+		-- Set of characters permissible in first letter of identifier
+		once
+			create Result
+		end
+
+	Identifier_character_set: EL_EIFFEL_IDENTIFIER_CHARACTER_SET
+		-- Set of characters permissible in an Eiffel identifier
 		once
 			create Result
 		end

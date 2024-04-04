@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-19 9:20:39 GMT (Monday 19th February 2024)"
-	revision: "18"
+	date: "2024-04-04 10:32:17 GMT (Thursday 4th April 2024)"
+	revision: "19"
 
 class
 	PP_CONFIGURATION
@@ -85,7 +85,7 @@ feature -- Factory
 
 note
 	notes: "[
-		Create an instance of this class first before accessing {${PP_SHARED_API_CONNECTION}}.API_connection
+		Create an instance of this class first before accessing ${PP_SHARED_API_CONNECTION}.API_connection
 
 		**Example Configuration File**
 

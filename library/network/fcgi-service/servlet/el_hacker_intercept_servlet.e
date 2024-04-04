@@ -2,7 +2,7 @@ note
 	description: "[
 		Intercept hacking attempts, returning 404 file not found message as plaintext
 		and creating firewall rule blocking IP address. The ban is temporary and lasts for
-		the number of days specified by {${EL_HACKER_INTERCEPT_CONFIG}}.ban_rule_duration.
+		the number of days specified by ${EL_HACKER_INTERCEPT_CONFIG}.ban_rule_duration.
 	]"
 	notes: "See end of class"
 
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 14:09:32 GMT (Sunday 17th March 2024)"
-	revision: "28"
+	date: "2024-04-04 10:32:00 GMT (Thursday 4th April 2024)"
+	revision: "29"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET

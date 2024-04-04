@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object that is reflectively settable from `{${FCGI_SERVLET_REQUEST}}.method_parameters'
+		Object that is reflectively settable from ${FCGI_SERVLET_REQUEST}.method_parameters
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-04-04 10:31:44 GMT (Thursday 4th April 2024)"
+	revision: "5"
 
 deferred class
 	FCGI_SETTABLE_FROM_SERVLET_REQUEST

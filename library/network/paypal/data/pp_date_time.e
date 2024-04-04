@@ -4,7 +4,7 @@ note
 		
 			HH:MM:SS Mmm DD, YYYY PST
 			
-		Used in `{${PP_TRANSACTION}}.payment_date'
+		Used in ${PP_TRANSACTION}.payment_date
 	]"
 	notes: "[
 		In the Paypal NVP manual it says `PDT' for the timezone, but this is incorrect.
@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 9:57:38 GMT (Friday 23rd February 2024)"
-	revision: "20"
+	date: "2024-04-04 10:32:44 GMT (Thursday 4th April 2024)"
+	revision: "21"
 
 class
 	PP_DATE_TIME

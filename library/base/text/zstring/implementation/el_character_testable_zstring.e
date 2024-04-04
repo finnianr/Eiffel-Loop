@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 8:32:11 GMT (Monday 1st April 2024)"
-	revision: "2"
+	date: "2024-04-04 9:10:44 GMT (Thursday 4th April 2024)"
+	revision: "3"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -259,6 +259,18 @@ feature -- Indexed query
 					Result := Codec.is_alphanumeric (c_i.natural_32_code)
 				end
 			end
+		end
+
+	is_item_in (i: INTEGER; set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if `item (i)' is a member of `set'
+		do
+			Result := set.has (item (i))
+		end
+
+	is_item_8_in (i: INTEGER; set: EL_SET [CHARACTER_8]): BOOLEAN
+		-- `True' if `item_8 (i)' is a member of `set'
+		do
+			Result := set.has (item_8 (i))
 		end
 
 	is_numeric_item (i: INTEGER): BOOLEAN

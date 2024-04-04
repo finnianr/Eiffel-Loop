@@ -1,7 +1,7 @@
 note
 	description: "[
 		Add album art from folder `album_art_dir' and organized in sub-folders matching
-		{${TL_PICTURE_TYPE_ENUM}}.name for all enumeration types.
+		${TL_PICTURE_TYPE_ENUM}.name for all enumeration types.
 	]"
 	notes: "[
 		If `create_folders' is true, create sub-folders for all picture types.
@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "25"
+	date: "2024-04-04 10:24:47 GMT (Thursday 4th April 2024)"
+	revision: "26"
 
 class
 	ADD_ALBUM_ART_TASK

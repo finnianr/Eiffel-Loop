@@ -7,7 +7,7 @@ note
 		Each synchronizeable file has a ${NATURAL_32} CRC-32 checksum file associated with it. The
 		checksums are stored a separate tree mirroring the file item locations.
 				
-			{${EL_FILE_SYNC_ITEM}}.digest_path
+			${EL_FILE_SYNC_ITEM}.digest_path
 		
 		This checksum determines if the sync-item has been modified.
 	]"
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2024-04-04 10:33:33 GMT (Thursday 4th April 2024)"
+	revision: "17"
 
 class
 	EL_FILE_SYNC_MANAGER

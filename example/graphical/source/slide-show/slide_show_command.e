@@ -2,7 +2,7 @@ note
 	description: "Create slides for video"
 	notes: "[
 		Unfortunately this app has a memory leak possibly due to a bug in GDK API.
-		See routine {${CAIRO_PIXEL_BUFFER}}**.c_free**.
+		See routine ${CAIRO_PIXEL_BUFFER}.c_free.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-04 10:24:30 GMT (Thursday 4th April 2024)"
+	revision: "7"
 
 class
 	SLIDE_SHOW_COMMAND

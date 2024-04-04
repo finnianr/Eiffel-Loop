@@ -3,7 +3,7 @@ note
 		Edit strings of type ${STRING_32} by applying an editing procedure to all
 		occurrences of substrings that begin and end with a pair of delimiters.
 
-		See `{${EL_STRING_EDITOR}}.delete_interior' for an example of an editing procedure
+		See ${EL_STRING_EDITOR}.delete_interior for an example of an editing procedure
 	]"
 
 	author: "Finnian Reilly"
@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 8:58:24 GMT (Thursday 28th March 2024)"
-	revision: "7"
+	date: "2024-04-04 10:27:28 GMT (Thursday 4th April 2024)"
+	revision: "8"
 
 class
 	EL_STRING_32_EDITOR

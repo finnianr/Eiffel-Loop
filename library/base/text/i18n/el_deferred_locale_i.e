@@ -1,6 +1,6 @@
 note
 	description: "[
-		Object available via `{${EL_MODULE_DEFERRED_LOCALE}}.Locale' that allows strings in descendants of
+		Object available via ${EL_MODULE_DEFERRED_LOCALE}.Locale that allows strings in descendants of
 		${EL_MODULE_DEFERRED_LOCALE} to be optionally localized at an application level by including class
 		${EL_MODULE_LOCALE} from the `i18n.ecf' library. By default `translation' returns the key as a `ZSTRING'
 		
@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "27"
+	date: "2024-04-04 10:27:13 GMT (Thursday 4th April 2024)"
+	revision: "28"
 
 deferred class
 	EL_DEFERRED_LOCALE_I

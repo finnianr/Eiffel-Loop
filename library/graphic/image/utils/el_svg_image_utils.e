@@ -2,7 +2,7 @@ note
 	description: "SVG image utils"
 	notes: "[
 		The Windows C implementation hangs if you try to render a UTF-8 encoded `svg_path' so for this reason
-		using `{${EL_PNG_IMAGE_FILE}}.render_svg_of_width' is the recommended alternative.
+		using ${EL_PNG_IMAGE_FILE}.render_svg_of_width is the recommended alternative.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-04-04 10:30:57 GMT (Thursday 4th April 2024)"
+	revision: "13"
 
 class
 	EL_SVG_IMAGE_UTILS

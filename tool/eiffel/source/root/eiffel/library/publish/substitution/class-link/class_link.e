@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 14:31:30 GMT (Monday 1st April 2024)"
-	revision: "8"
+	date: "2024-04-04 9:13:17 GMT (Thursday 4th April 2024)"
+	revision: "9"
 
 class
 	CLASS_LINK
@@ -32,11 +32,16 @@ feature {NONE} -- Initialization
 	make (a_path: FILE_PATH; a_class_name: ZSTRING; a_type: NATURAL_8)
 		do
 			path := a_path; class_name := a_class_name.twin
-			expanded_parameters := Empty_string
+			expanded_parameters := Empty_string; routine_name := Empty_string
 			type := a_type
 		end
 
 feature -- Status query
+
+	has_parameters: BOOLEAN
+		do
+			Result := expanded_parameters /= Empty_string
+		end
 
 	is_valid: BOOLEAN
 		-- `True' in descendants
@@ -44,25 +49,22 @@ feature -- Status query
 			Result := False
 		end
 
-	has_parameters: BOOLEAN
-		do
-			Result := expanded_parameters /= Empty_string
-		end
-
 feature -- Access
+
+	class_name: ZSTRING
+
+	expanded_parameters: ZSTRING
+
+	path: FILE_PATH
 
 	relative_path (relative_page_dir: DIR_PATH): FILE_PATH
 		do
 			Result := path
 		end
 
-	class_name: ZSTRING
-
-	expanded_parameters: ZSTRING
+	routine_name: ZSTRING
 
 	type: NATURAL_8
-
-	path: FILE_PATH
 
 feature -- Measurement
 
@@ -105,6 +107,11 @@ feature -- Element change
 	set_expanded_parameters (a_expanded_parameters: ZSTRING)
 		do
 			expanded_parameters := a_expanded_parameters
+		end
+
+	set_routine_name (a_routine_name: ZSTRING)
+		do
+			routine_name := a_routine_name
 		end
 
 	set_start_index (a_start_index: INTEGER)

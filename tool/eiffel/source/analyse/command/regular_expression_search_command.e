@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:55 GMT (Sunday 24th December 2023)"
-	revision: "24"
+	date: "2024-04-04 8:50:15 GMT (Thursday 4th April 2024)"
+	revision: "25"
 
 class
 	REGULAR_EXPRESSION_SEARCH_COMMAND
@@ -71,7 +71,7 @@ feature -- Basic operations
 			lio.put_integer_field ("Manifest source file count", manifest.file_count)
 			lio.put_new_line_x2
 			lio.put_line ("TIPS")
-			across << User_input.ESC_to_quit, "to repeat a search use ditto symbol %"" >>  as tip loop
+			across Tip_list as tip loop
 				lio.put_index_labeled_string (tip, Void, tip.item)
 				lio.put_new_line
 			end
@@ -247,6 +247,15 @@ feature {NONE} -- Constants
 	Default_output_file: EL_PLAIN_TEXT_FILE
 		once
 			create Result.make_with_name ("none.txt")
+		end
+
+	Tip_list: ARRAY [STRING]
+		once
+			Result := <<
+				User_input.ESC_to_quit,
+				"to repeat a search use ditto symbol %"",
+				"-F for literal search (escaping $ as \$)"
+			>>
 		end
 
 end

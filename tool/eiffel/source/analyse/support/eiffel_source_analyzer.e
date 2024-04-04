@@ -9,15 +9,15 @@ note
 		
 		In addition it also records the total source byte count (excluding any BOM).
 	]"
-	tests: "{${EIFFEL_SOURCE_COMMAND_TEST_SET}}.class_analyzer"
+	tests: "${EIFFEL_SOURCE_COMMAND_TEST_SET}.test_class_analyzer"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-04 10:38:34 GMT (Thursday 4th April 2024)"
+	revision: "7"
 
 class
 	EIFFEL_SOURCE_ANALYZER
