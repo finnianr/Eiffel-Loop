@@ -1,13 +1,18 @@
 note
-	description: "Hash set"
+	description: "Hash set implementing ${EL_SET [H]}"
+	descendants: "[
+			EL_HASH_SET [H -> ${HASHABLE}]
+				${EL_MEMBER_SET [G -> EL_SET_MEMBER [G]]}
+				${EL_FIELD_NAME_SET}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 13:47:57 GMT (Sunday 14th January 2024)"
-	revision: "25"
+	date: "2024-04-04 14:47:38 GMT (Thursday 4th April 2024)"
+	revision: "26"
 
 class
 	EL_HASH_SET [H -> HASHABLE]

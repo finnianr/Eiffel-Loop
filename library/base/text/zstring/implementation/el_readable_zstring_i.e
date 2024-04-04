@@ -1,13 +1,14 @@
 note
-	description: "Access to routines for classes inherited by ${EL_READABLE_ZSTRING}"
+	description: "Abstract interface to class ${ZSTRING} for use in implementation ancestors"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 12:16:01 GMT (Monday 1st April 2024)"
-	revision: "9"
+	date: "2024-04-04 14:40:09 GMT (Thursday 4th April 2024)"
+	revision: "10"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -184,5 +185,29 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-
+note
+	descendants: "[
+			EL_READABLE_ZSTRING_I*
+				${EL_ZSTRING_IMPLEMENTATION*}
+					${EL_ZSTRING_TO_BASIC_TYPES*}
+						${EL_READABLE_ZSTRING*}
+							${EL_ZSTRING}
+					${EL_APPENDABLE_ZSTRING*}
+						${EL_TRANSFORMABLE_ZSTRING*}
+							${EL_CONVERTABLE_ZSTRING*}
+								${EL_READABLE_ZSTRING*}
+					${EL_COMPARABLE_ZSTRING*}
+						${EL_READABLE_ZSTRING*}
+					${EL_MEASUREABLE_ZSTRING*}
+						${EL_READABLE_ZSTRING*}
+					${EL_SEARCHABLE_ZSTRING*}
+						${EL_READABLE_ZSTRING*}
+					${EL_TRANSFORMABLE_ZSTRING*}
+					${EL_WRITEABLE_ZSTRING*}
+						${EL_CONVERTABLE_ZSTRING*}
+					${EL_PREPENDABLE_ZSTRING*}
+						${EL_TRANSFORMABLE_ZSTRING*}
+					${EL_CHARACTER_TESTABLE_ZSTRING*}
+						${EL_READABLE_ZSTRING*}
+	]"
 end

@@ -1,13 +1,14 @@
 note
 	description: "Extended version of base class ${HASH_TABLE}"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 11:17:02 GMT (Monday 25th March 2024)"
-	revision: "26"
+	date: "2024-04-04 14:44:37 GMT (Thursday 4th April 2024)"
+	revision: "27"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -284,4 +285,27 @@ feature {NONE} -- Implementation
 			same_item: attached old item_cell as old_item implies old_item.item = item_for_iteration
 		end
 
+note
+	descendants: "[
+			EL_HASH_TABLE [G, K -> ${HASHABLE}]
+				${EL_STRING_32_TABLE [G]}
+				${EL_STRING_GENERAL_TABLE [G]}
+				${EL_CONFORMING_INSTANCE_TABLE [G]}
+				${EL_ZSTRING_TABLE}
+				${EL_STRING_8_TABLE [G]}
+					${EL_FIELD_VALUE_TABLE [G]}
+					${EL_DATE_FUNCTION_TABLE}
+					${EVOLICITY_FUNCTION_TABLE}
+					${EL_XPATH_TOKEN_TABLE}
+				${EL_STRING_HASH_TABLE [G, K -> STRING_GENERAL create make end]}
+					${EL_PROCEDURE_TABLE [K -> STRING_GENERAL create make end]}
+					${EL_ZSTRING_HASH_TABLE [G]}
+						${EL_TRANSLATION_TABLE}
+						${TB_ATTRIBUTE_EDIT_TABLE}
+				${EL_STRING_CONVERSION_TABLE}
+				${EL_TYPE_TABLE [G]}
+				${EL_IMMUTABLE_KEY_8_TABLE [G]}
+					${EL_OBJECT_FIELDS_TABLE}
+					${EL_FIELD_TABLE}
+	]"
 end

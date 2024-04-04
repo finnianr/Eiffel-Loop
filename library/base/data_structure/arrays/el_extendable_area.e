@@ -3,14 +3,15 @@ note
 		Abstraction with extendible area of type ${SPECIAL [G]} area. 
 		It can be implemented with the aid of class ${EL_EXTENDABLE_AREA_IMP [G]}
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 15:18:15 GMT (Sunday 31st March 2024)"
-	revision: "10"
+	date: "2024-04-04 14:48:54 GMT (Thursday 4th April 2024)"
+	revision: "11"
 
 deferred class
 	EL_EXTENDABLE_AREA [G]
@@ -71,4 +72,14 @@ feature {NONE} -- Constants
 	Minimal_increase: INTEGER = 5
 		-- Minimal number of additional items
 
+note
+	descendants: "[
+			EL_EXTENDABLE_AREA* [G]
+				${EL_SUBSTRING_32_BUFFER}
+				${EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION*}
+					${EL_COMPACT_SUBSTRINGS_32_I*}
+						${EL_COMPACT_SUBSTRINGS_32}
+							${EL_COMPACT_SUBSTRINGS_32_BUFFER}
+						${EL_ZSTRING_IMPLEMENTATION*}
+	]"
 end
