@@ -1,6 +1,11 @@
 note
 	description: "[
-		Convert ${ZSTRING} to ${READABLE_STRING_GENERAL} as ${STRING_32}
+		Convert instances of ${ZSTRING} to and from ${STRING_32} or ${STRING_8}.
+	]"
+	notes: "[
+		The necessity of these routines is because the routine ${ZSTRING}.z_code 
+		implements ${READABLE_STRING_GENERAL}.code and for a small number of characters
+		the returned code is not the same as Unicode.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-04-05 14:07:58 GMT (Friday 5th April 2024)"
+	revision: "6"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES
@@ -27,7 +32,7 @@ feature {NONE} -- Implementation
 						Result := zstr
 					end
 			else
-				create Result.make_from_general (general)
+				Result := new_zstring (general)
 			end
 		end
 

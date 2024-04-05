@@ -1,15 +1,17 @@
 note
 	description: "[
-		Routines that can be applied to current object if it conforms to ${CONTAINER [G]}
+		Routines that can be applied to current object if it conforms to ${CONTAINER [G]}.
+		Inherits routines from class ${EL_CONTAINER_NUMERIC_CALCULATER}.
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-04-04 15:13:49 GMT (Thursday 4th April 2024)"
+	revision: "14"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -345,4 +347,38 @@ feature {NONE} -- Constants
 		once
 			create Result.make (5)
 		end
+
+note
+	descendants: "[
+			EL_CONTAINER_STRUCTURE* [G]
+				${EL_CONTAINER_WRAPPER [G]}
+					${EL_SAVED_CURSOR [G]}
+				${EL_RESULT_SUMMATOR [G, N -> NUMERIC]}
+				${EL_CONTAINER_ITEM [G]}
+				${EL_RESULT_MAXIMUM [G, N -> (NUMERIC, COMPARABLE)]}
+				${EL_LINEAR* [G]}
+					${EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]}
+						${EL_STRING_8_IO_MEDIUM_LINE_SOURCE}
+						${EL_PLAIN_TEXT_LINE_SOURCE}
+							${EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}
+						${EL_ZSTRING_IO_MEDIUM_LINE_SOURCE}
+					${EL_CHAIN* [G]}
+						${EL_QUERYABLE_CHAIN* [G]}
+							${EL_QUERYABLE_ARRAYED_LIST [G]}
+						${EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]}
+							${EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]}
+							${EL_STRING_LIST [S -> STRING_GENERAL create make end]}
+								${EL_TEMPLATE_LIST* [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]}
+						${EL_ARRAYED_LIST [G]}
+							${EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]}
+							${EL_ARRAYED_INTERVAL_LIST}
+							${EL_QUERYABLE_ARRAYED_LIST [G]}
+							${EL_ARRAYED_REPRESENTATION_LIST* [R, N]}
+								${DATE_LIST}
+					${EL_LINEAR_STRINGS* [S -> STRING_GENERAL create make end]}
+						${EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]}
+						${EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]}
+				${EL_HASH_SET [H -> HASHABLE]}
+	]"
+
 end

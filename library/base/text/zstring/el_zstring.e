@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:57:12 GMT (Thursday 4th April 2024)"
-	revision: "109"
+	date: "2024-04-05 14:22:03 GMT (Friday 5th April 2024)"
+	revision: "110"
 
 class
 	EL_ZSTRING
@@ -503,15 +503,17 @@ note
 	notes: "[
 		**DEFAULT CODEC**
 		
-		By default `area' characters are encoded using the codec ${EL_ZCODEC_FACTORY}.default_codec. By
+		By default `area' characters are encoded using the codec ${EL_SHARED_ZCODEC_FACTORY}.default_codec. By
 		default this is ISO-8859-15 but can be set for the application using the command line option:
 		
-			-system_codec [name]
+			-zstring_codec [name]
 			
 		Example:
 		
-			-system_codec WINDOWS-1258
-		
+			-zstring_codec WINDOWS-1258
+			
+		See class constant ${EL_ZCODEC_FACTORY}.Codec_option_name.
+	
 		**FEATURES**
 		
 		**ZSTRING** has many useful routines not found in ${STRING_32}. Probably the most useful is Python style templates 
@@ -549,6 +551,18 @@ note
 		2. Change the area array to type: ${SPECIAL [NATURAL_16]} and then the same basic algorithm can be applied to Asian characters.
 		The problem is ${NATURAL_16} is not a character and there is no **CHARACTER_16**, so it will entail a lot of changes.
 		The upside is that there will still be a substantial memory saving.
+		
+		**THE CODE FUNCTION**
+		
+		There is an important difference between how ${ZSTRING} implements the function
+		${READABLE_STRING_GENERAL}.code and how ${STRING_32} implements it. For the most
+		part ${ZSTRING} will return unicode, but a small subset of characters will be different.
+		This is why **code** has been rename as **z_code**. To get true unicode use the function
+		${ZSTRING}.unicode
+		
+		The exception to this rule is if ${ZSTRING}.default_codec has been changed to return an instance of
+		${EL_ISO_8859_1_ZCODEC} instead of the default {EL_ISO_8859_15_ZCODEC}. This can be done using the command
+		line option `-zstring_codec'.
 	]"
 
 end
