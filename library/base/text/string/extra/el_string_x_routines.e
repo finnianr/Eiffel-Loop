@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 17:16:30 GMT (Tuesday 30th January 2024)"
-	revision: "62"
+	date: "2024-04-06 9:42:21 GMT (Saturday 6th April 2024)"
+	revision: "63"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -312,17 +312,19 @@ feature -- Transform
 			end
 		end
 
-	translate (target, old_characters, new_characters: STRING_X)
+	translate (target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL)
 		do
 			translate_deleting_null_characters (target, old_characters, new_characters, False)
 		end
 
-	translate_and_delete (target, old_characters, new_characters: STRING_X)
+	translate_and_delete (target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL)
 		do
 			translate_deleting_null_characters (target, old_characters, new_characters, True)
 		end
 
-	translate_deleting_null_characters (target, old_characters, new_characters: STRING_X; delete_null: BOOLEAN)
+	translate_deleting_null_characters (
+		target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN
+	)
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local

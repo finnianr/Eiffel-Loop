@@ -4,7 +4,7 @@ note
 	]"
 	notes: "[
 		The necessity of these routines is because the routine ${ZSTRING}.z_code 
-		implements ${READABLE_STRING_GENERAL}.code and for a small number of characters
+		implements ${READABLE_STRING_GENERAL}.code and for a small subset of characters
 		the returned code is not the same as Unicode.
 	]"
 
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-05 14:07:58 GMT (Friday 5th April 2024)"
-	revision: "6"
+	date: "2024-04-05 16:03:43 GMT (Friday 5th April 2024)"
+	revision: "7"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 7:58:50 GMT (Monday 1st April 2024)"
-	revision: "53"
+	date: "2024-04-06 11:55:31 GMT (Saturday 6th April 2024)"
+	revision: "54"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -109,7 +109,7 @@ feature -- Index position
 					return_default := True
 				end
 				if return_default
-					and then attached shared_z_code_pattern_general (other) as z_code_string
+					and then attached shared_z_code_pattern_general (other, 1) as z_code_string
 					and then attached String_searcher as searcher
 				then
 					searcher.initialize_deltas (z_code_string)
@@ -137,7 +137,7 @@ feature -- Index position
 					end
 			end
 			if return_default
-				and then attached shared_z_code_pattern_general (other) as z_code_string
+				and then attached shared_z_code_pattern_general (other, 1) as z_code_string
 				and then attached String_searcher as searcher
 			then
 				searcher.initialize_deltas (z_code_string)
@@ -273,7 +273,7 @@ feature -- Basic operations
 			if attached r.to_ascii_string_8 (a_pattern) as ascii_str then
 				String_8.fill_index_list (list, Current, ascii_str)
 
-			elseif attached shared_z_code_pattern_general (a_pattern) as z_code_string
+			elseif attached shared_z_code_pattern_general (a_pattern, 1) as z_code_string
 				and then attached string_searcher as searcher
 			then
 				searcher.initialize_deltas (z_code_string)
@@ -301,7 +301,7 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 			if attached r.to_ascii_string_8 (a_pattern) as ascii_pattern then
 				Result := ascii_pattern
 			else
-				Result := shared_z_code_pattern_general (a_pattern)
+				Result := shared_z_code_pattern_general (a_pattern, 1)
 			end
 		end
 
@@ -314,14 +314,12 @@ feature {EL_SHARED_ZSTRING_CODEC} -- Implementation
 			fill_with_z_code (Result)
 		end
 
-	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL): STRING_32
+	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL; index: INTEGER): STRING_32
 		local
 			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Result := Z_code_pattern_array [0]
+			Result := Z_code_pattern_array [index - 1]
 			r.shared_cursor (general).fill_z_codes (Result)
-		ensure
-			reversible: is_reversible_z_code_pattern (general, Result)
 		end
 
 feature {NONE} -- Implementation

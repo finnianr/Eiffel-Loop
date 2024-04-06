@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-05 14:22:03 GMT (Friday 5th April 2024)"
-	revision: "110"
+	date: "2024-04-06 13:27:45 GMT (Saturday 6th April 2024)"
+	revision: "111"
 
 class
 	EL_ZSTRING
@@ -336,7 +336,7 @@ feature -- Element change
 			make_from_other (substituted_tuple (inserts))
 		end
 
-	translate_and_delete (old_characters, new_characters: EL_READABLE_ZSTRING)
+	translate_and_delete (old_characters, new_characters: READABLE_STRING_GENERAL)
 		do
 			translate_deleting_null_characters (old_characters, new_characters, True)
 		end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 14:40:09 GMT (Thursday 4th April 2024)"
-	revision: "10"
+	date: "2024-04-06 11:54:20 GMT (Saturday 6th April 2024)"
+	revision: "11"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -168,6 +168,14 @@ feature {NONE} -- Implementation
 
 	reset_hash
 		deferred
+		end
+
+	shared_z_code_pattern_general (general: READABLE_STRING_GENERAL; index: INTEGER): STRING_32
+		require
+			valid_index: 1 <= index and index <= 2
+		deferred
+		ensure
+			reversible: is_reversible_z_code_pattern (general, Result)
 		end
 
 	substitution_marker_index_list: ARRAYED_LIST [INTEGER]

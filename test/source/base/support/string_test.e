@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "29"
+	date: "2024-04-06 13:25:39 GMT (Saturday 6th April 2024)"
+	revision: "30"
 
 class
 	STRING_TEST
@@ -241,6 +241,30 @@ feature -- Test editing
 				zs.replace_substring_all (l_old, zs_new)
 			else
 				zs.replace_substring_all (zs_old, zs_new)
+			end
+			Result := zs.same_string (s_32)
+		end
+
+	translate (and_delete: BOOLEAN): BOOLEAN
+		local
+			old_set, new_set: READABLE_STRING_GENERAL; s: EL_STRING_32_ROUTINES
+		do
+			if attached s_8_old as str_8 then
+				old_set := str_8
+			else
+				old_set := s_32_old
+			end
+			if attached s_8_new as str_32 then
+				new_set := str_32
+			else
+				new_set := s_32_new
+			end
+			if and_delete then
+				s.translate_and_delete (s_32, old_set, new_set)
+				zs.translate_and_delete (old_set, new_set)
+			else
+				s.translate (s_32, old_set, new_set)
+				zs.translate (old_set, new_set)
 			end
 			Result := zs.same_string (s_32)
 		end

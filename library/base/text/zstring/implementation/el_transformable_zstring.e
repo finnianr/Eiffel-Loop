@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 7:58:57 GMT (Monday 1st April 2024)"
-	revision: "65"
+	date: "2024-04-06 13:47:25 GMT (Saturday 6th April 2024)"
+	revision: "66"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -180,51 +180,71 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 
 	translate (old_characters, new_characters: READABLE_STRING_GENERAL)
 		do
-			translate_deleting_null_characters (
-				adapted_argument_general (old_characters, 1), adapted_argument_general (new_characters, 2), False
-			)
+			translate_deleting_null_characters (old_characters, new_characters, False)
 		end
 
-	translate_deleting_null_characters (old_characters, new_characters: EL_READABLE_ZSTRING; delete_null: BOOLEAN)
+	translate_deleting_null_characters (old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN)
 		-- substitute characters occurring in `old_characters' with character
 		-- at same position in `new_characters'. If `delete_null' is true, remove any characters
 		-- corresponding to null value '%U'
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
-			i, j, index, l_count, block_index, last_upper: INTEGER; old_z_code, new_z_code: NATURAL
-			old_expanded, new_expanded: STRING_32; l_area, new_characters_area: like area
+			i, j, index, min_count, upper_index, block_index, last_upper: INTEGER
+			old_c, new_c: CHARACTER; old_z_code, new_z_code: NATURAL
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			old_expanded := old_characters.shared_z_code_pattern (1); new_expanded := new_characters.shared_z_code_pattern (2)
+			upper_index := count - 1; min_count := old_characters.count.min (new_characters.count)
 
-			l_area := area; new_characters_area := new_characters.area; l_count := count
-
-			if attached empty_unencoded_buffer as l_new_unencoded and then attached unencoded_area as area_32 then
-				last_upper := l_new_unencoded.last_upper
-				from until i = l_count loop
-					old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
-					index := old_expanded.index_of (old_z_code.to_character_32, 1)
-					if index > 0 then
-						new_z_code := new_expanded.code (index)
-					else
-						new_z_code := old_z_code
-					end
-					if delete_null implies new_z_code > 0 then
-						if new_z_code > 0xFF then
-							last_upper := l_new_unencoded.extend_z_code (new_z_code, last_upper, j + 1)
-							l_area.put (Substitute, j)
+			if attached area as l_area and then attached unencoded_area as area_32 then
+				if area_32.count = 0
+					and then attached fully_encoded_area (old_characters, 1) as old_area
+					and then attached fully_encoded_area (new_characters, 2) as new_area
+				then
+					from until i > upper_index loop
+						old_c := l_area [i]
+						index := area_index_of (old_area, old_c, min_count - 1) -- negative 1 if not found
+						if index >= 0 then
+							new_c := new_area [index]
 						else
-							l_area.put (new_z_code.to_character_8, j)
+							new_c := old_c
 						end
-						j := j + 1
+						if delete_null implies new_c.code > 0 then
+							l_area.put (new_c, j)
+							j := j + 1
+						end
+						i := i + 1
 					end
-					i := i + 1
+					set_count (j); l_area [j] := '%U'
+
+				elseif attached empty_unencoded_buffer as l_new_unencoded
+					and then attached shared_z_code_pattern_general (old_characters, 1) as old_expanded
+					and then attached shared_z_code_pattern_general (new_characters, 2) as new_expanded
+				then
+					last_upper := l_new_unencoded.last_upper
+					from until i > upper_index loop
+						old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
+						index := old_expanded.index_of (old_z_code.to_character_32, 1)
+						if index > 0 then
+							new_z_code := new_expanded.code (index)
+						else
+							new_z_code := old_z_code
+						end
+						if delete_null implies new_z_code > 0 then
+							if new_z_code > 0xFF then
+								last_upper := l_new_unencoded.extend_z_code (new_z_code, last_upper, j + 1)
+								l_area.put (Substitute, j)
+							else
+								l_area.put (new_z_code.to_character_8, j)
+							end
+							j := j + 1
+						end
+						i := i + 1
+					end
+					set_count (j); l_area [j] := '%U'
+					l_new_unencoded.set_last_upper (last_upper)
+					set_unencoded_from_buffer (l_new_unencoded)
 				end
-				set_count (j)
-				l_area [j] := '%U'
-				l_new_unencoded.set_last_upper (last_upper)
-				set_unencoded_from_buffer (l_new_unencoded)
 			end
 		ensure
 			valid_unencoded: is_valid
@@ -578,19 +598,61 @@ feature {EL_READABLE_ZSTRING} -- Removal
 
 feature -- Contract Support
 
-	deleted_count (old_characters, new_characters: EL_READABLE_ZSTRING): INTEGER
+	deleted_count (old_set, new_set: READABLE_STRING_GENERAL): INTEGER
 		local
 			i: INTEGER
 		do
 			across to_string_32 as uc loop
-				i := old_characters.index_of (uc.item, 1)
-				if i > 0 and then new_characters.z_code (i) = 0 then
+				i := old_set.index_of (uc.item, 1)
+				if i > 0 and then new_set [i] = '%U' then
 					Result := Result + 1
 				end
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	area_index_of (a_area: like area; c: CHARACTER_8; upper_index: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			Result := -1
+			from until Result >= 0 or else i > upper_index loop
+				if a_area [i] = c then
+					Result := i
+				else
+					i := i + 1
+				end
+			end
+		end
+
+	fully_encoded_area (a_general: READABLE_STRING_GENERAL; index: INTEGER): detachable like area
+		do
+			inspect Class_id.character_bytes (a_general)
+				when '1' then
+					if attached {READABLE_STRING_8} a_general as str_8 and then attached cursor_8 (str_8) as c then
+						if c.all_ascii then
+							if str_8.is_immutable then
+								create Result.make_empty (str_8.count)
+								Result.copy_data (c.area, c.area_first_index, 0, str_8.count)
+							else
+								Result := c.area
+							end
+						elseif attached adapted_argument (str_8, index) as zstr and then not zstr.has_mixed_encoding then
+							Result := zstr.area
+						end
+					end
+
+				when 'X' then
+					if attached {EL_ZSTRING} a_general as zstr and then not zstr.has_mixed_encoding then
+						Result := zstr.area
+					end
+			else
+				if attached adapted_argument (a_general, index) as zstr and then not zstr.has_mixed_encoding then
+					Result := zstr.area
+				end
+			end
+		end
 
 	replace_area_substrings (a_old, new: ZSTRING)
 		local

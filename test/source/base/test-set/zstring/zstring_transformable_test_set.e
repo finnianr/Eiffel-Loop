@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 13:02:05 GMT (Thursday 14th March 2024)"
-	revision: "2"
+	date: "2024-04-06 13:29:38 GMT (Saturday 6th April 2024)"
+	revision: "3"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -382,36 +382,25 @@ feature -- Tests
 		end
 
 	test_translate
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_translate
 		note
 			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.translate"
 		local
-			test: STRING_TEST
-			old_characters, new_characters: ZSTRING
-			old_characters_32, new_characters_32: STRING_32
-			i, j, count: INTEGER; s: EL_STRING_32_ROUTINES
+			test: STRING_TEST; new_set: STRING_32
 		do
-			create test
-			create old_characters_32.make (3); create new_characters_32.make (3)
-			count := (Text.character_set.count // 3 - 1)
-			from i := 0  until i = count loop
-				old_characters_32.wipe_out; new_characters_32.wipe_out
-				from j := 1 until j > 3 loop
-					old_characters_32.extend (Text.character_set [i * 3 + j])
-					new_characters_32.extend (Text.character_set [i * 3 + j + 3])
-					j := j + 1
-				end
-				from j := 1 until j > 2 loop
-					if j = 2 then
-						new_characters_32 [2] := '%U'
+			across << space.item, Text.Ogham_space_mark, ('%U').to_character_32 >> as c loop
+				across Text.lines as list loop
+					if attached list.item as line then
+						across line.split (' ') as split loop
+							if attached split.item as word and then attached new_characters_set (word) as old_set then
+								create new_set.make_filled (c.item, old_set.count)
+								create test.make (line.twin)
+								test.set_old_new (old_set, new_set)
+								assert ("translate OK", test.translate (c.item.code = 0))
+							end
+						end
 					end
-					old_characters := old_characters_32; new_characters := new_characters_32
-					test.set (Text.russian_and_english.twin)
-					s.translate_deleting_null_characters (test.s_32, old_characters_32, new_characters_32, j = 2)
-					test.zs.translate_deleting_null_characters (old_characters, new_characters, j = 2)
-					assert ("translate OK", test.is_same)
-					j := j + 1
 				end
-				i := i + 1
 			end
 		end
 
@@ -450,6 +439,16 @@ feature {NONE} -- Implementation
 					test.prune (type, c.item)
 
 					assert (test.prune_type_name (type) + " OK", test.is_same)
+				end
+			end
+		end
+
+	new_characters_set (str: STRING_32): STRING_32
+		do
+			create Result.make (str.count)
+			across str as c loop
+				if not Result.has (c.item) then
+					Result.extend (c.item)
 				end
 			end
 		end

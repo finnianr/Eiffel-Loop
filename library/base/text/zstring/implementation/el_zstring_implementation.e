@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 12:15:47 GMT (Monday 1st April 2024)"
-	revision: "93"
+	date: "2024-04-06 10:28:05 GMT (Saturday 6th April 2024)"
+	revision: "94"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -207,14 +207,14 @@ feature -- Status query
 			inspect uc.code
 			-- allow uc = 26 to map to unicode subtitute character
 				when 0 .. 25, 27 .. Max_ascii_code then
-					Result := String_8.has (Current, uc.to_character_8)
+					Result := has_character_8 (area, uc.to_character_8, count - 1)
 			else
 				c := Codec.encoded_character (uc)
 				inspect c
 					when Substitute then
 						Result := unencoded_has (uc)
 				else
-						Result := String_8.has (Current, c)
+					Result := has_character_8 (area, c, count - 1)
 				end
 			end
 		end
@@ -292,6 +292,16 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 
 	elks_checking: BOOLEAN
 		deferred
+		end
+
+	has_character_8 (a_area: like area; c: CHARACTER_8; upper_index: INTEGER): BOOLEAN
+		local
+			i: INTEGER
+		do
+			from until Result or else i > upper_index loop
+				Result := a_area [i] = c
+				i := i + 1
+			end
 		end
 
 	has_unencoded_between_optimal (a_area: like area; start_index, end_index: INTEGER): BOOLEAN

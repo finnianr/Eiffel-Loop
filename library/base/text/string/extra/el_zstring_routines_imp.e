@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 8:13:04 GMT (Monday 1st April 2024)"
-	revision: "24"
+	date: "2024-04-06 9:43:55 GMT (Saturday 6th April 2024)"
+	revision: "25"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -325,7 +325,9 @@ feature -- Transform
 			target.replace_character (uc_old, uc_new)
 		end
 
-	translate_deleting_null_characters (target, old_characters, new_characters: ZSTRING; delete_null: BOOLEAN)
+	translate_deleting_null_characters (
+		target: ZSTRING; old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN
+	)
 		do
 			target.translate_deleting_null_characters (old_characters, new_characters, delete_null)
 		end
