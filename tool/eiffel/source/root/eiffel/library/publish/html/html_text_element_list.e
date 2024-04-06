@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 9:34:34 GMT (Wednesday 3rd April 2024)"
-	revision: "28"
+	date: "2024-04-06 16:52:32 GMT (Saturday 6th April 2024)"
+	revision: "29"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -232,7 +232,7 @@ feature {NONE} -- Constants
 			create Result
 		-- Ordered list item with span to allow bold numbering using CSS
 			tag_list := "<li>, </li>, <li><span>, </span></li>"
-			tag_list.translate (Html_reserved, Html_substitutes)
+			tag_list.hide (Html_reserved)
 			Tuple.fill (Result, tag_list)
 		end
 

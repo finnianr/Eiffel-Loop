@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 13:47:25 GMT (Saturday 6th April 2024)"
-	revision: "66"
+	date: "2024-04-06 17:05:20 GMT (Saturday 6th April 2024)"
+	revision: "67"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -20,6 +20,8 @@ inherit
 	EL_PREPENDABLE_ZSTRING
 
 	EL_CHARACTER_32_CONSTANTS
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {EL_READABLE_ZSTRING} -- Basic operations
 
@@ -49,6 +51,13 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			if c = Substitute then
 				make_unencoded_filled (uc, count)
 			end
+		end
+
+	hide (characters: READABLE_STRING_GENERAL)
+		-- hide all occurrences of `characters' with control characters `0x1' to `0x8' and `0x11' to `0x18'
+		-- so they are not affected by an escaping routine
+		do
+			hide_or_reveal (characters, False)
 		end
 
 	mirror
@@ -178,78 +187,23 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			length_and_content: elks_checking implies Current ~ (old as_upper)
 		end
 
-	translate (old_characters, new_characters: READABLE_STRING_GENERAL)
+	reveal (characters: READABLE_STRING_GENERAL)
+		-- reveal set of `characters' previously hidden by call to `hide'
 		do
-			translate_deleting_null_characters (old_characters, new_characters, False)
+			hide_or_reveal (characters, True)
 		end
 
-	translate_deleting_null_characters (old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN)
-		-- substitute characters occurring in `old_characters' with character
-		-- at same position in `new_characters'. If `delete_null' is true, remove any characters
-		-- corresponding to null value '%U'
-		require
-			each_old_has_new: old_characters.count = new_characters.count
-		local
-			i, j, index, min_count, upper_index, block_index, last_upper: INTEGER
-			old_c, new_c: CHARACTER; old_z_code, new_z_code: NATURAL
-			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+	translate (old_characters, new_characters: READABLE_STRING_GENERAL)
+		-- replace all characters in `old_characters' with corresponding character in `new_characters'.
 		do
-			upper_index := count - 1; min_count := old_characters.count.min (new_characters.count)
+			translate_with_deletion (old_characters, new_characters, False)
+		end
 
-			if attached area as l_area and then attached unencoded_area as area_32 then
-				if area_32.count = 0
-					and then attached fully_encoded_area (old_characters, 1) as old_area
-					and then attached fully_encoded_area (new_characters, 2) as new_area
-				then
-					from until i > upper_index loop
-						old_c := l_area [i]
-						index := area_index_of (old_area, old_c, min_count - 1) -- negative 1 if not found
-						if index >= 0 then
-							new_c := new_area [index]
-						else
-							new_c := old_c
-						end
-						if delete_null implies new_c.code > 0 then
-							l_area.put (new_c, j)
-							j := j + 1
-						end
-						i := i + 1
-					end
-					set_count (j); l_area [j] := '%U'
-
-				elseif attached empty_unencoded_buffer as l_new_unencoded
-					and then attached shared_z_code_pattern_general (old_characters, 1) as old_expanded
-					and then attached shared_z_code_pattern_general (new_characters, 2) as new_expanded
-				then
-					last_upper := l_new_unencoded.last_upper
-					from until i > upper_index loop
-						old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
-						index := old_expanded.index_of (old_z_code.to_character_32, 1)
-						if index > 0 then
-							new_z_code := new_expanded.code (index)
-						else
-							new_z_code := old_z_code
-						end
-						if delete_null implies new_z_code > 0 then
-							if new_z_code > 0xFF then
-								last_upper := l_new_unencoded.extend_z_code (new_z_code, last_upper, j + 1)
-								l_area.put (Substitute, j)
-							else
-								l_area.put (new_z_code.to_character_8, j)
-							end
-							j := j + 1
-						end
-						i := i + 1
-					end
-					set_count (j); l_area [j] := '%U'
-					l_new_unencoded.set_last_upper (last_upper)
-					set_unencoded_from_buffer (l_new_unencoded)
-				end
-			end
-		ensure
-			valid_unencoded: is_valid
-			unchanged_count: not delete_null implies count = old count
-			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
+	translate_or_delete (old_characters, new_characters: READABLE_STRING_GENERAL)
+		-- replace all characters in `old_characters' with corresponding character in `new_characters'
+		-- and removing any characters corresponding to null value '%U'
+		do
+			translate_with_deletion (old_characters, new_characters, True)
 		end
 
 	unescape (unescaper: EL_ZSTRING_UNESCAPER)
@@ -654,6 +608,36 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	hide_or_reveal (characters: READABLE_STRING_GENERAL; reveal_hidden: BOOLEAN)
+		-- hide all occurrences of `characters' with control characters `0x1' to `0x8' and `0x11' to `0x18'
+		-- so they are not affected by a call to an escaping routine
+		require
+			max_of_16: characters.count <= 16
+		local
+			l_count, offset, code, i: INTEGER; control_characters: STRING
+		do
+			l_count := characters.count.min (16)
+			create control_characters.make_filled (' ', l_count)
+			if attached control_characters.area as l_area then
+				from code := 1 until i = l_count loop
+					inspect code
+						when 9 then
+							offset := 0x10
+							code := 1
+					else
+					end
+					l_area [i] := (code + offset).to_character_8
+					code := code + 1
+					i := i + 1
+				end
+			end
+			if reveal_hidden then
+				translate_with_deletion (control_characters, characters, False)
+			else
+				translate_with_deletion (characters, control_characters, False)
+			end
+		end
+
 	replace_area_substrings (a_old, new: ZSTRING)
 		local
 			i, l_count, count_delta, old_count, sum_count_delta, new_current_count: INTEGER
@@ -866,6 +850,74 @@ feature {NONE} -- Implementation
 				)
 			end
 			set_unencoded_from_buffer (buffer)
+		end
+
+	translate_with_deletion (old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN)
+		-- replace all characters in `old_characters' with corresponding character in `new_characters'.
+		-- If `delete_null' is true, remove any characters corresponding to null value '%U'
+		require
+			each_old_has_new: old_characters.count = new_characters.count
+		local
+			i, j, index, min_count, upper_index, block_index, last_upper: INTEGER
+			old_c, new_c: CHARACTER; old_z_code, new_z_code: NATURAL
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			upper_index := count - 1; min_count := old_characters.count.min (new_characters.count)
+
+			if attached area as l_area and then attached unencoded_area as area_32 then
+				if area_32.count = 0
+					and then attached fully_encoded_area (old_characters, 1) as old_area
+					and then attached fully_encoded_area (new_characters, 2) as new_area
+				then
+					from until i > upper_index loop
+						old_c := l_area [i]
+						index := area_index_of (old_area, old_c, min_count - 1) -- negative 1 if not found
+						if index >= 0 then
+							new_c := new_area [index]
+						else
+							new_c := old_c
+						end
+						if delete_null implies new_c.code > 0 then
+							l_area.put (new_c, j)
+							j := j + 1
+						end
+						i := i + 1
+					end
+					set_count (j); l_area [j] := '%U'
+
+				elseif attached empty_unencoded_buffer as l_new_unencoded
+					and then attached shared_z_code_pattern_general (old_characters, 1) as old_expanded
+					and then attached shared_z_code_pattern_general (new_characters, 2) as new_expanded
+				then
+					last_upper := l_new_unencoded.last_upper
+					from until i > upper_index loop
+						old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
+						index := old_expanded.index_of (old_z_code.to_character_32, 1)
+						if index > 0 then
+							new_z_code := new_expanded.code (index)
+						else
+							new_z_code := old_z_code
+						end
+						if delete_null implies new_z_code > 0 then
+							if new_z_code > 0xFF then
+								last_upper := l_new_unencoded.extend_z_code (new_z_code, last_upper, j + 1)
+								l_area.put (Substitute, j)
+							else
+								l_area.put (new_z_code.to_character_8, j)
+							end
+							j := j + 1
+						end
+						i := i + 1
+					end
+					set_count (j); l_area [j] := '%U'
+					l_new_unencoded.set_last_upper (last_upper)
+					set_unencoded_from_buffer (l_new_unencoded)
+				end
+			end
+		ensure
+			valid_unencoded: is_valid
+			unchanged_count: not delete_null implies count = old count
+			changed_count: delete_null implies count = old (count - deleted_count (old_characters, new_characters))
 		end
 
 end

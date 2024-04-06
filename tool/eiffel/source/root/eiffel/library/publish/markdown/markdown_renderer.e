@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 21:35:57 GMT (Wednesday 3rd April 2024)"
-	revision: "17"
+	date: "2024-04-06 16:52:33 GMT (Saturday 6th April 2024)"
+	revision: "18"
 
 class
 	MARKDOWN_RENDERER
@@ -57,7 +57,7 @@ feature -- Access
 					Result [i.item] := '&'
 				end
 			end
-			Result.translate (Html_substitutes, Html_reserved)
+			Result.reveal (Html_reserved)
 		end
 
 feature {NONE} -- Factory

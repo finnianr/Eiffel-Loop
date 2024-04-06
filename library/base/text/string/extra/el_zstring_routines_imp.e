@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 9:43:55 GMT (Saturday 6th April 2024)"
-	revision: "25"
+	date: "2024-04-06 16:19:41 GMT (Saturday 6th April 2024)"
+	revision: "26"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -22,7 +22,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			adjusted, to_z_code, replace_character, translate_deleting_null_characters
+			adjusted, to_z_code, replace_character, translate_with_deletion
 		end
 
 	EL_STRING_GENERAL_ROUTINES
@@ -325,13 +325,6 @@ feature -- Transform
 			target.replace_character (uc_old, uc_new)
 		end
 
-	translate_deleting_null_characters (
-		target: ZSTRING; old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN
-	)
-		do
-			target.translate_deleting_null_characters (old_characters, new_characters, delete_null)
-		end
-
 feature {NONE} -- Implementation
 
 	cursor (s: EL_READABLE_ZSTRING): EL_ZSTRING_ITERATION_CURSOR
@@ -352,6 +345,17 @@ feature {NONE} -- Implementation
 	replace_substring (str: ZSTRING; insert: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		do
 			str.replace_substring (insert, start_index, end_index)
+		end
+
+	translate_with_deletion (
+		target: ZSTRING; old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN
+	)
+		do
+			if delete_null then
+				target.translate_or_delete (old_characters, new_characters)
+			else
+				target.translate (old_characters, new_characters)
+			end
 		end
 
 feature {NONE} -- Constants

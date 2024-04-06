@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 16:13:06 GMT (Wednesday 3rd April 2024)"
-	revision: "18"
+	date: "2024-04-06 16:52:33 GMT (Saturday 6th April 2024)"
+	revision: "19"
 
 class
 	MARKUP_SUBSTITUTION
@@ -80,7 +80,7 @@ feature {NONE} -- Implementation
 		-- faux HTML markup with `Html_reserved' characters replaced with temporary control characters
 		do
 			Result := as_zstring (markup)
-			Result.translate (Html_reserved, Html_substitutes)
+			Result.hide (Html_reserved)
 		end
 
 feature {NONE} -- Internal attributes

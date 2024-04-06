@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:05:11 GMT (Thursday 4th April 2024)"
-	revision: "19"
+	date: "2024-04-06 16:51:47 GMT (Saturday 6th April 2024)"
+	revision: "20"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -42,18 +42,6 @@ feature {NONE} -- Strings
 	Html_reserved: ZSTRING
 		once
 			Result := "<>%"&"
-		end
-
-	Html_substitutes: ZSTRING
-		-- temporary control character substitutes for `Html_reserved'
-		-- Allows HTML to be inserted in note texts prior to XML escaping
-		local
-			array: ARRAY [NATURAL]; code: EL_ASCII
-		once
-			array := << code.Start_of_text, code.End_of_text, code.Shift_in, code.Shift_out >>
-			create Result.make_from_zcode_area (array.area)
-		ensure
-			same_count: Result.count = Html_reserved.count
 		end
 
 feature {NONE} -- Constants

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 17:36:25 GMT (Sunday 17th March 2024)"
-	revision: "59"
+	date: "2024-04-06 16:16:21 GMT (Saturday 6th April 2024)"
+	revision: "60"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -176,7 +176,7 @@ feature -- Basic operations
 					display (l_command.lines)
 				end
 				if dry_run.is_disabled then
-					l_command.translate_and_delete (Tab_and_new_line, Null_and_space)
+					l_command.translate_or_delete (Tab_and_new_line, Null_and_space)
 					do_command (l_command)
 				end
 			end

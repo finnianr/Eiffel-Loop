@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 13:27:45 GMT (Saturday 6th April 2024)"
-	revision: "111"
+	date: "2024-04-06 16:53:08 GMT (Saturday 6th April 2024)"
+	revision: "112"
 
 class
 	EL_ZSTRING
@@ -46,10 +46,10 @@ inherit
 
 				precede, put_unicode, quote, translate,
 --				Transformation
-				crop, expand_tabs, mirror, replace_character, replace_delimited_substring,
+				crop, expand_tabs, hide, mirror, replace_character, replace_delimited_substring,
 				replace_delimited_substring_general, replace_substring, replace_substring_all, replace_substring_general,
-				replace_set_members_8, replace_set_members,
-				to_canonically_spaced, to_lower, to_proper, to_upper, translate_deleting_null_characters,
+				replace_set_members_8, replace_set_members, reveal,
+				to_canonically_spaced, to_lower, to_proper, to_upper, translate_or_delete,
 				unescape,
 --				Removal
 				keep_head, keep_tail, left_adjust, remove_head, remove_quotes, remove_tail, right_adjust,
@@ -334,11 +334,6 @@ feature -- Element change
 	substitute_tuple (inserts: TUPLE)
 		do
 			make_from_other (substituted_tuple (inserts))
-		end
-
-	translate_and_delete (old_characters, new_characters: READABLE_STRING_GENERAL)
-		do
-			translate_deleting_null_characters (old_characters, new_characters, True)
 		end
 
 feature -- Removal

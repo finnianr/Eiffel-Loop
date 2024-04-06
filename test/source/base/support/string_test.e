@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 13:25:39 GMT (Saturday 6th April 2024)"
-	revision: "30"
+	date: "2024-04-06 16:14:58 GMT (Saturday 6th April 2024)"
+	revision: "31"
 
 class
 	STRING_TEST
@@ -260,8 +260,8 @@ feature -- Test editing
 				new_set := s_32_new
 			end
 			if and_delete then
-				s.translate_and_delete (s_32, old_set, new_set)
-				zs.translate_and_delete (old_set, new_set)
+				s.translate_or_delete (s_32, old_set, new_set)
+				zs.translate_or_delete (old_set, new_set)
 			else
 				s.translate (s_32, old_set, new_set)
 				zs.translate (old_set, new_set)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-24 12:42:39 GMT (Wednesday 24th January 2024)"
-	revision: "27"
+	date: "2024-04-06 16:24:55 GMT (Saturday 6th April 2024)"
+	revision: "28"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -67,7 +67,7 @@ feature -- Access
 		-- for use in <a id="$category_id">
 		do
 			Result := category_index_title.as_lower
-			Result.translate_and_delete (Category_id_characters.existing, Category_id_characters.replacement)
+			Result.translate_or_delete (Category_id_characters.existing, Category_id_characters.replacement)
 		end
 
 	category_index_title: ZSTRING

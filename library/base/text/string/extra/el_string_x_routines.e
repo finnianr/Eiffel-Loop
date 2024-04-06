@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 9:42:21 GMT (Saturday 6th April 2024)"
-	revision: "63"
+	date: "2024-04-06 16:21:48 GMT (Saturday 6th April 2024)"
+	revision: "64"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -313,16 +313,21 @@ feature -- Transform
 		end
 
 	translate (target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL)
+		-- replace all characters in `old_characters' with corresponding character in `new_characters'.
 		do
-			translate_deleting_null_characters (target, old_characters, new_characters, False)
+			translate_with_deletion (target, old_characters, new_characters, False)
 		end
 
-	translate_and_delete (target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL)
+	translate_or_delete (target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL)
+		-- replace all characters in `old_characters' with corresponding character in `new_characters'.
+		-- and removing any characters corresponding to null value '%U'
 		do
-			translate_deleting_null_characters (target, old_characters, new_characters, True)
+			translate_with_deletion (target, old_characters, new_characters, True)
 		end
 
-	translate_deleting_null_characters (
+feature {NONE} -- Implementation
+
+	translate_with_deletion (
 		target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN
 	)
 		require
