@@ -8,6 +8,7 @@ note
 		`new_callback' to a temporary variable before invoking the C routine which makes callbacks.
 
 		**Example**
+		
 			execute (connection: EL_HTTP_CONNECTION)
 				local
 					callback: like new_callback
@@ -28,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-04-07 6:50:44 GMT (Sunday 7th April 2024)"
+	revision: "12"
 
 deferred class
 	EL_C_CALLABLE

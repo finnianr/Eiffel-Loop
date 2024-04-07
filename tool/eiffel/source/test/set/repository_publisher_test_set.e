@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 13:57:52 GMT (Wednesday 3rd April 2024)"
-	revision: "76"
+	date: "2024-04-07 7:17:41 GMT (Sunday 7th April 2024)"
+	revision: "77"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -117,7 +117,7 @@ feature -- Tests
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
 			line: ZSTRING; base_name_list: EL_ZSTRING_LIST
-			broadcaster_path, checker_path, relative_path, crc_path: FILE_PATH
+			broadcaster_path, checker_path, relative_path, crc_path, el_event_processor_path: FILE_PATH
 		do
 			publisher := new_publisher
 			publisher.execute
@@ -133,7 +133,7 @@ feature -- Tests
 
 			File_system.remove_file (checker_path)
 
-			-- Remove some CRC files to force regeneration
+		-- Remove some CRC files to force regeneration
 			if attached OS.find_files_command (Kernel_event.html_dir, "*listener.html") as cmd then
 				cmd.execute
 				across cmd.path_list as path loop
@@ -142,6 +142,9 @@ feature -- Tests
 					crc_path.replace_extension (Crc_extension)
 					File_system.remove_file (crc_path)
 				end
+				el_event_processor_path := kernel_event_html_path ("el_event_processor.html")
+				File_system.remove_file (el_event_processor_path)
+
 				base_name_list := "Eco-DB, Eco-DB-example, base.kernel, index, public-key-encryption"
 				base_name_list.extend (broadcaster_path.base_name)
 				base_name_list.do_all (agent {EL_ZSTRING}.append_string_general (".html"))
@@ -158,7 +161,8 @@ feature -- Tests
 					assert ("removed regenerated", path.item.exists)
 				end
 			end
-			assert ("checker html gone", not html_path (checker_path).exists)
+			assert ("el_event_processor regenerated", el_event_processor_path.exists)
+			assert ("checker html gone", not kernel_event_html_path (checker_path).exists)
 			assert ("same list", base_name_list ~ sorted_base_names (publisher.uploaded_path_list))
 		end
 
@@ -302,7 +306,7 @@ feature {NONE} -- Implementation
 			Result := OS.file_list (Work_dir.doc, "*.html")
 		end
 
-	html_path (a_path: FILE_PATH): FILE_PATH
+	kernel_event_html_path (a_path: FILE_PATH): FILE_PATH
 		do
 			Result := Kernel_event.html_dir + a_path.base_name
 			Result.add_extension ("html")
@@ -361,6 +365,5 @@ feature {NONE} -- Constants
 				["EL_MODULE_X509", "/library/text/rsa-encryption/x509/el_module_x509.e"]
 			>>)
 		end
-
 
 end

@@ -2,7 +2,7 @@
 
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
-* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: ${EL_PASSPHRASE_ATTRIBUTES_ENUM}.
+* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: ${EL_HTTP_STATUS_ENUM}.
 * Basis for reflective initialization of class attributes from command line arguments. See class ${EL_COMMAND_LINE_OPTIONS}
 * Support for reading and writing to strings conforming to ${STRING_GENERAL}
 * Support for reading from objects conforming to ${EL_READABLE} and writing to objects conforming to ${EL_WRITEABLE}

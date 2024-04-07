@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 8:48:00 GMT (Wednesday 3rd April 2024)"
-	revision: "57"
+	date: "2024-04-07 7:44:31 GMT (Sunday 7th April 2024)"
+	revision: "58"
 
 class
 	EIFFEL_CLASS
@@ -22,7 +22,7 @@ inherit
 		undefine
 			is_equal, copy
 		redefine
-			sink_content
+			is_modified, sink_content
 		end
 
 	EVOLICITY_SERIALIZEABLE
@@ -148,6 +148,11 @@ feature -- Status report
 	is_example: BOOLEAN
 		do
 			Result := not is_library
+		end
+
+	is_modified: BOOLEAN
+		do
+			Result := previous_digest /= current_digest or else not html_output_path.exists
 		end
 
 	is_source_modified: BOOLEAN

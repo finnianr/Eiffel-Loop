@@ -1,3 +1,9 @@
+Ver 2.1.8 (7 Apr 2024)
+* Publisher now regenerates html if it has been deleted
+
+Ver 2.1.7 (6 Apr 2024)
+* Optimized ZSTRING translate and new routines hide and reveal
+
 Ver 2.1.6 (4 Apr 2024)
 * Ability to expand ${MY_CLASS}.my_routine in publisher
 
