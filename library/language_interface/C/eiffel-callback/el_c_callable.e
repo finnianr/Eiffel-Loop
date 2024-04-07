@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-07 6:50:44 GMT (Sunday 7th April 2024)"
-	revision: "12"
+	date: "2024-04-07 7:58:39 GMT (Sunday 7th April 2024)"
+	revision: "13"
 
 deferred class
 	EL_C_CALLABLE
@@ -126,15 +126,16 @@ note
 	descendants: "[
 			EL_C_CALLABLE*
 				${EL_EXPAT_XML_PARSER}
+					${EL_EXPAT_XHTML_PARSER}
 					${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}
 					${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}
 				${EL_VTD_CALLABLE_EXCEPTIONS}
-				${EL_HTTP_COMMAND}*
-					${EL_DOWNLOAD_HTTP_COMMAND}*
-						${EL_STRING_DOWNLOAD_HTTP_COMMAND}
-							${EL_GET_HTTP_COMMAND}
-							${EL_HEAD_HTTP_COMMAND}
-							${EL_POST_HTTP_COMMAND}
+				${EL_HTTP_COMMAND*}
+					${EL_DOWNLOAD_HTTP_COMMAND*}
 						${EL_FILE_DOWNLOAD_HTTP_COMMAND}
+						${EL_STRING_DOWNLOAD_HTTP_COMMAND}
+							${EL_HEAD_HTTP_COMMAND}
+							${EL_GET_HTTP_COMMAND}
+							${EL_POST_HTTP_COMMAND}
 	]"
 end

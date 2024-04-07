@@ -382,7 +382,7 @@ Building on the basic ISE reflection mechanisms, this cluster makes possible a v
 
 * Support for mapping between various name-style conventions: eg. kebab-case, camel-case, snake-case, upper-snake-case etc.
 * Support of automatic initialization of reference types with means of adding adhoc types. (non-void safe compiler)
-* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_PASSPHRASE_ATTRIBUTES_ENUM](invalid-class-name).
+* Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: [EL_HTTP_STATUS_ENUM](https://github.com/finnianr/eiffel-loop/tree/master/library/network/base/http/el_http_status_enum.e).
 * Basis for reflective initialization of class attributes from command line arguments. See class [EL_COMMAND_LINE_OPTIONS](https://github.com/finnianr/eiffel-loop/tree/master/library/base/kernel/command/options/el_command_line_options.e)
 * Support for reading and writing to strings conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html)
 * Support for reading from objects conforming to [EL_READABLE](https://github.com/finnianr/eiffel-loop/tree/master/library/base/kernel/el_readable.e) and writing to objects conforming to [EL_WRITEABLE](invalid-class-name)

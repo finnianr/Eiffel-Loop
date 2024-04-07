@@ -5,14 +5,19 @@ note
 		
 		if `descendant_allowed' is enabled then `item' may also be a type conforming to `G'
 	]"
+	descendants: "[
+			EL_SINGLETON [G]
+				${EL_CONFORMING_SINGLETON [G]}
+					${EL_SINGLETON_OR_DEFAULT [G -> EL_SOLITARY, DEFAULT -> G create make end]}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-04-07 8:00:10 GMT (Sunday 7th April 2024)"
+	revision: "11"
 
 class
 	EL_SINGLETON [G]
