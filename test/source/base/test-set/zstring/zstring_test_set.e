@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 13:15:46 GMT (Thursday 14th March 2024)"
-	revision: "123"
+	date: "2024-04-08 6:25:10 GMT (Monday 8th April 2024)"
+	revision: "124"
 
 class
 	ZSTRING_TEST_SET
@@ -50,6 +50,7 @@ feature {NONE} -- Initialization
 				["is_canonically_spaced",			agent test_is_canonically_spaced],
 				["order_comparison",					agent test_order_comparison],
 				["sort",									agent test_sort],
+				["substring_index_list",			agent test_substring_index_list],
 				["there_exists_split",				agent test_there_exists_split],
 				["remove",								agent test_remove],
 				["hash_code",							agent test_hash_code],
@@ -461,6 +462,35 @@ feature -- Status query tests
 			end
 		end
 
+	test_substring_index_list
+		-- ZSTRING_TEST_SET.test_substring_index_list
+		note
+			testing: "covers/{EL_SEARCHABLE_ZSTRING}.substring_index_list"
+		local
+			test: STRING_TEST; start_index, end_index: INTEGER_32
+		do
+			across Text.lines as line loop
+				create test.make (line.item)
+				inspect line.cursor_index
+					when 1 then
+						end_index := test.s_32.count
+						test.set_substrings (end_index - 1, end_index)
+					when 2 then
+						start_index := test.s_32.substring_index ("at", 1)
+						test.set_substrings (start_index, start_index + 1)
+					when 3 then
+						start_index := test.s_32.index_of ('ú', 1)
+						test.set_substrings (start_index, start_index)
+					when 6 then -- Le Quattro Stagioni
+						start_index := test.s_32.index_of ('´', 1)
+						test.set_substrings (start_index, start_index)
+				else
+					test.set_substrings (2, 3)
+				end
+				assert ("substring_index_list OK", test.substring_index_list)
+			end
+		end
+
 	test_there_exists_split
 		note
 			testing: "covers/{ZSTRING}.there_exists_split"
@@ -602,7 +632,9 @@ feature -- Access tests
 	test_substring_index
 		-- ZSTRING_TEST_SET.test_substring_index
 		note
-			testing: "covers/{ZSTRING}.substring", "covers/{ZSTRING}.substring_index"
+			testing: "[
+				covers/{EL_SEARCHABLE_ZSTRING}.substring, covers/{EL_SEARCHABLE_ZSTRING}.substring_index
+			]"
 		local
 			test: STRING_TEST; start_index, end_index, from_index: INTEGER
 			assertion_ok: STRING

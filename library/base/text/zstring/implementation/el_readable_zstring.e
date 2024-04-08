@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:57:49 GMT (Sunday 31st March 2024)"
-	revision: "148"
+	date: "2024-04-08 14:19:55 GMT (Monday 8th April 2024)"
+	revision: "149"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -132,11 +132,8 @@ feature {NONE} -- Initialization
 
 	make_from_general (s: READABLE_STRING_GENERAL)
 		do
-			inspect Class_id.character_bytes (s)
-				when 'X' then
-					if attached {EL_ZSTRING} s as other then
-						make_from_other (other)
-					end
+			if is_zstring (s) then
+				make_from_other (as_zstring (s))
 			else
 				make_filled ('%U', s.count)
 				encode (s, 0)
@@ -163,26 +160,23 @@ feature {NONE} -- Initialization
 			make_unencoded_from_other (other)
 		end
 
-	make_from_string (s: READABLE_STRING_32)
+	make_from_string (str_32: READABLE_STRING_32)
 		do
-			inspect Class_id.character_bytes (s)
-				when 'X' then
-					if attached {EL_READABLE_ZSTRING} s as other then
-						make_from_other (other)
-					end
+			if same_type (str_32) then
+				make_from_other (as_zstring (str_32))
 			else
-				make_filled ('%U', s.count)
-				encode (s, 0)
+				make_filled ('%U', str_32.count)
+				encode (str_32, 0)
 			end
 		end
 
-	make_from_string_8 (str: READABLE_STRING_8)
+	make_from_string_8 (str_8: READABLE_STRING_8)
 			-- initialize with string that has the same encoding as codec
 		require else
-			must_not_have_reserved_substitute_character: not str.has ('%/026/')
+			must_not_have_reserved_substitute_character: not str_8.has ('%/026/')
 		do
 			make_unencoded
-			String_8.make_from_string (Current, str)
+			String_8.make_from_string (Current, str_8)
 		end
 
 	make_from_substring (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)

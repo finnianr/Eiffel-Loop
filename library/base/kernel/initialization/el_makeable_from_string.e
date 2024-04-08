@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-08 13:36:04 GMT (Monday 8th April 2024)"
+	revision: "7"
 
 deferred class
 	EL_MAKEABLE_FROM_STRING [S-> STRING_GENERAL create make end]
@@ -18,7 +18,7 @@ inherit
 			make as make_default
 		end
 
-	EL_SHARED_CLASS_ID
+	EL_STRING_GENERAL_ROUTINES
 
 	DEBUG_OUTPUT
 
@@ -53,11 +53,8 @@ feature {NONE} -- Implementation
 	new_string (general: READABLE_STRING_GENERAL): S
 		do
 			create Result.make (general.count)
-			inspect Class_id.character_bytes (general)
-				when 'X' then
-					if attached {ZSTRING} general as zstr then
-						zstr.append_to_general (Result)
-					end
+			if is_zstring (general) then
+				as_zstring (general).append_to_general (Result)
 			else
 				Result.append (general)
 			end

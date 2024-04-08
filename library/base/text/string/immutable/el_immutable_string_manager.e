@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-04-08 9:43:38 GMT (Monday 8th April 2024)"
+	revision: "14"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -117,7 +117,7 @@ feature -- Conversion
 
 	as_shared (str: GENERAL): like item
 		do
-			if attached {like item} str as immutable then
+			if str.is_immutable and then attached {like item} str as immutable then
 				Result := immutable
 			else
 				Result := new_substring (string_area (str), 0, str.count)

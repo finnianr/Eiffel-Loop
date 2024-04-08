@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 13:10:55 GMT (Thursday 14th March 2024)"
-	revision: "1"
+	date: "2024-04-07 18:31:34 GMT (Sunday 7th April 2024)"
+	revision: "2"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
@@ -252,9 +252,10 @@ feature -- Prepending tests
 		end
 
 	test_prepend_string_general
+		-- ZSTRING_CONCATENATION_TEST_SET.test_prepend_string_general
 		note
 			testing: "[
-				covers/{EL_PREPENDABLE_ZSTRING}.append_string_general,
+				covers/{EL_PREPENDABLE_ZSTRING}.prepend_string_general,
 				covers/{EL_READABLE_ZSTRING}.substring
 			]"
 		local

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-04-08 14:18:17 GMT (Monday 8th April 2024)"
+	revision: "6"
 
 class
 	EL_NATIVE_STRING
@@ -20,7 +20,9 @@ inherit
 			set_substring
 		end
 
-	EL_SHARED_CLASS_ID; EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_STRING_GENERAL_ROUTINES
+
+	EL_SHARED_STRING_32_BUFFER_SCOPES
 
 create
 	make, make_empty, make_from_pointer, make_from_raw_string
@@ -83,12 +85,11 @@ feature -- Element change
 		local
 			count: INTEGER
 		do
-			inspect Class_id.character_bytes (a_string)
-				when 'X' then
-					across String_32_scope as scope loop
-						count := end_index - start_index + 1
-						Precursor (scope.substring_item (a_string, start_index, end_index), 1, count)
-					end
+			if is_zstring (a_string) then
+				across String_32_scope as scope loop
+					count := end_index - start_index + 1
+					Precursor (scope.substring_item (a_string, start_index, end_index), 1, count)
+				end
 			else
 				Precursor (a_string, start_index, end_index)
 			end

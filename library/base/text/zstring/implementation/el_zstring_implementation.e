@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 10:28:05 GMT (Saturday 6th April 2024)"
-	revision: "94"
+	date: "2024-04-08 13:57:39 GMT (Monday 8th April 2024)"
+	revision: "95"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -343,9 +343,9 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 
 feature {NONE} -- Implementation
 
-	adapted_argument (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
+	adapted_argument (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		require
-			not_zstring: Class_id.character_bytes (a_general) /= 'X'
+			not_zstring: not is_zstring (general)
 			valid_index: 1 <= index and index <= Once_adapted_argument.count
 		do
 			inspect index
@@ -353,20 +353,26 @@ feature {NONE} -- Implementation
 					Result := Once_adapted_argument [index - 1]
 					Result.wipe_out
 			else
-				create Result.make (a_general.count)
+				create Result.make (general.count)
 			end
-			Result.append_string_general (a_general)
+			Result.append_string_general (general)
 		end
 
-	adapted_argument_general (a_general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
+	adapted_argument_general (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		do
-			inspect Class_id.character_bytes (a_general)
-				when 'X' then
-					if attached {EL_ZSTRING} a_general as zstring then
-						Result := zstring
-					end
+			if is_zstring (general) then
+				Result := as_zstring (general)
 			else
-				Result := adapted_argument (a_general, index)
+				Result := adapted_argument (general, index)
+			end
+		end
+
+	as_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		do
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
+				and then cursor_8 (str_8).all_ascii and then not str_8.has (Substitute)
+			then
+				Result := str_8
 			end
 		end
 

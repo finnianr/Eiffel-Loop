@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-04-08 13:34:40 GMT (Monday 8th April 2024)"
+	revision: "12"
 
 class
 	EL_BORROWED_STRING_8_CURSOR
@@ -38,35 +38,25 @@ feature -- Access
 	copied_item (general: READABLE_STRING_GENERAL): STRING_8
 		do
 			Result := best_item (general.count)
-			inspect Class_id.character_bytes (general)
-				when '1' then
-					if attached {READABLE_STRING_8} general as str_8 then
-						Result.append (str_8)
-					end
-				when '4' then
-					if attached {READABLE_STRING_32} general as str_32 then
-						shared_cursor_32 (str_32).append_to_string_8 (Result)
-					end
-				when 'X' then
-					if attached {EL_READABLE_ZSTRING} general as zstr then
-						zstr.append_to_string_8 (Result)
-					end
+			if general.is_string_8 then
+				Result.append (readable_string_8 (general))
+
+			elseif is_zstring (general) then
+				as_zstring (general).append_to_string_8 (Result)
+			else
+				shared_cursor_32 (readable_string_32 (general)).append_to_string_8 (Result)
 			end
 		end
 
 	copied_utf_8_item (general: READABLE_STRING_GENERAL): STRING_8
 		do
 			Result := best_item (general.count)
-			inspect Class_id.character_bytes (general)
-				when 'X' then
-					if attached {EL_READABLE_ZSTRING} general as zstr then
-						zstr.append_to_utf_8 (Result)
-					end
-			else
-				if attached shared_cursor (general) as cursor then
-					Result.grow (cursor.utf_8_byte_count)
-					cursor.append_to_utf_8 (Result)
-				end
+			if is_zstring (general) then
+				as_zstring (general).append_to_utf_8 (Result)
+
+			elseif attached shared_cursor (general) as cursor then
+				Result.grow (cursor.utf_8_byte_count)
+				cursor.append_to_utf_8 (Result)
 			end
 		end
 

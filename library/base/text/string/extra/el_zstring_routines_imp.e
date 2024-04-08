@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:19:41 GMT (Saturday 6th April 2024)"
-	revision: "26"
+	date: "2024-04-08 11:08:03 GMT (Monday 8th April 2024)"
+	revision: "27"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -18,18 +18,12 @@ class
 inherit
 	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING, CHARACTER_32]
 		rename
-			to_code as to_z_code
+			to_code as to_z_code,
+			ZString_searcher as String_searcher
 		undefine
 			bit_count
 		redefine
 			adjusted, to_z_code, replace_character, translate_with_deletion
-		end
-
-	EL_STRING_GENERAL_ROUTINES
-		rename
-			to_unicode_general as to_unicode
-		export
-			{ANY} as_zstring, new_zstring, to_unicode
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]

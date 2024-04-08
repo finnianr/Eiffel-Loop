@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:14:58 GMT (Saturday 6th April 2024)"
-	revision: "31"
+	date: "2024-04-07 18:13:09 GMT (Sunday 7th April 2024)"
+	revision: "32"
 
 class
 	STRING_TEST
@@ -386,6 +386,20 @@ feature -- Test search
 			end
 		end
 
+	substring_index_list: BOOLEAN
+		local
+			intervals: EL_OCCURRENCE_INTERVALS
+		do
+			create intervals.make_by_string (s_32, s_32_substring)
+			Result := same_indices (zs.substring_index_list (zs_substring, False), intervals)
+			if Result then
+				Result := same_indices (zs.substring_index_list (s_32_substring, False), intervals)
+			end
+			if Result and then attached s_8_substring as str_8 then
+				Result := same_indices (zs.substring_index_list (s_8_substring, False), intervals)
+			end
+		end
+
 feature -- Conversion
 
 	to_general: BOOLEAN
@@ -585,5 +599,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-
+	same_indices (index_list: ARRAYED_LIST [INTEGER]; intervals: EL_OCCURRENCE_INTERVALS): BOOLEAN
+		do
+			if index_list.count = intervals.count and then attached intervals as list then
+				Result := True
+				from list.start until not Result or list.after loop
+					Result := list.item_lower = index_list [list.index]
+					list.forth
+				end
+			end
+		end
 end

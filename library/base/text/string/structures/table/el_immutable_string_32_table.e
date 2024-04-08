@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-04-08 13:34:14 GMT (Monday 8th April 2024)"
+	revision: "11"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -24,6 +24,8 @@ inherit
 			bit_count
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
 
 	EL_MODULE_STRING_32
@@ -36,14 +38,22 @@ create
 feature -- Status query
 
 	has_key_32 (a_key: READABLE_STRING_32): BOOLEAN
+		local
+			l_key: READABLE_STRING_32
 		do
-			Result := has_immutable_key (Immutable_32.as_shared (a_key))
+			if is_zstring (a_key) then
+			-- ZSTRING
+				l_key := a_key.to_string_32
+			else
+				l_key := a_key
+			end
+			Result := has_immutable_key (Immutable_32.as_shared (l_key))
 		end
 
 	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if attached {READABLE_STRING_32} a_key as key_32 then
-				Result := has_key_32 (key_32)
+			if a_key.is_string_32 then
+				Result := has_key_32 (readable_string_32 (a_key))
 			else
 				Result := has_key_32 (a_key.to_string_32)
 			end

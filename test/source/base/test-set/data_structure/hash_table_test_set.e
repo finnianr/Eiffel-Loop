@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-16 17:41:43 GMT (Tuesday 16th January 2024)"
-	revision: "27"
+	date: "2024-04-08 10:42:35 GMT (Monday 8th April 2024)"
+	revision: "28"
 
 class
 	HASH_TABLE_TEST_SET
@@ -23,6 +23,8 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
+	EL_STRING_GENERAL_ROUTINES
+
 create
 	make
 
@@ -35,7 +37,8 @@ feature {NONE} -- Initialization
 				["character_32_table",				 agent test_character_32_table],
 				["compressed_table",					 agent test_compressed_table],
 				["hash_table_insertion",			 agent test_hash_table_insertion],
-				["immutable_string_table",			 agent test_immutable_string_table],
+				["immutable_string_32_table",		 agent test_immutable_string_32_table],
+				["immutable_string_8_table",		 agent test_immutable_string_8_table],
 				["immutable_string_table_memory", agent test_immutable_string_table_memory],
 				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
 				["iteration_cursor",					 agent test_iteration_cursor],
@@ -128,15 +131,51 @@ feature -- Test
 			assert ("has copy", set.found_item ~ key and set.found_item /= key)
 		end
 
-	test_immutable_string_table
-		-- HASH_TABLE_TEST_SET.test_immutable_string_table
+	test_immutable_string_32_table
+		-- HASH_TABLE_TEST_SET.test_immutable_string_32_table
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
-				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.has_key_general
+			]"
+		local
+			currency_name_table: EL_IMMUTABLE_STRING_32_TABLE
+			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
+			symbol: STRING_32
+		do
+			create currency_name_table.make_by_assignment (Currency_name_manifest)
+			across Currency_name_manifest.split ('%N') as split loop
+				if attached split.item as line then
+					symbol := line.substring (1, 1)
+					create key_list.make_from_array (<<
+						symbol, create {IMMUTABLE_STRING_32}.make_from_string_32 (symbol), as_zstring (symbol)
+					>>)
+					if symbol.is_valid_as_string_8 then
+						key_list.extend (symbol.to_string_8)
+					end
+					across key_list as key loop
+						if currency_name_table.has_key_general (key.item) then
+							assert ("name matches", line.ends_with (currency_name_table.found_item))
+						else
+							failed (symbol + " name not found")
+						end
+					end
+				end
+			end
+		end
+
+	test_immutable_string_8_table
+		-- HASH_TABLE_TEST_SET.test_immutable_string_8_table
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.has_key_general
 			]"
 		local
 			assigment_manifest: EL_STRING_8_LIST; feature_expansion_table_2: EL_IMMUTABLE_STRING_8_TABLE
+			key_array: ARRAY [READABLE_STRING_GENERAL]
 		do
 			create assigment_manifest.make (Feature_expansion_table.count)
 			across Feature_expansion_table as table loop
@@ -145,10 +184,13 @@ feature -- Test
 			create feature_expansion_table_2.make_by_assignment (assigment_manifest.joined_lines)
 			if Feature_expansion_table.count = feature_expansion_table_2.count then
 				across Feature_expansion_table as table loop
-					if feature_expansion_table_2.has_immutable_key (table.key) then
-						assert ("same item value", table.item ~ feature_expansion_table_2.found_item)
-					else
-						failed ("missing key " + table.key)
+					key_array := << table.key, table.key.to_string_8, table.key.to_string_32, as_zstring (table.key) >>
+					across key_array as key loop
+						if feature_expansion_table_2.has_key_general (key.item) then
+							assert ("same item value", table.item ~ feature_expansion_table_2.found_item)
+						else
+							failed ("missing key " + table.key)
+						end
 					end
 				end
 			else
@@ -208,10 +250,11 @@ feature -- Test
 			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
 			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
 			value, euro_symbol, line: ZSTRING; euro_name, currency_manifest_utf_8: STRING
+			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
-			create table_utf_8.make_by_indented (Table_manifest)
+			create table_utf_8.make_by_indented (Currency_manifest)
 
-			create zstring_table.make (Table_manifest)
+			create zstring_table.make (Currency_manifest)
 			across zstring_table as table loop
 				if table_utf_8.has_key_general (table.key) then
 					value := table.item
@@ -242,10 +285,18 @@ feature -- Test
 				create currency_table_utf_8_reversed.make_reversed (currency_table_utf_8)
 				if attached currency_table_utf_8 as table then
 					from table.start until table.after loop
-						if currency_table_utf_8_reversed.has_key_general (table.item_for_iteration) then
-							assert_same_string (Void, table.key_for_iteration, currency_table_utf_8_reversed.found_item)
-						else
-							failed ("reverse lookup succeeded")
+						if attached table.item_for_iteration as key then
+							create key_list.make_from_array (<< key, key.to_string_32 >>)
+							if key.is_valid_as_string_8 then
+								key_list.extend (key.to_string_8)
+							end
+						end
+						across key_list as key loop
+							if currency_table_utf_8_reversed.has_key_general (key.item) then
+								assert_same_string (Void, table.key_for_iteration, currency_table_utf_8_reversed.found_item)
+							else
+								failed ("reverse lookup succeeded")
+							end
 						end
 						table.forth
 					end
@@ -392,11 +443,16 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
+	immutable_to_zstring (str: IMMUTABLE_STRING_32): ZSTRING
+		do
+			create Result.make_from_general (str)
+		end
+
 	new_character_entity_table: EL_HASH_TABLE [CHARACTER_32, ZSTRING]
 		-- map entity name to character
 		do
 			create Result.make_from_manifest_32 (
-				agent new_zstring, agent {IMMUTABLE_STRING_32}.item (1), True, {STRING_32} "[
+				agent immutable_to_zstring, agent {IMMUTABLE_STRING_32}.item (1), True, {STRING_32} "[
 				pound := £
 				curren := ¤
 				yen := ¥
@@ -404,14 +460,9 @@ feature {NONE} -- Implementation
 			]")
 		end
 
-	new_zstring (str: IMMUTABLE_STRING_32): ZSTRING
-		do
-			create Result.make_from_general (str)
-		end
-
 feature {NONE} -- Constants
 
-	Table_manifest: STRING_32 = "[
+	Currency_manifest: STRING_32 = "[
 		is_boolean:
 			True
 		currency_symbols:
@@ -419,6 +470,13 @@ feature {NONE} -- Constants
 			euro := €
 			pound := £
 			yen := ¥
+	]"
+
+	Currency_name_manifest: STRING_32 = "[
+		¤ := any
+		€ := euro
+		£ := pound
+		¥ := yen
 	]"
 
 end

@@ -13,24 +13,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-05 16:03:43 GMT (Friday 5th April 2024)"
-	revision: "7"
+	date: "2024-04-08 13:31:25 GMT (Monday 8th April 2024)"
+	revision: "8"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES
 
 inherit
-	EL_SHARED_CLASS_ID
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Implementation
 
+	is_zstring (general: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := Empty_string.same_type (general)
+		end
+
 	as_zstring (general: READABLE_STRING_GENERAL): ZSTRING
 		do
-			inspect Class_id.character_bytes (general)
-				when 'X' then
-					if attached {ZSTRING} general as zstr then
-						Result := zstr
-					end
+			if is_zstring (general) and then attached {ZSTRING} general as zstr then
+				Result := zstr
 			else
 				Result := new_zstring (general)
 			end
@@ -43,15 +45,31 @@ feature {NONE} -- Implementation
 
 	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
-			inspect Class_id.character_bytes (general)
-				when 'X' then
-					if attached {EL_READABLE_ZSTRING} general as zstr then
-						Result := zstr.to_general
-					end
+			if is_zstring (general) then
+				Result := as_zstring (general).to_general
 			else
 				Result := general
 			end
 		ensure
 			not_zstring: not attached {EL_READABLE_ZSTRING} Result
 		end
+
+	readable_string_8 (general: READABLE_STRING_GENERAL): READABLE_STRING_8
+		do
+			if attached {READABLE_STRING_8} general as str_8 then
+				Result := str_8
+			else
+				Result := general.to_string_8
+			end
+		end
+
+	readable_string_32 (general: READABLE_STRING_GENERAL): READABLE_STRING_32
+		do
+			if attached {READABLE_STRING_32} general as str_32 then
+				Result := str_32
+			else
+				Result := general.to_string_32
+			end
+		end
+
 end

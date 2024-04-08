@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 7:41:57 GMT (Wednesday 20th March 2024)"
-	revision: "31"
+	date: "2024-04-08 14:07:50 GMT (Monday 8th April 2024)"
+	revision: "32"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -31,9 +31,11 @@ inherit
 			{ANY} valid_adjustments
 		end
 
-	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_STRING_GENERAL_ROUTINES
 
-	EL_SHARED_CLASS_ID; EL_SHARED_ZSTRING_CODEC; EL_SHARED_UNICODE_PROPERTY
+	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS
+
+	EL_SHARED_ZSTRING_CODEC; EL_SHARED_UNICODE_PROPERTY
 
 create
 	make, make_empty, make_by_string, make_sized
@@ -73,21 +75,16 @@ feature -- Element change
 		do
 			if a_pattern.count = 1 then
 				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], adjustments)
-			else
-				inspect Class_id.character_bytes (a_target)
-					when 'X' then
-						if attached {EL_READABLE_ZSTRING} a_target as zstr
-							and then attached zstr.z_code_pattern (a_pattern) as z_code_pattern
-						then
-							String_searcher.initialize_deltas (z_code_pattern)
-							fill_intervals (a_target, z_code_pattern, String_searcher, '%U', adjustments)
-						end
-				else
-					if attached shared_searcher (a_target) as searcher then
-						searcher.initialize_deltas (a_pattern)
-						fill_intervals (a_target, a_pattern, searcher, '%U', adjustments)
-					end
-				end
+
+			elseif is_zstring (a_target)
+				and then attached as_zstring (a_target).as_z_code_pattern (a_pattern) as z_code_pattern
+			then
+				String_searcher.initialize_deltas (z_code_pattern)
+				fill_intervals (a_target, z_code_pattern, String_searcher, '%U', adjustments)
+
+			elseif attached shared_searcher (a_target) as searcher then
+				searcher.initialize_deltas (a_pattern)
+				fill_intervals (a_target, a_pattern, searcher, '%U', adjustments)
 			end
 		end
 

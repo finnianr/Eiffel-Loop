@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 13:29:38 GMT (Saturday 6th April 2024)"
-	revision: "3"
+	date: "2024-04-07 16:47:55 GMT (Sunday 7th April 2024)"
+	revision: "4"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -276,9 +276,12 @@ feature -- Tests
 		end
 
 	test_replace_substring_all
-		-- ZSTRING_TEST_SET.test_replace_substring_all
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_replace_substring_all
 		note
-			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.replace_substring_all"
+			testing:	"[
+				covers/{EL_TRANSFORMABLE_ZSTRING}.replace_substring_all,
+				covers/{EL_SEARCHABLE_ZSTRING}.substring_index_list
+			]"
 		local
 			test: STRING_TEST; word_list, s_32_words: EL_STRING_32_LIST
 			word, word_A, first_word: STRING_32; i: INTEGER; s32: EL_STRING_32_ROUTINES

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:05:20 GMT (Saturday 6th April 2024)"
-	revision: "67"
+	date: "2024-04-08 14:42:32 GMT (Monday 8th April 2024)"
+	revision: "68"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -580,32 +580,27 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	fully_encoded_area (a_general: READABLE_STRING_GENERAL; index: INTEGER): detachable like area
+	fully_encoded_area (general: READABLE_STRING_GENERAL; index: INTEGER): detachable like area
 		do
-			inspect Class_id.character_bytes (a_general)
-				when '1' then
-					if attached {READABLE_STRING_8} a_general as str_8 and then attached cursor_8 (str_8) as c then
-						if c.all_ascii then
-							if str_8.is_immutable then
-								create Result.make_empty (str_8.count)
-								Result.copy_data (c.area, c.area_first_index, 0, str_8.count)
-							else
-								Result := c.area
-							end
-						elseif attached adapted_argument (str_8, index) as zstr and then not zstr.has_mixed_encoding then
-							Result := zstr.area
-						end
-					end
+			if attached as_ascii_string_8 (general) as ascii then
+				if ascii.is_immutable and then attached cursor_8 (ascii) as c then
+					create Result.make_empty (ascii.count)
+					Result.copy_data (c.area, c.area_first_index, 0, ascii.count)
 
-				when 'X' then
-					if attached {EL_ZSTRING} a_general as zstr and then not zstr.has_mixed_encoding then
-						Result := zstr.area
-					end
-			else
-				if attached adapted_argument (a_general, index) as zstr and then not zstr.has_mixed_encoding then
-					Result := zstr.area
+				elseif attached {STRING_8} ascii as s then
+					Result := s.area
 				end
+			elseif is_zstring (general)
+				and then attached {EL_ZSTRING} general as zstr and then not zstr.has_mixed_encoding
+			then
+				Result := zstr.area
+
+			elseif attached adapted_argument (general, index) as zstr and then not zstr.has_mixed_encoding then
+				Result := zstr.area
 			end
+		ensure
+			no_unicode_substitutes:
+				attached Result as l_area implies area_index_of (l_area, substitute, general.count - 1) < 0
 		end
 
 	hide_or_reveal (characters: READABLE_STRING_GENERAL; reveal_hidden: BOOLEAN)
@@ -632,9 +627,9 @@ feature {NONE} -- Implementation
 				end
 			end
 			if reveal_hidden then
-				translate_with_deletion (control_characters, characters, False)
+				translate (control_characters, characters)
 			else
-				translate_with_deletion (characters, control_characters, False)
+				translate (characters, control_characters)
 			end
 		end
 

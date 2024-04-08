@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-04-08 11:01:38 GMT (Monday 8th April 2024)"
+	revision: "10"
 
 class
 	EL_BORROWED_ZSTRING_CURSOR
@@ -38,14 +38,7 @@ feature -- Access
 	copied_item (general: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Result := best_item (general.count)
-			inspect Class_id.character_bytes (general)
-				when 'X' then
-					if attached {EL_READABLE_ZSTRING} general as zstr then
-						Result.append (zstr)
-					end
-			else
-				Result.append_string_general (general)
-			end
+			Result.append_string_general (general)
 		end
 
 	sized_item (n: INTEGER): ZSTRING

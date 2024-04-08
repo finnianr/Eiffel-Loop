@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:41:33 GMT (Monday 25th March 2024)"
-	revision: "44"
+	date: "2024-04-08 13:35:06 GMT (Monday 8th April 2024)"
+	revision: "45"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_ITERABLE; EL_MODULE_CONVERT_STRING
 
-	EL_SHARED_CLASS_ID
+	EL_STRING_GENERAL_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -353,11 +353,8 @@ feature {NONE} -- Implementation
 				Result := str
 			else
 				create Result.make (general.count)
-				inspect Class_id.character_bytes (general)
-					when 'X' then
-						if attached {ZSTRING} general as zstr then
-							zstr.append_to_general (Result)
-						end
+				if is_zstring (general) then
+					as_zstring (general).append_to_general (Result)
 				else
 					Result.append (general)
 				end

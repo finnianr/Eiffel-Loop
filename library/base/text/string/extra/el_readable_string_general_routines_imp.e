@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-04-08 11:00:03 GMT (Monday 8th April 2024)"
+	revision: "19"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -32,19 +32,19 @@ inherit
 			cursor as shared_cursor_z
 		end
 
-	EL_SHARED_CLASS_ID
+	EL_ZSTRING_CONSTANTS
 
 feature -- Access
 
 	shared_cursor (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
 		do
-			inspect Class_id.character_bytes (general)
-				when '1' then
-					Result := String_8_iteration_cursor
-				when '4' then
-					Result := String_32_iteration_cursor
-				when 'X' then
-					Result := String_iteration_cursor
+			if general.is_string_8 then
+				Result := String_8_iteration_cursor
+
+			elseif Empty_string.same_type (general) then
+				Result := String_iteration_cursor
+			else
+				Result := String_32_iteration_cursor
 			end
 			Result.set_target (general)
 		end

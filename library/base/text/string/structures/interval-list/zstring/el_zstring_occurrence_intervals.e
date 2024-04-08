@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-08 7:13:13 GMT (Monday 8th April 2024)"
+	revision: "7"
 
 class
 	EL_ZSTRING_OCCURRENCE_INTERVALS
@@ -33,7 +33,7 @@ feature -- Element change
 				fill_intervals (a_target, Empty_string, String_searcher, a_pattern [1], a_adjustments)
 
 			elseif attached String_searcher as searcher
-				and then attached a_target.z_code_pattern (a_pattern) as z_code_pattern
+				and then attached a_target.as_z_code_pattern (a_pattern) as z_code_pattern
 			then
 				searcher.initialize_deltas (z_code_pattern)
 				fill_intervals (a_target, z_code_pattern, searcher, '%U', a_adjustments)
