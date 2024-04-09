@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 13:03:00 GMT (Thursday 14th March 2024)"
-	revision: "2"
+	date: "2024-04-09 16:07:30 GMT (Tuesday 9th April 2024)"
+	revision: "3"
 
 class
 	ZSTRING_COMPARABLE_TEST_SET
@@ -71,7 +71,7 @@ feature -- Tests
 			testing: "[
 				covers/{EL_COMPARABLE_ZSTRING}.same_caseless_characters,
 				covers/{EL_COMPARABLE_ZSTRING}.same_characters_8,
-				covers/{EL_COMPARABLE_ZSTRING}.same_characters_32			
+				covers/{EL_COMPARABLE_ZSTRING}.same_characters_32
 			]"
 
 		do
@@ -91,6 +91,7 @@ feature -- Tests
 		end
 
 	test_starts_with
+		-- ZSTRING_COMPARABLE_TEST_SET.test_starts_with
 		note
 			testing: "[
 				covers/{EL_COMPARABLE_ZSTRING}.starts_with,

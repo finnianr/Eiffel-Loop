@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:34:14 GMT (Monday 8th April 2024)"
-	revision: "11"
+	date: "2024-04-09 17:11:03 GMT (Tuesday 9th April 2024)"
+	revision: "12"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -51,24 +51,29 @@ feature -- Status query
 		end
 
 	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			l_key: READABLE_STRING_32
 		do
-			if a_key.is_string_32 then
-				Result := has_key_32 (readable_string_32 (a_key))
+			if a_key.is_string_32 and then not is_zstring (a_key)
+				and then attached {READABLE_STRING_32} a_key as key_32
+			then
+				l_key := key_32
 			else
-				Result := has_key_32 (a_key.to_string_32)
+				l_key := a_key.to_string_32
 			end
+			Result := has_immutable_key (Immutable_32.as_shared (l_key))
 		end
 
 feature {NONE} -- Implementation
 
-	new_split_list: EL_SPLIT_IMMUTABLE_STRING_32_LIST
-		do
-			create Result.make_empty
-		end
-
 	new_shared (a_manifest: STRING_32): IMMUTABLE_STRING_32
 		do
 			Result := Immutable_32.new_substring (a_manifest.area, 0, a_manifest.count)
+		end
+
+	new_split_list: EL_SPLIT_IMMUTABLE_STRING_32_LIST
+		do
+			create Result.make_empty
 		end
 
 	new_substring (start_index, end_index: INTEGER): IMMUTABLE_STRING_32
@@ -80,5 +85,4 @@ feature {NONE} -- Implementation
 		do
 			Result := cursor_32 (str)
 		end
-
 end

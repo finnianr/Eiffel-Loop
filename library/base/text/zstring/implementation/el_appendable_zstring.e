@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 8:42:46 GMT (Monday 8th April 2024)"
-	revision: "64"
+	date: "2024-04-09 15:55:23 GMT (Tuesday 9th April 2024)"
+	revision: "65"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -216,11 +216,13 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			offset: INTEGER
 		do
 			offset := count
-			if attached as_ascii_string_8 (general) as ascii_str then
+			if attached ascii_string_8 (general) as ascii_str then
 				append_ascii (ascii_str)
 
 			elseif same_type (general) then
-				append_string (as_zstring (general))
+				if attached {ZSTRING} general as zstr then
+					append_string (zstr)
+				end
 			else
 				accommodate (general.count); encode (general, offset)
 			end
@@ -318,12 +320,13 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		local
 			offset: INTEGER
 		do
-			if attached as_ascii_string_8 (general) as ascii then
+			if attached ascii_string_8 (general) as ascii then
 				append_ascii_substring (ascii, start_index, end_index)
 
 			elseif same_type (general) then
-				append_substring (as_zstring (general), start_index, end_index)
-
+				if attached {ZSTRING} general as z_str then
+					append_substring (z_str, start_index, end_index)
+				end
 			else
 				offset := count
 				accommodate (end_index - start_index + 1)

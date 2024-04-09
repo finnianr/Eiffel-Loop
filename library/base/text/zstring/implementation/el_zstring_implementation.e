@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:57:39 GMT (Monday 8th April 2024)"
-	revision: "95"
+	date: "2024-04-09 16:42:35 GMT (Tuesday 9th April 2024)"
+	revision: "96"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -324,28 +324,11 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
-	is_canonically_spaced: BOOLEAN
-		deferred
-		end
-
-	is_empty: BOOLEAN
-			-- Is structure empty?
-		deferred
-		end
-
-	is_left_adjustable: BOOLEAN
-		deferred
-		end
-
-	is_right_adjustable: BOOLEAN
-		deferred
-		end
-
 feature {NONE} -- Implementation
 
 	adapted_argument (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		require
-			not_zstring: not is_zstring (general)
+			not_zstring: not same_type (general)
 			valid_index: 1 <= index and index <= Once_adapted_argument.count
 		do
 			inspect index
@@ -360,19 +343,52 @@ feature {NONE} -- Implementation
 
 	adapted_argument_general (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		do
-			if is_zstring (general) then
-				Result := as_zstring (general)
+			if same_type (general) then
+				if attached {ZSTRING} general as z_str then
+					Result := z_str
+				end
 			else
 				Result := adapted_argument (general, index)
 			end
 		end
 
-	as_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+	ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		local
+			start_index, end_index, i: INTEGER; c: EL_CHARACTER_8_ROUTINES
+		do
+			if general.is_string_8 then
+				if general.is_immutable then
+					if attached {READABLE_STRING_8} general as readable_8	and then cursor_8 (readable_8).all_ascii then
+						Result := readable_8
+					end
+
+				elseif attached {STRING_8} general as str_8 and then c.is_ascii_area (str_8.area, 0, str_8.count - 1) then
+					Result := str_8
+				end
+			end
+		end
+
+	a_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		-- same as `ascii_string_8' but checks for `Substitute' character
+		obsolete
+			"Unsure whether to use"
+		local
+			start_index, end_index, i: INTEGER
 		do
 			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-				and then cursor_8 (str_8).all_ascii and then not str_8.has (Substitute)
+				and then attached cursor_8 (str_8) as c and then attached c.area as l_area
 			then
+				start_index := c.area_first_index; end_index := c.area_last_index
 				Result := str_8
+				from i := start_index until i > end_index loop
+					inspect l_area [i]
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						i := i + 1
+					else
+						i := end_index + 1 -- break
+						Result := Void
+					end
+				end
 			end
 		end
 

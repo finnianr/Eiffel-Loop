@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:34:40 GMT (Monday 8th April 2024)"
-	revision: "12"
+	date: "2024-04-09 16:56:02 GMT (Tuesday 9th April 2024)"
+	revision: "13"
 
 class
 	EL_BORROWED_STRING_8_CURSOR
@@ -38,13 +38,14 @@ feature -- Access
 	copied_item (general: READABLE_STRING_GENERAL): STRING_8
 		do
 			Result := best_item (general.count)
-			if general.is_string_8 then
-				Result.append (readable_string_8 (general))
+			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8 then
+				Result.append (str_8)
 
 			elseif is_zstring (general) then
 				as_zstring (general).append_to_string_8 (Result)
-			else
-				shared_cursor_32 (readable_string_32 (general)).append_to_string_8 (Result)
+
+			elseif attached {READABLE_STRING_32} general as str_32 then
+				shared_cursor_32 (str_32).append_to_string_8 (Result)
 			end
 		end
 

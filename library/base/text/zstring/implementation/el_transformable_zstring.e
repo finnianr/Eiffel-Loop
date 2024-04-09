@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 14:42:32 GMT (Monday 8th April 2024)"
-	revision: "68"
+	date: "2024-04-09 13:44:27 GMT (Tuesday 9th April 2024)"
+	revision: "69"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -582,7 +582,7 @@ feature {NONE} -- Implementation
 
 	fully_encoded_area (general: READABLE_STRING_GENERAL; index: INTEGER): detachable like area
 		do
-			if attached as_ascii_string_8 (general) as ascii then
+			if attached ascii_string_8 (general) as ascii then
 				if ascii.is_immutable and then attached cursor_8 (ascii) as c then
 					create Result.make_empty (ascii.count)
 					Result.copy_data (c.area, c.area_first_index, 0, ascii.count)
@@ -590,7 +590,7 @@ feature {NONE} -- Implementation
 				elseif attached {STRING_8} ascii as s then
 					Result := s.area
 				end
-			elseif is_zstring (general)
+			elseif same_type (general)
 				and then attached {EL_ZSTRING} general as zstr and then not zstr.has_mixed_encoding
 			then
 				Result := zstr.area

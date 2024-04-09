@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:24:20 GMT (Monday 8th April 2024)"
-	revision: "55"
+	date: "2024-04-09 16:45:44 GMT (Tuesday 9th April 2024)"
+	revision: "56"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -84,11 +84,11 @@ feature -- Index position
 					Result := index_of (other [1], start_index)
 			else
 			-- string search
-				if attached as_ascii_string_8 (other) as ascii_str then
+				if attached ascii_string_8 (other) as ascii_str then
 					Result := String_8.substring_index_ascii (Current, ascii_str, start_index)
 
-				elseif same_type (other) then
-					Result := substring_index_zstring (as_zstring (other), start_index)
+				elseif same_type (other) and then attached {EL_READABLE_ZSTRING} other as z_str then
+					Result := substring_index_zstring (z_str, start_index)
 
 				elseif attached String_searcher as searcher
 					and then attached shared_z_code_pattern_general (other, 1) as z_code_string
@@ -101,11 +101,11 @@ feature -- Index position
 
 	substring_index_in_bounds (other: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
 		do
-			if attached as_ascii_string_8 (other) as ascii_str then
+			if attached ascii_string_8 (other) as ascii_str then
 				Result := String_8.substring_index_in_bounds_ascii (Current, ascii_str, start_pos, end_pos)
 
-			elseif same_type (other) then
-				Result := substring_index_in_bounds_zstring (as_zstring (other), start_pos, end_pos)
+			elseif same_type (other) and then attached {ZSTRING} other as z_str then
+				Result := substring_index_in_bounds_zstring (z_str, start_pos, end_pos)
 
 			elseif attached String_searcher as searcher
 				and then attached shared_z_code_pattern_general (other, 1) as z_code_string
@@ -236,7 +236,7 @@ feature -- Basic operations
 	fill_index_list (list: ARRAYED_LIST [INTEGER]; a_pattern: READABLE_STRING_GENERAL)
 		-- fill `list' with all indices of `a_pattern' found in `Current'
 		do
-			if attached as_ascii_string_8 (a_pattern) as ascii_str then
+			if attached ascii_string_8 (a_pattern) as ascii_str then
 				String_8.fill_index_list (list, Current, ascii_str)
 			else
 				internal_fill_index_list (list, shared_z_code_pattern_general (a_pattern, 1))
@@ -252,7 +252,7 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_SEARCHABLE_ZSTRING} -- Implementation
 
 	as_z_code_pattern (a_pattern: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
 		do
-			if attached as_ascii_string_8 (a_pattern) as ascii_pattern then
+			if attached ascii_string_8 (a_pattern) as ascii_pattern then
 				Result := ascii_pattern
 			else
 				Result := shared_z_code_pattern_general (a_pattern, 1)
@@ -272,8 +272,8 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_SEARCHABLE_ZSTRING} -- Implementation
 		local
 			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			if same_type (pattern) then
-				Result := as_zstring (pattern).shared_z_code_pattern (index)
+			if same_type (pattern) and then attached {EL_READABLE_ZSTRING} pattern as z_pattern then
+				Result := z_pattern.shared_z_code_pattern (index)
 			else
 				Result := Z_code_pattern_array [index - 1]
 				r.shared_cursor (pattern).fill_z_codes (Result)
@@ -346,11 +346,11 @@ feature {NONE} -- Implementation
 			elseif delimiter = current_readable or else delimiter_count = 0 then
 				Result.extend (1)
 
-			elseif attached as_ascii_string_8 (delimiter) as ascii then
+			elseif attached ascii_string_8 (delimiter) as ascii then
 				String_8.fill_index_list (Result, Current, ascii)
 
-			elseif same_type (delimiter) then
-				z_delimiter := as_zstring (delimiter)
+			elseif same_type (delimiter) and then attached {ZSTRING} delimiter as z_str then
+				z_delimiter := z_str
 			else
 				z_delimiter := adapted_argument (delimiter, 1)
 			end

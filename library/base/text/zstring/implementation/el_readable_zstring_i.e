@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 14:30:45 GMT (Monday 8th April 2024)"
-	revision: "12"
+	date: "2024-04-09 9:56:25 GMT (Tuesday 9th April 2024)"
+	revision: "13"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -81,7 +81,24 @@ feature {NONE} -- Status query
 		deferred
 		end
 
+	is_canonically_spaced: BOOLEAN
+		deferred
+		end
+
+	is_empty: BOOLEAN
+			-- Is structure empty?
+		deferred
+		end
+
+	is_left_adjustable: BOOLEAN
+		deferred
+		end
+
 	is_reversible_z_code_pattern (general: READABLE_STRING_GENERAL; z_code_string: STRING_32): BOOLEAN
+		deferred
+		end
+
+	is_right_adjustable: BOOLEAN
 		deferred
 		end
 

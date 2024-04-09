@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 14:19:55 GMT (Monday 8th April 2024)"
-	revision: "149"
+	date: "2024-04-09 16:47:10 GMT (Tuesday 9th April 2024)"
+	revision: "150"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -132,8 +132,8 @@ feature {NONE} -- Initialization
 
 	make_from_general (s: READABLE_STRING_GENERAL)
 		do
-			if is_zstring (s) then
-				make_from_other (as_zstring (s))
+			if same_type (s) and then attached {ZSTRING} s as z_str then
+				make_from_other (z_str)
 			else
 				make_filled ('%U', s.count)
 				encode (s, 0)
@@ -162,8 +162,8 @@ feature {NONE} -- Initialization
 
 	make_from_string (str_32: READABLE_STRING_32)
 		do
-			if same_type (str_32) then
-				make_from_other (as_zstring (str_32))
+			if same_type (str_32) and then attached {ZSTRING} str_32 as z_str then
+				make_from_other (z_str)
 			else
 				make_filled ('%U', str_32.count)
 				encode (str_32, 0)

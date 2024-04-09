@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-07 18:13:09 GMT (Sunday 7th April 2024)"
-	revision: "32"
+	date: "2024-04-09 16:38:28 GMT (Tuesday 9th April 2024)"
+	revision: "33"
 
 class
 	STRING_TEST
@@ -470,9 +470,15 @@ feature -- Status query
 			b3 := zs.starts_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
+			if Result and zs.count > zs_substring.count then
+				Result := not zs_substring.starts_with_general (s_32)
+			end
 			if Result and then attached s_8_substring as str_8 then
 				b3 := zs.starts_with_general (str_8)
 				Result := b1 = b3
+			end
+			if attached s_8 as str_8 and then str_8.has (' ') then
+				Result := Result and not zs.substring_to (' ').starts_with_general (str_8)
 			end
 		end
 

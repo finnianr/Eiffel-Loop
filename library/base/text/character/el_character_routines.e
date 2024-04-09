@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 8:08:52 GMT (Monday 1st April 2024)"
-	revision: "32"
+	date: "2024-04-09 13:09:52 GMT (Tuesday 9th April 2024)"
+	revision: "33"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
@@ -105,16 +105,15 @@ feature -- Measurement
 			valid_start_index: start_index < area.count
 			valid_end_index: end_index < area.count
 		local
-			i: INTEGER; non_ascii: BOOLEAN
+			i: INTEGER
 		do
-			from i := start_index until non_ascii or else i > end_index loop
+			from i := start_index until i > end_index loop
 				inspect i_th_code (area, i)
 					when 0 .. 0x7F then
-						Result := Result + 1
+						Result := Result + 1; i := i + 1
 				else
-					non_ascii := True
+					i := end_index + 1 -- break
 				end
-				i := i + 1
 			end
 		end
 
