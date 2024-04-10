@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:52:31 GMT (Monday 8th April 2024)"
-	revision: "7"
+	date: "2024-04-10 9:24:49 GMT (Wednesday 10th April 2024)"
+	revision: "8"
 
 class
 	EL_STRING_GENERAL_TABLE [G]
@@ -25,20 +25,27 @@ create
 
 feature -- Comparison
 
-	same_keys (a_search_key, a_key: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES
+	same_keys (search_key, key: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if a_search_key.is_string_8 and a_key.is_string_8 then
-				Result := s8.same_strings (readable_string_8 (a_search_key), readable_string_8 (a_key))
+			if search_key.is_string_8 then
+				if key.is_string_8 then
+					Result := as_readable_string_8 (search_key).same_string (as_readable_string_8 (key))
+				else
+					Result := search_key.same_string (key)
+				end
 
-			elseif is_zstring (a_search_key) and is_zstring (a_key) then
-				Result := as_zstring (a_search_key) ~ as_zstring (a_key)
+			elseif is_zstring (search_key) and then attached {ZSTRING} search_key as z_str then
+			-- ZSTRING has it's own implementation of `same_characters_general'
+				Result := z_str.same_string_general (key)
 
-			elseif a_search_key.is_string_32 and a_key.is_string_32 then
-				Result := s32.same_strings (readable_string_32 (a_search_key), readable_string_32 (a_key))
+			elseif is_zstring (key) and then attached {ZSTRING} key as z_str then
+				Result := z_str.same_string_general (search_key)
+
+			elseif key.is_string_32 then
+				Result := as_readable_string_32 (search_key).same_string (as_readable_string_32 (key))
+
 			else
-				Result := a_search_key.same_string (a_key)
+				Result := search_key.same_string (key)
 			end
 		end
 

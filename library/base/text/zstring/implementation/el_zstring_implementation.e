@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 16:42:35 GMT (Tuesday 9th April 2024)"
-	revision: "96"
+	date: "2024-04-10 6:56:20 GMT (Wednesday 10th April 2024)"
+	revision: "97"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -354,7 +354,7 @@ feature {NONE} -- Implementation
 
 	ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
 		local
-			start_index, end_index, i: INTEGER; c: EL_CHARACTER_8_ROUTINES
+			c: EL_CHARACTER_8_ROUTINES
 		do
 			if general.is_string_8 then
 				if general.is_immutable then
@@ -368,10 +368,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	a_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+	as_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
 		-- same as `ascii_string_8' but checks for `Substitute' character
 		obsolete
-			"Unsure whether to use"
+			"Unsure whether it's worth checking for Substitute"
 		local
 			start_index, end_index, i: INTEGER
 		do

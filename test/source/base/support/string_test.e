@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 16:38:28 GMT (Tuesday 9th April 2024)"
-	revision: "33"
+	date: "2024-04-10 8:07:28 GMT (Wednesday 10th April 2024)"
+	revision: "34"
 
 class
 	STRING_TEST
@@ -427,6 +427,13 @@ feature -- Status query
 			b3 := zs.ends_with (zs_substring)
 			Result := b1 = b2
 			Result := Result and b1 = b3
+			if s_32_substring.count < s_32.count and then s_32.starts_with (s_32_substring) then
+			--test not short ends with long
+				Result := Result and not zs_substring.ends_with_general (s_32)
+				if attached s_8 as str_8 then
+					Result := Result and not zs_substring.ends_with_general (str_8)
+				end
+			end
 			if Result and then attached s_8_substring as s then
 				b3 := zs.ends_with_general (s)
 				Result := b1 = b3
@@ -473,12 +480,16 @@ feature -- Status query
 			if Result and zs.count > zs_substring.count then
 				Result := not zs_substring.starts_with_general (s_32)
 			end
+			if s_32_substring.count < s_32.count and then s_32.starts_with (s_32_substring) then
+			--test not short starts with long
+				Result := Result and not zs_substring.starts_with_general (s_32)
+				if attached s_8 as str_8 then
+					Result := Result and not zs_substring.starts_with_general (str_8)
+				end
+			end
 			if Result and then attached s_8_substring as str_8 then
 				b3 := zs.starts_with_general (str_8)
 				Result := b1 = b3
-			end
-			if attached s_8 as str_8 and then str_8.has (' ') then
-				Result := Result and not zs.substring_to (' ').starts_with_general (str_8)
 			end
 		end
 

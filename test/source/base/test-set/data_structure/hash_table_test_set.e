@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 10:42:35 GMT (Monday 8th April 2024)"
-	revision: "28"
+	date: "2024-04-10 8:43:30 GMT (Wednesday 10th April 2024)"
+	revision: "29"
 
 class
 	HASH_TABLE_TEST_SET
@@ -44,6 +44,7 @@ feature {NONE} -- Initialization
 				["iteration_cursor",					 agent test_iteration_cursor],
 				["readable_string_8_table",		 agent test_readable_string_8_table],
 				["string_table",						 agent test_string_table],
+				["string_general_table",			 agent test_string_general_table],
 				["table_sort",							 agent test_table_sort]
 			>>)
 		end
@@ -362,6 +363,32 @@ feature -- Test
 			end
 		end
 
+	test_string_general_table
+		-- HASH_TABLE_TEST_SET.test_string_general_table
+		local
+			table: EL_STRING_GENERAL_TABLE [INTEGER]
+			key_list, search_key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
+			key: READABLE_STRING_GENERAL
+		do
+			create table.make_size (3)
+			across Currency_name_manifest.split ('%N') as line loop
+				across new_string_type_list (line.item) as key_type loop
+					key := key_type.item
+					table.wipe_out
+					table.extend (key.count, key)
+					across new_string_type_list (key) as list loop
+						if attached list.item as search_key then
+							if table.has_key (search_key) then
+								assert ("same count", table.found_item = search_key.count)
+							else
+								failed ("key not found")
+							end
+						end
+					end
+				end
+			end
+		end
+
 	test_string_table
 		local
 			table: EL_STRING_HASH_TABLE [INTEGER, ZSTRING]
@@ -458,6 +485,18 @@ feature {NONE} -- Implementation
 				yen := ¥
 				copy := ©
 			]")
+		end
+
+	new_string_type_list (str: READABLE_STRING_GENERAL): ARRAYED_LIST [READABLE_STRING_GENERAL]
+		do
+			create Result.make_from_array (<<
+				str.to_string_32, create {IMMUTABLE_STRING_32}.make_from_string (str.to_string_32),
+				create {ZSTRING}.make_from_general (str)
+			>>)
+			if str.is_valid_as_string_8 then
+				Result.extend (str.to_string_8)
+				Result.extend (create {IMMUTABLE_STRING_8}.make_from_string (str.to_string_8))
+			end
 		end
 
 feature {NONE} -- Constants

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:34:22 GMT (Monday 8th April 2024)"
-	revision: "6"
+	date: "2024-04-10 7:01:10 GMT (Wednesday 10th April 2024)"
+	revision: "7"
 
 deferred class
 	EL_IMMUTABLE_KEY_8_LOOKUP
@@ -42,7 +42,7 @@ feature -- Status query
 		-- If so, set `found_item' to the found item.
 		do
 			if a_key.is_string_8 then
-				Result := has_8 (readable_string_8 (a_key))
+				Result := has_8 (as_readable_string_8 (a_key))
 
 			elseif is_zstring (a_key) and then has_immutable (as_zstring (a_key).to_shared_immutable_8) then
 				-- works if all the characters are ASCII and is very fast
@@ -72,7 +72,7 @@ feature -- Set found_item
 		-- If so, set `found_item' to the found item.
 		do
 			if a_key.is_string_8 then
-				Result := has_key_8 (readable_string_8 (a_key))
+				Result := has_key_8 (as_readable_string_8 (a_key))
 
 			elseif is_zstring (a_key) and then has_immutable_key (as_zstring (a_key).to_shared_immutable_8) then
 				-- works if all the characters are ASCII and is very fast

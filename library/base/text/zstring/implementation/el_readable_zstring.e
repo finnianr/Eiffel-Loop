@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 16:47:10 GMT (Tuesday 9th April 2024)"
-	revision: "150"
+	date: "2024-04-10 9:28:41 GMT (Wednesday 10th April 2024)"
+	revision: "151"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -85,7 +85,6 @@ inherit
 	EL_SEARCHABLE_ZSTRING
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
-			{EL_ZSTRING_CONSTANTS} String_searcher
 		end
 
 	EL_ZSTRING_TO_BASIC_TYPES
@@ -249,19 +248,34 @@ feature -- Access
 		end
 
 	hash_code: INTEGER
-			-- Hash code value
+		-- Hash code value
+		local
+			i, i_upper, block_index, code_i: INTEGER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; c_i: CHARACTER
 		do
-			Result := internal_hash_code
-			inspect Result
+			inspect internal_hash_code
 				when 0 then
-					inspect unencoded_area.count
-						when 0 then
-							Result := area_hash_code
-					else
-						Result := unencoded_hash_code_to (area_hash_code, count)
+					if attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
+						and then attached area as l_area
+					then
+						from i := area_lower; i_upper := area_upper until i > i_upper loop
+							c_i := l_area [i]
+							inspect c_i
+								when Substitute then
+									code_i := iter.item ($block_index, area_32, i + 1).code
+
+								when Control_0 .. Control_25, Control_27 .. Max_ascii then
+									code_i := c_i.code
+							else
+								code_i := l_unicode_table [c_i.code].code
+							end
+							Result := ((Result \\ 8388593) |<< 8) + code_i
+							i := i + 1
+						end
 					end
 					internal_hash_code := Result
 			else
+				Result := internal_hash_code
 			end
 		end
 
