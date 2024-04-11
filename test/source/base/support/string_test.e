@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 8:07:28 GMT (Wednesday 10th April 2024)"
-	revision: "34"
+	date: "2024-04-11 10:45:03 GMT (Thursday 11th April 2024)"
+	revision: "35"
 
 class
 	STRING_TEST
@@ -393,10 +393,10 @@ feature -- Test search
 			create intervals.make_by_string (s_32, s_32_substring)
 			Result := same_indices (zs.substring_index_list (zs_substring, False), intervals)
 			if Result then
-				Result := same_indices (zs.substring_index_list (s_32_substring, False), intervals)
+				Result := same_indices (zs.substring_index_list_general (s_32_substring, False), intervals)
 			end
 			if Result and then attached s_8_substring as str_8 then
-				Result := same_indices (zs.substring_index_list (s_8_substring, False), intervals)
+				Result := same_indices (zs.substring_index_list_general (s_8_substring, False), intervals)
 			end
 		end
 

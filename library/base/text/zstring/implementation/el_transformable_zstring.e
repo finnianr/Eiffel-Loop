@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 13:44:27 GMT (Tuesday 9th April 2024)"
-	revision: "69"
+	date: "2024-04-11 12:26:09 GMT (Thursday 11th April 2024)"
+	revision: "70"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -284,8 +284,8 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 	)
 		do
 			replace_delimited_substring (
-				adapted_argument_general (left, 1), adapted_argument_general (right, 2),
-				adapted_argument_general (new, 3), include_delimiter, start_index
+				adapted_argument (left, 1), adapted_argument (right, 2),
+				adapted_argument (new, 3), include_delimiter, start_index
 			)
 		end
 
@@ -404,8 +404,8 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			old_, new: ZSTRING
 		do
 			if old_substring.count > 0 then
-				old_ := adapted_argument_general (old_substring, 1)
-				new := adapted_argument_general (new_substring, 2)
+				old_ := adapted_argument (old_substring, 1)
+				new := adapted_argument (new_substring, 2)
 				if old_ /~ new then
 					if respective_encoding (new) = Neither then
 						String_8.replace_substring_all (Current, old_, new)
@@ -418,7 +418,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
 		do
-			replace_substring (adapted_argument_general (s, 1), start_index, end_index)
+			replace_substring (adapted_argument (s, 1), start_index, end_index)
 		end
 
 feature {EL_READABLE_ZSTRING} -- Removal
@@ -680,6 +680,8 @@ feature {NONE} -- Implementation
 		end
 
 	replace_substring_all_zstring (old_substring, new_substring: EL_READABLE_ZSTRING)
+		obsolete
+			"Kept as reliable testing reference"
 		local
 			old_count, l_count, new_substring_count, old_substring_count: INTEGER
 			previous_index, end_index, size_difference: INTEGER; internal_replace_done: BOOLEAN

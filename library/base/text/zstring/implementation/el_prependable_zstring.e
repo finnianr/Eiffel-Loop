@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 16:43:51 GMT (Tuesday 9th April 2024)"
-	revision: "55"
+	date: "2024-04-11 9:34:53 GMT (Thursday 11th April 2024)"
+	revision: "56"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -49,17 +49,22 @@ feature {NONE} -- Prepend general
 		end
 
 	prepend_string_general (general: READABLE_STRING_GENERAL)
+		local
+			type_code: CHARACTER; insert_adapted: BOOLEAN
 		do
-			if attached ascii_string_8 (general) as ascii then
-				prepend_ascii (ascii)
-
-			elseif same_type (general) then
-				if attached {ZSTRING} general as z_str then
-					insert_string (z_str, 1)
-				end
-
+			type_code := Class_id.character_bytes (general)
+			inspect type_code
+				when '1' then
+					if attached ascii_for_string_8 (general) as ascii then
+						prepend_ascii (ascii)
+					else
+						insert_adapted := True
+					end
 			else
-				insert_string (adapted_argument (general, 1), 1)
+				insert_adapted := True
+			end
+			if insert_adapted then
+				insert_string (adapted_argument_for_type (general, type_code, 1), 1)
 			end
 		ensure then
 			unencoded_valid: is_valid

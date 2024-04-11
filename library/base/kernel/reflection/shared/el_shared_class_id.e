@@ -6,14 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-04-11 8:12:55 GMT (Thursday 11th April 2024)"
+	revision: "4"
 
 deferred class
 	EL_SHARED_CLASS_ID
 
 inherit
 	EL_ANY_SHARED
+
+feature -- Contract Support
+
+	valid_string_type_code (code: CHARACTER): BOOLEAN
+		do
+			Result := Class_id.valid_character_byte_code (code)
+		end
 
 feature {NONE} -- Constants
 

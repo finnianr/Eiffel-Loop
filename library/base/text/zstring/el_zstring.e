@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 6:56:20 GMT (Wednesday 10th April 2024)"
-	revision: "114"
+	date: "2024-04-11 9:40:53 GMT (Thursday 11th April 2024)"
+	revision: "115"
 
 class
 	EL_ZSTRING
@@ -57,6 +57,7 @@ inherit
 --				Contract support
 				Encoding
 			{EL_SHARED_ZSTRING_CODEC} order_comparison
+			{EL_ZSTRING_IMPLEMENTATION} append_string_general_for_type
 			{EL_ZCODEC} Once_interval_list
 		redefine
 			new_list
@@ -305,7 +306,7 @@ feature -- Element change
 
 	insert_string_general (s: READABLE_STRING_GENERAL; i: INTEGER)
 		do
-			insert_string (adapted_argument_general (s, 1), i)
+			insert_string (adapted_argument (s, 1), i)
 		end
 
 	left_pad (uc: CHARACTER_32; a_count: INTEGER)

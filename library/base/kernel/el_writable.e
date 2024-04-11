@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 6:58:09 GMT (Wednesday 10th April 2024)"
-	revision: "16"
+	date: "2024-04-10 20:00:29 GMT (Wednesday 10th April 2024)"
+	revision: "17"
 
 deferred class
 	EL_WRITABLE
@@ -89,7 +89,7 @@ feature -- String
 						write_string_8 (str_8)
 					end
 				when 'X' then
-					if  attached {ZSTRING} a_string as z_str then
+					if attached {ZSTRING} a_string as z_str then
 						write_string (z_str)
 					end
 			else

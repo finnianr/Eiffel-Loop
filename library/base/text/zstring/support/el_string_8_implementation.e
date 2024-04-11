@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-04-11 11:28:14 GMT (Thursday 11th April 2024)"
+	revision: "15"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -127,6 +127,14 @@ feature -- Transformation
 		do
 			if attached injected (a_target, 0) as target then
 				target.mirror
+				a_target.set_from_string_8 (target)
+			end
+		end
+
+	replace_ascii_substring_all (a_target: EL_TRANSFORMABLE_ZSTRING; old_substring, new_substring: READABLE_STRING_8)
+		do
+			if attached injected (a_target, 0) as target then
+				target.replace_substring_all (old_substring, new_substring)
 				a_target.set_from_string_8 (target)
 			end
 		end

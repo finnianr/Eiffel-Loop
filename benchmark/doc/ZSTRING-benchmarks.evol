@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>ZSTRING v STRING_32</title>
+		<title>ZSTRING ($encoding) v STRING_32 on $date</title>
 		<style type="text/css">
 			body {
 				font-family: Verdana, Helvetica, Arial, Geneva, sans-serif;

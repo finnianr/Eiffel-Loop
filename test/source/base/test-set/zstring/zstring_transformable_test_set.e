@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-07 16:47:55 GMT (Sunday 7th April 2024)"
-	revision: "4"
+	date: "2024-04-11 10:43:37 GMT (Thursday 11th April 2024)"
+	revision: "5"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -324,7 +324,7 @@ feature -- Tests
 							else
 							end
 						end
-						if test.zs.substring_index_list (word, False).count = 1 then
+						if test.zs.substring_index_list_general (word, False).count = 1 then
 							test.set_old_new (word, ('A' + word_list.count).out)
 							word_list.extend (word)
 							assert ("replace_substring_all OK", test.replace_substring_all)

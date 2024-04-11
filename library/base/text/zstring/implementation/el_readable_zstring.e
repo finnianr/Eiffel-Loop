@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 9:28:41 GMT (Wednesday 10th April 2024)"
-	revision: "151"
+	date: "2024-04-11 10:19:17 GMT (Thursday 11th April 2024)"
+	revision: "152"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -84,7 +84,7 @@ inherit
 
 	EL_SEARCHABLE_ZSTRING
 		export
-			{EL_APPENDABLE_ZSTRING} internal_substring_index_list
+			{EL_APPENDABLE_ZSTRING} internal_substring_index_list_general
 		end
 
 	EL_ZSTRING_TO_BASIC_TYPES

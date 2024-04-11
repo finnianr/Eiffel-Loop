@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 15:55:23 GMT (Tuesday 9th April 2024)"
-	revision: "65"
+	date: "2024-04-11 9:05:57 GMT (Thursday 11th April 2024)"
+	revision: "66"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -212,23 +212,8 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		end
 
 	append_string_general (general: READABLE_STRING_GENERAL)
-		local
-			offset: INTEGER
 		do
-			offset := count
-			if attached ascii_string_8 (general) as ascii_str then
-				append_ascii (ascii_str)
-
-			elseif same_type (general) then
-				if attached {ZSTRING} general as zstr then
-					append_string (zstr)
-				end
-			else
-				accommodate (general.count); encode (general, offset)
-			end
-		ensure
-			unencoded_valid: is_valid
-			appended: substring (old count + 1, count).same_string_general (general)
+			append_string_general_for_type (general, Class_id.character_bytes (general))
 		end
 
 	append_tuple_item (tuple: TUPLE; i: INTEGER)
@@ -522,6 +507,35 @@ feature {NONE} -- Implementation
 			new_count := count + extra_count
 			grow (count + extra_count)
 			set_count (new_count)
+		end
+
+	append_string_general_for_type (general: READABLE_STRING_GENERAL; type_code: CHARACTER)
+		require
+			valid_type_code: valid_string_type_code (type_code)
+		local
+			offset: INTEGER; convert_unicode: BOOLEAN
+		do
+			inspect type_code
+				when '1' then
+					if attached ascii_for_string_8 (general) as ascii_str then
+						append_ascii (ascii_str)
+					else
+						convert_unicode := True
+					end
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as zstr then
+						append_string (zstr)
+					end
+			else
+				convert_unicode := True
+			end
+			if convert_unicode then
+				offset := count
+				accommodate (general.count); encode (general, offset)
+			end
+		ensure
+			unencoded_valid: is_valid
+			appended: substring (old count + 1, count).same_string_general (general)
 		end
 
 	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; old_count: INTEGER)

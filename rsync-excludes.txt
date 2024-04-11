@@ -1,4 +1,5 @@
 .git/
+benchmark/doc/benchmark/
 build/
 contrib/C++/**/spec/
 contrib/C/**/spec/

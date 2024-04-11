@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "66"
+	date: "2024-04-11 14:42:09 GMT (Thursday 11th April 2024)"
+	revision: "67"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -329,7 +329,7 @@ feature -- To substring
 	substring_between_general (start_string, end_string: READABLE_STRING_GENERAL; start_index: INTEGER): like Current
 		do
 			Result := substring_between (
-				adapted_argument_general (start_string, 1), adapted_argument_general (end_string, 2), start_index
+				adapted_argument (start_string, 1), adapted_argument (end_string, 2), start_index
 			)
 		end
 
@@ -457,9 +457,9 @@ feature -- Conversion
 		end
 
 	substituted_tuple alias "#$" (inserts: TUPLE): like Current
-			-- Returns string with all '%S' characters replaced with string from respective position in `inserts'
-			-- Literal '%S' characters are escaped with the escape sequence "%%%S" i.e. (%#)
-			-- Note that in Eiffel, '%S' is the same as the sharp sign '#'
+		-- Returns string with all '%S' characters replaced with string from respective position in `inserts'
+		-- Literal '%S' characters are escaped with the escape sequence "%%%S" i.e. (%#)
+		-- Note that in Eiffel, '%S' is the same as the sharp sign '#'
 		require
 			enough_substitution_markers: substitution_marker_count >= inserts.count
 		local

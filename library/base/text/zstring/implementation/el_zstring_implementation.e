@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 6:56:20 GMT (Wednesday 10th April 2024)"
-	revision: "97"
+	date: "2024-04-11 14:05:02 GMT (Thursday 11th April 2024)"
+	revision: "98"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -304,16 +304,6 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
-	has_unencoded_between_optimal (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
-		-- `has_unencoded_between' with optimal alternative method of
-		do
-			if end_index - start_index < 50 then
-				Result := has_substitutes_between (a_area, start_index, end_index)
-			else
-				Result := has_unencoded_between (start_index, end_index)
-			end
-		end
-
 	has_substitutes_between (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
 		local
 			i: INTEGER
@@ -324,47 +314,43 @@ feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
 			end
 		end
 
+	has_unencoded_between_optimal (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
+		-- `has_unencoded_between' with optimal alternative method of
+		do
+			if end_index - start_index < 50 then
+				Result := has_substitutes_between (a_area, start_index, end_index)
+			else
+				Result := has_unencoded_between (start_index, end_index)
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	adapted_argument (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
+		do
+			Result := adapted_argument_for_type (general, Class_id.character_bytes (general), index)
+		end
+
+	adapted_argument_for_type (general: READABLE_STRING_GENERAL; type_code: CHARACTER; index: INTEGER): EL_ZSTRING
 		require
-			not_zstring: not same_type (general)
+			valid_type_code: valid_string_type_code (type_code)
 			valid_index: 1 <= index and index <= Once_adapted_argument.count
 		do
-			inspect index
-				when 1 .. 3 then
-					Result := Once_adapted_argument [index - 1]
-					Result.wipe_out
-			else
-				create Result.make (general.count)
-			end
-			Result.append_string_general (general)
-		end
-
-	adapted_argument_general (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
-		do
-			if same_type (general) then
-				if attached {ZSTRING} general as z_str then
-					Result := z_str
-				end
-			else
-				Result := adapted_argument (general, index)
-			end
-		end
-
-	ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
-		local
-			c: EL_CHARACTER_8_ROUTINES
-		do
-			if general.is_string_8 then
-				if general.is_immutable then
-					if attached {READABLE_STRING_8} general as readable_8	and then cursor_8 (readable_8).all_ascii then
-						Result := readable_8
+			inspect type_code
+				when 'X' then
+					if attached {ZSTRING} general as z_str then
+						Result := z_str
 					end
 
-				elseif attached {STRING_8} general as str_8 and then c.is_ascii_area (str_8.area, 0, str_8.count - 1) then
-					Result := str_8
+			else
+				inspect index
+					when 1 .. 3 then
+						Result := Once_adapted_argument [index - 1]
+						Result.wipe_out
+				else
+					create Result.make (general.count)
 				end
+				Result.append_string_general_for_type (general, type_code)
 			end
 		end
 
@@ -389,6 +375,29 @@ feature {NONE} -- Implementation
 						Result := Void
 					end
 				end
+			end
+		end
+
+	ascii_for_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		require
+			is_string_8: general.is_string_8
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			if general.is_immutable then
+				if attached {READABLE_STRING_8} general as readable_8	and then cursor_8 (readable_8).all_ascii then
+					Result := readable_8
+				end
+
+			elseif attached {STRING_8} general as str_8 and then c.is_ascii_area (str_8.area, 0, str_8.count - 1) then
+				Result := str_8
+			end
+		end
+
+	ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		do
+			if general.is_string_8 then
+				Result := ascii_for_string_8 (general)
 			end
 		end
 
@@ -451,6 +460,40 @@ feature {NONE} -- Implementation
 			-- put unicode at i th position
 		do
 			put (a_code.to_character_32, i)
+		end
+
+	same_string_8_encoding (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		-- `general' cast to type `READABLE_STRING_8' if all characters have identical values for
+		-- `Codec' encoding. `Void' if any character has a different encoding
+		require
+			is_string_8: general.is_string_8
+		local
+			l_area: like area; start_index, end_index, code_i, i: INTEGER
+			c_i: CHARACTER
+		do
+			if general.is_immutable then
+				if attached {READABLE_STRING_8} general as readable_8	and then attached cursor_8 (readable_8) as c then
+					l_area := c.area
+					start_index := c.area_first_index; end_index := c.area_last_index
+					Result := readable_8
+				end
+
+			elseif attached {STRING_8} general as str_8 then
+				l_area := str_8.area
+				end_index := str_8.count - 1
+				Result := str_8
+			end
+			if attached Codec.unicode_table as table then
+				from i := start_index until i > end_index loop
+					code_i := l_area [i].code
+					if table [code_i].code /= code_i then
+						Result := Void
+						i := end_index + 1 -- break
+					else
+						i := i + 1
+					end
+				end
+			end
 		end
 
 	to_lower_area (a: like area; start_index, end_index: INTEGER)
@@ -519,11 +562,6 @@ feature {NONE} -- Constants
 			Result [2] := create {ZSTRING}.make_empty
 		end
 
-	Once_substring_indices: EL_ARRAYED_LIST [INTEGER]
-		do
-			create Result.make (5)
-		end
-
 	Once_interval_list: EL_ARRAYED_INTERVAL_LIST
 		once
 			create Result.make_empty
@@ -533,4 +571,10 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+		
+	Once_substring_indices: EL_ARRAYED_LIST [INTEGER]
+		do
+			create Result.make (5)
+		end
+
 end

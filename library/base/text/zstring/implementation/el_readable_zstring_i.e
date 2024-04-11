@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 6:46:06 GMT (Wednesday 10th April 2024)"
-	revision: "14"
+	date: "2024-04-11 10:31:05 GMT (Thursday 11th April 2024)"
+	revision: "15"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -16,7 +16,7 @@ deferred class
 inherit
 	EL_SHARED_ENCODINGS; EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_ZSTRING_CODEC
 
-	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_STRING_32_CURSOR; EL_SHARED_CLASS_ID
 
 	EL_ZSTRING_CONSTANTS
 
@@ -154,7 +154,11 @@ feature {NONE} -- Implementation
 			reversible: is_reversible_z_code_pattern (current_readable, str)
 		end
 
-	internal_substring_index_list (str: READABLE_STRING_GENERAL): ARRAYED_LIST [INTEGER]
+	internal_substring_index_list (delimiter: EL_READABLE_ZSTRING): ARRAYED_LIST [INTEGER]
+		deferred
+		end
+
+	internal_substring_index_list_general (delimiter: READABLE_STRING_GENERAL): ARRAYED_LIST [INTEGER]
 		deferred
 		end
 

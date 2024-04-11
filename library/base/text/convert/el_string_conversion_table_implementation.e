@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-04-11 8:12:30 GMT (Thursday 11th April 2024)"
+	revision: "4"
 
 deferred class
 	EL_STRING_CONVERSION_TABLE_IMPLEMENTATION
@@ -126,7 +126,7 @@ feature {NONE} -- Implementation
 
 	new_split_list (character_width_code: CHARACTER): EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]
 		require
-			valid_code: Class_id.valid_character_byte_codes.has (character_width_code)
+			valid_code: valid_string_type_code (character_width_code)
 		do
 			inspect character_width_code
 				when '1' then

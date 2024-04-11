@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "28"
+	date: "2024-04-11 8:11:59 GMT (Thursday 11th April 2024)"
+	revision: "29"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -32,7 +32,6 @@ feature {NONE} -- Initialization
 			>>
 			readable_string_8_types := << IMMUTABLE_STRING_8, STRING_8 >>
 			path_types := << EL_FILE_PATH, EL_DIR_PATH >>
-			valid_character_byte_codes := "14X"
 		end
 
 feature -- Access
@@ -49,10 +48,8 @@ feature -- Access
 				Result := '4'
 			end
 		ensure
-			valid_code: valid_character_byte_codes.has (Result)
+			valid_code: valid_character_byte_code (Result)
 		end
-
-	valid_character_byte_codes: IMMUTABLE_STRING_8
 
 feature -- Type sets
 
@@ -152,14 +149,14 @@ feature -- Parameterized
 
 feature -- Eiffel-Loop types
 
+	EL_BOOLEAN_OPTION: INTEGER
+
+	EL_MAKEABLE: INTEGER
+
 	EL_MAKEABLE_FROM_STRING: INTEGER
 		once
 			Result := ({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id
 		end
-
-	EL_BOOLEAN_OPTION: INTEGER
-
-	EL_MAKEABLE: INTEGER
 
 	EL_QUANTITY_TEMPLATE: INTEGER
 
@@ -169,14 +166,24 @@ feature -- Eiffel-Loop types
 
 feature -- Other types
 
-	COMPARABLE: INTEGER
-
 	ANY: INTEGER
 
 	BOOLEAN: INTEGER
+
+	COMPARABLE: INTEGER
 
 	DATE_TIME: INTEGER
 
 	TUPLE: INTEGER
 
+feature -- Contract Support
+
+	valid_character_byte_code (code: CHARACTER): BOOLEAN
+		do
+			inspect code
+				when '1', '4', 'X' then
+					Result := True
+			else
+			end
+		end
 end
