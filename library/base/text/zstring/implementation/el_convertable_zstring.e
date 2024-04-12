@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 14:42:09 GMT (Thursday 11th April 2024)"
-	revision: "67"
+	date: "2024-04-12 17:50:34 GMT (Friday 12th April 2024)"
+	revision: "68"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -391,15 +391,10 @@ feature -- Conversion
 
 	joined alias "#+" (a_tuple: TUPLE): like Current
 		-- concatentation of `Current' with elements of `a_tuple'
-		local
-			i: INTEGER
 		do
-			Result := new_string (count + tuple_as_string_count (a_tuple))
+			Result := new_string (count + Tuple.string_width (a_tuple))
 			Result.append (current_readable)
-			from i := 1 until i > a_tuple.count loop
-				Result.append_tuple_item (a_tuple, i)
-				i := i + 1
-			end
+			Tuple.write (a_tuple, Result.current_writable, Void)
 		end
 
 	mirrored: like Current
@@ -466,7 +461,7 @@ feature -- Conversion
 			marker_pos, index, previous_marker_pos, i: INTEGER
 		do
 			if attached substitution_marker_index_list.area as marker_area then
-				Result := new_string (count + tuple_as_string_count (inserts) - marker_area.count)
+				Result := new_string (count + Tuple.string_width (inserts) - marker_area.count)
 				from until i = marker_area.count loop
 					marker_pos := marker_area [i]
 					if marker_pos - 1 > 0 and then item_8 (marker_pos - 1) = '%%' then
@@ -475,7 +470,7 @@ feature -- Conversion
 					else
 						index := index + 1
 						Result.append_substring (current_readable, previous_marker_pos + 1, marker_pos - 1)
-						Result.append_tuple_item (inserts, index)
+						Tuple.write_i_th (inserts, index, Result.current_writable)
 					end
 					previous_marker_pos := marker_pos
 					i := i + 1
@@ -528,70 +523,9 @@ feature -- Case changed
 
 feature {NONE} -- Implementation
 
-	natural_64_width (natural_64: NATURAL_64): INTEGER
-		local
-			quotient: NATURAL_64
-		do
-			if natural_64 = 0 then
-				Result := 1
-			else
-				from quotient := natural_64 until quotient = 0 loop
-					Result := Result + 1
-					quotient := quotient // 10
-				end
-			end
-		end
-
 	new_list (a_count: INTEGER): EL_ARRAYED_LIST [like Current]
 		do
 			create Result.make (a_count)
-		end
-
-	tuple_as_string_count (tuple: TUPLE): INTEGER
-		local
-			l_count, i: INTEGER; l_reference: ANY
-		do
-			from i := 1 until i > tuple.count loop
-				inspect tuple.item_code (i)
-					when {TUPLE}.Boolean_code then
-						l_count := 4
-					when {TUPLE}.Character_code then
-						l_count := 1
-					when {TUPLE}.Integer_16_code then
-						l_count := natural_64_width (tuple.integer_16_item (i).abs.to_natural_64)
-
-					when {TUPLE}.Integer_32_code then
-						l_count := natural_64_width (tuple.integer_32_item (i).abs.to_natural_64)
-
-					when {TUPLE}.Integer_64_code then
-						l_count := natural_64_width (tuple.integer_64_item (i).abs.to_natural_64)
-
-					when {TUPLE}.Natural_16_code then
-						l_count := natural_64_width (tuple.natural_16_item (i).to_natural_64)
-
-					when {TUPLE}.Natural_32_code then
-						l_count := natural_64_width (tuple.natural_32_item (i).to_natural_64)
-
-					when {TUPLE}.Natural_64_code then
-						l_count := natural_64_width (tuple.natural_64_item (i))
-
-					when {TUPLE}.Pointer_code then
-						l_count := 9
-
-					when {TUPLE}.Reference_code then
-						l_reference := tuple.reference_item (i)
-						if attached {READABLE_STRING_GENERAL} l_reference as str then
-							l_count := str.count
-						elseif attached {EL_PATH} l_reference as path then
-							l_count := path.count
-						end
-
-				else -- Double or real or something else
-					l_count := 7
-				end
-				Result := Result + l_count
-				i := i + 1
-			end
 		end
 
 end

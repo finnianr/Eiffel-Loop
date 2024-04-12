@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 7:13:13 GMT (Monday 8th April 2024)"
-	revision: "7"
+	date: "2024-04-12 12:21:36 GMT (Friday 12th April 2024)"
+	revision: "8"
 
 class
 	EL_ZSTRING_OCCURRENCE_INTERVALS
@@ -27,16 +27,12 @@ create
 
 feature -- Element change
 
-	fill_by_string (a_target: EL_READABLE_ZSTRING; a_pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+	fill_by_string (target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
 		do
-			if a_pattern.count = 1 then
-				fill_intervals (a_target, Empty_string, String_searcher, a_pattern [1], a_adjustments)
-
-			elseif attached String_searcher as searcher
-				and then attached a_target.as_z_code_pattern (a_pattern) as z_code_pattern
-			then
-				searcher.initialize_deltas (z_code_pattern)
-				fill_intervals (a_target, z_code_pattern, searcher, '%U', a_adjustments)
+			if pattern.count = 1 then
+				fill_intervals (target, Empty_string, String_searcher, pattern [1], adjustments)
+			else
+				fill_by_zstring (target, pattern, adjustments)
 			end
 		end
 

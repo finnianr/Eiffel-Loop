@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-04-12 13:09:48 GMT (Friday 12th April 2024)"
+	revision: "25"
 
 class
 	EL_SPLIT_INTERVALS
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 
 	extend_buffer (
 		a_target: READABLE_STRING_GENERAL
-		buffer: like Intervals_buffer; search_index, search_string_count, a_adjustments: INTEGER
+		buffer: like Intervals_buffer; search_index, search_string_count, adjustments: INTEGER
 		final: BOOLEAN
 	)
 		local
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 					end_index := search_index - 1
 				end
 			end
-			if (a_adjustments & {EL_SIDE}.Left).to_boolean then
+			if (adjustments & {EL_SIDE}.Left).to_boolean then
 				from until found_first or else start_index > end_index loop
 					if is_white_space (a_target, start_index) then
 						start_index := start_index + 1
@@ -70,7 +70,7 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
-			if (a_adjustments & {EL_SIDE}.Right).to_boolean then
+			if (adjustments & {EL_SIDE}.Right).to_boolean then
 				found_first := False
 				from until found_first or else end_index < start_index  loop
 					if is_white_space (a_target, end_index) then

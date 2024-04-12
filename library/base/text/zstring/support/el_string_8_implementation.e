@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 11:28:14 GMT (Thursday 11th April 2024)"
-	revision: "15"
+	date: "2024-04-12 15:38:08 GMT (Friday 12th April 2024)"
+	revision: "17"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -203,10 +203,10 @@ feature -- Search
 			)
 		end
 
-	substring_index_ascii (target: EL_SEARCHABLE_ZSTRING; ascii_other: READABLE_STRING_8; start_index: INTEGER): INTEGER
+	substring_index_compatible (target: EL_SEARCHABLE_ZSTRING; other: READABLE_STRING_8; start_index: INTEGER): INTEGER
 		do
 			Result := string_searcher.substring_index (
-				injected (target, 0), ascii_other, start_index, target.count
+				injected (target, 0), other, start_index, target.count
 			)
 		end
 
@@ -215,11 +215,11 @@ feature -- Search
 			Result := string_searcher.substring_index (injected (target, 0), injected (other, 1), start_pos, end_pos)
 		end
 
-	substring_index_in_bounds_ascii (
-		target: EL_SEARCHABLE_ZSTRING; ascii_other: READABLE_STRING_8; start_pos, end_pos: INTEGER
+	substring_index_in_bounds_compatible (
+		target: EL_SEARCHABLE_ZSTRING; other: READABLE_STRING_8; start_pos, end_pos: INTEGER
 	): INTEGER
 		do
-			Result := string_searcher.substring_index (injected (target, 0), ascii_other, start_pos, end_pos)
+			Result := string_searcher.substring_index (injected (target, 0), other, start_pos, end_pos)
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-19 16:58:17 GMT (Monday 19th February 2024)"
-	revision: "13"
+	date: "2024-04-12 17:27:36 GMT (Friday 12th April 2024)"
+	revision: "14"
 
 expanded class
 	EL_INTEGER_MATH
@@ -15,14 +15,52 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-feature -- Access
+feature -- Measurement
 
-	digits (n: INTEGER): INTEGER
-		local
-			double: EL_DOUBLE_MATH
+	string_size (n: INTEGER_64): INTEGER
 		do
-			Result := double.digit_count (n.to_natural_64)
+			if n < 0 then
+				Result := digit_count (n) + 1
+			else
+				Result := digit_count (n)
+			end
+		ensure
+			definition: Result = n.out.count
 		end
+
+	digit_count (n: INTEGER_64): INTEGER
+		do
+			Result := natural_digit_count (n.abs.to_natural_64)
+		end
+
+	natural_digit_count (n: NATURAL_64): INTEGER
+		do
+			if n = n.zero then
+				Result := 1
+			else
+				Result := {DOUBLE_MATH}.log10 (n).floor + 1
+			end
+		ensure
+			definition: Result = n.out.count
+		end
+
+	natural_64_width (n: NATURAL_64): INTEGER
+		local
+			quotient: NATURAL_64
+		do
+			if n = n.zero then
+				Result := 1
+			else
+				from quotient := n until quotient = 0 loop
+					Result := Result + 1
+					quotient := quotient // 10
+				end
+			end
+		ensure
+			definition: Result = n.out.count
+		end
+
+feature -- Access
 
 	modulo (number, modulus: INTEGER): INTEGER
 		do
@@ -35,10 +73,10 @@ feature -- Access
 	rounded (number, n: INTEGER): INTEGER
 		-- number rounded to n significant digit_count
 		local
-			digit_count, zeros, divisor: INTEGER
+			count, zeros, divisor: INTEGER
 		do
-			digit_count := digits (number)
-			zeros := digit_count - digit_count.min (n)
+			count := digit_count (number)
+			zeros := count - count.min (n)
 			if zeros > 0 then
 				divisor := (10 ^ zeros).rounded
 				Result := number // divisor

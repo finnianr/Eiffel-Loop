@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-04-12 16:49:37 GMT (Friday 12th April 2024)"
+	revision: "11"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -17,7 +17,7 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-	EL_MODULE_PYXIS
+	EL_MODULE_PYXIS; EL_MODULE_TUPLE
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
@@ -74,11 +74,11 @@ feature -- Basic operations
 						put_collection (output, tab_count, collection_field)
 
 					elseif attached {EL_REFLECTED_TUPLE} list.item as tuple_field
-						and then attached tuple_field.value (object) as tuple
+						and then attached tuple_field.value (object) as l_tuple
 						and then attached tuple_field.field_name_list as name_list
 					then
 						put_field (output, name, tab_count)
-						put_tuple (output, tab_count + 1, tuple_field, tuple, name_list)
+						put_tuple (output, tab_count + 1, tuple_field, l_tuple, name_list)
 
 					elseif attached {EL_REFLECTED_REFERENCE [ANY]} list.item as field
 						and then attached {EL_REFLECTIVE} field.value (object) as reflective
@@ -197,7 +197,7 @@ feature {NONE} -- Implementation
 		end
 
 	put_tuple (
-		output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; field: EL_REFLECTED_TUPLE; tuple: TUPLE
+		output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; field: EL_REFLECTED_TUPLE; a_tuple: TUPLE
 		name_list: EL_STRING_8_LIST
 	)
 		local
@@ -205,9 +205,9 @@ feature {NONE} -- Implementation
 		do
 			if attached Once_attribute_lines as attribute_lines then
 				across String_pool_scope as pool loop
-					from i := 1 until i > tuple.count loop
+					from i := 1 until i > a_tuple.count loop
 						value := pool.borrowed_item
-						value.append_tuple_item (tuple, i)
+						Tuple.write_i_th (a_tuple, i, value)
 						if field.member_types.i_th_is_character_data (i) then
 							attribute_lines.last.extend (value, name_list [i])
 						else

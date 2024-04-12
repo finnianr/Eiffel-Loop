@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 6:25:10 GMT (Monday 8th April 2024)"
-	revision: "124"
+	date: "2024-04-12 17:30:17 GMT (Friday 12th April 2024)"
+	revision: "125"
 
 class
 	ZSTRING_TEST_SET
@@ -703,6 +703,7 @@ feature -- Access tests
 feature -- Duplication tests
 
 	test_substitute_tuple
+		-- ZSTRING_TEST_SET.test_substitute_tuple
 		note
 			testing:	"[
 				covers/{ZSTRING}.append_substring,

@@ -7,14 +7,29 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 20:00:29 GMT (Wednesday 10th April 2024)"
-	revision: "17"
+	date: "2024-04-12 17:47:03 GMT (Friday 12th April 2024)"
+	revision: "18"
 
 deferred class
 	EL_WRITABLE
 
 inherit
 	EL_SHARED_CLASS_ID
+
+feature -- Character
+
+	write_character_8 (value: CHARACTER)
+		deferred
+		end
+
+	write_character_32 (value: CHARACTER_32)
+		deferred
+		end
+
+	write_encoded_character_8 (value: CHARACTER)
+		-- write an encoding character
+		deferred
+		end
 
 feature -- Integer
 
@@ -89,7 +104,7 @@ feature -- String
 						write_string_8 (str_8)
 					end
 				when 'X' then
-					if attached {ZSTRING} a_string as z_str then
+					if attached {EL_READABLE_ZSTRING} a_string as z_str then
 						write_string (z_str)
 					end
 			else
@@ -99,14 +114,28 @@ feature -- String
 			end
 		end
 
-feature -- Access
+feature -- Other
 
-	write_boolean (value: BOOLEAN)
-		deferred
+	write_any (object: ANY)
+		do
+			if attached {READABLE_STRING_GENERAL} object as string then
+				write_string_general (string)
+
+			elseif attached {EL_PATH} object as path then
+				write_path (path)
+
+			elseif attached {EL_PATH_STEPS} object as steps then
+				write_path_steps (steps)
+
+			elseif attached {PATH} object as path then
+				write_string_general (path.name)
+
+			elseif attached object as obj then
+				write_string_general (obj.out)
+			end
 		end
 
-	write_encoded_character_8 (value: CHARACTER)
-		-- write an encoding character
+	write_boolean (value: BOOLEAN)
 		deferred
 		end
 
@@ -114,12 +143,16 @@ feature -- Access
 		deferred
 		end
 
-	write_character_8 (value: CHARACTER)
-		deferred
+feature -- Path
+
+	write_path (path: EL_PATH)
+		do
+			write_string (path.to_string)
 		end
 
-	write_character_32 (value: CHARACTER_32)
-		deferred
+	write_path_steps (steps: EL_PATH_STEPS)
+		do
+			write_string (steps.to_string)
 		end
 
 note

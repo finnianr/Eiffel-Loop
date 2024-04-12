@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 9:05:57 GMT (Thursday 11th April 2024)"
-	revision: "66"
+	date: "2024-04-12 16:50:18 GMT (Friday 12th April 2024)"
+	revision: "68"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_IMPLEMENTATION
 		export
-			{EL_READABLE_ZSTRING, STRING_HANDLER} Substitute
+			{ANY} is_compatible, is_compatible_substring, Substitute
 		end
 
 	EL_MODULE_ENCODING
@@ -25,27 +25,6 @@ inherit
 
 feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
-	append_any (object: detachable ANY)
-		require
-			is_attached: attached object
-		do
-			if attached {READABLE_STRING_GENERAL} object as string then
-				append_string_general (string)
-
-			elseif attached {EL_PATH} object as path then
-				path.append_to (Current)
-
-			elseif attached {EL_PATH_STEPS} object as steps then
-				steps.append_to (Current)
-
-			elseif attached {PATH} object as path then
-				append_string_general (path.name)
-
-			elseif attached object as obj then
-				append_string_general (obj.out)
-			end
-		end
-
 	append_ascii (str: READABLE_STRING_8)
 		require
 			is_ascii: is_ascii_string (str)
@@ -53,11 +32,19 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			append_string_8 (str)
 		end
 
-	append_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER)
+	append_compatible (latin_1: READABLE_STRING_8)
+		-- append `latin_1' if all characters do not require encoding with `Codec' to be compatible
 		require
-			is_ascii: is_ascii_substring (str, start_index, end_index)
+			is_compatible: is_compatible (latin_1)
 		do
-			append_substring_8 (str, start_index, end_index)
+			String_8.append_string_8 (Current, latin_1)
+		end
+
+	append_compatible_substring_8 (latin_1: READABLE_STRING_8; start_index, end_index: INTEGER)
+		require
+			compatible_substring: is_compatible_substring (latin_1, start_index, end_index)
+		do
+			append_substring_8 (latin_1, start_index, end_index)
 		end
 
 	append_encodeable (str: READABLE_STRING_8; str_encoding: EL_ENCODING_BASE)
@@ -192,7 +179,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_string_8 (str: READABLE_STRING_8)
 		require else
-			not_has_reserved_substitute_character: not str.has (Substitute)
+			substitute_reserved: not str.has (Substitute)
 		do
 			String_8.append_string_8 (Current, str)
 		end
@@ -216,60 +203,6 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			append_string_general_for_type (general, Class_id.character_bytes (general))
 		end
 
-	append_tuple_item (tuple: TUPLE; i: INTEGER)
-		require
-			valid_index: tuple.valid_index (i)
-		do
-			inspect tuple.item_code (i)
-				when {TUPLE}.Boolean_code then
-					append_boolean (tuple.boolean_item (i))
-
-				when {TUPLE}.Character_8_code then
-					append_character (tuple.character_8_item (i))
-
-				when {TUPLE}.Character_32_code then
-					append_character (tuple.character_32_item (i))
-
-				when {TUPLE}.Integer_8_code then
-					append_integer_8 (tuple.integer_8_item (i))
-
-				when {TUPLE}.Integer_16_code then
-					append_integer_16 (tuple.integer_16_item (i))
-
-				when {TUPLE}.Integer_32_code then
-					append_integer_32 (tuple.integer_32_item (i))
-
-				when {TUPLE}.Integer_64_code then
-					append_integer_64 (tuple.integer_64_item (i))
-
-				when {TUPLE}.Natural_8_code then
-					append_natural_8 (tuple.natural_8_item (i))
-
-				when {TUPLE}.Natural_16_code then
-					append_natural_16 (tuple.natural_16_item (i))
-
-				when {TUPLE}.Natural_32_code then
-					append_natural_32 (tuple.natural_32_item (i))
-
-				when {TUPLE}.Natural_64_code then
-					append_natural_64 (tuple.natural_64_item (i))
-
-				when {TUPLE}.Real_32_code then
-					append_real (tuple.real_32_item (i))
-
-				when {TUPLE}.Real_64_code then
-					append_double (tuple.real_64_item (i))
-
-				when {TUPLE}.Pointer_code then
-					append_string_general (tuple.pointer_item (i).out)
-
-				when {TUPLE}.Reference_code then
-					append_any (tuple.reference_item (i))
-			else
-				internal_append_tuple_item (tuple, i)
-			end
-		end
-
 	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		local
 			old_count: INTEGER
@@ -291,7 +224,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_substring_8 (str: READABLE_STRING_8; start_index, end_index: INTEGER)
 		require else
-			not_has_reserved_substitute_character: not str.substring (start_index, end_index).has (Substitute)
+			substitute_reserved: not str.substring (start_index, end_index).has (Substitute)
 		do
 			if attached current_string_8 as l_current then
 				l_current.append_substring (str, start_index, end_index)
@@ -305,11 +238,11 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		local
 			offset: INTEGER
 		do
-			if attached ascii_string_8 (general) as ascii then
-				append_ascii_substring (ascii, start_index, end_index)
+			if general.is_string_8 and then attached compatible_substring_8 (general, start_index, end_index) as str_8 then
+				append_compatible_substring_8 (str_8, start_index, end_index)
 
 			elseif same_type (general) then
-				if attached {ZSTRING} general as z_str then
+				if attached {EL_READABLE_ZSTRING} general as z_str then
 					append_substring (z_str, start_index, end_index)
 				end
 			else
@@ -517,8 +450,8 @@ feature {NONE} -- Implementation
 		do
 			inspect type_code
 				when '1' then
-					if attached ascii_for_string_8 (general) as ascii_str then
-						append_ascii (ascii_str)
+					if attached compatible_string_8 (general) as str_8 then
+						append_compatible (str_8)
 					else
 						convert_unicode := True
 					end
@@ -558,46 +491,6 @@ feature {NONE} -- Implementation
 		ensure
 			new_count: count = old count + old s.count
 			appended: elks_checking implies internal_string.same_string (old (internal_string + s.string))
-		end
-
-	internal_append_tuple_item (tuple: TUPLE; i: INTEGER)
-		do
-			inspect tuple.item_code (i)
-				when {TUPLE}.Boolean_code then
-					append_boolean (tuple.boolean_item (i))
-
-				when {TUPLE}.Integer_8_code then
-					append_integer_8 (tuple.integer_8_item (i))
-
-				when {TUPLE}.Integer_16_code then
-					append_integer_16 (tuple.integer_16_item (i))
-
-				when {TUPLE}.Integer_32_code then
-					append_integer (tuple.integer_item (i))
-
-				when {TUPLE}.Integer_64_code then
-					append_integer_64 (tuple.integer_64_item (i))
-
-				when {TUPLE}.Natural_8_code then
-					append_natural_8 (tuple.natural_8_item (i))
-
-				when {TUPLE}.Natural_16_code then
-					append_integer_16 (tuple.integer_16_item (i))
-
-				when {TUPLE}.Natural_32_code then
-					append_natural_32 (tuple.natural_32_item (i))
-
-				when {TUPLE}.Natural_64_code then
-					append_natural_64 (tuple.natural_64_item (i))
-
-				when {TUPLE}.Real_32_code then
-					append_real (tuple.real_32_item (i))
-
-				when {TUPLE}.Real_64_code then
-					append_double (tuple.real_64_item (i))
-
-			else
-			end
 		end
 
 	internal_append_utf (utf_encoded_string: READABLE_STRING_8; utf_type, unicode_count: INTEGER)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 9:44:05 GMT (Thursday 21st December 2023)"
-	revision: "39"
+	date: "2024-04-12 17:16:27 GMT (Friday 12th April 2024)"
+	revision: "40"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -125,7 +125,7 @@ feature -- Output
 			leading := Empty_string_8; trailing := Empty_string_8
 			if attached label_or_format as str then
 				if str.occurrences ('9') = str.count then
-					width := math.digits (index)
+					width := math.digit_count (index)
 					if width < str.count then
 					-- create padding to right justify
 						leading := space * (str.count - width)

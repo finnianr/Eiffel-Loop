@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 9:26:00 GMT (Monday 15th January 2024)"
-	revision: "41"
+	date: "2024-04-12 17:52:33 GMT (Friday 12th April 2024)"
+	revision: "42"
 
 class
 	EL_DIR_PATH
@@ -43,6 +43,8 @@ inherit
 		rename
 			Directory as Shared_directory
 		end
+
+	EL_MODULE_TUPLE
 
 create
 	default_create, make, make_from_path, make_from_other, make_from_steps, make_parent
@@ -146,9 +148,9 @@ feature -- Path joining
 			create Result.make (temporary_joined (a_steps))
 		end
 
-	joined_dir_tuple (tuple: TUPLE): like Current
+	joined_dir_tuple (a_tuple: TUPLE): like Current
 		do
-			create Result.make (temporary_joined_tuple (tuple))
+			create Result.make (temporary_joined_tuple (a_tuple))
 		end
 
 	joined_file_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like Type_file_path
@@ -156,9 +158,9 @@ feature -- Path joining
 			create Result.make (temporary_joined (a_steps))
 		end
 
-	joined_file_tuple (tuple: TUPLE): like Type_file_path
+	joined_file_tuple (a_tuple: TUPLE): like Type_file_path
 		do
-			create Result.make (temporary_joined_tuple (tuple))
+			create Result.make (temporary_joined_tuple (a_tuple))
 		end
 
 feature -- Status report
@@ -220,18 +222,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	temporary_joined_tuple (tuple: TUPLE): ZSTRING
-		local
-			i: INTEGER
+	temporary_joined_tuple (a_tuple: TUPLE): ZSTRING
 		do
 			Result := temporary_path
-			from i := 1 until i > tuple.count loop
-				if Result.count > 0 then
-					Result.append_character (Separator)
-				end
-				Result.append_tuple_item (tuple, i)
-				i := i + 1
-			end
+			Tuple.write (a_tuple, Result, Directory_separator)
 		end
 
 feature {NONE} -- Type definitions
@@ -245,6 +239,11 @@ feature {NONE} -- Type definitions
 feature -- Constants
 
 	Is_directory: BOOLEAN = True
+
+	Directory_separator: STRING
+		once
+			Result := Operating_environment.Directory_separator.out
+		end
 
 	Shared_key_path: ZSTRING
 		once

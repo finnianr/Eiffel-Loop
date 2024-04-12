@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 10:19:17 GMT (Thursday 11th April 2024)"
-	revision: "152"
+	date: "2024-04-12 11:49:26 GMT (Friday 12th April 2024)"
+	revision: "153"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -69,7 +69,8 @@ inherit
 	EL_COMPARABLE_ZSTRING
 		export
 			{STRING_HANDLER, EL_OCCURRENCE_INTERVALS}
-				empty_unencoded_buffer, item_8, set_unencoded_from_buffer, order_comparison
+				compatible_string_8, empty_unencoded_buffer, item_8, order_comparison,
+				set_unencoded_from_buffer
 			{EL_ZSTRING_ITERATION_CURSOR, EL_STRING_8_IMPLEMENTATION}
 				area_lower, area_upper, area, unencoded_area
 			{EL_ZSTRING_IMPLEMENTATION}
@@ -336,6 +337,18 @@ feature -- Status query
 					i := i + 1
 				end
 			end
+		end
+
+	is_compatible (str_8: READABLE_STRING_8): BOOLEAN
+		-- `True' if `str_8' can be appended directly to `area' without any `Codec' encoding
+		do
+			Result := attached compatible_string_8 (str_8)
+		end
+
+	is_compatible_substring (str_8: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `str_8' can be appended directly to `area' without any `Codec' encoding
+		do
+			Result := attached compatible_substring_8 (str_8, start_index, end_index)
 		end
 
 	is_left_adjustable: BOOLEAN

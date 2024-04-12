@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "21"
+	date: "2024-04-12 17:15:39 GMT (Friday 12th April 2024)"
+	revision: "22"
 
 class
 	EL_CURRENCY
@@ -52,16 +52,16 @@ feature -- Access
 
 	formatted (amount_x100: INTEGER): ZSTRING
 		local
-			i, digit_count, separator_count: INTEGER
+			i, count, separator_count: INTEGER
 		do
-			digit_count := digits (amount_x100)
-			separator_count := (digit_count - 2) // 3
+			count := digit_count (amount_x100)
+			separator_count := (count - 2) // 3
 			if has_decimal then
 				separator_count := separator_count + 1
 			else
-				digit_count := digit_count - 2
+				count := count - 2
 			end
-			create Result.make (digit_count + separator_count + symbol.count + 1)
+			create Result.make (count + separator_count + symbol.count + 1)
 			Result.append_integer (amount_x100)
 			if has_decimal then
 				from until Result.count >= 3 loop

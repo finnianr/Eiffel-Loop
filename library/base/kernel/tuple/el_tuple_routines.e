@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "43"
+	date: "2024-04-12 17:56:09 GMT (Friday 12th April 2024)"
+	revision: "44"
 
 class
 	EL_TUPLE_ROUTINES
@@ -64,7 +64,7 @@ feature -- Measurement
 		require
 			valid_index: tuple.valid_index (i)
 		local
-			double: EL_DOUBLE_MATH
+			digits: EL_INTEGER_MATH
 		do
 			inspect tuple.item_code (i)
 				when {TUPLE}.Boolean_code then
@@ -82,29 +82,29 @@ feature -- Measurement
 
 --				Integers
 				when {TUPLE}.Integer_8_code then
-					Result := double.string_size (tuple.integer_8_item (i))
+					Result := digits.string_size (tuple.integer_8_item (i))
 
 				when {TUPLE}.Integer_16_code then
-					Result := double.string_size (tuple.integer_16_item (i))
+					Result := digits.string_size (tuple.integer_16_item (i))
 
 				when {TUPLE}.Integer_32_code then
-					Result := double.string_size (tuple.integer_32_item (i))
+					Result := digits.string_size (tuple.integer_32_item (i))
 
 				when {TUPLE}.Integer_64_code then
-					Result := double.string_size (tuple.integer_64_item (i))
+					Result := digits.string_size (tuple.integer_64_item (i))
 
 --				Naturals
 				when {TUPLE}.Natural_8_code then
-					Result := double.digit_count (tuple.natural_8_item (i))
+					Result := digits.digit_count (tuple.natural_8_item (i))
 
 				when {TUPLE}.Natural_16_code then
-					Result := double.digit_count (tuple.natural_16_item (i))
+					Result := digits.digit_count (tuple.natural_16_item (i))
 
 				when {TUPLE}.Natural_32_code then
-					Result := double.digit_count (tuple.natural_32_item (i))
+					Result := digits.digit_count (tuple.natural_32_item (i))
 
 				when {TUPLE}.Natural_64_code then
-					Result := double.digit_count (tuple.natural_64_item (i))
+					Result := digits.natural_digit_count (tuple.natural_64_item (i))
 
 --				Reals
 				when {TUPLE}.Real_32_code then
@@ -121,6 +121,8 @@ feature -- Measurement
 							Result := path.count
 						elseif attached {PATH} ref_item as path then
 							Result := path.name.count
+						elseif attached {EL_PATH_STEPS} ref_item as steps then
+							Result := steps.character_count
 						else
 							Result := ref_item.out.count
 						end
@@ -371,81 +373,93 @@ feature -- Basic operations
 			end
 		end
 
-	write (tuple: TUPLE; writeable: EL_WRITABLE; delimiter: detachable READABLE_STRING_8)
+	write (tuple: TUPLE; writable: EL_WRITABLE; a_delimiter: detachable READABLE_STRING_8)
 		local
-			i: INTEGER
+			i: INTEGER; separator: CHARACTER; delimiter: READABLE_STRING_8
+			has_delimiter: BOOLEAN
 		do
-			from i := 1 until i > tuple.count loop
-				if i > 1 and then attached delimiter as str then
-					writeable.write_string_8 (str)
+			if attached a_delimiter as str then
+				if str.count = 1 then
+					separator := str [1]
+				else
+					delimiter := str
 				end
-				write_i_th (tuple, i, writeable)
+				has_delimiter := True
+			else
+				delimiter := Empty_string_8
+			end
+			from i := 1 until i > tuple.count loop
+				if i > 1 and has_delimiter then
+					if separator = '%U' then
+						writable.write_string_8 (delimiter)
+					else
+						writable.write_character_8 (separator)
+					end
+				end
+				write_i_th (tuple, i, writable)
 				i := i + 1
 			end
 		end
 
-	write_i_th (tuple: TUPLE; i: INTEGER; writeable: EL_WRITABLE)
+	write_i_th (tuple: TUPLE; i: INTEGER; writable: EL_WRITABLE)
 		do
 			inspect tuple.item_code (i)
 				when {TUPLE}.Character_8_code then
-					writeable.write_character_8 (tuple.character_8_item (i))
+					writable.write_character_8 (tuple.character_8_item (i))
 
 				when {TUPLE}.Character_32_code then
-					writeable.write_character_32 (tuple.character_32_item (i))
+					writable.write_character_32 (tuple.character_32_item (i))
 
 				when {TUPLE}.Boolean_code then
-					writeable.write_boolean (tuple.boolean_item (i))
+					writable.write_boolean (tuple.boolean_item (i))
 
 				when {TUPLE}.Integer_8_code then
-					writeable.write_integer_8 (tuple.integer_8_item (i))
+					writable.write_integer_8 (tuple.integer_8_item (i))
 
 				when {TUPLE}.Integer_16_code then
-					writeable.write_integer_16 (tuple.integer_16_item (i))
+					writable.write_integer_16 (tuple.integer_16_item (i))
 
 				when {TUPLE}.Integer_32_code then
-					writeable.write_integer_32 (tuple.integer_32_item (i))
+					writable.write_integer_32 (tuple.integer_32_item (i))
 
 				when {TUPLE}.Integer_64_code then
-					writeable.write_integer_64 (tuple.integer_64_item (i))
+					writable.write_integer_64 (tuple.integer_64_item (i))
 
 				when {TUPLE}.Natural_8_code then
-					writeable.write_natural_8 (tuple.natural_8_item (i))
+					writable.write_natural_8 (tuple.natural_8_item (i))
 
 				when {TUPLE}.Natural_16_code then
-					writeable.write_natural_16 (tuple.natural_16_item (i))
+					writable.write_natural_16 (tuple.natural_16_item (i))
 
 				when {TUPLE}.Natural_32_code then
-					writeable.write_natural_32 (tuple.natural_32_item (i))
+					writable.write_natural_32 (tuple.natural_32_item (i))
 
 				when {TUPLE}.Natural_64_code then
-					writeable.write_natural_64 (tuple.natural_64_item (i))
+					writable.write_natural_64 (tuple.natural_64_item (i))
 
 				when {TUPLE}.Pointer_code then
-					writeable.write_pointer (tuple.pointer_item (i))
+					writable.write_pointer (tuple.pointer_item (i))
 
 				when {TUPLE}.Real_32_code then
-					writeable.write_real_32 (tuple.real_32_item (i))
+					writable.write_real_32 (tuple.real_32_item (i))
 
 				when {TUPLE}.Real_64_code then
-					writeable.write_real_64 (tuple.real_64_item (i))
+					writable.write_real_64 (tuple.real_64_item (i))
 
 				when {TUPLE}.Reference_code then
-					if attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as str then
-						writeable.write_string_general (str)
-
-					elseif attached {EL_PATH} tuple.reference_item (i) as path then
-						writeable.write_string (path.to_string)
+					if attached tuple.reference_item (i) as object then
+						writable.write_any (object)
 					end
 			else
 			end
 		end
 
-	write_with_comma (tuple: TUPLE; writeable: EL_WRITABLE; extra_space: BOOLEAN)
+	write_with_comma (tuple: TUPLE; writable: EL_WRITABLE; extra_space: BOOLEAN)
 		do
 			if extra_space then
-				write (tuple, writeable, Comma_space)
+				write (tuple, writable, Comma_space)
 			else
-				write (tuple, writeable, comma)
+				write (tuple, writable, comma)
 			end
 		end
 

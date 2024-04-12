@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 9:34:53 GMT (Thursday 11th April 2024)"
-	revision: "56"
+	date: "2024-04-12 15:32:54 GMT (Friday 12th April 2024)"
+	revision: "58"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -19,22 +19,22 @@ feature {NONE} -- Prepend numeric
 
 	prepend_boolean (b: BOOLEAN)
 		do
-			prepend_ascii (b.out)
+			prepend_compatible (b.out)
 		end
 
 	prepend_integer, prepend_integer_32 (n: INTEGER)
 		do
-			prepend_ascii (n.out)
+			prepend_compatible (n.out)
 		end
 
 	prepend_real_32, prepend_real (real_32: REAL_32)
 		do
-			prepend_ascii (real_32.out)
+			prepend_compatible (real_32.out)
 		end
 
 	prepend_real_64, prepend_double (real_64: REAL_64)
 		do
-			prepend_ascii (real_64.out)
+			prepend_compatible (real_64.out)
 		end
 
 feature {NONE} -- Prepend general
@@ -55,8 +55,8 @@ feature {NONE} -- Prepend general
 			type_code := Class_id.character_bytes (general)
 			inspect type_code
 				when '1' then
-					if attached ascii_for_string_8 (general) as ascii then
-						prepend_ascii (ascii)
+					if attached compatible_string_8 (general) as str_8 then
+						prepend_compatible (str_8)
 					else
 						insert_adapted := True
 					end
@@ -85,6 +85,19 @@ feature {NONE} -- Prepending
 			shift_unencoded (1)
 			if c = Substitute then
 				put_unencoded (uc, 1)
+			end
+		end
+
+	prepend_compatible (str: READABLE_STRING_8)
+		require
+			is_compatible_encoding: is_compatible (str)
+		local
+			old_count: INTEGER
+		do
+			old_count := count
+			String_8.prepend (Current, str)
+			if has_mixed_encoding then
+				shift_unencoded (count - old_count)
 			end
 		end
 
@@ -122,19 +135,6 @@ feature {NONE} -- Prepending
 		ensure
 			new_count: count = old count + (end_index - start_index + 1)
 			appended: elks_checking implies same_string (old (s.substring (start_index, end_index) + current_readable))
-		end
-
-	prepend_ascii (str: READABLE_STRING_8)
-		require
-			is_ascii: is_ascii_string_8 (str)
-		local
-			old_count: INTEGER
-		do
-			old_count := count
-			String_8.prepend (Current, str)
-			if has_mixed_encoding then
-				shift_unencoded (count - old_count)
-			end
 		end
 
 feature {NONE} -- Implementation

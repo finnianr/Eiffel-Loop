@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 14:07:50 GMT (Monday 8th April 2024)"
-	revision: "32"
+	date: "2024-04-12 12:23:22 GMT (Friday 12th April 2024)"
+	revision: "33"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -42,17 +42,17 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
+	make (target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
 		do
 			make_empty
-			fill (a_target, delimiter, 0)
+			fill (target, delimiter, 0)
 		end
 
-	make_by_string (a_target, a_pattern: READABLE_STRING_GENERAL)
+	make_by_string (target, pattern: READABLE_STRING_GENERAL)
 			-- Move to first position if any.
 		do
 			make_empty
-			fill_by_string (a_target, a_pattern, 0)
+			fill_by_string (target, pattern, 0)
 		end
 
 	make_empty
@@ -62,36 +62,33 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	fill (a_target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
+	fill (target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			fill_intervals (a_target, Empty_string_8, String_8_searcher, delimiter, adjustments)
+			fill_intervals (target, Empty_string_8, String_8_searcher, delimiter, adjustments)
 		end
 
-	fill_by_string (a_target, a_pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
+	fill_by_string (target, pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			if a_pattern.count = 1 then
-				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], adjustments)
+			if pattern.count = 1 then
+				fill_intervals (target, Empty_string_8, String_8_searcher, pattern [1], adjustments)
 
-			elseif is_zstring (a_target)
-				and then attached as_zstring (a_target).as_z_code_pattern (a_pattern) as z_code_pattern
-			then
-				String_searcher.initialize_deltas (z_code_pattern)
-				fill_intervals (a_target, z_code_pattern, String_searcher, '%U', adjustments)
+			elseif is_zstring (target) and then attached {EL_READABLE_ZSTRING} target as z_target then
+				fill_by_zstring (z_target, pattern, adjustments)
 
-			elseif attached shared_searcher (a_target) as searcher then
-				searcher.initialize_deltas (a_pattern)
-				fill_intervals (a_target, a_pattern, searcher, '%U', adjustments)
+			elseif attached shared_searcher (target) as searcher then
+				searcher.initialize_deltas (pattern)
+				fill_intervals (target, pattern, searcher, '%U', adjustments)
 			end
 		end
 
 feature {NONE} -- Implementation
 
 	extend_buffer (
-		a_target: READABLE_STRING_GENERAL
+		target: READABLE_STRING_GENERAL
 		l_area: like Intervals_buffer; search_index, pattern_count, adjustments: INTEGER
 		final: BOOLEAN
 	)
@@ -102,11 +99,11 @@ feature {NONE} -- Implementation
 		end
 
 	fill_intervals (
-		a_target, a_pattern: READABLE_STRING_GENERAL; searcher: STRING_SEARCHER
+		target, pattern: READABLE_STRING_GENERAL; searcher: STRING_SEARCHER
 		uc: CHARACTER_32; adjustments: INTEGER
 	)
 		require
-			valid_search_string: a_pattern.count /= 1
+			valid_search_string: pattern.count /= 1
 		local
 			i, string_count, pattern_count, search_index, search_type: INTEGER
 			l_area: like Intervals_buffer; string_8_target: STRING_8
@@ -115,16 +112,16 @@ feature {NONE} -- Implementation
 			l_area := Intervals_buffer
 			l_area.wipe_out
 
-			if a_target.count > 0 then
-				string_count := a_target.count
-				if a_pattern.is_empty then
+			if target.count > 0 then
+				string_count := target.count
+				if pattern.is_empty then
 					pattern_count := 1
 					search_type := Index_of_character_32
 				else
-					pattern_count := a_pattern.count
+					pattern_count := pattern.count
 				end
-				if pattern_count = 1 and then a_target.is_string_8 then
-					if attached {READABLE_STRING_8} a_target as str_8 then
+				if pattern_count = 1 and then target.is_string_8 then
+					if attached {READABLE_STRING_8} target as str_8 then
 						string_8_target := str_8
 					end
 					character_outside_range := not uc.is_character_8
@@ -140,26 +137,43 @@ feature {NONE} -- Implementation
 								i := string_8_target.index_of (c, i)
 
 							when Index_of_character_32 then
-								i := a_target.index_of (uc, i)
+								i := target.index_of (uc, i)
 						else
-							i := searcher.substring_index_with_deltas (a_target, a_pattern, i, a_target.count)
+							i := searcher.substring_index_with_deltas (target, pattern, i, target.count)
 						end
 						if i > 0 then
 							search_index := i
-							extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, False)
+							extend_buffer (target, l_area, search_index, pattern_count, adjustments, False)
 							i := i + pattern_count
 						end
 					end
 				end
-				extend_buffer (a_target, l_area, search_index, pattern_count, adjustments, True)
+				extend_buffer (target, l_area, search_index, pattern_count, adjustments, True)
 			end
 			make_sized (l_area.count)
 			area.copy_data (l_area.area, 0, 0, l_area.count * 2)
 		end
 
-	shared_searcher (a_target: READABLE_STRING_GENERAL): STRING_SEARCHER
+	fill_by_zstring (target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
 		do
-			if a_target.is_string_8 then
+			if pattern.is_string_8 and then attached target.compatible_string_8 (pattern) as str_8 then
+				if target.has_mixed_encoding then
+					String_searcher.initialize_deltas (str_8)
+					fill_intervals (target, str_8, String_searcher, '%U', adjustments)
+				else
+					String_8_searcher.initialize_deltas (str_8)
+					fill_intervals (target.to_shared_immutable_8, str_8, String_8_searcher, '%U', adjustments)
+				end
+
+			elseif attached target.shared_z_code_pattern_general (pattern, 1) as z_code_pattern then
+				String_searcher.initialize_deltas (z_code_pattern)
+				fill_intervals (target, z_code_pattern, String_searcher, '%U', adjustments)
+			end
+		end
+
+	shared_searcher (target: READABLE_STRING_GENERAL): STRING_SEARCHER
+		do
+			if target.is_string_8 then
 				Result := String_8_searcher
 			else
 				Result := String_32_searcher

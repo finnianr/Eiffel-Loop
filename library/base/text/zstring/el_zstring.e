@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 9:40:53 GMT (Thursday 11th April 2024)"
-	revision: "115"
+	date: "2024-04-12 17:45:18 GMT (Friday 12th April 2024)"
+	revision: "117"
 
 class
 	EL_ZSTRING
@@ -37,12 +37,12 @@ inherit
 				append_replaced, append_raw_string_8, append_from_right, append_from_right_general,
 				append_string, append, append_string_general, append_substring, append_substring_general,
 				append_utf_8, append_utf_16_le, append_encoded, append_encodeable, append_encoded_any,
-				append_tuple_item, append_unicode,
+				append_unicode,
 				extend, enclose, fill_blank, fill_character, multiply,
 
 				prepend_boolean, prepend_character, prepend_integer, prepend_integer_32,
 				prepend_real_32, prepend_real, prepend_real_64, prepend_double, prepend_substring,
-				prepend, prepend_string, prepend_string_general, prepend_ascii,
+				prepend, prepend_string, prepend_string_general, prepend_compatible,
 
 				precede, put_unicode, quote, translate,
 --				Transformation
@@ -89,6 +89,8 @@ inherit
 			write_pointer as append_pointer
 		undefine
 			append_string_general
+		redefine
+			write_path, write_path_steps
 		end
 
 	STRING_GENERAL
@@ -474,6 +476,11 @@ feature {NONE} -- Implementation
 			Result := Current
 		end
 
+	current_writable: EL_WRITABLE
+		do
+			Result := Current
+		end
+
 	empty_escape_table: like Once_escape_table
 		do
 			Result := Once_escape_table
@@ -486,6 +493,16 @@ feature {NONE} -- Implementation
 				Result := Result + cursor.item.count
 				cursor.forth
 			end
+		end
+
+	write_path (path: EL_PATH)
+		do
+			path.append_to (Current)
+		end
+
+	write_path_steps (steps: EL_PATH_STEPS)
+		do
+			steps.append_to (Current)
 		end
 
 feature {NONE} -- Constants

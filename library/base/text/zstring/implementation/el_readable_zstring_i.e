@@ -7,13 +7,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 10:31:05 GMT (Thursday 11th April 2024)"
-	revision: "15"
+	date: "2024-04-12 16:33:09 GMT (Friday 12th April 2024)"
+	revision: "17"
 
 deferred class
 	EL_READABLE_ZSTRING_I
 
 inherit
+	EL_MODULE_TUPLE
+
 	EL_SHARED_ENCODINGS; EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_ZSTRING_CODEC
 
 	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_STRING_32_CURSOR; EL_SHARED_CLASS_ID
@@ -85,6 +87,15 @@ feature {NONE} -- Status query
 		deferred
 		end
 
+	is_compatible (str_8: READABLE_STRING_8): BOOLEAN
+		deferred
+		end
+
+	is_compatible_substring (str_8: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `str_8' can be appended directly to `area' without any `Codec' encoding
+		deferred
+		end
+
 	is_empty: BOOLEAN
 			-- Is structure empty?
 		deferred
@@ -135,6 +146,10 @@ feature {NONE} -- Implementation
 		end
 
 	current_readable: EL_READABLE_ZSTRING
+		deferred
+		end
+
+	current_writable: EL_WRITABLE
 		deferred
 		end
 

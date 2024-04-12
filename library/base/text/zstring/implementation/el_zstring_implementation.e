@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 14:05:02 GMT (Thursday 11th April 2024)"
-	revision: "98"
+	date: "2024-04-12 13:27:45 GMT (Friday 12th April 2024)"
+	revision: "100"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -354,53 +354,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	as_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
-		-- same as `ascii_string_8' but checks for `Substitute' character
-		obsolete
-			"Unsure whether it's worth checking for Substitute"
-		local
-			start_index, end_index, i: INTEGER
-		do
-			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-				and then attached cursor_8 (str_8) as c and then attached c.area as l_area
-			then
-				start_index := c.area_first_index; end_index := c.area_last_index
-				Result := str_8
-				from i := start_index until i > end_index loop
-					inspect l_area [i]
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
-						i := i + 1
-					else
-						i := end_index + 1 -- break
-						Result := Void
-					end
-				end
-			end
-		end
-
-	ascii_for_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
-		require
-			is_string_8: general.is_string_8
-		local
-			c: EL_CHARACTER_8_ROUTINES
-		do
-			if general.is_immutable then
-				if attached {READABLE_STRING_8} general as readable_8	and then cursor_8 (readable_8).all_ascii then
-					Result := readable_8
-				end
-
-			elseif attached {STRING_8} general as str_8 and then c.is_ascii_area (str_8.area, 0, str_8.count - 1) then
-				Result := str_8
-			end
-		end
-
-	ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
-		do
-			if general.is_string_8 then
-				Result := ascii_for_string_8 (general)
-			end
-		end
-
 	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
 		do
 			encode_substring (a_unicode, 1, a_unicode.count, area_offset)
@@ -462,35 +415,52 @@ feature {NONE} -- Implementation
 			put (a_code.to_character_32, i)
 		end
 
-	same_string_8_encoding (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
-		-- `general' cast to type `READABLE_STRING_8' if all characters have identical values for
+	compatible_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		do
+			Result := compatible_substring_8 (general, 1, general.count)
+		end
+
+	compatible_substring_8 (
+		general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER
+
+	): detachable READABLE_STRING_8
+		-- `general' cast to type `READABLE_STRING_8' if all characters are unchanged for
 		-- `Codec' encoding. `Void' if any character has a different encoding
 		require
 			is_string_8: general.is_string_8
 		local
-			l_area: like area; start_index, end_index, code_i, i: INTEGER
-			c_i: CHARACTER
+			l_area: like area; i_lower, i_upper, i: INTEGER; c_i: CHARACTER
 		do
 			if general.is_immutable then
 				if attached {READABLE_STRING_8} general as readable_8	and then attached cursor_8 (readable_8) as c then
 					l_area := c.area
-					start_index := c.area_first_index; end_index := c.area_last_index
+					i_lower := c.area_first_index + start_index - 1
+					i_upper := i_lower + end_index - start_index
 					Result := readable_8
 				end
 
 			elseif attached {STRING_8} general as str_8 then
 				l_area := str_8.area
-				end_index := str_8.count - 1
+				i_lower := start_index - 1; i_upper := end_index - 1
 				Result := str_8
 			end
 			if attached Codec.unicode_table as table then
-				from i := start_index until i > end_index loop
-					code_i := l_area [i].code
-					if table [code_i].code /= code_i then
-						Result := Void
-						i := end_index + 1 -- break
+				from i := i_lower until i > i_upper loop
+					c_i := l_area [i]
+					inspect c_i
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+							i := i + 1
+
+						when Substitute then
+							Result := Void
+							i := i_upper + 1 -- break
 					else
-						i := i + 1
+						if table [c_i.code] /= c_i then
+							Result := Void
+							i := i_upper + 1 -- break
+						else
+							i := i + 1
+						end
 					end
 				end
 			end
@@ -571,7 +541,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
-		
+
 	Once_substring_indices: EL_ARRAYED_LIST [INTEGER]
 		do
 			create Result.make (5)

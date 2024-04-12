@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 14:22:24 GMT (Thursday 11th April 2024)"
-	revision: "57"
+	date: "2024-04-12 13:21:32 GMT (Friday 12th April 2024)"
+	revision: "59"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -97,8 +97,8 @@ feature -- Index position
 			-- string search
 				inspect type_code
 					when '1' then
-						if attached ascii_for_string_8 (other) as ascii_str then
-							Result := String_8.substring_index_ascii (Current, ascii_str, start_index)
+						if attached compatible_string_8 (other) as str_8 then
+							Result := String_8.substring_index_compatible (Current, str_8, start_index)
 						else
 							return_default := True
 						end
@@ -126,8 +126,8 @@ feature -- Index position
 			type_code := Class_id.character_bytes (other)
 			inspect type_code
 				when '1' then
-					if attached ascii_string_8 (other) as ascii_str then
-						Result := String_8.substring_index_in_bounds_ascii (Current, ascii_str, start_pos, end_pos)
+					if attached compatible_string_8 (other) as str_8 then
+						Result := String_8.substring_index_in_bounds_compatible (Current, str_8, start_pos, end_pos)
 					else
 						return_default := True
 					end
@@ -277,8 +277,8 @@ feature -- Basic operations
 	fill_index_list (list: ARRAYED_LIST [INTEGER]; a_pattern: READABLE_STRING_GENERAL)
 		-- fill `list' with all indices of `a_pattern' found in `Current'
 		do
-			if attached ascii_string_8 (a_pattern) as ascii_str then
-				String_8.fill_index_list (list, Current, ascii_str)
+			if a_pattern.is_string_8 and then attached compatible_string_8 (a_pattern) as str_8 then
+				String_8.fill_index_list (list, Current, str_8)
 			else
 				internal_fill_index_list (list, shared_z_code_pattern_general (a_pattern, 1))
 			end
@@ -290,15 +290,6 @@ feature -- Basic operations
 		end
 
 feature {EL_SHARED_ZSTRING_CODEC, EL_SEARCHABLE_ZSTRING} -- Implementation
-
-	as_z_code_pattern (a_pattern: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
-		do
-			if attached ascii_string_8 (a_pattern) as ascii_pattern then
-				Result := ascii_pattern
-			else
-				Result := shared_z_code_pattern_general (a_pattern, 1)
-			end
-		end
 
 	shared_z_code_pattern (index: INTEGER): STRING_32
 			-- Current expanded as `z_code' sequence
@@ -435,8 +426,8 @@ feature {NONE} -- Implementation
 				elseif delimiter_count = 1 then
 					fill_index_list_by_character (Result, delimiter [1])
 
-				elseif attached ascii_for_string_8 (delimiter) as ascii then
-					String_8.fill_index_list (Result, Current, ascii)
+				elseif attached compatible_string_8 (delimiter) as str_8 then
+					String_8.fill_index_list (Result, Current, str_8)
 				else
 					Result := internal_substring_index_list (adapted_argument_for_type (delimiter, type_code, 1))
 				end

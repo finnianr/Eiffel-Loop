@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-07 18:31:34 GMT (Sunday 7th April 2024)"
-	revision: "2"
+	date: "2024-04-12 11:16:50 GMT (Friday 12th April 2024)"
+	revision: "3"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
@@ -113,6 +113,7 @@ feature -- Appending tests
 		end
 
 	test_append_string_general
+		-- ZSTRING_CONCATENATION_TEST_SET.test_append_string_general
 		note
 			testing: "[
 				covers/{ZSTRING}.append_string_general,
