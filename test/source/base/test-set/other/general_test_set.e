@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-16 10:21:40 GMT (Friday 16th February 2024)"
-	revision: "53"
+	date: "2024-04-13 15:29:01 GMT (Saturday 13th April 2024)"
+	revision: "54"
 
 class
 	GENERAL_TEST_SET
@@ -113,7 +113,10 @@ feature -- Tests
 	test_encodeables
 		-- GENERAL_TEST_SET.test_encodeables
 		note
-			testing: "covers/{EL_OUTPUT_MEDIUM}.put_other", "covers/{EL_ENCODING_BASE}.set_from_name"
+			testing: "[
+				covers/{EL_OUTPUT_MEDIUM}.put_other,
+				covers/{EL_ENCODING_BASE}.set_from_name
+			]"
 		local
 			buffer: EL_STRING_8_IO_MEDIUM; encoding: ENCODING
 			is_ansi: BOOLEAN; line: EL_STRING_8

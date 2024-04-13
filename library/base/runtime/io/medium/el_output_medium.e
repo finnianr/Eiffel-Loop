@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 8:19:06 GMT (Saturday 13th April 2024)"
-	revision: "35"
+	date: "2024-04-13 15:31:59 GMT (Saturday 13th April 2024)"
+	revision: "36"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -48,9 +48,22 @@ inherit
 			put_string_general
 		end
 
+	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+		rename
+			is_character as is_string_character,
+			occurrences as string_occurrences
+		export
+			{NONE}
+		end
+
 	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY
 
-	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
+		rename
+			Empty_string as Zstring
+		end
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
@@ -195,7 +208,10 @@ feature -- String output
 			valid_encoding: str.has_mixed_encoding implies encoded_as_utf (8)
 		do
 			inspect encoding
-				when Other_class, Utf_8 then
+				when Utf_8 then
+					str.write_utf_8_to (Current)
+
+				when Other_class then
 					put_string_general (str)
 			else
 				if str.encoded_with (codec) then
@@ -213,10 +229,13 @@ feature -- String output
 			valid_encoding: not str.is_valid_as_string_8 implies encoded_as_utf (8)
 		do
 			inspect encoding
-				when Other_class, Utf_8 then
-					put_string_general (str)
+				when Utf_8 then
+					shared_cursor (str).write_utf_8_to (Current)
+
+				when Other_class then
+					put_other (str)
 			else
-				if Empty_string.same_type (str) and then attached {ZSTRING} str as z_str then
+				if Zstring.same_type (str) and then attached {ZSTRING} str as z_str then
 					put_string (z_str)
 				else
 					put_codec_encoded (str)
@@ -227,7 +246,10 @@ feature -- String output
 	put_string_8, put_latin_1 (str: READABLE_STRING_8)
 		do
 			inspect encoding
-				when Other_class, Utf_8 then
+				when Utf_8 then
+					shared_cursor_8 (str).write_utf_8_to (Current)
+
+				when Other_class then
 					put_string_general (str)
 
 				when Latin_1 then
@@ -246,15 +268,16 @@ feature -- String output
 					put_other (str)
 
 				when Utf_8 then
-					across String_8_scope as scope loop
-						put_encoded_string_8 (scope.copied_utf_8_item (str))
-					end
+					shared_cursor (str).write_utf_8_to (Current)
 			else
 				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 					put_string_8 (str_8)
 
-				elseif attached {READABLE_STRING_32} str as str_32 then
-					put_string_32 (str_32)
+				elseif Zstring.same_type (str) and then attached {ZSTRING} str as z_str then
+					put_string (z_str)
+
+				else
+					put_codec_encoded (str)
 				end
 			end
 		end
@@ -318,7 +341,7 @@ feature {NONE} -- Implementation
 				else
 					l_encoding := Encodings.Utf_8
 				end
-				from  until done loop
+				from until done loop
 					if attached {EL_READABLE_ZSTRING} str as zstr then
 						unicode.convert_to (l_encoding, zstr.to_general)
 					else

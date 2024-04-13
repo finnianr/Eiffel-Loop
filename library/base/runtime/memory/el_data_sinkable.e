@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 8:14:04 GMT (Saturday 13th April 2024)"
-	revision: "25"
+	date: "2024-04-13 15:32:01 GMT (Saturday 13th April 2024)"
+	revision: "26"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -38,7 +38,12 @@ inherit
 			write_pointer as sink_pointer
 		end
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_UTF_8_SEQUENCE
+	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+		export
+			{NONE}
+		end
+
+	EL_SHARED_UTF_8_SEQUENCE
 
 	EL_ZSTRING_CONSTANTS
 		rename
@@ -275,7 +280,7 @@ feature -- String sinks
 			s: EL_STRING_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
-				s.write_utf_8 (in, Current)
+				in.write_utf_8_to (Current)
 			else
 				sink_character_array (in.area, 0, in.count - 1)
 				-- Unencoded
@@ -294,29 +299,19 @@ feature -- String sinks
 			if Zstring.same_type (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
 				sink_string (z_str)
 
+			elseif utf_8_mode_enabled then
+				shared_cursor (in).write_utf_8_to (Current)
 			else
-				if in.is_immutable and then attached cursor_32 (in) as c then
+				if in.is_immutable and then attached shared_cursor_32 (in) as c then
 					l_area := c.area
 					i_lower := c.area_first_index; i_upper := c.area_last_index
 
 				elseif attached {STRING_32} in as str_32 then
 					l_area := str_32.area; i_upper := str_32.count - 1
 				end
-				if utf_8_mode_enabled and then attached Utf_8_sequence as utf_8 then
-					from i := i_lower until i > i_upper loop
-						code := l_area [i].natural_32_code
-						if code <= 0x7F then
-							sink_raw_character_8 (code.to_character_8)
-						else
-							utf_8.set_area (code); utf_8.write (Current)
-						end
-						i := i + 1
-					end
-				else
-					from i := i_lower until i > i_upper loop
-						sink_natural_32 (l_area [i].natural_32_code)
-						i := i + 1
-					end
+				from i := i_lower until i > i_upper loop
+					sink_natural_32 (l_area [i].natural_32_code)
+					i := i + 1
 				end
 			end
 		end
@@ -325,24 +320,16 @@ feature -- String sinks
 		local
 			l_area: SPECIAL [CHARACTER_8]; i, i_lower, i_upper: INTEGER; code: NATURAL
 		do
-			if in.is_immutable and then attached cursor_8 (in) as c then
-				l_area := c.area
-				i_lower := c.area_first_index; i_upper := c.area_last_index
-
-			elseif attached {STRING_8} in as str_32 then
-				l_area := str_32.area; i_upper := str_32.count - 1
-			end
-			if utf_8_mode_enabled and then attached Utf_8_sequence as utf_8 then
-				from i := i_lower until i > i_upper loop
-					code := l_area [i].natural_32_code
-					if code <= 0x7F then
-						sink_raw_character_8 (code.to_character_8)
-					else
-						utf_8.set_area (code); utf_8.write (Current)
-					end
-					i := i + 1
-				end
+			if utf_8_mode_enabled then
+				shared_cursor_8 (in).write_utf_8_to (Current)
 			else
+				if in.is_immutable and then attached shared_cursor_8 (in) as c then
+					l_area := c.area
+					i_lower := c.area_first_index; i_upper := c.area_last_index
+
+				elseif attached {STRING_8} in as str_32 then
+					l_area := str_32.area; i_upper := str_32.count - 1
+				end
 				from i := i_lower until i > i_upper loop
 					sink_raw_character_8 (l_area [i])
 					i := i + 1

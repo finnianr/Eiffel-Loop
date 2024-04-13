@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 16:46:18 GMT (Tuesday 9th April 2024)"
-	revision: "23"
+	date: "2024-04-13 15:32:26 GMT (Saturday 13th April 2024)"
+	revision: "24"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -117,10 +117,9 @@ feature -- Append to other
 
 	append_to_utf_8 (a_utf_8: STRING_8)
 		local
-			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; sequence: like Utf_8_sequence
-			i, i_upper, block_index, offset, ascii_count: INTEGER; c_i: CHARACTER
+			i, i_upper, block_index, offset, ascii_count: INTEGER; code_i: NATURAL; c_i: CHARACTER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			sequence := Utf_8_sequence
 			a_utf_8.grow (a_utf_8.count + utf_8_byte_count)
 
 			ascii_count := leading_ascii_count (area, area_lower, area_upper)
@@ -130,21 +129,26 @@ feature -- Append to other
 				a_utf_8.area [ascii_count + offset] := '%U'
 				a_utf_8.set_count (a_utf_8.count + ascii_count)
 			end
-			if ascii_count < count and then attached area as l_area
-				and then attached codec as l_codec and then attached unencoded_area as area_32
+			if ascii_count < count and then attached area as l_area and then attached unencoded_area as area_32
+				and then attached Unicode_table as uc_table and then attached Utf_8_sequence as utf_8
 			then
 				i_upper := area_upper
 				from i := area_lower + ascii_count until i > i_upper loop
 					c_i := l_area [i]
 					inspect c_i
 						when Substitute then
-							sequence.set (iter.item ($block_index, area_32, i + 1))
-							sequence.append_to_string (a_utf_8)
+							utf_8.set (iter.item ($block_index, area_32, i + 1))
+							utf_8.append_to_string (a_utf_8)
 						when Control_0 .. Control_25, Control_27 .. Max_ascii then
 							a_utf_8.extend (c_i)
 					else
-						sequence.set (l_codec.unicode_table [c_i.code])
-						sequence.append_to_string (a_utf_8)
+						code_i := uc_table [c_i.code].natural_32_code
+						if code_i <= 0x7F then
+							a_utf_8.extend (code_i.to_character_8)
+						else
+							utf_8.set_area (code_i)
+							utf_8.append_to_string (a_utf_8)
+						end
 					end
 					i := i + 1
 				end
@@ -179,6 +183,37 @@ feature -- Basic operations
 					i := i + 1
 				end
 				str_area_32 [i] := '%U'
+			end
+		end
+
+	write_utf_8_to (writable: EL_WRITABLE)
+		local
+			i, i_upper, block_index: INTEGER; code_i: NATURAL; c_i: CHARACTER
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			if attached area as l_area  and then attached unencoded_area as area_32
+				and then attached Unicode_table as uc_table and then attached Utf_8_sequence as utf_8
+			then
+				from i_upper := count - 1 until i > i_upper loop
+					c_i := l_area [i]
+					inspect c_i
+						when Substitute then
+							utf_8.set (iter.item ($block_index, area_32, i + 1))
+							utf_8.write (writable)
+
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+							writable.write_encoded_character_8 (l_area [i])
+					else
+						code_i := uc_table [c_i.code].natural_32_code
+						if code_i <= 0x7F then
+							writable.write_encoded_character_8 (code_i.to_character_8)
+						else
+							utf_8.set_area (code_i)
+							utf_8.write (writable)
+						end
+					end
+					i := i + 1
+				end
 			end
 		end
 

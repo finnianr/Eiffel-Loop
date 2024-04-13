@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 8:28:45 GMT (Saturday 13th April 2024)"
-	revision: "19"
+	date: "2024-04-13 13:58:16 GMT (Saturday 13th April 2024)"
+	revision: "20"
 
 deferred class
 	EL_WRITABLE
@@ -125,9 +125,7 @@ feature -- Other
 			if Class_id.readable_string_8_types.has (id) and then attached {READABLE_STRING_8} object as str_8 then
 				write_string_8 (str_8)
 
-			elseif Class_id.readable_string_32_types.has (id)
-				and then attached {READABLE_STRING_32} object as str_32
-			then
+			elseif Class_id.readable_string_32_types.has (id) and then attached {READABLE_STRING_32} object as str_32 then
 				write_string_32 (str_32)
 
 			elseif Class_id.path_types.has (id) and then attached {EL_PATH} object as path then

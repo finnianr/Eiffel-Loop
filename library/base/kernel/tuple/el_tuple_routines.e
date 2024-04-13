@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 10:50:03 GMT (Saturday 13th April 2024)"
-	revision: "45"
+	date: "2024-04-13 11:04:55 GMT (Saturday 13th April 2024)"
+	revision: "46"
 
 class
 	EL_TUPLE_ROUTINES
@@ -499,33 +499,18 @@ feature {NONE} -- Implementation
 		end
 
 	string_width_any (object: ANY): INTEGER
-		local
-			id: INTEGER
 		do
-			id := {ISE_RUNTIME}.dynamic_type (object)
-
-			if readable_string_8_types.has (id) and then attached {READABLE_STRING_8} object as str_8 then
-				Result := str_8.count
-
-			elseif readable_string_32_types.has (id)
-				and then attached {READABLE_STRING_32} object as str_32
-			then
-				Result := str_32.count
-
-			elseif path_types.has (id) and then attached {EL_PATH} object as path then
-				Result := path.count
-
-			elseif attached {READABLE_STRING_GENERAL} object as string then
-				Result := string.count
+			if attached {READABLE_STRING_GENERAL} object as str then
+				Result := str.count
 
 			elseif attached {EL_PATH} object as path then
 				Result := path.count
 
-			elseif attached {EL_PATH_STEPS} object as steps then
-				Result := steps.character_count
-
 			elseif attached {PATH} object as path then
 				Result := path.name.count
+
+			elseif attached {EL_PATH_STEPS} object as steps then
+				Result := steps.character_count
 			end
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 10:03:15 GMT (Tuesday 30th January 2024)"
-	revision: "24"
+	date: "2024-04-13 14:36:43 GMT (Saturday 13th April 2024)"
+	revision: "25"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -135,19 +135,19 @@ feature -- Basic operations
 			append_substring_to_string_32 (str, 1, target.count)
 		end
 
-	append_to_utf_8 (utf_8: STRING_8)
+	append_to_utf_8 (utf_8_out: STRING_8)
 		local
-			i, i_upper: INTEGER; uc: CHARACTER_32
+			i, i_upper: INTEGER; code_i: NATURAL
 		do
 			i_upper := area_last_index
-			if attached area as l_area and then attached Utf_8_sequence as sequence then
+			if attached area as l_area and then attached Utf_8_sequence as utf_8 then
 				from i := area_first_index until i > i_upper loop
-					uc := i_th_character_32 (l_area, i)
-					if uc.natural_32_code <= 0x7F then
-						utf_8.append_character (uc.to_character_8)
+					code_i := i_th_character_32 (l_area, i).natural_32_code
+					if code_i <= 0x7F then
+						utf_8_out.append_character (code_i.to_character_8)
 					else
-						sequence.set (uc)
-						sequence.append_to_string (utf_8)
+						utf_8.set_area (code_i)
+						utf_8.append_to_string (utf_8_out)
 					end
 					i := i + 1
 				end
@@ -202,6 +202,25 @@ feature -- Basic operations
 					else
 						convertor.reset (type); failed := True
 					end
+				end
+			end
+		end
+
+	write_utf_8_to (utf_8_out: EL_WRITABLE)
+		local
+			i, i_upper: INTEGER; code_i: NATURAL
+		do
+			i_upper := area_last_index
+			if attached area as l_area and then attached Utf_8_sequence as utf_8 then
+				from i := area_first_index until i > i_upper loop
+					code_i := i_th_character_32 (l_area, i).natural_32_code
+					if code_i <= 0x7F then
+						utf_8_out.write_encoded_character_8 (code_i.to_character_8)
+					else
+						utf_8.set_area (code_i)
+						utf_8.write (utf_8_out)
+					end
+					i := i + 1
 				end
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:24:37 GMT (Thursday 9th November 2023)"
-	revision: "9"
+	date: "2024-04-13 15:06:43 GMT (Saturday 13th April 2024)"
+	revision: "10"
 
 deferred class
 	EL_STRING_IO_MEDIUM
@@ -46,8 +46,6 @@ inherit
 		redefine
 			make_default, put_bom
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 
