@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "32"
+	date: "2024-04-13 9:49:19 GMT (Saturday 13th April 2024)"
+	revision: "33"
 
 class
 	DUPLICITY_RESTORE
@@ -90,7 +90,7 @@ feature {NONE} -- Implementation
 			across cmd.path_list as path loop
 				path_list.extend (path.item)
 			end
-			padding_format := char ('9') * integer.digits (path_list.count)
+			padding_format := char ('9') * integer.digit_count (path_list.count)
 			across path_list as path loop
 				lio.put_index_labeled_string (path, padding_format, path.item)
 				lio.put_new_line
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 			lio.put_line (User_input.Esc_to_quit)
 			create input.make_valid ("Enter a file option", "No such option number", agent (1 |..| path_list.count).has)
 			i := input.value
-			
+
 			if input.escape_pressed then
 				do_nothing -- exit
 			else

@@ -9,14 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:56:09 GMT (Friday 12th April 2024)"
-	revision: "44"
+	date: "2024-04-13 10:50:03 GMT (Saturday 13th April 2024)"
+	revision: "45"
 
 class
 	EL_TUPLE_ROUTINES
 
 inherit
-	ANY
+	EL_INTEGER_MATH
+		export
+			{NONE} all
+		end
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL
 
@@ -34,6 +37,9 @@ feature {NONE} -- Initialization
 			create types_table.make (17, agent new_type_array)
 			create procedure
 			create empty
+			readable_string_8_types := Class_id.readable_string_8_types
+			readable_string_32_types := Class_id.readable_string_32_types
+			path_types := Class_id.path_types
 		end
 
 feature -- Access
@@ -63,8 +69,6 @@ feature -- Measurement
 	i_th_string_width (tuple: TUPLE; i: INTEGER): INTEGER
 		require
 			valid_index: tuple.valid_index (i)
-		local
-			digits: EL_INTEGER_MATH
 		do
 			inspect tuple.item_code (i)
 				when {TUPLE}.Boolean_code then
@@ -77,55 +81,46 @@ feature -- Measurement
 					Result := 1
 
 				when {TUPLE}.Pointer_code then
---					Hexadecimal number
+				--	Hexadecimal number
 					Result := {PLATFORM}.pointer_bytes * 2 + 2
 
---				Integers
+			--	Integers
 				when {TUPLE}.Integer_8_code then
-					Result := digits.string_size (tuple.integer_8_item (i))
+					Result := string_size (tuple.integer_8_item (i))
 
 				when {TUPLE}.Integer_16_code then
-					Result := digits.string_size (tuple.integer_16_item (i))
+					Result := string_size (tuple.integer_16_item (i))
 
 				when {TUPLE}.Integer_32_code then
-					Result := digits.string_size (tuple.integer_32_item (i))
+					Result := string_size (tuple.integer_32_item (i))
 
 				when {TUPLE}.Integer_64_code then
-					Result := digits.string_size (tuple.integer_64_item (i))
+					Result := string_size (tuple.integer_64_item (i))
 
---				Naturals
+			--	Naturals
 				when {TUPLE}.Natural_8_code then
-					Result := digits.digit_count (tuple.natural_8_item (i))
+					Result := natural_digit_count (tuple.natural_8_item (i))
 
 				when {TUPLE}.Natural_16_code then
-					Result := digits.digit_count (tuple.natural_16_item (i))
+					Result := natural_digit_count (tuple.natural_16_item (i))
 
 				when {TUPLE}.Natural_32_code then
-					Result := digits.digit_count (tuple.natural_32_item (i))
+					Result := natural_digit_count (tuple.natural_32_item (i))
 
 				when {TUPLE}.Natural_64_code then
-					Result := digits.natural_digit_count (tuple.natural_64_item (i))
+					Result := natural_digit_count (tuple.natural_64_item (i))
 
---				Reals
+			-- Reals
 				when {TUPLE}.Real_32_code then
 					Result := tuple.real_32_item (i).out.count
 
 				when {TUPLE}.Real_64_code then
 					Result := tuple.real_64_item (i).out.count
 
+			-- Reference
 				when {TUPLE}.Reference_code then
 					if attached tuple.reference_item (i) as ref_item then
-						if attached {READABLE_STRING_GENERAL} ref_item as general then
-							Result := general.count
-						elseif attached {EL_PATH} ref_item as path then
-							Result := path.count
-						elseif attached {PATH} ref_item as path then
-							Result := path.name.count
-						elseif attached {EL_PATH_STEPS} ref_item as steps then
-							Result := steps.character_count
-						else
-							Result := ref_item.out.count
-						end
+						Result := string_width_any (ref_item)
 					end
 			else
 			end
@@ -351,20 +346,14 @@ feature -- Basic operations
 					if type_id = 0 then
 						set_i_th (tuple, i, readable, Eiffel.generic_dynamic_type (tuple, i))
 
-					elseif type_id = Class_id.ZSTRING then
-						tuple.put_reference (readable.read_string, i)
+					elseif readable_string_32_types.has (type_id) then
+						tuple.put_reference (new_read_string_32 (readable, type_id), i)
 
-					elseif type_id = Class_id.STRING_8 then
-						tuple.put_reference (readable.read_string_8, i)
+					elseif readable_string_8_types.has (type_id) then
+						tuple.put_reference (new_read_string_8 (readable, type_id), i)
 
-					elseif type_id = Class_id.STRING_32 then
-						tuple.put_reference (readable.read_string_32, i)
-
-					elseif type_id = Class_id.DIR_PATH then
-						tuple.put_reference (create {DIR_PATH}.make (readable.read_string), i)
-
-					elseif type_id = Class_id.FILE_PATH then
-						tuple.put_reference (create {FILE_PATH}.make (readable.read_string), i)
+					elseif path_types.has (type_id) then
+						tuple.put_reference (new_read_path (readable, type_id), i)
 
 					else
 						do_nothing -- exits recursion
@@ -465,14 +454,90 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
+	new_read_path (readable: EL_READABLE; type_id: INTEGER): EL_PATH
+		do
+			if type_id = Class_id.DIR_PATH then
+				create {DIR_PATH} Result.make (readable.read_string)
+
+			elseif type_id = Class_id.FILE_PATH then
+				create {FILE_PATH} Result.make (readable.read_string)
+
+			elseif type_id = Class_id.EL_DIR_URI_PATH then
+				create {EL_DIR_URI_PATH} Result.make (readable.read_string)
+
+			elseif type_id = Class_id.EL_FILE_URI_PATH then
+				create {EL_FILE_URI_PATH} Result.make (readable.read_string)
+			end
+		end
+
+	new_read_string_8 (readable: EL_READABLE; type_id: INTEGER): READABLE_STRING_8
+		do
+			if type_id = Class_id.STRING_8 then
+				Result := readable.read_string_8
+
+			elseif type_id = Class_id.IMMUTABLE_STRING_8 then
+				create {IMMUTABLE_STRING_8} Result.make_from_string (readable.read_string_8)
+			end
+		end
+
+	new_read_string_32 (readable: EL_READABLE; type_id: INTEGER): READABLE_STRING_32
+		do
+			if type_id = Class_id.ZSTRING then
+				Result := readable.read_string
+
+			elseif type_id = Class_id.STRING_32 then
+				Result := readable.read_string_32
+
+			elseif type_id = Class_id.IMMUTABLE_STRING_32 then
+				create {IMMUTABLE_STRING_32} Result.make_from_string_32 (readable.read_string_32)
+			end
+		end
+
 	new_type_array (static_type: INTEGER): EL_TUPLE_TYPE_ARRAY
 		do
 			create Result.make_from_static (static_type)
 		end
 
+	string_width_any (object: ANY): INTEGER
+		local
+			id: INTEGER
+		do
+			id := {ISE_RUNTIME}.dynamic_type (object)
+
+			if readable_string_8_types.has (id) and then attached {READABLE_STRING_8} object as str_8 then
+				Result := str_8.count
+
+			elseif readable_string_32_types.has (id)
+				and then attached {READABLE_STRING_32} object as str_32
+			then
+				Result := str_32.count
+
+			elseif path_types.has (id) and then attached {EL_PATH} object as path then
+				Result := path.count
+
+			elseif attached {READABLE_STRING_GENERAL} object as string then
+				Result := string.count
+
+			elseif attached {EL_PATH} object as path then
+				Result := path.count
+
+			elseif attached {EL_PATH_STEPS} object as steps then
+				Result := steps.character_count
+
+			elseif attached {PATH} object as path then
+				Result := path.name.count
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	procedure: EL_PROCEDURE
+
+	path_types : ARRAY [INTEGER]
+
+	readable_string_8_types: ARRAY [INTEGER]
+
+	readable_string_32_types: ARRAY [INTEGER]
 
 	types_table: EL_AGENT_CACHE_TABLE [EL_TUPLE_TYPE_ARRAY, INTEGER]
 
