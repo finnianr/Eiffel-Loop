@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:26:17 GMT (Thursday 9th November 2023)"
-	revision: "24"
+	date: "2024-04-13 8:14:04 GMT (Saturday 13th April 2024)"
+	revision: "25"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -38,7 +38,12 @@ inherit
 			write_pointer as sink_pointer
 		end
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_UTF_8_SEQUENCE
+
+	EL_ZSTRING_CONSTANTS
+		rename
+			Empty_string as Zstring
+		end
 
 	STRING_HANDLER
 
@@ -282,26 +287,66 @@ feature -- String sinks
 			end
 		end
 
-	sink_string_32 (in: STRING_32)
+	sink_string_32 (in: READABLE_STRING_32)
 		local
-			l_area: SPECIAL [CHARACTER_32]; i, count: INTEGER
+			l_area: SPECIAL [CHARACTER_32]; i, i_lower, i_upper: INTEGER; code: NATURAL
 		do
-			l_area := in.area; count := in.count
-			from i := 0 until i = count loop
-				sink_character_32 (l_area.item (i))
-				i := i + 1
+			if Zstring.same_type (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
+				sink_string (z_str)
+
+			else
+				if in.is_immutable and then attached cursor_32 (in) as c then
+					l_area := c.area
+					i_lower := c.area_first_index; i_upper := c.area_last_index
+
+				elseif attached {STRING_32} in as str_32 then
+					l_area := str_32.area; i_upper := str_32.count - 1
+				end
+				if utf_8_mode_enabled and then attached Utf_8_sequence as utf_8 then
+					from i := i_lower until i > i_upper loop
+						code := l_area [i].natural_32_code
+						if code <= 0x7F then
+							sink_raw_character_8 (code.to_character_8)
+						else
+							utf_8.set_area (code); utf_8.write (Current)
+						end
+						i := i + 1
+					end
+				else
+					from i := i_lower until i > i_upper loop
+						sink_natural_32 (l_area [i].natural_32_code)
+						i := i + 1
+					end
+				end
 			end
 		end
 
 	sink_string_8 (in: READABLE_STRING_8)
 		local
-			s32: EL_STRING_32_ROUTINES
+			l_area: SPECIAL [CHARACTER_8]; i, i_lower, i_upper: INTEGER; code: NATURAL
 		do
-			if utf_8_mode_enabled then
-				s32.write_utf_8 (in, Current)
+			if in.is_immutable and then attached cursor_8 (in) as c then
+				l_area := c.area
+				i_lower := c.area_first_index; i_upper := c.area_last_index
 
-			elseif in.count > 0 and then attached cursor_8 (in) as cursor then
-				sink_character_array (cursor.area, cursor.area_first_index, cursor.area_last_index)
+			elseif attached {STRING_8} in as str_32 then
+				l_area := str_32.area; i_upper := str_32.count - 1
+			end
+			if utf_8_mode_enabled and then attached Utf_8_sequence as utf_8 then
+				from i := i_lower until i > i_upper loop
+					code := l_area [i].natural_32_code
+					if code <= 0x7F then
+						sink_raw_character_8 (code.to_character_8)
+					else
+						utf_8.set_area (code); utf_8.write (Current)
+					end
+					i := i + 1
+				end
+			else
+				from i := i_lower until i > i_upper loop
+					sink_raw_character_8 (l_area [i])
+					i := i + 1
+				end
 			end
 		end
 

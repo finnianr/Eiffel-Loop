@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:45:18 GMT (Friday 12th April 2024)"
-	revision: "117"
+	date: "2024-04-13 8:22:06 GMT (Saturday 13th April 2024)"
+	revision: "118"
 
 class
 	EL_ZSTRING
@@ -463,12 +463,12 @@ feature {NONE} -- Implementation
 
 	append_string_32 (str: READABLE_STRING_32)
 		do
-			append_string_general (str)
+			append_string_general_for_type (str, Class_id.character_bytes (str))
 		end
 
 	append_string_8 (str: READABLE_STRING_8)
 		do
-			append_string_general (str)
+			append_string_general_for_type (str, '1')
 		end
 
 	current_zstring: ZSTRING

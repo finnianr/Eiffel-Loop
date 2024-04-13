@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 14:47:03 GMT (Thursday 28th March 2024)"
-	revision: "37"
+	date: "2024-04-12 17:58:54 GMT (Friday 12th April 2024)"
+	revision: "38"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -49,7 +49,7 @@ feature -- Access
 	expanded_file_path: FILE_PATH
 		do
 			Result := file_path.twin
-			Result.base.prepend_ascii ("EXPANDED-")
+			Result.base.prepend_compatible ("EXPANDED-")
 		end
 
 feature -- Basic operations

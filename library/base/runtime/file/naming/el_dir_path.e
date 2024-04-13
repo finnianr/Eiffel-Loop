@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:52:33 GMT (Friday 12th April 2024)"
-	revision: "42"
+	date: "2024-04-13 8:45:29 GMT (Saturday 13th April 2024)"
+	revision: "43"
 
 class
 	EL_DIR_PATH
@@ -225,6 +225,9 @@ feature {NONE} -- Implementation
 	temporary_joined_tuple (a_tuple: TUPLE): ZSTRING
 		do
 			Result := temporary_path
+			if a_tuple.count > 0 then
+				Result.append_character (Separator)
+			end
 			Tuple.write (a_tuple, Result, Directory_separator)
 		end
 

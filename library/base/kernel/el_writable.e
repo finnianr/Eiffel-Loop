@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:47:03 GMT (Friday 12th April 2024)"
-	revision: "18"
+	date: "2024-04-13 8:28:45 GMT (Saturday 13th April 2024)"
+	revision: "19"
 
 deferred class
 	EL_WRITABLE
@@ -117,8 +117,23 @@ feature -- String
 feature -- Other
 
 	write_any (object: ANY)
+		local
+			id: INTEGER
 		do
-			if attached {READABLE_STRING_GENERAL} object as string then
+			id := {ISE_RUNTIME}.dynamic_type (object)
+
+			if Class_id.readable_string_8_types.has (id) and then attached {READABLE_STRING_8} object as str_8 then
+				write_string_8 (str_8)
+
+			elseif Class_id.readable_string_32_types.has (id)
+				and then attached {READABLE_STRING_32} object as str_32
+			then
+				write_string_32 (str_32)
+
+			elseif Class_id.path_types.has (id) and then attached {EL_PATH} object as path then
+				write_path (path)
+
+			elseif attached {READABLE_STRING_GENERAL} object as string then
 				write_string_general (string)
 
 			elseif attached {EL_PATH} object as path then
@@ -128,11 +143,16 @@ feature -- Other
 				write_path_steps (steps)
 
 			elseif attached {PATH} object as path then
-				write_string_general (path.name)
+				write_ise_path (path)
 
-			elseif attached object as obj then
-				write_string_general (obj.out)
+			else
+				write_any_default (object)
 			end
+		end
+
+	write_any_default (object: ANY)
+		do
+			write_string_8 (object.out)
 		end
 
 	write_boolean (value: BOOLEAN)
@@ -144,6 +164,11 @@ feature -- Other
 		end
 
 feature -- Path
+
+	write_ise_path (path: PATH)
+		do
+			write_string_32 (path.name)
+		end
 
 	write_path (path: EL_PATH)
 		do

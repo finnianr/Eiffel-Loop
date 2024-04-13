@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:30:53 GMT (Wednesday 8th November 2023)"
-	revision: "14"
+	date: "2024-04-13 9:07:11 GMT (Saturday 13th April 2024)"
+	revision: "15"
 
 class
 	DIGEST_ROUTINES_TEST_SET
@@ -27,21 +27,14 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["hmac_sha_256_digest",	agent test_hmac_sha_256_digest],
-				["sha_256_digest", 			agent test_sha_256_digest],
-				["rfc_4231_2_ascii",	 	agent test_rfc_4231_2_ascii],
-				["reset",						agent test_reset]
+				["reset",					agent test_reset],
+				["sink_string_32",		agent test_sink_string_32],
+				["rfc_4231_2_ascii",		agent test_rfc_4231_2_ascii],
+				["sha_256_digest",		agent test_sha_256_digest]
 			>>)
 		end
 
 feature -- Tests
-
-	test_sha_256_digest
-		local
-			l_digest: STRING
-		do
-			l_digest := "ECCA0DFB08ED1972A03B832A901BC550DCAC1944F910FDEE4F15199B0C688B6A" -- From PHP
-			assert ("correct sha_256", l_digest ~ Digest.sha_256 (Price_string.to_utf_8).to_hex_string)
-		end
 
 	test_hmac_sha_256_digest
 		note
@@ -70,6 +63,20 @@ feature -- Tests
 			assert ("digest.to_hex_string OK", hmac.digest.to_hex_string ~ l_digest)
 		end
 
+	test_reset
+		note
+			testing: "[
+				covers/{EL_MD5_128}.reset, covers/{EL_SHA_256}.reset, covers/{EL_HMAC_SHA_256}.reset
+			]"
+		local
+			l_digest: EL_DIGEST_ARRAY
+		do
+			assert ("same result", Digest.md5 (Price_string_utf_8) ~ Digest.md5 (Price_string_utf_8))
+			assert ("same result", Digest.sha_256 (Price_string_utf_8) ~ Digest.sha_256 (Price_string_utf_8))
+			l_digest := Digest.hmac_sha_256 (Price_string_utf_8, Secret_key)
+			assert ("same result", l_digest ~ Digest.hmac_sha_256 (Price_string_utf_8, Secret_key))
+		end
+
 	test_rfc_4231_2_ascii
 		-- original test to identify `{HMAC}.reset' problem
 		local
@@ -83,28 +90,49 @@ feature -- Tests
 			assert ("test_rfc_4231_2", hmac.hmac ~ expected)
 		end
 
-	test_reset
-		note
-			testing: "covers/{EL_MD5_128}.reset, covers/{EL_SHA_256}.reset, covers/{EL_HMAC_SHA_256}.reset"
+	test_sha_256_digest
 		local
-			l_digest: EL_DIGEST_ARRAY
+			l_digest: STRING
 		do
-			assert ("same result", Digest.md5 (Price_string_utf_8) ~ Digest.md5 (Price_string_utf_8))
-			assert ("same result", Digest.sha_256 (Price_string_utf_8) ~ Digest.sha_256 (Price_string_utf_8))
-			l_digest := Digest.hmac_sha_256 (Price_string_utf_8, Secret_key)
-			assert ("same result", l_digest ~ Digest.hmac_sha_256 (Price_string_utf_8, Secret_key))
+			l_digest := "ECCA0DFB08ED1972A03B832A901BC550DCAC1944F910FDEE4F15199B0C688B6A" -- From PHP
+			assert ("correct sha_256", l_digest ~ Digest.sha_256 (Price_string.to_utf_8).to_hex_string)
+		end
+
+	test_sink_string_32
+		-- DIGEST_ROUTINES_TEST_SET.test_sink_string_32
+		note
+			testing: "[
+				covers/{EL_DATA_SINKABLE}.sink_string_32,
+				covers/{EL_DATA_SINKABLE}.utf_8_mode_enabled
+			]"
+		local
+			l_digest: EL_DIGEST_ARRAY; md5: EL_MD5_128; utf_digest: STRING
+			price_array: ARRAY [READABLE_STRING_32]
+		do
+			create md5.make
+			md5.enable_utf_8_mode
+			utf_digest := Digest.md5 (Price_string_utf_8).to_base_64_string
+			price_array := << Price_string, Price_string.to_string_32, Price_string.to_immutable_32 >>
+			across price_array as array loop
+				if attached array.item as price then
+					md5.reset
+					md5.sink_string_32 (price)
+					create l_digest.make_final (md5)
+					assert_same_string ("same UTF-8 digest", l_digest.to_base_64_string, utf_digest)
+				end
+			end
 		end
 
 feature {NONE} -- Constants
 
-	Price_string_utf_8: STRING
-		once
-			Result := Price_string.to_utf_8
-		end
-
 	Price_string: ZSTRING
 		once
 			Result := {STRING_32} "€ 100"
+		end
+
+	Price_string_utf_8: STRING
+		once
+			Result := Price_string.to_utf_8
 		end
 
 	Secret_key: STRING = "secret"

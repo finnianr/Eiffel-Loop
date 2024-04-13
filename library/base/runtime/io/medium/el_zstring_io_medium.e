@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:23:27 GMT (Thursday 9th November 2023)"
-	revision: "9"
+	date: "2024-04-13 8:23:07 GMT (Saturday 13th April 2024)"
+	revision: "10"
 
 class
 	EL_ZSTRING_IO_MEDIUM
@@ -73,7 +73,7 @@ feature -- String output
 			text.append_string (str)
 		end
 
-	put_string_32 (str_32: STRING_32)
+	put_string_32 (str_32: READABLE_STRING_32)
 		do
 			text.append_string_general (str_32)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 8:11:59 GMT (Thursday 11th April 2024)"
-	revision: "29"
+	date: "2024-04-13 7:29:06 GMT (Saturday 13th April 2024)"
+	revision: "30"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -31,7 +31,8 @@ feature {NONE} -- Initialization
 				CHARACTER_8, CHARACTER_32, IMMUTABLE_STRING_8, STRING_8, STRING_32, EL_ZSTRING, FILE_PATH, DIR_PATH
 			>>
 			readable_string_8_types := << IMMUTABLE_STRING_8, STRING_8 >>
-			path_types := << EL_FILE_PATH, EL_DIR_PATH >>
+			readable_string_32_types := << IMMUTABLE_STRING_32, STRING_32, EL_ZSTRING >>
+			path_types := << EL_FILE_PATH, EL_FILE_URI_PATH, EL_DIR_PATH, EL_DIR_URI_PATH >>
 		end
 
 feature -- Access
@@ -59,6 +60,8 @@ feature -- Type sets
 	path_types : ARRAY [INTEGER]
 
 	readable_string_8_types: ARRAY [INTEGER]
+
+	readable_string_32_types: ARRAY [INTEGER]
 
 	unicode_types: ARRAY [INTEGER]
 		-- set of types containing character data from the Unicode character set
@@ -101,6 +104,8 @@ feature -- String types
 
 	IMMUTABLE_STRING_8: INTEGER
 
+	IMMUTABLE_STRING_32: INTEGER
+
 	STRING_32: INTEGER
 
 	STRING_8: INTEGER
@@ -111,7 +116,11 @@ feature -- Path types
 
 	EL_DIR_PATH: INTEGER
 
+	EL_DIR_URI_PATH: INTEGER
+
 	EL_FILE_PATH: INTEGER
+
+	EL_FILE_URI_PATH: INTEGER
 
 	EL_PATH: INTEGER
 

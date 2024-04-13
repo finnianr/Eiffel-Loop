@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:27:36 GMT (Friday 12th April 2024)"
-	revision: "14"
+	date: "2024-04-13 9:39:07 GMT (Saturday 13th April 2024)"
+	revision: "15"
 
 expanded class
 	EL_INTEGER_MATH
@@ -34,22 +34,13 @@ feature -- Measurement
 		end
 
 	natural_digit_count (n: NATURAL_64): INTEGER
-		do
-			if n = n.zero then
-				Result := 1
-			else
-				Result := {DOUBLE_MATH}.log10 (n).floor + 1
-			end
-		ensure
-			definition: Result = n.out.count
-		end
-
-	natural_64_width (n: NATURAL_64): INTEGER
+		-- twice as fast as using {DOUBLE_MATH}.log10
 		local
 			quotient: NATURAL_64
 		do
-			if n = n.zero then
-				Result := 1
+			inspect n
+				when 0 then
+					Result := 1
 			else
 				from quotient := n until quotient = 0 loop
 					Result := Result + 1

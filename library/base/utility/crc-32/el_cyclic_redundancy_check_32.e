@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:26:16 GMT (Thursday 9th November 2023)"
-	revision: "33"
+	date: "2024-04-13 8:12:31 GMT (Saturday 13th April 2024)"
+	revision: "34"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -15,6 +15,7 @@ class
 inherit
 	EL_WRITABLE
 		rename
+			write_boolean as add_boolean,
 			write_encoded_character_8 as add_character_8,
 			write_character_8 as add_character_8,
 			write_character_32 as add_character_32,
@@ -22,6 +23,7 @@ inherit
 			write_integer_16 as add_integer_16,
 			write_integer_32 as add_integer,
 			write_integer_64 as add_integer_64,
+			write_ise_path as add_ise_path,
 			write_natural_8 as add_natural_8,
 			write_natural_16 as add_natural_16,
 			write_natural_32 as add_natural_32,
@@ -33,13 +35,20 @@ inherit
 			write_string_8 as add_string_8,
 			write_string_32 as add_string_32,
 			write_string_general as add_string_general,
-			write_boolean as add_boolean,
-			write_pointer as add_pointer
+			write_pointer as add_pointer,
+			write_path as add_path
+		redefine
+			add_ise_path, add_path
 		end
 
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
 
 	EL_SHARED_PATH_MANAGER; EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
+
+	EL_ZSTRING_CONSTANTS
+		rename
+			Empty_string as Zstring
+		end
 
 	STRING_HANDLER
 
@@ -153,26 +162,8 @@ feature -- Add basic types
 		end
 
 	add_tuple (a_tuple: TUPLE)
-		local
-			i, count: INTEGER
 		do
-			count := a_tuple.count
-			from i := 1 until i > count loop
-				if a_tuple.item_code (i) = {TUPLE}.Reference_code
-					and then attached a_tuple.reference_item (i) as ref_item
-				then
-					if attached {READABLE_STRING_GENERAL} ref_item as string then
-						add_string_general (string)
-					elseif attached {EL_PATH} ref_item as path then
-						add_path (path)
-					elseif attached {PATH} ref_item as ise_path then
-						add_ise_path (ise_path)
-					end
-				else
-					Tuple.write_i_th (a_tuple, i, Current)
-				end
-				i := i + 1
-			end
+			Tuple.write (a_tuple, Current, Void)
 		end
 
 feature -- Add reals
@@ -249,7 +240,7 @@ feature -- Add naturals
 			add_to_checksum ($n, 1, Natural_8_bytes)
 		end
 
-feature -- Add strings
+feature -- Add paths
 
 	add_ise_path (path: PATH)
 			--
@@ -264,6 +255,8 @@ feature -- Add strings
 			add_string (path.base)
 		end
 
+feature -- Add strings
+
 	add_string (str: ZSTRING)
 			--
 		do
@@ -276,7 +269,10 @@ feature -- Add strings
 	add_string_32 (str: READABLE_STRING_32)
 			--
 		do
-			if attached cursor_32 (str) as c then
+			if Zstring.same_type (str) and then attached {ZSTRING} str as z_str then
+				add_string (z_str)
+
+			elseif attached cursor_32 (str) as c then
 				add_to_checksum (c.area.base_address + c.area_first_index, str.count, character_32_bytes)
 			end
 		end

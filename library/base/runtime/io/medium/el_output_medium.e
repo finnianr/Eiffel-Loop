@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 7:58:54 GMT (Tuesday 2nd April 2024)"
-	revision: "34"
+	date: "2024-04-13 8:19:06 GMT (Saturday 13th April 2024)"
+	revision: "35"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -50,7 +50,7 @@ inherit
 
 	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
@@ -216,8 +216,8 @@ feature -- String output
 				when Other_class, Utf_8 then
 					put_string_general (str)
 			else
-				if attached {EL_READABLE_ZSTRING} str as zstr then
-					put_string (zstr)
+				if Empty_string.same_type (str) and then attached {ZSTRING} str as z_str then
+					put_string (z_str)
 				else
 					put_codec_encoded (str)
 				end
