@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 9:36:53 GMT (Saturday 13th April 2024)"
-	revision: "4"
+	date: "2024-04-14 9:49:17 GMT (Sunday 14th April 2024)"
+	revision: "5"
 
 class
 	DEVELOPER_COMPARISON
@@ -39,13 +39,15 @@ feature {NONE} -- Operations
 
 	do_method (id: INTEGER)
 		local
+			i: INTEGER
 		do
-			across 1 |..| 10000 as n loop
+			from  until i > 10_000 loop
 				inspect id
 					when 1 then
 
 					when 2 then
 				end
+				i := i + 1
 			end
 		end
 
@@ -61,7 +63,7 @@ note
 		Passes over 500 millisecs (in descending order)
 
 			quotient := quotient // 10 :  422.0 times (100%)
-			{DOUBLE_MATH}.log10        :  196.0 times (-53.6%)			
+			{DOUBLE_MATH}.log10        :  196.0 times (-53.6%)
 
 		**13 Dec 2023**
 

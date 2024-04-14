@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-14 18:21:23 GMT (Sunday 14th April 2024)"
+	revision: "7"
 
 class
 	EL_ZSTRING_OCCURRENCE_EDITOR
@@ -26,11 +26,16 @@ inherit
 			fill_by_string as fill_intervals_by_string,
 			make_empty as make_intervals,
 			wipe_out as wipe_out_intervals
+		export
+			{NONE} all
+			{ANY} count, index
 		undefine
 			fill, make, make_by_string
 		redefine
 			is_equal
 		end
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	EL_SHARED_ZSTRING_CURSOR
 		rename

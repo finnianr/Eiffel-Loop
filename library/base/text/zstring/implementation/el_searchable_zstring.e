@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 13:21:32 GMT (Friday 12th April 2024)"
-	revision: "59"
+	date: "2024-04-14 15:39:08 GMT (Sunday 14th April 2024)"
+	revision: "60"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -438,7 +438,7 @@ feature {NONE} -- Implementation
 		do
 			Result := Occurrence_intervals [0]
 			Result.wipe_out
-			Result.fill_by_string (current_readable, str, 0)
+			Result.fill_by_string_general (current_readable, str, 0)
 		end
 
 	is_reversible_z_code_pattern (general: READABLE_STRING_GENERAL; z_code_string: STRING_32): BOOLEAN

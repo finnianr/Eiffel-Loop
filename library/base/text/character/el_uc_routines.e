@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-29 9:57:38 GMT (Friday 29th December 2023)"
-	revision: "11"
+	date: "2024-04-14 8:51:48 GMT (Sunday 14th April 2024)"
+	revision: "12"
 
 expanded class
 	EL_UC_ROUTINES
@@ -79,7 +79,7 @@ feature -- UTF-8 conversion
 			value_small_enough: Result < 64
 		end
 
-	frozen utf_8_byte_count (unicode: INTEGER): INTEGER
+	frozen utf_8_byte_count (unicode: NATURAL): INTEGER
 		-- number of bytes required to represent `unicode'
 		do
 			inspect unicode

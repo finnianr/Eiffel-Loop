@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 13:06:15 GMT (Thursday 14th March 2024)"
-	revision: "183"
+	date: "2024-04-14 18:30:25 GMT (Sunday 14th April 2024)"
+	revision: "184"
 
 class
 	BASE_AUTOTEST_APP
@@ -83,6 +83,7 @@ feature {NONE} -- Compile classes
 		EL_STRING_8_EDITOR, EL_STRING_32_EDITOR,
 		EL_STRING_8_IO_MEDIUM_LINE_SOURCE,
 		EL_STRING_32_TABLE [ANY], EL_STRING_GENERAL_TABLE [ANY],
+		EL_STRING_32_SPLIT_INTERVALS, EL_STRING_8_SPLIT_INTERVALS,
 
 		EL_URI_QUERY_STRING_8_HASH_TABLE, EL_URI_QUERY_STRING_32_HASH_TABLE
 	]

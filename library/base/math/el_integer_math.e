@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 9:39:07 GMT (Saturday 13th April 2024)"
-	revision: "15"
+	date: "2024-04-14 9:12:40 GMT (Sunday 14th April 2024)"
+	revision: "16"
 
 expanded class
 	EL_INTEGER_MATH
@@ -34,7 +34,7 @@ feature -- Measurement
 		end
 
 	natural_digit_count (n: NATURAL_64): INTEGER
-		-- twice as fast as using {DOUBLE_MATH}.log10
+		-- benchmarked to be twice as fast as using {DOUBLE_MATH}.log10
 		local
 			quotient: NATURAL_64
 		do

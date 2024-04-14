@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 14:42:52 GMT (Saturday 13th April 2024)"
-	revision: "34"
+	date: "2024-04-14 18:29:15 GMT (Sunday 14th April 2024)"
+	revision: "35"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -81,11 +81,14 @@ feature -- Access
 
 feature -- Lists
 
-	delimited_list (text, delimiter: READABLE_STRING_X): EL_ARRAYED_LIST [READABLE_STRING_X]
+	delimited_list (
+		text: READABLE_STRING_X; delimiter: READABLE_STRING_GENERAL
+		
+	): EL_ARRAYED_LIST [READABLE_STRING_X]
 		-- `text' split into arrayed list by `delimiter' string
 		do
 			if attached Once_split_intervals.emptied as intervals then
-				intervals.fill_by_string (text, delimiter, 0)
+				intervals.fill_by_string_general (text, delimiter, 0)
 				Result := substring_list (text, intervals)
 			end
 		end

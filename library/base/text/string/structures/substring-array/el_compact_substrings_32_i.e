@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:29:52 GMT (Sunday 31st March 2024)"
-	revision: "73"
+	date: "2024-04-14 8:54:42 GMT (Sunday 14th April 2024)"
+	revision: "74"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_I
@@ -402,7 +402,7 @@ feature -- Measurement
 				from i := 0 until i = l_area.count loop
 					count := section_count (l_area, i)
 					from j := 1 until j > count loop
-						Result := Result + uc.utf_8_byte_count (l_area [i + 1 + j].code)
+						Result := Result + uc.utf_8_byte_count (l_area [i + 1 + j].natural_32_code)
 						j := j + 1
 					end
 					i := i + count + 2

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2024-04-14 18:07:05 GMT (Sunday 14th April 2024)"
+	revision: "24"
 
 class
 	EL_SPLIT_STRING_32_LIST
@@ -20,7 +20,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			default_target, new_intervals, trim_string
+			default_target, fill_intervals_by_string, trim_string
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
@@ -45,9 +45,10 @@ feature {NONE} -- Implementation
 			Result := Empty_string_32
 		end
 
-	new_intervals: EL_STRING_32_SPLIT_INTERVALS
+	fill_intervals_by_string (a_target: STRING_32; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
-			create Result.make_empty
+			area_intervals.fill_by_string_32 (a_target, delimiter, a_adjustments)
+			area := area_intervals.area
 		end
 
 end

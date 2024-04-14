@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 9:45:35 GMT (Thursday 28th March 2024)"
-	revision: "25"
+	date: "2024-04-14 18:07:04 GMT (Sunday 14th April 2024)"
+	revision: "26"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -24,7 +24,7 @@ inherit
 			bit_count
 		redefine
 			append_z_code, item_has, proper_cased,
-			separator_z_code, default_target, new_intervals, trim_string
+			separator_z_code, default_target, fill_intervals_by_string, trim_string
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
@@ -63,9 +63,10 @@ feature {NONE} -- Implementation
 			Result := Empty_string
 		end
 
-	new_intervals: EL_ZSTRING_SPLIT_INTERVALS
+	fill_intervals_by_string (a_target: ZSTRING; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
-			create Result.make_empty
+			area_intervals.fill_by_string (a_target, delimiter, a_adjustments)
+			area := area_intervals.area
 		end
 
 feature {NONE} -- Implementation

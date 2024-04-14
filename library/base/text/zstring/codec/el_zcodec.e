@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:03:24 GMT (Sunday 31st March 2024)"
-	revision: "71"
+	date: "2024-04-14 10:50:56 GMT (Sunday 14th April 2024)"
+	revision: "72"
 
 deferred class
 	EL_ZCODEC
@@ -28,7 +28,6 @@ feature {EL_ZCODEC_FACTORY} -- Initialization
 			unicode_table := new_unicode_table
 			utf_8_byte_count_table := new_utf_8_byte_count_table
 			shared_interval_list := Empty_string.Once_interval_list
-			create accumulator.make_empty (25)
 			initialize_latin_sets
 		end
 
@@ -189,12 +188,6 @@ feature -- Contract Support
 		end
 
 feature {EL_SHARED_ZSTRING_CODEC, EL_ENCODING_BASE, STRING_HANDLER} -- Access
-
-	empty_accumulator: like accumulator
-		do
-			Result := accumulator
-			Result.wipe_out
-		end
 
 	order_comparison (a_zcode, b_zcode: NATURAL): INTEGER
 		-- Comparison must be done as unicode and never Latin-X or Windows-X
@@ -537,7 +530,6 @@ feature -- Character conversion
 			end
 		end
 
-
 	latin_character (uc: CHARACTER_32): CHARACTER
 			-- unicode to latin translation
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in current set
@@ -775,12 +767,13 @@ feature {NONE} -- Implementation
 
 	new_utf_8_byte_count_table: SPECIAL [INTEGER_8]
 		local
-			i: INTEGER
+			i: INTEGER; uc: NATURAL
 		do
 			if attached unicode_table as table then
 				create Result.make_empty (table.count)
 				from until i > 0xFF loop
-					Result.extend (character_utf_8_byte_count (table [i].code).to_integer_8)
+					uc := table [i].natural_32_code
+					Result.extend (character_utf_8_byte_count (uc).to_integer_8)
 					i := i + 1
 				end
 			end

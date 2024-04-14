@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-04-14 18:23:55 GMT (Sunday 14th April 2024)"
+	revision: "6"
 
 class
 	EL_STRING_8_SPLIT_INTERVALS
@@ -17,7 +17,7 @@ class
 inherit
 	EL_SPLIT_INTERVALS
 		undefine
-			fill_by_string
+			fill_by_string_general, fill_by_string_8, make_by_string
 		redefine
 			is_white_space
 		end

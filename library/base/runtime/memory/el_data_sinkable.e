@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 15:32:01 GMT (Saturday 13th April 2024)"
-	revision: "26"
+	date: "2024-04-14 8:52:26 GMT (Sunday 14th April 2024)"
+	revision: "27"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -277,7 +277,6 @@ feature -- String sinks
 	sink_string (in: EL_READABLE_ZSTRING)
 		local
 			l_area: SPECIAL [CHARACTER_32]; i, count: INTEGER
-			s: EL_STRING_32_ROUTINES
 		do
 			if utf_8_mode_enabled then
 				in.write_utf_8_to (Current)
@@ -294,7 +293,7 @@ feature -- String sinks
 
 	sink_string_32 (in: READABLE_STRING_32)
 		local
-			l_area: SPECIAL [CHARACTER_32]; i, i_lower, i_upper: INTEGER; code: NATURAL
+			l_area: SPECIAL [CHARACTER_32]; i, i_lower, i_upper: INTEGER
 		do
 			if Zstring.same_type (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
 				sink_string (z_str)
@@ -318,7 +317,7 @@ feature -- String sinks
 
 	sink_string_8 (in: READABLE_STRING_8)
 		local
-			l_area: SPECIAL [CHARACTER_8]; i, i_lower, i_upper: INTEGER; code: NATURAL
+			l_area: SPECIAL [CHARACTER_8]; i, i_lower, i_upper: INTEGER
 		do
 			if utf_8_mode_enabled then
 				shared_cursor_8 (in).write_utf_8_to (Current)

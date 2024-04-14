@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 14:36:43 GMT (Saturday 13th April 2024)"
-	revision: "25"
+	date: "2024-04-14 9:05:01 GMT (Sunday 14th April 2024)"
+	revision: "26"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -213,7 +213,7 @@ feature -- Basic operations
 			i_upper := area_last_index
 			if attached area as l_area and then attached Utf_8_sequence as utf_8 then
 				from i := area_first_index until i > i_upper loop
-					code_i := i_th_character_32 (l_area, i).natural_32_code
+					code_i := i_th_unicode (l_area, i)
 					if code_i <= 0x7F then
 						utf_8_out.write_encoded_character_8 (code_i.to_character_8)
 					else
@@ -345,13 +345,13 @@ feature -- Measurement
 
 	utf_8_byte_count: INTEGER
 		local
-			i, i_upper, code: INTEGER
+			i, i_upper: INTEGER; uc: NATURAL
 		do
 			i_upper := area_last_index
 			if attached area as l_area then
 				from i := area_first_index until i > i_upper loop
-					code := i_th_unicode (l_area, i)
-					Result := Result + utf_8_character_byte_count (code)
+					uc := i_th_unicode (l_area, i)
+					Result := Result + utf_8_character_byte_count (uc)
 					i := i + 1
 				end
 			end
@@ -410,7 +410,7 @@ feature {STRING_HANDLER} -- Deferred
 		deferred
 		end
 
-	i_th_unicode (a_area: like area; i: INTEGER): INTEGER
+	i_th_unicode (a_area: like area; i: INTEGER): NATURAL
 		deferred
 		end
 

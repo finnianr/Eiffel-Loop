@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:21:48 GMT (Saturday 6th April 2024)"
-	revision: "64"
+	date: "2024-04-14 15:39:07 GMT (Sunday 14th April 2024)"
+	revision: "65"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -191,7 +191,7 @@ feature -- Transformed
 		do
 			if attached Shared_intervals as intervals then
 				intervals.wipe_out
-				intervals.fill_by_string (text, delimiter, 0)
+				intervals.fill_by_string_general (text, delimiter, 0)
 				intervals.start
 				if intervals.after then
 					create Result.make (0)

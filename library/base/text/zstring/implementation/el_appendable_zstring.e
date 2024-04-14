@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 16:50:18 GMT (Friday 12th April 2024)"
-	revision: "68"
+	date: "2024-04-14 15:39:07 GMT (Sunday 14th April 2024)"
+	revision: "69"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -146,7 +146,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			size_difference := new_substring.count - old_substring.count
 
 			if attached Once_split_intervals as split_list then
-				split_list.fill_by_string (str, old_substring, 0)
+				split_list.fill_by_string_general (str, old_substring, 0)
 				if split_list.count > 0 and then attached empty_unencoded_buffer as buffer then
 					if has_mixed_encoding then
 						buffer.append (current_readable, 0)

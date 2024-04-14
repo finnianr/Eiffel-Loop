@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 15:31:59 GMT (Saturday 13th April 2024)"
-	revision: "36"
+	date: "2024-04-14 9:42:45 GMT (Sunday 14th April 2024)"
+	revision: "37"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -56,7 +56,7 @@ inherit
 			{NONE}
 		end
 
-	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY
+	STRING_HANDLER
 
 	EL_STRING_8_CONSTANTS
 
@@ -65,7 +65,8 @@ inherit
 			Empty_string as Zstring
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY; EL_SHARED_STRING_8_BUFFER_SCOPES
+
 
 feature {NONE} -- Initialization
 

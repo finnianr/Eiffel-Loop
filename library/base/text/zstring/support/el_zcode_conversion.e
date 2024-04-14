@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-04-14 10:22:58 GMT (Sunday 14th April 2024)"
+	revision: "21"
 
 class
 	EL_ZCODE_CONVERSION
@@ -42,7 +42,7 @@ feature {EL_ZCODEC} -- Implementation
 			Result := z_code & Sign_bit_mask
 		end
 
-feature {EL_OUTPUT_MEDIUM} -- Constants
+feature {STRING_HANDLER} -- Character constants
 
 	Control_0: CHARACTER = '%U'
 		-- first ASCII character
@@ -53,32 +53,43 @@ feature {EL_OUTPUT_MEDIUM} -- Constants
 	Control_27: CHARACTER = '%/027/'
 		-- `Substitute + 1'
 
-	Max_ascii_code: INTEGER = 0x7F
-		-- last ASCII character
-		-- After this point different Latin and Window character sets start to diverge
-		-- (Apart from some control characters)
-
 	Max_ascii: CHARACTER = '%/0x7F/'
 		-- After this point different Latin and Window character sets start to diverge
 		-- (Apart from some control characters)
 
-	Max_8_bit_code: INTEGER = 0xFF
-
-	One_bit: NATURAL = 1
-
 	Replacement_character: CHARACTER_32 = '%/0xFFFD/'
 		-- used to replace an unknown, unrecognized, or unrepresentable character
-
-	Sign_bit: NATURAL = 0x8000_0000
-
-	Sign_bit_mask: NATURAL = 0x7FFF_FFFF
-
-	Substitute_code: INTEGER = 26
 
 	Substitute: CHARACTER = '%/026/'
 		-- The substitute character SUB
 		-- A substitute character (SUB) is a control character that is used in the place of a character that is
 		-- recognized to be invalid or in error or that cannot be represented on a given device.
 		-- See https://en.wikipedia.org/wiki/Substitute_character
+
+feature {NONE} -- NATURAL constants
+
+	Max_ascii_unicode: NATURAL = 0x7F
+		-- last ASCII character
+		-- After this point different Latin and Window character sets start to diverge
+		-- (Apart from some control characters)
+
+	Max_8_bit_unicode: NATURAL = 0xFF
+
+	One_bit: NATURAL = 1
+
+	Sign_bit: NATURAL = 0x8000_0000
+
+	Sign_bit_mask: NATURAL = 0x7FFF_FFFF
+
+feature {NONE} -- INTEGER constants
+
+	Max_ascii_code: INTEGER = 0x7F
+		-- last ASCII character
+		-- After this point different Latin and Window character sets start to diverge
+		-- (Apart from some control characters)
+
+	Max_8_bit_code: INTEGER = 0xFF
+
+	Substitute_code: INTEGER = 26
 
 end

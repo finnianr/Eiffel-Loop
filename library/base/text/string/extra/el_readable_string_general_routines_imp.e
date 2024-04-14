@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 14:42:25 GMT (Saturday 13th April 2024)"
-	revision: "21"
+	date: "2024-04-14 15:39:07 GMT (Sunday 14th April 2024)"
+	revision: "22"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -86,7 +86,7 @@ feature -- Measurement
 		do
 			if attached Shared_intervals as intervals then
 				intervals.wipe_out
-				intervals.fill_by_string (text, search_string, 0)
+				intervals.fill_by_string_general (text, search_string, 0)
 				Result := intervals.count
 			end
 		end
@@ -169,7 +169,7 @@ feature -- Basic operations
 		do
 			if attached Shared_intervals as intervals then
 				intervals.wipe_out
-				intervals.fill_by_string (text, search_string, 0)
+				intervals.fill_by_string_general (text, search_string, 0)
 				from intervals.start until intervals.after or intervals.index > n loop
 					intervals.forth
 				end

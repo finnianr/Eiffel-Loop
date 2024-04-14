@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 12:23:22 GMT (Friday 12th April 2024)"
-	revision: "33"
+	date: "2024-04-14 17:40:00 GMT (Sunday 14th April 2024)"
+	revision: "34"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 			-- Move to first position if any.
 		do
 			make_empty
-			fill_by_string (target, pattern, 0)
+			fill_by_string_general (target, pattern, 0)
 		end
 
 	make_empty
@@ -69,19 +69,85 @@ feature -- Element change
 			fill_intervals (target, Empty_string_8, String_8_searcher, delimiter, adjustments)
 		end
 
-	fill_by_string (target, pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
+	fill_by_string_32 (target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
+		local
+			l_pattern: READABLE_STRING_GENERAL
+		do
+			inspect pattern.count
+				when 1 then
+					fill (target, pattern [1], adjustments)
+			else
+				if is_zstring (target) and then attached {EL_READABLE_ZSTRING} target as z_target then
+					fill_by_string (z_target, pattern, adjustments)
+
+				elseif attached String_32_searcher as searcher then
+					if is_zstring (pattern) then
+						l_pattern := pattern.to_string_32
+					else
+						l_pattern := pattern
+					end
+					searcher.initialize_deltas (l_pattern)
+					fill_intervals (target, l_pattern, searcher, '%U', adjustments)
+				end
+			end
+		end
+
+	fill_by_string_8 (target: READABLE_STRING_8; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
+		require
+			valid_pattern: pattern.is_valid_as_string_8
+		local
+			l_pattern: READABLE_STRING_GENERAL
+		do
+			inspect pattern.count
+				when 1 then
+					fill (target, pattern [1], adjustments)
+			else
+				if attached String_8_searcher as searcher then
+					if pattern.is_string_8 then
+						l_pattern := pattern
+					else
+						l_pattern := pattern.to_string_8
+					end
+					searcher.initialize_deltas (l_pattern)
+					fill_intervals (target, l_pattern, searcher, '%U', adjustments)
+				end
+			end
+		end
+
+	fill_by_string_general (target, pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			if pattern.count = 1 then
-				fill_intervals (target, Empty_string_8, String_8_searcher, pattern [1], adjustments)
+			if target.is_string_8 and then attached {READABLE_STRING_8} target as str_8 then
+				fill_by_string_8 (str_8, pattern, adjustments)
 
 			elseif is_zstring (target) and then attached {EL_READABLE_ZSTRING} target as z_target then
-				fill_by_zstring (z_target, pattern, adjustments)
+				fill_by_string (z_target, pattern, adjustments)
 
-			elseif attached shared_searcher (target) as searcher then
-				searcher.initialize_deltas (pattern)
-				fill_intervals (target, pattern, searcher, '%U', adjustments)
+			elseif attached {READABLE_STRING_32} target as str_32 then
+				fill_by_string_32 (str_32, pattern, adjustments)
+			end
+		end
+
+	fill_by_string (target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
+		do
+			inspect pattern.count
+				when 1 then
+					fill (target, pattern [1], adjustments)
+			else
+				if pattern.is_string_8 and then attached target.compatible_string_8 (pattern) as str_8 then
+					if target.has_mixed_encoding then
+						String_searcher.initialize_deltas (str_8)
+						fill_intervals (target, str_8, String_searcher, '%U', adjustments)
+					else
+						String_8_searcher.initialize_deltas (str_8)
+						fill_intervals (target.to_shared_immutable_8, str_8, String_8_searcher, '%U', adjustments)
+					end
+
+				elseif attached target.shared_z_code_pattern_general (pattern, 1) as z_code_pattern then
+					String_searcher.initialize_deltas (z_code_pattern)
+					fill_intervals (target, z_code_pattern, String_searcher, '%U', adjustments)
+				end
 			end
 		end
 
@@ -154,32 +220,6 @@ feature {NONE} -- Implementation
 			area.copy_data (l_area.area, 0, 0, l_area.count * 2)
 		end
 
-	fill_by_zstring (target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL; adjustments: INTEGER)
-		do
-			if pattern.is_string_8 and then attached target.compatible_string_8 (pattern) as str_8 then
-				if target.has_mixed_encoding then
-					String_searcher.initialize_deltas (str_8)
-					fill_intervals (target, str_8, String_searcher, '%U', adjustments)
-				else
-					String_8_searcher.initialize_deltas (str_8)
-					fill_intervals (target.to_shared_immutable_8, str_8, String_8_searcher, '%U', adjustments)
-				end
-
-			elseif attached target.shared_z_code_pattern_general (pattern, 1) as z_code_pattern then
-				String_searcher.initialize_deltas (z_code_pattern)
-				fill_intervals (target, z_code_pattern, String_searcher, '%U', adjustments)
-			end
-		end
-
-	shared_searcher (target: READABLE_STRING_GENERAL): STRING_SEARCHER
-		do
-			if target.is_string_8 then
-				Result := String_8_searcher
-			else
-				Result := String_32_searcher
-			end
-		end
-
 feature {NONE} -- Constants
 
 	Default_area: SPECIAL [INTEGER]
@@ -187,13 +227,13 @@ feature {NONE} -- Constants
 			create Result.make_empty (0)
 		end
 
+	Index_of_character_32: INTEGER = 32
+
+	Index_of_character_8: INTEGER = 8
+
 	Intervals_buffer: EL_ARRAYED_INTERVAL_LIST
 		once
 			create Result.make (50)
 		end
-
-	Index_of_character_8: INTEGER = 8
-
-	Index_of_character_32: INTEGER = 32
 
 end

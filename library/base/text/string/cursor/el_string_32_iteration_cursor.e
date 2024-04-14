@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 10:03:15 GMT (Tuesday 30th January 2024)"
-	revision: "19"
+	date: "2024-04-14 8:53:39 GMT (Sunday 14th April 2024)"
+	revision: "20"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -155,9 +155,9 @@ feature {NONE} -- Implementation
 			Result := a_area [i]
 		end
 
-	i_th_unicode (a_area: like area; i: INTEGER): INTEGER
+	i_th_unicode (a_area: like area; i: INTEGER): NATURAL
 		do
-			Result := a_area [i].code
+			Result := a_area [i].natural_32_code
 		end
 
 	is_i_th_eiffel_identifier (a_area: like area; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN

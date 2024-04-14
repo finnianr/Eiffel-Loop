@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 18:48:32 GMT (Wednesday 25th January 2023)"
-	revision: "12"
+	date: "2024-04-14 15:39:07 GMT (Sunday 14th April 2024)"
+	revision: "13"
 
 deferred class
 	TB_CONSTANTS
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 	intervals (line, search_string: ZSTRING): like Occurrence_intervals
 		do
 			Result := Occurrence_intervals
-			Result.fill_by_string (line, search_string, 0)
+			Result.fill_by_string_general (line, search_string, 0)
 		end
 
 feature {NONE} -- Tag Strings

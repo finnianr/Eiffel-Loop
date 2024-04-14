@@ -1,5 +1,5 @@
 note
-	description: "Once off comparisons for developer testing"
+	description: "Methods to obtain z_code from unicode character"
 	notes: "[
 		Passes over 2000 millisecs (in descending order)
 
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 11:57:30 GMT (Monday 15th January 2024)"
-	revision: "21"
+	date: "2024-04-14 10:01:45 GMT (Sunday 14th April 2024)"
+	revision: "22"
 
 class
 	ZSTRING_UNICODE_TO_Z_CODE
@@ -34,7 +34,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "ZSTRING.unicode_to_z_code variations"
+	Description: STRING = "Methods to obtain z_code from unicode character"
 
 feature -- Basic operations
 

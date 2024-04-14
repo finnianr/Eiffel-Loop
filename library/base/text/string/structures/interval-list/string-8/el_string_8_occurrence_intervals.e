@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 14:14:06 GMT (Monday 8th April 2024)"
-	revision: "7"
+	date: "2024-04-14 18:16:34 GMT (Sunday 14th April 2024)"
+	revision: "8"
 
 class
 	EL_STRING_8_OCCURRENCE_INTERVALS
@@ -17,38 +17,21 @@ class
 inherit
 	EL_OCCURRENCE_INTERVALS
 		redefine
-			fill_by_string
+			make_by_string
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
 
-	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
-
 create
 	make, make_empty, make_by_string, make_sized, make_from_special
 
-feature -- Element change
+feature {NONE} -- Initialization
 
-	fill_by_string (a_target: READABLE_STRING_8; a_pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+	make_by_string (target: READABLE_STRING_8; pattern: READABLE_STRING_GENERAL)
+			-- Move to first position if any.
 		do
-			if a_pattern.count = 1 then
-				fill_intervals (a_target, Empty_string_8, String_8_searcher, a_pattern [1], a_adjustments)
-
-			elseif attached String_8_searcher as searcher then
-				if is_zstring (a_pattern) then
-					across String_8_scope as scope loop
-						if attached scope.copied_item (a_pattern) as pattern then
-							searcher.initialize_deltas (pattern)
-							fill_intervals (a_target, pattern, searcher, '%U', a_adjustments)
-						end
-					end
-				else
-					searcher.initialize_deltas (a_pattern)
-					fill_intervals (a_target, a_pattern, searcher, '%U', a_adjustments)
-				end
-			end
+			make_empty
+			fill_by_string_8 (target, pattern, 0)
 		end
 
 end

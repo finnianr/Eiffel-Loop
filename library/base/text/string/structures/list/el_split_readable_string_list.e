@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 15:53:58 GMT (Wednesday 3rd April 2024)"
-	revision: "40"
+	date: "2024-04-14 18:10:22 GMT (Sunday 14th April 2024)"
+	revision: "41"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -91,6 +91,7 @@ feature {NONE} -- Initialization
 				empty_area_v2 := new_empty_area (target_type_id)
 			end
 			area := Default_area
+			create area_intervals.make_empty
 			Precursor {EL_STRING_SPLIT_CONTAINER}
 		end
 
@@ -385,18 +386,18 @@ feature -- Removal
 
 	remove_head (n: INTEGER)
 		do
-			if attached to_intervals as intervals then
-				intervals.remove_head (n)
-				area := intervals.area
+			if attached to_intervals as l_intervals then
+				l_intervals.remove_head (n)
+				area := l_intervals.area
 			end
 		end
 
 	remove_tail (n: INTEGER)
 			--
 		do
-			if attached to_intervals as intervals then
-				intervals.remove_tail (n)
-				area := intervals.area
+			if attached to_intervals as l_intervals then
+				l_intervals.remove_tail (n)
+				area := l_intervals.area
 			end
 		end
 
@@ -407,18 +408,14 @@ feature {NONE} -- Implementation
 		uc: CHARACTER_32; a_adjustments: INTEGER
 	)
 		do
-			if attached new_intervals as intervals then
-				intervals.fill (a_target, uc, adjustments)
-				area := intervals.area
-			end
+			area_intervals.fill (a_target, uc, adjustments)
+			area := area_intervals.area
 		end
 
 	fill_intervals_by_string (a_target: S; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
-			if attached new_intervals as intervals then
-				intervals.fill_by_string (a_target, delimiter, a_adjustments)
-				area := intervals.area
-			end
+			area_intervals.fill_by_string_general (a_target, delimiter, a_adjustments)
+			area := area_intervals.area
 		end
 
 	is_valid_character (uc: CHARACTER_32): BOOLEAN
@@ -451,11 +448,6 @@ feature {NONE} -- Implementation
 			create Result.make_empty (0)
 		end
 
-	new_intervals: EL_SPLIT_INTERVALS
-		do
-			create Result.make_empty
-		end
-
 	target_type_id: INTEGER
 		do
 			Result := {ISE_RUNTIME}.dynamic_type (default_target)
@@ -464,6 +456,8 @@ feature {NONE} -- Implementation
 feature {ARRAYED_LIST_ITERATION_CURSOR, EL_STRING_SPLIT_CONTAINER} -- Internal attributes
 
 	area: SPECIAL [INTEGER]
+
+	area_intervals: EL_SPLIT_INTERVALS
 
 feature {NONE} -- Constants
 

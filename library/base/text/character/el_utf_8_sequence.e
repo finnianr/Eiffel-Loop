@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-04-14 8:52:59 GMT (Sunday 14th April 2024)"
+	revision: "18"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -208,7 +208,7 @@ feature -- Measurement
 			i: INTEGER
 		do
 			from i := start_index until i > end_index loop
-				Result := Result + byte_count (str [i].code)
+				Result := Result + byte_count (str [i].natural_32_code)
 				i := i + 1
 			end
 		end

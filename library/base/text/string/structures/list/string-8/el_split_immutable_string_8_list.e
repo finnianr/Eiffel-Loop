@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-04-14 18:07:04 GMT (Sunday 14th April 2024)"
+	revision: "16"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -20,7 +20,8 @@ inherit
 		undefine
 			bit_count, same_i_th_character
 		redefine
-			fill_general, fill_general_by_string, new_intervals, shared_target_substring, shared_cursor
+			fill_general, fill_general_by_string, fill_intervals_by_string,
+			shared_target_substring, shared_cursor
 		end
 
 	EL_STRING_BIT_COUNTABLE [IMMUTABLE_STRING_8]
@@ -58,9 +59,10 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	new_intervals: EL_STRING_8_SPLIT_INTERVALS
+	fill_intervals_by_string (a_target: IMMUTABLE_STRING_8; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
-			create Result.make_empty
+			area_intervals.fill_by_string_8 (a_target, delimiter, a_adjustments)
+			area := area_intervals.area
 		end
 
 	new_shared (a_target: STRING_8): IMMUTABLE_STRING_8
