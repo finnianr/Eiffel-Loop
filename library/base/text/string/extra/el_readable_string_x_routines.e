@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 18:29:15 GMT (Sunday 14th April 2024)"
-	revision: "35"
+	date: "2024-04-15 8:01:53 GMT (Monday 15th April 2024)"
+	revision: "36"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -43,57 +43,33 @@ inherit
 
 feature -- Access
 
-	occurrence_intervals (target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
+	occurrence_intervals (target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_OCCURRENCE_INTERVALS
 		do
-			if attached string_searcher as searcher then
-				searcher.initialize_deltas (pattern)
-				if attached searcher.substring_index_list_with_deltas (target, pattern, 1, target.count) as list then
-					create Result.make (list.count)
-					list.do_all (agent extend_intervals (Result, pattern.count, ?))
-				else
-					create Result.make_empty
-				end
+			Result := Once_occurence_intervals.emptied
+			fill_intervals (Result, target, pattern)
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 
-	split_intervals (target: READABLE_STRING_X; separator: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
-		local
-			previous_lower, previous_upper, lower, upper: INTEGER
+	split_intervals (target: READABLE_STRING_X; separator: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_SPLIT_INTERVALS
 		do
-			if attached string_searcher as searcher then
-				searcher.initialize_deltas (separator)
-				if attached searcher.substring_index_list_with_deltas (target, separator, 1, target.count) as list then
-					create Result.make (list.count + 1)
-					from list.start until list.after loop
-						lower := list.item; upper := list.item + separator.count - 1
-						previous_lower := previous_upper + 1
-						previous_upper := lower - 1
-						Result.extend (previous_lower, previous_upper)
-						previous_upper := upper
-						list.forth
-					end
-					Result.extend (upper + 1, target.count)
-				else
-					create Result.make_empty
-				end
+			Result := Once_split_intervals.emptied
+			fill_intervals (Result, target, separator)
+			if keep_ref then
+				Result := Result.twin
 			end
 		end
 
 feature -- Lists
 
-	delimited_list (
-		text: READABLE_STRING_X; delimiter: READABLE_STRING_GENERAL
-		
-	): EL_ARRAYED_LIST [READABLE_STRING_X]
+	delimited_list (text: READABLE_STRING_X; delimiter: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [READABLE_STRING_X]
 		-- `text' split into arrayed list by `delimiter' string
 		do
-			if attached Once_split_intervals.emptied as intervals then
-				intervals.fill_by_string_general (text, delimiter, 0)
-				Result := substring_list (text, intervals)
-			end
+			Result := substring_list (text, split_intervals (text, delimiter, False))
 		end
 
-	substring_list (text: READABLE_STRING_X; intervals: EL_ARRAYED_INTERVAL_LIST): like to_list
+	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): like to_list
 		do
 			create Result.make (intervals.count)
 			from intervals.start until intervals.after loop
@@ -373,9 +349,8 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	extend_intervals (intervals: EL_SEQUENTIAL_INTERVALS; count, index: INTEGER)
-		do
-			intervals.extend (index, index + count - 1)
+	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
+		deferred
 		end
 
 	last_index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
@@ -391,6 +366,11 @@ feature {NONE} -- Deferred
 		end
 
 feature {NONE} -- Constants
+
+	Once_occurence_intervals: EL_OCCURRENCE_INTERVALS
+		once
+			create Result.make_empty
+		end
 
 	Once_split_intervals: EL_SPLIT_INTERVALS
 		once

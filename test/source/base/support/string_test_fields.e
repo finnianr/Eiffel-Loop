@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 16:20:00 GMT (Tuesday 9th April 2024)"
-	revision: "25"
+	date: "2024-04-15 7:56:36 GMT (Monday 15th April 2024)"
+	revision: "26"
 
 class
 	STRING_TEST_FIELDS
@@ -18,6 +18,8 @@ inherit
 	ANY
 
 	EL_SHARED_TEST_TEXT
+
+	EL_STRING_32_CONSTANTS
 
 feature -- STRING_32
 
@@ -69,6 +71,16 @@ feature {NONE} -- Implementation
 			output.append_substring (input, start_index, end_index)
 		end
 
+	euro_swap (zs_action: PROCEDURE)
+		-- Workaround for failing post-conditions on euro symbol
+		require
+			sz_target: zs_action.target = zs
+		do
+			zs.replace_character (Text.Euro_symbol, '¤')
+			zs_action.apply
+			zs.replace_character ('¤', Text.Euro_symbol)
+		end
+
 	euro_swap_32 (s_32_action: PROCEDURE)
 		-- Workaround for failing post-conditions on euro symbol
 		require
@@ -79,16 +91,6 @@ feature {NONE} -- Implementation
 			s.replace_character (s_32, Text.Euro_symbol, '¤')
 			s_32_action.apply
 			s.replace_character (s_32, '¤', Text.Euro_symbol)
-		end
-
-	euro_swap (zs_action: PROCEDURE)
-		-- Workaround for failing post-conditions on euro symbol
-		require
-			sz_target: zs_action.target = zs
-		do
-			zs.replace_character (Text.Euro_symbol, '¤')
-			zs_action.apply
-			zs.replace_character ('¤', Text.Euro_symbol)
 		end
 
 feature -- Pruning types
@@ -108,6 +110,38 @@ feature -- Append types
 	Append: INTEGER = 1
 
 	Prepend: INTEGER = 2
+
+feature {NONE} -- Implementation
+
+	new_occurrence_intervals (target, pattern: STRING_32): EL_SEQUENTIAL_INTERVALS
+		local
+			index_list: LIST [INTEGER]
+		do
+			String_32_searcher.initialize_deltas (pattern)
+			index_list := String_32_searcher.substring_index_list_with_deltas (target, pattern, 1, target.count)
+			create Result.make (index_list.count)
+			across index_list as list loop
+				Result.extend (list.item, list.item + pattern.count - 1)
+			end
+		end
+
+	new_split_intervals (target, separator: STRING_32): EL_SEQUENTIAL_INTERVALS
+		local
+			previous_lower, previous_upper, lower, upper: INTEGER
+			index_list: LIST [INTEGER]
+		do
+			String_32_searcher.initialize_deltas (separator)
+			index_list := String_32_searcher.substring_index_list_with_deltas (target, separator, 1, target.count)
+			create Result.make (index_list.count + 1)
+			across index_list as list loop
+				lower := list.item; upper := list.item + separator.count - 1
+				previous_lower := previous_upper + 1
+				previous_upper := lower - 1
+				Result.extend (previous_lower, previous_upper)
+				previous_upper := upper
+			end
+			Result.extend (upper + 1, target.count)
+		end
 
 feature {NONE} -- Constants
 

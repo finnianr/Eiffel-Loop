@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 10:45:03 GMT (Thursday 11th April 2024)"
-	revision: "35"
+	date: "2024-04-15 7:58:56 GMT (Monday 15th April 2024)"
+	revision: "36"
 
 class
 	STRING_TEST
@@ -298,10 +298,10 @@ feature -- Test splitting
 
 	occurrence_intervals: BOOLEAN
 		local
-			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
 			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
+			intervals_s_32: EL_SEQUENTIAL_INTERVALS
 		do
-			intervals_s_32 := s.occurrence_intervals (s_32, s_32_substring)
+			intervals_s_32 := new_occurrence_intervals (s_32, s_32_substring)
 
 			create intervals_list.make_from_array (<<
 				create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, zs_substring),
@@ -315,10 +315,10 @@ feature -- Test splitting
 
 	split_intervals: BOOLEAN
 		local
-			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
 			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
+			intervals_s_32: EL_SEQUENTIAL_INTERVALS
 		do
-			intervals_s_32 := s.split_intervals (s_32, s_32_substring)
+			intervals_s_32 := new_split_intervals (s_32, s_32_substring)
 
 			create intervals_list.make_from_array (<<
 				create {EL_SPLIT_INTERVALS}.make_by_string (zs, zs_substring),
@@ -336,7 +336,7 @@ feature -- Test splitting
 		do
 			Result := True
 			if attached new_split_list_array as split_list_array
-				and then attached s.split_intervals (s_32, s_32_substring) as interval
+				and then attached s.split_intervals (s_32, s_32_substring, True) as interval
 			then
 				from interval.start until not Result or interval.after loop
 					item_32 := s_32.substring (interval.item_lower, interval.item_upper)

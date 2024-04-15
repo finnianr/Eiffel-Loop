@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:35:35 GMT (Monday 8th April 2024)"
-	revision: "50"
+	date: "2024-04-15 7:33:19 GMT (Monday 15th April 2024)"
+	revision: "51"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -181,6 +181,11 @@ feature -- Adjust
 		end
 
 feature {NONE} -- Implementation
+
+	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL)
+		do
+			intervals.fill_by_string_32 (target, pattern, 0)
+		end
 
 	last_index_of (str: READABLE_STRING_32; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do

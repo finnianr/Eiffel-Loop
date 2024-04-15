@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 11:08:03 GMT (Monday 8th April 2024)"
-	revision: "27"
+	date: "2024-04-15 7:33:20 GMT (Monday 15th April 2024)"
+	revision: "28"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -324,6 +324,11 @@ feature {NONE} -- Implementation
 	cursor (s: EL_READABLE_ZSTRING): EL_ZSTRING_ITERATION_CURSOR
 		do
 			Result := s.new_cursor
+		end
+
+	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL)
+		do
+			intervals.fill_by_string (target, pattern, 0)
 		end
 
 	last_index_of (str: EL_READABLE_ZSTRING; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-05 17:46:29 GMT (Sunday 5th March 2023)"
-	revision: "2"
+	date: "2024-04-15 8:07:23 GMT (Monday 15th April 2024)"
+	revision: "3"
 
 class
 	CLASS_RENAMER
@@ -41,7 +41,7 @@ feature -- Element change
 
 			wipe_out; whole_interval_list.wipe_out
 
-			fill_by_string (a_source_text, old_name, 0)
+			fill_by_string_8 (a_source_text, old_name, 0)
 
 			if count > 0 and then attached whole_interval_list as list then
 				list.grow (count)

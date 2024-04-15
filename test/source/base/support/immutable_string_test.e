@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-04-15 7:43:53 GMT (Monday 15th April 2024)"
+	revision: "25"
 
 class
 	IMMUTABLE_STRING_TEST
@@ -84,7 +84,7 @@ feature -- Test comparisons
 			intervals_s_32: EL_SEQUENTIAL_INTERVALS; s: EL_STRING_32_ROUTINES
 			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
 		do
-			intervals_s_32 := s.split_intervals (s_32, s_32_substring)
+			intervals_s_32 := s.split_intervals (s_32, s_32_substring, True)
 
 			create intervals_list.make_from_array (<<
 				create {EL_SPLIT_INTERVALS}.make_by_string (s_32, s_32_substring)

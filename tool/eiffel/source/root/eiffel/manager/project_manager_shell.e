@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 8:14:42 GMT (Monday 1st April 2024)"
-	revision: "15"
+	date: "2024-04-15 8:08:44 GMT (Monday 15th April 2024)"
+	revision: "16"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -254,12 +254,12 @@ feature {NONE} -- Implementation
 			else
 				create Result.make_size (5000)
 				internal_eiffel_name_table := Result
-				
+
 				comment_end := " */"
 				across OS.file_list (F_code_dir, "*.c") as src loop
 					print_progress (src.cursor_index.to_natural_32)
 					source := File.plain_text (src.item)
-					if attached s.occurrence_intervals (source, "/* {") as list then
+					if attached s.occurrence_intervals (source, "/* {", False) as list then
 						from list.start until list.after loop
 							end_index := source.substring_index (comment_end, list.item_upper + 1)
 							if end_index > 0 then
