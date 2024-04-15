@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 11:16:50 GMT (Friday 12th April 2024)"
-	revision: "3"
+	date: "2024-04-15 8:23:50 GMT (Monday 15th April 2024)"
+	revision: "4"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
@@ -45,7 +45,7 @@ feature -- Appending tests
 
 	test_append
 		do
-			test_concatenation ({STRING_TEST_FIELDS}.Append)
+			test_concatenation ({STRING_TEST_IMPLEMENTATION}.Append)
 		end
 
 	test_append_encoded
@@ -249,7 +249,7 @@ feature -- Prepending tests
 
 	test_prepend
 		do
-			test_concatenation ({STRING_TEST_FIELDS}.Prepend)
+			test_concatenation ({STRING_TEST_IMPLEMENTATION}.Prepend)
 		end
 
 	test_prepend_string_general

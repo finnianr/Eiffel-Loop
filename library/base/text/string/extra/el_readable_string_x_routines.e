@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 8:01:53 GMT (Monday 15th April 2024)"
-	revision: "36"
+	date: "2024-04-15 8:13:45 GMT (Monday 15th April 2024)"
+	revision: "37"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -67,15 +67,6 @@ feature -- Lists
 		-- `text' split into arrayed list by `delimiter' string
 		do
 			Result := substring_list (text, split_intervals (text, delimiter, False))
-		end
-
-	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): like to_list
-		do
-			create Result.make (intervals.count)
-			from intervals.start until intervals.after loop
-				Result.extend (text.substring (intervals.item_lower, intervals.item_upper))
-				intervals.forth
-			end
 		end
 
 	to_csv_list (text: READABLE_STRING_X): like to_list
@@ -341,6 +332,15 @@ feature {NONE} -- Implementation
 
 	null: TYPED_POINTER [INTEGER]
 		do
+		end
+
+	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): like to_list
+		do
+			create Result.make (intervals.count)
+			from intervals.start until intervals.after loop
+				Result.extend (text.substring (intervals.item_lower, intervals.item_upper))
+				intervals.forth
+			end
 		end
 
 feature {NONE} -- Deferred

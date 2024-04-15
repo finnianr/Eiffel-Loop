@@ -9,43 +9,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 7:58:56 GMT (Monday 15th April 2024)"
-	revision: "36"
+	date: "2024-04-15 8:30:54 GMT (Monday 15th April 2024)"
+	revision: "37"
 
 class
 	STRING_TEST
 
 inherit
-	STRING_TEST_FIELDS
-	 	redefine
-	 		default_create
-	 	end
+	STRING_TEST_IMPLEMENTATION
 
 create
 	default_create, make, make_filled
 
 convert
 	make ({STRING_32})
-
-feature {NONE} -- Initialization
-
-	default_create
-		do
-			make_filled (' ', 0)
-		end
-
-	make (str: STRING_32)
-		do
-			set (str)
-			s_32_substring := s_32; zs_substring := zs
-		end
-
-	make_filled (c: CHARACTER_32; n: INTEGER)
-		do
-			create s_32.make_filled (c, n)
-			create zs.make_filled (c, n)
-			s_32_substring := s_32; zs_substring := zs
-		end
 
 feature -- Access
 
@@ -498,132 +475,4 @@ feature -- Status query
 			Result := s_32.valid_index (i)
 		end
 
-feature -- Element change
-
-	extend_strings (type: INTEGER; other: STRING_TEST)
-		do
-			inspect type
-				when Append then
-					zs.append (other.zs);  s_32.append (other.s_32)
-			else
-				zs.prepend (other.zs);  s_32.prepend (other.s_32)
-			end
-		end
-
-	prune (type: INTEGER; c: CHARACTER_32)
-		do
-			inspect type
-				when Left_adjust then
-					zs.left_adjust
-				-- Workaround for failing post-conditions on euro symbol
-				-- new_count: not is_empty implies not item (1).is_space
-					euro_swap_32 (agent s_32.left_adjust)
-
-				when Right_adjust then
-					zs.right_adjust
-				-- Workaround for failing post-conditions on euro symbol
-				-- 	new_count: not is_empty implies not item (count).is_space
-					euro_swap_32 (agent s_32.right_adjust)
-
-				when Both_adjust then
-				-- Workaround for failing post-conditions on euro symbol
-				--		new_count_left: not is_empty implies not item (1).is_space
-				--		new_count_right: not is_empty implies not item (count).is_space
-					euro_swap (agent zs.adjust)
-					euro_swap_32 (agent s_32.adjust)
-
-				when Prune_leading then
-					zs.prune_all_leading (c); s_32.prune_all_leading (c)
-
-				when Prune_trailing then
-					zs.prune_all_trailing (c); s_32.prune_all_trailing (c)
-			end
-		end
-
-	set (str_32: STRING_32)
-		do
-			s_32 := str_32; zs := str_32
-			if s_32.is_valid_as_string_8 then
-				s_8 := s_32.to_string_8
-			else
-				s_8 := Void
-			end
-		end
-
-	set_old_new (a_old, a_new: STRING_32)
-		do
-			s_32_old := a_old; s_32_new := a_new
-			zs_old := a_old; zs_new := a_new
-
-			if a_old.is_valid_as_string_8 then
-				s_8_old := a_old
-			else
-				s_8_old := Void
-			end
-			if a_new.is_valid_as_string_8 then
-				s_8_new := a_new
-			else
-				s_8_new := Void
-			end
-		end
-
-	set_substrings (start_index, end_index: INTEGER)
-		do
-			s_32_substring := s_32.substring (start_index, end_index)
-			create zs_substring.make_from_string (s_32_substring)
-
-			if s_32_substring.is_valid_as_string_8 then
-				s_8_substring := s_32_substring.to_string_8
-			else
-				s_8_substring := Void
-			end
-		end
-
-feature -- Basic operations
-
-	append_character (c: CHARACTER_32)
-		do
-			s_32.append_character (c)
-			zs.append_character (c)
-		end
-
-	set_z_from_uc
-		do
-			zs := s_32
-		end
-
-	wipe_out
-		do
-			s_32.wipe_out; zs.wipe_out
-		end
-
-feature {NONE} -- Implementation
-
-	new_split_list_array: ARRAYED_LIST [EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]]
-		do
-			create Result.make_from_array (<<
-				create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, zs_substring),
-				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, s_32_substring),
-				create {EL_SPLIT_STRING_32_LIST}.make_by_string (s_32, zs_substring)
-			>>)
-			if attached s_8_substring as str_8 then
-				Result.extend (create {EL_SPLIT_ZSTRING_LIST}.make_by_string (zs, str_8))
-
-				if attached s_8 as target_8 then
-					Result.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, str_8))
-					Result.extend (create {EL_SPLIT_STRING_8_LIST}.make_by_string (target_8, zs_substring))
-				end
-			end
-		end
-
-	same_indices (index_list: ARRAYED_LIST [INTEGER]; intervals: EL_OCCURRENCE_INTERVALS): BOOLEAN
-		do
-			if index_list.count = intervals.count and then attached intervals as list then
-				Result := True
-				from list.start until not Result or list.after loop
-					Result := list.item_lower = index_list [list.index]
-					list.forth
-				end
-			end
-		end
 end
