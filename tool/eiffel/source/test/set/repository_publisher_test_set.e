@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-07 7:17:41 GMT (Sunday 7th April 2024)"
-	revision: "77"
+	date: "2024-04-16 16:46:24 GMT (Tuesday 16th April 2024)"
+	revision: "78"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -71,18 +71,22 @@ feature -- Tests
 		-- REPOSITORY_PUBLISHER_TEST_SET.test_link_checker
 		local
 			link_checker: like new_link_checker
-			found: BOOLEAN; rbox_classes: EL_STRING_8_LIST
+			found: BOOLEAN; note_descendants: EL_STRING_8_LIST
 		do
 			link_checker := new_link_checker
 			link_checker.execute
 
 			if attached Invalid_source_name_table as table then
-				create rbox_classes.make_from_array (<< "RBOX_TEST_DATABASE", "RBOX_DATABASE" >>)
+			-- Some example classes that appear in descendant note on EL_SOLITARY but are not included in test
+				note_descendants := "AIA_CREDENTIAL_LIST, RBOX_TEST_DATABASE, RBOX_DATABASE"
 
 				from table.start until found or else table.after loop
-					if table.key_for_iteration.base.same_string_general ("el_solitary.e")  then
-						assert ("key is RBOX_DATABASE class", table.item_for_iteration.for_all (agent rbox_classes.has))
-						found := true
+					if table.key_for_iteration.same_base ("el_solitary.e") then
+						if across note_descendants as list all table.item_for_iteration.has (list.item) end then
+							found := True
+						else
+							failed ("descendant not in test libraries")
+						end
 					end
 					table.forth
 				end

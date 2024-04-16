@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-14 9:49:40 GMT (Tuesday 14th November 2023)"
-	revision: "8"
+	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
+	revision: "9"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -50,7 +50,7 @@ feature {NONE} -- Initialization
 			create utf_8_list.make (Iterable.count (general_list))
 			across general_list as list loop
 				if attached list.item as general then
-					inspect Class_id.character_bytes (general)
+					inspect Class_id.string_storage_type (general)
 						when '1' then
 							if attached {STRING_8} general as str_8 then
 								if cursor_8 (str_8).all_ascii then

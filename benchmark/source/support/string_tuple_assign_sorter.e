@@ -1,7 +1,7 @@
 note
 	description: "[
 		Sort a string conforming to ${READABLE_STRING_GENERAL} into a tuple slot
-		of the appropiate character_bytes
+		of the appropiate storage_type
 	]"
 
 	author: "Finnian Reilly"
@@ -9,45 +9,50 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-04-15 10:22:32 GMT (Monday 15th April 2024)"
+	revision: "3"
 
 frozen expanded class
 	STRING_TUPLE_ASSIGN_SORTER
 
+inherit
+	EL_EXPANDED_ROUTINES
+
+	EL_SHARED_CLASS_ID
+
+
 feature -- Access
 
 	allocated (general: READABLE_STRING_GENERAL): like Once_tuple
-		-- allocate `general' into a `Once_tuple' position according to the character_bytes
+		-- allocate `general' into a `Once_tuple' position according to the storage_type
 		local
 			byte_count, old_byte_count: CHARACTER
 		do
 			Result := Once_tuple
-			old_byte_count := Result.character_bytes
-			if general.is_string_32 then
-				if attached {EL_READABLE_ZSTRING} general as zstr then
-					Result.Readable_Z := zstr; byte_count := 'X'
+			Result.readable_8 := Void; Result.readable_32 := Void; Result.readable_Z := Void
 
-				elseif attached {READABLE_STRING_32} general as str_32 then
-					Result.Readable_32 := str_32; byte_count := '4'
-				end
-
-			elseif attached {READABLE_STRING_8} general as str_8 then
-				Result.Readable_8 := str_8; byte_count := '1'
-			end
-			if old_byte_count /= byte_count then
-				if old_byte_count > '%U' then
-					Result.put_reference (Void, to_index (old_byte_count))
-				end
-				Result.character_bytes := byte_count
+			Result.storage_type := Class_id.string_storage_type (general)
+			inspect Result.storage_type
+				when '1' then
+					if attached {READABLE_STRING_8} general as str_8 then
+						Result.readable_8 := str_8
+					end
+				when '4' then
+					if attached {READABLE_STRING_32} general as str_32 then
+						Result.readable_32 := str_32
+					end
+				when 'X' then
+					if attached {EL_READABLE_ZSTRING} general as z_str then
+						Result.readable_z := z_str
+					end
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	to_index (character_bytes: CHARACTER): INTEGER
+	to_index (storage_type: CHARACTER): INTEGER
 		do
-			inspect character_bytes
+			inspect storage_type
 				when '1' then
 					Result := 2
 
@@ -63,7 +68,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Once_tuple: TUPLE [
-		character_bytes: CHARACTER; readable_8: READABLE_STRING_32; readable_32: READABLE_STRING_32
+		storage_type: CHARACTER; readable_8: READABLE_STRING_32; readable_32: READABLE_STRING_32
 		readable_z: EL_READABLE_ZSTRING
 	]
 		once

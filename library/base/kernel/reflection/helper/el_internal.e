@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "30"
+	date: "2024-04-15 11:03:11 GMT (Monday 15th April 2024)"
+	revision: "31"
 
 class
 	EL_INTERNAL
@@ -45,7 +45,7 @@ feature -- Type queries
 			if generic_count_of_type (type_id) > 0 then
 				Result := generic_dynamic_type_of_type (type_id, 1)
 
-			elseif type_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY)
+			elseif type_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY)
 				and then attached Arrayed_list_factory.new_item_from_type_id (type_id) as list
 			then
 				Result := list.area.generating_type.generic_parameter_type (1).type_id
@@ -61,7 +61,7 @@ feature -- Type queries
 		-- True if `type_id' conforms to COLLECTION [X] where x is a string or an expanded type
 		do
 			if is_reference (basic_type) then
-				Result := type_conforms_to (type_id, Class_id.COLLECTION_ANY)
+				Result := type_conforms_to (type_id, Class_id.COLLECTION__ANY)
 			end
 		end
 
@@ -187,7 +187,7 @@ feature -- Contract Support
 
 	is_collection_type (type_id: INTEGER): BOOLEAN
 		do
-			Result := type_conforms_to (type_id, Class_id.COLLECTION_ANY)
+			Result := type_conforms_to (type_id, Class_id.COLLECTION__ANY)
 		end
 
 feature {NONE} -- Implementation

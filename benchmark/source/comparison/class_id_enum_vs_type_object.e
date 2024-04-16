@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-04-15 11:12:45 GMT (Monday 15th April 2024)"
+	revision: "4"
 
 class
 	CLASS_ID_ENUM_VS_TYPE_OBJECT
@@ -46,7 +46,7 @@ feature -- Basic operations
 		do
 			n := 10_000
 			compare ("Assign type_id " + n.out + " times", <<
-				["COLLECTION_ANY", agent from_enumeration (n)],
+				["COLLECTION__ANY", agent from_enumeration (n)],
 				["{COLLECTION [ANY]}", agent from_type_in_brackets (n)]
 			>>)
 		end
@@ -75,7 +75,7 @@ feature {NONE} -- el_os_routines_i
 
 	class_id_collection_any: INTEGER
 		do
-			Result := Class_id.COLLECTION_ANY
+			Result := Class_id.COLLECTION__ANY
 		end
 
 	collection_any_type_id: INTEGER

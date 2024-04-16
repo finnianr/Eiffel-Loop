@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "33"
+	date: "2024-04-15 11:03:44 GMT (Monday 15th April 2024)"
+	revision: "34"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -223,7 +223,7 @@ feature -- Status query
 			elseif has_type (type_id) then
 				Result := found_item.is_convertible (str)
 			else
-				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 			end
 		end
 
@@ -253,7 +253,7 @@ feature -- Status query
 			elseif has_type (type_id) then
 				Result := found_item.is_substring_convertible (str, start_index, end_index)
 			else
-				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 			end
 		end
 
@@ -350,10 +350,10 @@ feature -- Basic operations
 			elseif has_type (type_id) then
 				Result := found_item.substring_as_type (str, start_index, end_index)
 
-			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
 			then
-				inspect Class_id.character_bytes (str)
+				inspect Class_id.string_storage_type (str)
 					when '1' then
 						if attached {READABLE_STRING_8} str as str_8 then
 							across String_8_scope as scope loop
@@ -393,10 +393,10 @@ feature -- Basic operations
 			elseif has_type (type_id) then
 				Result := found_item.as_type (str)
 
-			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING)
+			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
 			then
-				inspect Class_id.character_bytes (str)
+				inspect Class_id.string_storage_type (str)
 					when '1' then
 						if attached {READABLE_STRING_8} str as str_8 then
 							across String_8_scope as scope loop

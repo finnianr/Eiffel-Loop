@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 17:15:46 GMT (Tuesday 9th April 2024)"
-	revision: "45"
+	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
+	revision: "46"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -165,7 +165,7 @@ feature -- Comparison
 
 	same_caseless_characters_general (other: READABLE_STRING_GENERAL; start_pos, end_pos, start_index: INTEGER): BOOLEAN
 		do
-			inspect Class_id.character_bytes (other)
+			inspect Class_id.string_storage_type (other)
 				when '1' then
 					if attached {READABLE_STRING_8} other as str_8 then
 						Result := same_characters_8 (str_8, start_pos, end_pos, start_index, True)
@@ -196,7 +196,7 @@ feature -- Comparison
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		do
-			inspect Class_id.character_bytes (other)
+			inspect Class_id.string_storage_type (other)
 				when '1' then
 					if attached {READABLE_STRING_8} other as str_8 then
 						Result := same_characters_8 (str_8, start_pos, end_pos, start_index, False)

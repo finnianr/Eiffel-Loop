@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-23 11:17:43 GMT (Monday 23rd October 2023)"
-	revision: "4"
+	date: "2024-04-15 11:03:11 GMT (Monday 15th April 2024)"
+	revision: "5"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
@@ -86,7 +86,7 @@ feature -- Status query
 
 	conforms_to_collection: BOOLEAN
 		do
-			Result := is_reference and then conforms_to (Class_id.COLLECTION_ANY)
+			Result := is_reference and then conforms_to (Class_id.COLLECTION__ANY)
 		end
 
 	conforms_to_date_time: BOOLEAN
@@ -129,7 +129,7 @@ feature -- Status query
 			if is_storable_type (abstract_type, type_id) then
 				Result := True
 
-			elseif field_conforms_to (type_id, Class_id.ARRAYED_LIST_ANY) then
+			elseif field_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY) then
 				if Arrayed_list_factory.is_valid_type (type_id) then
 					Result := is_storable_collection_type (type_id)
 				end

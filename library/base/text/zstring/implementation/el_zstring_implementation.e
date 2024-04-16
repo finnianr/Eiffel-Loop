@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 13:27:45 GMT (Friday 12th April 2024)"
-	revision: "100"
+	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
+	revision: "101"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -328,12 +328,12 @@ feature {NONE} -- Implementation
 
 	adapted_argument (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		do
-			Result := adapted_argument_for_type (general, Class_id.character_bytes (general), index)
+			Result := adapted_argument_for_type (general, Class_id.string_storage_type (general), index)
 		end
 
 	adapted_argument_for_type (general: READABLE_STRING_GENERAL; type_code: CHARACTER; index: INTEGER): EL_ZSTRING
 		require
-			valid_type_code: valid_string_type_code (type_code)
+			valid_type_code: valid_string_storage_type (type_code)
 			valid_index: 1 <= index and index <= Once_adapted_argument.count
 		do
 			inspect type_code

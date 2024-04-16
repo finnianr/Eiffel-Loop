@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "74"
+	date: "2024-04-15 11:03:11 GMT (Monday 15th April 2024)"
+	revision: "75"
 
 class
 	EL_CLASS_META_DATA
@@ -238,7 +238,7 @@ feature {NONE} -- Implementation
 		local
 			item_type_id: INTEGER
 		do
-			if {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.COLLECTION_ANY) then
+			if {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.COLLECTION__ANY) then
 				item_type_id := Eiffel.collection_item_type (type_id)
 				if item_type_id > 0 then
 					Result := Collection_field_factory_factory.new_item_factory (item_type_id)

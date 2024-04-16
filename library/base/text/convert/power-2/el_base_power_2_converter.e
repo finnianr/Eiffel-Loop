@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
+	revision: "11"
 
 deferred class
 	EL_BASE_POWER_2_CONVERTER
@@ -169,7 +169,7 @@ feature {NONE} -- Implementation
 	): TUPLE [area: SPECIAL [CHARACTER]; offset: INTEGER]
 		do
 			create Result
-			inspect Class_id.character_bytes (str)
+			inspect Class_id.string_storage_type (str)
 				when '1' then
 					if attached {READABLE_STRING_8} str as str_8
 						and then attached cursor_8 (str_8) as cursor

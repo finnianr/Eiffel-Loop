@@ -1,13 +1,13 @@
 note
-	description: "Rbox test database"
+	description: "Rythmbox test database"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "27"
+	date: "2024-04-16 16:22:53 GMT (Tuesday 16th April 2024)"
+	revision: "28"
 
 class
 	RBOX_TEST_DATABASE

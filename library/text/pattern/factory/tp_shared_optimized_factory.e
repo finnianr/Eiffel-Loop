@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-04-15 9:58:12 GMT (Monday 15th April 2024)"
+	revision: "11"
 
 deferred class
 	TP_SHARED_OPTIMIZED_FACTORY
@@ -22,7 +22,7 @@ feature {NONE} -- Implementation
 	optimal_core (text: READABLE_STRING_GENERAL): TP_OPTIMIZED_FACTORY
 		-- optimal `core' pattern factory for `text' type
 		do
-			inspect Class_id.character_bytes (text)
+			inspect Class_id.string_storage_type (text)
 				when '1' then
 					Result := Factory_readable_string_8
 				when '4' then

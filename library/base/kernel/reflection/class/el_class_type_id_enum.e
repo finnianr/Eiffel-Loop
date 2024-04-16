@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 7:29:06 GMT (Saturday 13th April 2024)"
-	revision: "30"
+	date: "2024-04-15 13:46:32 GMT (Monday 15th April 2024)"
+	revision: "31"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -17,6 +17,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_NUMERIC_TYPE_ID_ENUMERATION
 
 create
 	make
@@ -32,24 +34,24 @@ feature {NONE} -- Initialization
 			>>
 			readable_string_8_types := << IMMUTABLE_STRING_8, STRING_8 >>
 			readable_string_32_types := << IMMUTABLE_STRING_32, STRING_32, EL_ZSTRING >>
-			path_types := << EL_FILE_PATH, EL_FILE_URI_PATH, EL_DIR_PATH, EL_DIR_URI_PATH >>
+			path_types := << EL_FILE_PATH, EL_DIR_PATH, EL_DIR_URI_PATH, EL_FILE_URI_PATH >>
 		end
 
 feature -- Access
 
-	character_bytes (general: READABLE_STRING_GENERAL): CHARACTER
-		-- code representing number of bytes per character in `general' string with 'X' meaning indeterminate
+	string_storage_type (general: READABLE_STRING_GENERAL): CHARACTER
+		-- character code representing number of bytes per character in string `general'
+		-- 'X' means an indeterminate number for ZSTRING type
 		do
 			if general.is_string_8 then
-				Result := '1'
-
+				Result := '1' -- bytes
 			elseif {ISE_RUNTIME}.dynamic_type (general) = EL_ZSTRING then
 				Result := 'X'
 			else
-				Result := '4'
+				Result := '4' -- bytes
 			end
 		ensure
-			valid_code: valid_character_byte_code (Result)
+			valid_code: valid_string_storage_type (Result)
 		end
 
 feature -- Type sets
@@ -71,32 +73,6 @@ feature -- CHARACTER types
 	CHARACTER_32: INTEGER
 
 	CHARACTER_8: INTEGER
-
-feature -- INTEGER types
-
-	INTEGER_16: INTEGER
-
-	INTEGER_32: INTEGER
-
-	INTEGER_64: INTEGER
-
-	INTEGER_8: INTEGER
-
-feature -- NATURAL types
-
-	NATURAL_16: INTEGER
-
-	NATURAL_32: INTEGER
-
-	NATURAL_64: INTEGER
-
-	NATURAL_8: INTEGER
-
-feature -- REAL types
-
-	REAL_32: INTEGER
-
-	REAL_64: INTEGER
 
 feature -- String types
 
@@ -144,28 +120,22 @@ feature -- Class aliases
 			Result := EL_ZSTRING
 		end
 
-feature -- Parameterized
+feature -- Generic types
 
-	ARRAYED_LIST_ANY: INTEGER
-		once
-			Result := ({ARRAYED_LIST [ANY]}).type_id
-		end
+	ARRAYED_LIST__ANY: INTEGER
+		-- ARRAYED_LIST [ANY]
 
-	COLLECTION_ANY: INTEGER
-		once
-			Result := ({COLLECTION [ANY]}).type_id
-		end
+	COLLECTION__ANY: INTEGER
+		-- COLLECTION [ANY]
+
+	EL_MAKEABLE_FROM_STRING__STRING_GENERAL: INTEGER
+		-- EL_MAKEABLE_FROM_STRING [STRING_GENERAL]
 
 feature -- Eiffel-Loop types
 
 	EL_BOOLEAN_OPTION: INTEGER
 
 	EL_MAKEABLE: INTEGER
-
-	EL_MAKEABLE_FROM_STRING: INTEGER
-		once
-			Result := ({EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}).type_id
-		end
 
 	EL_QUANTITY_TEMPLATE: INTEGER
 
@@ -187,7 +157,7 @@ feature -- Other types
 
 feature -- Contract Support
 
-	valid_character_byte_code (code: CHARACTER): BOOLEAN
+	valid_string_storage_type (code: CHARACTER): BOOLEAN
 		do
 			inspect code
 				when '1', '4', 'X' then

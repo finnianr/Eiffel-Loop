@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 15:39:07 GMT (Sunday 14th April 2024)"
-	revision: "22"
+	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
+	revision: "23"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -40,12 +40,12 @@ feature -- Access
 
 	shared_cursor (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
 		do
-			Result := shared_cursor_by_type (general, Class_id.character_bytes (general))
+			Result := shared_cursor_by_type (general, Class_id.string_storage_type (general))
 		end
 
 	shared_cursor_by_type (general: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_STRING_ITERATION_CURSOR
 		require
-			valid_type_code: valid_string_type_code (type_code)
+			valid_type_code: valid_string_storage_type (type_code)
 		do
 			inspect type_code
 				when '1' then

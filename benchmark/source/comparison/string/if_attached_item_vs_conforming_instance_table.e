@@ -19,7 +19,7 @@ note
 			sorter class            :  90702.0 times (-52.9%)
 			tuple sorter class      :  87112.0 times (-54.7%)
 
-		Best performing method uses: `Class_id.character_bytes (general)'
+		Best performing method uses: `Class_id.string_storage_type (general)'
 	]"
 
 	author: "Finnian Reilly"
@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 20:09:15 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-04-15 10:19:13 GMT (Monday 15th April 2024)"
+	revision: "4"
 
 class
 	IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE
@@ -170,7 +170,7 @@ feature {NONE} -- Implementation
 		do
 			if attached Type_sorter as sorter then
 				sorter.set_from (general)
-				inspect sorter.character_bytes
+				inspect sorter.string_storage_type
 					when '1' then
 						Result := shared_cursor_8 (sorter.readable_8)
 
@@ -188,7 +188,7 @@ feature {NONE} -- Implementation
 			sorter: STRING_TUPLE_ASSIGN_SORTER
 		do
 			if attached sorter.allocated (general) as tuple then
-				inspect tuple.character_bytes
+				inspect tuple.storage_type
 					when '1' then
 						Result := shared_cursor_8 (tuple.readable_8)
 

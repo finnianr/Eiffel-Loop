@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 8:12:30 GMT (Thursday 11th April 2024)"
-	revision: "4"
+	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
+	revision: "5"
 
 deferred class
 	EL_STRING_CONVERSION_TABLE_IMPLEMENTATION
@@ -55,9 +55,11 @@ feature {NONE} -- Initialization
 			create real_32_converter.make
 			create real_64_converter.make
 
-			create split_list_area.make_filled (new_split_list ('1'), 3)
-			split_list_area [1] := new_split_list ('4')
-			split_list_area [2] := new_split_list ('X')
+			split_list_area := new_split_list_types.area
+		ensure
+			valid_type_1: split_list_by_type ('1') = split_list_area [0]
+			valid_type_4: split_list_by_type ('4') = split_list_area [1]
+			valid_type_X: split_list_by_type ('X') = split_list_area [2]
 		end
 
 feature {NONE} -- Implementation
@@ -92,10 +94,19 @@ feature {NONE} -- Implementation
 
 	filled_split_list (
 		csv_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER
-	): like new_split_list
+	): like new_split_list_types.item
 		-- reusable split list
 		do
-			inspect Class_id.character_bytes (csv_list)
+			Result := split_list_by_type (Class_id.string_storage_type (csv_list))
+			Result.fill_general (csv_list, separator, adjustments)
+		end
+
+	split_list_by_type (storage_type: CHARACTER): like new_split_list_types.item
+		-- reusable split list
+		require
+			valid_type: valid_string_storage_type (storage_type)
+		do
+			inspect storage_type
 				when '1' then
 					Result := split_list_area [0]
 				when '4' then
@@ -103,8 +114,9 @@ feature {NONE} -- Implementation
 				when 'X' then
 					Result := split_list_area [2]
 			end
-			Result.fill_general (csv_list, separator, adjustments)
 		end
+
+feature {NONE} -- Factory
 
 	new_expanded_table: HASH_TABLE [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY], TYPE [ANY]]
 		local
@@ -124,23 +136,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_split_list (character_width_code: CHARACTER): EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]
-		require
-			valid_code: valid_string_type_code (character_width_code)
+	new_split_list_types: ARRAY [EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]]
 		do
-			inspect character_width_code
-				when '1' then
-					create {EL_SPLIT_IMMUTABLE_STRING_8_LIST} Result.make_empty
-				when '4' then
-					create {EL_SPLIT_IMMUTABLE_STRING_32_LIST} Result.make_empty
-				when 'X' then
-					create {EL_SPLIT_ZSTRING_LIST} Result.make_empty
-			end
-		end
-
-	readable_string: READABLE_STRING_GENERAL
-		do
-			Result := ""
+			Result := <<
+				create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_empty,
+				create {EL_SPLIT_IMMUTABLE_STRING_32_LIST}.make_empty,
+				create {EL_SPLIT_ZSTRING_LIST}.make_empty
+			>>
 		end
 
 feature {NONE} -- Internal attributes
@@ -171,7 +173,7 @@ feature {NONE} -- Internal attributes
 
 	real_64_converter: EL_STRING_TO_REAL_64
 
-	split_list_area: SPECIAL [like new_split_list]
+	split_list_area: SPECIAL [like new_split_list_types.item]
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 17:49:25 GMT (Monday 1st January 2024)"
-	revision: "8"
+	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
+	revision: "9"
 
 expanded class
 	EL_UTF_8_CONVERTER
@@ -141,7 +141,7 @@ feature -- Basic operations
 					area_32.extend (unicode (area, code, i, byte_count).to_character_32)
 					i := i + byte_count
 				end
-				inspect Class_id.character_bytes (a_result)
+				inspect Class_id.string_storage_type (a_result)
 					when '1' then
 						if attached {STRING_8} a_result as str_8 then
 							s8.append_area_32 (str_8, area_32)
