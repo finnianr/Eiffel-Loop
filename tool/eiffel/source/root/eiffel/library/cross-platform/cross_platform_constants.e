@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-29 13:40:12 GMT (Monday 29th January 2024)"
-	revision: "5"
+	date: "2024-04-17 7:53:20 GMT (Wednesday 17th April 2024)"
+	revision: "6"
 
 deferred class
 	CROSS_PLATFORM_CONSTANTS
@@ -19,7 +19,7 @@ inherit
 
 feature {NONE} -- Strings
 
-	Eifgens_dir: ZSTRING
+	EIFGENs_path_template: ZSTRING
 		once
 			Result := "build/%S/EIFGENs"
 		end
@@ -39,13 +39,26 @@ feature {NONE} -- Strings
 			Result := "_i.e"
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Paths
+
+	EIFGENs_dir: DIR_PATH
+		once
+			Result := "build/$ISE_PLATFORM/EIFGENs"
+			Result.expand
+		end
 
 	F_code_dir: DIR_PATH
 		once
-			Result := "build/$ISE_PLATFORM/EIFGENs/classic/F_code"
+			Result := EIFGENs_dir #+ "classic/F_code"
+		end
+
+	Package_bin_dir: DIR_PATH
+		once
+			Result := "build/$ISE_PLATFORM/package/bin"
 			Result.expand
 		end
+
+feature {NONE} -- Constants
 
 	Platform: TUPLE [linux_x86_64, win64, windows: IMMUTABLE_STRING_8]
 		once

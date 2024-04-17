@@ -1,3 +1,6 @@
+Ver 2.1.10 (17 Apr 2024)
+* Copy F_code executable to package/bin
+
 Ver 2.1.9 (16 Apr 2024)
 * Added split string and ZSTRING optimizations
 
