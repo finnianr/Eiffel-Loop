@@ -1,4 +1,4 @@
-note
+﻿note
 	description: "Writing contents of ${ZSTRING} to external strings/objects"
 
 	author: "Finnian Reilly"
@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 15:32:26 GMT (Saturday 13th April 2024)"
-	revision: "24"
+	date: "2024-04-20 18:04:19 GMT (Saturday 20th April 2024)"
+	revision: "25"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -55,17 +55,11 @@ feature -- Append to other
 
 	append_to_string_32 (other: STRING_32)
 		local
-			old_count: INTEGER; area_out: SPECIAL [CHARACTER_32]
+			offset: INTEGER
 		do
-			old_count := other.count
-			other.grow (old_count + count)
-			area_out := other.area
-
-			Codec.decode (count, area, area_out, old_count)
-			write_unencoded (area_out, old_count, count, False)
-
-			area_out [old_count + count] := '%U'
-			other.set_count (old_count + count)
+			offset := other.count
+			other.grow (offset + count)
+			internal_append_to_string_32 (other, offset)
 		end
 
 	append_to_string_8 (other: STRING_8)
@@ -214,6 +208,55 @@ feature -- Basic operations
 					end
 					i := i + 1
 				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	internal_append_to_string_32 (other: STRING_32; offset: INTEGER)
+		require
+			sufficient_capacity: count <= other.capacity - other.count
+		local
+			i, j, i_upper: INTEGER; c_i: CHARACTER
+		do
+			if attached other.area as area_out then
+				if has_mixed_encoding then
+					Codec.decode (count, area, area_out, offset)
+					write_unencoded (area_out, offset, count, False)
+
+				elseif attached area as l_area then
+					i_upper := count - 1
+					inspect Codec.id
+						when 1 then
+							from j := offset until i > i_upper loop
+								area_out [j] := l_area [i]
+								i := i + 1; j := j + 1
+							end
+						when 15 then
+							from j := offset until i > i_upper loop
+								c_i := l_area [i]
+								inspect c_i
+								-- 8 points that differ from Latin-1
+									when '¤' then area_out [j] := '€'
+									when '¦' then area_out [j] := 'Š'
+									when '¨' then area_out [j] := 'š'
+									when '´' then area_out [j] := 'Ž'
+									when '¸' then area_out [j] := 'ž'
+									when '¼' then area_out [j] := 'Œ'
+									when '½' then area_out [j] := 'œ'
+									when '¾' then area_out [j] := 'Ÿ'
+								else
+									area_out [j] := c_i
+								end
+								i := i + 1; j := j + 1
+							end
+					else
+						Codec.decode (count, area, area_out, offset)
+						write_unencoded (area_out, offset, count, False)
+					end
+				end
+				area_out [offset + count] := '%U'
+				other.set_count (offset + count)
 			end
 		end
 

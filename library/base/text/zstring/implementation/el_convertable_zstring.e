@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:50:34 GMT (Friday 12th April 2024)"
-	revision: "68"
+	date: "2024-04-20 17:52:23 GMT (Saturday 20th April 2024)"
+	revision: "69"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -97,7 +97,7 @@ feature -- To Strings
 			-- UCS-4
 		do
 			create Result.make (count)
-			append_to_string_32 (Result)
+			internal_append_to_string_32 (Result, 0)
 		end
 
 	to_string_8, to_latin_1, as_string_8: STRING

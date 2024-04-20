@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 8:09:36 GMT (Wednesday 20th March 2024)"
-	revision: "7"
+	date: "2024-04-19 14:19:09 GMT (Friday 19th April 2024)"
+	revision: "8"
 
 class
 	COMPILED_CLASSES
@@ -22,8 +22,20 @@ feature {NONE} -- Compiled
 		end
 
 	el_app_manage: TUPLE [
-		EL_ENVIRON_VARIABLE,
 		EL_STANDARD_REMOVE_DATA_APP
+	]
+		-- app-manage.ecf
+		do
+			create Result
+		end
+
+	el_fast_cgi: TUPLE [
+		EL_DIVERGENT_SERVLET,
+		EL_HACKER_INTERCEPT_SERVICE,
+		EL_IP_ECHO_SERVLET,
+		EL_OK_SERVLET,
+		EL_SOFTWARE_VERSION_INFO_SERVLET,
+		EL_TEST_SERVLET
 	]
 		-- app-manage.ecf
 		do

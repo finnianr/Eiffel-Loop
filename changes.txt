@@ -694,3 +694,6 @@ Split ZSTRING_TEST_SET into smaller tests
 Wed 3rd Apr 2024, 14:42:20
 Refactor of EL_ZSTRING to use STRING_32.area
 
+Fri 19th Apr 2024, 8:22:04
+Refactoring ZSTRING and many string routines
+

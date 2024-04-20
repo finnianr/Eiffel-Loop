@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 9:57:24 GMT (Wednesday 28th December 2022)"
-	revision: "13"
+	date: "2024-04-19 7:37:27 GMT (Friday 19th April 2024)"
+	revision: "14"
 
 deferred class
 	EL_SSH_RSYNC_COMMAND_I
@@ -83,6 +83,11 @@ feature -- Options
 
 	progress: EL_BOOLEAN_OPTION
 		-- show progress during transfer
+
+	update: EL_BOOLEAN_OPTION
+		-- This forces rsync to skip any files which exist on the destination and have a modified time
+		-- that is newer than the source file. (If an existing destination file has a modification time
+		-- equal to the source file's, it will be updated if the sizes are different.)
 
 	verbose: EL_BOOLEAN_OPTION
 		-- This option increases the amount of information you are given during the transfer.

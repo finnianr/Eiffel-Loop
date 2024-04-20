@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-15 9:34:13 GMT (Friday 15th March 2024)"
-	revision: "31"
+	date: "2024-04-19 14:43:57 GMT (Friday 19th April 2024)"
+	revision: "32"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]

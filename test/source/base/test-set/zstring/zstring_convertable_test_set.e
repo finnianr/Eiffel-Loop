@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 13:01:30 GMT (Thursday 14th March 2024)"
-	revision: "2"
+	date: "2024-04-20 17:29:12 GMT (Saturday 20th April 2024)"
+	revision: "3"
 
 class
 	ZSTRING_CONVERTABLE_TEST_SET
@@ -64,7 +64,8 @@ feature -- Tests
 		note
 			testing:	"[
 				covers/{EL_CONVERTABLE_ZSTRING}.to_string_32,
-				covers/{EL_CONVERTABLE_ZSTRING}.make_from_general
+				covers/{EL_READABLE_ZSTRING}.make_from_general,
+				covers/{EL_COMPARABLE_ZSTRING}.same_characters_general
 			]"
 		local
 			test: STRING_TEST
@@ -72,7 +73,8 @@ feature -- Tests
 			create test
 			across Text.lines as line loop
 				test.set (line.item)
-				assert ("strings equal", test.is_same)
+				assert ("strings the same", test.is_same)
+				assert ("to_string_32 is_equal", test.zs.to_string_32 ~ line.item)
 			end
 		end
 

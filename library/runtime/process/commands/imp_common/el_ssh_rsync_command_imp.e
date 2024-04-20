@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-17 19:03:01 GMT (Saturday 17th February 2024)"
-	revision: "11"
+	date: "2024-04-19 7:37:56 GMT (Friday 19th April 2024)"
+	revision: "12"
 
 class
 	EL_SSH_RSYNC_COMMAND_IMP
@@ -42,6 +42,9 @@ feature -- Access
 		#if $progress_enabled then
 			--progress
 		#end
+		#if $update_enabled then
+			--update
+		#end
 		#if $verbose_enabled then
 			--verbose
 		#end
@@ -49,7 +52,7 @@ feature -- Access
 			--exclude-from=$exclusions_path
 		#end
 		#if $user_domain.count > 0 then
-			-e ssh $source_path "$user_domain:$destination_path"
+			--rsh=ssh $source_path "$user_domain:$destination_path"
 		#else
 			$source_path $destination_path
 		#end

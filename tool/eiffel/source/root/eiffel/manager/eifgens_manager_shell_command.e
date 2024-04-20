@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-17 7:57:23 GMT (Wednesday 17th April 2024)"
-	revision: "1"
+	date: "2024-04-17 8:09:29 GMT (Wednesday 17th April 2024)"
+	revision: "2"
 
 class
 	EIFGENS_MANAGER_SHELL_COMMAND
@@ -56,7 +56,7 @@ feature {NONE} -- Commands
 		do
 			OS.copy_file (F_code_dir + config.executable_name_full, Package_bin_dir)
 			lio.put_labeled_string ("Copied", config.executable_name_full + " to package/bin" )
-			lio.put_new_line
+			lio.put_new_line_x2
 		end
 
 	install_f_code_executable
