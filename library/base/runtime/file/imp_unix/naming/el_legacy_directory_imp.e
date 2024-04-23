@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-04-22 15:00:33 GMT (Monday 22nd April 2024)"
+	revision: "7"
 
 class
 	EL_LEGACY_DIRECTORY_IMP
@@ -22,8 +22,7 @@ feature {NONE} -- Constants
 	Home: DIR_PATH
 		-- returns `Home' or /home/root if user is root (useful for uninstaller)
 		once
-			Result := "/home/$USER"
-			Result.expand
+			create Result.make_expanded ("/home/$USER")
 		end
 
 	App_data: DIR_PATH

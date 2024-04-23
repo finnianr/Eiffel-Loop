@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "78"
+	date: "2024-04-23 16:27:16 GMT (Tuesday 23rd April 2024)"
+	revision: "79"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -38,6 +38,7 @@ feature {NONE} -- Implementation
 		EL_GET_GNOME_SETTING_COMMAND,
 		EL_NATIVE_DIRECTORY_PATH_LIST,
 		EL_NATIVE_DIRECTORY_TREE_FILE_PROCESSOR,
+		EL_SSH_COMMAND_FACTORY,
 		EL_VIDEO_TO_MP3_COMMAND_IMP
 	]
 		do

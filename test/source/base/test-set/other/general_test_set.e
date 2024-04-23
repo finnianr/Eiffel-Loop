@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 15:29:01 GMT (Saturday 13th April 2024)"
-	revision: "54"
+	date: "2024-04-22 15:05:30 GMT (Monday 22nd April 2024)"
+	revision: "55"
 
 class
 	GENERAL_TEST_SET
@@ -164,8 +164,7 @@ feature -- Tests
 		local
 			ec_path, test_ecf: FILE_PATH
 		do
-			ec_path := "$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin/ec"
-			ec_path.expand
+			create ec_path.make_expanded ("$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin/ec")
 			if {PLATFORM}.is_windows then
 				ec_path.add_extension ("exe")
 			end

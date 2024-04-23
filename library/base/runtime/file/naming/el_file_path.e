@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 9:10:38 GMT (Sunday 14th January 2024)"
-	revision: "39"
+	date: "2024-04-22 14:57:56 GMT (Monday 22nd April 2024)"
+	revision: "40"
 
 class
 	EL_FILE_PATH
@@ -19,7 +19,7 @@ inherit
 	EL_MODULE_FILE
 
 create
-	default_create, make, make_from_other, make_from_path, make_from_steps
+	default_create, make, make_expanded, make_from_other, make_from_path, make_from_steps
 
 -- Cannot use `to_general: {READABLE_STRING_GENERAL}' due to bug
 -- in `{PLAIN_TEXT_FILE}.file_open' for non-ascii characters

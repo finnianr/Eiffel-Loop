@@ -1,8 +1,11 @@
 note
 	description: "[
-		Remote file synchronization using [https://linux.die.net/man/1/rsync rsync]
-		
-		if `user_domain' is set then transfers over ssh connection
+		File synchronization with Unix [https://linux.die.net/man/1/rsync rsync]
+		Files can be synchronized either locally or remotely via [https://linux.die.net/man/1/ssh ssh]
+	]"
+	notes: "[
+		For remote transfer by [https://linux.die.net/man/1/ssh ssh] use ${EL_SSH_COMMAND_FACTORY}.new_mirror_directory
+		and `new_copy_files' to create an instance.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-19 7:37:27 GMT (Friday 19th April 2024)"
-	revision: "14"
+	date: "2024-04-23 12:36:31 GMT (Tuesday 23rd April 2024)"
+	revision: "15"
 
 deferred class
-	EL_SSH_RSYNC_COMMAND_I
+	EL_RSYNC_COMMAND_I
 
 inherit
 	EL_COPY_TREE_COMMAND_I
@@ -25,6 +28,9 @@ inherit
 		end
 
 	EL_SECURE_SHELL_COMMAND
+		rename
+			make as make_with_user_domain,
+			make_with_template as make_default
 		undefine
 			set_source_path, set_destination_dir
 		redefine
@@ -34,6 +40,12 @@ inherit
 	EL_FILE_OPEN_ROUTINES
 
 feature {NONE} -- Initialization
+
+	make_ssh (a_user_domain: READABLE_STRING_GENERAL; a_source_path, a_destination_path: DIR_PATH)
+		do
+			make (a_source_path, a_destination_path)
+			set_user_domain (a_user_domain)
+		end
 
 	make_default
 			--

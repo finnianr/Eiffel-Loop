@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "25"
+	date: "2024-04-22 13:35:24 GMT (Monday 22nd April 2024)"
+	revision: "26"
 
 class
 	EL_COMMAND_FACTORY
@@ -69,6 +69,12 @@ feature -- File management
 	new_copy_tree (a_source_path, a_destination_path: DIR_PATH): EL_COPY_TREE_COMMAND_I
 		do
 			create {EL_COPY_TREE_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
+		end
+
+	new_delete_directory (a_path: DIR_PATH): EL_DELETE_TREE_COMMAND_I
+		do
+			create {EL_DELETE_TREE_COMMAND_IMP} Result.make (a_path)
+			Result.recursive.disable
 		end
 
 	new_delete_file (a_file_path: FILE_PATH): EL_DELETE_FILE_COMMAND_I

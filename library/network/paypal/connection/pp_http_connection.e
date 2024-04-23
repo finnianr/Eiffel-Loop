@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-12 10:48:33 GMT (Wednesday 12th July 2023)"
-	revision: "9"
+	date: "2024-04-22 11:46:21 GMT (Monday 22nd April 2024)"
+	revision: "10"
 
 class
 	PP_HTTP_CONNECTION
@@ -41,8 +41,8 @@ feature -- Basic operations
 		do
 			Precursor (a_url)
 
-			set_http_version (1.1)
-			set_ssl_tls_version (1.2)
+			set_http_version (1_1)
+			set_ssl_tls_version (1_2)
 			set_ssl_certificate_verification (True)
 			set_ssl_hostname_verification (True)
 			set_certificate_authority_info (Configuration.cert_authority_info_path)

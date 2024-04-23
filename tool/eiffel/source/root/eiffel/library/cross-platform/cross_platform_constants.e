@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-17 7:53:20 GMT (Wednesday 17th April 2024)"
-	revision: "6"
+	date: "2024-04-22 15:07:39 GMT (Monday 22nd April 2024)"
+	revision: "7"
 
 deferred class
 	CROSS_PLATFORM_CONSTANTS
@@ -43,8 +43,7 @@ feature {NONE} -- Paths
 
 	EIFGENs_dir: DIR_PATH
 		once
-			Result := "build/$ISE_PLATFORM/EIFGENs"
-			Result.expand
+			create Result.make_expanded ("build/$ISE_PLATFORM/EIFGENs")
 		end
 
 	F_code_dir: DIR_PATH
@@ -54,8 +53,7 @@ feature {NONE} -- Paths
 
 	Package_bin_dir: DIR_PATH
 		once
-			Result := "build/$ISE_PLATFORM/package/bin"
-			Result.expand
+			create Result.make_expanded ("build/$ISE_PLATFORM/package/bin")
 		end
 
 feature {NONE} -- Constants

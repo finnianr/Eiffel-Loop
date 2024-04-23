@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-04-22 15:00:55 GMT (Monday 22nd April 2024)"
+	revision: "16"
 
 class
 	EL_STANDARD_DIRECTORY_IMP
@@ -37,8 +37,7 @@ feature -- Access
 	Home: DIR_PATH
 		-- same as $HOME if user is not root
 		once
-			Result := "/home/$USER"
-			Result.expand
+			create Result.make_expanded ("/home/$USER")
 		end
 
 	User_local: DIR_PATH

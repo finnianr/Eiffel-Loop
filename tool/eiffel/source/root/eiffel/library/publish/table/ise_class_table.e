@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:58:58 GMT (Friday 29th March 2024)"
-	revision: "9"
+	date: "2024-04-22 15:07:56 GMT (Monday 22nd April 2024)"
+	revision: "10"
 
 class
 	ISE_CLASS_TABLE
@@ -41,8 +41,7 @@ feature {NONE} -- Initialization
 			make_equal (50)
 			ise_chart_template := a_ise_chart_template; github_base := a_github_base
 			across << "library", "contrib" >> as dir loop
-				create dir_path.make ("$ISE_EIFFEL/" + dir.item)
-				dir_path.expand
+				create dir_path.make_expanded ("$ISE_EIFFEL/" + dir.item)
 				if dir.cursor_index = 1 then
 					ise_library_path := dir_path
 				else

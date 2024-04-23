@@ -1,13 +1,13 @@
 note
-	description: "Unix implementation of ${EL_DELETE_TREE_COMMAND_I} interface"
+	description: "Unix implementation of ${EL_DELETE_TREE_COMMAND_I}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-04-22 13:33:30 GMT (Monday 22nd April 2024)"
+	revision: "8"
 
 class
 	EL_DELETE_TREE_COMMAND_IMP
@@ -22,6 +22,12 @@ create
 
 feature {NONE} -- Constants
 
-	Template: STRING = "rm -r $target_path"
+	Template: STRING = "[
+		rm
+		#if $recursive_enabled then
+			--recursive
+		#end
+		$target_path
+	]"
 
 end

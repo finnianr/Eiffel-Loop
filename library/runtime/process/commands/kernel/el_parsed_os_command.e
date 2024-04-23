@@ -6,21 +6,15 @@ note
 	notes: "[
 		The names in **VARIABLES** type must occur in the same order as they do in the **template**
 	]"
-	descendants: "[
-			EL_PARSED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]
-				${EL_CREATE_TAR_COMMAND}
-				${EL_PARSED_CAPTURED_OS_COMMAND}* [VARIABLES -> ${TUPLE} create default_create end]
-					${EL_MD5_SUM_COMMAND}
-				${EL_GENERATE_PATCH_COMMAND}
-	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 9:12:20 GMT (Thursday 21st March 2024)"
-	revision: "12"
+	date: "2024-04-23 16:29:59 GMT (Tuesday 23rd April 2024)"
+	revision: "13"
 
 deferred class
 	EL_PARSED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -159,4 +153,29 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+note
+	descendants: "[
+			EL_PARSED_OS_COMMAND* [VARIABLES -> ${TUPLE} create default_create end]
+				${EL_PARSED_CAPTURED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+					${EL_GVFS_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+						${EL_GVFS_MOUNT_LIST_COMMAND}
+						${EL_GVFS_URI_TRANSFER_COMMAND*}
+							${EL_GVFS_COPY_COMMAND}
+							${EL_GVFS_MOVE_COMMAND}
+						${EL_GVFS_URI_COMMAND*}
+							${EL_GVFS_MAKE_DIRECTORY_COMMAND}
+							${EL_GVFS_REMOVE_FILE_COMMAND}
+							${EL_GVFS_FILE_LIST_COMMAND}
+							${EL_GVFS_FILE_INFO_COMMAND}
+							${EL_GVFS_FILE_COUNT_COMMAND}
+							${EL_GVFS_FILE_EXISTS_COMMAND}
+					${EL_GET_GNOME_SETTING_COMMAND}
+				${EL_CREATE_TAR_COMMAND}
+				${EL_FILE_UTILITY_COMMAND}
+				${EL_SSH_MD5_HASH_COMMAND}
+				${EL_SSH_COPY_COMMAND}
+				${EL_SSH_DIRECTORY_COMMAND*}
+					${EL_SSH_TEST_DIRECTORY_COMMAND}
+					${EL_SSH_MAKE_DIRECTORY_COMMAND}
+	]"
 end

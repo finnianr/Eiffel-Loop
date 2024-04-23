@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 11:51:23 GMT (Saturday 23rd March 2024)"
-	revision: "29"
+	date: "2024-04-22 15:04:34 GMT (Monday 22nd April 2024)"
+	revision: "30"
 
 class
 	PATH_TEST_SET
@@ -381,8 +381,7 @@ feature {NONE} -- Constants
 
 	Eiffel_latin_1_sources: DIR_PATH
 		once
-			Result := "$EIFFEL_LOOP/tool/eiffel/test-data/sources/latin-1"
-			Result.expand
+			create Result.make_expanded ("$EIFFEL_LOOP/tool/eiffel/test-data/sources/latin-1")
 		ensure
 			valid_expansion: Result.exists
 		end

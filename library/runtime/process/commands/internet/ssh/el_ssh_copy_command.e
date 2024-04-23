@@ -1,19 +1,25 @@
 note
 	description: "Wrapper for Unix ''scp'' command"
+	notes: "[
+		Use ${EL_SSH_COMMAND_FACTORY}.new_file_copy
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-04-23 12:12:58 GMT (Tuesday 23rd April 2024)"
+	revision: "8"
 
 class
 	EL_SSH_COPY_COMMAND
 
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [source_path, user_domain, destination_dir: STRING]]
+		rename
+			make as make_with_template
+		end
 
 	EL_SECURE_SHELL_COMMAND
 

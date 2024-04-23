@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:46:57 GMT (Thursday 11th January 2024)"
-	revision: "49"
+	date: "2024-04-22 11:48:19 GMT (Monday 22nd April 2024)"
+	revision: "50"
 
 class
 	EL_HTTP_CONNECTION
@@ -334,21 +334,21 @@ feature -- Element change
 			cookie_store_path := a_cookie_store_path
 		end
 
-	set_http_version (version: DOUBLE)
+	set_http_version (version: INTEGER)
 		require
-			valid_version: (<< 0.0, 1.0, 1.1 >>).has (version)
+			valid_version: (<< 1_0, 1_1 >>).has (version)
 		local
 			option: INTEGER
 		do
 			http_version := version
-			inspect (version * 10).floor
+			inspect version
 				when 1_0 then
 					option := curl_http_version_1_0
 				when 1_1 then
 					option := curl_http_version_1_1
 			else
 				option := curl_http_version_none
-				http_version := version.zero
+				http_version := 0
 			end
 			set_curl_integer_option (CURLOPT_http_version, option)
 		end
@@ -385,14 +385,14 @@ feature -- Element change
 			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
 		end
 
-	set_ssl_tls_version (version: DOUBLE)
+	set_ssl_tls_version (version: INTEGER)
 		require
-			valid_unix_version: {PLATFORM}.is_unix implies (<< version.zero, 1.0, 1.1, 1.2 >>).has (version)
-			valid_windows_version: {PLATFORM}.is_windows implies version.zero ~ version
+			valid_unix_version: {PLATFORM}.is_unix implies (<< 0, 1_0, 1_1, 1_2 >>).has (version)
+			valid_windows_version: {PLATFORM}.is_windows implies 0 = version
 		local
 			option: INTEGER
 		do
-			inspect (version * 10).floor
+			inspect version
 				--
 				when 1_0 then
 					option := curl_sslversion_TLSv1_0

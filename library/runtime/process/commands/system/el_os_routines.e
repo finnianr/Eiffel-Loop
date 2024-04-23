@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "30"
+	date: "2024-04-23 17:00:56 GMT (Tuesday 23rd April 2024)"
+	revision: "31"
 
 class
 	EL_OS_ROUTINES
@@ -140,19 +140,16 @@ feature -- File query
 			end
 		end
 
-	file_md5_digest (path: FILE_PATH): STRING
+	file_md5_digest (path: FILE_PATH; binary_mode: BOOLEAN): STRING
 		require
 			md5sum_available: md5sum_available
 		do
-			if path.exists then
-				if attached MD5_sum_cmd as cmd then
-					cmd.sum.wipe_out
-					cmd.set_target_path (path)
-					cmd.execute
-					Result := cmd.sum.twin
-				end
+			if attached Md5_sum_cmd as cmd then
+				cmd.set_target_path (path)
+				cmd.set_binary (binary_mode)
+				Result := cmd.digest_string
 			else
-				create Result.make_empty
+				Result := Empty_string_8
 			end
 		end
 
@@ -264,7 +261,7 @@ feature {NONE} -- Constants
 			create {EL_MAKE_DIRECTORY_COMMAND_IMP} Result.make_default
 		end
 
-	MD5_sum_cmd: EL_MD5_SUM_COMMAND
+	MD5_sum_cmd: EL_MD5_HASH_COMMAND
 		once
 			create Result.make
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-27 10:27:49 GMT (Wednesday 27th December 2023)"
-	revision: "43"
+	date: "2024-04-22 15:01:20 GMT (Monday 22nd April 2024)"
+	revision: "44"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -278,8 +278,7 @@ feature -- Conversion
 
 	to_expanded_dir_path: DIR_PATH
 		do
-			Result := adjusted (False)
-			Result.expand
+			create Result.make_expanded (adjusted (False))
 -- 		There are many cases where we may want to have a non-absolute path			
 --			if not Result.is_absolute and then not document_dir.is_empty then
 --				Result := document_dir #+ Result
@@ -288,8 +287,7 @@ feature -- Conversion
 
 	to_expanded_file_path: FILE_PATH
 		do
-			Result := adjusted (False)
-			Result.expand
+			create Result.make_expanded (adjusted (False))
 			if not Result.is_absolute and then not document_dir.is_empty then
 				Result := document_dir.plus (Result)
 			end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-04-22 15:09:48 GMT (Monday 22nd April 2024)"
+	revision: "19"
 
 class
 	YOUTUBE_VIDEO_DOWNLOADER_APP
@@ -51,8 +51,7 @@ feature {NONE} -- Constants
 
 	Default_output_dir: DIR_PATH
 		once
-			Result := "$HOME/Videos"
-			Result.expand
+			create Result.make_expanded ("$HOME/Videos")
 		end
 
 	Option_name: STRING = "youtube_dl"

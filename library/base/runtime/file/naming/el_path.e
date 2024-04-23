@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 11:53:41 GMT (Saturday 23rd March 2024)"
-	revision: "76"
+	date: "2024-04-22 14:57:22 GMT (Monday 22nd April 2024)"
+	revision: "77"
 
 deferred class
 	EL_PATH
@@ -53,6 +53,12 @@ feature {NONE} -- Initialization
 	make_from_path (a_path: PATH)
 		do
 			make (Path_manager.as_string (a_path))
+		end
+
+	make_expanded (a_path: READABLE_STRING_GENERAL)
+		do
+			make (a_path)
+			expand
 		end
 
 	make_from_steps (a_steps: ITERABLE [READABLE_STRING_GENERAL])

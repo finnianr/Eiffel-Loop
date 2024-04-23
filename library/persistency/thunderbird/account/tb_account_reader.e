@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 13:56:21 GMT (Tuesday 2nd April 2024)"
-	revision: "33"
+	date: "2024-04-22 15:06:00 GMT (Monday 22nd April 2024)"
+	revision: "34"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -51,8 +51,7 @@ feature {NONE} -- Initialization
 			create language.make_empty
 			create folder_list.make (5)
 			folder_list.compare_objects
-			home_dir := "$HOME"
-			home_dir.expand
+			create home_dir.make_expanded ("$HOME")
 			Precursor
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-04-22 15:04:16 GMT (Monday 22nd April 2024)"
+	revision: "15"
 
 class
 	FTP_TEST_SET
@@ -104,8 +104,7 @@ feature -- Tests
 			else
 				config.authenticate (Void)
 			end
-			w_code_dir := "build/$ISE_PLATFORM/EIFGENs/classic/W_code"
-			w_code_dir.expand
+			create w_code_dir.make_expanded ("build/$ISE_PLATFORM/EIFGENs/classic/W_code")
 			classic_dir := w_code_dir.parent
 			if config.credential.is_valid then
 				create ftp.make_write (config)

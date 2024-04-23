@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2024-04-22 14:59:36 GMT (Monday 22nd April 2024)"
+	revision: "16"
 
 deferred class
 	EL_APPLICATION_CONSTANTS
@@ -20,7 +20,7 @@ feature {NONE} -- Constants
 	Package_dir: DIR_PATH
 		once
 			if Executable.is_work_bench then
-				Result := "build/$ISE_PLATFORM/package"; Result.expand
+				create Result.make_expanded ("build/$ISE_PLATFORM/package")
 					-- Eg. "build/win64/package"
 			else
 				-- This is assumed to be the directory 'package/bin' unpacked by installer to a temporary directory

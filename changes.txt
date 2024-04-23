@@ -697,3 +697,6 @@ Refactor of EL_ZSTRING to use STRING_32.area
 Fri 19th Apr 2024, 8:22:04
 Refactoring ZSTRING and many string routines
 
+Sun 21st Apr 2024, 8:54:53
+Optimized ZSTRING.to_string_32
+

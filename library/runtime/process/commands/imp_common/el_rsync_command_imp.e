@@ -1,19 +1,21 @@
 note
-	description: "Common implementation of ${EL_SSH_RSYNC_COMMAND_I}"
+	description: "[
+		Implementation of ${EL_RSYNC_COMMAND_I} with Unix [https://linux.die.net/man/1/rsync rsync command]
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-19 7:37:56 GMT (Friday 19th April 2024)"
-	revision: "12"
+	date: "2024-04-23 12:35:59 GMT (Tuesday 23rd April 2024)"
+	revision: "13"
 
 class
-	EL_SSH_RSYNC_COMMAND_IMP
+	EL_RSYNC_COMMAND_IMP
 
 inherit
-	EL_SSH_RSYNC_COMMAND_I
+	EL_RSYNC_COMMAND_I
 
 	EL_OS_COMMAND_IMP
 		undefine
@@ -21,7 +23,7 @@ inherit
 		end
 
 create
-	make
+	make, make_ssh
 
 feature -- Access
 

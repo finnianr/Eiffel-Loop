@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 8:45:29 GMT (Saturday 13th April 2024)"
-	revision: "43"
+	date: "2024-04-22 14:57:36 GMT (Monday 22nd April 2024)"
+	revision: "44"
 
 class
 	EL_DIR_PATH
@@ -47,7 +47,7 @@ inherit
 	EL_MODULE_TUPLE
 
 create
-	default_create, make, make_from_path, make_from_other, make_from_steps, make_parent
+	default_create, make, make_expanded, make_from_path, make_from_other, make_from_steps, make_parent
 
 -- Cannot use `to_general: {READABLE_STRING_GENERAL}' due to bug
 -- in `{PLAIN_TEXT_FILE}.file_open' for non-ascii characters

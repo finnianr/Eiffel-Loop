@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 20:42:18 GMT (Thursday 4th January 2024)"
-	revision: "30"
+	date: "2024-04-23 17:04:33 GMT (Tuesday 23rd April 2024)"
+	revision: "31"
 
 class
 	OS_COMMAND_TEST_SET
@@ -107,9 +107,10 @@ feature -- Tests
 		end
 
 	test_file_md5_sum
+		-- OS_COMMAND_TEST_SET.test_file_md5_sum
 		do
 			if {PLATFORM}.is_unix and then attached file_path ("help-files.txt") as help_path
-				and then attached OS.file_md5_digest (help_path).as_upper as str
+				and then attached OS.file_md5_digest (help_path, True) as str
 			then
 				lio.put_labeled_string (help_path.base, str)
 				lio.put_new_line

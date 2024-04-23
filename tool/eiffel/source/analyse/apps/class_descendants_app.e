@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 7:58:14 GMT (Sunday 31st March 2024)"
-	revision: "20"
+	date: "2024-04-22 15:07:17 GMT (Monday 22nd April 2024)"
+	revision: "21"
 
 class
 	CLASS_DESCENDANTS_APP
@@ -47,8 +47,7 @@ feature {NONE} -- Implementation
 
 	build_ise_platform: DIR_PATH
 		do
-			Result := "build/$ISE_PLATFORM"
-			Result.expand
+			create Result.make_expanded ("build/$ISE_PLATFORM")
 		end
 
 	log_filter_set: EL_LOG_FILTER_SET [like Current, CLASS_DESCENDANTS_COMMAND]
