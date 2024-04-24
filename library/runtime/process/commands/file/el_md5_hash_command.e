@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 17:04:03 GMT (Tuesday 23rd April 2024)"
-	revision: "7"
+	date: "2024-04-24 7:29:47 GMT (Wednesday 24th April 2024)"
+	revision: "8"
 
 class
 	EL_MD5_HASH_COMMAND
@@ -103,10 +103,10 @@ feature {NONE} -- Constants
 			create Result.make ("text", "binary")
 		end
 
-	Var: TUPLE [mode, target_path: IMMUTABLE_STRING_8]
+	Var: TUPLE [mode, target_path: STRING_8]
 		once
 			create Result
-			Tuple.fill_immutable (Result, "MODE, TARGET_PATH")
+			Tuple.fill (Result, "MODE, TARGET_PATH")
 		end
 
 end

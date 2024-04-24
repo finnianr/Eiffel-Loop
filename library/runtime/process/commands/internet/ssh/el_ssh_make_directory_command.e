@@ -1,5 +1,5 @@
 note
-	description: "Make remote directory via Unix ''ssh'' command"
+	description: "Make remote directory via Unix [https://linux.die.net/man/1/ssh ssh command]"
 	notes: "[
 		Use ${EL_SSH_COMMAND_FACTORY}.new_make_directory
 	]"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 11:27:43 GMT (Tuesday 23rd April 2024)"
-	revision: "7"
+	date: "2024-04-24 7:35:40 GMT (Wednesday 24th April 2024)"
+	revision: "8"
 
 class
 	EL_SSH_MAKE_DIRECTORY_COMMAND

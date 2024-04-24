@@ -17,13 +17,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 16:54:47 GMT (Tuesday 23rd April 2024)"
-	revision: "10"
+	date: "2024-04-24 7:53:30 GMT (Wednesday 24th April 2024)"
+	revision: "11"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
 
 inherit
+	EL_COMMAND
+
 	EL_SHARED_OPERATING_ENVIRON
 
 	EL_CHARACTER_32_CONSTANTS
@@ -40,8 +42,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	destination_dir: DIR_PATH
-
 	user_domain: ZSTRING
 
 	user_name: ZSTRING
@@ -51,29 +51,10 @@ feature -- Access
 
 feature -- Element change
 
-	set_destination_dir (a_destination_dir: DIR_PATH)
-		do
-			destination_dir := a_destination_dir
-			put_string_variable (var_index.destination_dir, escaped_remote (a_destination_dir))
-		end
-
-	set_source_path (source_path: EL_PATH)
-		do
-			put_path_variable (var_index.source_path, source_path)
-		end
-
 	set_user_domain (a_user_domain: READABLE_STRING_GENERAL)
 		do
 			user_domain := as_zstring (a_user_domain)
-			put_string_variable (var_index.user_domain, user_domain)
-		end
-
-feature -- Basic operations
-
-	execute
-		require
-			user_domain_set: user_domain.count > 0
-		deferred
+			put_string (var_user_domain, user_domain)
 		end
 
 feature {NONE} -- Implementation
@@ -99,21 +80,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	put_remote_path (variable_name: READABLE_STRING_8; a_path: EL_PATH)
+		-- put path with double escaped backslash
+		do
+			put_string (variable_name, escaped_remote (a_path))
+		end
+
 feature {NONE} -- Deferred
 
 	make_with_template
 		deferred
 		end
 
-	put_path_variable (index: INTEGER; a_path: EL_PATH)
+	put_string (variable_name: READABLE_STRING_8; value: READABLE_STRING_GENERAL)
 		deferred
 		end
 
-	put_string_variable (index: INTEGER; value: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	var_index: TUPLE [source_path, user_domain, destination_dir: INTEGER]
+	var_user_domain: STRING
 		deferred
 		end
 

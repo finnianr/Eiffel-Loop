@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 12:36:31 GMT (Tuesday 23rd April 2024)"
-	revision: "15"
+	date: "2024-04-24 7:27:14 GMT (Wednesday 24th April 2024)"
+	revision: "16"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -31,8 +31,6 @@ inherit
 		rename
 			make as make_with_user_domain,
 			make_with_template as make_default
-		undefine
-			set_source_path, set_destination_dir
 		redefine
 			escaped_remote
 		end
@@ -117,9 +115,9 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Implementation
 
-	var_index: TUPLE [source_path, user_domain, destination_dir: INTEGER]
+	var_user_domain: STRING
 		do
-			Result := [0, 0, 0]
+			create Result.make_empty
 		end
 
 	escaped_remote (a_path: EL_PATH): ZSTRING
@@ -130,16 +128,6 @@ feature {NONE} -- Implementation
 			else
 				Result := a_path.escaped
 			end
-		end
-
-	put_path_variable (index: INTEGER; a_path: EL_PATH)
-		-- Not applicable
-		do
-		end
-
-	put_string_variable (index: INTEGER; value: READABLE_STRING_GENERAL)
-		-- Not applicable
-		do
 		end
 
 feature {NONE} -- Internal attributes

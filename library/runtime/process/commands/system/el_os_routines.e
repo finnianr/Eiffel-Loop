@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 17:00:56 GMT (Tuesday 23rd April 2024)"
-	revision: "31"
+	date: "2024-04-24 8:17:56 GMT (Wednesday 24th April 2024)"
+	revision: "32"
 
 class
 	EL_OS_ROUTINES
@@ -140,19 +140,6 @@ feature -- File query
 			end
 		end
 
-	file_md5_digest (path: FILE_PATH; binary_mode: BOOLEAN): STRING
-		require
-			md5sum_available: md5sum_available
-		do
-			if attached Md5_sum_cmd as cmd then
-				cmd.set_target_path (path)
-				cmd.set_binary (binary_mode)
-				Result := cmd.digest_string
-			else
-				Result := Empty_string_8
-			end
-		end
-
 	file_list (a_dir_path: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
 			--
 		do
@@ -181,6 +168,29 @@ feature -- File query
 				cmd.execute
 				Result := cmd.path_list
 			end
+		end
+
+	md5_binary_digest (path: FILE_PATH): STRING
+		do
+			Result := md5_digest (path, True)
+		end
+
+	md5_digest (path: FILE_PATH; binary_mode: BOOLEAN): STRING
+		require
+			md5sum_available: md5sum_available
+		do
+			if attached Md5_sum_cmd as cmd then
+				cmd.set_target_path (path)
+				cmd.set_binary (binary_mode)
+				Result := cmd.digest_string
+			else
+				Result := Empty_string_8
+			end
+		end
+
+	md5_text_digest (path: FILE_PATH): STRING
+		do
+			Result := md5_digest (path, False)
 		end
 
 	one_or_many_file_list (file_path_or_wildcard: FILE_PATH): EL_FILE_PATH_LIST

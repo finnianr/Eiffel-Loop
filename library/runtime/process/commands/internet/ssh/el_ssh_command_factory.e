@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 12:28:28 GMT (Tuesday 23rd April 2024)"
-	revision: "1"
+	date: "2024-04-24 9:55:46 GMT (Wednesday 24th April 2024)"
+	revision: "2"
 
 class
 	EL_SSH_COMMAND_FACTORY
@@ -41,6 +41,18 @@ feature -- Access
 	ssh_name: ZSTRING
 		-- defines ssh remote username and address
 		-- eg. john@75.34.211.13
+
+	md5_digest (target_path: FILE_PATH): STRING
+		-- text mode digest
+		do
+			Result := new_md5_digest (target_path).digest_string
+		end
+
+	md5_binary_digest (target_path: FILE_PATH): STRING
+		-- binary mode digest
+		do
+			Result := new_md5_binary_digest (target_path).digest_string
+		end
 
 feature -- Basic operations
 
@@ -75,10 +87,18 @@ feature -- Commands
 			Result.set_target_dir (target_dir)
 		end
 
-	new_md5_hash (target_path: FILE_PATH): EL_SSH_MD5_HASH_COMMAND
+	new_md5_digest (target_path: FILE_PATH): EL_SSH_MD5_HASH_COMMAND
+		-- text mode digest command
 		do
 			create Result.make (ssh_name)
 			Result.set_target_path (target_path)
+		end
+
+	new_md5_binary_digest (target_path: FILE_PATH): EL_SSH_MD5_HASH_COMMAND
+		-- text mode digest command
+		do
+			Result := new_md5_digest (target_path)
+			Result.set_binary_mode
 		end
 
 	new_mirror_directory  (a_source_path, a_destination_path: DIR_PATH): EL_RSYNC_COMMAND_I

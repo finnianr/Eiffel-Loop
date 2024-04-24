@@ -1,5 +1,8 @@
 note
-	description: "Wrapper for Unix ''scp'' command"
+	description: "[
+		Copy single file to remote host using Unix [https://linux.die.net/man/1/scp scp command].
+		It uses [https://linux.die.net/man/1/ssh ssh] for data transfer.
+	]"
 	notes: "[
 		Use ${EL_SSH_COMMAND_FACTORY}.new_file_copy
 	]"
@@ -9,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 12:12:58 GMT (Tuesday 23rd April 2024)"
-	revision: "8"
+	date: "2024-04-24 8:08:02 GMT (Wednesday 24th April 2024)"
+	revision: "9"
 
 class
 	EL_SSH_COPY_COMMAND
@@ -21,16 +24,26 @@ inherit
 			make as make_with_template
 		end
 
-	EL_SECURE_SHELL_COMMAND
+	EL_SECURE_SHELL_COPY_COMMAND
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	var_index: TUPLE [source_path, user_domain, destination_dir: INTEGER]
+	var_user_domain: STRING
 		do
-			Result := [1, 2, 3]
+			Result := var.user_domain
+		end
+
+	var_destination_dir: STRING
+		do
+			Result := var.destination_dir
+		end
+
+	var_source_path: STRING
+		do
+			Result := var.source_path
 		end
 
 feature {NONE} -- Constants

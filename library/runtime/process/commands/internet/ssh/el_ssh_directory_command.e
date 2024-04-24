@@ -1,13 +1,13 @@
 note
-	description: "Unix ''ssh'' command that operates on a target directory"
+	description: "Unix [https://linux.die.net/man/1/ssh ssh command] that operates on a target directory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 12:13:11 GMT (Tuesday 23rd April 2024)"
-	revision: "7"
+	date: "2024-04-24 7:54:18 GMT (Wednesday 24th April 2024)"
+	revision: "8"
 
 deferred class
 	EL_SSH_DIRECTORY_COMMAND
@@ -19,16 +19,25 @@ inherit
 		end
 
 	EL_SECURE_SHELL_COMMAND
-		rename
-			set_destination_dir as set_target_dir,
-			destination_dir as target_dir
+
+feature -- Access
+
+	target_dir: DIR_PATH
+		-- remote directory
+
+feature -- Element change
+
+	set_target_dir (a_target_dir: DIR_PATH)
+		do
+			target_dir := a_target_dir
+			put_remote_path (var.target_dir, a_target_dir)
 		end
 
 feature {NONE} -- Implementation
 
-	var_index: TUPLE [source_path, user_domain, target_dir: INTEGER]
+	var_user_domain: STRING
 		do
-			Result := [0, 1, 2]
+			Result := var.user_domain
 		end
 
 end

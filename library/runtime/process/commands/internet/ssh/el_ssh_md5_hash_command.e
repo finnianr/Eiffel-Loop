@@ -4,7 +4,7 @@ note
 		remotely invoked via [https://linux.die.net/man/1/ssh ssh command].
 	]"
 	notes: "[
-		Use ${EL_SSH_COMMAND_FACTORY}.new_md5_hash
+		Use ${EL_SSH_COMMAND_FACTORY}.new_md5_digest
 	]"
 
 	author: "Finnian Reilly"
@@ -12,29 +12,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 17:21:51 GMT (Tuesday 23rd April 2024)"
-	revision: "1"
+	date: "2024-04-24 13:51:18 GMT (Wednesday 24th April 2024)"
+	revision: "2"
 
 class
 	EL_SSH_MD5_HASH_COMMAND
 
 inherit
-	EL_PARSED_OS_COMMAND [TUPLE [mode, user_domain, target_path: STRING]]
+	EL_SECURE_SHELL_COMMAND
+
+	EL_PARSED_OS_COMMAND [TUPLE [user_domain, mode, target_path: STRING]]
 		rename
 			make as make_with_template
 		undefine
 			is_captured, do_command, new_command_parts, reset
-		redefine
-			make_with_template
-		end
-
-	EL_SECURE_SHELL_COMMAND
-		rename
-			set_destination_dir as set_target_dir,
-			set_source_path as set_mode_path,
-			destination_dir as target_dir
-		export
-			{NONE} set_target_dir, target_dir, set_mode_path
 		redefine
 			make_with_template
 		end
@@ -58,6 +49,9 @@ feature {NONE} -- Implementation
 	make_with_template
 		do
 			Precursor
+			check
+				same_variable_names: MD5_var.mode ~ Var.mode and MD5_var.target_path ~ Var.target_path
+			end
 			set_text_mode
 		end
 
@@ -66,20 +60,19 @@ feature -- Element change
 	set_target_path (a_target_path: FILE_PATH)
 		do
 			target_path := a_target_path
-			create target_dir.make_from_other (a_target_path)
-			set_target_dir (target_dir)
+			put_remote_path (var.target_path, a_target_path)
 		end
 
 feature {NONE} -- Implementation
 
 	set_mode (mode: STRING)
 		do
-			set_mode_path (create {DIR_PATH}.make (mode))
+			put_string (Var.mode, mode)
 		end
 
-	var_index: TUPLE [mode, user_domain, target_path: INTEGER]
+	var_user_domain: STRING
 		do
-			Result := [2, 1, 3]
+			Result := var.user_domain
 		end
 
 feature {NONE} -- Constants
