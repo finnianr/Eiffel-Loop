@@ -1,13 +1,13 @@
 note
-	description: "Ftp protocol"
+	description: "FTP protocol"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:49:08 GMT (Thursday 11th January 2024)"
-	revision: "39"
+	date: "2024-04-24 15:35:35 GMT (Wednesday 24th April 2024)"
+	revision: "40"
 
 class
 	EL_FTP_PROTOCOL

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:49:08 GMT (Thursday 11th January 2024)"
-	revision: "14"
+	date: "2024-04-24 16:01:21 GMT (Wednesday 24th April 2024)"
+	revision: "15"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -26,7 +26,7 @@ inherit
 			last_reply as last_reply_utf_8,
 			reply_code_ok as integer_32_reply_code_ok
 		redefine
-			close_sockets, send_transfer_command
+			close_sockets, send_password, send_transfer_command, send_username
 		end
 
 	EL_ITERATION_ROUTINES
@@ -43,7 +43,7 @@ inherit
 
 	EL_MODULE_USER_INPUT
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
@@ -203,6 +203,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	send_password: BOOLEAN
+			-- Send password. Did it work?
+		do
+			if attached main_socket as l_socket then
+				send_to_socket (l_socket, space.joined (Ftp_password_command, address.password))
+				Result := reply_code_ok (last_reply_utf_8, <<
+					Reply.command_not_implemented, Reply.user_logged_in -- Reply.service_ready
+				>>)
+				if not Result then
+					error_code := Access_denied
+				end
+			else
+				error_code := no_socket_to_connect
+			end
+		end
+
 	send_transfer_command: BOOLEAN
 		do
 			if initiating_listing then
@@ -222,19 +238,25 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	send_username: BOOLEAN
+		-- Send username. Did it work?
+		do
+			if attached main_socket as l_socket then
+				send_to_socket (l_socket, space.joined (Ftp_user_command, address.username))
+				Result := reply_code_ok (last_reply_utf_8, <<
+					Reply.user_logged_in, Reply.user_name_okay -- Reply.service_ready
+				>>)
+				if not Result then
+					error_code := No_such_user
+				end
+			else
+				error_code := no_socket_to_connect
+			end
+		end
+
 	transfer_file (source_path, destination_path: FILE_PATH)
 		do
 			attempt (agent try_transfer_file (source_path, destination_path, ?), 3)
---			else
---				lio.put_labeled_string (Error.socket_error, data_socket.error)
---				lio.put_new_line
---				lio.put_labeled_string ("Description", Exception.last_exception.description)
---				lio.put_new_line
---				if User_input.approved_action_y_n ("Retry transfer") then
---					reset
---					transfer_file (source_path, destination_path)
---				end
---			end
 		end
 
 	transfer_file_data (a_file_path: FILE_PATH)
