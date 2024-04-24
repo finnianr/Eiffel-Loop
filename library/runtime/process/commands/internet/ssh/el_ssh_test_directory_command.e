@@ -1,5 +1,7 @@
 note
-	description: "Test to see if remote directory exists via Unix ''ssh'' command"
+	description: "[
+		Test to see if remote directory exists via Unix [https://linux.die.net/man/1/ssh ssh command]
+	]"
 	notes: "[
 		Use ${EL_SSH_COMMAND_FACTORY}.new_test_directory
 	]"
@@ -9,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 11:26:34 GMT (Tuesday 23rd April 2024)"
-	revision: "1"
+	date: "2024-04-24 14:00:51 GMT (Wednesday 24th April 2024)"
+	revision: "2"
 
 class
 	EL_SSH_TEST_DIRECTORY_COMMAND

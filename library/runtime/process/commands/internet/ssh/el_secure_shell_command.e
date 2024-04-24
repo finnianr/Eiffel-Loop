@@ -4,12 +4,13 @@ note
 	]"
 	descendants: "[
 			EL_SECURE_SHELL_COMMAND*
-				${EL_SSH_COPY_COMMAND}
 				${EL_RSYNC_COMMAND_I*}
 					${EL_RSYNC_COMMAND_IMP}
 				${EL_SSH_DIRECTORY_COMMAND*}
 					${EL_SSH_TEST_DIRECTORY_COMMAND}
 					${EL_SSH_MAKE_DIRECTORY_COMMAND}
+				${EL_SSH_MD5_HASH_COMMAND}
+				${EL_SSH_COPY_COMMAND}
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 7:53:30 GMT (Wednesday 24th April 2024)"
-	revision: "11"
+	date: "2024-04-24 14:00:15 GMT (Wednesday 24th April 2024)"
+	revision: "12"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
