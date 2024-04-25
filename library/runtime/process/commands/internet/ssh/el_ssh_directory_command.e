@@ -1,13 +1,13 @@
 note
-	description: "Unix [https://linux.die.net/man/1/ssh ssh command] that operates on a target directory"
+	description: "Unix [https://linux.die.net/man/1/ssh ssh command] that operates on a single target directory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 7:54:18 GMT (Wednesday 24th April 2024)"
-	revision: "8"
+	date: "2024-04-25 8:17:36 GMT (Thursday 25th April 2024)"
+	revision: "9"
 
 deferred class
 	EL_SSH_DIRECTORY_COMMAND

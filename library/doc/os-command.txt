@@ -19,3 +19,22 @@ These are "out of the box" command for obtaining system information.
 * Unix command to parse output of nm-tool to get MAC address of ethernet devices
 
 * Unix command to obtain CPU name
+
+**Future Development**
+
+Make a platform independent interface for listing symbolic link targets in a directory. 
+
+(By concidence both outputs align on column 40)
+
+UNIX example
+	ls -l <dir-path>
+
+	lrwxrwxrwx 1 root root 48 Apr 11  2022 cherokee-images -> /usr/share/www/cherokee-images
+	lrwxrwxrwx 1 root root 43 Apr 11  2022 index.html -> /usr/share/www/index.html
+
+WINDOWS example
+	dir /AL <dir-path>
+
+	04/25/2024  12:00 PM    <SYMLINK>      MyFolder [C:\Users\John\Documents\MyFolder]
+	04/25/2024  11:30 AM    <SYMLINK>      ShortcutToProgram [C:\Program Files\Program.exe]
+

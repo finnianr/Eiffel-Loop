@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 9:51:08 GMT (Sunday 31st December 2023)"
-	revision: "41"
+	date: "2024-04-25 11:22:18 GMT (Thursday 25th April 2024)"
+	revision: "42"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -146,6 +146,7 @@ feature -- Tests
 		end
 
 	test_file_move_and_copy_absolute
+		-- FILE_AND_DIRECTORY_TEST_SET.test_file_move_and_copy_absolute
 		do
 			file_move_and_copy (new_file_set (True), Work_area_absolute_dir)
 		end

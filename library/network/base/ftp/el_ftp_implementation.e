@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 16:01:21 GMT (Wednesday 24th April 2024)"
-	revision: "15"
+	date: "2024-04-25 13:37:58 GMT (Thursday 25th April 2024)"
+	revision: "16"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -26,7 +26,7 @@ inherit
 			last_reply as last_reply_utf_8,
 			reply_code_ok as integer_32_reply_code_ok
 		redefine
-			close_sockets, send_password, send_transfer_command, send_username
+			close_sockets, send_transfer_command, send_username, send_password
 		end
 
 	EL_ITERATION_ROUTINES

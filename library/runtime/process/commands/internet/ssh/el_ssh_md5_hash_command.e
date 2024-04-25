@@ -4,7 +4,7 @@ note
 		remotely invoked via [https://linux.die.net/man/1/ssh ssh command].
 	]"
 	notes: "[
-		Use ${EL_SSH_COMMAND_FACTORY}.new_md5_digest
+		Use ${EL_SSH_COMMAND_FACTORY}.new_md5_digest and `new_md5_binary_digest'
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 13:51:18 GMT (Wednesday 24th April 2024)"
-	revision: "2"
+	date: "2024-04-25 8:18:19 GMT (Thursday 25th April 2024)"
+	revision: "3"
 
 class
 	EL_SSH_MD5_HASH_COMMAND

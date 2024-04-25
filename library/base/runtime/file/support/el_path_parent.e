@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-13 10:51:37 GMT (Wednesday 13th March 2024)"
-	revision: "4"
+	date: "2024-04-25 10:41:38 GMT (Thursday 25th April 2024)"
+	revision: "5"
 
 deferred class
 	EL_PATH_PARENT
@@ -73,8 +73,8 @@ feature -- Status Query
 	has_parent: BOOLEAN
 		do
 			if is_absolute then
-				if base.count > 0 then
-					Result := parent_path.count >= 1 and then parent_path.ends_with_character (Separator)
+				if base.count > 0 and then parent_path.count >= 1 then
+					Result := parent_path.ends_with_character (Separator)
 				end
 			else
 				Result := parent_path.ends_with_character (Separator)

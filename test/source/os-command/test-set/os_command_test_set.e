@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 8:18:20 GMT (Wednesday 24th April 2024)"
-	revision: "32"
+	date: "2024-04-25 11:34:05 GMT (Thursday 25th April 2024)"
+	revision: "33"
 
 class
 	OS_COMMAND_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EL_MODULE_EXECUTABLE; EL_MODULE_SYSTEM
+	EL_MODULE_EXECUTABLE; EL_MODULE_SYSTEM; EL_MODULE_COMMAND
 
 	SHARED_DEV_ENVIRON
 
@@ -28,11 +28,12 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["admin_level_execution", agent test_admin_level_execution],
-				["cpu_info",				  agent test_cpu_info],
-				["create_tar_command",	  agent test_create_tar_command],
-				["file_md5_sum",			  agent test_file_md5_sum],
-				["user_list",				  agent test_user_list]
+				["admin_level_execution",	agent test_admin_level_execution],
+				["cpu_info",					agent test_cpu_info],
+				["create_tar_command",		agent test_create_tar_command],
+				["file_md5_sum",				agent test_file_md5_sum],
+				["make_directory_command",	agent test_make_directory_command],
+				["user_list",					agent test_user_list]
 			>>)
 		end
 
@@ -46,19 +47,19 @@ feature -- Tests
 				covers/{EL_WINDOWS_SHELL_COMMAND}.set_command_and_parameters
 			]"
 		local
-			command: EL_OS_COMMAND_I; destination_path: FILE_PATH
+			file_cmd: EL_OS_COMMAND_I; destination_path: FILE_PATH
 		do
 			if Executable.Is_work_bench then
-				create {EL_COPY_FILE_COMMAND_IMP} command.make ("data/txt/file.txt", Directory.applications)
-				command.administrator.enable
-				command.execute
-				assert ("successful", not command.has_error)
+				create {EL_COPY_FILE_COMMAND_IMP} file_cmd.make ("data/txt/file.txt", Directory.applications)
+				file_cmd.administrator.enable
+				file_cmd.execute
+				assert ("successful", not file_cmd.has_error)
 
 				destination_path := Directory.applications + "file.txt"
 				if destination_path.exists then
-					create {EL_DELETE_FILE_COMMAND_IMP} command.make (destination_path)
-					command.administrator.enable
-					command.execute
+					create {EL_DELETE_FILE_COMMAND_IMP} file_cmd.make (destination_path)
+					file_cmd.administrator.enable
+					file_cmd.execute
 					assert ("File deleted", not destination_path.exists)
 				else
 					failed ("File exists")
@@ -118,9 +119,29 @@ feature -- Tests
 			end
 		end
 
+	test_make_directory_command
+		-- OS_COMMAND_TEST_SET.test_make_directory_command
+		note
+			testing: "[
+				covers/{EL_USERS_INFO_COMMAND_IMP}.make,
+				covers/{EL_SYSTEM_ROUTINES_I}.user_permutation_list
+			]"
+		local
+			dir_path: DIR_PATH
+		do
+			dir_path := Work_area_dir #+ "one/two/three"
+			if attached Command.new_make_directory (dir_path) as cmd then
+				cmd.execute
+				assert ("path exists", dir_path.exists)
+			end
+		end
+
 	test_user_list
 		note
-			testing: "covers/{EL_USERS_INFO_COMMAND_IMP}.make, covers/{EL_SYSTEM_ROUTINES_I}.user_permutation_list"
+			testing: "[
+				covers/{EL_USERS_INFO_COMMAND_IMP}.make,
+				covers/{EL_SYSTEM_ROUTINES_I}.user_permutation_list
+			]"
 		local
 			dir_path: DIR_PATH; steps: EL_PATH_STEPS; index: INTEGER
 		do
