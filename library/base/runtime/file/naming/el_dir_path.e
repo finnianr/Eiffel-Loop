@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 14:57:36 GMT (Monday 22nd April 2024)"
-	revision: "44"
+	date: "2024-04-26 8:00:21 GMT (Friday 26th April 2024)"
+	revision: "45"
 
 class
 	EL_DIR_PATH
@@ -170,7 +170,7 @@ feature -- Status report
 			dir: like Shared_directory
 		do
 			if is_empty then
-				dir := Shared_directory.named (".")
+				dir := Shared_directory.named_as_current
 			else
 				dir := Shared_directory.named (Current)
 			end

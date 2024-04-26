@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "56"
+	date: "2024-04-26 11:05:48 GMT (Friday 26th April 2024)"
+	revision: "57"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -50,7 +50,7 @@ feature -- Access
 		local
 			dir_set: EL_HASH_SET [DIR_PATH]; parent: DIR_PATH
 		do
-			-- assume average of 20 files per directory
+		-- assume average of 20 files per directory
 			create dir_set.make ((iterable.count (path_list) // 20).min (10))
 			across path_list as path loop
 				parent := path.item.parent
@@ -65,7 +65,6 @@ feature -- Access
 feature -- File lists
 
 	files (a_dir_path: DIR_PATH; recursively: BOOLEAN): like Directory.files
-			--
 		do
 			if recursively then
 				Result := Directory.named (a_dir_path).recursive_files
@@ -76,8 +75,8 @@ feature -- File lists
 
 	files_with_extension (
 		a_dir_path: DIR_PATH; extension: READABLE_STRING_GENERAL; recursively: BOOLEAN
+
 	): like Directory.files
-			--
 		do
 			if recursively then
 				Result := Directory.named (a_dir_path).recursive_files_with_extension (extension)
@@ -118,14 +117,11 @@ feature -- Basic operations
 		end
 
 	make_directory (a_dir_path: DIR_PATH)
-			-- recursively create directory
-		local
-			dir_parent: DIR_PATH
+		-- recursively create directory
 		do
-			if not (a_dir_path.is_empty or else a_dir_path.exists) then
-				dir_parent := a_dir_path.parent
-				make_directory (dir_parent)
-				if dir_parent.exists_and_is_writeable then
+			if not a_dir_path.exists and then attached a_dir_path.parent as parent_dir then
+				make_directory (parent_dir) -- recurse
+				if parent_dir.exists_and_is_writeable then
 					Directory.named (a_dir_path).create_dir
 				end
 			end

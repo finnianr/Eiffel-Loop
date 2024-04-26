@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 11:22:18 GMT (Thursday 25th April 2024)"
-	revision: "42"
+	date: "2024-04-26 17:20:46 GMT (Friday 26th April 2024)"
+	revision: "43"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -99,13 +99,15 @@ feature -- Tests
 		end
 
 	test_directory_content_processor
+		-- FILE_AND_DIRECTORY_TEST_SET.test_directory_content_processor
 		note
-			testing: "covers/{EL_FILE_OPERATION}.new_file_list",
-					"covers/{EL_DIRECTORY_CONTENT_PROCESSOR}.do_with"
+			testing: "[
+				covers/{EL_FILE_OPERATION}.new_file_list,
+				covers/{EL_DIRECTORY_CONTENT_PROCESSOR}.do_with
+			]"
 		local
 			os_processor: EL_NATIVE_DIRECTORY_CONTENT_PROCESSOR
-			processor: EL_DIRECTORY_CONTENT_PROCESSOR
-			text_set: EL_HASH_SET [FILE_PATH]
+			processor: EL_DIRECTORY_CONTENT_PROCESSOR; text_set: EL_HASH_SET [FILE_PATH]
 			output_dir: DIR_PATH; relative_set: like new_file_set
 		do
 			output_dir := Workarea_help_pages_dir #+ "output"
@@ -114,9 +116,9 @@ feature -- Tests
 			create os_processor.make (Workarea_help_pages_dir, output_dir)
 
 			across << "*.txt", "bcd*", "*setup*", "*error.txt" >> as wildcard loop
-				across << processor, os_processor >> as p loop
+				across << processor, os_processor >> as list loop
 					create text_set.make (20)
-					p.item.do_all (agent add_to_set (? ,?, text_set), wildcard.item)
+					list.item.do_all (agent add_to_set (? ,?, text_set), wildcard.item)
 					inspect wildcard.cursor_index
 						when 1 then
 							assert ("same sets", text_set ~ relative_set)

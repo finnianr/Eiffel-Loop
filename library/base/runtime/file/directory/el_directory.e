@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-25 12:26:58 GMT (Sunday 25th February 2024)"
-	revision: "30"
+	date: "2024-04-26 18:41:00 GMT (Friday 26th April 2024)"
+	revision: "31"
 
 class
 	EL_DIRECTORY
@@ -42,9 +42,7 @@ inherit
 
 	EL_MODULE_EXCEPTION; EL_MODULE_FILE_SYSTEM
 
-	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_DIRECTORY_CONSTANTS; EL_STRING_8_CONSTANTS
 
 create
 	make_default, make
@@ -193,6 +191,14 @@ feature -- Measurement
 
 feature -- Element change
 
+	set_to_current
+		-- same as `set_path_name (".")'
+		do
+			internal_path.wipe_out
+			internal_path.append_character ('.')
+			set_internal_path (internal_path)
+		end
+
 	set_path (a_path: EL_PATH)
 		do
 			internal_path.wipe_out; a_path.append_to_32 (internal_path)
@@ -201,11 +207,18 @@ feature -- Element change
 			name_set: internal_path ~ a_path.as_string_32
 		end
 
-	set_path_name (a_name: READABLE_STRING_GENERAL)
-			-- Set `name' with `a_name'.
+	set_path_name (a_path: READABLE_STRING_GENERAL)
+			-- Set `path' with `a_path'.
+		local
+			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			internal_path.wipe_out; internal_path.append_string_general (a_name)
-			set_internal_path (internal_path)
+			if attached internal_path as l_path then
+				l_path.wipe_out
+				if attached r.shared_cursor (a_path) as cursor then
+					cursor.append_to_string_32 (l_path)
+				end
+				set_internal_path (l_path)
+			end
 		end
 
 feature -- Status query
@@ -313,40 +326,18 @@ feature {EL_SHARED_DIRECTORY} -- Access
 			Result := Current
 		end
 
-feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
-
-	extension_matches (name: STRING_32; extension: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			dot_position: INTEGER
+	named_as_current: EL_DIRECTORY
+		-- same as `named_as (".")'
 		do
-			if extension.is_empty then
-				Result := True
-
-			elseif name.count > extension.count then
-				dot_position := name.count - extension.count
-				Result := name [dot_position] = '.' and then name.ends_with_general (extension)
-			end
+			set_to_current; Result := Current
 		end
 
+feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
+
 	has_entry_of_type (a_name: READABLE_STRING_GENERAL; a_type: INTEGER): BOOLEAN
-		local
-			name_32: STRING_32
 		do
-			across String_32_scope as scope loop
-				name_32 := scope.same_item (a_name)
-				across Current as entry until Result loop
-					if name_32 ~ entry.item and then entry.exists then
-						inspect a_type
-							when Type_any then
-								Result := True
-							when Type_file then
-								Result := entry.is_plain
-							when Type_executable_file then
-								Result := entry.is_plain and then entry.is_executable
-							else
-						end
-					end
-				end
+			Result := across Current as entry some
+				entry.existing_item_matches_name_and_type (a_name, a_type)
 			end
 		end
 
@@ -354,13 +345,8 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 		require
 			is_open: true
 		do
-			across Current as entry until Result loop
-				if not entry.is_current_or_parent and then entry.exists
-					and then extension_matches (entry.item, extension)
-					and then matches_type (entry, type)
-				then
-					Result := True
-				end
+			Result := across Current as entry some
+				entry.existing_item_matches_type_and_extension (type, extension)
 			end
 		end
 
@@ -408,21 +394,6 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			end
 		end
 
-	matches_type (entry: FILE_INFO; type: INTEGER): BOOLEAN
-		do
-			inspect type
-				when Type_directory then
-					Result := entry.is_directory
-
-				when Type_file then
-					Result := not entry.is_directory
-
-				when Type_any then
-					Result := True
-			else
-			end
-		end
-
 	new_cursor: EL_DIRECTORY_ITERATION_CURSOR
 		require else
 			read_permission: is_readable
@@ -439,8 +410,8 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 			if is_readable then
 				across Current as entry loop
 					if not entry.is_current_or_parent and then entry.exists
-						and then extension_matches (entry.item, extension)
-						and then matches_type (entry, type)
+						and then (extension.count > 0 implies entry.item_has_extension (extension))
+						and then entry.item_matches_type (type)
 					then
 						if entry.is_directory then
 							if (type = Type_any or type = Type_directory) then
@@ -456,12 +427,11 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
 	read_recursive_entries (list: LIST [EL_PATH]; type: INTEGER; extension: READABLE_STRING_GENERAL)
 		local
-			l_path: DIR_PATH; directory_list: like directories
-			old_count: INTEGER
+			saved_path: ZSTRING; directory_list: like directories; old_count: INTEGER
 		do
 			old_count := list.count
 			read_entries (list, type, extension)
-			create l_path.make (internal_path)
+			saved_path := internal_path
 			if type = Type_directory then
 				create directory_list.make (list.count - old_count)
 				if attached {like directories} list as dir_list and not directory_list.full then
@@ -477,28 +447,18 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 				set_path (dir.item)
 				read_recursive_entries (list, type, extension)
 			end
-			set_path (l_path)
+			set_path_name (saved_path)
 		end
 
-	set_internal_path (a_name: STRING_32)
-			-- Set `name' with `a_name'.
+	set_internal_path (a_path: STRING_32)
+			-- Set `path' with `a_path'.
 		do
-			internal_path := a_name
-			internal_path_pointer := file_info.file_name_to_pointer (a_name, internal_path_pointer)
+			internal_path := a_path
+			internal_path_pointer := file_info.file_name_to_pointer (a_path, internal_path_pointer)
 		end
 
 feature {EL_DIRECTORY_ITERATION_CURSOR} -- Internal attributes
 
 	internal_path: STRING_32
-
-feature {NONE} -- Constants
-
-	Type_any: INTEGER = 3
-
-	Type_directory: INTEGER = 2
-
-	Type_executable_file: INTEGER = 4
-
-	Type_file: INTEGER = 1
 
 end

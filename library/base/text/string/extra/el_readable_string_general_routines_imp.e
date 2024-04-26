@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "23"
+	date: "2024-04-26 11:38:39 GMT (Friday 26th April 2024)"
+	revision: "24"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -33,8 +33,6 @@ inherit
 		end
 
 	EL_SHARED_CLASS_ID
-
---	EL_ZSTRING_CONSTANTS
 
 feature -- Access
 
