@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-26 8:36:31 GMT (Saturday 26th August 2023)"
-	revision: "41"
+	date: "2024-04-27 9:41:04 GMT (Saturday 27th April 2024)"
+	revision: "42"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 				["Decrypt AES encrypted file",			agent decrypt_file_with_aes],
 				["Display AES encrypted file",			agent display_encrypted_file],
 				["Encrypt file with AES encryption",	agent encrypt_file_with_aes],
-				["Encrypt FTP url",							agent encrypt_ftp_url],
+				["Encrypt FTP URI as Pyxis markup",		agent encrypt_ftp_uri],
 				["Encrypt input text as base-64",		agent encrypt_user_input_text (False)],
 				["Encrypt input text as Eiffel array",	agent encrypt_user_input_text (True)],
 				["Generate pass phrase salt",				agent generate_pass_phrase_salt]

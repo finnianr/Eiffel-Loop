@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 15:54:37 GMT (Wednesday 24th April 2024)"
-	revision: "4"
+	date: "2024-04-27 18:18:46 GMT (Saturday 27th April 2024)"
+	revision: "5"
 
 class
 	EL_FTP_SERVER_REPLY_ENUM
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 			closing_control_connection := 221
 			closing_data_connection := 226
 			command_not_implemented :=	202
+			entering_passive_mode := 227
 			file_action_ok := 250
 			file_status := 213
 			service_ready := 220
@@ -54,6 +55,8 @@ feature -- Access
 	closing_data_connection: NATURAL_16
 
 	command_not_implemented: NATURAL_16
+
+	entering_passive_mode: NATURAL_16
 
 	file_action_ok: NATURAL_16
 
@@ -83,7 +86,9 @@ feature {NONE} -- Constants
 				closing_data_connection:
 					Closing data connection. Requested file action successful (for example, file transfer or file abort).
 				command_not_implemented:
-					Command not implemented, superfluous at this site. 
+					Command not implemented, superfluous at this site.
+				entering_passive_mode:
+					Entering passive mode.
 				file_action_ok:
 					Requested file action okay, completed.
 				service_ready:

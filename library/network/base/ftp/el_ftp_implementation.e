@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 13:37:58 GMT (Thursday 25th April 2024)"
-	revision: "16"
+	date: "2024-04-27 18:50:34 GMT (Saturday 27th April 2024)"
+	revision: "17"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -24,7 +24,8 @@ inherit
 			send as send_to_socket,
 			login as ftp_login,
 			last_reply as last_reply_utf_8,
-			reply_code_ok as integer_32_reply_code_ok
+			reply_code_ok as integer_32_reply_code_ok,
+			send_passive_mode_command as enter_passive_mode_for_data
 		redefine
 			close_sockets, send_transfer_command, send_username, send_password
 		end
@@ -37,25 +38,9 @@ inherit
 			Read as Read_from
 		end
 
-	EL_MODULE_EXCEPTION; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_STRING_8
-
-	EL_MODULE_USER_INPUT
-
-	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_FTP_CONSTANTS
 
 feature {NONE} -- Implementation
-
-	authenticate
-			-- Log in to server.
-		require
-			opened: is_open
-		do
-			is_logged_in := send_username and then send_password
-		end
 
 	close_sockets
 		do
@@ -113,33 +98,6 @@ feature {NONE} -- Implementation
 			address.path.share (new_path)
 		end
 
-	receive_entry_list_count
-		-- Parse `last_reply_utf_8' from acknowledgement to NLST data transfer
-		-- Eg. "226 4 matches total%R%N"
-		local
-			split_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
-		do
-			receive (main_socket)
-			create split_list.make_shared_adjusted (last_reply_utf_8, ' ', 0)
-			if split_list.count = 0 then
-				error_code := Transmission_error
-
-			elseif attached split_list as list then
-				from list.start until list.after loop
-					inspect list.index
-						when 1 then
-							if split_list.natural_16_item /= Reply.closing_data_connection then
-								error_code := Transmission_error
-							end
-						when 2 then
-							set_last_entry_count (split_list.integer_item)
-					else
-					end
-					list.forth
-				end
-			end
-		end
-
 	reply_code_ok (a_reply: STRING; codes: ARRAY [NATURAL_16]): BOOLEAN
 		do
 			if attached String_8.substring_to (a_reply, ' ') as part then
@@ -182,19 +140,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
-		do
-			if a_path.is_absolute then
-				send_path (cmd, a_path, codes)
-
-			elseif attached {FILE_PATH} a_path as file_path then
-				send_path (cmd, current_directory + file_path, codes)
-
-			elseif attached {DIR_PATH} a_path as dir_path then
-				send_path (cmd, current_directory #+ dir_path, codes)
-			end
-		end
-
 	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
 		-- send command `cmd' with `path' argument and possible success `codes'
 		do
@@ -209,10 +154,24 @@ feature {NONE} -- Implementation
 			if attached main_socket as l_socket then
 				send_to_socket (l_socket, space.joined (Ftp_password_command, address.password))
 				Result := reply_code_ok (last_reply_utf_8, <<
-					Reply.command_not_implemented, Reply.user_logged_in -- Reply.service_ready
+					Reply.command_not_implemented, Reply.user_logged_in
 				>>)
 				if not Result then
 					error_code := Access_denied
+				end
+			else
+				error_code := no_socket_to_connect
+			end
+		end
+
+	send_passive_mode_command: BOOLEAN
+		-- Send passive mode command. Did it work?
+		do
+			if attached main_socket as l_socket then
+				send_to_socket (l_socket, Ftp_passive_mode_command)
+				Result := reply_code_ok (last_reply, << Reply.entering_passive_mode >>)
+				if not Result then
+					error_code := Wrong_command
 				end
 			else
 				error_code := no_socket_to_connect
@@ -223,7 +182,7 @@ feature {NONE} -- Implementation
 		do
 			if initiating_listing then
 				if passive_mode then
-					Result := send_passive_mode_command
+					Result := enter_passive_mode_for_data
 				else
 					Result := send_port_command
 				end
@@ -244,7 +203,7 @@ feature {NONE} -- Implementation
 			if attached main_socket as l_socket then
 				send_to_socket (l_socket, space.joined (Ftp_user_command, address.username))
 				Result := reply_code_ok (last_reply_utf_8, <<
-					Reply.user_logged_in, Reply.user_name_okay -- Reply.service_ready
+					Reply.user_logged_in, Reply.user_name_okay --, Reply.service_ready
 				>>)
 				if not Result then
 					error_code := No_such_user
@@ -342,10 +301,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred
 
-	current_directory: DIR_PATH
-		deferred
-		end
-
 	file_size (file_path: FILE_PATH): INTEGER
 		deferred
 		end
@@ -362,14 +317,6 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	reset
-		deferred
-		end
-
-	set_last_entry_count (a_count: INTEGER)
-		deferred
-		end
-
 feature {NONE} -- Internal attributes
 
 	created_directory_set: EL_HASH_SET [DIR_PATH]
@@ -378,52 +325,5 @@ feature {NONE} -- Internal attributes
 		-- `True' if initiating download of directory entry listing
 
 	reply_parser: EL_FTP_REPLY_PARSER
-
-feature {NONE} -- Numeric constants
-
-	Default_packet_size: INTEGER
-		once
-			Result := 2048
-		end
-
-	Max_login_attempts: INTEGER
-		once
-			Result := 2
-		end
-
-feature {NONE} -- Constants
-
-	Carriage_return_new_line: STRING = "%R%N"
-
-	Command: TUPLE [
-		change_working_directory, delete_file, make_directory, name_list,
-		print_working_directory, quit, remove_directory, size: IMMUTABLE_STRING_8
-	]
-		once
-			create Result
-			Tuple.fill_immutable (Result, "CWD %S, DELE %S, MKD %S, NLST %S, PWD, QUIT, RMD %S, SIZE %S")
-		end
-
-	Error: TUPLE [
-		cannot_set_transfer_mode, invalid_login, label, missing_argument,
-		not_regular_file, socket_error: ZSTRING
-	]
-		once
-			create Result
-			Tuple.fill (Result,
-				"cannot set transfer mode, Invalid username or password, ERROR, missing argument,%
-				%not a regular file, Socket error"
-			)
-		end
-
-	Reply: EL_FTP_SERVER_REPLY_ENUM
-		once
-			create Result.make
-		end
-
-	Stored_path: STRING
-		once
-			create Result.make_empty
-		end
 
 end

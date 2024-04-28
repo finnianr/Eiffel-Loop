@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 15:35:35 GMT (Wednesday 24th April 2024)"
-	revision: "40"
+	date: "2024-04-28 13:18:00 GMT (Sunday 28th April 2024)"
+	revision: "41"
 
 class
 	EL_FTP_PROTOCOL
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 		do
 			make_ftp (a_config.url)
 			config := a_config
+			passive_mode := a_config.passive_mode
 			set_mode.apply
 		end
 
@@ -281,7 +282,6 @@ feature -- Status change
 				authenticate
 				if is_logged_in then
 					done.set_item (True)
-
 					if send_transfer_mode_command then
 						bytes_transferred := 0
 						transfer_initiated := False
@@ -308,6 +308,11 @@ feature -- Status change
 					l_socket := main_socket
 					check l_socket_attached: l_socket /= Void end
 					receive (l_socket)
+--					if error_code = 0 and passive_mode then
+--						if not send_passive_mode_command and then error_code = Wrong_command then
+--							display_error (Error.cannot_enter_passive_mode)
+--						end
+--					end
 				end
 			end
 		rescue
@@ -326,6 +331,14 @@ feature -- Status change
 		end
 
 feature {NONE} -- Implementation
+
+	authenticate
+		-- Log in to server.
+		require
+			opened: is_open
+		do
+			is_logged_in := send_username and then send_password
+		end
 
 	get_current_directory: DIR_PATH
 		do
@@ -348,9 +361,49 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	receive_entry_list_count
+		-- Parse `last_reply_utf_8' from acknowledgement to NLST data transfer
+		-- Eg. "226 4 matches total%R%N"
+		local
+			split_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
+		do
+			receive (main_socket)
+			create split_list.make_shared_adjusted (last_reply_utf_8, ' ', 0)
+			if split_list.count = 0 then
+				error_code := Transmission_error
+
+			elseif attached split_list as list then
+				from list.start until list.after loop
+					inspect list.index
+						when 1 then
+							if split_list.natural_16_item /= Reply.closing_data_connection then
+								error_code := Transmission_error
+							end
+						when 2 then
+							set_last_entry_count (split_list.integer_item)
+					else
+					end
+					list.forth
+				end
+			end
+		end
+
 	set_last_entry_count (a_count: INTEGER)
 		do
 			last_entry_count := a_count
+		end
+
+	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
+		do
+			if a_path.is_absolute then
+				send_path (cmd, a_path, codes)
+
+			elseif attached {FILE_PATH} a_path as file_path then
+				send_path (cmd, current_directory + file_path, codes)
+
+			elseif attached {DIR_PATH} a_path as dir_path then
+				send_path (cmd, current_directory #+ dir_path, codes)
+			end
 		end
 
 end

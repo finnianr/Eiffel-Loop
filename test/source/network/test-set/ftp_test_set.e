@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 13:32:40 GMT (Thursday 25th April 2024)"
-	revision: "17"
+	date: "2024-04-28 13:14:42 GMT (Sunday 28th April 2024)"
+	revision: "18"
 
 class
 	FTP_TEST_SET
@@ -53,7 +53,10 @@ feature -- Tests
 			testing: "[
 				covers/{EL_FTP_PROTOCOL}.entry_list,
 				covers/{EL_FTP_PROTOCOL}.make_directory,
-				covers/{EL_FTP_PROTOCOL}.remove_until_empty
+				covers/{EL_FTP_PROTOCOL}.remove_until_empty,
+				covers/{EL_FLOATING_ZSTRING}.ends_with_character,
+				covers/{EL_FLOATING_ZSTRING}.starts_with_character,
+				covers/{EL_FLOATING_ZSTRING}.same_string
 			]"
 		local
 			config: EL_FTP_CONFIGURATION ftp: EL_FTP_PROTOCOL; dir_path: EL_DIR_PATH
@@ -65,11 +68,10 @@ feature -- Tests
 				else
 					config.authenticate (Void)
 				end
-
 				if config.credential.is_valid then
 					create ftp.make_write (config)
-					ftp.open
-					ftp.login
+					ftp.open; ftp.login
+
 					assert ("logged in", ftp.is_logged_in)
 					ftp.change_home_dir
 					dir_path := "W_code/C1"
@@ -111,8 +113,7 @@ feature -- Tests
 				classic_dir := w_code_dir.parent
 				if config.credential.is_valid then
 					create ftp.make_write (config)
-					ftp.open
-					ftp.login
+					ftp.open; ftp.login
 					across OS.file_list (w_code_dir, "*.c") as source loop
 						create c_source.make_relative (source.item, classic_dir)
 						c_source.display (lio, "Uploading")

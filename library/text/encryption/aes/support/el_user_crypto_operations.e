@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 11:32:06 GMT (Wednesday 29th November 2023)"
-	revision: "8"
+	date: "2024-04-27 10:07:24 GMT (Saturday 27th April 2024)"
+	revision: "9"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -59,22 +59,42 @@ feature -- Basic operations
 			end
 		end
 
-	encrypt_ftp_url
-		-- encrypt ftp url with 256-bit AES encryption and output Pyxis configuration
+	encrypt_ftp_uri
+		-- encrypt ftp uri with 256-bit AES encryption and output Pyxis configuration
 		local
-			url: STRING; pyxis_text: ZSTRING
+			uri: EL_URI; pyxis_text, authority, phrase, input_uri: ZSTRING; index, last_index: INTEGER
 		do
-			url := User_input.line ("Enter url")
-			if attached new_validated_credential as credential
-				and then attached credential.new_aes_encrypter (256) as encrypter
-			then
-				pyxis_text := Pyxis_ftp_config #$ [
-					encrypter.base_64_encrypted (url), credential.salt_base_64, credential.target_base_64
-				]
-				across pyxis_text.split ('%N') as line loop
-					lio.put_line (line.item)
-				end
+			input_uri := User_input.line ("Enter URI in format ftp://user:password@host/<home_dir>").to_latin_1
+			if not valid_ftp_uri (input_uri) then
+				lio.put_line ("Invalid URI format")
 				lio.put_new_line
+			else
+				uri := input_uri.to_latin_1
+				authority := uri.authority
+				index := authority.index_of (':', 1)
+				last_index := authority.last_index_of ('@', authority.count)
+				if index > 0 and last_index > 0 and index < last_index then
+					phrase := authority.substring (index + 1, last_index - 1)
+				else
+					create phrase.make_empty
+				end
+				if valid_ftp_passphrase (phrase) and then attached new_credential (phrase) as credential
+					and then attached credential.new_aes_encrypter (256) as encrypter
+				then
+					pyxis_text := Pyxis_ftp_config #$ [
+						encrypter.base_64_encrypted (uri), credential.salt_base_64, credential.target_base_64
+					]
+					across pyxis_text.split ('%N') as line loop
+						lio.put_line (line.item)
+					end
+					lio.put_new_line
+				else
+					lio.put_labeled_lines ("INVALID passphrase", <<
+						"Must be at least 8 characters in length and composed of any printable",
+						"ASCII characters, except for the space character"
+					>>)
+					lio.put_new_line
+				end
 			end
 		end
 
@@ -216,6 +236,23 @@ feature {NONE} -- Implementation
 			Result := across list as str all str.item.count <= 16 end
 		end
 
+	valid_ftp_uri (line: ZSTRING): BOOLEAN
+		-- `True' if `line' has the format ftp://user:password@host/<home_dir>
+		do
+			if line.is_ascii and then line.starts_with_general ("ftp://")
+				and then line.occurrences ('/') = 3 and then line.has ('@')
+			then
+				Result := line.occurrences (':') >= 2
+			end
+		end
+
+	valid_ftp_passphrase (phrase: ZSTRING): BOOLEAN
+		do
+			if phrase.count >= 8 and then phrase.is_ascii and then not phrase.has (' ') then
+				Result := across phrase.to_latin_1 as c all c.item.is_printable  end
+			end
+		end
+
 	write_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		local
 			out_file: EL_PLAIN_TEXT_FILE
@@ -289,6 +326,12 @@ feature {NONE} -- Factory
 		do
 			create Result.make
 			validate (Result, Void)
+		end
+
+	new_credential (phrase: ZSTRING): EL_AES_CREDENTIAL
+		do
+			create Result.make
+			Result.force_validation (phrase)
 		end
 
 feature {NONE} -- Constants

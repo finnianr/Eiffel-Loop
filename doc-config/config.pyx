@@ -15,14 +15,15 @@ publish-repository:
 	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
 
 	ftp-site:
+		passive_mode = true
 		# ftp://user:password@host/<home_dir>
 		encrypted_url:
-			"HVQPk8fnB04fXvnHdSsvfGjfu0FMt2N1QWbjiSDK+a4QI2aB4XY3QEUC3tfn6wMhiVZrUz4rP59JmXjfdIbktQ=="
+			"HVQPk8fnB04fXvnHdSsvfGjfu0FMt2N1QWbjiSDK+a4/QKChD83g0pTLyeWwCkikSjCvccSQdKUi+bQ+jAp4MA=="
 		credential:
 			salt:
-				"QmOh7tMBAGEyOrOBgMU9BJoJJ1R/dr67"
+				"h1fV/qnFCjsJ9Z61mrWiib4scKqAzNd9"
 			digest:
-				"66i62a1zmjfTUvaSSFUFSL7teSuOejiJlAa+4lEmIj0="
+				"s2MpJZUCdsnU6N3zetItZw7+ixfbPRJ8t98O2yWitPs="
 
 	templates:
 		main = "main-template.html.evol"; eiffel_source = "eiffel-source-code.html.evol"

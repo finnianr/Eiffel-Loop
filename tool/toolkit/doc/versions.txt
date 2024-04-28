@@ -1,3 +1,9 @@
+Ver 1.12.4 (27 Apr 2024)
+* Improved Encrypt FTP URI option to auto-extract passphrase from URI
+
+Ver 1.12.3 (27 Apr 2024)
+* Add set ftp:passive-mode true; to duplicity ftp backup
+
 1.12.2
 * WEBSITE_MONITOR_APP now uses desktop notifications
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-26 18:41:00 GMT (Friday 26th April 2024)"
-	revision: "31"
+	date: "2024-04-27 7:55:13 GMT (Saturday 27th April 2024)"
+	revision: "32"
 
 class
 	EL_DIRECTORY
@@ -30,9 +30,7 @@ inherit
 			recursive_delete_with_action as obs_recursive_delete_with_action,
 			readentry as obs_readentry
 		export
-			{NONE}	obs_readentry, obs_lastentry, obs_recursive_delete_with_action,
-						obs_delete_content_with_action
-
+			{NONE} obs_readentry, obs_lastentry, obs_recursive_delete_with_action, obs_delete_content_with_action
 			{EL_DIRECTORY_ITERATION_CURSOR, DIRECTORY} file_info, last_entry_pointer
 		redefine
 			delete_content, internal_path, set_internal_path
@@ -153,40 +151,13 @@ feature -- Access
 feature -- Measurement
 
 	directory_count (recursive: BOOLEAN): INTEGER
-		local
-			sub_dir: EL_DIRECTORY
 		do
-			create sub_dir.make_default
-			across Current as entry loop
-				if not entry.is_current_or_parent then
-					if entry.is_directory then
-						Result := Result + 1
-						if recursive then
-							sub_dir.set_path_name (entry.item_path (False))
-							Result := Result + sub_dir.directory_count (True)
-						end
-					end
-				end
-			end
+			Result := entry_type_count (recursive, Type_directory)
 		end
 
 	file_count (recursive: BOOLEAN): INTEGER
-		local
-			sub_dir: EL_DIRECTORY
 		do
-			create sub_dir.make_default
-			across Current as entry loop
-				if not entry.is_current_or_parent then
-					if entry.is_directory then
-						if recursive then
-							sub_dir.set_path_name (entry.item_path (False))
-							Result := Result + sub_dir.file_count (True)
-						end
-					else
-						Result := Result + 1
-					end
-				end
-			end
+			Result := entry_type_count (recursive, Type_file)
 		end
 
 feature -- Element change
@@ -226,23 +197,31 @@ feature -- Status query
 	has_directory_with_extension (extension: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if at least one directory exists with extension `extension'
 		do
-			Result := has_entry_with_extension (Type_directory, extension)
+			Result := across Current as entry some
+				entry.existing_item_matches_type_and_extension (Type_directory, extension)
+			end
 		end
 
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := has_entry_of_type (a_name, Type_executable_file)
+			Result := across Current as entry some
+				entry.existing_item_matches_name_and_type (a_name, Type_executable_file)
+			end
 		end
 
 	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := has_entry_of_type (a_name, Type_file)
+			Result := across Current as entry some
+				entry.existing_item_matches_name_and_type (a_name, Type_file)
+			end
 		end
 
 	has_file_with_extension (extension: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if at least one file exists with extension `extension'
 		do
-			Result := has_entry_with_extension (Type_file, extension)
+			Result := across Current as entry some
+				entry.existing_item_matches_type_and_extension (Type_file, extension)
+			end
 		end
 
 	is_following_symlinks: BOOLEAN
@@ -334,19 +313,28 @@ feature {EL_SHARED_DIRECTORY} -- Access
 
 feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 
-	has_entry_of_type (a_name: READABLE_STRING_GENERAL; a_type: INTEGER): BOOLEAN
+	entry_type_count (recursive: BOOLEAN; entry_type: INTEGER): INTEGER
+		local
+			sub_directory: detachable EL_DIRECTORY
 		do
-			Result := across Current as entry some
-				entry.existing_item_matches_name_and_type (a_name, a_type)
+			if recursive then
+				create sub_directory.make_default
 			end
-		end
-
-	has_entry_with_extension (type: INTEGER; extension: READABLE_STRING_GENERAL): BOOLEAN
-		require
-			is_open: true
-		do
-			Result := across Current as entry some
-				entry.existing_item_matches_type_and_extension (type, extension)
+			across Current as entry loop
+				if not entry.is_current_or_parent then
+					if entry.is_directory then
+						if entry_type = Type_directory then
+							Result := Result + 1
+						end
+						if attached sub_directory as sub_dir then
+							sub_dir.set_path_name (entry.item_path (False))
+							Result := Result + sub_dir.entry_type_count (True, entry_type)
+						end
+						
+					elseif entry_type = Type_file then
+						Result := Result + 1
+					end
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2024-04-28 5:59:49 GMT (Sunday 28th April 2024)"
+	revision: "17"
 
 deferred class
 	EL_MODULE_STRING
@@ -15,10 +15,22 @@ deferred class
 inherit
 	EL_MODULE
 
+feature {NONE} -- Implementation
+
+	shared_floating (str: ZSTRING): EL_FLOATING_ZSTRING
+		do
+			Result := Floating_string
+			Result.share (str)
+		end
+
 feature {NONE} -- Constants
 
+	Floating_string: EL_FLOATING_ZSTRING
+		once
+			create Result.make_empty
+		end
+
 	String: EL_ZSTRING_ROUTINES_IMP
-			--
 		once
 			create Result
 		end

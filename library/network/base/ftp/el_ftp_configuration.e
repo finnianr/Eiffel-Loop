@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 12:36:20 GMT (Monday 4th December 2023)"
-	revision: "18"
+	date: "2024-04-27 18:09:08 GMT (Saturday 27th April 2024)"
+	revision: "19"
 
 class
 	EL_FTP_CONFIGURATION
@@ -47,8 +47,6 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	credential: EL_BUILDABLE_AES_CREDENTIAL
-
 	checksum: NATURAL
 		require
 			not_authenticated: not is_authenticated
@@ -61,6 +59,8 @@ feature -- Access
 			end
 		end
 
+	credential: EL_BUILDABLE_AES_CREDENTIAL
+
 	url: FTP_URL
 
 	user_home_dir: DIR_PATH
@@ -71,6 +71,8 @@ feature -- Access
 feature -- Status query
 
 	is_authenticated: BOOLEAN
+
+	passive_mode: BOOLEAN
 
 feature -- Element change
 
@@ -98,6 +100,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
+				["@passive_mode",			 agent do passive_mode := node end],
 				["encrypted_url/text()", agent do encrypted_url := node.to_string_8 end],
 				["credential",				 agent do set_next_context (credential) end]
 			>>)

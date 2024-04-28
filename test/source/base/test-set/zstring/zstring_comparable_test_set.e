@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-10 7:52:16 GMT (Wednesday 10th April 2024)"
-	revision: "4"
+	date: "2024-04-28 12:30:01 GMT (Sunday 28th April 2024)"
+	revision: "5"
 
 class
 	ZSTRING_COMPARABLE_TEST_SET
@@ -19,6 +19,8 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
+	EL_MODULE_STRING
+
 feature {NONE} -- Initialization
 
 	make
@@ -26,6 +28,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["ends_with",					  agent test_ends_with],
+				["floating_string",			  agent test_floating_string],
 				["same_caseless_characters", agent test_same_caseless_characters],
 				["same_characters",			  agent test_same_characters],
 				["starts_with",				  agent test_starts_with]
@@ -62,6 +65,30 @@ feature -- Tests
 						list.remove
 					end
 				end
+			end
+		end
+
+	test_floating_string
+		-- ZSTRING_COMPARABLE_TEST_SET.test_floating_string
+		note
+			testing: "[
+				covers/{EL_FLOATING_ZSTRING}.ends_with,
+				covers/{EL_FLOATING_ZSTRING}.ends_with_character,
+				covers/{EL_FLOATING_ZSTRING}.starts_with,
+				covers/{EL_FLOATING_ZSTRING}.starts_with_character,
+				covers/{EL_FLOATING_ZSTRING}.same_string,
+				convers/{EL_MODULE_STRING}.shared_floating
+			]"
+		local
+		 	str: ZSTRING
+		do
+			str := "%T one two three %T"
+			if attached shared_floating (str) as floating then
+				assert ("starts with one", floating.starts_with ("one"))
+				assert ("ends with three", floating.ends_with ("three"))
+				assert ("same string", floating.ends_with ("one two three"))
+				assert ("starts with 'o'", floating.starts_with_character ('o'))
+				assert ("ends with 'e'", floating.ends_with_character ('e'))
 			end
 		end
 

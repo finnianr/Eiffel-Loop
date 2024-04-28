@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-26 18:41:00 GMT (Friday 26th April 2024)"
-	revision: "8"
+	date: "2024-04-27 7:21:21 GMT (Saturday 27th April 2024)"
+	revision: "9"
 
 class
 	EL_DIRECTORY_ITERATION_CURSOR
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 		require
 			not_closed: not is_closed
 		local
-			ptr: POINTER; u: UTF_CONVERTER
+			ptr: POINTER; conv: UTF_CONVERTER
 		do
 			last_entry_pointer := eif_dir_next (directory_pointer)
 			if last_entry_pointer = default_pointer then
@@ -214,9 +214,9 @@ feature {NONE} -- Implementation
 				path_name_pointer.set_from_pointer (ptr, pointer_length_in_bytes (ptr))
 				path_name.keep_head (parent_count)
 				if {PLATFORM}.is_windows then
-					u.utf_16_0_pointer_into_escaped_string_32 (path_name_pointer, path_name)
+					conv.utf_16_0_pointer_into_escaped_string_32 (path_name_pointer, path_name)
 				else
-					u.utf_8_0_pointer_into_escaped_string_32 (path_name_pointer, path_name)
+					conv.utf_8_0_pointer_into_escaped_string_32 (path_name_pointer, path_name)
 				end
 				update (path_name)
 			end

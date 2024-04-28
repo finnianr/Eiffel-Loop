@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-04-28 7:00:52 GMT (Sunday 28th April 2024)"
+	revision: "6"
 
 class
 	EL_PYXIS_FTP_CONFIGURATION
@@ -43,7 +43,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_MODULE_TUPLE
+	EL_MODULE_TUPLE; EL_MODULE_STRING
 
 create
 	make
@@ -74,19 +74,24 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	find_digest (line: ZSTRING)
+	gather_quoted_strings (line: ZSTRING)
+		-- gather the 3 quoted strings for nodes: `encrypted_url', `salt' and `digest'
 		do
-			pyxis_lines.extend (line)
-			if line.ends_with (Pyxis_node.digest) then
-				state := agent find_digest_value
-			end
-		end
+			if attached shared_floating (line) as floating then
+				if floating.count = 0 or floating.starts_with_character ('#') then
+				-- Ignore comments and empty lines
+					do_nothing
 
-	find_digest_value (line: ZSTRING)
-		do
-			pyxis_lines.extend (line)
-			if line.occurrences ('"') = 2 then
-				state := final
+				elseif floating.starts_with_character ('"') and then floating.ends_with_character ('"') then
+					pyxis_lines.extend (line)
+					quoted_string_count := quoted_string_count + 1
+					if quoted_string_count = 3 then
+						state := final
+					end
+
+				elseif floating.ends_with_character (':') then
+					pyxis_lines.extend (line)
+				end
 			end
 		end
 
@@ -94,26 +99,36 @@ feature {NONE} -- Implementation
 		local
 			last_line: ZSTRING
 		do
-			if line_number = 1 then
-				pyxis_lines.extend (line)
-				pyxis_lines.extend (Pyxis_node.configuration)
+			if attached shared_floating (line) as floating then
+				if floating.count = 0 or floating.starts_with_character ('#') then
+				-- Ignore comments and empty lines
+					do_nothing
 
-			elseif line.ends_with (Pyxis_node.encrypted_url) then
-				encrypted_url_found := True
-				if attached pyxis_lines as list then
-					last_line := list.last
-					ftp_element_name := last_line.substring_to (':')
-					ftp_element_name.left_adjust
+				elseif floating.ends_with_character (':') then
+					if floating.same_string (Pyxis_node.encrypted_url) then
+						encrypted_url_found := True
+						last_line := pyxis_lines [last_node_index]
+						ftp_node_name := last_line.substring_to (':')
+						ftp_node_name.left_adjust
 
-					from list.go_i_th (3) until list.item = last_line loop
-						list.remove
+						if attached pyxis_lines as list then
+							from list.go_i_th (4) until list.item = last_line loop
+								list.remove
+							end
+						end
+						pyxis_lines.extend (line)
+						state := agent gather_quoted_strings
+					else
+						pyxis_lines.extend (line)
+						if pyxis_lines.count = 3 then
+							pyxis_lines.finish
+							pyxis_lines.replace (Pyxis_node.configuration)
+						end
+						last_node_index := pyxis_lines.count
 					end
+				else
+					pyxis_lines.extend (line)
 				end
-				pyxis_lines.extend (line)
-				state := agent find_digest
-
-			elseif line.ends_with_character (':') then
-				pyxis_lines.extend (line)
 			end
 		ensure
 			valid_indent: encrypted_url_found implies pyxis_lines.last.leading_occurrences ('%T') = 2
@@ -124,15 +139,19 @@ feature {NONE} -- Build from Pyxis
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				[ftp_element_name, 	agent do set_next_context (ftp) end]
+				[ftp_node_name, 	agent do set_next_context (ftp) end]
 			>>)
 		end
 
 feature {NONE} -- Internal attributes
 
-	ftp_element_name: STRING
+	ftp_node_name: STRING
 
 	pyxis_lines: EL_ZSTRING_LIST
+
+	quoted_string_count: INTEGER
+
+	last_node_index: INTEGER
 
 feature {NONE} -- Constants
 
