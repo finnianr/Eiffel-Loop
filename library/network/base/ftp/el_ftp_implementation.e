@@ -8,26 +8,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-27 18:50:34 GMT (Saturday 27th April 2024)"
-	revision: "17"
+	date: "2024-05-02 8:52:21 GMT (Thursday 2nd May 2024)"
+	revision: "18"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
 
 inherit
-	FTP_PROTOCOL
+	EL_FTP_NETWORK_RESOURCE
 		rename
-			close as close_sockets,
-			error as has_error,
-			exception as exception_code,
 			make as make_ftp,
-			send as send_to_socket,
-			login as ftp_login,
-			last_reply as last_reply_utf_8,
-			reply_code_ok as integer_32_reply_code_ok,
-			send_passive_mode_command as enter_passive_mode_for_data
-		redefine
-			close_sockets, send_transfer_command, send_username, send_password
+			last_reply as last_reply_utf_8
 		end
 
 	EL_ITERATION_ROUTINES
@@ -38,79 +29,25 @@ inherit
 			Read as Read_from
 		end
 
-	EL_FTP_CONSTANTS
+feature -- Access
 
-feature {NONE} -- Implementation
-
-	close_sockets
+	last_reply: ZSTRING
 		do
-			Precursor
-			initiating_listing := False
+			create Result.make_from_utf_8 (last_reply_utf_8)
+			Result.right_adjust
 		end
 
-	display_command_error (cmd: STRING; message: READABLE_STRING_GENERAL)
-		local
-			upper_command: STRING
+	last_entry_count: INTEGER
+		-- directory entry count set by `read_entry_count' or
+
+feature -- Status query
+
+	last_succeeded: BOOLEAN
 		do
-			if is_lio_enabled then
-				upper_command := String_8.substring_to (cmd, ' ')
-				upper_command.to_upper
-				lio.put_labeled_string (upper_command + " error", message)
-				lio.put_new_line
-			end
+			Result := error_code = 0
 		end
 
-	display_error (message: READABLE_STRING_GENERAL)
-		do
-			if is_lio_enabled then
-				lio.put_labeled_string (Error.label, message)
-				lio.put_new_line
-			end
-		end
-
-	display_reply_error
-		do
-			if is_lio_enabled then
-				lio.put_labeled_string (Error.label + " server reply", last_reply)
-				lio.put_new_line
-			end
-		end
-
-	initiate_file_listing (dir_path: DIR_PATH)
-		do
-			across String_8_scope as scope loop
-				push_address_path (unix_utf_8_path (scope, dir_path))
-				set_passive_mode
-				initiating_listing := True
-				initiate_transfer
-				pop_address_path
-			end
-		end
-
-	pop_address_path
-		do
-			address.path.share (Stored_path)
-		end
-
-	push_address_path (new_path: STRING)
-		do
-			Stored_path.share (address.path)
-			address.path.share (new_path)
-		end
-
-	reply_code_ok (a_reply: STRING; codes: ARRAY [NATURAL_16]): BOOLEAN
-		do
-			if attached String_8.substring_to (a_reply, ' ') as part then
-				Result := codes.has (part.to_natural_16)
-			end
-		end
-
-	reset_file_listing
-		do
-			transfer_initiated := False; is_packet_pending := False
-			initiating_listing := False
-			data_socket := Void
-		end
+feature {NONE} -- Sending commands
 
 	send (cmd: IMMUTABLE_STRING_8; utf_8_path: detachable STRING; codes: ARRAY [NATURAL_16])
 		require
@@ -140,6 +77,53 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	send_command (parts: ARRAY [STRING]; valid_replies: ARRAY [NATURAL_16] error_type_code: INTEGER): BOOLEAN
+		do
+			if attached main_socket as l_socket then
+				send_parts (l_socket, parts)
+				last_reply_utf_8.adjust
+				last_reply_utf_8.to_lower
+				Result := valid_replies.has (reply_code (last_reply_utf_8))
+				if not Result then
+					error_code := error_type_code
+				end
+			else
+				error_code := no_socket_to_connect
+			end
+		end
+
+	send_parts (s: NETWORK_SOCKET; parts: ARRAY [STRING])
+		do
+			if attached Packet_buffer.empty as buffer and then attached Packet_data as data then
+				across parts as list loop
+					if buffer.count > 0 then
+						buffer.append_character (' ')
+					end
+					buffer.append (list.item)
+				end
+				buffer.append (Carriage_return_new_line)
+				data.set_from_pointer (buffer.area.base_address, buffer.count)
+				s.put_managed_pointer (data, 0, buffer.count)
+				receive (s)
+			end
+		end
+
+	send_passive_mode_command: BOOLEAN
+		-- Send passive mode command. Did it work?
+		do
+			Result := send_command (
+				<< Ftp_passive_mode_command >>, Reply.valid_enter_passive_mode, Wrong_command
+			)
+		end
+
+	send_password: BOOLEAN
+			-- Send password. Did it work?
+		do
+			Result := send_command (
+				<< Ftp_password_command, address.password >>, Reply.valid_password, Access_denied
+			)
+		end
+
 	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
 		-- send command `cmd' with `path' argument and possible success `codes'
 		do
@@ -148,37 +132,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	send_password: BOOLEAN
-			-- Send password. Did it work?
+	send_port_command: BOOLEAN
+			-- Send PORT command. Did it work?
+		require
+			data_socket_exists: attached data_socket
 		do
-			if attached main_socket as l_socket then
-				send_to_socket (l_socket, space.joined (Ftp_password_command, address.password))
-				Result := reply_code_ok (last_reply_utf_8, <<
-					Reply.command_not_implemented, Reply.user_logged_in
-				>>)
-				if not Result then
-					error_code := Access_denied
-				end
-			else
-				error_code := no_socket_to_connect
-			end
-		end
-
-	send_passive_mode_command: BOOLEAN
-		-- Send passive mode command. Did it work?
-		do
-			if attached main_socket as l_socket then
-				send_to_socket (l_socket, Ftp_passive_mode_command)
-				Result := reply_code_ok (last_reply, << Reply.entering_passive_mode >>)
-				if not Result then
-					error_code := Wrong_command
-				end
-			else
-				error_code := no_socket_to_connect
+			if attached data_socket as socket then
+				Result := send_command (
+					<< Ftp_port_command, new_localhost_port_string (socket.port) >>, Reply.valid_response, Wrong_command
+				)
 			end
 		end
 
 	send_transfer_command: BOOLEAN
+		local
+			cmd: STRING
 		do
 			if initiating_listing then
 				if passive_mode then
@@ -193,24 +161,178 @@ feature {NONE} -- Implementation
 					end
 				end
 			else
-				Result := Precursor
+				if attached main_socket as l_socket then
+					if passive_mode then
+						Result := enter_passive_mode_for_data
+					else
+						Result := send_port_command
+					end
+
+					if Result then
+						if Read_mode then
+							cmd := Ftp_retrieve_command
+						else
+							check write_mode: write_mode end
+							cmd := Ftp_store_command
+						end
+						Result := send_command (
+							<< cmd, address.path >>, << Reply.about_to_open_data_connection >>, Permission_denied
+						)
+						if Result and then Read_mode then
+							set_resource_size (last_reply_utf_8)
+						end
+					end
+				else
+					error_code := no_socket_to_connect
+				end
 			end
+		end
+
+	send_transfer_mode_command: BOOLEAN
+		-- Send transfer mode command. Did it work?
+		do
+			Result := send_command (
+				<< Is_binary_mode_command [is_binary_mode] >>, Reply.valid_response, Wrong_command
+			)
 		end
 
 	send_username: BOOLEAN
 		-- Send username. Did it work?
 		do
-			if attached main_socket as l_socket then
-				send_to_socket (l_socket, space.joined (Ftp_user_command, address.username))
-				Result := reply_code_ok (last_reply_utf_8, <<
-					Reply.user_logged_in, Reply.user_name_okay --, Reply.service_ready
-				>>)
-				if not Result then
-					error_code := No_such_user
+			Result := send_command (
+				<< Ftp_user_command, address.username >>, Reply.valid_username, No_such_user
+			)
+		end
+
+	try_send (utf_8_command: STRING; valid_replies: ARRAY [NATURAL_16]; done: BOOLEAN_REF)
+		do
+			reset_error
+			if send_command (<< utf_8_command >>, valid_replies, Wrong_command) then
+				done.set_item (True)
+			end
+			if has_error then
+				display_command_error (utf_8_command, error_text (error_code))
+			end
+		rescue
+			close_sockets
+			login
+			retry
+		end
+
+feature {NONE} -- Implementation
+
+	display_command_error (cmd: STRING; message: READABLE_STRING_GENERAL)
+		local
+			upper_command: STRING
+		do
+			if is_lio_enabled then
+				upper_command := String_8.substring_to (cmd, ' ')
+				upper_command.to_upper
+				lio.put_labeled_string (upper_command + " error", message)
+				lio.put_new_line
+			end
+		end
+
+	display_error (message: READABLE_STRING_GENERAL)
+		do
+			if is_lio_enabled then
+				lio.put_labeled_string (Error.label, message)
+				lio.put_new_line
+			end
+		end
+
+	display_reply_error
+		do
+			if is_lio_enabled then
+				lio.put_labeled_string (Error.label + " server reply", last_reply)
+				lio.put_new_line
+			end
+		end
+
+	enter_passive_mode_for_data: BOOLEAN
+		do
+			Result := send_passive_mode_command
+			if Result and then attached new_data_port_info as info then
+				if attached setup_passive_mode_socket (info) as socket then
+					socket.connect
+					data_socket := socket
+				else
+					Result := False
+				end
+			end
+		end
+
+	initiate_file_listing (dir_path: DIR_PATH)
+		do
+			across String_8_scope as scope loop
+				push_address_path (unix_utf_8_path (scope, dir_path))
+				set_passive_mode
+				initiating_listing := True
+				last_entry_count := 0
+				initiate_transfer
+				pop_address_path
+			end
+		end
+
+	initiate_transfer
+			-- Initiate transfer.
+		local
+			l_socket: like accepted_socket
+		do
+			if is_proxy_used then
+				check attached proxy_connection as l_proxy then
+					l_proxy.initiate_transfer
 				end
 			else
-				error_code := no_socket_to_connect
+				if not passive_mode then
+					create l_socket.make_server_by_port (0)
+					data_socket := l_socket
+					l_socket.set_timeout (timeout)
+					l_socket.listen (1)
+				end
+				if send_transfer_command then
+					debug Io.error.put_string ("Accepting socket...%N") end
+					if passive_mode then
+						accepted_socket := data_socket
+
+					elseif attached l_socket then
+						l_socket.accept
+						l_socket := l_socket.accepted
+						check l_socket_attached: attached l_socket end
+						accepted_socket := l_socket
+					end
+					if attached accepted_socket then
+						debug Io.error.put_string ("Socket accepted%N") end
+						transfer_initiated := True
+						is_packet_pending := True
+					else
+						error_code := Connection_refused
+					end
+				end
 			end
+		ensure then
+			connection_established: attached data_socket as l_data_socket and then
+				(l_data_socket.is_open_read or l_data_socket.is_open_write)
+		rescue
+			error_code := Connection_refused
+		end
+
+	pop_address_path
+		do
+			address.path.share (Stored_path)
+		end
+
+	push_address_path (new_path: STRING)
+		do
+			Stored_path.share (address.path)
+			address.path.share (new_path)
+		end
+
+	reset_file_listing
+		do
+			transfer_initiated := False; is_packet_pending := False
+			initiating_listing := False
+			data_socket := Void
 		end
 
 	transfer_file (source_path, destination_path: FILE_PATH)
@@ -244,28 +366,6 @@ feature {NONE} -- Implementation
 			if has_error then
 				display_reply_error
 			end
-		end
-
-	try_send (utf_8_command: STRING; codes: ARRAY [NATURAL_16]; done: BOOLEAN_REF)
-		do
-			reset_error
-			send_to_socket (main_socket, utf_8_command)
-			if last_succeeded then
-				last_reply_utf_8.adjust
-				last_reply_utf_8.to_lower
-				if reply_code_ok (last_reply_utf_8, codes) then
-					done.set_item (True)
-				else
-					error_code := Wrong_command
-				end
-			end
-			if has_error then
-				display_command_error (utf_8_command, error_text (error_code))
-			end
-		rescue
-			close_sockets
-			login
-			retry
 		end
 
 	try_transfer_file (source_path, destination_path: FILE_PATH; done: BOOLEAN_REF)
@@ -305,14 +405,6 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	last_reply: ZSTRING
-		deferred
-		end
-
-	last_succeeded: BOOLEAN
-		deferred
-		end
-
 	login
 		deferred
 		end
@@ -321,9 +413,23 @@ feature {NONE} -- Internal attributes
 
 	created_directory_set: EL_HASH_SET [DIR_PATH]
 
-	initiating_listing: BOOLEAN
-		-- `True' if initiating download of directory entry listing
-
 	reply_parser: EL_FTP_REPLY_PARSER
+
+feature {NONE} -- Buffers
+
+	Packet_buffer: EL_STRING_8_BUFFER
+		once
+			create Result
+		end
+
+	Packet_data: MANAGED_POINTER
+		once
+			create Result.share_from_pointer (default_pointer, 0)
+		end
+
+	Stored_path: STRING
+		once
+			create Result.make_empty
+		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-28 13:14:42 GMT (Sunday 28th April 2024)"
-	revision: "18"
+	date: "2024-05-02 11:15:48 GMT (Thursday 2nd May 2024)"
+	revision: "19"
 
 class
 	FTP_TEST_SET
@@ -54,12 +54,10 @@ feature -- Tests
 				covers/{EL_FTP_PROTOCOL}.entry_list,
 				covers/{EL_FTP_PROTOCOL}.make_directory,
 				covers/{EL_FTP_PROTOCOL}.remove_until_empty,
-				covers/{EL_FLOATING_ZSTRING}.ends_with_character,
-				covers/{EL_FLOATING_ZSTRING}.starts_with_character,
-				covers/{EL_FLOATING_ZSTRING}.same_string
+				covers/{EL_FTP_PROTOCOL}.read_entry_count
 			]"
 		local
-			config: EL_FTP_CONFIGURATION ftp: EL_FTP_PROTOCOL; dir_path: EL_DIR_PATH
+			config: EL_FTP_CONFIGURATION ftp: EL_PROSITE_FTP_PROTOCOL; dir_path: EL_DIR_PATH
 		do
 			if Executable.Is_work_bench then
 				config := new_pyxis_config.ftp
@@ -74,12 +72,6 @@ feature -- Tests
 
 					assert ("logged in", ftp.is_logged_in)
 					ftp.change_home_dir
-					dir_path := "W_code/C1"
-					ftp.make_directory (dir_path)
-					assert ("directory exists", ftp.directory_exists (dir_path))
-
-					ftp.remove_until_empty (dir_path)
-					assert ("not directory exists", not ftp.directory_exists (dir_path.parent))
 
 					if attached ftp.entry_list ("css") as list then
 						assert ("4 entries", list.count = 4)
@@ -88,6 +80,14 @@ feature -- Tests
 					end
 					ftp.read_entry_count ("css")
 					assert ("4 entries", ftp.last_entry_count = 4)
+
+
+					dir_path := "W_code/C1"
+					ftp.make_directory (dir_path)
+					assert ("directory exists", ftp.directory_exists (dir_path))
+
+					ftp.remove_until_empty (dir_path)
+					assert ("not directory exists", not ftp.directory_exists (dir_path.parent))
 
 					ftp.close
 				else
@@ -99,7 +99,7 @@ feature -- Tests
 	test_ftp_upload
 		-- FTP_TEST_SET.test_ftp_upload
 		local
-			config: EL_FTP_CONFIGURATION ftp: EL_FTP_PROTOCOL; dir_path: EL_DIR_PATH
+			config: EL_FTP_CONFIGURATION ftp: EL_PROSITE_FTP_PROTOCOL; dir_path: EL_DIR_PATH
 			w_code_dir, classic_dir: EL_DIR_PATH; c_source: EL_FTP_UPLOAD_ITEM
 		do
 			if Executable.Is_work_bench then
@@ -109,7 +109,7 @@ feature -- Tests
 				else
 					config.authenticate (Void)
 				end
-				create w_code_dir.make_expanded ("build/$ISE_PLATFORM/EIFGENs/classic/W_code")
+				create w_code_dir.make_expanded ("build/$ISE_PLATFORM/EIFGENs/classic/W_code/C1")
 				classic_dir := w_code_dir.parent
 				if config.credential.is_valid then
 					create ftp.make_write (config)

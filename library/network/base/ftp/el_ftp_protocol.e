@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-28 13:18:00 GMT (Sunday 28th April 2024)"
-	revision: "41"
+	date: "2024-05-02 9:55:48 GMT (Thursday 2nd May 2024)"
+	revision: "42"
 
 class
 	EL_FTP_PROTOCOL
 
 inherit
 	EL_FTP_IMPLEMENTATION
-		redefine
-			open, initialize
-		end
 
 create
 	make_write, make_read
@@ -25,7 +22,7 @@ feature {NONE} -- Initialization
 
 	initialize
 		do
-			Precursor
+			set_read_buffer_size (Default_buffer_size)
 			create current_directory
 			set_binary_mode
 			create created_directory_set.make (10)
@@ -66,22 +63,25 @@ feature -- Access
 			create Result.make_empty
 			initiate_file_listing (dir_path)
 
-			if transfer_initiated then
-				from until data_socket.is_closed loop
+			if transfer_initiated and then attached data_socket as socket then
+				from until socket.is_closed loop
 					read
 					create line_list.make_shared_by_string (last_packet, Carriage_return_new_line)
 					if attached line_list as list then
 						Result.grow (Result.count + list.count)
 						from list.start until list.after loop
 							if list.utf_8_item_count = 0 then
-								data_socket.close
-							else
-								Result.extend (dir_path + list.item)
+								socket.close
+
+							elseif attached list.item as name then
+								if name.count <= 2 implies name.occurrences ('.') /= name.count then
+									Result.extend (dir_path + name)
+								end
 							end
 							list.forth
 						end
 					end
-					receive_entry_list_count
+					receive_entry_list_count (Result.count)
 				end
 			end
 			reset_file_listing
@@ -89,12 +89,6 @@ feature -- Access
 			valid_count: Result.count = last_entry_count
 			address_path_unchanged: old address.path ~ address.path
 			detached_data_socket: not attached data_socket
-		end
-
-	last_reply: ZSTRING
-		do
-			create Result.make_from_utf_8 (last_reply_utf_8)
-			Result.right_adjust
 		end
 
 	user_home_dir: DIR_PATH
@@ -112,15 +106,12 @@ feature -- Measurement
 			end
 		end
 
-	last_entry_count: INTEGER
-		-- directory entry count set by `read_entry_count' or
-
 feature -- Element change
 
 	set_current_directory (a_current_directory: DIR_PATH)
 		do
 			send_absolute (
-				Command.change_working_directory, a_current_directory, << Reply.success, Reply.file_action_ok >>
+				Command.change_working_directory, a_current_directory, Reply.valid_file_action
 			)
 			if last_succeeded then
 				if a_current_directory.is_absolute then
@@ -164,7 +155,7 @@ feature -- Remote operations
 
 	remove_directory (dir_path: DIR_PATH)
 		do
-			send_absolute (Command.remove_directory, dir_path, << Reply.file_action_ok >>)
+			send_absolute (Command.remove_directory, dir_path, Reply.valid_file_action)
 			if last_succeeded then
 				created_directory_set.prune (dir_path)
 			end
@@ -191,9 +182,13 @@ feature -- Basic operations
 	read_entry_count (dir_path: DIR_PATH)
 		do
 			initiate_file_listing (dir_path)
-			if transfer_initiated then
-				data_socket.close
-				receive_entry_list_count
+			if transfer_initiated and then attached data_socket as socket then
+				if passive_mode then
+					receive (socket)
+				else
+					socket.close
+					receive_entry_list_count (0)
+				end
 			end
 			reset_file_listing
 		ensure
@@ -227,7 +222,11 @@ feature -- Status query
 				Result := True
 			else
 				send_absolute (Command.size, dir_path, << Reply.action_not_taken >>)
-				Result := last_succeeded and then last_reply_utf_8.has_substring (Error.not_regular_file)
+				if last_succeeded then
+					Result := not across File_not_found_responses as list some
+						last_reply_utf_8.has_substring (list.item)
+					end
+				end
 			end
 		end
 
@@ -245,11 +244,6 @@ feature -- Status query
 	is_default_state: BOOLEAN
 		do
 			Result := config.url.host.is_empty
-		end
-
-	last_succeeded: BOOLEAN
-		do
-			Result := error_code = 0
 		end
 
 feature -- Status change
@@ -282,12 +276,16 @@ feature -- Status change
 				authenticate
 				if is_logged_in then
 					done.set_item (True)
-					if send_transfer_mode_command then
-						bytes_transferred := 0
-						transfer_initiated := False
-						is_count_valid := False
+					if passive_mode implies send_passive_mode_command then
+						if send_transfer_mode_command then
+							bytes_transferred := 0
+							transfer_initiated := False
+							is_count_valid := False
+						else
+							display_error (Error.cannot_set_transfer_mode)
+						end
 					else
-						display_error (Error.cannot_set_transfer_mode)
+						display_error (Error.cannot_enter_passive_mode)
 					end
 				else
 					display_error (Error.invalid_login)
@@ -308,11 +306,6 @@ feature -- Status change
 					l_socket := main_socket
 					check l_socket_attached: l_socket /= Void end
 					receive (l_socket)
---					if error_code = 0 and passive_mode then
---						if not send_passive_mode_command and then error_code = Wrong_command then
---							display_error (Error.cannot_enter_passive_mode)
---						end
---					end
 				end
 			end
 		rescue
@@ -361,7 +354,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	receive_entry_list_count
+	receive_entry_list_count (list_count: INTEGER)
 		-- Parse `last_reply_utf_8' from acknowledgement to NLST data transfer
 		-- Eg. "226 4 matches total%R%N"
 		local
@@ -380,17 +373,12 @@ feature {NONE} -- Implementation
 								error_code := Transmission_error
 							end
 						when 2 then
-							set_last_entry_count (split_list.integer_item)
+							last_entry_count := split_list.integer_item
 					else
 					end
 					list.forth
 				end
 			end
-		end
-
-	set_last_entry_count (a_count: INTEGER)
-		do
-			last_entry_count := a_count
 		end
 
 	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])

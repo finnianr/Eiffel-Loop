@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-27 18:18:46 GMT (Saturday 27th April 2024)"
-	revision: "5"
+	date: "2024-04-29 10:08:16 GMT (Monday 29th April 2024)"
+	revision: "6"
 
 class
 	EL_FTP_SERVER_REPLY_ENUM
@@ -42,7 +42,26 @@ feature {NONE} -- Initialization
 			user_logged_in := 230
 			user_name_okay := 331
 			PATHNAME_created := 257
+
+			valid_enter_passive_mode :=  << entering_passive_mode >>
+			valid_file_action := << success, file_action_ok >>
+			valid_username := << user_logged_in, user_name_okay >>
+			valid_password := << command_not_implemented, user_logged_in >>
+			valid_response := << success >>
 		end
+
+feature -- Valid server responses
+
+	valid_enter_passive_mode: ARRAY [NATURAL_16]
+
+	valid_file_action: ARRAY [NATURAL_16]
+
+	valid_password: ARRAY [NATURAL_16]
+
+	valid_username: ARRAY [NATURAL_16]
+
+	valid_response: ARRAY [NATURAL_16]
+		-- generic response
 
 feature -- Access
 
