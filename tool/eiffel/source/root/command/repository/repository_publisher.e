@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 8:48:00 GMT (Wednesday 3rd April 2024)"
-	revision: "75"
+	date: "2024-05-08 6:15:46 GMT (Wednesday 8th May 2024)"
+	revision: "76"
 
 class
 	REPOSITORY_PUBLISHER
@@ -222,7 +222,11 @@ feature {NONE} -- Implementation
 
 	new_medium: EL_FILE_SYNC_MEDIUM
 		do
-			create {EL_FTP_FILE_SYNC_MEDIUM} Result.make_write (ftp_configuration)
+			if ftp_configuration.prosite_ftp then
+				create {EL_PROSITE_FTP_FILE_SYNC_MEDIUM} Result.make_write (ftp_configuration)
+			else
+				create {EL_FTP_FILE_SYNC_MEDIUM} Result.make_write (ftp_configuration)
+			end
 		end
 
 	output_sub_directories: EL_ARRAYED_LIST [DIR_PATH]

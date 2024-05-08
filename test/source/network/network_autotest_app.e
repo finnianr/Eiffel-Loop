@@ -1,11 +1,15 @@
 note
 	description: "Finalized executable tests for library [./library/network.html network.ecf]"
 	notes: "[
-		Command option: `-simple_client_server_autotest'
+		Usage: 
+		
+			el_test -network_autotest -test_set <name>
 
 		**Test Sets**
 
+			${FTP_PROTOCOL_TEST_SET}
 			${SIMPLE_CLIENT_SERVER_TEST_SET}
+			${NETWORK_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"
@@ -13,15 +17,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "36"
+	date: "2024-05-05 6:40:59 GMT (Sunday 5th May 2024)"
+	revision: "37"
 
 class
 	NETWORK_AUTOTEST_APP
 
 inherit
 	EL_CRC_32_AUTOTEST_APPLICATION [
-		FTP_TEST_SET,
+		FTP_PROTOCOL_TEST_SET,
 		SIMPLE_CLIENT_SERVER_TEST_SET,
 		NETWORK_TEST_SET
 	]

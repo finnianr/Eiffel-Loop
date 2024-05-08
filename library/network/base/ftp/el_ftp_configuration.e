@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-27 18:09:08 GMT (Saturday 27th April 2024)"
-	revision: "19"
+	date: "2024-05-08 6:15:03 GMT (Wednesday 8th May 2024)"
+	revision: "20"
 
 class
 	EL_FTP_CONFIGURATION
@@ -74,6 +74,9 @@ feature -- Status query
 
 	passive_mode: BOOLEAN
 
+	prosite_ftp: BOOLEAN
+		-- when `True' use fasthosts.co.uk Prosite FTP
+
 feature -- Element change
 
 	authenticate (a_phrase: detachable ZSTRING)
@@ -101,6 +104,7 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["@passive_mode",			 agent do passive_mode := node end],
+				["@prosite_ftp",			 agent do prosite_ftp := node end],
 				["encrypted_url/text()", agent do encrypted_url := node.to_string_8 end],
 				["credential",				 agent do set_next_context (credential) end]
 			>>)

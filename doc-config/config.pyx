@@ -13,9 +13,9 @@ publish-repository:
 	invalid_names_output_path = "$HOME/Desktop/Eiffel Apps/invalid-name-references.e"
 	ise_library = "https://www.eiffel.org/files/doc/static/trunk/libraries/%S/%S_chart.html"
 	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
-
+	
 	ftp-site:
-		passive_mode = true
+		passive_mode = true; prosite_ftp = true
 		# ftp://user:password@host/<home_dir>
 		encrypted_url:
 			"HVQPk8fnB04fXvnHdSsvfGjfu0FMt2N1QWbjiSDK+a4/QKChD83g0pTLyeWwCkikSjCvccSQdKUi+bQ+jAp4MA=="

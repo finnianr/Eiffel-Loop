@@ -1,3 +1,6 @@
+Ver 2.1.11 (5 May 2024)
+* Add support for Prosite FTP (fasthosts.co.uk)
+
 Ver 2.1.10 (17 Apr 2024)
 * Copy F_code executable to package/bin
 

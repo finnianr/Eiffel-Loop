@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-02 11:28:20 GMT (Thursday 2nd May 2024)"
-	revision: "1"
+	date: "2024-05-05 7:17:51 GMT (Sunday 5th May 2024)"
+	revision: "2"
 
 deferred class
 	EL_FTP_NETWORK_RESOURCE
@@ -42,7 +42,9 @@ feature -- Measurement
 	count: INTEGER
 			-- Size of data resource
 		do
-			if is_count_valid then Result := resource_size end
+			if is_count_valid then
+				Result := resource_size
+			end
 		end
 
 	resource_size: INTEGER
@@ -221,7 +223,7 @@ feature -- Input/Output operations
 		end
 
 	read
-			-- Read packet.
+		-- Read packet.
 		local
 			l_packet: like last_packet
 		do
@@ -274,27 +276,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	has_num (str: STRING): BOOLEAN
+	has_response_code (str: STRING): BOOLEAN
 			-- Check for response code.
-		require
-			string_exists: str /= Void
 		local
-			s: STRING
-			i: INTEGER
+			i, digit_count: INTEGER; break: BOOLEAN
 		do
-			if str.count >= 3 then
-				s := str.twin
-				s.left_adjust
-				if s.count >=3 then
-					Result := True
-					from i := 1 until i = 4 or not Result loop
-						if i <= s.count and then not s.item (i).is_digit then
-							Result := False
-						end
-						i := i + 1
-					end
+			Result := True
+			from i := 1 until i > str.count or break loop
+				if str [i].is_digit then
+					digit_count := digit_count + 1
+				else
+					break := True
 				end
+				i := i + 1
 			end
+			Result := digit_count = 3
 		end
 
 	open_connection
@@ -334,15 +330,15 @@ feature {NONE} -- Implementation
 				check_socket (s, Read_only)
 				if not has_error then
 					s.read_line
-					create l_reply.make (s.last_string.count + 1)
+					create l_reply.make (s.last_string.count + 2)
 					l_reply.append (s.last_string)
-					l_reply.append_character ('%N')
+					l_reply.append (Carriage_return_new_line)
 					debug
 						if not l_reply.is_empty then
 							io.put_string (l_reply)
 						end
 					end
-					if has_num (l_reply) then
+					if has_response_code (l_reply) then
 						if dash_check (l_reply) then
 							go_on := True
 						else
