@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-26 16:21:47 GMT (Sunday 26th March 2023)"
-	revision: "2"
+	date: "2024-05-08 10:49:39 GMT (Wednesday 8th May 2024)"
+	revision: "3"
 
 class
 	EL_GVFS_FILE_SYNC_MEDIUM
@@ -32,7 +32,11 @@ inherit
 create
 	make, make_default, make_with_mounts
 
-feature -- Element change
+feature -- Status query
+
+	has_error: BOOLEAN
+		do
+		end
 
 	is_open: BOOLEAN
 

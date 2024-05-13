@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-05 8:03:21 GMT (Sunday 5th May 2024)"
-	revision: "20"
+	date: "2024-05-12 16:23:43 GMT (Sunday 12th May 2024)"
+	revision: "21"
 
 class
 	FTP_PROTOCOL_TEST_SET
@@ -33,15 +33,15 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["ftp_directory_create_delete", agent test_ftp_directory_create_delete],
-				["ftp_upload_and_listing",		  agent test_ftp_upload_and_listing]
+				["directory_create_delete", agent test_directory_create_delete],
+				["upload_and_listing",		  agent test_upload_and_listing]
 			>>)
 		end
 
 feature -- Tests
 
-	test_ftp_directory_create_delete
-		-- FTP_TEST_SET.test_ftp_directory_create_delete
+	test_directory_create_delete
+		-- FTP_TEST_SET.test_directory_create_delete
 		note
 			testing: "[
 				covers/{EL_FTP_PROTOCOL}.make_directory,
@@ -60,15 +60,17 @@ feature -- Tests
 				end
 				if config.credential.is_valid then
 					create ftp.make_write (config)
-					ftp.open; ftp.login
+					ftp.login
 
 					assert ("logged in", ftp.is_logged_in)
-					ftp.change_home_dir
 
 					dir_path := "W_code/C1"
-					ftp.make_directory (dir_path)
-					assert ("directory exists", ftp.directory_exists (dir_path))
-
+					assert ("not existing", not ftp.directory_exists (dir_path))
+					across 1 |..| 2 as n loop
+						ftp.make_directory (dir_path)
+						assert ("directory exists", ftp.directory_exists (dir_path))
+					end
+					ftp.remove_until_empty (dir_path)
 					ftp.remove_until_empty (dir_path)
 					assert ("not directory exists", not ftp.directory_exists (dir_path.parent))
 
@@ -79,19 +81,21 @@ feature -- Tests
 			end
 		end
 
-	test_ftp_upload_and_listing
-		-- FTP_TEST_SET.test_ftp_upload_and_listing
+	test_upload_and_listing
+		-- FTP_TEST_SET.test_upload_and_listing
 		note
 			testing: "[
 				covers/{EL_FTP_PROTOCOL}.entry_list,
+				covers/{EL_FTP_PROTOCOL}.file_size,
 				covers/{EL_FTP_PROTOCOL}.make_directory,
 				covers/{EL_FTP_PROTOCOL}.remove_directory,
 				covers/{EL_FTP_PROTOCOL}.delete_file,
 				covers/{EL_FTP_PROTOCOL}.read_entry_count
 			]"
 		local
-			config: EL_FTP_CONFIGURATION ftp: EL_PROSITE_FTP_PROTOCOL; dir_path: EL_DIR_PATH
-			text_item: EL_FTP_UPLOAD_ITEM; name_path: FILE_PATH; name_list: EL_STRING_8_LIST
+			config: EL_FTP_CONFIGURATION ftp: EL_PROSITE_FTP_PROTOCOL
+			text_item: EL_FTP_UPLOAD_ITEM; name_list: EL_STRING_8_LIST
+			dir_path: EL_DIR_PATH; name_path: FILE_PATH
 		do
 			if Executable.Is_work_bench then
 				config := new_pyxis_config.ftp
@@ -102,18 +106,23 @@ feature -- Tests
 				end
 				if config.credential.is_valid then
 					create ftp.make_write (config)
-					ftp.open; ftp.login
+					ftp.login
 					ftp.make_directory (Work_area_dir)
 					file_list.sort (True)
 					across file_list as path loop
 						create text_item.make (path.item, Work_area_dir)
 						text_item.display (lio, "Uploading")
 						ftp.upload (text_item)
+						assert ("same size", File.byte_count (path.item) = ftp.file_size (text_item.destination_file_path))
 					end
 					if attached ftp.entry_list (Work_area_dir) as entry_list then
 						entry_list.sort (True)
 						assert ("same list", entry_list ~ file_list)
 					end
+					text_item.display (lio, "Uploading a 2nd time")
+					ftp.upload (text_item)
+					assert ("no error", not ftp.has_error)
+
 					across file_list as path loop
 						ftp.delete_file (path.item)
 					end

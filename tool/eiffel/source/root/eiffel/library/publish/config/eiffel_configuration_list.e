@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-05-08 7:55:59 GMT (Wednesday 8th May 2024)"
+	revision: "14"
 
 class
 	EIFFEL_CONFIGURATION_LIST [G -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -18,7 +18,7 @@ inherit
 			make as make_list
 		export
 			{NONE} all
-			{ANY} count, ascending_sort, is_empty, do_all, extend
+			{ANY} count, is_empty, do_all, extend, order_by
 		end
 
 	EL_MODULE_LIO

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:33:33 GMT (Thursday 4th April 2024)"
-	revision: "17"
+	date: "2024-05-11 6:49:17 GMT (Saturday 11th May 2024)"
+	revision: "18"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -146,8 +146,19 @@ feature {NONE} -- Implementation
 				if dir_group_table.has_key (dir.item) then
 					medium.make_directory (dir.item)
 					across dir_group_table.found_list as list loop
+						if is_lio_enabled then
+							lio.put_path_field ("Uploading", list.item.source_path)
+							lio.put_path_field (" to", list.item.file_path)
+							lio.put_new_line
+						end
 						medium.copy_item (list.item)
-						list.item.store
+						if medium.has_error then
+							if is_lio_enabled then
+								medium.log_error (lio)
+							end
+						else
+							list.item.store
+						end
 						progress_listener.notify_tick
 					end
 				end
@@ -161,12 +172,12 @@ feature {NONE} -- Implementation
 --			Do copy first because no point in removing directory only to immediately add back in again
 			do_copy_update (medium, copy_item_set)
 
-			-- remove files for deletion
+		-- remove files for deletion
 			across deleted_set as set loop
 				medium.remove_item (set.item)
 				set.item.remove
 			end
-			-- remove empty directories
+		-- remove empty directories
 			checksum_dir := new_crc_sync_dir (local_home_dir, destination_name)
 			across File_system.parent_set (new_file_list (deleted_set), False) as list loop
 				-- order of descending step count
@@ -176,7 +187,7 @@ feature {NONE} -- Implementation
 					File_system.remove_directory (local_dir)
 					progress_listener.notify_tick
 				end
-				-- Remove empty checksums directory
+			-- Remove empty checksums directory
 				local_dir := checksum_dir #+ list.item
 				if Directory.named (local_dir).is_empty then
 					File_system.remove_directory (local_dir)

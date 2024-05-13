@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-02 8:52:21 GMT (Thursday 2nd May 2024)"
-	revision: "18"
+	date: "2024-05-13 7:28:00 GMT (Monday 13th May 2024)"
+	revision: "19"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -35,6 +35,16 @@ feature -- Access
 		do
 			create Result.make_from_utf_8 (last_reply_utf_8)
 			Result.right_adjust
+		end
+
+feature -- Measurement
+
+	file_size (file_path: FILE_PATH): INTEGER
+		do
+			send_path (Command.size, file_path, << Reply.file_status >>)
+			if last_succeeded then
+				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ').to_integer
+			end
 		end
 
 	last_entry_count: INTEGER
@@ -79,8 +89,8 @@ feature {NONE} -- Sending commands
 
 	send_command (parts: ARRAY [STRING]; valid_replies: ARRAY [NATURAL_16] error_type_code: INTEGER): BOOLEAN
 		do
-			if attached main_socket as l_socket then
-				send_parts (l_socket, parts)
+			if attached main_socket as socket then
+				send_parts (socket, parts)
 				last_reply_utf_8.adjust
 				last_reply_utf_8.to_lower
 				Result := valid_replies.has (reply_code (last_reply_utf_8))
@@ -148,7 +158,7 @@ feature {NONE} -- Sending commands
 		local
 			cmd: STRING
 		do
-			if initiating_listing then
+			if initiating_listing and data_socket = Void then
 				if passive_mode then
 					Result := enter_passive_mode_for_data
 				else
@@ -161,7 +171,7 @@ feature {NONE} -- Sending commands
 					end
 				end
 			else
-				if attached main_socket as l_socket then
+				if attached main_socket as socket then
 					if passive_mode then
 						Result := enter_passive_mode_for_data
 					else
@@ -252,8 +262,8 @@ feature {NONE} -- Implementation
 	enter_passive_mode_for_data: BOOLEAN
 		do
 			Result := send_passive_mode_command
-			if Result and then attached new_data_port_info as info then
-				if attached setup_passive_mode_socket (info) as socket then
+			if Result and then attached new_data_port_info as port_info then
+				if attached new_passive_mode_socket (port_info) as socket then
 					socket.connect
 					data_socket := socket
 				else
@@ -275,9 +285,8 @@ feature {NONE} -- Implementation
 		end
 
 	initiate_transfer
-			-- Initiate transfer.
 		local
-			l_socket: like accepted_socket
+			socket: like accepted_socket
 		do
 			if is_proxy_used then
 				check attached proxy_connection as l_proxy then
@@ -285,21 +294,21 @@ feature {NONE} -- Implementation
 				end
 			else
 				if not passive_mode then
-					create l_socket.make_server_by_port (0)
-					data_socket := l_socket
-					l_socket.set_timeout (timeout)
-					l_socket.listen (1)
+					create socket.make_server_by_port (0)
+					data_socket := socket
+					socket.set_timeout (timeout)
+					socket.listen (1)
 				end
 				if send_transfer_command then
 					debug Io.error.put_string ("Accepting socket...%N") end
 					if passive_mode then
 						accepted_socket := data_socket
 
-					elseif attached l_socket then
-						l_socket.accept
-						l_socket := l_socket.accepted
-						check l_socket_attached: attached l_socket end
-						accepted_socket := l_socket
+					elseif attached socket then
+						socket.accept
+						socket := socket.accepted
+						check l_socket_attached: attached socket end
+						accepted_socket := socket
 					end
 					if attached accepted_socket then
 						debug Io.error.put_string ("Socket accepted%N") end
@@ -346,7 +355,9 @@ feature {NONE} -- Implementation
 			packet: PACKET; bytes_read: INTEGER
 		do
 			create packet.make (Default_packet_size)
-			if attached open_raw (a_file_path, Read_from) as file_in then
+			if attached main_socket as socket
+				and then attached open_raw (a_file_path, Read_from) as file_in
+			then
 				from until file_in.after loop
 					file_in.read_to_managed_pointer (packet.data, 0, packet.count)
 					bytes_read := file_in.bytes_read
@@ -361,8 +372,9 @@ feature {NONE} -- Implementation
 				data_socket := Void
 				is_packet_pending := false
 				file_in.close
+
+				receive (socket)
 			end
-			receive (main_socket)
 			if has_error then
 				display_reply_error
 			end
@@ -400,10 +412,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Deferred
-
-	file_size (file_path: FILE_PATH): INTEGER
-		deferred
-		end
 
 	login
 		deferred

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-08 6:15:46 GMT (Wednesday 8th May 2024)"
-	revision: "76"
+	date: "2024-05-11 6:14:57 GMT (Saturday 11th May 2024)"
+	revision: "77"
 
 class
 	REPOSITORY_PUBLISHER
@@ -46,9 +46,10 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			end
 			parser.apply_final
 
-			-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
-			-- makes a consistent value for make `current_digest'
+		-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
+		-- makes a consistent value for make `current_digest'
 			example_classes.ascending_sort
+			ecf_list.order_by (agent {EIFFEL_CONFIGURATION_FILE}.category_and_name, True)
 		ensure then
 			has_name: not name.is_empty
 			has_at_least_one_source_tree: not ecf_list.is_empty
@@ -152,7 +153,8 @@ feature -- Basic operations
 				if attached new_medium as medium then
 					login (medium)
 					if is_logged_in then
-						sync_manager.track_update (medium, Console_display)
+						sync_manager.update (medium)
+--						sync_manager.track_update (medium, Console_display)
 						lio.put_line ("Synchronized")
 					else
 						lio.put_line ("Login failed")

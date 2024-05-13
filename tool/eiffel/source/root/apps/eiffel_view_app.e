@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-05-08 9:07:13 GMT (Wednesday 8th May 2024)"
+	revision: "25"
 
 class
 	EIFFEL_VIEW_APP
@@ -21,7 +21,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER_APPLICATION [EIFFEL_VIEW_COMMAND]
 		redefine
-			Option_name
+			Option_name, visible_types
 		end
 
 feature {NONE} -- Implementation
@@ -42,6 +42,13 @@ feature {NONE} -- Implementation
 		end
 
 	compile: TUPLE [EL_FILE_SYNC_ITEM]
+		do
+			create Result
+		end
+
+	visible_types: TUPLE [EL_FILE_SYNC_MANAGER]
+		-- types with lio output visible in console
+		-- See: {EL_CONSOLE_MANAGER_I}.show_all
 		do
 			create Result
 		end

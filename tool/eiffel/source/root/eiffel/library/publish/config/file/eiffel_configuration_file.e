@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-25 12:11:35 GMT (Thursday 25th January 2024)"
-	revision: "62"
+	date: "2024-05-08 8:46:52 GMT (Wednesday 8th May 2024)"
+	revision: "63"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -94,6 +94,12 @@ feature -- Access
 	category: ZSTRING
 		do
 			Result := relative_dir_path.first_step.as_proper_case
+		end
+
+	category_and_name: ZSTRING
+		-- joined category and name
+		do
+			Result := space.joined (category, name)
 		end
 
 	category_index_title: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-02 11:05:03 GMT (Thursday 2nd May 2024)"
-	revision: "1"
+	date: "2024-05-13 7:01:10 GMT (Monday 13th May 2024)"
+	revision: "2"
 
 class
 	EL_PROSITE_FTP_PROTOCOL
@@ -17,13 +17,50 @@ inherit
 		rename
 			receive_entry_list_count as receive_entry_list_response
 		redefine
-			read_entry_count, receive_entry_list_response
+			directory_exists, make_directory, read_entry_count, receive_entry_list_response
 		end
 
 create
 	make_write, make_read
 
+feature -- Status query
+
+	directory_exists (dir_path: DIR_PATH): BOOLEAN
+		-- `True' if remote directory `dir_path' exists relative to `current_directory'
+		do
+			if dir_path.is_empty or else created_directory_set.has (dir_path) then
+				Result := True
+			else
+				read_entry_count (dir_path)
+				Result := last_entry_count >= 0
+			end
+		end
+
 feature -- Basic operations
+
+	make_directory (dir_path: DIR_PATH)
+		-- create directory relative to current directory
+		local
+			done: BOOLEAN
+		do
+			if dir_path.is_empty or else created_directory_set.has (dir_path) then
+				do_nothing
+			else
+				from until done loop
+					send_path (Command.make_directory, dir_path, << Reply.PATHNAME_created >>)
+					if last_succeeded then
+						created_directory_set.put (dir_path)
+						done := True
+
+					elseif last_reply_utf_8.has_substring (Response.parent_does_not_exist) then
+						reset_error
+						make_directory (dir_path.parent) -- recurse
+					else
+						done := True
+					end
+				end
+			end
+		end
 
 	read_entry_count (dir_path: DIR_PATH)
 		do
@@ -42,12 +79,33 @@ feature {NONE} -- Implementation
 
 	receive_entry_list_response (list_count: INTEGER)
 		-- "226 Closing data connection.%R%N"
+		local
+			code: NATURAL_16
 		do
 			receive (main_socket)
-			if reply_code (last_reply) /= Reply.closing_data_connection then
+			code := reply_code (last_reply_utf_8)
+			if code = Reply.closing_data_connection then
+				do_nothing
+
+		-- if for example both steps of path "W_code/C1" do not exist
+			elseif code = Reply.action_not_taken
+				and then not last_reply_utf_8.has_substring (Response.entry_not_found)
+			then
 				error_code := Transmission_error
 			end
 			last_entry_count := list_count
+		end
+
+feature {NONE} -- Constants
+
+	Response: TUPLE [entry_not_found, not_regular_file, parent_does_not_exist: IMMUTABLE_STRING_8]
+		-- variation of reponses to `Command.size' for a directory
+		-- Eg. 550 file not found (/htdocs/w_code/c1).
+		once
+			create Result
+			Tuple.fill_immutable (Result,"[
+				entry not found, not a regular file, parent directory does not exist
+			]")
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-05 7:17:51 GMT (Sunday 5th May 2024)"
-	revision: "2"
+	date: "2024-05-13 7:21:12 GMT (Monday 13th May 2024)"
+	revision: "3"
 
 deferred class
 	EL_FTP_NETWORK_RESOURCE
@@ -64,16 +64,13 @@ feature -- Status report
 
 	is_open: BOOLEAN
 			-- Is resource open?
-		local
-			l_socket: like main_socket
 		do
 			if is_proxy_used then
 				check attached proxy_connection as l_proxy then
 					Result := l_proxy.is_open
 				end
-			else
-				l_socket := main_socket
-				Result := (l_socket /= Void) and then not l_socket.is_closed
+			elseif attached main_socket as socket then
+				Result := (socket /= Void) and then not socket.is_closed
 			end
 		end
 
@@ -107,8 +104,8 @@ feature -- Status setting
 				check attached proxy_connection as l_proxy then
 					l_proxy.close
 				end
-			elseif attached main_socket as l_socket then
-				l_socket.close
+			elseif attached main_socket as socket then
+				socket.close
 				main_socket := Void
 				if
 					attached accepted_socket as l_accepted_socket and then
@@ -198,12 +195,12 @@ feature -- Input/Output operations
 				until
 					has_error or else not other.is_packet_pending
 				loop
-					if attached accepted_socket as l_socket then
-						check_socket (l_socket, Write_only)
+					if attached accepted_socket as socket then
+						check_socket (socket, Write_only)
 						if not has_error then
 							other.read
 							if attached other.last_packet as l_packet then
-								l_socket.put_string (l_packet)
+								socket.put_string (l_packet)
 								last_packet_size := l_packet.count
 								bytes_transferred := bytes_transferred + last_packet_size
 								if last_packet_size /= other.last_packet_size then
@@ -225,25 +222,26 @@ feature -- Input/Output operations
 	read
 		-- Read packet.
 		local
-			l_packet: like last_packet
+			l_packet: like last_packet; code: NATURAL_16
 		do
 			if is_proxy_used then
 				check attached proxy_connection as l_proxy then
 					l_proxy.read
 				end
-			elseif attached accepted_socket as l_socket then
-				check_socket (l_socket, Read_only)
+			elseif attached accepted_socket as socket then
+				check_socket (socket, Read_only)
 				if not has_error then
-					l_socket.read_stream (read_buffer_size)
-					l_packet := l_socket.last_string
+					socket.read_stream (read_buffer_size)
+					l_packet := socket.last_string
 					last_packet := l_packet
 					last_packet_size := l_packet.count
 					bytes_transferred := bytes_transferred + last_packet_size
 					if last_packet_size = 0 then
 						is_packet_pending := False
 						if attached main_socket as l_main_socket then
-							receive (l_socket)
-							if reply_code (last_reply) /= Reply.closing_data_connection then
+							receive (socket)
+							code := reply_code (last_reply)
+							if code > 0 and then code /= Reply.closing_data_connection then
 								error_code := Transfer_failed
 							end
 						else
@@ -296,7 +294,6 @@ feature {NONE} -- Implementation
 	open_connection
 			-- Open the connection.
 		local
-			l_socket: like main_socket
 			l_proxy: like proxy_connection
 		do
 			if is_proxy_used then
@@ -304,10 +301,11 @@ feature {NONE} -- Implementation
 				proxy_connection := l_proxy
 				l_proxy.set_timeout (timeout)
 			else
-				create l_socket.make_client_by_port (address.port, address.host)
-				main_socket := l_socket
-				l_socket.set_timeout (timeout)
-				l_socket.connect
+				create main_socket.make_client_by_port (address.port, address.host)
+				if attached main_socket as socket then
+					socket.set_timeout (timeout)
+					socket.connect
+				end
 			end
 		rescue
 			error_code := Connection_refused
@@ -354,7 +352,9 @@ feature {NONE} -- Implementation
 
 	reply_code (a_reply: STRING): NATURAL_16
 		do
-			Result := String_8.substring_to (a_reply, ' ').to_natural_16
+			if a_reply.count > 0 and then a_reply [1].is_digit then
+				Result := String_8.substring_to (a_reply, ' ').to_natural_16
+			end
 		end
 
 	set_resource_size (s: STRING)
@@ -375,18 +375,6 @@ feature {NONE} -- Implementation
 			if resource_size > 0 then
 				is_count_valid := True
 			end
-		end
-
-	setup_passive_mode_socket (info: like new_data_port_info): NETWORK_STREAM_SOCKET
-			-- Create a data socket specified by `a_reply' for the use with
-		require
-			passive_mode: passive_mode
-		do
-			create Result.make_client_by_port (info.port_number, info.address)
-		ensure
-			socket_created_if_no_error: not has_error implies Result /= Void
-		rescue
-			error_code := Connection_refused
 		end
 
 feature {NONE} -- Factory
@@ -457,6 +445,16 @@ feature {NONE} -- Factory
 		do
 			create af
 			Result := comma.joined (af.create_localhost.host_address, new_byte_list (p, 2, False))
+		end
+
+	new_passive_mode_socket (info: like new_data_port_info): NETWORK_STREAM_SOCKET
+			-- Create a data socket specified by `a_reply' for the use with
+		require
+			passive_mode: passive_mode
+		do
+			create Result.make_client_by_port (info.port_number, info.address)
+		rescue
+			error_code := Connection_refused
 		end
 
 feature {NONE} -- Internal attributes

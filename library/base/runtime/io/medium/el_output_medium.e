@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 9:42:45 GMT (Sunday 14th April 2024)"
-	revision: "37"
+	date: "2024-05-11 6:24:55 GMT (Saturday 11th May 2024)"
+	revision: "38"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -53,7 +53,7 @@ inherit
 			is_character as is_string_character,
 			occurrences as string_occurrences
 		export
-			{NONE}
+			{NONE} all
 		end
 
 	STRING_HANDLER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-29 14:12:01 GMT (Monday 29th April 2024)"
-	revision: "2"
+	date: "2024-05-13 6:25:27 GMT (Monday 13th May 2024)"
+	revision: "3"
 
 deferred class
 	EL_FTP_COMMAND_CONSTANTS
@@ -48,12 +48,7 @@ feature {NONE} -- Numeric constants
 			Result := 2
 		end
 
-feature {NONE} -- Constants
-
-	Is_binary_mode_command: EL_BOOLEAN_INDEXABLE [STRING]
-		once
-			create Result.make (Ftp_text_mode_command, Ftp_binary_mode_command)
-		end
+feature {NONE} -- String Constants
 
 	Command: TUPLE [
 		change_working_directory, delete_file, make_directory, name_list,
@@ -65,22 +60,27 @@ feature {NONE} -- Constants
 		end
 
 	Error: TUPLE [
-		cannot_enter_passive_mode, cannot_set_transfer_mode, invalid_login,
-		label, missing_argument, socket_error: ZSTRING
+		cannot_enter_passive_mode, cannot_set_transfer_mode, missing_argument,
+	-- Upper case
+		label, invalid_login, socket_error: ZSTRING
 	]
 		once
 			create Result
-			Tuple.fill (Result,
-				"cannot_enter_passive_mode, cannot set transfer mode, Invalid username or password,%
-				%ERROR, missing argument, Socket error"
-			)
+			Tuple.fill (Result,"[
+				cannot enter passive mode, cannot set transfer mode, missing argument,
+				ERROR, Invalid username or password, Socket error			
+			]")
 		end
 
-	File_not_found_responses: EL_STRING_8_LIST
+	Not_regular_file: STRING_8 = "not a regular file"
 		-- variation of reponses to `Command.size' for a directory
 		-- Eg. 550 file not found (/htdocs/w_code/c1).
+
+feature {NONE} -- Constants
+
+	Is_binary_mode_command: EL_BOOLEAN_INDEXABLE [STRING]
 		once
-			Result := "not a regular file, file not found"
+			create Result.make (Ftp_text_mode_command, Ftp_binary_mode_command)
 		end
 
 	Reply: EL_FTP_SERVER_REPLY_ENUM

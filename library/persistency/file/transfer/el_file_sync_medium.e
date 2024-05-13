@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-05-08 10:50:47 GMT (Wednesday 8th May 2024)"
+	revision: "6"
 
 deferred class
 	EL_FILE_SYNC_MEDIUM
@@ -29,6 +29,10 @@ feature -- Status report
 		deferred
 		end
 
+	has_error: BOOLEAN
+		deferred
+		end
+
 feature -- Basic operations
 
 	copy_item (item: EL_FILE_SYNC_ITEM)
@@ -40,6 +44,10 @@ feature -- Basic operations
 
 	close
 		deferred
+		end
+
+	log_error (log: EL_LOGGABLE)
+		do
 		end
 
 	make_directory (dir_path: DIR_PATH)

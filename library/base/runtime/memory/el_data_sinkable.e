@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 8:52:26 GMT (Sunday 14th April 2024)"
-	revision: "27"
+	date: "2024-05-11 6:25:24 GMT (Saturday 11th May 2024)"
+	revision: "28"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -40,7 +40,7 @@ inherit
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 		export
-			{NONE}
+			{NONE} all
 		end
 
 	EL_SHARED_UTF_8_SEQUENCE

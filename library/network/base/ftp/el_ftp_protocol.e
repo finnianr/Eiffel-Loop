@@ -1,13 +1,13 @@
 note
-	description: "FTP protocol"
+	description: "File transfer protocol (FTP)"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-02 9:55:48 GMT (Thursday 2nd May 2024)"
-	revision: "42"
+	date: "2024-05-13 7:28:27 GMT (Monday 13th May 2024)"
+	revision: "43"
 
 class
 	EL_FTP_PROTOCOL
@@ -96,16 +96,6 @@ feature -- Access
 			Result := config.user_home_dir
 		end
 
-feature -- Measurement
-
-	file_size (file_path: FILE_PATH): INTEGER
-		do
-			send_path (Command.size, file_path, << Reply.file_status >>)
-			if last_succeeded then
-				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ').to_integer
-			end
-		end
-
 feature -- Element change
 
 	set_current_directory (a_current_directory: DIR_PATH)
@@ -141,7 +131,7 @@ feature -- Remote operations
 		require
 			dir_path_is_relative: not dir_path.is_absolute
 		do
-			if dir_path.is_empty or directory_exists (dir_path) then
+			if directory_exists (dir_path) then
 				do_nothing
 			else
 				if attached dir_path.parent as parent and then not directory_exists (parent) then
@@ -165,15 +155,15 @@ feature -- Remote operations
 		local
 			done: BOOLEAN; l_path: DIR_PATH
 		do
-			from l_path := dir_path.twin until done loop
+			from l_path := dir_path.twin until done or l_path.is_empty loop
 				read_entry_count (l_path)
-				if last_entry_count = 0 then
-					remove_directory (l_path)
-					l_path := l_path.parent
-					done := l_path.is_empty
+				inspect last_entry_count
+					when 0 then
+						remove_directory (l_path)
 				else
 					done := True
 				end
+				l_path := l_path.parent
 			end
 		end
 
@@ -203,6 +193,12 @@ feature -- Basic operations
 			login; change_home_dir
 		end
 
+	send_size (dir_path: DIR_PATH)
+		-- `True' if remote directory `dir_path' exists relative to `current_directory'
+		do
+			send_absolute (Command.size, dir_path, << Reply.action_not_taken >>)
+		end
+
 	upload (item: EL_FTP_UPLOAD_ITEM)
 		-- upload file to destination directory relative to home directory
 		require
@@ -222,11 +218,7 @@ feature -- Status query
 				Result := True
 			else
 				send_absolute (Command.size, dir_path, << Reply.action_not_taken >>)
-				if last_succeeded then
-					Result := not across File_not_found_responses as list some
-						last_reply_utf_8.has_substring (list.item)
-					end
-				end
+				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
 			end
 		end
 
@@ -295,17 +287,16 @@ feature -- Status change
 
 	open
 			-- Open resource.
-		local
-			l_socket: like main_socket
 		do
 			if not is_open then
 				open_connection
 				if not is_open then
 					error_code := Connection_refused
+					
+				elseif attached main_socket as socket then
+					receive (socket)
 				else
-					l_socket := main_socket
-					check l_socket_attached: l_socket /= Void end
-					receive (l_socket)
+					check socket_attached: False end
 				end
 			end
 		rescue

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-05-08 10:49:25 GMT (Wednesday 8th May 2024)"
+	revision: "9"
 
 class
 	EL_LOCAL_FILE_SYNC_MEDIUM
@@ -40,6 +40,10 @@ feature -- Status report
 		-- `True' if directory exists on medium
 		do
 			Result := (home_dir #+ dir_path).exists
+		end
+
+	has_error: BOOLEAN
+		do
 		end
 
 	is_open: BOOLEAN

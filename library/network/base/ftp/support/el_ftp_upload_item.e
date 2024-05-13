@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-22 18:06:38 GMT (Tuesday 22nd August 2023)"
-	revision: "11"
+	date: "2024-05-08 14:51:48 GMT (Wednesday 8th May 2024)"
+	revision: "12"
 
 class
 	EL_FTP_UPLOAD_ITEM
@@ -51,12 +51,12 @@ feature -- Basic operations
 
 feature -- Element change
 
-	set_destination_dir (a_destination_dir: like destination_dir)
+	set_destination_dir (a_destination_dir: DIR_PATH)
 		do
 			destination_dir := a_destination_dir
 		end
 
-	set_source_path (a_source_path: like source_path)
+	set_source_path (a_source_path: FILE_PATH)
 		do
 			source_path := a_source_path
 		end
