@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-11 6:14:57 GMT (Saturday 11th May 2024)"
-	revision: "77"
+	date: "2024-05-13 13:22:52 GMT (Monday 13th May 2024)"
+	revision: "78"
 
 class
 	REPOSITORY_PUBLISHER
@@ -153,8 +153,7 @@ feature -- Basic operations
 				if attached new_medium as medium then
 					login (medium)
 					if is_logged_in then
-						sync_manager.update (medium)
---						sync_manager.track_update (medium, Console_display)
+						sync_manager.track_update (medium, Console_display)
 						lio.put_line ("Synchronized")
 					else
 						lio.put_line ("Login failed")

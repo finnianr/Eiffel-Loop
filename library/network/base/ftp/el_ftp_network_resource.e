@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 9:28:45 GMT (Monday 13th May 2024)"
-	revision: "4"
+	date: "2024-05-13 13:12:47 GMT (Monday 13th May 2024)"
+	revision: "5"
 
 deferred class
 	EL_FTP_NETWORK_RESOURCE
@@ -55,8 +55,8 @@ feature -- Measurement
 feature -- Status report
 
 	Supports_multiple_transactions: BOOLEAN = True
-			-- Does resource support multiple transactions per connection?
-			-- (Answer: yes)
+		-- Does resource support multiple transactions per connection?
+		-- (Answer: yes)
 
 	is_binary_mode: BOOLEAN
 			-- Is binary transfer mode selected?
@@ -176,6 +176,11 @@ feature -- Status setting
 			text_mode_set: not is_binary_mode
 		end
 
+	set_transmission_error
+		do
+			error_code := Transmission_error
+		end
+
 	set_write_mode
 	 		-- Set write mode.
 		do
@@ -236,14 +241,12 @@ feature -- Input/Output operations
 					bytes_transferred := bytes_transferred + last_packet_size
 					if last_packet_size = 0 then
 						is_packet_pending := False
-						if attached socket.received_reply as str then
-							last_reply := str
-							code := reply_code (str)
-						else
-							error_code := Transfer_failed
-						end
-						if code > 0 and then code /= Reply.closing_data_connection then
-							error_code := Transfer_failed
+						socket.get_reply (last_reply)
+						if not has_error then
+							code := last_reply_code
+							if code > 0 and then code /= Reply.closing_data_connection then
+								error_code := Transfer_failed
+							end
 						end
 					end
 				end
@@ -278,10 +281,10 @@ feature {NONE} -- Implementation
 			error_code := Connection_refused
 		end
 
-	reply_code (a_reply: STRING): NATURAL_16
+	last_reply_code: NATURAL_16
 		do
-			if a_reply.count > 0 and then a_reply [1].is_digit then
-				Result := String_8.substring_to (a_reply, ' ').to_natural_16
+			if attached last_reply as l_reply and then l_reply.count > 0 and then l_reply [1].is_digit then
+				Result := String_8.substring_to (l_reply, ' ').to_natural_16
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 9:06:12 GMT (Monday 13th May 2024)"
-	revision: "44"
+	date: "2024-05-13 13:06:33 GMT (Monday 13th May 2024)"
+	revision: "45"
 
 class
 	EL_FTP_PROTOCOL
@@ -174,9 +174,7 @@ feature -- Basic operations
 			initiate_file_listing (dir_path)
 			if transfer_initiated and then attached data_socket as socket then
 				if passive_mode then
-					if attached socket.received_reply as str then
-						last_reply_utf_8 := str
-					end
+					socket.get_reply (last_reply_utf_8)
 				else
 					socket.close
 					receive_entry_list_count (0)
@@ -220,7 +218,7 @@ feature -- Status query
 				Result := True
 			else
 				send_absolute (Command.size, dir_path, << Reply.action_not_taken >>)
-				Result := last_succeeded and then last_reply_utf_8.has_substring (Not_regular_file)
+				Result := last_succeeded and then reply_contains (Not_regular_file)
 			end
 		end
 
@@ -249,6 +247,7 @@ feature -- Status change
 				quit
 			end
 			close_sockets
+			created_directory_set.wipe_out
 		end
 
 	login
@@ -296,9 +295,7 @@ feature -- Status change
 					error_code := Connection_refused
 
 				elseif attached main_socket as socket then
-					if attached socket.received_reply as str then
-						last_reply_utf_8 := str
-					end
+					socket.get_reply (last_reply_utf_8)
 				else
 					check socket_attached: False end
 				end
@@ -356,8 +353,8 @@ feature {NONE} -- Implementation
 			split_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
 		do
 			if attached main_socket as socket then
-				if attached socket.received_reply as str then
-					last_reply_utf_8 := str
+				socket.get_reply (last_reply_utf_8)
+				if not has_error then
 					create split_list.make_shared_adjusted (last_reply_utf_8, ' ', 0)
 					if split_list.count = 0 then
 						error_code := Transmission_error
@@ -376,8 +373,6 @@ feature {NONE} -- Implementation
 							list.forth
 						end
 					end
-				else
-					error_code := Transmission_error
 				end
 			else
 				error_code := No_socket_to_connect

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-12 16:23:43 GMT (Sunday 12th May 2024)"
-	revision: "21"
+	date: "2024-05-13 12:13:31 GMT (Monday 13th May 2024)"
+	revision: "22"
 
 class
 	FTP_PROTOCOL_TEST_SET
@@ -61,15 +61,17 @@ feature -- Tests
 				if config.credential.is_valid then
 					create ftp.make_write (config)
 					ftp.login
-
 					assert ("logged in", ftp.is_logged_in)
-
 					dir_path := "W_code/C1"
 					assert ("not existing", not ftp.directory_exists (dir_path))
-					across 1 |..| 2 as n loop
-						ftp.make_directory (dir_path)
-						assert ("directory exists", ftp.directory_exists (dir_path))
-					end
+					ftp.make_directory (dir_path)
+					assert ("directory exists", ftp.directory_exists (dir_path))
+					ftp.close
+
+				-- 2nd time round
+					ftp.login
+					ftp.make_directory (dir_path) -- already exists
+					assert ("directory exists", ftp.directory_exists (dir_path))
 					ftp.remove_until_empty (dir_path)
 					ftp.remove_until_empty (dir_path)
 					assert ("not directory exists", not ftp.directory_exists (dir_path.parent))
@@ -95,7 +97,7 @@ feature -- Tests
 		local
 			config: EL_FTP_CONFIGURATION ftp: EL_PROSITE_FTP_PROTOCOL
 			text_item: EL_FTP_UPLOAD_ITEM; name_list: EL_STRING_8_LIST
-			dir_path: EL_DIR_PATH; name_path: FILE_PATH
+			dir_path: EL_DIR_PATH; name_path, src_path: FILE_PATH
 		do
 			if Executable.Is_work_bench then
 				config := new_pyxis_config.ftp
@@ -108,6 +110,14 @@ feature -- Tests
 					create ftp.make_write (config)
 					ftp.login
 					ftp.make_directory (Work_area_dir)
+
+				-- Test big file
+					src_path := "source/base/test-set/zstring/zstring_test_set.e"
+					if attached open (src_path, Closed) as source then
+						File.copy_contents_to_dir (source, Work_area_dir)
+						file_list.extend (Work_area_dir + src_path.base)
+					end
+
 					file_list.sort (True)
 					across file_list as path loop
 						create text_item.make (path.item, Work_area_dir)

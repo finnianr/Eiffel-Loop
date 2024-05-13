@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-11 6:47:05 GMT (Saturday 11th May 2024)"
-	revision: "7"
+	date: "2024-05-13 13:12:47 GMT (Monday 13th May 2024)"
+	revision: "8"
 
 class
 	EL_FTP_FILE_SYNC_MEDIUM
@@ -38,7 +38,7 @@ feature -- Basic operations
 
 	log_error (log: EL_LOGGABLE)
 		do
-			log.put_integer_field (error_text (error_code), reply_code (last_reply_utf_8))
+			log.put_integer_field (error_text (error_code), last_reply_code)
 			log.put_new_line
 			log.put_line (last_reply_utf_8)
 		end

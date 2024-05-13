@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 9:18:52 GMT (Monday 13th May 2024)"
-	revision: "1"
+	date: "2024-05-13 13:18:59 GMT (Monday 13th May 2024)"
+	revision: "2"
 
 class
 	EL_FTP_STREAM_SOCKET
@@ -42,19 +42,19 @@ feature {NONE} -- Initialization
 			resource := a_resource
 		end
 
-	make_data (a_resource: EL_FTP_NETWORK_RESOURCE; last_reply: STRING)
+	make_data (a_resource: EL_FTP_NETWORK_RESOURCE; port_specification: STRING)
 		require
-			valid_passive_mode_response: last_reply.has ('(') and then last_reply.occurrences (',') = 5
+			valid_port_specification: port_specification.has ('(') and then port_specification.occurrences (',') = 5
 		do
-			if attached new_data_port_info (last_reply) as info then
+			if attached new_data_port_info (port_specification) as info then
 				make_client_by_port (info.port_number, info.address)
 			end
 			resource := a_resource
 		end
 
-feature -- Access
+feature -- Basic operations
 
-	command_reply (parts: ARRAY [STRING]): detachable STRING
+	do_command (parts: ARRAY [STRING]; reply_out: STRING)
 		do
 			if attached Packet_buffer.empty as buffer and then attached Packet_data as data then
 				across parts as list loop
@@ -66,29 +66,30 @@ feature -- Access
 				buffer.append (Carriage_return_new_line)
 				data.set_from_pointer (buffer.area.base_address, buffer.count)
 				put_managed_pointer (data, 0, buffer.count)
-				
-				if attached received_reply as str then
-					str.adjust; str.to_lower
-					Result := str
-				end
+
+				get_reply (reply_out)
+				reply_out.adjust; reply_out.to_lower
 			end
 		end
 
-	received_reply: detachable STRING
+	get_reply (reply_out: STRING)
 		require
 			socket_readable: is_open_read
 		local
-			go_on: BOOLEAN
+			go_on: BOOLEAN; received: BOOLEAN
 		do
-			from until resource.has_error or else (attached Result and not go_on) loop
+			reply_out.wipe_out
+			from until resource.has_error or else (reply_out.count > 0 and not go_on) loop
 				resource.check_socket (Current, resource.Read_only)
 				if not resource.has_error then
 					read_line
-					create Result.make (last_string.count + 2)
-					Result.append (last_string)
-					Result.append (Carriage_return_new_line)
-					if has_response_code (Result) then
-						if dash_check (Result) then
+					reply_out.wipe_out
+					reply_out.append (last_string)
+					reply_out.append (Carriage_return_new_line)
+					received := True
+
+					if has_response_code (reply_out) then
+						if dash_check (reply_out) then
 							go_on := True
 						else
 							go_on := False
@@ -96,12 +97,15 @@ feature -- Access
 					end
 				end
 			end
+			if not received then
+				resource.set_transmission_error
+			end
 		end
 
 feature {NONE} -- Implementation
 
 	dash_check (str: STRING): BOOLEAN
-			-- Check for dash
+		-- check for dash character in 4th position after leading whitespace
 		local
 			s: EL_STRING_8_ROUTINES; space_count: INTEGER
 		do
@@ -128,13 +132,13 @@ feature {NONE} -- Implementation
 			Result := digit_count = 3
 		end
 
-	new_data_port_info (last_reply: STRING): TUPLE [address: STRING; port_number: INTEGER]
+	new_data_port_info (port_specification: STRING): TUPLE [address: STRING; port_number: INTEGER]
 		-- "227 entering passive mode (213,171,193,5,210,246)."
 		local
 			s: EL_STRING_8_ROUTINES; number_list, l_address: STRING; index, i: INTEGER
 			l_port, byte: INTEGER
 		do
-			number_list := s.substring_to_reversed (last_reply, '(')
+			number_list := s.substring_to_reversed (port_specification, '(')
 			index := number_list.last_index_of (')', number_list.count)
 			if index > 0 then
 				number_list.keep_head (index - 1)
@@ -151,7 +155,6 @@ feature {NONE} -- Implementation
 				Result := ["", l_port]
 			end
 		end
-
 
 feature {NONE} -- Internal attributes
 

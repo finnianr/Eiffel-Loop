@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 9:24:35 GMT (Monday 13th May 2024)"
-	revision: "20"
+	date: "2024-05-13 13:12:47 GMT (Monday 13th May 2024)"
+	revision: "21"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -90,14 +90,12 @@ feature {NONE} -- Sending commands
 	send_command (parts: ARRAY [STRING]; valid_replies: ARRAY [NATURAL_16] error_type_code: INTEGER): BOOLEAN
 		do
 			if attached main_socket as socket then
-				if attached socket.command_reply (parts) as l_reply then
-					last_reply_utf_8 := l_reply
-					Result := valid_replies.has (reply_code (l_reply))
+				socket.do_command (parts, last_reply_utf_8)
+				if not has_error then
+					Result := valid_replies.has (last_reply_code)
 					if not Result then
 						error_code := error_type_code
 					end
-				else
-					error_code := Transmission_error
 				end
 			else
 				error_code := no_socket_to_connect
@@ -321,6 +319,11 @@ feature {NONE} -- Implementation
 			address.path.share (new_path)
 		end
 
+	reply_contains (str: READABLE_STRING_8): BOOLEAN
+		do
+			Result := last_reply_utf_8.has_substring (str)
+		end
+
 	reset_file_listing
 		do
 			transfer_initiated := False; is_packet_pending := False
@@ -356,9 +359,7 @@ feature {NONE} -- Implementation
 				data_socket := Void
 				is_packet_pending := false
 				file_in.close
-				if attached socket.received_reply as str then
-					last_reply_utf_8 := str
-				end
+				socket.get_reply (last_reply_utf_8)
 			end
 			if has_error then
 				display_reply_error
