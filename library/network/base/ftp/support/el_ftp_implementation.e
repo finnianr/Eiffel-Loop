@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 7:28:00 GMT (Monday 13th May 2024)"
-	revision: "19"
+	date: "2024-05-13 9:24:35 GMT (Monday 13th May 2024)"
+	revision: "20"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -90,31 +90,17 @@ feature {NONE} -- Sending commands
 	send_command (parts: ARRAY [STRING]; valid_replies: ARRAY [NATURAL_16] error_type_code: INTEGER): BOOLEAN
 		do
 			if attached main_socket as socket then
-				send_parts (socket, parts)
-				last_reply_utf_8.adjust
-				last_reply_utf_8.to_lower
-				Result := valid_replies.has (reply_code (last_reply_utf_8))
-				if not Result then
-					error_code := error_type_code
+				if attached socket.command_reply (parts) as l_reply then
+					last_reply_utf_8 := l_reply
+					Result := valid_replies.has (reply_code (l_reply))
+					if not Result then
+						error_code := error_type_code
+					end
+				else
+					error_code := Transmission_error
 				end
 			else
 				error_code := no_socket_to_connect
-			end
-		end
-
-	send_parts (s: NETWORK_SOCKET; parts: ARRAY [STRING])
-		do
-			if attached Packet_buffer.empty as buffer and then attached Packet_data as data then
-				across parts as list loop
-					if buffer.count > 0 then
-						buffer.append_character (' ')
-					end
-					buffer.append (list.item)
-				end
-				buffer.append (Carriage_return_new_line)
-				data.set_from_pointer (buffer.area.base_address, buffer.count)
-				s.put_managed_pointer (data, 0, buffer.count)
-				receive (s)
 			end
 		end
 
@@ -262,13 +248,11 @@ feature {NONE} -- Implementation
 	enter_passive_mode_for_data: BOOLEAN
 		do
 			Result := send_passive_mode_command
-			if Result and then attached new_data_port_info as port_info then
-				if attached new_passive_mode_socket (port_info) as socket then
-					socket.connect
-					data_socket := socket
-				else
-					Result := False
-				end
+			if Result and then attached new_data_socket as socket then
+				socket.connect
+				data_socket := socket
+			else
+				Result := False
 			end
 		end
 
@@ -294,7 +278,7 @@ feature {NONE} -- Implementation
 				end
 			else
 				if not passive_mode then
-					create socket.make_server_by_port (0)
+					create socket.make_server (Current)
 					data_socket := socket
 					socket.set_timeout (timeout)
 					socket.listen (1)
@@ -372,8 +356,9 @@ feature {NONE} -- Implementation
 				data_socket := Void
 				is_packet_pending := false
 				file_in.close
-
-				receive (socket)
+				if attached socket.received_reply as str then
+					last_reply_utf_8 := str
+				end
 			end
 			if has_error then
 				display_reply_error
@@ -424,16 +409,6 @@ feature {NONE} -- Internal attributes
 	reply_parser: EL_FTP_REPLY_PARSER
 
 feature {NONE} -- Buffers
-
-	Packet_buffer: EL_STRING_8_BUFFER
-		once
-			create Result
-		end
-
-	Packet_data: MANAGED_POINTER
-		once
-			create Result.share_from_pointer (default_pointer, 0)
-		end
 
 	Stored_path: STRING
 		once

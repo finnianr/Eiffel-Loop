@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 7:28:27 GMT (Monday 13th May 2024)"
-	revision: "43"
+	date: "2024-05-13 9:06:12 GMT (Monday 13th May 2024)"
+	revision: "44"
 
 class
 	EL_FTP_PROTOCOL
@@ -174,7 +174,9 @@ feature -- Basic operations
 			initiate_file_listing (dir_path)
 			if transfer_initiated and then attached data_socket as socket then
 				if passive_mode then
-					receive (socket)
+					if attached socket.received_reply as str then
+						last_reply_utf_8 := str
+					end
 				else
 					socket.close
 					receive_entry_list_count (0)
@@ -292,9 +294,11 @@ feature -- Status change
 				open_connection
 				if not is_open then
 					error_code := Connection_refused
-					
+
 				elseif attached main_socket as socket then
-					receive (socket)
+					if attached socket.received_reply as str then
+						last_reply_utf_8 := str
+					end
 				else
 					check socket_attached: False end
 				end
@@ -351,24 +355,32 @@ feature {NONE} -- Implementation
 		local
 			split_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
 		do
-			receive (main_socket)
-			create split_list.make_shared_adjusted (last_reply_utf_8, ' ', 0)
-			if split_list.count = 0 then
-				error_code := Transmission_error
+			if attached main_socket as socket then
+				if attached socket.received_reply as str then
+					last_reply_utf_8 := str
+					create split_list.make_shared_adjusted (last_reply_utf_8, ' ', 0)
+					if split_list.count = 0 then
+						error_code := Transmission_error
 
-			elseif attached split_list as list then
-				from list.start until list.after loop
-					inspect list.index
-						when 1 then
-							if split_list.natural_16_item /= Reply.closing_data_connection then
-								error_code := Transmission_error
+					elseif attached split_list as list then
+						from list.start until list.after loop
+							inspect list.index
+								when 1 then
+									if split_list.natural_16_item /= Reply.closing_data_connection then
+										error_code := Transmission_error
+									end
+								when 2 then
+									last_entry_count := split_list.integer_item
+							else
 							end
-						when 2 then
-							last_entry_count := split_list.integer_item
-					else
+							list.forth
+						end
 					end
-					list.forth
+				else
+					error_code := Transmission_error
 				end
+			else
+				error_code := No_socket_to_connect
 			end
 		end
 

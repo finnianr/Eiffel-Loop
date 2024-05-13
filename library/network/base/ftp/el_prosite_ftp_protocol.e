@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 7:01:10 GMT (Monday 13th May 2024)"
-	revision: "2"
+	date: "2024-05-13 8:32:28 GMT (Monday 13th May 2024)"
+	revision: "3"
 
 class
 	EL_PROSITE_FTP_PROTOCOL
@@ -82,18 +82,26 @@ feature {NONE} -- Implementation
 		local
 			code: NATURAL_16
 		do
-			receive (main_socket)
-			code := reply_code (last_reply_utf_8)
-			if code = Reply.closing_data_connection then
-				do_nothing
+			if attached main_socket as socket then
+				if attached socket.received_reply as str then
+					last_reply_utf_8 := str
+					code := reply_code (last_reply_utf_8)
+				else
+					error_code := Transmission_error
+				end
+				if code = Reply.closing_data_connection then
+					do_nothing
 
-		-- if for example both steps of path "W_code/C1" do not exist
-			elseif code = Reply.action_not_taken
-				and then not last_reply_utf_8.has_substring (Response.entry_not_found)
-			then
-				error_code := Transmission_error
+			-- if for example both steps of path "W_code/C1" do not exist
+				elseif code = Reply.action_not_taken
+					and then not last_reply_utf_8.has_substring (Response.entry_not_found)
+				then
+					error_code := Transmission_error
+				end
+				last_entry_count := list_count
+			else
+				error_code := No_socket_to_connect
 			end
-			last_entry_count := list_count
 		end
 
 feature {NONE} -- Constants

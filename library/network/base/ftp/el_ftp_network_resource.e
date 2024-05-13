@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 7:21:12 GMT (Monday 13th May 2024)"
-	revision: "3"
+	date: "2024-05-13 9:28:45 GMT (Monday 13th May 2024)"
+	revision: "4"
 
 deferred class
 	EL_FTP_NETWORK_RESOURCE
@@ -18,8 +18,10 @@ inherit
 			error as has_error,
 			exception as exception_code,
 			Http_end_of_header_line as Carriage_return_new_line
+		export
+			{EL_FTP_STREAM_SOCKET} check_socket
 		redefine
-			address, is_open, put, read, reuse_connection, make
+			address, is_open, put, read, reuse_connection, make, main_socket
 		end
 
 	EL_FTP_COMMAND_CONSTANTS
@@ -107,11 +109,10 @@ feature -- Status setting
 			elseif attached main_socket as socket then
 				socket.close
 				main_socket := Void
-				if
-					attached accepted_socket as l_accepted_socket and then
-					(l_accepted_socket.is_open_read or l_accepted_socket.is_open_write)
+				if attached accepted_socket as accepted
+					and then (accepted.is_open_read or accepted.is_open_write)
 				then
-					l_accepted_socket.close
+					accepted.close
 					accepted_socket := Void
 					data_socket := Void
 				end
@@ -128,7 +129,7 @@ feature -- Status setting
 			error_code := Transmission_error
 		end
 
-	reuse_connection (other: FTP_PROTOCOL)
+	reuse_connection (other: EL_FTP_NETWORK_RESOURCE)
 			-- Reuse connection of `other'.
 		do
 			main_socket := other.main_socket
@@ -191,10 +192,7 @@ feature -- Input/Output operations
 					l_proxy.put (other)
 				end
 			else
-				from
-				until
-					has_error or else not other.is_packet_pending
-				loop
+				from until has_error or else not other.is_packet_pending loop
 					if attached accepted_socket as socket then
 						check_socket (socket, Write_only)
 						if not has_error then
@@ -238,14 +236,14 @@ feature -- Input/Output operations
 					bytes_transferred := bytes_transferred + last_packet_size
 					if last_packet_size = 0 then
 						is_packet_pending := False
-						if attached main_socket as l_main_socket then
-							receive (socket)
-							code := reply_code (last_reply)
-							if code > 0 and then code /= Reply.closing_data_connection then
-								error_code := Transfer_failed
-							end
+						if attached socket.received_reply as str then
+							last_reply := str
+							code := reply_code (str)
 						else
-							error_code := no_socket_to_connect
+							error_code := Transfer_failed
+						end
+						if code > 0 and then code /= Reply.closing_data_connection then
+							error_code := Transfer_failed
 						end
 					end
 				end
@@ -260,37 +258,6 @@ feature -- Input/Output operations
 
 feature {NONE} -- Implementation
 
-	dash_check (str: STRING): BOOLEAN
-			-- Check for dash
-		require
-			string_exists: str /= Void
-		local
-			s: STRING
-		do
-			if str.count >= 4 then
-				s := str.twin
-				s.left_adjust
-				if s.count >= 4 then Result := (s.item (4) = '-') end
-			end
-		end
-
-	has_response_code (str: STRING): BOOLEAN
-			-- Check for response code.
-		local
-			i, digit_count: INTEGER; break: BOOLEAN
-		do
-			Result := True
-			from i := 1 until i > str.count or break loop
-				if str [i].is_digit then
-					digit_count := digit_count + 1
-				else
-					break := True
-				end
-				i := i + 1
-			end
-			Result := digit_count = 3
-		end
-
 	open_connection
 			-- Open the connection.
 		local
@@ -301,7 +268,7 @@ feature {NONE} -- Implementation
 				proxy_connection := l_proxy
 				l_proxy.set_timeout (timeout)
 			else
-				create main_socket.make_client_by_port (address.port, address.host)
+				create main_socket.make_control (Current)
 				if attached main_socket as socket then
 					socket.set_timeout (timeout)
 					socket.connect
@@ -309,45 +276,6 @@ feature {NONE} -- Implementation
 			end
 		rescue
 			error_code := Connection_refused
-		end
-
-	receive (s: NETWORK_SOCKET)
-			-- Receive line.
-		require
-			socket_exists: s /= Void
-			socket_readable: s.is_open_read
-		local
-			l_reply: detachable STRING
-			go_on: BOOLEAN
-		do
-			from
-				l_reply := Void
-			until
-				has_error or else (l_reply /= Void and not go_on)
-			loop
-				check_socket (s, Read_only)
-				if not has_error then
-					s.read_line
-					create l_reply.make (s.last_string.count + 2)
-					l_reply.append (s.last_string)
-					l_reply.append (Carriage_return_new_line)
-					debug
-						if not l_reply.is_empty then
-							io.put_string (l_reply)
-						end
-					end
-					if has_response_code (l_reply) then
-						if dash_check (l_reply) then
-							go_on := True
-						else
-							go_on := False
-						end
-					end
-				end
-			end
-			if l_reply /= Void then
-				last_reply := l_reply
-			end
 		end
 
 	reply_code (a_reply: STRING): NATURAL_16
@@ -410,32 +338,6 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_data_port_info: TUPLE [address: STRING; port_number: INTEGER]
-		-- "227 entering passive mode (213,171,193,5,210,246)."
-		require
-			valid_passive_mode_response: last_reply.has ('(') and then last_reply.occurrences (',') = 5
-		local
-			s: EL_STRING_8_ROUTINES; number_list, l_address: STRING; index, i: INTEGER
-			l_port, byte: INTEGER
-		do
-			number_list := s.substring_to_reversed (last_reply, '(')
-			index := number_list.last_index_of (')', number_list.count)
-			if index > 0 then
-				number_list.keep_head (index - 1)
-				index := number_list.count
-				from i := 0 until i > 8 loop
-					byte := s.substring_to_reversed_from (number_list, ',', $index).to_integer
-					l_port := l_port | (byte |<< i)
-					i := i + 8
-				end
-				l_address := number_list.substring (1, index)
-				s.replace_character (l_address, ',', '.')
-				Result := [l_address, l_port]
-			else
-				Result := ["", l_port]
-			end
-		end
-
 	new_localhost_port_string (p: INTEGER): STRING
 			-- PORT command
 		require
@@ -447,22 +349,22 @@ feature {NONE} -- Factory
 			Result := comma.joined (af.create_localhost.host_address, new_byte_list (p, 2, False))
 		end
 
-	new_passive_mode_socket (info: like new_data_port_info): NETWORK_STREAM_SOCKET
+	new_data_socket: EL_FTP_STREAM_SOCKET
 			-- Create a data socket specified by `a_reply' for the use with
 		require
 			passive_mode: passive_mode
 		do
-			create Result.make_client_by_port (info.port_number, info.address)
+			create Result.make_data (Current, last_reply)
 		rescue
 			error_code := Connection_refused
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_FTP_NETWORK_RESOURCE} -- Internal attributes
 
-	accepted_socket: detachable NETWORK_STREAM_SOCKET
+	accepted_socket: detachable EL_FTP_STREAM_SOCKET
 		-- Handle to socket of incoming connection
 
-	data_socket: detachable NETWORK_STREAM_SOCKET
+	data_socket: detachable EL_FTP_STREAM_SOCKET
 		-- Socket for data connection
 
 	proxy_connection: detachable HTTP_PROTOCOL
@@ -473,6 +375,8 @@ feature {NONE} -- Internal attributes
 
 	last_reply: STRING
 		-- Last received server reply
+
+	main_socket: detachable EL_FTP_STREAM_SOCKET
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 7:33:19 GMT (Monday 15th April 2024)"
-	revision: "22"
+	date: "2024-05-13 8:13:20 GMT (Monday 13th May 2024)"
+	revision: "23"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -265,6 +265,21 @@ feature -- Measurement
 				i := i - 1
 			end
 			Result := i
+		end
+
+	leading_space_count (str: READABLE_STRING_8): INTEGER
+		-- count of leading space characters in `str'
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > str.count loop
+				if str [i].is_space then
+					Result := Result + 1
+				else
+					i := str.count
+				end
+				i := i + 1
+			end
 		end
 
 feature -- Transform
