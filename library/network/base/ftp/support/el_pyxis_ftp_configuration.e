@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-28 7:00:52 GMT (Sunday 28th April 2024)"
-	revision: "6"
+	date: "2024-05-14 8:24:18 GMT (Tuesday 14th May 2024)"
+	revision: "8"
 
 class
 	EL_PYXIS_FTP_CONFIGURATION

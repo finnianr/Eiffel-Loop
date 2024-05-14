@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 13:18:59 GMT (Monday 13th May 2024)"
-	revision: "2"
+	date: "2024-05-14 8:17:12 GMT (Tuesday 14th May 2024)"
+	revision: "3"
 
 class
 	EL_FTP_STREAM_SOCKET
@@ -32,24 +32,48 @@ feature {NONE} -- Initialization
 
 	make_control (a_resource: EL_FTP_NETWORK_RESOURCE)
 		do
-			make_client_by_port (a_resource.address.port, a_resource.address.host)
 			resource := a_resource
+			make_client_by_port (a_resource.address.port, a_resource.address.host)
+		end
+
+	make_data (a_resource: EL_FTP_NETWORK_RESOURCE; port_specification: STRING)
+		-- parse specification from ftp reply like: "227 entering passive mode (213,171,193,5,210,246)."
+		require
+			valid_port_specification: port_specification.has ('(') and then port_specification.occurrences (',') = 5
+		local
+			s: EL_STRING_8_ROUTINES; number_list, ip_address: STRING; index, i: INTEGER
+			port_number, byte: INTEGER
+		do
+			resource := a_resource
+			number_list := s.substring_to_reversed (port_specification, '(')
+			index := number_list.last_index_of (')', number_list.count)
+			if index > 0 then
+				number_list.keep_head (index - 1)
+				index := number_list.count
+				from i := 0 until i > 8 loop
+					byte := s.substring_to_reversed_from (number_list, ',', $index).to_integer
+					port_number := port_number | (byte |<< i)
+					i := i + 8
+				end
+				ip_address := number_list.substring (1, index)
+				s.replace_character (ip_address, ',', '.')
+			else
+				create ip_address.make_empty
+			end
+			make_client_by_port (port_number, ip_address)
 		end
 
 	make_server (a_resource: EL_FTP_NETWORK_RESOURCE)
 		do
-			make_server_by_port (0)
 			resource := a_resource
+			make_server_by_port (0)
 		end
 
-	make_data (a_resource: EL_FTP_NETWORK_RESOURCE; port_specification: STRING)
-		require
-			valid_port_specification: port_specification.has ('(') and then port_specification.occurrences (',') = 5
+feature -- Status query
+
+	has_error: BOOLEAN
 		do
-			if attached new_data_port_info (port_specification) as info then
-				make_client_by_port (info.port_number, info.address)
-			end
-			resource := a_resource
+			Result := resource.has_error
 		end
 
 feature -- Basic operations
@@ -79,22 +103,15 @@ feature -- Basic operations
 			go_on: BOOLEAN; received: BOOLEAN
 		do
 			reply_out.wipe_out
-			from until resource.has_error or else (reply_out.count > 0 and not go_on) loop
-				resource.check_socket (Current, resource.Read_only)
-				if not resource.has_error then
+			from until has_error or else (reply_out.count > 0 and not go_on) loop
+				if ready_for_reading then
 					read_line
-					reply_out.wipe_out
 					reply_out.append (last_string)
 					reply_out.append (Carriage_return_new_line)
+					go_on := is_multi_line (last_string)
 					received := True
-
-					if has_response_code (reply_out) then
-						if dash_check (reply_out) then
-							go_on := True
-						else
-							go_on := False
-						end
-					end
+				else
+					resource.set_connection_timeout_error
 				end
 			end
 			if not received then
@@ -104,19 +121,22 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	dash_check (str: STRING): BOOLEAN
+	is_multi_line (str: STRING): BOOLEAN
 		-- check for dash character in 4th position after leading whitespace
-		local
-			s: EL_STRING_8_ROUTINES; space_count: INTEGER
+		-- indicating a multi-line message such as:
+
+		-- 	220-FTP Server Ready
+		-- 	220-Please note the following:
+		-- 	220-Welcome to the server.
+		-- 	220 Some final note.
 		do
-			space_count := s.leading_space_count (str)
-			if str.count - space_count >= 4 then
-				Result := str [space_count + 4] = '-'
+			if has_response_code (str) then
+				Result := str.valid_index (4) and then str [4] = '-'
 			end
 		end
 
 	has_response_code (str: STRING): BOOLEAN
-			-- Check for response code.
+		-- `True' if `str' starts with 3 digits
 		local
 			i, digit_count: INTEGER; break: BOOLEAN
 		do
@@ -130,30 +150,6 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 			Result := digit_count = 3
-		end
-
-	new_data_port_info (port_specification: STRING): TUPLE [address: STRING; port_number: INTEGER]
-		-- "227 entering passive mode (213,171,193,5,210,246)."
-		local
-			s: EL_STRING_8_ROUTINES; number_list, l_address: STRING; index, i: INTEGER
-			l_port, byte: INTEGER
-		do
-			number_list := s.substring_to_reversed (port_specification, '(')
-			index := number_list.last_index_of (')', number_list.count)
-			if index > 0 then
-				number_list.keep_head (index - 1)
-				index := number_list.count
-				from i := 0 until i > 8 loop
-					byte := s.substring_to_reversed_from (number_list, ',', $index).to_integer
-					l_port := l_port | (byte |<< i)
-					i := i + 8
-				end
-				l_address := number_list.substring (1, index)
-				s.replace_character (l_address, ',', '.')
-				Result := [l_address, l_port]
-			else
-				Result := ["", l_port]
-			end
 		end
 
 feature {NONE} -- Internal attributes

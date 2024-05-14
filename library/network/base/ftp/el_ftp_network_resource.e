@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 13:12:47 GMT (Monday 13th May 2024)"
-	revision: "5"
+	date: "2024-05-14 7:50:12 GMT (Tuesday 14th May 2024)"
+	revision: "6"
 
 deferred class
 	EL_FTP_NETWORK_RESOURCE
@@ -18,8 +18,6 @@ inherit
 			error as has_error,
 			exception as exception_code,
 			Http_end_of_header_line as Carriage_return_new_line
-		export
-			{EL_FTP_STREAM_SOCKET} check_socket
 		redefine
 			address, is_open, put, read, reuse_connection, make, main_socket
 		end
@@ -95,6 +93,18 @@ feature -- Status report
 			-- Is write mode set?
 		do
 			Result := (mode = Write_mode_id)
+		end
+
+feature -- Error setting
+
+	set_transmission_error
+		do
+			error_code := Transmission_error
+		end
+
+	set_connection_timeout_error
+		do
+			error_code := Connection_timeout
 		end
 
 feature -- Status setting
@@ -174,11 +184,6 @@ feature -- Status setting
 			is_binary_mode := False
 		ensure
 			text_mode_set: not is_binary_mode
-		end
-
-	set_transmission_error
-		do
-			error_code := Transmission_error
 		end
 
 	set_write_mode
