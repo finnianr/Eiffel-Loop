@@ -6,7 +6,7 @@ This is a full-blown MP3 collection manager that is designed to work in conjunct
 
 **Features**
 
-* Integrates with the GNOME desktop and the [https://en.wikipedia.org/wiki/GNOME_Terminal GNOME terminal] so you can drag and drop task configuration files on to either a [https://developer.gnome.org/integration-guide/stable/desktop-files.html.en desktop launcher] or the GNOME terminal.
+* Integrates with the GNOME desktop and the [https://en.wikipedia.org/wiki/GNOME_Terminal GNOME terminal] so you can drag and drop task configuration files on to either a [https://specifications.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html XDG desktop launcher] or the GNOME terminal.
 * Automatically add album art to MP3 files from a directory based on album name or artist name.
 * Collate songs into a directory structure according to song tags:
 

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "30"
+	date: "2024-05-14 11:12:50 GMT (Tuesday 14th May 2024)"
+	revision: "31"
 
 class
 	EL_SCROLLABLE_SEARCH_RESULTS [G]
@@ -416,7 +416,7 @@ note
 		The function `new_styled_description' creates a hyperlink description for navigating to the `i_th'
 		element of the `result_set' by attempting to make the following casts of type `G' in the order given:
 
-		1. Cast to type ${EL_DESCRIBEABLE}
+		1. Cast to type ${EL_DESCRIBABLE}
 		2. Cast to type ${EL_STYLED_TEXT_LIST}
 		3. Cast to type ${EL_NAMEABLE [READABLE_STRING_GENERAL]}
 		3. Cast to type ${READABLE_STRING_GENERAL}

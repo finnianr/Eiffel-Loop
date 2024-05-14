@@ -5,7 +5,7 @@
 * Support for numeric enumerations with reflective assignment from strings and optional mappings to extended descriptions. For example: ${EL_HTTP_STATUS_ENUM}.
 * Basis for reflective initialization of class attributes from command line arguments. See class ${EL_COMMAND_LINE_OPTIONS}
 * Support for reading and writing to strings conforming to ${STRING_GENERAL}
-* Support for reading from objects conforming to ${EL_READABLE} and writing to objects conforming to ${EL_WRITEABLE}
+* Support for reading from objects conforming to ${EL_READABLE} and writing to objects conforming to ${EL_WRITABLE}
 * Support for reading writing to instance of ${EL_MEMORY_READER_WRITER} (inherits ${SED_MEMORY_READER_WRITER})
 * Support for recursively pretty-printing object data to console (with color highlighting in Linux)
 * Support for sinking field data into object conforming to ${EL_DATA_SINKABLE}. Useful for creating MD5 or SHA-256 hashes.

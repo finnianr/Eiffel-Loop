@@ -1,3 +1,6 @@
+Ver 2.1.12 (14 May 2024)
+* Prevent FTP authentication on link checker
+
 Ver 2.1.11 (5 May 2024)
 * Add support for Prosite FTP (fasthosts.co.uk)
 

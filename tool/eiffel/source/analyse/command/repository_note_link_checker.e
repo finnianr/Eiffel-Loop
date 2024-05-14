@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-05-14 11:46:41 GMT (Tuesday 14th May 2024)"
+	revision: "16"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			execute, building_action_table, make_default
+			authenticate_ftp, execute, building_action_table, make_default
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -90,6 +90,13 @@ feature {NONE} -- Build from Pyxis
 		do
 			Result := Precursor +
 				["@invalid_names_output_path", agent do invalid_names_output_path := node.to_expanded_file_path end]
+		end
+
+feature {NONE} -- Implementation
+
+	authenticate_ftp
+		do
+			do_nothing
 		end
 
 feature {NONE} -- Constants

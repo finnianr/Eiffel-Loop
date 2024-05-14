@@ -1,8 +1,7 @@
 note
 	description: "[
 		Manager to install/update a directory of file items with common extension by HTTP download
-		A related class ${EL_RESOURCE_UPDATE_MANAGER} can be used to make an update
-		manager that checks for an installs updates in a user directory.
+		As an update manager it checks for install-updates in a user directory.
 	]"
 	instructions: "[
 		Implement the function `resource_set: ${EL_UPDATEABLE_RESOURCE_SET}' to provide the following data
@@ -17,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-05-14 11:25:26 GMT (Tuesday 14th May 2024)"
+	revision: "19"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER

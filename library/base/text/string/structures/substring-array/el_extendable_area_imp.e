@@ -1,6 +1,6 @@
 note
 	description: "[
-		Class to make descendants of abstract class ${EL_EXTENDABLE_AREA_I} createable.
+		Class to make descendants of abstract class ${EL_EXTENDABLE_AREA} createable.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:45:02 GMT (Sunday 31st March 2024)"
-	revision: "73"
+	date: "2024-05-14 11:18:06 GMT (Tuesday 14th May 2024)"
+	revision: "74"
 
 class
 	EL_EXTENDABLE_AREA_IMP [G]

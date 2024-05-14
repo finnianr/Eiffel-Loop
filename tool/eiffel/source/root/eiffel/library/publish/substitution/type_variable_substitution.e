@@ -1,6 +1,6 @@
 note
 	description: "[
-		${SOURCE_LINK_SUBSTITUTION} with new style of abbreviated source link format as
+		${HYPERLINK_SUBSTITUTION} with new style of abbreviated source link format as
 		shown at start of line.
 	]"
 
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:53:33 GMT (Thursday 4th April 2024)"
-	revision: "16"
+	date: "2024-05-14 11:10:00 GMT (Tuesday 14th May 2024)"
+	revision: "17"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION

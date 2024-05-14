@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 9:38:55 GMT (Tuesday 2nd April 2024)"
-	revision: "1"
+	date: "2024-05-14 11:14:27 GMT (Tuesday 14th May 2024)"
+	revision: "2"
 
 class
 	COMPILE_CLASSES
@@ -43,8 +43,9 @@ feature -- Compiled classes
 		EL_BUTTON_PROGRESS_BOX [EV_BUTTON],
 		EL_CENTERED_VIEWPORT,
 		EL_TAB_BOOK [EL_BOX],
-		EL_WIDGET_PROGRESS_BOX [EV_WIDGET]
-
+		EL_WIDGET_PROGRESS_BOX [EV_WIDGET],
+		EL_SCROLLABLE_SEARCH_RESULTS [ANY],
+		EL_SCROLLABLE_WORD_SEARCHABLE_RESULTS [EL_WORD_SEARCHABLE]
 	]
 		do
 			create Result

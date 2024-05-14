@@ -1,13 +1,13 @@
 note
-	description: "${DATE} objects stored as list of ${INTEGER} numbers"
+	description: "${DATE} objects stored as list of ${INTEGER_32} numbers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-05-14 9:25:44 GMT (Tuesday 14th May 2024)"
+	revision: "3"
 
 class
 	DATE_LIST

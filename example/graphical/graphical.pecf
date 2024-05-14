@@ -21,8 +21,15 @@ system:
 		"""
 			Vision-2 Extensions Demo
 
-			Test application for selected components from Eiffel-Loop
-			[./library/vision2-x.html extension libraries for Vision-2 and Docking].
+			Test applications for selected components from Eiffel-Loop extension libraries for Vision-2
+			graphics and panel docking libraries.
+
+			* [./library/vision2-x.pango_cairo.html Pango-Cairo 2D Graphics]
+			* [./library/vision2-x.graphics.html Vision2-X 2D Graphics]
+			* [./library/vision2-x.pixmap.html Vision2-X Pixmap Extensions]
+			* [./library/vision2-x.container.html Vision2-X UI Container Extensions]
+			* [./library/vision2-x.extensions.html Vision2-X UI Extensions]
+			* [./library/vision2-x.widget.html Vision2-X UI Widget Extensions]
 		"""
 	
 	# classic means C code as an intermediate language
@@ -93,6 +100,7 @@ system:
 			EL_image_utils = "image-utils.ecf"
 			EL_os_command = "os-command.ecf"
 			EL_pyxis_scan = "pyxis-scan.ecf"
+			EL_search ="search-engine.ecf"
 			EL_thread = "thread.ecf"
 			EL_vision2 = "vision2-x.ecf"
 			EL_wel_x = "wel-x.ecf"

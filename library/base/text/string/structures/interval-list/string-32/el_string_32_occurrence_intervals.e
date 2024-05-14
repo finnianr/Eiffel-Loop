@@ -1,6 +1,6 @@
 note
 	description: "[
-		${OCCURRENCE_INTERVALS} optimized for strings conforming to ${READABLE_STRING_32}
+		${EL_OCCURRENCE_INTERVALS} optimized for strings conforming to ${READABLE_STRING_32}
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 18:22:30 GMT (Sunday 14th April 2024)"
-	revision: "9"
+	date: "2024-05-14 11:19:22 GMT (Tuesday 14th May 2024)"
+	revision: "10"
 
 class
 	EL_STRING_32_OCCURRENCE_INTERVALS

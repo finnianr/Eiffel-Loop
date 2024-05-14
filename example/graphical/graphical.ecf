@@ -16,8 +16,15 @@
 	<description>
 Vision-2 Extensions Demo
 
-Test application for selected components from Eiffel-Loop
-[./library/vision2-x.html extension libraries for Vision-2 and Docking].
+Test applications for selected components from Eiffel-Loop extension libraries for Vision-2
+graphics and panel docking libraries.
+
+* [./library/vision2-x.pango_cairo.html Pango-Cairo 2D Graphics]
+* [./library/vision2-x.graphics.html Vision2-X 2D Graphics]
+* [./library/vision2-x.pixmap.html Vision2-X Pixmap Extensions]
+* [./library/vision2-x.container.html Vision2-X UI Container Extensions]
+* [./library/vision2-x.extensions.html Vision2-X UI Extensions]
+* [./library/vision2-x.widget.html Vision2-X UI Widget Extensions]
 	</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
@@ -73,6 +80,7 @@ Test application for selected components from Eiffel-Loop
 		<library name = "EL_image_utils" location = "$EIFFEL_LOOP/library/image-utils.ecf" readonly = "false"/>
 		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
 		<library name = "EL_pyxis_scan" location = "$EIFFEL_LOOP/library/pyxis-scan.ecf" readonly = "false"/>
+		<library name = "EL_search" location = "$EIFFEL_LOOP/library/search-engine.ecf" readonly = "false"/>
 		<library name = "EL_thread" location = "$EIFFEL_LOOP/library/thread.ecf" readonly = "false"/>
 		<library name = "EL_vision2" location = "$EIFFEL_LOOP/library/vision2-x.ecf" readonly = "false"/>
 		<library name = "EL_wel_x" location = "$EIFFEL_LOOP/library/wel-x.ecf" readonly = "false">

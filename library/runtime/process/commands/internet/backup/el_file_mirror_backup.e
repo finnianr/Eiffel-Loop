@@ -1,6 +1,6 @@
 note
 	description: "[
-		${EL_MIRROR_BACKUP} for **file** protocol using ${EL_RSYNC_COMMAND} command
+		${EL_MIRROR_BACKUP} for **file** protocol using ${EL_FILE_RSYNC_COMMAND} command
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-05-14 11:21:41 GMT (Tuesday 14th May 2024)"
+	revision: "3"
 
 class
 	EL_FILE_MIRROR_BACKUP
