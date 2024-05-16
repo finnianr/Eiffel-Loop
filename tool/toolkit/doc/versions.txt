@@ -1,3 +1,6 @@
+Ver 1.12.5 (16 May 2024)
+* Added cacert_path to WEBSITE_MONITOR, got rid of desktop entry.
+
 Ver 1.12.4 (27 Apr 2024)
 * Improved Encrypt FTP URI option to auto-extract passphrase from URI
 

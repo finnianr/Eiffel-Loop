@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-05-16 7:09:20 GMT (Thursday 16th May 2024)"
+	revision: "15"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -110,11 +110,6 @@ feature {EL_HTTP_COMMAND} -- Implementation
 				set_curl_option_with_data (CURLOPT_postfields, post_data.item)
 				set_curl_integer_option (CURLOPT_postfieldsize, post_data_count)
 			end
-		end
-
-	set_certificate_authority_info (cacert_path: FILE_PATH)
-		do
-			set_curl_string_option (CURLOPT_cainfo, cacert_path)
 		end
 
 	set_curl_boolean_option (a_option: INTEGER; flag: BOOLEAN)

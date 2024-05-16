@@ -1,8 +1,10 @@
 note
-	description: "Retrieves data using the HTTP command GET, POST and HEAD"
+	description: "[
+		Retrieves data using the HTTP command GET, POST and HEAD.
+		Accessible via ${EL_MODULE_WEB}.Web
+	]"
 	notes: "[
-		See class [http://eiffel-loop.com/test/source/test/http/http_connection_test_set.html HTTP_CONNECTION_TEST_SET]
-		for examples on how to use.
+		See class ${HTTP_CONNECTION_TEST_SET} for usage examples.
 	]"
 
 	author: "Finnian Reilly"
@@ -10,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 11:48:19 GMT (Monday 22nd April 2024)"
-	revision: "50"
+	date: "2024-05-16 7:15:18 GMT (Thursday 16th May 2024)"
+	revision: "51"
 
 class
 	EL_HTTP_CONNECTION
@@ -26,7 +28,7 @@ inherit
 		rename
 			is_valid as is_valid_option_constant
 		export
-			{ANY} content, is_valid_http_command, set_certificate_authority_info
+			{ANY} content, is_valid_http_command
 		redefine
 			make
 		end
@@ -58,10 +60,6 @@ feature -- Access
 
 	http_version: DOUBLE
 
-	url: EL_URL
-
-	user_agent: STRING
-
 	page_error_code: NATURAL_16
 		-- http error code parsed from document page
 		local
@@ -84,6 +82,10 @@ feature -- Access
 		do
 			Result := Http_status.name (page_error_code)
 		end
+	url: EL_URL
+
+	user_agent: STRING
+
 feature -- Status query
 
 	has_page_error (code: NATURAL_16): BOOLEAN
@@ -204,6 +206,13 @@ feature -- Basic operations
 			open_url (create {EL_URL}.make_from_general (a_url))
 		end
 
+	open_url (a_url: EL_URL)
+		do
+			open_with_parameters (a_url, Void)
+		ensure
+			opened: is_open
+		end
+
 	open_with_parameters (a_url: EL_URL; parameter_table: like new_parameter_table)
 		do
 			reset
@@ -213,13 +222,6 @@ feature -- Basic operations
 			if not user_agent.is_empty then
 				set_curl_string_8_option (CURLOPT_useragent, user_agent)
 			end
-		ensure
-			opened: is_open
-		end
-
-	open_url (a_url: EL_URL)
-		do
-			open_with_parameters (a_url, Void)
 		ensure
 			opened: is_open
 		end
@@ -283,15 +285,7 @@ feature -- Status setting
 			set_curl_boolean_option (CURLOPT_followlocation, True)
 		end
 
-feature -- Element change
-
-	reset
-		do
-			last_string.wipe_out
-			url.wipe_out
-			post_data_count := 0
-			error_code := 0
-		end
+feature -- Status change
 
 	remove_user_agent
 		do
@@ -299,6 +293,14 @@ feature -- Element change
 			if is_open then
 				set_curl_string_8_option (CURLOPT_useragent, user_agent)
 			end
+		end
+
+	reset
+		do
+			last_string.wipe_out
+			url.wipe_out
+			post_data_count := 0
+			error_code := 0
 		end
 
 	set_cookie_load_path (a_cookie_load_path: FILE_PATH)
@@ -370,64 +372,6 @@ feature -- Element change
 			set_post_data (parameters.query_string (True, False))
 		end
 
-	set_ssl_certificate_verification (flag: BOOLEAN)
-			-- Curl verifies whether the certificate is authentic,
-			-- i.e. that you can trust that the server is who the certificate says it is.
-		do
-			set_curl_boolean_option (CURLOPT_ssl_verifypeer, flag)
-		end
-
-	set_ssl_hostname_verification (flag: BOOLEAN)
-			-- If the site you're connecting to uses a different host name that what
-				-- they have mentioned in their server certificate's commonName (or
-				-- subjectAltName) fields, libcurl will refuse to connect.
-		do
-			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
-		end
-
-	set_ssl_tls_version (version: INTEGER)
-		require
-			valid_unix_version: {PLATFORM}.is_unix implies (<< 0, 1_0, 1_1, 1_2 >>).has (version)
-			valid_windows_version: {PLATFORM}.is_windows implies 0 = version
-		local
-			option: INTEGER
-		do
-			inspect version
-				--
-				when 1_0 then
-					option := curl_sslversion_TLSv1_0
-				when 1_1 then
-					option := curl_sslversion_TLSv1_1
-				when 1_2 then
-					option := curl_sslversion_TLSv1_2
-			else
-				option := curl_sslversion_TLSv1
-			end
-			set_curl_integer_option (CURLOPT_sslversion, option)
-		end
-
-	set_ssl_tls_version_1_x
-		do
-			set_curl_integer_option (CURLOPT_sslversion, curl_sslversion_TLSv1)
-		end
-
-	set_ssl_version (version: INTEGER)
-			-- 0 is default
-		require
-			valid_version: (<< 0, 2, 3 >>).has (version)
-		local
-			option: INTEGER
-		do
-			inspect version
-				when 2 then
-					option := curl_sslversion_sslv2
-				when 3 then
-					option := curl_sslversion_sslv3
-			else
-				option := curl_sslversion_default
-			end
-			set_curl_integer_option (CURLOPT_sslversion, option)
-		end
 
 	set_timeout (millisecs: INTEGER)
 			-- set maximum time in milli-seconds the request is allowed to take
@@ -463,8 +407,8 @@ feature -- Element change
 			set_curl_string_8_option (CURLOPT_url, url)
 			-- Essential calls for using https
 			if url.is_https then
-				set_ssl_certificate_verification (is_certificate_verified)
-				set_ssl_hostname_verification (is_host_verified)
+				set_certificate_verification (is_certificate_verified)
+				set_hostname_verification (is_host_verified)
 			end
 		end
 
@@ -476,6 +420,71 @@ feature -- Element change
 			end
 		end
 
+feature -- SSL settings
+
+	set_certificate_authority_info (cacert_path: FILE_PATH)
+		do
+			set_curl_string_option (CURLOPT_cainfo, cacert_path)
+		end
+
+	set_certificate_verification (flag: BOOLEAN)
+			-- Curl verifies whether the certificate is authentic,
+			-- i.e. that you can trust that the server is who the certificate says it is.
+		do
+			set_curl_boolean_option (CURLOPT_ssl_verifypeer, flag)
+		end
+
+	set_hostname_verification (flag: BOOLEAN)
+			-- If the site you're connecting to uses a different host name that what
+				-- they have mentioned in their server certificate's commonName (or
+				-- subjectAltName) fields, libcurl will refuse to connect.
+		do
+			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
+		end
+
+	set_tls_version (version: INTEGER)
+		require
+			valid_unix_version: {PLATFORM}.is_unix implies (<< 0, 1_0, 1_1, 1_2 >>).has (version)
+			valid_windows_version: {PLATFORM}.is_windows implies 0 = version
+		local
+			option: INTEGER
+		do
+			inspect version
+				--
+				when 1_0 then
+					option := curl_sslversion_TLSv1_0
+				when 1_1 then
+					option := curl_sslversion_TLSv1_1
+				when 1_2 then
+					option := curl_sslversion_TLSv1_2
+			else
+				option := curl_sslversion_TLSv1
+			end
+			set_curl_integer_option (CURLOPT_sslversion, option)
+		end
+
+	set_tls_version_1_x
+		do
+			set_curl_integer_option (CURLOPT_sslversion, curl_sslversion_TLSv1)
+		end
+
+	set_version (version: INTEGER)
+			-- 0 is default
+		require
+			valid_version: (<< 0, 2, 3 >>).has (version)
+		local
+			option: INTEGER
+		do
+			inspect version
+				when 2 then
+					option := curl_sslversion_sslv2
+				when 3 then
+					option := curl_sslversion_sslv3
+			else
+				option := curl_sslversion_default
+			end
+			set_curl_integer_option (CURLOPT_sslversion, option)
+		end
 feature {NONE} -- Disposal
 
 	c_free (this: POINTER)

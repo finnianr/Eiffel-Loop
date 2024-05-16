@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 11:23:47 GMT (Friday 29th March 2024)"
-	revision: "7"
+	date: "2024-05-16 7:38:50 GMT (Thursday 16th May 2024)"
+	revision: "8"
 
 class
 	WEBSITE_MONITOR
@@ -40,9 +40,12 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create website_list.make_empty
+			create cacert_path
 		end
 
 feature -- Pyxis configured
+
+	cacert_path: FILE_PATH
 
 	checks_per_day: INTEGER
 
@@ -52,7 +55,7 @@ feature -- Pyxis configured
 			Result := (24 * 60) // checks_per_day
 		end
 
-	website_list: EL_ARRAYED_LIST [MONITORED_WEBSITE_I]
+	website_list: EL_ARRAYED_LIST [MONITORED_WEBSITE]
 
 feature -- Access
 
@@ -102,13 +105,14 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["@checks_per_day", agent do checks_per_day := node end],
+				["@cacert_path",	  agent do cacert_path := node.to_expanded_file_path end],
 				["site",				  agent do set_collection_context (website_list, new_site) end]
 			>>)
 		end
 
-	new_site: MONITORED_WEBSITE_I
+	new_site: MONITORED_WEBSITE
 		do
-			create {MONITORED_WEBSITE_IMP} Result.make
+			create Result.make (cacert_path)
 		end
 
 feature {NONE} -- Constants

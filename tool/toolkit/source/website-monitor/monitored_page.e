@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 9:37:41 GMT (Thursday 21st March 2024)"
-	revision: "4"
+	date: "2024-05-16 7:42:06 GMT (Thursday 16th May 2024)"
+	revision: "5"
 
 class
 	MONITORED_PAGE
@@ -48,10 +48,16 @@ feature -- Status query
 
 feature -- Basic operations
 
-	check_url (base_url: STRING)
+	check_url (website: MONITORED_WEBSITE)
+		local
+			u: EL_URI_ROUTINES
 		do
 			has_fault := False
-			Web.open (base_url + url)
+			Web.open (website.base_url + url)
+			if u.is_https (website.base_url) then
+				Web.set_certificate_authority_info (website.cacert_path)
+				web.set_hostname_verification (True)
+			end
 			Web.set_timeout_seconds (time_out)
 			Web.read_string_head
 			if attached web.last_headers as headers then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 11:46:21 GMT (Monday 22nd April 2024)"
-	revision: "10"
+	date: "2024-05-16 7:19:30 GMT (Thursday 16th May 2024)"
+	revision: "11"
 
 class
 	PP_HTTP_CONNECTION
@@ -42,9 +42,9 @@ feature -- Basic operations
 			Precursor (a_url)
 
 			set_http_version (1_1)
-			set_ssl_tls_version (1_2)
-			set_ssl_certificate_verification (True)
-			set_ssl_hostname_verification (True)
+			set_tls_version (1_2)
+			set_certificate_verification (True)
+			set_hostname_verification (True)
 			set_certificate_authority_info (Configuration.cert_authority_info_path)
 			request_headers ["Connection"] := "Close"
 		end

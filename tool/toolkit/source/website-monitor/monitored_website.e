@@ -6,36 +6,36 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-21 9:36:53 GMT (Thursday 21st March 2024)"
-	revision: "4"
+	date: "2024-05-16 7:39:41 GMT (Thursday 16th May 2024)"
+	revision: "5"
 
-deferred class
-	MONITORED_WEBSITE_I
+class
+	MONITORED_WEBSITE
 
 inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
-		rename
-			make_default as make
-		redefine
-			make
-		end
 
 	EL_MODULE_LIO
 
+create
+	make
+
 feature {NONE} -- Initialization
 
-	make
+	make (a_cacert_path: FILE_PATH)
 		do
-			Precursor
+			make_default
+			cacert_path := a_cacert_path
 			create base_url.make_empty
 			create page_list.make (10)
-			create terminal_command.make_empty
 			time_out := Default_time_out
 		end
 
 feature -- Access
 
 	base_url: STRING
+
+	cacert_path: FILE_PATH
 
 	domain: ZSTRING
 		local
@@ -52,8 +52,6 @@ feature -- Access
 
 	page_list: EL_ARRAYED_LIST [MONITORED_PAGE]
 
-	terminal_command: ZSTRING
-
 	time_out: INTEGER
 		-- time out in seconds
 
@@ -68,7 +66,7 @@ feature -- Basic operations
 			timed_out_page := Void
 			across page_list as list until has_fault loop
 				if attached list.item as page then
-					page.check_url (base_url)
+					page.check_url (Current)
 					if page.has_fault then
 						timed_out_page := page
 					end
@@ -82,20 +80,15 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
-				["@base_url",		 agent do base_url := node.to_string_8 end],
-				["@desktop_entry", agent set_terminal_command],
-				["@time_out",		 agent do time_out := node end],
-				["page",				 agent do set_collection_context (page_list, new_page) end]
+				["@base_url", agent do base_url := node.to_string_8 end],
+				["@time_out", agent do time_out := node end],
+				["page",		  agent do set_collection_context (page_list, new_page) end]
 			>>)
 		end
 
 	new_page: MONITORED_PAGE
 		do
 			create Result.make (time_out)
-		end
-
-	set_terminal_command
-		deferred
 		end
 
 feature {NONE} -- Constants
