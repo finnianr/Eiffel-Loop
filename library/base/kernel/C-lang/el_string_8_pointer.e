@@ -1,6 +1,6 @@
 note
 	description: "[
-		Manages ${SPECIAL [CHARACTER]} data from a string conforming to ${READABLE_STRING_8}
+		Manages ${SPECIAL [CHARACTER_8]} data from a string conforming to ${READABLE_STRING_8}
 	]"
 	notes: "[
 		The character data is frozen in place and cannot be moved by garbage collector until such
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-05-17 8:09:13 GMT (Friday 17th May 2024)"
+	revision: "4"
 
 class
 	EL_STRING_8_POINTER

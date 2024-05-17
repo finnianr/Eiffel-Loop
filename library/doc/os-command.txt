@@ -10,7 +10,7 @@
 
 * Support for making "convenience wrappers" without any need to create a new class. These are classes: ${EL_OS_COMMAND} and ${EL_CAPTURED_OS_COMMAND}.
 
-* Has factory class ${EL_OS_ROUTINES_IMP} (accessible via ${EL_MODULE_OS}) which contains factory functions for common OS system commands.
+* Has factory class ${EL_OS_ROUTINES} (accessible via ${EL_MODULE_OS}) which contains factory functions for common OS system commands.
 
 **Information Commands**
 

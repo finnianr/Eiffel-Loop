@@ -13,5 +13,6 @@
 
 Two demo applications are provided that do signal math including Fourier transformations based on Greg Lee's [https://teameiffel.blogspot.com/2006/04/greg-lees-numeric-eiffel-library.html Numeric Eiffel Library].
 
-1. [./example/net/EROS/signal-math/signal-math.html signal-math.ecf] is a multi-mode command-line application with 2 client modes and 2 server-test modes.
-2. [./example/net/EROS/server/signal-math-server.html signal-math-server.ecf] performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.
+1. [./example/net/EROS/signal-math/signal-math.project.html signal-math.ecf] is a multi-mode command-line application with 2 client modes and 2 server-test modes.
+
+2. [./example/net/EROS/server/signal-math-server.project.html signal-math-server.ecf] performs the same calculations as the server mode of demo 1 but is multi-threaded and has a graphical user interface to control the thread logging context visible in terminal console.

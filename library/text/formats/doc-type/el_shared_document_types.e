@@ -1,13 +1,13 @@
 note
-	description: "Shared cache table ${HASH_TABLE [EL_DOC_TYPE, NATURAL]}"
+	description: "Shared cache table ${HASH_TABLE [EL_DOC_TYPE, NATURAL_32]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-05-17 13:15:26 GMT (Friday 17th May 2024)"
+	revision: "15"
 
 deferred class
 	EL_SHARED_DOCUMENT_TYPES

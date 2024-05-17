@@ -25,7 +25,7 @@ system:
 			of recursively wrapped classes where the arguments and return types to wrapped routines are themselves
 			wrapped classes.
 
-			See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf] for an example of it's use.
+			See project [./test/eiffel2java/eiffel2java.html test/eiffel2java/eiffel2java.ecf] for an example of it's use.
 		"""
 	target:
 		name = EL_eiffel2java

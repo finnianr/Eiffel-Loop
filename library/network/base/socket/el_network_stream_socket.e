@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-16 10:02:46 GMT (Friday 16th February 2024)"
-	revision: "14"
+	date: "2024-05-17 8:31:26 GMT (Friday 17th May 2024)"
+	revision: "15"
 
 class
 	EL_NETWORK_STREAM_SOCKET
@@ -61,7 +61,7 @@ feature -- Access
 	description: STRING
 		do
 			Result := "TCP socket "
-			if address.host_address.raw_address.for_all (agent is_zero) then
+			if across address.host_address.raw_address as n all is_zero (n.item) end then
 				Result.append (Localhost)
 			else
 				Result.append (address.host_address.host_name)
@@ -70,19 +70,12 @@ feature -- Access
 			Result.append_integer (port)
 		end
 
-feature -- Status query
-
-	is_zero (n: NATURAL_8): BOOLEAN
-		do
-			Result := n = n.zero
-		end
-
 feature {NONE} -- Implementation
 
 	do_accept (other: separate like Current; a_address: attached like address)
-			-- Accept a new connection.
-			-- The new socket is stored in `other'.
-			-- If the accept fails, `other.is_created' is still False.
+		-- Accept a new connection.
+		-- The new socket is stored in `other'.
+		-- If the accept fails, `other.is_created' is still False.
 		local
 			retried: BOOLEAN
 			pass_address: like address
@@ -113,4 +106,10 @@ feature {NONE} -- Implementation
 				retry
 			end
 		end
+
+	is_zero (n: NATURAL_8): BOOLEAN
+		do
+			Result := n = n.zero
+		end
+
 end

@@ -2,10 +2,11 @@ note
 	description: "Temporary fast buffer contents of a ${EL_SUBSTRING_32_ARRAY}"
 	notes: "[
 		Average execution times (in ascending order)
-		{EL_SUBSTRING_32_BUFFER}.put_unicode        : 0.105 millisecs
-		{EL_EXTENDABLE_UNENCODED_CHARACTERS}.extend : +2%
-		{EL_SUBSTRING_32_BUFFER}.extend_unicode     : +7%
-		{EL_SUBSTRING_32_LIST}.put_unicode          : +17%
+		
+			{EL_SUBSTRING_32_BUFFER}.put_unicode     : 0.105 millisecs
+			{EL_COMPACT_SUBSTRINGS_32}.extend        : +2%
+			{EL_SUBSTRING_32_BUFFER}.extend_unicode  : +7%
+			{EL_SUBSTRING_32_LIST}.put_unicode       : +17%
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:39:53 GMT (Sunday 31st March 2024)"
-	revision: "7"
+	date: "2024-05-17 8:22:14 GMT (Friday 17th May 2024)"
+	revision: "8"
 
 class
 	EL_SUBSTRING_32_BUFFER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 8:17:12 GMT (Tuesday 14th May 2024)"
-	revision: "3"
+	date: "2024-05-17 8:42:21 GMT (Friday 17th May 2024)"
+	revision: "4"
 
 class
 	EL_FTP_STREAM_SOCKET
@@ -90,10 +90,10 @@ feature -- Basic operations
 				buffer.append (Carriage_return_new_line)
 				data.set_from_pointer (buffer.area.base_address, buffer.count)
 				put_managed_pointer (data, 0, buffer.count)
-
-				get_reply (reply_out)
-				reply_out.adjust; reply_out.to_lower
+				data.set_from_pointer (default_pointer, 0)
 			end
+			get_reply (reply_out)
+			reply_out.adjust; reply_out.to_lower
 		end
 
 	get_reply (reply_out: STRING)

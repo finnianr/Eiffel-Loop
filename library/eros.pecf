@@ -18,7 +18,7 @@ system:
 			`eros_server_enabled'. To build a server application set the value to `true'. To build a client
 			application set value to `false'.
 			
-			See doc/eros.txt for details
+			See doc/eros.txt for details.
 		"""
 	target:
 		name = EL_eros

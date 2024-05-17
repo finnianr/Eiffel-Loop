@@ -3,7 +3,7 @@ note
 		Array of sequential substrings from an instance of ${STRING_32} compacted into a single
 		${SPECIAL} array:
 		
-			area: ${SPECIAL [NATURAL]}
+			area: ${SPECIAL [NATURAL_32]}
 			
 		`area [0]' contains the substring count: `count'
 		
@@ -12,7 +12,7 @@ note
 		`area [count * 2 + 1] -> area [area.count - 1]' contains the combined substring character data
 	]"
 	notes: "[
-		Tried an experiment in Jan 2021 to implement ${EL_ZSTRING} using ${EL_SUBSTRING_32_ARRAY}
+		Tried an experiment in Jan 2021 to implement ${ZSTRING} using ${EL_SUBSTRING_32_ARRAY}
 		instead of ${EL_COMPACT_SUBSTRINGS_32}. It passed all the tests but the performance benchmarks
 		indicated that it was on average significantly slower the original ${EL_COMPACT_SUBSTRINGS_32}
 		implementation.
@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:22:50 GMT (Sunday 31st March 2024)"
-	revision: "27"
+	date: "2024-05-17 8:23:40 GMT (Friday 17th May 2024)"
+	revision: "28"
 
 class
 	EL_SUBSTRING_32_ARRAY

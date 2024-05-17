@@ -1,13 +1,13 @@
 note
-	description: "${EL_NAME_VALUE_PAIR [STRING]} with possibility of `/=' indicating an **excluded_value**"
+	description: "${EL_NAME_VALUE_PAIR [STRING_8]} with possibility of `/=' indicating an **excluded_value**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-05-17 13:20:59 GMT (Friday 17th May 2024)"
+	revision: "4"
 
 class
 	ECF_NAME_VALUE_PAIR

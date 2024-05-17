@@ -1,14 +1,23 @@
 note
-	description: "Operating System command interface"
-	notes: "See end of class"
+	description: "Operating system command interface"
+	notes: "[
+		**Routine getter_function_table**
+
+		This routine automatically adds the following field types to the table
+
+		1. ${EL_BOOLEAN_OPTION} will be added with the modified name: `<field-name>_enabled'
+
+		2. ${BOOLEAN} fields will be added with the field name as is.
+	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:16:21 GMT (Saturday 6th April 2024)"
-	revision: "60"
+	date: "2024-05-17 13:13:03 GMT (Friday 17th May 2024)"
+	revision: "61"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -444,14 +453,139 @@ feature {NONE} -- Constants
 		end
 
 note
-	notes: "[
-		**Routine getter_function_table**
-		
-		This routine automatically adds the following field types to the table
-		
-		1. ${EL_BOOLEAN_OPTION} will be added with the modified name: `<field-name>_enabled'
-
-		2. ${BOOLEAN} fields will be added with the field name as is.
+	descendants: "[
+			EL_OS_COMMAND_I*
+				${EL_OS_COMMAND_IMP*}
+					${EL_COPY_TREE_COMMAND_IMP}
+					${EL_VIDEO_TO_MP3_COMMAND_IMP}
+					${EL_COPY_FILE_COMMAND_IMP}
+					${EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_IMP}
+					${EL_AUDIO_PROPERTIES_COMMAND_IMP}
+					${EL_WAV_FADER_IMP}
+					${EL_WAV_GENERATION_COMMAND_IMP}
+					${EL_WAV_TO_MP3_COMMAND_IMP}
+					${EL_CREATE_LINK_COMMAND_IMP}
+					${EL_MOVE_FILE_COMMAND_IMP}
+					${EL_MOVE_TO_DIRECTORY_COMMAND_IMP}
+					${EL_OS_COMMAND}
+						${EL_PARSED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+							${EL_PARSED_CAPTURED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+								${EL_GVFS_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+									${EL_GVFS_MOUNT_LIST_COMMAND}
+									${EL_GVFS_URI_TRANSFER_COMMAND*}
+										${EL_GVFS_COPY_COMMAND}
+										${EL_GVFS_MOVE_COMMAND}
+									${EL_GVFS_URI_COMMAND*}
+										${EL_GVFS_MAKE_DIRECTORY_COMMAND}
+										${EL_GVFS_REMOVE_FILE_COMMAND}
+										${EL_GVFS_FILE_LIST_COMMAND}
+										${EL_GVFS_FILE_INFO_COMMAND}
+										${EL_GVFS_FILE_COUNT_COMMAND}
+										${EL_GVFS_FILE_EXISTS_COMMAND}
+								${EL_GET_GNOME_SETTING_COMMAND}
+								${EL_SYMLINK_LISTING_COMMAND}
+							${EL_CREATE_TAR_COMMAND}
+							${EL_FILE_UTILITY_COMMAND}
+							${EL_SSH_COPY_COMMAND}
+							${EL_SSH_MD5_HASH_COMMAND}
+							${EL_SSH_DIRECTORY_COMMAND*}
+								${EL_SSH_TEST_DIRECTORY_COMMAND}
+								${EL_SSH_MAKE_DIRECTORY_COMMAND}
+							${EL_MIRROR_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+								${EL_FTP_MIRROR_COMMAND}
+								${EL_SSH_RSYNC_COMMAND}
+								${EL_FILE_RSYNC_COMMAND}
+						${EL_CAPTURED_OS_COMMAND}
+							${EL_PARSED_CAPTURED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+							${EL_MD5_HASH_COMMAND}
+								${EL_SSH_MD5_HASH_COMMAND}
+					${EL_DELETE_FILE_COMMAND_IMP}
+					${EL_DELETE_TREE_COMMAND_IMP}
+					${EL_RSYNC_COMMAND_IMP}
+					${EL_MAKE_DIRECTORY_COMMAND_IMP}
+					${EL_CAPTURED_OS_COMMAND_IMP*}
+						${EL_NETWORK_DEVICE_LIST_IMP}
+						${EL_CPU_INFO_COMMAND_IMP}
+						${EL_EXTRACT_MP3_INFO_COMMAND_IMP}
+						${EL_USERS_INFO_COMMAND_IMP}
+						${EL_FIND_COMMAND_IMP*}
+							${EL_FIND_DIRECTORIES_COMMAND_IMP}
+							${EL_FIND_FILES_COMMAND_IMP}
+						${EL_X509_PRIVATE_READER_COMMAND_IMP}
+						${EL_X509_PUBLIC_READER_COMMAND_IMP}
+						${EL_SEND_MAIL_COMMAND_IMP}
+						${EL_DIRECTORY_INFO_COMMAND_IMP}
+						${EL_JPEG_FILE_INFO_COMMAND_IMP}
+				${EL_CAPTURED_OS_COMMAND_I*}
+					${EL_FIND_COMMAND_I*}
+						${EL_FIND_DIRECTORIES_COMMAND_I*}
+							${EL_FIND_DIRECTORIES_COMMAND_IMP}
+						${EL_FIND_FILES_COMMAND_I*}
+							${EL_FIND_FILES_COMMAND_IMP}
+					${EL_CPU_INFO_COMMAND_I*}
+						${EL_CPU_INFO_COMMAND_IMP}
+					${EL_EXTRACT_MP3_INFO_COMMAND_I*}
+						${EL_EXTRACT_MP3_INFO_COMMAND_IMP}
+					${EL_X509_CERTIFICATE_READER_COMMAND_I*}
+						${EL_X509_PRIVATE_READER_COMMAND_I*}
+							${EL_X509_PRIVATE_READER_COMMAND_IMP}
+						${EL_X509_PUBLIC_READER_COMMAND_I*}
+							${EL_X509_PUBLIC_READER_COMMAND_IMP}
+					${EL_USERS_INFO_COMMAND_I*}
+						${EL_USERS_INFO_COMMAND_IMP}
+					${EL_SEND_MAIL_COMMAND_I*}
+						${EL_SEND_MAIL_COMMAND_IMP}
+					${EL_DIRECTORY_INFO_COMMAND_I*}
+						${EL_DIRECTORY_INFO_COMMAND_IMP}
+					${EL_JPEG_FILE_INFO_COMMAND_I*}
+						${EL_JPEG_FILE_INFO_COMMAND_IMP}
+					${EL_CAPTURED_OS_COMMAND}
+					${EL_CAPTURED_OS_COMMAND_IMP*}
+				${EL_OS_COMMAND}
+				${EL_AVCONV_OS_COMMAND_I*}
+					${EL_VIDEO_TO_MP3_COMMAND_I*}
+						${EL_VIDEO_TO_MP3_COMMAND_IMP}
+					${EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I*}
+						${EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_IMP}
+					${EL_AUDIO_PROPERTIES_COMMAND_I*}
+						${EL_AUDIO_PROPERTIES_COMMAND_IMP}
+				${EL_SINGLE_PATH_OPERAND_COMMAND_I*}
+					${EL_WAV_GENERATION_COMMAND_I*}
+						${EL_WAV_GENERATION_COMMAND_IMP}
+					${EL_EXTRACT_MP3_INFO_COMMAND_I*}
+					${EL_AUDIO_PROPERTIES_COMMAND_I*}
+					${EL_DIR_PATH_OPERAND_COMMAND_I*}
+						${EL_FIND_COMMAND_I*}
+						${EL_USERS_INFO_COMMAND_I*}
+						${EL_DIRECTORY_INFO_COMMAND_I*}
+						${EL_DELETE_TREE_COMMAND_I*}
+							${EL_DELETE_TREE_COMMAND_IMP}
+						${EL_MAKE_DIRECTORY_COMMAND_I*}
+							${EL_MAKE_DIRECTORY_COMMAND_IMP}
+					${EL_DOUBLE_PATH_OPERAND_COMMAND_I*}
+						${EL_CREATE_LINK_COMMAND_I*}
+							${EL_CREATE_LINK_COMMAND_IMP}
+						${EL_MOVE_TO_DIRECTORY_COMMAND_I*}
+							${EL_MOVE_TO_DIRECTORY_COMMAND_IMP}
+						${EL_FILE_RELOCATION_COMMAND_I*}
+							${EL_COPY_TREE_COMMAND_I*}
+								${EL_COPY_TREE_COMMAND_IMP}
+								${EL_RSYNC_COMMAND_I*}
+									${EL_RSYNC_COMMAND_IMP}
+							${EL_COPY_FILE_COMMAND_I*}
+								${EL_COPY_FILE_COMMAND_IMP}
+							${EL_MOVE_FILE_COMMAND_I*}
+								${EL_MOVE_FILE_COMMAND_IMP}
+						${EL_FILE_CONVERSION_COMMAND_I*}
+							${EL_VIDEO_TO_MP3_COMMAND_I*}
+							${EL_MP3_TO_WAV_CLIP_SAVER_COMMAND_I*}
+							${EL_WAV_FADER_I*}
+								${EL_WAV_FADER_IMP}
+							${EL_WAV_TO_MP3_COMMAND_I*}
+								${EL_WAV_TO_MP3_COMMAND_IMP}
+					${EL_FILE_PATH_OPERAND_COMMAND_I*}
+						${EL_DELETE_FILE_COMMAND_I*}
+							${EL_DELETE_FILE_COMMAND_IMP}
+						${EL_X509_CERTIFICATE_READER_COMMAND_I*}
 	]"
-
 end

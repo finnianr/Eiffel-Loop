@@ -3,6 +3,8 @@ benchmark/doc/benchmark/
 build/
 contrib/C++/**/spec/
 contrib/C/**/spec/
+doc/images/
+doc/zstring-benchmarks/
 C_library/**/spec/
 library/example/Eco-DB
 test/data/XML.archive

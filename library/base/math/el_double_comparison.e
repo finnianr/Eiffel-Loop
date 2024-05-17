@@ -1,13 +1,13 @@
 note
-	description: "Comparison of ${ARRAY [DOUBLE]} instances"
+	description: "Comparison of ${ARRAY [REAL_64]} instances"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-05-17 8:14:54 GMT (Friday 17th May 2024)"
+	revision: "9"
 
 class
 	EL_DOUBLE_COMPARISON

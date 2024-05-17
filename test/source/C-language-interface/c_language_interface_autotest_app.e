@@ -1,6 +1,6 @@
 note
 	description: "[
-		Finalized executable tests for library [./library/C-language-interface.html C-language-interface.ecf]
+		Finalized executable tests for library [./library/C-language-interface.C_API.html C-language-interface.ecf]
 	]"
 	notes: "[
 		Command option: `-c_language_interface_autotest'
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-05-17 7:59:07 GMT (Friday 17th May 2024)"
+	revision: "4"
 
 class
 	C_LANGUAGE_INTERFACE_AUTOTEST_APP

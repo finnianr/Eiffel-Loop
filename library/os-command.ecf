@@ -4,7 +4,7 @@
 	<description>
 OS Command Wrapping
 
-Classes for creating cross platform wrappers of OS commands with about 30 &quot;out of the box&quot; commands provided.
+Classes for creating cross platform wrappers of OS commands with over 100 &quot;out of the box&quot; commands provided.
 
 See doc/os-command.txt for details.
 	</description>

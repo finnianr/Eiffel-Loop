@@ -48,7 +48,7 @@ Thunderbird Email Export
 Classes to read and export emails from the [https://www.thunderbird.net/ Thunderbird email client]
 including a class to generate a Kindle book from a folder of chapter emails.
 
-Test class ${THUNDERBIRD_TEST_APP}
+Test class ${THUNDERBIRD_EXPORT_TEST_SET}
 			</description>
 		</cluster>
 		<cluster name = "kindle_book" location = "persistency/kindle-book" recursive = "true">

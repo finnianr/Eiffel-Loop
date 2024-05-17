@@ -8,7 +8,7 @@ ${CLASS_DESCENDANTS_APP} outputs a list of descendants for a class as an Eiffel 
 
 Command switch: `-descendants'
 
-${CODEBASE_STATISTICS_APP} counts classes, code words and combined source file size for Eiffel source trees specified in manifest
+${CODE_METRICS_APP} Count occurrences of identifiers, Eiffel keywords and other metrics for source trees specified in manifest.
 
 Command switch: `-codebase_stats'
 

@@ -21,7 +21,7 @@ These agent classes automatically generate correct JNI call signatures. The libr
 of recursively wrapped classes where the arguments and return types to wrapped routines are themselves
 wrapped classes.
 
-See [./example/eiffel2java/eiffel2java.html example/eiffel2java/eiffel2java.ecf] for an example of it&apos;s use.
+See project [./test/eiffel2java/eiffel2java.html test/eiffel2java/eiffel2java.ecf] for an example of it&apos;s use.
 	</description>
 	<target name = "EL_eiffel2java">
 		<root all_classes = "true"/>
