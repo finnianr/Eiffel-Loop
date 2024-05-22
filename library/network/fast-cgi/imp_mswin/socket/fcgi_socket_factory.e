@@ -6,11 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-05-20 9:39:38 GMT (Monday 20th May 2024)"
+	revision: "5"
 
 deferred class
 	FCGI_SOCKET_FACTORY
+
+inherit
+	EL_PROTOCOL_CONSTANTS
 
 feature -- Access
 
@@ -25,7 +28,7 @@ feature -- Factory
 		require
 			valid_server_port: server_port > 0
 		do
-			create {EL_NETWORK_STREAM_SOCKET} Result.make_client_by_port (server_port, "localhost")
+			create {EL_NETWORK_STREAM_SOCKET} Result.make_client_by_port (server_port, Localhost)
 		end
 
 	new_socket: EL_STREAM_SOCKET

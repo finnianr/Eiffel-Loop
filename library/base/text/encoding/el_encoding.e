@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 9:40:44 GMT (Wednesday 14th December 2022)"
-	revision: "11"
+	date: "2024-05-20 7:26:09 GMT (Monday 20th May 2024)"
+	revision: "12"
 
 class
 	EL_ENCODING
@@ -15,6 +15,7 @@ class
 inherit
 	EL_ENCODING_BASE
 		rename
+			encoding as code,
 			valid_encoding as is_valid
 		end
 

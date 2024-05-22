@@ -14,7 +14,7 @@ When including `eros.ecf&apos; in your project it is necessary to define a custo
 `eros_server_enabled&apos;. To build a server application set the value to `true&apos;. To build a client
 application set value to `false&apos;.
 
-See doc/eros.txt for details
+See doc/eros.txt for details.
 	</description>
 	<target name = "EL_eros">
 		<root all_classes = "true"/>

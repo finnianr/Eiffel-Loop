@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-05-20 9:17:46 GMT (Monday 20th May 2024)"
+	revision: "7"
 
 class
 	EL_SERVICE_MANAGER_APP
@@ -18,7 +18,7 @@ class
 inherit
 	EL_COMMAND_SHELL_APPLICATION [EL_SERVICE_MANAGER_SHELL]
 		redefine
-			argument_list, command, default_make
+			argument_list, shell, default_make
 		end
 
 feature {NONE} -- Implementation
@@ -33,18 +33,18 @@ feature {NONE} -- Implementation
 			create Result
 		end
 
-	default_make: PROCEDURE [like command]
+	default_make: PROCEDURE [like shell]
 		do
 			Result := agent make_service_shell (?, default_menu_name, default_menu_rows, default_config_path)
 		end
 
-	make_service_shell (cmd: like command; name: READABLE_STRING_GENERAL; a_row_count: INTEGER; config_path: FILE_PATH)
+	make_service_shell (cmd: like shell; name: READABLE_STRING_GENERAL; a_row_count: INTEGER; config_path: FILE_PATH)
 		do
 			cmd.make (name, a_row_count, config_path)
 		end
 
 feature {NONE} -- Internal attributes
 
-	command: EL_SERVICE_MANAGER_SHELL
+	shell: EL_SERVICE_MANAGER_SHELL
 
 end

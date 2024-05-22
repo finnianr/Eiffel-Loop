@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:55:45 GMT (Thursday 11th January 2024)"
-	revision: "4"
+	date: "2024-05-20 8:41:18 GMT (Monday 20th May 2024)"
+	revision: "5"
 
 class
 	EL_VERSION_PATH_LIST
@@ -215,6 +215,7 @@ feature -- Element change
 				from start until after loop
 					if path_version ~ version then
 						cmd.set_target_path (path)
+						cmd.sudo.enable
 						cmd.execute
 						remove
 					else

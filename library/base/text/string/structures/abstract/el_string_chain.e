@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 13:35:06 GMT (Monday 8th April 2024)"
-	revision: "45"
+	date: "2024-05-22 10:02:28 GMT (Wednesday 22nd May 2024)"
+	revision: "46"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -111,6 +111,15 @@ feature -- Access
 					done := True
 				end
 				i := i + 1
+			end
+		end
+
+	first_or_empty: S
+		do
+			if count > 0 then
+				Result := first
+			else
+				create Result.make (0)
 			end
 		end
 

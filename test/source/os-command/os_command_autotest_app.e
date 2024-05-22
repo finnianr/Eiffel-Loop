@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 11:21:26 GMT (Tuesday 14th May 2024)"
-	revision: "81"
+	date: "2024-05-22 9:57:21 GMT (Wednesday 22nd May 2024)"
+	revision: "82"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -37,6 +37,7 @@ feature {NONE} -- Implementation
 	compile: TUPLE [
 		EL_FILE_MIRROR_BACKUP,
 		EL_GET_GNOME_SETTING_COMMAND,
+		EL_HOST_NAME_COMMAND,
 		EL_NATIVE_DIRECTORY_PATH_LIST,
 		EL_NATIVE_DIRECTORY_TREE_FILE_PROCESSOR,
 		EL_SSH_COMMAND_FACTORY,

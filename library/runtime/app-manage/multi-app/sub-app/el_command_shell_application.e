@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "19"
+	date: "2024-05-20 9:17:12 GMT (Monday 20th May 2024)"
+	revision: "20"
 
 deferred class
 	EL_COMMAND_SHELL_APPLICATION [C -> EL_APPLICATION_COMMAND_SHELL]
 
 inherit
 	EL_COMMAND_LINE_APPLICATION [C]
+		rename
+			command as shell
+		end
 
 	EL_MODULE_NAMING
 
@@ -27,12 +30,12 @@ feature {NONE} -- Implementation
 			>>
 		end
 
-	default_make: PROCEDURE [like command]
+	default_make: PROCEDURE [like shell]
 		do
 			Result := agent make_shell (?, default_menu_name, default_menu_rows)
 		end
 
-	make_shell (cmd: like command; name: READABLE_STRING_GENERAL; a_row_count: INTEGER)
+	make_shell (cmd: like shell; name: READABLE_STRING_GENERAL; a_row_count: INTEGER)
 		do
 			cmd.make (name, a_row_count)
 		end

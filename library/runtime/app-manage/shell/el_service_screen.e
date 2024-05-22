@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-17 18:18:04 GMT (Saturday 17th February 2024)"
-	revision: "13"
+	date: "2024-05-22 9:34:57 GMT (Wednesday 22nd May 2024)"
+	revision: "14"
 
 class
 	EL_SERVICE_SCREEN
@@ -29,6 +29,9 @@ create
 	make_default
 
 feature -- Configuration
+
+	developer: BOOLEAN
+		-- `True' if command should be visible only on developer machine
 
 	bash_command: ZSTRING
 		-- name of script with options arguments after .sh extension

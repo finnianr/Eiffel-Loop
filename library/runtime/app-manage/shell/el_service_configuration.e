@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-17 18:10:13 GMT (Saturday 17th February 2024)"
-	revision: "10"
+	date: "2024-05-22 10:13:00 GMT (Wednesday 22nd May 2024)"
+	revision: "11"
 
 class
 	EL_SERVICE_CONFIGURATION
@@ -35,7 +35,20 @@ feature -- Configuration fields
 feature {NONE} -- Event handler
 
 	on_context_exit
+		local
+			host: EL_HOST_NAME_COMMAND
 		do
+			create host.make
+		-- remove any developer entries on deployment server
+			if domain.same_string_general (host.name) and then attached screen_list as list then
+				from list.start until list.after loop
+					if list.item.developer then
+						list.remove
+					else
+						list.forth
+					end
+				end
+			end
 			screen_list.initialize (new_variable_table)
 		end
 
