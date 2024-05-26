@@ -1,3 +1,6 @@
+Ver 1.12.7 (26 May 2024)
+* Using new class EL_GVFS_CAMERA_VOLUME
+
 Ver 1.12.6 (26 May 2024)
 * CAMERA_TRANSFER_COMMAND makes use of EL_ZSTRING_LIST.make_from_substrings
 
