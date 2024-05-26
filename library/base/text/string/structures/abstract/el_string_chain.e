@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-26 8:25:48 GMT (Sunday 26th May 2024)"
-	revision: "47"
+	date: "2024-05-26 9:57:22 GMT (Sunday 26th May 2024)"
+	revision: "48"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -259,41 +259,46 @@ feature -- Element change
 			append_split (a_string, ',', {EL_SIDE}.Left)
 		end
 
+	append_intervals (a_string: READABLE_STRING_GENERAL; intervals: EL_SPLIT_INTERVALS)
+		require
+			valid_intervals: across intervals as list all
+				a_string.valid_index (list.item_lower) and a_string.valid_index (list.item_upper)
+			end
+		do
+			grow (count + intervals.count)
+			from intervals.start until intervals.after loop
+				extend (new_string (a_string.substring (intervals.item_lower, intervals.item_upper)))
+				intervals.forth
+			end
+		end
+
 	append_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
-			if attached Split_intervals as list then
-				list.wipe_out
-				list.fill (a_string, delimiter, adjustments)
-				grow (count + list.count)
-				from list.start until list.after loop
-					extend (new_string (a_string.substring (list.item_lower, list.item_upper)))
-					list.forth
-				end
+			if attached Split_intervals as intervals then
+				intervals.wipe_out
+				intervals.fill (a_string, delimiter, adjustments)
+				append_intervals (a_string, intervals)
 			end
 		end
 
 	append_substrings (a_string: READABLE_STRING_GENERAL; a_start_index: INTEGER; count_list: ITERABLE [INTEGER])
 		-- append consecutive substrings in `a_string' with counts in `count_list' starting from `a_start_index'
 		local
-			i, start_index, end_index: INTEGER
+			start_index, end_index: INTEGER
 		do
-			if a_string.valid_index (a_start_index) and then attached Split_intervals as list then
-				list.wipe_out
+			if a_string.valid_index (a_start_index) and then attached Split_intervals as intervals then
+				intervals.wipe_out
 				start_index := a_start_index
 				across count_list as n loop
 					end_index := start_index + n.item - 1
 					if a_string.valid_index (end_index) then
-						list.extend (start_index, end_index)
+						intervals.extend (start_index, end_index)
 					end
 					start_index := end_index + 1
 				end
-				grow (count + list.count)
-				from list.start until list.after loop
-					extend (new_string (a_string.substring (list.item_lower, list.item_upper)))
-					list.forth
-				end
+				append_intervals (a_string, intervals)
 			end
 		end
 
