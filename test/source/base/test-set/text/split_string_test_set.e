@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "58"
+	date: "2024-05-26 8:35:21 GMT (Sunday 26th May 2024)"
+	revision: "59"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 				["adjusted_line_split",			 agent test_adjusted_line_split],
 				["append_item_to",				 agent test_append_item_to],
 				["append_string",					 agent test_append_string],
+				["append_substrings",			 agent test_append_substrings],
 				["compact_zstring_list",		 agent test_compact_zstring_list],
 				["curtail_list",					 agent test_curtail_list],
 				["fill_tuple",						 agent test_fill_tuple],
@@ -131,6 +132,23 @@ feature -- Tests
 			across << Number.one, Empty_string_8, Number.two >> as entry loop
 				assert_same_string (Void, joined.i_th (entry.cursor_index), entry.item)
 			end
+		end
+
+	test_append_substrings
+		-- SPLIT_STRING_TEST_SET.test_append_substrings
+		note
+			testing: "[
+				covers/{EL_STRING_CHAIN}.append_substrings,
+				covers/{EL_STRING_CHAIN}.make_from_substrings
+			]"
+		local
+			date_parts: EL_STRING_8_LIST
+		do
+			create date_parts.make_from_substrings ("IMG-20210611-WA0000.jpeg", 5, << 4, 2, 2 >>)
+			assert ("valid character count", date_parts.character_count = 8)
+			assert ("valid year", date_parts [1].to_integer = 2021)
+			assert ("valid month", date_parts [2].to_integer = 6)
+			assert ("valid day", date_parts [3].to_integer = 11)
 		end
 
 	test_compact_zstring_list

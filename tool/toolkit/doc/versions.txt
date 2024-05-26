@@ -1,3 +1,6 @@
+Ver 1.12.6 (26 May 2024)
+* CAMERA_TRANSFER_COMMAND makes use of EL_ZSTRING_LIST.make_from_substrings
+
 Ver 1.12.5 (16 May 2024)
 * Added cacert_path to WEBSITE_MONITOR, got rid of desktop entry.
 

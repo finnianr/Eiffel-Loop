@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:16:48 GMT (Saturday 23rd December 2023)"
-	revision: "11"
+	date: "2024-05-26 9:41:25 GMT (Sunday 26th May 2024)"
+	revision: "12"
 
 class
 	CAMERA_TRANSFER_COMMAND
@@ -30,9 +30,9 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_LIO; EL_MODULE_TUPLE
+	EL_MODULE_DATE_TIME; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO
 
-	EL_MODULE_DATE_TIME; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
+	EL_MODULE_TUPLE
 
 feature -- Pyxis configured
 
@@ -44,7 +44,8 @@ feature -- Pyxis configured
 
 	device: TUPLE [name: ZSTRING; is_windows_format: BOOLEAN]
 
-	extension: STRING
+	extensions: STRING
+		-- file extensions separated by ';'
 
 	source_dir: DIR_PATH
 
@@ -56,19 +57,26 @@ feature -- Basic operations
 
 	execute
 		local
-			volume: EL_GVFS_VOLUME
+			volume: EL_GVFS_VOLUME; extension: STRING
 		do
 			lio.put_string_field (device.name, source_dir.to_string)
 			lio.put_new_line_x2
 
 			create volume.make (device.name, device.is_windows_format)
 			if volume.is_mounted then
-				if attached volume.file_list (source_dir, extension) as file_list
-					and then file_list.count > 0
-				then
-					transfer (volume, file_list)
-				else
-					lio.put_line ("Nothing to transfer")
+				across extensions.split (';') as list loop
+					extension := list.item
+					lio.put_labeled_string ("Extension", extension)
+					lio.put_new_line
+					if extension.count > 0
+						and then attached volume.file_list (source_dir, extension) as file_list
+						and then file_list.count > 0
+					then
+						transfer (volume, file_list)
+						lio.put_new_line
+					else
+						lio.put_line ("Nothing to transfer")
+					end
 				end
 			else
 				lio.put_line ("Device is not mounted")
@@ -76,27 +84,29 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
-	is_valid_name (base: ZSTRING): BOOLEAN
+	new_date_parts (base: ZSTRING): EL_ZSTRING_LIST
 		do
-			if base.count > date_string_offset + 8 then
-				Result := base.substring (date_string_offset + 1, date_string_offset + 8).is_integer
-			end
+			create Result.make_from_substrings (base, date_string_offset + 1, << 4, 2, 2 >>)
 		end
 
-	new_date_sort (base: ZSTRING): ZSTRING
+	new_date_sort (date_parts: EL_ZSTRING_LIST): ZSTRING
+		require
+			valid_character_count: date_parts.character_count = 8
 		local
-			month, year, offset: INTEGER
-			month_name: ZSTRING
+			month_name, year, month: ZSTRING; month_index: INTEGER
 		do
-			offset := date_string_offset
-			year := base.substring (offset + 1, offset + 4).to_integer
-			month := base.substring (offset + 5, offset + 6).to_integer
-			month_name := Date_time.Months_text [month]
-			month_name.to_proper
-
-			Result := Date_sort_template #$ [alias_name, year, Format.zero_padded_integer (month, 2), month_name]
+			year := date_parts [1]
+			month := date_parts [2]
+			month_index := month.to_integer
+			if Date_time.Months_text.valid_index (month_index) then
+				month_name := Date_time.Months_text [month_index]
+				month_name.to_proper
+			else
+				month_name := "???"
+			end
+			Result := Date_sort_template #$ [alias_name, year, month, month_name]
 		end
 
 	new_tuple_field_table: like Default_tuple_field_table
@@ -107,15 +117,20 @@ feature {NONE} -- Implementation
 			]"
 		end
 
+feature {NONE} -- Implementation
+
 	transfer (volume: EL_GVFS_VOLUME; file_list: EL_FILE_PATH_LIST)
 		local
 			copied_file_size: INTEGER; sorted_dir: DIR_PATH; file_path: FILE_PATH
 		do
 			across file_list as list loop
-				if is_valid_name (list.item.base) and then attached volume.file_info (list.item) as info then
+				if attached new_date_parts (list.item.base) as date_parts
+					and then date_parts.character_count = 8
+					and then attached volume.file_info (list.item) as info
+				then
 					lio.put_index_labeled_string (list, "Transfering %S", list.item.to_string)
 					lio.put_new_line
-					sorted_dir := destination_dir #+ new_date_sort (list.item.base)
+					sorted_dir := destination_dir #+ new_date_sort (date_parts)
 					lio.put_path_field ("to", sorted_dir)
 					lio.put_new_line
 

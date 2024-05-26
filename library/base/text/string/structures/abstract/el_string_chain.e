@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-22 10:02:28 GMT (Wednesday 22nd May 2024)"
-	revision: "46"
+	date: "2024-05-26 8:25:48 GMT (Sunday 26th May 2024)"
+	revision: "47"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -46,6 +46,13 @@ feature {NONE} -- Initialization
 			create wrapper.make (container)
 			make (wrapper.count)
 			wrapper.do_for_all (agent extend)
+		end
+
+	make_from_substrings (a_string: READABLE_STRING_GENERAL; a_start_index: INTEGER; count_list: ITERABLE [INTEGER])
+		-- make from consecutive substrings in `a_string' with counts in `count_list' starting from `a_start_index'
+		do
+			make_empty
+			append_substrings (a_string, a_start_index, count_list)
 		end
 
 	make_comma_split (a_string: READABLE_STRING_GENERAL)
@@ -259,6 +266,29 @@ feature -- Element change
 			if attached Split_intervals as list then
 				list.wipe_out
 				list.fill (a_string, delimiter, adjustments)
+				grow (count + list.count)
+				from list.start until list.after loop
+					extend (new_string (a_string.substring (list.item_lower, list.item_upper)))
+					list.forth
+				end
+			end
+		end
+
+	append_substrings (a_string: READABLE_STRING_GENERAL; a_start_index: INTEGER; count_list: ITERABLE [INTEGER])
+		-- append consecutive substrings in `a_string' with counts in `count_list' starting from `a_start_index'
+		local
+			i, start_index, end_index: INTEGER
+		do
+			if a_string.valid_index (a_start_index) and then attached Split_intervals as list then
+				list.wipe_out
+				start_index := a_start_index
+				across count_list as n loop
+					end_index := start_index + n.item - 1
+					if a_string.valid_index (end_index) then
+						list.extend (start_index, end_index)
+					end
+					start_index := end_index + 1
+				end
 				grow (count + list.count)
 				from list.start until list.after loop
 					extend (new_string (a_string.substring (list.item_lower, list.item_upper)))
