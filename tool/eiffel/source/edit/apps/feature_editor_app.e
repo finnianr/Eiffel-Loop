@@ -1,23 +1,25 @@
 note
-	description: "Command line interface to command ${FEATURE_EDITOR_COMMAND}"
+	description: "[
+		Command line interface to command ${FEATURE_EDITOR_COMMAND} for use as an EiffelStudio external tool
+	]"
 	notes: "[
 		This application can save a lot of unnecessary keyboard typing during Eiffel development. It performs 
 		a series of expansions on shorthand expressions present in a single Eiffel class. In addition to performing
 		expansions, it also alphabetically orders the routines in each feature block. It can be usefully incoporated
-		into EiffelStudio using this external.
+		into EiffelStudio using the external tools manager.
 
-		USAGE
+		**USAGE**
 			el_eiffel -feature_editor -no_highlighting -source <path to Eiffel source>
 	]"
-	instructions: "See bottom of page"
+	instructions: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:42:15 GMT (Saturday 6th April 2024)"
-	revision: "23"
+	date: "2024-05-29 9:35:38 GMT (Wednesday 29th May 2024)"
+	revision: "25"
 
 class
 	FEATURE_EDITOR_APP
@@ -43,7 +45,7 @@ feature {NONE} -- Implementation
 note
 	instructions: "[
 		To use it, enter some shorthand  in an Eiffel class (described below).
-		Save the source file, and then invoke the `feature_edit'. EiffelStudio
+		Save the source file, and then invoke the `-feature_editor' command switch. EiffelStudio
 		automatically reloads the modified class. You can then carry on editing.
 
 		The following is a list expansion rules which the tool recognizes:
@@ -68,6 +70,8 @@ note
 					name := a_name
 				end
 				
+		If the type of `name' is known, the explicit type name is used instead of the anchored name.
+				
 		**4.** Expands shorthand for intialization arguments as for example:
 			make (one:@; two:@; three:@)
 				do
@@ -77,6 +81,8 @@ note
 				do
 					one := a_one; two := a_two; three := a_three
 				end
+				
+		If the type of any argument is known, the explicit type name is used instead of the anchored name.
 					
 		**5.** Expands shorthand form of incremented variable iteration as for example:
 			@from j > n
@@ -100,6 +106,20 @@ note
 			end
 				
 		**8.** Reorders alphabetically the features in each feature block
+
+		**9.** Aligns right column entries in array tuples used to initialize tables as for example:
+
+			make
+				-- initialize `test_table'
+				do
+					make_named (<<
+						["adjusted_immutable_string",	agent test_adjusted_immutable_string],
+						["bracketed",						agent test_bracketed],
+						["delimited_list",				agent test_delimited_list],
+						["immutable_string_manager",	agent test_immutable_string_manager]
+					>>)
+				end
+
 	]"
 
 end

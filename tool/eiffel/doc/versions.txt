@@ -1,3 +1,6 @@
+Ver 2.1.14 (29 May 2024)
+* FEATURE_EDITOR_APP now uses explicit type names in preference to anchored type 
+
 Ver 2.1.13 (20 May 2024)
 * enable sudo for delete executable command
 

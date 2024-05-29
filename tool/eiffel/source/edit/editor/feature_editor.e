@@ -1,13 +1,13 @@
 note
-	description: "Feature editor"
+	description: "Eiffel source-code feature editor extending class ${SOURCE_MODEL}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2024-05-28 18:28:51 GMT (Tuesday 28th May 2024)"
+	revision: "13"
 
 deferred class
 	FEATURE_EDITOR
@@ -50,7 +50,9 @@ feature {NONE} -- Implementation
 
 	edited_lines: EL_ZSTRING_LIST
 		do
-			create Result.make (class_notes.count + class_footer.count + class_header.count + feature_group_list.string_count)
+			create Result.make (
+				class_notes.count + class_footer.count + class_header.count + feature_group_list.string_count
+			)
 			Result.append (class_notes)
 			Result.append (class_header)
 			across feature_group_list as group loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "31"
+	date: "2024-05-29 9:33:58 GMT (Wednesday 29th May 2024)"
+	revision: "32"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
@@ -44,11 +44,13 @@ feature -- Tests
 	test_adjust_manifest_tuple_tabs
 		-- FEATURE_EDITOR_COMMAND_TEST_SET.test_adjust_manifest_tuple_tabs
 		note
-			testing: "covers/{CONSTANT_FEATURE}.expand_shorthand",
-						"covers/{SETTER_SHORTHAND_FEATURE}.expand_shorthand",
-						"covers/{MAKE_ROUTINE_FEATURE}.expand_shorthand",
-						"covers/{ROUTINE_FEATURE}.expand_shorthand",
-						"covers/{CLASS_FEATURE}.adjust_manifest_tuple_tabs"
+			testing: "[
+				covers/{CONSTANT_FEATURE}.expand_shorthand,
+				covers/{SETTER_SHORTHAND_FEATURE}.expand_shorthand,
+				covers/{MAKE_ROUTINE_FEATURE}.expand_shorthand,
+				covers/{ROUTINE_FEATURE}.expand_shorthand,
+				covers/{CLASS_FEATURE}.adjust_manifest_tuple_tabs
+			]"
 		do
 			across to_list (Tuple_manifest_file) as list loop
 				do_test ("edit_file", Checksum_table [list.item], agent edit_file, [list.item])
@@ -157,7 +159,7 @@ feature {NONE} -- Constants
 			Result [Name.job_duration_parser] := 3823255307
 			Result [Name.os_command_test_set] := 2264292625
 
-			Result [Tuple_manifest_file.mp3_convert_command] := 80484821
+			Result [Tuple_manifest_file.mp3_convert_command] := 1338607062
 			Result [Tuple_manifest_file.subscription_delivery_email] := 1320393160
 
 			Result [Id3_tag_frame_cpp_api] := 1015425037

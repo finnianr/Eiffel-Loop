@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-07 13:35:11 GMT (Friday 7th April 2023)"
-	revision: "27"
+	date: "2024-05-29 9:24:03 GMT (Wednesday 29th May 2024)"
+	revision: "28"
 
 deferred class
 	CLASS_FEATURE
@@ -43,6 +43,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	attribute_type: ZSTRING
+		require
+			is_attribute: is_attribute
+		do
+			Result := lines.first_or_empty.substring_to_reversed (':')
+			Result.left_adjust
+		end
+
 	found_line: ZSTRING
 
 	lines: SOURCE_LINES
@@ -59,6 +67,13 @@ feature -- Status query
 	string_count: INTEGER
 		do
 			Result := lines.count
+		end
+
+	is_attribute: BOOLEAN
+		do
+			if lines.count = 2 and lines.last.is_empty and then attached lines.first as first_line then
+				Result := first_line.occurrences (':') = 1 and then not first_line.has ('(')
+			end
 		end
 
 feature -- Basic operations
@@ -109,6 +124,11 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Like_prefix: ZSTRING
+		once
+			Result := "like "
+		end
 
 	Split_list: EL_SPLIT_ZSTRING_LIST
 		once

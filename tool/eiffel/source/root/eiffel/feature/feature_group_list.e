@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 18:56:42 GMT (Friday 10th March 2023)"
-	revision: "7"
+	date: "2024-05-29 9:28:14 GMT (Wednesday 29th May 2024)"
+	revision: "8"
 
 class
 	FEATURE_GROUP_LIST
@@ -25,6 +25,26 @@ feature -- Access
 			Result := sum_integer (agent {FEATURE_GROUP}.string_count)
 		end
 
+	attribute_type (name: ZSTRING): ZSTRING
+		local
+			found_attribute: BOOLEAN
+		do
+			push_cursor
+			create Result.make_empty
+			from start until after or found_attribute loop
+				across item.features as list until found_attribute loop
+					if attached {ROUTINE_FEATURE} list.item as l_feature then
+						if l_feature.name ~ name and then l_feature.is_attribute then
+							Result.share (list.item.attribute_type)
+							found_attribute := True
+						end
+					end
+				end
+				forth
+			end
+			pop_cursor
+		end
+
 feature -- Element change
 
 	add_feature (line: ZSTRING; is_test_set: BOOLEAN)
@@ -35,11 +55,13 @@ feature -- Element change
 			if pos_equals > 1 and then line [pos_equals - 1] /= '#' then
 				create {CONSTANT_FEATURE} l_feature.make (line)
 
-			elseif line.starts_with (Setter_shorthand) then
-				create {SETTER_SHORTHAND_FEATURE} l_feature.make (line)
+			elseif line.starts_with (Setter_shorthand)
+				and then attached line.substring_to_reversed (' ') as attribute_name
+			then
+				create {SETTER_SHORTHAND_FEATURE} l_feature.make (line, attribute_name, agent attribute_type)
 
 			elseif line.has_substring (Insertion_symbol) then
-				create {MAKE_ROUTINE_FEATURE} l_feature.make (line)
+				create {MAKE_ROUTINE_FEATURE} l_feature.make (line, agent attribute_type)
 
 			elseif is_test_set and then line.ends_with (Name_make) then
 				create {GENERATE_MAKE_ROUTINE_FOR_EQA_TEST_SET} l_feature.make (Current, line)

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command for command-line sub-application: ${FEATURE_EDITOR_APP}
+		A ${FEATURE_EDITOR} for peforming expansions of code shorthand expressions.
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "27"
+	date: "2024-05-28 18:26:32 GMT (Tuesday 28th May 2024)"
+	revision: "28"
 
 class
 	FEATURE_EDITOR_COMMAND
@@ -23,8 +23,6 @@ inherit
 		redefine
 			call
 		end
-
-	EL_CHARACTER_8_CONSTANTS
 
 create
 	make
