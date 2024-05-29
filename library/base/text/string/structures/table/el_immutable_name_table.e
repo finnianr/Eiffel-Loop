@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 15:36:53 GMT (Wednesday 29th May 2024)"
-	revision: "4"
+	date: "2024-05-29 15:51:36 GMT (Wednesday 29th May 2024)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_NAME_TABLE [N -> {NUMERIC, HASHABLE}]
@@ -40,10 +40,13 @@ feature {NONE} -- Initialization
 			make_size (a_valid_keys.count)
 			valid_keys := a_valid_keys; internal_name_list := a_name_list
 			create split_list.make_shared_adjusted (a_name_list, ',', {EL_SIDE}.Left)
-			across split_list as list until not a_valid_keys.valid_index (list.cursor_index) loop
-				put (list.item, a_valid_keys [list.cursor_index])
-				check
-					unique_keys: inserted
+			if attached split_list as list then
+				from list.start until list.after or not a_valid_keys.valid_index (list.index) loop
+					put (list.item, a_valid_keys [list.index])
+					check
+						unique_keys: inserted
+					end
+					list.forth
 				end
 			end
 		ensure
