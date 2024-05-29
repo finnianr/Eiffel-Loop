@@ -6,11 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 10:40:05 GMT (Wednesday 29th May 2024)"
-	revision: "4"
+	date: "2024-05-29 12:45:44 GMT (Wednesday 29th May 2024)"
+	revision: "5"
 
 class
 	WIDGET
+
+inherit
+	ANY
+
+	PRIMARY_COLOR_CONSTANTS
 
 create
 	make
@@ -30,11 +35,9 @@ feature -- Access
 
 	color: INTEGER
 
-	color_name: STRING
-		local
-			s: EL_STRING_8_ROUTINES
+	color_name: STRING_8
 		do
-			Result := s.selected (color, << Red, Blue, Green >>, once "Red, Blue, Green")
+			Result := Color_name_table [color]
 		end
 
 	weight: INTEGER
@@ -57,13 +60,5 @@ feature -- Status query
 		do
 			Result := color = a_color
 		end
-
-feature -- Constants
-
-	Blue: INTEGER = 2
-
-	Green: INTEGER = 3
-
-	Red: INTEGER = 1
 
 end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 10:45:40 GMT (Wednesday 29th May 2024)"
-	revision: "36"
+	date: "2024-05-29 12:46:05 GMT (Wednesday 29th May 2024)"
+	revision: "37"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -29,6 +29,8 @@ inherit
 	EL_SHARED_ZCODEC_FACTORY
 
 	EL_ENCODING_TYPE
+
+	PRIMARY_COLOR_CONSTANTS
 
 create
 	make
@@ -227,7 +229,7 @@ feature -- Test
 		-- CONTAINER_STRUCTURE_TEST_SET.test_order_by_color_name
 		note
 			testing: "[
-				covers/{EL_READABLE_STRING_X_ROUTINES}.selected,
+				covers/{EL_IMMUTABLE_NAME_TABLE}.make,
 				covers/{EL_ARRAYED_LIST}.order_by,
 				covers/{EL_CHAIN}.ordered_by
 			]"
@@ -469,14 +471,6 @@ feature {NONE} -- Container types
 	List_type: INTEGER = 6
 
 	String_type: INTEGER = 7
-
-feature {NONE} -- Colors
-
-	Blue: INTEGER = 2
-
-	Green: INTEGER = 3
-
-	Red: INTEGER = 1
 
 feature {NONE} -- Constants
 

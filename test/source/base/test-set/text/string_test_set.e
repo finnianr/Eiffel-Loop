@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-28 17:40:19 GMT (Thursday 28th December 2023)"
-	revision: "25"
+	date: "2024-05-29 12:48:51 GMT (Wednesday 29th May 2024)"
+	revision: "26"
 
 class
 	STRING_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_SHARED_TEST_TEXT
 
 	EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_CURSOR
+
+	PRIMARY_COLOR_CONSTANTS
 
 create
 	make
@@ -31,7 +33,8 @@ feature {NONE} -- Initialization
 				["adjusted_immutable_string",	agent test_adjusted_immutable_string],
 				["bracketed",						agent test_bracketed],
 				["delimited_list",				agent test_delimited_list],
-				["immutable_string_manager",	agent test_immutable_string_manager]
+				["immutable_string_manager",	agent test_immutable_string_manager],
+				["name_table",						agent test_name_table]
 			>>)
 		end
 
@@ -151,5 +154,23 @@ feature -- Tests
 				end
 			end
 		end
+
+	test_name_table
+		-- STRING_TEST_SET.test_name_table
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_NAME_TABLE}.make,
+				covers/{EL_READABLE_STRING_X_ROUTINES}.selected
+			]"
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			across Valid_colors as color loop
+				assert_same_string (
+					"same color name", s.selected (color.item, Valid_colors, Color_names), Color_name_table [color.item]
+				)
+			end
+		end
+
 
 end
