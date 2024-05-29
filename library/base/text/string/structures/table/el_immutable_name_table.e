@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 12:53:16 GMT (Wednesday 29th May 2024)"
-	revision: "2"
+	date: "2024-05-29 15:36:53 GMT (Wednesday 29th May 2024)"
+	revision: "4"
 
 class
 	EL_IMMUTABLE_NAME_TABLE [N -> {NUMERIC, HASHABLE}]
@@ -18,35 +18,49 @@ class
 inherit
 	EL_HASH_TABLE [IMMUTABLE_STRING_8, N]
 		rename
-			make as make_from_tuples
+			make as make_from_tuples,
+			current_keys as valid_keys
+		export
+			{NONE} put, force, extend
+		redefine
+			valid_keys
 		end
 
 create
-	make, make_from_tuples
+	make
 
 feature {NONE} -- Initialization
 
-	make (n_set: ARRAY [N]; n_set_names: STRING_8)
+	make (a_valid_keys: ARRAY [N]; a_name_list: STRING_8)
 		require
-			name_count_matches: n_set.count = n_set_names.occurrences (',') + 1
+			name_count_matches: a_valid_keys.count = a_name_list.occurrences (',') + 1
 		local
 			split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		do
-			make_size (n_set.count)
-			name_list := n_set_names
-			create split_list.make_shared_adjusted (n_set_names, ',', {EL_SIDE}.Left)
-			across split_list as list until not n_set.valid_index (list.cursor_index) loop
-				put (list.item, n_set [list.cursor_index])
+			make_size (a_valid_keys.count)
+			valid_keys := a_valid_keys; internal_name_list := a_name_list
+			create split_list.make_shared_adjusted (a_name_list, ',', {EL_SIDE}.Left)
+			across split_list as list until not a_valid_keys.valid_index (list.cursor_index) loop
+				put (list.item, a_valid_keys [list.cursor_index])
 				check
-					no_conflict: inserted
+					unique_keys: inserted
 				end
 			end
 		ensure
-			full: count = n_set.count
+			full: count = valid_keys.count
+		end
+
+feature -- Access
+
+	valid_keys: ARRAY [N]
+
+	name_list: STRING_8
+		do
+			Result := internal_name_list.twin
 		end
 
 feature {NONE} -- Internal attributes
 
-	name_list: STRING_8
+	internal_name_list: STRING_8
 
 end

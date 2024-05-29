@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 12:46:05 GMT (Wednesday 29th May 2024)"
-	revision: "37"
+	date: "2024-05-29 15:32:24 GMT (Wednesday 29th May 2024)"
+	revision: "38"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -300,8 +300,10 @@ feature -- Test
 		-- using method 1
 		note
 			testing: "[
-				covers/{EL_RESULT_SUMMATOR}.sum, covers/{EL_OR_QUERY_CONDITION}.met,
-				covers/{EL_NOT_QUERY_CONDITION}.met, covers/{EL_ANY_QUERY_CONDITION}.met,
+				covers/{EL_RESULT_SUMMATOR}.sum,
+				covers/{EL_OR_QUERY_CONDITION}.met,
+				covers/{EL_NOT_QUERY_CONDITION}.met,
+				covers/{EL_ANY_QUERY_CONDITION}.met,
 				covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met,
 				covers/{EL_CONTAINER_STRUCTURE}.query_is_equal,
 				covers/{EL_CONTAINER_STRUCTURE}.query_if,

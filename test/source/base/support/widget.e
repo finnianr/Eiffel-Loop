@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 12:45:44 GMT (Wednesday 29th May 2024)"
-	revision: "5"
+	date: "2024-05-29 15:32:39 GMT (Wednesday 29th May 2024)"
+	revision: "6"
 
 class
 	WIDGET
 
 inherit
-	ANY
-
-	PRIMARY_COLOR_CONSTANTS
+	ANY; PRIMARY_COLOR_CONSTANTS
 
 create
 	make
@@ -37,7 +35,7 @@ feature -- Access
 
 	color_name: STRING_8
 		do
-			Result := Color_name_table [color]
+			Result := Color_table [color]
 		end
 
 	weight: INTEGER

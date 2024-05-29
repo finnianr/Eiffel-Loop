@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 12:48:51 GMT (Wednesday 29th May 2024)"
-	revision: "26"
+	date: "2024-05-29 15:30:23 GMT (Wednesday 29th May 2024)"
+	revision: "27"
 
 class
 	STRING_TEST_SET
@@ -163,14 +163,12 @@ feature -- Tests
 				covers/{EL_READABLE_STRING_X_ROUTINES}.selected
 			]"
 		local
-			s: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES; color_name: STRING
 		do
-			across Valid_colors as color loop
-				assert_same_string (
-					"same color name", s.selected (color.item, Valid_colors, Color_names), Color_name_table [color.item]
-				)
+			across Color_table.valid_keys as color loop
+				color_name := s.selected (color.item, Color_table.valid_keys, Color_table.name_list)
+				assert_same_string ("same color name", color_name, Color_table [color.item])
 			end
 		end
-
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 12:48:51 GMT (Wednesday 29th May 2024)"
-	revision: "1"
+	date: "2024-05-29 15:30:23 GMT (Wednesday 29th May 2024)"
+	revision: "2"
 
 deferred class
 	PRIMARY_COLOR_CONSTANTS
@@ -25,16 +25,9 @@ feature {NONE} -- Colors
 
 feature {NONE} -- Constants
 
-	Color_name_table: EL_IMMUTABLE_NAME_TABLE [INTEGER]
+	Color_table: EL_IMMUTABLE_NAME_TABLE [INTEGER]
 		once
-			create Result.make (Valid_colors, Color_names)
-		end
-
-	Color_names: STRING = "Red, Blue, Green"
-
-	Valid_colors: ARRAY [INTEGER]
-		once
-			Result := << Red, Blue, Green >>
+			create Result.make (<< Red, Blue, Green >>, "Red, Blue, Green")
 		end
 
 end
