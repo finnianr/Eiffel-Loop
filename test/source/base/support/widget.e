@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-05-29 10:40:05 GMT (Wednesday 29th May 2024)"
+	revision: "4"
 
 class
 	WIDGET
@@ -30,20 +30,25 @@ feature -- Access
 
 	color: INTEGER
 
+	color_name: STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.selected (color, << Red, Blue, Green >>, once "Red, Blue, Green")
+		end
+
 	weight: INTEGER
 
-	color_name: STRING
+feature -- Element change
+
+	set_color (a_color: INTEGER)
 		do
-			inspect color
-				when Red then
-					Result := "Red"
-				when Blue then
-					Result := "Blue"
-				when Green then
-					Result := "Green"
-			else
-				create Result.make_empty
-			end
+			color := a_color
+		end
+
+	set_weight (a_weight: INTEGER)
+		do
+			weight := a_weight
 		end
 
 feature -- Status query
@@ -55,9 +60,10 @@ feature -- Status query
 
 feature -- Constants
 
-	Red: INTEGER = 1
-
 	Blue: INTEGER = 2
 
 	Green: INTEGER = 3
+
+	Red: INTEGER = 1
+
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 8:13:45 GMT (Monday 15th April 2024)"
-	revision: "37"
+	date: "2024-05-29 10:37:11 GMT (Wednesday 29th May 2024)"
+	revision: "38"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -58,6 +58,39 @@ feature -- Access
 			fill_intervals (Result, target, separator)
 			if keep_ref then
 				Result := Result.twin
+			end
+		end
+
+	selected (n: INTEGER; n_set: ARRAY [INTEGER]; name_list: READABLE_STRING_X): READABLE_STRING_X
+		require
+			name_count_matches: n_set.count = name_list.occurrences (',') + 1
+		local
+			index: INTEGER; found: BOOLEAN
+		do
+			if name_list.count = 0 then
+				Result := name_list
+			else
+				from index := 1 until index > n_set.count or found loop
+					if n_set [index] = n then
+						found := True
+					else
+						index := index + 1
+					end
+				end
+				if found then
+					if attached name_list.split (',') as list then
+						if list.valid_index (index) then
+							Result := list [index]
+							if Result.count > 0 and then Result [1] = ' ' then
+								Result := Result.substring (2, Result.count)
+							end
+						else
+							Result := name_list.substring (1, 0)
+						end
+					end
+				else
+					Result := name_list.substring (1, 0)
+				end
 			end
 		end
 
@@ -325,11 +358,6 @@ feature -- Substring
 
 feature {NONE} -- Implementation
 
-	to_code (character: CHARACTER_32): NATURAL_32
-		do
-			Result := character.natural_32_code
-		end
-
 	null: TYPED_POINTER [INTEGER]
 		do
 		end
@@ -341,6 +369,11 @@ feature {NONE} -- Implementation
 				Result.extend (text.substring (intervals.item_lower, intervals.item_upper))
 				intervals.forth
 			end
+		end
+
+	to_code (character: CHARACTER_32): NATURAL_32
+		do
+			Result := character.natural_32_code
 		end
 
 feature {NONE} -- Deferred
@@ -357,11 +390,11 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	string_searcher: STRING_SEARCHER
+	split_on_character: EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
 		deferred
 		end
 
-	split_on_character: EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
+	string_searcher: STRING_SEARCHER
 		deferred
 		end
 

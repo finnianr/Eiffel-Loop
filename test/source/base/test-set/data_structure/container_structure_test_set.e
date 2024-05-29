@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "35"
+	date: "2024-05-29 10:45:40 GMT (Wednesday 29th May 2024)"
+	revision: "36"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -59,9 +59,11 @@ feature -- Test
 	test_arrayed_map_list
 		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_list
 		note
-			testing: "covers/{EL_ARRAYED_MAP_LIST}.make_from_keys",
-						"covers/{EL_ARRAYED_MAP_LIST}.make_from_values",
-						"covers/{EL_HASH_SET}.make_from"
+			testing: "[
+				covers/{EL_ARRAYED_MAP_LIST}.make_from_keys,
+				covers/{EL_ARRAYED_MAP_LIST}.make_from_values,
+				covers/{EL_HASH_SET}.make_from
+			]"
 		local
 			string_to_character_map: EL_ARRAYED_MAP_LIST [STRING, CHARACTER]
 			character_to_code_map: EL_ARRAYED_MAP_LIST [CHARACTER, NATURAL]
@@ -183,9 +185,12 @@ feature -- Test
 
 	test_el_linear
 		note
-			testing: "covers/{EL_LINEAR}.index_of",
-						"covers/{EL_LINEAR}.find_first_true", "covers/{EL_LINEAR}.find_next_true",
-						"covers/{EL_LINEAR}.find_first_equal"
+			testing: "[
+				covers/{EL_LINEAR}.index_of,
+				covers/{EL_LINEAR}.find_first_true,
+				covers/{EL_LINEAR}.find_next_true,
+				covers/{EL_LINEAR}.find_first_equal
+			]"
 		do
 			Widget_list.find_first_true (agent {WIDGET}.is_color (Blue))
 			assert ("item weight is 3", Widget_list.item.weight = 3)
@@ -219,6 +224,13 @@ feature -- Test
 		end
 
 	test_order_by_color_name
+		-- CONTAINER_STRUCTURE_TEST_SET.test_order_by_color_name
+		note
+			testing: "[
+				covers/{EL_READABLE_STRING_X_ROUTINES}.selected,
+				covers/{EL_ARRAYED_LIST}.order_by,
+				covers/{EL_CHAIN}.ordered_by
+			]"
 		local
 			previous: STRING; ordered_1, ordered_2: like Widget_list
 		do
@@ -256,9 +268,11 @@ feature -- Test
 
 	test_query_and_map_list
 		note
-			testing: "covers/{EL_ARRAYED_RESULT_LIST}.make",
-						"covers/{EL_ARRAYED_RESULT_LIST}.make_with_tuple_2",
-						"covers/{EL_CONTAINER_STRUCTURE}.query_if"
+			testing: "[
+				covers/{EL_ARRAYED_RESULT_LIST}.make,
+				covers/{EL_ARRAYED_RESULT_LIST}.make_with_tuple_2,
+				covers/{EL_CONTAINER_STRUCTURE}.query_if
+			]"
 		local
 			key_list: EL_ARRAYED_RESULT_LIST [WIDGET, INTEGER]
 		do
@@ -283,13 +297,14 @@ feature -- Test
 	test_query_and_summator
 		-- using method 1
 		note
-			testing: "covers/{EL_RESULT_SUMMATOR}.sum", "covers/{EL_OR_QUERY_CONDITION}.met",
-						"covers/{EL_NOT_QUERY_CONDITION}.met", "covers/{EL_ANY_QUERY_CONDITION}.met",
-						"covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met",
-
-						"covers/{EL_CONTAINER_STRUCTURE}.query_is_equal",
-						"covers/{EL_CONTAINER_STRUCTURE}.query_if",
-						"covers/{EL_CONTAINER_STRUCTURE}.query"
+			testing: "[
+				covers/{EL_RESULT_SUMMATOR}.sum, covers/{EL_OR_QUERY_CONDITION}.met,
+				covers/{EL_NOT_QUERY_CONDITION}.met, covers/{EL_ANY_QUERY_CONDITION}.met,
+				covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met,
+				covers/{EL_CONTAINER_STRUCTURE}.query_is_equal,
+				covers/{EL_CONTAINER_STRUCTURE}.query_if,
+				covers/{EL_CONTAINER_STRUCTURE}.query
+			]"
 		local
 			sum: INTEGER
 		do
