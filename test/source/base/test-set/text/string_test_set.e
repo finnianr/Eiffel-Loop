@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 15:30:23 GMT (Wednesday 29th May 2024)"
-	revision: "27"
+	date: "2024-05-30 10:12:43 GMT (Thursday 30th May 2024)"
+	revision: "28"
 
 class
 	STRING_TEST_SET
@@ -164,10 +164,23 @@ feature -- Tests
 			]"
 		local
 			s: EL_STRING_8_ROUTINES; color_name: STRING
+			natural_codes: ARRAYED_LIST [NATURAL_8]; symbol_table: EL_IMMUTABLE_NAME_TABLE [NATURAL_8]
 		do
 			across Color_table.valid_keys as color loop
-				color_name := s.selected (color.item, Color_table.valid_keys, Color_table.name_list)
+				color_name := s.selected (color.item, Color_table.valid_keys, Color_table.name_list_8)
 				assert_same_string ("same color name", color_name, Color_table [color.item])
+			end
+			if attached Text.symbol_32_list as symbol_list then
+				symbol_list.finish; symbol_list.remove -- remove "%T"
+				
+				create natural_codes.make (symbol_list.count)
+				from until natural_codes.full loop
+					natural_codes.extend ((natural_codes.count + 1).to_natural_8)
+				end
+				create symbol_table.make_general (natural_codes.to_array, symbol_list.joined_with_string (", "))
+				across natural_codes as code loop
+					assert ("same name", symbol_table.item_32 (code.item) ~ symbol_list [code.cursor_index])
+				end
 			end
 		end
 

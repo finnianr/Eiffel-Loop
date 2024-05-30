@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "9"
+	date: "2024-05-30 9:35:42 GMT (Thursday 30th May 2024)"
+	revision: "10"
 
 expanded class
 	EL_UTF_8_CONVERTER
@@ -57,6 +57,12 @@ feature -- Conversion
 			c: UTF_CONVERTER
 		do
 			Result := c.string_32_to_utf_8_string_8 (s)
+		end
+
+	to_string_32 (utf_8: READABLE_STRING_8): STRING_32
+		do
+			create Result.make (unicode_count (utf_8))
+			string_8_into_string_32 (utf_8, Result)
 		end
 
 feature -- Measurement
