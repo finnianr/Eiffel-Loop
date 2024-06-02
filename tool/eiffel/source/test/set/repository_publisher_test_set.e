@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 11:58:26 GMT (Sunday 2nd June 2024)"
-	revision: "81"
+	date: "2024-06-02 13:04:37 GMT (Sunday 2nd June 2024)"
+	revision: "82"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -160,8 +160,10 @@ feature -- Tests
 				base_name_list.append (sorted_base_names (cmd.path_list))
 				base_name_list.ascending_sort
 
-				if Executable.Is_work_bench then
---					line := User_input.line ("Enter to continue (1st)")
+				if Executable.Is_work_bench
+					and then attached User_input.line ("Enter to continue (1st)")
+				then
+					do_nothing
 				end
 				publisher.execute
 
@@ -179,10 +181,6 @@ feature -- Tests
 				)
 				lio.put_new_line
 				failed ("same base name list")
-			end
-
-			if Executable.Is_work_bench then
---				line := User_input.line ("Enter to continue (2nd)")
 			end
 			publisher.execute
 			assert ("no changes", not publisher.has_changes)

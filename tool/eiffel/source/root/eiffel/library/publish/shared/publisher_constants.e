@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 9:42:24 GMT (Saturday 1st June 2024)"
-	revision: "21"
+	date: "2024-06-02 13:36:12 GMT (Sunday 2nd June 2024)"
+	revision: "22"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -15,17 +15,7 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-	EL_MODULE_TUPLE
-
 	EL_CHARACTER_32_CONSTANTS
-
-feature {NONE} -- Templates
-
-	Github_link_template: ZSTRING
-		-- [link text] plus (web address)
-		once
-			Result := "[%S](%S)"
-		end
 
 feature {NONE} -- Strings
 
@@ -33,6 +23,14 @@ feature {NONE} -- Strings
 		once
 			Result := "./"
 		end
+
+	Github_link_template: ZSTRING
+		-- [link text] plus (web address)
+		once
+			Result := "[%S](%S)"
+		end
+
+feature {NONE} -- HTML
 
 	Html: ZSTRING
 		once

@@ -11,6 +11,10 @@ of the classic concurrency horse-racing exercise.
 2. `el_concurrency -work_distributer` demonstrates the calculation of integrals for arbitrary functions
 distributed across a specified number of threads
 
+## Eco-DB Example
+
+This faux-library is for documentation purposes only and is not compilable. It contains classes from a proprietary [Hex 11 Software](https://www.hex11software.com/) library to illustrate the use of the Eiffel orientated database library [library/Eco-DB.ecf](https://github.com/finnianr/Eiffel-Loop/library/Eco-DB.pecf).
+
 ## Protein Folding using 2D HP model
 
 Various implementations of an optimal protein folding algorithm using the 2D HP model Includes both a single and multi-core implementation.
@@ -775,22 +779,16 @@ There is work in progress to create an abstraction representing the concept of a
 
 A preview of classes which will form the basis of reusable abstractions are as follows:
 
-* [DATABASE](https://github.com/finnianr/Eiffel-Loop/library/example/Eco-DB/database.e) contains fields conforming to [DATA_TABLE](https://github.com/finnianr/Eiffel-Loop/library/example/Eco-DB/data_table.e) and various routines that operate on all the tables at once. For example: `make_open, close, delete, backup, export_as_pyxis` etc
-* [DATABASE_CONFIGURATION](https://github.com/finnianr/Eiffel-Loop/library/example/Eco-DB/database_configuration.e) for storing/reading the database credentials etc.
-* [DATA_TABLE](https://github.com/finnianr/Eiffel-Loop/library/example/Eco-DB/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
-* [DATABASE_MANAGER_SHELL](https://github.com/finnianr/Eiffel-Loop/library/example/Eco-DB/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
+* [DATABASE](https://github.com/finnianr/Eiffel-Loop/example/Eco-DB/source/database.e) contains fields conforming to [DATA_TABLE](https://github.com/finnianr/Eiffel-Loop/example/Eco-DB/source/table/data_table.e) and various routines that operate on all the tables at once. For example: `make_open, close, delete, backup, export_as_pyxis` etc
+* [DATABASE_CONFIGURATION](https://github.com/finnianr/Eiffel-Loop/example/Eco-DB/source/database_configuration.e) for storing/reading the database credentials etc.
+* [DATA_TABLE](https://github.com/finnianr/Eiffel-Loop/example/Eco-DB/source/table/data_table.e) is an abstraction allowing thread safe table operations in a concurrent environment.
+* [DATABASE_MANAGER_SHELL](https://github.com/finnianr/Eiffel-Loop/example/Eco-DB/source/database_manager_shell.e) is a menu driven shell for managing the database and performing operations like import, export, backup etc.
 
 **Foot Notes**
 
 ** `delete` is a routine from [ECD_CHAIN](https://github.com/finnianr/Eiffel-Loop/library/persistency/database/eco-db/chain/ecd_chain.e) and not from [CHAIN](https://www.eiffel.org/files/doc/static/trunk/libraries/base/chain_chart.html).
 
 *** We are using the term *join* somewhat loosely and mean only that if you have two chains *CHAIN [A]* and *CHAIN [B]*, you can produce a subchain of *CHAIN [B]* where each *B* item has a matching field value with an item from *CHAIN [A]*.
-
-## Eco-DB Example
-
-Some classes from a proprietary [Hex 11 Software](https://www.hex11software.com/) library to illustrate the use of the [Eco-DB library](https://github.com/finnianr/Eiffel-Loop/library/Eco-DB.pecf).
-
-**Note**: this library is not compile-able and is for documentation purposes only.
 
 ## Eiffel LIST-orientated XML Database
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:52:32 GMT (Saturday 6th April 2024)"
-	revision: "29"
+	date: "2024-06-02 13:37:07 GMT (Sunday 2nd June 2024)"
+	revision: "30"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -28,7 +28,7 @@ inherit
 			is_equal, copy
 		end
 
-	EL_MODULE_XML
+	EL_MODULE_TUPLE; EL_MODULE_XML
 
 	MARKDOWN_ROUTINES
 		undefine

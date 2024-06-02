@@ -8,45 +8,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 13:10:19 GMT (Saturday 1st June 2024)"
-	revision: "59"
+	date: "2024-06-02 13:35:28 GMT (Sunday 2nd June 2024)"
+	revision: "60"
 
 class
 	EIFFEL_CLASS
 
 inherit
+	EIFFEL_CLASS_SERIALIZEABLE
+		undefine
+			is_equal
+		redefine
+			copy, make_default
+		end
+
 	EL_FILE_SYNC_ITEM
 		rename
 			make as make_sync_item,
 			source_path as html_source_path
 		undefine
-			is_equal, copy
+			copy, is_equal
 		redefine
 			is_modified, sink_content
 		end
 
-	EVOLICITY_SERIALIZEABLE
-		rename
-			output_path as html_output_path
+	COMPARABLE
 		undefine
-			is_equal
-		redefine
-			make_default, serialize, copy
+			copy
 		end
-
-	COMPARABLE undefine copy end
-
-	EL_THREAD_ACCESS [CODEBASE_METRICS] undefine is_equal, copy end
-
-	EL_EIFFEL_KEYWORDS
-
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_XML
-
-	PUBLISHER_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
-
-	SHARED_CODEBASE_METRICS
-
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
@@ -185,8 +174,6 @@ feature -- Status report
 		do
 		end
 
-	notes_filled: BOOLEAN
-
 feature -- Basic operations
 
 	check_class_references
@@ -199,14 +186,6 @@ feature -- Basic operations
 		do
 			notes.fill (source_path)
 			notes_filled := True
-		end
-
-	serialize
-		do
-			if not notes_filled then
-				fill_notes
-			end
-			Precursor
 		end
 
 	sink_source_substitutions
@@ -337,22 +316,5 @@ feature {NONE} -- Evolicity fields
 				["source_path", 				agent: FILE_PATH do Result := relative_source_path end]
 			>>)
 		end
-
-feature {NONE} -- Constants
-
-	Class_begin_strings: EL_ZSTRING_LIST
-		once
-			create Result.make (3)
-			across Class_declaration_keywords as l_word loop
-				Result.extend (new_line * 1 + l_word.item)
-			end
-		end
-
-	Default_notes: EIFFEL_NOTES
-		once
-			create Result.make_default
-		end
-
-	Template: STRING = ""
 
 end

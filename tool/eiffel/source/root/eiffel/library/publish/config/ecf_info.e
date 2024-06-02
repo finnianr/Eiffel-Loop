@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-20 13:23:52 GMT (Wednesday 20th December 2023)"
-	revision: "16"
+	date: "2024-06-02 13:45:49 GMT (Sunday 2nd June 2024)"
+	revision: "17"
 
 class
 	ECF_INFO
@@ -17,10 +17,12 @@ inherit
 		rename
 			make_default as make
 		redefine
-			make
+			make, on_context_exit
 		end
 
-	EL_STRING_8_CONSTANTS
+	EL_MODULE_LIO
+
+	EL_STRING_8_CONSTANTS; PUBLISHER_CONSTANTS
 
 create
 	make
@@ -105,6 +107,16 @@ feature {NONE} -- Implementation
 			create Result.make_adjusted_split (node.adjusted_8 (False), ';', {EL_SIDE}.Left)
 		end
 
+	on_context_exit
+		do
+			if path.base.has ('#') then
+				lio.put_labeled_string ("Read cluster", path.base)
+			else
+				lio.put_labeled_string ("Read ECF", path.base)
+			end
+			lio.put_new_line
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
 			create Result.make (<<
@@ -118,11 +130,6 @@ feature {NONE} -- Constants
 	Default_ignored_clusters: EL_STRING_8_LIST
 		once
 			create Result.make_empty
-		end
-
-	Html: ZSTRING
-		once
-			Result := "html"
 		end
 
 	Xpath_cluster: STRING = "/system/target/cluster"

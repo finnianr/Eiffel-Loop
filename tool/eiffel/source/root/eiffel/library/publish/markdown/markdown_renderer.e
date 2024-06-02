@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:52:33 GMT (Saturday 6th April 2024)"
-	revision: "18"
+	date: "2024-06-02 13:36:41 GMT (Sunday 2nd June 2024)"
+	revision: "19"
 
 class
 	MARKDOWN_RENDERER
@@ -18,9 +18,7 @@ inherit
 			default_create
 		end
 
-	EL_ZSTRING_CONSTANTS; XML_ZSTRING_CONSTANTS
-
-	PUBLISHER_CONSTANTS
+	EL_ZSTRING_CONSTANTS; PUBLISHER_CONSTANTS; XML_ZSTRING_CONSTANTS
 
 create
 	default_create
