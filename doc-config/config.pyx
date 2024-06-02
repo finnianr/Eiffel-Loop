@@ -49,10 +49,7 @@ publish-repository:
 			"example/net/EROS/signal-math/signal-math.ecf#project"
 			"example/net/EROS/server/signal-math-server.ecf#project"
 			"example/protein-folding/protein-folding.ecf"
-
-		# Library (Example)
-		ecf:
-			"library/Eco-DB-example.ecf"
+			"example/Eco-DB/database.ecf"
 
 		# Library Multimedia
 		ecf:

@@ -1,27 +1,25 @@
 note
-	description: "Map class name to HTML source path"
+	description: "Map class name/alias to instance of ${EIFFEL_CLASS} or ${EIFFEL_LIBRARY_CLASS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 8:48:00 GMT (Wednesday 3rd April 2024)"
-	revision: "14"
+	date: "2024-06-01 9:18:39 GMT (Saturday 1st June 2024)"
+	revision: "15"
 
 class
-	CLASS_HTML_PATH_TABLE
+	EIFFEL_CLASS_TABLE
 
 inherit
-	EL_ZSTRING_HASH_TABLE [FILE_PATH]
+	EL_HASH_TABLE [EIFFEL_CLASS, ZSTRING]
 		rename
 			make as table_make
 		export
 			{NONE} all
 			{ANY} found_item, extend, remove
 		end
-
-	PUBLISHER_CONSTANTS
 
 create
 	make
@@ -31,6 +29,13 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_equal (1000)
+		end
+
+feature -- Access
+
+	found_html_path: FILE_PATH
+		do
+			Result := found_item.relative_html_path
 		end
 
 feature -- Element change
@@ -50,7 +55,7 @@ feature -- Element change
 
 	put_class (e_class: EIFFEL_CLASS)
 		do
-			put (e_class.relative_source_path.with_new_extension (Html), e_class.name)
+			put (e_class, e_class.name)
 		end
 
 feature -- Status query

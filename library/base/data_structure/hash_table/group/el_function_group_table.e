@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-06-02 11:39:38 GMT (Sunday 2nd June 2024)"
+	revision: "13"
 
 class
 	EL_FUNCTION_GROUP_TABLE [G, K -> HASHABLE]
@@ -61,7 +61,7 @@ feature -- Element change
 			else
 				create found_list.make_empty
 				found_list.extend (a_item)
-				table_extend (found_list, key)
+				extend_list (found_list, key)
 			end
 		end
 

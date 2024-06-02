@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-06-01 13:06:25 GMT (Saturday 1st June 2024)"
+	revision: "18"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -15,7 +15,8 @@ class
 inherit
 	EIFFEL_CLASS
 		redefine
-			make_default, is_library, getter_function_table, sink_source_substitutions, further_information_fields
+			make_default, is_library, getter_function_table, further_information_fields,
+			sink_source_substitutions
 		end
 
 create
@@ -46,38 +47,21 @@ feature -- Element change
 		-- sink the values of ${<type-name>} occurrences `code_text'. Eg. ${CLASS_NAME}
 		-- and populate `client_examples' while adding the client paths to `current_digest'
 		-- in alphabetical order of class name.
-		local
-			crc: like crc_generator; list: like Name_to_class_map_list
-			previous_name: ZSTRING
 		do
-			Precursor
-			crc := crc_generator; list := Name_to_class_map_list
-			list.wipe_out
-			crc.set_checksum (current_digest)
-			across repository.example_classes as l_class until list.full loop
-				if l_class.item.has_class_name (name) then
-					list.extend (l_class.item.name, l_class.item)
-				end
-			end
-			if not list.is_empty then
-				list.sort_by_key (True)
-				-- Remove duplicate names Eg. BUILD_INFO as example of using DIR_PATH
-				list.start
-				previous_name := list.item_key
-				from list.forth until list.after loop
-					if previous_name ~ list.item_key then
-						list.remove
-					else
-						previous_name := list.item_key
-						list.forth
+			Precursor -- crc reset in precursor
+
+			if attached Once_crc_generator as crc and then attached Once_class_table as table then
+				across repository.example_classes as class_list until table.count = Maximum_examples loop
+					if attached class_list.item as e_class and then e_class.has_class_name (name) then
+						table.put (e_class, e_class.name)
 					end
 				end
+				client_examples := table.item_list
+				across client_examples as example loop
+					crc.add_path (example.item.relative_source_path)
+				end
+				current_digest := crc.checksum
 			end
-			client_examples := list.value_list
-			across client_examples as example loop
-				crc.add_path (example.item.relative_source_path)
-			end
-			current_digest := crc.checksum
 		end
 
 feature {NONE} -- Implementation
@@ -105,8 +89,8 @@ feature {NONE} -- Constants
 			Result := 20
 		end
 
-	Name_to_class_map_list: EL_ARRAYED_MAP_LIST [EL_ZSTRING, EIFFEL_CLASS]
+	Once_class_table: EL_HASH_TABLE [EIFFEL_CLASS, ZSTRING]
 		once
-			create result.make (Maximum_examples)
+			create result.make_size (Maximum_examples)
 		end
 end

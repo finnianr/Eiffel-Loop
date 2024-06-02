@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:18:39 GMT (Thursday 4th April 2024)"
-	revision: "9"
+	date: "2024-06-01 10:49:19 GMT (Saturday 1st June 2024)"
+	revision: "10"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -31,7 +31,7 @@ inherit
 
 	EL_EIFFEL_CONSTANTS; PUBLISHER_CONSTANTS
 
-	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
+	SHARED_CLASS_TABLE; SHARED_ISE_CLASS_TABLE
 
 create
 	make_sized
@@ -201,13 +201,13 @@ feature {NONE} -- Implementation
 
 	new_class_link (name: ZSTRING; link_type: NATURAL_8): CLASS_LINK
 		do
-			if Class_path_table.has_class (name) then
-				create {DEVELOPER_CLASS_LINK} Result.make (Class_path_table.found_item, name, link_type)
+			if Class_table.has_class (name) then
+				create {DEVELOPER_CLASS_LINK} Result.make (Class_table.found_item, name, link_type)
 
 			elseif ISE_class_table.has_class (name) then
 				create {ISE_CLASS_LINK} Result.make (ISE_class_table.found_item, name, link_type)
 			else
-				create Result.make (Invalid_class, name, link_type)
+				create {INVALID_CLASS_LINK} Result.make (name, link_type)
 			end
 		end
 
@@ -225,7 +225,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
+feature {CLASS_LINK_LIST} -- Internal attributes
 
 	buffer: EL_ZSTRING_BUFFER
 
@@ -234,11 +234,6 @@ feature {NONE} -- Internal attributes
 	name_buffer: EL_ZSTRING_BUFFER
 
 feature {NONE} -- Constants
-
-	Invalid_class: FILE_PATH
-		once
-			Result := "invalid-class-name"
-		end
 
 	Max_type_name_count: INTEGER
 		once

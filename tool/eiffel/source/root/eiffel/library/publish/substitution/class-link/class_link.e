@@ -11,10 +11,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 9:13:17 GMT (Thursday 4th April 2024)"
-	revision: "9"
+	date: "2024-06-01 10:55:03 GMT (Saturday 1st June 2024)"
+	revision: "10"
 
-class
+deferred class
 	CLASS_LINK
 
 inherit
@@ -24,16 +24,12 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
-create
-	make
-
 feature {NONE} -- Initialization
 
-	make (a_path: FILE_PATH; a_class_name: ZSTRING; a_type: NATURAL_8)
+	make (a_class_name: ZSTRING; a_type: NATURAL_8)
 		do
-			path := a_path; class_name := a_class_name.twin
+			class_name := a_class_name.twin; type := a_type
 			expanded_parameters := Empty_string; routine_name := Empty_string
-			type := a_type
 		end
 
 feature -- Status query
@@ -44,18 +40,19 @@ feature -- Status query
 		end
 
 	is_valid: BOOLEAN
-		-- `True' in descendants
+		-- `False' in descendant `INVALID_CLASS_LINK'
 		do
-			Result := False
+			Result := True
 		end
 
 feature -- Access
 
 	class_name: ZSTRING
 
-	expanded_parameters: ZSTRING
+	eiffel_class: detachable EIFFEL_CLASS
+		-- developer class or else `Void' if ISE or invalid class
 
-	path: FILE_PATH
+	expanded_parameters: ZSTRING
 
 	relative_path (relative_page_dir: DIR_PATH): FILE_PATH
 		do
@@ -65,6 +62,12 @@ feature -- Access
 	routine_name: ZSTRING
 
 	type: NATURAL_8
+
+feature -- Deferred
+
+	path: FILE_PATH
+		deferred
+		end
 
 feature -- Measurement
 
@@ -95,8 +98,9 @@ feature -- Code substring indices
 
 feature -- Element change
 
-	adjust_path (relative_page_dir: DIR_PATH)
+	set_eiffel_class (a_eiffel_class: EIFFEL_CLASS)
 		do
+			eiffel_class := a_eiffel_class
 		end
 
 	set_end_index (a_end_index: INTEGER)

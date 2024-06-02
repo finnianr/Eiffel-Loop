@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 12:23:26 GMT (Monday 1st April 2024)"
-	revision: "21"
+	date: "2024-06-01 9:19:19 GMT (Saturday 1st June 2024)"
+	revision: "22"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -18,7 +18,7 @@ inherit
 			make, new_publisher, on_prepare, generated_files
 		end
 
-	SHARED_CLASS_PATH_TABLE; SHARED_ISE_CLASS_TABLE
+	SHARED_CLASS_TABLE; SHARED_ISE_CLASS_TABLE
 
 	EL_MODULE_EXECUTABLE; EL_MODULE_FILE
 
@@ -76,8 +76,8 @@ feature {NONE} -- Implementation
 			across Type_array as array loop
 				across << array.item.base, array.item.descendant >> as type loop
 					name := type.item.name
-					if Class_path_table.has_class (name) then
-						class_url := web_url + Class_path_table.found_item
+					if Class_table.has_class (name) then
+						class_url := web_url + Class_table.found_html_path
 						count := count + 1
 
 					elseif ISE_class_table.has_class (name) then

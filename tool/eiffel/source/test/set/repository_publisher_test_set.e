@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-08 9:18:28 GMT (Wednesday 8th May 2024)"
-	revision: "79"
+	date: "2024-06-02 11:58:26 GMT (Sunday 2nd June 2024)"
+	revision: "81"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -118,9 +118,13 @@ feature -- Tests
 
 	test_publisher
 		-- REPOSITORY_PUBLISHER_TEST_SET.test_publisher
+		note
+			testing: "[
+				covers/{EL_TUPLE_ROUTINES}.fill_with_new,
+				covers/{REPOSITORY_PUBLISHER}.execute
+			]"
 		local
-			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR
-			line: ZSTRING; base_name_list: EL_ZSTRING_LIST
+			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR; base_name_list: EL_ZSTRING_LIST
 			broadcaster_path, checker_path, relative_path, crc_path, el_event_processor_path: FILE_PATH
 		do
 			publisher := new_publisher
@@ -149,7 +153,7 @@ feature -- Tests
 				el_event_processor_path := kernel_event_html_path ("el_event_processor.html")
 				File_system.remove_file (el_event_processor_path)
 
-				base_name_list := "Eco-DB, Eco-DB-example, base.kernel, index, public-key-encryption"
+				base_name_list := "Eco-DB, base.kernel, database, index, public-key-encryption"
 				base_name_list.extend (broadcaster_path.base_name)
 				base_name_list.do_all (agent {EL_ZSTRING}.append_string_general (".html"))
 
@@ -157,7 +161,7 @@ feature -- Tests
 				base_name_list.ascending_sort
 
 				if Executable.Is_work_bench then
-					line := User_input.line ("Enter to continue")
+--					line := User_input.line ("Enter to continue (1st)")
 				end
 				publisher.execute
 
@@ -167,14 +171,28 @@ feature -- Tests
 			end
 			assert ("el_event_processor regenerated", el_event_processor_path.exists)
 			assert ("checker html gone", not kernel_event_html_path (checker_path).exists)
-			assert ("same list", base_name_list ~ sorted_base_names (publisher.uploaded_path_list))
+			if base_name_list /~ sorted_base_names (publisher.uploaded_path_list) then
+				lio.put_labeled_lines ("base_name_list", base_name_list)
+				lio.put_new_line
+				lio.put_labeled_lines (
+					"sorted_base_names (publisher.uploaded_path_list)", sorted_base_names (publisher.uploaded_path_list)
+				)
+				lio.put_new_line
+				failed ("same base name list")
+			end
+
+			if Executable.Is_work_bench then
+--				line := User_input.line ("Enter to continue (2nd)")
+			end
+			publisher.execute
+			assert ("no changes", not publisher.has_changes)
 		end
 
 feature {NONE} -- Events
 
 	on_prepare
 		local
-			dir_path: DIR_PATH; file_path: FILE_PATH; extension: STRING
+			dir_path: DIR_PATH; extension: STRING
 		do
 			Precursor
 			OS.copy_tree (el_source_dir (Work_dir.doc_config), Work_dir.doc_config.parent)
@@ -187,40 +205,55 @@ feature {NONE} -- Events
 					end
 				end
 			end
-			if attached new_csv_list (
-					"base/kernel/event, base/kernel/initialization, base/kernel/reflection, base/math,%
-					%base/persistency, example/Eco-DB, persistency/database/eco-db, text/rsa-encryption"
-				) as library_list
-			then
-				across library_list as list loop
-					File_system.make_directory (Work_dir.library #+ list.item)
+			copy_source_trees (Work_dir.example, "Eco-DB/source")
+			copy_ecf_files (Work_dir.example, "Eco-DB/database.ecf")
+
+			copy_source_trees (Work_dir.library,
+				"base/kernel/event, base/kernel/initialization, base/kernel/reflection, base/math,%
+				%base/persistency, persistency/database/eco-db, text/rsa-encryption"
+			)
+			copy_ecf_files (Work_dir.library, "base/base.ecf, Eco-DB.ecf, public-key-encryption.ecf")
+
+			across << Work_dir.library, Work_dir.library #+ "base", Work_dir.library #+ "doc" >> as dir loop
+				File_system.make_directory (dir.item)
+				inspect dir.cursor_index
+					when 1 , 2 then
+						extension := "pecf"
+				else
+					extension := "txt"
 				end
-				across library_list as list loop
-					dir_path := Work_dir.library #+ list.item
-					OS.copy_tree (el_source_dir (dir_path), dir_path.parent)
-				end
-			end
-			if attached new_csv_list ("base/base.ecf, Eco-DB.ecf, Eco-DB-example.ecf, public-key-encryption.ecf") as library_list then
-				across library_list as list loop
-					file_path := Work_dir.library + list.item
-					OS.copy_file (el_source_path (file_path), file_path.parent)
-				end
-				across << Work_dir.library, Work_dir.library #+ "base", Work_dir.library #+ "doc" >> as dir loop
-					File_system.make_directory (dir.item)
-					inspect dir.cursor_index
-						when 1 , 2 then
-							extension := "pecf"
-					else
-						extension := "txt"
-					end
-					across Shared_directory.named (el_source_dir (dir.item)).files_with_extension (extension) as path loop
-						OS.copy_file (path.item, dir.item)
-					end
+				across Shared_directory.named (el_source_dir (dir.item)).files_with_extension (extension) as path loop
+					OS.copy_file (path.item, dir.item)
 				end
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	copy_ecf_files (workarea_sub_dir: DIR_PATH; directory_list: STRING)
+		do
+			if attached new_csv_list (directory_list) as library_list then
+				across library_list as list loop
+					if attached (workarea_sub_dir + list.item) as file_path then
+						OS.copy_file (el_source_path (file_path), file_path.parent)
+					end
+				end
+			end
+		end
+
+	copy_source_trees (workarea_sub_dir: DIR_PATH; directory_list: STRING)
+		do
+			if attached new_csv_list (directory_list) as source_list then
+				across source_list as list loop
+					File_system.make_directory (workarea_sub_dir #+ list.item)
+				end
+				across source_list as list loop
+					if attached (workarea_sub_dir #+ list.item) as dir_path then
+						OS.copy_tree (el_source_dir (dir_path), dir_path.parent)
+					end
+				end
+			end
+		end
 
 	check_html_exists (publisher: like new_publisher)
 		local
@@ -331,6 +364,11 @@ feature {NONE} -- Implementation
 			create Result.make (Work_dir.doc_config + "config-1.pyx", "1.4.0", 0)
 		end
 
+	new_work_area_sub_directory (name: STRING): DIR_PATH
+		do
+			Result := Work_area_dir #+ name
+		end
+
 	sorted_base_names (list: LIST [FILE_PATH]): EL_ZSTRING_LIST
 		-- sorted list of base names
 		do
@@ -343,12 +381,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Work_dir: TUPLE [doc, doc_config, ftp_doc, library: DIR_PATH]
+	Work_dir: TUPLE [doc, doc_config, example, ftp_doc, library: DIR_PATH]
 		once
 			create Result
-			across new_csv_list ("doc, doc-config, ftp.doc, library") as list loop
-				Result.put_reference (Work_area_dir #+ list.item, list.cursor_index)
-			end
+			Tuple.fill_with_new (Result,
+				"doc, doc-config, example, ftp.doc, library", agent new_work_area_sub_directory, 1
+			)
 		end
 
 	Kernel_event: TUPLE [class_dir, html_dir: DIR_PATH]

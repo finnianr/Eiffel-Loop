@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-11 6:49:17 GMT (Saturday 11th May 2024)"
-	revision: "18"
+	date: "2024-05-31 8:00:04 GMT (Friday 31st May 2024)"
+	revision: "19"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -148,7 +148,8 @@ feature {NONE} -- Implementation
 					across dir_group_table.found_list as list loop
 						if is_lio_enabled then
 							lio.put_path_field ("Uploading", list.item.source_path)
-							lio.put_path_field (" to", list.item.file_path)
+							lio.put_new_line
+							lio.put_path_field ("       to", list.item.file_path)
 							lio.put_new_line
 						end
 						medium.copy_item (list.item)
@@ -174,6 +175,10 @@ feature {NONE} -- Implementation
 
 		-- remove files for deletion
 			across deleted_set as set loop
+				if is_lio_enabled then
+					lio.put_path_field ("Removing %S", set.item.file_path)
+					lio.put_new_line
+				end
 				medium.remove_item (set.item)
 				set.item.remove
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 8:26:26 GMT (Thursday 24th August 2023)"
-	revision: "9"
+	date: "2024-05-31 6:35:23 GMT (Friday 31st May 2024)"
+	revision: "10"
 
 class
 	REPOSITORY_TEST_PUBLISHER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			authenticate_ftp, execute, make_default, new_medium, Ftp_host
+			authenticate_ftp, execute, file_sync_display, make_default, new_medium, Ftp_host
 		end
 
 create
@@ -54,6 +54,11 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (uploaded_path_list)
 			Result.set_remote_home (ftp_output_dir)
+		end
+
+	file_sync_display: EL_PROGRESS_DISPLAY
+		do
+			Result := Default_display
 		end
 
 	ftp_output_dir: DIR_PATH

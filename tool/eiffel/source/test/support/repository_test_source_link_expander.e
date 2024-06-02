@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-24 8:26:35 GMT (Thursday 24th August 2023)"
-	revision: "11"
+	date: "2024-05-31 6:35:46 GMT (Friday 31st May 2024)"
+	revision: "12"
 
 class
 	REPOSITORY_TEST_SOURCE_LINK_EXPANDER
@@ -24,7 +24,7 @@ inherit
 		rename
 			make as make_publisher
 		undefine
-			execute
+			execute, file_sync_display
 		redefine
 			ask_user
 		end

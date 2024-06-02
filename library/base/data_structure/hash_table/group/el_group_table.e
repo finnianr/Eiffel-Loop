@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-06-02 11:39:38 GMT (Sunday 2nd June 2024)"
+	revision: "5"
 
 class
 	EL_GROUP_TABLE [G, K -> HASHABLE]
@@ -18,8 +18,8 @@ class
 inherit
 	HASH_TABLE [EL_ARRAYED_LIST [G], K]
 		rename
-			item as item_list,
-			extend as table_extend,
+			item as item_list alias "[]",
+			extend as extend_list,
 			found_item as found_list
 		redefine
 			make, has_key, search
@@ -91,7 +91,7 @@ feature -- Element change
 					new_list.compare_objects
 				end
 				new_list.extend (new)
-				table_extend (new_list, key)
+				extend_list (new_list, key)
 			end
 		end
 

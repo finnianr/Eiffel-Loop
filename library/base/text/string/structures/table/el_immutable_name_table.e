@@ -2,7 +2,7 @@ note
 	description: "Readonly table of names for an array of numeric constants"
 	notes: "[
 		The names are of type ${IMMUTABLE_STRING_8} using shared character data from a single
-		${SPECIAL [CHARACTER]} array.
+		${SPECIAL [CHARACTER_8]} array.
 		
 		If the table is initialized with a ${READABLE_STRING_GENERAL} name list, then
 		the name items maybe either UTF-8 or Latin-1 encoded
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-30 10:24:16 GMT (Thursday 30th May 2024)"
-	revision: "6"
+	date: "2024-05-30 10:33:52 GMT (Thursday 30th May 2024)"
+	revision: "7"
 
 class
 	EL_IMMUTABLE_NAME_TABLE [N -> {NUMERIC, HASHABLE}]

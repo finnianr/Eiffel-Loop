@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-07 7:44:31 GMT (Sunday 7th April 2024)"
-	revision: "58"
+	date: "2024-06-01 13:10:19 GMT (Saturday 1st June 2024)"
+	revision: "59"
 
 class
 	EIFFEL_CLASS
@@ -108,10 +108,18 @@ feature -- Access
 			Result := XML.escaped (code_text.substring (1, class_begin_index))
 		end
 
-	relative_html_path: FILE_PATH
+feature -- File paths
+
+	ecf_relative_html_path: FILE_PATH
 		-- html path relative to `library_ecf.ecf_dir'
 		do
 			Result := source_path.relative_dot_path (library_ecf.ecf_path).with_new_extension (Html)
+		end
+
+	relative_html_path: FILE_PATH
+		-- HTML path relative to `repository.root_dir'
+		do
+			Result := relative_source_path.with_new_extension (Html)
 		end
 
 	relative_source_path: FILE_PATH
@@ -123,18 +131,18 @@ feature -- Status report
 	has_class_name (a_name: ZSTRING): BOOLEAN
 		local
 			pos_name: INTEGER; c_left, c_right: CHARACTER_32
-			l_text: like code_text
 		do
-			l_text := code_text
-			from pos_name := 1 until Result or pos_name = 0 loop
-				pos_name := l_text.substring_index (a_name, pos_name)
-				if pos_name > 0 then
-					c_left := l_text.item (pos_name - 1)
-					c_right := l_text.item (pos_name + a_name.count)
-					if (c_left.is_alpha or c_left = '_') or else (c_right.is_alpha or c_right = '_') then
-						pos_name := (pos_name + a_name.count).min (l_text.count)
-					else
-						Result := True
+			if attached code_text as text then
+				from pos_name := 1 until Result or pos_name = 0 loop
+					pos_name := text.substring_index (a_name, pos_name)
+					if pos_name > 0 then
+						c_left := text.item (pos_name - 1)
+						c_right := text.item (pos_name + a_name.count)
+						if (c_left.is_alpha or c_left = '_') or else (c_right.is_alpha or c_right = '_') then
+							pos_name := (pos_name + a_name.count).min (text.count)
+						else
+							Result := True
+						end
 					end
 				end
 			end
@@ -152,11 +160,15 @@ feature -- Status report
 
 	is_modified: BOOLEAN
 		do
-			Result := previous_digest /= current_digest or else not html_output_path.exists
+			if not (html_output_path.exists and digest_path.exists) then
+				Result := True
+			else
+				Result := previous_digest /= current_digest
+			end
 		end
 
 	is_source_modified: BOOLEAN
-		-- `True' if file was modified since creation of `Current'
+		-- `True' if file was modified or moved since creation of `Current'
 		do
 			if attached crc_generator as crc then
 				crc.add_string (new_code_text (File.plain_text (source_path)))
@@ -199,18 +211,18 @@ feature -- Basic operations
 
 	sink_source_substitutions
 		-- sink the values of ${<type-name>} occurrences `code_text'. Eg. ${CLASS_NAME}
-		local
-			crc: like crc_generator
 		do
-			crc := crc_generator
-			if initial_current_digest.to_boolean then
-				current_digest := initial_current_digest
-			else
-				initial_current_digest := current_digest
+			if attached Once_crc_generator as crc then
+				if initial_current_digest.to_boolean then
+					current_digest := initial_current_digest
+				else
+					initial_current_digest := current_digest
+				end
+				crc.set_checksum (current_digest)
+
+				Class_link_list.add_to_checksum (crc, code_text)
+				current_digest := crc.checksum
 			end
-			crc.set_checksum (current_digest)
-			Class_link_list.add_to_crc (crc, code_text)
-			current_digest := crc.checksum
 		end
 
 feature -- Comparison
@@ -225,7 +237,6 @@ feature -- Comparison
 				else
 					Result := name < other.name
 				end
-
 			else
 				Result := notes.has_description
 			end
@@ -318,7 +329,7 @@ feature {NONE} -- Evolicity fields
 
 				["name", 						agent: STRING do Result := name.string end],
 				["name_as_lower", 			agent: STRING do Result := name.string.as_lower end],
-				["html_path", 					agent: ZSTRING do Result := relative_html_path end],
+				["html_path", 					agent: ZSTRING do Result := ecf_relative_html_path end],
 				["favicon_markup_path", 	agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
 				["top_dir", 					agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
 

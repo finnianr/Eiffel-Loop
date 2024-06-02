@@ -29,16 +29,16 @@ publish-repository:
 			"warning"
 
 	ecf-list:
+		# Example
+		ecf:
+			"example/Eco-DB/database.ecf"
+
 		# Library Base
 		ecf:
 			"library/base/base.ecf#kernel"
 			"library/base/base.ecf#initialization"
 			"library/base/base.ecf#math"
 			"library/base/base.ecf#persistency"
-
-		# Library (Example)
-		ecf:
-			"library/Eco-DB-example.ecf"
 
 		# Library (Persistence)
 		ecf:

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-06-01 9:19:19 GMT (Saturday 1st June 2024)"
+	revision: "4"
 
 deferred class
 	ECF_CONSTANTS
@@ -19,7 +19,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	SHARED_CLASS_PATH_TABLE
+	SHARED_CLASS_TABLE
 
 feature {NONE} -- Xpath constants
 

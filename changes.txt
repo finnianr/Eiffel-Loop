@@ -703,3 +703,9 @@ Optimized ZSTRING.to_string_32
 Fri 17th May 2024, 13:42:19
 FTP adapted for Fasthosts Prosite
 
+Sat 1st Jun 2024, 14:03:03
+Eiffel publisher now replaces/update DEVELOPER_CLASS_LINK instances
+
+Sat 1st Jun 2024, 14:04:59
+Eiffel publisher DEVELOPER_CLASS_LINK now removeable and updateable
+

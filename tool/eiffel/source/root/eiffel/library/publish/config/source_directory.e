@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:16 GMT (Thursday 30th March 2023)"
-	revision: "19"
+	date: "2024-06-01 13:43:20 GMT (Saturday 1st June 2024)"
+	revision: "20"
 
 class
 	SOURCE_DIRECTORY
@@ -45,6 +45,17 @@ feature -- Access
 			end
 		end
 
+	dir_path: DIR_PATH
+		require
+			has_classes: class_list.count > 0
+		do
+			if class_list.count > 0 then
+				Result := class_list.first.source_path.parent
+			else
+				create Result
+			end
+		end
+
 	dir_title: ZSTRING
 		local
 			first_dir: DIR_PATH
@@ -58,17 +69,6 @@ feature -- Access
 				else
 					Result := Current_dir
 				end
-			end
-		end
-
-	dir_path: DIR_PATH
-		require
-			has_classes: class_list.count > 0
-		do
-			if class_list.count > 0 then
-				Result := class_list.first.source_path.parent
-			else
-				create Result
 			end
 		end
 
@@ -89,16 +89,23 @@ feature -- Access
 			Result.ascending_sort
 		end
 
-feature -- Status query
+feature -- Measurement
 
-	is_modified: BOOLEAN
+	count: INTEGER
 		do
-			Result := across class_list as l_class some l_class.item.is_modified end
+			Result := class_list.count
 		end
+
+feature -- Status query
 
 	is_empty: BOOLEAN
 		do
 			Result := class_list.is_empty
+		end
+
+	is_modified: BOOLEAN
+		do
+			Result := across class_list as l_class some l_class.item.is_modified end
 		end
 
 feature -- Basic operations
@@ -110,9 +117,9 @@ feature -- Basic operations
 
 	write_class_html
 		do
-			across class_list as l_class loop
-				if l_class.item.is_modified then
-					l_class.item.serialize
+			across class_list as list loop
+				if attached list.item as e_class and then e_class.is_modified then
+					e_class.serialize
 				end
 			end
 		end
@@ -133,10 +140,10 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["class_list", 			agent: like class_list do Result := sorted_class_list end],
-				["contents_dir_title", 	agent: ZSTRING do Result := XML.escaped (contents_dir_title) end],
-				["dir_title", 				agent: ZSTRING do Result := XML.escaped (dir_title) end],
-				["section", 				agent get_section]
+				["class_list",			  agent: like class_list do Result := sorted_class_list end],
+				["contents_dir_title", agent: ZSTRING do Result := XML.escaped (contents_dir_title) end],
+				["dir_title",			  agent: ZSTRING do Result := XML.escaped (dir_title) end],
+				["section",				  agent get_section]
 			>>)
 		end
 

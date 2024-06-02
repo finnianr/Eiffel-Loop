@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-08 8:46:52 GMT (Wednesday 8th May 2024)"
-	revision: "63"
+	date: "2024-06-02 8:59:49 GMT (Sunday 2nd June 2024)"
+	revision: "65"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -23,11 +23,11 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_MODULE_LIO
-
-	EL_MODULE_DIRECTORY
+	EL_MODULE_DIRECTORY; EL_MODULE_LIO
 
 	ECF_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+
+	PUBLISHER_CONSTANTS
 
 create
 	make
@@ -161,6 +161,17 @@ feature -- Access
 
 	source_dir_list: EL_ARRAYED_LIST [DIR_PATH]
 
+	sorted_class_list: EL_ARRAYED_LIST [EIFFEL_CLASS]
+		do
+			create Result.make (directory_list.sum_integer (agent {SOURCE_DIRECTORY}.count))
+			across directory_list as dir loop
+				across dir.item.class_list as list loop
+					Result.extend (list.item)
+				end
+			end
+			Result.order_by (agent {EIFFEL_CLASS}.relative_source_path, True)
+		end
+
 	sub_category: ZSTRING
 
 	type: STRING
@@ -246,7 +257,7 @@ feature -- Basic operations
 				end
 				parser.apply
 			end
-			Class_path_table.append_alias (alias_table)
+			Class_table.append_alias (alias_table)
 		end
 
 	update_source_files (update_checker: EIFFEL_CLASS_UPDATE_CHECKER)
@@ -281,7 +292,8 @@ feature -- Basic operations
 							new_source_list.remove
 							class_list.forth
 						else
-							Class_path_table.remove (e_class.name)
+							Class_table.remove (e_class.name)
+							Class_link_list.remove_class (e_class)
 							repository.example_classes.prune (e_class)
 							class_list.remove
 						end
@@ -413,7 +425,7 @@ feature {NONE} -- Implementation
 
 	add_class (source_directory: SOURCE_DIRECTORY; e_class: EIFFEL_CLASS)
 		do
-			Class_path_table.put_class (e_class)
+			Class_table.put_class (e_class)
 			source_directory.class_list.extend (e_class)
 			if e_class.is_example then
 				repository.example_classes.extend (e_class)
@@ -440,6 +452,7 @@ feature {NONE} -- Implementation
 			class_list.start; class_list.search (e_class)
 			if class_list.found then
 				class_list.replace (new_class (e_class.source_path))
+				Class_link_list.replace_class (e_class, class_list.item)
 			end
 		end
 

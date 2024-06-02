@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-08 6:28:54 GMT (Monday 8th May 2023)"
-	revision: "15"
+	date: "2024-05-30 17:00:13 GMT (Thursday 30th May 2024)"
+	revision: "16"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -53,7 +53,6 @@ feature {NONE} -- Initialization
 				previous_digest := file.last_natural_32
 				file.close
 			end
-
 		ensure
 			file_path_is_relative: not file_path.is_absolute
 		end

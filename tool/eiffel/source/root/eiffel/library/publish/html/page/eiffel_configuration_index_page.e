@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:24:55 GMT (Saturday 6th April 2024)"
-	revision: "28"
+	date: "2024-06-02 11:47:23 GMT (Sunday 2nd June 2024)"
+	revision: "30"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -19,7 +19,7 @@ inherit
 		undefine
 			is_equal
 		redefine
-			getter_function_table, serialize, is_modified, sink_content
+			getter_function_table, serialize, sink_content
 		end
 
 	COMPARABLE
@@ -95,16 +95,6 @@ feature -- Status query
 			Result := eiffel_config.directory_list.count > 1
 		end
 
-	is_modified: BOOLEAN
-		do
-			Result := Precursor or else
-				across eiffel_config.directory_list as dir some
-					across dir.item.class_list as l_class some
-						l_class.item.is_modified
-					end
-				end
-		end
-
 feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
@@ -153,10 +143,8 @@ feature {NONE} -- Implementation
 			across eiffel_config.description_lines as line loop
 				crc.add_string (line.item)
 			end
-			across eiffel_config.directory_list as dir loop
-				across dir.item.sorted_class_list as l_class loop
-					crc.add_natural (l_class.item.current_digest)
-				end
+			across eiffel_config.sorted_class_list as list loop
+				crc.add_natural (list.item.current_digest)
 			end
 		end
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 14:44:37 GMT (Thursday 4th April 2024)"
-	revision: "27"
+	date: "2024-05-31 8:59:48 GMT (Friday 31st May 2024)"
+	revision: "28"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -129,6 +129,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	item_list: EL_ARRAYED_LIST [G]
+		do
+			create Result.make_from_array (linear_representation.to_array)
+		end
 
 	new_cursor: EL_HASH_TABLE_ITERATION_CURSOR [G, K]
 			-- <Precursor>

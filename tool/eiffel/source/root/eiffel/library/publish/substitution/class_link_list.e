@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 14:04:38 GMT (Wednesday 3rd April 2024)"
-	revision: "8"
+	date: "2024-06-01 10:49:59 GMT (Saturday 1st June 2024)"
+	revision: "9"
 
 class
 	CLASS_LINK_LIST
@@ -132,7 +132,7 @@ feature -- Element change
 
 feature -- Basic operations
 
-	add_to_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32; code_text: ZSTRING)
+	add_to_checksum (crc: EL_CYCLIC_REDUNDANCY_CHECK_32; code_text: ZSTRING)
 		local
 			class_link: CLASS_LINK
 		do
@@ -147,6 +147,30 @@ feature -- Basic operations
 					crc.add_path (class_link.path)
 				end
 				forth
+			end
+		end
+
+	remove_class (eiffel_class: EIFFEL_CLASS)
+		local
+			key_list: EL_ZSTRING_LIST
+		do
+			create key_list.make (10)
+			if attached link_intervals.class_link_table as class_link_table then
+				across class_link_table as table loop
+					if table.item.eiffel_class = eiffel_class then
+						key_list.extend (table.key)
+					end
+				end
+				key_list.do_all (agent class_link_table.remove)
+			end
+		end
+
+	replace_class (old_class, new_class: EIFFEL_CLASS)
+		do
+			across link_intervals.class_link_table as table loop
+				if table.item.eiffel_class = old_class then
+					table.item.set_eiffel_class (new_class)
+				end
 			end
 		end
 

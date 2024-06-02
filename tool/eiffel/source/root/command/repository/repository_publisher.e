@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 13:22:52 GMT (Monday 13th May 2024)"
-	revision: "78"
+	date: "2024-06-02 11:57:59 GMT (Sunday 2nd June 2024)"
+	revision: "80"
 
 class
 	REPOSITORY_PUBLISHER
@@ -134,11 +134,13 @@ feature -- Basic operations
 			ecf_list.get_sync_items (current_set)
 
 			lio.put_new_line
-			across ecf_list.to_html_page_list as page loop
-				if page.item.is_modified then
-					page.item.serialize
+			across ecf_list.to_html_page_list as list loop
+				if attached list.item as page then
+					if page.is_modified then
+						page.serialize
+					end
+					current_set.put (page)
 				end
-				current_set.put (page.item)
 			end
 			github_contents.serialize
 			write_version
@@ -149,11 +151,12 @@ feature -- Basic operations
 			else
 				create sync_manager.make (current_set)
 			end
-			if sync_manager.has_changes then
+			has_changes := sync_manager.has_changes
+			if has_changes then
 				if attached new_medium as medium then
 					login (medium)
 					if is_logged_in then
-						sync_manager.track_update (medium, Console_display)
+						sync_manager.track_update (medium, file_sync_display)
 						lio.put_line ("Synchronized")
 					else
 						lio.put_line ("Login failed")
@@ -171,6 +174,8 @@ feature -- Basic operations
 		end
 
 feature -- Status query
+
+	has_changes: BOOLEAN
 
 	has_version_changed: BOOLEAN
 		do
@@ -198,6 +203,11 @@ feature {NONE} -- Implementation
 				create converter.make (pecf_path, ecf_path)
 				converter.execute
 			end
+		end
+
+	file_sync_display: EL_PROGRESS_DISPLAY
+		do
+			Result := Console_display
 		end
 
 	github_contents: GITHUB_REPOSITORY_CONTENTS_MARKDOWN

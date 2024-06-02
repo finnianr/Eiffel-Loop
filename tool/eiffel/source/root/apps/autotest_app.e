@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "58"
+	date: "2024-05-31 6:28:13 GMT (Friday 31st May 2024)"
+	revision: "59"
 
 class
 	AUTOTEST_APP
@@ -74,7 +74,8 @@ feature {NONE} -- Implementation
 		PYXIS_TRANSLATION_TREE_COMPILER,
 		REPOSITORY_TEST_PUBLISHER,
 		UNDEFINE_PATTERN_COUNTER_COMMAND,
-		ZCODEC_GENERATOR_TEST_SET
+		ZCODEC_GENERATOR_TEST_SET,
+		EL_FILE_SYNC_MANAGER
 	]
 		do
 			create Result

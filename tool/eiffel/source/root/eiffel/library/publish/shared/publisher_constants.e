@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 16:51:47 GMT (Saturday 6th April 2024)"
-	revision: "20"
+	date: "2024-06-01 9:42:24 GMT (Saturday 1st June 2024)"
+	revision: "21"
 
 deferred class
 	PUBLISHER_CONSTANTS
@@ -44,7 +44,7 @@ feature {NONE} -- Strings
 			Result := "<>%"&"
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Class links
 
 	Class_link_list: CLASS_LINK_LIST
 		once

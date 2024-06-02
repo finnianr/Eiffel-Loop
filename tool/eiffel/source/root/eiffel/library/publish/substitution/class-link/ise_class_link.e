@@ -6,26 +6,34 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-30 8:00:25 GMT (Saturday 30th March 2024)"
-	revision: "3"
+	date: "2024-06-01 10:31:26 GMT (Saturday 1st June 2024)"
+	revision: "4"
 
 class
 	ISE_CLASS_LINK
 
 inherit
 	CLASS_LINK
+		rename
+			make as make_link
 		redefine
-			is_valid, wiki_markup
+			wiki_markup
 		end
 
 create
 	make
 
-feature -- Status query
+feature {NONE} -- Initialization
 
-	is_valid: BOOLEAN = True
+	make (a_path: FILE_PATH; a_class_name: ZSTRING; a_type: NATURAL_8)
+		do
+			make_link (a_class_name, a_type)
+			path := a_path
+		end
 
 feature -- Access
+
+	path: FILE_PATH
 
 	wiki_markup (web_address: ZSTRING): ZSTRING
 		do
