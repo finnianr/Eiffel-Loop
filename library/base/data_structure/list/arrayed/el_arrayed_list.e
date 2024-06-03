@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 16:03:49 GMT (Wednesday 3rd April 2024)"
-	revision: "68"
+	date: "2024-06-03 13:21:48 GMT (Monday 3rd June 2024)"
+	revision: "69"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -119,7 +119,7 @@ feature {NONE} -- Initialization
 	make_from_list (list: ITERABLE [G])
 		do
 			if attached {ARRAYED_LIST [G]} list as arrayed_list then
-				make_from_special (arrayed_list.to_array.area)
+				make_from_special (arrayed_list.area_v2.twin)
 			else
 				make (Iterable.count (list))
 				across list as l_path loop

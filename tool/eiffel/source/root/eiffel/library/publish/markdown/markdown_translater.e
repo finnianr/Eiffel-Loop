@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 7:48:51 GMT (Sunday 31st March 2024)"
-	revision: "39"
+	date: "2024-06-03 10:25:21 GMT (Monday 3rd June 2024)"
+	revision: "40"
 
 class
 	MARKDOWN_TRANSLATER
@@ -86,6 +86,7 @@ feature -- Basic operations
 			Result := line_list.joined_lines
 			line_type_list.wipe_out
 		ensure
+			unchanged_notes_argument: old class_note_markdown_lines.checksum = class_note_markdown_lines.checksum
 			empty_line_type_list: line_type_list.is_empty
 		end
 
@@ -147,7 +148,7 @@ feature {NONE} -- Implementation
 		local
 			line: ZSTRING; previous_type, type: NATURAL_8; i: INTEGER
 		do
-			create Result.make_from_array (markdown_lines.to_array)
+			create Result.make_from_list (markdown_lines)
 			from Result.start until Result.after loop
 				line := Result.item
 				if line.count > 0 and then not (line.starts_with_character ('%T') or is_list_item (line)) then
@@ -165,6 +166,8 @@ feature {NONE} -- Implementation
 				end
 				previous_type := type
 			end
+		ensure
+			unchanged_markdown_lines: old markdown_lines.checksum = markdown_lines.checksum
 		end
 
 	translate (text: ZSTRING)

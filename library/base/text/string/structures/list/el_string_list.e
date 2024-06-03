@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 15:55:15 GMT (Wednesday 3rd April 2024)"
-	revision: "37"
+	date: "2024-06-03 10:28:03 GMT (Monday 3rd June 2024)"
+	revision: "38"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -30,7 +30,7 @@ inherit
 			force, put_i_th, append_sequence, swap,
 			pop_cursor, push_cursor, order_by
 		redefine
-			hash_code, is_equal
+			checksum, hash_code, is_equal
 		end
 
 	EL_SORTABLE_ARRAYED_LIST [S]
@@ -70,7 +70,20 @@ feature {NONE} -- Initialization
 			append_tuple (tuple)
 		end
 
-feature -- Access
+feature -- Measurement
+
+	checksum: NATURAL
+		local
+			i: INTEGER
+		do
+			if attached area_v2 as l_area and then attached crc_generator as crc then
+				from until i = l_area.count loop
+					add_to_checksum (crc, l_area [i])
+					i := i + 1
+				end
+				Result := crc.checksum
+			end
+		end
 
 	hash_code: INTEGER
 		-- Hash code value
@@ -85,6 +98,8 @@ feature -- Access
 				Result := Result.abs
 			end
 		end
+
+feature -- Duplication
 
 	subchain (index_from, index_to: INTEGER ): EL_STRING_LIST [S]
 		do

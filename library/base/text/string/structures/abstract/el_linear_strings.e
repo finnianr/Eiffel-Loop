@@ -7,14 +7,45 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 16:06:03 GMT (Wednesday 3rd April 2024)"
-	revision: "16"
+	date: "2024-06-03 10:14:48 GMT (Monday 3rd June 2024)"
+	revision: "17"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_LINEAR [S]
+
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
+feature -- Measurement
+
+	checksum: NATURAL
+		do
+			push_cursor
+			if attached crc_generator as crc then
+				from start until after loop
+					add_to_checksum (crc, item)
+					forth
+				end
+				Result := crc.checksum
+			end
+			pop_cursor
+		end
+
+	hash_code: INTEGER
+		-- Hash code value
+		local
+			i: INTEGER; b: EL_BIT_ROUTINES
+		do
+			push_cursor
+			from start until after loop
+				Result := b.extended_hash (Result, item.hash_code)
+				forth
+			end
+			Result := Result.abs
+			pop_cursor
+		end
 
 feature -- Access
 
@@ -116,6 +147,24 @@ feature -- Access
 
 feature -- Basic operations
 
+	append_separated_to (str: like item; separator_general: READABLE_STRING_GENERAL)
+		-- append parts to `str' using separator string `separator_general'
+		local
+			separator: like item
+		do
+			push_cursor
+			create separator.make (separator_general.count)
+			separator.append (separator_general)
+			from start until after loop
+				if index > 1 then
+					str.append (separator)
+				end
+				str.append (item)
+				forth
+			end
+			pop_cursor
+		end
+
 	append_to (str: like item)
 		-- append parts to `str' with no separator
 		do
@@ -149,24 +198,6 @@ feature -- Basic operations
 			pop_cursor
 		end
 
-	append_separated_to (str: like item; separator_general: READABLE_STRING_GENERAL)
-		-- append parts to `str' using separator string `separator_general'
-		local
-			separator: like item
-		do
-			push_cursor
-			create separator.make (separator_general.count)
-			separator.append (separator_general)
-			from start until after loop
-				if index > 1 then
-					str.append (separator)
-				end
-				str.append (item)
-				forth
-			end
-			pop_cursor
-		end
-
 	find_first_same (general: READABLE_STRING_GENERAL)
 		do
 			from start until after or else item.same_string (general) loop
@@ -194,6 +225,11 @@ feature -- Measurement
 		end
 
 feature {NONE} -- Implementation
+
+	add_to_checksum (crc: like crc_generator; str: STRING_GENERAL)
+		do
+			crc.add_string_general (str)
+		end
 
 	append_code (str: like item; code: NATURAL)
 		do

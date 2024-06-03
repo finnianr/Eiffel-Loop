@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 7:33:20 GMT (Monday 15th April 2024)"
-	revision: "28"
+	date: "2024-06-03 7:38:28 GMT (Monday 3rd June 2024)"
+	revision: "29"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -72,9 +72,9 @@ feature -- Factory
 			Result := Character_string_table.item (uc, n)
 		end
 
-	new_list (n: INTEGER): EL_ZSTRING_LIST
+	new_list (comma_separated: ZSTRING): EL_ZSTRING_LIST
 		do
-			create Result.make (n)
+			create Result.make_comma_split (comma_separated)
 		end
 
 feature -- Comparison

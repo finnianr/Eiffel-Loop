@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-26 8:26:23 GMT (Sunday 26th May 2024)"
-	revision: "19"
+	date: "2024-06-03 10:17:24 GMT (Monday 3rd June 2024)"
+	revision: "20"
 
 class
 	EL_STRING_32_LIST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_LIST [STRING_32]
 		redefine
-			item_indent, new_string, tab_string
+			add_to_checksum, item_indent, new_string, tab_string
 		end
 
 	EL_SHARED_STRING_32_CURSOR
@@ -40,6 +40,11 @@ feature -- Access
 		end
 
 feature {NONE} -- Implementation
+
+	add_to_checksum (crc: like crc_generator; str: STRING_32)
+		do
+			crc.add_string_32 (str)
+		end
 
 	new_string (general: READABLE_STRING_GENERAL): STRING_32
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 8:13:20 GMT (Monday 13th May 2024)"
-	revision: "23"
+	date: "2024-06-03 7:34:42 GMT (Monday 3rd June 2024)"
+	revision: "24"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -238,9 +238,9 @@ feature -- Factory
 			Result := n_character_string (uc.to_character_8, n)
 		end
 
-	new_list (n: INTEGER): EL_STRING_8_LIST
+	new_list (comma_separated: STRING_8): EL_STRING_8_LIST
 		do
-			create Result.make (n)
+			create Result.make_comma_split (comma_separated)
 		end
 
 	shared_substring (s: STRING_8; new_count: INTEGER): STRING_8

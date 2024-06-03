@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 10:22:07 GMT (Wednesday 29th May 2024)"
-	revision: "66"
+	date: "2024-06-03 7:37:57 GMT (Monday 3rd June 2024)"
+	revision: "67"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -67,7 +67,7 @@ feature -- Factory
 			create Result.make (n)
 		end
 
-	new_list (n: INTEGER): EL_STRING_LIST [STRING_X]
+	new_list (comma_separated: STRING_X): EL_STRING_LIST [STRING_X]
 		deferred
 		end
 

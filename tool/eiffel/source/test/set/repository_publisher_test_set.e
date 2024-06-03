@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 13:04:37 GMT (Sunday 2nd June 2024)"
-	revision: "82"
+	date: "2024-06-03 13:35:41 GMT (Monday 3rd June 2024)"
+	revision: "83"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -40,7 +40,7 @@ inherit
 
 	EL_MODULE_DATE_TIME; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_EXECUTABLE
 
-	EL_MODULE_OS; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
+	EL_MODULE_OS; EL_MODULE_STRING_8; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
@@ -60,8 +60,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["publisher", agent test_publisher],
-				["link_checker", agent test_link_checker]
+				["link_checker", agent test_link_checker],
+				["publisher",	  agent test_publisher]
 			>>)
 		end
 
@@ -132,6 +132,9 @@ feature -- Tests
 			check_html_exists (publisher)
 			check_markdown_link_translation (publisher)
 
+			publisher.execute
+			assert ("no changes", not publisher.has_changes)
+
 			broadcaster_path := Kernel_event.class_dir + "el_event_broadcaster.e"
 			checker_path := Kernel_event.class_dir + "el_event_checker.e"
 
@@ -153,10 +156,12 @@ feature -- Tests
 				el_event_processor_path := kernel_event_html_path ("el_event_processor.html")
 				File_system.remove_file (el_event_processor_path)
 
-				base_name_list := "Eco-DB, base.kernel, database, index, public-key-encryption"
-				base_name_list.extend (broadcaster_path.base_name)
-				base_name_list.do_all (agent {EL_ZSTRING}.append_string_general (".html"))
-
+				if attached String_8.new_list ("base.kernel, index, " + broadcaster_path.base_name) as base_list then
+					create base_name_list.make (base_list.count)
+					across base_list as list loop
+						base_name_list.extend (list.item + ".html")
+					end
+				end
 				base_name_list.append (sorted_base_names (cmd.path_list))
 				base_name_list.ascending_sort
 
@@ -195,7 +200,7 @@ feature {NONE} -- Events
 			Precursor
 			OS.copy_tree (el_source_dir (Work_dir.doc_config), Work_dir.doc_config.parent)
 			OS.copy_file ("test-data/publish/config-1.pyx", Work_dir.doc_config)
-			if attached new_csv_list ("dummy, images, css, js") as www_name_list then
+			if attached String_8.new_list ("dummy, images, css, js") as www_name_list then
 				across << Work_dir.doc, Work_dir.ftp_doc >> as destination_dir loop
 					across www_name_list as list loop
 						dir_path := Dev_environ.Eiffel_loop_dir.joined_dir_steps (<< "doc", list.item >>)
@@ -227,31 +232,6 @@ feature {NONE} -- Events
 		end
 
 feature {NONE} -- Implementation
-
-	copy_ecf_files (workarea_sub_dir: DIR_PATH; directory_list: STRING)
-		do
-			if attached new_csv_list (directory_list) as library_list then
-				across library_list as list loop
-					if attached (workarea_sub_dir + list.item) as file_path then
-						OS.copy_file (el_source_path (file_path), file_path.parent)
-					end
-				end
-			end
-		end
-
-	copy_source_trees (workarea_sub_dir: DIR_PATH; directory_list: STRING)
-		do
-			if attached new_csv_list (directory_list) as source_list then
-				across source_list as list loop
-					File_system.make_directory (workarea_sub_dir #+ list.item)
-				end
-				across source_list as list loop
-					if attached (workarea_sub_dir #+ list.item) as dir_path then
-						OS.copy_tree (el_source_dir (dir_path), dir_path.parent)
-					end
-				end
-			end
-		end
 
 	check_html_exists (publisher: like new_publisher)
 		local
@@ -301,6 +281,31 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	copy_ecf_files (workarea_sub_dir: DIR_PATH; directory_list: STRING)
+		do
+			if attached String_8.new_list (directory_list) as library_list then
+				across library_list as list loop
+					if attached (workarea_sub_dir + list.item) as file_path then
+						OS.copy_file (el_source_path (file_path), file_path.parent)
+					end
+				end
+			end
+		end
+
+	copy_source_trees (workarea_sub_dir: DIR_PATH; directory_list: STRING)
+		do
+			if attached String_8.new_list (directory_list) as source_list then
+				across source_list as list loop
+					File_system.make_directory (workarea_sub_dir #+ list.item)
+				end
+				across source_list as list loop
+					if attached (workarea_sub_dir #+ list.item) as dir_path then
+						OS.copy_tree (el_source_dir (dir_path), dir_path.parent)
+					end
+				end
+			end
+		end
+
 	el_source_dir (work_area_sub_dir: DIR_PATH): DIR_PATH
 		do
 			REsult := Dev_environ.Eiffel_loop_dir #+ work_area_sub_dir.relative_path (Work_area_dir)
@@ -347,11 +352,6 @@ feature {NONE} -- Implementation
 			Result.add_extension ("html")
 		end
 
-	new_csv_list (str: STRING): EL_STRING_8_LIST
-		do
-			Result := str
-		end
-
 	new_link_checker: REPOSITORY_NOTE_LINK_CHECKER
 		do
 			create Result.make (Work_dir.doc_config + "config-1.pyx", "1.4.0", 0)
@@ -379,14 +379,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Work_dir: TUPLE [doc, doc_config, example, ftp_doc, library: DIR_PATH]
-		once
-			create Result
-			Tuple.fill_with_new (Result,
-				"doc, doc-config, example, ftp.doc, library", agent new_work_area_sub_directory, 1
-			)
-		end
-
 	Kernel_event: TUPLE [class_dir, html_dir: DIR_PATH]
 		local
 			l_dir: DIR_PATH
@@ -399,11 +391,19 @@ feature {NONE} -- Constants
 		-- expect links in doc/Contents.md
 		once
 			create Result.make (<<
-				["X509 PKCS1 standard", "https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates"],
-				["text-formats.ecf", "/library/text-formats.pecf"],
-				["reflection cluster", "/library/base/base.pecf"],
-				["EL_MODULE_X509", "/library/text/rsa-encryption/x509/el_module_x509.e"]
+				["X509 PKCS1 standard",	"https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates"],
+				["text-formats.ecf",		"/library/text-formats.pecf"],
+				["reflection cluster",	"/library/base/base.pecf"],
+				["EL_MODULE_X509",		"/library/text/rsa-encryption/x509/el_module_x509.e"]
 			>>)
+		end
+
+	Work_dir: TUPLE [doc, doc_config, example, ftp_doc, library: DIR_PATH]
+		once
+			create Result
+			Tuple.fill_with_new (Result,
+				"doc, doc-config, example, ftp.doc, library", agent new_work_area_sub_directory, 1
+			)
 		end
 
 end

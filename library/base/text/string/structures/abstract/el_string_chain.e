@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-26 9:57:22 GMT (Sunday 26th May 2024)"
-	revision: "48"
+	date: "2024-06-03 10:27:05 GMT (Monday 3rd June 2024)"
+	revision: "49"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -84,23 +84,7 @@ feature {NONE} -- Initialization
 			make_split (a_string, ' ')
 		end
 
-feature -- Access
-
-	hash_code: INTEGER
-			-- Hash code value
-		local
-			i, nb: INTEGER; b: EL_BIT_ROUTINES
-		do
-			from
-				i := 1
-				nb := count
-			until
-				i > nb
-			loop
-				Result := b.extended_hash (Result, i_th (i).hash_code)
-				i := i + 1
-			end
-		end
+feature -- Measurement
 
 	item_count: INTEGER
 		do
@@ -121,15 +105,6 @@ feature -- Access
 			end
 		end
 
-	first_or_empty: S
-		do
-			if count > 0 then
-				Result := first
-			else
-				create Result.make (0)
-			end
-		end
-
 	longest_count: INTEGER
 		-- count of longest string
 		do
@@ -139,6 +114,17 @@ feature -- Access
 				forth
 			end
 			pop_cursor
+		end
+
+feature -- Access
+
+	first_or_empty: S
+		do
+			if count > 0 then
+				Result := first
+			else
+				create Result.make (0)
+			end
 		end
 
 feature -- Status query
