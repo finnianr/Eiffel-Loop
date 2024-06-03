@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 13:12:47 GMT (Monday 13th May 2024)"
-	revision: "21"
+	date: "2024-06-03 18:10:06 GMT (Monday 3rd June 2024)"
+	revision: "22"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -361,12 +361,11 @@ feature {NONE} -- Implementation
 				file_in.close
 				socket.get_reply (last_reply_utf_8)
 			end
-			if has_error then
-				display_reply_error
-			end
 		end
 
 	try_transfer_file (source_path, destination_path: FILE_PATH; done: BOOLEAN_REF)
+		local
+			l_error_code: INTEGER; l_reply: STRING
 		do
 			across String_8_scope as scope loop
 				push_address_path (unix_utf_8_path (scope, destination_path))
@@ -379,7 +378,13 @@ feature {NONE} -- Implementation
 				transfer_initiated := False
 			end
 			if has_error then
-				done.set_item (file_size (destination_path) = File.byte_count (source_path))
+				l_error_code := error_code; l_reply := last_reply_utf_8 -- save
+				if file_size (destination_path) = File.byte_count (source_path) then
+				-- was false alarm
+					reset_error; done.set_item (True)
+				else
+					error_code := l_error_code; last_reply_utf_8 := l_reply -- restore
+				end
 			else
 				done.set_item (True)
 			end

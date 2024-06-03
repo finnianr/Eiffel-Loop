@@ -1,7 +1,7 @@
 note
 	description: "[
 		Routines for use with ${EL_EQA_TEST_SET} to do regression testing based on CRC-32 checksum
-		of logged/console output. See **do_test* routine.
+		of logged/console output. See **do_test** routine.
 	]"
 	notes: "[
 		The type of `log' must be set to ${EL_CRC_32_CONSOLE_ONLY_LOG} by running the test
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-06-03 15:12:21 GMT (Monday 3rd June 2024)"
+	revision: "18"
 
 deferred class
 	EL_CRC_32_TESTABLE
