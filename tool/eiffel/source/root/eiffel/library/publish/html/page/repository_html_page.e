@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2024-06-04 8:10:50 GMT (Tuesday 4th June 2024)"
+	revision: "12"
 
 deferred class
 	REPOSITORY_HTML_PAGE
@@ -33,10 +33,10 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository)
+	make (a_config: like config)
 		do
-			repository := a_repository
-			make_from_template_and_output (repository.templates.main, repository.output_dir + relative_file_path)
+			config := a_config
+			make_from_template_and_output (config.templates.main, config.output_dir + relative_file_path)
 		end
 
 feature -- Access
@@ -57,7 +57,7 @@ feature -- Status query
 
 	is_site_map_page: BOOLEAN
 		do
-			Result := content_template = repository.templates.site_map_content
+			Result := content_template = config.templates.site_map_content
 		end
 
 feature {NONE} -- Evolicity fields
@@ -73,9 +73,9 @@ feature {NONE} -- Evolicity fields
 
 				["top_dir", 				agent: ZSTRING do Result := Directory.relative_parent (step_count) end],
 				["relative_file_path", 	agent: ZSTRING do Result := relative_file_path end],
-				["github_url", 			agent: ZSTRING do Result := repository.github_url.to_string end],
-				["favicon_markup_path", agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
-				["version", 				agent: STRING do Result := repository.version end]
+				["github_url", 			agent: ZSTRING do Result := config.github_url.to_string end],
+				["favicon_markup_path", agent: ZSTRING do Result := config.templates.favicon_markup_path end],
+				["version", 				agent: STRING do Result := config.version end]
 			>>)
 		end
 
@@ -91,5 +91,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	repository: REPOSITORY_PUBLISHER
+	config: PUBLISHER_CONFIGURATION
+
+	version: STRING
+
 end

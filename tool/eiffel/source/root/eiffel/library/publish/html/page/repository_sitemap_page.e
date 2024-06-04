@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 17:21:31 GMT (Sunday 17th September 2023)"
-	revision: "22"
+	date: "2024-06-04 8:17:24 GMT (Tuesday 4th June 2024)"
+	revision: "23"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -32,12 +32,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; a_ecf_pages: like ecf_pages)
+	make (a_config: like config; a_ecf_pages: like ecf_pages)
 		do
-			make_page (a_repository)
-			ecf_pages := a_repository.ecf_list.sorted_index_page_list
+			make_page (a_config)
+			ecf_pages := a_ecf_pages
 			make_sync_item (
-				repository.output_dir, repository.ftp_host, output_path.relative_path (repository.output_dir), 0
+				config.output_dir, config.ftp_host, output_path.relative_path (config.output_dir), 0
 			)
 		end
 
@@ -61,7 +61,7 @@ feature -- Access
 
 	title: ZSTRING
 		do
-			Result := repository.name + " " + name
+			Result := config.name + " " + name
 		end
 
 feature {NONE} -- Evolicity fields
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 
 	content_template: FILE_PATH
 		do
-			Result := repository.templates.site_map_content
+			Result := config.templates.site_map_content
 		end
 
 	sink_content (crc: like crc_generator)

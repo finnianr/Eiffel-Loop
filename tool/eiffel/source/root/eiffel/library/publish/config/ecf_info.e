@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 13:45:49 GMT (Sunday 2nd June 2024)"
-	revision: "17"
+	date: "2024-06-04 11:22:18 GMT (Tuesday 4th June 2024)"
+	revision: "18"
 
 class
 	ECF_INFO
@@ -87,17 +87,6 @@ feature -- Access
 	type_qualifier: STRING
 		do
 			Result := Empty_string_8
-		end
-
-feature -- Conversion
-
-	normalized: ECF_INFO
-		do
-			if path.base.has ('#') then
-				create {ECF_CLUSTER_INFO} Result.make (Current)
-			else
-				Result := Current
-			end
 		end
 
 feature {NONE} -- Implementation

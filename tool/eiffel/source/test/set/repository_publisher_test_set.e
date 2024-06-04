@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 13:35:41 GMT (Monday 3rd June 2024)"
-	revision: "83"
+	date: "2024-06-04 15:31:17 GMT (Tuesday 4th June 2024)"
+	revision: "84"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -95,7 +95,7 @@ feature -- Tests
 
 			lio.put_new_line
 			lio.put_line ("Invalid names list")
-			if attached open_lines (link_checker.invalid_names_output_path, Latin_1) as line_list
+			if attached open_lines (link_checker.config.invalid_names_output_path, Latin_1) as line_list
 				and then attached crc_generator as crc
 			then
 				across line_list as list loop
@@ -126,8 +126,10 @@ feature -- Tests
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR; base_name_list: EL_ZSTRING_LIST
 			broadcaster_path, checker_path, relative_path, crc_path, el_event_processor_path: FILE_PATH
+			config: PUBLISHER_CONFIGURATION
 		do
 			publisher := new_publisher
+			config := publisher.config
 			publisher.execute
 			check_html_exists (publisher)
 			check_markdown_link_translation (publisher)
@@ -148,8 +150,8 @@ feature -- Tests
 			if attached OS.find_files_command (Kernel_event.html_dir, "*listener.html") as cmd then
 				cmd.execute
 				across cmd.path_list as path loop
-					relative_path := path.item.relative_path (publisher.output_dir)
-					crc_path := new_crc_sync_dir (publisher.output_dir, publisher.ftp_host) + relative_path
+					relative_path := path.item.relative_path (config.output_dir)
+					crc_path := new_crc_sync_dir (config.output_dir, config.ftp_host) + relative_path
 					crc_path.replace_extension (Crc_extension)
 					File_system.remove_file (crc_path)
 				end
@@ -165,10 +167,8 @@ feature -- Tests
 				base_name_list.append (sorted_base_names (cmd.path_list))
 				base_name_list.ascending_sort
 
-				if Executable.Is_work_bench
-					and then attached User_input.line ("Enter to continue (1st)")
-				then
-					do_nothing
+				if Executable.Is_work_bench and then attached User_input.line ("Enter to continue")then
+					lio.put_new_line
 				end
 				publisher.execute
 
@@ -178,11 +178,11 @@ feature -- Tests
 			end
 			assert ("el_event_processor regenerated", el_event_processor_path.exists)
 			assert ("checker html gone", not kernel_event_html_path (checker_path).exists)
-			if base_name_list /~ sorted_base_names (publisher.uploaded_path_list) then
+			if base_name_list /~ sorted_base_names (publisher.copied_path_list) then
 				lio.put_labeled_lines ("base_name_list", base_name_list)
 				lio.put_new_line
 				lio.put_labeled_lines (
-					"sorted_base_names (publisher.uploaded_path_list)", sorted_base_names (publisher.uploaded_path_list)
+					"sorted_base_names (publisher.uploaded_path_list)", sorted_base_names (publisher.copied_path_list)
 				)
 				lio.put_new_line
 				failed ("same base name list")
@@ -235,11 +235,12 @@ feature {NONE} -- Implementation
 
 	check_html_exists (publisher: like new_publisher)
 		local
-			html_file_path: FILE_PATH
+			html_file_path: FILE_PATH; root_dir: DIR_PATH
 		do
+			root_dir := publisher.config.root_dir
 			across publisher.ecf_list as tree loop
 				across tree.item.path_list as path loop
-					html_file_path := Work_dir.doc + path.item.relative_path (publisher.root_dir).with_new_extension ("html")
+					html_file_path := Work_dir.doc + path.item.relative_path (root_dir).with_new_extension ("html")
 					assert ("html exists", html_file_path.exists)
 				end
 			end
@@ -251,7 +252,7 @@ feature {NONE} -- Implementation
 			contents_md_path: FILE_PATH; md_name, url, github_url: STRING
 			link_index, index_left_bracket, index_right_bracket: INTEGER
 		do
-			github_url := publisher.github_url.to_string
+			github_url := publisher.config.github_url.to_string
 
 			contents_md_path := Work_area_dir + "doc/Contents.md"
 			if contents_md_path.exists and then attached File.plain_text (contents_md_path) as markdown then
@@ -357,7 +358,7 @@ feature {NONE} -- Implementation
 			create Result.make (Work_dir.doc_config + "config-1.pyx", "1.4.0", 0)
 		end
 
-	new_publisher: REPOSITORY_TEST_PUBLISHER
+	new_publisher: REPOSITORY_PUBLISHER
 		do
 			create Result.make (Work_dir.doc_config + "config-1.pyx", "1.4.0", 0)
 		end

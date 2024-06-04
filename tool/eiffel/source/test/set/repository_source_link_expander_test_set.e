@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 9:19:19 GMT (Saturday 1st June 2024)"
-	revision: "22"
+	date: "2024-06-04 6:51:46 GMT (Tuesday 4th June 2024)"
+	revision: "23"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_TEST_SET
@@ -71,7 +71,7 @@ feature {NONE} -- Implementation
 			web_url: EL_DIR_URI_PATH; class_url: EL_FILE_URI_PATH
 			blog_text, name: ZSTRING; count: INTEGER
 		do
-			web_url := publisher.web_address
+			web_url := publisher.config.web_address
 			blog_text := File.plain_text (publisher.expanded_file_path)
 			across Type_array as array loop
 				across << array.item.base, array.item.descendant >> as type loop

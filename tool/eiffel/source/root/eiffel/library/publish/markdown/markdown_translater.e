@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 10:25:21 GMT (Monday 3rd June 2024)"
-	revision: "40"
+	date: "2024-06-04 6:53:11 GMT (Tuesday 4th June 2024)"
+	revision: "41"
 
 class
 	MARKDOWN_TRANSLATER
@@ -34,12 +34,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: REPOSITORY_PUBLISHER)
+	make (a_config: PUBLISHER_CONFIGURATION)
 		do
-			repository := a_repository
-			website_root := a_repository.web_address + char ('/')
+			config := a_config
+			website_root := config.web_address + char ('/')
 			create line_type_list.make (50)
-			create variable_substitution.make (repository.github_url)
+			create variable_substitution.make (config.github_url)
 			state_add_code_lines := agent add_code_lines
 			make_machine
 		end
@@ -227,16 +227,16 @@ feature {NONE} -- Implementation
 				if substring.count > 4 and then substring.same_characters (Current_dir_forward_slash, 1, 2, 2) then
 					link_path := substring.substring (4, space_index - 1)
 					if link_path.has_extension (Extension.html) and then attached as_pecf_path (link_path) as pecf_path
-						and then (repository.root_dir + pecf_path).exists
+						and then (config.root_dir + pecf_path).exists
 					then
 					-- possibility here to add a line number for github like: base/base.pecf#L75
-						link_uri := repository.github_url + pecf_path
+						link_uri := config.github_url + pecf_path
 
-					elseif not (repository.root_dir + link_path).exists then
+					elseif not (config.root_dir + link_path).exists then
 					-- Eg. http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html
 						link_uri := website_root + link_path
 					else
-						link_uri := repository.github_url + link_path
+						link_uri := config.github_url + link_path
 					end
 				else
 					link_uri := substring.substring (2, space_index - 1)
@@ -252,11 +252,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	config: PUBLISHER_CONFIGURATION
+
 	line_type_list: EL_ARRAYED_MAP_LIST [NATURAL_8, ZSTRING]
 
 	state_add_code_lines: PROCEDURE [ZSTRING]
-
-	repository: REPOSITORY_PUBLISHER
 
 	last_is_line_item: BOOLEAN
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 15:05:30 GMT (Monday 22nd April 2024)"
-	revision: "55"
+	date: "2024-06-04 16:07:16 GMT (Tuesday 4th June 2024)"
+	revision: "56"
 
 class
 	GENERAL_TEST_SET
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 				["encodeables",							 agent test_encodeables],
 				["environment_put",						 agent test_environment_put],
 				["is_file_writable",						 agent test_is_file_writable],
+				["make_relative_directory",			 agent test_make_relative_directory],
 				["math_precision",						 agent test_math_precision],
 				["named_thread",							 agent test_named_thread],
 				["output_medium_encoding",				 agent test_output_medium_encoding],
@@ -172,6 +173,24 @@ feature -- Tests
 
 			assert ("ec.exe is not writable", not File.is_writable (ec_path))
 			assert ("test.ecf is writable", File.is_writable (test_ecf))
+		end
+
+	test_make_relative_directory
+		-- GENERAL_TEST_SET.test_make_relative_directory
+		note
+			testing: "[
+				covers/{EL_FILE_SYSTEM_ROUTINES_I}.make_directory,
+				covers/{EL_DIR_PATH}.exists_and_is_writeable,
+				covers/{EL_DIRECTORY}.named
+			]"
+		local
+			one_two: DIR_PATH
+		do
+			one_two := "one/two"
+			File_system.make_directory (one_two)
+			assert ("exists", one_two.exists)
+			File_system.delete_empty_branch (one_two)
+			assert ("not exists", not one_two.exists)
 		end
 
 	test_math_precision

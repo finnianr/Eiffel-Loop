@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 13:46:59 GMT (Monday 3rd June 2024)"
-	revision: "31"
+	date: "2024-06-04 8:19:51 GMT (Tuesday 4th June 2024)"
+	revision: "32"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_PAGE
@@ -33,13 +33,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; a_eiffel_config: like eiffel_config)
+	make (a_config: like config; a_eiffel_config: like eiffel_config)
 		do
-			repository := a_repository; eiffel_config := a_eiffel_config
-			make_page (repository)
+			eiffel_config := a_eiffel_config
+			make_page (a_config)
 			sort_category := a_eiffel_config.new_sort_category
 			make_sync_item (
-				repository.output_dir, repository.ftp_host, output_path.relative_path (repository.output_dir), 0
+				config.output_dir, config.ftp_host, output_path.relative_path (config.output_dir), 0
 			)
 		end
 
@@ -128,7 +128,7 @@ feature {NONE} -- Implementation
 
 	content_template: FILE_PATH
 		do
-			Result := repository.templates.directory_content
+			Result := config.templates.directory_content
 		end
 
 	description_elements: NOTE_HTML_TEXT_ELEMENT_LIST
@@ -172,7 +172,7 @@ feature {NONE} -- Evolicity fields
 				["category_title",	 		agent: ZSTRING do Result := eiffel_config.category_title end],
 				["ecf_name",			 		agent: ZSTRING do Result := eiffel_config.relative_ecf_path.base end],
 				["ecf_path",			 		agent: ZSTRING do Result := eiffel_config.relative_ecf_path end],
-				["github_url",			 		agent: ZSTRING do Result := repository.github_url end],
+				["github_url",			 		agent: ZSTRING do Result := config.github_url end],
 				["relative_path",				agent: ZSTRING do Result := relative_path end],
 				["type",							agent: STRING do Result := eiffel_config.type end]
 			>>)

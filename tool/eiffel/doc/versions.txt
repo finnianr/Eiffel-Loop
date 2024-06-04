@@ -1,3 +1,6 @@
+Ver 2.2.1 (4 Jun 2024)
+* Refactored publisher to have separate configuration class
+
 Ver 2.2.0 (2 Jun 2024)
 * Fixed Eiffel publisher to do nothing when no sources have changed
 

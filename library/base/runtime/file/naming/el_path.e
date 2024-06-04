@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 14:57:22 GMT (Monday 22nd April 2024)"
-	revision: "77"
+	date: "2024-06-04 16:03:48 GMT (Tuesday 4th June 2024)"
+	revision: "78"
 
 deferred class
 	EL_PATH
@@ -288,7 +288,7 @@ feature -- Conversion
 
 	steps: EL_PATH_STEPS
 		do
-			create Result.make_from_path (Current)
+			create Result.make (to_string)
 		end
 
 	to_ntfs_compatible (c: CHARACTER): like Current

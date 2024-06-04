@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 13:06:25 GMT (Saturday 1st June 2024)"
-	revision: "18"
+	date: "2024-06-04 7:32:39 GMT (Tuesday 4th June 2024)"
+	revision: "19"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -51,7 +51,7 @@ feature -- Element change
 			Precursor -- crc reset in precursor
 
 			if attached Once_crc_generator as crc and then attached Once_class_table as table then
-				across repository.example_classes as class_list until table.count = Maximum_examples loop
+				across config.example_classes as class_list until table.count = Maximum_examples loop
 					if attached class_list.item as e_class and then e_class.has_class_name (name) then
 						table.put (e_class, e_class.name)
 					end

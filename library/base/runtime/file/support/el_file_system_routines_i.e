@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-26 11:05:48 GMT (Friday 26th April 2024)"
-	revision: "57"
+	date: "2024-06-04 16:06:14 GMT (Tuesday 4th June 2024)"
+	revision: "58"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -98,7 +98,9 @@ feature -- Basic operations
 				from dir := Directory.named (dir_path) until steps.is_empty or else not dir.is_empty loop
 					dir.delete
 					steps.remove_tail (1)
-					dir.make_with_name (steps.to_string_32)
+					if steps.count > 0 then
+						dir.make_with_name (steps.to_string_32)
+					end
 				end
 			end
 		end
@@ -120,9 +122,15 @@ feature -- Basic operations
 		-- recursively create directory
 		do
 			if not a_dir_path.exists and then attached a_dir_path.parent as parent_dir then
-				make_directory (parent_dir) -- recurse
-				if parent_dir.exists_and_is_writeable then
-					Directory.named (a_dir_path).create_dir
+				if parent_dir.is_empty then
+					if Standard_directory.current_working.exists_and_is_writeable then
+						Directory.named (a_dir_path).create_dir
+					end
+				else
+					make_directory (parent_dir) -- recurse
+					if parent_dir.exists_and_is_writeable then
+						Directory.named (a_dir_path).create_dir
+					end
 				end
 			end
 		end

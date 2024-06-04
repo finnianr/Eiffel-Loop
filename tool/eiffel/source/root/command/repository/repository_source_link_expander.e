@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:58:54 GMT (Friday 12th April 2024)"
-	revision: "38"
+	date: "2024-06-04 7:44:35 GMT (Tuesday 4th June 2024)"
+	revision: "39"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -24,7 +24,7 @@ inherit
 		rename
 			make as make_publisher
 		redefine
-			authenticate_ftp, execute
+			execute
 		end
 
 	EL_APPLICATION_COMMAND
@@ -80,7 +80,7 @@ feature -- Basic operations
 					if (preceding_end_index - preceding_start_index + 1) > 0 then
 						file_out.put_string (line.substring (preceding_start_index, preceding_end_index))
 					end
-					file_out.put_string (list.item.wiki_markup (web_address))
+					file_out.put_string (list.item.wiki_markup (config.web_address))
 					previous_end_index := list.item.end_index
 					list.forth
 				end
@@ -89,12 +89,6 @@ feature -- Basic operations
 				end
 			end
 			file_out.new_line
-		end
-
-feature {NONE} -- Implementation
-
-	authenticate_ftp
-		do
 		end
 
 feature {NONE} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 8:59:49 GMT (Sunday 2nd June 2024)"
-	revision: "65"
+	date: "2024-06-04 8:28:52 GMT (Tuesday 4th June 2024)"
+	revision: "66"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -34,13 +34,13 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_repository: like repository; ecf: ECF_INFO; root: EL_XML_DOC_CONTEXT)
+	make (a_config: like config; ecf: ECF_INFO; root: EL_XML_DOC_CONTEXT)
 			--
 		require
 			parse_ok: not root.parse_failed
 		do
 			make_default
-			repository := a_repository
+			config := a_config
 			relative_ecf_path.share (ecf.path)
 			type_qualifier := ecf.type_qualifier
 			html_index_path := ecf.html_index_path
@@ -146,7 +146,7 @@ feature -- Access
 
 	ecf_path: FILE_PATH
 		do
-			Result := repository.root_dir + relative_ecf_path
+			Result := config.root_dir + relative_ecf_path
 		end
 
 	html_index_path: FILE_PATH
@@ -154,7 +154,7 @@ feature -- Access
 
 	relative_dir_path: DIR_PATH
 		do
-			Result := dir_path.relative_path (repository.root_dir)
+			Result := dir_path.relative_path (config.root_dir)
 		end
 
 	relative_ecf_path: FILE_PATH
@@ -294,7 +294,7 @@ feature -- Basic operations
 						else
 							Class_table.remove (e_class.name)
 							Class_link_list.remove_class (e_class)
-							repository.example_classes.prune (e_class)
+							config.example_classes.prune (e_class)
 							class_list.remove
 						end
 						if file_count \\ 80 = 0 or (list.is_last and class_list.islast) then
@@ -316,7 +316,7 @@ feature -- Factory
 
 	new_class (source_path: FILE_PATH): EIFFEL_CLASS
 		do
-			create Result.make (source_path, Current, repository)
+			create Result.make (source_path, Current, config)
 		end
 
 	new_directory_group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
@@ -428,7 +428,7 @@ feature {NONE} -- Implementation
 			Class_table.put_class (e_class)
 			source_directory.class_list.extend (e_class)
 			if e_class.is_example then
-				repository.example_classes.extend (e_class)
+				config.example_classes.extend (e_class)
 			end
 		end
 
@@ -458,9 +458,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation attributes
 
-	excluded_dir_table: EL_HASH_TABLE [like Empty_dir_list, DIR_PATH]
+	config: PUBLISHER_CONFIGURATION
 
-	repository: REPOSITORY_PUBLISHER
+	excluded_dir_table: EL_HASH_TABLE [like Empty_dir_list, DIR_PATH]
 
 feature {NONE} -- Evolicity fields
 
@@ -485,7 +485,7 @@ feature {NONE} -- Constants
 
 	Translater: MARKDOWN_TRANSLATER
 		once
-			create Result.make (repository)
+			create Result.make (config)
 		end
 
 end

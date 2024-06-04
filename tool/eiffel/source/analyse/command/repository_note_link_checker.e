@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 11:46:41 GMT (Tuesday 14th May 2024)"
-	revision: "16"
+	date: "2024-06-04 7:53:28 GMT (Tuesday 4th June 2024)"
+	revision: "17"
 
 class
 	REPOSITORY_NOTE_LINK_CHECKER
@@ -15,7 +15,7 @@ class
 inherit
 	REPOSITORY_PUBLISHER
 		redefine
-			authenticate_ftp, execute, building_action_table, make_default
+			execute
 		end
 
 	EL_MODULE_FILE_SYSTEM
@@ -27,19 +27,9 @@ inherit
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			create invalid_names_output_path
-			Precursor
-		end
-
 feature -- Access
 
 	Description: STRING = "Checks for invalid class references in repository note links"
-
-	invalid_names_output_path: FILE_PATH
 
 feature -- Basic operations
 
@@ -61,9 +51,9 @@ feature -- Basic operations
 			if Invalid_source_name_table.count > 0 then
 				lio.put_labeled_substitution ("Total", "%S classes contain invalid references", [Invalid_source_name_table.count])
 				lio.put_new_line
-				lio.put_path_field ("See %S", invalid_names_output_path)
+				lio.put_path_field ("See %S", config.invalid_names_output_path)
 				lio.put_new_line
-				create file_out.make_open_write (invalid_names_output_path)
+				create file_out.make_open_write (config.invalid_names_output_path)
 				file_out.byte_order_mark.enable
 
 				across Invalid_source_name_table as table loop
@@ -78,25 +68,10 @@ feature -- Basic operations
 				file_out.close
 			else
 				lio.put_line ("All ${XXX} class references OK")
-				if invalid_names_output_path.exists then
-					File_system.remove_file (invalid_names_output_path)
+				if config.invalid_names_output_path.exists then
+					File_system.remove_file (config.invalid_names_output_path)
 				end
 			end
-		end
-
-feature {NONE} -- Build from Pyxis
-
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-		do
-			Result := Precursor +
-				["@invalid_names_output_path", agent do invalid_names_output_path := node.to_expanded_file_path end]
-		end
-
-feature {NONE} -- Implementation
-
-	authenticate_ftp
-		do
-			do_nothing
 		end
 
 feature {NONE} -- Constants

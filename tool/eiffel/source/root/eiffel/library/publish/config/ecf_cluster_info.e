@@ -1,13 +1,13 @@
 note
-	description: "ECF project name information"
+	description: "${ECF_INFO} that represents a single cluster within an Eiffel configuration file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 20:26:41 GMT (Friday 12th January 2024)"
-	revision: "18"
+	date: "2024-06-04 11:25:12 GMT (Tuesday 4th June 2024)"
+	revision: "19"
 
 class
 	ECF_CLUSTER_INFO

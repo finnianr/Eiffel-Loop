@@ -1,7 +1,6 @@
 note
 	description: "[
-		${EL_EQA_TEST_SET} that uses read-only file data in a designated working
-		directory.
+		${EL_EQA_TEST_SET} that uses read-only file data in a designated working directory.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-06-04 15:46:38 GMT (Tuesday 4th June 2024)"
+	revision: "3"
 
 deferred class
 	EL_DIRECTORY_CONTEXT_TEST_SET

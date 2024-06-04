@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:39:31 GMT (Thursday 17th August 2023)"
-	revision: "14"
+	date: "2024-06-04 7:14:36 GMT (Tuesday 4th June 2024)"
+	revision: "15"
 
 class
 	EIFFEL_LIBRARY_CONFIGURATION_FILE
@@ -40,7 +40,7 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 
 	new_class (source_path: FILE_PATH): EIFFEL_LIBRARY_CLASS
 		do
-			create Result.make (source_path, Current, repository)
+			create Result.make (source_path, Current, config)
 		end
 
 	new_sort_category: ZSTRING
@@ -55,7 +55,7 @@ feature {EIFFEL_CLASS_PARSER} -- Factory
 			if dir_path.is_empty then
 				create Result.make_empty
 			else
-				relative_steps := dir_path.relative_path (repository.root_dir)
+				relative_steps := dir_path.relative_path (config.root_dir)
 				if relative_steps.count >= 2 then
 					create words.make_split (relative_steps [2], '_')
 					Result := words.joined_propercase_words

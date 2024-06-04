@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 13:35:28 GMT (Sunday 2nd June 2024)"
-	revision: "60"
+	date: "2024-06-04 7:13:35 GMT (Tuesday 4th June 2024)"
+	revision: "61"
 
 class
 	EIFFEL_CLASS
@@ -42,24 +42,24 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_source_path: like source_path; a_library_ecf: like library_ecf; a_repository: like repository)
+	make (a_source_path: like source_path; a_library_ecf: like library_ecf; a_config: like config)
 			--
 		local
 			source_text: STRING; utf: EL_UTF_CONVERTER
 		do
-			relative_source_path := a_source_path.relative_path (a_repository.root_dir)
+			relative_source_path := a_source_path.relative_path (a_config.root_dir)
 			make_from_template_and_output (
-				a_repository.templates.eiffel_source,
-				a_repository.output_dir + relative_source_path.with_new_extension (Html)
+				a_config.templates.eiffel_source,
+				a_config.output_dir + relative_source_path.with_new_extension (Html)
 			)
-			library_ecf := a_library_ecf; repository := a_repository; source_path := a_source_path
+			library_ecf := a_library_ecf; config := a_config; source_path := a_source_path
 			name := source_path.base_name.as_upper
 			source_text := File.plain_text (source_path)
 			code_text := new_code_text (source_text)
 			make_sync_item (
-				repository.output_dir, repository.ftp_host, html_output_path.relative_path (repository.output_dir), 0
+				config.output_dir, config.ftp_host, html_output_path.relative_path (config.output_dir), 0
 			)
-			create notes.make (relative_source_path.parent, a_repository.note_fields)
+			create notes.make (relative_source_path.parent, config.note_fields)
 
 			if attached restricted_access (Codebase_metrics) as metrics then
 				if utf.is_utf_8_file (source_text) then
@@ -106,7 +106,7 @@ feature -- File paths
 		end
 
 	relative_html_path: FILE_PATH
-		-- HTML path relative to `repository.root_dir'
+		-- HTML path relative to `config.root_dir'
 		do
 			Result := relative_source_path.with_new_extension (Html)
 		end
@@ -280,9 +280,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	library_ecf: EIFFEL_CONFIGURATION_FILE
+	config: PUBLISHER_CONFIGURATION
 
-	repository: REPOSITORY_PUBLISHER
+	library_ecf: EIFFEL_CONFIGURATION_FILE
 
 	initial_current_digest: NATURAL
 		-- `current_digest' before modification by `sink_source_substitutions'
@@ -309,7 +309,7 @@ feature {NONE} -- Evolicity fields
 				["name", 						agent: STRING do Result := name.string end],
 				["name_as_lower", 			agent: STRING do Result := name.string.as_lower end],
 				["html_path", 					agent: ZSTRING do Result := ecf_relative_html_path end],
-				["favicon_markup_path", 	agent: ZSTRING do Result := repository.templates.favicon_markup_path end],
+				["favicon_markup_path", 	agent: ZSTRING do Result := config.templates.favicon_markup_path end],
 				["top_dir", 					agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
 
 				["relative_dir", 				agent: DIR_PATH do Result := relative_source_path.parent end],

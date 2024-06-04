@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-06-04 15:57:33 GMT (Tuesday 4th June 2024)"
+	revision: "23"
 
 class
 	EL_PATH_STEPS
@@ -194,7 +194,7 @@ feature -- Conversion
 	to_string_32, as_string_32: STRING_32
 		do
 			if attached filled_list as filled then
-				create Result.make (count - 1 + filled.character_count)
+				create Result.make ((count - 1).max (0) + filled.character_count)
 				across filled as list loop
 					if not list.is_first then
 						Result.append_character (Separator)

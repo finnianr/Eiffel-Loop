@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-25 10:34:00 GMT (Thursday 25th January 2024)"
-	revision: "9"
+	date: "2024-06-04 6:39:14 GMT (Tuesday 4th June 2024)"
+	revision: "10"
 
 class
 	GITHUB_REPOSITORY_CONTENTS_MARKDOWN
@@ -39,7 +39,7 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["repository_name", 	agent: ZSTRING do Result := repository.name end],
+				["repository_name", 	agent: ZSTRING do Result := repository.config.name end],
 				["ecf_list",	 		agent: like repository.ecf_list do Result := repository.ecf_list end]
 			>>)
 		end
