@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 10:14:48 GMT (Monday 3rd June 2024)"
-	revision: "17"
+	date: "2024-06-05 5:43:19 GMT (Wednesday 5th June 2024)"
+	revision: "18"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -36,7 +36,7 @@ feature -- Measurement
 	hash_code: INTEGER
 		-- Hash code value
 		local
-			i: INTEGER; b: EL_BIT_ROUTINES
+			b: EL_BIT_ROUTINES
 		do
 			push_cursor
 			from start until after loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 15:29:19 GMT (Tuesday 4th June 2024)"
-	revision: "10"
+	date: "2024-06-05 6:31:15 GMT (Wednesday 5th June 2024)"
+	revision: "11"
 
 class
 	EL_LOCAL_FILE_SYNC_MEDIUM
@@ -78,13 +78,17 @@ feature -- Basic operations
 	remove_directory (dir_path: DIR_PATH)
 		-- remove directory `dir_path' relative to home directory
 		do
-			File_system.remove_directory (home_dir #+ dir_path)
+			if attached (home_dir #+ dir_path) as path and then path.exists then
+				File_system.remove_directory (path)
+			end
 		end
 
 	remove_item (item: EL_FILE_SYNC_ITEM)
 		-- remove old item
 		do
-			File_system.remove_file (home_dir + item.file_path)
+			if attached (home_dir + item.file_path) as path and then path.exists then
+				File_system.remove_file (path)
+			end
 		end
 
 	reset

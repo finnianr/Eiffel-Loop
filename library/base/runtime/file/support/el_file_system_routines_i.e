@@ -1,13 +1,22 @@
 note
 	description: "OS file system accessible via class ${EL_MODULE_FILE_SYSTEM}"
+	notes: "[
+		Benchmark 5 June 2024
+
+		Loop to remove steps until path does not have a parent
+
+			path.parent:        43.0 times (100%)
+			steps.remove_tail:  25.0 times (-41.9%)
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 16:06:14 GMT (Tuesday 4th June 2024)"
-	revision: "58"
+	date: "2024-06-05 6:37:52 GMT (Wednesday 5th June 2024)"
+	revision: "59"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -88,18 +97,21 @@ feature -- File lists
 feature -- Basic operations
 
 	delete_empty_branch (dir_path: DIR_PATH)
-			--
+		-- delete all parents of `dir_path' that do not have any directory entries
 		require
 			path_exists: dir_path.exists
 		local
-			dir: like Directory.named
+			dir: like Directory.named; break: BOOLEAN; path: DIR_PATH
 		do
-			if attached dir_path.steps as steps then
-				from dir := Directory.named (dir_path) until steps.is_empty or else not dir.is_empty loop
+			path := dir_path.twin
+			if path.has_parent then
+				from dir := Directory.named (path) until break or else not dir.is_empty loop
 					dir.delete
-					steps.remove_tail (1)
-					if steps.count > 0 then
-						dir.make_with_name (steps.to_string_32)
+					path := path.parent
+					if (path.is_absolute and then path.has_parent) or else not path.is_empty then
+						dir.make_with_name (path)
+					else
+						break := True
 					end
 				end
 			end

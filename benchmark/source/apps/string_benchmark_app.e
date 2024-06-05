@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "25"
+	date: "2024-06-05 5:42:41 GMT (Wednesday 5th June 2024)"
+	revision: "26"
 
 class
 	STRING_BENCHMARK_APP
@@ -26,9 +26,9 @@ inherit
 
 feature {NONE} -- Implementation
 
-	default_make: PROCEDURE [like command]
+	default_make: PROCEDURE [like shell]
 		do
-			Result := agent {like command}.make (0)
+			Result := agent {like shell}.make (0)
 		end
 
 	initialize

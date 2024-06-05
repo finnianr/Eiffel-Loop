@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 9:49:17 GMT (Sunday 14th April 2024)"
-	revision: "5"
+	date: "2024-06-05 6:16:49 GMT (Wednesday 5th June 2024)"
+	revision: "6"
 
 class
 	DEVELOPER_COMPARISON
@@ -41,7 +41,7 @@ feature {NONE} -- Operations
 		local
 			i: INTEGER
 		do
-			from  until i > 10_000 loop
+			from until i > Repetition_count loop
 				inspect id
 					when 1 then
 
@@ -53,9 +53,18 @@ feature {NONE} -- Operations
 
 feature {NONE} -- Constants
 
+	Repetition_count: INTEGER = 200
 
 note
 	notes: "[
+		**5 June 2024**
+		
+		Loop to remove steps until path does not have a parent
+
+			path.parent:        43.0 times (100%)
+			steps.remove_tail:  25.0 times (-41.9%)
+		
+	
 		**13 April 2024**
 		
 		Method for ${EL_INTEGER_MATH}.natural_digit_count
