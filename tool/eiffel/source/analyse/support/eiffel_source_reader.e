@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-19 8:52:32 GMT (Tuesday 19th September 2023)"
-	revision: "9"
+	date: "2024-06-06 16:37:42 GMT (Thursday 6th June 2024)"
+	revision: "10"
 
 deferred class
 	EIFFEL_SOURCE_READER
@@ -100,6 +100,29 @@ feature {NONE} -- Events
 		end
 
 feature {NONE} -- Section query
+
+	is_class_name (area: SPECIAL [CHARACTER]; start_index, count: INTEGER): BOOLEAN
+		local
+			i, i_upper: INTEGER
+		do
+			i_upper := start_index + count - 1
+			Result := True
+			from i := start_index until i > i_upper loop
+				inspect area [i]
+					when 'A' .. 'Z' then
+
+					when '0' .. '9', '_' then
+						if i = start_index then
+							Result := False
+							i := i_upper -- break
+						end
+				else
+					Result := False
+					i := i_upper -- break
+				end
+				i := i + 1
+			end
+		end
 
 	is_comment (area: SPECIAL [CHARACTER]; i, last_index: INTEGER): BOOLEAN
 		do

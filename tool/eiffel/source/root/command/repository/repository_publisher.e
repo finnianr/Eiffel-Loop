@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 15:27:22 GMT (Tuesday 4th June 2024)"
-	revision: "82"
+	date: "2024-06-06 10:12:44 GMT (Thursday 6th June 2024)"
+	revision: "83"
 
 class
 	REPOSITORY_PUBLISHER
@@ -82,7 +82,7 @@ feature -- Basic operations
 				copied_path_list.wipe_out
 				ecf_list.update_class_sources (cpu_percentage)
 			end
-			create current_set.make (3000)
+			create current_set.make (ecf_list.class_count)
 			if config.version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {DIR_PATH}.exists)
 			end
@@ -102,6 +102,9 @@ feature -- Basic operations
 			end
 			has_changes := sync_manager.has_changes
 			if has_changes then
+				if config.test_mode then
+					ecf_list.display_modified ("EL_CPP")
+				end
 				if attached config.new_medium as medium then
 					login (medium)
 					if is_logged_in then

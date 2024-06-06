@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "101"
+	date: "2024-06-06 7:59:13 GMT (Thursday 6th June 2024)"
+	revision: "102"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -429,40 +429,21 @@ feature {NONE} -- Implementation
 		require
 			is_string_8: general.is_string_8
 		local
-			l_area: like area; i_lower, i_upper, i: INTEGER; c_i: CHARACTER
+			i_lower, i_upper: INTEGER
 		do
 			if general.is_immutable then
 				if attached {READABLE_STRING_8} general as readable_8	and then attached cursor_8 (readable_8) as c then
-					l_area := c.area
 					i_lower := c.area_first_index + start_index - 1
 					i_upper := i_lower + end_index - start_index
-					Result := readable_8
-				end
-
-			elseif attached {STRING_8} general as str_8 then
-				l_area := str_8.area
-				i_lower := start_index - 1; i_upper := end_index - 1
-				Result := str_8
-			end
-			if attached Codec.unicode_table as table then
-				from i := i_lower until i > i_upper loop
-					c_i := l_area [i]
-					inspect c_i
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
-							i := i + 1
-
-						when Substitute then
-							Result := Void
-							i := i_upper + 1 -- break
-					else
-						if table [c_i.code] /= c_i then
-							Result := Void
-							i := i_upper + 1 -- break
-						else
-							i := i + 1
-						end
+					if Codec.is_compatible_string_8 (c.area, i_lower, i_upper) then
+						Result := readable_8
 					end
 				end
+
+			elseif attached {STRING_8} general as str_8
+				and then Codec.is_compatible_string_8 (str_8.area, start_index - 1, end_index - 1)
+			then
+				Result := str_8
 			end
 		end
 

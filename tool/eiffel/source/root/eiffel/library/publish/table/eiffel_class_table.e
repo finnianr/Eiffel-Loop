@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 9:18:39 GMT (Saturday 1st June 2024)"
-	revision: "15"
+	date: "2024-06-06 9:22:37 GMT (Thursday 6th June 2024)"
+	revision: "16"
 
 class
 	EIFFEL_CLASS_TABLE
@@ -18,7 +18,7 @@ inherit
 			make as table_make
 		export
 			{NONE} all
-			{ANY} found_item, extend, remove
+			{ANY} found_item, extend, remove, wipe_out
 		end
 
 create

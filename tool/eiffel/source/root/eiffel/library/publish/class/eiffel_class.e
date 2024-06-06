@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 7:13:35 GMT (Tuesday 4th June 2024)"
-	revision: "61"
+	date: "2024-06-06 20:38:45 GMT (Thursday 6th June 2024)"
+	revision: "62"
 
 class
 	EIFFEL_CLASS
@@ -56,6 +56,8 @@ feature {NONE} -- Initialization
 			name := source_path.base_name.as_upper
 			source_text := File.plain_text (source_path)
 			code_text := new_code_text (source_text)
+			set_class_use_set
+
 			make_sync_item (
 				config.output_dir, config.ftp_host, html_output_path.relative_path (config.output_dir), 0
 			)
@@ -117,7 +119,7 @@ feature -- File paths
 
 feature -- Status report
 
-	has_class_name (a_name: ZSTRING): BOOLEAN
+	uses_class (a_name: ZSTRING): BOOLEAN
 		local
 			pos_name: INTEGER; c_left, c_right: CHARACTER_32
 		do
@@ -125,8 +127,8 @@ feature -- Status report
 				from pos_name := 1 until Result or pos_name = 0 loop
 					pos_name := text.substring_index (a_name, pos_name)
 					if pos_name > 0 then
-						c_left := text.item (pos_name - 1)
-						c_right := text.item (pos_name + a_name.count)
+						c_left := text [pos_name - 1]
+						c_right := text [pos_name + a_name.count]
 						if (c_left.is_alpha or c_left = '_') or else (c_right.is_alpha or c_right = '_') then
 							pos_name := (pos_name + a_name.count).min (text.count)
 						else
@@ -263,13 +265,26 @@ feature {NONE} -- Implementation
 			if utf.is_utf_8_file (raw_source) then
 				create Result.make_from_utf_8 (utf.bomless_utf_8 (raw_source))
 			else
-				Result := raw_source
+				create Result.make (raw_source.count)
+				if Result.is_shareable_8 (raw_source) then
+					Result.share_8 (raw_source)
+				else
+					Result.append_string_general (raw_source)
+				end
 			end
 		end
 
 	relative_ecf_html_path: ZSTRING
 		do
 			Result := library_ecf.html_index_path.relative_dot_path (relative_source_path)
+		end
+
+	set_class_use_set
+		local
+			analyzer: EIFFEL_CLASS_USE_ANALYZER
+		do
+			create analyzer.make (code_text)
+			class_use_set := analyzer.class_name_set
 		end
 
 	sink_content (crc: like crc_generator)
@@ -281,6 +296,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	config: PUBLISHER_CONFIGURATION
+
+	class_use_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 
 	library_ecf: EIFFEL_CONFIGURATION_FILE
 

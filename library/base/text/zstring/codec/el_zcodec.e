@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:12 GMT (Monday 15th April 2024)"
-	revision: "73"
+	date: "2024-06-06 7:34:42 GMT (Thursday 6th June 2024)"
+	revision: "74"
 
 deferred class
 	EL_ZCODEC
@@ -167,6 +167,36 @@ feature -- Contract Support
 						end
 						i := i + 1
 					end
+				end
+			end
+		end
+
+	is_compatible_string_8 (area: SPECIAL [CHARACTER]; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all Latin-1 encoded characters in `area' from `i_lower' to `i_upper'
+		-- do not need to be changed to match current `encoding'
+		local
+			i: INTEGER; c_i: CHARACTER
+		do
+			if attached unicode_table as unicode then
+				from Result := True; i := i_lower until i > i_upper loop
+					c_i := area [i]
+					inspect c_i
+						when Substitute then
+							Result := False
+							i := i_upper -- break
+
+						when Control_0 .. Control_25, Control_27 ..  Max_ascii then
+					else
+						if unicode [c_i.code].to_character_8 /= c_i then
+							inspect latin_character (c_i)
+								when '%U' then
+									Result := False
+									i := i_upper -- break
+							else
+							end
+						end
+					end
+					i := i + 1
 				end
 			end
 		end

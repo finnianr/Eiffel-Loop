@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 11:26:13 GMT (Tuesday 4th June 2024)"
-	revision: "1"
+	date: "2024-06-06 9:49:56 GMT (Thursday 6th June 2024)"
+	revision: "2"
 
 class
 	PUBLISHER_CONFIGURATION
@@ -137,12 +137,12 @@ feature -- Factory
 
 	new_medium: EL_FILE_SYNC_MEDIUM
 		local
-			test_medium: TEST_FILE_SYNC_MEDIUM
+			local_medium: TEST_FILE_SYNC_MEDIUM
 		do
 			if test_mode then
-				create test_medium.make (copied_path_list)
-				test_medium.set_remote_home (local_output_dir)
-				Result := test_medium
+				create local_medium.make (copied_path_list)
+				local_medium.set_remote_home (local_output_dir)
+				Result := local_medium
 
 			elseif ftp_site.prosite_ftp then
 				create {EL_PROSITE_FTP_FILE_SYNC_MEDIUM} Result.make_write (ftp_site)

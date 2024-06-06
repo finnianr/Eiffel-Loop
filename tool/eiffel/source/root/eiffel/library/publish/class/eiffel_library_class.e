@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 7:32:39 GMT (Tuesday 4th June 2024)"
-	revision: "19"
+	date: "2024-06-06 16:22:46 GMT (Thursday 6th June 2024)"
+	revision: "20"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -16,7 +16,7 @@ inherit
 	EIFFEL_CLASS
 		redefine
 			make_default, is_library, getter_function_table, further_information_fields,
-			sink_source_substitutions
+			set_class_use_set, sink_source_substitutions
 		end
 
 create
@@ -51,9 +51,9 @@ feature -- Element change
 			Precursor -- crc reset in precursor
 
 			if attached Once_crc_generator as crc and then attached Once_class_table as table then
-				across config.example_classes as class_list until table.count = Maximum_examples loop
-					if attached class_list.item as e_class and then e_class.has_class_name (name) then
-						table.put (e_class, e_class.name)
+				across config.example_classes as list until table.count = Maximum_examples loop
+					if attached list.item as example and then example.uses_class (name) then
+						table.put (example, example.name)
 					end
 				end
 				client_examples := table.item_list
@@ -72,6 +72,11 @@ feature {NONE} -- Implementation
 			if not client_examples.is_empty then
 				Result.extend ("client examples")
 			end
+		end
+
+	set_class_use_set
+		do
+			class_use_set := Default_class_use_set
 		end
 
 feature {NONE} -- Evolicity fields

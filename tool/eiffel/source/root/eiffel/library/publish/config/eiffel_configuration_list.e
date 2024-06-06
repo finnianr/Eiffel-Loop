@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 11:23:05 GMT (Tuesday 4th June 2024)"
-	revision: "16"
+	date: "2024-06-06 10:12:32 GMT (Thursday 6th June 2024)"
+	revision: "17"
 
 class
 	EIFFEL_CONFIGURATION_LIST [ECF -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -99,6 +99,13 @@ feature -- Access
 			end
 		end
 
+feature -- Measurement
+
+	class_count: INTEGER
+		do
+			Result := sum_integer (agent {EIFFEL_CONFIGURATION_FILE}.class_count)
+		end
+
 feature -- Basic operations
 
 	get_sync_items (current_set: EL_MEMBER_SET [EL_FILE_SYNC_ITEM])
@@ -107,6 +114,25 @@ feature -- Basic operations
 				across tree.item.directory_list as directory loop
 					across directory.item.class_list as e_class loop
 						current_set.put (e_class.item)
+					end
+				end
+			end
+		end
+
+	display_modified (name_stem: STRING)
+		do
+			across Current as tree loop
+				lio.put_labeled_string (tree.item.category, tree.item.name)
+				lio.put_new_line
+				across tree.item.directory_list as directory loop
+					across directory.item.class_list as list loop
+						if attached list.item as e_class and then e_class.is_modified
+							and then e_class.name.starts_with_general (name_stem)
+						then
+							lio.put_natural_field (e_class.name + ": previous", e_class.previous_digest)
+							lio.put_natural_field (" current", e_class.current_digest)
+							lio.put_new_line
+						end
 					end
 				end
 			end

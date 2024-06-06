@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 11:49:26 GMT (Friday 12th April 2024)"
-	revision: "153"
+	date: "2024-06-06 9:00:29 GMT (Thursday 6th June 2024)"
+	revision: "154"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -292,6 +292,15 @@ feature -- Access
 			unencoded_area := other.unencoded_area
 		end
 
+	share_8 (latin_1: STRING_8)
+		--
+		require
+			is_shareable_8 (latin_1)
+		do
+			area := latin_1.area; unencoded_area := Empty_unencoded
+			set_count (latin_1.count)
+		end
+
 feature -- Status query
 
 	encoded_with (a_codec: EL_ZCODEC): BOOLEAN
@@ -361,6 +370,12 @@ feature -- Status query
 		-- True if `right_adjust' will change the `count'
 		do
 			Result := not is_empty and then is_space_item (count)
+		end
+
+	is_shareable_8 (latin_1: STRING_8): BOOLEAN
+		-- `True' if `latin_1.area' can be assigned directly to `area' without encoding errors
+		do
+			Result := Codec.is_compatible_string_8 (latin_1.area, 0, latin_1.count - 1)
 		end
 
 	prunable: BOOLEAN

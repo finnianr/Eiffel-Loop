@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 10:49:59 GMT (Saturday 1st June 2024)"
-	revision: "9"
+	date: "2024-06-06 9:13:16 GMT (Thursday 6th June 2024)"
+	revision: "10"
 
 class
 	CLASS_LINK_LIST
@@ -22,8 +22,6 @@ inherit
 		redefine
 			initialize
 		end
-
-	PUBLISHER_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
 

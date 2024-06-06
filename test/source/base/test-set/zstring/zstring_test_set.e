@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:30:17 GMT (Friday 12th April 2024)"
-	revision: "125"
+	date: "2024-06-06 8:58:42 GMT (Thursday 6th June 2024)"
+	revision: "126"
 
 class
 	ZSTRING_TEST_SET
@@ -42,6 +42,7 @@ feature {NONE} -- Initialization
 				["insert_remove",						agent test_insert_remove],
 				["joined",								agent test_joined],
 				["put_unicode",						agent test_put_unicode],
+				["share_8",								agent test_share_8],
 				["fill_alpha_numeric_intervals",	agent test_fill_alpha_numeric_intervals],
 				["for_all_split",						agent test_for_all_split],
 				["has",									agent test_has],
@@ -297,6 +298,34 @@ feature -- Element change tests
 						test.zs.put (old_uc, i)
 					end
 					assert ("put_unicode OK", test.is_same)
+				end
+			end
+		end
+
+	test_share_8
+		-- ZSTRING_TEST_SET.test_share_8
+		note
+			testing: "[
+				covers/{EL_READABLE_ZSTRING}.is_shareable_8,
+				covers/{EL_READABLE_ZSTRING}.share_8,
+				covers/{EL_ZCODEC}.is_compatible_string_8
+			]"
+		local
+			latin_1: STRING; zstr: ZSTRING
+		do
+			across Text.lines as list loop
+				if list.item.is_valid_as_string_8 then
+					latin_1 := list.item.to_string_8
+					create zstr.make_empty
+					if zstr.is_shareable_8 (latin_1) then
+						zstr.share_8 (latin_1)
+						inspect list.cursor_index
+							when 2, 3, 5  then
+						else
+							failed ("valid list item")
+						end
+						assert ("same string", zstr.to_string_32 ~ list.item)
+					end
 				end
 			end
 		end

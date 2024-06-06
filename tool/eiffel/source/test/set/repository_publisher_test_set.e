@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 15:31:17 GMT (Tuesday 4th June 2024)"
-	revision: "84"
+	date: "2024-06-06 9:47:46 GMT (Thursday 6th June 2024)"
+	revision: "85"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -44,12 +44,17 @@ inherit
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
-	SHARED_INVALID_CLASSNAMES; SHARED_DEV_ENVIRON
-
 	EL_SHARED_DIRECTORY
 		rename
 			Directory as Shared_directory
 		end
+
+	PUBLISHER_CONSTANTS
+		rename
+			Html as Html_name
+		end
+
+	SHARED_CLASS_TABLE; SHARED_ISE_CLASS_TABLE; SHARED_INVALID_CLASSNAMES; SHARED_DEV_ENVIRON
 
 create
 	make
@@ -126,14 +131,18 @@ feature -- Tests
 		local
 			publisher: like new_publisher; editor: FIND_AND_REPLACE_EDITOR; base_name_list: EL_ZSTRING_LIST
 			broadcaster_path, checker_path, relative_path, crc_path, el_event_processor_path: FILE_PATH
-			config: PUBLISHER_CONFIGURATION
 		do
 			publisher := new_publisher
-			config := publisher.config
 			publisher.execute
 			check_html_exists (publisher)
 			check_markdown_link_translation (publisher)
 
+--			Reset globals
+			Class_link_list.copy (create {CLASS_LINK_LIST}.make (20))
+			Invalid_source_name_table.wipe_out
+			Ise_class_table.wipe_out; Class_table.wipe_out
+
+			publisher := new_publisher
 			publisher.execute
 			assert ("no changes", not publisher.has_changes)
 
@@ -147,7 +156,9 @@ feature -- Tests
 			File_system.remove_file (checker_path)
 
 		-- Remove some CRC files to force regeneration
-			if attached OS.find_files_command (Kernel_event.html_dir, "*listener.html") as cmd then
+			if attached OS.find_files_command (Kernel_event.html_dir, "*listener.html") as cmd
+				and then attached publisher.config as config
+			then
 				cmd.execute
 				across cmd.path_list as path loop
 					relative_path := path.item.relative_path (config.output_dir)

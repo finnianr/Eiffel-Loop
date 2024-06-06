@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:48:03 GMT (Friday 10th February 2023)"
-	revision: "12"
+	date: "2024-06-06 7:36:33 GMT (Thursday 6th June 2024)"
+	revision: "13"
 
 class
 	EL_ISO_8859_1_ZCODEC
@@ -16,6 +16,8 @@ inherit
 	EL_ZCODEC
 		rename
 			single_byte_unicode_chars as new_unicode_table
+		redefine
+			is_compatible_string_8
 		end
 
 create
@@ -82,6 +84,24 @@ feature -- Character query
 	is_alpha (code: NATURAL): BOOLEAN
 		do
 			Result := is_lower (code) or else is_upper (code)
+		end
+
+	is_compatible_string_8 (area: SPECIAL [CHARACTER]; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all Latin-1 encoded characters in `area' from `i_lower' to `i_upper'
+		-- do not need to be changed to match current `encoding'
+		local
+			i: INTEGER; c_i: CHARACTER
+		do
+			from Result := True; i := i_lower until i > i_upper loop
+				c_i := area [i]
+				inspect c_i
+					when Substitute then
+						Result := False
+						i := i_upper -- break
+				else
+				end
+				i := i + 1
+			end
 		end
 
 	is_upper (code: NATURAL): BOOLEAN

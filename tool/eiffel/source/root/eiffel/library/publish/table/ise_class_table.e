@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 15:07:56 GMT (Monday 22nd April 2024)"
-	revision: "10"
+	date: "2024-06-06 9:21:29 GMT (Thursday 6th June 2024)"
+	revision: "11"
 
 class
 	ISE_CLASS_TABLE
@@ -18,7 +18,7 @@ inherit
 			make as table_make
 		export
 			{NONE} all
-			{ANY} found_item
+			{ANY} found_item, wipe_out
 		end
 
 	EL_SOLITARY

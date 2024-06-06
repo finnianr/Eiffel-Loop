@@ -3,7 +3,7 @@ pyxis-doc:
 
 system:
 	configuration_ns = "1-16-0"; uuid = "2DA5BF4C-F1BC-11EE-8FB3-634EE9DE7189"
-	name = Eco_db_doc; library_target = Eco_db_doc
+	name = Eco_db_doc
 	description: 
 		"""
 			Eco-DB Example
@@ -15,11 +15,6 @@ system:
 		"""
 	target:
 		name = Eco_db_doc
-		option: 
-			syntax = standard; full_class_checking = false; void_safety = none
-			trace = false; debug = false; warning = true
-		root:
-			all_classes = true
 
 		# Source code
 		cluster_tree:

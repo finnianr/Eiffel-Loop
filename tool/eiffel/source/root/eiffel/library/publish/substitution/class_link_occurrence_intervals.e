@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 10:49:19 GMT (Saturday 1st June 2024)"
-	revision: "10"
+	date: "2024-06-06 9:14:01 GMT (Thursday 6th June 2024)"
+	revision: "11"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
