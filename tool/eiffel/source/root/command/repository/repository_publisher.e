@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 7:07:04 GMT (Friday 7th June 2024)"
-	revision: "84"
+	date: "2024-06-07 9:10:55 GMT (Friday 7th June 2024)"
+	revision: "85"
 
 class
 	REPOSITORY_PUBLISHER
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_OS; EL_MODULE_USER_INPUT
 
-	PUBLISHER_CONSTANTS; SHARED_CLASS_TABLE
+	PUBLISHER_CONSTANTS
 
 create
 	make
@@ -82,7 +82,7 @@ feature -- Basic operations
 			if config.version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {DIR_PATH}.exists)
 			end
-			ecf_list.set_client_examples (Class_table.example_class_list)
+			ecf_list.set_client_examples
 			ecf_list.sink_source_subsitutions
 			ecf_list.get_sync_items (current_set)
 
@@ -99,9 +99,6 @@ feature -- Basic operations
 			end
 			has_changes := sync_manager.has_changes
 			if has_changes then
-				if config.test_mode then
-					ecf_list.display_modified ("EL_CPP")
-				end
 				if attached config.new_medium as medium then
 					login (medium)
 					if is_logged_in then

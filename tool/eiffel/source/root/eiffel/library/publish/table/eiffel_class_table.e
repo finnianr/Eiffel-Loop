@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 7:09:54 GMT (Friday 7th June 2024)"
-	revision: "17"
+	date: "2024-06-07 9:01:51 GMT (Friday 7th June 2024)"
+	revision: "18"
 
 class
 	EIFFEL_CLASS_TABLE
@@ -35,9 +35,9 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	example_class_list: EL_ARRAYED_LIST [EIFFEL_CLASS]
-		-- Client examples list in order of `relative_source_path'
+		-- client examples list in order of `relative_source_path'
 		do
-			create Result.make (count // 5)
+			create Result.make (count // 8)
 			from start until after loop
 				if class_item.is_example then
 					Result.extend (class_item)
@@ -45,7 +45,7 @@ feature -- Access
 				forth
 			end
 		-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
-		-- makes a consistent value for make `current_digest'
+		-- makes a consistent value for `current_digest'
 			Result.order_by (agent {EIFFEL_CLASS}.relative_source_path, True)
 		end
 

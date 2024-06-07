@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 7:16:33 GMT (Friday 7th June 2024)"
-	revision: "21"
+	date: "2024-06-07 8:59:58 GMT (Friday 7th June 2024)"
+	revision: "22"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -43,21 +43,7 @@ feature -- Access
 
 feature -- Element change
 
-	sink_source_substitutions
-		-- sink the values of ${<type-name>} occurrences `code_text'. Eg. ${CLASS_NAME}
-		-- and populate `client_examples' while adding the client paths to `current_digest'
-		-- in alphabetical order of class name.
-		do
-			Precursor -- crc reset in precursor
-			if attached Once_crc_generator as crc then
-				across client_examples as example loop
-					crc.add_path (example.item.relative_source_path)
-				end
-				current_digest := crc.checksum
-			end
-		end
-
-	set_client_examples (class_list: LIST [EIFFEL_CLASS])
+	set_client_examples (class_list: ITERABLE [EIFFEL_CLASS])
 		local
 			class_name: IMMUTABLE_STRING_8
 		do
@@ -77,9 +63,22 @@ feature -- Element change
 					end
 				end
 				if table.count > 0 then
-					table.item_list.trim
 					create client_examples.make_from_special (table.item_list.area.twin)
 				end
+			end
+		end
+
+	sink_source_substitutions
+		-- sink the values of ${<type-name>} occurrences `code_text'. Eg. ${CLASS_NAME}
+		-- adding the client paths to `current_digest' in sorted order defined
+		-- by `{EIFFEL_CLASS_TABLE}.example_class_list'
+		do
+			Precursor -- crc is reset in precursor
+			if attached Once_crc_generator as crc then
+				across client_examples as example loop
+					crc.add_path (example.item.relative_source_path)
+				end
+				current_digest := crc.checksum
 			end
 		end
 
@@ -103,15 +102,11 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor + ["client_examples", agent: like client_examples do Result := client_examples end]
+			Result := Precursor +
+				["client_examples", agent: like client_examples do Result := client_examples end]
 		end
 
 feature {NONE} -- Constants
-
-	Maximum_examples: INTEGER
-		once
-			Result := 20
-		end
 
 	Class_buffer_table: EL_HASH_TABLE [EIFFEL_CLASS, ZSTRING]
 		once
@@ -122,4 +117,10 @@ feature {NONE} -- Constants
 		once
 			create Result.make_empty
 		end
+
+	Maximum_examples: INTEGER
+		once
+			Result := 20
+		end
+
 end

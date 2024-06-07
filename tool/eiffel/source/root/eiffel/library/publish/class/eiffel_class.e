@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 8:07:11 GMT (Friday 7th June 2024)"
-	revision: "63"
+	date: "2024-06-07 8:59:58 GMT (Friday 7th June 2024)"
+	revision: "64"
 
 class
 	EIFFEL_CLASS
@@ -216,9 +216,9 @@ feature -- Element change
 			alias_name := a_name
 		end
 
-	set_client_examples (class_list: LIST [EIFFEL_CLASS])
+	set_client_examples (class_list: ITERABLE [EIFFEL_CLASS])
 		do
-			do_nothing
+			do_nothing -- for example classes
 		end
 
 feature {NONE} -- Implementation

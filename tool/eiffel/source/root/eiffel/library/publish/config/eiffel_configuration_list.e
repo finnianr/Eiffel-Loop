@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 7:38:52 GMT (Friday 7th June 2024)"
-	revision: "18"
+	date: "2024-06-07 9:05:28 GMT (Friday 7th June 2024)"
+	revision: "19"
 
 class
 	EIFFEL_CONFIGURATION_LIST [ECF -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -22,6 +22,8 @@ inherit
 		end
 
 	EL_MODULE_EXCEPTION; EL_MODULE_LIO; EL_MODULE_USER_INPUT
+
+	SHARED_CLASS_TABLE
 
 create
 	make
@@ -161,16 +163,20 @@ feature -- Basic operations
 			end
 		end
 
-	set_client_examples (class_list: LIST [EIFFEL_CLASS])
+	set_client_examples
+		-- set client examples for each library class
 		do
 			lio.put_line ("Setting client examples for library classes")
-			across Current as tree loop
-				across tree.item.directory_list as directory loop
-					across directory.item.class_list as e_class loop
-						e_class.item.set_client_examples (class_list)
+			if attached Class_table.example_class_list as class_list then
+				across Current as tree loop
+					across tree.item.directory_list as directory loop
+						across directory.item.class_list as e_class loop
+							e_class.item.set_client_examples (class_list)
+						end
 					end
 				end
 			end
+			lio.put_new_line
 		end
 
 	sink_source_subsitutions

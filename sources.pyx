@@ -15,6 +15,7 @@ manifest:
 		"example/manage-mp3/source"
 		"example/net/EROS/server/source"
 		"example/net/EROS/signal-math/source"
+		"example/Eco-DB/source"
 	
 	# separate GNU license with Gerrit Leder
 	import:
