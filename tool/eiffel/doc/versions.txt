@@ -1,3 +1,6 @@
+Ver 2.2.2 (7 Jun 2024)
+* New indexing of class use for Eiffel publisher with class EIFFEL_CLASS_USE_ANALYZER
+
 Ver 2.2.1 (4 Jun 2024)
 * Refactored publisher to have separate configuration class
 

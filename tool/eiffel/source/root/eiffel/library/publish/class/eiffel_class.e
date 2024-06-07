@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 20:38:45 GMT (Thursday 6th June 2024)"
-	revision: "62"
+	date: "2024-06-07 8:07:11 GMT (Friday 7th June 2024)"
+	revision: "63"
 
 class
 	EIFFEL_CLASS
@@ -83,10 +83,16 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	alias_name: detachable ZSTRING
+		-- alias for `name' when defined in ECF. `Void' if not.
+
 	class_text: ZSTRING
 		do
 			Result := XML.escaped (code_text.substring_end (class_begin_index + 1))
 		end
+
+	class_use_set: EL_HASH_SET [IMMUTABLE_STRING_8]
+		-- set of class names used in `code_text' after first feature marker
 
 	code_text: ZSTRING
 
@@ -119,26 +125,6 @@ feature -- File paths
 
 feature -- Status report
 
-	uses_class (a_name: ZSTRING): BOOLEAN
-		local
-			pos_name: INTEGER; c_left, c_right: CHARACTER_32
-		do
-			if attached code_text as text then
-				from pos_name := 1 until Result or pos_name = 0 loop
-					pos_name := text.substring_index (a_name, pos_name)
-					if pos_name > 0 then
-						c_left := text [pos_name - 1]
-						c_right := text [pos_name + a_name.count]
-						if (c_left.is_alpha or c_left = '_') or else (c_right.is_alpha or c_right = '_') then
-							pos_name := (pos_name + a_name.count).min (text.count)
-						else
-							Result := True
-						end
-					end
-				end
-			end
-		end
-
 	has_further_information: BOOLEAN
 		do
 			Result := not further_information_fields.is_empty
@@ -147,6 +133,10 @@ feature -- Status report
 	is_example: BOOLEAN
 		do
 			Result := not is_library
+		end
+
+	is_library: BOOLEAN
+		do
 		end
 
 	is_modified: BOOLEAN
@@ -170,10 +160,6 @@ feature -- Status report
 					Result := current_digest /= crc.checksum
 				end
 			end
-		end
-
-	is_library: BOOLEAN
-		do
 		end
 
 feature -- Basic operations
@@ -221,6 +207,18 @@ feature -- Comparison
 			else
 				Result := notes.has_description
 			end
+		end
+
+feature -- Element change
+
+	set_alias_name (a_name: ZSTRING)
+		do
+			alias_name := a_name
+		end
+
+	set_client_examples (class_list: LIST [EIFFEL_CLASS])
+		do
+			do_nothing
 		end
 
 feature {NONE} -- Implementation
@@ -297,12 +295,10 @@ feature {NONE} -- Internal attributes
 
 	config: PUBLISHER_CONFIGURATION
 
-	class_use_set: EL_HASH_SET [IMMUTABLE_STRING_8]
-
-	library_ecf: EIFFEL_CONFIGURATION_FILE
-
 	initial_current_digest: NATURAL
 		-- `current_digest' before modification by `sink_source_substitutions'
+
+	library_ecf: EIFFEL_CONFIGURATION_FILE
 
 feature {NONE} -- Evolicity fields
 
@@ -310,27 +306,27 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["description_elements",	agent: like notes.description_elements do Result := notes.description_elements end],
-				["note_fields",				agent: like notes.field_list do Result := notes.field_list end],
+				["description_elements",	 agent: like notes.description_elements do Result := notes.description_elements end],
+				["note_fields",				 agent: like notes.field_list do Result := notes.field_list end],
 
-				["has_description",			agent: BOOLEAN_REF do Result := notes.has_description.to_reference end],
-				["has_further_information",agent: BOOLEAN_REF do Result := has_further_information.to_reference end],
-				["has_fields",					agent: BOOLEAN_REF do Result := notes.has_fields.to_reference end],
-				["is_library", 				agent: BOOLEAN_REF do Result := is_library.to_reference end],
+				["has_description",			 agent: BOOLEAN_REF do Result := notes.has_description.to_reference end],
+				["has_further_information", agent: BOOLEAN_REF do Result := has_further_information.to_reference end],
+				["has_fields",					 agent: BOOLEAN_REF do Result := notes.has_fields.to_reference end],
+				["is_library",					 agent: BOOLEAN_REF do Result := is_library.to_reference end],
 
-				["notes_text", 				agent notes_text],
-				["class_text", 				agent class_text],
-				["further_information",		agent further_information],
-				["ecf_contents_path", 		agent relative_ecf_html_path],
+				["notes_text",					 agent notes_text],
+				["class_text",					 agent class_text],
+				["further_information",		 agent further_information],
+				["ecf_contents_path",		 agent relative_ecf_html_path],
 
-				["name", 						agent: STRING do Result := name.string end],
-				["name_as_lower", 			agent: STRING do Result := name.string.as_lower end],
-				["html_path", 					agent: ZSTRING do Result := ecf_relative_html_path end],
-				["favicon_markup_path", 	agent: ZSTRING do Result := config.templates.favicon_markup_path end],
-				["top_dir", 					agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
+				["name",							 agent: STRING do Result := name.string end],
+				["name_as_lower",				 agent: STRING do Result := name.string.as_lower end],
+				["html_path",					 agent: ZSTRING do Result := ecf_relative_html_path end],
+				["favicon_markup_path",		 agent: ZSTRING do Result := config.templates.favicon_markup_path end],
+				["top_dir",						 agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
 
-				["relative_dir", 				agent: DIR_PATH do Result := relative_source_path.parent end],
-				["source_path", 				agent: FILE_PATH do Result := relative_source_path end]
+				["relative_dir",				 agent: DIR_PATH do Result := relative_source_path.parent end],
+				["source_path",				 agent: FILE_PATH do Result := relative_source_path end]
 			>>)
 		end
 

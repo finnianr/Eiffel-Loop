@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 10:12:32 GMT (Thursday 6th June 2024)"
-	revision: "17"
+	date: "2024-06-07 7:38:52 GMT (Friday 7th June 2024)"
+	revision: "18"
 
 class
 	EIFFEL_CONFIGURATION_LIST [ECF -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -157,6 +157,18 @@ feature -- Basic operations
 						page.serialize
 					end
 					current_set.put (page)
+				end
+			end
+		end
+
+	set_client_examples (class_list: LIST [EIFFEL_CLASS])
+		do
+			lio.put_line ("Setting client examples for library classes")
+			across Current as tree loop
+				across tree.item.directory_list as directory loop
+					across directory.item.class_list as e_class loop
+						e_class.item.set_client_examples (class_list)
+					end
 				end
 			end
 		end

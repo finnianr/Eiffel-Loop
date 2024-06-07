@@ -1,7 +1,7 @@
 note
-	description: "Compile set of classes used in a class"
-	notes: "[
-		Class names used in an export list or as a class parameter are not considered to be used.
+	description: "[
+		Compile set of class names used in a class source text, but excluding
+		class names inside curly brackets.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 20:43:29 GMT (Thursday 6th June 2024)"
-	revision: "1"
+	date: "2024-06-07 7:36:44 GMT (Friday 7th June 2024)"
+	revision: "2"
 
 class
 	EIFFEL_CLASS_USE_ANALYZER
@@ -51,11 +51,9 @@ feature {NONE} -- Events
 		end
 
 	on_identifier (area: SPECIAL [CHARACTER]; i, count: INTEGER)
-		local
-			c: CHARACTER
 		do
-			if feature_found and then is_class_name (area, i, count) then
-			-- ignore types: {CLASS}
+			if is_class_name (area, i, count) then
+			-- ignore names in curly brackets: {CLASS}
 				if area.valid_index (i - 1) and then area [i - 1] = '{' then
 					do_nothing
 
@@ -70,13 +68,6 @@ feature {NONE} -- Events
 	on_keyword (area: SPECIAL [CHARACTER]; i, count: INTEGER; type: INTEGER_64)
 		-- find first feature in  class before filling `class_name_set'
 		do
-			if feature_found then
-				do_nothing
-
-			elseif area [i] = 'f' and then Feature_keyword.count = count then
-				Immutable_8.set_item (area, i, count)
-				feature_found := Feature_keyword.same_string (Immutable_8.item)
-			end
 		end
 
 	on_manifest_string (area: SPECIAL [CHARACTER]; i, count: INTEGER)
@@ -95,13 +86,7 @@ feature {NONE} -- Events
 		do
 		end
 
-feature {NONE} -- Internal attributes
-
-	feature_found: BOOLEAN
-
 feature {NONE} -- Constants
-
-	Feature_keyword: STRING = "feature"
 
 	Use_set_buffer: EL_HASH_SET [IMMUTABLE_STRING_8]
 		once

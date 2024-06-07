@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 8:28:52 GMT (Tuesday 4th June 2024)"
-	revision: "66"
+	date: "2024-06-07 7:04:24 GMT (Friday 7th June 2024)"
+	revision: "67"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -294,7 +294,6 @@ feature -- Basic operations
 						else
 							Class_table.remove (e_class.name)
 							Class_link_list.remove_class (e_class)
-							config.example_classes.prune (e_class)
 							class_list.remove
 						end
 						if file_count \\ 80 = 0 or (list.is_last and class_list.islast) then
@@ -427,9 +426,6 @@ feature {NONE} -- Implementation
 		do
 			Class_table.put_class (e_class)
 			source_directory.class_list.extend (e_class)
-			if e_class.is_example then
-				config.example_classes.extend (e_class)
-			end
 		end
 
 	extend_alias_table (map_node: EL_XPATH_NODE_CONTEXT)

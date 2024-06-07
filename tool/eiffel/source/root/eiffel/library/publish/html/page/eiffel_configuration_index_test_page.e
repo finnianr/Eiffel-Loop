@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 13:47:43 GMT (Tuesday 4th June 2024)"
-	revision: "2"
+	date: "2024-06-07 8:02:43 GMT (Friday 7th June 2024)"
+	revision: "3"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_TEST_PAGE
@@ -33,8 +33,8 @@ feature {NONE} -- Implementation
 			across eiffel_config.description_lines as line loop
 				crc.add_string (line.item)
 			end
-			lio.put_natural_field (eiffel_config.html_index_path.base, crc.checksum)
-			lio.put_new_line
+--			lio.put_natural_field (eiffel_config.html_index_path.base, crc.checksum)
+--			lio.put_new_line
 			if attached eiffel_config.sorted_class_list as class_list then
 				if Checksum_list_table.has_key (eiffel_config.html_index_path) then
 					checksum_list := Checksum_list_table.found_list

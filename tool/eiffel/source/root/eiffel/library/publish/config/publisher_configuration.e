@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 9:49:56 GMT (Thursday 6th June 2024)"
-	revision: "2"
+	date: "2024-06-07 7:04:13 GMT (Friday 7th June 2024)"
+	revision: "3"
 
 class
 	PUBLISHER_CONFIGURATION
@@ -54,7 +54,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			create copied_path_list.make (10)
 			create ecf_list.make (50)
-			create example_classes.make (500)
 			create ftp_site.make_default
 			create github_url
 			create invalid_names_output_path
@@ -73,9 +72,6 @@ feature -- Access
 
 	copied_path_list: EL_FILE_PATH_LIST
 		-- list of files copied in test mode
-
-	example_classes: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CLASS]
-		-- Client examples list
 
 	ftp_host: STRING
 		do

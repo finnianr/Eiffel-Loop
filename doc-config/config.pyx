@@ -8,7 +8,7 @@ pyxis-doc:
 #			ignore = "test_common;other"
 
 publish-repository:
-	test_mode = true
+	test_mode = false
 	name = "Eiffel-Loop"; root_dir = "$EIFFEL/library/Eiffel-Loop"; output_dir = "eiffel-loop.com"
 	web_address = "http://www.eiffel-loop.com"; github_url = "https://github.com/finnianr/Eiffel-Loop"
 	invalid_names_output_path = "$HOME/Desktop/Eiffel/invalid-name-references.e"

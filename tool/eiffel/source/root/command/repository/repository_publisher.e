@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 10:12:44 GMT (Thursday 6th June 2024)"
-	revision: "83"
+	date: "2024-06-07 7:07:04 GMT (Friday 7th June 2024)"
+	revision: "84"
 
 class
 	REPOSITORY_PUBLISHER
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_OS; EL_MODULE_USER_INPUT
 
-	PUBLISHER_CONSTANTS
+	PUBLISHER_CONSTANTS; SHARED_CLASS_TABLE
 
 create
 	make
@@ -42,10 +42,6 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 			create ecf_list.make (config)
 			ecf_list.read_class_sources (a_cpu_percentage)
-
-		-- Necessary to sort examples to ensure routine `{LIBRARY_CLASS}.sink_source_subsitutions'
-		-- makes a consistent value for make `current_digest'
-			config.example_classes.ascending_sort
 			ecf_list.order_by (agent {EIFFEL_CONFIGURATION_FILE}.category_and_name, True)
 		end
 
@@ -86,6 +82,7 @@ feature -- Basic operations
 			if config.version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {DIR_PATH}.exists)
 			end
+			ecf_list.set_client_examples (Class_table.example_class_list)
 			ecf_list.sink_source_subsitutions
 			ecf_list.get_sync_items (current_set)
 
