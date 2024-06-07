@@ -1,13 +1,15 @@
 note
-	description: "A special 1 byte created file that can be used as a file mutex"
+	description: "[
+		Unix implementation of a special 1 byte created file that can be used as a file mutex
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 10:05:20 GMT (Sunday 5th November 2023)"
-	revision: "3"
+	date: "2024-06-07 11:29:46 GMT (Friday 7th June 2024)"
+	revision: "4"
 
 class
 	EL_NAMED_FILE_LOCK

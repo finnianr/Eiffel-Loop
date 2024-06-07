@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 8:59:58 GMT (Friday 7th June 2024)"
-	revision: "64"
+	date: "2024-06-07 11:58:32 GMT (Friday 7th June 2024)"
+	revision: "65"
 
 class
 	EIFFEL_CLASS
@@ -48,6 +48,7 @@ feature {NONE} -- Initialization
 			source_text: STRING; utf: EL_UTF_CONVERTER
 		do
 			relative_source_path := a_source_path.relative_path (a_config.root_dir)
+			source_parent_base := a_source_path.parent.base
 			make_from_template_and_output (
 				a_config.templates.eiffel_source,
 				a_config.output_dir + relative_source_path.with_new_extension (Html)
@@ -123,6 +124,9 @@ feature -- File paths
 
 	source_path: FILE_PATH
 
+	source_parent_base: ZSTRING
+		-- For eg. imp_unix or imp_mswin
+
 feature -- Status report
 
 	has_further_information: BOOLEAN
@@ -195,17 +199,19 @@ feature -- Basic operations
 feature -- Comparison
 
 	is_less alias "<" (other: like Current): BOOLEAN
-			-- Is current object less than `other'?
+		-- Is current object less than `other'?
+		-- Called from {EIFFEL_CLASS_TABLE}.example_class_list
+		-- Ensures consistent `current_digest' during call to `{LIBRARY_CLASS}.sink_source_substitutions'
 		do
-			if notes.has_description = other.notes.has_description then
-				if name ~ other.name then
-					-- Needed to get a consistent `current_digest' in `LIBRARY_CLASS'
+			if name ~ other.name then
+				if source_parent_base ~ other.source_parent_base then
 					Result := relative_source_path < other.relative_source_path
 				else
-					Result := name < other.name
+				-- For example: imp_unix VS imp_mswin
+					Result := source_parent_base < other.source_parent_base
 				end
 			else
-				Result := notes.has_description
+				Result := name < other.name
 			end
 		end
 

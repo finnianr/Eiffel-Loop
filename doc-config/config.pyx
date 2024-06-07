@@ -14,6 +14,7 @@ publish-repository:
 	invalid_names_output_path = "$HOME/Desktop/Eiffel/invalid-name-references.e"
 	ise_library = "https://www.eiffel.org/files/doc/static/trunk/libraries/%S/%S_chart.html"
 	ise_contrib = "https://github.com/EiffelSoftware/EiffelStudio/blob/main/Src/contrib/"
+	max_useage_examples_count = 20
 	
 	ftp-site:
 		passive_mode = true; prosite_ftp = true

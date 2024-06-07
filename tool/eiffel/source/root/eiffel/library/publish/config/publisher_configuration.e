@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 7:04:13 GMT (Friday 7th June 2024)"
-	revision: "3"
+	date: "2024-06-07 11:47:54 GMT (Friday 7th June 2024)"
+	revision: "4"
 
 class
 	PUBLISHER_CONFIGURATION
@@ -65,6 +65,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create templates.make
 			create version.make_empty
 			create web_address.make_empty
+
+			max_useage_examples_count := 20
 			Precursor
 		end
 
@@ -112,6 +114,9 @@ feature -- File configured
 	local_output_dir: DIR_PATH
 		-- location of output files during testing
 
+	max_useage_examples_count: INTEGER
+		-- maximum number of links usage examples for library class HTML documentation
+
 	name: ZSTRING
 
 	note_fields: EL_ZSTRING_LIST
@@ -156,6 +161,7 @@ feature {NONE} -- Build from Pyxis
 				["@invalid_names_output_path", agent do invalid_names_output_path := node.to_expanded_file_path end],
 				["@ise_library",					 agent do ise_template.library := node end],
 				["@ise_contrib",					 agent do ise_template.contrib := node end],
+				["@max_useage_examples_count", agent do max_useage_examples_count := node end],
 				["@name",							 agent do node.set (name) end],
 				["@output_dir",					 agent do output_dir := node.to_expanded_dir_path end],
 				["@root_dir",						 agent do root_dir := node.to_expanded_dir_path end],

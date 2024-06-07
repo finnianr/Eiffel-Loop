@@ -1,5 +1,7 @@
 note
-	description: "A special 1 byte created file that can be used as a file mutex"
+	description: "[
+		Windows implementation of a special 1 byte created file that can be used as a file mutex
+	]"
 	notes: "[
 		STATUS 22 Nov 2023
 		
@@ -12,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-06-07 11:30:13 GMT (Friday 7th June 2024)"
+	revision: "7"
 
 class
 	EL_NAMED_FILE_LOCK

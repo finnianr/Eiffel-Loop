@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 8:59:58 GMT (Friday 7th June 2024)"
-	revision: "22"
+	date: "2024-06-07 12:01:23 GMT (Friday 7th June 2024)"
+	revision: "23"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -45,11 +45,12 @@ feature -- Element change
 
 	set_client_examples (class_list: ITERABLE [EIFFEL_CLASS])
 		local
-			class_name: IMMUTABLE_STRING_8
+			class_name: IMMUTABLE_STRING_8; max_count: INTEGER
 		do
 			if attached Class_buffer_table as table then
 				table.wipe_out
-				across class_list as list until table.count = Maximum_examples loop
+				max_count := config.max_useage_examples_count
+				across class_list as list until table.count = max_count loop
 					if attached list.item as example then
 					-- use class alias in preference to actual name
 						if attached alias_name as l_alias then
@@ -74,7 +75,7 @@ feature -- Element change
 		-- by `{EIFFEL_CLASS_TABLE}.example_class_list'
 		do
 			Precursor -- crc is reset in precursor
-			if attached Once_crc_generator as crc then
+			if client_examples.count > 0 and then attached Once_crc_generator as crc then
 				across client_examples as example loop
 					crc.add_path (example.item.relative_source_path)
 				end
@@ -110,17 +111,12 @@ feature {NONE} -- Constants
 
 	Class_buffer_table: EL_HASH_TABLE [EIFFEL_CLASS, ZSTRING]
 		once
-			create Result.make_size (Maximum_examples)
+			create Result.make_size (config.max_useage_examples_count)
 		end
 
 	Default_client_examples: ARRAY [EIFFEL_CLASS]
 		once
 			create Result.make_empty
-		end
-
-	Maximum_examples: INTEGER
-		once
-			Result := 20
 		end
 
 end
