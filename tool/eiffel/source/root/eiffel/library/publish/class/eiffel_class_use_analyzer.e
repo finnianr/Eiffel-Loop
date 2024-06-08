@@ -1,7 +1,7 @@
 note
 	description: "[
 		Compile set of class names used in a class source text, but excluding
-		class names inside curly brackets.
+		names inside curly brackets used as class export lists.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 7:36:44 GMT (Friday 7th June 2024)"
-	revision: "2"
+	date: "2024-06-08 8:49:05 GMT (Saturday 8th June 2024)"
+	revision: "3"
 
 class
 	EIFFEL_CLASS_USE_ANALYZER
@@ -51,15 +51,18 @@ feature {NONE} -- Events
 		end
 
 	on_identifier (area: SPECIAL [CHARACTER]; i, count: INTEGER)
+		local
+			put_class: BOOLEAN
 		do
 			if is_class_name (area, i, count) then
-			-- ignore names in curly brackets: {CLASS}
-				if area.valid_index (i - 1) and then area [i - 1] = '{' then
-					do_nothing
-
-				elseif area.valid_index (i + count) and then area [i + count] = '}' then
-					do_nothing
+			-- ignore names in curly brackets: {MY_CLASS}
+			-- except for constructs: agent {MY_CLASS} OR attached {MY_CLASS}
+				if has_character ('{', area, i - 1) or else has_character ('}', area, i + count) then
+					put_class := attached_or_agent (area, i)
 				else
+					put_class := True
+				end
+				if put_class then
 					class_name_set.put (Immutable_8.new_substring (area, i, count))
 				end
 			end
@@ -86,7 +89,34 @@ feature {NONE} -- Events
 		do
 		end
 
+feature {NONE} -- Implementation
+
+	attached_or_agent (area: SPECIAL [CHARACTER]; index: INTEGER): BOOLEAN
+		local
+			i, j: INTEGER; keyword: STRING
+		do
+			from until i > 1 or Result loop
+				keyword := Keywords_agent_and_attached [i]
+				j := index - keyword.count - 2 -- (" {").count = 2
+				if area.valid_index (j) then
+					Result := area.same_items (keyword.area, 0, j, keyword.count)
+				end
+				i := i + 1
+			end
+		end
+
+	has_character (c: CHARACTER; area: SPECIAL [CHARACTER]; i: INTEGER): BOOLEAN
+		do
+			Result := area.valid_index (i) and then area [i] = c
+		end
+
 feature {NONE} -- Constants
+
+	Keywords_agent_and_attached: SPECIAL [STRING]
+		once
+			create Result.make_filled ("agent", 2)
+			Result [1] := "attached"
+		end
 
 	Use_set_buffer: EL_HASH_SET [IMMUTABLE_STRING_8]
 		once
