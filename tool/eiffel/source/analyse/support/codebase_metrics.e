@@ -6,19 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 11:04:01 GMT (Tuesday 11th June 2024)"
-	revision: "5"
+	date: "2024-06-11 11:28:40 GMT (Tuesday 11th June 2024)"
+	revision: "6"
 
 class
 	CODEBASE_METRICS
 
 inherit
+	EL_REFLECTIVE
+		rename
+			field_included as is_expanded_field,
+			foreign_naming as eiffel_naming
+		end
+
 	EIFFEL_SOURCE_METRICS
 
-	EVOLICITY_EIFFEL_CONTEXT
+	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
 		rename
 			make_default as make
 		end
+
+	EVOLICITY_REFLECTIVE_XML_CONTEXT
 
 	EL_MODULE_LIO
 
@@ -41,7 +49,7 @@ feature -- Access
 			Result := byte_count / 1000_000
 		end
 
-	mega_bytes_string: STRING
+	formatted_mega_bytes: STRING
 		do
 			Result := Double.formatted (mega_bytes)
 		end
@@ -80,6 +88,7 @@ feature -- Element change
 			identifier_count := identifier_count + a_metrics [2]
 			keyword_count := keyword_count + a_metrics [3]
 			routine_count := routine_count + a_metrics [4]
+			class_count := class_count + 1
 		end
 
 	add_source (source: READABLE_STRING_8; a_encoding: NATURAL)
@@ -126,16 +135,11 @@ feature {NONE} -- Implementation
 			--
 		do
 			create Result.make (<<
-				["class_count",									agent: INTEGER_REF do Result := class_count.to_reference end],
-				["external_routine_count",						agent: INTEGER_REF do Result := external_routine_count.to_reference end],
-				["routine_count",									agent: INTEGER_REF do Result := routine_count.to_reference end],
-				["keyword_count",									agent: INTEGER_REF do Result := keyword_count.to_reference end],
-				["identifier_count",								agent: INTEGER_REF do Result := identifier_count.to_reference end],
 				["keyword_plus_identifier_count",			agent get_keyword_plus_identifier_count],
 				["average_keyword_plus_identifier_count",	agent get_average_keyword_plus_identifier_count],
 			-- String values
 				["keyword_to_indentifier_ratio",				agent keyword_to_indentifier_ratio],
-				["mega_bytes",										agent mega_bytes_string]
+				["formatted_mega_bytes",						agent formatted_mega_bytes]
 			>>)
 		end
 

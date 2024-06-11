@@ -5,7 +5,8 @@
 <h3>Code Metrics</h3>
 <table>
 	<tr>
-		<td><i>Eiffel-Loop</i> has <b>$metrics.class_count</b> classes totaling <b>$metrics.mega_bytes</b> mega-bytes.</td>
+		<td><i>Eiffel-Loop</i> has <b>$metrics.class_count</b> classes totaling <b>$metrics.formatted_mega_bytes</b>
+			mega-bytes.</td>
 		<td></td>
 	</tr>
 	<tr>
