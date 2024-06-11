@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 8:17:24 GMT (Tuesday 4th June 2024)"
-	revision: "23"
+	date: "2024-06-11 10:33:13 GMT (Tuesday 11th June 2024)"
+	revision: "24"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -24,8 +24,6 @@ inherit
 	EL_THREAD_ACCESS [CODEBASE_METRICS]
 
 	EL_MODULE_TUPLE
-
-	SHARED_CODEBASE_METRICS
 
 create
 	make
@@ -45,14 +43,12 @@ feature {NONE} -- Initialization
 		do
 			ecf_pages := Default_ecf_pages
 			create metrics.make
-			if attached restricted_access (Codebase_metrics) as l_metrics then
-				metrics.copy (l_metrics)
-				end_restriction
-			end
 			Precursor
 		end
 
 feature -- Access
+
+	metrics: CODEBASE_METRICS
 
 	name: ZSTRING
 		do
@@ -112,8 +108,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Initialization
 
 	ecf_pages: LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
-
-	metrics: CODEBASE_METRICS
 
 feature -- Constants
 

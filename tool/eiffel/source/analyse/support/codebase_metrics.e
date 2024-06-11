@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-06-11 11:04:01 GMT (Tuesday 11th June 2024)"
+	revision: "5"
 
 class
 	CODEBASE_METRICS
 
 inherit
-	EIFFEL_SOURCE_ANALYZER
-		rename
-			make_from_file as parse_file,
-			make as parse_source
-		end
+	EIFFEL_SOURCE_METRICS
 
 	EVOLICITY_EIFFEL_CONTEXT
 		rename
@@ -35,6 +31,8 @@ feature -- Access
 		do
 			Result := ((keyword_count + identifier_count) / routine_count).rounded
 		end
+
+	byte_count: INTEGER
 
 	class_count: INTEGER
 
@@ -66,25 +64,30 @@ feature -- Element change
 
 	add_file (source_path: FILE_PATH)
 		local
-			previous_byte_count: INTEGER
+			analyzer: EIFFEL_SOURCE_ANALYZER
 		do
-			block_indent := 0; debug_indent := 0
+			create analyzer.make_from_file (source_path)
+			add_metrics (analyzer.metrics)
+		end
 
-			previous_byte_count := byte_count
-			parse_file (source_path)
-			byte_count := byte_count + previous_byte_count
-			class_count := class_count + 1
+	add_metrics (a_metrics: SPECIAL [INTEGER])
+		require
+			has_5_items: a_metrics.count = Metric_count
+		do
+		-- in alphabetical order
+			byte_count := byte_count + a_metrics [0]
+			external_routine_count := external_routine_count + a_metrics [1]
+			identifier_count := identifier_count + a_metrics [2]
+			keyword_count := keyword_count + a_metrics [3]
+			routine_count := routine_count + a_metrics [4]
 		end
 
 	add_source (source: READABLE_STRING_8; a_encoding: NATURAL)
 		local
-			previous_byte_count: INTEGER
+			analyzer: EIFFEL_SOURCE_ANALYZER
 		do
-			block_indent := 0; debug_indent := 0
-			previous_byte_count := byte_count
-			parse_source (source, a_encoding)
-			byte_count := byte_count + previous_byte_count
-			class_count := class_count + 1
+			create analyzer.make (source, a_encoding)
+			add_metrics (analyzer.metrics)
 		end
 
 feature -- Basic operations

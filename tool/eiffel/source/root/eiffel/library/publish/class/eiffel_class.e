@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 11:58:32 GMT (Friday 7th June 2024)"
-	revision: "65"
+	date: "2024-06-11 10:39:32 GMT (Tuesday 11th June 2024)"
+	revision: "66"
 
 class
 	EIFFEL_CLASS
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 	make (a_source_path: like source_path; a_library_ecf: like library_ecf; a_config: like config)
 			--
 		local
-			source_text: STRING; utf: EL_UTF_CONVERTER
+			class_encoding: NATURAL; analyzer: EIFFEL_SOURCE_ANALYZER
 		do
 			relative_source_path := a_source_path.relative_path (a_config.root_dir)
 			source_parent_base := a_source_path.parent.base
@@ -55,29 +55,28 @@ feature {NONE} -- Initialization
 			)
 			library_ecf := a_library_ecf; config := a_config; source_path := a_source_path
 			name := source_path.base_name.as_upper
-			source_text := File.plain_text (source_path)
-			code_text := new_code_text (source_text)
+			if attached File.plain_text (source_path) as source_text then
+				class_encoding := source_encoding (source_text)
+				code_text := new_code_text (source_text, class_encoding)
+				create analyzer.make (source_text, class_encoding)
+				metrics := analyzer.metrics
+			end
 			set_class_use_set
 
 			make_sync_item (
 				config.output_dir, config.ftp_host, html_output_path.relative_path (config.output_dir), 0
 			)
 			create notes.make (relative_source_path.parent, config.note_fields)
-
-			if attached restricted_access (Codebase_metrics) as metrics then
-				if utf.is_utf_8_file (source_text) then
-					metrics.add_source (source_text, Utf_8)
-				else
-					metrics.add_source (source_text, Latin_1)
-				end
-				end_restriction
-			end
+		ensure
+			initialized: name /= Empty_string and code_text /= Empty_string
 		end
 
 	make_default
 		do
 			create source_path
-			create name.make_empty
+			name := Empty_string
+			code_text := Empty_string
+			metrics := Default_metrics
 			notes := Default_notes
 			Precursor
 		end
@@ -96,6 +95,9 @@ feature -- Access
 		-- set of class names used in `code_text' after first feature marker
 
 	code_text: ZSTRING
+
+	metrics: SPECIAL [INTEGER]
+		-- metrics array in alphabetical order of name defined in class `EIFFEL_SOURCE_ANALYZER'
 
 	name: ZSTRING
 
@@ -155,8 +157,8 @@ feature -- Status report
 	is_source_modified: BOOLEAN
 		-- `True' if file was modified or moved since creation of `Current'
 		do
-			if attached crc_generator as crc then
-				crc.add_string (new_code_text (File.plain_text (source_path)))
+			if attached crc_generator as crc and then attached File.plain_text (source_path) as source_text then
+				crc.add_string (new_code_text (source_text, source_encoding (source_text)))
 				crc.add_string (relative_source_path)
 				if initial_current_digest.to_boolean then
 					Result := initial_current_digest /= crc.checksum
@@ -236,6 +238,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	source_encoding (source_text: STRING): NATURAL
+		local
+			utf: EL_UTF_CONVERTER
+		do
+			if utf.is_utf_8_file (source_text) then
+				Result := Utf_8
+			else
+				Result := Latin_1
+			end
+		end
+
 	copy (other: like Current)
 		do
 			standard_copy (other)
@@ -262,11 +275,11 @@ feature {NONE} -- Implementation
 			Result := notes.other_field_titles
 		end
 
-	new_code_text (raw_source: STRING): ZSTRING
+	new_code_text (raw_source: STRING; a_encoding: NATURAL): ZSTRING
 		local
 			utf: EL_UTF_CONVERTER
 		do
-			if utf.is_utf_8_file (raw_source) then
+			if a_encoding = Utf_8 then
 				create Result.make_from_utf_8 (utf.bomless_utf_8 (raw_source))
 			else
 				create Result.make (raw_source.count)

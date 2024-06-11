@@ -3,11 +3,11 @@ note
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
-	contact: "finnian at hex11software dot com"
+	contact: "finnian at eiffel hyphen loop dot com"
 
-	license: "All rights reserved"
-	date: "2023-12-06 21:13:03 GMT (Wednesday 6th December 2023)"
-	revision: "21"
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2024-04-03 13:34:54 GMT (Wednesday 3rd April 2024)"
+	revision: "22"
 
 class
 	DATABASE

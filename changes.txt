@@ -709,3 +709,6 @@ Eiffel publisher now replaces/update DEVELOPER_CLASS_LINK instances
 Sat 1st Jun 2024, 14:04:59
 Eiffel publisher DEVELOPER_CLASS_LINK now removeable and updateable
 
+Sun 9th Jun 2024, 9:53:35
+Eiffel Viewer synchronizes perfectly with better client examples
+

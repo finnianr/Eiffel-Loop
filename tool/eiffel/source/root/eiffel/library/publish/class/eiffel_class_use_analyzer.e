@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-08 8:49:05 GMT (Saturday 8th June 2024)"
-	revision: "3"
+	date: "2024-06-09 7:32:28 GMT (Sunday 9th June 2024)"
+	revision: "4"
 
 class
 	EIFFEL_CLASS_USE_ANALYZER
@@ -92,6 +92,7 @@ feature {NONE} -- Events
 feature {NONE} -- Implementation
 
 	attached_or_agent (area: SPECIAL [CHARACTER]; index: INTEGER): BOOLEAN
+		-- agent {MY_CLASS} OR attached {MY_CLASS} to left of `index'
 		local
 			i, j: INTEGER; keyword: STRING
 		do

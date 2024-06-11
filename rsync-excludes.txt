@@ -15,6 +15,7 @@ projects.data/XML/Legislation.xml
 **/build/**
 **/workarea/**
 **/exception*.log
+**/config.log
 **~
 **.a
 **.class

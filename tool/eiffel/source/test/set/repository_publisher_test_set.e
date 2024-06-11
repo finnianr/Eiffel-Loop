@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 9:47:46 GMT (Thursday 6th June 2024)"
-	revision: "85"
+	date: "2024-06-09 13:29:43 GMT (Sunday 9th June 2024)"
+	revision: "86"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -105,7 +105,7 @@ feature -- Tests
 			then
 				across line_list as list loop
 					if attached list.item as line
-					 	and then (line.starts_with ("class") or line.has_substring ("Source"))
+					 	and then (line.starts_with_general ("class") or line.has_substring ("Source"))
 					 	and then attached line.split_list (' ') as parts
 					 then
 						crc.add_string (line)

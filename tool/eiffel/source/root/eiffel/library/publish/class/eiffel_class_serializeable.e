@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 16:20:32 GMT (Thursday 6th June 2024)"
-	revision: "2"
+	date: "2024-06-11 10:44:49 GMT (Tuesday 11th June 2024)"
+	revision: "3"
 
 deferred class
 	EIFFEL_CLASS_SERIALIZEABLE
@@ -27,8 +27,6 @@ inherit
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_XML
 
 	PUBLISHER_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
-
-	SHARED_CODEBASE_METRICS
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
@@ -60,6 +58,15 @@ feature {NONE} -- Constants
 			across Class_declaration_keywords as l_word loop
 				Result.extend (new_line * 1 + l_word.item)
 			end
+		end
+
+	Default_metrics: SPECIAL [INTEGER]
+		-- metrics array in alphabetical order of name defined in class `EIFFEL_SOURCE_ANALYZER'
+		local
+			analyzer: EIFFEL_SOURCE_ANALYZER
+		once
+			create analyzer.make ("", Latin_1)
+			create Result.make_filled (0, analyzer.Metric_count)
 		end
 
 	Default_class_use_set: EL_HASH_SET [IMMUTABLE_STRING_8]

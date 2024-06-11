@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 9:05:28 GMT (Friday 7th June 2024)"
-	revision: "19"
+	date: "2024-06-11 10:55:46 GMT (Tuesday 11th June 2024)"
+	revision: "20"
 
 class
 	EIFFEL_CONFIGURATION_LIST [ECF -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -91,11 +91,24 @@ feature -- Access
 		end
 
 	to_html_page_list: EL_ARRAYED_LIST [REPOSITORY_HTML_PAGE]
+		local
+			sitemap: REPOSITORY_SITEMAP_PAGE
 		do
 			if attached sorted_index_page_list as list then
 				create Result.make (list.count + 1)
-				Result.extend (create {REPOSITORY_SITEMAP_PAGE}.make (config, list))
-				Result.append (list)
+				create sitemap.make (config, list)
+				Result.extend (sitemap); Result.append (list)
+
+			-- Add metrics	to sitemap
+				if attached sitemap.metrics as metrics then
+					across Current as tree loop
+						across tree.item.directory_list as directory loop
+							across directory.item.class_list as e_class loop
+								metrics.add_metrics (e_class.item.metrics)
+							end
+						end
+					end
+				end
 			else
 				create Result.make (0)
 			end

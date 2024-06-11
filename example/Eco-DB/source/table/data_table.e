@@ -3,11 +3,11 @@ note
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
-	contact: "finnian at hex11software dot com"
+	contact: "finnian at eiffel hyphen loop dot com"
 
-	license: "All rights reserved"
-	date: "2023-08-26 11:11:19 GMT (Saturday 26th August 2023)"
-	revision: "17"
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2024-06-09 9:53:36 GMT (Sunday 9th June 2024)"
+	revision: "18"
 
 deferred class
 	DATA_TABLE [G -> REFLECTIVELY_STORABLE create make_default end]

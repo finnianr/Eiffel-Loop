@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:38:34 GMT (Thursday 4th April 2024)"
-	revision: "7"
+	date: "2024-06-11 11:00:00 GMT (Tuesday 11th June 2024)"
+	revision: "8"
 
 class
 	EIFFEL_SOURCE_ANALYZER
@@ -25,18 +25,10 @@ class
 inherit
 	EIFFEL_SOURCE_READER
 
+	EIFFEL_SOURCE_METRICS
+
 create
-	make_from_file
-
-feature -- Measurement
-
-	identifier_count: INTEGER
-
-	external_routine_count: INTEGER
-
-	keyword_count: INTEGER
-
-	routine_count: INTEGER
+	make, make_from_file
 
 feature -- Contract Support
 

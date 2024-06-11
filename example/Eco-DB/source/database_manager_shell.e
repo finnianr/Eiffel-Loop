@@ -3,11 +3,11 @@ note
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
-	contact: "finnian at hex11software dot com"
+	contact: "finnian at eiffel hyphen loop dot com"
 
-	license: "All rights reserved"
-	date: "2023-12-06 21:06:14 GMT (Wednesday 6th December 2023)"
-	revision: "31"
+	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
+	date: "2024-04-03 13:37:24 GMT (Wednesday 3rd April 2024)"
+	revision: "32"
 
 class
 	DATABASE_MANAGER_SHELL
