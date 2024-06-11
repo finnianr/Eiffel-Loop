@@ -1,16 +1,16 @@
 <h2>Contents</h2>
 <p>
-	This website documents <i>Eiffel-Loop</i>, a collection of software libraries, example programs and tools for the Eiffel programming language. From the <a href="#projects"><b>projects index</b></a> below, you can read the documentation and browse the source code for each <i>Eiffel-Loop</i> project. Class indexing notes are formatted with bold, italics, code blocks etc.
+	This website documents <i>Eiffel-Loop</i>, a collection of software libraries, example programs and tools for the Eiffel programming language. From the <a href="#projects"><b>project contents</b></a> below, you can read the documentation and browse the source code for each <i>Eiffel-Loop</i> library/cluster or example program. Class indexing notes are formatted with bold, italics, code blocks etc.
 </p>
 <ol>
-	<li><a href="#cm"></a>Code Metrics</li>
-	<li><a href="#td"></a>The Developer</li>
-	<li><a href="#p"></a>Projects</li>
-	<li><a href="#se"></a>Support Eiffel-Loop</li>
+	<li><a href="#cm">Code Metrics</a></li>
+	<li><a href="#td">The Developer</a></li>
+	<li><a href="#pc">Project Contents</a></li>
+	<li><a href="#se">Support Eiffel-Loop</a></li>
 </ol>
 
 <a id="cm"/>
-<h3>Code Metrics</h3>
+<h2>Code Metrics</h2>
 <table>
 	<tr>
 		<td><i>Eiffel-Loop</i> has <b>$metrics.class_count</b> classes totaling <b>$metrics.formatted_mega_bytes</b>
@@ -42,15 +42,11 @@
 		<th id="number">$metrics.keyword_plus_identifier_count</th>
 	</tr>
 </table>
-<p></p>
+<h3>Routine count distribution table</h3>
 <table>
 	<tr>
-		<th>Routine count distribution table</th>
-		<td></td>
-	</tr>
-	<tr>
-		<th></th>
-		<th><b>Classes</b></th>
+		<th>Routine count</th>
+		<th>Classes</th>
 	</tr>
 #across $metrics.routine_count_band_table as $table loop
 	<tr>
@@ -96,8 +92,8 @@
 Please address questions and comments to <em id="code">finnian <i>at</i> eiffel <i>hyphen</i> loop <i>dot</i> com</em>
 </p>
 
-<a id="p"/>
-<h2>Projects</h2>
+<a id="pc"/>
+<h2>Project Contents</h2>
 <p>
 Click on a project link to read the documentation and browse the source code. The number in brackets indicates the class count.
 </p>

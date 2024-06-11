@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 14:54:14 GMT (Tuesday 11th June 2024)"
-	revision: "8"
+	date: "2024-06-11 19:09:27 GMT (Tuesday 11th June 2024)"
+	revision: "9"
 
 class
 	CODEBASE_METRICS
@@ -122,7 +122,7 @@ feature -- Element change
 			class_count := class_count + 1
 			if class_routine_count = 0 and class_external_routine_count > 0 then
 				external_class_count := external_class_count + 1
-				
+
 			elseif attached rountine_count_interval_list as list then
 				from list.start until list.after or found loop
 					if list.item_has (class_routine_count) then
@@ -226,7 +226,7 @@ feature {NONE} -- Implementation
 			end
 			if external_class_count > 0 then
 				class_percentile := (external_class_count * 100 / class_count).rounded
-				Result.extend (class_percentile.to_reference, "External " + Routines_suffix)
+				Result.extend (class_percentile.to_reference, "External C/C++" + Routines_suffix)
 			end
 		end
 
