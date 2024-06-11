@@ -1,7 +1,15 @@
-<h2>Welcome</h2>
+<h2>Contents</h2>
 <p>
 	This website documents <i>Eiffel-Loop</i>, a collection of software libraries, example programs and tools for the Eiffel programming language. From the <a href="#projects"><b>projects index</b></a> below, you can read the documentation and browse the source code for each <i>Eiffel-Loop</i> project. Class indexing notes are formatted with bold, italics, code blocks etc.
 </p>
+<ol>
+	<li><a href="#cm"></a>Code Metrics</li>
+	<li><a href="#td"></a>The Developer</li>
+	<li><a href="#p"></a>Projects</li>
+	<li><a href="#se"></a>Support Eiffel-Loop</li>
+</ol>
+
+<a id="cm"/>
 <h3>Code Metrics</h3>
 <table>
 	<tr>
@@ -34,12 +42,7 @@
 		<th id="number">$metrics.keyword_plus_identifier_count</th>
 	</tr>
 </table>
-<p>
-	Average keyword + identifier count per routine: <b>$metrics.average_keyword_plus_identifier_count</b>
-<br/>
-	Percentile ratios of keywords to identifiers: <b>$metrics.keyword_to_indentifier_ratio</b>
-<br/>
-</p>
+<p></p>
 <table>
 	<tr>
 		<th>Routine count distribution table</th>
@@ -58,6 +61,11 @@
 </table>
 
 <p>
+	Average keyword + identifier count per routine: <b>$metrics.average_keyword_plus_identifier_count</b>
+<br/>
+	Percentile ratios of keywords to identifiers: <b>$metrics.keyword_to_indentifier_ratio</b>
+</p>
+<p>
 	<b>*</b><small> Only keywords and identifiers between <b>do/once</b> and <b>end/ensure</b> are counted. 
 			Blocks of code defined by <b>check</b> or <b>debug</b> keywords are not included.
 	</small>
@@ -72,21 +80,7 @@
 		<a href="./tool/eiffel/eiffel.root.html" target="_blank">Eiffel Development Utility</a> project.
 </p>
 
-<h2>EiffelStudio 20.05</h2>
-<p>
-	If you would like to support a project to update Eiffel-Loop for the EiffelStudio 20.05 compiler and beyond, please donate 
-	what you can to <a href="http://hex11software.com/">Hex 11 Software</a>. You can follow this project on <a href= "https://groups.google.com/g/eiffel-users">Eiffel Users forum</a> for details and updates.
-</p>
-
-<form action="https://www.paypal.com/donate" method="post" target="_blank">
-	<input type="hidden" name="hosted_button_id" value="WPAHFH98KZXLG" />
-	<img alt="Paypal logo" border="0" src="./images/paypal.png" style="margin-right: 20px"/>
-	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit"
-		title="Make a donation via PayPal" alt="Donate with PayPal button" />
-	<img alt="" border="0" src="https://www.paypal.com/en_IE/i/scr/pixel.gif" width="1" height="1" style="float: right"/>
-</form>
-
-
+<a id="td"/>
 <h2>The Developer</h2>
 <p>
 	<i>Eiffel-Loop</i> is developed and maintained by <a target="_blank" href="https://www.linkedin.com/in/finnian-reilly-39812733/" title="LinkedIn">Finnian Reilly</a>. Finnian has been developing with Eiffel professionally since the year 2000 and started development of <i>Eiffel-Loop</i> around the year 2002. Since then he has been continously polishing these libraries and adding new ones.
@@ -102,7 +96,8 @@
 Please address questions and comments to <em id="code">finnian <i>at</i> eiffel <i>hyphen</i> loop <i>dot</i> com</em>
 </p>
 
-<a id="projects"><h2>Projects</h2></a>
+<a id="p"/>
+<h2>Projects</h2>
 <p>
 Click on a project link to read the documentation and browse the source code. The number in brackets indicates the class count.
 </p>
@@ -120,3 +115,19 @@ Click on a project link to read the documentation and browse the source code. Th
 	#end
 	</ul>
 #end
+
+<a id="se"/>
+<h2>Support Eiffel-Loop</h2>
+<p>
+	If you would like to support a project to update Eiffel-Loop for the EiffelStudio 20.05 compiler and beyond, please donate 
+	what you can to <a href="http://hex11software.com/">Hex 11 Software</a>. You can follow this project on <a href= "https://groups.google.com/g/eiffel-users">Eiffel Users forum</a> for details and updates.
+</p>
+
+<form action="https://www.paypal.com/donate" method="post" target="_blank">
+	<input type="hidden" name="hosted_button_id" value="WPAHFH98KZXLG" />
+	<img alt="Paypal logo" border="0" src="./images/paypal.png" style="margin-right: 20px"/>
+	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit"
+		title="Make a donation via PayPal" alt="Donate with PayPal button" />
+	<img alt="" border="0" src="https://www.paypal.com/en_IE/i/scr/pixel.gif" width="1" height="1" style="float: right"/>
+</form>
+

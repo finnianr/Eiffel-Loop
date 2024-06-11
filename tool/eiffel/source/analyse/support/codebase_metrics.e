@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 13:59:29 GMT (Tuesday 11th June 2024)"
-	revision: "7"
+	date: "2024-06-11 14:54:14 GMT (Tuesday 11th June 2024)"
+	revision: "8"
 
 class
 	CODEBASE_METRICS
@@ -67,6 +67,8 @@ feature -- Access
 
 	class_count: INTEGER
 
+	external_class_count: INTEGER
+
 	formatted_mega_bytes: STRING
 		do
 			Result := Double.formatted (mega_bytes)
@@ -107,17 +109,21 @@ feature -- Element change
 		require
 			has_5_items: a_metrics.count = Metric_count
 		local
-			found: BOOLEAN; class_routine_count: INTEGER
+			found: BOOLEAN; class_routine_count, class_external_routine_count: INTEGER
 		do
 		-- in alphabetical order
 			byte_count := byte_count + a_metrics [0]
-			external_routine_count := external_routine_count + a_metrics [1]
+			class_external_routine_count := a_metrics [1]
+			external_routine_count := external_routine_count + class_external_routine_count
 			identifier_count := identifier_count + a_metrics [2]
 			keyword_count := keyword_count + a_metrics [3]
 			class_routine_count := a_metrics [4]
 			routine_count := routine_count + class_routine_count
 			class_count := class_count + 1
-			if attached rountine_count_interval_list as list then
+			if class_routine_count = 0 and class_external_routine_count > 0 then
+				external_class_count := external_class_count + 1
+				
+			elseif attached rountine_count_interval_list as list then
 				from list.start until list.after or found loop
 					if list.item_has (class_routine_count) then
 						routine_class_count [list.index] := routine_class_count [list.index] + 1
@@ -217,6 +223,10 @@ feature {NONE} -- Implementation
 					end
 					list.forth
 				end
+			end
+			if external_class_count > 0 then
+				class_percentile := (external_class_count * 100 / class_count).rounded
+				Result.extend (class_percentile.to_reference, "External " + Routines_suffix)
 			end
 		end
 
