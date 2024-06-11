@@ -34,12 +34,29 @@
 		<th id="number">$metrics.keyword_plus_identifier_count</th>
 	</tr>
 </table>
-
 <p>
 	Average keyword + identifier count per routine: <b>$metrics.average_keyword_plus_identifier_count</b>
 <br/>
 	Percentile ratios of keywords to identifiers: <b>$metrics.keyword_to_indentifier_ratio</b>
+<br/>
 </p>
+<table>
+	<tr>
+		<th>Routine count distribution table</th>
+		<td></td>
+	</tr>
+	<tr>
+		<th></th>
+		<th><b>Classes</b></th>
+	</tr>
+#across $metrics.routine_count_band_table as $table loop
+	<tr>
+		<td>$table.key</td>
+		<td id="number">$table.item %</td>
+	</tr>
+#end
+</table>
+
 <p>
 	<b>*</b><small> Only keywords and identifiers between <b>do/once</b> and <b>end/ensure</b> are counted. 
 			Blocks of code defined by <b>check</b> or <b>debug</b> keywords are not included.

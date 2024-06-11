@@ -1,13 +1,13 @@
 note
-	description: "Job info"
+	description: "Job information"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-06-11 13:12:00 GMT (Tuesday 11th June 2024)"
+	revision: "8"
 
 class
 	JOB_INFO
@@ -101,7 +101,7 @@ feature {NONE} -- Evolicity fields
 				["location",					 	agent: STRING do Result := location end],
 				["contact",							agent: STRING do Result := contact end],
 				["duration_text", 				agent: STRING do Result := duration_text end],
-				["duration_interval_lower", 	agent: INTEGER do Result := duration_interval.lower.to_reference end],
+				["duration_interval_lower", 	agent: INTEGER_REF do Result := duration_interval.lower.to_reference end],
 				["job_url", 						agent: STRING do Result := job_url end]
 			>>)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-06-11 13:13:50 GMT (Tuesday 11th June 2024)"
+	revision: "8"
 
 class
 	JOB_INFORMATION
@@ -41,23 +41,23 @@ feature -- Initialization
 
 feature -- Access
 
-	title: STRING
-
-	duration: STRING
-
-	description: STRING
+	contact_name: STRING
 
 	date_posted_d_m_y: STRING
 
-	contact_name: STRING
+	description: STRING
+
+	duration: STRING
 
 	job_reference: STRING
-
-	start_date_d_m_y: STRING
 
 	location: STRING
 
 	salary: INTEGER
+
+	start_date_d_m_y: STRING
+
+	title: STRING
 
 feature {NONE} -- Evolicity fields
 
@@ -65,15 +65,15 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["title", agent: STRING do Result := title end],
-				["duration", agent: STRING do Result := duration end],
-				["description", agent: STRING do Result := description end],
+				["title",				 agent: STRING do Result := title end],
+				["duration",			 agent: STRING do Result := duration end],
+				["description",		 agent: STRING do Result := description end],
 				["date_posted_d_m_y", agent: STRING do Result := date_posted_d_m_y end],
-				["contact_name", agent: STRING do Result := contact_name end],
-				["start_date_d_m_y", agent: STRING do Result := start_date_d_m_y end],
-				["job_reference", agent: STRING do Result := job_reference end],
-				["location", agent: STRING do Result := location end],
-				["salary", agent: INTEGER_REF do Result := salary.to_reference end]
+				["contact_name",		 agent: STRING do Result := contact_name end],
+				["start_date_d_m_y",	 agent: STRING do Result := start_date_d_m_y end],
+				["job_reference",		 agent: STRING do Result := job_reference end],
+				["location",			 agent: STRING do Result := location end],
+				["salary",				 agent: INTEGER_REF do Result := salary.to_reference end]
 			>>)
 		end
 
