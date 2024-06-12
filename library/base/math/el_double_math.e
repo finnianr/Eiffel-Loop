@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:08:28 GMT (Friday 12th April 2024)"
-	revision: "12"
+	date: "2024-06-12 7:33:25 GMT (Wednesday 12th June 2024)"
+	revision: "13"
 
 expanded class
 	EL_DOUBLE_MATH
@@ -16,6 +16,14 @@ inherit
 	DOUBLE_MATH
 
 	EL_EXPANDED_ROUTINES
+
+feature -- Access
+
+	percent (a, b: INTEGER): INTEGER
+		-- `a' as a percentage of `b'
+		do
+			Result := (a * 100 / b).rounded
+		end
 
 feature -- Basic operations
 

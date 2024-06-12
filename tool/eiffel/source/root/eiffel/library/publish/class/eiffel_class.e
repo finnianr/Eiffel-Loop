@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 10:39:32 GMT (Tuesday 11th June 2024)"
-	revision: "66"
+	date: "2024-06-12 8:36:39 GMT (Wednesday 12th June 2024)"
+	revision: "67"
 
 class
 	EIFFEL_CLASS
@@ -321,11 +321,16 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Evolicity fields
 
+	get_top_dir: ZSTRING
+		do
+			Result := Directory.relative_parent (relative_source_path.step_count - 1)
+		end
+
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make (<<
-				["description_elements",	 agent: like notes.description_elements do Result := notes.description_elements end],
+				["description_elements",	 agent: LIST [HTML_TEXT_ELEMENT] do Result := notes.description_elements end],
 				["note_fields",				 agent: like notes.field_list do Result := notes.field_list end],
 
 				["has_description",			 agent: BOOLEAN_REF do Result := notes.has_description.to_reference end],
@@ -342,7 +347,7 @@ feature {NONE} -- Evolicity fields
 				["name_as_lower",				 agent: STRING do Result := name.string.as_lower end],
 				["html_path",					 agent: ZSTRING do Result := ecf_relative_html_path end],
 				["favicon_markup_path",		 agent: ZSTRING do Result := config.templates.favicon_markup_path end],
-				["top_dir",						 agent: ZSTRING do Result := Directory.relative_parent (relative_source_path.step_count - 1) end],
+				["top_dir",						 agent get_top_dir],
 
 				["relative_dir",				 agent: DIR_PATH do Result := relative_source_path.parent end],
 				["source_path",				 agent: FILE_PATH do Result := relative_source_path end]

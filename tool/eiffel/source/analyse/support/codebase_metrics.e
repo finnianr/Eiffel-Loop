@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 19:09:27 GMT (Tuesday 11th June 2024)"
-	revision: "9"
+	date: "2024-06-12 8:06:26 GMT (Wednesday 12th June 2024)"
+	revision: "10"
 
 class
 	CODEBASE_METRICS
@@ -31,6 +31,11 @@ inherit
 	EVOLICITY_REFLECTIVE_XML_CONTEXT
 
 	EL_MODULE_LIO
+
+	EL_DOUBLE_MATH
+		export
+			{NONE} all
+		end
 
 create
 	make
@@ -86,9 +91,9 @@ feature -- Access
 		do
 			create Result.make (<<
 				["Class count",										  class_count],
-				["Keyword occurrences",								  keyword_count],
-				["Identifier occurrences",							  identifier_count],
-				["Keyword + identifier count",					  keyword_count + identifier_count],
+				["Keyword count",										  keyword_count],
+				["Identifier count",									  identifier_count],
+				["Combined count",									  keyword_count + identifier_count],
 				["Routine count",										  routine_count],
 				["External routine count",							  external_routine_count],
 				["Average keywords + identifiers per routine", average_keyword_plus_identifier_count]
@@ -106,6 +111,7 @@ feature -- Element change
 		end
 
 	add_metrics (a_metrics: SPECIAL [INTEGER])
+		-- add metrics from array result of `{EIFFEL_SOURCE_METRICS}.metrics'
 		require
 			has_5_items: a_metrics.count = Metric_count
 		local
@@ -114,12 +120,14 @@ feature -- Element change
 		-- in alphabetical order
 			byte_count := byte_count + a_metrics [0]
 			class_external_routine_count := a_metrics [1]
-			external_routine_count := external_routine_count + class_external_routine_count
 			identifier_count := identifier_count + a_metrics [2]
 			keyword_count := keyword_count + a_metrics [3]
 			class_routine_count := a_metrics [4]
+
+			external_routine_count := external_routine_count + class_external_routine_count
 			routine_count := routine_count + class_routine_count
 			class_count := class_count + 1
+
 			if class_routine_count = 0 and class_external_routine_count > 0 then
 				external_class_count := external_class_count + 1
 
@@ -146,7 +154,10 @@ feature -- Element change
 feature -- Basic operations
 
 	display
+		local
+			semicolon_lines: ARRAY [INTEGER]
 		do
+			semicolon_lines := << 1, 2, 3, 5 >>
 			across stats_table as table loop
 				if table.cursor_index = 2 then
 					if byte_count < 100000 then
@@ -157,18 +168,23 @@ feature -- Basic operations
 					lio.put_new_line_x2
 				end
 				lio.put_integer_field (table.key, table.item)
-				lio.put_new_line
+				if semicolon_lines.has (table.cursor_index) then
+					lio.put_string ("; ")
+				else
+					lio.put_new_line
+				end
 			end
 			lio.put_labeled_substitution ("Percentiles keywords:identifiers", keyword_to_indentifier_ratio)
+			lio.put_new_line_x2
+			lio.put_line ("Routine count class distribution")
 			lio.put_new_line
+			across routine_count_band_table as table loop
+				lio.put_integer_field (table.key, table.item); lio.put_character ('%%')
+				lio.put_new_line
+			end
 		end
 
 feature {NONE} -- Implementation
-
-	average_keyword_plus_identifier_ref_count: INTEGER_REF
-		do
-			Result := average_keyword_plus_identifier_count.to_reference
-		end
 
 	interval_band_name (lower, upper: INTEGER): STRING
 		local
@@ -192,22 +208,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	keyword_plus_identifier_count: INTEGER_REF
-		do
-			Result := (keyword_count + identifier_count).to_reference
-		end
-
 	keyword_to_indentifier_ratio: STRING
 		local
-			template: ZSTRING
+			template: ZSTRING; keyword_percent, identifier_percent: INTEGER
 		do
 			template := "%S%% : %S%%"
-			Result := template #$ [percentile (keyword_count), percentile (identifier_count)]
-		end
-
-	percentile (occurrence_count: INTEGER): INTEGER
-		do
-			Result := ((occurrence_count / (keyword_count + identifier_count)) * 100).rounded
+			keyword_percent := percent (keyword_count, keyword_plus_identifier_count.item)
+			identifier_percent := percent (identifier_count, keyword_plus_identifier_count.item)
+			Result := template #$ [keyword_percent, identifier_percent]
 		end
 
 	routine_count_band_table: HASH_TABLE [INTEGER_REF, STRING]
@@ -217,7 +225,7 @@ feature {NONE} -- Implementation
 			create Result.make (routine_class_count.count)
 			if attached rountine_count_interval_list as list then
 				from list.start until list.after loop
-					class_percentile := (routine_class_count [list.index] * 100 / class_count).rounded
+					class_percentile := percent (routine_class_count [list.index], class_count)
 					if class_percentile.to_boolean then
 						Result.extend (class_percentile.to_reference, interval_band_name (list.item_lower, list.item_upper))
 					end
@@ -225,12 +233,17 @@ feature {NONE} -- Implementation
 				end
 			end
 			if external_class_count > 0 then
-				class_percentile := (external_class_count * 100 / class_count).rounded
+				class_percentile := percent (external_class_count, class_count)
 				Result.extend (class_percentile.to_reference, "External C/C++" + Routines_suffix)
 			end
 		end
 
 feature {NONE} -- Evolicity fields
+
+	average_keyword_plus_identifier_ref_count: INTEGER_REF
+		do
+			Result := average_keyword_plus_identifier_count.to_reference
+		end
 
 	getter_function_table: like getter_functions
 			--
@@ -244,6 +257,11 @@ feature {NONE} -- Evolicity fields
 				["formatted_mega_bytes",						agent formatted_mega_bytes],
 				["routine_count_band_table",					agent routine_count_band_table]
 			>>)
+		end
+
+	keyword_plus_identifier_count: INTEGER_REF
+		do
+			Result := (keyword_count + identifier_count).to_reference
 		end
 
 feature {NONE} -- Internal attributes

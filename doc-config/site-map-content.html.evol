@@ -66,16 +66,6 @@
 			Blocks of code defined by <b>check</b> or <b>debug</b> keywords are not included.
 	</small>
 </p>
-<p><b>On Github</b></p>
-<p>
-	<i>Eiffel-Loop</i> is hosted on github at <a target="_blank" href="https://github.com/finnianr/Eiffel-Loop">https://github.com/finnianr/eiffel-loop</a>
-</p>
-<p><b>Website</b></p>
-<p>
-	The <i>Eiffel-Loop</i> website is published using the <a target="_blank" href="./tool/eiffel/source/root/apps/eiffel_view_app.html">Eiffel-View repository publisher</a> tool found in the
-		<a href="./tool/eiffel/eiffel.root.html" target="_blank">Eiffel Development Utility</a> project.
-</p>
-
 <a id="td"/>
 <h2>The Developer</h2>
 <p>
@@ -90,6 +80,15 @@
 <p><b>Contact</b></p>
 <p>
 Please address questions and comments to <em id="code">finnian <i>at</i> eiffel <i>hyphen</i> loop <i>dot</i> com</em>
+</p>
+<p><b>On Github</b></p>
+<p>
+	<i>Eiffel-Loop</i> is hosted on github at <a target="_blank" href="https://github.com/finnianr/Eiffel-Loop">https://github.com/finnianr/eiffel-loop</a>
+</p>
+<p><b>Website</b></p>
+<p>
+	The <i>Eiffel-Loop</i> website is published using the <a target="_blank" href="./tool/eiffel/source/root/apps/eiffel_view_app.html">Eiffel-View repository publisher</a> tool found in the
+		<a href="./tool/eiffel/eiffel.root.html" target="_blank">Eiffel Development Utility</a> project.
 </p>
 
 <a id="pc"/>
