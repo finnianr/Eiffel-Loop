@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-06-19 18:31:34 GMT (Wednesday 19th June 2024)"
+	revision: "6"
 
 class
 	EL_STRING_STATE_MACHINE [S -> STRING_GENERAL]
@@ -21,9 +21,9 @@ feature -- Basic operations
 		local
 			l_final: like final
 		do
-			item_number := 0; l_final := final
+			line_number := 0; l_final := final
 			from lines.start; state := initial until lines.after or state = l_final loop
-				item_number := lines.index
+				line_number := lines.index
 				if keep_ref then
 					call (lines.item_copy)
 				else

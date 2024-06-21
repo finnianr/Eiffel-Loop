@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 15:35:08 GMT (Monday 25th March 2024)"
-	revision: "11"
+	date: "2024-06-19 12:19:08 GMT (Wednesday 19th June 2024)"
+	revision: "12"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -106,8 +106,8 @@ feature {NONE} -- Implementation
 
 	check_reflective_locale_texts
 		local
-			default_texts, texts: EL_REFLECTIVE_LOCALE_TEXTS
-			default_locale: EL_DEFERRED_LOCALE_IMP; text_field: STRING; field: EL_REFLECTED_FIELD
+			default_texts, texts: EL_REFLECTIVE_LOCALE_TEXTS; field: EL_REFLECTED_FIELD
+			default_locale: EL_DEFERRED_LOCALE_IMP; text_field: STRING
 		do
 			create default_locale.make
 			across new_text_type_list as type loop
@@ -120,8 +120,9 @@ feature {NONE} -- Implementation
 							if not attached new_quanity (texts, field)
 								and then field.value (texts) /~ field.value (default_texts)
 							then
-								if attached {READABLE_STRING_GENERAL} field.value (texts) as general
-									and then attached {READABLE_STRING_GENERAL} field.value (default_texts) as default_general
+								if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
+									and then attached string_field.value (texts) as general
+									and then attached string_field.value (default_texts) as default_general
 								then
 									lio.put_new_line
 									lio.put_labeled_string (texts.generator, field.name)

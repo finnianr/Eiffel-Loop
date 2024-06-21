@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 17:20:22 GMT (Monday 13th November 2023)"
-	revision: "54"
+	date: "2024-06-21 11:34:19 GMT (Friday 21st June 2024)"
+	revision: "55"
 
 class
 	EL_PYXIS_PARSER
@@ -28,6 +28,8 @@ inherit
 	EL_CHARACTER_8_CONSTANTS
 
 	EL_SHARED_STRING_8_CURSOR
+
+	EL_SHARED_CLASS_ID
 
 create
 	make
@@ -72,34 +74,24 @@ feature -- Basic operations
 			parse_final
 		end
 
-	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
-		local
-			utf_8_line: STRING; general: EL_READABLE_STRING_GENERAL_ROUTINES
+	parse_from_lines (a_lines: ITERABLE [STRING])
 		do
 			reset
 			scanner.on_start_document
-			create utf_8_line.make_empty
-
 			across a_lines as line loop
-				utf_8_line.wipe_out
-				if attached {ZSTRING} line.item as zstr then
-					zstr.append_to_utf_8 (utf_8_line)
-				else
-					general.shared_cursor (line.item).append_to_utf_8 (utf_8_line)
-				end
-				call_state_procedure (utf_8_line)
+				call_state_procedure (line.item)
 			end
 			parse_final
 		end
 
 	parse_from_stream (a_stream: IO_MEDIUM)
-			-- Parse XML document from input stream.
+		-- Parse XML document from input stream.
 		do
 			if attached {EL_STRING_8_IO_MEDIUM} a_stream as medium then
 				parse_from_string (medium.text)
 
 			elseif attached {EL_ZSTRING_IO_MEDIUM} a_stream as zstring then
-				parse_from_lines (create {EL_ZSTRING_IO_MEDIUM_LINE_SOURCE}.make (zstring))
+				parse_from_string (zstring.text.to_utf_8)
 
 			elseif attached {PLAIN_TEXT_FILE} a_stream as file and then file.readable then
 				parse_from_file (file)

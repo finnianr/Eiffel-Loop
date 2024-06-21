@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 10:55:11 GMT (Tuesday 4th June 2024)"
-	revision: "60"
+	date: "2024-06-21 13:40:53 GMT (Friday 21st June 2024)"
+	revision: "61"
 
 class
 	AUTOTEST_APP
@@ -73,7 +73,8 @@ feature {NONE} -- Implementation
 		FEATURE_EDITOR_COMMAND,
 		PYXIS_TRANSLATION_TREE_COMPILER,
 		UNDEFINE_PATTERN_COUNTER_COMMAND,
-		ZCODEC_GENERATOR_TEST_SET
+		ZCODEC_GENERATOR_TEST_SET,
+		EL_MERGED_PYXIS_LINE_LIST
 	]
 		do
 			create Result

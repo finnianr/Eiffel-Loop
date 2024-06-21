@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:22:50 GMT (Saturday 20th January 2024)"
-	revision: "68"
+	date: "2024-06-18 10:14:47 GMT (Tuesday 18th June 2024)"
+	revision: "69"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -56,7 +56,10 @@ feature -- Tests
 
 	test_cached_documents
 		note
-			testing: "covers/{EL_CACHED_HTTP_FILE}.make", "covers/{EL_HTTP_CONNECTION}.download"
+			testing: "[
+				covers/{EL_CACHED_HTTP_FILE}.make,
+				covers/{EL_HTTP_CONNECTION}.download
+			]"
 		local
 			url: STRING; cached_file: EL_CACHED_HTTP_FILE
 		do
@@ -125,10 +128,10 @@ feature -- Tests
 					print_lines (web)
 					assert_valid_headers (headers)
 					if table.key ~ "xml" then
-						assert ("valid content_type", headers.mime_type ~ "application/xml")
+						assert_same_string ("mime_type", headers.mime_type, "application/xml")
 					else
-						assert ("valid content_type", headers.mime_type ~ "text/html")
-						assert ("valid encoding_name", headers.encoding_name ~ "utf-8")
+						assert_same_string ("mime_type", headers.mime_type, "text/html")
+						assert_same_string ("encoding_name", headers.encoding_name, "utf-8")
 					end
 					try_3_times (agent web.read_string_get)
 					if attached value_at_xpath (web.last_string, table.item.xpath) as value then
@@ -145,7 +148,11 @@ feature -- Tests
 	test_download_image_and_headers
 		-- HTTP_CONNECTION_TEST_SET.test_download_image_and_headers
 		note
-			testing: "covers/{EL_HTTP_CONNECTION}.read_string_head"
+			testing: "[
+				covers/{EL_HTTP_CONNECTION}.read_string_head,
+				covers/{EL_HTTP_HEADERS}.make, covers/{EL_HTTP_HEADERS}.set_table_field,
+				covers/{EL_HTTP_HEADERS}.x_field
+			]"
 		local
 			headers: like web.last_headers; image_url: STRING
 		do
@@ -170,14 +177,23 @@ feature -- Tests
 
 	test_headers
 		-- HTTP_CONNECTION_TEST_SET.test_headers
+		note
+			testing: "[
+				covers/{EL_HTTP_CONNECTION}.read_string_head,
+				covers/{EL_HTTP_HEADERS}.make, covers/{EL_HTTP_HEADERS}.set_table_field,
+				covers/{EL_HTTP_HEADERS}.x_field
+			]"
 		local
 			headers: EL_HTTP_HEADERS
 		do
 			create headers.make (Headers_text)
-			assert ("same code", headers.response_code = Http_status.ok)
-			assert ("same string", headers.mime_type ~ "text/html")
-			assert ("same string", headers.encoding_name ~ "UTF-8")
-			assert ("", headers.x_field ("powered_by") ~ "PHP/7.2.34")
+			assert ("response_code OK", headers.response_code = Http_status.ok)
+			assert_same_string ("mime_type", headers.mime_type, "text/html")
+			assert_same_string ("encoding_name", headers.encoding_name, "UTF-8")
+			across << "X-Powered-By", "powered_by" >> as key loop
+				assert ("has powered by", headers.has_x_field (key.item))
+				assert_same_string ("X-field", headers.x_field (key.item), "PHP/7.2.34")
+			end
 		end
 
 	test_http_hash_table
@@ -248,10 +264,12 @@ feature -- Tests
 
 	test_ip_address_info
 		note
-			testing: "covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json",
-				"covers/{EL_IP_ADDRESS_ROUTINES}.to_number, covers/{EL_IP_ADDRESS_ROUTINES}.to_string",
-				"covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info",
-				"covers/{EL_CODE_REPRESENTATION}.to_value, covers/{EL_CODE_REPRESENTATION}.to_string"
+			testing: "[
+				covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json,
+				covers/{EL_IP_ADDRESS_ROUTINES}.to_number, covers/{EL_IP_ADDRESS_ROUTINES}.to_string,
+				covers/{EL_IP_ADDRESS_INFO_TABLE}.new_info,
+				covers/{EL_CODE_REPRESENTATION}.to_value, covers/{EL_CODE_REPRESENTATION}.to_string
+			]"
 		local
 			info: EL_IP_ADDRESS_GEOGRAPHIC_INFO; ip_number: NATURAL
 		do
@@ -281,14 +299,26 @@ feature -- Tests
 
 	test_url_encoded
 		-- HTTP_CONNECTION_TEST_SET.test_url_encoded
+		note
+			testing: "[
+				covers/{EL_HTTP_CONNECTION}.read_string_head,
+				covers/{EL_HTTP_HEADERS}.make, covers/{EL_HTTP_HEADERS}.set_table_field,
+				covers/{EL_HTTP_HEADERS}.x_field
+			]"
 		local
-			url: STRING; s: EL_STRING_8_ROUTINES
+			url: STRING; s: EL_STRING_8_ROUTINES; powered_by_title: STRING
 		do
 			across << "einführung.html", "einf%%C3%%BChrung.html" >> as name loop
-				url := "http://myching.software/de/manual/" + name.item
+				url := "https://myching.software/de/manual/" + name.item
 				web.open (url)
 				web.read_string_head
-				assert ("Response OK", web.last_headers.response_code = Http_status.ok)
+				if attached web.last_headers as header then
+					assert ("Response OK", header.response_code = Http_status.ok)
+					assert_same_string ("content_type", header.content_type, "text/html; charset=UTF-8")
+					across << "X-Powered-By", "powered_by" >> as key loop
+						assert_same_string (Void, header.x_field (key.item), "Eiffel-Loop Fast-CGI servlets")
+					end
+				end
 				web.close
 			end
 		end
@@ -329,7 +359,7 @@ feature -- Unused
 			create url.make ("http://www.académie-française.fr/")
 			web.open_url (url)
 			web.read_string_head
-			assert ("correct title", web.last_headers.location ~ "https://www.academie-francaise.fr/")
+			assert_same_string ("location", web.last_headers.location, "https://www.academie-francaise.fr/")
 			web.close
 		end
 

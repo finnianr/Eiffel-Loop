@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "53"
+	date: "2024-06-21 10:11:59 GMT (Friday 21st June 2024)"
+	revision: "54"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["attribute_parser", agent test_attribute_parser],
+				["attribute_parser",	 agent test_attribute_parser],
 				["conversion_to_xml", agent test_conversion_to_xml]
 			>>)
 		end
@@ -134,8 +134,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Pyxis_encoding: STRING = "%Tversion = 1.0; encoding = %"ISO-8859-1%""
-
 	Checksum_table: EL_HASH_TABLE [NATURAL, STRING]
 		once
 			create Result.make_equal (11)
@@ -146,6 +144,8 @@ feature {NONE} -- Constants
 			Result ["words.pyx"] := 3995591377
 			Result [XSL_example] := 2233023973
 		end
+
+	Pyxis_encoding: STRING = "%Tversion = 1.0; encoding = %"ISO-8859-1%""
 
 	XSL_example: STRING = "XML XSL Example.xsl.pyx"
 

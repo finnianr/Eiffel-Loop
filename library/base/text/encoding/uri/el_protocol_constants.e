@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-16 9:52:32 GMT (Friday 16th February 2024)"
-	revision: "14"
+	date: "2024-06-18 10:33:03 GMT (Tuesday 18th June 2024)"
+	revision: "15"
 
 deferred class
 	EL_PROTOCOL_CONSTANTS
@@ -17,10 +17,9 @@ inherit
 
 feature {NONE} -- Constants
 
-	Http_protocols: ARRAY [STRING]
+	Secure_protocol: EL_BOOLEAN_INDEXABLE [STRING]
 		once
-			Result := << Protocol.http, Protocol.https >>
-			Result.compare_objects
+			create Result.make (Protocol.http, Protocol.https)
 		end
 
 	Protocol: TUPLE [file, ftp, http, https, ssh: STRING]

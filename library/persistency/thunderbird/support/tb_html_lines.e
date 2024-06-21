@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:26:00 GMT (Monday 27th November 2023)"
-	revision: "4"
+	date: "2024-06-21 10:09:55 GMT (Friday 21st June 2024)"
+	revision: "5"
 
 class
 	TB_HTML_LINES
@@ -20,7 +20,6 @@ inherit
 
 	EL_STRING_STATE_MACHINE [ZSTRING]
 		rename
-			traverse as do_with_lines,
 			make as make_machine
 		undefine
 			copy, is_equal

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 10:00:31 GMT (Tuesday 12th March 2024)"
-	revision: "27"
+	date: "2024-06-21 9:50:48 GMT (Friday 21st June 2024)"
+	revision: "28"
 
 class
 	EL_FILE_PATH_LIST
@@ -33,6 +33,12 @@ convert
 
 feature {NONE} -- Initialization
 
+	make (n: INTEGER)
+		do
+			Precursor (n)
+			compare_objects
+		end
+
 	make_from_tuple (tuple: TUPLE)
 		local
 			i: INTEGER
@@ -53,10 +59,13 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make (n: INTEGER)
+feature -- Measurement
+
+	sum_byte_count: INTEGER
 		do
-			Precursor (n)
-			compare_objects
+			across Current as l_path loop
+				Result := Result + File.byte_count (l_path.item)
+			end
 		end
 
 feature -- Conversion

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:49:58 GMT (Thursday 11th January 2024)"
-	revision: "25"
+	date: "2024-06-18 10:02:58 GMT (Tuesday 18th June 2024)"
+	revision: "26"
 
 class
 	EL_HTTP_HEADERS
@@ -66,9 +66,9 @@ feature {NONE} -- Initialization
 
 feature -- Header fields
 
-	access_control_allow_origin: STRING
-
 	accept_ranges: STRING
+
+	access_control_allow_origin: STRING
 
 	age: INTEGER
 
@@ -155,11 +155,18 @@ feature -- Access
 
 	x_field (name: STRING): STRING
 		do
-			if non_standard_table.has (name) then
+			if non_standard_table.has_key (x_field_key (name)) then
 				Result := non_standard_table.found_item
 			else
 				create Result.make_empty
 			end
+		end
+
+feature -- Status query
+
+	has_x_field (name: STRING): BOOLEAN
+		do
+			Result := non_standard_table.has (x_field_key (name))
 		end
 
 feature {NONE} -- Implementation
@@ -169,11 +176,19 @@ feature {NONE} -- Implementation
 		do
 			Precursor (table, name, value)
 			if not table.found and then attached Http_header_naming.imported (name) as l_name then
-				if l_name.starts_with (once "x_") then
-					non_standard_table.put (value, l_name.substring (3, name.count))
+				if l_name.starts_with (X_prefix) then
+					non_standard_table.put (value, l_name.substring (3, l_name.count))
 				else
-					non_standard_table.put (value, l_name)
+					non_standard_table.put (value, l_name.twin)
 				end
+			end
+		end
+
+	x_field_key (name: STRING): STRING
+		do
+			Result := Http_header_naming.imported (name)
+			if Result.starts_with (X_prefix) then
+				Result.remove_head (2)
 			end
 		end
 
@@ -192,11 +207,13 @@ feature {NONE} -- Constants
 			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd", 1)
 		end
 
+	HTTP: STRING = "HTTP"
+
 	Http_header_naming: EL_HTTP_HEADER_NAME_TRANSLATER
 		once
 			create Result.make
 		end
 
-	HTTP: STRING = "HTTP"
+	X_prefix: STRING = "x_"
 
 end

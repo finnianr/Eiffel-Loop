@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 14:59:36 GMT (Monday 22nd April 2024)"
-	revision: "16"
+	date: "2024-06-17 13:12:29 GMT (Monday 17th June 2024)"
+	revision: "17"
 
 deferred class
 	EL_APPLICATION_CONSTANTS
@@ -20,15 +20,23 @@ feature {NONE} -- Constants
 	Package_dir: DIR_PATH
 		once
 			if Executable.is_work_bench then
+			-- Eg. "build/win64/package"
 				create Result.make_expanded ("build/$ISE_PLATFORM/package")
-					-- Eg. "build/win64/package"
 			else
-				-- This is assumed to be the directory 'package/bin' unpacked by installer to a temporary directory
+			-- This is assumed to be the directory 'package/bin' unpacked by installer to a temporary directory
 				Result := Executable.parent_dir.parent
 			end
 		end
 
-	File_placeholder: STRING = "%%f"
+	File_placeholder: STRING
+		once
+			if {PLATFORM}.is_windows then
+--				Result := "%%1" Doesn't work on Windows 10
+				create Result.make_empty
+			else
+				Result := "%%f" -- XDG file argument
+			end
+		end
 
 	Standard_option: TUPLE [config, file, install, main, remove_data, silent, uninstall: IMMUTABLE_STRING_8]
 		-- standard sub-application and command line option names

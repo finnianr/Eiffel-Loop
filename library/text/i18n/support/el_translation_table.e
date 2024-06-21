@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 17:02:02 GMT (Saturday 25th November 2023)"
-	revision: "29"
+	date: "2024-06-19 15:20:13 GMT (Wednesday 19th June 2024)"
+	revision: "30"
 
 class
 	EL_TRANSLATION_TABLE
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create last_id.make_empty
-			create duplicates.make_empty
+			create duplicate_list.make_empty
 			make_equal (60)
 			Precursor
 		end
@@ -52,6 +52,9 @@ feature {NONE} -- Initialization
 			make (a_language)
 			from items_list.start until items_list.after loop
 				put (items_list.item.text, items_list.item.key)
+				check
+					inserted: inserted
+				end
 				items_list.forth
 			end
 		end
@@ -106,18 +109,28 @@ feature -- Measurement
 			end
 		end
 
+	duplicate_count: INTEGER
+		do
+			Result := duplicate_list.count
+		end
+
 feature -- Basic operations
 
 	print_duplicates
 		do
-			if not duplicates.is_empty then
-				across duplicates as id loop
-					lio.put_string_field ("id", id.item)
-					lio.put_string (" DUPLICATE")
-					lio.put_new_line
-				end
+			across duplicate_list as id loop
+				lio.put_string_field ("id", id.item)
+				lio.put_string (" DUPLICATE")
 				lio.put_new_line
 			end
+			lio.put_new_line
+		end
+
+feature -- Status query
+
+	has_duplicates: BOOLEAN
+		do
+			Result := duplicate_list.count > 0
 		end
 
 feature -- Contract Support
@@ -143,13 +156,13 @@ feature {NONE} -- Implementation
 			end
 			put_table (translation, translation_id)
 			if conflict then
-				duplicates.extend (translation_id)
+				duplicate_list.extend (translation_id)
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	duplicates: EL_ZSTRING_LIST
+	duplicate_list: EL_ZSTRING_LIST
 
 feature {NONE} -- Build from XML
 
@@ -159,7 +172,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["item/@id",				 agent do last_id := node.to_string end],
+				["item/@id", agent do last_id := node.to_string end],
 				[translation_text_xpath, agent do put (node, last_id) end]
 			>>)
 		end

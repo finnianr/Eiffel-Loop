@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 10:27:28 GMT (Sunday 7th January 2024)"
-	revision: "28"
+	date: "2024-06-21 14:23:23 GMT (Friday 21st June 2024)"
+	revision: "29"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -50,7 +50,7 @@ inherit
 
 	EL_MODULE_EXCEPTION
 
-	EL_SHARED_ZCODEC_FACTORY; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_CLASS_ID; EL_SHARED_ZCODEC_FACTORY
 
 create
 	make
@@ -80,26 +80,25 @@ feature {NONE}  -- Initialisation
 
 feature -- Basic operations
 
-	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
+	parse_from_lines (a_lines: ITERABLE [STRING])
 		local
 			callback: like new_callback; r: EL_READABLE_STRING_GENERAL_ROUTINES
+			joined_lines: STRING
 		do
 			reset
 			callback := new_callback
 			create source.make_from_general (a_lines.generator)
-			across String_8_scope as scope loop
-				if attached scope.item as utf_8_lines then
-					across a_lines as line until not is_correct loop
-						if attached {ZSTRING} line.item as zstr then
-							zstr.append_to_utf_8 (utf_8_lines)
-						else
-							r.shared_cursor (line.item).append_to_utf_8 (utf_8_lines)
-						end
-					end
-					parse_string_and_set_error (utf_8_lines, False)
-					parse_final (callback)
+			create joined_lines.make (r.character_count (a_lines, 1))
+			across a_lines as line until not is_correct loop
+				inspect joined_lines.count
+					when 0 then
+				else
+					joined_lines.extend ('%N')
 				end
+				joined_lines.append (line.item)
 			end
+			parse_string_and_set_error (joined_lines, False)
+			parse_final (callback)
 		end
 
 	parse_from_stream (a_stream: IO_MEDIUM)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 13:05:54 GMT (Sunday 13th August 2023)"
-	revision: "24"
+	date: "2024-06-21 11:30:22 GMT (Friday 21st June 2024)"
+	revision: "25"
 
 class
 	EL_BINARY_ENCODED_PARSE_EVENT_SOURCE
@@ -51,7 +51,7 @@ feature -- Basic operations
 
 feature {NONE} -- Unused
 
-	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
+	parse_from_lines (a_lines: ITERABLE [STRING])
 		require else
 			not_callable: False
 		do

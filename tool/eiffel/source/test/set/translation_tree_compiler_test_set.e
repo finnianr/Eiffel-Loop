@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 12:15:20 GMT (Thursday 2nd November 2023)"
-	revision: "21"
+	date: "2024-06-21 14:19:20 GMT (Friday 21st June 2024)"
+	revision: "22"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -51,14 +51,12 @@ feature -- Tests
 		note
 			testing: "covers/{PYXIS_TRANSLATION_TREE_COMPILER}.set_item_id"
 		local
-			restored_list: EL_TRANSLATION_ITEMS_LIST
+			restored_list: EL_TRANSLATION_ITEMS_LIST; restored_table, filled_table: EL_TRANSLATION_TABLE
+			locale_en: EL_ENGLISH_DEFAULT_LOCALE; locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
-			restored_table, filled_table: EL_TRANSLATION_TABLE
-			locale_en: EL_ENGLISH_DEFAULT_LOCALE
-			locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 		do
 			create translations_table.make_size (20)
-			do_test ("compile_twice", 3114837072, agent compile_twice, [translations_table])
+			do_test ("compile_twice", 1348705536, agent compile_twice, [translations_table])
 
 			lio.put_line ("Checking restore")
 			create locale_table.make (Locales_dir)

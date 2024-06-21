@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 14:52:51 GMT (Tuesday 6th December 2022)"
-	revision: "21"
+	date: "2024-06-21 14:51:48 GMT (Friday 21st June 2024)"
+	revision: "22"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -46,6 +46,8 @@ inherit
 			make_default
 		end
 
+	EL_MODULE_FILE_SYSTEM
+
 	EL_ZSTRING_CONSTANTS
 
 	EL_LOCALE_CONSTANTS
@@ -60,14 +62,12 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			make_compiler (a_manifest_path, a_source_tree_dir)
 			File_system.make_directory (a_output_dir)
 			create locales.make (a_output_dir)
-			create translations_table.make (<< [English_id, new_translations_list (English_id)] >>)
-			translations_table.search (English_id)
 		end
 
 	make_default
 		do
 			create locales.make_default
-			create translations_table
+			create translations_table.make_size (7)
 			item_id := Empty_string
 			Precursor {EL_PYXIS_TREE_COMPILER}
 			Precursor {EL_BUILDABLE_FROM_PYXIS}
@@ -82,12 +82,27 @@ feature -- Access
 feature {NONE} -- Implementation
 
 	compile_tree
+		local
+			language: STRING
 		do
 			lio.put_line ("Compiling locales..")
-			build_from_lines (merged_lines)
-			across translations_table as translations loop
-				translations.item.store
+
+			build_from_lines (new_merged_lines)
+			across translations_table as table loop
+				language := table.item.file_path.base_name
+				lio.put_integer_field ("Storing " + language, table.item.count)
+				table.item.store
+				lio.put_new_line
 			end
+			translations_table.search (English_id)
+			if attached found_list as list and then attached list.to_table (English_id) as en_table then
+				same_list_and_table_count := list.count - en_table.duplicate_count = en_table.count
+				if en_table.has_duplicates then
+					en_table.print_duplicates
+				end
+			end
+		ensure then
+			same_count: same_list_and_table_count
 		end
 
 	output_modification_time: INTEGER
@@ -99,14 +114,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_translations_list (lang_id: STRING): like translations_list
-		do
-			create Result.make_from_file (locales.new_locale_path (lang_id))
-			lio.put_path_field ("Creating %S", Result.file_path)
-			lio.put_new_line
-		end
-
-	translations_list: EL_TRANSLATION_ITEMS_LIST
+	found_list: EL_TRANSLATION_ITEMS_LIST
 		do
 			Result := translations_table.found_item
 		end
@@ -116,6 +124,8 @@ feature {NONE} -- Internal attributes
 	item_id: ZSTRING
 
 	locales: EL_LOCALE_TABLE
+
+	same_list_and_table_count: BOOLEAN
 
 feature {NONE} -- Build from XML
 
@@ -135,7 +145,7 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["item/@id", 						agent set_item_id],
-				["item/translation/@lang", 	agent set_translation_list_from_node],
+				["item/translation/@lang", 	agent set_found_list_from_node],
 				["item/translation/text()",	agent extend_text_normal]
 			>>)
 			across Quantifier_names as name loop
@@ -146,7 +156,9 @@ feature {NONE} -- Build from XML
 
 	extend_text_normal
 		do
-			translations_list.extend (create {EL_TRANSLATION_ITEM}.make (item_id, node.to_string))
+			if attached found_list as list then
+				list.extend (create {EL_TRANSLATION_ITEM}.make (item_id, node.to_string))
+			end
 		end
 
 	extend_text_quantity (index: INTEGER)
@@ -154,21 +166,29 @@ feature {NONE} -- Build from XML
 			translation: EL_TRANSLATION_ITEM
 		do
 			create translation.make (item_id + Number_suffix [index], node.to_string)
-			translations_list.extend (translation)
+			if attached found_list as list then
+				list.extend (translation)
+			end
 		end
 
-	set_translation_list_from_node
+	set_found_list_from_node
 		local
-			lang_id: STRING
+			lang_id: STRING; new_list: like found_list
 		do
 			lang_id := node.to_string_8
-			translations_table.search (lang_id)
-			if not translations_table.found then
-				translations_table.extend (new_translations_list (lang_id), lang_id)
-				translations_table.search (lang_id)
+			if not translations_table.has_key (lang_id)
+				and then attached locales.new_locale_path (lang_id) as file_path
+			then
+				lio.put_path_field ("Creating %S", file_path)
+				lio.put_new_line
+				if file_path.exists then
+					File_system.remove_file (file_path)
+				end
+				create new_list.make_from_file (file_path)
+				translations_table.put (new_list, lang_id)
 			end
 		ensure
-			found_translation_items: translations_table.found
+			has_found_list: attached found_list
 		end
 
 feature {NONE} -- Constants

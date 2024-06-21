@@ -1,3 +1,6 @@
+Ver 2.2.6 (21 Jun 2024)
+* {PYXIS_TRANSLATION_TREE_COMPILER}.translations_table is empty at start of build
+
 Ver 2.2.5 (11 Jun 2024)
 * Added routine count distribution table
 

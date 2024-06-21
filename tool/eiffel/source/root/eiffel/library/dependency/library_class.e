@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:40:28 GMT (Wednesday 16th August 2023)"
-	revision: "5"
+	date: "2024-06-19 18:32:04 GMT (Wednesday 19th June 2024)"
+	revision: "6"
 
 class
 	LIBRARY_CLASS
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 			source_path := a_source_path
 			name := a_source_path.base_name; name.to_upper
 			create class_reference_set.make (20)
-			traverse_iterable (agent find_class_definition, File.plain_text_lines (a_source_path))
+			do_with_iterable_lines (agent find_class_definition, File.plain_text_lines (a_source_path))
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 11:11:31 GMT (Friday 30th December 2022)"
-	revision: "19"
+	date: "2024-06-21 11:31:19 GMT (Friday 21st June 2024)"
+	revision: "20"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -70,7 +70,7 @@ feature -- Basic operations
 			end
 		end
 
-	build_from_lines (lines: ITERABLE [READABLE_STRING_GENERAL])
+	build_from_lines (lines: ITERABLE [STRING])
 			--
 		do
 			node_source.apply_from_lines (Current, lines)

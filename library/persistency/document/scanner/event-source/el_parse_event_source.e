@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 10:53:34 GMT (Sunday 21st January 2024)"
-	revision: "17"
+	date: "2024-06-21 11:30:04 GMT (Friday 21st June 2024)"
+	revision: "18"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE
@@ -65,7 +65,7 @@ feature -- Factory
 
 feature -- Basic operations
 
-	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
+	parse_from_lines (a_lines: ITERABLE [STRING])
 		deferred
 		end
 

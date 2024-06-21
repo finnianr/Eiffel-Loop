@@ -22,7 +22,7 @@
 		<th id="number">Total</th>
 	</tr>
 	<tr>
-		<td>Number of routines</td>
+		<td>Number of Eiffel routines</td>
 		<th id="number">$metrics.routine_count</th>
 	</tr>
 	<tr>
@@ -51,7 +51,7 @@
 #across $metrics.routine_count_band_table as $table loop
 	<tr>
 		<td>$table.key</td>
-		<td id="number">$table.item %</td>
+		<th id="number">$table.item%</th>
 	</tr>
 #end
 </table>
@@ -114,15 +114,18 @@ Click on a project link to read the documentation and browse the source code. Th
 <a id="se"/>
 <h2>Support Eiffel-Loop</h2>
 <p>
-	If you would like to support a project to update Eiffel-Loop for the EiffelStudio 20.05 compiler and beyond, please donate 
-	what you can to <a href="http://hex11software.com/">Hex 11 Software</a>. You can follow this project on <a href= "https://groups.google.com/g/eiffel-users">Eiffel Users forum</a> for details and updates.
+	If you would like to support a project to update Eiffel-Loop for the EiffelStudio 20.05 compiler and beyond,
+	please donate what you can to <a href="http://hex11software.com/">Hex 11 Software</a>.
+	You can follow this project on <a href= "https://groups.google.com/g/eiffel-users">Eiffel Users forum</a>
+	for details and updates.
 </p>
-
-<form action="https://www.paypal.com/donate" method="post" target="_blank">
-	<input type="hidden" name="hosted_button_id" value="WPAHFH98KZXLG" />
-	<img alt="Paypal logo" border="0" src="./images/paypal.png" style="margin-right: 20px"/>
-	<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit"
-		title="Make a donation via PayPal" alt="Donate with PayPal button" />
-	<img alt="" border="0" src="https://www.paypal.com/en_IE/i/scr/pixel.gif" width="1" height="1" style="float: right"/>
-</form>
+<p>
+	<b>Donate to Eiffel-Loop compiler version upgrade</b>
+</p>
+<p>
+	<a href="https://www.paypal.com/ncp/payment/9EZ86GG2QHRRN" target="_blank">
+		<img alt="Paypal logo" src="./images/paypal.png"/>
+	</a>
+</p>
+<br/>
 

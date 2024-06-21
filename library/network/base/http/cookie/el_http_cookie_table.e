@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-10 17:39:01 GMT (Saturday 10th December 2022)"
-	revision: "15"
+	date: "2024-06-21 10:09:38 GMT (Friday 21st June 2024)"
+	revision: "16"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -20,9 +20,7 @@ inherit
 
 	EL_STRING_STATE_MACHINE [STRING_8]
 		rename
-			make as make_machine,
-			traverse as do_with_lines,
-			item_number as line_number
+			make as make_machine
 		undefine
 			default_create, is_equal, copy
 		end

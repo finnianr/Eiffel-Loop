@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-06-21 13:42:22 GMT (Friday 21st June 2024)"
+	revision: "23"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER_APP
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make (Empty_string, Empty_string, "resources/locales")
 		end
 
-	visible_types: TUPLE [PYXIS_TRANSLATION_TREE_COMPILER]
+	visible_types: TUPLE [EL_MERGED_PYXIS_LINE_LIST, PYXIS_TRANSLATION_TREE_COMPILER]
 		do
 			create Result
 		end

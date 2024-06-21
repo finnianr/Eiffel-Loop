@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-11 17:04:41 GMT (Monday 11th December 2023)"
-	revision: "32"
+	date: "2024-06-21 11:30:59 GMT (Friday 21st June 2024)"
+	revision: "33"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	convert_lines (lines: ITERABLE [READABLE_STRING_GENERAL]; a_output: like output)
+	convert_lines (lines: ITERABLE [STRING]; a_output: like output)
 			--
 		require
 			valid_output: a_output.is_open_write and a_output.is_writable

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
-	revision: "23"
+	date: "2024-06-21 14:07:04 GMT (Friday 21st June 2024)"
+	revision: "24"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -30,16 +30,7 @@ deferred class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_FILE_SYSTEM; EL_MODULE_FILE; EL_MODULE_LIO
-
-	EL_PLAIN_TEXT_LINE_STATE_MACHINE
-		rename
-			make as make_default
-		redefine
-			make_default
-		end
-
-	EL_MODULE_PYXIS; EL_MODULE_USER_INPUT
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -54,7 +45,6 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			Precursor
 			create source_tree_path
 		end
 
@@ -76,25 +66,6 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Line states
-
-	find_root_element (line: ZSTRING; merged: like merged_lines)
-		do
-			line.right_adjust
-			if line.count > 0
-				and then line [line.count] = ':'
-				and then line [1] /= '#'
-				and then not Pyxis.is_declaration (line)
-			then
-				if file_count = 1 then
-					merged.extend (line)
-				end
-				state := agent merged.extend
-			elseif file_count = 1 then
-				merged.extend (line)
-			end
-		end
-
 feature {NONE} -- Deferred
 
 	compile_tree
@@ -107,37 +78,12 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Implementation
 
-	merged_lines: EL_ZSTRING_LIST
-		local
-			path_list: like translations_path_list
-			count: INTEGER; markup: EL_MARKUP_ENCODING
+	new_merged_lines: EL_MERGED_PYXIS_LINE_LIST
 		do
-			path_list := translations_path_list
-			across path_list as source_path loop
-				count := count + File.byte_count (source_path.item)
-			end
-			create Result.make (count // 60)
-			file_count := 0
-			across path_list as source_path loop
-				markup := Pyxis.encoding (source_path.item)
-				lio.put_labeled_string ("Merging " + markup.name + " file", source_path.item.base)
-				lio.put_new_line
-				file_count := file_count + 1
-				do_once_with_file_lines (agent find_root_element (?, Result), open_lines (source_path.item, markup.encoding))
-			end
+			create Result.make (new_source_path_list)
 		end
 
-	source_changed: BOOLEAN
-		local
-			modification_time: INTEGER
-		do
-			modification_time := output_modification_time
-			Result := across translations_path_list as file_path some
-				file_path.item.modification_time > modification_time
-			end
-		end
-
-	translations_path_list: EL_FILE_PATH_LIST
+	new_source_path_list: EL_FILE_PATH_LIST
 		local
 			manifest: EL_PYXIS_FILE_MANIFEST
 		do
@@ -146,13 +92,17 @@ feature {NONE} -- Implementation
 
 			elseif manifest_path.exists then
 				create manifest.make (manifest_path, Pyx_extension)
-				from until not manifest.has_errors loop
-					lio.put_line ("FIX PATH ERRORS")
-					manifest.display_bad_paths (lio)
-					lio.put_new_line
-					if User_input.approved_action_y_n ("Retry") then
-						create manifest.make (manifest_path, Pyx_extension)
+				if is_lio_enabled then
+					from until not manifest.has_errors loop
+						lio.put_line ("FIX PATH ERRORS")
+						manifest.display_bad_paths (lio)
+						lio.put_new_line
+						if User_input.approved_action_y_n ("Retry") then
+							create manifest.make (manifest_path, Pyx_extension)
+						end
 					end
+				elseif manifest.has_errors then
+					Exception.raise_developer ("Manifest %S has path errors", [manifest_path.base])
 				end
 				Result := manifest.file_list
 			else
@@ -160,9 +110,17 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Internal attributes
+	source_changed: BOOLEAN
+		local
+			modification_time: INTEGER
+		do
+			modification_time := output_modification_time
+			Result := across new_source_path_list as file_path some
+				file_path.item.modification_time > modification_time
+			end
+		end
 
-	file_count: INTEGER
+feature {NONE} -- Internal attributes
 
 	manifest_path: FILE_PATH
 

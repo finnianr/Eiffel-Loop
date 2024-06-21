@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-06-21 11:30:12 GMT (Friday 21st June 2024)"
+	revision: "5"
 
 class
 	EL_DEFAULT_PARSE_EVENT_SOURCE
@@ -20,7 +20,7 @@ create
 
 feature -- Basic operations
 
-	parse_from_lines (a_lines: ITERABLE [READABLE_STRING_GENERAL])
+	parse_from_lines (a_lines: ITERABLE [STRING])
 		do
 		end
 
