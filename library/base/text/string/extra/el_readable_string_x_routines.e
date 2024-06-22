@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 10:37:11 GMT (Wednesday 29th May 2024)"
-	revision: "38"
+	date: "2024-06-22 5:27:10 GMT (Saturday 22nd June 2024)"
+	revision: "39"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -25,7 +25,7 @@ inherit
 			to_unicode_general as to_unicode,
 			String_searcher as ZString_searcher
 		export
-			{ANY} as_zstring, new_zstring, to_unicode
+			{ANY} as_zstring, ZSTRING, to_unicode
 		end
 
 	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]

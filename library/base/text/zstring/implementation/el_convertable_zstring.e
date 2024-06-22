@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-20 17:52:23 GMT (Saturday 20th April 2024)"
-	revision: "69"
+	date: "2024-06-22 5:40:17 GMT (Saturday 22nd June 2024)"
+	revision: "70"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -107,6 +107,8 @@ feature -- To Strings
 		end
 
 	to_unicode, to_general: READABLE_STRING_GENERAL
+		-- Unicode string with the smallest memory footprint possible for current string data
+		-- Meaning it can be either STRING_8 or STRING_32
 		local
 			result_8: STRING; uc_i: CHARACTER_32; i, i_upper, block_index: INTEGER
 			encoding_to_latin_1_failed, already_latin_1: BOOLEAN; result_area: like area

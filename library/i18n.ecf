@@ -18,6 +18,7 @@ There are a number of tools in `el_toolkit&apos; to support the use of this libr
 		<library name = "time" location = "$ISE_LIBRARY/library/time/time.ecf"/>
 		<!--Eiffel-Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
+		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>

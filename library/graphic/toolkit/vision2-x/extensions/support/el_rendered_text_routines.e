@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:52:55 GMT (Wednesday 8th November 2023)"
-	revision: "43"
+	date: "2024-06-22 5:29:19 GMT (Saturday 22nd June 2024)"
+	revision: "44"
 
 class
 	EL_RENDERED_TEXT_ROUTINES
@@ -160,11 +160,6 @@ feature {EL_FONT_FAMILIES_I} -- Implementation
 				l_font.preferred_families.replace (font_family.to_string_32)
 				Result := l_font.is_proportional
 			end
-		end
-
-	new_zstring (str: STRING_32): ZSTRING
-		do
-			Result := str
 		end
 
 	word_fits_width (word: ZSTRING; a_font: EV_FONT; a_width: INTEGER): BOOLEAN

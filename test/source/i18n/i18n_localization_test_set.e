@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-11 10:39:08 GMT (Monday 11th December 2023)"
-	revision: "25"
+	date: "2024-06-22 13:29:52 GMT (Saturday 22nd June 2024)"
+	revision: "26"
 
 class
 	I18N_LOCALIZATION_TEST_SET
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["language_set_reader",		 agent test_language_set_reader],
 				["reading_from_file",		 agent test_reading_from_file],
 				["reading_from_source",		 agent test_reading_from_source],
 				["reflective_locale_texts", agent test_reflective_locale_texts]
@@ -41,6 +42,21 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
+
+	test_language_set_reader
+		note
+			testing: "[
+				covers/{EL_LANGUAGE_SET_READER}.make_from_file
+			]"
+		local
+			reader: EL_LANGUAGE_SET_READER
+		do
+			create reader.make_from_file (Localization_dir + "credits.pyx")
+			assert ("2 languages", reader.language_set.count = 2)
+			across << "en", "de" >> as list loop
+				assert ("has language", reader.language_set.has (list.item))
+			end
+		end
 
 	test_reading_from_file
 		-- TRANSLATION_TABLE_TEST_SET.test_reading_from_file

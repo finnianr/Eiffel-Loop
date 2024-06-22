@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 8:27:30 GMT (Saturday 23rd March 2024)"
-	revision: "13"
+	date: "2024-06-22 5:26:21 GMT (Saturday 22nd June 2024)"
+	revision: "14"
 
 class
 	EL_ENVIRON_VARIABLE

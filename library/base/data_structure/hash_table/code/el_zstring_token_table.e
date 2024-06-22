@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 17:32:08 GMT (Saturday 25th November 2023)"
-	revision: "16"
+	date: "2024-06-22 5:54:01 GMT (Saturday 22nd June 2024)"
+	revision: "17"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -23,7 +23,7 @@ inherit
 			put, make, is_equal, wipe_out
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_STRING_GENERAL_ROUTINES
 
 create
 	make
@@ -74,13 +74,11 @@ feature -- Access
 	iterable_to_token_list (list: FINITE [READABLE_STRING_GENERAL]): STRING_32
 		require
 			finite_and_iterable: attached {ITERABLE [READABLE_STRING_GENERAL]} list
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			create Result.make (list.count + 1) -- Allow extra for {EL_PATH}.base
 			if attached {ITERABLE [READABLE_STRING_GENERAL]} list as iterable_list then
 				across iterable_list as string loop
-					Result.extend (token (s.new_zstring (string.item)))
+					Result.extend (token (as_zstring (string.item)))
 				end
 			end
 		end

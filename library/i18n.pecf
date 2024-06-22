@@ -32,6 +32,7 @@ system:
 		# Eiffel-Loop
 		libraries:
 			EL_base = "base/base.ecf"
+			EL_doc_scan = "document-scan.ecf"
 			EL_eco_db = "Eco-DB.ecf"
 			EL_file_process = "file-processing.ecf"
 			EL_pyxis_scan = "pyxis-scan.ecf"

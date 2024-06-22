@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-26 17:33:07 GMT (Wednesday 26th July 2023)"
-	revision: "17"
+	date: "2024-06-22 13:11:09 GMT (Saturday 22nd June 2024)"
+	revision: "18"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
@@ -136,7 +136,6 @@ feature {NONE} -- Implementation
 				[on_open, "//par/id", agent increment (par_id_count)],
 
 				[on_open, "//par/id/text()", agent on_par_id]
-
 			>>
 		end
 

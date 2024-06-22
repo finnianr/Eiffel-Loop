@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:25:47 GMT (Monday 27th November 2023)"
-	revision: "27"
+	date: "2024-06-22 5:30:56 GMT (Saturday 22nd June 2024)"
+	revision: "28"
 
 class
 	EL_XHTML_STRING_LIST
@@ -52,9 +52,9 @@ feature {NONE} -- Initialization
 			break_tag := XML.empty_tag ("br")
 
 			create substitution_list.make_from_array (<<
-				[as_zstring ("&nbsp;"), XML.entity (' ')],
+				[ZSTRING ("&nbsp;"), XML.entity (' ')],
 				[Tab.to_string,			XML.entity (Tab.item)],
-				[as_zstring ("<br>"),   break_tag]
+				[ZSTRING ("<br>"),   break_tag]
 			>>)
 			create line_source.make_utf_8 (file_path)
 			do_with_lines (agent initial, line_source)

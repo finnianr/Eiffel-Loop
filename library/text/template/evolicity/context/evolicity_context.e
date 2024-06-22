@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 12:54:33 GMT (Friday 18th August 2023)"
-	revision: "17"
+	date: "2024-06-22 5:55:06 GMT (Saturday 22nd June 2024)"
+	revision: "18"
 
 deferred class
 	EVOLICITY_CONTEXT
 
 inherit
 	ANY
-	
+
 	EL_STRING_GENERAL_ROUTINES
 
 feature -- Access
@@ -69,7 +69,7 @@ feature -- Element change
 
 	put_quoted_string (variable_name: READABLE_STRING_8; a_string: READABLE_STRING_GENERAL; count: INTEGER)
 		do
-			put_string (variable_name, new_zstring (a_string).quoted (count))
+			put_string (variable_name, as_zstring (a_string).quoted (count))
 		end
 
 	put_real (variable_name: READABLE_STRING_8; value: REAL)
@@ -80,7 +80,7 @@ feature -- Element change
 
 	put_string (variable_name: READABLE_STRING_8; value: READABLE_STRING_GENERAL)
 		do
-			put_any (variable_name, new_zstring (value))
+			put_any (variable_name, as_zstring (value))
 		end
 
 	put_any (variable_name: READABLE_STRING_8; object: ANY)

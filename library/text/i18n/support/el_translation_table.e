@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-19 15:20:13 GMT (Wednesday 19th June 2024)"
-	revision: "30"
+	date: "2024-06-22 13:31:47 GMT (Saturday 22nd June 2024)"
+	revision: "31"
 
 class
 	EL_TRANSLATION_TABLE
@@ -52,9 +52,6 @@ feature {NONE} -- Initialization
 			make (a_language)
 			from items_list.start until items_list.after loop
 				put (items_list.item.text, items_list.item.key)
-				check
-					inserted: inserted
-				end
 				items_list.forth
 			end
 		end
@@ -98,6 +95,11 @@ feature -- Access
 
 feature -- Measurement
 
+	duplicate_count: INTEGER
+		do
+			Result := duplicate_list.count
+		end
+
 	word_count: INTEGER
 		-- count of all translation words except for variable references
 		local
@@ -107,11 +109,6 @@ feature -- Measurement
 				Result := Result + z.word_count (item_for_iteration, True)
 				forth
 			end
-		end
-
-	duplicate_count: INTEGER
-		do
-			Result := duplicate_list.count
 		end
 
 feature -- Basic operations
@@ -172,7 +169,7 @@ feature {NONE} -- Build from XML
 			--
 		do
 			create Result.make (<<
-				["item/@id", agent do last_id := node.to_string end],
+				["item/@id",				 agent do last_id := node.to_string end],
 				[translation_text_xpath, agent do put (node, last_id) end]
 			>>)
 		end
@@ -180,9 +177,11 @@ feature {NONE} -- Build from XML
 	last_id: ZSTRING
 
 	translation_text_xpath: STRING
+		local
+			template: ZSTRING
 		do
-			Result := "item/translation[@lang='%S']/text()"
-			Result.replace_substring_all ("%S", language)
+			template := "item/translation[@lang='%S']/text()"
+			Result := template #$ [language]
 		end
 
 feature {NONE} -- Constants
