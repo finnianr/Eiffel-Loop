@@ -715,3 +715,6 @@ Eiffel Viewer synchronizes perfectly with better client examples
 Wed 12th Jun 2024, 16:33:01
 Eiffel Viewer routine distribution stats
 
+Sat 22nd Jun 2024, 15:40:00
+Use ZSTRING (""), not new_zstring, class to compile language code set from Pyxis
+

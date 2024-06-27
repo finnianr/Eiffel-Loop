@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "33"
+	date: "2024-06-27 7:56:22 GMT (Thursday 27th June 2024)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -207,7 +207,7 @@ feature {NONE} -- Implementation
 			Result := text_list.to_array
 		end
 
-	extend_missing_keys (key: STRING)
+	extend_missing_keys (key: ZSTRING)
 		do
 			if attached missing_keys_list as list then
 				list.extend (key)

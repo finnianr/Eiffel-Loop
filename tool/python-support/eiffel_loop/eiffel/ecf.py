@@ -421,6 +421,7 @@ class FREEZE_BUILD (object):
 	
 	Build_dir = 'build'
 	C_compile = '-c_compile'
+	Dot_manifest = '.manifest'
 	Freeze = '-freeze'
 	Keep = '-keep'
 
@@ -601,9 +602,21 @@ class FREEZE_BUILD (object):
 		if not path.exists (bin_dir):
 			self.file_system.make_path (bin_dir)
 		
-		# Copy executable including possible Windows 7 manifest file
-		for exe_path in glob (path.join (self.code_dir (), self.exe_name + '*')):
-			self.file_system.copy_file (exe_path, bin_dir)
+		# Copy executable
+		exe_path = path.join (self.code_dir (), self.exe_name)
+		self.file_system.copy_file (exe_path, bin_dir)
+
+		if is_platform_windows ():
+			# Copy Windows manifest file
+			manifest_name = self.exe_name + self.Dot_manifest
+			if path.exists (manifest_name):
+			# use one in current diretory
+				self.file_system.copy_file (manifest_name, bin_dir)
+			else:
+			# use one in F_code
+				manifest_path = path.join (self.code_dir (), manifest_name)
+				if path.exists (manifest_path):
+					self.file_system.copy_file (manifest_path, bin_dir)
 
 		self.write_io ('Copying shared object libraries\n')
 		shared_objects = self.__shared_object_libraries ()
