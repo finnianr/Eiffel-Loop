@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-08 14:31:25 GMT (Sunday 8th January 2023)"
-	revision: "15"
+	date: "2024-06-27 17:07:33 GMT (Thursday 27th June 2024)"
+	revision: "16"
 
 deferred class
 	EL_FILE_PERSISTENT_I
@@ -90,22 +90,23 @@ feature -- Basic operations
 			directory_exists_and_is_writeable: file_path.parent.exists_and_is_writeable
 		local
 			new_file_path: FILE_PATH
-			l_file: like new_file
 		do
 			last_store_ok := False
 			new_file_path := file_path.twin
 			new_file_path.add_extension ("new")
 			store_as (new_file_path)
 
-			l_file := new_file (new_file_path)
-			l_file.open_read
-			last_store_ok := stored_successfully (l_file)
-			l_file.close
-
-			if last_store_ok then
-				File_system.remove_file (file_path)
-				-- Change name
-				l_file.rename_file (file_path)
+			if attached new_file (new_file_path) as l_file then
+				l_file.open_read
+				last_store_ok := stored_successfully (l_file)
+				l_file.close
+				if last_store_ok then
+					if file_path.exists then
+						File_system.remove_file (file_path)
+					end
+					-- Change name
+					l_file.rename_file (file_path)
+				end
 			end
 		end
 

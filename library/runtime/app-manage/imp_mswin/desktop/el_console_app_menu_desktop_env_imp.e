@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-06-28 7:27:17 GMT (Friday 28th June 2024)"
+	revision: "9"
 
 class
 	EL_CONSOLE_APP_MENU_DESKTOP_ENV_IMP
@@ -33,10 +33,10 @@ feature {EL_CONSOLE_APP_MENU_DESKTOP_ENV_I} -- Constants
 	Command_args_template: STRING
 		-- geometry parameter from X manual page:
 
-		-- 		geometry WIDTHxHEIGHT+XOFF+YOFF (where WIDTH, HEIGHT, XOFF, and YOFF are numbers)
-		-- 		for specifying a preferred size and location for this application's main window.
-		-- 		location relative to top left corner
-		--		See: http://www.xfree86.org/current/X.7.html
+		-- geometry WIDTHxHEIGHT+XOFF+YOFF (where WIDTH, HEIGHT, XOFF, and YOFF are numbers)
+		-- for specifying a preferred size and location for this application's main window.
+		-- location relative to top left corner
+		--	See: http://www.xfree86.org/current/X.7.html
 		once
 			Result := "[
 				--geometry=${term_width}x${term_height}+${term_pos_x}+${term_pos_y} 

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-06-28 7:04:10 GMT (Friday 28th June 2024)"
+	revision: "18"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -36,8 +36,6 @@ inherit
 		end
 
 	EL_MS_WINDOWS_DIRECTORIES
-
-	EL_MODULE_DEFERRED_LOCALE
 
 create
 	make
@@ -79,7 +77,7 @@ feature -- Basic operations
 			shortcut.set_arguments (command_args)
 			shortcut.set_target_path (command_path)
 			shortcut.set_icon ([launcher.windows_icon_path, 1])
-			shortcut.set_description (Locale * launcher.comment)
+			shortcut.set_description (launcher.comment)
 
 			shortcut.save (shortcut_path)
 			if has_desktop_launcher then

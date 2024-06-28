@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 13:46:49 GMT (Tuesday 2nd April 2024)"
-	revision: "87"
+	date: "2024-06-28 6:58:51 GMT (Friday 28th June 2024)"
+	revision: "88"
 
 deferred class
 	EL_APPLICATION
@@ -118,10 +118,10 @@ feature -- Access
 		end
 
 	unwrapped_description: ZSTRING
-	 -- description unwrapped as a single line
+		-- description unwrapped as a single line
 		do
 			create Result.make_from_general (description)
-			Result.replace_character ('%N', ' ')
+			Result.to_canonically_spaced
 		end
 
 	user_config_dir: DIR_PATH
@@ -132,7 +132,6 @@ feature -- Access
 feature -- Basic operations
 
 	run
-			--
 		deferred
 		end
 
