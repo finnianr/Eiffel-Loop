@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:57:47 GMT (Friday 29th March 2024)"
-	revision: "21"
+	date: "2024-07-09 15:29:51 GMT (Tuesday 9th July 2024)"
+	revision: "22"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -40,7 +40,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create bot_table.make_equal (50)
 			create human_entry_list.make (500)
 			across config.page_list as page loop
-				page_table.extend (create {ARRAYED_LIST [NATURAL]}.make (50), page.item)
+				page_table.extend_list (create {like page_table.item_list}.make (50), page.item)
 			end
 		end
 
@@ -115,10 +115,11 @@ feature {NONE} -- Implementation
 
 	print_month (entry_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY])
 		local
-			location_table: EL_COUNTER_TABLE [ZSTRING]
-			found: BOOLEAN
+			location_table: EL_COUNTER_TABLE [ZSTRING];found: BOOLEAN
 		do
-			page_table.linear_representation.do_all (agent {like page_table.item}.wipe_out)
+			across page_table.linear_representation as list loop
+				list.item.wipe_out
+			end
 			across entry_list as entry loop
 				found := False
 				if entry.cursor_index = 1 then
@@ -128,8 +129,8 @@ feature {NONE} -- Implementation
 				across config.page_list as page until found loop
 					if entry.item.request_uri.starts_with (page.item) then
 						found := True
-						if page_table.has_key (page.item) then
-							page_table.found_item.extend (Ip_address.to_number (entry.item.ip_address))
+						if attached page_table [page.item] as list then
+							list.extend (Ip_address.to_number (entry.item.ip_address))
 						end
 					end
 				end
@@ -159,7 +160,7 @@ feature {NONE} -- Internal attributes
 
 	human_entry_list: ARRAYED_LIST [EL_WEB_LOG_ENTRY]
 
-	page_table: EL_ZSTRING_HASH_TABLE [ARRAYED_LIST [NATURAL]]
+	page_table: EL_GROUP_TABLE [NATURAL, ZSTRING]
 
 feature {NONE} -- Constants
 

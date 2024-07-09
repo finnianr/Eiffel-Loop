@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 11:52:09 GMT (Friday 29th March 2024)"
-	revision: "1"
+	date: "2024-07-09 9:51:05 GMT (Tuesday 9th July 2024)"
+	revision: "2"
 
 class
 	EL_NOTIFY_SEND_ERROR_COMMAND
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		mshta vbscript:Execute("msgbox ""$MESSAGE"",$URGENCY,""$ERROR"":close")
 	]"
 

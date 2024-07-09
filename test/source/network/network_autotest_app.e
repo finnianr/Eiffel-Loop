@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-08 7:10:09 GMT (Wednesday 8th May 2024)"
-	revision: "38"
+	date: "2024-07-09 15:17:19 GMT (Tuesday 9th July 2024)"
+	revision: "39"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -49,6 +49,8 @@ feature {NONE} -- Implementation
 		EL_PROSITE_FTP_FILE_SYNC_MEDIUM, EL_FTP_MIRROR_BACKUP,
 
 		EL_NETWORK_DEVICE_IMP, EL_NETWORK_DEVICE_LIST_IMP,
+
+		EL_TRAFFIC_ANALYSIS_COMMAND,
 
 		EL_WAYBACK_CLOSEST,
 		EL_WEB_LOG_PARSER_COMMAND,

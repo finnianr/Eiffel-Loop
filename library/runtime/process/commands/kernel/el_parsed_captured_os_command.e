@@ -4,7 +4,10 @@ note
 		defined as a class parameter
 	]"
 	notes: "[
-		The names in **VARIABLES** type must occur in the same order as they do in the **template**
+		The names in **VARIABLES** type must occur in the same order as they do in the `default_template'
+		or the template passed as an argument to `make_command'.
+		
+		The initialized variable names can be accessed via the routine `var'.
 	]"
 	descendants: "See end of class"
 
@@ -13,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 9:31:44 GMT (Tuesday 9th July 2024)"
-	revision: "14"
+	date: "2024-07-09 9:42:23 GMT (Tuesday 9th July 2024)"
+	revision: "15"
 
 class
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -39,7 +42,7 @@ inherit
 
 create
 	make_command
-	
+
 note
 	descendants: "[
 			EL_PARSED_CAPTURED_OS_COMMAND* [VARIABLES -> ${TUPLE} create default_create end]
