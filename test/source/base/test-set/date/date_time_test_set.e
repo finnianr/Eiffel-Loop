@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-22 16:31:54 GMT (Thursday 22nd February 2024)"
-	revision: "39"
+	date: "2024-07-09 16:57:38 GMT (Tuesday 9th July 2024)"
+	revision: "40"
 
 class
 	DATE_TIME_TEST_SET
@@ -71,9 +71,15 @@ feature -- Tests
 		end
 
 	test_date_time
+		-- DATE_TIME_TEST_SET.test_date_time
 		local
 			dt: EL_DATE_TIME; l_date: EL_DATE; l_time: EL_TIME
 		do
+			create l_time.make_with_format ("01:15:20", "[0]hh:[0]mi:[0]ss")
+			assert ("same hour", l_time.hour = 1)
+			assert ("same minute", l_time.minute = 15)
+			assert ("same second", l_time.second = 20)
+
 			create dt.make_with_format (Date_time.formatted_out (Format_date_time), Format_date_time)
 			create l_date.make_from_string (dt.date.out)
 			create l_time.make_from_string (dt.time.out)

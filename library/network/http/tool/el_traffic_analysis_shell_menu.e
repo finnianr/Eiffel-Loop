@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 7:31:46 GMT (Tuesday 9th July 2024)"
-	revision: "9"
+	date: "2024-07-09 15:44:34 GMT (Tuesday 9th July 2024)"
+	revision: "10"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -42,18 +42,19 @@ feature {NONE} -- Commands
 
 	analyse_log (log_gz_path: FILE_PATH)
 		local
-			log_path: FILE_PATH; analysis_cmd: EL_TRAFFIC_ANALYSIS_COMMAND
+			analysis_cmd: EL_TRAFFIC_ANALYSIS_COMMAND
 		do
-			log_path := Directory.temporary + (log_gz_path.base_name + ".log")
-			if attached Unzip_command as cmd then
-				cmd.set_file_path (log_gz_path)
-				cmd.set_unzipped_path (log_path)
-				cmd.execute
-			end
-			if log_path.exists then
-				create analysis_cmd.make (log_path, config)
-				analysis_cmd.execute
-				OS.File_system.remove_file (log_path)
+			if attached (Directory.temporary + (log_gz_path.base_name + ".log")) as log_path then
+				if attached Unzip_command as cmd then
+					cmd.set_file_path (log_gz_path)
+					cmd.set_unzipped_path (log_path)
+					cmd.execute
+					if log_path.exists then
+						create analysis_cmd.make (log_path, config)
+						analysis_cmd.execute
+						OS.File_system.remove_file (log_path)
+					end
+				end
 			end
 		end
 

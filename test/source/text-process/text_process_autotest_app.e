@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "21"
+	date: "2024-07-09 16:19:27 GMT (Tuesday 9th July 2024)"
+	revision: "22"
 
 class
 	TEXT_PROCESS_AUTOTEST_APP
@@ -29,6 +29,7 @@ inherit
 		PATTERN_MATCH_TEST_SET,
 		STRING_32_PATTERN_MATCH_TEST_SET,
 		STRING_EDITION_HISTORY_TEST_SET,
+		WEB_LOG_ENTRY_TEST_SET,
 		ZSTRING_PATTERN_MATCH_TEST_SET
 	]
 

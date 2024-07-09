@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:45:06 GMT (Thursday 11th January 2024)"
-	revision: "12"
+	date: "2024-07-09 19:46:22 GMT (Tuesday 9th July 2024)"
+	revision: "13"
 
 class
 	EL_WEB_LOG_ENTRY
 
 inherit
 	ANY
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -39,7 +41,7 @@ feature {NONE} -- Initialization
 						http_command := part.substring_to (' ')
 						index := part.substring_index (Http_protocol, http_command.count + 1)
 						if index.to_boolean then
-							request_uri := part.substring (http_command.count + 1, index - 2)
+							request_uri := part.substring (http_command.count + 2, index - 2)
 						else
 							create request_uri.make_empty
 						end
@@ -66,8 +68,6 @@ feature -- Access
 
 	date: DATE
 
-	time: TIME
-
 	http_command: STRING
 
 	ip_address: STRING
@@ -78,32 +78,52 @@ feature -- Access
 
 	status_code: NATURAL
 
-	user_agent: ZSTRING
-
-	versionless_user_agent: ZSTRING
-	 -- user agent with only alphabetical characters
+	stripped_user_agent: ZSTRING
+	 -- lower case `user_agent' stripped of punctuation and version numbers
 		do
-			Result := alphabetical (user_agent)
+			Result := stripped_lower (user_agent)
 		end
+
+	time: TIME
+
+	user_agent: ZSTRING
 
 feature {NONE} -- Implementation
 
-	alphabetical (name: ZSTRING): ZSTRING
+	stripped_lower (a_name: ZSTRING): ZSTRING
+		-- if `a_name' ~ "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
+		-- result is "mozilla x11 linux x86_64 rv gecko firefox"
 		local
-			i: INTEGER
+			i: INTEGER; name, part: ZSTRING
 		do
-			create Result.make_filled (' ', name.count)
-			from i := 1 until i > name.count loop
-				if name.is_alpha_item (i) then
-					Result.put_z_code (name.z_code (i), i)
+			name := a_name.translated (Agent_separators, space * Agent_separators.count)
+
+			create Result.make (name.count - name.occurrences (' ') // 2)
+			across name.split (' ') as split loop
+				if split.item_count > 0 then
+					part := split.item
+					if not part.is_natural_64 then
+						if Result.count > 0 then
+							Result.append_character (' ')
+						end
+						Result.append (part)
+					end
 				end
-				i := i + 1
 			end
-			Result.adjust
-			Result.to_canonically_spaced
+			Result.to_lower
 		end
 
 feature {NONE} -- Constants
+
+	Agent_separators: ZSTRING
+		once
+			Result := ".,;:+()/"
+		end
+
+	Date_factory: EL_DATE_TIME_CODE_STRING
+		once
+			create Result.make ("[0]dd/mmm/yyyy")
+		end
 
 	Http_protocol: ZSTRING
 		once
@@ -112,14 +132,9 @@ feature {NONE} -- Constants
 
 	Quote: CHARACTER_32 = '%"'
 
-	Date_factory: EL_DATE_TIME_CODE_STRING
-		once
-			create Result.make ("[0]dd/mmm/yyyy")
-		end
-
 	Time_factory: EL_DATE_TIME_CODE_STRING
 		once
-			create Result.make ("[0]hh:[0]mm:[0]ss")
+			create Result.make ("[0]hh:[0]mi:[0]ss")
 		end
 
 end

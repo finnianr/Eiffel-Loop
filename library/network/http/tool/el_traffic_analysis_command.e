@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 15:29:51 GMT (Tuesday 9th July 2024)"
-	revision: "22"
+	date: "2024-07-09 19:54:02 GMT (Tuesday 9th July 2024)"
+	revision: "23"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -52,7 +52,7 @@ feature -- Basic operations
 
 	execute
 		do
-			Precursor
+			Precursor -- parse log file
 			-- Cache locations
 			lio.put_line ("Getting IP address locations:")
 			IP_location_table.set_log (Lio)
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
 			if is_bot (entry) then
-				bot_table.put (entry.versionless_user_agent)
+				bot_table.put (entry.stripped_user_agent)
 			else
 				human_entry_list.extend (entry)
 			end
@@ -123,8 +123,8 @@ feature {NONE} -- Implementation
 			across entry_list as entry loop
 				found := False
 				if entry.cursor_index = 1 then
-					lio.put_line (Month_heading #$ [Date.long_month_name (entry.item.date).as_upper])
-					lio.put_new_line
+					lio.put_labeled_string ("Month of", Date.long_month_name (entry.item.date).as_upper)
+					lio.put_new_line_x2
 				end
 				across config.page_list as page until found loop
 					if entry.item.request_uri.starts_with (page.item) then
@@ -160,14 +160,7 @@ feature {NONE} -- Internal attributes
 
 	human_entry_list: ARRAYED_LIST [EL_WEB_LOG_ENTRY]
 
-	page_table: EL_GROUP_TABLE [NATURAL, ZSTRING]
-
-feature {NONE} -- Constants
-
-	Month_heading: ZSTRING
-		once
-			Result := "* %S *"
-		end
+	page_table: EL_GROUP_TABLE [NATURAL, ZSTRING];
 
 note
 	notes: "[
