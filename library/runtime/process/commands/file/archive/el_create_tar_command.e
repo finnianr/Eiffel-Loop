@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-07-09 8:55:18 GMT (Tuesday 9th July 2024)"
+	revision: "5"
 
 class
 	EL_CREATE_TAR_COMMAND
 
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [archive_path, target_dir: STRING]]
+		redefine
+			default_template
+		end
 
 create
 	make
@@ -32,5 +35,5 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Template: STRING = "tar -zcvf $archive_path $target_dir"
+	Default_template: STRING = "tar -zcvf $archive_path $target_dir"
 end

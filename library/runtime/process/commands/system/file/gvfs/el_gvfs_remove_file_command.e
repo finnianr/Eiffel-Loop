@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 11:52:39 GMT (Saturday 25th March 2023)"
-	revision: "8"
+	date: "2024-07-09 9:13:21 GMT (Tuesday 9th July 2024)"
+	revision: "9"
 
 class
 	EL_GVFS_REMOVE_FILE_COMMAND
@@ -33,5 +33,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "gvfs-rm $uri"
+	Default_template: STRING = "gvfs-rm $uri"
 end

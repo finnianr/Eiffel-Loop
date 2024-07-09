@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 10:25:36 GMT (Tuesday 2nd April 2024)"
-	revision: "24"
+	date: "2024-07-09 8:50:30 GMT (Tuesday 9th July 2024)"
+	revision: "25"
 
 deferred class
 	EL_GVFS_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
 
 inherit
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES]
+		undefine
+			default_template
 		redefine
 			default_name, execute, make_default, on_error, do_with_lines, reset
 		end

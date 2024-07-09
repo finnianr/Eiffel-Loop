@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 17:39:36 GMT (Friday 25th August 2023)"
-	revision: "4"
+	date: "2024-07-09 9:11:58 GMT (Tuesday 9th July 2024)"
+	revision: "5"
 
 class
 	EL_FILE_RSYNC_COMMAND
@@ -20,5 +20,5 @@ create
 
 feature {NONE} -- Constants
 
-	Template: STRING = "rsync -av $SOURCE_DIR $TARGET_DIR"
+	Default_template: STRING = "rsync -av $SOURCE_DIR $TARGET_DIR"
 end

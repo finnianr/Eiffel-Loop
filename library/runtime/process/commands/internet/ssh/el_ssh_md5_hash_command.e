@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 8:18:19 GMT (Thursday 25th April 2024)"
-	revision: "3"
+	date: "2024-07-09 9:00:39 GMT (Tuesday 9th July 2024)"
+	revision: "4"
 
 class
 	EL_SSH_MD5_HASH_COMMAND
@@ -27,16 +27,15 @@ inherit
 		undefine
 			is_captured, do_command, new_command_parts, reset
 		redefine
-			make_with_template
+			default_template, make_with_template
 		end
 
 	EL_MD5_HASH_COMMAND
 		rename
-			make as make_md5,
-			template as command_template,
+			make as make_with_template,
 			Var as MD5_var
 		undefine
-			execute, make_default, default_name, make_command, valid_tuple
+			execute, make_command, make_default, default_name, make_with_template, valid_tuple
 		redefine
 			set_mode, set_target_path
 		end
@@ -48,7 +47,7 @@ feature {NONE} -- Implementation
 
 	make_with_template
 		do
-			Precursor
+			Precursor {EL_PARSED_OS_COMMAND}
 			check
 				same_variable_names: MD5_var.mode ~ Var.mode and MD5_var.target_path ~ Var.target_path
 			end
@@ -77,7 +76,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		ssh $USER_DOMAIN "md5sum --$MODE $TARGET_PATH"
 	]"
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-07-09 8:54:48 GMT (Tuesday 9th July 2024)"
+	revision: "7"
 
 class
 	EL_GENERATE_PATCH_COMMAND
@@ -17,7 +17,7 @@ class
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [from_path, to_path, patch_path: STRING]]
 		redefine
-			execute
+			default_template, execute
 		end
 
 	EL_MODULE_FILE
@@ -69,5 +69,5 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Template: STRING = "bsdiff $from_path $to_path $patch_path"
+	Default_template: STRING = "bsdiff $from_path $to_path $patch_path"
 end

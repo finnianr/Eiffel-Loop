@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 10:00:07 GMT (Saturday 22nd July 2023)"
-	revision: "2"
+	date: "2024-07-09 9:22:55 GMT (Tuesday 9th July 2024)"
+	revision: "3"
 
 class
 	GEDIT_AT_LINE_COMMAND
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [line_number, source_path: STRING]]
 		redefine
-			make
+			default_template, make
 		end
 
 create
@@ -43,7 +43,7 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		gedit +$LINE_NUMBER $SOURCE_PATH
 	]"
 

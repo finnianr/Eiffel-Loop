@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 9:45:22 GMT (Sunday 14th May 2023)"
-	revision: "8"
+	date: "2024-07-09 9:12:48 GMT (Tuesday 9th July 2024)"
+	revision: "9"
 
 class
 	EL_GVFS_FILE_EXISTS_COMMAND
@@ -53,6 +53,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "gvfs-info -a standard::type $uri"
+	Default_template: STRING = "gvfs-info -a standard::type $uri"
 
 end

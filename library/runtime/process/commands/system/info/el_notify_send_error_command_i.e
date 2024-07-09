@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 11:50:17 GMT (Friday 29th March 2024)"
-	revision: "2"
+	date: "2024-07-09 9:23:49 GMT (Tuesday 9th July 2024)"
+	revision: "3"
 
 deferred class
 	EL_NOTIFY_SEND_ERROR_COMMAND_I
@@ -16,6 +16,8 @@ inherit
 	EL_PARSED_OS_COMMAND [TUPLE [urgency, error, message: STRING]]
 		export
 			{ANY} put_string
+		undefine
+			default_template
 		redefine
 			put_string
 		end

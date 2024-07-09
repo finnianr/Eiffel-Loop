@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-25 11:52:25 GMT (Saturday 25th March 2023)"
-	revision: "1"
+	date: "2024-07-09 9:14:24 GMT (Tuesday 9th July 2024)"
+	revision: "2"
 
 class
 	EL_GVFS_MAKE_DIRECTORY_COMMAND
@@ -23,5 +23,5 @@ create
 
 feature {NONE} -- Constants
 
-	Template: STRING = "gvfs-mkdir $uri"
+	Default_template: STRING = "gvfs-mkdir $uri"
 end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 7:34:11 GMT (Monday 22nd May 2023)"
-	revision: "21"
+	date: "2024-07-09 9:10:16 GMT (Tuesday 9th July 2024)"
+	revision: "22"
 
 class
 	EL_GVFS_MOUNT_LIST_COMMAND
@@ -26,7 +26,7 @@ inherit
 			{NONE} all
 			{ANY} execute
 		redefine
-			make_default, find_volume, reset
+			default_template, make_default, find_volume, reset
 		end
 
 	EL_MODULE_TUPLE
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "gvfs-mount --list"
+	Default_template: STRING = "gvfs-mount --list"
 
 	Text: TUPLE [map_arrow, mount, volume: ZSTRING]
 		once

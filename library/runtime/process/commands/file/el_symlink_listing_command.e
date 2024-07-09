@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 9:35:38 GMT (Thursday 25th April 2024)"
-	revision: "3"
+	date: "2024-07-09 9:11:50 GMT (Tuesday 9th July 2024)"
+	revision: "4"
 
 class
 	EL_SYMLINK_LISTING_COMMAND
@@ -21,7 +21,7 @@ class
 inherit
 	EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [target_path: STRING]]
 		redefine
-			do_with_lines
+			default_template, do_with_lines
 		end
 
 create
@@ -62,7 +62,7 @@ feature {NONE} -- Constants
 			Result := " -> "
 		end
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		ls -l $TARGET_PATH
 	]"
 

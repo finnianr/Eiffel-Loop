@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-14 9:44:55 GMT (Sunday 14th May 2023)"
-	revision: "7"
+	date: "2024-07-09 9:12:40 GMT (Tuesday 9th July 2024)"
+	revision: "8"
 
 class
 	EL_GVFS_FILE_COUNT_COMMAND
@@ -50,6 +50,6 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Constants
 
-	Template: STRING = "gvfs-ls $uri"
+	Default_template: STRING = "gvfs-ls $uri"
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 17:42:44 GMT (Friday 25th August 2023)"
-	revision: "4"
+	date: "2024-07-09 8:49:06 GMT (Tuesday 9th July 2024)"
+	revision: "5"
 
 deferred class
 	EL_MIRROR_COMMAND [VARIABLES -> TUPLE create default_create end]
@@ -16,6 +16,8 @@ inherit
 	EL_PARSED_OS_COMMAND [VARIABLES]
 		rename
 			make as make_parsed
+		undefine
+			default_template
 		end
 
 feature {NONE} -- Initialization

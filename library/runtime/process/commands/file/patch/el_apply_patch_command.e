@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-07-09 8:55:02 GMT (Tuesday 9th July 2024)"
+	revision: "6"
 
 class
 	EL_APPLY_PATCH_COMMAND
@@ -15,7 +15,7 @@ class
 inherit
 	EL_PARSED_OS_COMMAND [TUPLE [old_file_path, new_file_path, patch_path: STRING]]
 		redefine
-			execute
+			default_template, execute
 		end
 
 create
@@ -55,6 +55,6 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Template: STRING = "bspatch $old_file_path $new_file_path $patch_path"
+	Default_template: STRING = "bspatch $old_file_path $new_file_path $patch_path"
 
 end

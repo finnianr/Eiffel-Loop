@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 8:45:47 GMT (Thursday 4th April 2024)"
-	revision: "9"
+	date: "2024-07-09 9:24:32 GMT (Tuesday 9th July 2024)"
+	revision: "10"
 
 class
 	EIFFEL_GREP_COMMAND
@@ -26,7 +26,7 @@ class
 inherit
 	EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [options: STRING]]
 		redefine
-			make, set_has_error
+			default_template, make, set_has_error
 		end
 
 create
@@ -61,7 +61,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		grep --recursive --line-number --include "*.e" $OPTIONS
 	]"
 

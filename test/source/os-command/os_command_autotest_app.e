@@ -14,16 +14,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-22 9:57:21 GMT (Wednesday 22nd May 2024)"
-	revision: "82"
+	date: "2024-07-09 9:23:12 GMT (Tuesday 9th July 2024)"
+	revision: "83"
 
 class
 	OS_COMMAND_AUTOTEST_APP
 
 inherit
 	EL_AUTOTEST_APPLICATION [
-		FILE_AND_DIRECTORY_TEST_SET,
-		OS_COMMAND_TEST_SET
+		FILE_AND_DIRECTORY_TEST_SET, OS_COMMAND_TEST_SET
 	]
 		redefine
 			visible_types
@@ -35,11 +34,16 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
+		EL_APPLY_PATCH_COMMAND,
 		EL_FILE_MIRROR_BACKUP,
+		EL_GENERATE_PATCH_COMMAND,
 		EL_GET_GNOME_SETTING_COMMAND,
+		EL_GUNZIP_COMMAND,
 		EL_HOST_NAME_COMMAND,
 		EL_NATIVE_DIRECTORY_PATH_LIST,
 		EL_NATIVE_DIRECTORY_TREE_FILE_PROCESSOR,
+		EL_NOTIFY_SEND_ERROR_COMMAND,
+		EL_SET_GNOME_SETTING_COMMAND,
 		EL_SSH_COMMAND_FACTORY,
 		EL_SSH_MIRROR_BACKUP,
 		EL_SYMLINK_LISTING_COMMAND,

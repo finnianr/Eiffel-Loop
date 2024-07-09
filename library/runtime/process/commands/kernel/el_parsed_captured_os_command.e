@@ -13,10 +13,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 10:24:49 GMT (Tuesday 2nd April 2024)"
-	revision: "12"
+	date: "2024-07-09 9:31:44 GMT (Tuesday 9th July 2024)"
+	revision: "14"
 
-deferred class
+class
 	EL_PARSED_CAPTURED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
 
 inherit
@@ -27,16 +27,19 @@ inherit
 
 	EL_CAPTURED_OS_COMMAND
 		rename
-			template as command_template,
 			make as make_command,
 			Var as Standard_var
 		export
 			{NONE} all
-			{ANY} set_working_directory, execute, is_valid_platform, has_error, lines, print_error,
-				working_directory
+			{ANY} execute, is_valid_platform, has_error, lines, print_error, set_working_directory,
+					working_directory
 		undefine
 			default_name, execute, make_command
 		end
+
+create
+	make_command
+	
 note
 	descendants: "[
 			EL_PARSED_CAPTURED_OS_COMMAND* [VARIABLES -> ${TUPLE} create default_create end]

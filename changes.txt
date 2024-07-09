@@ -718,3 +718,6 @@ Eiffel Viewer routine distribution stats
 Sat 22nd Jun 2024, 15:40:00
 Use ZSTRING (""), not new_zstring, class to compile language code set from Pyxis
 
+Tue 2nd Jul 2024, 9:41:50
+Fixed issue of localized shortcut comment with double +
+

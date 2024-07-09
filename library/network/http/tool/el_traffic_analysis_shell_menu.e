@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-04 15:21:32 GMT (Saturday 4th March 2023)"
-	revision: "8"
+	date: "2024-07-09 7:31:46 GMT (Tuesday 9th July 2024)"
+	revision: "9"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -46,8 +46,8 @@ feature {NONE} -- Commands
 		do
 			log_path := Directory.temporary + (log_gz_path.base_name + ".log")
 			if attached Unzip_command as cmd then
-				cmd.put_path (Var.path, log_gz_path)
-				cmd.put_path (Var.ouput_path, log_path)
+				cmd.set_file_path (log_gz_path)
+				cmd.set_unzipped_path (log_path)
 				cmd.execute
 			end
 			if log_path.exists then
@@ -56,9 +56,6 @@ feature {NONE} -- Commands
 				OS.File_system.remove_file (log_path)
 			end
 		end
-
-feature {NONE} -- Implementation
-
 
 feature {NONE} -- Factory
 
@@ -81,16 +78,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Unzip_command: EL_OS_COMMAND
+	Unzip_command: EL_GUNZIP_COMMAND
 		once
-			create Result.make ("gunzip -c $path > $ouput_path")
+			create Result.make
 			Result.sudo.enable
-		end
-
-	Var: TUPLE [path, ouput_path: STRING]
-		once
-			create Result
-			Unzip_command.fill_variables (Result)
 		end
 
 	Date_format: STRING = " yyyy/mm Mmm dd"

@@ -13,16 +13,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 16:29:59 GMT (Tuesday 23rd April 2024)"
-	revision: "13"
+	date: "2024-07-09 9:25:33 GMT (Tuesday 9th July 2024)"
+	revision: "14"
 
-deferred class
+class
 	EL_PARSED_OS_COMMAND [VARIABLES -> TUPLE create default_create end]
 
 inherit
 	EL_OS_COMMAND
 		rename
-			template as command_template,
 			make as make_command,
 			Var as Standard_var
 		export
@@ -30,27 +29,41 @@ inherit
 			{ANY} set_working_directory, execute, is_valid_platform, has_error, print_error
 			{EL_FALLIBLE} error_list
 		redefine
-			default_name, execute, make_command
+			default_name, execute, make_default, make_command
 		end
+
+create
+	make_command
 
 feature {NONE} -- Initialization
 
 	make
+		require
+			has_template: default_template.count > 0
 		do
-			make_command (template)
+			make_command (default_template)
 		end
 
 	make_command (a_template: READABLE_STRING_GENERAL)
 		do
 			Precursor (a_template)
-			create var; fill_variables (var)
-		ensure then
-			valid_types: valid_tuple (create {VARIABLES})
+			fill_variables (variables)
+		end
+
+	make_default
+		do
+			Precursor
+			create variables
 		end
 
 feature -- Access
 
-	var: VARIABLES
+	variables: VARIABLES
+
+	var: like variables
+		do
+			Result := variables
+		end
 
 feature -- Basic operations
 
@@ -68,7 +81,7 @@ feature -- Status query
 			var_name, substituted: STRING
 		do
 			create var_name.make_filled ('$', 1)
-			substituted := command_template.substituted
+			substituted := template.substituted
 			Result := True
 			across name_list as name until not Result loop
 				var_name.keep_head (1)
@@ -85,6 +98,11 @@ feature {NONE} -- Implementation
 		do
 			Result := generator
 			Result.to_lower
+		end
+
+	default_template: READABLE_STRING_GENERAL
+		do
+			create {STRING_8} Result.make_empty
 		end
 
 	name_list: EL_STRING_8_LIST
@@ -119,10 +137,10 @@ feature {NONE} -- Implementation
 	valid_variable_names: BOOLEAN
 		local
 			pos: INTEGER; var_name: STRING
-			l_template: like template
+			l_template: like default_template
 		do
 			create var_name.make_filled ('$', 1)
-			l_template := template
+			l_template := default_template
 			Result := True
 			across name_list as name until not Result loop
 				var_name.keep_head (1)
@@ -147,35 +165,41 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Deferred
-
-	template: READABLE_STRING_GENERAL
-		deferred
-		end
-
 note
 	descendants: "[
-			EL_PARSED_OS_COMMAND* [VARIABLES -> ${TUPLE} create default_create end]
+			EL_PARSED_OS_COMMAND [VARIABLES -> ${TUPLE} create default_create end]
+				${EL_SSH_DIRECTORY_COMMAND*}
+					${EL_SSH_MAKE_DIRECTORY_COMMAND}
+					${EL_SSH_TEST_DIRECTORY_COMMAND}
+				${EL_FILE_UTILITY_COMMAND}
+				${EL_MIRROR_COMMAND* [VARIABLES -> TUPLE create default_create end]}
+					${EL_FILE_RSYNC_COMMAND}
+					${EL_FTP_MIRROR_COMMAND}
+					${EL_SSH_RSYNC_COMMAND}
+				${EL_APPLY_PATCH_COMMAND}
+				${EL_GENERATE_PATCH_COMMAND}
+				${EL_CREATE_TAR_COMMAND}
+				${EL_GUNZIP_COMMAND}
+				${EL_SSH_COPY_COMMAND}
 				${EL_PARSED_CAPTURED_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
 					${EL_GVFS_OS_COMMAND* [VARIABLES -> TUPLE create default_create end]}
-						${EL_GVFS_MOUNT_LIST_COMMAND}
-						${EL_GVFS_URI_TRANSFER_COMMAND*}
-							${EL_GVFS_COPY_COMMAND}
-							${EL_GVFS_MOVE_COMMAND}
 						${EL_GVFS_URI_COMMAND*}
-							${EL_GVFS_MAKE_DIRECTORY_COMMAND}
 							${EL_GVFS_REMOVE_FILE_COMMAND}
 							${EL_GVFS_FILE_LIST_COMMAND}
 							${EL_GVFS_FILE_INFO_COMMAND}
 							${EL_GVFS_FILE_COUNT_COMMAND}
 							${EL_GVFS_FILE_EXISTS_COMMAND}
+							${EL_GVFS_MAKE_DIRECTORY_COMMAND}
+						${EL_GVFS_URI_TRANSFER_COMMAND*}
+							${EL_GVFS_COPY_COMMAND}
+							${EL_GVFS_MOVE_COMMAND}
+						${EL_GVFS_MOUNT_LIST_COMMAND}
+					${EL_SYMLINK_LISTING_COMMAND}
 					${EL_GET_GNOME_SETTING_COMMAND}
-				${EL_CREATE_TAR_COMMAND}
-				${EL_FILE_UTILITY_COMMAND}
 				${EL_SSH_MD5_HASH_COMMAND}
-				${EL_SSH_COPY_COMMAND}
-				${EL_SSH_DIRECTORY_COMMAND*}
-					${EL_SSH_TEST_DIRECTORY_COMMAND}
-					${EL_SSH_MAKE_DIRECTORY_COMMAND}
+				${EL_SET_GNOME_SETTING_COMMAND}
+				${EL_NOTIFY_SEND_ERROR_COMMAND_I*}
+					${EL_NOTIFY_SEND_ERROR_COMMAND}
 	]"
+
 end

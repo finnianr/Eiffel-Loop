@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 13:59:48 GMT (Wednesday 24th April 2024)"
-	revision: "10"
+	date: "2024-07-09 8:55:58 GMT (Tuesday 9th July 2024)"
+	revision: "11"
 
 class
 	EL_SSH_COPY_COMMAND
@@ -22,6 +22,8 @@ inherit
 	EL_PARSED_OS_COMMAND [TUPLE [source_path, user_domain, destination_dir: STRING]]
 		rename
 			make as make_with_template
+		redefine
+			default_template
 		end
 
 	EL_SECURE_SHELL_COMMAND
@@ -58,5 +60,5 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "scp $SOURCE_PATH $USER_DOMAIN:$DESTINATION_DIR"
+	Default_template: STRING = "scp $SOURCE_PATH $USER_DOMAIN:$DESTINATION_DIR"
 end

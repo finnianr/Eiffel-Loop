@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-27 7:27:09 GMT (Saturday 27th April 2024)"
-	revision: "9"
+	date: "2024-07-09 9:15:19 GMT (Tuesday 9th July 2024)"
+	revision: "10"
 
 class
 	EL_FTP_MIRROR_COMMAND
@@ -54,7 +54,7 @@ feature {NONE} -- Constants
 			create Result.make (Escape_table.Bash)
 		end
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		lftp -c "open $HOST; user '$USER' '$PASS'; set ftp:passive-mode true;
 		mirror --reverse --verbose '$SOURCE_DIR' '$TARGET_DIR';
 		bye"

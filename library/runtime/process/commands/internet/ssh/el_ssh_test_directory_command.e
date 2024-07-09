@@ -11,14 +11,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 14:00:51 GMT (Wednesday 24th April 2024)"
-	revision: "2"
+	date: "2024-07-09 9:14:10 GMT (Tuesday 9th July 2024)"
+	revision: "3"
 
 class
 	EL_SSH_TEST_DIRECTORY_COMMAND
 
 inherit
 	EL_SSH_DIRECTORY_COMMAND
+		redefine
+			default_template
+		end
 
 create
 	make
@@ -33,7 +36,7 @@ feature -- Status query
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		ssh $USER_DOMAIN "test -d $TARGET_DIR"
 	]"
 

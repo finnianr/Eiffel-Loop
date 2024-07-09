@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-07-09 9:21:32 GMT (Tuesday 9th July 2024)"
+	revision: "9"
 
 class
 	EL_SET_GNOME_SETTING_COMMAND
@@ -16,6 +16,8 @@ inherit
 	EL_PARSED_OS_COMMAND [TUPLE [schema, key, value: STRING]]
 		rename
 			make as make_parsed
+		redefine
+			default_template
 		end
 
 	EL_GNOME_SETTING_COMMAND
@@ -45,7 +47,7 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Template: STRING
+	Default_template: STRING
 		once
 			Result := Gsettings + " set $schema $key $value"
 		end

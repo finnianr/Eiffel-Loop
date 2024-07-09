@@ -12,21 +12,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 14:03:34 GMT (Wednesday 24th April 2024)"
-	revision: "9"
+	date: "2024-07-09 9:12:08 GMT (Tuesday 9th July 2024)"
+	revision: "10"
 
 class
 	EL_SSH_MAKE_DIRECTORY_COMMAND
 
 inherit
 	EL_SSH_DIRECTORY_COMMAND
+		redefine
+			default_template
+		end
 
 create
 	make
 
 feature {NONE} -- Constants
 
-	Template: STRING = "[
+	Default_template: STRING = "[
 		ssh $USER_DOMAIN "mkdir -p $TARGET_DIR"
 	]"
 

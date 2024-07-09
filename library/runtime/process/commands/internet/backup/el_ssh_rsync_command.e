@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 17:42:15 GMT (Friday 25th August 2023)"
-	revision: "6"
+	date: "2024-07-09 9:14:00 GMT (Tuesday 9th July 2024)"
+	revision: "7"
 
 class
 	EL_SSH_RSYNC_COMMAND
@@ -57,6 +57,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Template: STRING = "rsync -avz -e ssh $SOURCE_DIR $USER@$HOST:$TARGET_DIR"
+	Default_template: STRING = "rsync -avz -e ssh $SOURCE_DIR $USER@$HOST:$TARGET_DIR"
 
 end
