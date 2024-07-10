@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 19:33:53 GMT (Tuesday 9th July 2024)"
-	revision: "1"
+	date: "2024-07-10 8:05:04 GMT (Wednesday 10th July 2024)"
+	revision: "2"
 
 class
 	WEB_LOG_ENTRY_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_MODULE_IP_ADDRESS
 
 feature {NONE} -- Initialization
 
@@ -45,12 +47,12 @@ feature -- Test
 			if attached entry.time as t then
 				assert ("time ok", t.hour = 14 and t.minute = 25 and t.second = 51)
 			end
-			assert_same_string (Void, entry.ip_address, "86.41.71.251")
+			assert_same_string (Void, Ip_address.to_string (entry.ip_number), "86.41.71.251")
 			assert_same_string (Void, entry.http_command, "GET")
 			assert_same_string (Void, entry.request_uri, request_uri)
 			assert_same_string (Void, entry.referer, referer)
 			assert_same_string (Void, entry.user_agent, user_agent)
-			assert_same_string (Void, entry.stripped_user_agent, "mozilla x11 linux x86_64 rv gecko firefox")
+			assert_same_string (Void, entry.stripped_user_agent (False), "mozilla x11 linux x86_64 rv gecko firefox")
 
 			assert ("status code ok", entry.status_code = 200)
 			assert ("byte_count ok", entry.byte_count = 20346)

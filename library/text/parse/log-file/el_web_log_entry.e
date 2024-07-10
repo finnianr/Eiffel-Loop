@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 19:46:22 GMT (Tuesday 9th July 2024)"
-	revision: "13"
+	date: "2024-07-10 8:07:56 GMT (Wednesday 10th July 2024)"
+	revision: "14"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -15,7 +15,11 @@ class
 inherit
 	ANY
 
+	EL_MODULE_IP_ADDRESS
+
 	EL_CHARACTER_32_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -32,45 +36,68 @@ feature {NONE} -- Initialization
 				part := list.item
 				inspect list.cursor_index
 					when 1 then
-						ip_address := part.substring_to (' ')
-						index := part.index_of ('[', ip_address.count + 3) + 1
-						date := Date_factory.new_date (part.substring (index, index + 10))
+						if attached part.substring_to (' ') as address then
+							ip_number := Ip_address.to_number (address)
+							index := part.index_of ('[', address.count + 3) + 1
+						end
+						compact_date := Date_parser.to_ordered_compact_date (part.substring (index, index + 10))
 						index := index + 12
-						time := Time_factory.new_time (part.substring (index, index + 7))
+						compact_time := Time_parser.to_compact_time (part.substring (index, index + 7))
 					when 2 then
-						http_command := part.substring_to (' ')
+						Http_command_cache_set.put (part.substring_to (' '))
+						http_command := Http_command_cache_set.found_item
 						index := part.substring_index (Http_protocol, http_command.count + 1)
 						if index.to_boolean then
-							request_uri := part.substring (http_command.count + 2, index - 2)
+							Request_uri_cache_set.put (part.substring (http_command.count + 2, index - 2))
 						else
-							create request_uri.make_empty
+							Request_uri_cache_set.put_copy (Empty_string)
 						end
+						request_uri := Request_uri_cache_set.found_item
 					when 3 then
 						part.adjust
 						index := part.index_of (' ', 1)
 						status_code := part.substring (1, index - 1).to_natural
 						byte_count := part.substring_end (index + 1).to_natural
 					when 4 then
-						referer := part.twin
-						if referer.is_character ('-') then
-							referer.wipe_out
+						if part.is_character ('-') then
+							Referer_cache_set.put_copy (Empty_string)
+						else
+							Referer_cache_set.put_copy (part)
 						end
+						referer := Referer_cache_set.found_item
 					when 6 then
-						user_agent := part.twin
+						User_agent_uri_cache_set.put_copy (part)
+						user_agent := User_agent_uri_cache_set.found_item
 
 				else end
 			end
+		end
+
+feature -- Date/time
+
+	compact_date: INTEGER
+		-- Year, month, day coded for fast comparison between dates.
+
+	compact_time: INTEGER
+		-- Hour, minute, second coded.
+
+	date: DATE
+		do
+			create Result.make_by_ordered_compact_date (compact_date)
+		end
+
+	time: TIME
+		do
+			create Result.make_by_compact_time (compact_time)
 		end
 
 feature -- Access
 
 	byte_count: NATURAL
 
-	date: DATE
-
 	http_command: STRING
 
-	ip_address: STRING
+	ip_number: NATURAL
 
 	referer: ZSTRING
 
@@ -78,13 +105,14 @@ feature -- Access
 
 	status_code: NATURAL
 
-	stripped_user_agent: ZSTRING
-	 -- lower case `user_agent' stripped of punctuation and version numbers
+	stripped_user_agent (keep_ref: BOOLEAN): ZSTRING
+		-- lower case `user_agent' stripped of punctuation and version numbers
 		do
 			Result := stripped_lower (user_agent)
+			if keep_ref then
+				Result := Result.twin
+			end
 		end
-
-	time: TIME
 
 	user_agent: ZSTRING
 
@@ -94,11 +122,11 @@ feature {NONE} -- Implementation
 		-- if `a_name' ~ "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
 		-- result is "mozilla x11 linux x86_64 rv gecko firefox"
 		local
-			i: INTEGER; name, part: ZSTRING
+			name, part: ZSTRING
 		do
 			name := a_name.translated (Agent_separators, space * Agent_separators.count)
 
-			create Result.make (name.count - name.occurrences (' ') // 2)
+			Result := Buffer.empty
 			across name.split (' ') as split loop
 				if split.item_count > 0 then
 					part := split.item
@@ -113,6 +141,28 @@ feature {NONE} -- Implementation
 			Result.to_lower
 		end
 
+feature {NONE} -- Field cache
+
+	Http_command_cache_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (1000)
+		end
+
+	Referer_cache_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (1000)
+		end
+
+	Request_uri_cache_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (1000)
+		end
+
+	User_agent_uri_cache_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (1000)
+		end
+
 feature {NONE} -- Constants
 
 	Agent_separators: ZSTRING
@@ -120,9 +170,14 @@ feature {NONE} -- Constants
 			Result := ".,;:+()/"
 		end
 
-	Date_factory: EL_DATE_TIME_CODE_STRING
+	Buffer: EL_ZSTRING_BUFFER
 		once
-			create Result.make ("[0]dd/mmm/yyyy")
+			create Result
+		end
+
+	Date_parser: EL_DATE_TIME_PARSER
+		once
+			Result := "[0]dd/mmm/yyyy"
 		end
 
 	Http_protocol: ZSTRING
@@ -132,9 +187,9 @@ feature {NONE} -- Constants
 
 	Quote: CHARACTER_32 = '%"'
 
-	Time_factory: EL_DATE_TIME_CODE_STRING
+	Time_parser: EL_DATE_TIME_PARSER
 		once
-			create Result.make ("[0]hh:[0]mi:[0]ss")
+			Result := "[0]hh:[0]mi:[0]ss"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-07-10 7:20:39 GMT (Wednesday 10th July 2024)"
+	revision: "8"
 
 class
 	EL_DATE_TIME_PARSER
@@ -21,7 +21,10 @@ inherit
 		end
 
 create
-	make
+	make, make_from_string
+
+convert
+	make_from_string ({STRING})
 
 feature {NONE} -- Initialization
 
@@ -33,6 +36,11 @@ feature {NONE} -- Initialization
 			base_century := cs.base_century
 		end
 
+	make_from_string (format: STRING_8)
+		do
+			make (create {EL_DATE_TIME_CODE_STRING}.make (format))
+		end
+
 feature -- Basic operations
 
 	parse_source (s: STRING)
@@ -40,4 +48,35 @@ feature -- Basic operations
 			source_string := s
 			parse
 		end
+
+feature -- Conversion
+
+	to_ordered_compact_date (s: STRING): INTEGER
+		-- Year, month, day coded for fast comparison between dates.
+		do
+			parse_source (s)
+			Once_date.set_with_parser (Current)
+			Result := Once_date.ordered_compact_date
+		end
+
+	to_compact_time (s: STRING): INTEGER
+		-- Hour, minute, second coded.
+		do
+			parse_source (s)
+			Once_time.set_with_parser (Current)
+			Result := Once_time.compact_time
+		end
+
+feature {NONE} -- Constants
+
+	Once_date: EL_DATE
+		once
+			create Result.make_default
+		end
+
+	Once_time: EL_TIME
+		once
+			create Result.make_default
+		end
+
 end

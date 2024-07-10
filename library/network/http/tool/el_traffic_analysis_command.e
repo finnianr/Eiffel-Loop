@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 19:54:02 GMT (Tuesday 9th July 2024)"
-	revision: "23"
+	date: "2024-07-10 8:04:51 GMT (Wednesday 10th July 2024)"
+	revision: "24"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -36,6 +36,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			make_parser (a_log_path)
 			config := a_config
+			create buffer
 			create page_table.make_equal (50)
 			create bot_table.make_equal (50)
 			create human_entry_list.make (500)
@@ -58,7 +59,7 @@ feature -- Basic operations
 			IP_location_table.set_log (Lio)
 			across human_entry_list as entry loop
 				if across config.page_list as page some entry.item.request_uri.starts_with (page.item) end then
-					call (IP_location_table.item (Ip_address.to_number (entry.item.ip_address)))
+					call (IP_location_table.item (entry.item.ip_number))
 				end
 			end
 			IP_location_table.set_log (Void)
@@ -86,7 +87,7 @@ feature {NONE} -- Implementation
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
 			if is_bot (entry) then
-				bot_table.put (entry.stripped_user_agent)
+				bot_table.put_copy (entry.stripped_user_agent (False))
 			else
 				human_entry_list.extend (entry)
 			end
@@ -94,12 +95,12 @@ feature {NONE} -- Implementation
 
 	entry_month (entry: EL_WEB_LOG_ENTRY): INTEGER
 		do
-			Result := entry.date.month + (entry.date.year - 2000) * 12
+			Result := entry.compact_date |>> 8
 		end
 
 	is_bot (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		local
-			user_agent: ZSTRING; buffer: EL_ZSTRING_BUFFER_ROUTINES
+			user_agent: ZSTRING
 		do
 			user_agent := buffer.copied (entry.user_agent)
 			user_agent.to_lower
@@ -123,14 +124,15 @@ feature {NONE} -- Implementation
 			across entry_list as entry loop
 				found := False
 				if entry.cursor_index = 1 then
-					lio.put_labeled_string ("Month of", Date.long_month_name (entry.item.date).as_upper)
+					lio.put_labeled_string ("-- MONTH", Date.long_month_name (entry.item.date).as_upper)
+					lio.put_string (" --")
 					lio.put_new_line_x2
 				end
 				across config.page_list as page until found loop
 					if entry.item.request_uri.starts_with (page.item) then
 						found := True
 						if attached page_table [page.item] as list then
-							list.extend (Ip_address.to_number (entry.item.ip_address))
+							list.extend (entry.item.ip_number)
 						end
 					end
 				end
@@ -155,6 +157,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	bot_table: EL_COUNTER_TABLE [ZSTRING]
+
+	buffer: EL_ZSTRING_BUFFER
 
 	config: EL_TRAFFIC_ANALYSIS_CONFIG
 

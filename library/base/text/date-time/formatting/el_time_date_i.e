@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 15:40:01 GMT (Friday 23rd February 2024)"
-	revision: "12"
+	date: "2024-07-10 7:00:11 GMT (Wednesday 10th July 2024)"
+	revision: "13"
 
 deferred class
 	EL_TIME_DATE_I
@@ -126,6 +126,13 @@ feature -- Basic operations
 			if attached Time_utc as t then
 				t.update; update_with (t)
 			end
+		end
+
+feature -- Element change
+
+	set_with_parser (a_parser: EL_DATE_TIME_PARSER)
+		do
+			make_with_parser (a_parser)
 		end
 
 feature -- Contract support
