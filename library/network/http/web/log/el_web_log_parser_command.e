@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-07-10 13:33:44 GMT (Wednesday 10th July 2024)"
+	revision: "7"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -31,6 +31,8 @@ feature -- Basic operations
 	execute
 		do
 			dot_count := 0
+			default_entry.reset_cache
+			
 			if attached open_lines (log_path, Utf_8) as line_source then
 				across line_source as line loop
 					print_progress (line.cursor_index.to_natural_32)
@@ -44,6 +46,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	default_entry: EL_WEB_LOG_ENTRY
+		do
+			create Result.make_default
+		end
 
 	do_with (entry: like new_web_log_entry)
 		deferred

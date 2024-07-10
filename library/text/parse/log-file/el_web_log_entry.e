@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 8:58:12 GMT (Wednesday 10th July 2024)"
-	revision: "15"
+	date: "2024-07-10 13:50:17 GMT (Wednesday 10th July 2024)"
+	revision: "16"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -25,7 +25,7 @@ inherit
 		end
 
 create
-	make
+	make, make_default
 
 feature {NONE} -- Initialization
 
@@ -33,11 +33,17 @@ feature {NONE} -- Initialization
 		require
 			valid_line: line.occurrences (Quote) = 6
 		local
-			index: INTEGER; part: ZSTRING
+			index, field_index: INTEGER; part: ZSTRING; value_set: like new_string_set
 		do
+			make_default
 			across line.split (Quote) as list loop
-				part := list.item
-				inspect list.cursor_index
+				part := list.item; field_index := list.cursor_index
+				if Field_cache_array.valid_index (field_index) then
+					value_set := Field_cache_array [field_index]
+				else
+					value_set := Default_value_set
+				end
+				inspect field_index
 					when 1 then
 						if attached part.substring_to (' ') as address then
 							ip_number := Ip_address.to_number (address)
@@ -47,15 +53,16 @@ feature {NONE} -- Initialization
 						index := index + 12
 						compact_time := Time_parser.to_compact_time (part.substring (index, index + 7))
 					when 2 then
-						Http_command_cache_set.put (part.substring_to (' '))
-						http_command := Http_command_cache_set.found_item
+						Http_command_set.put (part.substring_to (' '))
+						http_command := Http_command_set.found_item
+						
 						index := part.substring_index (Http_protocol, http_command.count + 1)
 						if index.to_boolean then
-							Request_uri_cache_set.put (part.substring (http_command.count + 2, index - 2))
+							value_set.put (part.substring (http_command.count + 2, index - 2))
 						else
-							Request_uri_cache_set.put_copy (Empty_string)
+							value_set.put_copy (Empty_string)
 						end
-						request_uri := Request_uri_cache_set.found_item
+						request_uri := value_set.found_item
 					when 3 then
 						part.adjust
 						index := part.index_of (' ', 1)
@@ -63,17 +70,25 @@ feature {NONE} -- Initialization
 						byte_count := part.substring_end (index + 1).to_natural
 					when 4 then
 						if part.is_character ('-') then
-							Referer_cache_set.put_copy (Empty_string)
+							value_set.put_copy (Empty_string)
 						else
-							Referer_cache_set.put_copy (part)
+							value_set.put_copy (part)
 						end
-						referer := Referer_cache_set.found_item
-					when 6 then
-						User_agent_uri_cache_set.put_copy (part)
-						user_agent := User_agent_uri_cache_set.found_item
+						referer := value_set.found_item
+					when Field_count then
+						value_set.put_copy (part)
+						user_agent := value_set.found_item
 
 				else end
 			end
+		end
+
+	make_default
+		do
+			http_command := Empty_string
+			referer := Empty_string
+			request_uri := Empty_string
+			user_agent := Empty_string
 		end
 
 feature -- Date/time
@@ -98,7 +113,7 @@ feature -- Access
 
 	byte_count: NATURAL
 
-	http_command: STRING
+	http_command: ZSTRING
 
 	ip_number: NATURAL
 
@@ -119,6 +134,16 @@ feature -- Access
 
 	user_agent: ZSTRING
 
+feature -- Basic operations
+
+	reset_cache
+		-- reset field cache
+		do
+			across Field_cache_array as list loop
+				list.item.wipe_out
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	has_punctuation (c: CHARACTER): BOOLEAN
@@ -129,6 +154,11 @@ feature {NONE} -- Implementation
 			else
 				Result := c.is_punctuation
 			end
+		end
+
+	new_string_set: EL_HASH_SET [ZSTRING]
+		do
+			create Result.make (3)
 		end
 
 	stripped_lower (a_name: ZSTRING): ZSTRING
@@ -155,28 +185,6 @@ feature {NONE} -- Implementation
 			Result.to_lower
 		end
 
-feature {NONE} -- Field cache
-
-	Http_command_cache_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (1000)
-		end
-
-	Referer_cache_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (1000)
-		end
-
-	Request_uri_cache_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (1000)
-		end
-
-	User_agent_uri_cache_set: EL_HASH_SET [ZSTRING]
-		once
-			create Result.make (1000)
-		end
-
 feature {NONE} -- Constants
 
 	Buffer: EL_ZSTRING_BUFFER
@@ -189,9 +197,29 @@ feature {NONE} -- Constants
 			Result := "[0]dd/mmm/yyyy"
 		end
 
+	Default_value_set: EL_HASH_SET [ZSTRING]
+		once
+			create Result.make (0)
+		end
+
+	Field_cache_array: ARRAY [EL_HASH_SET [ZSTRING]]
+		once
+			create Result.make_filled (Default_value_set, 1, Field_count)
+			across 1 |..| Field_count as index loop
+				Result [index.item] := new_string_set
+			end
+		end
+
+	Field_count: INTEGER = 6
+
 	Http_protocol: ZSTRING
 		once
 			Result := "HTTP/1."
+		end
+
+	Http_command_set: EL_HASH_SET [ZSTRING]
+		once
+			Result := Field_cache_array [1]
 		end
 
 	Quote: CHARACTER_32 = '%"'
