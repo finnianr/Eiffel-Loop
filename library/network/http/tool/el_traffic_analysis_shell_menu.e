@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 15:44:34 GMT (Tuesday 9th July 2024)"
-	revision: "10"
+	date: "2024-07-10 15:32:21 GMT (Wednesday 10th July 2024)"
+	revision: "11"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -20,6 +20,8 @@ inherit
 
 	EL_MODULE_COMMAND; EL_MODULE_DATE_TIME; EL_MODULE_DIRECTORY
 	EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
+
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -61,13 +63,21 @@ feature {NONE} -- Commands
 feature {NONE} -- Factory
 
 	new_command_table: like command_table
+		local
+			label: ZSTRING; size_mb: STRING
 		do
 			if attached OS.file_pattern_list (config.archived_web_logs) as file_list then
 				create Result.make_size (file_list.count)
 				file_list.order_by (agent {FILE_PATH}.modification_time, False)
 				across file_list as list loop
-					if attached Date_time.modification_time (list.item) as date then
-						Result.put (agent analyse_log (list.item), date.formatted_out (Date_format))
+					if attached Date_time.modification_time (list.item) as date
+						and then attached Zip_list_command as cmd
+					then
+						cmd.set_zip_path (list.item)
+						size_mb := Format.double ("99.9").formatted (cmd.size_mb)
+
+						label := Label_template #$ [date.formatted_out (Date_format), size_mb]
+						Result.put (agent analyse_log (list.item), label)
 					end
 				end
 			end
@@ -79,11 +89,22 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Label_template: ZSTRING
+		once
+			Result := "%S (%S MB)"
+		end
+
 	Unzip_command: EL_GUNZIP_COMMAND
 		once
 			create Result.make
 			Result.sudo.enable
 		end
 
-	Date_format: STRING = " yyyy/mm Mmm dd"
+	Zip_list_command: EL_GUNZIP_LIST_COMMAND
+		once
+			create Result.make
+			Result.sudo.enable
+		end
+
+	Date_format: STRING = " yyyy/[0]mm Mmm [0]dd"
 end

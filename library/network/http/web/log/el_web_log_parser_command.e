@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 13:33:44 GMT (Wednesday 10th July 2024)"
-	revision: "7"
+	date: "2024-07-10 15:40:21 GMT (Wednesday 10th July 2024)"
+	revision: "8"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -32,8 +32,8 @@ feature -- Basic operations
 		do
 			dot_count := 0
 			default_entry.reset_cache
-			
-			if attached open_lines (log_path, Utf_8) as line_source then
+
+			if attached open_lines (log_path, Latin_1) as line_source then
 				across line_source as line loop
 					print_progress (line.cursor_index.to_natural_32)
 					if line.item.occurrences ('%"') = 6 then
