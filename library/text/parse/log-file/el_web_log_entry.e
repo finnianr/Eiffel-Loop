@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 8:07:56 GMT (Wednesday 10th July 2024)"
-	revision: "14"
+	date: "2024-07-10 8:58:12 GMT (Wednesday 10th July 2024)"
+	revision: "15"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -17,9 +17,12 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
-	EL_CHARACTER_32_CONSTANTS
-
 	EL_ZSTRING_CONSTANTS
+
+	EL_SET [CHARACTER_8]
+		rename
+			has as has_punctuation
+		end
 
 create
 	make
@@ -118,19 +121,30 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	has_punctuation (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when '_', '-' then
+					Result := False
+			else
+				Result := c.is_punctuation
+			end
+		end
+
 	stripped_lower (a_name: ZSTRING): ZSTRING
 		-- if `a_name' ~ "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
 		-- result is "mozilla x11 linux x86_64 rv gecko firefox"
 		local
 			name, part: ZSTRING
 		do
-			name := a_name.translated (Agent_separators, space * Agent_separators.count)
+			name := a_name.twin
+			name.replace_set_members_8 (Current, ' ') -- `has_punctuation' defines set
 
 			Result := Buffer.empty
 			across name.split (' ') as split loop
 				if split.item_count > 0 then
 					part := split.item
-					if not part.is_natural_64 then
+					if not part.item_8 (1).is_digit then
 						if Result.count > 0 then
 							Result.append_character (' ')
 						end
@@ -164,11 +178,6 @@ feature {NONE} -- Field cache
 		end
 
 feature {NONE} -- Constants
-
-	Agent_separators: ZSTRING
-		once
-			Result := ".,;:+()/"
-		end
 
 	Buffer: EL_ZSTRING_BUFFER
 		once
