@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:32:00 GMT (Thursday 4th April 2024)"
-	revision: "29"
+	date: "2024-07-11 14:11:52 GMT (Thursday 11th July 2024)"
+	revision: "30"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -103,7 +103,7 @@ feature -- Basic operations
 		-- While geo-location is being looked up for address, (which can take a second or two)
 		-- a firewall rule is being added in time for next intrusion from same address
 
-			log.put_labeled_string ("Located", IP_location_table.item (ip_number))
+			log.put_labeled_string ("Located", IP_country_region_table.item (ip_number))
 			log.put_new_line
 
 			log.exit_no_trailer

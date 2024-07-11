@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-07-11 9:38:25 GMT (Thursday 11th July 2024)"
+	revision: "12"
 
 class
 	ECD_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -25,11 +25,8 @@ inherit
 			make_little_endian as make
 		export
 			{NONE} all
-			{ANY} buffer, count, data,
-					is_default_data_version,
-					reset_count,
+			{ANY} buffer, count, data, is_default_data_version, reset_count,
 					set_for_reading, set_for_writing, set_data_version, set_default_data_version,
-					size_of_string, size_of_string_8, size_of_string_32,
 					write_integer_32, write_natural_8_array
 		redefine
 			new_item
@@ -71,17 +68,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	write_header (a_file: RAW_FILE)
-		do
-			a_file.put_integer (count)
-		end
-
-	read_header (a_file: RAW_FILE)
-		do
-			a_file.read_integer
-			count := a_file.last_integer
-		end
 
 	set_buffer_from_writeable (a_writeable: EL_STORABLE)
 		do

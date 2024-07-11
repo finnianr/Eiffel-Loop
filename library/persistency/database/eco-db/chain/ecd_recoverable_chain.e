@@ -1,6 +1,6 @@
 note
 	description: "[
-		A ${ECD_CHAIN} that is recoverable despite write any errors. 
+		A ${ECD_STORABLE_CHAIN} that is recoverable despite write any errors. 
 		The former class can store and load the complete state of all chain items, 
 		while this class immediately stores any of the following
 		chain editions: `extend', `replace', `remove', `delete'.
@@ -18,14 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "35"
+	date: "2024-07-11 8:19:39 GMT (Thursday 11th July 2024)"
+	revision: "36"
 
 deferred class
 	ECD_RECOVERABLE_CHAIN [G -> EL_STORABLE create make_default end]
 
 inherit
-	ECD_CHAIN [G]
+	ECD_STORABLE_CHAIN [G]
 		rename
 			delete as chain_delete
 		redefine

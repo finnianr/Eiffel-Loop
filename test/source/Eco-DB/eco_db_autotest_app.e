@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2024-07-11 8:21:38 GMT (Thursday 11th July 2024)"
+	revision: "24"
 
 class
 	ECO_DB_AUTOTEST_APP
@@ -29,7 +29,8 @@ feature {NONE} -- Implementation
 
 	compile: TUPLE [
 		ECD_REFLECTIVE_INDEX_TABLE [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
-		ECD_INDEX_TABLE_REPRESENTATION [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE]
+		ECD_INDEX_TABLE_REPRESENTATION [EL_REFLECTIVELY_SETTABLE_STORABLE, HASHABLE],
+		STORABLE_STRING_LIST
 	]
 		do
 			create Result

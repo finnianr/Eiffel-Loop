@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-07-11 9:04:40 GMT (Thursday 11th July 2024)"
+	revision: "14"
 
 deferred class
 	EL_MEMORY_READER_WRITER_IMPLEMENTATION
@@ -37,13 +37,6 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_little_endian
-		do
-			make_endian (True)
-		ensure
-			stored_as_little: stored_as_little_endian
-		end
-
 	make_big_endian
 		do
 			make_endian (False)
@@ -65,6 +58,13 @@ feature {NONE} -- Initialization
 		ensure
 			correct_size: buffer.count = Default_buffer_size
 			same_endian: stored_as_little_endian = as_little
+		end
+
+	make_little_endian
+		do
+			make_endian (True)
+		ensure
+			stored_as_little: stored_as_little_endian
 		end
 
 	make_with_buffer (a_buffer: like buffer)
@@ -119,6 +119,14 @@ feature -- Status report
 			Result := data_version = 0
 		end
 
+	is_for_reading: BOOLEAN
+			-- Will current do a read operation?
+
+	is_native_endian: BOOLEAN
+		do
+			Result := Is_platform_little_endian = stored_as_little_endian
+		end
+
 	is_ready_for_reading: BOOLEAN
 			-- Is Current ready for future read operations?
 		do
@@ -129,14 +137,6 @@ feature -- Status report
 			-- Is Current ready for future write operations?
 		do
 			Result := not is_for_reading
-		end
-
-	is_for_reading: BOOLEAN
-			-- Will current do a read operation?
-
-	is_native_endian: BOOLEAN
-		do
-			Result := Is_platform_little_endian = stored_as_little_endian
 		end
 
 	stored_as_little_endian: BOOLEAN
@@ -376,6 +376,12 @@ feature {NONE} -- Implementation
 			create {EL_STORABLE_IMPL} Result.make_default
 		end
 
+	read_header (a_file: RAW_FILE)
+		do
+			a_file.read_integer
+			count := a_file.last_integer
+		end
+
 	set_count (a_count: INTEGER)
 		do
 			count := a_count
@@ -403,6 +409,11 @@ feature {NONE} -- Implementation
 				buf.put_special_natural_8 (compressed_count, 0, pos, compressed_count.count)
 				count := pos + compressed_count.count
 			end
+		end
+
+	write_header (a_file: RAW_FILE)
+		do
+			a_file.put_integer (count)
 		end
 
 feature {NONE} -- Internal attributes

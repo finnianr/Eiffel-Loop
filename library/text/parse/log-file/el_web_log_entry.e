@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 13:50:17 GMT (Wednesday 10th July 2024)"
-	revision: "16"
+	date: "2024-07-11 12:24:40 GMT (Thursday 11th July 2024)"
+	revision: "17"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -55,7 +55,7 @@ feature {NONE} -- Initialization
 					when 2 then
 						Http_command_set.put (part.substring_to (' '))
 						http_command := Http_command_set.found_item
-						
+
 						index := part.substring_index (Http_protocol, http_command.count + 1)
 						if index.to_boolean then
 							value_set.put (part.substring (http_command.count + 2, index - 2))

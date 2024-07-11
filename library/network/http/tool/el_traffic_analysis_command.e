@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 8:04:51 GMT (Wednesday 10th July 2024)"
-	revision: "24"
+	date: "2024-07-11 19:17:50 GMT (Thursday 11th July 2024)"
+	revision: "25"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -23,9 +23,7 @@ inherit
 			execute
 		end
 
-	EL_MODULE_DATE; EL_MODULE_IP_ADDRESS
-
-	EL_SHARED_IP_ADDRESS_GEOLOCATION
+	EL_MODULE_DATE; EL_MODULE_DIRECTORY; EL_MODULE_GEOLOCATION; EL_MODULE_IP_ADDRESS
 
 create
 	make
@@ -36,10 +34,13 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			make_parser (a_log_path)
 			config := a_config
+			Geolocation.try_restore (Directory.Sub_app_data)
 			create buffer
 			create page_table.make_equal (50)
-			create bot_table.make_equal (50)
+			create bot_agent_table.make_equal (50)
+			create human_agent_table.make_equal (50)
 			create human_entry_list.make (500)
+			create selected_entry_list.make (0)
 			across config.page_list as page loop
 				page_table.extend_list (create {like page_table.item_list}.make (50), page.item)
 			end
@@ -47,47 +48,55 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Constants
 
-	Description: STRING = "Analyse web traffic in from cherokee log file"
+	Description: STRING = "Analyse web traffic from cherokee log file"
 
 feature -- Basic operations
 
 	execute
+		local
+			location: ZSTRING
 		do
 			Precursor -- parse log file
+			selected_entry_list := human_entry_list.query_if (agent is_selected)
+
 			-- Cache locations
 			lio.put_line ("Getting IP address locations:")
-			IP_location_table.set_log (Lio)
-			across human_entry_list as entry loop
-				if across config.page_list as page some entry.item.request_uri.starts_with (page.item) end then
-					call (IP_location_table.item (entry.item.ip_number))
-				end
+
+			Geolocation.set_log (Lio)
+			across selected_entry_list as entry loop
+				location := Geolocation.for_number (entry.item.ip_number)
+				human_agent_table.put_copy (entry.item.stripped_user_agent (False))
 			end
-			IP_location_table.set_log (Void)
+			Geolocation.set_log (Void)
 			lio.put_new_line_x2
 
-			lio.put_line ("WEB CRAWLERS")
-			across bot_table.as_sorted_list (False) as map loop
-				lio.put_natural_field (map.key, map.value)
+			across << bot_agent_table, human_agent_table >> as table loop
+				if table.cursor_index = 1 then
+					lio.put_line ("WEB CRAWLER AGENTS")
+				else
+					lio.put_line ("HUMAN AGENTS")
+				end
+				across table.item.as_sorted_list (False) as map loop
+					lio.put_natural_field (map.key, map.value)
+					lio.put_new_line
+				end
 				lio.put_new_line
 			end
-			lio.put_new_line
 
-			lio.put_line ("HUMANS")
+			lio.put_line ("SELECTED HUMAN VISITS")
 			lio.put_new_line
 
 			month_groups.linear_representation.do_all (agent print_month)
+			lio.put_line ("Storing geolocation data")
+			Geolocation.store (Directory.Sub_app_data)
 		end
 
 feature {NONE} -- Implementation
 
-	call (obj: ANY)
-		do
-		end
-
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
 			if is_bot (entry) then
-				bot_table.put_copy (entry.stripped_user_agent (False))
+				bot_agent_table.put_copy (entry.stripped_user_agent (False))
 			else
 				human_entry_list.extend (entry)
 			end
@@ -109,14 +118,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_selected (entry: EL_WEB_LOG_ENTRY): BOOLEAN
+		-- `True' if matching configuration page_list items
+		do
+			Result := across config.page_list as page some
+				entry.request_uri.starts_with (page.item)
+			end
+		end
+
 	month_groups: EL_FUNCTION_GROUP_TABLE [EL_WEB_LOG_ENTRY, INTEGER]
 		do
-			create Result.make_from_list (agent entry_month, human_entry_list)
+			create Result.make_from_list (agent entry_month, selected_entry_list)
 		end
 
 	print_month (entry_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY])
 		local
-			location_table: EL_COUNTER_TABLE [ZSTRING];found: BOOLEAN
+			location_table: EL_COUNTER_TABLE [ZSTRING]; found: BOOLEAN
 		do
 			across page_table.linear_representation as list loop
 				list.item.wipe_out
@@ -142,7 +159,7 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				create location_table.make (page.item.count)
 				across page.item as ip loop
-					location_table.put (IP_location_table.item (ip.item))
+					location_table.put (Geolocation.for_number (ip.item))
 				end
 				across location_table.as_sorted_list (False) as map loop
 					lio.tab_right
@@ -156,19 +173,25 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	bot_table: EL_COUNTER_TABLE [ZSTRING]
+	bot_agent_table: EL_COUNTER_TABLE [ZSTRING]
 
 	buffer: EL_ZSTRING_BUFFER
 
 	config: EL_TRAFFIC_ANALYSIS_CONFIG
 
-	human_entry_list: ARRAYED_LIST [EL_WEB_LOG_ENTRY]
+	human_agent_table: EL_COUNTER_TABLE [ZSTRING]
 
-	page_table: EL_GROUP_TABLE [NATURAL, ZSTRING];
+	human_entry_list: EL_QUERYABLE_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
+
+	page_table: EL_GROUP_TABLE [NATURAL, ZSTRING]
+
+	selected_entry_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY];
+		-- human entries that match the configuration page_list items
 
 note
 	notes: "[
 		**Example Configuration**
+		
 			pyxis-doc:
 				version = 1.0; encoding = "UTF-8"
 

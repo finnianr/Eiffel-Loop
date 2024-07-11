@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-31 8:59:48 GMT (Friday 31st May 2024)"
-	revision: "28"
+	date: "2024-07-11 10:10:25 GMT (Thursday 11th July 2024)"
+	revision: "29"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -140,6 +140,11 @@ feature -- Access
 		do
 			create Result.make (Current)
 			Result.start
+		end
+
+	tuple_for_iteration: TUPLE [value: G; key: K]
+		do
+			Result := [item_for_iteration, key_for_iteration]
 		end
 
 feature -- Status query

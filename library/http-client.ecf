@@ -33,6 +33,7 @@ Supports the HTTP commands: POST, GET and HEAD.
 		<!--Eiffel Loop-->
 		<library name = "EL_base" location = "base/base.ecf"/>
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
+		<library name = "EL_eco_db" location = "Eco-DB.ecf"/>
 		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_network" location = "network.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>

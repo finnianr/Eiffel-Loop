@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 8:05:04 GMT (Wednesday 10th July 2024)"
-	revision: "2"
+	date: "2024-07-11 12:24:41 GMT (Thursday 11th July 2024)"
+	revision: "3"
 
 class
 	WEB_LOG_ENTRY_TEST_SET
@@ -52,7 +52,7 @@ feature -- Test
 			assert_same_string (Void, entry.request_uri, request_uri)
 			assert_same_string (Void, entry.referer, referer)
 			assert_same_string (Void, entry.user_agent, user_agent)
-			assert_same_string (Void, entry.stripped_user_agent (False), "mozilla x11 linux x86_64 rv gecko firefox")
+			assert_same_string (Void, entry.stripped_user_agent (False), "x11 linux x86_64 rv gecko firefox")
 
 			assert ("status code ok", entry.status_code = 200)
 			assert ("byte_count ok", entry.byte_count = 20346)

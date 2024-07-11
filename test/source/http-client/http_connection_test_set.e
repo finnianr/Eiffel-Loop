@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-18 10:14:47 GMT (Tuesday 18th June 2024)"
-	revision: "69"
+	date: "2024-07-11 19:17:38 GMT (Thursday 11th July 2024)"
+	revision: "70"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -21,7 +21,9 @@ inherit
 			on_prepare
 		end
 
-	EL_MODULE_HTML; EL_MODULE_IP_ADDRESS; EL_MODULE_WEB; EL_MODULE_XML
+	EL_MODULE_GEOLOCATION; EL_MODULE_HTML; EL_MODULE_IP_ADDRESS
+
+	EL_MODULE_WEB; EL_MODULE_XML
 
 	EL_SHARED_GEOGRAPHIC_INFO_TABLE; EL_SHARED_IP_ADDRESS_GEOLOCATION
 
@@ -47,6 +49,7 @@ feature {NONE} -- Initialization
 				["http_post",							 agent test_http_post],
 				["image_headers",						 agent test_image_headers],
 				["ip_address_info",					 agent test_ip_address_info],
+				["ip_geolocation",					 agent test_ip_geolocation],
 				["url_encoded",						 agent test_url_encoded],
 				["web_archive",						 agent test_web_archive]
 			>>)
@@ -263,6 +266,7 @@ feature -- Tests
 		end
 
 	test_ip_address_info
+		-- HTTP_CONNECTION_TEST_SET.test_ip_address_info
 		note
 			testing: "[
 				covers/{EL_SETTABLE_FROM_JSON_STRING}.set_from_json,
@@ -286,7 +290,7 @@ feature -- Tests
 			assert_same_string ("same region code", info.region_code_, "ENG")
 			assert_same_string ("same version", info.version_, "IPv4")
 
-			assert ("same location", info.location ~ IP_location_table.item (ip_number))
+			assert ("same location", info.location ~ IP_country_region_table.item (ip_number))
 			assert ("same ip", info.ip_address ~ Www_eiffel_loop_com)
 			assert ("same area", info.country_area.to_integer_32 = 244820)
 
@@ -295,6 +299,23 @@ feature -- Tests
 
 			lio.put_integer_field ("size of info", info.deep_physical_size)
 			lio.put_new_line
+		end
+
+	test_ip_geolocation
+		-- HTTP_CONNECTION_TEST_SET.test_ip_geolocation
+		note
+			testing: "[
+				covers/{EL_GEOLOCATION_ROUTINES}.for_number
+			]"
+		local
+			ip: NATURAL
+		do
+		-- shetinin-school.ru has address 31.31.196.245
+			ip := Ip_address.to_number ("31.31.196.245")
+			assert_same_string (Void, Geolocation.for_number (ip), "Russia, Moscow")
+		--	fasthosts.co.uk has address 213.171.195.48
+			ip := Ip_address.to_number ("213.171.195.48")
+			assert_same_string (Void, Geolocation.for_number (ip), "United Kingdom of Great Britain and Northern Ireland")
 		end
 
 	test_url_encoded
@@ -346,6 +367,22 @@ feature -- Tests
 
 feature -- Unused
 
+	test_http_errors
+		local
+			url: STRING
+		do
+			url := "http://localhost/en/home/my-ching.html"
+			web.open (url)
+			web.read_string_get
+			if web.has_error then
+				web.put_error (lio)
+			end
+			lio.put_labeled_substitution ("PAGE ERROR", "%S %S", [web.page_error_code, web.page_error_name])
+			lio.put_new_line
+
+			web.close
+		end
+
 	test_open_url
 		local
 			url: EL_URL
@@ -363,22 +400,6 @@ feature -- Unused
 			web.close
 		end
 
-	test_http_errors
-		local
-			url: STRING
-		do
-			url := "http://localhost/en/home/my-ching.html"
-			web.open (url)
-			web.read_string_get
-			if web.has_error then
-				web.put_error (lio)
-			end
-			lio.put_labeled_substitution ("PAGE ERROR", "%S %S", [web.page_error_code, web.page_error_name])
-			lio.put_new_line
-
-			web.close
-		end
-
 feature {NONE} -- Events
 
 	on_prepare
@@ -388,6 +409,15 @@ feature {NONE} -- Events
 		end
 
 feature {NONE} -- Implementation
+
+	assert_document_retrieved (expected_leading_string_and_count: IMMUTABLE_STRING_8; doc_text: STRING; line_count: INTEGER)
+		local
+			list: EL_STRING_8_LIST
+		do
+			list := expected_leading_string_and_count.to_string_8
+			assert ("2 items", list.count = 2)
+			assert ("retrieved", doc_text.starts_with (list.first) and line_count = list.last.to_integer)
+		end
 
 	assert_valid_headers (headers: like web.last_headers)
 		do
@@ -399,15 +429,6 @@ feature {NONE} -- Implementation
 				lio.put_new_line
 				failed ("valid response_code")
 			end
-		end
-
-	assert_document_retrieved (expected_leading_string_and_count: IMMUTABLE_STRING_8; doc_text: STRING; line_count: INTEGER)
-		local
-			list: EL_STRING_8_LIST
-		do
-			list := expected_leading_string_and_count.to_string_8
-			assert ("2 items", list.count = 2)
-			assert ("retrieved", doc_text.starts_with (list.first) and line_count = list.last.to_integer)
 		end
 
 	element_text (name: STRING; a_text: STRING): ZSTRING
@@ -436,28 +457,17 @@ feature {NONE} -- Implementation
 			Result := parts.count = 2 and then across parts.last.split ('.') as n all n.item.is_natural end
 		end
 
-	value_at_xpath (text, xpath: STRING): ZSTRING
-		local
-			xdoc: EL_XML_DOC_CONTEXT
-		do
-			if XML.is_xml_declaration (text) then
-				create xdoc.make_from_string (text)
-
-			elseif HTML.is_document (text) then
-				create xdoc.make_from_xhtml (text)
-			else
-				create xdoc.make_from_fragment (text, {CODE_PAGE_CONSTANTS}.Utf8)
-			end
-			Result := xdoc @ xpath
-			Result.left_adjust
-		end
-
 	print_lines (a_web: like web)
 		do
 			across a_web.last_string.split ('%N') as line loop
 				lio.put_line (line.item)
 			end
 			lio.put_new_line
+		end
+
+	title_text (text: ZSTRING): ZSTRING
+		do
+			Result := element_text ("title", text)
 		end
 
 	try_3_times (web_operation: PROCEDURE)
@@ -479,9 +489,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	title_text (text: ZSTRING): ZSTRING
+	value_at_xpath (text, xpath: STRING): ZSTRING
+		local
+			xdoc: EL_XML_DOC_CONTEXT
 		do
-			Result := element_text ("title", text)
+			if XML.is_xml_declaration (text) then
+				create xdoc.make_from_string (text)
+
+			elseif HTML.is_document (text) then
+				create xdoc.make_from_xhtml (text)
+			else
+				create xdoc.make_from_fragment (text, {CODE_PAGE_CONSTANTS}.Utf8)
+			end
+			Result := xdoc @ xpath
+			Result.left_adjust
 		end
 
 feature {NONE} -- Factory

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-07-11 10:38:03 GMT (Thursday 11th July 2024)"
+	revision: "7"
 
 class
 	EL_HASH_TABLE_ITERATION_CURSOR [G, K -> detachable HASHABLE]
@@ -30,6 +30,11 @@ feature -- Access
 			-- <Precursor>
 		do
 			Result := ((iteration_position - first_index - deleted_skip_count).abs + step - 1) // step + 1
+		end
+
+	value_key_pair: TUPLE [value: G; key: K]
+		do
+			Result := [item, key]
 		end
 
 feature -- Cursor movement

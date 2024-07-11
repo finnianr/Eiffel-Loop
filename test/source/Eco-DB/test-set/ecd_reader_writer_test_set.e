@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 16:19:07 GMT (Monday 1st January 2024)"
-	revision: "26"
+	date: "2024-07-11 11:58:31 GMT (Thursday 11th July 2024)"
+	revision: "27"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 				["pyxis_export",			  agent test_pyxis_export],
 				["read_write",				  agent test_read_write],
 				["storable_arrayed_list", agent test_storable_arrayed_list],
+				["storable_tuple_list",	  agent test_storable_tuple_list],
 				["write_meta_data",		  agent test_write_meta_data]
 			>>)
 		end
@@ -145,6 +146,30 @@ feature -- Tests
 				else
 					failed ("stored")
 				end
+			end
+		end
+
+	test_storable_tuple_list
+		-- ECD_READER_WRITER_TEST_SET.test_storable_tuple_list
+		note
+			testing: "[
+				covers/{ECD_ARRAYED_TUPLE_LIST}.make_from_file,
+				covers/{ECD_ARRAYED_TUPLE_LIST}.store_as
+			]"
+		local
+			tuple_list: ECD_ARRAYED_TABLE_PAIR_LIST [INTEGER, STRING]
+			table: EL_HASH_TABLE [INTEGER, STRING]; numbers_path: FILE_PATH
+		do
+			create table.make (<< ["One", 1], ["Two", 2], ["Three", 3] >>)
+			create tuple_list.make_from_table (table)
+			numbers_path := Work_area_dir + "numbers.dat"
+			tuple_list.store_as (numbers_path)
+
+			create tuple_list.make_from_file (numbers_path)
+			assert ("same count", tuple_list.count = table.count)
+			across tuple_list as list loop
+				assert ("key present", table.has_key (list.item.key))
+				assert ("same value", table.found_item = list.item.value)
 			end
 		end
 

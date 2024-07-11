@@ -2,7 +2,7 @@ note
 	description: "[
 		Provides the features below when used in conjunction with either of these 2 classes:
 		
-		1. ${ECD_CHAIN [EL_STORABLE]}
+		1. ${ECD_STORABLE_CHAIN [EL_STORABLE]}
 		2. ${ECD_RECOVERABLE_CHAIN [EL_STORABLE]}
 
 		from the [./library/Eco-DB.html Eco-DB library].
@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 14:21:38 GMT (Tuesday 2nd April 2024)"
-	revision: "24"
+	date: "2024-07-11 8:19:39 GMT (Thursday 11th July 2024)"
+	revision: "25"
 
 class
 	ECD_ARRAYED_LIST [G -> EL_STORABLE create make_default end]

@@ -1,19 +1,19 @@
 note
-	description: "Storable string list"
+	description: "Storable arrayed list of ${STORABLE_STRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-15 8:45:31 GMT (Thursday 15th December 2022)"
-	revision: "10"
+	date: "2024-07-11 8:22:47 GMT (Thursday 11th July 2024)"
+	revision: "11"
 
 class
 	STORABLE_STRING_LIST
 
 inherit
-	ECD_CHAIN [STORABLE_STRING]
+	ECD_STORABLE_CHAIN [STORABLE_STRING]
 		rename
 			on_delete as do_nothing
 		end

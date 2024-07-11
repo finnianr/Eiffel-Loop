@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 9:30:50 GMT (Sunday 5th November 2023)"
-	revision: "19"
+	date: "2024-07-11 8:19:39 GMT (Thursday 11th July 2024)"
+	revision: "20"
 
 class
 	ECD_EDITIONS_FILE [G -> EL_STORABLE create make_default end]
@@ -54,7 +54,7 @@ feature -- Access
 	extended_byte_count: INTEGER
 		-- total data bytes that extend list
 
-	item_chain: ECD_CHAIN [G]
+	item_chain: ECD_STORABLE_CHAIN [G]
 
 	kilo_byte_count: REAL
 		do

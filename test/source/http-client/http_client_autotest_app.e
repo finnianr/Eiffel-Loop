@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "67"
+	date: "2024-07-11 14:38:16 GMT (Thursday 11th July 2024)"
+	revision: "68"
 
 class
 	HTTP_CLIENT_AUTOTEST_APP
@@ -25,4 +25,10 @@ inherit
 create
 	make
 
+feature {NONE} -- Implementation
+
+	compile: TUPLE [EL_CACHED_XML_HTTP_CONNECTION]
+		do
+			create Result
+		end
 end

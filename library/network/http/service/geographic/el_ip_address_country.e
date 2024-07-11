@@ -1,6 +1,6 @@
 note
 	description: "[
-		country and region fields parsed from JSON query `https://ipapi.co/<IP-address>/json'
+		Country parsed from JSON query `https://api.iplocation.net/?ip=<IP-address>'
 	]"
 
 	author: "Finnian Reilly"
@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 12:13:48 GMT (Monday 23rd January 2023)"
-	revision: "11"
+	date: "2024-07-11 15:36:24 GMT (Thursday 11th July 2024)"
+	revision: "1"
 
 class
-	EL_IP_ADDRESS_GEOLOCATION
+	EL_IP_ADDRESS_COUNTRY
 
 inherit
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -39,7 +39,7 @@ feature -- Access
 	location: ZSTRING
 		-- country and region
 		do
-			Result := country_name + Separator + region
+			Result := country_name
 		end
 
 feature -- API string fields
@@ -47,8 +47,15 @@ feature -- API string fields
 	country_name: ZSTRING
 		-- country name
 
-	region: ZSTRING
-		-- region name (administrative division)
+feature -- Constants
+
+	IP_api_template: ZSTRING
+		-- example: https://api.iplocation.net/?ip=91.196.50.33
+		once
+			Result := "https://api.iplocation.net/?ip=%S"
+		end
+
+	Too_many_requests: STRING = "Too many requests"
 
 feature {NONE} -- Implementation
 
@@ -68,12 +75,7 @@ feature {NONE} -- Constants
 
 	Field_hash: NATURAL
 		once
-			Result := 1966935048
-		end
-
-	Separator: ZSTRING
-		once
-			Result := ", "
+			Result := 157540883
 		end
 
 end

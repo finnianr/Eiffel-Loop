@@ -1,24 +1,26 @@
 note
-	description: "Shared instance of ${EL_GEOGRAPHIC_INFO_TABLE}"
+	description: "Shared access to routines of class ${EL_GEOLOCATION_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 14:36:57 GMT (Thursday 11th July 2024)"
-	revision: "6"
+	date: "2024-07-11 14:46:42 GMT (Thursday 11th July 2024)"
+	revision: "1"
 
 deferred class
-	EL_SHARED_GEOGRAPHIC_INFO_TABLE
+	EL_MODULE_GEOLOCATION
 
 inherit
-	EL_ANY_SHARED
+	EL_MODULE
 
 feature {NONE} -- Constants
 
-	Geographic_info_table: EL_GEOGRAPHIC_INFO_TABLE
+	Geolocation: EL_GEOLOCATION_ROUTINES
+			--
 		once
-			create Result.make (11)
+			create Result
 		end
+
 end

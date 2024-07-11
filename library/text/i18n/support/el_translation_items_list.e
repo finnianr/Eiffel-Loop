@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 14:49:33 GMT (Friday 21st June 2024)"
-	revision: "9"
+	date: "2024-07-11 10:35:46 GMT (Thursday 11th July 2024)"
+	revision: "10"
 
 class
 	EL_TRANSLATION_ITEMS_LIST
 
 inherit
-	ECD_CHAIN [EL_TRANSLATION_ITEM]
+	ECD_STORABLE_CHAIN [EL_TRANSLATION_ITEM]
 		rename
-			make_chain_implementation as make_list,
+			make_chain_implementation as make_sized,
 			software_version as format_version
 		export
 			{ANY} file_path
@@ -23,7 +23,7 @@ inherit
 
 	EL_ARRAYED_LIST [EL_TRANSLATION_ITEM]
 		rename
-			make as make_list
+			make as make_sized
 		end
 
 create
