@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-05 5:43:19 GMT (Wednesday 5th June 2024)"
-	revision: "18"
+	date: "2024-07-12 16:08:10 GMT (Friday 12th July 2024)"
+	revision: "19"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -245,6 +245,15 @@ feature {NONE} -- Implementation
 	separator_code (a_separator: CHARACTER_32): NATURAL
 		do
 			Result := a_separator.natural_32_code
+		end
+
+feature {NONE} -- Constants
+
+	Tabulation: STRING = "%T"
+
+	Split_intervals: EL_SPLIT_INTERVALS
+		once
+			create Result.make_empty
 		end
 
 note

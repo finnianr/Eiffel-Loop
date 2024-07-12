@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:18 GMT (Saturday 22nd June 2024)"
-	revision: "50"
+	date: "2024-07-12 16:13:22 GMT (Friday 12th July 2024)"
+	revision: "51"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -23,6 +23,11 @@ inherit
 	EL_LINEAR_STRINGS [S]
 		undefine
 			find_first_equal, search, has, occurrences, off
+		end
+
+	PART_COMPARATOR [S]
+		undefine
+			copy, is_equal
 		end
 
 	EL_MODULE_ITERABLE; EL_MODULE_CONVERT_STRING
@@ -327,6 +332,21 @@ feature -- Element change
 			end
 		end
 
+feature -- Basic operations
+
+	sort (in_ascending_order: BOOLEAN)
+		local
+			quick: QUICK_SORTER [S]
+		do
+			create quick.make (Current)
+
+			if in_ascending_order then
+				quick.sort (Current)
+			else
+				quick.reverse_sort (Current)
+			end
+		end
+
 feature -- Removal
 
 	prune_all_empty
@@ -336,6 +356,26 @@ feature -- Removal
 				if item.is_empty then
 					remove
 				else
+					forth
+				end
+			end
+		end
+
+	unique_sort
+		-- ascending sort removing duplicates
+		local
+			previous: like item
+		do
+			sort (True)
+			from start until after loop
+				if index = 1 then
+					previous := item
+					forth
+
+				elseif item ~ previous then
+					remove
+				else
+					previous := item
 					forth
 				end
 			end
@@ -377,6 +417,11 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
+	less_than (u, v: S): BOOLEAN
+		do
+			Result := u.is_less (v)
+		end
+
 	new_string (general: READABLE_STRING_GENERAL): S
 		do
 			if attached {S} general as str then
@@ -400,15 +445,6 @@ feature {NONE} -- Implementation
 				Result.append_code ({EL_ASCII}.Tab)
 				i := i + 1
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Tabulation: STRING = "%T"
-
-	Split_intervals: EL_SPLIT_INTERVALS
-		once
-			create Result.make_empty
 		end
 
 end

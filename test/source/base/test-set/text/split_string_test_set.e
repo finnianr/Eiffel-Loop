@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-26 8:35:21 GMT (Sunday 26th May 2024)"
-	revision: "59"
+	date: "2024-07-12 16:23:44 GMT (Friday 12th July 2024)"
+	revision: "60"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -58,7 +58,8 @@ feature {NONE} -- Initialization
 				["split_intervals",				 agent test_split_intervals],
 				["split_iterator",				 agent test_split_iterator],
 				["split_sort",						 agent test_split_sort],
-				["split_string_8",				 agent test_split_string_8]
+				["split_string_8",				 agent test_split_string_8],
+				["unique_sort",					 agent test_unique_sort]
 			>>)
 		end
 
@@ -661,6 +662,31 @@ feature -- Tests
 					end
 				end
 			end
+		end
+
+	test_unique_sort
+		-- SPLIT_STRING_TEST_SET.test_unique_sort
+		note
+			testing: "[
+				covers/{EL_STRING_CHAIN}.sort,
+				covers/{EL_STRING_CHAIN}.unique_sort
+			]"
+		local
+			list_1, list_2: EL_STRING_8_LIST
+		do
+			list_1 := "zebra, pig, horse, dog, cat"
+			create list_2.make (list_1.count * 2)
+			across list_1 as list loop
+				list_2.extend (list.item)
+				if list.cursor_index \\ 2 = 0 then
+					list_2.extend (list.item)
+				end
+			end
+			list_2.unique_sort
+			list_1.sort (True)
+			assert ("cat first", list_1.first ~ "cat")
+			assert ("zebra last", list_1.last ~ "zebra")
+			assert ("same lists", list_1 ~ list_2)
 		end
 
 feature {NONE} -- Implementation

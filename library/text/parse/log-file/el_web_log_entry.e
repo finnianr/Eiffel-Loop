@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 13:02:10 GMT (Friday 12th July 2024)"
-	revision: "18"
+	date: "2024-07-12 16:41:12 GMT (Friday 12th July 2024)"
+	revision: "19"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -163,13 +163,11 @@ feature -- Access
 
 	status_code: NATURAL
 
-	stripped_user_agent (keep_ref: BOOLEAN): ZSTRING
+	stripped_user_agent: ZSTRING
 		-- lower case `user_agent' stripped of punctuation and version numbers
 		do
-			Result := stripped_lower (user_agent)
-			if keep_ref then
-				Result := Result.twin
-			end
+			Result := stripped_lower (user_agent).joined_words
+			Result.to_lower
 		end
 
 	user_agent: ZSTRING
@@ -201,31 +199,36 @@ feature {NONE} -- Implementation
 			create Result.make (3)
 		end
 
-	stripped_lower (a_name: ZSTRING): ZSTRING
-		-- if `a_name' ~ "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
-		-- result is "mozilla x11 linux x86_64 rv gecko firefox"
+	stripped_lower (a_name: ZSTRING): EL_ZSTRING_LIST
+		-- if `a_name' is "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
+		-- `Result.joined_words' is "firefox linux rv x11 x86_64"
 		local
 			name, part: ZSTRING
 		do
-			name := a_name.twin
+			name := Buffer.copied (a_name)
 			name.replace_set_members_8 (Current, ' ') -- `has_punctuation' defines set
+			name.to_lower
 
-			Result := Buffer.empty
+			Result := List_buffer
+			Result.wipe_out
 			across name.split (' ') as split loop
 				if split.item_count > 0 then
-					part := split.item
+					Agent_word_set.put_copy (split.item)
+					part := Agent_word_set.found_item
 					if not part.item_8 (1).is_digit and then not Excluded_agents_words.has (part) then
-						if Result.count > 0 then
-							Result.append_character (' ')
-						end
-						Result.append (part)
+						Result.extend (part)
 					end
 				end
 			end
-			Result.to_lower
+			Result.unique_sort
 		end
 
 feature {NONE} -- String sets
+
+	Agent_word_set: EL_HASH_SET [ZSTRING]
+		once
+			Result := Field_cache_array [1]
+		end
 
 	Default_value_set: EL_HASH_SET [ZSTRING]
 		once
@@ -271,7 +274,12 @@ feature {NONE} -- Constants
 
 	Excluded_agents_words: EL_ZSTRING_LIST
 		once
-			Result := "compatible, like, Chrome, Gecko, KHTML, Mozilla, Safari"
+			Result := "compatible, like, chrome, gecko, khtml, mozilla, safari"
+		end
+
+	List_buffer: EL_ZSTRING_LIST
+		once
+			create Result.make (10)
 		end
 
 	Field_count: INTEGER = 6

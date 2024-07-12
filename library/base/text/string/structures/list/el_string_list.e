@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 10:28:03 GMT (Monday 3rd June 2024)"
-	revision: "38"
+	date: "2024-07-12 16:04:59 GMT (Friday 12th July 2024)"
+	revision: "39"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -33,13 +33,15 @@ inherit
 			checksum, hash_code, is_equal
 		end
 
-	EL_SORTABLE_ARRAYED_LIST [S]
+	EL_ARRAYED_LIST [S]
 		rename
 			joined as joined_chain,
 			subchain as array_subchain
 		export
 			{ANY} insert
 			{NONE} array_subchain
+		undefine
+			sort
 		redefine
 			is_equal, initialize, make_from_tuple
 		end

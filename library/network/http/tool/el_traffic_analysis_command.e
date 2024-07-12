@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 13:07:16 GMT (Friday 12th July 2024)"
-	revision: "26"
+	date: "2024-07-12 16:30:41 GMT (Friday 12th July 2024)"
+	revision: "27"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -100,13 +100,14 @@ feature -- Basic operations
 
 			lio.put_line ("SELECTED HUMAN VISITS")
 			lio.put_new_line
+			month_groups.linear_representation.do_all (agent print_month)
 
+		-- Percentage visits from mobile devices
 			mobile_count := selected_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)
 			mobile_proportion := (mobile_count * 100) // selected_entry_list.count
-			lio.put_labeled_string ("Mobile proportion", Format.integer_as_string (mobile_proportion, "99%%"))
+			lio.put_labeled_string ("Mobile traffic", Format.integer_as_string (mobile_proportion, "99%%"))
+			lio.put_new_line
 
-
-			month_groups.linear_representation.do_all (agent print_month)
 			lio.put_line ("Storing geolocation data")
 			Geolocation.store (Directory.Sub_app_data)
 			lio.put_new_line
@@ -117,7 +118,7 @@ feature {NONE} -- Implementation
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
 			if is_bot (entry) then
-				bot_agent_table.put_copy (entry.stripped_user_agent (False))
+				bot_agent_table.put (entry.stripped_user_agent)
 			else
 				human_entry_list.extend (entry)
 			end
@@ -136,7 +137,7 @@ feature {NONE} -- Implementation
 			across selected_entry_list as list loop
 				if attached list.item as entry then
 					location := Geolocation.for_number (entry.ip_number)
-					human_agent_table.put_copy (entry.stripped_user_agent (False))
+					human_agent_table.put (entry.stripped_user_agent)
 				end
 			end
 		end

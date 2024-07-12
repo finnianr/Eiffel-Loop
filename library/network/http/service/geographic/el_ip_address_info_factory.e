@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 6:17:55 GMT (Friday 12th July 2024)"
-	revision: "7"
+	date: "2024-07-12 13:16:38 GMT (Friday 12th July 2024)"
+	revision: "8"
 
 deferred class
 	EL_IP_ADDRESS_INFO_FACTORY [G -> EL_IP_ADDRESS_COUNTRY create make end]
@@ -18,8 +18,6 @@ inherit
 feature {NONE} -- Implementation
 
 	new_info (ip_number: NATURAL): G
-		local
-			done: BOOLEAN; sleep_interval: INTEGER
 		do
 			create Result.make
 			Web.open (Result.IP_api_template #$ [IP_address.to_string (ip_number)])
