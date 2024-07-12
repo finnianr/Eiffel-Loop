@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 11:03:44 GMT (Monday 15th April 2024)"
-	revision: "34"
+	date: "2024-07-12 12:49:14 GMT (Friday 12th July 2024)"
+	revision: "35"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -232,7 +232,7 @@ feature -- Status query
 			type_array: EL_TUPLE_TYPE_ARRAY; type_id: INTEGER
 		do
 			if csv_list.occurrences (',') + 1 >= tuple.count then
-				type_array := Mod_tuple.type_array (tuple)
+				type_array := Tuple_.type_array (tuple)
 				Result := True
 				if attached filled_split_list (csv_list, ',', left_adjusted.to_integer) as list then
 					from list.start until list.after or else not Result or else list.index > tuple.count loop
@@ -307,7 +307,7 @@ feature -- Basic operations
 			type_array: EL_TUPLE_TYPE_ARRAY; item_type: TYPE [ANY]
 			type_id, lower, upper, index: INTEGER
 		do
-			type_array := Mod_tuple.type_array (tuple)
+			type_array := Tuple_.type_array (tuple)
 			if attached list.target_string as list_string then
 				from list.start until list.after or else list.index > tuple.count loop
 					index := list.index
@@ -327,7 +327,7 @@ feature -- Basic operations
 				end
 			end
 		ensure
-			filled: Mod_tuple.is_filled (tuple, 1, tuple.count)
+			filled: Tuple_.is_filled (tuple, 1, tuple.count)
 		end
 
 	substring_to_type (

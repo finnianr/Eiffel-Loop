@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 15:36:24 GMT (Thursday 11th July 2024)"
-	revision: "1"
+	date: "2024-07-12 5:39:03 GMT (Friday 12th July 2024)"
+	revision: "2"
 
 class
 	EL_IP_ADDRESS_COUNTRY
@@ -56,6 +56,7 @@ feature -- Constants
 		end
 
 	Too_many_requests: STRING = "Too many requests"
+		-- applies to ipapi.co, not api.iplocation.net
 
 feature {NONE} -- Implementation
 

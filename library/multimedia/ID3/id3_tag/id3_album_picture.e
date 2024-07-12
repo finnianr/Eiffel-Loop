@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2024-07-12 12:52:32 GMT (Friday 12th July 2024)"
+	revision: "13"
 
 class
 	ID3_ALBUM_PICTURE
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_CHECKSUM
 		rename
-			checksum as Mod_checksum
+			Checksum as Checksum_
 		end
 
 	EL_MODULE_FILE
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 	make (a_data: like data; a_description, a_mime_type: STRING)
 		do
 			data := a_data; description := a_description; mime_type := a_mime_type
-			checksum := Mod_checksum.data (data)
+			checksum := Checksum_.data (data)
 		end
 
 	make_from_file (a_file_path: FILE_PATH; a_description: like description)

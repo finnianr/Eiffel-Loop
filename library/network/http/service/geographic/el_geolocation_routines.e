@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 16:31:50 GMT (Thursday 11th July 2024)"
-	revision: "1"
+	date: "2024-07-12 6:29:00 GMT (Friday 12th July 2024)"
+	revision: "2"
 
 class
 	EL_GEOLOCATION_ROUTINES
@@ -19,6 +19,8 @@ inherit
 	ANY
 
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
+
+	EL_SHARED_PROGRESS_LISTENER
 
 feature -- Basic operations
 
@@ -42,21 +44,19 @@ feature -- Access
 		-- `country_name' for `ip_number'
 		-- with `region' added for big countries
 		do
+		-- api.iplocation.net does not have a request limit (July 2024)
 			Result := IP_country_table.item (ip_number)
 
 		-- Add region for big countries
 			if Big_country_list.has (Result) then
-				Result := IP_country_region_table.item (ip_number)
+			-- ipapi.co service is free for a limited number of request
+				if attached IP_country_region_table.item (ip_number) as location
+					and then location.count > 2 -- (", ").count = 2
+				then
+					Result := location
+				end
 			end
-		end
-
-feature -- Element change
-
-	set_log (a_log: detachable EL_LOGGABLE)
-		do
-			across table_array as table loop
-				table.item.set_log (a_log)
-			end
+			progress_listener.notify_tick
 		end
 
 feature {NONE} -- Implementation
@@ -69,7 +69,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Big_country_list: EL_ZSTRING_LIST
+		-- from api.iplocation.net
 		once
-			Result := "Russian Federation, United States of America"
+			Result := "China, India, Russian Federation, United States of America"
 		end
 end

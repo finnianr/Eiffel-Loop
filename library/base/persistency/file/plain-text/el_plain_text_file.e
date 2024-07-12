@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:23:44 GMT (Thursday 9th November 2023)"
-	revision: "14"
+	date: "2024-07-12 12:46:56 GMT (Friday 12th July 2024)"
+	revision: "15"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -28,6 +28,8 @@ inherit
 		end
 
 	EL_OUTPUT_MEDIUM
+		rename
+			encoding as file_encoding
 		redefine
 			make_default
 		end
@@ -37,12 +39,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_ENCODING
-		rename
-			Encoding as Mod_encoding
-		end
-
-	EL_MODULE_FILE
+	EL_MODULE_ENCODING; EL_MODULE_FILE
 
 create
 	make, make_with_name, make_with_path, make_closed,
@@ -108,7 +105,7 @@ feature -- Status setting
 		do
 			Precursor
 			encoding_detected := False
-			if byte_order_mark.is_enabled and then attached Mod_encoding.file_info (Current) as info then
+			if byte_order_mark.is_enabled and then attached Encoding.file_info (Current) as info then
 				bom_count := info.bom_count
 				encoding_detected := info.detected
 				if encoding_detected then
@@ -145,7 +142,7 @@ feature -- Basic operations
 				if encoding_type = Other_class and then attached encoding_other as l_encoding then
 					last_string.append_encoded_any (raw_line, l_encoding)
 				else
-					last_string.append_encoded (raw_line, encoding)
+					last_string.append_encoded (raw_line, file_encoding)
 				end
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 8:40:33 GMT (Saturday 23rd March 2024)"
-	revision: "20"
+	date: "2024-07-12 12:47:54 GMT (Friday 12th July 2024)"
+	revision: "21"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -25,7 +25,7 @@ inherit
 
 	EL_MODULE_CHECKSUM
 		rename
-			Checksum as Mod_checksum
+			Checksum as Checksum_
 		end
 
 feature {NONE} -- Initialization
@@ -72,7 +72,7 @@ feature -- Measurement
 	checksum (file_path: FILE_PATH): NATURAL
 		-- CRC-32 checksum
 		do
-			Result := Mod_checksum.file_content (file_path)
+			Result := Checksum_.file_content (file_path)
 		end
 
 	megabyte_count (file_path: FILE_PATH): DOUBLE

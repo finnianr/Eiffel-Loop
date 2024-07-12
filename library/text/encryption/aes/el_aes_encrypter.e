@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-28 16:23:00 GMT (Tuesday 28th November 2023)"
-	revision: "23"
+	date: "2024-07-12 12:53:46 GMT (Friday 12th July 2024)"
+	revision: "24"
 
 class
 	EL_AES_ENCRYPTER
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_ENCRYPTION
 		rename
-			encryption as Mod_encryption
+			Encryption as Encryption_
 		end
 
 create
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			phrase_has_content: a_phrase.count > 0
 			valid_key_size: valid_key_bit_count (key_size_bits)
 		do
-			if attached Mod_encryption.new_utf_8_phrase (a_phrase) as utf_8 then
+			if attached Encryption_.new_utf_8_phrase (a_phrase) as utf_8 then
 				make_sized (Digest.sha_256 (utf_8), key_size_bits)
 				utf_8.fill_blank
 			end

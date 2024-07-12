@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:53 GMT (Sunday 24th December 2023)"
-	revision: "11"
+	date: "2024-07-12 12:41:41 GMT (Friday 12th July 2024)"
+	revision: "12"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -25,7 +25,7 @@ inherit
 
 	EL_MODULE_ENCODING
 		rename
-			Encoding as Mod_encoding
+			Encoding as Encoding_
 		end
 
 feature {NONE} -- Basic operations
@@ -46,7 +46,7 @@ feature {NONE} -- Basic operations
 	frozen open_lines (path: READABLE_STRING_GENERAL; a_encoding: NATURAL): EL_PLAIN_TEXT_LINE_SOURCE
 		-- open file for reading using LINEAR iterator
 		require
-			valid_encoding: Mod_encoding.is_valid (a_encoding)
+			valid_encoding: Encoding_.is_valid (a_encoding)
 			parent_exists: parent_path_exists (path)
 		local
 			file_path: FILE_PATH

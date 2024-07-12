@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "19"
+	date: "2024-07-12 12:43:15 GMT (Friday 12th July 2024)"
+	revision: "20"
 
 deferred class
 	ECD_REFLECTIVE_RECOVERABLE_CHAIN [G -> EL_REFLECTIVELY_SETTABLE_STORABLE create make_default end]
@@ -19,19 +19,19 @@ deferred class
 inherit
 	ECD_RECOVERABLE_CHAIN [G]
 		export
-			{ANY} Mod_encoding
+			{ANY} Encoding_
 		end
 
 	EL_PYXIS_CHAIN_IMPORT_EXPORT [G]
 		rename
 			on_import as on_pyxis_import,
-			Encoding as Mod_encoding
+			Encoding as Encoding_
 		end
 
 	CSV_CHAIN_IMPORT_EXPORT [G]
 		rename
 			on_import as on_csv_import,
-			Encoding as Mod_encoding
+			Encoding as Encoding_
 		end
 
 feature -- Access

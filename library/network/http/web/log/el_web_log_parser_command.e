@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 15:40:21 GMT (Wednesday 10th July 2024)"
-	revision: "8"
+	date: "2024-07-12 8:22:27 GMT (Friday 12th July 2024)"
+	revision: "9"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
 
 inherit
 	EL_COMMAND
+
+	EL_MODULE_LIO
 
 	EL_ITERATION_OUTPUT
 
@@ -29,20 +31,30 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature -- Basic operations
 
 	execute
+		local
+			count: INTEGER
 		do
-			dot_count := 0
+			reset_dot_count
 			default_entry.reset_cache
-
+			if is_lio_enabled then
+				lio.put_labeled_string ("Reading log entries", log_path.base)
+				lio.put_new_line
+			end
 			if attached open_lines (log_path, Latin_1) as line_source then
 				across line_source as line loop
 					print_progress (line.cursor_index.to_natural_32)
 					if line.item.occurrences ('%"') = 6 then
 						do_with (new_web_log_entry (line.item))
+						count := count + 1
 					end
 				end
 				line_source.close
 			end
-			lio.put_new_line
+			if is_lio_enabled then
+				lio.put_new_line
+				lio.put_integer_field ("Total entries", count)
+				lio.put_new_line_x2
+			end
 		end
 
 feature {NONE} -- Implementation

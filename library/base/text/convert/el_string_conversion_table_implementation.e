@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "5"
+	date: "2024-07-12 12:49:01 GMT (Friday 12th July 2024)"
+	revision: "6"
 
 deferred class
 	EL_STRING_CONVERSION_TABLE_IMPLEMENTATION
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_TUPLE
 		rename
-			Tuple as Mod_tuple
+			Tuple as Tuple_
 		end
 
 	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES

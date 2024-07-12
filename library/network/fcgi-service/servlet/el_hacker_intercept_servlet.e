@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 14:11:52 GMT (Thursday 11th July 2024)"
-	revision: "30"
+	date: "2024-07-12 6:20:48 GMT (Friday 12th July 2024)"
+	revision: "31"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -27,9 +27,11 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
+	EL_MODULE_GEOLOCATION
+
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_IP_ADDRESS_GEOLOCATION; EL_SHARED_SERVICE_PORT
+	EL_SHARED_SERVICE_PORT
 
 create
 	make
@@ -103,7 +105,7 @@ feature -- Basic operations
 		-- While geo-location is being looked up for address, (which can take a second or two)
 		-- a firewall rule is being added in time for next intrusion from same address
 
-			log.put_labeled_string ("Located", IP_country_region_table.item (ip_number))
+			log.put_labeled_string ("Located", Geolocation.for_number (ip_number))
 			log.put_new_line
 
 			log.exit_no_trailer

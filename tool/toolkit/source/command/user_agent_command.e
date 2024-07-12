@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:53 GMT (Thursday 30th March 2023)"
-	revision: "10"
+	date: "2024-07-12 13:12:00 GMT (Friday 12th July 2024)"
+	revision: "11"
 
 class
 	USER_AGENT_COMMAND
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
-			user_agent_set.put (entry.versionless_user_agent)
+			user_agent_set.put_copy (entry.stripped_user_agent (False))
 		end
 
 feature {NONE} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "16"
+	date: "2024-07-12 12:52:40 GMT (Friday 12th July 2024)"
+	revision: "17"
 
 class
 	TL_ID3_PICTURE
@@ -33,7 +33,7 @@ inherit
 
 	EL_MODULE_CHECKSUM
 		rename
-			checksum as Mod_checksum
+			checksum as Checksum_
 		end
 
 	EL_MODULE_FILE
@@ -78,7 +78,7 @@ feature -- Access
 
 	checksum: NATURAL
 		do
-			Result := Mod_checksum.data (data)
+			Result := Checksum_.data (data)
 		end
 
 	new_data: MANAGED_POINTER

@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:24:47 GMT (Thursday 4th April 2024)"
-	revision: "26"
+	date: "2024-07-12 13:09:58 GMT (Friday 12th July 2024)"
+	revision: "27"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -191,7 +191,7 @@ feature {EQA_TEST_SET} -- Implementation
 		local
 			picture: TL_ID3_PICTURE
 		do
-			change_count := 0; reset
+			change_count := 0; reset_dot_count
 			across Database.existing_songs as song loop
 				print_progress (song.cursor_index.to_natural_32)
 				picture := song_picture (song.item)

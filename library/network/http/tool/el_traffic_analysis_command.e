@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 19:17:50 GMT (Thursday 11th July 2024)"
-	revision: "25"
+	date: "2024-07-12 13:07:16 GMT (Friday 12th July 2024)"
+	revision: "26"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -23,7 +23,11 @@ inherit
 			execute
 		end
 
-	EL_MODULE_DATE; EL_MODULE_DIRECTORY; EL_MODULE_GEOLOCATION; EL_MODULE_IP_ADDRESS
+	EL_MODULE_DIRECTORY; EL_MODULE_GEOLOCATION; EL_MODULE_IP_ADDRESS
+
+	EL_MODULE_TRACK
+
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -54,20 +58,31 @@ feature -- Basic operations
 
 	execute
 		local
-			location: ZSTRING
+			found: BOOLEAN; mobile_count, mobile_proportion: INTEGER
 		do
 			Precursor -- parse log file
-			selected_entry_list := human_entry_list.query_if (agent is_selected)
+
+		-- Mark entries that match one of `config.page_list'
+			across human_entry_list as list loop
+				if attached list.item as entry then
+					found := False
+					across config.page_list as page until found loop
+						if entry.request_uri.starts_with (page.item) then
+							entry.set_request_uri_group (page.item)
+							found := True
+						end
+					end
+				end
+			end
+
+		-- select entries that have a `request_uri_group' set
+			selected_entry_list := human_entry_list.query_if (agent {EL_WEB_LOG_ENTRY}.is_selected)
 
 			-- Cache locations
 			lio.put_line ("Getting IP address locations:")
 
-			Geolocation.set_log (Lio)
-			across selected_entry_list as entry loop
-				location := Geolocation.for_number (entry.item.ip_number)
-				human_agent_table.put_copy (entry.item.stripped_user_agent (False))
-			end
-			Geolocation.set_log (Void)
+			Track.progress (Console_display, selected_entry_list.count, agent fill_human_agent_table)
+
 			lio.put_new_line_x2
 
 			across << bot_agent_table, human_agent_table >> as table loop
@@ -86,9 +101,15 @@ feature -- Basic operations
 			lio.put_line ("SELECTED HUMAN VISITS")
 			lio.put_new_line
 
+			mobile_count := selected_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)
+			mobile_proportion := (mobile_count * 100) // selected_entry_list.count
+			lio.put_labeled_string ("Mobile proportion", Format.integer_as_string (mobile_proportion, "99%%"))
+
+
 			month_groups.linear_representation.do_all (agent print_month)
 			lio.put_line ("Storing geolocation data")
 			Geolocation.store (Directory.Sub_app_data)
+			lio.put_new_line
 		end
 
 feature {NONE} -- Implementation
@@ -107,6 +128,19 @@ feature {NONE} -- Implementation
 			Result := entry.compact_date |>> 8
 		end
 
+	fill_human_agent_table
+		-- fill `human_agent_table' and cache geolocations
+		local
+			location: ZSTRING
+		do
+			across selected_entry_list as list loop
+				if attached list.item as entry then
+					location := Geolocation.for_number (entry.ip_number)
+					human_agent_table.put_copy (entry.stripped_user_agent (False))
+				end
+			end
+		end
+
 	is_bot (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		local
 			user_agent: ZSTRING
@@ -115,14 +149,6 @@ feature {NONE} -- Implementation
 			user_agent.to_lower
 			Result := across config.crawler_substrings as substring some
 				user_agent.has_substring (substring.item)
-			end
-		end
-
-	is_selected (entry: EL_WEB_LOG_ENTRY): BOOLEAN
-		-- `True' if matching configuration page_list items
-		do
-			Result := across config.page_list as page some
-				entry.request_uri.starts_with (page.item)
 			end
 		end
 
@@ -138,19 +164,16 @@ feature {NONE} -- Implementation
 			across page_table.linear_representation as list loop
 				list.item.wipe_out
 			end
-			across entry_list as entry loop
-				found := False
-				if entry.cursor_index = 1 then
-					lio.put_labeled_string ("-- MONTH", Date.long_month_name (entry.item.date).as_upper)
-					lio.put_string (" --")
-					lio.put_new_line_x2
-				end
-				across config.page_list as page until found loop
-					if entry.item.request_uri.starts_with (page.item) then
-						found := True
-						if attached page_table [page.item] as list then
-							list.extend (entry.item.ip_number)
-						end
+			across entry_list as list loop
+				if attached list.item as entry then
+					found := False
+					if list.cursor_index = 1 then
+						lio.put_labeled_string ("-- MONTH", entry.month_year)
+						lio.put_string (" --")
+						lio.put_new_line_x2
+					end
+					if attached page_table [entry.request_uri_group] as item_list then
+						item_list.extend (entry.ip_number)
 					end
 				end
 			end

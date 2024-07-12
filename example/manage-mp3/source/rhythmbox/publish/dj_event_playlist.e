@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:51:07 GMT (Wednesday 2nd August 2023)"
-	revision: "26"
+	date: "2024-07-12 12:41:01 GMT (Friday 12th July 2024)"
+	revision: "27"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -42,7 +42,7 @@ inherit
 
 	EL_MODULE_DATE
 		rename
-			Date as Mod_date
+			Date as Date_
 		end
 
 	EL_SHARED_ESCAPE_TABLE; EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
@@ -104,7 +104,7 @@ feature -- Access
 	formatted_month_date: ZSTRING
 			--
 		do
-			Result := Mod_date.formatted (date, Html_date_format)
+			Result := Date_.formatted (date, Html_date_format)
 		end
 
 	html_page_name: ZSTRING
@@ -137,7 +137,7 @@ feature -- Access
 	spell_date: ZSTRING
 			--
 		do
-			Result := Mod_date.formatted (date, Spell_date_format)
+			Result := Date_.formatted (date, Spell_date_format)
 		end
 
 	start_time: TIME

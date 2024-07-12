@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-07-12 12:53:28 GMT (Friday 12th July 2024)"
+	revision: "15"
 
 class
 	TB_EMAIL
@@ -31,7 +31,7 @@ inherit
 
 	EL_MODULE_ENCODING
 		rename
-			Encoding as Mod_encoding
+			Encoding as Encoding_
 		end
 
 	EL_CHARACTER_8_CONSTANTS
@@ -43,7 +43,7 @@ feature -- Access
 
 	content_encoding: NATURAL
 		do
-			Result := Mod_encoding.name_to_encoding (content_type.encoding_name)
+			Result := Encoding_.name_to_encoding (content_type.encoding_name)
 		end
 
 	mime_version_string: STRING

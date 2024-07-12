@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-07-12 12:50:50 GMT (Friday 12th July 2024)"
+	revision: "7"
 
 class
 	EL_DIALOG_STYLE
@@ -20,7 +20,7 @@ inherit
 
 	EL_MODULE_COLOR
 		rename
-			Color as Mod_color
+			Color as Color_
 		end
 
 	EL_MODULE_TEXT
@@ -42,9 +42,9 @@ feature {NONE} -- Initialization
 
 			create color
 			color.button_box := Default_color
-			color.content_area := Mod_color.default_background
-			color.default_border := Mod_color.gray
-			color.progress_bar := Mod_color.Blue
+			color.content_area := Color_.default_background
+			color.default_border := Color_.gray
+			color.progress_bar := Color_.Blue
 
 			new_button_pixmap_set := Default_new_button_pixmap_set
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-07-12 12:50:09 GMT (Friday 12th July 2024)"
+	revision: "9"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_ENCODING
 		rename
-			Encoding as Mod_encoding
+			Encoding as Encoding_
 		end
 
 	EL_EVENT_LISTENER
@@ -258,7 +258,7 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 			if attached {EL_STRING_IO_MEDIUM} file as medium then
 				set_encoding (medium.encoding)
 
-			elseif not encoding_detected and then attached Mod_encoding.file_info (file) as info then
+			elseif not encoding_detected and then attached Encoding_.file_info (file) as info then
 				bom_count := info.bom_count
 				encoding_detected := info.detected
 				if encoding_detected then

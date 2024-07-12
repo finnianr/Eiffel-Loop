@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-07-12 5:35:38 GMT (Friday 12th July 2024)"
+	revision: "8"
 
 deferred class
 	EL_ITERATION_OUTPUT
@@ -43,7 +43,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	reset
+	reset_dot_count
 		do
 			dot_count := 0
 		end

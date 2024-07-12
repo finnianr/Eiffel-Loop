@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 7:18:59 GMT (Thursday 17th August 2023)"
-	revision: "14"
+	date: "2024-07-12 12:54:41 GMT (Friday 12th July 2024)"
+	revision: "15"
 
 deferred class
 	VECTOR_COMPLEX_64
@@ -52,7 +52,7 @@ inherit
 
 	EL_MODULE_CHECKSUM
 		rename
-			checksum as Mod_checksum
+			Checksum as Checksum_
 		end
 
 feature {NONE} -- Initialization
@@ -100,7 +100,7 @@ feature -- Access
 			content: MANAGED_POINTER
 		do
 			create content.make_from_pointer (area.base_address, 2 * count * {PLATFORM}.Real_32_bytes)
-			Result := Mod_checksum.data (content)
+			Result := Checksum_.data (content)
 		end
 
 feature {NONE} -- Evolicity reflection

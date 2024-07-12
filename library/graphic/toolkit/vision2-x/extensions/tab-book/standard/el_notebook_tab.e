@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-07-12 12:51:30 GMT (Friday 12th July 2024)"
+	revision: "10"
 
 class
 	EL_NOTEBOOK_TAB [W -> EV_WINDOW]
@@ -20,7 +20,7 @@ inherit
 			item as content_box,
 			new_item as new_content_box,
 			replace_item as update,
-			widget as Mod_widget
+			Widget as Widget_
 		export
 			{ANY} update
 		end

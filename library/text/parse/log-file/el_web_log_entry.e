@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 12:24:40 GMT (Thursday 11th July 2024)"
-	revision: "17"
+	date: "2024-07-12 13:02:10 GMT (Friday 12th July 2024)"
+	revision: "18"
 
 class
 	EL_WEB_LOG_ENTRY
 
 inherit
 	ANY
+
+	EL_MODULE_DATE
+		rename
+			Date as Date_
+		end
 
 	EL_MODULE_IP_ADDRESS
 
@@ -22,6 +27,11 @@ inherit
 	EL_SET [CHARACTER_8]
 		rename
 			has as has_punctuation
+		end
+
+	EL_DATE_FORMATS
+		export
+			{NONE} all
 		end
 
 create
@@ -85,10 +95,32 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			request_uri_group := Empty_string
 			http_command := Empty_string
 			referer := Empty_string
 			request_uri := Empty_string
 			user_agent := Empty_string
+		end
+
+feature -- Status query
+
+	is_selected: BOOLEAN
+		do
+			Result := request_uri_group.count > 0
+		end
+
+	has_mobile_agent: BOOLEAN
+		do
+			Result := across Mobile_agents as list some
+				user_agent.has_substring (list.item)
+			end
+		end
+
+feature -- Element change
+
+	set_request_uri_group (a_request_uri_group: ZSTRING)
+		do
+			request_uri_group := a_request_uri_group
 		end
 
 feature -- Date/time
@@ -99,17 +131,25 @@ feature -- Date/time
 	compact_time: INTEGER
 		-- Hour, minute, second coded.
 
-	date: DATE
+	date: EL_DATE
 		do
 			create Result.make_by_ordered_compact_date (compact_date)
 		end
 
-	time: TIME
+	month_year: STRING
+		do
+			Result := Date_.formatted (date, Month_year_format)
+		end
+
+	time: EL_TIME
 		do
 			create Result.make_by_compact_time (compact_time)
 		end
 
 feature -- Access
+
+	request_uri_group: ZSTRING
+		-- used in report analysis and set externally
 
 	byte_count: NATURAL
 
@@ -174,7 +214,7 @@ feature {NONE} -- Implementation
 			across name.split (' ') as split loop
 				if split.item_count > 0 then
 					part := split.item
-					if not part.item_8 (1).is_digit then
+					if not part.item_8 (1).is_digit and then not Excluded_agents_words.has (part) then
 						if Result.count > 0 then
 							Result.append_character (' ')
 						end
@@ -185,17 +225,7 @@ feature {NONE} -- Implementation
 			Result.to_lower
 		end
 
-feature {NONE} -- Constants
-
-	Buffer: EL_ZSTRING_BUFFER
-		once
-			create Result
-		end
-
-	Date_parser: EL_DATE_TIME_PARSER
-		once
-			Result := "[0]dd/mmm/yyyy"
-		end
+feature {NONE} -- String sets
 
 	Default_value_set: EL_HASH_SET [ZSTRING]
 		once
@@ -210,6 +240,40 @@ feature {NONE} -- Constants
 			end
 		end
 
+	Http_command_set: EL_HASH_SET [ZSTRING]
+		once
+			Result := Field_cache_array [1]
+		end
+
+feature {NONE} -- Date/Time
+
+	Date_parser: EL_DATE_TIME_PARSER
+		once
+			Result := "[0]dd/mmm/yyyy"
+		end
+
+	Month_year_format: STRING
+		once
+			Result := new_format (<< Var.long_month_name, Var.year >>)
+		end
+
+	Time_parser: EL_DATE_TIME_PARSER
+		once
+			Result := "[0]hh:[0]mi:[0]ss"
+		end
+
+feature {NONE} -- Constants
+
+	Buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
+		end
+
+	Excluded_agents_words: EL_ZSTRING_LIST
+		once
+			Result := "compatible, like, Chrome, Gecko, KHTML, Mozilla, Safari"
+		end
+
 	Field_count: INTEGER = 6
 
 	Http_protocol: ZSTRING
@@ -217,16 +281,11 @@ feature {NONE} -- Constants
 			Result := "HTTP/1."
 		end
 
-	Http_command_set: EL_HASH_SET [ZSTRING]
+	Mobile_agents: EL_ZSTRING_LIST
 		once
-			Result := Field_cache_array [1]
+			Result := "mobile, Mobile"
 		end
 
 	Quote: CHARACTER_32 = '%"'
-
-	Time_parser: EL_DATE_TIME_PARSER
-		once
-			Result := "[0]hh:[0]mi:[0]ss"
-		end
 
 end

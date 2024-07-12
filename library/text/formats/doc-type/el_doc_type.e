@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:37:32 GMT (Sunday 24th December 2023)"
-	revision: "12"
+	date: "2024-07-12 12:54:07 GMT (Friday 12th July 2024)"
+	revision: "13"
 
 class
 	EL_DOC_TYPE
@@ -17,9 +17,9 @@ inherit
 
 	EL_MODULE_ENCODING
 		rename
-			Encoding as Mod_encoding
+			Encoding as Encoding_
 		export
-			{ANY} Mod_encoding
+			{ANY} Encoding_
 		end
 
 	EL_SHARED_DOC_TEXT_TYPE_ENUM
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 
 	make (a_type: like type; a_encoding: NATURAL)
 		require
-			valid_encoding: Mod_encoding.is_valid (a_encoding)
+			valid_encoding: Encoding_.is_valid (a_encoding)
 		do
 			create encoding.make (a_encoding)
 			type := a_type; specification := new_specification
@@ -74,7 +74,7 @@ feature -- Contract Support
 	valid_type_and_encoding (type_and_encoding: NATURAL): BOOLEAN
 		do
 			if Text_type.is_valid_value ((type_and_encoding |>> 16).to_natural_8) then
-				Result := Mod_encoding.is_valid (type_and_encoding & Encoding_mask)
+				Result := Encoding_.is_valid (type_and_encoding & Encoding_mask)
 			end
 		end
 
