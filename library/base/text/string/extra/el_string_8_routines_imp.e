@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 7:34:42 GMT (Monday 3rd June 2024)"
-	revision: "24"
+	date: "2024-07-13 9:59:17 GMT (Saturday 13th July 2024)"
+	revision: "25"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -70,7 +70,7 @@ feature -- Basic operations
 			str.put (str [i].upper, i)
 		end
 
-feature -- Status query
+feature -- Character query
 
 	ends_with_character (s: READABLE_STRING_8; c: CHARACTER): BOOLEAN
 		local
@@ -118,41 +118,17 @@ feature -- Status query
 			end
 		end
 
-	matches_wildcard (s, wildcard: READABLE_STRING_8): BOOLEAN
-		local
-			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
-			search_string: IMMUTABLE_STRING_8
-		do
-			start_index := 1; end_index := wildcard.count
-			if ends_with_character (wildcard, '*')  then
-				end_index := end_index - 1
-				any_ending := True
-			end
-			if starts_with_character (wildcard, '*') then
-				start_index := start_index + 1
-				any_start := True
-			end
-			search_string := Immutable_8.shared_substring (wildcard, start_index, end_index)
-
-			if any_ending and any_start then
-				Result := s.has_substring (search_string)
-
-			elseif any_ending then
-				Result := s.starts_with (search_string)
-
-			elseif any_start then
-				Result := s.ends_with (search_string)
-			else
-				Result := s.same_string (wildcard)
-			end
-		end
-
 	starts_with_character (s: READABLE_STRING_8; c: CHARACTER): BOOLEAN
 		do
 			Result := s.count > 0 and then s [1] = c
 		end
 
 feature -- Comparison
+
+	ends_with (s, trailing: READABLE_STRING_8): BOOLEAN
+		do
+			Result := s.ends_with (trailing)
+		end
 
 	occurs_at (big, small: READABLE_STRING_8; index: INTEGER): BOOLEAN
 		-- `True' if `small' string occurs in `big' string at `index'
@@ -166,9 +142,14 @@ feature -- Comparison
 			Result := big.same_caseless_characters (small, 1, small.count, index)
 		end
 
-	same_strings (a, b: READABLE_STRING_8): BOOLEAN
+	same_string (a, b: READABLE_STRING_8): BOOLEAN
 		do
 			Result := EL_string_8.same_strings (a, b)
+		end
+
+	starts_with (s, leading: READABLE_STRING_8): BOOLEAN
+		do
+			Result := s.starts_with (leading)
 		end
 
 feature -- Conversion
@@ -308,11 +289,6 @@ feature -- Transform
 
 feature -- Adjust
 
-	left_adjust (str: STRING_8)
-		do
-			str.left_adjust
-		end
-
 	prune_all_leading (str: STRING_8; c: CHARACTER_32)
 		do
 			str.prune_all_leading (c.to_character_8)
@@ -324,11 +300,6 @@ feature -- Adjust
 			if c.is_character_8 then
 				Result.prune_all (c.to_character_8)
 			end
-		end
-
-	right_adjust (str: STRING_8)
-		do
-			str.right_adjust
 		end
 
 	wipe_out (str: STRING_8)
@@ -348,12 +319,19 @@ feature {NONE} -- Implementation
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
 		end
 
+	new_search_substring (s: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8
+		do
+			Result := Immutable_8.shared_substring (s, start_index, end_index)
+		end
+
 	replace_substring (str: STRING_8; insert: READABLE_STRING_8; start_index, end_index: INTEGER)
 		do
 			str.replace_substring (insert, start_index, end_index)
 		end
 
 feature {NONE} -- Constants
+
+	Asterisk: CHARACTER_8 = '*'
 
 	Split_on_character: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
 		once

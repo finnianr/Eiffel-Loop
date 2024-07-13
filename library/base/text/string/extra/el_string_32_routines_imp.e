@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:22 GMT (Saturday 22nd June 2024)"
-	revision: "53"
+	date: "2024-07-13 9:59:01 GMT (Saturday 13th July 2024)"
+	revision: "54"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -20,11 +20,13 @@ inherit
 			bit_count
 		end
 
-	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
+	EL_READABLE_STRING_32_ROUTINES [READABLE_STRING_32]
 
 	EL_STRING_32_CONSTANTS
 
-feature -- Status query
+	EL_SHARED_IMMUTABLE_32_MANAGER
+
+feature -- Character query
 
 	has_enclosing (s: READABLE_STRING_32; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
@@ -60,19 +62,7 @@ feature -- Status query
 
 feature -- Comparison
 
-	occurs_at (big, small: READABLE_STRING_32; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index'
-		do
-			Result := big.same_characters (small, 1, small.count, index)
-		end
-
-	occurs_caseless_at (big, small: READABLE_STRING_32; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index' regardless of case
-		do
-			Result := big.same_caseless_characters (small, 1, small.count, index)
-		end
-
-	same_strings (a, b: READABLE_STRING_32): BOOLEAN
+	same_string (a, b: READABLE_STRING_32): BOOLEAN
 		do
 			Result := EL_string_32.same_strings (a, b)
 		end
@@ -154,11 +144,6 @@ feature -- Factory
 
 feature -- Adjust
 
-	left_adjust (str: STRING_32)
-		do
-			str.left_adjust
-		end
-
 	pruned (str: STRING_32; c: CHARACTER_32): STRING_32
 		do
 			create Result.make_from_string (str)
@@ -168,11 +153,6 @@ feature -- Adjust
 	prune_all_leading (str: STRING_32; c: CHARACTER_32)
 		do
 			str.prune_all_leading (c)
-		end
-
-	right_adjust (str: STRING_32)
-		do
-			str.right_adjust
 		end
 
 	wipe_out (str: STRING_32)
@@ -192,12 +172,19 @@ feature {NONE} -- Implementation
 			Result := str.last_index_of (c, start_index_from_end)
 		end
 
+	new_search_substring (s: READABLE_STRING_32; start_index, end_index: INTEGER): READABLE_STRING_32
+		do
+			Result := Immutable_32.shared_substring (s, start_index, end_index)
+		end
+
 	replace_substring (str: STRING_32; insert: READABLE_STRING_32; start_index, end_index: INTEGER)
 		do
 			str.replace_substring (insert, start_index, end_index)
 		end
 
 feature {NONE} -- Constants
+
+	Asterisk: CHARACTER_32 = '*'
 
 	Split_on_character: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
 		once

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:27:10 GMT (Saturday 22nd June 2024)"
-	revision: "39"
+	date: "2024-07-13 9:23:15 GMT (Saturday 13th July 2024)"
+	revision: "40"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -120,6 +120,16 @@ feature -- Lists
 			end
 		end
 
+feature -- Character query
+
+	ends_with_character (s: READABLE_STRING_x; c: C): BOOLEAN
+		deferred
+		end
+
+	starts_with_character (s: READABLE_STRING_x; c: C): BOOLEAN
+		deferred
+		end
+
 feature -- Status query
 
 	has_double_quotes (s: READABLE_STRING_X): BOOLEAN
@@ -201,6 +211,35 @@ feature -- Comparison
 			end
 		end
 
+	matches_wildcard (s, wildcard: READABLE_STRING_X): BOOLEAN
+		local
+			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
+			search_string: READABLE_STRING_X
+		do
+			start_index := 1; end_index := wildcard.count
+			if ends_with_character (wildcard, asterisk)  then
+				end_index := end_index - 1
+				any_ending := True
+			end
+			if starts_with_character (wildcard, asterisk) then
+				start_index := start_index + 1
+				any_start := True
+			end
+			search_string := new_search_substring (wildcard, start_index, end_index)
+
+			if any_ending and any_start then
+				Result := s.has_substring (search_string)
+
+			elseif any_ending then
+				Result := starts_with (s, search_string)
+
+			elseif any_start then
+				Result := ends_with (s, search_string)
+			else
+				Result := same_string (s, wildcard)
+			end
+		end
+
 	occurs_at (big, small: READABLE_STRING_X; index: INTEGER): BOOLEAN
 		-- `True' if `small' string occurs in `big' string at `index'
 		deferred
@@ -217,10 +256,6 @@ feature -- Comparison
 			if a.count = b.count then
 				Result := occurs_caseless_at (a, b, 1)
 			end
-		end
-
-	same_strings (a, b: READABLE_STRING_X): BOOLEAN
-		deferred
 		end
 
 feature -- Character query
@@ -378,7 +413,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred
 
+	asterisk: C
+		deferred
+		end
+
 	cursor (s: READABLE_STRING_X): EL_STRING_ITERATION_CURSOR
+		deferred
+		end
+
+	ends_with (s, trailing: READABLE_STRING_X): BOOLEAN
 		deferred
 		end
 
@@ -390,11 +433,23 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	new_search_substring (s: READABLE_STRING_X; start_index, end_index: INTEGER): READABLE_STRING_X
+		deferred
+		end
+
+	same_string (a, b: READABLE_STRING_X): BOOLEAN
+		deferred
+		end
+
 	split_on_character: EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
 		deferred
 		end
 
 	string_searcher: STRING_SEARCHER
+		deferred
+		end
+
+	starts_with (s, leading: READABLE_STRING_X): BOOLEAN
 		deferred
 		end
 

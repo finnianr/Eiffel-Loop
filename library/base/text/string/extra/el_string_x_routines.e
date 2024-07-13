@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 7:37:57 GMT (Monday 3rd June 2024)"
-	revision: "67"
+	date: "2024-07-13 9:58:15 GMT (Saturday 13th July 2024)"
+	revision: "68"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -250,10 +250,6 @@ feature -- Transformed
 
 feature -- Adjust
 
-	left_adjust (str: STRING_X)
-		deferred
-		end
-
 	prune_all_leading (str: STRING_X; c: CHARACTER_32)
 		deferred
 		end
@@ -280,10 +276,6 @@ feature -- Adjust
 			--
 		do
 			remove_bookends (quoted_str, once "''" )
-		end
-
-	right_adjust (str: STRING_X)
-		deferred
 		end
 
 	wipe_out (str: STRING_X)

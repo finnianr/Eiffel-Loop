@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-30 10:12:43 GMT (Thursday 30th May 2024)"
-	revision: "28"
+	date: "2024-07-13 9:33:32 GMT (Saturday 13th July 2024)"
+	revision: "29"
 
 class
 	STRING_TEST_SET
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 				["bracketed",						agent test_bracketed],
 				["delimited_list",				agent test_delimited_list],
 				["immutable_string_manager",	agent test_immutable_string_manager],
+				["match_wildcard",				agent test_match_wildcard],
 				["name_table",						agent test_name_table]
 			>>)
 		end
@@ -155,6 +156,28 @@ feature -- Tests
 			end
 		end
 
+	test_match_wildcard
+		-- STRING_TEST_SET.test_match_wildcard
+		note
+			testing: "[
+				covers/{EL_READABLE_STRING_X_ROUTINES}.matches_wildcard
+			]"
+		local
+			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES
+			word_8: STRING; word, pattern: ZSTRING
+		do
+			word_8 := "encylopedia"
+
+			across << "*dia", "enc*", "*lop*", word_8 >> as list loop
+				if attached list.item as pattern_8 then
+					word := word_8
+					pattern := pattern_8
+					assert ("matches", s.matches_wildcard (word_8, pattern_8))
+					assert ("matches", z.matches_wildcard (word, pattern))
+				end
+			end
+		end
+
 	test_name_table
 		-- STRING_TEST_SET.test_name_table
 		note
@@ -172,7 +195,7 @@ feature -- Tests
 			end
 			if attached Text.symbol_32_list as symbol_list then
 				symbol_list.finish; symbol_list.remove -- remove "%T"
-				
+
 				create natural_codes.make (symbol_list.count)
 				from until natural_codes.full loop
 					natural_codes.extend ((natural_codes.count + 1).to_natural_8)

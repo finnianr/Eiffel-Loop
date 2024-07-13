@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 7:38:28 GMT (Monday 3rd June 2024)"
-	revision: "29"
+	date: "2024-07-13 9:58:51 GMT (Saturday 13th July 2024)"
+	revision: "30"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -26,7 +26,7 @@ inherit
 			adjusted, to_z_code, replace_character, translate_with_deletion
 		end
 
-	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]
+	EL_READABLE_STRING_32_ROUTINES [EL_READABLE_ZSTRING]
 
 	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
@@ -79,21 +79,18 @@ feature -- Factory
 
 feature -- Comparison
 
-	occurs_at (big, small: EL_READABLE_ZSTRING; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index'
-		do
-			Result := big.same_characters (small, 1, small.count, index)
-		end
-
-	occurs_caseless_at (big, small: EL_READABLE_ZSTRING; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index' regardless of case
-		do
-			Result := big.same_caseless_characters (small, 1, small.count, index)
-		end
-
-	same_strings (a, b: EL_READABLE_ZSTRING): BOOLEAN
+	same_string (a, b: EL_READABLE_ZSTRING): BOOLEAN
 		do
 			Result := a.same_string (b)
+		end
+
+	starts_with_drive (str: ZSTRING): BOOLEAN
+		do
+			inspect str.count
+				when 0, 1 then
+			else
+				Result := str [2] = ':' and then str.is_alpha_item (1)
+			end
 		end
 
 feature -- Substring
@@ -172,7 +169,7 @@ feature -- Conversion
 			Result.set_count (new_count)
 		end
 
-feature -- Status query
+feature -- Character query
 
 	has_enclosing (s: EL_READABLE_ZSTRING; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
@@ -220,6 +217,8 @@ feature -- Status query
 			end
 		end
 
+feature -- Status query
+
 	is_variable_reference (str: ZSTRING): BOOLEAN
 		-- `True' if str is one of two variable reference forms
 
@@ -241,20 +240,6 @@ feature -- Status query
 						str.is_alpha_numeric_item (index.item) or else str [index.item] = '_'
 					end
 				end
-			end
-		end
-
-	starts_with (a, b: ZSTRING): BOOLEAN
-		do
-			Result := a.starts_with (b)
-		end
-
-	starts_with_drive (str: ZSTRING): BOOLEAN
-		do
-			inspect str.count
-				when 0, 1 then
-			else
-				Result := str [2] = ':' and then str.is_alpha_item (1)
 			end
 		end
 
@@ -286,25 +271,15 @@ feature -- Basic operations
 
 feature -- Adjust
 
-	left_adjust (str: ZSTRING)
+	prune_all_leading (str: ZSTRING; c: CHARACTER_32)
 		do
-			str.left_adjust
+			str.prune_all_leading (c)
 		end
 
 	pruned (str: ZSTRING; c: CHARACTER_32): ZSTRING
 		do
 			create Result.make_from_string (str)
 			Result.prune_all (c)
-		end
-
-	prune_all_leading (str: ZSTRING; c: CHARACTER_32)
-		do
-			str.prune_all_leading (c)
-		end
-
-	right_adjust (str: ZSTRING)
-		do
-			str.right_adjust
 		end
 
 	wipe_out (str: ZSTRING)
@@ -336,14 +311,19 @@ feature {NONE} -- Implementation
 			Result := str.last_index_of (c, start_index_from_end)
 		end
 
-	to_z_code (character: CHARACTER_32): NATURAL_32
+	new_search_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING
 		do
-			Result := Codec.as_z_code (character)
+			Result := s.substring (start_index, end_index)
 		end
 
 	replace_substring (str: ZSTRING; insert: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
 		do
 			str.replace_substring (insert, start_index, end_index)
+		end
+
+	to_z_code (character: CHARACTER_32): NATURAL_32
+		do
+			Result := Codec.as_z_code (character)
 		end
 
 	translate_with_deletion (
@@ -359,14 +339,16 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
-		once
-			create Result.make (Escape_table.Substitution)
-		end
+	Asterisk: CHARACTER_32 = '*'
 
 	Split_on_character: EL_SPLIT_ZSTRING_ON_CHARACTER
 		once
 			create Result.make (Empty_string, '_')
+		end
+
+	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
+		once
+			create Result.make (Escape_table.Substitution)
 		end
 
 end

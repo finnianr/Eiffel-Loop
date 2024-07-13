@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-16 7:15:18 GMT (Thursday 16th May 2024)"
-	revision: "51"
+	date: "2024-07-13 12:16:20 GMT (Saturday 13th July 2024)"
+	revision: "52"
 
 class
 	EL_HTTP_CONNECTION
@@ -189,7 +189,6 @@ feature -- Basic operations
 			close_listener.notify_tick -- Used with `EL_MODULE_TRACK' to track progress of `open', `close' cycles
 
 			-- Workaround for a weird bug where a second call to read_string would hang
---			full_collect
 
 			-- September 2016: It's possible this weird bug might have been resolved by the rewrite of code
 			-- handling cURL C callbacks that happened in this month.

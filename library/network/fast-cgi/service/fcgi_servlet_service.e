@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 18:02:54 GMT (Friday 29th March 2024)"
-	revision: "32"
+	date: "2024-07-13 14:39:57 GMT (Saturday 13th July 2024)"
+	revision: "33"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -170,22 +170,29 @@ feature {NONE} -- States
 		local
 			path: ZSTRING
 		do
-			table.search (broker.relative_path_info)
-			if not table.found then
-				table.search (Default_servlet_key)
-			end
-			if table.found then
-				path := Service_info_template #$ [broker.relative_path_info, table.found_item.servlet_info]
-				date_time.update
-				if date_time.date.ordered_compact_date /= compact_date then
-					lio.put_line (Date.formatted (date_time.date, Date_format))
-					compact_date := date_time.date.ordered_compact_date
+			if attached broker.relative_path_info as relative_path then
+				table.search (relative_path)
+				if not table.found then
+					table.search (Default_servlet_key)
 				end
-				log_message (date_time.time.formatted_out (Time_format), path)
-				table.found_item.serve_request
-				log_separator
-			else
-				on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
+				if table.found then
+					path := Service_info_template #$ [relative_path, table.found_item.servlet_info]
+					date_time.update
+					if date_time.date.ordered_compact_date /= compact_date then
+						lio.put_line (Date.formatted (date_time.date, Date_format))
+						compact_date := date_time.date.ordered_compact_date
+					end
+					log_message (date_time.time.formatted_out (Time_format), path)
+					if log_parameters_enabled and then attached broker.parameters.query_string as query_string
+						and then query_string.count > 0
+					then
+						log_parameters (query_string)
+					end
+					table.found_item.serve_request
+					log_separator
+				else
+					on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
+				end
 			end
 			state := agent finishing_request
 		end
@@ -265,6 +272,11 @@ feature {NONE} -- Implementation
 				log_message ("Exiting after unrescueable exception", except.generator)
 				Exception.write_last_trace (Current)
 			end
+		end
+
+	log_parameters_enabled: BOOLEAN
+		do
+			Result := False
 		end
 
 	new_config (file_path: FILE_PATH): like config

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-07-13 9:17:10 GMT (Saturday 13th July 2024)"
+	revision: "5"
 
 class
 	EL_STRING_32_TABLE [G]
@@ -29,7 +29,7 @@ feature -- Comparison
 		local
 			s32: EL_STRING_32_ROUTINES
 		do
-			Result := s32.same_strings (a_search_key, a_key)
+			Result := s32.same_string (a_search_key, a_key)
 		end
 
 end
