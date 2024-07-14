@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 9:59:17 GMT (Saturday 13th July 2024)"
-	revision: "25"
+	date: "2024-07-14 17:30:27 GMT (Sunday 14th July 2024)"
+	revision: "26"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -98,14 +98,6 @@ feature -- Character query
 		-- `True' if `str.same_string (uc.out)' is true
 		do
 			Result := str.count = 1 and then str [1] = uc
-		end
-
-	is_identifier_character (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
-		local
-			c: CHARACTER
-		do
-			c := str [i]
-			Result := c.is_alpha_numeric or else c = '_'
 		end
 
 	is_subset_of (str: READABLE_STRING_8; set: EL_SET [CHARACTER_8]): BOOLEAN
@@ -309,6 +301,13 @@ feature -- Adjust
 
 feature {NONE} -- Implementation
 
+	as_canonically_spaced (s: READABLE_STRING_8): STRING_8
+		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
+		do
+			create Result.make (s.count)
+			Result.append (s)
+		end
+
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_8; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string_8 (target, pattern, 0)
@@ -317,6 +316,26 @@ feature {NONE} -- Implementation
 	last_index_of (str: READABLE_STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
+		end
+
+	is_i_th_alpha (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical
+		do
+			Result := str [i].is_alpha
+		end
+
+	is_i_th_alpha_numeric (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical or numeric
+		do
+			Result := str [i].is_alpha_numeric
+		end
+
+	is_i_th_identifier (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
+		local
+			c: CHARACTER
+		do
+			c := str [i]
+			Result := c.is_alpha_numeric or else c = '_'
 		end
 
 	new_search_substring (s: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8

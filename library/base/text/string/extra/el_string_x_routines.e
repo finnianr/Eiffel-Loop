@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 9:58:15 GMT (Saturday 13th July 2024)"
-	revision: "68"
+	date: "2024-07-14 17:31:06 GMT (Sunday 14th July 2024)"
+	revision: "69"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -25,26 +25,6 @@ feature -- Basic operations
 		do
 			wipe_out (str)
 			append_to (str, content)
-		end
-
-feature -- Deferred operations
-
-	append_area_32 (str: STRING_X; area: SPECIAL [CHARACTER_32])
-		deferred
-		end
-
-	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	replace_substring (str: STRING_X; insert: READABLE_STRING_X; start_index, end_index: INTEGER)
-		deferred
-		end
-
-	set_upper (str: STRING_X; i: INTEGER)
-		require
-			valid_index: 0 < i and i <= str.count
-		deferred
 		end
 
 feature -- Factory
@@ -278,6 +258,37 @@ feature -- Adjust
 			remove_bookends (quoted_str, once "''" )
 		end
 
+	to_canonically_spaced (str: STRING_X)
+		-- adjust string so that `is_canonically_spaced' becomes true
+		local
+			uc_i: CHARACTER_32; i, j, upper, space_count: INTEGER
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			if attached {READABLE_STRING_X} str as s and then not is_canonically_spaced (s) then
+				upper := str.count
+				from i := 1; j := 1 until i > upper loop
+					uc_i := str [i]
+					if c32.is_space (uc_i) then
+						space_count := space_count + 1
+					else
+						space_count := 0
+					end
+					inspect space_count
+						when 0 then
+							str.put_code (uc_i.natural_32_code, j)
+							j := j + 1
+
+						when 1 then
+							str.put_code ({EL_ASCII}.space, j)
+							j := j + 1
+					else
+					end
+					i := i + 1
+				end
+				str.keep_head (j - 1)
+			end
+		end
+
 	wipe_out (str: STRING_X)
 		deferred
 		end
@@ -343,6 +354,26 @@ feature {NONE} -- Implementation
 				end
 				i := i + 1
 			end
+		end
+
+feature {NONE} -- Deferred
+
+	append_area_32 (str: STRING_X; area: SPECIAL [CHARACTER_32])
+		deferred
+		end
+
+	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	replace_substring (str: STRING_X; insert: READABLE_STRING_X; start_index, end_index: INTEGER)
+		deferred
+		end
+
+	set_upper (str: STRING_X; i: INTEGER)
+		require
+			valid_index: 0 < i and i <= str.count
+		deferred
 		end
 
 end

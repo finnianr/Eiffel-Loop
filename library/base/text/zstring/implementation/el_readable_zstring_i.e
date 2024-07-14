@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 16:33:09 GMT (Friday 12th April 2024)"
-	revision: "17"
+	date: "2024-07-14 18:21:17 GMT (Sunday 14th July 2024)"
+	revision: "18"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -78,6 +78,10 @@ feature {NONE} -- Measurement
 		end
 
 feature {NONE} -- Status query
+
+	has_substring (other: READABLE_STRING_GENERAL): BOOLEAN
+		deferred
+		end
 
 	is_alpha_numeric_item (i: INTEGER): BOOLEAN
 		deferred

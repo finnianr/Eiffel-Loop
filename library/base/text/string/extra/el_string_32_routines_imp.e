@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 9:59:01 GMT (Saturday 13th July 2024)"
-	revision: "54"
+	date: "2024-07-14 17:30:07 GMT (Sunday 14th July 2024)"
+	revision: "55"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -42,7 +42,19 @@ feature -- Character query
 			end
 		end
 
-	is_identifier_character (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
+	is_i_th_alpha (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical
+		do
+			Result := str [i].is_alpha
+		end
+
+	is_i_th_alpha_numeric (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical or numeric
+		do
+			Result := str [i].is_alpha_numeric
+		end
+
+	is_i_th_identifier (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
 		local
 			c: CHARACTER_32
 		do
@@ -161,6 +173,13 @@ feature -- Adjust
 		end
 
 feature {NONE} -- Implementation
+
+	as_canonically_spaced (s: READABLE_STRING_32): STRING_32
+		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
+		do
+			create Result.make (s.count)
+			Result.append (s)
+		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL)
 		do

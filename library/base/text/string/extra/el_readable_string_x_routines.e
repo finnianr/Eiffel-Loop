@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 9:23:15 GMT (Saturday 13th July 2024)"
-	revision: "40"
+	date: "2024-07-14 19:09:17 GMT (Sunday 14th July 2024)"
+	revision: "41"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -94,6 +94,29 @@ feature -- Access
 			end
 		end
 
+feature -- Measurement
+
+	word_count (a_str: READABLE_STRING_X; exclude_variable_references: BOOLEAN): INTEGER
+		-- count of all words in canonically spaced `a_str', but excluding words that
+		-- are substitution references if `exclude_variable_references' is `True'
+		local
+			str: READABLE_STRING_X
+		do
+			if is_canonically_spaced (a_str) then
+				str := a_str
+			else
+				str := as_canonically_spaced (a_str)
+			end
+			if attached split_on_character as split_list then
+				split_list.set_target (str); split_list.set_separator (' ')
+				across split_list as word loop
+					if exclude_variable_references implies not is_variable_reference (word.item) then
+						Result := Result + 1
+					end
+				end
+			end
+		end
+
 feature -- Lists
 
 	delimited_list (text: READABLE_STRING_X; delimiter: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [READABLE_STRING_X]
@@ -126,12 +149,6 @@ feature -- Character query
 		deferred
 		end
 
-	starts_with_character (s: READABLE_STRING_x; c: C): BOOLEAN
-		deferred
-		end
-
-feature -- Status query
-
 	has_double_quotes (s: READABLE_STRING_X): BOOLEAN
 			--
 		do
@@ -160,6 +177,38 @@ feature -- Status query
 			Result := has_quotes (s, 1)
 		end
 
+	starts_with_character (s: READABLE_STRING_x; c: C): BOOLEAN
+		deferred
+		end
+
+feature -- Status query
+
+	is_canonically_spaced (s: READABLE_STRING_X): BOOLEAN
+		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
+		local
+			uc_i: CHARACTER_32; i, upper, space_count: INTEGER
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			Result := True; upper := s.count
+			from i := 1 until not Result or else i > upper loop
+				uc_i := s [i]
+				if c32.is_space (uc_i) then
+					space_count := space_count + 1
+				else
+					space_count := 0
+				end
+				inspect space_count
+					when 0 then
+						do_nothing
+					when 1 then
+						Result := uc_i = ' '
+				else
+					Result := False
+				end
+				i := i + 1
+			end
+		end
+
 	is_eiffel (s: READABLE_STRING_X): BOOLEAN
 		-- `True' if `target' is an Eiffel identifier
 		do
@@ -186,16 +235,62 @@ feature -- Status query
 		do
 			Result := True
 			if upper + 1 <= str.count then
-				Result := not is_identifier_character (str, upper + 1)
+				Result := not is_i_th_identifier (str, upper + 1)
 			end
 			if Result and then lower - 1 >= 1 then
-				Result := not is_identifier_character (str, lower - 1)
+				Result := not is_i_th_identifier (str, lower - 1)
 			end
 		end
 
 	is_subset_of (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
 		-- `True' if set of all characters in `str' is a subset of `set'
 		deferred
+		end
+
+	is_variable_name (str: READABLE_STRING_X): BOOLEAN
+		local
+			i, upper: INTEGER
+		do
+			upper := str.count
+			Result := upper > 1
+			from i := 1 until not Result or i > upper loop
+				inspect i
+					when 1 then
+						Result := str [i] = '$'
+					when 2 then
+						Result := is_i_th_alpha (str, i)
+				else
+					Result := is_i_th_alpha_numeric (str, i) or else str [i] = '_'
+				end
+				i := i + 1
+			end
+		end
+
+	is_variable_reference (str: READABLE_STRING_X): BOOLEAN
+		-- `True' if str is one of two variable reference forms
+
+		-- 1. $<C identifier>
+		-- 2. ${<C identifier>}
+		local
+			lower, upper, i: INTEGER
+		do
+			upper := str.count
+			if str.count >= 2 and then str [1] = '$' then
+				if str [2] = '{' and then upper > 3 then
+				-- like: ${name}
+					if str [upper] = '}' then
+						lower := 3
+					end
+				else
+					lower := 2
+				end
+				if str.valid_index (lower) then
+					Result := is_i_th_alpha (str, lower)
+					from i := lower until i > upper or not Result loop
+						Result := is_i_th_alpha_numeric (str, i) or else str [i] = '_'
+					end
+				end
+			end
 		end
 
 feature -- Comparison
@@ -212,23 +307,40 @@ feature -- Comparison
 		end
 
 	matches_wildcard (s, wildcard: READABLE_STRING_X): BOOLEAN
+		-- try to match `wildcard' search term against string `s' with an asterisk either to the left,
+		-- to the right or on both sides
 		local
 			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
 			search_string: READABLE_STRING_X
 		do
 			start_index := 1; end_index := wildcard.count
-			if ends_with_character (wildcard, asterisk)  then
-				end_index := end_index - 1
-				any_ending := True
+			inspect wildcard.count
+				when 0 then
+				when 1 then
+					if wildcard [1].code = {ASCII}.Star then
+						any_ending := True; any_start := True
+					end
+			else
+				if ends_with_character (wildcard, asterisk)  then
+					end_index := end_index - 1
+					any_ending := True
+				end
+				if starts_with_character (wildcard, asterisk) then
+					start_index := start_index + 1
+					any_start := True
+				end
 			end
-			if starts_with_character (wildcard, asterisk) then
-				start_index := start_index + 1
-				any_start := True
+			if start_index - end_index + 1 = wildcard.count then
+				search_string := wildcard
+			else
+				search_string := new_search_substring (wildcard, start_index, end_index)
 			end
-			search_string := new_search_substring (wildcard, start_index, end_index)
-
 			if any_ending and any_start then
-				Result := s.has_substring (search_string)
+				if wildcard.count = 1 then
+					Result := True
+				else
+					Result := s.has_substring (search_string)
+				end
 
 			elseif any_ending then
 				Result := starts_with (s, search_string)
@@ -256,12 +368,6 @@ feature -- Comparison
 			if a.count = b.count then
 				Result := occurs_caseless_at (a, b, 1)
 			end
-		end
-
-feature -- Character query
-
-	is_identifier_character (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		deferred
 		end
 
 feature -- Substring
@@ -417,6 +523,11 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	as_canonically_spaced (s: READABLE_STRING_X): READABLE_STRING_X
+		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
+		deferred
+		end
+
 	cursor (s: READABLE_STRING_X): EL_STRING_ITERATION_CURSOR
 		deferred
 		end
@@ -426,6 +537,21 @@ feature {NONE} -- Deferred
 		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	is_i_th_alpha (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical
+		deferred
+		end
+
+	is_i_th_alpha_numeric (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical or numeric
+		deferred
+		end
+
+	is_i_th_identifier (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is an identifier
 		deferred
 		end
 

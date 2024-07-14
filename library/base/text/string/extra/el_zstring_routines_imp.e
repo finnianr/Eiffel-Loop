@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 9:58:51 GMT (Saturday 13th July 2024)"
-	revision: "30"
+	date: "2024-07-14 17:30:36 GMT (Sunday 14th July 2024)"
+	revision: "31"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -23,7 +23,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			adjusted, to_z_code, replace_character, translate_with_deletion
+			adjusted, to_canonically_spaced, to_z_code, replace_character, translate_with_deletion
 		end
 
 	EL_READABLE_STRING_32_ROUTINES [EL_READABLE_ZSTRING]
@@ -33,30 +33,6 @@ inherit
 	EL_SHARED_ZSTRING_CODEC
 
 	EL_ZSTRING_CONSTANTS
-
-feature -- Measurement
-
-	word_count (a_str: ZSTRING; exclude_variable_references: BOOLEAN): INTEGER
-		-- count of all words in canonically spaced `a_str', but excluding words that
-		-- are substitution references if `exclude_variable_references' is `True'
-		local
-			str: ZSTRING
-		do
-			across String_scope as scope loop
-				if a_str.is_canonically_spaced then
-					str := a_str
-				else
-					str := scope.item
-					str.append (a_str)
-					str.to_canonically_spaced
-				end
-				across str.split (' ') as word loop
-					if exclude_variable_references implies not is_variable_reference (word.item) then
-						Result := Result + 1
-					end
-				end
-			end
-		end
 
 feature -- Factory
 
@@ -183,7 +159,7 @@ feature -- Character query
 			end
 		end
 
-	is_identifier_character (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
+	is_i_th_identifier (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
 		do
 			Result := str.is_alpha_numeric_item (i) or else str.item_8 (i) = '_'
 		end
@@ -197,50 +173,6 @@ feature -- Character query
 		-- `True' if set of all characters in `str' is a subset of `set'
 		do
 			Result := str.is_subset_of (set)
-		end
-
-	is_variable_name (str: ZSTRING): BOOLEAN
-		local
-			i: INTEGER
-		do
-			Result := str.count > 1
-			from i := 1 until not Result or i > str.count loop
-				inspect i
-					when 1 then
-						Result := str [i] = '$'
-					when 2 then
-						Result := str.is_alpha_item (i)
-				else
-					Result := str.is_alpha_numeric_item (i) or else str [i] = '_'
-				end
-				i := i + 1
-			end
-		end
-
-feature -- Status query
-
-	is_variable_reference (str: ZSTRING): BOOLEAN
-		-- `True' if str is one of two variable reference forms
-
-		-- 1. $<C identifier>
-		-- 2. ${<C identifier>}
-		local
-			character_range: detachable INTEGER_INTERVAL
-		do
-			if str.count >= 2 and then str [1] = '$' then
-				if str.is_alpha_item (2) then
-					character_range := 3 |..| str.count
-
-				elseif str.count > 3 and then str [2] = '{' and str [str.count] = '}' then
-					-- variable like: ${name}
-					character_range := 3 |..| str.count
-				end
-				if attached character_range as range then
-					Result := across range as index all
-						str.is_alpha_numeric_item (index.item) or else str [index.item] = '_'
-					end
-				end
-			end
 		end
 
 feature -- Basic operations
@@ -282,19 +214,29 @@ feature -- Adjust
 			Result.prune_all (c)
 		end
 
-	wipe_out (str: ZSTRING)
-		do
-			str.wipe_out
-		end
-
-feature -- Transform
-
 	replace_character (target: ZSTRING; uc_old, uc_new: CHARACTER_32)
 		do
 			target.replace_character (uc_old, uc_new)
 		end
 
+	to_canonically_spaced (str: ZSTRING)
+		do
+			str.to_canonically_spaced
+		end
+
+	wipe_out (str: ZSTRING)
+		do
+			str.wipe_out
+		end
+
 feature {NONE} -- Implementation
+
+	as_canonically_spaced (s: EL_READABLE_ZSTRING): ZSTRING
+		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
+		do
+			create Result.make (s.count)
+			Result.append (s)
+		end
 
 	cursor (s: EL_READABLE_ZSTRING): EL_ZSTRING_ITERATION_CURSOR
 		do
@@ -309,6 +251,18 @@ feature {NONE} -- Implementation
 	last_index_of (str: EL_READABLE_ZSTRING; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c, start_index_from_end)
+		end
+
+	is_i_th_alpha (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical
+		do
+			Result := str.is_alpha_item (i)
+		end
+
+	is_i_th_alpha_numeric (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is alphabetical or numeric
+		do
+			Result := str.is_alpha_numeric_item (i)
 		end
 
 	new_search_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING

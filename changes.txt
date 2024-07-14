@@ -724,3 +724,6 @@ Fixed issue of localized shortcut comment with double +
 Wed 10th Jul 2024, 11:18:25
 Test set for EL_WEB_LOG_ENTRY
 
+Sat 13th Jul 2024, 16:20:11
+EL_STRING_LIST has routine unique_sort
+

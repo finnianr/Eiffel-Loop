@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 9:33:32 GMT (Saturday 13th July 2024)"
-	revision: "29"
+	date: "2024-07-14 19:06:20 GMT (Sunday 14th July 2024)"
+	revision: "30"
 
 class
 	STRING_TEST_SET
@@ -160,7 +160,8 @@ feature -- Tests
 		-- STRING_TEST_SET.test_match_wildcard
 		note
 			testing: "[
-				covers/{EL_READABLE_STRING_X_ROUTINES}.matches_wildcard
+				covers/{EL_READABLE_STRING_X_ROUTINES}.matches_wildcard,
+				covers/{EL_COMPARABLE_ZSTRING}.matches_wildcard
 			]"
 		local
 			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES
@@ -168,14 +169,16 @@ feature -- Tests
 		do
 			word_8 := "encylopedia"
 
-			across << "*dia", "enc*", "*lop*", word_8 >> as list loop
+			across << "*dia", "enc*", "*lop*", "*", word_8 >> as list loop
 				if attached list.item as pattern_8 then
 					word := word_8
 					pattern := pattern_8
 					assert ("matches", s.matches_wildcard (word_8, pattern_8))
 					assert ("matches", z.matches_wildcard (word, pattern))
+					assert ("matches", word.matches_wildcard (pattern))
 				end
 			end
+			assert ("no match", not word.matches_wildcard (""))
 		end
 
 	test_name_table

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 8:32:22 GMT (Monday 15th April 2024)"
-	revision: "6"
+	date: "2024-07-14 16:47:34 GMT (Sunday 14th July 2024)"
+	revision: "7"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -343,15 +343,22 @@ feature -- Tests
 		end
 
 	test_to_canonically_spaced
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_to_canonically_spaced
 		note
 			testing:	"[
 				covers/{EL_TRANSFORMABLE_ZSTRING}.to_canonically_spaced,
+				covers/{EL_STRING_X_ROUTINES}.to_canonically_spaced,
 				covers/{EL_READABLE_ZSTRING}.is_canonically_spaced
+				covers/{EL_STRING_X_ROUTINES}.is_canonically_spaced,
 			]"
 		local
-			canonical, line, not_canonical_line: ZSTRING
-			count: INTEGER
+			canonical, line, not_canonical_line, white_space: ZSTRING; str_32: STRING_32
+			count: INTEGER; tab_space: SPECIAL [CHARACTER_32]; s32: EL_STRING_32_ROUTINES
 		do
+			create tab_space.make_filled ('%T', 2)
+			tab_space [1] := ' '
+			create white_space.make_empty
+
 		-- Basic test
 			canonical := "2023 Oct 8"
 			not_canonical_line := canonical.twin
@@ -369,18 +376,27 @@ feature -- Tests
 		-- Rigorous test
 			across Text.lines as list loop
 				line := list.item
+				assert ("canonically spaced", line.is_canonically_spaced)
+				assert ("STRING_32 canonically spaced", s32.is_canonically_spaced (line.to_string_32))
+
 				create not_canonical_line.make (line.count * 2)
 				count := 0
+				white_space.wipe_out
 				across line.split (' ') as split loop
 					if count > 0 then
 					-- insert bigger and bigger space strings
-						not_canonical_line.append (Space * count)
+						white_space.extend (tab_space [count \\ 2])
+						not_canonical_line.append (white_space)
 					end
 					not_canonical_line.append (split.item)
 					count := count + 1
 				end
+				str_32 := not_canonical_line.to_string_32
 				not_canonical_line.to_canonically_spaced
 				assert_same_string ("same as canonical", line, not_canonical_line)
+
+				s32.to_canonically_spaced (str_32)
+				assert ("same string", not_canonical_line.to_string_32 ~ str_32)
 			end
 		end
 

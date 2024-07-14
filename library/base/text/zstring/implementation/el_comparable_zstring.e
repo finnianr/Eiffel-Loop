@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "46"
+	date: "2024-07-14 19:02:27 GMT (Sunday 14th July 2024)"
+	revision: "47"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -88,6 +88,51 @@ feature -- Start/End comparisons
 			elseif attached {READABLE_STRING_32} other as str_32 then
 
 				Result := same_characters_32 (str_32, 1, other_count, count - other_count + 1, False)
+			end
+		end
+
+	matches_wildcard (wildcard: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
+			search_string: READABLE_STRING_GENERAL
+		do
+			start_index := 1; end_index := wildcard.count
+			inspect wildcard.count
+				when 0 then
+				when 1 then
+					if wildcard [1].code = {ASCII}.Star then
+						any_ending := True; any_start := True
+					end
+			else
+				if wildcard.count > 0 and then wildcard [end_index] = '*' then
+					end_index := end_index - 1
+					any_ending := True
+				end
+				if wildcard.count > 0 and then wildcard [1] = '*' then
+					start_index := start_index + 1
+					any_start := True
+				end
+			end
+			if start_index - end_index + 1 = wildcard.count then
+				search_string := wildcard
+			else
+				search_string := wildcard.substring (start_index, end_index)
+			end
+
+			if any_ending and any_start then
+				if wildcard.count = 1 then
+					Result := True
+				else
+					Result := has_substring (search_string)
+				end
+
+			elseif any_ending then
+				Result := starts_with_general (search_string)
+
+			elseif any_start then
+				Result := ends_with_general (search_string)
+			else
+				Result := count = end_index and then same_characters_general (wildcard, 1, end_index, 1)
 			end
 		end
 
