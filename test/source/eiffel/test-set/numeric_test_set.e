@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:54:18 GMT (Thursday 7th December 2023)"
-	revision: "18"
+	date: "2024-07-15 17:24:32 GMT (Monday 15th July 2024)"
+	revision: "19"
 
 class
 	NUMERIC_TEST_SET
@@ -32,6 +32,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["double_string_conversion", agent test_double_string_conversion],
+				["integer_width",				  agent test_integer_width],
 				["negative_to_natural",		  agent test_negative_to_natural],
 				["store_integer_in_natural", agent test_store_integer_in_natural],
 				["truncated_natural_64",	  agent test_truncated_natural_64]
@@ -63,6 +64,13 @@ feature -- Tests
 				lio.put_new_line
 				n := n * 10
 			end
+		end
+
+	test_integer_width
+		-- NUMERIC_TEST_SET.test_integer_width
+		do
+			assert ("width is 3", log10 (999).floor + 1 = 3)
+			assert ("width is 4", log10 (1000).floor + 1 = 4)
 		end
 
 	test_negative_to_natural

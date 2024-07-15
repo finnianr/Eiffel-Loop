@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 12:42:46 GMT (Monday 15th July 2024)"
-	revision: "23"
+	date: "2024-07-15 17:16:22 GMT (Monday 15th July 2024)"
+	revision: "24"
 
 class
 	EL_LOG_MANAGER
@@ -19,11 +19,11 @@ class
 inherit
 	EL_STRING_GENERAL_ROUTINES
 
-	EL_MODULE_LOGGING
-
 	EL_SINGLE_THREAD_ACCESS
 
 	EL_MODULE_ARGS; EL_MODULE_CONSOLE; EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM
+
+	EL_MODULE_LOGGING; EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_SHARED_DIRECTORY
 		rename
@@ -170,6 +170,39 @@ feature -- Status query
 		end
 
 feature -- Basic operations
+
+	keep_files (name: READABLE_STRING_GENERAL; count: INTEGER)
+		-- delete older log files keeping `count' of the most recently generated
+		local
+			deleting: BOOLEAN; deletion_list: EL_FILE_PATH_LIST
+		do
+			if attached new_log_path_list (name) as log_path_list then
+				create deletion_list.make (30)
+				if log_path_list.is_empty then
+					lio.put_labeled_string ("Empty directory", output_directory)
+					lio.put_new_line
+				else
+					lio.put_line ("Keeping")
+					across log_path_list as list loop
+						if list.cursor_index = count + 1 then
+							lio.put_line ("Deleting")
+							deleting := True
+						end
+						lio.put_index_labeled_string (list, Void, list.item.relative_path (Directory.App_data.parent).to_string)
+						lio.put_new_line
+						if deleting then
+							deletion_list.extend (list.item)
+						end
+					end
+					if deletion_list.count > 0 and then User_input.approved_action_y_n ("Are you sure?") then
+						across deletion_list as list loop
+							File_system.remove_file (list.item)
+						end
+					end
+				end
+			end
+
+		end
 
 	redirect_main_thread_to_console
 			-- set output of main thread to console

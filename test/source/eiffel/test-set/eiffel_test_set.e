@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-02 16:30:10 GMT (Tuesday 2nd January 2024)"
-	revision: "37"
+	date: "2024-07-15 15:41:49 GMT (Monday 15th July 2024)"
+	revision: "38"
 
 class
 	EIFFEL_TEST_SET
@@ -33,8 +33,8 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["array_sizes",			 agent test_array_sizes],
-				["natural_constant",		 agent test_natural_constant],
 				["managed_pointer_twin", agent test_managed_pointer_twin],
+				["natural_constant",		 agent test_natural_constant],
 				["string_field_counts",	 agent test_string_field_counts],
 				["string_sizes",			 agent test_string_sizes]
 			>>)

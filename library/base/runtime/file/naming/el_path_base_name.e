@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-07-15 17:33:42 GMT (Monday 15th July 2024)"
+	revision: "14"
 
 deferred class
 	EL_PATH_BASE_NAME
@@ -228,11 +228,18 @@ feature -- Element change
 	set_version_number (number: like version_number)
 		require
 			has_version_number: has_version_number
+		local
+			digit_count: INTEGER
 		do
 			if attached version_interval as interval and then not interval.off then
-				base.replace_substring_general (
-					Format.zero_padded_integer (number, interval.item_count), interval.item_lower, interval.item_upper
-				)
+				if number > 0 then
+					digit_count := interval.item_count.max (Math.log10 (number).floor + 1)
+				else
+					digit_count := interval.item_count
+				end
+				if attached Format.zero_padded_integer (number, digit_count) as str then
+					base.replace_substring_general (str, interval.item_lower, interval.item_upper)
+				end
 			end
 			reset_hash
 		end
@@ -243,4 +250,10 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
+feature {NONE} -- Constants
+
+	Math: DOUBLE_MATH
+		once
+			create Result
+		end
 end

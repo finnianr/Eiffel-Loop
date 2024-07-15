@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 15:49:41 GMT (Tuesday 4th June 2024)"
-	revision: "31"
+	date: "2024-07-15 17:32:05 GMT (Monday 15th July 2024)"
+	revision: "32"
 
 class
 	PATH_TEST_SET
@@ -332,10 +332,13 @@ feature -- Tests
 		end
 
 	test_version_number
+		-- PATH_TEST_SET.test_version_number
 		note
 			testing:
-				"covers/{EL_PATH}.version_number, covers/{EL_PATH}.has_version_number",
-				"covers/{EL_PATH}.version_interval"
+				"[
+					covers/{EL_PATH}.version_number, covers/{EL_PATH}.has_version_number,
+					covers/{EL_PATH}.version_interval
+				]"
 		local
 			path: FILE_PATH
 		do
@@ -349,6 +352,8 @@ feature -- Tests
 						path.set_version_number (3)
 						assert ("version is 3", path.version_number = 3)
 						assert ("same format width", path.version_interval.item_count = 2)
+						path.set_version_number (103)
+						assert_same_string (Void, path.to_string, "myfile.103.mp3")
 					when 3 then
 						assert ("no version", path.version_number = -1)
 				end
