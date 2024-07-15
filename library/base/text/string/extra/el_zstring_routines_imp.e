@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 17:30:36 GMT (Sunday 14th July 2024)"
-	revision: "31"
+	date: "2024-07-15 7:31:10 GMT (Monday 15th July 2024)"
+	revision: "32"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -58,15 +58,6 @@ feature -- Comparison
 	same_string (a, b: EL_READABLE_ZSTRING): BOOLEAN
 		do
 			Result := a.same_string (b)
-		end
-
-	starts_with_drive (str: ZSTRING): BOOLEAN
-		do
-			inspect str.count
-				when 0, 1 then
-			else
-				Result := str [2] = ':' and then str.is_alpha_item (1)
-			end
 		end
 
 feature -- Substring
@@ -265,9 +256,9 @@ feature {NONE} -- Implementation
 			Result := str.is_alpha_numeric_item (i)
 		end
 
-	new_search_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING
+	new_shared_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING
 		do
-			Result := s.substring (start_index, end_index)
+			Result := Buffer.copied_substring (str, start_index, end_index)
 		end
 
 	replace_substring (str: ZSTRING; insert: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)
@@ -294,6 +285,11 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Asterisk: CHARACTER_32 = '*'
+
+	Buffer: EL_ZSTRING_BUFFER
+		once
+			create Result
+		end
 
 	Split_on_character: EL_SPLIT_ZSTRING_ON_CHARACTER
 		once

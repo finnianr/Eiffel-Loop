@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 19:09:17 GMT (Sunday 14th July 2024)"
-	revision: "41"
+	date: "2024-07-15 7:32:47 GMT (Monday 15th July 2024)"
+	revision: "42"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -43,7 +43,10 @@ inherit
 
 feature -- Access
 
-	occurrence_intervals (target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_OCCURRENCE_INTERVALS
+	occurrence_intervals (
+		target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL; keep_ref: BOOLEAN
+
+	): EL_OCCURRENCE_INTERVALS
 		do
 			Result := Once_occurence_intervals.emptied
 			fill_intervals (Result, target, pattern)
@@ -96,24 +99,34 @@ feature -- Access
 
 feature -- Measurement
 
-	word_count (a_str: READABLE_STRING_X; exclude_variable_references: BOOLEAN): INTEGER
-		-- count of all words in canonically spaced `a_str', but excluding words that
-		-- are substitution references if `exclude_variable_references' is `True'
+	word_count (str: READABLE_STRING_X; exclude_variable_references: BOOLEAN): INTEGER
+		-- count of all substrings of `str' that are separated by whitespace
+		-- but if `exclude_variable_references' is `True', substract cound of substrings
+		-- that are variable references defined by `is_variable_reference'
 		local
-			str: READABLE_STRING_X
+			i, upper, word_index: INTEGER; state_find_word: BOOLEAN; c32: EL_CHARACTER_32_ROUTINES
 		do
-			if is_canonically_spaced (a_str) then
-				str := a_str
-			else
-				str := as_canonically_spaced (a_str)
-			end
-			if attached split_on_character as split_list then
-				split_list.set_target (str); split_list.set_separator (' ')
-				across split_list as word loop
-					if exclude_variable_references implies not is_variable_reference (word.item) then
+			upper := str.count
+			state_find_word := True
+			from i := 1 until i > upper loop
+				if state_find_word then
+					from until i > upper or else not c32.is_space (str [i]) loop
+						i := i + 1
+					end
+					word_index := i
+				else
+					from until i > upper or else c32.is_space (str [i]) loop
+						i := i + 1
+					end
+					if attached new_shared_substring (str, word_index, i - 1) as word
+						and then has_alpha (word)
+						and then exclude_variable_references implies not is_variable_reference (word)
+					then
 						Result := Result + 1
 					end
 				end
+				state_find_word := not state_find_word
+				i := i + 1
 			end
 		end
 
@@ -147,6 +160,17 @@ feature -- Character query
 
 	ends_with_character (s: READABLE_STRING_x; c: C): BOOLEAN
 		deferred
+		end
+
+	has_alpha (str: READABLE_STRING_X): BOOLEAN
+		local
+			i, upper: INTEGER
+		do
+			upper := str.count
+			from i := 1 until Result or else i > upper loop
+				Result := is_i_th_alpha (str, i)
+				i := i + 1
+			end
 		end
 
 	has_double_quotes (s: READABLE_STRING_X): BOOLEAN
@@ -279,7 +303,7 @@ feature -- Status query
 				if str [2] = '{' and then upper > 3 then
 				-- like: ${name}
 					if str [upper] = '}' then
-						lower := 3
+						lower := 3; upper := upper - 1
 					end
 				else
 					lower := 2
@@ -288,6 +312,7 @@ feature -- Status query
 					Result := is_i_th_alpha (str, lower)
 					from i := lower until i > upper or not Result loop
 						Result := is_i_th_alpha_numeric (str, i) or else str [i] = '_'
+						i := i + 1
 					end
 				end
 			end
@@ -333,7 +358,7 @@ feature -- Comparison
 			if start_index - end_index + 1 = wildcard.count then
 				search_string := wildcard
 			else
-				search_string := new_search_substring (wildcard, start_index, end_index)
+				search_string := new_shared_substring (wildcard, start_index, end_index)
 			end
 			if any_ending and any_start then
 				if wildcard.count = 1 then
@@ -367,6 +392,16 @@ feature -- Comparison
 		do
 			if a.count = b.count then
 				Result := occurs_caseless_at (a, b, 1)
+			end
+		end
+
+	starts_with_drive (str: READABLE_STRING_X): BOOLEAN
+		-- True if str starts with volume path, for eg. C:\System32
+		do
+			inspect str.count
+				when 0, 1 then
+			else
+				Result := str [2] = ':' and then is_i_th_alpha (str, 1)
 			end
 		end
 
@@ -559,7 +594,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	new_search_substring (s: READABLE_STRING_X; start_index, end_index: INTEGER): READABLE_STRING_X
+	new_shared_substring (s: READABLE_STRING_X; start_index, end_index: INTEGER): READABLE_STRING_X
 		deferred
 		end
 

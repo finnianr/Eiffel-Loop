@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 19:06:20 GMT (Sunday 14th July 2024)"
-	revision: "30"
+	date: "2024-07-15 6:57:35 GMT (Monday 15th July 2024)"
+	revision: "31"
 
 class
 	STRING_TEST_SET
@@ -35,7 +35,9 @@ feature {NONE} -- Initialization
 				["delimited_list",				agent test_delimited_list],
 				["immutable_string_manager",	agent test_immutable_string_manager],
 				["match_wildcard",				agent test_match_wildcard],
-				["name_table",						agent test_name_table]
+				["name_table",						agent test_name_table],
+				["variable_pattern",				agent test_variable_pattern],
+				["word_count",						agent test_word_count]
 			>>)
 		end
 
@@ -207,6 +209,45 @@ feature -- Tests
 				across natural_codes as code loop
 					assert ("same name", symbol_table.item_32 (code.item) ~ symbol_list [code.cursor_index])
 				end
+			end
+		end
+
+	test_variable_pattern
+		-- STRING_TEST_SET.test_variable_pattern
+		note
+			testing: "[
+				covers/{EL_READABLE_STRING_X_ROUTINES}.is_variable_reference,
+				covers/{EL_COMPARABLE_ZSTRING}.matches_wildcard
+			]"
+		local
+			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES
+			str: ZSTRING
+		do
+			across << "$index", "${index}", "index" >> as list loop
+				if attached list.item as str_8 then
+					assert ("matches", str_8 [1] = '$' implies s.is_variable_reference (str_8))
+					str := str_8
+					assert ("matches", str [1] = '$' implies z.is_variable_reference (str))
+				end
+			end
+		end
+
+	test_word_count
+		-- STRING_TEST_SET.test_word_count
+		note
+			testing: "[
+				covers/{EL_READABLE_STRING_X_ROUTINES}.word_count
+			]"
+		local
+			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES
+			str: ZSTRING; str_8: STRING
+		do
+			across 1 |..| 2 as n loop
+				str_8 := "one; ${index} two%T patrick's"
+				str := str_8
+				assert ("3 words", s.word_count (str_8, True) = 3)
+				str_8.prepend ("%N "); str_8.append ("%N ")
+				str := str_8
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 17:30:07 GMT (Sunday 14th July 2024)"
-	revision: "55"
+	date: "2024-07-15 6:38:32 GMT (Monday 15th July 2024)"
+	revision: "56"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -191,7 +191,7 @@ feature {NONE} -- Implementation
 			Result := str.last_index_of (c, start_index_from_end)
 		end
 
-	new_search_substring (s: READABLE_STRING_32; start_index, end_index: INTEGER): READABLE_STRING_32
+	new_shared_substring (s: READABLE_STRING_32; start_index, end_index: INTEGER): READABLE_STRING_32
 		do
 			Result := Immutable_32.shared_substring (s, start_index, end_index)
 		end

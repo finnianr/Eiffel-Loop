@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 18:07:53 GMT (Sunday 14th July 2024)"
-	revision: "12"
+	date: "2024-07-15 7:17:31 GMT (Monday 15th July 2024)"
+	revision: "13"
 
 class
 	EL_XHTML_WORD_COUNTER
@@ -29,7 +29,7 @@ feature {NONE} -- Event handlers
 	on_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
-			count := count + word_count (node.to_string)
+			count := count + word_count (node.adjusted (False))
 		end
 
 	on_end_document

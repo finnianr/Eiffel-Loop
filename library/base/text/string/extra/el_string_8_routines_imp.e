@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 17:30:27 GMT (Sunday 14th July 2024)"
-	revision: "26"
+	date: "2024-07-15 6:38:31 GMT (Monday 15th July 2024)"
+	revision: "27"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -338,7 +338,7 @@ feature {NONE} -- Implementation
 			Result := c.is_alpha_numeric or else c = '_'
 		end
 
-	new_search_substring (s: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8
+	new_shared_substring (s: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8
 		do
 			Result := Immutable_8.shared_substring (s, start_index, end_index)
 		end
