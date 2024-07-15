@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 10:03:20 GMT (Tuesday 2nd April 2024)"
-	revision: "26"
+	date: "2024-07-15 12:54:07 GMT (Monday 15th July 2024)"
+	revision: "27"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -44,6 +44,13 @@ feature -- Status query
 		end
 
 	is_logging_initialized: BOOLEAN
+
+feature -- Constants
+
+	logs_dir_name: ZSTRING
+		once
+			Result := "logs"
+		end
 
 feature -- Basic operations
 
@@ -191,7 +198,7 @@ feature {NONE} -- Constants
 
 	Log_output_directory: DIR_PATH
 		once
-			Result := Directory.Sub_app_data #+ "logs"
+			Result := Directory.Sub_app_data #+ logs_dir_name
 		end
 
 note

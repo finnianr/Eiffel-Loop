@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:21 GMT (Saturday 22nd June 2024)"
-	revision: "22"
+	date: "2024-07-15 12:42:46 GMT (Monday 15th July 2024)"
+	revision: "23"
 
 class
 	EL_LOG_MANAGER
@@ -290,15 +290,51 @@ feature {EL_CONSOLE_MANAGER, EL_LOGGABLE, EL_MODULE_LOG_MANAGER} -- Access
 
 	thread_registration_consumer: EL_ACTION_ARGUMENTS_CONSUMER_MAIN_THREAD [TUPLE [EL_IDENTIFIED_THREAD_I]]
 
-feature {NONE} -- Factory
+feature {EL_LOG_PRUNE_COMMAND} -- Factory
 
 	new_log_file (thread: EL_IDENTIFIED_THREAD_I): EL_FILE_AND_CONSOLE_LOG_OUTPUT
 		do
 			if Console.is_highlighting_enabled then
-				Result := new_highlighted_output (log_file_path (thread.name), thread.name, thread_id_list.count)
+				Result := new_highlighted_output (new_log_file_path (thread.name), thread.name, thread_id_list.count)
 			else
-				Result := new_output (log_file_path (thread.name), thread.name, thread_id_list.count)
+				Result := new_output (new_log_file_path (thread.name), thread.name, thread_id_list.count)
 			end
+		end
+
+	new_log_file_path (name: READABLE_STRING_GENERAL): FILE_PATH
+			--
+		local
+			version_path: FILE_PATH; log_path_list: EL_FILE_PATH_LIST
+			version_base: ZSTRING
+		do
+			version_base := as_zstring (name) + ".000." + Default_log_file_extension
+			if output_directory.exists then
+				log_path_list := File_system.files_with_extension (
+					output_directory_path, Default_log_file_extension, False
+				)
+				log_path_list.sort (False) -- reverse
+				log_path_list.find_first_true (agent is_named (?, name))
+				if log_path_list.found then
+					version_path := log_path_list.path
+				else
+					version_path := output_directory + version_base
+				end
+			else
+				File_system.make_directory (output_directory)
+				version_path := output_directory + version_base
+			end
+			Result := version_path.next_version_path
+		end
+
+	new_log_path_list (name: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [FILE_PATH]
+		local
+			log_path_list: EL_FILE_PATH_LIST
+		do
+			log_path_list := File_system.files_with_extension (
+				output_directory_path, Default_log_file_extension, False
+			)
+			log_path_list.sort (False)
+			Result := log_path_list.query_if (agent is_named (?, name))
 		end
 
 	new_highlighted_output (log_path: FILE_PATH; a_thread_name: READABLE_STRING_GENERAL; a_index: INTEGER): like new_log_file
@@ -313,16 +349,11 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Implementation
 
-	log_file_path (name: READABLE_STRING_GENERAL): FILE_PATH
-			--
-		local
-			version_path: FILE_PATH
+	is_named (log_path: FILE_PATH; name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if not output_directory.exists then
-				File_system.make_directory (output_directory)
+			if attached log_path.base as base and then base.starts_with_general (name) then
+				Result := base [name.count + 1] = '.'
 			end
-			version_path := output_directory + (as_zstring (name) + ".001." + Default_log_file_extension)
-			Result := version_path.next_version_path
 		end
 
 	thread_log_file (thread_id: POINTER): EL_FILE_AND_CONSOLE_LOG_OUTPUT

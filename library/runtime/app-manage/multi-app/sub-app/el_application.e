@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-28 6:58:51 GMT (Friday 28th June 2024)"
-	revision: "88"
+	date: "2024-07-15 11:28:17 GMT (Monday 15th July 2024)"
+	revision: "89"
 
 deferred class
 	EL_APPLICATION
@@ -92,6 +92,9 @@ feature -- Access
 			Result.to_lower
 			if Result.ends_with ("_app") then
 				Result.remove_tail (4)
+			end
+			if Result.starts_with ("el_") then
+				Result.remove_head (3)
 			end
 		end
 

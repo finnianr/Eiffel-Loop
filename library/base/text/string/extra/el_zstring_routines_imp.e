@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 7:31:10 GMT (Monday 15th July 2024)"
-	revision: "32"
+	date: "2024-07-15 8:09:34 GMT (Monday 15th July 2024)"
+	revision: "33"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -26,7 +26,7 @@ inherit
 			adjusted, to_canonically_spaced, to_z_code, replace_character, translate_with_deletion
 		end
 
-	EL_READABLE_STRING_32_ROUTINES [EL_READABLE_ZSTRING]
+	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
 
 	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
@@ -55,9 +55,31 @@ feature -- Factory
 
 feature -- Comparison
 
+	ends_with (s, trailing: ZSTRING): BOOLEAN
+		do
+			Result := s.ends_with (trailing)
+		end
+
+	occurs_at (big, small: ZSTRING; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index'
+		do
+			Result := big.same_characters (small, 1, small.count, index)
+		end
+
+	occurs_caseless_at (big, small: ZSTRING; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index' regardless of case
+		do
+			Result := big.same_caseless_characters (small, 1, small.count, index)
+		end
+
 	same_string (a, b: EL_READABLE_ZSTRING): BOOLEAN
 		do
 			Result := a.same_string (b)
+		end
+
+	starts_with (s, leading: ZSTRING): BOOLEAN
+		do
+			Result := s.starts_with (leading)
 		end
 
 feature -- Substring
@@ -138,6 +160,14 @@ feature -- Conversion
 
 feature -- Character query
 
+	ends_with_character (s: ZSTRING; c: CHARACTER_32): BOOLEAN
+		local
+			i: INTEGER
+		do
+			i := s.count
+			Result := i > 0 and then s [i] = c
+		end
+
 	has_enclosing (s: EL_READABLE_ZSTRING; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
 		do
@@ -164,6 +194,11 @@ feature -- Character query
 		-- `True' if set of all characters in `str' is a subset of `set'
 		do
 			Result := str.is_subset_of (set)
+		end
+
+	starts_with_character (s: ZSTRING; c: CHARACTER_32): BOOLEAN
+		do
+			Result := s.count > 0 and then s [1] = c
 		end
 
 feature -- Basic operations
@@ -239,11 +274,6 @@ feature {NONE} -- Implementation
 			intervals.fill_by_string (target, pattern, 0)
 		end
 
-	last_index_of (str: EL_READABLE_ZSTRING; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		do
-			Result := str.last_index_of (c, start_index_from_end)
-		end
-
 	is_i_th_alpha (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
 		-- `True' if i'th character is alphabetical
 		do
@@ -254,6 +284,11 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character is alphabetical or numeric
 		do
 			Result := str.is_alpha_numeric_item (i)
+		end
+
+	last_index_of (str: EL_READABLE_ZSTRING; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+		do
+			Result := str.last_index_of (c, start_index_from_end)
 		end
 
 	new_shared_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING

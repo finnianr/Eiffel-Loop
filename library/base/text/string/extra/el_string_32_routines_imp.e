@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 6:38:32 GMT (Monday 15th July 2024)"
-	revision: "56"
+	date: "2024-07-15 8:09:54 GMT (Monday 15th July 2024)"
+	revision: "57"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -20,13 +20,21 @@ inherit
 			bit_count
 		end
 
-	EL_READABLE_STRING_32_ROUTINES [READABLE_STRING_32]
+	EL_STRING_32_BIT_COUNTABLE [STRING_32]
 
 	EL_STRING_32_CONSTANTS
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
 feature -- Character query
+
+	ends_with_character (s: STRING_32; c: CHARACTER_32): BOOLEAN
+		local
+			i: INTEGER
+		do
+			i := s.count
+			Result := i > 0 and then s [i] = c
+		end
 
 	has_enclosing (s: READABLE_STRING_32; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
@@ -72,11 +80,38 @@ feature -- Character query
 			end
 		end
 
+	starts_with_character (s: STRING_32; c: CHARACTER_32): BOOLEAN
+		do
+			Result := s.count > 0 and then s [1] = c
+		end
+
 feature -- Comparison
+
+	ends_with (s, trailing: STRING_32): BOOLEAN
+		do
+			Result := s.ends_with (trailing)
+		end
+
+	occurs_at (big, small: STRING_32; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index'
+		do
+			Result := big.same_characters (small, 1, small.count, index)
+		end
+
+	occurs_caseless_at (big, small: STRING_32; index: INTEGER): BOOLEAN
+		-- `True' if `small' string occurs in `big' string at `index' regardless of case
+		do
+			Result := big.same_caseless_characters (small, 1, small.count, index)
+		end
 
 	same_string (a, b: READABLE_STRING_32): BOOLEAN
 		do
 			Result := EL_string_32.same_strings (a, b)
+		end
+
+	starts_with (s, leading: STRING_32): BOOLEAN
+		do
+			Result := s.starts_with (leading)
 		end
 
 feature -- Basic operations
@@ -156,15 +191,15 @@ feature -- Factory
 
 feature -- Adjust
 
+	prune_all_leading (str: STRING_32; c: CHARACTER_32)
+		do
+			str.prune_all_leading (c)
+		end
+
 	pruned (str: STRING_32; c: CHARACTER_32): STRING_32
 		do
 			create Result.make_from_string (str)
 			Result.prune_all (c)
-		end
-
-	prune_all_leading (str: STRING_32; c: CHARACTER_32)
-		do
-			str.prune_all_leading (c)
 		end
 
 	wipe_out (str: STRING_32)
