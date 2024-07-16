@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 17:24:32 GMT (Monday 15th July 2024)"
-	revision: "19"
+	date: "2024-07-16 6:59:04 GMT (Tuesday 16th July 2024)"
+	revision: "20"
 
 class
 	NUMERIC_TEST_SET
@@ -68,9 +68,10 @@ feature -- Tests
 
 	test_integer_width
 		-- NUMERIC_TEST_SET.test_integer_width
+		-- Note: {EL_INTEGER_MATH}.digit_count is faster then log10
 		do
-			assert ("width is 3", log10 (999).floor + 1 = 3)
-			assert ("width is 4", log10 (1000).floor + 1 = 4)
+			assert ("width is 3", log10 (999).ceiling = 3)
+			assert ("width is 4", log10 (1000).ceiling = 4)
 		end
 
 	test_negative_to_natural

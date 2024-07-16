@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 17:32:05 GMT (Monday 15th July 2024)"
-	revision: "32"
+	date: "2024-07-16 7:07:27 GMT (Tuesday 16th July 2024)"
+	revision: "33"
 
 class
 	PATH_TEST_SET
@@ -50,8 +50,10 @@ feature -- Tests
 	test_comparisons
 		-- PATH_TEST_SET.test_comparisons
 		note
-			testing: "covers/{EL_PATH}.base_matches, covers/{EL_PATH}.same_extension",
-						"covers/{EL_PATH}.same_as"
+			testing: "[
+				covers/{EL_PATH}.base_matches, covers/{EL_PATH}.same_extension,
+				covers/{EL_PATH}.same_as
+			]"
 		local
 			eiffel_pdf: FILE_PATH
 		do
@@ -93,8 +95,10 @@ feature -- Tests
 	test_initialization
 		note
 			testing:
-				"covers/{EL_PATH}.make_from_steps, covers/{EL_PATH}.make, covers/{EL_PATH}.to_string",
-				"covers/{EL_PATH}.joined_dir_steps"
+				"[
+					covers/{EL_PATH}.make_from_steps, covers/{EL_PATH}.make, covers/{EL_PATH}.to_string,
+					covers/{EL_PATH}.joined_dir_steps
+				]"
 		local
 			home_path, config_path, mem_test_path: DIR_PATH
 		do

@@ -24,15 +24,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 18:42:47 GMT (Sunday 14th January 2024)"
-	revision: "15"
+	date: "2024-07-16 6:54:46 GMT (Tuesday 16th July 2024)"
+	revision: "16"
 
 class
 	EL_COMMAND_MENU
 
 inherit
-	SINGLE_MATH
-
+	ANY
+	
 	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_CHARACTER_8_CONSTANTS
@@ -43,9 +43,11 @@ create
 feature {NONE} -- Initialization
 
 	make (a_name: READABLE_STRING_GENERAL; a_options: like options; a_row_count: INTEGER)
+		local
+			 math: EL_INTEGER_MATH
 		do
 			create name.make_from_general (a_name); options := a_options; row_count := a_row_count
-			create option_number.make (log10 (a_options.count).ceiling)
+			create option_number.make (math.digit_count (a_options.count))
 			max_column_widths := new_max_column_widths
 		end
 

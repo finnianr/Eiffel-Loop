@@ -727,3 +727,6 @@ Test set for EL_WEB_LOG_ENTRY
 Sat 13th Jul 2024, 16:20:11
 EL_STRING_LIST has routine unique_sort
 
+Mon 15th Jul 2024, 17:36:58
+Excess log pruning command
+
