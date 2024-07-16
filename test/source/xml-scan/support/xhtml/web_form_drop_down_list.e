@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-07-16 15:55:34 GMT (Tuesday 16th July 2024)"
+	revision: "8"
 
 class
 	WEB_FORM_DROP_DOWN_LIST
@@ -29,12 +29,13 @@ feature {NONE} -- Initialization
 			--
 		do
 			create option_list.make (7)
+			create name.make_empty
 			Precursor
 		end
 
 feature -- Access
 
-	option_list: ARRAYED_LIST [ZSTRING]
+	option_list: EL_ZSTRING_LIST
 
 	selected_option: INTEGER
 
@@ -52,7 +53,9 @@ feature {NONE} -- Build from XML
 	set_option_text
 			--
 		do
-			option_list.last.share (node.to_string)
+			if attached option_list.last as last then
+				node.set (last)
+			end
 			log_assignment ("option_list.last", node.to_string)
 		end
 
@@ -68,8 +71,8 @@ feature {NONE} -- Build from XML
 	set_name_from_node
 			--
 		do
-			name := node.to_string
-			log_assignment ("name", node.to_string)
+			node.set_8 (name)
+			log_assignment ("name", node.to_string_8)
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-07-16 15:34:59 GMT (Tuesday 16th July 2024)"
+	revision: "16"
 
 class
 	CREATEABLE_FROM_XPATH_MATCH_EVENTS_TEST_SET
@@ -116,7 +116,7 @@ feature {NONE} -- XPath match event handlers
 
 	on_meta_content (last_node: EL_DOCUMENT_NODE_STRING)
 		do
-			lio.put_string_field ("content", last_node.to_string.as_canonically_spaced)
+			lio.put_string_field ("content", last_node.adjusted (False).as_canonically_spaced)
 			lio.put_new_line
 		end
 

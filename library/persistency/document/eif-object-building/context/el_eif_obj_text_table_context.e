@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-26 18:41:08 GMT (Wednesday 26th July 2023)"
-	revision: "7"
+	date: "2024-07-16 15:39:54 GMT (Tuesday 16th July 2024)"
+	revision: "8"
 
 class
 	EL_EIF_OBJ_TEXT_TABLE_CONTEXT
 
 inherit
-	HASH_TABLE [STRING, STRING]
+	HASH_TABLE [ZSTRING, STRING]
 		rename
 			make as make_table
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 12:18:44 GMT (Sunday 28th January 2024)"
-	revision: "5"
+	date: "2024-07-16 18:28:19 GMT (Tuesday 16th July 2024)"
+	revision: "6"
 
 class
 	EL_KEY
@@ -28,17 +28,70 @@ inherit
 			default_create, out
 		end
 
+	EL_KEY_MODIFIER_CONSTANTS
+		undefine
+			default_create, out
+		end
+
 	EL_SHARED_VISION_2_TEXTS
 
 	EL_SHARED_KEY_TEXTS
 
 create
-	default_create, make_with_code
+	default_create, make_with_code, make_combined
 
 convert
-	make_with_code ({INTEGER})
+	make_with_code ({INTEGER}), make_combined ({NATURAL})
+
+feature {NONE} -- Initialization
+
+	make_combined (modified_code: NATURAL)
+		-- make with code combined with Alt, Ctrl, Shift modifiers
+		do
+			make_with_code (modified_code.to_natural_16.to_integer_32)
+			modifiers := (modified_code |>> 16).to_natural_8
+		end
+
+feature -- Status query
+
+	require_shift: BOOLEAN
+		do
+			Result := requires_modifier (Shift)
+		end
+
+	require_control: BOOLEAN
+		do
+			Result := requires_modifier (Ctrl)
+		end
+
+	require_alt: BOOLEAN
+		do
+			Result := requires_modifier (Alt)
+		end
 
 feature -- Access
+
+	description: ZSTRING
+		-- description of key with `code' with `combined_modifiers' keys
+		-- Eg. Ctrl+Shift+Delete
+		local
+			combined_modifiers: NATURAL
+		do
+			combined_modifiers := modifiers.to_natural_32
+			create Result.make (8)
+			across Modifier_list as list loop
+				if (combined_modifiers & list.item.code).to_boolean then
+					if not Result.is_empty then
+						Result.append_character ('+')
+					end
+					Result.append (list.item.name)
+				end
+			end
+			if not Result.is_empty then
+				Result.append_character ('+')
+			end
+			Result.append (name)
+		end
 
 	name: ZSTRING
 		local
@@ -77,24 +130,16 @@ feature -- Access
 			end
 		end
 
-	description (combined_modifiers: NATURAL): ZSTRING
-		-- description of key with `code' with `combined_modifiers' keys
-		-- Eg. Ctrl+Shift+Delete
+feature {NONE} -- Implementation
+
+	requires_modifier (type: NATURAL): BOOLEAN
 		do
-			create Result.make (8)
-			across Modifier_list as modifer loop
-				if (combined_modifiers & modifer.item.code).to_boolean then
-					if not Result.is_empty then
-						Result.append_character ('+')
-					end
-					Result.append (modifer.item.name)
-				end
-			end
-			if not Result.is_empty then
-				Result.append_character ('+')
-			end
-			Result.append (name)
+			Result := (modifiers.to_natural_32 & type).to_boolean
 		end
+
+feature {NONE} -- Internal attributes
+
+	modifiers: NATURAL_8
 
 feature {NONE} -- Constants
 

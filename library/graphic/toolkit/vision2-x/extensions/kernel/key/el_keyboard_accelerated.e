@@ -6,19 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 15:36:04 GMT (Sunday 28th January 2024)"
-	revision: "1"
+	date: "2024-07-16 17:58:35 GMT (Tuesday 16th July 2024)"
+	revision: "2"
 
 deferred class
 	EL_KEYBOARD_ACCELERATED
 
 inherit
-	EL_KEY_MODIFIER_CONSTANTS
-		undefine
-			copy, default_create, is_equal
-		end
-
-	EL_SHARED_KEY_CONSTANTS
+	EL_KEY_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -31,27 +26,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Implementation
 
-	add_accelerator_action (combined_code: NATURAL; action: PROCEDURE)
-		local
-			key_code: NATURAL_16; modifiers: NATURAL; item: EV_ACCELERATOR
-			require_control, require_alt, require_shift: BOOLEAN
-			l_key: EV_KEY
+	add_accelerator_action (modified_code: NATURAL; action: PROCEDURE)
 		do
-			key_code := combined_code.to_natural_16; modifiers := combined_code |>> 16
-
-			create l_key.make_with_code (key_code.to_integer_32)
-			require_control := (modifiers & Ctrl).to_boolean
-			require_alt := (modifiers & Alt).to_boolean
-			require_shift := (modifiers & Shift).to_boolean
-
-			create item.make_with_key_combination (l_key, require_control, require_alt, require_shift)
-			item.actions.extend (action)
-			accelerators.extend (item)
-		end
-
-	combined (modifiers: NATURAL; key_code: INTEGER): NATURAL
-		do
-			Result := (modifiers |<< 16) | key_code.to_natural_32
+			accelerators.extend (create {EL_ACCELERATOR}.make_with_action (modified_code, action))
 		end
 
 	default_accelerator_table (ev: EV_KEY_CONSTANTS): EL_HASH_TABLE [PROCEDURE, like combined]
@@ -59,11 +36,6 @@ feature {NONE} -- Implementation
 		-- using `single' or `combination' to create key
 		do
 			create Result
-		end
-
-	single (key_code: INTEGER): NATURAL
-		do
-			Result := combined (0, key_code)
 		end
 
 feature {NONE} -- Deferred

@@ -8,25 +8,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-09 15:25:23 GMT (Friday 9th February 2024)"
-	revision: "17"
+	date: "2024-07-16 18:35:50 GMT (Tuesday 16th July 2024)"
+	revision: "18"
 
 deferred class
 	EL_MENU
 
 inherit
-	EL_MODULE_LOG; EL_MODULE_SCREEN
-
-	EV_KEY_CONSTANTS
-		export
-			{NONE} all
-		end
-
-	EL_KEY_MODIFIER_CONSTANTS
-		export
-			{NONE} all
-		end
-
 	EL_REPLACEABLE_ITEM
 		rename
 			item as menu,
@@ -39,6 +27,13 @@ inherit
 	EL_KEYBOARD_ACCELERATED
 		rename
 			new_accelerator_table as default_accelerator_table
+		end
+
+	EL_MODULE_LOG; EL_MODULE_SCREEN
+
+	EV_KEY_CONSTANTS
+		export
+			{NONE} all
 		end
 
 feature {NONE} -- Initialization
@@ -213,11 +208,6 @@ feature {NONE} -- Factory
 			create Result.make_with_text_and_action (a_name.to_string_32, action)
 		end
 
-	new_key (key_code: INTEGER): EL_KEY
-		do
-			Result := key_code
-		end
-
 	new_menu: EV_MENU
 		do
 			create Result.make_with_text (name.to_unicode)
@@ -249,16 +239,16 @@ feature {NONE} -- Implementation
 		do
 		end
 
-	add_shortcut (id: INTEGER; combined_keys: like combined)
+	add_shortcut (id: INTEGER; modified_code: like combined)
 			-- add keyboard shortcut with modifiers combined with logical OR
 		require
 			valid_id: is_valid_id (id)
 		local
-			key_code: NATURAL_16; key_modifiers: NATURAL
+			l_key: EL_KEY
 		do
-			key_code := combined_keys.to_natural_16; key_modifiers := combined_keys |>> 16
-			add_accelerator_action (combined_keys, agent on_keyboard_shortcut (id))
-			shortcut_descriptions [id] := new_key (key_code.to_integer_32).description (key_modifiers)
+			l_key := modified_code
+			accelerators.extend (create {EL_ACCELERATOR}.make_with_action (l_key, agent on_keyboard_shortcut (id)))
+			shortcut_descriptions [id] := l_key.description
 		end
 
 	adjust_menu_item_text (menu_item: EV_MENU_ITEM)

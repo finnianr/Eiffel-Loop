@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 9:10:01 GMT (Thursday 27th July 2023)"
-	revision: "13"
+	date: "2024-07-16 16:00:55 GMT (Tuesday 16th July 2024)"
+	revision: "14"
 
 class
 	EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	root_node_xpath: STRING_32
+	root_node_xpath: STRING
 
 feature {NONE} -- Constants
 

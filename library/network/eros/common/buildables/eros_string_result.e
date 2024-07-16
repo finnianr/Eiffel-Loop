@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-07-16 15:43:38 GMT (Tuesday 16th July 2024)"
+	revision: "11"
 
 class
 	EROS_STRING_RESULT
@@ -56,7 +56,7 @@ feature {NONE} -- Building from XML
 			--
 		do
 			create Result.make (<<
-				["@value", agent do value := node.to_string end]
+				["@value", agent do node.set_8 (value) end]
 			>>)
 		end
 

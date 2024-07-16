@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 13:23:29 GMT (Thursday 14th March 2024)"
-	revision: "16"
+	date: "2024-07-16 15:45:46 GMT (Tuesday 16th July 2024)"
+	revision: "17"
 
 class
 	SMIL_PRESENTATION
@@ -95,8 +95,8 @@ feature {NONE} -- Build from XML
 			-- Nodes relative to root element: smil
 		do
 			create Result.make (<<
-				["head/meta[@name='title']/@content", agent do title := node.to_string end],
-				["head/meta[@name='author']/@content", agent do author := node.to_string end],
+				["head/meta[@name='title']/@content", agent do node.set_8 (title) end],
+				["head/meta[@name='author']/@content", agent do node.set_8 (author) end],
 				["head/meta[@name='base']/@content", agent
 					do
 						location := node.to_string_8; location.prune_all_trailing ('/')
