@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-07-17 16:05:15 GMT (Wednesday 17th July 2024)"
+	revision: "10"
 
 class
 	EL_TEXT
@@ -27,8 +27,46 @@ inherit
 			implementation
 		end
 
+	EL_MODULE_LOG
+
 create
 	default_create
+
+feature -- Access
+
+	caret_line: TUPLE [full_text: ZSTRING; start_index, end_index: INTEGER]
+		-- interval indices of substring-line in `full_text' that has the caret
+		local
+			i, start_index, end_index, position: INTEGER
+			uc: CHARACTER_32; uc_str, l_text: ZSTRING
+		do
+			l_text := text
+			start_index := 1; end_index := l_text.count
+			position := caret_position
+
+			log.put_integer_field ("caret", position)
+			log.put_integer_field (" start_index", start_index)
+			log.put_integer_field (" end_index", end_index)
+
+			uc := l_text [position]
+			if uc.is_alpha_numeric then
+				create uc_str.make_filled (uc, 1)
+			else
+				uc_str := uc.code.out
+			end
+			log.put_labeled_string (" Character", uc_str)
+			log.put_new_line
+
+			from i := position - 1 until i < 1 or else l_text [i] = '%N' loop
+				i := i - 1
+			end
+			start_index := i + 1
+			from i := position until i > end_index or l_text [i] = '%N' loop
+				i := i + 1
+			end
+			end_index := i - 1
+			Result := [l_text, start_index, end_index]
+		end
 
 feature -- Basic operations
 
@@ -47,11 +85,11 @@ feature -- Basic operations
 
 feature {EV_ANY, EV_ANY_I} -- Implementation
 
-	implementation: EL_TEXT_I
-
 	create_implementation
 			-- See `{EV_ANY}.create_implementation'.
 		do
 			create {EL_TEXT_IMP} implementation.make
 		end
+	implementation: EL_TEXT_I
+
 end
