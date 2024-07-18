@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:05:55 GMT (Thursday 17th August 2023)"
-	revision: "11"
+	date: "2024-07-18 15:24:18 GMT (Thursday 18th July 2024)"
+	revision: "12"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_I
@@ -16,6 +16,8 @@ inherit
 	EV_TEXT_COMPONENT_I
 
 	EL_STRING_GENERAL_ROUTINES
+
+	EL_OS_DEPENDENT
 
 feature {NONE} -- Initialization
 
@@ -111,7 +113,7 @@ feature {EL_UNDOABLE_TEXT_COMPONENT} -- Event handling
 feature {EL_UNDOABLE_TEXT_COMPONENT_I} -- Implementation
 
 	restore
-			-- restore result of redo or undo
+		-- restore result of redo or undo
 		do
 			is_restoring := True
 			set_text (edit_history.string.to_unicode)

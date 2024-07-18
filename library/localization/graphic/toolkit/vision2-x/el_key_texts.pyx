@@ -9,65 +9,41 @@ translations:
 		translation:
 			lang = de; check = false
 			"$id"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Backquote"
 		translation:
 			lang = de; check = false
 			"Rückquote"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Backslash"
 		translation:
 			lang = de; check = false
-			"$id"
-		translation:
-			lang = en
 			"$id"
 	item:
 		id = "Backspace"
 		translation:
 			lang = de; check = false
 			"Rücktaste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Caps Lock"
 		translation:
 			lang = de; check = false
-			"$id"
-		translation:
-			lang = en
 			"$id"
 	item:
 		id = "Comma"
 		translation:
 			lang = de; check = false
 			"Komma"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Close Bracket"
 		translation:
 			lang = de; check = false
 			"Klammer-schließen"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Ctrl"
 		translation:
 			lang = de; check = true
 			"Strg"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "{dash_key}"
 		translation:
@@ -81,25 +57,16 @@ translations:
 		translation:
 			lang = de; check = true
 			"Löschen"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Down Arrow"
 		translation:
 			lang = de; check = false
 			"Abwärtspfeiltaste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Enter"
 		translation:
 			lang = de; check = false
 			"Enter-Taste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "{end_key}"
 		translation:
@@ -145,17 +112,11 @@ translations:
 		translation:
 			lang = de; check = true
 			"Linke Pfeiltaste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Left Meta"
 		translation:
 			lang = de; check = false
 			"Linke-Meta-Taste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "{menu_key}"
 		translation:
@@ -169,33 +130,21 @@ translations:
 		translation:
 			lang = de; check = false
 			"Numerische Sperrtaste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Open Bracket"
 		translation:
 			lang = de; check = false
 			"Klammer-öffnen"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Page Up"
 		translation:
 			lang = de; check = false
 			"Aufwärts"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Page Down"
 		translation:
 			lang = de; check = false
 			"Page Down"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "{pause_key}"
 		translation:
@@ -225,25 +174,16 @@ translations:
 		translation:
 			lang = de; check = false
 			"Rechts-Meta-Taste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Right Arrow"
 		translation:
 			lang = de; check = true
 			"Rechte Pfeiltaste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Semicolon"
 		translation:
 			lang = de; check = false
 			"Semikolon-Taste"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "{shift_key}"
 		translation:
@@ -273,9 +213,6 @@ translations:
 		translation:
 			lang = de; check = false
 			"Scroll Lock"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "{tab_key}"
 		translation:
@@ -289,7 +226,4 @@ translations:
 		translation:
 			lang = de; check = false
 			"Pfeiltaste nach oben"
-		translation:
-			lang = en
-			"$id"
 

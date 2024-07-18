@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-11 11:05:10 GMT (Monday 11th December 2023)"
-	revision: "8"
+	date: "2024-07-18 7:50:48 GMT (Thursday 18th July 2024)"
+	revision: "9"
 
 deferred class
 	EL_LOCALE_CONSTANTS
@@ -35,10 +35,9 @@ feature {NONE} -- Constants
 			Result.extend (":>1") -- plural
 		end
 
-	Quantifier_names: ARRAY [STRING]
+	Quantifier_names: EL_STRING_8_LIST
 		once
-			Result := << "zero", "singular", "plural" >>
-			Result.compare_objects
+			Result := "zero, singular, plural"
 		end
 
 	Unknown_key_template: ZSTRING

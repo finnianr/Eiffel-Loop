@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 14:51:48 GMT (Friday 21st June 2024)"
-	revision: "22"
+	date: "2024-07-18 8:20:49 GMT (Thursday 18th July 2024)"
+	revision: "23"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -133,9 +133,14 @@ feature {NONE} -- Build from XML
 		do
 			item_id := node.to_string
 			-- Normalize identifier for reflective localization attribute
-			if item_id.enclosed_with (Brackets) and then item_id.has ('-') then
-				item_id.replace_character ('-', '_')
-				item_id.to_lower
+			if item_id.has_enclosing ('{', '}') then
+				if item_id.has ('-') then
+					item_id.replace_character ('-', '_')
+					item_id.to_lower
+				end
+			else
+			-- `item_id' is the translation text for English
+				set_found_list (False); extend_text_normal (False)
 			end
 		end
 
@@ -145,8 +150,8 @@ feature {NONE} -- Build from XML
 		do
 			create Result.make (<<
 				["item/@id", 						agent set_item_id],
-				["item/translation/@lang", 	agent set_found_list_from_node],
-				["item/translation/text()",	agent extend_text_normal]
+				["item/translation/@lang", 	agent set_found_list (True)],
+				["item/translation/text()",	agent extend_text_normal (True)]
 			>>)
 			across Quantifier_names as name loop
 				text_xpath := "item/translation/" + name.item + "/text()"
@@ -154,10 +159,17 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	extend_text_normal
+	extend_text_normal (from_node: BOOLEAN)
+		local
+			text: ZSTRING
 		do
+			if from_node then
+				text := node.to_string
+			else
+				text := item_id
+			end
 			if attached found_list as list then
-				list.extend (create {EL_TRANSLATION_ITEM}.make (item_id, node.to_string))
+				list.extend (create {EL_TRANSLATION_ITEM}.make (item_id, text))
 			end
 		end
 
@@ -171,11 +183,15 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	set_found_list_from_node
+	set_found_list (from_node: BOOLEAN)
 		local
 			lang_id: STRING; new_list: like found_list
 		do
-			lang_id := node.to_string_8
+			if from_node then
+				lang_id := node.to_string_8
+			else
+				lang_id := English_id
+			end
 			if not translations_table.has_key (lang_id)
 				and then attached locales.new_locale_path (lang_id) as file_path
 			then
@@ -192,11 +208,6 @@ feature {NONE} -- Build from XML
 		end
 
 feature {NONE} -- Constants
-
-	Brackets: ZSTRING
-		once
-			Result := "{}"
-		end
 
 	English_id: STRING
 		once

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-07-18 9:44:54 GMT (Thursday 18th July 2024)"
+	revision: "18"
 
 class
 	CHECK_LOCALE_STRINGS_APP
@@ -48,7 +48,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "en")
 		end
 
-	new_locale: EL_ENGLISH_DEFAULT_LOCALE
+	new_locale: EL_DEFAULT_LOCALE
 		do
 			create Result.make_resources
 		end

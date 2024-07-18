@@ -125,43 +125,28 @@ translations:
 		translation:
 			lang = de; check = true
 			"Server wird kontaktiert"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Installing files"
 		translation:
 			lang = de; check = true
 			"Installieren von Dateien"
-		translation:
-			lang = en
-			"$id"
 	item:
 		id = "Installation complete"
 		translation:
 			lang = de; check = true
 			"Installation abgeschlossen"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "Landscape orientation"
 		translation:
 			lang = de; check = true
 			"Landschaftsorientierung"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "Web Connection Error"
 		translation:
 			lang = de; check = true
 			"Web_Verbindungsfehler"
-		translation:
-			lang = en
-			"$id"
 
 	# Uninstalling
 	item:
@@ -188,8 +173,5 @@ translations:
 		translation:
 			lang = de; check = true
 			"Fertig"
-		translation:
-			lang = en
-			"$id"
 
 

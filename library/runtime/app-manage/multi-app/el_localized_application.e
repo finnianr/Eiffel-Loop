@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-07-18 9:44:25 GMT (Thursday 18th July 2024)"
+	revision: "5"
 
 deferred class
 	EL_LOCALIZED_APPLICATION
@@ -41,7 +41,7 @@ feature {NONE} -- Implementation
 
 	new_locale: EL_DEFAULT_LOCALE
 		do
-			create {EL_ENGLISH_DEFAULT_LOCALE} Result.make
+			create Result.make
 		end
 
 	set_adhoc_translations

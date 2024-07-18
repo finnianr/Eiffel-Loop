@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-07-18 15:39:07 GMT (Thursday 18th July 2024)"
+	revision: "8"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT
@@ -33,9 +33,9 @@ feature -- Element change
 
 feature -- Status query
 
-	has_undo_items: BOOLEAN
+	has_clipboard_content: BOOLEAN
 		do
-			Result := implementation.has_undo_items
+			Result := not clipboard_content.is_empty
 		end
 
 	has_redo_items: BOOLEAN
@@ -43,16 +43,16 @@ feature -- Status query
 			Result := implementation.has_redo_items
 		end
 
-	has_clipboard_content: BOOLEAN
+	has_undo_items: BOOLEAN
 		do
-			Result := not clipboard_content.is_empty
+			Result := implementation.has_undo_items
 		end
 
 feature -- Status setting
 
-	set_undo (enabled: BOOLEAN)
+	disable_undo
 		do
-			implementation.set_undo (enabled)
+			set_undo (False)
 		end
 
 	enable_undo
@@ -60,21 +60,27 @@ feature -- Status setting
 			set_undo (True)
 		end
 
-	disable_undo
+	set_undo (enabled: BOOLEAN)
 		do
-			set_undo (False)
+			implementation.set_undo (enabled)
 		end
 
 feature -- Basic operations
 
-	undo
-		do
-			implementation.undo
-		end
-
 	redo
 		do
 			implementation.redo
+			if has_word_wrapping then
+				scroll_to_line (line_number_from_position (caret_position))
+			end
+		end
+
+	undo
+		do
+			implementation.undo
+			if has_word_wrapping then
+				scroll_to_line (line_number_from_position (caret_position))
+			end
 		end
 
 feature -- Element change
@@ -87,7 +93,21 @@ feature -- Element change
 			change_actions.resume
 		end
 
-feature {EL_UNDOABLE_TEXT_COMPONENT} -- Implementation
+feature {NONE} -- Deferred
+
+	has_word_wrapping: BOOLEAN
+		deferred
+		end
+
+	line_number_from_position (i: INTEGER): INTEGER
+		deferred
+		end
+
+	scroll_to_line (i: INTEGER)
+		deferred
+		end
+
+feature {EL_UNDOABLE_TEXT_COMPONENT} -- Internal attributes
 
 	implementation: EL_UNDOABLE_TEXT_COMPONENT_I
 

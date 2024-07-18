@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 12:16:11 GMT (Sunday 28th January 2024)"
-	revision: "7"
+	date: "2024-07-18 7:08:38 GMT (Thursday 18th July 2024)"
+	revision: "8"
 
 class
 	EL_KEY_MODIFIER_CONSTANTS
@@ -19,5 +19,10 @@ feature {NONE} -- Constants
 	Ctrl: NATURAL = 0x2
 
 	Shift: NATURAL = 0x4
+
+	Valid_modifiers: ARRAY [NATURAL]
+		once
+			Result := << Alt, Ctrl, Shift >>
+		end
 
 end

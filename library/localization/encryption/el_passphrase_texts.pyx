@@ -48,53 +48,35 @@ translations:
 		translation:
 			lang = de; check = true
 			"Passphrase bestätigen"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "Enter passphrase"
 		translation:
 			lang = de; check = true
 			"Geben sie die Passphrase"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "Make visible"
 		translation:
 			lang = de; check = true
 			"Mache sichtbar"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "Passphrase is invalid"
 		translation:
 			lang = de; check = false
 			"Passphrase ist ungültig"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "Passphrases are different"
 		translation:
 			lang = de; check = true
 			"Passphrasen sind unterschiedlich"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "Passphrases match"
 		translation:
 			lang = de; check = true
 			"Passphrasen stimmen überein"
-		translation:
-			lang = en
-			"$id"
 
 

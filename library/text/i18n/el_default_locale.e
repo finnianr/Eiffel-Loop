@@ -9,10 +9,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
-	revision: "21"
+	date: "2024-07-18 9:51:12 GMT (Thursday 18th July 2024)"
+	revision: "22"
 
-deferred class
+class
 	EL_DEFAULT_LOCALE
 
 inherit
@@ -23,6 +23,11 @@ inherit
 		redefine
 			in, make_default
 		end
+
+	EL_SHARED_KEY_LANGUAGE
+
+create
+	make, make_resources, make_from_location
 
 feature {NONE} -- Initialization
 
@@ -45,12 +50,12 @@ feature {NONE} -- Initialization
 		do
 			create table.make (locales_parent_dir #+ Locales)
 
-			make_with_language (user_language_code, key_language)
+			make_with_language (user_language_code)
 		end
 
 	make_with_table (a_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
 		do
-			make_locale_with_table (a_language, key_language, a_translation_table)
+			make_locale_with_table (a_language, a_translation_table)
 		end
 
 	make_default
@@ -75,11 +80,6 @@ feature -- Access
 			end
 		end
 
-	key_language: STRING
-			-- language of translation keys
-		deferred
-		end
-
 feature -- Element change
 
 	set_new_other_locale (a_new_locale: FUNCTION [STRING, EL_LOCALE])
@@ -91,7 +91,7 @@ feature {NONE} -- Implementation
 
 	new_locale (a_language: STRING): EL_LOCALE
 		do
-			create Result.make (a_language, Key_language)
+			create Result.make (a_language)
 		end
 
 feature {NONE} -- Internal attributes

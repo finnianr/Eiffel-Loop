@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-27 8:17:06 GMT (Thursday 27th June 2024)"
-	revision: "32"
+	date: "2024-07-18 10:08:12 GMT (Thursday 18th July 2024)"
+	revision: "33"
 
 class
 	EL_TRANSLATION_TABLE
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_MODULE_LIO
+
+	EL_SHARED_KEY_LANGUAGE
 
 create
 	make, make_from_xdoc, make_from_pyxis_source, make_from_pyxis, make_from_list
@@ -75,17 +77,22 @@ feature {NONE} -- Initialization
 		require
 			document_has_translation: document_has_translation (a_language, xdoc)
 		local
-			translations: EL_XPATH_NODE_CONTEXT_LIST
+			translation_list: EL_XPATH_NODE_CONTEXT_LIST; item_id: ZSTRING
 		do
 			if is_lio_enabled then
 				lio.put_labeled_string ("make_from_xdoc",  a_language)
 				lio.put_new_line
 			end
 			make (a_language)
-			translations := xdoc.context_list (Xpath_translations.substituted_tuple ([language]).to_unicode)
-			accommodate (translations.count)
-			across translations as translation loop
-				put (translation.node.as_full_string, translation.node @ Xpath_parent_id)
+			translation_list := xdoc.context_list (Xpath_translations.substituted_tuple ([a_language]).to_unicode)
+			accommodate (translation_list.count)
+			across translation_list as translation loop
+				item_id := translation.node @ Xpath_parent_id
+				if a_language ~ Key_language implies not item_id.has_enclosing ('{', '}') then
+					put (item_id, item_id)
+				else
+					put (translation.node.as_full_string, item_id)
+				end
 			end
 		end
 
@@ -161,16 +168,34 @@ feature {NONE} -- Internal attributes
 
 	duplicate_list: EL_ZSTRING_LIST
 
+	last_id_is_text: BOOLEAN
+
 feature {NONE} -- Build from XML
 
-	Root_node_name: STRING = "translations"
+	extend_table_from_node
+		do
+			if language ~ Key_language implies not last_id_is_text then
+				put (node, last_id)
+			end
+		end
+
+	set_last_id_from_node
+		do
+			last_id := node.to_string
+			if language ~ Key_language then
+				last_id_is_text := not last_id.has_enclosing ('{', '}')
+				if last_id_is_text then
+					put (last_id, last_id)
+				end
+			end
+		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
 			create Result.make (<<
-				["item/@id",				 agent do last_id := node.to_string end],
-				[translation_text_xpath, agent do put (node, last_id) end]
+				["item/@id",				 agent set_last_id_from_node],
+				[translation_text_xpath, agent extend_table_from_node]
 			>>)
 		end
 
@@ -190,6 +215,8 @@ feature {NONE} -- Constants
 		once
 			Result := "$id"
 		end
+
+	Root_node_name: STRING = "translations"
 
 	Xpath_language_available: ZSTRING
 		once

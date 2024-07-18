@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:58:37 GMT (Friday 29th March 2024)"
-	revision: "40"
+	date: "2024-07-18 9:50:17 GMT (Thursday 18th July 2024)"
+	revision: "41"
 
 class
 	EL_LOCALE
@@ -47,22 +47,23 @@ inherit
 
 	EL_SHARED_SINGLETONS; EL_SHARED_ADHOC_TRANSLATIONS
 
+	EL_SHARED_KEY_LANGUAGE
+
 create
 	make, make_with_table
 
 feature {NONE} -- Initialization
 
-	make (a_language, a_default_language: STRING)
+	make (a_language: STRING)
 		do
-			make_with_table (a_language, a_default_language, Void)
+			make_with_table (a_language, Void)
 		end
 
-	make_with_table (a_language, a_default_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
+	make_with_table (a_language: STRING; a_translation_table: detachable EL_TRANSLATION_TABLE)
 		require
 			locale_table_created: Singleton_table.has_type ({EL_LOCALE_TABLE})
 		do
 			make_default
-			default_language := a_default_language
 			if attached a_translation_table as table then
 				translation_table := table
 			else
@@ -93,6 +94,9 @@ feature -- Access
 		end
 
 	default_language: STRING
+		do
+			Result := Key_language
+		end
 
 	double_as_string (d: DOUBLE; likeness: STRING): STRING
 		local

@@ -24,4 +24,9 @@ translations:
 			"Latin-15 characters"
 
 
+	item:
+		id = "Nighttime"
+		translation:
+			lang = de; check = true
+			"Nachts"
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-16 18:28:19 GMT (Tuesday 16th July 2024)"
-	revision: "6"
+	date: "2024-07-18 11:58:36 GMT (Thursday 18th July 2024)"
+	revision: "7"
 
 class
 	EL_KEY
@@ -28,11 +28,6 @@ inherit
 			default_create, out
 		end
 
-	EL_KEY_MODIFIER_CONSTANTS
-		undefine
-			default_create, out
-		end
-
 	EL_SHARED_VISION_2_TEXTS
 
 	EL_SHARED_KEY_TEXTS
@@ -45,11 +40,11 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_combined (modified_code: NATURAL)
-		-- make with code combined with Alt, Ctrl, Shift modifiers
+	make_combined (key_and_modifier_code: NATURAL)
+		-- make with key code combined with `Alt', `Ctrl', `Shift' combined_modifiers
 		do
-			make_with_code (modified_code.to_natural_16.to_integer_32)
-			modifiers := (modified_code |>> 16).to_natural_8
+			make_with_code (key_and_modifier_code.to_natural_16.to_integer_32)
+			combined_modifiers := (key_and_modifier_code |>> 16).to_natural_8
 		end
 
 feature -- Status query
@@ -75,22 +70,17 @@ feature -- Access
 		-- description of key with `code' with `combined_modifiers' keys
 		-- Eg. Ctrl+Shift+Delete
 		local
-			combined_modifiers: NATURAL
+			modifier_code: NATURAL; parts: EL_ZSTRING_LIST
 		do
-			combined_modifiers := modifiers.to_natural_32
-			create Result.make (8)
-			across Modifier_list as list loop
-				if (combined_modifiers & list.item.code).to_boolean then
-					if not Result.is_empty then
-						Result.append_character ('+')
-					end
-					Result.append (list.item.name)
+			create parts.make (4)
+			across Valid_modifiers as list loop
+				modifier_code := list.item
+				if (combined_modifiers.to_natural_32 & modifier_code).to_boolean then
+					parts.extend (Key_text.table [as_modifier_key (modifier_code)])
 				end
 			end
-			if not Result.is_empty then
-				Result.append_character ('+')
-			end
-			Result.append (name)
+			parts.extend (name)
+			Result := parts.joined ('+')
 		end
 
 	name: ZSTRING
@@ -134,23 +124,27 @@ feature {NONE} -- Implementation
 
 	requires_modifier (type: NATURAL): BOOLEAN
 		do
-			Result := (modifiers.to_natural_32 & type).to_boolean
+			Result := (combined_modifiers.to_natural_32 & type).to_boolean
+		end
+
+	as_modifier_key (modifier: NATURAL): INTEGER
+		do
+			inspect modifier
+				when Alt then
+					Result := Key_alt
+				when Ctrl then
+					Result := Key_ctrl
+				when Shift then
+					Result := Key_shift
+			else
+			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	modifiers: NATURAL_8
+	combined_modifiers: NATURAL_8
 
 feature {NONE} -- Constants
-
-	Modifier_list: ARRAY [TUPLE [code: NATURAL; name: ZSTRING]]
-		once
-			Result := <<
-				[Alt, Key_text.table [Key_alt]],
-				[Ctrl, Key_text.table [Key_ctrl]],
-				[Shift, Key_text.table [Key_shift]]
-			>>
-		end
 
 	Numeric_pad_operators: STRING = "+/*L-."
 		-- L stand for Numeric Lock

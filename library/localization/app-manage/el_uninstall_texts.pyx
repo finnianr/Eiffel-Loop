@@ -37,9 +37,6 @@ translations:
 		translation:
 			lang = de; check = false
 			"Deinstallieren"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "{uninstall_confirmation}"
@@ -75,9 +72,6 @@ translations:
 		translation:
 			lang = de; check = false
 			"Entfernen von Programmdateien"
-		translation:
-			lang = en
-			"$id"
 
 	item:
 		id = "{app_removed_template}"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 14:19:20 GMT (Friday 21st June 2024)"
-	revision: "22"
+	date: "2024-07-18 9:45:41 GMT (Thursday 18th July 2024)"
+	revision: "23"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -52,7 +52,7 @@ feature -- Tests
 			testing: "covers/{PYXIS_TRANSLATION_TREE_COMPILER}.set_item_id"
 		local
 			restored_list: EL_TRANSLATION_ITEMS_LIST; restored_table, filled_table: EL_TRANSLATION_TABLE
-			locale_en: EL_ENGLISH_DEFAULT_LOCALE; locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
+			locale_en: EL_DEFAULT_LOCALE; locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 		do
 			create translations_table.make_size (20)

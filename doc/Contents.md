@@ -1185,7 +1185,7 @@ my_routine is
 ````
 **Including logging in your application**
 
-There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/logging/el_logged_application.e) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/app-manage/multi-app/sub-app/el_application.e) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
+There are a number of ways to include logging in your application. The first is to inherit [EL_LOGGED_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/logging/app/el_logged_application.e) in your root class and implement the function `Log_filter` (see below). You must then make sure that init_logging is the first routine called in the application entry make procedure. A slightly simpler way is to inherit from class [EL_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/app-manage/multi-app/sub-app/el_application.e) in your root class. This class has a make procedure already defined which calls init_logging, you only have to implement the procedures initialize and run. The routine make must be listed as a creation procedure.
 
 Inheriting from class [EL_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/app-manage/multi-app/sub-app/el_application.e) has some incidental benefits including:
 
@@ -1199,7 +1199,7 @@ By default logging is not active in the application. It must be turned on using 
 
 **Log output filtering**
 
-The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/logging/el_logged_application.e) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/Eiffel-Loop/test/source/eros/apps/fourier_math_client_test_app.e) illustrates:
+The logging framework offers a simple way to filter the output by class and routine. The root class of your application should inherit class [EL_LOGGED_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/logging/app/el_logged_application.e) and implement the routine `log_filter_set` as function with generic parameters itemizing the types for which logging is enabled.  To only show output only for specific routines, use the `show_selected` procedure as shown in the example below. You can disable logging for any particular routine by prefixing the name with a hyphen. The `log_filter_set` routine for class [FOURIER_MATH_CLIENT_TEST_APP](https://github.com/finnianr/Eiffel-Loop/test/source/eros/apps/fourier_math_client_test_app.e) illustrates:
 
 ````eiffel
 feature {NONE} -- Implementation

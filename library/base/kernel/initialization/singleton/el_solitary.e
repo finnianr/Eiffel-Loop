@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-16 16:30:31 GMT (Tuesday 16th April 2024)"
-	revision: "7"
+	date: "2024-07-18 9:44:08 GMT (Thursday 18th July 2024)"
+	revision: "8"
 
 deferred class
 	EL_SOLITARY
@@ -65,7 +65,6 @@ note
 					${EL_DEFERRED_LOCALE_IMP}
 					${EL_LOCALE}
 						${EL_DEFAULT_LOCALE*}
-							${EL_ENGLISH_DEFAULT_LOCALE}
 				${RBOX_DATABASE}
 					${RBOX_TEST_DATABASE}
 

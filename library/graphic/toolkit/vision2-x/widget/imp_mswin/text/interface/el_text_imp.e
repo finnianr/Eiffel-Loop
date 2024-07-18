@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-07-18 12:18:45 GMT (Thursday 18th July 2024)"
+	revision: "7"
 
 class
 	EL_TEXT_IMP
@@ -33,6 +33,8 @@ inherit
 		end
 
 	EL_UNDOABLE_TEXT_COMPONENT_IMP
+
+	EL_WINDOWS_IMPLEMENTATION
 
 create
 	make

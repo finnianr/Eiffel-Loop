@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 13:29:52 GMT (Saturday 22nd June 2024)"
-	revision: "26"
+	date: "2024-07-18 9:39:09 GMT (Thursday 18th July 2024)"
+	revision: "27"
 
 class
 	I18N_LOCALIZATION_TEST_SET
@@ -61,14 +61,14 @@ feature -- Tests
 	test_reading_from_file
 		-- TRANSLATION_TABLE_TEST_SET.test_reading_from_file
 		do
-			do_test ("test_reading_from_file", 3582653786, agent test_reading, [agent new_table_from_file])
+			do_test ("test_reading_from_file", 3580702002, agent test_reading, [agent new_table_from_file])
 		end
 
 	test_reading_from_source
 		note
 			testing: "covers/{EL_PYXIS_PARSER}.parse_from_string"
 		do
-			do_test ("test_reading_from_source", 2977871622, agent test_reading, [agent new_table_from_source])
+			do_test ("test_reading_from_source", 3766536358, agent test_reading, [agent new_table_from_source])
 		end
 
 	test_reflective_locale_texts
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 				pyxis_file_path := Localization_dir + (name.item + ".pyx")
 				lio.put_labeled_string ("Localization", pyxis_file_path.base)
 				lio.put_new_line
-				across << "en", "de" >> as language loop
+				across << English_code, "de" >> as language loop
 					table := new_table (language.item, pyxis_file_path)
 					across table as translation loop
 						lio.put_curtailed_string_field (translation.key, translation.item, 200)
@@ -127,6 +127,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	English_code: STRING = "en"
 
 	Localization_dir: DIR_PATH
 		once

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-07-18 15:03:10 GMT (Thursday 18th July 2024)"
+	revision: "8"
 
 deferred class
 	EL_STRING_EDITION_HISTORY [S -> STRING_GENERAL create make_empty end]
 
 inherit
-	ARRAYED_STACK [EL_STRING_EDITION]
+	ARRAYED_STACK [NATURAL_64]
 		rename
 			extend as list_extend,
 			make as make_array,
@@ -30,37 +30,24 @@ feature -- Initialization
 			make_array (n)
 			create redo_stack.make (n)
 			create string.make_empty
-			edition_procedures := new_edition_procedures
+			create string_list.make (100); string_list.compare_objects
 		end
 
 feature -- Access
 
-	string: S
-
 	caret_position: INTEGER
 
-feature -- Element change
+	string: S
 
-	set_string (a_string: like string)
-		do
-			string.copy (a_string)
-			caret_position := string.count + 1
-		end
+feature -- Element change
 
 	extend (a_string: like string)
 		require
 			different_from_current: string /~ a_string
 		do
-			put (new_edition (string, a_string))
+			put (new_edition (string, a_string).compact_edition)
 			string := a_string
 			redo_stack.wipe_out
-		end
-
-	undo
-		require
-			not is_empty
-		do
-			restore (Current, redo_stack)
 		end
 
 	redo
@@ -68,6 +55,19 @@ feature -- Element change
 			has_redo_items
 		do
 			restore (redo_stack, Current)
+		end
+
+	set_string (a_string: like string)
+		do
+			string.copy (a_string)
+			caret_position := string.count + 1
+		end
+
+	undo
+		require
+			not is_empty
+		do
+			restore (Current, redo_stack)
 		end
 
 feature -- Status query
@@ -123,25 +123,49 @@ feature {NONE} -- Edition operations
 
 feature {NONE} -- Contract Support
 
-	is_edition_valid (a_edition: EL_STRING_EDITION; latter, former: like string): BOOLEAN
+	is_edition_valid (a_edition: EL_COMPACTABLE_EDITION; latter, former: like string): BOOLEAN
 		local
 			l_string: like string; l_caret_position: like caret_position
 		do
 			l_string := string; l_caret_position := caret_position
 			string := latter.twin
-			a_edition.apply (edition_procedures)
+			apply_edition (a_edition.compact_edition)
 			Result := string ~ former
 			string := l_string; caret_position := l_caret_position
 		end
 
 feature {NONE} -- Factory
 
-	new_edition (former, latter: like string): EL_STRING_EDITION
+	new_character_32_edition (compact_edition: NATURAL_64): EL_CHARACTER_32_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_insert_string_edition (compact_edition: NATURAL_64): EL_INSERT_STRING_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_remove_text_edition (compact_edition: NATURAL_64): EL_REMOVE_TEXT_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_replace_substring_edition (compact_edition: NATURAL_64): EL_REPLACE_SUBSTRING_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_set_string_edition (compact_edition: NATURAL_64): EL_SET_STRING_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_edition (former, latter: like string): EL_COMPACTABLE_EDITION
 		require
 			are_different: latter /~ former
 		local
-			shorter, longer: like string
-			interval: INTEGER_INTERVAL; start_index, end_index: INTEGER
+			shorter, longer: like string; interval: INTEGER_INTERVAL; start_index, end_index: INTEGER
 		do
 			if latter.count < former.count then
 				shorter := latter; longer := former
@@ -152,28 +176,30 @@ feature {NONE} -- Factory
 			start_index := interval.lower; end_index := interval.upper
 			if former.count < latter.count then
 				if interval.count = latter.count then
-					create Result.make (Edition.set_string, [former])
+					create {EL_SET_STRING_EDITION} Result.make (Set_string_code, string_list_index (former))
 
 				elseif interval.count = 1 then
-					create Result.make (Edition.remove_character, [start_index])
+					create {EL_REMOVE_TEXT_EDITION} Result.make (Remove_character_code, start_index, 0)
 				else
-					create Result.make (Edition.remove_substring, [start_index, end_index])
+					create {EL_REMOVE_TEXT_EDITION} Result.make (Remove_substring_code, start_index, end_index)
 				end
-			elseif former.count > latter.count  then
+			elseif former.count > latter.count then
 				if interval.count = former.count then
-					create Result.make (Edition.set_string, [former])
+					create {EL_SET_STRING_EDITION} Result.make (Set_string_code, string_list_index (former))
 
 				elseif interval.count = 1 then
-					create Result.make (Edition.insert_character, [former [start_index], start_index])
+					create {EL_CHARACTER_32_EDITION} Result.make (Insert_character_code, start_index, former [start_index])
 				else
-					create Result.make (Edition.insert_string, [former.substring (start_index, end_index), start_index])
+					create {EL_INSERT_STRING_EDITION} Result.make (
+						Insert_string_code, string_list_index (former.substring (start_index, end_index)), start_index
+					)
 				end
 			else
 				if interval.count = 1 then
-					create Result.make (Edition.replace_character, [former [start_index], start_index])
+					create {EL_CHARACTER_32_EDITION} Result.make (Replace_character_code, start_index, former [start_index])
 				else
-					create Result.make (
-						Edition.replace_substring, [former.substring (start_index, end_index), start_index, end_index]
+					create {EL_REPLACE_SUBSTRING_EDITION} Result.make (
+						Replace_substring_code, string_list_index (former.substring (start_index, end_index)), start_index, end_index
 					)
 				end
 			end
@@ -181,30 +207,41 @@ feature {NONE} -- Factory
 			edition_can_revert_latter_to_former: is_edition_valid (Result, latter, former)
 		end
 
-	new_edition_procedures: ARRAY [PROCEDURE]
-		do
-			create Result.make_filled (agent do_nothing, 1, Edition.upper)
-
-			Result [Edition.insert_character] := agent insert_character
-			Result [Edition.insert_string] := agent insert_string
-			Result [Edition.remove_character] := agent remove_character
-			Result [Edition.remove_substring] := agent remove_substring
-			Result [Edition.replace_character] := agent replace_character
-			Result [Edition.replace_substring] := agent replace_substring
-			Result [Edition.set_string] := agent set_string
-		end
-
 feature {NONE} -- Implementation
 
-	restore (edition_stack, counter_edition_stack: ARRAYED_STACK [EL_STRING_EDITION])
-			-- restore from edition_stack.item and extend counter edition_item to undo
-		local
-			l_string: S
+	apply_edition (compact_edition: NATURAL_64)
 		do
-			l_string := string.twin
-			edition_stack.item.apply (edition_procedures)
-			edition_stack.remove
-			counter_edition_stack.extend (new_edition (l_string, string))
+			inspect compact_edition |>> 60
+				when Insert_character_code then
+					if attached new_character_32_edition (compact_edition) as edition then
+						insert_character (edition.character, edition.start_index)
+					end
+				when Insert_string_code then
+					if attached new_insert_string_edition (compact_edition) as edition then
+						insert_string (string_list [edition.array_index], edition.start_index)
+					end
+				when Remove_character_code then
+					if attached new_remove_text_edition (compact_edition) as edition then
+						remove_character (edition.start_index)
+					end
+				when Remove_substring_code then
+					if attached new_remove_text_edition (compact_edition) as edition then
+						remove_substring (edition.start_index, edition.end_index)
+					end
+				when Replace_character_code then
+					if attached new_character_32_edition (compact_edition) as edition then
+						replace_character (edition.character, edition.start_index)
+					end
+				when Replace_substring_code then
+					if attached new_replace_substring_edition (compact_edition) as edition then
+						replace_substring (string_list [edition.array_index], edition.start_index, edition.end_index)
+					end
+				when Set_string_code then
+					if attached new_set_string_edition (compact_edition) as edition then
+						set_string (string_list [edition.array_index])
+					end
+			else
+			end
 		end
 
 	difference_interval (shorter, longer: like string): INTEGER_INTERVAL
@@ -215,18 +252,15 @@ feature {NONE} -- Implementation
 			i, left_i, right_i: INTEGER
 			shorter_right_side: like string
 		do
-			from i := 1 until
-				i > shorter.count or else shorter [i] /= longer [i]
-			loop
+			from i := 1 until i > shorter.count or else shorter [i] /= longer [i] loop
 				i := i + 1
 			end
 			left_i := i
 
 			shorter_right_side := shorter.substring (left_i, shorter.count)
 
-			from i := 0 until
-				i > (shorter_right_side.count - 1)
-					or else shorter_right_side [shorter_right_side.count - i] /= longer [longer.count - i]
+			from i := 0 until i > (shorter_right_side.count - 1)
+				or else shorter_right_side [shorter_right_side.count - i] /= longer [longer.count - i]
 			loop
 				i := i + 1
 			end
@@ -234,15 +268,50 @@ feature {NONE} -- Implementation
 			create Result.make (left_i, right_i)
 		end
 
-	redo_stack: ARRAYED_STACK [EL_STRING_EDITION]
-
-	edition_procedures: like new_edition_procedures
-
-feature {NONE} -- Constants
-
-	Edition: EL_STRING_EDITION
-		once
-			create Result.make (0, [])
+	string_list_index (str: like string): INTEGER
+		do
+			if attached string_list as list then
+				list.start
+				list.search (str)
+				if list.after then
+					list.extend (str)
+					Result := list.count
+				else
+					Result := list.index
+				end
+			end
 		end
 
+	restore (edition_stack, counter_edition_stack: ARRAYED_STACK [NATURAL_64])
+			-- restore from edition_stack.item and extend counter edition_item to undo
+		local
+			l_string: S
+		do
+			l_string := string.twin
+			apply_edition (edition_stack.item)
+			edition_stack.remove
+			counter_edition_stack.extend (new_edition (l_string, string).compact_edition)
+		end
+
+feature {NONE} -- Internal attributes
+
+	redo_stack: ARRAYED_STACK [NATURAL_64]
+
+	string_list: ARRAYED_LIST [S]
+
+feature -- Edition indices
+
+	Insert_character_code: NATURAL_8 = 1
+
+	Insert_string_code: NATURAL_8 = 2
+
+	Remove_character_code: NATURAL_8 = 3
+
+	Remove_substring_code: NATURAL_8 = 4
+
+	Replace_character_code: NATURAL_8 = 5
+
+	Replace_substring_code: NATURAL_8 = 6
+
+	Set_string_code: NATURAL_8 = 7
 end

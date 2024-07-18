@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-07-18 15:35:39 GMT (Thursday 18th July 2024)"
+	revision: "10"
 
 class
 	EL_TEXT_FIELD
@@ -32,11 +32,26 @@ create
 
 feature {EV_ANY, EV_ANY_I} -- Implementation
 
-	implementation: EL_TEXT_FIELD_I
-
 	create_implementation
 			-- See `{EV_ANY}.create_implementation'.
 		do
 			create {EL_TEXT_FIELD_IMP} implementation.make
 		end
+
+	has_word_wrapping: BOOLEAN
+		do
+		end
+
+	line_number_from_position (i: INTEGER): INTEGER
+		do
+		end
+
+	scroll_to_line (i: INTEGER)
+		do
+		end
+
+feature {NONE} -- Internal attributes
+
+	implementation: EL_TEXT_FIELD_I
+
 end
