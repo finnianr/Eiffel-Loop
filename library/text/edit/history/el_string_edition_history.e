@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 15:03:10 GMT (Thursday 18th July 2024)"
-	revision: "8"
+	date: "2024-07-18 17:20:10 GMT (Thursday 18th July 2024)"
+	revision: "9"
 
 deferred class
 	EL_STRING_EDITION_HISTORY [S -> STRING_GENERAL create make_empty end]
@@ -141,26 +141,6 @@ feature {NONE} -- Factory
 			create Result.make_from_compact_edition (compact_edition)
 		end
 
-	new_insert_string_edition (compact_edition: NATURAL_64): EL_INSERT_STRING_EDITION
-		do
-			create Result.make_from_compact_edition (compact_edition)
-		end
-
-	new_remove_text_edition (compact_edition: NATURAL_64): EL_REMOVE_TEXT_EDITION
-		do
-			create Result.make_from_compact_edition (compact_edition)
-		end
-
-	new_replace_substring_edition (compact_edition: NATURAL_64): EL_REPLACE_SUBSTRING_EDITION
-		do
-			create Result.make_from_compact_edition (compact_edition)
-		end
-
-	new_set_string_edition (compact_edition: NATURAL_64): EL_SET_STRING_EDITION
-		do
-			create Result.make_from_compact_edition (compact_edition)
-		end
-
 	new_edition (former, latter: like string): EL_COMPACTABLE_EDITION
 		require
 			are_different: latter /~ former
@@ -199,12 +179,33 @@ feature {NONE} -- Factory
 					create {EL_CHARACTER_32_EDITION} Result.make (Replace_character_code, start_index, former [start_index])
 				else
 					create {EL_REPLACE_SUBSTRING_EDITION} Result.make (
-						Replace_substring_code, string_list_index (former.substring (start_index, end_index)), start_index, end_index
+						Replace_substring_code, string_list_index (former.substring (start_index, end_index)),
+						start_index, end_index
 					)
 				end
 			end
 		ensure
 			edition_can_revert_latter_to_former: is_edition_valid (Result, latter, former)
+		end
+
+	new_insert_string_edition (compact_edition: NATURAL_64): EL_INSERT_STRING_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_remove_text_edition (compact_edition: NATURAL_64): EL_REMOVE_TEXT_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_replace_substring_edition (compact_edition: NATURAL_64): EL_REPLACE_SUBSTRING_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
+		end
+
+	new_set_string_edition (compact_edition: NATURAL_64): EL_SET_STRING_EDITION
+		do
+			create Result.make_from_compact_edition (compact_edition)
 		end
 
 feature {NONE} -- Implementation
@@ -268,6 +269,17 @@ feature {NONE} -- Implementation
 			create Result.make (left_i, right_i)
 		end
 
+	restore (edition_stack, counter_edition_stack: ARRAYED_STACK [NATURAL_64])
+			-- restore from edition_stack.item and extend counter edition_item to undo
+		local
+			l_string: S
+		do
+			l_string := string.twin
+			apply_edition (edition_stack.item)
+			edition_stack.remove
+			counter_edition_stack.extend (new_edition (l_string, string).compact_edition)
+		end
+
 	string_list_index (str: like string): INTEGER
 		do
 			if attached string_list as list then
@@ -280,17 +292,6 @@ feature {NONE} -- Implementation
 					Result := list.index
 				end
 			end
-		end
-
-	restore (edition_stack, counter_edition_stack: ARRAYED_STACK [NATURAL_64])
-			-- restore from edition_stack.item and extend counter edition_item to undo
-		local
-			l_string: S
-		do
-			l_string := string.twin
-			apply_edition (edition_stack.item)
-			edition_stack.remove
-			counter_edition_stack.extend (new_edition (l_string, string).compact_edition)
 		end
 
 feature {NONE} -- Internal attributes

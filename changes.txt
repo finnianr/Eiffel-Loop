@@ -730,3 +730,6 @@ EL_STRING_LIST has routine unique_sort
 Mon 15th Jul 2024, 17:36:58
 Excess log pruning command
 
+Thu 18th Jul 2024, 17:13:53
+Memory efficient string history; global Key_language
+
