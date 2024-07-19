@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 6:07:58 GMT (Friday 19th July 2024)"
-	revision: "8"
+	date: "2024-07-19 10:20:25 GMT (Friday 19th July 2024)"
+	revision: "9"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_IMP
@@ -31,7 +31,6 @@ feature {NONE} -- Implementation
 			inspect a_character_code
 				when {ASCII}.Ctrl_y, {ASCII}.Ctrl_z then
 					Result := True
-
 			else end
 		end
 

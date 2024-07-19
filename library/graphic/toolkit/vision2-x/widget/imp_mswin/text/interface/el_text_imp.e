@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 12:18:45 GMT (Thursday 18th July 2024)"
-	revision: "7"
+	date: "2024-07-19 10:18:49 GMT (Friday 19th July 2024)"
+	revision: "8"
 
 class
 	EL_TEXT_IMP
 
 inherit
 	EL_TEXT_I
-		rename
-			restore as restore_edit
 		undefine
 			text_length, selected_text
 		redefine

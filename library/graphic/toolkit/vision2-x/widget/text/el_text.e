@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-17 16:05:15 GMT (Wednesday 17th July 2024)"
-	revision: "10"
+	date: "2024-07-19 10:26:31 GMT (Friday 19th July 2024)"
+	revision: "11"
 
 class
 	EL_TEXT
@@ -27,35 +27,19 @@ inherit
 			implementation
 		end
 
-	EL_MODULE_LOG
-
 create
 	default_create
 
 feature -- Access
 
 	caret_line: TUPLE [full_text: ZSTRING; start_index, end_index: INTEGER]
-		-- interval indices of substring-line in `full_text' that has the caret
+		-- interval indices of substring-line in `text' that has the caret as well as a copy of `text'
 		local
 			i, start_index, end_index, position: INTEGER
-			uc: CHARACTER_32; uc_str, l_text: ZSTRING
+			l_text: ZSTRING
 		do
 			l_text := text
-			start_index := 1; end_index := l_text.count
-			position := caret_position
-
-			log.put_integer_field ("caret", position)
-			log.put_integer_field (" start_index", start_index)
-			log.put_integer_field (" end_index", end_index)
-
-			uc := l_text [position]
-			if uc.is_alpha_numeric then
-				create uc_str.make_filled (uc, 1)
-			else
-				uc_str := uc.code.out
-			end
-			log.put_labeled_string (" Character", uc_str)
-			log.put_new_line
+			start_index := 1; end_index := l_text.count; position := caret_position
 
 			from i := position - 1 until i < 1 or else l_text [i] = '%N' loop
 				i := i - 1

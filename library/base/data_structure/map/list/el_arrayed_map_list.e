@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 16:02:52 GMT (Wednesday 3rd April 2024)"
-	revision: "31"
+	date: "2024-07-19 11:31:07 GMT (Friday 19th July 2024)"
+	revision: "32"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -207,6 +207,13 @@ feature -- Element change
 	replace (key: K; value: G)
 		do
 			replace_key (key)
+			internal_value_list.put_i_th (value, index)
+		end
+
+	replace_value (value: G)
+		require
+			valid_item: not off
+		do
 			internal_value_list.put_i_th (value, index)
 		end
 

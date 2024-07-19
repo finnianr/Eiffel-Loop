@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 8:36:58 GMT (Friday 19th July 2024)"
-	revision: "10"
+	date: "2024-07-19 13:38:21 GMT (Friday 19th July 2024)"
+	revision: "11"
 
 deferred class
 	EL_STRING_EDITION_HISTORY [S -> STRING_GENERAL create make_empty end]
@@ -132,13 +132,13 @@ feature {NONE} -- Contract Support
 		local
 			l_string: like string; l_caret_position: like caret_position
 		do
-			checking_valid := True
+			ensuring_valid := True
 			l_string := string; l_caret_position := caret_position
 			string := latter.twin
 			apply_edition (a_edition.compact_edition)
 			Result := string ~ former
 			string := l_string; caret_position := l_caret_position
-			checking_valid := False
+			ensuring_valid := False
 		end
 
 feature {NONE} -- Factory
@@ -307,8 +307,8 @@ feature {NONE} -- Internal attributes
 
 	string_list: ARRAYED_LIST [S]
 
-	checking_valid: BOOLEAN
-		-- `True' if `is_edition_valid' is executing
+	ensuring_valid: BOOLEAN
+		-- `True' when `is_edition_valid' post-condition is executing
 
 feature -- Edition indices
 
