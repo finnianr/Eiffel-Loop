@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-16 18:35:50 GMT (Tuesday 16th July 2024)"
-	revision: "18"
+	date: "2024-07-19 6:00:11 GMT (Friday 19th July 2024)"
+	revision: "19"
 
 deferred class
 	EL_MENU
@@ -240,7 +240,7 @@ feature {NONE} -- Implementation
 		end
 
 	add_shortcut (id: INTEGER; modified_code: like combined)
-			-- add keyboard shortcut with modifiers combined with logical OR
+		-- add keyboard shortcut with modifiers Ctrl, Alt, Shift combined with logical OR
 		require
 			valid_id: is_valid_id (id)
 		local

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 15:24:18 GMT (Thursday 18th July 2024)"
-	revision: "12"
+	date: "2024-07-19 7:26:24 GMT (Friday 19th July 2024)"
+	revision: "13"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_I
@@ -18,6 +18,8 @@ inherit
 	EL_STRING_GENERAL_ROUTINES
 
 	EL_OS_DEPENDENT
+
+	EL_STRING_32_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -103,8 +105,9 @@ feature {EL_UNDOABLE_TEXT_COMPONENT} -- Event handling
 		do
 			if is_undo_enabled and then not is_restoring then
 				if edit_history.is_in_default_state then
-					edit_history.set_string_from_general (text)
-				elseif not edit_history.string.same_string (text) then
+					edit_history.set_string_from_general (Empty_string_32)
+				end
+				if not edit_history.string.same_string (text) then
 					edit_history.extend_from_general (text)
 				end
 			end

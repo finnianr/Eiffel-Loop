@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 12:18:06 GMT (Thursday 18th July 2024)"
-	revision: "7"
+	date: "2024-07-19 6:07:58 GMT (Friday 19th July 2024)"
+	revision: "8"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_IMP
@@ -26,13 +26,17 @@ inherit
 feature {NONE} -- Implementation
 
 	ignore_character_code (a_character_code: INTEGER): BOOLEAN
-			 -- Needed to make EL_UNDOABLE_TEXT work
+		-- Needed to make EL_UNDOABLE_TEXT work
 		do
 			inspect a_character_code
-				when Ctrl_y, Ctrl_z then
+				when {ASCII}.Ctrl_y, {ASCII}.Ctrl_z then
 					Result := True
 
 			else end
+		end
+
+	interface: EL_UNDOABLE_TEXT_COMPONENT
+		deferred
 		end
 
 	empty_undo_buffer
@@ -43,11 +47,5 @@ feature {NONE} -- Implementation
 	wel_item: POINTER
 		deferred
 		end
-
-feature {NONE} -- Constants
-
-	Ctrl_y: INTEGER = 25
-
-	Ctrl_z: INTEGER = 26
 
 end
