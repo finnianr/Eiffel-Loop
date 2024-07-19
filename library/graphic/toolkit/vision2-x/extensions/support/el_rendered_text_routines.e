@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:29:19 GMT (Saturday 22nd June 2024)"
-	revision: "44"
+	date: "2024-07-19 9:58:53 GMT (Friday 19th July 2024)"
+	revision: "45"
 
 class
 	EL_RENDERED_TEXT_ROUTINES
@@ -106,16 +106,16 @@ feature -- Contract support
 			end
 		end
 
-	same_fonts (a, b: EV_FONT): BOOLEAN
-		do
-			Result := a ~ b and then a.name ~ b.name
-		end
-
 	preferred_family_set: BOOLEAN
 		do
 			if attached internal_font.preferred_families as families then
 				Result := families.count = 1 and not families.off
 			end
+		end
+
+	same_fonts (a, b: EV_FONT): BOOLEAN
+		do
+			Result := a ~ b and then a.name ~ b.name
 		end
 
 feature -- Measurement
@@ -138,6 +138,13 @@ feature -- Measurement
 					Result := width
 				end
 			end
+		end
+
+feature -- Basic operations
+
+	set_clipboard (str: READABLE_STRING_GENERAL)
+		do
+			ev_application.clipboard.set_text (str.to_string_32)
 		end
 
 feature {EL_FONT_FAMILIES_I} -- Implementation

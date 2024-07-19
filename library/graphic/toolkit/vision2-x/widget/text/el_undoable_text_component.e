@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 6:07:58 GMT (Friday 19th July 2024)"
-	revision: "9"
+	date: "2024-07-19 9:54:31 GMT (Friday 19th July 2024)"
+	revision: "10"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT
@@ -70,17 +70,11 @@ feature -- Basic operations
 	redo
 		do
 			implementation.redo
-			if has_word_wrapping then
-				scroll_to_line (line_number_from_position (caret_position))
-			end
 		end
 
 	undo
 		do
 			implementation.undo
-			if has_word_wrapping then
-				scroll_to_line (line_number_from_position (caret_position))
-			end
 		end
 
 feature -- Element change
@@ -96,14 +90,6 @@ feature -- Element change
 feature {NONE} -- Deferred
 
 	has_word_wrapping: BOOLEAN
-		deferred
-		end
-
-	line_number_from_position (i: INTEGER): INTEGER
-		deferred
-		end
-
-	scroll_to_line (i: INTEGER)
 		deferred
 		end
 
