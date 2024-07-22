@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-17 18:04:41 GMT (Saturday 17th February 2024)"
-	revision: "53"
+	date: "2024-07-22 15:40:08 GMT (Monday 22nd July 2024)"
+	revision: "54"
 
 class
 	REFLECTION_TEST_SET
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["arrayed_list_initialization",						agent test_arrayed_list_initialization],
+				["compactable_objects",									agent test_compactable_objects],
 				["default_tuple_initialization",						agent test_default_tuple_initialization],
 				["enumeration",											agent test_enumeration],
 				["field_name_search_by_address",						agent test_field_name_search_by_address],
@@ -42,12 +43,12 @@ feature {NONE} -- Initialization
 				["field_value_setter",									agent test_field_value_setter],
 				["field_value_table",									agent test_field_value_table],
 				["initialized_object_factory",						agent test_initialized_object_factory],
-				["compactable_objects",									agent test_compactable_objects],
 				["makeable_object_factory",							agent test_makeable_object_factory],
 				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
 				["object_initialization_from_table",				agent test_object_initialization_from_table],
 				["reflected_collection_factory",						agent test_reflected_collection_factory],
 				["reflected_integer_list",								agent test_reflected_integer_list],
+				["reflective_string_table",							agent test_reflective_string_table],
 				["reflection",												agent test_reflection],
 				["reflective_string_constants",						agent test_reflective_string_constants],
 				["set_from_other",										agent test_set_from_other],
@@ -344,6 +345,27 @@ feature -- Tests
 			assert ("equal strings", name.immutable_string_8 ~ Immutable_string_8)
 		end
 
+	test_reflective_string_table
+		-- REFLECTION_TEST_SET.test_reflective_string_table
+		note
+			testing: "[
+				covers/{EL_STRING_ITERATION_CURSOR}.occurrences_in_bounds,
+				covers/{EL_TABLE_INTERVAL_MAP_LIST}.make,
+				covers/{EL_REFLECTIVE_STRING_TABLE}.make,
+				covers/{EL_SUB}.count,
+				covers/{EL_SUB}.lines
+			]"
+		local
+			table: HTTP_STATUS_TABLE
+		do
+			create table.make_default
+			assert_same_http_status (table.ok, Http_status.ok)
+			assert_same_http_status (table.found, Http_status.found)
+			assert_same_http_status (table.continue, Http_status.continue)
+			assert_same_http_status (table.not_acceptable, Http_status.not_acceptable)
+
+		end
+
 	test_set_from_other
 		-- REFLECTION_TEST_SET.test_set_from_other
 		note
@@ -405,6 +427,20 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	assert_same_http_status (status: EL_SUB [STRING]; status_code: NATURAL_16)
+		local
+			string, code_string: STRING; code: NATURAL_16; s: EL_STRING_8_ROUTINES
+		do
+			string := status
+			code_string := s.substring_to (string, ' ')
+			string.remove_head (code_string.count + 1)
+			assert ("same status code", code_string.to_natural_16 = status_code)
+			if attached Http_status.description (status_code) as description then
+				assert ("same count", status.count - code_string.count - 1 = description.count)
+				assert_same_string ("same description", string, description)
+			end
+		end
 
 	Immutable_string_8: IMMUTABLE_STRING_8
 		once

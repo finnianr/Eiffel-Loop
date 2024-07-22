@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 8:32:32 GMT (Sunday 24th September 2023)"
-	revision: "19"
+	date: "2024-07-22 10:44:05 GMT (Monday 22nd July 2024)"
+	revision: "20"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -284,7 +284,7 @@ feature {NONE} -- Constants
 				partial_content:
 					Partial GET request fulfilled.
 				reset_content:
-					Resquest succeeded. User agent should clear document.
+					Request succeeded. User agent should clear document.
 				found:
 					Resource has been moved temporarily.
 				moved_permanently:

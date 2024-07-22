@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 17:45:07 GMT (Sunday 21st July 2024)"
-	revision: "27"
+	date: "2024-07-22 15:31:15 GMT (Monday 22nd July 2024)"
+	revision: "28"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -333,6 +333,28 @@ feature -- Measurement
 
 	leading_white_count: INTEGER
 		deferred
+		end
+
+	occurrences_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
+		-- `True' if `uc' occurs between `start_index' and `end_index'
+		require
+			valid_start_end_index: start_index <= end_index + 1
+			valid_start: valid_index (start_index)
+			valid_end: end_index > 0 implies valid_index (end_index)
+		local
+			i, i_upper, i_lower, l_count: INTEGER
+		do
+			l_count := end_index - start_index + 1
+			if l_count > 0 and then attached area as l_area then
+				i_lower := area_first_index + start_index - 1
+				i_upper := i_lower + l_count - 1
+				from i := i_lower until i > i_upper loop
+					if i_th_character_32 (l_area, i) = uc then
+						Result := Result + 1
+					end
+					i := i + 1
+				end
+			end
 		end
 
 	target_count: INTEGER
