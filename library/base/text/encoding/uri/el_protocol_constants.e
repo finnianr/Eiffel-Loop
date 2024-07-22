@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-18 10:33:03 GMT (Tuesday 18th June 2024)"
-	revision: "15"
+	date: "2024-07-20 8:28:50 GMT (Saturday 20th July 2024)"
+	revision: "16"
 
 deferred class
 	EL_PROTOCOL_CONSTANTS
@@ -15,12 +15,18 @@ deferred class
 inherit
 	EL_MODULE_TUPLE
 
+feature {NONE} -- Implementation
+
+	url_stem (a_protocol: STRING): STRING
+		do
+			Result := a_protocol + Colon_slash_x2
+		end
+
 feature {NONE} -- Constants
 
-	Secure_protocol: EL_BOOLEAN_INDEXABLE [STRING]
-		once
-			create Result.make (Protocol.http, Protocol.https)
-		end
+	Colon_slash_x2: STRING = "://"
+
+	Localhost: STRING = "localhost"
 
 	Protocol: TUPLE [file, ftp, http, https, ssh: STRING]
 		-- common protocols
@@ -30,8 +36,9 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "file, ftp, http, https, ssh")
 		end
 
-	Colon_slash_x2: STRING = "://"
-
-	Localhost: STRING = "localhost"
+	Secure_protocol: EL_BOOLEAN_INDEXABLE [STRING]
+		once
+			create Result.make (Protocol.http, Protocol.https)
+		end
 
 end

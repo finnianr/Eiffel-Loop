@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-30 10:06:50 GMT (Tuesday 30th January 2024)"
-	revision: "19"
+	date: "2024-07-21 8:10:14 GMT (Sunday 21st July 2024)"
+	revision: "20"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -38,6 +38,14 @@ feature {NONE} -- Initialization
 
 	make (a_manifest: GENERAL)
 		-- make with comma separated list with values on odd indices and keys on even indices
+		-- as for example:
+
+		-- 	key_1, x,
+		-- 	key_2, y,
+		-- 	key_3, z,
+		-- 	..
+
+		-- All quotes are interpreted literally as characters occurring in the key or value
 		require
 			valid_manifest: valid_comma_separated (a_manifest)
 		local
@@ -60,6 +68,14 @@ feature {NONE} -- Initialization
 		end
 
 	make_by_assignment (a_manifest: GENERAL)
+		-- make from manifest formatted as:
+
+		-- 	key_1 := x
+		-- 	key_2 := y
+		-- 	key_3 := z
+		-- 	..
+
+		-- All quotes are interpreted literally as characters occurring in the key or value
 		require
 			valid_manifest: valid_assignments (a_manifest)
 		local
@@ -83,13 +99,15 @@ feature {NONE} -- Initialization
 
 	make_by_indented (a_manifest: GENERAL)
 		-- make from manifest formatted as:
-		-- key_1:
-		--		line 1..
-		--		line 2..
-		-- key_2:
-		--		line 1..
-		--		line 2..
-		-- ..
+
+		-- 	key_1:
+		--			line 1..
+		--			line 2..
+		-- 	key_2:
+		--			line 1..
+		--			line 2..
+		--		..
+
 		require
 			valid_manifest: valid_indented (a_manifest)
 		local

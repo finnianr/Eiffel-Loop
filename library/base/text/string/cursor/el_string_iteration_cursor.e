@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 9:05:01 GMT (Sunday 14th April 2024)"
-	revision: "26"
+	date: "2024-07-21 17:45:07 GMT (Sunday 21st July 2024)"
+	revision: "27"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -232,7 +232,7 @@ feature -- Status query
 		end
 
 	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `uc' occurrs between `start_index' and `end_index'
+		-- `True' if `uc' occurs between `start_index' and `end_index'
 		require
 			valid_start_index: valid_index (start_index)
 			valid_end_index: end_index >= start_index and end_index <= target_count

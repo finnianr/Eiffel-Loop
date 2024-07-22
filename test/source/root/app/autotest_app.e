@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-07-22 8:09:45 GMT (Monday 22nd July 2024)"
+	revision: "13"
 
 class
 	AUTOTEST_APP
@@ -25,6 +25,10 @@ inherit
 			test
 		end
 
+	EL_SHARED_ZCODEC_FACTORY
+
+	EL_ENCODING_TYPE
+
 create
 	default_create
 
@@ -32,22 +36,41 @@ feature {NONE} -- Implementation
 
 	test (application: EL_APPLICATION)
 		local
-			ecf_name: ZSTRING; cmd_list: EL_ZSTRING_LIST
+			ecf_name: ZSTRING; cmd_list: EL_ZSTRING_LIST; latin_1_: EL_ENCODEABLE_AS_TEXT
 		do
 			if attached {EL_AUTOTEST_APPLICATION} application as test_app then
 				ecf_name := Naming.class_as_kebab_upper (test_app, 0, 2) + Dot_ecf
 				ecf_name.to_lower
 				lio.put_labeled_string ("Library", ecf_name)
 				lio.put_new_line
+
 				create cmd_list.make_from_general (<< hyphen.to_string + application.option_name >>)
-				call_command (cmd_list)
-				if application.generating_type ~ {BASE_AUTOTEST_APP} and then execution.return_code = 0 then
-					cmd_list.append_general (<<
-						"-test_set", ({ZSTRING_TEST_SET}).name.to_string_8, "-zstring_codec", "ISO-8859-1"
-					>>)
+				if attached {NETWORK_AUTOTEST_APP} application then
+					if Args.has_value (Option_pp) then
+					-- eiffel-loop.com ftp
+						cmd_list.append_general (<< hyphen * 1 + Option_pp, Args.value (Option_pp) >>)
+					end
+					call_command (cmd_list)
+
+				elseif attached {BASE_AUTOTEST_APP} application then
+					call_command (cmd_list) -- Use default ISO-8859-15 encoding first
+
+				-- Now just string test sets with  ISO-8859-1
+					if execution.return_code = 0 then
+						create latin_1_.make (Latin_1)
+						cmd_list.append_general (<<
+							"-test_set", "*STRING*", Codec_factory.Codec_option_name, latin_1_.encoding_name
+						>>)
+						call_command (cmd_list)
+					end
+				else
 					call_command (cmd_list)
 				end
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Option_pp: STRING = "pp"
 
 end

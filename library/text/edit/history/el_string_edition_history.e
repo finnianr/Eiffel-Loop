@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 13:38:21 GMT (Friday 19th July 2024)"
-	revision: "11"
+	date: "2024-07-20 9:42:03 GMT (Saturday 20th July 2024)"
+	revision: "12"
 
 deferred class
 	EL_STRING_EDITION_HISTORY [S -> STRING_GENERAL create make_empty end]
@@ -290,13 +290,10 @@ feature {NONE} -- Implementation
 	string_list_index (str: like string): INTEGER
 		do
 			if attached string_list as list then
-				list.start
-				list.search (str)
-				if list.after then
+				Result := list.index_of (str, 1)
+				if Result = 0 then
 					list.extend (str)
 					Result := list.count
-				else
-					Result := list.index
 				end
 			end
 		end
@@ -305,7 +302,7 @@ feature {NONE} -- Internal attributes
 
 	redo_stack: ARRAYED_STACK [NATURAL_64]
 
-	string_list: ARRAYED_LIST [S]
+	string_list: EL_ARRAYED_LIST [S]
 
 	ensuring_valid: BOOLEAN
 		-- `True' when `is_edition_valid' post-condition is executing

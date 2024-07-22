@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:44:22 GMT (Saturday 6th April 2024)"
-	revision: "33"
+	date: "2024-07-22 7:51:29 GMT (Monday 22nd July 2024)"
+	revision: "34"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -137,6 +137,7 @@ feature -- Tests
 		end
 
 	test_www_exporter
+		-- THUNDERBIRD_EXPORT_TEST_SET.test_www_exporter
 		local
 			command: TB_WWW_XHTML_CONTENT_EXPORTER; path: FILE_PATH
 			file_set, dir_set: EL_HASH_SET [ZSTRING]

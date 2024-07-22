@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 15:17:19 GMT (Tuesday 9th July 2024)"
-	revision: "39"
+	date: "2024-07-22 6:41:54 GMT (Monday 22nd July 2024)"
+	revision: "40"
 
 class
 	NETWORK_AUTOTEST_APP

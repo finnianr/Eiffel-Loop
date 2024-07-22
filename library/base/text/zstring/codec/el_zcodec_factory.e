@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-07-21 15:23:13 GMT (Sunday 21st July 2024)"
+	revision: "23"
 
 frozen class
 	EL_ZCODEC_FACTORY
@@ -36,6 +36,8 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 feature -- Access
+
+	Codec_option_name: STRING = "-zstring_codec"
 
 	codec (a_encoding: EL_ENCODING_BASE): EL_ZCODEC
 		-- cached codec
@@ -174,8 +176,6 @@ feature {NONE} -- Constants
 		once
 			create Result.make_from_tuple (new_codec_types)
 		end
-
-	Codec_option_name: STRING = "-zstring_codec"
 
 	Codec_table: EL_AGENT_CACHE_TABLE [EL_ZCODEC, NATURAL]
 		once

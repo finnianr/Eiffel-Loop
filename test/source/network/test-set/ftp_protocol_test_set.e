@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 12:13:31 GMT (Monday 13th May 2024)"
-	revision: "22"
+	date: "2024-07-22 8:14:52 GMT (Monday 22nd July 2024)"
+	revision: "23"
 
 class
 	FTP_PROTOCOL_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_COPIED_FILE_DATA_TEST_SET
 		undefine
 			new_lio
+		redefine
+			on_prepare
 		end
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE
@@ -34,7 +36,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["directory_create_delete", agent test_directory_create_delete],
-				["upload_and_listing",		  agent test_upload_and_listing]
+				["upload_and_listing",		 agent test_upload_and_listing]
 			>>)
 		end
 
@@ -49,15 +51,9 @@ feature -- Tests
 				covers/{EL_FTP_PROTOCOL}.directory_exists
 			]"
 		local
-			config: EL_FTP_CONFIGURATION ftp: EL_PROSITE_FTP_PROTOCOL; dir_path: EL_DIR_PATH
+			ftp: EL_PROSITE_FTP_PROTOCOL; dir_path: EL_DIR_PATH
 		do
-			if Executable.Is_work_bench then
-				config := new_pyxis_config.ftp
-				if attached Args.value (Var_pp) as pp and then pp.count > 0 then
-					config.authenticate (pp)
-				else
-					config.authenticate (Void)
-				end
+			if is_testable then
 				if config.credential.is_valid then
 					create ftp.make_write (config)
 					ftp.login
@@ -95,17 +91,10 @@ feature -- Tests
 				covers/{EL_FTP_PROTOCOL}.read_entry_count
 			]"
 		local
-			config: EL_FTP_CONFIGURATION ftp: EL_PROSITE_FTP_PROTOCOL
-			text_item: EL_FTP_UPLOAD_ITEM; name_list: EL_STRING_8_LIST
+			ftp: EL_PROSITE_FTP_PROTOCOL; text_item: EL_FTP_UPLOAD_ITEM; name_list: EL_STRING_8_LIST
 			dir_path: EL_DIR_PATH; name_path, src_path: FILE_PATH
 		do
-			if Executable.Is_work_bench then
-				config := new_pyxis_config.ftp
-				if attached Args.value (Var_pp) as pp and then pp.count > 0 then
-					config.authenticate (pp)
-				else
-					config.authenticate (Void)
-				end
+			if is_testable then
 				if config.credential.is_valid then
 					create ftp.make_write (config)
 					ftp.login
@@ -145,6 +134,22 @@ feature -- Tests
 			end
 		end
 
+feature {NONE} -- Events
+
+	on_prepare
+		do
+			Precursor
+			config := new_pyxis_config.ftp
+			if Args.has_value (Var_pp) then
+				config.authenticate (Args.value (Var_pp))
+				has_pp_argument := True
+			else
+				has_pp_argument := False
+				lio.put_line ("Skipping test, no pp argument")
+			end
+			is_testable := Executable.Is_work_bench and has_pp_argument
+		end
+
 feature {NONE} -- Implementation
 
 	new_pyxis_config: EL_PYXIS_FTP_CONFIGURATION
@@ -156,6 +161,14 @@ feature {NONE} -- Implementation
 		do
 			Result := OS.file_list (Data_dir, "*.txt")
 		end
+
+feature {NONE} -- Internal attributes
+
+	config: EL_FTP_CONFIGURATION
+
+	has_pp_argument: BOOLEAN
+
+	is_testable: BOOLEAN
 
 feature {NONE} -- Constants
 

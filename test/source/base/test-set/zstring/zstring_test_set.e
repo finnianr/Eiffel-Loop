@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 8:58:42 GMT (Thursday 6th June 2024)"
-	revision: "126"
+	date: "2024-07-21 14:40:59 GMT (Sunday 21st July 2024)"
+	revision: "127"
 
 class
 	ZSTRING_TEST_SET
@@ -312,16 +312,19 @@ feature -- Element change tests
 			]"
 		local
 			latin_1: STRING; zstr: ZSTRING
+			shareable_indices: EL_BOOLEAN_INDEXABLE [ARRAY [INTEGER]]
 		do
+			create shareable_indices.make (
+				<< 2, 3, 5 >>,		-- shareable for ISO-8859-15
+				<< 2, 3, 4, 6 >>	-- shareable for ISO-8859-1
+			)
 			across Text.lines as list loop
 				if list.item.is_valid_as_string_8 then
 					latin_1 := list.item.to_string_8
 					create zstr.make_empty
 					if zstr.is_shareable_8 (latin_1) then
 						zstr.share_8 (latin_1)
-						inspect list.cursor_index
-							when 2, 3, 5  then
-						else
+						if not shareable_indices [Codec.id = 1].has (list.cursor_index) then
 							failed ("valid list item")
 						end
 						assert ("same string", zstr.to_string_32 ~ list.item)

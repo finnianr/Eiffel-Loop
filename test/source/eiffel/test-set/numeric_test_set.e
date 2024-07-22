@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-16 6:59:04 GMT (Tuesday 16th July 2024)"
-	revision: "20"
+	date: "2024-07-21 14:48:46 GMT (Sunday 21st July 2024)"
+	revision: "21"
 
 class
 	NUMERIC_TEST_SET
@@ -32,7 +32,6 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["double_string_conversion", agent test_double_string_conversion],
-				["integer_width",				  agent test_integer_width],
 				["negative_to_natural",		  agent test_negative_to_natural],
 				["store_integer_in_natural", agent test_store_integer_in_natural],
 				["truncated_natural_64",	  agent test_truncated_natural_64]
@@ -64,14 +63,6 @@ feature -- Tests
 				lio.put_new_line
 				n := n * 10
 			end
-		end
-
-	test_integer_width
-		-- NUMERIC_TEST_SET.test_integer_width
-		-- Note: {EL_INTEGER_MATH}.digit_count is faster then log10
-		do
-			assert ("width is 3", log10 (999).ceiling = 3)
-			assert ("width is 4", log10 (1000).ceiling = 4)
 		end
 
 	test_negative_to_natural

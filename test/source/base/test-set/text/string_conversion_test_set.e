@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:46:10 GMT (Thursday 11th January 2024)"
-	revision: "28"
+	date: "2024-07-22 7:44:50 GMT (Monday 22nd July 2024)"
+	revision: "29"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -17,13 +17,14 @@ inherit
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_FORMAT
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
-
-	EL_SHARED_TEST_TEXT
-
-	EL_SHARED_ESCAPE_TABLE
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32; EL_SHARED_TEST_TEXT; EL_SHARED_ESCAPE_TABLE
 
 	EL_SHARED_ZCODEC_FACTORY
+
+	EL_SHARED_ZSTRING_CODEC
+		rename
+			Codec as Codec_
+		end
 
 	STRING_HANDLER undefine default_create end
 
@@ -118,11 +119,10 @@ feature -- Tests
 			assert_same_string ("Eiffel unescaped", street_escaped.unescaped (unescaper), street)
 		end
 
-
 	test_encodeable_as_string_8
 		-- STRING_CONVERSION_TEST_SET.test_encodeable_as_string_8
 		local
-			zstr: ZSTRING; codec: EL_ZCODEC
+			zstr: ZSTRING; codec: EL_ZCODEC; checksum_expected: NATURAL
 			first_latin, first_windows: BOOLEAN
 		do
 			if attached crc_generator as crc then
@@ -151,7 +151,13 @@ feature -- Tests
 					end
 					lio.put_new_line_x2
 				end
-				assert ("is_encodeable_as_string_8 OK", crc.checksum = 4117255750)
+				inspect Codec_.id
+					when 1 then
+						checksum_expected := 156405206
+				else
+					checksum_expected := 4117255750
+				end
+				assert ("is_encodeable_as_string_8 OK", crc.checksum = checksum_expected)
 			end
 		end
 

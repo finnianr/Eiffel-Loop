@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 16:13:22 GMT (Friday 12th July 2024)"
-	revision: "51"
+	date: "2024-07-21 14:19:35 GMT (Sunday 21st July 2024)"
+	revision: "52"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -250,19 +250,6 @@ feature -- Element change
 			append_split (a_string, ',', {EL_SIDE}.Left)
 		end
 
-	append_intervals (a_string: READABLE_STRING_GENERAL; intervals: EL_SPLIT_INTERVALS)
-		require
-			valid_intervals: across intervals as list all
-				a_string.valid_index (list.item_lower) and a_string.valid_index (list.item_upper)
-			end
-		do
-			grow (count + intervals.count)
-			from intervals.start until intervals.after loop
-				extend (new_string (a_string.substring (intervals.item_lower, intervals.item_upper)))
-				intervals.forth
-			end
-		end
-
 	append_split (a_string: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
 		require
 			valid_adjustments: valid_adjustments (adjustments)
@@ -416,6 +403,15 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	append_intervals (a_string: READABLE_STRING_GENERAL; intervals: EL_SPLIT_INTERVALS)
+		do
+			grow (count + intervals.count)
+			from intervals.start until intervals.after loop
+				extend (new_string (a_string.substring (intervals.item_lower, intervals.item_upper)))
+				intervals.forth
+			end
+		end
 
 	less_than (u, v: S): BOOLEAN
 		do

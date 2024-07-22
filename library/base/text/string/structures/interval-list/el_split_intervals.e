@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 13:09:48 GMT (Friday 12th April 2024)"
-	revision: "25"
+	date: "2024-07-21 14:18:38 GMT (Sunday 21st July 2024)"
+	revision: "26"
 
 class
 	EL_SPLIT_INTERVALS
@@ -26,14 +26,32 @@ create
 
 feature {NONE} -- Initialization
 
-	make_adjusted (a_target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
+	make_adjusted (target: READABLE_STRING_GENERAL; delimiter: CHARACTER_32; adjustments: INTEGER)
 		-- make intervals with white space adjustments: `Both_sides', `Left_side', `No_sides', `Right_side'
 		-- See class `EL_SIDE_ROUTINES'
 		require
 			valid_adjustments: valid_adjustments (adjustments)
 		do
 			make_empty
-			fill (a_target, delimiter, adjustments)
+			fill (target, delimiter, adjustments)
+		ensure
+			valid_indices: valid_indices (target)
+		end
+
+feature -- Contract Support
+
+	valid_indices (target: READABLE_STRING_GENERAL): BOOLEAN
+		-- True if all non-zero intervals are valid indices for `target' string
+		do
+			push_cursor
+			Result := True
+			from start until after or not Result loop
+				if item_count > 0 then
+					Result := target.valid_index (item_lower) and target.valid_index (item_lower)
+				end
+				forth
+			end
+			pop_cursor
 		end
 
 feature {NONE} -- Implementation

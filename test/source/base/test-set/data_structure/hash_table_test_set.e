@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:18 GMT (Saturday 22nd June 2024)"
-	revision: "30"
+	date: "2024-07-21 17:57:43 GMT (Sunday 21st July 2024)"
+	revision: "33"
 
 class
 	HASH_TABLE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
+
+	EL_STRING_GENERAL_ROUTINES
 
 	JSON_TEST_DATA
 
@@ -23,7 +25,7 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -43,9 +45,10 @@ feature {NONE} -- Initialization
 				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
 				["iteration_cursor",					 agent test_iteration_cursor],
 				["readable_string_8_table",		 agent test_readable_string_8_table],
-				["string_table",						 agent test_string_table],
 				["string_general_table",			 agent test_string_general_table],
-				["table_sort",							 agent test_table_sort]
+				["string_table",						 agent test_string_table],
+				["table_sort",							 agent test_table_sort],
+				["zstring_table",						 agent test_zstring_table]
 			>>)
 		end
 
@@ -250,7 +253,8 @@ feature -- Test
 		local
 			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
 			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
-			value, euro_symbol, line: ZSTRING; euro_name, currency_manifest_utf_8: STRING
+			value, euro_symbol, line: ZSTRING; euro_name: STRING
+			utf_8_currency_assignment_list: EL_STRING_8_LIST
 			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
 			create table_utf_8.make_by_indented (Currency_manifest)
@@ -267,9 +271,14 @@ feature -- Test
 			if table_utf_8.has_key_8 ("currency_symbols") then
 				euro_name := "euro"; create euro_symbol.make_filled (Text.Euro_symbol, 1)
 				create currency_table.make_by_assignment (table_utf_8.found_item.to_string_32)
-				currency_manifest_utf_8 := table_utf_8.found_utf_8_item
-				currency_manifest_utf_8.prune_all ('%T')
-				create currency_table_utf_8.make_by_assignment_utf_8 (currency_manifest_utf_8)
+
+				create utf_8_currency_assignment_list.make_with_lines (table_utf_8.found_utf_8_item)
+				assert ("indented", utf_8_currency_assignment_list.for_all (
+					agent {STRING}.starts_with (Tab.as_string_8 (1)))
+				)
+
+				utf_8_currency_assignment_list.unindent (1)
+				create currency_table_utf_8.make_by_assignment_utf_8 (utf_8_currency_assignment_list.joined_lines)
 
 				if currency_table.has_key_general (euro_name) and then
 					attached currency_table.found_item as symbol
@@ -465,6 +474,30 @@ feature -- Test
 				number := table.item; i := table.cursor_index
 				hanzi := table.key
 				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
+			end
+		end
+
+	test_zstring_table
+		-- HASH_TABLE_TEST_SET.test_zstring_table
+		note
+			testing: "[
+				covers/{EL_ZSTRING_TABLE}.make,
+				covert/{EL_TABLE_INTERVAL_MAP_LIST}.make
+			]"
+		local
+			currency_table: EL_ZSTRING_TABLE; manifest: ZSTRING
+		do
+			manifest := Currency_manifest
+			create currency_table.make (Currency_manifest)
+			across currency_table as table loop
+				if attached table.item.split ('%N') as item_lines then
+					lio.put_labeled_lines (table.key, item_lines)
+					assert ("found in manifest", manifest.has_substring (table.key + char (':')))
+					assert ("at least one line", item_lines.count > 0)
+					across item_lines as line loop
+						assert ("found in manifest", manifest.has_substring ((Tab * 1) + line.item))
+					end
+				end
 			end
 		end
 

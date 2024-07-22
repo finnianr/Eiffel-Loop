@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 7:59:13 GMT (Thursday 6th June 2024)"
-	revision: "102"
+	date: "2024-07-22 7:53:47 GMT (Monday 22nd July 2024)"
+	revision: "103"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -284,7 +284,7 @@ feature -- Contract Support
 	valid_substring_indices (start_index, end_index: INTEGER): BOOLEAN
 		do
 			if valid_index (start_index) then
-				Result := end_index >= start_index and end_index <= count
+				Result := end_index >= start_index - 1 and end_index <= count
 			end
 		end
 

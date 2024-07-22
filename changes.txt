@@ -733,3 +733,9 @@ Excess log pruning command
 Thu 18th Jul 2024, 17:13:53
 Memory efficient string history; global Key_language
 
+Fri 19th Jul 2024, 13:48:49
+Fully tested EL_TEXT_EDITION_HISTORY for better undo/redo
+
+Sun 21st Jul 2024, 15:09:12
+New class EL_TABLE_INTERVAL_MAP_LIST
+

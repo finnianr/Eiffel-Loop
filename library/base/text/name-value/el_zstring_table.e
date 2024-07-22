@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:18 GMT (Saturday 22nd June 2024)"
-	revision: "17"
+	date: "2024-07-21 13:46:31 GMT (Sunday 21st July 2024)"
+	revision: "18"
 
 class
 	EL_ZSTRING_TABLE
@@ -31,17 +31,37 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES
 
+	EL_CHARACTER_8_CONSTANTS
+
 create
 	make, make_size, make_from_array
 
 feature {NONE} -- Initialization
 
-	make (general: READABLE_STRING_GENERAL)
+	make (table_text: READABLE_STRING_GENERAL)
+		local
+			key_value_map_list: EL_TABLE_INTERVAL_MAP_LIST
+			key: STRING; value: ZSTRING; ir: EL_INTERVAL_ROUTINES
 		do
-			make_equal (general.occurrences (':'))
-			across as_zstring (general).split ('%N') as split loop
-				add_line (split.item_copy)
+			create key_value_map_list.make (table_text)
+			make_equal (key_value_map_list.count)
+			if attached key_value_map_list as list then
+				from list.start until list.after loop
+					key := table_text.substring (ir.to_lower (list.item_key), ir.to_upper (list.item_key)).to_string_8
+					value := as_zstring (table_text.substring (ir.to_lower (list.item_value), ir.to_upper (list.item_value)))
+					if attached value.substring_index_list (New_line_tab, False) as index then
+						from index.finish until index.before loop
+							value.remove (index.item + 1)
+							index.back
+						end
+						value.remove (1)
+					end
+					put (value, key)
+					list.forth
+				end
 			end
+		ensure
+			corresponds_to_text: table_text.count > 0 implies corresponds_to_text (table_text)
 		end
 
 feature -- Access
@@ -51,33 +71,28 @@ feature -- Access
 			create Result.make_from_array (current_keys)
 		end
 
+feature {NONE} -- Contract Support
+
+	corresponds_to_text (table_text: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			if item_list.sum_integer (agent line_count) + count = table_text.occurrences ('%N') + 1 then
+				Result := across current_keys as key all
+					table_text.has_substring (key.item + char (':'))
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
 
-	add_line (line: ZSTRING)
-		local
-			text: ZSTRING; l_count: INTEGER; first, last: CHARACTER_32
+	line_count (str: ZSTRING): INTEGER
 		do
-			line.right_adjust
-			l_count := line.count
-			if l_count > 0 then
-				first := line [1]
-				last := line [l_count]
-			end
-			if l_count > 1 and then first /= '%T' and last = ':' and line.occurrences (' ') = 0 then
-				line.remove_tail (1)
-				put (create {ZSTRING}.make_empty, line.twin)
-			else
-				if first = '%T' then
-					line.remove_head (1)
-				end
-				if inserted then
-					text := found_item
-					text.grow (text.count + l_count + 1)
-					if text.count > 0 then
-						text.append_character ('%N')
-					end
-					text.append (line)
-				end
-			end
+			Result := str.occurrences ('%N') + 1
+		end
+
+feature {NONE} -- Constants
+
+	New_line_tab: ZSTRING
+		once
+			Result := "%N%T"
 		end
 end
