@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-23 9:21:13 GMT (Tuesday 23rd July 2024)"
-	revision: "13"
+	date: "2024-07-23 17:54:16 GMT (Tuesday 23rd July 2024)"
+	revision: "14"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -23,6 +23,10 @@ inherit
 
 feature {NONE} -- Deferred
 
+	locale_types_count: INTEGER
+		deferred
+		end
+
 	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		deferred
 		end
@@ -36,6 +40,7 @@ feature {NONE} -- Deferred
 		deferred
 		ensure
 			all_conform: new_text_type_list.all_conform
+			expected_count: Result.count = locale_types_count
 		end
 
 	test_reflective_locale_texts

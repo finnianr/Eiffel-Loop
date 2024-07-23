@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-23 15:32:59 GMT (Tuesday 23rd July 2024)"
-	revision: "35"
+	date: "2024-07-23 17:07:13 GMT (Tuesday 23rd July 2024)"
+	revision: "36"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -128,8 +128,21 @@ feature -- Access
 feature -- Contract Support
 
 	valid_english_table: BOOLEAN
+		local
+			key_value_map_list: EL_TABLE_INTERVAL_MAP_LIST
+			key: like english_table; ir: EL_INTERVAL_ROUTINES
+			start_index, end_index: INTEGER
 		do
-			Result := across new_english_table as table all field_table.has_8 (table.key) end
+			create key_value_map_list.make (english_table)
+			if attached key_value_map_list as list then
+
+				from Result := True; list.start until list.after or not Result loop
+					start_index := ir.to_lower (list.item_key)
+					end_index := ir.to_upper (list.item_key)
+					Result := field_table.has_general (english_table.substring (start_index, end_index))
+					list.forth
+				end
+			end
 		end
 
 	valid_special_keys: BOOLEAN
@@ -189,8 +202,6 @@ feature {NONE} -- Factory
 					end
 				end
 			end
-		ensure
-			all_keys_match_a_field_name: across Result as table all field_table.has_8 (table.key) end
 		end
 
 	new_quantity_table (text: ZSTRING): EL_ZSTRING_TABLE

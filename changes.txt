@@ -739,3 +739,6 @@ Fully tested EL_TEXT_EDITION_HISTORY for better undo/redo
 Sun 21st Jul 2024, 15:09:12
 New class EL_TABLE_INTERVAL_MAP_LIST
 
+Tue 23rd Jul 2024, 15:45:49
+EL_REFLECTIVE_STRING_TABLE is new and EL_CASE.Sentence is new
+
