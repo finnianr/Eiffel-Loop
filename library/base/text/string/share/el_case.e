@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:27:25 GMT (Saturday 23rd December 2023)"
-	revision: "4"
+	date: "2024-07-23 15:35:30 GMT (Tuesday 23rd July 2024)"
+	revision: "5"
 
 class
 	EL_CASE
@@ -23,7 +23,7 @@ feature -- Contract Support
 	frozen is_valid (case: NATURAL_8): BOOLEAN
 		do
 			inspect case
-				when Default, Lower, Proper, Upper then
+				when Default, Lower, Proper, Sentence, Upper then
 					Result := True
 			else
 
@@ -39,6 +39,10 @@ feature -- Constants
 
 	Proper: NATURAL_8 = 4
 		-- Flag 100
+
+	Sentence: NATURAL_8 = 8
+		-- first letter only is upper cased
+		-- Flag 1000
 
 	Upper: NATURAL_8 = 2
 		-- Flag 010

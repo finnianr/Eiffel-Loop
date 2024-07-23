@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 14:15:01 GMT (Friday 7th July 2023)"
-	revision: "8"
+	date: "2024-07-23 9:21:52 GMT (Tuesday 23rd July 2024)"
+	revision: "9"
 
 class
 	EL_INSTALL_TEXTS
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 					
 					This adjustment will allow the size of your
 					display to be accurately determined and ensure
-					that the application text and graphics are 
+					that the application text and graphics are
 					displayed at the correct size.
 				newer_version_template:
 					A newer version of %S is available.

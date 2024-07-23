@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-19 12:19:08 GMT (Wednesday 19th June 2024)"
-	revision: "12"
+	date: "2024-07-23 9:21:13 GMT (Tuesday 23rd July 2024)"
+	revision: "13"
 
 deferred class
 	EL_LOCALIZATION_TEST
@@ -163,7 +163,10 @@ feature {NONE} -- Implementation
 				end
 				lio.put_line (Hyphen * 100)
 				across value.item as line loop
-					if index >= line.cursor_index then
+					if index = line.cursor_index then
+						lio.put_string_field ("DIFFERS", line.item)
+						lio.put_new_line
+					else
 						lio.put_line (line.item)
 					end
 				end
@@ -200,4 +203,5 @@ feature {NONE} -- Constants
 		once
 			Result := '-'
 		end
+
 end

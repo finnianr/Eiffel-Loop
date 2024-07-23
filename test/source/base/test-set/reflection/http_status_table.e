@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 11:51:30 GMT (Monday 22nd July 2024)"
-	revision: "1"
+	date: "2024-07-22 18:24:27 GMT (Monday 22nd July 2024)"
+	revision: "2"
 
 class
 	HTTP_STATUS_TABLE
@@ -20,179 +20,179 @@ create
 
 feature -- 1xx codes
 
-	continue: EL_SUB [STRING]
+	continue: like ok
 		-- Client can continue.
 
-	switching_protocols: EL_SUB [STRING]
+	switching_protocols: like ok
 		-- The server is switching protocols according to Upgrade header.
 
 feature -- 2xx codes
 
-	accepted: EL_SUB [STRING]
+	accepted: like ok
 		-- Request accepted, but processing not completed.
 
-	created: EL_SUB [STRING]
+	created: like ok
 		-- Request succeeded and created a new resource on the server.
 
-	no_content: EL_SUB [STRING]
+	no_content: like ok
 		-- Request succeeded but no content is returned.
 
-	non_authoritative_information: EL_SUB [STRING]
+	non_authoritative_information: like ok
 		-- Metainformation in header not definitive.
 
 	ok: EL_SUB [STRING]
 		-- Request succeeded normally.
 
-	partial_content: EL_SUB [STRING]
+	partial_content: like ok
 		-- Partial GET request fulfilled.
 
-	reset_content: EL_SUB [STRING]
+	reset_content: like ok
 		-- Resquest succeeded. User agent should clear document.
 
 feature -- 3xx codes
 
-	found: EL_SUB [STRING]
+	found: like ok
 		-- Resource has been moved temporarily.
 
-	moved_permanently: EL_SUB [STRING]
+	moved_permanently: like ok
 		-- Requested resource assigned new permanent URI.
 
-	moved_temporarily: EL_SUB [STRING]
+	moved_temporarily: like ok
 		-- Resource has been moved temporarily. (Name kept for compatibility)
 		do
 			Result := found
 		end
 
-	multiple_choices: EL_SUB [STRING]
+	multiple_choices: like ok
 		-- Requested resource has multiple presentations.
 
-	see_other: EL_SUB [STRING]
+	see_other: like ok
 		-- Response to request can be found under a different URI, and
 		--  SHOULD be retrieved using a GET method on that resource.
 
-	temporary_redirect: EL_SUB [STRING]
+	temporary_redirect: like ok
 		-- Requested resource resides temporarily under a different URI.
 
-	use_proxy: EL_SUB [STRING]
+	use_proxy: like ok
 		-- Requested resource MUST be accessed through proxy given by Location field.
 
 feature -- 4xx codes
 
-	bad_request: EL_SUB [STRING]
+	bad_request: like ok
 		-- The request could not be understood by the server due to malformed syntax.
 		-- The client SHOULD NOT repeat the request without modifications.
 
-	conflict: EL_SUB [STRING]
+	conflict: like ok
 		-- Request could not be completed due to a conflict with current
 		--  state of the resource.
 
-	expectation_failed: EL_SUB [STRING]
+	expectation_failed: like ok
 		-- Expectation given in Expect request-header field could not be met.
 
-	failed_dependency: EL_SUB [STRING]
+	failed_dependency: like ok
 		-- Failed Dependency
 
-	forbidden: EL_SUB [STRING]
+	forbidden: like ok
 		-- Server understood request, but is refusing to fulfill it.
 
-	gone: EL_SUB [STRING]
+	gone: like ok
 		-- Requested resource no longer available at server and no
 		-- forwarding address is known.
 
-	length_required: EL_SUB [STRING]
+	length_required: like ok
 		-- Server refuses to accept request without a defined Content-Length.
 
-	locked: EL_SUB [STRING]
+	locked: like ok
 		-- Locked
 
-	method_not_allowed: EL_SUB [STRING]
+	method_not_allowed: like ok
 		-- Method in Request-Line not allowed for resource identified by Request-URI.
 
-	not_acceptable: EL_SUB [STRING]
+	not_acceptable: like ok
 		-- Resource identified by request is only capable of generating
 		-- response entities which have content characteristics not acceptable
 		-- according to accept headers sent in request.
 
-	not_found: EL_SUB [STRING]
+	not_found: like ok
 		-- Resource could not be found.
 
-	not_modified: EL_SUB [STRING]
+	not_modified: like ok
 		-- No body, as resource not modified.
 
-	payment_required: EL_SUB [STRING]
+	payment_required: like ok
 		-- Reserved for future use.
 
-	precondition_failed: EL_SUB [STRING]
+	precondition_failed: like ok
 		-- Precondition given in one or more of request-header fields
 		-- evaluated to false when it was tested on server.
 
-	proxy_authentication_required: EL_SUB [STRING]
+	proxy_authentication_required: like ok
 		-- Client must first authenticate itself with the proxy.
 
-	range_not_satisfiable: EL_SUB [STRING]
+	range_not_satisfiable: like ok
 		-- Range request-header conditions could not be satisfied.
 
-	request_entity_too_large: EL_SUB [STRING]
+	request_entity_too_large: like ok
 		-- Server is refusing to process a request because request
 		-- entity is larger than server is willing or able to process.
 
-	request_time_out: EL_SUB [STRING]
+	request_time_out: like ok
 		-- Cient did not produce a request within time server prepared to wait.
 
-	request_uri_too_large: EL_SUB [STRING]
+	request_uri_too_large: like ok
 		-- Server is refusing to service request because Request-URI
 		-- is longer than server is willing to interpret.
 
-	retry_with: EL_SUB [STRING]
+	retry_with: like ok
 		-- Retry With
 
-	unauthorized: EL_SUB [STRING]
+	unauthorized: like ok
 		-- Request requires user authentication.
 
-	unordered_collection: EL_SUB [STRING]
+	unordered_collection: like ok
 		-- Unordered Collection
 
-	unprocessable_entity: EL_SUB [STRING]
+	unprocessable_entity: like ok
 		-- Unprocessable Entity
 
-	unsupported_media_type: EL_SUB [STRING]
+	unsupported_media_type: like ok
 		-- Unsupported media-type
 
-	upgrade_required: EL_SUB [STRING]
+	upgrade_required: like ok
 		-- Upgrade Required
 
 feature -- 5xx codes
 
-	bad_gateway: EL_SUB [STRING]
+	bad_gateway: like ok
 		-- Server received an invalid response from upstream server
 
-	bandwidth_limit_exceeded: EL_SUB [STRING]
+	bandwidth_limit_exceeded: like ok
 		-- Bandwidth Limit Exceeded
 
-	gateway_timeout: EL_SUB [STRING]
+	gateway_timeout: like ok
 		-- Server did not receive timely response from upstream server
 
-	http_version_not_supported: EL_SUB [STRING]
+	http_version_not_supported: like ok
 		-- Server does not support HTTP protocol
 		-- version that was used in the request message.
 
-	insufficient_storage: EL_SUB [STRING]
+	insufficient_storage: like ok
 		-- Insufficient Storage
 
-	internal_server_error: EL_SUB [STRING]
+	internal_server_error: like ok
 		-- Internal server failure.
 
-	not_extended: EL_SUB [STRING]
+	not_extended: like ok
 		-- Not Extended
 
-	not_implemented: EL_SUB [STRING]
+	not_implemented: like ok
 		-- Server does not support functionality required to service request.
 
-	service_unavailable: EL_SUB [STRING]
+	service_unavailable: like ok
 		-- Server is currently unable to handle request due to
 		-- temporary overloading or maintenance of server.
 
-	variant_also_negotiates: EL_SUB [STRING]
+	variant_also_negotiates: like ok
 		-- Variant Also Negotiates
 
 feature {NONE} -- Implementation

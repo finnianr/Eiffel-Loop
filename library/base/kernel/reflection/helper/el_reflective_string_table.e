@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 15:01:08 GMT (Monday 22nd July 2024)"
-	revision: "1"
+	date: "2024-07-22 15:53:48 GMT (Monday 22nd July 2024)"
+	revision: "2"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -80,7 +80,7 @@ feature {NONE} -- Field tests
 
 	is_substring_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := field.conforms_to (El_sub_type)
+			Result := field.conforms_to (EL_SUB_type)
 		end
 
 	new_instance_functions: like Default_initial_values
@@ -105,7 +105,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	El_sub_type: INTEGER
+	EL_SUB_type: INTEGER
 		once
 			Result := ({EL_SUB [STRING_GENERAL]}).type_id
 		end

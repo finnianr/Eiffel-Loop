@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 12:16:20 GMT (Saturday 13th July 2024)"
-	revision: "52"
+	date: "2024-07-22 18:27:50 GMT (Monday 22nd July 2024)"
+	revision: "53"
 
 class
 	EL_HTTP_CONNECTION
@@ -82,6 +82,7 @@ feature -- Access
 		do
 			Result := Http_status.name (page_error_code)
 		end
+		
 	url: EL_URL
 
 	user_agent: STRING

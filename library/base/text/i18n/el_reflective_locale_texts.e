@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-27 7:56:22 GMT (Thursday 27th June 2024)"
-	revision: "34"
+	date: "2024-07-23 15:32:59 GMT (Tuesday 23rd July 2024)"
+	revision: "35"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -69,7 +69,7 @@ feature {NONE} -- Initialization
 			valid_english_table: valid_english_table
 		local
 			value: ANY; lower_case, upper_case, title_case, paragraph: like None
-			text_case: INTEGER
+			text_case: NATURAL_8
 		do
 			Precursor
 			lower_case := lower_case_texts; title_case := title_case_texts; upper_case := upper_case_texts
@@ -79,13 +79,13 @@ feature {NONE} -- Initialization
 					if attached {EL_REFLECTED_REFERENCE [ANY]} field.item as ref_field then
 						value := ref_field.value (current_reflective)
 						if value_in_set (value, lower_case) then
-							text_case := Case_lower
+							text_case := {EL_CASE}.Lower
 						elseif value_in_set (value, upper_case) then
-							text_case := Case_upper
+							text_case := {EL_CASE}.Upper
 						elseif value_in_set (value, title_case) then
-							text_case := Case_proper
+							text_case := {EL_CASE}.Proper
 						else
-							text_case := Case_first_upper -- The default is first letter capitalized
+							text_case := {EL_CASE}.Sentence -- The default is first letter capitalized
 						end
 						if ref_field.type_id = Class_id.EL_QUANTITY_TEMPLATE then
 							fill_quantity_template (ref_field, eng_table)
@@ -96,7 +96,7 @@ feature {NONE} -- Initialization
 							set_as_paragraph (zstr.value (Current))
 						end
 					else
-						set_field (field.item, Case_lower, eng_table)
+						set_field (field.item, {EL_CASE}.Lower, eng_table)
 					end
 				end
 			end
@@ -227,7 +227,7 @@ feature {NONE} -- Implementation
 				and then eng_table.has_key (field.name)
 			then
 				quantity_table := new_quantity_table (eng_table.found_item)
-				partial_key := translation_key (field.name, Case_lower, True)
+				partial_key := translation_key (field.name, {EL_CASE}.Lower, True)
 				across Quantifier_names as name loop
 					if quantity_table.has_key (name.item) then
 						quantity := name.cursor_index - 1
@@ -270,7 +270,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_field (field: EL_REFLECTED_FIELD; text_case: INTEGER; eng_table: like new_english_table)
+	set_field (field: EL_REFLECTED_FIELD; text_case: NATURAL_8; eng_table: like new_english_table)
 		local
 			key: ZSTRING; text_differs: BOOLEAN
 		do
@@ -286,7 +286,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	translation_key (name: STRING; text_case: INTEGER; text_differs: BOOLEAN): ZSTRING
+	translation_key (name: STRING; text_case: NATURAL_8; text_differs: BOOLEAN): ZSTRING
 		do
 			Result := Key_buffer.copied_general (name)
 			Result.prune_all_trailing ('_') -- in case of keyword differentiation
@@ -297,11 +297,11 @@ feature {NONE} -- Implementation
 				-- Text is identical to the key
 				Result.replace_character ('_', ' ')
 				inspect text_case
-					when Case_first_upper then
+					when {EL_CASE}.Sentence then
 						Result.put (Result.item (1).as_upper, 1)
-					when Case_upper then
+					when {EL_CASE}.Upper then
 						Result.to_upper
-					when Case_proper then
+					when {EL_CASE}.Proper then
 						Result.to_proper
 				else
 					-- all lower case
@@ -337,15 +337,6 @@ feature {NONE} -- Internal attributes
 	locale: EL_DEFERRED_LOCALE_I note option: transient attribute end
 
 feature {NONE} -- Constants
-
-	Case_first_upper: INTEGER = 4
-		-- first letter only is upper cased
-
-	Case_lower: INTEGER = 1
-
-	Case_proper: INTEGER = 3
-
-	Case_upper: INTEGER = 2
 
 	Empty_table: STRING = ""
 
