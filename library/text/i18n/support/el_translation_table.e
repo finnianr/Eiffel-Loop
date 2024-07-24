@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 10:08:12 GMT (Thursday 18th July 2024)"
-	revision: "33"
+	date: "2024-07-24 8:23:06 GMT (Wednesday 24th July 2024)"
+	revision: "34"
 
 class
 	EL_TRANSLATION_TABLE
@@ -76,22 +76,17 @@ feature {NONE} -- Initialization
 			-- build from xml
 		require
 			document_has_translation: document_has_translation (a_language, xdoc)
-		local
-			translation_list: EL_XPATH_NODE_CONTEXT_LIST; item_id: ZSTRING
 		do
 			if is_lio_enabled then
 				lio.put_labeled_string ("make_from_xdoc",  a_language)
 				lio.put_new_line
 			end
 			make (a_language)
-			translation_list := xdoc.context_list (Xpath_translations.substituted_tuple ([a_language]).to_unicode)
-			accommodate (translation_list.count)
-			across translation_list as translation loop
-				item_id := translation.node @ Xpath_parent_id
-				if a_language ~ Key_language implies not item_id.has_enclosing ('{', '}') then
-					put (item_id, item_id)
-				else
-					put (translation.node.as_full_string, item_id)
+			if attached new_translation_map_list (a_language, xdoc, False) as list then
+				accommodate (list.count)
+				from list.start until list.after loop
+					put (list.item_value, list.item_key)
+					list.forth
 				end
 			end
 		end
@@ -141,10 +136,43 @@ feature -- Contract Support
 
 	document_has_translation (a_language: STRING; xdoc: EL_XML_DOC_CONTEXT): BOOLEAN
 		do
-			Result := xdoc.is_xpath (Xpath_language_available.substituted_tuple ([a_language]).to_unicode)
+			if attached new_translation_map_list (a_language, xdoc, True) as list
+				and then list.count = 1
+			then
+				Result := list.first_value /= Empty_string
+			end
 		end
 
 feature {NONE} -- Implementation
+
+	new_translation_map_list (
+		a_language: STRING; xdoc: EL_XML_DOC_CONTEXT; first_only: BOOLEAN
+
+	): EL_ARRAYED_MAP_LIST [ZSTRING, ZSTRING]
+		require
+			document_has_translation: document_has_translation (a_language, xdoc)
+		local
+			item_context_list: EL_XPATH_NODE_CONTEXT_LIST; item_id: ZSTRING
+			translation_xpath: STRING_32; done: BOOLEAN
+		do
+			translation_xpath := Xpath_translation_at_lang #$ [a_language]
+			item_context_list := xdoc.context_list (Xpath_item)
+			create Result.make (item_context_list.count)
+			across item_context_list as list until done loop
+				item_id := list.node [Attribute_id]
+				if a_language ~ Key_language implies not item_id.has_enclosing ('{', '}') then
+					Result.extend (item_id, item_id)
+
+				elseif attached list.node.find_node (translation_xpath) as translation then
+					Result.extend (item_id, translation.as_full_string)
+				else
+					Result.extend (item_id, Empty_string)
+				end
+				if first_only then
+					done := True
+				end
+			end
+		end
 
 	put (a_translation, translation_id: ZSTRING)
 		local
@@ -172,12 +200,23 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Build from XML
 
+	building_action_table: EL_PROCEDURE_TABLE [STRING]
+			--
+		do
+			create Result.make (<<
+				["item/@id", agent set_last_id_from_node],
+				[translation_text_xpath, agent extend_table_from_node]
+			>>)
+		end
+
 	extend_table_from_node
 		do
 			if language ~ Key_language implies not last_id_is_text then
 				put (node, last_id)
 			end
 		end
+
+	last_id: ZSTRING
 
 	set_last_id_from_node
 		do
@@ -190,17 +229,6 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	building_action_table: EL_PROCEDURE_TABLE [STRING]
-			--
-		do
-			create Result.make (<<
-				["item/@id",				 agent set_last_id_from_node],
-				[translation_text_xpath, agent extend_table_from_node]
-			>>)
-		end
-
-	last_id: ZSTRING
-
 	translation_text_xpath: STRING
 		local
 			template: ZSTRING
@@ -211,6 +239,8 @@ feature {NONE} -- Build from XML
 
 feature {NONE} -- Constants
 
+	Attribute_id: STRING = "id"
+
 	ID_variable: ZSTRING
 		once
 			Result := "$id"
@@ -218,19 +248,11 @@ feature {NONE} -- Constants
 
 	Root_node_name: STRING = "translations"
 
-	Xpath_language_available: ZSTRING
-		once
-			Result := "boolean (//item[1]/translation[@lang='%S'])"
-		end
+	Xpath_item: STRING_8 = "item"
 
-	Xpath_parent_id: STRING_32
+	Xpath_translation_at_lang: ZSTRING
 		once
-			Result := "../@id"
-		end
-
-	Xpath_translations: ZSTRING
-		once
-			Result :=  "item/translation[@lang='%S']"
+			Result :=  "translation[@lang='%S']"
 		end
 
 end
