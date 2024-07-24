@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-19 16:39:19 GMT (Sunday 19th November 2023)"
-	revision: "25"
+	date: "2024-07-24 7:00:39 GMT (Wednesday 24th July 2024)"
+	revision: "26"
 
 class
 	AUTOTEST_APP
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 		end
 
 	visible_types: TUPLE [
-		EL_FTP_PROTOCOL, EL_OS_COMMAND
+		EL_FTP_PROTOCOL, EL_OS_COMMAND, EL_MERGED_PYXIS_LINE_LIST
 	]
 		do
 			create Result

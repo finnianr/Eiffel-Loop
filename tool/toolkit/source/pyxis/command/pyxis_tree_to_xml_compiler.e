@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 11:33:20 GMT (Friday 21st June 2024)"
-	revision: "18"
+	date: "2024-07-24 6:17:50 GMT (Wednesday 24th July 2024)"
+	revision: "19"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 11:30:59 GMT (Friday 21st June 2024)"
-	revision: "33"
+	date: "2024-07-24 5:54:49 GMT (Wednesday 24th July 2024)"
+	revision: "34"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -190,6 +190,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_reusable_name_value_pair (node: EL_DOCUMENT_NODE_STRING): STRING_8
+		do
+			Result := pool.borrowed_item
+			Result.append_character (' ')
+			Result.append (node.raw_name)
+			Result.append (Value_equals_separator)
+			XML_escaper.escape_into (node, Result)
+			Result.append_character ('"')
+		end
+
 	put_content (node: EL_DOCUMENT_NODE_STRING)
 			--
 		do
@@ -218,16 +228,6 @@ feature {NONE} -- Implementation
 					end
 					output.put_string (list.item)
 					output.put_new_line
-				end
-			end
-		end
-
-	put_single_line (node: EL_DOCUMENT_NODE_STRING)
-		do
-			across String_8_scope as scope loop
-				if attached scope.item as text then
-					Xml_escaper.escape_into (node, text)
-					output.put_string (text)
 				end
 			end
 		end
@@ -261,14 +261,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_reusable_name_value_pair (node: EL_DOCUMENT_NODE_STRING): STRING_8
+	put_single_line (node: EL_DOCUMENT_NODE_STRING)
 		do
-			Result := pool.borrowed_item
-			Result.append_character (' ')
-			Result.append (node.raw_name)
-			Result.append (Value_equals_separator)
-			XML_escaper.escape_into (node, Result)
-			Result.append_character ('"')
+			across String_8_scope as scope loop
+				if attached scope.item as text then
+					Xml_escaper.escape_into (node, text)
+					output.put_string (text)
+				end
+			end
 		end
 
 feature {NONE} -- Internal attributes

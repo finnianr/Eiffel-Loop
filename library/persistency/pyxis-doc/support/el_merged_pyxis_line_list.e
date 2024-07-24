@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 14:04:36 GMT (Friday 21st June 2024)"
-	revision: "1"
+	date: "2024-07-24 7:09:48 GMT (Wednesday 24th July 2024)"
+	revision: "2"
 
 class
 	EL_MERGED_PYXIS_LINE_LIST
@@ -33,14 +33,13 @@ create
 feature {NONE} -- Initialization
 
 	make (path_list: EL_FILE_PATH_LIST)
-		local
-			markup: EL_MARKUP_ENCODING
 		do
 			make_sized (path_list.sum_byte_count // 60)
+			create buffer
 			across path_list as source_path loop
-				markup := Pyxis.encoding (source_path.item)
+				encoding := Pyxis.encoding (source_path.item)
 				if is_lio_enabled then
-					lio.put_labeled_string ("Merging " + markup.name + " file", source_path.item.base)
+					lio.put_labeled_string ("Merging " + encoding.name + " file", source_path.item.base)
 					lio.put_new_line
 				end
 				file_count := file_count + 1
@@ -60,11 +59,25 @@ feature {NONE} -- Line states
 				and then not Pyxis.is_declaration (line)
 			then
 				if file_count = 1 then
-					extend (line)
+					extend_as_utf_8 (line)
 				end
-				state := agent extend
+				state := agent extend_as_utf_8
 			elseif file_count = 1 then
+				extend_as_utf_8 (line)
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	extend_as_utf_8 (line: STRING)
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			if encoding.encoded_as_utf (8) or else s.is_ascii_string_8 (line) then
 				extend (line)
+			elseif attached buffer.empty as str then
+				str.append_encodeable (line, encoding)
+				extend (str.to_utf_8)
 			end
 		end
 
@@ -72,4 +85,7 @@ feature {NONE} -- Internal attributes
 
 	file_count: INTEGER
 
+	encoding: EL_MARKUP_ENCODING
+
+	buffer: EL_ZSTRING_BUFFER
 end
