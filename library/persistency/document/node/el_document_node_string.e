@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 15:01:20 GMT (Monday 22nd April 2024)"
-	revision: "44"
+	date: "2024-07-25 13:02:40 GMT (Thursday 25th July 2024)"
+	revision: "45"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -29,7 +29,7 @@ inherit
 					prepend, prepend_character,
 					-- Status query
 					has, has_substring, starts_with, raw_string, raw_string_8, raw_string_32,
-					is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty,
+					is_ascii, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty,
 					same_string_general
 		redefine
 			append_to_string, append_to_string_8, append_to_string_32,
@@ -77,6 +77,7 @@ inherit
 		export
 			{NONE} all
 			{EL_DOCUMENT_CLIENT} set_encoding_from_other, set_encoding, set_latin_encoding, set_utf_encoding
+			{ANY} encoding_code
 		undefine
 			copy, is_equal, out
 		end
@@ -84,8 +85,6 @@ inherit
 	EL_XPATH_NODE_CONSTANTS
 
 	EL_SHARED_ENCODINGS; EL_SHARED_ZSTRING_BUFFER_SCOPES
-
-
 
 create
 	make, make_default

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-07-25 7:19:37 GMT (Thursday 25th July 2024)"
+	revision: "8"
 
 class
 	EL_UNINSTALL_TEXTS
@@ -40,10 +40,10 @@ feature -- Uninstall script
 
 	removing_program_files: ZSTRING
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	English_table: STRING
-		once
+	english_table: STRING
+		do
 			Result := "[
 				app_removed_template:
 					"%S" removed.

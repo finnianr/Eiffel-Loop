@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 9:45:41 GMT (Thursday 18th July 2024)"
-	revision: "23"
+	date: "2024-07-27 15:02:28 GMT (Saturday 27th July 2024)"
+	revision: "25"
 
 class
 	TRANSLATION_TREE_COMPILER_TEST_SET
@@ -27,9 +27,7 @@ inherit
 
 	EL_CRC_32_TESTABLE
 
-	EL_SHARED_SINGLETONS
-
-	SHARED_DEV_ENVIRON
+	EL_SHARED_SINGLETONS; SHARED_DEV_ENVIRON
 
 create
 	make
@@ -49,14 +47,16 @@ feature -- Tests
 	test_compile_tree
 		-- TRANSLATION_TREE_COMPILER_TEST_SET.test_compile_tree
 		note
-			testing: "covers/{PYXIS_TRANSLATION_TREE_COMPILER}.set_item_id"
+			testing: "[
+				covers/{PYXIS_TRANSLATION_TREE_COMPILER}.set_item_id
+			]"
 		local
 			restored_list: EL_TRANSLATION_ITEMS_LIST; restored_table, filled_table: EL_TRANSLATION_TABLE
 			locale_en: EL_DEFAULT_LOCALE; locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 		do
 			create translations_table.make_size (20)
-			do_test ("compile_twice", 1348705536, agent compile_twice, [translations_table])
+			do_test ("compile_twice", 354705631, agent compile_twice, [translations_table])
 
 			lio.put_line ("Checking restore")
 			create locale_table.make (Locales_dir)
@@ -88,13 +88,18 @@ feature {NONE} -- Implementation
 
 	compile_twice (translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING])
 		local
-			command: PYXIS_TRANSLATION_TREE_COMPILER
+			command: PYXIS_TRANSLATION_TREE_COMPILER; build_dir: DIR_PATH
 		do
 			across 1 |..| 2 as n loop
 				lio.put_integer_field ("Run", n.item)
 				lio.put_new_line
 				create command.make ("", work_area_dir, Locales_dir)
+			-- Save build directory
+				build_dir := command.Localization_build_dir.twin
+				command.Localization_build_dir.copy (Work_area_dir #+ "localization")
 				command.execute
+			-- Restore build directory
+				command.Localization_build_dir.copy (build_dir)
 				if n.item = 1 then
 					translations_table.merge (command.translations_table)
 				end
@@ -102,7 +107,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	locale_texts_types: TUPLE [EL_DAY_OF_WEEK_TEXTS, EL_MONTH_TEXTS, EL_PASSPHRASE_TEXTS, EL_UNINSTALL_TEXTS]
+	locale_texts_types: TUPLE [
+		EL_DAY_OF_WEEK_TEXTS,
+		EL_MONTH_TEXTS,
+		EL_PASSPHRASE_TEXTS,
+		EL_UNINSTALL_TEXTS
+	]
 		do
 			create Result
 		end
@@ -117,11 +127,12 @@ feature {NONE} -- Implementation
 			across type_list as list loop
 				selected_files.extend (list.item.name.as_lower + ".pyx")
 			end
-
 			Result := OS.filtered_file_list (Data_dir, "*.pyx", Filter.base_name_in (selected_files))
 		end
 
 feature {NONE} -- Constants
+
+	Locale_types_count: INTEGER = 4
 
 	Locales_dir: DIR_PATH
 		once

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 18:47:33 GMT (Wednesday 28th December 2022)"
-	revision: "15"
+	date: "2024-07-25 19:09:25 GMT (Thursday 25th July 2024)"
+	revision: "16"
 
 class
 	EL_PYXIS_TO_XML_CONVERTER
@@ -15,9 +15,7 @@ class
 inherit
 	EL_APPLICATION_COMMAND
 
-	EL_MODULE_LIO
-
-	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
+	EL_MODULE_LIO; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_PYXIS
 
 	EL_FILE_OPEN_ROUTINES
 
@@ -100,6 +98,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
+	xml_generator: like new_xml_generator
 
 end

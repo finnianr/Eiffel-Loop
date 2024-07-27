@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 7:32:47 GMT (Monday 15th July 2024)"
-	revision: "42"
+	date: "2024-07-25 12:05:15 GMT (Thursday 25th July 2024)"
+	revision: "43"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -206,6 +206,11 @@ feature -- Character query
 		end
 
 feature -- Status query
+
+	has_member (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
+		-- `True' if at least one character in `str' is a member of `set'
+		deferred
+		end
 
 	is_canonically_spaced (s: READABLE_STRING_X): BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)

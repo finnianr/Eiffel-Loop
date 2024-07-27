@@ -1,3 +1,6 @@
+Ver 1.12.8 (26 Jul 2024)
+* Fixed parsing of localization files for quanitifers: singular, plural etc
+
 Ver 1.12.7 (26 May 2024)
 * Using new class EL_GVFS_CAMERA_VOLUME
 

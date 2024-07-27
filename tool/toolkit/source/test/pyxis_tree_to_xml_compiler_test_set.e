@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-24 7:26:16 GMT (Wednesday 24th July 2024)"
-	revision: "9"
+	date: "2024-07-27 14:36:55 GMT (Saturday 27th July 2024)"
+	revision: "10"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	SHARED_DEV_ENVIRON
+	SHARED_DEV_ENVIRON; EL_SHARED_KEY_LANGUAGE
 
 create
 	make
@@ -41,16 +41,19 @@ feature -- Tests
 			]"
 		local
 			compiler: PYXIS_TREE_TO_XML_COMPILER; destination_path: FILE_PATH
-			translation_table, merged_table: EL_TRANSLATION_TABLE; xdoc: EL_XML_DOC_CONTEXT
+			translation_table, merged_table: EL_TRANSLATION_TABLE; xml_table: EL_XML_ML_TRANSLATION_TABLE
+			pyxis_table: EL_PYXIS_ML_TRANSLATION_TABLE
 			time_stamp: INTEGER; key: ZSTRING
 		do
 			destination_path := work_area_data_dir.parent + "localization.xml"
 			create compiler.make ("", work_area_data_dir, destination_path)
 			compiler.execute
-			create xdoc.make_from_file (destination_path)
-			create merged_table.make_from_xdoc ("en", xdoc)
+			create xml_table.make_from_file (destination_path)
+
+			create merged_table.make_from_table (Key_language, xml_table)
 			across OS.file_list (work_area_data_dir, "*.pyx") as path loop
-				create translation_table.make_from_pyxis ("en", path.item)
+				create pyxis_table.make_from_file (path.item)
+				create translation_table.make_from_table (Key_language, pyxis_table)
 				across translation_table as table loop
 					key := table.key
 					assert ("merged table has key", merged_table.has (key))

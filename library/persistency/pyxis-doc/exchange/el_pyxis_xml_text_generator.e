@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-28 18:47:25 GMT (Wednesday 28th December 2022)"
-	revision: "8"
+	date: "2024-07-25 19:11:38 GMT (Thursday 25th July 2024)"
+	revision: "9"
 
 class
 	EL_PYXIS_XML_TEXT_GENERATOR
@@ -18,7 +18,7 @@ class
 inherit
 	EL_XML_TEXT_GENERATOR
 		rename
-			make as make_generator
+			make as make_with_type
 		end
 
 create
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_generator ({EL_PYXIS_PARSER})
+			make_with_type ({EL_PYXIS_PARSER})
 			if attached {EL_PYXIS_PARSER} event_source as parser then
 				parser.set_declaration_comment (English_auto_generated_notice)
 			end

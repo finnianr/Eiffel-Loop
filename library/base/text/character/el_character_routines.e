@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 13:09:52 GMT (Tuesday 9th April 2024)"
-	revision: "33"
+	date: "2024-07-25 12:14:11 GMT (Thursday 25th July 2024)"
+	revision: "34"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
@@ -24,6 +24,21 @@ feature -- Access
 		end
 
 feature -- Status query
+
+	has_member (set: EL_SET [G]; area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' at least one character in `area' between `start_index' to `end_index'
+		-- is a member of `set'
+		local
+			i: INTEGER
+		do
+			from i := start_index until Result or i > end_index loop
+				if set.has (area [i]) then
+					Result := True
+				else
+					i := i + 1
+				end
+			end
+		end
 
 	is_subset_of (set: EL_SET [G]; area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if set of characters in `area' between `start_index' to `end_index'

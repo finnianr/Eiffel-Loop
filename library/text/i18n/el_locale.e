@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 9:50:17 GMT (Thursday 18th July 2024)"
-	revision: "41"
+	date: "2024-07-27 5:41:53 GMT (Saturday 27th July 2024)"
+	revision: "43"
 
 class
 	EL_LOCALE
@@ -280,7 +280,7 @@ feature {EL_LOCALE_CONSTANTS} -- Factory
 	new_translation_table (a_language: STRING): EL_TRANSLATION_TABLE
 		local
 			items_list: EL_TRANSLATION_ITEMS_LIST; l_language: STRING
-			adhoc_table: EL_TRANSLATION_TABLE
+			adhoc_table: EL_PYXIS_ML_TRANSLATION_TABLE
 		do
 			restrict_access
 				if Locale_table.has (a_language) then
@@ -295,7 +295,7 @@ feature {EL_LOCALE_CONSTANTS} -- Factory
 					if attached factory.last_result as pyxis_source
 						and then pyxis_source.starts_with (Pyxis.declaration)
 					then
-						create adhoc_table.make_from_pyxis_source (l_language, pyxis_source)
+						create adhoc_table.make_from_source (pyxis_source)
 						Result.merge (adhoc_table)
 					end
 				end

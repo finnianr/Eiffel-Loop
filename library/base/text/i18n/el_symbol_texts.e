@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-27 8:04:24 GMT (Thursday 27th June 2024)"
-	revision: "4"
+	date: "2024-07-25 7:18:54 GMT (Thursday 25th July 2024)"
+	revision: "5"
 
 class
 	EL_SYMBOL_TEXTS
@@ -38,10 +38,14 @@ feature -- Access
 
 	decimal_point: CHARACTER
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	English_table: STRING = "[
-		decimal_point:
-			.
-	]"
+	english_table: STRING
+		do
+			Result := "[
+				decimal_point:
+					.
+			]"
+		end
+
 end

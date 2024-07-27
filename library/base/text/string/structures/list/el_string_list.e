@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 16:04:59 GMT (Friday 12th July 2024)"
-	revision: "39"
+	date: "2024-07-25 18:28:42 GMT (Thursday 25th July 2024)"
+	revision: "40"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]

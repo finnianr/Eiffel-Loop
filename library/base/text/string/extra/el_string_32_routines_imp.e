@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 8:09:54 GMT (Monday 15th July 2024)"
-	revision: "57"
+	date: "2024-07-25 12:13:55 GMT (Thursday 25th July 2024)"
+	revision: "58"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -47,6 +47,16 @@ feature -- Character query
 					do_nothing
 			else
 				Result := s [1] = c_first and then s [upper] = c_last
+			end
+		end
+
+	has_member (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if at least one character in `str' is a member of `set'
+		local
+			r: EL_CHARACTER_32_ROUTINES
+		do
+			if attached cursor (str) as c then
+				Result := r.has_member (set, c.area, c.area_first_index, c.area_last_index)
 			end
 		end
 

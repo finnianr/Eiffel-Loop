@@ -1,13 +1,18 @@
 note
 	description: "Eiffel object model Xpath context"
+	notes: "[
+		By default the building actions defined by deferred routine `building_action_table'
+		are cached in `Building_actions_by_type'. Redefine `actions_cached' if you do not
+		want the actions to be cached.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-29 10:14:55 GMT (Saturday 29th July 2023)"
-	revision: "23"
+	date: "2024-07-25 7:49:00 GMT (Thursday 25th July 2024)"
+	revision: "24"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -31,7 +36,11 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor {EL_EIF_OBJ_XPATH_CONTEXT}
-			building_actions := Building_actions_by_type.item (Current)
+			if actions_cached then
+				building_actions := Building_actions_by_type.item (Current)
+			else
+				building_actions := new_building_actions
+			end
 		end
 
 feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Basic operations
@@ -83,14 +92,6 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Element change
 
 		end
 
-	refresh_building_actions
-			-- Cause the building actions to be revaluated
-			-- Useful if a building action xpath depends on class instance variable
-		do
-			Building_actions_by_type.remove (Current)
-			building_actions := Building_actions_by_type.item (Current)
-		end
-
 feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 
 	new_building_actions: like building_actions
@@ -114,6 +115,12 @@ feature {EL_DOCUMENT_CLIENT} -- Implementation attributes
 	building_actions: EL_PROCEDURE_TABLE [STRING] note option: transient attribute end
 
 feature {NONE} -- Implementation
+
+	actions_cached: BOOLEAN
+		-- is the `building_action_table' to be cached in `PI_building_actions_by_type'
+		do
+			Result := True
+		end
 
 	add_builder_actions_for_xpaths_selectors (a_building_actions: like building_actions)
 		-- add builder actions for xpaths containing attribute value predicates
@@ -191,7 +198,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Building_actions_by_type: EL_FUNCTION_RESULT_TABLE [EL_EIF_OBJ_BUILDER_CONTEXT, EL_PROCEDURE_TABLE [STRING]]
-			--
+		-- cache table for building actions defined by `building_action_table' for each conforming type
 		once
 			create Result.make (17, agent {EL_EIF_OBJ_BUILDER_CONTEXT}.new_building_actions)
 		end

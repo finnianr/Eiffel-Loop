@@ -2,6 +2,7 @@ pyxis-doc:
 	version = 1.0; encoding = "UTF-8"
 
 # Testing UTF-8 encoding
+
 translations:
 	item:
 		id = "{credits}"
@@ -37,8 +38,8 @@ translations:
 		id = "{Apple}"
 		translation:
 			lang = de; check = true
-			"Apple™"
+			"Apple (™)"
 		translation:
 			lang = en
-			"Apple™"
+			"Apple (™)"
 

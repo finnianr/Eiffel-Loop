@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:59:14 GMT (Friday 29th March 2024)"
-	revision: "8"
+	date: "2024-07-27 14:37:33 GMT (Saturday 27th July 2024)"
+	revision: "9"
 
 class
 	PYXIS_ENCRYPTER_TEST_SET
@@ -39,7 +39,8 @@ feature -- Tests
 
 	test_execute
 		local
-			table, decrypted_table: EL_TRANSLATION_TABLE
+			table, decrypted_table: EL_TRANSLATION_TABLE;
+			decrypted_pyxis_table, pyxis_table: EL_PYXIS_ML_TRANSLATION_TABLE
 			plain_text: STRING; aes_encrypter: EL_AES_ENCRYPTER
 			pyxis_encrypter: PYXIS_ENCRYPTER; file_path: FILE_PATH
 		do
@@ -50,9 +51,13 @@ feature -- Tests
 			aes_encrypter.reset
 			plain_text := Encryption.plain_pyxis (pyxis_encrypter.output_path, aes_encrypter)
 
+			create decrypted_pyxis_table.make_from_source (plain_text)
+			create pyxis_table.make_from_file (file_path)
+
 			across << "en", "de" >> as language loop
-				create decrypted_table.make_from_pyxis_source (language.item, plain_text)
-				create table.make_from_pyxis (language.item, file_path)
+				create decrypted_table.make_from_table (language.item, decrypted_pyxis_table)
+				create table.make_from_table (language.item, pyxis_table)
+
 				assert ("same size", decrypted_table.count = table.count)
 				across table as translation loop
 					if decrypted_table.has_key (translation.key) then

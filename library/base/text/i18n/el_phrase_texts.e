@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-07-25 7:18:12 GMT (Thursday 25th July 2024)"
+	revision: "5"
 
 class
 	EL_PHRASE_TEXTS
@@ -48,14 +48,18 @@ feature {NONE} -- Implementation
 			Result := << confirmation_required >>
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	English_table: STRING = "[
-		are_you_sure:
-			Are you sure?
-		mkdir_permission_denied:
-			You don't have permission to create this directory here.
-		file_open_permission_denied:
-			There was a problem to put this file in the directory specified.
-	]"
+	english_table: STRING
+		do
+			Result := "[
+				are_you_sure:
+					Are you sure?
+				mkdir_permission_denied:
+					You don't have permission to create this directory here.
+				file_open_permission_denied:
+					There was a problem to put this file in the directory specified.
+			]"
+		end
+
 end

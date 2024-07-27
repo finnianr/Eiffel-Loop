@@ -742,3 +742,6 @@ New class EL_TABLE_INTERVAL_MAP_LIST
 Tue 23rd Jul 2024, 15:45:49
 EL_REFLECTIVE_STRING_TABLE is new and EL_CASE.Sentence is new
 
+Thu 25th Jul 2024, 19:38:19
+Completion of EL_TRANSLATION_TABLE for Pyxis and XML
+

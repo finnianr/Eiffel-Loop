@@ -1,7 +1,8 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-1"
 
-# Testing ISO-8859-1 encoding
+# class TEST_PHRASES_TEXT
+# Testing ISO-8859-1 encoding in EL_MERGED_PYXIS_LINE_LIST
 
 translations:
 	item:
@@ -24,6 +25,7 @@ translations:
 			'Delete journal: "%S"\nAre you sure?'
 
 	item:
+		# Test key normalization with underscores
 		id = "{for-n-years}"
 		translation:
 			lang = de; check = true
@@ -40,7 +42,7 @@ translations:
 				"for $QUANTITY years"
 
 	item:
-		id = "&New entry"
+		id = "{new_entry}"
 		translation:
 			lang = de; check = true
 			"&Neuer eintrag\tCtrl-T"

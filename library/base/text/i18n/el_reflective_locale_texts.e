@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-23 17:07:13 GMT (Tuesday 23rd July 2024)"
-	revision: "36"
+	date: "2024-07-27 8:13:15 GMT (Saturday 27th July 2024)"
+	revision: "37"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -129,8 +129,7 @@ feature -- Contract Support
 
 	valid_english_table: BOOLEAN
 		local
-			key_value_map_list: EL_TABLE_INTERVAL_MAP_LIST
-			key: like english_table; ir: EL_INTERVAL_ROUTINES
+			key_value_map_list: EL_TABLE_INTERVAL_MAP_LIST; ir: EL_INTERVAL_ROUTINES
 			start_index, end_index: INTEGER
 		do
 			create key_value_map_list.make (english_table)

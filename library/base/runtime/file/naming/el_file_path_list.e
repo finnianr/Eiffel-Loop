@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 9:50:48 GMT (Friday 21st June 2024)"
-	revision: "28"
+	date: "2024-07-27 10:24:50 GMT (Saturday 27th July 2024)"
+	revision: "29"
 
 class
 	EL_FILE_PATH_LIST
@@ -84,6 +84,19 @@ feature -- Conversion
 			across Current as l_path loop
 				Result.extend (l_path.item.to_string)
 			end
+		end
+
+	relative_list (parent_dir: DIR_PATH): like Current
+		do
+			create Result.make (count)
+			push_cursor
+			from start until after loop
+				if parent_dir.is_parent_of (path) then
+					Result.extend (path.relative_path (parent_dir))
+				end
+				forth
+			end
+			pop_cursor
 		end
 
 feature -- Basic operations

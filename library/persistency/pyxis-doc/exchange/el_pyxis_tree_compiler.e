@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 14:07:04 GMT (Friday 21st June 2024)"
-	revision: "24"
+	date: "2024-07-27 10:32:41 GMT (Saturday 27th July 2024)"
+	revision: "25"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -78,33 +78,53 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Implementation
 
+	new_manifest: EL_PYXIS_FILE_MANIFEST
+		do
+			create Result.make (manifest_path, Pyx_extension)
+			if is_lio_enabled then
+				from until not Result.has_errors loop
+					lio.put_line ("FIX PATH ERRORS")
+					Result.display_bad_paths (lio)
+					lio.put_new_line
+					if User_input.approved_action_y_n ("Retry") then
+						create Result.make (manifest_path, Pyx_extension)
+					end
+				end
+			elseif Result.has_errors then
+				Exception.raise_developer ("Manifest %S has path errors", [manifest_path.base])
+			end
+		end
+
 	new_merged_lines: EL_MERGED_PYXIS_LINE_LIST
 		do
 			create Result.make (new_source_path_list)
 		end
 
 	new_source_path_list: EL_FILE_PATH_LIST
-		local
-			manifest: EL_PYXIS_FILE_MANIFEST
 		do
 			if source_tree_path.exists then
 				Result := File_system.files_with_extension (source_tree_path, Pyx_extension, True)
 
 			elseif manifest_path.exists then
-				create manifest.make (manifest_path, Pyx_extension)
-				if is_lio_enabled then
-					from until not manifest.has_errors loop
-						lio.put_line ("FIX PATH ERRORS")
-						manifest.display_bad_paths (lio)
-						lio.put_new_line
-						if User_input.approved_action_y_n ("Retry") then
-							create manifest.make (manifest_path, Pyx_extension)
-						end
-					end
-				elseif manifest.has_errors then
-					Exception.raise_developer ("Manifest %S has path errors", [manifest_path.base])
+				Result := new_manifest.new_file_list
+			else
+				create Result.make (0)
+			end
+		end
+
+	new_relative_source_path_list: EL_FILE_PATH_LIST
+		do
+			if source_tree_path.exists and then
+				attached File_system.files_with_extension (source_tree_path, Pyx_extension, True) as path_list
+			then
+				Result := path_list.relative_list (source_tree_path)
+
+			elseif manifest_path.exists and then attached new_manifest.location_file_map_list as list then
+				create Result.make (list.count)
+				from list.start until list.after loop
+					Result.extend (list.item_value.relative_path (list.item_key))
+					list.forth
 				end
-				Result := manifest.file_list
 			else
 				create Result.make (0)
 			end

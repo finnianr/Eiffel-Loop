@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 15:06:43 GMT (Saturday 13th April 2024)"
-	revision: "10"
+	date: "2024-07-25 10:17:05 GMT (Thursday 25th July 2024)"
+	revision: "11"
 
 deferred class
 	EL_STRING_IO_MEDIUM
@@ -19,7 +19,7 @@ inherit
 			item as item_8,
 			make as make_with_name_8,
 			make_open_write as make_file_open_write,
-			put_string as put_raw_string_8,
+			put_string as put_encoded_string_8,
 			put_character as put_encoded_character_8,
 			putchar as put_encoded_character_8
 
@@ -27,7 +27,7 @@ inherit
 			{NONE} all
 			{ANY} is_closed, file_readable, extendible, twin, is_open_read, wipe_out, prunable, last_string
 		undefine
-			put_encoded_character_8,
+			put_encoded_character_8, put_encoded_string_8,
 			put_integer, putint, put_integer_8, put_integer_16, put_integer_32, put_integer_64,
 			put_natural, put_natural_8, put_natural_16, put_natural_32, put_natural_64,
 			put_real, putreal, put_double, putdouble,

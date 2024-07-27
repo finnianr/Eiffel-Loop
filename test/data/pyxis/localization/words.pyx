@@ -1,7 +1,7 @@
 pyxis-doc:
 	version = 1.0; encoding = "ISO-8859-15"
 
-# Testing ISO-8859-15 encoding
+# Testing ISO-8859-15 encoding in EL_MERGED_PYXIS_LINE_LIST
 
 translations:
 	item:
@@ -22,7 +22,6 @@ translations:
 		translation:
 			lang = en
 			"Latin-15 characters"
-
 
 	item:
 		id = "Nighttime"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:22 GMT (Saturday 22nd June 2024)"
-	revision: "34"
+	date: "2024-07-25 19:30:17 GMT (Thursday 25th July 2024)"
+	revision: "35"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -43,8 +43,7 @@ feature -- Basic operations
 		require
 			is_pyxis_file: is_pyxis_file (a_pyxis_file_path)
 		local
-			xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
-			pyxis_in: PLAIN_TEXT_FILE
+			xml_generator: EL_PYXIS_XML_TEXT_GENERATOR; pyxis_in: PLAIN_TEXT_FILE
 		do
 			create pyxis_in.make_open_read (a_pyxis_file_path)
 			create xml_generator.make

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-07-25 19:10:17 GMT (Thursday 25th July 2024)"
+	revision: "9"
 
 class
 	PYXIS_ECF_CONVERTER
@@ -77,7 +77,7 @@ feature {NONE} -- Implementation
 				create Result.make
 			end
 		end
-
+		
 feature {NONE} -- Constants
 
 	Pecf: STRING = "pecf"

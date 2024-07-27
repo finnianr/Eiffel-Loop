@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-07-25 7:17:20 GMT (Thursday 25th July 2024)"
+	revision: "8"
 
 class
 	EL_PASSPHRASE_ATTRIBUTES
@@ -32,21 +32,24 @@ feature -- Values
 
 	has_upper_case: ZSTRING
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	English_table: STRING = "[
-		has_upper_case:
-			Contains an upper-case character
-		has_lower_case:
-			Contains a lower-case character
-		has_numeric:
-			Contains a numeric character
-		has_symbolic:
-			Contains a symbolic character ([]:&*^%# etc)
-		has_at_least_8:
-			Contains at least 8 characters
-		has_at_least_12:
-			Contains at least 12 characters
-	]"
+	english_table: STRING
+		do
+			Result := "[
+				has_upper_case:
+					Contains an upper-case character
+				has_lower_case:
+					Contains a lower-case character
+				has_numeric:
+					Contains a numeric character
+				has_symbolic:
+					Contains a symbolic character ([]:&*^%# etc)
+				has_at_least_8:
+					Contains at least 8 characters
+				has_at_least_12:
+					Contains at least 12 characters
+			]"
+		end
 
 end

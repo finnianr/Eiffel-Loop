@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 8:09:34 GMT (Monday 15th July 2024)"
-	revision: "33"
+	date: "2024-07-25 12:11:08 GMT (Thursday 25th July 2024)"
+	revision: "34"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -178,6 +178,12 @@ feature -- Character query
 					Result := s [1] = c_first and then s [s.count] = c_last
 				end
 			end
+		end
+
+	has_member (str: EL_READABLE_ZSTRING; set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if at least one character in `str' is a member of `set'
+		do
+			Result := str.has_member (set)
 		end
 
 	is_i_th_identifier (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN

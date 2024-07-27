@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 9:10:44 GMT (Thursday 4th April 2024)"
-	revision: "3"
+	date: "2024-07-25 12:12:50 GMT (Thursday 25th July 2024)"
+	revision: "4"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -98,6 +98,36 @@ feature -- Substring query
 		-- `True' if first character in string is same as `uc'
 		do
 			Result := count > 0 and then item (1) = uc
+		end
+
+	has_member (set: EL_SET [CHARACTER_32]): BOOLEAN
+		-- `True' if at least one character is a member of `set'
+		local
+			i, upper_index, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			upper_index := count - 1
+			if attached unicode_table as l_unicode_table and then attached area as l_area
+				and then attached unencoded_area as area_32
+			then
+				from i := 0 until i > upper_index or Result loop
+					c_i := l_area [i]
+					inspect c_i
+						when Substitute then
+							uc_i:= iter.item ($block_index, area_32, i + 1)
+
+						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+							uc_i := c_i
+					else
+						uc_i := l_unicode_table [c_i.code]
+					end
+					if set.has (uc_i) then
+						Result := True
+					else
+						i := i + 1
+					end
+				end
+			end
 		end
 
 	has_quotes (a_count: INTEGER): BOOLEAN

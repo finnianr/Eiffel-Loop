@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:25:11 GMT (Monday 27th November 2023)"
-	revision: "2"
+	date: "2024-07-27 8:53:09 GMT (Saturday 27th July 2024)"
+	revision: "3"
 
 class
 	EL_PYXIS_FILE_MANIFEST
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create file_list.make_empty
+			create location_file_map_list.make_empty
 			create bad_path_list.make_empty
 			Precursor
 		end
@@ -71,7 +71,12 @@ feature -- Access
 
 	bad_path_list: EL_ARRAYED_LIST [EL_PATH]
 
-	file_list: EL_FILE_PATH_LIST
+	new_file_list: EL_FILE_PATH_LIST
+		do
+			create Result.make_from_array (location_file_map_list.value_list.to_array)
+		end
+
+	location_file_map_list: EL_ARRAYED_MAP_LIST [DIR_PATH, FILE_PATH]
 
 feature -- Status query
 
@@ -117,7 +122,7 @@ feature {NONE} -- Build from Pyxis
 						end
 						across dir_list as list loop
 							if list.item /~ manifest_path then
-								file_list.extend (list.item)
+								location_file_map_list.extend (location_dir, list.item)
 							end
 						end
 					else
@@ -125,7 +130,7 @@ feature {NONE} -- Build from Pyxis
 					end
 
 				elseif file_path.exists then
-					file_list.extend (file_path)
+					location_file_map_list.extend (location_dir, file_path)
 				else
 					bad_path_list.extend (file_path)
 				end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-07-25 19:11:45 GMT (Thursday 25th July 2024)"
+	revision: "5"
 
 class
 	ECF_XML_GENERATOR
@@ -25,6 +25,6 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_generator ({PYXIS_ECF_PARSER})
+			make_with_type ({PYXIS_ECF_PARSER})
 		end
 end

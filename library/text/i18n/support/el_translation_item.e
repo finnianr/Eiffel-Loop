@@ -1,13 +1,15 @@
 note
-	description: "Translated item"
+	description: "[
+		Translated storable item. Lookup keys may have an optional language prefix, `"en."' for example.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-07-27 14:41:06 GMT (Saturday 27th July 2024)"
+	revision: "10"
 
 class
 	EL_TRANSLATION_ITEM
@@ -31,11 +33,36 @@ feature {NONE} -- Initialization
 			key := a_key; text := a_text
 		end
 
+feature -- Status query
+
+	has_language: BOOLEAN
+		do
+			Result := key.index_of ('.', 1) = 3
+		end
+
 feature -- Access
 
 	key: ZSTRING
 
+	language: STRING
+		require
+			has_language: has_language
+		do
+			Result := key.substring_to ('.')
+			if Result.count /= 2 then
+				Result.wipe_out
+			end
+		end
+
 	text: ZSTRING
+
+feature -- Element change
+
+	remove_language
+		-- remove language prefix
+		do
+			key.remove_head (3)
+		end
 
 feature {NONE} -- Constants
 

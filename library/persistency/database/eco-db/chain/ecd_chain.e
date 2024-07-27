@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 12:19:50 GMT (Thursday 11th July 2024)"
-	revision: "1"
+	date: "2024-07-27 12:13:51 GMT (Saturday 27th July 2024)"
+	revision: "2"
 
 deferred class
 	ECD_CHAIN [G]
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			create file_path
 			reader_writer := new_reader_writer
 			create header.make
 			make_chain_implementation (0)
