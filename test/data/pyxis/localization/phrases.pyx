@@ -16,7 +16,7 @@ translations:
 			'Enter a passphrase for "$NAME" journal'
 
 	item:
-		id = "Delete journal"
+		id = "{delete_journal}"
 		translation:
 			lang = de; check = true
 			'Löschen tagebuch: "%S"\nSind sie sicher?'
