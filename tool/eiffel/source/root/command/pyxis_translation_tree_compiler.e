@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 14:54:55 GMT (Saturday 27th July 2024)"
-	revision: "24"
+	date: "2024-07-28 8:41:03 GMT (Sunday 28th July 2024)"
+	revision: "25"
 
 class
 	PYXIS_TRANSLATION_TREE_COMPILER
@@ -74,6 +74,18 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
+	check_missing_translations (pyxis_table: EL_PYXIS_ML_TRANSLATION_TABLE)
+		do
+			if attached pyxis_table.missing_translation_list as list and then list.count > 0 then
+				from list.start until list.after loop
+					lio.put_new_line
+					lio.put_string ("** ")
+					lio.put_string_field ("Missing", list.item)
+					list.forth
+				end
+			end
+		end
+
 	compile_tree
 		local
 			language: STRING; build_path: FILE_PATH; all_items_list: EL_TRANSLATION_ITEMS_LIST
@@ -91,12 +103,14 @@ feature {NONE} -- Implementation
 					if is_source_updated (path.item, build_path) then
 						lio.put_path_field ("Updating", relative_path_list [path.cursor_index])
 						create pyxis_table.make_from_file (path.item)
+						check_missing_translations (pyxis_table)
+
 						create all_items_list.make_from_file (build_path)
 						all_items_list.wipe_out
 						pyxis_table.append_to_items_list (all_items_list)
 						all_items_list.store
 					else
-						lio.put_path_field (" Reading", build_path)
+						lio.put_path_field ("Reading", build_path)
 						create all_items_list.make_from_file (build_path)
 					end
 					lio.put_new_line
