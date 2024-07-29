@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 14:10:31 GMT (Tuesday 2nd April 2024)"
-	revision: "61"
+	date: "2024-07-29 7:52:26 GMT (Monday 29th July 2024)"
+	revision: "62"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -267,7 +267,7 @@ note
 				${COMPILE_DESKTOP_PROJECTS_APP}
 				${GITHUB_MANAGER_APP}
 				${ECF_TO_PECF_APP}
-				${PYXIS_TRANSLATION_TREE_COMPILER_APP}
+				${PYXIS_LOCALE_COMPILER_APP}
 				${PYXIS_ECF_CONVERTER_APP}
 				${WINZIP_SOFTWARE_PACKAGE_BUILDER_APP}
 				${CHECK_LOCALE_STRINGS_APP}

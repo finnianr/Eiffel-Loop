@@ -1,5 +1,5 @@
 note
-	description: "Encrypt contents of a file adding the aes extension"
+	description: "Encrypt contents of a file adding the AES extension"
 	tests: "${PYXIS_ENCRYPTER_TEST_SET}"
 
 	author: "Finnian Reilly"
@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-07-29 8:49:01 GMT (Monday 29th July 2024)"
+	revision: "16"
 
 class
 	PYXIS_ENCRYPTER

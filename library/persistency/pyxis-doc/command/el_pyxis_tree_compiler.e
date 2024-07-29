@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 10:32:41 GMT (Saturday 27th July 2024)"
-	revision: "25"
+	date: "2024-07-29 8:20:26 GMT (Monday 29th July 2024)"
+	revision: "26"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -58,7 +58,7 @@ feature -- Basic operations
 			--
 		do
 			if source_changed then
-				compile_tree
+				compile
 				is_updated := True
 			else
 				lio.put_line ("Source has not changed")
@@ -68,7 +68,7 @@ feature -- Basic operations
 
 feature {NONE} -- Deferred
 
-	compile_tree
+	compile
 		deferred
 		end
 

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 15:02:28 GMT (Saturday 27th July 2024)"
-	revision: "25"
+	date: "2024-07-29 8:10:21 GMT (Monday 29th July 2024)"
+	revision: "26"
 
 class
-	TRANSLATION_TREE_COMPILER_TEST_SET
+	LOCALE_COMPILER_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -48,7 +48,10 @@ feature -- Tests
 		-- TRANSLATION_TREE_COMPILER_TEST_SET.test_compile_tree
 		note
 			testing: "[
-				covers/{PYXIS_TRANSLATION_TREE_COMPILER}.set_item_id
+				covers/{EL_PYXIS_TREE_COMPILER}.execute,
+				covers/{EL_PYXIS_LOCALE_COMPILER}.compile,
+				covers/{EL_TRANSLATION_ITEMS_LIST}.make_from_file,
+				covers/{EL_PYXIS_ML_TRANSLATION_TABLE}.make_from_file
 			]"
 		local
 			restored_list: EL_TRANSLATION_ITEMS_LIST; restored_table, filled_table: EL_TRANSLATION_TABLE
@@ -56,7 +59,7 @@ feature -- Tests
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 		do
 			create translations_table.make_size (20)
-			do_test ("compile_twice", 354705631, agent compile_twice, [translations_table])
+			do_test ("compile_twice", 1517909653, agent compile_twice, [translations_table])
 
 			lio.put_line ("Checking restore")
 			create locale_table.make (Locales_dir)
@@ -88,7 +91,7 @@ feature {NONE} -- Implementation
 
 	compile_twice (translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING])
 		local
-			command: PYXIS_TRANSLATION_TREE_COMPILER; build_dir: DIR_PATH
+			command: EL_PYXIS_LOCALE_COMPILER; build_dir: DIR_PATH
 		do
 			across 1 |..| 2 as n loop
 				lio.put_integer_field ("Run", n.item)

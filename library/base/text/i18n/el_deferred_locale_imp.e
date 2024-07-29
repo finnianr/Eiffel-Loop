@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-11 9:33:16 GMT (Monday 11th December 2023)"
-	revision: "21"
+	date: "2024-07-29 9:38:30 GMT (Monday 29th July 2024)"
+	revision: "22"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -87,8 +87,9 @@ feature {NONE} -- Implementation
 			index: INTEGER
 		do
 			index := quantity.abs.min (2)
-			next_translations [index].wipe_out
-			next_translations [index].append_string_general (text)
+			if attached next_translations [index] as zstr then
+				zstr.wipe_out; zstr.append_string_general (text)
+			end
 		end
 
 	set_next_translation (text: READABLE_STRING_GENERAL)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 16:03:22 GMT (Wednesday 27th March 2024)"
-	revision: "61"
+	date: "2024-07-29 7:51:25 GMT (Monday 29th July 2024)"
+	revision: "62"
 
 class
 	APPLICATION_ROOT
@@ -61,7 +61,7 @@ inherit
 
 		IMP_CLASS_LOCATION_NORMALIZER_APP,
 
-		PYXIS_TRANSLATION_TREE_COMPILER_APP,
+		PYXIS_LOCALE_COMPILER_APP,
 		PYXIS_ECF_CONVERTER_APP,
 
 		REPOSITORY_SOURCE_LINK_EXPANDER_APP,

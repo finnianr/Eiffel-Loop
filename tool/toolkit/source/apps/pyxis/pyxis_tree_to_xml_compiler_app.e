@@ -1,6 +1,6 @@
 note
 	description: "[
-		Command line interface to ${PYXIS_TREE_TO_XML_COMPILER} which compiles a tree of
+		Command line interface to ${EL_PYXIS_TREE_TO_XML_COMPILER} which compiles a tree of
 		Pyxis source files into single XML file.
 	]"
 
@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-07-29 8:34:43 GMT (Monday 29th July 2024)"
+	revision: "21"
 
 class
 	PYXIS_TREE_TO_XML_COMPILER_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [PYXIS_TREE_TO_XML_COMPILER]
+	EL_COMMAND_LINE_APPLICATION [EL_PYXIS_TREE_TO_XML_COMPILER]
 		redefine
 			Option_name, visible_types
 		end
@@ -40,7 +40,7 @@ feature {NONE} -- Implementation
 			Result := agent {like command}.make ("", "", "")
 		end
 
-	visible_types: TUPLE [PYXIS_TREE_TO_XML_COMPILER]
+	visible_types: TUPLE [EL_PYXIS_TREE_TO_XML_COMPILER]
 		do
 			create Result
 		end

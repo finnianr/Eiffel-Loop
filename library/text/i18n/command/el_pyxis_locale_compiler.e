@@ -2,7 +2,7 @@ note
 	description: "[
 		Compile a manifest list of Pyxis locale translation files into a directory `locales' binary data files.
 		For example:
-		
+
 			locales/en
 			locales/de
 			locales/fr
@@ -25,11 +25,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-28 8:41:03 GMT (Sunday 28th July 2024)"
-	revision: "25"
+	date: "2024-07-29 8:34:51 GMT (Monday 29th July 2024)"
+	revision: "1"
 
 class
-	PYXIS_TRANSLATION_TREE_COMPILER
+	EL_PYXIS_LOCALE_COMPILER
 
 inherit
 	EL_APPLICATION_COMMAND
@@ -43,7 +43,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_ZSTRING_CONSTANTS EL_LOCALE_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_LOCALE_CONSTANTS
 
 	EL_SHARED_KEY_LANGUAGE
 
@@ -68,7 +68,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 feature -- Access
 
-	Description: STRING = "Compile tree of Pyxis translation files into multiple locale files"
+	Description: STRING = "Compile Pyxis translation files into multiple locale files"
 
 	translations_table: EL_AGENT_CACHE_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	compile_tree
+	compile
 		local
 			language: STRING; build_path: FILE_PATH; all_items_list: EL_TRANSLATION_ITEMS_LIST
 			pyxis_table: EL_PYXIS_ML_TRANSLATION_TABLE
@@ -131,8 +131,10 @@ feature {NONE} -- Implementation
 				table.item.store
 				lio.put_new_line
 			end
-			translations_table.search (Key_language)
-			if attached found_list as list and then attached list.to_table (Key_language) as en_table then
+
+			if translations_table.has_key (Key_language) and then attached translations_table.found_item as list
+				and then attached list.to_table (Key_language) as en_table
+			then
 				same_list_and_table_count := list.count - en_table.duplicate_count = en_table.count
 				if en_table.has_duplicates then
 					en_table.print_duplicates
@@ -140,11 +142,6 @@ feature {NONE} -- Implementation
 			end
 		ensure then
 			same_count: same_list_and_table_count
-		end
-
-	found_list: EL_TRANSLATION_ITEMS_LIST
-		do
-			Result := translations_table.found_item
 		end
 
 	is_source_updated (source_path, compiled_path: FILE_PATH): BOOLEAN

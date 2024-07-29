@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-17 7:48:19 GMT (Wednesday 17th April 2024)"
-	revision: "17"
+	date: "2024-07-29 8:26:46 GMT (Monday 29th July 2024)"
+	revision: "18"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -121,7 +121,7 @@ feature {NONE} -- Commands
 
 	update_locale_resources
 		local
-			compiler: PYXIS_TRANSLATION_TREE_COMPILER
+			compiler: EL_PYXIS_LOCALE_COMPILER
 		do
 			create compiler.make (Default_localization_manifest, Empty_string, Locale_resources_dir)
 			compiler.execute

@@ -6,6 +6,8 @@ note
 		**Test Sets**
 		
 			${I18N_LOCALIZATION_TEST_SET}
+			${LOCALE_COMPILER_TEST_SET}
+			${PYXIS_TREE_TO_XML_COMPILER_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"
@@ -13,14 +15,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "73"
+	date: "2024-07-29 9:11:54 GMT (Monday 29th July 2024)"
+	revision: "74"
 
 class
 	I18N_AUTOTEST_APP
 
 inherit
-	EL_CRC_32_AUTOTEST_APPLICATION [I18N_LOCALIZATION_TEST_SET]
+	EL_CRC_32_AUTOTEST_APPLICATION [
+		I18N_LOCALIZATION_TEST_SET,
+		LOCALE_COMPILER_TEST_SET,
+		PYXIS_TREE_TO_XML_COMPILER_TEST_SET
+	]
 		undefine
 			make_solitary
 		end

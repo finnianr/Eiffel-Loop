@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-28 8:35:02 GMT (Sunday 28th July 2024)"
-	revision: "2"
+	date: "2024-07-28 17:45:22 GMT (Sunday 28th July 2024)"
+	revision: "3"
 
 deferred class
 	EL_MULTI_LANGUAGE_TRANSLATION_TABLE
@@ -117,7 +117,7 @@ feature -- Element change
 		require
 			valid_code: language.count = 2
 		do
-			-- Normalize identifier for reflective localization attribute
+		-- Normalize identifier for reflective localization attribute
 			if key.starts_with_character ('{')
 				and then key.has ('-')
 				and then (key.ends_with_character ('}') or else key.has_substring (Brace_colon))

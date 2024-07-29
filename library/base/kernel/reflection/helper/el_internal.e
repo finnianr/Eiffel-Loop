@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 11:03:11 GMT (Monday 15th April 2024)"
-	revision: "31"
+	date: "2024-07-29 9:28:30 GMT (Monday 29th July 2024)"
+	revision: "32"
 
 class
 	EL_INTERNAL
@@ -36,26 +36,7 @@ inherit
 
 	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
-feature -- Type queries
-
-	collection_item_type (type_id: INTEGER): INTEGER
-		require
-			valid_id: is_collection_type (type_id)
-		do
-			if generic_count_of_type (type_id) > 0 then
-				Result := generic_dynamic_type_of_type (type_id, 1)
-
-			elseif type_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY)
-				and then attached Arrayed_list_factory.new_item_from_type_id (type_id) as list
-			then
-				Result := list.area.generating_type.generic_parameter_type (1).type_id
-			end
-		end
-
-	dynamic_type (object: separate ANY): INTEGER
-		do
-			Result := {ISE_RUNTIME}.dynamic_type (object)
-		end
+feature -- Type status
 
 	field_conforms_to_collection (basic_type, type_id: INTEGER): BOOLEAN
 		-- True if `type_id' conforms to COLLECTION [X] where x is a string or an expanded type
@@ -79,6 +60,11 @@ feature -- Type queries
 	is_comparable_type (type_id: INTEGER): BOOLEAN
 		do
 			Result := field_conforms_to (type_id, Class_id.COMPARABLE)
+		end
+
+	is_conforming_to (object: ANY; type_id: INTEGER): BOOLEAN
+		do
+			Result := field_conforms_to ({ISE_RUNTIME}.dynamic_type (object), type_id)
 		end
 
 	is_reference (basic_type: INTEGER): BOOLEAN
@@ -152,6 +138,25 @@ feature -- Type queries
 		end
 
 feature -- Access
+
+	collection_item_type (type_id: INTEGER): INTEGER
+		require
+			valid_id: is_collection_type (type_id)
+		do
+			if generic_count_of_type (type_id) > 0 then
+				Result := generic_dynamic_type_of_type (type_id, 1)
+
+			elseif type_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY)
+				and then attached Arrayed_list_factory.new_item_from_type_id (type_id) as list
+			then
+				Result := list.area.generating_type.generic_parameter_type (1).type_id
+			end
+		end
+
+	dynamic_type (object: separate ANY): INTEGER
+		do
+			Result := {ISE_RUNTIME}.dynamic_type (object)
+		end
 
 	new_object (type: TYPE [ANY]): detachable ANY
 		do

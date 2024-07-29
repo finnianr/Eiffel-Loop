@@ -14,19 +14,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 13:42:22 GMT (Friday 21st June 2024)"
-	revision: "23"
+	date: "2024-07-29 8:24:55 GMT (Monday 29th July 2024)"
+	revision: "24"
 
 class
-	PYXIS_TRANSLATION_TREE_COMPILER_APP
+	PYXIS_LOCALE_COMPILER_APP
 
 inherit
-	EL_COMMAND_LINE_APPLICATION [PYXIS_TRANSLATION_TREE_COMPILER]
+	EL_COMMAND_LINE_APPLICATION [EL_PYXIS_LOCALE_COMPILER]
 		redefine
 			Option_name, visible_types
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -44,10 +42,10 @@ feature {NONE} -- Implementation
 
 	default_make: PROCEDURE [like command]
 		do
-			Result := agent {like command}.make (Empty_string, Empty_string, "resources/locales")
+			Result := agent {like command}.make (create {FILE_PATH}, create {DIR_PATH}, Directory.new ("resources/locales"))
 		end
 
-	visible_types: TUPLE [EL_MERGED_PYXIS_LINE_LIST, PYXIS_TRANSLATION_TREE_COMPILER]
+	visible_types: TUPLE [EL_PYXIS_LOCALE_COMPILER]
 		do
 			create Result
 		end

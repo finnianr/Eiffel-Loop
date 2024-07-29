@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-24 6:17:50 GMT (Wednesday 24th July 2024)"
-	revision: "19"
+	date: "2024-07-29 8:34:42 GMT (Monday 29th July 2024)"
+	revision: "20"
 
 class
-	PYXIS_TREE_TO_XML_COMPILER
+	EL_PYXIS_TREE_TO_XML_COMPILER
 
 inherit
 	EL_PYXIS_TREE_COMPILER
@@ -41,7 +41,7 @@ feature -- Constants
 
 feature {NONE} -- Implementation
 
-	compile_tree
+	compile
 		local
 			converter: EL_PYXIS_XML_TEXT_GENERATOR
 		do

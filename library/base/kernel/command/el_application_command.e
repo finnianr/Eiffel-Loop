@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 10:11:01 GMT (Tuesday 2nd April 2024)"
-	revision: "5"
+	date: "2024-07-29 8:34:41 GMT (Monday 29th July 2024)"
+	revision: "6"
 
 deferred class
 	EL_APPLICATION_COMMAND
@@ -54,7 +54,7 @@ note
 				${ECF_TO_PECF_COMMAND}
 				${EIFFEL_VIEW_COMMAND}
 				${IMP_CLASS_LOCATION_NORMALIZER}
-				${PYXIS_TRANSLATION_TREE_COMPILER}
+				${PYXIS_LOCALE_COMPILER}
 				${PYXIS_ECF_CONVERTER}
 				${REPOSITORY_SOURCE_LINK_EXPANDER}
 					${REPOSITORY_TEST_SOURCE_LINK_EXPANDER}
@@ -96,7 +96,7 @@ note
 				
 		**toolkit.ecf**				
 			EL_APPLICATION_COMMAND*
-				${PYXIS_TREE_TO_XML_COMPILER}
+				${EL_PYXIS_TREE_TO_XML_COMPILER}
 				${CAMERA_TRANSFER_COMMAND}
 				${EL_IMAGE_MAGICK_SLIDE_SHOW}
 				${STOCK_CONSUMPTION_CALCULATOR}

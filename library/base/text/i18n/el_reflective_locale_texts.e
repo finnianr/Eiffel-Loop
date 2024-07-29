@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 8:13:15 GMT (Saturday 27th July 2024)"
-	revision: "37"
+	date: "2024-07-29 9:37:22 GMT (Monday 29th July 2024)"
+	revision: "38"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -290,7 +290,11 @@ feature {NONE} -- Implementation
 				locale.set_next_translation (eng_table.found_item)
 			end
 			if locale.has_key (key) then
-				field.set_from_string (Current, locale * key)
+				if field.is_type (Class_id.ZSTRING) then
+					field.set (Current, locale * key)
+				else
+					field.set_from_string (Current, locale * key)
+				end
 			else
 				extend_missing_keys (key.twin)
 			end
