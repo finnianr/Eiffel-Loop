@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 5:41:53 GMT (Saturday 27th July 2024)"
-	revision: "43"
+	date: "2024-07-29 11:03:21 GMT (Monday 29th July 2024)"
+	revision: "44"
 
 class
 	EL_LOCALE
@@ -137,6 +137,9 @@ feature -- Access
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language
+
+		require else
+			has_translation: has_key (key)
 		do
 			restrict_access
 				Result := translation_item (key)

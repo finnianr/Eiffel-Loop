@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 18:59:34 GMT (Saturday 27th July 2024)"
-	revision: "30"
+	date: "2024-07-29 13:41:25 GMT (Monday 29th July 2024)"
+	revision: "31"
 
 class
 	I18N_LOCALIZATION_TEST_SET
@@ -47,6 +47,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_language_set_reader
+		-- I18N_LOCALIZATION_TEST_SET.test_language_set_reader
 		note
 			testing: "[
 				covers/{EL_LANGUAGE_SET_READER}.make_from_file

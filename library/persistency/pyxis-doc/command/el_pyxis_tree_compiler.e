@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 8:20:26 GMT (Monday 29th July 2024)"
-	revision: "26"
+	date: "2024-07-29 14:38:34 GMT (Monday 29th July 2024)"
+	revision: "27"
 
 deferred class
 	EL_PYXIS_TREE_COMPILER
@@ -90,8 +90,10 @@ feature {NONE} -- Implementation
 						create Result.make (manifest_path, Pyx_extension)
 					end
 				end
-			elseif Result.has_errors then
-				Exception.raise_developer ("Manifest %S has path errors", [manifest_path.base])
+			else
+				if Result.has_errors then
+					Exception.raise_developer ("Manifest %S has path errors", [manifest_path.base])
+				end
 			end
 		end
 

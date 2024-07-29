@@ -6,20 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-26 18:03:25 GMT (Friday 26th July 2024)"
-	revision: "15"
+	date: "2024-07-29 13:31:30 GMT (Monday 29th July 2024)"
+	revision: "16"
 
 deferred class
 	EL_LOCALIZATION_TEST
 
 inherit
-	EL_MODULE_LIO
-
-	EL_MODULE_EIFFEL
-
-	EL_MODULE_LOCALE
+	EL_MODULE_EIFFEL; EL_MODULE_LIO; EL_MODULE_LOCALE
 
 	EL_REFLECTION_HANDLER
+
+	EL_SHARED_CLASS_ID
 
 feature {NONE} -- Deferred
 
@@ -101,7 +99,22 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
+		end
 
+	assert_english_manifest_matches_pyxis (default_texts, texts: EL_REFLECTIVE_LOCALE_TEXTS; field: EL_REFLECTED_FIELD)
+		do
+			if not attached new_quanity (texts, field) and then field.value (texts) /~ field.value (default_texts) then
+				if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
+					and then attached string_field.value (texts) as general
+					and then attached string_field.value (default_texts) as default_general
+				then
+					lio.put_new_line
+					lio.put_labeled_string (texts.generator, field.name)
+					lio.put_new_line
+					display_difference (general, default_general)
+				end
+				assert ("English manifest text matches Pyxis text for lang = en", False)
+			end
 		end
 
 	assert_valid_tuple (name: STRING; a_tuple: TUPLE; key_list: READABLE_STRING_GENERAL)
@@ -111,8 +124,9 @@ feature {NONE} -- Implementation
 
 	check_reflective_locale_texts
 		local
-			default_texts, texts: EL_REFLECTIVE_LOCALE_TEXTS; field: EL_REFLECTED_FIELD
-			default_locale: EL_DEFERRED_LOCALE_IMP; text_field: STRING
+			default_texts, locale_texts, texts: EL_REFLECTIVE_LOCALE_TEXTS; field: EL_REFLECTED_FIELD
+			default_locale: EL_DEFERRED_LOCALE_IMP; text_field: IMMUTABLE_STRING_8
+			language_locale: EL_LOCALE
 		do
 			create default_locale.make
 			across new_text_type_list as type loop
@@ -122,24 +136,14 @@ feature {NONE} -- Implementation
 						default_texts := new_locale_text (type.item, default_locale)
 						across texts.field_table as table loop
 							text_field := table.key; field := table.item
-							if not attached new_quanity (texts, field)
-								and then field.value (texts) /~ field.value (default_texts)
-							then
-								if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
-									and then attached string_field.value (texts) as general
-									and then attached string_field.value (default_texts) as default_general
-								then
-									lio.put_new_line
-									lio.put_labeled_string (texts.generator, field.name)
-									lio.put_new_line
-									display_difference (general, default_general)
-								end
-								assert ("same field values", False)
-							end
+							assert_english_manifest_matches_pyxis (default_texts, texts, field)
 						end
+
 					else
+						language_locale := Locale.in (language.item)
+						locale_texts := new_locale_text (type.item, language_locale)
 						-- German consistent with English etc
-						assert_consistent_translation (texts, new_locale_text (type.item, Locale.in (language.item)))
+						assert_consistent_translation (texts, locale_texts)
 					end
 				end
 				assert_all_keys_ok (texts)

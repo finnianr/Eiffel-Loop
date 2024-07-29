@@ -1,3 +1,6 @@
+Ver 2.2.9 (29 Jul 2024)
+* Changed name of PYXIS_LOCALE_COMPILER_APP
+
 Ver 2.2.8 (27 Jul 2024)
 * Updated locale compiler
 
