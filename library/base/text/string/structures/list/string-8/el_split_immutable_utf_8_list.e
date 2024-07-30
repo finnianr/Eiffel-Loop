@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-30 13:27:03 GMT (Tuesday 30th July 2024)"
-	revision: "10"
+	date: "2024-07-30 13:58:06 GMT (Tuesday 30th July 2024)"
+	revision: "11"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -116,7 +116,7 @@ feature -- Basic operations
 
 	append_lines_to (output: STRING_GENERAL)
 		local
-			i, start_index, end_index: INTEGER
+			i: INTEGER
 		do
 			if attached area as a then
 				from until i = a.count loop

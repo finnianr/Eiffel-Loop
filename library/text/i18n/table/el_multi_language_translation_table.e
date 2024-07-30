@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-28 17:45:22 GMT (Sunday 28th July 2024)"
-	revision: "3"
+	date: "2024-07-30 17:31:18 GMT (Tuesday 30th July 2024)"
+	revision: "4"
 
 deferred class
 	EL_MULTI_LANGUAGE_TRANSLATION_TABLE
@@ -78,6 +78,8 @@ feature -- Access
 			end
 		end
 
+	language_set: EL_HASH_SET [STRING]
+
 	missing_translation_list: EL_ZSTRING_LIST
 		do
 			create Result.make (0)
@@ -95,7 +97,26 @@ feature -- Access
 			end
 		end
 
-	language_set: EL_HASH_SET [STRING]
+feature -- Conversion
+
+	as_utf_8_manifest_for (language: STRING): STRING
+		-- textual representation encoded as UTF-8
+		-- 	key_1 := value_1
+		-- 	key_2 := value_2
+		do
+			create Result.make (manifest_byte_count_for (language))
+			from start until after loop
+				if language ~ language_for_iteration then
+					if Result.count > 0 then
+						Result.append_character ('%N')
+					end
+					key_for_iteration.append_to_utf_8 (Result)
+					Result.append (Manifest_assignment) -- key := value
+					item_for_iteration.append_to_utf_8 (Result)
+				end
+				forth
+			end
+		end
 
 feature -- Basic operations
 
@@ -131,6 +152,12 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	is_translatable (id: ZSTRING): BOOLEAN
+		-- `True' if `id' is a translatable sentence
+		do
+			Result := not id.has_enclosing ('{', '}')
+		end
+
 	language_set_has_key (key: ZSTRING): BOOLEAN
 		do
 			if key.count > 2 then
@@ -138,12 +165,6 @@ feature {NONE} -- Implementation
 				Language_key [2] := key.item_8 (2)
 				Result := language_set.has_key (Language_key)
 			end
-		end
-
-	is_translatable (id: ZSTRING): BOOLEAN
-		-- `True' if `id' is a translatable sentence
-		do
-			Result := not id.has_enclosing ('{', '}')
 		end
 
 	quantifier_suffix (name: STRING): detachable STRING
@@ -156,6 +177,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	manifest_byte_count_for (language: STRING): INTEGER
+		do
+			from start until after loop
+				if language ~ language_for_iteration then
+					Result := Result
+						+ key_for_iteration.utf_8_byte_count + Manifest_assignment.count
+						+ item_for_iteration.utf_8_byte_count + 1
+				end
+				forth
+			end
+			if count > 0 then
+			-- subtract 1 newline
+				Result := Result - 1
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Brace_colon: STRING = "}:"
@@ -164,4 +201,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make_filled (' ', 2)
 		end
+		
+	Manifest_assignment: STRING = " := "
+
 end

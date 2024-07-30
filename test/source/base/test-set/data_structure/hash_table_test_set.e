@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-30 12:16:10 GMT (Tuesday 30th July 2024)"
-	revision: "34"
+	date: "2024-07-30 14:49:58 GMT (Tuesday 30th July 2024)"
+	revision: "35"
 
 class
 	HASH_TABLE_TEST_SET
@@ -248,7 +248,9 @@ feature -- Test
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.found_item,
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.new_item,
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.key_for_iteration,
-				covers/{EL_IMMUTABLE_UTF_8_TABLE}.item_for_iteration
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.item_for_iteration,
+				covers/{EL_SPLIT_IMMUTABLE_UTF_8_LIST}.append_lines_to,
+				covers/{EL_STRING_X_ROUTINES}.new_from_utf_8_lines
 			]"
 		local
 			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
