@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 12:11:08 GMT (Thursday 25th July 2024)"
-	revision: "34"
+	date: "2024-07-30 13:40:46 GMT (Tuesday 30th July 2024)"
+	revision: "35"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -262,6 +262,11 @@ feature -- Adjust
 		end
 
 feature {NONE} -- Implementation
+
+	append_utf_8_to (utf_8: READABLE_STRING_8; output: ZSTRING)
+		do
+			output.append_utf_8 (utf_8)
+		end
 
 	as_canonically_spaced (s: EL_READABLE_ZSTRING): ZSTRING
 		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)

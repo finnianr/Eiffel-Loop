@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-30 9:35:42 GMT (Thursday 30th May 2024)"
-	revision: "10"
+	date: "2024-07-30 13:23:33 GMT (Tuesday 30th July 2024)"
+	revision: "11"
 
 expanded class
 	EL_UTF_8_CONVERTER
@@ -48,7 +48,18 @@ feature -- Conversion
 		local
 			c: UTF_CONVERTER
 		do
-			Result := c.utf_32_string_to_utf_8_string_8 (s)
+			inspect Class_id.string_storage_type (s)
+				when 'X' then
+					if attached {ZSTRING} s as zstr then
+						Result := zstr.to_utf_8
+					end
+				when '4' then
+					if attached {READABLE_STRING_32} s as str_32 then
+						Result := c.string_32_to_utf_8_string_8 (str_32)
+					end
+			else
+				Result := c.utf_32_string_to_utf_8_string_8 (s)
+			end
 		end
 
 	string_32_to_string_8 (s: READABLE_STRING_32): STRING_8
@@ -56,7 +67,14 @@ feature -- Conversion
 		local
 			c: UTF_CONVERTER
 		do
-			Result := c.string_32_to_utf_8_string_8 (s)
+			inspect Class_id.string_storage_type (s)
+				when 'X' then
+					if attached {ZSTRING} s as zstr then
+						Result := zstr.to_utf_8
+					end
+			else
+				Result := c.string_32_to_utf_8_string_8 (s)
+			end
 		end
 
 	to_string_32 (utf_8: READABLE_STRING_8): STRING_32
@@ -169,8 +187,8 @@ feature -- Basic operations
 				end
 			end
 		ensure
-			roundtrip: attached s.substring (start_index, end_index) as str and then
-				is_valid_string_8 (str) implies
+			roundtrip: attached s.substring (start_index, end_index) as str and then is_valid_string_8 (str)
+				implies
 					utf_32_string_to_string_8 (a_result.substring (old a_result.count + 1, a_result.count)).same_string (str)
 		end
 end

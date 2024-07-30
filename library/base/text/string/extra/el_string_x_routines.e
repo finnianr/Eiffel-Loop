@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 17:31:06 GMT (Sunday 14th July 2024)"
-	revision: "69"
+	date: "2024-07-30 13:51:59 GMT (Tuesday 30th July 2024)"
+	revision: "70"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -45,6 +45,37 @@ feature -- Factory
 			-- width * count spaces
 		do
 			create Result.make (n)
+		end
+
+	new_from_utf_8 (utf_8: READABLE_STRING_8): STRING_X
+		local
+			u8: EL_UTF_8_CONVERTER
+		do
+			create Result.make (u8.unicode_count (utf_8))
+			append_utf_8_to (utf_8, Result)
+		end
+
+	new_from_utf_8_lines (utf_8: IMMUTABLE_STRING_8; start_index, end_index: INTEGER_32; first_is_tab: BOOLEAN): STRING_X
+		local
+			count: INTEGER_32; split_on_tab_new_line: EL_SPLIT_IMMUTABLE_UTF_8_LIST
+		do
+			count := end_index - start_index + 1
+
+			if count = 0 then
+				create Result.make (0)
+
+			elseif attached utf_8.shared_substring (start_index + first_is_tab.to_integer, end_index) as substring then
+				if substring.is_empty then
+					create Result.make (0)
+
+				elseif substring.has ('%N') then
+					create split_on_tab_new_line.make_by_string (substring, New_line_tab)
+					create Result.make (split_on_tab_new_line.unicode_count + split_on_tab_new_line.count - 1)
+					split_on_tab_new_line.append_lines_to (Result)
+				else
+					Result := new_from_utf_8 (substring)
+				end
+			end
 		end
 
 	new_list (comma_separated: STRING_X): EL_STRING_LIST [STRING_X]
@@ -362,6 +393,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_X)
+		deferred
+		end
+
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
 		deferred
 		end
@@ -375,5 +410,9 @@ feature {NONE} -- Deferred
 			valid_index: 0 < i and i <= str.count
 		deferred
 		end
+
+feature {NONE} -- Constants
+
+	New_line_tab: STRING = "%N%T"
 
 end

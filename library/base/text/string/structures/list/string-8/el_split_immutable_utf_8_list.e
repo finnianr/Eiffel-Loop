@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "9"
+	date: "2024-07-30 13:27:03 GMT (Tuesday 30th July 2024)"
+	revision: "10"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -24,6 +24,8 @@ inherit
 		end
 
 	EL_UTF_8_CONVERTER
+		rename
+			unicode_count as substring_unicode_count
 		export
 			{NONE} all
 		undefine
@@ -77,7 +79,7 @@ feature {NONE} -- Initialization
 
 feature -- Measurement
 
-	character_count: INTEGER
+	character_count, unicode_count: INTEGER
 		local
 			i: INTEGER
 		do
@@ -101,14 +103,29 @@ feature -- Measurement
 			end
 		end
 
-feature -- Measurement
-
 	item_index_of (uc: CHARACTER_32): INTEGER
 		-- index of `uc' relative to `item_start_index - 1'
 		-- 0 if `uc' does not occurr within item bounds
 		do
 			if attached cursor_8 (target_string) as c8 then
 				Result := Utf_8_sequence.character_index_of (uc, c8.area, item_lower - 1, item_upper - 1)
+			end
+		end
+
+feature -- Basic operations
+
+	append_lines_to (output: STRING_GENERAL)
+		local
+			i, start_index, end_index: INTEGER
+		do
+			if attached area as a then
+				from until i = a.count loop
+					if i > 0 then
+						output.append_code ({EL_ASCII}.Newline)
+					end
+					substring_8_into_string_general (target_string, a [i], a [i + 1], output)
+					i := i + 2
+				end
 			end
 		end
 
@@ -141,7 +158,7 @@ feature {NONE} -- Implementation
 
 	target_substring_count (start_index, end_index: INTEGER): INTEGER
 		do
-			Result := unicode_count (shared_target_substring (start_index, end_index))
+			Result := substring_unicode_count (shared_target_substring (start_index, end_index))
 		end
 
 end

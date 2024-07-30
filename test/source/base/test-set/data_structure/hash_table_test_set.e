@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 17:57:43 GMT (Sunday 21st July 2024)"
-	revision: "33"
+	date: "2024-07-30 12:16:10 GMT (Tuesday 30th July 2024)"
+	revision: "34"
 
 class
 	HASH_TABLE_TEST_SET
@@ -270,7 +270,7 @@ feature -- Test
 			end
 			if table_utf_8.has_key_8 ("currency_symbols") then
 				euro_name := "euro"; create euro_symbol.make_filled (Text.Euro_symbol, 1)
-				create currency_table.make_by_assignment (table_utf_8.found_item.to_string_32)
+				create currency_table.make_by_assignment (table_utf_8.found_item)
 
 				create utf_8_currency_assignment_list.make_with_lines (table_utf_8.found_utf_8_item)
 				assert ("indented", utf_8_currency_assignment_list.for_all (

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 12:13:55 GMT (Thursday 25th July 2024)"
-	revision: "58"
+	date: "2024-07-30 13:44:05 GMT (Tuesday 30th July 2024)"
+	revision: "59"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -164,14 +164,6 @@ feature -- Conversion
 			end
 		end
 
-	to_utf_8 (str: READABLE_STRING_32): STRING
-		do
-			if attached cursor (str) as c then
-				create Result.make (c.utf_8_byte_count)
-				c.append_to_utf_8 (Result)
-			end
-		end
-
 feature -- Factory
 
 	character_string (uc: CHARACTER_32): STRING_32
@@ -218,6 +210,13 @@ feature -- Adjust
 		end
 
 feature {NONE} -- Implementation
+
+	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_32)
+		local
+			u8: EL_UTF_8_CONVERTER
+		do
+			u8.substring_8_into_string_general (utf_8, 1, utf_8.count, output)
+		end
 
 	as_canonically_spaced (s: READABLE_STRING_32): STRING_32
 		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)

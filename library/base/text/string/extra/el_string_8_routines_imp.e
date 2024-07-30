@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 12:14:44 GMT (Thursday 25th July 2024)"
-	revision: "28"
+	date: "2024-07-30 13:42:38 GMT (Tuesday 30th July 2024)"
+	revision: "29"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -310,6 +310,13 @@ feature -- Adjust
 		end
 
 feature {NONE} -- Implementation
+
+	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_8)
+		local
+			u8: EL_UTF_8_CONVERTER
+		do
+			u8.substring_8_into_string_general (utf_8, 1, utf_8.count, output)
+		end
 
 	as_canonically_spaced (s: READABLE_STRING_8): STRING_8
 		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)

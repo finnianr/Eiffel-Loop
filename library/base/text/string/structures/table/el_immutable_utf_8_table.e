@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-16 16:37:48 GMT (Tuesday 16th January 2024)"
-	revision: "8"
+	date: "2024-07-30 13:54:56 GMT (Tuesday 30th July 2024)"
+	revision: "9"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -136,39 +136,9 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 
 	new_item (interval: INTEGER_64): ZSTRING
 		local
-			start_index, end_index, interval_count: INTEGER_32; ir: EL_INTERVAL_ROUTINES
-			split_on_tab_new_line: EL_SPLIT_IMMUTABLE_UTF_8_LIST
+			ir: EL_INTERVAL_ROUTINES; s: EL_ZSTRING_ROUTINES
 		do
-			start_index := ir.to_lower (interval); end_index := ir.to_upper (interval)
-			interval_count := end_index - start_index + 1
-
-			if interval_count = 0 then
-				create Result.make_empty
-				
-			elseif attached new_substring (start_index + has_indentation.to_integer, end_index) as substring then
-				if substring.is_empty then
-					create Result.make_empty
-
-				elseif substring.has ('%N') then
-					create split_on_tab_new_line.make_by_string (substring, New_line_tab)
-					create Result.make (split_on_tab_new_line.character_count + split_on_tab_new_line.count - 1)
-					if attached split_on_tab_new_line as list then
-						from list.start until list.after loop
-							if list.index > 1 then
-								Result.append_character ('%N')
-							end
-							Result.append_utf_8 (list.item)
-							list.forth
-						end
-					end
-
-				else
-					create Result.make_from_utf_8 (substring)
-				end
-			end
+			Result := s.new_from_utf_8_lines (manifest, ir.to_lower (interval), ir.to_upper (interval), has_indentation)
 		end
 
-feature {NONE} -- Constants
-
-	New_line_tab: STRING = "%N%T"
 end

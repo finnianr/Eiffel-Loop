@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 12:05:15 GMT (Thursday 25th July 2024)"
-	revision: "43"
+	date: "2024-07-30 12:34:30 GMT (Tuesday 30th July 2024)"
+	revision: "44"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -94,6 +94,14 @@ feature -- Access
 				else
 					Result := name_list.substring (1, 0)
 				end
+			end
+		end
+
+	to_utf_8 (str: READABLE_STRING_X): STRING
+		do
+			if attached cursor (str) as c then
+				create Result.make (c.utf_8_byte_count)
+				c.append_to_utf_8 (Result)
 			end
 		end
 
