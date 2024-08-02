@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:36:21 GMT (Friday 2nd August 2024)"
-	revision: "10"
+	date: "2024-08-02 16:42:43 GMT (Friday 2nd August 2024)"
+	revision: "11"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -86,7 +86,7 @@ feature -- Access
 
 	item_for_iteration: ZSTRING
 		do
-			create Result.make_from_utf_8 (utf_8_item_for_iteration)
+			Result := new_item (interval_item_for_iteration)
 		end
 
 	key_for_iteration: ZSTRING

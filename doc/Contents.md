@@ -2255,7 +2255,7 @@ Command switch: `-export_book`
 
 Command switch: `-export_www`
 
-[PYXIS_TRANSLATION_TREE_COMPILER_APP](https://github.com/finnianr/Eiffel-Loop/tool/eiffel/source/root/apps/pyxis_translation_tree_compiler_app.e) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](invalid-class-name).
+[PYXIS_TRANSLATION_TREE_COMPILER_APP](invalid-class-name) compiles tree of Pyxis translation files into multiple locale files named `locale.x` where `x` is a 2 letter country code. Does nothing if source files are all older than locale files. See class [EL_LOCALE_I](invalid-class-name).
 
 Command switch: `-compile_translations`
 
