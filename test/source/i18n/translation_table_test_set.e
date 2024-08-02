@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 8:45:49 GMT (Monday 29th July 2024)"
-	revision: "11"
+	date: "2024-08-01 16:40:40 GMT (Thursday 1st August 2024)"
+	revision: "12"
 
 class
-	PYXIS_TREE_TO_XML_COMPILER_TEST_SET
+	TRANSLATION_TABLE_TEST_SET
 
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
@@ -26,7 +26,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["compiler", agent test_compiler]
+				["compiler",		  agent test_compiler],
+				["immutable_table", agent test_immutable_table]
 			>>)
 		end
 
@@ -63,6 +64,31 @@ feature -- Tests
 			time_stamp := destination_path.modification_time
 			compiler.execute
 			assert ("file not changed", time_stamp = destination_path.modification_time)
+		end
+
+	test_immutable_table
+		-- TRANSLATION_TABLE_TEST_SET.test_immutable_table
+		local
+			translation_table: EL_TRANSLATION_TABLE; immutable_table: EL_IMMUTABLE_TRANSLATION_TABLE
+			pyxis_table: EL_PYXIS_ML_TRANSLATION_TABLE
+		do
+			across OS.file_list (work_area_data_dir, "*.pyx") as path loop
+				create pyxis_table.make_from_file (path.item)
+				across << Key_language, "de" >> as lang loop
+					lio.put_labeled_string (path.item.base, lang.item)
+					lio.put_new_line
+					create translation_table.make_from_table (lang.item, pyxis_table)
+					create immutable_table.make_from_table (lang.item, pyxis_table)
+					assert ("same count", translation_table.count = immutable_table.count)
+					across translation_table as table loop
+						if immutable_table.has_key_general (table.key) then
+							assert_same_string ("same translation", table.item, immutable_table.found_item)
+						else
+							failed (table.key + "found")
+						end
+					end
+				end
+			end
 		end
 
 feature {NONE} -- Implementation

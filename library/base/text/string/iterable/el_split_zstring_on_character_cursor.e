@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-08-01 11:44:43 GMT (Thursday 1st August 2024)"
+	revision: "8"
 
 class
 	EL_SPLIT_ZSTRING_ON_CHARACTER_CURSOR
@@ -22,6 +22,8 @@ inherit
 
 	EL_SHARED_ZSTRING_CODEC
 
+	EL_ZSTRING_CONSTANTS
+
 create
 	make
 
@@ -29,11 +31,16 @@ feature -- Basic operations
 
 	append_item_to (general: STRING_GENERAL)
 		do
-			if attached {ZSTRING} general as zstr then
+			if Empty_string.same_type (general) and then attached {ZSTRING} general as zstr then
 				zstr.append_substring (target, item_lower, item_upper)
 			else
 				item.append_to_general (general)
 			end
+		end
+
+	append_item_to_zstring (str: ZSTRING)
+		do
+			str.append_substring (target, item_lower, item_upper)
 		end
 
 feature {NONE} -- Implementation

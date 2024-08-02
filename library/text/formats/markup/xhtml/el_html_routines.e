@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 13:56:08 GMT (Monday 25th March 2024)"
-	revision: "28"
+	date: "2024-08-02 14:28:45 GMT (Friday 2nd August 2024)"
+	revision: "29"
 
 class
 	EL_HTML_ROUTINES
@@ -259,7 +259,7 @@ feature {NONE} -- Character Tables
 	Utf_8_character_entity_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
 --			note: nbsp requires quotes ' '
-			create Result.make_by_assignment ({STRING_32} "[
+			create Result.make_assignments ({STRING_32} "[
 				aacute := á
 				Aacute := Á
 				acirc := â

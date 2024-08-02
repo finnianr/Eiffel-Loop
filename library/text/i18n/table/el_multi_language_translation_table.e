@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-30 17:31:18 GMT (Tuesday 30th July 2024)"
-	revision: "4"
+	date: "2024-08-02 15:07:27 GMT (Friday 2nd August 2024)"
+	revision: "5"
 
 deferred class
 	EL_MULTI_LANGUAGE_TRANSLATION_TABLE
@@ -24,11 +24,9 @@ inherit
 			make_equal
 		end
 
-	EL_LOCALE_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	EL_LOCALE_CONSTANTS; EL_CHARACTER_32_CONSTANTS; EL_STRING_8_CONSTANTS
 
 	EL_SHARED_KEY_LANGUAGE
-
-	EL_STRING_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -59,7 +57,7 @@ feature -- Access
 		do
 			create Result.make (count // language_set.count)
 			from start until after loop
-				if language ~ language_for_iteration then
+				if iteration_item_is (language) then
 					Result.extend (key_for_iteration)
 				end
 				forth
@@ -97,25 +95,53 @@ feature -- Access
 			end
 		end
 
+feature -- Status query
+
+	iteration_item_is (language: STRING): BOOLEAN
+		do
+			if attached key_for_iteration as key
+				and then key.count > 3 and then key.item_8 (3) = '.'
+			then
+				Result := key.item_8 (1) = language [1] and key.item_8 (2) = language [2]
+			end
+		end
+
 feature -- Conversion
 
 	as_utf_8_manifest_for (language: STRING): STRING
 		-- textual representation encoded as UTF-8
 		-- 	key_1 := value_1
 		-- 	key_2 := value_2
+		local
+			start_index: INTEGER
 		do
 			create Result.make (manifest_byte_count_for (language))
 			from start until after loop
-				if language ~ language_for_iteration then
+				if iteration_item_is (language) then
 					if Result.count > 0 then
 						Result.append_character ('%N')
 					end
-					key_for_iteration.append_to_utf_8 (Result)
-					Result.append (Manifest_assignment) -- key := value
-					item_for_iteration.append_to_utf_8 (Result)
+					if attached key_for_iteration as key then
+						start_index := Result.count + 1
+						key.append_to_utf_8 (Result)
+					-- remove language prefix "en.", "de." etc
+						Result.remove_substring (start_index, start_index + 2)
+					end
+					Result.append_character (':')
+					if item_for_iteration.has ('%N') then
+						across item_for_iteration.split ('%N') as list loop
+							Result.append (New_line_tab)
+							list.item.append_to_utf_8 (Result)
+						end
+					else
+						Result.append (New_line_tab)
+						item_for_iteration.append_to_utf_8 (Result)
+					end
 				end
 				forth
 			end
+		ensure
+			calculated_correct_size: Result.capacity = Result.count
 		end
 
 feature -- Basic operations
@@ -167,6 +193,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	manifest_byte_count_for (language: STRING): INTEGER
+		local
+			text_count, line_count, new_line_count: INTEGER
+		do
+			from start until after loop
+				if iteration_item_is (language) and then attached item_for_iteration as item_text then
+					new_line_count := item_text.occurrences ('%N')
+					text_count := text_count + key_for_iteration.utf_8_byte_count + item_text.utf_8_byte_count - new_line_count - 3
+					line_count := new_line_count + 2
+				end
+				forth
+			end
+			Result := text_count + line_count * 2 - 1
+		end
+
 	quantifier_suffix (name: STRING): detachable STRING
 		local
 			index: INTEGER
@@ -174,22 +215,6 @@ feature {NONE} -- Implementation
 			index := Quantifier_names.index_of (name, 1)
 			if index > 0 then
 				Result := Number_suffix [index - 1]
-			end
-		end
-
-	manifest_byte_count_for (language: STRING): INTEGER
-		do
-			from start until after loop
-				if language ~ language_for_iteration then
-					Result := Result
-						+ key_for_iteration.utf_8_byte_count + Manifest_assignment.count
-						+ item_for_iteration.utf_8_byte_count + 1
-				end
-				forth
-			end
-			if count > 0 then
-			-- subtract 1 newline
-				Result := Result - 1
 			end
 		end
 
@@ -201,7 +226,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make_filled (' ', 2)
 		end
-		
-	Manifest_assignment: STRING = " := "
+
+	New_line_tab: STRING = "%N%T"
 
 end

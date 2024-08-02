@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-15 9:08:58 GMT (Saturday 15th July 2023)"
-	revision: "10"
+	date: "2024-08-02 12:35:07 GMT (Friday 2nd August 2024)"
+	revision: "11"
 
 deferred class
 	FEATURE_CONSTANTS
@@ -19,7 +19,7 @@ feature {NONE} -- Constants
 
 	Feature_expansion_table: EL_IMMUTABLE_STRING_8_TABLE
 		once
-			create Result.make ("[
+			create Result.make_comma_separated ("[
 				Access, ac,
 				Access attributes, aa,
 				Attributes, at,

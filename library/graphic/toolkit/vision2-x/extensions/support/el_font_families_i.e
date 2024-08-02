@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-08-02 14:17:14 GMT (Friday 2nd August 2024)"
+	revision: "6"
 
 deferred class
 	EL_FONT_FAMILIES_I
@@ -98,7 +98,7 @@ feature {NONE} -- Implementation
 						manifest.append_character_8 (',')
 						manifest.append_string_general (family.key)
 					end
-					create Result.make (manifest)
+					create Result.make_comma_separated (manifest)
 				end
 			end
 		end

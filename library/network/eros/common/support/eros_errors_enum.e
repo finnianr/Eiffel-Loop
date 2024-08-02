@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 8:32:32 GMT (Sunday 24th September 2023)"
-	revision: "8"
+	date: "2024-08-02 12:51:49 GMT (Friday 2nd August 2024)"
+	revision: "9"
 
 class
 	EROS_ERRORS_ENUM
@@ -43,7 +43,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make_by_indented ("[
+			create Result.make_field_map ("[
 				argument_type_mismatch:
 					Argument type in processing instruction call and routine tuple do not match
 				invalid_type:

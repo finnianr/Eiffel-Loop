@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-29 10:08:16 GMT (Monday 29th April 2024)"
-	revision: "6"
+	date: "2024-08-02 12:51:49 GMT (Friday 2nd August 2024)"
+	revision: "7"
 
 class
 	EL_FTP_SERVER_REPLY_ENUM
@@ -95,7 +95,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make_by_indented ("[
+			create Result.make_field_map ("[
 				about_to_open_data_connection:
 					File status okay; about to open data connection.
 				action_not_taken:

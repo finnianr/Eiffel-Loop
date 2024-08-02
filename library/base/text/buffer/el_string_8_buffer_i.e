@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-08-01 7:00:52 GMT (Thursday 1st August 2024)"
+	revision: "15"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -37,11 +37,7 @@ feature -- Access
 	copied_general_as_utf_8 (general: READABLE_STRING_GENERAL): STRING
 		do
 			Result := empty
-			if attached {ZSTRING} general as zstr then
-				zstr.append_to_utf_8 (Result)
-			else
-				shared_cursor (general).append_to_utf_8 (Result)
-			end
+			shared_cursor (general).append_to_utf_8 (Result)
 		end
 
 	copied_substring (str_8: READABLE_STRING_8; start_index, end_index: INTEGER): STRING

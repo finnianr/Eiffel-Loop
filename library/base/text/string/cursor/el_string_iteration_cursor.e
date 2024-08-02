@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 15:31:15 GMT (Monday 22nd July 2024)"
-	revision: "28"
+	date: "2024-08-01 7:01:07 GMT (Thursday 1st August 2024)"
+	revision: "29"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -139,6 +139,7 @@ feature -- Basic operations
 		local
 			i, i_upper: INTEGER; code_i: NATURAL
 		do
+			utf_8_out.grow (utf_8_out.count + utf_8_byte_count)
 			i_upper := area_last_index
 			if attached area as l_area and then attached Utf_8_sequence as utf_8 then
 				from i := area_first_index until i > i_upper loop

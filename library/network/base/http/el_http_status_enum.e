@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 10:44:05 GMT (Monday 22nd July 2024)"
-	revision: "20"
+	date: "2024-08-02 12:51:38 GMT (Friday 2nd August 2024)"
+	revision: "21"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -266,7 +266,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make_by_indented ("[
+			create Result.make_field_map ("[
 				continue:
 					Client can continue.
 				switching_protocols:

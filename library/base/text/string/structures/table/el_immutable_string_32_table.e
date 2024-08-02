@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-09 17:11:03 GMT (Tuesday 9th April 2024)"
-	revision: "12"
+	date: "2024-08-02 14:27:45 GMT (Friday 2nd August 2024)"
+	revision: "13"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -19,6 +19,7 @@ inherit
 	EL_IMMUTABLE_STRING_TABLE [STRING_32, IMMUTABLE_STRING_32]
 		rename
 			has_key_x as has_key_32,
+			shared_cursor as shared_cursor_32,
 			string as string_32
 		undefine
 			bit_count
@@ -30,10 +31,10 @@ inherit
 
 	EL_MODULE_STRING_32
 
-	EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_IMMUTABLE_32_MANAGER
 
 create
-	make, make_by_assignment, make_by_indented, make_empty, make_reversed
+	make_comma_separated, make_assignments, make_field_map, make_empty, make_reversed
 
 feature -- Status query
 
@@ -81,8 +82,4 @@ feature {NONE} -- Implementation
 			Result := manifest.shared_substring (start_index, end_index)
 		end
 
-	shared_cursor (str: IMMUTABLE_STRING_32): EL_STRING_ITERATION_CURSOR
-		do
-			Result := cursor_32 (str)
-		end
 end

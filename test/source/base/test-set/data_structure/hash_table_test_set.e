@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-30 14:49:58 GMT (Tuesday 30th July 2024)"
-	revision: "35"
+	date: "2024-08-02 14:30:16 GMT (Friday 2nd August 2024)"
+	revision: "36"
 
 class
 	HASH_TABLE_TEST_SET
@@ -140,7 +140,7 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
-				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_assignments,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.has_key_general
 			]"
 		local
@@ -148,7 +148,7 @@ feature -- Test
 			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 			symbol: STRING_32
 		do
-			create currency_name_table.make_by_assignment (Currency_name_manifest)
+			create currency_name_table.make_assignments (Currency_name_manifest)
 			across Currency_name_manifest.split ('%N') as split loop
 				if attached split.item as line then
 					symbol := line.substring (1, 1)
@@ -174,7 +174,7 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
-				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_assignments,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.has_key_general
 			]"
 		local
@@ -185,7 +185,7 @@ feature -- Test
 			across Feature_expansion_table as table loop
 				assigment_manifest.extend (table.key + " := " + table.item)
 			end
-			create feature_expansion_table_2.make_by_assignment (assigment_manifest.joined_lines)
+			create feature_expansion_table_2.make_assignments (assigment_manifest.joined_lines)
 			if Feature_expansion_table.count = feature_expansion_table_2.count then
 				across Feature_expansion_table as table loop
 					key_array := << table.key, table.key.to_string_8, table.key.to_string_32, as_zstring (table.key) >>
@@ -239,8 +239,8 @@ feature -- Test
 		-- HASH_TABLE_TEST_SET.test_immutable_utf_8_table
 		note
 			testing: "[
-				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_assignment,
-				covers/{EL_IMMUTABLE_STRING_TABLE}.make_by_indented,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_assignments,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make_reversed,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.key_for_iteration,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.item_for_iteration,
@@ -259,7 +259,7 @@ feature -- Test
 			utf_8_currency_assignment_list: EL_STRING_8_LIST
 			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
-			create table_utf_8.make_by_indented (Currency_manifest)
+			create table_utf_8.make_field_map (Currency_manifest)
 
 			create zstring_table.make (Currency_manifest)
 			across zstring_table as table loop
@@ -272,7 +272,7 @@ feature -- Test
 			end
 			if table_utf_8.has_key_8 ("currency_symbols") then
 				euro_name := "euro"; create euro_symbol.make_filled (Text.Euro_symbol, 1)
-				create currency_table.make_by_assignment (table_utf_8.found_item)
+				create currency_table.make_assignments (table_utf_8.found_item)
 
 				create utf_8_currency_assignment_list.make_with_lines (table_utf_8.found_utf_8_item)
 				assert ("indented", utf_8_currency_assignment_list.for_all (
@@ -280,7 +280,7 @@ feature -- Test
 				)
 
 				utf_8_currency_assignment_list.unindent (1)
-				create currency_table_utf_8.make_by_assignment_utf_8 (utf_8_currency_assignment_list.joined_lines)
+				create currency_table_utf_8.make_assignments_utf_8 (utf_8_currency_assignment_list.joined_lines)
 
 				if currency_table.has_key_general (euro_name) and then
 					attached currency_table.found_item as symbol

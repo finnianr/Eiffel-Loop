@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-30 14:02:49 GMT (Tuesday 30th July 2024)"
-	revision: "71"
+	date: "2024-08-02 13:27:51 GMT (Friday 2nd August 2024)"
+	revision: "72"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -55,22 +55,15 @@ feature -- Factory
 			append_utf_8_to (utf_8, Result)
 		end
 
-	new_from_utf_8_lines (indented_utf_8: IMMUTABLE_STRING_8; start_index, end_index: INTEGER_32; first_is_tab: BOOLEAN): STRING_X
+	new_from_utf_8_lines (indented_utf_8: IMMUTABLE_STRING_8; start_index, end_index: INTEGER_32): STRING_X
 		-- new string conforming to `STRING_X' consisting of decoded substring of `indented_utf_8'
 		-- from `start_index' to `end_index' and unindented by one tab
-		local
-			count: INTEGER_32
 		do
-			count := end_index - start_index + 1
-
-			if count = 0 then
+			if end_index - start_index + 1 = 0 then
 				create Result.make (0)
 
-			elseif attached indented_utf_8.shared_substring (start_index + first_is_tab.to_integer, end_index) as substring then
-				if substring.is_empty then
-					create Result.make (0)
-
-				elseif substring.has ('%N') then
+			elseif attached indented_utf_8.shared_substring (start_index + 1, end_index) as substring then
+				if substring.has ('%N') then
 					Split_on_tab_new_line.fill_by_string (substring, New_line_tab, 0)
 					create Result.make (Split_on_tab_new_line.unicode_count + split_on_tab_new_line.count - 1)
 					Split_on_tab_new_line.append_lines_to (Result)

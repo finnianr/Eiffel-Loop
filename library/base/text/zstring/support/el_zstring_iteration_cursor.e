@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 9:10:20 GMT (Sunday 14th April 2024)"
-	revision: "28"
+	date: "2024-08-01 6:52:27 GMT (Thursday 1st August 2024)"
+	revision: "29"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -20,7 +20,8 @@ inherit
 		export
 			{NONE} fill_z_codes
 		redefine
-			append_to_string_8, append_to_string_32, fill_z_codes, utf_8_byte_count, write_utf_8_to
+			append_to_string_8, append_to_string_32, append_to_utf_8,
+			fill_z_codes, utf_8_byte_count, write_utf_8_to
 		end
 
 	STRING_32_ITERATION_CURSOR
@@ -101,6 +102,11 @@ feature -- Basic operations
 	append_to_string_32 (str: STRING_32)
 		do
 			target.append_to_string_32 (str)
+		end
+
+	append_to_utf_8 (utf_8_out: STRING_8)
+		do
+			target.append_to_utf_8 (utf_8_out)
 		end
 
 	fill_z_codes (destination: STRING_32)
