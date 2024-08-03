@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 13:19:45 GMT (Saturday 3rd August 2024)"
-	revision: "7"
+	date: "2024-08-03 13:28:11 GMT (Saturday 3rd August 2024)"
+	revision: "8"
 
 deferred class
 	EL_FONT_FAMILIES_I
@@ -69,7 +69,7 @@ feature -- Measurement
 		do
 			table_size := Eiffel.deep_physical_size (property_table)
 			map_size := Eiffel.deep_physical_size (new_font_families_map)
-			Result := (map_size - table_size) * 100 // table_size
+			Result := (map_size - table_size) * 100 // map_size
 		end
 
 feature -- Status query
