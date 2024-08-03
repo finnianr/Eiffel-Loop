@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 9:14:23 GMT (Saturday 3rd August 2024)"
-	revision: "22"
+	date: "2024-08-03 10:07:00 GMT (Saturday 3rd August 2024)"
+	revision: "23"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -374,7 +374,7 @@ note
 	notes: "[
 		The ''manifest'' string can be formatted in three ways
 
-		1. Colon delimted keys followed by item lines as for example:
+		1. Colon delimited keys followed by item lines as for example:
 
 			key_1:
 				line 1..

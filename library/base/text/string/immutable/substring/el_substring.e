@@ -1,10 +1,19 @@
 note
 	description: "[
-		Text cell for a substring of a string conforming to ${READABLE_STRING_GENERAL}.
-		Intended for use with ${EL_REFLECTIVE_STRING_TABLE}.
+		Substring text item of a shared UTF-8 encoded table manifest formatted as colon delimited keys
+		as for example:
+
+			key_1:
+				line 1..
+				line 2..
+			key_2:
+				line 1..
+				line 2..
+			..
+
 	]"
 	notes: "[
-		Used by class ${EL_REFLECTIVE_STRING_TABLE}
+		Used to implement class ${EL_REFLECTIVE_STRING_TABLE}.
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 9:56:56 GMT (Saturday 3rd August 2024)"
-	revision: "2"
+	date: "2024-08-03 10:10:03 GMT (Saturday 3rd August 2024)"
+	revision: "3"
 
 deferred class
 	EL_SUBSTRING [S -> STRING_GENERAL create make end]
@@ -51,7 +60,7 @@ feature -- Access
 		do
 			Result := utf_8.unicode_substring_count (utf_8_manifest, start_index + 1, end_index)
 			if attached shared_cursor_8 (utf_8_manifest) as cursor then
-			-- subtract count of leading tabs
+			-- subtract count of leading tabs by counting lines
 				Result := Result - cursor.occurrences_in_bounds ('%N', start_index + 1, end_index)
 			end
 		end

@@ -1,6 +1,6 @@
 note
 	description: "[
-		Map text fields conforming to ${EL_SUB [READABLE_STRING_GENERAL]} to a value in a
+		Map text fields conforming to ${EL_SUBSTRING [STRING_GENERAL]} to a value in a
 		single manifest string formatted as follows:
 
 			key_1:
@@ -12,14 +12,18 @@ note
 				etc
 
 	]"
+	descendants: "[
+			EL_REFLECTIVE_STRING_TABLE*
+				${HTTP_STATUS_TABLE}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 9:30:06 GMT (Saturday 3rd August 2024)"
-	revision: "3"
+	date: "2024-08-03 10:11:09 GMT (Saturday 3rd August 2024)"
+	revision: "4"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
