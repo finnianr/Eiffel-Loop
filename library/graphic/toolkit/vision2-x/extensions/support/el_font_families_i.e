@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:17:14 GMT (Friday 2nd August 2024)"
-	revision: "6"
+	date: "2024-08-03 13:19:45 GMT (Saturday 3rd August 2024)"
+	revision: "7"
 
 deferred class
 	EL_FONT_FAMILIES_I
@@ -20,7 +20,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_TEXT
+	EL_MODULE_EIFFEL; EL_MODULE_TEXT
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
@@ -57,6 +57,19 @@ feature -- Access
 			end
 			utf_8_list.trim
 			create Result.make (utf_8_list)
+		end
+
+feature -- Measurement
+
+	space_saving_percent: INTEGER
+		-- approx percentage memory saving by using `property_table' representation
+		-- instead of `new_font_families_map'
+		local
+			table_size, map_size: INTEGER
+		do
+			table_size := Eiffel.deep_physical_size (property_table)
+			map_size := Eiffel.deep_physical_size (new_font_families_map)
+			Result := (map_size - table_size) * 100 // table_size
 		end
 
 feature -- Status query

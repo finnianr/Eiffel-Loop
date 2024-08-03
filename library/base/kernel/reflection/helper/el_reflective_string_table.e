@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 10:11:09 GMT (Saturday 3rd August 2024)"
-	revision: "4"
+	date: "2024-08-03 13:00:20 GMT (Saturday 3rd August 2024)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -36,8 +36,6 @@ inherit
 			make_default as make_reflected
 		export
 			{NONE} all
-		redefine
-			new_instance_functions
 		end
 
 	STRING_HANDLER undefine is_equal end
@@ -82,16 +80,6 @@ feature {NONE} -- Field tests
 	is_substring_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
 			Result := field.conforms_to (EL_SUB_type)
-		end
-
-	new_instance_functions: like Default_initial_values
-		-- array of functions returning a new value for result type
-		do
-			create Result.make_from_array (<<
-				agent: EL_SUBSTRING_8 do create Result.make_empty end,
-				agent: EL_SUBSTRING_32 do create Result.make_empty end,
-				agent: EL_ZSUBSTRING do create Result.make_empty end
-			>>)
 		end
 
 feature {NONE} -- Deferred

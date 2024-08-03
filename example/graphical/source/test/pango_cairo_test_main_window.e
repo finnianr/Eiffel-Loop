@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-11 9:53:34 GMT (Monday 11th March 2024)"
-	revision: "35"
+	date: "2024-08-03 13:23:37 GMT (Saturday 3rd August 2024)"
+	revision: "36"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -304,6 +304,9 @@ feature {NONE} -- Implementation
 
 	display_fonts
 		do
+			lio.put_integer_field ("EL_FONT_FAMILIES_I memory saving", Text.Font_families.space_saving_percent)
+			lio.put_character ('%%')
+			lio.put_new_line_x2
 			lio.put_labeled_string ("Selected family", font_family)
 			lio.put_new_line
 			across new_font_query as family loop

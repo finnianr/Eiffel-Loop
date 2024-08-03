@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 8:51:23 GMT (Saturday 3rd August 2024)"
-	revision: "55"
+	date: "2024-08-03 12:59:55 GMT (Saturday 3rd August 2024)"
+	revision: "56"
 
 class
 	REFLECTION_TEST_SET
@@ -265,7 +265,10 @@ feature -- Tests
 
 	test_object_initialization_from_camel_case_table
 		note
-			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table, covers/{EL_CAMEL_CASE_TRANSLATER}.imported"
+			testing: "[
+				covers/{EL_SETTABLE_FROM_STRING}.make_from_table,
+				covers/{EL_CAMEL_CASE_TRANSLATER}.imported
+			]"
 		local
 			country: CAMEL_CASE_COUNTRY; table: like Country_table
 		do
@@ -356,7 +359,8 @@ feature -- Tests
 				covers/{EL_SUB}.lines
 			]"
 		local
-			table: HTTP_STATUS_TABLE
+			table: HTTP_STATUS_TABLE; space_saved_percent: INTEGER
+			enum_size, manifest_size: INTEGER
 		do
 			create table.make_default
 			assert_same_http_status (table.ok, Http_status.ok)
@@ -364,6 +368,14 @@ feature -- Tests
 			assert_same_http_status (table.continue, Http_status.continue)
 			assert_same_http_status (table.not_acceptable, Http_status.not_acceptable)
 
+			manifest_size := Eiffel.deep_physical_size (table)
+			enum_size := Eiffel.deep_physical_size (Http_status)
+			space_saved_percent := (enum_size - manifest_size) * 100 // enum_size
+			assert ("40%% memory saving", space_saved_percent = 40)
+
+			lio.put_integer_field ("Memory saving", space_saved_percent)
+			lio.put_character ('%%')
+			lio.put_new_line
 		end
 
 	test_set_from_other

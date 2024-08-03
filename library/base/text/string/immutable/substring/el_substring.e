@@ -21,14 +21,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 10:10:03 GMT (Saturday 3rd August 2024)"
-	revision: "3"
+	date: "2024-08-03 12:58:13 GMT (Saturday 3rd August 2024)"
+	revision: "4"
 
 deferred class
 	EL_SUBSTRING [S -> STRING_GENERAL create make end]
 
 inherit
-	ANY
+	EL_MAKEABLE
+		rename
+			make as make_empty
+		end
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 		export
