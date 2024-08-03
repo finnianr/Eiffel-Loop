@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 15:40:08 GMT (Monday 22nd July 2024)"
-	revision: "54"
+	date: "2024-08-03 8:51:23 GMT (Saturday 3rd August 2024)"
+	revision: "55"
 
 class
 	REFLECTION_TEST_SET
@@ -428,7 +428,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	assert_same_http_status (status: EL_SUB [STRING]; status_code: NATURAL_16)
+	assert_same_http_status (status: EL_SUBSTRING_8; status_code: NATURAL_16)
 		local
 			string, code_string: STRING; code: NATURAL_16; s: EL_STRING_8_ROUTINES
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-01 16:40:40 GMT (Thursday 1st August 2024)"
-	revision: "12"
+	date: "2024-08-03 6:08:12 GMT (Saturday 3rd August 2024)"
+	revision: "13"
 
 class
 	TRANSLATION_TABLE_TEST_SET
@@ -68,6 +68,12 @@ feature -- Tests
 
 	test_immutable_table
 		-- TRANSLATION_TABLE_TEST_SET.test_immutable_table
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_TRANSLATION_TABLE}.make_from_table,
+				covers/{EL_MULTI_LANGUAGE_TRANSLATION_TABLE}.as_utf_8_manifest_for,
+				covers/{EL_IMMUTABLE_UTF_8_TABLE}.make_utf_8
+			]"
 		local
 			translation_table: EL_TRANSLATION_TABLE; immutable_table: EL_IMMUTABLE_TRANSLATION_TABLE
 			pyxis_table: EL_PYXIS_ML_TRANSLATION_TABLE

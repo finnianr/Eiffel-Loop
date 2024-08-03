@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 15:53:48 GMT (Monday 22nd July 2024)"
-	revision: "2"
+	date: "2024-08-03 9:30:06 GMT (Saturday 3rd August 2024)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -36,37 +36,34 @@ inherit
 			new_instance_functions
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES -- new_instance_functions
+	STRING_HANDLER undefine is_equal end
 
 feature {NONE} -- Initialization
 
-	make (a_table_text: READABLE_STRING_GENERAL)
+	make (table_text: READABLE_STRING_GENERAL)
 		local
-			key_value_map_list: EL_TABLE_INTERVAL_MAP_LIST; ir: EL_INTERVAL_ROUTINES
+			utf_8_table: EL_IMMUTABLE_UTF_8_TABLE; ir: EL_INTERVAL_ROUTINES
 			start_index, end_index: INTEGER_32; compact_interval: INTEGER_64
+			s: EL_STRING_8_ROUTINES
 		do
-			table_text := a_table_text
 			make_reflected
-			create key_value_map_list.make (a_table_text)
+			if attached {STRING_8} table_text as str_8 and then s.is_ascii_string_8 (str_8) then
+				create utf_8_table.make_field_map_utf_8 (str_8)
+			else
+				create utf_8_table.make_field_map (table_text)
+			end
 
-			across String_8_scope as scope loop
-				if attached field_table as table and then attached scope.best_item (40) as name
-					and then attached key_value_map_list as list
-				then
-					from list.start until list.after loop
-						start_index := ir.to_lower (list.item_key); end_index := ir.to_upper (list.item_key)
-						name.wipe_out
-						name.append_substring_general (a_table_text, start_index, end_index)
-						if field_table.has_key_8 (name)
-							and then attached field_table.found_item as field
-							and then attached {EL_SUB [STRING_GENERAL]} field.value (Current) as field_value
-						then
-							compact_interval := list.item_value
-							start_index := ir.to_lower (compact_interval); end_index := ir.to_upper (compact_interval)
-							field_value.set_string (a_table_text, start_index, end_index)
-						end
-						list.forth
+			if attached utf_8_table as table then
+				from table.start until table.after loop
+					if field_table.has_key_8 (table.utf_8_key_for_iteration)
+						and then attached field_table.found_item as field
+						and then attached {EL_SUBSTRING [STRING_GENERAL]} field.value (Current) as field_value
+					then
+						compact_interval := table.interval_item_for_iteration
+						start_index := ir.to_lower (compact_interval); end_index := ir.to_upper (compact_interval)
+						field_value.set_string (table.manifest, start_index, end_index)
 					end
+					table.forth
 				end
 			end
 		end
@@ -87,9 +84,9 @@ feature {NONE} -- Field tests
 		-- array of functions returning a new value for result type
 		do
 			create Result.make_from_array (<<
-				agent: EL_SUB [STRING_8] do create Result.make_empty end,
-				agent: EL_SUB [STRING_32] do create Result.make_empty end,
-				agent: EL_SUB [ZSTRING] do create Result.make_empty end
+				agent: EL_SUBSTRING_8 do create Result.make_empty end,
+				agent: EL_SUBSTRING_32 do create Result.make_empty end,
+				agent: EL_ZSUBSTRING do create Result.make_empty end
 			>>)
 		end
 
@@ -99,14 +96,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-feature {NONE} -- Internal attributes
-
-	table_text: READABLE_STRING_GENERAL
-
 feature {NONE} -- Constants
 
 	EL_SUB_type: INTEGER
 		once
-			Result := ({EL_SUB [STRING_GENERAL]}).type_id
+			Result := ({EL_SUBSTRING [STRING_GENERAL]}).type_id
 		end
 end

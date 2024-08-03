@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:30:16 GMT (Friday 2nd August 2024)"
-	revision: "36"
+	date: "2024-08-03 6:04:11 GMT (Saturday 3rd August 2024)"
+	revision: "37"
 
 class
 	HASH_TABLE_TEST_SET
@@ -377,9 +377,8 @@ feature -- Test
 	test_string_general_table
 		-- HASH_TABLE_TEST_SET.test_string_general_table
 		local
-			table: EL_STRING_GENERAL_TABLE [INTEGER]
 			key_list, search_key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
-			key: READABLE_STRING_GENERAL
+			table: EL_STRING_GENERAL_TABLE [INTEGER]; key: READABLE_STRING_GENERAL
 		do
 			create table.make_size (3)
 			across Currency_name_manifest.split ('%N') as line loop

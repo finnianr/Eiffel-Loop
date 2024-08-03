@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-30 13:23:33 GMT (Tuesday 30th July 2024)"
-	revision: "11"
+	date: "2024-08-03 10:00:17 GMT (Saturday 3rd August 2024)"
+	revision: "12"
 
 expanded class
 	EL_UTF_8_CONVERTER
@@ -103,6 +103,19 @@ feature -- Measurement
 		do
 			if attached cursor_8 (s) as c then
 				Result := array_unicode_count (c.area, c.area_first_index, c.area_last_index)
+			end
+		end
+
+	frozen unicode_substring_count (s: READABLE_STRING_8; start_index, end_index: INTEGER): INTEGER
+		require
+			valid_start_index: s.valid_index (start_index)
+			valid_end_index: end_index >= start_index - 1 and end_index <= s.count
+		local
+			first_index: INTEGER
+		do
+			if attached cursor_8 (s) as c then
+				first_index := c.area_first_index + start_index - 1
+				Result := array_unicode_count (c.area, first_index, first_index + end_index - start_index)
 			end
 		end
 

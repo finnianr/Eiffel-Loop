@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:50:55 GMT (Friday 2nd August 2024)"
-	revision: "21"
+	date: "2024-08-03 9:14:23 GMT (Saturday 3rd August 2024)"
+	revision: "22"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -356,7 +356,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-feature {EL_IMMUTABLE_STRING_TABLE} -- Internal attributes
+feature {STRING_HANDLER} -- Internal attributes
 
 	manifest: IMMUTABLE;
 

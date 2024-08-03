@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 13:27:51 GMT (Friday 2nd August 2024)"
-	revision: "72"
+	date: "2024-08-03 7:01:41 GMT (Saturday 3rd August 2024)"
+	revision: "73"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -63,10 +63,10 @@ feature -- Factory
 				create Result.make (0)
 
 			elseif attached indented_utf_8.shared_substring (start_index + 1, end_index) as substring then
-				if substring.has ('%N') then
-					Split_on_tab_new_line.fill_by_string (substring, New_line_tab, 0)
-					create Result.make (Split_on_tab_new_line.unicode_count + split_on_tab_new_line.count - 1)
-					Split_on_tab_new_line.append_lines_to (Result)
+				if substring.has ('%N') and then attached Split_on_tab_new_line as utf_8_list then
+					utf_8_list.fill_by_string (substring, New_line_tab, 0)
+					create Result.make (utf_8_list.unicode_count + utf_8_list.count - 1)
+					utf_8_list.append_lines_to (Result)
 				else
 					Result := new_from_utf_8 (substring)
 				end
