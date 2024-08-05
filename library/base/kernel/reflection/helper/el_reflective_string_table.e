@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 15:35:54 GMT (Saturday 3rd August 2024)"
-	revision: "6"
+	date: "2024-08-04 6:51:00 GMT (Sunday 4th August 2024)"
+	revision: "7"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -51,16 +51,14 @@ feature {NONE} -- Initialization
 		local
 			utf_8_table: EL_IMMUTABLE_UTF_8_TABLE; ir: EL_INTERVAL_ROUTINES
 			start_index, end_index: INTEGER_32; compact_interval: INTEGER_64
-			s: EL_STRING_8_ROUTINES; manifest_text: STRING_8
+			s: EL_STRING_8_ROUTINES
 		do
 			make_reflected
 			if attached {STRING_8} table_text as str_8 and then s.is_ascii_string_8 (str_8) then
-				manifest_text := str_8
-			elseif attached shared_cursor (table_text) as cursor then
-				create manifest_text.make_empty
-				cursor.append_to_utf_8 (manifest_text)
+				create utf_8_table.make_field_map_utf_8 (str_8)
+			else
+				create utf_8_table.make_field_map (table_text)
 			end
-			create utf_8_table.make_field_map_utf_8 (manifest_text)
 
 			if attached utf_8_table as table then
 				from table.start until table.after loop
@@ -70,7 +68,7 @@ feature {NONE} -- Initialization
 					then
 						compact_interval := table.interval_item_for_iteration
 						start_index := ir.to_lower (compact_interval); end_index := ir.to_upper (compact_interval)
-						field_value.set_area (manifest_text.area, start_index - 1, end_index - 1)
+						field_value.set_string (table.manifest, start_index, end_index)
 					end
 					table.forth
 				end

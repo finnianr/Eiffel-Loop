@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 16:42:43 GMT (Friday 2nd August 2024)"
-	revision: "11"
+	date: "2024-08-04 7:24:56 GMT (Sunday 4th August 2024)"
+	revision: "12"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -153,7 +153,7 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 			start_index := to_lower (interval); end_index := to_upper (interval)
 			inspect format
 				when Fm_indented, Fm_indented_eiffel then
-					Result := s.new_from_utf_8_lines (manifest, start_index, end_index)
+					Result := s.new_from_utf_8_lines (manifest, start_index, end_index, True)
 			else
 				create Result.make (end_index - start_index + 1)
 				Result.append_utf_8 (manifest.shared_substring (start_index, end_index))

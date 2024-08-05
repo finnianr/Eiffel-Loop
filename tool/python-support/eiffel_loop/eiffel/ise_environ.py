@@ -6,6 +6,7 @@
 #	revision: "0.1"
 
 import os
+import platform as os_platform
 
 from eiffel_loop.os import path
 from eiffel_loop.os import environ as os_environ
@@ -44,6 +45,12 @@ class ISE_ENVIRON (object):
 		return path.join ('spec', self.platform)
 
 	# Status query
+
+	def compiling_x86_on_x64 (self):
+		# true if compiling a 32 bit application on a 64 bit machine
+
+		result = self.is_32_bit_platform () and os_platform.machine () == 'AMD64'
+		return result
 
 	def is_32_bit_platform (self):
 		return self.platform == self.Platform_32_bit
@@ -113,7 +120,6 @@ class ISE_ENVIRON (object):
 				array = bytearray (vc_version)
 				array.insert (len (array) - 1, '.')
 				self.msvc_version = str (array)
-
 
 # end class ISE_ENVIRON
 

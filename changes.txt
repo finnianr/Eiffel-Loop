@@ -745,3 +745,6 @@ EL_REFLECTIVE_STRING_TABLE is new and EL_CASE.Sentence is new
 Thu 25th Jul 2024, 19:38:19
 Completion of EL_TRANSLATION_TABLE for Pyxis and XML
 
+Sat 3rd Aug 2024, 16:04:46
+Implemented EL_SUBSTRING using UTF-8 encoded SPECIAL array
+

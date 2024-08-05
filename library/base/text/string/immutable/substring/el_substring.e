@@ -21,7 +21,7 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 15:58:54 GMT (Saturday 3rd August 2024)"
+	date: "2024-08-04 7:24:48 GMT (Sunday 4th August 2024)"
 	revision: "5"
 
 deferred class
@@ -40,23 +40,21 @@ inherit
 
 	EL_STRING_BIT_COUNTABLE [S]
 
-	EL_SHARED_IMMUTABLE_8_MANAGER
-
 feature {NONE} -- Initialization
 
 	make_empty
 		do
-			utf_8_area := Empty_area
+			utf_8_manifest := Empty_text
 		end
 
 feature -- Element change
 
-	make, set_area (a_utf_8_area: like utf_8_area; a_start_index, a_end_index: INTEGER)
+	make, set_string (a_utf_8_manifest: IMMUTABLE_STRING_8; a_start_index, a_end_index: INTEGER)
 		require
-			valid_start_index: a_utf_8_area.valid_index (a_start_index)
-			valid_end_index: a_end_index >= a_start_index implies a_utf_8_area.valid_index (a_end_index)
+			valid_start_index: a_utf_8_manifest.valid_index (a_start_index)
+			valid_end_index: a_end_index >= a_start_index implies a_utf_8_manifest.valid_index (a_end_index)
 		do
-			utf_8_area := a_utf_8_area; start_index := a_start_index; end_index := a_end_index
+			utf_8_manifest := a_utf_8_manifest; start_index := a_start_index; end_index := a_end_index
 		end
 
 feature -- Access
@@ -64,19 +62,12 @@ feature -- Access
 	count: INTEGER
 		-- count of characters omitting leading tab
 		local
-			utf_8: EL_UTF_8_CONVERTER; i: INTEGER
+			utf_8: EL_UTF_8_CONVERTER
 		do
-			if attached utf_8_area as area then
-				Result := utf_8.array_unicode_count (area, start_index + 1, end_index)
+			Result := utf_8.unicode_substring_count (utf_8_manifest, start_index + 1, end_index)
+			if attached shared_cursor_8 (utf_8_manifest) as cursor then
 			-- subtract count of leading tabs by counting lines
-				from i := start_index + 1 until i > end_index loop
-					inspect area [i]
-						when '%N' then
-							Result := Result - 1
-					else
-					end
-					i := i + 1
-				end
+				Result := Result - cursor.occurrences_in_bounds ('%N', start_index + 1, end_index)
 			end
 		end
 
@@ -88,8 +79,7 @@ feature -- Access
 	string, str: S
 		-- substring of `utf_8_manifest' defined by `start_index' and `end_index'
 		do
-			Immutable_8.set_item (utf_8_area, start_index + 1, end_index - start_index)
-			Result := string_x.new_unindented_utf_8 (Immutable_8.item)
+			Result := string_x.new_from_utf_8_lines (utf_8_manifest, start_index, end_index, True)
 		ensure
 			valid_count: Result.count = count
 		end
@@ -103,13 +93,11 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	end_index: INTEGER
-		-- zero based index into `utf_8_area'
 
 	start_index: INTEGER
-		-- zero based index into `utf_8_area'
 
-	utf_8_area: SPECIAL [CHARACTER]
-		-- shared manifest area with format
+	utf_8_manifest: IMMUTABLE_STRING_8
+		-- shared manifest string with format
 
 		-- 	key_1:
 		--			line 1..
@@ -121,8 +109,8 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Empty_area: SPECIAL [CHARACTER]
+	Empty_text: IMMUTABLE_STRING_8
 		once
-			create Result.make_empty (0)
+			create Result.make_empty
 		end
 end

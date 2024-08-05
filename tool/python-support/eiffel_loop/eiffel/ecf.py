@@ -6,11 +6,11 @@
 #	revision: "0.1"
 
 import string, os, sys, re
-import platform as os_platform
 
 from string import Template
 from glob import glob
 from os import path
+import platform as os_platform
 
 from eiffel_loop.eiffel import ise_environ
 
@@ -30,10 +30,7 @@ global Build_info_class_template, ise
 ise = ise_environ.shared
 
 def programs_suffix ():
-	if sys.platform == 'win32':
-		result = '.exe'
-	else:
-		result = ''
+	result = '.exe' if sys.platform == 'win32' else ''
 	return result
 
 def expanded_path (a_path):
@@ -52,16 +49,11 @@ def is_platform_windows ():
 	return os.name == 'nt'
 
 def platform_name ():
-	if is_platform_unix ():
-		result = 'unix'
-	else:
-		result = 'windows'
+	result = 'unix' if is_platform_unix () else 'windows'
 	return result
 
 def opposing_platform (value):
-	result = 'unix'
-	if value == result:
-		result = 'windows'
+	result = 'unix' if value == 'windows' else 'windows'
 
 	return result
 
@@ -227,8 +219,8 @@ class EXTERNAL_OBJECT (LIBRARY):
 
 # Status query
 	def matches_multithreaded (self, platform):
-		return self.platform == platform and self.is_multithreaded
-
+		result = self.platform == platform and self.is_multithreaded
+		return result
 
 class SYSTEM_INFO (object):
 
@@ -251,10 +243,7 @@ class SYSTEM_INFO (object):
 		return self.__new_cluster_list ()
 
 	def exe_name (self):
-		if is_platform_windows ():
-			result = self.name + '.exe'
-		else:
-			result = self.name
+		result = self.name + '.exe' if is_platform_windows () else self.name
 		return result
 
 	def type (self):
@@ -292,10 +281,9 @@ class SYSTEM_INFO (object):
 		if is_platform_unix ():
 			result = path.join ('/opt', installation_sub_directory)
 		else:
-			suffix = ''
 			# In case you are compiling a 32 bit version on a 64 bit machine.
-			if ise.is_32_bit_platform () and os_platform.machine () == 'AMD64':
-				suffix = ' (x86)'
+			suffix = ' (x86)' if ise.compiling_x86_on_x64 () else ''
+
 			result = path.join ('c:\\Program files' + suffix, installation_sub_directory)
 			
 		return result
@@ -332,10 +320,8 @@ class EIFFEL_CONFIG_FILE (object):
 		
 		self.uuid = system.uuid
 		self.name = system.name
-		if ise_platform:
-			self.platform = ise_platform
-		else:
-			self.platform = system.platform
+
+		self.platform = ise_platform if ise_platform else system.platform
 
 		self.keep_assertions = False
 		self.root_class_path = None
@@ -417,6 +403,8 @@ class EIFFEL_CONFIG_FILE (object):
 				result.append (external)
 		return result
 
+# end class EIFFEL_CONFIG_FILE
+
 class FREEZE_BUILD (object):
 	
 	Build_dir = 'build'
@@ -424,6 +412,7 @@ class FREEZE_BUILD (object):
 	Dot_manifest = '.manifest'
 	Freeze = '-freeze'
 	Keep = '-keep'
+	Manifest_template_xml = 'manifest-template.xml'
 
 # Initialization
 	def __init__ (self, ecf, project_py):
@@ -535,9 +524,6 @@ class FREEZE_BUILD (object):
 	def resources_destination (self):
 		return self.system.installation_dir ()
 
-# Status query
-	
-
 # Basic operations
 	def install_resources (self):
 		installation_dir = self.system.installation_dir ()
@@ -607,16 +593,7 @@ class FREEZE_BUILD (object):
 		self.file_system.copy_file (exe_path, bin_dir)
 
 		if is_platform_windows ():
-			# Copy Windows manifest file
-			manifest_name = self.exe_name + self.Dot_manifest
-			if path.exists (manifest_name):
-			# use one in current diretory
-				self.file_system.copy_file (manifest_name, bin_dir)
-			else:
-			# use one in F_code
-				manifest_path = path.join (self.code_dir (), manifest_name)
-				if path.exists (manifest_path):
-					self.file_system.copy_file (manifest_path, bin_dir)
+			self.__copy_write_exe_manifest (bin_dir)
 
 		self.write_io ('Copying shared object libraries\n')
 		shared_objects = self.__shared_object_libraries ()
@@ -624,11 +601,7 @@ class FREEZE_BUILD (object):
 			self.file_system.copy_file (so, bin_dir)
 
 		if shared_objects and is_platform_unix ():
-			install_bin_dir = path.join (self.system.installation_dir (), 'bin')
-			script_path = path.join (bin_dir, self.exe_name + '.sh')
-			f = open (script_path, 'w')
-			f.write (launch_script_template % (install_bin_dir, self.exe_name))
-			f.close ()
+			self.__write_launch_script (bin_dir)
 
 	def install_resources_to (self, destination_dir):
 		self.write_io ('Installing resources in: %s\n' % destination_dir)
@@ -649,6 +622,44 @@ class FREEZE_BUILD (object):
 					self.file_system.copy_tree (resource_path, resource_dest_dir)	
 				else:
 					self.file_system.copy_file (resource_path, destination_dir)
+
+#feature {NONE} Implementation
+
+	def __copy_write_exe_manifest (self, bin_dir):
+		# Copy Windows manifest file
+
+		manifest_name = self.exe_name + self.Dot_manifest
+
+		if path.exists (self.Manifest_template_xml):
+		#	use XML template in current diretory
+			attribute_table = {
+				self.system.version () : "version='%s'",
+				os_platform.machine ().lower () : "processorArchitecture='%s'"
+			}
+
+			# Read manifest template
+			with open (self.Manifest_template_xml, 'r') as infile:
+				# Read the entire content of the file
+				content = infile.read()
+
+			for value, template in attribute_table.items ():
+				content = content.replace (template % ('X'), template % (value), 1)
+
+			# Write substituted template
+			output_path = path.join (bin_dir, manifest_name)
+			with open (output_path, 'w') as outfile: 
+				outfile.write (content)
+			
+			# validate manifest using mt.exe 
+			# https://learn.microsoft.com/en-us/windows/win32/sbscs/mt-exe
+			if call (['mt', output_path, '-validate_manifest']) != 0:
+				raise SyntaxError ("Failed to validate: " + output_path)
+
+		else:
+		# use one in F_code
+			manifest_path = path.join (self.code_dir (), manifest_name)
+			if path.exists (manifest_path):
+				self.file_system.copy_file (manifest_path, bin_dir)
 
 	def __shared_object_libraries (self):
 		result = []
@@ -680,6 +691,15 @@ class FREEZE_BUILD (object):
 		)
 		f.close ()
 
+	def __write_launch_script (self, bin_dir):
+		# create a Unix launch script for application with LD_LIBRARY_PATH set
+
+		install_bin_dir = path.join (self.system.installation_dir (), 'bin')
+		script_path = path.join (bin_dir, self.exe_name + '.sh')
+		f = open (script_path, 'w')
+		f.write (Launch_script_template % (install_bin_dir, self.exe_name))
+		f.close ()
+
 	def __SConscript_path (self, lib):
 		#print "__SConscript_path (%s)" % lib
 		lib_path = path.dirname (lib)
@@ -698,13 +718,13 @@ class FREEZE_BUILD (object):
 		# print lib, "has", lib_sconscript, result
 		return result
 
-# end FREEZE_BUILD
+# end class FREEZE_BUILD
 
 class FINALIZED_BUILD (FREEZE_BUILD):
 
 	Reverse = 'reverse'
 
-# Initialization
+#feature {NONE} Initialization
 	def __init__ (self, ecf, project_py):
 		FREEZE_BUILD.__init__ (self, ecf, project_py)
 		self.system_root_class_path = self.system.root_class_path ()
@@ -760,7 +780,7 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 	def install_resources (self):
 		self.install_resources_to (self.system.installation_dir ())
 
-# Implementation
+#feature {NONE} Implementation
 
 	def _wipe_out_f_code (self):
 		code_dir = self.code_dir ()
@@ -787,7 +807,7 @@ class FINALIZED_BUILD (FREEZE_BUILD):
 			os.rename (root_class_path, tmp_path)
 			os.rename (target_path, root_class_path)
 
-# end FINALIZED_BUILD
+# end class FINALIZED_BUILD
 
 class C_CODE_TAR_BUILD (FINALIZED_BUILD):
 # Generates cross-platform Finalized_code.tar
@@ -816,7 +836,7 @@ class C_CODE_TAR_BUILD (FINALIZED_BUILD):
 		tar.append ('F_code')
 		self._wipe_out_f_code ()
 
-# end C_CODE_TAR_BUILD
+# end class C_CODE_TAR_BUILD
 
 class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
 # extracts F_code-<platform>.tar and compiles to executable, and then deletes `F_code'
@@ -853,6 +873,8 @@ class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
 
 # end FINALIZED_BUILD_FROM_TAR
 
+# Manifest constants
+
 Build_info_class_template = Template (
 '''note
 	description: "Build specification"
@@ -883,7 +905,7 @@ feature -- Constants
 
 end''')
 
-launch_script_template = '''#!/usr/bin/env bash
+Launch_script_template = '''#!/usr/bin/env bash
 export LD_LIBRARY_PATH="%s"
 "$LD_LIBRARY_PATH/%s" $*
 '''

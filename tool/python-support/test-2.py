@@ -1,12 +1,18 @@
-for i in range(32):
-	print i * 2,
 
-print
+arch_attribute = "processorArchitecture='%s'"
 
-d = {i * 2: i for i in range(32)}
+def write_manifest (input_file, output_file):
+    # Open the input file in read mode
+    with open (input_file, 'r') as infile:
+        # Read the entire content of the file
+        content = infile.read()
 
-for key, value in d.iteritems ():
-	print key,
+    # Open the output file in write mode and write the modified content
+    with open (output_file, 'w') as outfile:
+        outfile.write (content.replace (arch_attribute % ('amd64'), arch_attribute %('x86'), 1))
 
-
+# Example usage:
+input_file = 'myching.exe.manifest'
+output_file = 'build/windows/package/bin/myching.exe.manifest'
+write_manifest (input_file, output_file)
 

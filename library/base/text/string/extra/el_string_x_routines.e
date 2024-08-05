@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 15:52:07 GMT (Saturday 3rd August 2024)"
-	revision: "74"
+	date: "2024-08-04 7:34:55 GMT (Sunday 4th August 2024)"
+	revision: "75"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -55,29 +55,37 @@ feature -- Factory
 			append_utf_8_to (utf_8, Result)
 		end
 
-	new_from_utf_8_lines (indented_utf_8: IMMUTABLE_STRING_8; start_index, end_index: INTEGER_32): STRING_X
-		-- new string conforming to `STRING_X' consisting of decoded substring of `indented_utf_8'
-		-- from `start_index' to `end_index' and unindented by one tab
+	new_from_utf_8_lines (utf_8_string: IMMUTABLE_STRING_8; start_index, end_index: INTEGER_32; unindent: BOOLEAN): STRING_X
+		-- new string of type `STRING_X' consisting of decoded UTF-8 text
+
+		--		`utf_8_string.shared_substring (start_index, end_index)'
+
+		-- if `unindent' is true, and character at `start_index' is a tab, then all lines
+		-- are unindented by one tab.
+		require
+			valid_start_index: utf_8_string.valid_index (start_index)
+			valid_end_index: end_index >= start_index implies utf_8_string.valid_index (end_index)
 		do
 			if end_index - start_index + 1 = 0 then
 				create Result.make (0)
 
-			elseif attached indented_utf_8.shared_substring (start_index + 1, end_index) as substring then
-				Result := new_unindented_utf_8 (substring)
-			end
-		end
-
-	new_unindented_utf_8 (indented_utf_8: IMMUTABLE_STRING_8): STRING_X
-		-- new string conforming to `STRING_X' created from `indented_utf_8'
-		-- and with each tab character following a newline removed
-		do
-			if indented_utf_8.has ('%N') and then attached Split_on_tab_new_line as utf_8_list then
-				utf_8_list.fill_by_string (indented_utf_8, New_line_tab, 0)
-				create Result.make (utf_8_list.unicode_count + utf_8_list.count - 1)
-				utf_8_list.append_lines_to (Result)
+			elseif unindent and then utf_8_string [start_index] = '%T' then
+				if attached utf_8_string.shared_substring (start_index + 1, end_index) as lines then
+					if lines.has ('%N') and then attached Immutable_utf_8_list as utf_8_list then
+						utf_8_list.fill_by_string (lines, New_line_tab, 0)
+						if utf_8_list.count > 0 then
+							create Result.make (utf_8_list.unicode_count + utf_8_list.count - 1)
+							utf_8_list.append_lines_to (Result)
+						end
+					else
+						Result := new_from_utf_8 (lines)
+					end
+				end
 			else
-				Result := new_from_utf_8 (indented_utf_8)
+				Result := new_from_utf_8 (utf_8_string.shared_substring (start_index, end_index))
 			end
+		ensure
+			calculated_correct_size: Result.count = Result.capacity
 		end
 
 	new_list (comma_separated: STRING_X): EL_STRING_LIST [STRING_X]
@@ -417,7 +425,7 @@ feature {NONE} -- Constants
 
 	New_line_tab: STRING = "%N%T"
 
-	Split_on_tab_new_line: EL_SPLIT_IMMUTABLE_UTF_8_LIST
+	Immutable_utf_8_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
 		once
 			create Result.make_empty
 		end
