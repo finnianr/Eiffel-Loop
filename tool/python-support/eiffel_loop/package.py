@@ -208,10 +208,7 @@ class TAR_GZ_SOFTWARE_PACKAGE (SOFTWARE_PACKAGE):
 	def configure (self, configure_cmd):
 		# configure package with `configure_cmd' command or lists of commands
 		self.chdir_package (self.unpacked_dir)
-		if isinstance (configure_cmd, list):
-			cmd_list = configure_cmd
-		else:
-			cmd_list = [configure_cmd]
+		cmd_list = configure_cmd if isinstance (configure_cmd, list) else [configure_cmd]
 
 		for cmd in cmd_list:
 			if not subprocess.call (cmd.split (' ')) == 0:

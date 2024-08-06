@@ -15,3 +15,12 @@ def is_unix ():
 def is_windows ():
 	return (os.name == 'nt')
 
+def opposing (value):
+	result = 'unix' if value == 'windows' else 'windows'
+
+	return result
+
+def name ():
+	result = 'unix' if is_unix () else 'windows'
+	return result
+

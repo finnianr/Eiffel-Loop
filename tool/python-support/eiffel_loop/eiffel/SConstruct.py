@@ -11,12 +11,13 @@ from os import path
 
 from eiffel_loop.eiffel import project
 from eiffel_loop.scons import eiffel
-
 from eiffel_loop.eiffel.ecf import EIFFEL_CONFIG_FILE
-from eiffel_loop.eiffel.ecf import FREEZE_BUILD
-from eiffel_loop.eiffel.ecf import C_CODE_TAR_BUILD
-from eiffel_loop.eiffel.ecf import FINALIZED_BUILD
-from eiffel_loop.eiffel.ecf import FINALIZED_BUILD_FROM_TAR
+
+# build classes
+from eiffel_loop.eiffel.build import FREEZE_BUILD
+from eiffel_loop.eiffel.build import C_CODE_TAR_BUILD
+from eiffel_loop.eiffel.build import FINALIZED_BUILD
+from eiffel_loop.eiffel.build import FINALIZED_BUILD_FROM_TAR
 
 from SCons.Script import *
 

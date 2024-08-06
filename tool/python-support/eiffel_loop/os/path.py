@@ -7,6 +7,7 @@
 
 import os
 from os.path import *
+import string
 
 global program_files
 
@@ -14,6 +15,10 @@ program_files = 'Program Files'
 
 def expanded (a_path):
 	result = normpath (expandvars (a_path))
+	return result
+
+def expanded_translated (a_path):
+	result = expanded (a_path.translate (string.maketrans ('\\','/')))
 	return result
 
 def files_x86 (a_path):
