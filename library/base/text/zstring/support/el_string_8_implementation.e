@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 15:38:08 GMT (Friday 12th April 2024)"
-	revision: "17"
+	date: "2024-08-06 13:16:40 GMT (Tuesday 6th August 2024)"
+	revision: "18"
 
 class
 	EL_STRING_8_IMPLEMENTATION
@@ -73,8 +73,13 @@ feature -- Concatenation
 
 	append_substring (a_target, s: EL_APPENDABLE_ZSTRING; start_index, end_index: INTEGER)
 		do
+			append_substring_8 (a_target, injected (s, 1), start_index, end_index)
+		end
+
+	append_substring_8 (a_target: EL_APPENDABLE_ZSTRING; str: READABLE_STRING_8; start_index, end_index: INTEGER)
+		do
 			if attached injected (a_target, 0) as target then
-				target.append_substring (injected (s, 1), start_index, end_index)
+				target.append_substring (str, start_index, end_index)
 				a_target.set_from_string_8 (target)
 			end
 		end

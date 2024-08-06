@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 9:16:41 GMT (Wednesday 30th August 2023)"
-	revision: "1"
+	date: "2024-08-06 18:41:00 GMT (Tuesday 6th August 2024)"
+	revision: "2"
 
 deferred class
 	STRING_ROUTINES [S -> STRING_GENERAL]
@@ -53,6 +53,10 @@ feature -- Status query
 		end
 
 feature -- Conversion
+
+	to_latin_1 (string: S): STRING
+		deferred
+		end
 
 	to_utf_8 (string: S): STRING
 		deferred

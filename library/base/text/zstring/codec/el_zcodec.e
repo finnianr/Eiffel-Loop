@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 7:34:42 GMT (Thursday 6th June 2024)"
-	revision: "74"
+	date: "2024-08-06 18:05:51 GMT (Tuesday 6th August 2024)"
+	revision: "75"
 
 deferred class
 	EL_ZCODEC
@@ -171,15 +171,27 @@ feature -- Contract Support
 			end
 		end
 
-	is_compatible_string_8 (area: SPECIAL [CHARACTER]; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if all Latin-1 encoded characters in `area' from `i_lower' to `i_upper'
+	is_compatible_string_8 (latin_1_area: SPECIAL [CHARACTER]; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all Latin-1 encoded characters in `latin_1_area' from `i_lower' to `i_upper'
 		-- do not need to be changed to match current `encoding'
 		local
 			i: INTEGER; c_i: CHARACTER
 		do
-			if attached unicode_table as unicode then
+			if encoded_as_latin (15) then
+			-- Faster than using `unicode_table'
 				from Result := True; i := i_lower until i > i_upper loop
-					c_i := area [i]
+					inspect latin_1_area [i]
+						when Substitute, '¤', '¦', '¨', '´', '¸', '¼', '½', '¾' then
+							Result := False
+							i := i_upper -- break
+					else
+					end
+					i := i + 1
+				end
+
+			elseif attached unicode_table as unicode then
+				from Result := True; i := i_lower until i > i_upper loop
+					c_i := latin_1_area [i]
 					inspect c_i
 						when Substitute then
 							Result := False

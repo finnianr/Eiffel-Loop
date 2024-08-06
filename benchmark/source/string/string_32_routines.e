@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-08-06 18:41:50 GMT (Tuesday 6th August 2024)"
+	revision: "3"
 
 class
 	STRING_32_ROUTINES
@@ -71,6 +71,11 @@ feature -- Conversion
 	xml_escaped (target: STRING_32): STRING_32
 		do
 			Result := xml_escaper.escaped (target, True)
+		end
+
+	to_latin_1 (string: STRING_32): STRING
+		do
+			Result := string.to_string_8
 		end
 
 	to_utf_8 (string: STRING_32): STRING

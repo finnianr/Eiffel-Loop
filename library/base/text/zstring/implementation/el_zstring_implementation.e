@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 7:53:47 GMT (Monday 22nd July 2024)"
-	revision: "103"
+	date: "2024-08-06 12:57:12 GMT (Tuesday 6th August 2024)"
+	revision: "104"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -416,6 +416,8 @@ feature {NONE} -- Implementation
 		end
 
 	compatible_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		require
+			is_string_8: general.is_string_8
 		do
 			Result := compatible_substring_8 (general, 1, general.count)
 		end

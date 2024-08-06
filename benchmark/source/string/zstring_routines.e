@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-08-06 18:41:51 GMT (Tuesday 6th August 2024)"
+	revision: "4"
 
 class
 	ZSTRING_ROUTINES
@@ -65,6 +65,11 @@ feature -- Status query
 		end
 
 feature -- Conversion
+
+	to_latin_1 (string: ZSTRING): STRING
+		do
+			Result := string.to_latin_1
+		end
 
 	to_utf_8 (string: ZSTRING): STRING
 		do

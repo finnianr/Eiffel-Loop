@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "70"
+	date: "2024-08-06 13:27:52 GMT (Tuesday 6th August 2024)"
+	revision: "71"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -97,7 +97,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 					end
 			else
 				if codec.encoding = str_encoding then
-					append_string_8 (str)
+					String_8.append_string_8 (Current, str)
 
 				elseif Codec_factory.valid_encoding (str_encoding)
 					and then attached Codec_factory.codec_by (str_encoding) as l_codec
@@ -179,7 +179,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_string_8 (str: READABLE_STRING_8)
 		require else
-			substitute_reserved: not str.has (Substitute)
+			compatible_characters: is_compatible (str)
 		do
 			String_8.append_string_8 (Current, str)
 		end
@@ -224,12 +224,9 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_substring_8 (str: READABLE_STRING_8; start_index, end_index: INTEGER)
 		require else
-			substitute_reserved: not str.substring (start_index, end_index).has (Substitute)
+			compatible_characters: is_compatible_substring (str, start_index, end_index)
 		do
-			if attached current_string_8 as l_current then
-				l_current.append_substring (str, start_index, end_index)
-				set_from_string_8 (l_current)
-			end
+			String_8.append_substring_8 (Current, str, start_index, end_index)
 		end
 
 	append_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)

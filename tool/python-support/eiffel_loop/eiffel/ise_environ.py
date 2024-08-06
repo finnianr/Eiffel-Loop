@@ -42,7 +42,13 @@ class ISE_ENVIRON (object):
 
 	# Access
 	def spec_build_dir (self):
-		return path.join ('spec', self.platform)
+		result = path.join ('spec', self.platform)
+		return result
+
+	def windows_architecture (self):
+		# compatible with exe manifest attribute: processorArchitecture
+		result = 'x86' if self.is_32_bit_platform () else 'amd64'
+		return result
 
 	# Status query
 

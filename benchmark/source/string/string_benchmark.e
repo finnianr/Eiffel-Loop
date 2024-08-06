@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-31 10:13:04 GMT (Thursday 31st August 2023)"
-	revision: "27"
+	date: "2024-08-06 18:43:16 GMT (Tuesday 6th August 2024)"
+	revision: "28"
 
 deferred class
 	STRING_BENCHMARK
@@ -103,6 +103,7 @@ feature {NONE} -- Implementation
 			do_test ("starts_with_general", "D", agent test_starts_with (True))
 			do_test ("substring_index", "$A $D", agent test_substring_index)
 
+			do_test ("to_latin_1", "$A $D", agent test_to_latin_1)
 			do_test ("to_utf_8", "$A $D", agent test_to_utf_8)
 
 			do_test ("translate", "D", agent test_translate)
@@ -513,6 +514,17 @@ feature {NONE} -- Query tests
 						call (list.item.substring_index (search.item, 1))
 					end
 				end
+			end
+			valid_test := list_has_items
+		end
+
+	test_to_latin_1
+		local
+			list_has_items: BOOLEAN
+		do
+			across test.string_list as list loop
+				list_has_items := True
+				call (test.routine.to_latin_1 (list.item))
 			end
 			valid_test := list_has_items
 		end

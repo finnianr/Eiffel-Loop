@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-20 17:29:12 GMT (Saturday 20th April 2024)"
-	revision: "3"
+	date: "2024-08-06 18:28:21 GMT (Tuesday 6th August 2024)"
+	revision: "4"
 
 class
 	ZSTRING_CONVERTABLE_TEST_SET
@@ -26,6 +26,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["split",		  agent test_split],
+				["to_latin_1",	  agent test_to_latin_1],
 				["to_string_32", agent test_to_string_32],
 				["to_utf_8",	  agent test_to_utf_8]
 			>>)
@@ -59,6 +60,25 @@ feature -- Tests
 			end
 		end
 
+	test_to_latin_1
+		-- ZSTRING_CONVERTABLE_TEST_SET.test_to_latin_1
+		note
+			testing:	"[
+				covers/{EL_CONVERTABLE_ZSTRING}.to_latin_1,
+				covers/{EL_CONVERTABLE_ZSTRING}.to_string_8
+			]"
+		local
+			str: ZSTRING; str_32: STRING_32
+		do
+			across Text.lines as line loop
+				str_32 := line.item
+				if str_32.is_valid_as_string_8 then
+					str := str_32
+					assert ("same string", str.to_latin_1 ~ str_32.to_string_8)
+				end
+			end
+		end
+
 	test_to_string_32
 		-- ZSTRING_CONVERTABLE_TEST_SET.test_to_string_32
 		note
@@ -79,7 +99,7 @@ feature -- Tests
 		end
 
 	test_to_utf_8
-		-- ZSTRING_TEST_SET.test_to_utf_8
+		-- ZSTRING_CONVERTABLE_TEST_SET.test_to_utf_8
 		note
 			testing:	"[
 				covers/{EL_CONVERTABLE_ZSTRING}.to_utf_8,

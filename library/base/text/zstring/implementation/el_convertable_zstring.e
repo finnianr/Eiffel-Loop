@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:40:17 GMT (Saturday 22nd June 2024)"
-	revision: "70"
+	date: "2024-08-06 18:36:29 GMT (Tuesday 6th August 2024)"
+	revision: "71"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -23,6 +23,13 @@ inherit
 	EL_WRITEABLE_ZSTRING
 
 	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_BUFFER_SCOPES
+
+	EL_SET [CHARACTER]
+		rename
+			has as in_latin_15_disjoint_set
+		undefine
+			copy, is_equal, out
+		end
 
 feature -- To Strings
 
@@ -102,8 +109,35 @@ feature -- To Strings
 
 	to_string_8, to_latin_1, as_string_8: STRING
 			-- encoded as ISO-8859-1
+		local
+			encode_default: BOOLEAN; c8: EL_CHARACTER_8_ROUTINES
 		do
-			Result := as_encoded_8 (Latin_1_codec)
+			create Result.make (count)
+			Result.set_count (count)
+
+			if has_mixed_encoding or else not codec.is_latin_encoded then
+				encode_default := True
+
+			else
+			-- Latin-X encoded
+				inspect codec.id
+					when 1 then
+						Result.area.copy_data (area, 0, 0, count)
+
+					when 15 then
+					-- `Current' implements `EL_SET [CHARACTER]' as `in_latin_15_disjoint_set'
+						if c8.has_member (Current, area, 0, count - 1) then
+							encode_default := True
+						else
+							Result.area.copy_data (area, 0, 0, count)
+						end
+				else
+					encode_default := True
+				end
+			end
+			if encode_default then
+				Latin_1_codec.encode_as_string_8 (current_readable, Result.area, 0)
+			end
 		end
 
 	to_unicode, to_general: READABLE_STRING_GENERAL
@@ -524,6 +558,16 @@ feature -- Case changed
 		end
 
 feature {NONE} -- Implementation
+
+	in_latin_15_disjoint_set (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is member of disjoint set of latin-1 and latin-15 character
+		do
+			inspect c
+				when '¤', '¦', '¨', '´', '¸', '¼', '½', '¾' then
+					Result := True
+			else
+			end
+		end
 
 	new_list (a_count: INTEGER): EL_ARRAYED_LIST [like Current]
 		do

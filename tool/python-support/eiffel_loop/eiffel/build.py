@@ -9,22 +9,15 @@ import os, sys
 
 from string import Template
 from glob import glob
+from subprocess import call
 
-import platform as os_platform
 from eiffel_loop import platform
-
-from eiffel_loop.eiffel import ise_environ
-
 from eiffel_loop import osprocess
 from eiffel_loop.distutils import dir_util, file_util
-
-from eiffel_loop.os import path
-
+from eiffel_loop.eiffel import ise_environ
 from eiffel_loop.os.system import new_file_system
-
+from eiffel_loop.os import path
 from eiffel_loop.tar import ARCHIVE
-
-from subprocess import call
 
 global Build_info_class_template, Launch_script_template, ise
 
@@ -257,7 +250,7 @@ class FREEZE_BUILD (object):
 		#	use XML template in current diretory
 			attribute_table = {
 				self.system.version ().short_string () : "version='%s'",
-				os_platform.machine ().lower () : "processorArchitecture='%s'"
+				ise.windows_architecture () : "processorArchitecture='%s'"
 			}
 
 			# Read manifest template
@@ -275,7 +268,7 @@ class FREEZE_BUILD (object):
 			
 			# validate manifest using mt.exe 
 			# https://learn.microsoft.com/en-us/windows/win32/sbscs/mt-exe
-			if not call (['mt', output_path, '-validate_manifest']) == 0:
+			if not call (['mt', '-validate_manifest', '-nologo', '-manifest', output_path]) == 0:
 				raise SyntaxError ("Failed to validate: " + output_path)
 
 		else:
