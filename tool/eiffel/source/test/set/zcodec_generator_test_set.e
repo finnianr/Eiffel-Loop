@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-08-07 14:33:35 GMT (Wednesday 7th August 2024)"
+	revision: "16"
 
 class
 	ZCODEC_GENERATOR_TEST_SET
@@ -24,45 +24,71 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["generation", agent test_generation]
+				["latin_15",	  agent test_latin_15],
+				["latin_2",		  agent test_latin_2],
+				["latin_6",		  agent test_latin_6],
+				["latin_11",	  agent test_latin_11],
+				["windows_1252", agent test_windows_1252]
 			>>)
 		end
 
 feature -- Tests
 
-	test_generation
+	test_latin_2
+		do
+			test_generation ("iso_8859_2", "RB1gd+F48uqzx2e0F3vRNw==")
+		end
+
+	test_latin_6
+		-- output for Latin-6 `latin_set_from_array' looks out of line in Gedit but is OK in EiffelStudio
+		do
+			test_generation ("iso_8859_6", "BmBcvVLeH86Q5D6vfij2AA==")
+		end
+
+	test_latin_11
+		do
+			test_generation ("iso_8859_11", "NFiG8WgKl9ainRRRAu8++g==")
+		end
+
+	test_latin_15
+		do
+			test_generation ("iso_8859_15", "doydvWojUnQQv4JzWH48rA==")
+		end
+
+	test_windows_1252
+		do
+			test_generation ("windows_1252", "hnYwVPiuocSSQaGbu5arpg==")
+		end
+
+feature {NONE} -- Implementation
+
+	test_generation (selected_codec, expected_digest: STRING)
 		local
-			command: ZCODEC_GENERATOR; count: INTEGER
+			command: ZCODEC_GENERATOR; count, id: INTEGER; s: EL_STRING_8_ROUTINES
+			source_path: FILE_PATH
 		do
 			create command.make ("test-data/sources/C/decoder.c", "doc/zcodec/template.evol")
+			command.set_selected_codec (selected_codec)
 			command.execute
 			lio.put_new_line
-			across OS.file_list (Work_area_dir, "*.e") as path loop
-				if attached path.item.base_name.split_list ('_')[4] as id then
-					lio.put_labeled_string ("Comparing content digest for id", id)
-					lio.put_new_line
-					if Digest_table.has_key (id.to_integer) then
-						assert ("has BOM", File.has_utf_8_bom (path.item))
-						assert_same_digest (Plain_text, path.item, Digest_table.found_item)
-						count := count + 1
-					else
-						assert ("Source has digest", False)
-					end
-				end
+			id := s.substring_to_reversed (selected_codec, '_').to_integer
+			source_path := Work_area_dir + Base_name_template #$ [selected_codec]
+			if source_path.exists then
+				lio.put_integer_field ("Comparing content digest for id", id)
+				lio.put_new_line
+				assert ("has BOM", File.has_utf_8_bom (source_path))
+				assert_same_digest (Plain_text, source_path, expected_digest)
+				count := count + 1
+			else
+				failed (source_path.to_string + " exists")
 			end
-			assert ("all codecs checked", count = Digest_table.count)
 		end
 
 feature {NONE} -- Constants
 
-	Digest_table: EL_HASH_TABLE [STRING, INTEGER]
+	Base_name_template: ZSTRING
 		once
-			create Result.make (<<
-				[11, "tinw3eQJmF1p8ofVJDSwgA=="],
-				[15, "PW7E9PbW8j+3W033035XCg=="],
-				[2, "Q4AmYkSawypr7od2UHUU6g=="],
-				[6, "qNDQ9cacl5JPLy7F78YTSw=="]
-			>>)
+			Result := "el_%S_zcodec.e"
 		end
 
 end

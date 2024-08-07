@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:47:10 GMT (Friday 10th February 2023)"
+	date: "2024-08-07 14:39:54 GMT (Wednesday 7th August 2024)"
 	revision: "1"
 
 class
@@ -78,9 +78,9 @@ feature {NONE} -- Initialization
 				254  -- '‏'
 			>>)
 			latin_set_4 := latin_set_from_array (<<
-				147, -- '“'
-				148, -- '”'
-				132  -- '„'
+				145, -- '‘'
+				146, -- '’'
+				130  -- '‚'
 			>>)
 			latin_set_5 := latin_set_from_array (<<
 				134, -- '†'
@@ -88,21 +88,21 @@ feature {NONE} -- Initialization
 				149  -- '•'
 			>>)
 			latin_set_6 := latin_set_from_array (<<
-				145, -- '‘'
-				146, -- '’'
-				130  -- '‚'
+				147, -- '“'
+				148, -- '”'
+				132  -- '„'
 			>>)
 			latin_set_7 := latin_set_from_array (<<
-				140, -- 'Œ'
-				156  -- 'œ'
-			>>)
-			latin_set_8 := latin_set_from_array (<<
 				139, -- '‹'
 				155  -- '›'
 			>>)
-			latin_set_9 := latin_set_from_array (<<
+			latin_set_8 := latin_set_from_array (<<
 				150, -- '–'
 				151  -- '—'
+			>>)
+			latin_set_9 := latin_set_from_array (<<
+				140, -- 'Œ'
+				156  -- 'œ'
 			>>)
 		end
 
@@ -222,64 +222,76 @@ feature -- Conversion
 					Result := latin_set_2 [uc.code - 1600]
 				when '‌'..'‏' then
 					Result := latin_set_3 [uc.code - 8204]
-				when '“'..'„' then
-					Result := latin_set_4 [uc.code - 8220]
+				when '‘'..'‚' then
+					Result := latin_set_4 [uc.code - 8216]
 				when '†'..'•' then
 					Result := latin_set_5 [uc.code - 8224]
-				when '‘'..'‚' then
-					Result := latin_set_6 [uc.code - 8216]
-				when 'Œ'..'œ' then
-					Result := latin_set_7 [uc.code - 338]
+				when '“'..'„' then
+					Result := latin_set_6 [uc.code - 8220]
 				when '‹'..'›' then
-					Result := latin_set_8 [uc.code - 8249]
+					Result := latin_set_7 [uc.code - 8249]
 				when '–'..'—' then
-					Result := latin_set_9 [uc.code - 8211]
-				when 'ہ' then
-					Result := '%/192/'
-				when 'ے' then
-					Result := '%/255/'
-				when '™' then
-					Result := '%/153/'
+					Result := latin_set_8 [uc.code - 8211]
+				when 'Œ'..'œ' then
+					Result := latin_set_9 [uc.code - 338]
 				when '€' then
 					Result := '%/128/'
+				when 'ہ' then
+					Result := '%/192/'
 				when 'ھ' then
 					Result := '%/170/'
+				when 'ے' then
+					Result := '%/255/'
+				when 'ں' then
+					Result := '%/159/'
 				when '‰' then
 					Result := '%/137/'
 				when '…' then
 					Result := '%/133/'
-				when 'ٹ' then
-					Result := '%/138/'
-				when 'ں' then
-					Result := '%/159/'
-				when 'پ' then
-					Result := '%/129/'
-				when '؟' then
-					Result := '%/191/'
-				when '،' then
-					Result := '%/161/'
-				when 'ˆ' then
-					Result := '%/136/'
-				when 'ƒ' then
-					Result := '%/131/'
-				when '؛' then
-					Result := '%/186/'
-				when 'ژ' then
-					Result := '%/142/'
 				when 'ک' then
 					Result := '%/152/'
-				when 'چ' then
-					Result := '%/141/'
+				when '؟' then
+					Result := '%/191/'
+				when '؛' then
+					Result := '%/186/'
+				when '،' then
+					Result := '%/161/'
 				when 'گ' then
 					Result := '%/144/'
+				when 'ƒ' then
+					Result := '%/131/'
+				when 'ˆ' then
+					Result := '%/136/'
+				when 'ٹ' then
+					Result := '%/138/'
+				when '™' then
+					Result := '%/153/'
+				when 'ژ' then
+					Result := '%/142/'
 				when 'ڑ' then
 					Result := '%/154/'
+				when 'پ' then
+					Result := '%/129/'
+				when 'چ' then
+					Result := '%/141/'
 				when 'ڈ' then
 					Result := '%/143/'
-			else end
+			else
+				Result := Substitute
+			end
 		end
 
 feature -- Character query
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is either the Substitute character or a member of disjoint set of latin-1
+		do
+			inspect c
+				when Substitute, '%/0128/'..'%/0159/', '%/0161/', 'ª', 'º', '¿'..'Ö', 'Ø'..'ß', 'á', 'ã'..'æ', 'ì', 'ð'..'ó', 'õ', 'ø', 'ú', 'ý'..'ÿ' then
+					Result := True
+			else
+			end
+		end
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
@@ -449,6 +461,8 @@ feature {NONE} -- Implementation
 			Result [0xFE] := '‏' -- RIGHT-TO-LEFT MARK
 			Result [0xFF] := 'ے' -- ARABIC LETTER YEH BARREE
 		end
+
+feature {NONE} -- Internal attributes
 
 	latin_set_1: SPECIAL [CHARACTER]
 

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 7:36:33 GMT (Thursday 6th June 2024)"
-	revision: "13"
+	date: "2024-08-07 10:25:32 GMT (Wednesday 7th August 2024)"
+	revision: "14"
 
 class
 	EL_ISO_8859_1_ZCODEC
@@ -80,6 +80,11 @@ feature -- Conversion
 		end
 
 feature -- Character query
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		do
+			Result := False
+		end
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do

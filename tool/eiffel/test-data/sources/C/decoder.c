@@ -329,4 +329,144 @@ void iso_8859_11_chars_init(){
 	}
 }
 
+void windows_1252_chars_init(){
+	int i;
+	if (windows_1252_chars_ready)
+		return;
+	else{
+		for (i = 0; i < 128; i++)
+		{
+			windows_1252_chars[i] = (char) i;
+		}
+		for (i = 128; i < 256; i++)
+		{
+			windows_1252_chars[i] = (char) (0xfffd);
+		}
+		windows_1252_chars[0x80] = (char) (0x20AC); /* EURO SIGN*/
+		windows_1252_chars[0x82] = (char) (0x201A); /* SINGLE LOW-9 QUOTATION MARK*/
+		windows_1252_chars[0x83] = (char) (0x0192); /* LATIN SMALL LETTER F WITH HOOK*/
+		windows_1252_chars[0x84] = (char) (0x201E); /* DOUBLE LOW-9 QUOTATION MARK*/
+		windows_1252_chars[0x85] = (char) (0x2026); /* HORIZONTAL ELLIPSIS*/
+		windows_1252_chars[0x86] = (char) (0x2020); /* DAGGER*/
+		windows_1252_chars[0x87] = (char) (0x2021); /* DOUBLE DAGGER*/
+		windows_1252_chars[0x88] = (char) (0x02C6); /* MODIFIER LETTER CIRCUMFLEX ACCENT*/
+		windows_1252_chars[0x89] = (char) (0x2030); /* PER MILLE SIGN*/
+		windows_1252_chars[0x8A] = (char) (0x0160); /* LATIN CAPITAL LETTER S WITH CARON*/
+		windows_1252_chars[0x8B] = (char) (0x2039); /* SINGLE LEFT-POINTING ANGLE QUOTATION MARK*/
+		windows_1252_chars[0x8C] = (char) (0x0152); /* LATIN CAPITAL LIGATURE OE*/
+		windows_1252_chars[0x8E] = (char) (0x017D); /* LATIN CAPITAL LETTER Z WITH CARON*/
+		windows_1252_chars[0x91] = (char) (0x2018); /* LEFT SINGLE QUOTATION MARK*/
+		windows_1252_chars[0x92] = (char) (0x2019); /* RIGHT SINGLE QUOTATION MARK*/
+		windows_1252_chars[0x93] = (char) (0x201C); /* LEFT DOUBLE QUOTATION MARK*/
+		windows_1252_chars[0x94] = (char) (0x201D); /* RIGHT DOUBLE QUOTATION MARK*/
+		windows_1252_chars[0x95] = (char) (0x2022); /* BULLET*/
+		windows_1252_chars[0x96] = (char) (0x2013); /* EN DASH*/
+		windows_1252_chars[0x97] = (char) (0x2014); /* EM DASH*/
+		windows_1252_chars[0x98] = (char) (0x02DC); /* SMALL TILDE*/
+		windows_1252_chars[0x99] = (char) (0x2122); /* TRADE MARK SIGN*/
+		windows_1252_chars[0x9A] = (char) (0x0161); /* LATIN SMALL LETTER S WITH CARON*/
+		windows_1252_chars[0x9B] = (char) (0x203A); /* SINGLE RIGHT-POINTING ANGLE QUOTATION MARK*/
+		windows_1252_chars[0x9C] = (char) (0x0153); /* LATIN SMALL LIGATURE OE*/
+		windows_1252_chars[0x9E] = (char) (0x017E); /* LATIN SMALL LETTER Z WITH CARON*/
+		windows_1252_chars[0x9F] = (char) (0x0178); /* LATIN CAPITAL LETTER Y WITH DIAERESIS*/
+		windows_1252_chars[0xA0] = (char) (0x00A0); /* NO-BREAK SPACE*/
+		windows_1252_chars[0xA1] = (char) (0x00A1); /* INVERTED EXCLAMATION MARK*/
+		windows_1252_chars[0xA2] = (char) (0x00A2); /* CENT SIGN*/
+		windows_1252_chars[0xA3] = (char) (0x00A3); /* POUND SIGN*/
+		windows_1252_chars[0xA4] = (char) (0x00A4); /* CURRENCY SIGN*/
+		windows_1252_chars[0xA5] = (char) (0x00A5); /* YEN SIGN*/
+		windows_1252_chars[0xA6] = (char) (0x00A6); /* BROKEN BAR*/
+		windows_1252_chars[0xA7] = (char) (0x00A7); /* SECTION SIGN*/
+		windows_1252_chars[0xA8] = (char) (0x00A8); /* DIAERESIS*/
+		windows_1252_chars[0xA9] = (char) (0x00A9); /* COPYRIGHT SIGN*/
+		windows_1252_chars[0xAA] = (char) (0x00AA); /* FEMININE ORDINAL INDICATOR*/
+		windows_1252_chars[0xAB] = (char) (0x00AB); /* LEFT-POINTING DOUBLE ANGLE QUOTATION MARK*/
+		windows_1252_chars[0xAC] = (char) (0x00AC); /* NOT SIGN*/
+		windows_1252_chars[0xAD] = (char) (0x00AD); /* SOFT HYPHEN*/
+		windows_1252_chars[0xAE] = (char) (0x00AE); /* REGISTERED SIGN*/
+		windows_1252_chars[0xAF] = (char) (0x00AF); /* MACRON*/
+		windows_1252_chars[0xB0] = (char) (0x00B0); /* DEGREE SIGN*/
+		windows_1252_chars[0xB1] = (char) (0x00B1); /* PLUS-MINUS SIGN*/
+		windows_1252_chars[0xB2] = (char) (0x00B2); /* SUPERSCRIPT TWO*/
+		windows_1252_chars[0xB3] = (char) (0x00B3); /* SUPERSCRIPT THREE*/
+		windows_1252_chars[0xB4] = (char) (0x00B4); /* ACUTE ACCENT*/
+		windows_1252_chars[0xB5] = (char) (0x00B5); /* MICRO SIGN*/
+		windows_1252_chars[0xB6] = (char) (0x00B6); /* PILCROW SIGN*/
+		windows_1252_chars[0xB7] = (char) (0x00B7); /* MIDDLE DOT*/
+		windows_1252_chars[0xB8] = (char) (0x00B8); /* CEDILLA*/
+		windows_1252_chars[0xB9] = (char) (0x00B9); /* SUPERSCRIPT ONE*/
+		windows_1252_chars[0xBA] = (char) (0x00BA); /* MASCULINE ORDINAL INDICATOR*/
+		windows_1252_chars[0xBB] = (char) (0x00BB); /* RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK*/
+		windows_1252_chars[0xBC] = (char) (0x00BC); /* VULGAR FRACTION ONE QUARTER*/
+		windows_1252_chars[0xBD] = (char) (0x00BD); /* VULGAR FRACTION ONE HALF*/
+		windows_1252_chars[0xBE] = (char) (0x00BE); /* VULGAR FRACTION THREE QUARTERS*/
+		windows_1252_chars[0xBF] = (char) (0x00BF); /* INVERTED QUESTION MARK*/
+		windows_1252_chars[0xC0] = (char) (0x00C0); /* LATIN CAPITAL LETTER A WITH GRAVE*/
+		windows_1252_chars[0xC1] = (char) (0x00C1); /* LATIN CAPITAL LETTER A WITH ACUTE*/
+		windows_1252_chars[0xC2] = (char) (0x00C2); /* LATIN CAPITAL LETTER A WITH CIRCUMFLEX*/
+		windows_1252_chars[0xC3] = (char) (0x00C3); /* LATIN CAPITAL LETTER A WITH TILDE*/
+		windows_1252_chars[0xC4] = (char) (0x00C4); /* LATIN CAPITAL LETTER A WITH DIAERESIS*/
+		windows_1252_chars[0xC5] = (char) (0x00C5); /* LATIN CAPITAL LETTER A WITH RING ABOVE*/
+		windows_1252_chars[0xC6] = (char) (0x00C6); /* LATIN CAPITAL LETTER AE*/
+		windows_1252_chars[0xC7] = (char) (0x00C7); /* LATIN CAPITAL LETTER C WITH CEDILLA*/
+		windows_1252_chars[0xC8] = (char) (0x00C8); /* LATIN CAPITAL LETTER E WITH GRAVE*/
+		windows_1252_chars[0xC9] = (char) (0x00C9); /* LATIN CAPITAL LETTER E WITH ACUTE*/
+		windows_1252_chars[0xCA] = (char) (0x00CA); /* LATIN CAPITAL LETTER E WITH CIRCUMFLEX*/
+		windows_1252_chars[0xCB] = (char) (0x00CB); /* LATIN CAPITAL LETTER E WITH DIAERESIS*/
+		windows_1252_chars[0xCC] = (char) (0x00CC); /* LATIN CAPITAL LETTER I WITH GRAVE*/
+		windows_1252_chars[0xCD] = (char) (0x00CD); /* LATIN CAPITAL LETTER I WITH ACUTE*/
+		windows_1252_chars[0xCE] = (char) (0x00CE); /* LATIN CAPITAL LETTER I WITH CIRCUMFLEX*/
+		windows_1252_chars[0xCF] = (char) (0x00CF); /* LATIN CAPITAL LETTER I WITH DIAERESIS*/
+		windows_1252_chars[0xD0] = (char) (0x00D0); /* LATIN CAPITAL LETTER ETH*/
+		windows_1252_chars[0xD1] = (char) (0x00D1); /* LATIN CAPITAL LETTER N WITH TILDE*/
+		windows_1252_chars[0xD2] = (char) (0x00D2); /* LATIN CAPITAL LETTER O WITH GRAVE*/
+		windows_1252_chars[0xD3] = (char) (0x00D3); /* LATIN CAPITAL LETTER O WITH ACUTE*/
+		windows_1252_chars[0xD4] = (char) (0x00D4); /* LATIN CAPITAL LETTER O WITH CIRCUMFLEX*/
+		windows_1252_chars[0xD5] = (char) (0x00D5); /* LATIN CAPITAL LETTER O WITH TILDE*/
+		windows_1252_chars[0xD6] = (char) (0x00D6); /* LATIN CAPITAL LETTER O WITH DIAERESIS*/
+		windows_1252_chars[0xD7] = (char) (0x00D7); /* MULTIPLICATION SIGN*/
+		windows_1252_chars[0xD8] = (char) (0x00D8); /* LATIN CAPITAL LETTER O WITH STROKE*/
+		windows_1252_chars[0xD9] = (char) (0x00D9); /* LATIN CAPITAL LETTER U WITH GRAVE*/
+		windows_1252_chars[0xDA] = (char) (0x00DA); /* LATIN CAPITAL LETTER U WITH ACUTE*/
+		windows_1252_chars[0xDB] = (char) (0x00DB); /* LATIN CAPITAL LETTER U WITH CIRCUMFLEX*/
+		windows_1252_chars[0xDC] = (char) (0x00DC); /* LATIN CAPITAL LETTER U WITH DIAERESIS*/
+		windows_1252_chars[0xDD] = (char) (0x00DD); /* LATIN CAPITAL LETTER Y WITH ACUTE*/
+		windows_1252_chars[0xDE] = (char) (0x00DE); /* LATIN CAPITAL LETTER THORN*/
+		windows_1252_chars[0xDF] = (char) (0x00DF); /* LATIN SMALL LETTER SHARP S*/
+		windows_1252_chars[0xE0] = (char) (0x00E0); /* LATIN SMALL LETTER A WITH GRAVE*/
+		windows_1252_chars[0xE1] = (char) (0x00E1); /* LATIN SMALL LETTER A WITH ACUTE*/
+		windows_1252_chars[0xE2] = (char) (0x00E2); /* LATIN SMALL LETTER A WITH CIRCUMFLEX*/
+		windows_1252_chars[0xE3] = (char) (0x00E3); /* LATIN SMALL LETTER A WITH TILDE*/
+		windows_1252_chars[0xE4] = (char) (0x00E4); /* LATIN SMALL LETTER A WITH DIAERESIS*/
+		windows_1252_chars[0xE5] = (char) (0x00E5); /* LATIN SMALL LETTER A WITH RING ABOVE*/
+		windows_1252_chars[0xE6] = (char) (0x00E6); /* LATIN SMALL LETTER AE*/
+		windows_1252_chars[0xE7] = (char) (0x00E7); /* LATIN SMALL LETTER C WITH CEDILLA*/
+		windows_1252_chars[0xE8] = (char) (0x00E8); /* LATIN SMALL LETTER E WITH GRAVE*/
+		windows_1252_chars[0xE9] = (char) (0x00E9); /* LATIN SMALL LETTER E WITH ACUTE*/
+		windows_1252_chars[0xEA] = (char) (0x00EA); /* LATIN SMALL LETTER E WITH CIRCUMFLEX*/
+		windows_1252_chars[0xEB] = (char) (0x00EB); /* LATIN SMALL LETTER E WITH DIAERESIS*/
+		windows_1252_chars[0xEC] = (char) (0x00EC); /* LATIN SMALL LETTER I WITH GRAVE*/
+		windows_1252_chars[0xED] = (char) (0x00ED); /* LATIN SMALL LETTER I WITH ACUTE*/
+		windows_1252_chars[0xEE] = (char) (0x00EE); /* LATIN SMALL LETTER I WITH CIRCUMFLEX*/
+		windows_1252_chars[0xEF] = (char) (0x00EF); /* LATIN SMALL LETTER I WITH DIAERESIS*/
+		windows_1252_chars[0xF0] = (char) (0x00F0); /* LATIN SMALL LETTER ETH*/
+		windows_1252_chars[0xF1] = (char) (0x00F1); /* LATIN SMALL LETTER N WITH TILDE*/
+		windows_1252_chars[0xF2] = (char) (0x00F2); /* LATIN SMALL LETTER O WITH GRAVE*/
+		windows_1252_chars[0xF3] = (char) (0x00F3); /* LATIN SMALL LETTER O WITH ACUTE*/
+		windows_1252_chars[0xF4] = (char) (0x00F4); /* LATIN SMALL LETTER O WITH CIRCUMFLEX*/
+		windows_1252_chars[0xF5] = (char) (0x00F5); /* LATIN SMALL LETTER O WITH TILDE*/
+		windows_1252_chars[0xF6] = (char) (0x00F6); /* LATIN SMALL LETTER O WITH DIAERESIS*/
+		windows_1252_chars[0xF7] = (char) (0x00F7); /* DIVISION SIGN*/
+		windows_1252_chars[0xF8] = (char) (0x00F8); /* LATIN SMALL LETTER O WITH STROKE*/
+		windows_1252_chars[0xF9] = (char) (0x00F9); /* LATIN SMALL LETTER U WITH GRAVE*/
+		windows_1252_chars[0xFA] = (char) (0x00FA); /* LATIN SMALL LETTER U WITH ACUTE*/
+		windows_1252_chars[0xFB] = (char) (0x00FB); /* LATIN SMALL LETTER U WITH CIRCUMFLEX*/
+		windows_1252_chars[0xFC] = (char) (0x00FC); /* LATIN SMALL LETTER U WITH DIAERESIS*/
+		windows_1252_chars[0xFD] = (char) (0x00FD); /* LATIN SMALL LETTER Y WITH ACUTE*/
+		windows_1252_chars[0xFE] = (char) (0x00FE); /* LATIN SMALL LETTER THORN*/
+		windows_1252_chars[0xFF] = (char) (0x00FF); /* LATIN SMALL LETTER Y WITH DIAERESIS*/
+
+		windows_1252_chars_ready = TRUE;
+	}
+}
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:47:10 GMT (Friday 10th February 2023)"
+	date: "2024-08-07 14:39:54 GMT (Wednesday 7th August 2024)"
 	revision: "1"
 
 class
@@ -91,20 +91,6 @@ feature {NONE} -- Initialization
 				255  -- 'я'
 			>>)
 			latin_set_2 := latin_set_from_array (<<
-				168, -- 'Ё'
-				128, -- 'Ђ'
-				129, -- 'Ѓ'
-				170, -- 'Є'
-				189, -- 'Ѕ'
-				178, -- 'І'
-				175, -- 'Ї'
-				163, -- 'Ј'
-				138, -- 'Љ'
-				140, -- 'Њ'
-				142, -- 'Ћ'
-				141  -- 'Ќ'
-			>>)
-			latin_set_3 := latin_set_from_array (<<
 				184, -- 'ё'
 				144, -- 'ђ'
 				131, -- 'ѓ'
@@ -118,10 +104,24 @@ feature {NONE} -- Initialization
 				158, -- 'ћ'
 				157  -- 'ќ'
 			>>)
+			latin_set_3 := latin_set_from_array (<<
+				168, -- 'Ё'
+				128, -- 'Ђ'
+				129, -- 'Ѓ'
+				170, -- 'Є'
+				189, -- 'Ѕ'
+				178, -- 'І'
+				175, -- 'Ї'
+				163, -- 'Ј'
+				138, -- 'Љ'
+				140, -- 'Њ'
+				142, -- 'Ћ'
+				141  -- 'Ќ'
+			>>)
 			latin_set_4 := latin_set_from_array (<<
-				147, -- '“'
-				148, -- '”'
-				132  -- '„'
+				134, -- '†'
+				135, -- '‡'
+				149  -- '•'
 			>>)
 			latin_set_5 := latin_set_from_array (<<
 				145, -- '‘'
@@ -129,25 +129,25 @@ feature {NONE} -- Initialization
 				130  -- '‚'
 			>>)
 			latin_set_6 := latin_set_from_array (<<
-				134, -- '†'
-				135, -- '‡'
-				149  -- '•'
+				147, -- '“'
+				148, -- '”'
+				132  -- '„'
 			>>)
 			latin_set_7 := latin_set_from_array (<<
-				139, -- '‹'
-				155  -- '›'
-			>>)
-			latin_set_8 := latin_set_from_array (<<
-				165, -- 'Ґ'
-				180  -- 'ґ'
-			>>)
-			latin_set_9 := latin_set_from_array (<<
 				150, -- '–'
 				151  -- '—'
 			>>)
-			latin_set_10 := latin_set_from_array (<<
+			latin_set_8 := latin_set_from_array (<<
+				139, -- '‹'
+				155  -- '›'
+			>>)
+			latin_set_9 := latin_set_from_array (<<
 				162, -- 'ў'
 				159  -- 'џ'
+			>>)
+			latin_set_10 := latin_set_from_array (<<
+				165, -- 'Ґ'
+				180  -- 'ґ'
 			>>)
 		end
 
@@ -253,38 +253,50 @@ feature -- Conversion
 			inspect uc
 				when 'Ў'..'я' then
 					Result := latin_set_1 [uc.code - 1038]
-				when 'Ё'..'Ќ' then
-					Result := latin_set_2 [uc.code - 1025]
 				when 'ё'..'ќ' then
-					Result := latin_set_3 [uc.code - 1105]
-				when '“'..'„' then
-					Result := latin_set_4 [uc.code - 8220]
+					Result := latin_set_2 [uc.code - 1105]
+				when 'Ё'..'Ќ' then
+					Result := latin_set_3 [uc.code - 1025]
+				when '†'..'•' then
+					Result := latin_set_4 [uc.code - 8224]
 				when '‘'..'‚' then
 					Result := latin_set_5 [uc.code - 8216]
-				when '†'..'•' then
-					Result := latin_set_6 [uc.code - 8224]
-				when '‹'..'›' then
-					Result := latin_set_7 [uc.code - 8249]
-				when 'Ґ'..'ґ' then
-					Result := latin_set_8 [uc.code - 1168]
+				when '“'..'„' then
+					Result := latin_set_6 [uc.code - 8220]
 				when '–'..'—' then
-					Result := latin_set_9 [uc.code - 8211]
+					Result := latin_set_7 [uc.code - 8211]
+				when '‹'..'›' then
+					Result := latin_set_8 [uc.code - 8249]
 				when 'ў'..'џ' then
-					Result := latin_set_10 [uc.code - 1118]
-				when '€' then
-					Result := '%/136/'
+					Result := latin_set_9 [uc.code - 1118]
+				when 'Ґ'..'ґ' then
+					Result := latin_set_10 [uc.code - 1168]
 				when '№' then
 					Result := '%/185/'
-				when '™' then
-					Result := '%/153/'
+				when '€' then
+					Result := '%/136/'
 				when '‰' then
 					Result := '%/137/'
+				when '™' then
+					Result := '%/153/'
 				when '…' then
 					Result := '%/133/'
-			else end
+			else
+				Result := Substitute
+			end
 		end
 
 feature -- Character query
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is either the Substitute character or a member of disjoint set of latin-1
+		do
+			inspect c
+				when Substitute, '%/0128/'..'%/0151/', '%/0153/'..'%/0159/', '%/0161/'..'£', '¥', '¨', 'ª', '¯', '²'..'´', '¸'..'º', '¼'..'ÿ' then
+					Result := True
+			else
+			end
+		end
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
@@ -453,6 +465,8 @@ feature {NONE} -- Implementation
 			Result [0xFE] := 'ю' -- CYRILLIC SMALL LETTER YU
 			Result [0xFF] := 'я' -- CYRILLIC SMALL LETTER YA
 		end
+
+feature {NONE} -- Internal attributes
 
 	latin_set_1: SPECIAL [CHARACTER]
 

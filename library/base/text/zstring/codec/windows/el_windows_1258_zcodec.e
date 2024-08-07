@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:47:10 GMT (Friday 10th February 2023)"
+	date: "2024-08-07 14:39:54 GMT (Wednesday 7th August 2024)"
 	revision: "1"
 
 class
@@ -23,14 +23,14 @@ feature {NONE} -- Initialization
 	initialize_latin_sets
 		do
 			latin_set_1 := latin_set_from_array (<<
-				134, -- '†'
-				135, -- '‡'
-				149  -- '•'
-			>>)
-			latin_set_2 := latin_set_from_array (<<
 				147, -- '“'
 				148, -- '”'
 				132  -- '„'
+			>>)
+			latin_set_2 := latin_set_from_array (<<
+				134, -- '†'
+				135, -- '‡'
+				149  -- '•'
 			>>)
 			latin_set_3 := latin_set_from_array (<<
 				145, -- '‘'
@@ -38,40 +38,40 @@ feature {NONE} -- Initialization
 				130  -- '‚'
 			>>)
 			latin_set_4 := latin_set_from_array (<<
-				139, -- '‹'
-				155  -- '›'
-			>>)
-			latin_set_5 := latin_set_from_array (<<
 				204, -- '̀'
 				236  -- '́'
 			>>)
-			latin_set_6 := latin_set_from_array (<<
+			latin_set_5 := latin_set_from_array (<<
 				150, -- '–'
 				151  -- '—'
 			>>)
+			latin_set_6 := latin_set_from_array (<<
+				221, -- 'Ư'
+				253  -- 'ư'
+			>>)
 			latin_set_7 := latin_set_from_array (<<
-				254, -- '₫'
-				128  -- '€'
+				140, -- 'Œ'
+				156  -- 'œ'
 			>>)
 			latin_set_8 := latin_set_from_array (<<
-				213, -- 'Ơ'
-				245  -- 'ơ'
+				208, -- 'Đ'
+				240  -- 'đ'
 			>>)
 			latin_set_9 := latin_set_from_array (<<
 				195, -- 'Ă'
 				227  -- 'ă'
 			>>)
 			latin_set_10 := latin_set_from_array (<<
-				140, -- 'Œ'
-				156  -- 'œ'
+				254, -- '₫'
+				128  -- '€'
 			>>)
 			latin_set_11 := latin_set_from_array (<<
-				208, -- 'Đ'
-				240  -- 'đ'
+				139, -- '‹'
+				155  -- '›'
 			>>)
 			latin_set_12 := latin_set_from_array (<<
-				221, -- 'Ư'
-				253  -- 'ư'
+				213, -- 'Ơ'
+				245  -- 'ơ'
 			>>)
 		end
 
@@ -154,54 +154,66 @@ feature -- Conversion
 			-- Returns '%U' if translation is the same as ISO-8859-1 or else not in WINDOWS_1258
 		do
 			inspect uc
-				when '†'..'•' then
-					Result := latin_set_1 [uc.code - 8224]
 				when '“'..'„' then
-					Result := latin_set_2 [uc.code - 8220]
+					Result := latin_set_1 [uc.code - 8220]
+				when '†'..'•' then
+					Result := latin_set_2 [uc.code - 8224]
 				when '‘'..'‚' then
 					Result := latin_set_3 [uc.code - 8216]
-				when '‹'..'›' then
-					Result := latin_set_4 [uc.code - 8249]
 				when '̀'..'́' then
-					Result := latin_set_5 [uc.code - 768]
+					Result := latin_set_4 [uc.code - 768]
 				when '–'..'—' then
-					Result := latin_set_6 [uc.code - 8211]
-				when '₫'..'€' then
-					Result := latin_set_7 [uc.code - 8363]
-				when 'Ơ'..'ơ' then
-					Result := latin_set_8 [uc.code - 416]
+					Result := latin_set_5 [uc.code - 8211]
+				when 'Ư'..'ư' then
+					Result := latin_set_6 [uc.code - 431]
+				when 'Œ'..'œ' then
+					Result := latin_set_7 [uc.code - 338]
+				when 'Đ'..'đ' then
+					Result := latin_set_8 [uc.code - 272]
 				when 'Ă'..'ă' then
 					Result := latin_set_9 [uc.code - 258]
-				when 'Œ'..'œ' then
-					Result := latin_set_10 [uc.code - 338]
-				when 'Đ'..'đ' then
-					Result := latin_set_11 [uc.code - 272]
-				when 'Ư'..'ư' then
-					Result := latin_set_12 [uc.code - 431]
-				when '…' then
-					Result := '%/133/'
-				when 'Ÿ' then
-					Result := '%/159/'
+				when '₫'..'€' then
+					Result := latin_set_10 [uc.code - 8363]
+				when '‹'..'›' then
+					Result := latin_set_11 [uc.code - 8249]
+				when 'Ơ'..'ơ' then
+					Result := latin_set_12 [uc.code - 416]
 				when '‰' then
 					Result := '%/137/'
-				when '˜' then
-					Result := '%/152/'
-				when '™' then
-					Result := '%/153/'
+				when '…' then
+					Result := '%/133/'
 				when '̃' then
 					Result := '%/222/'
-				when 'ˆ' then
-					Result := '%/136/'
-				when '̉' then
-					Result := '%/210/'
 				when '̣' then
 					Result := '%/242/'
 				when 'ƒ' then
 					Result := '%/131/'
-			else end
+				when 'Ÿ' then
+					Result := '%/159/'
+				when 'ˆ' then
+					Result := '%/136/'
+				when '˜' then
+					Result := '%/152/'
+				when '̉' then
+					Result := '%/210/'
+				when '™' then
+					Result := '%/153/'
+			else
+				Result := Substitute
+			end
 		end
 
 feature -- Character query
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is either the Substitute character or a member of disjoint set of latin-1
+		do
+			inspect c
+				when Substitute, '%/0128/', '%/0130/'..'%/0137/', '%/0139/', '%/0145/'..'%/0153/', '%/0155/', '%/0159/', 'Ã', 'Ì', 'Ð', 'Ò', 'Õ', 'Ý', 'ã', 'ì', 'ð', 'ò', 'õ', 'ý' then
+					Result := True
+			else
+			end
+		end
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
@@ -362,6 +374,8 @@ feature {NONE} -- Implementation
 			Result [0xFE] := '₫' -- DONG SIGN
 			Result [0xFF] := 'ÿ' -- LATIN SMALL LETTER Y WITH DIAERESIS
 		end
+
+feature {NONE} -- Internal attributes
 
 	latin_set_1: SPECIAL [CHARACTER]
 

@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:47:10 GMT (Friday 10th February 2023)"
+	date: "2024-08-07 14:39:54 GMT (Wednesday 7th August 2024)"
 	revision: "1"
 
 class
@@ -51,83 +51,83 @@ feature {NONE} -- Initialization
 				230  -- 'ę'
 			>>)
 			latin_set_5 := latin_set_from_array (<<
-				147, -- '“'
-				148, -- '”'
-				132  -- '„'
-			>>)
-			latin_set_6 := latin_set_from_array (<<
 				145, -- '‘'
 				146, -- '’'
 				130  -- '‚'
 			>>)
-			latin_set_7 := latin_set_from_array (<<
+			latin_set_6 := latin_set_from_array (<<
 				134, -- '†'
 				135, -- '‡'
 				149  -- '•'
 			>>)
+			latin_set_7 := latin_set_from_array (<<
+				147, -- '“'
+				148, -- '”'
+				132  -- '„'
+			>>)
 			latin_set_8 := latin_set_from_array (<<
-				218, -- 'Ś'
-				250  -- 'ś'
-			>>)
-			latin_set_9 := latin_set_from_array (<<
-				139, -- '‹'
-				155  -- '›'
-			>>)
-			latin_set_10 := latin_set_from_array (<<
-				207, -- 'Ļ'
-				239  -- 'ļ'
-			>>)
-			latin_set_11 := latin_set_from_array (<<
-				212, -- 'Ō'
-				244  -- 'ō'
-			>>)
-			latin_set_12 := latin_set_from_array (<<
 				170, -- 'Ŗ'
 				186  -- 'ŗ'
 			>>)
-			latin_set_13 := latin_set_from_array (<<
-				216, -- 'Ų'
-				248  -- 'ų'
+			latin_set_9 := latin_set_from_array (<<
+				218, -- 'Ś'
+				250  -- 'ś'
 			>>)
-			latin_set_14 := latin_set_from_array (<<
-				150, -- '–'
-				151  -- '—'
-			>>)
-			latin_set_15 := latin_set_from_array (<<
-				208, -- 'Š'
-				240  -- 'š'
-			>>)
-			latin_set_16 := latin_set_from_array (<<
+			latin_set_10 := latin_set_from_array (<<
 				219, -- 'Ū'
 				251  -- 'ū'
 			>>)
+			latin_set_11 := latin_set_from_array (<<
+				139, -- '‹'
+				155  -- '›'
+			>>)
+			latin_set_12 := latin_set_from_array (<<
+				208, -- 'Š'
+				240  -- 'š'
+			>>)
+			latin_set_13 := latin_set_from_array (<<
+				150, -- '–'
+				151  -- '—'
+			>>)
+			latin_set_14 := latin_set_from_array (<<
+				207, -- 'Ļ'
+				239  -- 'ļ'
+			>>)
+			latin_set_15 := latin_set_from_array (<<
+				216, -- 'Ų'
+				248  -- 'ų'
+			>>)
+			latin_set_16 := latin_set_from_array (<<
+				212, -- 'Ō'
+				244  -- 'ō'
+			>>)
 			latin_set_17 := latin_set_from_array (<<
-				200, -- 'Č'
-				232  -- 'č'
-			>>)
-			latin_set_18 := latin_set_from_array (<<
-				194, -- 'Ā'
-				226  -- 'ā'
-			>>)
-			latin_set_19 := latin_set_from_array (<<
 				199, -- 'Ē'
 				231  -- 'ē'
 			>>)
-			latin_set_20 := latin_set_from_array (<<
+			latin_set_18 := latin_set_from_array (<<
+				200, -- 'Č'
+				232  -- 'č'
+			>>)
+			latin_set_19 := latin_set_from_array (<<
 				205, -- 'Ķ'
 				237  -- 'ķ'
 			>>)
+			latin_set_20 := latin_set_from_array (<<
+				194, -- 'Ā'
+				226  -- 'ā'
+			>>)
 			latin_set_21 := latin_set_from_array (<<
-				206, -- 'Ī'
-				238  -- 'ī'
+				204, -- 'Ģ'
+				236  -- 'ģ'
 			>>)
 			latin_set_22 := latin_set_from_array (<<
 				193, -- 'Į'
 				225  -- 'į'
 			>>)
 			latin_set_23 := latin_set_from_array (<<
-				204, -- 'Ģ'
-				236  -- 'ģ'
+				206, -- 'Ī'
+				238  -- 'ī'
 			>>)
 		end
 
@@ -207,76 +207,88 @@ feature -- Conversion
 					Result := latin_set_3 [uc.code - 260]
 				when 'Ė'..'ę' then
 					Result := latin_set_4 [uc.code - 278]
-				when '“'..'„' then
-					Result := latin_set_5 [uc.code - 8220]
 				when '‘'..'‚' then
-					Result := latin_set_6 [uc.code - 8216]
+					Result := latin_set_5 [uc.code - 8216]
 				when '†'..'•' then
-					Result := latin_set_7 [uc.code - 8224]
-				when 'Ś'..'ś' then
-					Result := latin_set_8 [uc.code - 346]
-				when '‹'..'›' then
-					Result := latin_set_9 [uc.code - 8249]
-				when 'Ļ'..'ļ' then
-					Result := latin_set_10 [uc.code - 315]
-				when 'Ō'..'ō' then
-					Result := latin_set_11 [uc.code - 332]
+					Result := latin_set_6 [uc.code - 8224]
+				when '“'..'„' then
+					Result := latin_set_7 [uc.code - 8220]
 				when 'Ŗ'..'ŗ' then
-					Result := latin_set_12 [uc.code - 342]
-				when 'Ų'..'ų' then
-					Result := latin_set_13 [uc.code - 370]
-				when '–'..'—' then
-					Result := latin_set_14 [uc.code - 8211]
-				when 'Š'..'š' then
-					Result := latin_set_15 [uc.code - 352]
+					Result := latin_set_8 [uc.code - 342]
+				when 'Ś'..'ś' then
+					Result := latin_set_9 [uc.code - 346]
 				when 'Ū'..'ū' then
-					Result := latin_set_16 [uc.code - 362]
-				when 'Č'..'č' then
-					Result := latin_set_17 [uc.code - 268]
-				when 'Ā'..'ā' then
-					Result := latin_set_18 [uc.code - 256]
+					Result := latin_set_10 [uc.code - 362]
+				when '‹'..'›' then
+					Result := latin_set_11 [uc.code - 8249]
+				when 'Š'..'š' then
+					Result := latin_set_12 [uc.code - 352]
+				when '–'..'—' then
+					Result := latin_set_13 [uc.code - 8211]
+				when 'Ļ'..'ļ' then
+					Result := latin_set_14 [uc.code - 315]
+				when 'Ų'..'ų' then
+					Result := latin_set_15 [uc.code - 370]
+				when 'Ō'..'ō' then
+					Result := latin_set_16 [uc.code - 332]
 				when 'Ē'..'ē' then
-					Result := latin_set_19 [uc.code - 274]
+					Result := latin_set_17 [uc.code - 274]
+				when 'Č'..'č' then
+					Result := latin_set_18 [uc.code - 268]
 				when 'Ķ'..'ķ' then
-					Result := latin_set_20 [uc.code - 310]
-				when 'Ī'..'ī' then
-					Result := latin_set_21 [uc.code - 298]
+					Result := latin_set_19 [uc.code - 310]
+				when 'Ā'..'ā' then
+					Result := latin_set_20 [uc.code - 256]
+				when 'Ģ'..'ģ' then
+					Result := latin_set_21 [uc.code - 290]
 				when 'Į'..'į' then
 					Result := latin_set_22 [uc.code - 302]
-				when 'Ģ'..'ģ' then
-					Result := latin_set_23 [uc.code - 290]
+				when 'Ī'..'ī' then
+					Result := latin_set_23 [uc.code - 298]
 				when '…' then
 					Result := '%/133/'
-				when '¸' then
-					Result := '%/143/'
-				when '‰' then
-					Result := '%/137/'
-				when '€' then
-					Result := '%/128/'
-				when '™' then
-					Result := '%/153/'
-				when 'Æ' then
-					Result := '%/175/'
 				when '¯' then
 					Result := '%/157/'
-				when 'æ' then
-					Result := '%/191/'
-				when 'ø' then
-					Result := '%/184/'
-				when 'ˇ' then
-					Result := '%/142/'
+				when '‰' then
+					Result := '%/137/'
 				when '¨' then
 					Result := '%/141/'
+				when '€' then
+					Result := '%/128/'
+				when '¸' then
+					Result := '%/143/'
 				when '˙' then
 					Result := '%/255/'
-				when '˛' then
-					Result := '%/158/'
+				when 'Æ' then
+					Result := '%/175/'
+				when 'ø' then
+					Result := '%/184/'
+				when '™' then
+					Result := '%/153/'
+				when 'æ' then
+					Result := '%/191/'
+				when 'ˇ' then
+					Result := '%/142/'
 				when 'Ø' then
 					Result := '%/168/'
-			else end
+				when '˛' then
+					Result := '%/158/'
+			else
+				Result := Substitute
+			end
 		end
 
 feature -- Character query
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is either the Substitute character or a member of disjoint set of latin-1
+		do
+			inspect c
+				when Substitute, '%/0128/', '%/0130/', '%/0132/'..'%/0135/', '%/0137/', '%/0139/', '%/0141/'..'%/0143/', '%/0145/'..'%/0151/', '%/0153/', '%/0155/', '%/0157/', '¨', 'ª', '¯', '¸', 'º', '¿'..'Ã', 'Æ'..'È', 'Ê'..'Ò', 'Ô', 'Ø'..'Û', 'Ý', 'à'..'ã', 'æ'..'è', 'ê'..'ò', 'ô', 'ø'..'û', 'ý'..'ÿ' then
+					Result := True
+			else
+			end
+		end
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
@@ -434,6 +446,8 @@ feature {NONE} -- Implementation
 			Result [0xFE] := 'ž' -- LATIN SMALL LETTER Z WITH CARON
 			Result [0xFF] := '˙' -- DOT ABOVE
 		end
+
+feature {NONE} -- Internal attributes
 
 	latin_set_1: SPECIAL [CHARACTER]
 

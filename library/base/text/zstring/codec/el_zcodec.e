@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-06 18:05:51 GMT (Tuesday 6th August 2024)"
-	revision: "75"
+	date: "2024-08-07 10:46:25 GMT (Wednesday 7th August 2024)"
+	revision: "76"
 
 deferred class
 	EL_ZCODEC
@@ -17,6 +17,11 @@ inherit
 	EL_ZCODEC_IMPLEMENTATION
 		export
 			{EL_ZSTRING_IMPLEMENTATION} shared_interval_list
+		end
+
+	EL_SET [CHARACTER]
+		rename
+			has as in_latin_1_disjoint_set
 		end
 
 feature {EL_ZCODEC_FACTORY} -- Initialization
@@ -175,41 +180,14 @@ feature -- Contract Support
 		-- `True' if all Latin-1 encoded characters in `latin_1_area' from `i_lower' to `i_upper'
 		-- do not need to be changed to match current `encoding'
 		local
-			i: INTEGER; c_i: CHARACTER
+			c: EL_CHARACTER_8_ROUTINES
 		do
-			if encoded_as_latin (15) then
-			-- Faster than using `unicode_table'
-				from Result := True; i := i_lower until i > i_upper loop
-					inspect latin_1_area [i]
-						when Substitute, '¤', '¦', '¨', '´', '¸', '¼', '½', '¾' then
-							Result := False
-							i := i_upper -- break
-					else
-					end
-					i := i + 1
-				end
-
-			elseif attached unicode_table as unicode then
-				from Result := True; i := i_lower until i > i_upper loop
-					c_i := latin_1_area [i]
-					inspect c_i
-						when Substitute then
-							Result := False
-							i := i_upper -- break
-
-						when Control_0 .. Control_25, Control_27 ..  Max_ascii then
-					else
-						if unicode [c_i.code].to_character_8 /= c_i then
-							inspect latin_character (c_i)
-								when '%U' then
-									Result := False
-									i := i_upper -- break
-							else
-							end
-						end
-					end
-					i := i + 1
-				end
+			inspect encoding
+				when Latin_1 then
+					Result := True
+			else
+			-- `Current' implements `EL_SET [CHARACTER]' as `in_latin_1_disjoint_set'
+				Result := not c.has_member (Current, latin_1_area, i_lower, i_upper)
 			end
 		end
 
@@ -807,22 +785,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_utf_8_byte_count_table: SPECIAL [INTEGER_8]
-		local
-			i: INTEGER; uc: NATURAL
-		do
-			if attached unicode_table as table then
-				create Result.make_empty (table.count)
-				from until i > 0xFF loop
-					uc := table [i].natural_32_code
-					Result.extend (character_utf_8_byte_count (uc).to_integer_8)
-					i := i + 1
-				end
-			end
-			-- special case for SUB character
-			Result [Substitute_code] := 0
-		end
-
 	is_first_alpha (state_alpha_ptr: TYPED_POINTER [INTEGER]; state_alpha: INTEGER; is_alpha_item: BOOLEAN): BOOLEAN
 		require
 			not_default_pointer: not state_alpha_ptr.is_default_pointer
@@ -842,6 +804,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_utf_8_byte_count_table: SPECIAL [INTEGER_8]
+		local
+			i: INTEGER; uc: NATURAL
+		do
+			if attached unicode_table as table then
+				create Result.make_empty (table.count)
+				from until i > 0xFF loop
+					uc := table [i].natural_32_code
+					Result.extend (character_utf_8_byte_count (uc).to_integer_8)
+					i := i + 1
+				end
+			end
+			-- special case for SUB character
+			Result [Substitute_code] := 0
+		end
+
 feature {EL_ZSTRING} -- Deferred implementation
 
 	as_lower (code: NATURAL): NATURAL
@@ -857,6 +835,12 @@ feature {EL_ZSTRING} -- Deferred implementation
 		end
 
 	initialize_latin_sets
+		deferred
+		end
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		-- true if `c' is `Substitute' character or else in set of 8-bit characters not
+		-- present in Latin-1
 		deferred
 		end
 

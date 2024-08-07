@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:47:10 GMT (Friday 10th February 2023)"
+	date: "2024-08-07 14:39:54 GMT (Wednesday 7th August 2024)"
 	revision: "1"
 
 class
@@ -29,9 +29,9 @@ feature {NONE} -- Initialization
 				154  -- 'š'
 			>>)
 			latin_set_2 := latin_set_from_array (<<
-				134, -- '†'
-				135, -- '‡'
-				149  -- '•'
+				145, -- '‘'
+				146, -- '’'
+				130  -- '‚'
 			>>)
 			latin_set_3 := latin_set_from_array (<<
 				147, -- '“'
@@ -39,29 +39,29 @@ feature {NONE} -- Initialization
 				132  -- '„'
 			>>)
 			latin_set_4 := latin_set_from_array (<<
-				145, -- '‘'
-				146, -- '’'
-				130  -- '‚'
+				134, -- '†'
+				135, -- '‡'
+				149  -- '•'
 			>>)
 			latin_set_5 := latin_set_from_array (<<
-				208, -- 'Ğ'
-				240  -- 'ğ'
+				139, -- '‹'
+				155  -- '›'
 			>>)
 			latin_set_6 := latin_set_from_array (<<
-				140, -- 'Œ'
-				156  -- 'œ'
-			>>)
-			latin_set_7 := latin_set_from_array (<<
-				221, -- 'İ'
-				253  -- 'ı'
-			>>)
-			latin_set_8 := latin_set_from_array (<<
 				150, -- '–'
 				151  -- '—'
 			>>)
+			latin_set_7 := latin_set_from_array (<<
+				208, -- 'Ğ'
+				240  -- 'ğ'
+			>>)
+			latin_set_8 := latin_set_from_array (<<
+				140, -- 'Œ'
+				156  -- 'œ'
+			>>)
 			latin_set_9 := latin_set_from_array (<<
-				139, -- '‹'
-				155  -- '›'
+				221, -- 'İ'
+				253  -- 'ı'
 			>>)
 		end
 
@@ -154,42 +154,54 @@ feature -- Conversion
 			inspect uc
 				when 'Ş'..'š' then
 					Result := latin_set_1 [uc.code - 350]
-				when '†'..'•' then
-					Result := latin_set_2 [uc.code - 8224]
+				when '‘'..'‚' then
+					Result := latin_set_2 [uc.code - 8216]
 				when '“'..'„' then
 					Result := latin_set_3 [uc.code - 8220]
-				when '‘'..'‚' then
-					Result := latin_set_4 [uc.code - 8216]
-				when 'Ğ'..'ğ' then
-					Result := latin_set_5 [uc.code - 286]
-				when 'Œ'..'œ' then
-					Result := latin_set_6 [uc.code - 338]
-				when 'İ'..'ı' then
-					Result := latin_set_7 [uc.code - 304]
-				when '–'..'—' then
-					Result := latin_set_8 [uc.code - 8211]
+				when '†'..'•' then
+					Result := latin_set_4 [uc.code - 8224]
 				when '‹'..'›' then
-					Result := latin_set_9 [uc.code - 8249]
-				when '™' then
-					Result := '%/153/'
+					Result := latin_set_5 [uc.code - 8249]
+				when '–'..'—' then
+					Result := latin_set_6 [uc.code - 8211]
+				when 'Ğ'..'ğ' then
+					Result := latin_set_7 [uc.code - 286]
+				when 'Œ'..'œ' then
+					Result := latin_set_8 [uc.code - 338]
+				when 'İ'..'ı' then
+					Result := latin_set_9 [uc.code - 304]
 				when '‰' then
 					Result := '%/137/'
-				when '€' then
-					Result := '%/128/'
-				when 'Ÿ' then
-					Result := '%/159/'
-				when '…' then
-					Result := '%/133/'
-				when 'ƒ' then
-					Result := '%/131/'
 				when 'ˆ' then
 					Result := '%/136/'
+				when '€' then
+					Result := '%/128/'
+				when '…' then
+					Result := '%/133/'
+				when 'Ÿ' then
+					Result := '%/159/'
 				when '˜' then
 					Result := '%/152/'
-			else end
+				when 'ƒ' then
+					Result := '%/131/'
+				when '™' then
+					Result := '%/153/'
+			else
+				Result := Substitute
+			end
 		end
 
 feature -- Character query
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is either the Substitute character or a member of disjoint set of latin-1
+		do
+			inspect c
+				when Substitute, '%/0128/', '%/0130/'..'%/0140/', '%/0145/'..'%/0156/', '%/0159/', 'Ð', 'Ý', 'ð', 'ý' then
+					Result := True
+			else
+			end
+		end
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
@@ -352,6 +364,8 @@ feature {NONE} -- Implementation
 			Result [0xFE] := 'ş' -- LATIN SMALL LETTER S WITH CEDILLA
 			Result [0xFF] := 'ÿ' -- LATIN SMALL LETTER Y WITH DIAERESIS
 		end
+
+feature {NONE} -- Internal attributes
 
 	latin_set_1: SPECIAL [CHARACTER]
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-06 18:36:29 GMT (Tuesday 6th August 2024)"
-	revision: "71"
+	date: "2024-08-07 10:41:31 GMT (Wednesday 7th August 2024)"
+	revision: "72"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -563,7 +563,7 @@ feature {NONE} -- Implementation
 		-- `True' if `c' is member of disjoint set of latin-1 and latin-15 character
 		do
 			inspect c
-				when '¤', '¦', '¨', '´', '¸', '¼', '½', '¾' then
+				when '¤', '¦', '¨', '´', '¸', '¼' .. '¾' then
 					Result := True
 			else
 			end

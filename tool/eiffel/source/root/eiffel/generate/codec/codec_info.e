@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:23:15 GMT (Thursday 30th March 2023)"
-	revision: "21"
+	date: "2024-08-07 13:56:09 GMT (Wednesday 7th August 2024)"
+	revision: "22"
 
 class
 	CODEC_INFO
@@ -206,12 +206,12 @@ feature {NONE} -- Match actions
 
 feature {NONE} -- Implementation
 
-	differing_unicodes: ARRAYED_LIST [LATIN_CHARACTER]
+	differing_unicodes: EL_ARRAYED_LIST [LATIN_CHARACTER]
 		local
 			i: INTEGER
 		do
 			create Result.make (128)
-			from i := 0 until i = 256 loop
+			from i := 0 until i > 0xFF loop
 				if attached latin_table [i] as lc and then lc.code /= lc.unicode then
 					Result.extend (lc)
 				end
@@ -225,17 +225,46 @@ feature {NONE} -- Implementation
 							or else across upper_case_offsets as set some set.item.has_character (latin) end
 		end
 
+	latin_1_disjoint_set: STRING
+		local
+			intervals: EL_SEQUENTIAL_INTERVALS; item: STRING
+		do
+			if codec_id = 1 then
+				create Result.make_empty
+			else
+				create Result.make (100)
+				create intervals.make (50)
+				if attached differing_unicodes as code_list then
+					across code_list as list loop
+						intervals.extend_upper (list.item.code.to_integer_32)
+					end
+					from intervals.start until intervals.after loop
+						item := quoted_manifest (intervals.item_lower)
+						if intervals.item_count > 2 then
+							item := item + ".." + quoted_manifest (intervals.item_upper)
+						end
+						if Result.count > 0 then
+							Result.append (", ")
+						end
+						Result.append (item)
+						intervals.forth
+					end
+				end
+			end
+		end
+
 	new_unicode_intervals: like unicode_intervals
 		local
-			ascending_unicodes: SORTABLE_ARRAY [LATIN_CHARACTER]
-			i, unicode: INTEGER
+			ascending_unicodes: EL_ARRAYED_LIST [LATIN_CHARACTER]
+			i, unicode: INTEGER; is_unused: EL_PREDICATE_QUERY_CONDITION [LATIN_CHARACTER]
 		do
-			create ascending_unicodes.make_from_array (differing_unicodes.to_array)
-			ascending_unicodes.sort
-			unicode := ascending_unicodes.item (1).unicode.to_integer_32
+			is_unused := agent {LATIN_CHARACTER}.is_unused
+			ascending_unicodes := differing_unicodes.query (not is_unused)
+			ascending_unicodes.sort (True)
+			unicode := ascending_unicodes.first.unicode.to_integer_32
 			create Result.make (ascending_unicodes.count)
 			Result.extend (unicode |..| unicode)
-			Result.last.extend_latin (ascending_unicodes.item (1))
+			Result.last.extend_latin (ascending_unicodes.first)
 			from i := 2 until i > ascending_unicodes.count loop
 				unicode := ascending_unicodes [i].unicode.to_integer_32
 				if Result.last.upper + 1 = unicode then
@@ -249,6 +278,30 @@ feature {NONE} -- Implementation
 			Result.ascending_sort
 		end
 
+	quoted_manifest (code: INTEGER): STRING
+		local
+			c: CHARACTER
+		do
+			c := code.to_character_8
+			inspect code
+			-- c.is_printable not working
+				when 0x21 .. 0x7E,  0xA2 .. 0xAC,  0xAE .. 0xFF then
+					create Result.make_filled ('%'', 3)
+					Result [2] := c
+					inspect c
+						when '%'', '%%' then
+							Result.insert_character ('%%', 2)
+					else
+					end
+			else
+			-- Decimal representation
+				create Result.make (6)
+				Result.append ("'%%/0")
+				Result.append_integer (code)
+				Result.append ("/'")
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	last_latin_code: INTEGER
@@ -259,9 +312,9 @@ feature {NONE} -- Internal attributes
 
 	lower_case_offsets: CASE_OFFSETS_TABLE
 
-	upper_case_offsets: CASE_OFFSETS_TABLE
-
 	single_case_character_set: ARRAYED_LIST [LATIN_CHARACTER]
+
+	upper_case_offsets: CASE_OFFSETS_TABLE
 
 feature {NONE} -- Evolicity fields
 
@@ -283,20 +336,23 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["has_thai_numerals",				agent: BOOLEAN_REF do Result := (codec_id = 11).to_reference end],
-				["codec_name", 						agent: ZSTRING do Result := codec_name.as_upper end],
-				["codec_base_name", 					agent: ZSTRING do Result := codec_base_name end],
-				["latin_characters", 				agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],
-				["lower_case_offsets", 				agent: ITERABLE [STRING] do Result := lower_case_offsets.to_string_table end],
-				["upper_case_offsets", 				agent: ITERABLE [STRING] do Result := upper_case_offsets.to_string_table end],
-				["lower_case_set_string", 			agent: STRING do Result := lower_case_offsets.case_set_string end],
-				["upper_case_set_string", 			agent: STRING do Result := upper_case_offsets.case_set_string end],
-				["unchangeable_case_set_string", agent get_unchangeable_case_set_string],
-				["alpha_set_string", 				agent: STRING do Result := alpha_set.to_string end],
-				["numeric_set_string",				agent: STRING do Result := numeric_set.to_string end],
 				["codec_id",							agent: INTEGER_REF do Result := codec_id.to_reference end],
-				["single_case_character_set", 	agent: ITERABLE [LATIN_CHARACTER] do Result := single_case_character_set end],
-				["unicode_intervals", 				agent: ITERABLE [UNICODE_INTERVAL] do Result := unicode_intervals end]
+				["has_thai_numerals",				agent: BOOLEAN_REF do Result := (codec_id = 11).to_reference end],
+				["latin_characters",					agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end],
+				["lower_case_offsets",				agent: ITERABLE [STRING] do Result := lower_case_offsets.to_string_table end],
+				["single_case_character_set",		agent: ITERABLE [LATIN_CHARACTER] do Result := single_case_character_set end],
+				["upper_case_offsets",				agent: ITERABLE [STRING] do Result := upper_case_offsets.to_string_table end],
+				["unicode_intervals",				agent: ITERABLE [UNICODE_INTERVAL] do Result := unicode_intervals end],
+
+--				String values
+				["alpha_set_string",					agent: STRING do Result := alpha_set.to_string end],
+				["codec_name",							agent: ZSTRING do Result := codec_name.as_upper end],
+				["codec_base_name",					agent: ZSTRING do Result := codec_base_name end],
+				["latin_1_disjoint_set",			agent latin_1_disjoint_set],
+				["lower_case_set_string",			agent: STRING do Result := lower_case_offsets.case_set_string end],
+				["numeric_set_string",				agent: STRING do Result := numeric_set.to_string end],
+				["upper_case_set_string",			agent: STRING do Result := upper_case_offsets.case_set_string end],
+				["unchangeable_case_set_string",	agent get_unchangeable_case_set_string]
 			>>)
 		end
 

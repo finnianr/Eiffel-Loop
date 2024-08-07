@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 15:47:10 GMT (Friday 10th February 2023)"
+	date: "2024-08-07 14:39:54 GMT (Wednesday 7th August 2024)"
 	revision: "1"
 
 class
@@ -49,24 +49,24 @@ feature {NONE} -- Initialization
 				229  -- 'ċ'
 			>>)
 			latin_set_5 := latin_set_from_array (<<
+				221, -- 'Ŭ'
+				253  -- 'ŭ'
+			>>)
+			latin_set_6 := latin_set_from_array (<<
 				175, -- 'Ż'
 				191  -- 'ż'
 			>>)
-			latin_set_6 := latin_set_from_array (<<
-				162, -- '˘'
-				255  -- '˙'
-			>>)
 			latin_set_7 := latin_set_from_array (<<
-				221, -- 'Ŭ'
-				253  -- 'ŭ'
+				172, -- 'Ĵ'
+				188  -- 'ĵ'
 			>>)
 			latin_set_8 := latin_set_from_array (<<
 				169, -- 'İ'
 				185  -- 'ı'
 			>>)
 			latin_set_9 := latin_set_from_array (<<
-				172, -- 'Ĵ'
-				188  -- 'ĵ'
+				162, -- '˘'
+				255  -- '˙'
 			>>)
 		end
 
@@ -154,20 +154,32 @@ feature -- Conversion
 					Result := latin_set_3 [uc.code - 292]
 				when 'Ĉ'..'ċ' then
 					Result := latin_set_4 [uc.code - 264]
-				when 'Ż'..'ż' then
-					Result := latin_set_5 [uc.code - 379]
-				when '˘'..'˙' then
-					Result := latin_set_6 [uc.code - 728]
 				when 'Ŭ'..'ŭ' then
-					Result := latin_set_7 [uc.code - 364]
+					Result := latin_set_5 [uc.code - 364]
+				when 'Ż'..'ż' then
+					Result := latin_set_6 [uc.code - 379]
+				when 'Ĵ'..'ĵ' then
+					Result := latin_set_7 [uc.code - 308]
 				when 'İ'..'ı' then
 					Result := latin_set_8 [uc.code - 304]
-				when 'Ĵ'..'ĵ' then
-					Result := latin_set_9 [uc.code - 308]
-			else end
+				when '˘'..'˙' then
+					Result := latin_set_9 [uc.code - 728]
+			else
+				Result := Substitute
+			end
 		end
 
 feature -- Character query
+
+	in_latin_1_disjoint_set (c: CHARACTER): BOOLEAN
+		-- `True' if `c' is either the Substitute character or a member of disjoint set of latin-1
+		do
+			inspect c
+				when Substitute, '%/0161/', '¦', '©'..'¬', '¯', '±', '¶', '¹'..'¼', '¿', 'Å', 'Õ', 'Ø', 'Ý', 'å', 'õ', 'ø', 'ý'..'ÿ' then
+					Result := True
+			else
+			end
+		end
 
 	is_alpha (code: NATURAL): BOOLEAN
 		do
@@ -298,6 +310,8 @@ feature {NONE} -- Implementation
 			Result [0xFE] := 'ŝ' -- LATIN SMALL LETTER S WITH CIRCUMFLEX
 			Result [0xFF] := '˙' -- 
 		end
+
+feature {NONE} -- Internal attributes
 
 	latin_set_1: SPECIAL [CHARACTER]
 

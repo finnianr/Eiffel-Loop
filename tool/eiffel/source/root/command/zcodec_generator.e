@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "25"
+	date: "2024-08-07 12:17:58 GMT (Wednesday 7th August 2024)"
+	revision: "26"
 
 class
 	ZCODEC_GENERATOR
@@ -20,9 +20,11 @@ inherit
 			make as make_machine
 		end
 
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_TUPLE
 
 	EVOLICITY_SHARED_TEMPLATES
+
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -36,6 +38,7 @@ feature {EL_APPLICATION} -- Initialization
 			template_path := a_template_path
 			Evolicity_templates.put_file (template_path, Utf_8_encoding)
 			create codec_list.make (20)
+			create array_prefix.make_empty
 		end
 
 feature -- Constants
@@ -49,6 +52,11 @@ feature -- Basic operations
 			do_once_with_file_lines (agent find_void_function, open_lines (source_path, Utf_8))
 		end
 
+	set_selected_codec (a_selected_codec: READABLE_STRING_GENERAL)
+		do
+			create selected_codec.make_from_general (a_selected_codec)
+		end
+
 feature {NONE} -- State handlers
 
 	find_chars_ready_assignment (line: ZSTRING)
@@ -56,9 +64,10 @@ feature {NONE} -- State handlers
 		local
 			source_out_path: FILE_PATH; source_file: SOURCE_FILE
 		do
-			if line.has_substring (codec_list.last.codec_name + "_chars[0x") then
+			if line.starts_with (array_prefix) then
 				codec_list.last.add_assignment (line)
-			elseif line.ends_with (Chars_ready_equals_true) then
+
+			elseif line.ends_with (Suffix.chars_ready_TRUE) then -- iso_8859_6_chars_ready = TRUE;
 				codec_list.last.set_case_change_offsets
 				codec_list.last.set_unicode_intervals
 
@@ -76,33 +85,31 @@ feature {NONE} -- State handlers
 			codec_name: ZSTRING
 		do
 			if line.starts_with (Keyword_void) then
-				codec_name := line.substring (6, line.substring_index (Chars_suffix, 1) - 1)
-				codec_list.extend (create {CODEC_INFO}.make (codec_name))
-				lio.put_new_line
-				lio.put_line (codec_name)
-				state := agent find_chars_ready_assignment
+				codec_name := line.substring (6, line.substring_index (Suffix.chars, 1) - 1)
+				if attached selected_codec as selected implies selected ~ codec_name then
+					array_prefix := Tab * 2 + codec_name + Suffix.chars_0x
+					codec_list.extend (create {CODEC_INFO}.make (codec_name))
+					lio.put_new_line
+					lio.put_line (codec_name)
+					state := agent find_chars_ready_assignment
+				end
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Internal attributes
+
+	array_prefix: ZSTRING
 
 	codec_list: ARRAYED_LIST [CODEC_INFO]
+
+	selected_codec: detachable ZSTRING
+		-- Used for testing to only generate on codec
 
 	source_path: FILE_PATH
 
 	template_path: FILE_PATH
 
 feature {NONE} -- Constants
-
-	Chars_ready_equals_true: ZSTRING
-		once
-			Result := "_chars_ready = TRUE;"
-		end
-
-	Chars_suffix: ZSTRING
-		once
-			Result := "_chars"
-		end
 
 	Keyword_void: ZSTRING
 		once
@@ -112,6 +119,12 @@ feature {NONE} -- Constants
 	Output_path_template: ZSTRING
 		once
 			Result := "workarea/el_%S_zcodec.e"
+		end
+
+	Suffix: TUPLE [chars, chars_0x, chars_ready_TRUE: ZSTRING]
+		once
+			create Result
+			Tuple.fill (Result, "_chars, _chars[0x, _chars_ready = TRUE;")
 		end
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT

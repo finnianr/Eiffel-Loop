@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-17 9:12:52 GMT (Friday 17th March 2023)"
-	revision: "8"
+	date: "2024-08-07 13:43:10 GMT (Wednesday 7th August 2024)"
+	revision: "9"
 
 class
 	LATIN_CHARACTER
@@ -21,7 +21,7 @@ inherit
 	COMPARABLE
 
 create
-	make, make_with_unicode
+	make
 
 convert
 	make ({NATURAL})
@@ -35,23 +35,16 @@ feature {NONE} -- Initialization
 			create name.make_empty
 		end
 
-	make_with_unicode (a_code, a_unicode: NATURAL)
-		do
-			make (a_code)
-			unicode := a_unicode
-		end
-
 feature -- Access
 
 	code: NATURAL
+		-- latin-1 code
 
-	unicode: NATURAL
-
-	name: ZSTRING
-
-	unicode_string: ZSTRING
+	hexadecimal_code_string: ZSTRING
 		do
-			create Result.make_filled (unicode.to_character_32, 1)
+			Result := code.to_hex_string
+			Result.prune_all_leading ('0')
+			Result.prepend_string_general (once "0x")
 		end
 
 	inverse_case_unicode_string: ZSTRING
@@ -70,11 +63,13 @@ feature -- Access
 			end
 		end
 
-	hexadecimal_code_string: ZSTRING
+	name: ZSTRING
+
+	unicode: NATURAL
+
+	unicode_string: ZSTRING
 		do
-			Result := code.to_hex_string
-			Result.prune_all_leading ('0')
-			Result.prepend_string_general (once "0x")
+			create Result.make_filled (unicode.to_character_32, 1)
 		end
 
 feature -- Comparison
@@ -101,6 +96,11 @@ feature -- Status query
 			Result := unicode.to_character_32.is_unicode_digit
 		end
 
+	is_unused: BOOLEAN
+		do
+			Result := unicode = Unicode_substitute
+		end
+
 feature -- Element change
 
 	set_name (a_name: like name)
@@ -119,12 +119,15 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make (<<
-				["hex_code", 					agent hexadecimal_code_string],
-				["unicode", 					agent unicode_string],
-				["inverse_case_unicode", 	agent inverse_case_unicode_string],
-				["code", 						agent: INTEGER_32_REF do Result := code.to_integer_32.to_reference end],
-				["name", 						agent: ZSTRING do Result := name end]
+				["hex_code",				 agent hexadecimal_code_string],
+				["unicode",					 agent unicode_string],
+				["inverse_case_unicode", agent inverse_case_unicode_string],
+				["code",						 agent: INTEGER_32_REF do Result := code.to_integer_32.to_reference end],
+				["name",						 agent: ZSTRING do Result := name end]
 			>>)
 		end
 
+feature {NONE} -- Constants
+
+	Unicode_substitute: NATURAL = 0xFFFD
 end

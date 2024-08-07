@@ -1,3 +1,10 @@
+Ver 2.2.11 (7 Aug 2024)
+* Fixed rendering of non-printable characters latin_1_disjoint_set for all codecs
+* Made separate tests for each codec
+
+Ver 2.2.10 (7 Aug 2024)
+* Add routine in_latin_1_disjoint_set to generated descendants of EL_ZCODEC
+
 Ver 2.2.9 (29 Jul 2024)
 * Changed name of PYXIS_LOCALE_COMPILER_APP
 
