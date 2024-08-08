@@ -46,20 +46,12 @@ class SYSTEM_VERSION (object):
 			self.copyright = ''
 			self.product = ''
 
-	def tuple_3 (self):
-		result = (self.major, self.minor, self.release)
-		return result
-
-	def tuple_4 (self):
-		result = (self.major, self.minor, self.release, self.build)
-		return result
-
-	def long_string (self):
-		result = "%s.%s.%s build %s" % self.tuple_4 ()
+	def long_string (self, separator = ' build '):
+		result = self.short_string () + separator + self.build
 		return result
 
 	def short_string (self):
-		result = "%s.%s.%s" % self.tuple_3 ()
+		result = '.'.join ([self.major, self.minor, self.release])
 		return result
 
 	def compact (self):
@@ -269,7 +261,7 @@ class SYSTEM_INFO (object):
 	def write_version_text (self):
 		# Write build/version.txt
 		f = open (path.join (self.Build_dir, 'version.txt'), 'w')
-		f.write ("%s.%s.%s" % self.version ().tuple_3 ())
+		f.write (self.version ().short_string ())
 		f.close ()
 
 # Implementation

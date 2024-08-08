@@ -247,9 +247,11 @@ class FREEZE_BUILD (object):
 		manifest_name = self.exe_name + self.Dot_manifest
 
 		if path.exists (self.Manifest_template_xml):
+			version = self.version.long_string ('.')
+			assert version.count () == 3, "Windows 10 expects 4 part version numbers"
 		#	use XML template in current diretory
 			attribute_table = {
-				self.system.version ().short_string () : "version='%s'",
+				version : "version='%s'",
 				ise.windows_architecture () : "processorArchitecture='%s'"
 			}
 

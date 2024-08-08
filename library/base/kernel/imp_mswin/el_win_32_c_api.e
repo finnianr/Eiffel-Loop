@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:06:15 GMT (Sunday 7th January 2024)"
-	revision: "2"
+	date: "2024-08-08 13:25:21 GMT (Thursday 8th August 2024)"
+	revision: "3"
 
 class
 	EL_WIN_32_C_API
@@ -129,7 +129,7 @@ feature {NONE} -- Win32 base
 		external
 			"C inline use <Winbase.h>"
 		alias
-			"OpenMutex(MUTEX_ALL_ACCESS, FALSE, (LPCTSTR)$name)"
+			"OpenMutex (MUTEX_ALL_ACCESS, FALSE, (LPCTSTR)$name)"
 		end
 
 	frozen c_create_mutex (name: POINTER): NATURAL

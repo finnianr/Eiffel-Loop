@@ -30,6 +30,7 @@ check ("code_dir", build.code_dir () == "build/%s/EIFGENs/classic/F_code" % ise.
 
 check ("f_code_tar_unix_path", build.f_code_tar_unix_path () == "build/F_code-%s.tar" % config.platform)
 
+check ("4 parts", build.system.version ().long_string ('.').count ('.') == 3) 
 
 
 
