@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Edited version of this page:
+	https://learn.microsoft.com/en-us/windows/win32/debug/system-error-codes%2D-0-499-
+-->
+<table>
+	<p id="SUCCESS" id_lower="success">SUCCESS</p>
+	<p>0 (0x0)</p>
+	<p>The operation completed successfully.</p>
+	<p id="INVALID_FUNCTION" id_lower="invalid_function">INVALID_FUNCTION</p>
+	<p>1 (0x1)</p>
+	<p>Incorrect function.</p>
+	<p id="FILE_NOT_FOUND" id_lower="file_not_found">FILE_NOT_FOUND</p>
+	<p>2 (0x2)</p>
+	<p>The system cannot find the file specified.</p>
+	<p id="PATH_NOT_FOUND" id_lower="path_not_found">PATH_NOT_FOUND</p>
+	<p>3 (0x3)</p>
+	<p>The system cannot find the path specified.</p>
+	<p id="TOO_MANY_OPEN_FILES" id_lower="too_many_open_files">TOO_MANY_OPEN_FILES</p>
+	<p>4 (0x4)</p>
+	<p>The system cannot open the file.</p>
+	<p id="ACCESS_DENIED" id_lower="access_denied">ACCESS_DENIED</p>
+	<p>5 (0x5)</p>
+	<p>Access is denied.</p>
+	<p id="INVALID_HANDLE" id_lower="invalid_handle">INVALID_HANDLE</p>
+	<p>6 (0x6)</p>
+	<p>The handle is invalid.</p>
+	<p id="ARENA_TRASHED" id_lower="arena_trashed">ARENA_TRASHED</p>
+	<p>7 (0x7)</p>
+	<p>The storage control blocks were destroyed.</p>
+	<p id="NOT_ENOUGH_MEMORY" id_lower="not_enough_memory">NOT_ENOUGH_MEMORY</p>
+	<p>8 (0x8)</p>
+	<p>Not enough memory resources are available to process this command.</p>
+	<p id="INVALID_BLOCK" id_lower="invalid_block">INVALID_BLOCK</p>
+	<p>9 (0x9)</p>
+	<p>The storage control block address is invalid.</p>
+	<p id="BAD_ENVIRONMENT" id_lower="bad_environment">BAD_ENVIRONMENT</p>
+	<p>10 (0xA)</p>
+	<p>The environment is incorrect.</p>
+	<p id="BAD_FORMAT" id_lower="bad_format">BAD_FORMAT</p>
+	<p>11 (0xB)</p>
+	<p>An attempt was made to load a program with an incorrect format.</p>
+	<p id="INVALID_ACCESS" id_lower="invalid_access">INVALID_ACCESS</p>
+	<p>12 (0xC)</p>
+	<p>The access code is invalid.</p>
+	<p id="INVALID_DATA" id_lower="invalid_data">INVALID_DATA</p>
+	<p>13 (0xD)</p>
+	<p>The data is invalid.</p>
+	<p id="OUTOFMEMORY" id_lower="outofmemory">OUTOFMEMORY</p>
+	<p>14 (0xE)</p>
+	<p>Not enough storage is available to complete this operation.</p>
+	<p id="INVALID_DRIVE" id_lower="invalid_drive">INVALID_DRIVE</p>
+	<p>15 (0xF)</p>
+	<p>The system cannot find the drive specified.</p>
+	<p id="CURRENT_DIRECTORY" id_lower="current_directory">CURRENT_DIRECTORY</p>
+	<p>16 (0x10)</p>
+	<p>The directory cannot be removed.</p>
+	<p id="NOT_SAME_DEVICE" id_lower="not_same_device">NOT_SAME_DEVICE</p>
+	<p>17 (0x11)</p>
+	<p>The system cannot move the file to a different disk drive.</p>
+	<p id="NO_MORE_FILES" id_lower="no_more_files">NO_MORE_FILES</p>
+	<p>18 (0x12)</p>
+	<p>There are no more files.</p>
+	<p id="WRITE_PROTECT" id_lower="write_protect">WRITE_PROTECT</p>
+	<p>19 (0x13)</p>
+	<p>The media is write protected.</p>
+	<p id="BAD_UNIT" id_lower="bad_unit">BAD_UNIT</p>
+	<p>20 (0x14)</p>
+	<p>The system cannot find the device specified.</p>
+	<p id="NOT_READY" id_lower="not_ready">NOT_READY</p>
+	<p>21 (0x15)</p>
+	<p>The device is not ready.</p>
+	<p id="BAD_COMMAND" id_lower="bad_command">BAD_COMMAND</p>
+	<p>22 (0x16)</p>
+	<p>The device does not recognize the command.</p>
+	<p id="CRC" id_lower="crc">CRC</p>
+	<p>23 (0x17)</p>
+	<p>Data error (cyclic redundancy check).</p>
+	<p id="BAD_LENGTH" id_lower="bad_length">BAD_LENGTH</p>
+	<p>24 (0x18)</p>
+	<p>The program issued a command but the command length is incorrect.</p>
+	<p id="SEEK" id_lower="seek">SEEK</p>
+	<p>25 (0x19)</p>
+	<p>The drive cannot locate a specific area or track on the disk.</p>
+	<p id="NOT_DOS_DISK" id_lower="not_dos_disk">NOT_DOS_DISK</p>
+	<p>26 (0x1A)</p>
+	<p>The specified disk or diskette cannot be accessed.</p>
+	<p id="SECTOR_NOT_FOUND" id_lower="sector_not_found">SECTOR_NOT_FOUND</p>
+	<p>27 (0x1B)</p>
+	<p>The drive cannot find the sector requested.</p>
+	<p id="OUT_OF_PAPER" id_lower="out_of_paper">OUT_OF_PAPER</p>
+	<p>28 (0x1C)</p>
+	<p>The printer is out of paper.</p>
+	<p id="WRITE_FAULT" id_lower="write_fault">WRITE_FAULT</p>
+	<p>29 (0x1D)</p>
+	<p>The system cannot write to the specified device.</p>
+	<p id="READ_FAULT" id_lower="read_fault">READ_FAULT</p>
+	<p>30 (0x1E)</p>
+	<p>The system cannot read from the specified device.</p>
+	<p id="GEN_FAILURE" id_lower="gen_failure">GEN_FAILURE</p>
+	<p>31 (0x1F)</p>
+	<p>A device attached to the system is not functioning.</p>
+	<p id="SHARING_VIOLATION" id_lower="sharing_violation">SHARING_VIOLATION</p>
+	<p>32 (0x20)</p>
+	<p>The process cannot access the file because it is being used by another process.</p>
+	<p id="LOCK_VIOLATION" id_lower="lock_violation">LOCK_VIOLATION</p>
+	<p>33 (0x21)</p>
+	<p>The process cannot access the file because another process has locked a portion of the file.</p>
+	<p id="WRONG_DISK" id_lower="wrong_disk">WRONG_DISK</p>
+	<p>34 (0x22)</p>
+	<p>
+The wrong diskette is in the drive. Insert %2 (Volume Serial Number: %3) into drive %1.
+	</p>
+	<p id="SHARING_BUFFER_EXCEEDED" id_lower="sharing_buffer_exceeded">SHARING_BUFFER_EXCEEDED</p>
+	<p>36 (0x24)</p>
+	<p>Too many files opened for sharing.</p>
+	<p id="HANDLE_EOF" id_lower="handle_eof">HANDLE_EOF</p>
+	<p>38 (0x26)</p>
+	<p>Reached the end of the file.</p>
+	<p id="HANDLE_DISK_FULL" id_lower="handle_disk_full">HANDLE_DISK_FULL</p>
+	<p>39 (0x27)</p>
+	<p>The disk is full.</p>
+	<p id="NOT_SUPPORTED" id_lower="not_supported">NOT_SUPPORTED</p>
+	<p>50 (0x32)</p>
+	<p>The request is not supported.</p>
+	<p id="REM_NOT_LIST" id_lower="rem_not_list">REM_NOT_LIST</p>
+	<p>51 (0x33)</p>
+	<p>
+Windows cannot find the network path. Verify that the network path is correct and the
+destination computer is not busy or turned off. If Windows still cannot find the network
+path contact your network administrator.
+	</p>
+	<p id="DUP_NAME" id_lower="dup_name">DUP_NAME</p>
+	<p>52 (0x34)</p>
+	<p>
+You were not connected because a duplicate name exists on the network.
+If joining a domain go to System in Control Panel to change the computer
+name and try again. If joining a workgroup choose another workgroup name.
+	</p>
+	<p id="BAD_NETPATH" id_lower="bad_netpath">BAD_NETPATH</p>
+	<p>53 (0x35)</p>
+	<p>The network path was not found.</p>
+	<p id="NETWORK_BUSY" id_lower="network_busy">NETWORK_BUSY</p>
+	<p>54 (0x36)</p>
+	<p>The network is busy.</p>
+	<p id="DEV_NOT_EXIST" id_lower="dev_not_exist">DEV_NOT_EXIST</p>
+	<p>55 (0x37)</p>
+	<p>The specified network resource or device is no longer available.</p>
+	<p id="TOO_MANY_CMDS" id_lower="too_many_cmds">TOO_MANY_CMDS</p>
+	<p>56 (0x38)</p>
+	<p>The network BIOS command limit has been reached.</p>
+	<p id="ADAP_HDW_ERR" id_lower="adap_hdw_err">ADAP_HDW_ERR</p>
+	<p>57 (0x39)</p>
+	<p>A network adapter hardware error occurred.</p>
+	<p id="BAD_NET_RESP" id_lower="bad_net_resp">BAD_NET_RESP</p>
+	<p>58 (0x3A)</p>
+	<p>The specified server cannot perform the requested operation.</p>
+	<p id="UNEXP_NET_ERR" id_lower="unexp_net_err">UNEXP_NET_ERR</p>
+	<p>59 (0x3B)</p>
+	<p>An unexpected network error occurred.</p>
+	<p id="BAD_REM_ADAP" id_lower="bad_rem_adap">BAD_REM_ADAP</p>
+	<p>60 (0x3C)</p>
+	<p>The remote adapter is not compatible.</p>
+	<p id="PRINTQ_FULL" id_lower="printq_full">PRINTQ_FULL</p>
+	<p>61 (0x3D)</p>
+	<p>The printer queue is full.</p>
+	<p id="NO_SPOOL_SPACE" id_lower="no_spool_space">NO_SPOOL_SPACE</p>
+	<p>62 (0x3E)</p>
+	<p>Space to store the file waiting to be printed is not available on the server.</p>
+	<p id="PRINT_CANCELLED" id_lower="print_cancelled">PRINT_CANCELLED</p>
+	<p>63 (0x3F)</p>
+	<p>Your file waiting to be printed was deleted.</p>
+	<p id="NETNAME_DELETED" id_lower="netname_deleted">NETNAME_DELETED</p>
+	<p>64 (0x40)</p>
+	<p>The specified network name is no longer available.</p>
+	<p id="NETWORK_ACCESS_DENIED" id_lower="network_access_denied">NETWORK_ACCESS_DENIED</p>
+	<p>65 (0x41)</p>
+	<p>Network access is denied.</p>
+	<p id="BAD_DEV_TYPE" id_lower="bad_dev_type">BAD_DEV_TYPE</p>
+	<p>66 (0x42)</p>
+	<p>The network resource type is not correct.</p>
+	<p id="BAD_NET_NAME" id_lower="bad_net_name">BAD_NET_NAME</p>
+	<p>67 (0x43)</p>
+	<p>The network name cannot be found.</p>
+	<p id="TOO_MANY_NAMES" id_lower="too_many_names">TOO_MANY_NAMES</p>
+	<p>68 (0x44)</p>
+	<p>The name limit for the local computer network adapter card was exceeded.</p>
+	<p id="TOO_MANY_SESS" id_lower="too_many_sess">TOO_MANY_SESS</p>
+	<p>69 (0x45)</p>
+	<p>The network BIOS session limit was exceeded.</p>
+	<p id="SHARING_PAUSED" id_lower="sharing_paused">SHARING_PAUSED</p>
+	<p>70 (0x46)</p>
+	<p>The remote server has been paused or is in the process of being started.</p>
+	<p id="REQ_NOT_ACCEP" id_lower="req_not_accep">REQ_NOT_ACCEP</p>
+	<p>71 (0x47)</p>
+	<p>
+No more connections can be made to this remote computer at this time
+because there are already as many connections as the computer can accept.
+	</p>
+	<p id="REDIR_PAUSED" id_lower="redir_paused">REDIR_PAUSED</p>
+	<p>72 (0x48)</p>
+	<p>The specified printer or disk device has been paused.</p>
+	<p id="FILE_EXISTS" id_lower="file_exists">FILE_EXISTS</p>
+	<p>80 (0x50)</p>
+	<p>The file exists.</p>
+	<p id="CANNOT_MAKE" id_lower="cannot_make">CANNOT_MAKE</p>
+	<p>82 (0x52)</p>
+	<p>The directory or file cannot be created.</p>
+	<p id="FAIL_I24" id_lower="fail_i24">FAIL_I24</p>
+	<p>83 (0x53)</p>
+	<p>Fail on INT 24.</p>
+	<p id="OUT_OF_STRUCTURES" id_lower="out_of_structures">OUT_OF_STRUCTURES</p>
+	<p>84 (0x54)</p>
+	<p>Storage to process this request is not available.</p>
+	<p id="ALREADY_ASSIGNED" id_lower="already_assigned">ALREADY_ASSIGNED</p>
+	<p>85 (0x55)</p>
+	<p>The local device name is already in use.</p>
+	<p id="INVALID_PASSWORD" id_lower="invalid_password">INVALID_PASSWORD</p>
+	<p>86 (0x56)</p>
+	<p>The specified network password is not correct.</p>
+	<p id="INVALID_PARAMETER" id_lower="invalid_parameter">INVALID_PARAMETER</p>
+	<p>87 (0x57)</p>
+	<p>The parameter is incorrect.</p>
+	<p id="NET_WRITE_FAULT" id_lower="net_write_fault">NET_WRITE_FAULT</p>
+	<p>88 (0x58)</p>
+	<p>A write fault occurred on the network.</p>
+	<p id="NO_PROC_SLOTS" id_lower="no_proc_slots">NO_PROC_SLOTS</p>
+	<p>89 (0x59)</p>
+	<p>The system cannot start another process at this time.</p>
+	<p id="TOO_MANY_SEMAPHORES" id_lower="too_many_semaphores">TOO_MANY_SEMAPHORES</p>
+	<p>100 (0x64)</p>
+	<p>Cannot create another system semaphore.</p>
+	<p id="EXCL_SEM_ALREADY_OWNED" id_lower="excl_sem_already_owned">EXCL_SEM_ALREADY_OWNED</p>
+	<p>101 (0x65)</p>
+	<p>The exclusive semaphore is owned by another process.</p>
+	<p id="SEM_IS_SET" id_lower="sem_is_set">SEM_IS_SET</p>
+	<p>102 (0x66)</p>
+	<p>The semaphore is set and cannot be closed.</p>
+	<p id="TOO_MANY_SEM_REQUESTS" id_lower="too_many_sem_requests">TOO_MANY_SEM_REQUESTS</p>
+	<p>103 (0x67)</p>
+	<p>The semaphore cannot be set again.</p>
+	<p id="INVALID_AT_INTERRUPT_TIME" id_lower="invalid_at_interrupt_time">INVALID_AT_INTERRUPT_TIME</p>
+	<p>104 (0x68)</p>
+	<p>Cannot request exclusive semaphores at interrupt time.</p>
+	<p id="SEM_OWNER_DIED" id_lower="sem_owner_died">SEM_OWNER_DIED</p>
+	<p>105 (0x69)</p>
+	<p>The previous ownership of this semaphore has ended.</p>
+	<p id="SEM_USER_LIMIT" id_lower="sem_user_limit">SEM_USER_LIMIT</p>
+	<p>106 (0x6A)</p>
+	<p>Insert the diskette for drive %1.</p>
+	<p id="DISK_CHANGE" id_lower="disk_change">DISK_CHANGE</p>
+	<p>107 (0x6B)</p>
+	<p>The program stopped because an alternate diskette was not inserted.</p>
+	<p id="DRIVE_LOCKED" id_lower="drive_locked">DRIVE_LOCKED</p>
+	<p>108 (0x6C)</p>
+	<p>The disk is in use or locked by another process.</p>
+	<p id="BROKEN_PIPE" id_lower="broken_pipe">BROKEN_PIPE</p>
+	<p>109 (0x6D)</p>
+	<p>The pipe has been ended.</p>
+	<p id="OPEN_FAILED" id_lower="open_failed">OPEN_FAILED</p>
+	<p>110 (0x6E)</p>
+	<p>The system cannot open the device or file specified.</p>
+	<p id="BUFFER_OVERFLOW" id_lower="buffer_overflow">BUFFER_OVERFLOW</p>
+	<p>111 (0x6F)</p>
+	<p>The file name is too long.</p>
+	<p id="DISK_FULL" id_lower="disk_full">DISK_FULL</p>
+	<p>112 (0x70)</p>
+	<p>There is not enough space on the disk.</p>
+	<p id="NO_MORE_SEARCH_HANDLES" id_lower="no_more_search_handles">NO_MORE_SEARCH_HANDLES</p>
+	<p>113 (0x71)</p>
+	<p>No more internal file identifiers available.</p>
+	<p id="INVALID_TARGET_HANDLE" id_lower="invalid_target_handle">INVALID_TARGET_HANDLE</p>
+	<p>114 (0x72)</p>
+	<p>The target internal file identifier is incorrect.</p>
+	<p id="INVALID_CATEGORY" id_lower="invalid_category">INVALID_CATEGORY</p>
+	<p>117 (0x75)</p>
+	<p>The IOCTL call made by the application program is not correct.</p>
+	<p id="INVALID_VERIFY_SWITCH" id_lower="invalid_verify_switch">INVALID_VERIFY_SWITCH</p>
+	<p>118 (0x76)</p>
+	<p>The verify-on-write switch parameter value is not correct.</p>
+	<p id="BAD_DRIVER_LEVEL" id_lower="bad_driver_level">BAD_DRIVER_LEVEL</p>
+	<p>119 (0x77)</p>
+	<p>The system does not support the command requested.</p>
+	<p id="CALL_NOT_IMPLEMENTED" id_lower="call_not_implemented">CALL_NOT_IMPLEMENTED</p>
+	<p>120 (0x78)</p>
+	<p>This function is not supported on this system.</p>
+	<p id="SEM_TIMEOUT" id_lower="sem_timeout">SEM_TIMEOUT</p>
+	<p>121 (0x79)</p>
+	<p>The semaphore timeout period has expired.</p>
+	<p id="INSUFFICIENT_BUFFER" id_lower="insufficient_buffer">INSUFFICIENT_BUFFER</p>
+	<p>122 (0x7A)</p>
+	<p>The data area passed to a system call is too small.</p>
+	<p id="INVALID_NAME" id_lower="invalid_name">INVALID_NAME</p>
+	<p>123 (0x7B)</p>
+	<p>The filename directory name or volume label syntax is incorrect.</p>
+	<p id="INVALID_LEVEL" id_lower="invalid_level">INVALID_LEVEL</p>
+	<p>124 (0x7C)</p>
+	<p>The system call level is not correct.</p>
+	<p id="NO_VOLUME_LABEL" id_lower="no_volume_label">NO_VOLUME_LABEL</p>
+	<p>125 (0x7D)</p>
+	<p>The disk has no volume label.</p>
+	<p id="MOD_NOT_FOUND" id_lower="mod_not_found">MOD_NOT_FOUND</p>
+	<p>126 (0x7E)</p>
+	<p>The specified module could not be found.</p>
+	<p id="PROC_NOT_FOUND" id_lower="proc_not_found">PROC_NOT_FOUND</p>
+	<p>127 (0x7F)</p>
+	<p>The specified procedure could not be found.</p>
+	<p id="WAIT_NO_CHILDREN" id_lower="wait_no_children">WAIT_NO_CHILDREN</p>
+	<p>128 (0x80)</p>
+	<p>There are no child processes to wait for.</p>
+	<p id="CHILD_NOT_COMPLETE" id_lower="child_not_complete">CHILD_NOT_COMPLETE</p>
+	<p>129 (0x81)</p>
+	<p>The %1 application cannot be run in Win32 mode.</p>
+	<p id="DIRECT_ACCESS_HANDLE" id_lower="direct_access_handle">DIRECT_ACCESS_HANDLE</p>
+	<p>130 (0x82)</p>
+	<p>Attempt to use a file handle to an open disk partition for an operation other than raw disk I/O.</p>
+	<p id="NEGATIVE_SEEK" id_lower="negative_seek">NEGATIVE_SEEK</p>
+	<p>131 (0x83)</p>
+	<p>An attempt was made to move the file pointer before the beginning of the file.</p>
+	<p id="SEEK_ON_DEVICE" id_lower="seek_on_device">SEEK_ON_DEVICE</p>
+	<p>132 (0x84)</p>
+	<p>The file pointer cannot be set on the specified device or file.</p>
+	<p id="IS_JOIN_TARGET" id_lower="is_join_target">IS_JOIN_TARGET</p>
+	<p>133 (0x85)</p>
+	<p>A JOIN or SUBST command cannot be used for a drive that contains previously joined drives.</p>
+	<p id="IS_JOINED" id_lower="is_joined">IS_JOINED</p>
+	<p>134 (0x86)</p>
+	<p>An attempt was made to use a JOIN or SUBST command on a drive that has already been joined.</p>
+	<p id="IS_SUBSTED" id_lower="is_substed">IS_SUBSTED</p>
+	<p>135 (0x87)</p>
+	<p>An attempt was made to use a JOIN or SUBST command on a drive that has already been substituted.</p>
+	<p id="NOT_JOINED" id_lower="not_joined">NOT_JOINED</p>
+	<p>136 (0x88)</p>
+	<p>The system tried to delete the JOIN of a drive that is not joined.</p>
+	<p id="NOT_SUBSTED" id_lower="not_substed">NOT_SUBSTED</p>
+	<p>137 (0x89)</p>
+	<p>The system tried to delete the substitution of a drive that is not substituted.</p>
+	<p id="JOIN_TO_JOIN" id_lower="join_to_join">JOIN_TO_JOIN</p>
+	<p>138 (0x8A)</p>
+	<p>The system tried to join a drive to a directory on a joined drive.</p>
+	<p id="SUBST_TO_SUBST" id_lower="subst_to_subst">SUBST_TO_SUBST</p>
+	<p>139 (0x8B)</p>
+	<p>The system tried to substitute a drive to a directory on a substituted drive.</p>
+	<p id="JOIN_TO_SUBST" id_lower="join_to_subst">JOIN_TO_SUBST</p>
+	<p>140 (0x8C)</p>
+	<p>The system tried to join a drive to a directory on a substituted drive.</p>
+	<p id="SUBST_TO_JOIN" id_lower="subst_to_join">SUBST_TO_JOIN</p>
+	<p>141 (0x8D)</p>
+	<p>The system tried to SUBST a drive to a directory on a joined drive.</p>
+	<p id="BUSY_DRIVE" id_lower="busy_drive">BUSY_DRIVE</p>
+	<p>142 (0x8E)</p>
+	<p>The system cannot perform a JOIN or SUBST at this time.</p>
+	<p id="SAME_DRIVE" id_lower="same_drive">SAME_DRIVE</p>
+	<p>143 (0x8F)</p>
+	<p>The system cannot join or substitute a drive to or for a directory on the same drive.</p>
+	<p id="DIR_NOT_ROOT" id_lower="dir_not_root">DIR_NOT_ROOT</p>
+	<p>144 (0x90)</p>
+	<p>The directory is not a subdirectory of the root directory.</p>
+	<p id="DIR_NOT_EMPTY" id_lower="dir_not_empty">DIR_NOT_EMPTY</p>
+	<p>145 (0x91)</p>
+	<p>The directory is not empty.</p>
+	<p id="IS_SUBST_PATH" id_lower="is_subst_path">IS_SUBST_PATH</p>
+	<p>146 (0x92)</p>
+	<p>The path specified is being used in a substitute.</p>
+	<p id="IS_JOIN_PATH" id_lower="is_join_path">IS_JOIN_PATH</p>
+	<p>147 (0x93)</p>
+	<p>Not enough resources are available to process this command.</p>
+	<p id="PATH_BUSY" id_lower="path_busy">PATH_BUSY</p>
+	<p>148 (0x94)</p>
+	<p>The path specified cannot be used at this time.</p>
+	<p id="IS_SUBST_TARGET" id_lower="is_subst_target">IS_SUBST_TARGET</p>
+	<p>149 (0x95)</p>
+	<p>
+An attempt was made to join or substitute a drive for which a directory
+on the drive is the target of a previous substitute.
+	</p>
+	<p id="SYSTEM_TRACE" id_lower="system_trace">SYSTEM_TRACE</p>
+	<p>150 (0x96)</p>
+	<p>System trace information was not specified in your CONFIG.SYS file
+or tracing is disallowed.</p>
+	<p id="INVALID_EVENT_COUNT" id_lower="invalid_event_count">INVALID_EVENT_COUNT</p>
+	<p>151 (0x97)</p>
+	<p>The number of specified semaphore events for DosMuxSemWait is not correct.</p>
+	<p id="TOO_MANY_MUXWAITERS" id_lower="too_many_muxwaiters">TOO_MANY_MUXWAITERS</p>
+	<p>152 (0x98)</p>
+	<p>DosMuxSemWait did not execute; too many semaphores are already set.</p>
+	<p id="INVALID_LIST_FORMAT" id_lower="invalid_list_format">INVALID_LIST_FORMAT</p>
+	<p>153 (0x99)</p>
+	<p>The DosMuxSemWait list is not correct.</p>
+	<p id="LABEL_TOO_LONG" id_lower="label_too_long">LABEL_TOO_LONG</p>
+	<p>154 (0x9A)</p>
+	<p>The volume label you entered exceeds the label character limit of the target file system.</p>
+	<p id="TOO_MANY_TCBS" id_lower="too_many_tcbs">TOO_MANY_TCBS</p>
+	<p>155 (0x9B)</p>
+	<p>Cannot create another thread.</p>
+	<p id="SIGNAL_REFUSED" id_lower="signal_refused">SIGNAL_REFUSED</p>
+	<p>156 (0x9C)</p>
+	<p>The recipient process has refused the signal.</p>
+	<p id="DISCARDED" id_lower="discarded">DISCARDED</p>
+	<p>157 (0x9D)</p>
+	<p>The segment is already discarded and cannot be locked.</p>
+	<p id="NOT_LOCKED" id_lower="not_locked">NOT_LOCKED</p>
+	<p>158 (0x9E)</p>
+	<p>The segment is already unlocked.</p>
+	<p id="BAD_THREADID_ADDR" id_lower="bad_threadid_addr">BAD_THREADID_ADDR</p>
+	<p>159 (0x9F)</p>
+	<p>The address for the thread ID is not correct.</p>
+	<p id="BAD_ARGUMENTS" id_lower="bad_arguments">BAD_ARGUMENTS</p>
+	<p>160 (0xA0)</p>
+	<p>One or more arguments are not correct.</p>
+	<p id="BAD_PATHNAME" id_lower="bad_pathname">BAD_PATHNAME</p>
+	<p>161 (0xA1)</p>
+	<p>The specified path is invalid.</p>
+	<p id="SIGNAL_PENDING" id_lower="signal_pending">SIGNAL_PENDING</p>
+	<p>162 (0xA2)</p>
+	<p>A signal is already pending.</p>
+	<p id="MAX_THRDS_REACHED" id_lower="max_thrds_reached">MAX_THRDS_REACHED</p>
+	<p>164 (0xA4)</p>
+	<p>No more threads can be created in the system.</p>
+	<p id="LOCK_FAILED" id_lower="lock_failed">LOCK_FAILED</p>
+	<p>167 (0xA7)</p>
+	<p>Unable to lock a region of a file.</p>
+	<p id="BUSY" id_lower="busy">BUSY</p>
+	<p>170 (0xAA)</p>
+	<p>The requested resource is in use.</p>
+	<p id="DEVICE_SUPPORT_IN_PROGRESS" id_lower="device_support_in_progress">DEVICE_SUPPORT_IN_PROGRESS</p>
+	<p>171 (0xAB)</p>
+	<p>Device's command support detection is in progress.</p>
+	<p id="CANCEL_VIOLATION" id_lower="cancel_violation">CANCEL_VIOLATION</p>
+	<p>173 (0xAD)</p>
+	<p>A lock request was not outstanding for the supplied cancel region.</p>
+	<p id="ATOMIC_LOCKS_NOT_SUPPORTED" id_lower="atomic_locks_not_supported">ATOMIC_LOCKS_NOT_SUPPORTED</p>
+	<p>174 (0xAE)</p>
+	<p>The file system does not support atomic changes to the lock type.</p>
+	<p id="INVALID_SEGMENT_NUMBER" id_lower="invalid_segment_number">INVALID_SEGMENT_NUMBER</p>
+	<p>180 (0xB4)</p>
+	<p>The system detected a segment number that was not correct.</p>
+	<p id="INVALID_ORDINAL" id_lower="invalid_ordinal">INVALID_ORDINAL</p>
+	<p>182 (0xB6)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="ALREADY_EXISTS" id_lower="already_exists">ALREADY_EXISTS</p>
+	<p>183 (0xB7)</p>
+	<p>Cannot create a file when that file already exists.</p>
+	<p id="INVALID_FLAG_NUMBER" id_lower="invalid_flag_number">INVALID_FLAG_NUMBER</p>
+	<p>186 (0xBA)</p>
+	<p>The flag passed is not correct.</p>
+	<p id="SEM_NOT_FOUND" id_lower="sem_not_found">SEM_NOT_FOUND</p>
+	<p>187 (0xBB)</p>
+	<p>The specified system semaphore name was not found.</p>
+	<p id="INVALID_STARTING_CODESEG" id_lower="invalid_starting_codeseg">INVALID_STARTING_CODESEG</p>
+	<p>188 (0xBC)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="INVALID_STACKSEG" id_lower="invalid_stackseg">INVALID_STACKSEG</p>
+	<p>189 (0xBD)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="INVALID_MODULETYPE" id_lower="invalid_moduletype">INVALID_MODULETYPE</p>
+	<p>190 (0xBE)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="INVALID_EXE_SIGNATURE" id_lower="invalid_exe_signature">INVALID_EXE_SIGNATURE</p>
+	<p>191 (0xBF)</p>
+	<p>Cannot run %1 in Win32 mode.</p>
+	<p id="EXE_MARKED_INVALID" id_lower="exe_marked_invalid">EXE_MARKED_INVALID</p>
+	<p>192 (0xC0)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="BAD_EXE_FORMAT" id_lower="bad_exe_format">BAD_EXE_FORMAT</p>
+	<p>193 (0xC1)</p>
+	<p>%1 is not a valid Win32 application.</p>
+	<p id="ITERATED_DATA_EXCEEDS_64k" id_lower="iterated_data_exceeds_64k">ITERATED_DATA_EXCEEDS_64k</p>
+	<p>194 (0xC2)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="INVALID_MINALLOCSIZE" id_lower="invalid_minallocsize">INVALID_MINALLOCSIZE</p>
+	<p>195 (0xC3)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="DYNLINK_FROM_INVALID_RING" id_lower="dynlink_from_invalid_ring">DYNLINK_FROM_INVALID_RING</p>
+	<p>196 (0xC4)</p>
+	<p>The operating system cannot run this application program.</p>
+	<p id="IOPL_NOT_ENABLED" id_lower="iopl_not_enabled">IOPL_NOT_ENABLED</p>
+	<p>197 (0xC5)</p>
+	<p>The operating system is not presently configured to run this application.</p>
+	<p id="INVALID_SEGDPL" id_lower="invalid_segdpl">INVALID_SEGDPL</p>
+	<p>198 (0xC6)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="AUTODATASEG_EXCEEDS_64k" id_lower="autodataseg_exceeds_64k">AUTODATASEG_EXCEEDS_64k</p>
+	<p>199 (0xC7)</p>
+	<p>The operating system cannot run this application program.</p>
+	<p id="RING2SEG_MUST_BE_MOVABLE" id_lower="ring2seg_must_be_movable">RING2SEG_MUST_BE_MOVABLE</p>
+	<p>200 (0xC8)</p>
+	<p>The code segment cannot be greater than or equal to 64K.</p>
+	<p id="RELOC_CHAIN_XEEDS_SEGLIM" id_lower="reloc_chain_xeeds_seglim">RELOC_CHAIN_XEEDS_SEGLIM</p>
+	<p>201 (0xC9)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="INFLOOP_IN_RELOC_CHAIN" id_lower="infloop_in_reloc_chain">INFLOOP_IN_RELOC_CHAIN</p>
+	<p>202 (0xCA)</p>
+	<p>The operating system cannot run %1.</p>
+	<p id="ENVVAR_NOT_FOUND" id_lower="envvar_not_found">ENVVAR_NOT_FOUND</p>
+	<p>203 (0xCB)</p>
+	<p>The system could not find the environment option that was entered.</p>
+	<p id="NO_SIGNAL_SENT" id_lower="no_signal_sent">NO_SIGNAL_SENT</p>
+	<p>205 (0xCD)</p>
+	<p>No process in the command subtree has a signal handler.</p>
+	<p id="FILENAME_EXCED_RANGE" id_lower="filename_exced_range">FILENAME_EXCED_RANGE</p>
+	<p>206 (0xCE)</p>
+	<p>The filename or extension is too long.</p>
+	<p id="RING2_STACK_IN_USE" id_lower="ring2_stack_in_use">RING2_STACK_IN_USE</p>
+	<p>207 (0xCF)</p>
+	<p>The ring 2 stack is in use.</p>
+	<p id="META_EXPANSION_TOO_LONG" id_lower="meta_expansion_too_long">META_EXPANSION_TOO_LONG</p>
+	<p>208 (0xD0)</p>
+	<p>
+The global filename characters * or ? are entered incorrectly
+or too many global filename characters are specified.
+</p>
+	<p id="INVALID_SIGNAL_NUMBER" id_lower="invalid_signal_number">INVALID_SIGNAL_NUMBER</p>
+	<p>209 (0xD1)</p>
+	<p>The signal being posted is not correct.</p>
+	<p id="THREAD_1_INACTIVE" id_lower="thread_1_inactive">THREAD_1_INACTIVE</p>
+	<p>210 (0xD2)</p>
+	<p>The signal handler cannot be set.</p>
+	<p id="LOCKED" id_lower="locked">LOCKED</p>
+	<p>212 (0xD4)</p>
+	<p>The segment is locked and cannot be reallocated.</p>
+	<p id="TOO_MANY_MODULES" id_lower="too_many_modules">TOO_MANY_MODULES</p>
+	<p>214 (0xD6)</p>
+	<p>Too many dynamic-link modules are attached to this program or dynamic-link module.</p>
+	<p id="NESTING_NOT_ALLOWED" id_lower="nesting_not_allowed">NESTING_NOT_ALLOWED</p>
+	<p>215 (0xD7)</p>
+	<p>Cannot nest calls to LoadModule.</p>
+	<p id="EXE_MACHINE_TYPE_MISMATCH" id_lower="exe_machine_type_mismatch">EXE_MACHINE_TYPE_MISMATCH</p>
+	<p>216 (0xD8)</p>
+	<p>
+This version of %1 is not compatible with the version of Windows you're running.
+Check your computer's system information and then contact the software publisher.
+	</p>
+	<p id="EXE_CANNOT_MODIFY_SIGNED_BINARY" id_lower="exe_cannot_modify_signed_binary">EXE_CANNOT_MODIFY_SIGNED_BINARY</p>
+	<p>217 (0xD9)</p>
+	<p>The image file %1 is signed unable to modify.</p>
+	<p id="EXE_CANNOT_MODIFY_STRONG_SIGNED_BINARY" id_lower="exe_cannot_modify_strong_signed_binary">EXE_CANNOT_MODIFY_STRONG_SIGNED_BINARY</p>
+	<p>218 (0xDA)</p>
+	<p>The image file %1 is strong signed unable to modify.</p>
+	<p id="FILE_CHECKED_OUT" id_lower="file_checked_out">FILE_CHECKED_OUT</p>
+	<p>220 (0xDC)</p>
+	<p>This file is checked out or locked for editing by another user.</p>
+	<p id="CHECKOUT_REQUIRED" id_lower="checkout_required">CHECKOUT_REQUIRED</p>
+	<p>221 (0xDD)</p>
+	<p>The file must be checked out before saving changes.</p>
+	<p id="BAD_FILE_TYPE" id_lower="bad_file_type">BAD_FILE_TYPE</p>
+	<p>222 (0xDE)</p>
+	<p>The file type being saved or retrieved has been blocked.</p>
+	<p id="FILE_TOO_LARGE" id_lower="file_too_large">FILE_TOO_LARGE</p>
+	<p>223 (0xDF)</p>
+	<p>The file size exceeds the limit allowed and cannot be saved.</p>
+	<p id="FORMS_AUTH_REQUIRED" id_lower="forms_auth_required">FORMS_AUTH_REQUIRED</p>
+	<p>224 (0xE0)</p>
+	<p>
+Access Denied. Before opening files in this location
+you must first add the web site to your trusted sites list
+browse to the web site and select the option to login automatically.
+	</p>
+	<p id="VIRUS_INFECTED" id_lower="virus_infected">VIRUS_INFECTED</p>
+	<p>225 (0xE1)</p>
+	<p>
+Operation did not complete successfully because the file contains
+a virus or potentially unwanted software.
+	</p>
+	<p id="VIRUS_DELETED" id_lower="virus_deleted">VIRUS_DELETED</p>
+	<p>226 (0xE2)</p>
+	<p>
+This file contains a virus or potentially unwanted software and cannot be opened.
+Due to the nature of this virus or potentially unwanted software the file has been
+removed from this location.
+	</p>
+	<p id="PIPE_LOCAL" id_lower="pipe_local">PIPE_LOCAL</p>
+	<p>229 (0xE5)</p>
+	<p>The pipe is local.</p>
+	<p id="BAD_PIPE" id_lower="bad_pipe">BAD_PIPE</p>
+	<p>230 (0xE6)</p>
+	<p>The pipe state is invalid.</p>
+	<p id="PIPE_BUSY" id_lower="pipe_busy">PIPE_BUSY</p>
+	<p>231 (0xE7)</p>
+	<p>All pipe instances are busy.</p>
+	<p id="NO_DATA" id_lower="no_data">NO_DATA</p>
+	<p>232 (0xE8)</p>
+	<p>The pipe is being closed.</p>
+	<p id="PIPE_NOT_CONNECTED" id_lower="pipe_not_connected">PIPE_NOT_CONNECTED</p>
+	<p>233 (0xE9)</p>
+	<p>No process is on the other end of the pipe.</p>
+	<p id="MORE_DATA" id_lower="more_data">MORE_DATA</p>
+	<p>234 (0xEA)</p>
+	<p>More data is available.</p>
+	<p id="VC_DISCONNECTED" id_lower="vc_disconnected">VC_DISCONNECTED</p>
+	<p>240 (0xF0)</p>
+	<p>The session was canceled.</p>
+	<p id="INVALID_EA_NAME" id_lower="invalid_ea_name">INVALID_EA_NAME</p>
+	<p>254 (0xFE)</p>
+	<p>The specified extended attribute name was invalid.</p>
+	<p id="EA_LIST_INCONSISTENT" id_lower="ea_list_inconsistent">EA_LIST_INCONSISTENT</p>
+	<p>255 (0xFF)</p>
+	<p>The extended attributes are inconsistent.</p>
+	<p id="WAIT_TIMEOUT" id_lower="wait_timeout">WAIT_TIMEOUT</p>
+	<p>258 (0x102)</p>
+	<p>The wait operation timed out.</p>
+	<p id="NO_MORE_ITEMS" id_lower="no_more_items">NO_MORE_ITEMS</p>
+	<p>259 (0x103)</p>
+	<p>No more data is available.</p>
+	<p id="CANNOT_COPY" id_lower="cannot_copy">CANNOT_COPY</p>
+	<p>266 (0x10A)</p>
+	<p>The copy functions cannot be used.</p>
+	<p id="DIRECTORY" id_lower="directory">DIRECTORY</p>
+	<p>267 (0x10B)</p>
+	<p>The directory name is invalid.</p>
+	<p id="EAS_DIDNT_FIT" id_lower="eas_didnt_fit">EAS_DIDNT_FIT</p>
+	<p>275 (0x113)</p>
+	<p>The extended attributes did not fit in the buffer.</p>
+	<p id="EA_FILE_CORRUPT" id_lower="ea_file_corrupt">EA_FILE_CORRUPT</p>
+	<p>276 (0x114)</p>
+	<p>The extended attribute file on the mounted file system is corrupt.</p>
+	<p id="EA_TABLE_FULL" id_lower="ea_table_full">EA_TABLE_FULL</p>
+	<p>277 (0x115)</p>
+	<p>The extended attribute table file is full.</p>
+	<p id="INVALID_EA_HANDLE" id_lower="invalid_ea_handle">INVALID_EA_HANDLE</p>
+	<p>278 (0x116)</p>
+	<p>The specified extended attribute handle is invalid.</p>
+	<p id="EAS_NOT_SUPPORTED" id_lower="eas_not_supported">EAS_NOT_SUPPORTED</p>
+	<p>282 (0x11A)</p>
+	<p>The mounted file system does not support extended attributes.</p>
+	<p id="NOT_OWNER" id_lower="not_owner">NOT_OWNER</p>
+	<p>288 (0x120)</p>
+	<p>Attempt to release mutex not owned by caller.</p>
+	<p id="TOO_MANY_POSTS" id_lower="too_many_posts">TOO_MANY_POSTS</p>
+	<p>298 (0x12A)</p>
+	<p>Too many posts were made to a semaphore.</p>
+	<p id="PARTIAL_COPY" id_lower="partial_copy">PARTIAL_COPY</p>
+	<p>299 (0x12B)</p>
+	<p>Only part of a ReadProcessMemory or WriteProcessMemory request was completed.</p>
+	<p id="OPLOCK_NOT_GRANTED" id_lower="oplock_not_granted">OPLOCK_NOT_GRANTED</p>
+	<p>300 (0x12C)</p>
+	<p>The oplock request is denied.</p>
+	<p id="INVALID_OPLOCK_PROTOCOL" id_lower="invalid_oplock_protocol">INVALID_OPLOCK_PROTOCOL</p>
+	<p>301 (0x12D)</p>
+	<p>An invalid oplock acknowledgment was received by the system.</p>
+	<p id="DISK_TOO_FRAGMENTED" id_lower="disk_too_fragmented">DISK_TOO_FRAGMENTED</p>
+	<p>302 (0x12E)</p>
+	<p>The volume is too fragmented to complete this operation.</p>
+	<p id="DELETE_PENDING" id_lower="delete_pending">DELETE_PENDING</p>
+	<p>303 (0x12F)</p>
+	<p>The file cannot be opened because it is in the process of being deleted.</p>
+	<p id="INCOMPATIBLE_WITH_GLOBAL_SHORT_NAME_REGISTRY_SETTING" id_lower="incompatible_with_global_short_name_registry_setting">INCOMPATIBLE_WITH_GLOBAL_SHORT_NAME_REGISTRY_SETTING</p>
+	<p>304 (0x130)</p>
+	<p>Short name settings may not be changed on this volume due to the global registry setting.</p>
+	<p id="SHORT_NAMES_NOT_ENABLED_ON_VOLUME" id_lower="short_names_not_enabled_on_volume">SHORT_NAMES_NOT_ENABLED_ON_VOLUME</p>
+	<p>305 (0x131)</p>
+	<p>Short names are not enabled on this volume.</p>
+	<p id="SECURITY_STREAM_IS_INCONSISTENT" id_lower="security_stream_is_inconsistent">SECURITY_STREAM_IS_INCONSISTENT</p>
+	<p>306 (0x132)</p>
+	<p>The security stream for the given volume is in an inconsistent state.
+Please run CHKDSK on the volume.</p>
+	<p id="INVALID_LOCK_RANGE" id_lower="invalid_lock_range">INVALID_LOCK_RANGE</p>
+	<p>307 (0x133)</p>
+	<p>A requested file lock operation cannot be processed due to an invalid byte range.</p>
+	<p id="IMAGE_SUBSYSTEM_NOT_PRESENT" id_lower="image_subsystem_not_present">IMAGE_SUBSYSTEM_NOT_PRESENT</p>
+	<p>308 (0x134)</p>
+	<p>The subsystem needed to support the image type is not present.</p>
+	<p id="NOTIFICATION_GUID_ALREADY_DEFINED" id_lower="notification_guid_already_defined">NOTIFICATION_GUID_ALREADY_DEFINED</p>
+	<p>309 (0x135)</p>
+	<p>The specified file already has a notification GUID associated with it.</p>
+	<p id="INVALID_EXCEPTION_HANDLER" id_lower="invalid_exception_handler">INVALID_EXCEPTION_HANDLER</p>
+	<p>310 (0x136)</p>
+	<p>An invalid exception handler routine has been detected.</p>
+	<p id="DUPLICATE_PRIVILEGES" id_lower="duplicate_privileges">DUPLICATE_PRIVILEGES</p>
+	<p>311 (0x137)</p>
+	<p>Duplicate privileges were specified for the token.</p>
+	<p id="NO_RANGES_PROCESSED" id_lower="no_ranges_processed">NO_RANGES_PROCESSED</p>
+	<p>312 (0x138)</p>
+	<p>No ranges for the specified operation were able to be processed.</p>
+	<p id="NOT_ALLOWED_ON_SYSTEM_FILE" id_lower="not_allowed_on_system_file">NOT_ALLOWED_ON_SYSTEM_FILE</p>
+	<p>313 (0x139)</p>
+	<p>Operation is not allowed on a file system internal file.</p>
+	<p id="DISK_RESOURCES_EXHAUSTED" id_lower="disk_resources_exhausted">DISK_RESOURCES_EXHAUSTED</p>
+	<p>314 (0x13A)</p>
+	<p>The physical resources of this disk have been exhausted.</p>
+	<p id="INVALID_TOKEN" id_lower="invalid_token">INVALID_TOKEN</p>
+	<p>315 (0x13B)</p>
+	<p>The token representing the data is invalid.</p>
+	<p id="DEVICE_FEATURE_NOT_SUPPORTED" id_lower="device_feature_not_supported">DEVICE_FEATURE_NOT_SUPPORTED</p>
+	<p>316 (0x13C)</p>
+	<p>The device does not support the command feature.</p>
+	<p id="MR_MID_NOT_FOUND" id_lower="mr_mid_not_found">MR_MID_NOT_FOUND</p>
+	<p>317 (0x13D)</p>
+	<p>The system cannot find message text for message number 0x%1 in the message file for %2.</p>
+	<p id="SCOPE_NOT_FOUND" id_lower="scope_not_found">SCOPE_NOT_FOUND</p>
+	<p>318 (0x13E)</p>
+	<p>The scope specified was not found.</p>
+	<p id="UNDEFINED_SCOPE" id_lower="undefined_scope">UNDEFINED_SCOPE</p>
+	<p>319 (0x13F)</p>
+	<p>The Central Access Policy specified is not defined on the target machine.</p>
+	<p id="INVALID_CAP" id_lower="invalid_cap">INVALID_CAP</p>
+	<p>320 (0x140)</p>
+	<p>The Central Access Policy obtained from Active Directory is invalid.</p>
+	<p id="DEVICE_UNREACHABLE" id_lower="device_unreachable">DEVICE_UNREACHABLE</p>
+	<p>321 (0x141)</p>
+	<p>The device is unreachable.</p>
+	<p id="DEVICE_NO_RESOURCES" id_lower="device_no_resources">DEVICE_NO_RESOURCES</p>
+	<p>322 (0x142)</p>
+	<p>The target device has insufficient resources to complete the operation.</p>
+	<p id="DATA_CHECKSUM_ERROR" id_lower="data_checksum_error">DATA_CHECKSUM_ERROR</p>
+	<p>323 (0x143)</p>
+	<p>
+A data integrity checksum error occurred. Data in the file stream is corrupt.
+	</p>
+	<p id="INTERMIXED_KERNEL_EA_OPERATION" id_lower="intermixed_kernel_ea_operation">INTERMIXED_KERNEL_EA_OPERATION</p>
+	<p>324 (0x144)</p>
+	<p>
+An attempt was made to modify both a KERNEL and normal Extended Attribute (EA)
+in the same operation.
+	</p>
+	<p id="FILE_LEVEL_TRIM_NOT_SUPPORTED" id_lower="file_level_trim_not_supported">FILE_LEVEL_TRIM_NOT_SUPPORTED</p>
+	<p>326 (0x146)</p>
+	<p>Device does not support file-level TRIM.</p>
+	<p id="OFFSET_ALIGNMENT_VIOLATION" id_lower="offset_alignment_violation">OFFSET_ALIGNMENT_VIOLATION</p>
+	<p>327 (0x147)</p>
+	<p>The command specified a data offset that does not align to the device's granularity/alignment.</p>
+	<p id="INVALID_FIELD_IN_PARAMETER_LIST" id_lower="invalid_field_in_parameter_list">INVALID_FIELD_IN_PARAMETER_LIST</p>
+	<p>328 (0x148)</p>
+	<p>The command specified an invalid field in its parameter list.</p>
+	<p id="OPERATION_IN_PROGRESS" id_lower="operation_in_progress">OPERATION_IN_PROGRESS</p>
+	<p>329 (0x149)</p>
+	<p>An operation is currently in progress with the device.</p>
+	<p id="BAD_DEVICE_PATH" id_lower="bad_device_path">BAD_DEVICE_PATH</p>
+	<p>330 (0x14A)</p>
+	<p>An attempt was made to send down the command via an invalid path to the target device.</p>
+	<p id="TOO_MANY_DESCRIPTORS" id_lower="too_many_descriptors">TOO_MANY_DESCRIPTORS</p>
+	<p>331 (0x14B)</p>
+	<p>The command specified a number of descriptors that exceeded the maximum supported by the device.</p>
+	<p id="SCRUB_DATA_DISABLED" id_lower="scrub_data_disabled">SCRUB_DATA_DISABLED</p>
+	<p>332 (0x14C)</p>
+	<p>Scrub is disabled on the specified file.</p>
+	<p id="NOT_REDUNDANT_STORAGE" id_lower="not_redundant_storage">NOT_REDUNDANT_STORAGE</p>
+	<p>333 (0x14D)</p>
+	<p>The storage device does not provide redundancy.</p>
+	<p id="RESIDENT_FILE_NOT_SUPPORTED" id_lower="resident_file_not_supported">RESIDENT_FILE_NOT_SUPPORTED</p>
+	<p>334 (0x14E)</p>
+	<p>An operation is not supported on a resident file.</p>
+	<p id="COMPRESSED_FILE_NOT_SUPPORTED" id_lower="compressed_file_not_supported">COMPRESSED_FILE_NOT_SUPPORTED</p>
+	<p>335 (0x14F)</p>
+	<p>An operation is not supported on a compressed file.</p>
+	<p id="DIRECTORY_NOT_SUPPORTED" id_lower="directory_not_supported">DIRECTORY_NOT_SUPPORTED</p>
+	<p>336 (0x150)</p>
+	<p>An operation is not supported on a directory.</p>
+	<p id="NOT_READ_FROM_COPY" id_lower="not_read_from_copy">NOT_READ_FROM_COPY</p>
+	<p>337 (0x151)</p>
+	<p>The specified copy of the requested data could not be read.</p>
+	<p id="FAIL_NOACTION_REBOOT" id_lower="fail_noaction_reboot">FAIL_NOACTION_REBOOT</p>
+	<p>350 (0x15E)</p>
+	<p>No action was taken as a system reboot is required.</p>
+	<p id="FAIL_SHUTDOWN" id_lower="fail_shutdown">FAIL_SHUTDOWN</p>
+	<p>351 (0x15F)</p>
+	<p>The shutdown operation failed.</p>
+	<p id="FAIL_RESTART" id_lower="fail_restart">FAIL_RESTART</p>
+	<p>352 (0x160)</p>
+	<p>The restart operation failed.</p>
+	<p id="MAX_SESSIONS_REACHED" id_lower="max_sessions_reached">MAX_SESSIONS_REACHED</p>
+	<p>353 (0x161)</p>
+	<p>The maximum number of sessions has been reached.</p>
+	<p id="THREAD_MODE_ALREADY_BACKGROUND" id_lower="thread_mode_already_background">THREAD_MODE_ALREADY_BACKGROUND</p>
+	<p>400 (0x190)</p>
+	<p>The thread is already in background processing mode.</p>
+	<p id="THREAD_MODE_NOT_BACKGROUND" id_lower="thread_mode_not_background">THREAD_MODE_NOT_BACKGROUND</p>
+	<p>401 (0x191)</p>
+	<p>The thread is not in background processing mode.</p>
+	<p id="PROCESS_MODE_ALREADY_BACKGROUND" id_lower="process_mode_already_background">PROCESS_MODE_ALREADY_BACKGROUND</p>
+	<p>402 (0x192)</p>
+	<p>The process is already in background processing mode.</p>
+	<p id="PROCESS_MODE_NOT_BACKGROUND" id_lower="process_mode_not_background">PROCESS_MODE_NOT_BACKGROUND</p>
+	<p>403 (0x193)</p>
+	<p>The process is not in background processing mode.</p>
+	<p id="INVALID_ADDRESS" id_lower="invalid_address">INVALID_ADDRESS</p>
+	<p>487 (0x1E7)</p>
+	<p>Attempt to access invalid address.</p>
+</table>

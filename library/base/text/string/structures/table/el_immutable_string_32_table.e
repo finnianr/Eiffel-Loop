@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:27:45 GMT (Friday 2nd August 2024)"
-	revision: "13"
+	date: "2024-08-09 16:03:21 GMT (Friday 9th August 2024)"
+	revision: "14"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE

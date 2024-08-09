@@ -16,16 +16,18 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:22:17 GMT (Saturday 20th January 2024)"
-	revision: "36"
+	date: "2024-08-09 10:57:50 GMT (Friday 9th August 2024)"
+	revision: "37"
 
 class
 	VTD_XML_TEST_SET
 
 inherit
-	EL_DIRECTORY_CONTEXT_TEST_SET
+	EL_TEST_DATA_TEST_SET
 		undefine
 			new_lio
+		redefine
+			Test_data_dir
 		end
 
 	EL_CRC_32_TESTABLE
@@ -47,7 +49,8 @@ feature {NONE} -- Initialization
 				["cd_catalog_xpath_query",			agent test_cd_catalog_xpath_query],
 				["query_processing_instruction",	agent test_query_processing_instruction],
 				["root_attribute_selection",		agent test_root_attribute_selection],
-				["svg_xpath_query",					agent test_svg_xpath_query]
+				["svg_xpath_query",					agent test_svg_xpath_query],
+				["following_sibling",				agent test_following_sibling]
 			>>)
 		end
 
@@ -56,14 +59,16 @@ feature -- Tests
 	test_bioinfo_xpath_query
 		-- VTD_XML_TEST_SET.test_bioinfo_xpath_query
 		note
-			testing: "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
-				"covers/{EL_XPATH_NODE_CONTEXT}.context_list",
-				"covers/{EL_XPATH_NODE_CONTEXT}.find_node",
-				"covers/{EL_XPATH_NODE_CONTEXT}.query"
+			testing: "[
+				covers/{EL_XPATH_NODE_CONTEXT}.do_query,
+				covers/{EL_XPATH_NODE_CONTEXT}.context_list,
+				covers/{EL_XPATH_NODE_CONTEXT}.find_node,
+				covers/{EL_XPATH_NODE_CONTEXT}.query
+			]"
 		local
 			xpath: STRING
 		do
-			if attached new_xdoc ("vtd-xml/bioinfo.xml") as xdoc then
+			if attached new_xdoc ("bioinfo.xml") as xdoc then
 				assert ("encoding is latin-1", xdoc.encoding_name ~ "ISO-8859-1")
 
 				assert_same_query_results (xdoc, bioinfo_results_1, agent bioinfo_query_1)
@@ -82,7 +87,7 @@ feature -- Tests
 		local
 			name, xpath: STRING
 		do
-			if attached new_xdoc ("vtd-xml/CD-catalog.xml") as xdoc then
+			if attached new_xdoc ("CD-catalog.xml") as xdoc then
 				assert ("encoding is UTF-8", xdoc.encoding_name ~ "UTF-8")
 				across cd_catalog_results as table loop
 					xpath := table.key
@@ -91,31 +96,66 @@ feature -- Tests
 			end
 		end
 
+	test_following_sibling
+		-- VTD_XML_TEST_SET.test_following_sibling
+		-- as a by product we get a text table of all Windows error codes with messages
+		local
+			node: EL_XPATH_NODE_CONTEXT; manifest_file: PLAIN_TEXT_FILE
+			manifest_path: FILE_PATH; s: EL_STRING_8_ROUTINES
+			message: STRING
+		do
+			manifest_path := work_dir + "system-error-codes.txt"
+			if attached new_xdoc ("mswin-error-codes.xml") as xdoc then
+				create manifest_file.make_open_write (manifest_path)
+				across xdoc.context_list ("/table/p") as list loop
+					node := list.node
+					if node.has_attribute (Attribute_id) then
+						if attached node.query (Following_sibling #$ [1]) as code then
+							manifest_file.put_string (s.substring_to (code.as_string_8, ' '))
+							manifest_file.put_character (':')
+							manifest_file.put_new_line
+						end
+						if attached node.query (Following_sibling #$ [2]) as code then
+							message := code.as_string_8
+							message.adjust
+							across message.split ('%N') as line loop
+								manifest_file.put_character ('%T')
+								manifest_file.put_string (line.item)
+								manifest_file.put_new_line
+							end
+						end
+					end
+				end
+				manifest_file.close
+			end
+			assert_same_digest (Plain_text, manifest_path, "HbXhzOqFOy3E/7z+sULQKw==")
+		end
+
 	test_query_processing_instruction
 		do
-			assert_processing_instruction ("vtd-xml/request-matrix-average.xml", "average")
-			assert_processing_instruction ("vtd-xml/request-matrix-sum.xml", "sum")
+			assert_processing_instruction ("request-matrix-average.xml", "average")
+			assert_processing_instruction ("request-matrix-sum.xml", "sum")
 		end
 
 	test_root_attribute_selection
 		local
 			en, lang_xpath: STRING; en_32: STRING_32; en_z: ZSTRING
+			xdoc: EL_XML_DOC_CONTEXT
 		do
 			en := "en"; en_32 := en; en_z := en_32
-			if attached new_xdoc ("XML/creatable/download-page.xhtml") as xdoc then
-				lang_xpath := "/html/@lang"
-			-- Testing auto-convert
-				assert ("lang = en", en.is_equal (xdoc.query (lang_xpath)))
-				assert ("lang = en_32", en_32.is_equal (xdoc.query (lang_xpath)))
-				assert ("lang = en_z", en_z.is_equal (xdoc.query (lang_xpath)))
-			end
+			create xdoc.make_from_file (Test_data_dir + "XML/creatable/download-page.xhtml")
+			lang_xpath := "/html/@lang"
+		-- Testing auto-convert
+			assert ("lang = en", en.is_equal (xdoc.query (lang_xpath)))
+			assert ("lang = en_32", en_32.is_equal (xdoc.query (lang_xpath)))
+			assert ("lang = en_z", en_z.is_equal (xdoc.query (lang_xpath)))
 		end
 
 	test_svg_xpath_query
 		local
 			name, xpath: STRING
 		do
-			if attached new_xdoc ("vtd-xml/aircraft_power_price.svg") as xdoc then
+			if attached new_xdoc ("aircraft_power_price.svg") as xdoc then
 				assert ("encoding is latin-1", xdoc.encoding_name ~ "ISO-8859-1")
 
 				across svg_query_results as table loop
@@ -276,8 +316,6 @@ feature {NONE} -- bioinfo.xml
 
 	bioinfo_query_4 (xdoc: EL_XML_DOC_CONTEXT; xpath: STRING): EL_STRING_8_LIST
 		-- element count
-		local
-			id: STRING
 		do
 			create Result.make (2)
 			Result.extend (xdoc.query (xpath))
@@ -428,17 +466,24 @@ feature {NONE} -- Implementation
 			assert ("same lines for " + xpath, expected_lines ~ actual)
 		end
 
-	new_xdoc (path: STRING): EL_XML_DOC_CONTEXT
+	new_xdoc (name: STRING): EL_XML_DOC_CONTEXT
 		do
-			create Result.make_from_file (path)
+			create Result.make_from_file (work_dir + name)
 		end
 
-	working_dir: DIR_PATH
+	relative_dir: DIR_PATH
 		do
-			Result := Dev_environ.EL_test_data_dir
+			Result := "vtd-xml"
 		end
 
 feature {NONE} -- Constants
+
+	Attribute_id: STRING = "id"
+
+	Following_sibling: ZSTRING
+		once
+			Result := "following-sibling::*[%S]"
+		end
 
 	Template_bioninfo_query_type: ZSTRING
 		once
@@ -446,6 +491,7 @@ feature {NONE} -- Constants
 				@type: "#" #
 			]"
 		end
+
 	Template_integer_value: ZSTRING
 		once
 			Result := "[
@@ -458,6 +504,11 @@ feature {NONE} -- Constants
 			Result := "[
 				#: "#"
 			]"
+		end
+
+	Test_data_dir: DIR_PATH
+		once
+			Result := "data"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-08-09 13:20:46 GMT (Friday 9th August 2024)"
+	revision: "10"
 
 class
 	EL_APPLICATION_MUTEX_IMP
@@ -21,6 +21,10 @@ inherit
 
 	EXECUTION_ENVIRONMENT
 
+	EL_MODULE_EXCEPTION
+
+	EL_SHARED_NATIVE_STRING
+
 create
 	make, make_for_application_mode
 
@@ -33,15 +37,16 @@ feature {NONE} -- Implementation
 feature -- Status change
 
 	try_lock (name: ZSTRING)
-		local
-			wide_name: EL_C_WIDE_CHARACTER_STRING
 		do
-			create wide_name.make_from_string (name.to_unicode)
-			mutex_handle := c_open_mutex (wide_name.base_address)
-			if mutex_handle = 0 then
-				mutex_handle := c_create_mutex (wide_name.base_address)
-				if mutex_handle > 0 then
-					is_locked := True
+			if attached Native_string.new_data (name) as l_name then
+				mutex_handle := c_open_mutex (l_name.item)
+				if mutex_handle = 0 then
+					mutex_handle := c_create_mutex (l_name.item)
+					if mutex_handle > 0 then
+						is_locked := True
+					else
+						Exception.raise_developer ("CreateMutex failed with error: %S", [c_get_last_error])
+					end
 				end
 			end
 		end
@@ -52,7 +57,7 @@ feature -- Status change
 		do
 			if mutex_handle > 0 then
 				closed := c_close_handle (mutex_handle)
-				is_locked := True
+				is_locked := False
 			end
 		end
 

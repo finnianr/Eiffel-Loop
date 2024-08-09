@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-08 13:25:21 GMT (Thursday 8th August 2024)"
-	revision: "3"
+	date: "2024-08-08 18:29:18 GMT (Thursday 8th August 2024)"
+	revision: "4"
 
 class
 	EL_WIN_32_C_API
@@ -123,6 +123,14 @@ feature {NONE} -- Win32 base
 			"CloseHandle"
 		end
 
+	frozen c_get_last_error: NATURAL
+		-- DWORD GetLastError();
+		external
+			"C (): EIF_NATURAL | <Winbase.h>"
+		alias
+			"GetLastError"
+		end
+
 	frozen c_open_mutex (name: POINTER): NATURAL
 		require
 			not_null_pointer: is_attached (name)
@@ -152,6 +160,16 @@ feature {NONE} -- Internationalization
 			"C (): LCID| <windows.h>"
 		alias
 			"GetUserDefaultLCID"
+		end
+
+feature {NONE} -- Error constants
+
+	c_error_already_exists: NATURAL
+			-- Cannot create a file when that file already exists.
+		external
+			"C [macro <WinError.h>]"
+		alias
+			"ERROR_ALREADY_EXISTS"
 		end
 
 feature {NONE} -- Folder constants

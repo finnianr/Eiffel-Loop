@@ -6,7 +6,7 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-07 14:39:54 GMT (Wednesday 7th August 2024)"
+	date: "2024-08-08 19:01:05 GMT (Thursday 8th August 2024)"
 	revision: "1"
 
 class
@@ -216,9 +216,7 @@ feature -- Conversion
 					Result := '%/183/'
 				when '˛' then
 					Result := '%/178/'
-			else
-				Result := Substitute
-			end
+			else end
 		end
 
 feature -- Character query

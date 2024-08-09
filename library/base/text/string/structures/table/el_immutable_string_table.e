@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 15:10:51 GMT (Saturday 3rd August 2024)"
-	revision: "24"
+	date: "2024-08-09 16:18:19 GMT (Friday 9th August 2024)"
+	revision: "25"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -371,6 +371,8 @@ feature {NONE} -- Formats
 	Fm_indented: NATURAL_8 = 3
 
 	Fm_indented_eiffel: NATURAL_8 = 4
+
+	Fm_indented_code: NATURAL_8 = 4
 
 note
 	notes: "[

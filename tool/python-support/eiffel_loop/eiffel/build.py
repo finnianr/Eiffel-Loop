@@ -185,19 +185,23 @@ class FREEZE_BUILD (object):
 	def compile (self):
 		# Will automatically do precompile if needed
 		cmd = ['ec', '-batch'] + self.compilation_options () + ['-config', self.ecf_path, '-project_path', self.project_path ()]
-		self.write_io (' '.join (cmd) + '\n')
+		self.write_io_line (' '.join (cmd))
 		ret_code = call (cmd)
 
 	def post_compilation (self):
 		self.install_resources_to (self.resources_destination ())
 
-	def write_io (self, str):
-		sys.stdout.write (str)
+	def write_io_line (self, string):
+		sys.stdout.write (string)
+		sys.stdout.write ('\n')
+
+	def write_io_field (self, label, value):
+		self.write_io_line ('%s: %s' % (label, value))
 
 # Redefinable implementation
 
 	def install_executables (self, destination_dir):
-		self.write_io ('Installing executables in: %s\n' % destination_dir)
+		self.write_io_field ('Installing executables in', destination_dir)
 		self.__print_permission ()
 
 		bin_dir = path.join (destination_dir, 'bin')
@@ -211,7 +215,7 @@ class FREEZE_BUILD (object):
 		if platform.is_windows ():
 			self.__copy_write_exe_manifest (bin_dir)
 
-		self.write_io ('Copying shared object libraries\n')
+		self.write_io_line ('Copying shared object libraries')
 		shared_objects = self.__shared_object_libraries ()
 		for so in shared_objects:
 			self.file_system.copy_file (so, bin_dir)
@@ -220,7 +224,7 @@ class FREEZE_BUILD (object):
 			self.__write_launch_script (bin_dir)
 
 	def install_resources_to (self, destination_dir):
-		self.write_io ('Installing resources in: %s\n' % destination_dir)
+		self.write_io_field ('Installing resources in', destination_dir)
 		self.__print_permission ()
 
 		if not path.exists (destination_dir):
@@ -230,7 +234,7 @@ class FREEZE_BUILD (object):
 			resource_list = [path.join (resource_root_dir, name) for name in os.listdir (resource_root_dir)]
 			for resource_path in resource_list:
 				basename = path.basename (resource_path)
-				self.write_io ('Installing %s\n' % basename)
+				self.write_io_field ('Installing', basename)
 				if path.isdir (resource_path):
 					resource_dest_dir = path.join (destination_dir, basename)
 					if path.exists (resource_dest_dir):
@@ -247,11 +251,11 @@ class FREEZE_BUILD (object):
 		manifest_name = self.exe_name + self.Dot_manifest
 
 		if path.exists (self.Manifest_template_xml):
-			version = self.version.long_string ('.')
-			assert version.count () == 3, "Windows 10 expects 4 part version numbers"
+			long_version = self.system.version ().long_string ('.')
+			assert long_version.count ('.') == 3, "Windows 10 expects 4 part version numbers"
 		#	use XML template in current diretory
 			attribute_table = {
-				version : "version='%s'",
+				long_version : "version='%s'",
 				ise.windows_architecture () : "processorArchitecture='%s'"
 			}
 
@@ -261,7 +265,9 @@ class FREEZE_BUILD (object):
 				content = infile.read()
 
 			for value, template in attribute_table.items ():
-				content = content.replace (template % ('X'), template % (value), 1)
+				attribute = template % (value)
+				self.write_io_field ('Manifest entry', attribute)
+				content = content.replace (template % ('X'), attribute, 1)
 
 			# Write substituted template
 			output_path = path.join (bin_dir, manifest_name)
@@ -280,7 +286,7 @@ class FREEZE_BUILD (object):
 				self.file_system.copy_file (manifest_path, bin_dir)
 
 	def __print_permission (self):
-		self.write_io ("Using %s permissions\n" % ['normal', 'sudo'][int (self.file_system.sudo)])
+		self.write_io_line ("Using %s permissions" % ['normal', 'sudo'][int (self.file_system.sudo)])
 
 	def __put_unique (self, a_list, elem):
 		if not elem in a_list:
@@ -451,7 +457,7 @@ class C_CODE_TAR_BUILD (FINALIZED_BUILD):
 		tar_path = self.f_code_tar_path ()
 		if path.exists (tar_path):
 			os.remove (tar_path)
-		self.write_io ('Archiving to: %s\n' % tar_path)
+		self.write_io_field ('Archiving to', tar_path)
 
 		tar = ARCHIVE (self.f_code_tar_unix_path ())
 		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
@@ -482,7 +488,7 @@ class FINALIZED_BUILD_FROM_TAR (FINALIZED_BUILD):
 		tar_path = self.f_code_tar_unix_path ()
 		tar = ARCHIVE (tar_path)
 		tar.chdir = '/'.join (self.code_dir_steps ()[0:-1])
-		self.write_io ('Extracting: %s\n' % tar_path)
+		self.write_io_field ('Extracting', tar_path)
 		tar.extract ()
 
 		curdir = path.abspath (os.curdir)

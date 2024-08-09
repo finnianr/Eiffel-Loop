@@ -116,9 +116,7 @@ feature -- Conversion
 					Result := '%/$interval.item.first_latin_character.code/'
 			#end
 		#end
-			else
-				Result := Substitute
-			end
+			else end
 		end
 #end
 

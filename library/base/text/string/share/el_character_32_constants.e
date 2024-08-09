@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-08-08 17:41:06 GMT (Thursday 8th August 2024)"
+	revision: "3"
 
 deferred class
 	EL_CHARACTER_32_CONSTANTS
@@ -53,6 +53,11 @@ feature {NONE} -- Implementation
 	tab: EL_CHARACTER_32
 		do
 			Result := char ('%T')
+		end
+
+	underscore: EL_CHARACTER_32
+		do
+			Result := char ('_')
 		end
 
 feature {NONE} -- Constants

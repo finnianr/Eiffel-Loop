@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test using a set of files copied from `test-data' directory
+		Test using a directory of files copied from `test-data' directory to `workarea'
 	]"
 
 	author: "Finnian Reilly"
@@ -8,18 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-11 11:24:13 GMT (Wednesday 11th January 2023)"
-	revision: "10"
+	date: "2024-08-09 10:59:53 GMT (Friday 9th August 2024)"
+	revision: "11"
 
 deferred class
 	EL_TEST_DATA_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	EL_FILE_DATA_TEST_SET
 		export
 			{EL_APPLICATION} clean
 		redefine
-			on_prepare, on_clean
+			on_prepare
 		end
 
 	EL_MODULE_OS
@@ -28,32 +28,14 @@ inherit
 
 feature {NONE} -- Events
 
-	on_clean
-		do
-			reset_work_area
-			Precursor
-		end
-
 	on_prepare
 		do
 			Precursor
-			reset_work_area
-			OS.copy_tree (test_data_root_dir #+ relative_dir, workarea_root_dir)
-			work_dir := workarea_root_dir #+ relative_dir.base
+			OS.copy_tree (Test_data_dir #+ relative_dir, Workarea_root_dir)
+			work_dir := Workarea_root_dir #+ relative_dir.base
 		end
 
 feature {NONE} -- Implementation
-
-	reset_work_area
-			-- create an empty work area
-		do
-			if workarea_root_dir.exists then
-				OS.delete_tree (workarea_root_dir)
-				reset_work_area
-			else
-				OS.File_system.make_directory (workarea_root_dir)
-			end
-		end
 
 	relative_dir: DIR_PATH
 		deferred
@@ -66,12 +48,12 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	test_data_root_dir: DIR_PATH
+	Test_data_dir: DIR_PATH
 		once
 			Result := "test-data"
 		end
 
-	workarea_root_dir: DIR_PATH
+	Workarea_root_dir: DIR_PATH
 		once
 			Result := "workarea"
 		end
