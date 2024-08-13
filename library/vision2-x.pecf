@@ -117,7 +117,8 @@ system:
 				"""
 					Vision2-X UI Extensions
 
-					Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
+					Various extensions for the
+					[https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 				"""
 			platform_list:
 				"imp_mswin; imp_unix"

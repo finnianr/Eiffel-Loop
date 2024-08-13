@@ -510,7 +510,7 @@ Build_info_class_template = Template (
 
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Python module: eiffel_loop.eiffel.ecf.py"
+	author: "Python module: eiffel_loop.eiffel.build"
 
 class
 	${class_name}

@@ -153,7 +153,8 @@ providing pixel buffer rendering with transparencies and anti-aliasing.
 			<description>
 Vision2-X UI Extensions
 
-Various extensions for the [https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
+Various extensions for the
+[https://www.eiffel.org/resources/libraries/eiffelvision2 EiffelVision2] library.
 			</description>
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

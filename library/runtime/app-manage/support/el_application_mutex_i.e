@@ -1,13 +1,13 @@
 note
-	description: "Application mutex i"
+	description: "Application mutex to create an application singleton"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-08 18:00:35 GMT (Thursday 8th August 2024)"
-	revision: "11"
+	date: "2024-08-10 7:47:36 GMT (Saturday 10th August 2024)"
+	revision: "12"
 
 deferred class
 	EL_APPLICATION_MUTEX_I

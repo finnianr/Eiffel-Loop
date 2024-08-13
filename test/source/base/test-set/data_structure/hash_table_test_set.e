@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 6:04:11 GMT (Saturday 3rd August 2024)"
-	revision: "37"
+	date: "2024-08-13 14:41:15 GMT (Tuesday 13th August 2024)"
+	revision: "38"
 
 class
 	HASH_TABLE_TEST_SET
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["character_32_table",				 agent test_character_32_table],
 				["compressed_table",					 agent test_compressed_table],
+				["immutable_error_code_table",	 agent test_immutable_error_code_table],
 				["hash_table_insertion",			 agent test_hash_table_insertion],
 				["immutable_string_32_table",		 agent test_immutable_string_32_table],
 				["immutable_string_8_table",		 agent test_immutable_string_8_table],
@@ -133,6 +134,39 @@ feature -- Test
 			set.put (key)
 			assert ("conflict", set.conflict)
 			assert ("has copy", set.found_item ~ key and set.found_item /= key)
+		end
+
+	test_immutable_error_code_table
+		-- HASH_TABLE_TEST_SET.test_immutable_error_code_table
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_STRING_TABLE}.make_code_map,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.found_item_unindented,
+				covers/{EL_IMMUTABLE_STRING_8_TABLE}.has_key_code
+			]"
+		local
+			error_table: EL_IMMUTABLE_STRING_8_TABLE; manifest: STRING
+		do
+			manifest := File.plain_text ("data/code/C/windows/error-codes.txt")
+			manifest.right_adjust
+			create error_table.make_code_map (manifest)
+			if error_table.has_key_code (51) and then attached error_table.found_item_lines as lines then
+				assert ("3 lines", lines.count = 3)
+				assert ("starts with Windows", lines.first_item.starts_with ("Windows"))
+				assert ("starts with administrator.", lines.last_item.ends_with ("administrator."))
+				if attached error_table.found_item_unindented as unindented then
+					assert ("3 lines", unindented.occurrences ('%N') = 2)
+					assert ("starts with Windows", unindented.starts_with ("Windows"))
+					assert ("starts with administrator.", unindented.ends_with ("administrator."))
+				end
+			else
+				failed ("has code 51")
+			end
+			if error_table.has_key_code (5) and then attached error_table.found_item_unindented as unindented then
+				assert_same_string (Void, unindented, "Access is denied.")
+			else
+				failed ("has code 5")
+			end
 		end
 
 	test_immutable_string_32_table
@@ -245,6 +279,7 @@ feature -- Test
 				covers/{EL_IMMUTABLE_STRING_TABLE}.key_for_iteration,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.item_for_iteration,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.found_item,
+				covers/{EL_IMMUTABLE_STRING_TABLE}.found_item_unindented,
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.found_item,
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.new_item,
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.key_for_iteration,
@@ -256,7 +291,6 @@ feature -- Test
 			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
 			zstring_table: EL_ZSTRING_TABLE; currency_table: EL_IMMUTABLE_STRING_32_TABLE
 			value, euro_symbol, line: ZSTRING; euro_name: STRING
-			utf_8_currency_assignment_list: EL_STRING_8_LIST
 			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
 			create table_utf_8.make_field_map (Currency_manifest)
@@ -273,14 +307,7 @@ feature -- Test
 			if table_utf_8.has_key_8 ("currency_symbols") then
 				euro_name := "euro"; create euro_symbol.make_filled (Text.Euro_symbol, 1)
 				create currency_table.make_assignments (table_utf_8.found_item)
-
-				create utf_8_currency_assignment_list.make_with_lines (table_utf_8.found_utf_8_item)
-				assert ("indented", utf_8_currency_assignment_list.for_all (
-					agent {STRING}.starts_with (Tab.as_string_8 (1)))
-				)
-
-				utf_8_currency_assignment_list.unindent (1)
-				create currency_table_utf_8.make_assignments_utf_8 (utf_8_currency_assignment_list.joined_lines)
+				create currency_table_utf_8.make_assignments_utf_8 (table_utf_8.found_item_unindented)
 
 				if currency_table.has_key_general (euro_name) and then
 					attached currency_table.found_item as symbol

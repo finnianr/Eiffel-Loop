@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-09 16:03:21 GMT (Friday 9th August 2024)"
-	revision: "14"
+	date: "2024-08-12 17:05:25 GMT (Monday 12th August 2024)"
+	revision: "15"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -34,7 +34,7 @@ inherit
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
 create
-	make_comma_separated, make_assignments, make_field_map, make_empty, make_reversed
+	make_code_map, make_comma_separated, make_assignments, make_field_map, make_empty, make_reversed
 
 feature -- Status query
 
@@ -49,6 +49,11 @@ feature -- Status query
 				l_key := a_key
 			end
 			Result := has_immutable_key (Immutable_32.as_shared (l_key))
+		end
+
+	has_key_code (a_code: NUMERIC): BOOLEAN
+		do
+			Result := has_key_general (a_code.out)
 		end
 
 	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
@@ -77,9 +82,9 @@ feature {NONE} -- Implementation
 			create Result.make_empty
 		end
 
-	new_substring (start_index, end_index: INTEGER): IMMUTABLE_STRING_32
+	new_substring (str: IMMUTABLE_STRING_32; start_index, end_index: INTEGER): IMMUTABLE_STRING_32
 		do
-			Result := manifest.shared_substring (start_index, end_index)
+			Result := str.shared_substring (start_index, end_index)
 		end
 
 end

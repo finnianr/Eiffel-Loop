@@ -1,0 +1,82 @@
+0:
+	The operation completed successfully.
+1:
+	Incorrect function.
+2:
+	The system cannot find the file specified.
+3:
+	The system cannot find the path specified.
+4:
+	The system cannot open the file.
+5:
+	Access is denied.
+6:
+	The handle is invalid.
+7:
+	The storage control blocks were destroyed.
+8:
+	Not enough memory resources are available to process this command.
+9:
+	The storage control block address is invalid.
+10:
+	The environment is incorrect.
+11:
+	An attempt was made to load a program with an incorrect format.
+12:
+	The access code is invalid.
+13:
+	The data is invalid.
+14:
+	Not enough storage is available to complete this operation.
+15:
+	The system cannot find the drive specified.
+16:
+	The directory cannot be removed.
+17:
+	The system cannot move the file to a different disk drive.
+18:
+	There are no more files.
+19:
+	The media is write protected.
+20:
+	The system cannot find the device specified.
+21:
+	The device is not ready.
+22:
+	The device does not recognize the command.
+23:
+	Data error (cyclic redundancy check).
+24:
+	The program issued a command but the command length is incorrect.
+25:
+	The drive cannot locate a specific area or track on the disk.
+26:
+	The specified disk or diskette cannot be accessed.
+27:
+	The drive cannot find the sector requested.
+28:
+	The printer is out of paper.
+29:
+	The system cannot write to the specified device.
+30:
+	The system cannot read from the specified device.
+31:
+	A device attached to the system is not functioning.
+32:
+	The process cannot access the file because it is being used by another process.
+33:
+	The process cannot access the file because another process has locked a portion of the file.
+34:
+	The wrong diskette is in the drive. Insert %2 (Volume Serial Number: %3) into drive %1.
+36:
+	Too many files opened for sharing.
+38:
+	Reached the end of the file.
+39:
+	The disk is full.
+50:
+	The request is not supported.
+51:
+	Windows cannot find the network path. Verify that the network path is correct and the
+	destination computer is not busy or turned off. If Windows still cannot find the network
+	path contact your network administrator.

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-04 7:24:56 GMT (Sunday 4th August 2024)"
-	revision: "12"
+	date: "2024-08-12 17:02:10 GMT (Monday 12th August 2024)"
+	revision: "13"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -23,6 +23,7 @@ inherit
 		rename
 			make as make_utf_8,
 			make_comma_separated as make_comma_separated_utf_8,
+			make_code_map as make_code_map_utf_8,
 			make_field_map as make_field_map_utf_8,
 			make_assignments as make_assignments_utf_8,
 			found_item as found_utf_8_item,
@@ -35,7 +36,7 @@ inherit
 		end
 
 create
-	make, make_assignments, make_comma_separated, make_field_map,
+	make, make_assignments, make_code_map, make_comma_separated, make_field_map,
 	make_empty, make_subset, make_reversed,
 -- UTF-8
 	make_utf_8, make_field_map_utf_8, make_comma_separated_utf_8, make_assignments_utf_8
@@ -63,6 +64,11 @@ feature {NONE} -- Initialization
 		-- 	..
 		do
 			make_assignments_utf_8 (as_utf_8 (assignment_manifest))
+		end
+
+	make_code_map (indented_manifest: READABLE_STRING_GENERAL)
+		do
+			make_code_map_utf_8 (as_utf_8 (indented_manifest))
 		end
 
 	make_comma_separated (csv_manifest: READABLE_STRING_GENERAL)

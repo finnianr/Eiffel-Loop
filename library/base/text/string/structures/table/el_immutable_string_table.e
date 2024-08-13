@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-09 16:18:19 GMT (Friday 9th August 2024)"
-	revision: "25"
+	date: "2024-08-13 14:41:50 GMT (Tuesday 13th August 2024)"
+	revision: "26"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -54,6 +54,10 @@ inherit
 			{NONE} all
 		end
 
+	EL_MODULE_CONVERT_STRING
+
+	EL_SHARED_CLASS_ID
+
 feature {NONE} -- Initialization
 
 	make (a_manifest: GENERAL)
@@ -75,7 +79,7 @@ feature {NONE} -- Initialization
 			if format = 0 then
 				format := Fm_indented
 			end
-			name := new_substring (1, 0)
+			name := new_substring (manifest, 1, 0)
 			if attached new_split_list as list then
 				list.fill (manifest, '%N', 0)
 				make_equal (a_manifest.occurrences (':'))
@@ -95,8 +99,8 @@ feature {NONE} -- Initialization
 						colon_index := line.last_index_of (':', line.count)
 						if colon_index > 0 then
 							start_index := list.item_lower
-							name := new_substring (start_index, start_index + colon_index - 2)
-							if is_field_map implies string.is_eiffel_lower (name) then
+							name := new_substring (manifest, start_index, start_index + colon_index - 2)
+							if valid_name (name) then
 								extend (0, name)
 							end
 						end
@@ -128,11 +132,18 @@ feature {NONE} -- Initialization
 					if end_index > 0 and start_index > 0 then
 						offset := list.item_lower - 1
 						interval := compact_interval (start_index + offset, list.item_upper)
-						extend (interval, new_substring (1 + offset, end_index + offset))
+						extend (interval, new_substring (manifest, 1 + offset, end_index + offset))
 					end
 					list.forth
 				end
 			end
+		end
+
+	make_code_map (a_manifest: GENERAL)
+		-- make using indented format where each key is a natural number
+		do
+			format := Fm_indented_code
+			make (a_manifest)
 		end
 
 	make_comma_separated (a_manifest: GENERAL)
@@ -206,6 +217,13 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
+	has_key_code (a_code: NUMERIC): BOOLEAN
+		require
+			is_indented_code: is_indented_code
+			is_natural_number: a_code.out.is_natural_64
+		deferred
+		end
+
 	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
 		deferred
 		end
@@ -214,10 +232,44 @@ feature -- Status query
 		deferred
 		end
 
+	is_assignment: BOOLEAN
+		-- is `format' in style of quasi Eiffel assignment without quotes
+		do
+			Result := format = Fm_assignment
+		end
+
+	is_comma_separated: BOOLEAN
+		-- is `format' style comma separated with alternate keys and values
+		do
+			Result := format = Fm_comma_separated
+		end
+
 	is_field_map: BOOLEAN
-		-- do keys represent Eiffel attribute fields
+		-- is `format' style indented with keys representing Eiffel attribute fields
 		do
 			Result := format = Fm_indented_eiffel
+		end
+
+	is_indented: BOOLEAN
+		-- is `format' style indented with keys ending with colon character
+		do
+			Result := format = Fm_indented
+		end
+
+	is_indented_any: BOOLEAN
+		-- is `format' style any of 3 indented formats
+		do
+			inspect format
+				when Fm_indented, Fm_indented_eiffel, Fm_indented_code then
+					Result := True
+			else
+			end
+		end
+
+	is_indented_code: BOOLEAN
+		-- is `format' style indented with keys representing numeric codes
+		do
+			Result := format = Fm_indented_code
 		end
 
 feature -- Access
@@ -231,15 +283,56 @@ feature -- Access
 		end
 
 	found_item: IMMUTABLE
+		--
 		do
 			Result := new_item_substring (found_interval)
 		end
 
 	found_item_lines: like new_split_list
+		-- unindented lines from `found_item'
+		require
+			indented_format: is_indented_any
 		do
 			Result := new_split_list
 			Result.fill (found_item, '%N', 0)
 			Result.unindent
+		end
+
+	found_item_unindented: GENERAL
+		-- joined unindented lines from `found_item'
+		require
+			indented_format: is_indented_any
+		local
+			interval: INTEGER_64; start_index, end_index: INTEGER
+		do
+			interval := found_interval
+			start_index := to_lower (interval); end_index := to_upper (interval)
+			create Result.make (end_index - start_index + 1)
+			inspect format
+				when Fm_indented, Fm_indented_eiffel, Fm_indented_code then
+					if manifest [start_index] = '%T'
+						and then attached new_substring (manifest, start_index + 1, end_index) as str
+					then
+						if str.has ('%N') and then attached new_split_list as list then
+							list.fill_by_string (str, Newline_tab, 0)
+							from list.start until list.after loop
+								if Result.count > 0 then
+									Result.append_code ({EL_ASCII}.Newline)
+								end
+								Result.append (list.item)
+								list.forth
+							end
+						else
+							Result.append (str)
+						end
+					else
+						Result.append (found_item)
+					end
+			else
+				Result.append (found_item)
+			end
+		ensure
+			same_as_found_item_lines: Result ~ string.joined_lines (found_item_lines)
 		end
 
 	item (key: IMMUTABLE): IMMUTABLE
@@ -255,7 +348,6 @@ feature -- Access
 feature -- Factory
 
 	new_cursor: EL_IMMUTABLE_STRING_TABLE_CURSOR [IMMUTABLE]
-			-- <Precursor>
 		do
 			create Result.make (Current)
 			Result.start
@@ -296,25 +388,39 @@ feature -- Contract Support
 	valid_indented (a_manifest: GENERAL): BOOLEAN
 		-- `True' if each line is either tab-indented or a name key ending with ':'
 		local
-			line_list: EL_SPLIT_STRING_LIST [GENERAL]; line: GENERAL
-			is_first_line_name: BOOLEAN; colon_index: INTEGER
+			line: IMMUTABLE; is_first_line_name: BOOLEAN; colon_index: INTEGER
 		do
 			Result := True
-			if a_manifest.count > 0 then
-				create line_list.make (a_manifest, '%N')
-				across line_list as list until not Result loop
+			if a_manifest.count > 0 and then attached new_split_list as list then
+				list.fill (new_shared (a_manifest), '%N', 0)
+				from list.start until list.after or not Result loop
 					line := list.item
 					if line.count > 0 and then line [1] /= '%T' then
 						colon_index := line.last_index_of (':', line.count)
-						if colon_index > 0 and then attached line.substring (1, colon_index - 1) as name then
-							Result := is_field_map implies string.is_eiffel_lower (name)
-							if Result and then list.cursor_index = 1 then
+						if colon_index > 0 and then attached new_substring (line, 1, colon_index - 1) as name then
+							Result := valid_name (name)
+							if Result and then list.index = 1 then
 								is_first_line_name := True
 							end
 						end
 					end
+					list.forth
 				end
 				Result := Result and is_first_line_name
+			end
+		end
+
+	valid_name (name: IMMUTABLE): BOOLEAN
+		-- is name valid for `format'
+		do
+			inspect format
+				when Fm_indented_eiffel then
+					Result := string.is_eiffel_lower (name)
+
+				when Fm_indented_code then
+					Result := Convert_string.is_convertible_to_type (name, Class_id.NATURAL_64)
+			else
+				Result := True
 			end
 		end
 
@@ -331,7 +437,7 @@ feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
 
 	new_item_substring (interval: INTEGER_64): IMMUTABLE
 		do
-			Result := new_substring (to_lower (interval), to_upper (interval))
+			Result := new_substring (manifest, to_lower (interval), to_upper (interval))
 		end
 
 feature {NONE} -- Deferred
@@ -342,11 +448,9 @@ feature {NONE} -- Deferred
 
 	new_split_list: EL_SPLIT_READABLE_STRING_LIST [IMMUTABLE]
 		deferred
-		ensure
-			even_count: Result.count \\ 2 = 0
 		end
 
-	new_substring (start_index, end_index: INTEGER): IMMUTABLE
+	new_substring (str: IMMUTABLE; start_index, end_index: INTEGER): IMMUTABLE
 		deferred
 		end
 
@@ -370,9 +474,13 @@ feature {NONE} -- Formats
 
 	Fm_indented: NATURAL_8 = 3
 
+	Fm_indented_code: NATURAL_8 = 5
+
 	Fm_indented_eiffel: NATURAL_8 = 4
 
-	Fm_indented_code: NATURAL_8 = 4
+feature {NONE} -- Constants
+
+	Newline_tab: STRING = "%N%T"
 
 note
 	notes: "[

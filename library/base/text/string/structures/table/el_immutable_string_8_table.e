@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-09 16:03:30 GMT (Friday 9th August 2024)"
-	revision: "13"
+	date: "2024-08-12 17:05:25 GMT (Monday 12th August 2024)"
+	revision: "14"
 
 class
 	EL_IMMUTABLE_STRING_8_TABLE
@@ -32,23 +32,30 @@ inherit
 	EL_MODULE_STRING_8
 
 create
-	make_comma_separated, make_assignments, make_field_map, make_empty, make_subset, make_reversed
+	make_code_map, make_comma_separated, make_assignments, make_field_map, make_empty, make_subset, make_reversed
+
+feature -- Status query
+
+	has_key_code (a_code: NUMERIC): BOOLEAN
+		do
+			Result := has_key_8 (a_code.out)
+		end
 
 feature {NONE} -- Implementation
-
-	new_split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
-		do
-			create Result.make_empty
-		end
 
 	new_shared (a_manifest: STRING_8): IMMUTABLE_STRING_8
 		do
 			Result := Immutable_8.new_substring (a_manifest.area, 0, a_manifest.count)
 		end
 
-	new_substring (start_index, end_index: INTEGER): IMMUTABLE_STRING_8
+	new_split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		do
-			Result := manifest.shared_substring (start_index, end_index)
+			create Result.make_empty
+		end
+
+	new_substring (str: IMMUTABLE_STRING_8; start_index, end_index: INTEGER): IMMUTABLE_STRING_8
+		do
+			Result := str.shared_substring (start_index, end_index)
 		end
 
 end
