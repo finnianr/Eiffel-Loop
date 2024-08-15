@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 16:25:14 GMT (Wednesday 22nd November 2023)"
-	revision: "1"
+	date: "2024-08-15 14:05:41 GMT (Thursday 15th August 2024)"
+	revision: "2"
 
 deferred class
 	EL_FILE_LOCK_I [G]
@@ -21,6 +21,8 @@ inherit
 		end
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
+
+	EL_SHARED_NATIVE_STRING
 
 feature -- Status query
 

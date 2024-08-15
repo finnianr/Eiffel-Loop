@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:17:04 GMT (Sunday 7th January 2024)"
-	revision: "4"
+	date: "2024-08-15 12:01:16 GMT (Thursday 15th August 2024)"
+	revision: "5"
 
 class
 	EL_SHELL_EXECUTE_C_API
@@ -23,10 +23,10 @@ inherit
 
 feature {NONE} -- Access
 
-	c_process (self: POINTER): NATURAL
+	c_process (self: POINTER): POINTER
 		--
 		external
-			"C [struct <Shellapi.h>] (SHELLEXECUTEINFOW): EIF_NATURAL"
+			"C [struct <Shellapi.h>] (SHELLEXECUTEINFOW): EIF_POINTER"
 		alias
 			"hProcess"
 		end

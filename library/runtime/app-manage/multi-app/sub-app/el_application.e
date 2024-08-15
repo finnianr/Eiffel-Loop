@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 11:28:17 GMT (Monday 15th July 2024)"
-	revision: "89"
+	date: "2024-08-15 14:38:53 GMT (Thursday 15th August 2024)"
+	revision: "90"
 
 deferred class
 	EL_APPLICATION
@@ -189,9 +189,9 @@ feature -- Element change
 
 feature {EL_APPLICATION} -- Factory routines
 
-	new_application_mutex: EL_APPLICATION_MUTEX_I
+	new_application_mutex: EL_APPLICATION_MUTEX
 		do
-			create {EL_APPLICATION_MUTEX_IMP} Result.make_for_application_mode (option_name)
+			create Result.make_for_application_mode (option_name)
 		end
 
 	new_command_options: EL_APPLICATION_COMMAND_OPTIONS

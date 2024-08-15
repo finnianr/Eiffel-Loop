@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-29 10:00:36 GMT (Thursday 29th December 2022)"
-	revision: "15"
+	date: "2024-08-15 14:38:53 GMT (Thursday 15th August 2024)"
+	revision: "16"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
@@ -82,7 +82,7 @@ feature -- Basic operations
 
 feature -- Factory routines
 
-	new_application_mutex: EL_APPLICATION_MUTEX_I
+	new_application_mutex: EL_APPLICATION_MUTEX
 		deferred
 		end
 

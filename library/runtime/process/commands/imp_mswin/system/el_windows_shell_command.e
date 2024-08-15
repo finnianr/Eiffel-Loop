@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 20:07:01 GMT (Thursday 4th January 2024)"
-	revision: "3"
+	date: "2024-08-15 11:59:03 GMT (Thursday 15th August 2024)"
+	revision: "4"
 
 class
 	EL_WINDOWS_SHELL_COMMAND
@@ -172,7 +172,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	process_handle: NATURAL
+	process_handle: POINTER
 		do
 			Result := c_process (self_ptr)
 		end

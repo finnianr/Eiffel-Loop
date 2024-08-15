@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 9:07:37 GMT (Monday 3rd July 2023)"
-	revision: "7"
+	date: "2024-08-15 11:58:36 GMT (Thursday 15th August 2024)"
+	revision: "8"
 
 class
 	EL_WIN_FILE_DATE_TIME
@@ -53,34 +53,34 @@ feature -- Access
 
 feature -- File query
 
-	unix_file_time_creation (file_handle: NATURAL): INTEGER
+	unix_file_time_creation (file_handle: POINTER): INTEGER
 		do
 			Result := get_file_time (file_handle, 1)
 		end
 
-	unix_file_time_last_access (file_handle: NATURAL): INTEGER
+	unix_file_time_last_access (file_handle: POINTER): INTEGER
 		do
 			Result := get_file_time (file_handle, 2)
 		end
 
-	unix_file_time_last_write (file_handle: NATURAL): INTEGER
+	unix_file_time_last_write (file_handle: POINTER): INTEGER
 		do
 			Result := get_file_time (file_handle, 3)
 		end
 
 feature -- File setting
 
-	set_file_time_creation_from_unix (file_handle: NATURAL; unix_date_time: INTEGER)
+	set_file_time_creation_from_unix (file_handle: POINTER; unix_date_time: INTEGER)
 		do
 			set_file_time (file_handle, unix_date_time, 1)
 		end
 
-	set_file_time_last_access_from_unix (file_handle: NATURAL; unix_date_time: INTEGER)
+	set_file_time_last_access_from_unix (file_handle: POINTER; unix_date_time: INTEGER)
 		do
 			set_file_time (file_handle, unix_date_time, 2)
 		end
 
-	set_file_time_last_write_from_unix (file_handle: NATURAL; unix_date_time: INTEGER)
+	set_file_time_last_write_from_unix (file_handle: POINTER; unix_date_time: INTEGER)
 		do
 			set_file_time (file_handle, unix_date_time, 3)
 		end
@@ -109,7 +109,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	get_file_time (file_handle: NATURAL; argument_pos: INTEGER): INTEGER
+	get_file_time (file_handle: POINTER; argument_pos: INTEGER): INTEGER
 		do
 			get_set_file_time (file_handle, argument_pos, False)
 			if call_succeeded then
@@ -119,7 +119,7 @@ feature {NONE} -- Implementation
 			unix_time_returned: call_succeeded
 		end
 
-	get_set_file_time (file_handle: NATURAL; argument_pos: INTEGER; setting: BOOLEAN)
+	get_set_file_time (file_handle: POINTER; argument_pos: INTEGER; setting: BOOLEAN)
 		local
 			i: INTEGER
 		do
@@ -136,7 +136,7 @@ feature {NONE} -- Implementation
 			pointer_array_reset: pointer_array.filled_with (default_pointer, 0, 2)
 		end
 
-	set_file_time (file_handle: NATURAL; unix_date_time, argument_pos: INTEGER)
+	set_file_time (file_handle: POINTER; unix_date_time, argument_pos: INTEGER)
 		do
 			set_from_unix (unix_date_time)
 			get_set_file_time (file_handle, argument_pos, True)

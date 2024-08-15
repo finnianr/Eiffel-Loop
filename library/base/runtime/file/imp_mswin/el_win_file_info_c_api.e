@@ -6,22 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 19:43:10 GMT (Thursday 4th January 2024)"
-	revision: "9"
+	date: "2024-08-15 11:57:25 GMT (Thursday 15th August 2024)"
+	revision: "10"
 
 class
 	EL_WIN_FILE_INFO_C_API
 
 feature {NONE} -- C externals
 
-	frozen invalid_handle_value: NATURAL
+	frozen invalid_handle_value: POINTER
 		external
 			"C [macro %"Windows.h%"]"
 		alias
 			"INVALID_HANDLE_VALUE"
 		end
 
-	frozen c_open_file_read (name: POINTER): NATURAL
+	frozen c_open_file_read (name: POINTER): POINTER
 			-- HANDLE WINAPI CreateFile(
 			-- 	_In_     LPCTSTR               lpFileName,
 			-- 	_In_     DWORD                 dwDesiredAccess,
@@ -37,7 +37,7 @@ feature {NONE} -- C externals
 			"return (EIF_NATURAL_32) CreateFile ($name, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)"
 		end
 
-	frozen c_open_file_write (name: POINTER): NATURAL
+	frozen c_open_file_write (name: POINTER): POINTER
 			-- HANDLE WINAPI CreateFile(
 			-- 	_In_     LPCTSTR               lpFileName,
 			-- 	_In_     DWORD                 dwDesiredAccess,
@@ -53,7 +53,7 @@ feature {NONE} -- C externals
 			"return (EIF_NATURAL_32) CreateFile ($name, GENERIC_WRITE, NULL, NULL, OPEN_EXISTING, 0, NULL)"
 		end
 
-	frozen c_get_file_time (handle: NATURAL_32; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN
+	frozen c_get_file_time (handle: POINTER; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN
 			-- time pointers can be NULL if the application does not require this information.
 			-- BOOL WINAPI GetFileTime (
 			--		_In_      HANDLE     hFile,
@@ -67,7 +67,7 @@ feature {NONE} -- C externals
 			"GetFileTime"
 		end
 
-	frozen c_set_file_time (handle: NATURAL_32; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN
+	frozen c_set_file_time (handle: POINTER; creation_time_ptr, last_access_time_ptr, last_write_time_ptr: POINTER): BOOLEAN
 			-- time pointers can be NULL if the application does not need to set this information.
 			-- BOOL WINAPI SetFileTime(
 			--		_In_           HANDLE   hFile,

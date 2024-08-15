@@ -1,15 +1,16 @@
 note
 	description: "[
-		Unix implementation of a special 1 byte created file that can be used as a file mutex
+		Unix implementation of a special 1 byte created file used as a mutex
 	]"
+	testing: "${FILE_LOCKING_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 11:29:46 GMT (Friday 7th June 2024)"
-	revision: "4"
+	date: "2024-08-15 17:50:32 GMT (Thursday 15th August 2024)"
+	revision: "5"
 
 class
 	EL_NAMED_FILE_LOCK
@@ -30,7 +31,9 @@ feature {NONE} -- Initialization
 	make (a_path: EL_FILE_PATH)
 		do
 			path := a_path
-			make_write (c_create_write_only (a_path.to_path.native_string.item))
+			if attached Native_string.new_data (path) as native_path then
+				make_write (c_create_write_only (native_path.item))
+			end
 			if is_fixed_size then
 				set_length (1)
 			end

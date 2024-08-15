@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-08 18:29:18 GMT (Thursday 8th August 2024)"
-	revision: "4"
+	date: "2024-08-15 14:25:26 GMT (Thursday 15th August 2024)"
+	revision: "5"
 
 class
 	EL_WIN_32_C_API
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Standard library
 
-	c_byte_swap_unsigned_short (v: NATURAL_16): NATURAL_16
+	frozen c_byte_swap_unsigned_short (v: NATURAL_16): NATURAL_16
 		-- unsigned short _byteswap_ushort ( unsigned short val );
 		external
 			"C (unsigned short): EIF_NATURAL_16 | <stdlib.h>"
@@ -25,7 +25,7 @@ feature {NONE} -- Standard library
 			"_byteswap_ushort"
 		end
 
-	c_byte_swap_unsigned_long (v: NATURAL_32): NATURAL_32
+	frozen c_byte_swap_unsigned_long (v: NATURAL_32): NATURAL_32
 		-- unsigned long _byteswap_ulong ( unsigned long val );
 		external
 			"C (unsigned long): EIF_NATURAL_32 | <stdlib.h>"
@@ -33,12 +33,104 @@ feature {NONE} -- Standard library
 			"_byteswap_ulong"
 		end
 
-	c_byte_swap_unsigned_int64 (v: NATURAL_64): NATURAL_64
+	frozen c_byte_swap_unsigned_int64 (v: NATURAL_64): NATURAL_64
 		-- unsigned __int64 _byteswap_uint64 ( unsigned __int64 val );
 		external
 			"C (unsigned __int64): EIF_NATURAL_64 | <stdlib.h>"
 		alias
 			"_byteswap_uint64"
+		end
+
+feature {NONE} -- File API
+
+	frozen c_create_file_mutex (path: POINTER): POINTER
+			-- Create or open a file mutex
+		external
+			"C inline use <Windows.h>"
+		alias
+			"[
+				CreateFileW (
+					(LPCTSTR)$path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL
+				)
+			]"
+		end
+
+	frozen c_create_file_write (path: POINTER): POINTER
+			-- Create or open a file for writing
+		external
+			"C inline use <Windows.h>"
+		alias
+			"[
+				CreateFileW (
+					(LPCTSTR)$path, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL
+				)
+			]"
+		end
+
+	frozen c_file_truncate (file_handle: POINTER)
+		external
+			"C inline use <windows.h>"
+		alias
+			"[
+				{
+					HANDLE hFile = (HANDLE)$file_handle;
+					SetFilePointer (hFile, 0, NULL, FILE_BEGIN);
+        			SetEndOfFile (hFile);
+				}
+			]"
+		end
+
+	frozen c_lock_file (file_handle, overlapped: POINTER; n_bytes_low, n_bytes_high: NATURAL): BOOLEAN
+		-- BOOL LockFileEx(
+		--		[in]		HANDLE       hFile,
+		--		[in]		DWORD        dwFlags,
+		--	 				DWORD        dwReserved,
+		--		[in]		DWORD        nNumberOfBytesToLockLow,
+		--		[in]		DWORD        nNumberOfBytesToLockHigh,
+		--		[in, out] LPOVERLAPPED lpOverlapped
+		-- );
+		require
+			file_handle_attached: is_attached (file_handle)
+			overlapped_attached: is_attached (overlapped)
+		external
+			"C inline use <windows.h>"
+		alias
+			"[
+				LockFileEx (
+					(HANDLE)$file_handle, LOCKFILE_EXCLUSIVE_LOCK | LOCKFILE_FAIL_IMMEDIATELY, 0,
+					(DWORD)$n_bytes_low, (DWORD)$n_bytes_high, (LPOVERLAPPED)$overlapped
+				)
+			]"
+		end
+
+	frozen c_unlock_file (file_handle, overlapped: POINTER; n_bytes_low, n_bytes_high: NATURAL): BOOLEAN
+		-- BOOL UnlockFileEx (
+		-- 	[in]			HANDLE			 hFile,
+		-- 					DWORD				dwReserved,
+		-- 	[in]			DWORD				nNumberOfBytesToUnlockLow,
+		-- 	[in]			DWORD				nNumberOfBytesToUnlockHigh,
+		-- 	[in, out]	LPOVERLAPPED lpOverlapped
+		-- );
+		require
+			file_handle_attached: is_attached (file_handle)
+			overlapped_attached: is_attached (overlapped)
+		external
+			"C inline use <windows.h>"
+		alias
+			"[
+				UnlockFileEx (
+					(HANDLE)$file_handle, 0,
+					(DWORD)$n_bytes_low, (DWORD)$n_bytes_high, (LPOVERLAPPED)$overlapped
+				)
+			]"
+		end
+
+	frozen c_write_file (a_handle, a_buffer: POINTER; count: INTEGER; written_count, overlapped: POINTER): BOOLEAN
+			-- SDK WriteFile
+		external
+			"C blocking macro signature (HANDLE, LPCVOID, DWORD, LPDWORD, LPOVERLAPPED): BOOL use <windows.h>"
+		alias
+			"WriteFile"
 		end
 
 feature {NONE} -- Path related
@@ -49,14 +141,6 @@ feature {NONE} -- Path related
 			"C inline use <Shlobj.h>"
 		alias
 			"SHGetFolderPath (NULL, $folder_id, NULL, 0, $a_path_out)"
-		end
-
-	frozen max_path_count: INTEGER
-		-- Maximum number of characters in path
-		external
-			"C [macro <limits.h>]"
-		alias
-			"MAX_PATH"
 		end
 
 feature {NONE} -- Console output
@@ -99,7 +183,7 @@ feature {NONE} -- Shell API
 			]"
 		end
 
-	frozen c_wait_for_single_object (process: NATURAL): INTEGER
+	frozen c_wait_for_single_object (process: POINTER): INTEGER
 		-- Waits until the specified process object is in the signaled state or the time-out interval elapses.
 		-- DWORD WaitForSingleObject(
 		-- 	[in] HANDLE hHandle,
@@ -115,7 +199,7 @@ feature {NONE} -- Shell API
 
 feature {NONE} -- Win32 base
 
-	frozen c_close_handle (object_handle: NATURAL): BOOLEAN
+	frozen c_close_handle (object_handle: POINTER): BOOLEAN
 			-- BOOL WINAPI CloseHandle(_In_ HANDLE hObject);
 		external
 			"C (HANDLE): EIF_BOOLEAN | <Winbase.h>"
@@ -151,7 +235,7 @@ feature {NONE} -- Win32 base
 
 feature {NONE} -- Internationalization
 
-	c_get_user_default_locale_id: INTEGER
+	frozen c_get_user_default_locale_id: INTEGER
 		-- the locale identifier for the user default locale, represented as LOCALE_USER_DEFAULT.
 		-- If the user default locale is a custom locale, this function always returns LOCALE_CUSTOM_DEFAULT,
 		-- regardless of the custom locale that is selected. For example, whether the user locale is Hawaiian
@@ -164,7 +248,7 @@ feature {NONE} -- Internationalization
 
 feature {NONE} -- Error constants
 
-	c_error_already_exists: NATURAL
+	frozen c_error_already_exists: NATURAL
 			-- Cannot create a file when that file already exists.
 		external
 			"C [macro <WinError.h>]"
@@ -172,9 +256,33 @@ feature {NONE} -- Error constants
 			"ERROR_ALREADY_EXISTS"
 		end
 
+	frozen c_invalid_handle_value: POINTER
+		external
+			"C [macro <Winbase.h>]"
+		alias
+			"INVALID_HANDLE_VALUE"
+		end
+
+feature {NONE} -- Size constants
+
+	frozen c_overlap_struct_size: INTEGER
+		external
+			"C [macro <winbase.h>]"
+		alias
+			"sizeof(OVERLAPPED)"
+		end
+
+	frozen max_path_count: INTEGER
+		-- Maximum number of characters in path
+		external
+			"C [macro <limits.h>]"
+		alias
+			"MAX_PATH"
+		end
+
 feature {NONE} -- Folder constants
 
-	c_folder_id_common_desktop: INTEGER
+	frozen c_folder_id_common_desktop: INTEGER
 			-- The file system directory that contains files and folders that appear on the desktop for all users.
 			-- A typical path is C:\Documents and Settings\All Users\Desktop.
 		external
@@ -183,7 +291,7 @@ feature {NONE} -- Folder constants
 			"CSIDL_COMMON_DESKTOPDIRECTORY"
 		end
 
-	c_folder_id_common_programs: INTEGER
+	frozen c_folder_id_common_programs: INTEGER
 			-- The file system directory that contains the directories for the common program groups
 			-- that appear on the Start menu for all users.
 			-- typical path is C:\Documents and Settings\All Users\Start Menu\Programs
@@ -193,7 +301,7 @@ feature {NONE} -- Folder constants
 			"CSIDL_COMMON_PROGRAMS"
 		end
 
-	c_folder_id_desktop: INTEGER
+	frozen c_folder_id_desktop: INTEGER
 			-- The file system directory used to physically store file objects on the desktop
 			-- (not to be confused with the desktop folder itself).
 			-- A typical path is C:\Documents and Settings\username\Desktop.		
@@ -203,7 +311,7 @@ feature {NONE} -- Folder constants
 			"CSIDL_DESKTOPDIRECTORY"
 		end
 
-	c_folder_id_my_documents: INTEGER
+	frozen c_folder_id_my_documents: INTEGER
 			-- typical path is "C:\Users\xxx\My Documents".
 		external
 			"C [macro <Shlobj.h>]"
@@ -211,7 +319,7 @@ feature {NONE} -- Folder constants
 			"CSIDL_MYDOCUMENTS"
 		end
 
-	c_folder_id_program_files: INTEGER
+	frozen c_folder_id_program_files: INTEGER
 			-- typical path is C:\Program Files.
 		external
 			"C [macro <Shlobj.h>]"
@@ -219,7 +327,7 @@ feature {NONE} -- Folder constants
 			"CSIDL_PROGRAM_FILES"
 		end
 
-	c_folder_id_user_profile: INTEGER
+	frozen c_folder_id_user_profile: INTEGER
 			-- typical path is C:\Users\<username>.
 		external
 			"C [macro <Shlobj.h>]"
@@ -227,7 +335,7 @@ feature {NONE} -- Folder constants
 			"CSIDL_PROFILE"
 		end
 
-	c_folder_id_system: INTEGER
+	frozen c_folder_id_system: INTEGER
 			-- The Windows System folder.
 			-- A typical path is C:\Windows\System32.
 		external

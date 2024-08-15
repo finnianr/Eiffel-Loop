@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-08-15 8:45:56 GMT (Thursday 15th August 2024)"
+	revision: "16"
 
 class
 	EL_VISION_2_USER_INTERFACE [W -> EL_TITLED_WINDOW create make end, P -> {EL_STOCK_PIXMAPS} create make end]
@@ -20,6 +20,8 @@ inherit
 		redefine
 			on_creation
 		end
+
+	EL_MODULE_UNIX_SIGNALS
 
 create
 	make, make_maximized
@@ -44,9 +46,15 @@ feature {NONE} -- Implementation
 
 	close_on_exception (a_exception: EXCEPTION)
 		do
-			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} a_exception as os_signal_exception then
-				if os_signal_exception.signal_code = 15 and then attached main_window as window then
-					window.on_close_request
+			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} a_exception as signal
+				and then attached main_window as window
+			then
+				if {PLATFORM}.is_unix then
+					if signal.signal_code = Unix_signals.Sigterm then
+						window.on_close_request
+					end
+				else
+					do_nothing
 				end
 			end
 		end

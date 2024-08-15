@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-04 19:44:55 GMT (Thursday 4th January 2024)"
-	revision: "8"
+	date: "2024-08-15 11:55:09 GMT (Thursday 15th August 2024)"
+	revision: "9"
 
 class
 	EL_WIN_FILE_INFO
@@ -137,7 +137,7 @@ feature -- Status change
 
 feature {NONE} -- Internal attributes
 
-	handle: NATURAL
+	handle: POINTER
 
 	call_succeeded: BOOLEAN
 

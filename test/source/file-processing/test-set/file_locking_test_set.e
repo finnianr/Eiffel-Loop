@@ -1,21 +1,20 @@
 note
 	description: "Test file locking mutex classes"
+	testing: "${FILE_LOCKING_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-06 8:57:14 GMT (Monday 6th November 2023)"
-	revision: "5"
+	date: "2024-08-15 17:49:24 GMT (Thursday 15th August 2024)"
+	revision: "6"
 
 class
 	FILE_LOCKING_TEST_SET
 
 inherit
 	EL_COPIED_FILE_DATA_TEST_SET
-
-	SHARED_DEV_ENVIRON
 
 create
 	make
@@ -26,16 +25,18 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["mutex_file",	agent test_mutex_file]
+				["lockable_text_file", agent test_lockable_text_file],
+				["named_file_lock",	  agent test_named_file_lock]
 			>>)
 		end
 
 feature -- Tests
 
-	test_mutex_file
-		-- MUTEX_FILE_TEST_SET.test_mutex_file
+	test_lockable_text_file
+		-- MUTEX_FILE_TEST_SET.test_lockable_text_file
 		note
 			testing: "[
+				covers/{EL_LOCKABLE_TEXT_FILE}.make,
 				covers/{EL_LOCKABLE_TEXT_FILE}.try_lock,
 				covers/{EL_LOCKABLE_TEXT_FILE}.unlock,
 				covers/{EL_LOCKABLE_TEXT_FILE}.open_write,
@@ -75,17 +76,47 @@ feature -- Tests
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	source_file_list: EL_FILE_PATH_LIST
+	test_named_file_lock
+		-- MUTEX_FILE_TEST_SET.test_named_file_lock
+		note
+			testing: "[
+				covers/{EL_NAMED_FILE_LOCK}.try_lock,
+				covers/{EL_NAMED_FILE_LOCK}.unlock,
+				covers/{EL_NAMED_FILE_LOCK}.make
+			]"
+		local
+			file_1, file_2: EL_NAMED_FILE_LOCK
 		do
-			create Result.make_from_array (<< Data_dir + "file.txt" >>)
+			create file_1.make (Work_area_dir + lock_name)
+			file_1.try_lock
+			assert ("file_1 is locked", file_1.is_locked)
+
+			create file_2.make (Work_area_dir + lock_name)
+			file_2.try_lock
+			assert ("file_2 is not locked", not file_2.is_locked)
+
+			file_1.unlock
+			file_2.try_lock
+			assert ("file_2 is locked", file_2.is_locked)
+			file_2.unlock
 		end
+
+feature {NONE} -- Implementation
 
 	new_lines (file_path: FILE_PATH): EL_STRING_8_LIST
 		do
 			create Result.make_with_lines (File.plain_text (file_path))
 			Result.prune_all_empty
+		end
+
+	lock_name: STRING
+		do
+			Result := generator.as_lower + ".lock"
+		end
+
+	source_file_list: EL_FILE_PATH_LIST
+		do
+			create Result.make_from_array (<< Data_dir + "file.txt" >>)
 		end
 
 feature {NONE} -- Constants

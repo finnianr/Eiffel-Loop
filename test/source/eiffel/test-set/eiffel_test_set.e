@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 15:41:49 GMT (Monday 15th July 2024)"
-	revision: "38"
+	date: "2024-08-15 8:26:27 GMT (Thursday 15th August 2024)"
+	revision: "39"
 
 class
 	EIFFEL_TEST_SET
@@ -36,7 +36,8 @@ feature {NONE} -- Initialization
 				["managed_pointer_twin", agent test_managed_pointer_twin],
 				["natural_constant",		 agent test_natural_constant],
 				["string_field_counts",	 agent test_string_field_counts],
-				["string_sizes",			 agent test_string_sizes]
+				["string_sizes",			 agent test_string_sizes],
+				["unix_sigterm",			 agent test_unix_sigterm]
 			>>)
 		end
 
@@ -98,6 +99,11 @@ feature -- Tests
 		-- EIFFEL_TEST_SET.test_string_sizes
 		do
 			assert ("same size", Eiffel.physical_size (Empty_string) = Eiffel.physical_size (Empty_string_32))
+		end
+
+	test_unix_sigterm
+		do
+			assert ("is 15", Unix_signals.Sigterm = 15)
 		end
 
 feature -- Access
