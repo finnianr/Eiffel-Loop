@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 12:54:07 GMT (Monday 15th July 2024)"
-	revision: "27"
+	date: "2024-08-16 9:07:55 GMT (Friday 16th August 2024)"
+	revision: "28"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -40,7 +40,7 @@ feature -- Status query
 
 	is_logging_active: BOOLEAN
 		do
-			Result := Log_option.logging
+			Result := Log_option.logging and then not is_another_launched
 		end
 
 	is_logging_initialized: BOOLEAN
@@ -160,7 +160,7 @@ feature {NONE} -- Implementation
 
 	try_deleting_logs
 		do
-			if not Log_option.keep_logs then
+			if not Log_option.keep_logs and then not is_another_launched then
 				Log_manager.delete_logs
 			end
 		end

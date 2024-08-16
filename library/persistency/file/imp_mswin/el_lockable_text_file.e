@@ -1,13 +1,14 @@
 note
 	description: "File that can be locked for exclusive writing operation"
+	testing: "${FILE_LOCKING_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 17:48:34 GMT (Thursday 15th August 2024)"
-	revision: "7"
+	date: "2024-08-16 9:24:51 GMT (Friday 16th August 2024)"
+	revision: "8"
 
 class
 	EL_LOCKABLE_TEXT_FILE

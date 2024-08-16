@@ -1,26 +1,24 @@
 note
-	description: "[
-		Windows implementation of a special 0 byte created file used as a mutex
-	]"
+	description: "Windows implementation of a special 0 byte created file used as a mutex"
+	testing: "${FILE_LOCKING_TEST_SET}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 17:45:33 GMT (Thursday 15th August 2024)"
-	revision: "8"
+	date: "2024-08-16 9:24:56 GMT (Friday 16th August 2024)"
+	revision: "9"
 
 class
 	EL_NAMED_FILE_LOCK
 
 inherit
-	EL_FILE_LOCK
+	EL_NAMED_FILE_LOCK_I
 		rename
-			make as make_lock,
 			file_handle as mutex_handle
 		redefine
-			dispose, is_lockable, try_lock, unlock
+			is_lockable, try_lock, unlock
 		end
 
 create
@@ -32,13 +30,9 @@ feature {NONE} -- Initialization
 		do
 			path := a_path
 			make_write (default_pointer)
-		ensure
+		ensure then
 			is_lockable: is_lockable
 		end
-
-feature -- Access
-
-	path: EL_FILE_PATH
 
 feature -- Status query
 
@@ -51,32 +45,29 @@ feature -- Status change
 
 	try_lock
 		do
-			if attached Native_string.new_data (path) as native_path then
-				mutex_handle := c_create_file_mutex (native_path.item)
-			end
+			mutex_handle := c_create_file_mutex (native_path.item)
 			is_locked := mutex_handle /= c_invalid_handle_value
-		end
-
-	unlock, close
-		local
-			closed: BOOLEAN
-		do
-			if is_locked and then c_close_handle (mutex_handle) then
+			if not is_locked then
 				mutex_handle := default_pointer
-				is_locked := False
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	is_fixed_size: BOOLEAN
+	unlock
 		do
-			Result := True
+			if is_locked then
+				close
+				is_locked := False
+				File_system.remove_file (path)
+			end
+		ensure then
+			file_removed: old is_locked implies not path.exists
 		end
 
-	dispose
+	close
 		do
-			close; Precursor
+			if is_attached (mutex_handle) and then c_close_handle (mutex_handle) then
+				mutex_handle := default_pointer
+			end
 		end
 
 end

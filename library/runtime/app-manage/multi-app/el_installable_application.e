@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 14:38:53 GMT (Thursday 15th August 2024)"
-	revision: "16"
+	date: "2024-08-16 8:29:20 GMT (Friday 16th August 2024)"
+	revision: "17"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
@@ -78,12 +78,6 @@ feature -- Basic operations
 		do
 			l_desktop := desktop
 			l_desktop.uninstall
-		end
-
-feature -- Factory routines
-
-	new_application_mutex: EL_APPLICATION_MUTEX
-		deferred
 		end
 
 feature {NONE} -- Factory

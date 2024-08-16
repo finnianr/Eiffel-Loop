@@ -1,14 +1,13 @@
 note
-	description: "Test file locking mutex classes"
-	testing: "${FILE_LOCKING_TEST_SET}"
+	description: "Test file locking mutex classes conforming to ${EL_FILE_LOCK}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 17:49:24 GMT (Thursday 15th August 2024)"
-	revision: "6"
+	date: "2024-08-16 14:59:26 GMT (Friday 16th August 2024)"
+	revision: "7"
 
 class
 	FILE_LOCKING_TEST_SET
@@ -33,7 +32,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_lockable_text_file
-		-- MUTEX_FILE_TEST_SET.test_lockable_text_file
+		-- FILE_LOCKING_TEST_SET.test_lockable_text_file
 		note
 			testing: "[
 				covers/{EL_LOCKABLE_TEXT_FILE}.make,
@@ -77,7 +76,7 @@ feature -- Tests
 		end
 
 	test_named_file_lock
-		-- MUTEX_FILE_TEST_SET.test_named_file_lock
+		-- FILE_LOCKING_TEST_SET.test_named_file_lock
 		note
 			testing: "[
 				covers/{EL_NAMED_FILE_LOCK}.try_lock,
@@ -91,14 +90,27 @@ feature -- Tests
 			file_1.try_lock
 			assert ("file_1 is locked", file_1.is_locked)
 
-			create file_2.make (Work_area_dir + lock_name)
-			file_2.try_lock
-			assert ("file_2 is not locked", not file_2.is_locked)
+			if {PLATFORM}.is_windows then
+				create file_2.make (Work_area_dir + lock_name)
+				file_2.try_lock
+				assert ("file_2 is not locked", not file_2.is_locked)
+
+			elseif {PLATFORM}.is_unix then
+			-- Uing Unix `try_lock' calls C function `fcntl' with the `F_SETLK' argument.
+			-- Lock Ownership: Since the locks are tied to the process and not to the file
+			-- descriptor, the second call within the same process does not conflict with
+			-- the first one. The system considers it a continuation or extension of the
+			-- existing lock rather than a separate competing request.				
+			end
 
 			file_1.unlock
-			file_2.try_lock
-			assert ("file_2 is locked", file_2.is_locked)
-			file_2.unlock
+			assert ("file_1 is not locked", not file_1.is_locked)
+
+			if {PLATFORM}.is_windows then
+				file_2.try_lock
+				assert ("file_2 is locked", file_2.is_locked)
+				file_2.unlock
+			end
 		end
 
 feature {NONE} -- Implementation

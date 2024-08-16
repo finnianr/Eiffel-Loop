@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 14:38:53 GMT (Thursday 15th August 2024)"
-	revision: "90"
+	date: "2024-08-16 14:47:39 GMT (Friday 16th August 2024)"
+	revision: "91"
 
 deferred class
 	EL_APPLICATION
@@ -48,8 +48,17 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 		end
 
 	make
+		local
+			app_mutex: detachable EL_APPLICATION_MUTEX
 		do
 			make_default
+			if is_singleton then
+				create app_mutex.make_for_application_mode (option_name)
+				if attached app_mutex as mutex then
+					mutex.try_lock
+					is_another_launched := not mutex.is_locked -- Another instance of this app is running
+				end
+			end
 			across App_directory_list as list loop
 				if not list.item.exists then
 					create_app_directory (list.item)
@@ -67,6 +76,9 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 
 			else
 				do_application
+			end
+			if attached app_mutex as mutex and then not is_another_launched then
+				mutex.unlock
 			end
 		end
 
@@ -86,7 +98,8 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 feature -- Access
 
 	default_option_name: STRING
-		-- lower case generator with `_app' removed from tail
+		-- lower case generator with "_app" removed from tail
+		-- and "el_" removed from head
 		do
 			Result := generator
 			Result.to_lower
@@ -105,7 +118,7 @@ feature -- Access
 	exit_code: INTEGER
 
 	option_name: READABLE_STRING_GENERAL
-			-- Command option name
+		-- command line switch option name
 		do
 			Result := default_option_name
 		end
@@ -170,9 +183,20 @@ feature -- Status query
 			Result := App_option.help
 		end
 
+	is_another_launched: BOOLEAN
+		-- `True' if another instance of this application is currently in operation
+		-- in current user session
+
 	is_same_option (name: ZSTRING): BOOLEAN
 		do
 			Result := name.same_string_general (option_name)
+		end
+
+	is_singleton: BOOLEAN
+		-- when `True' only one instance of this application is allowed
+		-- to be in operation in the current user session
+		do
+			Result := False
 		end
 
 	is_valid_platform: BOOLEAN
@@ -188,11 +212,6 @@ feature -- Element change
 		end
 
 feature {EL_APPLICATION} -- Factory routines
-
-	new_application_mutex: EL_APPLICATION_MUTEX
-		do
-			create Result.make_for_application_mode (option_name)
-		end
 
 	new_command_options: EL_APPLICATION_COMMAND_OPTIONS
 		do
