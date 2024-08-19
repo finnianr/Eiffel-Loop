@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-17 13:12:29 GMT (Monday 17th June 2024)"
-	revision: "17"
+	date: "2024-08-16 17:03:47 GMT (Friday 16th August 2024)"
+	revision: "18"
 
 deferred class
 	EL_APPLICATION_CONSTANTS
@@ -28,13 +28,13 @@ feature {NONE} -- Constants
 			end
 		end
 
-	File_placeholder: STRING
+	File_placeholder: IMMUTABLE_STRING_8
 		once
 			if {PLATFORM}.is_windows then
---				Result := "%%1" Doesn't work on Windows 10
-				create Result.make_empty
+				Result := "%"%%1%"" -- "%1" doesn't work on Windows 10
+--				create Result.make_empty
 			else
-				Result := "%%f" -- XDG file argument
+				Result := "'%%f'" -- XDG file argument
 			end
 		end
 

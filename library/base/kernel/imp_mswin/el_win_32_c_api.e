@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 14:25:26 GMT (Thursday 15th August 2024)"
-	revision: "5"
+	date: "2024-08-19 8:07:02 GMT (Monday 19th August 2024)"
+	revision: "6"
 
 class
 	EL_WIN_32_C_API
@@ -43,27 +43,31 @@ feature {NONE} -- Standard library
 
 feature {NONE} -- File API
 
-	frozen c_create_file_mutex (path: POINTER): POINTER
+	frozen c_create_file_mutex (a_path: POINTER; a_error: TYPED_POINTER [NATURAL]): POINTER
 			-- Create or open a file mutex
 		external
 			"C inline use <Windows.h>"
 		alias
 			"[
-				CreateFileW (
-					(LPCTSTR)$path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL
-				)
+				HANDLE result = CreateFileW (
+					(LPCTSTR)$a_path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL
+				);
+				if (result == INVALID_HANDLE_VALUE) *((DWORD*)$a_error) = GetLastError();
+				return result;
 			]"
 		end
 
-	frozen c_create_file_write (path: POINTER): POINTER
+	frozen c_create_file_write (a_path: POINTER; a_error: TYPED_POINTER [NATURAL]): POINTER
 			-- Create or open a file for writing
 		external
 			"C inline use <Windows.h>"
 		alias
 			"[
-				CreateFileW (
-					(LPCTSTR)$path, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL
-				)
+				HANDLE result = CreateFileW (
+					(LPCTSTR)$a_path, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL
+				);
+				if (result == INVALID_HANDLE_VALUE) *((DWORD*)$a_error) = GetLastError();
+				return result;
 			]"
 		end
 

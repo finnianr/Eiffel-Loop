@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-19 14:43:57 GMT (Friday 19th April 2024)"
-	revision: "32"
+	date: "2024-08-19 9:39:52 GMT (Monday 19th August 2024)"
+	revision: "33"
 
 deferred class
 	EL_MULTI_APPLICATION_ROOT [B -> EL_BUILD_INFO create make end, APPLICATION_TYPES -> TUPLE create default_create end]
@@ -74,6 +74,7 @@ feature {NONE} -- Initialization
 
 			list.find (lio, Args.option_name (1))
 			if list.found and then attached list.item as app then
+				app.set_switched
 				app.make -- Initialize and run sub-application
 
 				exit_code := app.exit_code

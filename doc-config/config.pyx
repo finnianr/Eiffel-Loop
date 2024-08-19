@@ -68,7 +68,6 @@ publish-repository:
 			"library/base/base.ecf#buffer"
 			"library/base/base.ecf#data_structure"
 			"library/base/base.ecf#date_time"
-			"library/base/base.ecf#file"
 			"library/base/base.ecf#initialization"
 			"library/base/base.ecf#io"
 			"library/base/base.ecf#kernel"
@@ -80,6 +79,12 @@ publish-repository:
 			"library/base/base.ecf#string"
 			"library/base/base.ecf#string_structures"
 			"library/base/base.ecf#utility"
+		ecf:
+			"library/base/base.ecf#file"
+			alias-map:
+				old_name = EL_DIR_PATH; new_name = DIR_PATH
+			alias-map:
+				old_name = EL_FILE_PATH; new_name = FILE_PATH
 		ecf:
 			"library/base/base.ecf#zstring"
 			alias-map:

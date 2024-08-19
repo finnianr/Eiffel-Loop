@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 9:23:05 GMT (Friday 16th August 2024)"
-	revision: "1"
+	date: "2024-08-19 7:55:12 GMT (Monday 19th August 2024)"
+	revision: "2"
 
 deferred class
 	EL_NAMED_FILE_LOCK_I
@@ -31,6 +31,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	path: EL_FILE_PATH
+
+	last_error: NATURAL
 
 feature -- Status change
 

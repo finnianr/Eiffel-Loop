@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "32"
+	date: "2024-08-19 10:54:07 GMT (Monday 19th August 2024)"
+	revision: "33"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -46,9 +46,10 @@ inherit
 
 feature -- Element change
 
-	set_sub_app_option_name (a_sub_app_option_name: READABLE_STRING_GENERAL)
+	set_sub_app_dir (option_name: READABLE_STRING_GENERAL)
+		-- called from `{EL_APPLICATION}.make_default' if application is switched on command line
 		do
-			Sub_app_option_name.put (a_sub_app_option_name)
+			Sub_app_dir.copy (create {DIR_PATH}.make (option_name))
 		end
 
 feature -- Factory
@@ -63,6 +64,8 @@ feature -- Access
 	App_list: EL_ARRAYED_LIST [DIR_PATH]
 		once
 			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
+		ensure
+			cache_is_first: App_list.first = App_cache -- for migrating `Legacy_table' directories
 		end
 
 	relative_parent (step_count: INTEGER): ZSTRING
@@ -163,6 +166,13 @@ feature -- User
 
 feature -- Application
 
+	app_all_list: EL_ARRAYED_LIST [DIR_PATH]
+		-- list of all application directories
+		do
+			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
+			Result.compare_objects
+		end
+
 	App_cache: DIR_PATH
 		once
 			Result := cache #+ App_install_sub
@@ -177,6 +187,8 @@ feature -- Application
 		once
 			Result := user_local #+ App_install_sub
 		end
+
+feature -- Sub-application
 
 	Sub_app_cache: DIR_PATH
 		once
@@ -193,24 +205,17 @@ feature -- Application
 			Result := new_sub_app_dir_path (App_data)
 		end
 
-	app_all_list: EL_ARRAYED_LIST [DIR_PATH]
-		-- list of all application directories
-		do
-			create Result.make_from_array (<< App_cache, App_configuration, App_data >>)
-			Result.compare_objects
-		end
-
 feature -- Installed locations
 
 	Application_bin: DIR_PATH
-			-- Installed application executable directory
+		-- Installed application executable directory
 		once
-			Result := application_installation #+ "bin"
+			Result := Application_installation #+ "bin"
 		end
 
 	Application_installation: DIR_PATH
 		once
-			Result := applications #+ Build_info.installation_sub_directory
+			Result := applications #+ App_install_sub
 		end
 
 feature -- Constants
@@ -219,7 +224,7 @@ feature -- Constants
 		-- install sub-directory based on build information from ECF
 		-- <company-name>/<app-name>
 		once
-			Result := Build_info.installation_sub_directory.to_string
+			Result := Build_info.installation_sub_directory
 		end
 
 	Legacy: EL_LEGACY_DIRECTORY_I
@@ -252,9 +257,8 @@ feature {NONE} -- Implementation
 
 	new_sub_app_dir_path (dir_path: DIR_PATH): DIR_PATH
 		do
-			if attached Sub_app_option_name.item as step then
-				Result := dir_path.twin
-				Result.append_step (step)
+			if attached Sub_app_dir as sub_dir and then not sub_dir.is_empty then
+				Result := dir_path #+ sub_dir
 			else
 				Result := dir_path
 			end
@@ -262,10 +266,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Sub_app_option_name: CELL [READABLE_STRING_GENERAL]
-		-- sub-application option name: `{EL_APPLICATION}.option_name'
+	Sub_app_dir: DIR_PATH
+		-- sub-directory name derived from: `{EL_APPLICATION}.option_name'
 		once ("PROCESS")
-			create Result.put (Void)
+			create Result
 		end
 
 end

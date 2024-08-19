@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 9:24:56 GMT (Friday 16th August 2024)"
-	revision: "9"
+	date: "2024-08-19 8:12:03 GMT (Monday 19th August 2024)"
+	revision: "10"
 
 class
 	EL_NAMED_FILE_LOCK
@@ -44,11 +44,13 @@ feature -- Status query
 feature -- Status change
 
 	try_lock
+		local
+			error: NATURAL
 		do
-			mutex_handle := c_create_file_mutex (native_path.item)
+			mutex_handle := c_create_file_mutex (native_path.item, $error)
 			is_locked := mutex_handle /= c_invalid_handle_value
 			if not is_locked then
-				mutex_handle := default_pointer
+				last_error := error; mutex_handle := default_pointer
 			end
 		end
 
