@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 9:23:25 GMT (Friday 16th August 2024)"
-	revision: "6"
+	date: "2024-08-19 11:27:49 GMT (Monday 19th August 2024)"
+	revision: "7"
 
 class
 	EL_NAMED_FILE_LOCK
@@ -27,9 +27,12 @@ create
 feature {NONE} -- Initialization
 
 	make (a_path: EL_FILE_PATH)
+		local
+			error: NATURAL
 		do
 			path := a_path
-			make_write (c_create_write_only (native_path.item))
+			make_write (c_create_write_only (native_path.item, $error))
+			last_error := error
 			if is_fixed_size then
 				set_length (1)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-22 16:21:50 GMT (Wednesday 22nd November 2023)"
-	revision: "4"
+	date: "2024-08-19 11:33:44 GMT (Monday 19th August 2024)"
+	revision: "5"
 
 class
 	EL_FILE_LOCK
@@ -55,13 +55,17 @@ feature -- Status change
 
 	try_lock
 		do
-			is_locked := c_aquire_lock (descriptor, self_ptr) /= -1
+			if descriptor >= 0 then
+				is_locked := c_aquire_lock (descriptor, self_ptr) /= -1
+			end
 		end
 
 	unlock
 		do
 			set_unlocked
-			is_locked := c_aquire_lock (descriptor, self_ptr) = -1
+			if descriptor >= 0 then
+				is_locked := c_aquire_lock (descriptor, self_ptr) = -1
+			end
 		end
 
 feature {NONE} -- Implementation

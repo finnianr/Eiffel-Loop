@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 10:44:44 GMT (Sunday 7th January 2024)"
-	revision: "14"
+	date: "2024-08-19 11:27:13 GMT (Monday 19th August 2024)"
+	revision: "15"
 
 class
 	EL_FILE_LOCK_C_API
@@ -19,13 +19,17 @@ inherit
 
 feature {NONE} -- C Externals
 
-	frozen c_create_write_only (path: POINTER): INTEGER
+	frozen c_create_write_only (a_path: POINTER; a_error: TYPED_POINTER [NATURAL]): INTEGER
 		require
-			not_null_pointer: is_attached (path)
+			not_null_pointer: is_attached (a_path)
 		external
 			"C inline use <unistd.h>"
 		alias
-			"open ((const char *)$path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR)"
+			"[
+				int result = open ((const char *)$a_path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+				if (result < 0) *((int*)$a_error) = errno;
+				return result;
+			]"
 		end
 
 	frozen c_aquire_lock (descriptor: INTEGER; fl: POINTER): INTEGER
