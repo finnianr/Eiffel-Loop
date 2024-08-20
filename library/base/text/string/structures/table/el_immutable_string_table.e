@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-13 14:41:50 GMT (Tuesday 13th August 2024)"
-	revision: "26"
+	date: "2024-08-20 9:23:17 GMT (Tuesday 20th August 2024)"
+	revision: "27"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -140,7 +140,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_code_map (a_manifest: GENERAL)
-		-- make using indented format where each key is a natural number
+		-- make using indented format where each key is a postive or negative integer
 		do
 			format := Fm_indented_code
 			make (a_manifest)
@@ -217,10 +217,9 @@ feature {NONE} -- Initialization
 
 feature -- Status query
 
-	has_key_code (a_code: NUMERIC): BOOLEAN
+	has_key_code (a_code: INTEGER_64): BOOLEAN
 		require
 			is_indented_code: is_indented_code
-			is_natural_number: a_code.out.is_natural_64
 		deferred
 		end
 
@@ -418,7 +417,7 @@ feature -- Contract Support
 					Result := string.is_eiffel_lower (name)
 
 				when Fm_indented_code then
-					Result := Convert_string.is_convertible_to_type (name, Class_id.NATURAL_64)
+					Result := Convert_string.is_convertible_to_type (name, Class_id.INTEGER_64)
 			else
 				Result := True
 			end

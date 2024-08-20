@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:22 GMT (Saturday 22nd June 2024)"
-	revision: "23"
+	date: "2024-08-19 12:13:19 GMT (Monday 19th August 2024)"
+	revision: "24"
 
 class
 	EL_USER_INPUT
@@ -46,11 +46,11 @@ feature -- Status query
 		end
 
 	escape_pressed: BOOLEAN
-		-- `True' if last user line input was ESC character
+		-- `True' if last user line input was `Quit_character' character
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.starts_with_character (io.last_string, {EL_ASCII}.Escape.to_character_8)
+			Result := s.starts_with_character (io.last_string, Quit_character)
 		end
 
 feature -- Basic operations
@@ -120,14 +120,42 @@ feature -- Input
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	quit_character_name: STRING
+		do
+			inspect Quit_character
+				when '%/27/' then
+					Result := "ESC"
+			else
+				Result := "Ctrl+Q"
+			end
+		end
+
 feature -- Constants
+
+	ESC_to_quit: STRING
+		local
+			index_sub: INTEGER
+		once
+			Result := "(To quit press %S then <Enter>)"
+			index_sub := Result.index_of ('%S', 1)
+			Result.replace_substring (quit_character_name, index_sub, index_sub)
+		end
+
+	Quit_character: CHARACTER
+		once
+			if {PLATFORM}.is_unix then
+				Result := {ASCII}.Esc.to_character_8
+			else
+				Result := {ASCII}.Ctrl_q.to_character_8
+			end
+		end
 
 	Yes_no_choices: STRING
 		once
 			Result := " (y/n) "
 		end
-
-	ESC_to_quit: STRING = "(To quit press ESC + <Enter>)"
 
 feature {NONE} -- Constants
 

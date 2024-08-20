@@ -1,13 +1,13 @@
 note
-	description: "Zlib routines"
+	description: "[https://www.zlib.net/manual.html Zlib library] routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-08-20 10:29:22 GMT (Tuesday 20th August 2024)"
+	revision: "10"
 
 class
 	EL_ZLIB_ROUTINES
@@ -21,14 +21,14 @@ feature -- Conversion
 
 	compressed (source: MANAGED_POINTER; level: INTEGER; expected_compression_ratio: DOUBLE): SPECIAL [NATURAL_8]
 		require
-			valid_level: (-1 |..| 9).has (level)
+			valid_level: Level_interval.has (level)
 		do
 			Result := new_compressed (source.item, source.count, level, expected_compression_ratio)
 		end
 
 	compressed_string (source: STRING; level: INTEGER; expected_compression_ratio: DOUBLE): SPECIAL [NATURAL_8]
 		require
-			valid_level: (-1 |..| 9).has (level)
+			valid_level: Level_interval.has (level)
 		do
 			Result := new_compressed (source.area.base_address, source.count, level, expected_compression_ratio)
 		end
@@ -47,29 +47,13 @@ feature -- Conversion
 
 feature -- Access
 
-	error_message: STRING
+	error_message: EL_STRING_8_LIST
+		local
+			table: EL_IMMUTABLE_STRING_8_TABLE
 		do
-			inspect error_status
-				when Z_stream_end then
-					Result := "stream end"
-
-				when Z_need_dict then
-					Result := "need dict"
-
-				when Z_stream_error then
-					Result := "level parameter is invalid"
-
-				when Z_data_error then
-					Result := "input data corrupted or incomplete"
-
-				when Z_mem_error then
-					Result := "not enough memory"
-
-				when Z_buf_error then
-					Result := "not enough room in the output buffer"
-
-				when Z_version_error then
-					Result := "library version does not match header"
+			create table.make_code_map (Code_table)
+			if table.has_key_code (error_status) then
+				create Result.make_with_lines (table.found_item_unindented)
 			else
 				Result := "Unknown error"
 			end
@@ -78,6 +62,13 @@ feature -- Access
 	error_status: INTEGER
 
 	last_compression_ratio: REAL
+
+feature -- Constants
+
+	Level_interval: INTEGER_INTERVAL
+		once
+			Result := -1 |..| 9
+		end
 
 feature -- Status query
 
@@ -142,5 +133,34 @@ feature {NONE} -- Implementation
 		ensure
 			same_count_as_original: orginal_count = Result.count
 		end
+
+feature {NONE} -- Constants
+
+	Code_table: STRING = "[
+		0:
+			No error, the operation was successful.
+		1:
+			The end of the input stream was reached successfully during decompression.
+		2:
+			A preset dictionary is needed for decompression. This happens when the
+			compressed data was created using a dictionary.
+		-1:
+			A generic error code indicating an I/O error. It typically means there
+			was an error in the file handling outside of zlib.
+		-2:
+			An error with the stream state, which might indicate an invalid compression
+			level, inconsistent internal state, or invalid parameter passed to a function.
+		-3:
+			The compressed data stream is corrupted, or the data was incomplete.
+		-4:
+			Insufficient memory to complete the operation.
+		-5:
+			The buffer provided is not large enough to hold the output or input data.
+			This often occurs when the output buffer is too small during compression
+			or decompression.
+		-6:
+			The zlib library version used is incompatible with the version of the library
+			expected by the application.
+	]"
 
 end

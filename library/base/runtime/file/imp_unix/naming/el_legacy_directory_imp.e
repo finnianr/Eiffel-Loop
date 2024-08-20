@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 15:00:33 GMT (Monday 22nd April 2024)"
-	revision: "7"
+	date: "2024-08-19 15:11:31 GMT (Monday 19th August 2024)"
+	revision: "8"
 
 class
 	EL_LEGACY_DIRECTORY_IMP
@@ -16,6 +16,8 @@ inherit
 	EL_LEGACY_DIRECTORY_I
 
 	EL_UNIX_IMPLEMENTATION
+
+	EL_CHARACTER_32_CONSTANTS
 
 feature {NONE} -- Constants
 
@@ -38,12 +40,7 @@ feature {NONE} -- Constants
 	Relative_app_data: DIR_PATH
 			--
 		once
-			Result := Data_dir_name_prefix + Build_info.installation_sub_directory.to_string
-		end
-
-	Data_dir_name_prefix: ZSTRING
-		once
-			Result := "."
+			Result := Dot + Build_info.installation_sub_directory.to_string
 		end
 
 end

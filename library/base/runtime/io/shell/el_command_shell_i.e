@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-08 11:21:14 GMT (Monday 8th January 2024)"
-	revision: "21"
+	date: "2024-08-19 12:08:33 GMT (Monday 19th August 2024)"
+	revision: "22"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -131,7 +131,7 @@ feature {NONE} -- Implementation
 		do
 			from until valid_input loop
 				option_input := User_input.line ("Enter option number")
-				if option_input.is_character ('%/27/') then
+				if User_input.escape_pressed then
 					Result := 0; valid_input := True
 				else
 					if option_input.is_integer then

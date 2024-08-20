@@ -207,13 +207,6 @@ Classes providing the following facilities:
 * File line source and other abstractions
 			</description>
 		</cluster>
-		<cluster name = "buffer" location = "text/buffer" recursive = "true">
-			<description>
-String Buffering
-
-Classes for buffering string data in shared objects
-			</description>
-		</cluster>
 		<cluster name = "string" location = "text/string" recursive = "true">
 			<description>
 String Handling
@@ -221,6 +214,7 @@ String Handling
 Classes providing the following:
 
 * Abstractions for objects createable from strings
+* Buffering string data in shared objects
 * Escaping and unescaping
 * Iterating substring splits based on a character or substring separator
 * Jail-breaking immutable strings
@@ -232,6 +226,20 @@ Classes providing the following:
 			<file_rule>
 				<exclude>/structures$</exclude>
 			</file_rule>
+		</cluster>
+		<cluster name = "string_8" location = "text/string_8" recursive = "true">
+			<description>
+${STRING_8} Handling
+
+Classes related to processing strings of type ${STRING_8} or ${IMMUTABLE_STRING_8}
+			</description>
+		</cluster>
+		<cluster name = "string_32" location = "text/string_32" recursive = "true">
+			<description>
+${STRING_32} Handling
+
+Classes related to processing strings of type ${STRING_32} or ${IMMUTABLE_STRING_32}
+			</description>
 		</cluster>
 		<cluster name = "string_structures" location = "text/string/structures" recursive = "true">
 			<description>
@@ -289,6 +297,8 @@ Classes providing the following:
 				<exclude>/buffer$</exclude>
 				<exclude>/date-time$</exclude>
 				<exclude>/string$</exclude>
+				<exclude>/string_8$</exclude>
+				<exclude>/string_32$</exclude>
 				<exclude>/zstring$</exclude>
 			</file_rule>
 		</cluster>
