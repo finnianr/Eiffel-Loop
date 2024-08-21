@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-15 17:36:51 GMT (Wednesday 15th February 2023)"
-	revision: "3"
+	date: "2024-08-21 8:06:31 GMT (Wednesday 21st August 2024)"
+	revision: "4"
 
 deferred class
 	EL_INTERVAL_CONSTANTS

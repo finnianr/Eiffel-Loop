@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 10:29:22 GMT (Tuesday 20th August 2024)"
-	revision: "10"
+	date: "2024-08-21 14:10:38 GMT (Wednesday 21st August 2024)"
+	revision: "11"
 
 class
 	EL_ZLIB_ROUTINES
@@ -47,16 +47,9 @@ feature -- Conversion
 
 feature -- Access
 
-	error_message: EL_STRING_8_LIST
-		local
-			table: EL_IMMUTABLE_STRING_8_TABLE
+	error_message: EL_ZSTRING_LIST
 		do
-			create table.make_code_map (Code_table)
-			if table.has_key_code (error_status) then
-				create Result.make_with_lines (table.found_item_unindented)
-			else
-				Result := "Unknown error"
-			end
+			create Result.make_with_lines (Code_table [error_status])
 		end
 
 	error_status: INTEGER
@@ -136,31 +129,34 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Code_table: STRING = "[
-		0:
-			No error, the operation was successful.
-		1:
-			The end of the input stream was reached successfully during decompression.
-		2:
-			A preset dictionary is needed for decompression. This happens when the
-			compressed data was created using a dictionary.
-		-1:
-			A generic error code indicating an I/O error. It typically means there
-			was an error in the file handling outside of zlib.
-		-2:
-			An error with the stream state, which might indicate an invalid compression
-			level, inconsistent internal state, or invalid parameter passed to a function.
-		-3:
-			The compressed data stream is corrupted, or the data was incomplete.
-		-4:
-			Insufficient memory to complete the operation.
-		-5:
-			The buffer provided is not large enough to hold the output or input data.
-			This often occurs when the output buffer is too small during compression
-			or decompression.
-		-6:
-			The zlib library version used is incompatible with the version of the library
-			expected by the application.
-	]"
+	Code_table: EL_CODE_TEXT_TABLE
+		once
+			create Result.make_with_default ("Unknown error", "[
+				0:
+					No error, the operation was successful.
+				1:
+					The end of the input stream was reached successfully during decompression.
+				2:
+					A preset dictionary is needed for decompression. This happens when the
+					compressed data was created using a dictionary.
+				-1:
+					A generic error code indicating an I/O error. It typically means there
+					was an error in the file handling outside of zlib.
+				-2:
+					An error with the stream state, which might indicate an invalid compression
+					level, inconsistent internal state, or invalid parameter passed to a function.
+				-3:
+					The compressed data stream is corrupted, or the data was incomplete.
+				-4:
+					Insufficient memory to complete the operation.
+				-5:
+					The buffer provided is not large enough to hold the output or input data.
+					This often occurs when the output buffer is too small during compression
+					or decompression.
+				-6:
+					The zlib library version used is incompatible with the version of the library
+					expected by the application.
+			]")
+		end
 
 end

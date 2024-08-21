@@ -1,7 +1,11 @@
 note
-	description: "Boolean option that can be enabled or disabled and can optionally notify an action procedure"
+	description: "[
+		A ${BOOLEAN_REF} that conforms to ${EL_MAKEABLE_FROM_STRING [STRING_8]}.
+		Boolean option that can be enabled or disabled and can optionally notify an action procedure.
+	]"
 	notes: "[
-		This class is suggested as a better alternative to following frequently seen code pattern
+		While not as memory efficient, this class is suggested as a more convenient alternative to
+		following frequently seen code pattern.
 
 			feature -- Status query
 			
@@ -25,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-14 9:41:04 GMT (Wednesday 14th December 2022)"
-	revision: "9"
+	date: "2024-08-21 8:18:48 GMT (Wednesday 21st August 2024)"
+	revision: "10"
 
 class
 	EL_BOOLEAN_OPTION

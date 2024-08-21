@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 10:50:47 GMT (Monday 19th August 2024)"
-	revision: "92"
+	date: "2024-08-20 17:32:33 GMT (Tuesday 20th August 2024)"
+	revision: "93"
 
 deferred class
 	EL_APPLICATION
@@ -151,6 +151,9 @@ feature -- Basic operations
 				lio.put_line ("WARNING")
 				lio.put_spaces (4)
 				print_platform_help (4)
+			end
+			if {PLATFORM}.is_windows then
+				return_to_quit
 			end
 		end
 

@@ -238,21 +238,6 @@ EL_REFLECTED_FIELD*
 ````
 
 
-## Class ZSTRING
-
-An implementation of a memory compact string with the same unicode character range as the *base.ecf* class [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html) and conforming to [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html). The [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) class (alias for [EL_ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e)) has many additional routines not found in [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html), as for example: Python like tuple substitution.
-
-**See Articles**
-
-* [ZSTRING released in Eiffel-Loop 1.3.1](https://www.eiffel.org/blog/finnianr/zstring_released_in_eiffelloop_131)
-* [Introducing class ZSTRING](https://www.eiffel.org/blog/finnianr/introducing_class_zstring)
-* [ISO-8859 is dead, long live ISO-8859](https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859)
-
-**Benchmarks [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) vs [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html)**
-
-* [Base character-set Latin-1](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html)
-* [Base character-set Latin-15](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-15.html)
-
 ## Concurrency
 
 Classes augmenting the classic [EiffelThread library](https://www.eiffel.org/doc/solutions/EiffelThreads).
@@ -1456,15 +1441,18 @@ Classes providing the following facilities:
 * Software version formatting and storing application build information
 * Cyclic redundancy checksum generation
 
-## String Buffering
+## Strings (Abstract)
 
-Classes for buffering string data in shared objects
+String abstractions based on the classes:
 
-## String Handling
+* [STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_general_chart.html)
+* [READABLE_STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/readable_string_general_chart.html)
+* [IMMUTABLE_STRING_GENERAL](https://www.eiffel.org/files/doc/static/trunk/libraries/base/immutable_string_general_chart.html)
 
-Classes providing the following:
+to provide the following:
 
 * Abstractions for objects createable from strings
+* Buffering string data in shared objects
 * Escaping and unescaping
 * Iterating substring splits based on a character or substring separator
 * Jail-breaking immutable strings
@@ -1473,7 +1461,36 @@ Classes providing the following:
 * String template substitution
 * Supplementary string routines for general use
 
-## Substring Structures
+## Strings (Compact Unicode)
+
+Classes to process strings of type [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) which is a memory compacted string conforming to [READABLE_STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/readable_string_32_chart.html).
+
+**Class ZSTRING**
+
+Class [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) class (alias for [EL_ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e)) supports the same unicode character range as the ELKS base class [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html), but for text in a Western European langauges it has a memory footprint that is close to that of class [STRING_8](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_8_chart.html).
+
+Class [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) has a great many additional routines not found in [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html) as for example, Python like tuple substitution, or substrings up until a specified character (and the reverse).
+
+**See Articles**
+
+* [ZSTRING released in Eiffel-Loop 1.3.1](https://www.eiffel.org/blog/finnianr/zstring_released_in_eiffelloop_131)
+* [Introducing class ZSTRING](https://www.eiffel.org/blog/finnianr/introducing_class_zstring)
+* [ISO-8859 is dead, long live ISO-8859](https://www.eiffel.org/article/iso8859_is_dead_long_live_iso8859)
+
+**Benchmarks [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) vs [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html)**
+
+* [Base character-set Latin-1](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-1.html)
+* [Base character-set Latin-15](http://www.eiffel-loop.com/benchmark/ZSTRING-benchmarks-latin-15.html)
+
+## Strings (Latin-1/UTF-8)
+
+Classes to process Latin-1 or UTF-8 encoded strings of type [STRING_8](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_8_chart.html) or [IMMUTABLE_STRING_8](https://www.eiffel.org/files/doc/static/trunk/libraries/base/immutable_string_8_chart.html)
+
+## Strings (Unicode)
+
+Classes to process unicode strings of type [STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/string_32_chart.html) or [IMMUTABLE_STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/immutable_string_32_chart.html)
+
+## Substring Data Structures
 
 Container classes for substrings
 

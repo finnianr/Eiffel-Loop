@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-08-21 8:30:06 GMT (Wednesday 21st August 2024)"
+	revision: "4"
 
 class
 	EL_NATURAL_32_COUNTER
@@ -19,13 +19,6 @@ inherit
 		export
 			{NONE} all
 			{ANY} item, set_item
-		end
-
-	SINGLE_MATH
-		export
-			{NONE} all
-		undefine
-			is_equal, out
 		end
 
 feature -- Element change
@@ -43,14 +36,12 @@ feature -- Element change
 feature -- Access
 
 	zero_padded (digit_count: INTEGER): STRING
+		local
+			math: EL_INTEGER_MATH
 		do
-			Result := out
-			if Result.count < digit_count then
-				Result.grow (digit_count)
-				from  until Result.count = digit_count loop
-					Result.prepend_character ('0')
-				end
-			end
+			create Result.make_filled ('0', digit_count)
+			Result.remove_tail (math.digit_count (digit_count).min (Result.count))
+			Result.append_natural_32 (item)
 		end
 
 end

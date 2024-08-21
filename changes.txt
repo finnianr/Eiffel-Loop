@@ -748,3 +748,6 @@ Completion of EL_TRANSLATION_TABLE for Pyxis and XML
 Sat 3rd Aug 2024, 16:04:46
 Implemented EL_SUBSTRING using UTF-8 encoded SPECIAL array
 
+Tue 20th Aug 2024, 18:30:06
+Revised base clusters with new string_8 and string_32
+

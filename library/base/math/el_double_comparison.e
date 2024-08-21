@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 8:14:54 GMT (Friday 17th May 2024)"
-	revision: "9"
+	date: "2024-08-21 7:50:56 GMT (Wednesday 21st August 2024)"
+	revision: "10"
 
 class
 	EL_DOUBLE_COMPARISON
@@ -33,8 +33,7 @@ feature -- Comparison
 		end
 
 	arrays_equal_by_comparison (
-		array_1, array_2: ARRAY [DOUBLE]
-		comparison: FUNCTION [DOUBLE, DOUBLE, BOOLEAN]
+		array_1, array_2: ARRAY [DOUBLE]; comparison: FUNCTION [DOUBLE, DOUBLE, BOOLEAN]
 	): BOOLEAN
 			--
 		local
@@ -45,17 +44,6 @@ feature -- Comparison
 				from i := array_1.lower until i > array_1.upper or difference_found loop
 					if not comparison.item ([array_1 [i], array_2 [i]]) then
 						difference_found := true
---						log.enter ("arrays_equal")
---						log.put_string ("Difference found in ")
---						log.put_integer_interval_field ("range", array_1.lower |..| array_1.upper )
---						log.put_new_line
---						log.put_string ("array_1 [" + i.out + "]: ")
---						log.put_double (array_1 [i])
---						log.put_new_line
---						log.put_string ("array_2 [" + i.out + "]: ")
---						log.put_double (array_2.item (i))
---						log.put_new_line
---						log.exit
 					else
 						i := i + 1
 					end
@@ -69,14 +57,6 @@ feature -- Comparison
 		do
 			if array_1.lower = array_2.lower and array_1.upper = array_2.upper then
 				Result := true
-			else
---				log.enter ("array_intervals_equal")
---				log.put_line ("NOT EQUAL")
---				log.put_integer_interval_field ("array_1", array_1.lower |..| array_1.upper)
---				log.put_new_line
---				log.put_integer_interval_field ("array_2", array_2.lower |..| array_2.upper)
---				log.put_new_line
---				log.exit
 			end
 		end
 

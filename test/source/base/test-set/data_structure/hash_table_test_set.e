@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-13 14:41:15 GMT (Tuesday 13th August 2024)"
-	revision: "38"
+	date: "2024-08-21 14:28:47 GMT (Wednesday 21st August 2024)"
+	revision: "39"
 
 class
 	HASH_TABLE_TEST_SET
@@ -37,9 +37,10 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["character_32_table",				 agent test_character_32_table],
+				["code_text_table",					 agent test_code_text_table],
 				["compressed_table",					 agent test_compressed_table],
-				["immutable_error_code_table",	 agent test_immutable_error_code_table],
 				["hash_table_insertion",			 agent test_hash_table_insertion],
+				["immutable_error_code_table",	 agent test_immutable_error_code_table],
 				["immutable_string_32_table",		 agent test_immutable_string_32_table],
 				["immutable_string_8_table",		 agent test_immutable_string_8_table],
 				["immutable_string_table_memory", agent test_immutable_string_table_memory],
@@ -65,6 +66,26 @@ feature -- Test
 				assert ("is yen", table ["yen"] = '¥')
 				assert ("is copy", table ["copy"] = '©')
 			end
+		end
+
+	test_code_text_table
+		-- HASH_TABLE_TEST_SET.test_code_text_table
+		note
+			testing: "[
+				covers/{EL_CODE_TEXT_TABLE}.has_key,
+				covers/{EL_CODE_TEXT_TABLE}.item
+			]"
+		local
+			table: EL_CODE_TEXT_TABLE; unknown: ZSTRING
+		do
+			unknown := "Unknown"
+			create table.make_with_default (unknown, Zlib_code_table)
+			assert ("valid manifest table", table.valid_manifest (Zlib_code_table))
+			assert_valid_code (table, 0, "No|successful.", 1)
+			assert_valid_code (table, -1, "A|zlib.", 2)
+			assert_valid_code (table, -6, "The|application.", 2)
+
+			assert ("default is unknown", table [10] = unknown)
 		end
 
 	test_compressed_table
@@ -142,10 +163,13 @@ feature -- Test
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make_code_map,
 				covers/{EL_IMMUTABLE_STRING_TABLE}.found_item_unindented,
-				covers/{EL_IMMUTABLE_STRING_8_TABLE}.has_key_code
+				covers/{EL_IMMUTABLE_STRING_8_TABLE}.has_key_code,
+				covers/{EL_CODE_TEXT_TABLE}.has_key,
+				covers/{EL_CODE_TEXT_TABLE}.item
 			]"
 		local
 			error_table: EL_IMMUTABLE_STRING_8_TABLE; manifest: STRING
+			code_table: EL_CODE_TEXT_TABLE; code: INTEGER_64
 		do
 			manifest := File.plain_text ("data/code/C/windows/error-codes.txt")
 			manifest.right_adjust
@@ -166,6 +190,15 @@ feature -- Test
 				assert_same_string (Void, unindented, "Access is denied.")
 			else
 				failed ("has code 5")
+			end
+			create code_table.make (manifest)
+			across error_table.current_keys as key loop
+				if error_table.has_immutable_key (key.item) then
+					code := key.item.to_string_8.to_integer_64
+					assert_same_string ("same item", error_table.found_item_unindented, code_table [code])
+				else
+					failed ("has key")
+				end
 			end
 		end
 
@@ -531,6 +564,23 @@ feature -- Test
 
 feature {NONE} -- Implementation
 
+	assert_valid_code (table: EL_CODE_TEXT_TABLE; key: INTEGER_64; start_end: STRING; line_count: INTEGER)
+		local
+			key_str: STRING
+		do
+			key_str := key.out
+			if table.has_key (key) then
+				assert (line_count.out + " lines", table.found_item.occurrences ('%N') + 1 = line_count)
+				assert ("not indented", not table.found_item.has ('%T'))
+				if attached start_end.split ('|') as split then
+					assert ("found " + key_str, table.found_item.starts_with_general (split [1]))
+					assert ("found " + key_str, table.found_item.ends_with_general (split [2]))
+				end
+			else
+				failed ("Find code " + key_str)
+			end
+		end
+
 	immutable_to_zstring (str: IMMUTABLE_STRING_32): ZSTRING
 		do
 			create Result.make_from_general (str)
@@ -579,4 +629,14 @@ feature {NONE} -- Constants
 		¥ := yen
 	]"
 
+	Zlib_code_table: STRING = "[
+		0:
+			No error, the operation was successful.
+		-1:
+			A generic error code indicating an I/O error. It typically means there
+			was an error in the file handling outside of zlib.
+		-6:
+			The zlib library version used is incompatible with the version of the library
+			expected by the application.
+	]"
 end

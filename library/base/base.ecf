@@ -209,9 +209,15 @@ Classes providing the following facilities:
 		</cluster>
 		<cluster name = "string" location = "text/string" recursive = "true">
 			<description>
-String Handling
+Strings (Abstract)
 
-Classes providing the following:
+String abstractions based on the classes:
+
+* ${STRING_GENERAL}
+* ${READABLE_STRING_GENERAL}
+* ${IMMUTABLE_STRING_GENERAL}
+
+to provide the following:
 
 * Abstractions for objects createable from strings
 * Buffering string data in shared objects
@@ -229,21 +235,21 @@ Classes providing the following:
 		</cluster>
 		<cluster name = "string_8" location = "text/string_8" recursive = "true">
 			<description>
-${STRING_8} Handling
+Strings (Latin-1/UTF-8)
 
-Classes related to processing strings of type ${STRING_8} or ${IMMUTABLE_STRING_8}
+Classes to process Latin-1 or UTF-8 encoded strings of type ${STRING_8} or ${IMMUTABLE_STRING_8}
 			</description>
 		</cluster>
 		<cluster name = "string_32" location = "text/string_32" recursive = "true">
 			<description>
-${STRING_32} Handling
+Strings (Unicode)
 
-Classes related to processing strings of type ${STRING_32} or ${IMMUTABLE_STRING_32}
+Classes to process unicode strings of type ${STRING_32} or ${IMMUTABLE_STRING_32}
 			</description>
 		</cluster>
 		<cluster name = "string_structures" location = "text/string/structures" recursive = "true">
 			<description>
-Substring Structures
+Substring Data Structures
 
 Container classes for substrings
 
@@ -256,12 +262,19 @@ Container classes for substrings
 		</cluster>
 		<cluster name = "zstring" location = "text/zstring" recursive = "true">
 			<description>
-Class ZSTRING
+Strings (Compact Unicode)
 
-An implementation of a memory compact string with the same unicode character range as the &apos;&apos;base.ecf&apos;&apos;
-class ${STRING_32} and conforming to ${STRING_GENERAL}.
-The ${ZSTRING} class (alias for ${EL_ZSTRING}) has many additional
-routines not found in ${STRING_32}, as for example: Python like tuple substitution.
+Classes to process strings of type ${ZSTRING} which is a memory compacted string conforming
+to ${READABLE_STRING_32}.
+
+**Class ZSTRING**
+
+Class ${ZSTRING} class (alias for ${EL_ZSTRING}) supports the same unicode character range as
+the ELKS base class ${STRING_32}, but for text in a Western European langauges it has
+a memory footprint that is close to that of class ${STRING_8}.
+
+Class ${ZSTRING} has a great many additional routines not found in ${STRING_32} as for example,
+Python like tuple substitution, or substrings up until a specified character (and the reverse).
 
 **See Articles**
 
