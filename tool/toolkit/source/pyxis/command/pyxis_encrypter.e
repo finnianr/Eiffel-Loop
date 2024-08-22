@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 8:49:01 GMT (Monday 29th July 2024)"
-	revision: "16"
+	date: "2024-08-22 7:59:08 GMT (Thursday 22nd August 2024)"
+	revision: "17"
 
 class
 	PYXIS_ENCRYPTER
@@ -30,11 +30,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_source_path, a_output_path: FILE_PATH; a_encrypter: like encrypter)
 		do
-			source_path  := a_source_path; output_path := a_output_path; encrypter := a_encrypter
-			if output_path.is_empty then
-				output_path := source_path.twin
-				output_path.add_extension ("aes")
-			end
+			source_path  := a_source_path; encrypter := a_encrypter
+			output_path := a_source_path.related (a_output_path, "aes")
 		end
 
 feature -- Access

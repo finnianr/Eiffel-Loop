@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 9:44:54 GMT (Thursday 18th July 2024)"
-	revision: "18"
+	date: "2024-08-22 7:08:47 GMT (Thursday 22nd August 2024)"
+	revision: "19"
 
 class
 	CHECK_LOCALE_STRINGS_APP
@@ -21,8 +21,6 @@ inherit
 	EL_COMMAND_LINE_APPLICATION [CHECK_LOCALE_STRINGS_COMMAND]
 		undefine
 			make_solitary
-		redefine
-			Option_name
 		end
 
 	EL_LOCALIZED_APPLICATION
@@ -52,9 +50,5 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_resources
 		end
-
-feature {NONE} -- Constants
-
-	Option_name: STRING = "check_locale_strings"
 
 end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 14:57:56 GMT (Monday 22nd April 2024)"
-	revision: "40"
+	date: "2024-08-22 8:00:45 GMT (Thursday 22nd August 2024)"
+	revision: "41"
 
 class
 	EL_FILE_PATH
@@ -57,6 +57,17 @@ feature -- Access
 				end
 				create dot_dir.make (Directory.relative_parent (other.step_count - super_dir.step_count - 1))
 				Result := dot_dir + relative_path (super_dir)
+			end
+		end
+
+	related (path: like Current; new_extension: READABLE_STRING_GENERAL): like Current
+		-- if `path' is empty result is same as `Current' but with extension `new_extension'
+		-- otherwise `path'
+		do
+			if path.is_empty then
+				Result := with_new_extension (new_extension)
+			else
+				Result := path
 			end
 		end
 

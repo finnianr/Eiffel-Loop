@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-24 15:02:17 GMT (Saturday 24th February 2024)"
-	revision: "47"
+	date: "2024-08-22 7:04:03 GMT (Thursday 22nd August 2024)"
+	revision: "48"
 
 class
 	APPLICATION_ROOT
@@ -67,10 +67,5 @@ inherit
 
 create
 	make
-
-note
-	ideas: "[]"
-
-	to_do: "[]"
 
 end

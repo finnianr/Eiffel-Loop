@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 7:51:25 GMT (Monday 29th July 2024)"
-	revision: "62"
+	date: "2024-08-22 7:11:46 GMT (Thursday 22nd August 2024)"
+	revision: "63"
 
 class
 	APPLICATION_ROOT
@@ -41,6 +41,7 @@ inherit
 		SOURCE_LOG_LINE_REMOVER_APP,
 
 	-- Code generators
+		COMPRESS_MANIFEST_APP,
 		ZCODEC_GENERATOR_APP,
 		ID3_FRAME_CODE_CLASS_GENERATOR_APP,
 		LIBRARY_OVERRIDE_APP,
@@ -61,12 +62,12 @@ inherit
 
 		IMP_CLASS_LOCATION_NORMALIZER_APP,
 
+		PROJECT_MANAGER_APP,
 		PYXIS_LOCALE_COMPILER_APP,
 		PYXIS_ECF_CONVERTER_APP,
 
 		REPOSITORY_SOURCE_LINK_EXPANDER_APP,
 
-		PROJECT_MANAGER_APP,
 		WINZIP_SOFTWARE_PACKAGE_BUILDER_APP,
 
 	-- Obsolete once-off apps

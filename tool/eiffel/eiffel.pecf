@@ -57,6 +57,7 @@ system:
 			location = "$EIFFEL_LOOP/library"
 			EL_app_manage = "app-manage.ecf"
 			EL_base = "base/base.ecf"
+			EL_compression = "compression.ecf"
 			EL_doc_scan = "document-scan.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_evolicity = "evolicity.ecf"

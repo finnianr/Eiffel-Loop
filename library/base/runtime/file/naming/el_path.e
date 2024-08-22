@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 16:03:48 GMT (Tuesday 4th June 2024)"
-	revision: "78"
+	date: "2024-08-22 7:48:27 GMT (Thursday 22nd August 2024)"
+	revision: "79"
 
 deferred class
 	EL_PATH
@@ -177,13 +177,13 @@ feature -- Access
 			end
 		end
 
-	with_new_extension (a_new_ext: READABLE_STRING_GENERAL): like Current
+	with_new_extension (new_extension: READABLE_STRING_GENERAL): like Current
 		do
 			Result := twin
 			if has_dot_extension then
-				Result.replace_extension (a_new_ext)
+				Result.replace_extension (new_extension)
 			else
-				Result.add_extension (a_new_ext)
+				Result.add_extension (new_extension)
 			end
 		end
 
