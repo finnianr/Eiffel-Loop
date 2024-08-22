@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-07 14:33:35 GMT (Wednesday 7th August 2024)"
-	revision: "16"
+	date: "2024-08-22 10:07:07 GMT (Thursday 22nd August 2024)"
+	revision: "17"
 
 class
 	ZCODEC_GENERATOR_TEST_SET
@@ -24,40 +24,40 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["latin_15",	  agent test_latin_15],
 				["latin_2",		  agent test_latin_2],
 				["latin_6",		  agent test_latin_6],
 				["latin_11",	  agent test_latin_11],
+				["latin_15",	  agent test_latin_15],
 				["windows_1252", agent test_windows_1252]
 			>>)
 		end
 
 feature -- Tests
 
+	test_latin_11
+		do
+			test_generation ("iso_8859_11", "KpwOsHD8Wz5gJLNQg7bQQA==")
+		end
+
+	test_latin_15
+		do
+			test_generation ("iso_8859_15", "FWOoGNl0oLP490tsxWOn4w==")
+		end
+
 	test_latin_2
 		do
-			test_generation ("iso_8859_2", "RB1gd+F48uqzx2e0F3vRNw==")
+			test_generation ("iso_8859_2", "Yj1Yqmog/bYgAK6luiNDGA==")
 		end
 
 	test_latin_6
 		-- output for Latin-6 `latin_set_from_array' looks out of line in Gedit but is OK in EiffelStudio
 		do
-			test_generation ("iso_8859_6", "BmBcvVLeH86Q5D6vfij2AA==")
-		end
-
-	test_latin_11
-		do
-			test_generation ("iso_8859_11", "NFiG8WgKl9ainRRRAu8++g==")
-		end
-
-	test_latin_15
-		do
-			test_generation ("iso_8859_15", "doydvWojUnQQv4JzWH48rA==")
+			test_generation ("iso_8859_6", "3KeOQaDLe08imXmPcBxBEQ==")
 		end
 
 	test_windows_1252
 		do
-			test_generation ("windows_1252", "hnYwVPiuocSSQaGbu5arpg==")
+			test_generation ("windows_1252", "BK/qecvlP9P691mPKOgVEA==")
 		end
 
 feature {NONE} -- Implementation

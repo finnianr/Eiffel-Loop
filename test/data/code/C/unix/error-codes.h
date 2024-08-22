@@ -30,7 +30,7 @@
 #define	EROFS		30	/* Read-only file system */
 #define	EMLINK		31	/* Too many links */
 #define	EPIPE		32	/* Broken pipe */
-#define	EDOM		33	/* Math argument out of domain of func */
+#define	EDOM		33	/* Math argument out of domain of function */
 #define	ERANGE		34	/* Math result not representable */
 #define	EDEADLK		35	/* Resource deadlock would occur */
 #define	ENAMETOOLONG	36	/* File name too long */

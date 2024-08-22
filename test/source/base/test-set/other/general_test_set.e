@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 16:07:16 GMT (Tuesday 4th June 2024)"
-	revision: "56"
+	date: "2024-08-22 11:37:05 GMT (Thursday 22nd August 2024)"
+	revision: "57"
 
 class
 	GENERAL_TEST_SET
@@ -21,7 +21,9 @@ inherit
 
 	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT; EL_SHARED_STRING_8_BUFFER_SCOPES
 
-	SHARED_HEXAGRAM_STRINGS; EL_PROTOCOL_CONSTANTS
+	SHARED_HEXAGRAM_STRINGS; SHARED_DEV_ENVIRON
+
+	EL_PROTOCOL_CONSTANTS
 
 create
 	make
@@ -42,6 +44,7 @@ feature {NONE} -- Initialization
 				["math_precision",						 agent test_math_precision],
 				["named_thread",							 agent test_named_thread],
 				["output_medium_encoding",				 agent test_output_medium_encoding],
+				["plain_text_line_source",				 agent test_plain_text_line_source],
 				["reverse_managed_pointer",			 agent test_reverse_managed_pointer],
 				["search_path",							 agent test_search_path],
 				["version_array",							 agent test_version_array],
@@ -66,7 +69,8 @@ feature -- Tests
 		-- basic test from example in https://en.wikipedia.org/wiki/Base64
 		note
 			testing: "[
-				covers/{EL_BASE_64_CODEC}.decoded, covers/{EL_BASE_64_CODEC}.encoded
+				covers/{EL_BASE_64_CODEC}.decoded,
+				covers/{EL_BASE_64_CODEC}.encoded
 			]"
 		local
 			str, encoded: STRING; str_encoded: ARRAY [STRING]
@@ -260,6 +264,53 @@ feature -- Tests
 			end
 		end
 
+	test_plain_text_line_source
+		-- GENERAL_TEST_SET.test_plain_text_line_source
+		note
+			testing: "[
+				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.make,
+				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.forth,
+				covers/{EL_LINE_SOURCE_ITERATION_CURSOR}.forth,
+				covers/{EL_FILE_OPEN_ROUTINES}.open,
+				covert/{EL_SPLIT_ZSTRING_ON_STRING}.make
+			]"
+		local
+			header_path, output_path: FILE_PATH; description: ZSTRING; code: STRING
+		do
+			header_path := Dev_environ.El_test_data_dir + "code/C/unix/error-codes.h"
+			output_path := Work_area_dir + header_path.base
+			output_path.replace_extension ("txt")
+
+			if attached open_lines (header_path, Latin_1) as line_source
+				and then attached open (output_path, Write) as output
+			then
+				output.set_latin_encoding (1)
+				across line_source as line loop
+					across line.item.split_on_string (C_comment_mark) as list loop
+						if attached list.item as part and then part.count > 0 then
+							part.adjust
+							if list.cursor_index = 1 then
+								code := part.substring_to_reversed ('%T')
+								code.left_adjust
+							else
+								part.remove_tail (3)
+								description := part
+							end
+						end
+					end
+					if code.is_integer_32 then
+						if output.count > 0 then
+							output.put_new_line
+						end
+						output.put_string_8 (code); output.put_string_8 (":%N%T")
+						output.put_string (description)
+					end
+				end
+				output.close
+			end
+			assert_same_digest (Plain_text, output_path, "RLAGdnzdvWEwm0pukVZZ7Q==")
+		end
+
 	test_reverse_managed_pointer
 		local
 			ptr: MANAGED_POINTER; reverse_ptr: EL_REVERSE_MANAGED_POINTER
@@ -360,4 +411,10 @@ feature -- Tests
 			assert ("release is 3", v.release (01_02_03) = 3)
 		end
 
+feature {NONE} -- Constants
+
+	C_comment_mark: ZSTRING
+		once
+			Result := "/*"
+		end
 end

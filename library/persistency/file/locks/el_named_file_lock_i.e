@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 7:55:12 GMT (Monday 19th August 2024)"
-	revision: "2"
+	date: "2024-08-22 13:27:14 GMT (Thursday 22nd August 2024)"
+	revision: "3"
 
 deferred class
 	EL_NAMED_FILE_LOCK_I
@@ -22,6 +22,8 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
+	EL_SHARED_SYSTEM_ERROR_TABLE
+
 feature {NONE} -- Initialization
 
 	make (a_path: EL_FILE_PATH)
@@ -33,6 +35,11 @@ feature -- Access
 	path: EL_FILE_PATH
 
 	last_error: NATURAL
+
+	last_error_message: ZSTRING
+		do
+			Result := System_error_table [last_error]
+		end
 
 feature -- Status change
 

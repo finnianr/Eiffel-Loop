@@ -1,3 +1,6 @@
+Ver 2.2.12 (22 Aug 2024)
+* New tool COMPRESS_MANIFEST_APP
+
 Ver 2.2.11 (7 Aug 2024)
 * Fixed rendering of non-printable characters latin_1_disjoint_set for all codecs
 * Made separate tests for each codec

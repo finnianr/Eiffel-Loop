@@ -19,7 +19,7 @@ system:
 			class = APPLICATION_ROOT; feature = make
 		version:
 			# Special case: no automatic generation of ecf XML for this project because of circularity
-			major = 2; minor = 2; release = 11; build = 527
+			major = 2; minor = 2; release = 12; build = 527
 			company = "Eiffel-Loop"; product = "eiffel"
 			copyright = "Finnian Reilly"
 
@@ -57,8 +57,8 @@ system:
 			location = "$EIFFEL_LOOP/library"
 			EL_app_manage = "app-manage.ecf"
 			EL_base = "base/base.ecf"
-			EL_compression = "compression.ecf"
 			EL_doc_scan = "document-scan.ecf"
+			EL_compression = "compression.ecf"
 			EL_encryption = "encryption.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_file_process = "file-processing.ecf"

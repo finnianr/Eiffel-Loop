@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-21 14:28:47 GMT (Wednesday 21st August 2024)"
-	revision: "39"
+	date: "2024-08-22 12:54:16 GMT (Thursday 22nd August 2024)"
+	revision: "40"
 
 class
 	HASH_TABLE_TEST_SET
@@ -72,11 +72,12 @@ feature -- Test
 		-- HASH_TABLE_TEST_SET.test_code_text_table
 		note
 			testing: "[
-				covers/{EL_CODE_TEXT_TABLE}.has_key,
-				covers/{EL_CODE_TEXT_TABLE}.item
+				covers/{EL_CODE_TEXT_TABLE_I}.has_key,
+				covers/{EL_CODE_TEXT_TABLE_I}.item
 			]"
 		local
 			table: EL_CODE_TEXT_TABLE; unknown: ZSTRING
+			compressed_table: EL_COMPRESSED_CODE_TEXT_TABLE
 		do
 			unknown := "Unknown"
 			create table.make_with_default (unknown, Zlib_code_table)
@@ -122,7 +123,9 @@ feature -- Test
 		-- HASH_TABLE_TEST_SET.test_hash_table_insertion
 		note
 			testing: "[
-				covers/{EL_HASH_TABLE}.put, covers/{EL_HASH_SET}.put, covers/{EL_HASH_SET}.put_copy
+				covers/{EL_HASH_TABLE}.put,
+				covers/{EL_HASH_SET}.put,
+				covers/{EL_HASH_SET}.put_copy
 			]"
 		local
 			table: EL_HASH_TABLE [CHARACTER, STRING]; set: EL_HASH_SET [STRING]

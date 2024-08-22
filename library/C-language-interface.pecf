@@ -27,8 +27,9 @@ system:
 			base = "base/base.ecf"
 
 		# Eiffel-Loop
-		library:
+		libraries:
 			EL_base = "base/base.ecf"
+			EL_compression = "compression.ecf"
 
 		cluster_tree:
 			C_API = "language_interface/C"

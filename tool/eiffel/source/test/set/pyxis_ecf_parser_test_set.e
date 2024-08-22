@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 14:25:31 GMT (Tuesday 14th May 2024)"
-	revision: "46"
+	date: "2024-08-22 10:18:04 GMT (Thursday 22nd August 2024)"
+	revision: "47"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -166,7 +166,7 @@ feature -- Tests
 			ecf_xdoc := new_ecf_xdoc ("tool/eiffel/eiffel.pecf")
 			assert_parsed_xdoc (ecf_xdoc)
 
-			assert ("22 libraries", library_count (ecf_xdoc) = 22)
+			assert ("22 libraries", library_count (ecf_xdoc) = 23)
 			if attached ecf_xdoc.context_list ("//cluster [@recursive='true']") as list then
 				assert ("4 recursive", list.count = 4)
 			end
@@ -187,7 +187,7 @@ feature -- Tests
 				writeable_count := writeable_count + 1
 			end
 			assert ("has EL_i18n", has_i18n)
-			assert ("17 writeable", writeable_count = 17)
+			assert ("17 writeable", writeable_count = 18)
 
 			if attached ecf_xdoc.find_node ("/system/target/variable[@name='eapml_limb_type']") as variable then
 				assert ("is natural_32", variable ["value"].as_string_8 ~ "natural_32")

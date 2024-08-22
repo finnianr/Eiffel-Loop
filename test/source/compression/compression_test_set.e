@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 10:38:14 GMT (Saturday 24th June 2023)"
-	revision: "15"
+	date: "2024-08-22 13:32:42 GMT (Thursday 22nd August 2024)"
+	revision: "16"
 
 class
 	COMPRESSION_TEST_SET
@@ -19,6 +19,8 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_ZLIB
 
+	EL_SHARED_SYSTEM_ERROR_TABLE
+
 create
 	make
 
@@ -28,8 +30,9 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["archive_file", agent test_archive_file],
-				["zlib_compress", agent test_zlib_compress]
+				["archive_file",					 agent test_archive_file],
+				["compressed_code_text_table", agent test_compressed_code_text_table],
+				["zlib_compress",					 agent test_zlib_compress]
 			>>)
 		end
 
@@ -64,6 +67,25 @@ feature -- Tests
 					assert ("same data", decompressed_data ~ File.data (list.item_path))
 					list.forth
 				end
+			end
+		end
+
+	test_compressed_code_text_table
+		-- COMPRESSION_TEST_SET.test_compressed_code_text_table
+		note
+			testing: "[
+				covers/{EL_COMPRESSED_CODE_TEXT_TABLE}.new_manifest
+			]"
+		do
+			if attached System_error_table as error then
+				if {PLATFORM}.is_unix then
+					assert_same_string (Void, error [17], "File exists")
+					assert_same_string (Void, error [130], "Owner died")
+				else
+					assert_same_string (Void, error [5], "Access is denied.")
+					assert_same_string (Void, error [352], "The restart operation failed.")
+				end
+				assert_same_string (Void, error [500], "Unknown error")
 			end
 		end
 
