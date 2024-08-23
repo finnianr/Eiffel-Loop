@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 11:37:05 GMT (Thursday 22nd August 2024)"
-	revision: "57"
+	date: "2024-08-23 15:02:13 GMT (Friday 23rd August 2024)"
+	revision: "58"
 
 class
 	GENERAL_TEST_SET
@@ -268,14 +268,15 @@ feature -- Tests
 		-- GENERAL_TEST_SET.test_plain_text_line_source
 		note
 			testing: "[
+				covers/{EL_FILE_OPEN_ROUTINES}.open,
+				covers/{EL_LINE_SOURCE_ITERATION_CURSOR}.forth,
 				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.make,
 				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.forth,
-				covers/{EL_LINE_SOURCE_ITERATION_CURSOR}.forth,
-				covers/{EL_FILE_OPEN_ROUTINES}.open,
-				covert/{EL_SPLIT_ZSTRING_ON_STRING}.make
+				covers/{EL_READABLE_ZSTRING}.substring_to_reversed,
+				covers/{EL_SPLIT_ZSTRING_ON_STRING}.make
 			]"
 		local
-			header_path, output_path: FILE_PATH; description: ZSTRING; code: STRING
+			header_path, output_path: FILE_PATH; description, part: ZSTRING; code: STRING
 		do
 			header_path := Dev_environ.El_test_data_dir + "code/C/unix/error-codes.h"
 			output_path := Work_area_dir + header_path.base
@@ -287,7 +288,8 @@ feature -- Tests
 				output.set_latin_encoding (1)
 				across line_source as line loop
 					across line.item.split_on_string (C_comment_mark) as list loop
-						if attached list.item as part and then part.count > 0 then
+						part := list.item
+						if part.count > 0 then
 							part.adjust
 							if list.cursor_index = 1 then
 								code := part.substring_to_reversed ('%T')

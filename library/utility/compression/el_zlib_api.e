@@ -1,13 +1,15 @@
 note
-	description: "[https://www.zlib.net/manual.html Zlib library] API"
+	description: "[
+		[https://www.zlib.net/manual.html Zlib library] API
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 10:38:08 GMT (Tuesday 20th August 2024)"
-	revision: "8"
+	date: "2024-08-23 17:28:24 GMT (Friday 23rd August 2024)"
+	revision: "9"
 
 class
 	EL_ZLIB_API
@@ -18,8 +20,8 @@ inherit
 feature {NONE} -- C externals
 
 	c_compress2 (
-		destination: POINTER; compressed_count: TYPED_POINTER [INTEGER_64]
-		source: POINTER; source_count: INTEGER_64; level: INTEGER
+		destination: POINTER; compressed_count: TYPED_POINTER [NATURAL]
+		source: POINTER; source_count: NATURAL; level: INTEGER
 
 	): INTEGER
 			-- ZEXTERN int ZEXPORT compress2 OF((Bytef *destination, uLongf *destLen,
@@ -31,8 +33,8 @@ feature {NONE} -- C externals
 		end
 
 	c_uncompress (
-		destination: POINTER; decompressed_count: TYPED_POINTER [INTEGER_64]
-		source: POINTER; source_count: INTEGER_64
+		destination: POINTER; decompressed_count: TYPED_POINTER [NATURAL]
+		source: POINTER; source_count: NATURAL
 	): INTEGER
 		-- ZEXTERN int ZEXPORT uncompress OF((Bytef *destination, uLongf *destLen,
 		--				               			       const Bytef *source, uLong sourceLen));
@@ -42,7 +44,7 @@ feature {NONE} -- C externals
 			"uncompress"
 		end
 
-	c_compress_bound (source_count: INTEGER_64): INTEGER
+	c_compress_bound (source_count: INTEGER_64): NATURAL
 			-- ZEXTERN uLong ZEXPORT compressBound OF((uLong sourceLen));
 		external
 			"C (uLong): EIF_INTEGER | <zlib.h>"
@@ -50,7 +52,7 @@ feature {NONE} -- C externals
 			"compressBound"
 		end
 
-	c_size_of_ulongf: INTEGER
+	c_size_of_ulong: INTEGER
 		external
 			"C inline use <zlib.h>"
 		alias

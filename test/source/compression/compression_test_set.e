@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 13:32:42 GMT (Thursday 22nd August 2024)"
-	revision: "16"
+	date: "2024-08-23 16:24:40 GMT (Friday 23rd August 2024)"
+	revision: "17"
 
 class
 	COMPRESSION_TEST_SET
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 			file_text := File.plain_text (a_file_path)
 
 			compressed_data := Zlib.compressed_string (file_text, 9, 0.3)
-			lio.put_integer_field (" compressed by", (Zlib.last_compression_ratio * 100).rounded)
+			lio.put_integer_field (" compressed by", (Zlib.last_ratio * 100).rounded)
 			lio.put_line ("%%")
 
 			decompressed_data := Zlib.decompressed_bytes (compressed_data, file_text.count)

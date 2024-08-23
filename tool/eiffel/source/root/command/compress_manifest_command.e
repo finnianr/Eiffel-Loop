@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 13:02:06 GMT (Thursday 22nd August 2024)"
-	revision: "33"
+	date: "2024-08-23 16:21:03 GMT (Friday 23rd August 2024)"
+	revision: "34"
 
 class
 	COMPRESS_MANIFEST_COMMAND
@@ -50,7 +50,7 @@ feature -- Basic operations
 			text := File.plain_text_bomless (source_path)
 			text.right_adjust
 			is_utf_encoded := not s.is_ascii_string_8 (text) and then utf_8.is_valid_string_8 (text)
-			compressed := zlib.compressed_string (text, 9, 0.327)
+			compressed := zlib.compressed_string (text, 9, 0.35)
 			create compressed_lines.make_with_lines (Base_64.encoded_special (compressed, True))
 			compressed_lines.indent (4)
 			compressed_lines.first.left_adjust

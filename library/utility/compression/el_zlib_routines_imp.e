@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 8:28:04 GMT (Thursday 22nd August 2024)"
-	revision: "12"
+	date: "2024-08-23 17:31:26 GMT (Friday 23rd August 2024)"
+	revision: "13"
 
 class
 	EL_ZLIB_ROUTINES_IMP
@@ -19,18 +19,18 @@ inherit
 
 feature -- Conversion
 
-	compressed (source: MANAGED_POINTER; level: INTEGER; expected_compression_ratio: DOUBLE): SPECIAL [NATURAL_8]
+	compressed (source: MANAGED_POINTER; level: INTEGER; expected_ratio: DOUBLE): SPECIAL [NATURAL_8]
 		require
 			valid_level: Level_interval.has (level)
 		do
-			Result := new_compressed (source.item, source.count, level, expected_compression_ratio)
+			Result := new_compressed (source.item, source.count, level, expected_ratio)
 		end
 
-	compressed_string (source: STRING; level: INTEGER; expected_compression_ratio: DOUBLE): SPECIAL [NATURAL_8]
+	compressed_string (source: STRING; level: INTEGER; expected_ratio: DOUBLE): SPECIAL [NATURAL_8]
 		require
 			valid_level: Level_interval.has (level)
 		do
-			Result := new_compressed (source.area.base_address, source.count, level, expected_compression_ratio)
+			Result := new_compressed (source.area.base_address, source.count, level, expected_ratio)
 		end
 
 	decompressed (source: MANAGED_POINTER; orginal_count: INTEGER): SPECIAL [NATURAL_8]
@@ -49,12 +49,13 @@ feature -- Access
 
 	error_message: EL_ZSTRING_LIST
 		do
-			create Result.make_with_lines (Code_table [error_status])
+			create Result.make_with_lines (Code_table [error_code])
 		end
 
-	error_status: INTEGER
+	error_code: INTEGER
 
-	last_compression_ratio: REAL
+	last_ratio: DOUBLE
+		-- compression ratio of last successful call to `new_compressed'
 
 feature -- Constants
 
@@ -67,42 +68,39 @@ feature -- Status query
 
 	has_error: BOOLEAN
 		do
-			Result := error_status > 0
+			Result := error_code > 0
 		end
 
 feature {NONE} -- Implementation
 
-	new_compressed (source_ptr: POINTER; count, level: INTEGER; expected_compression_ratio: DOUBLE): SPECIAL [NATURAL_8]
+	new_compressed (source_ptr: POINTER; count, level: INTEGER; expected_ratio: DOUBLE): SPECIAL [NATURAL_8]
+		-- compress data at `source_ptr' using `level' compression
+		-- with expected compression ratio of `expected_ratio'
 		local
-			status: INTEGER; compressed_count, upper_bound: INTEGER_64
-			upper_compression_ratio, compression_ratio: DOUBLE
+			upper_bound, additional_space, i, compressed_count: INTEGER; compress2_count: NATURAL
 			done: BOOLEAN
 		do
-			error_status := 0
-			upper_bound := c_compress_bound (count)
-			upper_compression_ratio := upper_bound / count
-			from
-				compression_ratio := expected_compression_ratio
-			until
-				done or compression_ratio > upper_compression_ratio + 0.1
-			loop
-				compressed_count := upper_bound.min ((count * compression_ratio).rounded)
-
-				create Result.make_filled (0, compressed_count.to_integer)
-				status := c_compress2 (Result.base_address, $compressed_count, source_ptr, count, level)
-				inspect status
+			error_code := 0; last_ratio := 0
+			upper_bound := c_compress_bound (count).to_integer_32
+			create Result.make_filled (0, (count * expected_ratio).rounded.max (5))
+			from until done or (Result.capacity - additional_space) > upper_bound loop
+				compress2_count := Result.capacity.to_natural_32
+				error_code := c_compress2 (Result.base_address, $compress2_count, source_ptr, count.to_natural_32, level)
+				inspect error_code
 					when Z_ok then
-						Result.keep_head (compressed_count.to_integer)
-						last_compression_ratio := compression_ratio.truncated_to_real
+						compressed_count := compress2_count.to_integer_32
+						Result.keep_head (compressed_count)
+						last_ratio := compressed_count / count
 						done := True
 
 					when Z_buf_error then
-						compression_ratio := compression_ratio + 0.1
+						additional_space := (Result.capacity // 3).max (5)
+						Result := Result.aliased_resized_area_with_default (0, Result.capacity + additional_space)
 
 				else
-					error_status := status
 					done := True
 				end
+				i := i + 1
 			end
 		ensure
 			compressed: Result.count > 0
@@ -110,18 +108,18 @@ feature {NONE} -- Implementation
 
 	new_decompressed (source_ptr: POINTER; count, orginal_count: INTEGER): SPECIAL [NATURAL_8]
 		local
-			status: INTEGER; decompressed_count: INTEGER_64
+			uncompress_count: NATURAL; decompressed_count: INTEGER
 		do
-			error_status := 0
-			decompressed_count := orginal_count
-			create Result.make_filled (0, decompressed_count.to_integer)
-			status := c_uncompress (Result.base_address, $decompressed_count, source_ptr, count)
-			inspect status
+			error_code := 0
+			uncompress_count := orginal_count.to_natural_32
+			create Result.make_filled (0, orginal_count)
+			error_code := c_uncompress (Result.base_address, $uncompress_count, source_ptr, count.to_natural_32)
+			decompressed_count := uncompress_count.to_integer_32
+			inspect error_code
 				when Z_ok then
-					Result.keep_head (decompressed_count.to_integer)
-					last_compression_ratio := (count / decompressed_count.to_integer).truncated_to_real
+					Result.keep_head (decompressed_count)
+					last_ratio := count / decompressed_count
 			else
-				error_status := status
 			end
 		ensure
 			same_count_as_original: orginal_count = Result.count

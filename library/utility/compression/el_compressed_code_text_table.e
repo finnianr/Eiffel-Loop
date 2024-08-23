@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 12:50:10 GMT (Thursday 22nd August 2024)"
-	revision: "1"
+	date: "2024-08-22 14:18:24 GMT (Thursday 22nd August 2024)"
+	revision: "2"
 
 deferred class
 	EL_COMPRESSED_CODE_TEXT_TABLE
@@ -34,6 +34,8 @@ feature {NONE} -- Implementation
 			else
 				Result := text
 			end
+		ensure then
+			valid_manifest: valid_manifest (Result)
 		end
 
 feature {NONE} -- Deferred

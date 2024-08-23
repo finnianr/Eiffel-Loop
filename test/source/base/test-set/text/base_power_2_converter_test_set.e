@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:46:53 GMT (Saturday 6th April 2024)"
-	revision: "9"
+	date: "2024-08-23 14:58:11 GMT (Friday 23rd August 2024)"
+	revision: "10"
 
 class
 	BASE_POWER_2_CONVERTER_TEST_SET
@@ -47,9 +47,7 @@ feature -- Conversion tests
 			n: INTEGER
 		do
 			create type_list.make_from_array (<<
-				create {ZSTRING}.make (10),
-				create {STRING}.make (10),
-				create {STRING_32}.make (10)
+				create {ZSTRING}.make (10), create {STRING}.make (10), create {STRING_32}.make (10)
 			>>)
 			across type_list as type loop
 				across String_table as table loop
