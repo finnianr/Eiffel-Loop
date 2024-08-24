@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-04 7:36:18 GMT (Sunday 4th August 2024)"
-	revision: "12"
+	date: "2024-08-24 10:26:55 GMT (Saturday 24th August 2024)"
+	revision: "13"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -16,11 +16,11 @@ inherit
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		rename
 			make as make_split,
-			character_count as utf_8_character_count,
+			character_count as utf_8_byte_count,
 			i_th_count as i_th_utf_8_count,
 			item_count as utf_8_item_count
 		redefine
-			less_than, item_index_of
+			append_lines_to, less_than, item_index_of, unicode_count
 		end
 
 	EL_UTF_8_CONVERTER
@@ -80,7 +80,7 @@ feature {NONE} -- Initialization
 
 feature -- Measurement
 
-	character_count, unicode_count: INTEGER
+	unicode_count: INTEGER
 		local
 			i: INTEGER
 		do
@@ -121,7 +121,7 @@ feature -- Basic operations
 		do
 			if attached area as a then
 				from until i = a.count loop
-					if i > 0 then
+					if output.count > 0 then
 						output.append_code ({EL_ASCII}.Newline)
 					end
 					utf_8_substring_into_string_general (target_string, a [i], a [i + 1], output)

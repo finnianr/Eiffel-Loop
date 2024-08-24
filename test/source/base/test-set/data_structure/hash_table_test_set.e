@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 12:54:16 GMT (Thursday 22nd August 2024)"
-	revision: "40"
+	date: "2024-08-24 13:07:37 GMT (Saturday 24th August 2024)"
+	revision: "41"
 
 class
 	HASH_TABLE_TEST_SET
@@ -321,7 +321,7 @@ feature -- Test
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.key_for_iteration,
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.item_for_iteration,
 				covers/{EL_SPLIT_IMMUTABLE_UTF_8_LIST}.append_lines_to,
-				covers/{EL_STRING_X_ROUTINES}.new_from_utf_8_lines
+				covers/{EL_STRING_X_ROUTINES}.new_from_lines
 			]"
 		local
 			table_utf_8, currency_table_utf_8_reversed, currency_table_utf_8: EL_IMMUTABLE_UTF_8_TABLE
@@ -368,7 +368,7 @@ feature -- Test
 						end
 						across key_list as key loop
 							if currency_table_utf_8_reversed.has_key_general (key.item) then
-								assert_same_string (Void, table.key_for_iteration, currency_table_utf_8_reversed.found_item)
+								assert_same_string (Void, table.zkey_for_iteration, currency_table_utf_8_reversed.found_item)
 							else
 								failed ("reverse lookup succeeded")
 							end
@@ -379,7 +379,7 @@ feature -- Test
 				if attached currency_table_utf_8_reversed as table then
 					from table.start until table.after loop
 						if currency_table_utf_8.has_key_general (table.item_for_iteration) then
-							assert_same_string (Void, table.key_for_iteration, currency_table_utf_8.found_item)
+							assert_same_string (Void, table.zkey_for_iteration, currency_table_utf_8.found_item)
 						else
 							failed ("lookup succeeded")
 						end
@@ -556,10 +556,10 @@ feature -- Test
 			across currency_table as table loop
 				if attached table.item.split ('%N') as item_lines then
 					lio.put_labeled_lines (table.key, item_lines)
-					assert ("found in manifest", manifest.has_substring (table.key + char (':')))
+					assert ("found in manifest", manifest.has_substring (table.key + char (':').as_string_8 (1)))
 					assert ("at least one line", item_lines.count > 0)
 					across item_lines as line loop
-						assert ("found in manifest", manifest.has_substring ((Tab * 1) + line.item))
+						assert ("found in manifest", manifest.has_substring (Tab + line.item))
 					end
 				end
 			end

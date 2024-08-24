@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:28:45 GMT (Friday 2nd August 2024)"
-	revision: "29"
+	date: "2024-08-24 10:19:02 GMT (Saturday 24th August 2024)"
+	revision: "30"
 
 class
 	EL_HTML_ROUTINES
@@ -248,7 +248,7 @@ feature {NONE} -- Character Tables
 			if attached Utf_8_character_entity_table as table then
 				create Result.make_equal (table.count)
 				from table.start until table.after loop
-					Result.extend (table.utf_8_key_for_iteration, table.item_for_iteration [1])
+					Result.extend (table.key_for_iteration, table.item_for_iteration [1])
 					table.forth
 				end
 			else

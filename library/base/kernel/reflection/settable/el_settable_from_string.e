@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 7:56:52 GMT (Tuesday 2nd April 2024)"
-	revision: "32"
+	date: "2024-08-24 13:48:30 GMT (Saturday 24th August 2024)"
+	revision: "33"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -24,7 +24,7 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_CLASS_ID; EL_SHARED_IMMUTABLE_8_MANAGER
 
 feature {NONE} -- Initialization
 
@@ -46,17 +46,17 @@ feature {NONE} -- Initialization
 			set_from_map_list (map_list)
 		end
 
-	make_from_table (field_values: like to_table)
+	make_from_table (value_table: like to_table)
 		do
 			make_default
-			set_from_table (field_values)
+			set_from_table (value_table)
 		end
 
-	make_from_zkey_table (field_values: HASH_TABLE [like new_string, ZSTRING])
+	make_from_zkey_table (value_table: HASH_TABLE [like new_string, ZSTRING])
 		-- make from table with keys of type `ZSTRING'
 		do
 			make_default
-			set_from_zkey_table (field_values)
+			set_from_zkey_table (value_table)
 		end
 
 feature -- Access
@@ -73,7 +73,7 @@ feature -- Access
 			end
 		end
 
-	to_table: HASH_TABLE [like new_string, STRING]
+	to_table: HASH_TABLE [like new_string, IMMUTABLE_STRING_8]
 		local
 			table: like field_table; value: like new_string
 		do
@@ -105,9 +105,20 @@ feature -- Access
 
 feature -- Element change
 
-	set_field (name: READABLE_STRING_GENERAL; value: like new_string)
+	set_field (a_name: READABLE_STRING_GENERAL; value: like new_string)
 		do
-			set_table_field (field_table, name, value)
+			inspect Class_id.string_storage_type (a_name)
+				when '1' then
+					if attached {READABLE_STRING_8} a_name as name then
+						set_table_field (field_table, name, value)
+					end
+				when 'X' then
+					if attached {ZSTRING} a_name as name then
+						set_table_field (field_table, name.to_shared_immutable_8, value)
+					end
+			else
+				set_table_field (field_table, Name_buffer.copied_general (a_name), value)
+			end
 		end
 
 	set_field_from_line (line: like new_string; delimiter: CHARACTER_32)
@@ -168,39 +179,35 @@ feature -- Element change
 		end
 
 	set_from_map_list (map_list: EL_ARRAYED_MAP_LIST [STRING, like new_string])
-		local
-			table: like field_table
 		do
-			table := field_table
-			from map_list.start until map_list.after loop
-				set_table_field (table, map_list.item_key, map_list.item_value)
-				map_list.forth
+			if attached field_table as table then
+				from map_list.start until map_list.after loop
+					set_table_field (table, map_list.item_key, map_list.item_value)
+					map_list.forth
+				end
 			end
 		end
 
-	set_from_table (field_values: like to_table)
-		local
-			table: like field_table
+	set_from_table (value_table: like to_table)
 		do
-			table := field_table
-			from field_values.start until field_values.after loop
-				set_table_field (table, field_values.key_for_iteration, field_values.item_for_iteration)
-				field_values.forth
+			if attached field_table as table then
+				from value_table.start until value_table.after loop
+					set_table_field (table, value_table.key_for_iteration, value_table.item_for_iteration)
+					value_table.forth
+				end
 			end
 		end
 
-	set_from_zkey_table (field_values: HASH_TABLE [like new_string, ZSTRING])
+	set_from_zkey_table (value_table: HASH_TABLE [like new_string, ZSTRING])
 		-- set from table with keys of type `ZSTRING'
-		local
-			table: like field_table; name: STRING
 		do
-			table := field_table
-			create name.make (20)
-			from field_values.start until field_values.after loop
-				name.wipe_out
-				field_values.key_for_iteration.append_to_string_8 (name)
-				set_table_field (table, name, field_values.item_for_iteration)
-				field_values.forth
+			if attached field_table as table then
+				from value_table.start until value_table.after loop
+					if attached value_table.key_for_iteration.to_shared_immutable_8 as key then
+						set_table_field (table, key, value_table.item_for_iteration)
+					end
+					value_table.forth
+				end
 			end
 		end
 
@@ -259,36 +266,22 @@ feature {NONE} -- Implementation
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 
-	set_inner_table_field (table: like field_table; name: READABLE_STRING_GENERAL; object: EL_REFLECTIVE; value: ANY)
+	set_inner_table_field (table: like field_table; name: READABLE_STRING_8; object: EL_REFLECTIVE; value: ANY)
 		local
-			pos_dot: INTEGER; name_part: ZSTRING
+			pos_dot: INTEGER; left_part, right_part: READABLE_STRING_8
 		do
 			pos_dot := name.index_of ('.', 1)
 			if pos_dot > 0 then
-				across String_scope as scope loop
-					name_part := scope.item
-					name_part.append_substring_general (name, 1, pos_dot - 1)
-					if table.has_imported_key (name_part)
-						and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
-					then
-						name_part.wipe_out
-						name_part.append_substring_general (name, pos_dot + 1, name.count)
-						-- Recurse until no more dots in name
-						set_inner_table_field (inner_object.field_table, name_part, inner_object, value)
-					end
+				left_part := Immutable_8.shared_substring (name, 1, pos_dot - 1)
+				if table.has_imported_key (left_part)
+					and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
+				then
+					right_part := Immutable_8.shared_substring (name, pos_dot + 1, name.count)
+					set_inner_table_field (inner_object.field_table, right_part, inner_object, value)
 				end
 
 			elseif table.has_imported_key (name) then
 				set_reflected_field (table.found_item, object, value)
-			end
-		end
-
-	set_table_field (table: like field_table; name: READABLE_STRING_GENERAL; value: ANY)
-		do
-			if name.has ('.') then
-				set_inner_table_field (table, name, current_reflective, value)
-			elseif table.has_imported_key (name) then
-				set_reflected_field (table.found_item, current_reflective, value)
 			end
 		end
 
@@ -299,6 +292,22 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 			else
 				field.set (object, value)
 			end
+		end
+
+	set_table_field (table: like field_table; name: READABLE_STRING_8; value: ANY)
+		do
+			if name.has ('.') then
+				set_inner_table_field (table, name, current_reflective, value)
+			elseif table.has_imported_key (name) then
+				set_reflected_field (table.found_item, current_reflective, value)
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Name_buffer: EL_STRING_8_BUFFER
+		once
+			create Result
 		end
 
 note

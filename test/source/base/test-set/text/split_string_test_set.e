@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 16:23:44 GMT (Friday 12th July 2024)"
-	revision: "60"
+	date: "2024-08-24 10:09:50 GMT (Saturday 24th August 2024)"
+	revision: "61"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -519,7 +519,7 @@ feature -- Tests
 		do
 			symbol_32_list := Text.symbol_32_list
 			create utf_8_list.make (symbol_32_list)
-			assert ("same count", utf_8_list.character_count = symbol_32_list.count)
+			assert ("same count", utf_8_list.unicode_count = symbol_32_list.count)
 		end
 
 	test_split_intervals

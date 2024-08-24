@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-04 7:24:48 GMT (Sunday 4th August 2024)"
-	revision: "5"
+	date: "2024-08-24 10:15:16 GMT (Saturday 24th August 2024)"
+	revision: "6"
 
 deferred class
 	EL_SUBSTRING [S -> STRING_GENERAL create make end]
@@ -79,7 +79,7 @@ feature -- Access
 	string, str: S
 		-- substring of `utf_8_manifest' defined by `start_index' and `end_index'
 		do
-			Result := string_x.new_from_utf_8_lines (utf_8_manifest, start_index, end_index, True)
+			Result := string_x.new_from_immutable_8 (utf_8_manifest, start_index, end_index, True, True)
 		ensure
 			valid_count: Result.count = count
 		end

@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:56:06 GMT (Saturday 6th April 2024)"
-	revision: "61"
+	date: "2024-08-24 8:47:04 GMT (Saturday 24th August 2024)"
+	revision: "62"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -117,7 +117,7 @@ feature -- Access
 
 	description (a_value: N): ZSTRING
 		do
-			if description_table.has_immutable_key_utf_8 (field_name (a_value)) then
+			if description_table.has_immutable_key (field_name (a_value)) then
 				Result := description_table.found_item
 			else
 				create Result.make_empty

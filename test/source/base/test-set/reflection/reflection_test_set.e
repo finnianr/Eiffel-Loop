@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 12:59:55 GMT (Saturday 3rd August 2024)"
-	revision: "56"
+	date: "2024-08-24 9:29:13 GMT (Saturday 24th August 2024)"
+	revision: "57"
 
 class
 	REFLECTION_TEST_SET
@@ -322,14 +322,14 @@ feature -- Tests
 		end
 
 	test_reflection
+		-- REFLECTION_TEST_SET.test_reflection
 		local
-			table: HASH_TABLE [STRING_32, STRING]
-			object: MY_DRY_CLASS
+			table: HASH_TABLE [STRING_32, IMMUTABLE_STRING_8]; object: MY_DRY_CLASS
 		do
 			create object.make_default
 			create table.make_equal (object.field_table.count)
 			across object.field_table as l_field loop
-				if l_field.key ~ "boolean" then
+				if l_field.key.same_string ("boolean") then
 					table [l_field.key] := "True"
 				else
 					table [l_field.key] := l_field.cursor_index.out

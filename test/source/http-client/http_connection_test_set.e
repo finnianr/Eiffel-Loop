@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 6:26:12 GMT (Friday 12th July 2024)"
-	revision: "71"
+	date: "2024-08-24 9:36:47 GMT (Saturday 24th August 2024)"
+	revision: "72"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -82,6 +82,7 @@ feature -- Tests
 		end
 
 	test_cookies
+		-- HTTP_CONNECTION_TEST_SET.test_cookies
 		local
 			city_location, json_fields: EL_URI_QUERY_ZSTRING_HASH_TABLE
 			url: STRING; cookies: EL_HTTP_COOKIE_TABLE

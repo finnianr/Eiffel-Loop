@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 9:23:17 GMT (Tuesday 20th August 2024)"
-	revision: "27"
+	date: "2024-08-24 12:57:27 GMT (Saturday 24th August 2024)"
+	revision: "28"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -193,10 +193,12 @@ feature {NONE} -- Initialization
 	make_reversed (other: like Current)
 		-- make with keys and items of `other' swapped
 		do
+			copy_attributes (other)
 			make_size (other.count)
-			manifest := other.manifest; format := other.format
 			from other.start until other.after loop
-				extend (immutable_interval (other.key_for_iteration), other.item_for_iteration)
+				if attached new_item_substring (other.interval_item_for_iteration) as key then
+					extend (immutable_interval (other.key_for_iteration), key)
+				end
 				other.forth
 			end
 		ensure
@@ -205,7 +207,7 @@ feature {NONE} -- Initialization
 
 	make_subset (other: like Current; excluded_set: EL_HASH_SET [IMMUTABLE])
 		do
-			manifest := other.manifest
+			copy_attributes (other)
 			make_equal (other.count - excluded_set.count)
 			from other.start until other.after loop
 				if not excluded_set.has (other.key_for_iteration) then
@@ -271,15 +273,17 @@ feature -- Status query
 			Result := format = Fm_indented_code
 		end
 
-feature -- Access
-
-	format: NATURAL_8
-		-- format of manifest
+feature -- Measurement
 
 	found_count: INTEGER
 		do
 			Result := interval_count (found_interval)
 		end
+
+feature -- Access
+
+	format: NATURAL_8
+		-- format of manifest
 
 	found_item: IMMUTABLE
 		--
@@ -425,6 +429,11 @@ feature -- Contract Support
 
 feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
 
+	copy_attributes (other: like Current)
+		do
+			manifest := other.manifest; format := other.format
+		end
+
 	immutable_interval (str: IMMUTABLE): INTEGER_64
 		do
 			if attached shared_cursor (str) as c then
@@ -463,7 +472,7 @@ feature {NONE} -- Deferred
 
 feature {STRING_HANDLER} -- Internal attributes
 
-	manifest: IMMUTABLE;
+	manifest: IMMUTABLE
 
 feature {NONE} -- Formats
 

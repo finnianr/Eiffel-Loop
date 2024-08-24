@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:14:42 GMT (Tuesday 15th August 2023)"
-	revision: "40"
+	date: "2024-08-24 9:28:12 GMT (Saturday 24th August 2024)"
+	revision: "41"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -131,12 +131,10 @@ feature -- Authorization
 		note
 			testing: "covers/{FCGI_HTTP_HEADERS}.selected"
 		local
-			http_table: HASH_TABLE [ZSTRING, STRING]
-			http_name: STRING; request: FCGI_REQUEST_PARAMETERS
-			headers: HASH_TABLE [ZSTRING, STRING]
-			s: EL_STRING_8_ROUTINES
+			http_table: EL_ZSTRING_TABLE; http_name: STRING; request: FCGI_REQUEST_PARAMETERS
+			headers: HASH_TABLE [ZSTRING, STRING]; s: EL_STRING_8_ROUTINES
 		do
-			create http_table.make (5)
+			create http_table.make_size (5)
 			from Signed_headers.start until Signed_headers.after loop
 				http_name := "HTTP_" + Signed_headers.item.as_upper
 				s.replace_character (http_name, '-', '_')

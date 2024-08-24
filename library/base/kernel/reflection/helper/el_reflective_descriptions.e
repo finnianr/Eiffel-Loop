@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 10:34:44 GMT (Monday 14th August 2023)"
-	revision: "8"
+	date: "2024-08-24 7:11:37 GMT (Saturday 24th August 2024)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
@@ -33,18 +33,18 @@ inherit
 
 feature -- Access
 
-	description_table: EL_HASH_TABLE [TUPLE [description: ZSTRING; default_value: ANY], STRING]
+	description_table: EL_HASH_TABLE [TUPLE [description: ZSTRING; default_value: ANY], IMMUTABLE_STRING_8]
 		-- table of descriptions and default values derived from `help_text' and `default' option values
 		local
-			help_table: EL_ZSTRING_TABLE
+			help_table: EL_IMMUTABLE_UTF_8_TABLE
 		do
 			if descriptions.is_empty then
 				create Result
 			elseif attached current_reflective as l_current then
-				create help_table.make (descriptions)
+				create help_table.make_field_map (descriptions)
 				create Result.make_equal (help_table.count)
 				across help_table as table loop
-					if field_table.has_key_8 (table.key) then
+					if field_table.has_immutable_key (table.key) then
 						Result.extend ([table.item, field_table.found_item.value (l_current)], table.key)
 					end
 				end

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-04 6:51:00 GMT (Sunday 4th August 2024)"
-	revision: "7"
+	date: "2024-08-24 10:39:22 GMT (Saturday 24th August 2024)"
+	revision: "8"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -62,7 +62,7 @@ feature {NONE} -- Initialization
 
 			if attached utf_8_table as table then
 				from table.start until table.after loop
-					if field_table.has_key_8 (table.utf_8_key_for_iteration)
+					if field_table.has_immutable_key (table.key_for_iteration)
 						and then attached field_table.found_item as field
 						and then attached {EL_SUBSTRING [STRING_GENERAL]} field.value (Current) as field_value
 					then

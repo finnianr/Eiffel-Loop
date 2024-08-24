@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:13:51 GMT (Saturday 11th November 2023)"
-	revision: "13"
+	date: "2024-08-24 13:37:37 GMT (Saturday 24th August 2024)"
+	revision: "14"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -50,6 +50,8 @@ inherit
 		rename
 			make_default as make
 		end
+
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make
