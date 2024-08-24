@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 13:41:25 GMT (Monday 29th July 2024)"
-	revision: "31"
+	date: "2024-08-24 16:52:20 GMT (Saturday 24th August 2024)"
+	revision: "32"
 
 class
 	I18N_LOCALIZATION_TEST_SET
@@ -70,7 +70,7 @@ feature -- Tests
 				covers/{EL_PYXIS_PARSER}.parse_from_string
 			]"
 		do
-			do_test ("test_reading_from_file", 1457501396, agent test_reading, [agent new_table_from_file])
+			do_test ("test_reading_from_file", 914102791, agent test_reading, [agent new_table_from_file])
 		end
 
 	test_reading_from_source
@@ -81,7 +81,7 @@ feature -- Tests
 				covers/{EL_PYXIS_PARSER}.parse_from_string
 			]"
 		do
-			do_test ("test_reading_from_source", 812988386, agent test_reading, [agent new_table_from_source])
+			do_test ("test_reading_from_source", 3940767437, agent test_reading, [agent new_table_from_source])
 		end
 
 	test_reading_from_xml
@@ -89,7 +89,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_TRANSLATION_TABLE}.make_from_xdoc"
 		do
-			do_test ("test_reading_from_xml", 2525472084, agent test_reading, [agent new_table_from_xml])
+			do_test ("test_reading_from_xml", 1411083027, agent test_reading, [agent new_table_from_xml])
 		end
 
 	test_reflective_locale_texts

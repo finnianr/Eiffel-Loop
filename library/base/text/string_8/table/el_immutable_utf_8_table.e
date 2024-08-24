@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 13:05:53 GMT (Saturday 24th August 2024)"
-	revision: "15"
+	date: "2024-08-24 16:47:28 GMT (Saturday 24th August 2024)"
+	revision: "16"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -21,7 +21,7 @@ class
 inherit
 	EL_IMMUTABLE_STRING_8_TABLE
 		rename
-			make as make_utf_8,
+			make as make_encoded,
 			make_comma_separated as make_comma_separated_encoded,
 			make_code_map as make_code_map_encoded,
 			make_field_map as make_field_map_encoded,
@@ -50,7 +50,17 @@ feature {NONE} -- Initialization
 		--			line 2..
 		--		..
 		do
-			make_utf_8 (as_utf_8 (indented_manifest))
+			if is_latin_1 (indented_manifest) then
+				make_encoded (as_latin_1 (indented_manifest))
+			else
+				make_utf_8 (as_utf_8 (indented_manifest))
+			end
+		end
+
+	make_utf_8 (indented_utf_8_manifest: READABLE_STRING_8)
+		do
+			is_utf_8_encoded := True
+			make_encoded (indented_utf_8_manifest)
 		end
 
 	make_assignments (assignment_manifest: READABLE_STRING_GENERAL)
@@ -67,10 +77,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_assignments_utf_8 (assignment_manifest: READABLE_STRING_8)
+	make_assignments_utf_8 (assignment_utf_8_manifest: READABLE_STRING_8)
 		do
 			is_utf_8_encoded := True
-			make_assignments_encoded (assignment_manifest)
+			make_assignments_encoded (assignment_utf_8_manifest)
 		end
 
 	make_code_map (indented_manifest: READABLE_STRING_GENERAL)
@@ -82,10 +92,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_code_map_utf_8 (indented_manifest: READABLE_STRING_8)
+	make_code_map_utf_8 (indented_utf_8_manifest: READABLE_STRING_8)
 		do
 			is_utf_8_encoded := True
-			make_code_map_encoded (indented_manifest)
+			make_code_map_encoded (indented_utf_8_manifest)
 		end
 
 	make_comma_separated (csv_manifest: READABLE_STRING_GENERAL)
@@ -98,10 +108,10 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_comma_separated_utf_8 (csv_manifest: READABLE_STRING_8)
+	make_comma_separated_utf_8 (csv_utf_8_manifest: READABLE_STRING_8)
 		do
 			is_utf_8_encoded := True
-			make_comma_separated_encoded (csv_manifest)
+			make_comma_separated_encoded (csv_utf_8_manifest)
 		end
 
 	make_field_map (table_manifest: READABLE_STRING_GENERAL)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-08-24 17:01:22 GMT (Saturday 24th August 2024)"
+	revision: "6"
 
 class
 	EL_NAMEABLES_LIST [G -> EL_NAMEABLE [READABLE_STRING_GENERAL]]

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:32:21 GMT (Tuesday 20th August 2024)"
-	revision: "39"
+	date: "2024-08-24 14:00:37 GMT (Saturday 24th August 2024)"
+	revision: "40"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -129,18 +129,12 @@ feature -- Contract Support
 
 	valid_english_table: BOOLEAN
 		local
-			key_value_map_list: EL_TABLE_INTERVAL_MAP_LIST; ir: EL_INTERVAL_ROUTINES
-			start_index, end_index: INTEGER
+			table: EL_IMMUTABLE_UTF_8_TABLE
 		do
-			create key_value_map_list.make (english_table)
-			if attached key_value_map_list as list then
-
-				from Result := True; list.start until list.after or not Result loop
-					start_index := ir.to_lower (list.item_key)
-					end_index := ir.to_upper (list.item_key)
-					Result := field_table.has_general (english_table.substring (start_index, end_index))
-					list.forth
-				end
+			create table.make_field_map (english_table)
+			from Result := True; table.start until table.after or not Result loop
+				Result := field_table.has_general (table.key_for_iteration)
+				table.forth
 			end
 		end
 

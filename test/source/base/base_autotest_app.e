@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-21 10:32:21 GMT (Wednesday 21st August 2024)"
-	revision: "190"
+	date: "2024-08-24 17:00:20 GMT (Saturday 24th August 2024)"
+	revision: "191"
 
 class
 	BASE_AUTOTEST_APP
@@ -60,6 +60,13 @@ create
 	make
 
 feature {NONE} -- Compiled classes
+
+	app_manage: TUPLE [
+		EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER
+	]
+		do
+			create Result
+		end
 
 	data_structure: TUPLE [
 		EL_ARRAYED_COMPACT_INTERVAL_LIST,
@@ -152,13 +159,14 @@ feature {NONE} -- Compiled classes
 		end
 
 	string_32: TUPLE [
-		EL_STYLED_STRING_32_LIST,
 		EL_IMMUTABLE_STRING_32_TABLE,
 		EL_STRING_32_BUFFER_ROUTINES,
 		EL_STRING_32_EDITOR,
 		EL_STRING_32_TABLE [ANY],
 		EL_STRING_32_SPLIT_INTERVALS,
-		EL_SUBSTRING_32
+		EL_STYLED_STRING_32_LIST,
+		EL_SUBSTRING_32,
+		EL_URI_QUERY_STRING_32_HASH_TABLE
 	]
 		do
 			create Result
@@ -171,6 +179,14 @@ feature {NONE} -- Compiled classes
 		EL_STRING_8_EDITOR,
 		EL_STRING_8_SPLIT_INTERVALS,
 		EL_URI_QUERY_STRING_8_HASH_TABLE
+	]
+		do
+			create Result
+		end
+
+	string_structures: TUPLE [
+		EL_STRING_GENERAL_TABLE [ANY],
+		EL_TABLE_INTERVAL_MAP_LIST
 	]
 		do
 			create Result
@@ -190,19 +206,16 @@ feature {NONE} -- Compiled classes
 		EL_CASE_COMPARISON,
 
 		EL_ITERABLE_SPLIT_FACTORY_ROUTINES,
-		EL_LINKED_STRING_LIST [STRING_GENERAL],
 
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
-		EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER,
-		EL_MODULE_UTF_8,
-		EL_STRING_GENERAL_TABLE [ANY],
-		EL_URI_QUERY_STRING_32_HASH_TABLE
+		EL_MODULE_UTF_8
 	]
 		do
 			create Result
 		end
 
 	zstring: TUPLE [
+		EL_LINKED_STRING_LIST [STRING_GENERAL],
 		EL_STYLED_ZSTRING_LIST,
 		EL_ZSUBSTRING
 	]
