@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:39:22 GMT (Saturday 24th August 2024)"
-	revision: "8"
+	date: "2024-08-25 11:52:06 GMT (Sunday 25th August 2024)"
+	revision: "9"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -43,8 +43,6 @@ inherit
 			{NONE} all
 		end
 
-	STRING_HANDLER undefine is_equal end
-
 feature {NONE} -- Initialization
 
 	make (table_text: READABLE_STRING_GENERAL)
@@ -63,12 +61,12 @@ feature {NONE} -- Initialization
 			if attached utf_8_table as table then
 				from table.start until table.after loop
 					if field_table.has_immutable_key (table.key_for_iteration)
-						and then attached field_table.found_item as field
-						and then attached {EL_SUBSTRING [STRING_GENERAL]} field.value (Current) as field_value
+						and then attached {EL_REFLECTED_SUBSTRING} field_table.found_item as substring_field
+						and then attached substring_field.value (Current) as substring
 					then
 						compact_interval := table.interval_item_for_iteration
 						start_index := ir.to_lower (compact_interval); end_index := ir.to_upper (compact_interval)
-						field_value.set_string (table.manifest, start_index, end_index)
+						substring.set_string (table.manifest, start_index, end_index)
 					end
 					table.forth
 				end
@@ -84,7 +82,7 @@ feature {NONE} -- Field tests
 
 	is_substring_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := field.conforms_to (EL_SUB_type)
+			Result := field.conforms_to (Class_id.EL_SUBSTRING__STRING_GENERAL)
 		end
 
 feature {NONE} -- Deferred
@@ -93,10 +91,4 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-feature {NONE} -- Constants
-
-	EL_SUB_type: INTEGER
-		once
-			Result := ({EL_SUBSTRING [STRING_GENERAL]}).type_id
-		end
 end

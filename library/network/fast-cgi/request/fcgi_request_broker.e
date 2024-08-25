@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 17:12:27 GMT (Monday 27th November 2023)"
-	revision: "15"
+	date: "2024-08-25 16:08:41 GMT (Sunday 25th August 2024)"
+	revision: "16"
 
 class
 	FCGI_REQUEST_BROKER
@@ -64,7 +64,7 @@ feature -- Access
 
 	request_id: NATURAL_16
 
-	request_method: ZSTRING
+	request_method: NATURAL_8
 		do
 			Result := parameters.request_method
 		end
@@ -221,7 +221,7 @@ feature {FCGI_RECORD} -- Record events
 
 	on_parameter (record: FCGI_PARAMETER_RECORD)
 		do
-			parameters.set_field (record.name, record.value.twin)
+			parameters.set_field_from_utf_8 (record.name, record.value_utf_8)
 		end
 
 	on_parameter_last

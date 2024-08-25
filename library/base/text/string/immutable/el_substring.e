@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:15:16 GMT (Saturday 24th August 2024)"
-	revision: "6"
+	date: "2024-08-25 17:31:46 GMT (Sunday 25th August 2024)"
+	revision: "7"
 
 deferred class
 	EL_SUBSTRING [S -> STRING_GENERAL create make end]
@@ -51,10 +51,15 @@ feature -- Element change
 
 	make, set_string (a_utf_8_manifest: IMMUTABLE_STRING_8; a_start_index, a_end_index: INTEGER)
 		require
-			valid_start_index: a_utf_8_manifest.valid_index (a_start_index)
+			valid_start_index: a_utf_8_manifest.count > 0 implies a_utf_8_manifest.valid_index (a_start_index)
 			valid_end_index: a_end_index >= a_start_index implies a_utf_8_manifest.valid_index (a_end_index)
 		do
 			utf_8_manifest := a_utf_8_manifest; start_index := a_start_index; end_index := a_end_index
+		end
+
+	wipe_out
+		do
+			make_empty
 		end
 
 feature -- Access

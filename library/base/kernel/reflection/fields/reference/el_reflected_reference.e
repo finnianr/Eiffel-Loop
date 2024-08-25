@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 16:02:54 GMT (Monday 1st April 2024)"
-	revision: "45"
+	date: "2024-08-25 12:54:22 GMT (Sunday 25th August 2024)"
+	revision: "46"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -149,6 +149,11 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
+		end
+
+	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
+		do
+			set_from_string (a_object, create {ZSTRING}.make_from_utf_8 (utf_8))
 		end
 
 	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)

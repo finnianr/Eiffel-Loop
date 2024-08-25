@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "119"
+	date: "2024-08-25 11:06:31 GMT (Sunday 25th August 2024)"
+	revision: "120"
 
 class
 	EL_ZSTRING
@@ -154,8 +154,10 @@ inherit
 		end
 
 create
-	make, make_empty, make_from_string, make_from_general, make_from_zcode_area,
-	make_shared, make_from_other, make_filled, make_from_file, make_from_substring,
+	make, make_empty, make_from_zcode_area, make_shared, make_filled, make_from_file,
+
+-- other strings
+	make_from_other, make_from_string, make_from_string_8, make_from_general, make_from_substring,
 
 --	Encodings
 	make_from_utf_8, make_from_utf_16_le, make_from_latin_1_c
@@ -463,7 +465,7 @@ feature {NONE} -- Implementation
 
 	append_string_32 (str: READABLE_STRING_32)
 		do
-			append_string_general_for_type (str, Class_id.string_storage_type (str))
+			append_string_general_for_type (str, string_storage_type (str))
 		end
 
 	append_string_8 (str: READABLE_STRING_8)

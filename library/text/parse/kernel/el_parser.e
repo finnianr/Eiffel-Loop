@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "14"
+	date: "2024-08-25 7:47:33 GMT (Sunday 25th August 2024)"
+	revision: "15"
 
 deferred class
 	EL_PARSER
@@ -98,7 +98,7 @@ feature -- Element change
 		local
 			s_8: EL_STRING_8_ROUTINES; s_32: EL_STRING_32_ROUTINES; z: EL_ZSTRING_ROUTINES
 		do
-			inspect Class_id.string_storage_type (a_source_text)
+			inspect string_storage_type (a_source_text)
 				when '1' then
 					if a_source_text.is_immutable and then attached {IMMUTABLE_STRING_8} a_source_text as str_8 then
 						set_source_text (str_8.shared_substring (start_index, end_index))

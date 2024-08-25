@@ -10,21 +10,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 13:48:30 GMT (Saturday 24th August 2024)"
-	revision: "33"
+	date: "2024-08-25 18:52:16 GMT (Sunday 25th August 2024)"
+	revision: "34"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
 
 inherit
-	STRING_HANDLER
-		undefine
-			is_equal
-		end
+	EL_STRING_HANDLER
 
 	EL_REFLECTION_HANDLER
 
-	EL_SHARED_CLASS_ID; EL_SHARED_IMMUTABLE_8_MANAGER
+	EL_SHARED_IMMUTABLE_8_MANAGER
 
 feature {NONE} -- Initialization
 
@@ -50,6 +47,12 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			set_from_table (value_table)
+		end
+
+	make_from_utf_8_table (value_table: EL_IMMUTABLE_UTF_8_TABLE)
+		do
+			make_default
+			set_from_utf_8_table (value_table)
 		end
 
 	make_from_zkey_table (value_table: HASH_TABLE [like new_string, ZSTRING])
@@ -107,7 +110,7 @@ feature -- Element change
 
 	set_field (a_name: READABLE_STRING_GENERAL; value: like new_string)
 		do
-			inspect Class_id.string_storage_type (a_name)
+			inspect string_storage_type (a_name)
 				when '1' then
 					if attached {READABLE_STRING_8} a_name as name then
 						set_table_field (field_table, name, value)
@@ -119,6 +122,11 @@ feature -- Element change
 			else
 				set_table_field (field_table, Name_buffer.copied_general (a_name), value)
 			end
+		end
+
+	set_field_from_utf_8 (name, utf_8_value: READABLE_STRING_8)
+		do
+			set_table_field_utf_8 (field_table, name, utf_8_value)
 		end
 
 	set_field_from_line (line: like new_string; delimiter: CHARACTER_32)
@@ -138,7 +146,7 @@ feature -- Element change
 		do
 			if attached name_value_pair as pair then
 				pair.set_from_string (nvp_line, delimiter)
-				if is_ascii_identifier (pair.name) then
+				if pair.is_eiffel_name then
 					set_field (pair.name, pair.value)
 				end
 			end
@@ -188,11 +196,29 @@ feature -- Element change
 			end
 		end
 
+	set_from_parsed (text: READABLE_STRING_GENERAL)
+		-- set from parsed `text' formatted as indented
+		do
+			set_from_utf_8_table (create {EL_IMMUTABLE_UTF_8_TABLE}.make_field_map (text))
+		end
+
 	set_from_table (value_table: like to_table)
 		do
 			if attached field_table as table then
 				from value_table.start until value_table.after loop
 					set_table_field (table, value_table.key_for_iteration, value_table.item_for_iteration)
+					value_table.forth
+				end
+			end
+		end
+
+	set_from_utf_8_table (value_table: EL_IMMUTABLE_UTF_8_TABLE)
+		do
+			if attached field_table as table then
+				from value_table.start until value_table.after loop
+					if attached value_table.unidented_utf_8_item_for_iteration as utf_8_value then
+						set_table_field_utf_8 (table, value_table.key_for_iteration, utf_8_value)
+					end
 					value_table.forth
 				end
 			end
@@ -234,7 +260,11 @@ feature -- Contract Support
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Deferred
+
+	cursor (s: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
+		deferred
+		end
 
 	current_reflective: EL_REFLECTIVE
 		deferred
@@ -245,10 +275,6 @@ feature {NONE} -- Implementation
 		end
 
 	field_table: EL_FIELD_TABLE
-		deferred
-		end
-
-	is_ascii_identifier (name: like new_string): BOOLEAN
 		deferred
 		end
 
@@ -276,7 +302,7 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 				if table.has_imported_key (left_part)
 					and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
 				then
-					right_part := Immutable_8.shared_substring (name, pos_dot + 1, name.count)
+					right_part := Immutable_8.shared_substring_end (name, pos_dot + 1)
 					set_inner_table_field (inner_object.field_table, right_part, inner_object, value)
 				end
 
@@ -300,6 +326,13 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 				set_inner_table_field (table, name, current_reflective, value)
 			elseif table.has_imported_key (name) then
 				set_reflected_field (table.found_item, current_reflective, value)
+			end
+		end
+
+	set_table_field_utf_8 (table: like field_table; name, utf_8_value: READABLE_STRING_8)
+		do
+			if table.has_imported_key (name) then
+				table.found_item.set_from_utf_8 (current_reflective, utf_8_value)
 			end
 		end
 

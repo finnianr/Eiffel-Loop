@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 14:41:06 GMT (Saturday 27th July 2024)"
-	revision: "10"
+	date: "2024-08-25 8:19:44 GMT (Sunday 25th August 2024)"
+	revision: "11"
 
 class
 	EL_TRANSLATION_ITEM
@@ -20,8 +20,6 @@ inherit
 			foreign_naming as eiffel_naming,
 			read_version as read_default_version
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_default

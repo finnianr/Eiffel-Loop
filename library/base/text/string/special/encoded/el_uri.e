@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-13 11:59:52 GMT (Wednesday 13th March 2024)"
-	revision: "46"
+	date: "2024-08-25 8:20:56 GMT (Sunday 25th August 2024)"
+	revision: "47"
 
 class
 	EL_URI
@@ -41,7 +41,7 @@ inherit
 		export
 			{STRING_HANDLER} Colon_slash_x2
 		undefine
-			copy, is_equal, out, String_8_searcher
+			String_8_searcher
 		end
 
 create

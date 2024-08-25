@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 7:49:00 GMT (Thursday 25th July 2024)"
-	revision: "24"
+	date: "2024-08-25 8:10:11 GMT (Sunday 25th August 2024)"
+	revision: "25"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT

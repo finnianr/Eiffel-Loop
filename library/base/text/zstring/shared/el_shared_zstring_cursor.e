@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:04:19 GMT (Tuesday 20th August 2024)"
-	revision: "3"
+	date: "2024-08-25 10:31:39 GMT (Sunday 25th August 2024)"
+	revision: "4"
 
 deferred class
 	EL_SHARED_ZSTRING_CURSOR
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	cursor (s: EL_READABLE_ZSTRING): EL_ZSTRING_ITERATION_CURSOR
+	cursor_z (s: EL_READABLE_ZSTRING): EL_ZSTRING_ITERATION_CURSOR
 		do
 			Result := String_iteration_cursor
 			Result.make (s)

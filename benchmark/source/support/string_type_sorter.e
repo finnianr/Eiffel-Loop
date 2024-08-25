@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 10:09:50 GMT (Monday 15th April 2024)"
-	revision: "3"
+	date: "2024-08-25 8:44:53 GMT (Sunday 25th August 2024)"
+	revision: "4"
 
 class
 	STRING_TYPE_SORTER
@@ -22,7 +22,10 @@ class
 inherit
 	ANY
 
-	EL_SHARED_CLASS_ID
+	EL_STRING_HANDLER
+		rename
+			string_storage_type as new_string_storage_type
+		end
 
 feature -- Access
 
@@ -31,7 +34,7 @@ feature -- Access
 		do
 			readable_8 := Void; readable_32 := Void; readable_z := Void
 
-			string_storage_type := Class_id.string_storage_type (general)
+			string_storage_type := new_string_storage_type (general)
 			inspect string_storage_type
 				when '1' then
 					if attached {READABLE_STRING_8} general as str_8 then

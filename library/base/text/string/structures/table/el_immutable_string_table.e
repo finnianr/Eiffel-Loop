@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 12:57:27 GMT (Saturday 24th August 2024)"
-	revision: "28"
+	date: "2024-08-25 18:48:37 GMT (Sunday 25th August 2024)"
+	revision: "29"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -418,7 +418,7 @@ feature -- Contract Support
 		do
 			inspect format
 				when Fm_indented_eiffel then
-					Result := string.is_eiffel_lower (name)
+					Result := string.is_eiffel (name)
 
 				when Fm_indented_code then
 					Result := Convert_string.is_convertible_to_type (name, Class_id.INTEGER_64)

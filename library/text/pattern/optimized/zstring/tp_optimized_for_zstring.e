@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-08-25 8:40:27 GMT (Sunday 25th August 2024)"
+	revision: "7"
 
 deferred class
 	TP_OPTIMIZED_FOR_ZSTRING
@@ -18,10 +18,6 @@ inherit
 	TP_SHARED_OPTIMIZED_FACTORY
 
 	EL_SHARED_ZSTRING_CODEC
-
-	EL_ZSTRING_CONSTANTS
-
-	STRING_HANDLER
 
 	EL_ZCODE_CONVERSION
 		export

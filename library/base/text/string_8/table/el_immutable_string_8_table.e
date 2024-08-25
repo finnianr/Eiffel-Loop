@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:09:24 GMT (Tuesday 20th August 2024)"
-	revision: "15"
+	date: "2024-08-25 18:53:25 GMT (Sunday 25th August 2024)"
+	revision: "16"
 
 class
 	EL_IMMUTABLE_STRING_8_TABLE
@@ -38,7 +38,17 @@ feature -- Status query
 
 	has_key_code (a_code: INTEGER_64): BOOLEAN
 		do
-			Result := has_key_8 (Buffer.integer_string (a_code))
+			Result := has_key_8 (Key_buffer.integer_string (a_code))
+		end
+
+feature -- Access
+
+	unidented_item_for_iteration: STRING_8
+		local
+			interval: INTEGER_64
+		do
+			interval := interval_item_for_iteration
+			Result := String_8.new_from_immutable_8 (manifest, to_lower (interval), to_upper (interval), True, False)
 		end
 
 feature {NONE} -- Implementation
@@ -56,13 +66,6 @@ feature {NONE} -- Implementation
 	new_substring (str: IMMUTABLE_STRING_8; start_index, end_index: INTEGER): IMMUTABLE_STRING_8
 		do
 			Result := str.shared_substring (start_index, end_index)
-		end
-
-feature {NONE} -- Constants
-
-	Buffer: EL_STRING_8_BUFFER
-		once
-			create Result
 		end
 
 end

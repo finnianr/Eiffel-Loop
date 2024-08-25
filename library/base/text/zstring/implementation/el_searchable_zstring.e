@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "61"
+	date: "2024-08-25 7:50:13 GMT (Sunday 25th August 2024)"
+	revision: "62"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -80,7 +80,7 @@ feature -- Index position
 		local
 			r: EL_READABLE_STRING_GENERAL_ROUTINES; return_default: BOOLEAN; type_code: CHARACTER
 		do
-			type_code := Class_id.string_storage_type (other)
+			type_code := string_storage_type (other)
 			inspect other.count
 				when 1 then
 				-- character search
@@ -123,7 +123,7 @@ feature -- Index position
 		local
 			r: EL_READABLE_STRING_GENERAL_ROUTINES; return_default: BOOLEAN; type_code: CHARACTER
 		do
-			type_code := Class_id.string_storage_type (other)
+			type_code := string_storage_type (other)
 			inspect type_code
 				when '1' then
 					if attached compatible_string_8 (other) as str_8 then
@@ -304,7 +304,7 @@ feature {EL_SHARED_ZSTRING_CODEC, EL_SEARCHABLE_ZSTRING} -- Implementation
 		local
 			r: EL_READABLE_STRING_GENERAL_ROUTINES; type_code: CHARACTER
 		do
-			type_code := Class_id.string_storage_type (pattern)
+			type_code := string_storage_type (pattern)
 			inspect type_code
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} pattern as z_pattern then
@@ -404,7 +404,7 @@ feature {NONE} -- Implementation
 		local
 			delimiter_count: INTEGER; type_code: CHARACTER
 		do
-			type_code := Class_id.string_storage_type (delimiter)
+			type_code := string_storage_type (delimiter)
 			inspect type_code
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} delimiter as z_str then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-08-25 8:32:20 GMT (Sunday 25th August 2024)"
+	revision: "10"
 
 class
 	AIA_CREDENTIAL
@@ -18,8 +18,6 @@ inherit
 			foreign_naming as eiffel_naming,
 			read_version as read_default_version
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_default

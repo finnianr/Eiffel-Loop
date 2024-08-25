@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-27 10:07:24 GMT (Saturday 27th April 2024)"
-	revision: "9"
+	date: "2024-08-25 8:22:05 GMT (Sunday 25th August 2024)"
+	revision: "10"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -17,13 +17,15 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
+	EL_STRING_HANDLER
+
 	EL_FILE_OPEN_ROUTINES
 
 	EL_MODULE_BASE_64; EL_MODULE_ENCRYPTION; EL_MODULE_LIO
 
 	EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
 
-	STRING_HANDLER; EL_ZSTRING_CONSTANTS; EL_CHARACTER_8_CONSTANTS
+	EL_CHARACTER_8_CONSTANTS
 
 	EL_SHARED_PASSPHRASE_TEXTS
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:19 GMT (Saturday 22nd June 2024)"
-	revision: "17"
+	date: "2024-08-25 10:33:29 GMT (Sunday 25th August 2024)"
+	revision: "18"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -18,8 +18,6 @@ inherit
 	EL_STRING_GENERAL_ROUTINES
 
 	EL_EIFFEL_KEYWORDS; EL_EIFFEL_CONSTANTS
-
-	STRING_HANDLER
 
 	EL_SHARED_ZSTRING_CURSOR
 
@@ -58,7 +56,7 @@ feature -- Conversion
 			create Result.make (2)
 			index := text.index_of ('[', 1)
 			if index > 0 then
-				upper:= cursor (text).matching_bracket_index (index) - 1
+				upper:= cursor_z (text).matching_bracket_index (index) - 1
 				from i := index + 1 until i > upper loop
 					c := text.item_8 (i)
 					if Class_name_character_set.has (c) then

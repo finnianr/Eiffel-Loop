@@ -20,16 +20,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 7:11:37 GMT (Saturday 24th August 2024)"
-	revision: "9"
+	date: "2024-08-25 8:17:20 GMT (Sunday 25th August 2024)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
 
 inherit
 	EL_REFLECTIVE_I
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Access
 

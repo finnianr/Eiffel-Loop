@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 16:47:28 GMT (Saturday 24th August 2024)"
-	revision: "16"
+	date: "2024-08-25 18:51:08 GMT (Sunday 25th August 2024)"
+	revision: "17"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -27,7 +27,8 @@ inherit
 			make_field_map as make_field_map_encoded,
 			make_assignments as make_assignments_encoded,
 			found_item as found_utf_8_item,
-			item_for_iteration as utf_8_item_for_iteration
+			item_for_iteration as utf_8_item_for_iteration,
+			unidented_item_for_iteration as unidented_utf_8_item_for_iteration
 		redefine
 			copy_attributes, new_cursor, has_key_8, has_8, has_general, has_key_general
 		end
@@ -300,6 +301,7 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 			start_index := to_lower (interval); end_index := to_upper (interval)
 			inspect format
 				when Fm_indented, Fm_indented_eiffel then
+				-- multiple lines
 					Result := s.new_from_immutable_8 (manifest, start_index, end_index, True, is_utf_8_encoded)
 			else
 				create Result.make (end_index - start_index + 1)

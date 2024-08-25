@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-11 10:02:24 GMT (Thursday 11th April 2024)"
-	revision: "32"
+	date: "2024-08-25 7:21:00 GMT (Sunday 25th August 2024)"
+	revision: "33"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
 
 inherit
 	EL_SHARED_STRING_8_CURSOR
-
-	STRING_HANDLER
 
 feature {NONE} -- Initialization
 

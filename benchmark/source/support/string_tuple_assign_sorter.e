@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 10:22:32 GMT (Monday 15th April 2024)"
-	revision: "3"
+	date: "2024-08-25 8:43:58 GMT (Sunday 25th August 2024)"
+	revision: "4"
 
 frozen expanded class
 	STRING_TUPLE_ASSIGN_SORTER
@@ -18,8 +18,7 @@ frozen expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_SHARED_CLASS_ID
-
+	EL_STRING_HANDLER
 
 feature -- Access
 
@@ -31,7 +30,7 @@ feature -- Access
 			Result := Once_tuple
 			Result.readable_8 := Void; Result.readable_32 := Void; Result.readable_Z := Void
 
-			Result.storage_type := Class_id.string_storage_type (general)
+			Result.storage_type := string_storage_type (general)
 			inspect Result.storage_type
 				when '1' then
 					if attached {READABLE_STRING_8} general as str_8 then

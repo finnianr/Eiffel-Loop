@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:12 GMT (Monday 15th April 2024)"
-	revision: "11"
+	date: "2024-08-25 7:47:19 GMT (Sunday 25th August 2024)"
+	revision: "12"
 
 deferred class
 	TP_SHARED_OPTIMIZED_FACTORY
@@ -15,14 +15,14 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-	EL_SHARED_CLASS_ID
+	EL_STRING_HANDLER
 
 feature {NONE} -- Implementation
 
 	optimal_core (text: READABLE_STRING_GENERAL): TP_OPTIMIZED_FACTORY
 		-- optimal `core' pattern factory for `text' type
 		do
-			inspect Class_id.string_storage_type (text)
+			inspect string_storage_type (text)
 				when '1' then
 					Result := Factory_readable_string_8
 				when '4' then

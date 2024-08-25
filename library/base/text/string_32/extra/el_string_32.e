@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:44:51 GMT (Tuesday 20th August 2024)"
-	revision: "12"
+	date: "2024-08-25 18:15:08 GMT (Sunday 25th August 2024)"
+	revision: "13"
 
 class
 	EL_STRING_32
@@ -53,7 +53,7 @@ feature -- Element change
 			utf_8: EL_UTF_8_CONVERTER
 		do
 			wipe_out
-			utf_8.string_8_into_string_32 (utf_8_string, Current)
+			utf_8.string_8_into_string_general (utf_8_string, Current)
 		end
 
 feature -- Comparison

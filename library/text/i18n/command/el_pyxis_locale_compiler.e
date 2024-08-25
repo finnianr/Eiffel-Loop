@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 8:34:51 GMT (Monday 29th July 2024)"
-	revision: "1"
+	date: "2024-08-25 8:17:00 GMT (Sunday 25th August 2024)"
+	revision: "2"
 
 class
 	EL_PYXIS_LOCALE_COMPILER
@@ -43,7 +43,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	EL_ZSTRING_CONSTANTS; EL_LOCALE_CONSTANTS
+	EL_LOCALE_CONSTANTS
 
 	EL_SHARED_KEY_LANGUAGE
 

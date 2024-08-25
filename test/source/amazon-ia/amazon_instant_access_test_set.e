@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 9:28:12 GMT (Saturday 24th August 2024)"
-	revision: "41"
+	date: "2024-08-25 19:19:04 GMT (Sunday 25th August 2024)"
+	revision: "42"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -48,15 +48,15 @@ feature {NONE} -- Initialization
 				["get_user_id_health_check",	agent test_get_user_id_health_check],
 
 			-- Authorization
-				["credential_storage", 		agent test_credential_storage],
+				["credential_storage",			agent test_credential_storage],
 				["credential_id_equality", 	agent test_credential_id_equality],
 				["header_selection", 			agent test_header_selection],
 				["parse_header_1", 				agent test_parse_header_1],
-				["sign_and_verify", 			agent test_sign_and_verify],
+				["sign_and_verify", 				agent test_sign_and_verify],
 
 			-- Purchase
 				["purchase_fullfill", 			agent test_purchase_fullfill],
-				["purchase_revoke", 			agent test_purchase_revoke],
+				["purchase_revoke",				agent test_purchase_revoke],
 				["response_code", 				agent test_response_code]
 			>>)
 		end
@@ -112,12 +112,6 @@ feature -- Account Linking
 
 feature -- Authorization
 
-	test_credential_storage
-		do
-			create credential_list.make (credentials_file_path, new_encrypter)
-			assert ("same credential", Credential ~ Credential_list.first)
-		end
-
 	test_credential_id_equality
 		local
 			id_1, id_2: AIA_CREDENTIAL_ID
@@ -127,21 +121,22 @@ feature -- Authorization
 			assert ("equal", id_1 ~ id_2)
 		end
 
+	test_credential_storage
+		do
+			create credential_list.make (credentials_file_path, new_encrypter)
+			assert ("same credential", Credential ~ Credential_list.first)
+		end
+
 	test_header_selection
+		-- AMAZON_INSTANT_ACCESS_TEST_SET.test_header_selection
 		note
 			testing: "covers/{FCGI_HTTP_HEADERS}.selected"
 		local
-			http_table: EL_ZSTRING_TABLE; http_name: STRING; request: FCGI_REQUEST_PARAMETERS
-			headers: HASH_TABLE [ZSTRING, STRING]; s: EL_STRING_8_ROUTINES
+			http_table: EL_IMMUTABLE_UTF_8_TABLE; request: FCGI_REQUEST_PARAMETERS
+			headers: HASH_TABLE [ZSTRING, STRING];
 		do
-			create http_table.make_size (5)
-			from Signed_headers.start until Signed_headers.after loop
-				http_name := "HTTP_" + Signed_headers.item.as_upper
-				s.replace_character (http_name, '-', '_')
-				http_table.extend (Signed_headers.index.out, http_name)
-				Signed_headers.forth
-			end
-			create request.make_from_table (http_table)
+			create http_table.make_field_map (signed_headers_manifest)
+			create request.make_from_utf_8_table (http_table)
 			headers := request.headers.selected (Signed_headers, Translater)
 			assert ("same count", headers.count = Signed_headers.count)
 			assert ("same names", across headers as h all Signed_headers.has (h.key) end)
@@ -343,6 +338,29 @@ feature {NONE} -- Implementation
 			signer.sign
 		end
 
+	signed_headers_manifest: STRING
+		-- content_type:
+		--		1
+		-- x_amz_date:
+		-- 	2
+		-- ..
+		local
+			header, http_name: STRING; s: EL_STRING_8_ROUTINES
+		do
+			create Result.make (Signed_headers.character_count * 2)
+			across Signed_headers as list loop
+				header := list.item
+				if Result.count > 0 then
+					Result.append_character ('%N')
+				end
+				http_name := "HTTP_" + header.as_upper
+				s.replace_character (http_name, '-', '_')
+				Result.append (http_name)
+				Result.append (":%N%T")
+				Result.append_integer (list.cursor_index)
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	credential_list: AIA_STORABLE_CREDENTIAL_LIST
@@ -361,7 +379,7 @@ feature {NONE} -- Constants
 
 	Signed_headers: EL_STRING_8_LIST
 		once
-			create Result.make_split ("Content-Type;X-Amz-Date;X-Amz-Dta-Version;X-AMZ-REQUEST-ID", ';')
+			Result := "Content-Type, X-Amz-Date, X-Amz-Dta-Version, X-AMZ-REQUEST-ID"
 		end
 
 	Translater: EL_KEBAB_CASE_TRANSLATER

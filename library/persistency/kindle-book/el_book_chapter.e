@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:27:32 GMT (Monday 27th November 2023)"
-	revision: "20"
+	date: "2024-08-25 8:33:23 GMT (Sunday 25th August 2024)"
+	revision: "21"
 
 class
 	EL_BOOK_CHAPTER
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_DATE_TIME; EL_MODULE_XML
 
-	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make

@@ -7,13 +7,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-21 8:19:35 GMT (Wednesday 21st August 2024)"
-	revision: "22"
+	date: "2024-08-25 8:01:24 GMT (Sunday 25th August 2024)"
+	revision: "23"
 
 deferred class
 	EL_WRITABLE
 
 inherit
+	EL_STRING_HANDLER
+
 	EL_SHARED_CLASS_ID
 
 feature -- Character
@@ -98,7 +100,7 @@ feature -- String
 
 	write_string_general (a_string: READABLE_STRING_GENERAL)
 		do
-			inspect Class_id.string_storage_type (a_string)
+			inspect string_storage_type (a_string)
 				when '1' then
 					if attached {READABLE_STRING_8} a_string as str_8 then
 						write_string_8 (str_8)

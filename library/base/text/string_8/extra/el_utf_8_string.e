@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:05:59 GMT (Tuesday 20th August 2024)"
-	revision: "21"
+	date: "2024-08-25 18:17:20 GMT (Sunday 25th August 2024)"
+	revision: "22"
 
 class
 	EL_UTF_8_STRING
@@ -194,14 +194,14 @@ feature {NONE} -- Implementation
 		local
 			utf_8: EL_UTF_8_CONVERTER
 		do
-			utf_8.substring_8_into_string_general (str_8, 1, str_8.count, str_32)
+			utf_8.string_8_into_string_general (str_8, str_32)
 		end
 
 	append_to_string_8 (target: STRING; str_8: READABLE_STRING_8)
 		local
 			utf_8: EL_UTF_8_CONVERTER
 		do
-			utf_8.substring_8_into_string_general (str_8, 1, str_8.count, target)
+			utf_8.string_8_into_string_general (str_8, target)
 		end
 
 	space_adjusted (adjust_whitespace: BOOLEAN): READABLE_STRING_8

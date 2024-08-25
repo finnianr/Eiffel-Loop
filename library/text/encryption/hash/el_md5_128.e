@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-30 17:38:23 GMT (Friday 30th December 2022)"
-	revision: "16"
+	date: "2024-08-25 7:37:51 GMT (Sunday 25th August 2024)"
+	revision: "17"
 
 class
 	EL_MD5_128
@@ -26,8 +26,6 @@ inherit
 	EL_DATA_SINKABLE
 		rename
 			sink_natural_32 as sink_natural_32_be
-		undefine
-			is_equal
 		end
 
 	EL_MODULE_BASE_64

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "11"
+	date: "2024-08-25 8:36:12 GMT (Sunday 25th August 2024)"
+	revision: "12"
 
 class
 	ZSTRING_EDITOR_TEST_SET
@@ -15,9 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_ZSTRING_CONSTANTS
-
-	STRING_HANDLER undefine default_create end
+	EL_STRING_HANDLER
 
 create
 	make
@@ -28,8 +26,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["for_each_balanced", agent test_for_each_balanced],
-				["for_each", agent test_for_each]
+				["for_each",			 agent test_for_each],
+				["for_each_balanced", agent test_for_each_balanced]
 			>>)
 		end
 

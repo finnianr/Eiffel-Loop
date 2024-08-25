@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 17:15:39 GMT (Friday 12th April 2024)"
-	revision: "22"
+	date: "2024-08-25 8:34:48 GMT (Sunday 25th August 2024)"
+	revision: "23"
 
 class
 	EL_CURRENCY
@@ -19,8 +19,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_DEFERRED_LOCALE
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "5"
+	date: "2024-08-25 8:10:34 GMT (Sunday 25th August 2024)"
+	revision: "6"
 
 deferred class
 	EL_FILE_PARSER
@@ -29,8 +29,6 @@ inherit
 		redefine
 			make_default
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 

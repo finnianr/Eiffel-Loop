@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:26:55 GMT (Saturday 24th August 2024)"
-	revision: "13"
+	date: "2024-08-25 7:53:23 GMT (Sunday 25th August 2024)"
+	revision: "14"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -33,6 +33,8 @@ inherit
 			copy, is_equal
 		end
 
+	EL_STRING_HANDLER
+
 	EL_MODULE_ITERABLE
 
 	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_UTF_8_SEQUENCE
@@ -53,7 +55,7 @@ feature {NONE} -- Initialization
 			create utf_8_list.make (Iterable.count (general_list))
 			across general_list as list loop
 				if attached list.item as general then
-					inspect Class_id.string_storage_type (general)
+					inspect string_storage_type (general)
 						when '1' then
 							if attached {STRING_8} general as str_8 then
 								if cursor_8 (str_8).all_ascii then

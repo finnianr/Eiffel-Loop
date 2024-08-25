@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 11:16:48 GMT (Tuesday 20th August 2024)"
-	revision: "36"
+	date: "2024-08-25 11:09:09 GMT (Sunday 25th August 2024)"
+	revision: "37"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -31,8 +31,6 @@ inherit
 	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	EL_SHARED_ZSTRING_CODEC
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Factory
 
@@ -242,7 +240,7 @@ feature -- Adjust
 
 	pruned (str: ZSTRING; c: CHARACTER_32): ZSTRING
 		do
-			create Result.make_from_string (str)
+			create Result.make_from_other (str)
 			Result.prune_all (c)
 		end
 

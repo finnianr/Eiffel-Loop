@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:48:49 GMT (Wednesday 8th November 2023)"
-	revision: "13"
+	date: "2024-08-25 8:37:30 GMT (Sunday 25th August 2024)"
+	revision: "14"
 
 deferred class
 	XML_ELEMENT
 
 inherit
-	ANY
-
-	EL_MODULE_XML
-
-	EL_ZSTRING_CONSTANTS
+	ANY; EL_MODULE_XML
 
 feature -- Access
 

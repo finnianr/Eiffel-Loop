@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "21"
+	date: "2024-08-25 8:16:14 GMT (Sunday 25th August 2024)"
+	revision: "22"
 
 class
 	EL_REFLECTED_PATH
@@ -24,8 +24,6 @@ inherit
 		undefine
 			is_equal
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make

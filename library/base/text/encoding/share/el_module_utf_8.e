@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:19:05 GMT (Tuesday 20th August 2024)"
-	revision: "5"
+	date: "2024-08-25 18:07:47 GMT (Sunday 25th August 2024)"
+	revision: "6"
 
 deferred class
 	EL_MODULE_UTF_8
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Utf_8: EL_UTF_CONVERTER_IMP
+	Utf_8: EL_UTF_8_CONVERTER_IMP
 		once
 			create Result
 		end

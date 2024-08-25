@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-18 10:02:58 GMT (Tuesday 18th June 2024)"
-	revision: "26"
+	date: "2024-08-25 9:00:47 GMT (Sunday 25th August 2024)"
+	revision: "27"
 
 class
 	EL_HTTP_HEADERS
@@ -171,7 +171,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	set_table_field (table: like field_table; name: STRING; value: STRING)
+	set_table_field (table: like field_table; name: READABLE_STRING_8; value: STRING)
 		-- set field with name
 		do
 			Precursor (table, name, value)

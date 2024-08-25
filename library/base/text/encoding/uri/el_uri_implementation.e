@@ -6,22 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-08-25 8:20:34 GMT (Sunday 25th August 2024)"
+	revision: "10"
 
 deferred class
 	EL_URI_IMPLEMENTATION
 
 inherit
-	EL_PROTOCOL_CONSTANTS
+	EL_STRING_HANDLER
 
-	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_PROTOCOL_CONSTANTS; EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_STRING_8_BUFFER_SCOPES
 
 	EL_SHARED_STRING_8_CURSOR
-
-	STRING_HANDLER
 
 feature {NONE} -- Part index
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-30 12:16:23 GMT (Thursday 30th March 2023)"
-	revision: "18"
+	date: "2024-08-25 17:35:37 GMT (Sunday 25th August 2024)"
+	revision: "19"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 				headers := request.headers.selected (headers_list, Translater)
 			end
 			make_sized (headers.count + 6)
-			extend (request.request_method)
+			extend (request.request_method_name)
 			extend (request.full_request_url)
 			extend (Empty_string_8) -- the Java SDK does not add the query string to the canonical form
 

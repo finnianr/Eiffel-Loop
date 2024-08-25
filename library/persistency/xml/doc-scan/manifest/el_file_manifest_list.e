@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:13:26 GMT (Monday 27th November 2023)"
-	revision: "22"
+	date: "2024-08-25 8:11:49 GMT (Sunday 25th August 2024)"
+	revision: "23"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -33,7 +33,7 @@ inherit
 			Append as Append_mode
 		end
 
-	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 

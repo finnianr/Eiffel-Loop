@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-02 12:21:26 GMT (Friday 2nd February 2024)"
-	revision: "28"
+	date: "2024-08-25 11:26:02 GMT (Sunday 25th August 2024)"
+	revision: "29"
 
 deferred class
 	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
@@ -22,7 +22,7 @@ inherit
 			append_to_string, group_type, make, new_factory, to_string, set_from_string_general
 		end
 
-	STRING_HANDLER undefine is_equal end
+	EL_STRING_HANDLER
 
 feature {EL_CLASS_META_DATA} -- Initialization
 

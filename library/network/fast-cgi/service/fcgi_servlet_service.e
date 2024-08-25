@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 14:39:57 GMT (Saturday 13th July 2024)"
-	revision: "33"
+	date: "2024-08-25 17:11:09 GMT (Sunday 25th August 2024)"
+	revision: "34"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -324,7 +324,7 @@ note
 			/servlet/two
 			/servlet/three
 
-		The service path is "/servet" and the relative paths are "one", "two" and "three"
+		The service path is "/servlet" and the relative paths are "one", "two" and "three"
 
 		The servlet service is configured by a file in Pyxis format.
 

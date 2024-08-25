@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "59"
+	date: "2024-08-25 7:48:00 GMT (Sunday 25th August 2024)"
+	revision: "60"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
@@ -52,7 +52,7 @@ feature {NONE} -- Prepend general
 		local
 			type_code: CHARACTER; insert_adapted: BOOLEAN
 		do
-			type_code := Class_id.string_storage_type (general)
+			type_code := string_storage_type (general)
 			inspect type_code
 				when '1' then
 					if attached compatible_string_8 (general) as str_8 then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 11:05:07 GMT (Friday 21st June 2024)"
-	revision: "25"
+	date: "2024-08-25 10:31:28 GMT (Sunday 25th August 2024)"
+	revision: "26"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -29,16 +29,16 @@ inherit
 
 	EL_SHARED_ZSTRING_CURSOR
 		rename
-			cursor as shared_cursor_z
+			cursor_z as shared_cursor_z
 		end
 
-	EL_SHARED_CLASS_ID
+	EL_STRING_HANDLER
 
 feature -- Access
 
 	shared_cursor (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
 		do
-			Result := shared_cursor_by_type (general, Class_id.string_storage_type (general))
+			Result := shared_cursor_by_type (general, string_storage_type (general))
 		end
 
 	shared_cursor_by_type (general: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_STRING_ITERATION_CURSOR

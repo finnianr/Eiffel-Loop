@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:35:16 GMT (Tuesday 20th August 2024)"
-	revision: "60"
+	date: "2024-08-25 18:16:01 GMT (Sunday 25th August 2024)"
+	revision: "61"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -215,7 +215,7 @@ feature {NONE} -- Implementation
 		local
 			u8: EL_UTF_8_CONVERTER
 		do
-			u8.substring_8_into_string_general (utf_8, 1, utf_8.count, output)
+			u8.string_8_into_string_general (utf_8, output)
 		end
 
 	as_canonically_spaced (s: READABLE_STRING_32): STRING_32

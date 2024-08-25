@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 15:06:00 GMT (Monday 22nd April 2024)"
-	revision: "34"
+	date: "2024-08-25 8:29:41 GMT (Sunday 25th August 2024)"
+	revision: "35"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -36,12 +36,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_MODULE_LIO
-	EL_MODULE_DIRECTORY
-	EL_MODULE_FILE_SYSTEM
-	EL_MODULE_OS
-
-	EL_ZSTRING_CONSTANTS
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_OS
 
 feature {NONE} -- Initialization
 

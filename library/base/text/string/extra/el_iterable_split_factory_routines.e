@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "8"
+	date: "2024-08-25 7:46:22 GMT (Sunday 25th August 2024)"
+	revision: "9"
 
 expanded class
 	EL_ITERABLE_SPLIT_FACTORY_ROUTINES
@@ -18,7 +18,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_SHARED_CLASS_ID
+	EL_STRING_HANDLER
 
 feature -- Access
 
@@ -27,7 +27,7 @@ feature -- Access
 
 	): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL]
 		do
-			inspect Class_id.string_storage_type (general)
+			inspect string_storage_type (general)
 				when '1' then
 					if general.is_immutable and then attached {IMMUTABLE_STRING_8} general as immutable_8 then
 						create {EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER} Result.make (immutable_8, separator)
@@ -57,7 +57,7 @@ feature -- Access
 
 	new_split_on_string (general, separator: READABLE_STRING_GENERAL): EL_SPLIT_ON_STRING [READABLE_STRING_GENERAL]
 		do
-			inspect Class_id.string_storage_type (general)
+			inspect string_storage_type (general)
 				when 'X' then
 					if attached {ZSTRING} general as zstr then
 						create {EL_SPLIT_ZSTRING_ON_STRING} Result.make (zstr, separator)

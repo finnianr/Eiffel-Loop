@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 8:12:31 GMT (Saturday 13th April 2024)"
-	revision: "34"
+	date: "2024-08-25 7:56:31 GMT (Sunday 25th August 2024)"
+	revision: "35"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -15,6 +15,7 @@ class
 inherit
 	EL_WRITABLE
 		rename
+			Empty_string as Zstring,
 			write_boolean as add_boolean,
 			write_encoded_character_8 as add_character_8,
 			write_character_8 as add_character_8,
@@ -44,13 +45,6 @@ inherit
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
 
 	EL_SHARED_PATH_MANAGER; EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
-
-	EL_ZSTRING_CONSTANTS
-		rename
-			Empty_string as Zstring
-		end
-
-	STRING_HANDLER
 
 	PLATFORM
 		export

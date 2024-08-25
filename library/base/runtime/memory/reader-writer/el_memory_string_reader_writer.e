@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 8:16:16 GMT (Saturday 13th April 2024)"
-	revision: "16"
+	date: "2024-08-25 8:02:07 GMT (Sunday 25th August 2024)"
+	revision: "17"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -21,13 +21,6 @@ inherit
 		end
 
 	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
-
-	EL_ZSTRING_CONSTANTS
-		rename
-			Empty_string as Zstring
-		end
-
-	STRING_HANDLER
 
 feature -- Measurement
 
@@ -254,7 +247,7 @@ feature -- Write operations
 			i, pos, first_index, last_index: INTEGER; compressed_32: SPECIAL [NATURAL_8]
 			area: SPECIAL [CHARACTER_32]; is_native: BOOLEAN
 		do
-			if Zstring.same_type (str) and then attached {ZSTRING} str as z_str then
+			if is_zstring (str) and then attached {ZSTRING} str as z_str then
 				write_string (z_str)
 
 			elseif attached big_enough_buffer (size_of_string_32 (str)) as buf then

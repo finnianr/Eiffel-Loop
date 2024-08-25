@@ -1,13 +1,18 @@
 note
 	description: "Reflected ${BOOLEAN} field"
+	notes: "[
+		Routine `set_from_string' can set a ${BOOLEAN} field using any of the string values:
+		
+			"True" or "1" or "False" or "0"
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-08-25 14:58:42 GMT (Sunday 25th August 2024)"
+	revision: "25"
 
 class
 	EL_REFLECTED_BOOLEAN
@@ -106,7 +111,11 @@ feature {NONE} -- Implementation
 
 	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			set (a_object, string.to_boolean)
+			if string.count = 1 and then string.is_natural then
+				set (a_object, string.to_natural.to_boolean)
+			else
+				set (a_object, string.to_boolean)
+			end
 		end
 
 	to_string_directly (a_object: EL_REFLECTIVE): STRING

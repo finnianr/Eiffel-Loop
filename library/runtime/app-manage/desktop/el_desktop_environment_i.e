@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-28 7:12:59 GMT (Friday 28th June 2024)"
-	revision: "20"
+	date: "2024-08-25 8:38:56 GMT (Sunday 25th August 2024)"
+	revision: "21"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -27,19 +27,9 @@ inherit
 
 	EL_OS_DEPENDENT
 
-	EL_MODULE_BUILD_INFO
-
-	EL_MODULE_EXECUTABLE
-
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_COMMAND
-
-	EL_MODULE_ARGS
+	EL_MODULE_ARGS; EL_MODULE_BUILD_INFO; EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE
 
 	EL_STRING_8_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 

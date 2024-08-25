@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-08-25 8:31:59 GMT (Sunday 25th August 2024)"
+	revision: "19"
 
 deferred class
 	TL_ID3_TAG
@@ -32,8 +32,6 @@ inherit
 	TL_BASIC_ID3_TAG_FIELDS
 
 	TL_SHARED_FRAME_ID_ENUM
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Access
 

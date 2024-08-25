@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 15:59:44 GMT (Monday 1st April 2024)"
-	revision: "63"
+	date: "2024-08-25 12:17:59 GMT (Sunday 25th August 2024)"
+	revision: "64"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -200,6 +200,10 @@ feature -- Basic operations
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		require
 			valid_string: valid_string (a_object, string)
+		deferred
+		end
+
+	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
 		deferred
 		end
 

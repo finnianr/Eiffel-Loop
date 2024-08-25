@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 9:43:38 GMT (Monday 8th April 2024)"
-	revision: "14"
+	date: "2024-08-25 9:04:47 GMT (Sunday 25th August 2024)"
+	revision: "15"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -39,6 +39,11 @@ feature -- Access
 				l_count := end_index - start_index + 1
 				Result := new_substring (str_area, c.area_first_index + start_index - 1, l_count)
 			end
+		end
+
+	shared_substring_end (str: GENERAL; start_index: INTEGER): like new_substring
+		do
+			Result := shared_substring (str, start_index, str.count)
 		end
 
 feature -- Element change

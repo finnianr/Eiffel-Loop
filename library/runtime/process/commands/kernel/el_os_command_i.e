@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 13:13:03 GMT (Friday 17th May 2024)"
-	revision: "61"
+	date: "2024-08-25 8:13:12 GMT (Sunday 25th August 2024)"
+	revision: "62"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -61,9 +61,9 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO
 
-	EL_OS_COMMAND_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_OS_COMMAND_CONSTANTS
 
-	EL_SHARED_OPERATING_ENVIRON; EL_SHARED_CLASS_ID
+	EL_SHARED_OPERATING_ENVIRON
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:21:36 GMT (Tuesday 20th August 2024)"
-	revision: "5"
+	date: "2024-08-25 8:18:19 GMT (Sunday 25th August 2024)"
+	revision: "6"
 
 class
 	EL_STRING_8_IO_MEDIUM_LINE_SOURCE
@@ -21,8 +21,6 @@ inherit
 		redefine
 			Default_file
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make_default, make

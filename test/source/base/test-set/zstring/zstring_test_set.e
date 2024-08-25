@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 14:40:59 GMT (Sunday 21st July 2024)"
-	revision: "127"
+	date: "2024-08-25 8:36:43 GMT (Sunday 25th August 2024)"
+	revision: "128"
 
 class
 	ZSTRING_TEST_SET
@@ -18,9 +18,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	STRING_HANDLER undefine default_create end
+	EL_STRING_HANDLER
 
-	EL_ZSTRING_CONSTANTS; EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
 	EL_SHARED_ZSTRING_CODEC; EL_SHARED_TEST_TEXT
 

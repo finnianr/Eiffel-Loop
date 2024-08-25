@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "6"
+	date: "2024-08-25 8:18:42 GMT (Sunday 25th August 2024)"
+	revision: "7"
 
 class
 	EL_TAB_REMOVER
@@ -21,8 +21,6 @@ inherit
 		end
 
 	TP_FACTORY
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make

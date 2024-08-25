@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 18:21:23 GMT (Sunday 14th April 2024)"
-	revision: "7"
+	date: "2024-08-25 10:33:47 GMT (Sunday 25th August 2024)"
+	revision: "8"
 
 class
 	EL_ZSTRING_OCCURRENCE_EDITOR
@@ -38,9 +38,6 @@ inherit
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	EL_SHARED_ZSTRING_CURSOR
-		rename
-			Cursor as Z_cursor
-		end
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string
@@ -61,7 +58,7 @@ feature {NONE} -- Implementation
 
 	shared_cursor: EL_STRING_ITERATION_CURSOR
 		do
-			Result := Z_cursor (target)
+			Result := cursor_z (target)
 		end
 
 	wipe_out_target

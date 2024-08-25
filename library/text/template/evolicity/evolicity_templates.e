@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:19 GMT (Saturday 22nd June 2024)"
-	revision: "35"
+	date: "2024-08-25 8:29:07 GMT (Sunday 25th August 2024)"
+	revision: "36"
 
 class
 	EVOLICITY_TEMPLATES
@@ -22,8 +22,6 @@ inherit
 	EL_THREAD_ACCESS [HASH_TABLE [EVOLICITY_COMPILER, FILE_PATH]]
 
 	EL_MODULE_EXCEPTION
-
-	EL_ZSTRING_CONSTANTS
 
 	EL_STRING_GENERAL_ROUTINES
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-01 7:01:07 GMT (Thursday 1st August 2024)"
-	revision: "29"
+	date: "2024-08-25 8:26:09 GMT (Sunday 25th August 2024)"
+	revision: "30"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -17,9 +17,7 @@ deferred class
 inherit
 	EL_ZCODE_CONVERSION
 
-	EL_SHARED_ZSTRING_CODEC
-
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 	EL_BIT_COUNTABLE
 
@@ -30,7 +28,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_UTF_8_SEQUENCE
+	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_ZSTRING_CODEC
 
 feature {NONE} -- Initialization
 

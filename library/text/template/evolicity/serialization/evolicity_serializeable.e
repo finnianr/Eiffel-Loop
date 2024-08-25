@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "42"
+	date: "2024-08-25 8:28:24 GMT (Sunday 25th August 2024)"
+	revision: "43"
 
 deferred class
 	EVOLICITY_SERIALIZEABLE
@@ -31,13 +31,9 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_EIFFEL
+	EL_MODULE_EIFFEL; EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
 
 	EVOLICITY_SHARED_TEMPLATES
-
-	EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
-
-	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 

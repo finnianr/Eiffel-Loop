@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 9:58:11 GMT (Monday 15th April 2024)"
-	revision: "11"
+	date: "2024-08-25 7:44:01 GMT (Sunday 25th August 2024)"
+	revision: "12"
 
 deferred class
 	EL_BASE_POWER_2_CONVERTER
@@ -15,9 +15,9 @@ deferred class
 inherit
 	ANY
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_CLASS_ID
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 feature -- Substring conversion
 
@@ -169,7 +169,7 @@ feature {NONE} -- Implementation
 	): TUPLE [area: SPECIAL [CHARACTER]; offset: INTEGER]
 		do
 			create Result
-			inspect Class_id.string_storage_type (str)
+			inspect string_storage_type (str)
 				when '1' then
 					if attached {READABLE_STRING_8} str as str_8
 						and then attached cursor_8 (str_8) as cursor

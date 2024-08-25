@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:28:33 GMT (Monday 27th November 2023)"
-	revision: "32"
+	date: "2024-08-25 19:10:23 GMT (Sunday 25th August 2024)"
+	revision: "33"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -25,14 +25,14 @@ inherit
 			make_default as make,
 			field_included as is_any_field
 		redefine
-			make, new_transient_fields
+			make, new_transient_fields, new_representations
 		end
 
 	EL_SETTABLE_FROM_ZSTRING
 		rename
 			make_default as make
 		redefine
-			set_table_field
+			set_table_field_utf_8
 		end
 
 	EL_MODULE_IP_ADDRESS; EL_MODULE_TUPLE
@@ -40,7 +40,7 @@ inherit
 	EL_CHARACTER_32_CONSTANTS
 
 create
-	make, make_from_table
+	make, make_from_utf_8_table
 
 feature {NONE} -- Initialization
 
@@ -78,7 +78,7 @@ feature -- Access
 
 	headers: FCGI_HTTP_HEADERS
 
-	host_name: ZSTRING
+	host_name: STRING
 		do
 			create Result.make_empty
 			across << headers.x_forwarded_host, headers.host, server_name >> as name until not Result.is_empty loop
@@ -92,7 +92,7 @@ feature -- Access
 		do
 			Result := server_protocol.substring (1, server_protocol.index_of ('/', 1) - 1)
 			Result.to_lower
-			if https ~ once "on" then
+			if https = Secure.on then
 				Result.append_character ('s')
 			end
 		end
@@ -100,6 +100,11 @@ feature -- Access
 	remote_address_32: NATURAL
 		do
 			Result := IP_address.to_number (remote_addr)
+		end
+
+	request_method_name: STRING
+		do
+			Result := Method.name (request_method)
 		end
 
 	server_software_version: NATURAL
@@ -136,17 +141,17 @@ feature -- Status query
 
 	is_get_request: BOOLEAN
 		do
-			Result := Method.get ~ request_method
+			Result := request_method = Method.get
 		end
 
 	is_head_request: BOOLEAN
 		do
-			Result := Method.head ~ request_method
+			Result := request_method = Method.head
 		end
 
 	is_post_request: BOOLEAN
 		do
-			Result := Method.post ~ request_method
+			Result := request_method = Method.post
 		end
 
 feature -- Numeric parameters
@@ -155,52 +160,58 @@ feature -- Numeric parameters
 
 	server_port: INTEGER
 
-feature -- STRING_8 parameters
+feature -- Enumeration parameters
 
-	https: STRING
+	request_method: NATURAL_8
+
+	https: NATURAL_8
+
+feature -- STRING_8 parameters
 
 	remote_addr: STRING
 		-- remote address formatted as x.x.x.x where 0 <= x and x <= 255
 
+	query_string: STRING
+
 	server_protocol: STRING
 
-	server_signature: STRING
+	server_name: STRING
+
+feature -- EL_SUBSTRING_8 parameters
+
+	auth_type: EL_SUBSTRING_8
 
 feature -- ZSTRING parameters
-
-	auth_type: ZSTRING
-
-	document_root: ZSTRING
-
-	gateway_interface: ZSTRING
 
 	path: ZSTRING
 
 	path_info: ZSTRING
 
-	path_translated: ZSTRING
-
-	query_string: ZSTRING
-
-	remote_ident: ZSTRING
-
-	remote_user: ZSTRING
-
-	request_method: ZSTRING
-
 	request_uri: ZSTRING
 
-	script_filename: ZSTRING
-
-	script_name: ZSTRING
-
-	script_url: ZSTRING
-
-	server_addr: ZSTRING
-
-	server_name: ZSTRING
-
 	server_software: ZSTRING
+
+feature -- EL_ZSUBSTRING parameters
+
+	gateway_interface: EL_ZSUBSTRING
+
+	document_root: EL_ZSUBSTRING
+
+	path_translated: EL_ZSUBSTRING
+
+	remote_ident: EL_ZSUBSTRING
+
+	remote_user: EL_ZSUBSTRING
+
+	script_filename: EL_ZSUBSTRING
+
+	script_name: EL_ZSUBSTRING
+
+	script_url: EL_ZSUBSTRING
+
+	server_addr: EL_ZSUBSTRING
+
+	server_signature: EL_ZSUBSTRING
 
 feature {NONE} -- Implementation
 
@@ -209,18 +220,29 @@ feature {NONE} -- Implementation
 			Result := Precursor + ", content, headers"
 		end
 
-	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
+	new_representations: like Default_representations
+		do
+			create Result.make (<<
+				["https", Secure.to_representation],
+				["request_method", Method.to_representation]
+			>>)
+		end
 
+	set_table_field_utf_8 (table: like field_table; name, value_utf_8: READABLE_STRING_8)
+		local
+			index: INTEGER
 		do
 			if name.starts_with (Header_prefix.content) then
-				headers.set_field (name, value)
+				headers.set_field_from_utf_8 (name, value_utf_8)
 
 			elseif name.starts_with (Header_prefix.http) then
-				-- trim "HTTP_"
-				name.remove_head (Header_prefix.http.count)
-				headers.set_field (name, value)
+				index := Header_prefix.http.count + 1
+				if attached Immutable_8.shared_substring_end (name, index) as short_name then
+				-- trimmed "HTTP_"
+					headers.set_field_from_utf_8 (short_name, value_utf_8)
+				end
 			else
-				Precursor (table, name, value)
+				Precursor (table, name, value_utf_8)
 			end
 		end
 
@@ -242,15 +264,19 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "CONTENT_, HTTP_")
 		end
 
-	Method: TUPLE [get, head, post: ZSTRING]
-		once
-			create Result
-			Tuple.fill (Result, "GET, HEAD, POST")
-		end
-
 	Request_url_template: ZSTRING
 		once
 			Result := "%S://%S:%S%S"
+		end
+
+	Method: FCGI_REQUEST_METHOD_ENUMERATON
+		once
+			create Result.make
+		end
+
+	Secure: EL_BOOLEAN_ON_OFF_ENUM
+		once
+			create Result.make
 		end
 
 end

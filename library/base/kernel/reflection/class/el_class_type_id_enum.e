@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 13:46:32 GMT (Monday 15th April 2024)"
-	revision: "31"
+	date: "2024-08-25 11:33:09 GMT (Sunday 25th August 2024)"
+	revision: "32"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -35,23 +35,6 @@ feature {NONE} -- Initialization
 			readable_string_8_types := << IMMUTABLE_STRING_8, STRING_8 >>
 			readable_string_32_types := << IMMUTABLE_STRING_32, STRING_32, EL_ZSTRING >>
 			path_types := << EL_FILE_PATH, EL_DIR_PATH, EL_DIR_URI_PATH, EL_FILE_URI_PATH >>
-		end
-
-feature -- Access
-
-	string_storage_type (general: READABLE_STRING_GENERAL): CHARACTER
-		-- character code representing number of bytes per character in string `general'
-		-- 'X' means an indeterminate number for ZSTRING type
-		do
-			if general.is_string_8 then
-				Result := '1' -- bytes
-			elseif {ISE_RUNTIME}.dynamic_type (general) = EL_ZSTRING then
-				Result := 'X'
-			else
-				Result := '4' -- bytes
-			end
-		ensure
-			valid_code: valid_string_storage_type (Result)
 		end
 
 feature -- Type sets
@@ -131,6 +114,9 @@ feature -- Generic types
 	EL_MAKEABLE_FROM_STRING__STRING_GENERAL: INTEGER
 		-- EL_MAKEABLE_FROM_STRING [STRING_GENERAL]
 
+	EL_SUBSTRING__STRING_GENERAL: INTEGER
+		-- EL_SUBSTRING [STRING_GENERAL]
+
 feature -- Eiffel-Loop types
 
 	EL_BOOLEAN_OPTION: INTEGER
@@ -155,14 +141,4 @@ feature -- Other types
 
 	TUPLE: INTEGER
 
-feature -- Contract Support
-
-	valid_string_storage_type (code: CHARACTER): BOOLEAN
-		do
-			inspect code
-				when '1', '4', 'X' then
-					Result := True
-			else
-			end
-		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 10:40:12 GMT (Monday 14th August 2023)"
-	revision: "24"
+	date: "2024-08-25 15:51:22 GMT (Sunday 25th August 2024)"
+	revision: "25"
 
 class
 	FCGI_HTTP_HEADERS
@@ -22,11 +22,11 @@ inherit
 			make
 		end
 
-	EL_SETTABLE_FROM_ZSTRING
+	EL_SETTABLE_FROM_STRING_8
 		rename
 			make_default as make
 		redefine
-			set_table_field
+			set_table_field_utf_8
 		end
 
 	EL_MODULE_ITERABLE; EL_MODULE_NAMING
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			create custom_table.make (3)
+			create custom_table.make_size (3)
 		end
 
 feature -- Access
@@ -99,67 +99,79 @@ feature -- Access
 			end
 		end
 
-feature -- Access attributes
+feature -- BOOLEAN values
 
-	accept: ZSTRING
+	upgrade_insecure_requests: BOOLEAN
+		-- Upgrade-Insecure-Requests: 1
 
-	accept_encoding: ZSTRING
-
-	accept_language: ZSTRING
-
-	authorization: ZSTRING
-
-	cache_control: ZSTRING
-
-	connection: ZSTRING
+feature -- INTEGER value
 
 	content_length: INTEGER
 
-	content_type: ZSTRING
+feature -- STRING_8 attributes
 
-	cookie: ZSTRING
+	accept: STRING
+		-- Accept: text/html
 
-	from_: ZSTRING
+	accept_encoding: STRING
+		-- Accept-Encoding: gzip, deflate
+
+	accept_language: STRING
+		-- Accept-Language: en-US
+
+	authorization: STRING
+		-- Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+
+	cache_control: STRING
+		-- Cache-Control: no-cache
+
+	connection: STRING
+		-- Connection: keep-alive
+
+	content_type: STRING
+		-- Content-Type: text/html; charset=utf-8
+
+	cookie: STRING
+
+	from_: STRING
 		-- Trailing `_' to distinguish from Eiffel keyword
 
-	host: ZSTRING
+	host: STRING
 
-	referer: ZSTRING
+	referer: STRING
 
-	upgrade_insecure_requests: ZSTRING
+	user_agent: STRING
 
-	user_agent: ZSTRING
-
-	x_forwarded_host: ZSTRING
+	x_forwarded_host: STRING
 
 feature -- Element change
 
-	set_accept (a_accept: ZSTRING)
+	set_accept (a_accept: STRING)
 		do
 			accept := a_accept
 		end
 
-	set_accept_encoding (a_accept_encoding: ZSTRING)
+	set_accept_encoding (a_accept_encoding: STRING)
 		do
 			accept_encoding := a_accept_encoding
 		end
 
-	set_accept_language (a_accept_language: ZSTRING)
+	set_accept_language (a_accept_language: STRING)
 		do
 			accept_language := a_accept_language
 		end
 
-	set_authorization (a_authorization: ZSTRING)
+	set_authorization (a_authorization: STRING)
 		do
 			authorization := a_authorization
 		end
 
-	set_cache_control (a_cache_control: ZSTRING)
+	set_cache_control (a_cache_control: STRING)
 		do
 			cache_control := a_cache_control
 		end
 
-	set_connection (a_connection: ZSTRING)
+	set_connection (a_connection: STRING)
 		do
 			connection := a_connection
 		end
@@ -169,12 +181,12 @@ feature -- Element change
 			content_length := a_content_length
 		end
 
-	set_content_type (a_content_type: ZSTRING)
+	set_content_type (a_content_type: STRING)
 		do
 			content_type := a_content_type
 		end
 
-	set_cookie (a_cookie: ZSTRING)
+	set_cookie (a_cookie: STRING)
 		do
 			cookie := a_cookie
 		end
@@ -188,27 +200,27 @@ feature -- Element change
 			custom_table [kebab_name] := value
 		end
 
-	set_from (a_from: ZSTRING)
+	set_from (a_from: STRING)
 		do
 			from_ := a_from
 		end
 
-	set_host (a_host: ZSTRING)
+	set_host (a_host: STRING)
 		do
 			host := a_host
 		end
 
-	set_referer (a_referer: ZSTRING)
+	set_referer (a_referer: STRING)
 		do
 			referer := a_referer
 		end
 
-	set_upgrade_insecure_requests (a_upgrade_insecure_requests: ZSTRING)
+	set_upgrade_insecure_requests (a_upgrade_insecure_requests: BOOLEAN)
 		do
 			upgrade_insecure_requests := a_upgrade_insecure_requests
 		end
 
-	set_user_agent (a_user_agent: ZSTRING)
+	set_user_agent (a_user_agent: STRING)
 		do
 			user_agent := a_user_agent
 		end
@@ -222,18 +234,18 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_table_field (table: like field_table; name: STRING; value: ZSTRING)
+	set_table_field_utf_8 (table: like field_table; name, value_utf_8: READABLE_STRING_8)
 		-- set field with name
 		do
-			Precursor (table, name, value)
+			Precursor (table, name, value_utf_8)
 			if not table.found then
-				custom_table.extend (value, name.as_lower)
+				custom_table.extend (create {ZSTRING}.make_from_utf_8 (value_utf_8), name.as_lower)
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	custom_table: HASH_TABLE [ZSTRING, STRING] note option: transient attribute end
+	custom_table: EL_STRING_8_TABLE [ZSTRING] note option: transient attribute end
 		-- custom_table fields prefixed with x_
 
 feature {NONE} -- Constants

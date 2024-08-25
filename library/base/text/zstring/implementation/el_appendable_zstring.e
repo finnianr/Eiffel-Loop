@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-06 13:27:52 GMT (Tuesday 6th August 2024)"
-	revision: "71"
+	date: "2024-08-25 7:43:37 GMT (Sunday 25th August 2024)"
+	revision: "72"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -200,7 +200,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 
 	append_string_general (general: READABLE_STRING_GENERAL)
 		do
-			append_string_general_for_type (general, Class_id.string_storage_type (general))
+			append_string_general_for_type (general, string_storage_type (general))
 		end
 
 	append_substring (s: EL_READABLE_ZSTRING; start_index, end_index: INTEGER)

@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-02 12:20:49 GMT (Friday 2nd February 2024)"
-	revision: "15"
+	date: "2024-08-25 11:27:21 GMT (Sunday 25th August 2024)"
+	revision: "16"
 
 class
 	EL_REFLECTED_IMMUTABLE_STRING_8
 
 inherit
 	EL_REFLECTED_STRING [IMMUTABLE_STRING_8]
+		rename
+			Empty_string as Empty_zstring
+		end
 
 create
 	make

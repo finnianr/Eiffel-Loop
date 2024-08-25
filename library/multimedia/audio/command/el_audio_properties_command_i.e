@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:28:44 GMT (Monday 27th November 2023)"
-	revision: "19"
+	date: "2024-08-25 8:13:34 GMT (Sunday 25th August 2024)"
+	revision: "20"
 
 deferred class
 	EL_AUDIO_PROPERTIES_COMMAND_I
@@ -34,7 +34,7 @@ inherit
 			is_equal
 		end
 
-	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS
 
 feature {NONE} -- Initialization
 

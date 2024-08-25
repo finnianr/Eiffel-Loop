@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:35:04 GMT (Tuesday 20th August 2024)"
-	revision: "2"
+	date: "2024-08-25 7:44:38 GMT (Sunday 25th August 2024)"
+	revision: "3"
 
 class
 	EL_FLOATING_ZSTRING
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 			else
 			end
 			if index > 0 then
-				inspect Class_id.string_storage_type (other)
+				inspect string_storage_type (other)
 					when 'X' then
 						if attached {ZSTRING} other as z_str then
 							Result := same_characters_zstring (z_str, 1, other.count, index)

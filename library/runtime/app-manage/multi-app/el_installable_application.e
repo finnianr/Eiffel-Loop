@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 8:29:20 GMT (Friday 16th August 2024)"
-	revision: "17"
+	date: "2024-08-25 8:38:57 GMT (Sunday 25th August 2024)"
+	revision: "18"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
 
 inherit
-	EL_ZSTRING_CONSTANTS
-
 	EL_SHARED_IMAGE_LOCATIONS
 
 	EL_APPLICATION_CONSTANTS

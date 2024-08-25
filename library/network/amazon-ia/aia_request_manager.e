@@ -9,16 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 9:04:05 GMT (Sunday 1st January 2023)"
-	revision: "12"
+	date: "2024-08-25 8:32:34 GMT (Sunday 25th August 2024)"
+	revision: "13"
 
 class
 	AIA_REQUEST_MANAGER
 
 inherit
 	ANY
-
-	EL_ZSTRING_CONSTANTS
 
 	AIA_SHARED_CREDENTIAL_LIST
 

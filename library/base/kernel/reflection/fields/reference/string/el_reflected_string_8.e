@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-02 12:20:15 GMT (Friday 2nd February 2024)"
-	revision: "14"
+	date: "2024-08-25 18:15:35 GMT (Sunday 25th August 2024)"
+	revision: "15"
 
 class
 	EL_REFLECTED_STRING_8
 
 inherit
 	EL_REFLECTED_STRING [STRING_8]
+		redefine
+			set_from_utf_8
+		end
 
 create
 	make
@@ -47,6 +50,26 @@ feature -- Basic operations
 	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
 		do
 			set (a_object, readable.read_string_8)
+		end
+
+	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
+		local
+			conv: EL_UTF_8_CONVERTER; count: INTEGER; str: STRING_8
+		do
+			count := conv.unicode_count (utf_8)
+			if count = utf_8.count then
+			-- ASCII characters
+				set (a_object, utf_8)
+			else
+				if attached value (a_object) as v then
+					str := v
+					str.grow (count)
+				else
+					create str.make (count)
+					set (a_object, str)
+				end
+				conv.string_8_into_string_general (str, str)
+			end
 		end
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)

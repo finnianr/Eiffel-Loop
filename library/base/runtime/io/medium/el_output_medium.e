@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-11 6:24:55 GMT (Saturday 11th May 2024)"
-	revision: "38"
+	date: "2024-08-25 8:00:15 GMT (Sunday 25th August 2024)"
+	revision: "39"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -23,6 +23,7 @@ inherit
 
 	EL_WRITABLE
 		rename
+			Empty_string as Zstring,
 			write_encoded_character_8 as put_encoded_character_8, -- Allows UTF-8 conversion
 			write_encoded_string_8 as put_encoded_readable_string_8,
 
@@ -50,23 +51,16 @@ inherit
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 		rename
+			Empty_string as Zstring,
 			is_character as is_string_character,
 			occurrences as string_occurrences
 		export
 			{NONE} all
 		end
 
-	STRING_HANDLER
-
 	EL_STRING_8_CONSTANTS
 
-	EL_ZSTRING_CONSTANTS
-		rename
-			Empty_string as Zstring
-		end
-
 	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY; EL_SHARED_STRING_8_BUFFER_SCOPES
-
 
 feature {NONE} -- Initialization
 

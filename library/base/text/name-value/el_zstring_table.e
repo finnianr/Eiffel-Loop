@@ -1,7 +1,7 @@
 note
 	description: "[
-		Table of ${EL_ZSTRING} strings with keys of type ${STRING_8} and createable from
-		parsed general text with format
+		Table of ${EL_ZSTRING} strings with immutable keys of type ${IMMUTABLE_STRING_8}
+		and createable from parsed general text with format
 		
 			key_1:
 				Value One Line 1
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:43:23 GMT (Saturday 24th August 2024)"
-	revision: "19"
+	date: "2024-08-25 9:37:45 GMT (Sunday 25th August 2024)"
+	revision: "20"
 
 class
 	EL_ZSTRING_TABLE
@@ -33,10 +33,22 @@ inherit
 
 	EL_CHARACTER_8_CONSTANTS
 
+	EL_SHARED_IMMUTABLE_8_MANAGER
+
 create
-	make, make_size, make_from_array, make_from_table
+	make, make_assignments, make_size, make_from_array, make_from_table
 
 feature {NONE} -- Initialization
+
+	make_assignments (assignment_array: ARRAY [TUPLE [key: READABLE_STRING_8; value: ZSTRING]])
+		do
+			make_equal (assignment_array.count)
+			across assignment_array as array loop
+				if attached array.item as tuple then
+					extend (tuple.value, Immutable_8.as_shared (tuple.key))
+				end
+			end
+		end
 
 	make (table_text: READABLE_STRING_GENERAL)
 		local

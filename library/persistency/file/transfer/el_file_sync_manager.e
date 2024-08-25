@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-31 8:00:04 GMT (Friday 31st May 2024)"
-	revision: "19"
+	date: "2024-08-25 8:39:53 GMT (Sunday 25th August 2024)"
+	revision: "20"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -26,11 +26,9 @@ class
 inherit
 	EL_FILE_SYNC_ROUTINES
 
-	EL_SHARED_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_USER_INPUT
+	EL_MODULE_FILE_SYSTEM; EL_MODULE_LIO; EL_MODULE_TRACK; EL_MODULE_USER_INPUT
 
-	EL_MODULE_TRACK
-
-	EL_SHARED_PROGRESS_LISTENER
+	EL_SHARED_DIRECTORY; EL_SHARED_PROGRESS_LISTENER
 
 	EL_ZSTRING_CONSTANTS
 

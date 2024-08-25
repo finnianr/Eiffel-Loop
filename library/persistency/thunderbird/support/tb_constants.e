@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 15:39:07 GMT (Sunday 14th April 2024)"
-	revision: "13"
+	date: "2024-08-25 8:30:14 GMT (Sunday 25th August 2024)"
+	revision: "14"
 
 deferred class
 	TB_CONSTANTS
@@ -15,11 +15,7 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-	EL_MODULE_XML
-
-	EL_MODULE_TUPLE
-
-	EL_ZSTRING_CONSTANTS
+	EL_MODULE_TUPLE; EL_MODULE_XML
 
 feature {NONE} -- Implementation
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-25 19:16:39 GMT (Wednesday 25th January 2023)"
-	revision: "23"
+	date: "2024-08-25 8:30:54 GMT (Sunday 25th August 2024)"
+	revision: "24"
 
 deferred class
 	TB_FOLDER_EXPORTER
@@ -20,8 +20,6 @@ inherit
 	EL_MODULE_FILE_SYSTEM
 
 	TB_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Initialization
 

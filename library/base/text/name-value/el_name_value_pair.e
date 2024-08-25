@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 10:11:13 GMT (Sunday 12th March 2023)"
-	revision: "12"
+	date: "2024-08-25 11:12:43 GMT (Sunday 25th August 2024)"
+	revision: "13"
 
 class
 	EL_NAME_VALUE_PAIR [G -> STRING_GENERAL create make, make_empty end]
@@ -41,6 +41,42 @@ feature {NONE} -- Initialization
 			name := a_name; value := a_value
 		end
 
+feature -- Access
+
+	as_assignment: G
+		do
+			Result := joined ('=')
+		end
+
+	joined (separator: CHARACTER): G
+		do
+			create Result.make (name.count + value.count + 1)
+			append_to (Result, separator)
+		end
+
+	name: G
+
+	value: G
+
+feature -- Status query
+
+	is_eiffel_name: BOOLEAN
+		-- is `name' an eiffel identifier
+		local
+			r: EL_READABLE_STRING_GENERAL_ROUTINES
+		do
+			Result := r.shared_cursor (name).is_eiffel
+		end
+
+feature -- Basic operations
+
+	append_to (str: G; separator: CHARACTER)
+		do
+			str.append (name)
+			str.append_code (separator.natural_32_code)
+			str.append (value)
+		end
+
 feature -- Element change
 
 	set_from_string (str: G; delimiter: CHARACTER_32)
@@ -62,32 +98,6 @@ feature -- Element change
 		do
 			name.keep_head (0)
 			value.keep_head (0)
-		end
-
-feature -- Access
-
-	as_assignment: G
-		do
-			Result := joined ('=')
-		end
-
-	joined (separator: CHARACTER): G
-		do
-			create Result.make (name.count + value.count + 1)
-			append_to (Result, separator)
-		end
-
-	name: G
-
-	value: G
-
-feature -- Basic operations
-
-	append_to (str: G; separator: CHARACTER)
-		do
-			str.append (name)
-			str.append_code (separator.natural_32_code)
-			str.append (value)
 		end
 
 end

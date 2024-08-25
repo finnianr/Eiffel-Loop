@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-13 16:53:00 GMT (Wednesday 13th March 2024)"
-	revision: "46"
+	date: "2024-08-25 8:21:26 GMT (Sunday 25th August 2024)"
+	revision: "47"
 
 deferred class
 	EL_URI_PATH
@@ -38,7 +38,7 @@ inherit
 
 	EL_MODULE_URI
 
-	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES; EL_SHARED_STRING_8_BUFFER_SCOPES
 

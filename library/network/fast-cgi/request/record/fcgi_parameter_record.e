@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-08-25 14:12:48 GMT (Sunday 25th August 2024)"
+	revision: "10"
 
 class
 	FCGI_PARAMETER_RECORD
@@ -35,28 +35,25 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			Precursor {FCGI_STRING_CONTENT_RECORD}
-			create value.make_empty
+			create value_utf_8.make_empty
 		end
 
 feature -- Access
 
-	value: ZSTRING
+	value_utf_8: STRING
 
 feature {NONE} -- Implementation
 
 	read_memory (memory: FCGI_MEMORY_READER_WRITER)
 		local
 			name_count, value_count: INTEGER
-			utf_8_str: STRING; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			name_count := memory.parameter_length
 			value_count := memory.parameter_length
 			read_name (memory, name_count)
 
-			utf_8_str := buffer.empty
-			memory.read_to_string_8 (utf_8_str, value_count)
-			value.wipe_out
-			value.append_utf_8 (utf_8_str)
+			create value_utf_8.make (value_count)
+			memory.read_to_string_8 (value_utf_8, value_count)
 		end
 
 	write_memory (memory: FCGI_MEMORY_READER_WRITER)

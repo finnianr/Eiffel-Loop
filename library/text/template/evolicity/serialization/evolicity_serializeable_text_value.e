@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-08-25 8:28:45 GMT (Sunday 25th August 2024)"
+	revision: "10"
 
 class
 	EVOLICITY_SERIALIZEABLE_TEXT_VALUE
@@ -17,8 +17,6 @@ inherit
 		redefine
 			make_default
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_default

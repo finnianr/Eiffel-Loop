@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:49:01 GMT (Friday 12th July 2024)"
-	revision: "6"
+	date: "2024-08-25 7:45:36 GMT (Sunday 25th August 2024)"
+	revision: "7"
 
 deferred class
 	EL_STRING_CONVERSION_TABLE_IMPLEMENTATION
@@ -25,13 +25,13 @@ inherit
 			Tuple as Tuple_
 		end
 
-	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
+	EL_SHARED_FACTORIES
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -97,7 +97,7 @@ feature {NONE} -- Implementation
 	): like new_split_list_types.item
 		-- reusable split list
 		do
-			Result := split_list_by_type (Class_id.string_storage_type (csv_list))
+			Result := split_list_by_type (string_storage_type (csv_list))
 			Result.fill_general (csv_list, separator, adjustments)
 		end
 

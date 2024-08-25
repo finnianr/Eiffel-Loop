@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-04 16:06:29 GMT (Monday 4th December 2023)"
-	revision: "16"
+	date: "2024-08-25 17:14:33 GMT (Sunday 25th August 2024)"
+	revision: "17"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -68,7 +68,7 @@ feature -- Access
 			Result := parameters.remote_address_32
 		end
 
-	servlet_path: STRING
+	servlet_path: ZSTRING
 			-- The part of this request's URL that calls the servlet. This includes
 			-- either the servlet name or a path to the servlet, but does not include
 			-- any extra path information or a query string.

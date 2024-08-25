@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:49:14 GMT (Friday 12th July 2024)"
-	revision: "35"
+	date: "2024-08-25 7:54:03 GMT (Sunday 25th August 2024)"
+	revision: "36"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -31,7 +31,7 @@ inherit
 			copy, default_create, is_equal
 		end
 
-	EL_SHARED_FACTORIES
+	EL_SHARED_FACTORIES; EL_SHARED_CLASS_ID
 
 create
 	make
@@ -353,7 +353,7 @@ feature -- Basic operations
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
 			then
-				inspect Class_id.string_storage_type (str)
+				inspect string_storage_type (str)
 					when '1' then
 						if attached {READABLE_STRING_8} str as str_8 then
 							across String_8_scope as scope loop
@@ -396,7 +396,7 @@ feature -- Basic operations
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
 			then
-				inspect Class_id.string_storage_type (str)
+				inspect string_storage_type (str)
 					when '1' then
 						if attached {READABLE_STRING_8} str as str_8 then
 							across String_8_scope as scope loop

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-06 12:57:12 GMT (Tuesday 6th August 2024)"
-	revision: "104"
+	date: "2024-08-25 7:50:12 GMT (Sunday 25th August 2024)"
+	revision: "105"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -94,11 +94,11 @@ inherit
 			wipe_out as internal_wipe_out
 		export
 			{STRING_HANDLER} area, area_lower
-		undefine
-			copy, is_equal, out
 		end
 
 	EL_READABLE_ZSTRING_I
+
+	EL_STRING_HANDLER
 
 feature -- Access
 
@@ -328,7 +328,7 @@ feature {NONE} -- Implementation
 
 	adapted_argument (general: READABLE_STRING_GENERAL; index: INTEGER): EL_ZSTRING
 		do
-			Result := adapted_argument_for_type (general, Class_id.string_storage_type (general), index)
+			Result := adapted_argument_for_type (general, string_storage_type (general), index)
 		end
 
 	adapted_argument_for_type (general: READABLE_STRING_GENERAL; type_code: CHARACTER; index: INTEGER): EL_ZSTRING

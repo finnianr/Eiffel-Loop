@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:57:55 GMT (Friday 29th March 2024)"
-	revision: "39"
+	date: "2024-08-25 8:41:07 GMT (Sunday 25th August 2024)"
+	revision: "40"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -23,10 +23,9 @@ inherit
 			entity as xml_entity
 		end
 
-	EL_MODULE_DATE_TIME; EL_MODULE_FILE
-	EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
+	EL_MODULE_DATE_TIME; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_DIRECTORY; EL_MODULE_EXCEPTION
 
-	EL_CHARACTER_32_CONSTANTS; EL_HTML_CONSTANTS; EL_PROTOCOL_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS; EL_HTML_CONSTANTS; EL_PROTOCOL_CONSTANTS
 
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-07 10:46:25 GMT (Wednesday 7th August 2024)"
-	revision: "76"
+	date: "2024-08-25 8:03:39 GMT (Sunday 25th August 2024)"
+	revision: "77"
 
 deferred class
 	EL_ZCODEC
@@ -271,7 +271,7 @@ feature -- Encoding operations
 			i, out_i, in_offset, i_lower, i_upper: INTEGER; interval: NATURAL_64
 			area: SPECIAL [CHARACTER]; unicode: like unicode_table; c_i: CHARACTER
 		do
-			inspect Class_id.string_storage_type (unicode_in)
+			inspect string_storage_type (unicode_in)
 				when '1' then
 					if attached {READABLE_STRING_8} unicode_in as s_8 and then attached cursor_8 (s_8) as c_8 then
 						unicode := unicode_table; in_offset := c_8.area_first_index; area := c_8.area
@@ -739,7 +739,7 @@ feature {NONE} -- Implementation
 		-- encode `unicode_in' characters as current `encoding'
 		-- Set unencodeable characters as the `Substitute' character (26) and record location in `unencoded_intervals'
 		require
-			not_zstring_in: Class_id.string_storage_type (unicode_in) /= 'X'
+			not_zstring_in: string_storage_type (unicode_in) /= 'X'
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
 			i, i_lower, i_upper, out_i, in_offset: INTEGER; latin_c: CHARACTER
