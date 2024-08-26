@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-06 18:41:50 GMT (Tuesday 6th August 2024)"
-	revision: "3"
+	date: "2024-08-26 12:47:49 GMT (Monday 26th August 2024)"
+	revision: "4"
 
 class
 	STRING_32_ROUTINES
@@ -31,7 +31,7 @@ feature -- Concatenation
 		local
 			utf_8: EL_UTF_8_CONVERTER
 		do
-			utf_8.string_8_into_string_32 (utf_8_string, target)
+			utf_8.string_8_into_string_general (utf_8_string, target)
 		end
 
 	prepend (target, str: STRING_32)

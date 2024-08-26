@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 11:03:11 GMT (Monday 15th April 2024)"
-	revision: "5"
+	date: "2024-08-26 14:50:37 GMT (Monday 26th August 2024)"
+	revision: "6"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
@@ -18,20 +18,12 @@ inherit
 			abstract_type as dynamic_to_abstract_type,
 			conforms_to as object_conforms_to,
 			collection_item_type as collection_item_type_for_type,
+			make as make_default,
 			dynamic_type as object_dynamic_type,
-			is_reference as is_abstract_type_a_reference
+			is_reference as is_abstract_type_a_reference,
+			is_readable_string_32 as is_object_readable_string_32
 		export
 			{NONE} all
-		end
-
-	EL_SHARED_CLASS_ID
-		rename
-			conforms_to as object_conforms_to
-		end
-
-	EL_SHARED_FACTORIES
-		rename
-			conforms_to as object_conforms_to
 		end
 
 create
@@ -44,6 +36,7 @@ feature {NONE} -- Initialization
 			index := a_index; dynamic_type := a_dynamic_type
 			abstract_type := field_type_of_type (index, dynamic_type)
 			static_type := field_static_type_of_type (index, dynamic_type)
+			make_default
 		end
 
 feature -- Access
@@ -86,12 +79,12 @@ feature -- Status query
 
 	conforms_to_collection: BOOLEAN
 		do
-			Result := is_reference and then conforms_to (Class_id.COLLECTION__ANY)
+			Result := is_reference and then conforms_to (class_id.COLLECTION__ANY)
 		end
 
 	conforms_to_date_time: BOOLEAN
 		do
-			Result := is_reference and then conforms_to (Class_id.DATE_TIME)
+			Result := is_reference and then conforms_to (class_id.DATE_TIME)
 		end
 
 	is_convertable_from_string: BOOLEAN
@@ -112,7 +105,14 @@ feature -- Status query
 	is_readable_string_8: BOOLEAN
 		do
 			if is_reference then
-				Result := Class_id.readable_string_8_types.has (static_type)
+				Result := is_type_in_set (static_type, class_id.readable_string_8_types)
+			end
+		end
+
+	is_readable_string_32: BOOLEAN
+		do
+			if is_reference then
+				Result := is_type_in_set (static_type, class_id.readable_string_32_types)
 			end
 		end
 
@@ -129,7 +129,7 @@ feature -- Status query
 			if is_storable_type (abstract_type, type_id) then
 				Result := True
 
-			elseif field_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY) then
+			elseif field_conforms_to (type_id, class_id.ARRAYED_LIST__ANY) then
 				if Arrayed_list_factory.is_valid_type (type_id) then
 					Result := is_storable_collection_type (type_id)
 				end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 11:27:49 GMT (Monday 19th August 2024)"
-	revision: "7"
+	date: "2024-08-26 17:58:02 GMT (Monday 26th August 2024)"
+	revision: "8"
 
 class
 	EL_NAMED_FILE_LOCK
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 
 	make (a_path: EL_FILE_PATH)
 		local
-			error: NATURAL
+			error: INTEGER
 		do
 			path := a_path
 			make_write (c_create_write_only (native_path.item, $error))
@@ -47,18 +47,15 @@ feature -- Status change
 			if descriptor.to_boolean and then c_close (descriptor) = 0 then
 				descriptor := 0
 			end
-		ensure then
-			not_lockable: not is_lockable
 		end
 
 	unlock
 		do
 			if is_locked then
-				Precursor
-				File_system.remove_file (path)
+				Precursor; remove_file
 			end
 		ensure then
-			file_removed: old is_locked implies not path.exists
+			file_removed: not is_writeable and then old is_locked implies not path.exists
 		end
 
 end

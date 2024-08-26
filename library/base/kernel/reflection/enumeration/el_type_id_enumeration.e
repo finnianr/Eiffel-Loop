@@ -22,19 +22,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 13:51:14 GMT (Monday 15th April 2024)"
-	revision: "12"
+	date: "2024-08-26 14:51:57 GMT (Monday 26th August 2024)"
+	revision: "13"
 
 class
 	EL_TYPE_ID_ENUMERATION
 
 inherit
-	REFLECTOR_CONSTANTS
+	REFLECTOR
 		export
 			{NONE} all
 		end
-
-	EL_MODULE_EIFFEL
 
 feature {NONE} -- Initialization
 
@@ -55,7 +53,7 @@ feature {NONE} -- Initialization
 						type_name.replace_substring (Left_square_bracket, index, index + 1)
 						type_name.append_character (']')
 					end
-					type_id := Eiffel.dynamic_type_from_string (type_name)
+					type_id := dynamic_type_from_string (type_name)
 					if type_id >= 0 then
 						this.set_integer_32_field (i, type_id)
 					else

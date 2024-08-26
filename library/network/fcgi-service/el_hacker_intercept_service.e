@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:57:40 GMT (Friday 29th March 2024)"
-	revision: "19"
+	date: "2024-08-26 7:20:44 GMT (Monday 26th August 2024)"
+	revision: "20"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -110,11 +110,7 @@ feature {NONE} -- Implementation
 
 	new_servlet: EL_HACKER_INTERCEPT_SERVLET
 		do
-			if Args.word_option_exists ("test_servlet") then
-				create {TEST_HACKER_INTERCEPT_SERVLET} Result.make (Current)
-			else
-				create Result.make (Current)
-			end
+			create Result.make (Current)
 		end
 
 feature {EL_HACKER_INTERCEPT_SERVLET} -- Constants

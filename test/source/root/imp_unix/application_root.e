@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 14:16:28 GMT (Monday 1st January 2024)"
-	revision: "78"
+	date: "2024-08-26 8:21:33 GMT (Monday 26th August 2024)"
+	revision: "79"
 
 class
 	APPLICATION_ROOT
@@ -33,6 +33,9 @@ feature {NONE} -- Implementation
 		end
 
 	new_platform_types: TUPLE [
+	-- Test fast-cgi.ecf
+		FAST_CGI_TEST_APP, HACKER_INTERCEPT_TEST_SERVICE_APP,
+
 	-- Test TagLib.ecf (Not yet available in Windows due to contrib/C++ links to external library)
 		TAGLIB_AUTOTEST_APP,
 

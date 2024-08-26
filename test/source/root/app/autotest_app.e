@@ -13,14 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 8:09:45 GMT (Monday 22nd July 2024)"
-	revision: "13"
+	date: "2024-08-26 8:54:30 GMT (Monday 26th August 2024)"
+	revision: "14"
 
 class
 	AUTOTEST_APP
 
 inherit
 	EL_BATCH_AUTOTEST_APP
+		rename
+			omitted_apps as none_omitted
 		redefine
 			test
 		end
@@ -34,43 +36,39 @@ create
 
 feature {NONE} -- Implementation
 
-	test (application: EL_APPLICATION)
+	test (test_app: EL_AUTOTEST_APPLICATION; extra_arguments: detachable ARRAY [ZSTRING])
 		local
-			ecf_name: ZSTRING; cmd_list: EL_ZSTRING_LIST; latin_1_: EL_ENCODEABLE_AS_TEXT
+			ecf_name: ZSTRING; latin_1_: EL_ENCODEABLE_AS_TEXT
 		do
-			if attached {EL_AUTOTEST_APPLICATION} application as test_app then
-				ecf_name := Naming.class_as_kebab_upper (test_app, 0, 2) + Dot_ecf
-				ecf_name.to_lower
-				lio.put_labeled_string ("Library", ecf_name)
-				lio.put_new_line
+			ecf_name := Naming.class_as_kebab_upper (test_app, 0, 2) + Dot_ecf
+			ecf_name.to_lower
+			lio.put_labeled_string ("Library", ecf_name)
+			lio.put_new_line
 
-				create cmd_list.make_from_general (<< hyphen.to_string + application.option_name >>)
-				if attached {NETWORK_AUTOTEST_APP} application then
-					if Args.has_value (Option_pp) then
-					-- eiffel-loop.com ftp
-						cmd_list.append_general (<< hyphen * 1 + Option_pp, Args.value (Option_pp) >>)
-					end
-					call_command (cmd_list)
+			if attached {NETWORK_AUTOTEST_APP} test_app and then Args.has_value (Option_pp) then
+			-- eiffel-loop.com ftp
+				Precursor (test_app, << hyphen + Option_pp, Args.value (Option_pp) >>)
 
-				elseif attached {BASE_AUTOTEST_APP} application then
-					call_command (cmd_list) -- Use default ISO-8859-15 encoding first
+			elseif attached {BASE_AUTOTEST_APP} test_app then
+				Precursor (test_app, Void) -- Use default ISO-8859-15 encoding first
 
-				-- Now just string test sets with  ISO-8859-1
-					if execution.return_code = 0 then
-						create latin_1_.make (Latin_1)
-						cmd_list.append_general (<<
-							"-test_set", "*STRING*", Codec_factory.Codec_option_name, latin_1_.encoding_name
-						>>)
-						call_command (cmd_list)
-					end
-				else
-					call_command (cmd_list)
+			-- Now just string test sets with  ISO-8859-1
+				if execution.return_code = 0 then
+					create latin_1_.make (Latin_1)
+					Precursor (test_app, <<
+						"-test_set", "*STRING*", Codec_factory.Codec_option_name, latin_1_.encoding_name
+					>>)
 				end
+			else
+				Precursor (test_app, Void)
 			end
 		end
 
 feature {NONE} -- Constants
 
-	Option_pp: STRING = "pp"
+	Option_pp: ZSTRING
+		once
+			Result := "pp"
+		end
 
 end

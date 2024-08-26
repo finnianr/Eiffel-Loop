@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 9:24:51 GMT (Friday 16th August 2024)"
-	revision: "8"
+	date: "2024-08-26 18:03:41 GMT (Monday 26th August 2024)"
+	revision: "9"
 
 class
 	EL_LOCKABLE_TEXT_FILE
@@ -19,16 +19,21 @@ inherit
 			dispose
 		end
 
+	EL_LOCKABLE_TEXT_FILE_I
+
 create
 	make_open_write
 
 feature {NONE} -- Initialization
 
 	make_open_write (a_path: EL_FILE_PATH)
+		local
+			error: NATURAL
 		do
 			path := a_path
 			if attached Native_string.new_data (a_path) as native_path then
-				make_write (c_create_file_write (native_path.item))
+				make_write (c_create_file_write (native_path.item, $error))
+				last_error := error.to_integer_32
 			end
 		ensure
 			is_lockable: is_lockable
@@ -38,34 +43,20 @@ feature -- Access
 
 	path: EL_FILE_PATH
 
-feature -- Status report
-
-	last_write_ok: BOOLEAN
-			-- Was last write operation successful?
-
-	last_put_count: INTEGER
-			-- Last amount of bytes written to pipe
-
 feature -- Basic operations
 
 	put_string (str: STRING)
 		-- Write `str' to `file_handle' putting number of written bytes in `last_put_count'.
-		require
-			locked: is_locked
 		local
 			c_str: C_STRING; l_bytes: INTEGER; NULL: POINTER
 		do
 			create c_str.make (str)
 			last_write_ok := c_write_file (file_handle, c_str.item, c_str.count, $l_bytes, NULL)
 			last_put_count := l_bytes
-		ensure
-			last_write_ok: last_write_ok
 		end
 
 	wipe_out
 		-- wipe out existing file data
-		require
-			locked: is_locked
 		do
 			c_file_truncate (file_handle)
 		end
@@ -89,11 +80,6 @@ feature {NONE} -- Implementation
 				do_nothing
 			end
 			Precursor
-		end
-
-	is_fixed_size: BOOLEAN
-		do
-			Result := False
 		end
 
 end

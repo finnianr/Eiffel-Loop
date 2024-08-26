@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 12:11:00 GMT (Sunday 25th August 2024)"
-	revision: "35"
+	date: "2024-08-26 14:53:29 GMT (Monday 26th August 2024)"
+	revision: "36"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -84,7 +84,7 @@ feature -- Status query
 
 	has_character_data: BOOLEAN
 		do
-			Result := Class_id.Character_data_types.has (item_type_id)
+			Result := Eiffel.is_type_in_set (item_type_id, Class_id.Character_data_types)
 		end
 
 	is_extendible (a_object: EL_REFLECTIVE): BOOLEAN

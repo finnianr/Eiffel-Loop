@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-19 14:19:09 GMT (Friday 19th April 2024)"
-	revision: "8"
+	date: "2024-08-26 8:09:04 GMT (Monday 26th August 2024)"
+	revision: "9"
 
 class
 	COMPILED_CLASSES
@@ -35,7 +35,7 @@ feature {NONE} -- Compiled
 		EL_IP_ECHO_SERVLET,
 		EL_OK_SERVLET,
 		EL_SOFTWARE_VERSION_INFO_SERVLET,
-		EL_TEST_SERVLET
+		TEST_SERVLET
 	]
 		-- app-manage.ecf
 		do

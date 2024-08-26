@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 11:27:13 GMT (Monday 19th August 2024)"
-	revision: "15"
+	date: "2024-08-26 17:02:52 GMT (Monday 26th August 2024)"
+	revision: "16"
 
 class
 	EL_FILE_LOCK_C_API
@@ -19,11 +19,11 @@ inherit
 
 feature {NONE} -- C Externals
 
-	frozen c_create_write_only (a_path: POINTER; a_error: TYPED_POINTER [NATURAL]): INTEGER
+	frozen c_create_write_only (a_path: POINTER; a_error: TYPED_POINTER [INTEGER]): INTEGER
 		require
 			not_null_pointer: is_attached (a_path)
 		external
-			"C inline use <unistd.h>"
+			"C inline use <fcntl.h>"
 		alias
 			"[
 				int result = open ((const char *)$a_path, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
@@ -46,7 +46,7 @@ feature {NONE} -- C Externals
 		require
 			valid_descriptor: descriptor /= -1
 		external
-			"C (int): EIF_INTEGER | <unistd.h>"
+			"C (int): EIF_INTEGER | <fcntl.h>"
 		alias
 			"close"
 		end
@@ -60,12 +60,14 @@ feature {NONE} -- C Externals
 		require
 			valid_descriptor: descriptor /= -1
 		external
-			"C (int, off_t): EIF_INTEGER | <unistd.h>"
+			"C (int, off_t): EIF_INTEGER | <fcntl.h>"
 		alias
 			"ftruncate"
 		end
 
-	frozen c_write (descriptor: INTEGER; data: POINTER; byte_count: INTEGER): INTEGER
+	frozen c_write (
+		descriptor: INTEGER; data: POINTER; byte_count: INTEGER; a_error: TYPED_POINTER [INTEGER]
+	): INTEGER
 		-- ssize_t write(int fildes, const void *buf, size_t nbyte);
 
 		-- The write() function attempts to write nbyte bytes from the buffer pointed to by buf to the file
@@ -74,9 +76,13 @@ feature {NONE} -- C Externals
 		-- https://pubs.opengroup.org/onlinepubs/7908799/xsh/write.html
 
 		external
-			"C (int, const void *, size_t): EIF_INTEGER | <unistd.h>"
+			"C inline use <fcntl.h>"
 		alias
-			"write"
+			"[
+				int result = write ((int)$descriptor, (const void *)$data, (size_t)$byte_count);
+				if (result < 0) *((int*)$a_error) = errno;
+				return result;
+			]"
 		end
 
 feature {NONE} -- C struct flock

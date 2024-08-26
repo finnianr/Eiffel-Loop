@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-21 8:38:58 GMT (Wednesday 21st August 2024)"
-	revision: "47"
+	date: "2024-08-26 14:57:48 GMT (Monday 26th August 2024)"
+	revision: "48"
 
 class
 	EL_TUPLE_ROUTINES
@@ -23,9 +23,10 @@ inherit
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL
 
+	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
+
 	EL_SHARED_CLASS_ID
 
-	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -37,9 +38,10 @@ feature {NONE} -- Initialization
 			create types_table.make (17, agent new_type_array)
 			create procedure
 			create empty
+			create counter
 			readable_string_8_types := Class_id.readable_string_8_types
 			readable_string_32_types := Class_id.readable_string_32_types
-			path_types := Class_id.path_types
+			el_path_types := Class_id.el_path_types
 		end
 
 feature -- Access
@@ -57,6 +59,11 @@ feature -- Access
 		end
 
 	empty: TUPLE
+
+	last_reset_count: INTEGER
+		do
+			Result := counter.item.to_integer_32
+		end
 
 	type_array (tuple: TUPLE): EL_TUPLE_TYPE_ARRAY
 		-- Caches results in `types_table'
@@ -295,6 +302,73 @@ feature -- Basic operations
 			end
 		end
 
+	reset (tuple: TUPLE)
+		-- reset all tuple items to default values, wiping out any strings
+		-- `last_reset_count' returns the number of items reset
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > tuple.count loop
+				reset_i_th (tuple, i, tuple.item_code (i))
+				i := i + 1
+			end
+		end
+
+	reset_i_th (tuple: TUPLE; i, type_id: INTEGER)
+		require
+			valid_index: tuple.valid_index (i)
+		do
+			inspect tuple.item_code (i)
+				when {TUPLE}.Character_8_code then
+					tuple.put_character ('%U', i); counter.bump
+
+				when {TUPLE}.Character_32_code then
+					tuple.put_character_32 ('%U', i); counter.bump
+
+				when {TUPLE}.Boolean_code then
+					tuple.put_boolean (False, i); counter.bump
+
+				when {TUPLE}.Pointer_code then
+					tuple.put_pointer (default_pointer, i)
+
+				when {TUPLE}.Integer_8_code then
+					tuple.put_integer_8 (0, i); counter.bump
+
+				when {TUPLE}.Integer_16_code then
+					tuple.put_integer_16 (0, i); counter.bump
+
+				when {TUPLE}.Integer_32_code then
+					tuple.put_integer (0, i); counter.bump
+
+				when {TUPLE}.Integer_64_code then
+					tuple.put_integer_64 (0, i); counter.bump
+
+				when {TUPLE}.Natural_8_code then
+					tuple.put_natural_8 (0, i); counter.bump
+
+				when {TUPLE}.Natural_16_code then
+					tuple.put_natural_16 (0, i); counter.bump
+
+				when {TUPLE}.Natural_32_code then
+					tuple.put_natural_32 (0, i); counter.bump
+
+				when {TUPLE}.Natural_64_code then
+					tuple.put_natural_64 (0, i); counter.bump
+
+				when {TUPLE}.Real_32_code then
+					tuple.put_real_32 (0, i); counter.bump
+
+				when {TUPLE}.Real_64_code then
+					tuple.put_real_64 (0, i); counter.bump
+
+				when {TUPLE}.Reference_code then
+					reset_i_th_reference (
+						tuple, tuple.reference_item (i), i, Eiffel.generic_dynamic_type (tuple, i)
+					)
+			else
+			end
+		end
+
 	set_i_th (tuple: TUPLE; i: INTEGER; readable: EL_READABLE; type_id: INTEGER)
 		require
 			valid_index: tuple.valid_index (i)
@@ -343,21 +417,7 @@ feature -- Basic operations
 					tuple.put_real_64 (readable.read_real_64, i)
 
 				when {TUPLE}.Reference_code then
-					if type_id = 0 then
-						set_i_th (tuple, i, readable, Eiffel.generic_dynamic_type (tuple, i))
-
-					elseif readable_string_32_types.has (type_id) then
-						tuple.put_reference (new_read_string_32 (readable, type_id), i)
-
-					elseif readable_string_8_types.has (type_id) then
-						tuple.put_reference (new_read_string_8 (readable, type_id), i)
-
-					elseif path_types.has (type_id) then
-						tuple.put_reference (new_read_path (readable, type_id), i)
-
-					else
-						do_nothing -- exits recursion
-					end
+					set_i_th_reference (tuple, i, readable, Eiffel.generic_dynamic_type (tuple, i))
 			else
 			end
 		end
@@ -452,7 +512,7 @@ feature -- Basic operations
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Factory
 
 	new_read_path (readable: EL_READABLE; type_id: INTEGER): EL_PATH
 		do
@@ -470,16 +530,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_read_string_8 (readable: EL_READABLE; type_id: INTEGER): READABLE_STRING_8
-		do
-			if type_id = Class_id.STRING_8 then
-				Result := readable.read_string_8
-
-			elseif type_id = Class_id.IMMUTABLE_STRING_8 then
-				create {IMMUTABLE_STRING_8} Result.make_from_string (readable.read_string_8)
-			end
-		end
-
 	new_read_string_32 (readable: EL_READABLE; type_id: INTEGER): READABLE_STRING_32
 		do
 			if type_id = Class_id.ZSTRING then
@@ -493,9 +543,64 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_read_string_8 (readable: EL_READABLE; type_id: INTEGER): READABLE_STRING_8
+		do
+			if type_id = Class_id.STRING_8 then
+				Result := readable.read_string_8
+
+			elseif type_id = Class_id.IMMUTABLE_STRING_8 then
+				create {IMMUTABLE_STRING_8} Result.make_from_string (readable.read_string_8)
+			end
+		end
+
 	new_type_array (static_type: INTEGER): EL_TUPLE_TYPE_ARRAY
 		do
 			create Result.make_from_static (static_type)
+		end
+
+feature {NONE} -- Implementation
+
+	reset_i_th_reference (tuple: TUPLE; ref_item: ANY; i, type_id: INTEGER)
+		do
+			if Eiffel.is_bag_type (type_id) and then attached {BAG [ANY]} ref_item as bag then
+			-- includes mutable strings
+				bag.wipe_out; counter.bump
+
+			elseif Eiffel.is_type_in_set (type_id, el_path_types)
+				and then attached {EL_PATH} ref_item as path
+			then
+				path.wipe_out; counter.bump
+
+			elseif type_id = Class_id.PATH and then attached {PATH} ref_item as path then
+				tuple.put_reference (create {PATH}.make_empty, i); counter.bump
+
+			elseif Eiffel.is_type_in_set (type_id, Class_id.immutable_string_types) and then
+				attached {IMMUTABLE_STRING_GENERAL} ref_item as immutable
+			then
+				if immutable.is_string_8 then
+					tuple.put_reference (create {IMMUTABLE_STRING_8}.make_empty, i)
+					counter.bump
+				else
+					tuple.put_reference (create {IMMUTABLE_STRING_32}.make_empty, i)
+					counter.bump
+				end
+			end
+		end
+
+	set_i_th_reference (tuple: TUPLE; i: INTEGER; readable: EL_READABLE; type_id: INTEGER)
+		do
+			if Eiffel.is_type_in_set (type_id, readable_string_32_types) then
+				tuple.put_reference (new_read_string_32 (readable, type_id), i)
+
+			elseif Eiffel.is_type_in_set (type_id, readable_string_8_types) then
+				tuple.put_reference (new_read_string_8 (readable, type_id), i)
+
+			elseif Eiffel.is_type_in_set (type_id, el_path_types) then
+				tuple.put_reference (new_read_path (readable, type_id), i)
+
+			else
+				do_nothing -- exits recursion
+			end
 		end
 
 	string_width_any (object: ANY): INTEGER
@@ -516,13 +621,15 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
+	counter: EL_NATURAL_32_COUNTER
+
+	el_path_types: SPECIAL [INTEGER]
+
 	procedure: EL_PROCEDURE
 
-	path_types : ARRAY [INTEGER]
+	readable_string_32_types: SPECIAL [INTEGER]
 
-	readable_string_8_types: ARRAY [INTEGER]
-
-	readable_string_32_types: ARRAY [INTEGER]
+	readable_string_8_types: SPECIAL [INTEGER]
 
 	types_table: EL_AGENT_CACHE_TABLE [EL_TUPLE_TYPE_ARRAY, INTEGER]
 

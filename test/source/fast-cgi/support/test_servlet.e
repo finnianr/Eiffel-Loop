@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "5"
+	date: "2024-08-26 7:21:49 GMT (Monday 26th August 2024)"
+	revision: "6"
 
 class
-	EL_TEST_SERVLET
+	TEST_SERVLET
 
 inherit
 	FCGI_HTTP_SERVLET

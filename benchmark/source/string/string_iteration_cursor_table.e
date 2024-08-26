@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-08-26 12:46:09 GMT (Monday 26th August 2024)"
+	revision: "3"
 
 class
 	STRING_ITERATION_CURSOR_TABLE
@@ -22,12 +22,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
-
-	EL_SHARED_ZSTRING_CURSOR
-		rename
-			cursor as zstring_cursor
-		end
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_ZSTRING_CURSOR
 
 create
 	make

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 12:54:22 GMT (Sunday 25th August 2024)"
-	revision: "46"
+	date: "2024-08-26 9:15:34 GMT (Monday 26th August 2024)"
+	revision: "47"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -112,12 +112,9 @@ feature -- Basic operations
 		end
 
 	reset (a_object: EL_REFLECTIVE)
-		local
-			l_value: like value
 		do
-			l_value := value (a_object)
-			if attached {BAG [ANY]} l_value as bag then
-				bag.wipe_out
+			if attached {COLLECTION [ANY]} value (a_object) as collection then
+				collection.wipe_out
 			end
 		end
 

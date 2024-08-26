@@ -247,6 +247,16 @@ system:
 					See class ${EVOLICITY_TEST_APP}
 				"""
 		cluster_tree:
+			fast_cgi = "source/fast-cgi"
+			description:
+				"""
+					fast-cgi.ecf
+					
+					Test [./library/fast-cgi.html Fast CGI Web Services)] library.
+
+					See class ${FAST_CGI_AUTOTEST_APP}
+				"""
+		cluster_tree:
 			file_processing = "source/file-processing"
 			description:
 				"""

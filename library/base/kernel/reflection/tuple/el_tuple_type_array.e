@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-08-26 14:52:49 GMT (Monday 26th August 2024)"
+	revision: "23"
 
 class
 	EL_TUPLE_TYPE_ARRAY
@@ -72,7 +72,7 @@ feature -- Status query
 
 	i_th_is_character_data (i: INTEGER): BOOLEAN
 		do
-			Result := Class_id.Character_data_types.has (area [i - 1].type_id)
+			Result := Eiffel.is_type_in_set (area [i - 1].type_id, Class_id.Character_data_types)
 		end
 
 	is_latin_1_representable: BOOLEAN

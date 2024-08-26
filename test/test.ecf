@@ -228,6 +228,15 @@ Test of Evolicity text substitution engine.
 See class ${EVOLICITY_TEST_APP}
 			</description>
 		</cluster>
+		<cluster name = "fast_cgi" location = "source/fast-cgi" recursive = "true">
+			<description>
+fast-cgi.ecf
+
+Test [./library/fast-cgi.html Fast CGI Web Services)] library.
+
+See class ${FAST_CGI_AUTOTEST_APP}
+			</description>
+		</cluster>
 		<cluster name = "file_processing" location = "source/file-processing" recursive = "true">
 			<description>
 file-processing.ecf

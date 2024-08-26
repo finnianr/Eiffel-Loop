@@ -204,6 +204,7 @@ publish-repository:
 			"test/test.ecf#encryption"
 			"test/test.ecf#eros"
 			"test/test.ecf#evolicity"
+			"test/test.ecf#fast_cgi"
 			"test/test.ecf#file_processing"
 			"test/test.ecf#http_client"
 			"test/test.ecf#i18n"

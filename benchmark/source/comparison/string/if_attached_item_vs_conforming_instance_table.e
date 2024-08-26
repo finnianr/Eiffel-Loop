@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 10:19:13 GMT (Monday 15th April 2024)"
-	revision: "4"
+	date: "2024-08-26 12:47:07 GMT (Monday 26th August 2024)"
+	revision: "5"
 
 class
 	IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE
@@ -48,7 +48,7 @@ inherit
 
 	EL_SHARED_ZSTRING_CURSOR
 		rename
-			cursor as shared_cursor_z
+			cursor_z as shared_cursor_z
 		end
 
 	EL_SHARED_CLASS_ID

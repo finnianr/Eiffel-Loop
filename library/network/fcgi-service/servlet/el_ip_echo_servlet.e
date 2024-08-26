@@ -1,13 +1,13 @@
 note
-	description: "Fcgi ip echo servlet"
+	description: "Fast CGI IP echo servlet"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "11"
+	date: "2024-08-26 6:57:01 GMT (Monday 26th August 2024)"
+	revision: "12"
 
 class
 	EL_IP_ECHO_SERVLET

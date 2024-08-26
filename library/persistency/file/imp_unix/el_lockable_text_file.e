@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 17:50:00 GMT (Thursday 15th August 2024)"
-	revision: "5"
+	date: "2024-08-26 17:17:46 GMT (Monday 26th August 2024)"
+	revision: "6"
 
 class
 	EL_LOCKABLE_TEXT_FILE
@@ -17,9 +17,11 @@ inherit
 	EL_NAMED_FILE_LOCK
 		rename
 			make as make_open_write
-		redefine
-			is_fixed_size
+		undefine
+			is_fixed_size, is_writeable, remove_file
 		end
+
+	EL_LOCKABLE_TEXT_FILE_I
 
 	EL_UNIX_IMPLEMENTATION
 
@@ -29,45 +31,26 @@ create
 feature -- Basic operations
 
 	put_string (str: STRING)
-		require
-			locked: is_locked
 		local
-			c_str: ANY
+			c_str: ANY; error: INTEGER
 		do
 			c_str := str.to_c
-			last_put_count := c_write (descriptor, $c_str, str.count)
-		ensure
-			last_write_ok: last_write_ok
+			last_put_count := c_write (descriptor, $c_str, str.count, $error)
+			last_write_ok := last_put_count >= 0
+			if not last_write_ok then
+				last_put_count := 0
+			end
+			last_error := error
 		end
 
 	wipe_out
 		-- wipe out existing file data
-		require
-			locked: is_locked
 		do
 			if c_file_truncate (descriptor, 0) /= 0 then
 				check
 					not_truncated: False
 				end
 			end
-		end
-
-feature -- Measurement
-
-	last_put_count: INTEGER
-
-feature -- Status query
-
-	last_write_ok: BOOLEAN
-		do
-			Result := last_put_count >= 0
-		end
-
-feature {NONE} -- Implementation
-
-	is_fixed_size: BOOLEAN
-		do
-			Result := False
 		end
 
 end

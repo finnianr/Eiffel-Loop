@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 12:11:21 GMT (Sunday 25th August 2024)"
-	revision: "39"
+	date: "2024-08-26 12:34:50 GMT (Monday 26th August 2024)"
+	revision: "40"
 
 class
 	EL_REFLECTED_TUPLE
@@ -21,7 +21,12 @@ inherit
 			write_crc, write_to_memory
 		end
 
-	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
+	EL_MODULE_CONVERT_STRING
+
+	EL_MODULE_TUPLE
+		rename
+			Tuple as Tuple_
+		end
 
 	EL_STRING_8_CONSTANTS
 
@@ -67,7 +72,14 @@ feature -- Basic operations
 
 	reset (a_object: EL_REFLECTIVE)
 		do
-			initialize (a_object)
+			if attached value (a_object) as tuple then
+				Tuple_.reset (tuple)
+				if tuple.count /= Tuple_.last_reset_count then
+					initialize (a_object)
+				end
+			else
+				initialize (a_object)
+			end
 		end
 
 	set_field_name_list (name_list: EL_STRING_8_LIST)
@@ -79,7 +91,7 @@ feature -- Basic operations
 
 	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			Tuple.read (value (a_object), memory)
+			Tuple_.read (value (a_object), memory)
 		end
 
 	set_from_readable (a_object: EL_REFLECTIVE; reader: EL_READABLE)
@@ -95,13 +107,13 @@ feature -- Basic operations
 		require else
 			valid_comma_count: default_string_separator implies (value_list.occurrences (',') + 1) = member_types.count
 		do
-			if attached value (a_object) as l_tuple then
+			if attached value (a_object) as tuple then
 				if attached new_split_list as new_list and then attached new_list (value_list) as list then
-					Convert_string.fill_tuple_from_list (l_tuple, list)
+					Convert_string.fill_tuple_from_list (tuple, list)
 
 				elseif attached Convert_string.split_list (value_list, ',', {EL_SIDE}.Left) as list then
 					list.prune_enclosing ('[', ']')
-					Convert_string.fill_tuple_from_list (l_tuple, list)
+					Convert_string.fill_tuple_from_list (tuple, list)
 				end
 			end
 		ensure then
@@ -116,9 +128,9 @@ feature -- Basic operations
 
 	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
 		do
-			if attached value (a_object) as l_tuple then
+			if attached value (a_object) as tuple then
 				writeable.write_character_8 ('[')
-				Tuple.write_with_comma (l_tuple, writeable, True)
+				Tuple_.write_with_comma (tuple, writeable, True)
 				writeable.write_character_8 (']')
 			end
 		end
@@ -135,8 +147,8 @@ feature -- Basic operations
 
 	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as l_tuple then
-				Tuple.write (l_tuple, memory, Void)
+			if attached value (a_object) as tuple then
+				Tuple_.write (tuple, memory, Void)
 			end
 		end
 
@@ -144,11 +156,11 @@ feature -- Conversion
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
-			if attached value (a_object) as l_tuple then
+			if attached value (a_object) as tuple then
 				across String_scope as scope loop
 					if attached scope.item as str then
 						str.append_character_8 ('[')
-						Tuple.write_with_comma (l_tuple, str, True)
+						Tuple_.write_with_comma (tuple, str, True)
 						str.append_character_8 (']')
 						if member_types.is_latin_1_representable then
 							Result := str.to_latin_1

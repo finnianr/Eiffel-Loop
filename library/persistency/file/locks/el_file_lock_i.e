@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 14:05:41 GMT (Thursday 15th August 2024)"
-	revision: "2"
+	date: "2024-08-26 18:02:42 GMT (Monday 26th August 2024)"
+	revision: "3"
 
 deferred class
 	EL_FILE_LOCK_I [G]
@@ -22,15 +22,24 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_SHARED_NATIVE_STRING
+	EL_SHARED_NATIVE_STRING; EL_SHARED_SYSTEM_ERROR_TABLE
+
+feature -- Access
+
+	last_error: INTEGER
+
+	last_error_message: ZSTRING
+		do
+			Result := System_error_table [last_error]
+		end
 
 feature -- Status query
-
-	is_locked: BOOLEAN
 
 	is_lockable: BOOLEAN
 		deferred
 		end
+
+	is_locked: BOOLEAN
 
 feature -- Status change
 

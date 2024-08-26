@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-08-26 9:04:58 GMT (Monday 26th August 2024)"
+	revision: "18"
 
 class
 	EL_REFLECTED_BOOLEAN_REF
@@ -16,7 +16,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [BOOLEAN_REF]
 		redefine
-			append_to_string, set_from_integer, set_from_readable, set_from_string,  write
+			append_to_string, reset, set_from_integer, set_from_readable, set_from_string, write
 		end
 
 create
@@ -28,6 +28,13 @@ feature -- Basic operations
 		do
 			if attached value (a_object) as v then
 				str.append_boolean (v.item)
+			end
+		end
+
+	reset (a_object: EL_REFLECTIVE)
+		do
+			if attached value (a_object) as v then
+				v.set_item (False)
 			end
 		end
 

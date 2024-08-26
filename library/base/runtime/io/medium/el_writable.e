@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:01:24 GMT (Sunday 25th August 2024)"
-	revision: "23"
+	date: "2024-08-26 14:55:37 GMT (Monday 26th August 2024)"
+	revision: "24"
 
 deferred class
 	EL_WRITABLE
 
 inherit
 	EL_STRING_HANDLER
+
+	EL_MODULE_EIFFEL
 
 	EL_SHARED_CLASS_ID
 
@@ -124,13 +126,19 @@ feature -- Other
 		do
 			id := {ISE_RUNTIME}.dynamic_type (object)
 
-			if Class_id.readable_string_8_types.has (id) and then attached {READABLE_STRING_8} object as str_8 then
+			if Eiffel.is_type_in_set (id, Class_id.readable_string_8_types)
+				and then attached {READABLE_STRING_8} object as str_8
+			then
 				write_string_8 (str_8)
 
-			elseif Class_id.readable_string_32_types.has (id) and then attached {READABLE_STRING_32} object as str_32 then
+			elseif Eiffel.is_type_in_set (id, Class_id.readable_string_32_types)
+				and then attached {READABLE_STRING_32} object as str_32
+			then
 				write_string_32 (str_32)
 
-			elseif Class_id.path_types.has (id) and then attached {EL_PATH} object as path then
+			elseif Eiffel.is_type_in_set (id, Class_id.el_path_types)
+				and then attached {EL_PATH} object as path
+			then
 				write_path (path)
 
 			elseif attached {READABLE_STRING_GENERAL} object as string then

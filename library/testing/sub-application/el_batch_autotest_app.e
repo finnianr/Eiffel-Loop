@@ -1,10 +1,10 @@
 note
 	description: "[
 		Run all sub-applications conforming to ${EL_AUTOTEST_APPLICATION} except for
-		those listed in `Omissions' tuple.
+		those listed in `omitted_apps' tuple.
 	]"
 	notes: "[
-
+		Rename `omitted_apps' to `none_omitted' if all test apps to be excuted
 	]"
 
 	author: "Finnian Reilly"
@@ -12,10 +12,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-08-26 8:56:19 GMT (Monday 26th August 2024)"
+	revision: "10"
 
-class
+deferred class
 	EL_BATCH_AUTOTEST_APP
 
 inherit
@@ -25,15 +25,12 @@ inherit
 
 	EL_SHARED_APPLICATION_LIST
 
-create
-	default_create
-
 feature {NONE} -- Initiliazation
 
 	initialize
 			--
 		do
-			create omission_list.make_from_tuple (Omissions)
+			create omission_list.make_from_tuple (omitted_apps)
 		end
 
 feature -- Basic operations
@@ -41,8 +38,10 @@ feature -- Basic operations
 	run
 		do
 			across Application_list as app until execution.return_code.to_boolean loop
-				if not Omission_list.has (app.item.generating_type) then
-					test (app.item)
+				if not omission_list.has (app.item.generating_type) then
+					if attached {EL_AUTOTEST_APPLICATION} app.item as test_app then
+						test (test_app, Void)
+					end
 				end
 			end
 		end
@@ -67,14 +66,28 @@ feature {NONE} -- Implementation
 			execution.system (cmd_list.joined_words)
 		end
 
-	test (application: EL_APPLICATION)
+	none_omitted: TUPLE
+		do
+			create Result
+		end
+
+	test (test_app: EL_AUTOTEST_APPLICATION; extra_arguments: detachable ARRAY [ZSTRING])
 		local
 			cmd_list: EL_ZSTRING_LIST
 		do
-			if attached {EL_AUTOTEST_APPLICATION} application as test_app then
-				create cmd_list.make_from_general (<< hyphen.to_string + application.option_name >>)
-				call_command (cmd_list)
+			create cmd_list.make_from_general (<< hyphen + test_app.option_name >>)
+			if attached extra_arguments as extra then
+				cmd_list.append_general (extra)
 			end
+			call_command (cmd_list)
+		end
+
+feature {NONE} -- Deferred
+
+	omitted_apps: TUPLE
+		-- class types conforming to `EL_AUTOTEST_APPLICATION' to be skipped
+		-- rename to `none_omitted' if all test apps are to be executed
+		deferred
 		end
 
 feature {NONE} -- Internal attributes
@@ -91,11 +104,6 @@ feature {NONE} -- Constants
 	Dot_ecf: ZSTRING
 		once
 			Result := ".ecf"
-		end
-
-	Omissions: TUPLE
-		once
-			create Result
 		end
 
 	W_code_template: ZSTRING
