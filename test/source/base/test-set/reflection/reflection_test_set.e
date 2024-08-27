@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 8:04:31 GMT (Tuesday 27th August 2024)"
-	revision: "58"
+	date: "2024-08-27 8:25:01 GMT (Tuesday 27th August 2024)"
+	revision: "59"
 
 class
 	REFLECTION_TEST_SET
@@ -163,13 +163,45 @@ feature -- Tests
 
 	test_field_value_reset
 		-- REFLECTION_TEST_SET.test_field_value_reset
+		note
+			testing: "[
+				covers/{EL_REFLECTIVE}.reset_fields,
+				covers/{EL_REFLECTED_FIELD}.reset,
+				covers/{EL_TUPLE_ROUTINES}.reset
+			]"
 		local
-			country: COUNTRY
+			country: COUNTRY; string_fields: ARRAY [READABLE_STRING_GENERAL]
 		do
 			across new_country_list as list loop
 				country := list.item
 				country.reset_fields
-				assert ("continent empty", country.continent.is_empty)
+				assert ("false booleans",
+					across << country.brics_member.item, country.euro_zone_member >> as boolean all
+						not boolean.item
+					end
+				)
+				assert ("0 integers",
+					across << country.date_founded, country.population >> as integer all
+						integer.item = 0
+					end
+				)
+				string_fields := << country.continent, country.name, country.code, country.wikipedia_url >>
+				assert ("empty strings",
+					across string_fields as string all
+						string.item.is_empty
+					end
+				)
+				assert ("currency is 0", country.currency = 0)
+				assert ("empty pointer", country.photo_jpeg.count = 0)
+				assert ("empty province_list", country.province_list.count = 0)
+				if attached country.temperature_range as range then
+					assert ("0 integers",
+						across << range.winter, range.summer >> as integer all
+							integer.item = 0
+						end
+					)
+					assert ("empty unit_name", range.unit_name.count = 0)
+				end
 			end
 		end
 
