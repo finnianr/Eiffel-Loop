@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-03 16:45:18 GMT (Saturday 3rd December 2022)"
-	revision: "5"
+	date: "2024-08-27 7:54:34 GMT (Tuesday 27th August 2024)"
+	revision: "6"
 
 deferred class
 	TP_PATTERN
 
 inherit
 	EL_TEXT_PATTERN_I
-
-	STRING_HANDLER
 
 feature -- Access
 
@@ -297,4 +295,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

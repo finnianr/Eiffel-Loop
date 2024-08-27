@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:47:54 GMT (Friday 12th July 2024)"
-	revision: "21"
+	date: "2024-08-27 7:39:56 GMT (Tuesday 27th August 2024)"
+	revision: "22"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-	NATIVE_STRING_HANDLER; STRING_HANDLER
+	NATIVE_STRING_HANDLER; EL_STRING_HANDLER
 
 	EL_FILE_OPEN_ROUTINES
 

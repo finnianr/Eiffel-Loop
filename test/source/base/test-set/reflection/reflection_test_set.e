@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 9:29:13 GMT (Saturday 24th August 2024)"
-	revision: "57"
+	date: "2024-08-27 8:04:31 GMT (Tuesday 27th August 2024)"
+	revision: "58"
 
 class
 	REFLECTION_TEST_SET
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 				["field_name_search_by_address",						agent test_field_name_search_by_address],
 				["field_representation",								agent test_field_representation],
 				["field_value_setter",									agent test_field_value_setter],
+				["field_value_reset",									agent test_field_value_reset],
 				["field_value_table",									agent test_field_value_table],
 				["initialized_object_factory",						agent test_initialized_object_factory],
 				["makeable_object_factory",							agent test_makeable_object_factory],
@@ -48,9 +49,9 @@ feature {NONE} -- Initialization
 				["object_initialization_from_table",				agent test_object_initialization_from_table],
 				["reflected_collection_factory",						agent test_reflected_collection_factory],
 				["reflected_integer_list",								agent test_reflected_integer_list],
-				["reflective_string_table",							agent test_reflective_string_table],
 				["reflection",												agent test_reflection],
 				["reflective_string_constants",						agent test_reflective_string_constants],
+				["reflective_string_table",							agent test_reflective_string_table],
 				["set_from_other",										agent test_set_from_other],
 				["size_reporting",										agent test_size_reporting],
 				["substituted_type_id",									agent test_substituted_type_id]
@@ -160,12 +161,24 @@ feature -- Tests
 			assert ("EURO is 9", representation.to_value ("EUR") = (9).to_natural_8)
 		end
 
+	test_field_value_reset
+		-- REFLECTION_TEST_SET.test_field_value_reset
+		local
+			country: COUNTRY
+		do
+			across new_country_list as list loop
+				country := list.item
+				country.reset_fields
+				assert ("continent empty", country.continent.is_empty)
+			end
+		end
+
 	test_field_value_setter
 		-- REFLECTION_TEST_SET.test_field_value_setter
 		local
 			string_setter: EL_FIELD_TYPE_QUERY [STRING]
 		do
-			if attached new_country as country then
+			if attached new_country (Ireland) as country then
 				create string_setter.make (country, False)
 				string_setter.set_values (country, agent to_upper, True)
 				assert ("upper code", country.code ~ "CODE")
@@ -182,7 +195,7 @@ feature -- Tests
 			string_values: ARRAY [TUPLE [name, value: STRING]]
 			integer_values: ARRAY [TUPLE [name: STRING; value: INTEGER]]
 		do
-			if attached new_country as country then
+			if attached new_country (Ireland) as country then
 				create string_table.make (country)
 				string_values := << ["code", "IE"], ["continent", "Europe"] >>
 				assert ("same field count", string_table.count = string_values.count)
@@ -270,15 +283,15 @@ feature -- Tests
 				covers/{EL_CAMEL_CASE_TRANSLATER}.imported
 			]"
 		local
-			country: CAMEL_CASE_COUNTRY; table: like Country_table
+			country: CAMEL_CASE_COUNTRY; table: like Country_Ireland
 		do
-			create table.make_size (Country_table.count)
-			table.merge (Country_table)
+			create table.make_size (Country_Ireland.count)
+			table.merge (Country_Ireland)
 			table.replace_key ("literacyRate", "literacy_rate")
 			table.replace_key ("photoJpeg", "photo_jpeg")
 			table.replace_key ("euroZoneMember", "euro_zone_member")
 			create country.make (table)
-			country.province_list.copy (new_country.province_list)
+			country.province_list.copy (new_country (Ireland).province_list)
 			check_values (country)
 		end
 
@@ -286,7 +299,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table"
 		do
-			check_values (new_country)
+			check_values (new_country (Ireland))
 		end
 
 	test_reflected_collection_factory
@@ -385,13 +398,13 @@ feature -- Tests
 		local
 			country: COUNTRY; country_2: COUNTRY
 		do
-			country := new_country
+			country := new_country (Ireland)
 			create country_2.make_default
 			country_2.set_from_other (country, "continent, population")
 			assert ("continent is empty", country_2.continent.is_empty)
 			assert ("population is zero", country_2.population = 0)
-			country_2.set_continent (Country_table ["continent"])
-			country_2.set_population (Country_table ["population"].to_integer)
+			country_2.set_continent (Country_Ireland ["continent"])
+			country_2.set_population (Country_Ireland ["population"].to_integer)
 			check_values (country_2)
 
 			create country_2.make_default
@@ -426,8 +439,12 @@ feature -- Tests
 		local
 			type_id: INTEGER
 		do
-			type_id := Factory.substituted_type_id ({EL_MAKEABLE_FACTORY [EL_MAKEABLE]}, {EL_MAKEABLE}, ({EL_UUID}).type_id)
-			assert_same_string (Void, {ISE_RUNTIME}.generating_type_of_type (type_id), "EL_MAKEABLE_FACTORY [EL_UUID]")
+			type_id := Factory.substituted_type_id (
+				{EL_MAKEABLE_FACTORY [EL_MAKEABLE]}, {EL_MAKEABLE}, ({EL_UUID}).type_id
+			)
+			assert_same_string (Void,
+				{ISE_RUNTIME}.generating_type_of_type (type_id), "EL_MAKEABLE_FACTORY [EL_UUID]"
+			)
 		end
 
 feature {NONE} -- Implementation
@@ -439,20 +456,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	assert_same_http_status (status: EL_SUBSTRING_8; status_code: NATURAL_16)
-		local
-			string, code_string: STRING; code: NATURAL_16; s: EL_STRING_8_ROUTINES
-		do
-			string := status
-			code_string := s.substring_to (string, ' ')
-			string.remove_head (code_string.count + 1)
-			assert ("same status code", code_string.to_natural_16 = status_code)
-			if attached Http_status.description (status_code) as description then
-				assert ("same count", status.count - code_string.count - 1 = description.count)
-				assert_same_string ("same description", string, description)
-			end
-		end
 
 	Immutable_string_8: IMMUTABLE_STRING_8
 		once
@@ -469,5 +472,19 @@ feature {NONE} -- Constants
 		end
 
 	String_8: STRING_8 = "string_8"
+
+	assert_same_http_status (status: EL_SUBSTRING_8; status_code: NATURAL_16)
+		local
+			string, code_string: STRING; code: NATURAL_16; s: EL_STRING_8_ROUTINES
+		do
+			string := status
+			code_string := s.substring_to (string, ' ')
+			string.remove_head (code_string.count + 1)
+			assert ("same status code", code_string.to_natural_16 = status_code)
+			if attached Http_status.description (status_code) as description then
+				assert ("same count", status.count - code_string.count - 1 = description.count)
+				assert_same_string ("same description", string, description)
+			end
+		end
 
 end

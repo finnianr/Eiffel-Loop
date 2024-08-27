@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-08-27 7:33:07 GMT (Tuesday 27th August 2024)"
+	revision: "6"
 
 deferred class
 	EL_COMPARABLE_ZSTRING_INTERVALS [C, S -> READABLE_INDEXABLE [C]]
@@ -20,7 +20,7 @@ inherit
 			make, set
 		end
 
-	STRING_HANDLER undefine copy, is_equal, out end
+	EL_STRING_HANDLER
 
 	EL_SHARED_ZSTRING_CODEC
 		rename

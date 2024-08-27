@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 8:23:40 GMT (Friday 17th May 2024)"
-	revision: "28"
+	date: "2024-08-27 7:49:34 GMT (Tuesday 27th August 2024)"
+	revision: "29"
 
 class
 	EL_SUBSTRING_32_ARRAY
@@ -37,7 +37,7 @@ inherit
 
 	EL_SUBSTRING_32_CONTAINER
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 create
 	make_empty, make_from_area, make_from_other, make_from_unencoded

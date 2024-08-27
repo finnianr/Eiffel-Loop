@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-16 15:45:46 GMT (Tuesday 16th July 2024)"
-	revision: "17"
+	date: "2024-08-27 7:52:12 GMT (Tuesday 27th August 2024)"
+	revision: "18"
 
 class
 	SMIL_PRESENTATION
@@ -22,8 +22,6 @@ inherit
 		end
 
 	OUTPUT_ROUTINES
-
-	STRING_HANDLER
 
 create
 	make_from_file, make_from_string, make

@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-30 10:33:52 GMT (Thursday 30th May 2024)"
-	revision: "7"
+	date: "2024-08-27 7:41:39 GMT (Tuesday 27th August 2024)"
+	revision: "8"
 
 class
 	EL_IMMUTABLE_NAME_TABLE [N -> {NUMERIC, HASHABLE}]
@@ -34,10 +34,7 @@ inherit
 
 	EL_SHARED_STRING_8_CURSOR
 
-	STRING_HANDLER
-		undefine
-			copy, default_create, is_equal
-		end
+	EL_STRING_HANDLER
 
 create
 	make, make_general

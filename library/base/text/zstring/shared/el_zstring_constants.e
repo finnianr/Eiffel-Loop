@@ -6,21 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:10:21 GMT (Sunday 25th August 2024)"
-	revision: "21"
+	date: "2024-08-27 7:59:33 GMT (Tuesday 27th August 2024)"
+	revision: "22"
 
 deferred class
 	EL_ZSTRING_CONSTANTS
 
 inherit
 	EL_ANY_SHARED
-
-feature {NONE} -- Implementation
-
-	is_zstring (general: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := Empty_string.same_type (general)
-		end
 
 feature {NONE} -- Constants
 

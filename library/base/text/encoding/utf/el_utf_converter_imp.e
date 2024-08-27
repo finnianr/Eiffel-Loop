@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-04 14:09:16 GMT (Wednesday 4th October 2023)"
-	revision: "17"
+	date: "2024-08-27 7:51:23 GMT (Tuesday 27th August 2024)"
+	revision: "18"
 
 class
 	EL_UTF_CONVERTER_IMP
@@ -20,7 +20,7 @@ inherit
 			is_valid_utf_16
 		end
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 	EL_SHARED_STRING_8_CURSOR; EL_SHARED_IMMUTABLE_8_MANAGER
 

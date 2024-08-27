@@ -28,7 +28,6 @@ for creating single and multi-threaded HTTP servlet services.
 		<library name = "EL_net_base" location = "network.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>
-		<library/>
 		<library name = "EL_text_formats" location = "text-formats.ecf"/>
 		<library name = "EL_text_process" location = "text-process.ecf"/>
 		<library name = "EL_thread" location = "thread.ecf"/>

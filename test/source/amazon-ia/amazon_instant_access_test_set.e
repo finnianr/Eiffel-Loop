@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 19:19:04 GMT (Sunday 25th August 2024)"
-	revision: "42"
+	date: "2024-08-27 6:45:34 GMT (Tuesday 27th August 2024)"
+	revision: "43"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -65,8 +65,11 @@ feature -- Account Linking
 
 	test_get_user_id
 		note
-			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json",
-						"covers/{AIA_SIGNER}.sign"
+			testing: "[
+				covers/{AIA_REQUEST_MANAGER}.response,
+				covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json,
+				covers/{AIA_SIGNER}.sign
+			]"
 		local
 			request: like new_amazon_request
 		do
@@ -90,7 +93,10 @@ feature -- Account Linking
 
 	test_get_user_id_health_check
 		note
-			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json"
+			testing: "[
+				covers/{AIA_REQUEST_MANAGER}.response,
+				covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json
+			]"
 		local
 			request: like new_amazon_request
 		do
@@ -162,6 +168,8 @@ feature -- Authorization
 		end
 
 	test_sign_and_verify
+		note
+			testing: "covers/{EL_SETTABLE_FROM_STRING}.set_from_utf_8_table"
 		local
 			request: like new_amazon_request
 			verifier: AIA_VERIFIER
@@ -185,8 +193,11 @@ feature -- Purchase
 
 	test_purchase_fullfill
 		note
-			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json",
-					"covers/{AIA_PURCHASE_REQUEST}.response"
+			testing: "[
+				covers/{AIA_REQUEST_MANAGER}.response,
+				covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json,
+				covers/{AIA_PURCHASE_REQUEST}.response
+			]"
 		local
 			request: like new_amazon_request; json_response: STRING
 			response: AIA_RESPONSE
@@ -219,8 +230,11 @@ feature -- Purchase
 
 	test_purchase_revoke
 		note
-			testing: "covers/{AIA_REQUEST_MANAGER}.response, covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json",
-						"covers/{AIA_PURCHASE_REQUEST}.response"
+			testing: "[
+				covers/{AIA_REQUEST_MANAGER}.response,
+				covers/{EL_SETTABLE_FROM_JSON_STRING}.as_json,
+				covers/{AIA_PURCHASE_REQUEST}.response
+			]"
 		local
 			request: like new_amazon_request; json_response: STRING
 		do

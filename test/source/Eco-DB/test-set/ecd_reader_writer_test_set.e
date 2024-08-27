@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 11:58:31 GMT (Thursday 11th July 2024)"
-	revision: "27"
+	date: "2024-08-27 7:24:21 GMT (Tuesday 27th August 2024)"
+	revision: "28"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -52,7 +52,7 @@ feature -- Tests
 						"covers/{EL_MEMORY_READER_WRITER}.write_string",
 						"covers/{EL_REFLECTED_COLLECTION}.write"
 		do
-			if attached new_country as country then
+			if attached new_country (Ireland) as country then
 				country.print_fields (lio)
 
 				check_values (country)
@@ -66,7 +66,7 @@ feature -- Tests
 
 	test_print_fields
 		do
-			if attached new_country as country then
+			if attached new_country (Ireland) as country then
 				do_test ("print_fields", 3471811015, agent country.print_fields (lio), [])
 			end
 		end
@@ -81,7 +81,7 @@ feature -- Tests
 		do
 			data_path := Work_area_dir + "country.dat"
 			create data_table.make_from_file (data_path)
-			data_table.extend (new_country)
+			data_table.extend (new_country (Ireland))
 
 			pyxis_path := data_path.with_new_extension ("pyx")
 			data_table.export_pyxis (pyxis_path, Latin_1)
@@ -130,7 +130,7 @@ feature -- Tests
 		do
 			File_path.set_base ("country.dat")
 			create country_list.make (1)
-			country := new_country
+			country := new_country (Ireland)
 			country_list.extend (country)
 			across 1 |..| 2 as n loop
 				if n.is_first then
@@ -181,7 +181,7 @@ feature -- Tests
 		do
 			create meta_data.make_open_write (Work_area_dir + "country.e")
 			meta_data.set_encoding (Latin_1)
-			if attached new_country as country then
+			if attached new_country (Ireland) as country then
 				country.write_meta_data (meta_data, 0)
 				meta_data.close
 			end

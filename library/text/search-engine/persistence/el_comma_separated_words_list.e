@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 8:19:40 GMT (Thursday 11th July 2024)"
-	revision: "17"
+	date: "2024-08-27 7:29:48 GMT (Tuesday 27th August 2024)"
+	revision: "18"
 
 class
 	EL_COMMA_SEPARATED_WORDS_LIST
@@ -35,10 +35,7 @@ inherit
 			{ECD_STORABLE_CHAIN} set_area
 		end
 
-	STRING_HANDLER
-		undefine
-			copy, is_equal
-		end
+	EL_STRING_HANDLER
 
 	EL_EVENT_LISTENER
 		rename

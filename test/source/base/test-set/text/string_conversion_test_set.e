@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 7:44:50 GMT (Monday 22nd July 2024)"
-	revision: "29"
+	date: "2024-08-27 7:52:38 GMT (Tuesday 27th August 2024)"
+	revision: "30"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -26,7 +26,7 @@ inherit
 			Codec as Codec_
 		end
 
-	STRING_HANDLER undefine default_create end
+	EL_STRING_HANDLER
 
 create
 	make

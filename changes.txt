@@ -754,3 +754,6 @@ Revised base clusters with new string_8 and string_32
 Thu 22nd Aug 2024, 13:37:33
 Implemented EL_SHARED_SYSTEM_ERROR_TABLE as compressed by zlib
 
+Mon 26th Aug 2024, 18:12:06
+Improved EL_BATCH_AUTOTEST; reorganized testing for fast-cgi
+

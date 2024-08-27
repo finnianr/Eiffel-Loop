@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:22 GMT (Saturday 22nd June 2024)"
-	revision: "38"
+	date: "2024-08-27 7:36:25 GMT (Tuesday 27th August 2024)"
+	revision: "39"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -27,8 +27,6 @@ inherit
 	EL_MEMORY_ROUTINES
 
 	EL_STRING_GENERAL_ROUTINES
-
-	STRING_HANDLER
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXCEPTION; EL_MODULE_DIRECTORY
 

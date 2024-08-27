@@ -6,17 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-08-27 7:35:21 GMT (Tuesday 27th August 2024)"
+	revision: "11"
 
 class
 	EL_C_DECODER
 
 inherit
-	STRING_HANDLER
+	ANY
 		redefine
 			default_create
 		end
+
+	EL_STRING_HANDLER
 
 feature {NONE} -- Initialization	
 

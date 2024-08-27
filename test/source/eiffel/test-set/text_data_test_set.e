@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:08:54 GMT (Sunday 24th December 2023)"
-	revision: "40"
+	date: "2024-08-27 7:53:23 GMT (Tuesday 27th August 2024)"
+	revision: "41"
 
 class
 	TEXT_DATA_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 	EL_ENCODING_TYPE
 
-	STRING_HANDLER undefine default_create end
+	EL_STRING_HANDLER
 
 create
 	make

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:27:29 GMT (Tuesday 20th August 2024)"
-	revision: "19"
+	date: "2024-08-27 7:50:12 GMT (Tuesday 27th August 2024)"
+	revision: "20"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -21,7 +21,7 @@ inherit
 			set_area as set_sequence_area
 		end
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 create
 	make

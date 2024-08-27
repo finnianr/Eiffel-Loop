@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 10:31:07 GMT (Wednesday 8th November 2023)"
-	revision: "19"
+	date: "2024-08-27 7:53:07 GMT (Tuesday 27th August 2024)"
+	revision: "20"
 
 class
 	TB_SUBJECT_LINE_DECODER
@@ -28,8 +28,6 @@ inherit
 		end
 
 	EL_MODULE_BASE_64; EL_MODULE_TUPLE
-
-	STRING_HANDLER
 
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
 

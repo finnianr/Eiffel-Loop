@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:48:37 GMT (Sunday 25th August 2024)"
-	revision: "29"
+	date: "2024-08-27 7:42:51 GMT (Tuesday 27th August 2024)"
+	revision: "30"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -32,8 +32,6 @@ inherit
 		end
 
 	EL_STRING_BIT_COUNTABLE [GENERAL]
-
-	STRING_HANDLER undefine copy, is_equal end
 
 	EL_INTERVAL_ROUTINES
 		rename

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-14 13:43:22 GMT (Sunday 14th January 2024)"
-	revision: "9"
+	date: "2024-08-27 7:43:20 GMT (Tuesday 27th August 2024)"
+	revision: "10"
 
 expanded class
 	EL_NT_FILE_SYSTEM_ROUTINES
@@ -15,7 +15,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 	EL_SET [CHARACTER_8]
 		rename
@@ -26,8 +26,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_ZSTRING_CONSTANTS
 
 feature -- Conversion
 

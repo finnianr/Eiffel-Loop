@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 6:47:06 GMT (Sunday 25th August 2024)"
-	revision: "9"
+	date: "2024-08-27 7:25:44 GMT (Tuesday 27th August 2024)"
+	revision: "10"
 
 deferred class
 	COUNTRY_TEST_DATA
@@ -27,7 +27,7 @@ feature {NONE} -- Implementation
 		local
 			field_name: STRING; table_value, field_value: ZSTRING
 		do
-			assert ("same field count", country.field_count - 1 = Country_table.count)
+			assert ("same field count", country.field_count - 1 = Country_Ireland.count)
 			across country.field_table as table loop
 				field_name := table.item.name
 				if field_name ~ "province_list" then
@@ -36,8 +36,8 @@ feature {NONE} -- Implementation
 						check_province_value (list.item, Province_table_list [list.cursor_index])
 					end
 				else
-					assert ("has field " + field_name, Country_table.has_key (field_name))
-					table_value := Country_table.found_item
+					assert ("has field " + field_name, Country_Ireland.has_key (field_name))
+					table_value := Country_Ireland.found_item
 					if field_name ~ "currency" then
 						field_value := country.currency_name
 					else
@@ -65,11 +65,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_country: COUNTRY
+	new_country_list: ARRAY [COUNTRY]
 		do
-			create Result.make (Country_table)
-			across Province_table_list as list loop
-				Result.province_list.extend (create {PROVINCE}.make (list.item))
+			Result := << new_country (Ireland), new_country (India) >>
+		end
+
+	new_country (id: NATURAL_8): COUNTRY
+		do
+			inspect id
+				when Ireland then
+					create Result.make (Country_Ireland)
+					across Province_table_list as list loop
+						Result.province_list.extend (create {PROVINCE}.make (list.item))
+					end
+				when India then
+					create Result.make (Country_Ireland)
+			else
 			end
 		end
 
@@ -113,6 +124,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Ireland: NATURAL_8 = 1
+
+	India: NATURAL_8 = 2
+
 	Province_table_list: ARRAYED_LIST [EL_ZSTRING_TABLE]
 		once
 			create Result.make (4)
@@ -121,7 +136,7 @@ feature {NONE} -- Constants
 			end
 		end
 
-	Country_table: EL_ZSTRING_TABLE
+	Country_Ireland: EL_ZSTRING_TABLE
 		once
 			create Result.make ("[
 				brics_member:
@@ -151,4 +166,33 @@ feature {NONE} -- Constants
 			]")
 		end
 
+	Country_India: EL_ZSTRING_TABLE
+		once
+			create Result.make ("[
+				brics_member:
+					True
+				code:
+					IN
+				continent:
+					Asia
+				currency:
+					INR
+				date_founded:
+					15/8/1947
+				euro_zone_member:
+					NO
+				literacy_rate:
+					0.73
+				name:
+					India
+				photo_jpeg:
+					VyDHQ26RoAdUlNMQiWOKp22iUZEbS/VqWgX6rafZUGg=
+				population:
+					1428627663
+				temperature_range:
+					[-40, 40, Celsius]
+				wikipedia_url:
+					https://en.wikipedia.org/wiki/India
+			]")
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-30 9:41:06 GMT (Saturday 30th March 2024)"
-	revision: "21"
+	date: "2024-08-27 7:35:57 GMT (Tuesday 27th August 2024)"
+	revision: "22"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -24,8 +24,6 @@ inherit
 		end
 
 	TP_SHARED_OPTIMIZED_FACTORY
-
-	STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -112,7 +110,7 @@ feature {NONE} -- Implementation
 			index: INTEGER
 		do
 		-- passes test for comment line: "%T%T-- index of %"${%""
-		-- See CLASS_LINK `start_index' 
+		-- See CLASS_LINK `start_index'
 			if attached code_line as line and then line.count >= 2 then
 				index := line.last_index_of ('"', 1)
 				if index > 0 and then line.valid_index (index + 1)

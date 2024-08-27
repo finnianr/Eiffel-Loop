@@ -2010,6 +2010,12 @@ Test [Eiffel Remote Object Server (EROS)](https://github.com/finnianr/Eiffel-Loo
 
 Test of Evolicity text substitution engine. See class [EVOLICITY_TEST_APP](invalid-class-name)
 
+## fast-cgi.ecf
+
+Test [Fast CGI Web Services)](https://github.com/finnianr/Eiffel-Loop/library/fast-cgi.pecf) library.
+
+See class [FAST_CGI_AUTOTEST_APP](invalid-class-name)
+
 ## file-processing.ecf
 
 Test [File and Directory Processing)](https://github.com/finnianr/Eiffel-Loop/library/file-processing.pecf) library.

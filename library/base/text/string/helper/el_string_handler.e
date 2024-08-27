@@ -1,13 +1,16 @@
 note
-	description: "Extended version of access control class ${STRING_HANDLER}"
+	description: "[
+		Extended access control class ${STRING_HANDLER} with commonly used
+		string type query functions.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:40:23 GMT (Sunday 25th August 2024)"
-	revision: "1"
+	date: "2024-08-27 8:00:46 GMT (Tuesday 27th August 2024)"
+	revision: "2"
 
 deferred class
 	EL_STRING_HANDLER
@@ -21,6 +24,11 @@ inherit
 	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Implementation
+
+	is_zstring (general: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := Empty_string.same_type (general)
+		end
 
 	string_storage_type (general: READABLE_STRING_GENERAL): CHARACTER
 		-- character code representing number of bytes per character in string `general'

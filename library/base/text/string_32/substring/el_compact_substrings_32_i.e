@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:21:39 GMT (Sunday 25th August 2024)"
-	revision: "75"
+	date: "2024-08-27 7:30:13 GMT (Tuesday 27th August 2024)"
+	revision: "76"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_I
@@ -26,8 +26,6 @@ inherit
 			{STRING_HANDLER} area
 			{ANY} interval_sequence
 		end
-
-	STRING_HANDLER
 
 feature {NONE} -- Initialization
 

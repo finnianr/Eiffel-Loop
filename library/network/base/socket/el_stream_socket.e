@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 17:14:56 GMT (Monday 27th November 2023)"
-	revision: "12"
+	date: "2024-08-27 7:46:21 GMT (Tuesday 27th August 2024)"
+	revision: "13"
 
 deferred class
 	EL_STREAM_SOCKET
@@ -28,8 +28,6 @@ inherit
 		redefine
 			make_default
 		end
-
-	STRING_HANDLER
 
 	EL_SHARED_DEFAULT_LISTENER
 

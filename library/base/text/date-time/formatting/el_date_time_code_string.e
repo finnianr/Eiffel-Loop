@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-19 13:45:23 GMT (Thursday 19th October 2023)"
-	revision: "11"
+	date: "2024-08-27 7:34:07 GMT (Tuesday 27th August 2024)"
+	revision: "12"
 
 class
 	EL_DATE_TIME_CODE_STRING
@@ -26,11 +26,12 @@ inherit
 			correspond, make
 		end
 
+	EL_STRING_HANDLER
+
 	EL_MODULE_DATE_TIME
 
 	EL_STRING_8_CONSTANTS
 
-	STRING_HANDLER
 
 create
 	make

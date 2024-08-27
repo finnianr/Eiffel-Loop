@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 8:23:50 GMT (Monday 15th April 2024)"
-	revision: "4"
+	date: "2024-08-27 7:55:52 GMT (Tuesday 27th August 2024)"
+	revision: "5"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	STRING_HANDLER undefine default_create end
 
 	EL_CHARACTER_32_CONSTANTS
 

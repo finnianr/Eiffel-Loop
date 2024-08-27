@@ -17,14 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-28 9:14:45 GMT (Thursday 28th March 2024)"
-	revision: "14"
+	date: "2024-08-27 7:48:02 GMT (Tuesday 27th August 2024)"
+	revision: "15"
 
 deferred class
 	EL_STRING_EDITOR [S -> STRING_GENERAL create make end]
 
 inherit
-	STRING_HANDLER
+	ANY; EL_STRING_HANDLER
 
 feature {NONE} -- Initialization
 

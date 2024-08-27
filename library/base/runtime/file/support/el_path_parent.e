@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 10:41:38 GMT (Thursday 25th April 2024)"
-	revision: "5"
+	date: "2024-08-27 7:45:35 GMT (Tuesday 27th August 2024)"
+	revision: "6"
 
 deferred class
 	EL_PATH_PARENT
@@ -32,8 +32,6 @@ inherit
 
 	DEBUG_OUTPUT undefine is_equal end
 
-	STRING_HANDLER undefine is_equal end
-
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -41,7 +39,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	EL_SHARED_PATH_MANAGER; EL_SHARED_WORD
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-16 7:09:20 GMT (Thursday 16th May 2024)"
-	revision: "15"
+	date: "2024-08-27 7:40:35 GMT (Tuesday 27th August 2024)"
+	revision: "16"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -37,7 +37,7 @@ inherit
 			{NONE} all
 		end
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_URI
 

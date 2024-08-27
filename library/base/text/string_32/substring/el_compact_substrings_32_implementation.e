@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 10:39:19 GMT (Sunday 31st March 2024)"
-	revision: "33"
+	date: "2024-08-27 7:30:43 GMT (Tuesday 27th August 2024)"
+	revision: "34"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION
 
 inherit
 	EL_EXTENDABLE_AREA [CHARACTER_32]
+
+	EL_STRING_HANDLER
 
 	EL_INTERVAL_CONSTANTS
 		export

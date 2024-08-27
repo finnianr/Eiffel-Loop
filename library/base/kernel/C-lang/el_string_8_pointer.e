@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 8:09:13 GMT (Friday 17th May 2024)"
-	revision: "4"
+	date: "2024-08-27 7:47:20 GMT (Tuesday 27th August 2024)"
+	revision: "5"
 
 class
 	EL_STRING_8_POINTER
@@ -26,9 +26,9 @@ inherit
 			dispose
 		end
 
-	EL_EIFFEL_C_API undefine copy, is_equal end
+	EL_STRING_HANDLER
 
-	STRING_HANDLER undefine copy, is_equal end
+	EL_EIFFEL_C_API undefine copy, is_equal end
 
 	EL_SHARED_STRING_8_CURSOR
 

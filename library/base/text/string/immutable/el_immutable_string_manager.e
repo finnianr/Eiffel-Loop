@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 9:04:47 GMT (Sunday 25th August 2024)"
-	revision: "15"
+	date: "2024-08-27 7:42:15 GMT (Tuesday 27th August 2024)"
+	revision: "16"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -17,10 +17,7 @@ deferred class
 inherit
 	EL_OBJECT_MANGER [S]
 
-	STRING_HANDLER
-	 	undefine
-	 		default_create
-	 	end
+	EL_STRING_HANDLER
 
 	EL_STRING_BIT_COUNTABLE [S]
 

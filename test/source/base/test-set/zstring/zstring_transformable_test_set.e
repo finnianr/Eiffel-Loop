@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 16:47:34 GMT (Sunday 14th July 2024)"
-	revision: "7"
+	date: "2024-08-27 7:56:19 GMT (Tuesday 27th August 2024)"
+	revision: "8"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	STRING_HANDLER undefine default_create end
 
 	EL_CHARACTER_32_CONSTANTS
 
