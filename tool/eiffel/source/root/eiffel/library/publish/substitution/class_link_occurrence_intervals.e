@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 9:14:01 GMT (Thursday 6th June 2024)"
-	revision: "11"
+	date: "2024-08-27 8:27:03 GMT (Tuesday 27th August 2024)"
+	revision: "12"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -25,9 +25,6 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_CURSOR
-		rename
-			cursor as z_cursor
-		end
 
 	EL_EIFFEL_CONSTANTS; PUBLISHER_CONSTANTS
 
@@ -118,7 +115,7 @@ feature -- Access
 					bracket_index := index_of_bracket (code_text, start_index + 2, end_index - 1)
 					if bracket_index > 0 then
 					-- check [] brackets are evenly balanced and finish just before '}'
-						if z_cursor (code_text).matching_bracket_index (bracket_index) = end_index - 1 then
+						if cursor_z (code_text).matching_bracket_index (bracket_index) = end_index - 1 then
 							Result := Link_type_parameterized
 						end
 					else

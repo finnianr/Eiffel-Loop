@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:38:41 GMT (Monday 21st November 2022)"
-	revision: "8"
+	date: "2024-08-27 8:29:36 GMT (Tuesday 27th August 2024)"
+	revision: "9"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_EDITOR
@@ -19,8 +19,6 @@ class
 
 inherit
 	EL_PATTERN_SEARCHING_EIFFEL_SOURCE_EDITOR
-
-	STRING_HANDLER
 
 create
 	make

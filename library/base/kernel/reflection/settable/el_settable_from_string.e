@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:52:16 GMT (Sunday 25th August 2024)"
-	revision: "34"
+	date: "2024-08-27 9:32:18 GMT (Tuesday 27th August 2024)"
+	revision: "35"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -47,6 +47,12 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			set_from_table (value_table)
+		end
+
+	make_from_text_table (utf_8_text: STRING)
+		do
+			make_default
+			set_from_parsed (utf_8_text)
 		end
 
 	make_from_utf_8_table (value_table: EL_IMMUTABLE_UTF_8_TABLE)

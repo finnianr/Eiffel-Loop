@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "39"
+	date: "2024-08-27 9:27:22 GMT (Tuesday 27th August 2024)"
+	revision: "40"
 
 class
 	COUNTRY
@@ -27,7 +27,7 @@ inherit
 
 	EL_SETTABLE_FROM_ZSTRING
 		rename
-			make_from_table as make
+			make_from_text_table as make
 		end
 
 	EL_ATTRIBUTE_NODE_HINTS
@@ -37,7 +37,7 @@ inherit
 	EL_MODULE_DATE_TIME
 
 create
-	make, make_default
+	make, make_default, make_from_table
 
 feature {NONE} -- Initialization
 
@@ -86,6 +86,16 @@ feature -- Measurement
 	field_count: INTEGER
 		do
 			Result := field_table.count
+		end
+
+feature -- Status query
+
+	valid_photo_data: BOOLEAN
+		local
+			c_str: EL_C_STRING_8
+		do
+			create c_str.make_shared_of_size (photo_jpeg.item, photo_jpeg.count)
+			Result := c_str.as_string_8 ~ "Photo of " + name.to_latin_1
 		end
 
 feature -- Element change
@@ -155,10 +165,10 @@ feature {NONE} -- Reflection
 	new_representations: like Default_representations
 		do
 			create Result.make (<<
-				["continent", Continent_set.to_representation],
-				["currency", Currency_enum.to_representation],
-				["date_founded", Date_time.Date_representation],
-				["euro_zone_member", Yes_no_states]
+				["continent",			Continent_set.to_representation],
+				["currency",			Currency_enum.to_representation],
+				["date_founded",		Date_time.Date_representation],
+				["euro_zone_member",	Yes_no_states]
 			>>)
 		end
 

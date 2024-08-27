@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 8:25:01 GMT (Tuesday 27th August 2024)"
-	revision: "59"
+	date: "2024-08-27 9:27:31 GMT (Tuesday 27th August 2024)"
+	revision: "60"
 
 class
 	REFLECTION_TEST_SET
@@ -315,23 +315,23 @@ feature -- Tests
 				covers/{EL_CAMEL_CASE_TRANSLATER}.imported
 			]"
 		local
-			country: CAMEL_CASE_COUNTRY; table: like Country_Ireland
+			country: CAMEL_CASE_COUNTRY; table: like Ireland_table
 		do
-			create table.make_size (Country_Ireland.count)
-			table.merge (Country_Ireland)
+			create table.make_size (Ireland_table.count)
+			table.merge (Ireland_table)
 			table.replace_key ("literacyRate", "literacy_rate")
 			table.replace_key ("photoJpeg", "photo_jpeg")
 			table.replace_key ("euroZoneMember", "euro_zone_member")
-			create country.make (table)
+			create country.make_from_table (table)
 			country.province_list.copy (new_country (Ireland).province_list)
-			check_values (country)
+			check_values_ireland (country)
 		end
 
 	test_object_initialization_from_table
 		note
 			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table"
 		do
-			check_values (new_country (Ireland))
+			check_values_ireland (new_country (Ireland))
 		end
 
 	test_reflected_collection_factory
@@ -435,13 +435,13 @@ feature -- Tests
 			country_2.set_from_other (country, "continent, population")
 			assert ("continent is empty", country_2.continent.is_empty)
 			assert ("population is zero", country_2.population = 0)
-			country_2.set_continent (Country_Ireland ["continent"])
-			country_2.set_population (Country_Ireland ["population"].to_integer)
-			check_values (country_2)
+			country_2.set_continent (Ireland_table ["continent"])
+			country_2.set_population (Ireland_table ["population"].to_integer)
+			check_values_ireland (country_2)
 
 			create country_2.make_default
 			country_2.set_from_other (country, Void)
-			check_values (country_2)
+			check_values_ireland (country_2)
 		end
 
 	test_size_reporting

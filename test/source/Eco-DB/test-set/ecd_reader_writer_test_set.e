@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:24:21 GMT (Tuesday 27th August 2024)"
-	revision: "28"
+	date: "2024-08-27 8:52:55 GMT (Tuesday 27th August 2024)"
+	revision: "29"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -55,9 +55,9 @@ feature -- Tests
 			if attached new_country (Ireland) as country then
 				country.print_fields (lio)
 
-				check_values (country)
+				check_values_ireland (country)
 				if attached {COUNTRY} restored_object (country, Country_reader_writer) as restored then
-					check_values (restored)
+					check_values_ireland (restored)
 				else
 					failed ("country restored")
 				end

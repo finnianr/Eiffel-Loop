@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:25:44 GMT (Tuesday 27th August 2024)"
-	revision: "10"
+	date: "2024-08-27 9:26:25 GMT (Tuesday 27th August 2024)"
+	revision: "11"
 
 deferred class
 	COUNTRY_TEST_DATA
@@ -21,34 +21,6 @@ feature {NONE} -- Implementation
 
 	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		deferred
-		end
-
-	check_values (country: COUNTRY)
-		local
-			field_name: STRING; table_value, field_value: ZSTRING
-		do
-			assert ("same field count", country.field_count - 1 = Country_Ireland.count)
-			across country.field_table as table loop
-				field_name := table.item.name
-				if field_name ~ "province_list" then
-					assert ("4 provinces", country.province_list.count = 4)
-					across country.province_list as list loop
-						check_province_value (list.item, Province_table_list [list.cursor_index])
-					end
-				else
-					assert ("has field " + field_name, Country_Ireland.has_key (field_name))
-					table_value := Country_Ireland.found_item
-					if field_name ~ "currency" then
-						field_value := country.currency_name
-					else
-						create field_value.make_from_general (table.item.to_string (country))
-					end
-					if field_name ~ "euro_zone_member" then
-						field_value.to_upper
-					end
-					assert ("same value for " + field_name, table_value.same_string_general (field_value))
-				end
-			end
 		end
 
 	check_province_value (province: PROVINCE; table: EL_ZSTRING_TABLE)
@@ -65,23 +37,55 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_country_list: ARRAY [COUNTRY]
+	check_values_ireland (country: COUNTRY)
+		local
+			field_name: STRING; table_value, field_value: ZSTRING
 		do
-			Result := << new_country (Ireland), new_country (India) >>
+			assert ("same field count", country.field_count - 1 = Ireland_table.count)
+			-- country.name.count > 0 implies
+			assert ("valid photo data", country.valid_photo_data)
+			across country.field_table as table loop
+				field_name := table.item.name
+				if field_name ~ "province_list" then
+					assert ("4 provinces", country.province_list.count = 4)
+					across country.province_list as list loop
+						check_province_value (list.item, Province_table_list [list.cursor_index])
+					end
+				else
+					assert ("has field " + field_name, Ireland_table.has_key (field_name))
+					table_value := Ireland_table.found_item
+					if field_name ~ "currency" then
+						field_value := country.currency_name
+					else
+						create field_value.make_from_general (table.item.to_string (country))
+					end
+					if field_name ~ "euro_zone_member" then
+						field_value.to_upper
+					end
+					assert ("same value for " + field_name, table_value.same_string_general (field_value))
+				end
+			end
 		end
 
 	new_country (id: NATURAL_8): COUNTRY
 		do
 			inspect id
 				when Ireland then
-					create Result.make (Country_Ireland)
+					create Result.make (Ireland_data)
 					across Province_table_list as list loop
 						Result.province_list.extend (create {PROVINCE}.make (list.item))
 					end
 				when India then
-					create Result.make (Country_Ireland)
+					create Result.make (India_data)
 			else
 			end
+		ensure
+			valid_photo_data: Result.valid_photo_data
+		end
+
+	new_country_list: ARRAY [COUNTRY]
+		do
+			Result := << new_country (Ireland), new_country (India) >>
 		end
 
 	new_province_data: ARRAY [STRING]
@@ -124,9 +128,68 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	India: NATURAL_8 = 2
+
+	India_data: STRING = "[
+		brics_member:
+			True
+		code:
+			IN
+		continent:
+			Asia
+		currency:
+			INR
+		date_founded:
+			08/15/1947
+		euro_zone_member:
+			NO
+		literacy_rate:
+			0.73
+		name:
+			India
+		photo_jpeg:
+			UGhvdG8gb2YgSW5kaWE=
+		population:
+			1428627663
+		temperature_range:
+			[-40, 40, Celsius]
+		wikipedia_url:
+			https://en.wikipedia.org/wiki/India
+	]"
+
 	Ireland: NATURAL_8 = 1
 
-	India: NATURAL_8 = 2
+	Ireland_data: STRING = "[
+			brics_member:
+				False
+			code:
+				IE
+			continent:
+				Europe
+			currency:
+				EUR
+			date_founded:
+				12/29/1937
+			euro_zone_member:
+				YES
+			literacy_rate:
+				0.9
+			name:
+				Ireland
+			photo_jpeg:
+				UGhvdG8gb2YgSXJlbGFuZA==
+			population:
+				6500000
+			temperature_range:
+				[4, 16, Celsius]
+			wikipedia_url:
+				https://en.wikipedia.org/wiki/Ireland
+		]"
+
+	Ireland_table: EL_ZSTRING_TABLE
+		once
+			create Result.make (Ireland_data)
+		end
 
 	Province_table_list: ARRAYED_LIST [EL_ZSTRING_TABLE]
 		once
@@ -136,63 +199,4 @@ feature {NONE} -- Constants
 			end
 		end
 
-	Country_Ireland: EL_ZSTRING_TABLE
-		once
-			create Result.make ("[
-				brics_member:
-					False
-				code:
-					IE
-				continent:
-					Europe
-				currency:
-					EUR
-				date_founded:
-					12/29/1937
-				euro_zone_member:
-					YES
-				literacy_rate:
-					0.9
-				name:
-					Ireland
-				photo_jpeg:
-					VyDHQ26RoAdUlNMQiWOKp22iUZEbS/VqWgX6rafZUGg=
-				population:
-					6500000
-				temperature_range:
-					[4, 16, Celsius]
-				wikipedia_url:
-					https://en.wikipedia.org/wiki/Ireland
-			]")
-		end
-
-	Country_India: EL_ZSTRING_TABLE
-		once
-			create Result.make ("[
-				brics_member:
-					True
-				code:
-					IN
-				continent:
-					Asia
-				currency:
-					INR
-				date_founded:
-					15/8/1947
-				euro_zone_member:
-					NO
-				literacy_rate:
-					0.73
-				name:
-					India
-				photo_jpeg:
-					VyDHQ26RoAdUlNMQiWOKp22iUZEbS/VqWgX6rafZUGg=
-				population:
-					1428627663
-				temperature_range:
-					[-40, 40, Celsius]
-				wikipedia_url:
-					https://en.wikipedia.org/wiki/India
-			]")
-		end
 end

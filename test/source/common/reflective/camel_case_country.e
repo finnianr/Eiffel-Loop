@@ -1,13 +1,13 @@
 note
-	description: "Camel case country"
+	description: "${COUNTRY} that can be initialized with external CamelCase names"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-15 8:44:13 GMT (Thursday 15th December 2022)"
-	revision: "13"
+	date: "2024-08-27 9:28:36 GMT (Tuesday 27th August 2024)"
+	revision: "14"
 
 class
 	CAMEL_CASE_COUNTRY
@@ -21,7 +21,7 @@ inherit
 		end
 
 create
-	make
+	make, make_from_table
 
 feature {NONE} -- Implementation
 

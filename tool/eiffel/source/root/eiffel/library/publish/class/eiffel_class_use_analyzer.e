@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-09 7:32:28 GMT (Sunday 9th June 2024)"
-	revision: "4"
+	date: "2024-08-27 8:28:41 GMT (Tuesday 27th August 2024)"
+	revision: "5"
 
 class
 	EIFFEL_CLASS_USE_ANALYZER
@@ -21,7 +21,7 @@ inherit
 			make as make_reader
 		end
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 create
 	make

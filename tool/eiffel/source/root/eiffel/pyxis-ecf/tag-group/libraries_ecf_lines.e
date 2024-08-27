@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:41:14 GMT (Saturday 6th April 2024)"
-	revision: "14"
+	date: "2024-08-27 8:29:20 GMT (Tuesday 27th August 2024)"
+	revision: "15"
 
 class
 	LIBRARIES_ECF_LINES
@@ -29,7 +29,7 @@ inherit
 			set_from_line, adjust_value, exit, is_related_line, Template
 		end
 
-	STRING_HANDLER
+	EL_STRING_HANDLER
 
 create
 	make
