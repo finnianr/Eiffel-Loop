@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 21:30:52 GMT (Thursday 17th August 2023)"
-	revision: "21"
+	date: "2024-08-27 10:02:08 GMT (Tuesday 27th August 2024)"
+	revision: "22"
 
 class
 	EL_TEXT_RECTANGLE
@@ -109,7 +109,7 @@ feature -- Status query
 
 	line_fits (line: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := Text.string_width (line, font) <= width
+			Result := Text_.string_width (line, font) <= width
 		end
 
 feature -- Status setting
@@ -316,7 +316,7 @@ feature {NONE} -- Implementation
 			old_font := font.twin
 			from  until font.height < 4 or appended loop
 				wrapped_lines := word_wrapped_lines (line)
-				if Text.widest_width (wrapped_lines, font) <= width
+				if Text_.widest_width (wrapped_lines, font) <= width
 					and then wrapped_lines.count * font.line_height <= available_height
 				then
 					flow_text (line)

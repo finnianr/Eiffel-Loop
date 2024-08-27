@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:51:08 GMT (Sunday 25th August 2024)"
-	revision: "17"
+	date: "2024-08-27 13:05:40 GMT (Tuesday 27th August 2024)"
+	revision: "18"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -23,8 +23,6 @@ inherit
 		rename
 			make as make_encoded,
 			make_comma_separated as make_comma_separated_encoded,
-			make_code_map as make_code_map_encoded,
-			make_field_map as make_field_map_encoded,
 			make_assignments as make_assignments_encoded,
 			found_item as found_utf_8_item,
 			item_for_iteration as utf_8_item_for_iteration,
@@ -34,14 +32,13 @@ inherit
 		end
 
 create
-	make, make_assignments, make_code_map, make_comma_separated, make_field_map,
-	make_empty, make_subset, make_reversed,
+	make, make_assignments, make_comma_separated, make_empty, make_subset, make_reversed,
 -- UTF-8
-	make_utf_8, make_field_map_utf_8, make_comma_separated_utf_8, make_assignments_utf_8
+	make_utf_8, make_comma_separated_utf_8, make_assignments_utf_8
 
 feature {NONE} -- Initialization
 
-	make (indented_manifest: READABLE_STRING_GENERAL)
+	make (a_format: NATURAL_8; indented_manifest: READABLE_STRING_GENERAL)
 		-- make using indented formatted as for example:
 		-- 	key_1:
 		--			line 1..
@@ -52,16 +49,16 @@ feature {NONE} -- Initialization
 		--		..
 		do
 			if is_latin_1 (indented_manifest) then
-				make_encoded (as_latin_1 (indented_manifest))
+				make_encoded (a_format, as_latin_1 (indented_manifest))
 			else
-				make_utf_8 (as_utf_8 (indented_manifest))
+				make_utf_8 (a_format, as_utf_8 (indented_manifest))
 			end
 		end
 
-	make_utf_8 (indented_utf_8_manifest: READABLE_STRING_8)
+	make_utf_8 (a_format: NATURAL_8; indented_utf_8_manifest: READABLE_STRING_8)
 		do
 			is_utf_8_encoded := True
-			make_encoded (indented_utf_8_manifest)
+			make_encoded (a_format, indented_utf_8_manifest)
 		end
 
 	make_assignments (assignment_manifest: READABLE_STRING_GENERAL)
@@ -84,21 +81,6 @@ feature {NONE} -- Initialization
 			make_assignments_encoded (assignment_utf_8_manifest)
 		end
 
-	make_code_map (indented_manifest: READABLE_STRING_GENERAL)
-		do
-			if is_latin_1 (indented_manifest) then
-				make_code_map_encoded (as_latin_1 (indented_manifest))
-			else
-				make_code_map_utf_8 (as_utf_8 (indented_manifest))
-			end
-		end
-
-	make_code_map_utf_8 (indented_utf_8_manifest: READABLE_STRING_8)
-		do
-			is_utf_8_encoded := True
-			make_code_map_encoded (indented_utf_8_manifest)
-		end
-
 	make_comma_separated (csv_manifest: READABLE_STRING_GENERAL)
 		-- make with comma separated list with values on odd indices and keys on even indices
 		do
@@ -113,22 +95,6 @@ feature {NONE} -- Initialization
 		do
 			is_utf_8_encoded := True
 			make_comma_separated_encoded (csv_utf_8_manifest)
-		end
-
-	make_field_map (table_manifest: READABLE_STRING_GENERAL)
-		-- make using indented format where each key is an Eiffel lower case identifier
-		do
-			if is_latin_1 (table_manifest) then
-				make_field_map_encoded (as_latin_1 (table_manifest))
-			else
-				make_field_map_utf_8 (as_utf_8 (table_manifest))
-			end
-		end
-
-	make_field_map_utf_8 (table_manifest: READABLE_STRING_8)
-		do
-			is_utf_8_encoded := True
-			make_field_map_encoded (table_manifest)
 		end
 
 feature -- Access
@@ -166,7 +132,7 @@ feature -- Status query
 			valid_key_8: valid_key_8 (a_key)
 		do
 			inspect format
-				when Fm_indented_code, Fm_indented_eiffel then
+				when {EL_TABLE_FORMAT}.indented_code, {EL_TABLE_FORMAT}.indented_eiffel then
 					Result := Precursor (a_key)
 			else
 				if is_utf_8_encoded then
@@ -184,7 +150,7 @@ feature -- Status query
 	has_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			inspect format
-				when Fm_indented_code, Fm_indented_eiffel then
+				when {EL_TABLE_FORMAT}.indented_code, {EL_TABLE_FORMAT}.indented_eiffel then
 					Result := Precursor (a_key)
 			else
 				if is_utf_8_encoded then
@@ -212,7 +178,7 @@ feature -- Set found_item
 			valid_key_8: valid_key_8 (a_key)
 		do
 			inspect format
-				when Fm_indented_code, Fm_indented_eiffel then
+				when {EL_TABLE_FORMAT}.indented_code, {EL_TABLE_FORMAT}.indented_eiffel then
 					Result := Precursor (a_key)
 			else
 				if is_utf_8_encoded then
@@ -230,7 +196,7 @@ feature -- Set found_item
 	has_key_general (a_key: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			inspect format
-				when Fm_indented_code, Fm_indented_eiffel then
+				when {EL_TABLE_FORMAT}.indented_code, {EL_TABLE_FORMAT}.indented_eiffel then
 					Result := Precursor (a_key)
 			else
 				if is_utf_8_encoded then
@@ -300,7 +266,7 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 		do
 			start_index := to_lower (interval); end_index := to_upper (interval)
 			inspect format
-				when Fm_indented, Fm_indented_eiffel then
+				when {EL_TABLE_FORMAT}.indented, {EL_TABLE_FORMAT}.indented_eiffel then
 				-- multiple lines
 					Result := s.new_from_immutable_8 (manifest, start_index, end_index, True, is_utf_8_encoded)
 			else

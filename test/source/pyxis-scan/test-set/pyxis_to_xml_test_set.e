@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 14:44:39 GMT (Saturday 27th July 2024)"
-	revision: "57"
+	date: "2024-08-27 13:45:47 GMT (Tuesday 27th August 2024)"
+	revision: "58"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -140,7 +140,7 @@ feature {NONE} -- Constants
 			Result ["build.eant.pyx"] := 2323137809
 			Result ["configuration.xsd.pyx"] := 1327672612
 			Result ["credits.pyx"] := 2202984112
-			Result ["phrases.pyx"] := 2600955221
+			Result ["phrases.pyx"] := 729478561
 			Result ["words.pyx"] := 1143708543
 			Result [XSL_example] := 2233023973
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2024-08-27 9:55:37 GMT (Tuesday 27th August 2024)"
+	revision: "16"
 
 class
 	EL_LABEL
@@ -30,9 +30,6 @@ inherit
 	EL_MODULE_ACTION; EL_MODULE_COLOR
 
 	EL_MODULE_TEXT
-		rename
-			Text as Rendered
-		end
 
 create
 	default_create, make_with_text
@@ -52,7 +49,7 @@ feature -- Status change
 			bold: EV_FONT
 		do
 			bold := font
-			bold.set_weight (Rendered.Weight_bold)
+			bold.set_weight (Text_.Weight_bold)
 			set_font (bold)
 		end
 
@@ -61,7 +58,7 @@ feature -- Status change
 			italic: EV_FONT
 		do
 			italic := font
-			italic.set_shape (Rendered.Shape_italic)
+			italic.set_shape (Text_.Shape_italic)
 			set_font (italic)
 		end
 

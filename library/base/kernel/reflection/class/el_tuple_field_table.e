@@ -11,25 +11,32 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 12:47:24 GMT (Friday 2nd August 2024)"
-	revision: "5"
+	date: "2024-08-27 13:05:41 GMT (Tuesday 27th August 2024)"
+	revision: "6"
 
 class
 	EL_TUPLE_FIELD_TABLE
 
 inherit
 	EL_IMMUTABLE_STRING_8_TABLE
+		rename
+			make as make_indented
 		redefine
 			make_equal
 		end
 
 create
-	make_empty, make_field_map, make_reversed
+	make, make_empty, make_reversed
 
 convert
-	make_field_map ({STRING})
+	make ({STRING})
 
 feature {NONE} -- Initialization
+
+	make (a_manifest: READABLE_STRING_8)
+		do
+			make_indented ({EL_TABLE_FORMAT}.Indented_eiffel, a_manifest)
+		end
 
 	make_equal (n: INTEGER)
 		do

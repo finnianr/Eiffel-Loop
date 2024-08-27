@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 6:45:34 GMT (Tuesday 27th August 2024)"
-	revision: "43"
+	date: "2024-08-27 13:07:37 GMT (Tuesday 27th August 2024)"
+	revision: "44"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -141,7 +141,7 @@ feature -- Authorization
 			http_table: EL_IMMUTABLE_UTF_8_TABLE; request: FCGI_REQUEST_PARAMETERS
 			headers: HASH_TABLE [ZSTRING, STRING];
 		do
-			create http_table.make_field_map (signed_headers_manifest)
+			create http_table.make ({EL_TABLE_FORMAT}.Indented_eiffel, signed_headers_manifest)
 			create request.make_from_utf_8_table (http_table)
 			headers := request.headers.selected (Signed_headers, Translater)
 			assert ("same count", headers.count = Signed_headers.count)

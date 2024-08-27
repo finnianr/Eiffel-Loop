@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:50:50 GMT (Friday 12th July 2024)"
-	revision: "7"
+	date: "2024-08-27 10:01:28 GMT (Tuesday 27th August 2024)"
+	revision: "8"
 
 class
 	EL_DIALOG_STYLE
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			progress_meter_font := label_font
 
 			create title_font
-			title_font.set_weight (Text.Weight_bold)
+			title_font.set_weight (Text_.Weight_bold)
 			title_background_pixmap := Default_pixmap
 			application_icon_pixmap := Default_pixmap
 
@@ -115,7 +115,7 @@ feature -- Set fonts
 
 	scale_label_font (proportion: REAL)
 		do
-			Text.scale_font (label_font, proportion)
+			Text_.scale_font (label_font, proportion)
 		end
 
 feature -- Factory

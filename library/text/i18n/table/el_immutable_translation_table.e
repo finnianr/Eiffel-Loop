@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:30:45 GMT (Friday 2nd August 2024)"
-	revision: "1"
+	date: "2024-08-27 13:06:11 GMT (Tuesday 27th August 2024)"
+	revision: "2"
 
 class
 	EL_IMMUTABLE_TRANSLATION_TABLE
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 			has_translation: table.language_set.has (a_language)
 		do
 			language := a_language
-			make_utf_8 (table.as_utf_8_manifest_for (a_language))
+			make_utf_8 (Table_format.Indented, table.as_utf_8_manifest_for (a_language))
 		end
 
 feature -- Access

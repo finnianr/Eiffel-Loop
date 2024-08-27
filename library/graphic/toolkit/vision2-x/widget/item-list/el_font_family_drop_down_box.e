@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 17:17:14 GMT (Sunday 24th September 2023)"
-	revision: "4"
+	date: "2024-08-27 9:49:45 GMT (Tuesday 27th August 2024)"
+	revision: "5"
 
 class
 	EL_FONT_FAMILY_DROP_DOWN_BOX
@@ -56,7 +56,9 @@ feature {NONE} -- Initialization
 		-- restrict to fonts that have the exact combination of properties in `font_property_bitmap'
 		-- See class {EL_FONT_PROPERTY}
 		do
-			if attached Rendered.Font_families.new_query_list (width_bitmap, type_bitmap, excluded_char_sets) as font_list then
+			if attached Text_.Font_families as f
+				and then attached f.new_query_list (width_bitmap, type_bitmap, excluded_char_sets) as font_list
+			then
 				make (a_initial_value, font_list, change_action)
 			end
 		end

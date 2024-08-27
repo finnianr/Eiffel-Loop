@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-08-27 9:57:50 GMT (Tuesday 27th August 2024)"
+	revision: "4"
 
 deferred class
 	EL_DIALOG_MODEL_IMPLEMENTATION
@@ -17,12 +17,7 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES
 
-	EL_MODULE_ITERABLE; EL_MODULE_SCREEN
-
-	EL_MODULE_TEXT
-		rename
-			Text as Rendered
-		end
+	EL_MODULE_ITERABLE; EL_MODULE_TEXT; EL_MODULE_SCREEN
 
 	EL_STRING_8_CONSTANTS
 

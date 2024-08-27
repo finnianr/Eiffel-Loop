@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-14 10:00:09 GMT (Wednesday 14th February 2024)"
-	revision: "33"
+	date: "2024-08-27 10:01:54 GMT (Tuesday 27th August 2024)"
+	revision: "34"
 
 class
 	EL_RECTANGLE
@@ -50,7 +50,7 @@ feature {EV_ANY_HANDLER} -- Initialization
 
 	make_for_text (a_text: READABLE_STRING_GENERAL; font: EV_FONT)
 		do
-			make (0, 0, Text.string_width (a_text, font), font.line_height)
+			make (0, 0, Text_.string_width (a_text, font), font.line_height)
 		end
 
 	make_for_widget (widget: EV_POSITIONED)

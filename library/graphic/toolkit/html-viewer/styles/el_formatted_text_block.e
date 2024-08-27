@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-08-27 9:55:26 GMT (Tuesday 27th August 2024)"
+	revision: "14"
 
 class
 	EL_FORMATTED_TEXT_BLOCK
@@ -32,9 +32,6 @@ inherit
 	EL_MODULE_COLOR; EL_MODULE_VISION_2
 
 	EL_MODULE_TEXT
-		rename
-			Text as Rendered
-		end
 
 	EL_CHARACTER_32_CONSTANTS
 
@@ -87,13 +84,13 @@ feature -- Fonts
 	italic_font: EV_FONT
 		do
 			Result := font.twin
-			Result.set_shape (Rendered.Shape_italic)
+			Result.set_shape (Text_.Shape_italic)
 		end
 
 	bold_font: EV_FONT
 		do
 			Result := font.twin
-			Result.set_weight (Rendered.Weight_bold)
+			Result.set_weight (Text_.Weight_bold)
 		end
 
 feature -- Element change

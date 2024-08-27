@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 13:28:11 GMT (Saturday 3rd August 2024)"
-	revision: "8"
+	date: "2024-08-27 10:03:44 GMT (Tuesday 27th August 2024)"
+	revision: "9"
 
 deferred class
 	EL_FONT_FAMILIES_I
@@ -93,7 +93,7 @@ feature {NONE} -- Implementation
 						if manifest.count > 0 then
 							manifest.append_character_8 (',')
 						end
-						if Text.is_proportional (family.key) then
+						if Text_.is_proportional (family.key) then
 							bitmap := Font_proportional
 						else
 							bitmap := Font_monospace

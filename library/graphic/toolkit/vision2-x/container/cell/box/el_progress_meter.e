@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-08-27 9:56:43 GMT (Tuesday 27th August 2024)"
+	revision: "9"
 
 class
 	EL_PROGRESS_METER
@@ -20,12 +20,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_ACTION; EL_MODULE_DEFERRED_LOCALE; EL_MODULE_VISION_2
-
-	EL_MODULE_TEXT
-		rename
-			Text as Rendered
-		end
+	EL_MODULE_ACTION; EL_MODULE_DEFERRED_LOCALE; EL_MODULE_TEXT; EL_MODULE_VISION_2
 
 	EL_PROGRESS_DISPLAY undefine copy, default_create, is_equal end
 
@@ -70,7 +65,7 @@ feature -- Element change
 	set_completion_text (a_completion_text: like completion_text)
 		do
 			completion_text := a_completion_text
-			set_minimum_width (width + Rendered.string_width (final_text, label.font))
+			set_minimum_width (width + Text_.string_width (final_text, label.font))
 		end
 
 feature -- Status change

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-08-27 10:00:09 GMT (Tuesday 27th August 2024)"
+	revision: "8"
 
 class
 	EL_FONT_SET
@@ -46,10 +46,10 @@ feature {NONE} -- Initialization
 			make_filled (a_font, 1, 4)
 			put (a_monospace_font, Monospaced)
 			put (a_font.twin, Bold)
-			font (Bold).set_weight (Text.Weight_bold)
+			font (Bold).set_weight (Text_.Weight_bold)
 
 			put (a_monospace_font.twin, Monospaced_bold)
-			font (Monospaced_bold).set_weight (Text.Weight_bold)
+			font (Monospaced_bold).set_weight (Text_.Weight_bold)
 
 			line_height := font (Bold).line_height.max (font (Monospaced_bold).line_height)
 		end
@@ -57,11 +57,11 @@ feature {NONE} -- Initialization
 	make_from_array (a: ARRAY [EV_FONT])
 		require else
 			count_is_4: a.count = 4
-			valid_regular: a.item (Regular).weight = Text.Weight_regular and a.item (Regular).is_proportional
-			valid_bold: a.item (Bold).weight = Text.Weight_bold and a.item (Bold).is_proportional
-			valid_monospaced: a.item (Monospaced).weight = Text.Weight_regular and not a.item (Monospaced).is_proportional
+			valid_regular: a.item (Regular).weight = Text_.Weight_regular and a.item (Regular).is_proportional
+			valid_bold: a.item (Bold).weight = Text_.Weight_bold and a.item (Bold).is_proportional
+			valid_monospaced: a.item (Monospaced).weight = Text_.Weight_regular and not a.item (Monospaced).is_proportional
 			valid_monospaced_bold:
-				a.item (Monospaced_bold).weight = Text.Weight_bold and not a.item (Monospaced_bold).is_proportional
+				a.item (Monospaced_bold).weight = Text_.Weight_bold and not a.item (Monospaced_bold).is_proportional
 		do
 			Precursor (a)
 			line_height := font (Bold).line_height.max (font (Monospaced_bold).line_height)
@@ -72,7 +72,7 @@ feature {NONE} -- Initialization
 			monospace: EL_FONT
 		do
 			create monospace.make_with_values (
-				Text.Family_typewriter, Text.Weight_regular, Text.Shape_regular, a_font.height
+				Text_.Family_typewriter, Text_.Weight_regular, Text_.Shape_regular, a_font.height
 			)
 			make (a_font, monospace)
 		end
@@ -82,7 +82,7 @@ feature -- Measurement
 	item_string_width (text_list: EL_STYLED_TEXT_LIST [STRING_GENERAL]): INTEGER
 		do
 			if not text_list.off then
-				Result := Text.string_width (text_list.item_text, font (text_list.item_style))
+				Result := Text_.string_width (text_list.item_text, font (text_list.item_style))
 			end
 		end
 

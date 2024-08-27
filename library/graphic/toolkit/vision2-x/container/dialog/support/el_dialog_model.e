@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-13 9:20:59 GMT (Tuesday 13th February 2024)"
-	revision: "24"
+	date: "2024-08-27 9:50:40 GMT (Tuesday 27th August 2024)"
+	revision: "25"
 
 class
 	EL_DIALOG_MODEL
@@ -93,7 +93,7 @@ feature -- Measurement
 			maximum_width: INTEGER
 		do
 			maximum_width := Screen.horizontal_pixels (layout.paragraph.width_cms)
-			Result := maximum_width.min ((Rendered.widest_width (text_list, style.label_font) * 1.03).rounded)
+			Result := maximum_width.min ((Text_.widest_width (text_list, style.label_font) * 1.03).rounded)
 		end
 
 feature -- Factory

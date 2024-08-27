@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 12:47:24 GMT (Friday 2nd August 2024)"
-	revision: "18"
+	date: "2024-08-27 13:08:20 GMT (Tuesday 27th August 2024)"
+	revision: "19"
 
 class
 	PP_HTTP_RESPONSE
@@ -189,7 +189,7 @@ feature {NONE} -- Constants
 
 	Error_table: EL_IMMUTABLE_STRING_8_TABLE
 		once
-			create Result.make_field_map ("[
+			create Result.make ({EL_TABLE_FORMAT}.Indented_eiffel, "[
 				n_10001:
 					Internal Error
 				n_11923:

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 8:52:55 GMT (Tuesday 27th August 2024)"
-	revision: "29"
+	date: "2024-08-27 10:08:04 GMT (Tuesday 27th August 2024)"
+	revision: "30"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -48,9 +48,11 @@ feature -- Tests
 	test_collection_read_write
 		-- ECD_READER_WRITER_TEST_SET.test_collection_read_write
 		note
-			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
-						"covers/{EL_MEMORY_READER_WRITER}.write_string",
-						"covers/{EL_REFLECTED_COLLECTION}.write"
+			testing: "[
+				covers/{EL_MEMORY_READER_WRITER}.read_string,
+				covers/{EL_MEMORY_READER_WRITER}.write_string,
+				covers/{EL_REFLECTED_COLLECTION}.write
+			]"
 		do
 			if attached new_country (Ireland) as country then
 				country.print_fields (lio)
@@ -67,7 +69,7 @@ feature -- Tests
 	test_print_fields
 		do
 			if attached new_country (Ireland) as country then
-				do_test ("print_fields", 3471811015, agent country.print_fields (lio), [])
+				do_test ("print_fields", 932900685, agent country.print_fields (lio), [])
 			end
 		end
 
@@ -82,11 +84,12 @@ feature -- Tests
 			data_path := Work_area_dir + "country.dat"
 			create data_table.make_from_file (data_path)
 			data_table.extend (new_country (Ireland))
+			data_table.extend (new_country (India))
 
 			pyxis_path := data_path.with_new_extension ("pyx")
 			data_table.export_pyxis (pyxis_path, Latin_1)
 
-			export_digest := "0E9E168EE6234F052DDB0C7CFA8C5568"
+			export_digest := "C5DBDE6CA7682161D4A15FCC2B9E7C26"
 			assert_same_digest_hexadecimal (Plain_text, pyxis_path, export_digest)
 
 			data_table.import_pyxis (pyxis_path)
@@ -99,8 +102,10 @@ feature -- Tests
 
 	test_read_write
 		note
-			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
-					"covers/{EL_MEMORY_READER_WRITER}.write_string"
+			testing: "[
+				covers/{EL_MEMORY_READER_WRITER}.read_string,
+				covers/{EL_MEMORY_READER_WRITER}.write_string
+			]"
 		local
 			t: EL_TIME_ROUTINES
 		do
@@ -209,8 +214,10 @@ feature {NONE} -- Implementation
 
 	restored_object (object: EL_REFLECTIVELY_SETTABLE_STORABLE; reader_writer: ECD_READER_WRITER [EL_STORABLE]): EL_STORABLE
 		note
-			testing: "covers/{EL_MEMORY_READER_WRITER}.read_string",
-					"covers/{EL_MEMORY_READER_WRITER}.write_string"
+			testing: "[
+				covers/{EL_MEMORY_READER_WRITER}.read_string,
+				covers/{EL_MEMORY_READER_WRITER}.write_string
+			]"
 		do
 			File_path.set_base ("stored.dat")
 			if attached open_raw (File_path, Write) as l_file then

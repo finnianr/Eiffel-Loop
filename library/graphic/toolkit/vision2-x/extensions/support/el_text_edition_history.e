@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 13:39:00 GMT (Friday 19th July 2024)"
-	revision: "3"
+	date: "2024-08-27 10:02:32 GMT (Tuesday 27th August 2024)"
+	revision: "4"
 
 class
 	EL_TEXT_EDITION_HISTORY
@@ -44,7 +44,7 @@ feature {NONE} -- Edition operations
 		do
 			Precursor (c, start_index)
 			if not ensuring_valid then
-				Text.set_clipboard (char (c))
+				Text_.set_clipboard (char (c))
 				target.paste (start_index)
 			end
 		end
@@ -53,7 +53,7 @@ feature {NONE} -- Edition operations
 		do
 			Precursor (str, start_index)
 			if not ensuring_valid then
-				Text.set_clipboard (str)
+				Text_.set_clipboard (str)
 				target.paste (start_index)
 			end
 		end
@@ -82,7 +82,7 @@ feature {NONE} -- Edition operations
 			if not ensuring_valid then
 				target.select_region (start_index, start_index)
 				target.delete_selection
-				Text.set_clipboard (char (c))
+				Text_.set_clipboard (char (c))
 				target.paste (start_index)
 			end
 		end
@@ -93,7 +93,7 @@ feature {NONE} -- Edition operations
 			if not ensuring_valid then
 				target.select_region (start_index, end_index)
 				target.delete_selection
-				Text.set_clipboard (str)
+				Text_.set_clipboard (str)
 				target.paste (start_index)
 			end
 		end
@@ -103,7 +103,7 @@ feature {NONE} -- Edition operations
 			Precursor (str)
 			if not ensuring_valid then
 				target.set_text (Empty_string_8)
-				Text.set_clipboard (str)
+				Text_.set_clipboard (str)
 				target.paste (1)
 			end
 		end

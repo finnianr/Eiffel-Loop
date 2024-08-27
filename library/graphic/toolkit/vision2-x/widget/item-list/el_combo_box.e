@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-08-27 9:56:23 GMT (Tuesday 27th August 2024)"
+	revision: "11"
 
 class
 	EL_COMBO_BOX
@@ -29,12 +29,7 @@ inherit
 			implementation
 		end
 
-	EL_MODULE_TEXT
-		rename
-			Text as Rendered
-		end
-
-	EL_MODULE_SCREEN
+	EL_MODULE_SCREEN; EL_MODULE_TEXT
 
 create
 	default_create, make_with_strings
@@ -52,7 +47,7 @@ feature -- Basic operations
 
 	adjust_width
 		do
-			set_minimum_width (Rendered.widest_width (strings, font) + font.string_width ("M") * 3)
+			set_minimum_width (Text_.widest_width (strings, font) + font.string_width ("M") * 3)
 			is_width_adjusted := True
 		end
 
@@ -97,7 +92,7 @@ feature -- Element change
 		do
 			Precursor (a_string_array)
 			create triple_o.make_filled ('O', 3)
-			set_minimum_width (Rendered.widest_width (strings, font) + font.string_width (triple_o))
+			set_minimum_width (Text_.widest_width (strings, font) + font.string_width (triple_o))
 		end
 
 feature -- Status query

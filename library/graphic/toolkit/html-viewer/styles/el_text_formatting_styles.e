@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-08-27 10:02:43 GMT (Tuesday 27th August 2024)"
+	revision: "11"
 
 class
 	EL_TEXT_FORMATTING_STYLES
@@ -35,10 +35,10 @@ feature {NONE} -- Initialization
 				l_font := regular_font
 				l_font.set_height (heading_size (level.item))
 				if level.item <= 4 then
-					l_font.set_weight (Text.Weight_bold)
+					l_font.set_weight (Text_.Weight_bold)
 				end
 				if level.item = 6 then
-					l_font.set_shape (Text.Shape_italic)
+					l_font.set_shape (Text_.Shape_italic)
 				end
 				heading_fonts.extend (l_font)
 			end
@@ -93,14 +93,14 @@ feature -- Fonts
 			across << "Fixedsys", "Monospace", "Courier New" >> as family loop
 				Result.preferred_families.extend (family.item)
 			end
-			Result.set_family (Text.Family_typewriter)
+			Result.set_family (Text_.Family_typewriter)
 			Result.set_height (heading_size (6))
 		end
 
 	bold_font: EL_FONT
 		do
 			Result := regular_font
-			Result.set_weight (Text.Weight_bold)
+			Result.set_weight (Text_.Weight_bold)
 		end
 
 feature {NONE} -- Paragraph formats

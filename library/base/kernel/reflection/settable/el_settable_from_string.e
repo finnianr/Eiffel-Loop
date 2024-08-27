@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:32:18 GMT (Tuesday 27th August 2024)"
-	revision: "35"
+	date: "2024-08-27 13:04:51 GMT (Tuesday 27th August 2024)"
+	revision: "36"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -205,7 +205,7 @@ feature -- Element change
 	set_from_parsed (text: READABLE_STRING_GENERAL)
 		-- set from parsed `text' formatted as indented
 		do
-			set_from_utf_8_table (create {EL_IMMUTABLE_UTF_8_TABLE}.make_field_map (text))
+			set_from_utf_8_table (create {EL_IMMUTABLE_UTF_8_TABLE}.make ({EL_TABLE_FORMAT}.Indented_eiffel, text))
 		end
 
 	set_from_table (value_table: like to_table)

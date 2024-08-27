@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-08-27 9:58:41 GMT (Tuesday 27th August 2024)"
+	revision: "25"
 
 class
 	EL_HTML_TEXT
@@ -55,16 +55,7 @@ inherit
 
 	EL_XML_PARSE_EVENT_TYPE
 
-	EL_MODULE_COLOR
-
-	EL_MODULE_TEXT
-		rename
-			Text as Text_font
-		end
-
-	EL_MODULE_SCREEN
-
-	EL_MODULE_FILE_SYSTEM
+	EL_MODULE_COLOR; EL_MODULE_FILE_SYSTEM; EL_MODULE_SCREEN; EL_MODULE_TEXT
 
 create
 	make
@@ -309,7 +300,7 @@ feature {EL_HTML_TEXT_HYPERLINK_AREA} -- Implementation
 	content_heading_font (a_header: EL_FORMATTED_TEXT_HEADER): EV_FONT
 		do
 			Result := a_header.format.character.font.twin
-			Result.set_weight (Text_font.Weight_regular)
+			Result.set_weight (Text_.Weight_regular)
 			Result.set_height ((Result.height * Content_height_proportion).rounded)
 		end
 

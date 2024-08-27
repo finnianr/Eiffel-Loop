@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "25"
+	date: "2024-08-27 13:28:12 GMT (Tuesday 27th August 2024)"
+	revision: "26"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -237,7 +237,8 @@ feature {NONE} -- Constants
 
 	Book_info_table: EL_ZSTRING_TABLE
 		once
-			create Result.make ("[
+		-- Use `Indented' format because of kebab-case names
+			create Result.make ({EL_TABLE_FORMAT}.Indented, "[
 				title:
 					The My Ching Manual: The complete guide to using the I Ching journal software
 				description:

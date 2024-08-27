@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:26:25 GMT (Tuesday 27th August 2024)"
-	revision: "11"
+	date: "2024-08-27 13:26:29 GMT (Tuesday 27th August 2024)"
+	revision: "12"
 
 deferred class
 	COUNTRY_TEST_DATA
@@ -188,14 +188,14 @@ feature {NONE} -- Constants
 
 	Ireland_table: EL_ZSTRING_TABLE
 		once
-			create Result.make (Ireland_data)
+			Result := Ireland_data
 		end
 
 	Province_table_list: ARRAYED_LIST [EL_ZSTRING_TABLE]
 		once
 			create Result.make (4)
 			across new_province_data as str loop
-				Result.extend (create {EL_ZSTRING_TABLE}.make (str.item))
+				Result.extend (str.item)
 			end
 		end
 

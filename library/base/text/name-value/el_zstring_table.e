@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 9:37:45 GMT (Sunday 25th August 2024)"
-	revision: "20"
+	date: "2024-08-27 13:27:05 GMT (Tuesday 27th August 2024)"
+	revision: "21"
 
 class
 	EL_ZSTRING_TABLE
@@ -36,7 +36,10 @@ inherit
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
-	make, make_assignments, make_size, make_from_array, make_from_table
+	make, make_assignments, make_field_map, make_size, make_from_array, make_from_table
+
+convert
+	make_field_map ({STRING_8, STRING_32, ZSTRING})
 
 feature {NONE} -- Initialization
 
@@ -50,11 +53,20 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make (table_text: READABLE_STRING_GENERAL)
+	make_field_map (indented_table_text: READABLE_STRING_GENERAL)
+		-- make from indented text with Eiffel identifier field names
+		do
+			make ({EL_TABLE_FORMAT}.Indented_eiffel, indented_table_text)
+		end
+
+	make (format: NATURAL_8; indented_table_text: READABLE_STRING_GENERAL)
+		-- make from `indented_table_text' with fields named with indented format `format'
+		require
+			valid_format: Table_format.valid_indented (format)
 		local
 			table: EL_IMMUTABLE_UTF_8_TABLE
 		do
-			create table.make_field_map (table_text)
+			create table.make (format, indented_table_text)
 			make_from_table (table)
 		end
 
@@ -72,5 +84,12 @@ feature -- Access
 	name_list: EL_STRING_8_LIST
 		do
 			create Result.make_from_general (current_keys)
+		end
+
+feature -- Contract Support
+
+	table_format: EL_TABLE_FORMAT
+		do
+			create Result
 		end
 end

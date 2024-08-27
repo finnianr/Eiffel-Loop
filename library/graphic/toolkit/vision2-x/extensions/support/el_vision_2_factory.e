@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 6:39:57 GMT (Wednesday 2nd August 2023)"
-	revision: "24"
+	date: "2024-08-27 10:00:40 GMT (Tuesday 27th August 2024)"
+	revision: "25"
 
 class
 	EL_VISION_2_FACTORY
@@ -85,7 +85,7 @@ feature -- Text field
 	new_password_field (capacity: INTEGER): EV_PASSWORD_FIELD
 			--
 		do
-			Result := new_password_field_with_font (capacity, Text.text_field_font)
+			Result := new_password_field_with_font (capacity, Text_.text_field_font)
 		end
 
 	new_password_field_with_font (capacity: INTEGER; a_font: EV_FONT): EV_PASSWORD_FIELD
@@ -98,7 +98,7 @@ feature -- Text field
 	new_text_field (capacity: INTEGER): EL_TEXT_FIELD
 			--
 		do
-			Result := new_text_field_with_font (capacity, Text.text_field_font)
+			Result := new_text_field_with_font (capacity, Text_.text_field_font)
 		end
 
 	new_text_field_with_font (capacity: INTEGER; a_font: EV_FONT): EL_TEXT_FIELD

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 14:00:37 GMT (Saturday 24th August 2024)"
-	revision: "40"
+	date: "2024-08-27 13:27:24 GMT (Tuesday 27th August 2024)"
+	revision: "41"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -131,7 +131,7 @@ feature -- Contract Support
 		local
 			table: EL_IMMUTABLE_UTF_8_TABLE
 		do
-			create table.make_field_map (english_table)
+			create table.make ({EL_TABLE_FORMAT}.Indented_eiffel, english_table)
 			from Result := True; table.start until table.after or not Result loop
 				Result := field_table.has_general (table.key_for_iteration)
 				table.forth
@@ -187,7 +187,7 @@ feature {NONE} -- Factory
 
 	new_english_table: EL_ZSTRING_TABLE
 		do
-			create Result.make (english_table)
+			create Result.make_field_map (english_table)
 			across Result as table loop
 				if table.item.has ('%%') then
 					across Substitution_table as substitution loop
@@ -199,7 +199,7 @@ feature {NONE} -- Factory
 
 	new_quantity_table (text: ZSTRING): EL_ZSTRING_TABLE
 		do
-			create Result.make (text)
+			Result := text
 		ensure
 			valid_keys: across Result as name all Quantifier_names.has (name.key) end
 		end

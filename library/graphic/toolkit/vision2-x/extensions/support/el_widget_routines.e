@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-08-27 10:02:51 GMT (Tuesday 27th August 2024)"
+	revision: "11"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -272,7 +272,7 @@ feature -- Apply styling
 
 	apply_bold (font: EV_FONT)
 		do
-			font.set_weight (Text.Weight_bold)
+			font.set_weight (Text_.Weight_bold)
 		end
 
 	apply_colors (widget_list: ARRAY [EV_COLORIZABLE]; foreground_color, background_color: detachable EV_COLOR)

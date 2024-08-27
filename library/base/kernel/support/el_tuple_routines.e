@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 14:57:48 GMT (Monday 26th August 2024)"
-	revision: "48"
+	date: "2024-08-27 10:26:56 GMT (Tuesday 27th August 2024)"
+	revision: "49"
 
 class
 	EL_TUPLE_ROUTINES
@@ -26,7 +26,6 @@ inherit
 	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 	EL_SHARED_CLASS_ID
-
 
 create
 	make

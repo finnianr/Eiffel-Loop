@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:42:51 GMT (Tuesday 27th August 2024)"
-	revision: "30"
+	date: "2024-08-27 13:31:10 GMT (Tuesday 27th August 2024)"
+	revision: "31"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -58,7 +58,7 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make (a_manifest: GENERAL)
+	make (a_format: NATURAL_8; a_manifest: GENERAL)
 		-- 	key_1:
 		--			line 1..
 		--			line 2..
@@ -66,17 +66,15 @@ feature {NONE} -- Initialization
 		--			line 1..
 		--			line 2..
 		--		..
-
 		require
+			valid_format: Table_format.valid_indented (a_format)
 			valid_manifest: valid_indented (a_manifest)
 		local
 			interval: INTEGER_64; colon_index, start_index: INTEGER
 			name, line: IMMUTABLE
 		do
-			manifest := new_shared (a_manifest)
-			if format = 0 then
-				format := Fm_indented
-			end
+			manifest := new_shared (a_manifest); format := a_format
+
 			name := new_substring (manifest, 1, 0)
 			if attached new_split_list as list then
 				list.fill (manifest, '%N', 0)
@@ -137,13 +135,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_code_map (a_manifest: GENERAL)
-		-- make using indented format where each key is a postive or negative integer
-		do
-			format := Fm_indented_code
-			make (a_manifest)
-		end
-
 	make_comma_separated (a_manifest: GENERAL)
 		-- make with comma separated list with values on odd indices and keys on even indices
 		-- as for example:
@@ -159,7 +150,7 @@ feature {NONE} -- Initialization
 		local
 			last_interval: INTEGER_64
 		do
-			format := Fm_comma_separated
+			format := Table_format.comma_separated
 			manifest := new_shared (a_manifest)
 			if attached new_split_list as list then
 				list.fill (manifest, ',', {EL_SIDE}.Left)
@@ -179,13 +170,6 @@ feature {NONE} -- Initialization
 	make_empty
 		do
 			make_equal (0)
-		end
-
-	make_field_map (a_manifest: GENERAL)
-		-- make using indented format where each key is an Eiffel lower case identifier
-		do
-			format := Fm_indented_eiffel
-			make (a_manifest)
 		end
 
 	make_reversed (other: like Current)
@@ -234,41 +218,37 @@ feature -- Status query
 	is_assignment: BOOLEAN
 		-- is `format' in style of quasi Eiffel assignment without quotes
 		do
-			Result := format = Fm_assignment
+			Result := format = Table_format.assignment
 		end
 
 	is_comma_separated: BOOLEAN
 		-- is `format' style comma separated with alternate keys and values
 		do
-			Result := format = Fm_comma_separated
+			Result := format = Table_format.comma_separated
 		end
 
 	is_field_map: BOOLEAN
 		-- is `format' style indented with keys representing Eiffel attribute fields
 		do
-			Result := format = Fm_indented_eiffel
+			Result := format = Table_format.indented_eiffel
 		end
 
 	is_indented: BOOLEAN
 		-- is `format' style indented with keys ending with colon character
 		do
-			Result := format = Fm_indented
+			Result := format = Table_format.indented
 		end
 
 	is_indented_any: BOOLEAN
 		-- is `format' style any of 3 indented formats
 		do
-			inspect format
-				when Fm_indented, Fm_indented_eiffel, Fm_indented_code then
-					Result := True
-			else
-			end
+			Result := Table_format.valid_indented (format)
 		end
 
 	is_indented_code: BOOLEAN
 		-- is `format' style indented with keys representing numeric codes
 		do
-			Result := format = Fm_indented_code
+			Result := format = Table_format.indented_code
 		end
 
 feature -- Measurement
@@ -309,26 +289,25 @@ feature -- Access
 			interval := found_interval
 			start_index := to_lower (interval); end_index := to_upper (interval)
 			create Result.make (end_index - start_index + 1)
-			inspect format
-				when Fm_indented, Fm_indented_eiffel, Fm_indented_code then
-					if manifest [start_index] = '%T'
-						and then attached new_substring (manifest, start_index + 1, end_index) as str
-					then
-						if str.has ('%N') and then attached new_split_list as list then
-							list.fill_by_string (str, Newline_tab, 0)
-							from list.start until list.after loop
-								if Result.count > 0 then
-									Result.append_code ({EL_ASCII}.Newline)
-								end
-								Result.append (list.item)
-								list.forth
+			if Table_format.valid_indented (format) then
+				if manifest [start_index] = '%T'
+					and then attached new_substring (manifest, start_index + 1, end_index) as str
+				then
+					if str.has ('%N') and then attached new_split_list as list then
+						list.fill_by_string (str, Newline_tab, 0)
+						from list.start until list.after loop
+							if Result.count > 0 then
+								Result.append_code ({EL_ASCII}.Newline)
 							end
-						else
-							Result.append (str)
+							Result.append (list.item)
+							list.forth
 						end
 					else
-						Result.append (found_item)
+						Result.append (str)
 					end
+				else
+					Result.append (found_item)
+				end
 			else
 				Result.append (found_item)
 			end
@@ -355,6 +334,11 @@ feature -- Factory
 		end
 
 feature -- Contract Support
+
+	Table_format: EL_TABLE_FORMAT
+		once
+			create Result
+		end
 
 	valid_assignments (a_manifest: GENERAL): BOOLEAN
 		-- `True' if each line contains a ":=" substring with optional
@@ -415,10 +399,10 @@ feature -- Contract Support
 		-- is name valid for `format'
 		do
 			inspect format
-				when Fm_indented_eiffel then
+				when {EL_TABLE_FORMAT}.indented_eiffel then
 					Result := string.is_eiffel (name)
 
-				when Fm_indented_code then
+				when {EL_TABLE_FORMAT}.indented_code then
 					Result := Convert_string.is_convertible_to_type (name, Class_id.INTEGER_64)
 			else
 				Result := True
@@ -472,18 +456,6 @@ feature {STRING_HANDLER} -- Internal attributes
 
 	manifest: IMMUTABLE
 
-feature {NONE} -- Formats
-
-	Fm_assignment: NATURAL_8 = 1
-
-	Fm_comma_separated: NATURAL_8 = 2
-
-	Fm_indented: NATURAL_8 = 3
-
-	Fm_indented_code: NATURAL_8 = 5
-
-	Fm_indented_eiffel: NATURAL_8 = 4
-
 feature {NONE} -- Constants
 
 	Newline_tab: STRING = "%N%T"
@@ -492,12 +464,12 @@ note
 	notes: "[
 		The ''manifest'' string can be formatted in three ways
 
-		1. Colon delimited keys followed by item lines as for example:
+		1. Colon delimited free-format keys followed by item lines as for example:
 
-			key_1:
+			key-1:
 				line 1..
 				line 2..
-			key_2:
+			key-2:
 				line 1..
 				line 2..
 			..

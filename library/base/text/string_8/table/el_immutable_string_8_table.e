@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:53:25 GMT (Sunday 25th August 2024)"
-	revision: "16"
+	date: "2024-08-27 12:55:10 GMT (Tuesday 27th August 2024)"
+	revision: "17"
 
 class
 	EL_IMMUTABLE_STRING_8_TABLE
@@ -32,7 +32,7 @@ inherit
 	EL_MODULE_STRING_8
 
 create
-	make_code_map, make_comma_separated, make_assignments, make_field_map, make_empty, make_subset, make_reversed
+	make, make_comma_separated, make_assignments, make_empty, make_subset, make_reversed
 
 feature -- Status query
 

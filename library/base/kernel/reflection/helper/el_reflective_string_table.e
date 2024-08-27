@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 11:52:06 GMT (Sunday 25th August 2024)"
-	revision: "9"
+	date: "2024-08-27 13:08:04 GMT (Tuesday 27th August 2024)"
+	revision: "10"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -53,9 +53,9 @@ feature {NONE} -- Initialization
 		do
 			make_reflected
 			if attached {STRING_8} table_text as str_8 and then s.is_ascii_string_8 (str_8) then
-				create utf_8_table.make_field_map_utf_8 (str_8)
+				create utf_8_table.make_utf_8 ({EL_TABLE_FORMAT}.Indented_eiffel, str_8)
 			else
-				create utf_8_table.make_field_map (table_text)
+				create utf_8_table.make ({EL_TABLE_FORMAT}.Indented_eiffel, table_text)
 			end
 
 			if attached utf_8_table as table then

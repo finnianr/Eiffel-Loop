@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 13:07:37 GMT (Saturday 24th August 2024)"
-	revision: "41"
+	date: "2024-08-27 13:26:29 GMT (Tuesday 27th August 2024)"
+	revision: "42"
 
 class
 	HASH_TABLE_TEST_SET
@@ -176,7 +176,7 @@ feature -- Test
 		do
 			manifest := File.plain_text ("data/code/C/windows/error-codes.txt")
 			manifest.right_adjust
-			create error_table.make_code_map (manifest)
+			create error_table.make ({EL_TABLE_FORMAT}.Indented_code, manifest)
 			if error_table.has_key_code (51) and then attached error_table.found_item_lines as lines then
 				assert ("3 lines", lines.count = 3)
 				assert ("starts with Windows", lines.first_item.starts_with ("Windows"))
@@ -329,9 +329,9 @@ feature -- Test
 			value, euro_symbol, line: ZSTRING; euro_name: STRING
 			key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
 		do
-			create table_utf_8.make_field_map (Currency_manifest)
+			create table_utf_8.make ({EL_TABLE_FORMAT}.Indented_eiffel, Currency_manifest)
 
-			create zstring_table.make (Currency_manifest)
+			zstring_table := Currency_manifest
 			across zstring_table as table loop
 				if table_utf_8.has_key_general (table.key) then
 					value := table.item
@@ -552,7 +552,7 @@ feature -- Test
 			currency_table: EL_ZSTRING_TABLE; manifest: ZSTRING
 		do
 			manifest := Currency_manifest
-			create currency_table.make (Currency_manifest)
+			currency_table := Currency_manifest
 			across currency_table as table loop
 				if attached table.item.split ('%N') as item_lines then
 					lio.put_labeled_lines (table.key, item_lines)
