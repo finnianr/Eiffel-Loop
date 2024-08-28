@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:14:45 GMT (Saturday 23rd December 2023)"
-	revision: "11"
+	date: "2024-08-28 6:39:57 GMT (Wednesday 28th August 2024)"
+	revision: "12"
 
 class
 	PP_PAYMENT_STATUS_ENUM
@@ -19,6 +19,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as Snake_case_title
 		end
 

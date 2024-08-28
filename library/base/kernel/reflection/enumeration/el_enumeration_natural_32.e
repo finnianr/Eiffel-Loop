@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-08-28 14:17:30 GMT (Wednesday 28th August 2024)"
+	revision: "6"
 
 deferred class
 	EL_ENUMERATION_NATURAL_32
@@ -51,11 +51,25 @@ feature {NONE} -- Implementation
 			Result := field.value (Current)
 		end
 
+	max_value: INTEGER
+		local
+			n: INTEGER
+		do
+			Result := n.Max_value
+		end
+
+	min_value: INTEGER
+		local
+			n: INTEGER
+		do
+			Result := n.Min_value
+		end
+
 feature -- Type definitions
 
 	ENUM_FIELD: EL_REFLECTED_NATURAL_32
-		once
-			create Result.make (Current, 0, Empty_string_8)
+		once ("PROCESS")
+			create Result.make (Current, 1, Default_name)
 		end
 
 end

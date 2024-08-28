@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-08-28 12:15:27 GMT (Wednesday 28th August 2024)"
+	revision: "6"
 
 class
 	EL_LOCALIZED_CURRENCY_TABLE
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_cache (Currency_enum.list.count, agent new_currency)
+			make_cache (Currency_enum.as_list.count, agent new_currency)
 		end
 
 feature -- Access

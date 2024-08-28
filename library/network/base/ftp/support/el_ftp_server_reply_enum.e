@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:08:39 GMT (Tuesday 27th August 2024)"
-	revision: "8"
+	date: "2024-08-28 14:40:01 GMT (Wednesday 28th August 2024)"
+	revision: "9"
 
 class
 	EL_FTP_SERVER_REPLY_ENUM
@@ -95,15 +95,17 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make ({EL_TABLE_FORMAT}.Indented_eiffel, "[
+			Result := "[
 				about_to_open_data_connection:
 					File status okay; about to open data connection.
 				action_not_taken:
-					Requested action not taken. File unavailable (e.g., file not found, no access).
+					Requested action not taken. File unavailable
+					(e.g., file not found, no access).
 				closing_control_connection:
 					Service closing control connection. Logged out if appropriate.
 				closing_data_connection:
-					Closing data connection. Requested file action successful (for example, file transfer or file abort).
+					Closing data connection. Requested file action successful
+					(for example, file transfer or file abort).
 				command_not_implemented:
 					Command not implemented, superfluous at this site.
 				entering_passive_mode:
@@ -118,7 +120,7 @@ feature {NONE} -- Constants
 					User logged in, proceed.
 				user_name_okay:
 					User name okay, need password.
-			]")
+			]"
 		end
 
 	English: EL_ENGLISH_NAME_TRANSLATER

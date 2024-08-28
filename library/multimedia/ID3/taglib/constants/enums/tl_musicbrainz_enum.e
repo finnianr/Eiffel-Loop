@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 14:57:55 GMT (Tuesday 15th August 2023)"
-	revision: "9"
+	date: "2024-08-28 6:40:06 GMT (Wednesday 28th August 2024)"
+	revision: "10"
 
 class
 	TL_MUSICBRAINZ_ENUM
@@ -17,6 +17,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as Musicbrainz_naming
 		end
 

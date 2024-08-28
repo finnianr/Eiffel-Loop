@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:31:17 GMT (Thursday 4th April 2024)"
-	revision: "12"
+	date: "2024-08-28 6:37:06 GMT (Wednesday 28th August 2024)"
+	revision: "13"
 
 class
 	AIA_REASON_ENUM
@@ -17,6 +17,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as Snake_case_upper,
 			name as reason
 		end

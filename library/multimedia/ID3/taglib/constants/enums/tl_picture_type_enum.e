@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:44:55 GMT (Sunday 16th July 2023)"
-	revision: "8"
+	date: "2024-08-28 12:15:27 GMT (Wednesday 28th August 2024)"
+	revision: "9"
 
 class
 	TL_PICTURE_TYPE_ENUM
@@ -15,10 +15,11 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as English
 		export
 			{NONE} all
-			{ANY} value, is_valid_value, name, list
+			{ANY} value, is_valid_value, name, as_list
 		redefine
 			initialize_fields
 		end

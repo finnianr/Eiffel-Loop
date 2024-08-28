@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:05:40 GMT (Tuesday 27th August 2024)"
-	revision: "18"
+	date: "2024-08-28 14:39:39 GMT (Wednesday 28th August 2024)"
+	revision: "19"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -32,9 +32,13 @@ inherit
 		end
 
 create
-	make, make_assignments, make_comma_separated, make_empty, make_subset, make_reversed,
+	make, make_assignments, make_comma_separated, make_indented_eiffel,
+	make_empty, make_subset, make_reversed,
 -- UTF-8
 	make_utf_8, make_comma_separated_utf_8, make_assignments_utf_8
+
+convert
+	make_indented_eiffel ({STRING_8, STRING_32, ZSTRING})
 
 feature {NONE} -- Initialization
 
@@ -95,6 +99,23 @@ feature {NONE} -- Initialization
 		do
 			is_utf_8_encoded := True
 			make_comma_separated_encoded (csv_utf_8_manifest)
+		end
+
+	make_indented_eiffel (indented_manifest: READABLE_STRING_GENERAL)
+		-- make using indented formatted as for example:
+		-- 	key_1:
+		--			line 1..
+		--			line 2..
+		-- 	key_2:
+		--			line 1..
+		--			line 2..
+		--		..
+		do
+			if is_latin_1 (indented_manifest) then
+				make_encoded ({EL_TABLE_FORMAT}.Indented_eiffel, as_latin_1 (indented_manifest))
+			else
+				make_utf_8 ({EL_TABLE_FORMAT}.Indented_eiffel, as_utf_8 (indented_manifest))
+			end
 		end
 
 feature -- Access

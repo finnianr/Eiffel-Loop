@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:09:14 GMT (Tuesday 27th August 2024)"
-	revision: "10"
+	date: "2024-08-28 14:41:08 GMT (Wednesday 28th August 2024)"
+	revision: "11"
 
 class
 	EROS_ERRORS_ENUM
@@ -43,7 +43,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make ({EL_TABLE_FORMAT}.Indented_eiffel, "[
+			Result := "[
 				argument_type_mismatch:
 					Argument type in processing instruction call and routine tuple do not match
 				invalid_type:
@@ -58,6 +58,6 @@ feature {NONE} -- Constants
 					Named once function not found in class
 				wrong_number_of_arguments:
 					Wrong number of arguments to routine
-			]")
+			]"
 		end
 end

@@ -14,14 +14,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:32:46 GMT (Sunday 16th July 2023)"
-	revision: "3"
+	date: "2024-08-28 6:39:41 GMT (Wednesday 28th August 2024)"
+	revision: "4"
 
 deferred class
 	EL_BOOLEAN_ENUMERATION
 
 inherit
 	EL_ENUMERATION_NATURAL_8
+		rename
+			description_table as No_descriptions
 		redefine
 			initialize_fields
 		end

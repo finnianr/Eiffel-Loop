@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-08-28 6:38:32 GMT (Wednesday 28th August 2024)"
+	revision: "14"
 
 class
 	TL_FRAME_ID_ENUM
@@ -21,6 +21,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as Snake_case_upper
 		export
 			{NONE} all

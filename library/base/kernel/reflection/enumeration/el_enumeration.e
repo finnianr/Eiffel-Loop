@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 8:47:04 GMT (Saturday 24th August 2024)"
-	revision: "62"
+	date: "2024-08-28 15:02:10 GMT (Wednesday 28th August 2024)"
+	revision: "63"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -47,6 +47,13 @@ inherit
 		redefine
 			make, initialize_fields, new_field_sorter
 		end
+
+--	EL_LAZY_ATTRIBUTE
+--		rename
+--			item as cache,
+--			new_item as new_cache,
+--			actual_item as actual_cache
+--		end
 
 	REFLECTOR_CONSTANTS
 		export
@@ -69,36 +76,46 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			map_list: EL_ARRAYED_MAP_LIST [N, IMMUTABLE_STRING_8]
-			l_value: N; index, array_count: INTEGER
+			index, range_count, size_table, size_array, i: INTEGER
+			name_table: HASH_TABLE [like ENUM_FIELD, like as_hashable]
+			enum_list: EL_ARRAYED_LIST [like ENUM_FIELD]; enum_array: ARRAY [like ENUM_FIELD]
 		do
 			Precursor
-			create map_list.make (field_table.count)
+			upper_index := min_value; lower_index := max_value
+			create enum_list.make (field_table.count)
 			across field_table as table loop
 				if attached {like ENUM_FIELD} table.item as field then
-					l_value := enum_value (field); index := as_integer (l_value)
-					map_list.extend (l_value, field.export_name)
-					if table.is_first then
-						lower_index := index
-					end
-					if index < lower_index then
-						lower_index := index
-					end
-					if upper_index < index then
-						upper_index := index
-					end
+					index := as_integer (enum_value (field))
+					lower_index := index.min (lower_index); upper_index := index.max (upper_index)
+					enum_list.extend (field)
 				end
 			end
-			map_list.sort_by_key (True)
+			enum_list.order_by (agent enum_value_integer, True)
 
-			array_count := upper_index - lower_index + 1
-			if lower_index = 1 and upper_index = map_list.count then
-				name_by_value := map_list.value_list.to_array
+			range_count := upper_index - lower_index + 1
+			if range_count = enum_list.count then
+				size_array := physical_array_size; size_table := i.Max_value
 
-			elseif array_count = map_list.count or else physical_array_size < physical_table_size then
-				name_by_value := new_name_value_array (map_list)
+			elseif range_count < enum_list.count * 20 then
+				size_array := physical_array_size; size_table := physical_table_size (enum_list.count)
 			else
-				name_by_value := new_name_value_table (map_list)
+				size_array := i.Max_value; size_table := physical_table_size (enum_list.count)
+			end
+			if size_array < size_table then
+				if enum_list.count > 0 then
+					create enum_array.make_filled (enum_field, lower_index, upper_index)
+					across enum_list as list loop
+						i := enum_value_integer (list.item)
+						enum_array [i] := list.item
+					end
+					field_by_value_array := enum_array
+				end
+			else
+				create name_table.make (enum_list.count)
+				across enum_list as list loop
+					name_table.extend (list.item, as_hashable (enum_value (list.item)))
+				end
+				field_by_value_table := name_table
 			end
 		ensure then
 			all_values_unique: all_values_unique
@@ -115,6 +132,27 @@ feature -- Measurement
 
 feature -- Access
 
+	as_list: EL_ARRAYED_LIST [N]
+		local
+			i: INTEGER
+		do
+			create Result.make (field_table.count)
+			if attached field_by_value_array as array then
+				from i := lower_index until i > upper_index loop
+					if attached array [i] as field and then field /= enum_field then
+						Result.extend (enum_value (field))
+					end
+					i := i + 1
+				end
+
+			elseif attached field_by_value_table as table then
+				from table.start until table.after loop
+					Result.extend (enum_value (table.item_for_iteration))
+					table.forth
+				end
+			end
+		end
+
 	description (a_value: N): ZSTRING
 		do
 			if description_table.has_immutable_key (field_name (a_value)) then
@@ -125,13 +163,9 @@ feature -- Access
 		end
 
 	field_name (a_value: N): IMMUTABLE_STRING_8
-		-- exported field name from field value `a_value'
+		-- field `name' from field value `a_value'
 		do
-			if attached field_name_by_value as table and then table.has_key (as_hashable (a_value)) then
-				Result := table.found_item
-			else
-				Result := Default_name
-			end
+			Result := lookup_name (a_value, False)
 		ensure
 			not_empty: not Result.is_empty
 		end
@@ -145,31 +179,10 @@ feature -- Access
 			end
 		end
 
-	list: EL_ARRAYED_LIST [N]
-		do
-			create Result.make_filled (field_table.count, agent i_th_value (meta_data.field_list, ?))
-		end
-
 	name (a_value: N): IMMUTABLE_STRING_8
-		-- exported name
-		local
-			i: INTEGER
+		-- field `exported_name' from field value `a_value'
 		do
-			if attached {like new_name_value_array} name_by_value as array then
-				i := as_integer (a_value)
-				if array.valid_index (i) then
-					Result := array [i]
-				else
-					Result := Default_name
-				end
-
-			elseif attached {like new_name_value_table} name_by_value as table
-				and then table.has_key (as_hashable (a_value))
-			then
-				Result := table.found_item
-			else
-				Result := Default_name
-			end
+			Result := lookup_name (a_value, True)
 		end
 
 	value (a_name: READABLE_STRING_GENERAL): like enum_value
@@ -206,17 +219,17 @@ feature -- Status query
 		local
 			l_count, i: INTEGER
 		do
-			if attached {like new_name_value_array} name_by_value as array then
+			if attached field_by_value_array as array then
 				from i := lower_index until i > upper_index loop
-					if array [i].count > 1 then
+					if array [i].export_name.count > 1 then
 						l_count := l_count + 1
 					end
 					i := i + 1
 				end
 				Result := l_count = count
 
-			elseif attached {like new_name_value_table} name_by_value as name_by_value_table then
-				Result := name_by_value_table.count = count
+			elseif attached field_by_value_table as name_table then
+				Result := name_table.count = count
 			end
 		end
 
@@ -249,14 +262,14 @@ feature -- Status query
 		local
 			i: INTEGER
 		do
-			if attached {like new_name_value_array} name_by_value as array then
+			if attached field_by_value_array as array then
 				i := as_integer (a_value)
 				if array.valid_index (i) then
-					Result := array [i].count > 0
+					Result := array [i].export_name.count > 0
 				end
 
-			elseif attached {like new_name_value_table} name_by_value as name_by_value_table then
-				Result := name_by_value_table.has (as_hashable (a_value))
+			elseif attached field_by_value_table as name_table then
+				Result := name_table.has (as_hashable (a_value))
 			end
 		end
 
@@ -292,44 +305,39 @@ feature -- Contract Support
 		local
 			i: INTEGER
 		do
-			if attached {like new_name_value_array} name_by_value as array then
+			if attached field_by_value_array as array then
 				Result := True
 				from i := lower_index until i > upper_index or not Result loop
-					if array [i].count > 1 then
-						Result := as_integer (value (array [i])) = i
+					if array [i].export_name.count > 1 then
+						Result := as_integer (value (array [i].export_name)) = i
 					end
 					i := i + 1
 				end
 
-			elseif attached {like new_name_value_table} name_by_value as name_by_value_table then
-				Result := across name_by_value_table as table all
-					 table.key = as_hashable (value (table.item))
+			elseif attached field_by_value_table as name_table then
+				Result := across name_table as table all
+					 table.key = as_hashable (value (table.item.export_name))
 				end
 			end
 		end
 
 	valid_description_keys: BOOLEAN
 		do
-			Result := across Description_table as table all
+			Result := across description_table as table all
 				field_table.has_immutable (table.key)
 			end
 		end
 
 feature {NONE} -- Implementation
 
+	enum_value_integer (field: like ENUM_FIELD): INTEGER
+		do
+			Result := as_integer (enum_value (field))
+		end
+
 	field_included (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
 			Result := field.abstract_type = enumeration_type
-		end
-
-	field_name_by_value: like new_field_name_by_value
-		do
-			if attached internal_field_name_by_value as table then
-				Result := table
-			else
-				Result := new_field_name_by_value
-				internal_field_name_by_value := Result
-			end
 		end
 
 	i_th_value (field_list: EL_FIELD_LIST; i: INTEGER): N
@@ -339,20 +347,48 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_field_name_array: ARRAY [IMMUTABLE_STRING_8]
+	lookup_name (a_value: N; exported: BOOLEAN): IMMUTABLE_STRING_8
+		-- exported name
+		local
+			i: INTEGER
 		do
-			create Result.make_filled (Default_name, lower_index, upper_index)
-		end
+			Result := Default_name
+			if attached field_by_value_array as array then
+				i := as_integer (a_value)
+				if array.valid_index (i) then
+					if exported then
+						Result := array [i].export_name
+					else
+						Result := array [i].name
+					end
+				end
 
-	new_field_name_by_value: HASH_TABLE [IMMUTABLE_STRING_8, like as_hashable]
-		do
-			create Result.make (count)
-			across field_table as table loop
-				if attached {like ENUM_FIELD} table.item as field then
-					Result.extend (field.name, as_hashable (enum_value (field)))
+			elseif attached field_by_value_table as table and then table.has_key (as_hashable (a_value)) then
+				if exported then
+					Result := table.found_item.export_name
+				else
+					Result := table.found_item.name
 				end
 			end
 		end
+
+	physical_array_size: INTEGER
+		local
+			boolean_array: ARRAY [BOOLEAN]
+		do
+			create boolean_array.make_filled (False, lower_index, upper_index)
+			Result := Eiffel.deep_physical_size (boolean_array)
+		end
+
+	physical_table_size (enum_count: INTEGER): INTEGER
+		local
+			boolean_table: HASH_TABLE [BOOLEAN, like as_hashable]
+		do
+			create boolean_table.make (enum_count)
+			Result := Eiffel.deep_physical_size (boolean_table)
+		end
+
+feature {NONE} -- Factory
 
 	new_field_sorter: like Default_field_order
 		do
@@ -360,57 +396,10 @@ feature {NONE} -- Implementation
 			Result.set_alphabetical_sort
 		end
 
-	new_name_value_array (
-		map_list: EL_ARRAYED_MAP_LIST [N, IMMUTABLE_STRING_8]
-	): ARRAY [IMMUTABLE_STRING_8]
-		local
-			i: INTEGER
-		do
-			create Result.make_filled (Default_name, lower_index, upper_index)
-			across map_list as map loop
-				i := as_integer (map.key)
-				check
-					no_conflict: Result [i].count = 0
-				end
-				Result [i] := map.value
-			end
-		end
-
-	new_name_value_table (
-		map_list: EL_ARRAYED_MAP_LIST [N, IMMUTABLE_STRING_8]
-	): HASH_TABLE [IMMUTABLE_STRING_8, like as_hashable]
-		do
-			create Result.make_equal (map_list.count)
-			across map_list as map loop
-				Result.put (map.value, as_hashable (map.key))
-				check
-					no_conflict: not Result.conflict
-				end
-			end
-		end
-
-	physical_array_size: INTEGER
-		local
-			trial_array: ARRAY [BOOLEAN]
-		do
-			create trial_array.make_filled (False, lower_index, upper_index)
-			Result := Eiffel.deep_physical_size (trial_array)
-		end
-
-	physical_table_size: INTEGER
-		local
-			trial_table: HASH_TABLE [BOOLEAN, like as_hashable]
-		do
-			create trial_table.make (field_table.count)
-			Result := Eiffel.deep_physical_size (trial_table)
-		end
-
 feature {NONE} -- Deferred
 
 	ENUM_FIELD: EL_REFLECTED_INTEGER_FIELD [NUMERIC]
 		-- Type definition
-		require
-			never_called: False
 		deferred
 		end
 
@@ -422,6 +411,12 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	description_table: EL_IMMUTABLE_UTF_8_TABLE
+		-- table of descriptions by exported name
+		-- rename to `no_descriptions' if not required
+		deferred
+		end
+
 	enum_value (field: like ENUM_FIELD): N
 		deferred
 		end
@@ -430,25 +425,34 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	max_value: INTEGER
+		deferred
+		end
+
+	min_value: INTEGER
+		deferred
+		end
+
 feature {NONE} -- Internal attributes
 
-	internal_field_name_by_value: detachable like new_field_name_by_value
+	field_by_value_array: detachable ARRAY [like ENUM_FIELD]
+		-- exported name array by value
+
+	field_by_value_table: detachable HASH_TABLE [like ENUM_FIELD, like as_hashable]
+		-- exported name table by value
 
 	lower_index: INTEGER
-
-	name_by_value: READABLE_INDEXABLE [IMMUTABLE_STRING_8]
-		-- exported name table by value
 
 	upper_index: INTEGER
 
 feature {NONE} -- Constants
 
 	Default_name: IMMUTABLE_STRING_8
-		once
+		once ("PROCESS")
 			create Result.make_empty
 		end
 
-	Description_table: EL_IMMUTABLE_UTF_8_TABLE
+	frozen No_descriptions: EL_IMMUTABLE_UTF_8_TABLE
 		-- table of descriptions by exported name
 		-- redefine to add descriptions
 		once

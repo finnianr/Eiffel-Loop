@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:08:58 GMT (Tuesday 27th August 2024)"
-	revision: "22"
+	date: "2024-08-28 14:40:44 GMT (Wednesday 28th August 2024)"
+	revision: "23"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -266,7 +266,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_IMMUTABLE_UTF_8_TABLE
 		once
-			create Result.make ({EL_TABLE_FORMAT}.Indented_eiffel, "[
+			Result := "[
 				continue:
 					Client can continue.
 				switching_protocols:
@@ -377,7 +377,7 @@ feature {NONE} -- Constants
 					Bandwidth limit exceeded
 				not_extended:
 					Not extended
-			]")
+			]"
 		end
 
 	English: EL_ENGLISH_NAME_TRANSLATER

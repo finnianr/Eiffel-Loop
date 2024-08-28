@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:48:08 GMT (Sunday 16th July 2023)"
-	revision: "8"
+	date: "2024-08-28 6:40:51 GMT (Wednesday 28th August 2024)"
+	revision: "9"
 
 class
 	FCGI_HEADER_ENUMERATION
@@ -15,6 +15,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as Http_header_naming
 		end
 

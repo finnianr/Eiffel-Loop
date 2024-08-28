@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:27:31 GMT (Tuesday 27th August 2024)"
-	revision: "60"
+	date: "2024-08-28 15:07:54 GMT (Wednesday 28th August 2024)"
+	revision: "61"
 
 class
 	REFLECTION_TEST_SET
@@ -23,7 +23,8 @@ inherit
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION; EL_SHARED_HTTP_STATUS; EL_SHARED_SERVICE_PORT
+	EL_SHARED_CURRENCY_ENUM; EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION; EL_SHARED_HTTP_STATUS
+	EL_SHARED_SERVICE_PORT
 
 create
 	make
@@ -123,18 +124,22 @@ feature -- Tests
 		-- REFLECTION_TEST_SET.test_enumeration
 		note
 			testing: "[
+				covers/{EL_ENUMERATION}.as_list,
 				covers/{EL_ENUMERATION}.description,
-				covers/{EL_ENUMERATION}.has_field_name,
+				covers/{EL_ENUMERATION}.name,
 				covers/{EL_ENUMERATION}.field_name,
-				covers/{EL_ENUMERATION}.value,
-				covers/{EL_ENUMERATION}.field_name
+				covers/{EL_ENUMERATION}.has_field_name,
+				covers/{EL_ENUMERATION}.value
 			]"
+		local
+			string_encoding: TL_STRING_ENCODING_ENUM
 		do
 			if Http_status.valid_description_keys then
 				assert_same_string (Void, Http_status.description (Http_status.continue), "Client can continue.")
 			else
 				failed ("valid_description_keys")
 			end
+		-- `Http_status' using `field_by_value_array'
 			assert_same_string ("404 is not found", Http_status.field_name (404), "not_found")
 			assert_same_string ("404 is not found", Http_status.name (404), "Not found")
 			assert ("Not found = 404", Http_status.value ("Not found") = 404)
@@ -142,6 +147,27 @@ feature -- Tests
 				assert ("is 404", Http_status.found_value = 404)
 			else
 				failed ("has_field_name")
+			end
+			if attached Http_status.as_list as list then
+				assert ("first is 100", list.first.to_integer_32 = 100)
+				assert ("last is 510", list.last.to_integer_32 = 510)
+			end
+		-- `Currency_enum' using `field_by_value_array'
+			assert_same_string (Void, Currency_enum.name (Currency_enum.EUR), "EUR")
+			assert_same_string (Void, Currency_enum.field_name (Currency_enum.EUR), "eur")
+			if attached Currency_enum.as_list as list then
+				assert ("first is AUD", list.first = Currency_enum.AUD)
+				assert ("last is ZAR", list.last = Currency_enum.ZAR)
+			end
+
+		-- Class `TL_STRING_ENCODING_ENUM' using `field_by_value_array' (non-continuous array)
+			create string_encoding.make
+			if attached string_encoding.as_list as list then
+				assert ("first is latin_1", list.first = string_encoding.latin_1)
+				assert ("last is utf_16_little_endian", list.last = string_encoding.utf_16_little_endian)
+				assert_same_string (Void,
+					string_encoding.name (string_encoding.utf_16_little_endian), "UTF 16 little endian"
+				)
 			end
 		end
 
@@ -416,7 +442,11 @@ feature -- Tests
 			manifest_size := Eiffel.deep_physical_size (table)
 			enum_size := Eiffel.deep_physical_size (Http_status)
 			space_saved_percent := (enum_size - manifest_size) * 100 // enum_size
-			assert ("40%% memory saving", space_saved_percent = 40)
+			if space_saved_percent /= 40 then
+				lio.put_integer_field ("space_saved_percent", space_saved_percent)
+				lio.put_new_line
+				failed ("40%% memory saving")
+			end
 
 			lio.put_integer_field ("Memory saving", space_saved_percent)
 			lio.put_character ('%%')

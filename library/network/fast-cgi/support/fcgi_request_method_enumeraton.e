@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 16:03:21 GMT (Sunday 25th August 2024)"
-	revision: "1"
+	date: "2024-08-28 6:36:51 GMT (Wednesday 28th August 2024)"
+	revision: "2"
 
 class
 	FCGI_REQUEST_METHOD_ENUMERATON
@@ -15,6 +15,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as Snake_case_upper
 		end
 

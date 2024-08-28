@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-16 11:44:36 GMT (Sunday 16th July 2023)"
-	revision: "7"
+	date: "2024-08-28 6:37:44 GMT (Wednesday 28th August 2024)"
+	revision: "8"
 
 class
 	PP_TRANSACTION_TYPE_ENUM
@@ -23,6 +23,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as eiffel_naming
 		end
 

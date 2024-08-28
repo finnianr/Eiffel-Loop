@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 16:29:15 GMT (Sunday 25th August 2024)"
-	revision: "1"
+	date: "2024-08-28 6:39:13 GMT (Wednesday 28th August 2024)"
+	revision: "2"
 
 class
 	EL_BOOLEAN_ON_OFF_ENUM

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-08-28 6:36:26 GMT (Wednesday 28th August 2024)"
+	revision: "5"
 
 class
 	EL_SERVICE_PORT_ENUM
@@ -18,6 +18,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
+			description_table as No_descriptions,
 			foreign_naming as Snake_case_upper
 		redefine
 			initialize_fields
@@ -55,7 +56,7 @@ feature {NONE} -- Initialization
 			NTP := 123
 			UDP_server := 67
 			UDP_client := 68
-			
+
 			create secure_table.make (<<
 				[HTTP, HTTPS], [IMAP, IMAPS], [POP3, POP3S], [SMTP, SMTPS]
 			>>)
