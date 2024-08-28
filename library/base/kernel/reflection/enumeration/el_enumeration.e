@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 15:02:10 GMT (Wednesday 28th August 2024)"
-	revision: "63"
+	date: "2024-08-28 19:57:38 GMT (Wednesday 28th August 2024)"
+	revision: "64"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -47,13 +47,6 @@ inherit
 		redefine
 			make, initialize_fields, new_field_sorter
 		end
-
---	EL_LAZY_ATTRIBUTE
---		rename
---			item as cache,
---			new_item as new_cache,
---			actual_item as actual_cache
---		end
 
 	REFLECTOR_CONSTANTS
 		export
@@ -76,9 +69,10 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			index, range_count, size_table, size_array, i: INTEGER
+			index, range_count, size_table, array_max_count, i: INTEGER
 			name_table: HASH_TABLE [like ENUM_FIELD, like as_hashable]
 			enum_list: EL_ARRAYED_LIST [like ENUM_FIELD]; enum_array: ARRAY [like ENUM_FIELD]
+			use_array: BOOLEAN
 		do
 			Precursor
 			upper_index := min_value; lower_index := max_value
@@ -94,28 +88,28 @@ feature {NONE} -- Initialization
 
 			range_count := upper_index - lower_index + 1
 			if range_count = enum_list.count then
-				size_array := physical_array_size; size_table := i.Max_value
-
-			elseif range_count < enum_list.count * 20 then
-				size_array := physical_array_size; size_table := physical_table_size (enum_list.count)
-			else
-				size_array := i.Max_value; size_table := physical_table_size (enum_list.count)
-			end
-			if size_array < size_table then
-				if enum_list.count > 0 then
-					create enum_array.make_filled (enum_field, lower_index, upper_index)
-					across enum_list as list loop
-						i := enum_value_integer (list.item)
-						enum_array [i] := list.item
-					end
-					field_by_value_array := enum_array
-				end
+				use_array := True
 			else
 				create name_table.make (enum_list.count)
-				across enum_list as list loop
-					name_table.extend (list.item, as_hashable (enum_value (list.item)))
+				size_table := Eiffel.deep_physical_size (name_table)
+				array_max_count := (size_table - Array_size_overhead) // {PLATFORM}.pointer_bytes
+				if range_count <= array_max_count then
+					use_array := True
+				else
+				-- enum values must be extremely spaced out
+					across enum_list as list loop
+						name_table.extend (list.item, as_hashable (enum_value (list.item)))
+					end
+					field_by_value_table := name_table
 				end
-				field_by_value_table := name_table
+			end
+			if use_array then
+				create enum_array.make_filled (enum_field, lower_index, upper_index)
+				across enum_list as list loop
+					i := enum_value_integer (list.item)
+					enum_array [i] := list.item
+				end
+				field_by_value_array := enum_array
 			end
 		ensure then
 			all_values_unique: all_values_unique
@@ -372,22 +366,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	physical_array_size: INTEGER
-		local
-			boolean_array: ARRAY [BOOLEAN]
-		do
-			create boolean_array.make_filled (False, lower_index, upper_index)
-			Result := Eiffel.deep_physical_size (boolean_array)
-		end
-
-	physical_table_size (enum_count: INTEGER): INTEGER
-		local
-			boolean_table: HASH_TABLE [BOOLEAN, like as_hashable]
-		do
-			create boolean_table.make (enum_count)
-			Result := Eiffel.deep_physical_size (boolean_table)
-		end
-
 feature {NONE} -- Factory
 
 	new_field_sorter: like Default_field_order
@@ -421,6 +399,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	enum_value_bytes: INTEGER
+		deferred
+		end
+
 	enumeration_type: INTEGER
 		deferred
 		end
@@ -446,6 +428,11 @@ feature {NONE} -- Internal attributes
 	upper_index: INTEGER
 
 feature {NONE} -- Constants
+
+	Array_size_overhead: INTEGER
+		once
+			Result := Eiffel.physical_size (<< True >>) + 32 -- 32 for SPECIAL
+		end
 
 	Default_name: IMMUTABLE_STRING_8
 		once ("PROCESS")

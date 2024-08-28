@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:42:58 GMT (Sunday 25th August 2024)"
-	revision: "40"
+	date: "2024-08-28 19:44:50 GMT (Wednesday 28th August 2024)"
+	revision: "41"
 
 class
 	EIFFEL_TEST_SET
@@ -47,23 +47,14 @@ feature -- Tests
 		-- EIFFEL_TEST_SET.test_array_sizes
 		local
 			object_array: SPECIAL [STRING]; pointer_array: SPECIAL [POINTER]
-			c_1: SPECIAL [CHARACTER]; c_1_size: INTEGER
+			c_1: SPECIAL [CHARACTER]; c_1_size, array_size, array_overhead, reference_size: INTEGER
 		do
-			create object_array.make_empty (100)
-			create pointer_array.make_empty (100)
-			if Eiffel.physical_size (object_array) = Eiffel.physical_size (pointer_array) then
-				do_nothing
-			else
-				failed ("object array same size as pointer array")
-			end
-			create c_1.make_empty (64)
-			c_1_size := Eiffel.physical_size (c_1) - 64
-			if c_1_size = 32 then
-				do_nothing
-			else
-				lio.put_integer_field ("c_1_size", c_1_size)
-				lio.put_new_line
-				failed ("special overhead is 32 bytes")
+			array_overhead := 32 -- object header
+			across << 16, 32, 64, 128 >> as size loop
+				create object_array.make_empty (size.item)
+				array_size := Eiffel.physical_size (object_array)
+				reference_size := (array_size - array_overhead) // object_array.capacity
+				assert ("reference size same as pointer", reference_size = {PLATFORM}.pointer_bytes)
 			end
 		end
 

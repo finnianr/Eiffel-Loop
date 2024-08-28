@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 14:17:38 GMT (Wednesday 28th August 2024)"
-	revision: "6"
+	date: "2024-08-28 18:58:35 GMT (Wednesday 28th August 2024)"
+	revision: "7"
 
 deferred class
 	EL_ENUMERATION_NATURAL_8
@@ -49,6 +49,11 @@ feature {NONE} -- Implementation
 	enum_value (field: EL_REFLECTED_NATURAL_8): NATURAL_8
 		do
 			Result := field.value (Current)
+		end
+
+	enum_value_bytes: INTEGER
+		do
+			Result := {PLATFORM}.Natural_8_bytes
 		end
 
 	max_value: INTEGER
