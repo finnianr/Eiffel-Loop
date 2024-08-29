@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 15:07:54 GMT (Wednesday 28th August 2024)"
-	revision: "61"
+	date: "2024-08-29 15:03:47 GMT (Thursday 29th August 2024)"
+	revision: "62"
 
 class
 	REFLECTION_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL; EL_MODULE_FACTORY
+	EL_MODULE_EIFFEL; EL_MODULE_FACTORY; EL_MODULE_EXECUTABLE
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -35,27 +35,27 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["arrayed_list_initialization",						agent test_arrayed_list_initialization],
-				["compactable_objects",									agent test_compactable_objects],
-				["default_tuple_initialization",						agent test_default_tuple_initialization],
-				["enumeration",											agent test_enumeration],
-				["field_name_search_by_address",						agent test_field_name_search_by_address],
-				["field_representation",								agent test_field_representation],
-				["field_value_setter",									agent test_field_value_setter],
-				["field_value_reset",									agent test_field_value_reset],
-				["field_value_table",									agent test_field_value_table],
-				["initialized_object_factory",						agent test_initialized_object_factory],
-				["makeable_object_factory",							agent test_makeable_object_factory],
-				["object_initialization_from_camel_case_table",	agent test_object_initialization_from_camel_case_table],
-				["object_initialization_from_table",				agent test_object_initialization_from_table],
-				["reflected_collection_factory",						agent test_reflected_collection_factory],
-				["reflected_integer_list",								agent test_reflected_integer_list],
-				["reflection",												agent test_reflection],
-				["reflective_string_constants",						agent test_reflective_string_constants],
-				["reflective_string_table",							agent test_reflective_string_table],
-				["set_from_other",										agent test_set_from_other],
-				["size_reporting",										agent test_size_reporting],
-				["substituted_type_id",									agent test_substituted_type_id]
+				["arrayed_list_initialization",		  agent test_arrayed_list_initialization],
+				["compactable_objects",					  agent test_compactable_objects],
+				["default_tuple_initialization",		  agent test_default_tuple_initialization],
+				["enumeration",							  agent test_enumeration],
+				["field_name_search_by_address",		  agent test_field_name_search_by_address],
+				["field_representation",				  agent test_field_representation],
+				["field_value_reset",					  agent test_field_value_reset],
+				["field_value_setter",					  agent test_field_value_setter],
+				["field_value_table",					  agent test_field_value_table],
+				["initialized_object_factory",		  agent test_initialized_object_factory],
+				["makeable_object_factory",			  agent test_makeable_object_factory],
+				["make_object_from_camel_case_table", agent test_make_object_from_camel_case_table],
+				["make_object_from_table",				  agent test_make_object_from_table],
+				["reflected_collection_factory",		  agent test_reflected_collection_factory],
+				["reflected_integer_list",				  agent test_reflected_integer_list],
+				["reflection",								  agent test_reflection],
+				["reflective_string_constants",		  agent test_reflective_string_constants],
+				["reflective_string_table",			  agent test_reflective_string_table],
+				["set_from_other",						  agent test_set_from_other],
+				["size_reporting",						  agent test_size_reporting],
+				["substituted_type_id",					  agent test_substituted_type_id]
 			>>)
 		end
 
@@ -320,21 +320,7 @@ feature -- Tests
 			end
 		end
 
-	test_makeable_object_factory
-		-- REFLECTION_TEST_SET.test_makeable_object_factory
-		local
-			f: EL_MAKEABLE_OBJECT_FACTORY; type: TYPE [COLUMN_VECTOR_COMPLEX_64]
-		do
-			create f
-			type := {COLUMN_VECTOR_COMPLEX_64}
-			if attached {COLUMN_VECTOR_COMPLEX_64} f.new_item_from_name (type.name) as vector then
-				assert_same_string (Void, type.name, vector.generator)
-			else
-				failed ("vector created")
-			end
-		end
-
-	test_object_initialization_from_camel_case_table
+	test_make_object_from_camel_case_table
 		note
 			testing: "[
 				covers/{EL_SETTABLE_FROM_STRING}.make_from_table,
@@ -353,11 +339,25 @@ feature -- Tests
 			check_values_ireland (country)
 		end
 
-	test_object_initialization_from_table
+	test_make_object_from_table
 		note
 			testing: "covers/{EL_SETTABLE_FROM_STRING}.make_from_table"
 		do
 			check_values_ireland (new_country (Ireland))
+		end
+
+	test_makeable_object_factory
+		-- REFLECTION_TEST_SET.test_makeable_object_factory
+		local
+			f: EL_MAKEABLE_OBJECT_FACTORY; type: TYPE [COLUMN_VECTOR_COMPLEX_64]
+		do
+			create f
+			type := {COLUMN_VECTOR_COMPLEX_64}
+			if attached {COLUMN_VECTOR_COMPLEX_64} f.new_item_from_name (type.name) as vector then
+				assert_same_string (Void, type.name, vector.generator)
+			else
+				failed ("vector created")
+			end
 		end
 
 	test_reflected_collection_factory
@@ -426,12 +426,12 @@ feature -- Tests
 				covers/{EL_STRING_ITERATION_CURSOR}.occurrences_in_bounds,
 				covers/{EL_TABLE_INTERVAL_MAP_LIST}.make,
 				covers/{EL_REFLECTIVE_STRING_TABLE}.make,
-				covers/{EL_SUB}.count,
-				covers/{EL_SUB}.lines
+				covers/{EL_SUBSTRING}.count,
+				covers/{EL_SUBSTRING}.lines
 			]"
 		local
 			table: HTTP_STATUS_TABLE; space_saved_percent: INTEGER
-			enum_size, manifest_size: INTEGER
+			enum_size, table_size, percent: INTEGER; choose: EL_CHOICE [INTEGER]
 		do
 			create table.make_default
 			assert_same_http_status (table.ok, Http_status.ok)
@@ -439,18 +439,20 @@ feature -- Tests
 			assert_same_http_status (table.continue, Http_status.continue)
 			assert_same_http_status (table.not_acceptable, Http_status.not_acceptable)
 
-			manifest_size := Eiffel.deep_physical_size (table)
+			table_size := Eiffel.deep_physical_size (table) - table.text_manifest_size
 			enum_size := Eiffel.deep_physical_size (Http_status)
-			space_saved_percent := (enum_size - manifest_size) * 100 // enum_size
-			if space_saved_percent /= 40 then
-				lio.put_integer_field ("space_saved_percent", space_saved_percent)
-				lio.put_new_line
-				failed ("40%% memory saving")
-			end
-
+			space_saved_percent := (enum_size - table_size) * 100 // enum_size
 			lio.put_integer_field ("Memory saving", space_saved_percent)
 			lio.put_character ('%%')
 			lio.put_new_line
+
+		-- Compact Object Layout: In finalized mode, objects are stored in a more compact form,
+		-- which reduces their memory footprint. As a result, `{INTERNAL}.deep_physical_size' might
+		-- report a smaller size compared to workbench mode				
+			percent := choose [48, 26] #? Executable.is_finalized
+			if space_saved_percent /= percent then
+				failed (percent.out + "%% memory saving")
+			end
 		end
 
 	test_set_from_other

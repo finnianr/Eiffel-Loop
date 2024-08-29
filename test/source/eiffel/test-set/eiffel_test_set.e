@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 19:44:50 GMT (Wednesday 28th August 2024)"
-	revision: "41"
+	date: "2024-08-29 7:07:10 GMT (Thursday 29th August 2024)"
+	revision: "42"
 
 class
 	EIFFEL_TEST_SET
@@ -32,7 +32,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["array_sizes",			 agent test_array_sizes],
+				["array_reference_size", agent test_array_reference_size],
+				["deep_physical_size",	 agent test_deep_physical_size],
 				["managed_pointer_twin", agent test_managed_pointer_twin],
 				["natural_constant",		 agent test_natural_constant],
 				["string_field_counts",	 agent test_string_field_counts],
@@ -43,19 +44,34 @@ feature {NONE} -- Initialization
 
 feature -- Tests
 
-	test_array_sizes
-		-- EIFFEL_TEST_SET.test_array_sizes
+	test_array_reference_size
+		-- EIFFEL_TEST_SET.test_array_reference_size
 		local
-			object_array: SPECIAL [STRING]; pointer_array: SPECIAL [POINTER]
-			c_1: SPECIAL [CHARACTER]; c_1_size, array_size, array_overhead, reference_size: INTEGER
+			object_array: SPECIAL [STRING]
+			array_size, reference_size: INTEGER
 		do
-			array_overhead := 32 -- object header
 			across << 16, 32, 64, 128 >> as size loop
 				create object_array.make_empty (size.item)
 				array_size := Eiffel.physical_size (object_array)
-				reference_size := (array_size - array_overhead) // object_array.capacity
+				reference_size := (array_size - Eiffel.Object_overhead) // object_array.capacity
 				assert ("reference size same as pointer", reference_size = {PLATFORM}.pointer_bytes)
 			end
+		end
+
+	test_deep_physical_size
+		local
+			immutable_8: IMMUTABLE_STRING_8; array: SPECIAL [IMMUTABLE_STRING_8]
+			size_1, size_2, delta: INTEGER
+		do
+			create immutable_8.make_filled (' ', 64)
+			create array.make_filled (immutable_8, 2)
+			array [1] := immutable_8.shared_substring (1, 64)
+			size_1 := Eiffel.deep_physical_size (array)
+			array [1] := immutable_8.to_string_8
+			size_2 := Eiffel.deep_physical_size (array)
+
+			delta := size_2 - size_1
+			assert ("immutable.area not counted twice", delta = 112)
 		end
 
 	test_managed_pointer_twin

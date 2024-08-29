@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 19:57:38 GMT (Wednesday 28th August 2024)"
-	revision: "64"
+	date: "2024-08-29 7:19:26 GMT (Thursday 29th August 2024)"
+	revision: "65"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -75,7 +75,7 @@ feature {NONE} -- Initialization
 			use_array: BOOLEAN
 		do
 			Precursor
-			upper_index := min_value; lower_index := max_value
+			upper_index := enum_min_value; lower_index := enum_max_value
 			create enum_list.make (field_table.count)
 			across field_table as table loop
 				if attached {like ENUM_FIELD} table.item as field then
@@ -96,7 +96,7 @@ feature {NONE} -- Initialization
 				if range_count <= array_max_count then
 					use_array := True
 				else
-				-- enum values must be extremely spaced out
+				-- enum values must be very spaced out, so hash table is more efficient
 					across enum_list as list loop
 						name_table.extend (list.item, as_hashable (enum_value (list.item)))
 					end
@@ -331,7 +331,7 @@ feature {NONE} -- Implementation
 
 	field_included (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := field.abstract_type = enumeration_type
+			Result := field.abstract_type = enum_type
 		end
 
 	i_th_value (field_list: EL_FIELD_LIST; i: INTEGER): N
@@ -395,23 +395,19 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	enum_max_value: INTEGER
+		deferred
+		end
+
+	enum_min_value: INTEGER
+		deferred
+		end
+
+	enum_type: INTEGER
+		deferred
+		end
+
 	enum_value (field: like ENUM_FIELD): N
-		deferred
-		end
-
-	enum_value_bytes: INTEGER
-		deferred
-		end
-
-	enumeration_type: INTEGER
-		deferred
-		end
-
-	max_value: INTEGER
-		deferred
-		end
-
-	min_value: INTEGER
 		deferred
 		end
 
@@ -431,7 +427,7 @@ feature {NONE} -- Constants
 
 	Array_size_overhead: INTEGER
 		once
-			Result := Eiffel.physical_size (<< True >>) + 32 -- 32 for SPECIAL
+			Result := Eiffel.physical_size (<< True >>) + Eiffel.Object_overhead
 		end
 
 	Default_name: IMMUTABLE_STRING_8

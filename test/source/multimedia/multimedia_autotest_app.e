@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-21 13:19:05 GMT (Sunday 21st January 2024)"
-	revision: "71"
+	date: "2024-08-29 14:06:37 GMT (Thursday 29th August 2024)"
+	revision: "72"
 
 class
 	MULTIMEDIA_AUTOTEST_APP
@@ -45,7 +45,8 @@ feature {NONE} -- Compile classes
 		EL_MULTICHANNEL_AUDIO_UNIT_SAMPLE_ARRAY [NUMERIC],
 		EL_FIXED_DEPTH_WAVE_FILE [EL_AUDIO_PCM_SAMPLE],
 		EL_PCM_SAMPLE_BLOCK_ARRAY [NUMERIC],
-		EL_WAVE_SAMPLE_FILE [EL_AUDIO_PCM_SAMPLE]
+		EL_WAVE_SAMPLE_FILE [EL_AUDIO_PCM_SAMPLE],
+		EL_MODULE_VIDEO_COMMAND
 	]
 		do
 			create Result

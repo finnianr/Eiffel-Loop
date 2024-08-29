@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 14:46:05 GMT (Monday 26th August 2024)"
-	revision: "33"
+	date: "2024-08-29 7:01:02 GMT (Thursday 29th August 2024)"
+	revision: "34"
 
 class
 	EL_INTERNAL
@@ -217,7 +217,7 @@ feature -- Access
 
 feature -- Constants
 
-	Basic_types: ARRAYED_LIST [TYPE [ANY]]
+	Basic_types: EL_ARRAYED_LIST [TYPE [ANY]]
 		once
 			create Result.make (Special_type_mapping.count)
 			across Special_type_mapping as table loop
@@ -225,6 +225,9 @@ feature -- Constants
 			end
 		end
 
+	Object_overhead: INTEGER = 32
+		-- memory overhead for any object excluding all attributes
+	
 feature -- Contract Support
 
 	is_collection_type (type_id: INTEGER): BOOLEAN

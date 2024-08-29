@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-23 17:28:24 GMT (Friday 23rd August 2024)"
-	revision: "9"
+	date: "2024-08-29 15:58:04 GMT (Thursday 29th August 2024)"
+	revision: "10"
 
 class
 	EL_ZLIB_API
@@ -20,12 +20,12 @@ inherit
 feature {NONE} -- C externals
 
 	c_compress2 (
-		destination: POINTER; compressed_count: TYPED_POINTER [NATURAL]
-		source: POINTER; source_count: NATURAL; level: INTEGER
+		destination: POINTER; compressed_count: TYPED_POINTER [NATURAL_64]
+		source: POINTER; source_count: NATURAL_64; level: INTEGER
 
 	): INTEGER
-			-- ZEXTERN int ZEXPORT compress2 OF((Bytef *destination, uLongf *destLen,
-			--             	                     const Bytef *source, uLong sourceLen, int level));
+		-- ZEXTERN int ZEXPORT compress2 OF((Bytef *destination, uLongf *destLen,
+		--             	                     const Bytef *source, uLong sourceLen, int level));
 		external
 			"C (Bytef *, uLongf *, const Bytef *, uLong, int): EIF_INTEGER | <zlib.h>"
 		alias
@@ -33,8 +33,8 @@ feature {NONE} -- C externals
 		end
 
 	c_uncompress (
-		destination: POINTER; decompressed_count: TYPED_POINTER [NATURAL]
-		source: POINTER; source_count: NATURAL
+		destination: POINTER; decompressed_count: TYPED_POINTER [NATURAL_64]
+		source: POINTER; source_count: NATURAL_64
 	): INTEGER
 		-- ZEXTERN int ZEXPORT uncompress OF((Bytef *destination, uLongf *destLen,
 		--				               			       const Bytef *source, uLong sourceLen));
@@ -44,7 +44,7 @@ feature {NONE} -- C externals
 			"uncompress"
 		end
 
-	c_compress_bound (source_count: INTEGER_64): NATURAL
+	c_compress_bound (source_count: NATURAL_64): NATURAL_64
 			-- ZEXTERN uLong ZEXPORT compressBound OF((uLong sourceLen));
 		external
 			"C (uLong): EIF_INTEGER | <zlib.h>"
@@ -52,7 +52,7 @@ feature {NONE} -- C externals
 			"compressBound"
 		end
 
-	c_size_of_ulong: INTEGER
+	c_size_of_ulong: NATURAL_64
 		external
 			"C inline use <zlib.h>"
 		alias

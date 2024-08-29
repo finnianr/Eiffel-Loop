@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-23 17:31:26 GMT (Friday 23rd August 2024)"
-	revision: "13"
+	date: "2024-08-29 15:51:55 GMT (Thursday 29th August 2024)"
+	revision: "14"
 
 class
 	EL_ZLIB_ROUTINES_IMP
@@ -77,18 +77,18 @@ feature {NONE} -- Implementation
 		-- compress data at `source_ptr' using `level' compression
 		-- with expected compression ratio of `expected_ratio'
 		local
-			upper_bound, additional_space, i, compressed_count: INTEGER; compress2_count: NATURAL
+			upper_bound, additional_space, i, compressed_count: INTEGER; n64_compressed_count: NATURAL_64
 			done: BOOLEAN
 		do
 			error_code := 0; last_ratio := 0
-			upper_bound := c_compress_bound (count).to_integer_32
+			upper_bound := c_compress_bound (count.to_natural_64).to_integer_32
 			create Result.make_filled (0, (count * expected_ratio).rounded.max (5))
 			from until done or (Result.capacity - additional_space) > upper_bound loop
-				compress2_count := Result.capacity.to_natural_32
-				error_code := c_compress2 (Result.base_address, $compress2_count, source_ptr, count.to_natural_32, level)
+				n64_compressed_count := Result.capacity.to_natural_32
+				error_code := c_compress2 (Result.base_address, $n64_compressed_count, source_ptr, count.to_natural_32, level)
 				inspect error_code
 					when Z_ok then
-						compressed_count := compress2_count.to_integer_32
+						compressed_count := n64_compressed_count.to_integer_32
 						Result.keep_head (compressed_count)
 						last_ratio := compressed_count / count
 						done := True
@@ -108,13 +108,13 @@ feature {NONE} -- Implementation
 
 	new_decompressed (source_ptr: POINTER; count, orginal_count: INTEGER): SPECIAL [NATURAL_8]
 		local
-			uncompress_count: NATURAL; decompressed_count: INTEGER
+			n64_decompressed_count: NATURAL_64; decompressed_count: INTEGER
 		do
 			error_code := 0
-			uncompress_count := orginal_count.to_natural_32
+			n64_decompressed_count := orginal_count.to_natural_32
 			create Result.make_filled (0, orginal_count)
-			error_code := c_uncompress (Result.base_address, $uncompress_count, source_ptr, count.to_natural_32)
-			decompressed_count := uncompress_count.to_integer_32
+			error_code := c_uncompress (Result.base_address, $n64_decompressed_count, source_ptr, count.to_natural_32)
+			decompressed_count := n64_decompressed_count.to_integer_32
 			inspect error_code
 				when Z_ok then
 					Result.keep_head (decompressed_count)
