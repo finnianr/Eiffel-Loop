@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 9:39:12 GMT (Friday 30th August 2024)"
-	revision: "14"
+	date: "2024-08-30 12:03:07 GMT (Friday 30th August 2024)"
+	revision: "15"
 
 class
 	EL_NAME_VALUE_PAIR [S -> STRING_GENERAL create make end]
@@ -27,8 +27,11 @@ feature {NONE} -- Initialization
 		require
 			delimited: str.has (delimiter)
 		do
-			make_empty
-			set_from_string (str, delimiter)
+			if str.has (delimiter) then
+				set_from_string (str, delimiter)
+			else
+				make_empty
+			end
 		end
 
 	make_quoted (str: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
@@ -60,7 +63,7 @@ feature -- Access
 			Result := joined ('=')
 		end
 
-	joined (separator: CHARACTER): S
+	joined (separator: CHARACTER_32): S
 		do
 			create Result.make (name.count + value.count + 1)
 			append_to (Result, separator)
@@ -72,7 +75,7 @@ feature -- Access
 
 feature -- Basic operations
 
-	append_to (str: S; separator: CHARACTER)
+	append_to (str: S; separator: CHARACTER_32)
 		do
 			str.append (name)
 			str.append_code (separator.natural_32_code)
@@ -87,24 +90,29 @@ feature -- Element change
 		local
 			index: INTEGER
 		do
-			wipe_out
 			index := str.index_of (delimiter, 1)
 			if index > 0 then
-				set_from_substring (name, str, 1, index - 1)
-				set_from_substring (value, str, index + 1, str.count)
+				name := new_substring (str, 1, index - 1)
+				value := new_substring (str, index + 1, str.count)
+			else
+				wipe_out
 			end
 		end
 
 	wipe_out
 		do
-			name.keep_head (0)
-			value.keep_head (0)
+			name.keep_head (0); value.keep_head (0)
 		end
 
 feature {NONE} -- Implementation
 
-	set_from_substring (target: S; source: READABLE_STRING_GENERAL; a_start_index, a_end_index: INTEGER)
+	new_substring (source: READABLE_STRING_GENERAL; a_start_index, a_end_index: INTEGER): S
 		-- set `target' from `source' substring, pruning leading and trailing white space
+
+		-- Q. Why not use `append_substring' ?
+		-- A. It is not as efficient because of call to `append_code' and `code' for each character
+		-- 	whereas `append' and `substring' directly use `area' if same type as `S'
+		--		Also it is not necessary to use `value.twin' if repeatedly setting a shared instance
 		local
 			c32: EL_CHARACTER_32_ROUTINES; start_index, end_index: INTEGER
 		do
@@ -122,8 +130,11 @@ feature {NONE} -- Implementation
 			loop
 				end_index := end_index - 1
 			end
+			create Result.make (end_index - start_index + 1)
 			if start_index <= end_index then
-				target.append_substring (source, start_index, end_index)
+				Result.append (source.substring (start_index, end_index))
+			else
+				create Result.make (0)
 			end
 		end
 

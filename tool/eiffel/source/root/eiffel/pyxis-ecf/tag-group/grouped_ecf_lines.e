@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:03 GMT (Monday 20th March 2023)"
-	revision: "13"
+	date: "2024-08-30 12:09:35 GMT (Friday 30th August 2024)"
+	revision: "14"
 
 deferred class
 	GROUPED_ECF_LINES
@@ -112,8 +112,7 @@ feature -- Factory
 
 	shared_name_value_list (line: STRING): detachable like Once_name_value_list
 		local
-			pair_splitter: like Once_pair_splitter
-			nvp: ECF_NAME_VALUE_PAIR
+			pair_splitter: like Once_pair_splitter; nvp: ECF_NAME_VALUE_PAIR
 		do
 			pair_splitter := Once_pair_splitter
 			pair_splitter.set_target (line)
@@ -122,7 +121,6 @@ feature -- Factory
 				across pair_splitter as split loop
 					if split.item_has ('=') then
 						create nvp.make (split.item)
-						nvp.name.adjust
 						adjust_value (nvp.value)
 						list.extend (nvp)
 					end

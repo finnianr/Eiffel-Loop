@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 11:06:31 GMT (Sunday 25th August 2024)"
-	revision: "120"
+	date: "2024-08-30 12:28:21 GMT (Friday 30th August 2024)"
+	revision: "121"
 
 class
 	EL_ZSTRING
@@ -27,7 +27,7 @@ inherit
 		export
 			{ANY}
 --				Element change
-				append_boolean, append_character,
+				append_boolean, append_character, append_character_8,
 
 				append_double, append_real, append_integer, append_natural,
 				append_real_32, append_real_64, append_rounded_real, append_rounded_double,
@@ -237,11 +237,6 @@ feature -- Element change
 				append_string_general (cursor.item)
 				cursor.forth
 			end
-		end
-
-	append_character_8 (uc: CHARACTER_8)
-		do
-			append_unicode (uc.natural_32_code)
 		end
 
 	edit (left_delimiter, right_delimiter: READABLE_STRING_GENERAL; a_edit: PROCEDURE [INTEGER, INTEGER, ZSTRING])

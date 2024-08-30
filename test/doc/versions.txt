@@ -1,3 +1,6 @@
+Ver 1.6.3 (30 Aug 2024)
+* Changed EL_NAME_VALUE_PAIR to use append_substring
+
 Ver 1.6.2 (29 Aug 2024)
 * REFLECTION_TEST_SET.test_reflective_string_table now 48% memory saving
 

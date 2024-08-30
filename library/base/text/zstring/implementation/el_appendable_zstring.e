@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:43:37 GMT (Sunday 25th August 2024)"
-	revision: "72"
+	date: "2024-08-30 12:26:40 GMT (Friday 30th August 2024)"
+	revision: "73"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -273,6 +273,11 @@ feature {STRING_HANDLER} -- Append character
 			append_unicode (uc.natural_32_code)
 		end
 
+	append_character_8 (uc: CHARACTER_8)
+		do
+			append_unicode (uc.natural_32_code)
+		end
+
 	append_unicode (uc: NATURAL)
 			-- Append `uc' at end.
 			-- It would be nice to make this routine over ride 'append_code' but unfortunately
@@ -286,7 +291,11 @@ feature {STRING_HANDLER} -- Append character
 				resize (l_count + additional_space)
 			end
 			set_count (l_count)
-			put_unicode (uc, l_count)
+			if uc <= Max_ascii_unicode then
+				area [l_count - 1] := uc.to_character_8
+			else
+				put_unicode (uc, l_count)
+			end
 		ensure then
 			item_inserted: unicode (count) = uc
 			new_count: count = old count + 1

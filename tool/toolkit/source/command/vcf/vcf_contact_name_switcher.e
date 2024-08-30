@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 10:19:39 GMT (Friday 30th August 2024)"
-	revision: "15"
+	date: "2024-08-30 12:04:51 GMT (Friday 30th August 2024)"
+	revision: "16"
 
 class
 	VCF_CONTACT_NAME_SWITCHER
@@ -63,7 +63,7 @@ feature {NONE} -- State handlers
 				end
 				put_field_value (pair.name, names.joined_with (';', false))
 
-				state := agent put_full_name (?, pair.name.twin)
+				state := agent put_full_name (?, pair.name)
 
 			elseif not line.is_empty then
 				vcf_out.put_string (line)

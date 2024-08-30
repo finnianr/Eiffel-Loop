@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 9:23:44 GMT (Friday 30th August 2024)"
-	revision: "28"
+	date: "2024-08-30 12:34:28 GMT (Friday 30th August 2024)"
+	revision: "29"
 
 class
 	EL_HTTP_HEADERS
@@ -126,7 +126,7 @@ feature -- Access
 				part := s.substring_to_reversed (content_type, ';')
 				if part.has ('=') then
 					Name_value_pair.set_from_string (part, '=')
-					Result := Name_value_pair.value.twin
+					Result := Name_value_pair.value
 				else
 					create Result.make_empty
 				end
