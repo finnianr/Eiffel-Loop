@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:04:51 GMT (Tuesday 27th August 2024)"
-	revision: "36"
+	date: "2024-08-30 7:17:01 GMT (Friday 30th August 2024)"
+	revision: "37"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -152,8 +152,8 @@ feature -- Element change
 		do
 			if attached name_value_pair as pair then
 				pair.set_from_string (nvp_line, delimiter)
-				if pair.is_eiffel_name then
-					set_field (pair.name, pair.value)
+				if cursor (pair.name).all_ascii then
+					set_field (pair.name, pair.value.twin)
 				end
 			end
 		end

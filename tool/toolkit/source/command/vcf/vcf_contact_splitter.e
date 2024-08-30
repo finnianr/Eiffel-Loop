@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "17"
+	date: "2024-08-30 10:21:19 GMT (Friday 30th August 2024)"
+	revision: "18"
 
 class
 	VCF_CONTACT_SPLITTER
@@ -102,7 +102,7 @@ feature {NONE} -- State handlers
 				record_lines.replace (Name_template #$ [first_name, last_name])
 
 			elseif pair.name ~ Field.x_irmc_luid then
-				record_id := pair.value
+				record_id := pair.value.twin
 			end
 		end
 

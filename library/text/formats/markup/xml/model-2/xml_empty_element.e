@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 15:27:40 GMT (Wednesday 8th November 2023)"
-	revision: "20"
+	date: "2024-08-30 10:05:01 GMT (Friday 30th August 2024)"
+	revision: "21"
 
 class
 	XML_EMPTY_ELEMENT
@@ -16,6 +16,15 @@ inherit
 	XML_ELEMENT
 		redefine
 			write, copy, is_equal
+		end
+
+	EL_LAZY_ATTRIBUTE
+		rename
+			item as attribute_list,
+			new_item as new_attribute_list,
+			actual_item as actual_attribute_list
+		undefine
+			copy, is_equal
 		end
 
 	EL_MODULE_ITERABLE
@@ -35,15 +44,9 @@ feature {NONE} -- Initialization
 	make (a_name: READABLE_STRING_GENERAL)
 		do
 			open := Open_template #$ [a_name]
-			internal_attribute_list := Default_attribute_list
 		end
 
 feature -- Access
-
-	attribute_list: like Default_attribute_list
-		do
-			Result := internal_attribute_list.twin
-		end
 
 	name: ZSTRING
 		do
@@ -60,7 +63,9 @@ feature -- Measurement
 
 	attribute_count: INTEGER
 		do
-			Result := internal_attribute_list.count
+			if attached actual_attribute_list as list then
+				Result := list.count
+			end
 		end
 
 feature -- Basic operations
@@ -80,12 +85,9 @@ feature -- Comparison
 
 feature -- Element change
 
-	set_attributes_list (list: ITERABLE [like Default_attribute_list.item])
+	set_attributes_list (list: ITERABLE [XML_ELEMENT_ATTRIBUTE])
 		do
-			create internal_attribute_list.make (Iterable.count (list))
-			across list as attrib loop
-				internal_attribute_list.extend (attrib.item)
-			end
+			create actual_attribute_list.make_from_list (list)
 		end
 
 	set_attributes_from_string (csv_pair_list: STRING)
@@ -100,13 +102,13 @@ feature -- Element change
 		require
 			valid_attributes: across nvp_list as attrib all attrib.item.has ('=') end
 		local
-			name_value_pair: like Default_attribute_list.item
+			new_list: like new_attribute_list
 		do
-			create internal_attribute_list.make (Iterable.count (nvp_list))
+			create new_list.make (Iterable.count (nvp_list))
 			across nvp_list as nvp loop
-				create name_value_pair.make_from_string (nvp.item)
-				internal_attribute_list.extend (name_value_pair)
+				new_list.extend (create {XML_ELEMENT_ATTRIBUTE}.make_from_string (nvp.item))
 			end
+			actual_attribute_list := new_list
 		end
 
 feature {NONE} -- Duplication
@@ -115,8 +117,8 @@ feature {NONE} -- Duplication
 		do
 			if other /= Current then
 				standard_copy (other)
-				if other.internal_attribute_list.count > 0 then
-					internal_attribute_list := other.internal_attribute_list.twin
+				if other.attribute_count > 0 then
+					actual_attribute_list := other.attribute_list.twin
 				end
 			end
 		end
@@ -126,6 +128,11 @@ feature {NONE} -- Implementation
 	name_end_index: INTEGER
 		do
 			Result := open.count - 2
+		end
+
+	new_attribute_list: EL_ARRAYED_LIST [XML_ELEMENT_ATTRIBUTE]
+		do
+			create Result.make (0)
 		end
 
 	write_open_element (medium: EL_OUTPUT_MEDIUM)
@@ -140,9 +147,11 @@ feature {NONE} -- Implementation
 						else
 							escaper := Xml_escaper
 						end
-						across internal_attribute_list as attrib loop
-							str.append_character (' ')
-							str.append (attrib.item.escaped (escaper, False))
+						if attached actual_attribute_list as l_attribute_list then
+							across l_attribute_list as attrib loop
+								str.append_character (' ')
+								str.append (attrib.item.escaped (escaper, False))
+							end
 						end
 						str.append_substring (open, name_end_index + 1, open.count)
 						medium.put_string (str)
@@ -153,16 +162,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {XML_EMPTY_ELEMENT} -- Initialization
-
-	internal_attribute_list: like Default_attribute_list
-
 feature {NONE} -- Constants
-
-	Default_attribute_list: EL_ARRAYED_LIST [XML_ELEMENT_ATTRIBUTE]
-		once
-			create Result.make (0)
-		end
 
 	Escaped_quote: ZSTRING
 		once

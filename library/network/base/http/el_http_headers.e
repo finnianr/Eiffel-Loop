@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 9:00:47 GMT (Sunday 25th August 2024)"
-	revision: "27"
+	date: "2024-08-30 9:23:44 GMT (Friday 30th August 2024)"
+	revision: "28"
 
 class
 	EL_HTTP_HEADERS
@@ -37,21 +37,17 @@ feature {NONE} -- Initialization
 
 	make (string: STRING)
 		local
-			lines, parts: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
-			part_count: INTEGER
+			line_split: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
 		do
 			make_default
-			create lines.make (string, '%N')
-			across lines as line loop
-				if line.item_starts_with (Http) then
-					create parts.make (line.item, ' ')
-					part_count := 0
-					across parts as p loop
-						part_count := part_count + 1
-						if part_count = 2 then
-							response_code := p.item.to_natural_16
-						end
-					end
+			create line_split.make (string, '%N')
+			across line_split as line loop
+				if line.item_starts_with (Http)
+					and then attached line.item.split (' ') as parts
+					and then parts.count = 3
+				then
+					response_code := parts [2].to_natural_16
+
 				elseif line.item_has (':') then
 					set_field_from_nvp (line.item, ':')
 				end
@@ -129,8 +125,8 @@ feature -- Access
 			if content_type.has (';') then
 				part := s.substring_to_reversed (content_type, ';')
 				if part.has ('=') then
-					name_value.set_from_string (part, '=')
-					Result := name_value.value
+					Name_value_pair.set_from_string (part, '=')
+					Result := Name_value_pair.value.twin
 				else
 					create Result.make_empty
 				end
@@ -194,8 +190,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	name_value: EL_NAME_VALUE_PAIR [STRING]
-
 	non_standard_table: HASH_TABLE [STRING, STRING]
 		-- fields starting with "x-"
 
@@ -207,7 +201,7 @@ feature {NONE} -- Constants
 			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd", 1)
 		end
 
-	HTTP: STRING = "HTTP"
+	HTTP: STRING = "HTTP/"
 
 	Http_header_naming: EL_HTTP_HEADER_NAME_TRANSLATER
 		once

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-20 9:39:02 GMT (Saturday 20th July 2024)"
-	revision: "70"
+	date: "2024-08-30 10:00:19 GMT (Friday 30th August 2024)"
+	revision: "71"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -47,7 +47,7 @@ inherit
 
 create
 	make, make_empty, make_default_filled, make_filled,
-	make_from_for, make_from, make_from_if,
+	make_from_for, make_from, make_from_list, make_from_if,
 	make_joined, make_from_special, make_from_array,
 	make_from_sub_list, make_from_tuple
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 13:20:59 GMT (Friday 17th May 2024)"
-	revision: "4"
+	date: "2024-08-30 10:16:53 GMT (Friday 30th August 2024)"
+	revision: "5"
 
 class
 	ECF_NAME_VALUE_PAIR
@@ -25,18 +25,13 @@ feature {NONE} -- Initialization
 
 	make (str: STRING)
 		local
-			index: INTEGER
+			s: EL_STRING_8_ROUTINES
 		do
-			set_from_string (str, '=')
-			if attached name then
-				index := str.index_of ('/', 1)
-				if index > 0 and then index < str.count and then str [index + 1] = '=' then
-					is_excluded_value := True
-					name.remove_tail (1)
-					name.left_adjust
-				end
-			else
-				make_empty
+			make_name_value (str, '=')
+			if s.ends_with_character (name, '/') then
+				is_excluded_value := True
+				name.remove_tail (1)
+				name.left_adjust
 			end
 		end
 

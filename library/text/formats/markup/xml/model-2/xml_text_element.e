@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:21 GMT (Saturday 22nd June 2024)"
-	revision: "13"
+	date: "2024-08-30 9:59:22 GMT (Friday 30th August 2024)"
+	revision: "14"
 
 class
 	XML_TEXT_ELEMENT
@@ -55,9 +55,9 @@ feature -- Access
 			across String_scope as scope loop
 				if attached scope.item as str then
 					str.append (open)
-					if internal_attribute_list.count > 0 then
+					if attached actual_attribute_list as l_attribute_list and then l_attribute_list.count > 0 then
 						str.remove_tail (1)
-						across internal_attribute_list as list loop
+						across l_attribute_list as list loop
 							str.append_character (' ')
 							str.append (list.item.to_string (False))
 						end

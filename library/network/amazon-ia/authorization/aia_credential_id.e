@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2024-08-30 9:16:42 GMT (Friday 30th August 2024)"
+	revision: "17"
 
 class
 	AIA_CREDENTIAL_ID
@@ -30,6 +30,8 @@ inherit
 			is_equal
 		end
 
+	EL_CHARACTER_8_CONSTANTS
+
 create
 	make, make_default, make_from_general
 
@@ -50,11 +52,8 @@ feature {NONE} -- Initialization
 		end
 
 	to_string: STRING
-		local
-			pair: EL_NAME_VALUE_PAIR [STRING]
 		do
-			create pair.make_pair (key, date )
-			Result := pair.joined ('/')
+			Result := char ('/').joined (key, date)
 		end
 
 feature -- Access

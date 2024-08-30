@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 6:57:35 GMT (Monday 15th July 2024)"
-	revision: "31"
+	date: "2024-08-30 9:42:06 GMT (Friday 30th August 2024)"
+	revision: "32"
 
 class
 	STRING_TEST_SET
@@ -36,6 +36,7 @@ feature {NONE} -- Initialization
 				["immutable_string_manager",	agent test_immutable_string_manager],
 				["match_wildcard",				agent test_match_wildcard],
 				["name_table",						agent test_name_table],
+				["name_value_pair",				agent test_name_value_pair],
 				["variable_pattern",				agent test_variable_pattern],
 				["word_count",						agent test_word_count]
 			>>)
@@ -210,6 +211,48 @@ feature -- Tests
 					assert ("same name", symbol_table.item_32 (code.item) ~ symbol_list [code.cursor_index])
 				end
 			end
+		end
+
+	test_name_value_pair
+		-- STRING_TEST_SET.test_name_value_pair
+		note
+			testing: "[
+				covers/{EL_NAME_VALUE_PAIR}.make_quoted,
+				covers/{EL_NAME_VALUE_PAIR}.set_from_string,
+				covers/{EL_NAME_VALUE_PAIR}.set_from_substring
+			]"
+		local
+			pair: EL_NAME_VALUE_PAIR [STRING] name, value, name_value: STRING
+		do
+			create pair.make_empty
+			across << "a=b", "a=", "=b" >> as list loop
+				across << {EL_SIDE}.None, {EL_SIDE}.Left, {EL_SIDE}.Right, {EL_SIDE}.Both >> as side loop
+					if attached list.item.split ('=') as part_list then
+						across part_list as part loop
+							if attached part.item as s then
+								inspect side.item
+									when {EL_SIDE}.Left then
+										s.prepend_character (' ')
+									when {EL_SIDE}.Right then
+										s.append_character (' ')
+									when {EL_SIDE}.Both then
+										s.prepend_character (' ')
+										s.append_character (' ')
+								else
+								end
+							end
+						end
+						name := part_list.first; value := part_list.last
+						name_value := name + "=" + value
+						pair.set_from_string (name_value, '=')
+						name.adjust; value.adjust
+						assert ("same name", name ~ pair.name)
+						assert ("same value", value ~ pair.value)
+					end
+				end
+			end
+			create pair.make_quoted ("a = %"3%"", '=')
+			assert ("is 3", pair.value ~ "3")
 		end
 
 	test_variable_pattern

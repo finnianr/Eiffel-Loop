@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-29 15:03:47 GMT (Thursday 29th August 2024)"
-	revision: "62"
+	date: "2024-08-30 9:25:57 GMT (Friday 30th August 2024)"
+	revision: "63"
 
 class
 	REFLECTION_TEST_SET
@@ -44,6 +44,7 @@ feature {NONE} -- Initialization
 				["field_value_reset",					  agent test_field_value_reset],
 				["field_value_setter",					  agent test_field_value_setter],
 				["field_value_table",					  agent test_field_value_table],
+				["http_headers",							  agent test_http_headers],
 				["initialized_object_factory",		  agent test_initialized_object_factory],
 				["makeable_object_factory",			  agent test_makeable_object_factory],
 				["make_object_from_camel_case_table", agent test_make_object_from_camel_case_table],
@@ -277,6 +278,49 @@ feature -- Tests
 			end
 		end
 
+	test_http_headers
+		-- REFLECTION_TEST_SET.test_http_headers
+		local
+			header: EL_HTTP_HEADERS; nvp: EL_NAME_VALUE_PAIR [STRING]
+			counter: EL_NATURAL_32_COUNTER
+		do
+			create header.make (Header_response)
+			create counter
+			across Header_response.split ('%N') as line loop
+				if line.item [1] = 'H' then
+					assert ("response OK", header.response_code = 200)
+					assert_same_string ("is UTF-8", header.encoding_name, "UTF-8")
+					counter.bump
+				else
+					create nvp.make (line.item, ':')
+					inspect line.item [1]
+						when 'D' then
+							assert_same_string (Void, nvp.value, header.date)
+							counter.bump
+						when 'C' then
+							if nvp.value.is_natural then
+								assert ("length OK", nvp.value.to_integer = header.content_length)
+								counter.bump
+							else
+								assert_same_string (Void, nvp.value, header.content_type)
+								counter.bump
+							end
+						when 'L' then
+							assert_same_string (Void, nvp.value, header.last_modified)
+							counter.bump
+						when 'S' then
+							assert_same_string (Void, nvp.value, header.server)
+							counter.bump
+						when 'X' then
+							assert_same_string (Void, nvp.value, header.x_field ("X-Powered-By"))
+							counter.bump
+					else
+					end
+				end
+			end
+			assert ("fully tested", counter.item = 7)
+		end
+
 	test_initialized_object_factory
 		-- GENERAL_TEST_SET.test_initialized_object_factory
 		note
@@ -450,6 +494,7 @@ feature -- Tests
 		-- which reduces their memory footprint. As a result, `{INTERNAL}.deep_physical_size' might
 		-- report a smaller size compared to workbench mode				
 			percent := choose [48, 26] #? Executable.is_finalized
+
 			if space_saved_percent /= percent then
 				failed (percent.out + "%% memory saving")
 			end
@@ -520,6 +565,16 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Header_response: STRING = "[
+		HTTP/1.1 200 OK
+		Date: Thu, 29 Aug 2024 16:09:15 GMT
+		Content-Type: text/html; charset=UTF-8
+		Content-Length: 5190
+		Last-Modified: Mon, 08 Oct 2018 18:00:33 06
+		Server: Cherokee/1.2.101 (Ubuntu)
+		X-Powered-By: Eiffel-Loop Fast-CGI servlets
+	]"
 
 	Immutable_string_8: IMMUTABLE_STRING_8
 		once

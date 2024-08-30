@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 14:14:39 GMT (Saturday 13th July 2024)"
-	revision: "3"
+	date: "2024-08-30 9:20:08 GMT (Friday 30th August 2024)"
+	revision: "4"
 
 deferred class
 	FCGI_APPLICATION_COMMAND
@@ -71,8 +71,9 @@ feature {NONE} -- Implementation
 			lio.put_string (once "Parameters:")
 			lio.tab_right
 			lio.put_new_line
+			create parameter.make_empty
 			across query_string.split ('&') as list loop
-				create parameter.make (list.item, '=')
+				parameter.set_from_string (list.item, '=')
 				lio.put_labeled_string (parameter.name, parameter.value)
 				if list.is_last then
 					lio.tab_left

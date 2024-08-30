@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "38"
+	date: "2024-08-30 9:18:19 GMT (Friday 30th August 2024)"
+	revision: "39"
 
 class
 	PP_TRANSACTION
@@ -50,6 +50,8 @@ inherit
 
 	PP_SHARED_PAYMENT_PENDING_REASON_ENUM
 
+	EL_CHARACTER_32_CONSTANTS
+
 create
 	make, make_default
 
@@ -67,11 +69,8 @@ feature -- Payer
 	first_name: ZSTRING
 
 	full_name: ZSTRING
-		local
-			name: EL_NAME_VALUE_PAIR [ZSTRING]
 		do
-			create name.make_pair (first_name, last_name)
-			Result := name.joined (' ')
+			Result := space.joined (first_name, last_name)
 		end
 
 	last_name: ZSTRING
