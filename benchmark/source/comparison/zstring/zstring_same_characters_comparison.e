@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:37:21 GMT (Thursday 4th April 2024)"
-	revision: "12"
+	date: "2024-08-31 11:58:18 GMT (Saturday 31st August 2024)"
+	revision: "13"
 
 class
 	ZSTRING_SAME_CHARACTERS_COMPARISON
