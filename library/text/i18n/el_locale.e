@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 11:03:21 GMT (Monday 29th July 2024)"
-	revision: "44"
+	date: "2024-08-31 9:59:05 GMT (Saturday 31st August 2024)"
+	revision: "45"
 
 class
 	EL_LOCALE
@@ -28,7 +28,7 @@ inherit
 		rename
 			make as make_solitary
 		redefine
-			english_only, has_key, has_keys, fill_tuple, translation
+			english_only, has_key, has_keys, fill_tuple, possible_translation, translation
 		end
 
 	EL_SINGLE_THREAD_ACCESS
@@ -130,6 +130,14 @@ feature -- Access
 			Result := translation_table.language
 		end
 
+	possible_translation (key: ZSTRING): detachable ZSTRING
+		-- translation with `key' if it exists or else `Void'
+		do
+			restrict_access
+				Result := translation_table [key]
+			end_restriction
+		end
+
 	substituted (template_key: READABLE_STRING_GENERAL; inserts: TUPLE): ZSTRING
 		do
 			Result := translation (template_key).substituted_tuple (inserts)
@@ -137,7 +145,6 @@ feature -- Access
 
 	translation alias "*" (key: READABLE_STRING_GENERAL): ZSTRING
 			-- translation for source code string in current user language
-
 		require else
 			has_translation: has_key (key)
 		do

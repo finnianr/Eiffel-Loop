@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:27:05 GMT (Tuesday 27th August 2024)"
-	revision: "21"
+	date: "2024-08-31 7:56:28 GMT (Saturday 31st August 2024)"
+	revision: "22"
 
 class
 	EL_ZSTRING_TABLE
@@ -36,10 +36,10 @@ inherit
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
-	make, make_assignments, make_field_map, make_size, make_from_array, make_from_table
+	make, make_assignments, make_indented_eiffel, make_size, make_from_array, make_from_table
 
 convert
-	make_field_map ({STRING_8, STRING_32, ZSTRING})
+	make_indented_eiffel ({STRING_8, STRING_32, ZSTRING})
 
 feature {NONE} -- Initialization
 
@@ -53,7 +53,7 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_field_map (indented_table_text: READABLE_STRING_GENERAL)
+	make_indented_eiffel (indented_table_text: READABLE_STRING_GENERAL)
 		-- make from indented text with Eiffel identifier field names
 		do
 			make ({EL_TABLE_FORMAT}.Indented_eiffel, indented_table_text)

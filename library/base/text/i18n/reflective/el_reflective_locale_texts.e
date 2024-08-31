@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:27:24 GMT (Tuesday 27th August 2024)"
-	revision: "41"
+	date: "2024-08-31 10:02:55 GMT (Saturday 31st August 2024)"
+	revision: "42"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -185,15 +185,22 @@ feature {NONE} -- Case group sets
 
 feature {NONE} -- Factory
 
-	new_english_table: EL_ZSTRING_TABLE
+	new_english_table: EL_IMMUTABLE_UTF_8_TABLE
+		local
+			text_table: like english_table; substituted_text: ZSTRING
 		do
-			create Result.make_field_map (english_table)
-			across Result as table loop
-				if table.item.has ('%%') then
-					across Substitution_table as substitution loop
-						table.item.replace_substring_all (substitution.key, Substitution.item)
-					end
+			text_table := english_table
+			if text_table.has ('%%') and then
+				across Substitution_table as table some text_table.has_substring (table.item) end
+			then
+				create substituted_text.make (text_table.count + text_table.occurrences ('%%') * 2)
+				substituted_text.append_string_general (text_table)
+				across Substitution_table as table loop
+					substituted_text.replace_substring_all (table.key, table.item)
 				end
+				create Result.make_indented_eiffel (substituted_text)
+			else
+				create Result.make_indented_eiffel (text_table)
 			end
 		end
 
@@ -224,11 +231,11 @@ feature {NONE} -- Implementation
 		require
 			valid_field: field.type_id = Class_id.EL_QUANTITY_TEMPLATE
 		local
-			key, partial_key: ZSTRING; quantity_table: like new_quantity_table
+			partial_key: ZSTRING; quantity_table: like new_quantity_table
 			quantity: INTEGER
 		do
 			if attached {EL_QUANTITY_TEMPLATE} field.value (current_reflective) as template
-				and then eng_table.has_key (field.name)
+				and then eng_table.has_immutable_key (field.name)
 			then
 				quantity_table := new_quantity_table (eng_table.found_item)
 				partial_key := translation_key (field.name, {EL_CASE}.Lower, True)
@@ -237,10 +244,10 @@ feature {NONE} -- Implementation
 						quantity := name.cursor_index - 1
 						if locale.english_only then
 							template.put_template (quantity_table.found_item, quantity)
-						else
-							key := partial_key + Number_suffix [quantity]
-							if locale.has_key (key) then
-								template.put_template (locale * key, quantity)
+
+						elseif attached (partial_key + Number_suffix [quantity]) as key then
+							if attached locale.possible_translation (key) as translation then
+								template.put_template (translation, quantity)
 							else
 								extend_missing_keys (key)
 							end
@@ -278,23 +285,23 @@ feature {NONE} -- Implementation
 		local
 			key: ZSTRING; text_differs: BOOLEAN
 		do
-			text_differs := eng_table.has_key (field.name)
+			text_differs := eng_table.has_immutable_key (field.name)
 			key := translation_key (field.name, text_case, text_differs)
 			if text_differs and then Locale.english_only then
 				locale.set_next_translation (eng_table.found_item)
 			end
-			if locale.has_key (key) then
+			if attached locale.possible_translation (key) as translation then
 				if field.is_type (Class_id.ZSTRING) then
-					field.set (Current, locale * key)
+					field.set (Current, translation)
 				else
-					field.set_from_string (Current, locale * key)
+					field.set_from_string (Current, translation)
 				end
 			else
 				extend_missing_keys (key.twin)
 			end
 		end
 
-	translation_key (name: STRING; text_case: NATURAL_8; text_differs: BOOLEAN): ZSTRING
+	translation_key (name: IMMUTABLE_STRING_8; text_case: NATURAL_8; text_differs: BOOLEAN): ZSTRING
 		do
 			Result := Key_buffer.copied_general (name)
 			Result.prune_all_trailing ('_') -- in case of keyword differentiation
@@ -358,9 +365,9 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Substitution_table: EL_HASH_TABLE [ZSTRING, ZSTRING]
+	Substitution_table: HASH_TABLE [STRING, STRING]
 		once
-			create Result.make_size (2)
+			create Result.make (3)
 			Result ["%%S"] := "%S"
 			Result ["%%T"] := "%T"
 		end

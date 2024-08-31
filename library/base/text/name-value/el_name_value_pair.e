@@ -1,13 +1,25 @@
 note
 	description: "Parses string for name value pair using specified delimiter"
+	notes: "[
+		Q. Why not use `value.append_substring (source)' instead of assigning `source.substring' ?
+		A. It is not as efficient because ${STRING_32}.append_substring_general contains loop
+
+			from i := start_index until i > end_index loop
+				append_code (s.code (i))
+				i := i + 1
+			end
+
+		whereas `append' and `substring' directly use `area' if type of value is `S'.
+		Also it is not necessary to use `value.twin' if repeatedly setting a shared instance.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 12:03:07 GMT (Friday 30th August 2024)"
-	revision: "15"
+	date: "2024-08-31 6:53:21 GMT (Saturday 31st August 2024)"
+	revision: "16"
 
 class
 	EL_NAME_VALUE_PAIR [S -> STRING_GENERAL create make end]
@@ -107,12 +119,7 @@ feature -- Element change
 feature {NONE} -- Implementation
 
 	new_substring (source: READABLE_STRING_GENERAL; a_start_index, a_end_index: INTEGER): S
-		-- set `target' from `source' substring, pruning leading and trailing white space
-
-		-- Q. Why not use `append_substring' ?
-		-- A. It is not as efficient because of call to `append_code' and `code' for each character
-		-- 	whereas `append' and `substring' directly use `area' if same type as `S'
-		--		Also it is not necessary to use `value.twin' if repeatedly setting a shared instance
+		-- set `target' from `source' substring without any leading and trailing white space
 		local
 			c32: EL_CHARACTER_32_ROUTINES; start_index, end_index: INTEGER
 		do

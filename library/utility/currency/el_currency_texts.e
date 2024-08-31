@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-23 15:46:50 GMT (Tuesday 23rd July 2024)"
-	revision: "7"
+	date: "2024-08-31 9:12:31 GMT (Saturday 31st August 2024)"
+	revision: "8"
 
 class
 	EL_CURRENCY_TEXTS
@@ -118,9 +118,13 @@ feature -- Specifications
 
 feature {NONE} -- Implementation
 
-	translation_key (a_name: STRING; text_case: NATURAL_8; text_differs: BOOLEAN): ZSTRING
+	translation_key (a_name: IMMUTABLE_STRING_8; text_case: NATURAL_8; text_differs: BOOLEAN): ZSTRING
+		local
+			l_name: STRING
 		do
-			Result := Key_template #$ [a_name.as_upper]
+			l_name := Key_buffer.copied_general (a_name)
+			l_name.to_upper
+			Result := Key_template #$ [l_name]
 		end
 
 	english_table: STRING_32

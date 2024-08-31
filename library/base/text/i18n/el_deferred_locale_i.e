@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:09:09 GMT (Sunday 25th August 2024)"
-	revision: "30"
+	date: "2024-08-31 9:57:13 GMT (Saturday 31st August 2024)"
+	revision: "31"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -57,6 +57,12 @@ feature -- Access
 
 	language: STRING
 		deferred
+		end
+
+	possible_translation (key: ZSTRING): detachable ZSTRING
+		-- translation with `key' if it exists or else `Void'
+		do
+			Result := translation_item (key)
 		end
 
 	quantity_translation (partial_key: READABLE_STRING_GENERAL; quantity: INTEGER): ZSTRING
