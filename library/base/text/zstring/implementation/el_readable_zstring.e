@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 9:00:29 GMT (Thursday 6th June 2024)"
-	revision: "154"
+	date: "2024-08-31 19:54:37 GMT (Saturday 31st August 2024)"
+	revision: "155"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -261,11 +261,11 @@ feature -- Access
 					then
 						from i := area_lower; i_upper := area_upper until i > i_upper loop
 							c_i := l_area [i]
-							inspect c_i
+							inspect character_8_band (c_i)
 								when Substitute then
 									code_i := iter.item ($block_index, area_32, i + 1).code
 
-								when Control_0 .. Control_25, Control_27 .. Max_ascii then
+								when Ascii_range then
 									code_i := c_i.code
 							else
 								code_i := l_unicode_table [c_i.code].code

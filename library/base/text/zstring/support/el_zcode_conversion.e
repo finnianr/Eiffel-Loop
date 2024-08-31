@@ -14,13 +14,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 10:22:58 GMT (Sunday 14th April 2024)"
-	revision: "21"
+	date: "2024-08-31 19:55:40 GMT (Saturday 31st August 2024)"
+	revision: "22"
 
 class
 	EL_ZCODE_CONVERSION
 
 feature {EL_ZCODEC} -- Implementation
+
+	frozen character_8_band (c: CHARACTER): CHARACTER
+		do
+			inspect c
+				when Substitute then
+					Result := Substitute
+					
+				when Control_0 .. Control_25, Control_27 .. Max_ascii then
+					Result := Ascii_range
+			else
+			end
+		end
 
 	frozen unicode_to_z_code (unicode: NATURAL): NATURAL
 		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
@@ -43,6 +55,8 @@ feature {EL_ZCODEC} -- Implementation
 		end
 
 feature {STRING_HANDLER} -- Character constants
+
+	Ascii_range: CHARACTER = 'A'
 
 	Control_0: CHARACTER = '%U'
 		-- first ASCII character

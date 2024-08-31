@@ -3,16 +3,16 @@ note
 		Compare methods of iterating over ${ZSTRING}.area
 	]"
 	notes: "[
-		Passes over 2000 millisecs (in descending order)
+		Passes over 1000 millisecs (in descending order)
 
-			inspect c (i > upper)     :  7951779.0 times (100%)
-			inspect c [i] (i > upper) :  7943184.0 times (-0.1%)
-			inspect c (i = i_final)        :  7809947.0 times (-1.8%)
-			if c = Substitute then         :   857938.0 times (-89.2%)
-			inspect c.code |>> 7           :   857684.0 times (-89.2%)
-			inspect c.code // 0x80         :   855976.0 times (-89.2%)
-			if c [i] = Substitute then     :   853939.0 times (-89.3%)
-			inspect type [c.code]          :   405349.0 times (-94.9%)
+			inspect c when Substitute    : 15825027.0 times (100%)
+			inspect c [i]                : 15816345.0 times (-0.1%)
+			inspect character_8_band (c) : 15806990.0 times (-0.1%)
+			inspect type [c.code]        : 15302217.0 times (-3.3%)
+			if c [i] = Substitute        :  1720470.0 times (-89.1%)
+			if c = Substitute            :  1717592.0 times (-89.1%)
+			inspect c.code |>> 7         :  1717303.0 times (-89.1%)
+			inspect c.code // 0x80       :  1713894.0 times (-89.2%)
 	]"
 
 	author: "Finnian Reilly"
@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 13:48:08 GMT (Saturday 31st August 2024)"
-	revision: "27"
+	date: "2024-08-31 20:04:14 GMT (Saturday 31st August 2024)"
+	revision: "28"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
@@ -50,14 +50,14 @@ feature -- Basic operations
 			mixed_string := Name_manifest
 
 			compare ("iterate over ZSTRING area", <<
-				["inspect c when Substitute",	  agent inspect_c_when_substitute (mixed_string)],
-				["inspect c [i]",					  agent inspect_c_i_when_substitute (mixed_string)],
-				["inspect character_class (c)", agent inspect_character_class (mixed_string)],
-				["inspect type [c.code]",		  agent inspect_character_type (mixed_string)],
-				["inspect c.code // 0x80",		  agent inspect_code_div_0x100 (mixed_string)],
-				["inspect c.code |>> 7",		  agent inspect_7_bit_ascii_shift (mixed_string)],
-				["if c [i] = Substitute",		  agent if_c_i_eq_substitute_then (mixed_string)],
-				["if c = Substitute",			  agent if_c_eq_substitute_then (mixed_string)]
+				["inspect c when Substitute",		agent inspect_c_when_substitute (mixed_string)],
+				["inspect c [i]",						agent inspect_c_i_when_substitute (mixed_string)],
+				["inspect character_8_band (c)",	agent inspect_character_class (mixed_string)],
+				["inspect type [c.code]",			agent inspect_character_type (mixed_string)],
+				["inspect c.code // 0x80",			agent inspect_code_div_0x100 (mixed_string)],
+				["inspect c.code |>> 7",			agent inspect_7_bit_ascii_shift (mixed_string)],
+				["if c [i] = Substitute",			agent if_c_i_eq_substitute_then (mixed_string)],
+				["if c = Substitute",				agent if_c_eq_substitute_then (mixed_string)]
 			>>)
 		end
 
@@ -134,10 +134,11 @@ feature {NONE} -- Operations
 			if attached mixed_string.area as c then
 				i_final := mixed_string.count
 				from i := 0 until i = i_final loop
-					inspect c [i]
+					inspect character_8_band (c [i])
 						when Substitute then
 							do_with (c [i])
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+
+						when Ascii_range then
 							do_with (c [i])
 					else
 						do_with (c [i])
@@ -155,10 +156,11 @@ feature {NONE} -- Operations
 				i_final := mixed_string.count
 				from i := 0 until i = i_final loop
 					c := area [i]
-					inspect c
+					inspect character_8_band (c)
 						when Substitute then
 							do_with (c)
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+							
+						when Ascii_range then
 							do_with (c)
 					else
 						do_with (c)
@@ -176,10 +178,10 @@ feature {NONE} -- Operations
 				i_final := mixed_string.count
 				from i := 0 until i = i_final loop
 					c := area [i]
-					inspect character_8_class (c)
-						when 'S' then
+					inspect character_8_band (c)
+						when Substitute then
 							do_with (c)
-						when 'A' then
+						when Ascii_range then
 							do_with (c)
 					else
 						do_with (c)
@@ -193,13 +195,11 @@ feature {NONE} -- Operations
 		local
 			i, i_final: INTEGER c: CHARACTER
 		do
-			if attached mixed_string.area as area
-				and then attached Character_type as type
-			then
+			if attached mixed_string.area as area and then attached Character_type as type then
 				i_final := mixed_string.count
 				from i := 0 until i = i_final loop
 					c := area [i]
-					inspect Character_type [c.code]
+					inspect type [c.code]
 						when Type_unencoded then
 							do_with (c)
 						when Type_ascii then
@@ -237,17 +237,6 @@ feature {NONE} -- Operations
 		end
 
 feature {NONE} -- Implementation
-
-	frozen character_8_class (c: CHARACTER): CHARACTER
-		do
-			inspect c
-				when Substitute then
-					Result := 'S' -- for Substitute
-				when Control_0 .. Control_25, Control_27 .. Max_ascii then
-					Result := 'A' -- for Ascii
-			else
-			end
-		end
 
 	do_with (c: CHARACTER)
 		do

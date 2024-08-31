@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:31:34 GMT (Tuesday 27th August 2024)"
-	revision: "106"
+	date: "2024-08-31 20:02:39 GMT (Saturday 31st August 2024)"
+	revision: "107"
 
 deferred class
 	EL_ZSTRING_IMPLEMENTATION
@@ -106,11 +106,11 @@ feature -- Access
 			c_i: CHARACTER
 		do
 			c_i := area [i - 1]
-			inspect c_i
+			inspect character_8_band (c_i)
 				when Substitute then
 					Result := unencoded_code (i).to_character_32
 
-				when Control_0 .. Control_25, Control_27 .. Max_ascii then
+				when Ascii_range then
 					Result := c_i.to_character_32
 			else
 				Result := Unicode_table [c_i.code]
@@ -135,11 +135,11 @@ feature -- Access
 			c_i: CHARACTER
 		do
 			c_i := area [i - 1]
-			inspect c_i
+			inspect character_8_band (c_i)
 				when Substitute then
 					Result := unencoded_code (i)
 
-				when Control_0 .. Control_25, Control_27 .. Max_ascii then
+				when Ascii_range then
 					Result := c_i.natural_32_code
 			else
 				Result := Unicode_table [c_i.code].natural_32_code
@@ -395,10 +395,11 @@ feature {NONE} -- Implementation
 		do
 			from i := start_index until non_ascii or else i > end_index loop
 				c_i := a_area [i]
-				inspect c_i
+				inspect character_8_band (c_i)
 					when Substitute then
 						non_ascii := True
-					when Control_0 .. Control_25, Control_27 .. Max_ascii then
+
+					when Ascii_range then
 						Result := Result + 1
 						i := i + 1
 				else

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-08-31 19:53:37 GMT (Saturday 31st August 2024)"
+	revision: "8"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_32
@@ -49,8 +49,8 @@ feature {NONE} -- Implementation
 			from i := 0 until not Result or else i = a_count loop
 				j := i + offset
 				c_j := encoded_area [j]
-				inspect c_j
-					when Control_0 .. Max_ascii then
+				inspect character_8_band (c_j)
+					when Ascii_range, Substitute then
 						Result := c_j.to_character_32 = l_other_area [j + other_offset]
 				else
 					Result := l_unicodes [c_j.code] = l_other_area [j + other_offset]

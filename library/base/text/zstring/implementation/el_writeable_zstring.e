@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-20 18:04:19 GMT (Saturday 20th April 2024)"
-	revision: "25"
+	date: "2024-08-31 19:59:27 GMT (Saturday 31st August 2024)"
+	revision: "26"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -81,7 +81,7 @@ feature -- Append to other
 			then
 				from i := area_lower until i > i_upper loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							uc_i := iter.item ($block_index, area_32, i + 1)
 							if uc_i.code <= Max_8_bit_code then
@@ -89,7 +89,7 @@ feature -- Append to other
 							else
 								o_area [o_first_index + i] := Substitute
 							end
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							o_area [o_first_index + i] := c_i
 					else
 						if already_latin_1 then
@@ -129,11 +129,12 @@ feature -- Append to other
 				i_upper := area_upper
 				from i := area_lower + ascii_count until i > i_upper loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							utf_8.set (iter.item ($block_index, area_32, i + 1))
 							utf_8.append_to_string (a_utf_8)
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+
+						when Ascii_range then
 							a_utf_8.extend (c_i)
 					else
 						code_i := uc_table [c_i.code].natural_32_code
@@ -190,12 +191,12 @@ feature -- Basic operations
 			then
 				from i_upper := count - 1 until i > i_upper loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							utf_8.set (iter.item ($block_index, area_32, i + 1))
 							utf_8.write (writable)
 
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							writable.write_encoded_character_8 (l_area [i])
 					else
 						code_i := uc_table [c_i.code].natural_32_code

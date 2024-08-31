@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-07 10:41:31 GMT (Wednesday 7th August 2024)"
-	revision: "72"
+	date: "2024-08-31 19:54:02 GMT (Saturday 31st August 2024)"
+	revision: "73"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -69,11 +69,10 @@ feature -- To Strings
 				i_upper := count - 1
 				from until i > i_upper loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							result_area [i] := '?'
-
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							result_area [i] := c_i
 					else
 						result_area [i] := l_unicode [c_i.code].to_character_8
@@ -163,7 +162,7 @@ feature -- To Strings
 			then
 				from i := area_lower until encoding_to_latin_1_failed or i > i_upper loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							uc_i := iter.item ($block_index, area_32, i + 1)
 							if uc_i.code <= Max_8_bit_code then
@@ -171,7 +170,7 @@ feature -- To Strings
 							else
 								encoding_to_latin_1_failed := True
 							end
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							result_area [i] := c_i
 					else
 						if already_latin_1 then

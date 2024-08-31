@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 15:27:27 GMT (Friday 12th April 2024)"
-	revision: "72"
+	date: "2024-08-31 19:58:10 GMT (Saturday 31st August 2024)"
+	revision: "73"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -301,11 +301,11 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			then
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							uc_i:= iter.item ($block_index, area_32, i + 1)
 
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							uc_i := c_i
 					else
 						uc_i := l_unicode_table [c_i.code]

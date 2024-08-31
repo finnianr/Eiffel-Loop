@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:50:13 GMT (Sunday 25th August 2024)"
-	revision: "62"
+	date: "2024-08-31 19:57:04 GMT (Saturday 31st August 2024)"
+	revision: "63"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -245,7 +245,7 @@ feature -- Basic operations
 				i_upper := area_upper
 				from i := 0 until i > i_upper loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							if attached iter.block_string (block_index, area_32) as str_32 then
 								block_index := iter.next_index (block_index, str_32)
@@ -258,7 +258,7 @@ feature -- Basic operations
 								end
 								i := i + l_count
 							end
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							if c_i.is_alpha_numeric then
 								interval := interval_list.extend_next_upper (interval, i + 1)
 							end

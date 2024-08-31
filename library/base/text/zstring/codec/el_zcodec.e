@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:03:39 GMT (Sunday 25th August 2024)"
-	revision: "77"
+	date: "2024-08-31 20:01:30 GMT (Saturday 31st August 2024)"
+	revision: "78"
 
 deferred class
 	EL_ZCODEC
@@ -281,8 +281,8 @@ feature -- Encoding operations
 
 						from i := i_lower until i > i_upper loop
 							c_i := area [i]
-							inspect c_i
-								when Control_0 .. Max_ascii then
+							inspect character_8_band (c_i)
+								when Ascii_range, Substitute then
 									encoded_out [out_i] := c_i
 							else
 								if unicode [c_i.code].to_character_8 = c_i then
@@ -443,10 +443,10 @@ feature -- Basic operations
 			 already_latin_1 := encoded_as_latin (1)
 			if attached unicode_table as unicode then
 				from i := 0 until i = a_count loop
-					inspect latin_in [i]
+					inspect character_8_band (latin_in [i])
 						when Substitute then
 							do_nothing -- Filled in later by call to `{EL_COMPACT_SUBSTRINGS_32_I}.write'
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							unicode_out [i + out_offset] := latin_in [i].code.to_character_32
 					else
 						if already_latin_1 then
@@ -583,7 +583,7 @@ feature {NONE} -- Implementation
 			area_32 := unencoded_characters.area
 			from i := start_index until i > end_index loop
 				c_i := latin_in [i]
-				inspect c_i
+				inspect character_8_band (c_i)
 					when Substitute then
 						uc_i := iter.item ($block_index, area_32, i + 1)
 						inspect case
@@ -607,7 +607,7 @@ feature {NONE} -- Implementation
 								end
 						else
 						end
-					when Control_0 .. Control_25, Control_27 .. Max_ascii then
+					when Ascii_range then
 						inspect case
 							when {EL_CASE}.Upper then
 								latin_in [i] := c_i.as_upper

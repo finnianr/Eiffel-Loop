@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 12:12:50 GMT (Thursday 25th July 2024)"
-	revision: "4"
+	date: "2024-08-31 19:53:48 GMT (Saturday 31st August 2024)"
+	revision: "5"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -79,11 +79,11 @@ feature -- Substring query
 								uc_at_position := c_last; i := count - 1
 						end
 						c_i := l_area [i]
-						inspect c_i
+						inspect character_8_band (c_i)
 							when Substitute then
 								Result := unencoded_item (i + 1) = uc_at_position
 
-							when Control_0 .. Control_25, Control_27 .. Max_ascii then
+							when Ascii_range then
 								Result := c_i = uc_at_position
 						else
 							Result :=  Codec.unicode_table [c_i.code] = uc_at_position
@@ -112,11 +112,11 @@ feature -- Substring query
 			then
 				from i := 0 until i > upper_index or Result loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							uc_i:= iter.item ($block_index, area_32, i + 1)
 
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							uc_i := c_i
 					else
 						uc_i := l_unicode_table [c_i.code]
@@ -161,11 +161,11 @@ feature -- Substring query
 				Result := True
 				from i := start_index - 1 until i > upper_index or not Result loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							uc_i:= iter.item ($block_index, area_32, i + 1)
 
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							uc_i := c_i
 					else
 						uc_i := l_unicode_table [c_i.code]
@@ -260,11 +260,11 @@ feature -- Indexed query
 			c_i: CHARACTER
 		do
 			c_i := area [i - 1]
-			inspect c_i
+			inspect character_8_band (c_i)
 				when Substitute then
 					Result := unencoded_item (i).is_alpha
 
-				when Control_0 .. Control_25, Control_27 .. Max_ascii then
+				when Ascii_range then
 					Result := c_i.is_alpha
 			else
 				Result := Codec.is_alpha (c_i.natural_32_code)
@@ -279,11 +279,11 @@ feature -- Indexed query
 		do
 			if attached area as c then
 				c_i := area [i - 1]
-				inspect c_i
+				inspect character_8_band (c_i)
 					when Substitute then
 						Result := unencoded_item (i).is_alpha_numeric
 
-					when Control_0 .. Control_25, Control_27 .. Max_ascii then
+					when Ascii_range then
 						Result := c_i.is_alpha_numeric
 				else
 					Result := Codec.is_alphanumeric (c_i.natural_32_code)
@@ -311,10 +311,11 @@ feature -- Indexed query
 		do
 			if attached area as c then
 				c_i := area [i - 1]
-				inspect c_i
+				inspect character_8_band (c_i)
 					when Substitute then
 						Result := c32.is_digit (unencoded_item (i))
-					when Control_0 .. Control_25, Control_27 .. Max_ascii then
+
+					when Ascii_range then
 						Result := c_i.is_digit
 				else
 					Result := Codec.is_numeric (c_i.natural_32_code)
@@ -352,10 +353,10 @@ feature -- Presence query
 				i_final := count
 				from i := 0 until Result or else i = i_final loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							Result := iter.item ($block_index, area_32, i + 1).is_alpha_numeric
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							Result := c_i.is_alpha_numeric
 					else
 						Result := l_codec.is_alphanumeric (c_i.natural_32_code)
@@ -401,10 +402,10 @@ feature -- All characters query
 
 				from i := start_index - 1 until not Result or else i = end_index loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							Result := Result and condition (iter.item ($block_index, area_32, i + 1))
-						when Control_0 .. Control_25, Control_27 .. Max_ascii then
+						when Ascii_range then
 							Result := Result and condition (c_i.to_character_32)
 					else
 						Result := Result and condition (Unicode_table [c_i.code])
