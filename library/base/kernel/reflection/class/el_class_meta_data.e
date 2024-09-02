@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 11:48:07 GMT (Sunday 25th August 2024)"
-	revision: "76"
+	date: "2024-09-02 7:21:24 GMT (Monday 2nd September 2024)"
+	revision: "77"
 
 class
 	EL_CLASS_META_DATA
@@ -276,7 +276,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Reference_group_table: EL_FUNCTION_GROUP_TABLE [EL_REFLECTED_REFERENCE [ANY], TYPE [ANY]]
+	Reference_group_table: EL_FUNCTION_GROUPED_SET_TABLE [EL_REFLECTED_REFERENCE [ANY], TYPE [ANY]]
 		once
 			Result := new_reference_group_table
 		end

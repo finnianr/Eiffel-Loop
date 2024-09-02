@@ -1,11 +1,11 @@
 note
 	description: "[
-		A command line interface to the command ${FIND_PATTERN_COMMAND}.
+		A command line interface to the command ${FIND_CODE_PATTERN_SHELL}.
 	]"
 	notes: "[
 		Usage:
 		
-			el_eiffel -find_pattern -sources <directory path or sources manifest path>
+			el_eiffel -find_code_pattern -sources <directory path or sources manifest path>
 	]"
 
 	author: "Finnian Reilly"
@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 16:03:08 GMT (Wednesday 27th March 2024)"
-	revision: "1"
+	date: "2024-09-01 7:19:38 GMT (Sunday 1st September 2024)"
+	revision: "2"
 
 class
-	FIND_PATTERN_APP
+	FIND_CODE_PATTERN_APP
 
 inherit
-	SOURCE_MANIFEST_APPLICATION [FIND_PATTERN_COMMAND]
+	SOURCE_MANIFEST_APPLICATION [FIND_CODE_PATTERN_SHELL]
 
 feature {NONE} -- Implementation
 

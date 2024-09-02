@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 10:36:26 GMT (Monday 3rd June 2024)"
-	revision: "8"
+	date: "2024-09-01 11:34:01 GMT (Sunday 1st September 2024)"
+	revision: "9"
 
 class
 	MARKDOWN_ROUTINES
@@ -34,11 +34,7 @@ feature {NONE} -- Implementation
 		require
 			is_list_item: is_list_item (line)
 		do
-			if line.starts_with (Bullet_point) then
-				Result := Type_unordered_list
-			else
-				Result := Type_ordered_list
-			end
+			Result := if line.starts_with (Bullet_point) then	Type_unordered_list else Type_ordered_list end
 		end
 
 	list_prefix_count (line: ZSTRING): INTEGER

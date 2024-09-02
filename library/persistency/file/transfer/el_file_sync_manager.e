@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:39:53 GMT (Sunday 25th August 2024)"
-	revision: "20"
+	date: "2024-09-02 8:23:42 GMT (Monday 2nd September 2024)"
+	revision: "21"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -133,7 +133,7 @@ feature {NONE} -- Implementation
 		-- copy in groups of files from same location starting with locations with
 		-- fewest number of steps (minimizes directory creation operations)
 		local
-			dir_group_table: EL_FUNCTION_GROUP_TABLE [EL_FILE_SYNC_ITEM, DIR_PATH]
+			dir_group_table: EL_FUNCTION_GROUPED_SET_TABLE [EL_FILE_SYNC_ITEM, DIR_PATH]
 			dir_list: EL_ARRAYED_LIST [DIR_PATH]
 		do
 			create dir_group_table.make_from_list (agent {EL_FILE_SYNC_ITEM}.location_dir, copy_item_set.to_list)
@@ -143,7 +143,7 @@ feature {NONE} -- Implementation
 			across dir_list as dir loop
 				if dir_group_table.has_key (dir.item) then
 					medium.make_directory (dir.item)
-					across dir_group_table.found_list as list loop
+					across dir_group_table.found_set as list loop
 						if is_lio_enabled then
 							lio.put_path_field ("Uploading", list.item.source_path)
 							lio.put_new_line

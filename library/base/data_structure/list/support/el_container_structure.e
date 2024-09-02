@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 15:13:49 GMT (Thursday 4th April 2024)"
-	revision: "14"
+	date: "2024-09-02 14:20:54 GMT (Monday 2nd September 2024)"
+	revision: "15"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
 
 inherit
-	EL_CONTAINER_NUMERIC_CALCULATER [G]
+	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
 
 	EL_MODULE_ITERABLE
 
@@ -98,17 +98,12 @@ feature -- Measurement
 
 	count_meeting (condition: EL_QUERY_CONDITION [G]): INTEGER
 		-- count of items meeting `condition'
+		local
+			counter: EL_NATURAL_32_COUNTER
 		do
-			if attached current_container.linear_representation as list then
-				push_cursor
-				from list.start until list.after loop
-					if condition.met (list.item) then
-						Result := Result + 1
-					end
-					list.forth
-				end
-				pop_cursor
-			end
+			create counter
+			do_meeting (agent bump_counter (?, counter), condition)
+			Result := counter.item.as_integer_32
 		end
 
 	count_of (condition: EL_PREDICATE_QUERY_CONDITION [G]): INTEGER
@@ -130,28 +125,18 @@ feature -- Conversion
 
 	to_special: SPECIAL [G]
 		local
-			i, upper: INTEGER
+			one_extra: INTEGER
 		do
-			create Result.make_empty (current_count)
-			if attached {LINEAR [G]} current_container as list then
-				push_cursor
-				from list.start until list.after loop
-					Result.extend (list.item)
-					list.forth
-				end
-				pop_cursor
-
-			elseif attached {READABLE_INDEXABLE [G]} current_container as indexable then
-				upper := indexable.upper
-				from i := indexable.lower until i > upper loop
-					Result.extend (indexable [i])
-					i := i + 1
-				end
-			elseif attached current_container.linear_representation as list then
-				from list.start until list.after loop
-					Result.extend (list.item)
-					list.forth
-				end
+			if attached {TO_SPECIAL [G]} current_container as special
+				and then attached {FINITE [G]} special as finite
+				and then attached special.area as area
+			then
+			-- one extra for string null terminator
+				one_extra := (attached {STRING_GENERAL} special).to_integer
+				Result := area.aliased_resized_area (finite.count + one_extra)
+			else
+				create Result.make_empty (current_count)
+				do_for_all (agent extend_special (?, Result))
 			end
 		end
 
@@ -202,30 +187,20 @@ feature -- Basic operations
 		local
 			i, upper, i_final: INTEGER
 		do
-			if attached {ARRAY [G]} current_container as array and then attached array.area as area then
-				i_final := array.count
+			if attached {TO_SPECIAL [G]} current_container as special
+				and then attached {FINITE [G]} special as finite
+				and then attached special.area as area
+			then
+				i_final := finite.count
 				from i := 0 until i = i_final loop
-					if attached area [i] as l_item and then condition.met (l_item) then
-						action (l_item)
-					end
-					i := i + 1
-				end
-
-			elseif attached {ARRAYED_LIST [G]} current_container as array and then attached array.area as area then
-				i_final := array.count
-				from i := 0 until i = i_final loop
-					if attached area [i] as l_item and then condition.met (l_item) then
-						action (l_item)
-					end
+					do_if_met (area [i], action, condition)
 					i := i + 1
 				end
 
 			elseif attached {LINEAR [G]} current_container as list then
 				push_cursor
 				from list.start until list.after loop
-					if attached list.item as l_item and then condition.met (l_item) then
-						action (l_item)
-					end
+					do_if_met (list.item, action, condition)
 					list.forth
 				end
 				pop_cursor
@@ -233,24 +208,18 @@ feature -- Basic operations
 			elseif attached {READABLE_INDEXABLE [G]} current_container as array then
 				upper := array.upper
 				from i := array.lower until i > upper loop
-					if attached array [i] as l_item and then condition.met (l_item) then
-						action (l_item)
-					end
+					do_if_met (array [i], action, condition)
 					i := i + 1
 				end
 
 			elseif attached {ITERABLE [G]} current_container as iterable_list then
 				across iterable_list as list loop
-					if attached list.item as l_item and then condition.met (l_item) then
-						action (l_item)
-					end
+					do_if_met (list.item, action, condition)
 				end
 
 			elseif attached current_container.linear_representation as list then
 				from list.start until list.after loop
-					if attached list.item as l_item and then condition.met (l_item) then
-						action (l_item)
-					end
+					do_if_met (list.item, action, condition)
 					list.forth
 				end
 			end
@@ -315,6 +284,11 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
+	bump_counter (item: G; counter: EL_NATURAL_32_COUNTER)
+		do
+			counter.bump
+		end
+
 	container_count (container: CONTAINER [ANY]): INTEGER
 		do
 			if attached {FINITE [ANY]} container as finite then
@@ -334,6 +308,18 @@ feature {NONE} -- Implementation
 					Result := Result + 1
 				end
 			end
+		end
+
+	 do_if_met (item: G; action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
+	 	do
+	 		if condition.met (item) then
+	 			action (item)
+	 		end
+	 	end
+
+	extend_special (item: G; area: SPECIAL [G])
+		do
+			area.extend (item)
 		end
 
 feature {NONE} -- Constants

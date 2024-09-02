@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-07 13:56:09 GMT (Wednesday 7th August 2024)"
-	revision: "22"
+	date: "2024-09-01 11:23:20 GMT (Sunday 1st September 2024)"
+	revision: "23"
 
 class
 	CODEC_INFO
@@ -75,11 +75,7 @@ feature -- Access
 
 	codec_base_name: ZSTRING
 		do
-			if codec_name.has_substring ("iso") then
-				Result := "ISO_8859"
-			else
-				Result := "WINDOWS"
-			end
+			Result := if codec_name.has_substring ("iso") then "ISO_8859" else "WINDOWS" end
 		end
 
 	codec_id: INTEGER

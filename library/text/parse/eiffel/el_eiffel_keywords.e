@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 15:58:36 GMT (Sunday 31st March 2024)"
-	revision: "10"
+	date: "2024-09-01 8:31:45 GMT (Sunday 1st September 2024)"
+	revision: "11"
 
 deferred class
 	EL_EIFFEL_KEYWORDS
@@ -20,19 +20,26 @@ inherit
 feature {NONE} -- Keywords
 
 	Keyword: TUPLE [
-		class_, deferred_, do_, end_, expanded_, feature_, frozen_, invariant_, indexing_,
-		inherit_, note_, once_, undefine_, redefine_, rename_: ZSTRING]
+		class_, deferred_, do_, else_, end_, expanded_, feature_, frozen_,
+		if_, invariant_, indexing_, inherit_,
+		note_, once_, undefine_, redefine_, rename_: ZSTRING]
 		once
 			create Result
 			Tuple.fill (Result,
-				"class, deferred, do, end, expanded, feature, frozen, invariant, indexing,%
-				%inherit, note, once, undefine, redefine, rename"
+				"class, deferred, do, else, end, expanded, feature, frozen,%
+				%if, invariant, indexing, inherit,%
+				%note, once, undefine, redefine, rename"
 			)
 		ensure
-			end_ok: Result.end_.same_string_general ("end")
+			last_matches: Result.rename_.same_string_general ("rename")
 		end
 
 feature {NONE} -- Keyword lists
+
+	Class_declaration_keywords: EL_ZSTRING_LIST
+		once
+			Result := << Keyword.expanded_, Keyword.frozen_, Keyword.deferred_, Keyword.class_ >>
+		end
 
 	Footer_start_keywords: EL_ZSTRING_LIST
 		once
@@ -44,14 +51,16 @@ feature {NONE} -- Keyword lists
 			Result := << Keyword.note_, Keyword.indexing_ >>
 		end
 
-	Class_declaration_keywords: EL_ZSTRING_LIST
-		once
-			Result := << Keyword.expanded_, Keyword.frozen_, Keyword.deferred_, Keyword.class_ >>
-		end
-
 	Routine_start_keywords: EL_ZSTRING_LIST
 		once
 			Result := << Keyword.do_, Keyword.once_ >>
+		end
+
+feature {NONE} -- Constants
+
+	Assign_operator: ZSTRING
+		once
+			Result := ":="
 		end
 
 end

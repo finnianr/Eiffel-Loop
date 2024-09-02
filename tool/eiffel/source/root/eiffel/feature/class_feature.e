@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 9:24:03 GMT (Wednesday 29th May 2024)"
-	revision: "28"
+	date: "2024-09-01 11:21:43 GMT (Sunday 1st September 2024)"
+	revision: "29"
 
 deferred class
 	CLASS_FEATURE
@@ -86,11 +86,7 @@ feature -- Basic operations
 	search_substring (substring: ZSTRING)
 		do
 			lines.find_first_true (agent {ZSTRING}.has_substring (substring))
-			if lines.exhausted then
-				found_line := Empty_string
-			else
-				found_line := lines.item
-			end
+			found_line := if lines.exhausted then Empty_string else lines.item end
 		end
 
 feature -- Element change

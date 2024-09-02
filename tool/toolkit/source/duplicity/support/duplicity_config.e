@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-25 17:32:45 GMT (Friday 25th August 2023)"
-	revision: "17"
+	date: "2024-09-01 12:27:23 GMT (Sunday 1st September 2024)"
+	revision: "18"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -23,24 +23,20 @@ inherit
 			make_default
 		end
 
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_DATE; EL_MODULE_LIO; EL_MODULE_OS
+
+	EL_MODULE_USER_INPUT
+
 	EL_PROTOCOL_CONSTANTS
 		export
 			{NONE} all
 		end
 
-	EL_SHARED_OPERATING_ENVIRON
-
 	EL_ZSTRING_CONSTANTS
 
-	EL_MODULE_EXECUTION_ENVIRONMENT
+	EL_SHARED_OPERATING_ENVIRON
 
-	EL_MODULE_LIO
 
-	EL_MODULE_OS
-
-	EL_MODULE_USER_INPUT
-
-	EL_MODULE_DATE
 
 feature {NONE} -- Initialization
 
@@ -83,11 +79,7 @@ feature -- Access
 	target_dir_base: ZSTRING
 		-- `target_dir.base' or an alias `name'
 		do
-			if name.is_empty then
-				Result := target_dir.base
-			else
-				Result := name
-			end
+			Result := if name.is_empty then target_dir.base else name end
 		end
 
 feature -- Status query

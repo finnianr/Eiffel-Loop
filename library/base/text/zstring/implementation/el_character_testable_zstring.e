@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 19:53:48 GMT (Saturday 31st August 2024)"
-	revision: "5"
+	date: "2024-09-01 6:57:14 GMT (Sunday 1st September 2024)"
+	revision: "6"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -356,6 +356,7 @@ feature -- Presence query
 					inspect character_8_band (c_i)
 						when Substitute then
 							Result := iter.item ($block_index, area_32, i + 1).is_alpha_numeric
+
 						when Ascii_range then
 							Result := c_i.is_alpha_numeric
 					else
@@ -405,6 +406,7 @@ feature -- All characters query
 					inspect character_8_band (c_i)
 						when Substitute then
 							Result := Result and condition (iter.item ($block_index, area_32, i + 1))
+
 						when Ascii_range then
 							Result := Result and condition (c_i.to_character_32)
 					else

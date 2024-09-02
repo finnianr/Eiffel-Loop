@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 10:22:05 GMT (Monday 30th October 2023)"
-	revision: "2"
+	date: "2024-09-02 7:21:49 GMT (Monday 2nd September 2024)"
+	revision: "3"
 
 class
 	EL_URL_FILTER_TABLE
 
 inherit
-	EL_GROUP_TABLE [ZSTRING, STRING]
+	EL_GROUPED_SET_TABLE [ZSTRING, STRING]
 
 	EL_MODULE_TUPLE
 

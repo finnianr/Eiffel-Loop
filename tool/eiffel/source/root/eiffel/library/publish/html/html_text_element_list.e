@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 13:37:07 GMT (Sunday 2nd June 2024)"
-	revision: "30"
+	date: "2024-09-01 11:28:41 GMT (Sunday 1st September 2024)"
+	revision: "31"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -138,17 +138,10 @@ feature {NONE} -- Factory
 		-- returns one of: [li], [/li], [oli], [/oli]
 		do
 			if type = Type_ordered_list then
-				if is_open then
-					Result := Tag.oli
-				else
-					Result := Tag.oli_close
-				end
+				Result := if is_open then Tag.oli else Tag.oli_close end
+
 			elseif type = Type_unordered_list then
-				if is_open then
-					Result := Tag.li
-				else
-					Result := Tag.li_close
-				end
+				Result := if is_open then Tag.li else Tag.li_close end
 			else
 				create Result.make_empty
 			end

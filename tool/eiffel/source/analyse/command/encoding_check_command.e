@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-16 11:46:21 GMT (Saturday 16th September 2023)"
-	revision: "20"
+	date: "2024-09-02 7:21:50 GMT (Monday 2nd September 2024)"
+	revision: "21"
 
 class
 	ENCODING_CHECK_COMMAND
@@ -94,6 +94,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	file_encoding_table: EL_GROUP_TABLE [STRING, FILE_PATH]
+	file_encoding_table: EL_GROUPED_SET_TABLE [STRING, FILE_PATH]
 
 end

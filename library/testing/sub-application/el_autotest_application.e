@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 10:26:17 GMT (Tuesday 2nd April 2024)"
-	revision: "25"
+	date: "2024-09-01 10:42:44 GMT (Sunday 1st September 2024)"
+	revision: "26"
 
 deferred class
 	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 			else
 				create test_name.make_empty
 			end
-			if test_set_name.is_empty then
+			if test_set_name.is_empty or else test_set_name ~ "all" then
 				create test_type_list.make_from_list (new_test_type_list)
 
 			elseif test_set_name.has ('*') then

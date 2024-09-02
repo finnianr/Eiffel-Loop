@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-08 11:09:58 GMT (Monday 8th January 2024)"
-	revision: "10"
+	date: "2024-09-01 11:21:03 GMT (Sunday 1st September 2024)"
+	revision: "11"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -104,11 +104,7 @@ feature -- Executable
 
 	executable_name_full: STRING
 		do
-			if {PLATFORM}.is_windows then
-				Result := executable_name + ".exe"
-			else
-				Result := executable_name
-			end
+			Result := if {PLATFORM}.is_windows then executable_name + ".exe" else executable_name end
 		end
 
 	usr_local_executable_path: FILE_PATH

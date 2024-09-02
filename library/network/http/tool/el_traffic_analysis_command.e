@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 16:30:41 GMT (Friday 12th July 2024)"
-	revision: "27"
+	date: "2024-09-02 8:57:17 GMT (Monday 2nd September 2024)"
+	revision: "28"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -46,7 +46,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create human_entry_list.make (500)
 			create selected_entry_list.make (0)
 			across config.page_list as page loop
-				page_table.extend_list (create {like page_table.item_list}.make (50), page.item)
+				page_table.extend_set (create {like page_table.item_set}.make (50), page.item)
 			end
 		end
 
@@ -100,7 +100,7 @@ feature -- Basic operations
 
 			lio.put_line ("SELECTED HUMAN VISITS")
 			lio.put_new_line
-			month_groups.linear_representation.do_all (agent print_month)
+			month_groups.list_of_sets.do_all (agent print_month)
 
 		-- Percentage visits from mobile devices
 			mobile_count := selected_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)
@@ -153,7 +153,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	month_groups: EL_FUNCTION_GROUP_TABLE [EL_WEB_LOG_ENTRY, INTEGER]
+	month_groups: EL_FUNCTION_GROUPED_SET_TABLE [EL_WEB_LOG_ENTRY, INTEGER]
 		do
 			create Result.make_from_list (agent entry_month, selected_entry_list)
 		end
@@ -162,9 +162,8 @@ feature {NONE} -- Implementation
 		local
 			location_table: EL_COUNTER_TABLE [ZSTRING]; found: BOOLEAN
 		do
-			across page_table.linear_representation as list loop
-				list.item.wipe_out
-			end
+			page_table.wipe_out_sets
+			
 			across entry_list as list loop
 				if attached list.item as entry then
 					found := False
@@ -173,9 +172,7 @@ feature {NONE} -- Implementation
 						lio.put_string (" --")
 						lio.put_new_line_x2
 					end
-					if attached page_table [entry.request_uri_group] as item_list then
-						item_list.extend (entry.ip_number)
-					end
+					page_table.extend (entry.request_uri_group, entry.ip_number)
 				end
 			end
 			across page_table as page loop
@@ -207,7 +204,7 @@ feature {NONE} -- Internal attributes
 
 	human_entry_list: EL_QUERYABLE_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
 
-	page_table: EL_GROUP_TABLE [NATURAL, ZSTRING]
+	page_table: EL_GROUPED_SET_TABLE [NATURAL, ZSTRING]
 
 	selected_entry_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY];
 		-- human entries that match the configuration page_list items

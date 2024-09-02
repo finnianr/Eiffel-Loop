@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-07 12:17:58 GMT (Wednesday 7th August 2024)"
-	revision: "26"
+	date: "2024-09-01 11:00:31 GMT (Sunday 1st September 2024)"
+	revision: "27"
 
 class
 	ZCODEC_GENERATOR
@@ -62,7 +62,7 @@ feature {NONE} -- State handlers
 	find_chars_ready_assignment (line: ZSTRING)
 			-- Eg. iso_8859_11_chars_ready = TRUE;
 		local
-			source_out_path: FILE_PATH; source_file: SOURCE_FILE
+			source_out_path: FILE_PATH; source_file: EL_PLAIN_TEXT_FILE
 		do
 			if line.starts_with (array_prefix) then
 				codec_list.last.add_assignment (line)
@@ -73,7 +73,7 @@ feature {NONE} -- State handlers
 
 				source_out_path := Output_path_template #$ [codec_list.last.codec_name]
 				create source_file.make_open_write (source_out_path)
-				source_file.put_bom
+				source_file.force_bom
 				Evolicity_templates.merge_to_file (template_path, codec_list.last, source_file)
 				state := agent find_void_function
 			end

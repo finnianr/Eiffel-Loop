@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-19 10:02:34 GMT (Monday 19th December 2022)"
-	revision: "13"
+	date: "2024-09-02 7:21:25 GMT (Monday 2nd September 2024)"
+	revision: "14"
 
 class
 	EL_EIF_OBJ_BUILDER_CONTEXT_CLASS_META_DATA
@@ -42,7 +42,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Reference_group_table: EL_FUNCTION_GROUP_TABLE [EL_REFLECTED_REFERENCE [ANY], TYPE [ANY]]
+	Reference_group_table: EL_FUNCTION_GROUPED_SET_TABLE [EL_REFLECTED_REFERENCE [ANY], TYPE [ANY]]
 		once
 			Result := new_reference_group_table
 		end

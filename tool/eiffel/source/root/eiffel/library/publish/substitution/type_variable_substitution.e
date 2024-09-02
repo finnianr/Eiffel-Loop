@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 11:10:00 GMT (Tuesday 14th May 2024)"
-	revision: "17"
+	date: "2024-09-01 11:38:16 GMT (Sunday 1st September 2024)"
+	revision: "18"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -114,11 +114,7 @@ feature {NONE} -- Implementation
 							end
 							list.back
 						end
-						if is_preformatted then
-							Result := markup.twin
-						else
-							Result := Source_span_template #$ [markup]
-						end
+						Result := if is_preformatted then markup.twin else Source_span_template #$ [markup] end
 					end
 				end
 			elseif link.type = Link_type_routine then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2024-09-01 13:48:28 GMT (Sunday 1st September 2024)"
+	revision: "13"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
@@ -121,7 +121,7 @@ feature {NONE} -- Implementation
 
 	fill_pixmaps (width_cms: REAL)
 		do
-			across Button_state.list as state loop
+			across Button_state.as_list as state loop
 				set_pixmap (state.item, svg_icon (state.item, width_cms))
 			end
 		end

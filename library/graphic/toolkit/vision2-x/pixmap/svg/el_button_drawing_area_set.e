@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-09-01 13:48:18 GMT (Sunday 1st September 2024)"
+	revision: "16"
 
 class
 	EL_BUTTON_DRAWING_AREA_SET
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	make (a_set: EL_SVG_BUTTON_PIXMAP_SET)
 		do
 			default_create
-			across Button_state.list as state loop
+			across Button_state.as_list as state loop
 				put (a_set.drawing_area (state.item), state.item.to_integer_32)
 			end
 		end

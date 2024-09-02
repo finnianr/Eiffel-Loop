@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 15:43:41 GMT (Friday 22nd December 2023)"
-	revision: "8"
+	date: "2024-09-01 7:13:20 GMT (Sunday 1st September 2024)"
+	revision: "9"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -34,13 +34,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_DIRECTORY
-
-	EL_MODULE_FILE
-
-	EL_MODULE_LIO
-
-	EL_MODULE_USER_INPUT
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 create
 	make

@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 6:53:21 GMT (Saturday 31st August 2024)"
-	revision: "16"
+	date: "2024-09-01 10:47:40 GMT (Sunday 1st September 2024)"
+	revision: "17"
 
 class
 	EL_NAME_VALUE_PAIR [S -> STRING_GENERAL create make end]
@@ -97,8 +97,6 @@ feature -- Basic operations
 feature -- Element change
 
 	set_from_string (str: READABLE_STRING_GENERAL; delimiter: CHARACTER_32)
-		require
-			delimited: str.has (delimiter)
 		local
 			index: INTEGER
 		do

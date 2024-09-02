@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:39:51 GMT (Saturday 6th April 2024)"
-	revision: "32"
+	date: "2024-09-01 11:36:23 GMT (Sunday 1st September 2024)"
+	revision: "33"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -188,11 +188,8 @@ feature {NONE} -- Implementation
 				text_install := template.unzip_installation #$ [project_config.system.product]
 				title := template.installer_title #$ [project_config.system.product]
 
-				if a_locale.language ~ "de" then
-					language_option := "-lg" -- German
-				else
-					language_option := "-le" -- English
-				end
+			-- German or English
+				language_option := if a_locale.language ~ "de" then "-lg" else "-le" end
 
 				create command.make (Current)
 				if not dry_run then

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-09-02 7:21:24 GMT (Monday 2nd September 2024)"
+	revision: "18"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -26,6 +26,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
+			description_table as No_descriptions,
 			description as field_description,
 			foreign_naming as kebab_case
 		redefine
@@ -119,7 +120,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			create sorted.make_from_array (list.to_array)
+			create sorted.make_from_array (as_list.to_array)
 			sorted.sort
 			create element_cache_table.make (count, agent new_element)
 		end
@@ -291,7 +292,7 @@ feature -- Access
 			Result := field_code & 0xFF
 		end
 
-	type_group_table: EL_FUNCTION_GROUP_TABLE [NATURAL_16, NATURAL_16]
+	type_group_table: EL_FUNCTION_GROUPED_SET_TABLE [NATURAL_16, NATURAL_16]
 		-- fields grouped by `type'
 		do
 			create Result.make_from_list (agent type, sorted)

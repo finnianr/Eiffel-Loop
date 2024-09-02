@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-07 13:43:10 GMT (Wednesday 7th August 2024)"
-	revision: "9"
+	date: "2024-09-01 11:24:09 GMT (Sunday 1st September 2024)"
+	revision: "10"
 
 class
 	LATIN_CHARACTER
@@ -77,11 +77,7 @@ feature -- Comparison
 	is_less alias "<" (other: like Current): BOOLEAN
 			-- Is current object less than `other'?
 		do
-			if unicode = other.unicode then
-				Result := code < other.code
-			else
-				Result := unicode < other.unicode
-			end
+			Result := if unicode = other.unicode then code < other.code else unicode < other.unicode end
 		end
 
 feature -- Status query

@@ -1,3 +1,6 @@
+Ver 1.6.4 (1 Sep 2024)
+* Added character_8_band to string classes
+
 Ver 1.6.3 (30 Aug 2024)
 * Changed EL_NAME_VALUE_PAIR to use append_substring
 

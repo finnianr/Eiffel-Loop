@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 8:27:03 GMT (Tuesday 27th August 2024)"
-	revision: "12"
+	date: "2024-09-01 11:34:54 GMT (Sunday 1st September 2024)"
+	revision: "13"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -153,11 +153,8 @@ feature -- Element change
 			fill_by_string (code_text, Dollor_left_brace, 0)
 			from start until after loop
 				right_index := code_text.index_of ('}', item_upper + 1)
-				if index < count then
-					next_dollor_index := i_th_lower (index + 1)
-				else
-					next_dollor_index := code_text.count + 1
-				end
+				next_dollor_index := if index < count then i_th_lower (index + 1) else code_text.count + 1 end
+				
 				if right_index > 0 and right_index < next_dollor_index then
 					put_i_th (item_lower, right_index, index)
 					forth

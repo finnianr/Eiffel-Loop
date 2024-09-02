@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-09-02 7:21:25 GMT (Monday 2nd September 2024)"
+	revision: "14"
 
 deferred class
 	EL_SLIDE_SHOW
@@ -146,7 +146,7 @@ feature -- Element change
 
 feature {NONE} -- Factory
 
-	new_group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, ZSTRING]
+	new_group_table: EL_FUNCTION_GROUPED_SET_TABLE [FILE_PATH, ZSTRING]
 		do
 			create Result.make (agent group_name, directory_list.count * 3)
 			across directory_list as list loop

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 19:55:40 GMT (Saturday 31st August 2024)"
-	revision: "22"
+	date: "2024-09-01 10:12:02 GMT (Sunday 1st September 2024)"
+	revision: "23"
 
 class
 	EL_ZCODE_CONVERSION
@@ -26,8 +26,8 @@ feature {EL_ZCODEC} -- Implementation
 		do
 			inspect c
 				when Substitute then
-					Result := Substitute
-					
+					Result := Substitute -- Same as `Control_26'
+
 				when Control_0 .. Control_25, Control_27 .. Max_ascii then
 					Result := Ascii_range
 			else
@@ -37,11 +37,7 @@ feature {EL_ZCODEC} -- Implementation
 	frozen unicode_to_z_code (unicode: NATURAL): NATURAL
 		-- distinguish UCS4 characters below 0xFF from latin encoding by turning on the sign bit.
 		do
-			if unicode < 0x100 then
-				Result := Sign_bit | unicode
-			else
-				Result := unicode
-			end
+			Result := if unicode < 0x100 then Sign_bit | unicode else unicode end
 		ensure
 			reversbile: z_code_to_unicode (Result) = unicode
 		end

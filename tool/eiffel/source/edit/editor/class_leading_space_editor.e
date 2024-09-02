@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:20:38 GMT (Thursday 17th August 2023)"
-	revision: "5"
+	date: "2024-09-01 11:17:25 GMT (Sunday 1st September 2024)"
+	revision: "6"
 
 class
 	CLASS_LEADING_SPACE_EDITOR
@@ -66,11 +66,7 @@ feature {NONE} -- Implementation
 			space_count := end_index - start_index
 			space_count_plus_1 := space_count + 1
 			output.append_character ('%N')
-			if space_count_plus_1 \\ 3 = 0 then
-				tab_count := space_count_plus_1 // 3
-			else
-				tab_count := space_count // 3
-			end
+			tab_count := if space_count_plus_1 \\ 3 = 0 then space_count_plus_1 // 3 else space_count // 3 end
 			if tab_count > 0 then
 				output.append (Tab * tab_count)
 			end

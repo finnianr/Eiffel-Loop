@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:00:15 GMT (Sunday 25th August 2024)"
-	revision: "39"
+	date: "2024-09-01 11:00:18 GMT (Sunday 1st September 2024)"
+	revision: "40"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -128,14 +128,18 @@ feature -- Output
 
 feature -- String output
 
+	force_bom
+		do
+			put_encoded_string_8 ({UTF_CONVERTER}.Utf_8_bom_to_string_8) -- 0xEF,0xBB,0xBF
+		end
+
 	put_bom
-			-- put utf-8 byte order mark for UTF-8 encoding
+		-- put utf-8 byte order mark for UTF-8 encoding
 		require
 			start_of_file: position = 0
 		do
 			if is_bom_writeable then
-			--	0xEF,0xBB,0xBF
-				put_encoded_string_8 ({UTF_CONVERTER}.Utf_8_bom_to_string_8)
+				force_bom
 			end
 		end
 

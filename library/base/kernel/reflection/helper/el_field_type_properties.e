@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 14:50:37 GMT (Monday 26th August 2024)"
-	revision: "6"
+	date: "2024-09-02 11:56:44 GMT (Monday 2nd September 2024)"
+	revision: "7"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
@@ -15,7 +15,7 @@ class
 inherit
 	EL_INTERNAL
 		rename
-			abstract_type as dynamic_to_abstract_type,
+			abstract_type as object_abstract_type,
 			conforms_to as object_conforms_to,
 			collection_item_type as collection_item_type_for_type,
 			make as make_default,

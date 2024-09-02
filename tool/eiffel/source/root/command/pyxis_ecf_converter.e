@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 19:10:17 GMT (Thursday 25th July 2024)"
-	revision: "9"
+	date: "2024-09-01 11:20:08 GMT (Sunday 1st September 2024)"
+	revision: "10"
 
 class
 	PYXIS_ECF_CONVERTER
@@ -62,11 +62,7 @@ feature {NONE} -- Implementation
 
 	new_output_path: FILE_PATH
 		do
-			if source_path.has_extension (Pecf) then
-				Result := source_path.with_new_extension ("ecf")
-			else
-				Result := Precursor
-			end
+			Result := if source_path.has_extension (Pecf) then source_path.with_new_extension ("ecf") else Precursor end
 		end
 
 	new_xml_generator: EL_PYXIS_XML_TEXT_GENERATOR
@@ -77,7 +73,7 @@ feature {NONE} -- Implementation
 				create Result.make
 			end
 		end
-		
+
 feature {NONE} -- Constants
 
 	Pecf: STRING = "pecf"

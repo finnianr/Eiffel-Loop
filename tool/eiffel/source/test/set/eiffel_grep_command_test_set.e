@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-09-01 10:16:32 GMT (Sunday 1st September 2024)"
+	revision: "7"
 
 class
 	EIFFEL_GREP_COMMAND_TEST_SET
@@ -37,12 +37,15 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_mixed_utf_8_latin_1_encodings
+		-- EIFFEL_GREP_COMMAND_TEST_SET.test_mixed_utf_8_latin_1_encodings
 		note
-			testing:	"covers/{EL_APPENDABLE_ZSTRING}.append_encoded", "covers/{EL_OS_COMMAND_I}.set_output_encoding"
+			testing:	"[
+				covers/{EL_APPENDABLE_ZSTRING}.append_encoded,
+				covers/{EL_OS_COMMAND_I}.set_output_encoding
+			]"
 		local
 			cmd: EIFFEL_GREP_COMMAND; count: INTEGER; line: ZSTRING
 		do
---			grep distributed as part of Eiffel Studio for Windows lacks `--include' option
 			if {PLATFORM}.is_unix then
 				create cmd.make
 				cmd.set_working_directory (Dev_environ.Eiffel_loop_dir #+ "test/source")
@@ -59,6 +62,9 @@ feature -- Tests
 					end
 				end
 				assert ("Both lines found", count = 2)
+			else
+			--	grep distributed as part of Eiffel Studio for Windows lacks `--include' option
+				do_nothing
 			end
 		end
 

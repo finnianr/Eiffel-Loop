@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 8:02:43 GMT (Friday 7th June 2024)"
-	revision: "3"
+	date: "2024-09-02 14:56:26 GMT (Monday 2nd September 2024)"
+	revision: "5"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_TEST_PAGE
@@ -25,8 +25,8 @@ feature {NONE} -- Implementation
 
 	sink_content (crc: like crc_generator)
 		local
-			checksum_list: like Checksum_list_table.found_list
 			same_count: BOOLEAN; e_class: EIFFEL_CLASS; mismatch_found: BOOLEAN
+			checksum_list: EL_ARRAYED_LIST [NATURAL]
 		do
 			crc.add_file (content_template)
 			crc.add_string (eiffel_config.name)
@@ -78,7 +78,7 @@ feature {NONE} -- Constants
 
 	Checksum_differs: STRING = "Checksum differs"
 
-	Checksum_list_table: EL_GROUP_TABLE [NATURAL, FILE_PATH]
+	Checksum_list_table: EL_GROUPED_LIST_TABLE [NATURAL, FILE_PATH]
 		once
 			create Result.make (200)
 		end

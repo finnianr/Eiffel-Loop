@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-18 9:18:31 GMT (Monday 18th December 2023)"
-	revision: "25"
+	date: "2024-09-02 9:20:09 GMT (Monday 2nd September 2024)"
+	revision: "26"
 
 class
 	COMMA_SEPARATED_IMPORT_TEST_SET
@@ -39,6 +39,7 @@ feature -- Test
 			--
 		note
 			testing: "[
+				covers/{EL_CONTAINER_STRUCTURE}.count_meeting,
 				covers/{CSV_IMPORTABLE_ARRAYED_LIST}.import,
 				covers/{CSV_LINE_PARSER}.parse,
 				covers/{EL_COMMA_SEPARATED_VALUE_ESCAPER}.escaped,

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 15:32:24 GMT (Wednesday 29th May 2024)"
-	revision: "38"
+	date: "2024-09-02 14:39:19 GMT (Monday 2nd September 2024)"
+	revision: "39"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -41,27 +41,39 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["arrayed_map_list", agent test_arrayed_map_list],
-				["arrayed_map_sort", agent test_arrayed_map_sort],
-				["arrayed_result_list", agent test_arrayed_result_list],
-				["circular_indexing", agent test_circular_indexing],
-				["el_linear", agent test_el_linear],
-				["make_filtered_array", agent test_make_filtered_array],
-				["order_by_color_name", agent test_order_by_color_name],
-				["order_by_weight", agent test_order_by_weight],
-				["query_and_map_list", agent test_query_and_map_list],
-				["query_and_summator", agent test_query_and_summator],
-				["string_list", agent test_string_list],
-				["summator", agent test_summator]
+				["arrayed_list_maximum", agent test_arrayed_list_maximum],
+				["arrayed_map_list",		 agent test_arrayed_map_list],
+				["arrayed_map_sort",		 agent test_arrayed_map_sort],
+				["arrayed_result_list",	 agent test_arrayed_result_list],
+				["circular_indexing",	 agent test_circular_indexing],
+				["el_linear",				 agent test_el_linear],
+				["make_filtered_array",	 agent test_make_filtered_array],
+				["order_by_color_name",	 agent test_order_by_color_name],
+				["order_by_weight",		 agent test_order_by_weight],
+				["query_and_map_list",	 agent test_query_and_map_list],
+				["query_and_summator",	 agent test_query_and_summator],
+				["string_list",			 agent test_string_list],
+				["summator",				 agent test_summator]
 			>>)
 		end
 
 feature -- Test
 
+	test_arrayed_list_maximum
+		note
+			testing: "[
+				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.maximum_integer,
+				covers/{EL_CONTAINER_ARITHMETIC}.maximum_meeting
+			]"
+		do
+			assert ("max weight is 12", Widget_list.maximum_integer (agent {WIDGET}.weight) = 12)
+		end
+
 	test_arrayed_map_list
 		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_list
 		note
 			testing: "[
+				covers/{EL_CONTAINER_STRUCTURE}.to_special,
 				covers/{EL_ARRAYED_MAP_LIST}.make_from_keys,
 				covers/{EL_ARRAYED_MAP_LIST}.make_from_values,
 				covers/{EL_HASH_SET}.make_from
@@ -141,7 +153,10 @@ feature -- Test
 
 	test_arrayed_result_list
 		note
-			testing: "covers/{EL_ARRAYED_RESULT_LIST}.make_filtered"
+			testing: "[
+				covers/{EL_CONTAINER_STRUCTURE}.to_special,
+				covers/{EL_ARRAYED_RESULT_LIST}.make_filtered
+			]"
 		local
 			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]
 		do
@@ -271,6 +286,7 @@ feature -- Test
 	test_query_and_map_list
 		note
 			testing: "[
+				covers/{EL_CONTAINER_STRUCTURE}.to_special,
 				covers/{EL_ARRAYED_RESULT_LIST}.make,
 				covers/{EL_ARRAYED_RESULT_LIST}.make_with_tuple_2,
 				covers/{EL_CONTAINER_STRUCTURE}.query_if
@@ -297,7 +313,7 @@ feature -- Test
 		end
 
 	test_query_and_summator
-		-- using method 1
+		-- CONTAINER_STRUCTURE_TEST_SET.test_query_and_summator
 		note
 			testing: "[
 				covers/{EL_RESULT_SUMMATOR}.sum,
@@ -326,6 +342,11 @@ feature -- Test
 		end
 
 	test_string_list
+		note
+			testing: "[
+				covers/{EL_CONTAINER_STRUCTURE}.to_special,
+				covers/{EL_CONTAINER_STRUCTURE}.string_8_list
+			]"
 		local
 			color_list: STRING
 		do
@@ -334,10 +355,11 @@ feature -- Test
 		end
 
 	test_summator
+		-- CONTAINER_STRUCTURE_TEST_SET.test_summator
 		note
 			testing: "covers/{EL_RESULT_SUMMATOR}.sum_meeting"
 		local
-			summator: EL_RESULT_SUMMATOR [CHARACTER, INTEGER]
+			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
 		do
 			across Container_types as type loop
 				if attached new_character_container (type.item) as container then

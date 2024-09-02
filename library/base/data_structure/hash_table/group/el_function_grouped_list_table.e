@@ -10,14 +10,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 11:39:38 GMT (Sunday 2nd June 2024)"
-	revision: "13"
+	date: "2024-09-02 8:32:27 GMT (Monday 2nd September 2024)"
+	revision: "14"
 
 class
-	EL_FUNCTION_GROUP_TABLE [G, K -> HASHABLE]
+	EL_FUNCTION_GROUPED_LIST_TABLE [G, K -> HASHABLE]
 
 inherit
-	EL_GROUP_TABLE [G, K]
+	EL_GROUPED_LIST_TABLE [G, K]
 		rename
 			make as make_with_count
 		end

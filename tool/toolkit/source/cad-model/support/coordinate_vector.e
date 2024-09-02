@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2024-09-01 13:01:29 GMT (Sunday 1st September 2024)"
+	revision: "12"
 
 class
 	COORDINATE_VECTOR
@@ -65,11 +65,7 @@ feature -- Access
 	closest (a, b: like Current): like Current
 		-- point `a' or `b' that is closest to `Current'
 		do
-			if distance (a) < distance (b) then
-				Result := a
-			else
-				Result := b
-			end
+			Result := if distance (a) < distance (b) then a else b end
 		end
 
 	distance (other: like Current): DOUBLE
@@ -86,11 +82,7 @@ feature -- Access
 	furthest (a, b: like Current): like Current
 		-- point `a' or `b' that is furthest from `Current'
 		do
-			if distance (a) > distance (b) then
-				Result := a
-			else
-				Result := b
-			end
+			Result := if distance (a) > distance (b) then a else b end
 		end
 
 	hash_code: INTEGER

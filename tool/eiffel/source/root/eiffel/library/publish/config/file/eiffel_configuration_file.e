@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 7:04:24 GMT (Friday 7th June 2024)"
-	revision: "67"
+	date: "2024-09-02 14:53:34 GMT (Monday 2nd September 2024)"
+	revision: "69"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -119,11 +119,7 @@ feature -- Access
 	category_title: ZSTRING
 		-- displayed category title
 		do
-			if sub_category.is_empty then
-				Result := category
-			else
-				Result := space.joined (sub_category, category)
-			end
+			Result := if sub_category.is_empty then category else space.joined (sub_category, category) end
 		end
 
 	class_count: INTEGER
@@ -236,7 +232,7 @@ feature -- Basic operations
 
 	read_class_source (parser: EIFFEL_CLASS_PARSER)
 		local
-			group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
+			group_table: EL_FUNCTION_GROUPED_SET_TABLE [FILE_PATH, DIR_PATH]
 			source_directory: SOURCE_DIRECTORY; file_count: INTEGER
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
@@ -264,7 +260,7 @@ feature -- Basic operations
 		-- Fast check of files that have been modified
 		local
 			group_table: like new_directory_group_table
-			source_dir: DIR_PATH; new_source_list: EL_ARRAYED_LIST [FILE_PATH]
+			source_dir: DIR_PATH; new_source_set: EL_ARRAYED_LIST [FILE_PATH]
 			e_class: EIFFEL_CLASS; file_count: INTEGER
 		do
 			path_list := new_path_list; group_table := new_directory_group_table
@@ -277,19 +273,19 @@ feature -- Basic operations
 					source_dir := list.item.dir_path
 					group_table.search (source_dir)
 					if group_table.found then
-						new_source_list := group_table.found_list
+						new_source_set := group_table.found_set
 					else
-						create new_source_list.make_empty
+						create new_source_set.make_empty
 					end
-					new_source_list.compare_objects
+					new_source_set.compare_objects
 
 					from class_list.start until class_list.after loop
 						file_count := file_count + 1
 						e_class := class_list.item
-						new_source_list.start; new_source_list.search (e_class.source_path)
-						if new_source_list.found then
+						new_source_set.start; new_source_set.search (e_class.source_path)
+						if new_source_set.found then
 							update_checker.queue (agent update_class (class_list, class_list.item))
-							new_source_list.remove
+							new_source_set.remove
 							class_list.forth
 						else
 							Class_table.remove (e_class.name)
@@ -300,7 +296,7 @@ feature -- Basic operations
 							lio.put_new_line
 						end
 					end
-					if group_table.found and then new_source_list.is_empty then
+					if group_table.found and then new_source_set.is_empty then
 						group_table.remove (source_dir)
 					end
 					update_checker.apply
@@ -318,7 +314,7 @@ feature -- Factory
 			create Result.make (source_path, Current, config)
 		end
 
-	new_directory_group_table: EL_FUNCTION_GROUP_TABLE [FILE_PATH, DIR_PATH]
+	new_directory_group_table: EL_FUNCTION_GROUPED_SET_TABLE [FILE_PATH, DIR_PATH]
 		do
 			create Result.make_from_list (agent {FILE_PATH}.parent, sorted_path_list)
 		end

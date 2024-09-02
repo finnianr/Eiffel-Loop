@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 13:49:02 GMT (Monday 25th March 2024)"
-	revision: "8"
+	date: "2024-09-01 11:22:19 GMT (Sunday 1st September 2024)"
+	revision: "9"
 
 class
 	ROUTINE_FEATURE
@@ -58,11 +58,7 @@ feature {NONE} -- Implementation
 				from lines.forth until lines.after or else lines.item.starts_with (Body_end_line) loop
 					lines.forth
 				end
-				if lines.after then
-					upper := lower - 1
-				else
-					upper := lines.index - 1
-				end
+				upper := if lines.after then lower - 1 else lines.index - 1 end
 			end
 			Result := lower |..| upper
 		end

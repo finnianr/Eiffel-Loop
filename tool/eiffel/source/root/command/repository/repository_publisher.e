@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 19:51:02 GMT (Tuesday 11th June 2024)"
-	revision: "87"
+	date: "2024-09-01 10:37:17 GMT (Sunday 1st September 2024)"
+	revision: "88"
 
 class
 	REPOSITORY_PUBLISHER
@@ -33,7 +33,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			cpu_percentage := a_cpu_percentage
 			log_cpu_percentage
-			lio.put_string ("Reading ECF configuration files")
+			lio.put_line ("Reading ECF configuration files")
 			create config.make (a_file_path)
 			lio.put_new_line
 			config.version.share (a_version)

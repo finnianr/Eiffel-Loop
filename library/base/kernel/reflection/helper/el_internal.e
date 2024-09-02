@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-29 7:01:02 GMT (Thursday 29th August 2024)"
-	revision: "34"
+	date: "2024-09-02 11:55:30 GMT (Monday 2nd September 2024)"
+	revision: "35"
 
 class
 	EL_INTERNAL
@@ -28,8 +28,10 @@ inherit
 		end
 
 	SED_UTILITIES
+		rename
+			abstract_type as abstract_type_of_type
 		export
-			{ANY} abstract_type
+			{ANY} abstract_type_of_type
 		end
 
 	EL_REFLECTION_CONSTANTS; EL_STRING_8_CONSTANTS
@@ -149,7 +151,7 @@ feature -- Type status
 			item_type_id: INTEGER
 		do
 			item_type_id := collection_item_type (type_id)
-			Result := is_storable_type (abstract_type (item_type_id), item_type_id)
+			Result := is_storable_type (abstract_type_of_type (item_type_id), item_type_id)
 		end
 
 feature -- Conformance checking
@@ -175,6 +177,11 @@ feature -- Conformance checking
 		end
 
 feature -- Access
+
+	abstract_type (object: ANY): INTEGER
+		do
+			Result := abstract_type_of_type ({ISE_RUNTIME}.dynamic_type (object))
+		end
 
 	collection_item_type (type_id: INTEGER): INTEGER
 		require
@@ -227,7 +234,7 @@ feature -- Constants
 
 	Object_overhead: INTEGER = 32
 		-- memory overhead for any object excluding all attributes
-	
+
 feature -- Contract Support
 
 	is_collection_type (type_id: INTEGER): BOOLEAN

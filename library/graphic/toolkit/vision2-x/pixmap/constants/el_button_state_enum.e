@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-01 13:05:12 GMT (Sunday 1st September 2024)"
+	revision: "6"
 
 class
 	EL_BUTTON_STATE_ENUM
@@ -15,6 +15,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
+			description_table as No_descriptions,
 			foreign_naming as eiffel_naming
 		end
 

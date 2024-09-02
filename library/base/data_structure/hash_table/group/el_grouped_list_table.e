@@ -1,5 +1,8 @@
 note
-	description: "Table for grouping items into lists according to a hashable key"
+	description: "[
+		Table for grouping items into lists according to a hashable key.
+		The lists items are implemented as ${EL_ARRAYED_LIST [G]}.
+	]"
 	notes: "[
 		Each item list inherits the object comparison status of the ''Current'' table
 	]"
@@ -9,18 +12,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 11:39:38 GMT (Sunday 2nd June 2024)"
-	revision: "5"
+	date: "2024-09-02 8:58:16 GMT (Monday 2nd September 2024)"
+	revision: "6"
 
 class
-	EL_GROUP_TABLE [G, K -> HASHABLE]
+	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
 
 inherit
 	HASH_TABLE [EL_ARRAYED_LIST [G], K]
 		rename
 			item as item_list alias "[]",
 			extend as extend_list,
-			found_item as found_list
+			found_item as found_list,
+			linear_representation as list_of_lists
 		redefine
 			make, has_key, search
 		end
@@ -75,6 +79,14 @@ feature -- Basic operations
 			item_position := old_position
 		end
 
+	wipe_out_lists
+		-- wipe out list items
+		do
+			across list_of_lists as list loop
+				list.item.wipe_out
+			end
+		end
+
 feature -- Element change
 
 	extend (key: K; new: G)
@@ -82,7 +94,7 @@ feature -- Element change
 			new_list: like found_list
 		do
 			if has_key (key) then
-				if not found_list.has (new) then
+				if is_set implies not found_list.has (new) then
 					found_list.extend (new)
 				end
 			else
@@ -93,6 +105,12 @@ feature -- Element change
 				new_list.extend (new)
 				extend_list (new_list, key)
 			end
+		end
+
+feature {NONE} -- Implementation
+
+	is_set: BOOLEAN
+		do
 		end
 
 feature {NONE} -- Internal attributes

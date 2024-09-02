@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 13:09:58 GMT (Friday 12th July 2024)"
-	revision: "27"
+	date: "2024-09-01 14:37:38 GMT (Sunday 1st September 2024)"
+	revision: "28"
 
 class
 	ADD_ALBUM_ART_TASK
@@ -87,7 +87,7 @@ feature -- Basic operations
 			picture_dir: DIR_PATH
 		do
 			if create_folders then
-				across Picture_type.list as type loop
+				across Picture_type.as_list as type loop
 					picture_dir := album_art_dir #+ Picture_type.name (type.item)
 					if not picture_dir.exists then
 						File_system.make_directory (picture_dir)

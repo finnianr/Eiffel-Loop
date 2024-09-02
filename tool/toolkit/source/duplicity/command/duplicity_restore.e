@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-13 9:49:19 GMT (Saturday 13th April 2024)"
-	revision: "33"
+	date: "2024-09-02 7:21:26 GMT (Monday 2nd September 2024)"
+	revision: "34"
 
 class
 	DUPLICITY_RESTORE
@@ -27,6 +27,8 @@ inherit
 		redefine
 			description
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 	DUPLICITY_CONSTANTS
 
@@ -137,7 +139,7 @@ feature {NONE} -- Factory
 	new_shell: EL_COMMAND_SHELL
 		local
 			collection: DUPLICITY_COLLECTION_STATUS_OS_CMD
-			year_group_table: EL_FUNCTION_GROUP_TABLE [ZSTRING, ZSTRING]
+			year_group_table: EL_FUNCTION_GROUPED_SET_TABLE [ZSTRING, ZSTRING]
 			item_table: EL_PROCEDURE_TABLE [ZSTRING]
 			backup_shell: like new_backup_shell
 		do
@@ -161,11 +163,7 @@ feature {NONE} -- Factory
 			item_table: EL_PROCEDURE_TABLE [ZSTRING]; year: ZSTRING
 		do
 			create item_table.make_size (date_list.count)
-			if date_list.is_empty then
-				year := "0000"
-			else
-				year := year_string (date_list.first)
-			end
+			year := if date_list.is_empty then ZSTRING ("0000") else year_string (date_list.first) end
 			across date_list as list loop
 				if list.is_last then
 					item_table [list.item] := agent restore_date (Time_now)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 12:03:29 GMT (Friday 22nd December 2023)"
-	revision: "29"
+	date: "2024-09-01 11:18:37 GMT (Sunday 1st September 2024)"
+	revision: "30"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -183,10 +183,6 @@ feature {NONE} -- Constants
 
 	Excluded_imp_step: ZSTRING
 		once
-			if {PLATFORM}.is_unix then
-				Result := "imp_mswin"
-			else
-				Result := "imp_unix"
-			end
+			Result := if {PLATFORM}.is_unix then "imp_mswin" else "imp_unix" end
 		end
 end
