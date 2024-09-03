@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:16:01 GMT (Sunday 25th August 2024)"
-	revision: "61"
+	date: "2024-09-03 16:30:34 GMT (Tuesday 3rd September 2024)"
+	revision: "62"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -228,6 +228,11 @@ feature {NONE} -- Implementation
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string_32 (target, pattern, 0)
+		end
+
+	index_of (str: READABLE_STRING_32; uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		do
+			Result := str.index_of (uc, start_index)
 		end
 
 	last_index_of (str: READABLE_STRING_32; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER

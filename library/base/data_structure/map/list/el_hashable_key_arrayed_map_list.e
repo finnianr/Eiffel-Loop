@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 7:21:49 GMT (Monday 2nd September 2024)"
-	revision: "5"
+	date: "2024-09-03 10:39:33 GMT (Tuesday 3rd September 2024)"
+	revision: "6"
 
 class
 	EL_HASHABLE_KEY_ARRAYED_MAP_LIST [K -> HASHABLE, G]
@@ -20,7 +20,18 @@ create
 
 feature -- Factory
 
-	new_grouped_table: EL_GROUPED_SET_TABLE [G, K]
+	new_grouped_list_table: EL_GROUPED_LIST_TABLE [G, K]
+		do
+			push_cursor
+			create Result.make_equal ((count // 5).max (5))
+			from start until after loop
+				Result.extend (item_key, item_value)
+				forth
+			end
+			pop_cursor
+		end
+
+	new_grouped_set_table: EL_GROUPED_SET_TABLE [G, K]
 		do
 			push_cursor
 			create Result.make_equal ((count // 5).max (5))

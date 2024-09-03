@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-09-03 9:37:03 GMT (Tuesday 3rd September 2024)"
+	revision: "5"
 
 class
 	EL_CONTAINER_ITEM [G]
@@ -28,14 +28,22 @@ create
 feature {NONE} -- Initialization
 
 	make (container: CONTAINER [G])
+		local
+			break: BOOLEAN
 		do
 			if container.is_empty then
-				if attached {G} Eiffel.new_instance_of (({G}).type_id) as new then
+				if attached {G} Eiffel.new_object ({G}) as new then
 					item := new
 				end
 
 			elseif attached {READABLE_INDEXABLE [G]} container as array then
 				item := array [array.lower]
+
+			elseif attached {ITERABLE [G]} container as iterable_container then
+				across iterable_container as list until break loop
+					item := list.item
+					break := True
+				end
 
 			elseif attached container.linear_representation as list then
 				if container = list and then attached {TRAVERSABLE [G]} list as traversable then

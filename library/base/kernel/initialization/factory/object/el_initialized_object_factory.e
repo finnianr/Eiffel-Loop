@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-09-03 17:31:29 GMT (Tuesday 3rd September 2024)"
+	revision: "10"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -65,6 +65,16 @@ feature -- Factory
 			end
 		end
 
+	new_parameterized_type_factory (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): detachable F
+		local
+			type_id: INTEGER
+		do
+			type_id := Factory.parameterized_type_id (base_type, parameter_types)
+			if attached new_item_factory (type_id) as factory_item then
+				Result := factory_item
+			end
+		end
+
 feature -- Status query
 
 	is_valid_type (type_id: INTEGER): BOOLEAN
@@ -89,8 +99,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	factory_type: TYPE [EL_FACTORY [G]]
-
 	factory_factory: EL_OBJECT_FACTORY [F]
+
+	factory_type: TYPE [EL_FACTORY [G]]
 
 end

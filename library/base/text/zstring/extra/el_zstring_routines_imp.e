@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 11:09:09 GMT (Sunday 25th August 2024)"
-	revision: "37"
+	date: "2024-09-03 16:30:25 GMT (Tuesday 3rd September 2024)"
+	revision: "38"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -293,6 +293,11 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character is alphabetical or numeric
 		do
 			Result := str.is_alpha_numeric_item (i)
+		end
+
+	index_of (str: EL_READABLE_ZSTRING; uc: CHARACTER_32; start_index: INTEGER): INTEGER
+		do
+			Result := str.index_of (uc, start_index)
 		end
 
 	last_index_of (str: EL_READABLE_ZSTRING; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER

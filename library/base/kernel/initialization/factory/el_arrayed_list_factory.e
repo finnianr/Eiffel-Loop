@@ -1,5 +1,5 @@
 note
-	description: "Factory to create items conforming to ${ARRAYED_LIST}"
+	description: "Factory to create items conforming to ${ARRAYED_LIST [ANY]}"
 	notes: "[
 		A factory to create an instance of this factory for a type conforming to ${ARRAYED_LIST [ANY]}
 		is accessible via ${EL_SHARED_FACTORIES}.Arrayed_list_factory.
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 14:51:58 GMT (Thursday 4th April 2024)"
-	revision: "7"
+	date: "2024-09-03 11:21:32 GMT (Tuesday 3rd September 2024)"
+	revision: "8"
 
 class
 	EL_ARRAYED_LIST_FACTORY [G -> ARRAYED_LIST [ANY] create make end]

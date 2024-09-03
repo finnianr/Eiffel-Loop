@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:20:54 GMT (Monday 2nd September 2024)"
-	revision: "15"
+	date: "2024-09-03 8:38:28 GMT (Tuesday 3rd September 2024)"
+	revision: "16"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -205,10 +205,10 @@ feature -- Basic operations
 				end
 				pop_cursor
 
-			elseif attached {READABLE_INDEXABLE [G]} current_container as array then
-				upper := array.upper
-				from i := array.lower until i > upper loop
-					do_if_met (array [i], action, condition)
+			elseif attached {READABLE_INDEXABLE [G]} current_container as indexable then
+				upper := indexable.upper
+				from i := indexable.lower until i > upper loop
+					do_if_met (indexable [i], action, condition)
 					i := i + 1
 				end
 

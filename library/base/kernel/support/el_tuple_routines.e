@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 10:26:56 GMT (Tuesday 27th August 2024)"
-	revision: "49"
+	date: "2024-09-03 13:34:56 GMT (Tuesday 3rd September 2024)"
+	revision: "50"
 
 class
 	EL_TUPLE_ROUTINES
@@ -23,7 +23,7 @@ inherit
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL
 
-	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS; EL_TYPE_CATEGORY_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 
@@ -562,7 +562,7 @@ feature {NONE} -- Implementation
 	reset_i_th_reference (tuple: TUPLE; ref_item: ANY; i, type_id: INTEGER)
 		do
 			if Eiffel.is_bag_type (type_id) and then attached {BAG [ANY]} ref_item as bag then
-			-- includes mutable strings
+			-- includes `STRING_GENERAL'
 				bag.wipe_out; counter.bump
 
 			elseif Eiffel.is_type_in_set (type_id, el_path_types)
@@ -588,33 +588,52 @@ feature {NONE} -- Implementation
 
 	set_i_th_reference (tuple: TUPLE; i: INTEGER; readable: EL_READABLE; type_id: INTEGER)
 		do
-			if Eiffel.is_type_in_set (type_id, readable_string_32_types) then
-				tuple.put_reference (new_read_string_32 (readable, type_id), i)
+			inspect Class_id.type_category (type_id)
+				when C_readable_string_8 then
+					tuple.put_reference (new_read_string_8 (readable, type_id), i)
 
-			elseif Eiffel.is_type_in_set (type_id, readable_string_8_types) then
-				tuple.put_reference (new_read_string_8 (readable, type_id), i)
+				when C_readable_string_32 then
+					tuple.put_reference (new_read_string_32 (readable, type_id), i)
 
-			elseif Eiffel.is_type_in_set (type_id, el_path_types) then
-				tuple.put_reference (new_read_path (readable, type_id), i)
-
+				when C_el_path then
+					tuple.put_reference (new_read_path (readable, type_id), i)
 			else
-				do_nothing -- exits recursion
 			end
 		end
 
 	string_width_any (object: ANY): INTEGER
 		do
-			if attached {READABLE_STRING_GENERAL} object as str then
-				Result := str.count
+			inspect Class_id.object_type_category (object)
+				when C_readable_string_8 then
+					if attached {READABLE_STRING_8} object as str_8 then
+						Result := str_8.count
+					end
+				when C_readable_string_32 then
+					if attached {READABLE_STRING_32} object as str_32 then
+						Result := str_32.count
+					end
 
-			elseif attached {EL_PATH} object as path then
-				Result := path.count
+				when C_el_path then
+					if attached {EL_PATH} object as path then
+						Result := path.count
+					end
 
-			elseif attached {PATH} object as path then
-				Result := path.name.count
+				when C_el_path_steps then
+					if attached {EL_PATH_STEPS} object as steps then
+						Result := steps.count
+					end
 
-			elseif attached {EL_PATH_STEPS} object as steps then
-				Result := steps.character_count
+				when C_path then
+					if attached {PATH} object as path then
+						Result := path.name.count
+					end
+
+				when C_type_any then
+					if attached {TYPE [ANY]} object as type then
+						Result := type.name.count
+					end
+			else
+				Result := object.out.count
 			end
 		end
 

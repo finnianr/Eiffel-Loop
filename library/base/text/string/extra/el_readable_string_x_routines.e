@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:36:18 GMT (Sunday 25th August 2024)"
-	revision: "45"
+	date: "2024-09-03 16:38:29 GMT (Tuesday 3rd September 2024)"
+	revision: "46"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -19,7 +19,7 @@ deferred class
 
 inherit
 	ANY
-	
+
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 		rename
 			String_searcher as ZString_searcher
@@ -109,6 +109,20 @@ feature -- Access
 		end
 
 feature -- Measurement
+
+	between_interval (str: READABLE_STRING_X; left, right: CHARACTER_32): INTEGER_64
+		-- compact substring interval between `left' and `right' character
+		local
+			left_index, right_index: INTEGER; ir: EL_INTERVAL_ROUTINES
+		do
+			left_index := index_of (str, left, 1)
+			if left_index > 0 then
+				right_index := last_index_of (str, right, str.count)
+				if right_index > 0 then
+					Result := ir.compact (left_index + 1, right_index - 1)
+				end
+			end
+		end
 
 	word_count (str: READABLE_STRING_X; exclude_variable_references: BOOLEAN): INTEGER
 		-- count of all substrings of `str' that are separated by whitespace
@@ -493,7 +507,7 @@ feature -- Substring
 			else
 				start_index := pointer.read_integer_32 (start_index_ptr)
 			end
-			index := str.index_of (uc, start_index)
+			index := index_of (str, uc, start_index)
 			if index > 0 then
 				Result := str.substring (start_index, index - 1)
 				start_index := index + 1
@@ -603,6 +617,10 @@ feature {NONE} -- Deferred
 
 	is_i_th_identifier (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
 		-- `True' if i'th character is an identifier
+		deferred
+		end
+
+	index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index: INTEGER): INTEGER
 		deferred
 		end
 

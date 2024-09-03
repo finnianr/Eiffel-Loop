@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-09-03 17:46:18 GMT (Tuesday 3rd September 2024)"
+	revision: "4"
 
 class
 	EL_CLASS_SET_FACTORY [G, DEFAULT -> G, TYPE_SET -> TUPLE create default_create end]

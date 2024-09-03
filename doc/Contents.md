@@ -467,7 +467,7 @@ EL_LINEAR* [G]
 ````
 **Container Structure Extensions**
 
-This [EL_CONTAINER_STRUCTURE](https://github.com/finnianr/Eiffel-Loop/library/base/data_structure/list/support/el_container_structure.e) abstraction provides many extra facilities for classes that implement  the [CONTAINER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/container_chart.html) base class. It inherits class [EL_CONTAINER_NUMERIC_CALCULATER](https://github.com/finnianr/Eiffel-Loop/library/base/data_structure/list/support/el_container_numeric_calculater.e).
+This [EL_CONTAINER_STRUCTURE](https://github.com/finnianr/Eiffel-Loop/library/base/data_structure/list/support/el_container_structure.e) abstraction provides many extra facilities for classes that implement  the [CONTAINER](https://www.eiffel.org/files/doc/static/trunk/libraries/base/container_chart.html) base class. It inherits class [EL_CONTAINER_NUMERIC_CALCULATER](invalid-class-name).
 
 ````eiffel
 EL_CONTAINER_STRUCTURE* [G]

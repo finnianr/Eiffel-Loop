@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 14:55:37 GMT (Monday 26th August 2024)"
-	revision: "24"
+	date: "2024-09-03 13:16:36 GMT (Tuesday 3rd September 2024)"
+	revision: "25"
 
 deferred class
 	EL_WRITABLE
@@ -16,9 +16,9 @@ deferred class
 inherit
 	EL_STRING_HANDLER
 
-	EL_MODULE_EIFFEL
-
 	EL_SHARED_CLASS_ID
+
+	EL_TYPE_CATEGORY_CONSTANTS
 
 feature -- Character
 
@@ -124,35 +124,34 @@ feature -- Other
 		local
 			id: INTEGER
 		do
-			id := {ISE_RUNTIME}.dynamic_type (object)
+			inspect Class_id.object_type_category (object)
+				when C_readable_string_8 then
+					if attached {READABLE_STRING_8} object as str_8 then
+						write_string_8 (str_8)
+					end
+				when C_readable_string_32 then
+					if attached {READABLE_STRING_32} object as str_32 then
+						write_string_32 (str_32)
+					end
 
-			if Eiffel.is_type_in_set (id, Class_id.readable_string_8_types)
-				and then attached {READABLE_STRING_8} object as str_8
-			then
-				write_string_8 (str_8)
+				when C_el_path then
+					if attached {EL_PATH} object as path then
+						write_path (path)
+					end
 
-			elseif Eiffel.is_type_in_set (id, Class_id.readable_string_32_types)
-				and then attached {READABLE_STRING_32} object as str_32
-			then
-				write_string_32 (str_32)
+				when C_el_path_steps then
+					if attached {EL_PATH_STEPS} object as steps then
+						write_path_steps (steps)
+					end
 
-			elseif Eiffel.is_type_in_set (id, Class_id.el_path_types)
-				and then attached {EL_PATH} object as path
-			then
-				write_path (path)
-
-			elseif attached {READABLE_STRING_GENERAL} object as string then
-				write_string_general (string)
-
-			elseif attached {EL_PATH} object as path then
-				write_path (path)
-
-			elseif attached {EL_PATH_STEPS} object as steps then
-				write_path_steps (steps)
-
-			elseif attached {PATH} object as path then
-				write_ise_path (path)
-
+				when C_path then
+					if attached {PATH} object as path then
+						write_ise_path (path)
+					end
+				when C_type_any then
+					if attached {TYPE [ANY]} object as type then
+						write_string_8 (type.name)
+					end
 			else
 				write_any_default (object)
 			end

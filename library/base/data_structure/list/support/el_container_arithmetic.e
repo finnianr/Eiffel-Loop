@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:59:32 GMT (Monday 2nd September 2024)"
-	revision: "19"
+	date: "2024-09-03 8:36:17 GMT (Tuesday 3rd September 2024)"
+	revision: "20"
 
 class
 	EL_CONTAINER_ARITHMETIC [G, N -> NUMERIC]
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 
 	make (a_container: like container)
 		require
-			N_is_expanded: ({N}).is_expanded
+			valid_numeric_type: valid_numeric_type
 		do
 			container := a_container
 		end
@@ -83,16 +83,25 @@ feature -- Access
 			end
 		end
 
-feature {NONE} -- Implementation
+feature -- Contract Support
 
-	add_to_sum (a_sum: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
+	valid_numeric_type: BOOLEAN
+		local
+			n: N; abstract_type: INTEGER
 		do
-			a_sum.add (value (item))
+			if ({N}).is_expanded then
+				if Result_table.valid_index (abstract_type) then
+					abstract_type := Eiffel.abstract_type (n)
+					Result := Result_table [abstract_type].result_type ~ {N}
+				end
+			end
 		end
 
-	set_maximum (a_maximum: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
+feature {NONE} -- Implementation
+
+	add_to_sum (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
 		do
-			a_maximum.set_max (value (item))
+			a_result.add (value (item))
 		end
 
 	numeric_result: EL_NUMERIC_RESULT [NUMERIC]
@@ -100,6 +109,11 @@ feature {NONE} -- Implementation
 			n: N
 		do
 			Result := Result_table [Eiffel.abstract_type (n)]
+		end
+
+	set_maximum (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
+		do
+			a_result.set_max (value (item))
 		end
 
 feature {NONE} -- Internal attributes
@@ -110,7 +124,7 @@ feature {NONE} -- Constants
 
 	Result_table: SPECIAL [EL_NUMERIC_RESULT [NUMERIC]]
 		once
-			create Result.make_filled (create {EL_INTEGER_8_RESULT}, natural_64_type + 1)
+			create Result.make_filled (create {EL_INTEGER_8_RESULT}, Max_predefined_type + 1)
 			Result [Integer_16_type] := create {EL_INTEGER_16_RESULT}
 			Result [Integer_32_type] := create {EL_INTEGER_32_RESULT}
 			Result [Integer_64_type] := create {EL_INTEGER_64_RESULT}

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-09-03 17:44:53 GMT (Tuesday 3rd September 2024)"
+	revision: "4"
 
 class
 	EL_FACTORY_ROUTINES_IMP
@@ -22,6 +22,40 @@ inherit
 		end
 
 feature -- Access
+
+	parameterized_type_id (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): INTEGER
+		require
+			same_paramater_count: parameter_count (base_type) = parameter_types.count
+		local
+			interval: INTEGER_64; s: EL_STRING_8_ROUTINES; ir: EL_INTERVAL_ROUTINES
+			base_type_template: STRING; left_index, right_index, start_index, end_index, i: INTEGER
+			interval_list: EL_SPLIT_INTERVALS
+		do
+			base_type_template := base_type.name
+			interval := s.between_interval (base_type_template, '[', ']')
+			if interval > 0 then
+				left_index := ir.to_lower (interval) - 1
+				right_index := ir.to_upper (interval) + 1
+				
+				base_type_template [left_index] := ','; base_type_template [right_index] := ','
+				create interval_list.make (base_type_template, ',')
+				base_type_template [left_index] := '['; base_type_template [right_index] := ']'
+
+				if attached interval_list as list and then list.count > 2 then
+					i := parameter_types.count
+					from list.finish; list.back until list.before or i = 0 loop
+						start_index := list.item_lower + (i > 1).to_integer
+						end_index := list.item_upper
+						if attached parameter_types [i].name as name then
+							base_type_template.replace_substring (name, start_index, end_index)
+						end
+						i := i - 1
+						list.back
+					end
+					Result := dynamic_type_from_string (base_type_template)
+				end
+			end
+		end
 
 	substituted_type_id (factory_type, target_type: TYPE [ANY]; conforming_target_id: INTEGER): INTEGER
 		-- type id of `factory_type' with all occurrences of `target_type' substituted for
@@ -65,6 +99,18 @@ feature -- Factory
 		end
 
 feature -- Contract Support
+
+	parameter_count (base_type: TYPE [ANY]): INTEGER
+		local
+			interval: INTEGER_64; s: EL_STRING_8_ROUTINES; ir: EL_INTERVAL_ROUTINES
+		do
+			if attached base_type.name as name then
+				interval := s.between_interval (name, '[', ']')
+				if interval > 0 then
+					Result := name.shared_substring (ir.to_lower (interval), ir.to_upper (interval)).occurrences (',') + 1
+				end
+			end
+		end
 
 	valid_factory_type (factory_type: TYPE [ANY]; conforming_target_id: INTEGER): BOOLEAN
 		do

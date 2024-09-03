@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 11:55:30 GMT (Monday 2nd September 2024)"
-	revision: "35"
+	date: "2024-09-03 12:07:10 GMT (Tuesday 3rd September 2024)"
+	revision: "36"
 
 class
 	EL_INTERNAL
@@ -212,7 +212,7 @@ feature -- Access
 			create Result.make (a_object)
 		end
 
-	type_from_string (class_type: STRING): detachable TYPE [ANY]
+	type_from_string (class_type: READABLE_STRING_GENERAL): detachable TYPE [ANY]
 		local
 			type_id: INTEGER
 		do

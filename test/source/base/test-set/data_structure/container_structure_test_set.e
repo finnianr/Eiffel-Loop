@@ -7,7 +7,7 @@ note
 		* ${EL_ARRAYED_RESULT_LIST}
 		* ${EL_ARRAYED_LIST}
 		* ${EL_QUERY_CONDITION}
-		* ${EL_RESULT_SUMMATOR}
+		* ${EL_CONTAINER_ARITHMETIC}
 		* ${EL_PREDICATE_QUERY_CONDITION}
 		* ${EL_ANY_QUERY_CONDITION}
 	]"
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:39:19 GMT (Monday 2nd September 2024)"
-	revision: "39"
+	date: "2024-09-03 10:34:08 GMT (Tuesday 3rd September 2024)"
+	revision: "40"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -50,10 +50,10 @@ feature {NONE} -- Initialization
 				["make_filtered_array",	 agent test_make_filtered_array],
 				["order_by_color_name",	 agent test_order_by_color_name],
 				["order_by_weight",		 agent test_order_by_weight],
+				["query_and_summation",	 agent test_query_and_summation],
 				["query_and_map_list",	 agent test_query_and_map_list],
-				["query_and_summator",	 agent test_query_and_summator],
 				["string_list",			 agent test_string_list],
-				["summator",				 agent test_summator]
+				["summator",				 agent test_container_sum]
 			>>)
 		end
 
@@ -312,11 +312,12 @@ feature -- Test
 			end
 		end
 
-	test_query_and_summator
-		-- CONTAINER_STRUCTURE_TEST_SET.test_query_and_summator
+	test_query_and_summation
+		-- CONTAINER_STRUCTURE_TEST_SET.test_query_and_summation
 		note
 			testing: "[
-				covers/{EL_RESULT_SUMMATOR}.sum,
+				covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting,
+				covers/{EL_INTEGER_32_RESULT}.add,
 				covers/{EL_OR_QUERY_CONDITION}.met,
 				covers/{EL_NOT_QUERY_CONDITION}.met,
 				covers/{EL_ANY_QUERY_CONDITION}.met,
@@ -354,10 +355,10 @@ feature -- Test
 			assert ("same colors", Widget_list.string_8_list (agent {WIDGET}.color_name).joined (',') ~ color_list)
 		end
 
-	test_summator
-		-- CONTAINER_STRUCTURE_TEST_SET.test_summator
+	test_container_sum
+		-- CONTAINER_STRUCTURE_TEST_SET.test_container_sum
 		note
-			testing: "covers/{EL_RESULT_SUMMATOR}.sum_meeting"
+			testing: "covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting"
 		local
 			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
 		do
@@ -387,7 +388,6 @@ feature {NONE} -- Query conditions
 		do
 			Result := agent is_character_digit
 		end
-
 
 feature {NONE} -- Implementation
 

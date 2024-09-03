@@ -1,13 +1,13 @@
 note
-	description: "Implementation of ${EL_NUMERIC_RESULT [NUMERIC]} for ${INTEGER_64}"
+	description: "Implementation of ${EL_NUMERIC_RESULT [INTEGER_64]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:44:53 GMT (Monday 2nd September 2024)"
-	revision: "1"
+	date: "2024-09-03 7:03:40 GMT (Tuesday 3rd September 2024)"
+	revision: "2"
 
 class
 	EL_INTEGER_64_RESULT

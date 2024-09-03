@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 9:25:57 GMT (Friday 30th August 2024)"
-	revision: "63"
+	date: "2024-09-03 17:39:33 GMT (Tuesday 3rd September 2024)"
+	revision: "64"
 
 class
 	REFLECTION_TEST_SET
@@ -46,9 +46,11 @@ feature {NONE} -- Initialization
 				["field_value_table",					  agent test_field_value_table],
 				["http_headers",							  agent test_http_headers],
 				["initialized_object_factory",		  agent test_initialized_object_factory],
-				["makeable_object_factory",			  agent test_makeable_object_factory],
 				["make_object_from_camel_case_table", agent test_make_object_from_camel_case_table],
 				["make_object_from_table",				  agent test_make_object_from_table],
+				["makeable_object_factory",			  agent test_makeable_object_factory],
+				["new_parameterized_item",				  agent test_new_parameterized_item],
+				["parameterized_type_id",				  agent test_parameterized_type_id],
 				["reflected_collection_factory",		  agent test_reflected_collection_factory],
 				["reflected_integer_list",				  agent test_reflected_integer_list],
 				["reflection",								  agent test_reflection],
@@ -322,7 +324,7 @@ feature -- Tests
 		end
 
 	test_initialized_object_factory
-		-- GENERAL_TEST_SET.test_initialized_object_factory
+		-- REFLECTION_TEST_SET.test_initialized_object_factory
 		note
 			testing: "covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_item_from_type"
 		local
@@ -402,6 +404,37 @@ feature -- Tests
 			else
 				failed ("vector created")
 			end
+		end
+
+	test_new_parameterized_item
+		local
+			base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]
+		do
+			if attached Hash_table_make_factory as f then
+				base_type := {EL_GROUPED_LIST_TABLE [ANY, HASHABLE]}
+				parameter_types := << {NATURAL_32}, {STRING} >>
+				if attached f.new_parameterized_type_factory (base_type, parameter_types) as table_factory then
+					if attached table_factory.new_equal_item (3) as table then
+						if attached {EL_GROUPED_LIST_TABLE [NATURAL_32, STRING]} table as list_table then
+							list_table.extend ("one", 1)
+						else
+							failed ("table type correct")
+						end
+					else
+						failed ("table created")
+					end
+				else
+					failed ("table_factory created")
+				end
+			end
+		end
+
+	test_parameterized_type_id
+		-- REFLECTION_TEST_SET.test_parameterized_type_id
+		local
+			type_id: INTEGER
+		do
+			type_id := Factory.parameterized_type_id ({EL_GROUPED_LIST_TABLE [ANY, HASHABLE]}, << {NATURAL}, {STRING} >>)
 		end
 
 	test_reflected_collection_factory
@@ -524,7 +557,7 @@ feature -- Tests
 	test_size_reporting
 		local
 			geo_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO
-			asn_string: EL_CODE_STRING; n_64: INTEGER_64; l_info: SIZE_TEST
+			asn_string: EL_CODE_STRING; n_64, expected_size: INTEGER_64; l_info: SIZE_TEST
 		do
 			create geo_info.make_from_json (JSON_eiffel_loop_ip)
 
@@ -539,7 +572,8 @@ feature -- Tests
 			lio.put_integer_field ("size of instance SIZE_TEST", Eiffel.deep_physical_size (l_info))
 			lio.put_new_line
 
-			assert ("same size", Eiffel.deep_physical_size (l_info) = Object_header_size + {PLATFORM}.Integer_64_bytes * 4)
+			expected_size := Object_header_size + {PLATFORM}.Integer_64_bytes * 4
+			assert ("same size", Eiffel.deep_physical_size (l_info) = expected_size)
 		end
 
 	test_substituted_type_id

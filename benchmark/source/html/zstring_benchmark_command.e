@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-19 15:46:58 GMT (Sunday 19th February 2023)"
-	revision: "12"
+	date: "2024-09-03 8:28:53 GMT (Tuesday 3rd September 2024)"
+	revision: "13"
 
 class
 	ZSTRING_BENCHMARK_COMMAND
@@ -35,7 +35,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				output_path.replace_extension (filter)
 				output_path.add_extension ("html")
 			end
-			create benchmark_html.make (template_path, output_path)
+			create benchmark_html.make (template_path, output_path.to_ntfs_compatible ('_'))
 		end
 
 feature -- Constants
