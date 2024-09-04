@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 17:31:29 GMT (Tuesday 3rd September 2024)"
-	revision: "10"
+	date: "2024-09-04 9:12:45 GMT (Wednesday 4th September 2024)"
+	revision: "11"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -50,6 +50,7 @@ feature {NONE} -- Initialization
 			Precursor {EL_OBJECT_FACTORY}
 			make_cache (5)
 			create factory_factory
+			create generic_type_factory_cache.make (11)
 			factory_type := {F}
 		end
 
@@ -65,16 +66,6 @@ feature -- Factory
 			end
 		end
 
-	new_parameterized_type_factory (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): detachable F
-		local
-			type_id: INTEGER
-		do
-			type_id := Factory.parameterized_type_id (base_type, parameter_types)
-			if attached new_item_factory (type_id) as factory_item then
-				Result := factory_item
-			end
-		end
-
 feature -- Status query
 
 	is_valid_type (type_id: INTEGER): BOOLEAN
@@ -83,6 +74,27 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	new_generic_type_factory (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): detachable F
+		-- factory for generic `base_type' class with generic parameters `parameter_types'
+		local
+			i, type_id: INTEGER; type_array: SPECIAL [INTEGER]
+		do
+			create type_array.make_empty (parameter_types.count)
+			from i := 1 until i > parameter_types.count loop
+				type_array.extend (parameter_types [i].type_id)
+				i := i + 1
+			end
+			if generic_type_factory_cache.has_hashed_key (base_type.type_id, type_array) then
+				Result := generic_type_factory_cache.found_item
+			else
+				type_id := Factory.parameterized_type_id (base_type, parameter_types)
+				if attached new_item_factory (type_id) as new_item then
+					Result := new_item
+					generic_type_factory_cache.extend (new_item, generic_type_factory_cache.last_key)
+				end
+			end
+		end
 
 	new_factory (factory_type_id: INTEGER): detachable F
 		local
@@ -98,6 +110,8 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
+
+	generic_type_factory_cache: EL_INTEGER_ARRAY_KEY_TABLE [F]
 
 	factory_factory: EL_OBJECT_FACTORY [F]
 

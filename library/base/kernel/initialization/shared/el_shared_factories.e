@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 17:45:46 GMT (Tuesday 3rd September 2024)"
-	revision: "9"
+	date: "2024-09-04 8:21:18 GMT (Wednesday 4th September 2024)"
+	revision: "10"
 
 deferred class
 	EL_SHARED_FACTORIES
@@ -56,9 +56,7 @@ feature {NONE} -- Factories
 			create Result
 		end
 
-	Hash_table_make_factory: EL_INITIALIZED_OBJECT_FACTORY [
-		EL_HASH_TABLE_FACTORY [HASH_TABLE [ANY, HASHABLE]], HASH_TABLE [ANY, HASHABLE]
-	]
+	Hash_table_factory: EL_INITIALIZED_HASH_TABLE_FACTORY
 		once
 			create Result
 		end

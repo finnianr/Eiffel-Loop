@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 17:39:33 GMT (Tuesday 3rd September 2024)"
-	revision: "64"
+	date: "2024-09-04 9:14:15 GMT (Wednesday 4th September 2024)"
+	revision: "65"
 
 class
 	REFLECTION_TEST_SET
@@ -410,21 +410,21 @@ feature -- Tests
 		local
 			base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]
 		do
-			if attached Hash_table_make_factory as f then
+			if attached Hash_table_factory as table_factory then
 				base_type := {EL_GROUPED_LIST_TABLE [ANY, HASHABLE]}
 				parameter_types := << {NATURAL_32}, {STRING} >>
-				if attached f.new_parameterized_type_factory (base_type, parameter_types) as table_factory then
-					if attached table_factory.new_equal_item (3) as table then
-						if attached {EL_GROUPED_LIST_TABLE [NATURAL_32, STRING]} table as list_table then
-							list_table.extend ("one", 1)
+				across 1 |..| 2 as n loop
+				-- Testing `generic_type_factory_cache.has_hashed_key' in debugger
+					if attached table_factory.new_equal_item (base_type, parameter_types, 3) as new then
+						if attached {EL_GROUPED_LIST_TABLE [NATURAL_32, STRING]} new as table then
+							table.extend ("one", 1)
+							assert ("table count is 1", table.count = 1)
 						else
 							failed ("table type correct")
 						end
 					else
 						failed ("table created")
 					end
-				else
-					failed ("table_factory created")
 				end
 			end
 		end
