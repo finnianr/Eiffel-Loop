@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 9:12:45 GMT (Wednesday 4th September 2024)"
-	revision: "11"
+	date: "2024-09-04 17:14:09 GMT (Wednesday 4th September 2024)"
+	revision: "12"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -52,6 +52,7 @@ feature {NONE} -- Initialization
 			create factory_factory
 			create generic_type_factory_cache.make (11)
 			factory_type := {F}
+			base_type := {G}
 		end
 
 feature -- Factory
@@ -75,8 +76,8 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_generic_type_factory (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): detachable F
-		-- factory for generic `base_type' class with generic parameters `parameter_types'
+	new_generic_type_factory (a_base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): detachable F
+		-- factory for generic `a_base_type' class with generic parameters `parameter_types'
 		local
 			i, type_id: INTEGER; type_array: SPECIAL [INTEGER]
 		do
@@ -85,10 +86,10 @@ feature {NONE} -- Implementation
 				type_array.extend (parameter_types [i].type_id)
 				i := i + 1
 			end
-			if generic_type_factory_cache.has_hashed_key (base_type.type_id, type_array) then
+			if generic_type_factory_cache.has_hashed_key (a_base_type.type_id, type_array) then
 				Result := generic_type_factory_cache.found_item
 			else
-				type_id := Factory.parameterized_type_id (base_type, parameter_types)
+				type_id := Factory.parameterized_type_id (a_base_type, parameter_types)
 				if attached new_item_factory (type_id) as new_item then
 					Result := new_item
 					generic_type_factory_cache.extend (new_item, generic_type_factory_cache.last_key)
@@ -96,13 +97,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_factory (factory_type_id: INTEGER): detachable F
+	new_factory (target_type_id: INTEGER): detachable F
+		-- factory to create target type with `target_type_id'
 		local
-			factory_id: INTEGER; target_type: TYPE [ANY]
+			factory_id: INTEGER
 		do
-			target_type := factory_type.generic_parameter_type (1)
-			if {ISE_RUNTIME}.type_conforms_to (factory_type_id, target_type.type_id) then
-				factory_id := Factory.substituted_type_id (factory_type, target_type, factory_type_id)
+			if {ISE_RUNTIME}.type_conforms_to (target_type_id, base_type.type_id) then
+				factory_id := Factory.substituted_type_id (factory_type, base_type, target_type_id)
+
 				if factory_id >= 0 and then factory_factory.valid_type_id (factory_id) then
 					Result := factory_factory.new_item_from_type_id (factory_id)
 				end
@@ -116,5 +118,8 @@ feature {NONE} -- Internal attributes
 	factory_factory: EL_OBJECT_FACTORY [F]
 
 	factory_type: TYPE [EL_FACTORY [G]]
+
+	base_type: TYPE [ANY]
+		-- target base type of `G'
 
 end

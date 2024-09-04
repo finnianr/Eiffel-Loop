@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 9:14:15 GMT (Wednesday 4th September 2024)"
-	revision: "65"
+	date: "2024-09-04 16:19:06 GMT (Wednesday 4th September 2024)"
+	revision: "66"
 
 class
 	REFLECTION_TEST_SET
@@ -395,11 +395,10 @@ feature -- Tests
 	test_makeable_object_factory
 		-- REFLECTION_TEST_SET.test_makeable_object_factory
 		local
-			f: EL_MAKEABLE_OBJECT_FACTORY; type: TYPE [COLUMN_VECTOR_COMPLEX_64]
+			type: TYPE [COLUMN_VECTOR_COMPLEX_64]
 		do
-			create f
 			type := {COLUMN_VECTOR_COMPLEX_64}
-			if attached {COLUMN_VECTOR_COMPLEX_64} f.new_item_from_name (type.name) as vector then
+			if attached {COLUMN_VECTOR_COMPLEX_64} Makeable_factory.new_item_from_name (type.name) as vector then
 				assert_same_string (Void, type.name, vector.generator)
 			else
 				failed ("vector created")

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-29 7:07:10 GMT (Thursday 29th August 2024)"
-	revision: "42"
+	date: "2024-09-04 16:20:02 GMT (Wednesday 4th September 2024)"
+	revision: "43"
 
 class
 	EIFFEL_TEST_SET
@@ -205,16 +205,6 @@ feature -- Basic operations
 
 				-- and so forth
 			else
-			end
-		end
-
-	create_makeable_object
-		local
-			f: EL_MAKEABLE_OBJECT_FACTORY
-		do
-			create f
-			if attached {COLUMN_VECTOR_COMPLEX_64} f.new_item_from_name ("COLUMN_VECTOR_COMPLEX_64") as vector then
-				lio.put_line ("success")
 			end
 		end
 

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 17:45:00 GMT (Tuesday 3rd September 2024)"
-	revision: "5"
+	date: "2024-09-04 15:58:38 GMT (Wednesday 4th September 2024)"
+	revision: "6"
 
 class
 	EL_FACTORY_TYPE_ID_TABLE
@@ -60,7 +60,8 @@ feature {NONE} -- Implementation
 		require else
 			valid_factory_type: valid_factory_type (key)
 		local
-			left_pos, right_pos, factory_id, target_id: INTEGER
+			interval: INTEGER_64; factory_id, target_id: INTEGER
+			s: EL_STRING_8_ROUTINES; ir: EL_INTERVAL_ROUTINES
 		do
 			factory_id := (key |>> 32).to_integer_32
 			target_id := key.to_integer_32
@@ -68,13 +69,10 @@ feature {NONE} -- Implementation
 			if attached {ISE_RUNTIME}.generating_type_of_type (factory_id) as factory_name
 				and then attached {ISE_RUNTIME}.generating_type_of_type (target_id) as target_name
 			then
-				left_pos := factory_name.index_of ('[', 1)
-				if left_pos > 0 then
-					right_pos := factory_name.index_of (']', left_pos + 1)
-					if right_pos > 0 then
-						factory_name.replace_substring (target_name, left_pos + 1, right_pos - 1)
-						Result := dynamic_type_from_string (factory_name)
-					end
+				interval := s.between_interval (factory_name, '[', ']')
+				if interval > 0 then
+					factory_name.replace_substring (target_name, ir.to_lower (interval), ir.to_upper (interval))
+					Result := dynamic_type_from_string (factory_name)
 				end
 			end
 		end

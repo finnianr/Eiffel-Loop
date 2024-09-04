@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:19 GMT (Saturday 22nd June 2024)"
-	revision: "30"
+	date: "2024-09-04 16:23:47 GMT (Wednesday 4th September 2024)"
+	revision: "31"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -97,7 +97,9 @@ feature -- Factory
 		require
 			valid_type: valid_name (class_name)
 		do
-			Result := new_item_from_type_id (Eiffel.dynamic_type_from_string (class_name))
+			if attached Eiffel.dynamic_type_from_string (class_name) as type_id then
+				Result := new_item_from_type_id (type_id)
+			end
 		end
 
 feature -- Access
