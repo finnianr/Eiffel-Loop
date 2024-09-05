@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 17:14:09 GMT (Wednesday 4th September 2024)"
-	revision: "12"
+	date: "2024-09-05 7:59:15 GMT (Thursday 5th September 2024)"
+	revision: "13"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -26,17 +26,17 @@ inherit
 			default_create, new_item_from_type_id
 		end
 
-	EL_CACHE_TABLE [detachable F, INTEGER]
+	HASH_TABLE [F, NATURAL_64]
 		rename
-			force as force_factory,
-			put as put_factory,
-			item as new_item_factory,
-			new_item as new_factory,
-			make as make_cache,
-			count as cached_count
+			make as make_factory_cache,
+			count as cached_count,
+			extend as cached_extend,
+			force as cached_force,
+			found_item as found_factory,
+			has_key as has_factory_key,
+			put as cached_put
 		export
 			{NONE} all
-			{ANY} new_item_factory
 		undefine
 			default_create
 		end
@@ -48,11 +48,11 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			Precursor {EL_OBJECT_FACTORY}
-			make_cache (5)
 			create factory_factory
-			create generic_type_factory_cache.make (11)
+			make_factory_cache (11)
 			factory_type := {F}
-			base_type := {G}
+			base_type := factory_type.generic_parameter_type (1)
+			create single_type.make_filled (0, 1)
 		end
 
 feature -- Factory
@@ -64,6 +64,30 @@ feature -- Factory
 		do
 			if attached new_item_factory (type_id) as factory_item then
 				Result := factory_item.new_item
+			end
+		end
+
+	new_item_factory (target_type_id: INTEGER): detachable F
+		-- factory to create target type with `target_type_id'
+		local
+			factory_id: INTEGER; math: EL_INTEGER_MATH; hash_key: NATURAL_64
+		do
+			single_type [0] := target_type_id
+			hash_key := math.hash_key (factory_type.type_id, single_type)
+
+			if has_factory_key (hash_key) then
+				Result := found_factory
+
+			elseif {ISE_RUNTIME}.type_conforms_to (target_type_id, base_type.type_id) then
+				factory_id := Factory.substituted_type_id (factory_type, base_type, target_type_id)
+				if factory_id >= 0 and then factory_factory.valid_type_id (factory_id) then
+					Result := factory_factory.new_item_from_type_id (factory_id)
+					cached_extend (Result, hash_key)
+				end
+			else
+				check
+					target_conforms_to_base: False
+				end
 			end
 		end
 
@@ -79,47 +103,28 @@ feature {NONE} -- Implementation
 	new_generic_type_factory (a_base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): detachable F
 		-- factory for generic `a_base_type' class with generic parameters `parameter_types'
 		local
-			i, type_id: INTEGER; type_array: SPECIAL [INTEGER]
+			type_id: INTEGER; hash_key: NATURAL_64
 		do
-			create type_array.make_empty (parameter_types.count)
-			from i := 1 until i > parameter_types.count loop
-				type_array.extend (parameter_types [i].type_id)
-				i := i + 1
-			end
-			if generic_type_factory_cache.has_hashed_key (a_base_type.type_id, type_array) then
-				Result := generic_type_factory_cache.found_item
+			hash_key := Factory.type_hash_key (a_base_type, parameter_types)
+			if has_factory_key (hash_key) then
+				Result := found_factory
 			else
 				type_id := Factory.parameterized_type_id (a_base_type, parameter_types)
 				if attached new_item_factory (type_id) as new_item then
 					Result := new_item
-					generic_type_factory_cache.extend (new_item, generic_type_factory_cache.last_key)
-				end
-			end
-		end
-
-	new_factory (target_type_id: INTEGER): detachable F
-		-- factory to create target type with `target_type_id'
-		local
-			factory_id: INTEGER
-		do
-			if {ISE_RUNTIME}.type_conforms_to (target_type_id, base_type.type_id) then
-				factory_id := Factory.substituted_type_id (factory_type, base_type, target_type_id)
-
-				if factory_id >= 0 and then factory_factory.valid_type_id (factory_id) then
-					Result := factory_factory.new_item_from_type_id (factory_id)
+					cached_extend (new_item, hash_key)
 				end
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	generic_type_factory_cache: EL_INTEGER_ARRAY_KEY_TABLE [F]
-
 	factory_factory: EL_OBJECT_FACTORY [F]
 
 	factory_type: TYPE [EL_FACTORY [G]]
 
+	single_type: SPECIAL [INTEGER]
+
 	base_type: TYPE [ANY]
-		-- target base type of `G'
 
 end

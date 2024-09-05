@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 8:32:27 GMT (Monday 2nd September 2024)"
-	revision: "14"
+	date: "2024-09-05 16:14:48 GMT (Thursday 5th September 2024)"
+	revision: "15"
 
 class
 	EL_FUNCTION_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -50,19 +50,10 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	list_extend (a_item: G)
+	list_extend (new: G)
 		-- extend group list with key `item_key (a_item)'
-		local
-			key: K
 		do
-			key := item_key (a_item)
-			if has_key (key) then
-				found_list.extend (a_item)
-			else
-				create found_list.make_empty
-				found_list.extend (a_item)
-				extend_list (found_list, key)
-			end
+			extend (item_key (new), new)
 		end
 
 	list_replace (old_item, new_item: G)
@@ -73,7 +64,8 @@ feature -- Element change
 			old_key := item_key (old_item)
 			new_key := item_key (new_item)
 			if old_key ~ new_key then
-				if has_key (old_key) and then attached found_list as list then
+				if has_key (old_key) and then attached internal_list as list then
+					list.set_area (found_area)
 					list.start
 					list.search (old_item)
 					if list.exhausted then
@@ -105,6 +97,18 @@ feature -- Removal
 				if list.is_empty then
 					remove (key)
 				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	item_list (key: K): like found_list
+		do
+			if attached item_area (key) as area then
+				Result := internal_list
+				Result.set_area (area)
+			else
+				create Result.make_empty
 			end
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 17:44:53 GMT (Tuesday 3rd September 2024)"
-	revision: "4"
+	date: "2024-09-05 8:17:24 GMT (Thursday 5th September 2024)"
+	revision: "5"
 
 class
 	EL_FACTORY_ROUTINES_IMP
@@ -36,7 +36,7 @@ feature -- Access
 			if interval > 0 then
 				left_index := ir.to_lower (interval) - 1
 				right_index := ir.to_upper (interval) + 1
-				
+
 				base_type_template [left_index] := ','; base_type_template [right_index] := ','
 				create interval_list.make (base_type_template, ',')
 				base_type_template [left_index] := '['; base_type_template [right_index] := ']'
@@ -80,6 +80,25 @@ feature -- Access
 				end
 			end
 			Result := dynamic_type_from_string (class_type)
+		end
+
+	type_hash_key (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): NATURAL_64
+		-- combine `base_type' and `parameter_types' into hash key digest
+		local
+			type_array: SPECIAL [INTEGER]; math: EL_INTEGER_MATH; i, count: INTEGER
+		do
+			count := parameter_types.count
+			if count > Type_array_table.count then
+				create type_array.make_empty (count)
+			else
+				type_array := Type_array_table [count - 1]
+				type_array.wipe_out
+			end
+			from i := 1 until i > count loop
+				type_array.extend (parameter_types [i].type_id)
+				i := i + 1
+			end
+			Result := math.hash_key (base_type.type_id, type_array)
 		end
 
 feature -- Factory
@@ -131,6 +150,18 @@ feature {NONE} -- Constants
 	Factory_type_id_table: EL_FACTORY_TYPE_ID_TABLE
 		once
 			create Result.make (17)
+		end
+
+	Type_array_table: SPECIAL [SPECIAL [INTEGER]]
+		-- table of ascending sizes of integer arrays
+		local
+			array: SPECIAL [INTEGER]
+		once
+			create Result.make_empty (5)
+			from until Result.count = Result.capacity loop
+				create array.make_filled (0, Result.count + 1)
+				Result.extend (array)
+			end
 		end
 
 end

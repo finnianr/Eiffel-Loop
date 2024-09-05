@@ -12,22 +12,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 8:58:16 GMT (Monday 2nd September 2024)"
-	revision: "6"
+	date: "2024-09-05 16:20:28 GMT (Thursday 5th September 2024)"
+	revision: "7"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
 
 inherit
-	HASH_TABLE [EL_ARRAYED_LIST [G], K]
+	HASH_TABLE [SPECIAL [G], K]
 		rename
-			item as item_list alias "[]",
-			extend as extend_list,
-			found_item as found_list,
+			item as item_area alias "[]",
+			extend as extend_area,
+			found_item as found_area,
 			linear_representation as list_of_lists
 		redefine
-			make, has_key, search
+			make, make_equal, has_key, search
 		end
+
+	EL_CONTAINER_HANDLER
 
 create
 	make, make_equal
@@ -37,8 +39,23 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			Precursor (n)
-			create default_found_list.make (0)
-			found_list := default_found_list
+			create empty_area.make_empty (0)
+			create internal_list.make (0)
+			found_area := empty_area
+		end
+
+	make_equal (n: INTEGER)
+		do
+			Precursor (n)
+			internal_list.compare_objects
+		end
+
+feature -- Access
+
+	found_list: EL_ARRAYED_LIST [G]
+		do
+			internal_list.set_area (found_area)
+			Result := internal_list.twin
 		end
 
 feature -- Status query
@@ -50,11 +67,11 @@ feature -- Status query
 		do
 			old_position := item_position
 			internal_search (key)
-			Result := found
-			if Result then
-				found_list := content.item (position)
+			if found then
+				found_area := content.item (position)
+				Result := True
 			else
-				found_list := default_found_list
+				found_area := empty_area
 			end
 			item_position := old_position
 		end
@@ -71,10 +88,8 @@ feature -- Basic operations
 		do
 			old_position := item_position
 			internal_search (key)
-			if found then
-				found_list := content.item (position)
-			else
-				found_list := default_found_list
+			if not found then
+				found_area := empty_area
 			end
 			item_position := old_position
 		end
@@ -91,23 +106,32 @@ feature -- Element change
 
 	extend (key: K; new: G)
 		local
-			new_list: like found_list
+			new_area: like found_area
 		do
-			if has_key (key) then
-				if is_set implies not found_list.has (new) then
-					found_list.extend (new)
+			if has_key (key) and then attached internal_list as list then
+				list.set_area (found_area)
+				if is_set implies not list.has (new) then
+					internal_extend (list, key, new)
 				end
 			else
-				create new_list.make (5)
-				if object_comparison then
-					new_list.compare_objects
-				end
-				new_list.extend (new)
-				extend_list (new_list, key)
+				create new_area.make_empty (5)
+				new_area.extend (new)
+				extend_area (new_area, key)
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	internal_extend (list: like found_list; key: K; new_item: G)
+		local
+			old_capacity: INTEGER
+		do
+			old_capacity := list.capacity
+			list.extend (new_item)
+			if old_capacity /= list.capacity then
+				replace (list.area, key)
+			end
+		end
 
 	is_set: BOOLEAN
 		do
@@ -115,6 +139,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	default_found_list: like found_list
+	empty_area: like found_area
+
+	internal_list: like found_list
 
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 13:34:56 GMT (Tuesday 3rd September 2024)"
-	revision: "50"
+	date: "2024-09-05 7:39:42 GMT (Thursday 5th September 2024)"
+	revision: "51"
 
 class
 	EL_TUPLE_ROUTINES

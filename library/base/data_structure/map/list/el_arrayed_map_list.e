@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 11:31:07 GMT (Friday 19th July 2024)"
-	revision: "32"
+	date: "2024-09-05 13:41:51 GMT (Thursday 5th September 2024)"
+	revision: "33"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -36,6 +36,8 @@ inherit
 		redefine
 			make, new_cursor, remove, sort_by_key, wipe_out, grow, resize, trim
 		end
+
+	EL_SHARED_FACTORIES
 
 create
 	make, make_filled, make_from, make_empty, make_from_array,
@@ -117,6 +119,28 @@ feature -- Access
 	new_cursor: EL_ARRAYED_MAP_ITERATION_CURSOR [K, G]
 		do
 			create Result.make (Current)
+		end
+
+feature -- Conversion
+
+	to_grouped_list_table: EL_GROUPED_LIST_TABLE [G, HASHABLE]
+		do
+			if attached {like to_grouped_list_table}
+				Hash_table_factory.new_item (Grouped_list_type, << {G}, {K} >>, count) as table
+			then
+				Result := table
+				fill_grouped (table)
+			end
+		end
+
+	to_grouped_set_table: EL_GROUPED_SET_TABLE [G, HASHABLE]
+		do
+			if attached {like to_grouped_set_table}
+				Hash_table_factory.new_item (Grouped_set_type, << {G}, {K} >>, count) as table
+			then
+				Result := table
+				fill_grouped (table)
+			end
 		end
 
 feature -- Value items
@@ -351,6 +375,20 @@ feature -- Type definitions
 
 feature {NONE} -- Implementation
 
+	fill_grouped (table: like to_grouped_list_table)
+		local
+			i: INTEGER
+		do
+			if attached {SPECIAL [HASHABLE]} area as key_area
+				and then attached internal_value_list.area as value_area
+			then
+				from i := 0 until i = key_area.count loop
+					table.extend (key_area [i], value_area [i])
+					i := i + 1
+				end
+			end
+		end
+
 	sort_comparables (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
 		local
 			sorted: EL_SORTED_INDEX_LIST
@@ -363,6 +401,18 @@ feature {NONE} -- Implementation
 feature {ARRAYED_LIST_ITERATION_CURSOR} -- Internal attributes
 
 	internal_value_list: EL_ARRAYED_LIST [G];
+
+feature {NONE} -- Constants
+
+	Grouped_list_type: TYPE [ANY]
+		once
+			Result := {EL_GROUPED_LIST_TABLE [ANY, HASHABLE]}
+		end
+
+	Grouped_set_type: TYPE [ANY]
+		once
+			Result := {EL_GROUPED_SET_TABLE [ANY, HASHABLE]}
+		end
 
 invariant
 	same_key_value_counts: count = internal_value_list.count

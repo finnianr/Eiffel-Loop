@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 10:34:08 GMT (Tuesday 3rd September 2024)"
-	revision: "40"
+	date: "2024-09-05 15:25:20 GMT (Thursday 5th September 2024)"
+	revision: "42"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -43,6 +43,7 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["arrayed_list_maximum", agent test_arrayed_list_maximum],
 				["arrayed_map_list",		 agent test_arrayed_map_list],
+				["arrayed_map_to_table", agent test_arrayed_map_to_table],
 				["arrayed_map_sort",		 agent test_arrayed_map_sort],
 				["arrayed_result_list",	 agent test_arrayed_result_list],
 				["circular_indexing",	 agent test_circular_indexing],
@@ -50,10 +51,10 @@ feature {NONE} -- Initialization
 				["make_filtered_array",	 agent test_make_filtered_array],
 				["order_by_color_name",	 agent test_order_by_color_name],
 				["order_by_weight",		 agent test_order_by_weight],
-				["query_and_summation",	 agent test_query_and_summation],
 				["query_and_map_list",	 agent test_query_and_map_list],
+				["query_and_summation",	 agent test_query_and_summation],
 				["string_list",			 agent test_string_list],
-				["summator",				 agent test_container_sum]
+				["container_sum",			 agent test_container_sum]
 			>>)
 		end
 
@@ -151,6 +152,38 @@ feature -- Test
 			end
 		end
 
+	test_arrayed_map_to_table
+		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_to_table
+		note
+			testing: "[
+				covers/{EL_ARRAYED_MAP_LIST}.to_grouped_list_table,
+				covers/{EL_INITIALIZED_HASH_TABLE_FACTORY}.new_item
+			]"
+		local
+			string_to_character_map: EL_ARRAYED_MAP_LIST [STRING, CHARACTER]
+			hypen_count: INTEGER
+		do
+			create string_to_character_map.make_from_values (Character_string, agent to_character_string)
+			across <<
+				string_to_character_map.to_grouped_list_table,
+				string_to_character_map.to_grouped_set_table
+			>> as table
+			loop
+				if attached {EL_GROUPED_LIST_TABLE [CHARACTER, STRING]} table.item as list_table then
+					assert ("one less", list_table.count = string_to_character_map.count - 1)
+					if list_table.has_key ("-") then
+						hypen_count := list_table.found_list.occurrences ('-')
+					-- 1. list, 2. set
+						assert ("2 hyphens", hypen_count = if table.cursor_index = 1 then 2 else 1 end)
+					else
+						failed ("hyphen found")
+					end
+				else
+					failed ("correct table type")
+				end
+			end
+		end
+
 	test_arrayed_result_list
 		note
 			testing: "[
@@ -197,6 +230,23 @@ feature -- Test
 			from i := 1 until i > list.count loop
 				assert ("same item", list.i_th (list.count - (i - 1)) = list.circular_i_th (i.opposite))
 				i := i + 1
+			end
+		end
+
+	test_container_sum
+		-- CONTAINER_STRUCTURE_TEST_SET.test_container_sum
+		note
+			testing: "covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting"
+		local
+			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
+		do
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create summator.make (container)
+					assert ("sum is 6", summator.sum_meeting (agent to_integer, is_digit) = 6 )
+				end
 			end
 		end
 
@@ -353,23 +403,6 @@ feature -- Test
 		do
 			color_list := "Red,Blue,Green,Blue,Red"
 			assert ("same colors", Widget_list.string_8_list (agent {WIDGET}.color_name).joined (',') ~ color_list)
-		end
-
-	test_container_sum
-		-- CONTAINER_STRUCTURE_TEST_SET.test_container_sum
-		note
-			testing: "covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting"
-		local
-			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
-		do
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create summator.make (container)
-					assert ("sum is 6", summator.sum_meeting (agent to_integer, is_digit) = 6 )
-				end
-			end
 		end
 
 feature {NONE} -- Query conditions

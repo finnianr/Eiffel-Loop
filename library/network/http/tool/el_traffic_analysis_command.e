@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 8:57:17 GMT (Monday 2nd September 2024)"
-	revision: "28"
+	date: "2024-09-05 16:05:58 GMT (Thursday 5th September 2024)"
+	revision: "29"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -46,7 +46,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create human_entry_list.make (500)
 			create selected_entry_list.make (0)
 			across config.page_list as page loop
-				page_table.extend_set (create {like page_table.item_set}.make (50), page.item)
+				page_table.extend_area (create {SPECIAL [NATURAL]}.make_empty (50), page.item)
 			end
 		end
 
@@ -158,12 +158,12 @@ feature {NONE} -- Implementation
 			create Result.make_from_list (agent entry_month, selected_entry_list)
 		end
 
-	print_month (entry_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY])
+	print_month (entry_list: SPECIAL [EL_WEB_LOG_ENTRY])
 		local
 			location_table: EL_COUNTER_TABLE [ZSTRING]; found: BOOLEAN
 		do
 			page_table.wipe_out_sets
-			
+
 			across entry_list as list loop
 				if attached list.item as entry then
 					found := False

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 9:12:40 GMT (Sunday 14th April 2024)"
-	revision: "16"
+	date: "2024-09-05 8:18:56 GMT (Thursday 5th September 2024)"
+	revision: "17"
 
 expanded class
 	EL_INTEGER_MATH
@@ -15,7 +15,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-feature -- Measurement
+feature -- INTEGER_64
 
 	string_size (n: INTEGER_64): INTEGER
 		do
@@ -31,6 +31,20 @@ feature -- Measurement
 	digit_count (n: INTEGER_64): INTEGER
 		do
 			Result := natural_digit_count (n.abs.to_natural_64)
+		end
+
+feature -- NATURAL_64
+
+	hash_key (n: INTEGER_32; n_array: SPECIAL [INTEGER_32]): NATURAL_64
+		-- unique digest of numbers `n' and `n_array'
+		local
+			i: INTEGER
+		do
+			Result := n.to_natural_64 * Big_prime
+			from i := 0 until i = n_array.count loop
+				Result := Result.bit_xor (n_array [i].to_natural_64) * Big_prime
+				i := i + 1
+			end
 		end
 
 	natural_digit_count (n: NATURAL_64): INTEGER
@@ -51,7 +65,7 @@ feature -- Measurement
 			definition: Result = n.out.count
 		end
 
-feature -- Access
+feature -- INTEGER_32
 
 	modulo (number, modulus: INTEGER): INTEGER
 		do
@@ -79,5 +93,9 @@ feature -- Access
 				Result := number
 			end
 		end
+
+feature {NONE} -- Constants
+
+	Big_prime: NATURAL_64 = 11400714819323198485
 
 end

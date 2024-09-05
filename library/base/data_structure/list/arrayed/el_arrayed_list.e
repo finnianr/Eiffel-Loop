@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 10:00:19 GMT (Friday 30th August 2024)"
-	revision: "71"
+	date: "2024-09-05 15:29:43 GMT (Thursday 5th September 2024)"
+	revision: "72"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -26,6 +26,8 @@ inherit
 		rename
 			make_filled as make_default_filled,
 			append as append_sequence
+		export
+			{EL_CONTAINER_HANDLER} set_area
 		undefine
 			index_of
 		redefine

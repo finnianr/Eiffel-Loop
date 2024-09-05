@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 17:00:20 GMT (Saturday 24th August 2024)"
-	revision: "191"
+	date: "2024-09-05 13:43:46 GMT (Thursday 5th September 2024)"
+	revision: "192"
 
 class
 	BASE_AUTOTEST_APP
@@ -80,7 +80,6 @@ feature {NONE} -- Compiled classes
 
 		EL_DEFERRED_CELL [ANY],
 		EL_DISCARDING_ARRAYED_LIST [ANY],
-		EL_HASHABLE_KEY_ARRAYED_MAP_LIST [HASHABLE, ANY],
 		EL_IS_DELETED_CONDITION [EL_STORABLE],
 		EL_ITERABLE_POOL_SCOPE [ANY],
 		EL_KEY_INDEXED_ARRAYED_MAP_LIST [COMPARABLE, ANY],

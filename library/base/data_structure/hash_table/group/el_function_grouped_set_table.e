@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 8:56:51 GMT (Monday 2nd September 2024)"
-	revision: "14"
+	date: "2024-09-05 15:59:14 GMT (Thursday 5th September 2024)"
+	revision: "15"
 
 class
 	EL_FUNCTION_GROUPED_SET_TABLE [G, K -> HASHABLE]
@@ -19,8 +19,7 @@ class
 inherit
 	EL_FUNCTION_GROUPED_LIST_TABLE [G, K]
 		rename
-			item_list as item_set alias "[]",
-			extend_list as extend_set,
+			item_list as item_set,
 			found_list as found_set,
 			make_equal as make_equal_with_count,
 			list_of_lists as list_of_sets,
