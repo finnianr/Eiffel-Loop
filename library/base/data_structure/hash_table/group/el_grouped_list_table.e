@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 16:20:28 GMT (Thursday 5th September 2024)"
-	revision: "7"
+	date: "2024-09-06 8:28:55 GMT (Friday 6th September 2024)"
+	revision: "8"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -26,7 +26,7 @@ inherit
 			found_item as found_area,
 			linear_representation as list_of_lists
 		redefine
-			make, make_equal, has_key, search
+			make, make_equal, has_key, new_cursor, search
 		end
 
 	EL_CONTAINER_HANDLER
@@ -54,8 +54,15 @@ feature -- Access
 
 	found_list: EL_ARRAYED_LIST [G]
 		do
-			internal_list.set_area (found_area)
-			Result := internal_list.twin
+			Result := internal_list
+			Result.set_area (found_area)
+			Result := Result.twin
+		end
+
+	new_cursor: EL_GROUPED_LIST_TABLE_ITERATION_CURSOR [G, K]
+		do
+			create Result.make (Current)
+			Result.start
 		end
 
 feature -- Status query
@@ -124,20 +131,22 @@ feature {NONE} -- Implementation
 
 	internal_extend (list: like found_list; key: K; new_item: G)
 		local
-			old_capacity: INTEGER
+			area: like item_area
 		do
-			old_capacity := list.capacity
+			area := list.area
 			list.extend (new_item)
-			if old_capacity /= list.capacity then
+			if area /= list.area then
 				replace (list.area, key)
 			end
+		ensure
+			replaced_if_bigger: list.area /= old list.area implies replaced
 		end
 
 	is_set: BOOLEAN
 		do
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_GROUPED_LIST_TABLE_ITERATION_CURSOR} -- Internal attributes
 
 	empty_area: like found_area
 

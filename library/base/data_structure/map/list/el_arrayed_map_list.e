@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 13:41:51 GMT (Thursday 5th September 2024)"
-	revision: "33"
+	date: "2024-09-06 8:57:11 GMT (Friday 6th September 2024)"
+	revision: "34"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -125,9 +125,7 @@ feature -- Conversion
 
 	to_grouped_list_table: EL_GROUPED_LIST_TABLE [G, HASHABLE]
 		do
-			if attached {like to_grouped_list_table}
-				Hash_table_factory.new_item (Grouped_list_type, << {G}, {K} >>, count) as table
-			then
+			if attached {like to_grouped_list_table} new_grouped_table (Grouped_list_type) as table then
 				Result := table
 				fill_grouped (table)
 			end
@@ -135,9 +133,7 @@ feature -- Conversion
 
 	to_grouped_set_table: EL_GROUPED_SET_TABLE [G, HASHABLE]
 		do
-			if attached {like to_grouped_set_table}
-				Hash_table_factory.new_item (Grouped_set_type, << {G}, {K} >>, count) as table
-			then
+			if attached {like to_grouped_set_table} new_grouped_table (Grouped_set_type) as table then
 				Result := table
 				fill_grouped (table)
 			end
@@ -386,6 +382,15 @@ feature {NONE} -- Implementation
 					table.extend (key_area [i], value_area [i])
 					i := i + 1
 				end
+			end
+		end
+
+	new_grouped_table (type: TYPE [ANY]): HASH_TABLE [ANY, HASHABLE]
+		do
+			if value_object_comparison then
+				Result := Hash_table_factory.new_equal_item (type, << {G}, {K} >>, count)
+			else
+				Result := Hash_table_factory.new_item (type, << {G}, {K} >>, count)
 			end
 		end
 

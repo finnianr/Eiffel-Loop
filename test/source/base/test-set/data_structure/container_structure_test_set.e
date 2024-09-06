@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 15:25:20 GMT (Thursday 5th September 2024)"
-	revision: "42"
+	date: "2024-09-06 9:21:19 GMT (Friday 6th September 2024)"
+	revision: "43"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -31,6 +31,13 @@ inherit
 	EL_ENCODING_TYPE
 
 	PRIMARY_COLOR_CONSTANTS
+
+	HEXAGRAM_STRINGS
+		rename
+			Name_list as Mandarin_name_list
+		undefine
+			default_create
+		end
 
 create
 	make
@@ -96,7 +103,6 @@ feature -- Test
 					across Character_string as str loop
 						assert ("has character->code pair", character_to_code_map.has ([str.item, str.item.natural_32_code]))
 					end
-
 					create string_to_character_map.make_from_values (container, agent to_character_string)
 					string_to_character_map.compare_objects
 
@@ -157,29 +163,36 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_ARRAYED_MAP_LIST}.to_grouped_list_table,
-				covers/{EL_INITIALIZED_HASH_TABLE_FACTORY}.new_item
+				covers/{EL_INITIALIZED_HASH_TABLE_FACTORY}.new_item,
+				covers/{EL_GROUPED_LIST_TABLE_ITERATION_CURSOR}.item
 			]"
 		local
-			string_to_character_map: EL_ARRAYED_MAP_LIST [STRING, CHARACTER]
-			hypen_count: INTEGER
+			word_count_map: like new_word_count_map_list
+			word_list, word_set: LIST [STRING]; is_word_set: BOOLEAN
+			word_count_array: ARRAY [INTEGER]; word_count: INTEGER
 		do
-			create string_to_character_map.make_from_values (Character_string, agent to_character_string)
+			word_count_map := new_word_count_map_list
+			create word_count_array.make_filled (0, 1, 20)
 			across <<
-				string_to_character_map.to_grouped_list_table,
-				string_to_character_map.to_grouped_set_table
-			>> as table
+				word_count_map.to_grouped_list_table,
+				word_count_map.to_grouped_set_table
+			>> as grouped_table
 			loop
-				if attached {EL_GROUPED_LIST_TABLE [CHARACTER, STRING]} table.item as list_table then
-					assert ("one less", list_table.count = string_to_character_map.count - 1)
-					if list_table.has_key ("-") then
-						hypen_count := list_table.found_list.occurrences ('-')
-					-- 1. list, 2. set
-						assert ("2 hyphens", hypen_count = if table.cursor_index = 1 then 2 else 1 end)
-					else
-						failed ("hyphen found")
+				is_word_set := grouped_table.cursor_index = 2
+				if attached {EL_GROUPED_LIST_TABLE [STRING, INTEGER]} grouped_table.item as word_count_table then
+					across word_count_table as table loop
+						if is_word_set then
+							word_count := table.key
+							if table.item_area.count >= word_count_array [word_count] then
+								word_set := table.item
+								failed ("fewer set items")
+							end
+						elseif word_count = 0 then
+							word_list := table.item
+						else
+							word_count_array [word_count] := table.item_area.count
+						end
 					end
-				else
-					failed ("correct table type")
 				end
 			end
 		end
@@ -434,6 +447,24 @@ feature {NONE} -- Implementation
 			Result := c.is_digit
 		end
 
+	new_word_count_map_list: EL_ARRAYED_MAP_LIST [INTEGER, STRING]
+		local
+			word_list: EL_STRING_8_LIST
+		do
+			create word_list.make (English_titles.character_count // 6)
+			across English_titles as title loop
+				across title.item.split (' ') as word loop
+					word_list.extend (word.item)
+					word_list.last.to_lower
+				end
+			end
+			word_list.do_all (agent {STRING}.prune_all_trailing (','))
+			word_list.prune_all_empty
+
+			create Result.make_from_values (word_list, agent string_count)
+			Result.compare_value_objects
+		end
+
 	new_character_container (type: INTEGER): CONTAINER [CHARACTER]
 		local
 			table: HASH_TABLE [CHARACTER, NATURAL]; tree: BINARY_SEARCH_TREE [CHARACTER]
@@ -483,6 +514,11 @@ feature {NONE} -- Implementation
 			else
 
 			end
+		end
+
+	string_count (str: STRING): INTEGER
+		do
+			Result := str.count
 		end
 
 	to_character_string (c: CHARACTER): STRING
