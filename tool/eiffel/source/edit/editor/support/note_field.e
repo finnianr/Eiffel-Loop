@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-09-08 15:29:49 GMT (Sunday 8th September 2024)"
+	revision: "5"
 
 class
 	NOTE_FIELD
@@ -22,7 +22,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: like name; a_text: like text)
+	make (a_name: IMMUTABLE_STRING_8; a_text: like text)
 		do
 			name := a_name; text := a_text
 		end
@@ -35,7 +35,7 @@ feature -- Access
 			Result.extend (Field_line_template #$ [name, text])
 		end
 
-	name: STRING
+	name: IMMUTABLE_STRING_8
 
 	text: ZSTRING
 

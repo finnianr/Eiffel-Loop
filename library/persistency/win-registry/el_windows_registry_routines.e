@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:19:46 GMT (Sunday 7th January 2024)"
-	revision: "10"
+	date: "2024-09-08 14:10:27 GMT (Sunday 8th September 2024)"
+	revision: "11"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES
@@ -15,22 +15,33 @@ class
 inherit
 	EL_MEMORY_ROUTINES
 
+	EL_STRING_GENERAL_ROUTINES
+
+	WEL_REGISTRY_ACCESS_MODE
+		export
+			{NONE} all
+		end
+
+	WEL_REGISTRY_KEY_VALUE_TYPE
+		export
+			{NONE} all
+		end
+
 feature -- Access
 
-	string (key_path: DIR_PATH; key_name: ZSTRING): ZSTRING
+	string (key_path: DIR_PATH; key_name: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Result := string_32 (key_path, key_name)
 		end
 
-	string_8 (key_path: DIR_PATH; key_name: ZSTRING): STRING
+	string_8 (key_path: DIR_PATH; key_name: READABLE_STRING_GENERAL): STRING
 		do
 			Result := string_32 (key_path, key_name)
 		end
 
-	string_32 (key_path: DIR_PATH; key_name: ZSTRING): STRING_32
+	string_32 (key_path: DIR_PATH; key_name: READABLE_STRING_GENERAL): STRING_32
 		do
-			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value
-			then
+			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value then
 				Result := value.string_value
 			else
 				create Result.make_empty
@@ -42,7 +53,7 @@ feature -- Access
 			create Result.make (key_path)
 		end
 
-	integer (key_path: DIR_PATH; key_name: ZSTRING): INTEGER
+	integer (key_path: DIR_PATH; key_name: READABLE_STRING_GENERAL): INTEGER
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value then
 				Result := value.dword_value
@@ -54,7 +65,7 @@ feature -- Access
 			create Result.make (key_path)
 		end
 
-	data (key_path: DIR_PATH; key_name: ZSTRING): MANAGED_POINTER
+	data (key_path: DIR_PATH; key_name: READABLE_STRING_GENERAL): MANAGED_POINTER
 		do
 			if attached {WEL_REGISTRY_KEY_VALUE} key_value (key_path, key_name) as value then
 				Result := value.data
@@ -82,55 +93,60 @@ feature -- Access
 
 feature -- Element change
 
-	set_string (key_path: DIR_PATH; name, value: ZSTRING)
+	set_string (key_path: DIR_PATH; name, value: READABLE_STRING_GENERAL)
 		local
-			registry_value: WEL_REGISTRY_KEY_VALUE
+			string_value: WEL_REGISTRY_KEY_VALUE
 		do
-			create registry_value.make ({WEL_REGISTRY_KEY_VALUE_TYPE}.Reg_sz, value.to_unicode)
-			set_value (key_path, name, registry_value)
+			create string_value.make (Reg_sz, to_unicode_general (value))
+			set_value (key_path, to_unicode_general (name), string_value)
 		end
 
-	set_integer (key_path: DIR_PATH; name: ZSTRING; value: INTEGER)
-		do
-			set_value (key_path, name, create {WEL_REGISTRY_KEY_VALUE}.make_with_dword_value (value))
-		end
-
-	set_binary_data (key_path: DIR_PATH; name: ZSTRING; value: MANAGED_POINTER)
+	set_integer (key_path: DIR_PATH; name: READABLE_STRING_GENERAL; value: INTEGER)
 		local
-			registry_value: WEL_REGISTRY_KEY_VALUE
+			dword_value: WEL_REGISTRY_KEY_VALUE
 		do
-			create registry_value.make_with_data ({WEL_REGISTRY_KEY_VALUE_TYPE}.Reg_binary, value)
-			set_value (key_path, name, registry_value)
+			create dword_value.make_with_dword_value (value)
+			set_value (key_path, to_unicode_general (name), dword_value)
 		end
 
-	set_value (key_path: DIR_PATH; name: ZSTRING; value: WEL_REGISTRY_KEY_VALUE)
+	set_binary_data (key_path: DIR_PATH; name: READABLE_STRING_GENERAL; value: MANAGED_POINTER)
+		local
+			binary_value: WEL_REGISTRY_KEY_VALUE
 		do
-			registry.save_key_value (key_path, name.to_unicode, value)
+			create binary_value.make_with_data (Reg_binary, value)
+			set_value (key_path, to_unicode_general (name), binary_value)
+		end
+
+	set_value (key_path: DIR_PATH; name: READABLE_STRING_GENERAL; value: WEL_REGISTRY_KEY_VALUE)
+		do
+			registry.save_key_value (key_path, to_unicode_general (name), value)
 		end
 
 feature -- Removal
 
-	remove_key_value (key_path: DIR_PATH; value_name: ZSTRING)
+	remove_key_value (key_path: DIR_PATH; value_name: READABLE_STRING_GENERAL)
 		local
-			node_ptr: POINTER;
-			l_registry: like registry
+			node_ptr: POINTER
 		do
-			l_registry := registry
-			node_ptr := l_registry.open_key_with_access (key_path, {WEL_REGISTRY_ACCESS_MODE}.Key_set_value)
-			if is_attached (node_ptr) then
-				l_registry.delete_value (node_ptr, value_name)
+			if attached registry as reg then
+				node_ptr := reg.open_key_with_access (key_path, Key_set_value)
+				if is_attached (node_ptr) then
+					reg.delete_value (node_ptr, to_unicode_general (value_name))
+					reg.close_key (node_ptr)
+				end
 			end
 		end
 
-	remove_key (parent_path: DIR_PATH; key_name: ZSTRING)
+	remove_key (parent_path: DIR_PATH; key_name: READABLE_STRING_GENERAL)
 		local
 			node_ptr: POINTER
-			l_registry: like registry
 		do
-			l_registry := registry
-			node_ptr := l_registry.open_key_with_access (parent_path, {WEL_REGISTRY_ACCESS_MODE}.Key_set_value)
-			if is_attached (node_ptr) then
-				l_registry.delete_key (node_ptr, key_name)
+			if attached registry as reg then
+				node_ptr := reg.open_key_with_access (parent_path, Key_set_value)
+				if is_attached (node_ptr) then
+					reg.delete_key (node_ptr, to_unicode_general (key_name))
+					reg.close_key (node_ptr)
+				end
 			end
 		end
 
@@ -140,19 +156,22 @@ feature -- Status query
 		local
 			node_ptr: POINTER
 		do
-			node_ptr := registry.open_key_with_access (parent_path, {WEL_REGISTRY_ACCESS_MODE}.Key_read)
-			Result := is_attached (node_ptr)
+			if attached registry as reg then
+				node_ptr := reg.open_key_with_access (parent_path, Key_read)
+				Result := is_attached (node_ptr)
+				reg.close_key (node_ptr)
+			end
 		end
 
 feature {NONE} -- Implementation
 
-	key_value (key_path: DIR_PATH; key_name: ZSTRING): detachable WEL_REGISTRY_KEY_VALUE
+	key_value (key_path: DIR_PATH; key_name: READABLE_STRING_GENERAL): detachable WEL_REGISTRY_KEY_VALUE
 		do
-			Result := registry.open_key_value (key_path, key_name)
+			Result := registry.open_key_value (key_path, to_unicode_general (key_name))
 		end
 
 	registry: WEL_REGISTRY
-			-- Do not use 'once'. Weird shit starts happening when using a shared instance
+		-- Do not use 'once'. Weird shit starts happening when using a shared instance
 		do
 			create Result
 		end

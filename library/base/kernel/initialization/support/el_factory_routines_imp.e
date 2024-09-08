@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 8:17:24 GMT (Thursday 5th September 2024)"
-	revision: "5"
+	date: "2024-09-07 11:11:57 GMT (Saturday 7th September 2024)"
+	revision: "6"
 
 class
 	EL_FACTORY_ROUTINES_IMP
@@ -83,7 +83,7 @@ feature -- Access
 		end
 
 	type_hash_key (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): NATURAL_64
-		-- combine `base_type' and `parameter_types' into hash key digest
+		-- combine `base_type' and `parameter_types' into 64-bit hash key digest
 		local
 			type_array: SPECIAL [INTEGER]; math: EL_INTEGER_MATH; i, count: INTEGER
 		do

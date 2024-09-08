@@ -12,19 +12,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-06 8:28:55 GMT (Friday 6th September 2024)"
-	revision: "8"
+	date: "2024-09-08 15:19:05 GMT (Sunday 8th September 2024)"
+	revision: "9"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
 
 inherit
-	HASH_TABLE [SPECIAL [G], K]
+	EL_HASH_TABLE [SPECIAL [G], K]
 		rename
 			item as item_area alias "[]",
+			item_for_iteration as item_area_for_iteration,
 			extend as extend_area,
 			found_item as found_area,
-			linear_representation as list_of_lists
+			item_list as item_area_list,
+			linear_representation as list_of_lists,
+			make as make_from_array,
+			make_size as make
 		redefine
 			make, make_equal, has_key, new_cursor, search
 		end
@@ -56,6 +60,13 @@ feature -- Access
 		do
 			Result := internal_list
 			Result.set_area (found_area)
+			Result := Result.twin
+		end
+
+	item_for_iteration: EL_ARRAYED_LIST [G]
+		do
+			Result := internal_list
+			Result.set_area (item_area_for_iteration)
 			Result := Result.twin
 		end
 

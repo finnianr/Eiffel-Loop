@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-28 10:43:56 GMT (Wednesday 28th June 2023)"
-	revision: "6"
+	date: "2024-09-08 7:54:07 GMT (Sunday 8th September 2024)"
+	revision: "7"
 
 deferred class
 	EL_UNINSTALL_APP [PIXMAPS -> EL_STOCK_PIXMAPS create make end]

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 13:16:36 GMT (Tuesday 3rd September 2024)"
-	revision: "25"
+	date: "2024-09-08 15:16:08 GMT (Sunday 8th September 2024)"
+	revision: "26"
 
 deferred class
 	EL_WRITABLE
@@ -121,8 +121,6 @@ feature -- String
 feature -- Other
 
 	write_any (object: ANY)
-		local
-			id: INTEGER
 		do
 			inspect Class_id.object_type_category (object)
 				when C_readable_string_8 then

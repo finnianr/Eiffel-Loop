@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:56:26 GMT (Monday 2nd September 2024)"
-	revision: "5"
+	date: "2024-09-08 15:20:42 GMT (Sunday 8th September 2024)"
+	revision: "6"
 
 class
 	EIFFEL_CONFIGURATION_INDEX_TEST_PAGE
@@ -54,7 +54,7 @@ feature {NONE} -- Implementation
 				else
 					create checksum_list.make (class_list.count)
 					checksum_list.extend (crc.checksum)
-					Checksum_list_table.extend_list (checksum_list, eiffel_config.html_index_path)
+					Checksum_list_table.extend_area (checksum_list.area, eiffel_config.html_index_path)
 				end
 				across class_list as list loop
 					e_class := list.item

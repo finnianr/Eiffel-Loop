@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:57:35 GMT (Tuesday 27th August 2024)"
-	revision: "129"
+	date: "2024-09-08 11:36:18 GMT (Sunday 8th September 2024)"
+	revision: "130"
 
 class
 	ZSTRING_TEST_SET
@@ -155,7 +155,10 @@ feature -- Conversion tests
 	test_to_general
 		-- ZSTRING_TEST_SET.test_to_general
 		note
-			testing:	"covers/{ZSTRING}.to_general", "covers/{ZSTRING}.make_from_general"
+			testing:	"[
+				covers/{ZSTRING}.to_general,
+				covers/{ZSTRING}.make_from_general
+			]"
 		local
 			test: STRING_TEST
 		do

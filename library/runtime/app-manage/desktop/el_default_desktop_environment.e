@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 15:09:57 GMT (Sunday 5th November 2023)"
-	revision: "9"
+	date: "2024-09-08 15:09:10 GMT (Sunday 8th September 2024)"
+	revision: "10"
 
 class
 	EL_DEFAULT_DESKTOP_ENVIRONMENT
@@ -33,6 +33,18 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	new_script_path (path: FILE_PATH): FILE_PATH
+		do
+			Result := path
+		end
+
+	set_compatibility_mode (mode: STRING)
+		-- set compatibility mode for Windows for registry entry. Eg. WIN7
+		do
+		end
+
+feature {NONE} -- Constants
 
 	Command_args_template: STRING = "none"
 

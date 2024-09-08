@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:34:15 GMT (Thursday 4th April 2024)"
-	revision: "32"
+	date: "2024-09-08 8:00:28 GMT (Sunday 8th September 2024)"
+	revision: "33"
 
 class
 	EL_STANDARD_UNINSTALL_APP

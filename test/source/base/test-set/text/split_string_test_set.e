@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:09:50 GMT (Saturday 24th August 2024)"
-	revision: "61"
+	date: "2024-09-08 16:01:51 GMT (Sunday 8th September 2024)"
+	revision: "62"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -21,9 +21,7 @@ inherit
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
 
-	EL_SHARED_TEST_TEXT
-
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32; EL_SHARED_STRING_8_CURSOR; EL_SHARED_TEST_TEXT
 
 create
 	make
@@ -41,6 +39,7 @@ feature {NONE} -- Initialization
 				["append_substrings",			 agent test_append_substrings],
 				["compact_zstring_list",		 agent test_compact_zstring_list],
 				["curtail_list",					 agent test_curtail_list],
+				["fill_immutable_tuple",		 agent test_fill_immutable_tuple],
 				["fill_tuple",						 agent test_fill_tuple],
 				["immutable_grid_32",			 agent test_immutable_grid_32],
 				["immutable_string_32_split",	 agent test_immutable_string_32_split],
@@ -230,6 +229,43 @@ feature -- Tests
 						end
 					end
 				end
+			end
+		end
+
+	test_fill_immutable_tuple
+		-- SPLIT_STRING_TEST_SET.test_fill_immutable_tuple
+		note
+			testing: "[
+				covers/{EL_TUPLE_ROUTINES}.fill_immutable,
+				covers/{EL_ARRAYED_LIST}.make_from_tuple,
+				covers/{EL_STRING_8_TABLE}.same_keys
+			]"
+		local
+			value_table: EL_STRING_8_TABLE [INTEGER]
+			name: TUPLE [one, two, three: IMMUTABLE_STRING_8]
+			name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+			shared_area: detachable SPECIAL [CHARACTER]
+		do
+			create name
+			Tuple.fill_immutable (name, "one, two, three")
+			create name_list.make_from_tuple (name)
+			assert ("same count", name_list.count = name.count)
+			across name_list as list loop
+				if attached cursor_8 (list.item).area as item_area then
+					if attached shared_area as area then
+						assert ("same area", area = item_area)
+					else
+						shared_area := item_area
+					end
+				end
+			end
+
+			create value_table.make_size (3)
+			across << name.one, name.two, name.three >> as list loop
+				value_table [list.item] := list.cursor_index
+			end
+			across ("one,two,three").split (',') as list loop
+				assert ("same number", value_table [list.item] = list.cursor_index)
 			end
 		end
 

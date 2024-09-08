@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 15:47:43 GMT (Monday 15th January 2024)"
-	revision: "42"
+	date: "2024-09-08 16:06:46 GMT (Sunday 8th September 2024)"
+	revision: "43"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -125,7 +125,7 @@ feature {NONE} -- Line states
 		local
 			get_field: EL_COLON_FIELD_ROUTINES
 		do
-			if get_field.name (line) ~ Field.author then
+			if get_field.name (line).same_string_general (Field.author) then
 				file_out.put_new_line
 				file_out.put_string (Default_fields.joined_lines)
 				file_out.put_new_line
@@ -155,7 +155,7 @@ feature {NONE} -- Line states
 		local
 			get_field: EL_COLON_FIELD_ROUTINES
 		do
-			if get_field.name (line) ~ Field.revision then
+			if get_field.name (line).same_string_general (Field.revision) then
 				if attached {INTEGER_REF} get_field.integer (line) as l_revision then
 					revision.set_item (l_revision)
 				end

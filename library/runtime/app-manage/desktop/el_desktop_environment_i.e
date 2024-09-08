@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:38:56 GMT (Sunday 25th August 2024)"
-	revision: "21"
+	date: "2024-09-08 15:08:53 GMT (Sunday 8th September 2024)"
+	revision: "22"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -39,6 +39,9 @@ feature {NONE} -- Initialization
 			description := installable.unwrapped_description
 			command_option_name := installable.option_name
 			menu_name := installable.name
+			if attached {EL_MAIN_INSTALLABLE_APPLICATION} installable as main then
+				set_compatibility_mode (main.compatibility_mode)
+			end
 		end
 
 	make_default
@@ -76,6 +79,10 @@ feature -- Access
 	command_path: FILE_PATH
 		do
 			Result := Directory.Application_bin + application_command
+		-- Check if launcher script exists
+			if attached new_script_path (Result) as script_path and then script_path.exists then
+				Result := script_path
+			end
 		end
 
 	description: ZSTRING
@@ -104,7 +111,18 @@ feature -- Element change
 			command_line_options.share (option_list.joined_words)
 		end
 
-feature {NONE} -- Evolicity implementation
+	set_compatibility_mode (mode: STRING)
+		-- set compatibility mode for Windows for registry entry. Eg. WIN7
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	new_script_path (a_command_path: FILE_PATH): FILE_PATH
+		-- my_app.exe -> my_app.bat (Windows)
+		-- my_app -> my_app.sh (Unix)
+		deferred
+		end
 
 	getter_function_table: like getter_functions
 			--

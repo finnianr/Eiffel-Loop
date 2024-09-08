@@ -102,8 +102,19 @@
 				<platform value = "windows"/>
 			</condition>
 		</library>
-		<!--FEATURE_CONSTANTS-->
-		<cluster name = "feature_names" location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"/>
+		<cluster name = "constants" location = "$EIFFEL_LOOP">
+			<!--FEATURE_CONSTANTS-->
+			<cluster name = "editor" location = "$|tool/eiffel/source/edit/editor/constants"/>
+			<!--REFLECTION_TEST_SET.test_enumeration-->
+			<cluster name = "taglib_enums" location = "$|library/multimedia/ID3/taglib/constants/enums">
+				<condition>
+					<platform value = "windows"/>
+				</condition>
+				<file_rule>
+					<exclude>/tl_musicbrainz_enum.e$</exclude>
+				</file_rule>
+			</cluster>
+		</cluster>
 		<cluster name = "root" location = "source/root" recursive = "true">
 			<file_rule>
 				<exclude>/imp_mswin$</exclude>

@@ -126,9 +126,19 @@ system:
 			condition:
 				platform = windows
 
-		# FEATURE_CONSTANTS
 		cluster:
-			name = feature_names; location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"
+			name = constants; location = "$EIFFEL_LOOP"
+			# FEATURE_CONSTANTS
+			sub_clusters:
+				editor = "tool/eiffel/source/edit/editor/constants"
+			# REFLECTION_TEST_SET.test_enumeration
+			sub_clusters:
+				taglib_enums = "library/multimedia/ID3/taglib/constants/enums"
+				condition:
+					platform = windows
+				file_rule:
+					exclude:
+						"/tl_musicbrainz_enum.e$"
 
 		cluster_tree:
 			root = "source/root"

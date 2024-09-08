@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-28 7:27:17 GMT (Friday 28th June 2024)"
-	revision: "9"
+	date: "2024-09-08 12:08:32 GMT (Sunday 8th September 2024)"
+	revision: "10"
 
 class
 	EL_CONSOLE_APP_MENU_DESKTOP_ENV_IMP
@@ -15,7 +15,8 @@ class
 inherit
 	EL_CONSOLE_APP_MENU_DESKTOP_ENV_I
 		undefine
-			make, application_command, Command_args_template, launch_command
+			make, application_command, install, launch_command, uninstall,
+			Command_args_template
 		end
 
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP

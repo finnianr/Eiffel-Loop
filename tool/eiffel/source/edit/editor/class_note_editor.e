@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-19 14:05:06 GMT (Monday 19th June 2023)"
-	revision: "18"
+	date: "2024-09-08 15:34:28 GMT (Sunday 8th September 2024)"
+	revision: "19"
 
 class
 	CLASS_NOTE_EDITOR
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (class_lines: EL_PLAIN_TEXT_LINE_SOURCE; default_values: EL_HASH_TABLE [ZSTRING, STRING])
+	make (class_lines: EL_PLAIN_TEXT_LINE_SOURCE; default_values: EL_HASH_TABLE [ZSTRING, IMMUTABLE_STRING_8])
 		do
 			make_notes (class_lines)
 
@@ -37,7 +37,7 @@ feature {NONE} -- Initialization
 			last_time_stamp := class_lines.date
 
 			-- Add default values for missing fields
-			if default_values.has_key (Author) and then is_owned (default_values.found_item) then
+			if default_values.has_key (Field.author) and then is_owned (default_values.found_item) then
 				across default_values as value loop
 					fields.find (value.key)
 					if fields.found then
@@ -120,7 +120,7 @@ feature -- Status query
 	is_owned (author_name: ZSTRING): BOOLEAN
 		-- `True' if class not authored by another person
 		do
-			fields.find (Author)
+			fields.find (Field.author)
 			if fields.found and then fields.item.text.count > 0 then
 				Result := author_name ~ fields.item.text
 			else
@@ -144,7 +144,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	extend_field_list (name_group: ARRAY [STRING]; list: EL_ZSTRING_LIST)
+	extend_field_list (name_group: ARRAY [IMMUTABLE_STRING_8]; list: EL_ZSTRING_LIST)
 		do
 			across name_group as name loop
 				fields.find (name.item)
@@ -166,7 +166,7 @@ feature {NONE} -- Implementation
 			]
 		end
 
-	initial_field_names: ARRAYED_LIST [STRING]
+	initial_field_names: ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
 			create Result.make (3)
 			from fields.start until fields.after or else fields.item.name ~ Field.author loop
@@ -176,8 +176,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Author: STRING = "author"
 
 	Time_template: ZSTRING
 		once

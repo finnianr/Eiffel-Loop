@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:14:27 GMT (Sunday 25th August 2024)"
-	revision: "10"
+	date: "2024-09-08 9:16:02 GMT (Sunday 8th September 2024)"
+	revision: "11"
 
 deferred class
 	EL_OS_RELEASE_I
@@ -34,6 +34,12 @@ feature -- Access
 
 	name: ZSTRING
 		deferred
+		end
+
+feature -- Status query
+
+	is_windows_7: BOOLEAN
+		do
 		end
 
 feature {NONE} -- Constants

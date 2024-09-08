@@ -5,7 +5,7 @@ note
 		
 		The English titles are read from the text file:
 		
-			$EIFFEL_LOOP/test/data/hexagrams.txt
+			$EIFFEL_LOOP/test/data/txt/hexagrams.txt
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 10:48:39 GMT (Tuesday 28th March 2023)"
-	revision: "19"
+	date: "2024-09-07 8:48:40 GMT (Saturday 7th September 2024)"
+	revision: "20"
 
 class
 	HEXAGRAM_STRINGS

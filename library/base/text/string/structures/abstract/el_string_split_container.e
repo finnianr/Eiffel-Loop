@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 18:10:26 GMT (Sunday 14th April 2024)"
-	revision: "5"
+	date: "2024-09-08 15:42:13 GMT (Sunday 8th September 2024)"
+	revision: "6"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]
@@ -146,7 +146,7 @@ feature -- Comparison
 			Result := target ~ other.target
 		end
 
-feature {NONE} -- Implementation
+feature {EL_SPLIT_READABLE_STRING_ITERATION_CURSOR} -- Implementation
 
 	default_target: like item
 		do

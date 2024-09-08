@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-06 8:28:22 GMT (Friday 6th September 2024)"
-	revision: "1"
+	date: "2024-09-07 9:06:34 GMT (Saturday 7th September 2024)"
+	revision: "2"
 
 class
 	EL_GROUPED_LIST_TABLE_ITERATION_CURSOR [G, K -> detachable HASHABLE]
 
 inherit
-	HASH_TABLE_ITERATION_CURSOR [SPECIAL [G], K]
+	EL_HASH_TABLE_ITERATION_CURSOR [SPECIAL [G], K]
 		rename
 			item as item_area
 		redefine
@@ -33,7 +33,6 @@ feature -- Access
 			Result.set_area (item_area)
 			Result := Result.twin
 		end
-
 
 feature {NONE} -- Internal attributes
 

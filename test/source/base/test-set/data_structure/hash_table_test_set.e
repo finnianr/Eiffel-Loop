@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:26:29 GMT (Tuesday 27th August 2024)"
-	revision: "42"
+	date: "2024-09-08 16:00:33 GMT (Sunday 8th September 2024)"
+	revision: "43"
 
 class
 	HASH_TABLE_TEST_SET
@@ -15,17 +15,15 @@ class
 inherit
 	EL_EQA_TEST_SET
 
+	EL_MODULE_EIFFEL; EL_MODULE_EXECUTABLE
+
 	EL_STRING_GENERAL_ROUTINES
 
 	JSON_TEST_DATA
 
-	FEATURE_CONSTANTS
-
-	EL_MODULE_EIFFEL; EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
-
 	EL_SHARED_TEST_TEXT
 
-	EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS; FEATURE_CONSTANTS
 
 create
 	make
@@ -46,7 +44,6 @@ feature {NONE} -- Initialization
 				["immutable_string_table_memory", agent test_immutable_string_table_memory],
 				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
 				["iteration_cursor",					 agent test_iteration_cursor],
-				["readable_string_8_table",		 agent test_readable_string_8_table],
 				["string_general_table",			 agent test_string_general_table],
 				["string_table",						 agent test_string_table],
 				["table_sort",							 agent test_table_sort],
@@ -412,28 +409,6 @@ feature -- Test
 						assert ("same item", list [index] = list.last)
 					end
 				end
-			end
-		end
-
-	test_readable_string_8_table
-		-- HASH_TABLE_TEST_SET.test_readable_string_8_table
-		note
-			testing: "[
-				covers/{EL_TUPLE_ROUTINES}.fill_immutable,
-				covers/{EL_STRING_8_TABLE}.same_keys
-			]"
-		local
-			value_table: EL_STRING_8_TABLE [INTEGER]
-			name: TUPLE [one, two, three: IMMUTABLE_STRING_8]
-		do
-			create name
-			Tuple.fill_immutable (name, "one, two, three")
-			create value_table.make_size (3)
-			across << name.one, name.two, name.three >> as list loop
-				value_table [list.item] := list.cursor_index
-			end
-			across ("one,two,three").split (',') as list loop
-				assert ("same number", value_table [list.item] = list.cursor_index)
 			end
 		end
 

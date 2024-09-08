@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-08 9:16:53 GMT (Sunday 8th September 2024)"
+	revision: "6"
 
 class
 	EL_OS_RELEASE_IMP
 
 inherit
 	EL_OS_RELEASE_I
+		redefine
+			is_windows_7
+		end
 
 	EL_WINDOWS_IMPLEMENTATION
 
@@ -36,5 +39,12 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	name: ZSTRING
+
+feature -- Status query
+
+	is_windows_7: BOOLEAN
+		do
+			Result := major_version = 6 and minor_version = 1
+		end
 
 end

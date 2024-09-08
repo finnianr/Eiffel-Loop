@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:38:57 GMT (Sunday 25th August 2024)"
-	revision: "18"
+	date: "2024-09-08 8:23:26 GMT (Sunday 8th September 2024)"
+	revision: "19"
 
 deferred class
 	EL_INSTALLABLE_APPLICATION
@@ -16,6 +16,8 @@ inherit
 	EL_SHARED_IMAGE_LOCATIONS
 
 	EL_APPLICATION_CONSTANTS
+
+	EL_STRING_8_CONSTANTS
 
 feature -- Access
 
@@ -31,6 +33,12 @@ feature -- Access
 		deferred
 		end
 
+	input_path_option: STRING
+		-- default input path option -file
+		do
+			Result := Standard_option.file
+		end
+
 	name: ZSTRING
 		-- short name for application
 		-- The default is a propercase name derived from `generator' name with any "APP" suffix removed
@@ -43,12 +51,6 @@ feature -- Access
 				words.remove
 			end
 			Result := words.joined_propercase_words
-		end
-
-	input_path_option: STRING
-		-- default input path option -file
-		do
-			Result := Standard_option.file
 		end
 
 	option_name: READABLE_STRING_GENERAL
@@ -128,6 +130,11 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Defaults
 
+	Default_desktop: EL_DEFAULT_DESKTOP_ENVIRONMENT
+		once
+			create Result.make_default
+		end
+
 	Default_desktop_launcher: EL_DESKTOP_MENU_ITEM
 		once
 			create Result.make_default
@@ -136,11 +143,6 @@ feature {NONE} -- Defaults
 	Default_desktop_menu_path: ARRAY [EL_DESKTOP_MENU_ITEM]
 		once
 			create Result.make_empty
-		end
-
-	Default_desktop: EL_DEFAULT_DESKTOP_ENVIRONMENT
-		once
-			create Result.make_default
 		end
 
 end

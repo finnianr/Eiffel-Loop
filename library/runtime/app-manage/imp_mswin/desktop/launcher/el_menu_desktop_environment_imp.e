@@ -1,11 +1,12 @@
 note
 	description: "Windows implementation of ${EL_MENU_DESKTOP_ENVIRONMENT_I} interface"
 	notes: "[
-		In Windows 2000, Windows XP, and Windows Server 2003, the folder is located in %userprofile%\Start Menu for individual users, 
-		or %allusersprofile%\Start Menu for all users collectively.
+		In Windows 2000, Windows XP, and Windows Server 2003, the folder is located
+		in `%userprofile%\Start Menu' for individual users, or `%allusersprofile%\Start Menu'
+		for all users collectively.
 		
-		In Windows Vista and Windows 7, the folder is located in %appdata%\Microsoft\Windows\Start Menu for individual users, 
-		or %programdata%\Microsoft\Windows\Start Menu for all users collectively.
+		In Windows Vista and Windows 7, the folder is located in `%appdata%\Microsoft\Windows\Start Menu'
+		for individual users, or `%programdata%\Microsoft\Windows\Start Menu' for all users collectively.
 		
 		The folder name Start Menu has a different name on non-English versions of Windows. 
 		Thus for example on German versions of Windows XP it is %userprofile%\Startmenü.
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-28 7:04:10 GMT (Friday 28th June 2024)"
-	revision: "18"
+	date: "2024-09-08 12:08:11 GMT (Sunday 8th September 2024)"
+	revision: "19"
 
 class
 	EL_MENU_DESKTOP_ENVIRONMENT_IMP
@@ -27,12 +28,14 @@ inherit
 		undefine
 			command_path
 		redefine
-			make
+			make, install, uninstall
 		end
 
 	EL_DESKTOP_ENVIRONMENT_IMP
 		undefine
-			make, application_command
+			application_command, make
+		redefine
+			install, uninstall
 		end
 
 	EL_MS_WINDOWS_DIRECTORIES
@@ -85,6 +88,12 @@ feature -- Basic operations
 			end
 		end
 
+	install
+		do
+			Precursor {EL_MENU_DESKTOP_ENVIRONMENT_I}
+			Precursor {EL_DESKTOP_ENVIRONMENT_IMP} -- set Windows compatibility mode
+		end
+
 	remove_menu_entry
 			--
 		do
@@ -94,6 +103,12 @@ feature -- Basic operations
 				end
 			end
 			File_system.delete_empty_branch (application_menu_dir)
+		end
+
+	uninstall
+		do
+			Precursor {EL_MENU_DESKTOP_ENVIRONMENT_I}
+			Precursor {EL_DESKTOP_ENVIRONMENT_IMP} -- remove Windows compatibility mode
 		end
 
 feature -- Element change

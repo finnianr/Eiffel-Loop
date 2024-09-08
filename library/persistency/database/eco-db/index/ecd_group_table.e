@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:34:30 GMT (Monday 2nd September 2024)"
-	revision: "6"
+	date: "2024-09-07 11:43:33 GMT (Saturday 7th September 2024)"
+	revision: "7"
 
 class
 	ECD_GROUP_TABLE [G -> EL_STORABLE, K -> HASHABLE]
@@ -26,7 +26,7 @@ inherit
 
 	ECD_INDEX [G]
 		undefine
-			copy, is_equal
+			copy, default_create, is_equal
 		end
 
 create

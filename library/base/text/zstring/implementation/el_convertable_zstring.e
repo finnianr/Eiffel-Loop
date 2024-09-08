@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 19:54:02 GMT (Saturday 31st August 2024)"
-	revision: "73"
+	date: "2024-09-08 11:39:52 GMT (Sunday 8th September 2024)"
+	revision: "74"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -154,7 +154,7 @@ feature -- To Strings
 			result_area := result_8.area
 
 			i_upper := area_upper
-			if already_latin_1 and then not has_mixed_encoding then
+			if not has_mixed_encoding and then is_compatible (to_shared_immutable_8) then
 				result_area.copy_data (area, 0, 0, count)
 
 			elseif attached unicode_table as l_unicode_table and then attached unencoded_area as area_32

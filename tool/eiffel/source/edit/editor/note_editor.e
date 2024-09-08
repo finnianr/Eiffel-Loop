@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-27 14:35:05 GMT (Friday 27th January 2023)"
-	revision: "23"
+	date: "2024-09-08 15:30:22 GMT (Sunday 8th September 2024)"
+	revision: "24"
 
 class
 	NOTE_EDITOR
@@ -128,7 +128,7 @@ feature {NONE} -- Internal attributes
 
 	author_name: ZSTRING
 
-	default_values: EL_HASH_TABLE [ZSTRING, STRING]
+	default_values: EL_HASH_TABLE [ZSTRING, IMMUTABLE_STRING_8]
 
 	manager: detachable EDIT_MANAGER
 

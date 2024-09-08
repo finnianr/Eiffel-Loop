@@ -1,13 +1,19 @@
 note
 	description: "[https://www.zlib.net/manual.html Zlib library] routines"
+	notes: "[
+		7 Sep 2024
+		
+		Confirmed that C argument type changes has not broken anything.
+		For example: `TYPED_POINTER [INTEGER_64] -> TYPED_POINTER [NATURAL_64]'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-29 15:51:55 GMT (Thursday 29th August 2024)"
-	revision: "14"
+	date: "2024-09-08 15:11:52 GMT (Sunday 8th September 2024)"
+	revision: "15"
 
 class
 	EL_ZLIB_ROUTINES_IMP

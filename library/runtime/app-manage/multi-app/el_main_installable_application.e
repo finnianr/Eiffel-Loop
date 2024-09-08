@@ -15,14 +15,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-08 8:23:35 GMT (Sunday 8th September 2024)"
+	revision: "6"
 
 deferred class
 	EL_MAIN_INSTALLABLE_APPLICATION
 
 inherit
 	EL_INSTALLABLE_APPLICATION
+
+feature -- Access
+
+	compatibility_mode: STRING
+		-- compatibility mode for Windows for registry entry. Eg. WIN7
+		deferred
+		end
+
+feature -- Status query
+
+	is_main: BOOLEAN
+		do
+			Result := True
+		end
 
 feature {NONE} -- Implementation
 

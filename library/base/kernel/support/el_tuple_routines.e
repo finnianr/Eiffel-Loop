@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:42 GMT (Thursday 5th September 2024)"
-	revision: "51"
+	date: "2024-09-08 15:43:46 GMT (Sunday 8th September 2024)"
+	revision: "52"
 
 class
 	EL_TUPLE_ROUTINES
@@ -256,7 +256,7 @@ feature -- Basic operations
 			create comma_splitter.make_shared_adjusted (csv_list, ',', {EL_SIDE}.Left)
 			across comma_splitter as list until list.cursor_index > tuple.count loop
 				if tuple_types [list.cursor_index].type_id = Class_id.IMMUTABLE_STRING_8 then
-					tuple.put_reference (list.item_copy, list.cursor_index)
+					tuple.put_reference (list.item, list.cursor_index)
 				end
 			end
 		ensure

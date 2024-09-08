@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-06 9:21:19 GMT (Friday 6th September 2024)"
-	revision: "43"
+	date: "2024-09-07 11:16:11 GMT (Saturday 7th September 2024)"
+	revision: "44"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -34,6 +34,7 @@ inherit
 
 	HEXAGRAM_STRINGS
 		rename
+			English_titles as I_ching_hexagram_titles,
 			Name_list as Mandarin_name_list
 		undefine
 			default_create
@@ -48,20 +49,21 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["arrayed_list_maximum", agent test_arrayed_list_maximum],
-				["arrayed_map_list",		 agent test_arrayed_map_list],
-				["arrayed_map_to_table", agent test_arrayed_map_to_table],
-				["arrayed_map_sort",		 agent test_arrayed_map_sort],
-				["arrayed_result_list",	 agent test_arrayed_result_list],
-				["circular_indexing",	 agent test_circular_indexing],
-				["el_linear",				 agent test_el_linear],
-				["make_filtered_array",	 agent test_make_filtered_array],
-				["order_by_color_name",	 agent test_order_by_color_name],
-				["order_by_weight",		 agent test_order_by_weight],
-				["query_and_map_list",	 agent test_query_and_map_list],
-				["query_and_summation",	 agent test_query_and_summation],
-				["string_list",			 agent test_string_list],
-				["container_sum",			 agent test_container_sum]
+				["arrayed_list_maximum",		 agent test_arrayed_list_maximum],
+				["arrayed_map_list",				 agent test_arrayed_map_list],
+				["arrayed_map_sort",				 agent test_arrayed_map_sort],
+				["arrayed_map_to_table",		 agent test_arrayed_map_to_table],
+				["arrayed_result_list",			 agent test_arrayed_result_list],
+				["circular_indexing",			 agent test_circular_indexing],
+				["container_sum",					 agent test_container_sum],
+				["el_linear",						 agent test_el_linear],
+				["function_grouped_set_table", agent test_function_grouped_set_table],
+				["make_filtered_array",			 agent test_make_filtered_array],
+				["order_by_color_name",			 agent test_order_by_color_name],
+				["order_by_weight",				 agent test_order_by_weight],
+				["query_and_map_list",			 agent test_query_and_map_list],
+				["query_and_summation",			 agent test_query_and_summation],
+				["string_list",					 agent test_string_list]
 			>>)
 		end
 
@@ -163,16 +165,20 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_ARRAYED_MAP_LIST}.to_grouped_list_table,
+				covers/{EL_ARRAYED_MAP_LIST}.to_grouped_set_table,
+				covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_generic_type_factory,
+				covers/{EL_FACTORY_ROUTINES_IMP}.type_hash_key,
+				covers/{EL_INTEGER_MATH}.hash_key,
 				covers/{EL_INITIALIZED_HASH_TABLE_FACTORY}.new_item,
 				covers/{EL_GROUPED_LIST_TABLE_ITERATION_CURSOR}.item
 			]"
 		local
 			word_count_map: like new_word_count_map_list
-			word_list, word_set: LIST [STRING]; is_word_set: BOOLEAN
-			word_count_array: ARRAY [INTEGER]; word_count: INTEGER
+			word_list: LIST [STRING]; is_word_set: BOOLEAN
+			list_counts: ARRAY [INTEGER]; word_size: INTEGER
 		do
 			word_count_map := new_word_count_map_list
-			create word_count_array.make_filled (0, 1, 20)
+			create list_counts.make_filled (0, 1, 20)
 			across <<
 				word_count_map.to_grouped_list_table,
 				word_count_map.to_grouped_set_table
@@ -181,16 +187,17 @@ feature -- Test
 				is_word_set := grouped_table.cursor_index = 2
 				if attached {EL_GROUPED_LIST_TABLE [STRING, INTEGER]} grouped_table.item as word_count_table then
 					across word_count_table as table loop
+						word_size := table.key; word_list := table.item
 						if is_word_set then
-							word_count := table.key
-							if table.item_area.count >= word_count_array [word_count] then
-								word_set := table.item
-								failed ("fewer set items")
+							inspect word_size
+								when 1, 12, 14 then -- Respective examples: "a", "inexperience", "transformation"
+									assert ("list and set equal", word_list.count = list_counts [word_size])
+							else
+							-- duplicate words have been removed
+								assert ("fewer set items", word_list.count < list_counts [word_size])
 							end
-						elseif word_count = 0 then
-							word_list := table.item
 						else
-							word_count_array [word_count] := table.item_area.count
+							list_counts [word_size] := table.item_area.count
 						end
 					end
 				end
@@ -284,6 +291,35 @@ feature -- Test
 			Widget_list.start
 			assert ("3rd position", Widget_list.index_of (Widget_list [3], 1) = 3)
 			assert ("index is 1", Widget_list.index = 1)
+		end
+
+	test_function_grouped_set_table
+		note
+			testing: "[
+				covers/{EL_ARRAYED_MAP_LIST}.to_grouped_set_table,
+				covers/{EL_FUNCTION_GROUPED_SET_TABLE}.make_equal_from_list,
+				covers/{EL_INITIALIZED_HASH_TABLE_FACTORY}.new_item,
+				covers/{EL_GROUPED_LIST_TABLE_ITERATION_CURSOR}.item
+			]"
+		local
+			word_size: INTEGER
+		do
+			if attached new_word_count_map_list.to_grouped_set_table as table
+				and then attached {EL_GROUPED_SET_TABLE [STRING, INTEGER]} table as set_table_1
+				and then attached new_grouped_word_set_table as set_table_2
+			then
+				assert ("same counts", set_table_1.count = set_table_2.count)
+				across set_table_1 as table_1 loop
+					word_size := table_1.key
+					if set_table_2.has_key (word_size) then
+						assert ("same list", table_1.item ~ set_table_2.found_set)
+					else
+						failed ("set_table_2 has word_size")
+					end
+				end
+			else
+				failed ("assign tables")
+			end
 		end
 
 	test_make_filtered_array
@@ -447,24 +483,6 @@ feature {NONE} -- Implementation
 			Result := c.is_digit
 		end
 
-	new_word_count_map_list: EL_ARRAYED_MAP_LIST [INTEGER, STRING]
-		local
-			word_list: EL_STRING_8_LIST
-		do
-			create word_list.make (English_titles.character_count // 6)
-			across English_titles as title loop
-				across title.item.split (' ') as word loop
-					word_list.extend (word.item)
-					word_list.last.to_lower
-				end
-			end
-			word_list.do_all (agent {STRING}.prune_all_trailing (','))
-			word_list.prune_all_empty
-
-			create Result.make_from_values (word_list, agent string_count)
-			Result.compare_value_objects
-		end
-
 	new_character_container (type: INTEGER): CONTAINER [CHARACTER]
 		local
 			table: HASH_TABLE [CHARACTER, NATURAL]; tree: BINARY_SEARCH_TREE [CHARACTER]
@@ -514,6 +532,31 @@ feature {NONE} -- Implementation
 			else
 
 			end
+		end
+
+	new_grouped_word_set_table: EL_FUNCTION_GROUPED_SET_TABLE [STRING, INTEGER]
+		do
+			create Result.make_equal_from_list (agent string_count, new_word_list)
+		end
+
+	new_word_count_map_list: EL_ARRAYED_MAP_LIST [INTEGER, STRING]
+		-- map word string to word size using I Ching titles
+		do
+			create Result.make_from_values (new_word_list, agent string_count)
+			Result.compare_value_objects
+		end
+
+	new_word_list: EL_STRING_8_LIST
+		do
+			create Result.make (I_ching_hexagram_titles.character_count // 6)
+			across I_ching_hexagram_titles as title loop
+				across title.item.split (' ') as word loop
+					Result.extend (word.item)
+					Result.last.to_lower
+				end
+			end
+			Result.do_all (agent {STRING}.prune_all_trailing (','))
+			Result.prune_all_empty
 		end
 
 	string_count (str: STRING): INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-09-08 15:43:26 GMT (Sunday 8th September 2024)"
+	revision: "5"
 
 class
 	EL_SPLIT_READABLE_STRING_ITERATION_CURSOR [S -> READABLE_STRING_GENERAL create make end]
@@ -37,19 +37,14 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item: S
+	item, item_copy: S
 		local
 			i: INTEGER
 		do
 			i := (index - 1) * 2
 			if attached area as a then
-				Result := target_string.substring (a [i], a [i + 1])
+				Result := target.target_substring (a [i], a [i + 1])
 			end
-		end
-
-	item_copy: S
-		do
-			Result := item.twin
 		end
 
 feature -- Measurement

@@ -1,13 +1,16 @@
 note
-	description: "Software microsoft windows reg keys"
+	description: "[
+		Sub-key of registry keys `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows'
+		or `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-09-08 9:24:50 GMT (Sunday 8th September 2024)"
+	revision: "8"
 
 class
 	EL_SOFTWARE_MICROSOFT_WINDOWS_REG_KEYS

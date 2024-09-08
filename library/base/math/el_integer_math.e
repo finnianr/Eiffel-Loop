@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 8:18:56 GMT (Thursday 5th September 2024)"
-	revision: "17"
+	date: "2024-09-07 11:13:39 GMT (Saturday 7th September 2024)"
+	revision: "18"
 
 expanded class
 	EL_INTEGER_MATH
@@ -40,9 +40,9 @@ feature -- NATURAL_64
 		local
 			i: INTEGER
 		do
-			Result := n.to_natural_64 * Big_prime
+			Result := n.to_natural_64 * Magic_prime
 			from i := 0 until i = n_array.count loop
-				Result := Result.bit_xor (n_array [i].to_natural_64) * Big_prime
+				Result := Result.bit_xor (n_array [i].to_natural_64) * Magic_prime
 				i := i + 1
 			end
 		end
@@ -96,6 +96,6 @@ feature -- INTEGER_32
 
 feature {NONE} -- Constants
 
-	Big_prime: NATURAL_64 = 11400714819323198485
+	Magic_prime: NATURAL_64 = 11400714819323198485
 
 end

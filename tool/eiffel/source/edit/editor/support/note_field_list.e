@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-09-08 15:26:12 GMT (Sunday 8th September 2024)"
+	revision: "6"
 
 class
 	NOTE_FIELD_LIST
@@ -20,14 +20,14 @@ create
 
 feature -- Basic operations
 
-	find (name: STRING)
+	find (name: IMMUTABLE_STRING_8)
 		do
 			find_first_equal (name, agent {like item}.name)
 		end
 
 feature -- Element change
 
-	set_field (name: STRING; text: ZSTRING)
+	set_field (name: IMMUTABLE_STRING_8; text: ZSTRING)
 		do
 			find (name)
 			if found then
