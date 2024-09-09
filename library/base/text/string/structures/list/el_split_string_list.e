@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 18:25:01 GMT (Sunday 14th April 2024)"
-	revision: "49"
+	date: "2024-09-08 18:51:53 GMT (Sunday 8th September 2024)"
+	revision: "50"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -32,7 +32,7 @@ inherit
 		undefine
 			do_all, do_if, find_first_equal, find_next_item, for_all, to_array, there_exists, search
 		redefine
-			make_empty, new_cursor
+			make_empty
 		end
 
 	EL_LINEAR_STRINGS [S]
@@ -53,13 +53,6 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create internal_item.make (0)
-		end
-
-feature -- Access
-
-	new_cursor: EL_SPLIT_STRING_ITERATION_CURSOR [S]
-		do
-			create Result.make (Current)
 		end
 
 feature -- Basic operations

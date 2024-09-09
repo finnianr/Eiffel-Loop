@@ -16,6 +16,7 @@ from string import Template
 from eiffel_loop.os import path
 from eiffel_loop.os import environ
 from eiffel_loop.eiffel import ise_environ
+from eiffel_loop.C_util.C_dev import MICROSOFT_COMPILER_OPTIONS
 
 from eiffel_loop.eiffel.test import TESTS
 
@@ -134,7 +135,7 @@ global environ_extra, path_extra, ise, var_eiffel, eiffel_basename, library_base
 
 ise = ise_environ.shared
 
-MSC_options = ['/x64', '/win7', '/Release']
+MSC_options = MICROSOFT_COMPILER_OPTIONS ()
 
 path_extra = []
 

@@ -757,3 +757,6 @@ Implemented EL_SHARED_SYSTEM_ERROR_TABLE as compressed by zlib
 Mon 26th Aug 2024, 18:12:06
 Improved EL_BATCH_AUTOTEST; reorganized testing for fast-cgi
 
+Sun 8th Sep 2024, 16:16:52
+Set compatibility mode in registry; Test set for Tuple.fill_immutable
+

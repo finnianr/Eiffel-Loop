@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:43:26 GMT (Sunday 8th September 2024)"
-	revision: "5"
+	date: "2024-09-08 18:48:55 GMT (Sunday 8th September 2024)"
+	revision: "6"
 
 class
 	EL_SPLIT_READABLE_STRING_ITERATION_CURSOR [S -> READABLE_STRING_GENERAL create make end]
@@ -31,7 +31,6 @@ feature {NONE} -- Initialization
 		do
 			target := t
 			empty_area := target.empty_area; area := target.area
-			target_string := target.target_string
 			index := 1; count := t.count
 		end
 
@@ -43,6 +42,7 @@ feature -- Access
 		do
 			i := (index - 1) * 2
 			if attached area as a then
+			-- calls `target_string.shared_substring (lower, upper)' for immutable strings
 				Result := target.target_substring (a [i], a [i + 1])
 			end
 		end
@@ -68,5 +68,4 @@ feature {NONE} -- Internal attributes
 
 	target: EL_SPLIT_READABLE_STRING_LIST [S]
 
-	target_string: S
 end

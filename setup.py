@@ -29,7 +29,7 @@ python "%script_name%" %*
 
 python_home_dir = os.path.dirname (os.path.realpath (sys.executable))
 
-script_path = path.normpath ('tool/python-support/eiffel_loop/scripts/%s.py')
+script_path = path.normpath ('python-support/eiffel_loop/scripts/%s.py')
 
 script_names = [
 	'launch_estudio',
@@ -68,7 +68,7 @@ setup (
 		'eiffel_loop.scripts', 
 		'eiffel_loop.xml'
 	],
-	package_dir = {'' : 'tool/python-support'},
+	package_dir = {'' : 'python-support'},
 	scripts = script_list
 )
 if sys.platform == 'win32':

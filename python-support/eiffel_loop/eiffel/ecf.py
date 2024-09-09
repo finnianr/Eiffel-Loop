@@ -57,7 +57,7 @@ class SYSTEM_VERSION (object):
 	def compact (self):
 		return "%02d_%02d_%02d" % (int (self.major), int (self.minor), int (self.release))
 
-# end class SYSTEM_VERSION		
+# end SYSTEM_VERSION		
 
 class LIBRARY (object):
 # Description: ecf library context
@@ -103,7 +103,7 @@ class LIBRARY (object):
 	def is_ise (self):
 		return self.location ().startswith ('$ISE_')
 
-# end class LIBRARY
+# end LIBRARY
 
 class EXTERNAL_OBJECT (LIBRARY):
 # Description: ecf external object
@@ -188,7 +188,7 @@ class EXTERNAL_OBJECT (LIBRARY):
 		result = self.platform == platform and self.is_multithreaded
 		return result
 
-# end class EXTERNAL_OBJECT
+# end EXTERNAL_OBJECT
 
 class SYSTEM_INFO (object):
 
@@ -273,7 +273,7 @@ class SYSTEM_INFO (object):
 			result [ctx.attribute ("@name")] = path.expandvars (location)
 		return result
 
-# end class SYSTEM_INFO
+# end SYSTEM_INFO
 
 class EIFFEL_CONFIG_FILE (object):
 
@@ -373,6 +373,6 @@ class EIFFEL_CONFIG_FILE (object):
 				result.append (external)
 		return result
 
-# end class EIFFEL_CONFIG_FILE
+# end EIFFEL_CONFIG_FILE
 
 

@@ -19,13 +19,57 @@ if sys.platform == "win32":
 def ascii (value):
 	return value.encode ('ascii')
 
+class MICROSOFT_COMPILER_OPTIONS (object):
+
+# From "Microsoft SDKs\Windows\v7.1\Bin\SetEnv.Cmd" (See notes below)
+
+	Valid_architectures = ['x86', 'x64', 'ia64']
+
+	Valid_build_types = ['Debug', 'Release']
+
+	Valid_compatibility_options = ['2003', '2008', 'vista', 'win7', 'xp']
+
+# Initialization
+	def __init__ (self, architecture = 'x64', build_type = 'Release', compatibility = 'win7'):
+		# default switches: /win7 /x64 /Release
+
+		self.architecture = architecture
+		self.build_type = build_type
+		self.compatibility = compatibility
+
+# Status query
+	def is_x86_architecture (self):
+		return self.architecture == self.Valid_architectures [0]
+
+# Element change
+	def set_architecture (self, architecture):
+		assert (architecture in self.Valid_architectures)
+		self.architecture = architecture
+
+	def set_build_type (self, build_type):
+		assert (build_type in self.Valid_build_types)
+		self.build_type = build_type
+
+	def set_compatibility (self, compatibility):
+		assert (compatibility in self.Valid_compatibility_options)
+		self.compatibility = compatibility
+
+# Conversion
+	def as_switch_string (self):
+		# command switches string
+		result = []
+		for arg in list (self.__dict__.values ()):
+			result.append ('/' + arg)
+
+		return ' '.join (result)
+
+#end MICROSOFT_COMPILER_OPTIONS
+
 class MICROSOFT_SDK (object):
 	# Compiler SDK
 	# Quick help on SetEnv.Cmd and vcvarsall.bat for various SDK versions below
 
 # Constants
-	Arch_suffix = ['86', '64'] # possible endings for architecture option
-
 	Key_sdk_windows = r'SOFTWARE\Microsoft\Microsoft SDKs\Windows'
 
 	Key_visual_studio = r'SOFTWARE\WOW6432Node\Microsoft\VisualStudio'
@@ -42,16 +86,6 @@ class MICROSOFT_SDK (object):
 	def __init__ (self, MSC_options):
 		self.MSC_options = MSC_options
 		self.local_machine = REGISTRY_NODE (_winreg.HKEY_LOCAL_MACHINE)
-
-		self.arch_option = None
-		for option in self.MSC_options:
-			if self.is_arch_option (option):
-				self.arch_option = option
-				break
-
-		if not self.arch_option:
-			print "Invalid architecture option: " + ' '.join (self.MSC_options)
-			exit (1)
 
 		if ise.msvc_version == ise.Default_msvc_version:
 			# Default to Windows SDK
@@ -75,7 +109,7 @@ class MICROSOFT_SDK (object):
 		# captured from output of script: setenv.cmd (MS SDK) OR vcvarsall.bat (VisualStudio)
 
 		result = {}
-		arg_str = ' '.join (self.MSC_options)
+		arg_str = self.MSC_options.as_switch_string ()
 	
 		# create script to obtain modified OS environment variables
 		f = open (self.Set_compiler_env_bat, 'w')
@@ -95,7 +129,7 @@ class MICROSOFT_SDK (object):
 			# check if output is help text
 			for usage in ['Usage:', 'usage.']:
 				if line.find (usage) >= 0:
-					print "ERROR Invalid MSC option: " + ' '.join (self.MSC_options)
+					print "ERROR Invalid MSC option: " + arg_str
 					exit (1)
 
 			pos_equal = line.find ('=') 
@@ -111,10 +145,9 @@ class MICROSOFT_SDK (object):
 
 		return result
 
-#Status query
+# Status query
 	def is_x86_cpu (self):
-		result = self.arch_option.endswith (self.Arch_suffix [0])
-		return result
+		return self.MSC_options.is_x86_architecture ()
 
 # Implementation
 
@@ -128,14 +161,6 @@ class MICROSOFT_SDK (object):
 	def reg_value (self, key_path, name = None):
 		self.local_machine.key_path = key_path
 		return self.local_machine.value (name)
-
-	def is_arch_option (self, option):
-		# True if option is an architecture
-		result = False
-		for suffix in self.Arch_suffix:
-			if option.endswith (suffix):
-				result = True
-		return result
 
 	def vs_dev_cmd_path (self):
 		result = self.reg_value (self.Key_devenv_exe)
@@ -164,9 +189,11 @@ class MICROSOFT_SDK (object):
 # 
 # 	/Debug   - Create a Debug configuration build environment
 # 	/Release - Create a Release configuration build environment
+
 # 	/x86     - Create 32-bit x86 applications
 # 	/x64     - Create 64-bit x64 applications
 # 	/ia64    - Create 64-bit ia64 applications
+
 # 	/vista   - Windows Vista applications
 # 	/xp      - Create Windows XP SP2 applications
 # 	/2003    - Create Windows Server 2003 applications
