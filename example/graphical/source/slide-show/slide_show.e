@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-09-09 9:37:08 GMT (Monday 9th September 2024)"
+	revision: "8"
 
 class
 	SLIDE_SHOW
@@ -73,7 +73,7 @@ feature {NONE} -- Factory
 	new_name_font: EV_FONT
 		do
 			create Result.make_with_values (
-				Text.Family_sans, Text.Weight_regular, Text.Shape_italic, font_height * 2 // 3
+				Text_.Family_sans, Text_.Weight_regular, Text_.Shape_italic, font_height * 2 // 3
 			)
 			Result.preferred_families.extend (title_font)
 		end
@@ -85,7 +85,7 @@ feature {NONE} -- Factory
 
 	new_theme_font: EV_FONT
 		do
-			create Result.make_with_values (Text.Family_sans, Text.Weight_bold, Text.Shape_regular, font_height)
+			create Result.make_with_values (Text_.Family_sans, Text_.Weight_bold, Text_.Shape_regular, font_height)
 			Result.preferred_families.extend (title_font)
 		end
 

@@ -2,8 +2,8 @@
 #	copyright: "Copyright (c) 2001-2021 Finnian Reilly"
 #	contact: "finnian at eiffel hyphen loop dot com"
 #	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-#	date: "20 April 2021"
-#	revision: "0.2"
+#	date: "9 Sep 2024"
+#	revision: "3"
 
 import os, subprocess, sys
 from os import path

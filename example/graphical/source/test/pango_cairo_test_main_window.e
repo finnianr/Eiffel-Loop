@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-03 13:23:37 GMT (Saturday 3rd August 2024)"
-	revision: "36"
+	date: "2024-09-09 9:36:55 GMT (Monday 9th September 2024)"
+	revision: "37"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -186,7 +186,7 @@ feature {NONE} -- Factory
 
 	new_font_query: EL_COMPACT_ZSTRING_LIST
 		do
-			Result := Text.Pango_font_families.new_query_list (font_width_bitmap, font_type_bitmap, excluded_char_sets)
+			Result := Text_.Pango_font_families.new_query_list (font_width_bitmap, font_type_bitmap, excluded_char_sets)
 		end
 
 	new_style_options_box: EL_HORIZONTAL_BOX
@@ -304,7 +304,7 @@ feature {NONE} -- Implementation
 
 	display_fonts
 		do
-			lio.put_integer_field ("EL_FONT_FAMILIES_I memory saving", Text.Font_families.space_saving_percent)
+			lio.put_integer_field ("EL_FONT_FAMILIES_I memory saving", Text_.Font_families.space_saving_percent)
 			lio.put_character ('%%')
 			lio.put_new_line_x2
 			lio.put_labeled_string ("Selected family", font_family)
