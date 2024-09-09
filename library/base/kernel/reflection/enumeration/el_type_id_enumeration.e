@@ -8,11 +8,11 @@ note
 
 		A double underscore indicates a type with a generic parameter. For example:
 		
-			ARRAYED_LIST__ANY: INTEGER
+			HASH_TABLE__ANY__HASHABLE: INTEGER
 		
 		will be assigned the type id for:
 		
-			ARRAYED_LIST [ANY]
+			HASH_TABLE [ANY, HASHABLE]
 			
 		Only one parameter can be interpreted.
 	]"
@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 14:51:57 GMT (Monday 26th August 2024)"
-	revision: "13"
+	date: "2024-09-09 15:33:02 GMT (Monday 9th September 2024)"
+	revision: "14"
 
 class
 	EL_TYPE_ID_ENUMERATION
@@ -39,19 +39,16 @@ feature {NONE} -- Initialization
 	make
 		local
 			type_id: INTEGER; this: REFLECTED_REFERENCE_OBJECT
-			i, count, index: INTEGER; type_name: STRING
+			i, count: INTEGER; type_name: STRING
 		do
 			create this.make (Current)
 			count := this.field_count
 			from i := 1 until i > count loop
 				if this.field_type (i) = Integer_32_type then
 					type_name := this.field_name (i).as_upper
-				-- Check for generic parameter
-					index := type_name.substring_index (Double_underscore, 1)
-					if index > 0 then
+					if type_name.has_substring (Double_underscore) then
 					-- add generic parameter
-						type_name.replace_substring (Left_square_bracket, index, index + 1)
-						type_name.append_character (']')
+						type_name := generic_type_name (type_name)
 					end
 					type_id := dynamic_type_from_string (type_name)
 					if type_id >= 0 then
@@ -81,6 +78,30 @@ feature {NONE} -- Contract Support
 			from i := 1 until not Result or else i > count loop
 				Result := this.field_type (i) = Integer_32_type implies this.integer_32_field (i) >= 0
 				i := i + 1
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	generic_type_name (type_name: STRING): STRING
+		local
+			part_list: EL_SPLIT_STRING_8_LIST
+		do
+			create Result.make (type_name.count + 1)
+			create part_list.make_by_string (type_name, Double_underscore)
+			across part_list as list loop
+				if list.cursor_index = 2 then
+					Result.append_character (' ')
+					Result.append_character ('[')
+
+				elseif list.cursor_index > 2 then
+					Result.append_character (',')
+					Result.append_character (' ')
+				end
+				Result.append (list.item)
+				if list.is_last then
+					Result.append_character (']')
+				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 16:19:06 GMT (Wednesday 4th September 2024)"
-	revision: "66"
+	date: "2024-09-09 13:48:47 GMT (Monday 9th September 2024)"
+	revision: "67"
 
 class
 	REFLECTION_TEST_SET
@@ -406,6 +406,7 @@ feature -- Tests
 		end
 
 	test_new_parameterized_item
+		-- REFLECTION_TEST_SET.test_new_parameterized_item
 		local
 			base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]
 		do

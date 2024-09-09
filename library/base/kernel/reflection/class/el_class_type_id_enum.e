@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 13:18:26 GMT (Tuesday 3rd September 2024)"
-	revision: "34"
+	date: "2024-09-09 15:34:47 GMT (Monday 9th September 2024)"
+	revision: "35"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -192,6 +192,9 @@ feature -- Generic types
 
 	COLLECTION__ANY: INTEGER
 		-- COLLECTION [ANY]
+
+	HASH_TABLE__ANY__HASHABLE: INTEGER
+		-- HASH_TABLE [ANY, HASHABLE]
 
 	EL_MAKEABLE_FROM_STRING__STRING_GENERAL: INTEGER
 		-- EL_MAKEABLE_FROM_STRING [STRING_GENERAL]

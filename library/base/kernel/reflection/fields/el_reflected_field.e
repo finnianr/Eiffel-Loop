@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 12:17:59 GMT (Sunday 25th August 2024)"
-	revision: "64"
+	date: "2024-09-09 14:11:59 GMT (Monday 9th September 2024)"
+	revision: "65"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -29,6 +29,12 @@ feature {EL_CLASS_META_DATA} -- Initialization
 			object_type := {ISE_RUNTIME}.dynamic_type (a_object)
 			type_id := field_static_type (index)
 			type := Eiffel.type_of_type (type_id)
+			post_make
+		end
+
+	post_make
+		-- initialization after types have been set
+		do
 		end
 
 feature -- Names

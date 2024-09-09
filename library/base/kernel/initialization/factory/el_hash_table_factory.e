@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 17:35:50 GMT (Tuesday 3rd September 2024)"
-	revision: "8"
+	date: "2024-09-09 14:03:02 GMT (Monday 9th September 2024)"
+	revision: "9"
 
 class
 	EL_HASH_TABLE_FACTORY [G -> HASH_TABLE [ANY, HASHABLE] create make, make_equal end]
@@ -36,9 +36,8 @@ feature -- Access
 			create Result.make (n)
 		end
 
-feature {NONE} -- Initialization
-
 	new_default_item: G
 		do
+			Result := new_equal_item (0)
 		end
 end

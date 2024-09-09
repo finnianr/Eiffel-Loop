@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:10:07 GMT (Thursday 5th September 2024)"
-	revision: "37"
+	date: "2024-09-09 15:39:53 GMT (Monday 9th September 2024)"
+	revision: "38"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -17,7 +17,7 @@ inherit
 		rename
 			value as collection
 		redefine
-			append_to_string, group_type, make, is_abstract, is_storable_type, new_factory,
+			append_to_string, group_type, post_make, is_abstract, is_storable_type, new_factory,
 			set_from_memory, set_from_string, to_string, write
 		end
 
@@ -32,16 +32,16 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER_32; a_name: IMMUTABLE_STRING_8)
+	post_make
 		require else
 			is_string_convertible: Convert_string.has (({G}).type_id)
 		do
 			item_type_id := ({G}).type_id
-			Precursor (a_object, a_index, a_name)
+			Precursor
 
 			if New_instance_table.has_key (item_type_id)
 				and then attached {FUNCTION [G]} New_instance_table.found_item as new_instance_function
-				and then new_instance_function.target.same_type (a_object)
+				and then new_instance_function.target.generating_type ~ object_type
 			then
 				new_item_function := new_instance_function
 			end
@@ -228,7 +228,14 @@ feature {NONE} -- Implementation
 
 	new_factory: detachable EL_FACTORY [COLLECTION [G]]
 		do
-			if attached {EL_FACTORY [COLLECTION [G]]} Arrayed_list_factory.new_item_factory (type_id) as f then
+			if Eiffel.field_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY) and then
+				attached {EL_FACTORY [COLLECTION [G]]} Arrayed_list_factory.new_item_factory (type_id) as f
+			then
+				Result := f
+
+			elseif Eiffel.field_conforms_to (type_id, Class_id.HASH_TABLE__ANY__HASHABLE) and then
+				attached {EL_FACTORY [COLLECTION [G]]} Hash_table_factory.new_item_factory (type_id) as f
+			then
 				Result := f
 			else
 				Result := Precursor
@@ -277,6 +284,9 @@ feature {NONE} -- Implementation
 
 feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
+	collection_type: NATURAL_8
+		-- abstract collection type
+
 	reader_writer: detachable EL_READER_WRITER_INTERFACE [G]
 		-- item reader/writer
 
@@ -285,6 +295,10 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 		-- (Example in class `FTP_BACKUP_COMMAND')
 
 feature {NONE} -- Constants
+
+	Type_arrayed_list: NATURAL_8 = 1
+
+	Type_hash_table: NATURAL_8 = 2
 
 	Is_abstract: BOOLEAN = True
 		-- `True' if field type is deferred

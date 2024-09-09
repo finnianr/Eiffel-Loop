@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 19:48:41 GMT (Saturday 22nd July 2023)"
-	revision: "10"
+	date: "2024-09-09 15:59:38 GMT (Monday 9th September 2024)"
+	revision: "11"
 
 class
 	CONSOLE_LOGGING_FOURIER_MATH_SERVER_APP
@@ -31,6 +31,9 @@ feature {NONE} -- Installer constants
 		do
 			create Result.make_empty
 		end
+
+	Compatibility_mode: STRING = "WIN7"
+		-- compatibility mode for Windows for registry entry. Eg. WIN7
 
 	Desktop: EL_DESKTOP_ENVIRONMENT_I
 			--

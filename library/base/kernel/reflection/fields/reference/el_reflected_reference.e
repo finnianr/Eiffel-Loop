@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:10:16 GMT (Thursday 5th September 2024)"
-	revision: "48"
+	date: "2024-09-09 14:14:44 GMT (Monday 9th September 2024)"
+	revision: "49"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -19,7 +19,7 @@ inherit
 			abstract_type as Reference_type,
 			reference_value as value
 		redefine
-			initialize, make, value, is_initialized, set_from_memory, write_to_memory
+			initialize, post_make, value, is_initialized, set_from_memory, write_to_memory
 		end
 
 	EL_SHARED_READER_WRITER_TABLE
@@ -28,9 +28,8 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+	post_make
 		do
-			Precursor (a_object, a_index, a_name)
 			if attached {EL_READER_WRITER_INTERFACE [G]} Reader_writer_table.item (type_id) as extra then
 				reader_writer_extra := extra
 			end

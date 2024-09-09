@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 12:34:50 GMT (Monday 26th August 2024)"
-	revision: "40"
+	date: "2024-09-09 14:26:39 GMT (Monday 9th September 2024)"
+	revision: "41"
 
 class
 	EL_REFLECTED_TUPLE
@@ -16,7 +16,7 @@ inherit
 	EL_REFLECTED_REFERENCE [TUPLE]
 		redefine
 			is_initializeable, is_abstract, is_storable_type,
-			make, write, new_instance, reset,
+			post_make, write, new_instance, reset,
 			set_from_memory, set_from_readable, set_from_string, to_string,
 			write_crc, write_to_memory
 		end
@@ -37,12 +37,11 @@ create
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+	post_make
 		do
-			object_type := {ISE_RUNTIME}.dynamic_type (a_object) -- required for `field_static_type'
-			create member_types.make_from_static (field_static_type (a_index))
+			create member_types.make_from_static (type_id)
 			factory_array := new_factory_array
-			Precursor (a_object, a_index, a_name)
+			Precursor
 		end
 
 feature -- Access

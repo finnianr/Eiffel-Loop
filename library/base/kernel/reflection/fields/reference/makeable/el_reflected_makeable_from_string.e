@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "20"
+	date: "2024-09-09 14:22:37 GMT (Monday 9th September 2024)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
@@ -17,7 +17,7 @@ inherit
 		undefine
 			set_from_readable, write
 		redefine
-			is_abstract, is_initializeable, group_type, make, reset,
+			is_abstract, is_initializeable, group_type, post_make, reset,
 			set_from_string, set_from_readable, to_string
 		end
 
@@ -25,9 +25,9 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+	post_make
 		do
-			Precursor (a_object, a_index, a_name)
+			Precursor
 			makeable_from_string_type_id := ({MAKEABLE}).type_id
 		end
 
