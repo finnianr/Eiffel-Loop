@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:08:53 GMT (Sunday 8th September 2024)"
-	revision: "22"
+	date: "2024-09-09 16:25:20 GMT (Monday 9th September 2024)"
+	revision: "23"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			command_option_name := installable.option_name
 			menu_name := installable.name
 			if attached {EL_MAIN_INSTALLABLE_APPLICATION} installable as main then
-				set_compatibility_mode (main.compatibility_mode)
+				set_compatibility_mode (Build_info.compatibility_mode)
 			end
 		end
 

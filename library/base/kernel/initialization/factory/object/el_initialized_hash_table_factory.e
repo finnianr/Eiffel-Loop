@@ -1,13 +1,13 @@
 note
-	description: "Initialized hash table factory"
+	description: "${EL_INITIALIZED_OBJECT_FACTORY} for types conforming to ${HASH_TABLE [ANY, HASHABLE]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 17:00:25 GMT (Wednesday 4th September 2024)"
-	revision: "2"
+	date: "2024-09-11 9:18:47 GMT (Wednesday 11th September 2024)"
+	revision: "3"
 
 class
 	EL_INITIALIZED_HASH_TABLE_FACTORY

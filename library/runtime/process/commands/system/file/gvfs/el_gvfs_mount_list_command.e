@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 9:10:16 GMT (Tuesday 9th July 2024)"
-	revision: "22"
+	date: "2024-09-10 8:51:59 GMT (Tuesday 10th September 2024)"
+	revision: "23"
 
 class
 	EL_GVFS_MOUNT_LIST_COMMAND
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create uri_table.make_equal (3)
+		--	`uri_table' created reflectively
 			left_adjusted := True
 			Precursor
 		end

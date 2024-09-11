@@ -99,11 +99,11 @@ def convert_pecf_to_xml (pecf_path):
 		print "Error converting %s to XML" % (pecf_path)
 	return result
 
-def set_build_environment (config, set_MSC=True):
+def set_build_environment (config, set_MSC = True):
 	# set build environment from `project.py' config
 
 	if sys.platform == 'win32' and set_MSC and config.MSC_options:
-		print 'Configuring environment for MSC_options: ' + ' '.join (config.MSC_options)
+		print 'Configuring environment for MSC_options: ' + config.MSC_options.as_switch_string ()
 		print "ise.msvc_version", ise.msvc_version
 
 		sdk = C_dev.MICROSOFT_SDK (config.MSC_options)

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 8:38:28 GMT (Tuesday 3rd September 2024)"
-	revision: "16"
+	date: "2024-09-11 12:16:53 GMT (Wednesday 11th September 2024)"
+	revision: "17"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -20,6 +20,8 @@ inherit
 	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
 
 	EL_MODULE_ITERABLE
+
+	EL_SHARED_FACTORIES
 
 feature -- Access
 
@@ -60,17 +62,6 @@ feature -- Queries
 			Result := query (condition)
 		end
 
-	query_not_in (other: CONTAINER [G]): like query
-		-- all items in `Current' not in `other'
-		require
-			same_comparison: object_comparison = other.object_comparison
-		local
-			other_has_item: EL_CONTAINER_HAS_QUERY_CONDITION [G]
-		do
-			create other_has_item.make (other)
-			Result := query (not other_has_item)
-		end
-
 	query_in, intersection (other: CONTAINER [G]): like query
 		-- all items in `Current' that are also in `other'
 		require
@@ -92,6 +83,17 @@ feature -- Queries
 		do
 			create condition.make (target_value, value)
 			Result := query (condition)
+		end
+
+	query_not_in (other: CONTAINER [G]): like query
+		-- all items in `Current' not in `other'
+		require
+			same_comparison: object_comparison = other.object_comparison
+		local
+			other_has_item: EL_CONTAINER_HAS_QUERY_CONDITION [G]
+		do
+			create other_has_item.make (other)
+			Result := query (not other_has_item)
 		end
 
 feature -- Measurement
@@ -124,19 +126,53 @@ feature -- Conversion
 		end
 
 	to_special: SPECIAL [G]
-		local
-			one_extra: INTEGER
 		do
-			if attached {TO_SPECIAL [G]} current_container as special
-				and then attached {FINITE [G]} special as finite
-				and then attached special.area as area
+			Result := new_special (False)
+		end
+
+feature -- Function result list
+
+	derived_list (to_value: FUNCTION [G, ANY]): EL_ARRAYED_LIST [ANY]
+		local
+			i, i_final: INTEGER
+		do
+			if attached Arrayed_list_factory.new_result_list (to_value, current_count) as list
+				and then attached new_special (True) as l_area
 			then
-			-- one extra for string null terminator
-				one_extra := (attached {STRING_GENERAL} special).to_integer
-				Result := area.aliased_resized_area (finite.count + one_extra)
+				i_final := list.capacity
+				from i := 0 until i = i_final loop
+					list.extend (to_value (l_area [i]))
+					i := i + 1
+				end
+				Result := list
 			else
-				create Result.make_empty (current_count)
-				do_for_all (agent extend_special (?, Result))
+				create Result.make_empty
+			end
+		end
+
+	derived_list_if (to_value: FUNCTION [G, ANY]; condition: EL_PREDICATE_QUERY_CONDITION [G]): EL_ARRAYED_LIST [ANY]
+		do
+			Result := derived_list_meeting (to_value, condition)
+		end
+
+	derived_list_meeting (to_value: FUNCTION [G, ANY]; condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [ANY]
+		local
+			i, i_final: INTEGER
+		do
+			if attached Arrayed_list_factory.new_result_list (to_value, current_count) as list
+				and then attached new_special (True) as l_area
+			then
+				i_final := list.capacity
+				from i := 0 until i = i_final loop
+					if attached l_area [i] as item and then condition.met (item) then
+						list.extend (to_value (item))
+					end
+					i := i + 1
+				end
+				list.trim
+				Result := list
+			else
+				create Result.make_empty
 			end
 		end
 
@@ -146,33 +182,36 @@ feature -- String result list
 			-- list of strings `to_string_32 (item)' for all items in `Current'
 		require
 			valid_value_function: container_item.is_valid_for (to_string_32)
-		local
-			result_list: EL_ARRAYED_RESULT_LIST [G, STRING_32]
 		do
-			create result_list.make (current_container, to_string_32)
-			create Result.make_from_array (result_list.to_array)
+			if attached {EL_ARRAYED_LIST [STRING_32]} derived_list (to_string_32) as list then
+				create Result.make_from_special (list.area)
+			else
+				create Result.make_empty
+			end
 		end
 
 	string_8_list (to_string_8: FUNCTION [G, STRING_8]): EL_STRING_8_LIST
 			-- list of strings `to_string_8 (item)' for all items in `Current'
 		require
 			valid_value_function: container_item.is_valid_for (to_string_8)
-		local
-			result_list: EL_ARRAYED_RESULT_LIST [G, STRING_8]
 		do
-			create result_list.make (current_container, to_string_8)
-			create Result.make_from_array (result_list.to_array)
+			if attached {EL_ARRAYED_LIST [STRING_8]} derived_list (to_string_8) as list then
+				create Result.make_from_special (list.area)
+			else
+				create Result.make_empty
+			end
 		end
 
 	string_list (to_string: FUNCTION [G, ZSTRING]): EL_ZSTRING_LIST
 			-- list of strings `to_string (item)' for all items in `Current'
 		require
 			valid_value_function: container_item.is_valid_for (to_string)
-		local
-			result_list: EL_ARRAYED_RESULT_LIST [G, ZSTRING]
 		do
-			create result_list.make (current_container, to_string)
-			create Result.make_from_array (result_list.to_array)
+			if attached {EL_ARRAYED_LIST [ZSTRING]} derived_list (to_string) as list then
+				create Result.make_from_special (list.area)
+			else
+				create Result.make_empty
+			end
 		end
 
 feature -- Basic operations
@@ -239,6 +278,18 @@ feature -- Basic operations
 			end
 		end
 
+	push_cursor
+		-- push cursor position on to stack
+		do
+--			Try LINEAR first because it doesn't create an object
+			if attached {LINEAR [G]} current_container as linear then
+				Index_stack.put (linear.index)
+
+			elseif attached {CURSOR_STRUCTURE [G]} current_container as structure then
+				Cursor_stack.put (structure.cursor)
+			end
+		end
+
 	restore_index (original_index: INTEGER; linear: LINEAR [G])
 		do
 			if attached {CHAIN [G]} linear as chain then
@@ -249,18 +300,6 @@ feature -- Basic operations
 				from linear.start until linear.index = original_index or linear.after loop
 					linear.forth
 				end
-			end
-		end
-
-	push_cursor
-		-- push cursor position on to stack
-		do
---			Try LINEAR first because it doesn't create an object
-			if attached {LINEAR [G]} current_container as linear then
-				Index_stack.put (linear.index)
-
-			elseif attached {CURSOR_STRUCTURE [G]} current_container as structure then
-				Cursor_stack.put (structure.cursor)
 			end
 		end
 
@@ -310,16 +349,37 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	 do_if_met (item: G; action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
-	 	do
-	 		if condition.met (item) then
-	 			action (item)
-	 		end
-	 	end
+	do_if_met (item: G; action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
+		do
+			if condition.met (item) then
+				action (item)
+			end
+		end
 
 	extend_special (item: G; area: SPECIAL [G])
 		do
 			area.extend (item)
+		end
+
+	new_special (shared: BOOLEAN): SPECIAL [G]
+		local
+			one_extra: INTEGER
+		do
+			if attached {TO_SPECIAL [G]} current_container as special
+				and then attached {FINITE [G]} special as finite
+				and then attached special.area as area
+			then
+				if shared then
+					Result := area
+				else
+				--	one extra for string null terminator
+					one_extra := (attached {STRING_GENERAL} special).to_integer
+					Result := area.aliased_resized_area (finite.count + one_extra)
+				end
+			else
+				create Result.make_empty (current_count)
+				do_for_all (agent extend_special (?, Result))
+			end
 		end
 
 feature {NONE} -- Constants

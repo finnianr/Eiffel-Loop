@@ -28,14 +28,24 @@ class MICROSOFT_COMPILER_OPTIONS (object):
 	Valid_build_types = ['Debug', 'Release']
 
 	Valid_compatibility_options = ['2003', '2008', 'vista', 'win7', 'xp']
+	
+	Valid_compatibility_modes = [
+		'Win95', 'Win98', 'WinXP', 'WinXPSP3', 'Vista', 'VistaSP1', 'VistaSP2',
+		'Win7', 'Win8', 'Win10', 'NT4SP5', 'Server2003SP1'
+	]
 
 # Initialization
-	def __init__ (self, architecture = 'x64', build_type = 'Release', compatibility = 'win7'):
+	def __init__ (
+		self, architecture = 'x64', build_type = 'Release',
+				compatibility = 'win7', compatibility_mode = 'Win7'
+	):
+
 		# default switches: /win7 /x64 /Release
 
 		self.architecture = architecture
 		self.build_type = build_type
 		self.compatibility = compatibility
+		self.compatibility_mode = compatibility_mode
 
 # Status query
 	def is_x86_architecture (self):
@@ -54,14 +64,23 @@ class MICROSOFT_COMPILER_OPTIONS (object):
 		assert (compatibility in self.Valid_compatibility_options)
 		self.compatibility = compatibility
 
+	def set_compatibility_mode (self, compatibility_mode):
+		# used to set compatibility mode registry entry value during installation
+		# HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers
+
+		assert (compatibility_mode in self.Valid_compatibility_modes)
+		self.compatibility_mode = compatibility_mode
+
 # Conversion
 	def as_switch_string (self):
 		# command switches string
-		result = []
-		for arg in list (self.__dict__.values ()):
-			result.append ('/' + arg)
 
-		return ' '.join (result)
+		# Nice trick to put all attributes into a list
+		option_list = [
+			'/' + opt for opt in self.__dict__.values () if not opt is self.compatibility_mode
+		]
+		result = ' '.join (option_list)
+		return result
 
 #end MICROSOFT_COMPILER_OPTIONS
 

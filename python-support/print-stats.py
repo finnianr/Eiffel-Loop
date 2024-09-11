@@ -11,15 +11,15 @@ def has_def (line):
 		result = True
 	return result
 
-class_count = 0
-def_count = 0
-mod_count = 0
+class_count = 0; def_count = 0; mod_count = 0
 
 for py in file_util.find_files ('eiffel_loop', '*.py'):
 	if not '__' in py:
-		class_count = class_count + file_util.match_count (py, has_class)
-		def_count = def_count + file_util.match_count (py, has_def)
-		mod_count = mod_count + 1
-		print py
+		class_count += file_util.match_count (py, has_class)
+		def_count += file_util.match_count (py, has_def)
+		mod_count += 1
+		# print py
 
-print "Modules:", mod_count, "Classes:", class_count , "Definitions:", def_count
+print "\nModules:", mod_count
+print "Classes:", class_count
+print "Definitions:", def_count

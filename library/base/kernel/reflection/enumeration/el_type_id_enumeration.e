@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 15:33:02 GMT (Monday 9th September 2024)"
-	revision: "14"
+	date: "2024-09-10 8:45:17 GMT (Tuesday 10th September 2024)"
+	revision: "15"
 
 class
 	EL_TYPE_ID_ENUMERATION
@@ -103,6 +103,8 @@ feature {NONE} -- Implementation
 					Result.append_character (']')
 				end
 			end
+		ensure
+			area_allocation_correct: Result.count = Result.capacity
 		end
 
 feature {NONE} -- Constants

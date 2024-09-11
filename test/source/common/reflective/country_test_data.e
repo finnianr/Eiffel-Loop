@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:26:29 GMT (Tuesday 27th August 2024)"
-	revision: "12"
+	date: "2024-09-09 16:51:38 GMT (Monday 9th September 2024)"
+	revision: "13"
 
 deferred class
 	COUNTRY_TEST_DATA
@@ -25,7 +25,7 @@ feature {NONE} -- Implementation
 
 	check_province_value (province: PROVINCE; table: EL_ZSTRING_TABLE)
 		local
-			field_name: STRING; table_value, field_value: ZSTRING
+			field_name: IMMUTABLE_STRING_8; table_value, field_value: ZSTRING
 		do
 			assert ("same field count", province.field_table.count = table.count)
 			across province.field_table as field loop
@@ -39,14 +39,14 @@ feature {NONE} -- Implementation
 
 	check_values_ireland (country: COUNTRY)
 		local
-			field_name: STRING; table_value, field_value: ZSTRING
+			field_name: IMMUTABLE_STRING_8; table_value, field_value: ZSTRING
 		do
 			assert ("same field count", country.field_count - 1 = Ireland_table.count)
 			-- country.name.count > 0 implies
 			assert ("valid photo data", country.valid_photo_data)
 			across country.field_table as table loop
 				field_name := table.item.name
-				if field_name ~ "province_list" then
+				if field_name.same_string ("province_list") then
 					assert ("4 provinces", country.province_list.count = 4)
 					across country.province_list as list loop
 						check_province_value (list.item, Province_table_list [list.cursor_index])
@@ -54,12 +54,12 @@ feature {NONE} -- Implementation
 				else
 					assert ("has field " + field_name, Ireland_table.has_key (field_name))
 					table_value := Ireland_table.found_item
-					if field_name ~ "currency" then
+					if field_name.same_string ("currency") then
 						field_value := country.currency_name
 					else
 						create field_value.make_from_general (table.item.to_string (country))
 					end
-					if field_name ~ "euro_zone_member" then
+					if field_name.same_string ("euro_zone_member") then
 						field_value.to_upper
 					end
 					assert ("same value for " + field_name, table_value.same_string_general (field_value))

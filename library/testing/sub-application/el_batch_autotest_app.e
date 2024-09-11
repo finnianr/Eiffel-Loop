@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 8:56:19 GMT (Monday 26th August 2024)"
-	revision: "10"
+	date: "2024-09-10 9:02:44 GMT (Tuesday 10th September 2024)"
+	revision: "11"
 
 deferred class
 	EL_BATCH_AUTOTEST_APP
@@ -85,8 +85,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Deferred
 
 	omitted_apps: TUPLE
-		-- class types conforming to `EL_AUTOTEST_APPLICATION' to be skipped
-		-- rename to `none_omitted' if all test apps are to be executed
+		-- class types conforming to `EL_AUTOTEST_APPLICATION' to be skipped.
+		-- Rename `omitted_apps as none_omitted' if all test apps are to be executed
 		deferred
 		end
 

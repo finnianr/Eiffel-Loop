@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 14:22:37 GMT (Monday 9th September 2024)"
-	revision: "21"
+	date: "2024-09-09 19:12:25 GMT (Monday 9th September 2024)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
@@ -26,6 +26,7 @@ inherit
 feature {EL_CLASS_META_DATA} -- Initialization
 
 	post_make
+		-- initialization after types have been set
 		do
 			Precursor
 			makeable_from_string_type_id := ({MAKEABLE}).type_id

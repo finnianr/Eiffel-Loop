@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 14:23:09 GMT (Monday 9th September 2024)"
-	revision: "30"
+	date: "2024-09-09 19:12:11 GMT (Monday 9th September 2024)"
+	revision: "31"
 
 deferred class
 	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
@@ -27,6 +27,7 @@ inherit
 feature {EL_CLASS_META_DATA} -- Initialization
 
 	post_make
+		-- initialization after types have been set
 		do
 			Precursor
 			is_conforming := type_id /= strict_type_id

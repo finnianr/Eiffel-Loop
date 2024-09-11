@@ -14,7 +14,7 @@ if sys.platform == "win32":
 # set PYTHONPATH=D:\Eiffel\library\Eiffel-Loop\tool\python-support;%PYTHONPATH%
 
 #sdk = C_dev.MICROSOFT_SDK ('msc_vc100', ['-arch=amd64'])
-sdk = C_dev.MICROSOFT_SDK ('msc', ['/x64', '/win7', '/Release'])
+sdk = C_dev.MICROSOFT_SDK ('msc', C_dev.MICROSOFT_COMPILER_OPTIONS ())
 
 print "sdk.sdk_version", sdk.sdk_version
 

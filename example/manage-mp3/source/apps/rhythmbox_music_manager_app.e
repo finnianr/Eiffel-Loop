@@ -30,8 +30,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 15:49:44 GMT (Monday 9th September 2024)"
-	revision: "38"
+	date: "2024-09-09 16:27:34 GMT (Monday 9th September 2024)"
+	revision: "39"
 
 class
 	RHYTHMBOX_MUSIC_MANAGER_APP
@@ -84,9 +84,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Installer constants
-
-	Compatibility_mode: STRING = "WIN7"
-		-- compatibility mode for Windows for registry entry. Eg. WIN7
 
 	Desktop: EL_MENU_DESKTOP_ENVIRONMENT_I
 		once

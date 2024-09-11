@@ -1,13 +1,23 @@
 note
-	description: "Reflected field conforming to ${COLLECTION}"
+	description: "[
+		Reflected field conforming to ${COLLECTION [G]} with ability to create factories for types
+		conforming to ${ARRAYED_LIST [G]} or ${HASH_TABLE [G, HASHABLE]}
+	]"
+	notes: "[
+		Factory types returned by `new_factory'
+		
+			EL_FACTORY [G]*
+				${EL_ARRAYED_LIST_FACTORY [G -> ARRAYED_LIST [ANY] create make end]}
+				${EL_HASH_TABLE_FACTORY [G -> HASH_TABLE [ANY, HASHABLE] create make, make_equal end]}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 15:39:53 GMT (Monday 9th September 2024)"
-	revision: "38"
+	date: "2024-09-11 12:23:40 GMT (Wednesday 11th September 2024)"
+	revision: "39"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -33,17 +43,20 @@ create
 feature {NONE} -- Initialization
 
 	post_make
+		-- initialization after types have been set
 		require else
 			is_string_convertible: Convert_string.has (({G}).type_id)
 		do
 			item_type_id := ({G}).type_id
 			Precursor
 
+		-- Check if there is a function to make new collection items that has a target which is
+		-- is the same type as the current object type
 			if New_instance_table.has_key (item_type_id)
-				and then attached {FUNCTION [G]} New_instance_table.found_item as new_instance_function
-				and then new_instance_function.target.generating_type ~ object_type
+				and then attached {FUNCTION [G]} New_instance_table.found_item as l_new_item_function
+				and then {ISE_RUNTIME}.dynamic_type (l_new_item_function.target) = object_type
 			then
-				new_item_function := new_instance_function
+				new_item_function := l_new_item_function
 			end
 
 			if Item_reader_writer_table.has_key (item_type_id)
@@ -213,8 +226,12 @@ feature -- Conversion
 		local
 			intermediate: EL_ARRAYED_RESULT_LIST [G, READABLE_STRING_GENERAL]
 		do
-			create intermediate.make (collection (a_object), agent to_item_string)
-			Result := intermediate.to_list
+			if attached collection (a_object) as container then
+				create intermediate.make (container, agent to_item_string)
+				create Result.make_from_special (intermediate.area)
+			else
+				create Result.make_empty
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -227,16 +244,18 @@ feature {NONE} -- Implementation
 		end
 
 	new_factory: detachable EL_FACTORY [COLLECTION [G]]
+		-- create factory for types conforming to `ARRAYED_LIST [ANY]' or `HASH_TABLE [ANY, HASHABLE]'
+		local
+			factory_any: detachable EL_FACTORY [ANY]
 		do
-			if Eiffel.field_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY) and then
-				attached {EL_FACTORY [COLLECTION [G]]} Arrayed_list_factory.new_item_factory (type_id) as f
-			then
-				Result := f
+			if Eiffel.field_conforms_to (type_id, Class_id.ARRAYED_LIST__ANY) then
+				factory_any := Arrayed_list_factory.new_item_factory (type_id)
 
-			elseif Eiffel.field_conforms_to (type_id, Class_id.HASH_TABLE__ANY__HASHABLE) and then
-				attached {EL_FACTORY [COLLECTION [G]]} Hash_table_factory.new_item_factory (type_id) as f
-			then
-				Result := f
+			elseif Eiffel.field_conforms_to (type_id, Class_id.HASH_TABLE__ANY__HASHABLE) then
+				factory_any := Hash_table_factory.new_item_factory (type_id)
+			end
+			if attached {EL_FACTORY [COLLECTION [G]]} factory_any as factory_collection then
+				Result := factory_collection
 			else
 				Result := Precursor
 			end
@@ -284,9 +303,6 @@ feature {NONE} -- Implementation
 
 feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
-	collection_type: NATURAL_8
-		-- abstract collection type
-
 	reader_writer: detachable EL_READER_WRITER_INTERFACE [G]
 		-- item reader/writer
 
@@ -295,10 +311,6 @@ feature {EL_REFLECTION_HANDLER} -- Internal attributes
 		-- (Example in class `FTP_BACKUP_COMMAND')
 
 feature {NONE} -- Constants
-
-	Type_arrayed_list: NATURAL_8 = 1
-
-	Type_hash_table: NATURAL_8 = 2
 
 	Is_abstract: BOOLEAN = True
 		-- `True' if field type is deferred

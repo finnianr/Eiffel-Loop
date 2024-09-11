@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-09-11 17:35:06 GMT (Wednesday 11th September 2024)"
+	revision: "13"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -34,8 +34,17 @@ convert
 feature {NONE} -- Initialization
 
 	make (container: CONTAINER [G]; to_item: FUNCTION [G, R])
+		require
+			valid_function: operand_item (container).is_valid_for (to_item)
 		do
-			make_from_for (container, create {EL_ANY_QUERY_CONDITION [G]}, to_item)
+			if attached as_structure (container) as structure
+				and then attached {EL_ARRAYED_LIST [R]} structure.derived_list (to_item)
+				as result_list
+			then
+				make_from_special (result_list.area)
+			else
+				make_empty
+			end
 		ensure
 			same_count: count = container_count (container)
 		end
@@ -44,26 +53,14 @@ feature {NONE} -- Initialization
 		-- initialize from `container' with conversion function `to_item'
 		require
 			valid_function: operand_item (container).is_valid_for (to_item)
-		local
-			wrapper: EL_CONTAINER_WRAPPER [G]; i, l_count: INTEGER
-			argument: G
 		do
-			create wrapper.make (container)
-			l_count := wrapper.count
-			make_sized (l_count)
-			if l_count > 0 then
-				if attached wrapper.to_special as container_area and then attached area as l_area then
-					from until i = l_count loop
-						argument := container_area [i]
-						if condition.met (argument) then
-							l_area.extend (to_item (argument))
-						end
-						i := i + 1
-					end
-					if l_area.count < l_count then
-						make_from_special (l_area.aliased_resized_area (l_area.count))
-					end
-				end
+			if attached as_structure (container) as structure
+				and then attached {EL_ARRAYED_LIST [R]} structure.derived_list_meeting (to_item, condition)
+				as result_list
+			then
+				make_from_special (result_list.area)
+			else
+				make_empty
 			end
 		end
 
@@ -94,6 +91,17 @@ feature -- Contract Support
 	operand_item (container: CONTAINER [G]): EL_CONTAINER_ITEM [G]
 		do
 			create Result.make (container)
+		end
+
+feature {NONE} -- Implementation
+
+	as_structure (container: CONTAINER [G]): EL_CONTAINER_STRUCTURE [G]
+		do
+			if attached {EL_CONTAINER_STRUCTURE [G]} container as structure then
+				Result := structure
+			else
+				create {EL_CONTAINER_WRAPPER [G]} Result.make (container)
+			end
 		end
 
 end

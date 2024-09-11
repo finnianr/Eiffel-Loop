@@ -4,8 +4,8 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2024-09-01 10:38:35 GMT (Sunday 1st September 2024)"
-	revision: "1"
+	date: "2024-09-09 16:21:50 GMT (Monday 9th September 2024)"
+	revision: "2"
 
 class
 	BUILD_INFO
@@ -17,6 +17,9 @@ create
 	make
 
 feature -- Constants
+
+	Compatibility_mode: STRING = "Win7"
+		-- Windows compatibility mode
 
 	Version_number: NATURAL = 01_06_04
 

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-07 11:16:11 GMT (Saturday 7th September 2024)"
-	revision: "44"
+	date: "2024-09-11 17:51:35 GMT (Wednesday 11th September 2024)"
+	revision: "45"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -56,6 +56,7 @@ feature {NONE} -- Initialization
 				["arrayed_result_list",			 agent test_arrayed_result_list],
 				["circular_indexing",			 agent test_circular_indexing],
 				["container_sum",					 agent test_container_sum],
+				["derived_list",					 agent test_derived_list],
 				["el_linear",						 agent test_el_linear],
 				["function_grouped_set_table", agent test_function_grouped_set_table],
 				["make_filtered_array",			 agent test_make_filtered_array],
@@ -63,7 +64,7 @@ feature {NONE} -- Initialization
 				["order_by_weight",				 agent test_order_by_weight],
 				["query_and_map_list",			 agent test_query_and_map_list],
 				["query_and_summation",			 agent test_query_and_summation],
-				["string_list",					 agent test_string_list]
+				["string_8_list",					 agent test_string_8_list]
 			>>)
 		end
 
@@ -205,10 +206,16 @@ feature -- Test
 		end
 
 	test_arrayed_result_list
+		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_result_list
 		note
 			testing: "[
-				covers/{EL_CONTAINER_STRUCTURE}.to_special,
-				covers/{EL_ARRAYED_RESULT_LIST}.make_filtered
+				covers/{EL_ARRAYED_RESULT_LIST}.make_from_for,
+				covers/{EL_CONTAINER_STRUCTURE}.new_special,
+				covers/{EL_CONTAINER_STRUCTURE}.derived_list,
+				covers/{EL_CONTAINER_STRUCTURE}.derived_list_meeting,
+				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_list,
+				covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_generic_type_factory,
+				covers/{EL_CONTAINER_STRUCTURE}.to_special
 			]"
 		local
 			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]
@@ -267,6 +274,38 @@ feature -- Test
 					create summator.make (container)
 					assert ("sum is 6", summator.sum_meeting (agent to_integer, is_digit) = 6 )
 				end
+			end
+		end
+
+	test_derived_list
+		-- CONTAINER_STRUCTURE_TEST_SET.test_derived_list
+		note
+			testing: "[
+				covers/{EL_CONTAINER_STRUCTURE}.new_special,
+				covers/{EL_CONTAINER_STRUCTURE}.derived_list,
+				covers/{EL_CONTAINER_STRUCTURE}.derived_list_meeting,
+				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_list,
+				covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_generic_type_factory
+			]"
+		do
+			if attached Widget_list.derived_list (agent {WIDGET}.weight) as list
+				and then attached {EL_ARRAYED_LIST [INTEGER]} list as weight_list
+			then
+				assert ("same count", weight_list.count = Widget_list.count)
+				across Widget_list as widget loop
+					assert ("same weight", widget.item.weight = weight_list [widget.cursor_index])
+				end
+			else
+				failed ("create weight_list")
+			end
+			if attached Widget_list.derived_list_if (agent {WIDGET}.weight, agent {WIDGET}.is_color (Blue))
+				as list and then attached {EL_ARRAYED_LIST [INTEGER]} list as weight_list
+			then
+				assert ("2 results", weight_list.count = 2)
+				assert ("first is 3", weight_list.first = 3)
+				assert ("last is 5", weight_list.last = 5)
+			else
+				failed ("create weight_list")
 			end
 		end
 
@@ -441,11 +480,14 @@ feature -- Test
 			assert ("sum blue is 8", sum = 8)
 		end
 
-	test_string_list
+	test_string_8_list
 		note
 			testing: "[
-				covers/{EL_CONTAINER_STRUCTURE}.to_special,
 				covers/{EL_CONTAINER_STRUCTURE}.string_8_list
+				covers/{EL_CONTAINER_STRUCTURE}.new_special,
+				covers/{EL_CONTAINER_STRUCTURE}.derived_list,
+				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_list,
+				covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_generic_type_factory
 			]"
 		local
 			color_list: STRING

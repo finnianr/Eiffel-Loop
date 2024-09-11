@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 14:26:39 GMT (Monday 9th September 2024)"
-	revision: "41"
+	date: "2024-09-09 19:12:17 GMT (Monday 9th September 2024)"
+	revision: "42"
 
 class
 	EL_REFLECTED_TUPLE
@@ -38,6 +38,7 @@ create
 feature {EL_CLASS_META_DATA} -- Initialization
 
 	post_make
+		-- initialization after types have been set
 		do
 			create member_types.make_from_static (type_id)
 			factory_array := new_factory_array

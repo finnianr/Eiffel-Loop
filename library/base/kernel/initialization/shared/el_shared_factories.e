@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 8:21:18 GMT (Wednesday 4th September 2024)"
-	revision: "10"
+	date: "2024-09-11 9:01:51 GMT (Wednesday 11th September 2024)"
+	revision: "11"
 
 deferred class
 	EL_SHARED_FACTORIES
@@ -34,9 +34,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Factories
 
-	Arrayed_list_factory: EL_INITIALIZED_OBJECT_FACTORY [
-		EL_ARRAYED_LIST_FACTORY [ARRAYED_LIST [ANY]], ARRAYED_LIST [ANY]
-	]
+	Arrayed_list_factory: EL_INITIALIZED_ARRAYED_LIST_FACTORY
 		once
 			create Result
 		end

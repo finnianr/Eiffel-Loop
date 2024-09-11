@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-09-10 9:06:22 GMT (Tuesday 10th September 2024)"
+	revision: "6"
 
 class
 	BUILD_INFO
@@ -21,13 +21,16 @@ create
 
 feature -- Constants
 
-	Version_number: NATURAL = 01_00_00
-
 	Build_number: NATURAL = 0
+
+	Compatibility_mode: STRING = "Win7"
+		-- compatibility mode for Windows for registry entry
 
 	Installation_sub_directory: DIR_PATH
 		once
 			Result := "Eiffel-Loop/Concurrency Demonstration"
 		end
+
+	Version_number: NATURAL = 01_00_00
 
 end
