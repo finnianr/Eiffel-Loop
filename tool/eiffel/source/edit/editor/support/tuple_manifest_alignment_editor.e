@@ -1,6 +1,6 @@
 note
 	description: "[
-		Align the right columns of an array of name-value tuples in some ${SOURCE_LINES} so the
+		Align the right columns of an array of name-value tuples in some ${EDITABLE_SOURCE_LINES} so the
 		value item is left-justified.
 	]"
 	notes: "See end of class"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:40:15 GMT (Saturday 6th April 2024)"
-	revision: "7"
+	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
+	revision: "8"
 
 class
 	TUPLE_MANIFEST_ALIGNMENT_EDITOR
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	edit (lines: SOURCE_LINES)
+	edit (lines: EDITABLE_SOURCE_LINES)
 		do
 			do_with_lines (agent find_manifest_start, lines)
 		end

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:26:43 GMT (Saturday 24th August 2024)"
-	revision: "42"
+	date: "2024-09-12 13:16:47 GMT (Thursday 12th September 2024)"
+	revision: "43"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -37,7 +37,7 @@ inherit
 			{NONE} all
 			{ANY} before, back, forth, after, go_i_th, index, is_sortable, off, prunable,
 				query, query_if, query_not_in, query_in, query_is_equal,
-				readable, start, valid_index,
+				readable, start, valid_index, is_immutable_string,
 				Lower_index
 			{ARRAYED_LIST_ITERATION_CURSOR} empty_area
 		undefine

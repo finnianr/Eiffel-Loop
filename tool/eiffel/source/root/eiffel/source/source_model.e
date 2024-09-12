@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-11 9:28:53 GMT (Saturday 11th March 2023)"
-	revision: "16"
+	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
+	revision: "17"
 
 class
 	SOURCE_MODEL
@@ -140,11 +140,11 @@ feature {NONE} -- State handlers
 
 feature {CLASS_FEATURE} -- Implementation attributes
 
-	class_footer: SOURCE_LINES
+	class_footer: EDITABLE_SOURCE_LINES
 
-	class_header: SOURCE_LINES
+	class_header: EDITABLE_SOURCE_LINES
 
-	class_notes: SOURCE_LINES
+	class_notes: EDITABLE_SOURCE_LINES
 
 	encoding: EL_ENCODING
 

@@ -1,13 +1,13 @@
 note
-	description: "Source file"
+	description: "Eiffel source file"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 10:30:58 GMT (Sunday 1st September 2024)"
-	revision: "10"
+	date: "2024-09-12 12:28:40 GMT (Thursday 12th September 2024)"
+	revision: "11"
 
 class
 	SOURCE_FILE
@@ -29,6 +29,13 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			byte_order_mark.enable
+		end
+
+feature -- Access
+
+	editable_lines: EDITABLE_SOURCE_LINES
+		do
+			create Result.make_from (lines)
 		end
 
 feature {NONE} -- Implementation

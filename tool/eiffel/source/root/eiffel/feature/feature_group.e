@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
+	revision: "11"
 
 class
 	FEATURE_GROUP
@@ -17,7 +17,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_header: SOURCE_LINES)
+	make (a_header: EDITABLE_SOURCE_LINES)
 		local
 			comments: LIST [ZSTRING]; pos_comment: INTEGER
 		do
@@ -38,7 +38,7 @@ feature -- Access
 
 	features: EL_ARRAYED_LIST [CLASS_FEATURE]
 
-	header: SOURCE_LINES
+	header: EDITABLE_SOURCE_LINES
 
 	name: ZSTRING
 

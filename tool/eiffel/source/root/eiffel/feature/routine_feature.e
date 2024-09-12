@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:22:19 GMT (Sunday 1st September 2024)"
-	revision: "9"
+	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
+	revision: "10"
 
 class
 	ROUTINE_FEATURE
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 			Result := lower |..| upper
 		end
 
-	expanded_from_loop (until_expression: ZSTRING): SOURCE_LINES
+	expanded_from_loop (until_expression: ZSTRING): EDITABLE_SOURCE_LINES
 		local
 			pos_space, pos_dot: INTEGER; loop_code, l_name: ZSTRING
 		do

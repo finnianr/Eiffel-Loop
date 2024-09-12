@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 9:42:06 GMT (Friday 30th August 2024)"
-	revision: "32"
+	date: "2024-09-12 17:20:24 GMT (Thursday 12th September 2024)"
+	revision: "33"
 
 class
 	STRING_TEST_SET
@@ -15,11 +15,13 @@ class
 inherit
 	EL_EQA_TEST_SET
 
+	EL_SIDE_ROUTINES
+
 	EL_SHARED_TEST_TEXT
 
 	EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_CURSOR
 
-	PRIMARY_COLOR_CONSTANTS
+	SHARED_COLOR_ENUM
 
 create
 	make
@@ -37,6 +39,7 @@ feature {NONE} -- Initialization
 				["match_wildcard",				agent test_match_wildcard],
 				["name_table",						agent test_name_table],
 				["name_value_pair",				agent test_name_value_pair],
+				["selected_name",					agent test_selected_name],
 				["variable_pattern",				agent test_variable_pattern],
 				["word_count",						agent test_word_count]
 			>>)
@@ -188,17 +191,11 @@ feature -- Tests
 		-- STRING_TEST_SET.test_name_table
 		note
 			testing: "[
-				covers/{EL_IMMUTABLE_NAME_TABLE}.make,
-				covers/{EL_READABLE_STRING_X_ROUTINES}.selected
+				covers/{EL_IMMUTABLE_NAME_TABLE}.make
 			]"
 		local
-			s: EL_STRING_8_ROUTINES; color_name: STRING
 			natural_codes: ARRAYED_LIST [NATURAL_8]; symbol_table: EL_IMMUTABLE_NAME_TABLE [NATURAL_8]
 		do
-			across Color_table.valid_keys as color loop
-				color_name := s.selected (color.item, Color_table.valid_keys, Color_table.name_list_8)
-				assert_same_string ("same color name", color_name, Color_table [color.item])
-			end
 			if attached Text.symbol_32_list as symbol_list then
 				symbol_list.finish; symbol_list.remove -- remove "%T"
 
@@ -253,6 +250,18 @@ feature -- Tests
 			end
 			create pair.make_quoted ("a = %"3%"", '=')
 			assert ("is 3", pair.value ~ "3")
+		end
+
+	test_selected_name
+		-- STRING_TEST_SET.test_selected_name
+		note
+			testing: "[
+				covers/{EL_READABLE_STRING_X_ROUTINES}.selected,
+				covers/{EL_SIDE_ROUTINES}.side_name
+			]"
+		do
+			assert_same_string (Void, side_name ({EL_SIDE}.None), "None")
+			assert_same_string (Void, side_name ({EL_SIDE}.Right), "Right")
 		end
 
 	test_variable_pattern

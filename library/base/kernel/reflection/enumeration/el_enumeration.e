@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-29 7:19:26 GMT (Thursday 29th August 2024)"
-	revision: "65"
+	date: "2024-09-12 14:48:02 GMT (Thursday 12th September 2024)"
+	revision: "66"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -177,6 +177,15 @@ feature -- Access
 		-- field `exported_name' from field value `a_value'
 		do
 			Result := lookup_name (a_value, True)
+		end
+
+	name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+		do
+			if attached {like name_list} as_list.derived_list (agent name) as list then
+				Result := list
+			else
+				create Result.make_empty
+			end
 		end
 
 	value (a_name: READABLE_STRING_GENERAL): like enum_value

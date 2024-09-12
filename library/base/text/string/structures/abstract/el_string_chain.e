@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 14:19:35 GMT (Sunday 21st July 2024)"
-	revision: "52"
+	date: "2024-09-12 12:54:21 GMT (Thursday 12th September 2024)"
+	revision: "53"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -45,12 +45,16 @@ feature {NONE} -- Initialization
 		end
 
 	make_from (container: CONTAINER [S])
-		local
-			wrapper: EL_CONTAINER_WRAPPER [S]
 		do
-			create wrapper.make (container)
-			make (wrapper.count)
-			wrapper.do_for_all (agent extend)
+			if attached as_structure (container) as structure then
+				make_from_special (structure.to_special)
+			else
+				make_empty
+			end
+		end
+
+	make_from_special (a_area: SPECIAL [S])
+		deferred
 		end
 
 	make_from_substrings (a_string: READABLE_STRING_GENERAL; a_start_index: INTEGER; count_list: ITERABLE [INTEGER])

@@ -74,7 +74,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Source_widget_factory_cell: SOURCE_LINES
+	Source_widget_factory_cell: EDITABLE_SOURCE_LINES
 		once
 			create Result.make_with_lines ("[
 				Widget_factory_cell: CELL [SD_WIDGET_FACTORY]
@@ -85,7 +85,7 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Source_type_widget_factory: SOURCE_LINES
+	Source_type_widget_factory: EDITABLE_SOURCE_LINES
 		once
 			create Result.make_with_lines ("[
 				Type_widget_factory: SD_WIDGET_FACTORY
@@ -95,7 +95,7 @@ feature {NONE} -- Constants
 			]")
 		end
 
-	Source_widget_factory: SOURCE_LINES
+	Source_widget_factory: EDITABLE_SOURCE_LINES
 		once
 			create Result.make_with_lines ("[
 				widget_factory: like Type_widget_factory

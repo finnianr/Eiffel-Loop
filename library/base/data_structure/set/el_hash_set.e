@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 14:47:38 GMT (Thursday 4th April 2024)"
-	revision: "26"
+	date: "2024-09-12 13:05:52 GMT (Thursday 12th September 2024)"
+	revision: "27"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -43,7 +43,7 @@ inherit
 			{NONE} all
 			{ANY} has, valid_key, found, found_item, search, count, new_cursor, wipe_out, iteration_item
 		redefine
-			make, make_size, put, same_keys
+			make, put, same_keys
 		end
 
 	TRAVERSABLE [H]
@@ -85,30 +85,19 @@ feature {NONE} -- Initialization
 		end
 
 	make_from (container: CONTAINER [H]; a_object_comparison: BOOLEAN)
-		local
-			wrapper: EL_CONTAINER_WRAPPER [H]; l_count: INTEGER
 		do
-			create wrapper.make (container)
-			l_count := wrapper.count
-			if a_object_comparison then
-				make (l_count)
+			if attached as_structure (container) as structure then
+				make_size (structure.current_count)
+				structure.do_for_all (agent put)
 			else
-				make_size (l_count)
+				make_size (0)
 			end
-			wrapper.do_for_all (agent put)
-			if count > 100 and then (count / l_count) < 0.5 then
-				make_from (linear_representation, a_object_comparison)
-			end
+			object_comparison := a_object_comparison
 		end
 
 	make_from_array (array: ARRAY [H])
 		do
 			make_from (array, True)
-		end
-
-	make_size (n: INTEGER)
-		do
-			Precursor (n)
 		end
 
 feature -- Access

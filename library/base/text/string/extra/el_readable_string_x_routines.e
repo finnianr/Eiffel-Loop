@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 16:38:29 GMT (Tuesday 3rd September 2024)"
-	revision: "46"
+	date: "2024-09-12 17:11:57 GMT (Thursday 12th September 2024)"
+	revision: "47"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -67,32 +67,41 @@ feature -- Access
 			end
 		end
 
-	selected (n: INTEGER; n_set: ARRAY [INTEGER]; name_list: READABLE_STRING_X): READABLE_STRING_X
+	selected (n: INTEGER; n_set: READABLE_INDEXABLE [INTEGER]; name_list: READABLE_STRING_X): READABLE_STRING_X
 		require
-			name_count_matches: n_set.count = name_list.occurrences (',') + 1
+			name_count_matches: n_set.upper - n_set.lower = name_list.occurrences (',')
 		local
-			index: INTEGER; found: BOOLEAN
+			index, i, start_index, end_index: INTEGER; found: BOOLEAN
 		do
 			if name_list.count = 0 then
-				Result := name_list
+				Result := name_list.substring (1, 0)
 			else
-				from index := 1 until index > n_set.count or found loop
+				from index := n_set.lower until index > n_set.upper or found loop
 					if n_set [index] = n then
 						found := True
 					else
 						index := index + 1
 					end
 				end
-				if found then
-					if attached name_list.split (',') as list then
-						if list.valid_index (index) then
-							Result := list [index]
-							if Result.count > 0 and then Result [1] = ' ' then
-								Result := Result.substring (2, Result.count)
+				if found and then attached split_on_character as split_list then
+					split_list.set_target (name_list); split_list.set_separator (',')
+					found := False
+					i := n_set.lower
+					across split_list as list until found loop
+						if i = index then
+							start_index := list.item_lower; end_index := list.item_upper
+							if name_list [start_index] = ' ' then
+								start_index :=  start_index + 1
 							end
+							found := True
 						else
-							Result := name_list.substring (1, 0)
+							i := i + 1
 						end
+					end
+					if found then
+						Result := name_list.substring (start_index, end_index)
+					else
+						Result := name_list.substring (1, 0)
 					end
 				else
 					Result := name_list.substring (1, 0)

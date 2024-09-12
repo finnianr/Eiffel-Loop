@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-21 8:09:12 GMT (Wednesday 21st August 2024)"
-	revision: "4"
+	date: "2024-09-12 17:18:54 GMT (Thursday 12th September 2024)"
+	revision: "5"
 
 deferred class
 	EL_SIDE_ROUTINES
@@ -25,11 +25,25 @@ inherit
 			copy, default_create, is_equal, out
 		end
 
+feature {NONE} -- Implementation
+
+	side_name (a_side: INTEGER): STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.selected (a_side, 0 |..| Both_sides, "None, Left, Right, Both")
+		end
+
 feature {NONE} -- Contract Support
 
-	frozen valid_sides (bitmap: INTEGER): BOOLEAN
+	frozen has_left_side (bitmap: INTEGER): BOOLEAN
 		do
-			Result := No_sides <= bitmap and then bitmap <= Both_sides
+			Result := (bitmap & Left_side).to_boolean
+		end
+
+	frozen has_right_side (bitmap: INTEGER): BOOLEAN
+		do
+			Result := (bitmap & Right_side).to_boolean
 		end
 
 	frozen valid_side_left_or_right (bitmap: INTEGER): BOOLEAN
@@ -41,14 +55,9 @@ feature {NONE} -- Contract Support
 			end
 		end
 
-	frozen has_left_side (bitmap: INTEGER): BOOLEAN
+	frozen valid_sides (bitmap: INTEGER): BOOLEAN
 		do
-			Result := (bitmap & Left_side).to_boolean
-		end
-
-	frozen has_right_side (bitmap: INTEGER): BOOLEAN
-		do
-			Result := (bitmap & Right_side).to_boolean
+			Result := No_sides <= bitmap and then bitmap <= Both_sides
 		end
 
 invariant

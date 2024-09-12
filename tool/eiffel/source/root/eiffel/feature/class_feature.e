@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:21:43 GMT (Sunday 1st September 2024)"
-	revision: "29"
+	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
+	revision: "30"
 
 deferred class
 	CLASS_FEATURE
@@ -53,7 +53,7 @@ feature -- Access
 
 	found_line: ZSTRING
 
-	lines: SOURCE_LINES
+	lines: EDITABLE_SOURCE_LINES
 
 	name: ZSTRING
 

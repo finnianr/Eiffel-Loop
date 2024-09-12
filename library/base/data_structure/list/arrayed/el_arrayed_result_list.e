@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-11 17:35:06 GMT (Wednesday 11th September 2024)"
-	revision: "13"
+	date: "2024-09-12 12:44:58 GMT (Thursday 12th September 2024)"
+	revision: "14"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -19,6 +19,7 @@ class
 inherit
 	EL_ARRAYED_LIST [R]
 		rename
+			as_structure as as_result_structure,
 			make as make_sized,
 			make_from_for as make_from_container_for,
 			make_from_if as make_from_container_if

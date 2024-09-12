@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 15:29:43 GMT (Thursday 5th September 2024)"
-	revision: "72"
+	date: "2024-09-12 12:48:37 GMT (Thursday 12th September 2024)"
+	revision: "73"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -95,16 +95,19 @@ feature {NONE} -- Initialization
 	make_from (container: CONTAINER [G])
 		-- initialize from `container' items
 		do
-			make_from_for (container, create {EL_ANY_QUERY_CONDITION [G]})
+			if attached as_structure (container) as structure then
+				make_from_special (structure.to_special)
+			else
+				make_empty
+			end
 		end
 
 	make_from_for (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G])
 		-- initialize from `container' of items for all items meeting `condition'
-		local
-			wrapper: EL_CONTAINER_WRAPPER [G]
 		do
-			create wrapper.make (container)
-			if attached wrapper.query (condition) as result_list then
+			if attached as_structure (container) as structure
+				and then attached structure.query (condition) as result_list
+			then
 				make_from_special (result_list.area)
 				object_comparison := container.object_comparison
 			else

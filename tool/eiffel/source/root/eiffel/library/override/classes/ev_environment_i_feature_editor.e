@@ -23,7 +23,7 @@ feature {NONE} -- Implementation
 	change_type_of_implementation_object (class_feature: CLASS_FEATURE)
 			-- Change `create {EV_APPLICATION_IMP}' to `create {EL_APPLICATION_IMP}'
 		local
-			lines: SOURCE_LINES
+			lines: EDITABLE_SOURCE_LINES
 		do
 			lines := class_feature.lines
 			from lines.start until lines.after loop

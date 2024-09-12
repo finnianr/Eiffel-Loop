@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-11 17:51:35 GMT (Wednesday 11th September 2024)"
-	revision: "45"
+	date: "2024-09-12 15:36:25 GMT (Thursday 12th September 2024)"
+	revision: "46"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -30,8 +30,6 @@ inherit
 
 	EL_ENCODING_TYPE
 
-	PRIMARY_COLOR_CONSTANTS
-
 	HEXAGRAM_STRINGS
 		rename
 			English_titles as I_ching_hexagram_titles,
@@ -39,6 +37,8 @@ inherit
 		undefine
 			default_create
 		end
+
+	SHARED_COLOR_ENUM
 
 create
 	make
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 				["function_grouped_set_table", agent test_function_grouped_set_table],
 				["make_filtered_array",			 agent test_make_filtered_array],
 				["order_by_color_name",			 agent test_order_by_color_name],
-				["order_by_weight",				 agent test_order_by_weight],
+				["order_by_width",				 agent test_order_by_width],
 				["query_and_map_list",			 agent test_query_and_map_list],
 				["query_and_summation",			 agent test_query_and_summation],
 				["string_8_list",					 agent test_string_8_list]
@@ -77,7 +77,7 @@ feature -- Test
 				covers/{EL_CONTAINER_ARITHMETIC}.maximum_meeting
 			]"
 		do
-			assert ("max weight is 12", Widget_list.maximum_integer (agent {WIDGET}.weight) = 12)
+			assert ("max width is 1200", Widget_list.maximum_integer (agent {WIDGET}.width) = 1200)
 		end
 
 	test_arrayed_map_list
@@ -288,24 +288,24 @@ feature -- Test
 				covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_generic_type_factory
 			]"
 		do
-			if attached Widget_list.derived_list (agent {WIDGET}.weight) as list
-				and then attached {EL_ARRAYED_LIST [INTEGER]} list as weight_list
+			if attached Widget_list.derived_list (agent {WIDGET}.width) as list
+				and then attached {EL_ARRAYED_LIST [INTEGER]} list as width_list
 			then
-				assert ("same count", weight_list.count = Widget_list.count)
+				assert ("same count", width_list.count = Widget_list.count)
 				across Widget_list as widget loop
-					assert ("same weight", widget.item.weight = weight_list [widget.cursor_index])
+					assert ("same width", widget.item.width = width_list [widget.cursor_index])
 				end
 			else
-				failed ("create weight_list")
+				failed ("create width_list")
 			end
-			if attached Widget_list.derived_list_if (agent {WIDGET}.weight, agent {WIDGET}.is_color (Blue))
-				as list and then attached {EL_ARRAYED_LIST [INTEGER]} list as weight_list
+			if attached Widget_list.derived_list_if (agent {WIDGET}.width, agent {WIDGET}.is_color (Color.blue))
+				as list and then attached {EL_ARRAYED_LIST [INTEGER]} list as width_list
 			then
-				assert ("2 results", weight_list.count = 2)
-				assert ("first is 3", weight_list.first = 3)
-				assert ("last is 5", weight_list.last = 5)
+				assert ("2 results", width_list.count = 2)
+				assert ("first is 300", width_list.first = 300)
+				assert ("last is 500", width_list.last = 500)
 			else
-				failed ("create weight_list")
+				failed ("create width_list")
 			end
 		end
 
@@ -318,14 +318,14 @@ feature -- Test
 				covers/{EL_LINEAR}.find_first_equal
 			]"
 		do
-			Widget_list.find_first_true (agent {WIDGET}.is_color (Blue))
-			assert ("item weight is 3", Widget_list.item.weight = 3)
+			Widget_list.find_first_true (agent {WIDGET}.is_color (Color.blue))
+			assert ("item width is 300", Widget_list.item.width = 300)
 
-			Widget_list.find_next_true (agent {WIDGET}.is_color (Blue))
-			assert ("item weight is 5", Widget_list.item.weight = 5)
+			Widget_list.find_next_true (agent {WIDGET}.is_color (Color.blue))
+			assert ("item width is 500", Widget_list.item.width = 500)
 
-			Widget_list.find_first_equal (1, agent {WIDGET}.weight)
-			assert ("item color is green", Widget_list.item.color = Green)
+			Widget_list.find_first_equal (1200, agent {WIDGET}.width)
+			assert ("item color is red", Widget_list.item.color = Color.red)
 
 			Widget_list.start
 			assert ("3rd position", Widget_list.index_of (Widget_list [3], 1) = 3)
@@ -411,13 +411,13 @@ feature -- Test
 			end
 		end
 
-	test_order_by_weight
+	test_order_by_width
 		local
 			previous: INTEGER
 		do
-			across Widget_list.ordered_by (agent {WIDGET}.weight, True) as widget loop
-				assert ("weight >= previous", widget.item.weight >= previous)
-				previous := widget.item.weight
+			across Widget_list.ordered_by (agent {WIDGET}.width, True) as widget loop
+				assert ("width >= previous", widget.item.width >= previous)
+				previous := widget.item.width
 			end
 		end
 
@@ -433,20 +433,20 @@ feature -- Test
 			key_list: EL_ARRAYED_RESULT_LIST [WIDGET, INTEGER]
 		do
 			Widget_list.start
-			if attached Widget_list.query_if (agent {WIDGET}.is_color (Red)) as red_list then
+			if attached Widget_list.query_if (agent {WIDGET}.is_color (Color.red)) as red_list then
 				assert ("index is 1", Widget_list.index = 1)
-				key_list := [red_list, agent {WIDGET}.weight]
-				assert ("red weights are: 2, 12", key_list.to_array ~ << 2, 12 >>)
+				key_list := [red_list, agent {WIDGET}.width]
+				assert ("red widths are: 200, 1200", key_list.to_array ~ << 200, 1200 >>)
 			end
-			if attached Widget_list.query (color_is (Blue)) as blue_list then
+			if attached Widget_list.query (color_is (Color.blue)) as blue_list then
 				assert ("index is 1", Widget_list.index = 1)
-				key_list := [blue_list, agent {WIDGET}.weight]
-				assert ("blue weights are: 3, 5", key_list.to_array ~ << 3, 5 >>)
+				key_list := [blue_list, agent {WIDGET}.width]
+				assert ("blue widths are: 300, 500", key_list.to_array ~ << 300, 500 >>)
 			end
-			if attached Widget_list.query (color_is (Green)) as green_list then
+			if attached Widget_list.query (color_is (Color.green)) as green_list then
 				assert ("index is 1", Widget_list.index = 1)
-				key_list := [green_list, agent {WIDGET}.weight]
-				assert ("green weight is: 1", key_list.to_array ~ << 1 >>)
+				key_list := [green_list, agent {WIDGET}.width]
+				assert ("green width is: 100", key_list.to_array ~ << 100 >>)
 			end
 		end
 
@@ -465,19 +465,28 @@ feature -- Test
 				covers/{EL_CONTAINER_STRUCTURE}.query
 			]"
 		local
-			sum: INTEGER
+			sum: INTEGER; condition_array: ARRAY [EL_QUERY_CONDITION [WIDGET]]
 		do
-			assert ("sum red is 14",			weight_sum_meeting (color_is (Red)) = 14)
-			assert ("sum blue is 8", 			weight_sum_meeting (color_is (Blue)) = 8)
-			assert ("sum red OR blue is 22", weight_sum_meeting (color_is (Blue) or color_is (Red)) = 22)
-			assert ("sum NOT green is 22", 	weight_sum_meeting (not color_is (Green)) = 22)
-			assert ("sum any color is 23", 	weight_sum_meeting (any_color) = 23)
+			condition_array := <<
+				color_is (Color.red),
+				color_is (Color.blue),
+				color_is (Color.blue) or color_is (Color.red),
+				not color_is (Color.green),
+				any_color
+			>>
+			Widget_list.start
+			across condition_array as array loop
+				if attached array.item as condition then
+					sum := width_sum_by_agent (condition)
+					assert ("index unchanged", Widget_list.index = 1)
+					assert ("same sum", sum = width_sum_by_across_loop (condition))
+				end
+			end
+			sum := Widget_list.query_if (agent {WIDGET}.is_color (Color.red)).sum_integer (agent {WIDGET}.width)
+			assert ("sum red is 1400", sum = 1400)
 
-			sum := Widget_list.query_if (agent {WIDGET}.is_color (Red)).sum_integer (agent {WIDGET}.weight)
-			assert ("sum red is 14", sum = 14)
-
-			sum := Widget_list.query_is_equal (Blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.weight)
-			assert ("sum blue is 8", sum = 8)
+			sum := Widget_list.query_is_equal (Color.blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.width)
+			assert ("sum blue is 800", sum = 800)
 		end
 
 	test_string_8_list
@@ -492,7 +501,7 @@ feature -- Test
 		local
 			color_list: STRING
 		do
-			color_list := "Red,Blue,Green,Blue,Red"
+			color_list := "red,blue,green,blue,red"
 			assert ("same colors", Widget_list.string_8_list (agent {WIDGET}.color_name).joined (',') ~ color_list)
 		end
 
@@ -503,9 +512,9 @@ feature {NONE} -- Query conditions
 			create Result
 		end
 
-	color_is (color: INTEGER): EL_PREDICATE_QUERY_CONDITION [WIDGET]
+	color_is (a_color: NATURAL_8): EL_PREDICATE_QUERY_CONDITION [WIDGET]
 		do
-			Result := agent {WIDGET}.is_color (color)
+			Result := agent {WIDGET}.is_color (a_color)
 		end
 
 	is_digit: EL_PREDICATE_QUERY_CONDITION [CHARACTER]
@@ -618,12 +627,20 @@ feature {NONE} -- Implementation
 			Result := c8.digit_to_integer (c)
 		end
 
-	weight_sum_meeting (condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
-		-- sum of widget-weights for widgets meeting `condition' (method 2)
+	width_sum_by_agent (condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
+		-- sum of widget-widths for widgets meeting `condition' (method 2)
 		do
-			Widget_list.start
-			Result := Widget_list.sum_integer_meeting (agent {WIDGET}.weight, condition)
-			assert ("index is 1", Widget_list.index = 1)
+			Result := Widget_list.sum_integer_meeting (agent {WIDGET}.width, condition)
+		end
+
+	width_sum_by_across_loop (condition: EL_QUERY_CONDITION [WIDGET]): INTEGER
+		-- sum of widget-widths for widgets meeting `condition' (method 2)
+		do
+			across Widget_list as list loop
+				if condition.met (list.item) then
+					Result := Result + list.item.width
+				end
+			end
 		end
 
 	widget_colors: EL_ARRAYED_LIST [INTEGER]
@@ -662,7 +679,7 @@ feature {NONE} -- Constants
 	Widget_list: EL_ARRAYED_LIST [WIDGET]
 		once
 			create Result.make_from_array (<<
-				[Red, 2], [Blue, 3], [Green, 1], [Blue, 5], [Red, 12]
+				[Color.red, 200], [Color.blue, 300], [Color.green, 100], [Color.blue, 500], [Color.red, 1200]
 			>>)
 		end
 

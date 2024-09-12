@@ -1,7 +1,7 @@
 note
 	description: "[
 		Routines that can be applied to current object if it conforms to ${CONTAINER [G]}.
-		Inherits routines from class ${EL_CONTAINER_NUMERIC_CALCULATER}.
+		Inherits routines from class ${EL_CUMULATIVE_CONTAINER_ARITHMETIC}.
 	]"
 	descendants: "See end of class"
 
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-11 12:16:53 GMT (Wednesday 11th September 2024)"
-	revision: "17"
+	date: "2024-09-12 14:11:40 GMT (Thursday 12th September 2024)"
+	revision: "18"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -217,12 +217,22 @@ feature -- String result list
 feature -- Basic operations
 
 	do_for_all (action: PROCEDURE [G])
+		require
+			not_immutable_string: not is_immutable_string
 		do
-			do_meeting (action, create {EL_ANY_QUERY_CONDITION [G]})
+			if attached {TO_SPECIAL [G]} current_container as special
+				and then attached {FINITE [G]} special as finite
+			then
+				special.area.do_all_in_bounds (action, 0, finite.count - 1)
+			else
+				do_meeting (action, create {EL_ANY_QUERY_CONDITION [G]})
+			end
 		end
 
 	do_meeting (action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
 		-- list of indices meeting `condition'
+		require
+			not_immutable_string: not is_immutable_string
 		local
 			i, upper, i_final: INTEGER
 		do
@@ -310,6 +320,11 @@ feature -- Contract Support
 			create Result.make (current_container)
 		end
 
+	is_immutable_string: BOOLEAN
+		do
+			Result := attached {IMMUTABLE_STRING_GENERAL} current_container
+		end
+
 	object_comparison: BOOLEAN
 		do
 			Result := current_container.object_comparison
@@ -322,6 +337,15 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	as_structure (container: CONTAINER [G]): EL_CONTAINER_STRUCTURE [G]
+		do
+			if attached {EL_CONTAINER_STRUCTURE [G]} container as structure then
+				Result := structure
+			else
+				create {EL_CONTAINER_WRAPPER [G]} Result.make (container)
+			end
+		end
 
 	bump_counter (item: G; counter: EL_NATURAL_32_COUNTER)
 		do
@@ -398,7 +422,6 @@ note
 	descendants: "[
 			EL_CONTAINER_STRUCTURE* [G]
 				${EL_CONTAINER_WRAPPER [G]}
-					${EL_SAVED_CURSOR [G]}
 				${EL_RESULT_SUMMATOR [G, N -> NUMERIC]}
 				${EL_CONTAINER_ITEM [G]}
 				${EL_RESULT_MAXIMUM [G, N -> (NUMERIC, COMPARABLE)]}

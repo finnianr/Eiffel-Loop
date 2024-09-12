@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 13:43:46 GMT (Thursday 5th September 2024)"
-	revision: "192"
+	date: "2024-09-12 14:11:53 GMT (Thursday 12th September 2024)"
+	revision: "193"
 
 class
 	BASE_AUTOTEST_APP
@@ -88,7 +88,6 @@ feature {NONE} -- Compiled classes
 		EL_OBJECTS_BY_TYPE,
 		EL_POOL_SCOPE_CURSOR [ANY],
 		EL_REPEATED_NUMERIC_LIST [NUMERIC],
-		EL_SAVED_CURSOR [ANY],
 		EL_SHARED_CELL [ANY],
 		EL_SUBARRAY [ANY],
 		EL_UNIQUE_ARRAYED_LIST [HASHABLE]
