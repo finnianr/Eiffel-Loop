@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 19:30:17 GMT (Thursday 25th July 2024)"
-	revision: "35"
+	date: "2024-09-13 8:38:49 GMT (Friday 13th September 2024)"
+	revision: "36"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -81,15 +81,17 @@ feature -- Access
 			create Result.make_empty
 			if attached open_lines (file_path, {EL_ENCODING_TYPE}.Latin_1) as lines then
 				from lines.start until done or lines.after loop
-					lines.item.right_adjust
-					if lines.index = 1 then
-						if not lines.item.starts_with (Pyxis_doc) then
+					if attached lines.item_copy as line then
+						line.right_adjust
+						if lines.index = 1 then
+							if not line.starts_with (Pyxis_doc) then
+								done := True
+							end
+						elseif line.ends_with_character (':') then
+							Result := line
+							Result.remove_tail (1)
 							done := True
 						end
-					elseif lines.item.ends_with_character (':') then
-						Result := lines.item
-						Result.remove_tail (1)
-						done := True
 					end
 					lines.forth
 				end

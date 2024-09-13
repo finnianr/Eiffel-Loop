@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:17:43 GMT (Monday 10th July 2023)"
-	revision: "12"
+	date: "2024-09-13 8:07:50 GMT (Friday 13th September 2024)"
+	revision: "13"
 
 class
 	EVOLICITY_INCLUDE_DIRECTIVE
@@ -35,13 +35,12 @@ feature -- Basic operations
 			end
 			if attached template_path as path and then path.exists then
 				create line_source.make (output.encoding, path)
-				line_source.enable_shared_item
 
 				if Evolicity_templates.is_nested_output_indented then
 					output.put_indented_lines (tabs, line_source)
 				else
 					from line_source.start until line_source.after loop
-						output.put_string (line_source.item)
+						output.put_string (line_source.shared_item)
 						output.put_new_line
 						line_source.forth
 					end

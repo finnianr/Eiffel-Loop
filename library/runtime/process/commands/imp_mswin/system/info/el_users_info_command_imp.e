@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 11:44:57 GMT (Friday 29th March 2024)"
-	revision: "19"
+	date: "2024-09-13 15:51:43 GMT (Friday 13th September 2024)"
+	revision: "20"
 
 class
 	EL_USERS_INFO_COMMAND_IMP
@@ -80,8 +80,8 @@ feature {NONE} -- Implementation
 			do_with_text_lines (agent find_dashed_line, new_net_user_list)
 			create home_list.make (10)
 			across lines as line loop
-				if line.item.count > 0 then
-					home_list.extend (line.item)
+				if line.item_count > 0 then
+					home_list.extend (line.item_copy)
 				end
 			end
 			-- prune users that do not have a matching directory in C:\Users

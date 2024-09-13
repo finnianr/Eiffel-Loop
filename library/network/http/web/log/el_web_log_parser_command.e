@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 8:22:27 GMT (Friday 12th July 2024)"
-	revision: "9"
+	date: "2024-09-13 8:15:04 GMT (Friday 13th September 2024)"
+	revision: "10"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -43,8 +43,8 @@ feature -- Basic operations
 			if attached open_lines (log_path, Latin_1) as line_source then
 				across line_source as line loop
 					print_progress (line.cursor_index.to_natural_32)
-					if line.item.occurrences ('%"') = 6 then
-						do_with (new_web_log_entry (line.item))
+					if line.shared_item.occurrences ('%"') = 6 then
+						do_with (new_web_log_entry (line.shared_item))
 						count := count + 1
 					end
 				end

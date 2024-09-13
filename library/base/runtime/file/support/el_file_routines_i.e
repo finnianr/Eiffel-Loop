@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:39:56 GMT (Tuesday 27th August 2024)"
-	revision: "22"
+	date: "2024-09-13 16:51:07 GMT (Friday 13th September 2024)"
+	revision: "23"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -61,6 +61,57 @@ feature -- Measurement
 	access_time (file_path: FILE_PATH): INTEGER
 		do
 			Result := info (file_path, False).access_date
+		end
+
+	average_line_count (file_path: FILE_PATH): INTEGER
+		require
+			path_exists: file_path.exists
+		do
+			if file_path.exists and then attached open (file_path, Read) as file then
+				if file.count > 0 then
+					Result := file.average_line_count
+				end
+				file.close
+			end
+		end
+
+	average_line_count_of (file: PLAIN_TEXT_FILE): INTEGER
+		-- average characters per line based on leading 1K block
+		require
+			file_readable: file.readable
+		local
+			position, char_count, newline_count: INTEGER; pending_break, break: BOOLEAN
+		do
+			if attached {EL_PLAIN_TEXT_FILE} file as f then
+			-- optimized to not use `last_character' and correctly counts UTF encoded characters
+				Result := f.average_line_count
+			else
+			-- not accurate for UTF encoded files, but OK for Latin-1
+				position := file.position
+				file.go (0)
+				from until break loop
+					file.read_character
+					if file.end_of_file then
+						break := True
+					else
+						inspect file.last_character when '%N' then
+							newline_count := newline_count + 1
+							if pending_break then
+								break := True
+							end
+						else
+						end
+						char_count := char_count + 1
+						if char_count > 1024 then
+							pending_break := True
+						end
+					end
+				end
+				Result := (char_count / newline_count.max (1)).rounded
+				file.go (position)
+			end
+		ensure
+			position_unchanged: file.position = old file.position
 		end
 
 	byte_count (file_path: FILE_PATH): INTEGER

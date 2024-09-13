@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 15:02:52 GMT (Monday 2nd September 2024)"
-	revision: "2"
+	date: "2024-09-13 8:42:59 GMT (Friday 13th September 2024)"
+	revision: "3"
 
 class
 	FIND_CODE_PATTERN_SHELL
@@ -58,7 +58,7 @@ feature {NONE} -- Commands
 		do
 			if attached Occurrence_intervals as intervals_list then
 				across source_lines as list loop
-					line := list.item
+					line := list.shared_item
 					intervals_list.fill_by_string (line, Dollor_brace, 0)
 					found := False
 					across intervals_list as interval until found loop
@@ -86,12 +86,12 @@ feature {NONE} -- Commands
 
 			if attached Word_split as split_list then
 				across source_lines as list loop
-					line := list.item
+					line := list.shared_item
 					split_list.set_target (line)
 					done.set_item (False); match_list_count := match_list.count
 					across split_list as split until done.item loop
 						word := split.item; word.left_adjust
-						match_list.extend (line, word, split.cursor_index, done)
+						match_list.extend (line.twin, word, split.cursor_index, done)
 					end
 					if match_list_count + 1 /= match_list.count then
 						match_list.wipe_out

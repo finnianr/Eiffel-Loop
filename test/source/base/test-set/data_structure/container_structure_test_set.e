@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 15:36:25 GMT (Thursday 12th September 2024)"
-	revision: "46"
+	date: "2024-09-13 19:13:28 GMT (Friday 13th September 2024)"
+	revision: "47"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -553,7 +553,7 @@ feature {NONE} -- Implementation
 					Result := table
 
 				when Hash_set_type then
-					create set.make (3)
+					create set.make_equal (3)
 					across Character_string as str loop
 						set.put (str.item)
 					end

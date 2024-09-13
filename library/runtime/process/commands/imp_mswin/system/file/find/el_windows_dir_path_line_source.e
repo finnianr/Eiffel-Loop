@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-09-13 15:51:00 GMT (Friday 13th September 2024)"
+	revision: "3"
 
 class
 	EL_WINDOWS_DIR_PATH_LINE_SOURCE
@@ -61,9 +61,9 @@ feature -- Cursor movement
 			if normal_start then
 				Precursor
 			else
-				item := first_dir_path
+				shared_item := first_dir_path
 				adjust_item
-				count := 1; index := 1
+				traversed_count := 1; index := 1
 			end
 		end
 

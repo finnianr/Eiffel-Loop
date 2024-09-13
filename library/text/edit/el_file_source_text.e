@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:11:28 GMT (Sunday 25th August 2024)"
-	revision: "7"
+	date: "2024-09-13 8:19:31 GMT (Friday 13th September 2024)"
+	revision: "8"
 
 class
 	EL_FILE_SOURCE_TEXT
@@ -57,7 +57,6 @@ feature {NONE} -- Implementation
 	new_input_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		do
 			create Result.make (encoding, file_path)
-			Result.enable_shared_item
 		end
 
 feature {NONE} -- Internal attributes

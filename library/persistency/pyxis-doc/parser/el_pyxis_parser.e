@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 11:34:19 GMT (Friday 21st June 2024)"
-	revision: "55"
+	date: "2024-09-13 19:13:27 GMT (Friday 13th September 2024)"
+	revision: "56"
 
 class
 	EL_PYXIS_PARSER
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			create attribute_parser.make (attribute_list)
 			previous_state := State_parse_line
 			create element_stack.make (10)
-			create element_set.make (11)
+			create element_set.make_equal (11)
 			create pyxis_line.make_empty
 			create element_line.make_empty
 		end

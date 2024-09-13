@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-09-13 15:53:04 GMT (Friday 13th September 2024)"
+	revision: "16"
 
 class
 	EL_DIRECTORY_INFO_COMMAND_IMP
@@ -40,7 +40,7 @@ feature {EL_DIRECTORY_INFO_COMMAND_I} -- Implementation
 			if a_lines.found then
 				a_lines.forth
 				if not a_lines.after then
-					summary_line := a_lines.item
+					summary_line := a_lines.item_copy
 					summary_line.left_adjust
 					create summary_parts.make (summary_line, ' ')
 					if summary_parts.count >= 3 then

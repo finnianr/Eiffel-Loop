@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:45:35 GMT (Tuesday 27th August 2024)"
-	revision: "6"
+	date: "2024-09-13 19:09:50 GMT (Friday 13th September 2024)"
+	revision: "7"
 
 deferred class
 	EL_PATH_PARENT
@@ -275,7 +275,7 @@ feature {NONE} -- Constants
 	Parent_set: EL_HASH_SET [ZSTRING]
 		-- cached set of all `parent_path' strings
 		once
-			create Result.make (100)
+			create Result.make_equal (100)
 		end
 
 end

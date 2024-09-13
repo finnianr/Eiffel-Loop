@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-05 6:37:52 GMT (Wednesday 5th June 2024)"
-	revision: "59"
+	date: "2024-09-13 19:13:30 GMT (Friday 13th September 2024)"
+	revision: "60"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -60,7 +60,7 @@ feature -- Access
 			dir_set: EL_HASH_SET [DIR_PATH]; parent: DIR_PATH
 		do
 		-- assume average of 20 files per directory
-			create dir_set.make ((iterable.count (path_list) // 20).min (10))
+			create dir_set.make_equal ((iterable.count (path_list) // 20).min (10))
 			across path_list as path loop
 				parent := path.item.parent
 				if not parent.is_empty then

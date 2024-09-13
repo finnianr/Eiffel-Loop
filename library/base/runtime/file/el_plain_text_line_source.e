@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "34"
+	date: "2024-09-13 12:01:51 GMT (Friday 13th September 2024)"
+	revision: "35"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -117,11 +117,7 @@ feature {NONE} -- Implementation
 
 	update_item
 		do
-			if is_shared_item then
-				item := file.last_string
-			else
-				item := file.last_string.twin
-			end
+			shared_item := file.last_string
 		end
 
 feature {NONE} -- Constants

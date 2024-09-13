@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-23 15:02:13 GMT (Friday 23rd August 2024)"
-	revision: "58"
+	date: "2024-09-13 19:09:46 GMT (Friday 13th September 2024)"
+	revision: "59"
 
 class
 	GENERAL_TEST_SET
@@ -34,28 +34,29 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["any_array_numeric_type_detection", agent test_any_array_numeric_type_detection],
-				["base_64_codec_1",						 agent test_base_64_codec_1],
-				["base_64_codec_2",						 agent test_base_64_codec_2],
-				["encodeables",							 agent test_encodeables],
-				["environment_put",						 agent test_environment_put],
-				["is_file_writable",						 agent test_is_file_writable],
-				["make_relative_directory",			 agent test_make_relative_directory],
-				["math_precision",						 agent test_math_precision],
-				["named_thread",							 agent test_named_thread],
-				["output_medium_encoding",				 agent test_output_medium_encoding],
-				["plain_text_line_source",				 agent test_plain_text_line_source],
-				["reverse_managed_pointer",			 agent test_reverse_managed_pointer],
-				["search_path",							 agent test_search_path],
-				["version_array",							 agent test_version_array],
-				["version_bump",							 agent test_version_bump],
-				["version_routines",						 agent test_version_routines]
+				["array_item_generating_type", agent test_array_item_generating_type],
+				["average_line_count",			 agent test_average_line_count],
+				["base_64_codec_1",				 agent test_base_64_codec_1],
+				["base_64_codec_2",				 agent test_base_64_codec_2],
+				["encodeables",					 agent test_encodeables],
+				["environment_put",				 agent test_environment_put],
+				["is_file_writable",				 agent test_is_file_writable],
+				["make_relative_directory",	 agent test_make_relative_directory],
+				["math_precision",				 agent test_math_precision],
+				["named_thread",					 agent test_named_thread],
+				["output_medium_encoding",		 agent test_output_medium_encoding],
+				["plain_text_line_source",		 agent test_plain_text_line_source],
+				["reverse_managed_pointer",	 agent test_reverse_managed_pointer],
+				["search_path",					 agent test_search_path],
+				["version_array",					 agent test_version_array],
+				["version_bump",					 agent test_version_bump],
+				["version_routines",				 agent test_version_routines]
 			>>)
 		end
 
 feature -- Tests
 
-	test_any_array_numeric_type_detection
+	test_array_item_generating_type
 		local
 			array: ARRAY [ANY]
 		do
@@ -63,6 +64,28 @@ feature -- Tests
 			assert ("same types", array.item (1).generating_type ~ {INTEGER_32_REF})
 			assert ("same types", array.item (2).generating_type ~ {DOUBLE})
 			assert ("same types", array.item (3).generating_type ~ {INTEGER_64})
+		end
+
+	test_average_line_count
+		note
+			testing: "[
+				covers/{EL_FILE_OPEN_ROUTINES}.open,
+				covers/{EL_PLAIN_TEXT_FILE}.average_line_count,
+				covers/{EL_FILE_ROUTINES_I}.average_line_count_of
+			]"
+		local
+			pyxis_path: FILE_PATH; credits: PLAIN_TEXT_FILE
+			average_1, average_2: INTEGER
+		do
+			pyxis_path := Dev_environ.El_test_data_dir + "pyxis/localization/credits.pyx"
+			create credits.make_open_read (pyxis_path)
+			average_1 := File.average_line_count_of (credits)
+			credits.close
+			if attached open (pyxis_path, Read) as f then
+				average_2 := f.average_line_count
+				f.close
+			end
+			assert ("average_2 < average_1", average_2 < average_1)
 		end
 
 	test_base_64_codec_1
@@ -88,12 +111,15 @@ feature -- Tests
 		-- GENERAL_TEST_SET.test_base_64_codec_2
 		-- rigourous test
 		note
-			testing: "covers/{EL_BASE_64_CODEC}.decoded", "covers/{EL_BASE_64_CODEC}.encoded"
+			testing: "[
+				covers/{EL_BASE_64_CODEC}.decoded,
+				covers/{EL_BASE_64_CODEC}.encoded
+			]"
 		local
 			base_64_str, last_8_characters, trimmed, padding: STRING; zstr, zstr_2: ZSTRING
 			parts: EL_ZSTRING_LIST; padding_permutation_set: EL_HASH_SET [STRING]
 		do
-			create padding_permutation_set.make (3)
+			create padding_permutation_set.make_equal (3)
 			across Hexagram.String_arrays as array loop
 				create parts.make_from_general (array.item)
 				zstr := parts.joined_words
@@ -217,10 +243,13 @@ feature -- Tests
 		-- GENERAL_TEST_SET.test_output_medium_encoding
 		note
 			testing: "[
-				covers/{EL_OUTPUT_MEDIUM}.put_string, covers/{EL_OUTPUT_MEDIUM}.put_string_32,
+				covers/{EL_OUTPUT_MEDIUM}.put_string,
+				covers/{EL_OUTPUT_MEDIUM}.put_string_32,
 				covers/{EL_OUTPUT_MEDIUM}.put_string_8,
-				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.to_array, covers/{EL_PLAIN_TEXT_FILE}.read_line,
+				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.to_array,
+				covers/{EL_PLAIN_TEXT_FILE}.read_line,
 				covers/{EL_FILE_OPEN_ROUTINES}.open_lines,
+				covers/{EL_FILE_GENERAL_LINE_SOURCE}.extend_special,
 				covers/{EL_ZCODEC}.encode_substring, covers/{EL_ZCODEC}.encode_substring_32,
 				covers/{EL_ZCODEC}.encode_sub_zstring
 			]"
@@ -272,11 +301,14 @@ feature -- Tests
 				covers/{EL_LINE_SOURCE_ITERATION_CURSOR}.forth,
 				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.make,
 				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.forth,
+				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.as_list,
+				covers/{EL_PLAIN_TEXT_FILE}.average_line_count,
 				covers/{EL_READABLE_ZSTRING}.substring_to_reversed,
 				covers/{EL_SPLIT_ZSTRING_ON_STRING}.make
 			]"
 		local
 			header_path, output_path: FILE_PATH; description, part: ZSTRING; code: STRING
+			line_list: EL_ZSTRING_LIST; count: INTEGER
 		do
 			header_path := Dev_environ.El_test_data_dir + "code/C/unix/error-codes.h"
 			output_path := Work_area_dir + header_path.base
@@ -287,7 +319,7 @@ feature -- Tests
 			then
 				output.set_latin_encoding (1)
 				across line_source as line loop
-					across line.item.split_on_string (C_comment_mark) as list loop
+					across line.shared_item.split_on_string (C_comment_mark) as list loop
 						part := list.item
 						if part.count > 0 then
 							part.adjust
@@ -307,10 +339,20 @@ feature -- Tests
 						output.put_string_8 (code); output.put_string_8 (":%N%T")
 						output.put_string (description)
 					end
+					count := count + 1
 				end
 				output.close
+				assert_same_digest (Plain_text, output_path, "RLAGdnzdvWEwm0pukVZZ7Q==")
+				create line_list.make (count)
+				if attached line_source as list then
+					from list.start until list.after loop
+						line_list.extend (list.item_copy)
+						list.forth
+					end
+					assert ("closed", line_source.is_closed)
+					assert ("same list", line_list ~ line_source.as_list)
+				end
 			end
-			assert_same_digest (Plain_text, output_path, "RLAGdnzdvWEwm0pukVZZ7Q==")
 		end
 
 	test_reverse_managed_pointer

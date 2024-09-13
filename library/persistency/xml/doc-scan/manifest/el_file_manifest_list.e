@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:13:29 GMT (Monday 2nd September 2024)"
-	revision: "24"
+	date: "2024-09-13 19:13:27 GMT (Friday 13th September 2024)"
+	revision: "25"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -58,22 +58,21 @@ feature -- Access
 			l_found: BOOLEAN
 		do
 			if output_path.exists then
-				if attached open_lines (output_path, Utf_8) as lines then
-					lines.enable_shared_item
-					across lines as line until l_found loop
-						if line.item.has_substring (Digest_attribute) then
-							Result := line.item.substring_between (Digest_attribute, char ('"'), 1).to_natural_32
+				if attached open_lines (output_path, Utf_8) as line_source then
+					across line_source as lines until l_found loop
+						if attached lines.shared_item as line and then line.has_substring (Digest_attribute) then
+							Result := line.substring_between (Digest_attribute, char ('"'), 1).to_natural_32
 							l_found := True
 						end
 					end
-					lines.close
+					line_source.close
 				end
 			end
 		end
 
 	name_set: EL_HASH_SET [ZSTRING]
 		do
-			create Result.make (count)
+			create Result.make_equal (count)
 			across Current as file loop
 				Result.put (file.item.name)
 			end

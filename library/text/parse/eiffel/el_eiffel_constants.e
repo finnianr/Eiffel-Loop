@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 9:30:21 GMT (Thursday 4th April 2024)"
-	revision: "11"
+	date: "2024-09-13 19:08:12 GMT (Friday 13th September 2024)"
+	revision: "12"
 
 deferred class
 	EL_EIFFEL_CONSTANTS
@@ -56,7 +56,7 @@ feature {NONE} -- Constants
 	Reserved_word_set: EL_HASH_SET [ZSTRING]
 			--
 		once
-			create Result.make (Reserved_word_list.count)
+			create Result.make_equal (Reserved_word_list.count)
 			Reserved_word_list.do_all (agent Result.put)
 		end
 

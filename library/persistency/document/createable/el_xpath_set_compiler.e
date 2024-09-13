@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-12 12:31:45 GMT (Saturday 12th August 2023)"
-	revision: "1"
+	date: "2024-09-13 19:08:12 GMT (Friday 13th September 2024)"
+	revision: "2"
 
 deferred class
 	EL_XPATH_SET_COMPILER
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create xpath_set.make (72)
+			create xpath_set.make_equal (72)
 		end
 
 feature -- Access

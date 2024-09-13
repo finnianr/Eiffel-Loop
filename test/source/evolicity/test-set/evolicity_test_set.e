@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-09-13 8:13:57 GMT (Friday 13th September 2024)"
+	revision: "19"
 
 class
 	EVOLICITY_TEST_SET
@@ -94,7 +94,7 @@ feature {NONE} -- Implementation
 					Evolicity_templates.merge_to_file (template_path, job_info, html_file)
 					create line_source.make_utf_8 (output_path)
 					across line_source as line loop
-						lio.put_line (line.item)
+						lio.put_line (line.shared_item)
 					end
 				end
 			end

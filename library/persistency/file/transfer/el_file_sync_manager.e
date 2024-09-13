@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 8:23:42 GMT (Monday 2nd September 2024)"
-	revision: "21"
+	date: "2024-09-13 19:08:14 GMT (Friday 13th September 2024)"
+	revision: "22"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -59,7 +59,7 @@ feature {NONE} -- Initialization
 		do
 			local_home_dir := a_local_home_dir; destination_name := a_destination_name
 			create extension.make_from_general (a_extension)
-			create current_set.make (0)
+			create current_set.make_equal (0)
 			previous_set := new_previous_set
 		end
 
@@ -222,7 +222,7 @@ feature {NONE} -- Factory
 				if checksum_dir.exists
 					and then attached File_system.files_with_extension (checksum_dir, Crc_extension, True) as crc_path_list
 				then
-					create Result.make (crc_path_list.count)
+					create Result.make_equal (crc_path_list.count)
 					across crc_path_list as path loop
 						if current_table.has_key (path.item) then
 							Result.put (current_table.found_item)
@@ -235,7 +235,7 @@ feature {NONE} -- Factory
 					end
 				else
 					File_system.make_directory (checksum_dir)
-					create Result.make (17)
+					create Result.make_equal (17)
 				end
 			end
 		end

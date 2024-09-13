@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:21:26 GMT (Sunday 25th August 2024)"
-	revision: "47"
+	date: "2024-09-13 19:09:51 GMT (Friday 13th September 2024)"
+	revision: "48"
 
 deferred class
 	EL_URI_PATH
@@ -327,12 +327,12 @@ feature {NONE} -- Constants
 
 	Authority_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (5)
+			create Result.make_equal (5)
 		end
 
 	Scheme_set: EL_HASH_SET [STRING]
 		once
-			create Result.make (5)
+			create Result.make_equal (5)
 		end
 
 	Separator_string: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-09-13 19:08:11 GMT (Friday 13th September 2024)"
+	revision: "6"
 
 class
 	EL_HASH_SET_REPRESENTATION [G -> HASHABLE]
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create hash_set.make (11)
+			create hash_set.make_equal (11)
 		end
 
 feature -- Basic operations

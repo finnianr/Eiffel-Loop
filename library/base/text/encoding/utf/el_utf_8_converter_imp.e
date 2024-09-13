@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:15:08 GMT (Sunday 25th August 2024)"
-	revision: "1"
+	date: "2024-09-13 15:18:11 GMT (Friday 13th September 2024)"
+	revision: "2"
 
 class
 	EL_UTF_8_CONVERTER_IMP
@@ -87,6 +87,10 @@ feature -- Measurement
 
 	frozen sequence_count (first_code: NATURAL): INTEGER
 		-- utf-8 byte count indicated by first code in sequence
+
+		-- selected		 : 296.0 times (100%)
+		-- bit-shifting : 294.0 times (-0.7%)
+		-- Using bit-shifting algorithm is slightly slower then selected alogorithm
 		do
 			if first_code <= 0x7F then -- 0xxxxxxx
 				Result := 1
@@ -96,6 +100,11 @@ feature -- Measurement
 				Result := 3
 			elseif first_code <= 0xF7 then -- 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 				Result := 4
+			else
+				check
+					valid_utf_8_character: False
+				end
+				Result := 1
 			end
 		end
 

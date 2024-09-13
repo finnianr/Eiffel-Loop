@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 7:51:29 GMT (Monday 22nd July 2024)"
-	revision: "34"
+	date: "2024-09-13 19:09:50 GMT (Friday 13th September 2024)"
+	revision: "35"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -146,7 +146,7 @@ feature -- Tests
 			create command.make_from_file (Config_path)
 			command.execute
 
-			create file_set.make (Www_manifest.count)
+			create file_set.make_equal (Www_manifest.count)
 			across Www_manifest as line loop
 				file_set.put (line.item)
 			end

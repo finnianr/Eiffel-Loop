@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:29:41 GMT (Sunday 25th August 2024)"
-	revision: "35"
+	date: "2024-09-13 8:10:11 GMT (Friday 13th September 2024)"
+	revision: "36"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -63,11 +63,9 @@ feature {NONE} -- Initialization
 			mail_dir_path := home_dir
 			mail_dir_path.append_step (".thunderbird")
 			if attached open_lines (mail_dir_path + "profiles.ini", Utf_8) as profile_lines then
-				profile_lines.enable_shared_item
-
-				across profile_lines as line loop
-					if line.item.starts_with (Path_equals) then
-						mail_dir_path.append_step (line.item.split_list ('=').last)
+				across profile_lines as lines loop
+					if attached lines.shared_item as line and then line.starts_with (Path_equals) then
+						mail_dir_path.append_step (line.split_list ('=').last)
 					end
 				end
 				profile_lines.close

@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-09-13 19:14:30 GMT (Friday 13th September 2024)"
+	revision: "6"
 
 deferred class
 	RBOX_IRADIO_FIELDS
@@ -122,19 +122,19 @@ feature {NONE} -- Constants
 
 	Album_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (100)
+			create Result.make_equal (100)
 		end
 
 	Artist_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (100)
+			create Result.make_equal (100)
 		end
 
 	Days_in_year: INTEGER = 365
 
 	Genre_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (50)
+			create Result.make_equal (50)
 		end
 
 	Media_type_set: EL_HASH_SET [STRING]
@@ -144,7 +144,7 @@ feature {NONE} -- Constants
 
 	Title_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (100)
+			create Result.make_equal (100)
 		end
 
 end

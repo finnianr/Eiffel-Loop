@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2024-09-13 15:50:13 GMT (Friday 13th September 2024)"
+	revision: "3"
 
 class
 	EL_WINDOWS_FILE_PATH_LINE_SOURCE
@@ -42,7 +42,6 @@ feature {NONE} -- Initialization
 			dir_path_string := find.dir_path
 			dir_path_string.append_character ('\')
 			make_encoded (Encodings.Console, a_file_path)
-			enable_shared_item
 		end
 
 feature -- Cursor movement
@@ -66,7 +65,7 @@ feature {NONE} -- Implementation
 			line: ZSTRING
 		do
 			if max_depth > 1 then
-				line := item
+				line := shared_item
 				if start_index.to_boolean then
 --						Change absolute paths to be relative to current working directory for Linux compatibility
 					if start_index > line.count then
@@ -77,14 +76,14 @@ feature {NONE} -- Implementation
 					line.trim
 				end
 			else
-				item.prepend (dir_path_string)
-				item.prune_all_trailing ('\')
+				shared_item.prepend (dir_path_string)
+				shared_item.prune_all_trailing ('\')
 			end
 		end
 
 	depth: INTEGER
 		do
-			Result := item.occurrences ('\') - dir_path_occurrences
+			Result := shared_item.occurrences ('\') - dir_path_occurrences
 		end
 
 	update_item

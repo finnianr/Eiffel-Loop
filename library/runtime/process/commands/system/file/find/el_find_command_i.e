@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 9:52:34 GMT (Sunday 31st December 2023)"
-	revision: "27"
+	date: "2024-09-13 8:26:11 GMT (Friday 13th September 2024)"
+	revision: "28"
 
 deferred class
 	EL_FIND_COMMAND_I
@@ -201,7 +201,7 @@ feature {NONE} -- Implementation
 			line: ZSTRING
 		do
 			from lines.start until lines.after loop
-				line := lines.item
+				line := lines.shared_item
 				if line.count > 0 and then filter.met (line) then
 					path_list.extend (new_path (line))
 				end

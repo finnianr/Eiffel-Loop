@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "20"
+	date: "2024-09-13 19:09:48 GMT (Friday 13th September 2024)"
+	revision: "21"
 
 deferred class
 	EL_GENERATED_FILE_DATA_TEST_SET
@@ -47,7 +47,7 @@ feature {NONE} -- Implementation
 			else
 				root_dir := Work_area_dir
 			end
-			create Result.make ((file_set.count // 2).min (3))
+			create Result.make_equal ((file_set.count // 2).min (3))
 			Result.put (root_dir)
 			across new_file_set (is_absolute) as path loop
 				from dir_path := path.item.parent until Result.has (dir_path) loop
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 			path_list: EL_ZSTRING_LIST
 		do
 			create path_list.make_with_lines (file_path_list)
-			create Result.make (path_list.count)
+			create Result.make_equal (path_list.count)
 			across path_list as list loop
 				if is_absolute then
 					Result.put (Work_area_absolute_dir + list.item)

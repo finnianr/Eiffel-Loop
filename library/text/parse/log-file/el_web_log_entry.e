@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:23:22 GMT (Sunday 25th August 2024)"
-	revision: "20"
+	date: "2024-09-13 19:13:29 GMT (Friday 13th September 2024)"
+	revision: "21"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -196,7 +196,7 @@ feature {NONE} -- Implementation
 
 	new_string_set: EL_HASH_SET [ZSTRING]
 		do
-			create Result.make (3)
+			create Result.make_equal (3)
 		end
 
 	stripped_lower (a_name: ZSTRING): EL_ZSTRING_LIST
@@ -232,7 +232,7 @@ feature {NONE} -- String sets
 
 	Default_value_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (0)
+			create Result.make_equal (0)
 		end
 
 	Field_cache_array: ARRAY [EL_HASH_SET [ZSTRING]]

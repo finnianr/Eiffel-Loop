@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2024-09-13 8:29:18 GMT (Friday 13th September 2024)"
+	revision: "23"
 
 class
 	EL_NETWORK_DEVICE_LIST_IMP
@@ -60,13 +60,13 @@ feature {NONE} -- Implementation
 			name: STRING; field: EL_COLON_FIELD_ROUTINES
 		do
 			from lines.start until lines.after loop
-				if lines.item.starts_with (General_dot) then
-					name := new_field_name (lines.item)
+				if lines.shared_item.starts_with (General_dot) then
+					name := new_field_name (lines.shared_item)
 					if name ~ Field_device then
 						extend (create {EL_NETWORK_DEVICE_IMP}.make)
 					end
 					if attached {EL_NETWORK_DEVICE_IMP} last as device then
-						device.set_field (name, field.value (lines.item))
+						device.set_field (name, field.value (lines.shared_item))
 					end
 				end
 				lines.forth

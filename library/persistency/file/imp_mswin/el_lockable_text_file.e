@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 18:03:41 GMT (Monday 26th August 2024)"
-	revision: "9"
+	date: "2024-09-13 16:14:09 GMT (Friday 13th September 2024)"
+	revision: "10"
 
 class
 	EL_LOCKABLE_TEXT_FILE
@@ -65,7 +65,7 @@ feature -- Status change
 
 	close
 		do
-			if file_handle /= c_invalid_handle_value and then c_close_handle (file_handle) then
+			if file_handle.to_integer_32 > 0 and then c_close_handle (file_handle) then
 				file_handle := default_pointer
 			end
 		ensure

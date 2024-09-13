@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:18:19 GMT (Sunday 25th August 2024)"
-	revision: "6"
+	date: "2024-09-13 8:19:31 GMT (Friday 13th September 2024)"
+	revision: "7"
 
 class
 	EL_STRING_8_IO_MEDIUM_LINE_SOURCE
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 
 	update_item
 		do
-			item := medium.last_string
+			shared_item := medium.last_string
 		end
 
 feature {NONE} -- Constants

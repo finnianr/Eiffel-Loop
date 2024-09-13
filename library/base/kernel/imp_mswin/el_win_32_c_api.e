@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 8:07:02 GMT (Monday 19th August 2024)"
-	revision: "6"
+	date: "2024-09-13 16:17:32 GMT (Friday 13th September 2024)"
+	revision: "7"
 
 class
 	EL_WIN_32_C_API
@@ -258,13 +258,6 @@ feature {NONE} -- Error constants
 			"C [macro <WinError.h>]"
 		alias
 			"ERROR_ALREADY_EXISTS"
-		end
-
-	frozen c_invalid_handle_value: POINTER
-		external
-			"C [macro <Winbase.h>]"
-		alias
-			"INVALID_HANDLE_VALUE"
 		end
 
 feature {NONE} -- Size constants

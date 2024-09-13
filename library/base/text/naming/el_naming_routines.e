@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "44"
+	date: "2024-09-13 19:12:27 GMT (Friday 13th September 2024)"
+	revision: "45"
 
 class
 	EL_NAMING_ROUTINES
@@ -32,7 +32,7 @@ feature -- Constants
 
 	Empty_word_set: EL_HASH_SET [STRING]
 		once
-			create Result.make (0)
+			create Result.make_equal (0)
 		end
 
 	No_words: EL_STRING_8_LIST

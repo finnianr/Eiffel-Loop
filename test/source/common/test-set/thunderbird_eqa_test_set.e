@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:28:12 GMT (Tuesday 27th August 2024)"
-	revision: "26"
+	date: "2024-09-13 19:09:49 GMT (Friday 13th September 2024)"
+	revision: "27"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -166,10 +166,10 @@ feature {NONE} -- Implementation
 			h2_list := xdoc.context_list ("//h2")
 			if h2_list.count > 0 then
 				assert ("h2 heading file exists", h2_path.exists)
-				create h2_set.make (11)
+				create h2_set.make_equal (11)
 				if attached open_lines (h2_path, {EL_ENCODING_TYPE}.Utf_8) as h2_lines then
 					across h2_lines as line loop
-						h2_set.put (line.item)
+						h2_set.put_copy (line.shared_item)
 					end
 				end
 				across h2_list as h2 loop

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-20 8:41:18 GMT (Monday 20th May 2024)"
-	revision: "5"
+	date: "2024-09-13 19:14:57 GMT (Friday 13th September 2024)"
+	revision: "6"
 
 class
 	EL_VERSION_PATH_LIST
@@ -91,7 +91,7 @@ feature -- Access
 	version_set: EL_HASH_SET [EL_SOFTWARE_VERSION]
 		do
 			push_cursor
-			create Result.make (count)
+			create Result.make_equal (count)
 			from start until after loop
 				if attached path_version as version then
 					Result.put (version)

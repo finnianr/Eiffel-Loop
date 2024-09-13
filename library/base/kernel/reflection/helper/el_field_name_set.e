@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-21 18:03:05 GMT (Friday 21st July 2023)"
-	revision: "2"
+	date: "2024-09-13 19:12:06 GMT (Friday 13th September 2024)"
+	revision: "3"
 
 class
 	EL_FIELD_NAME_SET
 
 inherit
 	EL_HASH_SET [IMMUTABLE_STRING_8]
-		rename
-			make as make_sized
-		end
 
 create
 	make
@@ -37,7 +34,7 @@ feature {NONE} -- Initialization
 				non_zero_count := list.non_zero_count
 
 				if non_zero_count > 0 then
-					make_sized (non_zero_count)
+					make_equal (non_zero_count)
 
 					from list.start until list.after loop
 						if list.item_count > 0 then
@@ -46,10 +43,10 @@ feature {NONE} -- Initialization
 						list.forth
 					end
 				else
-					make_sized (0)
+					make_equal (0)
 				end
 			else
-				make_sized (0)
+				make_equal (0)
 			end
 		end
 end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 15:11:43 GMT (Thursday 11th July 2024)"
-	revision: "7"
+	date: "2024-09-13 19:08:13 GMT (Friday 13th September 2024)"
+	revision: "8"
 
 class
 	EL_IP_ADDRESS_GEOLOCATION_TABLE [G -> EL_IP_ADDRESS_COUNTRY create make end]
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			Precursor (n)
-			create location_table.make (19)
+			create location_table.make_equal (19)
 		end
 
 feature -- Basic operations

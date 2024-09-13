@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 9:11:50 GMT (Tuesday 9th July 2024)"
-	revision: "4"
+	date: "2024-09-13 8:31:26 GMT (Friday 13th September 2024)"
+	revision: "5"
 
 class
 	EL_SYMLINK_LISTING_COMMAND
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 	do_with_lines (list: like new_output_lines)
 		do
 			from list.start until list.after loop
-				if attached list.item as line and then line.has_substring (Symlink_arrow)
+				if attached list.shared_item as line and then line.has_substring (Symlink_arrow)
 					and then line.valid_index (Name_column)
 				then
 					lines.extend (line.substring_end (Name_column))

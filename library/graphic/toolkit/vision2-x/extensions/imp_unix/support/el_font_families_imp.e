@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-09-13 19:16:37 GMT (Friday 13th September 2024)"
+	revision: "5"
 
 class
 	EL_FONT_FAMILIES_IMP
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 	new_true_type_set: EL_HASH_SET [ZSTRING]
 		do
 			if attached File_system.files_with_extension ("/usr/share/fonts/truetype", "ttf", True) as true_type_list then
-				create Result.make (true_type_list.count)
+				create Result.make_equal (true_type_list.count)
 				across true_type_list as list loop
 					if attached list.item.base_name as name then
 						remove_qualifiers (name)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:57:32 GMT (Friday 29th March 2024)"
-	revision: "13"
+	date: "2024-09-13 14:32:35 GMT (Friday 13th September 2024)"
+	revision: "14"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
@@ -39,12 +39,15 @@ feature {NONE} -- Initialization
 
 	make (file_path: FILE_PATH)
 			--
+		local
+			name_value: EL_NAME_VALUE_PAIR [ZSTRING]
 		do
 			make_default
 			if attached open_lines (file_path, Utf_8) as property_lines then
 				across property_lines as line loop
-					if not (line.item.is_empty or else line.item.starts_with (Hash_sign)) then
-						import_line (line.item)
+					if not line.shared_item.starts_with_character ('#') and then line.shared_item.has ('=') then
+						create name_value.make (line.shared_item, '=')
+						import (name_value)
 					end
 				end
 				property_lines.close
@@ -90,16 +93,13 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	import_line (line: ZSTRING)
+	import (nvp: EL_NAME_VALUE_PAIR [ZSTRING])
 			--
 		local
-			key_path_list: EL_ZSTRING_LIST
-			key, value, profile_type: ZSTRING
-			profile_id, pos_equal_sign, pos_profile_id: INTEGER
+			key_path_list: EL_ZSTRING_LIST; key, profile_type: ZSTRING
+			profile_id, pos_profile_id: INTEGER
 		do
-			pos_equal_sign := line.index_of ('=', 1)
-			create key_path_list.make_split (line.substring (1, pos_equal_sign - 1), '.')
-			value := line.substring (pos_equal_sign + 1, line.count)
+			create key_path_list.make_split (nvp.name, '.')
 			profile_type := key_path_list.i_th (2)
 			if profile_type ~ Var_javaws then
 				pos_profile_id := 4
@@ -114,9 +114,9 @@ feature {NONE} -- Implementation
 				key := key_path_list.last
 				profile_id := key_path_list.i_th (pos_profile_id).to_integer + 1
 				if key ~ Key_path or key ~ Key_location then
-					add_property (profiles [profile_type], key, value.unescaped (Escaped_characters), profile_id)
+					add_property (profiles [profile_type], key, nvp.value.unescaped (Escaped_characters), profile_id)
 				else
-					add_property (profiles [profile_type], key, value, profile_id)
+					add_property (profiles [profile_type], key, nvp.value, profile_id)
 				end
 			end
 		end
@@ -144,11 +144,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
-
-	Hash_sign: ZSTRING
-		once
-			Result := "#"
-		end
 
 	Var_javaws: ZSTRING
 		once

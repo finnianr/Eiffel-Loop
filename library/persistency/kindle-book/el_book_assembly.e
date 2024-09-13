@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-28 15:53:24 GMT (Tuesday 28th March 2023)"
-	revision: "13"
+	date: "2024-09-13 19:08:14 GMT (Friday 13th September 2024)"
+	revision: "14"
 
 class
 	EL_BOOK_ASSEMBLY
@@ -47,7 +47,7 @@ feature -- Access
 			list: like chapter_list
 		do
 			list := chapter_list
-			create Result.make (list.sum_integer (agent image_list_count))
+			create Result.make_equal (list.sum_integer (agent image_list_count))
 			across list as chapter loop
 				across chapter.item.image_list as path loop
 					Result.put (path.item)

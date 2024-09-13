@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:46:56 GMT (Friday 12th July 2024)"
-	revision: "15"
+	date: "2024-09-13 16:50:41 GMT (Friday 13th September 2024)"
+	revision: "16"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -73,10 +73,65 @@ feature {NONE} -- Initialization
 			make_default
 		end
 
-feature -- Access
+feature -- Measurement
+
+	average_line_count: INTEGER
+		-- average characters per line based on leading 1K block
+		-- (optimized so as not to call `last_character')
+		require
+			readable: readable
+		local
+			previous_pos, char_count, newline_count: INTEGER; pending_break, break: BOOLEAN
+			c: CHARACTER; utf_encoded: BOOLEAN; utf_lines: STRING; f_pointer: POINTER
+		do
+			previous_pos := position
+			if bom_count > 0 then
+				go (bom_count)
+			else
+				go (0)
+			end
+			if is_utf_encoded then
+				create utf_lines.make (1024 + 100)
+				utf_encoded := True
+			else
+				utf_lines := Empty_string_8
+			end
+			from f_pointer := file_pointer until break loop
+				c := file_gc (f_pointer)
+				if file_feof (f_pointer) then
+				-- NOTE: `c.natural_code = 0xFF' for `end_of_file' condition
+					break := True
+				else
+					inspect c
+						when '%N' then
+							newline_count := newline_count + 1
+							if pending_break then
+								break := True
+							end
+					else
+					end
+					if utf_encoded then
+						utf_lines.extend (c)
+					end
+					char_count := char_count + 1
+					if char_count > 1024 then
+						pending_break := True
+					end
+				end
+			end
+			if utf_encoded then
+				char_count := unicode_count (utf_lines)
+			end
+			Result := (char_count / newline_count.max (1)).rounded
+			go (previous_pos)
+		ensure
+			position_unchanged: position = old position
+		end
 
 	bom_count: INTEGER
 		-- byte order mark count
+
+feature -- Access
 
 	last_string: ZSTRING
 
@@ -144,6 +199,22 @@ feature -- Basic operations
 				else
 					last_string.append_encoded (raw_line, file_encoding)
 				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	unicode_count (utf_lines: STRING): INTEGER
+		local
+
+			utf_16_le: EL_UTF_16_LE_CONVERTER; utf_8_converter: EL_UTF_8_CONVERTER
+		do
+			inspect file_encoding
+				when Utf_8 then
+					Result := utf_8_converter.unicode_count (utf_lines)
+				when Utf_16 then
+					Result := utf_16_le.unicode_count (utf_lines)
+			else
 			end
 		end
 end

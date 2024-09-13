@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 13:05:52 GMT (Thursday 12th September 2024)"
-	revision: "27"
+	date: "2024-09-13 19:10:42 GMT (Friday 13th September 2024)"
+	revision: "28"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -36,6 +36,7 @@ inherit
 			item_for_iteration as iteration_item,
 			inserted as inserted_constant,
 			merge as ht_merge,
+			make as make_equal,
 			make_map as make_size,
 			prune as ht_prune,
 			remove as prune
@@ -43,7 +44,7 @@ inherit
 			{NONE} all
 			{ANY} has, valid_key, found, found_item, search, count, new_cursor, wipe_out, iteration_item
 		redefine
-			make, put, same_keys
+			make_equal, put, same_keys
 		end
 
 	TRAVERSABLE [H]
@@ -69,14 +70,14 @@ inherit
 	EL_MODULE_ITERABLE
 
 create
-	make, make_size, make_from_array, make_from
+	make_equal, make_size, make_from_array, make_from
 
 convert
 	make_from_array ({ARRAY [H]})
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER)
+	make_equal (n: INTEGER)
 			-- Allocate hash table for at least `n' items using `~' for comparison.
 			-- The table will be resized automatically if more than `n' items are inserted.
 		do
@@ -93,6 +94,7 @@ feature {NONE} -- Initialization
 				make_size (0)
 			end
 			object_comparison := a_object_comparison
+			is_map := not a_object_comparison
 		end
 
 	make_from_array (array: ARRAY [H])
@@ -109,7 +111,7 @@ feature -- Access
 			local_content: like content
 		do
 			if object_comparison then
-				create Result.make (count // 2)
+				create Result.make_equal (count // 2)
 			else
 				create Result.make_size (count // 2)
 			end
@@ -210,7 +212,7 @@ feature -- Duplication
 	duplicate (n: INTEGER): EL_HASH_SET [H]
 		do
 			if object_comparison then
-				create Result.make (n)
+				create Result.make_equal (n)
 			else
 				create Result.make_size (n)
 			end

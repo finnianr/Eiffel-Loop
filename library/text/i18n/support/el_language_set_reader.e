@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 13:40:51 GMT (Monday 29th July 2024)"
-	revision: "3"
+	date: "2024-09-13 19:08:13 GMT (Friday 13th September 2024)"
+	revision: "4"
 
 class
 	EL_LANGUAGE_SET_READER
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create language_set.make (11)
+			create language_set.make_equal (11)
 			language_set.put (Key_language)
 		end
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 13:11:09 GMT (Saturday 22nd June 2024)"
-	revision: "18"
+	date: "2024-09-13 19:08:11 GMT (Friday 13th September 2024)"
+	revision: "19"
 
 class
 	BIOINFO_XPATH_MATCH_EVENTS
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 		do
 			create label_count
 			create par_id_count
-			create data_value_field_set.make (21)
+			create data_value_field_set.make_equal (21)
 		end
 
 feature {NONE} -- XPath match event handlers

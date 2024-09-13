@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 6:20:48 GMT (Friday 12th July 2024)"
-	revision: "31"
+	date: "2024-09-13 19:13:30 GMT (Friday 13th September 2024)"
+	revision: "32"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -256,7 +256,7 @@ feature {NONE} -- Implementation
 			day_list.wipe_out
 
 			max_day_count := day_list.capacity - 1
-			create day_set.make (day_list.capacity)
+			create day_set.make_equal (day_list.capacity)
 			day_set.put (date.ordered_compact_date) -- todays
 
 			if firewall_status_table.count > 0 then

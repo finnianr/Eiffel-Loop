@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 11:36:18 GMT (Sunday 8th September 2024)"
-	revision: "130"
+	date: "2024-09-13 19:09:47 GMT (Friday 13th September 2024)"
+	revision: "131"
 
 class
 	ZSTRING_TEST_SET
@@ -571,8 +571,8 @@ feature -- Access tests
 			substring_line_set, line_set: EL_HASH_SET [ZSTRING]
 			substring_count, old_count: INTEGER; line, line_substring: ZSTRING
 		do
-			create substring_line_set.make (10)
-			create line_set.make (10)
+			create substring_line_set.make_equal (10)
+			create line_set.make_equal (10)
 			across << 1, 2, 3, 4 >> as fifth loop
 				line := Text.russian
 				line_set.put (line)

@@ -1,18 +1,17 @@
 
-arch_attribute = "processorArchitecture='%s'"
+class Person:
+    def __init__(self, name, age, country):
+        self.name = name
+        self.age = age
+        self.country = country
 
-def write_manifest (input_file, output_file):
-    # Open the input file in read mode
-    with open (input_file, 'r') as infile:
-        # Read the entire content of the file
-        content = infile.read()
+    def __repr__(self):
+         return "Person(name='{}', age={})".format(self.name, self.age)
 
-    # Open the output file in write mode and write the modified content
-    with open (output_file, 'w') as outfile:
-        outfile.write (content.replace (arch_attribute % ('amd64'), arch_attribute %('x86'), 1))
+# Tuple containing data
+person_data = ("Alice", 30, "USA")
 
-# Example usage:
-input_file = 'myching.exe.manifest'
-output_file = 'build/windows/package/bin/myching.exe.manifest'
-write_manifest (input_file, output_file)
+# Initialize the class using * unpacking
+person = Person(*person_data)
 
+print person

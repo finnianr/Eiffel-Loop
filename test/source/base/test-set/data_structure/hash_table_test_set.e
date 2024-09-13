@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 6:36:08 GMT (Monday 9th September 2024)"
-	revision: "44"
+	date: "2024-09-13 19:09:47 GMT (Friday 13th September 2024)"
+	revision: "45"
 
 class
 	HASH_TABLE_TEST_SET
@@ -129,7 +129,7 @@ feature -- Test
 			key: STRING
 		do
 			create table.make_equal (20)
-			create set.make (20)
+			create set.make_equal (20)
 
 			across 1 |..| 2 as n loop
 				table.put ('a', "a")

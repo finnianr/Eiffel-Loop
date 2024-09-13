@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 15:07:27 GMT (Friday 2nd August 2024)"
-	revision: "5"
+	date: "2024-09-13 19:09:50 GMT (Friday 13th September 2024)"
+	revision: "6"
 
 deferred class
 	EL_MULTI_LANGUAGE_TRANSLATION_TABLE
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 	make_equal (n: INTEGER)
 		do
 			Precursor (n)
-			create language_set.make (5)
+			create language_set.make_equal (5)
 			language_set.put (Key_language)
 		end
 

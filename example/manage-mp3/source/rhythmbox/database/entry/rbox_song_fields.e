@@ -32,8 +32,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-23 17:10:43 GMT (Friday 23rd December 2022)"
-	revision: "9"
+	date: "2024-09-13 19:14:30 GMT (Friday 13th September 2024)"
+	revision: "10"
 
 deferred class
 	RBOX_SONG_FIELDS
@@ -197,7 +197,7 @@ feature {NONE} -- Constants
 
 	Composer_set: EL_HASH_SET [ZSTRING]
 		once
-			create Result.make (100)
+			create Result.make_equal (100)
 		end
 
 end

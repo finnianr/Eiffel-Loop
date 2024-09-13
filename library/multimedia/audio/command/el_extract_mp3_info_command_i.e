@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 12:24:21 GMT (Saturday 22nd July 2023)"
-	revision: "13"
+	date: "2024-09-13 8:25:20 GMT (Friday 13th September 2024)"
+	revision: "14"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -53,13 +53,15 @@ feature {NONE} -- Implementation
 		do
 			T_or_U_set := << 'T', 'U' >>
 			from lines.start until lines.after loop
-				pos_field_delimiter := lines.item.substring_index (Field_delimiter, 1)
-				if pos_field_delimiter > 0 then
-					l_field_name := lines.item.substring (1, pos_field_delimiter - 1)
-					field_value := lines.item.substring_end (pos_field_delimiter + Field_delimiter.count)
-					fields [l_field_name] := field_value
-					if T_or_U_set.has (field_value.item (field_value.count)) then
-						last_character_is_T_or_U_count := last_character_is_T_or_U_count + 1
+				if attached lines.shared_item as line then
+					pos_field_delimiter := line.substring_index (Field_delimiter, 1)
+					if pos_field_delimiter > 0 then
+						l_field_name := line.substring (1, pos_field_delimiter - 1)
+						field_value := line.substring_end (pos_field_delimiter + Field_delimiter.count)
+						fields [l_field_name] := field_value
+						if T_or_U_set.has (field_value.item (field_value.count)) then
+							last_character_is_T_or_U_count := last_character_is_T_or_U_count + 1
+						end
 					end
 				end
 				lines.forth

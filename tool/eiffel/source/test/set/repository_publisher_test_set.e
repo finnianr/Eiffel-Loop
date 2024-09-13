@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 10:35:07 GMT (Sunday 1st September 2024)"
-	revision: "88"
+	date: "2024-09-13 8:39:52 GMT (Friday 13th September 2024)"
+	revision: "89"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -104,7 +104,7 @@ feature -- Tests
 				and then attached crc_generator as crc
 			then
 				across line_list as list loop
-					if attached list.item as line
+					if attached list.shared_item as line
 					 	and then (line.starts_with_general ("class") or line.has_substring ("Source"))
 					 	and then attached line.split_list (' ') as parts
 					 then

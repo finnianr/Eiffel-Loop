@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 9:29:30 GMT (Thursday 25th April 2024)"
-	revision: "15"
+	date: "2024-09-13 8:29:54 GMT (Friday 13th September 2024)"
+	revision: "16"
 
 class
 	EL_CAPTURED_OS_COMMAND
@@ -56,7 +56,7 @@ feature {NONE} -- Implementation
 	do_with_lines (list: like new_output_lines)
 		do
 			from list.start until list.after loop
-				lines.extend (list.item)
+				lines.extend (list.item_copy)
 				list.forth
 			end
 		end

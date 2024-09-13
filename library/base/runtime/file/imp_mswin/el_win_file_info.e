@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 11:55:09 GMT (Thursday 15th August 2024)"
-	revision: "9"
+	date: "2024-09-13 16:11:59 GMT (Friday 13th September 2024)"
+	revision: "10"
 
 class
 	EL_WIN_FILE_INFO
@@ -26,7 +26,6 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			handle := invalid_handle_value
 			create mswin_date_time.make
 		end
 
@@ -110,7 +109,7 @@ feature -- Status query
 
 	is_open: BOOLEAN
 		do
-			Result := handle /= invalid_handle_value
+			Result := handle.to_integer_32 > 0
 		end
 
 	is_open_read: BOOLEAN
@@ -128,7 +127,7 @@ feature -- Status change
 	close
 		do
 			if is_open and then c_close_handle (handle) then
-				handle := invalid_handle_value
+				handle := default_pointer
 				state := State_closed
 			end
 		ensure

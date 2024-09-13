@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-16 10:36:08 GMT (Wednesday 16th August 2023)"
-	revision: "19"
+	date: "2024-09-13 19:10:43 GMT (Friday 13th September 2024)"
+	revision: "20"
 
 class
 	EL_LOG_FILTER
@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 
 	Empty_set: EL_HASH_SET [STRING]
 		once
-			create Result.make (0)
+			create Result.make_equal (0)
 		end
 
 end

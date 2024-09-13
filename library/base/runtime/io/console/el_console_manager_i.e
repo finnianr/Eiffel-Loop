@@ -6,15 +6,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-09-13 19:08:12 GMT (Friday 13th September 2024)"
+	revision: "19"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
 
 inherit
 	EL_OS_DEPENDENT
-	
+
 	EL_SINGLE_THREAD_ACCESS
 
 	EL_SHARED_BASE_OPTION
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_default
-			create visible_types.make (20)
+			create visible_types.make_equal (20)
 		end
 
 feature -- Access

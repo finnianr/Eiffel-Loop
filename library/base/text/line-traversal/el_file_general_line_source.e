@@ -9,14 +9,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:50:09 GMT (Friday 12th July 2024)"
-	revision: "9"
+	date: "2024-09-13 16:54:15 GMT (Friday 13th September 2024)"
+	revision: "10"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
 
 inherit
 	EL_LINEAR [S]
+		rename
+			item as shared_item
+		redefine
+			extend_special
+		end
 
 	ITERABLE [S]
 
@@ -30,6 +35,11 @@ inherit
 	EL_MODULE_ENCODING
 		rename
 			Encoding as Encoding_
+		end
+
+	EL_MODULE_File
+		rename
+			File as File_
 		end
 
 	EL_EVENT_LISTENER
@@ -55,56 +65,66 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor
-			create item.make (0)
+			create shared_item.make (0)
 			file := default_file
 			on_encoding_change.add_listener (Current)
 		end
 
-feature -- Access
+feature -- Measurement
 
 	bom_count: INTEGER
 		-- byte order mark count
 
-	count: INTEGER
+	traversed_count: INTEGER
+		-- count of line traversed by `start' or `forth'
 
 	index: INTEGER
 
-	item: S
+	item_count: INTEGER
+		do
+			Result := shared_item.count
+		end
+
+feature -- Access
+
+	item_copy: S
+		do
+			Result := shared_item.twin
+		end
+
+	shared_item: S
+		-- line item that is updated for each line read in `update_item'
+		-- Use `item_copy' if keeping a reference to the line item
 
 feature -- Conversion
 
 	as_list: like new_list
-			--
-		local
-			is_shared: BOOLEAN
 		do
-			is_shared := is_shared_item
-			is_shared_item := False
-			Result := new_list (file.count // 10)
-			from start until after loop
-				Result.extend (item)
-				forth
+			start
+			if file.readable then
+				Result := new_list (file.count // File_.average_line_count_of (file))
+				file.move (- {PLATFORM}.is_windows.to_integer) -- workaround for Windows bug
+				from until after loop
+					Result.extend (shared_item.twin)
+					forth
+				end
+			else
+				create Result.make_empty
 			end
-			is_shared_item := is_shared
 		end
 
 feature -- Access
 
 	joined: S
-		local
-			is_shared: BOOLEAN
 		do
-			is_shared := is_shared_item
-			is_shared_item := True
 			create Result.make (file.count)
 			from start until after loop
 				if index > 1 then
 					Result.append_code ({EL_ASCII}.Newline)
 				end
-				Result.append (item)
+				Result.append (shared_item)
 				forth
 			end
-			is_shared_item := is_shared
 		end
 
 	new_cursor: EL_LINE_SOURCE_ITERATION_CURSOR [S]
@@ -119,7 +139,13 @@ feature -- Status query
 	after: BOOLEAN
 			-- Is there no valid position to the right of current one?
 		do
-			Result := index = count + 1
+			Result := index = traversed_count + 1
+		end
+
+	is_closed: BOOLEAN
+			--
+		do
+			Result := file.is_closed
 		end
 
 	is_empty: BOOLEAN
@@ -137,9 +163,6 @@ feature -- Status query
 			Result := file.is_open_read
 		end
 
-	is_shared_item: BOOLEAN
-		-- True if only one instance of `item' created
-
 feature -- Output
 
 	print_first (log: EL_LOGGABLE; n: INTEGER)
@@ -148,7 +171,7 @@ feature -- Output
 			line: ZSTRING; tab_count: INTEGER
 		do
 			across Current as ln until ln.cursor_index > n loop
-				create line.make_from_general (ln.item)
+				create line.make_from_general (ln.shared_item)
 				tab_count := line.leading_occurrences ('%T')
 				if tab_count > 0 then
 					line.replace_substring (space * (tab_count * 3), 1, tab_count)
@@ -180,7 +203,7 @@ feature -- Cursor movement
 				end
 				if found_item then
 					update_item
-					count := count + 1
+					traversed_count := traversed_count + 1
 				end
 				index := index + 1
 				if after and not is_file_external then
@@ -196,13 +219,13 @@ feature -- Cursor movement
 		do
 			if file = default_file then
 				index := 1
-				count := 0
+				traversed_count := 0
 			else
 				open_at_start
-				count := 0
+				traversed_count := 0
 				if file.off then
 					index := 1
-					item.keep_head (0)
+					shared_item.keep_head (0)
 				else
 					index := 0
 					forth
@@ -218,18 +241,6 @@ feature -- Status setting
 			if file.is_open_read then
 				file.close
 			end
-		end
-
-	disable_shared_item
-		-- when enabled the same instance of `item' is always returned
-		do
-			is_shared_item := False
-		end
-
-	enable_shared_item
-		-- when enabled the same instance of `item' is always returned
-		do
-			is_shared_item := True
 		end
 
 	open_at_start
@@ -251,7 +262,7 @@ feature -- Basic operations
 			file.delete
 		end
 
-feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
+feature {NONE} -- Implementation
 
 	check_encoding
 		do
@@ -267,12 +278,18 @@ feature {EL_LINE_SOURCE_ITERATION_CURSOR} -- Implementation
 			end
 		end
 
+	extend_special (item: S; area: SPECIAL [S])
+		-- fixes `to_array' and `to_special'
+		do
+			area.extend (item.twin)
+		end
+
 	finish
 			-- Move to last position.
 		do
 		end
 
-	new_list (n: INTEGER): EL_ARRAYED_LIST [S]
+	new_list (n: INTEGER): EL_STRING_LIST [S]
 		do
 			create Result.make (n)
 		end

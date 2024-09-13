@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 13:06:33 GMT (Monday 13th May 2024)"
-	revision: "45"
+	date: "2024-09-13 19:10:43 GMT (Friday 13th September 2024)"
+	revision: "46"
 
 class
 	EL_FTP_PROTOCOL
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 			set_read_buffer_size (Default_buffer_size)
 			create current_directory
 			set_binary_mode
-			create created_directory_set.make (10)
+			create created_directory_set.make_equal (10)
 			create reply_parser.make
 		end
 

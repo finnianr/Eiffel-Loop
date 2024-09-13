@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:22:05 GMT (Sunday 25th August 2024)"
-	revision: "10"
+	date: "2024-09-13 8:13:56 GMT (Friday 13th September 2024)"
+	revision: "11"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -178,7 +178,7 @@ feature {NONE} -- Implementation
 	display_plain_text (encrypted_lines: EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE)
 		do
 			across encrypted_lines as line loop
-				lio.put_line (line.item)
+				lio.put_line (line.shared_item)
 			end
 		end
 
@@ -261,7 +261,7 @@ feature {NONE} -- Implementation
 		do
 			create out_file.make_open_write (encrypted_lines.file_path.without_extension)
 			across encrypted_lines as line loop
-				out_file.put_string (line.item)
+				out_file.put_string (line.shared_item)
 				out_file.put_new_line
 			end
 			out_file.close

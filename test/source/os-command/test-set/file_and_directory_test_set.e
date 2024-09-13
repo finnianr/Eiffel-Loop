@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-26 17:20:46 GMT (Friday 26th April 2024)"
-	revision: "43"
+	date: "2024-09-13 19:09:48 GMT (Friday 13th September 2024)"
+	revision: "44"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -117,7 +117,7 @@ feature -- Tests
 
 			across << "*.txt", "bcd*", "*setup*", "*error.txt" >> as wildcard loop
 				across << processor, os_processor >> as list loop
-					create text_set.make (20)
+					create text_set.make_equal (20)
 					list.item.do_all (agent add_to_set (? ,?, text_set), wildcard.item)
 					inspect wildcard.cursor_index
 						when 1 then

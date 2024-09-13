@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-09-13 19:14:30 GMT (Friday 13th September 2024)"
+	revision: "7"
 
 class
 	SONG_IN_PLAYLIST_QUERY_CONDITION
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make_with_name (playlist_name: ZSTRING; database: RBOX_DATABASE)
 		do
-			create hash_set.make (database.playlists.count * 30)
+			create hash_set.make_equal (database.playlists.count * 30)
 			create selected_playlists.make (database.playlists.count)
 			across database.playlists as playlist loop
 				if playlist_name /= All_lists implies playlist_name ~ playlist.item.name then

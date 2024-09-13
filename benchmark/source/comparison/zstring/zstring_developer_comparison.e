@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 12:49:49 GMT (Monday 15th January 2024)"
-	revision: "22"
+	date: "2024-09-13 15:20:41 GMT (Friday 13th September 2024)"
+	revision: "23"
 
 class
 	ZSTRING_DEVELOPER_COMPARISON
@@ -58,6 +58,11 @@ feature {NONE} -- Operations
 
 note
 	notes: "[
+		**UTF-8 sequence count**
+		
+			if first_code <= 0x7F: 296.0 times (100%)
+			bit-shifting         : 294.0 times (-0.7%)
+	
 		**XML header template comparison**
 		
 		Passes over 500 millisecs (in descending order)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-31 8:05:48 GMT (Tuesday 31st October 2023)"
-	revision: "3"
+	date: "2024-09-13 19:13:29 GMT (Friday 13th September 2024)"
+	revision: "4"
 
 deferred class
 	EL_TODAYS_LOG_ENTRIES
@@ -24,7 +24,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			log_path := default_log_path
-			create relay_hacker_set.make (20)
+			create relay_hacker_set.make_equal (20)
 			create new_hacker_ip_list.make (10)
 			create today.make_now_utc
 			create time.make_now

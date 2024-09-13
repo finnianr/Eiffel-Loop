@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "32"
+	date: "2024-09-13 19:09:49 GMT (Friday 13th September 2024)"
+	revision: "33"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -52,7 +52,7 @@ feature -- Tests
 
 			lio.put_labeled_string ("Test", "adding new files")
 			lio.put_new_line
-			create current_set.make (7)
+			create current_set.make_equal (7)
 			across File_system.files_with_extension (Workarea_help_pages_dir, Text_extension, True) as path loop
 				create sync_item.make (Workarea_help_pages_dir, Ftp_name, path.item, 0)
 				current_set.put (sync_item)

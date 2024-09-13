@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 13:11:20 GMT (Sunday 13th August 2023)"
-	revision: "2"
+	date: "2024-09-13 19:13:28 GMT (Friday 13th September 2024)"
+	revision: "3"
 
 class
 	EL_XPATH_SET_SCAN_SOURCE
@@ -26,7 +26,7 @@ feature {NONE}  -- Initialisation
 	make_default
 		do
 			create context.make
-			create xpath_set.make (0)
+			create xpath_set.make_equal (0)
 			Precursor
 		end
 

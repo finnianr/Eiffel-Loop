@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:41:41 GMT (Friday 12th July 2024)"
-	revision: "12"
+	date: "2024-09-13 12:15:19 GMT (Friday 13th September 2024)"
+	revision: "13"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -35,7 +35,7 @@ feature {NONE} -- Basic operations
 			valid_mode: valid_file_mode (mode)
 			parent_exists: parent_path_exists (path)
 		do
-			if (mode & Notifying).to_boolean then
+			if bit_set (mode, Notifying) then
 				create {EL_NOTIFYING_PLAIN_TEXT_FILE} Result.make_with_name (path)
 			else
 				create Result.make_with_name (path)
@@ -64,7 +64,7 @@ feature {NONE} -- Basic operations
 			valid_mode: valid_file_mode (mode)
 			parent_exists: parent_path_exists (path)
 		do
-			if (mode & Notifying).to_boolean then
+			if bit_set (mode, Notifying) then
 				create {EL_NOTIFYING_RAW_FILE} Result.make_with_name (path)
 			else
 				create Result.make_with_name (path)
@@ -78,12 +78,12 @@ feature {NONE} -- Implementation
 		require
 			valid_mode: valid_file_mode (mode)
 		do
-			if (mode & Read).to_boolean then
-				if (mode & Append).to_boolean then
+			if bit_set (mode, Read) then
+				if bit_set (mode, Append) then
 					file.open_read_append
 
-				elseif (mode & Write).to_boolean then
-					if (mode & Create_).to_boolean then
+				elseif bit_set (mode, Write) then
+					if bit_set (mode, Create_) then
 						file.create_read_write
 					else
 						file.open_read_write
@@ -91,11 +91,16 @@ feature {NONE} -- Implementation
 				elseif file.exists then
 					file.open_read
 				end
-			elseif (mode & Write).to_boolean then
+			elseif bit_set (mode, Write) then
 				file.open_write
-			elseif (mode & Append).to_boolean then
+			elseif bit_set (mode, Append) then
 				file.open_append
 			end
+		end
+
+	bit_set (bitmap, flag: NATURAL): BOOLEAN
+		do
+			Result := (bitmap & flag) > 0
 		end
 
 feature {NONE} -- Contract Support

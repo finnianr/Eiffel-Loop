@@ -6,20 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-15 11:57:25 GMT (Thursday 15th August 2024)"
-	revision: "10"
+	date: "2024-09-13 16:12:30 GMT (Friday 13th September 2024)"
+	revision: "11"
 
 class
 	EL_WIN_FILE_INFO_C_API
 
 feature {NONE} -- C externals
-
-	frozen invalid_handle_value: POINTER
-		external
-			"C [macro %"Windows.h%"]"
-		alias
-			"INVALID_HANDLE_VALUE"
-		end
 
 	frozen c_open_file_read (name: POINTER): POINTER
 			-- HANDLE WINAPI CreateFile(

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 15:32:23 GMT (Friday 12th April 2024)"
-	revision: "20"
+	date: "2024-09-13 8:23:48 GMT (Friday 13th September 2024)"
+	revision: "21"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -137,8 +137,8 @@ feature {NONE} -- Implementation
 			found: BOOLEAN; value_column, count: INTEGER
 		do
 			across line_list as list loop
-				line := list.item
-				if line.starts_with (Name.exif) then
+				if list.shared_item.starts_with (Name.exif) then
+					line := list.item_copy
 					line.remove_head (Name.exif.count + 1)
 					value_column := 56; found := False
 					across Name_part_list as part until found loop
