@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-14 8:09:42 GMT (Saturday 14th September 2024)"
-	revision: "46"
+	date: "2024-09-14 8:23:52 GMT (Saturday 14th September 2024)"
+	revision: "47"
 
 class
 	HASH_TABLE_TEST_SET
@@ -119,6 +119,12 @@ feature -- Test
 
 	test_hash_set
 		-- HASH_TABLE_TEST_SET.test_hash_set
+		note
+			testing: "[
+				covers/{EL_HASH_SET}.make_from,
+				covers/{EL_HASH_SET}.make_with_key_tester,
+				covers/{EL_HASH_SET}.set_object_comparison
+			]"
 		local
 			set: EL_HASH_SET [STRING_32]
 		do
