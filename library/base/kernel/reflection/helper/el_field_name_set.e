@@ -1,19 +1,22 @@
 note
-	description: "Field name SET"
+	description: "Set of field names"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:12:06 GMT (Friday 13th September 2024)"
-	revision: "3"
+	date: "2024-09-14 8:19:44 GMT (Saturday 14th September 2024)"
+	revision: "4"
 
 class
 	EL_FIELD_NAME_SET
 
 inherit
 	EL_HASH_SET [IMMUTABLE_STRING_8]
+		rename
+			make as make_sized
+		end
 
 create
 	make
@@ -25,6 +28,7 @@ feature {NONE} -- Initialization
 
 	make (name_list: STRING)
 		-- subset of field indices from `name_list'
+		-- (object comparison)
 		local
 			list: EL_SPLIT_IMMUTABLE_STRING_8_LIST; non_zero_count: INTEGER
 		do

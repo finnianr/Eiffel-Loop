@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:10:42 GMT (Friday 13th September 2024)"
-	revision: "28"
+	date: "2024-09-14 8:15:59 GMT (Saturday 14th September 2024)"
+	revision: "29"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -34,17 +34,18 @@ inherit
 			conflict as conflict_constant,
 			disjoint as ht_disjoint,
 			item_for_iteration as iteration_item,
+			is_map as reference_comparison,
 			inserted as inserted_constant,
 			merge as ht_merge,
 			make as make_equal,
-			make_map as make_size,
+			make_map as make,
 			prune as ht_prune,
 			remove as prune
 		export
 			{NONE} all
 			{ANY} has, valid_key, found, found_item, search, count, new_cursor, wipe_out, iteration_item
 		redefine
-			make_equal, put, same_keys
+			make_with_key_tester, put, same_keys
 		end
 
 	TRAVERSABLE [H]
@@ -70,31 +71,36 @@ inherit
 	EL_MODULE_ITERABLE
 
 create
-	make_equal, make_size, make_from_array, make_from
+	make_equal, make, make_from_array, make_from
 
 convert
 	make_from_array ({ARRAY [H]})
 
 feature {NONE} -- Initialization
 
-	make_equal (n: INTEGER)
+	make_with_key_tester (n: INTEGER; a_key_tester: detachable EQUALITY_TESTER [H])
 			-- Allocate hash table for at least `n' items using `~' for comparison.
 			-- The table will be resized automatically if more than `n' items are inserted.
 		do
-			Precursor (n)
-			object_comparison := True
+			Precursor (n, a_key_tester)
+			object_comparison := not reference_comparison
 		end
 
 	make_from (container: CONTAINER [H]; a_object_comparison: BOOLEAN)
 		do
 			if attached as_structure (container) as structure then
-				make_size (structure.current_count)
+				make (structure.current_count)
+
+			-- May `object_comparison' be changed ?
+			-- (Answer: only if set empty; otherwise insertions might
+			-- introduce duplicates, destroying the set property.)
+				set_object_comparison (a_object_comparison)
+
 				structure.do_for_all (agent put)
 			else
-				make_size (0)
+				make (0)
+				set_object_comparison (a_object_comparison)
 			end
-			object_comparison := a_object_comparison
-			is_map := not a_object_comparison
 		end
 
 	make_from_array (array: ARRAY [H])
@@ -113,7 +119,7 @@ feature -- Access
 			if object_comparison then
 				create Result.make_equal (count // 2)
 			else
-				create Result.make_size (count // 2)
+				create Result.make (count // 2)
 			end
 			local_content := content
 			table_size := local_content.count
@@ -214,7 +220,7 @@ feature -- Duplication
 			if object_comparison then
 				create Result.make_equal (n)
 			else
-				create Result.make_size (n)
+				create Result.make (n)
 			end
 			Result.copy (Current)
 		end
@@ -281,16 +287,22 @@ feature -- Status setting
 			-- Ensure that future search operations will use `equal'
 			-- rather than `=' for comparing references.
 		do
-			object_comparison := True
-			is_map := False
+			set_object_comparison (True)
 		end
 
 	compare_references
 			-- Ensure that future search operations will use `='
 			-- rather than `equal' for comparing references.
 		do
-			object_comparison := False
-			is_map := True
+			set_object_comparison (False)
+		end
+
+	set_object_comparison (a_object_comparison: BOOLEAN)
+		require
+			only_if_empty: changeable_comparison_criterion
+		do
+			object_comparison := a_object_comparison
+			reference_comparison := not a_object_comparison
 		end
 
 feature -- Status query

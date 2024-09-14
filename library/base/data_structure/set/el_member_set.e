@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:05:48 GMT (Friday 13th September 2024)"
-	revision: "5"
+	date: "2024-09-14 7:33:02 GMT (Saturday 14th September 2024)"
+	revision: "6"
 
 class
 	EL_MEMBER_SET [G -> EL_SET_MEMBER [G]]
@@ -19,7 +19,7 @@ inherit
 		end
 
 create
-	make_equal, make_size
+	make_equal, make
 
 feature -- Comparison
 

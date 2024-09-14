@@ -1,7 +1,7 @@
 note
 	description: "[
-		Plain text file encoded as UTF-8 by default
-		By default it does not write a byte-order mark unless `is_bom_enabled' is set to `True'
+		Plain text file encoded as UTF-8 by default.
+		It does not write a byte-order mark unless `is_bom_enabled' is set to `True'
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 16:50:41 GMT (Friday 13th September 2024)"
-	revision: "16"
+	date: "2024-09-14 7:18:25 GMT (Saturday 14th September 2024)"
+	revision: "17"
 
 class
 	EL_PLAIN_TEXT_FILE

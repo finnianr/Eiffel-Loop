@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:47 GMT (Friday 13th September 2024)"
-	revision: "45"
+	date: "2024-09-14 8:09:42 GMT (Saturday 14th September 2024)"
+	revision: "46"
 
 class
 	HASH_TABLE_TEST_SET
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 				["code_text_table",					 agent test_code_text_table],
 				["compressed_table",					 agent test_compressed_table],
 				["hash_table_insertion",			 agent test_hash_table_insertion],
+				["hash_set",							 agent test_hash_set],
 				["immutable_error_code_table",	 agent test_immutable_error_code_table],
 				["immutable_string_32_table",		 agent test_immutable_string_32_table],
 				["immutable_string_8_table",		 agent test_immutable_string_8_table],
@@ -114,6 +115,21 @@ feature -- Test
 			end
 			geo_info_table.put (geo_info, geo_info.ip)
 			assert ("same value", geo_info ~ geo_info_table.found_item)
+		end
+
+	test_hash_set
+		-- HASH_TABLE_TEST_SET.test_hash_set
+		local
+			set: EL_HASH_SET [STRING_32]
+		do
+			if attached Text.lines as lines then
+				create set.make_from (lines, False)
+				assert ("all found", across lines as ln all set.has (ln.item) end)
+				assert ("none found", across Text.lines as ln all not set.has (ln.item) end)
+
+				create set.make_from (lines, True)
+				assert ("all found", across Text.lines as ln all set.has (ln.item) end)
+			end
 		end
 
 	test_hash_table_insertion
