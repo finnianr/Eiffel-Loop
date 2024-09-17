@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:51 GMT (Friday 13th September 2024)"
-	revision: "48"
+	date: "2024-09-17 7:01:43 GMT (Tuesday 17th September 2024)"
+	revision: "49"
 
 deferred class
 	EL_URI_PATH
@@ -26,8 +26,8 @@ inherit
 			{ANY} Forward_slash
 		redefine
 			append, append_file_prefix, default_create, make, make_from_other,
-			is_absolute, is_uri, is_equal, is_less,
-			set_path, part_count, part_string, first_index,
+			is_absolute, is_uri, is_equal, is_less, part_count, part_string, first_index,
+			set_path, set_volume_from_string,
 			Separator, Type_parent
 		end
 
@@ -59,7 +59,7 @@ feature -- Initialization
 		local
 			l_path: ZSTRING; start_index, pos_separator: INTEGER
 		do
-			l_path := temporary_copy (a_uri)
+			l_path := temporary_copy (a_uri, 1)
 			start_index := a_uri.substring_index (Colon_slash_x2, 1)
 			if start_index > 0 then
 				across String_8_scope as scope loop
@@ -155,12 +155,12 @@ feature -- Element change
 
 	append (a_path: EL_PATH)
 		do
-			if is_empty and then (a_path.is_absolute or else a_path.is_unix_absolute) then
+			if is_empty and then a_path.is_absolute then
 				if attached normalized_copy (a_path.parent_path) as path then
 					if not path.starts_with_character (Separator) then
 						path.prepend_character (Separator)
 					end
-					set_parent_path (path)
+					set_shared_parent_path (path)
 				end
 				base := a_path.base.twin
 			else
@@ -264,7 +264,7 @@ feature -- Contract Support
 		local
 			path_is_absolute: BOOLEAN
 		do
-			path_is_absolute := a_path.is_absolute or else a_path.is_unix_absolute
+			path_is_absolute := a_path.is_absolute
 			if a_scheme ~ Protocol.file then
 				Result := path_is_absolute
 			else
@@ -302,6 +302,11 @@ feature {NONE} -- Implementation
 			else
 				Result := base
 			end
+		end
+
+	set_volume_from_string (a_path: READABLE_STRING_GENERAL): INTEGER
+		-- URI do not have a volume letter
+		do
 		end
 
 feature {NONE} -- Type definitions

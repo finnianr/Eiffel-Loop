@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 12:14:11 GMT (Thursday 25th July 2024)"
-	revision: "34"
+	date: "2024-09-15 7:52:37 GMT (Sunday 15th September 2024)"
+	revision: "35"
 
 deferred class
 	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
@@ -62,6 +62,15 @@ feature -- Status query
 			valid_end_index: end_index < area.count
 		do
 			Result := leading_ascii_count (area, start_index, end_index) = end_index - start_index + 1
+		end
+
+	is_ascii_alpha (c: G): BOOLEAN
+		do
+			inspect to_character_8 (c)
+				when 'a' .. 'z', 'A' .. 'Z' then
+					Result := True
+			else
+			end
 		end
 
 	is_left_bracket (c: G): BOOLEAN
@@ -147,4 +156,9 @@ feature {NONE} -- Implementation
 	same_caseless_character (a, b: G): BOOLEAN
 		deferred
 		end
+
+	to_character_8 (c: G): CHARACTER_8
+		deferred
+		end
+
 end

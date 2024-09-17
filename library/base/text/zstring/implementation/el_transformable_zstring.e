@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 19:58:10 GMT (Saturday 31st August 2024)"
-	revision: "73"
+	date: "2024-09-15 19:11:15 GMT (Sunday 15th September 2024)"
+	revision: "74"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -221,7 +221,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
-			c_old, c_new: CHARACTER; new_unencoded: CHARACTER_32; i, l_count, block_index: INTEGER
+			c_old, c_new, c_i: CHARACTER; new_unencoded: CHARACTER_32; i, l_count, block_index: INTEGER
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			l_count := count
@@ -233,8 +233,12 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 				if c_old = Substitute then
 					if area_32.count > 0 then
 						from i := 0 until i = l_count loop
-							if l_area [i] = Substitute and then uc_old = iter.item ($block_index, area_32, i + 1) then
-								l_area [i] := c_new
+							inspect l_area [i]
+								when Substitute then
+									if uc_old = iter.item ($block_index, area_32, i + 1) then
+										l_area [i] := c_new
+									end
+							else
 							end
 							i := i + 1
 						end
@@ -244,8 +248,10 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 					from i := 0 until i = l_count loop
 						if l_area [i] = c_old then
 							l_area [i] := c_new
-							if c_new = Substitute then
-								put_unencoded (new_unencoded, i + 1)
+							inspect c_new
+								when Substitute then
+									put_unencoded (new_unencoded, i + 1)
+							else
 							end
 						end
 						i := i + 1

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 9:42:41 GMT (Monday 15th January 2024)"
-	revision: "18"
+	date: "2024-09-16 18:16:46 GMT (Monday 16th September 2024)"
+	revision: "19"
 
 deferred class
 	EL_PATH_CONSTANTS
@@ -19,7 +19,8 @@ feature -- Strings
 
 	Back_dir_step: ZSTRING
 		once
-			Result := "../"
+			create Result.make_filled ('.', 3)
+			Result [3] := Separator
 		end
 
 	Debug_template: ZSTRING

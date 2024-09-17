@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:54:03 GMT (Sunday 25th August 2024)"
-	revision: "36"
+	date: "2024-09-17 7:27:23 GMT (Tuesday 17th September 2024)"
+	revision: "37"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -227,17 +227,19 @@ feature -- Status query
 			end
 		end
 
-	is_convertible_tuple (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN): BOOLEAN
+	is_convertible_tuple (
+		tuple: TUPLE; part_list: READABLE_STRING_GENERAL; separator: CHARACTER; left_adjusted: BOOLEAN
+	): BOOLEAN
 		local
 			type_array: EL_TUPLE_TYPE_ARRAY; type_id: INTEGER
 		do
-			if csv_list.occurrences (',') + 1 >= tuple.count then
+			if part_list.occurrences (separator) + 1 >= tuple.count then
 				type_array := Tuple_.type_array (tuple)
 				Result := True
-				if attached filled_split_list (csv_list, ',', left_adjusted.to_integer) as list then
+				if attached filled_split_list (part_list, separator, left_adjusted.to_integer) as list then
 					from list.start until list.after or else not Result or else list.index > tuple.count loop
 						type_id := type_array [list.index].type_id
-						Result := is_substring_convertible_to_type (csv_list, list.item_lower, list.item_upper, type_id)
+						Result := is_substring_convertible_to_type (part_list, list.item_lower, list.item_upper, type_id)
 						list.forth
 					end
 				end
@@ -290,14 +292,14 @@ feature -- Basic operations
 			filled: csv_list.count > 0 implies chain.count - old chain.count = csv_list.occurrences (',') + 1
 		end
 
-	fill_tuple (tuple: TUPLE; csv_list: READABLE_STRING_GENERAL; left_adjusted: BOOLEAN)
-		-- fill tuple with STRING items from comma-separated list `csv_list' of strings
+	fill_tuple (tuple: TUPLE; part_list: READABLE_STRING_GENERAL; separator: CHARACTER; left_adjusted: BOOLEAN)
+		-- fill tuple with STRING items from `part_list' of strings separated by `separator'
 		-- TUPLE may contain any of types in `current_keys'
 		-- items are left adjusted if `left_adjusted' is True
 		require
-			tuple_convertible: is_convertible_tuple (tuple, csv_list, left_adjusted)
+			tuple_convertible: is_convertible_tuple (tuple, part_list, separator, left_adjusted)
 		do
-			fill_tuple_from_list (tuple, split_list (csv_list, ',', left_adjusted.to_integer))
+			fill_tuple_from_list (tuple, split_list (part_list, separator, left_adjusted.to_integer))
 		end
 
 	fill_tuple_from_list (tuple: TUPLE; list: like split_list)

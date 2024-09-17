@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:43:46 GMT (Sunday 8th September 2024)"
-	revision: "52"
+	date: "2024-09-17 7:28:55 GMT (Tuesday 17th September 2024)"
+	revision: "53"
 
 class
 	EL_TUPLE_ROUTINES
@@ -222,7 +222,7 @@ feature -- Basic operations
 		-- TUPLE may contain any of types STRING_8, STRING_32, ZSTRING
 		-- items are left adjusted if `left_adjusted' is True
 		do
-			Convert_string.fill_tuple (tuple, csv_list, left_adjusted)
+			Convert_string.fill_tuple (tuple, csv_list, ',', left_adjusted)
 		end
 
 	fill_default (tuple: TUPLE; default_value: ANY)
@@ -289,6 +289,11 @@ feature -- Basic operations
 			end
 		ensure
 			filled:is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
+		end
+
+	line_fill (tuple: TUPLE; line_list: READABLE_STRING_GENERAL)
+		do
+			Convert_string.fill_tuple (tuple, line_list, '%N', False)
 		end
 
 	read (tuple: TUPLE; readable: EL_READABLE)

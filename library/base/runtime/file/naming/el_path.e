@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 7:48:27 GMT (Thursday 22nd August 2024)"
-	revision: "79"
+	date: "2024-09-17 7:00:44 GMT (Tuesday 17th September 2024)"
+	revision: "80"
 
 deferred class
 	EL_PATH
 
 inherit
 	EL_CONVERTABLE_PATH
+		export
+			{EL_PATH} set_shared_parent_path
 		undefine
 			default_create, out, copy
 		end
@@ -36,18 +38,13 @@ feature {NONE} -- Initialization
 		local
 			pos_last_separator: INTEGER; l_path: ZSTRING
 		do
-			l_path := normalized_copy (a_path)
-			if not l_path.is_empty then
+			l_path := normalized_copy (temporary_copy (a_path, set_volume_from_string (a_path)))
+			if l_path.count > 0 then
 				pos_last_separator := l_path.last_index_of (Separator, l_path.count)
-				if pos_last_separator = 0 then
-					if not is_uri and then {PLATFORM}.is_windows then
-						pos_last_separator := l_path.last_index_of (':', l_path.count)
-					end
-				end
 			end
 			base := l_path.substring_end (pos_last_separator + 1)
 			l_path.keep_head (pos_last_separator)
-			set_parent_path (l_path)
+			set_shared_parent_path (l_path)
 		end
 
 	make_from_path (a_path: PATH)
@@ -81,6 +78,7 @@ feature {NONE} -- Initialization
 		do
 			base := other.base.twin
 			parent_path := other.parent_path
+			volume := other.volume
 			internal_hash_code := other.internal_hash_code
 		ensure
 			same_string: same_as (other.to_string)
@@ -136,15 +134,6 @@ feature -- Access
 			create Result.make_parent (Current)
 		end
 
-	parent_string (keep_ref: BOOLEAN): ZSTRING
-		do
-			if keep_ref then
-				create Result.make_from_other (parent_path)
-			else
-				Result := parent_path
-			end
-		end
-
 	relative_path (a_parent: EL_DIR_PATH): EL_PATH
 		require
 			parent_is_parent: a_parent.is_parent_of (Current)
@@ -172,7 +161,7 @@ feature -- Access
 				end
 				Result := relative_path (common_path)
 				if back_step_count > 0 then
-					Result.set_parent_path (Back_dir_step.multiplied (back_step_count) + Result.parent_path)
+					Result.set_shared_parent_path (Back_dir_step.multiplied (back_step_count) + Result.parent_path)
 				end
 			end
 		end
@@ -216,7 +205,7 @@ feature -- Element change
 			l_parent_path := empty_temp_path
 			l_parent_path.append (parent_path)
 			l_parent_path.append (base)
-			set_parent_path (l_parent_path)
+			set_shared_parent_path (l_parent_path)
 			base.wipe_out
 			base.append_string_general (a_step)
 		end
@@ -250,7 +239,7 @@ feature -- Element change
 				when 1 then
 					-- Eg. /etc
 					base := parent_path.twin
-					set_parent_path (Empty_path)
+					set_shared_parent_path (Empty_path)
 			else
 				l_path.keep_head (index - 1)
 				set_path (l_path)

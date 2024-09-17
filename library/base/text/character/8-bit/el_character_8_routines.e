@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:27:25 GMT (Tuesday 20th August 2024)"
-	revision: "31"
+	date: "2024-09-15 7:52:38 GMT (Sunday 15th September 2024)"
+	revision: "32"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -217,6 +217,11 @@ feature {NONE} -- Implementation
 	same_caseless_character (a, b: CHARACTER_8): BOOLEAN
 		do
 			Result := a.as_lower = b.as_lower
+		end
+
+	to_character_8 (c: CHARACTER_8): CHARACTER_8
+		do
+			Result := c
 		end
 
 end

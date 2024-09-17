@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-09-15 18:29:17 GMT (Sunday 15th September 2024)"
+	revision: "3"
 
 deferred class
 	EL_PATH_BUFFER_ROUTINES
@@ -24,12 +24,22 @@ feature {NONE} -- Implementation
 			Result.wipe_out
 		end
 
-	temporary_copy (path: READABLE_STRING_GENERAL): ZSTRING
+	temporary_copy (path: READABLE_STRING_GENERAL; start_index: INTEGER): ZSTRING
 		do
 			Result := Temp_path
-			if Result /= path then
+			if Result = path then
+				if start_index > 1 then
+				-- remove C:
+					Result.remove_head (start_index - 1)
+				end
+			else
 				Result.wipe_out
-				Result.append_string_general (path)
+				inspect start_index
+					when 1 then
+						Result.append_string_general (path)
+				else
+					Result.append_substring_general (path, start_index, path.count)
+				end
 			end
 		end
 

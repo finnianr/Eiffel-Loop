@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:15:47 GMT (Sunday 25th August 2024)"
-	revision: "25"
+	date: "2024-09-16 13:50:25 GMT (Monday 16th September 2024)"
+	revision: "26"
 
 class
 	EL_PATH_STEPS
@@ -77,7 +77,7 @@ feature -- Initialization
 				if separator_count = 0 then
 					extend (a_path)
 				else
-					Step_table.put_tokens (temporary_copy (a_path).split (l_separator), area)
+					Step_table.put_tokens (temporary_copy (a_path, 1).split (l_separator), area)
 				end
 			end
 		ensure
@@ -307,10 +307,17 @@ feature -- Status query
 			end
 		end
 
-	same_i_th_step (str: READABLE_STRING_GENERAL; i: INTEGER): BOOLEAN
+	i_th_same_as (i: INTEGER; str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			if valid_index (i) then
 				Result := internal_i_th_step (i).same_string_general (str)
+			end
+		end
+
+	i_th_has_ascii_member (i: INTEGER; set: EL_SET [CHARACTER_8]): BOOLEAN
+		do
+			if valid_index (i) then
+				Result := internal_i_th_step (i).has_ascii_member (set)
 			end
 		end
 
@@ -428,10 +435,8 @@ feature -- Element change
 		end
 
 	extend (a_step: READABLE_STRING_GENERAL)
-		local
-			s: EL_ZSTRING_BUFFER_ROUTINES
 		do
-			extend_token (Step_table.to_token (s.copied_general (a_step)))
+			extend_token (Step_table.to_token (as_zstring (a_step)))
 			internal_hash_code := 0
 		end
 

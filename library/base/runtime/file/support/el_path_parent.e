@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:50 GMT (Friday 13th September 2024)"
-	revision: "7"
+	date: "2024-09-17 12:47:57 GMT (Tuesday 17th September 2024)"
+	revision: "8"
 
 deferred class
 	EL_PATH_PARENT
@@ -23,6 +23,9 @@ inherit
 	HASHABLE undefine is_equal end
 
 	EL_PATH_BUFFER_ROUTINES
+		export
+			{EL_PATH_PARENT} temporary_copy, temporary_path
+		end
 
 	EL_PATH_CONSTANTS
 		export
@@ -43,7 +46,7 @@ inherit
 
 	EL_SHARED_PATH_MANAGER; EL_SHARED_WORD
 
-feature -- Measurement
+feature -- Access
 
 	hash_code: INTEGER
 			-- Hash code value
@@ -60,6 +63,21 @@ feature -- Measurement
 				internal_hash_code := Result
 			end
 		end
+
+	parent_string (keep_ref: BOOLEAN): ZSTRING
+		do
+			if has_volume then
+				Result := Drive + parent_path
+
+			elseif keep_ref then
+				create Result.make_from_other (parent_path)
+			else
+				Result := parent_path
+			end
+		end
+
+	volume: CHARACTER_8
+		-- volume letter for Windows paths
 
 feature -- Status Query
 
@@ -96,19 +114,13 @@ feature -- Status Query
 			end
 		end
 
-	is_absolute: BOOLEAN
-		local
-			z: EL_ZSTRING_ROUTINES
+	has_volume: BOOLEAN
 		do
-			if {PLATFORM}.is_windows then
-				Result := z.starts_with_drive (parent_path)
-			else
-				Result := is_unix_absolute
-			end
+			Result := volume.code > 0
 		end
 
-	is_unix_absolute: BOOLEAN
-		-- is absolute using Unix definition
+	is_absolute: BOOLEAN
+		-- `True' if `Current' path is absolute
 		do
 			Result := parent_path.starts_with_character (Separator)
 		end
@@ -149,19 +161,42 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 			--
 		do
-			Result := base.is_equal (other.base) and parent_path.is_equal (other.parent_path)
+			if volume = other.volume then
+				Result := base.is_equal (other.base) and parent_path.is_equal (other.parent_path)
+			end
 		end
 
 	is_less alias "<" (other: like Current): BOOLEAN
-			-- Is current object less than `other'?
+		-- Is current object less than `other'?
 		local
-			other_parent: like parent_path
+			one_has_volume, compare_parent_and_base: BOOLEAN
+			v, o_v: CHARACTER; l_parent, o_parent: ZSTRING
 		do
-			other_parent := other.parent_path
-			if parent_path ~ other_parent then
-				Result := base < other.base
+			v := volume; o_v := other.volume
+			if v = o_v then
+				compare_parent_and_base := True
+
+			elseif v.code > 0 and then o_v.code > 0 then
+				Result := v < o_v
 			else
-				Result := parent_path < other_parent
+				one_has_volume := True
+				compare_parent_and_base := True
+			end
+			if compare_parent_and_base then
+				if one_has_volume then
+					if has_volume then
+						l_parent := parent_string (False); o_parent := other.parent_path
+					else
+						l_parent := parent_path; o_parent := other.parent_string (False)
+					end
+				else
+					l_parent := parent_path; o_parent := other.parent_path
+				end
+				if l_parent ~ o_parent then
+					Result := base < other.base
+				else
+					Result := l_parent < o_parent
+				end
 			end
 		end
 
@@ -176,7 +211,88 @@ feature -- Contract Support
 
 feature -- Element change
 
-	set_parent_path (a_parent: ZSTRING)
+	set_parent (dir_path: EL_DIR_PATH)
+		local
+			l_path: ZSTRING
+		do
+			volume := dir_path.volume
+			l_path := dir_path.temporary_path
+			if has_volume then
+				l_path := dir_path.temporary_copy (l_path, 3)
+			end
+			set_shared_parent_path (l_path)
+		end
+
+	set_parent_path (a_parent: READABLE_STRING_GENERAL)
+		do
+			if attached temporary_copy (a_parent, set_volume_from_string (a_parent)) as l_path then
+				set_shared_parent_path (normalized_copy (l_path))
+			end
+		end
+
+	set_path (a_path: READABLE_STRING_GENERAL)
+		-- set `parent_path' and `base' from `a_path' string
+		do
+			make (a_path)
+		end
+
+	set_volume (a_volume: CHARACTER)
+		do
+			volume := a_volume
+		end
+
+feature {NONE} -- Implementation
+
+	has_expansion_variable (a_path: ZSTRING): BOOLEAN
+		-- a step contains what might be an expandable variable
+		local
+			pos_dollor: INTEGER
+		do
+			pos_dollor := a_path.index_of ('$', 1)
+			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
+		end
+
+	normalized_copy (path: READABLE_STRING_GENERAL): ZSTRING
+		-- temporary path string normalized for platform
+		do
+			Result := temporary_copy (path, 1)
+			if {PLATFORM}.is_windows then
+				if is_uri then
+					Result.replace_character (Windows_separator, Unix_separator)
+				else
+					Result.replace_character (Unix_separator, Windows_separator)
+				end
+			end
+		end
+
+	part_count: INTEGER
+		-- count of string components
+		-- (5 in the case of URI paths)
+		do
+			Result := 3 -- `shared_drive', `parent_path', `base'
+		end
+
+	part_string (index: INTEGER): READABLE_STRING_GENERAL
+		require
+			valid_index: 1 <= index and index <= part_count
+		do
+			inspect index
+				when 1 then
+					Result := shared_drive
+
+				when 2 then
+					Result := parent_path
+			else
+				Result := base
+			end
+		end
+
+	reset_hash
+		do
+			internal_hash_code := 0
+		end
+
+	set_shared_parent_path (a_parent: ZSTRING)
 		local
 			l_path: ZSTRING; last_index: INTEGER
 		do
@@ -199,62 +315,34 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
-	set_parent_path_general (a_parent: READABLE_STRING_GENERAL)
-		do
-			set_parent_path (temporary_copy (a_parent))
-		end
-
-	set_parent (dir_path: EL_DIR_PATH)
-		do
-			set_parent_path (dir_path.temporary_path)
-		end
-
-	set_path (a_path: READABLE_STRING_GENERAL)
-		-- set `parent_path' and `base' from `a_path' string
-		do
-			make (a_path)
-		end
-
-feature {NONE} -- Implementation
-
-	has_expansion_variable (a_path: ZSTRING): BOOLEAN
-		-- a step contains what might be an expandable variable
+	set_volume_from_string (a_path: READABLE_STRING_GENERAL): INTEGER
+		-- `Result' is index to first character of `a_path' skipping any volume drive characters
+		-- like "C:"
 		local
-			pos_dollor: INTEGER
+			nt: EL_NT_FILE_SYSTEM_ROUTINES
 		do
-			pos_dollor := a_path.index_of ('$', 1)
-			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
-		end
-
-	part_count: INTEGER
-		-- count of string components
-		-- (5 in the case of URI paths)
-		do
-			Result := 2
-		end
-
-	part_string (index: INTEGER): READABLE_STRING_GENERAL
-		require
-			valid_index: 1 <= index and index <= part_count
-		do
-			inspect index
-				when 1 then
-					Result := parent_path
+			if {PLATFORM}.is_windows and then nt.has_volume (a_path) then
+				Result := 3; volume := a_path [1].to_character_8
 			else
-				Result := base
+				Result := 1; volume := '%U'
 			end
 		end
 
-	reset_hash
+	shared_drive: ZSTRING
 		do
-			internal_hash_code := 0
+			if volume.code > 0 then
+				Result := Drive
+				Result [1] := volume
+			else
+				Result := Empty_string
+			end
 		end
 
 feature {EL_PATH_PARENT} -- Internal attributes
 
-	parent_path: ZSTRING
-
 	internal_hash_code: INTEGER
+
+	parent_path: ZSTRING
 
 feature {EL_PATH_PARENT} -- Deferred implementation
 
@@ -271,6 +359,11 @@ feature {EL_PATH_PARENT} -- Deferred implementation
 		end
 
 feature {NONE} -- Constants
+
+	Drive: ZSTRING
+		once
+			Result := "X:"
+		end
 
 	Parent_set: EL_HASH_SET [ZSTRING]
 		-- cached set of all `parent_path' strings

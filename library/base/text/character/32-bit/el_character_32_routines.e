@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:27:18 GMT (Tuesday 20th August 2024)"
-	revision: "18"
+	date: "2024-09-15 7:52:38 GMT (Sunday 15th September 2024)"
+	revision: "19"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -79,4 +79,10 @@ feature {NONE} -- Implementation
 		do
 			Result := to_lower (a) = to_lower (b)
 		end
+
+	to_character_8 (c: CHARACTER_32): CHARACTER_8
+		do
+			Result := c.to_character_8
+		end
+
 end

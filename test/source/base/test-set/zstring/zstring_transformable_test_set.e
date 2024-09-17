@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:56:19 GMT (Tuesday 27th August 2024)"
-	revision: "8"
+	date: "2024-09-15 19:04:46 GMT (Sunday 15th September 2024)"
+	revision: "9"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -222,6 +222,7 @@ feature -- Tests
 		end
 
 	test_replace_character
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_replace_character
 		note
 			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.replace_character"
 		local

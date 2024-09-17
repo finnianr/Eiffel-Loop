@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 17:11:57 GMT (Thursday 12th September 2024)"
-	revision: "47"
+	date: "2024-09-15 7:35:37 GMT (Sunday 15th September 2024)"
+	revision: "48"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -431,16 +431,6 @@ feature -- Comparison
 		do
 			if a.count = b.count then
 				Result := occurs_caseless_at (a, b, 1)
-			end
-		end
-
-	starts_with_drive (str: READABLE_STRING_X): BOOLEAN
-		-- True if str starts with volume path, for eg. C:\System32
-		do
-			inspect str.count
-				when 0, 1 then
-			else
-				Result := str [2] = ':' and then is_i_th_alpha (str, 1)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:43:20 GMT (Tuesday 27th August 2024)"
-	revision: "10"
+	date: "2024-09-16 14:00:29 GMT (Monday 16th September 2024)"
+	revision: "11"
 
 expanded class
 	EL_NT_FILE_SYSTEM_ROUTINES
@@ -57,6 +57,18 @@ feature -- Conversion
 			end
 		end
 
+	has_volume (path: READABLE_STRING_GENERAL): BOOLEAN
+		-- True if `path' starts with volume letter, for eg. C:\System32
+		local
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			inspect path.count
+				when 0, 1 then
+			else
+				Result := path [2] = ':' and then c32.is_ascii_alpha (path [1])
+			end
+		end
+
 feature -- Status query
 
 	is_valid (path: ZSTRING; is_directory: BOOLEAN): BOOLEAN
@@ -72,7 +84,7 @@ feature -- Status query
 		end
 
 	invalid_ntfs_character (c: CHARACTER): BOOLEAN
-		-- `True' if `c' is an invalid character fot NTFS file system path
+		-- `True' if `c' is an invalid character fot NTFS file system step
 		do
 			inspect c
 				when '/', '?', '<', '>', '\', ':', '*', '|', '"' then
@@ -126,7 +138,7 @@ feature {NONE} -- Implementation
 		-- C: for example
 		do
 			if start_index = 1 and end_index = 2 then
-				Result := step.is_alpha_item (1) and then step [2] = ':'
+				Result := has_volume (step)
 			end
 		end
 

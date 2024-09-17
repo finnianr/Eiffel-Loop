@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-13 11:25:14 GMT (Wednesday 13th March 2024)"
-	revision: "46"
+	date: "2024-09-17 7:41:31 GMT (Tuesday 17th September 2024)"
+	revision: "47"
 
 deferred class
 	EL_CONVERTABLE_PATH
@@ -283,24 +283,11 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			end
 		end
 
-	normalized_copy (path: READABLE_STRING_GENERAL): ZSTRING
-		-- temporary path string normalized for platform
-		do
-			Result := temporary_copy (path)
-			if {PLATFORM}.is_windows then
-				if is_uri then
-					Result.replace_character (Windows_separator, Unix_separator)
-				else
-					Result.replace_character (Unix_separator, Windows_separator)
-				end
-			end
-		end
-
 	unix_part_string (index: INTEGER): READABLE_STRING_GENERAL
 		do
 			Result := part_string (index)
 			if {PLATFORM}.is_windows and then Result.has (Windows_separator)
-				and then attached temporary_copy (Result) as part
+				and then attached temporary_copy (Result, 1) as part
 			then
 				part.replace_character (Windows_separator, Unix_separator)
 				Result := part
@@ -341,9 +328,9 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 		local
 			l_path: ZSTRING
 		do
-			l_path := temporary_copy (parent_path)
+			l_path := temporary_copy (parent_path, 1)
 			l_path.replace_character (separator_old, separator_new)
-			set_parent_path (l_path)
+			set_shared_parent_path (l_path)
 		end
 
 end

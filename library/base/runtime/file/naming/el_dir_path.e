@@ -25,16 +25,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:02:15 GMT (Friday 13th September 2024)"
-	revision: "46"
+	date: "2024-09-16 14:09:34 GMT (Monday 16th September 2024)"
+	revision: "47"
 
 class
 	EL_DIR_PATH
 
 inherit
 	EL_PATH
-		export
-			{EL_PATH_PARENT} temporary_path
 		redefine
 			has_step
 		end
@@ -67,9 +65,10 @@ feature {NONE} -- Initialization
 		local
 			index, l_count: INTEGER
 		do
+			volume := other.volume
 			if other.has_parent then
 				if attached Shared_key_path as key_path then
-					key_path.share (other.parent_string (False))
+					key_path.share (other.parent_path)
 					inspect key_path.count
 						when 0, 1 then
 							index := 0
@@ -85,7 +84,7 @@ feature {NONE} -- Initialization
 							-- Eg. `other' is C:/Users
 								base := key_path.substring (1, key_path.count - 1)
 							end
-							set_parent_path (Empty_path)
+							set_shared_parent_path (Empty_path)
 					else
 						l_count := key_path.count
 					-- Avoids making a substring of `key_path' if found in set
@@ -101,7 +100,7 @@ feature {NONE} -- Initialization
 				default_create
 			end
 		ensure
-			other_parent_string_unchanged: old other.parent_string (True) ~ other.parent_string (False)
+			other_parent_string_unchanged: old other.parent_path ~ other.parent_path
 			definition: plus_dir (other.base).to_string ~ other.to_string
 		end
 
@@ -190,7 +189,7 @@ feature -- Status report
 
 	is_parent_of (other: EL_PATH): BOOLEAN
 		do
-			if other.parent_path.starts_with (parent_path) then
+			if volume = other.volume and then other.parent_path.starts_with (parent_path) then
 				Result := other.parent_path.substring_index (base, parent_path.count + 1) = parent_path.count + 1
 			end
 		end

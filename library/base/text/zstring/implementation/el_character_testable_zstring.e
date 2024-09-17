@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 6:57:14 GMT (Sunday 1st September 2024)"
-	revision: "6"
+	date: "2024-09-16 13:49:46 GMT (Monday 16th September 2024)"
+	revision: "7"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -100,17 +100,39 @@ feature -- Substring query
 			Result := count > 0 and then item (1) = uc
 		end
 
+	has_ascii_member (set: EL_SET [CHARACTER_8]): BOOLEAN
+		-- `True' if at least one ASCII character is a member of `set'
+		local
+			i, upper_i: INTEGER; c_i: CHARACTER_8
+		do
+			upper_i := count - 1
+			if attached area as l_area then
+				from i := 0 until i > upper_i or Result loop
+					c_i := l_area [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							i := i + 1
+
+						when Ascii_range then
+							Result := set.has (c_i)
+					else
+						i := i + 1
+					end
+				end
+			end
+		end
+
 	has_member (set: EL_SET [CHARACTER_32]): BOOLEAN
 		-- `True' if at least one character is a member of `set'
 		local
-			i, upper_index, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
+			i, upper_i, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			upper_index := count - 1
+			upper_i := count - 1
 			if attached unicode_table as l_unicode_table and then attached area as l_area
 				and then attached unencoded_area as area_32
 			then
-				from i := 0 until i > upper_index or Result loop
+				from i := 0 until i > upper_i or Result loop
 					c_i := l_area [i]
 					inspect character_8_band (c_i)
 						when Substitute then
@@ -151,15 +173,15 @@ feature -- Substring query
 		require
 			valid_substring_indices: valid_substring_indices (start_index, end_index)
 		local
-			i, upper_index, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
+			i, upper_i, block_index: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			upper_index := end_index - 1
+			upper_i := end_index - 1
 			if attached unicode_table as l_unicode_table and then attached area as l_area
 				and then attached unencoded_area as area_32
 			then
 				Result := True
-				from i := start_index - 1 until i > upper_index or not Result loop
+				from i := start_index - 1 until i > upper_i or not Result loop
 					c_i := l_area [i]
 					inspect character_8_band (c_i)
 						when Substitute then
@@ -189,11 +211,11 @@ feature -- Substring query
 			valid_character_set: is_latin_1_encoded
 				or else across start_index |..| end_index as index all item_8 (index.item) <= Max_ascii end
 		local
-			i, upper_index: INTEGER; c_i: CHARACTER_8
+			i, upper_i: INTEGER; c_i: CHARACTER_8
 		do
 			if attached area as l_area then
-				Result := True; upper_index := end_index - 1
-				from i := start_index - 1 until i > upper_index or not Result loop
+				Result := True; upper_i := end_index - 1
+				from i := start_index - 1 until i > upper_i or not Result loop
 					c_i := l_area [i]
 					inspect c_i
 						when Substitute then
