@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 12:47:57 GMT (Tuesday 17th September 2024)"
-	revision: "8"
+	date: "2024-09-17 15:04:14 GMT (Tuesday 17th September 2024)"
+	revision: "9"
 
 deferred class
 	EL_PATH_PARENT
@@ -67,7 +67,7 @@ feature -- Access
 	parent_string (keep_ref: BOOLEAN): ZSTRING
 		do
 			if has_volume then
-				Result := Drive + parent_path
+				Result := shared_drive + parent_path
 
 			elseif keep_ref then
 				create Result.make_from_other (parent_path)
@@ -359,11 +359,6 @@ feature {EL_PATH_PARENT} -- Deferred implementation
 		end
 
 feature {NONE} -- Constants
-
-	Drive: ZSTRING
-		once
-			Result := "X:"
-		end
 
 	Parent_set: EL_HASH_SET [ZSTRING]
 		-- cached set of all `parent_path' strings
