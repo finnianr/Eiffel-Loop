@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:29:49 GMT (Thursday 12th September 2024)"
-	revision: "8"
+	date: "2024-09-19 7:27:16 GMT (Thursday 19th September 2024)"
+	revision: "9"
 
 class
 	EDITABLE_SOURCE_LINES
@@ -19,9 +19,6 @@ create
 	make, make_empty, make_with_lines, make_filled, make_from_special,
 	make_from, make_from_substrings, make_from_if, make_from_array, make_from_list,
 	make_from_tuple, make_from_general, make_split, make_adjusted_split, make_word_split, make_comma_split
-
-convert
-	make_from ({EL_ZSTRING_LIST})
 
 feature -- Element change
 

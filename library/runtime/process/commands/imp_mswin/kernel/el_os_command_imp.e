@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-09-18 7:39:34 GMT (Wednesday 18th September 2024)"
+	revision: "25"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -63,7 +63,7 @@ feature -- Constants
 			Result := "cd /D"
 		end
 
-	Command_prefix: STRING_32
+	Command_prefix: ZSTRING
 		-- Force output of command to be UTF-16
 		once
 			Result := "cmd /U /C"

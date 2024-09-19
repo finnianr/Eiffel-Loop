@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 16:54:15 GMT (Friday 13th September 2024)"
-	revision: "10"
+	date: "2024-09-18 9:28:47 GMT (Wednesday 18th September 2024)"
+	revision: "11"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
@@ -18,7 +18,7 @@ deferred class
 inherit
 	EL_LINEAR [S]
 		rename
-			item as shared_item
+			item as item_copy
 		redefine
 			extend_special
 		end

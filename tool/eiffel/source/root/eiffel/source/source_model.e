@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
-	revision: "17"
+	date: "2024-09-19 7:28:36 GMT (Thursday 19th September 2024)"
+	revision: "18"
 
 class
 	SOURCE_MODEL
@@ -83,10 +83,13 @@ feature {NONE} -- State handlers
 
 	find_first_feature (line: ZSTRING)
 		-- find first feature in feature group
+		local
+			editable_lines: EDITABLE_SOURCE_LINES
 		do
 			if code_line_is_feature_declaration then
-				feature_group_list.extend (create {FEATURE_GROUP}.make (group_header))
+				create editable_lines.make_from (group_header)
 				group_header.wipe_out
+				feature_group_list.extend (create {FEATURE_GROUP}.make (editable_lines))
 
 				feature_group_list.add_feature (line, is_test_set)
 				state := agent find_next_feature

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 14:11:40 GMT (Thursday 12th September 2024)"
-	revision: "18"
+	date: "2024-09-19 7:33:57 GMT (Thursday 19th September 2024)"
+	revision: "19"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -398,7 +398,7 @@ feature {NONE} -- Implementation
 				else
 				--	one extra for string null terminator
 					one_extra := (attached {STRING_GENERAL} special).to_integer
-					Result := area.aliased_resized_area (finite.count + one_extra)
+					Result := area.resized_area (finite.count + one_extra)
 				end
 			else
 				create Result.make_empty (current_count)

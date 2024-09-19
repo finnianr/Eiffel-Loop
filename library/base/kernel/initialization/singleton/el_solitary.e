@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 9:44:08 GMT (Thursday 18th July 2024)"
-	revision: "8"
+	date: "2024-09-18 8:30:43 GMT (Wednesday 18th September 2024)"
+	revision: "9"
 
 deferred class
 	EL_SOLITARY
@@ -46,27 +46,26 @@ feature {NONE} -- Initialization
 note
 	descendants: "[
 			EL_SOLITARY*
-				${EL_BUILD_INFO*}
-					${EIFFEL_LOOP_BUILD_INFO}
-					${BUILD_INFO}
 				${EL_LOCALIZED_APPLICATION*}
+					${I18N_AUTOTEST_APP}
+				${EL_BUILD_INFO*}
+					${BUILD_INFO}
+					${EIFFEL_LOOP_BUILD_INFO}
+				${EL_APPLICATION_LIST}
+				${EL_APPLICATION*}
 				${EL_LOG_MANAGER}
 					${EL_CRC_32_LOG_MANAGER}
 				${EL_GLOBAL_LOGGING}
-				${EL_APPLICATION_CONFIGURATION*}
-				${EL_LOCALE_TABLE}
-				${EL_THREAD_MANAGER}
-				${AIA_CREDENTIAL_LIST}
-				${EL_APPLICATION_LIST}
 				${EL_APPLICATION_COMMAND_OPTIONS}
 					${EROS_APPLICATION_COMMAND_OPTIONS}
-				${EL_APPLICATION*}
+				${EL_LOCALE_TABLE}
 				${EL_DEFERRED_LOCALE_I*}
-					${EL_DEFERRED_LOCALE_IMP}
 					${EL_LOCALE}
-						${EL_DEFAULT_LOCALE*}
-				${RBOX_DATABASE}
-					${RBOX_TEST_DATABASE}
-
+						${EL_DEFAULT_LOCALE}
+					${EL_DEFERRED_LOCALE_IMP}
+				${EL_THREAD_MANAGER}
+				${AIA_CREDENTIAL_LIST}
+					${AIA_STORABLE_CREDENTIAL_LIST}
+				${EL_APPLICATION_CONFIGURATION*}
 	]"
 end

@@ -42,7 +42,7 @@ feature {NONE} -- Factory
 
 	new_feature_group (export_list, name: ZSTRING): FEATURE_GROUP
 		local
-			header: EL_ZSTRING_LIST
+			header: EDITABLE_SOURCE_LINES
 		do
 			create header.make (3)
 			if export_list.is_empty then

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:39:52 GMT (Friday 13th September 2024)"
-	revision: "89"
+	date: "2024-09-18 9:31:07 GMT (Wednesday 18th September 2024)"
+	revision: "90"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -75,8 +75,8 @@ feature -- Tests
 	test_link_checker
 		-- REPOSITORY_PUBLISHER_TEST_SET.test_link_checker
 		local
-			link_checker: like new_link_checker
 			found: BOOLEAN; note_descendants: EL_STRING_8_LIST
+			link_checker: like new_link_checker
 		do
 			link_checker := new_link_checker
 			link_checker.execute
@@ -117,7 +117,7 @@ feature -- Tests
 						lio.put_new_line
 					end
 				end
-				assert ("same list digest: " + crc.checksum.out, crc.checksum = 1660156323)
+				assert ("same list digest: " + crc.checksum.out, crc.checksum = 1007630757)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-09-18 7:41:27 GMT (Wednesday 18th September 2024)"
+	revision: "9"
 
 class
 	EL_COPY_FILE_COMMAND_IMP
@@ -25,5 +25,5 @@ create
 
 feature {NONE} -- Constants
 
-	Template: STRING = "copy $source_path $destination_path"
+	Template: STRING = "copy $source_path $destination_path > NUL"
 end

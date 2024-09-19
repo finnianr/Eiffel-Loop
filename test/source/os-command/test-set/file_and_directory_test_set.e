@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:48 GMT (Friday 13th September 2024)"
-	revision: "44"
+	date: "2024-09-18 7:52:12 GMT (Wednesday 18th September 2024)"
+	revision: "45"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -51,8 +51,7 @@ feature -- Tests
 
 	test_delete_content_with_action
 		local
-			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF
-			path_count: INTEGER
+			l_dir: EL_DIRECTORY; deleted_count: INTEGER_REF; path_count: INTEGER
 		do
 			create deleted_count
 			create l_dir.make (Workarea_help_pages_dir)
@@ -193,7 +192,6 @@ feature -- Tests
 				cmd.set_default_depths
 				assert_same_entries (l_dir.directories, cmd.path_list)
 			end
-
 			-- Recursively
 			dir_path := Work_area_dir
 			l_dir.make (dir_path)
@@ -369,9 +367,7 @@ feature {NONE} -- Implementation
 
 	file_move_and_copy (a_file_set: like new_file_set; dir_path: DIR_PATH)
 		local
-			copy_file_cmd: like Command.new_copy_file
-			mint_copy_dir: DIR_PATH; steps: TUPLE
-			mint_copy_path: FILE_PATH
+			mint_copy_dir: DIR_PATH; mint_copy_path: FILE_PATH
 		do
 			a_file_set.put (dir_path + Wireless_notes_path_copy)
 			mint_copy_dir := Help_pages_mint_dir #+ "copy"
@@ -382,8 +378,7 @@ feature {NONE} -- Implementation
 
 			across file_set as path loop
 				if path.item.parent.base ~ Docs then
-					steps := [Docs, path.item.base]
-					mint_copy_path := (dir_path #+ mint_copy_dir).joined_file_tuple (steps)
+					mint_copy_path := (dir_path #+ mint_copy_dir).joined_file_tuple ([Docs, path.item.base])
 					a_file_set.put (mint_copy_path)
 				end
 			end
