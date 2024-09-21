@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:55:52 GMT (Tuesday 27th August 2024)"
-	revision: "5"
+	date: "2024-09-20 8:19:26 GMT (Friday 20th September 2024)"
+	revision: "6"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	ZSTRING_EQA_TEST_SET
 
 	EL_CHARACTER_32_CONSTANTS
 
-	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT
+	EL_SHARED_ENCODINGS
 
 feature {NONE} -- Initialization
 
@@ -56,7 +56,7 @@ feature -- Appending tests
 			create encodeable.make_default
 			create test
 			unicode := Encodings.Unicode
-		 	across Text.lines as line loop
+		 	across Text.lines_32 as line loop
 		 		test.set (line.item)
 				across Text.all_encodings as encoding loop
 					encoding_id := encoding.item
@@ -74,7 +74,7 @@ feature -- Appending tests
 		 	end
 		 	assert ("82 not convertable", uncovertable_count = 82)
 
-		 	across Text.lines as line loop
+		 	across Text.lines_32 as line loop
 		 		if line.item.is_valid_as_string_8 then
 			 		test.set (line.item)
 			 		test.zs.wipe_out
@@ -96,7 +96,7 @@ feature -- Appending tests
 			create zstr.make_empty
 			across 1 |..| 2 as n loop
 				str_32.wipe_out; zstr.wipe_out
-				across Text.lines as list until list.cursor_index > 3 loop
+				across Text.lines_32 as list until list.cursor_index > 3 loop
 					if n.item = 2 then
 						line_32 := s.enclosed (list.item, ' ', ' ')
 					else
@@ -129,7 +129,7 @@ feature -- Appending tests
 
 				across << 3, 5, 7 >> as n loop
 					substring_size := n.item
-					across Text.lines as line loop
+					across Text.lines_32 as line loop
 						test.set (line.item)
 						test.zs.wipe_out
 						end_index := 0
@@ -163,7 +163,7 @@ feature -- Appending tests
 
 				across << 3, 5, 7 >> as n loop
 					substring_size := n.item
-					across Text.lines as line loop
+					across Text.lines_32 as line loop
 						test.set (line.item)
 						test.zs.wipe_out
 						end_index := 0
@@ -189,7 +189,7 @@ feature -- Appending tests
 			str_32, word_32: STRING_32; word: ZSTRING
 			str_32_str_8, zstr_str_8: STRING_8
 		do
-			across Text.lines as line_32 loop
+			across Text.lines_32 as line_32 loop
 				create str_32.make (0)
 				create str_32_str_8.make (0)
 				create zstr_str_8.make (0)
@@ -218,10 +218,10 @@ feature -- Appending tests
 			a: ZSTRING
 		do
 			create a.make_empty
-			across Text.russian_and_english as uc loop
+			across Text.Mixed_text as uc loop
 				a.append_unicode (uc.item.natural_32_code)
 			end
-			assert_same_string ("append_unicode OK", a, Text.russian_and_english)
+			assert_same_string ("append_unicode OK", a, Text.Mixed_text)
 		end
 
 	test_append_utf_8
@@ -230,7 +230,7 @@ feature -- Appending tests
 			utf_8: STRING; conv: EL_UTF_CONVERTER; test: STRING_TEST
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.wipe_out
 				across conv.string_32_to_utf_8_string_8 (line.item).split (' ') as utf_word loop
 					if test.s_32.count > 0 then
@@ -269,7 +269,7 @@ feature -- Prepending tests
 
 				across << 3, 5, 7 >> as n loop
 					substring_size := n.item
-					across Text.lines as line loop
+					across Text.lines_32 as line loop
 						test.set (line.item)
 						test.zs.wipe_out
 						start_index := test.s_32.count
@@ -291,7 +291,7 @@ feature -- Prepending tests
 			word_list: EL_OCCURRENCE_INTERVALS
 			start_index, end_index: INTEGER; s: EL_STRING_32_ROUTINES
 		do
-			across Text.lines as line_32 loop
+			across Text.lines_32 as line_32 loop
 				line := line_32.item
 				create test
 				create word_list.make (line_32.item, ' ')
@@ -316,9 +316,9 @@ feature {NONE} -- Implementation
 			test, substring_text: STRING_TEST; i, count: INTEGER
 		do
 			create test
-			count := (Text.russian_and_english.count // 5) * 5
+			count := (Text.Mixed_text.count // 5) * 5
 			from i := 1 until i > count loop
-				substring_text := Text.russian_and_english.substring (i, i + 4)
+				substring_text := Text.Mixed_text.substring (i, i + 4)
 				test.extend_strings (type, substring_text)
 
 				assert (test.append_type_name (type) + " OK", test.is_same)

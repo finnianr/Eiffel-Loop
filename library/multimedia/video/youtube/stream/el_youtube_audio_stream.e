@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-26 8:20:29 GMT (Wednesday 26th April 2023)"
-	revision: "3"
+	date: "2024-09-20 9:15:22 GMT (Friday 20th September 2024)"
+	revision: "4"
 
 class
 	EL_YOUTUBE_AUDIO_STREAM
@@ -61,7 +61,7 @@ feature {NONE} -- Constants
 
 	Extension_set: EL_HASH_SET [STRING]
 		once
-			create Result.make (3)
+			create Result.make_equal (3)
 		end
 
 	Data_rate_digits: INTEGER = 3

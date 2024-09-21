@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 18:03:08 GMT (Friday 29th March 2024)"
-	revision: "31"
+	date: "2024-09-20 9:16:55 GMT (Friday 20th September 2024)"
+	revision: "32"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -54,7 +54,7 @@ feature {EL_APPLICATION} -- Initialization
 			make_from_file (config_path)
 			translations := Locale.new_translation_table (language)
 			translations.print_duplicates
-			create referenced_keys.make (translations.count)
+			create referenced_keys.make_equal (translations.count)
 		end
 
 	make_default
@@ -302,7 +302,7 @@ feature {NONE} -- Build from Pyxis
 			-- Nodes relative to root element: bix
 		do
 			create Result.make (<<
-				["evolicity-template/ignore-key/text()",	agent do evolicity_parser_list.last.ignored_keys.put (node) end],
+				["evolicity-template/ignore-key/text()",	agent do evolicity_parser_list.last.ignored_key_set.put (node) end],
 				["localized-file-names/@extension",			agent do node.set (last_localized_file_name_extension) end],
 				["source-dir/text()",							agent do source_dir := node.to_expanded_dir_path end],
 				["include/@name",									agent do additional_keys_table.put (new_empty_list, node) end],

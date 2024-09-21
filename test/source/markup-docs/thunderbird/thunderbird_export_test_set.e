@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:50 GMT (Friday 13th September 2024)"
-	revision: "35"
+	date: "2024-09-20 7:26:27 GMT (Friday 20th September 2024)"
+	revision: "36"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -150,7 +150,7 @@ feature -- Tests
 			across Www_manifest as line loop
 				file_set.put (line.item)
 			end
-			create dir_set.make_from_array (<< "Home", "Libraries", "Tools" >>)
+			create dir_set.make_equal_array (<< "Home", "Libraries", "Tools" >>)
 			across OS.file_list (work_area_data_dir #+ "export", "*.body") as list loop
 				path := list.item
 				assert ("in directory set", dir_set.has (path.parent.base))

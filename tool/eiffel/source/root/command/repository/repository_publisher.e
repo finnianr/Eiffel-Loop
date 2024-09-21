@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 10:37:17 GMT (Sunday 1st September 2024)"
-	revision: "88"
+	date: "2024-09-20 9:17:30 GMT (Friday 20th September 2024)"
+	revision: "89"
 
 class
 	REPOSITORY_PUBLISHER
@@ -79,7 +79,7 @@ feature -- Basic operations
 				copied_path_list.wipe_out
 				ecf_list.update_class_sources (cpu_percentage)
 			end
-			create current_set.make (ecf_list.class_count)
+			create current_set.make_equal (ecf_list.class_count)
 			if config.version /~ previous_version then
 				output_sub_directories.do_if (agent OS.delete_tree, agent {DIR_PATH}.exists)
 			end
@@ -156,7 +156,7 @@ feature {NONE} -- Implementation
 			set: EL_HASH_SET [ZSTRING]; first_step: ZSTRING; relative_path: DIR_PATH
 		do
 			create Result.make (10)
-			create set.make (10)
+			create set.make_equal (10)
 			across ecf_list as tree loop
 				relative_path := tree.item.relative_dir_path
 				first_step := relative_path.first_step

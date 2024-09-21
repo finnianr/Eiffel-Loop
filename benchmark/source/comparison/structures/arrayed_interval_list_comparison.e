@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-20 8:03:40 GMT (Friday 20th September 2024)"
+	revision: "6"
 
 class
 	ARRAYED_INTERVAL_LIST_COMPARISON
@@ -50,7 +50,7 @@ feature -- Basic operations
 		local
 			words: EL_SPLIT_ZSTRING_LIST
 		do
-			create words.make (Text.lines.first, ' ')
+			create words.make (Text.cyrillic_line, ' ')
 
 			compare ("compare extend", <<
 				["create intervals INTEGER_64", 	agent create_intervals_64 (words)],

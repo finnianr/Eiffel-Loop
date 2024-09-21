@@ -9,20 +9,18 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:47 GMT (Friday 13th September 2024)"
-	revision: "131"
+	date: "2024-09-20 8:22:40 GMT (Friday 20th September 2024)"
+	revision: "132"
 
 class
 	ZSTRING_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
-
-	EL_STRING_HANDLER
+	ZSTRING_EQA_TEST_SET
 
 	EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
-	EL_SHARED_ZSTRING_CODEC; EL_SHARED_TEST_TEXT
+	EL_SHARED_ZSTRING_CODEC
 
 create
 	make
@@ -104,7 +102,7 @@ feature -- Conversion tests
 			z_code_string: STRING_32; general: READABLE_STRING_GENERAL
 		do
 			create test
-		 	across Text.lines as line loop
+		 	across Text.lines_32 as line loop
 		 		test.set (line.item)
 		 		z_code_string := test.zs.shared_z_code_pattern (1)
 		 		if z_code_string.count = test.zs.count then
@@ -126,7 +124,7 @@ feature -- Conversion tests
 		local
 			str, delimiter, str_2, l_substring: ZSTRING
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				str := line.item
 				from delimiter := " "  until delimiter.count > 2 loop
 					create str_2.make_empty
@@ -141,7 +139,7 @@ feature -- Conversion tests
 					delimiter.prepend_character ('и')
 				end
 			end
-			str := Text.russian_and_english; delimiter := "Latin"
+			str := Text.Mixed_text; delimiter := "Latin"
 			across str.substring_split (delimiter) as substring loop
 				l_substring := substring.item
 				if substring.cursor_index > 1 then
@@ -149,7 +147,7 @@ feature -- Conversion tests
 				end
 				str_2.append (l_substring)
 			end
-			assert_same_string ("substring_split OK", str, Text.russian_and_english)
+			assert_same_string ("substring_split OK", str, Text.Mixed_text)
 		end
 
 	test_to_general
@@ -163,7 +161,7 @@ feature -- Conversion tests
 			test: STRING_TEST
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				assert ("to_general OK", test.to_general)
 			end
@@ -182,11 +180,11 @@ feature -- Removal tests
 			across Text.word_intervals as interval loop
 				from offset := 0 until offset > (interval.item.count // 2).max (1) loop
 					l_interval := (interval.item.lower + offset) |..| (interval.item.upper + offset)
-					if Text.russian_and_english.valid_index (l_interval.lower)
-						and then Text.russian_and_english.valid_index (l_interval.upper)
+					if Text.Mixed_text.valid_index (l_interval.lower)
+						and then Text.Mixed_text.valid_index (l_interval.upper)
 					then
-						substring := Text.russian_and_english.substring (l_interval.lower, l_interval.upper) -- Debug
-						test.set (Text.russian_and_english.twin)
+						substring := Text.Mixed_text.substring (l_interval.lower, l_interval.upper) -- Debug
+						test.set (Text.Mixed_text.twin)
 						test.s_32.remove_substring (l_interval.lower, l_interval.upper)
 						test.zs.remove_substring (l_interval.lower, l_interval.upper)
 						assert ("remove_substring OK", test.is_same)
@@ -237,7 +235,7 @@ feature -- Element change tests
 		do
 			create test
 			G_clef := Text.G_clef
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				create word_list.make_by_string (test.s_32, " ")
 				from word_list.start until word_list.after loop
@@ -260,7 +258,7 @@ feature -- Element change tests
 		local
 			line, joined: ZSTRING; line_32: STRING_32
 		do
-			across Text.lines as list loop
+			across Text.lines_32 as list loop
 				line_32 := list.item.twin; line := line_32
 				line_32.append_string_general (" 100-abc")
 				joined := line.joined ([' ', 100, "-abc"])
@@ -280,9 +278,9 @@ feature -- Element change tests
 			z_code, old_z_code: NATURAL
 		do
 			uc := 'д'; z_code := Codec.as_z_code (uc)
-			test := Text.russian
+			test := Text.cyrillic_line_32
 			across << true, false >> as test_put_z_code loop
-				across Text.russian as c loop
+				across Text.cyrillic_line_32 as c loop
 					i := c.cursor_index; old_uc := c.item
 					old_z_code := Codec.as_z_code (old_uc)
 
@@ -321,7 +319,7 @@ feature -- Element change tests
 				<< 2, 3, 5 >>,		-- shareable for ISO-8859-15
 				<< 2, 3, 4, 6 >>	-- shareable for ISO-8859-1
 			)
-			across Text.lines as list loop
+			across Text.lines_32 as list loop
 				if list.item.is_valid_as_string_8 then
 					latin_1 := list.item.to_string_8
 					create zstr.make_empty
@@ -347,7 +345,7 @@ feature -- Status query tests
 		do
 			create alpha_numeric_intervals.make_empty
 			across 1 |..| 2 as n loop
-				across Text.lines as list until list.cursor_index > 3 loop
+				across Text.lines_32 as list until list.cursor_index > 3 loop
 					list.item.prune_all (',')
 					if n.item = 2 then
 						list.item.prepend_character (' ')
@@ -371,7 +369,7 @@ feature -- Status query tests
 		local
 			line: ZSTRING; word_list: EL_ZSTRING_LIST
 		do
-			across Text.lines as line_32 loop
+			across Text.lines_32 as line_32 loop
 				line := line_32.item
 				create word_list.make_word_split (line)
 				assert ("word is in word_list", line.for_all_split (space, agent word_list.has))
@@ -384,9 +382,9 @@ feature -- Status query tests
 		local
 			english: ZSTRING; english_32: STRING_32
 		do
-			english_32 := Text.lines.last
+			english_32 := Text.lines_32.last
 			english := english_32
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				across line.item as uc loop
 					assert ("has OK", english.has (uc.item) ~ english_32.has (uc.item))
 				end
@@ -401,7 +399,7 @@ feature -- Status query tests
 			word_intervals: EL_SPLIT_INTERVALS; line: ZSTRING
 			i, start_index, lower, upper: INTEGER; uc: CHARACTER_32
 		do
-			across Text.lines as lines loop
+			across Text.lines_32 as lines loop
 				line := lines.item
 				create word_intervals.make (line, ' ')
 				if attached word_intervals as word then
@@ -443,7 +441,7 @@ feature -- Status query tests
 			canonically_spaced: STRING
 		do
 			canonically_spaced := "canonically spaced"
-			across Text.lines as list loop
+			across Text.lines_32 as list loop
 				line := list.item
 				assert (canonically_spaced, line.is_canonically_spaced)
 				space_index := line.index_of (' ', 1)
@@ -482,7 +480,7 @@ feature -- Status query tests
 		do
 			create sorted.make (20); create sorted_32.make (20)
 			sorted.compare_objects; sorted_32.compare_objects
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				sorted.wipe_out; sorted_32.wipe_out
 				across line.item.split (' ') as w loop
 					word := w.item
@@ -504,7 +502,7 @@ feature -- Status query tests
 		local
 			test: STRING_TEST; start_index, end_index: INTEGER_32
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				create test.make (line.item)
 				inspect line.cursor_index
 					when 1 then
@@ -532,7 +530,7 @@ feature -- Status query tests
 		local
 			line: ZSTRING; word_list: EL_ZSTRING_LIST
 		do
-			across Text.lines as line_32 loop
+			across Text.lines_32 as line_32 loop
 				line := line_32.item
 				create word_list.make_word_split (line)
 				across word_list as word loop
@@ -574,7 +572,7 @@ feature -- Access tests
 			create substring_line_set.make_equal (10)
 			create line_set.make_equal (10)
 			across << 1, 2, 3, 4 >> as fifth loop
-				line := Text.russian
+				line := Text.cyrillic_line_32
 				line_set.put (line)
 				substring_count := (line.count * fifth.item / 5).rounded
 				line_substring := line.substring (1, substring_count)
@@ -597,7 +595,7 @@ feature -- Access tests
 			index, index_32, i: INTEGER
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				across Text.character_set as set loop
 					uc := set.item
@@ -617,7 +615,7 @@ feature -- Access tests
 			index, index_32, i: INTEGER
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				across Text.character_set as set loop
 					uc := set.item
@@ -640,7 +638,7 @@ feature -- Access tests
 			test: STRING_TEST
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				across test.zs as c loop
 					assert ("same character", c.item = test.s_32 [c.cursor_index])
@@ -655,7 +653,7 @@ feature -- Access tests
 			test: STRING_TEST; uc: CHARACTER_32
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				across Text.character_set as set loop
 					uc := set.item
@@ -675,7 +673,7 @@ feature -- Access tests
 			assertion_ok: STRING
 		do
 			assertion_ok := "substring_index OK"
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				create test.make (line.item)
 				across test.all_word_interval_permutations as permutation loop
 					if attached permutation.item as list then
@@ -700,11 +698,11 @@ feature -- Access tests
 			assertion_ok: STRING
 		do
 			assertion_ok := "substring_index_in_bounds OK"
-			str_32 := Text.Russian_and_english; str := str_32
+			str_32 := Text.Mixed_text; str := str_32
 
 			create boundary_intervals.make (str_32, '%N')
 
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test := line.item
 				bound_start_pos := boundary_intervals.i_th_lower (line.cursor_index)
 				bound_end_pos := boundary_intervals.i_th_upper (line.cursor_index)
@@ -729,7 +727,7 @@ feature -- Access tests
 		local
 			test: STRING_TEST
 		do
-			test := Text.Russian_and_english
+			test := Text.Mixed_text
 			across Text.Character_set as c loop
 				assert ("same index", test.zs.index_of (c.item, 1) = test.s_32.index_of (c.item, 1))
 			end
@@ -748,7 +746,7 @@ feature -- Duplication tests
 			str_32, template_32: STRING_32; l_word: READABLE_STRING_GENERAL; str, substituted: ZSTRING
 			tuple: TUPLE; i, index: INTEGER
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				str_32 := line.item
 				if line.cursor_index = 1 then
 					-- Test escaping the substitution marker
@@ -793,7 +791,7 @@ feature -- Duplication tests
 			assertion_ok: STRING
 		do
 			assertion_ok := "substring OK"
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				create test.make (line.item)
 				across test.all_word_interval_permutations as permutation loop
 					if attached permutation.item as list then
@@ -818,9 +816,9 @@ feature -- Duplication tests
 			line, full_text: ZSTRING
 			start_index: INTEGER
 		do
-			full_text := Text.russian_and_english
+			full_text := Text.Mixed_text
 			start_index := 1
-			across Text.lines as list loop
+			across Text.lines_32 as list loop
 				line := list.item
 				assert ("same string", full_text.substring_to_from ('%N', $start_index) ~ line)
 			end
@@ -834,9 +832,9 @@ feature -- Duplication tests
 			line, full_text: ZSTRING
 			start_end_index: INTEGER
 		do
-			full_text := Text.russian_and_english
+			full_text := Text.Mixed_text
 			start_end_index := full_text.count
-			across Text.lines.new_cursor.reversed as list loop
+			across Text.lines_32.new_cursor.reversed as list loop
 				line := list.item
 				assert ("same string", full_text.substring_to_reversed_from ('%N', $start_end_index) ~ line)
 			end

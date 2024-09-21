@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-14 17:38:04 GMT (Sunday 14th July 2024)"
-	revision: "12"
+	date: "2024-09-20 9:15:11 GMT (Friday 20th September 2024)"
+	revision: "13"
 
 class
 	USER_AGENT_COMMAND
@@ -33,7 +33,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 	make (a_log_path: FILE_PATH)
 		do
 			Precursor (a_log_path)
-			create user_agent_set.make (100)
+			create user_agent_set.make_equal (100)
 		end
 
 feature -- Constants

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-15 10:24:32 GMT (Tuesday 15th August 2023)"
-	revision: "15"
+	date: "2024-09-21 8:47:07 GMT (Saturday 21st September 2024)"
+	revision: "16"
 
 class
 	TYPE_TEST_SET
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["string_factory_creation", agent test_string_factory_creation],
+				["string_factory_creation",	 agent test_string_factory_creation],
 				["type_and_type_name_caching", agent test_type_and_type_name_caching]
 			>>)
 		end

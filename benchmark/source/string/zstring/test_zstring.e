@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 9:13:45 GMT (Wednesday 30th August 2023)"
-	revision: "6"
+	date: "2024-09-20 7:48:54 GMT (Friday 20th September 2024)"
+	revision: "7"
 
 class
 	TEST_ZSTRING
@@ -32,7 +32,7 @@ feature {NONE} -- Factory
 
 	new_character_set (str: ZSTRING): EL_HASH_SET [CHARACTER_32]
 		do
-			create Result.make_size (str.count // 2)
+			create Result.make (str.count // 2)
 			across str as uc loop
 				Result.put (uc.item)
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-15 19:11:15 GMT (Sunday 15th September 2024)"
-	revision: "74"
+	date: "2024-09-20 7:48:42 GMT (Friday 20th September 2024)"
+	revision: "75"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -221,7 +221,7 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
-			c_old, c_new, c_i: CHARACTER; new_unencoded: CHARACTER_32; i, l_count, block_index: INTEGER
+			c_old, c_new: CHARACTER; new_unencoded: CHARACTER_32; i, l_count, block_index: INTEGER
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			l_count := count

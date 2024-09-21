@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-09-20 7:41:59 GMT (Friday 20th September 2024)"
+	revision: "13"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 		local
 			str_32: STRING_32; i, leading_count, trailing_count: INTEGER
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				str_32 := line.item
 				from i := 1 until i > str_32.count or else str_32.code (i) > 0x7F loop
 					i := i + 1

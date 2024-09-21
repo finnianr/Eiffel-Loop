@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 17:20:24 GMT (Thursday 12th September 2024)"
-	revision: "33"
+	date: "2024-09-20 7:59:13 GMT (Friday 20th September 2024)"
+	revision: "34"
 
 class
 	STRING_TEST_SET
@@ -95,7 +95,7 @@ feature -- Tests
 			str, delimiter, str_2, l_substring: STRING_32
 			s: EL_STRING_32_ROUTINES
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				str := line.item
 				from delimiter := " "  until delimiter.count > 2 loop
 					create str_2.make_empty
@@ -110,7 +110,7 @@ feature -- Tests
 					delimiter.prepend_character ('и')
 				end
 			end
-			str := Text.Russian_and_english; delimiter := "Latin"
+			str := Text.Mixed_text; delimiter := "Latin"
 			across s.delimited_list (str, delimiter) as substring loop
 				l_substring := substring.item
 				if substring.cursor_index > 1 then
@@ -118,9 +118,9 @@ feature -- Tests
 				end
 				str_2.append (l_substring)
 			end
-			assert ("delimited_list OK", str ~ Text.Russian_and_english)
+			assert ("delimited_list OK", str ~ Text.Mixed_text)
 		ensure
-			line_2_starts_with_W: Text.lines.i_th (2).item (1) = 'W'
+			line_2_starts_with_W: Text.lines_32.i_th (2).item (1) = 'W'
 		end
 
 	test_immutable_string_manager
@@ -135,7 +135,7 @@ feature -- Tests
 			word_8: STRING_8; word_32: STRING_32; word_index: INTEGER
 		do
 			create manager_32; create manager_8
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				if line.item.is_valid_as_string_8 and then attached line.item.to_string_8 as line_item_8 then
 					if attached line_item_8.split (' ') as words then
 						word_8 := words [2]

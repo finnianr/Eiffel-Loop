@@ -5,17 +5,17 @@ note
 	notes: "[
 		Passes over 500 millisecs (in descending order)
 
-			substring_index_list (Russian)         : 151758.0 times (100%)
-			substring_intervals (Russian)          : 131546.0 times (-13.3%)
-			substring_index_list_general (Russian) :  90794.0 times (-40.2%)
+			index_list (Cyrillic)         : 151758.0 times (100%)
+			intervals (Cyrillic)          : 131546.0 times (-13.3%)
+			index_list_general (Cyrillic) :  90794.0 times (-40.2%)
 
-			substring_index_list_general (space)   :  42298.0 times (-72.1%)
-			substring_intervals (space)            :  40345.0 times (-73.4%)
-			substring_index_list (space)           :  25531.0 times (-83.2%)
+			index_list_general (space)   :  42298.0 times (-72.1%)
+			intervals (space)            :  40345.0 times (-73.4%)
+			index_list (space)           :  25531.0 times (-83.2%)
 
-			substring_index_list                   :  35202.0 times (-76.8%)
-			substring_index_list_general           :  26918.0 times (-82.3%)
-			substring_intervals                    :  26282.0 times (-82.7%)
+			index_list                   :  35202.0 times (-76.8%)
+			index_list_general           :  26918.0 times (-82.3%)
+			intervals                    :  26282.0 times (-82.7%)
 	]"
 
 	author: "Finnian Reilly"
@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 13:14:41 GMT (Friday 12th April 2024)"
-	revision: "17"
+	date: "2024-09-20 8:14:41 GMT (Friday 20th September 2024)"
+	revision: "18"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON
@@ -45,29 +45,28 @@ feature -- Basic operations
 
 	execute
 		local
-			lines, russian: EL_ZSTRING_LIST
+			lines, cyrillic: EL_ZSTRING_LIST
 		do
-			create lines.make_from_general (Text.lines)
-			russian := lines.sub_list (1, 1)
+			lines := Text.lines; cyrillic := lines.sub_list (1, 1)
 
 			compare ("compare interval search", <<
-				["substring_intervals",							 agent substring_intervals (lines, new_pattern_general_list (lines, False))],
-				["substring_index_list",						 agent substring_index_list (lines, new_pattern_list (lines, False))],
-				["substring_index_list_general",				 agent substring_index_list_general (lines, new_pattern_general_list (lines, False))],
+				["intervals",							 agent intervals (lines, new_general_list (lines, False))],
+				["index_list",							 agent index_list (lines, new_zstring_list (lines, False))],
+				["index_list_general",				 agent index_list_general (lines, new_general_list (lines, False))],
 
-				["substring_intervals (space)",				 agent substring_intervals (lines, new_pattern_general_list (lines, True))],
-				["substring_index_list (space)",				 agent substring_index_list (lines, new_pattern_list (lines, True))],
-				["substring_index_list_general (space)",	 agent substring_index_list_general (lines, new_pattern_general_list (lines, True))],
+				["intervals (space)",				 agent intervals (lines, new_general_list (lines, True))],
+				["index_list (space)",				 agent index_list (lines, new_zstring_list (lines, True))],
+				["index_list_general (space)",	 agent index_list_general (lines, new_general_list (lines, True))],
 
-				["substring_intervals (Russian)",			 agent substring_intervals (russian, new_pattern_general_list (russian, False))],
-				["substring_index_list (Russian)",			 agent substring_index_list (russian, new_pattern_list (russian, False))],
-				["substring_index_list_general (Russian)", agent substring_index_list_general (russian, new_pattern_general_list (russian, False))]
+				["intervals (Cyrillic)",			 agent intervals (cyrillic, new_general_list (cyrillic, False))],
+				["index_list (Cyrillic)",			 agent index_list (cyrillic, new_zstring_list (cyrillic, False))],
+				["index_list_general (Cyrillic)", agent index_list_general (cyrillic, new_general_list (cyrillic, False))]
 			>>)
 		end
 
-feature {NONE} -- Index lists
+feature {NONE} -- Substring Index lists
 
-	substring_index_list (lines: EL_ZSTRING_LIST; pattern_list: like new_pattern_list)
+	index_list (lines: EL_ZSTRING_LIST; pattern_list: like new_zstring_list)
 		local
 			end_string: ZSTRING; lower, upper: INTEGER
 		do
@@ -79,7 +78,7 @@ feature {NONE} -- Index lists
 			end
 		end
 
-	substring_index_list_general (lines: EL_ZSTRING_LIST; pattern_list: like new_pattern_general_list)
+	index_list_general (lines: EL_ZSTRING_LIST; pattern_list: like new_general_list)
 		local
 			end_string: READABLE_STRING_GENERAL; lower, upper: INTEGER
 		do
@@ -91,7 +90,7 @@ feature {NONE} -- Index lists
 			end
 		end
 
-	substring_intervals (lines: EL_ZSTRING_LIST; pattern_list: like new_pattern_general_list)
+	intervals (lines: EL_ZSTRING_LIST; pattern_list: like new_general_list)
 		local
 			end_string: READABLE_STRING_GENERAL; lower, upper: INTEGER
 		do
@@ -105,7 +104,22 @@ feature {NONE} -- Index lists
 
 feature {NONE} -- Implementation
 
-	new_pattern_list (lines: EL_ZSTRING_LIST; use_space: BOOLEAN): EL_ZSTRING_LIST
+	new_general_list (lines: EL_ZSTRING_LIST; use_space: BOOLEAN): EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+		local
+			end_string: READABLE_STRING_GENERAL
+		do
+			create Result.make (lines.count)
+			across lines as line loop
+				if use_space then
+					create {STRING_8} end_string.make_filled (' ', 1)
+				else
+					end_string := line.item.substring_to_reversed (' ').db
+				end
+				Result.extend (end_string)
+			end
+		end
+		
+	new_zstring_list (lines: EL_ZSTRING_LIST; use_space: BOOLEAN): EL_ZSTRING_LIST
 		local
 			end_string: ZSTRING
 		do
@@ -120,18 +134,4 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_pattern_general_list (lines: EL_ZSTRING_LIST; use_space: BOOLEAN): EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
-		local
-			end_string: READABLE_STRING_GENERAL
-		do
-			create Result.make (lines.count)
-			across lines as line loop
-				if use_space then
-					create {STRING_8} end_string.make_filled (' ', 1)
-				else
-					end_string := line.item.substring_to_reversed (' ').db
-				end
-				Result.extend (end_string)
-			end
-		end
 end

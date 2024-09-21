@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:19:05 GMT (Sunday 8th September 2024)"
-	revision: "9"
+	date: "2024-09-20 10:03:02 GMT (Friday 20th September 2024)"
+	revision: "10"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -106,7 +106,9 @@ feature -- Basic operations
 		do
 			old_position := item_position
 			internal_search (key)
-			if not found then
+			if found then
+				found_area := content.item (position)
+			else
 				found_area := empty_area
 			end
 			item_position := old_position

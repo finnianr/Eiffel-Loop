@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 15:59:14 GMT (Thursday 5th September 2024)"
-	revision: "15"
+	date: "2024-09-20 10:33:35 GMT (Friday 20th September 2024)"
+	revision: "16"
 
 class
 	EL_FUNCTION_GROUPED_SET_TABLE [G, K -> HASHABLE]
@@ -39,22 +39,22 @@ create
 
 feature {NONE} -- Initialization
 
-	make_equal (a_item_key: like item_key; n: INTEGER)
+	make_equal (a_group_key: like group_key; n: INTEGER)
 		do
-			item_key := a_item_key
+			group_key := a_group_key
 			make_equal_with_count (n)
 		end
 
-	make_equal_from_list (a_item_key: FUNCTION [G, K]; a_list: ITERABLE [G])
-		-- Group items `list' into groups defined by `a_item_key' function
+	make_equal_from_list (a_group_key: FUNCTION [G, K]; a_list: ITERABLE [G])
+		-- Group items `list' into groups defined by `a_group_key' function
 		do
-			make_equal (a_item_key, (Iterable.count (a_list) // 2).min (11))
+			make_equal (a_group_key, (Iterable.count (a_list) // 2).min (11))
 			across a_list as list loop
-				extend (a_item_key (list.item), list.item)
+				extend (a_group_key (list.item), list.item)
 			end
 		ensure
 			each_item_in_group: across a_list as l_list all
-				item_set (a_item_key (l_list.item)).has (l_list.item)
+				item_set (a_group_key (l_list.item)).has (l_list.item)
 			end
 		end
 

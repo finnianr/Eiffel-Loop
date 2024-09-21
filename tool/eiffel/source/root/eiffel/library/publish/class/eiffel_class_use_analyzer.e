@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 8:28:41 GMT (Tuesday 27th August 2024)"
-	revision: "5"
+	date: "2024-09-20 9:16:41 GMT (Friday 20th September 2024)"
+	revision: "6"
 
 class
 	EIFFEL_CLASS_USE_ANALYZER
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			Use_set_buffer.wipe_out
 			class_name_set := Use_set_buffer
 			analyze (source.area, 0, source.count - 1)
-			create class_name_set.make (Use_set_buffer.count)
+			create class_name_set.make_equal (Use_set_buffer.count)
 			across Use_set_buffer as set loop
 				class_name_set.put (set.item)
 			end
@@ -121,6 +121,6 @@ feature {NONE} -- Constants
 
 	Use_set_buffer: EL_HASH_SET [IMMUTABLE_STRING_8]
 		once
-			create Result.make (100)
+			create Result.make_equal (100)
 		end
 end

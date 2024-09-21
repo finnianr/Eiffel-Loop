@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 15:45:19 GMT (Saturday 25th November 2023)"
-	revision: "51"
+	date: "2024-09-20 7:41:59 GMT (Friday 20th September 2024)"
+	revision: "52"
 
 class
 	TAGLIB_TEST_SET
@@ -160,7 +160,7 @@ feature -- Tests
 			tl_string: TL_STRING
 		do
 			create tl_string.make_empty
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				tl_string.set_from_string (line.item)
 				assert ("same string", tl_string.to_string_32 ~ line.item)
 			end
@@ -183,7 +183,7 @@ feature -- Tests
 		do
 			across file_list as path loop
 				create mp3.make (path.item)
-				title := Text.lines.circular_i_th (path.cursor_index)
+				title := Text.lines_32.circular_i_th (path.cursor_index)
 				if not mp3.tag.is_default then
 					mp3.tag.set_title (title)
 					assert ("title set", mp3.tag.title ~ title)

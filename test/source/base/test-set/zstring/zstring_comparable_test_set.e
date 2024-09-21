@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:57:10 GMT (Tuesday 27th August 2024)"
-	revision: "6"
+	date: "2024-09-20 8:19:16 GMT (Friday 20th September 2024)"
+	revision: "7"
 
 class
 	ZSTRING_COMPARABLE_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
-
-	EL_SHARED_TEST_TEXT
+	ZSTRING_EQA_TEST_SET
 
 	EL_MODULE_STRING
 
@@ -48,7 +46,7 @@ feature -- Tests
 			test: STRING_TEST; assertion_OK: STRING
 			index, start_index, end_index: INTEGER
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				create test.make (line.item)
 				if attached test.word_intervals as list then
 					from list.start until list.is_empty loop
@@ -128,7 +126,7 @@ feature -- Tests
 			test: STRING_TEST; assertion_OK: STRING
 			index, start_index, end_index: INTEGER
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				create test.make (line.item)
 				if attached test.word_intervals as list then
 					from list.start until list.is_empty loop
@@ -154,7 +152,7 @@ feature {NONE} -- Implementation
 		local
 			start_index, end_index: INTEGER; test: STRING_TEST
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				if is_case_insenstive then
 					create {CASELESS_STRING_TEST} test.make (line.item)
 				else

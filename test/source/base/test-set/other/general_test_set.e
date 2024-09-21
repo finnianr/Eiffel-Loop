@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:46 GMT (Friday 13th September 2024)"
-	revision: "59"
+	date: "2024-09-20 7:42:25 GMT (Friday 20th September 2024)"
+	revision: "60"
 
 class
 	GENERAL_TEST_SET
@@ -163,7 +163,7 @@ feature -- Tests
 			buffer.set_encoding_other (Console.Encoding)
 			is_ansi := Console.code_page.has_substring ("ANSI")
 
-			across Text.latin_1_lines as list loop
+			across Text.lines_8 as list loop
 				create line.make_from_string (list.item)
 				if attached Encodings.Unicode as unicode then
 					if is_ansi implies line.is_ascii then
@@ -258,7 +258,7 @@ feature -- Tests
 			path: FILE_PATH; str, str_item: ZSTRING; str_8: detachable STRING
 		do
 			across << Windows_class, Latin_class, Utf_8 >> as encoding_type loop
-				across Text.lines as list loop
+				across Text.lines_32 as list loop
 					if attached list.item as str_32 then
 						str := str_32
 						if str_32.is_valid_as_string_8 then

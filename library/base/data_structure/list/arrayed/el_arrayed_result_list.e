@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:44:58 GMT (Thursday 12th September 2024)"
-	revision: "14"
+	date: "2024-09-20 14:39:39 GMT (Friday 20th September 2024)"
+	revision: "15"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -24,6 +24,8 @@ inherit
 			make_from_for as make_from_container_for,
 			make_from_if as make_from_container_if
 		end
+
+	EL_CONTAINER_HANDLER
 
 create
 	make, make_from_for, make_from_if, make_with_tuple_1, make_with_tuple_2
@@ -39,10 +41,9 @@ feature {NONE} -- Initialization
 			valid_function: operand_item (container).is_valid_for (to_item)
 		do
 			if attached as_structure (container) as structure
-				and then attached {EL_ARRAYED_LIST [R]} structure.derived_list (to_item)
-				as result_list
+				and then attached structure.new_special (True) as container_area
 			then
-				make_from_special (result_list.area)
+				make_results (to_item, container_area, container_count (container))
 			else
 				make_empty
 			end
@@ -55,11 +56,8 @@ feature {NONE} -- Initialization
 		require
 			valid_function: operand_item (container).is_valid_for (to_item)
 		do
-			if attached as_structure (container) as structure
-				and then attached {EL_ARRAYED_LIST [R]} structure.derived_list_meeting (to_item, condition)
-				as result_list
-			then
-				make_from_special (result_list.area)
+			if attached as_structure (container).query (condition) as list then
+				make_results (to_item, list.area, list.count)
 			else
 				make_empty
 			end
@@ -78,6 +76,19 @@ feature {NONE} -- Initialization
 	make_with_tuple_2 (tuple: TUPLE [list: EL_ARRAYED_LIST [G]; to_item: FUNCTION [G, R]])
 		do
 			make (tuple.list, tuple.to_item)
+		end
+
+	make_results (to_item: FUNCTION [G, R]; a_area: SPECIAL [G]; a_count: INTEGER)
+		local
+			i: INTEGER
+		do
+			make_sized (a_count)
+			if attached area as l_area then
+				from until i = a_count loop
+					l_area.extend (to_item (a_area [i]))
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Access

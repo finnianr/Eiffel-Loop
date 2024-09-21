@@ -1,23 +1,21 @@
 note
-	description: "Testing class ${EL_TRANSFORMABLE_ZSTRING}"
+	description: "${EL_TRANSFORMABLE_ZSTRING} test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-15 19:04:46 GMT (Sunday 15th September 2024)"
-	revision: "9"
+	date: "2024-09-20 8:26:12 GMT (Friday 20th September 2024)"
+	revision: "10"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	ZSTRING_EQA_TEST_SET
 
 	EL_CHARACTER_32_CONSTANTS
-
-	EL_SHARED_TEST_TEXT
 
 feature {NONE} -- Initialization
 
@@ -73,7 +71,7 @@ feature -- Tests
 			end
 			change_case (Text.Lower_case_characters, Text.Upper_case_characters)
 
-			across Text.lines as line until line.cursor_index > 2 loop
+			across Text.lines_32 as line until line.cursor_index > 2 loop
 				str_32 := line.item; str := str_32
 				create word_intervals.make (str_32, ' ')
 				if attached word_intervals as word then
@@ -113,7 +111,7 @@ feature -- Tests
 			test: STRING_TEST
 		do
 			across 1 |..| 2 as index loop
-				create test.make_filled (Text.russian [index.item], 3)
+				create test.make_filled (Text.cyrillic_line_32 [index.item], 3)
 				assert ("same string", test.is_same)
 			end
 		end
@@ -141,7 +139,7 @@ feature -- Tests
 			create test
 			across Text.character_set as set loop
 				uc := set.item
-				across Text.lines as line loop
+				across Text.lines_32 as line loop
 					test.set (line.item)
 					test.zs.prune_all (uc); test.s_32.prune_all (uc)
 					assert ("prune_all OK", test.is_same)
@@ -166,7 +164,7 @@ feature -- Tests
 		local
 			russian: ZSTRING
 		do
-			russian := Text.russian
+			russian := Text.cyrillic_line_32
 			russian.prune_all_leading ('%N') -- tests `keep_tail (count)'
 
 			do_pruning_test ({STRING_TEST_IMPLEMENTATION}.Prune_leading)
@@ -188,7 +186,7 @@ feature -- Tests
 		local
 			test: STRING_TEST; pos: INTEGER
 		do
-			test := Text.russian_and_english.twin
+			test := Text.Mixed_text.twin
 			from until test.s_32.is_empty loop
 				pos := test.s_32.index_of (' ', test.s_32.count)
 				if pos > 0 then
@@ -209,7 +207,7 @@ feature -- Tests
 		local
 			test: STRING_TEST; pos: INTEGER
 		do
-			test := Text.russian_and_english.twin
+			test := Text.Mixed_text.twin
 			from until test.s_32.is_empty loop
 				pos := test.s_32.last_index_of (' ', test.s_32.count)
 				if pos > 0 then
@@ -229,8 +227,8 @@ feature -- Tests
 			test: STRING_TEST; uc_new, uc_old: CHARACTER_32
 			s: EL_STRING_32_ROUTINES
 		do
-			across Text.russian as uc loop
-				test := Text.russian
+			across Text.cyrillic_line_32 as uc loop
+				test := Text.cyrillic_line_32
 				if not uc.is_last then
 					uc_old := uc.item
 					uc_new := test.s_32 [uc.cursor_index + 1]
@@ -247,12 +245,12 @@ feature -- Tests
 		local
 			word_list_32: EL_STRING_32_LIST; index, start_index, end_index: INTEGER
 			space_intervals: EL_OCCURRENCE_INTERVALS; test, word_pair: STRING_TEST
-			line_list: like Text.lines
+			line_list: like Text.lines_32
 		do
 			create test; create word_pair
 			create space_intervals.make_empty
 			create word_list_32.make (50)
-			line_list := Text.lines
+			line_list := Text.lines_32
 			across line_list as line loop
 				if line.is_first or line.is_last then
 					across line.item.split (' ') as list loop
@@ -262,7 +260,7 @@ feature -- Tests
 			end
 			across word_list_32 as list loop
 				word_pair.set (list.item)
-				across Text.lines as line loop
+				across Text.lines_32 as line loop
 					test.set (line.item)
 					space_intervals.fill (test.s_32, ' ', 0)
 					start_index := space_intervals.first_lower + 1
@@ -287,7 +285,7 @@ feature -- Tests
 		do
 			create word_list.make (20)
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				first_word := s32.substring_to (line.item, ' ')
 				word_A := "A"
 				test.set (line.item)
@@ -298,7 +296,7 @@ feature -- Tests
 				end
 			end
 			from i := 1 until i > 4 loop
-				across Text.lines as line loop
+				across Text.lines_32 as line loop
 					test.set (line.item.as_lower)
 
 					word_list.wipe_out
@@ -373,7 +371,7 @@ feature -- Tests
 			end
 
 		-- Rigorous test
-			across Text.lines as list loop
+			across Text.lines_32 as list loop
 				line := list.item
 				assert ("canonically spaced", line.is_canonically_spaced)
 				assert ("STRING_32 canonically spaced", s32.is_canonically_spaced (line.to_string_32))
@@ -407,7 +405,7 @@ feature -- Tests
 			test: STRING_TEST; new_set: STRING_32
 		do
 			across << space.item, Text.Ogham_space_mark, ('%U').to_character_32 >> as c loop
-				across Text.lines as list loop
+				across Text.lines_32 as list loop
 					if attached list.item as line then
 						across line.split (' ') as split loop
 							if attached split.item as word and then attached new_characters_set (word) as old_set then

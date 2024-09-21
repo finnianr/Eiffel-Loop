@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:53:34 GMT (Monday 2nd September 2024)"
-	revision: "69"
+	date: "2024-09-20 9:48:25 GMT (Friday 20th September 2024)"
+	revision: "70"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -237,7 +237,7 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("Reading classes", html_index_path)
 			lio.put_new_line
-			create group_table.make_from_list (agent {FILE_PATH}.parent, sorted_path_list)
+			create group_table.make_equal_from_list (agent {FILE_PATH}.parent, sorted_path_list)
 			create directory_list.make (group_table.count)
 
 			across group_table as group loop
@@ -316,7 +316,7 @@ feature -- Factory
 
 	new_directory_group_table: EL_FUNCTION_GROUPED_SET_TABLE [FILE_PATH, DIR_PATH]
 		do
-			create Result.make_from_list (agent {FILE_PATH}.parent, sorted_path_list)
+			create Result.make_equal_from_list (agent {FILE_PATH}.parent, sorted_path_list)
 		end
 
 	new_path_list: EL_FILE_PATH_LIST

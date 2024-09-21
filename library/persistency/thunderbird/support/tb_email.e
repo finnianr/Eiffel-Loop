@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:53:28 GMT (Friday 12th July 2024)"
-	revision: "15"
+	date: "2024-09-20 7:26:26 GMT (Friday 20th September 2024)"
+	revision: "16"
 
 class
 	TB_EMAIL
@@ -168,12 +168,12 @@ feature {NONE} -- Constants
 
 	Mozilla_key_set: EL_HASH_SET [STRING]
 		once
-			create Result.make_from_array (<< space * 80 >>)
+			create Result.make_equal_array (<< space * 80 >>)
 		end
 
 	Transfer_encodings: EL_HASH_SET [STRING]
 		once
-			create Result.make_from_array (<< "7bit", "8bit" >>)
+			create Result.make_equal_array (<< "7bit", "8bit" >>)
 		end
 
 	Subject_decoder: TB_SUBJECT_LINE_DECODER

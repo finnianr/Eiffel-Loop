@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-07 11:43:33 GMT (Saturday 7th September 2024)"
-	revision: "7"
+	date: "2024-09-20 10:43:28 GMT (Friday 20th September 2024)"
+	revision: "8"
 
 class
 	ECD_GROUP_TABLE [G -> EL_STORABLE, K -> HASHABLE]
@@ -36,7 +36,7 @@ feature -- Status query
 
 	has (a_item: G): BOOLEAN
 		do
-			Result := has_key (item_key (a_item)) and then found_list.has (a_item)
+			Result := has_key (group_key (a_item)) and then found_list.has (a_item)
 		end
 
 end

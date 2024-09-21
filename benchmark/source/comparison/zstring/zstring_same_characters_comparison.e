@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 11:58:18 GMT (Saturday 31st August 2024)"
-	revision: "13"
+	date: "2024-09-20 8:05:30 GMT (Friday 20th September 2024)"
+	revision: "14"
 
 class
 	ZSTRING_SAME_CHARACTERS_COMPARISON
@@ -41,7 +41,7 @@ feature -- Basic operations
 		local
 			str, end_string: ZSTRING; start_pos, end_pos: INTEGER
 		do
-			str := Text.lines.first
+			str := Text.cyrillic_line
 			start_pos :=  str.index_of (str [1], 2)
 			end_pos := str.count
 			end_string := str.substring_end (start_pos)

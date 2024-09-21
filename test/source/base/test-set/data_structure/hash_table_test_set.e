@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-14 8:23:52 GMT (Saturday 14th September 2024)"
-	revision: "47"
+	date: "2024-09-21 14:30:37 GMT (Saturday 21st September 2024)"
+	revision: "48"
 
 class
 	HASH_TABLE_TEST_SET
@@ -122,19 +122,56 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_HASH_SET}.make_from,
-				covers/{EL_HASH_SET}.make_with_key_tester,
+				covers/{EL_HASH_SET}.make,
+				covers/{EL_HASH_SET}.make_equal,
+				covers/{EL_HASH_SET}.subset_include,
+				covers/{EL_HASH_SET}.subset_exclude,
+				covers/{EL_HASH_SET}.disjoint,
+				covers/{EL_HASH_SET}.is_subset,
+				covers/{EL_HASH_SET}.subtract,
+				covers/{EL_HASH_SET}.is_equal,
 				covers/{EL_HASH_SET}.set_object_comparison
 			]"
 		local
-			set: EL_HASH_SET [STRING_32]
+			set_all, set_latin_1, set_not_latin_1: EL_HASH_SET [ZSTRING]
+			code_set: EL_HASH_SET [INTEGER]; range_0_to_9, range_0_to_4: INTEGER_INTERVAL
 		do
 			if attached Text.lines as lines then
-				create set.make_from (lines, False)
-				assert ("all found", across lines as ln all set.has (ln.item) end)
-				assert ("none found", across Text.lines as ln all not set.has (ln.item) end)
+				create set_all.make_from (lines, False)
+				assert ("all found", across lines as ln all set_all.has (ln.item) end)
+				assert ("none found", across Text.lines as ln all not set_all.has (ln.item) end)
 
-				create set.make_from (lines, True)
-				assert ("all found", across Text.lines as ln all set.has (ln.item) end)
+				create set_all.make_from (lines, True)
+				assert ("all found", across Text.lines as ln all set_all.has (ln.item) end)
+
+				set_latin_1 := set_all.subset_include (agent {ZSTRING}.is_valid_as_string_8)
+				set_not_latin_1 := set_all.subset_exclude (agent {ZSTRING}.is_valid_as_string_8)
+
+				assert ("4 Latin-1 strings", set_latin_1.count = 4)
+				assert ("Total - Latin-1 count", lines.count - set_latin_1.count = set_not_latin_1.count)
+				assert ("disjoint sets", set_latin_1.disjoint (set_not_latin_1))
+
+				assert ("subset of all", set_latin_1.is_subset (set_all))
+
+				set_all.subtract (set_latin_1)
+				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
+				if attached set_all.to_list as not_latin_1_list then
+					assert ("same count", not_latin_1_list.count = set_all.count)
+				end
+
+				set_all.merge (set_latin_1)
+				assert ("Full set again", set_all.count = lines.count)
+				set_all.intersect (set_not_latin_1)
+				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
+
+				range_0_to_9 := 0 |..| 9
+				create code_set.make_from (range_0_to_9, False)
+
+				range_0_to_4 := 0 |..| 4
+				across range_0_to_4 as code loop
+					code_set.prune (code.item)
+				end
+				assert ("same count", code_set.count = range_0_to_9.count - range_0_to_4.count)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 10:44:49 GMT (Tuesday 11th June 2024)"
-	revision: "3"
+	date: "2024-09-20 9:16:41 GMT (Friday 20th September 2024)"
+	revision: "4"
 
 deferred class
 	EIFFEL_CLASS_SERIALIZEABLE
@@ -71,7 +71,7 @@ feature {NONE} -- Constants
 
 	Default_class_use_set: EL_HASH_SET [IMMUTABLE_STRING_8]
 		once ("PROCESS")
-			create Result.make (0)
+			create Result.make_equal (0)
 		end
 
 	Default_notes: EIFFEL_NOTES

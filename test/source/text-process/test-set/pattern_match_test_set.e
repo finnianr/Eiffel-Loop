@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 13:58:24 GMT (Monday 25th March 2024)"
-	revision: "34"
+	date: "2024-09-20 7:41:59 GMT (Friday 20th September 2024)"
+	revision: "35"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -410,7 +410,7 @@ feature -- Test
 			create output_2.make_empty
 			create matcher.make (agent start_of_line)
 
-			across Text.lines as list loop
+			across Text.lines_32 as list loop
 				line := list.item
 				output.wipe_out; output_2.wipe_out
 				character_set := line.substring (1, 2)

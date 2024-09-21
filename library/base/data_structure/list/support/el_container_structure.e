@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-19 7:33:57 GMT (Thursday 19th September 2024)"
-	revision: "19"
+	date: "2024-09-20 12:27:59 GMT (Friday 20th September 2024)"
+	revision: "20"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -133,6 +133,9 @@ feature -- Conversion
 feature -- Function result list
 
 	derived_list (to_value: FUNCTION [G, ANY]): EL_ARRAYED_LIST [ANY]
+		require
+			single_open_argument: to_value.open_count = 1
+			valid_open_argument: valid_open_argument (to_value)
 		local
 			i, i_final: INTEGER
 		do
@@ -156,6 +159,9 @@ feature -- Function result list
 		end
 
 	derived_list_meeting (to_value: FUNCTION [G, ANY]; condition: EL_QUERY_CONDITION [G]): EL_ARRAYED_LIST [ANY]
+		require
+			single_open_argument: to_value.open_count = 1
+			valid_open_argument: valid_open_argument (to_value)
 		local
 			i, i_final: INTEGER
 		do
@@ -336,6 +342,39 @@ feature -- Contract Support
 			Result := value.generating_type.generic_parameter_type (2)
 		end
 
+	valid_open_argument (to_value: FUNCTION [G, ANY]): BOOLEAN
+		-- `True' if `to_value' has single open argument that is the same as `{G}'
+		do
+			if attached to_value.generating_type.generic_parameter_type (1) as argument_types
+				and then argument_types.generic_parameter_count = 1
+			then
+				Result := argument_types.generic_parameter_type (1) ~ {G}
+			end
+		end
+
+feature {EL_CONTAINER_HANDLER} -- Implementation
+
+	new_special (shared: BOOLEAN): SPECIAL [G]
+		local
+			one_extra: INTEGER
+		do
+			if attached {TO_SPECIAL [G]} current_container as special
+				and then attached {FINITE [G]} special as finite
+				and then attached special.area as area
+			then
+				if shared then
+					Result := area
+				else
+				--	one extra for string null terminator
+					one_extra := (attached {STRING_GENERAL} special).to_integer
+					Result := area.resized_area (finite.count + one_extra)
+				end
+			else
+				create Result.make_empty (current_count)
+				do_for_all (agent extend_special (?, Result))
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	as_structure (container: CONTAINER [G]): EL_CONTAINER_STRUCTURE [G]
@@ -383,27 +422,6 @@ feature {NONE} -- Implementation
 	extend_special (item: G; area: SPECIAL [G])
 		do
 			area.extend (item)
-		end
-
-	new_special (shared: BOOLEAN): SPECIAL [G]
-		local
-			one_extra: INTEGER
-		do
-			if attached {TO_SPECIAL [G]} current_container as special
-				and then attached {FINITE [G]} special as finite
-				and then attached special.area as area
-			then
-				if shared then
-					Result := area
-				else
-				--	one extra for string null terminator
-					one_extra := (attached {STRING_GENERAL} special).to_integer
-					Result := area.resized_area (finite.count + one_extra)
-				end
-			else
-				create Result.make_empty (current_count)
-				do_for_all (agent extend_special (?, Result))
-			end
 		end
 
 feature {NONE} -- Constants

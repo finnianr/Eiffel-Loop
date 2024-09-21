@@ -8,8 +8,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:21:32 GMT (Sunday 31st March 2024)"
-	revision: "32"
+	date: "2024-09-20 8:03:19 GMT (Friday 20th September 2024)"
+	revision: "33"
 
 class
 	SUBSTRING_32_ARRAY_TEST_SET
@@ -63,7 +63,7 @@ feature -- Test
 			create line.make_empty
 			create array.make_from_unencoded (line)
 			across 0 |..| 1 as n loop
-				across Text.russian.split (' ') as split loop
+				across Text.cyrillic_line_32.split (' ') as split loop
 					word := split.item
 					create word_array.make_from_unencoded (word)
 					shifted_array := word_array.shifted (line.count)
@@ -88,9 +88,9 @@ feature -- Test
 		do
 			create extendable.make
 			across 1 |..| 7 as n loop
-				across 1 |..| (Text.russian.count - n.item + 1) as index loop
+				across 1 |..| (Text.cyrillic_line_32.count - n.item + 1) as index loop
 					extendable.wipe_out
-					zstr := Text.russian
+					zstr := Text.cyrillic_line_32
 					lower := index.item; upper := index.item + n.item - 1
 					unencoded := zstr
 					extendable.append_substring (unencoded, lower, upper, 0)
@@ -145,7 +145,7 @@ feature -- Test
 			str_32: STRING_32; list: EL_SUBSTRING_32_LIST; array: EL_SUBSTRING_32_ARRAY
 			index: INTEGER; code: NATURAL
 		do
-			str_32 := Text.russian
+			str_32 := Text.cyrillic_line_32
 			create list.make (str_32.count)
 			across str_32 as uc loop
 				if uc.item.code > 1000 then
@@ -178,7 +178,7 @@ feature -- Test
 			insert, zstr: ZSTRING; index: INTEGER
 			insert_array, array: EL_SUBSTRING_32_ARRAY
 		do
-			zstr := Text.russian
+			zstr := Text.cyrillic_line_32
 			index := zstr.index_of (',', 1)
 			insert := {STRING_32} "не"
 
@@ -207,7 +207,7 @@ feature -- Test
 		do
 			create line.make_empty
 			across 0 |..| 1 as n loop
-				across Text.russian.split (' ') as split loop
+				across Text.cyrillic_line_32.split (' ') as split loop
 					word := split.item
 					word_unencoded := word
 					line_unencoded := line
@@ -230,8 +230,8 @@ feature -- Test
 			uc: CHARACTER_32
 		do
 			uc := 'д'
-			across Text.russian as n loop
-				zstr := Text.russian
+			across Text.cyrillic_line_32 as n loop
+				zstr := Text.cyrillic_line_32
 				index := n.cursor_index
 
 				unencoded := zstr
@@ -249,9 +249,9 @@ feature -- Test
 			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 			index: INTEGER
 		do
-			across Text.russian as c loop
+			across Text.cyrillic_line_32 as c loop
 				index := c.cursor_index
-				zstr := Text.russian
+				zstr := Text.cyrillic_line_32
 				if c.item.natural_32_code > 1000 then
 					unencoded := zstr
 					unencoded.remove (index)
@@ -269,8 +269,8 @@ feature -- Test
 			lower, upper: INTEGER
 		do
 			across 1 |..| 5 as n loop
-				across 1 |..| (Text.russian.count - n.item + 1) as index loop
-					zstr := Text.russian
+				across 1 |..| (Text.cyrillic_line_32.count - n.item + 1) as index loop
+					zstr := Text.cyrillic_line_32
 					create array.make_from_unencoded (zstr)
 					lower := index.item; upper := index.item + n.item - 1
 					array.remove_substring (lower, upper)
@@ -287,7 +287,7 @@ feature -- Test
 			array: EL_SUBSTRING_32_ARRAY; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 			zstr, padded: ZSTRING; count: INTEGER
 		do
-			zstr := Text.russian
+			zstr := Text.cyrillic_line_32
 			count := zstr.count
 			across 1 |..| count as index loop
 				padded := zstr + create {ZSTRING}.make_filled (' ', count)
@@ -306,7 +306,7 @@ feature -- Test
 			zstr, substring: ZSTRING; i, i_last, substring_count: INTEGER
 			array, sub_array: EL_COMPACT_SUBSTRINGS_32_I; extendable: EL_COMPACT_SUBSTRINGS_32_BUFFER
 		do
-			zstr := Text.russian
+			zstr := Text.cyrillic_line_32
 			create extendable.make
 			across 1 |..| 5 as n loop
 				substring_count := n.item
@@ -331,7 +331,7 @@ feature -- Test
 			array: EL_SUBSTRING_32_ARRAY
 		do
 			create str_32.make (50)
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				str_32.wipe_out
 				create list.make (line.item.count)
 				across line.item as uc loop
@@ -354,7 +354,7 @@ feature -- Test
 		local
 			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 		do
-			zstr := Text.russian
+			zstr := Text.cyrillic_line_32
 			unencoded := zstr
 			unencoded.to_upper; zstr.to_upper
 			assert ("same content", same_content (zstr, unencoded))
@@ -439,7 +439,7 @@ feature {NONE} -- Implementation
 		local
 			zstr: ZSTRING; unencoded: EL_COMPACT_SUBSTRINGS_32_I
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				zstr := line.item
 				unencoded := zstr
 				test (zstr, unencoded)

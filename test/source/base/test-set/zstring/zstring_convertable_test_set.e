@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:56:04 GMT (Tuesday 27th August 2024)"
-	revision: "5"
+	date: "2024-09-20 8:19:34 GMT (Friday 20th September 2024)"
+	revision: "6"
 
 class
 	ZSTRING_CONVERTABLE_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
-
-	EL_SHARED_TEST_TEXT
+	ZSTRING_EQA_TEST_SET
 
 feature {NONE} -- Initialization
 
@@ -44,7 +42,7 @@ feature -- Tests
 			test: STRING_TEST; i: INTEGER
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				from i := 1 until i > 3 loop
 					list := test.zs.split_list (test.s_32 [i])
@@ -68,7 +66,7 @@ feature -- Tests
 		local
 			str: ZSTRING; str_32: STRING_32
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				str_32 := line.item
 				if str_32.is_valid_as_string_8 then
 					str := str_32
@@ -89,7 +87,7 @@ feature -- Tests
 			test: STRING_TEST
 		do
 			create test
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				test.set (line.item)
 				assert ("strings the same", test.is_same)
 				assert ("to_string_32 is_equal", test.zs.to_string_32 ~ line.item)
@@ -109,7 +107,7 @@ feature -- Tests
 			z_word, z_str: ZSTRING; utf_8: STRING; conv: EL_UTF_8_CONVERTER
 		do
 			create utf_8.make_empty
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				utf_8.wipe_out
 				across line.item.split (' ') as word loop
 					if word.cursor_index > 1 then

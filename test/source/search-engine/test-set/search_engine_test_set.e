@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 17:38:30 GMT (Saturday 25th November 2023)"
-	revision: "19"
+	date: "2024-09-20 7:59:13 GMT (Friday 20th September 2024)"
+	revision: "20"
 
 class
 	SEARCH_ENGINE_TEST_SET
@@ -66,7 +66,7 @@ feature -- Tests
 			token_list: EL_WORD_TOKEN_LIST
 		do
 			create table.make (50)
-			paragraphs := Text.Russian_and_english
+			paragraphs := Text.Mixed_text
 			token_list := table.paragraph_list_tokens (paragraphs.split ('%N'))
 			if attached crc_generator as crc then
 				crc.add_string_32 (token_list)

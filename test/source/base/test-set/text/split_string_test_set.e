@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 16:01:51 GMT (Sunday 8th September 2024)"
-	revision: "62"
+	date: "2024-09-20 7:59:13 GMT (Friday 20th September 2024)"
+	revision: "63"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -71,7 +71,7 @@ feature -- Tests
 		local
 			word_split: EL_SPLIT_INTERVALS; i, lower, upper: INTEGER
 		do
-			create word_split.make (Text.latin_1_lines.first, ' ')
+			create word_split.make (Text.lines_8.first, ' ')
 			across word_split as split loop
 				i := split.cursor_index
 				lower := word_split.i_th_lower (i)
@@ -107,7 +107,7 @@ feature -- Tests
 		local
 			str: ZSTRING; str_32: STRING_32
 		do
-			str := Text.Russian_and_english
+			str := Text.Mixed_text
 			create str_32.make (str.count)
 			across str.split ('%N') as line loop
 				if line.cursor_index > 1 then
@@ -115,7 +115,7 @@ feature -- Tests
 				end
 				line.append_item_to (str_32)
 			end
-			assert_same_string (Void, str_32, Text.Russian_and_english)
+			assert_same_string (Void, str_32, Text.Mixed_text)
 		end
 
 	test_append_string
@@ -210,9 +210,9 @@ feature -- Tests
 			line_list: EL_ZSTRING_LIST; dots_index, tail_index: INTEGER
 			meets_expectation: BOOLEAN
 		do
-			if attached Text.lines as text_lines then
+			if attached Text.lines_32 as text_lines then
 				across 1 |..| text_lines.count as count loop
-					create line_list.make_from_general (Text.lines.sub_list (1, count.item))
+					create line_list.make_from_general (Text.lines_32.sub_list (1, count.item))
 					line_list.curtail (100, 80)
 					if attached line_list.joined_strings as joined then
 						dots_index := joined.substring_index ("..", 1)
@@ -379,7 +379,7 @@ feature -- Tests
 		local
 			pair: STRING_TEST
 		do
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				pair := line.item
 				assert ("occurrence edit OK", pair.occurrence_edit)
 			end
@@ -394,7 +394,7 @@ feature -- Tests
 			assertion_ok: STRING
 		do
 			assertion_ok := "occurrence_intervals OK"
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				create pair.make (line.item)
 				space_index := pair.s_32.index_of (' ', 1)
 				if space_index > 0 then
@@ -571,7 +571,7 @@ feature -- Tests
 		do
 			assertion_ok := "split_intervals OK"
 			across << False, True >> as test_immutables loop
-				across Text.lines as line loop
+				across Text.lines_32 as line loop
 					if test_immutables.item then
 						create {IMMUTABLE_STRING_TEST} pair.make (line.item)
 					else

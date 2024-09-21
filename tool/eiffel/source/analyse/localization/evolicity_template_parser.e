@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:38:40 GMT (Monday 21st November 2022)"
-	revision: "10"
+	date: "2024-09-20 9:16:40 GMT (Friday 20th September 2024)"
+	revision: "11"
 
 class
 	EVOLICITY_TEMPLATE_PARSER
@@ -37,13 +37,13 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create locale_keys.make_empty
-			create ignored_keys.make (13)
+			create ignored_key_set.make_equal (13)
 			Precursor
 		end
 
 feature -- Access
 
-	ignored_keys: EL_HASH_SET [ZSTRING]
+	ignored_key_set: EL_HASH_SET [ZSTRING]
 
 	locale_keys: EL_ZSTRING_LIST
 
@@ -69,7 +69,7 @@ feature {NONE} -- Event handlers
 			name: ZSTRING
 		do
 			name := source_substring (start_index, end_index, True)
-			if not ignored_keys.has (name) then
+			if not ignored_key_set.has (name) then
 				locale_keys.extend (Translation_key_template #$ [name])
 			end
 		end

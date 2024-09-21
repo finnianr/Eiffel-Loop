@@ -1,21 +1,19 @@
 note
-	description: "String editor test set"
+	description: "${EL_ZSTRING_EDITOR} test set"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:57:48 GMT (Tuesday 27th August 2024)"
-	revision: "13"
+	date: "2024-09-20 8:25:24 GMT (Friday 20th September 2024)"
+	revision: "14"
 
 class
 	ZSTRING_EDITOR_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
-
-	EL_STRING_HANDLER
+	ZSTRING_EQA_TEST_SET
 
 create
 	make

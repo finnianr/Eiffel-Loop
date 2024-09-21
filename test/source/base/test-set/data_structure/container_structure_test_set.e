@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:13:28 GMT (Friday 13th September 2024)"
-	revision: "47"
+	date: "2024-09-20 14:28:52 GMT (Friday 20th September 2024)"
+	revision: "48"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -210,12 +210,7 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_ARRAYED_RESULT_LIST}.make_from_for,
-				covers/{EL_CONTAINER_STRUCTURE}.new_special,
-				covers/{EL_CONTAINER_STRUCTURE}.derived_list,
-				covers/{EL_CONTAINER_STRUCTURE}.derived_list_meeting,
-				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_list,
-				covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_generic_type_factory,
-				covers/{EL_CONTAINER_STRUCTURE}.to_special
+				covers/{EL_CONTAINER_STRUCTURE}.new_special
 			]"
 		local
 			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]

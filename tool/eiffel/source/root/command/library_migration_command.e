@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:18:37 GMT (Sunday 1st September 2024)"
-	revision: "30"
+	date: "2024-09-20 9:16:01 GMT (Friday 20th September 2024)"
+	revision: "31"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -40,7 +40,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			home_dir := a_home_dir; destination_dir := a_home_dir.parent #+ (a_home_dir.base + suffix)
 			make_command (manifest_path)
 			create class_list.make (0)
-			create library_set.make (0)
+			create library_set.make_equal (0)
 			create class_path_table.make (0)
 		end
 
@@ -59,7 +59,7 @@ feature -- Basic operations
 			Precursor
 			bind_circular
 
-			create removal_set.make (0)
+			create removal_set.make_equal (0)
 			from until class_list.is_empty or i > 10 loop
 				i := i + 1
 				print_iteration (i)
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 		local
 			circular_set: EL_HASH_SET [STRING]
 		do
-			create circular_set.make (10)
+			create circular_set.make_equal (10)
 			across class_list as list loop
 				if not circular_set.has (list.item.name) then
 					across class_list as l_class until attached list.item.circular_dependent loop

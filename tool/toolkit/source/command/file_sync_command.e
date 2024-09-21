@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 19:36:04 GMT (Saturday 22nd July 2023)"
-	revision: "7"
+	date: "2024-09-20 9:05:14 GMT (Friday 20th September 2024)"
+	revision: "8"
 
 class
 	FILE_SYNC_COMMAND
@@ -80,7 +80,7 @@ feature {NONE} -- Implementation
 		do
 			if attached OS.file_list (source_dir, "*." + extension) as file_list then
 				file_list.sort_by_base (True)
-				create Result.make (file_list.count)
+				create Result.make_equal (file_list.count)
 				lio.put_substitution ("Reading %S %S file checksums", [file_list.count, extension.as_upper])
 				lio.put_new_line_x2
 

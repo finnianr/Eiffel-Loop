@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:52:38 GMT (Tuesday 27th August 2024)"
-	revision: "30"
+	date: "2024-09-20 7:59:13 GMT (Friday 20th September 2024)"
+	revision: "31"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -126,7 +126,7 @@ feature -- Tests
 			first_latin, first_windows: BOOLEAN
 		do
 			if attached crc_generator as crc then
-				across Text.lines as line loop
+				across Text.lines_32 as line loop
 					zstr := line.item
 					crc.add_string (zstr)
 					lio.put_labeled_string ("LINE", zstr)
@@ -168,7 +168,7 @@ feature -- Tests
 			zstr, name: ZSTRING; latin_id: INTEGER
 		do
 			create buffer.make (100)
-			across Text.lines as line loop
+			across Text.lines_32 as line loop
 				if line.item.starts_with (Latin) then
 					zstr := line.item
 					name := zstr.substring_to (':')
@@ -302,13 +302,13 @@ feature -- Tests
 		do
 			across << ('\').to_character_32, 'л' >> as l_escape_character loop
 				escape_character := l_escape_character.item
-				create str_32.make (Text.Russian_and_english.count)
+				create str_32.make (Text.Mixed_text.count)
 				str_32.append_character (escape_character)
 				str_32.append_character (escape_character)
 
 				escape_table_32 := new_escape_table (escape_character)
 
-				across Text.Russian_and_english as character loop
+				across Text.Mixed_text as character loop
 					escape_table_32.search (character.item)
 					if escape_table_32.found then
 						str_32.append_character (escape_character)
@@ -337,7 +337,7 @@ feature {NONE} -- Implementation
 			s: EL_STRING_32_ROUTINES
 		do
 			across << True, False >> as replace_space loop
-				across Text.lines as string loop
+				across Text.lines_32 as string loop
 					str_32 := string.item.twin
 					if replace_space.item then
 						s.replace_character (str_32, ' ', '/')

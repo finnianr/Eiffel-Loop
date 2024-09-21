@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:08:14 GMT (Friday 13th September 2024)"
-	revision: "22"
+	date: "2024-09-20 9:52:36 GMT (Friday 20th September 2024)"
+	revision: "23"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -39,6 +39,7 @@ feature {NONE} -- Initialization
 
 	make (a_current_set: like current_set)
 		require
+			object_comparison: a_current_set.object_comparison
 			at_least_one_item: a_current_set.count > 0
 		do
 			current_set := a_current_set
@@ -51,7 +52,6 @@ feature {NONE} -- Initialization
 				create local_home_dir
 				destination_name := Empty_string; extension := Empty_string
 			end
-
 			previous_set := new_previous_set
 		end
 
@@ -136,7 +136,7 @@ feature {NONE} -- Implementation
 			dir_group_table: EL_FUNCTION_GROUPED_SET_TABLE [EL_FILE_SYNC_ITEM, DIR_PATH]
 			dir_list: EL_ARRAYED_LIST [DIR_PATH]
 		do
-			create dir_group_table.make_from_list (agent {EL_FILE_SYNC_ITEM}.location_dir, copy_item_set.to_list)
+			create dir_group_table.make_equal_from_list (agent {EL_FILE_SYNC_ITEM}.location_dir, copy_item_set.to_list)
 			create dir_list.make_from_array (dir_group_table.current_keys)
 			dir_list.order_by (agent {DIR_PATH}.step_count, True)
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 16:14:48 GMT (Thursday 5th September 2024)"
-	revision: "15"
+	date: "2024-09-20 10:33:20 GMT (Friday 20th September 2024)"
+	revision: "16"
 
 class
 	EL_FUNCTION_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -29,40 +29,40 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_item_key: like item_key; n: INTEGER)
+	make (a_group_key: like group_key; n: INTEGER)
 		do
-			item_key := a_item_key
+			group_key := a_group_key
 			make_with_count (n)
 		end
 
-	make_from_list (a_item_key: FUNCTION [G, K]; a_list: ITERABLE [G])
-		-- Group items `list' into groups defined by `a_item_key' function
+	make_from_list (a_group_key: FUNCTION [G, K]; a_list: ITERABLE [G])
+		-- Group items `list' into groups defined by `a_group_key' function
 		do
-			make (a_item_key, (Iterable.count (a_list) // 2).min (11))
+			make (a_group_key, (Iterable.count (a_list) // 2).min (11))
 			across a_list as list loop
-				extend (a_item_key (list.item), list.item)
+				extend (a_group_key (list.item), list.item)
 			end
 		ensure
 			each_item_in_group: across a_list as l_list all
-				item_list (a_item_key (l_list.item)).has (l_list.item)
+				item_list (a_group_key (l_list.item)).has (l_list.item)
 			end
 		end
 
 feature -- Element change
 
 	list_extend (new: G)
-		-- extend group list with key `item_key (a_item)'
+		-- extend group list with key `group_key (a_item)'
 		do
-			extend (item_key (new), new)
+			extend (group_key (new), new)
 		end
 
 	list_replace (old_item, new_item: G)
-		-- replace `old_item' with `new_item' in group list with key `item_key (a_item)'
+		-- replace `old_item' with `new_item' in group list with key `group_key (a_item)'
 		local
 			old_key, new_key: K
 		do
-			old_key := item_key (old_item)
-			new_key := item_key (new_item)
+			old_key := group_key (old_item)
+			new_key := group_key (new_item)
 			if old_key ~ new_key then
 				if has_key (old_key) and then attached internal_list as list then
 					list.set_area (found_area)
@@ -85,12 +85,12 @@ feature -- Element change
 feature -- Removal
 
 	list_delete (a_item: G)
-		-- prune `a_item' from group list with key `item_key (a_item)'
+		-- prune `a_item' from group list with key `group_key (a_item)'
 		-- and if the list is empty, remove the `item_list' entirely
 		local
 			key: K
 		do
-			key := item_key (a_item)
+			key := group_key (a_item)
 			if has_key (key) and then attached found_list as list then
 				list.start
 				list.prune (a_item)
@@ -114,7 +114,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	item_key: FUNCTION [G, K]
+	group_key: FUNCTION [G, K]
 		-- attribute value of type `G' to group by
 
 end

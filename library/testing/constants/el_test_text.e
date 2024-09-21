@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:21:03 GMT (Saturday 20th January 2024)"
-	revision: "35"
+	date: "2024-09-20 8:03:19 GMT (Friday 20th September 2024)"
+	revision: "36"
 
 class
 	EL_TEST_TEXT
@@ -114,26 +114,37 @@ feature -- Eiffel
 
 feature -- Lists
 
-	latin_1_lines: EL_STRING_8_LIST
+	lines: EL_ZSTRING_LIST
+		do
+			create Result.make_with_lines (Mixed_text)
+		end
+
+	lines_8: EL_STRING_8_LIST
+		-- only Latin-1 encoded lines
 		do
 			create Result.make (5)
-			across lines as list loop
+			across lines_32 as list loop
 				if list.item.is_valid_as_string_8 then
 					Result.extend (list.item.to_string_8)
 				end
 			end
 		end
 
-	lines: EL_STRING_32_LIST
+	lines_32: EL_STRING_32_LIST
 		do
-			create Result.make_with_lines (Russian_and_english)
+			create Result.make_with_lines (Mixed_text)
 		end
 
-	russian: STRING_32
+	cyrillic_line: ZSTRING
+		do
+			Result := cyrillic_line_32
+		end
+
+	cyrillic_line_32: STRING_32
 		local
 			s: EL_STRING_32_ROUTINES
 		do
-			Result := s.substring_to (Russian_and_english, '%N')
+			Result := s.substring_to (Mixed_text, '%N')
 		end
 
 	symbol_32_list: EL_STRING_32_LIST
@@ -150,7 +161,7 @@ feature -- Lists
 	words: EL_STRING_32_LIST
 		do
 			create Result.make (50)
-			across lines as line loop
+			across lines_32 as line loop
 				across line.item.split (' ') as word loop
 					Result.extend (word.item)
 				end
@@ -217,7 +228,7 @@ feature -- STRING_32 contants
 
 	Lower_case_mu: STRING_32 = "µ symbol"
 
-	Russian_and_english: STRING_32 = "[
+	Mixed_text: STRING_32 = "[
 		и рыбку съесть, и в воду не лезть
 		Wanting to eat a fish without first catching it from the waters
 		Dunboyne is Dún Búinne
@@ -237,7 +248,7 @@ feature -- Constants
 		local
 			hash_set: EL_HASH_SET [CHARACTER_32]
 		once
-			create hash_set.make_from (Russian_and_english, False)
+			create hash_set.make_from (Mixed_text, False)
 			Result := hash_set.to_list.to_array
 		end
 
@@ -255,7 +266,7 @@ feature -- Constants
 				[Euro_symbol]
 			>>
 		ensure
-			same_number: Result.count = Russian_and_english.occurrences ('%N') + 1
+			same_number: Result.count = Mixed_text.occurrences ('%N') + 1
 		end
 
 	Word_intervals: ARRAYED_LIST [INTEGER_INTERVAL]
@@ -264,12 +275,12 @@ feature -- Constants
 		once
 			create Result.make (20)
 			from i := 0 until j > 0 and i = 0 loop
-				j := Russian_and_english.index_of (' ', i + 1)
+				j := Mixed_text.index_of (' ', i + 1)
 				if j = 0 then
-					j := Russian_and_english.count + 1
+					j := Mixed_text.count + 1
 				end
 				Result.extend ((i + 1) |..| (j - 1))
-				i := Russian_and_english.index_of (' ', j - 1)
+				i := Mixed_text.index_of (' ', j - 1)
 			end
 		end
 

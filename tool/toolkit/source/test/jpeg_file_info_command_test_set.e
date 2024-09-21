@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-09-20 9:15:11 GMT (Friday 20th September 2024)"
+	revision: "12"
 
 class
 	JPEG_FILE_INFO_COMMAND_TEST_SET
@@ -69,7 +69,7 @@ feature -- Tests
 			output_path := work_area_dir + "undated-photos.txt"
 			create finder.make (work_area_dir, output_path)
 			finder.execute
-			create undated_set.make (20)
+			create undated_set.make_equal (20)
 			across File.plain_text_lines (output_path) as line loop
 				undated_set.put (line.item)
 			end

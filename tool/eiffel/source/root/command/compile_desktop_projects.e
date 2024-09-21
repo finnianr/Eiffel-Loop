@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-02 15:28:43 GMT (Thursday 2nd November 2023)"
-	revision: "1"
+	date: "2024-09-20 9:14:18 GMT (Friday 20th September 2024)"
+	revision: "2"
 
 class
 	COMPILE_DESKTOP_PROJECTS
@@ -50,7 +50,7 @@ feature -- Basic operations
 		local
 			project_set: EL_HASH_SET [FILE_PATH]
 		do
-			create project_set.make (20)
+			create project_set.make_equal (20)
 			across OS.file_list (search_dir, "*.desktop") as list loop
 				if attached new_launcher (list.item) as launcher and then launcher.is_valid then
 					if not project_set.has (launcher.ecf_path) then

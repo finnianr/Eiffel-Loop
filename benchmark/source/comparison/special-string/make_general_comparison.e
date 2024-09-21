@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:35:23 GMT (Thursday 4th April 2024)"
-	revision: "13"
+	date: "2024-09-20 8:00:07 GMT (Friday 20th September 2024)"
+	revision: "14"
 
 class
 	MAKE_GENERAL_COMPARISON
@@ -44,14 +44,14 @@ feature {NONE} -- String append variations
 		local
 			str: L1_UC_STRING
 		do
-			create str.make_from_general (Text.Russian_and_english)
+			create str.make_from_general (Text.Mixed_text)
 		end
 
 	zstring_make
 		local
 			str: ZSTRING
 		do
-			create str.make_from_general (Text.Russian_and_english)
+			create str.make_from_general (Text.Mixed_text)
 		end
 
 end

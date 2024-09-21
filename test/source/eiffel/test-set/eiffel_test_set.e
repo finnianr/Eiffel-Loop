@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 16:20:02 GMT (Wednesday 4th September 2024)"
-	revision: "43"
+	date: "2024-09-21 8:48:51 GMT (Saturday 21st September 2024)"
+	revision: "44"
 
 class
 	EIFFEL_TEST_SET
@@ -32,13 +32,14 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["array_reference_size", agent test_array_reference_size],
-				["deep_physical_size",	 agent test_deep_physical_size],
-				["managed_pointer_twin", agent test_managed_pointer_twin],
-				["natural_constant",		 agent test_natural_constant],
-				["string_field_counts",	 agent test_string_field_counts],
-				["string_sizes",			 agent test_string_sizes],
-				["unix_sigterm",			 agent test_unix_sigterm]
+				["array_reference_size",		 agent test_array_reference_size],
+				["deep_physical_size",			 agent test_deep_physical_size],
+				["equality_tester_comparison", agent test_equality_tester_comparison],
+				["managed_pointer_twin",		 agent test_managed_pointer_twin],
+				["natural_constant",				 agent test_natural_constant],
+				["string_field_counts",			 agent test_string_field_counts],
+				["string_sizes",					 agent test_string_sizes],
+				["unix_sigterm",					 agent test_unix_sigterm]
 			>>)
 		end
 
@@ -72,6 +73,14 @@ feature -- Tests
 
 			delta := size_2 - size_1
 			assert ("immutable.area not counted twice", delta = 112)
+		end
+
+	test_equality_tester_comparison
+		local
+			tester_1: EQUALITY_TESTER [INTEGER]; tester_2: EQUALITY_TESTER [STRING]
+		do
+			create tester_1; create tester_2
+			assert ("different", tester_1 /~ tester_2)
 		end
 
 	test_managed_pointer_twin

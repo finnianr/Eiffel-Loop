@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:09:55 GMT (Thursday 5th September 2024)"
-	revision: "78"
+	date: "2024-09-20 9:49:12 GMT (Friday 20th September 2024)"
+	revision: "79"
 
 class
 	EL_CLASS_META_DATA
@@ -197,7 +197,7 @@ feature {NONE} -- Factory
 			extend_group_ordering (Group_type_order_table)
 
 			Reference_field_list.order_by (agent group_type_order, True)
-			create Result.make_from_list (agent {EL_REFLECTED_REFERENCE [ANY]}.group_type, Reference_field_list)
+			create Result.make_equal_from_list (agent {EL_REFLECTED_REFERENCE [ANY]}.group_type, Reference_field_list)
 		end
 
 	new_reflected_field (field: EL_FIELD_TYPE_PROPERTIES; name: IMMUTABLE_STRING_8): EL_REFLECTED_FIELD

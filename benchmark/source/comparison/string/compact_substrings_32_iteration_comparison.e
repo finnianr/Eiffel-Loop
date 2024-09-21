@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-09-20 8:06:16 GMT (Friday 20th September 2024)"
+	revision: "9"
 
 class
 	COMPACT_SUBSTRINGS_32_ITERATION_COMPARISON
@@ -42,13 +42,13 @@ feature -- Basic operations
 
 	execute
 		local
-			russian: ZSTRING
+			cyrillic_line: ZSTRING
 		do
-			russian := Text.lines.first
+			cyrillic_line := Text.cyrillic_line
 			compare ("Iterate over ZSTRING characters", <<
-				["EL_COMPACT_SUBSTRINGS_32_ITERATION",		 agent unencoded_character_iteration (russian)],
-				["COMPACT_SUBSTRINGS_32_INDEX",				 agent unencoded_characters_index (russian)],
-				["COMPACT_SUBSTRINGS_32_C_EXTERNAL", agent external_pointer_get_set (russian)]
+				["EL_COMPACT_SUBSTRINGS_32_ITERATION",	agent unencoded_character_iteration (cyrillic_line)],
+				["COMPACT_SUBSTRINGS_32_INDEX",			agent unencoded_characters_index (cyrillic_line)],
+				["COMPACT_SUBSTRINGS_32_C_EXTERNAL",	agent external_pointer_get_set (cyrillic_line)]
 			>>)
 		end
 
