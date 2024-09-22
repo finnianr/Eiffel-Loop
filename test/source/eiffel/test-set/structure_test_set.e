@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "11"
+	date: "2024-09-22 14:50:48 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	STRUCTURE_TEST_SET
@@ -205,14 +205,14 @@ feature -- Basic operations
 
 	hash_table_removal
 		local
-			table: HASH_TABLE [STRING, INTEGER]
+			table: EL_HASH_TABLE [STRING, INTEGER]
 		do
 			create table.make (10)
 			across (1 |..| 10) as n loop
 				table [n.item] := n.item.out
 			end
 			-- remove all items except number 1
-			across table.current_keys as n loop
+			across table.key_list as n loop
 				if n.item = 5 then
 					table.remove (n.item)
 				end

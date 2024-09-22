@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-26 18:41:07 GMT (Wednesday 26th July 2023)"
-	revision: "11"
+	date: "2024-09-22 14:05:12 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	EL_XPATH_TOKEN_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_8_TABLE [NATURAL_16]
 		rename
-			make as make_table
+			make as make_sized
 		end
 
 	EL_XPATH_NODE_CONSTANTS

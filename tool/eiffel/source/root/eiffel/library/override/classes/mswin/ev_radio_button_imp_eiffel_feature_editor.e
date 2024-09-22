@@ -45,7 +45,7 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make_size (0)
+			create Result.make (0)
 		end
 
 feature {NONE} -- Constants

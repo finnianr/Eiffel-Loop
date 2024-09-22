@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:41:07 GMT (Sunday 25th August 2024)"
-	revision: "40"
+	date: "2024-09-22 14:18:33 GMT (Sunday 22nd September 2024)"
+	revision: "41"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -35,14 +35,14 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			-- cannot be once routines because of complications setting routine target
-			create edit_attributes_image_tag.make (<<
+			create edit_attributes_image_tag.make_assignments (<<
 				["moz-do-not-send", 	agent omit],
 				["height",				agent omit],
 				["width",				agent omit],
 				["border", 				agent omit],
 				["src",					agent prune_localhost]
 			>>)
-			create edit_attributes_anchor_tag.make (<<
+			create edit_attributes_anchor_tag.make_assignments (<<
 				["moz-do-not-send", 	agent omit],
 				["class",				agent omit],
 				["href", 				agent prune_localhost]

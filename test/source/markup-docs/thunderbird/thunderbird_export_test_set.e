@@ -15,8 +15,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:26:27 GMT (Friday 20th September 2024)"
-	revision: "36"
+	date: "2024-09-22 14:18:31 GMT (Sunday 22nd September 2024)"
+	revision: "37"
 
 class
 	THUNDERBIRD_EXPORT_TEST_SET
@@ -186,7 +186,7 @@ feature -- Tests
 			body_path: FILE_PATH; modification_table: EL_HASH_TABLE [INTEGER, FILE_PATH]
 			name: ZSTRING; count: INTEGER; xdoc: like new_xdoc
 		do
-			create modification_table.make_size (50)
+			create modification_table.make (50)
 			write_config ("pop.myching.co", Empty_string_8, new_folder_lines ("Purchase, manual, Product Tour, Screenshots"))
 			create command.make_from_file (Config_path)
 			command.execute

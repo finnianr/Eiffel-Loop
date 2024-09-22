@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:41:59 GMT (Friday 20th September 2024)"
-	revision: "52"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "53"
 
 class
 	TAGLIB_TEST_SET
@@ -66,7 +66,7 @@ feature -- Tests
 			table: EL_HASH_TABLE [STRING, STRING]
 		do
 			musicmatch := "MusicMatch_"
-			create table.make (<<
+			create table.make_assignments (<<
 				["Tempo", "Pretty fast"], ["Mood", "Upbeat"], ["Situation", "Any"], ["Preference", "Excellent"]
 			>>)
 			file_list.find_first_base (That_spot_tag)
@@ -76,7 +76,7 @@ feature -- Tests
 				assert_same_string (Void, mp3.tag.comment_with (musicmatch + str.key).text, str.item)
 			end
 
-			create table.make (<<
+			create table.make_assignments (<<
 				["First_line", "In that spot, over here in that spot."], -- Test new comment
 				["Preference", "5 stars"]
 			>>)
@@ -125,7 +125,7 @@ feature -- Tests
 			picture: TL_ID3_PICTURE
 			table: EL_HASH_TABLE [STRING, STRING]
 		do
-			create table.make (<<
+			create table.make_assignments (<<
 				["pic.jpeg", "image/jpeg"], ["pic.jpg", "image/jpeg"], ["pic.png", "image/png"]
 			>>)
 			across table as pic loop
@@ -222,7 +222,7 @@ feature -- Tests
 			user_text_table: EL_HASH_TABLE [STRING, STRING]
 			count: INTEGER
 		do
-			create user_text_table.make (<<
+			create user_text_table.make_assignments (<<
 				["compression example", "This sample user text"],
 				["example text frame", "This text and the description"]
 			>>)

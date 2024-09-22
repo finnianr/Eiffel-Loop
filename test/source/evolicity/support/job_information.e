@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 13:13:50 GMT (Tuesday 11th June 2024)"
-	revision: "8"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	JOB_INFORMATION
@@ -64,7 +64,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["title",				 agent: STRING do Result := title end],
 				["duration",			 agent: STRING do Result := duration end],
 				["description",		 agent: STRING do Result := description end],

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 8:04:32 GMT (Wednesday 10th July 2024)"
-	revision: "5"
+	date: "2024-09-22 16:08:29 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_COUNTER_TABLE [K -> HASHABLE]
 
 inherit
-	HASH_TABLE [NATURAL_32_REF, K]
+	EL_HASH_TABLE [NATURAL_32_REF, K]
 		rename
 			put as put_item,
 			found_item as found_count

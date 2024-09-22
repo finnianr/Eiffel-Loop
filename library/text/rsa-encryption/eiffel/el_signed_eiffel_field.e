@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-12 9:39:47 GMT (Monday 12th December 2022)"
-	revision: "4"
+	date: "2024-09-22 16:15:22 GMT (Sunday 22nd September 2024)"
+	revision: "5"
 
 class
 	EL_SIGNED_EIFFEL_FIELD
@@ -58,7 +58,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["data_lines",	agent: ITERABLE [STRING] do Result := data_lines end],
 				["name",			agent: STRING do Result := name end]
 			>>)

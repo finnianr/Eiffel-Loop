@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-09-22 14:52:34 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_LOG_FILTER_SET [TYPE_LIST -> TUPLE create default_create end]
 
 inherit
-	HASH_TABLE [EL_LOG_FILTER, TYPE [EL_MODULE_LIO]]
+	EL_HASH_TABLE [EL_LOG_FILTER, TYPE [EL_MODULE_LIO]]
 		rename
-			make as make_with_count
+			make as make_sized
 		export
 			{NONE} all
-			{ANY} linear_representation
+			{ANY} item_list
 		end
 
 	EL_LOG_CONSTANTS
@@ -29,13 +29,13 @@ inherit
 		end
 
 create
-	make, make_empty, make_with_count
+	make, make_empty, make_sized
 
 feature {NONE} -- Initialization
 
 	make
 		do
-			make_with_count (type_list.count)
+			make_sized (type_list.count)
 			across type_list as type loop
 				put (create {EL_LOG_FILTER}.make (type.item, Type_show_all), type.item)
 			end
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 
 	make_empty
 		do
-			make_with_count (0)
+			make_sized (0)
 		end
 
 feature -- Access

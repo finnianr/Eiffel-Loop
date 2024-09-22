@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 9:10:50 GMT (Thursday 27th July 2023)"
-	revision: "8"
+	date: "2024-09-22 14:10:04 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	PARAMETER_LIST
@@ -42,7 +42,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to element: parlist
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["par", agent do set_next_context (create {PARAMETER}.make) end]
 			>>)
 		end

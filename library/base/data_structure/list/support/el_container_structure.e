@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 12:27:59 GMT (Friday 20th September 2024)"
-	revision: "20"
+	date: "2024-09-21 18:11:59 GMT (Saturday 21st September 2024)"
+	revision: "21"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]

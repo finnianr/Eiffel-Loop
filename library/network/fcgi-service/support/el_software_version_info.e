@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "5"
 
 class
 	EL_SOFTWARE_VERSION_INFO
@@ -35,7 +35,7 @@ feature {NONE} -- Evolicity
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["version",	agent: NATURAL_32_REF do Result := software_version.compact_version_ref end]
 			>>)
 		end

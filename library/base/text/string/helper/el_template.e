@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:26:01 GMT (Monday 25th March 2024)"
-	revision: "23"
+	date: "2024-09-22 14:13:35 GMT (Sunday 22nd September 2024)"
+	revision: "24"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			template := new_string (a_template)
 			create dollor_split.make (template, '$')
 			variable_count := a_template.occurrences ('$')
-			create place_holder_table.make_size (variable_count)
+			create place_holder_table.make (variable_count)
 			make_list (variable_count * 2)
 			across dollor_split as list loop
 				item_count := list.item_count
@@ -90,7 +90,7 @@ feature -- Access
 	name_list: EL_ARRAYED_LIST [READABLE_STRING_8]
 		-- variable name list
 		do
-			create Result.make_from_array (place_holder_table.current_keys)
+			Result := place_holder_table.key_list
 		end
 
 feature -- Status query

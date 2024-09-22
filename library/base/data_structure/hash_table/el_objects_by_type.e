@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-11 17:12:31 GMT (Sunday 11th December 2022)"
-	revision: "4"
+	date: "2024-09-22 16:07:30 GMT (Sunday 22nd September 2024)"
+	revision: "5"
 
 class
 	EL_OBJECTS_BY_TYPE
 
 inherit
-	HASH_TABLE [ANY, INTEGER_32]
+	EL_HASH_TABLE [ANY, INTEGER_32]
 
 create
 	make_from_array, make

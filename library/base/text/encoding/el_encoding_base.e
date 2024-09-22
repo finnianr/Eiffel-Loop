@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "26"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "27"
 
 deferred class
 	EL_ENCODING_BASE
@@ -312,7 +312,7 @@ feature {NONE} -- Constants
 	Class_table: EL_STRING_8_TABLE [NATURAL]
 		-- `EL_STRING_8_TABLE' needed in case key is of type "EL_STRING_8"
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Name_iso, Latin_class],
 				[Name_windows, Windows_class],
 				[Name_utf, Utf_class]

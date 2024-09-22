@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-18 9:30:44 GMT (Monday 18th December 2023)"
-	revision: "14"
+	date: "2024-09-22 14:20:20 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	EL_BUILDABLE_AES_CREDENTIAL
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["salt/text()",	agent do set_salt (node) end],
 				["digest/text()",	agent do set_target (node) end]
 			>>)
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["digest", agent target_base_64],
 				["salt",	  agent salt_base_64]
 			>>)

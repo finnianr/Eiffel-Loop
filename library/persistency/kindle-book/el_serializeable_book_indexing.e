@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 deferred class
 	EL_SERIALIZEABLE_BOOK_INDEXING
@@ -45,7 +45,7 @@ feature {NONE} -- Evolicity
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["info",			agent: like book.info do Result := book.info end],
 				["chapter_list",	agent: ITERABLE [EL_BOOK_CHAPTER] do Result := book.chapter_list end]
 			>>)

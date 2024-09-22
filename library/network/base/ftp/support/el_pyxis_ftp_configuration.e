@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 8:24:18 GMT (Tuesday 14th May 2024)"
-	revision: "8"
+	date: "2024-09-22 14:15:12 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	EL_PYXIS_FTP_CONFIGURATION
@@ -138,7 +138,7 @@ feature {NONE} -- Build from Pyxis
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[ftp_node_name, 	agent do set_next_context (ftp) end]
 			>>)
 		end

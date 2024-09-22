@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 9:16:01 GMT (Friday 29th March 2024)"
-	revision: "23"
+	date: "2024-09-22 9:29:09 GMT (Sunday 22nd September 2024)"
+	revision: "24"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -172,8 +172,8 @@ feature -- Status query
 
 	is_last_word_option (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if value_table.has_general (name) and attached value_table.current_keys as keys then
-				Result := keys [keys.upper].same_string_general (name)
+			if value_table.has_general (name) then
+				Result := value_table.key_list.last.same_string_general (name)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	EL_XDG_DESKTOP_MENU
@@ -106,7 +106,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["is_standard", 		agent: BOOLEAN_REF do Result := item.is_standard.to_reference end],
 				["is_root", 			agent: BOOLEAN_REF do Result := is_root.to_reference end],
 				["menus", 				agent: like menus do Result := menus end],

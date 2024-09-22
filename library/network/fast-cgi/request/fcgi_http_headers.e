@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 15:51:22 GMT (Sunday 25th August 2024)"
-	revision: "25"
+	date: "2024-09-22 14:49:23 GMT (Sunday 22nd September 2024)"
+	revision: "26"
 
 class
 	FCGI_HTTP_HEADERS
@@ -39,12 +39,12 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			create custom_table.make_size (3)
+			create custom_table.make (3)
 		end
 
 feature -- Access
 
-	as_table (translater: EL_NAME_TRANSLATER): HASH_TABLE [ZSTRING, STRING]
+	as_table (translater: EL_NAME_TRANSLATER): EL_HASH_TABLE [ZSTRING, STRING]
 		-- table of all non-empty headers with name-keys adjusted to use hyphen word separator
 		-- if `kebab_names' is true
 		local
@@ -81,7 +81,7 @@ feature -- Access
 			end
 		end
 
-	selected (name_list: ITERABLE [STRING]; translater: EL_NAME_TRANSLATER): HASH_TABLE [ZSTRING, STRING]
+	selected (name_list: ITERABLE [STRING]; translater: EL_NAME_TRANSLATER): EL_HASH_TABLE [ZSTRING, STRING]
 		-- returns table of field values for keys present in `name_list'
 		local
 			l_name: STRING

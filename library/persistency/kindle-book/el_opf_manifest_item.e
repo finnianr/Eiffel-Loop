@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-01 17:33:07 GMT (Sunday 1st January 2023)"
-	revision: "6"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 class
 	EL_OPF_MANIFEST_ITEM
@@ -62,7 +62,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["id",			agent: INTEGER_REF do Result := id.to_reference end],
 				["media_type", agent media_type],
 				["href", 		agent escaped_href_path]

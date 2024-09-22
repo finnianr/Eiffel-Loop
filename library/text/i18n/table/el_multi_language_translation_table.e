@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:50 GMT (Friday 13th September 2024)"
-	revision: "6"
+	date: "2024-09-22 14:27:24 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 deferred class
 	EL_MULTI_LANGUAGE_TRANSLATION_TABLE
@@ -18,7 +18,6 @@ deferred class
 inherit
 	EL_ZSTRING_HASH_TABLE [ZSTRING]
 		rename
-			make as make_assignments,
 			put as put_table
 		redefine
 			make_equal

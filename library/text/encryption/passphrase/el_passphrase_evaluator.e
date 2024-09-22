@@ -10,16 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-09-22 14:45:00 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 class
 	EL_PASSPHRASE_EVALUATOR
 
 inherit
-	HASH_TABLE [BOOLEAN, ZSTRING]
+	EL_HASH_TABLE [BOOLEAN, ZSTRING]
 		rename
-			make as make_with_count
+			make as make_sized
 		export
 			{NONE} all
 			{ANY} new_cursor
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 		do
 			create phrase.make
 			if attached phrase.text_list as text_list then
-				make_with_count (text_list.count)
+				make_sized (text_list.count)
 				across text_list as list loop
 					extend (False, list.item)
 				end
@@ -54,7 +54,7 @@ feature -- Element change
 
 	reset
 		do
-			across current_keys as key loop
+			across key_list as key loop
 				force (False, key.item)
 			end
 		end

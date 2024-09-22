@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 16:05:58 GMT (Thursday 5th September 2024)"
-	revision: "29"
+	date: "2024-09-22 14:59:56 GMT (Sunday 22nd September 2024)"
+	revision: "30"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -100,7 +100,7 @@ feature -- Basic operations
 
 			lio.put_line ("SELECTED HUMAN VISITS")
 			lio.put_new_line
-			month_groups.list_of_sets.do_all (agent print_month)
+			month_groups.item_area_set.do_all (agent print_month)
 
 		-- Percentage visits from mobile devices
 			mobile_count := selected_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)

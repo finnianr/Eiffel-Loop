@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 11:16:15 GMT (Tuesday 20th August 2024)"
-	revision: "22"
+	date: "2024-09-22 14:33:49 GMT (Sunday 22nd September 2024)"
+	revision: "23"
 
 class
 	EL_ZSTRING_UNESCAPER
@@ -20,7 +20,7 @@ inherit
 
 	EL_SHARED_ZSTRING_CODEC
 
-	EL_ZCODE_CONVERSION undefine copy, is_equal end
+	EL_ZCODE_CONVERSION undefine copy, default_create, is_equal end
 
 create
 	make

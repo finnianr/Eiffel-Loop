@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:59:06 GMT (Friday 29th March 2024)"
-	revision: "22"
+	date: "2024-09-22 16:42:52 GMT (Sunday 22nd September 2024)"
+	revision: "23"
 
 class
 	PRAAT_GCC_SOURCE_TO_MSVC_CONVERTOR
@@ -49,7 +49,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			end
 			create make_file_parser.make
 
-			create converter_table.make (<<
+			create converter_table.make_assignments (<<
 				["praat.c",				create {FILE_PRAAT_C_GCC_TO_MSVC_CONVERTER}.make],
 				["motifEmulator.c",	create {FILE_MOTIF_EMULATOR_C_GCC_TO_MSVC_CONVERTER}.make],
 				["gsl__config.h",		create {FILE_GSL_CONFIG_H_GCC_TO_MSVC_CONVERTER}.make],

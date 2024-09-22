@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 9:38:30 GMT (Monday 29th July 2024)"
-	revision: "22"
+	date: "2024-09-22 9:26:48 GMT (Sunday 22nd September 2024)"
+	revision: "23"
 
 class
 	EL_DEFERRED_LOCALE_IMP
@@ -109,7 +109,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	translation_keys: ARRAY [ZSTRING]
+	translation_keys: EL_ARRAYED_LIST [ZSTRING]
 		do
 			create Result.make_empty
 		end

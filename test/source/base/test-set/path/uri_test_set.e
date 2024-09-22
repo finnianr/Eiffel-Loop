@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-13 11:55:37 GMT (Wednesday 13th March 2024)"
-	revision: "34"
+	date: "2024-09-22 14:16:49 GMT (Sunday 22nd September 2024)"
+	revision: "35"
 
 class
 	URI_TEST_SET
@@ -338,7 +338,7 @@ feature {NONE} -- Factory
 			book: like new_book_info
 		do
 			book := new_book_info (list)
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Field.author_title,	book.author_title],
 				[Field.price,			book.price],
 				[Field.publisher,		book.publisher],
@@ -429,7 +429,7 @@ feature {NONE} -- Constants
 			Escape_list := "[
 				%24, %C2%A3, %E2%82%AC
 			]"
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[('$').to_character_32, escape_list [1]],
 				[('£').to_character_32, escape_list [2]],
 				[('€').to_character_32, escape_list [3]]

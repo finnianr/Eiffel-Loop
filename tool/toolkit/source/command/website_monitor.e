@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-16 7:38:50 GMT (Thursday 16th May 2024)"
-	revision: "8"
+	date: "2024-09-22 16:42:51 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	WEBSITE_MONITOR
@@ -103,7 +103,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@checks_per_day", agent do checks_per_day := node end],
 				["@cacert_path",	  agent do cacert_path := node.to_expanded_file_path end],
 				["site",				  agent do set_collection_context (website_list, new_site) end]

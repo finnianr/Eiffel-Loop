@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-09-22 16:45:02 GMT (Sunday 22nd September 2024)"
+	revision: "18"
 
 class
 	CAD_MODEL
@@ -126,7 +126,7 @@ feature -- Access
 				Result.append (Field.points); Result.append_character (' ')
 --					[[
 					Result.append (Double_brackets.left)
-					across vertice_index.current_keys as coord loop
+					across vertice_index.key_list as coord loop
 						if not coord.is_first then
 --							], [
 							Result.append (Tuple_delimiter)
@@ -206,7 +206,7 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_vertice_index_table: HASH_TABLE [INTEGER, COORDINATE_VECTOR]
+	new_vertice_index_table: EL_HASH_TABLE [INTEGER, COORDINATE_VECTOR]
 		do
 			create Result.make (polygon_list.count * 4)
 			across polygon_list as polygon loop

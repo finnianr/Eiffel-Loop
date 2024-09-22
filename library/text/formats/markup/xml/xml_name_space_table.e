@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-18 16:18:34 GMT (Sunday 18th December 2022)"
-	revision: "14"
+	date: "2024-09-22 16:08:02 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	XML_NAME_SPACE_TABLE
 
 inherit
-	HASH_TABLE [STRING, STRING]
+	EL_HASH_TABLE [STRING, STRING]
 		rename
 			make as make_sized
 		export

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 14:06:35 GMT (Thursday 9th November 2023)"
-	revision: "30"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "31"
 
 class
 	EL_XML_TO_PYXIS_CONVERTER
@@ -278,7 +278,7 @@ feature {NONE} -- Implementation
 
 	node_actions_table: EL_HASH_TABLE [PROCEDURE [ZSTRING], INTEGER]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Token.starting_tag, agent on_starting_tag],
 				[Token.character_data, agent on_character_data],
 				[Token.comment, agent on_comment_text]
@@ -290,7 +290,7 @@ feature {NONE} -- Implementation
 			name_value_text, line: ZSTRING
 		do
 			create line.make (attributes.count * 60)
-			across attributes.current_keys as name loop
+			across attributes.key_list as name loop
 				name_value_text := name.item + " = " + adjusted_value (attributes [name.item], False, True)
 				if line.count + name_value_text.count < 80 then
 					if not line.is_empty then

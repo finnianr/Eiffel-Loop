@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-09-22 16:42:52 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 class
 	PRAAT_LIB_MAKE_FILE_GENERATOR
@@ -101,7 +101,7 @@ feature {NONE} -- Evolicity access
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["library_name", agent get_library_name],
 				["include_directory_list", agent get_include_directory_list],
 				["object_file_list", agent get_object_file_list],

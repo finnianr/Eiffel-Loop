@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-25 17:23:19 GMT (Saturday 25th November 2023)"
-	revision: "16"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "17"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 
 	Color_code_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Color.black, 0],
 				[Color.white, 0xFFFFFF],
 				[Color.red, 0xA52A2A]

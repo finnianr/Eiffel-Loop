@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 10:42:44 GMT (Sunday 1st September 2024)"
-	revision: "26"
+	date: "2024-09-22 14:40:36 GMT (Sunday 22nd September 2024)"
+	revision: "27"
 
 deferred class
 	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -131,7 +131,7 @@ feature {NONE} -- Implementation
 			type_list: like test_type_list
 		do
 			type_list := test_type_list
-			create Result.make_with_count (type_list.count + 1)
+			create Result.make_sized (type_list.count + 1)
 			Result.show_all ({like Current})
 			across type_list as list loop
 				if attached {TYPE [EL_MODULE_LOG]} list.item as log_type then

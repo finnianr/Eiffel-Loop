@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-04-06 8:33:13 GMT (Thursday 6th April 2023)"
-	revision: "20"
+	date: "2024-09-22 17:04:49 GMT (Sunday 22nd September 2024)"
+	revision: "21"
 
 class
 	SOURCE_TREE
@@ -99,7 +99,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["name",			agent: like name do Result := name end],
 				["path_list", 	agent: like path_list do Result := path_list end]
 			>>)

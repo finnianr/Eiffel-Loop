@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:34:54 GMT (Sunday 1st September 2024)"
-	revision: "13"
+	date: "2024-09-22 17:04:47 GMT (Sunday 22nd September 2024)"
+	revision: "14"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create buffer
 			create name_buffer
-			create class_link_table.make_size (500)
+			create class_link_table.make (500)
 		end
 
 feature -- Access
@@ -154,7 +154,7 @@ feature -- Element change
 			from start until after loop
 				right_index := code_text.index_of ('}', item_upper + 1)
 				next_dollor_index := if index < count then i_th_lower (index + 1) else code_text.count + 1 end
-				
+
 				if right_index > 0 and right_index < next_dollor_index then
 					put_i_th (item_lower, right_index, index)
 					forth

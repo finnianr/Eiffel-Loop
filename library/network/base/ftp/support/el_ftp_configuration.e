@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-08 6:15:03 GMT (Wednesday 8th May 2024)"
-	revision: "20"
+	date: "2024-09-22 14:18:30 GMT (Sunday 22nd September 2024)"
+	revision: "21"
 
 class
 	EL_FTP_CONFIGURATION
@@ -102,7 +102,7 @@ feature {NONE} -- Build from XML
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@passive_mode",			 agent do passive_mode := node end],
 				["@prosite_ftp",			 agent do prosite_ftp := node end],
 				["encrypted_url/text()", agent do encrypted_url := node.to_string_8 end],

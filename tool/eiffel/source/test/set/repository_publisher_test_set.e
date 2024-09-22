@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-18 9:31:07 GMT (Wednesday 18th September 2024)"
-	revision: "90"
+	date: "2024-09-22 17:04:48 GMT (Sunday 22nd September 2024)"
+	revision: "91"
 
 class
 	REPOSITORY_PUBLISHER_TEST_SET
@@ -402,7 +402,7 @@ feature {NONE} -- Constants
 	Markdown_link_table: EL_HASH_TABLE [STRING, STRING]
 		-- expect links in doc/Contents.md
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["X509 PKCS1 standard",	"https://en.wikipedia.org/wiki/X.509#Sample_X.509_certificates"],
 				["text-formats.ecf",		"/library/text-formats.pecf"],
 				["reflection cluster",	"/library/base/base.pecf"],

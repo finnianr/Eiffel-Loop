@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 9:24:48 GMT (Saturday 23rd March 2024)"
-	revision: "7"
+	date: "2024-09-22 17:07:02 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	VERSION_MANAGER_SHELL_COMMAND
@@ -38,7 +38,7 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Bump major number",			 agent do do_bump (agent {EL_SOFTWARE_VERSION}.bump_major) end],
 				["Bump minor number",			 agent do do_bump (agent {EL_SOFTWARE_VERSION}.bump_minor) end],
 				["Bump release number",			 agent do do_bump (agent {EL_SOFTWARE_VERSION}.bump_release) end],

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:16:55 GMT (Friday 20th September 2024)"
-	revision: "32"
+	date: "2024-09-22 16:57:25 GMT (Sunday 22nd September 2024)"
+	revision: "33"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -248,7 +248,7 @@ feature {NONE} -- Implementation
 	unreferenced_items: EL_ZSTRING_LIST
 		do
 			create Result.make_empty
-			across translations.current_keys as key loop
+			across translations.key_list as key loop
 				if not referenced_keys.has (key.item) then
 					Result.extend (key.item)
 				end
@@ -301,7 +301,7 @@ feature {NONE} -- Build from Pyxis
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["evolicity-template/ignore-key/text()",	agent do evolicity_parser_list.last.ignored_key_set.put (node) end],
 				["localized-file-names/@extension",			agent do node.set (last_localized_file_name_extension) end],
 				["source-dir/text()",							agent do source_dir := node.to_expanded_dir_path end],

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 14:14:44 GMT (Monday 9th September 2024)"
-	revision: "49"
+	date: "2024-09-22 11:34:10 GMT (Sunday 22nd September 2024)"
+	revision: "50"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -107,7 +107,7 @@ feature -- Basic operations
 		require else
 			initializeable: is_initializeable
 		do
-			set (a_object, new_instance)
+			set_initial (a_object, new_instance)
 		end
 
 	reset (a_object: EL_REFLECTIVE)
@@ -117,7 +117,8 @@ feature -- Basic operations
 			end
 		end
 
-	set (a_object: EL_REFLECTIVE; a_value: G)
+	set, set_initial (a_object: EL_REFLECTIVE; a_value: G)
+		-- `set' and `set_initial' are differentiated in `EL_REFLECTED_HASHABLE_REFERENCE'
 		do
 			{ISE_RUNTIME}.set_reference_field (
 				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value

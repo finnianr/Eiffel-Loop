@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-09-22 14:31:21 GMT (Sunday 22nd September 2024)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_STRING_TABLE_CURSOR [IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
 
 inherit
-	HASH_TABLE_ITERATION_CURSOR [INTEGER_64, IMMUTABLE]
+	EL_HASH_TABLE_ITERATION_CURSOR [INTEGER_64, IMMUTABLE]
 		rename
 			item as interval_item
 		export

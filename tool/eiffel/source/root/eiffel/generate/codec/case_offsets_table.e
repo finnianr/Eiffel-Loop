@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-17 10:32:15 GMT (Friday 17th March 2023)"
-	revision: "2"
+	date: "2024-09-22 17:07:40 GMT (Sunday 22nd September 2024)"
+	revision: "3"
 
 class
 	CASE_OFFSETS_TABLE
 
 inherit
-	HASH_TABLE [CODE_INTERVAL_LIST, NATURAL]
+	EL_HASH_TABLE [CODE_INTERVAL_LIST, NATURAL]
 		rename
 			extend as extend_table,
 			make as make_sized

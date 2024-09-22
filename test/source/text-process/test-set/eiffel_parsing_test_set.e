@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-27 14:46:39 GMT (Wednesday 27th March 2024)"
-	revision: "9"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -122,7 +122,7 @@ feature {NONE} -- Constants
 
 	Emphasis_counts: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["quote",	13],
 				["class",	21],
 				["comment",	13],

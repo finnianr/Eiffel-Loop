@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:27:28 GMT (Sunday 1st September 2024)"
-	revision: "24"
+	date: "2024-09-22 17:07:01 GMT (Sunday 22nd September 2024)"
+	revision: "25"
 
 class
 	EIFFEL_LIBRARY_CLASS
@@ -111,7 +111,7 @@ feature {NONE} -- Constants
 
 	Class_buffer_table: EL_HASH_TABLE [EIFFEL_CLASS, ZSTRING]
 		once
-			create Result.make_size (config.max_useage_examples_count)
+			create Result.make (config.max_useage_examples_count)
 		end
 
 	Default_client_examples: ARRAY [EIFFEL_CLASS]

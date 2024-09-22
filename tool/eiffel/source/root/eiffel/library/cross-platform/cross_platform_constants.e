@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 15:07:39 GMT (Monday 22nd April 2024)"
-	revision: "7"
+	date: "2024-09-22 16:57:25 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 deferred class
 	CROSS_PLATFORM_CONSTANTS
@@ -71,7 +71,10 @@ feature {NONE} -- Constants
 
 	Windows_platform_table: EL_HASH_TABLE [IMMUTABLE_STRING_8, INTEGER]
 		once
-			create Result.make (<< [32, Platform.windows], [64, Platform.win64] >>)
+			create Result.make_assignments (<<
+				[32, Platform.windows],
+				[64, Platform.win64]
+			>>)
 		end
 
 end

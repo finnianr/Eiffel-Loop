@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 10:33:35 GMT (Friday 20th September 2024)"
-	revision: "16"
+	date: "2024-09-22 14:58:32 GMT (Sunday 22nd September 2024)"
+	revision: "17"
 
 class
 	EL_FUNCTION_GROUPED_SET_TABLE [G, K -> HASHABLE]
@@ -20,9 +20,9 @@ inherit
 	EL_FUNCTION_GROUPED_LIST_TABLE [G, K]
 		rename
 			item_list as item_set,
+			item_area_list as item_area_set,
 			found_list as found_set,
-			make_equal as make_equal_with_count,
-			list_of_lists as list_of_sets,
+			make_equal as make_equal_sized,
 			wipe_out_lists as wipe_out_sets
 		undefine
 			is_set
@@ -30,8 +30,8 @@ inherit
 
 	EL_GROUPED_SET_TABLE [G, K]
 		rename
-			make_equal as make_equal_with_count,
-			make as make_with_count
+			make_equal as make_equal_sized,
+			make as make_sized
 		end
 
 create
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 	make_equal (a_group_key: like group_key; n: INTEGER)
 		do
 			group_key := a_group_key
-			make_equal_with_count (n)
+			make_equal_sized (n)
 		end
 
 	make_equal_from_list (a_group_key: FUNCTION [G, K]; a_list: ITERABLE [G])

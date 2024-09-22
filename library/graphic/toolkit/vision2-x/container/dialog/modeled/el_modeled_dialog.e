@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 15:38:30 GMT (Sunday 28th January 2024)"
-	revision: "12"
+	date: "2024-09-22 15:13:02 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -234,7 +234,8 @@ feature {NONE} -- Implementation
 		-- table of key codes and left-shifted modifiers mapped to procedures
 		-- using `single' or `combination' to create key
 		do
-			create Result.make (<< [single (ev.Key_escape) , agent on_cancel] >>)
+			create Result.make_equal (1)
+			Result [single (ev.Key_escape)] := agent on_cancel
 		end
 
 	set_dialog_buttons

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 10:08:04 GMT (Tuesday 27th August 2024)"
-	revision: "30"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "31"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -165,7 +165,7 @@ feature -- Tests
 			tuple_list: ECD_ARRAYED_TABLE_PAIR_LIST [INTEGER, STRING]
 			table: EL_HASH_TABLE [INTEGER, STRING]; numbers_path: FILE_PATH
 		do
-			create table.make (<< ["One", 1], ["Two", 2], ["Three", 3] >>)
+			create table.make_assignments (<< ["One", 1], ["Two", 2], ["Three", 3] >>)
 			create tuple_list.make_from_table (table)
 			numbers_path := Work_area_dir + "numbers.dat"
 			tuple_list.store_as (numbers_path)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 12:22:46 GMT (Monday 31st July 2023)"
-	revision: "7"
+	date: "2024-09-22 14:00:15 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	EVOLICITY_FUNCTION_TABLE
@@ -16,7 +16,7 @@ inherit
 	EL_STRING_8_TABLE [FUNCTION [ANY]]
 
 create
-	default_create, make, make_equal, make_size
+	default_create, make_assignments, make_equal, make
 
 feature -- Access
 

@@ -6,22 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-21 15:28:07 GMT (Saturday 21st September 2024)"
-	revision: "1"
+	date: "2024-09-22 11:20:54 GMT (Sunday 22nd September 2024)"
+	revision: "2"
 
 deferred class
 	EL_HASH_SET_IMPLEMENTATION [H -> HASHABLE]
 
 inherit
-	TRAVERSABLE_SUBSET [detachable H]
+	TRAVERSABLE_SUBSET [H]
 		rename
 			extend as put,
 			item as iteration_item,
 			remove as remove_item
+		end
+
+	FINITE [H]
 		undefine
-			is_equal, copy, default_create
-		redefine
-			copy, is_equal
+			changeable_comparison_criterion, is_empty
 		end
 
 feature {NONE} -- Initialization
@@ -76,8 +77,10 @@ feature -- Access
 		-- otherwise default value of type `G'
 		do
 			internal_search (key)
-			if control = Found_constant then
-				Result := content.item (position)
+			inspect control
+				when Found_constant then
+					Result := content.item (position)
+			else
 			end
 		end
 
@@ -102,16 +105,22 @@ feature -- Access
 
 feature -- Status query
 
-	Extendible: BOOLEAN = True
-		-- May new items be added?
+	conflict: BOOLEAN
+			-- Did last operation insert an item?
+		do
+			Result := not inserted
+		end
 
-	Prunable: BOOLEAN = True
+	extendible: BOOLEAN = True
+		-- May new items be added?
 
 	found: BOOLEAN
 		-- Did last operation find the item sought?
 		do
-			Result := (control = Found_constant)
+			Result := control = Found_constant
 		end
+
+	full: BOOLEAN = False
 
 	has (key: H): BOOLEAN
 		-- Is `access_key' currently used?
@@ -123,6 +132,14 @@ feature -- Status query
 			end
 		end
 
+	has_key (key: H): BOOLEAN
+		-- Is `access_key' currently used?
+		-- (Shallow equality)
+		do
+			search (key)
+			Result := (control = Found_constant)
+		end
+
 	inserted: BOOLEAN
 		-- Did last operation insert an item?
 
@@ -131,6 +148,8 @@ feature -- Status query
 		do
 			Result := (count = 0)
 		end
+
+	prunable: BOOLEAN = True
 
 	reference_comparison: BOOLEAN
 		-- Is current comparing keys using `='.
@@ -154,37 +173,15 @@ feature -- Comparison
 			end
 		end
 
-feature -- Duplication
-
-	copy (other: like Current)
-		-- Re-initialize from `other'.
-		do
-			standard_copy (other)
-			content := other.content.twin
-			insertion_marks := other.insertion_marks.twin
-		end
-
-feature -- Contract Support
-
-	valid_cursor (pos: like cursor): BOOLEAN
-		-- Can cursor be moved to position `pos'?
-		do
-			if pos >= capacity or else (pos >= 0 and pos <= capacity) then
-				Result := insertion_marks [pos]
-			end
-		end
-
 feature {EL_HASH_SET_ITERATION_CURSOR} -- Implementation access
 
 	next_iteration_position (a_position: INTEGER): INTEGER
 		-- Given an iteration position `a_position', compute the next one
 		do
-			Result := next_iteration_position_with (a_position, capacity - 1, content, insertion_marks)
+			Result := next_iteration_index (a_position, capacity - 1, insertion_marks)
 		end
 
-	next_iteration_position_with (
-		a_position, last_index: INTEGER; area: like content; a_inserted: like insertion_marks
-	): INTEGER
+	next_iteration_index (a_position, last_index: INTEGER; a_inserted: like insertion_marks): INTEGER
 		do
 			from Result := a_position + 1 until Result > last_index or else a_inserted [Result] loop
 				Result := Result + 1
@@ -198,13 +195,6 @@ feature {EL_HASH_SET_ITERATION_CURSOR} -- Implementation access
 
 feature {NONE} -- Implementation
 
-	add_space
-		-- Double the capacity of `Current'.
-		-- Transfer everything except deleted keys.
-		do
-			resize ((3 * capacity) // 2)
-		end
-
 	append_to (other: EL_HASH_SET [H])
 		local
 			pos, last_index: INTEGER; break: BOOLEAN
@@ -212,7 +202,7 @@ feature {NONE} -- Implementation
 			if attached content as area and then attached insertion_marks as l_inserted then
 				last_index := capacity - 1
 				from pos := -1 until break loop
-					pos := next_iteration_position_with (pos, last_index, area, l_inserted)
+					pos := next_iteration_index (pos, last_index, l_inserted)
 					if pos > last_index then
 						break := True
 					else
@@ -220,6 +210,13 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
+		end
+
+	expand_size
+		-- Double the capacity of `Current'.
+		-- Transfer everything except deleted keys.
+		do
+			resize ((3 * capacity) // 2)
 		end
 
 	insertion_count: INTEGER
@@ -244,10 +241,8 @@ feature {NONE} -- Implementation
 		local
 			increment, hash_code, table_size, pos: INTEGER
 			first_available_position, visited_count: INTEGER
-			old_key, default_key: detachable H; break: BOOLEAN
+			old_key: H; break: BOOLEAN
 		do
-			-- Per precondition
-			check search_key_not_void: search_key /= Void end
 			if attached insertion_marks as l_inserted and then attached content as area then
 				from
 					first_available_position := -1
@@ -304,6 +299,15 @@ feature {NONE} -- Deferred
 			n_non_negative: n >= 0
 			n_greater_than_count: n >= count
 		deferred
+		end
+
+	search (key: H)
+		-- Search for item of key `key'
+		-- If found, set `found' to True, and set
+		-- `found_item' to item associated with `key'.
+		deferred
+		ensure
+			item_if_found: found implies (found_item = content.item (position))
 		end
 
 feature {EL_HASH_SET_IMPLEMENTATION, EL_HASH_SET_ITERATION_CURSOR} -- Internal attributes access

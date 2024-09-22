@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:20:25 GMT (Monday 14th August 2023)"
-	revision: "20"
+	date: "2024-09-22 14:15:11 GMT (Sunday 22nd September 2024)"
+	revision: "21"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -66,7 +66,7 @@ feature {NONE} -- Constants
 
 	frozen Default_representations: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING]
 		once
-			create Result.make_size (0)
+			create Result.make (0)
 		end
 
 	frozen Empty_field_set: EL_FIELD_INDICES_SET

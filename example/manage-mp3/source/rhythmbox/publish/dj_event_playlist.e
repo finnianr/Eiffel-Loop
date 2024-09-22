@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:41:01 GMT (Friday 12th July 2024)"
-	revision: "27"
+	date: "2024-09-22 15:43:17 GMT (Sunday 22nd September 2024)"
+	revision: "28"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -207,7 +207,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["path_list", 					agent get_path_list],
 				["title", 						agent: like title do Result := title end],
 				["DJ_name",						agent: like dj_name do Result := dj_name end],
@@ -226,7 +226,7 @@ feature {NONE} -- Building from XML
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@title", 				agent do node.set (title) end],
 				["@DJ_name",			agent do node.set (dj_name) end],
 				["@venue",				agent do node.set (venue) end],

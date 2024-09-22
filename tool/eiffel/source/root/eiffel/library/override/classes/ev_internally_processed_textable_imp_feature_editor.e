@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 12:50:06 GMT (Friday 18th December 2015)"
 	revision: "1"
@@ -22,9 +22,8 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make (<<
-				["escaped_text", agent fix_contract_expression]
-			>>)
+			create Result.make_equal (1)
+			Result ["escaped_text"] := agent fix_contract_expression
 		end
 
 	fix_contract_expression (class_feature: CLASS_FEATURE)

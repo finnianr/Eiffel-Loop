@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-09-22 17:04:48 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 class
 	UNICODE_INTERVAL
@@ -79,7 +79,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["lower_character", agent: ZSTRING do Result := character (lower.to_natural_32) end ],
 				["upper_character", agent: ZSTRING do Result := character (upper.to_natural_32) end ],
 				["first_latin_character", agent: LATIN_CHARACTER do Result := latin_characters.first end],

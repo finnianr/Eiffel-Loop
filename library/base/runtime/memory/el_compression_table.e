@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-22 16:06:38 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_COMPRESSION_TABLE [G -> EL_STORABLE create make_default end, K -> HASHABLE]
 
 inherit
-	HASH_TABLE [MANAGED_POINTER, K]
+	EL_HASH_TABLE [MANAGED_POINTER, K]
 		rename
 			at as at_key,
 			found_item as found_buffer,

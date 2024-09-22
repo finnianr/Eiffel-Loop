@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
-	revision: "7"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	EROS_XML_RESULT
@@ -30,7 +30,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["root_name",	agent: STRING do Result := root_node_name end],
 				["generator",	agent: STRING do Result := generator end]
 			>>)

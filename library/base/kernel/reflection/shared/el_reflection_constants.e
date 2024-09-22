@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-23 11:49:42 GMT (Monday 23rd January 2023)"
-	revision: "47"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "48"
 
 deferred class
 	EL_REFLECTION_CONSTANTS
@@ -81,7 +81,7 @@ feature {NONE} -- Reference types
 	Group_type_order_table: EL_HASH_TABLE [INTEGER, TYPE [ANY]]
 		-- Defines search order for matching `value_type' in groups
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[{EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}, 16],
 				[{COLLECTION [ANY]}, 14],
 				[{EL_STORABLE}, 12],

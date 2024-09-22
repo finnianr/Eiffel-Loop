@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 15:58:38 GMT (Wednesday 4th September 2024)"
-	revision: "6"
+	date: "2024-09-22 14:35:47 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 class
 	EL_FACTORY_TYPE_ID_TABLE
@@ -39,7 +39,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			copy, is_equal
+			copy, default_create, is_equal
 		end
 
 create

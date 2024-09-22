@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:04:55 GMT (Saturday 24th June 2023)"
-	revision: "6"
+	date: "2024-09-22 14:15:07 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 class
 	BIOINFO_COMMAND
@@ -66,10 +66,10 @@ feature {NONE} -- Build from XML
 			-- Nodes relative to element: command
 		do
 			-- Call precursor to include xmlns attribute
-			create Result.make (<<
-				["id/text()", agent do node.set_8 (id) end],
+			create Result.make_assignments (<<
+				["id/text()",	 agent do node.set_8 (id) end],
 				["menu/text()", agent do node.set_8 (menu) end],
-				["parlist", agent do set_next_context (parameter_list) end]
+				["parlist",		 agent do set_next_context (parameter_list) end]
 			>>)
 		end
 

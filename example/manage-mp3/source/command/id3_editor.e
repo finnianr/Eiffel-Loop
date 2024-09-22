@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 18:02:07 GMT (Friday 29th March 2024)"
-	revision: "18"
+	date: "2024-09-22 15:36:53 GMT (Sunday 22nd September 2024)"
+	revision: "19"
 
 class
 	ID3_EDITOR
@@ -62,9 +62,8 @@ feature {NONE} -- Implementation
 
 	new_editions_table: like editions_table
 		do
-			create Result.make (<<
-				["set_fields_from_path", agent set_fields_from_path]
-			>>)
+			create Result.make_equal (1)
+			Result ["set_fields_from_path"] := agent set_fields_from_path
 		end
 
 feature {NONE} -- Internal attributes

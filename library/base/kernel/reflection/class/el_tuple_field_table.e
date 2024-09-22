@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:05:41 GMT (Tuesday 27th August 2024)"
-	revision: "6"
+	date: "2024-09-22 14:10:03 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 class
 	EL_TUPLE_FIELD_TABLE
@@ -26,10 +26,10 @@ inherit
 		end
 
 create
-	make, make_empty, make_reversed
+	make, make_assignments, make_empty, make_reversed
 
 convert
-	make ({STRING})
+	make_assignments ({STRING})
 
 feature {NONE} -- Initialization
 
@@ -49,7 +49,7 @@ feature -- Status change
 	append_converters (array: like converters_table.MANIFEST_ARRAY)
 		do
 			if converters_table.is_empty then
-				create converters_table.make (array)
+				create converters_table.make_assignments (array)
 			else
 				converters_table.append_tuples (array)
 			end
@@ -87,6 +87,6 @@ feature {NONE} -- Constants
 		FUNCTION [READABLE_STRING_GENERAL, EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]], STRING
 	]
 		once
-			create Result.make_size (0)
+			create Result.make (0)
 		end
 end

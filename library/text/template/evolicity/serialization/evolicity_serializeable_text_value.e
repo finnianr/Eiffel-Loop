@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:28:45 GMT (Sunday 25th August 2024)"
-	revision: "10"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "11"
 
 class
 	EVOLICITY_SERIALIZEABLE_TEXT_VALUE
@@ -52,7 +52,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["text", agent: ZSTRING do Result := text end]
 			>>)
 		end

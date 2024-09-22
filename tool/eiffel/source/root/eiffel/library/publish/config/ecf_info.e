@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 11:22:18 GMT (Tuesday 4th June 2024)"
-	revision: "18"
+	date: "2024-09-22 17:04:48 GMT (Sunday 22nd September 2024)"
+	revision: "19"
 
 class
 	ECF_INFO
@@ -108,7 +108,7 @@ feature {NONE} -- Implementation
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@ignore",	agent do ignored_clusters := new_ignored_clusters_from_node end],
 				["text()",	agent do path := node.to_string end]
 			>>)

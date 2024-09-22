@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 17:35:37 GMT (Sunday 25th August 2024)"
-	revision: "19"
+	date: "2024-09-22 14:50:10 GMT (Sunday 22nd September 2024)"
+	revision: "20"
 
 class
 	AIA_CANONICAL_REQUEST
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 
 	make (request: FCGI_REQUEST_PARAMETERS; headers_list: EL_STRING_8_LIST)
 		local
-			headers: HASH_TABLE [ZSTRING, STRING]
+			headers: EL_HASH_TABLE [ZSTRING, STRING]
 		do
 			if headers_list.is_empty then
 				headers := request.headers.as_table (Translater)
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			extend (request.full_request_url)
 			extend (Empty_string_8) -- the Java SDK does not add the query string to the canonical form
 
-			create sorted_header_names.make_from_array (headers.current_keys)
+			create sorted_header_names.make_from_special (headers.key_list.area)
 			sorted_header_names.ascending_sort
 
 			across sorted_header_names as name loop

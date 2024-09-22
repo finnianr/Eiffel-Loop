@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 11:04:04 GMT (Tuesday 19th March 2024)"
-	revision: "39"
+	date: "2024-09-22 17:10:04 GMT (Sunday 22nd September 2024)"
+	revision: "40"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -200,7 +200,7 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Update github directory",		agent rsync_to_github_dir],
 				["Update personal access token",	agent update_personal_access_token],
 				["git add + commit",					agent git_commit],
@@ -217,7 +217,7 @@ feature {NONE} -- Implementation
 			editor: NOTE_EDITOR
 		do
 			if source_path.exists and then attached manifest.notes_table as table then
-				across table.current_keys as key until found loop
+				across table.key_list as key until found loop
 					source_dir := key.item
 					if source_dir.is_parent_of (source_path) then
 						found := True

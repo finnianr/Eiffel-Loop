@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 15:34:19 GMT (Monday 25th March 2024)"
-	revision: "7"
+	date: "2024-09-22 9:24:04 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	EL_DATE_TEXT_TEMPLATE
@@ -49,7 +49,7 @@ feature -- Contract Support
 
 	valid_variables: BOOLEAN
 		do
-			Result := place_holder_table.current_keys.for_all (agent function_table.has)
+			Result := place_holder_table.key_list.for_all (agent function_table.has)
 		end
 
 feature {NONE} -- Internal attributes

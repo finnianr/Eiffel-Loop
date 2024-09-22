@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 10:03:02 GMT (Friday 20th September 2024)"
-	revision: "10"
+	date: "2024-09-22 14:59:00 GMT (Sunday 22nd September 2024)"
+	revision: "11"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -25,10 +25,7 @@ inherit
 			item_for_iteration as item_area_for_iteration,
 			extend as extend_area,
 			found_item as found_area,
-			item_list as item_area_list,
-			linear_representation as list_of_lists,
-			make as make_from_array,
-			make_size as make
+			item_list as item_area_list
 		redefine
 			make, make_equal, has_key, new_cursor, search
 		end
@@ -117,7 +114,7 @@ feature -- Basic operations
 	wipe_out_lists
 		-- wipe out list items
 		do
-			across list_of_lists as list loop
+			across item_area_list as list loop
 				list.item.wipe_out
 			end
 		end

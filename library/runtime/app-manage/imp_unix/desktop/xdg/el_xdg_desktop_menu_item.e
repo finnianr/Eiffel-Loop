@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-27 7:15:10 GMT (Monday 27th November 2023)"
-	revision: "16"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "17"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -125,7 +125,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["icon_path", agent: EL_PATH do Result := item.icon_path end],
 				[Eng_code, agent: STRING do Result := Eng_code end],
 				["locale_table", agent get_locale_table]

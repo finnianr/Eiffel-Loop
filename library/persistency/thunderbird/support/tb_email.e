@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:26:26 GMT (Friday 20th September 2024)"
-	revision: "16"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "17"
 
 class
 	TB_EMAIL
@@ -129,7 +129,7 @@ feature {NONE} -- Reflection hints
 
 	new_representations: like Default_representations
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["date", Date_representation],
 				["content_transfer_encoding", Transfer_encodings.to_representation],
 				["mime_version", Mime_version_type.to_representation],

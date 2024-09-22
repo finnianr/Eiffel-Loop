@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 9:59:05 GMT (Saturday 31st August 2024)"
-	revision: "45"
+	date: "2024-09-22 14:47:33 GMT (Sunday 22nd September 2024)"
+	revision: "46"
 
 class
 	EL_LOCALE
@@ -89,7 +89,7 @@ feature -- Access
 	all_languages: EL_STRING_8_LIST
 		do
 			restrict_access -- synchronized
-				create Result.make_from_array (Locale_table.current_keys)
+				create Result.make_from_special (Locale_table.key_list.area)
 			end_restriction
 		end
 
@@ -153,10 +153,10 @@ feature -- Access
 			end_restriction
 		end
 
-	translation_keys: ARRAY [ZSTRING]
+	translation_keys: EL_ARRAYED_LIST [ZSTRING]
 		do
 			restrict_access -- synchronized
-				Result := translation_table.current_keys
+				Result := translation_table.key_list
 			end_restriction
 		end
 

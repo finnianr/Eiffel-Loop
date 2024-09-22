@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 8:10:50 GMT (Tuesday 4th June 2024)"
-	revision: "12"
+	date: "2024-09-22 17:07:02 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 deferred class
 	REPOSITORY_HTML_PAGE
@@ -65,7 +65,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["content_template",		agent content_template],
 				["title", 					agent: like title do Result := XML.escaped (title) end],
 				["name", 					agent: like name do Result := XML.escaped (name) end],

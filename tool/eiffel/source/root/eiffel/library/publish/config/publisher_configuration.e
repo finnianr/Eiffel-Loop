@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:40:17 GMT (Sunday 1st September 2024)"
-	revision: "5"
+	date: "2024-09-22 16:54:18 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	PUBLISHER_CONFIGURATION
@@ -156,7 +156,7 @@ feature {NONE} -- Build from Pyxis
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@github_url",					 agent do github_url := node.to_string end],
 				["@invalid_names_output_path", agent do invalid_names_output_path := node.to_expanded_file_path end],
 				["@ise_library",					 agent do ise_template.library := node end],

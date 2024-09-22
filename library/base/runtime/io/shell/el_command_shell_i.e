@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 12:08:33 GMT (Monday 19th August 2024)"
-	revision: "22"
+	date: "2024-09-22 16:30:11 GMT (Sunday 22nd September 2024)"
+	revision: "23"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	make (name: READABLE_STRING_GENERAL; a_row_count: INTEGER)
 		do
 			make_table
-			create menu.make (name, command_table.current_keys, a_row_count)
+			create menu.make (name, command_table.key_array, a_row_count)
 		end
 
 	make_table
@@ -36,7 +36,7 @@ feature {NONE} -- Initialization
 			has_expansions: BOOLEAN
 		do
 			if attached new_command_table as table then
-				create command_table.make_size (table.count + 1)
+				create command_table.make (table.count + 1)
 				set_standard_options (command_table)
 				if attached new_expansion_table as expansion_table then
 					has_expansions := expansion_table.count > 0

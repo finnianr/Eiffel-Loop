@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-17 8:09:29 GMT (Wednesday 17th April 2024)"
-	revision: "2"
+	date: "2024-09-22 17:07:03 GMT (Sunday 22nd September 2024)"
+	revision: "3"
 
 class
 	EIFGENS_MANAGER_SHELL_COMMAND
@@ -41,7 +41,7 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Copy F_code executable to package",	  agent copy_f_code_executable],
 				["Install F_code executable",				  agent install_f_code_executable],
 				["Put Eiffel names in workarea/gdb.txt", agent lookup_gdb_functions],
@@ -171,7 +171,7 @@ feature {NONE} -- Implementation
 			if attached internal_eiffel_name_table as table then
 				Result := table
 			else
-				create Result.make_size (5000)
+				create Result.make (5000)
 				internal_eiffel_name_table := Result
 
 				comment_end := " */"

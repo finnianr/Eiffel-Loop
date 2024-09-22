@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:59:13 GMT (Friday 20th September 2024)"
-	revision: "63"
+	date: "2024-09-22 14:18:30 GMT (Sunday 22nd September 2024)"
+	revision: "64"
 
 class
 	SPLIT_STRING_TEST_SET
@@ -260,7 +260,7 @@ feature -- Tests
 				end
 			end
 
-			create value_table.make_size (3)
+			create value_table.make (3)
 			across << name.one, name.two, name.three >> as list loop
 				value_table [list.item] := list.cursor_index
 			end

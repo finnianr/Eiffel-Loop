@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:25:52 GMT (Thursday 9th November 2023)"
-	revision: "17"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "18"
 
 deferred class
 	EL_EMAIL
@@ -81,7 +81,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["date", 			agent date_string],
 				["to_address", 	agent: ZSTRING do Result := to_address end ],
 				["from_address", 	agent: ZSTRING do Result := from_address end],

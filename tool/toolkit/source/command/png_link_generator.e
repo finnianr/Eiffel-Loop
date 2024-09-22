@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 9:50:56 GMT (Tuesday 2nd April 2024)"
-	revision: "8"
+	date: "2024-09-22 16:42:51 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	PNG_LINK_GENERATOR
@@ -43,7 +43,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			minimum_width := a_minimum_width
 			output_dir.expand
 			remove_step_count := source_dir.step_count.min (3)
-			create size_table.make_size (1000)
+			create size_table.make (1000)
 		end
 
 feature -- Basic operations

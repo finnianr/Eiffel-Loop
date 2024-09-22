@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:03:19 GMT (Friday 20th September 2024)"
-	revision: "36"
+	date: "2024-09-22 11:06:59 GMT (Sunday 22nd September 2024)"
+	revision: "37"
 
 class
 	EL_TEST_TEXT
@@ -114,7 +114,29 @@ feature -- Eiffel
 
 feature -- Lists
 
+	continents: ARRAY [STRING]
+		do
+			Result := << "Europe", "Asia" , "Africa", "North America", "South America", "Antarctica" >>
+		end
+
+	cyrillic_line: ZSTRING
+		do
+			Result := cyrillic_line_32
+		end
+
+	cyrillic_line_32: STRING_32
+		local
+			s: EL_STRING_32_ROUTINES
+		do
+			Result := s.substring_to (Mixed_text, '%N')
+		end
+
 	lines: EL_ZSTRING_LIST
+		do
+			create Result.make_with_lines (Mixed_text)
+		end
+
+	lines_32: EL_STRING_32_LIST
 		do
 			create Result.make_with_lines (Mixed_text)
 		end
@@ -128,23 +150,6 @@ feature -- Lists
 					Result.extend (list.item.to_string_8)
 				end
 			end
-		end
-
-	lines_32: EL_STRING_32_LIST
-		do
-			create Result.make_with_lines (Mixed_text)
-		end
-
-	cyrillic_line: ZSTRING
-		do
-			Result := cyrillic_line_32
-		end
-
-	cyrillic_line_32: STRING_32
-		local
-			s: EL_STRING_32_ROUTINES
-		do
-			Result := s.substring_to (Mixed_text, '%N')
 		end
 
 	symbol_32_list: EL_STRING_32_LIST
@@ -190,12 +195,17 @@ feature -- Characters
 
 feature -- Substitution testing
 
-	country_template: STRING
-		do
-			Result := country_template_canonical.twin
-			across "{}" as c loop
-				Result.prune_all (c.item)
-			end
+	Country: TUPLE [name, code, population: STRING]
+		once
+			create Result
+			Tuple.fill (Result, "name, code, population")
+		end
+
+	Country_template_canonical: STRING = "Country: ${name}; Code: ${code}; Population: ${population}; Code again: ${code}"
+
+	Country_variables: EL_STRING_8_LIST
+		once
+			create Result.make_from_tuple (Country)
 		end
 
 	country_substituted (name, code: READABLE_STRING_GENERAL; population: INTEGER): STRING
@@ -209,18 +219,13 @@ feature -- Substitution testing
 			Result.replace_substring_all (dollor + Country.population , population.out)
 		end
 
-	Country_variables: EL_STRING_8_LIST
-		once
-			create Result.make_from_tuple (Country)
+	country_template: STRING
+		do
+			Result := country_template_canonical.twin
+			across "{}" as c loop
+				Result.prune_all (c.item)
+			end
 		end
-
-	Country: TUPLE [name, code, population: STRING]
-		once
-			create Result
-			Tuple.fill (Result, "name, code, population")
-		end
-
-	Country_template_canonical: STRING = "Country: ${name}; Code: ${code}; Population: ${population}; Code again: ${code}"
 
 feature -- STRING_32 contants
 

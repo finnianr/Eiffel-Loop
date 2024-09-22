@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-16 15:55:34 GMT (Tuesday 16th July 2024)"
-	revision: "8"
+	date: "2024-09-22 14:23:23 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	WEB_FORM_DROP_DOWN_LIST
@@ -78,7 +78,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Relative to nodes /html/body/select
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["option", agent add_option],
 				["option/text()", agent set_option_text],
 				["option/@selected", agent set_selected_option],
@@ -91,7 +91,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["option_list", agent: ITERABLE [ZSTRING] do Result := option_list end],
 				["selected_option", agent: REAL_REF do Result := selected_option.to_real.to_reference end],
 				["name", agent: STRING do Result := name end]

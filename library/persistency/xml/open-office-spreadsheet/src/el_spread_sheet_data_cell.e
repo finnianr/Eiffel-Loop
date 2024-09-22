@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 12:15:28 GMT (Monday 20th February 2023)"
-	revision: "9"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	EL_SPREAD_SHEET_DATA_CELL
@@ -119,7 +119,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["is_empty", agent: BOOLEAN_REF do Result := is_empty.to_reference end],
 				["escape_single_quote", agent get_escape_single_quote]
 			>>)

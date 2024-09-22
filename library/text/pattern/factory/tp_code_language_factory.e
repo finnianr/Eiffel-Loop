@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:55 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2024-09-22 9:13:33 GMT (Sunday 22nd September 2024)"
+	revision: "4"
 
 deferred class
 	TP_CODE_LANGUAGE_FACTORY
@@ -44,8 +44,10 @@ feature {NONE} -- Implementation
 
 	code_key_string: STRING
 		do
-			create Result.make (Code_table.count)
-			Code_table.current_keys.do_all (agent Result.extend)
+			create Result.make_filled ('-', Code_table.count)
+			if attached Code_table.key_list.area as area then
+				Result.area.copy_data (area, 0, 0, Result.count)
+			end
 		end
 
 	code_table: EL_HASH_TABLE [INTEGER, CHARACTER]

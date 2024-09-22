@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 10:54:25 GMT (Friday 18th December 2015)"
 	revision: "1"
@@ -31,9 +31,8 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make (<<
-				["make", agent change_type_of_webkit_object]
-			>>)
+			create Result
+			Result ["make"] := agent change_type_of_webkit_object
 		end
 
 feature {NONE} -- Constants

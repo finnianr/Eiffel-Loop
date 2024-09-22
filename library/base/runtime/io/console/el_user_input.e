@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 12:13:19 GMT (Monday 19th August 2024)"
-	revision: "24"
+	date: "2024-09-22 14:23:24 GMT (Sunday 22nd September 2024)"
+	revision: "25"
 
 class
 	EL_USER_INPUT
@@ -162,7 +162,7 @@ feature {NONE} -- Constants
 	Preinput_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
 		-- used for auto-testing to avoid user prompts on calling `line'
 		once
-			create Result.make_size (3)
+			create Result.make (3)
 		end
 
 end

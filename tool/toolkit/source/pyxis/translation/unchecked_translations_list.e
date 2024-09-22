@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:29:50 GMT (Wednesday 8th November 2023)"
-	revision: "11"
+	date: "2024-09-22 16:42:50 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	UNCHECKED_TRANSLATIONS_LIST
@@ -74,7 +74,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["item/@id",					agent do last_id := node end],
 				[translation_check_xpath,	agent do try_extend (node) end]
 			>>)

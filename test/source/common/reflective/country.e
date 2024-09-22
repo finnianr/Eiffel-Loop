@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 16:49:47 GMT (Monday 9th September 2024)"
-	revision: "41"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "42"
 
 class
 	COUNTRY
@@ -32,7 +32,7 @@ inherit
 
 	EL_ATTRIBUTE_NODE_HINTS
 
-	EL_SHARED_CURRENCY_ENUM
+	EL_SHARED_CURRENCY_ENUM; EL_SHARED_TEST_TEXT
 
 	EL_MODULE_DATE_TIME
 
@@ -152,7 +152,7 @@ feature -- Constant
 
 	Continent_set: EL_HASH_SET [STRING]
 		once
-			Result := << "Europe", "Asia" , "Africa", "North America", "South America", "Antarctica" >>
+			Result := Text.continents
 		end
 
 	Yes_no_states: EL_BOOLEAN_REPRESENTATION [STRING]
@@ -164,7 +164,7 @@ feature {NONE} -- Reflection
 
 	new_representations: like Default_representations
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["continent",			Continent_set.to_representation],
 				["currency",			Currency_enum.to_representation],
 				["date_founded",		Date_time.Date_representation],

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 9:18:19 GMT (Friday 30th August 2024)"
-	revision: "39"
+	date: "2024-09-22 13:39:39 GMT (Sunday 22nd September 2024)"
+	revision: "40"
 
 class
 	PP_TRANSACTION
@@ -164,7 +164,7 @@ feature {NONE} -- Implementation
 
 	new_representations: like Default_representations
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["txn_type", Transaction_type_enum.to_representation],
 				["payment_status", Payment_status_enum.to_representation],
 				["pending_reason", Pending_reason_enum.to_representation],

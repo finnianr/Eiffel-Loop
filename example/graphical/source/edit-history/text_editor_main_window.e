@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 7:27:15 GMT (Friday 19th July 2024)"
-	revision: "1"
+	date: "2024-09-22 15:13:33 GMT (Sunday 22nd September 2024)"
+	revision: "2"
 
 class
 	TEXT_EDITOR_MAIN_WINDOW
@@ -46,7 +46,7 @@ feature {NONE} -- Factory
 		-- table of key codes and left-shifted modifiers mapped to procedures
 		-- using `single' or `combination' to create key
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[combined (Ctrl, ev.Key_z), agent editor.undo],
 				[combined (Ctrl, ev.Key_y), agent editor.redo]
 			>>)

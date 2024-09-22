@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 7:13:20 GMT (Sunday 1st September 2024)"
-	revision: "9"
+	date: "2024-09-22 17:07:03 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -75,7 +75,7 @@ feature {NONE} -- Commands
 			command: CLASS_RENAMING_COMMAND; l_prefix: STRING
 			suffix_table: EL_HASH_TABLE [STRING, STRING]
 		do
-			create suffix_table.make (<<
+			create suffix_table.make_assignments (<<
 				["_TEXT_PATTERN", "_PATTERN"],
 				["_TEXT_PATTERN_FACTORY", "_FACTORY"],
 				["_PATTERN_FACTORY", "_FACTORY"],
@@ -176,7 +176,7 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Rename classes",		agent rename_classes],
 				["Remove prefix",			agent remove_prefix],
 				["Rename text-process",	agent rename_text_process_library]

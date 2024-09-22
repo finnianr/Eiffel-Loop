@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 14:11:59 GMT (Monday 9th September 2024)"
-	revision: "65"
+	date: "2024-09-22 11:29:13 GMT (Sunday 22nd September 2024)"
+	revision: "66"
 
 deferred class
 	EL_REFLECTED_FIELD

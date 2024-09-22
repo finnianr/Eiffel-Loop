@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 9:18:36 GMT (Thursday 7th September 2023)"
-	revision: "14"
+	date: "2024-09-22 15:44:43 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
 
 inherit
-	HASH_TABLE [MEDIA_SYNC_ITEM, STRING]
+	EL_HASH_TABLE [MEDIA_SYNC_ITEM, STRING]
 		rename
-			make as make_table
+			make as make_sized
 		end
 
 	EL_XML_FILE_PERSISTENT
@@ -23,7 +23,7 @@ inherit
 			{NONE} all
 			{ANY} store, set_output_path, output_path
 		undefine
-			is_equal, copy
+			copy, default_create, is_equal
 		redefine
 			make_default
 		end
@@ -66,7 +66,7 @@ feature -- Access
 				Result.extend (item (updated.item.id).relative_file_path)
 			end
 			if new_sync_info /= Current then
-				across current_keys as id loop
+				across key_list as id loop
 					if not new_sync_info.has (id.item) then
 						Result.extend (item (id.item).relative_file_path)
 					end
@@ -103,9 +103,8 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
-				["item_list", agent: ITERABLE [like item] do Result := linear_representation end]
-			>>)
+			create Result.make_equal (1)
+			Result ["item_list"] := agent item_list
 		end
 
 feature {NONE} -- Constants

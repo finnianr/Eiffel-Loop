@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 10:29:39 GMT (Monday 25th December 2023)"
-	revision: "8"
+	date: "2024-09-22 14:13:35 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	EL_OBJECT_FIELDS_TABLE
@@ -16,7 +16,7 @@ inherit
 	EL_IMMUTABLE_KEY_8_TABLE [INTEGER]
 		rename
 			found_item as found_index,
-			make as make_from_array
+			make as make_sized
 		export
 			{NONE} all
 			{ANY} count, found, found_index,
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 			end
 			csv_string.trim -- reduce area to minimum
 			create list.make_shared_adjusted (csv_string, ',', 0)
-			make_size (list.count)
+			make_sized (list.count)
 
 			from list.start until list.after loop
 				if attached list.item as name then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-17 13:37:33 GMT (Sunday 17th September 2023)"
-	revision: "10"
+	date: "2024-09-22 16:54:17 GMT (Sunday 22nd September 2024)"
+	revision: "11"
 
 class
 	REPOSITORY_HTML_TEMPLATES
@@ -63,7 +63,7 @@ feature {NONE} -- Build from Pyxis
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@main",					agent do set_path_from_node (main) end],
 				["@eiffel_source",		agent do set_path_from_node (eiffel_source) end],
 				["@site_map_content",	agent do set_path_from_node (site_map_content) end],

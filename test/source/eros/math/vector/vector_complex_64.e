@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:54:41 GMT (Friday 12th July 2024)"
-	revision: "15"
+	date: "2024-09-22 14:23:22 GMT (Sunday 22nd September 2024)"
+	revision: "16"
 
 deferred class
 	VECTOR_COMPLEX_64
@@ -134,7 +134,7 @@ feature {NONE} -- Building from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@count",						agent set_array_size_from_node],
 				[element_name,					agent do index := index + 1 end],
 				[element_name + "/@real",	agent do put_real (node.to_double, index) end],

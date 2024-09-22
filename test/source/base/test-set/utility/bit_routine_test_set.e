@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-09-22 13:40:17 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	BIT_ROUTINE_TEST_SET
@@ -312,7 +312,7 @@ feature {NONE} -- Constants
 
 	Bit_count_table: EL_HASH_TABLE [NATURAL, INTEGER]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[1, (0b01).to_natural_32],
 				[4, (0b011001100).to_natural_32],
 				[6, (0b011011001100).to_natural_32]

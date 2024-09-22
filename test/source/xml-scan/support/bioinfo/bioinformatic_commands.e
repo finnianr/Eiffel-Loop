@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-09-22 14:16:45 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	BIOINFORMATIC_COMMANDS
@@ -66,7 +66,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["package/command", agent extend_commands]
 			>>)
 		end

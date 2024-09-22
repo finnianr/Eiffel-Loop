@@ -13,16 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-09-22 14:41:13 GMT (Sunday 22nd September 2024)"
+	revision: "5"
 
 deferred class
 	ECD_INDEX_TABLE [G -> EL_STORABLE create make_default end, K -> detachable HASHABLE]
 
 inherit
-	HASH_TABLE [INTEGER, K]
+	EL_HASH_TABLE [INTEGER, K]
 		rename
-			make as make_count,
+			make as make_sized,
 			found_item as found_index,
 			has as has_index
 		export
@@ -35,7 +35,7 @@ inherit
 
 	ECD_INDEX [G]
 		undefine
-			copy, is_equal
+			copy, default_create, is_equal
 		end
 
 feature {NONE} -- Initialization

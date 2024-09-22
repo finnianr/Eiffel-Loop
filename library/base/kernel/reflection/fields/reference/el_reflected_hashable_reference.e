@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 16:02:04 GMT (Monday 1st April 2024)"
-	revision: "33"
+	date: "2024-09-22 11:30:09 GMT (Sunday 22nd September 2024)"
+	revision: "34"
 
 class
 	EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
@@ -19,7 +19,7 @@ class
 inherit
 	EL_REFLECTED_REFERENCE [H]
 		redefine
-			set, set_representation
+			set, set_initial, set_representation
 		end
 
 create
@@ -39,6 +39,11 @@ feature -- Basic operations
 			else
 				Precursor (a_object, a_value)
 			end
+		end
+
+	set_initial (a_object: EL_REFLECTIVE; a_value: H)
+		do
+			Precursor (a_object, a_value)
 		end
 
 feature -- Element change

@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 9:09:03 GMT (Thursday 27th July 2023)"
-	revision: "11"
+	date: "2024-09-22 14:15:14 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	MATRIX_CALCULATOR
@@ -146,7 +146,7 @@ feature {NONE} -- Building from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Relative to root node: matrix
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				-- matrix sibling node
 
 				["row", agent add_row],
@@ -157,7 +157,7 @@ feature {NONE} -- Building from XML
 	PI_building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["find_column_sum", agent find_column_sum],
 				["find_column_average", agent find_column_average]
 			>>)

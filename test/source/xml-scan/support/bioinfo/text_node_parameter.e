@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 15:02:10 GMT (Saturday 24th June 2023)"
-	revision: "7"
+	date: "2024-09-22 14:16:47 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 deferred class
 	TEXT_NODE_PARAMETER [G]
@@ -33,7 +33,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to element: value
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Text_node, agent set_item_from_node]
 			>>)
 		end

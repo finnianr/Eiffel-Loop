@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:26:01 GMT (Monday 25th March 2024)"
-	revision: "9"
+	date: "2024-09-22 14:18:28 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			create internal_key.make_empty
 			make_list (7)
 			create actual_template.make_empty
-			create place_holder_table.make_size (5)
+			create place_holder_table.make (5)
 			Precursor {EL_SUBST_VARIABLE_PARSER}
 		end
 
@@ -60,7 +60,7 @@ feature -- Access
 	name_list: EL_ARRAYED_LIST [S]
 		-- variable name list
 		do
-			create Result.make_from_array (place_holder_table.current_keys)
+			Result := place_holder_table.key_list
 		end
 
 feature -- Status query

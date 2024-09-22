@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 9:07:55 GMT (Friday 16th August 2024)"
-	revision: "28"
+	date: "2024-09-22 14:52:43 GMT (Sunday 22nd September 2024)"
+	revision: "29"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -174,7 +174,7 @@ feature {EL_LOGGED_APPLICATION} -- Factory
 
 	new_log_filter_list: LIST [EL_LOG_FILTER]
 		do
-			Result := new_log_filter_set.linear_representation
+			Result := new_log_filter_set.item_list
 		end
 
 	new_log_filter_set: EL_LOG_FILTER_SET [TUPLE]

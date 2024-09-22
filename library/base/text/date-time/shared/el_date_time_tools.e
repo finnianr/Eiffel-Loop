@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -110,7 +110,7 @@ feature -- Constants
 	Zone_table: EL_HASH_TABLE [INTEGER, STRING]
 		-- Zones relative to UTC formated as hours and mins
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Zone.PST, -8_00],
 				[Zone.PDT, -7_00],
 				[Zone.GMT, 0],

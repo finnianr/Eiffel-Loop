@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-09-22 15:12:19 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	EL_MESSAGE_DIALOG
@@ -80,7 +80,7 @@ feature {NONE} -- Constants
 
 	Button_text_table: EL_HASH_TABLE [ZSTRING, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Apply", Word.apply],
 				["Discard", Word.discard],
 
@@ -108,7 +108,7 @@ feature {NONE} -- Constants
 
 	Title_text_table: EL_HASH_TABLE [ZSTRING, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[ev_confirmation_dialog_title, Word.confirmation],
 				[ev_error_dialog_title, Word.error],
 				[ev_information_dialog_title, Word.information],

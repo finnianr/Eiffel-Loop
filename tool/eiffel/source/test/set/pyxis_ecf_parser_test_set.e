@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 10:18:04 GMT (Thursday 22nd August 2024)"
-	revision: "47"
+	date: "2024-09-22 16:59:47 GMT (Sunday 22nd September 2024)"
+	revision: "48"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_FILE_DATA_TEST_SET
 
 	SHARED_DEV_ENVIRON
+
+	EL_MODULE_TUPLE
 
 create
 	make
@@ -100,13 +102,15 @@ feature -- Tests
 	test_eiffel2java_pecf
 		-- PYXIS_ECF_PARSER_TEST_SET.eiffel2java_pecf
 		note
-			testing: "covers/{WRITEABLE_LIBRARIES_ECF_LINES}.set_from_line",
-						"covers/{LIBRARIES_ECF_LINES}.set_from_line",
-						"covers/{RENAMING_MAP_ECF_LINES}.set_from_line",
-						"covers/{CLUSTER_TREE_ECF_LINES}.set_from_line",
-						"covers/{PLATFORM_FILE_RULE_ECF_LINES}.set_from_line",
-						"covers/{SYSTEM_ECF_LINES}.set_from_line",
-						"covers/{XML_ROUTINES_IMP}.is_namespace_aware_file"
+			testing: "[
+				covers/{WRITEABLE_LIBRARIES_ECF_LINES}.set_from_line,
+				covers/{LIBRARIES_ECF_LINES}.set_from_line,
+				covers/{RENAMING_MAP_ECF_LINES}.set_from_line,
+				covers/{CLUSTER_TREE_ECF_LINES}.set_from_line,
+				covers/{PLATFORM_FILE_RULE_ECF_LINES}.set_from_line,
+				covers/{SYSTEM_ECF_LINES}.set_from_line,
+				covers/{XML_ROUTINES_IMP}.is_namespace_aware_file
+			]"
 		local
 			ecf_xdoc: EL_XML_DOC_CONTEXT; file_rule_count, windows_count: INTEGER
 			schema_location, platform_value, exclude_value, library_target: STRING
@@ -294,7 +298,7 @@ feature {NONE} -- Constants
 
 	Condition_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["condition/platform/@value='windows'", 4],
 				["condition/platform/@excluded_value='windows'", 2],
 				["condition/dotnet/@value='false'", 2],
@@ -304,7 +308,7 @@ feature {NONE} -- Constants
 
 	Library_table: EL_HASH_TABLE [STRING, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["EL_app_manage", "app-manage.ecf"],
 				["EL_xml_scan", "xml-scan.ecf"],
 				["base", "base.ecf"],
@@ -314,25 +318,27 @@ feature {NONE} -- Constants
 
 	Renaming_table: EL_HASH_TABLE [STRING, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["JNI_ENVIRONMENT", "JAVA_ORB"],
 				["SHARED_JNI_ENVIRONMENT", "JAVA_SHARED_ORB"]
 			>>)
 		end
 
 	Xpath: TUPLE [
-		custom_value, external_include, external_object, library_location, named_option, renaming_new_name,
-		setting: ZSTRING
+		custom_value, external_include, external_object, library_location,
+		named_option, renaming_new_name, setting: ZSTRING
 	]
 		once
 			create Result
-			Result.custom_value := "condition/custom [@name='%S']/@value"
-			Result.external_include := "/system/target/external_include[condition/platform/@value='%S']"
-			Result.external_object := "/system/target/external_object[%S]"
-			Result.library_location := "/system/target/library[@name='%S']/@location"
-			Result.named_option := "/system/target/option/%S[@name='%S']/@enabled"
-			Result.renaming_new_name := "renaming[@old_name='%S']/@new_name"
-			Result.setting := "/system/target/setting[@name='%S']/@value"
+			Tuple.line_fill (Result, "[
+				condition/custom [@name='%S']/@value
+				/system/target/external_include[condition/platform/@value='%S']
+				/system/target/external_object[%S]
+				/system/target/library[@name='%S']/@location
+				/system/target/option/%S[@name='%S']/@enabled
+				renaming[@old_name='%S']/@new_name
+				/system/target/setting[@name='%S']/@value
+			]")
 		end
 
 	Valid_platforms: EL_STRING_8_LIST

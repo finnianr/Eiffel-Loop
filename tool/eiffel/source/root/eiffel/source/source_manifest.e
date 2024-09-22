@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
-	revision: "32"
+	date: "2024-09-22 17:09:44 GMT (Sunday 22nd September 2024)"
+	revision: "33"
 
 class
 	SOURCE_MANIFEST
@@ -74,7 +74,7 @@ feature -- Access
 	notes: LICENSE_NOTES
 		-- default Eiffel source notes
 
-	notes_table: HASH_TABLE [LICENSE_NOTES, DIR_PATH]
+	notes_table: EL_HASH_TABLE [LICENSE_NOTES, DIR_PATH]
 		-- Eiffel source notes associated with `source_tree_list.item.dir_path'
 
 	sorted_file_list: like file_list
@@ -112,7 +112,7 @@ feature {NONE} -- Build from Pyxis
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["import/text()",	  agent import_manifest],
 				["location/@name",  agent do node.set (last_name) end],
 				["location/text()", agent extend_locations],

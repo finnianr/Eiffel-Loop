@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-09-22 14:16:45 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	PARAMETER
@@ -148,7 +148,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to element: par
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["id/text()", agent do node.set_8 (id) end],
 				["label/text()", agent do node.set_8 (label) end],
 				["runSwitch/text()", agent do node.set_8 (run_switch) end],

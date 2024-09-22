@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-06 17:41:45 GMT (Saturday 6th April 2024)"
-	revision: "12"
+	date: "2024-09-22 17:07:01 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 class
 	GENERATE_MAKE_ROUTINE_FOR_EQA_TEST_SET
@@ -60,9 +60,8 @@ feature {NONE} -- Implementation
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
-				["name_list", agent get_test_name_list]
-			>>)
+			create Result
+			Result ["name_list"] := agent get_test_name_list
 		end
 
 	get_test_name_list: EL_ZSTRING_LIST

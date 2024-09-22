@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-16 7:39:41 GMT (Thursday 16th May 2024)"
-	revision: "5"
+	date: "2024-09-22 16:42:51 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	MONITORED_WEBSITE
@@ -79,7 +79,7 @@ feature {NONE} -- Build from XML
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@base_url", agent do base_url := node.to_string_8 end],
 				["@time_out", agent do time_out := node end],
 				["page",		  agent do set_collection_context (page_list, new_page) end]

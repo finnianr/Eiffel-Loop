@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2024-09-22 16:02:46 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_FUNCTIONS_BY_RESULT_TYPE
 
 inherit
-	HASH_TABLE [FUNCTION [ANY], INTEGER_32]
+	EL_HASH_TABLE [FUNCTION [ANY], INTEGER_32]
 		rename
-			make as make_table
+			make as make_sized
 		end
 
 	EL_MODULE_ITERABLE
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 
 	make (functions: ARRAY [like item])
 		do
-			make_table (Iterable.count (functions))
+			make_sized (functions.count)
 			extend_from_list (functions)
 		end
 

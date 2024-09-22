@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 17:56:50 GMT (Friday 29th March 2024)"
-	revision: "14"
+	date: "2024-09-22 16:01:50 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	CORTINA_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ZSTRING_HASH_TABLE [EL_ARRAYED_LIST [RBOX_CORTINA_SONG]]
 		rename
-			make as make_string_table
+			make as make_sized
 		end
 
 	RHYTHMBOX_CONSTANTS
@@ -33,24 +33,22 @@ create
 feature {NONE} -- Initialization
 
 	make (a_cortina: like cortina; a_source_song: like source_song)
-		local
-			genre: ZSTRING
 		do
 			cortina := a_cortina; source_song := a_source_song
-			make_equal (4)
-
-			create tanda_type_counts.make (<<
-				[Tango_genre.tango, tango_count],
-				[Tango_genre.vals, vals_count],
+			create tanda_type_counts.make_assignments (<<
+				[Tango_genre.tango,	 tango_count],
+				[Tango_genre.vals,	 vals_count],
 				[Tango_genre.milonga, vals_count],
-				[Extra_genre.other, vals_count],
+				[Extra_genre.other,	 vals_count],
 				[Tango_genre.foxtrot, (vals_count // 2).max (1)],
-				[Tanda.the_end, 1]
+				[Tanda.the_end,		 1]
 			>>)
 
-			across Tanda_types as l_tanda loop
-				genre := l_tanda.item
-				put (new_cortina_list (genre), genre)
+			make_sized (Tanda_types.count)
+			across Tanda_types as type loop
+				if attached type.item as genre then
+					put (new_cortina_list (genre), genre)
+				end
 			end
 		end
 

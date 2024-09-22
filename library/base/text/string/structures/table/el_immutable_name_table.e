@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:41:39 GMT (Tuesday 27th August 2024)"
-	revision: "8"
+	date: "2024-09-22 14:39:31 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	EL_IMMUTABLE_NAME_TABLE [N -> {NUMERIC, HASHABLE}]
@@ -22,8 +22,8 @@ class
 inherit
 	EL_HASH_TABLE [IMMUTABLE_STRING_8, N]
 		rename
-			make as make_from_tuples,
-			current_keys as valid_keys,
+			make as make_sized,
+			key_array as valid_keys,
 			item as item_8 alias "[]",
 			found_item as found_item_8
 		export
@@ -47,7 +47,7 @@ feature {NONE} -- Initialization
 		local
 			split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		do
-			make_size (a_valid_keys.count)
+			make_sized (a_valid_keys.count)
 			valid_keys := a_valid_keys
 			if a_name_list.is_immutable and then attached {like item_8} a_name_list as immutable then
 				create split_list.make_adjusted (immutable, ',', {EL_SIDE}.Left)

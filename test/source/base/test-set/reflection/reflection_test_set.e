@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 13:48:47 GMT (Monday 9th September 2024)"
-	revision: "67"
+	date: "2024-09-22 14:20:18 GMT (Sunday 22nd September 2024)"
+	revision: "68"
 
 class
 	REFLECTION_TEST_SET
@@ -375,7 +375,7 @@ feature -- Tests
 		local
 			country: CAMEL_CASE_COUNTRY; table: like Ireland_table
 		do
-			create table.make_size (Ireland_table.count)
+			create table.make_sized (Ireland_table.count)
 			table.merge (Ireland_table)
 			table.replace_key ("literacyRate", "literacy_rate")
 			table.replace_key ("photoJpeg", "photo_jpeg")

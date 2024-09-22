@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	EL_DATE_FUNCTION_TABLE
@@ -16,5 +16,5 @@ inherit
 	EL_STRING_8_TABLE [FUNCTION [DATE, ZSTRING]]
 
 create
-	make
+	make_assignments
 end

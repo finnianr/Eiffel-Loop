@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:50:33 GMT (Tuesday 14th February 2023)"
-	revision: "23"
+	date: "2024-09-22 16:42:53 GMT (Sunday 22nd September 2024)"
+	revision: "24"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -130,7 +130,7 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Add check attribute", 	agent add_check_attribute],
 				["Find unchecked items",	agent find_unchecked]
 			>>)

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 12:27:23 GMT (Sunday 1st September 2024)"
-	revision: "18"
+	date: "2024-09-22 16:42:51 GMT (Sunday 22nd September 2024)"
+	revision: "19"
 
 deferred class
 	DUPLICITY_CONFIG
@@ -107,7 +107,7 @@ feature {NONE} -- Build from XML
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@backup_dir",			 agent do backup_dir := node.to_expanded_dir_path end],
 				["@change_text_enabled", agent do change_text.set_state (node) end],
 				["@encryption_key",		 agent do encryption_key := node end],

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 7:27:23 GMT (Tuesday 17th September 2024)"
-	revision: "37"
+	date: "2024-09-22 14:18:28 GMT (Sunday 22nd September 2024)"
+	revision: "38"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -19,7 +19,7 @@ class
 inherit
 	EL_HASH_TABLE [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY], INTEGER]
 		rename
-			make as make_table,
+			make as make_sized,
 			has_key as has_type
 		export
 			{NONE} all
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			make_implementation
 
 			create type_array.make_from_tuple (converter_types)
-			make_size (type_array.count)
+			make_sized (type_array.count)
 
 			if attached new_expanded_table as expanded_table then
 				across type_array as type loop
@@ -83,7 +83,7 @@ feature -- Access
 	type_list: EL_ARRAYED_LIST [TYPE [ANY]]
 		do
 			create Result.make (count)
-			across current_keys as key loop
+			across key_list as key loop
 				if has_type (key.item) then
 					Result.extend (found_item.type)
 				end

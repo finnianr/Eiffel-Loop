@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "12"
+	date: "2024-09-22 9:36:33 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			name := table_node ["table:name"]
 			l_column_table := column_table (defined_ranges)
 			if not l_column_table.is_empty then
-				columns := l_column_table.current_keys
+				columns := l_column_table.key_list
 			end
 			make_rows (table_node.query ("count (table:table-row)").as_integer)
 			if capacity > 0 then
@@ -61,7 +61,7 @@ feature -- Access
 
 	name: ZSTRING
 
-	columns: ARRAY [ZSTRING]
+	columns: EL_ARRAYED_LIST [ZSTRING]
 
 	maximum_column_count: INTEGER
 		do
@@ -128,8 +128,8 @@ feature {NONE} -- Implementation
 				cell_range_address.first.remove_quotes
 				if cell_range_address.first ~ name then
 					create column_interval.make (
-						cell_range_address.i_th (2).z_code (1).to_integer_32 - 64,
-						cell_range_address.i_th (3).z_code (1).to_integer_32 - 64
+						cell_range_address [2].z_code (1).to_integer_32 - 64,
+						cell_range_address [3].z_code (1).to_integer_32 - 64
 					)
 					if column_interval.count = 1 then
 						Result [range.item] := column_interval.lower

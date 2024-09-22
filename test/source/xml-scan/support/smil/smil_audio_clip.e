@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:27:53 GMT (Thursday 7th December 2023)"
-	revision: "11"
+	date: "2024-09-22 14:20:18 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	SMIL_AUDIO_CLIP
@@ -61,7 +61,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["id", 		agent: INTEGER_REF do Result := id.to_reference end],
 				["source",	agent: ZSTRING do Result := source end],
 				["title", 	agent: ZSTRING do Result := title end],
@@ -84,7 +84,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Relative to nodes /smil/body/seq/audio
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@id", agent do id := node_as_integer_suffix end],
 				["@src", agent do node.set (source) end],
 				["@title", agent do node.set (title) end],

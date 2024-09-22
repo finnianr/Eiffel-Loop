@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 9:36:47 GMT (Saturday 24th August 2024)"
-	revision: "72"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "73"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -583,7 +583,7 @@ feature {NONE} -- Constants
 	Document_table: EL_HASH_TABLE [TUPLE [xpath, first_words: STRING], STRING]
 		-- table of predicates to test if document was retrieved
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["html",			["/html/body/div/p", "Availing himself"]],
 				["links/10/0",	["/html/body/a", "1"]],
 				["xml",			["/slideshow/slide[1]/title", "Wake up"]]

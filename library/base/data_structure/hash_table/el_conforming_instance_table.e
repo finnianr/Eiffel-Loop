@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-09-22 13:48:18 GMT (Sunday 22nd September 2024)"
+	revision: "4"
 
 class
 	EL_CONFORMING_INSTANCE_TABLE [G]
@@ -32,7 +32,7 @@ class
 inherit
 	EL_HASH_TABLE [G, INTEGER]
 		rename
-			make as make_from_array
+			make as make_table
 		end
 
 create
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	make (array: like type_mapping_array)
 			--
 		do
-			make_size (array.count)
+			make_table (array.count)
 			type_mapping_array := array
 		end
 

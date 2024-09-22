@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-09-22 17:07:00 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	ID3_CODE_CLASS
@@ -62,7 +62,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["class_name",			agent class_name],
 				["field_list",	agent: like field_list do Result := field_list end]
 			>>)

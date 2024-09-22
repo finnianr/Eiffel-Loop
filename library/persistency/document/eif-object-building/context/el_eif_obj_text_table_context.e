@@ -8,23 +8,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-16 15:39:54 GMT (Tuesday 16th July 2024)"
-	revision: "8"
+	date: "2024-09-22 16:09:54 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	EL_EIF_OBJ_TEXT_TABLE_CONTEXT
 
 inherit
-	HASH_TABLE [ZSTRING, STRING]
+	EL_HASH_TABLE [ZSTRING, STRING]
 		rename
-			make as make_table
+			make as make_sized
 		end
 
 	EL_EIF_OBJ_XPATH_CONTEXT
 		rename
 			do_with_xpath as put_text_value
 		undefine
-			copy, is_equal
+			copy, default_create, is_equal
 		end
 
 	EL_XPATH_NODE_CONSTANTS

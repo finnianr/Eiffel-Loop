@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 10:54:07 GMT (Monday 19th August 2024)"
-	revision: "33"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "34"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -235,7 +235,7 @@ feature -- Constants
 
 	Legacy_table: EL_HASH_TABLE [DIR_PATH, DIR_PATH]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[App_configuration, Legacy.app_configuration],
 				[App_data, Legacy.app_data]
 			>>)

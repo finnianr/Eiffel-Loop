@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 10:33:20 GMT (Friday 20th September 2024)"
-	revision: "16"
+	date: "2024-09-22 14:42:14 GMT (Sunday 22nd September 2024)"
+	revision: "17"
 
 class
 	EL_FUNCTION_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -19,7 +19,7 @@ class
 inherit
 	EL_GROUPED_LIST_TABLE [G, K]
 		rename
-			make as make_with_count
+			make as make_sized
 		end
 
 	EL_MODULE_ITERABLE
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 	make (a_group_key: like group_key; n: INTEGER)
 		do
 			group_key := a_group_key
-			make_with_count (n)
+			make_sized (n)
 		end
 
 	make_from_list (a_group_key: FUNCTION [G, K]; a_list: ITERABLE [G])

@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-09-22 15:41:32 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	EL_DEBIAN_MAKE_SCRIPT
@@ -77,7 +77,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["executables_list", agent: LIST [ZSTRING] do Result := packager.executables_list.as_escaped end],
 				["package_name", agent: ZSTRING do Result := packager.versioned_package end],
 				["user_name", agent: ZSTRING do Result := Environment.Operating.user_name end]

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 13:49:47 GMT (Tuesday 12th March 2024)"
-	revision: "29"
+	date: "2024-09-22 16:57:25 GMT (Sunday 22nd September 2024)"
+	revision: "30"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
@@ -196,7 +196,7 @@ feature {NONE} -- Constants
 
 	Cleaned_file_table: EL_HASH_TABLE [STRING, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["ev_pixmap_imp_drawable",	"BGfhfW0ucYUTtNmjtmbBPQ=="],
 				["el_x11_extensions_api",	"K1NL9HUytsKAAorC63jBiA=="]
 			>>)

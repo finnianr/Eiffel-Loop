@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 23:24:13 GMT (Wednesday 8th November 2023)"
-	revision: "20"
+	date: "2024-09-22 15:42:40 GMT (Sunday 22nd September 2024)"
+	revision: "21"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -99,9 +99,10 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: rhythmdb-playlists
 		do
-			create Result.make (<<
-				["playlist[@type='static']", agent do set_collection_context (Current, create {RBOX_PLAYLIST}.make_default) end]
-			>>)
+			create Result.make_equal (1)
+			Result ["playlist[@type='static']"] := agent do
+				set_collection_context (Current, create {RBOX_PLAYLIST}.make_default)
+			end
 		end
 
 feature {NONE} -- Evolicity reflection
@@ -109,10 +110,10 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
-				["playlists", agent: ITERABLE [RBOX_PLAYLIST] do Result := Current end],
-				["non_static_playlist_lines", agent: ITERABLE [ZSTRING] do Result := non_static_playlist_lines end],
-				["is_backup_mode", agent: BOOLEAN_REF do Result := is_backup_mode.to_reference end]
+			create Result.make_assignments (<<
+				["playlists",						agent: ITERABLE [RBOX_PLAYLIST] do Result := Current end],
+				["non_static_playlist_lines",	agent: ITERABLE [ZSTRING] do Result := non_static_playlist_lines end],
+				["is_backup_mode",				agent: BOOLEAN_REF do Result := is_backup_mode.to_reference end]
 			>>)
 		end
 

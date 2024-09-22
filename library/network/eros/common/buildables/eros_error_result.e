@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:17:04 GMT (Saturday 24th June 2023)"
-	revision: "12"
+	date: "2024-09-22 14:23:21 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 class
 	EROS_ERROR_RESULT
@@ -75,7 +75,7 @@ feature {NONE} -- Building from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@id", 						agent do node.set_8 (id) end],
 				["detail/text()",			agent do node.set_8 (detail) end],
 				["description/text()",	agent do node.set_8 (description) end]

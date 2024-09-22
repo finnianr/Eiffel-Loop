@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 8:04:10 GMT (Wednesday 20th March 2024)"
-	revision: "28"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "29"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -140,7 +140,7 @@ feature {NONE} -- Constants
 
 	Setter_types: EL_TYPE_TABLE [TYPE [EL_MAKE_OPERAND_SETTER [ANY]]]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 --				Basic setters
 				[{CHARACTER_8},							{EL_OPERAND_SETTER [CHARACTER_8]}],
 				[{CHARACTER_32},							{EL_OPERAND_SETTER [CHARACTER_32]}],

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 8:00:05 GMT (Saturday 27th July 2024)"
-	revision: "36"
+	date: "2024-09-22 14:28:54 GMT (Sunday 22nd September 2024)"
+	revision: "37"
 
 class
 	EL_TRANSLATION_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ZSTRING_HASH_TABLE [ZSTRING]
 		rename
-			make as make_from_map_array,
+			make as make_sized,
 			merge as merge_other,
 			put as put_table
 		end
@@ -104,9 +104,9 @@ feature -- Element change
 
 	merge (table: EL_MULTI_LANGUAGE_TRANSLATION_TABLE)
 		do
-			if attached table.key_list_for (language) as key_list then
-				accommodate (key_list.count)
-				across key_list as list loop
+			if attached table.key_list_for (language) as language_key_list then
+				accommodate (language_key_list.count)
+				across language_key_list as list loop
 					if attached list.item as key and then key.count > 3 then
 						put (table [key], key.substring (4, key.count))
 					end

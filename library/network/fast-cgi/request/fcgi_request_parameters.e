@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 19:10:23 GMT (Sunday 25th August 2024)"
-	revision: "33"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "34"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -222,7 +222,7 @@ feature {NONE} -- Implementation
 
 	new_representations: like Default_representations
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["https", Secure.to_representation],
 				["request_method", Method.to_representation]
 			>>)

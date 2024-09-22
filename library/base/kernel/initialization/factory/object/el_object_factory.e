@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-04 16:23:47 GMT (Wednesday 4th September 2024)"
-	revision: "31"
+	date: "2024-09-22 9:33:42 GMT (Sunday 22nd September 2024)"
+	revision: "32"
 
 class
 	EL_OBJECT_FACTORY [G]
@@ -106,7 +106,7 @@ feature -- Access
 
 	alias_names: EL_ZSTRING_LIST
 		do
-			create Result.make_from_array (types_indexed_by_name.current_keys)
+			create Result.make_from_special (types_indexed_by_name.key_list.area)
 		end
 
 	count: INTEGER

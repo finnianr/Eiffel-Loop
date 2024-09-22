@@ -4,7 +4,7 @@ note
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2016 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
-	
+
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 	date: "2015-12-18 12:50:34 GMT (Friday 18th December 2015)"
 	revision: "1"
@@ -22,9 +22,8 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make (<<
-				["set_text_info", agent change_argument_type]
-			>>)
+			create Result
+			Result ["set_text_info"] := agent change_argument_type
 		end
 
 	change_argument_type (class_feature: CLASS_FEATURE)

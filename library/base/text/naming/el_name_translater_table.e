@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 10:41:10 GMT (Monday 25th December 2023)"
-	revision: "5"
+	date: "2024-09-22 14:35:07 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_NAME_TRANSLATER_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_CACHE_TABLE [EL_NAME_TRANSLATER, NATURAL]
 		rename
-			make as make_table,
+			make as make_sized,
 			item as translater_item,
 			new_item as new_translator
 		export
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			make_table (5)
+			make_sized (5)
 		end
 
 feature -- Access

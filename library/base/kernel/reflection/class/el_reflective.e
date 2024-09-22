@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 13:59:04 GMT (Wednesday 28th August 2024)"
-	revision: "91"
+	date: "2024-09-22 9:07:30 GMT (Sunday 22nd September 2024)"
+	revision: "92"
 
 deferred class
 	EL_REFLECTIVE
@@ -239,7 +239,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 		do
 			Result := Default_representations
 		ensure
-			valid_field_names: field_info_table.valid_field_names (Result.current_keys)
+			valid_field_names: field_info_table.valid_field_names (Result.key_list)
 		end
 
 	new_transient_fields: STRING

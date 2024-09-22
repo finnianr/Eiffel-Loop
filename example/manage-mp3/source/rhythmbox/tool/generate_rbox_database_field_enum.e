@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:17:28 GMT (Friday 13th September 2024)"
-	revision: "13"
+	date: "2024-09-22 15:37:48 GMT (Sunday 22nd September 2024)"
+	revision: "14"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -100,19 +100,10 @@ feature {NONE} -- Line states
 
 feature {EL_COMMAND_CLIENT} -- Evolicity fields
 
-	getter_function_table: like getter_functions
-			--
-		do
-			create Result.make (<<
-				["type_set", agent: like type_set do Result := type_set end],
-				["field_table", agent: like field_table do Result := field_table end]
-			>>)
-		end
-
 	Template: STRING = "[
 		class
 			RBOX_DATABASE_FIELD_ENUM
-
+		
 		inherit
 			EL_ENUMERATION [NATURAL_16]
 				rename
@@ -124,7 +115,7 @@ feature {EL_COMMAND_CLIENT} -- Evolicity fields
 				redefine
 					initialize_fields
 				end
-
+		
 		create
 			make
 
@@ -158,6 +149,15 @@ feature {EL_COMMAND_CLIENT} -- Evolicity fields
 
 		end
 	]"
+
+	getter_function_table: like getter_functions
+			--
+		do
+			create Result.make_assignments (<<
+				["type_set",	 agent: like type_set do Result := type_set end],
+				["field_table", agent: like field_table do Result := field_table end]
+			>>)
+		end
 
 feature {NONE} -- Internal attributes
 

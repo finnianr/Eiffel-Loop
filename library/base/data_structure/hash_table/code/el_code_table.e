@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-09 9:37:56 GMT (Friday 9th December 2022)"
-	revision: "7"
+	date: "2024-09-22 16:06:17 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	EL_CODE_TABLE [K -> HASHABLE]
 
 inherit
-	HASH_TABLE [INTEGER, K]
+	EL_HASH_TABLE [INTEGER, K]
 		redefine
 			make
 		end

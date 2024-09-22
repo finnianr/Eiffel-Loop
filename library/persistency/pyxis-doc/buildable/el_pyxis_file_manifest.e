@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 8:53:09 GMT (Saturday 27th July 2024)"
-	revision: "3"
+	date: "2024-09-22 14:15:11 GMT (Sunday 22nd September 2024)"
+	revision: "4"
 
 class
 	EL_PYXIS_FILE_MANIFEST
@@ -99,7 +99,7 @@ feature {NONE} -- Build from Pyxis
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["group/@location",	  agent do location_dir := node.to_expanded_dir_path end],
 				["group/files/text()", agent extend_file_list]
 			>>)

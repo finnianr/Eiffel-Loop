@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-12 8:36:39 GMT (Wednesday 12th June 2024)"
-	revision: "67"
+	date: "2024-09-22 17:07:00 GMT (Sunday 22nd September 2024)"
+	revision: "68"
 
 class
 	EIFFEL_CLASS
@@ -329,7 +329,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["description_elements",	 agent: LIST [HTML_TEXT_ELEMENT] do Result := notes.description_elements end],
 				["note_fields",				 agent: like notes.field_list do Result := notes.field_list end],
 

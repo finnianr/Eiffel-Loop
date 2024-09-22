@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-18 7:39:58 GMT (Wednesday 18th September 2024)"
-	revision: "64"
+	date: "2024-09-22 14:23:27 GMT (Sunday 22nd September 2024)"
+	revision: "65"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -223,7 +223,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make_size (11)
+			create Result.make (11)
 			across meta_data.field_list as list loop
 				if attached {EL_REFLECTED_BOOLEAN} list.item as field then
 					Result [field.name] := agent to_boolean_ref (field)

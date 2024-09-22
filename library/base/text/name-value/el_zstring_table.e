@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 7:56:28 GMT (Saturday 31st August 2024)"
-	revision: "22"
+	date: "2024-09-22 13:52:41 GMT (Sunday 22nd September 2024)"
+	revision: "23"
 
 class
 	EL_ZSTRING_TABLE
@@ -26,7 +26,8 @@ class
 inherit
 	EL_HASH_TABLE [ZSTRING, IMMUTABLE_STRING_8]
 		rename
-			make as make_from_array
+			make as make_sized,
+			make_assignments as make_from_tuples
 		end
 
 	EL_STRING_GENERAL_ROUTINES
@@ -36,7 +37,7 @@ inherit
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
-	make, make_assignments, make_indented_eiffel, make_size, make_from_array, make_from_table
+	make, make_assignments, make_indented_eiffel, make_sized, make_from_table
 
 convert
 	make_indented_eiffel ({STRING_8, STRING_32, ZSTRING})
@@ -72,7 +73,7 @@ feature {NONE} -- Initialization
 
 	make_from_table (table: EL_IMMUTABLE_UTF_8_TABLE)
 		do
-			make_size (table.count)
+			make_equal (table.count)
 			from table.start until table.after loop
 				extend (table.item_for_iteration, table.key_for_iteration)
 				table.forth
@@ -83,7 +84,7 @@ feature -- Access
 
 	name_list: EL_STRING_8_LIST
 		do
-			create Result.make_from_general (current_keys)
+			create Result.make_from_general (key_list)
 		end
 
 feature -- Contract Support

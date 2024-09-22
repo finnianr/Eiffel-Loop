@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 18:03:41 GMT (Friday 29th March 2024)"
-	revision: "11"
+	date: "2024-09-22 9:33:09 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 deferred class
 	EL_DIVERGENT_SERVLET
@@ -30,19 +30,18 @@ feature {NONE} -- Initialization
 		do
 			Precursor (a_service)
 			service_procedures := service_procedures_table
-			procedure_names := service_procedures.current_keys
+			procedure_names := service_procedures.key_list
 		end
 
 feature -- Access
 
-	procedure_names: like service_procedures.current_keys
+	procedure_names: LIST [ZSTRING]
 
 feature {NONE} -- Implementation
 
 	serve
 		do
-			service_procedures.search (request.dir_path.base)
-			if service_procedures.found then
+			if service_procedures.has_key (request.dir_path.base) then
 				service_procedures.found_item.call ([request, response])
 			else
 				lio.put_string_field (Message_invalid_path, request.dir_path.to_string)

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:23:48 GMT (Friday 13th September 2024)"
-	revision: "21"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "22"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -205,7 +205,7 @@ feature {NONE} -- Reflection hints
 
 	new_representations: like Default_representations
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["date_time",				Date_representation],
 				["date_time_original",	Date_representation]
 			>>)

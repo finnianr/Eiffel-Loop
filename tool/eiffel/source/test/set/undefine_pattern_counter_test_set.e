@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:45:51 GMT (Monday 25th March 2024)"
-	revision: "26"
+	date: "2024-09-22 16:57:25 GMT (Sunday 22nd September 2024)"
+	revision: "27"
 
 class
 	UNDEFINE_PATTERN_COUNTER_TEST_SET
@@ -78,7 +78,7 @@ feature {NONE} -- Constants
 
 	Standard_undefines_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["TEST_EL_ASTRING", 1],
 				["EL_TEXT_ITEM_TRANSLATIONS_TABLE", 6]
 			>>)

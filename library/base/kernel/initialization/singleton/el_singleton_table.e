@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-09-22 14:45:22 GMT (Sunday 22nd September 2024)"
+	revision: "9"
 
 class
 	EL_SINGLETON_TABLE
 
 inherit
-	HASH_TABLE [ANY, INTEGER]
+	EL_HASH_TABLE [ANY, INTEGER]
 		rename
 			put as table_put,
 			remove as table_remove,
@@ -25,7 +25,7 @@ inherit
 			make
 		end
 
-	EL_SINGLE_THREAD_ACCESS undefine copy, is_equal end
+	EL_SINGLE_THREAD_ACCESS undefine copy, default_create, is_equal end
 
 create
 	make
@@ -89,7 +89,7 @@ feature -- Status query
 				if has_type_id (type.type_id) then
 					Result := True
 				else
-					Result := across current_keys as type_id some
+					Result := across key_list as type_id some
 						{ISE_RUNTIME}.type_conforms_to (type_id.item, type.type_id)
 					end
 				end
@@ -104,7 +104,7 @@ feature {NONE} -- Implementation
 		do
 			Result := has_key (a_type_id)
 			if not Result and conforming then
-				across current_keys as type_id until Result loop
+				across key_list as type_id until Result loop
 					if {ISE_RUNTIME}.type_conforms_to (type_id.item, a_type_id) and then has_key (type_id.item) then
 						Result := True
 					end

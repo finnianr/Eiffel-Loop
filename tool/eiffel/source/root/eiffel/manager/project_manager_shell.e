@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 8:26:46 GMT (Monday 29th July 2024)"
-	revision: "18"
+	date: "2024-09-22 17:07:03 GMT (Sunday 22nd September 2024)"
+	revision: "19"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -43,7 +43,7 @@ feature {NONE} -- Factory
 			pecf_name := config.ecf_pyxis_path.base
 			project_py := "project.py"
 
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Edit " + project_py,						  agent edit_file (project_py)],
 				["Edit " + pecf_name,						  agent edit_file (config.ecf_pyxis_path)],
 				["Edit " + ecf_name,							  agent edit_file (config.ecf_xml_path)],

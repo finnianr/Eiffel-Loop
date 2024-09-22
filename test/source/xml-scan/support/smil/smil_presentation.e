@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:52:12 GMT (Tuesday 27th August 2024)"
-	revision: "18"
+	date: "2024-09-22 14:23:18 GMT (Sunday 22nd September 2024)"
+	revision: "19"
 
 class
 	SMIL_PRESENTATION
@@ -54,7 +54,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["to_xml",				agent to_xml],
 				["author",				agent: STRING do Result := author end],
 				["title", 				agent: STRING do Result := title end],
@@ -92,7 +92,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: smil
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["head/meta[@name='title']/@content", agent do node.set_8 (title) end],
 				["head/meta[@name='author']/@content", agent do node.set_8 (author) end],
 				["head/meta[@name='base']/@content", agent
@@ -108,9 +108,8 @@ feature {NONE} -- Build from XML
 	PI_building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
-				["create", agent on_create]
-			>>)
+			create Result.make_equal (1)
+			Result ["create"] := agent on_create
 		end
 
 feature {NONE} -- Constants

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-22 14:20:21 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_REFLECTIVE_CONSOLE_PRINTER
@@ -43,7 +43,7 @@ feature -- Access
 
 	escape_fields: ARRAY [STRING]
 		do
-			Result := escape_table.current_keys
+			Result := escape_table.key_array
 		end
 
 feature -- Basic operations
@@ -64,7 +64,7 @@ feature -- Element change
 	put_escaper (escaper: like escape_table.item; name: STRING)
 		do
 			if escape_table.is_empty then
-				create escape_table.make_size (3)
+				create escape_table.make (3)
 			end
 			escape_table.put (escaper, name)
 		end

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 9:45:32 GMT (Friday 23rd February 2024)"
-	revision: "13"
+	date: "2024-09-22 14:15:13 GMT (Sunday 22nd September 2024)"
+	revision: "14"
 
 class
 	FCGI_SERVICE_CONFIG
@@ -109,7 +109,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@port", agent do server_port := node end],
 				["@socket_path", agent do server_socket_path := node.to_expanded_file_path end],
 				["document-root/text()", agent do set_document_root_dir (node.to_expanded_dir_path) end]

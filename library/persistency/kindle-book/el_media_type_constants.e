@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "4"
 
 class
 	EL_MEDIA_TYPE_CONSTANTS
@@ -21,7 +21,7 @@ feature {NONE} -- Constants
 
 	Media_type_table: EL_HASH_TABLE [STRING, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["png",	Type.png],
 				["html",	Type.html],
 				["ncx",	Type.ncx],

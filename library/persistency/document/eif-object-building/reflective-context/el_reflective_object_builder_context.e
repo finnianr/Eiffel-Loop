@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-09-22 14:15:13 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
@@ -51,7 +51,7 @@ feature {NONE} -- Build from XML
 			l_xpath: STRING; field: EL_REFLECTED_FIELD; s: EL_STRING_8_ROUTINES
 			type: EL_ATTRIBUTE_TYPE_ROUTINES; item_type_id: INTEGER
 		do
-			create Result.make_size (object.field_table.count)
+			create Result.make (object.field_table.count)
 			across object.field_table as table loop
 				field := table.item
 				if type.attribute_id (object, field) > 0 then

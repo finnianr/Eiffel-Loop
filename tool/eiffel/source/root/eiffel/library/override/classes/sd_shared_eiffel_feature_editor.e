@@ -57,9 +57,8 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make (<<
-				["widget_factory", agent replace_widget_factory]
-			>>)
+			create Result
+			Result ["widget_factory"] := agent replace_widget_factory
 		end
 
 	replace_widget_factory (a_feature: CLASS_FEATURE)

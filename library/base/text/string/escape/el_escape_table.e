@@ -10,16 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-10 11:27:43 GMT (Friday 10th February 2023)"
-	revision: "5"
+	date: "2024-09-22 14:12:44 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_ESCAPE_TABLE
 
 inherit
-	HASH_TABLE [CHARACTER_32, CHARACTER_32]
+	EL_HASH_TABLE [CHARACTER_32, CHARACTER_32]
 		rename
-			make as make_table
+			make as make_sized
 		end
 
 create
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			index: INTEGER
 		do
 			escape_character := escape
-			make_table (character_map.count)
+			make_sized (character_map.count)
 			across adjusted_list (character_map) as str loop
 				index := str.item.substring_index (":=", 1)
 				if index = 2 and then str.item.count = 4 then
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 	make_inverted (other: EL_ESCAPE_TABLE)
 		do
 			escape_character := other.escape_character
-			make_table (other.count)
+			make_sized (other.count)
 			across other as table loop
 				extend (table.key, table.item)
 			end
@@ -68,14 +68,14 @@ feature {NONE} -- Initialization
 			i: INTEGER
 		do
 			escape_character := escape
-			make_table (character_list.count + 1)
+			make_sized (character_list.count + 1)
 			extend (escape, escape)
 			from i := 1 until i > character_list.count loop
 				extend (character_list [i], character_list [i])
 				i := i + 1
 			end
 		ensure
-			same_keys_and_items: across current_keys as key all item (key.item) = key.item end
+			same_keys_and_items: across key_list as key all item (key.item) = key.item end
 			has_escape: has (escape_character)
 		end
 

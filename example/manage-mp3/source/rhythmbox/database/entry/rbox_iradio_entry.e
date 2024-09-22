@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-18 13:08:46 GMT (Friday 18th August 2023)"
-	revision: "61"
+	date: "2024-09-22 15:43:17 GMT (Sunday 22nd September 2024)"
+	revision: "62"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -140,7 +140,7 @@ feature {NONE} -- Implementation
 
 	new_representations: like Default_representations
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["album",		Album_set.to_representation],
 				["artist",		Artist_set.to_representation],
 				["genre",		Genre_set.to_representation],
@@ -162,7 +162,7 @@ feature {NONE} -- Build from XML
 		local
 			l_xpath: STRING
 		do
-			create Result.make_size (field_table.count)
+			create Result.make (field_table.count)
 			across Build_types as l_type loop
 				Result.merge (building_actions_for_type (l_type.item, element_node_field_set))
 			end
@@ -230,7 +230,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["element_list",		agent get_element_list],
 
 				-- title is included for reference by template loaded from DJ_EVENT_HTML_PAGE

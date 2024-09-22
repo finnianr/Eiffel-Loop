@@ -12,21 +12,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:02:15 GMT (Friday 13th September 2024)"
-	revision: "32"
+	date: "2024-09-22 14:31:34 GMT (Sunday 22nd September 2024)"
+	revision: "33"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
 
 inherit
-	HASH_TABLE [INTEGER_64, IMMUTABLE]
+	EL_HASH_TABLE [INTEGER_64, IMMUTABLE]
 		rename
 			found_item as found_interval,
 			has as has_immutable,
 			has_key as has_immutable_key,
 			item as interval_item,
 			item_for_iteration as interval_item_for_iteration,
-			make as make_size
+			make as make_sized,
+			make_assignments as make_from_tuples
 		redefine
 			new_cursor
 		end
@@ -40,7 +41,7 @@ inherit
 		export
 			{NONE} all
 		undefine
-			copy, is_equal
+			copy, default_create, is_equal
 		end
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -176,7 +177,7 @@ feature {NONE} -- Initialization
 		-- make with keys and items of `other' swapped
 		do
 			copy_attributes (other)
-			make_size (other.count)
+			make_sized (other.count)
 			from other.start until other.after loop
 				if attached new_item_substring (other.interval_item_for_iteration) as key then
 					extend (immutable_interval (other.key_for_iteration), key)

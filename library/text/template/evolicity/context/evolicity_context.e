@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:55:06 GMT (Saturday 22nd June 2024)"
-	revision: "18"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "19"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -265,7 +265,7 @@ feature {NONE} -- Constants
 
 	Feature_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["count",	 Feature_count],
 				["is_empty", Feature_is_empty],
 				["lower",	 Feature_lower],

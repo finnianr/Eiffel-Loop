@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-08 10:00:39 GMT (Saturday 8th July 2023)"
-	revision: "10"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "11"
 
 frozen class
 	EL_INSTALL_UNINSTALL_TESTER
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 
 	new_parent_dir_map: EL_HASH_TABLE [DIR_PATH, STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["/opt",		 Directory.Desktop],
 				["/usr",		 Directory.Home #+ ".local"],
 				["/etc/xdg", Directory.Home #+ ".config"]

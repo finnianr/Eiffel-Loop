@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-13 9:17:10 GMT (Saturday 13th July 2024)"
-	revision: "5"
+	date: "2024-09-22 13:47:51 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_STRING_32_TABLE [G]
@@ -21,7 +21,7 @@ inherit
 	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
 
 create
-	default_create, make, make_size, make_equal, make_from_map_list
+	default_create, make, make_equal, make_assignments, make_from_map_list
 
 feature -- Comparison
 

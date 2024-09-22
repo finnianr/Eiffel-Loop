@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "4"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "5"
 
 class
 	EL_VTD_EXCEPTION_ENUM
@@ -136,7 +136,7 @@ feature {NONE} -- Constants
 
 	Description_table: EL_HASH_TABLE [STRING, INTEGER]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[out_of_mem, "out of memory"],
 				[invalid_argument, "invalid argument"],
 				[array_out_of_bound, "array index out of bound"],

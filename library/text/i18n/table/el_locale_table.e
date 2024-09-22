@@ -6,19 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-26 18:04:18 GMT (Friday 26th July 2024)"
-	revision: "10"
+	date: "2024-09-22 14:47:50 GMT (Sunday 22nd September 2024)"
+	revision: "11"
 
 class
 	EL_LOCALE_TABLE
 
 inherit
-	HASH_TABLE [FILE_PATH, STRING]
+	EL_HASH_TABLE [FILE_PATH, STRING]
 		rename
-			make as make_table
+			make as make_sized
 		export
 			{NONE} all
-			{ANY} is_empty, has, current_keys, item
+			{ANY} is_empty, key_list, has, current_keys, item
 		end
 
 	EL_SHARED_DIRECTORY

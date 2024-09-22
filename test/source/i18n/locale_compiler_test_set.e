@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 8:10:21 GMT (Monday 29th July 2024)"
-	revision: "26"
+	date: "2024-09-22 14:16:50 GMT (Sunday 22nd September 2024)"
+	revision: "27"
 
 class
 	LOCALE_COMPILER_TEST_SET
@@ -58,7 +58,7 @@ feature -- Tests
 			locale_en: EL_DEFAULT_LOCALE; locale_table: EL_LOCALE_TABLE; texts: EL_UNINSTALL_TEXTS
 			translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
 		do
-			create translations_table.make_size (20)
+			create translations_table.make (20)
 			do_test ("compile_twice", 1517909653, agent compile_twice, [translations_table])
 
 			lio.put_line ("Checking restore")

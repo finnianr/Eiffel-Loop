@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:13:27 GMT (Friday 13th September 2024)"
-	revision: "25"
+	date: "2024-09-22 14:23:19 GMT (Sunday 22nd September 2024)"
+	revision: "26"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -119,7 +119,7 @@ feature {NONE} -- Evolicity
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["digest", agent: NATURAL_32_REF do Result := digest.to_reference end],
 				[Var_current, agent: ITERABLE [EL_FILE_MANIFEST_ITEM] do Result := Current end]
 			>>)
@@ -130,9 +130,8 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: smil
 		do
-			create Result.make (<<
-				["file",	agent do set_collection_context (Current, create {EL_FILE_MANIFEST_ITEM}.make_default) end]
-			>>)
+			create Result.make_equal (1)
+			Result ["file"] := agent do set_collection_context (Current, create {EL_FILE_MANIFEST_ITEM}.make_default) end
 		end
 
 feature {NONE} -- Constants

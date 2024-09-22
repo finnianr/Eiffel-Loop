@@ -9,20 +9,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-09-22 16:07:49 GMT (Sunday 22nd September 2024)"
+	revision: "4"
 
 class
 	EL_XPATH_ACTION_TABLE
 
 inherit
-	HASH_TABLE [EL_XPATH_TO_AGENT_MAP, EL_TOKENIZED_XPATH]
+	EL_HASH_TABLE [EL_XPATH_TO_AGENT_MAP, EL_TOKENIZED_XPATH]
 
 	EL_MODULE_LIO
 
 create
 	make
-
 
 feature -- Basic operations
 

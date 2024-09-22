@@ -7,16 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 12:54:13 GMT (Monday 1st April 2024)"
-	revision: "7"
+	date: "2024-09-22 14:37:09 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]
 
 inherit
-	HASH_TABLE [G, OPEN_ARGS]
+	EL_HASH_TABLE [G, OPEN_ARGS]
 		rename
-			make as make_table,
+			make as make_sized,
 			make_equal as make_equal_table,
 			item as cached_item,
 			remove as remove_type
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER; a_new_item: like new_item)
 		do
-			make_table (n)
+			make_sized (n)
 			new_item := a_new_item
 			create argument_key
 		end

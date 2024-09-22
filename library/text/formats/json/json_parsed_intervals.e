@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 15:49:53 GMT (Sunday 19th March 2023)"
-	revision: "10"
+	date: "2024-09-22 13:39:39 GMT (Sunday 22nd September 2024)"
+	revision: "11"
 
 class
 	JSON_PARSED_INTERVALS
@@ -217,7 +217,7 @@ feature {NONE} -- Constants
 
 	Standard_value_table: EL_HASH_TABLE [STRING, CHARACTER]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				['t', "true"],
 				['f', "false"],
 				['n', "null"]

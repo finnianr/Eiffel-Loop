@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 7:00:11 GMT (Wednesday 10th July 2024)"
-	revision: "13"
+	date: "2024-09-22 13:39:39 GMT (Sunday 22nd September 2024)"
+	revision: "14"
 
 deferred class
 	EL_TIME_DATE_I
@@ -225,7 +225,7 @@ feature {NONE} -- Constants
 
 	Propercase_table: EL_HASH_TABLE [ARRAY [STRING], STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Mmm", Date_time.Months_text],
 				["Ddd", Date_time.Days_text]
 			>>)

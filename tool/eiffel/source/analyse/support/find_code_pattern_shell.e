@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:42:59 GMT (Friday 13th September 2024)"
-	revision: "3"
+	date: "2024-09-22 17:07:04 GMT (Sunday 22nd September 2024)"
+	revision: "4"
 
 class
 	FIND_CODE_PATTERN_SHELL
@@ -145,7 +145,7 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Find ${<TYPE> [G]}",							 agent search (agent class_link_reference)],
 				["Find `Result := if else end' candidate", agent search (agent find_if_else_end)]
 			>>)

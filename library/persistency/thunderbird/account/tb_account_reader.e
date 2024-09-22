@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:10:11 GMT (Friday 13th September 2024)"
-	revision: "36"
+	date: "2024-09-22 14:15:14 GMT (Sunday 22nd September 2024)"
+	revision: "37"
 
 deferred class
 	TB_ACCOUNT_READER
@@ -151,7 +151,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@account",				agent do node.set_8 (account) end],
 				["@language",				agent do node.set_8 (language) end],
 				["@home_dir",				agent do home_dir := node.to_expanded_dir_path end],

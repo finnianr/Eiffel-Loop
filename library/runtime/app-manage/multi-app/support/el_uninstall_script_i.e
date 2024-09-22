@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-09 18:04:27 GMT (Tuesday 9th January 2024)"
-	revision: "26"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "27"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -161,7 +161,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["completion_message",			agent: ZSTRING do Result := Text.app_removed_template #$ [menu_name] end],
 				["description",					agent: ZSTRING do Result := Text.removing_program_files end],
 				["encoding_name",					agent: STRING do Result := script_encoding.encoding_name end],

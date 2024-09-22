@@ -11,30 +11,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-21 15:06:01 GMT (Saturday 21st September 2024)"
-	revision: "30"
+	date: "2024-09-22 10:36:51 GMT (Sunday 22nd September 2024)"
+	revision: "31"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
 
 inherit
-	EL_HASH_SET_IMPLEMENTATION [detachable H]
+	EL_HASH_SET_IMPLEMENTATION [H]
 		export
 			{EL_HASH_SET, EL_HASH_SET_ITERATION_CURSOR} append_to, content, key_tester, set_key_tester
 		redefine
-			is_subset, intersect, subtract
-		end
-
-	ITERABLE [H]
-		undefine
-			is_equal, copy
-		end
-
-	TRAVERSABLE [H]
-		rename
-			item as iteration_item
-		undefine
-			changeable_comparison_criterion, compare_objects, compare_references, copy, is_equal
+			copy, is_equal, is_subset, intersect, subtract
 		end
 
 	EL_CONTAINER_STRUCTURE [H]
@@ -42,15 +30,26 @@ inherit
 			current_container as current_table,
 			intersection as intersection_query
 		undefine
-			copy, object_comparison, is_equal
+			copy, is_equal, object_comparison
+		end
+
+	ITERABLE [H]
+		undefine
+			copy, is_equal
+		end
+
+	TRAVERSABLE [H]
+		rename
+			item as iteration_item
+		undefine
+			copy, changeable_comparison_criterion, compare_objects, compare_references,
+			is_equal
 		end
 
 	EL_SET [H]
 		undefine
 			copy, is_equal
 		end
-
-	EL_MODULE_ITERABLE
 
 create
 	make_equal, make, make_equal_array, make_from, make_from_special
@@ -61,8 +60,8 @@ convert
 feature {NONE} -- Initialization
 
 	make (n: INTEGER)
-			-- Allocate hash table for at least `n' items using `=' for comparison.
-			-- The table will be resized automatically if more than `n' items are inserted.
+		-- Allocate hash table for at least `n' items using `=' for comparison.
+		-- The table will be resized automatically if more than `n' items are inserted.
 		require
 			n_non_negative: n >= 0
 		do
@@ -74,8 +73,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_equal (n: INTEGER)
-			-- Allocate hash table for at least `n' items using `~' for comparison.
-			-- The table will be resized automatically if more than `n' items are inserted.
+		-- Allocate hash table for at least `n' items using `~' for comparison.
+		-- The table will be resized automatically if more than `n' items are inserted.
 		require
 			n_non_negative: n >= 0
 		do
@@ -96,9 +95,9 @@ feature {NONE} -- Initialization
 			if attached as_structure (container) as structure then
 				make (structure.current_count)
 
-			-- May `object_comparison' be changed ?
-			-- (Answer: only if set empty; otherwise insertions might
-			-- introduce duplicates, destroying the set property.)
+		-- May `object_comparison' be changed ?
+		-- (Answer: only if set empty; otherwise insertions might
+		-- introduce duplicates, destroying the set property.)
 				object_comparison := a_object_comparison
 
 				structure.do_for_all (agent put)
@@ -123,7 +122,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	new_cursor: EL_HASH_SET_ITERATION_CURSOR [H]
-			-- <Precursor>
+		-- <Precursor>
 		do
 			create Result.make (Current)
 		end
@@ -138,7 +137,7 @@ feature -- Access
 			if attached content as area and then attached insertion_marks as l_inserted then
 				last_index := capacity - 1
 				from pos := -1 until break loop
-					pos := next_iteration_position_with (pos, last_index, area, l_inserted)
+					pos := next_iteration_index (pos, last_index, l_inserted)
 					if pos > last_index then
 						break := True
 					else
@@ -175,7 +174,7 @@ feature -- Access
 			if attached content as l_content and then attached insertion_marks as l_inserted then
 				last_index := capacity - 1
 				from pos := -1 until break loop
-					pos := next_iteration_position_with (pos, last_index, l_content, l_inserted)
+					pos := next_iteration_index (pos, last_index, l_inserted)
 					if pos > last_index then
 						break := True
 					else
@@ -190,22 +189,6 @@ feature -- Access
 		-- to representation applied to reflected field of type `H'
 		do
 			create Result.make (Current)
-		end
-
-feature -- Status query
-
-	conflict: BOOLEAN
-			-- Did last operation insert an item?
-		do
-			Result := not inserted
-		end
-
-	has_key (key: H): BOOLEAN
-		-- Is `access_key' currently used?
-		-- (Shallow equality)
-		do
-			search (key)
-			Result := (control = Found_constant)
 		end
 
 feature -- Comparison
@@ -225,7 +208,7 @@ feature -- Comparison
 					last_index := capacity - 1
 					Result := True
 					from pos := -1 until not Result or break loop
-						pos := next_iteration_position_with (pos, last_index, area, l_inserted)
+						pos := next_iteration_index (pos, last_index, l_inserted)
 						if pos > last_index then
 							break := True
 						else
@@ -249,7 +232,7 @@ feature -- Comparison
 			then
 				last_index := capacity - 1; Result := True
 				from pos := -1 until break or not Result loop
-					pos := next_iteration_position_with (pos, last_index, area, l_inserted)
+					pos := next_iteration_index (pos, last_index, l_inserted)
 					if pos > last_index then
 						break := True
 					else
@@ -260,6 +243,14 @@ feature -- Comparison
 		end
 
 feature -- Duplication
+
+	copy (other: like Current)
+		-- Re-initialize from `other'.
+		do
+			standard_copy (other)
+			content := other.content.twin
+			insertion_marks := other.insertion_marks.twin
+		end
 
 	duplicate (n: INTEGER): like Current
 		do
@@ -304,26 +295,27 @@ feature -- Basic operations
 			default_value: detachable H
 		do
 			internal_search (key)
-			if control = Found_constant then
-				found_item := content.item (position)
+			inspect control
+				when Found_constant then
+					found_item := content.item (position)
 			else
 				found_item := default_value
 			end
-		ensure
-			item_if_found: found implies (found_item = content.item (position))
 		end
 
 feature -- Removal
 
 	prune (key: H)
-			-- Remove item associated with `key', if present.
-			-- Set `control' to `Removed' or `Not_found_constant'.
+		-- Remove item associated with `key', if present.
+		-- Set `control' to `Removed' or `Not_found_constant'.
 		do
 			internal_search (key)
-			if control = Found_constant then
-				content.fill_with_default (position, position)
-				insertion_marks.put (False, position)
-				count := count - 1
+			inspect control
+				when Found_constant then
+					content.fill_with_default (position, position)
+					insertion_marks.put (False, position)
+					count := count - 1
+			else
 			end
 		end
 
@@ -341,12 +333,12 @@ feature -- Removal
 		end
 
 	wipe_out
-			-- Reset all items to default values.
+		-- Reset all items to default values.
 		local
 			default_value: detachable H
 		do
-			content.wipe_out
-			insertion_marks.wipe_out
+			content.fill_with_default (0, content.count - 1)
+			insertion_marks.fill_with_default (0, insertion_marks.count - 1)
 			count := 0
 			control := 0
 			position := 0
@@ -355,33 +347,15 @@ feature -- Removal
 
 feature -- Insertion
 
-	change_key (new_key: H; old_key: H)
-			-- If table contains an item at `old_key',
-			-- replace its key by `new_key'.
-			-- Set `control' to `Changed', `Insertion_conflict' or `Not_found_constant'.
-		do
-			internal_search (old_key)
-			if control = Found_constant then
-				content.put (new_key, position)
-				if control /= Insertion_conflict then
-					prune (old_key)
-					control := Changed
-				end
-			end
-		ensure
-			changed: control = Changed implies not has (old_key)
-		end
-
 	force (key: H)
-			-- If `key' is present, replace corresponding item by `new',
-			-- if not, insert item `new' with key `key'.
-			-- Set `control' to `Insertion_ok'.
+		-- If `key' is present, replace corresponding item by `new',
+		-- if not, insert item `new' with key `key'.
+		-- Set `control' to `Insertion_ok'.
 		do
 			internal_search (key)
 			if control /= Found_constant then
 				if soon_full then
-					add_space
-					internal_search (key)
+					expand_size; internal_search (key)
 				end
 				count := count + 1
 			end
@@ -402,18 +376,19 @@ feature -- Insertion
 		end
 
 	put (key: H)
-			-- Attempt to insert `new' with `key'.
-			-- Set `control' to `Insertion_ok' or `Insertion_conflict'.
-			-- No insertion if conflict.
+		-- Attempt to insert `new' with `key'.
+		-- Set `control' to `Insertion_ok' or `Insertion_conflict'.
+		-- No insertion if conflict.
 		do
 			internal_search (key)
-			if control = Found_constant then
-				control := Insertion_conflict
-				found_item := content.item (position)
-				inserted := False
+			inspect control
+				when Found_constant then
+					control := Insertion_conflict
+					found_item := content.item (position)
+					inserted := False
 			else
 				if soon_full then
-					add_space
+					expand_size
 					internal_search (key)
 				end
 				content.put (key, position)
@@ -477,6 +452,16 @@ feature -- Cursor movement
 			forth
 		end
 
+feature -- Contract Support
+
+	valid_cursor (pos: like cursor): BOOLEAN
+		-- Can cursor be moved to position `pos'?
+		do
+			if pos >= capacity or else (pos >= 0 and pos <= capacity) then
+				Result := insertion_marks [pos]
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	current_table: like Current
@@ -485,7 +470,7 @@ feature {NONE} -- Implementation
 		end
 
 	empty_duplicate (n: INTEGER): like Current
-			-- Create an empty copy of Current that can accommodate `n' items
+		-- Create an empty copy of Current that can accommodate `n' items
 		require
 			n_non_negative: n >= 0
 		local
@@ -503,8 +488,8 @@ feature {NONE} -- Implementation
 		end
 
 	subset_strategy_selection (v: H; other: EL_HASH_SET [H]): SUBSET_STRATEGY_HASHABLE [H]
-			-- Strategy to calculate several subset features selected depending
-			-- on the dynamic type of `v' and `other'
+		-- Strategy to calculate several subset features selected depending
+		-- on the dynamic type of `v' and `other'
 		do
 			create Result
 		end

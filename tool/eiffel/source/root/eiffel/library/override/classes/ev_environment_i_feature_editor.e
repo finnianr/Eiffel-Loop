@@ -37,9 +37,8 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make (<<
-				["new_application_i", agent change_type_of_implementation_object]
-			>>)
+			create Result
+			Result ["new_application_i"] := agent change_type_of_implementation_object
 		end
 
 end

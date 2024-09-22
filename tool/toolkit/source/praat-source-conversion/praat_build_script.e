@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-04 18:02:28 GMT (Sunday 4th December 2022)"
-	revision: "1"
+	date: "2024-09-22 16:42:52 GMT (Sunday 22nd September 2024)"
+	revision: "2"
 
 class
 	PRAAT_BUILD_SCRIPT
@@ -30,7 +30,7 @@ feature {NONE} -- Evolicity
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["c_library_name_list",	agent: LIST [ZSTRING] do Result := c_library_name_list end],
 				["praat_version_no",		agent: STRING do Result := praat_version_no end]
 			>>)

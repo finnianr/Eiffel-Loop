@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:43 GMT (Thursday 5th September 2024)"
-	revision: "24"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "25"
 
 class
 	EL_CURRENCY
@@ -133,7 +133,7 @@ feature {NONE} -- Evolicity
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["code", agent: STRING do Result := code_name end],
 				["name", agent: ZSTRING do Result := name end],
 				["symbol", agent: ZSTRING do Result := symbol end]

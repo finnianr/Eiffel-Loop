@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:52:36 GMT (Friday 20th September 2024)"
-	revision: "23"
+	date: "2024-09-22 9:03:11 GMT (Sunday 22nd September 2024)"
+	revision: "24"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -137,7 +137,7 @@ feature {NONE} -- Implementation
 			dir_list: EL_ARRAYED_LIST [DIR_PATH]
 		do
 			create dir_group_table.make_equal_from_list (agent {EL_FILE_SYNC_ITEM}.location_dir, copy_item_set.to_list)
-			create dir_list.make_from_array (dir_group_table.current_keys)
+			dir_list := dir_group_table.key_list
 			dir_list.order_by (agent {DIR_PATH}.step_count, True)
 
 			across dir_list as dir loop

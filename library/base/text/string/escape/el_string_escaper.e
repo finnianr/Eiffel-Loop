@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:33:18 GMT (Wednesday 2nd August 2023)"
-	revision: "17"
+	date: "2024-09-22 14:32:34 GMT (Sunday 22nd September 2024)"
+	revision: "18"
 
 class
 	EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
 
 inherit
-	HASH_TABLE [NATURAL, NATURAL]
+	EL_HASH_TABLE [NATURAL, NATURAL]
 		rename
-			make as make_table,
+			make as make_sized,
 			found_item as found_code,
 			has_key as has_code
 		export
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 			set_implementation
 			escape_code := implementation.to_code (escape_table.escape_character)
 
-			make_table (escape_table.count)
+			make_sized (escape_table.count)
 			across escape_table as table loop
 				extend (implementation.to_code (table.item), implementation.to_code (table.key))
 			end

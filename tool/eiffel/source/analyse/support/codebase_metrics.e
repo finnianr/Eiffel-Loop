@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-12 8:06:26 GMT (Wednesday 12th June 2024)"
-	revision: "10"
+	date: "2024-09-22 17:07:05 GMT (Sunday 22nd September 2024)"
+	revision: "11"
 
 class
 	CODEBASE_METRICS
@@ -89,7 +89,7 @@ feature -- Access
 	stats_table: EL_HASH_TABLE [INTEGER, STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Class count",										  class_count],
 				["Keyword count",										  keyword_count],
 				["Identifier count",									  identifier_count],
@@ -248,7 +248,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["average_keyword_plus_identifier_count",	agent average_keyword_plus_identifier_ref_count],
 				["keyword_plus_identifier_count",			agent keyword_plus_identifier_count],
 

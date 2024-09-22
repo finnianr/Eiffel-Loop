@@ -26,8 +26,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-27 14:36:07 GMT (Saturday 27th July 2024)"
-	revision: "1"
+	date: "2024-09-22 14:18:32 GMT (Sunday 22nd September 2024)"
+	revision: "2"
 
 class
 	EL_PYXIS_ML_TRANSLATION_TABLE
@@ -62,7 +62,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["item/@id",										agent set_last_id_from_node],
 				["item/translation/@lang",						agent do last_language := node.to_string_8 end],
 				[translation_text_xpath (Empty_string_8), agent do put (last_language, node, last_id) end]

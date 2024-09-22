@@ -22,9 +22,8 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make (<<
-				["on_parented", agent set_implementation_minimum_size]
-			>>)
+			create Result
+			Result ["on_parented"] := agent set_implementation_minimum_size
 		end
 
 	set_implementation_minimum_size (class_feature: CLASS_FEATURE)

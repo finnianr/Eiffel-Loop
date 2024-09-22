@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:48:21 GMT (Tuesday 27th August 2024)"
-	revision: "7"
+	date: "2024-09-22 14:34:01 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 deferred class
 	EL_STRING_GENERAL_UNESCAPER [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
 
 inherit
-	HASH_TABLE [NATURAL, NATURAL]
+	EL_HASH_TABLE [NATURAL, NATURAL]
 		rename
-			make as make_table
+			make as make_sized
 		export
 			{NONE} all
 		end
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 		local
 			key_code, code: NATURAL
 		do
-			make_table (table.count + 1)
+			make_sized (table.count + 1)
 			across table as char loop
 				key_code := character_to_code (char.key)
 				code := character_to_code (char.item)

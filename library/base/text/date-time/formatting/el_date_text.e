@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-22 17:47:44 GMT (Thursday 22nd February 2024)"
-	revision: "26"
+	date: "2024-09-22 13:39:39 GMT (Sunday 22nd September 2024)"
+	revision: "27"
 
 class
 	EL_DATE_TEXT
@@ -185,7 +185,7 @@ feature {NONE} -- Implementation
 
 	new_function_table: EL_DATE_FUNCTION_TABLE
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Var.canonical_numeric_day,	agent canonical_numeric_day],
 				[Var.numeric_day,					agent numeric_day],
 				[Var.numeric_month,				agent numeric_month],

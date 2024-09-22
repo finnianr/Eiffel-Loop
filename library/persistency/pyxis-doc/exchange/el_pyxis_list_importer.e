@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:33:54 GMT (Thursday 4th April 2024)"
-	revision: "9"
+	date: "2024-09-22 14:10:05 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	EL_PYXIS_LIST_IMPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -49,7 +49,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["item", agent set_extended_list_context],
 				["@software_version", agent do software_version := node end]
 			>>)

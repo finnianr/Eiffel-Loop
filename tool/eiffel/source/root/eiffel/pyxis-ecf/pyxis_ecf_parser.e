@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:55:45 GMT (Thursday 11th January 2024)"
-	revision: "33"
+	date: "2024-09-22 17:06:59 GMT (Sunday 22nd September 2024)"
+	revision: "34"
 
 class
 	PYXIS_ECF_PARSER
@@ -220,7 +220,7 @@ feature {NONE} -- Constants
 
 	Expansion_table: EL_HASH_TABLE [GROUPED_ECF_LINES, STRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Name.cluster_tree,			create {CLUSTER_TREE_ECF_LINES}.make],
 				[Name.debugging,				create {DEBUG_OPTION_ECF_LINES}.make],
 				[Name.settings,				create {SETTING_ECF_LINES}.make],
@@ -240,7 +240,7 @@ feature {NONE} -- Constants
 	Name_value_table: EL_HASH_TABLE [NAME_VALUE_ECF_LINE, STRING]
 		once
 			if attached new_name_value_list as name_value_list then
-				create Result.make_size (name_value_list.count)
+				create Result.make (name_value_list.count)
 				across name_value_list as list loop
 					Result.extend (list.item, list.item.tag_name)
 				end

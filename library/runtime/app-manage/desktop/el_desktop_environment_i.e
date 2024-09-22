@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 16:25:20 GMT (Monday 9th September 2024)"
-	revision: "23"
+	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
+	revision: "24"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -127,7 +127,7 @@ feature {NONE} -- Implementation
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["command_args",				agent command_args], -- recursion (as_text as command_args)
 				["command_path",				agent: ZSTRING do Result := command_path.escaped end],
 				["menu_name",					agent: ZSTRING do Result := menu_name end],

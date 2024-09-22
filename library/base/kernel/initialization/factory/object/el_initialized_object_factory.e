@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:59:15 GMT (Thursday 5th September 2024)"
-	revision: "13"
+	date: "2024-09-22 14:38:07 GMT (Sunday 22nd September 2024)"
+	revision: "14"
 
 class
 	EL_INITIALIZED_OBJECT_FACTORY [F -> EL_FACTORY [G], G]
@@ -26,9 +26,9 @@ inherit
 			default_create, new_item_from_type_id
 		end
 
-	HASH_TABLE [F, NATURAL_64]
+	EL_HASH_TABLE [F, NATURAL_64]
 		rename
-			make as make_factory_cache,
+			make as make_sized,
 			count as cached_count,
 			extend as cached_extend,
 			force as cached_force,
@@ -49,7 +49,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor {EL_OBJECT_FACTORY}
 			create factory_factory
-			make_factory_cache (11)
+			make_sized (11)
 			factory_type := {F}
 			base_type := factory_type.generic_parameter_type (1)
 			create single_type.make_filled (0, 1)

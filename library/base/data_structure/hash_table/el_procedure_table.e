@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-03 13:49:19 GMT (Friday 3rd March 2023)"
-	revision: "7"
+	date: "2024-09-22 14:07:58 GMT (Sunday 22nd September 2024)"
+	revision: "8"
 
 class
 	EL_PROCEDURE_TABLE [K -> STRING_GENERAL create make end]
@@ -16,7 +16,7 @@ inherit
 	EL_STRING_HASH_TABLE [PROCEDURE, K]
 
 create
-	make_size, make, default_create
+	default_create, make, make_equal, make_assignments
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 10:02:51 GMT (Saturday 31st December 2022)"
-	revision: "9"
+	date: "2024-09-22 11:36:59 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	PLAYLIST_EXPORT_INFO
@@ -49,9 +49,9 @@ feature -- Status query
 
 	is_windows_path: BOOLEAN
 		local
-			s: EL_ZSTRING_ROUTINES
+			nt: EL_NT_FILE_SYSTEM_ROUTINES
 		do
-			Result := s.starts_with_drive (root)
+			Result := nt.has_volume (root)
 		end
 
 feature -- Event handling

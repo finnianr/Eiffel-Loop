@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-07 10:06:03 GMT (Friday 7th June 2024)"
-	revision: "19"
+	date: "2024-09-22 17:08:32 GMT (Sunday 22nd September 2024)"
+	revision: "20"
 
 class
 	EIFFEL_CLASS_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_HASH_TABLE [EIFFEL_CLASS, ZSTRING]
 		rename
-			make as table_make,
+			make as make_sized,
 			item_for_iteration as class_item
 		export
 			{NONE} all

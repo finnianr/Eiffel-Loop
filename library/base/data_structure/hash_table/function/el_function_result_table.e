@@ -9,16 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-09-22 14:38:56 GMT (Sunday 22nd September 2024)"
+	revision: "7"
 
 class
 	EL_FUNCTION_RESULT_TABLE [TARGET, R]
 
 inherit
-	HASH_TABLE [R, INTEGER]
+	EL_HASH_TABLE [R, INTEGER]
 		rename
-			make as make_count,
+			make as make_sized,
 			item as cached_item,
 			remove as remove_type
 		end
@@ -32,7 +32,7 @@ feature {NONE} -- Initialization
 		require
 			target_open: not a_new_item.is_target_closed
 		do
-			make_count (n)
+			make_sized (n)
 			new_item := a_new_item
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-07 14:18:56 GMT (Friday 7th July 2023)"
-	revision: "23"
+	date: "2024-09-22 16:31:20 GMT (Sunday 22nd September 2024)"
+	revision: "24"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -179,13 +179,10 @@ feature {NONE} -- Implementation
 
 	new_stage_actions: EL_HASH_TABLE [PROCEDURE, INTEGER]
 		do
-			create Result.make_size (5)
-			if {PLATFORM}.is_unix then
-				-- This is now done with Debian install
-				Result [Stage_copy_files] := agent do_nothing
-			else
-				Result [Stage_copy_files] := agent copy_files
-			end
+			create Result.make (5)
+
+			-- This is now done with Debian install
+			Result [Stage_copy_files] := if {PLATFORM}.is_unix then agent do_nothing else agent copy_files end
 		end
 
 feature {NONE} -- Internal attributes

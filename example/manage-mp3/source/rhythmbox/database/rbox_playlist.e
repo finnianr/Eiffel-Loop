@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 23:24:20 GMT (Wednesday 8th November 2023)"
-	revision: "35"
+	date: "2024-09-22 15:38:14 GMT (Sunday 22nd September 2024)"
+	revision: "36"
 
 class
 	RBOX_PLAYLIST
@@ -195,10 +195,10 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["location/text()", agent add_song_from_location_node],
 				["audio-id/text()", agent do add_song_from_audio_id (node.to_string_8) end],
-				["@name", agent do set_name (node) end]
+				["@name",			  agent do set_name (node) end]
 			>>)
 		end
 
@@ -207,9 +207,9 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
-				["name", agent: ZSTRING do Result := name end],
-				["entries", agent: ITERABLE [RBOX_SONG] do Result := Current end]
+			create Result.make_assignments (<<
+				["name",		agent: ZSTRING do Result := name end],
+				["entries",	agent: ITERABLE [RBOX_SONG] do Result := Current end]
 			>>)
 		end
 

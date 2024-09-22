@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 9:45:47 GMT (Tuesday 2nd April 2024)"
-	revision: "31"
+	date: "2024-09-22 14:23:26 GMT (Sunday 22nd September 2024)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -155,7 +155,7 @@ feature {NONE} -- Build from XML
 			if type /= {ANY} then
 				field_list := field_list.query_if (agent {EL_REFLECTED_FIELD}.is_type (type.type_id))
 			end
-			create Result.make_size (field_list.count)
+			create Result.make (field_list.count)
 			across field_list as list loop
 				field := list.item
 				if element_set.has (field.index) then

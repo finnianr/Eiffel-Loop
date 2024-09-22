@@ -33,8 +33,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "11"
+	date: "2024-09-22 16:42:53 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	FILE_TREE_TRANSFORMER_SCRIPT
@@ -120,7 +120,7 @@ feature {NONE} -- Build from Pyxis
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["command-template/text()",	agent do command_template.copy (node.to_string_8) end],
 				["input-dir/text()",		 		agent do input_dir := node.to_expanded_dir_path end],
 				["output-dir/text()",		 	agent do output_dir := node.to_expanded_dir_path end],

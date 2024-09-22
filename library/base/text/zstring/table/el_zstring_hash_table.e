@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:20 GMT (Saturday 22nd June 2024)"
-	revision: "17"
+	date: "2024-09-22 13:57:54 GMT (Sunday 22nd September 2024)"
+	revision: "18"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	default_create, make, make_size, make_equal, make_from_array
+	default_create, make_assignments, make, make_equal, make_from_tuples
 
 feature -- Status query
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-24 7:14:11 GMT (Saturday 24th June 2023)"
-	revision: "11"
+	date: "2024-09-22 14:20:22 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	WEB_FORM
@@ -89,7 +89,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["title", 				agent: STRING do Result := title end],
 				["component_list", 	agent: ITERABLE [WEB_FORM_COMPONENT] do Result := component_list end]
 			>>)
@@ -100,7 +100,7 @@ feature {NONE} -- Implementation
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: html
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@lang", agent set_language_from_node],
 				["head/title/text()", agent set_title_from_node],
 				["body/select", agent add_drop_down_list],

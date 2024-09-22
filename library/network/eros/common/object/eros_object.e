@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-09-22 14:07:13 GMT (Sunday 22nd September 2024)"
+	revision: "5"
 
 deferred class
 	EROS_OBJECT
@@ -23,11 +23,10 @@ feature {EROS_OBJECT} -- Factory
 
 	new_routine_table: EL_HASH_TABLE [EROS_ROUTINE, STRING]
 		local
-			table: EL_HASH_TABLE [ROUTINE, STRING]
-			routine: EROS_ROUTINE
+			table: EL_HASH_TABLE [ROUTINE, STRING]; routine: EROS_ROUTINE
 		do
-			create table.make (routines)
-			create Result.make_size (table.count)
+			create table.make_assignments (routines)
+			create Result.make (table.count)
 			across table as r loop
 				create routine.make (r.key, r.item)
 				Result.extend (routine, r.key)

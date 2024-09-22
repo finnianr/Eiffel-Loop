@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 14:32:35 GMT (Friday 13th September 2024)"
-	revision: "14"
+	date: "2024-09-22 15:07:19 GMT (Sunday 22nd September 2024)"
+	revision: "15"
 
 class
 	JAVA_DEPLOYMENT_PROPERTIES
@@ -29,9 +29,9 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			create webstart_profiles.make_from_array (<< new_properties >>)
-			create plugin_profiles.make_from_array (<< new_properties >>)
-			create profiles.make (<<
+			webstart_profiles := << new_properties >>
+			plugin_profiles := << new_properties >>
+			create profiles.make_assignments (<<
 				[Var_javaws, webstart_profiles],
 				["javapi", plugin_profiles]
 			>>)
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	webstart_profiles: ARRAYED_LIST [like new_properties]
+	webstart_profiles: EL_ARRAYED_LIST [like new_properties]
 		-- JRE Java web start properties by version
 
 	plugin_profiles: like webstart_profiles
@@ -80,7 +80,7 @@ feature -- Basic operations
 					if not l_properties.item.is_empty then
 						a_lio.put_integer_field ("JRE profile", l_properties.cursor_index - 1)
 						a_lio.put_new_line
-						across l_properties.item.current_keys as name loop
+						across l_properties.item.key_list as name loop
 							a_lio.put_string_field (name.item, l_properties.item [name.item])
 							lio.put_new_line
 						end

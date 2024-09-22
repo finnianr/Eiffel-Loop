@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-27 9:41:04 GMT (Saturday 27th April 2024)"
-	revision: "42"
+	date: "2024-09-22 16:31:20 GMT (Sunday 22nd September 2024)"
+	revision: "43"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -38,7 +38,7 @@ feature {NONE} -- Implementation
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Decrypt AES encrypted file",			agent decrypt_file_with_aes],
 				["Display AES encrypted file",			agent display_encrypted_file],
 				["Encrypt file with AES encryption",	agent encrypt_file_with_aes],

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-19 12:38:03 GMT (Saturday 19th August 2023)"
-	revision: "34"
+	date: "2024-09-22 14:54:11 GMT (Sunday 22nd September 2024)"
+	revision: "35"
 
 class
 	EL_FIELD_TABLE
@@ -15,7 +15,7 @@ class
 inherit
 	EL_IMMUTABLE_KEY_8_TABLE [EL_REFLECTED_FIELD]
 		rename
-			make as make_table
+			make as make_sized
 		export
 			{EL_REFLECTION_HANDLER} all
 			{ANY} extend, found, found_item, count, start, after, forth,
@@ -54,7 +54,7 @@ feature -- Access
 			field_list: ARRAYED_LIST [like item]
 		do
 			if excluded_set.count = 0 then
-				field_list := linear_representation
+				field_list := item_list
 			else
 				create field_list.make (count - excluded_set.count)
 				from start until after loop
@@ -68,13 +68,13 @@ feature -- Access
 			Result := field_list.area
 		end
 
-	type_set: ARRAY [like type_table.item]
+	type_set: like type_table.item_list
 		-- set of types use in table
 		do
-			Result := type_table.linear_representation.to_array
+			Result := type_table.item_list
 		end
 
-	type_table: HASH_TABLE [TYPE [ANY], INTEGER]
+	type_table: EL_HASH_TABLE [TYPE [ANY], INTEGER]
 		do
 			create Result.make_equal (count)
 			across Current as field loop

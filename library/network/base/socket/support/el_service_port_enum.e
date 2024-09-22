@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 6:36:26 GMT (Wednesday 28th August 2024)"
-	revision: "5"
+	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
+	revision: "6"
 
 class
 	EL_SERVICE_PORT_ENUM
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 			UDP_server := 67
 			UDP_client := 68
 
-			create secure_table.make (<<
+			create secure_table.make_assignments (<<
 				[HTTP, HTTPS], [IMAP, IMAPS], [POP3, POP3S], [SMTP, SMTPS]
 			>>)
 		end

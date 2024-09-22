@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:19:34 GMT (Friday 13th September 2024)"
-	revision: "50"
+	date: "2024-09-22 15:44:18 GMT (Sunday 22nd September 2024)"
+	revision: "51"
 
 class
 	RBOX_DATABASE
@@ -185,7 +185,7 @@ feature -- Access
 		do
 			l_template := "item [%S]: %S"
 			create Result.make (songs_by_location.count)
-			across songs_by_location.current_keys as key loop
+			across songs_by_location.key_list as key loop
 				Result.extend (l_template #$ [key.cursor_index, key.item.to_file_uri_path.base])
 			end
 		end
@@ -210,9 +210,9 @@ feature -- Access
 
 	silence_intervals: ARRAY [RBOX_SONG]
 
-	songs_by_audio_id: HASH_TABLE [RBOX_SONG, STRING]
+	songs_by_audio_id: EL_HASH_TABLE [RBOX_SONG, STRING]
 
-	songs_by_location: HASH_TABLE [RBOX_SONG, EL_URI]
+	songs_by_location: EL_HASH_TABLE [RBOX_SONG, EL_URI]
 
 	version: REAL
 
@@ -552,7 +552,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["version", agent: REAL_REF do Result := version.to_reference end ],
 				["entries", agent: ITERABLE [RBOX_IRADIO_ENTRY] do Result := entries end]
 			>>)
@@ -563,7 +563,7 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: rhythmdb
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["@version",					agent do version := node.to_real end],
 				["entry[@type='iradio']",	agent do set_next_context (new_iradio_entry) end],
 				["entry[@type='ignore']",	agent do set_next_context (new_ignored_entry) end],

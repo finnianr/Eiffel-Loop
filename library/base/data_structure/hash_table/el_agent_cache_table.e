@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-09-22 15:46:17 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 class
 	EL_AGENT_CACHE_TABLE [G, K -> HASHABLE]
@@ -15,8 +15,8 @@ class
 inherit
 	EL_CACHE_TABLE [G, K]
 		rename
-			make as make_table,
-			make_equal as make_equal_table
+			make as make_sized,
+			make_equal as make_equal_sized
 		end
 
 create
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 	make (n: INTEGER; a_new_item: like new_item_agent)
 		do
-			make_table (n)
+			make_sized (n)
 			new_item_agent := a_new_item
 		end
 

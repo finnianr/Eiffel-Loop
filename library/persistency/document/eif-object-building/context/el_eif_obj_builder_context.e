@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:10:11 GMT (Sunday 25th August 2024)"
-	revision: "25"
+	date: "2024-09-22 14:07:13 GMT (Sunday 22nd September 2024)"
+	revision: "26"
 
 deferred class
 	EL_EIF_OBJ_BUILDER_CONTEXT
@@ -102,8 +102,7 @@ feature {EL_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 			action_table.compare_objects
 			add_builder_actions_for_xpaths_selectors (action_table)
 
-			create Result.make_size (action_table.count)
-			Result.compare_objects
+			create Result.make_equal (action_table.count)
 			from action_table.start until action_table.after loop
 				Result.extend (action_table.item_for_iteration , action_table.key_for_iteration.as_string_32)
 				action_table.forth
@@ -125,24 +124,22 @@ feature {NONE} -- Implementation
 	add_builder_actions_for_xpaths_selectors (a_building_actions: like building_actions)
 		-- add builder actions for xpaths containing attribute value predicates
 		-- /AAA/BBB[@name='x']/@name
-		local
-			xpath_array: ARRAY [STRING]; i: INTEGER
 		do
-			xpath_array := a_building_actions.current_keys
-			from i := 1 until i > xpath_array.count loop
-				XPath_parser.set_source_text (xpath_array [i])
-				XPath_parser.parse
+			if attached XPath_parser as parser then
+				across a_building_actions.key_list as key_list loop
+					parser.set_source_text (key_list.item)
+					parser.parse
 
-				if XPath_parser.path_contains_attribute_value_predicate
-					and then attached xpaths_ending_with_attribute_value_predicate (XPath_parser.step_list) as xpath_list
-				then
-					across xpath_list as list loop
-						if attached list.item as l_xpath then
-							a_building_actions.put (agent modify_xpath_to_select_element_by_attribute_value, l_xpath)
+					if parser.path_contains_attribute_value_predicate and then
+						attached xpaths_ending_with_attribute_value_predicate (parser.step_list) as xpath_list
+					then
+						across xpath_list as list loop
+							if attached list.item as l_xpath then
+								a_building_actions.put (agent modify_xpath_to_select_element_by_attribute_value, l_xpath)
+							end
 						end
 					end
 				end
-				i := i + 1
 			end
 		end
 

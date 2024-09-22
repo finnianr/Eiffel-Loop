@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 10:03:45 GMT (Tuesday 27th August 2024)"
-	revision: "12"
+	date: "2024-09-22 15:13:32 GMT (Sunday 22nd September 2024)"
+	revision: "13"
 
 class
 	EL_CONSOLE_MANAGER_TOOLBAR
@@ -140,7 +140,7 @@ feature {EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER} -- Implementation
 		-- table of key codes and left-shifted modifiers mapped to procedures
 		-- using `single' or `combination' to create key
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[combined (Alt, ev.Key_left), agent go_history_previous],
 				[combined (Alt, ev.Key_right), agent go_history_next]
 			>>)
@@ -162,7 +162,7 @@ feature {NONE} -- Constants
 
 	Action_table: EL_PROCEDURE_TABLE [ZSTRING]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["start",	 agent go_history_start],
 				["previous", agent go_history_previous],
 				["next",		 agent go_history_next],

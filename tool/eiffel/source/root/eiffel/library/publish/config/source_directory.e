@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 13:43:20 GMT (Saturday 1st June 2024)"
-	revision: "20"
+	date: "2024-09-22 17:04:49 GMT (Sunday 22nd September 2024)"
+	revision: "21"
 
 class
 	SOURCE_DIRECTORY
@@ -139,7 +139,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["class_list",			  agent: like class_list do Result := sorted_class_list end],
 				["contents_dir_title", agent: ZSTRING do Result := XML.escaped (contents_dir_title) end],
 				["dir_title",			  agent: ZSTRING do Result := XML.escaped (dir_title) end],

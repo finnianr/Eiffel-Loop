@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 9:43:01 GMT (Saturday 24th August 2024)"
-	revision: "17"
+	date: "2024-09-22 14:15:12 GMT (Sunday 22nd September 2024)"
+	revision: "18"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -45,14 +45,14 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			make_machine
-			make_size (1)
+			make_sized (1)
 		end
 
 	make_from_file (a_file_path: FILE_PATH)
 		do
 			make_machine
 			if attached File.plain_text_lines (a_file_path) as lines then
-				make_size (lines.count)
+				make_sized (lines.count)
 				do_with_split (agent find_first_cookie, lines, False)
 			end
 		end
