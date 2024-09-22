@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-16 17:21:20 GMT (Monday 16th October 2023)"
-	revision: "9"
+	date: "2024-09-22 17:41:50 GMT (Sunday 22nd September 2024)"
+	revision: "10"
 
 class
 	EL_SERVICE_MANAGER_SHELL
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 			screen: EL_SERVICE_SCREEN; longest_name_count: INTEGER
 		do
 			longest_name_count := config.screen_list.longest_name_count
-			create Result.make_size (config.screen_list.count)
+			create Result.make (config.screen_list.count)
 			across config.screen_list as list loop
 				screen := list.item
 				Result [screen.menu_name (longest_name_count)] := agent screen.resume_or_launch (Current)

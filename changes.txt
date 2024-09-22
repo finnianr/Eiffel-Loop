@@ -760,3 +760,6 @@ Improved EL_BATCH_AUTOTEST; reorganized testing for fast-cgi
 Sun 8th Sep 2024, 16:16:52
 Set compatibility mode in registry; Test set for Tuple.fill_immutable
 
+Sun 22nd Sep 2024, 17:33:09
+Major refactor of EL_HASH_TABLE, with optimized list conversion
+

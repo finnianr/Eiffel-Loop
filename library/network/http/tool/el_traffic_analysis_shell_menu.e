@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 15:32:21 GMT (Wednesday 10th July 2024)"
-	revision: "11"
+	date: "2024-09-22 17:41:49 GMT (Sunday 22nd September 2024)"
+	revision: "12"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -67,7 +67,7 @@ feature {NONE} -- Factory
 			label: ZSTRING; size_mb: STRING
 		do
 			if attached OS.file_pattern_list (config.archived_web_logs) as file_list then
-				create Result.make_size (file_list.count)
+				create Result.make (file_list.count)
 				file_list.order_by (agent {FILE_PATH}.modification_time, False)
 				across file_list as list loop
 					if attached Date_time.modification_time (list.item) as date
