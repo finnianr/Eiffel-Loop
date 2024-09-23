@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 13:13:43 GMT (Sunday 13th August 2023)"
-	revision: "17"
+	date: "2024-09-23 8:06:48 GMT (Monday 23rd September 2024)"
+	revision: "18"
 
 class
 	EL_DOCUMENT_EIFFEL_OBJECT_BUILDER
@@ -167,7 +167,7 @@ feature {EL_SMART_BUILDABLE_FROM_NODE_SCAN} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Root_context_table: HASH_TABLE [EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, STRING]
+	Root_context_table: EL_HASH_TABLE [EL_EIF_OBJ_ROOT_BUILDER_CONTEXT, STRING]
 			--
 		once
 			create Result.make (11)

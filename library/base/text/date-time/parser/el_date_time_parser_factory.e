@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-09-23 7:50:43 GMT (Monday 23rd September 2024)"
+	revision: "3"
 
 class
 	EL_DATE_TIME_PARSER_FACTORY
@@ -43,7 +43,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Constants
 
-	Conversion_table: HASH_TABLE [EL_DATE_TIME_CONVERSION, STRING]
+	Conversion_table: EL_HASH_TABLE [EL_DATE_TIME_CONVERSION, STRING]
 		once
 			create Result.make_equal (3)
 			Result [Date_time.ISO_8601.format] := create {EL_ISO_8601_DATE_TIME_CONVERSION}.make

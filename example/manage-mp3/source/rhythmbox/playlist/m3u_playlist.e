@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:41:32 GMT (Sunday 22nd September 2024)"
-	revision: "9"
+	date: "2024-09-23 6:19:41 GMT (Monday 23rd September 2024)"
+	revision: "10"
 
 class
 	M3U_PLAYLIST
@@ -49,8 +49,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make_equal (1)
-			Result ["m3u_entry_list"] := agent: EL_ZSTRING_LIST do Result := m3u_entry_list end
+			create Result.make_one ("m3u_entry_list", agent: EL_ZSTRING_LIST do Result := m3u_entry_list end)
 		end
 
 end

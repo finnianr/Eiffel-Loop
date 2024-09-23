@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-05 15:26:12 GMT (Tuesday 5th December 2023)"
-	revision: "14"
+	date: "2024-09-23 6:33:26 GMT (Monday 23rd September 2024)"
+	revision: "15"
 
 deferred class
 	EL_URI_QUERY_TABLE
@@ -30,11 +30,11 @@ feature {NONE} -- Initialization
 			pair_split: EL_URI_QUERY_PAIRS_SPLIT
 		do
 			create pair_split.make (query, is_url)
-			make_count (pair_split.count)
+			make_sized (pair_split.count)
 			pair_split.do_with_pairs (agent set_name_value_from_query)
 		end
 
-	make_count (n: INTEGER)
+	make_sized (n: INTEGER)
 		deferred
 		end
 

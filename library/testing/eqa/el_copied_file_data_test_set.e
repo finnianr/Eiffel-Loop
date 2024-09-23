@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-30 16:14:21 GMT (Saturday 30th December 2023)"
-	revision: "8"
+	date: "2024-09-23 8:14:40 GMT (Monday 23rd September 2024)"
+	revision: "9"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	new_file_digest_table: HASH_TABLE [EL_BYTE_ARRAY, FILE_PATH]
+	new_file_digest_table: EL_HASH_TABLE [EL_BYTE_ARRAY, FILE_PATH]
 		do
 			create Result.make (file_list.count)
 			across file_list as list loop

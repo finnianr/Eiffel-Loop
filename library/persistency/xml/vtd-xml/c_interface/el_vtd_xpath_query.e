@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-01 16:30:11 GMT (Tuesday 1st August 2023)"
-	revision: "15"
+	date: "2024-09-23 8:07:36 GMT (Monday 23rd September 2024)"
+	revision: "16"
 
 class
 	EL_VTD_XPATH_QUERY
@@ -275,7 +275,7 @@ feature {NONE} -- Implementation
 			do_nothing
 		end
 
-	C_namespaces: HASH_TABLE [ARRAY [EL_C_WIDE_CHARACTER_STRING], STRING]
+	C_namespaces: EL_HASH_TABLE [ARRAY [EL_C_WIDE_CHARACTER_STRING], STRING]
 			--
 		once
 			create Result.make_equal (11)

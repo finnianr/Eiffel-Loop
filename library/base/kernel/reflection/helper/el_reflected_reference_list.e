@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-09-23 8:17:08 GMT (Monday 23rd September 2024)"
+	revision: "3"
 
 class
 	EL_REFLECTED_REFERENCE_LIST
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	non_abstract_type_table: HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
+	non_abstract_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
 		do
 			if attached non_abstract_types as type_list then
 				create Result.make (type_list.count)

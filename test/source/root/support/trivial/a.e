@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2024-09-23 7:59:17 GMT (Monday 23rd September 2024)"
+	revision: "9"
 
 class
 	A
@@ -44,7 +44,7 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	done_mask_table: HASH_TABLE [NATURAL, POINTER]
+	done_mask_table: EL_HASH_TABLE [NATURAL, POINTER]
 		once
 			create Result.make (32)
 		end

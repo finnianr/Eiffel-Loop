@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 6:00:11 GMT (Friday 19th July 2024)"
-	revision: "19"
+	date: "2024-09-23 7:54:44 GMT (Monday 23rd September 2024)"
+	revision: "20"
 
 deferred class
 	EL_MENU
@@ -302,7 +302,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	shortcut_descriptions: HASH_TABLE [ZSTRING, INTEGER]
+	shortcut_descriptions: EL_HASH_TABLE [ZSTRING, INTEGER]
 		-- keyboard shortcuts info indexed by menu item id
 
 	window: EV_WINDOW

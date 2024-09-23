@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2024-09-23 7:56:06 GMT (Monday 23rd September 2024)"
+	revision: "14"
 
 class
 	EL_MP3_AUDIO_SIGNATURE_READER
@@ -62,7 +62,7 @@ feature {NONE} -- Status query
 
 feature {NONE} -- Implementation
 
-	mp3_path_table: HASH_TABLE [FILE_PATH, EL_UUID]
+	mp3_path_table: EL_HASH_TABLE [FILE_PATH, EL_UUID]
 
 	music_dir: DIR_PATH
 

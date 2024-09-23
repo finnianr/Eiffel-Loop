@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-09-23 7:48:54 GMT (Monday 23rd September 2024)"
+	revision: "7"
 
 deferred class
 	EL_PRECURSOR_MAP_16
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 			no_more_than_16_flag_bits: done_mask_table.count <= {PLATFORM}.Natural_16_bits
 		end
 
-	done_mask_table: HASH_TABLE [NATURAL_16, POINTER]
+	done_mask_table: EL_HASH_TABLE [NATURAL_16, POINTER]
 		-- implement as a once function for each class heirarchy
 		deferred
 		end

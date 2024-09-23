@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "8"
+	date: "2024-09-23 7:57:01 GMT (Monday 23rd September 2024)"
+	revision: "9"
 
 class
 	LIBID3_CONSTANTS
@@ -418,7 +418,7 @@ feature {NONE} -- Other
 
 feature {NONE} -- Conversion
 
-	Frame_id_table: HASH_TABLE [INTEGER, STRING]
+	Frame_id_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
 			create Result.make (Frame_codes.count)
 			across Frame_codes as code loop

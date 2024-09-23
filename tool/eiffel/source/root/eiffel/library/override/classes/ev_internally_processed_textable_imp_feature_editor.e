@@ -22,8 +22,7 @@ feature {NONE} -- Implementation
 
 	new_feature_edit_actions: like feature_edit_actions
 		do
-			create Result.make_equal (1)
-			Result ["escaped_text"] := agent fix_contract_expression
+			create Result.make_one ("escaped_text", agent fix_contract_expression)
 		end
 
 	fix_contract_expression (class_feature: CLASS_FEATURE)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-09-23 7:56:15 GMT (Monday 23rd September 2024)"
+	revision: "7"
 
 class
 	EL_AUDIO_WAVE_HEADER
@@ -164,7 +164,7 @@ feature -- Access
 
 	size: INTEGER
 
-	extra_header_chunks: HASH_TABLE [EL_WAV_FORMAT_CHUNK, STRING]
+	extra_header_chunks: EL_HASH_TABLE [EL_WAV_FORMAT_CHUNK, STRING]
 
 feature {NONE} -- Implementation
 

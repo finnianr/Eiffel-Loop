@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-27 7:13:08 GMT (Thursday 27th July 2023)"
-	revision: "12"
+	date: "2024-09-23 10:25:46 GMT (Monday 23rd September 2024)"
+	revision: "13"
 
 class
 	REGULAR_FILE_SIZE_SCANNER
@@ -29,9 +29,7 @@ feature {NONE} -- Implementation
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Relative to root node: matrix
 		do
-			create Result.make (<<
-				["entry/file-size/text()", agent increment_size_count]
-			>>)
+			create Result.make_one ("entry/file-size/text()", agent increment_size_count)
 		end
 
 	Root_node_name: STRING = "rhythmdb"

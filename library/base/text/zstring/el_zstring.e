@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 12:28:21 GMT (Friday 30th August 2024)"
-	revision: "121"
+	date: "2024-09-23 8:05:46 GMT (Monday 23rd September 2024)"
+	revision: "122"
 
 class
 	EL_ZSTRING
@@ -504,7 +504,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Once_escape_table: HASH_TABLE [NATURAL, NATURAL]
+	Once_escape_table: EL_HASH_TABLE [NATURAL, NATURAL]
 		once
 			create Result.make (5)
 		end

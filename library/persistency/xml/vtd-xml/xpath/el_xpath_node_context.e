@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-20 9:58:04 GMT (Monday 20th March 2023)"
-	revision: "27"
+	date: "2024-09-23 8:07:58 GMT (Monday 23rd September 2024)"
+	revision: "28"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -74,7 +74,7 @@ feature -- Access
 	namespace_key: STRING
 		-- value in `namespace_table'
 
-	namespace_table: HASH_TABLE [STRING, STRING]
+	namespace_table: EL_HASH_TABLE [STRING, STRING]
 		do
 			Result := parent.namespace_table
 		end

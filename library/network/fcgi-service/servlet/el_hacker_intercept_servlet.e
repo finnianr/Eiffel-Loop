@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:13:30 GMT (Friday 13th September 2024)"
-	revision: "32"
+	date: "2024-09-23 8:00:12 GMT (Monday 23rd September 2024)"
+	revision: "33"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -66,7 +66,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	firewall_status_table: HASH_TABLE [NATURAL_64, NATURAL]
+	firewall_status_table: EL_HASH_TABLE [NATURAL_64, NATURAL]
 		-- map IP number to compact form of `EL_FIREWALL_STATUS' data
 
 feature -- Basic operations

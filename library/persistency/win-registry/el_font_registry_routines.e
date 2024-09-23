@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 7:53:36 GMT (Friday 12th January 2024)"
-	revision: "2"
+	date: "2024-09-23 8:07:17 GMT (Monday 23rd September 2024)"
+	revision: "3"
 
 expanded class
 	EL_FONT_REGISTRY_ROUTINES
@@ -48,7 +48,7 @@ feature -- Access
 
 feature -- Constants
 
-	Substitute_fonts: HASH_TABLE [ZSTRING, STRING_32]
+	Substitute_fonts: EL_HASH_TABLE [ZSTRING, STRING_32]
 		local
 			name: STRING_32
 		once

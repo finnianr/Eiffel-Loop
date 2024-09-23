@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 10:02:55 GMT (Saturday 31st August 2024)"
-	revision: "42"
+	date: "2024-09-23 7:51:56 GMT (Monday 23rd September 2024)"
+	revision: "43"
 
 deferred class
 	EL_REFLECTIVE_LOCALE_TEXTS
@@ -365,7 +365,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Substitution_table: HASH_TABLE [STRING, STRING]
+	Substitution_table: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (3)
 			Result ["%%S"] := "%S"

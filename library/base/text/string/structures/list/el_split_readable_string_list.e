@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 13:16:47 GMT (Thursday 12th September 2024)"
-	revision: "43"
+	date: "2024-09-23 7:53:35 GMT (Monday 23rd September 2024)"
+	revision: "44"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -486,7 +486,7 @@ feature {NONE} -- Constants
 			create Result.make_empty (0)
 		end
 
-	Empty_area_table: HASH_TABLE [SPECIAL [READABLE_STRING_GENERAL], INTEGER]
+	Empty_area_table: EL_HASH_TABLE [SPECIAL [READABLE_STRING_GENERAL], INTEGER]
 		once
 			create Result.make (7)
 		end

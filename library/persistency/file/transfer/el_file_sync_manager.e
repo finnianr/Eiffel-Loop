@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 9:03:11 GMT (Sunday 22nd September 2024)"
-	revision: "24"
+	date: "2024-09-23 8:07:06 GMT (Monday 23rd September 2024)"
+	revision: "25"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -210,7 +210,7 @@ feature {NONE} -- Factory
 
 	new_previous_set: like current_set
 		local
-			file_path: FILE_PATH; current_table: HASH_TABLE [EL_FILE_SYNC_ITEM, FILE_PATH]
+			file_path: FILE_PATH; current_table: EL_HASH_TABLE [EL_FILE_SYNC_ITEM, FILE_PATH]
 			sync_item: EL_FILE_SYNC_ITEM
 		do
 			create current_table.make_equal (current_set.count)

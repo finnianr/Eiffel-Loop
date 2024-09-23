@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 15:31:44 GMT (Sunday 10th December 2023)"
-	revision: "18"
+	date: "2024-09-22 17:48:22 GMT (Sunday 22nd September 2024)"
+	revision: "19"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -20,7 +20,7 @@ class
 inherit
 	EL_ZSTRING_HASH_TABLE [ROUTINE]
 		rename
-			make as make_table
+			make as make_sized
 		end
 
 	DOUBLE_MATH
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 
 	make (a_label: like label; routines: ARRAY [TUPLE [READABLE_STRING_GENERAL, ROUTINE]])
 		do
-			make_table (routines)
+			make_assignments (routines)
 			label := a_label; trial_duration := Default_trial_duration
 			create application_count_list.make (count)
 		end

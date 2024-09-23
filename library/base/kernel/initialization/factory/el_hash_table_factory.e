@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 14:03:02 GMT (Monday 9th September 2024)"
-	revision: "9"
+	date: "2024-09-23 8:04:32 GMT (Monday 23rd September 2024)"
+	revision: "10"
 
 class
 	EL_HASH_TABLE_FACTORY [G -> HASH_TABLE [ANY, HASHABLE] create make, make_equal end]

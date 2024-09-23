@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-09-23 8:14:55 GMT (Monday 23rd September 2024)"
+	revision: "7"
 
 class
 	XML_PARENT_TAG_LIST
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 	new_line_after_open_tag: BOOLEAN = true
 
-	XML_value_tag_lookup: HASH_TABLE [XML_VALUE_TAG_PAIR, STRING]
+	XML_value_tag_lookup: EL_HASH_TABLE [XML_VALUE_TAG_PAIR, STRING]
 			--
 		once
 			create Result.make (17)

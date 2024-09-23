@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:44:43 GMT (Sunday 22nd September 2024)"
-	revision: "15"
+	date: "2024-09-23 6:38:54 GMT (Monday 23rd September 2024)"
+	revision: "16"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
@@ -103,8 +103,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make_equal (1)
-			Result ["item_list"] := agent item_list
+			create Result.make_one ("item_list", agent item_list)
 		end
 
 feature {NONE} -- Constants

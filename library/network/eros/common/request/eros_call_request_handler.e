@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2024-09-23 7:58:16 GMT (Monday 23rd September 2024)"
+	revision: "25"
 
 class
 	EROS_CALL_REQUEST_HANDLER
@@ -217,7 +217,7 @@ feature {NONE} -- Internal attributes
 
 	new_outbound_type: INTEGER
 
-	target_table: HASH_TABLE [EROS_REMOTELY_ACCESSIBLE, STRING]
+	target_table: EL_HASH_TABLE [EROS_REMOTELY_ACCESSIBLE, STRING]
 		-- objects available for duration of client sesssion
 
 	request_builder: EROS_CALL_REQUEST_BUILDABLE_FROM_NODE_SCAN;

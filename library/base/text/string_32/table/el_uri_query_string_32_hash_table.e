@@ -1,19 +1,21 @@
 note
-	description: "Hash table of URL query string name-value pairs"
+	description: "[
+		Implementation of ${EL_URI_QUERY_HASH_TABLE} for strings of type ${STRING_32}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:16:19 GMT (Tuesday 20th August 2024)"
-	revision: "18"
+	date: "2024-09-23 7:42:47 GMT (Monday 23rd September 2024)"
+	revision: "19"
 
 class
 	EL_URI_QUERY_STRING_32_HASH_TABLE
 
 inherit
-	EL_URI_QUERY_HASH_TABLE [STRING_32]
+	EL_URI_QUERY_HASH_TABLE [STRING_32, EL_STRING_32_BUFFER]
 
 create
 	make_equal, make_url, make_uri, make_default

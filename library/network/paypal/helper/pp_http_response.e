@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:08:20 GMT (Tuesday 27th August 2024)"
-	revision: "19"
+	date: "2024-09-23 6:33:26 GMT (Monday 23rd September 2024)"
+	revision: "20"
 
 class
 	PP_HTTP_RESPONSE
@@ -34,7 +34,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_count (n: INTEGER)
+	make_sized (n: INTEGER)
 		do
 			make_default
 			error_list := Default_error_list

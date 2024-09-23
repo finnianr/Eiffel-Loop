@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-20 11:34:18 GMT (Monday 20th February 2023)"
-	revision: "15"
+	date: "2024-09-23 10:25:57 GMT (Monday 23rd September 2024)"
+	revision: "16"
 
 class
 	BENCHMARK_HTML
@@ -114,7 +114,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["date", 					agent get_date],
 				["data_rows",				agent data_rows],
 				["encoding",				agent: STRING do Result := Codec.name end],

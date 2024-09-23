@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:10:03 GMT (Sunday 22nd September 2024)"
-	revision: "7"
+	date: "2024-09-23 8:41:10 GMT (Monday 23rd September 2024)"
+	revision: "8"
 
 class
 	EL_TUPLE_FIELD_TABLE
@@ -26,10 +26,10 @@ inherit
 		end
 
 create
-	make, make_assignments, make_empty, make_reversed
+	make, make_empty, make_reversed
 
 convert
-	make_assignments ({STRING})
+	make ({STRING})
 
 feature {NONE} -- Initialization
 

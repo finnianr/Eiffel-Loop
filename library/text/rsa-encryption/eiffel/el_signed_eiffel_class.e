@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:33:27 GMT (Sunday 22nd September 2024)"
-	revision: "10"
+	date: "2024-09-23 6:27:56 GMT (Monday 23rd September 2024)"
+	revision: "11"
 
 class
 	EL_SIGNED_EIFFEL_CLASS
@@ -66,8 +66,7 @@ feature {NONE} -- Implementation
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make_equal (1)
-			Result ["name"] := agent get_name
+			create Result.make_one ("name", agent get_name)
 		end
 
 feature {NONE} -- Constants

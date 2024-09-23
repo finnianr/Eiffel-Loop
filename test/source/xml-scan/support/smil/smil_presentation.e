@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:23:18 GMT (Sunday 22nd September 2024)"
-	revision: "19"
+	date: "2024-09-23 6:27:26 GMT (Monday 23rd September 2024)"
+	revision: "20"
 
 class
 	SMIL_PRESENTATION
@@ -108,8 +108,7 @@ feature {NONE} -- Build from XML
 	PI_building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make_equal (1)
-			Result ["create"] := agent on_create
+			create Result.make_one ("create", agent on_create)
 		end
 
 feature {NONE} -- Constants

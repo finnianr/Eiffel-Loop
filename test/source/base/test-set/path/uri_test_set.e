@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:16:49 GMT (Sunday 22nd September 2024)"
-	revision: "35"
+	date: "2024-09-23 7:35:50 GMT (Monday 23rd September 2024)"
+	revision: "36"
 
 class
 	URI_TEST_SET
@@ -236,6 +236,8 @@ feature -- Tests
 		note
 			testing:	"[
 				covers/{EL_URI_QUERY_STRING_8}.append_general,
+				covers/{EL_URI_QUERY_ZSTRING_HASH_TABLE}.has_general_key,
+				covers/{EL_URI_QUERY_ZSTRING_HASH_TABLE}.set_string_general,
 				covers/{EL_URI_QUERY_STRING_8}.to_utf_8,
 				covers/{EL_URI_QUERY_HASH_TABLE}.make_url,
 				covers/{EL_URI_QUERY_HASH_TABLE}.url_query
@@ -250,7 +252,7 @@ feature -- Tests
 			if attached new_book_table (Book_data.values) as book_table then
 				create book.make_equal (book_table.count)
 				across book_table as info loop
-					book.set_name_value (info.key, info.item)
+					book.set_string_general (info.key, info.item)
 				end
 			end
 
@@ -262,6 +264,11 @@ feature -- Tests
 			create book.make_url (Book_data.encoded)
 			across new_book_table (Book_data.values) as info loop
 				assert ("valid " + info.key, book.item (info.key) ~ info.item)
+				if book.has_general_key (info.key) then
+					assert_same_string (Void, book.found_item, info.item)
+				else
+					failed ("has key")
+				end
 			end
 			book_query_string := book.url_query
 			put_query ("book_query_string", book_query_string)

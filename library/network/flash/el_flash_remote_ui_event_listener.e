@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-09-23 8:00:22 GMT (Monday 23rd September 2024)"
+	revision: "5"
 
 deferred class
 	EL_FLASH_REMOTE_UI_EVENT_LISTENER
@@ -131,7 +131,7 @@ feature {NONE} -- Implementation
 
 	listen_socket, cmd_socket: NETWORK_STREAM_SOCKET
 
-	command_actions: HASH_TABLE [PROCEDURE [EL_FLASH_REMOTE_UI_EVENT_LISTENER, TUPLE], STRING]
+	command_actions: EL_HASH_TABLE [PROCEDURE [EL_FLASH_REMOTE_UI_EVENT_LISTENER, TUPLE], STRING]
 
 	last_command: STRING
 
@@ -170,7 +170,6 @@ feature {NONE} -- Constants
 		end
 
 end
-
 
 
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:23:20 GMT (Sunday 22nd September 2024)"
-	revision: "12"
+	date: "2024-09-23 6:21:02 GMT (Monday 23rd September 2024)"
+	revision: "13"
 
 class
 	EROS_STRING_RESULT
@@ -55,8 +55,7 @@ feature {NONE} -- Building from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
 		do
-			create Result.make_equal (1)
-			Result ["@value"] := agent do node.set_8 (value) end
+			create Result.make_one ("@value", agent do node.set_8 (value) end)
 		end
 
 feature {NONE} -- Implementation

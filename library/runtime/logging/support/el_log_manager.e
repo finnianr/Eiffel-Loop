@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 17:16:22 GMT (Monday 15th July 2024)"
-	revision: "24"
+	date: "2024-09-23 8:12:10 GMT (Monday 23rd September 2024)"
+	revision: "25"
 
 class
 	EL_LOG_MANAGER
@@ -405,9 +405,9 @@ feature {NONE} -- Internal attributes
 
 	console_manager_active: BOOLEAN
 
-	log_file_by_object_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, INTEGER]
+	log_file_by_object_id_table: EL_HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, INTEGER]
 
-	log_file_by_thread_id_table: HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, POINTER]
+	log_file_by_thread_id_table: EL_HASH_TABLE [EL_FILE_AND_CONSOLE_LOG_OUTPUT, POINTER]
 
 	output_directory: DIR_PATH
 

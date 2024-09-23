@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-19 16:00:01 GMT (Sunday 19th March 2023)"
-	revision: "10"
+	date: "2024-09-23 8:00:41 GMT (Monday 23rd September 2024)"
+	revision: "11"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
@@ -55,7 +55,7 @@ feature -- Status query
 
 feature {NONE} -- Constants
 
-	Parameter_table: HASH_TABLE [STRING, STRING]
+	Parameter_table: EL_HASH_TABLE [STRING, STRING]
 		once
 			create Result.make (1)
 		end

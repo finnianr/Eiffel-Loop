@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:08:14 GMT (Tuesday 20th August 2024)"
-	revision: "8"
+	date: "2024-09-23 7:53:21 GMT (Monday 23rd September 2024)"
+	revision: "9"
 
 deferred class
 	EL_IMMUTABLE_STRING_GRID [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
@@ -98,7 +98,7 @@ feature {EL_IMMUTABLE_STRING_TABLE} -- Implementation
 		deferred
 		end
 
-	new_table: HASH_TABLE [like i_th, like i_th]
+	new_table: EL_HASH_TABLE [like i_th, like i_th]
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "48"
+	date: "2024-09-23 8:18:01 GMT (Monday 23rd September 2024)"
+	revision: "49"
 
 deferred class
 	EL_REFLECTION_CONSTANTS
@@ -91,7 +91,7 @@ feature {NONE} -- Reference types
 			>>)
 		end
 
-	Non_abstract_field_type_table: HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
+	Non_abstract_field_type_table: EL_HASH_TABLE [TYPE [EL_REFLECTED_REFERENCE [ANY]], INTEGER]
 		once
 			Result := Reference_field_list.non_abstract_type_table
 		end

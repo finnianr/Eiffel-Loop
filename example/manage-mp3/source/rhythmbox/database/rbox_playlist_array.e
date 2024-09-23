@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:42:40 GMT (Sunday 22nd September 2024)"
-	revision: "21"
+	date: "2024-09-23 6:24:33 GMT (Monday 23rd September 2024)"
+	revision: "22"
 
 class
 	RBOX_PLAYLIST_ARRAY
@@ -99,10 +99,11 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: rhythmdb-playlists
 		do
-			create Result.make_equal (1)
-			Result ["playlist[@type='static']"] := agent do
-				set_collection_context (Current, create {RBOX_PLAYLIST}.make_default)
-			end
+			create Result.make_one ("playlist[@type='static']",
+				agent do
+					set_collection_context (Current, create {RBOX_PLAYLIST}.make_default)
+				end
+			)
 		end
 
 feature {NONE} -- Evolicity reflection

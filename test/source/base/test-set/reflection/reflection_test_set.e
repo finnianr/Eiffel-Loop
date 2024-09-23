@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:20:18 GMT (Sunday 22nd September 2024)"
-	revision: "68"
+	date: "2024-09-23 8:18:41 GMT (Monday 23rd September 2024)"
+	revision: "69"
 
 class
 	REFLECTION_TEST_SET
@@ -472,7 +472,7 @@ feature -- Tests
 	test_reflection
 		-- REFLECTION_TEST_SET.test_reflection
 		local
-			table: HASH_TABLE [STRING_32, IMMUTABLE_STRING_8]; object: MY_DRY_CLASS
+			table: EL_HASH_TABLE [STRING_32, IMMUTABLE_STRING_8]; object: MY_DRY_CLASS
 		do
 			create object.make_default
 			create table.make_equal (object.field_table.count)

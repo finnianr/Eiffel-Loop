@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 12:34:28 GMT (Friday 30th August 2024)"
-	revision: "29"
+	date: "2024-09-23 7:57:45 GMT (Monday 23rd September 2024)"
+	revision: "30"
 
 class
 	EL_HTTP_HEADERS
@@ -190,7 +190,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	non_standard_table: HASH_TABLE [STRING, STRING]
+	non_standard_table: EL_HASH_TABLE [STRING, STRING]
 		-- fields starting with "x-"
 
 feature {NONE} -- Constants

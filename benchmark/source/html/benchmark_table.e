@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-22 18:07:05 GMT (Monday 22nd May 2023)"
-	revision: "18"
+	date: "2024-09-23 10:26:04 GMT (Monday 23rd September 2024)"
+	revision: "19"
 
 deferred class
 	BENCHMARK_TABLE
@@ -107,7 +107,7 @@ feature {NONE} -- Evolicity fields
 	getter_function_table: like getter_functions
 			--
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["column_title", agent: STRING do Result := column_title end],
 				["title",		  agent: ZSTRING do Result := title end],
 				["data_rows",	  agent: EL_ZSTRING_LIST do Result := data_rows end],

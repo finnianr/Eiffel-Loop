@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:59:47 GMT (Sunday 22nd September 2024)"
-	revision: "48"
+	date: "2024-09-23 8:37:40 GMT (Monday 23rd September 2024)"
+	revision: "49"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -16,8 +16,6 @@ inherit
 	EL_FILE_DATA_TEST_SET
 
 	SHARED_DEV_ENVIRON
-
-	EL_MODULE_TUPLE
 
 create
 	make
@@ -330,15 +328,13 @@ feature {NONE} -- Constants
 	]
 		once
 			create Result
-			Tuple.line_fill (Result, "[
-				condition/custom [@name='%S']/@value
-				/system/target/external_include[condition/platform/@value='%S']
-				/system/target/external_object[%S]
-				/system/target/library[@name='%S']/@location
-				/system/target/option/%S[@name='%S']/@enabled
-				renaming[@old_name='%S']/@new_name
-				/system/target/setting[@name='%S']/@value
-			]")
+			Result.custom_value := "condition/custom [@name='%S']/@value"
+			Result.external_include := "/system/target/external_include[condition/platform/@value='%S']"
+			Result.external_object := "/system/target/external_object[%S]"
+			Result.library_location := "/system/target/library[@name='%S']/@location"
+			Result.named_option := "/system/target/option/%S[@name='%S']/@enabled"
+			Result.renaming_new_name := "renaming[@old_name='%S']/@new_name"
+			Result.setting := "/system/target/setting[@name='%S']/@value"
 		end
 
 	Valid_platforms: EL_STRING_8_LIST

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 17:46:51 GMT (Tuesday 3rd September 2024)"
-	revision: "3"
+	date: "2024-09-23 7:47:49 GMT (Monday 23rd September 2024)"
+	revision: "4"
 
 deferred class
 	EL_SHAREABLE_CACHE_TABLE [G, K -> HASHABLE]
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Implementation
 
-	once_cache_table: HASH_TABLE [G, K]
+	once_cache_table: EL_HASH_TABLE [G, K]
 		-- implement as once routine
 		deferred
 		end

@@ -6,22 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:43 GMT (Thursday 5th September 2024)"
-	revision: "16"
+	date: "2024-09-23 7:45:52 GMT (Monday 23rd September 2024)"
+	revision: "17"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
 
 inherit
-	HASH_TABLE [REAL, NATURAL_8]
+	EL_HASH_TABLE [REAL, NATURAL_8]
 		rename
-			make as make_table,
+			make as make_sized,
 			fill as fill_from
 		end
 
 	EL_INTEGER_MATH
 		undefine
-			copy, is_equal
+			copy, default_create, is_equal
 		end
 
 	EL_MODULE_LIO

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:15:49 GMT (Saturday 23rd December 2023)"
-	revision: "11"
+	date: "2024-09-23 7:57:37 GMT (Monday 23rd September 2024)"
+	revision: "12"
 
 class
 	EL_HTTP_COOKIE
@@ -158,7 +158,7 @@ feature -- Conversion
 
 feature {NONE} -- Implementation
 
-	header_terms: HASH_TABLE [STRING, STRING]
+	header_terms: EL_HASH_TABLE [STRING, STRING]
 		do
 			create Result.make (0)
 			Result [name] := value

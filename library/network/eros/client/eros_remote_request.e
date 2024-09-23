@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "18"
+	date: "2024-09-23 8:06:14 GMT (Monday 23rd September 2024)"
+	revision: "19"
 
 class
 	EROS_REMOTE_REQUEST
@@ -133,7 +133,7 @@ feature {NONE} -- Evolicity
 		do
 			create Result.make_assignments (<<
 				["serializeable", agent: EVOLICITY_SERIALIZEABLE_AS_XML do Result := serializeable end],
-				["expression", agent: STRING do Result := expression end]
+				["expression",		agent: STRING do Result := expression end]
 			>>)
 		end
 

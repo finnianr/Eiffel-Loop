@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 14:48:02 GMT (Thursday 12th September 2024)"
-	revision: "66"
+	date: "2024-09-23 7:49:45 GMT (Monday 23rd September 2024)"
+	revision: "67"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -70,7 +70,7 @@ feature {NONE} -- Initialization
 	make
 		local
 			index, range_count, size_table, array_max_count, i: INTEGER
-			name_table: HASH_TABLE [like ENUM_FIELD, like as_hashable]
+			name_table: EL_HASH_TABLE [like ENUM_FIELD, like as_hashable]
 			enum_list: EL_ARRAYED_LIST [like ENUM_FIELD]; enum_array: ARRAY [like ENUM_FIELD]
 			use_array: BOOLEAN
 		do

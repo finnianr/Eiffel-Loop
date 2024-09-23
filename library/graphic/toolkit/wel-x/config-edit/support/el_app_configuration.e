@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-09-23 7:55:57 GMT (Monday 23rd September 2024)"
+	revision: "5"
 
 deferred class
 	EL_APP_CONFIGURATION
@@ -174,9 +174,8 @@ feature {NONE} -- Implementation
 	
 	field_array: ARRAYED_LIST [EL_EDITABLE_VALUE]
 
-	field_change_actions: HASH_TABLE [LINKED_LIST [PROCEDURE [ANY, TUPLE]], INTEGER]
+	field_change_actions: EL_HASH_TABLE [LINKED_LIST [PROCEDURE [ANY, TUPLE]], INTEGER]
 	
 	change_actions_to_apply: LINKED_SET [PROCEDURE [ANY, TUPLE]]
 
 end
-

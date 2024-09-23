@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:43:53 GMT (Monday 25th March 2024)"
-	revision: "22"
+	date: "2024-09-23 7:55:25 GMT (Monday 23rd September 2024)"
+	revision: "23"
 
 class
 	EL_SVG_TEMPLATE_PIXMAP
@@ -139,7 +139,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	color_table: HASH_TABLE [INTEGER, STRING]
+	color_table: EL_HASH_TABLE [INTEGER, STRING]
 
 	template: EL_STRING_8_TEMPLATE
 

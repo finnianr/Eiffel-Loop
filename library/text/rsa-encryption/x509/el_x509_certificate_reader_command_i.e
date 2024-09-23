@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 12:24:10 GMT (Saturday 22nd July 2023)"
-	revision: "21"
+	date: "2024-09-23 8:16:37 GMT (Monday 23rd September 2024)"
+	revision: "22"
 
 deferred class
 	EL_X509_CERTIFICATE_READER_COMMAND_I
@@ -80,7 +80,7 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	data_table: HASH_TABLE [STRING, STRING]
+	data_table: EL_HASH_TABLE [STRING, STRING]
 		-- table of hex-strings by field
 
 	rsa_key: EL_REFLECTIVE_RSA_KEY

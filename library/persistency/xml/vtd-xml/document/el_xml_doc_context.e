@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "30"
+	date: "2024-09-23 8:07:45 GMT (Monday 23rd September 2024)"
+	revision: "31"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -243,7 +243,7 @@ feature -- Status query
 
 feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 
-	new_namespace_table: HASH_TABLE [STRING, STRING]
+	new_namespace_table: EL_HASH_TABLE [STRING, STRING]
 		local
 			stage, last_token: INTEGER; s: EL_STRING_8_ROUTINES
 		do

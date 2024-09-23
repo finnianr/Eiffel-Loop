@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:22 GMT (Saturday 22nd June 2024)"
-	revision: "9"
+	date: "2024-09-23 7:50:24 GMT (Monday 23rd September 2024)"
+	revision: "10"
 
 class
 	EL_PATH_STEP_TABLE
@@ -190,7 +190,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	index_table: HASH_TABLE [INTEGER, ZSTRING]
+	index_table: EL_HASH_TABLE [INTEGER, ZSTRING]
 
 feature {NONE} -- Constants
 

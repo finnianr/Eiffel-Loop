@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:41:32 GMT (Sunday 22nd September 2024)"
-	revision: "12"
+	date: "2024-09-23 6:20:04 GMT (Monday 23rd September 2024)"
+	revision: "13"
 
 class
 	DJ_EVENTS_HTML_INDEX
@@ -68,8 +68,7 @@ feature {NONE} -- Evolicity fields
 
 	getter_function_table: like getter_functions
 		do
-			create Result.make_equal (1)
-			Result ["events_by_year"] := agent get_events_by_year
+			create Result.make_one ("events_by_year", agent get_events_by_year)
 		end
 
 feature {NONE} -- Internal attributes

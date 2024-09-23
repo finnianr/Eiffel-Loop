@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-09-23 8:07:27 GMT (Monday 23rd September 2024)"
+	revision: "8"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -276,7 +276,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Element_value_table: HASH_TABLE [READABLE_STRING_GENERAL, STRING]
+	Element_value_table: EL_HASH_TABLE [READABLE_STRING_GENERAL, STRING]
 		once
 			create Result.make (3)
 		end

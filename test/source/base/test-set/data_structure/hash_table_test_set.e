@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:44:31 GMT (Sunday 22nd September 2024)"
-	revision: "49"
+	date: "2024-09-23 10:05:54 GMT (Monday 23rd September 2024)"
+	revision: "50"
 
 class
 	HASH_TABLE_TEST_SET
@@ -21,7 +21,7 @@ inherit
 
 	JSON_TEST_DATA
 
-	EL_SHARED_TEST_TEXT
+	EL_SHARED_TEST_TEXT; SHARED_HEXAGRAM_STRINGS
 
 	EL_CHARACTER_32_CONSTANTS; FEATURE_CONSTANTS
 
@@ -39,17 +39,18 @@ feature {NONE} -- Initialization
 				["character_32_table",				 agent test_character_32_table],
 				["code_text_table",					 agent test_code_text_table],
 				["compressed_table",					 agent test_compressed_table],
-				["hash_set_operations",				 agent test_hash_set_operations],
 				["hash_set",							 agent test_hash_set],
+				["hash_set_operations",				 agent test_hash_set_operations],
+				["hash_set_put",						 agent test_hash_set_put],
 				["hash_table_insertion",			 agent test_hash_table_insertion],
 				["immutable_error_code_table",	 agent test_immutable_error_code_table],
 				["immutable_string_32_table",		 agent test_immutable_string_32_table],
 				["immutable_string_8_table",		 agent test_immutable_string_8_table],
 				["immutable_string_table_memory", agent test_immutable_string_table_memory],
 				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
-				["iteration_cursor",					 agent test_iteration_cursor],
 				["string_general_table",			 agent test_string_general_table],
 				["string_table",						 agent test_string_table],
+				["table_cursor",						 agent test_table_cursor],
 				["table_sort",							 agent test_table_sort],
 				["zstring_table",						 agent test_zstring_table]
 			>>)
@@ -222,6 +223,35 @@ feature -- Test
 				set_all.intersect (set_not_latin_1)
 				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
 			end
+		end
+
+	test_hash_set_put
+		-- HASH_TABLE_TEST_SET.test_hash_set_put
+		note
+			testing: "[
+				covers/{EL_HASH_SET}.put
+			]"
+		local
+			word_set: EL_HASH_SET [STRING]; word_table: HASH_TABLE [STRING, STRING]
+			word_count: INTEGER
+		do
+			create word_set.make_equal (500)
+			create word_table.make_equal (500)
+
+			across Hexagram.English_titles as title loop
+				across title.item.split (' ') as split loop
+					if attached split.item as word then
+						word_set.put (word)
+						word_table.put (word, word)
+						assert ("both inserted", word_set.inserted = word_table.inserted)
+						word_count := word_count + 1
+					end
+				end
+			end
+			assert ("same count", word_set.count = word_table.count)
+			lio.put_integer_field ("word count", word_count)
+			lio.put_integer_field (" unique word count", word_set.count)
+			lio.put_new_line
 		end
 
 	test_hash_table_insertion
@@ -496,30 +526,6 @@ feature -- Test
 			end
 		end
 
-	test_iteration_cursor
-		local
-			table: EL_HASH_TABLE [INTEGER, INTEGER]
-			list: ARRAYED_LIST [INTEGER]; step, value, index: INTEGER
-		do
-			create table.make_equal (10)
-			create list.make (10)
-			across 0 |..| 9 as n loop
-				table.extend (n.item, n.item)
-			end
-			across 3 |..| 5 as key loop
-				table.remove (key.item)
-				across 1 |..| 4 as n loop
-					step := n.item
-					list.wipe_out
-					across table.new_cursor + step as t loop
-						value := t.item; index := t.cursor_index
-						list.extend (value)
-						assert ("same item", list [index] = list.last)
-					end
-				end
-			end
-		end
-
 	test_string_general_table
 		-- HASH_TABLE_TEST_SET.test_string_general_table
 		local
@@ -561,8 +567,55 @@ feature -- Test
 			assert ("same value", table [key_3] = 3)
 		end
 
+	test_table_cursor
+		note
+			testing: "[
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.forth
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.make
+			]"
+		local
+			word_table: EL_HASH_TABLE [STRING, STRING]; word_list: EL_ARRAYED_LIST [STRING]
+			word_count: INTEGER
+		do
+			create word_table.make_equal (500)
+
+			across Hexagram.English_titles as title loop
+				across title.item.split (' ') as split loop
+					if attached split.item as word then
+						word_table.put (word, word)
+					end
+				end
+			end
+			across word_table.key_list as list loop
+				if attached list.item as word then
+					if word.count <= 4 then
+						word_table.remove (word)
+					end
+				end
+			end
+			word_list := word_table.key_list
+			word_list.start
+			across word_table as table until word_list.after loop
+				assert ("same index", word_list.index = table.cursor_index)
+				assert_same_string (Void, word_list.item, table.item)
+				word_list.forth
+			end
+			word_list.finish
+			across word_table.new_cursor.reversed as table until word_list.before loop
+				assert ("same index", word_table.count - word_list.index + 1 = table.cursor_index)
+				assert_same_string (Void, word_list.item, table.item)
+				word_list.back
+			end
+		end
+
 	test_table_sort
 		-- HASH_TABLE_TEST_SET.test_table_sort
+		note
+			testing: "[
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.cursor_index,
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.make,
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.forth
+			]"
 		local
 			names: HEXAGRAM_NAMES; hanzi: IMMUTABLE_STRING_32
 			name_list: EL_SORTABLE_ARRAYED_LIST [IMMUTABLE_STRING_32]

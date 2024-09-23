@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 11:58:19 GMT (Friday 30th August 2024)"
-	revision: "38"
+	date: "2024-09-23 8:17:41 GMT (Monday 23rd September 2024)"
+	revision: "39"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -82,7 +82,7 @@ feature -- Access
 			end
 		end
 
-	to_table: HASH_TABLE [like new_string, IMMUTABLE_STRING_8]
+	to_table: EL_HASH_TABLE [like new_string, IMMUTABLE_STRING_8]
 		local
 			table: like field_table; value: like new_string
 		do
@@ -97,7 +97,7 @@ feature -- Access
 			end
 		end
 
-	to_zkey_table: HASH_TABLE [like new_string, ZSTRING]
+	to_zkey_table: EL_HASH_TABLE [like new_string, ZSTRING]
 		local
 			table: like field_table; value: like new_string
 		do

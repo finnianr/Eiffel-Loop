@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 13:15:26 GMT (Friday 17th May 2024)"
-	revision: "15"
+	date: "2024-09-23 7:59:35 GMT (Monday 23rd September 2024)"
+	revision: "16"
 
 deferred class
 	EL_SHARED_DOCUMENT_TYPES
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Once_cache_table: HASH_TABLE [EL_DOC_TYPE, NATURAL]
+	Once_cache_table: EL_HASH_TABLE [EL_DOC_TYPE, NATURAL]
 		once
 			create Result.make (5)
 		end

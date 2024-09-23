@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:08:06 GMT (Tuesday 20th August 2024)"
-	revision: "5"
+	date: "2024-09-23 7:54:26 GMT (Monday 23rd September 2024)"
+	revision: "6"
 
 class
 	EL_IMMUTABLE_STRING_8_GRID
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 			create Result.make_shared_adjusted (str, ',', {EL_SIDE}.Left)
 		end
 
-	new_table: HASH_TABLE [IMMUTABLE_STRING_8, IMMUTABLE_STRING_8]
+	new_table: EL_HASH_TABLE [IMMUTABLE_STRING_8, IMMUTABLE_STRING_8]
 		do
 			create Result.make_equal (height)
 		end

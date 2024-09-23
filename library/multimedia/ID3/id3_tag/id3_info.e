@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "13"
+	date: "2024-09-23 7:56:46 GMT (Monday 23rd September 2024)"
+	revision: "14"
 
 class
 	ID3_INFO
@@ -229,7 +229,7 @@ feature -- Basic fields
 			create Result.make_by_fine_seconds (field_integer (Tag.duration) / 1000)
 		end
 
-	basic_fields: HASH_TABLE [ID3_FRAME, STRING]
+	basic_fields: EL_HASH_TABLE [ID3_FRAME, STRING]
 		-- Basic field frames
 
 feature -- Access
@@ -812,7 +812,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	unique_id_owner_counts: HASH_TABLE [INTEGER, ZSTRING]
+	unique_id_owner_counts: EL_HASH_TABLE [INTEGER, ZSTRING]
 		do
 			create Result.make_equal (7)
 			across unique_id_list as unique_id loop

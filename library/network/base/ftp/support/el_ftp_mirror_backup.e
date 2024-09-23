@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-23 7:57:24 GMT (Monday 23rd September 2024)"
+	revision: "6"
 
 class
 	EL_FTP_MIRROR_BACKUP
@@ -96,7 +96,7 @@ feature {NONE} -- Constants
 
 	Element_node_fields: STRING = "site"
 
-	Url_table: HASH_TABLE [FTP_URL, STRING]
+	Url_table: EL_HASH_TABLE [FTP_URL, STRING]
 		once
 			create Result.make (3)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-09-23 8:06:29 GMT (Monday 23rd September 2024)"
+	revision: "11"
 
 class
 	ECD_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -86,7 +86,7 @@ feature {NONE} -- Internal attributes
 
 	type_index: NATURAL_8
 
-	type_index_table: HASH_TABLE [NATURAL_8, INTEGER]
+	type_index_table: EL_HASH_TABLE [NATURAL_8, INTEGER]
 
 feature -- Constants
 

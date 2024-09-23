@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 15:56:46 GMT (Monday 9th September 2024)"
-	revision: "8"
+	date: "2024-09-23 7:56:30 GMT (Monday 23rd September 2024)"
+	revision: "9"
 
 class
 	ID3_ENCODING_ENUM
@@ -84,7 +84,7 @@ feature {NONE} -- Internal attributes
 
 	libid3_table: EL_HASH_TABLE [INTEGER, NATURAL_8]
 
-	underbit_table: HASH_TABLE [NATURAL_8, INTEGER]
+	underbit_table: EL_HASH_TABLE [NATURAL_8, INTEGER]
 
 feature {NONE} -- Implementation
 

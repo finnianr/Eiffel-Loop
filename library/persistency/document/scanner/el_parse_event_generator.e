@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-13 13:03:23 GMT (Sunday 13th August 2023)"
-	revision: "8"
+	date: "2024-09-23 8:06:57 GMT (Monday 23rd September 2024)"
+	revision: "9"
 
 class
 	EL_PARSE_EVENT_GENERATOR
@@ -163,7 +163,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation: attributes
 
-	name_index_table: HASH_TABLE [INTEGER, EL_UTF_8_STRING]
+	name_index_table: EL_HASH_TABLE [INTEGER, EL_UTF_8_STRING]
 
 	output: IO_MEDIUM
 

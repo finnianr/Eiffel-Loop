@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:15:13 GMT (Sunday 22nd September 2024)"
-	revision: "10"
+	date: "2024-09-23 8:06:39 GMT (Monday 23rd September 2024)"
+	revision: "11"
 
 class
 	EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
@@ -165,7 +165,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	context_table: HASH_TABLE [EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT, STRING]
+	context_table: EL_HASH_TABLE [EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT, STRING]
 
 	object: EL_REFLECTIVE
 

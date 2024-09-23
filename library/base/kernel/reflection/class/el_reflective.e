@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 9:07:30 GMT (Sunday 22nd September 2024)"
-	revision: "92"
+	date: "2024-09-23 7:49:24 GMT (Monday 23rd September 2024)"
+	revision: "93"
 
 deferred class
 	EL_REFLECTIVE
@@ -182,7 +182,7 @@ feature -- Element change
 
 feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 
-	frozen new_extra_reader_writer_table: HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], INTEGER]
+	frozen new_extra_reader_writer_table: EL_HASH_TABLE [EL_READER_WRITER_INTERFACE [ANY], INTEGER]
 		local
 			type_list: EL_TUPLE_TYPE_LIST [EL_READER_WRITER_INTERFACE [ANY]]
 		do

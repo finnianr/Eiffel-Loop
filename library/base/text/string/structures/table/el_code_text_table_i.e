@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 10:33:10 GMT (Thursday 22nd August 2024)"
-	revision: "1"
+	date: "2024-09-23 7:53:51 GMT (Monday 23rd September 2024)"
+	revision: "2"
 
 deferred class
 	EL_CODE_TEXT_TABLE_I
@@ -148,7 +148,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	new_cache: HASH_TABLE [ZSTRING, INTEGER_64]
+	new_cache: EL_HASH_TABLE [ZSTRING, INTEGER_64]
 		do
 			create Result.make_equal (11)
 		end

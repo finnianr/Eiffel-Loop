@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:36:17 GMT (Tuesday 20th August 2024)"
-	revision: "7"
+	date: "2024-09-23 7:54:14 GMT (Monday 23rd September 2024)"
+	revision: "8"
 
 class
 	EL_BOYER_MOORE_SEARCHER_32
@@ -157,7 +157,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	char_shifts: HASH_TABLE [like other_char_shifts, CHARACTER_32]
+	char_shifts: EL_HASH_TABLE [like other_char_shifts, CHARACTER_32]
 
 	other_char_shifts: ARRAY [INTEGER]
 

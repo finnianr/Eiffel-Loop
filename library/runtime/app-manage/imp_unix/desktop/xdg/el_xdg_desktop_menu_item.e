@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "17"
+	date: "2024-09-23 8:08:08 GMT (Monday 23rd September 2024)"
+	revision: "18"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -105,7 +105,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Evolicity reflection
 
-	get_locale_table: HASH_TABLE [EVOLICITY_TUPLE_CONTEXT, STRING]
+	get_locale_table: EL_HASH_TABLE [EVOLICITY_TUPLE_CONTEXT, STRING]
 		local
 			context: EVOLICITY_TUPLE_CONTEXT; comment: ZSTRING
 		do

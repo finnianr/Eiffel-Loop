@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:25:00 GMT (Monday 21st November 2022)"
-	revision: "3"
+	date: "2024-09-23 8:16:09 GMT (Monday 23rd September 2024)"
+	revision: "4"
 
 class
 	TP_RECURSIVE_PATTERN
@@ -110,7 +110,7 @@ feature {TP_PATTERN, TP_FACTORY} -- Implementation attributes
 
 feature {NONE} -- Constants
 
-	Action_count_set: HASH_TABLE [INTEGER, NATURAL]
+	Action_count_set: EL_HASH_TABLE [INTEGER, NATURAL]
 		once
 			create Result.make (5)
 		end
@@ -120,5 +120,4 @@ feature {NONE} -- Constants
 			Result := "recurse (%S)"
 		end
 end
-
 

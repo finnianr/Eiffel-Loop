@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:16:11 GMT (Sunday 22nd September 2024)"
-	revision: "30"
+	date: "2024-09-23 9:08:38 GMT (Monday 23rd September 2024)"
+	revision: "31"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
 
 inherit
 	HASH_TABLE [G, K]
+		export
+			{HASH_TABLE_ITERATION_CURSOR} deleted_marks
 		redefine
 			current_keys, default_create, linear_representation, merge, new_cursor
 		end
@@ -25,7 +27,7 @@ inherit
 
 create
 	 default_create, make, make_equal, make_assignments, make_from_map_list, make_from_values,
-	 make_from_manifest_32, make_from_manifest_8
+	 make_from_manifest_32, make_from_manifest_8, make_one
 
 convert
 	make_assignments ({ARRAY [TUPLE [K, G]]})
@@ -114,6 +116,12 @@ feature {NONE} -- Initialization
 			across list as value loop
 				extend (value.item, to_key (value.item))
 			end
+		end
+
+	make_one (key: K; new: G)
+		do
+			default_create
+			put (new, key)
 		end
 
 feature -- Access
@@ -301,7 +309,7 @@ feature -- Type definitions
 			create Result.make_empty
 		end
 
-feature {NONE} -- Implementation
+feature {EL_HASH_TABLE_ITERATION_CURSOR} -- Implementation
 
 	next_iteration_index (a_position, last_index: INTEGER; is_deleted: like deleted_marks): INTEGER
 		-- Given an iteration position, advanced to the next one taking into account deleted

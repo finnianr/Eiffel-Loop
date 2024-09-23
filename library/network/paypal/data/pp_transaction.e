@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:39 GMT (Sunday 22nd September 2024)"
-	revision: "40"
+	date: "2024-09-23 6:33:26 GMT (Monday 23rd September 2024)"
+	revision: "41"
 
 class
 	PP_TRANSACTION
@@ -57,7 +57,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make_count (n: INTEGER)
+	make_sized (n: INTEGER)
 		do
 			make_default
 		end

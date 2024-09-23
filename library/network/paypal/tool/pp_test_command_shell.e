@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-01 17:06:09 GMT (Friday 1st March 2024)"
-	revision: "32"
+	date: "2024-09-22 17:50:53 GMT (Sunday 22nd September 2024)"
+	revision: "33"
 
 class
 	PP_TEST_COMMAND_SHELL
@@ -116,7 +116,7 @@ feature {NONE} -- Commands
 			if attached paypal.button_search_results as search_results and then search_results.is_ok
 				and then attached search_results.button_list as button_list
 			then
-				create button_table.make_size (button_list.count)
+				create button_table.make (button_list.count)
 				across button_list as list loop
 					if attached list.item as button then
 						button_table.extend (agent get_button_details (button), button.l_hosted_button_id)
@@ -151,7 +151,7 @@ feature {NONE} -- Factory
 		local
 			price_x_100_table: EL_HASH_TABLE [INTEGER, STRING]
 		do
-			create price_x_100_table.make (<<
+			create price_x_100_table.make_assignments (<<
 				["1 year", 290], ["2 year", 530], ["5 year", 1200], ["Lifetime", 48000]
 			>>)
 			create Result.make (0, "Duration", currency_code)
@@ -162,7 +162,7 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		do
-			create Result.make (<<
+			create Result.make_assignments (<<
 				["Create a test subscription 'buy now' button",	agent create_button],
 				["Button details menu",									agent display_button_menu],
 				["Delete button",											agent delete_button],

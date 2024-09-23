@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:22:17 GMT (Saturday 23rd December 2023)"
-	revision: "8"
+	date: "2024-09-23 7:52:15 GMT (Monday 23rd September 2024)"
+	revision: "9"
 
 class
 	EL_CAMEL_CASE_TRANSLATER
@@ -90,6 +90,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	eiffel_table: HASH_TABLE [STRING, STRING]
+	eiffel_table: EL_HASH_TABLE [STRING, STRING]
 
 end

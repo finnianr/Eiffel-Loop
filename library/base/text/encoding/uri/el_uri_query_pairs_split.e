@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-08 8:05:03 GMT (Thursday 8th June 2023)"
-	revision: "2"
+	date: "2024-09-23 7:51:01 GMT (Monday 23rd September 2024)"
+	revision: "3"
 
 class
 	EL_URI_QUERY_PAIRS_SPLIT
@@ -99,7 +99,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Reserved_table: HASH_TABLE [STRING_32, STRING_32]
+	Reserved_table: EL_HASH_TABLE [STRING_32, STRING_32]
 		once
 			create Result.make (2)
 			Result ["&"] := "%%26"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2024-09-23 8:14:08 GMT (Monday 23rd September 2024)"
+	revision: "13"
 
 class
 	EL_TEST_XDOC_DATA
@@ -59,14 +59,15 @@ feature -- Access
 
 feature -- Constants
 
-	Attribute_table: HASH_TABLE [ANY, STRING]
+	Attribute_table: EL_HASH_TABLE [ANY, STRING]
 		once
-			create Result.make_equal (10)
-			Result ["double"] := 1.5
-			Result ["integer"] := 1
-			Result ["boolean"] := True
-			Result ["string_1"] := "one%Ntwo"
-			Result ["string_2"] := "one%"two"
+			create Result.make_assignments (<<
+				["double",	 1.5],
+				["integer",	 1],
+				["boolean",	 True],
+				["string_1", "one%Ntwo"],
+				["string_2", "one%"two"]
+			>>)
 		end
 
 	Attributes_comma_separated_values: STRING

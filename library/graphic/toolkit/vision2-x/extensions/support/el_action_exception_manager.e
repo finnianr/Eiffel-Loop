@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-25 9:17:07 GMT (Friday 25th November 2022)"
-	revision: "14"
+	date: "2024-09-23 7:55:15 GMT (Monday 23rd September 2024)"
+	revision: "15"
 
 class
 	EL_ACTION_EXCEPTION_MANAGER [D -> EL_MODELED_INFORMATION_DIALOG create make_info end]
@@ -103,7 +103,7 @@ feature -- Element change
 
 feature {NONE} -- Internal attributes
 
-	error_table: HASH_TABLE [
+	error_table: EL_HASH_TABLE [
 		TUPLE [
 			exception_description: READABLE_STRING_GENERAL; dialog_position_widget: EV_WIDGET
 			title, message: ZSTRING

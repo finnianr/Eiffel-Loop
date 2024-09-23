@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 15:16:53 GMT (Friday 2nd August 2024)"
-	revision: "4"
+	date: "2024-09-23 8:15:57 GMT (Monday 23rd September 2024)"
+	revision: "5"
 
 deferred class
 	EL_EIFFEL_IMMUTABLE_KEYWORDS
@@ -20,7 +20,7 @@ feature {NONE} -- Constants
 	Keyword_type_table: EL_IMMUTABLE_STRING_8_TABLE
 		-- lookup
 		local
-			interval_table: HASH_TABLE [INTEGER_64, IMMUTABLE_STRING_8]
+			interval_table: EL_HASH_TABLE [INTEGER_64, IMMUTABLE_STRING_8]
 		once
 		-- deferred is not categorized as a routine because it contains no code
 			create Result.make_assignments ("[

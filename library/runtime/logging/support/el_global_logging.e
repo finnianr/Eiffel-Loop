@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-25 10:29:40 GMT (Monday 25th December 2023)"
-	revision: "18"
+	date: "2024-09-23 8:08:19 GMT (Monday 23rd September 2024)"
+	revision: "19"
 
 class
 	EL_GLOBAL_LOGGING
@@ -122,14 +122,14 @@ feature -- Status query
 
 feature {NONE} -- Internal attributes
 
-	routine_table: HASH_TABLE [EL_LOGGED_ROUTINE, EL_LOGGED_ROUTINE]
+	routine_table: EL_HASH_TABLE [EL_LOGGED_ROUTINE, EL_LOGGED_ROUTINE]
 
 	reusable_key: EL_LOGGED_ROUTINE
 		-- reusable key
 
 	type_table: EL_AGENT_CACHE_TABLE [TYPE [ANY], INTEGER]
 
-	filter_table: HASH_TABLE [EL_LOG_FILTER, INTEGER]
+	filter_table: EL_HASH_TABLE [EL_LOG_FILTER, INTEGER]
 		-- class filter by type_id
 
 	user_prompt_active: BOOLEAN
