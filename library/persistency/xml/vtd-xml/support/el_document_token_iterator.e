@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "6"
+	date: "2024-09-23 12:28:18 GMT (Monday 23rd September 2024)"
+	revision: "7"
 
 class
 	EL_DOCUMENT_TOKEN_ITERATOR
@@ -124,7 +124,7 @@ feature {NONE} -- Constants
 
 	Name_table: EL_HASH_TABLE [STRING, INTEGER]
 		once
-			create Result.make_assignments (<<
+			Result := <<
 				[Token.attribute_name, "attribute_name"],
 				[Token.attribute_name_space, "attribute_name_space"],
 				[Token.attribute_value, "attribute_value"],
@@ -139,6 +139,6 @@ feature {NONE} -- Constants
 				[Token.pi_name, "pi_name"],
 				[Token.pi_value, "pi_value"],
 				[Token.starting_tag, "starting_tag"]
-			>>)
+			>>
 		end
 end

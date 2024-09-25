@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "14"
+	date: "2024-09-23 13:25:21 GMT (Monday 23rd September 2024)"
+	revision: "15"
 
 deferred class
 	EROS_REMOTE_CALL_CONSTANTS
@@ -29,10 +29,7 @@ feature {NONE} -- Constants
 
 	Event_source_name: EL_HASH_TABLE [STRING, INTEGER]
 		once
-			create Result.make_assignments (<<
-				[Type_binary,		"binary"],
-				[Type_plaintext,	"plaintext"]
-			>>)
+			Result := << [Type_binary, "binary"], [Type_plaintext, "plaintext"] >>
 		end
 
 	Type_binary: INTEGER = 2

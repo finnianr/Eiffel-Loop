@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 13:02:40 GMT (Thursday 25th July 2024)"
-	revision: "45"
+	date: "2024-09-25 11:10:01 GMT (Wednesday 25th September 2024)"
+	revision: "46"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -288,7 +288,7 @@ feature -- Conversion
 		do
 			create Result.make_expanded (adjusted (False))
 			if not Result.is_absolute and then not document_dir.is_empty then
-				Result := document_dir.plus (Result)
+				Result := document_dir.plus_file (Result)
 			end
 		end
 

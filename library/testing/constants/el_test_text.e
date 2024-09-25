@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 11:06:59 GMT (Sunday 22nd September 2024)"
-	revision: "37"
+	date: "2024-09-25 13:29:16 GMT (Wednesday 25th September 2024)"
+	revision: "38"
 
 class
 	EL_TEST_TEXT
@@ -141,7 +141,7 @@ feature -- Lists
 			create Result.make_with_lines (Mixed_text)
 		end
 
-	lines_8: EL_STRING_8_LIST
+	lines_8, latin_1_list: EL_STRING_8_LIST
 		-- only Latin-1 encoded lines
 		do
 			create Result.make (5)

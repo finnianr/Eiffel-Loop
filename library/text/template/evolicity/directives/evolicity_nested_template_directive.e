@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2024-09-25 15:37:57 GMT (Wednesday 25th September 2024)"
+	revision: "10"
 
 deferred class
 	EVOLICITY_NESTED_TEMPLATE_DIRECTIVE
@@ -60,7 +60,7 @@ feature {NONE} -- Implementation
 			if attached {EVOLICITY_SERIALIZEABLE} context as serializeable
 				and then serializeable.template_path.exists
 			then
-				Result := serializeable.template_path.parent + relative_path
+				Result := serializeable.template_path.parent.plus_file (relative_path)
 			else
 				Result := relative_path
 			end

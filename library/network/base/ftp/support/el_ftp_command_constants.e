@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 6:25:27 GMT (Monday 13th May 2024)"
-	revision: "3"
+	date: "2024-09-25 14:14:57 GMT (Wednesday 25th September 2024)"
+	revision: "4"
 
 deferred class
 	EL_FTP_COMMAND_CONSTANTS
@@ -27,8 +27,6 @@ inherit
 	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_STRING_8; EL_MODULE_USER_INPUT
 
 	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Numeric constants
 
@@ -68,7 +66,7 @@ feature {NONE} -- String Constants
 			create Result
 			Tuple.fill (Result,"[
 				cannot enter passive mode, cannot set transfer mode, missing argument,
-				ERROR, Invalid username or password, Socket error			
+				ERROR, Invalid username or password, Socket error
 			]")
 		end
 

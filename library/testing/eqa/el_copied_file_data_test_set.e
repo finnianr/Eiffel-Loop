@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:14:40 GMT (Monday 23rd September 2024)"
-	revision: "9"
+	date: "2024-09-25 11:42:23 GMT (Wednesday 25th September 2024)"
+	revision: "10"
 
 deferred class
 	EL_COPIED_FILE_DATA_TEST_SET
@@ -31,7 +31,7 @@ feature {NONE} -- Events
 			list := source_file_list
 			create file_list.make (list.count)
 			across list as path loop
-				relative_path := Work_area_dir + path.item.relative_path (data_dir)
+				relative_path := Work_area_dir.plus_file (path.item.relative_path (data_dir))
 				relative_dir := relative_path.parent
 				OS.File_system.make_directory (relative_dir)
 				OS.copy_file (path.item, relative_dir)

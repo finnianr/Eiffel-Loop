@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-09-25 7:54:42 GMT (Wednesday 25th September 2024)"
+	revision: "6"
 
 class
 	EL_WEL_WINDOWS_VERSION
@@ -25,7 +25,7 @@ inherit
 			internal_version
 		end
 
-	EL_MODULE_REG_KEY
+	EL_MODULE_HKEY_LOCAL_MACHINE
 
 	EL_MODULE_WIN_REGISTRY
 
@@ -66,12 +66,12 @@ feature {NONE} -- Implementation
 
 	win_10_build: INTEGER
 		do
-			Result := Win_registry.string_32 (Reg_key.Windows_nt.current_version_path, current_number ("Build")).to_integer
+			Result := Win_registry.string_32 (Key_local.Windows_nt_current_version, current_number ("Build")).to_integer
 		end
 
 	win_10_version (type: STRING): INTEGER
 		do
-			Result := Win_registry.integer (Reg_key.Windows_nt.current_version_path, current_number (type + "Version"))
+			Result := Win_registry.integer (Key_local.Windows_nt_current_version, current_number (type + "Version"))
 		end
 
 	current_number (type: STRING): STRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:37:40 GMT (Monday 23rd September 2024)"
-	revision: "49"
+	date: "2024-09-25 15:41:47 GMT (Wednesday 25th September 2024)"
+	revision: "50"
 
 class
 	PYXIS_ECF_PARSER_TEST_SET
@@ -232,7 +232,7 @@ feature -- Tests
 			ecf_xdoc := new_ecf_xdoc ("example/graphical/graphical.pecf")
 			assert_parsed_xdoc (ecf_xdoc)
 
-			assert ("18 libraries", library_count (ecf_xdoc) = 18)
+			assert ("20 libraries", library_count (ecf_xdoc) = 20)
 			across ("__unnamed_debug__, wel_gdi_references, win_dispatcher").split (',') as list loop
 				name := list.item; name.left_adjust
 				assert ("debug false", ecf_xdoc.query (Xpath.named_option #$ ["debug", name]).as_string_8 ~ "false")

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 16:27:18 GMT (Wednesday 8th November 2023)"
-	revision: "14"
+	date: "2024-09-25 11:10:00 GMT (Wednesday 25th September 2024)"
+	revision: "15"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 			pyxis_file_paths := File_system.files_with_extension (pyxis_source_dir, "pyx", True)
 			create xml_file_paths.make (pyxis_file_paths.count)
 			across pyxis_file_paths as pyxis_file_path loop
-				xml_file_path := xml_destination_dir.plus (pyxis_file_path.item.base).with_new_extension ("xml")
+				xml_file_path := xml_destination_dir.plus_file (pyxis_file_path.item.base).with_new_extension ("xml")
 				if pyxis_file_path.item.modification_time > xml_file_path.modification_time then
 					File_system.make_directory (xml_file_path.parent)
 					create xml_out.make_open_write (xml_file_path)

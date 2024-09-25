@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-16 14:09:34 GMT (Monday 16th September 2024)"
-	revision: "47"
+	date: "2024-09-25 14:51:24 GMT (Wednesday 25th September 2024)"
+	revision: "48"
 
 class
 	EL_DIR_PATH
@@ -101,7 +101,7 @@ feature {NONE} -- Initialization
 			end
 		ensure
 			other_parent_string_unchanged: old other.parent_path ~ other.parent_path
-			definition: plus_dir (other.base).to_string ~ other.to_string
+			definition: plus_dir_path (other.base).to_string ~ other.to_string
 		end
 
 feature -- Access
@@ -129,12 +129,34 @@ feature -- Conversion
 
 feature -- Aliased joins
 
-	plus alias "+" (a_file_path: EL_FILE_PATH): like Type_file_path
+	plus_file_path alias "+" (a_file_path: READABLE_STRING_GENERAL): like Type_file_path
+		require
+			appendable: is_appendable (a_file_path)
+		do
+			if is_appendable (a_file_path) then
+				create Result.make (temporary_joined (a_file_path))
+			else
+				create Result.make_from_other (Current)
+			end
+		end
+
+	plus_dir_path alias "#+" (a_dir_path: READABLE_STRING_GENERAL): like Current
+		require
+			appendable: is_appendable (a_dir_path)
+		do
+			if is_appendable (a_dir_path) then
+				create Result.make (temporary_joined (a_dir_path))
+			else
+				create Result.make_from_other (Current)
+			end
+		end
+
+	plus_file (a_file_path: EL_FILE_PATH): like Type_file_path
 		do
 			create Result.make_from_other (Current); Result.append (a_file_path)
 		end
 
-	plus_dir alias "#+" (a_dir_path: EL_DIR_PATH): like Current
+	plus_dir (a_dir_path: EL_DIR_PATH): like Current
 		do
 			create Result.make_from_other (Current)
 			Result.append_dir_path (a_dir_path)
@@ -144,7 +166,7 @@ feature -- Path joining
 
 	joined_dir_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like Current
 		do
-			create Result.make (temporary_joined (a_steps))
+			create Result.make (temporary_joined_steps (a_steps))
 		end
 
 	joined_dir_tuple (a_tuple: TUPLE): like Current
@@ -154,7 +176,7 @@ feature -- Path joining
 
 	joined_file_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): like Type_file_path
 		do
-			create Result.make (temporary_joined (a_steps))
+			create Result.make (temporary_joined_steps (a_steps))
 		end
 
 	joined_file_tuple (a_tuple: TUPLE): like Type_file_path
@@ -199,6 +221,30 @@ feature -- Status report
 			Result := Shared_directory.named (Current).is_writable
 		end
 
+feature -- Contract Support
+
+	is_appendable (path: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if `path' is not absolute
+		-- except if `parent_path' is empty in which case `path' can be absolute
+		local
+			nt: EL_NT_FILE_SYSTEM_ROUTINES
+		do
+			if parent_path.count > 0 and then path.count > 0 then
+				if {PLATFORM}.is_windows then
+					inspect path [1]
+						when '/', '\' then
+							Result := False
+					else
+						Result := not nt.has_volume (path)
+					end
+				else
+					Result := path [1] /= '/'
+				end
+			else
+				Result := True
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	new_path (a_path: ZSTRING): like Current
@@ -206,25 +252,36 @@ feature {NONE} -- Implementation
 			create Result.make (a_path)
 		end
 
-	temporary_joined (a_steps: FINITE [READABLE_STRING_GENERAL]): ZSTRING
+	temporary_joined (a_path: READABLE_STRING_GENERAL): ZSTRING
 		local
-			list: LINEAR [READABLE_STRING_GENERAL]
+			l_path: READABLE_STRING_GENERAL
+		do
+			l_path := normalized_copy (a_path)
+			Result := temporary_path
+			if separator_needed (Result, a_path) then
+				Result.append_character (Separator)
+			end
+			resolve_back_steps (l_path, Result)
+		end
+
+	temporary_joined_steps (a_steps: FINITE [READABLE_STRING_GENERAL]): ZSTRING
 		do
 			Result := temporary_path
-			list := a_steps.linear_representation
-			from list.start until list.after loop
-				if not Result.is_empty then
-					Result.append_character (Separator)
+			if attached a_steps.linear_representation as list then
+				from list.start until list.after loop
+					if Result.count > 0 then
+						Result.append_character (Separator)
+					end
+					Result.append_string_general (list.item)
+					list.forth
 				end
-				Result.append_string_general (list.item)
-				list.forth
 			end
 		end
 
 	temporary_joined_tuple (a_tuple: TUPLE): ZSTRING
 		do
 			Result := temporary_path
-			if a_tuple.count > 0 then
+			if a_tuple.count > 0 and Result.count > 0 then
 				Result.append_character (Separator)
 			end
 			Tuple.write (a_tuple, Result, Directory_separator)
@@ -240,12 +297,12 @@ feature {NONE} -- Type definitions
 
 feature -- Constants
 
-	Is_directory: BOOLEAN = True
-
 	Directory_separator: STRING
 		once
 			Result := Operating_environment.Directory_separator.out
 		end
+
+	Is_directory: BOOLEAN = True
 
 	Shared_key_path: ZSTRING
 		once

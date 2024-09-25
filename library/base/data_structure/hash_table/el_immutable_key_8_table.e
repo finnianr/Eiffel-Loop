@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:56:01 GMT (Sunday 22nd September 2024)"
-	revision: "5"
+	date: "2024-09-24 17:08:03 GMT (Tuesday 24th September 2024)"
+	revision: "6"
 
 class
 	EL_IMMUTABLE_KEY_8_TABLE [G]
@@ -27,7 +27,7 @@ inherit
 	EL_IMMUTABLE_KEY_8_LOOKUP
 
 create
-	 default_create, make_assignments, make, make_equal, make_from_map_list, make_from_values,
+	 default_create, make_assignments, make, make_equal, make_from_map_list, make_from_keys,
 	 make_from_manifest_32, make_from_manifest_8
 
 end

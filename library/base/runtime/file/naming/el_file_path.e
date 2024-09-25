@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 8:00:45 GMT (Thursday 22nd August 2024)"
-	revision: "41"
+	date: "2024-09-25 15:35:41 GMT (Wednesday 25th September 2024)"
+	revision: "42"
 
 class
 	EL_FILE_PATH
@@ -56,7 +56,7 @@ feature -- Access
 					super_dir := super_dir.parent
 				end
 				create dot_dir.make (Directory.relative_parent (other.step_count - super_dir.step_count - 1))
-				Result := dot_dir + relative_path (super_dir)
+				Result := dot_dir.plus_file (relative_path (super_dir))
 			end
 		end
 

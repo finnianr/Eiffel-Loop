@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 16:26:11 GMT (Monday 1st January 2024)"
-	revision: "25"
+	date: "2024-09-25 11:12:58 GMT (Wednesday 25th September 2024)"
+	revision: "26"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -118,7 +118,7 @@ feature {NONE} -- Implementation
 
 	work_area_path (a_path: DIR_PATH): DIR_PATH
 		do
-			Result := Work_area_dir #+ a_path
+			Result := Work_area_dir.plus_dir (a_path)
 		end
 
 	has_changed (file_path: FILE_PATH): BOOLEAN
@@ -147,7 +147,7 @@ feature {NONE} -- Constants
 
 	Work_area_absolute_dir: DIR_PATH
 		once
-			Result := Directory.current_working #+ Work_area_dir
+			Result := Directory.current_working.plus_dir (Work_area_dir)
 		end
 
 	Raw_data: NATURAL_8 = 1

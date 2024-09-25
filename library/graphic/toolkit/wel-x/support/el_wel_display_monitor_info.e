@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-03 17:06:07 GMT (Monday 3rd July 2023)"
-	revision: "13"
+	date: "2024-09-25 7:54:42 GMT (Wednesday 25th September 2024)"
+	revision: "14"
 
 class
 	EL_WEL_DISPLAY_MONITOR_INFO
@@ -22,7 +22,7 @@ inherit
 
 	EL_WEL_CONVERSION undefine copy, is_equal end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_LIO; EL_MODULE_REG_KEY; EL_MODULE_WIN_REGISTRY
+	EL_MODULE_DIRECTORY; EL_MODULE_LIO; EL_MODULE_HKEY_LOCAL_MACHINE; EL_MODULE_WIN_REGISTRY
 
 create
 	make
@@ -199,8 +199,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	HKLM_enum_display: DIR_PATH
+		-- HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\DISPLAY
 		once
-			Result := Reg_key.current_control_set ("Enum\DISPLAY")
+			Result := Key_local.System_current_control_set #+ "Enum\DISPLAY"
 		end
 
 end

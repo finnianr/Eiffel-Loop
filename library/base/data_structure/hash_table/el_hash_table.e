@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 9:08:38 GMT (Monday 23rd September 2024)"
-	revision: "31"
+	date: "2024-09-24 17:26:58 GMT (Tuesday 24th September 2024)"
+	revision: "32"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -21,12 +21,17 @@ inherit
 			current_keys, default_create, linear_representation, merge, new_cursor
 		end
 
-	EL_MODULE_EIFFEL; EL_MODULE_ITERABLE
+	EL_CONTAINER_STRUCTURE [G]
+		undefine
+			copy, default_create, is_equal, object_comparison
+		end
+
+	EL_MODULE_EIFFEL
 
 	EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
-	 default_create, make, make_equal, make_assignments, make_from_map_list, make_from_values,
+	 default_create, make, make_equal, make_assignments, make_from_map_list, make_from_keys,
 	 make_from_manifest_32, make_from_manifest_8, make_one
 
 convert
@@ -109,12 +114,27 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_from_values (list: ITERABLE [G]; to_key: FUNCTION [G, K]; a_object_comparison: BOOLEAN)
+	make_from_keys (key_container: CONTAINER [K]; to_item: FUNCTION [K, G]; a_object_comparison: BOOLEAN)
+		local
+			i, i_upper: INTEGER; key_structure: EL_CONTAINER_STRUCTURE [K]
 		do
-			make (Iterable.count (list))
+			if attached {EL_CONTAINER_STRUCTURE [K]} key_container as structure then
+				key_structure := structure
+			else
+				create {EL_CONTAINER_WRAPPER [K]} key_structure.make (key_container)
+			end
+			make (key_structure.current_count)
 			object_comparison := a_object_comparison
-			across list as value loop
-				extend (value.item, to_key (value.item))
+
+			if attached key_structure.to_special as key_area then
+				i_upper := key_structure.current_count - 1
+				from i := 0 until i > i_upper loop
+					put (to_item (key_area [i]), key_area [i])
+					check
+						no_conflict: not conflict
+					end
+					i := i + 1
+				end
 			end
 		end
 
@@ -125,6 +145,25 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	item_list, linear_representation: EL_ARRAYED_LIST [G]
+		local
+			pos, last_index: INTEGER; break: BOOLEAN; area: SPECIAL [G]
+		do
+			create area.make_empty (count)
+			if attached content as l_content and then attached deleted_marks as is_deleted then
+				last_index := l_content.count - 1
+				from pos := -1 until break loop
+					pos := next_iteration_index (pos, last_index, is_deleted)
+					if pos > last_index then
+						break := True
+					else
+						area.extend (l_content [pos])
+					end
+				end
+			end
+			create Result.make_from_special (area)
+		end
 
 	key_array, current_keys: ARRAY [K]
 		do
@@ -144,25 +183,6 @@ feature -- Access
 						break := True
 					else
 						area.extend (l_keys [pos])
-					end
-				end
-			end
-			create Result.make_from_special (area)
-		end
-
-	item_list, linear_representation: EL_ARRAYED_LIST [G]
-		local
-			pos, last_index: INTEGER; break: BOOLEAN; area: SPECIAL [G]
-		do
-			create area.make_empty (count)
-			if attached content as l_content and then attached deleted_marks as is_deleted then
-				last_index := l_content.count - 1
-				from pos := -1 until break loop
-					pos := next_iteration_index (pos, last_index, is_deleted)
-					if pos > last_index then
-						break := True
-					else
-						area.extend (l_content [pos])
 					end
 				end
 			end
@@ -227,6 +247,12 @@ feature -- Element change
 
 feature -- Basic operations
 
+	ascending_sort
+		-- sort items in ascending order
+		do
+			sort (True)
+		end
+
 	merge_to (other: HASH_TABLE [G, K])
 		local
 			pos, last_index: INTEGER; break: BOOLEAN
@@ -244,12 +270,6 @@ feature -- Basic operations
 					end
 				end
 			end
-		end
-
-	ascending_sort
-		-- sort items in ascending order
-		do
-			sort (True)
 		end
 
 	reverse_sort
@@ -310,6 +330,11 @@ feature -- Type definitions
 		end
 
 feature {EL_HASH_TABLE_ITERATION_CURSOR} -- Implementation
+
+	current_container: CONTAINER [G]
+		do
+			Result := Current
+		end
 
 	next_iteration_index (a_position, last_index: INTEGER; is_deleted: like deleted_marks): INTEGER
 		-- Given an iteration position, advanced to the next one taking into account deleted

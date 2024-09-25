@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-10 9:06:22 GMT (Tuesday 10th September 2024)"
-	revision: "6"
+	date: "2024-09-24 16:26:07 GMT (Tuesday 24th September 2024)"
+	revision: "7"
 
 class
 	BUILD_INFO
@@ -21,10 +21,11 @@ create
 
 feature -- Constants
 
-	Build_number: NATURAL = 0
+	App_compatibility_flags: STRING = "~Win7RTM"
+		-- For installed entry in registry key: CurrentVersion\AppCompatFlags\Layers
+		-- Under: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT
 
-	Compatibility_mode: STRING = "Win7"
-		-- compatibility mode for Windows for registry entry
+	Build_number: NATURAL = 0
 
 	Installation_sub_directory: DIR_PATH
 		once

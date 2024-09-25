@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-18 7:52:12 GMT (Wednesday 18th September 2024)"
-	revision: "45"
+	date: "2024-09-25 11:29:04 GMT (Wednesday 25th September 2024)"
+	revision: "46"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -371,23 +371,27 @@ feature {NONE} -- Implementation
 		do
 			a_file_set.put (dir_path + Wireless_notes_path_copy)
 			mint_copy_dir := Help_pages_mint_dir #+ "copy"
-			a_file_set.put (dir_path + mint_copy_dir.plus (Help_pages_wireless_notes_path.base))
+			a_file_set.put (dir_path.plus_file (mint_copy_dir + Help_pages_wireless_notes_path.base))
 
 			a_file_set.prune (dir_path + Help_pages_wireless_notes_path)
-			a_file_set.put (dir_path + (Help_pages_mint_docs_dir + Help_pages_wireless_notes_path.base))
+			a_file_set.put (dir_path.plus_file (Help_pages_mint_docs_dir + Help_pages_wireless_notes_path.base))
 
 			across file_set as path loop
 				if path.item.parent.base ~ Docs then
-					mint_copy_path := (dir_path #+ mint_copy_dir).joined_file_tuple ([Docs, path.item.base])
+					mint_copy_path := dir_path.plus_dir (mint_copy_dir).joined_file_tuple ([Docs, path.item.base])
 					a_file_set.put (mint_copy_path)
 				end
 			end
 			execute_all (<<
-				Command.new_copy_file (dir_path + Help_pages_wireless_notes_path, dir_path + Wireless_notes_path_copy),
-				Command.new_make_directory (dir_path #+ mint_copy_dir),
-				Command.new_copy_file (dir_path + Help_pages_wireless_notes_path, dir_path #+ mint_copy_dir),
-				Command.new_copy_tree (dir_path #+ Help_pages_mint_docs_dir, dir_path #+ mint_copy_dir),
-				Command.new_move_file (dir_path + Help_pages_wireless_notes_path, dir_path #+ Help_pages_mint_docs_dir)
+				Command.new_copy_file (
+					dir_path.plus_file (Help_pages_wireless_notes_path), dir_path + Wireless_notes_path_copy
+				),
+				Command.new_make_directory (dir_path.plus_dir (mint_copy_dir)),
+				Command.new_copy_file (dir_path.plus_file (Help_pages_wireless_notes_path), dir_path.plus_dir (mint_copy_dir)),
+				Command.new_copy_tree (dir_path.plus_dir (Help_pages_mint_docs_dir), dir_path.plus_dir (mint_copy_dir)),
+				Command.new_move_file (
+					dir_path.plus_file (Help_pages_wireless_notes_path), dir_path.plus_dir (Help_pages_mint_docs_dir)
+				)
 			>>)
 
 			execute_and_assert (all_files_cmd (dir_path), a_file_set)
@@ -481,10 +485,10 @@ feature {NONE} -- Implementation
 			volume.make_directory (volume_workarea_copy_dir)
 			across file_set as path loop
 				relative_file_path := path.item.relative_path (Work_area_dir)
-				volume_destination_dir := volume_workarea_copy_dir #+ relative_file_path.parent
+				volume_destination_dir := volume_workarea_copy_dir.plus_dir (relative_file_path.parent)
 				volume.make_directory (volume_destination_dir)
 				volume.copy_file_from (
-					volume_workarea_dir + relative_file_path, volume_root_path #+ volume_destination_dir
+					volume_workarea_dir + relative_file_path, volume_root_path.plus_dir (volume_destination_dir)
 				)
 				a_file_set.put (volume_root_path + (volume_destination_dir + relative_file_path.base))
 			end

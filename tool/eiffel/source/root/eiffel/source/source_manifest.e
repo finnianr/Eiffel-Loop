@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:09:44 GMT (Sunday 22nd September 2024)"
-	revision: "33"
+	date: "2024-09-25 15:12:32 GMT (Wednesday 25th September 2024)"
+	revision: "34"
 
 class
 	SOURCE_MANIFEST
@@ -129,7 +129,7 @@ feature {NONE} -- Build from Pyxis
 			if l_path.is_absolute then
 				create tree.make (l_path)
 			else
-				create tree.make (parent_dir #+ l_path)
+				create tree.make (parent_dir.plus_dir (l_path))
 			end
 			tree.set_name (last_name)
 			source_tree_list.extend (tree)

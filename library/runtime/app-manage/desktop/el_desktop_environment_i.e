@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "24"
+	date: "2024-09-24 10:15:31 GMT (Tuesday 24th September 2024)"
+	revision: "25"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			command_option_name := installable.option_name
 			menu_name := installable.name
 			if attached {EL_MAIN_INSTALLABLE_APPLICATION} installable as main then
-				set_compatibility_mode (Build_info.compatibility_mode)
+				set_app_compatibility (Build_info.app_compatibility_flags)
 			end
 		end
 
@@ -111,8 +111,8 @@ feature -- Element change
 			command_line_options.share (option_list.joined_words)
 		end
 
-	set_compatibility_mode (mode: STRING)
-		-- set compatibility mode for Windows for registry entry. Eg. WIN7
+	set_app_compatibility (flags: STRING)
+		-- set Windows registry compatibility mode flags Eg. ~WIN7RTM
 		deferred
 		end
 

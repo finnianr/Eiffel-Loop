@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:10:04 GMT (Sunday 22nd September 2024)"
-	revision: "40"
+	date: "2024-09-25 15:21:39 GMT (Wednesday 25th September 2024)"
+	revision: "41"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -276,7 +276,7 @@ feature {NONE} -- Implementation
 							if line.starts_with (config.source_dir.base)
 								and then path.has_extension (E_extension)
 							then
-								edit_notes (config.source_dir.parent + path)
+								edit_notes (config.source_dir.parent.plus_file (path))
 							end
 							if path.has_dot_extension then
 								source_change_table.put (path.extension)

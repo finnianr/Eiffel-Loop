@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "53"
+	date: "2024-09-23 13:31:17 GMT (Monday 23rd September 2024)"
+	revision: "54"
 
 class
 	TAGLIB_TEST_SET
@@ -66,9 +66,9 @@ feature -- Tests
 			table: EL_HASH_TABLE [STRING, STRING]
 		do
 			musicmatch := "MusicMatch_"
-			create table.make_assignments (<<
+			table := <<
 				["Tempo", "Pretty fast"], ["Mood", "Upbeat"], ["Situation", "Any"], ["Preference", "Excellent"]
-			>>)
+			>>
 			file_list.find_first_base (That_spot_tag)
 			assert ("exists", file_list.found)
 			create mp3.make (file_list.path)
@@ -76,10 +76,10 @@ feature -- Tests
 				assert_same_string (Void, mp3.tag.comment_with (musicmatch + str.key).text, str.item)
 			end
 
-			create table.make_assignments (<<
+			table := <<
 				["First_line", "In that spot, over here in that spot."], -- Test new comment
 				["Preference", "5 stars"]
-			>>)
+			>>
 			across table as str loop
 				mp3.tag.set_comment_with (musicmatch + str.key, str.item)
 				assert_same_string (Void, mp3.tag.comment_with (musicmatch + str.key).text, str.item)
@@ -125,9 +125,9 @@ feature -- Tests
 			picture: TL_ID3_PICTURE
 			table: EL_HASH_TABLE [STRING, STRING]
 		do
-			create table.make_assignments (<<
+			table := <<
 				["pic.jpeg", "image/jpeg"], ["pic.jpg", "image/jpeg"], ["pic.png", "image/png"]
-			>>)
+			>>
 			across table as pic loop
 				create picture.make (pic.key, "", Picture_type.other)
 				assert ("valid mime type", picture.mime_type ~ pic.item)
@@ -222,10 +222,10 @@ feature -- Tests
 			user_text_table: EL_HASH_TABLE [STRING, STRING]
 			count: INTEGER
 		do
-			create user_text_table.make_assignments (<<
+			user_text_table := <<
 				["compression example", "This sample user text"],
 				["example text frame", "This text and the description"]
-			>>)
+			>>
 			across file_list as path loop
 				create mp3.make (path.item)
 				if mp3.tag.has_user_text then

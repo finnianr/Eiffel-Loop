@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:09:49 GMT (Friday 13th September 2024)"
-	revision: "33"
+	date: "2024-09-25 11:31:23 GMT (Wednesday 25th September 2024)"
+	revision: "34"
 
 class
 	FILE_SYNC_MANAGER_TEST_SET
@@ -84,7 +84,7 @@ feature -- Tests
 			create sync_item.make (Workarea_help_pages_dir, Ftp_name, Help_pages_grub_error.relative_path (Help_pages_dir), 0)
 			current_set.put (sync_item)
 
-			File_system.make_directory (Work_area_dir #+ Help_pages_mint_docs_dir)
+			File_system.make_directory (Work_area_dir.plus_dir (Help_pages_mint_docs_dir))
 			write_file (work_area_dir + Help_pages_grub_error)
 
 			create manager.make (current_set)

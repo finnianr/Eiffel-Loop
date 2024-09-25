@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:12:10 GMT (Monday 23rd September 2024)"
-	revision: "25"
+	date: "2024-09-25 10:48:20 GMT (Wednesday 25th September 2024)"
+	revision: "26"
 
 class
 	EL_LOG_MANAGER
@@ -338,9 +338,7 @@ feature {EL_LOG_PRUNE_COMMAND} -- Factory
 			--
 		local
 			version_path: FILE_PATH; log_path_list: EL_FILE_PATH_LIST
-			version_base: ZSTRING
 		do
-			version_base := as_zstring (name) + ".000." + Default_log_file_extension
 			if output_directory.exists then
 				log_path_list := File_system.files_with_extension (
 					output_directory_path, Default_log_file_extension, False
@@ -350,11 +348,11 @@ feature {EL_LOG_PRUNE_COMMAND} -- Factory
 				if log_path_list.found then
 					version_path := log_path_list.path
 				else
-					version_path := output_directory + version_base
+					version_path := output_directory + Base_template #$ [name]
 				end
 			else
 				File_system.make_directory (output_directory)
-				version_path := output_directory + version_base
+				version_path := output_directory + Base_template #$ [name]
 			end
 			Result := version_path.next_version_path
 		end
@@ -416,6 +414,11 @@ feature {NONE} -- Internal attributes
 	thread_registration_queue: EL_THREAD_PRODUCT_QUEUE [TUPLE [EL_IDENTIFIED_THREAD_I]]
 
 feature {NONE} -- Constants
+
+	Base_template: ZSTRING
+		once
+			Result := "%S.000." + Default_log_file_extension
+		end
 
 	Default_log_file_extension: STRING = "log"
 

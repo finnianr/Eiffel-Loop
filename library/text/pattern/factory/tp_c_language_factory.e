@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:39 GMT (Sunday 22nd September 2024)"
-	revision: "7"
+	date: "2024-09-23 13:27:12 GMT (Monday 23rd September 2024)"
+	revision: "8"
 
 deferred class
 	TP_C_LANGUAGE_FACTORY
@@ -85,7 +85,7 @@ feature {NONE} -- Constants
 
 	Code_table: EL_HASH_TABLE [INTEGER, CHARACTER]
 		once
-			create Result.make_assignments (<<
+			Result := <<
 				['a', {ASCII}.bel], -- Bell alert
 				['b', {ASCII}.Back_space],
 				['e', {ASCII}.Esc], -- Escape
@@ -98,10 +98,9 @@ feature {NONE} -- Constants
 				['%'',{ASCII}.Singlequote],
 				['"', {ASCII}.Doublequote],
 				['?', {ASCII}.Questmark]
-			>>)
+			>>
 		end
 
 	Escape_character: CHARACTER_32 = '\'
 
 end
-

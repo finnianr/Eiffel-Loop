@@ -15,11 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_WIN_REGISTRY
-
-	EL_MODULE_REG_KEY
-
-	EL_MODULE_EXECUTABLE
+	EL_MODULE_EXECUTABLE; EL_MODULE_HKEY_LOCAL_MACHINE; EL_MODULE_WIN_REGISTRY
 
 feature -- Basic operations
 
@@ -42,7 +38,7 @@ feature {NONE} -- Constants
 			version: ZSTRING
 		once
 			across << "svcVersion", "Version" >> as key_name until Result > 0 loop
-				version := Win_registry.string (Reg_key.Internet_explorer.path, key_name.item)
+				version := Win_registry.string (Key_local.Internet_explorer, key_name.item)
 				if not version.is_empty then
 					Result := version.substring_to ('.').to_integer
 				end
@@ -50,8 +46,9 @@ feature {NONE} -- Constants
 		end
 
 	HKLM_IE_feature_browser_emulation: EL_DIR_PATH
+		-- HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\MAIN\FeatureControl
 		once
-			Result := Reg_key.Internet_explorer.sub_dir_path ("MAIN\FeatureControl\FEATURE_BROWSER_EMULATION")
+			Result := Key_local.Internet_explorer #+ "MAIN\FeatureControl\FEATURE_BROWSER_EMULATION"
 		end
 
 end

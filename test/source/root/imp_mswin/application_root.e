@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 14:16:51 GMT (Monday 1st January 2024)"
-	revision: "1"
+	date: "2024-09-24 16:34:19 GMT (Tuesday 24th September 2024)"
+	revision: "2"
 
 class
 	APPLICATION_ROOT
@@ -18,7 +18,7 @@ inherit
 			new_platform_types
 		end
 
-	COMPILED_CLASSES
+	EL_WINDOWS_IMPLEMENTATION
 
 create
 	make

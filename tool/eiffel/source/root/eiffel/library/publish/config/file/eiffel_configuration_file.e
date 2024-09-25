@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:48:25 GMT (Friday 20th September 2024)"
-	revision: "70"
+	date: "2024-09-25 15:15:56 GMT (Wednesday 25th September 2024)"
+	revision: "71"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -142,7 +142,7 @@ feature -- Access
 
 	ecf_path: FILE_PATH
 		do
-			Result := config.root_dir + relative_ecf_path
+			Result := config.root_dir.plus_file (relative_ecf_path)
 		end
 
 	html_index_path: FILE_PATH
@@ -214,7 +214,7 @@ feature -- Element change
 					and then lines.item.has_substring (See_details.ends)
 				then
 					relative_doc_path := lines.item.substring_between (See_details.begins, See_details.ends, 1)
-					doc_path := ecf_dir + relative_doc_path
+					doc_path := ecf_dir.plus_file (relative_doc_path)
 					if attached open_lines (doc_path, Utf_8) as file_lines then
 						file_lines.do_all (agent description_lines.extend)
 						file_lines.close

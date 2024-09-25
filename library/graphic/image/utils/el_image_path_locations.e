@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-05 9:26:11 GMT (Monday 5th December 2022)"
-	revision: "15"
+	date: "2024-09-25 15:25:34 GMT (Wednesday 25th September 2024)"
+	revision: "16"
 
 class
 	EL_IMAGE_PATH_LOCATIONS
@@ -51,19 +51,19 @@ feature -- Access
 	desktop_menu_icon (relative_path: FILE_PATH): FILE_PATH
 		-- Icons for setting up desktop menu launchers
 		do
-			Result := desktop_icons_dir + relative_path
+			Result := desktop_icons_dir.plus_file (relative_path)
 		end
 
 	icon (relative_path: FILE_PATH): FILE_PATH
 		-- application icon
 		do
-			Result := icons_dir + relative_path
+			Result := icons_dir.plus_file (relative_path)
 		end
 
 	image (relative_path: FILE_PATH): FILE_PATH
 		-- application image
 		do
-			Result := images_dir + relative_path
+			Result := images_dir.plus_file (relative_path)
 		end
 
 feature -- Base directories

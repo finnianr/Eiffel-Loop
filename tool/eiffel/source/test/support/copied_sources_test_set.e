@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 17:36:31 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-09-25 15:30:33 GMT (Wednesday 25th September 2024)"
+	revision: "8"
 
 deferred class
 	COPIED_SOURCES_TEST_SET
@@ -61,11 +61,10 @@ feature {NONE} -- Implementation
 
 	source_file_list: EL_FILE_PATH_LIST
 		local
-			files: like selected_files
-			source_path: DIR_PATH
+			files: like selected_files; source_path: DIR_PATH
 		do
 			files := selected_files
-			source_path := Sources_dir #+ Sources_sub_dir
+			source_path := Sources_dir.plus_dir (Sources_sub_dir)
 			if files.is_empty then
 				Result := OS.file_list (source_path, "*.e")
 			else

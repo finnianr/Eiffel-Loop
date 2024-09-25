@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-11 11:59:44 GMT (Wednesday 11th September 2024)"
-	revision: "1"
+	date: "2024-09-24 16:45:27 GMT (Tuesday 24th September 2024)"
+	revision: "2"
 
 class
 	EL_INITIALIZED_ARRAYED_LIST_FACTORY
@@ -17,9 +17,9 @@ inherit
 
 feature -- Factory
 
-	new_list (item_type: TYPE [ANY]; size: INTEGER): detachable EL_ARRAYED_LIST [ANY]
+	new_list (a_item_type: TYPE [ANY]; size: INTEGER): detachable EL_ARRAYED_LIST [ANY]
 		do
-			if attached new_generic_type_factory ({EL_ARRAYED_LIST [ANY]}, << item_type >>) as l_factory
+			if attached new_generic_type_factory ({EL_ARRAYED_LIST [ANY]}, << a_item_type >>) as l_factory
 				and then attached {EL_ARRAYED_LIST [ANY]} l_factory.new_item (size) as list
 			then
 				Result := list

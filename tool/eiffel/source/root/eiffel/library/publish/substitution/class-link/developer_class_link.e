@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-01 10:33:38 GMT (Saturday 1st June 2024)"
-	revision: "10"
+	date: "2024-09-25 15:19:32 GMT (Wednesday 25th September 2024)"
+	revision: "11"
 
 class
 	DEVELOPER_CLASS_LINK
@@ -37,7 +37,7 @@ feature -- Access
 		local
 			index_left, index_right: INTEGER
 		do
-			Result := Github_link_template #$ [class_name, github_url + path]
+			Result := Github_link_template #$ [class_name, github_url.plus_file (path)]
 		-- Change .html to .e
 			index_right := Result.count - 1
 			index_left := index_right - 3

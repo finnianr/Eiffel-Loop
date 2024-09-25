@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 10:01:56 GMT (Monday 19th August 2024)"
-	revision: "1"
+	date: "2024-09-25 11:10:41 GMT (Wednesday 25th September 2024)"
+	revision: "2"
 
 deferred class
 	EL_APPLICATION_IMPLEMENTATION
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 			create option_sub_dir.make (option_name)
 			across App_directory_list as list loop
 				if is_switched then
-					dir_path := list.item #+ option_sub_dir
+					dir_path := list.item.plus_dir (option_sub_dir)
 				else
 					dir_path := list.item
 				end

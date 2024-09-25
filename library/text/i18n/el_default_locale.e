@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 9:51:12 GMT (Thursday 18th July 2024)"
-	revision: "22"
+	date: "2024-09-25 11:10:54 GMT (Wednesday 25th September 2024)"
+	revision: "23"
 
 class
 	EL_DEFAULT_LOCALE
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 		local
 			table: EL_LOCALE_TABLE
 		do
-			create table.make (locales_parent_dir #+ Locales)
+			create table.make (locales_parent_dir.plus_dir (Locales))
 
 			make_with_language (user_language_code)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 14:52:46 GMT (Sunday 8th September 2024)"
-	revision: "10"
+	date: "2024-09-25 7:54:42 GMT (Wednesday 25th September 2024)"
+	revision: "11"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_IMP
@@ -15,17 +15,17 @@ deferred class
 inherit
 	EL_DESKTOP_ENVIRONMENT_I
 		redefine
-			set_compatibility_mode
+			set_app_compatibility
 		end
 
 	EL_WINDOWS_IMPLEMENTATION
 
-	EL_MODULE_OS_RELEASE; EL_MODULE_REG_KEY; EL_MODULE_WIN_REGISTRY
+	EL_MODULE_OS_RELEASE; EL_MODULE_HKEY_LOCAL_MACHINE; EL_MODULE_WIN_REGISTRY
 
 feature -- Access
 
-	registered_compatibility_mode: STRING
-		-- compatibility mode stored in Windows registry. Eg. WIN7
+	registry_compatibility_flags: STRING
+		-- compatibility mode flags stored in Windows registry. Eg. ~WIN7RTM
 		do
 			Result := Win_registry.string_8 (HKLM_compatibility_layers, executable_name)
 		end
@@ -34,24 +34,24 @@ feature -- Basic operations
 
 	install
 		do
-			if attached compatibility_mode as mode then
-				Win_registry.set_string (HKLM_compatibility_layers, executable_name, mode)
+			if attached app_compatibility_flags as flags and then flags.count > 0 then
+				Win_registry.set_string (HKLM_compatibility_layers, executable_name, flags)
 			end
 		end
 
 	uninstall
 		do
-			if attached compatibility_mode as mode then
+			if attached app_compatibility_flags as flags and then flags.count > 0 then
 				Win_registry.remove_key_value (HKLM_compatibility_layers, executable_name)
 			end
 		end
 
 feature -- Element change
 
-	set_compatibility_mode (mode: STRING)
-		-- set compatibility mode for Windows for registry entry. Eg. WIN7
+	set_app_compatibility (flags: STRING)
+		-- set Windows registry compatibility mode flags Eg. ~WIN7RTM
 		do
-			compatibility_mode := mode
+			app_compatibility_flags := flags
 		end
 
 feature {NONE} -- Implementation
@@ -68,7 +68,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	compatibility_mode: detachable STRING
+	app_compatibility_flags: detachable STRING
 		-- compatibility mode for Windows for registry entry. Eg. WIN7
 
 feature {NONE} -- Constants
@@ -76,7 +76,7 @@ feature {NONE} -- Constants
 	HKLM_compatibility_layers: DIR_PATH
 		-- HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers
 		once
-			Result := Reg_key.Windows_nt.current_version ("AppCompatFlags\Layers")
+			Result := Key_local.Windows_nt_current_version #+ "AppCompatFlags\Layers"
 		end
 
 	WIN7: STRING = "WIN7"

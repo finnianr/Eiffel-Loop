@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 15:04:14 GMT (Tuesday 17th September 2024)"
-	revision: "9"
+	date: "2024-09-25 9:47:37 GMT (Wednesday 25th September 2024)"
+	revision: "10"
 
 deferred class
 	EL_PATH_PARENT
@@ -226,7 +226,7 @@ feature -- Element change
 	set_parent_path (a_parent: READABLE_STRING_GENERAL)
 		do
 			if attached temporary_copy (a_parent, set_volume_from_string (a_parent)) as l_path then
-				set_shared_parent_path (normalized_copy (l_path))
+				set_shared_parent_path (temp_normalized (l_path))
 			end
 		end
 
@@ -250,19 +250,6 @@ feature {NONE} -- Implementation
 		do
 			pos_dollor := a_path.index_of ('$', 1)
 			Result := pos_dollor > 0 and then (pos_dollor = 1 or else a_path [pos_dollor - 1] = Separator)
-		end
-
-	normalized_copy (path: READABLE_STRING_GENERAL): ZSTRING
-		-- temporary path string normalized for platform
-		do
-			Result := temporary_copy (path, 1)
-			if {PLATFORM}.is_windows then
-				if is_uri then
-					Result.replace_character (Windows_separator, Unix_separator)
-				else
-					Result.replace_character (Unix_separator, Windows_separator)
-				end
-			end
 		end
 
 	part_count: INTEGER
@@ -335,6 +322,28 @@ feature {NONE} -- Implementation
 				Result [1] := volume
 			else
 				Result := Empty_string
+			end
+		end
+
+	normalized_copy (path: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+		do
+			if {PLATFORM}.is_windows and then path.has ('/') then
+				Result := temp_normalized (path).twin
+			else
+				Result := path
+			end
+		end
+
+	temp_normalized (path: READABLE_STRING_GENERAL): ZSTRING
+		-- temporary path string normalized for platform
+		do
+			Result := temporary_copy (path, 1)
+			if {PLATFORM}.is_windows then
+				if is_uri then
+					Result.replace_character (Windows_separator, Unix_separator)
+				else
+					Result.replace_character (Unix_separator, Windows_separator)
+				end
 			end
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-09 10:59:53 GMT (Friday 9th August 2024)"
-	revision: "11"
+	date: "2024-09-25 11:21:56 GMT (Wednesday 25th September 2024)"
+	revision: "12"
 
 deferred class
 	EL_TEST_DATA_TEST_SET
@@ -31,7 +31,7 @@ feature {NONE} -- Events
 	on_prepare
 		do
 			Precursor
-			OS.copy_tree (Test_data_dir #+ relative_dir, Workarea_root_dir)
+			OS.copy_tree (Test_data_dir.plus_dir (relative_dir), Workarea_root_dir)
 			work_dir := Workarea_root_dir #+ relative_dir.base
 		end
 

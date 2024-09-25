@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:54:01 GMT (Saturday 22nd June 2024)"
-	revision: "17"
+	date: "2024-09-24 16:44:33 GMT (Tuesday 24th September 2024)"
+	revision: "18"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
 
 inherit
 	EL_UNIQUE_CODE_TABLE [ZSTRING]
+		rename
+			string_list as derived_string_list
 		export
 			{ANY} is_empty, count, has_key, prunable
 		redefine

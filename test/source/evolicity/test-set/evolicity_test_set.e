@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "20"
+	date: "2024-09-23 13:30:13 GMT (Monday 23rd September 2024)"
+	revision: "21"
 
 class
 	EVOLICITY_TEST_SET
@@ -112,9 +112,7 @@ feature {NONE} -- Factory
 			table: EL_HASH_TABLE [INTEGER, STRING]
 		do
 			create Result.make
-			create table.make_assignments (<<
-				["one", 1], ["two", 2], ["three", 3]
-			>>)
+			table := << ["one", 1], ["two", 2], ["three", 3] >>
 			Result.put_any ("value_table", table)
 			Result.put_any ("string_list", table.key_list)
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 7:00:44 GMT (Tuesday 17th September 2024)"
-	revision: "80"
+	date: "2024-09-25 9:42:20 GMT (Wednesday 25th September 2024)"
+	revision: "81"
 
 deferred class
 	EL_PATH
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 		local
 			pos_last_separator: INTEGER; l_path: ZSTRING
 		do
-			l_path := normalized_copy (temporary_copy (a_path, set_volume_from_string (a_path)))
+			l_path := temp_normalized (temporary_copy (a_path, set_volume_from_string (a_path)))
 			if l_path.count > 0 then
 				pos_last_separator := l_path.last_index_of (Separator, l_path.count)
 			end
@@ -306,7 +306,7 @@ feature -- Comparison
 			if path.count = count then
 				Result := True
 				if path.count > 0 then
-					l_path := normalized_copy (path)
+					l_path := temp_normalized (path)
 					start_index := 1
 					from i := 1 until i > part_count or else not Result loop
 						i_th_part := part_string (i)

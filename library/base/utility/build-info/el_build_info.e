@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 16:22:28 GMT (Monday 9th September 2024)"
-	revision: "17"
+	date: "2024-09-24 10:26:16 GMT (Tuesday 24th September 2024)"
+	revision: "18"
 
 deferred class
 	EL_BUILD_INFO
@@ -22,8 +22,9 @@ inherit
 
 feature -- Access
 
-	compatibility_mode: STRING
-		-- Windows compatibility mode
+	app_compatibility_flags: STRING
+		-- For installed entry in registry key: CurrentVersion\AppCompatFlags\Layers
+		-- Under: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT
 		deferred
 		end
 

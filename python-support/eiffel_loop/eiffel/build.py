@@ -35,7 +35,7 @@ class FREEZE_BUILD (object):
 # Initialization
 	def __init__ (self, ecf, project_py):
 
-		self.compatibility_mode = project_py.MSC_options.compatibility_mode
+		self.app_compat_flags = project_py.MSC_options.app_compat_flags
 		self.ecf = ecf
 		self.system = ecf.system
 		self.ecf_path = ecf.location
@@ -316,7 +316,7 @@ class FREEZE_BUILD (object):
 		f.write (
 			Build_info_class_template.substitute (
 				class_name = class_name,
-				compatibility_mode = self.compatibility_mode,
+				app_compat_flags = self.app_compat_flags,
 				version = version.compact (),
 				build_number = version.build,
 				# Assumes unix separator
@@ -526,10 +526,11 @@ create
 
 feature -- Constants
 
-	Build_number: NATURAL = ${build_number}
+	App_compatibility_flags: STRING = "${app_compat_flags}"
+		-- For installed entry in registry key: CurrentVersion\AppCompatFlags\Layers
+		-- Under: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT
 
-	Compatibility_mode: STRING = "${compatibility_mode}"
-		-- Windows compatibility mode for registry entry in Layers
+	Build_number: NATURAL = ${build_number}
 
 	Installation_sub_directory: DIR_PATH
 		once

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "17"
+	date: "2024-09-25 11:40:07 GMT (Wednesday 25th September 2024)"
+	revision: "18"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 			Precursor
 			svg_path := file_path (Edit_button_svg)
 			create context.make
-			context.put_string ("png_path", Directory.current_working + file_path (Edit_icon_png))
+			context.put_string ("png_path", Directory.current_working.plus_file (file_path (Edit_icon_png)))
 			Evolicity_templates.put_file (file_path (Button_svg), Utf_8_encoding)
 			if attached open (svg_path, Write) as svg_file then
 				Evolicity_templates.merge_to_file (file_path (Button_svg), context, svg_file)
@@ -96,11 +96,9 @@ feature {NONE} -- Constants
 
 	Color_code_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			create Result.make_assignments (<<
-				[Color.black, 0],
-				[Color.white, 0xFFFFFF],
-				[Color.red, 0xA52A2A]
-			>>)
+			Result := <<
+				[Color.black, 0], [Color.white, 0xFFFFFF], [Color.red, 0xA52A2A]
+			>>
 		end
 
 	Edit_button_svg: STRING

@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "22"
+	date: "2024-09-23 13:27:45 GMT (Monday 23rd September 2024)"
+	revision: "23"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I

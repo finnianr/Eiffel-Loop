@@ -9,10 +9,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 18:09:47 GMT (Monday 1st January 2024)"
-	revision: "71"
+	date: "2024-09-24 16:34:13 GMT (Tuesday 24th September 2024)"
+	revision: "72"
 
-class
+deferred class
 	COMMON_APPLICATION_ROOT
 
 inherit
@@ -101,5 +101,9 @@ inherit
 	-- (Run last as some tests may fail due to httpbin.org test server availability)
 		HTTP_CLIENT_AUTOTEST_APP
 	]
+
+	EL_OS_DEPENDENT
+
+	COMPILED_CLASSES
 
 end

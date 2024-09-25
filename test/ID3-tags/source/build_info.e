@@ -4,8 +4,8 @@ note
 
 	author: "Python module: eiffel_loop.eiffel.ecf.py"
 
-	date: "2024-09-10 8:56:46 GMT (Tuesday 10th September 2024)"
-	revision: "2"
+	date: "2024-09-24 16:28:26 GMT (Tuesday 24th September 2024)"
+	revision: "3"
 
 class
 	BUILD_INFO
@@ -18,10 +18,11 @@ create
 
 feature -- Constants
 
-	Build_number: NATURAL = 0
+	App_compatibility_flags: STRING = "~Win7RTM"
+		-- For installed entry in registry key: CurrentVersion\AppCompatFlags\Layers
+		-- Under: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT
 
-	Compatibility_mode: STRING = "Win7"
-		-- compatibility mode for Windows for registry entry
+	Build_number: NATURAL = 0
 
 	Installation_sub_directory: DIR_PATH
 		once

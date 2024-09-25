@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 16:23:00 GMT (Monday 9th September 2024)"
-	revision: "11"
+	date: "2024-09-24 11:51:03 GMT (Tuesday 24th September 2024)"
+	revision: "12"
 
 class
 	EIFFEL_LOOP_BUILD_INFO
@@ -25,8 +25,9 @@ feature -- Constants
 
 	Build_number: NATURAL = 0
 
-	Compatibility_mode: STRING = "Win7"
-		-- Windows compatibility mode
+	App_compatibility_flags: STRING = ""
+		-- For installed entry in registry key: CurrentVersion\AppCompatFlags\Layers
+		-- Under: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT
 
 	Installation_sub_directory: DIR_PATH
 		once

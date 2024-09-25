@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 7:41:31 GMT (Tuesday 17th September 2024)"
-	revision: "47"
+	date: "2024-09-25 14:57:23 GMT (Wednesday 25th September 2024)"
+	revision: "48"
 
 deferred class
 	EL_CONVERTABLE_PATH
@@ -66,7 +66,7 @@ feature -- Conversion
 	as_string_32: STRING_32
 		do
 			create Result.make (count)
-			append_to_32 (Result)
+			parent_path.append_to_string_32 (Result); base.append_to_string_32 (Result)
 		ensure then
 			same_as_to_string: to_string.as_string_32 ~ Result
 		end
@@ -209,24 +209,14 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 		require
 			relative_path: not is_empty implies not a_path.is_absolute
 		local
-			l_path: ZSTRING; i, back_step_count: INTEGER
+			l_path: ZSTRING
 		do
-			if not a_path.is_empty then
+			if a_path.count > 0 then
 				l_path := temporary_path
-				i := l_path.count
-				if i > 0 and then l_path [i] /= Separator then
+				if l_path.count > 0 and then not l_path.ends_with_character (Separator) then
 					l_path.append_character (Separator)
 				end
-				back_step_count := leading_back_step_count (a_path.parent_path)
-				if back_step_count > 0 then
-					from i := 1 until i > back_step_count or else l_path.is_empty loop
-						remove_step_right (l_path)
-						i := i + 1
-					end
-					l_path.append_substring (a_path.parent_path, back_step_count * 3 + 1, a_path.parent_path.count)
-				else
-					l_path.append (a_path.parent_path)
-				end
+				resolve_back_steps (a_path.parent_path, l_path)
 				l_path.append (a_path.base)
 				set_path (l_path)
 			end
@@ -270,12 +260,13 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			Result := 1
 		end
 
-	leading_back_step_count (a_path: ZSTRING): INTEGER
+	leading_back_step_count (a_path: READABLE_STRING_GENERAL): INTEGER
+		-- count of leading steps "../" in `a_path'
 		local
 			i: INTEGER; occurs: BOOLEAN
 		do
 			from i := 1; occurs := True until not occurs or else i + 2 > a_path.count loop
-				occurs := a_path.same_characters (Back_dir_step, 1, 3, i)
+				occurs := Back_dir_step.same_characters_general (a_path, i, i + 2, 1)
 				if occurs then
 					Result := Result + 1
 				end
@@ -331,6 +322,32 @@ feature {EL_PATH, STRING_HANDLER} -- Implementation
 			l_path := temporary_copy (parent_path, 1)
 			l_path.replace_character (separator_old, separator_new)
 			set_shared_parent_path (l_path)
+		end
+
+	resolve_back_steps (a_parent_path: READABLE_STRING_GENERAL; output_path: ZSTRING)
+		-- resolve leading back step strings "../" in `a_parent_path' by substracting steps
+		-- from `output_path'
+		local
+			i, back_step_count: INTEGER
+		do
+			back_step_count := leading_back_step_count (a_parent_path)
+			if back_step_count > 0 then
+				from i := 1 until i > back_step_count or else output_path.is_empty loop
+					remove_step_right (output_path)
+					i := i + 1
+				end
+				output_path.append_substring_general (a_parent_path, back_step_count * 3 + 1, a_parent_path.count)
+			else
+				output_path.append_string_general (a_parent_path)
+			end
+		end
+
+	separator_needed (left: ZSTRING; right: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if `left' and `right' path strings need the `Separator' to be joined
+		do
+			if left.count > 0 and then left [left.count] /= Separator then
+				Result := not (right.count > 0 and then right [1] = Separator)
+			end
 		end
 
 end

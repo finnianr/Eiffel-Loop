@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 12:16:25 GMT (Friday 13th September 2024)"
-	revision: "23"
+	date: "2024-09-25 14:15:10 GMT (Wednesday 25th September 2024)"
+	revision: "24"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -28,6 +28,8 @@ inherit
 			Open as File_open,
 			Read as Read_from
 		end
+
+	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature -- Access
 
@@ -121,9 +123,7 @@ feature {NONE} -- Sending commands
 	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
 		-- send command `cmd' with `path' argument and possible success `codes'
 		do
-			across String_8_scope as scope loop
-				send (cmd, unix_utf_8_path (scope, a_path), codes)
-			end
+			send (cmd, a_path.to_unix.to_utf_8, codes)
 		end
 
 	send_port_command: BOOLEAN
@@ -256,14 +256,12 @@ feature {NONE} -- Implementation
 
 	initiate_file_listing (dir_path: DIR_PATH)
 		do
-			across String_8_scope as scope loop
-				push_address_path (unix_utf_8_path (scope, dir_path))
-				set_passive_mode
-				initiating_listing := True
-				last_entry_count := 0
-				initiate_transfer
-				pop_address_path
-			end
+			push_address_path (dir_path.to_unix.to_utf_8)
+			set_passive_mode
+			initiating_listing := True
+			last_entry_count := 0
+			initiate_transfer
+			pop_address_path
 		end
 
 	initiate_transfer
@@ -367,12 +365,10 @@ feature {NONE} -- Implementation
 		local
 			l_error_code: INTEGER; l_reply: STRING
 		do
-			across String_8_scope as scope loop
-				push_address_path (unix_utf_8_path (scope, destination_path))
-				set_passive_mode
-				initiate_transfer
-				pop_address_path
-			end
+			push_address_path (destination_path.to_unix.to_utf_8)
+			set_passive_mode
+			initiate_transfer
+			pop_address_path
 			if transfer_initiated then
 				transfer_file_data (source_path)
 				transfer_initiated := False
@@ -391,15 +387,6 @@ feature {NONE} -- Implementation
 		ensure
 			address_path_unchanged: old address.path ~ address.path
 			unattached_data_socket: not attached data_socket
-		end
-
-	unix_utf_8_path (cursor: EL_BORROWED_STRING_8_CURSOR; a_path: EL_PATH): STRING
-		do
-			Result := cursor.item
-			a_path.append_to_utf_8 (Result)
-			if {PLATFORM}.is_windows then
-				String_8.replace_character (Result, '\', '/')
-			end
 		end
 
 feature {NONE} -- Deferred

@@ -6,13 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 8:09:04 GMT (Monday 26th August 2024)"
-	revision: "9"
+	date: "2024-09-24 16:36:33 GMT (Tuesday 24th September 2024)"
+	revision: "10"
 
 class
 	COMPILED_CLASSES
 
-feature {NONE} -- Compiled
+feature {NONE} -- Compile extra
 
 	compile: TUPLE [
 		EL_TEST_SET_BRIDGE, LIBGCC1, MY_WET_CLASS, MY_DRY_CLASS

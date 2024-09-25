@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:45:52 GMT (Monday 23rd September 2024)"
-	revision: "17"
+	date: "2024-09-24 18:23:58 GMT (Tuesday 24th September 2024)"
+	revision: "18"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -15,6 +15,7 @@ deferred class
 inherit
 	EL_HASH_TABLE [REAL, NATURAL_8]
 		rename
+			Date_factory as Default_date_factory,
 			make as make_sized,
 			fill as fill_from
 		end

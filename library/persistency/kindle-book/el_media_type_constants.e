@@ -6,27 +6,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "4"
+	date: "2024-09-23 12:30:19 GMT (Monday 23rd September 2024)"
+	revision: "5"
 
 class
 	EL_MEDIA_TYPE_CONSTANTS
 
 inherit
 	ANY
-	
+
 	EL_MODULE_TUPLE
 
 feature {NONE} -- Constants
 
 	Media_type_table: EL_HASH_TABLE [STRING, STRING]
 		once
-			create Result.make_assignments (<<
-				["png",	Type.png],
-				["html",	Type.html],
-				["ncx",	Type.ncx],
-				["txt",	Type.txt]
-			>>)
+			Result := <<
+				["png", Type.png], ["html", Type.html], ["ncx", Type.ncx], ["txt", Type.txt]
+			>>
 		end
 
 	Type: TUPLE [png, html, ncx, txt: STRING]

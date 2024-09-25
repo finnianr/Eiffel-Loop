@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 7:01:43 GMT (Tuesday 17th September 2024)"
-	revision: "49"
+	date: "2024-09-25 13:18:46 GMT (Wednesday 25th September 2024)"
+	revision: "50"
 
 deferred class
 	EL_URI_PATH
@@ -25,7 +25,7 @@ inherit
 		export
 			{ANY} Forward_slash
 		redefine
-			append, append_file_prefix, default_create, make, make_from_other,
+			append, append_file_prefix, as_string_32, default_create, make, make_from_other,
 			is_absolute, is_uri, is_equal, is_less, part_count, part_string, first_index,
 			set_path, set_volume_from_string,
 			Separator, Type_parent
@@ -156,7 +156,7 @@ feature -- Element change
 	append (a_path: EL_PATH)
 		do
 			if is_empty and then a_path.is_absolute then
-				if attached normalized_copy (a_path.parent_path) as path then
+				if attached temp_normalized (a_path.parent_path) as path then
 					if not path.starts_with_character (Separator) then
 						path.prepend_character (Separator)
 					end
@@ -209,6 +209,12 @@ feature -- Status query
 		end
 
 feature -- Conversion
+
+	as_string_32: STRING_32
+		do
+			create Result.make (count)
+			append_to_32 (Result)
+		end
 
 	to_file_path: EL_PATH
 		deferred

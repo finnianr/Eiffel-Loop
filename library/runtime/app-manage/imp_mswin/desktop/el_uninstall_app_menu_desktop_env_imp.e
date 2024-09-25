@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 14:41:58 GMT (Sunday 8th September 2024)"
-	revision: "19"
+	date: "2024-09-25 7:54:42 GMT (Wednesday 25th September 2024)"
+	revision: "20"
 
 class
 	EL_UNINSTALL_APP_MENU_DESKTOP_ENV_IMP
@@ -29,7 +29,7 @@ inherit
 
 	EL_MS_WINDOWS_DIRECTORIES
 
-	EL_MODULE_FILE; EL_MODULE_WIN_REGISTRY; EL_MODULE_REG_KEY
+	EL_MODULE_FILE; EL_MODULE_WIN_REGISTRY; EL_MODULE_HKEY_LOCAL_MACHINE
 
 	EL_SHARED_APPLICATION_LIST; EL_SHARED_SOFTWARE_VERSION
 
@@ -164,7 +164,7 @@ feature {NONE} -- Constants
 	HKLM_uninstall_path: DIR_PATH
 		-- HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
 		once
-			Result := Reg_key.Windows.current_version ("Uninstall")
+			Result := Key_local.Microsoft_windows #+ "CurrentVersion\Uninstall"
 		end
 
 	Has_elevated: BOOLEAN = True

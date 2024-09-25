@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:10:43 GMT (Friday 13th September 2024)"
-	revision: "46"
+	date: "2024-09-25 11:15:59 GMT (Wednesday 25th September 2024)"
+	revision: "47"
 
 class
 	EL_FTP_PROTOCOL
@@ -385,10 +385,10 @@ feature {NONE} -- Implementation
 				send_path (cmd, a_path, codes)
 
 			elseif attached {FILE_PATH} a_path as file_path then
-				send_path (cmd, current_directory + file_path, codes)
+				send_path (cmd, current_directory.plus_file (file_path), codes)
 
 			elseif attached {DIR_PATH} a_path as dir_path then
-				send_path (cmd, current_directory #+ dir_path, codes)
+				send_path (cmd, current_directory.plus_dir (dir_path), codes)
 			end
 		end
 

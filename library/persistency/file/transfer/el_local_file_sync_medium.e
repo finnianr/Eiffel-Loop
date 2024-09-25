@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-05 6:31:15 GMT (Wednesday 5th June 2024)"
-	revision: "11"
+	date: "2024-09-25 15:37:23 GMT (Wednesday 25th September 2024)"
+	revision: "12"
 
 class
 	EL_LOCAL_FILE_SYNC_MEDIUM
@@ -39,7 +39,7 @@ feature -- Status report
 	directory_exists (dir_path: DIR_PATH): BOOLEAN
 		-- `True' if directory exists on medium
 		do
-			Result := (home_dir #+ dir_path).exists
+			Result := (home_dir.plus_dir (dir_path)).exists
 		end
 
 	has_error: BOOLEAN
@@ -61,13 +61,13 @@ feature -- Basic operations
 			source_file: RAW_FILE
 		do
 			create source_file.make_with_name (item.source_path)
-			File.copy_contents (source_file, home_dir + item.file_path)
+			File.copy_contents (source_file, home_dir.plus_file (item.file_path))
 		end
 
 	make_directory (dir_path: DIR_PATH)
 		-- make directory `dir_path' relative to home directory
 		do
-			File_system.make_directory (home_dir #+ dir_path)
+			File_system.make_directory (home_dir.plus_dir (dir_path))
 		end
 
 	open
@@ -78,7 +78,7 @@ feature -- Basic operations
 	remove_directory (dir_path: DIR_PATH)
 		-- remove directory `dir_path' relative to home directory
 		do
-			if attached (home_dir #+ dir_path) as path and then path.exists then
+			if attached (home_dir.plus_dir (dir_path)) as path and then path.exists then
 				File_system.remove_directory (path)
 			end
 		end

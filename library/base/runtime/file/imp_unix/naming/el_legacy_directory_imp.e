@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-19 15:11:31 GMT (Monday 19th August 2024)"
-	revision: "8"
+	date: "2024-09-25 11:17:12 GMT (Wednesday 25th September 2024)"
+	revision: "9"
 
 class
 	EL_LEGACY_DIRECTORY_IMP
@@ -29,7 +29,7 @@ feature {NONE} -- Constants
 
 	App_data: DIR_PATH
 		once
-			Result := Home #+ Relative_app_data
+			Result := Home.plus_dir (Relative_app_data)
 		end
 
 	App_configuration: DIR_PATH

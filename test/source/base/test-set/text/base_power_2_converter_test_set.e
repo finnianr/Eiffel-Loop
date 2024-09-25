@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "11"
+	date: "2024-09-23 12:23:47 GMT (Monday 23rd September 2024)"
+	revision: "12"
 
 class
 	BASE_POWER_2_CONVERTER_TEST_SET
@@ -73,10 +73,6 @@ feature {NONE} -- Implementation
 
 	String_table: EL_HASH_TABLE [INTEGER, STRING]
 		once
-			create Result.make_assignments (<<
-				["11111111", 2],
-				["0377", 8],
-				["0xFF", 16]
-			>>)
+			Result := << ["11111111", 2], ["0377", 8], ["0xFF", 16] >>
 		end
 end

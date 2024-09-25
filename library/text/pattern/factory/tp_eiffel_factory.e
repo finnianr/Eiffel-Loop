@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:39 GMT (Sunday 22nd September 2024)"
-	revision: "7"
+	date: "2024-09-23 13:33:10 GMT (Monday 23rd September 2024)"
+	revision: "8"
 
 deferred class
 	TP_EIFFEL_FACTORY
@@ -174,7 +174,7 @@ feature {NONE} -- Constants
 
 	Code_table: EL_HASH_TABLE [INTEGER, CHARACTER]
 		once
-			create Result.make_assignments (<<
+			Result := <<
 				['A', {ASCII}.Commercial_at], -- @
 				['B', {ASCII}.Back_space],
 				['C', {ASCII}.Circumflex], -- ^
@@ -195,12 +195,11 @@ feature {NONE} -- Constants
 				[')', {ASCII}.Rbracket], -- ]
 				['<', {ASCII}.Opening_brace], -- {
 				['>', {ASCII}.Closing_brace] -- }
-			>>)
+			>>
 		end
 
 	Escape_character: CHARACTER_32 = '%%'
 
 end
-
 
 

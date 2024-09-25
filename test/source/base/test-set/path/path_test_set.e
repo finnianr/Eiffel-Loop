@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 12:54:25 GMT (Tuesday 17th September 2024)"
-	revision: "34"
+	date: "2024-09-25 15:02:55 GMT (Wednesday 25th September 2024)"
+	revision: "35"
 
 class
 	PATH_TEST_SET
@@ -36,8 +36,8 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["comparisons",				 agent test_comparisons],
-				["extension",					 agent test_extension],
 				["drive_letter",				 agent test_drive_letter],
+				["extension",					 agent test_extension],
 				["first_step",					 agent test_first_step],
 				["initialization",			 agent test_initialization],
 				["ise_path_access",			 agent test_ise_path_access],
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 				["path_expansion",			 agent test_path_expansion],
 				["path_sort",					 agent test_path_sort],
 				["path_steps",					 agent test_path_steps],
-				["relative_joins",			 agent test_relative_joins],
+				["plus_path",					 agent test_plus_path],
 				["set_parent",					 agent test_set_parent],
 				["universal_relative_path", agent test_universal_relative_path],
 				["version_number",			 agent test_version_number]
@@ -312,16 +312,28 @@ feature -- Tests
 			end
 		end
 
-	test_relative_joins
+	test_plus_path
 		note
 			testing: "[
-				covers/{DIR_PATH}.plus, covers/{DIR_PATH}.leading_backstep_count, covers/{DIR_PATH}.append_path
+				covers/{DIR_PATH}.plus_file_path,
+				covers/{DIR_PATH}.plus_dir,
+				covers/{DIR_PATH}.leading_backstep_count,
+				covers/{DIR_PATH}.append_path
 			]"
 		local
-			eif_dir_path: DIR_PATH; docs_pdf_abs: FILE_PATH
+			eif_dir_path, empty_dir, w_code_c1, home_user: DIR_PATH; docs_pdf_abs: FILE_PATH
 		do
+			create empty_dir; w_code_c1 := String.w_code_c1; home_user := String.home_user
+			assert_same_string (Void, empty_dir.plus_dir (w_code_c1), String.w_code_c1)
+			assert_same_string (Void, empty_dir.plus_dir_path (w_code_c1), String.w_code_c1)
+
+			if attached char (OS.separator).joined (String.home_user, String.w_code_c1) as joined_string then
+				assert_same_string (Void, home_user.plus_dir (w_code_c1), joined_string)
+				assert_same_string (Void, home_user.plus_dir_path (w_code_c1), joined_string)
+			end
+
 			eif_dir_path := String.home_eiffel
-			docs_pdf_abs := eif_dir_path.plus (String.parent_dots + String.parent_dots + String.docs_pdf)
+			docs_pdf_abs := eif_dir_path.plus_file_path (String.parent_dots + String.parent_dots + String.docs_pdf)
 
 			assert_same_string (Void, docs_pdf_abs.to_unix, char ('/').joined (String.home_user, String.docs_pdf))
 		end
@@ -421,6 +433,11 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
+	new_path (str: ZSTRING): FILE_PATH
+		do
+			Result := str
+		end
+
 	parent_count (a_path: DIR_PATH): INTEGER
 		local
 			path: EL_PATH
@@ -429,11 +446,6 @@ feature {NONE} -- Implementation
 				path := path.parent
 				Result := Result + 1
 			end
-		end
-
-	new_path (str: ZSTRING): FILE_PATH
-		do
-			Result := str
 		end
 
 	to_platform (str: STRING): STRING
@@ -457,7 +469,7 @@ feature {NONE} -- Constants
 			valid_expansion: Result.exists
 		end
 
-	String: TUPLE [d_boot, c_root, home_user, home_eiffel, docs_pdf, boot_memtest, parent_dots: STRING]
+	String: TUPLE [d_boot, c_root, home_user, home_eiffel, docs_pdf, boot_memtest, w_code_c1, parent_dots: STRING]
 		once
 			create Result
 		-- order is for `test_path_sort'
@@ -468,6 +480,7 @@ feature {NONE} -- Constants
 				/home/joe/dev/Eiffel
 				Documents/Eiffel-spec.pdf
 				C:/Boot/memtest.exe
+				W_code/C1
 				../
 			]")
 		end

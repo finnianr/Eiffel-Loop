@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "59"
+	date: "2024-09-25 15:49:14 GMT (Wednesday 25th September 2024)"
+	revision: "60"
 
 class
 	RBOX_SONG
@@ -435,7 +435,7 @@ feature {NONE} -- Implementation
 	normalized_mp3_base_path: FILE_PATH
 			-- normalized path <mp3_root_location>/<genre>/<artist>/<title>[<- vocalists>]
 		do
-			Result := music_dir + normalized_path_steps
+			Result := music_dir.plus_file (normalized_path_steps)
 		end
 
 	normalized_path_steps: FILE_PATH

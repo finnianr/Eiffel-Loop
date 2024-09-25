@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:07:06 GMT (Monday 23rd September 2024)"
-	revision: "25"
+	date: "2024-09-25 11:14:16 GMT (Wednesday 25th September 2024)"
+	revision: "26"
 
 class
 	EL_FILE_SYNC_MANAGER
@@ -184,14 +184,14 @@ feature {NONE} -- Implementation
 			checksum_dir := new_crc_sync_dir (local_home_dir, destination_name)
 			across File_system.parent_set (new_file_list (deleted_set), False) as list loop
 				-- order of descending step count
-				local_dir := local_home_dir #+ list.item
+				local_dir := local_home_dir.plus_dir (list.item)
 				if Directory.named (local_dir).is_empty then
 					medium.remove_directory (list.item)
 					File_system.remove_directory (local_dir)
 					progress_listener.notify_tick
 				end
 			-- Remove empty checksums directory
-				local_dir := checksum_dir #+ list.item
+				local_dir := checksum_dir.plus_dir (list.item)
 				if Directory.named (local_dir).is_empty then
 					File_system.remove_directory (local_dir)
 				end

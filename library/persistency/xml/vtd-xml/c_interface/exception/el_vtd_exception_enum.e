@@ -6,24 +6,36 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "5"
+	date: "2024-09-23 13:20:47 GMT (Monday 23rd September 2024)"
+	revision: "6"
 
 class
 	EL_VTD_EXCEPTION_ENUM
 
 feature -- Access
 
-	description (code: INTEGER): STRING
-	 	do
-	 		if Description_table.has_key (code) then
-		 		Result := Description_table.found_item
-		 	else
-		 		create Result.make_empty
-	 		end
-	 	end
+	table: EL_HASH_TABLE [STRING, INTEGER]
+		do
+			Result := <<
+				[out_of_mem, "out of memory"],
+				[invalid_argument, "invalid argument"],
+				[array_out_of_bound, "array index out of bound"],
+				[parse_exception, "parsing"],
+				[nav_exception, "vtdNav.c"],
+				[pilot_exception, "autoPilot.c"],
+				[number_format_exception, "vtdNav.c number format"],
+				[xpath_parse_exception, "XPATH parsing"],
+				[xpath_eval_exception, "XPATH evaluation"],
+				[modify_exception, "XMLModifier.c"],
+				[index_write_exception, "indexHandler.c write"],
+				[index_read_exception, "indexHandler.c read"],
+				[io_exception, "input/output"],
+				[transcode_exception, "transcoder.c"],
+				[other_exception, "other"]
+			>>
+		end
 
-feature -- Type codes
+feature {NONE} -- Type codes
 
 	array_out_of_bound: INTEGER
 		external
@@ -132,26 +144,4 @@ feature -- Type codes
 			"return xpath_parse_exception"
 		end
 
-feature {NONE} -- Constants
-
-	Description_table: EL_HASH_TABLE [STRING, INTEGER]
-		once
-			create Result.make_assignments (<<
-				[out_of_mem, "out of memory"],
-				[invalid_argument, "invalid argument"],
-				[array_out_of_bound, "array index out of bound"],
-				[parse_exception, "parse exception"],
-				[nav_exception, "navigation exception"],
-				[pilot_exception, "pilot exception"],
-				[number_format_exception, "number format exception"],
-				[xpath_parse_exception, "xpath parse exception"],
-				[xpath_eval_exception, "xpath eval exception"],
-				[modify_exception, "modify exception"],
-				[index_write_exception, "index write exception"],
-				[index_read_exception, "index read exception"],
-				[io_exception, "io exception"],
-				[transcode_exception, "Invalid UCS char for ASCII format"],
-				[other_exception, "other exception"]
-			>>)
-		end
 end

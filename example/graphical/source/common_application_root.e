@@ -1,18 +1,30 @@
 note
-	description: "Include classes in compilation"
+	description: "Common application root"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 11:14:27 GMT (Tuesday 14th May 2024)"
-	revision: "2"
+	date: "2024-09-24 16:36:52 GMT (Tuesday 24th September 2024)"
+	revision: "23"
 
-class
-	COMPILE_CLASSES
+deferred class
+	COMMON_APPLICATION_ROOT
 
-feature -- Compiled classes
+inherit
+	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
+		EDIT_HISTORY_TEST_APP,
+		FRACTAL_APP,
+		POST_CARD_VIEWER_APP,
+		PANGO_CAIRO_TEST_APP,
+		QUANTUM_BALL_ANIMATION_APP,
+		SLIDE_SHOW_APP
+	]
+
+	EL_OS_DEPENDENT
+
+feature {NONE} -- Compile extra
 
 	cairo: TUPLE [CAIRO_SHARED_GDK_API, CAIRO_SHARED_GDK_PIXBUF_API]
 		do
@@ -32,7 +44,7 @@ feature -- Compiled classes
 		EL_APPLY_CHANGES_CONFIRMATION_DIALOG, EL_SAVE_CHANGES_CONFIRMATION_DIALOG,
 		EL_FILE_OPEN_DIALOG, EL_FILE_SAVE_DIALOG, EL_PROGRESS_DIALOG,
 		EL_MODELED_DIALOG, EL_MODELED_INFORMATION_DIALOG, EL_MODELED_COLUMNS_DIALOG,
-		EL_HYPERLINK_MENU [EL_NAMEABLE [ZSTRING]]
+		EL_HYPERLINK_MENU [EL_NAMEABLE [ZSTRING]], EV_WEB_BROWSER
 	]
 		do
 			create Result
@@ -64,4 +76,5 @@ feature -- Compiled classes
 		do
 			create Result
 		end
+
 end

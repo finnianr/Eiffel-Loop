@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 10:55:46 GMT (Tuesday 11th June 2024)"
-	revision: "20"
+	date: "2024-09-25 15:17:18 GMT (Wednesday 25th September 2024)"
+	revision: "21"
 
 class
 	EIFFEL_CONFIGURATION_LIST [ECF -> EIFFEL_CONFIGURATION_FILE create make end]
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 			make_list (a_config.ecf_list.count)
 			across config.ecf_list as list loop
 				ecf := list.item
-				ecf_path := config.root_dir + ecf.path
+				ecf_path := config.root_dir.plus_file (ecf.path)
 				if ecf_path.exists then
 					check_pecf_source (ecf_path)
 					create xdoc.make_from_file (ecf_path)

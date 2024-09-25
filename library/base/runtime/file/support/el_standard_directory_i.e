@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "34"
+	date: "2024-09-25 11:21:20 GMT (Wednesday 25th September 2024)"
+	revision: "35"
 
 deferred class
 	EL_STANDARD_DIRECTORY_I
@@ -175,17 +175,17 @@ feature -- Application
 
 	App_cache: DIR_PATH
 		once
-			Result := cache #+ App_install_sub
+			Result := cache.plus_dir (App_install_sub)
 		end
 
 	App_configuration: DIR_PATH
 		once
-			Result := configuration #+ App_install_sub
+			Result := configuration.plus_dir (App_install_sub)
 		end
 
 	App_data: DIR_PATH
 		once
-			Result := user_local #+ App_install_sub
+			Result := user_local.plus_dir (App_install_sub)
 		end
 
 feature -- Sub-application
@@ -215,7 +215,7 @@ feature -- Installed locations
 
 	Application_installation: DIR_PATH
 		once
-			Result := applications #+ App_install_sub
+			Result := applications.plus_dir (App_install_sub)
 		end
 
 feature -- Constants
@@ -235,10 +235,10 @@ feature -- Constants
 
 	Legacy_table: EL_HASH_TABLE [DIR_PATH, DIR_PATH]
 		once
-			create Result.make_assignments (<<
+			Result := <<
 				[App_configuration, Legacy.app_configuration],
 				[App_data, Legacy.app_data]
-			>>)
+			>>
 		end
 
 	Parent: ZSTRING
@@ -258,7 +258,7 @@ feature {NONE} -- Implementation
 	new_sub_app_dir_path (dir_path: DIR_PATH): DIR_PATH
 		do
 			if attached Sub_app_dir as sub_dir and then not sub_dir.is_empty then
-				Result := dir_path #+ sub_dir
+				Result := dir_path.plus_dir (sub_dir)
 			else
 				Result := dir_path
 			end

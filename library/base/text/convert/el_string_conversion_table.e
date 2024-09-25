@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:18:28 GMT (Sunday 22nd September 2024)"
-	revision: "38"
+	date: "2024-09-24 16:46:11 GMT (Tuesday 24th September 2024)"
+	revision: "39"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -306,16 +306,16 @@ feature -- Basic operations
 		require
 			same_count: list.count = tuple.count
 		local
-			type_array: EL_TUPLE_TYPE_ARRAY; item_type: TYPE [ANY]
+			type_array: EL_TUPLE_TYPE_ARRAY; l_item_type: TYPE [ANY]
 			type_id, lower, upper, index: INTEGER
 		do
 			type_array := Tuple_.type_array (tuple)
 			if attached list.target_string as list_string then
 				from list.start until list.after or else list.index > tuple.count loop
 					index := list.index
-					item_type := type_array [index]
+					l_item_type := type_array [index]
 					lower := list.item_lower; upper := list.item_upper
-					type_id := item_type.type_id
+					type_id := l_item_type.type_id
 					if is_substring_convertible_to_type (list_string, lower, upper, type_id) then
 						if tuple.is_reference_item (index) then
 							tuple.put_reference (substring_to_type_of_type (list_string, lower, upper, type_id), index)

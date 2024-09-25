@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 10:05:54 GMT (Monday 23rd September 2024)"
-	revision: "50"
+	date: "2024-09-24 17:21:19 GMT (Tuesday 24th September 2024)"
+	revision: "51"
 
 class
 	HASH_TABLE_TEST_SET
@@ -51,6 +51,7 @@ feature {NONE} -- Initialization
 				["string_general_table",			 agent test_string_general_table],
 				["string_table",						 agent test_string_table],
 				["table_cursor",						 agent test_table_cursor],
+				["table_make_from_keys",			 agent test_table_make_from_keys],
 				["table_sort",							 agent test_table_sort],
 				["zstring_table",						 agent test_zstring_table]
 			>>)
@@ -608,6 +609,31 @@ feature -- Test
 			end
 		end
 
+	test_table_make_from_keys
+		-- HASH_TABLE_TEST_SET.test_table_make_from_keys
+		note
+			testing: "[
+				covers/{EL_HASH_TABLE}.make_from_keys
+				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer
+			]"
+		local
+			word_count_table: EL_HASH_TABLE [INTEGER, STRING]
+			total_count: INTEGER
+		do
+			if attached Text.lines_8 as string_8_lines then
+				create word_count_table.make_from_keys (string_8_lines, agent {STRING}.count, False)
+				across string_8_lines as line loop
+					if word_count_table.has_key (line.item) then
+						assert ("same count", word_count_table.found_item = line.item.count)
+						total_count := total_count + line.item.count
+					else
+						failed ("has line")
+					end
+				end
+				assert ("same total", total_count = word_count_table.sum_integer (agent integer))
+			end
+		end
+
 	test_table_sort
 		-- HASH_TABLE_TEST_SET.test_table_sort
 		note
@@ -723,6 +749,11 @@ feature {NONE} -- Implementation
 	immutable_to_zstring (str: IMMUTABLE_STRING_32): ZSTRING
 		do
 			create Result.make_from_general (str)
+		end
+
+	integer (n: INTEGER): INTEGER
+		do
+			Result := n
 		end
 
 	new_character_entity_table: EL_HASH_TABLE [CHARACTER_32, ZSTRING]

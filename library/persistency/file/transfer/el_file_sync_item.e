@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-30 17:00:13 GMT (Thursday 30th May 2024)"
-	revision: "16"
+	date: "2024-09-25 15:18:42 GMT (Wednesday 25th September 2024)"
+	revision: "17"
 
 class
 	EL_FILE_SYNC_ITEM
@@ -97,7 +97,7 @@ feature -- Access
 
 	source_path: FILE_PATH
 		do
-			Result := home_dir + file_path
+			Result := home_dir.plus_file (file_path)
 		end
 
 feature -- Comparison

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:07:17 GMT (Monday 23rd September 2024)"
-	revision: "3"
+	date: "2024-09-25 7:54:42 GMT (Wednesday 25th September 2024)"
+	revision: "4"
 
 expanded class
 	EL_FONT_REGISTRY_ROUTINES
@@ -17,7 +17,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_MODULE_WIN_REGISTRY; EL_MODULE_REG_KEY
+	EL_MODULE_WIN_REGISTRY; EL_MODULE_HKEY_LOCAL_MACHINE
 
 feature -- Access
 
@@ -93,12 +93,12 @@ feature {NONE} -- Constants
 
 	HKLM_font_substitutes: DIR_PATH
 		once
-			Result := Reg_key.Windows_nt.current_version ("FontSubstitutes")
+			Result := Key_local.Windows_nt_current_version #+ "FontSubstitutes"
 		end
 
 	HKLM_fonts: DIR_PATH
 		once
-			Result := Reg_key.Windows_nt.current_version ("Fonts")
+			Result := Key_local.Windows_nt_current_version #+ "Fonts"
 		end
 
 	Qualifier_word_list: EL_ZSTRING_LIST
