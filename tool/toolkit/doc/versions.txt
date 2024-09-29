@@ -1,3 +1,6 @@
+Ver 1.12.9 (29 Sep 2024)
+* Fix make_directory for the current (empty) directory
+
 Ver 1.12.8 (26 Jul 2024)
 * Fixed parsing of localization files for quanitifers: singular, plural etc
 

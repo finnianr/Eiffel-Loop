@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "13"
+	date: "2024-09-28 7:53:46 GMT (Saturday 28th September 2024)"
+	revision: "14"
 
 deferred class
 	EL_CURRENCY_LOCALE
@@ -50,7 +50,7 @@ feature -- Element change
 
 	set_currency (code: NATURAL_8)
 		require
-			valid_code: Currency_enum.is_valid_value (code)
+			valid_code: Currency_enum.valid_value (code)
 		do
 			currency_code := code
 		end

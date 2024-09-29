@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-09-28 8:01:35 GMT (Saturday 28th September 2024)"
+	revision: "9"
 
 class
 	EL_USER_INPUT_VALUE [G]
@@ -50,9 +50,9 @@ feature {NONE} -- Initialization
 			prompt.append_string_general (converter.type_description)
 		end
 
-	make_valid (a_prompt, a_invalid_response: READABLE_STRING_GENERAL; is_value_valid: PREDICATE [G])
+	make_valid (a_prompt, a_invalid_response: READABLE_STRING_GENERAL; a_value_valid: PREDICATE [G])
 		do
-			invalid_response := a_invalid_response; is_valid_value := is_value_valid
+			invalid_response := a_invalid_response; valid_value := a_value_valid
 			make (a_prompt)
 		end
 
@@ -80,7 +80,7 @@ feature -- Access
 						lio.put_labeled_string (Bad_input, Does_not_exist #$ [value_description])
 						lio.put_new_line
 
-					elseif attached is_valid_value as test and then test.valid_operands (operands) then
+					elseif attached valid_value as test and then test.valid_operands (operands) then
 						test.set_operands (operands)
 						test.apply
 						if test.last_result then
@@ -163,7 +163,7 @@ feature {NONE} -- Internal attributes
 
 	invalid_response: READABLE_STRING_GENERAL
 
-	is_valid_value: detachable PREDICATE [G]
+	valid_value: detachable PREDICATE [G]
 
 	prompt: ZSTRING
 

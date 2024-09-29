@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:12:27 GMT (Sunday 25th August 2024)"
-	revision: "25"
+	date: "2024-09-28 7:59:58 GMT (Saturday 28th September 2024)"
+	revision: "26"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -162,12 +162,12 @@ feature {NONE} -- Implementation
 
 	validate (a_value: like value)
 		local
-			l_operands: TUPLE; description: ZSTRING; is_valid_value: PREDICATE
+			l_operands: TUPLE; description: ZSTRING; valid_value: PREDICATE
 		do
 			across argument.validation_table as table loop
-				description := table.key; is_valid_value := table.item
+				description := table.key; valid_value := table.item
 
-				inspect is_valid_value.open_count
+				inspect valid_value.open_count
 					when 1 then
 						l_operands := [a_value]
 					when 2 then
@@ -176,11 +176,11 @@ feature {NONE} -- Implementation
 				else
 					l_operands := []
 				end
-				if is_valid_value.valid_operands (l_operands) then
-					is_valid_value.set_operands (l_operands)
-					is_valid_value.apply
+				if valid_value.valid_operands (l_operands) then
+					valid_value.set_operands (l_operands)
+					valid_value.apply
 
-					if not is_valid_value.last_result then
+					if not valid_value.last_result then
 						if description.has ('%S') then
 							if is_bag then
 								description := description #$ [a_value]

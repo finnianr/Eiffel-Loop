@@ -1,26 +1,30 @@
 note
-	description: "Widget with width and color properties"
+	description: "Widget with width and ${COLOR_ENUM} color properties"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 14:36:35 GMT (Thursday 12th September 2024)"
-	revision: "7"
+	date: "2024-09-29 9:29:37 GMT (Sunday 29th September 2024)"
+	revision: "8"
 
 class
 	WIDGET
 
 inherit
 	ANY
+		redefine
+			out
+		end
+
 	SHARED_COLOR_ENUM
 		rename
 			Color as Color_enum
 		end
 
 create
-	make
+	make, make_2
 
 convert
 	make ({TUPLE [NATURAL_8, INTEGER]})
@@ -28,9 +32,15 @@ convert
 feature {NONE} -- Initialization
 
 	make (tuple: TUPLE [color: NATURAL_8; width: INTEGER])
+		require
+			valid_color: valid_color (tuple.color)
 		do
-			color := tuple.color
-			width := tuple.width
+			color := tuple.color; width := tuple.width
+		end
+
+	make_2 (a_color: NATURAL_8; a_width: INTEGER)
+		do
+			color := a_color; width := a_width
 		end
 
 feature -- Access
@@ -42,11 +52,18 @@ feature -- Access
 			Result := Color_enum.name (color)
 		end
 
+	out: STRING
+		do
+			Result := Color_width_string #$ [color_name, width]
+		end
+
 	width: INTEGER
 
 feature -- Element change
 
 	set_color (a_color: NATURAL_8)
+		require
+			valid_color: valid_color (a_color)
 		do
 			color := a_color
 		end
@@ -63,4 +80,15 @@ feature -- Status query
 			Result := color = a_color
 		end
 
+	valid_color (a_color: NATURAL_8): BOOLEAN
+		do
+			Result := Color_enum.valid_value (a_color)
+		end
+
+feature {NONE} -- Constants
+
+	Color_width_string: ZSTRING
+		once
+			Result := "color: %S; width %S"
+		end
 end

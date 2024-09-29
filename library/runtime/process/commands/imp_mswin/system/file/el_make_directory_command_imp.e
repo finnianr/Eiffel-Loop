@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-28 4:54:10 GMT (Sunday 28th April 2024)"
-	revision: "10"
+	date: "2024-09-27 9:46:39 GMT (Friday 27th September 2024)"
+	revision: "11"
 
 class
 	EL_MAKE_DIRECTORY_COMMAND_IMP
@@ -32,15 +32,24 @@ feature -- Basic operations
 
 	execute
 		-- simulate behaviour of Unix command `mkdir --parents' with recursion
+		-- (will work with sudo on Windows)
 		do
-			if not directory_path.exists and then attached directory_path.parent as parent_dir then
-				if attached directory_path as sub_dir then
-					directory_path := parent_dir
-					execute -- recursive
-					directory_path := sub_dir
-				end
+			if attached directory_path as path and then not path.is_empty
+				and then not path.exists and then attached path.parent as parent_dir
+			then
 				if parent_dir.exists_and_is_writeable then
-					Precursor
+					Precursor -- mkdir
+				else
+					directory_path := parent_dir
+					execute -- recurse
+					directory_path := path
+					if parent_dir.exists_and_is_writeable then
+						Precursor -- mkdir
+					else
+						check
+							parent_writeable: False
+						end
+					end
 				end
 			end
 		end

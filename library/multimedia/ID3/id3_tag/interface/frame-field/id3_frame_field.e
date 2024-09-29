@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2024-09-28 7:56:43 GMT (Saturday 28th September 2024)"
+	revision: "8"
 
 deferred class
 	ID3_FRAME_FIELD
@@ -21,7 +21,7 @@ feature -- Access
 			--
 		deferred
 		ensure
-			valid_type: Field_type.is_valid_value (type)
+			valid_type: Field_type.valid_value (type)
 		end
 
 	type_name: STRING

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 7:22:27 GMT (Tuesday 3rd September 2024)"
-	revision: "2"
+	date: "2024-09-28 10:52:54 GMT (Saturday 28th September 2024)"
+	revision: "3"
 
 deferred class
 	EL_NUMERIC_RESULT [N -> NUMERIC]
@@ -31,6 +31,10 @@ feature -- Element change
 			result_ := n.zero
 		end
 
+	set_to_max_value
+		deferred
+		end
+
 	set_to_min_value
 		deferred
 		end
@@ -42,6 +46,10 @@ feature -- Element change
 		end
 
 	set_max (n: N)
+		deferred
+		end
+
+	set_min (n: N)
 		deferred
 		end
 

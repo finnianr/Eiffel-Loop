@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:16:48 GMT (Sunday 22nd September 2024)"
-	revision: "28"
+	date: "2024-09-29 10:24:35 GMT (Sunday 29th September 2024)"
+	revision: "29"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -74,6 +74,26 @@ feature {NONE} -- Implementation
 				tag := "a almost equal to b with precision of 1e-" + decimal_places.out
 			end
 			assert (tag, double.approximately_equal (a, b, 10 ^ decimal_places.opposite))
+		end
+
+	assert_found (a_tag: STRING; container: CONTAINER [ANY]; condition: BOOLEAN)
+		do
+			assert_found_32 (a_tag, container, condition)
+		end
+
+	assert_found_32 (a_tag: READABLE_STRING_GENERAL; container: CONTAINER [ANY]; condition: BOOLEAN)
+		do
+			if attached {EL_LINEAR [ANY]} container as list and then list.found then
+				assert_32 (a_tag, condition)
+
+			elseif attached {HASH_TABLE [ANY, HASHABLE]} container as table and then table.found then
+				assert_32 (a_tag, condition)
+
+			elseif attached {EL_HASH_SET [HASHABLE]} container as set and then set.found then
+				assert_32 (a_tag, condition)
+			else
+				failed ("found")
+			end
 		end
 
 	assert_same_string (a_tag: detachable READABLE_STRING_GENERAL; a, b: READABLE_STRING_GENERAL)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:54:07 GMT (Friday 12th July 2024)"
-	revision: "13"
+	date: "2024-09-28 7:48:14 GMT (Saturday 28th September 2024)"
+	revision: "14"
 
 class
 	EL_DOC_TYPE
@@ -73,7 +73,7 @@ feature -- Contract Support
 
 	valid_type_and_encoding (type_and_encoding: NATURAL): BOOLEAN
 		do
-			if Text_type.is_valid_value ((type_and_encoding |>> 16).to_natural_8) then
+			if Text_type.valid_value ((type_and_encoding |>> 16).to_natural_8) then
 				Result := Encoding_.is_valid (type_and_encoding & Encoding_mask)
 			end
 		end

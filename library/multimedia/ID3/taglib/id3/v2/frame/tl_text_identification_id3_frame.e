@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "10"
 
 class
 	TL_TEXT_IDENTIFICATION_ID3_FRAME
@@ -43,7 +43,7 @@ feature -- Access
 		do
 			Result := cpp_text_encoding (self_ptr)
 		ensure
-			valid: String_encoding.is_valid_value (Result)
+			valid: String_encoding.valid_value (Result)
 		end
 
 	field_list: EL_ZSTRING_LIST

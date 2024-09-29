@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:56:30 GMT (Monday 23rd September 2024)"
-	revision: "9"
+	date: "2024-09-28 7:57:15 GMT (Saturday 28th September 2024)"
+	revision: "10"
 
 class
 	ID3_ENCODING_ENUM
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 			UTF_16 :=		{UNDERBIT_ID3_STRING_C_API}.Encoding_UTF_16.to_natural_8
 			UTF_16_BE :=	{UNDERBIT_ID3_STRING_C_API}.Encoding_UTF_16_BE.to_natural_8
 
-			create libid3_table.make (<<
+			create libid3_table.make_assignments (<<
 				[ISO_8859_1,	{LIBID3_CONSTANTS}.Encoding_ISO8859_1],
 				[UTF_16,			{LIBID3_CONSTANTS}.Encoding_UTF16],
 				[UTF_16_BE,		{LIBID3_CONSTANTS}.Encoding_UTF16BE],

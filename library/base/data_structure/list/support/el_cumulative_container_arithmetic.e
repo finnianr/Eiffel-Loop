@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 14:27:55 GMT (Monday 2nd September 2024)"
-	revision: "2"
+	date: "2024-09-28 10:59:53 GMT (Saturday 28th September 2024)"
+	revision: "3"
 
 deferred class
 	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
@@ -62,7 +62,58 @@ feature -- Maximum
 			Result := real_arithmetic.maximum_meeting (value, condition)
 		end
 
-feature -- Summation
+feature -- Minimum
+
+	minimum_double (value: FUNCTION [G, DOUBLE]): DOUBLE
+			-- minimum of call to `value' function
+		do
+			Result := double_arithmetic.minimum (value)
+		end
+
+	minimum_double_meeting (value: FUNCTION [G, DOUBLE]; condition: EL_QUERY_CONDITION [G]): DOUBLE
+			-- minimum of call to `value' function for all items meeting `condition'
+		do
+			Result := double_arithmetic.minimum_meeting (value, condition)
+		end
+
+	minimum_integer (value: FUNCTION [G, INTEGER]): INTEGER
+			-- minimum of call to `value' function
+		do
+			Result := integer_arithmetic.minimum (value)
+		end
+
+	minimum_integer_meeting (value: FUNCTION [G, INTEGER]; condition: EL_QUERY_CONDITION [G]): INTEGER
+			-- minimum of call to `value' function for all items meeting `condition'
+		do
+			Result := integer_arithmetic.minimum_meeting (value, condition)
+		end
+
+	minimum_natural (value: FUNCTION [G, NATURAL]): NATURAL
+			-- minimum of call to `value' function
+		do
+			Result := natural_arithmetic.minimum (value)
+		end
+
+	minimum_natural_meeting (value: FUNCTION [G, NATURAL]; condition: EL_QUERY_CONDITION [G]): NATURAL
+			-- minimum of call to `value' function for all items meeting `condition'
+		do
+			Result := natural_arithmetic.minimum_meeting (value, condition)
+		end
+
+	minimum_real (value: FUNCTION [G, REAL]): REAL
+			-- minimum of call to `value' function
+		do
+			Result := real_arithmetic.minimum (value)
+		end
+
+	minimum_real_meeting (value: FUNCTION [G, REAL]; condition: EL_QUERY_CONDITION [G]): REAL
+			-- minimum of call to `value' function for all items meeting `condition'
+		do
+			Result := real_arithmetic.minimum_meeting (value, condition)
+		end
+
+
+feature -- Sum
 
 	sum_double (value: FUNCTION [G, DOUBLE]): DOUBLE
 			-- sum of call to `value' function

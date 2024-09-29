@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-09-28 7:48:14 GMT (Saturday 28th September 2024)"
+	revision: "5"
 
 deferred class
 	TL_SHARED_STRING_ENCODING_ENUM
@@ -19,7 +19,7 @@ feature -- Status query
 
 	valid_encoding (code: NATURAL_8): BOOLEAN
 		do
-			Result := String_encoding.is_valid_value (code)
+			Result := String_encoding.valid_value (code)
 		end
 
 feature {NONE} -- Constants

@@ -6,14 +6,15 @@ note
 	notes: "[
 		Each item list inherits the object comparison status of the ''Current'' table
 	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:59:00 GMT (Sunday 22nd September 2024)"
-	revision: "11"
+	date: "2024-09-26 8:17:01 GMT (Thursday 26th September 2024)"
+	revision: "12"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -160,6 +161,15 @@ feature {EL_GROUPED_LIST_TABLE_ITERATION_CURSOR} -- Internal attributes
 
 	empty_area: like found_area
 
-	internal_list: like found_list
+	internal_list: like found_list;
 
+note
+	descendants: "[
+			EL_GROUPED_LIST_TABLE [G, K -> ${HASHABLE}]
+				${EL_GROUPED_SET_TABLE [G, K -> HASHABLE]}
+					${EL_FUNCTION_GROUPED_SET_TABLE [G, K -> HASHABLE]}
+					${EL_URL_FILTER_TABLE}
+				${EL_FUNCTION_GROUPED_LIST_TABLE [G, K -> HASHABLE]}
+					${EL_FUNCTION_GROUPED_SET_TABLE [G, K -> HASHABLE]}
+	]"
 end

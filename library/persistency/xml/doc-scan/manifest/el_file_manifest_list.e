@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:22:02 GMT (Monday 23rd September 2024)"
-	revision: "27"
+	date: "2024-09-26 7:20:32 GMT (Thursday 26th September 2024)"
+	revision: "28"
 
 class
 	EL_FILE_MANIFEST_LIST
@@ -79,11 +79,8 @@ feature -- Access
 		end
 
 	total_byte_count: INTEGER
-		local
-			summator: EL_CONTAINER_ARITHMETIC [EL_FILE_MANIFEST_ITEM, INTEGER]
 		do
-			create summator.make (Current)
-			Result := summator.sum (agent {EL_FILE_MANIFEST_ITEM}.byte_count)
+			Result := sum_integer (agent {like item}.byte_count)
 		end
 
 feature -- Element change
@@ -120,7 +117,7 @@ feature {NONE} -- Evolicity
 			--
 		do
 			create Result.make_assignments (<<
-				["digest", agent: NATURAL_32_REF do Result := digest.to_reference end],
+				["digest",	  agent: NATURAL_32_REF do Result := digest.to_reference end],
 				[Var_current, agent: ITERABLE [EL_FILE_MANIFEST_ITEM] do Result := Current end]
 			>>)
 		end

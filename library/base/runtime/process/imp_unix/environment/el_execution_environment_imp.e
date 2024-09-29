@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2024-09-29 8:22:16 GMT (Sunday 29th September 2024)"
+	revision: "17"
 
 class
 	EL_EXECUTION_ENVIRONMENT_IMP
@@ -20,9 +20,9 @@ inherit
 
 	EL_UNIX_IMPLEMENTATION
 
-	EL_MODULE_DIRECTORY
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM
 
-	EL_MODULE_FILE_SYSTEM
+	EL_CHARACTER_32_CONSTANTS
 
 create
 	make
@@ -65,7 +65,7 @@ feature {NONE} -- Implementation
 				bin_dir := Directory.current_working.joined_dir_tuple (["build", ise_platform, "package/bin"])
 				if bin_dir.exists and then File_system.files_with_extension (bin_dir, "so", False).count > 0 then
 					if attached item (Var_library_path) as lib_path then
-						put (lib_path + ":" + bin_dir, Var_library_path)
+						put (char (':').joined (lib_path, bin_dir), Var_library_path)
 					else
 						put (bin_dir, Var_library_path)
 					end

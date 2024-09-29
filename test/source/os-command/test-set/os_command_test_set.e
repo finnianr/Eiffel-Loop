@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-25 11:34:05 GMT (Thursday 25th April 2024)"
-	revision: "33"
+	date: "2024-09-27 8:39:22 GMT (Friday 27th September 2024)"
+	revision: "34"
 
 class
 	OS_COMMAND_TEST_SET
@@ -126,13 +126,12 @@ feature -- Tests
 				covers/{EL_USERS_INFO_COMMAND_IMP}.make,
 				covers/{EL_SYSTEM_ROUTINES_I}.user_permutation_list
 			]"
-		local
-			dir_path: DIR_PATH
 		do
-			dir_path := Work_area_dir #+ "one/two/three"
-			if attached Command.new_make_directory (dir_path) as cmd then
-				cmd.execute
-				assert ("path exists", dir_path.exists)
+			across << create {DIR_PATH}, Work_area_dir #+ "one/two/three" >> as dir_path loop
+				if attached Command.new_make_directory (dir_path.item) as cmd then
+					cmd.execute
+					assert ("path exists", dir_path.is_last implies dir_path.item.exists)
+				end
 			end
 		end
 

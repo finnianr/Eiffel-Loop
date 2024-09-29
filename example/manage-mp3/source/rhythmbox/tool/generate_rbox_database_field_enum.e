@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:37:48 GMT (Sunday 22nd September 2024)"
-	revision: "14"
+	date: "2024-09-28 7:49:46 GMT (Saturday 28th September 2024)"
+	revision: "15"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -111,7 +111,7 @@ feature {EL_COMMAND_CLIENT} -- Evolicity fields
 					export_name as to_kebab_case
 				export
 					{NONE} all
-					{ANY} value, is_valid_value, name, list
+					{ANY} value, valid_value, name, list
 				redefine
 					initialize_fields
 				end

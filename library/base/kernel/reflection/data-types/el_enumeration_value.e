@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-09-28 7:54:12 GMT (Saturday 28th September 2024)"
+	revision: "14"
 
 deferred class
 	EL_ENUMERATION_VALUE [N -> NUMERIC]
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 	make (name: STRING)
 		require else
-			valid_name: enumeration.is_valid_name (name)
+			valid_name: enumeration.valid_name (name)
 		do
 			value := enumeration.value (name)
 		end
@@ -51,7 +51,7 @@ feature -- Element change
 
 	set_value (a_value: like value)
 		require
-			valid_valud: is_valid_value (a_value)
+			valid_valud: valid_value (a_value)
 		do
 			value := a_value
 		end
@@ -65,9 +65,9 @@ feature -- Comparison
 
 feature -- Contract Support
 
-	is_valid_value (a_value: like value): BOOLEAN
+	valid_value (a_value: like value): BOOLEAN
 		do
-			Result := enumeration.is_valid_value (a_value)
+			Result := enumeration.valid_value (a_value)
 		end
 
 feature {NONE} -- Implementation

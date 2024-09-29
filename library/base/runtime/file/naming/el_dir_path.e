@@ -1,32 +1,14 @@
 note
 	description: "Path to a directory"
-	notes: "[
-		**Short Alias Name**
-		
-			DIR_PATH
-
-		**Joining Paths**
-		
-		Note that the alias `#+' is used to join directories and using `+' results in a file path.
-		Implicit string conversions are employed to create a `DIR_PATH' or `FILE_PATH' argument.
-			
-			local
-				dir_path: DIR_PATH
-				file_path: FILE_PATH
-			do
-				dir_path := "/home/john"
-				dir_path := dir_path #+ "Desktop"
-				file_path := dir_path + "myfile.doc"
-			end
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 14:51:24 GMT (Wednesday 25th September 2024)"
-	revision: "48"
+	date: "2024-09-26 16:31:05 GMT (Thursday 26th September 2024)"
+	revision: "49"
 
 class
 	EL_DIR_PATH
@@ -308,5 +290,42 @@ feature -- Constants
 		once
 			create Result.make_empty
 		end
+
+note
+	notes: "[
+		**Short Alias Name**
+
+			DIR_PATH
+
+		**Joining directory with relative path**
+
+		The ${DIR_PATH} aliases `#+' and `+' are used respectively to join a path with
+		a directory path or a file path as a string argument. If you specify an argument
+		conforming to ${EL_PATH} then an implicit conversion to type ${STRING_32} takes place.
+
+			local
+				dir_path: DIR_PATH
+				file_path: FILE_PATH
+			do
+				dir_path := "/home/john"
+				dir_path := dir_path #+ "Desktop"
+				file_path := dir_path + "myfile.doc"
+			end
+
+		**Benchmark ''plus_dir'' VS ''plus_dir_path''**
+
+		1. dir := dir.plus_dir (list.item)
+		2. dir := dir.plus_dir_path (list.item.as_string_32) -- Implicit conversion made explicit
+
+		(`plus_dir_path' has the alias `#+')
+
+		Passes over 2000 millisecs (in descending order)
+
+			method 1 :  34885.0 times (100%)
+			method 2 :  34792.0 times (-0.3%)
+
+		(`list.item' is of type ${DIR_PATH})
+
+	]"
 
 end

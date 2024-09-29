@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 8:36:17 GMT (Tuesday 3rd September 2024)"
-	revision: "20"
+	date: "2024-09-28 10:58:05 GMT (Saturday 28th September 2024)"
+	revision: "21"
 
 class
 	EL_CONTAINER_ARITHMETIC [G, N -> NUMERIC]
@@ -65,6 +65,24 @@ feature -- Access
 			end
 		end
 
+	minimum (value: FUNCTION [G, N]): N
+		-- minimum of `value' function across all items of `chain'
+		do
+			Result := minimum_meeting (value, create {EL_ANY_QUERY_CONDITION [G]})
+		end
+
+	minimum_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
+		-- minimum of `value' function across all items of `chain' meeting `condition'
+		require
+			valid_value_function: container_item.is_valid_for (value)
+		do
+			if attached {EL_NUMERIC_RESULT [N]} numeric_result as min then
+				min.set_to_max_value
+				do_meeting (agent set_minimum (min, value, ?), condition)
+				Result := min.result_
+			end
+		end
+
 	sum (value: FUNCTION [G, N]): N
 		-- sum of `value' function across all items of `chain'
 		do
@@ -114,6 +132,11 @@ feature {NONE} -- Implementation
 	set_maximum (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
 		do
 			a_result.set_max (value (item))
+		end
+
+	set_minimum (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
+		do
+			a_result.set_min (value (item))
 		end
 
 feature {NONE} -- Internal attributes

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "13"
+	date: "2024-09-28 7:56:43 GMT (Saturday 28th September 2024)"
+	revision: "14"
 
 deferred class
 	ID3_FRAME
@@ -272,7 +272,7 @@ feature -- Status query
 
 	has_field (type: NATURAL_8): BOOLEAN
 		require
-			valid_type: Field_type.is_valid_value (type)
+			valid_type: Field_type.valid_value (type)
 		do
 			Result := field_list.has_type (type)
 		end

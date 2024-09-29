@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:13:30 GMT (Friday 13th September 2024)"
-	revision: "60"
+	date: "2024-09-26 16:40:11 GMT (Thursday 26th September 2024)"
+	revision: "61"
 
 deferred class
 	EL_FILE_SYSTEM_ROUTINES_I
@@ -73,24 +73,24 @@ feature -- Access
 
 feature -- File lists
 
-	files (a_dir_path: DIR_PATH; recursively: BOOLEAN): like Directory.files
+	files (dir_path: DIR_PATH; recursively: BOOLEAN): like Directory.files
 		do
 			if recursively then
-				Result := Directory.named (a_dir_path).recursive_files
+				Result := Directory.named (dir_path).recursive_files
 			else
-				Result := Directory.named (a_dir_path).files
+				Result := Directory.named (dir_path).files
 			end
 		end
 
 	files_with_extension (
-		a_dir_path: DIR_PATH; extension: READABLE_STRING_GENERAL; recursively: BOOLEAN
+		dir_path: DIR_PATH; extension: READABLE_STRING_GENERAL; recursively: BOOLEAN
 
 	): like Directory.files
 		do
 			if recursively then
-				Result := Directory.named (a_dir_path).recursive_files_with_extension (extension)
+				Result := Directory.named (dir_path).recursive_files_with_extension (extension)
 			else
-				Result := Directory.named (a_dir_path).files_with_extension (extension)
+				Result := Directory.named (dir_path).files_with_extension (extension)
 			end
 		end
 
@@ -130,18 +130,20 @@ feature -- Basic operations
 			end
 		end
 
-	make_directory (a_dir_path: DIR_PATH)
+	make_directory (path: DIR_PATH)
 		-- recursively create directory
 		do
-			if not a_dir_path.exists and then attached a_dir_path.parent as parent_dir then
-				if parent_dir.is_empty then
-					if Standard_directory.current_working.exists_and_is_writeable then
-						Directory.named (a_dir_path).create_dir
-					end
+			if not path.is_empty and then not path.exists and then attached path.parent as parent_dir then
+				if parent_dir.exists_and_is_writeable then
+					Directory.named (path).create_dir
 				else
-					make_directory (parent_dir) -- recurse
+					make_directory (parent_dir)
 					if parent_dir.exists_and_is_writeable then
-						Directory.named (a_dir_path).create_dir
+						Directory.named (path).create_dir
+					else
+						check
+							parent_writeable: False
+						end
 					end
 				end
 			end

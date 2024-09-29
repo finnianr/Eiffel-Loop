@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 6:39:50 GMT (Wednesday 28th August 2024)"
-	revision: "3"
+	date: "2024-09-28 7:48:14 GMT (Saturday 28th September 2024)"
+	revision: "4"
 
 class
 	EL_DOC_TEXT_TYPE_ENUM
@@ -35,7 +35,7 @@ feature -- Access
 
 	type_and_encoding (doc_type: NATURAL_8; encoding: NATURAL): NATURAL
 		require
-			valid_type: is_valid_value (doc_type)
+			valid_type: valid_value (doc_type)
 			valid_encoding: valid_encoding (encoding)
 		do
 			Result := (doc_type.to_natural_32 |<< 16) | encoding

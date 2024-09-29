@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "10"
 
 class
 	TL_PICTURE_ID3_FRAME
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 		-- make from `a_picture'
 		-- This must be added to a tag inorder for the C++ object to be owned
 		require
-			valid_enum: Picture_type.is_valid_value (a_picture.type_enum)
+			valid_enum: Picture_type.valid_value (a_picture.type_enum)
 		local
 			l_data: like picture
 		do
@@ -73,7 +73,7 @@ feature -- Access
 		do
 			Result := cpp_type_enum (self_ptr)
 		ensure
-			valid_type: Picture_type.is_valid_value (Result)
+			valid_type: Picture_type.valid_value (Result)
 		end
 
 feature -- Element change
@@ -95,7 +95,7 @@ feature -- Element change
 
 	set_type_enum (a_type_enum: like type_enum)
 		require
-			valid_enum: Picture_type.is_valid_value (a_type_enum)
+			valid_enum: Picture_type.valid_value (a_type_enum)
 		do
 			cpp_set_type (self_ptr, a_type_enum)
 		ensure

@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:49:45 GMT (Monday 23rd September 2024)"
-	revision: "67"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "68"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -192,7 +192,7 @@ feature -- Access
 		-- enumuration value from exported `a_name'
 		-- Eg. all uppercase "AUD" for `EL_CURRENCY_ENUM' returns value for field `aud: NATURAL_8'
 		require
-			valid_name: is_valid_name (a_name)
+			valid_name: valid_name (a_name)
 		do
 			if has_name (a_name) then
 				Result := found_value
@@ -256,12 +256,12 @@ feature -- Status query
 			Result := field_table.has_imported_key (a_name)
 		end
 
-	is_valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
+	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := field_table.has_imported_key (a_name)
 		end
 
-	is_valid_value (a_value: N): BOOLEAN
+	valid_value (a_value: N): BOOLEAN
 		local
 			i: INTEGER
 		do

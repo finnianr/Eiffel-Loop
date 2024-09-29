@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-09-28 7:57:02 GMT (Saturday 28th September 2024)"
+	revision: "18"
 
 class
 	ID3_TAG_INFO_TEST_SET
@@ -155,7 +155,7 @@ feature {NONE} -- Constants
 
 	Frame_field_table: EL_HASH_TABLE [FUNCTION [ID3_FRAME, READABLE_STRING_GENERAL], NATURAL_8]
 		once
-			create Result.make (<<
+			create Result.make_assignments (<<
 				[Field_type.binary_data, agent binary_data_string],
 				[Field_type.encoding, agent {ID3_FRAME}.encoding_name],
 				[Field_type.description, agent {ID3_FRAME}.description],

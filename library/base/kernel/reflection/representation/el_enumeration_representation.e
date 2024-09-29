@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "12"
 
 class
 	EL_ENUMERATION_REPRESENTATION [N -> NUMERIC]
@@ -51,7 +51,7 @@ feature -- Basic operations
 
 	append_to_string (a_value: like to_value; str: ZSTRING)
 		do
-			if enumeration.is_valid_value (a_value) then
+			if enumeration.valid_value (a_value) then
 				str.append_string_general (enumeration.name (a_value))
 			else
 				enumeration.write_value (str, a_value)

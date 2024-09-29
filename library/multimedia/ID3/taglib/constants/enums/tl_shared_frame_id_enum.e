@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-09-28 7:48:14 GMT (Saturday 28th September 2024)"
+	revision: "7"
 
 deferred class
 	TL_SHARED_FRAME_ID_ENUM
@@ -19,7 +19,7 @@ feature -- Status query
 
 	valid_frame_id (id: NATURAL_8): BOOLEAN
 		do
-			Result := Frame_id.is_valid_value (id)
+			Result := Frame_id.valid_value (id)
 		end
 
 feature {NONE} -- Constants

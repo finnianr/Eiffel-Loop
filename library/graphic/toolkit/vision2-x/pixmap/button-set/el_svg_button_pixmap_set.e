@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 13:48:28 GMT (Sunday 1st September 2024)"
-	revision: "13"
+	date: "2024-09-28 7:58:44 GMT (Saturday 28th September 2024)"
+	revision: "14"
 
 class
 	EL_SVG_BUTTON_PIXMAP_SET
@@ -69,14 +69,14 @@ feature -- Access
 
 	pixmap (state: NATURAL_8): EL_PIXMAP
 		require
-			valid_state: Button_state.is_valid_value (state)
+			valid_state: Button_state.valid_value (state)
 		do
 			Result := svg_item (state.to_integer_32)
 		end
 
 	drawing_area (state: NATURAL_8): CAIRO_DRAWING_AREA
 		require
-			valid_state: Button_state.is_valid_value (state)
+			valid_state: Button_state.valid_value (state)
 		local
 			png_output_path: FILE_PATH
 		do

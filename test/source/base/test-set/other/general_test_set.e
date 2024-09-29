@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:42:25 GMT (Friday 20th September 2024)"
-	revision: "60"
+	date: "2024-09-26 15:36:45 GMT (Thursday 26th September 2024)"
+	revision: "61"
 
 class
 	GENERAL_TEST_SET
@@ -216,6 +216,7 @@ feature -- Tests
 		local
 			one_two: DIR_PATH
 		do
+			File_system.make_directory (create {DIR_PATH}) -- check empty
 			one_two := "one/two"
 			File_system.make_directory (one_two)
 			assert ("exists", one_two.exists)

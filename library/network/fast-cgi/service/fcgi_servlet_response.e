@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-24 16:42:22 GMT (Sunday 24th December 2023)"
-	revision: "35"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "36"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -155,7 +155,7 @@ feature -- Basic operations
 			-- status code and descriptive message. The server generally
 			-- creates the response to look like a normal server error page.
 		require
-			valid_type_and_encoding: Text_type.is_valid_value (doc_type)
+			valid_type_and_encoding: Text_type.valid_value (doc_type)
 		local
 			code_name: IMMUTABLE_STRING_8; html: ZSTRING
 		do
@@ -219,7 +219,7 @@ feature -- Element change
 
 	set_content (text: READABLE_STRING_GENERAL; doc_type: NATURAL_8; encoding: NATURAL)
 		require
-			valid_type_and_encoding: Text_type.is_valid_value (doc_type)
+			valid_type_and_encoding: Text_type.valid_value (doc_type)
 		do
 			if text.is_string_8 and then encoding = Latin_1
 				and then attached {READABLE_STRING_8} text as encoded_text

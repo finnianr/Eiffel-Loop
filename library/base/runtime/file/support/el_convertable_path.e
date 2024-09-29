@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 14:57:23 GMT (Wednesday 25th September 2024)"
-	revision: "48"
+	date: "2024-09-27 8:49:08 GMT (Friday 27th September 2024)"
+	revision: "49"
 
 deferred class
 	EL_CONVERTABLE_PATH
@@ -64,8 +64,15 @@ feature -- Measurement
 feature -- Conversion
 
 	as_string_32: STRING_32
+
 		do
-			create Result.make (count)
+			inspect volume.code
+				when 0 then
+					create Result.make (count)
+			else
+				create Result.make (count + 2)
+				Result.append_character (volume); Result.append_character (':')
+			end
 			parent_path.append_to_string_32 (Result); base.append_to_string_32 (Result)
 		ensure then
 			same_as_to_string: to_string.as_string_32 ~ Result
@@ -80,12 +87,7 @@ feature -- Conversion
 
 	to_path: PATH
 		do
-			across String_32_scope as scope loop
-				if attached scope.best_item (count) as str then
-					append_to_32 (str)
-					create Result.make_from_string (str)
-				end
-			end
+			create Result.make_from_string (as_string_32)
 		end
 
 	to_string: ZSTRING

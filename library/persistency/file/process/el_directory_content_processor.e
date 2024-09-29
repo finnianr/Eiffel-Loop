@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-31 8:07:49 GMT (Sunday 31st December 2023)"
-	revision: "18"
+	date: "2024-09-29 8:18:57 GMT (Sunday 29th September 2024)"
+	revision: "19"
 
 class
 	EL_DIRECTORY_CONTENT_PROCESSOR
@@ -80,7 +80,7 @@ feature -- Basic operations
 			count := path_list.count; remaining_count := count
 
 			across path_list as list loop
-				output_file_path := output_dir + list.item
+				output_file_path := output_dir.plus_file (list.item)
 				File_system.make_directory (output_file_path.parent)
 
 				do_with_file (input_dir + list.item, output_file_path)

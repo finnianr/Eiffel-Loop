@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:59:35 GMT (Monday 23rd September 2024)"
-	revision: "16"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "17"
 
 deferred class
 	EL_SHARED_DOCUMENT_TYPES
@@ -26,7 +26,7 @@ feature {NONE} -- Implementation
 
 	document_type (doc_type, encoding: NATURAL): EL_DOC_TYPE
 		require
-			valid_type_and_encoding: Text_type.is_valid_value (doc_type.to_natural_8)
+			valid_type_and_encoding: Text_type.valid_value (doc_type.to_natural_8)
 		do
 			Result := shared_item ((doc_type |<< 16) | encoding)
 		end

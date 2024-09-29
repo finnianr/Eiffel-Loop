@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 15:04:29 GMT (Wednesday 28th August 2024)"
-	revision: "6"
+	date: "2024-09-28 7:48:14 GMT (Saturday 28th September 2024)"
+	revision: "7"
 
 class
 	TL_STRING_ENCODING_ENUM
@@ -19,7 +19,7 @@ inherit
 			foreign_naming as English
 		export
 			{NONE} all
-			{ANY} is_valid_value, name, as_list
+			{ANY} valid_value, name, as_list
 		redefine
 			initialize_fields
 		end

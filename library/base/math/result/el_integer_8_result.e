@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 7:03:49 GMT (Tuesday 3rd September 2024)"
-	revision: "2"
+	date: "2024-09-28 10:54:06 GMT (Saturday 28th September 2024)"
+	revision: "3"
 
 class
 	EL_INTEGER_8_RESULT
@@ -25,6 +25,18 @@ feature -- Element change
 	set_max (n: INTEGER_8)
 		do
 			result_ := n.max (result_)
+		end
+
+	set_min (n: INTEGER_8)
+		do
+			result_ := n.min (result_)
+		end
+
+	set_to_max_value
+		local
+			n: INTEGER_8
+		do
+			result_ := n.Max_value
 		end
 
 	set_to_min_value

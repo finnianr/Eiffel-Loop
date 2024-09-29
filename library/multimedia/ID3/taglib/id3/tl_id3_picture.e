@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:52:40 GMT (Friday 12th July 2024)"
-	revision: "17"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "18"
 
 class
 	TL_ID3_PICTURE
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 	make (a_path: FILE_PATH; a_description: READABLE_STRING_GENERAL; a_type_enum: NATURAL_8)
 		-- make from picture `data'
 		require
-			valid_enum: Picture_type.is_valid_value (a_type_enum)
+			valid_enum: Picture_type.valid_value (a_type_enum)
 		local
 			extension: STRING
 		do

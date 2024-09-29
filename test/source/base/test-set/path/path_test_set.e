@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 15:02:55 GMT (Wednesday 25th September 2024)"
-	revision: "35"
+	date: "2024-09-27 8:59:25 GMT (Friday 27th September 2024)"
+	revision: "36"
 
 class
 	PATH_TEST_SET
@@ -324,18 +324,18 @@ feature -- Tests
 			eif_dir_path, empty_dir, w_code_c1, home_user: DIR_PATH; docs_pdf_abs: FILE_PATH
 		do
 			create empty_dir; w_code_c1 := String.w_code_c1; home_user := String.home_user
-			assert_same_string (Void, empty_dir.plus_dir (w_code_c1), String.w_code_c1)
-			assert_same_string (Void, empty_dir.plus_dir_path (w_code_c1), String.w_code_c1)
+			assert_same_string (Void, empty_dir.plus_dir (w_code_c1).as_unix, String.w_code_c1)
+			assert_same_string (Void, empty_dir.plus_dir_path (w_code_c1).as_unix, String.w_code_c1)
 
-			if attached char (OS.separator).joined (String.home_user, String.w_code_c1) as joined_string then
-				assert_same_string (Void, home_user.plus_dir (w_code_c1), joined_string)
-				assert_same_string (Void, home_user.plus_dir_path (w_code_c1), joined_string)
+			if attached char ('/').joined (String.home_user, String.w_code_c1) as joined_string then
+				assert_same_string (Void, home_user.plus_dir (w_code_c1).as_unix, joined_string)
+				assert_same_string (Void, home_user.plus_dir_path (w_code_c1).as_unix, joined_string)
 			end
 
 			eif_dir_path := String.home_eiffel
 			docs_pdf_abs := eif_dir_path.plus_file_path (String.parent_dots + String.parent_dots + String.docs_pdf)
 
-			assert_same_string (Void, docs_pdf_abs.to_unix, char ('/').joined (String.home_user, String.docs_pdf))
+			assert_same_string (Void, docs_pdf_abs.as_unix, char ('/').joined (String.home_user, String.docs_pdf))
 		end
 
 	test_set_parent

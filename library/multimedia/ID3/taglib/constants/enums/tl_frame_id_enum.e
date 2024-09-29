@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 6:38:32 GMT (Wednesday 28th August 2024)"
-	revision: "14"
+	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
+	revision: "15"
 
 class
 	TL_FRAME_ID_ENUM
@@ -25,7 +25,7 @@ inherit
 			foreign_naming as Snake_case_upper
 		export
 			{NONE} all
-			{ANY} value, is_valid_value, name
+			{ANY} value, valid_value, name
 		end
 
 create
