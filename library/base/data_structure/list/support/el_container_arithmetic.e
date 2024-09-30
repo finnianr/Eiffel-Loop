@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 10:58:05 GMT (Saturday 28th September 2024)"
-	revision: "21"
+	date: "2024-09-30 15:27:59 GMT (Monday 30th September 2024)"
+	revision: "22"
 
 class
 	EL_CONTAINER_ARITHMETIC [G, N -> NUMERIC]
@@ -23,10 +23,8 @@ inherit
 			current_container as container
 		export
 			{NONE} all
-			{ANY} container_item
+			{ANY} valid_open_argument
 		end
-
-	EL_MODULE_EIFFEL
 
 	REFLECTOR_CONSTANTS
 		export
@@ -47,39 +45,39 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	maximum (value: FUNCTION [G, N]): N
+	max (value: FUNCTION [G, N]): N
 		-- maximum of `value' function across all items of `chain'
 		do
-			Result := maximum_meeting (value, create {EL_ANY_QUERY_CONDITION [G]})
+			Result := max_meeting (value, create {EL_ANY_QUERY_CONDITION [G]})
 		end
 
-	maximum_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
+	max_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
 		-- maximum of `value' function across all items of `chain' meeting `condition'
 		require
-			valid_value_function: container_item.is_valid_for (value)
+			valid_value_function: valid_open_argument (value)
 		do
-			if attached {EL_NUMERIC_RESULT [N]} numeric_result as max then
-				max.set_to_min_value
-				do_meeting (agent set_maximum (max, value, ?), condition)
-				Result := max.result_
+			if attached {EL_NUMERIC_RESULT [N]} numeric_result as l_max then
+				l_max.set_to_min_value
+				do_meeting (agent set_max (l_max, value, ?), condition)
+				Result := l_max.value
 			end
 		end
 
-	minimum (value: FUNCTION [G, N]): N
+	min (value: FUNCTION [G, N]): N
 		-- minimum of `value' function across all items of `chain'
 		do
-			Result := minimum_meeting (value, create {EL_ANY_QUERY_CONDITION [G]})
+			Result := min_meeting (value, create {EL_ANY_QUERY_CONDITION [G]})
 		end
 
-	minimum_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
+	min_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
 		-- minimum of `value' function across all items of `chain' meeting `condition'
 		require
-			valid_value_function: container_item.is_valid_for (value)
+			valid_value_function: valid_open_argument (value)
 		do
-			if attached {EL_NUMERIC_RESULT [N]} numeric_result as min then
-				min.set_to_max_value
-				do_meeting (agent set_minimum (min, value, ?), condition)
-				Result := min.result_
+			if attached {EL_NUMERIC_RESULT [N]} numeric_result as l_min then
+				l_min.set_to_max_value
+				do_meeting (agent set_min (l_min, value, ?), condition)
+				Result := l_min.value
 			end
 		end
 
@@ -92,12 +90,12 @@ feature -- Access
 	sum_meeting (value: FUNCTION [G, N]; condition: EL_QUERY_CONDITION [G]): N
 		-- sum of `value' function across all items of `chain' meeting `condition'
 		require
-			valid_value_function: container_item.is_valid_for (value)
+			valid_value_function: valid_open_argument (value)
 		do
 			if attached {EL_NUMERIC_RESULT [N]} numeric_result as l_sum then
 				l_sum.set_to_zero
 				do_meeting (agent add_to_sum (l_sum, value, ?), condition)
-				Result := l_sum.result_
+				Result := l_sum.value
 			end
 		end
 
@@ -110,7 +108,7 @@ feature -- Contract Support
 			if ({N}).is_expanded then
 				if Result_table.valid_index (abstract_type) then
 					abstract_type := Eiffel.abstract_type (n)
-					Result := Result_table [abstract_type].result_type ~ {N}
+					Result := Result_table [abstract_type].value_type ~ {N}
 				end
 			end
 		end
@@ -129,12 +127,12 @@ feature {NONE} -- Implementation
 			Result := Result_table [Eiffel.abstract_type (n)]
 		end
 
-	set_maximum (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
+	set_max (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
 		do
 			a_result.set_max (value (item))
 		end
 
-	set_minimum (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
+	set_min (a_result: EL_NUMERIC_RESULT [N]; value: FUNCTION [G, N]; item: G)
 		do
 			a_result.set_min (value (item))
 		end

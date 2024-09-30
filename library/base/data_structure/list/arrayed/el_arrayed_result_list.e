@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 14:39:39 GMT (Friday 20th September 2024)"
-	revision: "15"
+	date: "2024-09-30 15:19:19 GMT (Monday 30th September 2024)"
+	revision: "16"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -23,6 +23,11 @@ inherit
 			make as make_sized,
 			make_from_for as make_from_container_for,
 			make_from_if as make_from_container_if
+		end
+
+	EL_CONTAINER_CONVERSION [G]
+		undefine
+			copy, is_equal
 		end
 
 	EL_CONTAINER_HANDLER
@@ -38,10 +43,10 @@ feature {NONE} -- Initialization
 
 	make (container: CONTAINER [G]; to_item: FUNCTION [G, R])
 		require
-			valid_function: operand_item (container).is_valid_for (to_item)
+			valid_function: as_structure (container).valid_open_argument (to_item)
 		do
 			if attached as_structure (container) as structure
-				and then attached structure.new_special (True) as container_area
+				and then attached structure.new_special (True, False) as container_area
 			then
 				make_results (to_item, container_area, container_count (container))
 			else
@@ -54,7 +59,7 @@ feature {NONE} -- Initialization
 	make_from_for (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G]; to_item: FUNCTION [G, R])
 		-- initialize from `container' with conversion function `to_item'
 		require
-			valid_function: operand_item (container).is_valid_for (to_item)
+			valid_function: as_structure (container).valid_open_argument (to_item)
 		do
 			if attached as_structure (container).query (condition) as list then
 				make_results (to_item, list.area, list.count)
@@ -96,24 +101,6 @@ feature -- Access
 	to_list: EL_ARRAYED_LIST [R]
 		do
 			create Result.make_from_special (area_v2)
-		end
-
-feature -- Contract Support
-
-	operand_item (container: CONTAINER [G]): EL_CONTAINER_ITEM [G]
-		do
-			create Result.make (container)
-		end
-
-feature {NONE} -- Implementation
-
-	as_structure (container: CONTAINER [G]): EL_CONTAINER_STRUCTURE [G]
-		do
-			if attached {EL_CONTAINER_STRUCTURE [G]} container as structure then
-				Result := structure
-			else
-				create {EL_CONTAINER_WRAPPER [G]} Result.make (container)
-			end
 		end
 
 end

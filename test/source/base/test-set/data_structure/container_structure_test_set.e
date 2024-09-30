@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-29 14:03:42 GMT (Sunday 29th September 2024)"
-	revision: "49"
+	date: "2024-09-30 17:27:51 GMT (Monday 30th September 2024)"
+	revision: "50"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -49,24 +49,50 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["derived_list",			 agent test_derived_list],
-				["find_linear_position", agent test_find_linear_position],
-				["integer_functions",	 agent test_integer_functions],
-				["order_by_color_name",	 agent test_order_by_color_name],
-				["order_by_width",		 agent test_order_by_width],
-				["query_and_map_list",	 agent test_query_and_map_list],
-				["query_and_summation",	 agent test_query_and_summation],
-				["string_8_list",			 agent test_string_8_list],
-				["arrayed_map_list",		 agent test_arrayed_map_list],
-				["arrayed_map_sort",		 agent test_arrayed_map_sort],
-				["arrayed_result_list",	 agent test_arrayed_result_list],
-				["circular_indexing",	 agent test_circular_indexing],
-				["container_sum",			 agent test_container_sum],
-				["make_filtered_array",	 agent test_make_filtered_array]
+				["arrayed_result_list",			agent test_arrayed_result_list],
+				["derived_list",					agent test_derived_list],
+				["find_linear_position",		agent test_find_linear_position],
+				["integer_functions",			agent test_integer_functions],
+				["order_by_color_name",			agent test_order_by_color_name],
+				["order_by_descending_width",	agent test_order_by_descending_width],
+				["query_and_summation",			agent test_query_and_summation],
+				["string_8_list",					agent test_string_8_list],
+				["arrayed_map_list",				agent test_arrayed_map_list],
+				["arrayed_map_sort",				agent test_arrayed_map_sort],
+				["circular_indexing",			agent test_circular_indexing],
+				["container_sum",					agent test_container_sum],
+				["make_filtered_array",			agent test_make_filtered_array],
+				["result_list_character",		agent test_result_list_character],
+				["result_list_string",			agent test_result_list_string],
+				["structure_slicing",			agent test_structure_slicing]
 			>>)
 		end
 
 feature -- WIDGET Tests
+
+	test_arrayed_result_list
+		note
+			testing: "[
+				covers/{EL_CONTAINER_STRUCTURE}.to_special,
+				covers/{EL_ARRAYED_RESULT_LIST}.make,
+				covers/{EL_ARRAYED_RESULT_LIST}.make_with_tuple_2,
+				covers/{EL_CONTAINER_STRUCTURE}.query_if
+			]"
+		local
+			key_list: EL_ARRAYED_RESULT_LIST [WIDGET, INTEGER]
+		do
+			Widget_list.start
+			if attached Widget_list.query_if (agent {WIDGET}.is_color (Color.red)) as red_list then
+				assert ("index is 1", Widget_list.index = 1)
+				key_list := [red_list, agent {WIDGET}.width]
+				assert ("red widths are: 200, 1200", key_list.to_array ~ << 200, 1200 >>)
+			end
+			if attached Widget_list.query (color_is (Color.blue)) as blue_list then
+				assert ("index is 1", Widget_list.index = 1)
+				key_list := [blue_list, agent {WIDGET}.width]
+				assert ("blue widths are: 300, 500", key_list.to_array ~ << 300, 500 >>)
+			end
+		end
 
 	test_derived_list
 		-- CONTAINER_STRUCTURE_TEST_SET.test_derived_list
@@ -130,16 +156,16 @@ feature -- WIDGET Tests
 		-- CONTAINER_STRUCTURE_TEST_SET.test_integer_functions
 		note
 			testing: "[
-				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.maximum_integer,
-				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.minimum_integer,
+				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.max_integer,
+				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.min_integer,
 				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer,
-				covers/{EL_CONTAINER_ARITHMETIC}.maximum_meeting,
-				covers/{EL_CONTAINER_ARITHMETIC}.minimum_meeting,
+				covers/{EL_CONTAINER_ARITHMETIC}.max_meeting,
+				covers/{EL_CONTAINER_ARITHMETIC}.min_meeting,
 				covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting
 			]"
 		do
-			assert ("max width is 1200", Widget_list.maximum_integer (agent {WIDGET}.width) = 1200)
-			assert ("min width is 100", Widget_list.minimum_integer (agent {WIDGET}.width) = 100)
+			assert ("max width is 1200", Widget_list.max_integer (agent {WIDGET}.width) = 1200)
+			assert ("min width is 100", Widget_list.min_integer (agent {WIDGET}.width) = 100)
 			assert ("sum of widths is 2300", Widget_list.sum_integer (agent {WIDGET}.width) = 2300)
 		end
 
@@ -176,42 +202,14 @@ feature -- WIDGET Tests
 			end
 		end
 
-	test_order_by_width
+	test_order_by_descending_width
 		local
 			previous: INTEGER
 		do
-			across Widget_list.ordered_by (agent {WIDGET}.width, True) as widget loop
-				assert ("width >= previous", widget.item.width >= previous)
+			previous := previous.Max_value
+			across Widget_list.ordered_by (agent {WIDGET}.width, False) as widget loop
+				assert ("width <= previous", widget.item.width <= previous)
 				previous := widget.item.width
-			end
-		end
-
-	test_query_and_map_list
-		note
-			testing: "[
-				covers/{EL_CONTAINER_STRUCTURE}.to_special,
-				covers/{EL_ARRAYED_RESULT_LIST}.make,
-				covers/{EL_ARRAYED_RESULT_LIST}.make_with_tuple_2,
-				covers/{EL_CONTAINER_STRUCTURE}.query_if
-			]"
-		local
-			key_list: EL_ARRAYED_RESULT_LIST [WIDGET, INTEGER]
-		do
-			Widget_list.start
-			if attached Widget_list.query_if (agent {WIDGET}.is_color (Color.red)) as red_list then
-				assert ("index is 1", Widget_list.index = 1)
-				key_list := [red_list, agent {WIDGET}.width]
-				assert ("red widths are: 200, 1200", key_list.to_array ~ << 200, 1200 >>)
-			end
-			if attached Widget_list.query (color_is (Color.blue)) as blue_list then
-				assert ("index is 1", Widget_list.index = 1)
-				key_list := [blue_list, agent {WIDGET}.width]
-				assert ("blue widths are: 300, 500", key_list.to_array ~ << 300, 500 >>)
-			end
-			if attached Widget_list.query (color_is (Color.green)) as green_list then
-				assert ("index is 1", Widget_list.index = 1)
-				key_list := [green_list, agent {WIDGET}.width]
-				assert ("green width is: 100", key_list.to_array ~ << 100 >>)
 			end
 		end
 
@@ -226,38 +224,38 @@ feature -- WIDGET Tests
 				covers/{EL_ANY_QUERY_CONDITION}.met,
 				covers/{EL_FUNCTION_VALUE_QUERY_CONDITION}.met,
 				covers/{EL_CONTAINER_STRUCTURE}.query_is_equal,
-				covers/{EL_CONTAINER_STRUCTURE}.query_if,
 				covers/{EL_CONTAINER_STRUCTURE}.query
 			]"
 		local
-			sum_1, sum_2: INTEGER; condition_array: ARRAY [EL_QUERY_CONDITION [WIDGET]]
+			condition_sum_map_list: EL_ARRAYED_MAP_LIST [EL_QUERY_CONDITION [WIDGET], INTEGER]
+			sum_2, sum_3: INTEGER; is_width_300: EL_PREDICATE_QUERY_CONDITION [WIDGET]
 		do
-			condition_array := <<
-				color_is (Color.red),
-				color_is (Color.blue),
-				color_is (Color.blue) or color_is (Color.red),
-				not color_is (Color.green),
-				any_color
-			>>
-			across condition_array as array loop
-				if attached array.item as condition then
-					sum_1 := Widget_list.sum_integer_meeting (agent {WIDGET}.width, condition)
+			is_width_300 := agent widget_has_width (?, 300)
 
-					assert ("index unchanged", Widget_list.index = 1)
-					sum_2 := 0
-					across Widget_list as widget loop
-						if condition.met (widget.item) then
-							sum_2 := sum_2 + widget.item.width
-						end
+			create condition_sum_map_list.make_from_array (<<
+				[color_is (Color.red), 1400],
+				[color_is (Color.blue), 800],
+				[color_is (Color.blue) and is_width_300, 300],
+				[color_is (Color.blue) or color_is (Color.red), 2200],
+				[not color_is (Color.green), 2200],
+				[any_widget, 2300]
+			>>)
+
+			Widget_list.start
+			across condition_sum_map_list as map loop
+				if attached map.key as condition and then attached map.value as sum_value then
+					sum_2 := Widget_list.sum_integer_meeting (agent {WIDGET}.width, condition)
+					if attached Widget_list.query (condition) as subset then
+						sum_3 := subset.sum_integer (agent {WIDGET}.width)
 					end
-					assert ("same sum", sum_1 = sum_2)
-				end
-			end
-			sum_1 := Widget_list.query_if (agent {WIDGET}.is_color (Color.red)).sum_integer (agent {WIDGET}.width)
-			assert ("sum red is 1400", sum_1 = 1400)
 
-			sum_1 := Widget_list.query_is_equal (Color.blue, agent {WIDGET}.color).sum_integer (agent {WIDGET}.width)
-			assert ("sum blue is 800", sum_1 = 800)
+					assert ("same sum", sum_value = sum_2 and sum_value = sum_3)
+				end
+				assert ("index unchanged", Widget_list.index = 1)
+			end
+			if attached Widget_list.query_is_equal (Color.blue, agent {WIDGET}.color) as blue_list then
+				assert ("sum blue is 800", blue_list.sum_integer (agent {WIDGET}.width) = 800)
+			end
 		end
 
 	test_string_8_list
@@ -269,11 +267,10 @@ feature -- WIDGET Tests
 				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_list,
 				covers/{EL_INITIALIZED_OBJECT_FACTORY}.new_generic_type_factory
 			]"
-		local
-			color_list: STRING
 		do
-			color_list := "red,blue,green,blue,red"
-			assert ("same colors", Widget_list.string_8_list (agent {WIDGET}.color_name).joined (',') ~ color_list)
+			if attached Widget_list.string_8_list (agent {WIDGET}.color_name) as color_name_list then
+				assert_same_string (Void, color_name_list.joined (','), "red,blue,green,blue,red")
+			end
 		end
 
 feature -- Test
@@ -318,9 +315,8 @@ feature -- Test
 	test_arrayed_map_sort
 		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_sort
 		local
-			names: HEXAGRAM_NAMES
 			name_list: EL_ARRAYED_MAP_LIST [IMMUTABLE_STRING_32, IMMUTABLE_STRING_32]
-			sorted_names: SORTABLE_ARRAY [IMMUTABLE_STRING_32]
+			sorted_names: SORTABLE_ARRAY [IMMUTABLE_STRING_32]; names: HEXAGRAM_NAMES
 			name_table: HASH_TABLE [IMMUTABLE_STRING_32, IMMUTABLE_STRING_32]
 			i: INTEGER
 		do
@@ -355,32 +351,6 @@ feature -- Test
 					assert ("same pinyin", list.item_value ~ sorted_names [list.index])
 					assert ("same pinyin", list.item_value ~ name_table [list.item_key])
 					list.forth
-				end
-			end
-		end
-
-	test_arrayed_result_list
-		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_result_list
-		note
-			testing: "[
-				covers/{EL_ARRAYED_RESULT_LIST}.make_from_for,
-				covers/{EL_CONTAINER_STRUCTURE}.new_special
-			]"
-		local
-			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]
-		do
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
-					if attached {LINEAR [CHARACTER]} container as list then
-						list.start
-					end
-					lio.put_labeled_string ("Type", container.generator)
-					lio.put_new_line
-					create result_list.make_from_for (container, is_digit, agent to_integer)
-					assert ("array is 1, 2, 3", result_list.to_array ~ << 1, 2, 3 >> )
-					if attached {LINEAR [CHARACTER]} container as list then
-						assert ("index = 1", list.index = 1)
-					end
 				end
 			end
 		end
@@ -421,7 +391,7 @@ feature -- Test
 					lio.put_labeled_string ("Type", container.generator)
 					lio.put_new_line
 					create summator.make (container)
-					assert ("sum is 6", summator.sum_meeting (agent to_integer, is_digit) = 6 )
+					assert ("sum is 6", summator.sum_meeting (agent to_integer, character_is_digit) = 6 )
 				end
 			end
 		end
@@ -443,9 +413,79 @@ feature -- Test
 			end
 		end
 
-feature {NONE} -- Query conditions
+	test_result_list_character
+		-- CONTAINER_STRUCTURE_TEST_SET.test_result_list_character
+		note
+			testing: "[
+				covers/{EL_ARRAYED_RESULT_LIST}.make_from_for,
+				covers/{EL_CONTAINER_STRUCTURE}.new_special
+			]"
+		local
+			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]
+		do
+			across Container_types as type loop
+				if attached new_character_container (type.item) as container then
+					if attached {LINEAR [CHARACTER]} container as list then
+						list.start
+					end
+					lio.put_labeled_string ("Type", container.generator)
+					lio.put_new_line
+					create result_list.make_from_for (container, character_is_digit, agent to_integer)
+					assert ("array is 1, 2, 3", result_list.to_array ~ << 1, 2, 3 >> )
+					if attached {LINEAR [CHARACTER]} container as list then
+						assert ("index = 1", list.index = 1)
+					end
+				end
+			end
+		end
 
-	any_color: EL_ANY_QUERY_CONDITION [WIDGET]
+	test_result_list_string
+		-- CONTAINER_STRUCTURE_TEST_SET.test_result_list_string
+		note
+			testing: "[
+				covers/{EL_ARRAYED_RESULT_LIST}.make,
+				covers/{EL_CONTAINER_STRUCTURE}.new_special
+			]"
+		local
+			result_list: EL_ARRAYED_RESULT_LIST [READABLE_STRING_GENERAL, INTEGER]
+			string_array: ARRAY [READABLE_STRING_GENERAL]
+		do
+			string_array := <<
+				create {STRING_8}.make_filled (' ', 1),
+				create {STRING_32}.make_filled (' ', 2),
+				create {ZSTRING}.make_filled (' ', 3)
+			>>
+			create result_list.make (string_array, agent {READABLE_STRING_GENERAL}.count)
+			assert ("same array", result_list.to_array ~ << 1, 2, 3 >>)
+		end
+
+	test_structure_slicing
+		note
+			testing: "[
+				covers/{EL_ARRAYED_LIST}.make_from,
+				covers/{EL_CONTAINER_STRUCTURE}.slice,
+				covers/{EL_SLICEABLE_SPECIAL}.item
+			]"
+		local
+			abcd_list: EL_ARRAYED_LIST [CHARACTER]
+			abcd: STRING; ab, cd, empty: SPECIAL [CHARACTER]
+		do
+			abcd := "abcd"
+			create empty.make_empty (0)
+			ab := abcd.substring (1, 2).area.resized_area (2)
+			cd := abcd.substring (3, 4).area.resized_area (2)
+
+			create abcd_list.make_from (abcd)
+			assert ("first two", abcd_list.slice [0, 1] ~ ab)
+			assert ("last two", abcd_list.slice [-2, -1] ~ cd)
+			assert ("entire string", abcd_list.slice [0, -1] ~ abcd_list.area)
+			assert ("empty", abcd_list.slice [1, 0] ~ empty)
+			assert ("empty", abcd_list.slice [-1, -2] ~ empty)
+		end
+
+feature {NONE} -- Widget Implementation
+
+	any_widget: EL_ANY_QUERY_CONDITION [WIDGET]
 		do
 			create Result
 		end
@@ -455,9 +495,17 @@ feature {NONE} -- Query conditions
 			Result := agent {WIDGET}.is_color (a_color)
 		end
 
-	is_digit: EL_PREDICATE_QUERY_CONDITION [CHARACTER]
+	widget_colors: EL_ARRAYED_LIST [NATURAL_8]
 		do
-			Result := agent is_character_digit
+			create Result.make (10)
+			across Widget_list as list loop
+				Result.extend (list.item.color)
+			end
+		end
+
+	widget_has_width (widget: WIDGET; a_width: INTEGER): BOOLEAN
+		do
+			Result := widget.width = a_width
 		end
 
 feature {NONE} -- Implementation
@@ -465,6 +513,11 @@ feature {NONE} -- Implementation
 	ascii_code (c: CHARACTER): NATURAL
 		do
 			Result := c.natural_32_code
+		end
+
+	character_is_digit: EL_PREDICATE_QUERY_CONDITION [CHARACTER]
+		do
+			Result := agent is_character_digit
 		end
 
 	is_character_digit (c: CHARACTER): BOOLEAN
@@ -535,14 +588,6 @@ feature {NONE} -- Implementation
 			Result := c8.digit_to_integer (c)
 		end
 
-	widget_colors: EL_ARRAYED_LIST [NATURAL_8]
-		do
-			create Result.make (10)
-			across Widget_list as list loop
-				Result.extend (list.item.color)
-			end
-		end
-
 feature {NONE} -- Container types
 
 	Array_type: INTEGER = 1
@@ -568,16 +613,16 @@ feature {NONE} -- Constants
 			Result := Array_type |..| String_type
 		end
 
-	Widget_query: EL_QUERY_CONDITION_FACTORY [WIDGET]
-		once
-			create Result
-		end
-
 	Widget_list: EL_ARRAYED_LIST [WIDGET]
 		once
 			create Result.make_from_array (<<
 				[Color.red, 200], [Color.blue, 300], [Color.green, 100], [Color.blue, 500], [Color.red, 1200]
 			>>)
+		end
+
+	Widget_query: EL_QUERY_CONDITION_FACTORY [WIDGET]
+		once
+			create Result
 		end
 
 	Widget_table: EL_HASH_TABLE [WIDGET, STRING]

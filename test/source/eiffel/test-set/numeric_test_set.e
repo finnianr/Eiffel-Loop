@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 14:48:46 GMT (Sunday 21st July 2024)"
-	revision: "21"
+	date: "2024-09-30 10:45:46 GMT (Monday 30th September 2024)"
+	revision: "22"
 
 class
 	NUMERIC_TEST_SET
@@ -32,6 +32,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["double_string_conversion", agent test_double_string_conversion],
+				["modulo_indexing",			  agent test_modulo_indexing],
 				["negative_to_natural",		  agent test_negative_to_natural],
 				["store_integer_in_natural", agent test_store_integer_in_natural],
 				["truncated_natural_64",	  agent test_truncated_natural_64]
@@ -62,6 +63,20 @@ feature -- Tests
 				lio.put_labeled_substitution (i.item.out, "double: %S real: %S", [r64, r32])
 				lio.put_new_line
 				n := n * 10
+			end
+		end
+
+	test_modulo_indexing
+		local
+			i, count: INTEGER
+		do
+			count := 5
+			across -10 |..| 10 as n loop
+				i := n.item \\ count
+				if i < 0 then
+					i := count + i
+				end
+				assert ("i between 0 and count - 1", 0 <= i and i <= count - 1)
 			end
 		end
 

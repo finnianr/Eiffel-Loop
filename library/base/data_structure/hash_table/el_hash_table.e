@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-26 8:21:48 GMT (Thursday 26th September 2024)"
-	revision: "33"
+	date: "2024-09-30 15:19:17 GMT (Monday 30th September 2024)"
+	revision: "34"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -24,6 +24,13 @@ inherit
 	EL_CONTAINER_STRUCTURE [G]
 		undefine
 			copy, default_create, is_equal, object_comparison
+		end
+
+	EL_CONTAINER_CONVERSION [K]
+		rename
+			as_structure as as_key_structure
+		undefine
+			copy, default_create, is_equal
 		end
 
 	EL_MODULE_EIFFEL
@@ -115,26 +122,28 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_keys (key_container: CONTAINER [K]; to_item: FUNCTION [K, G]; a_object_comparison: BOOLEAN)
+		require
+			valid_open_operands: as_key_structure (key_container).valid_open_argument (to_item)
 		local
-			i, i_upper: INTEGER; key_structure: EL_CONTAINER_STRUCTURE [K]
+			i, i_upper: INTEGER
 		do
-			if attached {EL_CONTAINER_STRUCTURE [K]} key_container as structure then
-				key_structure := structure
-			else
-				create {EL_CONTAINER_WRAPPER [K]} key_structure.make (key_container)
-			end
-			make (key_structure.current_count)
-			object_comparison := a_object_comparison
+			if attached as_key_structure (key_container) as key_structure then
+				make (key_structure.current_count)
+				object_comparison := a_object_comparison
 
-			if attached key_structure.to_special as key_area then
-				i_upper := key_structure.current_count - 1
-				from i := 0 until i > i_upper loop
-					put (to_item (key_area [i]), key_area [i])
-					check
-						no_conflict: not conflict
+				if attached key_structure.to_special as key_area then
+					i_upper := key_structure.current_count - 1
+					from i := 0 until i > i_upper loop
+						put (to_item (key_area [i]), key_area [i])
+						check
+							no_conflict: not conflict
+						end
+						i := i + 1
 					end
-					i := i + 1
 				end
+			else
+				make (1)
+				object_comparison := a_object_comparison
 			end
 		end
 

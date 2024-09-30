@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-21 18:11:59 GMT (Saturday 21st September 2024)"
-	revision: "21"
+	date: "2024-09-30 17:30:07 GMT (Monday 30th September 2024)"
+	revision: "22"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -19,7 +19,7 @@ deferred class
 inherit
 	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
 
-	EL_MODULE_ITERABLE
+	EL_MODULE_EIFFEL; EL_MODULE_ITERABLE
 
 	EL_SHARED_FACTORIES
 
@@ -28,6 +28,41 @@ feature -- Access
 	item_type: TYPE [G]
 		do
 			Result := {G}
+		end
+
+	sample_item: G
+		local
+			break: BOOLEAN; container: like current_container
+		do
+			container := current_container
+			if container.is_empty then
+				if attached {G} Eiffel.new_object ({G}) as new then
+					Result := new
+				end
+
+			elseif attached {TO_SPECIAL [G]} container as special then
+				Result := special.area [0]
+
+			elseif attached {LINEAR [G]} container as list then
+				push_cursor
+				list.start
+				Result := list.item
+				pop_cursor
+
+			elseif attached {READABLE_INDEXABLE [G]} container as indexable then
+				Result := indexable [indexable.upper]
+
+			elseif attached {ITERABLE [G]} container as iterable_container then
+				across iterable_container as list until break loop
+					Result := list.item
+					break := True
+				end
+
+			elseif attached container.linear_representation as list then
+				list.start
+				Result := list.item
+			end
+
 		end
 
 feature -- Queries
@@ -76,7 +111,7 @@ feature -- Queries
 	query_is_equal (target_value: ANY; value: FUNCTION [G, ANY]): EL_ARRAYED_LIST [G]
 		-- list of all items where `value (item).is_equal (target_value)'
 		require
-			valid_value_function: container_item.is_valid_for (value)
+			valid_value_function: valid_open_argument (value)
 			result_type_same_as_target: result_type (value) ~ target_value.generating_type
 		local
 			condition: EL_FUNCTION_VALUE_QUERY_CONDITION [G]
@@ -120,14 +155,30 @@ feature -- Measurement
 
 feature -- Conversion
 
+	slice: EL_SLICEABLE_SPECIAL [G]
+		-- representation of `current_container' as an array that can
+		-- be sliced using base zero modulo indexing
+		do
+			create Result.make (new_special (True, False), current_count)
+		end
+
 	to_array: ARRAY [G]
 		do
 			create Result.make_from_special (to_special)
 		end
 
 	to_special: SPECIAL [G]
+		-- special array which maybe shared if `Current' conforms to `TO_SPECIAL [G]'
 		do
-			Result := new_special (False)
+			Result := new_special (True, False)
+		end
+
+	to_count_special: SPECIAL [G]
+		-- special array with same count
+		do
+			Result := new_special (True, True)
+		ensure
+			same_count: Result.count = current_count
 		end
 
 feature -- Function result list
@@ -140,7 +191,7 @@ feature -- Function result list
 			i, i_final: INTEGER
 		do
 			if attached Arrayed_list_factory.new_result_list (to_value, current_count) as list
-				and then attached new_special (True) as l_area
+				and then attached new_special (True, True) as l_area
 			then
 				i_final := list.capacity
 				from i := 0 until i = i_final loop
@@ -166,7 +217,7 @@ feature -- Function result list
 			i, i_final: INTEGER
 		do
 			if attached Arrayed_list_factory.new_result_list (to_value, current_count) as list
-				and then attached new_special (True) as l_area
+				and then attached new_special (True, True) as l_area
 			then
 				i_final := list.capacity
 				from i := 0 until i = i_final loop
@@ -187,7 +238,7 @@ feature -- String result list
 	string_32_list (to_string_32: FUNCTION [G, STRING_32]): EL_STRING_32_LIST
 			-- list of strings `to_string_32 (item)' for all items in `Current'
 		require
-			valid_value_function: container_item.is_valid_for (to_string_32)
+			valid_value_function: valid_open_argument (to_string_32)
 		do
 			if attached {EL_ARRAYED_LIST [STRING_32]} derived_list (to_string_32) as list then
 				create Result.make_from_special (list.area)
@@ -199,7 +250,7 @@ feature -- String result list
 	string_8_list (to_string_8: FUNCTION [G, STRING_8]): EL_STRING_8_LIST
 			-- list of strings `to_string_8 (item)' for all items in `Current'
 		require
-			valid_value_function: container_item.is_valid_for (to_string_8)
+			valid_value_function: valid_open_argument (to_string_8)
 		do
 			if attached {EL_ARRAYED_LIST [STRING_8]} derived_list (to_string_8) as list then
 				create Result.make_from_special (list.area)
@@ -211,7 +262,7 @@ feature -- String result list
 	string_list (to_string: FUNCTION [G, ZSTRING]): EL_ZSTRING_LIST
 			-- list of strings `to_string (item)' for all items in `Current'
 		require
-			valid_value_function: container_item.is_valid_for (to_string)
+			valid_value_function: valid_open_argument (to_string)
 		do
 			if attached {EL_ARRAYED_LIST [ZSTRING]} derived_list (to_string) as list then
 				create Result.make_from_special (list.area)
@@ -321,11 +372,6 @@ feature -- Basic operations
 
 feature -- Contract Support
 
-	container_item: EL_CONTAINER_ITEM [G]
-		do
-			create Result.make (current_container)
-		end
-
 	is_immutable_string: BOOLEAN
 		do
 			Result := attached {IMMUTABLE_STRING_GENERAL} current_container
@@ -354,7 +400,7 @@ feature -- Contract Support
 
 feature {EL_CONTAINER_HANDLER} -- Implementation
 
-	new_special (shared: BOOLEAN): SPECIAL [G]
+	new_special (shared: BOOLEAN; same_count: BOOLEAN): SPECIAL [G]
 		local
 			one_extra: INTEGER
 		do
@@ -363,10 +409,16 @@ feature {EL_CONTAINER_HANDLER} -- Implementation
 				and then attached special.area as area
 			then
 				if shared then
-					Result := area
+					if same_count and then attached {STRING_GENERAL} special as str then
+						Result := area.resized_area (str.count)
+					else
+						Result := area
+					end
 				else
 				--	one extra for string null terminator
-					one_extra := (attached {STRING_GENERAL} special).to_integer
+					if attached {STRING_GENERAL} special and not same_count then
+						one_extra := 1
+					end
 					Result := area.resized_area (finite.count + one_extra)
 				end
 			else

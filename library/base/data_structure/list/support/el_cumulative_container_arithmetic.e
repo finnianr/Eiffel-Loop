@@ -6,112 +6,111 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 10:59:53 GMT (Saturday 28th September 2024)"
-	revision: "3"
+	date: "2024-09-30 7:51:40 GMT (Monday 30th September 2024)"
+	revision: "4"
 
 deferred class
 	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
 
 feature -- Maximum
 
-	maximum_double (value: FUNCTION [G, DOUBLE]): DOUBLE
+	max_double (value: FUNCTION [G, DOUBLE]): DOUBLE
 			-- maximum of call to `value' function
 		do
-			Result := double_arithmetic.maximum (value)
+			Result := double_arithmetic.max (value)
 		end
 
-	maximum_double_meeting (value: FUNCTION [G, DOUBLE]; condition: EL_QUERY_CONDITION [G]): DOUBLE
+	max_double_meeting (value: FUNCTION [G, DOUBLE]; condition: EL_QUERY_CONDITION [G]): DOUBLE
 			-- maximum of call to `value' function for all items meeting `condition'
 		do
-			Result := double_arithmetic.maximum_meeting (value, condition)
+			Result := double_arithmetic.max_meeting (value, condition)
 		end
 
-	maximum_integer (value: FUNCTION [G, INTEGER]): INTEGER
+	max_integer (value: FUNCTION [G, INTEGER]): INTEGER
 			-- maximum of call to `value' function
 		do
-			Result := integer_arithmetic.maximum (value)
+			Result := integer_arithmetic.max (value)
 		end
 
-	maximum_integer_meeting (value: FUNCTION [G, INTEGER]; condition: EL_QUERY_CONDITION [G]): INTEGER
+	max_integer_meeting (value: FUNCTION [G, INTEGER]; condition: EL_QUERY_CONDITION [G]): INTEGER
 			-- maximum of call to `value' function for all items meeting `condition'
 		do
-			Result := integer_arithmetic.maximum_meeting (value, condition)
+			Result := integer_arithmetic.max_meeting (value, condition)
 		end
 
-	maximum_natural (value: FUNCTION [G, NATURAL]): NATURAL
+	max_natural (value: FUNCTION [G, NATURAL]): NATURAL
 			-- maximum of call to `value' function
 		do
-			Result := natural_arithmetic.maximum (value)
+			Result := natural_arithmetic.max (value)
 		end
 
-	maximum_natural_meeting (value: FUNCTION [G, NATURAL]; condition: EL_QUERY_CONDITION [G]): NATURAL
+	max_natural_meeting (value: FUNCTION [G, NATURAL]; condition: EL_QUERY_CONDITION [G]): NATURAL
 			-- maximum of call to `value' function for all items meeting `condition'
 		do
-			Result := natural_arithmetic.maximum_meeting (value, condition)
+			Result := natural_arithmetic.max_meeting (value, condition)
 		end
 
-	maximum_real (value: FUNCTION [G, REAL]): REAL
+	max_real (value: FUNCTION [G, REAL]): REAL
 			-- maximum of call to `value' function
 		do
-			Result := real_arithmetic.maximum (value)
+			Result := real_arithmetic.max (value)
 		end
 
-	maximum_real_meeting (value: FUNCTION [G, REAL]; condition: EL_QUERY_CONDITION [G]): REAL
+	max_real_meeting (value: FUNCTION [G, REAL]; condition: EL_QUERY_CONDITION [G]): REAL
 			-- maximum of call to `value' function for all items meeting `condition'
 		do
-			Result := real_arithmetic.maximum_meeting (value, condition)
+			Result := real_arithmetic.max_meeting (value, condition)
 		end
 
 feature -- Minimum
 
-	minimum_double (value: FUNCTION [G, DOUBLE]): DOUBLE
+	min_double (value: FUNCTION [G, DOUBLE]): DOUBLE
 			-- minimum of call to `value' function
 		do
-			Result := double_arithmetic.minimum (value)
+			Result := double_arithmetic.min (value)
 		end
 
-	minimum_double_meeting (value: FUNCTION [G, DOUBLE]; condition: EL_QUERY_CONDITION [G]): DOUBLE
+	min_double_meeting (value: FUNCTION [G, DOUBLE]; condition: EL_QUERY_CONDITION [G]): DOUBLE
 			-- minimum of call to `value' function for all items meeting `condition'
 		do
-			Result := double_arithmetic.minimum_meeting (value, condition)
+			Result := double_arithmetic.min_meeting (value, condition)
 		end
 
-	minimum_integer (value: FUNCTION [G, INTEGER]): INTEGER
+	min_integer (value: FUNCTION [G, INTEGER]): INTEGER
 			-- minimum of call to `value' function
 		do
-			Result := integer_arithmetic.minimum (value)
+			Result := integer_arithmetic.min (value)
 		end
 
-	minimum_integer_meeting (value: FUNCTION [G, INTEGER]; condition: EL_QUERY_CONDITION [G]): INTEGER
+	min_integer_meeting (value: FUNCTION [G, INTEGER]; condition: EL_QUERY_CONDITION [G]): INTEGER
 			-- minimum of call to `value' function for all items meeting `condition'
 		do
-			Result := integer_arithmetic.minimum_meeting (value, condition)
+			Result := integer_arithmetic.min_meeting (value, condition)
 		end
 
-	minimum_natural (value: FUNCTION [G, NATURAL]): NATURAL
+	min_natural (value: FUNCTION [G, NATURAL]): NATURAL
 			-- minimum of call to `value' function
 		do
-			Result := natural_arithmetic.minimum (value)
+			Result := natural_arithmetic.min (value)
 		end
 
-	minimum_natural_meeting (value: FUNCTION [G, NATURAL]; condition: EL_QUERY_CONDITION [G]): NATURAL
+	min_natural_meeting (value: FUNCTION [G, NATURAL]; condition: EL_QUERY_CONDITION [G]): NATURAL
 			-- minimum of call to `value' function for all items meeting `condition'
 		do
-			Result := natural_arithmetic.minimum_meeting (value, condition)
+			Result := natural_arithmetic.min_meeting (value, condition)
 		end
 
-	minimum_real (value: FUNCTION [G, REAL]): REAL
+	min_real (value: FUNCTION [G, REAL]): REAL
 			-- minimum of call to `value' function
 		do
-			Result := real_arithmetic.minimum (value)
+			Result := real_arithmetic.min (value)
 		end
 
-	minimum_real_meeting (value: FUNCTION [G, REAL]; condition: EL_QUERY_CONDITION [G]): REAL
+	min_real_meeting (value: FUNCTION [G, REAL]; condition: EL_QUERY_CONDITION [G]): REAL
 			-- minimum of call to `value' function for all items meeting `condition'
 		do
-			Result := real_arithmetic.minimum_meeting (value, condition)
+			Result := real_arithmetic.min_meeting (value, condition)
 		end
-
 
 feature -- Sum
 

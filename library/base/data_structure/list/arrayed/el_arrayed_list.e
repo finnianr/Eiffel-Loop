@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:48:37 GMT (Thursday 12th September 2024)"
-	revision: "73"
+	date: "2024-09-30 15:16:09 GMT (Monday 30th September 2024)"
+	revision: "74"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -44,8 +44,6 @@ inherit
 		redefine
 			find_next_item, joined, push_cursor, pop_cursor
 		end
-
-	EL_MODULE_EIFFEL
 
 create
 	make, make_empty, make_default_filled, make_filled,
@@ -96,7 +94,7 @@ feature {NONE} -- Initialization
 		-- initialize from `container' items
 		do
 			if attached as_structure (container) as structure then
-				make_from_special (structure.to_special)
+				make_from_special (structure.to_count_special)
 			else
 				make_empty
 			end

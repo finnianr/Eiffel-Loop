@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:01:34 GMT (Monday 23rd September 2024)"
-	revision: "36"
+	date: "2024-09-30 15:45:55 GMT (Monday 30th September 2024)"
+	revision: "37"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -37,6 +37,13 @@ inherit
 			make, new_cursor, remove, sort_by_key, wipe_out, grow, resize, trim
 		end
 
+	EL_CONTAINER_CONVERSION [G]
+		rename
+			as_structure as as_value_structure
+		undefine
+			copy, is_equal
+		end
+
 	EL_SHARED_FACTORIES
 
 create
@@ -62,7 +69,7 @@ feature {NONE} -- Initialization
 	make_from_keys (keys: CONTAINER [K]; to_value: FUNCTION [K, G])
 		-- make from container of `keys' using `to_value' to generate value for each key
 		require
-			valid_function: key_item (keys).is_valid_for (to_value)
+			valid_function: as_structure (keys).valid_open_argument (to_value)
 		local
 			l_value_list: EL_ARRAYED_RESULT_LIST [K, G]
 		do
@@ -86,7 +93,7 @@ feature {NONE} -- Initialization
 	make_from_values (values: CONTAINER [G]; to_key: FUNCTION [G, K])
 		-- make from container of `values' using `to_key' to generate key for each value
 		require
-			valid_function: value_item (values).is_valid_for (to_key)
+			valid_function: as_value_structure (values).valid_open_argument (to_key)
 		local
 			l_key_list: EL_ARRAYED_RESULT_LIST [G, K]
 		do
@@ -345,18 +352,6 @@ feature -- Resizing
 		do
 			Precursor
 			internal_value_list.trim
-		end
-
-feature -- Contract Support
-
-	key_item (keys: CONTAINER [K]): EL_CONTAINER_ITEM [K]
-		do
-			create Result.make (keys)
-		end
-
-	value_item (values: CONTAINER [G]): EL_CONTAINER_ITEM [G]
-		do
-			create Result.make (values)
 		end
 
 feature -- Type definitions
