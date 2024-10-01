@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 19:54:37 GMT (Saturday 31st August 2024)"
-	revision: "155"
+	date: "2024-10-01 13:58:43 GMT (Tuesday 1st October 2024)"
+	revision: "156"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -97,6 +97,11 @@ inherit
 			out, copy, is_equal
 		redefine
 			new_cursor
+		end
+
+	EL_MODULO_INDEXABLE
+		undefine
+			out, copy, is_equal
 		end
 
 feature {NONE} -- Initialization
@@ -390,7 +395,30 @@ feature -- Status query
 			Result := True
 		end
 
-feature -- Conversion
+feature -- Substrings
+
+	adjusted: like Current
+		-- substring resulting from the removal of leading and trailing white space
+		local
+			left_count: INTEGER
+		do
+			left_count := leading_white_space
+			if left_count = count then
+				Result := new_string (0)
+			else
+				Result := substring (left_count + 1, count - trailing_white_space)
+			end
+		end
+
+	slice (start_index, end_index: INTEGER): like Current
+		-- `substring' using zero based modulo indexing
+		-- `slice (-2, -1)' returns last 2 characters
+		-- `slice (0, 1)' returns first 2 characters
+		require
+			valid_slice (start_index, end_index)
+		do
+			Result := substring (modulo_index (start_index) + 1, modulo_index (end_index) + 1)
+		end
 
 	substring (start_index, end_index: INTEGER): like Current
 			-- Copy of substring containing all characters at indices
@@ -411,6 +439,60 @@ feature -- Conversion
 			end
 		ensure then
 			unencoded_valid: Result.is_valid
+		end
+
+	substring_between (start_string, end_string: EL_READABLE_ZSTRING; start_index: INTEGER): like Current
+			-- Returns string between substrings start_string and end_string from start_index.
+			-- if end_string is empty or not found, returns the tail string starting from the character
+			-- to the right of start_string. Returns empty string if start_string is not found.
+
+			--	EXAMPLE:
+			--			local
+			--				log_line, ip_address: ASTRING
+			--			do
+			--				log_line := "Apr 13 05:34:49 myching sshd[7079]: Failed password for root from 43.255.191.152 port 55471 ssh2"
+			--				ip_address := log_line.substring_between ("Failed password for root from ", " port")
+			--				check
+			--					correct_ip_address: ip_address.same_string ("43.255.191.152")
+			--				end
+			--			end
+		local
+			pos_start_string, pos_end_string: INTEGER
+		do
+			pos_start_string := substring_index (start_string, start_index)
+			if pos_start_string > 0 then
+				if end_string.is_empty then
+					pos_end_string := count + 1
+				else
+					pos_end_string := substring_index (end_string, pos_start_string + start_string.count)
+				end
+				if pos_end_string > 0 then
+					Result := substring (pos_start_string + start_string.count, pos_end_string - 1)
+				else
+					Result := substring (pos_start_string + start_string.count, count)
+				end
+			else
+				Result := new_string (0)
+			end
+		end
+
+	substring_between_general (start_string, end_string: READABLE_STRING_GENERAL; start_index: INTEGER): like Current
+		do
+			Result := substring_between (
+				adapted_argument (start_string, 1), adapted_argument (end_string, 2), start_index
+			)
+		end
+
+	substring_end (start_index: INTEGER): like Current
+		-- substring from `start_index' to `count'
+		do
+			Result := substring (start_index, count)
+		end
+
+	substring_start (end_index: INTEGER): like Current
+		-- substring from 1 to `end_index'
+		do
+			Result := substring (1, end_index)
 		end
 
 	substring_to (uc: CHARACTER_32): like Current

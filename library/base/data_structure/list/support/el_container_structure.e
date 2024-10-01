@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 17:30:07 GMT (Monday 30th September 2024)"
-	revision: "22"
+	date: "2024-09-30 18:16:07 GMT (Monday 30th September 2024)"
+	revision: "23"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -160,6 +160,13 @@ feature -- Conversion
 		-- be sliced using base zero modulo indexing
 		do
 			create Result.make (new_special (True, False), current_count)
+		end
+
+	slice_list (start_index, end_index: INTEGER): EL_ARRAYED_LIST [G]
+		-- representation of `current_container' as an arrayed list that can
+		-- be sliced using base zero modulo indexing
+		do
+			create Result.make_from_special (slice [start_index, end_index])
 		end
 
 	to_array: ARRAY [G]

@@ -1,8 +1,11 @@
 note
 	description: "[
-		Slicing of a ${SPECIAL [G]} array using base zero modulo indexing so that `item (0, 1)' is
-		a special array containing the first two items and `item (-2, -1)' is the last two regardless
-		of how many items there are.
+		Slicing of a ${SPECIAL [G]} array using zero based modulo indexing so that `item (0, 1)' is
+		a special array containing the first two items and `item (-2, -1)' the last two.
+	]"
+	notes: "[
+		This is similar to Python slicing except in Python the end index is excluded from the slice.
+		So in Python the slice `item [-2, -1]' has to be expressed as `[-2:]
 	]"
 
 	author: "Finnian Reilly"
@@ -10,11 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 17:31:02 GMT (Monday 30th September 2024)"
-	revision: "1"
+	date: "2024-10-01 12:28:21 GMT (Tuesday 1st October 2024)"
+	revision: "2"
 
 class
 	EL_SLICEABLE_SPECIAL [G]
+
+inherit
+	EL_MODULO_INDEXABLE
 
 create
 	make
@@ -35,8 +41,9 @@ feature -- Measurement
 feature -- Access
 
 	item alias "[]" (start_index, end_index: INTEGER): SPECIAL [G]
+		-- sub array of special using zero based modulo indexing
 		require
-			valid_indices (start_index, end_index)
+			valid_slice (start_index, end_index)
 		local
 			start_i, end_i, slice_count: INTEGER
 		do
@@ -44,23 +51,6 @@ feature -- Access
 			slice_count := end_i - start_i + 1
 			create Result.make_empty (slice_count)
 			Result.copy_data (area, start_i, 0, slice_count)
-		end
-
-feature -- Status query
-
-	valid_indices (start_index, end_index: INTEGER): BOOLEAN
-		do
-			Result := modulo_index (start_index) - 1 <= modulo_index (end_index)
-		end
-
-feature {NONE} -- Implementation
-
-	modulo_index (i: INTEGER): INTEGER
-		do
-			Result := i \\ count
-			if Result < 0 then
-				Result := count + i
-			end
 		end
 
 feature {NONE} -- Internal attributes

@@ -136,21 +136,34 @@ def test_order_by_descending_width ():
 
 def test_query_and_summation ():
 	is_width_300 = lambda widget: widget.width == 300
+	is_blue = is_color (COLOR.blue); is_red = is_color (COLOR.red)
+	is_green = is_color (COLOR.green)
 
 	condition_sum_map_list = [
-		(is_color (COLOR.red), 1400),
-		(is_color (COLOR.blue), 800),
-		(lambda widget: widget.is_color (COLOR.blue) and is_width_300 (widget), 300),
-		(lambda widget: widget.is_color (COLOR.blue) or widget.is_color (COLOR.red), 2200),
-		(lambda widget: not widget.is_color (COLOR.green), 2200),
+		(is_red, 1400),
+		(is_blue, 800),
+		(lambda widget: is_blue (widget) and is_width_300 (widget), 300),
+		(lambda widget: is_blue (widget) or is_red (widget), 2200),
+		(lambda widget: not is_green (widget), 2200),
 		(any_widget (), 2300)
 	]
 	for condition, sum_value in condition_sum_map_list:
 		sum_2 = sum (widget.width for widget in Widget_list if condition (widget))
 
-		subset = [widget for widget in Widget_list if condition (widget)]
+		subset = list (filter (condition, Widget_list))
 		sum_3 = sum (widget.width for widget in subset)
 		assert sum_value == sum_2 and sum_value == sum_3, "same sum"
+
+def test_structure_slicing ():
+	# NOTE: Python slices exclude the item at the stop index
+	# A missing stop index indicates to include all remaining items
+	empty = []
+	abcd_list = list ("abcd")
+	assert abcd_list [0:2] == list ('ab'), "first two"
+	assert abcd_list [-2:] == list ('cd'), "last two"
+	assert abcd_list [0:] == abcd_list, "entire string"
+	assert abcd_list [1:0] == empty, "empty"
+	assert abcd_list [-1:-2] == empty, "empty"
 
 # Run tests
 
@@ -163,3 +176,5 @@ test_find_linear_position ()
 test_order_by_descending_width ()
 
 test_query_and_summation ()
+
+test_structure_slicing ()

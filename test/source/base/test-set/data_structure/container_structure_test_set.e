@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 17:27:51 GMT (Monday 30th September 2024)"
-	revision: "50"
+	date: "2024-10-01 14:35:56 GMT (Tuesday 1st October 2024)"
+	revision: "51"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -248,7 +248,6 @@ feature -- WIDGET Tests
 					if attached Widget_list.query (condition) as subset then
 						sum_3 := subset.sum_integer (agent {WIDGET}.width)
 					end
-
 					assert ("same sum", sum_value = sum_2 and sum_value = sum_3)
 				end
 				assert ("index unchanged", Widget_list.index = 1)
@@ -464,20 +463,21 @@ feature -- Test
 			testing: "[
 				covers/{EL_ARRAYED_LIST}.make_from,
 				covers/{EL_CONTAINER_STRUCTURE}.slice,
+				covers/{EL_CONTAINER_STRUCTURE}.slice_list,
 				covers/{EL_SLICEABLE_SPECIAL}.item
 			]"
 		local
-			abcd_list: EL_ARRAYED_LIST [CHARACTER]
+			abcd_list, cd_list: EL_ARRAYED_LIST [CHARACTER]
 			abcd: STRING; ab, cd, empty: SPECIAL [CHARACTER]
 		do
 			abcd := "abcd"
 			create empty.make_empty (0)
 			ab := abcd.substring (1, 2).area.resized_area (2)
-			cd := abcd.substring (3, 4).area.resized_area (2)
-
 			create abcd_list.make_from (abcd)
+			create cd_list.make_from (abcd.substring (3, 4))
+
 			assert ("first two", abcd_list.slice [0, 1] ~ ab)
-			assert ("last two", abcd_list.slice [-2, -1] ~ cd)
+			assert ("last two", abcd_list.slice_list (-2, -1) ~ cd_list)
 			assert ("entire string", abcd_list.slice [0, -1] ~ abcd_list.area)
 			assert ("empty", abcd_list.slice [1, 0] ~ empty)
 			assert ("empty", abcd_list.slice [-1, -2] ~ empty)

@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:22:40 GMT (Friday 20th September 2024)"
-	revision: "132"
+	date: "2024-10-01 13:57:11 GMT (Tuesday 1st October 2024)"
+	revision: "133"
 
 class
 	ZSTRING_TEST_SET
@@ -785,10 +785,15 @@ feature -- Duplication tests
 	test_substring
 		-- ZSTRING_TEST_SET.test_substring
 		note
-			testing: "covers/{ZSTRING}.substring"
+			testing: "[
+				covers/{ZSTRING}.slice,
+				covers/{ZSTRING}.substring,
+				covers/{ZSTRING}.substring_between,
+				covers/{ZSTRING}.substring_end,
+			]"
 		local
 			test: STRING_TEST; start_index, end_index: INTEGER
-			assertion_ok: STRING
+			assertion_ok: STRING; str, padded_middle_word: ZSTRING; str_list: EL_ZSTRING_LIST
 		do
 			assertion_ok := "substring OK"
 			across Text.lines_32 as line loop
@@ -805,6 +810,17 @@ feature -- Duplication tests
 				end
 				across 0 |..| 7 as n loop
 					assert (assertion_ok, test.same_substring (1, n.item))
+				end
+			-- substring_between
+				create str_list.make_split (test.zs, ' ')
+				padded_middle_word := str_list [2].enclosed (' ', ' ')
+				assert_same_string (Void, test.zs.substring_between (str_list [1], str_list [3], 1), padded_middle_word)
+				assert_same_string (Void, test.zs.substring_between (str_list [1], space * 1, 1), Empty_string)
+			-- substring_end
+				start_index := test.s_32.count - 2; end_index := test.s_32.count
+				if attached test.s_32.substring (start_index, end_index) as last_three then
+					assert_same_string (Void, test.zs.substring_end (start_index), last_three)
+					assert_same_string (Void, test.zs.slice (-3, -1), last_three)
 				end
 			end
 		end
