@@ -1,22 +1,12 @@
 note
-	description: "[
-		Compare using ${EL_COMPACTABLE_REFLECTIVE} to automate object data compaction to numeric types
-		vs traditional manual method.
-	]"
-	notes: "[
-		Passes over 1000 millisecs (in descending order)
-
-			Manual compaction    :  6318.0 times (100%)
-			Automated compaction :  2388.0 times (-62.2%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "5"
 
 class
 	COMPACTABLE_REFLECTIVE_VS_MANUAL_BIT_MASK

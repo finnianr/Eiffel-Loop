@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:49:24 GMT (Monday 23rd September 2024)"
-	revision: "93"
+	date: "2024-10-03 16:27:07 GMT (Thursday 3rd October 2024)"
+	revision: "94"
 
 deferred class
 	EL_REFLECTIVE
@@ -18,6 +18,7 @@ inherit
 	ANY -- Needed to compile My Ching for some strange reason
 
 	EL_REFLECTIVE_I
+
 	EL_REFLECTION_HANDLER
 
 	EL_NAMING_CONVENTIONS
@@ -44,6 +45,12 @@ feature -- Access
 	field_name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
 			Result := meta_data.field_list.name_list
+		end
+
+	value_list_for_type (field_type: TYPE [ANY]): EL_ARRAYED_LIST [ANY]
+		-- list of field values in `Current' for fields with type `field_type'
+		do
+			Result := field_table.value_list_for_type (current_reflective, field_type)
 		end
 
 feature -- Measurement

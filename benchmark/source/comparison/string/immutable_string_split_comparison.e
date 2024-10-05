@@ -1,21 +1,13 @@
 note
 	description: "Compare iterating immutable VS changeable string list"
-	notes: "[
-		The shared immutable item iteration is an order of magnitude faster.
-
-		Passes over 1000 millisecs (in descending order)
-
-			EL_SPLIT_IMMUTABLE_STRING_32_LIST : 14605.0 times (100%)
-			EL_SPLIT_STRING_32_LIST           :  4359.0 times (-70.2%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-08 8:30:38 GMT (Tuesday 8th August 2023)"
-	revision: "14"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "15"
 
 class
 	IMMUTABLE_STRING_SPLIT_COMPARISON

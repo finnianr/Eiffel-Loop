@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:34:28 GMT (Sunday 8th September 2024)"
-	revision: "19"
+	date: "2024-10-05 11:21:15 GMT (Saturday 5th October 2024)"
+	revision: "20"
 
 class
 	CLASS_NOTE_EDITOR
@@ -18,7 +18,7 @@ inherit
 			make_with_line_source as make_notes
 		end
 
-	EL_MODULE_DATE
+	EL_MODULE_DATE; EL_MODULE_DATE_TIME
 
 	EL_ZSTRING_CONSTANTS
 
@@ -54,23 +54,13 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	field_date: DATE_TIME
-		local
-			l_date: STRING; pos_gmt: INTEGER; date_string: STRING
+	field_date: NOTE_DATE_TIME
 		do
-			create Result.make_from_epoch (0)
 			fields.find (Field.date)
-			if fields.found then
-				date_string := fields.item.text
-				if not date_string.is_empty then
-					pos_gmt := date_string.substring_index ("GMT", 1)
-					if pos_gmt > 0 then
-						l_date := date_string.substring (1, pos_gmt - 2)
-	 					if Date_time_code.is_date_time (l_date) then
-	 						Result := Date_time_code.create_date_time (l_date)
-	 					end
-					end
-				end
+			if fields.found and then fields.item.text.has_substring (Date_time.Zone.GMT) then
+				create Result.make (fields.item.text)
+			else
+				create Result.make_default
 			end
 		end
 
@@ -106,13 +96,6 @@ feature -- Access
 
 	updated_fields: EL_STRING_8_LIST
 
-	time_stamp: INTEGER
-		local
-			time: EL_TIME_ROUTINES
-		do
-			Result := time.unix_date_time (field_date)
-		end
-
 feature -- Status query
 
 	is_revision: BOOLEAN
@@ -135,7 +118,7 @@ feature -- Element change
 			last_revision: INTEGER
 		do
 			last_revision := field_revision
-			if last_revision = 0 or else (time_stamp - last_time_stamp).abs > 1 then
+			if last_revision = 0 or else (field_date.time_stamp - last_time_stamp).abs > 1 then
 				fields.set_field (Field.date, formatted_time_stamp)
 				fields.set_field (Field.revision, (last_revision + 1).max (1).out)
 				is_revision := true
@@ -168,10 +151,9 @@ feature {NONE} -- Implementation
 
 	initial_field_names: ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
-			create Result.make (3)
-			from fields.start until fields.after or else fields.item.name ~ Field.author loop
-				Result.extend (fields.item.name)
-				fields.forth
+			create Result.make (5)
+			across fields as list until list.item.name ~ Field.author loop
+				Result.extend (list.item.name)
 			end
 		end
 

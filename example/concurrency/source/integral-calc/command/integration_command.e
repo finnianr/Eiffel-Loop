@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 12:52:04 GMT (Monday 1st April 2024)"
-	revision: "7"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "8"
 
 deferred class
 	INTEGRATION_COMMAND

@@ -18,7 +18,7 @@ feature -- Basic operations
 			box.extend (create {EV_CELL})
 		end
 
-	do_once_on_idle (an_action: PROCEDURE [ANY, TUPLE])
+	do_once_on_idle (an_action: PROCEDURE)
 		do
 			Application.do_once_on_idle (an_action)
 		end

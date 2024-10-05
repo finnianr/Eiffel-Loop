@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 16:08:10 GMT (Friday 12th July 2024)"
-	revision: "19"
+	date: "2024-10-05 14:41:57 GMT (Saturday 5th October 2024)"
+	revision: "20"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -52,7 +52,7 @@ feature -- Access
 	as_string_32_list: ARRAYED_LIST [STRING_32]
 		do
 			push_cursor
-			create Result.make (current_count)
+			create Result.make (count)
 			from start until after loop
 				Result.extend (item.as_string_32)
 				forth
@@ -64,7 +64,7 @@ feature -- Access
 			-- string delimited list
 		do
 			push_cursor
-			create Result.make (current_count)
+			create Result.make (count)
 			from start until after loop
 				Result.extend (item.twin)
 				forth
@@ -77,7 +77,7 @@ feature -- Access
 			quoted: BOOLEAN
 		do
 			push_cursor
-			create Result.make (character_count + (current_count - 1).max (0) * 2)
+			create Result.make (character_count + (count - 1).max (0) * 2)
 			from start until after loop
 				if index > 1 then
 					Result.append (once ", ")
@@ -125,7 +125,7 @@ feature -- Access
 			l_count: INTEGER
 		do
 			if a_separator.natural_32_code.to_boolean then
-				l_count := character_count + (current_count - 1).max (0)
+				l_count := character_count + (count - 1).max (0)
 			else
 				l_count := character_count
 			end
@@ -135,7 +135,7 @@ feature -- Access
 
 	joined_with_string (a_separator: READABLE_STRING_GENERAL): like item
 		do
-			create Result.make (character_count + (current_count - 1) * a_separator.count)
+			create Result.make (character_count + (count - 1) * a_separator.count)
 			append_separated_to (Result, a_separator)
 		end
 
@@ -221,7 +221,7 @@ feature -- Measurement
 	joined_character_count: INTEGER
 			--
 		do
-			Result := character_count + (current_count - 1)
+			Result := character_count + (count - 1)
 		end
 
 feature {NONE} -- Implementation

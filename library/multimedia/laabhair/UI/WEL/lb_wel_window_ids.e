@@ -36,4 +36,3 @@ feature -- Access
 	Id_console_thread_refresh_button: INTEGER = 114
 	
 end -- class LB_WEL_WINDOW_IDS
-

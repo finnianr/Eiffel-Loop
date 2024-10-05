@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 15:19:19 GMT (Monday 30th September 2024)"
-	revision: "16"
+	date: "2024-10-05 14:42:27 GMT (Saturday 5th October 2024)"
+	revision: "17"
 
 class
 	EL_ARRAYED_RESULT_LIST [G, R]
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			if attached as_structure (container) as structure
 				and then attached structure.new_special (True, False) as container_area
 			then
-				make_results (to_item, container_area, container_count (container))
+				make_results (to_item, container_area, structure.count)
 			else
 				make_empty
 			end

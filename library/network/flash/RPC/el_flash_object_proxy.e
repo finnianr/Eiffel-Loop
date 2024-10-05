@@ -222,4 +222,3 @@ feature {NONE} -- Implementation
 	nested_array_arg_xml: XML_PARENT_TAG_LIST
 
 end
-

@@ -6,14 +6,16 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:57:25 GMT (Sunday 22nd September 2024)"
-	revision: "30"
+	date: "2024-10-05 12:41:55 GMT (Saturday 5th October 2024)"
+	revision: "31"
 
 class
 	EIFFEL_SOURCE_COMMAND_TEST_SET
 
 inherit
 	COPIED_SOURCES_TEST_SET
+		rename
+			selected_files as no_selected_files
 		redefine
 			make
 		end
@@ -47,7 +49,7 @@ feature -- Tests
 		local
 			analyzer: EIFFEL_SOURCE_ANALYZER
 		do
-			create analyzer.make_from_file (Latin_1_sources_dir + "parse/thunderbird_mail_to_html_body_converter.e")
+			create analyzer.make_from_file (Source.latin_1_dir + "parse/thunderbird_mail_to_html_body_converter.e")
 			assert ("249 identifiers", analyzer.identifier_count = 249)
 			assert ("81 keywords", analyzer.keyword_count = 81)
 		end
@@ -61,14 +63,14 @@ feature -- Tests
 			reader: TEST_SOURCE_READER; hexadecimal_count, integer_count: INTEGER
 			number: STRING; char_string: ZSTRING
 		do
-			create reader.make_from_file (Utf_8_sources_dir + "test_el_astring.e")
+			create reader.make_from_file (Source.utf_8_dir + "test_el_astring.e")
 			assert_same_string ("parsed percent character '%%'", reader.quoted_character_list [2], "%%%%")
 
-			create reader.make_from_file (Latin_1_sources_dir + "os-command/file-system/EL_FIND_OS_COMMAND.e")
+			create reader.make_from_file (Source.latin_1_dir + "os-command/file-system/EL_FIND_OS_COMMAND.e")
 			assert ("7 items", reader.operator_list.count = 7)
 			assert_same_string ("5th is and", reader.operator_list [5], "and")
 
-			create reader.make_from_file (Utf_8_sources_dir + "el_iso_8859_10_codec.e")
+			create reader.make_from_file (Source.utf_8_dir + "el_iso_8859_10_codec.e")
 			assert ("101 comments", reader.comment_list.count = 101)
 			assert_same_string ("Access comment", reader.comment_list.first, "-- Access")
 
@@ -127,7 +129,7 @@ feature -- Tests
 		do
 			create command.make (Manifest_path)
 			command.execute
-			create expected_results.make_from_array (<< 32, 279, 99751 >>)
+			create expected_results.make_from_array (<< 32, 279, 99775 >>)
 			if {PLATFORM}.is_windows then
 				expected_results [3] := 98584
 			end
@@ -165,7 +167,7 @@ feature -- Tests
 					sample_count := sample_count + 1
 				end
 			end
-		-- job_duration_parser.e is in both "feature-edits" and  "latin-1/parse"
+		-- job_duration_parser.e is in both "feature-edits" and "latin-1/parse"
 			assert ("both samples replaced", sample_count = 3)
 			assert ("24 replacements", replace_count = 24)
 			assert_valid_encodings
@@ -190,6 +192,11 @@ feature {NONE} -- Implementation
 		do
 			Immutable_8.set_item (str.area, 0, str.count)
 			Result := list.has (Immutable_8.item)
+		end
+
+	sources_list: ARRAY [DIR_PATH]
+		do
+			Result := << Source.feature_edits_dir, Source.latin_1_dir, Source.utf_8_dir >>
 		end
 
 feature {NONE} -- Constants

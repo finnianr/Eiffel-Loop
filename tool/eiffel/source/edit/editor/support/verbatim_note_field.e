@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-10-05 10:01:52 GMT (Saturday 5th October 2024)"
+	revision: "5"
 
 class
 	VERBATIM_NOTE_FIELD
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: like name)
+	make (a_name: IMMUTABLE_STRING_8)
 		do
 			make_field (a_name, create {like text}.make_empty)
 		end
@@ -35,7 +35,7 @@ feature -- Access
 	lines: EL_ZSTRING_LIST
 		do
 			create Result.make (text.occurrences ('%N') + 3)
-			Result.extend (name + Colon_space + Verbatim_string_start)
+			Result.extend (Verbatim_field #$ [name])
 			across text.split ('%N') as split loop
 				Result.extend (split.item_copy)
 			end
@@ -54,9 +54,9 @@ feature -- Element change
 
 feature {NONE} -- Constants
 
-	Colon_space: ZSTRING
+	Verbatim_field: ZSTRING
 		once
-			Result := ": "
+			Result := "%S: %"["
 		end
 
 end

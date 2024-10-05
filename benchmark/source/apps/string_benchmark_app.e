@@ -1,19 +1,12 @@
 note
-	description: "[
-		Command line interface to class ${STRING_BENCHMARK_SHELL} which
-		contains a menu of benchmarks for various classes.
-	]"
-	notes: "[
-		Command switch: -string_benchmark
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-05 5:42:41 GMT (Wednesday 5th June 2024)"
-	revision: "26"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "27"
 
 class
 	STRING_BENCHMARK_APP

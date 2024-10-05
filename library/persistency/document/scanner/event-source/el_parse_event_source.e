@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 11:30:04 GMT (Friday 21st June 2024)"
-	revision: "18"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "19"
 
 deferred class
 	EL_PARSE_EVENT_SOURCE

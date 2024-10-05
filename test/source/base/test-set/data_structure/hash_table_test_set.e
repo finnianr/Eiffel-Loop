@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 17:21:19 GMT (Tuesday 24th September 2024)"
-	revision: "51"
+	date: "2024-10-05 17:38:41 GMT (Saturday 5th October 2024)"
+	revision: "52"
 
 class
 	HASH_TABLE_TEST_SET
@@ -51,8 +51,8 @@ feature {NONE} -- Initialization
 				["string_general_table",			 agent test_string_general_table],
 				["string_table",						 agent test_string_table],
 				["table_cursor",						 agent test_table_cursor],
-				["table_make_from_keys",			 agent test_table_make_from_keys],
-				["table_sort",							 agent test_table_sort],
+				["hash_table",							 agent test_hash_table],
+				["hash_table_sort",					 agent test_hash_table_sort],
 				["zstring_table",						 agent test_zstring_table]
 			>>)
 		end
@@ -255,6 +255,39 @@ feature -- Test
 			lio.put_new_line
 		end
 
+	test_hash_table
+		-- HASH_TABLE_TEST_SET.test_hash_table
+		note
+			testing: "[
+				covers/{EL_HASH_TABLE}.make_from_keys,
+				covers/{EL_HASH_TABLE}.item_area,
+				covers/{EL_HASH_TABLE}.item_list,
+				covers/{EL_CONTAINER_STRUCTURE}.do_for_all,
+				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer
+			]"
+		local
+			word_count_table: EL_HASH_TABLE [INTEGER, STRING]
+			word_count_list: EL_ARRAYED_LIST [INTEGER]
+			total_count: INTEGER
+		do
+			if attached Text.lines_8 as string_8_lines then
+				create word_count_table.make_from_keys (string_8_lines, agent {STRING}.count, False)
+				across string_8_lines as line loop
+					if word_count_table.has_key (line.item) then
+						assert ("same count", word_count_table.found_item = line.item.count)
+						total_count := total_count + line.item.count
+					else
+						failed ("has line")
+					end
+				end
+				create word_count_list.make (word_count_table.count)
+				word_count_table.do_for_all (agent word_count_list.extend)
+				assert ("same list", word_count_list ~ word_count_table.item_list)
+
+				assert ("same total", total_count = word_count_table.sum_integer (agent integer))
+			end
+		end
+
 	test_hash_table_insertion
 		-- HASH_TABLE_TEST_SET.test_hash_table_insertion
 		note
@@ -294,6 +327,76 @@ feature -- Test
 			set.put (key)
 			assert ("conflict", set.conflict)
 			assert ("has copy", set.found_item ~ key and set.found_item /= key)
+		end
+
+	test_hash_table_sort
+		-- HASH_TABLE_TEST_SET.test_hash_table_sort
+		note
+			testing: "[
+				covers/{EL_HASH_TABLE}.sort_by_key,
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.cursor_index,
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.make,
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.forth
+			]"
+		local
+			names: HEXAGRAM_NAMES; hanzi: IMMUTABLE_STRING_32
+			name_list: EL_SORTABLE_ARRAYED_LIST [IMMUTABLE_STRING_32]
+			name_table: EL_HASH_TABLE [INTEGER, IMMUTABLE_STRING_32]
+			i, number: INTEGER
+		do
+			create name_table.make_equal (64)
+			create name_list.make (64)
+			from i := 1 until i > 64 loop
+				hanzi := names.i_th_hanzi_characters (i)
+				name_list.extend (hanzi)
+				name_table.extend (i, hanzi)
+				i := i + 1
+			end
+			name_list.ascending_sort
+			from name_table.start until name_table.item_for_iteration = 8 loop
+				name_table.forth
+			end
+			name_table.sort_by_key (True)
+			assert ("same iteration item", name_table.item_for_iteration = 8)
+
+			across name_table as table loop
+				number := table.item; i := table.cursor_index
+				hanzi := table.key
+				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
+				assert ("same hanzi by table key", hanzi ~ names.i_th_hanzi_characters (number))
+			end
+
+			from i := 1 until i > 64 loop
+				hanzi := names.i_th_hanzi_characters (i)
+				assert ("has key", name_table.has (hanzi))
+				i := i + 1
+			end
+			name_table.ascending_sort
+			across name_table as table loop
+				assert ("item same as cursor index", table.cursor_index = table.item)
+			end
+
+			-- Test with deletions
+			name_list.wipe_out
+			from i := 1 until i > 64 loop
+				hanzi := names.i_th_hanzi_characters (i)
+				if names.i_th_pinyin_name (i) [1] = 'S' then
+					name_table.remove (hanzi)
+				else
+					name_list.extend (hanzi)
+				end
+				i := i + 1
+			end
+			name_list.reverse_sort
+			name_table.sort_by_key (False)
+			assert ("same iteration item", name_table.item_for_iteration = 8)
+
+			assert ("same count", name_list.count = name_table.count)
+			across name_table as table loop
+				number := table.item; i := table.cursor_index
+				hanzi := table.key
+				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
+			end
 		end
 
 	test_immutable_error_code_table
@@ -606,100 +709,6 @@ feature -- Test
 				assert ("same index", word_table.count - word_list.index + 1 = table.cursor_index)
 				assert_same_string (Void, word_list.item, table.item)
 				word_list.back
-			end
-		end
-
-	test_table_make_from_keys
-		-- HASH_TABLE_TEST_SET.test_table_make_from_keys
-		note
-			testing: "[
-				covers/{EL_HASH_TABLE}.make_from_keys
-				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer
-			]"
-		local
-			word_count_table: EL_HASH_TABLE [INTEGER, STRING]
-			total_count: INTEGER
-		do
-			if attached Text.lines_8 as string_8_lines then
-				create word_count_table.make_from_keys (string_8_lines, agent {STRING}.count, False)
-				across string_8_lines as line loop
-					if word_count_table.has_key (line.item) then
-						assert ("same count", word_count_table.found_item = line.item.count)
-						total_count := total_count + line.item.count
-					else
-						failed ("has line")
-					end
-				end
-				assert ("same total", total_count = word_count_table.sum_integer (agent integer))
-			end
-		end
-
-	test_table_sort
-		-- HASH_TABLE_TEST_SET.test_table_sort
-		note
-			testing: "[
-				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.cursor_index,
-				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.make,
-				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.forth
-			]"
-		local
-			names: HEXAGRAM_NAMES; hanzi: IMMUTABLE_STRING_32
-			name_list: EL_SORTABLE_ARRAYED_LIST [IMMUTABLE_STRING_32]
-			name_table: EL_HASH_TABLE [INTEGER, IMMUTABLE_STRING_32]
-			i, number: INTEGER
-		do
-			create name_table.make_equal (64)
-			create name_list.make (64)
-			from i := 1 until i > 64 loop
-				hanzi := names.i_th_hanzi_characters (i)
-				name_list.extend (hanzi)
-				name_table.extend (i, hanzi)
-				i := i + 1
-			end
-			name_list.ascending_sort
-			from name_table.start until name_table.item_for_iteration = 8 loop
-				name_table.forth
-			end
-			name_table.sort_by_key (True)
-			assert ("same iteration item", name_table.item_for_iteration = 8)
-
-			across name_table as table loop
-				number := table.item; i := table.cursor_index
-				hanzi := table.key
-				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
-				assert ("same hanzi by table key", hanzi ~ names.i_th_hanzi_characters (number))
-			end
-
-			from i := 1 until i > 64 loop
-				hanzi := names.i_th_hanzi_characters (i)
-				assert ("has key", name_table.has (hanzi))
-				i := i + 1
-			end
-			name_table.ascending_sort
-			across name_table as table loop
-				assert ("item same as cursor index", table.cursor_index = table.item)
-			end
-
-			-- Test with deletions
-			name_list.wipe_out
-			from i := 1 until i > 64 loop
-				hanzi := names.i_th_hanzi_characters (i)
-				if names.i_th_pinyin_name (i) [1] = 'S' then
-					name_table.remove (hanzi)
-				else
-					name_list.extend (hanzi)
-				end
-				i := i + 1
-			end
-			name_list.reverse_sort
-			name_table.sort_by_key (False)
-			assert ("same iteration item", name_table.item_for_iteration = 8)
-
-			assert ("same count", name_list.count = name_table.count)
-			across name_table as table loop
-				number := table.item; i := table.cursor_index
-				hanzi := table.key
-				assert ("same hanzi by table cursor index", hanzi ~ name_list [i])
 			end
 		end
 

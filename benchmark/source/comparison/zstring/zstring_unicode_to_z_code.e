@@ -1,22 +1,13 @@
 note
 	description: "Methods to obtain z_code from unicode character"
-	notes: "[
-		Passes over 2000 millisecs (in descending order)
-
-			if unicode <= 0xFF then                    : 16010.0 times (100%)
-			inspect unicode |>> 8                      : 15921.0 times (-0.6%)
-			if unicode < 0x100 then                    : 15879.0 times (-0.8%)
-			inspect b.leading_zeros_count_32 (unicode) : 15645.0 times (-2.3%)
-			Pure bit arithmetic, no branching          : 15567.0 times (-2.8%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 10:01:45 GMT (Sunday 14th April 2024)"
-	revision: "22"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "23"
 
 class
 	ZSTRING_UNICODE_TO_Z_CODE

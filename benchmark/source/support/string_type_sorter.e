@@ -1,20 +1,12 @@
 note
-	description: "[
-		Sort a string conforming to ${READABLE_STRING_GENERAL} into a tuple slot
-		of the appropiate string_storage_type
-	]"
-	notes: "[
-		Would this would have better performance if a class was used instead of a tuple ?
-		Possibly !
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:44:53 GMT (Sunday 25th August 2024)"
-	revision: "4"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "5"
 
 class
 	STRING_TYPE_SORTER

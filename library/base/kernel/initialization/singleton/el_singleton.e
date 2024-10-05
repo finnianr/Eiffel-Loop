@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-07 8:00:10 GMT (Sunday 7th April 2024)"
-	revision: "11"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "12"
 
 class
 	EL_SINGLETON [G]

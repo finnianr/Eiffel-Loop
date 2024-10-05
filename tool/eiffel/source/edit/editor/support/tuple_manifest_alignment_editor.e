@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:25:47 GMT (Thursday 12th September 2024)"
-	revision: "8"
+	date: "2024-10-04 11:08:19 GMT (Friday 4th October 2024)"
+	revision: "10"
 
 class
 	TUPLE_MANIFEST_ALIGNMENT_EDITOR
@@ -59,7 +59,7 @@ feature {NONE} -- Line states
 			tuple_line: like item; target_column: INTEGER
 		do
 			if line.ends_with (Manifest.array_end) then
-				target_column := maximum_integer (agent {like item}.comma_column) + 1
+				target_column := max_integer (agent {like item}.comma_column) + 1
 
 				if target_column > 1 then
 					do_all (agent {like item}.align (target_column))

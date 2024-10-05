@@ -1,24 +1,13 @@
 note
-	description: "[
-		Compare ${EL_ZSTRING}.split_list with ${EL_ZSTRING_LIST}.make_split
-	]"
-	notes: "[
-		${EL_ZSTRING}.split_list now incorporated into ${EL_ZSTRING_LIST}.make_split,
-		so benchmark cannot be repeated, but originally this is the score:
-		
-		Passes over 250 millisecs (in descending order)
-
-			ZSTRING.split_list         : 24500.0 times (100%)
-			EL_ZSTRING_LIST.make_split : 14231.0 times (-41.9%)
-	]"
+	so benchmark cannot be repeated, but originally this is the score: ""
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:37:42 GMT (Thursday 4th April 2024)"
-	revision: "19"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "20"
 
 class
 	ZSTRING_SPLIT_LIST_COMPARISON

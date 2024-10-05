@@ -69,4 +69,3 @@ feature {NONE} -- Implementation
 	object_name: STRING = "application"
 
 end
-

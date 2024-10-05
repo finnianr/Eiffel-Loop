@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:26:09 GMT (Sunday 25th August 2024)"
-	revision: "30"
+	date: "2024-10-05 15:33:56 GMT (Saturday 5th October 2024)"
+	revision: "31"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -322,6 +322,14 @@ feature -- Search
 
 feature -- Measurement
 
+	area_first_index: INTEGER
+		deferred
+		end
+
+	area_last_index: INTEGER
+		deferred
+		end
+
 	latin_1_count: INTEGER
 		deferred
 		end
@@ -408,14 +416,6 @@ feature {NONE} -- Implementation
 feature {STRING_HANDLER} -- Deferred
 
 	area: SPECIAL [ANY]
-		deferred
-		end
-
-	area_first_index: INTEGER
-		deferred
-		end
-
-	area_last_index: INTEGER
 		deferred
 		end
 

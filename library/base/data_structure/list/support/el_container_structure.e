@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 18:16:07 GMT (Monday 30th September 2024)"
-	revision: "23"
+	date: "2024-10-05 17:26:49 GMT (Saturday 5th October 2024)"
+	revision: "26"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -30,41 +30,6 @@ feature -- Access
 			Result := {G}
 		end
 
-	sample_item: G
-		local
-			break: BOOLEAN; container: like current_container
-		do
-			container := current_container
-			if container.is_empty then
-				if attached {G} Eiffel.new_object ({G}) as new then
-					Result := new
-				end
-
-			elseif attached {TO_SPECIAL [G]} container as special then
-				Result := special.area [0]
-
-			elseif attached {LINEAR [G]} container as list then
-				push_cursor
-				list.start
-				Result := list.item
-				pop_cursor
-
-			elseif attached {READABLE_INDEXABLE [G]} container as indexable then
-				Result := indexable [indexable.upper]
-
-			elseif attached {ITERABLE [G]} container as iterable_container then
-				across iterable_container as list until break loop
-					Result := list.item
-					break := True
-				end
-
-			elseif attached container.linear_representation as list then
-				list.start
-				Result := list.item
-			end
-
-		end
-
 feature -- Queries
 
 	inverse_query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
@@ -77,7 +42,7 @@ feature -- Queries
 		local
 			l_count: INTEGER
 		do
-			l_count := current_count
+			l_count := count
 			if l_count > 0 then
 				create Result.make (l_count)
 				if attached Result.area as area then
@@ -148,7 +113,7 @@ feature -- Measurement
 			Result := count_meeting (condition)
 		end
 
-	current_count: INTEGER
+	count: INTEGER
 		do
 			Result := container_count (current_container)
 		end
@@ -159,7 +124,7 @@ feature -- Conversion
 		-- representation of `current_container' as an array that can
 		-- be sliced using base zero modulo indexing
 		do
-			create Result.make (new_special (True, False), current_count)
+			create Result.make (new_special (True, False), count)
 		end
 
 	slice_list (start_index, end_index: INTEGER): EL_ARRAYED_LIST [G]
@@ -174,18 +139,18 @@ feature -- Conversion
 			create Result.make_from_special (to_special)
 		end
 
-	to_special: SPECIAL [G]
-		-- special array which maybe shared if `Current' conforms to `TO_SPECIAL [G]'
+	to_special_shared: SPECIAL [G]
+		-- special array which is shared if `Current' conforms to ` [G]'
 		do
 			Result := new_special (True, False)
 		end
 
-	to_count_special: SPECIAL [G]
+	to_special: SPECIAL [G]
 		-- special array with same count
 		do
-			Result := new_special (True, True)
+			Result := new_special (False, True)
 		ensure
-			same_count: Result.count = current_count
+			same_count: Result.count = count
 		end
 
 feature -- Function result list
@@ -197,7 +162,7 @@ feature -- Function result list
 		local
 			i, i_final: INTEGER
 		do
-			if attached Arrayed_list_factory.new_result_list (to_value, current_count) as list
+			if attached Arrayed_list_factory.new_result_list (to_value, count) as list
 				and then attached new_special (True, True) as l_area
 			then
 				i_final := list.capacity
@@ -223,7 +188,7 @@ feature -- Function result list
 		local
 			i, i_final: INTEGER
 		do
-			if attached Arrayed_list_factory.new_result_list (to_value, current_count) as list
+			if attached Arrayed_list_factory.new_result_list (to_value, count) as list
 				and then attached new_special (True, True) as l_area
 			then
 				i_final := list.capacity
@@ -281,13 +246,9 @@ feature -- String result list
 feature -- Basic operations
 
 	do_for_all (action: PROCEDURE [G])
-		require
-			not_immutable_string: not is_immutable_string
 		do
-			if attached {TO_SPECIAL [G]} current_container as special
-				and then attached {FINITE [G]} special as finite
-			then
-				special.area.do_all_in_bounds (action, 0, finite.count - 1)
+			if attached item_area as area then
+				area.do_all_in_bounds (action, 0, count - 1)
 			else
 				do_meeting (action, create {EL_ANY_QUERY_CONDITION [G]})
 			end
@@ -295,22 +256,18 @@ feature -- Basic operations
 
 	do_meeting (action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
 		-- list of indices meeting `condition'
-		require
-			not_immutable_string: not is_immutable_string
 		local
-			i, upper, i_final: INTEGER
+			i, upper, i_upper: INTEGER
 		do
-			if attached {TO_SPECIAL [G]} current_container as special
-				and then attached {FINITE [G]} special as finite
-				and then attached special.area as area
-			then
-				i_final := finite.count
-				from i := 0 until i = i_final loop
+			if attached item_area as area then
+				i_upper := count - 1
+				from i := 0 until i > i_upper loop
 					do_if_met (area [i], action, condition)
 					i := i + 1
 				end
 
 			elseif attached {LINEAR [G]} current_container as list then
+			-- Better to prioritise for linked lists
 				push_cursor
 				from list.start until list.after loop
 					do_if_met (list.item, action, condition)
@@ -379,11 +336,6 @@ feature -- Basic operations
 
 feature -- Contract Support
 
-	is_immutable_string: BOOLEAN
-		do
-			Result := attached {IMMUTABLE_STRING_GENERAL} current_container
-		end
-
 	object_comparison: BOOLEAN
 		do
 			Result := current_container.object_comparison
@@ -396,12 +348,12 @@ feature -- Contract Support
 		end
 
 	valid_open_argument (to_value: FUNCTION [G, ANY]): BOOLEAN
-		-- `True' if `to_value' has single open argument that is the same as `{G}'
+		-- `True' if `to_value' has single open argument that is the same as `item_type'
 		do
 			if attached to_value.generating_type.generic_parameter_type (1) as argument_types
 				and then argument_types.generic_parameter_count = 1
 			then
-				Result := argument_types.generic_parameter_type (1) ~ {G}
+				Result := argument_types.generic_parameter_type (1) ~ item_type
 			end
 		end
 
@@ -411,27 +363,26 @@ feature {EL_CONTAINER_HANDLER} -- Implementation
 		local
 			one_extra: INTEGER
 		do
-			if attached {TO_SPECIAL [G]} current_container as special
-				and then attached {FINITE [G]} special as finite
-				and then attached special.area as area
-			then
+			if attached item_area as area then
 				if shared then
-					if same_count and then attached {STRING_GENERAL} special as str then
-						Result := area.resized_area (str.count)
+					if same_count and then is_string_container then
+						Result := area.resized_area (count)
 					else
 						Result := area
 					end
 				else
 				--	one extra for string null terminator
-					if attached {STRING_GENERAL} special and not same_count then
+					if is_string_container and not same_count then
 						one_extra := 1
 					end
-					Result := area.resized_area (finite.count + one_extra)
+					Result := area.resized_area (count + one_extra)
 				end
 			else
-				create Result.make_empty (current_count)
+				create Result.make_empty (count)
 				do_for_all (agent extend_special (?, Result))
 			end
+		ensure
+			valid_count: same_count implies Result.count = count
 		end
 
 feature {NONE} -- Implementation
@@ -483,6 +434,14 @@ feature {NONE} -- Implementation
 			area.extend (item)
 		end
 
+	item_area: detachable SPECIAL [G]
+		do
+		end
+
+	is_string_container: BOOLEAN
+		do
+		end
+
 feature {NONE} -- Constants
 
 	Cursor_stack: ARRAYED_STACK [CURSOR]
@@ -499,32 +458,14 @@ note
 	descendants: "[
 			EL_CONTAINER_STRUCTURE* [G]
 				${EL_CONTAINER_WRAPPER [G]}
-				${EL_RESULT_SUMMATOR [G, N -> NUMERIC]}
-				${EL_CONTAINER_ITEM [G]}
-				${EL_RESULT_MAXIMUM [G, N -> (NUMERIC, COMPARABLE)]}
 				${EL_LINEAR* [G]}
-					${EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]}
-						${EL_STRING_8_IO_MEDIUM_LINE_SOURCE}
-						${EL_PLAIN_TEXT_LINE_SOURCE}
-							${EL_ENCRYPTED_PLAIN_TEXT_LINE_SOURCE}
-						${EL_ZSTRING_IO_MEDIUM_LINE_SOURCE}
 					${EL_CHAIN* [G]}
-						${EL_QUERYABLE_CHAIN* [G]}
-							${EL_QUERYABLE_ARRAYED_LIST [G]}
-						${EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]}
-							${EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]}
-							${EL_STRING_LIST [S -> STRING_GENERAL create make end]}
-								${EL_TEMPLATE_LIST* [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]}
 						${EL_ARRAYED_LIST [G]}
-							${EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]}
-							${EL_ARRAYED_INTERVAL_LIST}
-							${EL_QUERYABLE_ARRAYED_LIST [G]}
-							${EL_ARRAYED_REPRESENTATION_LIST* [R, N]}
-								${DATE_LIST}
-					${EL_LINEAR_STRINGS* [S -> STRING_GENERAL create make end]}
-						${EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]}
-						${EL_STRING_CHAIN* [S -> STRING_GENERAL create make end]}
+					${EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]}
+				${EL_HASH_TABLE [G, K -> HASHABLE]}
+					${EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]}
 				${EL_HASH_SET [H -> HASHABLE]}
+				${EL_CONTAINER_ARITHMETIC [G, N -> NUMERIC]}
 	]"
 
 end

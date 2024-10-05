@@ -1,16 +1,12 @@
 note
-	description: "[
-		Sort a string conforming to ${READABLE_STRING_GENERAL} into a tuple slot
-		of the appropiate storage_type
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:43:58 GMT (Sunday 25th August 2024)"
-	revision: "4"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "5"
 
 frozen expanded class
 	STRING_TUPLE_ASSIGN_SORTER

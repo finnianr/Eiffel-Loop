@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 9:38:25 GMT (Thursday 11th July 2024)"
-	revision: "12"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "13"
 
 class
 	ECD_READER_WRITER [G -> EL_STORABLE create make_default end]

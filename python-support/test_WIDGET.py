@@ -76,22 +76,15 @@ def is_color (color):
 def any_widget ():
 	return lambda widget: widget is widget
 
-# Constant
-
-Widget_list = [
-	WIDGET (COLOR.red, 200), WIDGET (COLOR.blue, 300), WIDGET (COLOR.green, 100),
-	WIDGET (COLOR.blue, 500), WIDGET (COLOR.red, 1200)
-]
-
 # Tests
 
 def test_derived_list ():
 	width_list = [widget.width for widget in Widget_list]
 	assert len (width_list) == len (Widget_list), "same count"
 	for cursor_index, widget in enumerate (Widget_list, start = 0):
-		print (str (widget))
+	#	print (str (widget))
 		assert widget.width == width_list [cursor_index]
-	print ()
+	#print ()
 
 	blue_width_list = [widget.width for widget in Widget_list if widget.is_color (COLOR.blue)]
 	assert len (blue_width_list) == 2, "2 results"
@@ -132,7 +125,7 @@ def test_order_by_descending_width ():
 	for widget in sorted (Widget_list, key = lambda widget: widget.width, reverse = True):
 		assert widget.width <= previous, "width <= previous"
 		previous = widget.width
-		
+	
 
 def test_query_and_summation ():
 	is_width_300 = lambda widget: widget.width == 300
@@ -165,16 +158,33 @@ def test_structure_slicing ():
 	assert abcd_list [1:0] == empty, "empty"
 	assert abcd_list [-1:-2] == empty, "empty"
 
+# Constant
+
+Widget_list = [
+	WIDGET (COLOR.red, 200), WIDGET (COLOR.blue, 300), WIDGET (COLOR.green, 100),
+	WIDGET (COLOR.blue, 500), WIDGET (COLOR.red, 1200)
+]
+
+test_table = {
+	'integer_functions' : test_integer_functions,
+	'derived_list' : test_derived_list,
+	'find_linear_position' : test_find_linear_position,
+	'order_by_descending_width' : test_order_by_descending_width,
+	'query_and_summation' : test_query_and_summation,
+	'structure_slicing' : test_structure_slicing
+}
+
+
 # Run tests
 
-test_integer_functions ()
+print (COLOR.__members__)
 
-test_derived_list ()
+print ('sizeof (COLOR.red) =', sys.getsizeof (COLOR.red))
+print ('sizeof (COLOR.red.value) =', sys.getsizeof (COLOR.red.value))
+print ()
 
-test_find_linear_position ()
-
-test_order_by_descending_width ()
-
-test_query_and_summation ()
-
-test_structure_slicing ()
+for name, test in test_table.items ():
+	print ('Executing test:', name)
+	test ()
+	print ('TEST OK\n')
+	

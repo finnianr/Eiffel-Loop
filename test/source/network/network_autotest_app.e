@@ -1,8 +1,8 @@
 note
 	description: "Finalized executable tests for library [./library/network.html network.ecf]"
 	notes: "[
-		Usage: 
-		
+		Usage:
+
 			el_test -network_autotest -test_set <name>
 
 		**Test Sets**
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 6:41:54 GMT (Monday 22nd July 2024)"
-	revision: "40"
+	date: "2024-10-04 12:16:57 GMT (Friday 4th October 2024)"
+	revision: "41"
 
 class
 	NETWORK_AUTOTEST_APP

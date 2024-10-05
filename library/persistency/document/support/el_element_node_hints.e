@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-19 17:14:24 GMT (Wednesday 19th July 2023)"
-	revision: "4"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "5"
 
 deferred class
 	EL_ELEMENT_NODE_HINTS

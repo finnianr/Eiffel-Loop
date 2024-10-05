@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 15:47:25 GMT (Monday 1st April 2024)"
-	revision: "5"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "6"
 
 deferred class
 	EL_ITERABLE_SCOPE [G]

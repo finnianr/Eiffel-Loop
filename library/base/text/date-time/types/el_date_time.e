@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 14:54:08 GMT (Friday 23rd February 2024)"
-	revision: "29"
+	date: "2024-10-05 8:51:05 GMT (Saturday 5th October 2024)"
+	revision: "30"
 
 class
 	EL_DATE_TIME
@@ -137,7 +137,8 @@ feature -- Conversion
 			create Result.make_from_epoch (to_unix)
 		end
 
-	to_unix: INTEGER
+	to_unix, time_stamp: INTEGER
+		-- Unix time stamp
 		local
 			t: EL_TIME_ROUTINES
 		do

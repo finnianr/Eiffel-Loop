@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 9:21:24 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-10-05 9:59:48 GMT (Saturday 5th October 2024)"
+	revision: "15"
 
 class
 	CLASS_NOTES
@@ -57,7 +57,7 @@ feature {NONE} -- Line states
 
 	find_field (line: ZSTRING)
 		local
-			name: STRING; value: ZSTRING; verbatim_field: VERBATIM_NOTE_FIELD
+			name, value: ZSTRING; verbatim_field: VERBATIM_NOTE_FIELD
 			f: EL_COLON_FIELD_ROUTINES; eiffel: EL_EIFFEL_SOURCE_ROUTINES
 		do
 			if eiffel.is_class_definition_start (line) then
@@ -67,7 +67,7 @@ feature {NONE} -- Line states
 				if is_field (line) then
 					name := f.name (line); value := f.value (line)
 					if value.starts_with (Verbatim_string_start) then
-						create verbatim_field.make (name)
+						create verbatim_field.make (name.to_shared_immutable_8)
 						fields.extend (verbatim_field)
 						state := agent find_verbatim_string_end (?, verbatim_field)
 					else
@@ -76,7 +76,7 @@ feature {NONE} -- Line states
 						then
 							value := default_description
 						end
-						fields.extend (create {NOTE_FIELD}.make (name, value))
+						fields.extend (create {NOTE_FIELD}.make (name.to_shared_immutable_8, value))
 					end
 				end
 			end

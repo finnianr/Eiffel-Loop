@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 18:28:42 GMT (Thursday 25th July 2024)"
-	revision: "40"
+	date: "2024-10-05 17:07:53 GMT (Saturday 5th October 2024)"
+	revision: "41"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -21,14 +21,21 @@ inherit
 		export
 			{NONE} array_subchain
 		undefine
-			make_from, joined_chain,
-			is_equal, copy, prune_all, readable, prune, new_cursor, to_array,
+			item_area, make_from, joined_chain, new_cursor, pop_cursor, push_cursor, to_array,
+		-- measurement
+			count,
+		-- item query
 			first, last, i_th, at,
-			start, finish, move, go_i_th, remove, find_next_item,
-			is_inserted, has, there_exists, isfirst, islast, off, valid_index,
-			do_all, for_all, do_if, search,
-			force, put_i_th, append_sequence, swap,
-			pop_cursor, push_cursor, order_by
+		-- cursor movement
+			finish, move, go_i_th, find_next_item, search, start,
+		-- query
+			is_equal, is_inserted, has, there_exists, isfirst, islast, off, readable, valid_index,
+		-- basic operations
+			do_all, for_all, do_if,
+		-- element change
+			append_sequence, copy, force, put_i_th, prune, prune_all, remove,
+		-- reorder
+			order_by, swap
 		redefine
 			checksum, hash_code, is_equal
 		end

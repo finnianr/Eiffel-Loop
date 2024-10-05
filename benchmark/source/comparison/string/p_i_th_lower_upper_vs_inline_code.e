@@ -1,21 +1,12 @@
 note
-	description: "[
-		Compare call to ${EL_POINTER_ROUTINES}.i_th_lower_upper with using inline code
-	]"
-	notes: "[
-		Passes over 1000 millisecs (in descending order)
-
-			Test inline code      : 15829763.0 times (100%)
-			Test i_th_lower_upper :   109554.0 times (-99.3%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:35:53 GMT (Thursday 4th April 2024)"
-	revision: "13"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "14"
 
 class
 	P_I_TH_LOWER_UPPER_VS_INLINE_CODE

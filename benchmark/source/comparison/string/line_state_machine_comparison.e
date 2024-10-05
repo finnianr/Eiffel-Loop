@@ -1,21 +1,13 @@
 note
 	description: "Test variations of class ${CSV_LINE_PARSER}"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			Using INTEGER states   : 231.0 times (100%)
-			Using POINTER states   : 231.0 times (-0.0%)
-			Using PROCEDURE states : 174.0 times (-24.7%)
-
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "12"
 
 class
 	LINE_STATE_MACHINE_COMPARISON

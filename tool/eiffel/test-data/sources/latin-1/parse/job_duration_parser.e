@@ -1,5 +1,7 @@
 note
-	description: "Summary description for {JOB_DURATION_PARSER}."
+	description: "[
+		Use pattern matching to parse the duration of an advertised job
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2014 Finnian Reilly"

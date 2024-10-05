@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2024-10-05 10:56:51 GMT (Saturday 5th October 2024)"
+	revision: "15"
 
 class
 	CLASS_RENAMING_TEST_SET
 
 inherit
 	COPIED_SOURCES_TEST_SET
-		redefine
-			Sources_sub_dir
+		rename
+			selected_files as no_selected_files
 		end
 
 create
@@ -60,10 +60,10 @@ feature -- Tests
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Sources_sub_dir: DIR_PATH
-		once
-			Result := "utf-8"
+	sources_list: ARRAY [DIR_PATH]
+		do
+			Result := << Source.utf_8_dir >>
 		end
 end

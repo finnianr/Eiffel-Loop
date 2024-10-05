@@ -1,21 +1,12 @@
 note
-	description: "[
-		Compare key search speed of ${HASH_TABLE} and ${EL_NAMEABLES_LIST}
-	]"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			Hash   :  82205.0 times (100%)
-			Binary :  77787.0 times (-5.4%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 9:50:53 GMT (Sunday 22nd September 2024)"
-	revision: "12"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "13"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_SEARCH

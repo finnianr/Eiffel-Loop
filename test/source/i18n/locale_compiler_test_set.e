@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:16:50 GMT (Sunday 22nd September 2024)"
-	revision: "27"
+	date: "2024-10-05 10:43:54 GMT (Saturday 5th October 2024)"
+	revision: "28"
 
 class
 	LOCALE_COMPILER_TEST_SET
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 			across type_list as list loop
 				selected_files.extend (list.item.name.as_lower + ".pyx")
 			end
-			Result := OS.filtered_file_list (Data_dir, "*.pyx", Filter.base_name_in (selected_files))
+			Result := OS.filtered_file_list (Data_dir, Filter.base_name_in (selected_files), "*.pyx")
 		end
 
 feature {NONE} -- Constants

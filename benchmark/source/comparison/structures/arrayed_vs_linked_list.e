@@ -1,19 +1,13 @@
 note
 	description: "Compare filling ${LINKED_LIST} with filling ${ARRAYED_LIST}"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			ARRAYED_LIST : 16331.0 times (100%)
-			LINKED_LIST  :   495.0 times (-97.0%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "8"
 
 class
 	ARRAYED_VS_LINKED_LIST

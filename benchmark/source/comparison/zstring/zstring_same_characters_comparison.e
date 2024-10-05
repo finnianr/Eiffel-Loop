@@ -1,24 +1,12 @@
 note
-	description: "[
-		Once off benchmark to determine best algorithm for ${ZSTRING}.same_characters_zstring
-	]"
-	notes: "[
-		Passes over 1000 millisecs (in descending order)
-
-			same_characters_zstring_1 : 1257379.0 times (100%)
-			same_characters_zstring   :  952833.0 times (-24.2%)
-			same_characters_zstring_2 :  115465.0 times (-90.8%)
-
-		See archived source: doc/code/el_comparable_zstring.e
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:05:30 GMT (Friday 20th September 2024)"
-	revision: "14"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "15"
 
 class
 	ZSTRING_SAME_CHARACTERS_COMPARISON

@@ -53,4 +53,3 @@ feature {NONE} -- Constants
 	Escape_character: CHARACTER_32 = '\'
 
 end
-

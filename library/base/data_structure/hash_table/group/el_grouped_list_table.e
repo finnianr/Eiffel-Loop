@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-26 8:17:01 GMT (Thursday 26th September 2024)"
-	revision: "12"
+	date: "2024-10-05 17:20:25 GMT (Saturday 5th October 2024)"
+	revision: "13"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -22,6 +22,7 @@ class
 inherit
 	EL_HASH_TABLE [SPECIAL [G], K]
 		rename
+			item_area as item_area_array,
 			item as item_area alias "[]",
 			item_for_iteration as item_area_for_iteration,
 			extend as extend_area,

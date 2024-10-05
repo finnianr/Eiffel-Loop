@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 18:51:53 GMT (Sunday 8th September 2024)"
-	revision: "50"
+	date: "2024-10-05 17:07:52 GMT (Saturday 5th October 2024)"
+	revision: "51"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -30,7 +30,9 @@ inherit
 			joined as joined_list,
 			last_item as last_item_copy
 		undefine
-			do_all, do_if, find_first_equal, find_next_item, for_all, to_array, there_exists, search
+			do_all, do_if, for_all, item_area, to_array, there_exists,
+		-- cursor movement
+			find_first_equal, find_next_item,  search
 		redefine
 			make_empty
 		end
@@ -39,7 +41,8 @@ inherit
 		rename
 			item as item_copy
 		undefine
-			copy, character_count, do_meeting, has, is_equal, off, out, occurrences, push_cursor, pop_cursor
+			count, copy, character_count, do_meeting, has, is_equal, off, out, occurrences,
+			push_cursor, pop_cursor
 		redefine
 			character_count
 		end

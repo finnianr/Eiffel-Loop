@@ -1,17 +1,12 @@
 note
-	description: "[
-		${EL_NATURAL_32_BIT_ROUTINES} that calculates **shift_count** using branching algorithm described on 
-		[https://stackoverflow.com/questions/31601190/given-a-bit-mask-how-to-compute-bit-shift-count Stackoverflow]
-		article
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "6"
 
 expanded class
 	NATURAL_32_BIT_ROUTINES_V3

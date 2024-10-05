@@ -1,30 +1,12 @@
 note
-	description: "[
-		Compare ${ZSTRING}.substring_index_list VS ${ZSTRING}.substring_intervals
-	]"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			index_list (Cyrillic)         : 151758.0 times (100%)
-			intervals (Cyrillic)          : 131546.0 times (-13.3%)
-			index_list_general (Cyrillic) :  90794.0 times (-40.2%)
-
-			index_list_general (space)   :  42298.0 times (-72.1%)
-			intervals (space)            :  40345.0 times (-73.4%)
-			index_list (space)           :  25531.0 times (-83.2%)
-
-			index_list                   :  35202.0 times (-76.8%)
-			index_list_general           :  26918.0 times (-82.3%)
-			intervals                    :  26282.0 times (-82.7%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:14:41 GMT (Friday 20th September 2024)"
-	revision: "18"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "19"
 
 class
 	ZSTRING_INTERVAL_SEARCH_COMPARISON

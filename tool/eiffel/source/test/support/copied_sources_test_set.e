@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 15:30:33 GMT (Wednesday 25th September 2024)"
-	revision: "8"
+	date: "2024-10-05 12:41:36 GMT (Saturday 5th October 2024)"
+	revision: "9"
 
 deferred class
 	COPIED_SOURCES_TEST_SET
@@ -59,22 +59,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	source_file_list: EL_FILE_PATH_LIST
-		local
-			files: like selected_files; source_path: DIR_PATH
+	has_latin_1_for_ano (line: STRING): BOOLEAN
+		-- `True' for line
+		-- 	string_literal ("año"),
 		do
-			files := selected_files
-			source_path := Sources_dir.plus_dir (Sources_sub_dir)
-			if files.is_empty then
-				Result := OS.file_list (source_path, "*.e")
-			else
-				Result := OS.filtered_file_list (source_path, "*.e", Filter.base_name_in (files))
-			end
-		end
-
-	selected_files: ARRAY [STRING]
-		do
-			create Result.make_empty
+			Result := line.has_substring ("año")
 		end
 
 	has_utf_8_for_0xA1 (line: STRING): BOOLEAN
@@ -89,18 +78,41 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	has_latin_1_for_ano (line: STRING): BOOLEAN
-		-- `True' for line
-		-- 	string_literal ("año"),
+	no_selected_files: ARRAY [STRING]
 		do
-			Result := line.has_substring ("año")
+			create Result.make_empty
+		end
+
+	source_file_list: EL_FILE_PATH_LIST
+		local
+			new_file_list: FUNCTION [DIR_PATH, EL_FILE_PATH_LIST]
+		do
+			create Result.make (50)
+			if attached selected_files as files and then files.count > 0 then
+				new_file_list := agent OS.filtered_file_list (?, Filter.base_name_in (files), Star_dot_e)
+			else
+				new_file_list := agent OS.file_list (?, Star_dot_e)
+			end
+			across sources_list as list loop
+				Result.append (new_file_list (list.item))
+			end
+		end
+
+feature -- Deferred
+
+	selected_files: ARRAY [STRING]
+		deferred
+		end
+
+	sources_list: ARRAY [DIR_PATH]
+		deferred
 		end
 
 feature {NONE} -- Path constants
 
-	Latin_1_sources_dir: DIR_PATH
+	Manifest_path: FILE_PATH
 		once
-			Result := Sources_dir #+ "latin-1"
+			Result := Work_area_dir + "manifest.pyx"
 		end
 
 	Sources_dir: DIR_PATH
@@ -108,23 +120,18 @@ feature {NONE} -- Path constants
 			Result := "test-data/sources"
 		end
 
-	Sources_sub_dir: DIR_PATH
-		-- directory relative to `Sources_dir'
+	Source: TUPLE [feature_edits_dir, latin_1_dir, utf_8_dir: DIR_PATH]
 		once
 			create Result
-		end
-
-	Manifest_path: FILE_PATH
-		once
-			Result := Work_area_dir + "manifest.pyx"
-		end
-
-	Utf_8_sources_dir: DIR_PATH
-		once
-			Result := Sources_dir #+ "utf-8"
+			across ("feature-edits, latin-1, utf-8").split (',') as name loop
+				name.item.left_adjust
+				Result.put_reference (Sources_dir #+ name.item, name.cursor_index)
+			end
 		end
 
 feature {NONE} -- Constants
+
+	Star_dot_e: STRING = "*.e"
 
 	Encoding_sample: TUPLE [utf_8, latin_1: ZSTRING]
 		once

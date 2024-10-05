@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-12 9:56:59 GMT (Tuesday 12th March 2024)"
-	revision: "7"
+	date: "2024-10-05 10:56:39 GMT (Saturday 5th October 2024)"
+	revision: "8"
 
 class
 	CLASS_FILE_NAME_NORMALIZER_TEST_SET
 
 inherit
 	COPIED_SOURCES_TEST_SET
-		redefine
-			Sources_sub_dir
+		rename
+			selected_files as no_selected_files
 		end
 
 create
@@ -53,10 +53,10 @@ feature -- Tests
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Sources_sub_dir: DIR_PATH
-		once
-			Result := "latin-1/os-command"
+	sources_list: ARRAY [DIR_PATH]
+		do
+			Result := << Source.latin_1_dir #+ "os-command" >>
 		end
 end

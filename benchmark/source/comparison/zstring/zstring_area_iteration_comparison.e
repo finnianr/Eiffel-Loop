@@ -1,27 +1,12 @@
 note
-	description: "[
-		Compare methods of iterating over ${ZSTRING}.area
-	]"
-	notes: "[
-		Passes over 1000 millisecs (in descending order)
-
-			inspect c when Substitute    : 15825027.0 times (100%)
-			inspect c [i]                : 15816345.0 times (-0.1%)
-			inspect character_8_band (c) : 15806990.0 times (-0.1%)
-			inspect type [c.code]        : 15302217.0 times (-3.3%)
-			if c [i] = Substitute        :  1720470.0 times (-89.1%)
-			if c = Substitute            :  1717592.0 times (-89.1%)
-			inspect c.code |>> 7         :  1717303.0 times (-89.1%)
-			inspect c.code // 0x80       :  1713894.0 times (-89.2%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 20:04:14 GMT (Saturday 31st August 2024)"
-	revision: "28"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "29"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON

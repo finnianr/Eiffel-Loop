@@ -76,4 +76,3 @@ feature {NONE} -- Constants
 		end
 
 end
-

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 8:17:56 GMT (Wednesday 24th April 2024)"
-	revision: "32"
+	date: "2024-10-05 10:41:58 GMT (Saturday 5th October 2024)"
+	revision: "33"
 
 class
 	EL_OS_ROUTINES
@@ -158,7 +158,7 @@ feature -- File query
 		end
 
 	filtered_file_list (
-		a_dir_path: DIR_PATH; a_file_pattern: READABLE_STRING_GENERAL; condition: EL_QUERY_CONDITION [ZSTRING]
+		a_dir_path: DIR_PATH; condition: EL_QUERY_CONDITION [ZSTRING]; a_file_pattern: READABLE_STRING_GENERAL
 	): EL_FILE_PATH_LIST
 			-- list of paths that meet filter `condition'
 			-- Use `Filter.*' routines in class `EL_SHARED_FIND_FILE_FILTER_FACTORY'

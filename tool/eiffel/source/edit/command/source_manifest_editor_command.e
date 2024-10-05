@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-10-05 11:59:19 GMT (Saturday 5th October 2024)"
+	revision: "11"
 
 deferred class
 	SOURCE_MANIFEST_EDITOR_COMMAND
@@ -17,6 +17,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_STRING_GENERAL_ROUTINES
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 

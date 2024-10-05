@@ -40,4 +40,3 @@ feature {NONE} -- Implementation
 		end
 
 end
-

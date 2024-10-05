@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-10-05 8:18:09 GMT (Saturday 5th October 2024)"
+	revision: "5"
 
 class
 	NOTE_DATE_FIXER_APP
@@ -19,18 +19,11 @@ class
 inherit
 	NOTE_EDITOR_APP
 		redefine
-			command, Option_name
+			command
 		end
 
 feature {NONE} -- Implementation
 
 	command: NOTE_DATE_FIXER_COMMAND
-
-feature {NONE} -- Constants
-
-	Option_name: STRING
-		once
-			Result := "date_fixer"
-		end
 
 end

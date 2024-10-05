@@ -1,33 +1,12 @@
 note
-	description: "[
-		Question: at what point does a linear search of an ${INTEGER_32} array
-		stop being faster than a hash set?
-		
-		Answer: count > 10
-	]"
-	notes: "[
-		Passes over 1000 millisecs (in descending order)
-
-			Compare for size = 10
-			ARRAYED_SET [INTEGER] : 1664446.0 times (100%)
-			EL_HASH_SET [INTEGER] : 1078065.0 times (-35.2%)
-
-			Compare for size = 20
-			ARRAYED_SET [INTEGER] :  822518.0 times (100%)
-			EL_HASH_SET [INTEGER] :  558498.0 times (-32.1%)
-
-			Compare for size = 200
-			EL_HASH_SET [INTEGER] :  58339.0 times (100%)
-			ARRAYED_SET [INTEGER] :  33487.0 times (-42.6%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "14"
 
 class
 	ARRAYED_VS_HASH_SET_SEARCH

@@ -1,21 +1,13 @@
 note
 	description: "Compare various ways of concatenating strings"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			append to once buffer         :  66567.0 times (100%)
-			append to across scope buffer :  57946.0 times (-13.0%)
-			append to empty result        :  35617.0 times (-46.5%)
-
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 12:15:56 GMT (Monday 15th January 2024)"
-	revision: "13"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "14"
 
 class
 	STRING_CONCATENATION_COMPARISON

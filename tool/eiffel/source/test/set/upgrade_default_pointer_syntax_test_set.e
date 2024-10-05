@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-10-05 10:57:20 GMT (Saturday 5th October 2024)"
+	revision: "10"
 
 class
 	UPGRADE_DEFAULT_POINTER_SYNTAX_TEST_SET
 
 inherit
 	COPIED_SOURCES_TEST_SET
-		redefine
-			Sources_sub_dir
+		rename
+			selected_files as no_selected_files
 		end
 
 create
@@ -27,7 +27,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["syntax_change", agent test_syntax_change]
+				["syntax_change",	agent test_syntax_change]
 			>>)
 		end
 
@@ -47,11 +47,11 @@ feature -- Tests
 			end
 		end
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Sources_sub_dir: DIR_PATH
-		once
-			Result := "latin-1/kernel"
+	sources_list: ARRAY [DIR_PATH]
+		do
+			Result := << Source.latin_1_dir #+ "kernel" >>
 		end
 
 end

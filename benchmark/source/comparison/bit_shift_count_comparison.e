@@ -1,31 +1,12 @@
 note
-	description: "[
-		Compare methods to caculated shift count for a bit-mask in descendants of [EL_NUMERIC_BIT_ROUTINES]
-	]"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			NATURAL de Bruijn method    : 1066.0 times (100%)
-			NATURAL built-in C function : 1062.0 times (-0.4%)
-			NATURAL branching method    :  209.0 times (-80.4%)
-			NATURAL iterative shift     :  108.0 times (-89.9%)
-
-		**Bit-routine classes**
-
-			EL_NUMERIC_BIT_ROUTINES*
-				${EL_NATURAL_32_BIT_ROUTINES} (built-in C)
-					${NATURAL_32_BIT_ROUTINES_V1} (iterative shift)
-					${NATURAL_32_BIT_ROUTINES_V2} (De Bruijn)
-					${NATURAL_32_BIT_ROUTINES_V3} (branching)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "7"
 
 class
 	BIT_SHIFT_COUNT_COMPARISON

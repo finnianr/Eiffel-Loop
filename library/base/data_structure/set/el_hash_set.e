@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 15:14:18 GMT (Monday 30th September 2024)"
-	revision: "32"
+	date: "2024-10-05 14:41:30 GMT (Saturday 5th October 2024)"
+	revision: "33"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -30,7 +30,7 @@ inherit
 			current_container as current_table,
 			intersection as intersection_query
 		undefine
-			copy, is_equal, object_comparison
+			count, copy, is_equal, object_comparison
 		end
 
 	ITERABLE [H]
@@ -93,7 +93,7 @@ feature {NONE} -- Initialization
 	make_from (container: CONTAINER [H]; a_object_comparison: BOOLEAN)
 		do
 			if attached as_structure (container) as structure then
-				make (structure.current_count)
+				make (structure.count)
 
 		-- May `object_comparison' be changed ?
 		-- (Answer: only if set empty; otherwise insertions might

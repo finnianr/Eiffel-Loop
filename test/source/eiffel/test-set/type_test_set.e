@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-21 8:47:07 GMT (Saturday 21st September 2024)"
-	revision: "16"
+	date: "2024-10-05 14:08:01 GMT (Saturday 5th October 2024)"
+	revision: "17"
 
 class
 	TYPE_TEST_SET
@@ -18,6 +18,8 @@ inherit
 	EL_MODULE_EIFFEL
 
 	EL_SHARED_FACTORIES
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make
@@ -57,6 +59,7 @@ feature -- Tests
 		end
 
 	test_type_and_type_name_caching
+		-- TYPE_TEST_SET.test_type_and_type_name_caching
 		local
 			t1, t2: TYPE [READABLE_STRING_32]
 			name_1, name_2: IMMUTABLE_STRING_8
@@ -64,6 +67,8 @@ feature -- Tests
 			t1 := {EL_ZSTRING}; t2 := {EL_ZSTRING}
 			name_1 := t1.name; name_2 := t2.name
 			assert ("same instance", t1 = t2)
+			assert ("same instance", t1 = zstring_type)
+			assert ("same as generating_type", t1 = Empty_string.generating_type)
 			assert ("same instance", name_1 = name_2)
 
 			if attached {TYPE [READABLE_STRING_32]} Eiffel.type_of_type (t1.type_id) as t3 then
@@ -105,6 +110,13 @@ feature -- Basic operations
 		do
 			lio.put_labeled_string ("FFT_COMPLEX_DOUBLE", Eros_factory.valid_name ("FFT_COMPLEX_64").out)
 			lio.put_new_line
+		end
+
+feature {NONE} -- Implementation
+
+	zstring_type: TYPE [READABLE_STRING_32]
+		do
+			Result := {ZSTRING}
 		end
 
 feature {NONE} -- Constants

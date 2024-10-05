@@ -1,25 +1,13 @@
 note
 	description: "Compare ${EL_COMPACT_SUBSTRINGS_32} iteration methods"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			COMPACT_SUBSTRINGS_32_C_EXTERNAL :  3980.0 times (100%)
-			EL_COMPACT_SUBSTRINGS_32_ITERATION       :  3974.0 times (-0.2%)
-			COMPACT_SUBSTRINGS_32_INDEX             :  3356.0 times (-15.7%)
-
-		**Conclusion**
-
-		Using external C routine to get/set integer from pointer is only marginally faster (0.2%) than using
-		${POINTER} routines.
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:06:16 GMT (Friday 20th September 2024)"
-	revision: "9"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "10"
 
 class
 	COMPACT_SUBSTRINGS_32_ITERATION_COMPARISON

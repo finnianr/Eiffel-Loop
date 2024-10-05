@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:42 GMT (Thursday 5th September 2024)"
-	revision: "58"
+	date: "2024-10-05 14:38:40 GMT (Saturday 5th October 2024)"
+	revision: "59"
 
 deferred class EL_CHAIN [G]
 
@@ -23,7 +23,7 @@ inherit
 
 	EL_LINEAR [G]
 		undefine
-			search, has, occurrences, off
+			count, search, has, occurrences, off
 		redefine
 			find_first_equal
 		end

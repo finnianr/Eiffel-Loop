@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 12:52:05 GMT (Thursday 12th September 2024)"
-	revision: "12"
+	date: "2024-10-05 14:39:29 GMT (Saturday 5th October 2024)"
+	revision: "13"
 
 class
 	EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -17,7 +17,7 @@ inherit
 		rename
 			accommodate as grow
 		undefine
-			is_equal, copy, is_inserted, prune_all, readable, prune, new_cursor, first, last,
+			count, copy, is_equal, is_inserted, prune_all, readable, prune, new_cursor, first, last,
 			start, finish, move, go_i_th, isfirst, islast, off, remove
 		end
 

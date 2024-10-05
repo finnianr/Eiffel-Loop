@@ -1,29 +1,12 @@
 note
-	description: "[
-		Compare XML processing using tokenized xpaths in class ${EL_CREATEABLE_FROM_XPATH_MATCH_EVENTS} 
-		versus using a regular string path in ${EL_BUILDABLE_FROM_XML}.
-	]"
-	notes: "[
-		**BENCHMARKS**
-		
-		Add total file sizes from Rhythmbox database using
-		
-		1. ${TOKENIZED_FILE_SIZE_SCANNER}
-		2. ${REGULAR_FILE_SIZE_SCANNER}
-
-		Passes over 10000 millisecs (in descending order)
-
-			Tokenized xpaths :  53.0 times (100%)
-			Regular xpaths   :  41.0 times (-22.6%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "3"
 
 class
 	TOKENIZED_STEPS_VS_XPATH_STRING

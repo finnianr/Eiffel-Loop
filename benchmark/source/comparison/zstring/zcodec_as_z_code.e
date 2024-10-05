@@ -1,19 +1,13 @@
 note
 	description: "Ways to implement ${EL_ZCODEC}.as_zcode"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			${EL_ZCODEC}.as_zcode : 3.0 times (100%)
-			Alternative method    : 3.0 times (-0.0%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 10:45:59 GMT (Sunday 14th April 2024)"
-	revision: "22"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "23"
 
 class
 	ZCODEC_AS_Z_CODE

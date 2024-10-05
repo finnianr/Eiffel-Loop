@@ -1,24 +1,13 @@
 note
 	description: "Compare 7 ways to iterate over a list"
-	notes: "[
-		Passes over 1000 millisecs (in descending order)
-
-			SPECIAL i := 0 until i = array.count    :  433066.0 times (100%)
-			SPECIAL i := 0 until i = count          :  421867.0 times (-2.6%)
-			across array as n loop                  :  371621.0 times (-14.2%)
-			from i := 1 until i > count loop        :   44563.0 times (-89.7%)
-			from i := 1 until i > array.count loop  :   43943.0 times (-89.9%)
-			array.do_all (agent increment (sum, ?)) :   42595.0 times (-90.2%)
-			from array.start until array.after loop :   41248.0 times (-90.5%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-06 11:16:07 GMT (Monday 6th February 2023)"
-	revision: "9"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "10"
 
 class
 	LIST_ITERATION_COMPARISON

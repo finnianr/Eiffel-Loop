@@ -1,15 +1,12 @@
 note
-	description: "[
-		Find sum of all `file-size' counts in rhythmdb.xml using regular xpath processing
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 10:25:46 GMT (Monday 23rd September 2024)"
-	revision: "13"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "14"
 
 class
 	REGULAR_FILE_SIZE_SCANNER

@@ -6,16 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-29 9:33:58 GMT (Wednesday 29th May 2024)"
-	revision: "32"
+	date: "2024-10-05 12:34:48 GMT (Saturday 5th October 2024)"
+	revision: "34"
 
 class
 	FEATURE_EDITOR_COMMAND_TEST_SET
 
 inherit
-	EL_COPIED_FILE_DATA_TEST_SET
+	COPIED_SOURCES_TEST_SET
+		rename
+			selected_files as no_selected_files
 		undefine
 			new_lio
+		redefine
+			on_prepare
 		end
 
 	EL_CRC_32_TESTABLE
@@ -37,6 +41,15 @@ feature {NONE} -- Initialization
 				["frozen_feature_name_sort",	 agent test_frozen_feature_name_sort],
 				["make_named_array",				 agent test_make_named_array]
 			>>)
+		end
+
+	on_prepare
+		do
+			Precursor
+			create path_table.make_equal (file_list.count)
+			across file_list  as list loop
+				path_table.extend (list.item, list.item.base_name)
+			end
 		end
 
 feature -- Tests
@@ -82,13 +95,15 @@ feature -- Tests
 		--	Test insertions for: make_named (<< ["name", agent test_<name>] >>))
 		--	and test correct BOM marker for UTF-8 encoding
 		note
-			testing: "covers/{GENERATE_MAKE_ROUTINE_FOR_EQA_TEST_SET}.expand_shorthand",
-						"covers/{CLASS_FEATURE}.adjust_manifest_tuple_tabs"
+			testing: "[
+				covers/{GENERATE_MAKE_ROUTINE_FOR_EQA_TEST_SET}.expand_shorthand,
+				covers/{CLASS_FEATURE}.adjust_manifest_tuple_tabs
+			]"
 		local
 			source_path: FILE_PATH; source_name: ZSTRING
 		do
 			source_name := Subject_line_decoder_test_set
-			source_path := Work_area_dir + (source_name + ".e")
+			source_path := new_source_path (source_name)
 
 			assert ("has bom", File.has_utf_8_bom (source_path))
 
@@ -102,23 +117,38 @@ feature {NONE} -- Implementation
 		local
 			command: FEATURE_EDITOR_COMMAND; source_path: FILE_PATH
 		do
-			source_path := Work_area_dir + (source_name + ".e")
-			assert_32 (source_path.base_name + "exists", source_path.exists)
+			source_path := new_source_path (source_name)
+			assert_32 (source_path.base_name + " exists", source_path.exists)
 			create command.make (source_path, False)
 			command.execute
 			log.put_labeled_string ("Digest", plain_text_digest (source_path).to_base_64_string)
 			log.put_new_line
 		end
 
-	source_file_list: EL_FILE_PATH_LIST
+	new_source_path (source_name: ZSTRING): FILE_PATH
 		do
-			Result := OS.file_list (Data_dir, "*.e")
+			if path_table.has_key (source_name) then
+				Result := path_table.found_item
+			else
+				create Result
+			end
+		ensure
+			not_empty: not Result.is_empty
+		end
+
+	sources_list: ARRAY [DIR_PATH]
+		do
+			Result := << Source.feature_edits_dir >>
 		end
 
 	to_list (name_tuple: TUPLE): EL_ZSTRING_LIST
 		do
 			create Result.make_from_tuple (name_tuple)
 		end
+
+feature {NONE} -- Internal attributes
+
+	path_table: EL_ZSTRING_HASH_TABLE [FILE_PATH]
 
 feature {NONE} -- File sets
 
@@ -152,7 +182,7 @@ feature {NONE} -- File sets
 
 feature {NONE} -- Constants
 
-	Checksum_table: EL_HASH_TABLE [NATURAL, ZSTRING]
+	Checksum_table: EL_ZSTRING_HASH_TABLE [NATURAL]
 		once
 			create Result.make_equal (11)
 			Result [Name.copy_file_impl] := 2668348354
@@ -165,11 +195,6 @@ feature {NONE} -- Constants
 			Result [Id3_tag_frame_cpp_api] := 1015425037
 			Result [Subject_line_decoder_test_set] := 4229313028
 			Result [Pixmap_imp_drawable] := 3427172657
-		end
-
-	Data_dir: DIR_PATH
-		once
-			Result := "test-data/sources/feature-edits"
 		end
 
 end

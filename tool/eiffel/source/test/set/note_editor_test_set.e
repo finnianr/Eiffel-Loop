@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 16:06:46 GMT (Sunday 8th September 2024)"
-	revision: "43"
+	date: "2024-10-05 12:42:55 GMT (Saturday 5th October 2024)"
+	revision: "44"
 
 class
 	NOTE_EDITOR_TEST_SET
@@ -74,8 +74,11 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_editor_with_new_class
+		-- NOTE_EDITOR_TEST_SET.test_editor_with_new_class
 		note
-			testing:	"covers/{SOURCE_MANIFEST}.make_from_file, covers/{NOTE_EDITOR}.edit"
+			testing:	"[
+				covers/{SOURCE_MANIFEST}.make_from_file, covers/{NOTE_EDITOR}.edit
+			]"
 		local
 			encoding, encoding_after: STRING; crc: NATURAL
 			old_revision, new_revision: INTEGER_REF; time: EL_TIME_ROUTINES
@@ -93,6 +96,8 @@ feature -- Tests
 				lio.put_new_line
 				editor.set_file_path (path.item)
 				editor.edit
+				assert_valid_checksum (path.item)
+
 				encoding_after := encoding_name (path.item)
 				lio.put_labeled_string ("Encoding after edit", encoding_after)
 				lio.put_new_line
@@ -165,15 +170,36 @@ feature {NONE} -- Line states
 
 feature {NONE} -- Implementation
 
+	assert_valid_checksum (file_path: FILE_PATH)
+		do
+			if Checksum_table.has_key (file_path.base) then
+				assert ("valid content", dateless_crc_32 (file_path) = Checksum_table.found_item)
+			else
+				failed ("find checksum")
+			end
+		end
+
 	crc_32 (file_path: FILE_PATH): NATURAL
 		local
-			source: STRING; crc: like crc_generator
+			source_text: STRING; crc: like crc_generator
 		do
 			crc := crc_generator
-			source := File.plain_text (file_path)
-			source.remove_head (source.substring_index ("%Nclass", 1))
-			crc.add_string_8 (source)
+			source_text := File.plain_text (file_path)
+			source_text.remove_head (source_text.substring_index ("%Nclass", 1))
+			crc.add_string_8 (source_text)
 			Result := crc.checksum
+		end
+
+	dateless_crc_32 (file_path: FILE_PATH): NATURAL
+		do
+			if attached crc_generator as crc then
+				across File.plain_text_lines (file_path) as line loop
+					if not line.item.starts_with (Date_pattern) then
+						crc.add_string_8 (line.item)
+					end
+				end
+				Result := crc.checksum
+			end
 		end
 
 	encoding_name (file_path: FILE_PATH): STRING
@@ -202,8 +228,12 @@ feature {NONE} -- Implementation
 
 	selected_files: ARRAY [STRING]
 		do
-			-- UTF-8 + Latin-1
 			Result := << Encoding_sample.utf_8, Encoding_sample.latin_1 >>
+		end
+
+	sources_list: ARRAY [DIR_PATH]
+		do
+			Result := << Source.latin_1_dir, Source.utf_8_dir >>
 		end
 
 feature {NONE} -- Internal attributes
@@ -216,6 +246,13 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
+	Checksum_table: EL_ZSTRING_HASH_TABLE [NATURAL]
+		once
+			create Result.make_equal (3)
+			Result [Encoding_sample.latin_1] := 2097248452
+			Result [Encoding_sample.utf_8] := 1161804740
+		end
+
 	Default_fields: EL_ZSTRING_LIST
 		once
 			create Result.make_with_lines ("[
@@ -224,15 +261,6 @@ feature {NONE} -- Constants
 				revision: "$Revision$"
 			]")
 			Result.indent (1)
-		end
-
-	Empty_manifest: ZSTRING
-		once
-			Result := "[
-				pyxis-doc:
-					version = 1.0; encoding = "ISO-8859-15"
-				manifest:
-			]"
 		end
 
 end

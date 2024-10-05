@@ -1,15 +1,12 @@
 note
-	description: "[
-		Provides access to shared string iteration cursor for string conforming to ${READABLE_STRING_GENERAL}
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 12:46:09 GMT (Monday 26th August 2024)"
-	revision: "3"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "4"
 
 class
 	STRING_ITERATION_CURSOR_TABLE

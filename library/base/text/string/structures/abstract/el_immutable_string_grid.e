@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:53:21 GMT (Monday 23rd September 2024)"
-	revision: "9"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "10"
 
 deferred class
 	EL_IMMUTABLE_STRING_GRID [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]

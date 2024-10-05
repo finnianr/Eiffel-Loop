@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 15:16:09 GMT (Monday 30th September 2024)"
-	revision: "74"
+	date: "2024-10-05 17:03:09 GMT (Saturday 5th October 2024)"
+	revision: "77"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -37,12 +37,21 @@ inherit
 	EL_CHAIN [G]
 		rename
 			accommodate as grow
+		export
+			{NONE} do_for_all
 		undefine
-			off, occurrences, has, do_all, do_if, there_exists, for_all, is_equal, search, copy,
-			i_th, at, last, first, valid_index, is_inserted, move, start, finish, go_i_th, put_i_th,
-			force, append_sequence, prune, prune_all, remove, swap, new_cursor, to_array, order_by
+			do_all, do_if, for_all, search, copy, order_by, occurrences, to_array,
+		-- Query
+			has, is_inserted, is_equal, off, valid_index, there_exists,
+		-- item query
+			i_th, at, last, first, put_i_th,
+		-- cursor movement
+			start, finish, go_i_th, new_cursor, move,
+		-- Element change
+			force, append_sequence, prune, prune_all, remove, swap
 		redefine
-			find_next_item, joined, push_cursor, pop_cursor
+			find_next_item, item_area, joined,
+			push_cursor, pop_cursor
 		end
 
 create
@@ -94,10 +103,12 @@ feature {NONE} -- Initialization
 		-- initialize from `container' items
 		do
 			if attached as_structure (container) as structure then
-				make_from_special (structure.to_count_special)
+				make_from_special (structure.to_special)
 			else
 				make_empty
 			end
+		ensure
+			copied_area: attached {EL_ARRAYED_LIST [G]} container as list implies area /= list.area
 		end
 
 	make_from_for (container: CONTAINER [G]; condition: EL_QUERY_CONDITION [G])
@@ -473,6 +484,11 @@ feature {EL_ARRAYED_LIST} -- Implementation
 				end
 			end
 			index := i + 1
+		end
+
+	item_area: SPECIAL [G]
+		do
+			Result := area_v2
 		end
 
 	reorder (sorted: EL_SORTED_INDEX_LIST)

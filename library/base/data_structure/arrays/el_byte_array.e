@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 14:49:59 GMT (Thursday 4th April 2024)"
-	revision: "14"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "15"
 
 class
 	EL_BYTE_ARRAY

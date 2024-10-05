@@ -2,11 +2,11 @@ note
 	description: "Github manager shell command"
 	notes: "[
 		Use this command to [https://git-scm.com/book/en/v2/Git-Tools-Credential-Storage setup credentials store]
-		
+
 			git config --global credential.helper store
-			
+
 		~/.git-credentials
-		
+
 			https://<user>:<PAT>@github.com
 	]"
 
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 15:21:39 GMT (Wednesday 25th September 2024)"
-	revision: "41"
+	date: "2024-10-04 12:19:19 GMT (Friday 4th October 2024)"
+	revision: "43"
 
 class
 	GITHUB_MANAGER_SHELL_COMMAND
@@ -76,26 +76,6 @@ feature {NONE} -- Commands
 			end
 		end
 
-	git_push_origin_master
-		local
-			push_cmd: EL_OS_COMMAND
-		do
-			across << True, False >> as is_plain_text loop
-				File.write_text (Credentials_path, config.new_credentials_text (is_plain_text.item))
-				if is_plain_text.item then
-					create push_cmd.make ("git push -u origin master")
-					push_cmd.set_working_directory (config.github_dir)
-					push_cmd.execute
-					if push_cmd.has_error then
-						push_cmd.print_error ("pushing to master")
-					else
-						lio.put_labeled_string ("push", "DONE")
-						lio.put_new_line
-					end
-				end
-			end
-		end
-
 	git_force_push_origin
 		-- force-push the new HEAD commit (DANGEROUS so not in menu)
 		-- (Used after rolling back the most recent commit locally with: git reset HEAD^ )
@@ -144,6 +124,33 @@ feature {NONE} -- Commands
 						lio.put_new_line
 					end
 					lio.put_new_line
+				end
+			end
+		end
+
+	git_push_origin_master (option: STRING)
+		local
+			push_cmd: EL_OS_COMMAND; permitted: BOOLEAN
+		do
+			if option.has ('f') then
+				permitted := User_input.approved_action_y_n ("Are you sure you want to force it?")
+			else
+				permitted := True
+			end
+			if permitted then
+				across << True, False >> as is_plain_text loop
+					File.write_text (Credentials_path, config.new_credentials_text (is_plain_text.item))
+					if is_plain_text.item then
+						create push_cmd.make ("git push " + option + " origin master")
+						push_cmd.set_working_directory (config.github_dir)
+						push_cmd.execute
+						if push_cmd.has_error then
+							push_cmd.print_error ("pushing to master")
+						else
+							lio.put_labeled_string ("push", "DONE")
+							lio.put_new_line
+						end
+					end
 				end
 			end
 		end
@@ -205,7 +212,8 @@ feature {NONE} -- Factory
 				["Update personal access token",	agent update_personal_access_token],
 				["git add + commit",					agent git_commit],
 				["git log --after='X'",				agent git_log],
-				["git push -u origin master",		agent git_push_origin_master]
+				["git push -u origin master",		agent git_push_origin_master ("-u")],
+				["Force git push",					agent git_push_origin_master ("--force")]
 			>>)
 		end
 
@@ -289,17 +297,31 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	deletion_count: INTEGER
-
 	config: GITHUB_CONFIGURATION
 
 	config_path: FILE_PATH
+
+	deletion_count: INTEGER
 
 	manifest: SOURCE_MANIFEST
 
 	source_change_table: EL_COUNTER_TABLE [ZSTRING]
 
 feature {NONE} -- Constants
+
+	Access_token_template: ZSTRING
+		once
+			Result := "[
+				encrypted_access_token:
+					"#"
+				
+				credential:
+					salt:
+						"#"
+					digest:
+						"#"
+			]"
+		end
 
 	Credentials_path: FILE_PATH
 		once
@@ -314,20 +336,6 @@ feature {NONE} -- Constants
 	Dry_run: ZSTRING
 		once
 			Result := "(DRY RUN)"
-		end
-
-	Access_token_template: ZSTRING
-		once
-			Result := "[
-				encrypted_access_token:
-					"#"
-				
-				credential:
-					salt:
-						"#"
-					digest:
-						"#"
-			]"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 16:11:33 GMT (Sunday 8th September 2024)"
-	revision: "9"
+	date: "2024-10-05 11:02:43 GMT (Saturday 5th October 2024)"
+	revision: "10"
 
 class
 	NOTE_CONSTANTS
@@ -17,12 +17,9 @@ inherit
 
 feature {NONE} -- Eiffel note constants
 
-	Date_time_code: DATE_TIME_CODE_STRING
-		once
-			create Result.make (Date_time_format)
-		end
-
 	Date_time_format: STRING = "yyyy-[0]mm-[0]dd hh:[0]mi:[0]ss"
+
+	Date_pattern: STRING = "%Tdate: %""
 
 	Field: TUPLE [description, author, copyright, contact, license, date, revision: IMMUTABLE_STRING_8]
 		-- in the order in which they should appear

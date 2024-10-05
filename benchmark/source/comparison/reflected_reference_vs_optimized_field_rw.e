@@ -1,20 +1,12 @@
 note
-	description: "[
-		Compare optimized way of field read/write by reflection to the original
-		implementation of ${EL_REFLECTED_FIELD}
-	]"
-	notes: "[
-		For basic getting/setting fields the original implementation of ${EL_REFLECTED_INTEGER_32} was
-		97% slower than the current optimized version.
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "4"
 
 class
 	REFLECTED_REFERENCE_VS_OPTIMIZED_FIELD_RW

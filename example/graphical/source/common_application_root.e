@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 16:36:52 GMT (Tuesday 24th September 2024)"
-	revision: "23"
+	date: "2024-10-04 11:03:44 GMT (Friday 4th October 2024)"
+	revision: "24"
 
 deferred class
 	COMMON_APPLICATION_ROOT
@@ -26,7 +26,11 @@ inherit
 
 feature {NONE} -- Compile extra
 
-	cairo: TUPLE [CAIRO_SHARED_GDK_API, CAIRO_SHARED_GDK_PIXBUF_API]
+	cairo: TUPLE [
+		CAIRO_FAST_SCALE_DRAWING_AREA,
+		CAIRO_PANGO_FONT_FAMILIES,
+		CAIRO_SHARED_GDK_API, CAIRO_SHARED_GDK_PIXBUF_API
+	]
 		do
 			create Result
 		end

@@ -1,24 +1,13 @@
 note
 	description: "Compare methods to caculate population of 1's in ${NATURAL_64}"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			gcc built-in                   :  5745.0 times (100%)
-			Precomputed pop count for byte :  3785.0 times (-34.1%)
-			Precomputed pop count ver 3    :  3251.0 times (-43.4%)
-			Precomputed pop count ver 2    :  2941.0 times (-48.8%)
-			Alternating leading / trailing :  1365.0 times (-76.2%)
-			Inspect 4 bits per shift       :  1107.0 times (-80.7%)
-			Nested 64, 32, 16, 8, inspect  :   631.0 times (-89.0%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "11"
 
 class
 	BIT_POP_COUNT_COMPARISON

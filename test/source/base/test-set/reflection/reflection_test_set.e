@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:18:41 GMT (Monday 23rd September 2024)"
-	revision: "69"
+	date: "2024-10-03 16:51:39 GMT (Thursday 3rd October 2024)"
+	revision: "70"
 
 class
 	REFLECTION_TEST_SET
@@ -58,7 +58,8 @@ feature {NONE} -- Initialization
 				["reflective_string_table",			  agent test_reflective_string_table],
 				["set_from_other",						  agent test_set_from_other],
 				["size_reporting",						  agent test_size_reporting],
-				["substituted_type_id",					  agent test_substituted_type_id]
+				["substituted_type_id",					  agent test_substituted_type_id],
+				["value_list",								  agent test_value_list]
 			>>)
 		end
 
@@ -588,6 +589,20 @@ feature -- Tests
 			assert_same_string (Void,
 				{ISE_RUNTIME}.generating_type_of_type (type_id), "EL_MAKEABLE_FACTORY [EL_UUID]"
 			)
+		end
+
+	test_value_list
+		note
+			testing: "[
+				covers/{EL_FIELD_TABLE}.value_list_for,
+				covers/{EL_REFLECTIVE}.value_list_for,
+				covers/{EL_CONTAINER_STRUCTURE}.derived_list
+			]"
+		local
+			options: MICROSOFT_COMPILER_OPTIONS
+		do
+			create options.make_default
+			assert_same_string (Void, options.as_switch_string, "/x64 /Release /win7")
 		end
 
 feature {NONE} -- Implementation

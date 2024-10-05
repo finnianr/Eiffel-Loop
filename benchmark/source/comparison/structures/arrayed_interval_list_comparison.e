@@ -1,35 +1,12 @@
 note
-	description: "[
-		Compare arrayed intervals implemented as ${INTEGER_64} vs ${INTEGER_32} x 2
-	]"
-	notes: "[
-		Benchmark: compare extend
-
-			Passes over 1000 millisecs (in descending order)
-			create intervals INTEGER_32 :  558379.0 times (100%)
-			create intervals INTEGER_64 :  519712.0 times (-6.9%)
-
-		Benchmark: compare item_lower
-
-			Passes over 1000 millisecs (in descending order)
-			item_lower: INTEGER_32 :  3535518.0 times (100%)
-			item_lower: INTEGER_64 :  1408665.0 times (-60.2%)
-
-		Benchmark: compare item_count
-
-			Passes over 1000 millisecs (in descending order)
-			item_count: INTEGER_32 : 2152278.0 times (100%)
-			item_count: INTEGER_64 : 1301645.0 times (-39.5%)
-
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:03:40 GMT (Friday 20th September 2024)"
-	revision: "6"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "7"
 
 class
 	ARRAYED_INTERVAL_LIST_COMPARISON

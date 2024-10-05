@@ -1,19 +1,13 @@
 note
 	description: "Compare `${STRING_8}.item' VS `character_32_item'"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			iterate_with_item_8 : 190267.0 times (100%)
-			iterate_with_item   :   2862.0 times (-98.5%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 20:10:01 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "17"
 
 class
 	STRING_ITEM_8_VS_ITEM

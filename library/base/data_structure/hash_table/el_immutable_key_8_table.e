@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 17:08:03 GMT (Tuesday 24th September 2024)"
-	revision: "6"
+	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
+	revision: "7"
 
 class
 	EL_IMMUTABLE_KEY_8_TABLE [G]

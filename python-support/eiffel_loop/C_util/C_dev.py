@@ -70,11 +70,10 @@ class MICROSOFT_COMPILER_OPTIONS (object):
 	def as_switch_string (self):
 		# command switches string
 
-		# Nice trick to put all attributes into a list
-		option_list = [
-			'/' + opt for opt in self.__dict__.values () if not opt is self.app_compat_flags
-		]
-		result = ' '.join (option_list)
+		# Get list of all attributes
+		option_list = list (self.__dict__.values ())
+		option_list.remove (self.app_compat_flags)
+		result = ' '.join (['/' + opt for opt in option_list])
 		return result
 
 #end MICROSOFT_COMPILER_OPTIONS

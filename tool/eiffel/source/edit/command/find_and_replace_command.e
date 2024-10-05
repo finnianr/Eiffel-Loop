@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2024-10-05 11:59:40 GMT (Saturday 5th October 2024)"
+	revision: "15"
 
 class
 	FIND_AND_REPLACE_COMMAND
@@ -25,9 +25,9 @@ create
 
 feature {EL_APPLICATION} -- Initialization
 
-	make (source_manifest_path: FILE_PATH; a_find_text, a_replacement_text: ZSTRING)
+	make (source_manifest_path: FILE_PATH; a_find_text, a_replacement_text: READABLE_STRING_GENERAL)
 		do
-			find_text := a_find_text; replacement_text := a_replacement_text
+			find_text := as_zstring (a_find_text); replacement_text := as_zstring (a_replacement_text)
 			make_editor (source_manifest_path)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 10:25:57 GMT (Monday 23rd September 2024)"
-	revision: "16"
+	date: "2024-10-05 10:43:36 GMT (Saturday 5th October 2024)"
+	revision: "17"
 
 class
 	BENCHMARK_HTML
@@ -89,7 +89,7 @@ feature {NONE} -- Implemenation
 		do
 			create Result.make_equal (11)
 			has_string_or_benchmark := Filter.predicate (agent base_name_has_words (?, << "string", "benchmark" >>))
-			across OS.filtered_file_list ("source/benchmark", "*.e", has_string_or_benchmark) as path loop
+			across OS.filtered_file_list ("source/benchmark", has_string_or_benchmark, "*.e") as path loop
 				name := path.item.base.as_upper
 				name.remove_tail (2)
 				Result [name] := path.item.with_new_extension ("html")

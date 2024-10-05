@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 15:19:17 GMT (Monday 30th September 2024)"
-	revision: "34"
+	date: "2024-10-05 18:41:59 GMT (Saturday 5th October 2024)"
+	revision: "37"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -23,7 +23,9 @@ inherit
 
 	EL_CONTAINER_STRUCTURE [G]
 		undefine
-			copy, default_create, is_equal, object_comparison
+			count, copy, default_create, is_equal, object_comparison
+		redefine
+			item_area
 		end
 
 	EL_CONTAINER_CONVERSION [K]
@@ -128,11 +130,11 @@ feature {NONE} -- Initialization
 			i, i_upper: INTEGER
 		do
 			if attached as_key_structure (key_container) as key_structure then
-				make (key_structure.current_count)
+				make (key_structure.count)
 				object_comparison := a_object_comparison
 
-				if attached key_structure.to_special as key_area then
-					i_upper := key_structure.current_count - 1
+				if attached key_structure.to_special_shared as key_area then
+					i_upper := key_structure.count - 1
 					from i := 0 until i > i_upper loop
 						put (to_item (key_area [i]), key_area [i])
 						check
@@ -155,11 +157,11 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	item_list, linear_representation: EL_ARRAYED_LIST [G]
+	item_area: SPECIAL [G]
 		local
-			pos, last_index: INTEGER; break: BOOLEAN; area: SPECIAL [G]
+			pos, last_index: INTEGER; break: BOOLEAN
 		do
-			create area.make_empty (count)
+			create Result.make_empty (count)
 			if attached content as l_content and then attached deleted_marks as is_deleted then
 				last_index := l_content.count - 1
 				from pos := -1 until break loop
@@ -167,11 +169,15 @@ feature -- Access
 					if pos > last_index then
 						break := True
 					else
-						area.extend (l_content [pos])
+						Result.extend (l_content [pos])
 					end
 				end
 			end
-			create Result.make_from_special (area)
+		end
+
+	item_list, linear_representation: EL_ARRAYED_LIST [G]
+		do
+			create Result.make_from_special (item_area)
 		end
 
 	key_array, current_keys: ARRAY [K]

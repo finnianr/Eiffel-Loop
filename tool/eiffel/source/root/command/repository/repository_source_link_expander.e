@@ -1,10 +1,10 @@
 note
 	description: "[
-		Use a supplied repository publishing configuration to expand `${<type-name>}' variable path in wiki-links 
+		Use a supplied repository publishing configuration to expand `${<type-name>}' variable path in wiki-links
 		containined in a wiki-markup text file. Write the expanded output to file named as follows:
-		
+
 			<file name>.expanded.<file extension>
-			
+
 		An incidental function is to expand all tabs as 3 spaces.
 	]"
 
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 7:44:35 GMT (Tuesday 4th June 2024)"
-	revision: "39"
+	date: "2024-10-04 11:07:52 GMT (Friday 4th October 2024)"
+	revision: "41"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -24,7 +24,7 @@ inherit
 		rename
 			make as make_publisher
 		redefine
-			execute
+			execute, login
 		end
 
 	EL_APPLICATION_COMMAND
@@ -89,6 +89,13 @@ feature -- Basic operations
 				end
 			end
 			file_out.new_line
+		end
+
+feature {NONE} -- Implementation
+
+	login (medium: EL_FILE_SYNC_MEDIUM)
+		do
+
 		end
 
 feature {NONE} -- Internal attributes

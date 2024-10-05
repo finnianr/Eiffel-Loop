@@ -1,21 +1,12 @@
 note
-	description: "[
-		${ZSTRING}.append_general VS ${ZSTRING}.append for ${ZSTRING} argument
-	]"
-	notes: "[
-		Passes over 500 millisecs (in descending order)
-
-			append         : 28782.0 times (100%)
-			append_general : 21594.0 times (-25.0%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:36:17 GMT (Thursday 4th April 2024)"
-	revision: "12"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "13"
 
 class
 	ZSTRING_APPEND_GENERAL_VS_APPEND

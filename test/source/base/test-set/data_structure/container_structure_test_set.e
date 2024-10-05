@@ -2,7 +2,7 @@ note
 	description: "Test set for ${EL_CONTAINER_STRUCTURE} descendants and related classes"
 	notes: "[
 		Covers various routines from the following:
-		
+
 		* ${EL_CONTAINER_STRUCTURE}
 		* ${EL_ARRAYED_RESULT_LIST}
 		* ${EL_ARRAYED_LIST}
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-01 14:35:56 GMT (Tuesday 1st October 2024)"
-	revision: "51"
+	date: "2024-10-05 17:02:00 GMT (Saturday 5th October 2024)"
+	revision: "54"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -117,7 +117,8 @@ feature -- WIDGET Tests
 				failed ("create width_list")
 			end
 			if attached {EL_ARRAYED_LIST [INTEGER]}
-				Widget_list.derived_list_if (agent {WIDGET}.width, agent {WIDGET}.is_color (Color.blue)) as blue_width_list
+					Widget_list.derived_list_if (agent {WIDGET}.width, agent {WIDGET}.is_color (Color.blue))
+				as blue_width_list
 			then
 				assert ("2 results", blue_width_list.count = 2)
 				assert ("first is 300", blue_width_list.first = 300)
@@ -529,6 +530,7 @@ feature {NONE} -- Implementation
 		local
 			table: HASH_TABLE [CHARACTER, NATURAL]; tree: BINARY_SEARCH_TREE [CHARACTER]
 			linked: LINKED_LIST [CHARACTER]; set: EL_HASH_SET [CHARACTER]
+			immutable_8: IMMUTABLE_STRING_8
 		do
 			inspect type
 				when Array_type then
@@ -594,9 +596,9 @@ feature {NONE} -- Container types
 
 	Binary_tree_type: INTEGER = 2
 
-	Hash_set_type: INTEGER = 4
+	Hash_set_type: INTEGER = 3
 
-	Hash_table_type: INTEGER = 3
+	Hash_table_type: INTEGER = 4
 
 	Linked_list_type: INTEGER = 5
 
@@ -618,11 +620,6 @@ feature {NONE} -- Constants
 			create Result.make_from_array (<<
 				[Color.red, 200], [Color.blue, 300], [Color.green, 100], [Color.blue, 500], [Color.red, 1200]
 			>>)
-		end
-
-	Widget_query: EL_QUERY_CONDITION_FACTORY [WIDGET]
-		once
-			create Result
 		end
 
 	Widget_table: EL_HASH_TABLE [WIDGET, STRING]

@@ -1,19 +1,13 @@
 note
 	description: "Compare checking if identifier is attached vs checking if boolean is true"
-	notes: "[
-		Passes over 1000 millisecs (in descending order)
-
-			Test boolean    : 26323.0 times (100%)
-			Test attachment : 23101.0 times (-12.2%)
-	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-05-24 10:39:38 GMT (Wednesday 24th May 2023)"
-	revision: "9"
+	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
+	revision: "10"
 
 class
 	ATTACH_TEST_VS_BOOLEAN_COMPARISON

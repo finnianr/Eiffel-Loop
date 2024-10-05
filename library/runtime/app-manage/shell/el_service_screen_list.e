@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 19:19:37 GMT (Sunday 17th March 2024)"
-	revision: "7"
+	date: "2024-10-04 12:10:20 GMT (Friday 4th October 2024)"
+	revision: "8"
 
 class
 	EL_SERVICE_SCREEN_LIST
@@ -34,7 +34,7 @@ feature -- Measurement
 
 	longest_name_count: INTEGER
 		do
-			Result := maximum_integer (agent name_count)
+			Result := max_integer (agent name_count)
 		end
 
 feature -- Basic operations
