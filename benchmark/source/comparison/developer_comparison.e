@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 11:04:22 GMT (Sunday 6th October 2024)"
-	revision: "10"
+	date: "2024-10-06 11:17:04 GMT (Sunday 6th October 2024)"
+	revision: "11"
 
 class
 	DEVELOPER_COMPARISON
@@ -34,7 +34,7 @@ feature -- Basic operations
 			ref_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
 			range: INTEGER_INTERVAL
 		do
-			range := 1 |..| 5000
+			range := 1 |..| 500
 			create ref_list.make (range.count)
 			across range as n loop
 				ref_list.extend (create {STRING_8}.make_empty)
@@ -88,22 +88,22 @@ note
 	notes: "[
 		**6 October 2024**
 		
-		Finding an ZSTRING type in a list of 5000 INTEGER_32_REF objects.
+		Finding a ZSTRING type in a list of 5000 STRING_8 objects.
 		
-			across ref_list as list
+			across string_general_list as list
 			
 		1. some list.item.generating_type = {ZSTRING} end
-		2. some {ISE_RUNTIME}.dynamic_type (list.item) = ZSTRING end
+		2. some {ISE_RUNTIME}.dynamic_type (list.item) = ZSTRING end (** THE WINNER **)
 		3. some {ISE_RUNTIME}.dynamic_type (list.item) = ({ZSTRING}).type_id end
-		4. some list.item.same_type (Int_64_object)
+		4. some list.item.same_type (Zstring_object)
 
-		Passes over 500 millisecs (in descending order)
+		Passes over 2000 millisecs (in descending order)
 
-			method 1 : 1.0 times (100%)
-			method 2 : 1.0 times (-0.0%)
-			method 3 : 1.0 times (-0.0%)
-			method 4 : 1.0 times (-0.0%)
-	
+			method 2 :  65.0 times (100%)
+			method 4 :  63.0 times (-3.1%)
+			method 3 :  18.0 times (-72.3%)
+			method 1 :  15.0 times (-76.9%)
+
 		**26 August 2024**
 		
 		Testing if ${ZSTRING} conforms to ${READABLE_STRING_32} using class ${EL_INTERNAL}
@@ -112,7 +112,7 @@ note
 		1. Result := attached {READABLE_STRING_32} str
 		2. Result := field_conforms_to (dynamic_type (str), class_id.READABLE_STRING_32)
 		3. Result := class_id.readable_string_32_types.has (dynamic_type (str)) -- ARRAY [INTEGER]
-		4. Result := is_type_in_set (dynamic_type (str), class_id.readable_string_32_types)
+		4. Result := is_type_in_set (dynamic_type (str), class_id.readable_string_32_types) (** THE WINNER **)
 		
 		Passes over 500 millisecs (in descending order)
 
