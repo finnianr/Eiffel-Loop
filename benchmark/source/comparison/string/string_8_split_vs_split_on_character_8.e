@@ -1,13 +1,22 @@
 note
-	Compare parsing comma separated list of reals using across iteration over: ""
+	description: "[
+		Compare parsing comma separated list of reals using across iteration over:
+
+		1. ${STRING_8}.**split**
+		2. ${EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]}
+	]"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "9"
+	date: "2024-10-06 9:32:07 GMT (Sunday 6th October 2024)"
+	revision: "10"
 
 class
 	STRING_8_SPLIT_VS_SPLIT_ON_CHARACTER_8

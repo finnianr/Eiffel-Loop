@@ -763,3 +763,12 @@ Set compatibility mode in registry; Test set for Tuple.fill_immutable
 Sun 22nd Sep 2024, 17:33:09
 Major refactor of EL_HASH_TABLE, with optimized list conversion
 
+Sat 5th Oct 2024, 18:49:10
+Optimized EL_CONTAINER_STRUCTURE and EL_HASH_TABLE with item_area
+
+Sun 6th Oct 2024, 9:01:11
+Testing preparation/command
+
+Sun 6th Oct 2024, 9:09:24
+Added ability to have more than one preparation command in Duplicty backups
+

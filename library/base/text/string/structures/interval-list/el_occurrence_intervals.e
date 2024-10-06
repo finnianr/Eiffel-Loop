@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 17:40:00 GMT (Sunday 14th April 2024)"
-	revision: "34"
+	date: "2024-10-06 10:42:33 GMT (Sunday 6th October 2024)"
+	revision: "35"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -33,7 +33,7 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES
 
-	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_STRING_32_CONSTANTS; EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_ZSTRING_CODEC; EL_SHARED_UNICODE_PROPERTY
 

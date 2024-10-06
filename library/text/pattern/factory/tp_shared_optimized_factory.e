@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:47:19 GMT (Sunday 25th August 2024)"
-	revision: "12"
+	date: "2024-10-06 10:47:05 GMT (Sunday 6th October 2024)"
+	revision: "13"
 
 deferred class
 	TP_SHARED_OPTIMIZED_FACTORY
@@ -16,6 +16,8 @@ inherit
 	EL_ANY_SHARED
 
 	EL_STRING_HANDLER
+
+	EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Implementation
 

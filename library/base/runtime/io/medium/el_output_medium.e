@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:00:18 GMT (Sunday 1st September 2024)"
-	revision: "40"
+	date: "2024-10-06 10:49:16 GMT (Sunday 6th October 2024)"
+	revision: "41"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -23,7 +23,6 @@ inherit
 
 	EL_WRITABLE
 		rename
-			Empty_string as Zstring,
 			write_encoded_character_8 as put_encoded_character_8, -- Allows UTF-8 conversion
 			write_encoded_string_8 as put_encoded_readable_string_8,
 
@@ -51,14 +50,13 @@ inherit
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 		rename
-			Empty_string as Zstring,
 			is_character as is_string_character,
 			occurrences as string_occurrences
 		export
 			{NONE} all
 		end
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY; EL_SHARED_STRING_8_BUFFER_SCOPES
 
@@ -234,7 +232,7 @@ feature -- String output
 				when Other_class then
 					put_other (str)
 			else
-				if Zstring.same_type (str) and then attached {ZSTRING} str as z_str then
+				if is_zstring (str) and then attached {ZSTRING} str as z_str then
 					put_string (z_str)
 				else
 					put_codec_encoded (str)
@@ -272,7 +270,7 @@ feature -- String output
 				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 					put_string_8 (str_8)
 
-				elseif Zstring.same_type (str) and then attached {ZSTRING} str as z_str then
+				elseif is_zstring (str) and then attached {ZSTRING} str as z_str then
 					put_string (z_str)
 
 				else

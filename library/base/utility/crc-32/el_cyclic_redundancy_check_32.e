@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:56:31 GMT (Sunday 25th August 2024)"
-	revision: "35"
+	date: "2024-10-06 10:40:42 GMT (Sunday 6th October 2024)"
+	revision: "36"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -15,7 +15,6 @@ class
 inherit
 	EL_WRITABLE
 		rename
-			Empty_string as Zstring,
 			write_boolean as add_boolean,
 			write_encoded_character_8 as add_character_8,
 			write_character_8 as add_character_8,
@@ -263,7 +262,7 @@ feature -- Add strings
 	add_string_32 (str: READABLE_STRING_32)
 			--
 		do
-			if Zstring.same_type (str) and then attached {ZSTRING} str as z_str then
+			if is_zstring (str) and then attached {ZSTRING} str as z_str then
 				add_string (z_str)
 
 			elseif attached cursor_32 (str) as c then

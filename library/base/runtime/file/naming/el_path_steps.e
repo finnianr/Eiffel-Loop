@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-16 13:50:25 GMT (Monday 16th September 2024)"
-	revision: "26"
+	date: "2024-10-06 10:46:06 GMT (Sunday 6th October 2024)"
+	revision: "27"
 
 class
 	EL_PATH_STEPS
@@ -39,8 +39,6 @@ inherit
 		undefine
 			default_create, is_equal
 		end
-
-	EL_STRING_GENERAL_ROUTINES
 
 create
 	default_create, make, make_from_path, make_from_steps, make_from_tuple, make_steps

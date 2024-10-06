@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:43 GMT (Thursday 5th September 2024)"
-	revision: "9"
+	date: "2024-10-06 11:04:22 GMT (Sunday 6th October 2024)"
+	revision: "10"
 
 class
 	DEVELOPER_COMPARISON
@@ -30,28 +30,41 @@ feature -- Access
 feature -- Basic operations
 
 	execute
+		local
+			ref_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+			range: INTEGER_INTERVAL
 		do
+			range := 1 |..| 5000
+			create ref_list.make (range.count)
+			across range as n loop
+				ref_list.extend (create {STRING_8}.make_empty)
+			end
+			ref_list.extend (create {ZSTRING}.make_empty)
+
 			compare ("perform benchmark", <<
-				["method 1", agent do_method (1)],
-				["method 2", agent do_method (2)],
-				["method 3", agent do_method (3)],
-				["method 4", agent do_method (4)]
+				["method 1", agent do_method (1, ref_list)],
+				["method 2", agent do_method (2, ref_list)],
+				["method 3", agent do_method (3, ref_list)],
+				["method 4", agent do_method (4, ref_list)]
 			>>)
 		end
 
 feature {NONE} -- Operations
 
-	do_method (id: INTEGER)
+	do_method (id: INTEGER; ref_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL])
 		local
-			i: INTEGER; zstr: ZSTRING
+			i: INTEGER; exists: BOOLEAN
 		do
-			create zstr.make_empty
 			from until i > Repetition_count loop
 				inspect id
 					when 1 then
+						exists := across ref_list as list some list.item.generating_type = {ZSTRING} end
 					when 2 then
+						exists := across ref_list as list some {ISE_RUNTIME}.dynamic_type (list.item) = ZSTRING end
 					when 3 then
+						exists := across ref_list as list some {ISE_RUNTIME}.dynamic_type (list.item) = ({ZSTRING}).type_id end
 					when 4 then
+						exists := across ref_list as list some list.item.same_type (Zstring_object) end
 				end
 				i := i + 1
 			end
@@ -61,8 +74,36 @@ feature {NONE} -- Constants
 
 	Repetition_count: INTEGER = 2000
 
+	ZSTRING: INTEGER
+		once
+			Result := ({ZSTRING}).type_id
+		end
+
+	Zstring_object: ZSTRING
+		once
+			create Result.make_empty
+		end
+
 note
 	notes: "[
+		**6 October 2024**
+		
+		Finding an ZSTRING type in a list of 5000 INTEGER_32_REF objects.
+		
+			across ref_list as list
+			
+		1. some list.item.generating_type = {ZSTRING} end
+		2. some {ISE_RUNTIME}.dynamic_type (list.item) = ZSTRING end
+		3. some {ISE_RUNTIME}.dynamic_type (list.item) = ({ZSTRING}).type_id end
+		4. some list.item.same_type (Int_64_object)
+
+		Passes over 500 millisecs (in descending order)
+
+			method 1 : 1.0 times (100%)
+			method 2 : 1.0 times (-0.0%)
+			method 3 : 1.0 times (-0.0%)
+			method 4 : 1.0 times (-0.0%)
+	
 		**26 August 2024**
 		
 		Testing if ${ZSTRING} conforms to ${READABLE_STRING_32} using class ${EL_INTERNAL}

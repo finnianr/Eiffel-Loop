@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:47:33 GMT (Sunday 25th August 2024)"
-	revision: "15"
+	date: "2024-10-06 10:43:15 GMT (Sunday 6th October 2024)"
+	revision: "16"
 
 deferred class
 	EL_PARSER
@@ -15,7 +15,7 @@ deferred class
 inherit
 	TP_SHARED_OPTIMIZED_FACTORY
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; 	EL_ZSTRING_CONSTANTS
 
 	EL_MODULE_CONVERT_STRING
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-15 7:35:37 GMT (Sunday 15th September 2024)"
-	revision: "48"
+	date: "2024-10-06 10:34:39 GMT (Sunday 6th October 2024)"
+	revision: "49"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -21,14 +21,10 @@ inherit
 	ANY
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
-		rename
-			String_searcher as ZString_searcher
-		end
 
 	EL_STRING_GENERAL_ROUTINES
 		rename
-			to_unicode_general as to_unicode,
-			String_searcher as ZString_searcher
+			to_unicode_general as to_unicode
 		export
 			{ANY} as_zstring, ZSTRING, to_unicode
 		end
@@ -42,6 +38,11 @@ inherit
 			valid_sides as valid_adjustments
 		export
 			{ANY} valid_adjustments
+		end
+
+	EL_ZSTRING_CONSTANTS
+		rename
+			String_searcher as ZString_searcher
 		end
 
 feature -- Access

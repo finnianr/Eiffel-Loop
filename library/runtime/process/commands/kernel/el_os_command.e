@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:33:02 GMT (Monday 25th March 2024)"
-	revision: "28"
+	date: "2024-10-06 10:31:51 GMT (Sunday 6th October 2024)"
+	revision: "29"
 
 class
 	EL_OS_COMMAND
@@ -32,6 +32,8 @@ inherit
 		end
 
 	EL_REFLECTION_HANDLER
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_with_name

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:59:19 GMT (Sunday 25th August 2024)"
-	revision: "29"
+	date: "2024-10-06 10:40:03 GMT (Sunday 6th October 2024)"
+	revision: "30"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -15,7 +15,6 @@ deferred class
 inherit
 	EL_WRITABLE
 		rename
-			Empty_string as Zstring,
 			write_encoded_character_8 as sink_raw_character_8, -- Allows UTF-8 conversion
 			write_encoded_string_8 as sink_raw_string_8,
 
@@ -40,8 +39,6 @@ inherit
 		end
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
-		rename
-			Empty_string as Zstring
 		export
 			{NONE} all
 		end
@@ -291,7 +288,7 @@ feature -- String sinks
 		local
 			l_area: SPECIAL [CHARACTER_32]; i, i_lower, i_upper: INTEGER
 		do
-			if Zstring.same_type (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
+			if is_zstring (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
 				sink_string (z_str)
 
 			elseif utf_8_mode_enabled then

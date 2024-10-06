@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-16 14:43:26 GMT (Friday 16th August 2024)"
-	revision: "14"
+	date: "2024-10-06 10:40:19 GMT (Sunday 6th October 2024)"
+	revision: "15"
 
 class
 	EL_APPLICATION_MUTEX
@@ -25,6 +25,8 @@ inherit
 	EL_STRING_GENERAL_ROUTINES
 
 	EL_MODULE_DIRECTORY
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make, make_for_application_mode

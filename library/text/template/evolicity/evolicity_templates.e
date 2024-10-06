@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:12:44 GMT (Sunday 22nd September 2024)"
-	revision: "37"
+	date: "2024-10-06 10:38:31 GMT (Sunday 6th October 2024)"
+	revision: "38"
 
 class
 	EVOLICITY_TEMPLATES
@@ -26,6 +26,8 @@ inherit
 	EL_STRING_GENERAL_ROUTINES
 
 	EL_MODULE_DEFERRED_LOCALE
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

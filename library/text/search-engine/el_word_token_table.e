@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:23:44 GMT (Sunday 25th August 2024)"
-	revision: "20"
+	date: "2024-10-06 10:50:36 GMT (Sunday 6th October 2024)"
+	revision: "21"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -22,6 +22,8 @@ inherit
 		end
 
 	EL_CHARACTER_32_CONSTANTS
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 17:38:41 GMT (Saturday 5th October 2024)"
-	revision: "52"
+	date: "2024-10-06 10:42:14 GMT (Sunday 6th October 2024)"
+	revision: "53"
 
 class
 	HASH_TABLE_TEST_SET
@@ -25,7 +25,7 @@ inherit
 
 	EL_CHARACTER_32_CONSTANTS; FEATURE_CONSTANTS
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; 	EL_ZSTRING_CONSTANTS
 
 create
 	make

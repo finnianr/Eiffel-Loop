@@ -1,13 +1,13 @@
 note
-	description: "Id3 frame"
+	description: "ID3 frame"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:56:43 GMT (Saturday 28th September 2024)"
-	revision: "14"
+	date: "2024-10-06 10:56:18 GMT (Sunday 6th October 2024)"
+	revision: "15"
 
 deferred class
 	ID3_FRAME

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-19 11:12:34 GMT (Tuesday 19th March 2024)"
-	revision: "14"
+	date: "2024-10-06 9:25:33 GMT (Sunday 6th October 2024)"
+	revision: "15"
 
 class
 	GITHUB_MANAGER_APP

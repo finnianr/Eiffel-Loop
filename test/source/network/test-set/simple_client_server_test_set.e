@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 6:42:20 GMT (Sunday 25th August 2024)"
-	revision: "15"
+	date: "2024-10-06 10:12:38 GMT (Sunday 6th October 2024)"
+	revision: "16"
 
 class
 	SIMPLE_CLIENT_SERVER_TEST_SET
@@ -48,7 +48,10 @@ feature -- Tests
 		local
 			server: SIMPLE_SERVER_THREAD
 		do
-			create server.make
+		--	Also used to prove that type references like {SIMPLE_COMMAND_HANDLER}
+		--	always return the same object regardless of the thread process that
+		--	referenced them.
+			create server.make ({SIMPLE_COMMAND_HANDLER})
 			server.launch
 			Execution_environment.sleep (100)
 
@@ -58,6 +61,8 @@ feature -- Tests
 			do_test ("send_file", 2627758098, agent send_file, [source_file_list.first_path])
 
 			server.wait_to_stop
+
+			assert ("same TYPE [ANY] object", server.same_type_object)
 		end
 
 

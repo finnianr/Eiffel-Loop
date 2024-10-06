@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 8:00:46 GMT (Tuesday 27th August 2024)"
-	revision: "2"
+	date: "2024-10-06 10:27:48 GMT (Sunday 6th October 2024)"
+	revision: "3"
 
 deferred class
 	EL_STRING_HANDLER
@@ -21,13 +21,11 @@ inherit
 			copy, default_create, is_equal, out
 		end
 
-	EL_ZSTRING_CONSTANTS
-
 feature {NONE} -- Implementation
 
 	is_zstring (general: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := Empty_string.same_type (general)
+			Result := general.generating_type = {ZSTRING}
 		end
 
 	string_storage_type (general: READABLE_STRING_GENERAL): CHARACTER
@@ -36,7 +34,7 @@ feature {NONE} -- Implementation
 		do
 			if general.is_string_8 then
 				Result := '1' -- bytes
-			elseif Empty_string.same_type (general) then
+			elseif general.generating_type = {ZSTRING} then
 				Result := 'X'
 			else
 				Result := '4' -- bytes

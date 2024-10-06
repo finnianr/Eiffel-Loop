@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 13:50:11 GMT (Monday 25th March 2024)"
-	revision: "29"
+	date: "2024-10-06 9:02:14 GMT (Sunday 6th October 2024)"
+	revision: "30"
 
 class
 	DUPLICITY_BACKUP
@@ -68,10 +68,10 @@ feature -- Basic operations
 					end
 					mirror_list.do_all (agent {EL_MIRROR_BACKUP}.authenticate)
 
-					if pre_backup_command.count > 0 then
-						create cmd.make (pre_backup_command)
+					across preparation_list as command loop
+						create cmd.make (command.item)
 						if cmd.has_variable (Var_target_dir) then
-							-- This will work on Unix but not on Windows because of possible quoted path
+						-- This will work on Unix but not on Windows because of possible quoted path
 							cmd.put_path (Var_target_dir, target_dir)
 						end
 						cmd.execute

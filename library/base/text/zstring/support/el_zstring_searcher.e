@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:27:48 GMT (Sunday 25th August 2024)"
-	revision: "15"
+	date: "2024-10-06 10:38:12 GMT (Sunday 6th October 2024)"
+	revision: "16"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -23,6 +23,8 @@ inherit
 	EL_STRING_HANDLER
 
 	EL_ZCODE_CONVERSION
+
+	EL_ZSTRING_CONSTANTS
 
 create
 	make

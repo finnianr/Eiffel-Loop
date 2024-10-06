@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-26 16:29:06 GMT (Thursday 26th September 2024)"
-	revision: "11"
+	date: "2024-10-06 10:45:06 GMT (Sunday 6th October 2024)"
+	revision: "12"
 
 deferred class
 	EL_PATH_PARENT
@@ -42,9 +42,11 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 	EL_SHARED_PATH_MANAGER; EL_SHARED_WORD
+
+	EL_ZSTRING_CONSTANTS
 
 feature -- Access
 

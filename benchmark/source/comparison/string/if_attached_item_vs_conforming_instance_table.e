@@ -1,13 +1,34 @@
 note
-	two experimental techniques: ""
+	description: "[
+		Compare conditional assignment depending on consecutive **elseif** attachment attempts to
+		two experimental techniques:
+
+		1. ${STRING_ITERATION_CURSOR_TABLE} uses a hash table lookup of type id
+		2. ${STRING_ITERATION_CURSOR_TYPE_MAP} uses a linear array search of type id.
+	]"
+	notes: "[
+		**BENCHMARKS**
+
+		Passes over 2000 millisecs (in descending order)
+
+			Class_id inspect        : 192433.0 times (100%)
+			if general.is_string_32 : 186552.0 times (-3.1%)
+			type id linear search   : 179719.0 times (-6.6%)
+			if general.is_string_8  : 168681.0 times (-12.3%)
+			type id hash lookup     : 118537.0 times (-38.4%)
+			sorter class            :  90702.0 times (-52.9%)
+			tuple sorter class      :  87112.0 times (-54.7%)
+
+		Best performing method uses: `Class_id.string_storage_type (general)'
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "6"
+	date: "2024-10-06 9:31:24 GMT (Sunday 6th October 2024)"
+	revision: "7"
 
 class
 	IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE

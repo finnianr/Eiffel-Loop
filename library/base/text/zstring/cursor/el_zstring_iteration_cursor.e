@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 20:03:36 GMT (Saturday 31st August 2024)"
-	revision: "32"
+	date: "2024-10-06 10:30:45 GMT (Sunday 6th October 2024)"
+	revision: "33"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -15,7 +15,6 @@ class
 inherit
 	EL_STRING_ITERATION_CURSOR
 		rename
-			Empty_string as Empty_target,
 			Unicode_table as Shared_unicode_table,
 			set_target as make
 		export
@@ -30,6 +29,11 @@ inherit
 			area as unencoded_area
 		redefine
 			item, make, target
+		end
+
+	EL_ZSTRING_CONSTANTS
+		rename
+			Empty_string as Empty_target
 		end
 
 	EL_32_BIT_IMPLEMENTATION

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "14"
+	date: "2024-10-06 10:48:38 GMT (Sunday 6th October 2024)"
+	revision: "15"
 
 deferred class
 	EL_X509_PRIVATE_READER_COMMAND_I
@@ -25,7 +25,8 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_STRING_8_CONSTANTS
+	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
+
 
 feature {NONE} -- Initialization
 

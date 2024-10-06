@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:08:08 GMT (Monday 23rd September 2024)"
-	revision: "18"
+	date: "2024-10-06 10:48:23 GMT (Sunday 6th October 2024)"
+	revision: "19"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
@@ -22,7 +22,8 @@ inherit
 
 	EL_MODULE_DEFERRED_LOCALE; EL_MODULE_LIO; EL_MODULE_TUPLE
 
-	EL_CHARACTER_32_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+
 
 feature {NONE} -- Initialization
 

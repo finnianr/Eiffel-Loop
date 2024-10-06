@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:53:51 GMT (Monday 23rd September 2024)"
-	revision: "2"
+	date: "2024-10-06 10:47:50 GMT (Sunday 6th October 2024)"
+	revision: "3"
 
 deferred class
 	EL_CODE_TEXT_TABLE_I
@@ -42,6 +42,8 @@ inherit
 	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_IMMUTABLE_8_MANAGER
 
 	EL_STRING_GENERAL_ROUTINES
+
+	EL_ZSTRING_CONSTANTS
 
 feature -- Status query
 
