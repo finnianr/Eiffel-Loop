@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 14:08:01 GMT (Saturday 5th October 2024)"
-	revision: "17"
+	date: "2024-10-08 17:21:37 GMT (Tuesday 8th October 2024)"
+	revision: "18"
 
 class
 	TYPE_TEST_SET
@@ -21,6 +21,13 @@ inherit
 
 	EL_ZSTRING_CONSTANTS
 
+	EL_SHARED_CLASS_ID
+
+	EL_EIFFEL_C_API
+		undefine
+			default_create
+		end
+
 create
 	make
 
@@ -30,12 +37,44 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["string_factory_creation",	 agent test_string_factory_creation],
-				["type_and_type_name_caching", agent test_type_and_type_name_caching]
+				["find_readable_string_32_types", agent test_find_readable_string_32_types],
+				["string_factory_creation",		 agent test_string_factory_creation],
+				["type_and_type_name_caching",	 agent test_type_and_type_name_caching],
+				["type_iteration",					 agent test_type_iteration]
 			>>)
 		end
 
 feature -- Tests
+
+	test_find_readable_string_32_types
+		-- TYPE_TEST_SET.test_find_readable_string_32_types
+		local
+			type_id, attached_type, type_size: INTEGER; break, conforms_to_type: BOOLEAN
+			type_flags: NATURAL_16
+		do
+			from type_id := 0 until break loop
+				type_flags := eif_type_flags (type_id)
+				type_size := eif_type_size (type_id)
+				if Eiffel.is_special_any_type (type_id) then
+					do_nothing
+
+				elseif Eiffel.is_tuple_type (type_id) then
+					do_nothing
+
+				elseif type_size >= 24
+					and then (type_flags = 0 or Eiffel.is_type_frozen (type_flags))
+					and then not Eiffel.is_generic (type_id)
+					and then {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.READABLE_STRING_32)
+				then
+					lio.put_labeled_string (type_id.out, {ISE_RUNTIME}.generating_type_of_type (type_id))
+					lio.put_new_line
+					if type_id = Class_id.ZSTRING then
+						break := True
+					end
+				end
+				type_id := type_id + 1 + Eiffel.is_type_expanded (type_flags).to_integer
+			end
+		end
 
 	test_string_factory_creation
 		-- Establish basis for creating class EL_INITIALIZED_OBJECT_FACTORY
@@ -75,6 +114,39 @@ feature -- Tests
 				assert ("same instance", t1 = t3)
 			else
 				failed ("same type")
+			end
+		end
+
+	test_type_iteration
+		-- TYPE_TEST_SET.test_type_iteration
+		local
+			type_id, attached_type, type_size: INTEGER; break, conforms_to_type: BOOLEAN
+			type_flags: NATURAL_16
+		do
+			from type_id := 0 until type_id > 100 or break loop
+				type_flags := eif_type_flags (type_id)
+				type_size := eif_type_size (type_id)
+--				if Eiffel.is_special_type (type_id) then
+--					lio.put_labeled_string (type_id.out, "SPECIAL")
+--					lio.put_new_line
+
+--				elseif Eiffel.is_tuple_type (type_id) then
+--					lio.put_labeled_string (type_id.out, "TUPLE")
+--					lio.put_new_line
+
+--				else
+				if attached {ISE_RUNTIME}.generating_type_of_type (type_id) as name then
+					lio.put_labeled_string (type_id.out, name)
+					lio.put_integer_field (" Parameters", eif_generic_parameter_count (type_id))
+					lio.put_integer_field (" Size", type_size)
+					if attached Eiffel.type_flag_names (type_flags) as list and then list.count > 0 then
+						lio.put_labeled_string (" Flags", list.joined_words)
+					end
+					lio.put_new_line
+				else
+					break := True
+				end
+				type_id := type_id + 1 + Eiffel.is_type_expanded (type_flags).to_integer
 			end
 		end
 

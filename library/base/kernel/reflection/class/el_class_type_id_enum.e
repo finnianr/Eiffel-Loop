@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 15:34:47 GMT (Monday 9th September 2024)"
-	revision: "35"
+	date: "2024-10-07 7:55:18 GMT (Monday 7th October 2024)"
+	revision: "36"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -124,11 +124,11 @@ feature -- String types
 
 	EL_STRING_8: INTEGER
 
-	EL_UTF_8_STRING: INTEGER
-
 	EL_URI: INTEGER
 
 	EL_URL: INTEGER
+
+	EL_UTF_8_STRING: INTEGER
 
 	EL_ZSTRING: INTEGER
 
@@ -142,11 +142,13 @@ feature -- String types
 
 feature -- Abstract Strings
 
-	READABLE_STRING_8: INTEGER
-
 	READABLE_STRING_32: INTEGER
 
+	READABLE_STRING_8: INTEGER
+
 	STRING_GENERAL: INTEGER
+
+	READABLE_STRING_GENERAL: INTEGER
 
 feature -- Path types
 
@@ -193,14 +195,14 @@ feature -- Generic types
 	COLLECTION__ANY: INTEGER
 		-- COLLECTION [ANY]
 
-	HASH_TABLE__ANY__HASHABLE: INTEGER
-		-- HASH_TABLE [ANY, HASHABLE]
-
 	EL_MAKEABLE_FROM_STRING__STRING_GENERAL: INTEGER
 		-- EL_MAKEABLE_FROM_STRING [STRING_GENERAL]
 
 	EL_SUBSTRING__STRING_GENERAL: INTEGER
 		-- EL_SUBSTRING [STRING_GENERAL]
+
+	HASH_TABLE__ANY__HASHABLE: INTEGER
+		-- HASH_TABLE [ANY, HASHABLE]
 
 	TYPE__ANY: INTEGER
 		-- TYPE [ANY]

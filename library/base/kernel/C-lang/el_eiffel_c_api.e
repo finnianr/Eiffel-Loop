@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:25:32 GMT (Sunday 7th January 2024)"
-	revision: "1"
+	date: "2024-10-08 11:50:02 GMT (Tuesday 8th October 2024)"
+	revision: "2"
 
 deferred class
 	EL_EIFFEL_C_API
@@ -43,6 +43,43 @@ feature {NONE} -- Object management
 			ptr_attached: is_attached (ptr)
 		external
 			"c [macro <eif_macros.h>] (EIF_REFERENCE)"
+		end
+
+feature -- Type properties
+
+	eif_decoded_type_id (type_id: INTEGER): INTEGER
+		-- the `EIF_TYPE_INDEX` id from the `eif_decoded_type` C call.
+		external
+			"C inline use <eif_eiffel.h>"
+		alias
+			"(EIF_INTEGER_32) eif_decoded_type((EIF_TYPE_INDEX) $type_id).id"
+		end
+
+	eif_type_flags (type_id: INTEGER): NATURAL_16
+		-- struct c_node.cn_flags for `type_id'
+		external
+			"C inline use <eif_malloc.h>"
+		alias
+			"{
+				EIF_TYPE_INDEX type = To_dtype((EIF_TYPE_INDEX)$type_id);
+				return (EIF_NATURAL_16)System(type).cn_flags;
+			}"
+		end
+
+	eif_type_size (type_id: INTEGER): INTEGER
+		-- struct c_node.cn_flags for `type_id'
+		external
+			"C inline use <eif_malloc.h>"
+		alias
+			"(EIF_INTEGER)EIF_Size(To_dtype((EIF_TYPE_INDEX)$type_id))"
+		end
+
+	eif_generic_parameter_count (type_id: INTEGER): INTEGER
+		-- struct c_node.cn_flags for `type_id'
+		external
+			"C inline use <eif_built_in.h>"
+		alias
+			"(EIF_INTEGER)eif_gen_count_with_dftype((EIF_TYPE_INDEX)$type_id)"
 		end
 
 feature {NONE} -- Directory

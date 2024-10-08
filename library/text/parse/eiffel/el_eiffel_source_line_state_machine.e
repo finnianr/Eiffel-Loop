@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:35:57 GMT (Tuesday 27th August 2024)"
-	revision: "22"
+	date: "2024-10-06 13:20:05 GMT (Sunday 6th October 2024)"
+	revision: "23"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -64,8 +64,10 @@ feature {NONE} -- Implementation
 		end
 
 	code_line_is_class_declaration: BOOLEAN
+		local
+			eif: EL_EIFFEL_SOURCE_ROUTINES
 		do
-			Result := code_line_starts_with_one_of (0, Class_declaration_keywords)
+			Result := eif.is_class_definition_start (code_line)
 		end
 
 	code_line_is_class_name: BOOLEAN

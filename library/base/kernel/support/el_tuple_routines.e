@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-17 7:28:55 GMT (Tuesday 17th September 2024)"
-	revision: "53"
+	date: "2024-10-06 12:21:28 GMT (Sunday 6th October 2024)"
+	revision: "54"
 
 class
 	EL_TUPLE_ROUTINES
@@ -288,7 +288,7 @@ feature -- Basic operations
 				end
 			end
 		ensure
-			filled:is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
+			filled: is_filled (tuple, start_index, start_index + csv_field_list.occurrences (','))
 		end
 
 	line_fill (tuple: TUPLE; line_list: READABLE_STRING_GENERAL)

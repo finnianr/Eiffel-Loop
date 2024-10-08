@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 11:17:04 GMT (Sunday 6th October 2024)"
-	revision: "11"
+	date: "2024-10-06 12:16:43 GMT (Sunday 6th October 2024)"
+	revision: "12"
 
 class
 	DEVELOPER_COMPARISON
@@ -88,7 +88,7 @@ note
 	notes: "[
 		**6 October 2024**
 		
-		Finding a ZSTRING type in a list of 5000 STRING_8 objects.
+		Finding a ZSTRING type at the end of list of 500 STRING_8 objects.
 		
 			across string_general_list as list
 			

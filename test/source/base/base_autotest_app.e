@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:52:03 GMT (Saturday 28th September 2024)"
-	revision: "194"
+	date: "2024-10-06 12:45:38 GMT (Sunday 6th October 2024)"
+	revision: "195"
 
 class
 	BASE_AUTOTEST_APP
@@ -41,6 +41,7 @@ inherit
 		SUBSTRING_32_ARRAY_TEST_SET,
 
 		TEMPLATE_TEST_SET,
+		TUPLE_TEST_SET,
 
 		URI_TEST_SET,
 		UTF_CONVERTER_TEST_SET,
@@ -255,6 +256,7 @@ note
 			${STRING_TEST_SET},
 			${SUBSTRING_32_ARRAY_TEST_SET},
 			${TEMPLATE_TEST_SET},
+			${TUPLE_TEST_SET},
 			${URI_TEST_SET},
 			${UTF_CONVERTER_TEST_SET},
 			${ZSTRING_EDITOR_TEST_SET},

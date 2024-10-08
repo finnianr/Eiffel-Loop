@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 12:07:10 GMT (Tuesday 3rd September 2024)"
-	revision: "36"
+	date: "2024-10-08 17:00:44 GMT (Tuesday 8th October 2024)"
+	revision: "37"
 
 class
 	EL_INTERNAL
@@ -33,6 +33,8 @@ inherit
 		export
 			{ANY} abstract_type_of_type
 		end
+
+	EL_EIFFEL_C_API
 
 	EL_REFLECTION_CONSTANTS; EL_STRING_8_CONSTANTS
 
@@ -51,6 +53,43 @@ feature {NONE} -- Initialization
 	make
 		do
 			class_id := Class_id_
+		end
+
+feature -- Status type flag
+
+	is_type_composite (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & 0x0800) > 0
+		end
+
+	is_type_dead (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & 0x4000) > 0
+		end
+
+	is_type_declared_expanded (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & 0x0100) > 0
+		end
+
+	is_type_deferred (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & 0x1000) > 0
+		end
+
+	is_type_expanded (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & 0x0200) > 0
+		end
+
+	is_type_frozen (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & 0x2000) > 0
+		end
+
+	type_has_dispose (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & 0x0400) > 0
 		end
 
 feature -- Type status
@@ -74,9 +113,26 @@ feature -- Type status
 			Result := is_reference (basic_type) and then conforms_to_one_of (type_id, types)
 		end
 
+	is_generic (type_id: INTEGER): BOOLEAN
+		do
+			if eif_generic_parameter_count (type_id) > 0  then
+				Result := True
+			else
+				Result := type_of_type (type_id).generic_parameter_count > 0
+			end
+		end
+
 	is_reference (basic_type: INTEGER): BOOLEAN
 		do
 			Result := basic_type = Reference_type
+		end
+
+	is_storable_collection_type (type_id: INTEGER): BOOLEAN
+		local
+			item_type_id: INTEGER
+		do
+			item_type_id := collection_item_type (type_id)
+			Result := is_storable_type (abstract_type_of_type (item_type_id), item_type_id)
 		end
 
 	is_storable_type (basic_type, type_id: INTEGER): BOOLEAN
@@ -144,14 +200,6 @@ feature -- Type status
 				Result := type_id = set [i]
 				i := i + 1
 			end
-		end
-
-	is_storable_collection_type (type_id: INTEGER): BOOLEAN
-		local
-			item_type_id: INTEGER
-		do
-			item_type_id := collection_item_type (type_id)
-			Result := is_storable_type (abstract_type_of_type (item_type_id), item_type_id)
 		end
 
 feature -- Conformance checking
@@ -222,6 +270,19 @@ feature -- Access
 			end
 		end
 
+	type_flag_names (type_flags: NATURAL_16): EL_STRING_8_LIST
+		local
+			i: INTEGER
+		do
+			create Result.make (7)
+			from i := 1 until i > 7 loop
+				if type_flags & (1 |<< (i + 7)).to_natural_16 > 0 then
+					Result.extend (Type_status_array [i])
+				end
+				i := i + 1
+			end
+		end
+
 feature -- Constants
 
 	Basic_types: EL_ARRAYED_LIST [TYPE [ANY]]
@@ -258,4 +319,12 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	class_id: EL_CLASS_TYPE_ID_ENUM
+
+feature {NONE} -- Constants
+
+	Type_status_array: ARRAY [STRING]
+		once
+			Result := << "declared-expanded", "expanded", "has-dispose", "composite", "deferred", "frozen", "dead" >>
+		end
+
 end

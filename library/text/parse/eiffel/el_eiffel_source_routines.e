@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 10:33:29 GMT (Sunday 25th August 2024)"
-	revision: "18"
+	date: "2024-10-06 13:04:49 GMT (Sunday 6th October 2024)"
+	revision: "19"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -17,7 +17,12 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES
 
-	EL_EIFFEL_KEYWORDS; EL_EIFFEL_CONSTANTS
+	EL_EIFFEL_KEYWORDS
+		export
+			{ANY} Class_declaration_keywords
+		end
+
+	EL_EIFFEL_CONSTANTS
 
 	EL_SHARED_ZSTRING_CURSOR
 
@@ -103,13 +108,28 @@ feature -- Conversion
 feature -- Status query
 
 	is_class_definition_start (line: ZSTRING): BOOLEAN
+		require
+			valid_first_letters: across Class_declaration_keywords as list all
+											is_first_letter_class_declaration (list.item.item_8 (1))
+										end
 		do
-			Result := across Class_declaration_keywords as list some line.starts_with (list.item) end
+			if line.count > 0 and then is_first_letter_class_declaration (line.item_8 (1)) then
+				Result := across Class_declaration_keywords as list some line.starts_with (list.item) end
+			end
 		end
 
 	is_class_name (text: ZSTRING): BOOLEAN
 		do
 			Result := starts_with_upper_letter (text) and then text.is_subset_of_8 (Class_name_character_set)
+		end
+
+	is_first_letter_class_declaration (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when 'c', 'd', 'f', 'e' then
+					Result := True
+			else
+			end
 		end
 
 	is_reserved_word (word: ZSTRING): BOOLEAN
