@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-08 11:50:02 GMT (Tuesday 8th October 2024)"
-	revision: "2"
+	date: "2024-10-09 11:29:24 GMT (Wednesday 9th October 2024)"
+	revision: "3"
 
 deferred class
 	EL_EIFFEL_C_API
@@ -56,13 +56,28 @@ feature -- Type properties
 		end
 
 	eif_type_flags (type_id: INTEGER): NATURAL_16
-		-- struct c_node.cn_flags for `type_id'
+		-- struct c_node.cn_flags for `type_id' with additional flags `is_special' and `is_tuple'
+		-- at 0x8 and 0x4 respectively
 		external
-			"C inline use <eif_malloc.h>"
+			"C inline use <eif_eiffel.h>"
 		alias
 			"{
-				EIF_TYPE_INDEX type = To_dtype((EIF_TYPE_INDEX)$type_id);
-				return (EIF_NATURAL_16)System(type).cn_flags;
+				EIF_TYPE_INDEX dtype = To_dtype(eif_decoded_type ($type_id).id);
+				// Mask out the tuple code using
+				EIF_NATURAL_16 result = (EIF_NATURAL_16) (System(dtype).cn_flags & 0xFF00);
+				EIF_BOOLEAN is_special_type = EIF_TEST(
+					(dtype == egc_sp_bool) ||
+					(dtype == egc_sp_char) ||
+					(dtype == egc_sp_wchar) ||
+					(dtype == egc_sp_uint8) || (dtype == egc_sp_uint16) || (dtype == egc_sp_uint32) || (dtype == egc_sp_uint64) ||
+					(dtype == egc_sp_int8) || (dtype == egc_sp_int16) || (dtype == egc_sp_int32) || (dtype == egc_sp_int64) ||
+					(dtype == egc_sp_real32) || (dtype == egc_sp_real64) ||
+					(dtype == egc_sp_pointer) ||
+					(dtype == egc_sp_ref)
+				);
+				if (is_special_type > 0) result = result | 0x80;
+				if (EIF_TEST(dtype == (EIF_TYPE_INDEX) egc_tup_dtype) > 0) result = result | 0x40;
+				return result;
 			}"
 		end
 

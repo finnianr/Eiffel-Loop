@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-08 17:00:44 GMT (Tuesday 8th October 2024)"
-	revision: "37"
+	date: "2024-10-09 11:50:08 GMT (Wednesday 9th October 2024)"
+	revision: "38"
 
 class
 	EL_INTERNAL
@@ -59,37 +59,47 @@ feature -- Status type flag
 
 	is_type_composite (type_flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & 0x0800) > 0
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_composite) > 0
 		end
 
 	is_type_dead (type_flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & 0x4000) > 0
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_dead) > 0
 		end
 
 	is_type_declared_expanded (type_flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & 0x0100) > 0
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_declared_expanded) > 0
 		end
 
 	is_type_deferred (type_flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & 0x1000) > 0
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_deferred) > 0
 		end
 
 	is_type_expanded (type_flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & 0x0200) > 0
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_expanded) > 0
 		end
 
 	is_type_frozen (type_flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & 0x2000) > 0
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_frozen) > 0
+		end
+
+	is_type_special (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_special) > 0
+		end
+
+	is_type_tuple (type_flags: NATURAL_16): BOOLEAN
+		do
+			Result := (type_flags & {EL_TYPE_FLAG}.Is_tuple) > 0
 		end
 
 	type_has_dispose (type_flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & 0x0400) > 0
+			Result := (type_flags & {EL_TYPE_FLAG}.Has_dispose) > 0
 		end
 
 feature -- Type status
@@ -115,9 +125,11 @@ feature -- Type status
 
 	is_generic (type_id: INTEGER): BOOLEAN
 		do
+		-- quick test
 			if eif_generic_parameter_count (type_id) > 0  then
 				Result := True
 			else
+		-- slow test
 				Result := type_of_type (type_id).generic_parameter_count > 0
 			end
 		end
@@ -275,8 +287,8 @@ feature -- Access
 			i: INTEGER
 		do
 			create Result.make (7)
-			from i := 1 until i > 7 loop
-				if type_flags & (1 |<< (i + 7)).to_natural_16 > 0 then
+			from i := 1 until i > Type_status_array.count loop
+				if type_flags & (1 |<< (i + 5)).to_natural_16 > 0 then
 					Result.extend (Type_status_array [i])
 				end
 				i := i + 1
@@ -322,9 +334,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Type_status_array: ARRAY [STRING]
+	Type_status_array: EL_STRING_8_LIST
 		once
-			Result := << "declared-expanded", "expanded", "has-dispose", "composite", "deferred", "frozen", "dead" >>
+			Result := "tuple, special, declared-expanded, expanded, has-dispose, composite, deferred, frozen, dead"
 		end
 
 end

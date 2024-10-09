@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-08 17:21:37 GMT (Tuesday 8th October 2024)"
-	revision: "18"
+	date: "2024-10-09 11:54:22 GMT (Wednesday 9th October 2024)"
+	revision: "19"
 
 class
 	TYPE_TEST_SET
@@ -55,13 +55,7 @@ feature -- Tests
 			from type_id := 0 until break loop
 				type_flags := eif_type_flags (type_id)
 				type_size := eif_type_size (type_id)
-				if Eiffel.is_special_any_type (type_id) then
-					do_nothing
-
-				elseif Eiffel.is_tuple_type (type_id) then
-					do_nothing
-
-				elseif type_size >= 24
+				if type_size >= 24
 					and then (type_flags = 0 or Eiffel.is_type_frozen (type_flags))
 					and then not Eiffel.is_generic (type_id)
 					and then {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.READABLE_STRING_32)
@@ -123,18 +117,9 @@ feature -- Tests
 			type_id, attached_type, type_size: INTEGER; break, conforms_to_type: BOOLEAN
 			type_flags: NATURAL_16
 		do
-			from type_id := 0 until type_id > 100 or break loop
+			from type_id := 4600 until type_id > 4800 or break loop
 				type_flags := eif_type_flags (type_id)
 				type_size := eif_type_size (type_id)
---				if Eiffel.is_special_type (type_id) then
---					lio.put_labeled_string (type_id.out, "SPECIAL")
---					lio.put_new_line
-
---				elseif Eiffel.is_tuple_type (type_id) then
---					lio.put_labeled_string (type_id.out, "TUPLE")
---					lio.put_new_line
-
---				else
 				if attached {ISE_RUNTIME}.generating_type_of_type (type_id) as name then
 					lio.put_labeled_string (type_id.out, name)
 					lio.put_integer_field (" Parameters", eif_generic_parameter_count (type_id))
