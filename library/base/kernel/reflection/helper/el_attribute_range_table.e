@@ -29,8 +29,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 17:33:52 GMT (Sunday 13th October 2024)"
-	revision: "1"
+	date: "2024-10-13 20:09:37 GMT (Sunday 13th October 2024)"
+	revision: "2"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -86,7 +86,7 @@ feature -- Access
 					field_value := field [i].to_natural_64 (object)
 					i_th_offset := offset [i]
 					if is_negative (i_th_offset) then
-						field_value := field_value + (i_th_offset - 1).bit_not
+						field_value := field_value + positive (i_th_offset)
 					else
 						field_value := field_value - i_th_offset
 					end
@@ -140,7 +140,7 @@ feature -- Basic operations
 					i_th_offset := offset [i]
 					value := (mask [i] & a_value) |>> bitshift [i]
 					if is_negative (i_th_offset) then
-						value := value - (i_th_offset - 1).bit_not
+						value := value - positive (i_th_offset)
 					else
 						value := value + i_th_offset
 					end
@@ -155,6 +155,11 @@ feature {NONE} -- Implementation
 	frozen is_negative (n: NATURAL_64): BOOLEAN
 		do
 			Result := (n |>> 63).to_boolean
+		end
+
+	frozen positive (n: NATURAL_64): NATURAL_64
+		do
+			Result := (n - 1).bit_not
 		end
 
 	frozen to_bit_count (range: INTEGER_INTERVAL): INTEGER
