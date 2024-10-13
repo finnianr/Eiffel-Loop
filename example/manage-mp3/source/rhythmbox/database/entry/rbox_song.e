@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 15:49:14 GMT (Wednesday 25th September 2024)"
-	revision: "60"
+	date: "2024-10-12 7:36:58 GMT (Saturday 12th October 2024)"
+	revision: "61"
 
 class
 	RBOX_SONG
@@ -461,20 +461,22 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor +
-				["artists", 					agent: ZSTRING do Result := Xml.escaped (artists_list.comma_separated) end] +
-				["lead_artist", 				agent: ZSTRING do Result := Xml.escaped (lead_artist) end] +
-				["album_artists", 			agent: ZSTRING do Result := Xml.escaped (album_artist) end] +
-				["artist_list", 				agent: ITERABLE [ZSTRING] do Result := artists_list end] +
+			Result := Precursor
+			Result.append_tuples (<<
+				["artists", 			 agent: ZSTRING do Result := Xml.escaped (artists_list.comma_separated) end],
+				["lead_artist", 		 agent: ZSTRING do Result := Xml.escaped (lead_artist) end],
+				["album_artists", 	 agent: ZSTRING do Result := Xml.escaped (album_artist) end],
+				["artist_list", 		 agent: ITERABLE [ZSTRING] do Result := artists_list end],
 
-				["duration_time", 			agent formatted_duration_time] +
+				["duration_time", 	 agent formatted_duration_time],
 
-				["last_checksum", 			agent: NATURAL_32_REF do Result := last_checksum.to_reference end] +
-				["recording_year", 			agent: INTEGER_REF do Result := recording_year.to_reference end] +
+				["last_checksum", 	 agent: NATURAL_32_REF do Result := last_checksum.to_reference end],
+				["recording_year", 	 agent: INTEGER_REF do Result := recording_year.to_reference end],
 
-				["is_hidden", 					agent: BOOLEAN_REF do Result := is_hidden.to_reference end] +
-				["is_cortina",					agent: BOOLEAN_REF do Result := is_cortina.to_reference end] +
-				["has_other_artists",		agent: BOOLEAN_REF do Result := has_other_artists.to_reference end]
+				["is_hidden", 			 agent: BOOLEAN_REF do Result := is_hidden.to_reference end],
+				["is_cortina",			 agent: BOOLEAN_REF do Result := is_cortina.to_reference end],
+				["has_other_artists", agent: BOOLEAN_REF do Result := has_other_artists.to_reference end]
+			>>)
 		end
 
 feature -- Constants

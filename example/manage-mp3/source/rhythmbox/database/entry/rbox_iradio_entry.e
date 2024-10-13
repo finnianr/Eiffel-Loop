@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:43:17 GMT (Sunday 22nd September 2024)"
-	revision: "62"
+	date: "2024-10-12 8:47:22 GMT (Saturday 12th October 2024)"
+	revision: "63"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -88,7 +88,7 @@ feature -- Element change
 			location := a_uri
 		end
 
-	set_string_field (field_code: NATURAL_16; value: ZSTRING)
+	set_string_field (field_code: N_16; value: ZSTRING)
 		-- set extra field not in attributes
 		require
 			valid_string_field: valid_string_field (field_code)
@@ -103,12 +103,10 @@ feature -- Contract Support
 
 	all_non_string_fields_are_class_attributes: BOOLEAN
 		do
-			Result := across DB_field.sorted as field all
-				not DB_field.is_string_type (field.item) implies field_table.has_immutable (DB_field.field_name (field.item))
-			end
+			Result := DB_field.all_non_string_fields_in_table (field_table)
 		end
 
-	valid_string_field (field_code: NATURAL_16): BOOLEAN
+	valid_string_field (field_code: N_16): BOOLEAN
 		-- valid extra field
 		do
 			if not field_table.has_immutable (DB_field.name (field_code)) then
@@ -174,7 +172,7 @@ feature {NONE} -- Build from XML
 			end
 		end
 
-	set_string_field_from_node (field_code: NATURAL_16)
+	set_string_field_from_node (field_code: N_16)
 		do
 			set_string_field (field_code, node)
 		end
@@ -249,7 +247,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_string_table: HASH_TABLE [ZSTRING, NATURAL_16]
+	Default_string_table: HASH_TABLE [ZSTRING, N_16]
 		once
 			create Result.make (0)
 		end

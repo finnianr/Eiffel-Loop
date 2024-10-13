@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 9:04:54 GMT (Friday 3rd November 2023)"
-	revision: "7"
+	date: "2024-10-13 8:33:58 GMT (Sunday 13th October 2024)"
+	revision: "8"
 
 class
 	EL_FIREWALL_STATUS
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Field_masks: EL_REFLECTED_FIELD_BIT_MASKS
+	Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
 		once
 			create Result.make (Current, "[
 				compact_date := 1 .. 32

@@ -1,18 +1,28 @@
 note
 	description: "[
-		Mask and bit-shift information for object conforming to ${EL_COMPACTABLE_REFLECTIVE}
+		Mask and bit-shift information used to compact the expanded fields of an object conforming to
+		${EL_COMPACTABLE_REFLECTIVE} into a ${NATURAL_64} number. And also to set the fields from 
+		a supplied compact number.
 	]"
 	notes: "[
-		Using a compact date as an example the table manifest string must be formatted as follows:
+		**Date Example**
+		
+			class DATE inherit EL_COMPACTABLE_REFLECTIVE
 
-			day:
-				1 .. 8
-			month:
-				9 .. 16
-			year:
-				17 .. 32
-				
+			feature {NONE} -- Constants
+
+				Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
+					once
+						create Result.make (Current,
+							"day := 1 .. 8%N" +
+							"month := 9 .. 16%N" +
+							"year := 17 .. 32"
+						)
+					end
+				end
+							
 		The ranges represent the bits assigned to a particular field with the LSB numbered as 1.
+		**NB**: It is recommended to use a manifest string make the text table more succinct.
 	]"
 
 	author: "Finnian Reilly"
@@ -20,11 +30,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-02 14:27:45 GMT (Friday 2nd August 2024)"
-	revision: "8"
+	date: "2024-10-13 17:42:41 GMT (Sunday 13th October 2024)"
+	revision: "9"
 
 class
-	EL_REFLECTED_FIELD_BIT_MASKS
+	EL_ATTRIBUTE_BIT_RANGE_TABLE
 
 inherit
 	ANY
@@ -43,7 +53,7 @@ feature {NONE} -- Initialization
 			enough_mask_entries: new_mask_table (mask_table_manifest).count = object.field_table.count
 			valid_mask_table_keys: valid_mask_table_keys (object, mask_table_manifest)
 		local
-			shift_count: INTEGER; mask: NATURAL_64;
+			shift_count: INTEGER; mask: NATURAL_64; b: EL_NATURAL_64_BIT_ROUTINES
 		do
 			if attached object.field_table as table
 				and then attached new_mask_table (mask_table_manifest) as mask_table
@@ -58,17 +68,17 @@ feature {NONE} -- Initialization
 						and then attached new_mask_interval (mask_table.found_item) as mask_interval
 					then
 						shift_count := mask_interval.lower - 1
-						upper_bit := upper_bit.max (mask_interval.upper)
-						mask := filled_bits (mask_interval.count) |<< shift_count
+						mask := b.filled_bits (mask_interval.count) |<< shift_count
 						field_array.extend (field)
 						field_bitshift.extend (shift_count)
 						field_mask.extend (mask)
 					end
 					table.forth
 				end
-				maximum_value := new_maximum_value
 			end
+			is_initialized := object.field_table.count = field_array.count
 		ensure
+			initialized: is_initialized
 			no_masks_overlap: no_masks_overlap
 		end
 
@@ -90,10 +100,24 @@ feature -- Access
 			end
 		end
 
-	upper_bit: INTEGER
-		-- 1 based index of most significant bit
+feature -- Measurement
 
 	maximum_value: NATURAL_64
+		local
+			b: EL_NATURAL_64_BIT_ROUTINES
+		do
+			Result := b.filled_bits (upper_bit_index)
+		end
+
+	upper_bit_index: INTEGER
+		-- 1 based index of most significant bit
+		local
+			b: EL_BIT_ROUTINES; list: EL_ARRAYED_LIST [NATURAL_64]; left_most_mask: NATURAL_64
+		do
+			create list.make_from_special (field_mask.twin) -- `twin' so as not to change the order
+			list.sort (True)
+			Result := 64 - b.leading_zeros_count_64 (list.last)
+		end
 
 feature -- Basic operations
 
@@ -113,19 +137,14 @@ feature -- Basic operations
 
 feature -- Contract Support
 
+	is_initialized: BOOLEAN
+
 	mask_wide_enough (i: INTEGER; field_value: NATURAL_64): BOOLEAN
 		local
 			max_value: NATURAL_64
 		do
 			max_value := field_mask [i] |>> field_bitshift [i]
 			Result := field_value <= max_value
-		end
-
-	valid_mask_table_keys (object: EL_COMPACTABLE_REFLECTIVE; mask_table_manifest: STRING): BOOLEAN
-		do
-			Result := across new_mask_table (mask_table_manifest) as table all
-				object.field_table.has_immutable (table.key) and then valid_interval (table.item)
-			end
 		end
 
 	valid_interval (a_range: IMMUTABLE_STRING_8): BOOLEAN
@@ -146,13 +165,14 @@ feature -- Contract Support
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	filled_bits (n: INTEGER): NATURAL_64
-		-- number with `bit_count' bits set to 1 starting from LSB
+	valid_mask_table_keys (object: EL_COMPACTABLE_REFLECTIVE; mask_table_manifest: STRING): BOOLEAN
 		do
-			Result := Result.bit_not |>> ({PLATFORM}.Natural_64_bits - n)
+			Result := across new_mask_table (mask_table_manifest) as table all
+				object.field_table.has_immutable (table.key) and then valid_interval (table.item)
+			end
 		end
+
+feature {NONE} -- Factory
 
 	new_mask_interval (range: IMMUTABLE_STRING_8): INTEGER_INTERVAL
 		local
@@ -180,17 +200,13 @@ feature {NONE} -- Implementation
 			create Result.make_assignments (mask_table_manifest)
 		end
 
-	new_maximum_value: NATURAL_64
-		local
-			i, upper: INTEGER
+feature {NONE} -- Implementation
+
+	make_field_arrays (n: INTEGER)
 		do
-			upper := upper_bit
-			Result := 1
-			from i := 1 until i > upper loop
-				Result := Result * 2
-				i := i + 1
-			end
-			Result := Result - 1
+			create field_array.make_empty (n)
+			create field_bitshift.make_empty (n)
+			create field_mask.make_empty (n)
 		end
 
 	no_masks_overlap: BOOLEAN

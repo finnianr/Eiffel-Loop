@@ -49,6 +49,9 @@ system:
 		precompile: 
 			name = precompile; location = "$ISE_PRECOMP/EL/console-application.ecf"
 
+		mapping:
+			N_16 = NATURAL_16
+
 		# ISE
 		libraries:
 			location = "$ISE_LIBRARY/library"

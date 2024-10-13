@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 10:45:46 GMT (Monday 30th September 2024)"
-	revision: "22"
+	date: "2024-10-13 15:44:45 GMT (Sunday 13th October 2024)"
+	revision: "23"
 
 class
 	NUMERIC_TEST_SET
@@ -81,12 +81,19 @@ feature -- Tests
 		end
 
 	test_negative_to_natural
+		-- NUMERIC_TEST_SET.test_negative_to_natural
 		local
-			i: INTEGER; n: NATURAL
+			i: INTEGER; n, negative_n: NATURAL
 		do
 			i := -2
 			n := i.to_natural_32
 			assert ("same as abs", n = 4294967294)
+
+			negative_n := 2
+			negative_n := negative_n.bit_not + 1
+			assert ("same as 1's complement + 1", negative_n = n)
+			negative_n := (negative_n - 1).bit_not
+			assert ("is reversed", negative_n = 2)
 
 			-- reverse
 			i := n.to_integer_32

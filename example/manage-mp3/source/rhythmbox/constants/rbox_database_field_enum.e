@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 7:21:24 GMT (Monday 2nd September 2024)"
-	revision: "18"
+	date: "2024-10-12 8:46:28 GMT (Saturday 12th October 2024)"
+	revision: "19"
 
 class
 	RBOX_DATABASE_FIELD_ENUM
@@ -33,6 +33,17 @@ inherit
 			initialize_fields, make
 		end
 
+	RBOX_ALBUM_FIELDS_ENUM undefine is_equal end
+
+	RBOX_ARTIST_FIELDS_ENUM undefine is_equal end
+
+	RBOX_COMPOSER_FIELDS_ENUM undefine is_equal end
+
+	RBOX_MUSICBRAINZ_FIELDS_ENUM undefine is_equal end
+
+	RBOX_REPLAYGAIN_FIELDS_ENUM undefine is_equal end
+
+	RBOX_DATABASE_FIELD_TYPES undefine is_equal end
 create
 	make
 
@@ -125,242 +136,136 @@ feature {NONE} -- Initialization
 			create element_cache_table.make (count, agent new_element)
 		end
 
-feature -- Fields A
-
-	album: NATURAL_16
-
-	album_artist: NATURAL_16
-
-	album_artist_folded: NATURAL_16
-
-	album_artist_sort_key: NATURAL_16
-
-	album_artist_sortname: NATURAL_16
-
-	album_artist_sortname_folded: NATURAL_16
-
-	album_artist_sortname_sort_key: NATURAL_16
-
-	album_folded: NATURAL_16
-
-	album_sort_key: NATURAL_16
-
-	album_sortname: NATURAL_16
-
-	album_sortname_folded: NATURAL_16
-
-	album_sortname_sort_key: NATURAL_16
-
-	artist: NATURAL_16
-
-	artist_folded: NATURAL_16
-
-	artist_sort_key: NATURAL_16
-
-	artist_sortname_folded: NATURAL_16
-
-	artist_sortname_sort_key: NATURAL_16
-
 feature -- Fields B to G
 
-	beats_per_minute: NATURAL_16
+	beats_per_minute: N_16
 
-	bitrate: NATURAL_16
+	bitrate: N_16
 
-	comment: NATURAL_16
+	comment: N_16
 
-	composer: NATURAL_16
+	copyright: N_16
 
-	composer_folded: NATURAL_16
+	date: N_16
 
-	composer_sort_key: NATURAL_16
+	description: N_16
 
-	composer_sortname: NATURAL_16
+	disc_number: N_16
 
-	composer_sortname_folded: NATURAL_16
+	duration: N_16
 
-	composer_sortname_sort_key: NATURAL_16
+	file_size: N_16
 
-	copyright: NATURAL_16
+	first_seen: N_16
 
-	date: NATURAL_16
+	first_seen_str: N_16
 
-	description: NATURAL_16
+	genre: N_16
 
-	disc_number: NATURAL_16
+	genre_folded: N_16
 
-	duration: NATURAL_16
-
-	file_size: NATURAL_16
-
-	first_seen: NATURAL_16
-
-	first_seen_str: NATURAL_16
-
-	genre: NATURAL_16
-
-	genre_folded: NATURAL_16
-
-	genre_sort_key: NATURAL_16
+	genre_sort_key: N_16
 
 feature -- Fields H to P
 
-	hidden: NATURAL_16
+	hidden: N_16
 
-	image: NATURAL_16
+	image: N_16
 
-	keyword: NATURAL_16
+	keyword: N_16
 
-	lang: NATURAL_16
+	lang: N_16
 
-	last_played: NATURAL_16
+	last_played: N_16
 
-	last_played_str: NATURAL_16
+	last_played_str: N_16
 
-	last_seen: NATURAL_16
+	last_seen: N_16
 
-	last_seen_str: NATURAL_16
+	last_seen_str: N_16
 
-	location: NATURAL_16
+	location: N_16
 
-	mb_albumartistid: NATURAL_16
+	media_type: N_16
 
-	mb_albumid: NATURAL_16
+	mountpoint: N_16
 
-	mb_artistid: NATURAL_16
+	mtime: N_16
 
-	mb_artistsortname: NATURAL_16
+	play_count: N_16
 
-	mb_trackid: NATURAL_16
+	playback_error: N_16
 
-	media_type: NATURAL_16
-
-	mountpoint: NATURAL_16
-
-	mtime: NATURAL_16
-
-	play_count: NATURAL_16
-
-	playback_error: NATURAL_16
-
-	post_time: NATURAL_16
+	post_time: N_16
 
 feature -- Fields R
 
-	rating: NATURAL_16
-
-	replaygain_album_gain: NATURAL_16
-
-	replaygain_album_peak: NATURAL_16
-
-	replaygain_track_gain: NATURAL_16
-
-	replaygain_track_peak: NATURAL_16
+	rating: N_16
 
 feature -- Fields S to Z
 
-	search_match: NATURAL_16
+	search_match: N_16
 
-	status: NATURAL_16
+	status: N_16
 
-	subtitle: NATURAL_16
+	subtitle: N_16
 
-	summary: NATURAL_16
+	summary: N_16
 
-	title: NATURAL_16
+	title: N_16
 
-	title_folded: NATURAL_16
+	title_folded: N_16
 
-	title_sort_key: NATURAL_16
+	title_sort_key: N_16
 
-	track_number: NATURAL_16
+	track_number: N_16
 
-	year: NATURAL_16
+	year: N_16
 
 feature -- Access
 
-	always_saved_set: ARRAY [NATURAL_16]
+	always_saved_set: ARRAY [N_16]
 		-- Fields that are always saved in XML media item entries even when empty
 		once
 			Result := << artist, album, date, genre, title >>
 		end
 
-	sorted: SORTABLE_ARRAY [NATURAL_16]
+	sorted: SORTABLE_ARRAY [N_16]
 
-	type (field_code: NATURAL_16): NATURAL_16
-		do
-			Result := field_code & 0xFF
-		end
-
-	type_group_table: EL_FUNCTION_GROUPED_SET_TABLE [NATURAL_16, NATURAL_16]
+	type_group_table: EL_FUNCTION_GROUPED_SET_TABLE [N_16, N_16]
 		-- fields grouped by `type'
 		do
 			create Result.make_from_list (agent type, sorted)
 		end
 
-	xml_element (field_code: NATURAL_16): XML_TEXT_ELEMENT
+	xml_element (field_code: N_16): XML_TEXT_ELEMENT
 		do
 			Result := element_cache_table.item (field_code)
 		end
 
 feature -- Status query
 
-	is_string_type (field_code: NATURAL_16): BOOLEAN
+	is_string_type (field_code: N_16): BOOLEAN
 		do
 			Result := type (field_code) = G_type_string
 		end
 
-feature {NONE} -- Constants
-
-	G_type_boolean: NATURAL_16 = 0
-
-	G_type_double: NATURAL_16 = 0x1
-
-	G_type_string: NATURAL_16 = 0x2
-
-	G_type_uint64: NATURAL_16 = 0x4
-
-	G_type_ulong: NATURAL_16 = 0x8
+	all_non_string_fields_in_table (table: EL_FIELD_TABLE): BOOLEAN
+		do
+			Result := across sorted as field all
+				not is_string_type (field.item) implies table.has_immutable (field_name (field.item))
+			end
+		end
 
 feature {NONE} -- Implementation
 
-	numbered_boolean (n: INTEGER): NATURAL_16
-		do
-			Result := (n.to_natural_16 |<< 8) | G_type_boolean
-		end
-
-	numbered_double (n: INTEGER): NATURAL_16
-		do
-			Result := (n.to_natural_16 |<< 8) | G_type_double
-		end
-
-	numbered_string (n: INTEGER): NATURAL_16
-		do
-			Result := (n.to_natural_16 |<< 8) | G_type_string
-		end
-
-	numbered_uint64 (n: INTEGER): NATURAL_16
-		do
-			Result := (n.to_natural_16 |<< 8) | G_type_uint64
-		end
-
-	numbered_ulong (n: INTEGER): NATURAL_16
-		do
-			Result := (n.to_natural_16 |<< 8) | G_type_ulong
-		end
-
-	hi_byte (n: INTEGER): NATURAL_16
-		do
-			Result := n.to_natural_16 |<< 8
-		end
-
-	new_element (field_code: NATURAL_16): XML_TEXT_ELEMENT
+	new_element (field_code: N_16): XML_TEXT_ELEMENT
 		do
 			create Result.make_empty (name (field_code))
 		end
 
 feature {NONE} -- Internal attributes
 
-	element_cache_table: EL_AGENT_CACHE_TABLE [XML_TEXT_ELEMENT, NATURAL_16]
+	element_cache_table: EL_AGENT_CACHE_TABLE [XML_TEXT_ELEMENT, N_16]
 
 end

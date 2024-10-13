@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-07 7:55:21 GMT (Monday 7th October 2024)"
-	revision: "71"
+	date: "2024-10-13 17:48:28 GMT (Sunday 13th October 2024)"
+	revision: "72"
 
 class
 	REFLECTION_TEST_SET
@@ -84,24 +84,35 @@ feature -- Tests
 				covers/{EL_COMPACTABLE_REFLECTIVE}.compact_value
 			]"
 		local
-			date: COMPACTABLE_DATE; date_2: DATE; status, status_2: EL_FIREWALL_STATUS
-			compact_64: NATURAL_64
+			date_1: COMPACTABLE_DATE; date: DATE; status, status_2: EL_FIREWALL_STATUS
+			compact_64: NATURAL_64; date_2: RANGE_COMPACTABLE_DATE; compact_date: INTEGER
 		do
 			create date.make (2005, 12, 30)
-			create date_2.make (2005, 12, 30)
-			assert ("same compact", date.compact_date.to_integer_32 = date_2.ordered_compact_date)
 
-			date_2.set_date (2023, 11, 2)
-			date.set_from_compact_date (date_2.ordered_compact_date)
-			assert ("same year", date.year = date_2.year)
-			assert ("same month", date.month = date_2.month)
-			assert ("same day", date.day = date_2.day)
+			create date_1.make (2005, 12, 30)
+			assert ("fits into 32 bits", date_1.upper_bit_index = 32)
+			assert ("same compact", date_1.compact_date = date.ordered_compact_date)
+
+			create date_2.make (2005, 12, 30) -- using range intervals to define each field
+			assert ("fits into 27 bits", date_2.upper_bit_index = 27)
+			compact_date := date_2.compact_date
+			assert ("same as", compact_date = 0x031CEB7D)
+			create date_2.make_from_compact_date (compact_date)
+			assert ("year OK", date_2.year = 2005)
+			assert ("month OK", date_2.month = 12)
+			assert ("day OK", date_2.day = 30)
+
+			date.set_date (2023, 11, 2)
+			date_1.set_from_compact_date (date.ordered_compact_date)
+			assert ("same year", date_1.year = date.year)
+			assert ("same month", date_1.month = date.month)
+			assert ("same day", date_1.day = date.day)
 
 			create status
-			status.set_date (date_2.ordered_compact_date)
+			status.set_date (date.ordered_compact_date)
 			status.block (Service_port.http)
 
-			compact_64 := (compact_64.one |<< 32).bit_or (date_2.ordered_compact_date.to_natural_64)
+			compact_64 := (compact_64.one |<< 32).bit_or (date.ordered_compact_date.to_natural_64)
 			assert ("compact_status OK", compact_64 = status.compact_status)
 
 			create status_2.make_from_compact (status.compact_status)

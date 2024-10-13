@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-18 14:10:17 GMT (Thursday 18th July 2024)"
-	revision: "1"
+	date: "2024-10-13 8:33:58 GMT (Sunday 13th October 2024)"
+	revision: "2"
 
 class
 	EL_REPLACE_SUBSTRING_EDITION
@@ -36,7 +36,7 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Field_masks: EL_REFLECTED_FIELD_BIT_MASKS
+	Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
 		once
 			create Result.make (Current, "[
 				array_index := 1 .. 18

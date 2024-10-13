@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
-	revision: "68"
+	date: "2024-10-10 15:57:51 GMT (Thursday 10th October 2024)"
+	revision: "69"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -233,6 +233,9 @@ feature -- Status query
 
 			elseif attached field_by_value_table as name_table then
 				Result := name_table.count = count
+			end
+			if i.plus (1).is_equal (4) then
+
 			end
 		end
 

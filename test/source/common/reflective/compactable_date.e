@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-03 9:04:10 GMT (Friday 3rd November 2023)"
-	revision: "5"
+	date: "2024-10-13 8:33:57 GMT (Sunday 13th October 2024)"
+	revision: "6"
 
 class
 	COMPACTABLE_DATE
@@ -18,6 +18,8 @@ inherit
 			compact_integer_32 as compact_date,
 			make_from_integer_32 as make_from_compact_date,
 			set_from_integer_32 as set_from_compact_date
+		redefine
+			Range_table
 		end
 
 create
@@ -25,25 +27,25 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_year, a_month, a_day: INTEGER)
+	make (a_year: INTEGER_16; a_month, a_day: NATURAL_8)
 		do
 			year := a_year; month := a_month; day := a_day
 		end
 
 feature -- Access
 
-	day: INTEGER
-			-- Day of the current object
+	day: NATURAL_8
+		-- Day of the current object
 
-	month: INTEGER
-			-- Month of the current object
+	month: NATURAL_8
+		-- Month of the current object
 
-	year: INTEGER
+	year: INTEGER_16
 			-- Year of the current object
 
 feature {NONE} -- Constants
 
-	Field_masks: EL_REFLECTED_FIELD_BIT_MASKS
+	Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
 		once
 			create Result.make (Current, "[
 				day := 1 .. 8

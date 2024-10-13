@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 13:34:33 GMT (Sunday 6th October 2024)"
-	revision: "1"
+	date: "2024-10-09 14:20:34 GMT (Wednesday 9th October 2024)"
+	revision: "2"
 
 class TUPLE_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -70,7 +70,7 @@ feature -- Tests
 		end
 
 	test_fill_tuple
-		-- SPLIT_STRING_TEST_SET.test_fill_tuple
+		-- TUPLE_TEST_SET.test_fill_tuple
 		local
 			t1: TUPLE [animal: ZSTRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
 			t2: TUPLE [currency: IMMUTABLE_STRING_8; symbol: STRING_32]

@@ -36,6 +36,7 @@ See doc/manage-mp3.txt for details
 		<setting name = "inlining_size" value = "3"/>
 		<setting name = "line_generation" value = "false"/>
 		<precompile name = "precompile" location = "$ISE_PRECOMP/EL/console-application.ecf"/>
+		<mapping old_name = "N_16" new_name = "NATURAL_16"/>
 		<!--ISE-->
 		<library name = "base" location = "$ISE_LIBRARY/library/base/base.ecf"/>
 		<library name = "base_ext" location = "$ISE_LIBRARY/library/base_extension/base_extension.ecf"/>

@@ -2,15 +2,9 @@ note
 	description: "[
 		Object whose expanded fields can be compactly represented as a single ${NATURAL_64} number
 	]"
-	notes: "[
-		Using a compact date as an example the table manifest string can be formatted as follows:
-
-			day:
-				1 .. 8
-			month:
-				9 .. 16
-			year:
-				17 .. 32
+	instructions: "[
+		Read notes for ${EL_ATTRIBUTE_RANGE_TABLE} and ${EL_ATTRIBUTE_BIT_RANGE_TABLE} for details
+		on how to implement `Range_table' as once routine.
 	]"
 	descendants: "See end of class"
 
@@ -19,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 10:17:41 GMT (Monday 22nd July 2024)"
-	revision: "7"
+	date: "2024-10-13 17:36:19 GMT (Sunday 13th October 2024)"
+	revision: "8"
 
 deferred class
 	EL_COMPACTABLE_REFLECTIVE
@@ -31,7 +25,7 @@ inherit
 			field_included as is_expanded_field,
 			foreign_naming as eiffel_naming
 		export
-			{EL_REFLECTED_FIELD_BIT_MASKS} field_table
+			{EL_ATTRIBUTE_BIT_RANGE_TABLE} field_table
 		redefine
 			is_equal
 		end
@@ -82,68 +76,68 @@ feature -- NATURAL_x conversion
 
 	compact_natural_16: NATURAL_16
 		require
-			valid_masks: upper_bit <= 16
+			valid_masks: upper_bit_index <= 16
 		do
-			Result := field_masks.compact_value (Current).to_natural_16
+			Result := Range_table.compact_value (Current).to_natural_16
 		end
 
 	compact_natural_32: NATURAL_32
 		require
-			valid_masks: upper_bit <= 32
+			valid_masks: upper_bit_index <= 32
 		do
-			Result := field_masks.compact_value (Current).to_natural_32
+			Result := Range_table.compact_value (Current).to_natural_32
 		end
 
 	compact_natural_64: NATURAL_64
 		do
-			Result := field_masks.compact_value (Current)
+			Result := Range_table.compact_value (Current)
 		end
 
 	compact_natural_8: NATURAL_8
 		require
-			valid_masks: upper_bit <= 8
+			valid_masks: upper_bit_index <= 8
 		do
-			Result := field_masks.compact_value (Current).to_natural_8
+			Result := Range_table.compact_value (Current).to_natural_8
 		end
 
 feature -- INTEGER_x conversion
 
 	compact_integer_16: INTEGER_16
 		require
-			valid_masks: upper_bit <= 16
+			valid_masks: upper_bit_index <= 16
 		do
-			Result := field_masks.compact_value (Current).to_integer_16
+			Result := Range_table.compact_value (Current).to_integer_16
 		end
 
 	compact_integer_32: INTEGER_32
 		require
-			valid_masks: upper_bit <= 32
+			valid_masks: upper_bit_index <= 32
 		do
-			Result := field_masks.compact_value (Current).to_integer_32
+			Result := Range_table.compact_value (Current).to_integer_32
 		end
 
 	compact_integer_64: INTEGER_64
 		do
-			Result := field_masks.compact_value (Current).to_integer_64
+			Result := Range_table.compact_value (Current).to_integer_64
 		end
 
 	compact_integer_8: INTEGER_8
 		require
-			valid_masks: upper_bit <= 8
+			valid_masks: upper_bit_index <= 8
 		do
-			Result := field_masks.compact_value (Current).to_integer_8
+			Result := Range_table.compact_value (Current).to_integer_8
 		end
 
 feature -- Measurement
 
 	maximum_value: NATURAL_64
 		do
-			Result := field_masks.maximum_value
+			Result := Range_table.maximum_value
 		end
 
-	upper_bit: INTEGER
+	upper_bit_index: INTEGER
 		do
-			Result := field_masks.upper_bit
+			Result := Range_table.upper_bit_index
 		end
 
 feature -- Element change
@@ -152,7 +146,7 @@ feature -- Element change
 		require
 			fits_in_bit_mask_range: value <= maximum_value
 		do
-			field_masks.set_from_compact (Current, value)
+			Range_table.set_from_compact (Current, value)
 		end
 
 	set_from_integer_16 (value: INTEGER_16)
@@ -199,9 +193,11 @@ feature -- Comparison
 
 feature {NONE} -- Deferred
 
-	field_masks: EL_REFLECTED_FIELD_BIT_MASKS
+	Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
 		-- implement as once function with manifest string
 		deferred
+		ensure
+			initialized: Result.is_initialized
 		end
 
 note

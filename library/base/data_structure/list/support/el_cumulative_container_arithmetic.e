@@ -1,13 +1,14 @@
 note
 	description: "Numeric calculations that can be applied across container items"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 7:51:40 GMT (Monday 30th September 2024)"
-	revision: "4"
+	date: "2024-10-09 14:49:17 GMT (Wednesday 9th October 2024)"
+	revision: "5"
 
 deferred class
 	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
@@ -190,4 +191,21 @@ feature {NONE} -- Deferred implementation
 		-- assign Current to Result in descendant
 		deferred
 		end
+
+note
+	descendants: "[
+			EL_CUMULATIVE_CONTAINER_ARITHMETIC* [G]
+				${EL_CONTAINER_STRUCTURE* [G]}
+					${EL_CONTAINER_ARITHMETIC [G, N -> NUMERIC]}
+					${EL_LINEAR* [G]}
+						${EL_FILE_GENERAL_LINE_SOURCE* [S -> STRING_GENERAL create make end]}
+							${EL_PLAIN_TEXT_LINE_SOURCE}
+						${EL_CHAIN* [G]}
+							${EL_ARRAYED_LIST [G]}
+								${EL_ARRAYED_MAP_LIST [K, G]}
+									${EL_KEY_INDEXED_ARRAYED_MAP_LIST [K -> COMPARABLE, G]}
+					${EL_CONTAINER_WRAPPER [G]}
+					${EL_HASH_SET [H -> HASHABLE]}
+					${EL_HASH_TABLE [G, K -> HASHABLE]}
+	]"
 end
