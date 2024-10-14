@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 15:44:45 GMT (Sunday 13th October 2024)"
-	revision: "23"
+	date: "2024-10-14 17:12:10 GMT (Monday 14th October 2024)"
+	revision: "24"
 
 class
 	NUMERIC_TEST_SET
@@ -31,11 +31,11 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["double_string_conversion", agent test_double_string_conversion],
-				["modulo_indexing",			  agent test_modulo_indexing],
-				["negative_to_natural",		  agent test_negative_to_natural],
-				["store_integer_in_natural", agent test_store_integer_in_natural],
-				["truncated_natural_64",	  agent test_truncated_natural_64]
+				["double_string_conversion",	 agent test_double_string_conversion],
+				["modulo_indexing",				 agent test_modulo_indexing],
+				["ones_complement_arithmetic", agent test_ones_complement_arithmetic],
+				["store_integer_in_natural",	 agent test_store_integer_in_natural],
+				["truncated_natural_64",		 agent test_truncated_natural_64]
 			>>)
 		end
 
@@ -80,8 +80,8 @@ feature -- Tests
 			end
 		end
 
-	test_negative_to_natural
-		-- NUMERIC_TEST_SET.test_negative_to_natural
+	test_ones_complement_arithmetic
+		-- NUMERIC_TEST_SET.test_ones_complement_arithmetic
 		local
 			i: INTEGER; n, negative_n: NATURAL
 		do
@@ -98,6 +98,9 @@ feature -- Tests
 			-- reverse
 			i := n.to_integer_32
 			assert ("same as abs", i = -2)
+
+			n := n + 4
+			assert ("is 2", n = 2)
 		end
 
 	test_store_integer_in_natural

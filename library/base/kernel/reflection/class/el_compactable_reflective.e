@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 17:36:19 GMT (Sunday 13th October 2024)"
-	revision: "8"
+	date: "2024-10-14 17:22:41 GMT (Monday 14th October 2024)"
+	revision: "9"
 
 deferred class
 	EL_COMPACTABLE_REFLECTIVE
@@ -142,13 +142,6 @@ feature -- Measurement
 
 feature -- Element change
 
-	set_from_natural_64 (value: NATURAL_64)
-		require
-			fits_in_bit_mask_range: value <= maximum_value
-		do
-			Range_table.set_from_compact (Current, value)
-		end
-
 	set_from_integer_16 (value: INTEGER_16)
 		do
 			set_from_natural_64 (value.to_natural_64)
@@ -179,6 +172,13 @@ feature -- Element change
 			set_from_natural_64 (value)
 		end
 
+	set_from_natural_64 (value: NATURAL_64)
+		require
+			fits_in_bit_mask_range: value <= maximum_value
+		do
+			Range_table.set_from_compact (Current, value)
+		end
+
 	set_from_natural_8 (value: NATURAL_8)
 		do
 			set_from_natural_64 (value)
@@ -189,6 +189,13 @@ feature -- Comparison
 	is_equal (other: like Current): BOOLEAN
 		do
 			Result := is_equal_except (other) -- {ANY}.is_equal
+		end
+
+feature {NONE} -- Implementation
+
+	range (lower, upper: INTEGER_64): EL_INTEGER_64_INTERVAL
+		do
+			create Result.make (lower, upper)
 		end
 
 feature {NONE} -- Deferred
@@ -205,6 +212,7 @@ note
 			EL_COMPACTABLE_REFLECTIVE*
 				${EL_FIREWALL_STATUS}
 				${COMPACTABLE_DATE}
+					${RANGE_COMPACTABLE_DATE}
 				${EL_COMPACTABLE_EDITION*}
 					${EL_SET_STRING_EDITION}
 					${EL_REMOVE_TEXT_EDITION}

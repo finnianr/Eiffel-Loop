@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 17:42:41 GMT (Sunday 13th October 2024)"
-	revision: "9"
+	date: "2024-10-13 20:16:51 GMT (Sunday 13th October 2024)"
+	revision: "10"
 
 class
 	EL_ATTRIBUTE_BIT_RANGE_TABLE
@@ -112,11 +112,16 @@ feature -- Measurement
 	upper_bit_index: INTEGER
 		-- 1 based index of most significant bit
 		local
-			b: EL_BIT_ROUTINES; list: EL_ARRAYED_LIST [NATURAL_64]; left_most_mask: NATURAL_64
+			b: EL_BIT_ROUTINES; i: INTEGER; max_value: NATURAL_64
 		do
-			create list.make_from_special (field_mask.twin) -- `twin' so as not to change the order
-			list.sort (True)
-			Result := 64 - b.leading_zeros_count_64 (list.last)
+			if attached field_mask as mask then
+			-- find left-most mask
+				from i := 0 until i = mask.count loop
+					max_value := mask [i].max (max_value)
+					i := i + 1
+				end
+			end
+			Result := 64 - b.leading_zeros_count_64 (max_value)
 		end
 
 feature -- Basic operations

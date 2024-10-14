@@ -3,23 +3,7 @@ note
 		An ${EL_ATTRIBUTE_BIT_RANGE_TABLE} object with the mask and bit-shift information calculated
 		from range values supplied for each field using the field address operator '$'
 	]"
-	notes: "[
-		**Date Example**
-		
-			class DATE inherit EL_COMPACTABLE_REFLECTIVE
-
-			feature {NONE} -- Constants
-
-				Range_table: EL_ATTRIBUTE_RANGE_TABLE
-					once
-						create Result
-						Result [$day] := 1 |..| 31
-						Result [$month] := 1 |..| 12
-						Result [$year] := -100_000 |..| 100_000
-						Result.initialize (Current)
-					end
-			end
-	]"
+	notes: "See end of class"
 	instructions: "[
 		A call to `initialize' must be made immediately after filling the table with entries
 	]"
@@ -29,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 20:09:37 GMT (Sunday 13th October 2024)"
-	revision: "2"
+	date: "2024-10-14 8:09:49 GMT (Monday 14th October 2024)"
+	revision: "3"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -111,13 +95,14 @@ feature -- Basic operations
 				from start until after loop
 					if table.has_address (object, address_item)
 						and then attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} table.found_item as field
+						and then attached as_range_64 (range_item) as range_64
 					then
-						bit_count := to_bit_count (range_item)
+						bit_count := to_bit_count (range_64)
 						bit_mask := b.filled_bits (bit_count) |<< bit_shift
 						field_array.extend (field)
 						field_bitshift.extend (bit_shift)
 						field_mask.extend (bit_mask)
-						field_offset.extend (range_item.lower.to_natural_64)
+						field_offset.extend (range_64.lower_.to_natural_64)
 						bit_shift := bit_shift + bit_count
 					end
 					forth
@@ -131,7 +116,7 @@ feature -- Basic operations
 
 	set_from_compact (object: EL_COMPACTABLE_REFLECTIVE; a_value: NATURAL_64)
 		local
-			i: INTEGER; value, i_th_offset: NATURAL_64; is_positive: BOOLEAN
+			i: INTEGER; value, i_th_offset: NATURAL_64
 		do
 			if attached field_array as field and then attached field_bitshift as bitshift
 				and then attached field_mask as mask and then attached field_offset as offset
@@ -162,19 +147,58 @@ feature {NONE} -- Implementation
 			Result := (n - 1).bit_not
 		end
 
-	frozen to_bit_count (range: INTEGER_INTERVAL): INTEGER
+	frozen as_range_64 (range: INTEGER_INTERVAL): TUPLE [lower_, upper_: INTEGER_64]
+		do
+			if attached {EL_INTEGER_64_INTERVAL} range as range_64 then
+				Result := [range_64.lower, range_64.upper]
+			else
+				Result := [range.lower.to_integer_64, range.upper.to_integer_64]
+			end
+		end
+
+	frozen to_bit_count (range: like as_range_64): INTEGER
 		local
 			b: EL_BIT_ROUTINES; lower, upper, maximum: NATURAL_64
 		do
-			lower := range.lower.abs.to_natural_64
-			upper := range.upper.to_natural_64
-			maximum := if range.lower >= 0 then upper - lower else upper + lower end
+			lower := range.lower_.abs.to_natural_64
+			upper := range.upper_.to_natural_64
+			maximum := if range.lower_ >= 0 then upper - lower else upper + lower end
 			Result := 64 - b.leading_zeros_count_64 (maximum)
 		end
 
 feature {NONE} -- Internal attributes
 
-	field_offset: SPECIAL [NATURAL_64]
+	field_offset: SPECIAL [NATURAL_64];
 		-- offset to shift range.lower to zero
+
+note
+	notes: "[
+		**Date Example**
+
+			class DATE inherit EL_COMPACTABLE_REFLECTIVE
+
+			feature {NONE} -- Constants
+
+				Range_table: EL_ATTRIBUTE_RANGE_TABLE
+					once
+						create Result
+						Result [$day] := 1 |..| 31
+						Result [$month] := 1 |..| 12
+						Result [$year] := -100_000 |..| 100_000
+						Result.initialize (Current)
+					end
+			end
+
+		**Large Values**
+
+		To specify range values greater than ${INTEGER_32_REF}.Max_value use the `range' function
+		defined as:
+
+			range (lower, upper: INTEGER_64): EL_INTEGER_64_INTERVAL
+				do
+					create Result.make (lower, upper)
+				end
+
+	]"
 
 end
