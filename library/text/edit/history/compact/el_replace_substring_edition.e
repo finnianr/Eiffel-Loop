@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 8:33:58 GMT (Sunday 13th October 2024)"
-	revision: "2"
+	date: "2024-10-15 11:19:31 GMT (Tuesday 15th October 2024)"
+	revision: "3"
 
 class
 	EL_REPLACE_SUBSTRING_EDITION
@@ -39,10 +39,10 @@ feature {NONE} -- Constants
 	Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
 		once
 			create Result.make (Current, "[
-				array_index := 1 .. 18
-				start_index := 19 .. 40
-				end_index := 41 .. 60
-				edition_code := 61 .. 64
+				edition_code := 1 .. 3
+				array_index := 4 .. 21
+				start_index := 22 .. 43
+				end_index := 44 .. 64
 			]")
 		end
 end

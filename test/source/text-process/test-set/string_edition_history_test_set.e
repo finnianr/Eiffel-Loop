@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2024-10-15 10:03:00 GMT (Tuesday 15th October 2024)"
+	revision: "10"
 
 class
 	STRING_EDITION_HISTORY_TEST_SET
@@ -24,12 +24,25 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["zstring_editions", agent test_zstring_editions],
-				["string_8_editions", agent test_string_8_editions]
+				["compactable_edition",	agent test_compactable_edition],
+				["string_8_editions",	agent test_string_8_editions],
+				["zstring_editions",		agent test_zstring_editions]
 			>>)
 		end
 
 feature -- Tests
+
+	test_compactable_edition
+		local
+			edition: EL_CHARACTER_32_EDITION; compact: NATURAL_64
+		do
+			create edition.make (7, 1, '.')
+			compact := edition.compact_edition
+			create edition.make_from_compact_edition (compact)
+			assert ("same edition_code", edition.edition_code = 7)
+			assert ("same start_index", edition.start_index = 1)
+			assert ("same character", edition.character = '.')
+		end
 
 	test_string_8_editions
 		local

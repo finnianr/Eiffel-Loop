@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-20 9:42:03 GMT (Saturday 20th July 2024)"
-	revision: "12"
+	date: "2024-10-15 11:11:24 GMT (Tuesday 15th October 2024)"
+	revision: "13"
 
 deferred class
 	EL_STRING_EDITION_HISTORY [S -> STRING_GENERAL create make_empty end]
@@ -218,8 +218,10 @@ feature {NONE} -- Factory
 feature {NONE} -- Implementation
 
 	apply_edition (compact_edition: NATURAL_64)
+		require
+			valid_edition: (1 |..| 7).has ((compact_edition & 0x7).to_integer_32)
 		do
-			inspect compact_edition |>> 60
+			inspect compact_edition & 0x7
 				when Insert_character_code then
 					if attached new_character_32_edition (compact_edition) as edition then
 						insert_character (edition.character, edition.start_index)

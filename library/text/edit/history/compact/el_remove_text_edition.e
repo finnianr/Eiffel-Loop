@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 8:33:57 GMT (Sunday 13th October 2024)"
-	revision: "2"
+	date: "2024-10-15 11:12:31 GMT (Tuesday 15th October 2024)"
+	revision: "3"
 
 class
 	EL_REMOVE_TEXT_EDITION
@@ -37,9 +37,9 @@ feature {NONE} -- Constants
 	Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
 		once
 			create Result.make (Current, "[
-				start_index := 1 .. 30
-				end_index := 31 .. 60
-				edition_code := 61 .. 64
+				edition_code := 1 .. 3
+				start_index := 4 .. 33
+				end_index := 34 .. 64
 			]")
 		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 8:33:58 GMT (Sunday 13th October 2024)"
-	revision: "2"
+	date: "2024-10-15 11:20:06 GMT (Tuesday 15th October 2024)"
+	revision: "3"
 
 class
 	EL_SET_STRING_EDITION
@@ -34,8 +34,8 @@ feature {NONE} -- Constants
 	Range_table: EL_ATTRIBUTE_BIT_RANGE_TABLE
 		once
 			create Result.make (Current, "[
-				array_index := 1 .. 32
-				edition_code := 61 .. 64
+				edition_code := 1 .. 3
+				array_index := 4 .. 34
 			]")
 		end
 end
