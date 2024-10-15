@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 17:48:28 GMT (Sunday 13th October 2024)"
-	revision: "72"
+	date: "2024-10-15 14:05:45 GMT (Tuesday 15th October 2024)"
+	revision: "73"
 
 class
 	REFLECTION_TEST_SET
@@ -97,10 +97,16 @@ feature -- Tests
 			assert ("fits into 27 bits", date_2.upper_bit_index = 27)
 			compact_date := date_2.compact_date
 			assert ("same as", compact_date = 0x031CEB7D)
+
 			create date_2.make_from_compact_date (compact_date)
 			assert ("year OK", date_2.year = 2005)
 			assert ("month OK", date_2.month = 12)
 			assert ("day OK", date_2.day = 30)
+			
+		-- Test negative year
+			date_2.set_year (-2005)
+			create date_2.make_from_compact_date (date_2.compact_date)
+			assert ("year OK", date_2.year = -2005)
 
 			date.set_date (2023, 11, 2)
 			date_1.set_from_compact_date (date.ordered_compact_date)

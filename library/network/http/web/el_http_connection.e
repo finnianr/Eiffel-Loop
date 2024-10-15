@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-22 18:27:50 GMT (Monday 22nd July 2024)"
-	revision: "53"
+	date: "2024-10-15 14:53:00 GMT (Tuesday 15th October 2024)"
+	revision: "54"
 
 class
 	EL_HTTP_CONNECTION
@@ -46,6 +46,20 @@ feature {NONE} -- Initialization
 			create user_agent.make_empty
 			create url.make_empty
 		end
+
+feature -- Measurement
+
+	timeout_millsecs: INTEGER
+		-- maximum time in milli-seconds the request is allowed to take
+
+	timeout_secs: REAL
+		-- maximum time in milli-seconds the request is allowed to take
+		do
+			Result := timeout_millsecs.to_real / 1000
+		end
+
+	timeout_to_connect: INTEGER
+		-- The number of seconds to wait while trying to connect. 0 waits indefinitely.
 
 feature -- Access
 
@@ -82,7 +96,7 @@ feature -- Access
 		do
 			Result := Http_status.name (page_error_code)
 		end
-		
+
 	url: EL_URL
 
 	user_agent: STRING
@@ -221,6 +235,12 @@ feature -- Basic operations
 			set_curl_boolean_option (CURLOPT_verbose, False)
 			if not user_agent.is_empty then
 				set_curl_string_8_option (CURLOPT_useragent, user_agent)
+			end
+			if timeout_millsecs.to_boolean then
+				set_curl_integer_option (CURLOPT_timeout_ms, timeout_millsecs)
+			end
+			if timeout_to_connect.to_boolean then
+				set_curl_integer_option (CURLOPT_connect_timeout, timeout_to_connect)
 			end
 		ensure
 			opened: is_open
@@ -374,21 +394,21 @@ feature -- Status change
 
 
 	set_timeout (millisecs: INTEGER)
-			-- set maximum time in milli-seconds the request is allowed to take
+		-- set maximum time in milli-seconds the request is allowed to take
 		do
-			set_curl_integer_option (CURLOPT_timeout_ms, millisecs)
+			timeout_millsecs := millisecs
 		end
 
-	set_timeout_seconds (seconds: INTEGER)
-			-- set maximum time in seconds the request is allowed to take
+	set_timeout_seconds (seconds: REAL)
+		-- set maximum time in seconds the request is allowed to take
 		do
-			set_curl_integer_option (CURLOPT_timeout, seconds)
+			timeout_millsecs := (seconds * 1000).rounded
 		end
 
 	set_timeout_to_connect (seconds: INTEGER)
 			--
 		do
-			set_curl_integer_option (CURLOPT_timeout, seconds)
+			timeout_to_connect := seconds
 		end
 
 	set_url (a_url: EL_URL)

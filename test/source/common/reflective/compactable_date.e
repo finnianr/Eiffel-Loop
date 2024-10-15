@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 8:33:57 GMT (Sunday 13th October 2024)"
-	revision: "6"
+	date: "2024-10-15 14:03:31 GMT (Tuesday 15th October 2024)"
+	revision: "7"
 
 class
 	COMPACTABLE_DATE
@@ -41,7 +41,14 @@ feature -- Access
 		-- Month of the current object
 
 	year: INTEGER_16
-			-- Year of the current object
+		-- Year of the current object
+
+feature -- Element change
+
+	set_year (a_year: INTEGER_16)
+		do
+			year := a_year
+		end
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-10-15 14:53:00 GMT (Tuesday 15th October 2024)"
+	revision: "7"
 
 class
 	EL_CURL_OPTION_CONSTANTS
@@ -676,8 +676,8 @@ feature -- Connection
 		end
 
 	CURLOPT_connect_timeout: INTEGER
-			-- The number of seconds to wait while trying to connect. Use 0 to wait indefinitely.
-			-- Declared as CURLOPT_CONNECTTIMEOUT
+		-- The number of seconds to wait while trying to connect. Use 0 to wait indefinitely.
+		-- Declared as CURLOPT_CONNECTTIMEOUT
 		external
 			"C [macro <curl/curl.h>]: EIF_INTEGER"
 		alias

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:40:35 GMT (Tuesday 27th August 2024)"
-	revision: "16"
+	date: "2024-10-15 14:15:48 GMT (Tuesday 15th October 2024)"
+	revision: "17"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -229,6 +229,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 		do
 			if is_lio_enabled then
 				lio.put_labeled_string ("Sending " + command.type + " request", url)
+				lio.put_new_line
 			end
 			command.execute
 			if is_lio_enabled then

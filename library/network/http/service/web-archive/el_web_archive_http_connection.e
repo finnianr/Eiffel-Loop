@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:00:41 GMT (Monday 23rd September 2024)"
-	revision: "11"
+	date: "2024-10-15 14:35:46 GMT (Tuesday 15th October 2024)"
+	revision: "12"
 
 class
 	EL_WEB_ARCHIVE_HTTP_CONNECTION
@@ -16,6 +16,7 @@ inherit
 	EL_HTTP_CONNECTION
 		export
 			{NONE} all
+			{ANY} set_timeout_seconds, set_timeout_to_connect
 		end
 
 create
