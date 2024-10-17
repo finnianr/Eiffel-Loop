@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-14 8:09:49 GMT (Monday 14th October 2024)"
-	revision: "3"
+	date: "2024-10-16 13:09:00 GMT (Wednesday 16th October 2024)"
+	revision: "4"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -41,7 +41,7 @@ inherit
 		end
 
 create
-	default_create, make_assignments
+	default_create
 
 feature {NONE} -- Initialization
 

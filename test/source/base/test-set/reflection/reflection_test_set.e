@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-15 14:05:45 GMT (Tuesday 15th October 2024)"
-	revision: "73"
+	date: "2024-10-17 10:08:27 GMT (Thursday 17th October 2024)"
+	revision: "74"
 
 class
 	REFLECTION_TEST_SET
@@ -78,14 +78,15 @@ feature -- Tests
 		-- REFLECTION_TEST_SET.test_compactable_objects
 		note
 			testing: "[
-				covers/{EL_REFLECTED_FIELD_BIT_MASKS}.make,
-				covers/{EL_REFLECTIVE}.is_equal,
+				covers/{EL_ATTRIBUTE_BIT_RANGE_TABLE}.make,
+				covers/{EL_ATTRIBUTE_RANGE_TABLE}.initialize,
 				covers/{EL_COMPACTABLE_REFLECTIVE}.make_by_compact,
 				covers/{EL_COMPACTABLE_REFLECTIVE}.compact_value
 			]"
 		local
 			date_1: COMPACTABLE_DATE; date: DATE; status, status_2: EL_FIREWALL_STATUS
 			compact_64: NATURAL_64; date_2: RANGE_COMPACTABLE_DATE; compact_date: INTEGER
+			status_3: RANGE_FIREWALL_STATUS
 		do
 			create date.make (2005, 12, 30)
 
@@ -102,7 +103,7 @@ feature -- Tests
 			assert ("year OK", date_2.year = 2005)
 			assert ("month OK", date_2.month = 12)
 			assert ("day OK", date_2.day = 30)
-			
+
 		-- Test negative year
 			date_2.set_year (-2005)
 			create date_2.make_from_compact_date (date_2.compact_date)
@@ -114,6 +115,7 @@ feature -- Tests
 			assert ("same month", date_1.month = date.month)
 			assert ("same day", date_1.day = date.day)
 
+		-- Test EL_FIREWALL_STATUS
 			create status
 			status.set_date (date.ordered_compact_date)
 			status.block (Service_port.http)
@@ -123,6 +125,14 @@ feature -- Tests
 
 			create status_2.make_from_compact (status.compact_status)
 			assert ("are equal", status ~ status_2)
+
+			create status_3
+			status_3.set_date (date.ordered_compact_date)
+			status_3.block (Service_port.http)
+			assert ("fits into 35 bits", status_3.upper_bit_index = 35)
+			assert ("same date", status_3.compact_date = date.ordered_compact_date)
+			create status_3.make_from_compact (status_3.compact_status)
+			assert ("same blocked ports", status.blocked_ports ~ status_3.blocked_ports)
 		end
 
 	test_default_tuple_initialization

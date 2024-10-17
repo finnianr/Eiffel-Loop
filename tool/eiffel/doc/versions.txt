@@ -1,3 +1,6 @@
+Ver 2.2.16 (16 Oct 2024)
+* Prevent login prompt for REPOSITORY_SOURCE_LINK_EXPANDER
+
 Ver 2.2.15 (5 Oct 2024)
 * Fixed verbatim note editing bug causing bad sequence: 00 04 00 04
 

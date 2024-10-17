@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 11:07:52 GMT (Friday 4th October 2024)"
-	revision: "41"
+	date: "2024-10-16 10:59:04 GMT (Wednesday 16th October 2024)"
+	revision: "42"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -95,7 +95,6 @@ feature {NONE} -- Implementation
 
 	login (medium: EL_FILE_SYNC_MEDIUM)
 		do
-
 		end
 
 feature {NONE} -- Internal attributes

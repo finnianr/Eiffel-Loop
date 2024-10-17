@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "73"
+	date: "2024-10-16 9:19:15 GMT (Wednesday 16th October 2024)"
+	revision: "74"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -18,7 +18,7 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 		redefine
-			on_prepare
+			on_clean, on_prepare
 		end
 
 	EL_MODULE_GEOLOCATION; EL_MODULE_HTML; EL_MODULE_IP_ADDRESS
@@ -407,6 +407,13 @@ feature {NONE} -- Events
 		do
 			Precursor
 			File_system.make_directory (Cookie_path.parent)
+			Web.set_log_output (lio)
+		end
+
+	on_clean
+		do
+			Precursor
+			Web.set_silent_output
 		end
 
 feature {NONE} -- Implementation

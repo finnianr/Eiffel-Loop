@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-15 14:53:00 GMT (Tuesday 15th October 2024)"
-	revision: "54"
+	date: "2024-10-16 10:50:57 GMT (Wednesday 16th October 2024)"
+	revision: "55"
 
 class
 	EL_HTTP_CONNECTION
@@ -45,6 +45,7 @@ feature {NONE} -- Initialization
 			Precursor
 			create user_agent.make_empty
 			create url.make_empty
+			set_silent_output
 		end
 
 feature -- Measurement
@@ -135,10 +136,7 @@ feature -- Status query
 			read_string_head
 			close
 			if has_error then
-				if is_lio_enabled then
-					lio.put_new_line
-					lio.put_line (error_string)
-				end
+				lio.put_line (error_string)
 				if attached on_error_action as on_error then
 					on_error (error_string)
 				end
@@ -153,23 +151,19 @@ feature -- Status query
 					end
 
 				elseif headers.response_code /= Http_status.ok or else not valid_mime_type (a_url, headers.mime_type) then
-					if is_lio_enabled then
-						lio.put_labeled_string ("response", headers.response_message)
-						lio.put_string_field (" content type", headers.content_type)
-						lio.put_new_line
-					end
+					lio.put_labeled_string ("response", headers.response_message)
+					lio.put_string_field (" content type", headers.content_type)
+					lio.put_new_line
 					if attached on_error_action as on_error then
 						on_error (headers.response_message)
 					end
 				else
-					if is_lio_enabled then
-						lio.put_labeled_string ("Request", "OK")
-						lio.put_labeled_string (" Type", headers.content_type)
-						if headers.content_length > 0 then
-							lio.put_integer_field (" Content length", headers.content_length)
-						end
-						lio.put_new_line
+					lio.put_labeled_string ("Request", "OK")
+					lio.put_labeled_string (" Type", headers.content_type)
+					if headers.content_length > 0 then
+						lio.put_integer_field (" Content length", headers.content_length)
 					end
+					lio.put_new_line
 					Result := True
 				end
 			end
@@ -191,7 +185,7 @@ feature -- HTTP error status
 feature -- Basic operations
 
 	close
-			-- write any cookies if `cookie_store_path' is set and closes connection
+		-- write any cookies if `cookie_store_path' is set and closes connection
 		do
 			url.wipe_out
 			request_headers.wipe_out; post_data_count := 0
@@ -203,14 +197,14 @@ feature -- Basic operations
 
 			close_listener.notify_tick -- Used with `EL_MODULE_TRACK' to track progress of `open', `close' cycles
 
-			-- Workaround for a weird bug where a second call to read_string would hang
+		-- Workaround for a weird bug where a second call to read_string would hang
 
-			-- September 2016: It's possible this weird bug might have been resolved by the rewrite of code
-			-- handling cURL C callbacks that happened in this month.
+		-- September 2016: It's possible this weird bug might have been resolved by the rewrite of code
+		-- handling cURL C callbacks that happened in this month.
 		end
 
 	download (file_path: FILE_PATH)
-			-- save document downloaded using the HTTP GET command
+		-- save document downloaded using the HTTP GET command
 		do
 			do_command (create {EL_FILE_DOWNLOAD_HTTP_COMMAND}.make (Current, file_path))
 		end
@@ -292,10 +286,10 @@ feature -- Status setting
 		end
 
 	reset_cookie_session
-			-- Mark this as a new cookie "session". It will force libcurl to ignore all cookies it is about to load
-			-- that are "session cookies" from the previous session. By default, libcurl always stores and loads all cookies,
-			-- independent if they are session cookies or not. Session cookies are cookies without expiry date and they are meant
-			-- to be alive and existing for this "session" only.
+		-- Mark this as a new cookie "session". It will force libcurl to ignore all cookies it is about to load
+		-- that are "session cookies" from the previous session. By default, libcurl always stores and loads all cookies,
+		-- independent if they are session cookies or not. Session cookies are cookies without expiry date and they are meant
+		-- to be alive and existing for this "session" only.
 		do
 			set_curl_boolean_option (CURLOPT_cookiesession, True)
 		end
@@ -303,6 +297,11 @@ feature -- Status setting
 	set_redirection_follow
 		do
 			set_curl_boolean_option (CURLOPT_followlocation, True)
+		end
+
+	set_silent_output
+		do
+			create {EL_SILENT_LOG} lio.make
 		end
 
 feature -- Status change
@@ -341,17 +340,17 @@ feature -- Status change
 		end
 
 	set_cookie_paths (a_cookie_path: FILE_PATH)
-			-- Set both `cookie_load_path' and `cookie_store_path' to the same file
+		-- Set both `cookie_load_path' and `cookie_store_path' to the same file
 		do
 			cookie_load_path := a_cookie_path
 			cookie_store_path := a_cookie_path
 		end
 
 	set_cookie_store_path (a_cookie_store_path: FILE_PATH)
-			-- This will make the connection write all internally known cookies to the
-			-- specified file when close is called.
+		-- This will make the connection write all internally known cookies to the
+		-- specified file when close is called.
 
-			-- See also: https://curl.haxx.se/libcurl/c/CURLOPT_COOKIEJAR.html
+		-- See also: https://curl.haxx.se/libcurl/c/CURLOPT_COOKIEJAR.html
 		do
 			cookie_store_path := a_cookie_store_path
 		end
@@ -375,6 +374,11 @@ feature -- Status change
 			set_curl_integer_option (CURLOPT_http_version, option)
 		end
 
+	set_log_output (log: EL_LOGGABLE)
+		do
+			lio := log
+		end
+
 	set_post_data (raw_string_8: STRING)
 		-- You must make sure that the data is formatted the way you want the server to receive it.
 		-- libcurl will not convert or encode it for you in any way. For example, the web server may
@@ -392,7 +396,6 @@ feature -- Status change
 			set_post_data (parameters.query_string (True, False))
 		end
 
-
 	set_timeout (millisecs: INTEGER)
 		-- set maximum time in milli-seconds the request is allowed to take
 		do
@@ -406,7 +409,7 @@ feature -- Status change
 		end
 
 	set_timeout_to_connect (seconds: INTEGER)
-			--
+		--
 		do
 			timeout_to_connect := seconds
 		end
@@ -425,7 +428,7 @@ feature -- Status change
 			end
 --			Curl already does url encoding
 			set_curl_string_8_option (CURLOPT_url, url)
-			-- Essential calls for using https
+		-- Essential calls for using https
 			if url.is_https then
 				set_certificate_verification (is_certificate_verified)
 				set_hostname_verification (is_host_verified)
@@ -448,16 +451,16 @@ feature -- SSL settings
 		end
 
 	set_certificate_verification (flag: BOOLEAN)
-			-- Curl verifies whether the certificate is authentic,
-			-- i.e. that you can trust that the server is who the certificate says it is.
+		-- Curl verifies whether the certificate is authentic,
+		-- i.e. that you can trust that the server is who the certificate says it is.
 		do
 			set_curl_boolean_option (CURLOPT_ssl_verifypeer, flag)
 		end
 
 	set_hostname_verification (flag: BOOLEAN)
-			-- If the site you're connecting to uses a different host name that what
-				-- they have mentioned in their server certificate's commonName (or
-				-- subjectAltName) fields, libcurl will refuse to connect.
+		-- If the site you're connecting to uses a different host name that what
+		-- they have mentioned in their server certificate's commonName (or
+		-- subjectAltName) fields, libcurl will refuse to connect.
 		do
 			set_curl_boolean_option (CURLOPT_ssl_verifyhost, flag)
 		end
@@ -470,7 +473,6 @@ feature -- SSL settings
 			option: INTEGER
 		do
 			inspect version
-				--
 				when 1_0 then
 					option := curl_sslversion_TLSv1_0
 				when 1_1 then
@@ -489,7 +491,7 @@ feature -- SSL settings
 		end
 
 	set_version (version: INTEGER)
-			-- 0 is default
+		-- 0 is default
 		require
 			valid_version: (<< 0, 2, 3 >>).has (version)
 		local
@@ -508,7 +510,7 @@ feature -- SSL settings
 feature {NONE} -- Disposal
 
 	c_free (this: POINTER)
-			--
+		--
 		do
 			if not is_in_final_collect then
 				Curl.clean_up (self_ptr)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-15 14:15:48 GMT (Tuesday 15th October 2024)"
-	revision: "17"
+	date: "2024-10-16 8:05:56 GMT (Wednesday 16th October 2024)"
+	revision: "18"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -39,7 +39,7 @@ inherit
 
 	EL_STRING_HANDLER
 
-	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_URI
+	EL_MODULE_TUPLE; EL_MODULE_URI
 
 	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_SCOPES
 
@@ -227,14 +227,10 @@ feature {EL_HTTP_COMMAND} -- Implementation
 
 	do_command (command: EL_DOWNLOAD_HTTP_COMMAND)
 		do
-			if is_lio_enabled then
-				lio.put_labeled_string ("Sending " + command.type + " request", url)
-				lio.put_new_line
-			end
+			lio.put_labeled_string ("Sending " + command.type + " request", url)
+			lio.put_new_line
 			command.execute
-			if is_lio_enabled then
-				lio.put_new_line
-			end
+			lio.put_line ("Sent")
 			if attached {EL_STRING_DOWNLOAD_HTTP_COMMAND} command as string_download then
 				if has_error then
 					last_string.wipe_out
@@ -257,7 +253,7 @@ feature {EL_HTTP_COMMAND} -- Implementation
 			if is_attached (string_list) then
 				curl.free_string_list (string_list)
 			end
-			if has_error and then is_lio_enabled then
+			if has_error then
 				put_error (lio)
 			end
 		end
@@ -302,6 +298,8 @@ feature {EL_HTTP_COMMAND} -- Implementation
 		end
 
 feature {NONE} -- Implementation attributes
+
+	lio: EL_LOGGABLE
 
 	request_headers: EL_CURL_HEADER_TABLE
 		-- request headers to send
