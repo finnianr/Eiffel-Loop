@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:54:18 GMT (Sunday 22nd September 2024)"
-	revision: "6"
+	date: "2024-10-17 11:32:54 GMT (Thursday 17th October 2024)"
+	revision: "7"
 
 class
 	PUBLISHER_CONFIGURATION
 
 inherit
 	EL_BUILDABLE_FROM_PYXIS
-		rename
-			make_from_file as make
 		redefine
-			make, make_default
+			make_default
 		end
 
 	EL_MODULE_TRACK
@@ -29,10 +27,10 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_path: FILE_PATH)
+	make (a_path: FILE_PATH; ftp_required: BOOLEAN)
 		do
 			path := a_path
-			Precursor (a_path)
+			make_from_file (a_path)
 
 		-- Insert ECF clusters
 			from ecf_list.start until ecf_list.after loop
@@ -42,7 +40,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				ecf_list.forth
 			end
 			local_output_dir := output_dir.parent #+ Dot.joined ("ftp", output_dir.base)
-			if not test_mode then
+			if ftp_required and not test_mode then
 				ftp_site.authenticate (Void)
 			end
 		ensure then

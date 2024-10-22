@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-16 10:59:04 GMT (Wednesday 16th October 2024)"
-	revision: "42"
+	date: "2024-10-17 11:30:06 GMT (Thursday 17th October 2024)"
+	revision: "43"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER
@@ -24,7 +24,7 @@ inherit
 		rename
 			make as make_publisher
 		redefine
-			execute, login
+			execute, is_ftp_required, login
 		end
 
 	EL_APPLICATION_COMMAND
@@ -50,6 +50,13 @@ feature -- Access
 		do
 			Result := file_path.twin
 			Result.base.prepend_compatible ("EXPANDED-")
+		end
+
+feature -- Status query
+
+	is_ftp_required: BOOLEAN
+		do
+			Result := False
 		end
 
 feature -- Basic operations

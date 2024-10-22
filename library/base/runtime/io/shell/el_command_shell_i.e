@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:30:11 GMT (Sunday 22nd September 2024)"
-	revision: "23"
+	date: "2024-10-18 10:15:03 GMT (Friday 18th October 2024)"
+	revision: "24"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -81,6 +81,7 @@ feature -- Basic operations
 				display_menu
 				choice := user_choice
 				if choice.to_boolean then
+					lio.put_new_line
 					lio.put_labeled_string ("SELECTED", menu.option_key (choice))
 
 					if command_table.has_key (menu.option_key (choice)) then

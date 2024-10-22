@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 14:40:44 GMT (Wednesday 28th August 2024)"
-	revision: "23"
+	date: "2024-10-22 10:22:22 GMT (Tuesday 22nd October 2024)"
+	revision: "24"
 
 class
 	EL_HTTP_STATUS_ENUM
@@ -83,7 +83,13 @@ feature {NONE} -- Initialization
 			insufficient_storage := 507
 			bandwidth_limit_exceeded := 509
 			not_extended := 510
+
+			redirection_codes := << moved_permanently, moved_temporarily, see_other, temporary_redirect >>
 		end
+
+feature -- Access
+
+	redirection_codes: ARRAY [NATURAL_16]
 
 feature -- 1xx codes
 
@@ -135,7 +141,7 @@ feature -- 3xx codes
 
 	see_other: NATURAL_16
 		-- Response to request can be found under a different URI, and
-		--  SHOULD be retrieved using a GET method on that resource.
+		-- SHOULD be retrieved using a GET method on that resource.
 
 	temporary_redirect: NATURAL_16
 		-- Requested resource resides temporarily under a different URI.

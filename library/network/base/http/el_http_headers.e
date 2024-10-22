@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:57:45 GMT (Monday 23rd September 2024)"
-	revision: "30"
+	date: "2024-10-22 10:03:13 GMT (Tuesday 22nd October 2024)"
+	revision: "31"
 
 class
 	EL_HTTP_HEADERS
@@ -42,9 +42,9 @@ feature {NONE} -- Initialization
 			make_default
 			create line_split.make (string, '%N')
 			across line_split as line loop
-				if line.item_starts_with (Http)
+				if line.item_starts_with (HTTP_slash)
 					and then attached line.item.split (' ') as parts
-					and then parts.count = 3
+					and then parts.count >= 3
 				then
 					response_code := parts [2].to_natural_16
 
@@ -201,7 +201,7 @@ feature {NONE} -- Constants
 			create Result.make ("Ddd, dd mmm yyyy hh:[0]mi:[0]ss tzd", 1)
 		end
 
-	HTTP: STRING = "HTTP/"
+	HTTP_slash: STRING = "HTTP/"
 
 	Http_header_naming: EL_HTTP_HEADER_NAME_TRANSLATER
 		once

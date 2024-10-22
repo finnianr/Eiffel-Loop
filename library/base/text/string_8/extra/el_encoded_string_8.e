@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:05:34 GMT (Tuesday 20th August 2024)"
-	revision: "23"
+	date: "2024-10-22 14:54:17 GMT (Tuesday 22nd October 2024)"
+	revision: "24"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -24,13 +24,20 @@ inherit
 			set as set_encoded
 		export
 			{NONE} all
-			{ANY} append_character, append_substring, is_empty, wipe_out, share, set_encoded, count, area,
-					capacity, same_string, to_c, to_string_8, Is_string_8
+			{ANY} append_character, append_substring, has, is_empty, wipe_out, share, set_encoded, count,
+					area, capacity, same_string, to_c, to_string_8, Is_string_8
 
 			{STRING_HANDLER} set_count, append_raw_8, item, put, grow
+		redefine
+			as_string_8
 		end
 
 feature -- Conversion
+
+	as_string_8: STRING
+		do
+			create Result.make_from_string (Current)
+		end
 
 	decoded: ZSTRING
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2024-10-17 11:11:21 GMT (Thursday 17th October 2024)"
+	revision: "19"
 
 class
 	REPOSITORY_SOURCE_LINK_EXPANDER_APP
@@ -32,6 +32,7 @@ feature {NONE} -- Implementation
 	argument_list: EL_ARRAYED_LIST [EL_COMMAND_ARGUMENT]
 		do
 			Result := Precursor
+			Result [2].set_optional -- make version optional
 			Result.put_front (
 				required_argument ("in", "Path to text file to be expanded", << file_must_exist >>)
 			)

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-16 10:50:57 GMT (Wednesday 16th October 2024)"
-	revision: "55"
+	date: "2024-10-22 11:00:15 GMT (Tuesday 22nd October 2024)"
+	revision: "56"
 
 class
 	EL_HTTP_CONNECTION
@@ -35,6 +35,8 @@ inherit
 
 	EL_MODULE_HTML
 
+	EL_STRING_8_CONSTANTS
+
 create
 	make
 
@@ -43,8 +45,9 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			create user_agent.make_empty
 			create url.make_empty
+			create user_agent.make_empty
+			redirection_url := Empty_string_8
 			set_silent_output
 		end
 
@@ -102,6 +105,9 @@ feature -- Access
 
 	user_agent: STRING
 
+	redirection_url: STRING
+		-- redirection location
+
 feature -- Status query
 
 	has_page_error (code: NATURAL_16): BOOLEAN
@@ -130,33 +136,42 @@ feature -- Status query
 			Result := is_attached (self_ptr)
 		end
 
-	resource_exists (a_url: EL_URL; on_error_action: detachable PROCEDURE [READABLE_STRING_8]): BOOLEAN
+	is_redirected: BOOLEAN
+		do
+			Result := redirection_url /= Empty_string_8
+		end
+
+	resource_exists (a_url: EL_URL; follow_redirect: BOOLEAN; on_error_action: detachable PROCEDURE [READABLE_STRING_8]): BOOLEAN
+		-- `True' if resource exists at `a_url' or else if `follow_redirect = True' and header has redirection location that exists
+		-- If `follow_redirect' is false `redirection_url' is set to `last_headers.location'
+		-- If `on_error_action' is attached, call routine with any error message
+		local
+			error_message: detachable STRING
 		do
 			open_url (a_url)
 			read_string_head
 			close
 			if has_error then
 				lio.put_line (error_string)
-				if attached on_error_action as on_error then
-					on_error (error_string)
-				end
+				error_message := error_string
 
 			elseif attached last_headers as headers then
-				if headers.response_code = Http_status.see_other then
-					if headers.location.count > 0 then
-						Result := resource_exists (headers.location, on_error_action)
+				if Http_status.redirection_codes.has (headers.response_code) then
+					if headers.location.count > 0 and follow_redirect then
+						Result := resource_exists (headers.location, False, on_error_action)
 
-					elseif attached on_error_action as on_error then
-						on_error ("303 response but other location is empty")
+					elseif headers.location.is_empty then
+						error_message := "Moved but no new location given"
+					else
+						redirection_url := headers.location
+						error_message := "Moved to: " + headers.location
 					end
 
 				elseif headers.response_code /= Http_status.ok or else not valid_mime_type (a_url, headers.mime_type) then
 					lio.put_labeled_string ("response", headers.response_message)
 					lio.put_string_field (" content type", headers.content_type)
 					lio.put_new_line
-					if attached on_error_action as on_error then
-						on_error (headers.response_message)
-					end
+					error_message := headers.response_message
 				else
 					lio.put_labeled_string ("Request", "OK")
 					lio.put_labeled_string (" Type", headers.content_type)
@@ -167,7 +182,9 @@ feature -- Status query
 					Result := True
 				end
 			end
-
+			if attached error_message as message and then attached on_error_action as on_error then
+				on_error (message)
+			end
 		end
 
 feature -- HTTP error status
@@ -320,6 +337,7 @@ feature -- Status change
 			url.wipe_out
 			post_data_count := 0
 			error_code := 0
+			redirection_url := Empty_string_8
 		end
 
 	set_cookie_load_path (a_cookie_load_path: FILE_PATH)

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:17:30 GMT (Friday 20th September 2024)"
-	revision: "89"
+	date: "2024-10-17 11:31:40 GMT (Thursday 17th October 2024)"
+	revision: "90"
 
 class
 	REPOSITORY_PUBLISHER
@@ -34,7 +34,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			cpu_percentage := a_cpu_percentage
 			log_cpu_percentage
 			lio.put_line ("Reading ECF configuration files")
-			create config.make (a_file_path)
+			create config.make (a_file_path, is_ftp_required)
 			lio.put_new_line
 			config.version.share (a_version)
 			if config.test_mode then
@@ -122,6 +122,12 @@ feature -- Status query
 	has_version_changed: BOOLEAN
 		do
 			Result := config.version /~ previous_version
+		end
+
+	is_ftp_required: BOOLEAN
+		-- `False' for descendant REPOSITORY_SOURCE_LINK_EXPANDER
+		do
+			Result := True
 		end
 
 	is_logged_in: BOOLEAN

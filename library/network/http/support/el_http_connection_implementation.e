@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-16 8:05:56 GMT (Wednesday 16th October 2024)"
-	revision: "18"
+	date: "2024-10-22 10:44:34 GMT (Tuesday 22nd October 2024)"
+	revision: "19"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -192,9 +192,9 @@ feature {NONE} -- Experimental
 			last_string.share (http_response)
 		end
 
-	redirection_url: STRING
-			-- Fails because Curlinfo_redirect_url will not satisfy contract CURL_INFO_CONSTANTS.is_valid
-			-- For some reason Curlinfo_redirect_url is missing from CURL_INFO_CONSTANTS
+	redirect_url: STRING
+		-- Fails because Curlinfo_redirect_url will not satisfy contract CURL_INFO_CONSTANTS.is_valid
+		-- For some reason Curlinfo_redirect_url is missing from CURL_INFO_CONSTANTS
 		require
 			no_error: not has_error
 		local
