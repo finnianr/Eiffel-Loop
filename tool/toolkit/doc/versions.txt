@@ -1,3 +1,6 @@
+Ver 1.13.1 (23 Oct 2024)
+* New app TRIM_BASH_HISTORY_APP
+
 Ver 1.13.0 (6 Oct 2024)
 * Added ability to have more than one preparation command in Duplicty backups
 

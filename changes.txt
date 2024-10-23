@@ -772,3 +772,6 @@ Testing preparation/command
 Sun 6th Oct 2024, 9:09:24
 Added ability to have more than one preparation command in Duplicty backups
 
+Tue 22nd Oct 2024, 15:34:18
+Improvements to http client resource exists routine
+
