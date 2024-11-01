@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 17:20:25 GMT (Saturday 5th October 2024)"
-	revision: "13"
+	date: "2024-11-01 11:06:41 GMT (Friday 1st November 2024)"
+	revision: "14"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -51,6 +51,18 @@ feature {NONE} -- Initialization
 		do
 			Precursor (n)
 			internal_list.compare_objects
+		end
+
+feature -- Measurement
+
+	sum_item_count: INTEGER
+		do
+			Result := sum_integer (agent {SPECIAL [G]}.count)
+		end
+
+	item_for_iteration_count: INTEGER
+		do
+			Result := item_area_for_iteration.count
 		end
 
 feature -- Access

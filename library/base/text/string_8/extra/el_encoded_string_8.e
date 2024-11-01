@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-22 14:54:17 GMT (Tuesday 22nd October 2024)"
-	revision: "24"
+	date: "2024-10-31 14:03:10 GMT (Thursday 31st October 2024)"
+	revision: "25"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -20,6 +20,7 @@ inherit
 		rename
 			append as append_raw_8,
 			append_substring_general as append_raw_substring_general,
+			as_string_8 as string_as_string_8, -- redefinition break post-condition
 			make_from_string as make_encoded,
 			set as set_encoded
 		export
@@ -28,8 +29,6 @@ inherit
 					area, capacity, same_string, to_c, to_string_8, Is_string_8
 
 			{STRING_HANDLER} set_count, append_raw_8, item, put, grow
-		redefine
-			as_string_8
 		end
 
 feature -- Conversion

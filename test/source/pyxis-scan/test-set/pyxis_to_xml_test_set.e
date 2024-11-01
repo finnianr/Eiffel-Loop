@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:45:47 GMT (Tuesday 27th August 2024)"
-	revision: "58"
+	date: "2024-10-31 10:41:43 GMT (Thursday 31st October 2024)"
+	revision: "59"
 
 class
 	PYXIS_TO_XML_TEST_SET
@@ -86,18 +86,16 @@ feature -- Tests
 	test_conversion_to_xml
 		-- PYXIS_TO_XML_TEST_SET.test_conversion_to_xml
 		local
-			name, file_name, style_text, style_xpath: STRING; checksum: NATURAL; xsl_doc: EL_XML_DOC_CONTEXT
+			file_name, style_text, style_xpath: STRING; checksum: NATURAL; xsl_doc: EL_XML_DOC_CONTEXT
 			count: INTEGER
 		do
-			name := "convert_pyxis_to_xml"
 			-- 3 Feb 2020
-			across file_list as file_path loop
-				file_name := file_path.item.base
-				if Checksum_table.has_key (file_name) then
-					do_test (name, Checksum_table.found_item, agent convert_pyxis_to_xml, [file_path.item])
+			across file_list as list loop
+				if attached list.item as file_path and then Checksum_table.has_key (file_path.base) then
+					do_test ("convert_pyxis_to_xml", Checksum_table.found_item, agent convert_pyxis_to_xml, [file_path])
 					count := count + 1
-					if file_name.same_string_general (XSL_example) then
-						create xsl_doc.make_from_file (file_path.item.without_extension)
+					if file_path.same_base (XSL_example) then
+						create xsl_doc.make_from_file (file_path.without_extension)
 						style_xpath := "//style[@type='text/css']/text()"
 						style_text := xsl_doc.query (style_xpath).as_string_8
 						style_text.adjust
@@ -140,7 +138,8 @@ feature {NONE} -- Constants
 			Result ["build.eant.pyx"] := 2323137809
 			Result ["configuration.xsd.pyx"] := 1327672612
 			Result ["credits.pyx"] := 2202984112
-			Result ["phrases.pyx"] := 729478561
+			Result ["i-ching-resource.pyx"] := 3048240178
+			Result ["phrases.pyx"] := 1599193884
 			Result ["words.pyx"] := 1143708543
 			Result [XSL_example] := 2233023973
 		end

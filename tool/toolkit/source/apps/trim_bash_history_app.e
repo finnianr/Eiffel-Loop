@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-23 8:38:24 GMT (Wednesday 23rd October 2024)"
-	revision: "2"
+	date: "2024-10-24 9:10:18 GMT (Thursday 24th October 2024)"
+	revision: "3"
 
 class
 	TRIM_BASH_HISTORY_APP
@@ -25,7 +25,7 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
+	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_ITERABLE; EL_MODULE_OS
 
 feature {NONE} -- Initialization
 
@@ -41,8 +41,12 @@ feature -- Basic operations
 
 	run
 		do
-			if attached open (clean_history_path, Write) as file_out then
-				across File.plain_text_lines (history_path) as line loop
+			if attached open (clean_history_path, Write) as file_out
+				and then attached File.plain_text_lines (history_path) as history_lines
+			then
+				lio.put_line ("HISTORY")
+				lio.put_integer_field ("Line count", Iterable.count (history_lines))
+				across history_lines as line loop
 					if attached line.item as ln then
 						if ln.count > 4 and then not line_set.has (ln) then
 							line_set.put (ln)
@@ -55,9 +59,11 @@ feature -- Basic operations
 				end
 				file_out.close
 			end
-			File_system.remove_file (history_path)
-			File_system.rename_file (clean_history_path, history_path)
-			execution.system ("history -r")
+			lio.put_integer_field ("; Trimmed", line_set.count)
+			lio.put_new_line
+
+			OS.copy_file (clean_history_path, history_path)
+			OS.delete_file (clean_history_path)
 		end
 
 feature {NONE} -- Internal attributes

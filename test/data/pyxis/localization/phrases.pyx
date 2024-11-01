@@ -49,4 +49,11 @@ translations:
 		translation:
 			lang = en
 			"&New entry\tCtrl-T"
+	
+	# Test escaping single quote
+	item:
+		id = "{taoistiching}"
+		translation:
+			lang = en
+			'Walther Sell\'s "The Taoist I Ching" Interpretation'
 
