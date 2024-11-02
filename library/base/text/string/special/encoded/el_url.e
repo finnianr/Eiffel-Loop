@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-07 13:39:07 GMT (Wednesday 7th June 2023)"
-	revision: "6"
+	date: "2024-11-02 10:35:29 GMT (Saturday 2nd November 2024)"
+	revision: "7"
 
 class
 	EL_URL
@@ -38,7 +38,8 @@ create
 	make_empty, make, make_from_general
 
 convert
-	make ({STRING_8})
+	make ({STRING_8}),
+	make_from_general ({STRING_32, ZSTRING})
 
 feature -- Status query
 

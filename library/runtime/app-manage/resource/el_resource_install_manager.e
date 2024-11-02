@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 11:25:26 GMT (Tuesday 14th May 2024)"
-	revision: "19"
+	date: "2024-11-02 13:57:08 GMT (Saturday 2nd November 2024)"
+	revision: "20"
 
 deferred class
 	EL_RESOURCE_INSTALL_MANAGER
@@ -248,18 +248,25 @@ feature {NONE} -- Implementation
 
 	url_file_item (encoded_name: READABLE_STRING_8): ZSTRING
 		do
-			Result := url_template #$ [domain_name, encoded_name]
+			Result := domain_resource.url #$ [encoded_name]
 		end
 
 	url_manifest: ZSTRING
 		do
-			Result := url_template #$ [domain_name, resource_set.Manifest_name]
+			Result := domain_resource.url #$ [resource_set.manifest_name]
 		end
 
 feature {NONE} -- Deferred implementation
 
 	domain_name: STRING
 		deferred
+		end
+
+	domain_resource: EL_RESOURCE_URL
+		-- resource for `domain_name'
+		deferred
+		ensure
+			has_domain: Result.url.has_substring (domain_name)
 		end
 
 	progress_template: ZSTRING
@@ -269,10 +276,6 @@ feature {NONE} -- Deferred implementation
 		end
 
 	resource_set: EL_UPDATEABLE_RESOURCE_SET
-		deferred
-		end
-
-	url_template: ZSTRING
 		deferred
 		end
 
