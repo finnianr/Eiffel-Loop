@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 16:57:38 GMT (Tuesday 9th July 2024)"
-	revision: "40"
+	date: "2024-11-03 15:27:13 GMT (Sunday 3rd November 2024)"
+	revision: "41"
 
 class
 	DATE_TIME_TEST_SET
@@ -90,13 +90,17 @@ feature -- Tests
 		end
 
 	test_date_time_proper_case
+		-- DATE_TIME_TEST_SET.test_date_time_proper_case
 		local
-			dt: EL_DATE_TIME
+			dt: EL_DATE_TIME; formatted: STRING
 		do
 			create dt.make_with_format ("15:51:01 Nov 23, 2017", "[0]hh:[0]mi:[0]ss mmm [0]dd, yyyy")
 			assert ("same date", dt ~ Date_time)
-			assert ("same propercase month", "15:51:01 Nov 23, 2017" ~ dt.formatted_out ("[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy"))
-			assert ("same string", "15:51:01 NOV 23, 2017" ~ dt.formatted_out ("[0]hh:[0]mi:[0]ss mmm [0]dd, yyyy"))
+			formatted := dt.formatted_out ("Ddd, [0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy")
+			assert_same_string ("propercase month", formatted, "Thu, 15:51:01 Nov 23, 2017")
+
+			formatted := dt.formatted_out ("[0]hh:[0]mi:[0]ss mmm [0]dd, yyyy")
+			assert_same_string (Void, formatted, "15:51:01 NOV 23, 2017")
 		end
 
 	test_date_time_subtract

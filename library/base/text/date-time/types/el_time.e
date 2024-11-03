@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 6:59:59 GMT (Wednesday 10th July 2024)"
-	revision: "10"
+	date: "2024-11-03 15:18:43 GMT (Sunday 3rd November 2024)"
+	revision: "11"
 
 class
 	EL_TIME
@@ -25,10 +25,7 @@ inherit
 
 	EL_TIME_DATE_I
 		rename
-			input_valid as time_valid,
-			check_case as do_nothing_1
-		redefine
-			do_nothing_1
+			input_valid as time_valid
 		end
 
 create
@@ -79,10 +76,6 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
-
-	do_nothing_1 (format, str: STRING; start_index: INTEGER)
-		do
-		end
 
 	to_shared_date_time: DATE_TIME
 		do

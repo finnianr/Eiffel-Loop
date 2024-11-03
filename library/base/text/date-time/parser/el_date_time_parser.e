@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 7:20:39 GMT (Wednesday 10th July 2024)"
-	revision: "8"
+	date: "2024-11-03 13:35:04 GMT (Sunday 3rd November 2024)"
+	revision: "9"
 
 class
 	EL_DATE_TIME_PARSER
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 
 	make (cs: EL_DATE_TIME_CODE_STRING)
 		do
-			make_parser (cs.value)
+			make_parser (cs.code_table)
 			days := cs.days
 			months := cs.months
 			base_century := cs.base_century

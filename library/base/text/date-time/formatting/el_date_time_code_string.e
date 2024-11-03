@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:34:07 GMT (Tuesday 27th August 2024)"
-	revision: "12"
+	date: "2024-11-03 18:31:23 GMT (Sunday 3rd November 2024)"
+	revision: "13"
 
 class
 	EL_DATE_TIME_CODE_STRING
@@ -19,11 +19,19 @@ inherit
 			create_date as new_date,
 			create_date_time as new_date_time,
 			create_time_string as new_time_string,
-			create_time as new_time
+			create_time as new_time,
+			value as code_table
 		export
 			{EL_DATE_TIME_PARSER} days, months, base_century
 		redefine
 			correspond, make
+		end
+
+	DATE_TIME_TOOLS
+		rename
+			name as language_name
+		export
+			{NONE} all
 		end
 
 	EL_STRING_HANDLER
@@ -32,15 +40,47 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-
 create
 	make
 
 feature {NONE} -- Initialization
 
 	make (format: STRING)
+		local
+			substr_1, substr_2, str: STRING; case: NATURAL_8
+			code: DATE_TIME_CODE; i, pos1, pos2: INTEGER
 		do
-			Precursor (adjusted_format (format))
+			str := adjusted_format (format)
+			create code_table.make (20)
+			create case_table.make_filled ({EL_CASE}.upper, {DTC}.day_text_type_code, {DTC}.month_text_type_code)
+			pos1 := 1; pos2 := 1
+			days := days_text.twin; months := months_text.twin
+			from i := 1 until pos1 >= str.count loop
+				pos2 := find_separator (str, pos1)
+				if attached extracted_substrings (str, pos1, pos2) as extracted then
+					pos2 := abs (pos2)
+					substr_1 := extracted.substrg
+					case := case_type (substr_1); substr_1.to_lower
+					if substr_1.count > 0 then
+						create code.make (substr_1)
+						code_table.put (code, i)
+						if case = {EL_CASE}.proper and then case_table.valid_index (code.type) then
+							case_table [code.type] := {EL_CASE}.proper
+						end
+						i := i + 1
+					end
+					substr_2 := extracted.substrg2
+					if substr_2.count > 0 then
+						code_table.put (create {DATE_TIME_CODE}.make (substr_2), i)
+						i := i + 1
+						separators_used := True
+					end
+				end
+				pos1 := pos2 + 1
+			end
+			base_century := (create {C_DATE}).year_now // 100 * -100
+				-- A negative value of `base_century' indicates that it has
+				-- been calculated automatically, therefore '* -100'.
 		ensure then
 			format_count_unchange: old format.count = format.count
 		end
@@ -63,119 +103,121 @@ feature -- Status query
 
 feature -- Basic operations
 
-	append_to (str: STRING; dt: DATE_TIME)
+	append_to (str: STRING; a_date_time: DATE_TIME)
 			-- Create the output of `dt' according to the code string.
 		local
-			date: DATE; time: TIME; int, i, type: INTEGER; double: DOUBLE
-			l_item: detachable DATE_TIME_CODE
+			date: DATE; time: TIME; int, i: INTEGER; double: DOUBLE
+			break: BOOLEAN
 		do
-			date := dt.date; time := dt.time
-			from
-				i := 1
-				l_item := value.item (i)
-			until
-				l_item = Void
-			loop
-				type := l_item.type
-				inspect
-					type
-				when {DATE_TIME_CODE}.day_numeric_type_code then
-					str.append_integer (date.day)
+			date := a_date_time.date; time := a_date_time.time
+			from i := 1 until break loop
+				if attached code_table [i] as dtc then
+					inspect dtc.type
+						when {DTC}.day_numeric_type_code then
+							str.append_integer (date.day)
 
-				when {DATE_TIME_CODE}.day_numeric_on_2_digits_type_code then
-					append_2_digits (str, date.day)
+						when {DTC}.day_numeric_on_2_digits_type_code then
+							append_2_digits (str, date.day)
 
-				when {DATE_TIME_CODE}.day_text_type_code then
-					append_text (str, date.day_of_the_week, days)
+						when {DTC}.day_text_type_code then
+							append_array_text (str, dtc.type, date.day_of_the_week, days)
 
-				when {DATE_TIME_CODE}.year_on_4_digits_type_code then
-					-- Test if the year has four digits, if not put 0 to fill it
-					if attached Buffer.empty as padded_4 then
-						from padded_4.append_integer (date.year) until padded_4.count = 4 loop
-							append_zeros (padded_4, 1)
-						end
-						str.append (padded_4)
-					end
-				when {DATE_TIME_CODE}.year_on_2_digits_type_code then
-						-- Two digit year, we only keep the last two digits
-					if attached Buffer.empty as tmp then
-						tmp.append_integer (date.year)
-						if tmp.count > 2 then
-							tmp.keep_tail (2)
-						elseif tmp.count = 1 then
-							append_zeros (str, 1)
-						end
-						str.append (tmp)
-					end
-				when {DATE_TIME_CODE}.month_numeric_type_code then
-					str.append_integer (date.month)
+						when {DTC}.year_on_4_digits_type_code then
+							-- Test if the year has four digits, if not put 0 to fill it
+							if attached Buffer.empty as padded_4 then
+								from padded_4.append_integer (date.year) until padded_4.count = 4 loop
+									append_zeros (padded_4, 1)
+								end
+								str.append (padded_4)
+							end
+						when {DTC}.year_on_2_digits_type_code then
+								-- Two digit year, we only keep the last two digits
+							if attached Buffer.empty as tmp then
+								tmp.append_integer (date.year)
+								if tmp.count > 2 then
+									tmp.keep_tail (2)
+								elseif tmp.count = 1 then
+									append_zeros (str, 1)
+								end
+								str.append (tmp)
+							end
+						when {DTC}.month_numeric_type_code then
+							str.append_integer (date.month)
 
-				when {DATE_TIME_CODE}.month_numeric_on_2_digits_type_code then
-					append_2_digits (str, date.month)
+						when {DTC}.month_numeric_on_2_digits_type_code then
+							append_2_digits (str, date.month)
 
-				when {DATE_TIME_CODE}.month_text_type_code then
-					append_text (str, date.month, months)
+						when {DTC}.month_text_type_code then
+							append_array_text (str, dtc.type, date.month, months)
 
-				when {DATE_TIME_CODE}.hour_numeric_type_code then
-					str.append_integer (time.hour)
+						when {DTC}.hour_numeric_type_code then
+							str.append_integer (time.hour)
 
-				when {DATE_TIME_CODE}.hour_numeric_on_2_digits_type_code then
-					append_2_digits (str, time.hour)
+						when {DTC}.hour_numeric_on_2_digits_type_code then
+							append_2_digits (str, time.hour)
 
-				when {DATE_TIME_CODE}.hour_12_clock_scale_type_code, {DATE_TIME_CODE}.hour_12_clock_scale_on_2_digits_type_code then
-					int := time.hour
-					if int < 12 then
-						if int = 0 then
-							int := 12
-						end
+						when {DTC}.hour_12_clock_scale_type_code, {DTC}.hour_12_clock_scale_on_2_digits_type_code then
+							int := time.hour
+							if int < 12 then
+								if int = 0 then
+									int := 12
+								end
+							else
+								if int /= 12 then
+									int := int - 12
+								end
+							end
+							if dtc.type = {DTC}.hour_12_clock_scale_on_2_digits_type_code then
+									-- Format padded with 0.
+								append_2_digits (str, int)
+							else
+								str.append_integer (int)
+							end
+						when {DTC}.minute_numeric_type_code then
+							str.append_integer (time.minute)
+
+						when {DTC}.minute_numeric_on_2_digits_type_code then
+							append_2_digits (str, time.minute)
+
+						when {DTC}.second_numeric_type_code then
+							str.append_integer (time.second)
+
+						when {DTC}.second_numeric_on_2_digits_type_code then
+							append_2_digits (str, time.second)
+
+						when {DTC}.fractional_second_numeric_type_code then
+							double := time.fractional_second * 10 ^ (dtc.count_max)
+							if attached Buffer.empty as padded then
+								padded.append_integer (double.rounded)
+								if padded.count < dtc.count_max then
+									append_zeros (str, dtc.count_max - padded.count)
+								end
+								str.append (padded)
+							end
+						when {DTC}.meridiem_type_code then
+							int := time.hour
+							if int < 12 then
+								str.append (once "AM")
+							else
+								str.append (once "PM")
+							end
 					else
-						if int /= 12 then
-							int := int - 12
-						end
+						str.append (dtc.value)
 					end
-					if type = {DATE_TIME_CODE}.hour_12_clock_scale_on_2_digits_type_code then
-							-- Format padded with 0.
-						append_2_digits (str, int)
-					else
-						str.append_integer (int)
-					end
-				when {DATE_TIME_CODE}.minute_numeric_type_code then
-					str.append_integer (time.minute)
-
-				when {DATE_TIME_CODE}.minute_numeric_on_2_digits_type_code then
-					append_2_digits (str, time.minute)
-
-				when {DATE_TIME_CODE}.second_numeric_type_code then
-					str.append_integer (time.second)
-
-				when {DATE_TIME_CODE}.second_numeric_on_2_digits_type_code then
-					append_2_digits (str, time.second)
-
-				when {DATE_TIME_CODE}.fractional_second_numeric_type_code then
-					double := time.fractional_second * 10 ^ (l_item.count_max)
-					if attached Buffer.empty as padded then
-						padded.append_integer (double.rounded)
-						if padded.count < l_item.count_max then
-							append_zeros (str, l_item.count_max - padded.count)
-						end
-						str.append (padded)
-					end
-				when {DATE_TIME_CODE}.meridiem_type_code then
-					int := time.hour
-					if int < 12 then
-						str.append (once "AM")
-					else
-						str.append (once "PM")
-					end
+					i := i + 1
 				else
-					str.append (l_item.value)
+					break := True
 				end
-				i := i + 1
-				l_item := value.item (i)
 			end
 		end
 
 feature {NONE} -- Implementation
+
+	adjusted_format (str: STRING): STRING
+		-- `format' with time zone designators removed
+		do
+			Result := str
+		end
 
 	append_2_digits (str: STRING; n: INTEGER)
 		require
@@ -187,11 +229,19 @@ feature {NONE} -- Implementation
 			str.append_integer (n)
 		end
 
-	append_text (str: STRING; i: INTEGER; text_table: ARRAY [STRING])
+	append_array_text (str: STRING; code_type, index: INTEGER; array: ARRAY [STRING])
 		require
-			valid_index: text_table.valid_index (i)
+			valid_index: array.valid_index (index)
+		local
+			i: INTEGER; s: EL_STRING_8_ROUTINES
 		do
-			str.append (text_table [i])
+			str.append (array [index])
+			if case_table.valid_index (code_type) and then case_table [code_type] = {EL_CASE}.Proper then
+				from i := str.count until i < str.count - 1 loop
+					s.set_lower (str, i)
+					i := i - 1
+				end
+			end
 		end
 
 	append_zeros (str: STRING; n: INTEGER)
@@ -204,11 +254,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	adjusted_format (str: STRING): STRING
-		-- `format' with time zone designators removed
+	case_type (code: STRING): NATURAL_8
 		do
-			Result := str
+			if code.count = 3 then
+				if code [1].is_upper and code [2].is_lower then
+					Result := {EL_CASE}.Proper
+				else
+					Result := {EL_CASE}.UPPER
+				end
+			end
 		end
+
+feature {NONE} -- Initialization
+
+	case_table: ARRAY [NATURAL_8]
 
 feature {NONE} -- Constants
 

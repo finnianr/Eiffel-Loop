@@ -32,6 +32,8 @@ system:
 		mapping:
 			ZSTRING = EL_ZSTRING
 		mapping:
+			DTC = DATE_TIME_CODE
+		mapping:
 			DIR_PATH = EL_DIR_PATH
 		mapping:
 			FILE_PATH = EL_FILE_PATH

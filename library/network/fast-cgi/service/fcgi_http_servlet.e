@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:57:11 GMT (Thursday 11th January 2024)"
-	revision: "23"
+	date: "2024-11-03 16:08:38 GMT (Sunday 3rd November 2024)"
+	revision: "24"
 
 deferred class
 	FCGI_HTTP_SERVLET
 
 inherit
 	ANY
+
+	EL_MODULE_DATE_TIME
+		rename
+			Date_time as Date_time_
+		end
 
 	EL_MODULE_IP_ADDRESS; EL_MODULE_LOG
 
@@ -28,11 +33,12 @@ feature {NONE} -- Initialization
 			service := a_service
 			create response.make (a_service.broker)
 			create request.make (Current)
+			create last_modified_gmt.make_empty
 		end
 
 feature -- Access
 
-	last_modified: DATE_TIME
+	last_modified: EL_DATE_TIME
 		do
 			Result := Default_date
 		end
@@ -75,7 +81,10 @@ feature -- Basic operations
 				response.set_header (Header.expires, once "0"); -- Proxies.
 
 			elseif last_modified /= Default_date then
-				response.set_header (Header.last_modified, formatted_date (last_modified))
+				format_gmt (last_modified_gmt, last_modified)
+				response.set_header (Header.last_modified, last_modified_gmt)
+			-- max-age is 24 hours
+				response.set_header (Header.cache_control, once "max-age=86400, must-revalidate")
 			end
 			response.send
 
@@ -119,12 +128,12 @@ feature {FCGI_SERVLET_REQUEST, FCGI_SERVLET_SERVICE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	formatted_date (date_time: DATE_TIME): STRING
-		local
-			l_result: ZSTRING
+	format_gmt (output: STRING; date_time: EL_DATE_TIME)
 		do
-			l_result := date_time.formatted_out (once "ddd, [0]dd mmm yyyy [0]hh:[0]mi:[0]ss GMT")
-			Result := l_result.as_proper_case
+			output.wipe_out
+			date_time.append_to_string_8 (output, Date_time_format)
+			output.append_character (' ')
+			output.append (Date_time_.Zone.gmt)
 		end
 
 	new_host_address: NATURAL
@@ -152,11 +161,15 @@ feature {FCGI_SERVLET_REQUEST} -- Internal attributes
 
 	service: FCGI_SERVLET_SERVICE
 
+	last_modified_gmt: STRING
+
 feature {NONE} -- Constants
 
-	Default_date: DATE_TIME
+	Date_time_format: STRING = "Ddd, [0]dd Mmm yyyy [0]hh:[0]mi:[0]ss GMT"
+		-- Last-Modified: Tue, 03 Nov 2024 13:45:00 GMT
+
+	Default_date: EL_DATE_TIME
 		once
-			create Result.make_from_epoch (0)
-			Result := Result.Origin
+			create Result.make_default
 		end
 end

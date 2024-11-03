@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-11-03 16:26:44 GMT (Sunday 3rd November 2024)"
+	revision: "5"
 
 class
 	EL_ZONED_DATE_TIME_PARSER
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_MODULE_DATE_TIME
+
+	EL_STRING_HANDLER
 
 create
 	make
@@ -77,14 +79,16 @@ feature {NONE} -- Implementation
 
 	parse
 		local
-			i, offset_hh_mm, sign_index, sign_one, leading_count: INTEGER; zone_string, zone_dezignator: STRING
-			c: CHARACTER; s: EL_STRING_8_ROUTINES
+			i, offset_hh_mm, sign_index, sign_one, leading_count, old_count: INTEGER
+			zone_string, zone_dezignator: STRING; c: CHARACTER; s: EL_STRING_8_ROUTINES
 		do
 			leading_count := s.leading_string_count (source_string, zone_designator_count)
 			zone_string := source_string.substring (leading_count + 1, source_string.count)
-			source_string.keep_head (leading_count)
+			old_count := source_string.count
+			source_string.set_count (leading_count)
 			Precursor
-			source_string.append (zone_string)
+			source_string.set_count (old_count)
+
 			create zone_dezignator.make (3)
 			zone_offset := 0
 			from i := 1 until zone_dezignator.count = 3 or else i > zone_string.count loop

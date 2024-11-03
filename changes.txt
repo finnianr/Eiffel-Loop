@@ -775,3 +775,6 @@ Added ability to have more than one preparation command in Duplicty backups
 Tue 22nd Oct 2024, 15:34:18
 Improvements to http client resource exists routine
 
+Sat 2nd Nov 2024, 18:12:25
+New class EL_RESOURCE_URL
+

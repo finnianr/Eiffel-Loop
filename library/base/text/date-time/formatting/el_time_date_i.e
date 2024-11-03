@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "16"
+	date: "2024-11-03 15:18:59 GMT (Sunday 3rd November 2024)"
+	revision: "17"
 
 deferred class
 	EL_TIME_DATE_I
@@ -101,7 +101,6 @@ feature -- Basic operations
 			if attached Factory.code_string (format) as code then
 				code.append_to (str, to_shared_date_time)
 			end
-			check_case (format, str, old_count + 1)
 		ensure
 			corresponds_to_format: attached Factory.code_string (format) as code
 											implies code.correspond (str.substring (old str.count + 1, str.count))
@@ -148,25 +147,6 @@ feature -- Contract support
 		end
 
 feature {NONE} -- Implementation
-
-	check_case (format, str: STRING; start_index: INTEGER)
-		-- Turn Upper case month and day names into propercase if the
-		-- format code is propercase
-		local
-			index: INTEGER
-		do
-			across Propercase_table as table loop
-				if format.has_substring (table.key) then
-					across table.item as values_list until index > 0 loop
-						index := str.substring_index (values_list.item, start_index)
-						if index > 0 then
-							str [index + 1] := str [index + 1].as_lower
-							str [index + 2] := str [index + 2].as_lower
-						end
-					end
-				end
-			end
-		end
 
 	upper_input_valid (upper_str: STRING; format: STRING): BOOLEAN
 		do
@@ -223,8 +203,4 @@ feature {NONE} -- Constants
 			create Result.make (1, 1, 1, 1, 1, 1)
 		end
 
-	Propercase_table: EL_HASH_TABLE [ARRAY [STRING], STRING]
-		once
-			Result := << ["Mmm", Date_time.Months_text], ["Ddd", Date_time.Days_text] >>
-		end
 end

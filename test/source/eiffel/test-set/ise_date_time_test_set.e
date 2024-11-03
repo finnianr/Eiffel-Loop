@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:29:39 GMT (Friday 10th March 2023)"
-	revision: "9"
+	date: "2024-11-03 11:40:36 GMT (Sunday 3rd November 2024)"
+	revision: "10"
 
 class
-	DATE_TIME_2_TEST_SET
+	ISE_DATE_TIME_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET

@@ -6,7 +6,7 @@ note
 		**Test Sets**
 
 			${AGENT_TEST_SET}
-			${DATE_TIME_2_TEST_SET}
+			${ISE_DATE_TIME_TEST_SET}
 			${EIFFEL_TEST_SET}
 			${FILE_TEST_SET}
 			${NUMERIC_TEST_SET}
@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 12:43:16 GMT (Sunday 6th October 2024)"
-	revision: "5"
+	date: "2024-11-03 11:40:36 GMT (Sunday 3rd November 2024)"
+	revision: "6"
 
 class
 	EIFFEL_AUTOTEST_APP
@@ -30,7 +30,7 @@ class
 inherit
 	EL_AUTOTEST_APPLICATION [
 		AGENT_TEST_SET,
-		DATE_TIME_2_TEST_SET,
+		ISE_DATE_TIME_TEST_SET,
 		EIFFEL_TEST_SET,
 		FILE_TEST_SET,
 		NUMERIC_TEST_SET,
