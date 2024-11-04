@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-11-04 13:29:02 GMT (Monday 4th November 2024)"
+	revision: "6"
 
 class
 	EL_ZONED_DATE_TIME_CODE_STRING
@@ -25,10 +25,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make (format: STRING; a_zone_designator_count: INTEGER)
+	make (a_format: STRING; a_zone_designator_count: INTEGER)
 		do
 			zone_designator_count := a_zone_designator_count
-			make_code_string (format)
+			make_code_string (a_format)
 		end
 
 feature -- Access

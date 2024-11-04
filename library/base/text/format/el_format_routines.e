@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2024-11-04 13:24:59 GMT (Monday 4th November 2024)"
+	revision: "9"
 
 class
 	EL_FORMAT_ROUTINES
@@ -44,9 +44,19 @@ feature -- Integer formatting
 			Result := integer_string (n, 1, False)
 		end
 
-	percentage (proportion: DOUBLE): STRING
+	padded_integer (n, width: INTEGER): STRING
 		do
-			Result := percent ((proportion * 100).rounded)
+			Result := integer_string (n, width, False)
+		end
+
+	padded_percent (n, width: INTEGER): STRING
+		do
+			Result := integer_string (n, width, False) + char ('%%')
+		end
+
+	padded_percentage (proportion: DOUBLE; width: INTEGER): STRING
+		do
+			Result := padded_percent ((proportion * 100).rounded, width)
 		end
 
 	percent (n: INTEGER): STRING
@@ -54,9 +64,9 @@ feature -- Integer formatting
 			Result := integer_string (n, 1, False) + char ('%%')
 		end
 
-	padded_integer (n, width: INTEGER): STRING
+	percentage (proportion: DOUBLE): STRING
 		do
-			Result := integer_string (n, width, False)
+			Result := percent ((proportion * 100).rounded)
 		end
 
 	zero_padded_integer (n, width: INTEGER): STRING
@@ -65,14 +75,14 @@ feature -- Integer formatting
 			Result := integer_string (n, width, True)
 		end
 
-	padded_percentage (proportion: DOUBLE; width: INTEGER): STRING
-		do
-			Result := padded_percent ((proportion * 100).rounded, width)
-		end
+feature -- Basic operations
 
-	padded_percent (n, width: INTEGER): STRING
+	append_zero_padded (str: STRING; n, width: INTEGER)
+		local
+			math: EL_INTEGER_MATH
 		do
-			Result := integer_string (n, width, False) + char ('%%')
+			str.append (char ('0') * (width - math.digit_count (n)))
+			str.append_integer (n)
 		end
 
 feature {NONE} -- Implementation
@@ -129,12 +139,12 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Zero_padded_mask: INTEGER = 1
+	Decimal_count_mask: INTEGER = 0xFFF0
 
 	Is_real_mask: INTEGER = 2
 
-	Decimal_count_mask: INTEGER = 0xFFF0
-
 	Width_mask: INTEGER = 0xFFF_0000
+
+	Zero_padded_mask: INTEGER = 1
 
 end

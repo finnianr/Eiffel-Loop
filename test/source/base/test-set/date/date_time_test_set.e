@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-03 15:27:13 GMT (Sunday 3rd November 2024)"
-	revision: "41"
+	date: "2024-11-04 13:48:55 GMT (Monday 4th November 2024)"
+	revision: "42"
 
 class
 	DATE_TIME_TEST_SET
@@ -30,6 +30,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["12_hour_clock",							  agent test_12_hour_clock],
 				["compact_decimal_time",				  agent test_compact_decimal_time],
 				["date_time",								  agent test_date_time],
 				["date_time_proper_case",				  agent test_date_time_proper_case],
@@ -47,6 +48,23 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
+
+	test_12_hour_clock
+		note
+			testing: "[
+				covers/{EL_DATE_TIME_CODE_STRING}.append_code_to
+			]"
+		local
+			time_1: TIME; time_2: EL_TIME
+		do
+			create time_1.make (0, 0, 0)
+			create time_2.make (0, 0, 0)
+			across 0 |..| 23 as n loop
+				time_1.set_hour (n.item)
+				time_2.set_hour (n.item)
+				assert_same_string (Void, time_1.out, time_2.out)
+			end
+		end
 
 	test_compact_decimal_time
 		-- DATE_TIME_TEST_SET.test_compact_decimal_time
@@ -140,15 +158,21 @@ feature -- Tests
 
 	test_epoch_date_time
 		local
-			dt, dt_2: EL_DATE_TIME
+			dt_1, dt_2: EL_DATE_TIME; dt: DATE_TIME
 		do
-			create dt.make (2000, 1, 3, 1, 0, 0)
-			create dt_2.make_from_epoch (dt.epoch_seconds)
-			assert ("same date", dt.is_almost_equal (dt_2))
+			across << 1960, 2000 >> as year loop
+				create dt_1.make (year.item, 1, 3, 1, 0, 0)
+				create dt.make_from_epoch (dt_1.epoch_seconds)
+				create dt_2.make_from_epoch (dt_1.epoch_seconds) -- uses faster way to calculate
+			end
 
-			create dt.make_from_string ("09/07/2021 3:08:01.947 PM")
-			create dt_2.make_from_epoch (dt.epoch_seconds)
-			assert ("same date", dt.is_almost_equal (dt_2))
+			assert ("same value", dt ~ dt_2.to_date_time)
+
+			assert ("same date", dt_1.is_almost_equal (dt_2))
+
+			create dt_1.make_from_string ("09/07/2021 3:08:01.947 PM")
+			create dt_2.make_from_epoch (dt_1.epoch_seconds)
+			assert ("same date", dt_1.is_almost_equal (dt_2))
 		end
 
 	test_execution_timer

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-03 11:29:26 GMT (Sunday 3rd November 2024)"
-	revision: "31"
+	date: "2024-11-04 10:30:29 GMT (Monday 4th November 2024)"
+	revision: "32"
 
 class
 	EL_DATE_TIME
@@ -23,6 +23,8 @@ inherit
 			{NONE} duration -- really buggy
 		undefine
 			Date_time, formatted_out, date_time_valid, make_with_format, make_now, make_now_utc
+		redefine
+			make_from_epoch
 		end
 
 	EL_TIME_DATE_I
@@ -55,6 +57,21 @@ feature -- Initialization
 	make_ISO_8601_extended (s: STRING)
 		do
 			make_with_format (s, Date_time.ISO_8601.format_extended)
+		end
+
+	make_from_epoch (a_secs: INTEGER)
+		-- Create a new date time from the number of
+		-- seconds since epoch (1 Jan 1970 at 00:00:00).
+		local
+			l_days, secs: INTEGER
+		do
+			secs := a_secs.abs
+			l_days := secs // Seconds_in_day; secs := secs \\ Seconds_in_day
+			make_fine (1970, 1, 1, 0, 0, 0.0)
+			if a_secs < 0 then
+				l_days := l_days.opposite; secs := secs.opposite
+			end
+			date.day_add (l_days); time.second_add (secs)
 		end
 
 	make_from_other (other: DATE_TIME)
@@ -125,7 +142,7 @@ feature -- Element change
 		do
 			date.copy (other.date)
 			time.copy (other.time)
-			if attached {EL_DATE_TIME} other as dt then
+			if same_type (other) and then attached {EL_DATE_TIME} other as dt then
 				zone_offset := dt.zone_offset
 			end
 		end

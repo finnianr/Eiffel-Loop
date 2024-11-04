@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2024-11-04 10:11:22 GMT (Monday 4th November 2024)"
+	revision: "4"
 
 deferred class
 	FCGI_SHARED_HEADER
 
 inherit
-	EL_MODULE_TUPLE
+	EL_ANY_SHARED
 
 feature {NONE} -- Constants
 

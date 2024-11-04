@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 12:21:24 GMT (Monday 23rd September 2024)"
-	revision: "16"
+	date: "2024-11-04 10:19:27 GMT (Monday 4th November 2024)"
+	revision: "17"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -20,6 +20,15 @@ inherit
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature -- Access
+
+	modification_time (file: FILE_PATH): EL_DATE_TIME
+		do
+			if file.exists then
+				create Result.make_from_epoch (file.modification_time)
+			else
+				create Result.make_from_other (Origin)
+			end
+		end
 
 	zone_designator_count (format: STRING): INTEGER
 		-- 0 if format does not contain "tzd"
@@ -44,12 +53,17 @@ feature -- Access
 			valid_count: format.as_upper.has_substring (Time_zone_designator) implies Result > 0
 		end
 
-	modification_time (file: FILE_PATH): EL_DATE_TIME
+feature -- Basic operations
+
+	format_to (output, format: STRING; unix_date_time: INTEGER; time_zone: detachable STRING)
+		-- output `unix_date_time' formatted with `format' to `output' wiping out previous content,
+		-- and adding optional `time_zone'
 		do
-			if file.exists then
-				create Result.make_from_epoch (file.modification_time)
-			else
-				create Result.make_from_other (Origin)
+			Date_time.make_from_epoch (unix_date_time)
+			output.wipe_out
+			Date_time.append_to_string_8 (output, format)
+			if attached time_zone as str then
+				output.append_character (' '); output.append (str)
 			end
 		end
 
@@ -99,7 +113,8 @@ feature -- Constants
 
 	Time_zone_designator: STRING = "TZD"
 
-	Zone: TUPLE [gmt, pdt, pst, utc: STRING]
+	Zone: TUPLE [GMT, PDT, PST, UTC: STRING]
+		-- common time zones
 		once
 			create Result
 			Tuple.fill (Result, "GMT, PDT, PST, UTC")
@@ -115,4 +130,10 @@ feature -- Constants
 			>>
 		end
 
+feature {NONE} -- Constants
+
+	Date_time: EL_DATE_TIME
+		once
+			create Result.make_default
+		end
 end

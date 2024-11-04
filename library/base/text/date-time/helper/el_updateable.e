@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-06 16:45:31 GMT (Tuesday 6th December 2022)"
-	revision: "7"
+	date: "2024-11-04 10:20:45 GMT (Monday 4th November 2024)"
+	revision: "8"
 
 deferred class
 	EL_UPDATEABLE
@@ -20,7 +20,7 @@ feature -- Access
 		end
 
 	last_modification_time: INTEGER
-		-- time of last modification
+		-- Unix time of last modification
 
 	modification_date_time: EL_DATE_TIME
 		do
@@ -28,6 +28,7 @@ feature -- Access
 		end
 
 	modification_time: INTEGER
+		-- Unix modification time
 		deferred
 		end
 

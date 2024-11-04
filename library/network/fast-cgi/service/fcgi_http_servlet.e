@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-03 16:08:38 GMT (Sunday 3rd November 2024)"
-	revision: "24"
+	date: "2024-11-04 10:35:17 GMT (Monday 4th November 2024)"
+	revision: "25"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -15,12 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_DATE_TIME
-		rename
-			Date_time as Date_time_
-		end
-
-	EL_MODULE_IP_ADDRESS; EL_MODULE_LOG
+	EL_MODULE_DATE_TIME; EL_MODULE_IP_ADDRESS; EL_MODULE_LOG
 
 	EL_SHARED_HTTP_STATUS; EL_SHARED_DOCUMENT_TYPES
 
@@ -38,9 +33,9 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	last_modified: EL_DATE_TIME
+	last_modified: INTEGER
+		-- Unix time stamp
 		do
-			Result := Default_date
 		end
 
 	servlet_info: STRING
@@ -80,8 +75,9 @@ feature -- Basic operations
 				response.set_header (Header.pragma, once "no-cache"); -- HTTP 1.0.
 				response.set_header (Header.expires, once "0"); -- Proxies.
 
-			elseif last_modified /= Default_date then
-				format_gmt (last_modified_gmt, last_modified)
+			elseif last_modified.to_boolean then
+			-- Last-Modified: Tue, 03 Nov 2024 13:45:00 GMT
+				Date_time.format_to (last_modified_gmt, Date_time_format, last_modified, Date_time.Zone.GMT)
 				response.set_header (Header.last_modified, last_modified_gmt)
 			-- max-age is 24 hours
 				response.set_header (Header.cache_control, once "max-age=86400, must-revalidate")
@@ -128,14 +124,6 @@ feature {FCGI_SERVLET_REQUEST, FCGI_SERVLET_SERVICE} -- Event handling
 
 feature {NONE} -- Implementation
 
-	format_gmt (output: STRING; date_time: EL_DATE_TIME)
-		do
-			output.wipe_out
-			date_time.append_to_string_8 (output, Date_time_format)
-			output.append_character (' ')
-			output.append (Date_time_.Zone.gmt)
-		end
-
 	new_host_address: NATURAL
 		--	inconsistent: does not match ip address of a localhost curl request
 		local
@@ -165,11 +153,6 @@ feature {FCGI_SERVLET_REQUEST} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Date_time_format: STRING = "Ddd, [0]dd Mmm yyyy [0]hh:[0]mi:[0]ss GMT"
-		-- Last-Modified: Tue, 03 Nov 2024 13:45:00 GMT
+	Date_time_format: STRING = "Ddd, [0]dd Mmm yyyy [0]hh:[0]mi:[0]ss"
 
-	Default_date: EL_DATE_TIME
-		once
-			create Result.make_default
-		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2024-11-04 13:28:47 GMT (Monday 4th November 2024)"
+	revision: "4"
 
 class
 	EL_ISO_8601_DATE_TIME_CODE_STRING
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (format: STRING; a_converter: EL_DATE_TIME_CONVERSION)
+	make (a_format: STRING; a_converter: EL_DATE_TIME_CONVERSION)
 		do
 			converter := a_converter
 			make_code_string (a_converter.format)
