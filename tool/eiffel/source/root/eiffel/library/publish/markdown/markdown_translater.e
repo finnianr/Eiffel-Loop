@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-04 6:53:11 GMT (Tuesday 4th June 2024)"
-	revision: "41"
+	date: "2024-11-06 18:28:51 GMT (Wednesday 6th November 2024)"
+	revision: "42"
 
 class
 	MARKDOWN_TRANSLATER
@@ -27,7 +27,7 @@ inherit
 			new_line as new_line_character
 		end
 
-	EL_ZSTRING_CONSTANTS; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_ZSTRING_CONSTANTS; EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -49,16 +49,15 @@ feature -- Basic operations
 	to_github_markdown (class_note_markdown_lines: EL_ZSTRING_LIST): ZSTRING
 		-- Github markdown string translated from `class_note_markdown_lines'
 		local
-			line_list: EL_ZSTRING_LIST; type: NATURAL_8; buffer: ZSTRING
+			line_list: EL_ZSTRING_LIST; type: NATURAL_8
 		do
 			do_with_lines (agent add_normal_text, normalized_paragraphs (class_note_markdown_lines))
 			if state = state_add_code_lines then
 				close_code_block (Empty_string.twin)
 			end
 			create line_list.make (line_type_list.count * 2)
-			across String_scope as scope loop
-				buffer := scope.best_item (500)
-				if attached line_type_list as list then
+			if attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as buffer and then attached line_type_list as list then
 					from list.start until list.after loop
 						type := list.item_key
 						buffer.wipe_out; buffer.append (list.item_value)
@@ -81,6 +80,7 @@ feature -- Basic operations
 						list.forth
 					end
 				end
+				borrowed.return
 			end
 			line_list.extend (Empty_string)
 			Result := line_list.joined_lines

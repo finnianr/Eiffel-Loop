@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 11:13:09 GMT (Tuesday 20th August 2024)"
-	revision: "11"
+	date: "2024-11-05 9:53:25 GMT (Tuesday 5th November 2024)"
+	revision: "12"
 
 class
 	EL_BORROWED_ZSTRING_CURSOR
@@ -24,8 +24,6 @@ inherit
 	EL_BORROWED_STRING_CURSOR [ZSTRING]
 		undefine
 			bit_count
-		redefine
-			copied_item, sized_item, substring_item
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
@@ -35,7 +33,13 @@ create
 
 feature -- Access
 
-	copied_item (general: READABLE_STRING_GENERAL): ZSTRING
+	copied_item (str: EL_READABLE_ZSTRING): ZSTRING
+		do
+			Result := best_item (str.count)
+			Result.append (str)
+		end
+
+	copied_item_general (general: READABLE_STRING_GENERAL): ZSTRING
 		do
 			Result := best_item (general.count)
 			Result.append_string_general (general)
@@ -48,7 +52,13 @@ feature -- Access
 			Result.set_count (n)
 		end
 
-	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): ZSTRING
+	substring_item (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): ZSTRING
+		do
+			Result := best_item (end_index - start_index + 1)
+			Result.append_substring (str, start_index, end_index)
+		end
+
+	substring_item_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): ZSTRING
 		do
 			Result := best_item (end_index - start_index + 1)
 			Result.append_substring_general (general, start_index, end_index)

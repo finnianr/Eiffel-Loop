@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:03:57 GMT (Wednesday 8th November 2023)"
-	revision: "5"
+	date: "2024-11-06 18:22:02 GMT (Wednesday 6th November 2024)"
+	revision: "6"
 
 deferred class
 	TP_QUOTED_STRING
@@ -22,7 +22,7 @@ inherit
 
 	EL_STRING_32_CONSTANTS
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_STRING_32_BUFFER_POOL
 
 feature {NONE} -- Initialization
 
@@ -83,49 +83,48 @@ feature {NONE} -- Implementation
 			text_count := text.count; offset := a_offset
 			quote_code := as_code (quote); escape_code := as_code (escape_character)
 
-			if i_th_code (offset + 1, text) = quote_code then
+			if i_th_code (offset + 1, text) = quote_code and then attached string_pool.borrowed_item as borrowed then
 				escape_pattern := new_escape_sequence
 				collecting_text := attached unescaped_action
 				offset := offset + 1
 
-				across String_scope as scope loop
-					l_string := scope.item
-					from until offset = text_count or quote_closed loop
-						if i_th_code (offset + 1, text) = escape_code then
-							escape_pattern.match (offset, text)
-							escape_sequence_found := escape_pattern.is_matched
-						else
-							escape_sequence_found := False
-						end
-						if escape_sequence_found then
-							sequence_count := escape_pattern.count
-							if collecting_text then
-								l_string.append_code (unescaped_code (text, offset + 1, offset + sequence_count, sequence_count))
-							end
-							offset := offset + sequence_count
-
-						elseif i_th_code (offset + 1, text) = quote_code then
-							quote_closed := True
-							offset := offset + 1
-						else
-							if collecting_text then
-								l_string.append_code (i_th_code (offset + 1, text))
-							end
-							offset := offset + 1
-						end
-					end
-					if quote_closed then
-						if collecting_text then
-							unescaped_string := l_string.twin
-						end
-						Result := offset - a_offset
-						if Result <= 2 then
-							Result := Match_fail
-						end
+				l_string := borrowed.empty
+				from until offset = text_count or quote_closed loop
+					if i_th_code (offset + 1, text) = escape_code then
+						escape_pattern.match (offset, text)
+						escape_sequence_found := escape_pattern.is_matched
 					else
-						Result := Match_fail
+						escape_sequence_found := False
+					end
+					if escape_sequence_found then
+						sequence_count := escape_pattern.count
+						if collecting_text then
+							l_string.append_code (unescaped_code (text, offset + 1, offset + sequence_count, sequence_count))
+						end
+						offset := offset + sequence_count
+
+					elseif i_th_code (offset + 1, text) = quote_code then
+						quote_closed := True
+						offset := offset + 1
+					else
+						if collecting_text then
+							l_string.append_code (i_th_code (offset + 1, text))
+						end
+						offset := offset + 1
 					end
 				end
+				if quote_closed then
+					if collecting_text then
+						unescaped_string := l_string.twin
+					end
+					Result := offset - a_offset
+					if Result <= 2 then
+						Result := Match_fail
+					end
+				else
+					Result := Match_fail
+				end
+				borrowed.return
 			else
 				Result := Match_fail
 			end
@@ -176,10 +175,10 @@ feature {NONE} -- Implementation
 			Result := uc.natural_32_code
 		end
 
-	string_scope: EL_BORROWED_STRING_SCOPE [STRING_GENERAL, EL_BORROWED_STRING_CURSOR [STRING_GENERAL]]
+	string_pool: EL_STRING_BUFFER_POOL [EL_STRING_BUFFER [STRING_GENERAL, READABLE_STRING_GENERAL]]
 		-- string buffer scope
 		do
-			Result := String_32_scope
+			Result := String_32_pool
 		end
 
 	core: TP_OPTIMIZED_FACTORY

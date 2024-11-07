@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-11-06 11:28:11 GMT (Wednesday 6th November 2024)"
+	revision: "8"
 
 deferred class
 	EL_STRING_TO_PATH_TYPE [G -> EL_PATH create make end]
@@ -20,7 +20,7 @@ inherit
 			is_path, is_latin_1, new_type_description, type
 		end
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature -- Access
 
@@ -42,8 +42,9 @@ feature -- Conversion
 
 	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): G
 		do
-			across String_scope as scope loop
-				create Result.make (scope.substring_item (str, start_index, end_index))
+			if attached String_pool.borrowed_item as borrowed then
+				create Result.make (borrowed.copied_substring_general (str, start_index, end_index))
+				borrowed.return
 			end
 		end
 

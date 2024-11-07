@@ -14,8 +14,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:53:07 GMT (Tuesday 27th August 2024)"
-	revision: "20"
+	date: "2024-11-06 11:38:34 GMT (Wednesday 6th November 2024)"
+	revision: "21"
 
 class
 	TB_SUBJECT_LINE_DECODER
@@ -29,7 +29,7 @@ inherit
 
 	EL_MODULE_BASE_64; EL_MODULE_TUPLE
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -58,10 +58,11 @@ feature -- Access
 				set_latin_encoding (1)
 				latin_str := line
 			end
-			across String_scope as scope loop
-				Result := scope.item
+			if attached String_pool.borrowed_item as borrowed then
+				Result := borrowed.empty
 				Result.append_encoded (latin_str, encoding)
 				Result := Result.twin
+				borrowed.return
 			end
 		end
 

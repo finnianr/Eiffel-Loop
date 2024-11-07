@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 9:58:53 GMT (Friday 19th July 2024)"
-	revision: "45"
+	date: "2024-11-06 18:44:44 GMT (Wednesday 6th November 2024)"
+	revision: "46"
 
 class
 	EL_RENDERED_TEXT_ROUTINES
@@ -27,7 +27,7 @@ inherit
 
 	EV_FONT_CONSTANTS
 
-	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_STRING_32_BUFFER_POOL; EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -99,10 +99,11 @@ feature -- Contract support
 
 	is_word_wrappable (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
-			across String_scope as scope loop
-				Result := across scope.same_item (a_text).split ('%N') as line all
+			if attached String_pool.borrowed_item as borrowed then
+				Result := across borrowed.to_same (a_text).split ('%N') as line all
 					all_words_fit_width (line.item, a_font, a_width)
 				end
+				borrowed.return
 			end
 		end
 
@@ -122,8 +123,9 @@ feature -- Measurement
 
 	string_width (string: READABLE_STRING_GENERAL; a_font: EV_FONT): INTEGER
 		do
-			across String_32_scope as scope loop
-				Result := a_font.string_width (scope.same_item (string))
+			if attached String_32_pool.borrowed_item as borrowed then
+				Result := a_font.string_width (borrowed.to_same (string))
+				borrowed.return
 			end
 		end
 

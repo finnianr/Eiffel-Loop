@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-22 10:44:34 GMT (Tuesday 22nd October 2024)"
-	revision: "19"
+	date: "2024-11-05 15:10:40 GMT (Tuesday 5th November 2024)"
+	revision: "20"
 
 deferred class
 	EL_HTTP_CONNECTION_IMPLEMENTATION
@@ -41,7 +41,7 @@ inherit
 
 	EL_MODULE_TUPLE; EL_MODULE_URI
 
-	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_CURL_API; EL_SHARED_HTTP_STATUS
 
 	EL_SHARED_PROGRESS_LISTENER
 		rename
@@ -128,10 +128,10 @@ feature {EL_HTTP_COMMAND} -- Implementation
 		end
 
 	set_curl_string_32_option (a_option: INTEGER; string: STRING_32)
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			across String_8_scope as scope loop
-				Curl.setopt_string (self_ptr, a_option, scope.copied_utf_8_item (string))
-			end
+			Curl.setopt_string (self_ptr, a_option, Buffer.copied_general_as_utf_8 (string))
 		end
 
 	set_curl_string_8_option (a_option: INTEGER; string: STRING)
@@ -140,10 +140,10 @@ feature {EL_HTTP_COMMAND} -- Implementation
 		end
 
 	set_curl_string_option (a_option: INTEGER; string: ZSTRING)
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			across String_8_scope as scope loop
-				Curl.setopt_string (self_ptr, a_option, scope.copied_utf_8_item (string))
-			end
+			Curl.setopt_string (self_ptr, a_option, Buffer.copied_general_as_utf_8 (string))
 		end
 
 	set_header_function (callback, user_data: POINTER)

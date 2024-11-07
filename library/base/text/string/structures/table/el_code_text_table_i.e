@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:47:50 GMT (Sunday 6th October 2024)"
-	revision: "3"
+	date: "2024-11-06 18:31:32 GMT (Wednesday 6th November 2024)"
+	revision: "4"
 
 deferred class
 	EL_CODE_TEXT_TABLE_I
@@ -37,11 +37,11 @@ inherit
 			actual_item as actual_cache
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+
 	EL_MODULE_CONVERT_STRING
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_IMMUTABLE_8_MANAGER
-
-	EL_STRING_GENERAL_ROUTINES
+	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_BUFFER_POOL
 
 	EL_ZSTRING_CONSTANTS
 
@@ -58,11 +58,11 @@ feature -- Status query
 				if manifest.is_string_8 and then attached {READABLE_STRING_8} manifest as str_8 then
 					create line_list.make (Immutable_8.as_shared (str_8), '%N')
 					search (code, line_list, False)
-				else
-					across String_8_scope as scope loop
-						create line_list.make (Immutable_8.as_shared (scope.copied_utf_8_item (manifest)), '%N')
-						search (code, line_list, True)
-					end
+
+				elseif attached String_8_pool.borrowed_item as borrowed then
+					create line_list.make (Immutable_8.as_shared (borrowed.copied_general_as_utf_8 (manifest)), '%N')
+					search (code, line_list, True)
+					borrowed.return
 				end
 			end
 			Result := found

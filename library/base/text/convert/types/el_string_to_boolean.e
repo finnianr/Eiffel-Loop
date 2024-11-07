@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2024-11-05 15:23:38 GMT (Tuesday 5th November 2024)"
+	revision: "8"
 
 class
 	EL_STRING_TO_BOOLEAN
@@ -45,10 +45,10 @@ feature -- Conversion
 		end
 
 	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
+		local
+			buffer: EL_STRING_8_BUFFER
 		do
-			across String_8_scope as scope loop
-				Result := scope.copied_item (str).to_boolean
-			end
+			Result := buffer.copied_substring_general (str, start_index, end_index).to_boolean
 		end
 
 end

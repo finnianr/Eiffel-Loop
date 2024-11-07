@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:46:37 GMT (Thursday 9th November 2023)"
-	revision: "11"
+	date: "2024-11-07 11:08:22 GMT (Thursday 7th November 2024)"
+	revision: "12"
 
 class
 	J_STRING
@@ -22,7 +22,7 @@ inherit
 
 	JAVA_LANG_JPACKAGE
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	default_create,
@@ -43,8 +43,9 @@ feature {NONE} -- Initialization
 	make_from_string (str: ZSTRING)
 			--
 		do
-			across String_8_scope as scope loop
-				make_from_utf_8 (scope.copied_utf_8_item (str))
+			if attached String_8_pool.borrowed_item as borrowed then
+				make_from_utf_8 (borrowed.copied_general_as_utf_8 (str))
+				borrowed.return
 			end
 		end
 
@@ -55,11 +56,13 @@ feature {NONE} -- Initialization
 		do
 			if cursor_8 (str).all_ascii then
 				make_from_pointer (jni.new_string (str))
-			else
-				across String_8_scope as scope loop
-					conv.utf_32_string_into_utf_8_string_8 (str, scope.item)
-					make_from_pointer (jni.new_string (scope.item))
+
+			elseif attached String_8_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as utf_8 then
+					conv.utf_32_string_into_utf_8_string_8 (str, utf_8)
+					make_from_pointer (jni.new_string (utf_8))
 				end
+				borrowed.return
 			end
 		end
 

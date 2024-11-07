@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:48:42 GMT (Friday 20th September 2024)"
-	revision: "75"
+	date: "2024-11-05 13:20:02 GMT (Tuesday 5th November 2024)"
+	revision: "76"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -20,8 +20,6 @@ inherit
 	EL_PREPENDABLE_ZSTRING
 
 	EL_CHARACTER_32_CONSTANTS
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {EL_READABLE_ZSTRING} -- Basic operations
 

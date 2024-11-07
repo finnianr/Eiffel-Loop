@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:50:06 GMT (Monday 23rd September 2024)"
-	revision: "40"
+	date: "2024-11-06 10:51:00 GMT (Wednesday 6th November 2024)"
+	revision: "41"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -35,7 +35,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_CLASS_ID; EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_CLASS_ID; EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make, default_create -- to satisfy constraint of `EL_REFLECTED_COLLECTION_FACTORY'
@@ -289,13 +289,12 @@ feature {NONE} -- Implementation
 			elseif attached {EL_PATH} item as path then
 				Result := path.to_string
 
-			elseif attached reader_writer as writer then
-				across String_scope as scope loop
-					if attached scope.item as str then
-						writer.write (item, str)
-						Result := str.twin
-					end
+			elseif attached reader_writer as writer and then attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as str then
+					writer.write (item, str)
+					Result := str.twin
 				end
+				borrowed.return
 			else
 				Result := item.out
 			end

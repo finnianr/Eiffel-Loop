@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:32:11 GMT (Saturday 11th November 2023)"
-	revision: "11"
+	date: "2024-11-05 18:12:28 GMT (Tuesday 5th November 2024)"
+	revision: "12"
 
 class
 	TL_BYTE_VECTOR
@@ -21,8 +21,6 @@ inherit
 	TL_BYTE_VECTOR_CPP_API
 
 	TL_SHARED_FRAME_ID_ENUM
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_from_pointer, make_empty

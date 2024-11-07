@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:27:58 GMT (Wednesday 8th November 2023)"
-	revision: "6"
+	date: "2024-11-07 11:11:09 GMT (Thursday 7th November 2024)"
+	revision: "7"
 
 class
 	UNDERBIT_ID3_STRING_FIELD
@@ -48,9 +48,10 @@ feature -- Element change
 		local
 			to_c: ANY
 		do
-			across String_32_scope as scope loop
-				to_c := scope.copied_item (str).to_c
+			if attached String_32_pool.borrowed_item as borrowed then
+				to_c := borrowed.copied_general (str).to_c
 				set_underbit_string ($to_c)
+				borrowed.return
 			end
 		end
 

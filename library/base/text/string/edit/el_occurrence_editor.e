@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-11-06 18:22:01 GMT (Wednesday 6th November 2024)"
+	revision: "6"
 
 deferred class
 	EL_OCCURRENCE_EDITOR [S -> STRING_GENERAL create make end]
@@ -37,8 +37,8 @@ feature -- Basic operations
 			previous_lower, previous_upper, lower, upper, i: INTEGER
 		do
 			if attached area as a and then attached target as l_target then
-				across string_scope as scope loop
-					if attached scope.item as buffer then
+				if attached string_pool.borrowed_item as borrowed then
+					if attached borrowed.empty as buffer then
 						from until i = a.count loop
 							lower := a [i]; upper := a [i + 1]
 							previous_lower := previous_upper + 1
@@ -57,6 +57,7 @@ feature -- Basic operations
 						l_target.append (buffer)
 						wipe_out_intervals
 					end
+					borrowed.return
 				end
 			end
 		ensure
@@ -77,7 +78,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	string_scope: EL_BORROWED_STRING_SCOPE [S, EL_BORROWED_STRING_CURSOR [S]]
+	string_pool: EL_STRING_BUFFER_POOL [EL_STRING_BUFFER [S, READABLE_STRING_GENERAL]]
 		deferred
 		end
 

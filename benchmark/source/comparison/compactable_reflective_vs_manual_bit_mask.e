@@ -5,8 +5,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "5"
+	date: "2024-11-05 10:00:25 GMT (Tuesday 5th November 2024)"
+	revision: "6"
 
 class
 	COMPACTABLE_REFLECTIVE_VS_MANUAL_BIT_MASK
@@ -40,8 +40,8 @@ feature {NONE} -- Implementation
 
 	automated_date_compaction
 		local
-			date: COMPACTABLE_DATE; i, y, m, d: INTEGER
-			compact_date: INTEGER
+			date: COMPACTABLE_DATE; y: INTEGER_16; m, d: NATURAL_8
+			i, compact_date: INTEGER
 		do
 			y := 2023; m := 10; d := 25
 			from i := 1 until i > 1000 loop

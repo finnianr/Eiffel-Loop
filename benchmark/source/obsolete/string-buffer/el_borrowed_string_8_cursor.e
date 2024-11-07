@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:53:47 GMT (Tuesday 20th August 2024)"
-	revision: "16"
+	date: "2024-11-05 9:52:59 GMT (Tuesday 5th November 2024)"
+	revision: "17"
 
 class
 	EL_BORROWED_STRING_8_CURSOR
@@ -24,8 +24,6 @@ inherit
 	EL_BORROWED_STRING_CURSOR [STRING_8]
 		undefine
 			bit_count
-		redefine
-			copied_item, sized_item, substring_item
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [STRING_8]
@@ -35,7 +33,13 @@ create
 
 feature -- Access
 
-	copied_item (general: READABLE_STRING_GENERAL): STRING_8
+	copied_item (str: READABLE_STRING_8): STRING_8
+		do
+			Result := best_item (str.count)
+			Result.append (str)
+		end
+
+	copied_item_general (general: READABLE_STRING_GENERAL): STRING_8
 		do
 			Result := best_item (general.count)
 			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8 then
@@ -64,7 +68,13 @@ feature -- Access
 			Result.set_count (n)
 		end
 
-	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_8
+	substring_item (str: READABLE_STRING_8; start_index, end_index: INTEGER): STRING_8
+		do
+			Result := best_item (end_index - start_index + 1)
+			Result.append_substring (str, start_index, end_index)
+		end
+
+	substring_item_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_8
 		do
 			Result := best_item (end_index - start_index + 1)
 			shared_cursor (general).append_substring_to_string_8 (Result, start_index, end_index)

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2024-11-05 18:17:54 GMT (Tuesday 5th November 2024)"
+	revision: "7"
 
 class
 	TP_ZSTRING_BASIC_QUOTED_STRING
@@ -17,7 +17,7 @@ class
 inherit
 	TP_BASIC_QUOTED_STRING
 		undefine
-			core, unescaped_code, string_scope
+			core, unescaped_code, string_pool
 		end
 
 	TP_OPTIMIZED_FOR_ZSTRING

@@ -2,10 +2,10 @@ note
 	description: "Build specification"
 	notes: "GENERATED FILE. Do not edit"
 
-	author: "Python module: eiffel_loop.eiffel.ecf.py"
+	author: "Python module: eiffel_loop.eiffel.build"
 
-	date: "2024-09-24 14:40:57 GMT (Tuesday 24th September 2024)"
-	revision: "3"
+	date: "2024-11-07 16:21:34 GMT (Thursday 7th November 2024)"
+	revision: "1"
 
 class
 	BUILD_INFO
@@ -18,11 +18,11 @@ create
 
 feature -- Constants
 
-	App_compatibility_flags: STRING = "~Win7RTM"
+	App_compatibility_flags: STRING = ""
 		-- For installed entry in registry key: CurrentVersion\AppCompatFlags\Layers
 		-- Under: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT
 
-	Build_number: NATURAL = 347
+	Build_number: NATURAL = 348
 
 	Installation_sub_directory: DIR_PATH
 		once

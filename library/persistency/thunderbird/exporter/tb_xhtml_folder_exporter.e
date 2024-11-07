@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:18:33 GMT (Sunday 22nd September 2024)"
-	revision: "41"
+	date: "2024-11-05 15:53:26 GMT (Tuesday 5th November 2024)"
+	revision: "42"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -27,7 +27,7 @@ inherit
 
 	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS; EL_HTML_CONSTANTS; EL_PROTOCOL_CONSTANTS
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 feature {NONE} -- Initialization
 
@@ -148,8 +148,9 @@ feature {NONE} -- Implementation
 	write_html (html_doc: ZSTRING)
 		do
 			edit (html_doc)
-			across String_8_scope as scope loop
-				File.write_text (output_file_path, scope.copied_utf_8_item (html_doc))
+			if attached String_8_pool.borrowed_item as borrowed then
+				File.write_text (output_file_path, borrowed.copied_general_as_utf_8 (html_doc))
+				borrowed.return
 			end
 		end
 

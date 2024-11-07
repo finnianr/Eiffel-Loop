@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-01 12:32:17 GMT (Tuesday 1st October 2024)"
-	revision: "75"
+	date: "2024-11-05 13:23:04 GMT (Tuesday 5th November 2024)"
+	revision: "76"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -22,7 +22,7 @@ inherit
 
 	EL_WRITEABLE_ZSTRING
 
-	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_BUFFER_POOL
 
 	EL_SET [CHARACTER]
 		rename
@@ -197,11 +197,10 @@ feature -- To Strings
 	to_utf_8: STRING
 		-- converted to UTF-8 encoding
 		do
-			across String_8_scope as scope loop
-				if attached scope.best_item (count) as utf_8 then
-					append_to_utf_8 (utf_8)
-					Result := utf_8.twin
-				end
+			if attached String_8_pool.borrowed_item as buffer and then attached buffer.empty as utf_8 then
+				append_to_utf_8 (utf_8)
+				Result := utf_8.twin
+				buffer.return
 			end
 		end
 

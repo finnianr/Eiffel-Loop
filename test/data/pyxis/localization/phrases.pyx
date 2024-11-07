@@ -54,6 +54,9 @@ translations:
 	item:
 		id = "{taoistiching}"
 		translation:
+			lang = de
+			'Walther Sells Interpretation des "taoistischen I Ging"'
+		translation:
 			lang = en
 			'Walther Sell\'s "The Taoist I Ching" Interpretation'
 

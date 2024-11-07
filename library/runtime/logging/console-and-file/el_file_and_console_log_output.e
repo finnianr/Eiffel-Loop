@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:20 GMT (Saturday 22nd June 2024)"
-	revision: "20"
+	date: "2024-11-05 14:24:22 GMT (Tuesday 5th November 2024)"
+	revision: "21"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -45,7 +45,7 @@ inherit
 			mutex as write_mutex
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make
@@ -113,8 +113,8 @@ feature {NONE} -- Implementation
 
 	write_console (str: READABLE_STRING_GENERAL)
 		do
-			across String_8_scope as scope loop
-				if attached scope.copied_utf_8_item (str) as l_utf_8 then
+			if attached String_8_pool.borrowed_item as borrowed then
+				if attached borrowed.copied_general_as_utf_8 (str) as l_utf_8 then
 					put_file_string (l_utf_8)
 					if is_directed_to_console then
 						if Console.is_utf_8_encoded then
@@ -124,6 +124,7 @@ feature {NONE} -- Implementation
 						end
 					end
 				end
+				borrowed.return
 			end
 		end
 

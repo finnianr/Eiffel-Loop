@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 20:01:30 GMT (Saturday 31st August 2024)"
-	revision: "78"
+	date: "2024-11-07 15:27:21 GMT (Thursday 7th November 2024)"
+	revision: "79"
 
 deferred class
 	EL_ZCODEC
@@ -409,18 +409,18 @@ feature -- Encoding operations
 
 	write_encoded (unicode_in: READABLE_STRING_GENERAL; writeable: EL_WRITABLE)
 		local
-			i, count: INTEGER; string_8: STRING
+			i, count: INTEGER
 		do
 			count := unicode_in.count
-			across String_8_scope as scope loop
-				string_8 := scope.best_item (count)
-				if attached string_8.area as l_area then
+			if attached String_8_pool.closest_item (count) as borrowed then
+				if attached borrowed.empty as string_8 and then attached string_8.area as l_area then
 					encode_as_string_8 (unicode_in, l_area, 0)
 					from i := 0 until i = count loop
 						writeable.write_encoded_character_8 (l_area [i])
 						i := i + 1
 					end
 				end
+				borrowed.return
 			end
 		end
 

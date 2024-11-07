@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-04 13:48:55 GMT (Monday 4th November 2024)"
-	revision: "42"
+	date: "2024-11-05 10:48:33 GMT (Tuesday 5th November 2024)"
+	revision: "43"
 
 class
 	DATE_TIME_TEST_SET
@@ -261,7 +261,7 @@ feature -- Tests
 
 	test_time_zone_designator
 		local
-			dt, utc: EL_DATE_TIME
+			dt, utc: EL_DATE_TIME; format: STRING
 		do
 			create utc.make (2016, 4, 10, 2, 35, 1)
 			create dt.make_with_format ("19:35:01 Apr 09, 2016 PST+1", "[0]hh:[0]mi:[0]ss Mmm [0]dd, yyyy tzd")
@@ -270,9 +270,11 @@ feature -- Tests
 			create dt.make_with_format ("Sun Apr 9 2016 19:35:01 GMT-0700 (GMT)", "Ddd Mmm dd yyyy [0]hh:[0]mi:[0]ss tzd (tzd)")
 			assert ("same as UTC", dt ~ utc)
 
-			create dt.make_with_format ("Wed, 7 Jul 2021 13:11:02 +0100", "Ddd, dd Mmm yyyy [0]hh:[0]mi:[0]ss tzd")
+			format := "Ddd, dd Mmm yyyy [0]hh:[0]mi:[0]ss tzd"
+			create dt.make_with_format ("Wed, 7 Jul 2021 13:11:02 +0100", format)
 			create utc.make (2021, 7, 7, 12, 11, 2)
 			assert ("same as UTC", dt ~ utc)
+			assert_same_string (Void, utc.formatted_out (format), "Wed, 7 Jul 2021 12:11:02 UTC")
 		end
 
 feature -- Observation Tests

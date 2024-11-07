@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 10:03:44 GMT (Tuesday 27th August 2024)"
-	revision: "9"
+	date: "2024-11-06 18:37:07 GMT (Wednesday 6th November 2024)"
+	revision: "10"
 
 deferred class
 	EL_FONT_FAMILIES_I
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_EIFFEL; EL_MODULE_TEXT
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature -- Access
 
@@ -86,33 +86,32 @@ feature {NONE} -- Implementation
 		local
 			bitmap: NATURAL_8; manifest: ZSTRING; char_set_then_bitmap: INTEGER
 		do
-			if attached new_true_type_set as true_type_set then
-				across String_scope as scope loop
-					manifest := scope.item
-					across new_font_families_map as family loop
-						if manifest.count > 0 then
-							manifest.append_character_8 (',')
-						end
-						if Text_.is_proportional (family.key) then
-							bitmap := Font_proportional
-						else
-							bitmap := Font_monospace
-						end
-						if is_true_type (true_type_set, family.key) then
-							bitmap := bitmap | Font_true_type
-						else
-							bitmap := bitmap | Font_non_true_type
-						end
-						char_set_then_bitmap := family.value |<< 8 | bitmap.to_integer_32
-						if attached char_set_then_bitmap.to_hex_string as hex_string then
-							hex_string.prune_all_leading ('0')
-							manifest.append_string_general (hex_string)
-						end
+			if attached new_true_type_set as true_type_set and then attached String_pool.borrowed_item as borrowed then
+				manifest := borrowed.empty
+				across new_font_families_map as family loop
+					if manifest.count > 0 then
 						manifest.append_character_8 (',')
-						manifest.append_string_general (family.key)
 					end
-					create Result.make_comma_separated (manifest)
+					if Text_.is_proportional (family.key) then
+						bitmap := Font_proportional
+					else
+						bitmap := Font_monospace
+					end
+					if is_true_type (true_type_set, family.key) then
+						bitmap := bitmap | Font_true_type
+					else
+						bitmap := bitmap | Font_non_true_type
+					end
+					char_set_then_bitmap := family.value |<< 8 | bitmap.to_integer_32
+					if attached char_set_then_bitmap.to_hex_string as hex_string then
+						hex_string.prune_all_leading ('0')
+						manifest.append_string_general (hex_string)
+					end
+					manifest.append_character_8 (',')
+					manifest.append_string_general (family.key)
 				end
+				create Result.make_comma_separated (manifest)
+				borrowed.return
 			end
 		end
 

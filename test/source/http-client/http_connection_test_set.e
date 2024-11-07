@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-16 9:19:15 GMT (Wednesday 16th October 2024)"
-	revision: "74"
+	date: "2024-11-07 16:18:12 GMT (Thursday 7th November 2024)"
+	revision: "75"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -357,7 +357,7 @@ feature -- Tests
 			create url_parts.make_split (url, '/')
 			url_parts [3].append (":80") -- append port number to domain
 
-			if attached Archive.wayback (url) as closest then
+			if attached Archive.wayback (url) as closest and then closest.status.to_boolean then
 				assert ("status OK", closest.status = Http_status.ok)
 				assert ("available OK", closest.available)
 				assert ("timestamp OK", closest.timestamp = 20130124193934)

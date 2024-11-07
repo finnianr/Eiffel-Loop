@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:19:02 GMT (Saturday 24th August 2024)"
-	revision: "30"
+	date: "2024-11-06 10:16:53 GMT (Wednesday 6th November 2024)"
+	revision: "31"
 
 class
 	EL_HTML_ROUTINES
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_FILE; EL_MODULE_TUPLE; EL_MODULE_XML
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 	EL_CHARACTER_32_CONSTANTS
 
@@ -117,33 +117,33 @@ feature -- Access
 		do
 			if line.has ('&') and then line.has (';')
 				and then attached Utf_8_character_entity_table as table
+				and then attached String_pool.borrowed_batch (3) as borrowed
 			then
-				across String_pool_scope as pool loop
-					entity_name := pool.borrowed_item; entity :=  pool.borrowed_item
+				entity_name := borrowed [0].empty; entity := borrowed [1].empty
 
-					across pool.filled_borrowed_item (line).split ('&') as split loop
-						if split.cursor_index = 1 then
-							line.wipe_out
-						else
-							line.append_character ('&')
-						end
-						section := split.item
-						pos_semicolon := section.index_of (';', 1)
-						if pos_semicolon > 0 then
-							entity_name.wipe_out
-							entity_name.append_substring (section, 1, pos_semicolon - 1)
-							if table.has_key_general (entity_name) then
-								set_character_entity (entity, table.found_utf_8_item)
-								line [line.count] := entity [1] -- overwrite '&'
-								line.append_substring (section, pos_semicolon + 1, section.count)
-							else
-								line.append (section)
-							end
+				across borrowed [2].copied (line).split ('&') as split loop
+					if split.cursor_index = 1 then
+						line.wipe_out
+					else
+						line.append_character ('&')
+					end
+					section := split.item
+					pos_semicolon := section.index_of (';', 1)
+					if pos_semicolon > 0 then
+						entity_name.wipe_out
+						entity_name.append_substring (section, 1, pos_semicolon - 1)
+						if table.has_key_general (entity_name) then
+							set_character_entity (entity, table.found_utf_8_item)
+							line [line.count] := entity [1] -- overwrite '&'
+							line.append_substring (section, pos_semicolon + 1, section.count)
 						else
 							line.append (section)
 						end
+					else
+						line.append (section)
 					end
 				end
+				String_pool.return (borrowed)
 			end
 		end
 

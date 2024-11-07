@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:46:07 GMT (Sunday 6th October 2024)"
-	revision: "10"
+	date: "2024-11-05 18:39:14 GMT (Tuesday 5th November 2024)"
+	revision: "11"
 
 deferred class
 	EL_PATH_STEPS_IMPLEMENTATION
@@ -27,7 +27,7 @@ inherit
 
 	EL_PROTOCOL_CONSTANTS
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_STRING_32_BUFFER_POOL
 
 	EL_ZSTRING_CONSTANTS
 

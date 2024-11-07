@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:49:15 GMT (Thursday 9th November 2023)"
-	revision: "12"
+	date: "2024-11-07 11:13:55 GMT (Thursday 7th November 2024)"
+	revision: "13"
 
 class
 	LIBID3_STRING_FIELD
@@ -26,7 +26,7 @@ inherit
 			Libid3_types
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make
@@ -90,11 +90,9 @@ feature -- Element change
 				-- A bit strange that only Big Endian works
 				set_text_unicode (str.to_string_32)
 
-			elseif code = Encoding_enum.UTF_8 then
-				across String_8_scope as scope loop
-					set_latin_1_string (scope.copied_utf_8_item (str))
-				end
-
+			elseif code = Encoding_enum.UTF_8 and then attached String_8_pool.borrowed_item as borrowed then
+				set_latin_1_string (borrowed.copied_general_as_utf_8 (str))
+				borrowed.return
 			end
 		end
 

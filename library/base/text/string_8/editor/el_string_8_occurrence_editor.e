@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:56:57 GMT (Tuesday 20th August 2024)"
-	revision: "9"
+	date: "2024-11-05 18:08:34 GMT (Tuesday 5th November 2024)"
+	revision: "10"
 
 class
 	EL_STRING_8_OCCURRENCE_EDITOR
@@ -15,7 +15,7 @@ class
 inherit
 	EL_OCCURRENCE_EDITOR [STRING_8]
 		rename
-			string_scope as string_8_scope
+			string_pool as String_8_pool
 		undefine
 			bit_count, same_i_th_character
 		redefine
@@ -38,7 +38,7 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 	EL_SHARED_STRING_8_CURSOR
 

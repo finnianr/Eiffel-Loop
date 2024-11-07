@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-04 10:19:27 GMT (Monday 4th November 2024)"
-	revision: "17"
+	date: "2024-11-05 13:34:05 GMT (Tuesday 5th November 2024)"
+	revision: "18"
 
 class
 	EL_DATE_TIME_TOOLS
@@ -16,8 +16,6 @@ inherit
 	DATE_TIME_TOOLS
 
 	EL_MODULE_TUPLE
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature -- Access
 
@@ -35,10 +33,9 @@ feature -- Access
 		-- 1 if format ends with "tzd"
 		-- 2 if format ends with "tzd (tzd)"
 		local
-			zone_index: INTEGER; format_upper: STRING
+			zone_index: INTEGER; buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			across String_8_scope as scope loop
-				format_upper := scope.item
+			if attached buffer.empty as format_upper then
 				format_upper.append (format); format_upper.to_upper
 				zone_index := format_upper.substring_index (Time_zone_designator, 1)
 				if zone_index.to_boolean then

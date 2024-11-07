@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "19"
+	date: "2024-11-05 14:20:39 GMT (Tuesday 5th November 2024)"
+	revision: "20"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_BASE_64; EL_MODULE_DIGEST
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 feature -- Conversion
 
@@ -83,8 +83,8 @@ feature {NONE} -- Implementation
 			create file.make_open_read (a_file_path)
 			file.set_line_start (a_line_start)
 			file.set_encrypter (a_encrypter)
-			across string_8_scope as scope loop
-				Result := scope.item
+			if attached String_8_pool.borrowed_item as buffer then
+				Result := buffer.empty
 				from until file.end_of_file loop
 					file.read_line_8
 					if not Result.is_empty then
@@ -94,6 +94,7 @@ feature {NONE} -- Implementation
 					Result.prune_all_trailing ('%R')
 				end
 				Result := Result.twin
+				buffer.return
 			end
 			file.close
 		end

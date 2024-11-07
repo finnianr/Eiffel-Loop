@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:10:00 GMT (Wednesday 25th September 2024)"
-	revision: "15"
+	date: "2024-11-05 15:13:24 GMT (Tuesday 5th November 2024)"
+	revision: "16"
 
 class
 	EL_PYXIS_RESOURCE_SET
@@ -24,8 +24,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_monolithic
@@ -94,10 +92,10 @@ feature -- Access
 feature {NONE} -- Line states
 
 	extend (line: ZSTRING; pyxis_out: PLAIN_TEXT_FILE)
+		local
+			buffer: EL_STRING_32_BUFFER_ROUTINES
 		do
-			across String_8_scope as scope loop
-				pyxis_out.put_string (scope.copied_utf_8_item (line))
-			end
+			pyxis_out.put_string (buffer.copied_general (line))
 			pyxis_out.put_new_line
 		end
 

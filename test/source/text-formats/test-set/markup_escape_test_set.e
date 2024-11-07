@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:41:59 GMT (Friday 20th September 2024)"
-	revision: "30"
+	date: "2024-11-06 18:22:02 GMT (Wednesday 6th November 2024)"
+	revision: "31"
 
 class
 	MARKUP_ESCAPE_TEST_SET
@@ -52,7 +52,8 @@ feature -- Tests
 			testing: "[
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.make_by_assignment,
 				covers/{EL_IMMUTABLE_UTF_8_TABLE}.item_for_iteration,
-				covers/{EL_HTML_ROUTINES}.as_entity
+				covers/{EL_HTML_ROUTINES}.as_entity,
+				covert/{EL_STRING_BUFFER_POOL}.borrowed_batch
 			]"
 		local
 			escaped_symbols, unescaped: ZSTRING; unescaped_symbols: STRING; character: CHARACTER_32

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-13 21:08:45 GMT (Monday 13th November 2023)"
-	revision: "9"
+	date: "2024-11-06 18:35:58 GMT (Wednesday 6th November 2024)"
+	revision: "10"
 
 deferred class
 	EL_CRC_32_LOG_OUTPUT
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_SHARED_TEST_CRC
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 feature {NONE} -- Implementation
 
@@ -23,14 +23,15 @@ feature {NONE} -- Implementation
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			across String_8_scope as scope loop
-				if attached scope.copied_utf_8_item (general) as utf_8 then
+			if attached String_8_pool.borrowed_item as borrowed then
+				if attached borrowed.copied_general_as_utf_8 (general) as utf_8 then
 					if not utf_8.has ('%N') and then utf_8.has ('\') then
 						-- normalize file paths as Unix
 						s.replace_character (utf_8, '\', '/')
 					end
 					Test_crc.add_string_8 (utf_8)
 				end
+				borrowed.return
 			end
 		end
 end

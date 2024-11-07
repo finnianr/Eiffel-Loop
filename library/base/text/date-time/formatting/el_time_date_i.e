@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-03 15:18:59 GMT (Sunday 3rd November 2024)"
-	revision: "17"
+	date: "2024-11-05 11:15:55 GMT (Tuesday 5th November 2024)"
+	revision: "18"
 
 deferred class
 	EL_TIME_DATE_I
@@ -30,8 +30,6 @@ inherit
 		undefine
 			copy, is_equal, out
 		end
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Initialization
 
@@ -47,28 +45,23 @@ feature {NONE} -- Initialization
 			make_default; update_utc
 		end
 
-	make_with_format (s: STRING; format: STRING)
+	make_with_format (str: STRING; format: STRING)
 		do
-			across String_8_scope as scope loop
-				if attached scope.item as str then
-					str.append (s)
-					if attached Factory.date_time_parser (format) as parser then
-						parser.parse_source (str)
-						make_with_parser (parser)
-					end
-				end
+			if attached Factory.date_time_parser (format) as parser then
+				parser.parse_source (str)
+				make_with_parser (parser)
 			end
+		ensure
+			same_str: old str ~ str
 		end
 
 feature -- Access
 
 	formatted_out (format: STRING): STRING
 		do
-			across String_8_scope as scope loop
-				if attached scope.item as str then
-					append_to (str, format)
-					Result := str.twin
-				end
+			if attached Buffer.empty as str then
+				append_to (str, format)
+				Result := str.twin
 			end
 		end
 
@@ -83,13 +76,10 @@ feature -- Basic operations
 		do
 			if attached {STRING_8} general as str_8 then
 				append_to_string_8 (str_8, format)
-			else
-				across String_8_scope as scope loop
-					if attached scope.item as str then
-						append_to_string_8 (str, format)
-						general.append (str)
-					end
-				end
+				
+			elseif attached Buffer.empty as str then
+				append_to_string_8 (str, format)
+				general.append (str)
 			end
 		end
 
@@ -138,11 +128,9 @@ feature -- Contract support
 
 	input_valid (s: STRING; format: STRING): BOOLEAN
 		do
-			across String_8_scope as scope loop
-				if attached scope.item as str then
-					str.append (s); str.to_upper
-					Result := upper_input_valid (str, format)
-				end
+			if attached Buffer.empty as str then
+				str.append (s); str.to_upper
+				Result := upper_input_valid (str, format)
 			end
 		end
 
@@ -182,6 +170,11 @@ feature {NONE} -- Deferred Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Buffer: EL_STRING_8_BUFFER
+		once
+			create Result
+		end
 
 	Factory: EL_DATE_OR_TIME_PARSER_FACTORY
 		once

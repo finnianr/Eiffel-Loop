@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:46:06 GMT (Sunday 6th October 2024)"
-	revision: "27"
+	date: "2024-11-06 10:02:02 GMT (Wednesday 6th November 2024)"
+	revision: "28"
 
 class
 	EL_PATH_STEPS
@@ -277,12 +277,13 @@ feature -- Status query
 		local
 			token_string, other_token_string: STRING_32
 		do
-			across String_32_pool_scope as pool loop
-				token_string := pool.borrowed_item
-				other_token_string := pool.borrowed_item
+			if attached String_32_pool.borrowed_batch (2) as borrowed then
+				token_string := borrowed [0].empty
+				other_token_string := borrowed [1].empty
 				append_tokens_to (token_string)
 				other.append_tokens_to (other_token_string)
 				Result := token_string.has_substring (other_token_string)
+				String_32_pool.return (borrowed)
 			end
 		end
 

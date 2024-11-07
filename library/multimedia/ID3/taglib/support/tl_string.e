@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:38:34 GMT (Saturday 11th November 2023)"
-	revision: "16"
+	date: "2024-11-05 18:52:10 GMT (Tuesday 5th November 2024)"
+	revision: "17"
 
 class
 	TL_STRING
@@ -25,7 +25,7 @@ inherit
 
 	TL_STRING_CPP_API
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL; EL_SHARED_STRING_32_BUFFER_POOL
 
 create
 	make, make_empty
@@ -78,22 +78,24 @@ feature -- Conversion
 
 	to_string: ZSTRING
 		do
-			across String_32_scope as scope loop
-				if attached scope.best_item (count) as str_32 then
+			if attached String_32_pool.borrowed_item as borrowed then
+				if attached borrowed.sufficient (count) as str_32 then
 					append_to_string_32 (str_32)
 					Result := str_32
 				end
+				borrowed.return
 			end
 		end
 
 	to_string_32: STRING_32
 		-- unicode string
 		do
-			across String_32_scope as scope loop
-				if attached scope.best_item (count) as str_32 then
+			if attached String_32_pool.borrowed_item as borrowed then
+				if attached borrowed.sufficient (count) as str_32 then
 					append_to_string_32 (str_32)
 					Result := str_32.twin
 				end
+				borrowed.return
 			end
 		end
 
@@ -114,11 +116,12 @@ feature -- Element change
 
 	set_from_integer (n: INTEGER)
 		do
-			across String_8_scope as scope loop
-				if attached scope.best_item (11) as n_str then
+			if attached String_8_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as n_str then
 					n_str.append_integer (n)
 					set_from_string (n_str)
 				end
+				borrowed.return
 			end
 		end
 

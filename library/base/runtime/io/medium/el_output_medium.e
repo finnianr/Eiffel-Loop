@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:49:16 GMT (Sunday 6th October 2024)"
-	revision: "41"
+	date: "2024-11-05 15:14:59 GMT (Tuesday 5th November 2024)"
+	revision: "42"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -58,7 +58,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS
 
-	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_ENCODINGS; EL_SHARED_ZCODEC_FACTORY; EL_SHARED_STRING_8_BUFFER_POOL
 
 feature {NONE} -- Initialization
 
@@ -212,8 +212,9 @@ feature -- String output
 					put_string_general (str)
 			else
 				if str.encoded_with (codec) then
-					across String_8_scope as scope loop
-						put_encoded_string_8 (scope.copied_item (str.to_shared_immutable_8))
+					if attached String_8_pool.borrowed_item as borrowed then
+						put_encoded_string_8 (borrowed.copied (str.to_shared_immutable_8))
+						borrowed.return
 					end
 				else
 					put_codec_encoded (str)
@@ -317,11 +318,12 @@ feature {NONE} -- Implementation
 		require
 			not_utf_8: not codec.is_utf_encoded
 		do
-			across String_8_scope as scope loop
-				if attached scope.sized_item (str.count) as str_8 then
+			if attached String_8_pool.borrowed_item as borrowed then
+				if attached borrowed.sized (str.count) as str_8 then
 					codec.encode_as_string_8 (str, str_8.area, 0)
 					put_encoded_string_8 (str_8)
 				end
+				borrowed.return
 			end
 		end
 

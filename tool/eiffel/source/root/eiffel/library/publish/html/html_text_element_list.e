@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:28:41 GMT (Sunday 1st September 2024)"
-	revision: "31"
+	date: "2024-11-06 18:23:37 GMT (Wednesday 6th November 2024)"
+	revision: "32"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -38,8 +38,6 @@ inherit
 	PUBLISHER_CONSTANTS
 
 	EL_STRING_8_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
-
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 create
 	make, make_empty

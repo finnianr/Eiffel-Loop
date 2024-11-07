@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:05:12 GMT (Sunday 22nd September 2024)"
-	revision: "14"
+	date: "2024-11-06 11:37:39 GMT (Wednesday 6th November 2024)"
+	revision: "15"
 
 class
 	TB_ATTRIBUTE_EDIT_TABLE
@@ -22,7 +22,7 @@ inherit
 			{ANY} force, put, extend, force_key
 		end
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make, make_assignments
@@ -44,8 +44,8 @@ feature -- Basic operations
 					end_index := end_index - 1
 				end
 				if start_index < end_index then
-					across String_scope as scope loop
-						if attached scope.item as str then
+					if attached String_pool.borrowed_item as borrowed then
+						if attached borrowed.empty as str then
 							str.append_substring (element, start_index, end_index)
 							create quote_splitter.make_adjusted (str, '"', {EL_SIDE}.Both)
 							ending := element.substring_end (end_index + 1)
@@ -65,6 +65,7 @@ feature -- Basic operations
 							end
 							element.append (ending)
 						end
+						borrowed.return
 					end
 				end
 			end

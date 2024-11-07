@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "15"
+	date: "2024-11-05 12:38:09 GMT (Tuesday 5th November 2024)"
+	revision: "16"
 
 class
 	EL_BYTE_ARRAY
@@ -36,8 +36,6 @@ inherit
 		undefine
 			is_equal
 		end
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make, make_from_area, make_filled, make_from_managed,
@@ -84,12 +82,10 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_string_32 (str_32: READABLE_STRING_32)
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			across String_8_scope as scope loop
-				if attached scope.copied_utf_8_item (str_32) as utf_8 then
-					make_from_string (utf_8)
-				end
-			end
+			make_from_string (buffer.copied_general_as_utf_8 (str_32))
 		end
 
 feature -- Measurement

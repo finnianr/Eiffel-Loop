@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 13:42:33 GMT (Wednesday 8th November 2023)"
-	revision: "10"
+	date: "2024-11-05 18:31:49 GMT (Tuesday 5th November 2024)"
+	revision: "11"
 
 class
 	EL_DIRECTORY_LIST
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ARRAYED_LIST [EL_DIRECTORY]
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_STRING_32_BUFFER_POOL
 
 create
 	make
@@ -24,17 +24,19 @@ feature -- Status query
 
 	has_executable (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			across String_32_scope as scope loop
+			if attached String_32_pool.borrowed_item as borrowed then
 --				Optimum to use {STRING_32}
-				Result := there_exists (agent {EL_DIRECTORY}.has_executable (scope.copied_item (a_name)))
+				Result := there_exists (agent {EL_DIRECTORY}.has_executable (borrowed.copied_general (a_name)))
+				borrowed.return
 			end
 		end
 
 	has_file_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			across String_32_scope as scope loop
+			if attached String_32_pool.borrowed_item as borrowed then
 --				Optimum to use {STRING_32}
-				Result := there_exists (agent {EL_DIRECTORY}.has_file_name (scope.copied_item (a_name)))
+				Result := there_exists (agent {EL_DIRECTORY}.has_file_name (borrowed.copied_general (a_name)))
+				borrowed.return
 			end
 		end
 

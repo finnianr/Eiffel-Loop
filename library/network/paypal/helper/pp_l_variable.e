@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2024-11-05 15:48:51 GMT (Tuesday 5th November 2024)"
+	revision: "13"
 
 class
 	PP_L_VARIABLE
@@ -29,7 +29,7 @@ inherit
 
 	PP_SHARED_L_VARIABLE_ENUM
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make, make_default
@@ -117,8 +117,8 @@ feature -- Element change
 			else
 				index := 0
 			end
-			across String_8_scope as scope loop
-				if attached scope.substring_item (a_name, 1, i) as l_name then
+			if attached String_8_pool.borrowed_item as borrowed then
+				if attached borrowed.copied_substring_general (a_name, 1, i) as l_name then
 					code := L_variable.value (l_name)
 					if code = 0 then
 						internal_name := l_name.twin
@@ -126,6 +126,7 @@ feature -- Element change
 						internal_name := Empty_string_8
 					end
 				end
+				borrowed.return
 			end
 		end
 

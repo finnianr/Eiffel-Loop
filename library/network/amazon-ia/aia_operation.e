@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:09:20 GMT (Saturday 11th November 2023)"
-	revision: "12"
+	date: "2024-11-05 11:24:58 GMT (Tuesday 5th November 2024)"
+	revision: "13"
 
 class
 	AIA_OPERATION
@@ -19,8 +19,6 @@ inherit
 	ANY
 
 	EL_MODULE_NAMING
-
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 create
 	make
@@ -35,9 +33,7 @@ feature {NONE} -- Initialization
 			json_list.start
 			name_value := json_list.item_value (False)
 			create name.make (name_value.count)
-			across String_8_scope as scope loop
-				Naming.from_camel_case (scope.copied_item (name_value), name)
-			end
+			Naming.from_camel_case (Buffer.copied_general (name_value), name)
 			json_list.forth
 		end
 
@@ -46,5 +42,12 @@ feature -- Access
 	json_list: JSON_NAME_VALUE_LIST
 
 	name: STRING
+
+feature {NONE} -- Constants
+
+	Buffer: EL_STRING_8_BUFFER
+		once
+			create Result
+		end
 
 end

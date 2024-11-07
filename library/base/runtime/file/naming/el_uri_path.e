@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 13:18:46 GMT (Wednesday 25th September 2024)"
-	revision: "50"
+	date: "2024-11-06 11:32:17 GMT (Wednesday 6th November 2024)"
+	revision: "51"
 
 deferred class
 	EL_URI_PATH
@@ -40,7 +40,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature {NONE} -- Initialization
 
@@ -58,13 +58,12 @@ feature -- Initialization
 			is_absolute: is_uri_absolute (a_uri)
 		local
 			l_path: ZSTRING; start_index, pos_separator: INTEGER
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
 			l_path := temporary_copy (a_uri, 1)
 			start_index := a_uri.substring_index (Colon_slash_x2, 1)
 			if start_index > 0 then
-				across String_8_scope as scope loop
-					set_scheme (scope.substring_item (a_uri, 1, start_index - 1))
-				end
+				set_scheme (buffer.copied_substring_general (a_uri, 1, start_index - 1))
 				l_path.remove_head (start_index + Colon_slash_x2.count - 1)
 			else
 				set_scheme (Protocol.file)
@@ -170,9 +169,10 @@ feature -- Element change
 
 	set_authority (a_authority: READABLE_STRING_GENERAL)
 		do
-			across String_scope as scope loop
-				Authority_set.put_copy (scope.copied_item (a_authority))
+			if attached String_pool.borrowed_item as borrowed then
+				Authority_set.put_copy (borrowed.copied_general (a_authority))
 				authority := Authority_set.found_item
+				borrowed.return
 			end
 		end
 

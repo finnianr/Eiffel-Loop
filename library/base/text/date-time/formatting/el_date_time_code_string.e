@@ -1,13 +1,18 @@
 note
 	description: "Factory for date-time string parsing"
+	descendants: "[
+			EL_DATE_TIME_CODE_STRING
+				${EL_ZONED_DATE_TIME_CODE_STRING}
+				${EL_ISO_8601_DATE_TIME_CODE_STRING}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-04 14:03:32 GMT (Monday 4th November 2024)"
-	revision: "14"
+	date: "2024-11-05 9:19:16 GMT (Tuesday 5th November 2024)"
+	revision: "15"
 
 class
 	EL_DATE_TIME_CODE_STRING
@@ -36,9 +41,7 @@ inherit
 
 	EL_STRING_HANDLER
 
-	EL_MODULE_DATE_TIME
-
-	EL_MODULE_FORMAT
+	EL_MODULE_DATE_TIME; EL_MODULE_FORMAT
 
 	EL_STRING_8_CONSTANTS
 
@@ -101,9 +104,7 @@ feature -- Status query
 
 	correspond (str: STRING): BOOLEAN
 		do
-			if attached Buffer.copied_upper (adjusted_format (str)) as adjusted then
-				Result := Precursor (adjusted)
-			end
+			Result := Precursor (adjusted_format (str).as_upper)
 		end
 
 feature -- Basic operations
@@ -244,10 +245,4 @@ feature {NONE} -- Constants
 		once
 			create Result.make ("PM", "AM")
 		end
-
-	Buffer: EL_STRING_8_BUFFER
-		once
-			create Result
-		end
-
 end

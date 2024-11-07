@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 10:05:01 GMT (Friday 30th August 2024)"
-	revision: "21"
+	date: "2024-11-06 11:39:40 GMT (Wednesday 6th November 2024)"
+	revision: "22"
 
 class
 	XML_EMPTY_ELEMENT
@@ -31,7 +31,7 @@ inherit
 
 	XML_ZSTRING_CONSTANTS
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -140,8 +140,8 @@ feature {NONE} -- Implementation
 			escaper: like Xml_escaper
 		do
 			if attribute_count > 0 then
-				across String_scope as scope loop
-					if attached scope.substring_item (open, 1, name_end_index) as str then
+				if attached String_pool.borrowed_item as borrowed then
+					if attached borrowed.copied_substring (open, 1, name_end_index) as str then
 						if medium.encoded_as_latin (1) then
 							escaper := Xml_128_plus_escaper
 						else
@@ -156,6 +156,7 @@ feature {NONE} -- Implementation
 						str.append_substring (open, name_end_index + 1, open.count)
 						medium.put_string (str)
 					end
+					borrowed.return
 				end
 			else
 				medium.put_string (open)

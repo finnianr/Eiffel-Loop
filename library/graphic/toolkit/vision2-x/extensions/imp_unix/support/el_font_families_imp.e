@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:16:37 GMT (Friday 13th September 2024)"
-	revision: "5"
+	date: "2024-11-06 18:39:29 GMT (Wednesday 6th November 2024)"
+	revision: "6"
 
 class
 	EL_FONT_FAMILIES_IMP
@@ -27,7 +27,6 @@ inherit
 
 	EL_MODULE_FILE_SYSTEM
 
-
 feature {NONE} -- Initialization
 
 	initialize
@@ -45,11 +44,12 @@ feature {NONE} -- Implementation
 
 	is_true_type (true_type_set: EL_HASH_SET [ZSTRING]; family: STRING_32): BOOLEAN
 		do
-			across String_scope as scope loop
-				if attached scope.copied_item (family) as name then
+			if attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.copied_general (family) as name then
 					name.prune_all (' ')
 					Result := true_type_set.has (name)
 				end
+				borrowed.return
 			end
 		end
 

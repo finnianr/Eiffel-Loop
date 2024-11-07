@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2024-11-06 11:34:45 GMT (Wednesday 6th November 2024)"
+	revision: "18"
 
 class
 	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]
@@ -26,7 +26,7 @@ inherit
 
 	EL_MODULE_EIFFEL
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -46,8 +46,8 @@ feature {NONE} -- Initialization
 				make_filled_area (0, field.count * 2)
 			end
 			create field_list.make (utf_8)
-			across String_scope as scope loop
-				if attached scope.item as text then
+			if attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as text then
 					from field_list.start until field_list.after loop
 						if field.has_name (field_list.item_immutable_name) then
 							text_count := text.count
@@ -59,6 +59,7 @@ feature {NONE} -- Initialization
 					end
 					text_values := text.twin
 				end
+				borrowed.return
 			end
 		end
 

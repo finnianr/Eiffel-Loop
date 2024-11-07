@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 14:15:10 GMT (Wednesday 25th September 2024)"
-	revision: "24"
+	date: "2024-11-05 14:26:21 GMT (Tuesday 5th November 2024)"
+	revision: "25"
 
 deferred class
 	EL_FTP_IMPLEMENTATION
@@ -29,7 +29,7 @@ inherit
 			Read as Read_from
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 feature -- Access
 
@@ -68,10 +68,10 @@ feature {NONE} -- Sending commands
 			utf_8_cmd: STRING; substitute_index: INTEGER
 		do
 			substitute_index := cmd.index_of ('%S', 1)
-			across String_8_scope as scope loop
+			if attached String_8_pool.borrowed_item as borrowed then
 				if substitute_index > 0 then
 					if attached utf_8_path as path then
-						utf_8_cmd := scope.item
+						utf_8_cmd := borrowed.empty
 						utf_8_cmd.append_substring (cmd, 1, substitute_index - 1)
 						utf_8_cmd.append (path)
 					else
@@ -86,6 +86,7 @@ feature {NONE} -- Sending commands
 				else
 					attempt (agent try_send (utf_8_cmd, codes, ?), 3)
 				end
+				borrowed.return
 			end
 		end
 

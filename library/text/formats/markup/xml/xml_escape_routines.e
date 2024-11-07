@@ -1,19 +1,16 @@
 note
-	description: "Xml escape routines"
+	description: "XML escape routines"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 17:12:07 GMT (Wednesday 8th November 2023)"
-	revision: "9"
+	date: "2024-11-05 15:50:54 GMT (Tuesday 5th November 2024)"
+	revision: "10"
 
-deferred class
+class
 	XML_ESCAPE_ROUTINES
-
-inherit
-	EL_SHARED_STRING_8_BUFFER_SCOPES
 
 feature {NONE} -- Implementation
 

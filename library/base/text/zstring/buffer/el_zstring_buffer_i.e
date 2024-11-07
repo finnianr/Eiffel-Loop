@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 11:12:26 GMT (Tuesday 20th August 2024)"
-	revision: "7"
+	date: "2024-11-06 9:31:00 GMT (Wednesday 6th November 2024)"
+	revision: "8"
 
 deferred class
 	EL_ZSTRING_BUFFER_I
@@ -16,6 +16,8 @@ inherit
 	EL_STRING_BUFFER [ZSTRING, EL_READABLE_ZSTRING]
 		undefine
 			bit_count
+		redefine
+			copied_substring_general
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [EL_READABLE_ZSTRING]
@@ -40,6 +42,12 @@ feature -- Access
 			Result.append_substring (str, start_index, end_index)
 		end
 
+	copied_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): ZSTRING
+		do
+			Result := empty
+			Result.append_substring_general (general, start_index, end_index)
+		end
+
 	empty: ZSTRING
 		do
 			Result := Buffer
@@ -50,6 +58,18 @@ feature -- Access
 		do
 			Result := empty
 			Result.append_integer_64 (n)
+		end
+
+	sized (n: INTEGER): ZSTRING
+		do
+			Result := sufficient (n)
+			Result.set_count (n)
+		end
+
+	sufficient (n: INTEGER): ZSTRING
+		do
+			Result := empty
+			Result.grow (n)
 		end
 
 feature {NONE} -- Implementation

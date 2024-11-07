@@ -1,13 +1,13 @@
 note
-	description: "Factory for ${EL_DATE_TIME} related parsers"
+	description: "Factory for ${EL_DATE_TIME_CODE_STRING} parsers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:50:43 GMT (Monday 23rd September 2024)"
-	revision: "3"
+	date: "2024-11-05 9:18:20 GMT (Tuesday 5th November 2024)"
+	revision: "4"
 
 class
 	EL_DATE_TIME_PARSER_FACTORY

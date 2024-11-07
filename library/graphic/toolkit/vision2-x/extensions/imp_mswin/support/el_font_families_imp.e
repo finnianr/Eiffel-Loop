@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-11-07 11:00:42 GMT (Thursday 7th November 2024)"
+	revision: "5"
 
 class
 	EL_FONT_FAMILIES_IMP
@@ -20,7 +20,7 @@ inherit
 
 	EL_WINDOWS_IMPLEMENTATION
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature {NONE} -- Initialization
 
@@ -34,8 +34,9 @@ feature {NONE} -- Implementation
 	is_true_type (true_type_set: EL_HASH_SET [ZSTRING]; family: STRING_32): BOOLEAN
 		-- table of hexadecimal font property bitmaps from class `EL_FONT_PROPERTY'
 		do
-			across String_scope as scope loop
-				Result := true_type_set.has (scope.copied_item (family))
+			if attached String_pool.borrowed_item as borrowed then
+				Result := true_type_set.has (borrowed.copied_general (family))
+				borrowed.return
 			end
 		end
 

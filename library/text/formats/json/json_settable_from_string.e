@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "39"
+	date: "2024-11-07 12:44:15 GMT (Thursday 7th November 2024)"
+	revision: "40"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -31,7 +31,7 @@ inherit
 
 	JSON_CONSTANTS
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_STRING_8_CURSOR; EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature {NONE} -- Initialization
 
@@ -57,8 +57,10 @@ feature -- Access
 		local
 			str, value: ZSTRING
 		do
-			across String_pool_scope as pool loop
-				str := pool.borrowed_item; value := pool.borrowed_item
+			if attached String_pool as pool and then attached pool.biggest_item as big_borrowed
+				and then attached pool.borrowed_item as borrowed
+			then
+				str := big_borrowed.empty; value := borrowed.empty
 				str.append (JSON.open_bracket)
 				across field_table as table loop
 					if not table.is_first then
@@ -79,6 +81,8 @@ feature -- Access
 				end
 				str.append (JSON.close_bracket)
 				create Result.make_from_other (str)
+
+				big_borrowed.return; borrowed.return
 			end
 		end
 

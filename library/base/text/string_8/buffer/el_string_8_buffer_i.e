@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:52:59 GMT (Tuesday 20th August 2024)"
-	revision: "16"
+	date: "2024-11-07 15:30:31 GMT (Thursday 7th November 2024)"
+	revision: "17"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -46,6 +46,12 @@ feature -- Access
 			Result.append_substring (str_8, start_index, end_index)
 		end
 
+	copied_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_8
+		do
+			Result := empty
+			shared_cursor (general).append_substring_to_string_8 (Result, start_index, end_index)
+		end
+
 	empty: STRING_8
 		do
 			Result := buffer
@@ -58,7 +64,7 @@ feature -- Access
 			Result.append_integer_64 (n)
 		end
 
-	quoted (str_8: STRING; quote_character: CHARACTER): STRING
+	quoted (str_8: STRING; quote_character: CHARACTER): STRING_8
 		require
 			not_buffer: not is_same (str_8)
 		do
@@ -66,6 +72,18 @@ feature -- Access
 			Result.append_character (quote_character)
 			Result.append (str_8)
 			Result.append_character (quote_character)
+		end
+
+	sized (n: INTEGER): STRING_8
+		do
+			Result := sufficient (n)
+			Result.set_count (n)
+		end
+
+	sufficient (n: INTEGER): STRING_8
+		do
+			Result := empty
+			Result.grow (n)
 		end
 
 feature {NONE} -- Implementation

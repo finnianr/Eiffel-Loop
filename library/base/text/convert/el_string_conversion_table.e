@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 19:04:27 GMT (Sunday 6th October 2024)"
-	revision: "40"
+	date: "2024-11-06 11:21:33 GMT (Wednesday 6th November 2024)"
+	revision: "41"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -92,11 +92,6 @@ feature -- Access
 
 feature -- Integer substrings
 
-	substring_to_integer_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_8
-		do
-			Result := integer_8_converter.substring_as_type (str, start_index, end_index)
-		end
-
 	substring_to_integer_16 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_16
 		do
 			Result := integer_16_converter.substring_as_type (str, start_index, end_index)
@@ -112,12 +107,12 @@ feature -- Integer substrings
 			Result := integer_64_converter.substring_as_type (str, start_index, end_index)
 		end
 
-feature -- Natural substrings
-
-	substring_to_natural_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_8
+	substring_to_integer_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_8
 		do
-			Result := natural_8_converter.substring_as_type (str, start_index, end_index)
+			Result := integer_8_converter.substring_as_type (str, start_index, end_index)
 		end
+
+feature -- Natural substrings
 
 	substring_to_natural_16 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_16
 		do
@@ -132,6 +127,11 @@ feature -- Natural substrings
 	substring_to_natural_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_64
 		do
 			Result := natural_64_converter.substring_as_type (str, start_index, end_index)
+		end
+
+	substring_to_natural_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_8
+		do
+			Result := natural_8_converter.substring_as_type (str, start_index, end_index)
 		end
 
 feature -- Real substrings
@@ -246,6 +246,14 @@ feature -- Status query
 			end
 		end
 
+	is_latin_1 (type: TYPE [ANY]): BOOLEAN
+		-- `True' if type can be always be represented by Latin-1 encoded string
+		do
+			if has_type (type.type_id) then
+				Result := found_item.is_latin_1
+			end
+		end
+
 	is_substring_convertible_to_type (str: READABLE_STRING_GENERAL; start_index, end_index, type_id: INTEGER): BOOLEAN
 		-- `True' if `str' is convertible to type with `type_id'
 		do
@@ -256,14 +264,6 @@ feature -- Status query
 				Result := found_item.is_substring_convertible (str, start_index, end_index)
 			else
 				Result := {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
-			end
-		end
-
-	is_latin_1 (type: TYPE [ANY]): BOOLEAN
-		-- `True' if type can be always be represented by Latin-1 encoded string
-		do
-			if has_type (type.type_id) then
-				Result := found_item.is_latin_1
 			end
 		end
 
@@ -354,27 +354,10 @@ feature -- Basic operations
 
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
+				and then attached string_pool (str).borrowed_item as borrowed
 			then
-				inspect string_storage_type (str)
-					when '1' then
-						if attached {READABLE_STRING_8} str as str_8 then
-							across String_8_scope as scope loop
-								Result := factory.new_item (scope.substring_item (str_8, start_index, end_index))
-							end
-						end
-					when '4' then
-						if attached {READABLE_STRING_32} str as str_32 then
-							across String_32_scope as scope loop
-								Result := factory.new_item (scope.substring_item (str_32, start_index, end_index))
-							end
-						end
-					when 'X' then
-						if attached {EL_READABLE_ZSTRING} str as zstr then
-							across String_scope as scope loop
-								Result := factory.new_item (scope.substring_item (zstr, start_index, end_index))
-							end
-						end
-				end
+				Result := factory.new_item (borrowed.copied_substring (str, start_index, end_index))
+				borrowed.return
 			end
 		end
 
@@ -397,27 +380,10 @@ feature -- Basic operations
 
 			elseif {ISE_RUNTIME}.type_conforms_to (type_id, Class_id.EL_MAKEABLE_FROM_STRING__STRING_GENERAL)
 				and then attached Makeable_from_string_factory.new_item_factory (type_id) as factory
+				and then attached string_pool (str).borrowed_item as borrowed
 			then
-				inspect string_storage_type (str)
-					when '1' then
-						if attached {READABLE_STRING_8} str as str_8 then
-							across String_8_scope as scope loop
-								Result := factory.new_item (scope.copied_item (str_8))
-							end
-						end
-					when '4' then
-						if attached {READABLE_STRING_32} str as str_32 then
-							across String_32_scope as scope loop
-								Result := factory.new_item (scope.copied_item (str_32))
-							end
-						end
-					when 'X' then
-						if attached {EL_READABLE_ZSTRING} str as zstr then
-							across String_scope as scope loop
-								Result := factory.new_item (scope.copied_item (zstr))
-							end
-						end
-				end
+				Result := factory.new_item (borrowed.copied (str))
+				borrowed.return
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:16:41 GMT (Friday 20th September 2024)"
-	revision: "4"
+	date: "2024-11-06 18:20:17 GMT (Wednesday 6th November 2024)"
+	revision: "5"
 
 deferred class
 	EIFFEL_CLASS_SERIALIZEABLE
@@ -27,8 +27,6 @@ inherit
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_XML
 
 	PUBLISHER_CONSTANTS; EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
-
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
 
 feature -- Status query
 

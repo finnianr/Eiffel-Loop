@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-08 14:18:17 GMT (Monday 8th April 2024)"
-	revision: "6"
+	date: "2024-11-05 18:57:10 GMT (Tuesday 5th November 2024)"
+	revision: "7"
 
 class
 	EL_NATIVE_STRING
@@ -22,7 +22,7 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES
+	EL_SHARED_STRING_32_BUFFER_POOL
 
 create
 	make, make_empty, make_from_pointer, make_from_raw_string
@@ -31,12 +31,13 @@ feature -- Access
 
 	to_string: ZSTRING
 		do
-			across String_32_scope as scope loop
+			if attached String_32_pool.borrowed_item as borrowed then
 				if {PLATFORM}.is_windows then
-					Result := scope.copied_utf_16_0_item (managed_data)
+					Result := borrowed.copied_utf_16_0 (managed_data)
 				else
-					Result := scope.copied_utf_8_0_item (managed_data)
+					Result := borrowed.copied_utf_8_0 (managed_data)
 				end
+				borrowed.return
 			end
 		end
 
@@ -86,9 +87,10 @@ feature -- Element change
 			count: INTEGER
 		do
 			if is_zstring (a_string) then
-				across String_32_scope as scope loop
+				if attached String_32_pool.borrowed_item as borrowed then
 					count := end_index - start_index + 1
-					Precursor (scope.substring_item (a_string, start_index, end_index), 1, count)
+					Precursor (borrowed.copied_substring_general (a_string, start_index, end_index), 1, count)
+					borrowed.return
 				end
 			else
 				Precursor (a_string, start_index, end_index)

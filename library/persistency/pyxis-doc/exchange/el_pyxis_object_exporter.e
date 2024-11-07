@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-12 16:49:37 GMT (Friday 12th April 2024)"
-	revision: "11"
+	date: "2024-11-06 10:49:11 GMT (Wednesday 6th November 2024)"
+	revision: "12"
 
 class
 	EL_PYXIS_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -19,7 +19,7 @@ inherit
 
 	EL_MODULE_PYXIS; EL_MODULE_TUPLE
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make, make_default
@@ -89,21 +89,20 @@ feature -- Basic operations
 							put (output, tab_count + 1)
 							object := previous
 						end
-					else
-						across String_scope as scope loop
-							if attached scope.item as value then
-								list.item.append_to_string (object, value)
-								if value.has ('%N') then
-									put_field (output, name, tab_count)
-									put_manifest (output, value, tab_count + 1)
+					elseif attached String_pool.borrowed_item as borrowed then
+						if attached borrowed.empty as value then
+							list.item.append_to_string (object, value)
+							if value.has ('%N') then
+								put_field (output, name, tab_count)
+								put_manifest (output, value, tab_count + 1)
 
-								elseif value.count > 0 then
-									value.enclose ('"', '"')
-									put_field (output, name, tab_count)
-									output.put_indented_line (tab_count + 1, value)
-								end
+							elseif value.count > 0 then
+								value.enclose ('"', '"')
+								put_field (output, name, tab_count)
+								output.put_indented_line (tab_count + 1, value)
 							end
 						end
+						borrowed.return
 					end
 				end
 			end
@@ -113,27 +112,29 @@ feature {NONE} -- Implementation
 
 	put_attributes (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER; is_attribute: SPECIAL [BOOLEAN])
 		local
-			value: ZSTRING; name: STRING; line_index: INTEGER
+			value: ZSTRING; name: STRING; line_index, i: INTEGER
 			type: EL_ATTRIBUTE_TYPE_ROUTINES
 		do
-			if attached Once_attribute_lines as attribute_lines then
-				across String_pool_scope as pool loop
-					value := pool.borrowed_item
-					across object.meta_data.alphabetical_list as list loop
-						-- output numeric as Pyxis element attributes
-						name := list.item.name
-						line_index := type.attribute_id (object, list.item)
-						if line_index > 0 then
-							is_attribute [list.cursor_index - 1] := True
-							value := pool.borrowed_item
-							list.item.append_to_string (object, value)
-							if value.count > 0 then
-								attribute_lines.extend (line_index, name, value)
-							end
+			if attached Once_attribute_lines as attribute_lines
+				and then attached object.meta_data.alphabetical_list as alphabetical_list
+				and then attached String_pool.borrowed_batch (alphabetical_list.count) as borrowed
+			then
+				across alphabetical_list as list loop
+				-- output numeric as Pyxis element attributes
+					name := list.item.name
+					line_index := type.attribute_id (object, list.item)
+					if line_index > 0 then
+						i := list.cursor_index - 1
+						is_attribute [i] := True
+						value := borrowed [i].empty
+						list.item.append_to_string (object, value)
+						if value.count > 0 then
+							attribute_lines.extend (line_index, name, value)
 						end
 					end
-					attribute_lines.put (output, tab_count)
 				end
+				attribute_lines.put (output, tab_count)
+				String_pool.return (borrowed)
 			end
 		end
 
@@ -204,9 +205,9 @@ feature {NONE} -- Implementation
 			value: ZSTRING; i: INTEGER
 		do
 			if attached Once_attribute_lines as attribute_lines then
-				across String_pool_scope as pool loop
+				if attached String_pool.borrowed_batch (a_tuple.count) as borrowed then
 					from i := 1 until i > a_tuple.count loop
-						value := pool.borrowed_item
+						value := borrowed [i - 1].empty
 						Tuple.write_i_th (a_tuple, i, value)
 						if field.member_types.i_th_is_character_data (i) then
 							attribute_lines.last.extend (value, name_list [i])
@@ -216,6 +217,7 @@ feature {NONE} -- Implementation
 						i := i + 1
 					end
 					attribute_lines.put (output, tab_count)
+					String_pool.return (borrowed)
 				end
 			end
 		end

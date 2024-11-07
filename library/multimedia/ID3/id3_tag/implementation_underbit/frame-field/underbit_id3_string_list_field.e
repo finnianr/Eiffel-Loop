@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-08 14:27:39 GMT (Wednesday 8th November 2023)"
-	revision: "7"
+	date: "2024-11-07 11:15:02 GMT (Thursday 7th November 2024)"
+	revision: "8"
 
 class
 	UNDERBIT_ID3_STRING_LIST_FIELD
@@ -60,14 +60,15 @@ feature -- Element change
 			list_count := Iterable.count (a_list)
 			create c_strings.make_empty (list_count)
 			create c_ucs4_array.make_empty (list_count)
-			across String_32_scope as scope loop
-				str_32 := scope.item
+			if attached String_32_pool.borrowed_item as borrowed then
+				str_32 := borrowed.empty
 				across a_list as l_list loop
 					str_32.wipe_out
 					l_list.item.append_to_string_32 (str_32)
 					c_strings.extend (str_32)
 					c_ucs4_array.extend (c_strings.item (c_strings.count - 1).base_address)
 				end
+				borrowed.return
 			end
 			c_call_status := c_id3_field_setstrings (self_ptr, list_count, c_ucs4_array.base_address)
 		ensure then

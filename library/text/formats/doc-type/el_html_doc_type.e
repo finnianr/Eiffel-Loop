@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:54:22 GMT (Friday 12th July 2024)"
-	revision: "18"
+	date: "2024-11-05 14:27:50 GMT (Tuesday 5th November 2024)"
+	revision: "19"
 
 class
 	EL_HTML_DOC_TYPE
@@ -25,7 +25,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make, make_from_file
@@ -53,8 +53,8 @@ feature -- Element change
 		do
 			create file.make_open_read (a_file_path)
 			if file.exists then
-				across String_8_scope as scope loop
-					if attached scope.item as buffer then
+				if attached String_8_pool.borrowed_item as borrowed then
+					if attached borrowed.empty as buffer then
 						from until found or file.end_of_file loop
 							file.read_line
 							buffer.append (file.last_string)
@@ -68,6 +68,7 @@ feature -- Element change
 							specification := new_specification
 						end
 					end
+					borrowed.return
 				end
 			end
 			file.close

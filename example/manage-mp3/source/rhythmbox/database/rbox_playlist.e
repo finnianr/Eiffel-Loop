@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:38:14 GMT (Sunday 22nd September 2024)"
-	revision: "36"
+	date: "2024-11-06 18:50:42 GMT (Wednesday 6th November 2024)"
+	revision: "37"
 
 class
 	RBOX_PLAYLIST
@@ -43,7 +43,7 @@ inherit
 
 	EL_MODULE_DIGEST; EL_MODULE_LOG
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make, make_default
@@ -161,10 +161,9 @@ feature -- Element change
 			name := a_name
 			if a_name.is_empty then
 				id := Default_id
-			else
-				across String_8_scope as scope loop
-					set_id_from_uuid (Digest.md5 (scope.copied_utf_8_item (a_name)).to_uuid)
-				end
+			elseif attached String_8_pool.borrowed_item as borrowed then
+				set_id_from_uuid (Digest.md5 (borrowed.copied_general_as_utf_8 (a_name)).to_uuid)
+				borrowed.return
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:42 GMT (Thursday 5th September 2024)"
-	revision: "41"
+	date: "2024-11-06 18:11:37 GMT (Wednesday 6th November 2024)"
+	revision: "42"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -17,9 +17,9 @@ inherit
 
 	EL_MODULE_CONSOLE; EL_MODULE_ENVIRONMENT
 
-	EL_SHARED_STRING_POOLS; EL_SHARED_FORMAT_FACTORY
-
 	EL_LOGGABLE_CONSTANTS; EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
+
+	EL_SHARED_FORMAT_FACTORY; EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make
@@ -29,10 +29,10 @@ feature -- Initialization
 	make
 		do
 			create buffer.make (30)
-			create buffer_indices.make (30)
+			create buffer_list.make (30)
 			create index_label_table.make (7)
 			create new_line_prompt.make_from_string ("%N")
-			string_pool := Shared_string_8_pool
+			string_pool := String_8_pool
 			std_output := io.Output
 		end
 
@@ -288,15 +288,17 @@ feature -- Basic operations
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out
-			string_pool.free_list (buffer_indices)
+			String_8_pool.return (buffer_list.area)
 		end
 
 feature {NONE} -- Implementation
 
 	extended_buffer_last (size: INTEGER): STRING_8
 		do
-			Result := string_pool.borrowed_item (size)
-			buffer_indices.extend (string_pool.last_index)
+			if attached string_pool.borrowed_item as borrowed then
+				Result := borrowed.empty
+				buffer_list.extend (borrowed)
+			end
 			buffer.extend (Result)
 		end
 
@@ -323,7 +325,7 @@ feature {NONE} -- Internal attributes
 
 	buffer: ARRAYED_LIST [READABLE_STRING_GENERAL]
 
-	buffer_indices: ARRAYED_LIST [INTEGER]
+	buffer_list: ARRAYED_LIST [EL_STRING_8_BUFFER]
 
 	index_label_table: STRING_TABLE [TUPLE [leading, trailing: READABLE_STRING_GENERAL]]
 		-- substitution parts
@@ -333,7 +335,7 @@ feature {NONE} -- Internal attributes
 
 	std_output: PLAIN_TEXT_FILE
 
-	string_pool: EL_STRING_POOL [STRING]
+	string_pool: like String_8_pool
 		-- recycled strings
 
 	tab_repeat_count: INTEGER

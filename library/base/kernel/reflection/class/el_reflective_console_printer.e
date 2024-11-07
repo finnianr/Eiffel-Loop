@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:20:21 GMT (Sunday 22nd September 2024)"
-	revision: "6"
+	date: "2024-11-06 10:56:47 GMT (Wednesday 6th November 2024)"
+	revision: "7"
 
 class
 	EL_REFLECTIVE_CONSOLE_PRINTER
@@ -17,7 +17,7 @@ class
 inherit
 	ANY
 
-	EL_SHARED_CLASS_ID; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_CLASS_ID; EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make_default, make_with_hidden
@@ -94,30 +94,30 @@ feature {NONE} -- Implementation
 				line_length.set_item (0)
 				a_lio.put_new_line
 				collection.print_items (a_object, a_lio)
-			else
-				across String_scope as scope loop
-					value := scope.item
-					a_field.append_to_string (a_object, value)
-					if a_escape_table.has_key (a_field.name) then
-						value.escape (a_escape_table.found_item)
-					end
-					if value.has (' ') then
-						value.quote (3)
-					end
-					length := a_field.name.count + value.count + 2
-					if line_length.item > 0 then
-						exceeded_maximum := line_length.item + length > Info_line_length
-						if not exceeded_maximum then
-							a_lio.put_character (';'); a_lio.put_character (' ')
-						end
-						if exceeded_maximum then
-							a_lio.put_new_line
-							line_length.set_item (0)
-						end
-					end
-					a_lio.put_labeled_string (a_field.name, value)
-					line_length.set_item (line_length.item + length)
+
+			elseif attached String_pool.borrowed_item as borrowed then
+				value := borrowed.empty
+				a_field.append_to_string (a_object, value)
+				if a_escape_table.has_key (a_field.name) then
+					value.escape (a_escape_table.found_item)
 				end
+				if value.has (' ') then
+					value.quote (3)
+				end
+				length := a_field.name.count + value.count + 2
+				if line_length.item > 0 then
+					exceeded_maximum := line_length.item + length > Info_line_length
+					if not exceeded_maximum then
+						a_lio.put_character (';'); a_lio.put_character (' ')
+					end
+					if exceeded_maximum then
+						a_lio.put_new_line
+						line_length.set_item (0)
+					end
+				end
+				a_lio.put_labeled_string (a_field.name, value)
+				line_length.set_item (line_length.item + length)
+				borrowed.return
 			end
 		end
 

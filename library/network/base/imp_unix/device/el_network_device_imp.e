@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 13:37:37 GMT (Saturday 24th August 2024)"
-	revision: "14"
+	date: "2024-11-06 10:28:52 GMT (Wednesday 6th November 2024)"
+	revision: "15"
 
 class
 	EL_NETWORK_DEVICE_IMP
@@ -51,7 +51,7 @@ inherit
 			make_default as make
 		end
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -69,8 +69,8 @@ feature -- Access
 
 	description: ZSTRING
 		do
-			across String_scope as scope loop
-				if attached scope.item as str then
+			if attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as str then
 					across << vendor, product, type >> as list loop
 						if not valid_hardware_address (list.item) then
 							str.append_string_general (list.item); Result.prune_all_trailing ('-')
@@ -81,6 +81,7 @@ feature -- Access
 					end
 					Result := str.twin
 				end
+				borrowed.return
 			end
 		end
 

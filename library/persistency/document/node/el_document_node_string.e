@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:10:01 GMT (Wednesday 25th September 2024)"
-	revision: "46"
+	date: "2024-11-06 9:41:43 GMT (Wednesday 6th November 2024)"
+	revision: "47"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -84,7 +84,7 @@ inherit
 
 	EL_XPATH_NODE_CONSTANTS
 
-	EL_SHARED_ENCODINGS; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ENCODINGS
 
 create
 	make, make_default

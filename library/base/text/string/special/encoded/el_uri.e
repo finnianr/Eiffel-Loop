@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:20:56 GMT (Sunday 25th August 2024)"
-	revision: "47"
+	date: "2024-11-06 11:31:13 GMT (Wednesday 6th November 2024)"
+	revision: "48"
 
 class
 	EL_URI
@@ -175,13 +175,14 @@ feature -- Conversion
 		-- decoded unicode string
 		do
 			if query_start_index > 0 then
-				across String_32_scope as scope loop
-					if attached scope.best_item (count - occurrences ('%%') * 2) as decoded then
+				if attached String_32_pool.borrowed_item as borrowed then
+					if attached borrowed.sufficient (count - occurrences ('%%') * 2) as decoded then
 						to_uri_path.decode_to (decoded)
 						decoded.append_character ('?')
 						decoded_query.append_to_string_32 (decoded)
 						Result := decoded.twin
 					end
+					borrowed.return
 				end
 			else
 				Result := to_uri_path.decoded_32 (True)
@@ -200,11 +201,12 @@ feature -- Basic operations
 			pair_split: EL_URI_QUERY_PAIRS_SPLIT
 		do
 			create pair_split.make (query, is_url)
-			across String_scope as scope loop
-				if attached scope.item as str then
+			if attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as str then
 					pair_split.append_as_unencoded (str)
 					Result := str.twin
 				end
+				borrowed.return
 			end
 		end
 

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-03 16:30:25 GMT (Tuesday 3rd September 2024)"
-	revision: "38"
+	date: "2024-11-06 11:34:02 GMT (Wednesday 6th November 2024)"
+	revision: "39"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -28,7 +28,7 @@ inherit
 
 	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
 
-	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER
 
 	EL_SHARED_ZSTRING_CODEC
 

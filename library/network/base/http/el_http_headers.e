@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-22 10:03:13 GMT (Tuesday 22nd October 2024)"
-	revision: "31"
+	date: "2024-11-05 9:15:42 GMT (Tuesday 5th November 2024)"
+	revision: "32"
 
 class
 	EL_HTTP_HEADERS
@@ -113,7 +113,7 @@ feature -- Access
 	date_stamp: DATE_TIME
 		do
 			if date.count > 0 and then Date_time_format.is_date_time (date) then
-				-- "Sat, 14 Aug 2021 14:57:04 GMT"
+			-- "Sat, 14 Aug 2021 14:57:04 GMT"
 				Result := Date_time_format.new_date_time (date)
 			end
 		end

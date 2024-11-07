@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-25 19:34:02 GMT (Thursday 25th July 2024)"
-	revision: "35"
+	date: "2024-11-05 16:56:44 GMT (Tuesday 5th November 2024)"
+	revision: "36"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -33,9 +33,7 @@ inherit
 
 	EL_CHARACTER_8_CONSTANTS; EL_STRING_8_CONSTANTS; XML_STRING_8_CONSTANTS
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_FORMAT_FACTORY
-
-	EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_FORMAT_FACTORY; EL_SHARED_STRING_8_CURSOR
 
 create
 	make
@@ -47,7 +45,6 @@ feature {NONE} -- Initialization
 		do
 			create output_stack.make (10)
 			create buffer; create buffer_8
-			pool := Default_pool
 			Precursor
 		end
 
@@ -171,8 +168,7 @@ feature {NONE} -- Parsing events
 			tag_output.extend (tab * output_stack.count)
 			tag_output.extend (Bracket.left)
 
-			tag_output.extend (pool.borrowed_item)
-			tag_output.last.append (last_node_name)
+			tag_output.extend (last_node_name.as_string_8)
 
 			if attached attribute_list.area as area and then area.count > 0 then
 				from until i = area.count loop
@@ -190,10 +186,7 @@ feature {NONE} -- Implementation
 
 	do_scan (action: PROCEDURE)
 		do
-			across String_8_pool_scope as scope loop
-				pool := scope
-				action.apply
-			end
+			action.apply
 		end
 
 	escaped_reserved (str: STRING): STRING
@@ -218,13 +211,20 @@ feature {NONE} -- Implementation
 		end
 
 	new_reusable_name_value_pair (node: EL_DOCUMENT_NODE_STRING): STRING_8
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			Result := pool.borrowed_item
+			Result := buffer_8.empty
 			Result.append_character (' ')
 			Result.append (node.raw_name)
 			Result.append (Value_equals_separator)
-			Result.append (escaped_reserved (node))
+			if s.has_member (node, Current) then
+				Xml_escaper.escape_into (node, Result)
+			else
+				Result.append (node)
+			end
 			Result.append_character ('"')
+			Result := Result.twin
 		end
 
 	put_content (node: EL_DOCUMENT_NODE_STRING)
@@ -361,8 +361,6 @@ feature {NONE} -- Internal attributes
 
 	output_stack: ARRAYED_STACK [EL_STRING_8_LIST]
 
-	pool: like Default_pool
-
 feature {NONE} -- States
 
 	State_comment: INTEGER = 4
@@ -376,11 +374,6 @@ feature {NONE} -- States
 	State_tag: INTEGER = 1
 
 feature {NONE} -- Constants
-
-	Default_pool: EL_STRING_POOL_SCOPE_CURSOR [STRING]
-		once
-			create Result.make_default
-		end
 
 	Line_splitter: EL_SPLIT_ON_CHARACTER [STRING]
 		once

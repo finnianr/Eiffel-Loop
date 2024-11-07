@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:38:16 GMT (Sunday 1st September 2024)"
-	revision: "18"
+	date: "2024-11-06 18:27:08 GMT (Wednesday 6th November 2024)"
+	revision: "19"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -25,7 +25,7 @@ inherit
 
 	EL_EIFFEL_CONSTANTS
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make, make_preformatted
@@ -68,27 +68,26 @@ feature -- Basic operations
 			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
 			buffer: ZSTRING; class_link: CLASS_LINK
 		do
-			if attached Class_link_list as list then
+			if attached Class_link_list as list and then attached String_pool.borrowed_item as borrowed then
 				list.fill (html_string)
 
-				across String_scope as scope loop
-					buffer := scope.best_item (html_string.count + list.character_count (link_text_count, relative_page_dir))
-					from list.start until list.after loop
-						class_link := list.item
-						preceding_start_index := previous_end_index + 1
-						preceding_end_index := class_link.start_index - 1
-						if (preceding_end_index - preceding_start_index + 1) > 0 then
-							buffer.append_substring (html_string, preceding_start_index, preceding_end_index)
-						end
-						buffer.append (new_link_markup (class_link))
-						previous_end_index := class_link.end_index
-						list.forth
+				buffer := borrowed.sufficient (html_string.count + list.character_count (link_text_count, relative_page_dir))
+				from list.start until list.after loop
+					class_link := list.item
+					preceding_start_index := previous_end_index + 1
+					preceding_end_index := class_link.start_index - 1
+					if (preceding_end_index - preceding_start_index + 1) > 0 then
+						buffer.append_substring (html_string, preceding_start_index, preceding_end_index)
 					end
-					if html_string.count - previous_end_index > 0 then
-						buffer.append_substring (html_string, previous_end_index + 1, html_string.count)
-					end
-					html_string.copy (buffer)
+					buffer.append (new_link_markup (class_link))
+					previous_end_index := class_link.end_index
+					list.forth
 				end
+				if html_string.count - previous_end_index > 0 then
+					buffer.append_substring (html_string, previous_end_index + 1, html_string.count)
+				end
+				html_string.copy (buffer)
+				borrowed.return
 			end
 		end
 
@@ -99,24 +98,23 @@ feature {NONE} -- Implementation
 		local
 			html_text, markup: ZSTRING; relative_path: FILE_PATH
 		do
-			if link.has_parameters then
-				across String_scope as scope loop
-					markup := scope.copied_item (link.expanded_parameters)
-					if attached Class_link_list.expanded_list (link) as list then
-						from list.finish until list.before loop
-							if attached list.item as class_link then
-								relative_path := class_link.relative_path (relative_page_dir)
-								html_text := Html_link_template #$ [relative_path, Empty_string, class_link.class_name]
-								if class_link.type = Link_type_abstract then
-									html_text.append (Bold_asterisk)
-								end
-								markup.replace_substring (html_text, class_link.start_index, class_link.end_index)
+			if link.has_parameters and then attached String_pool.borrowed_item as borrowed then
+				markup := borrowed.copied (link.expanded_parameters)
+				if attached Class_link_list.expanded_list (link) as list then
+					from list.finish until list.before loop
+						if attached list.item as class_link then
+							relative_path := class_link.relative_path (relative_page_dir)
+							html_text := Html_link_template #$ [relative_path, Empty_string, class_link.class_name]
+							if class_link.type = Link_type_abstract then
+								html_text.append (Bold_asterisk)
 							end
-							list.back
+							markup.replace_substring (html_text, class_link.start_index, class_link.end_index)
 						end
-						Result := if is_preformatted then markup.twin else Source_span_template #$ [markup] end
+						list.back
 					end
+					Result := if is_preformatted then markup.twin else Source_span_template #$ [markup] end
 				end
+				borrowed.return
 			elseif link.type = Link_type_routine then
 				Result := Html_link_template #$ [link.relative_path (relative_page_dir), Empty_string, link.class_name]
 				if is_preformatted then

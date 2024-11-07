@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:36:25 GMT (Tuesday 27th August 2024)"
-	revision: "39"
+	date: "2024-11-07 15:24:22 GMT (Thursday 7th November 2024)"
+	revision: "40"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -30,7 +30,7 @@ inherit
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXCEPTION; EL_MODULE_DIRECTORY
 
-	EL_SHARED_STRING_32_BUFFER_SCOPES; EL_SHARED_NATIVE_STRING
+	EL_SHARED_STRING_32_BUFFER_POOL; EL_SHARED_NATIVE_STRING
 
 	EL_SHARED_OPERATING_ENVIRON
 		export
@@ -193,13 +193,14 @@ feature -- Status setting
 		local
 			s32: EL_STRING_32_ROUTINES; c_env: NATIVE_STRING; l_key: IMMUTABLE_STRING_32
 		do
-			across String_32_scope as scope loop
-				if attached scope.best_item (value.count + key.count + 1) as str then
+			if attached String_32_pool.closest_item (value.count + key.count + 1) as borrowed then
+				if attached borrowed.empty as str then
 					s32.append_to (str, key)
 					str.append_character ('=')
 					s32.append_to (str, value)
 					create c_env.make (str)
 				end
+				borrowed.return
 			end
 			create l_key.make_from_string_general (to_unicode_general (key))
 			environ.force (c_env, l_key)

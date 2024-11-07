@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:45:06 GMT (Sunday 6th October 2024)"
-	revision: "12"
+	date: "2024-11-06 10:31:08 GMT (Wednesday 6th November 2024)"
+	revision: "13"
 
 deferred class
 	EL_PATH_PARENT
@@ -42,7 +42,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 	EL_SHARED_PATH_MANAGER; EL_SHARED_WORD
 
@@ -104,8 +104,8 @@ feature -- Status Query
 		local
 			step: ZSTRING; pos_left_separator, pos_right_separator: INTEGER
 		do
-			across String_scope as scope loop
-				step := scope.same_item (a_step)
+			if attached String_pool.borrowed_item as borrowed then
+				step := borrowed.to_same (a_step)
 				pos_left_separator := parent_path.substring_index (step, 1) - 1
 				pos_right_separator := pos_left_separator + step.count + 1
 				if 0 <= pos_left_separator and pos_right_separator <= parent_path.count then
@@ -113,6 +113,7 @@ feature -- Status Query
 						Result := pos_left_separator > 0 implies parent_path [pos_left_separator] = Separator
 					end
 				end
+				borrowed.return
 			end
 		end
 

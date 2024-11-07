@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 9:59:22 GMT (Friday 30th August 2024)"
-	revision: "14"
+	date: "2024-11-06 11:40:01 GMT (Wednesday 6th November 2024)"
+	revision: "15"
 
 class
 	XML_TEXT_ELEMENT
@@ -52,8 +52,8 @@ feature -- Access
 
 	to_string: ZSTRING
 		do
-			across String_scope as scope loop
-				if attached scope.item as str then
+			if attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as str then
 					str.append (open)
 					if attached actual_attribute_list as l_attribute_list and then l_attribute_list.count > 0 then
 						str.remove_tail (1)
@@ -67,6 +67,7 @@ feature -- Access
 					str.append (closed)
 					Result := str.twin
 				end
+				borrowed.return
 			end
 		end
 

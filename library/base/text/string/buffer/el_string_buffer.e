@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 9:17:37 GMT (Tuesday 20th August 2024)"
-	revision: "6"
+	date: "2024-11-07 15:13:54 GMT (Thursday 7th November 2024)"
+	revision: "7"
 
 deferred class
-	EL_STRING_BUFFER [S -> STRING_GENERAL, READABLE -> READABLE_STRING_GENERAL]
+	EL_STRING_BUFFER [S -> STRING_GENERAL create make end, READABLE -> READABLE_STRING_GENERAL]
 
 inherit
 	ANY
@@ -53,13 +53,7 @@ feature -- Access
 	copied_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S
 		require
 			not_buffer: not is_same (general)
-		do
-			Result := empty
-			if attached {READABLE} general as str then
-				Result := copied_substring (str, start_index, end_index)
-			else
-				Result.append_substring (general, start_index, end_index)
-			end
+		deferred
 		end
 
 	copied_upper (str: READABLE): S
@@ -78,6 +72,16 @@ feature -- Access
 		deferred
 		end
 
+	sized (n: INTEGER): S
+		deferred
+		ensure
+			valid_size: Result.count = n
+		end
+
+	sufficient (n: INTEGER): S
+		deferred
+		end
+
 	to_same (general: READABLE_STRING_GENERAL): S
 		do
 			if buffer.same_type (general) and then attached {S} general as str then
@@ -85,6 +89,30 @@ feature -- Access
 			else
 				Result := copied_general (general)
 			end
+		end
+
+feature -- Status query
+
+	is_available: BOOLEAN
+		-- `True' if available to borrow in a pool
+
+feature -- Measurement
+
+	capacity: INTEGER
+		do
+			Result := buffer.capacity
+		end
+
+feature -- Status change
+
+	borrow
+		do
+			is_available := False
+		end
+
+	return
+		do
+			is_available := True
 		end
 
 feature -- Contract Support
@@ -109,6 +137,13 @@ feature -- Conversion
 				start_index := 1
 			end
 			Result := copied_substring (str, start_index, end_index)
+		end
+
+feature -- Basic operations
+
+	resize (a_capacity: INTEGER)
+		do
+			buffer.standard_copy (create {S}.make (a_capacity))
 		end
 
 feature {NONE} -- Implementation

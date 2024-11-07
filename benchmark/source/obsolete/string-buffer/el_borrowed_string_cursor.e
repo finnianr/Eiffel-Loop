@@ -14,10 +14,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:28:22 GMT (Sunday 25th August 2024)"
-	revision: "16"
+	date: "2024-11-05 9:47:47 GMT (Tuesday 5th November 2024)"
+	revision: "17"
 
-class
+deferred class
 	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
 
 inherit
@@ -33,9 +33,6 @@ inherit
 		end
 
 	EL_STRING_GENERAL_ROUTINES
-
-create
-	make
 
 feature {NONE} -- Initialization
 
@@ -57,10 +54,12 @@ feature -- Access
 			end
 		end
 
-	copied_item (general: READABLE_STRING_GENERAL): S
-		do
-			Result := best_item (general.count)
-			Result.append (general)
+	copied_item_general (general: READABLE_STRING_GENERAL): S
+		deferred
+		end
+
+	copied_item (str: READABLE_STRING_GENERAL): S
+		deferred
 		end
 
 	same_item (general: READABLE_STRING_GENERAL): S
@@ -75,16 +74,17 @@ feature -- Access
 		end
 
 	sized_item (n: INTEGER): S
-		do
-			create Result.make (n)
+		deferred
 		ensure
 			size_is_n: Result.count = n
 		end
 
-	substring_item (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S
-		do
-			Result := best_item (end_index - start_index + 1)
-			Result.append_substring (general, start_index, end_index)
+	substring_item (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S
+		deferred
+		end
+
+	substring_item_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): S
+		deferred
 		end
 
 feature -- Access

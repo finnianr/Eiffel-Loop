@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-10 11:34:14 GMT (Saturday 10th February 2024)"
-	revision: "36"
+	date: "2024-11-06 10:59:18 GMT (Wednesday 6th November 2024)"
+	revision: "37"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -19,7 +19,7 @@ inherit
 
 	EL_CHARACTER_8_CONSTANTS
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature -- Status
 
@@ -350,17 +350,16 @@ feature -- String output
 				op.tab_right
 				op.put_new_line
 
-				if field_value.count > max_length then
+				if field_value.count > max_length and then attached String_pool.borrowed_item as borrowed then
 					leading_count := (max_length * 0.8).rounded; trailing_count := (max_length * 0.2).rounded
-
-					across String_scope as scope loop
-						if attached scope.substring_item (field_value, 1, leading_count) as str then
-							str.right_adjust
-							str.append_string (Ellipisis_break)
-							str.append_from_right_general (field_value, trailing_count)
-							create line_list.make_with_lines (str)
-						end
+					
+					if attached borrowed.copied_substring_general (field_value, 1, leading_count) as str then
+						str.right_adjust
+						str.append_string (Ellipisis_break)
+						str.append_from_right_general (field_value, trailing_count)
+						create line_list.make_with_lines (str)
 					end
+					borrowed.return
 				else
 					create line_list.make_with_lines (field_value)
 				end

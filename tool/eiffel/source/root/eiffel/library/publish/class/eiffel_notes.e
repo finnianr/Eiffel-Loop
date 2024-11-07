@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 7:59:36 GMT (Monday 15th July 2024)"
-	revision: "39"
+	date: "2024-11-06 18:23:15 GMT (Wednesday 6th November 2024)"
+	revision: "40"
 
 class
 	EIFFEL_NOTES
@@ -20,17 +20,13 @@ inherit
 			make_default
 		end
 
-	EL_EIFFEL_KEYWORDS
-
 	EL_MODULE_STRING; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT; EL_MODULE_XML
+
+	EL_EIFFEL_KEYWORDS; EL_CHARACTER_32_CONSTANTS; PUBLISHER_CONSTANTS
 
 	SHARED_INVALID_CLASSNAMES
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
-
-	PUBLISHER_CONSTANTS
-
-	EL_CHARACTER_32_CONSTANTS
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make, make_default

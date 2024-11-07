@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 19:12:17 GMT (Monday 9th September 2024)"
-	revision: "42"
+	date: "2024-11-06 10:54:47 GMT (Wednesday 6th November 2024)"
+	revision: "43"
 
 class
 	EL_REFLECTED_TUPLE
@@ -30,7 +30,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_NEW_INSTANCE_TABLE; EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -156,19 +156,18 @@ feature -- Conversion
 
 	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
 		do
-			if attached value (a_object) as tuple then
-				across String_scope as scope loop
-					if attached scope.item as str then
-						str.append_character_8 ('[')
-						Tuple_.write_with_comma (tuple, str, True)
-						str.append_character_8 (']')
-						if member_types.is_latin_1_representable then
-							Result := str.to_latin_1
-						else
-							Result := str.twin
-						end
+			if attached value (a_object) as tuple and then attached String_pool.borrowed_item as borrowed then
+				if attached borrowed.empty as str then
+					str.append_character_8 ('[')
+					Tuple_.write_with_comma (tuple, str, True)
+					str.append_character_8 (']')
+					if member_types.is_latin_1_representable then
+						Result := str.to_latin_1
+					else
+						Result := str.twin
 					end
 				end
+				borrowed.return
 			end
 		end
 

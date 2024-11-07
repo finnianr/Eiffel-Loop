@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 10:33:47 GMT (Sunday 25th August 2024)"
-	revision: "8"
+	date: "2024-11-05 18:27:05 GMT (Tuesday 5th November 2024)"
+	revision: "9"
 
 class
 	EL_ZSTRING_OCCURRENCE_EDITOR
@@ -35,7 +35,7 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_ZSTRING_BUFFER_SCOPES
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 	EL_SHARED_ZSTRING_CURSOR
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 11:48:27 GMT (Thursday 9th November 2023)"
-	revision: "11"
+	date: "2024-11-05 13:30:40 GMT (Tuesday 5th November 2024)"
+	revision: "12"
 
 class
 	EL_C_UTF_STRING_8
@@ -27,8 +27,6 @@ inherit
 			default_create, is_equal, copy
 		end
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES
-
 create
 	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size, make,
 	make_from_utf_8, make_from_general
@@ -39,10 +37,10 @@ convert
 feature {NONE} -- Initialization
 
 	make_from_general (str: READABLE_STRING_GENERAL)
+		local
+			buffer: EL_STRING_8_BUFFER_ROUTINES
 		do
-			across String_8_scope as scope loop
-				make_from_utf_8 (scope.copied_utf_8_item (str))
-			end
+			make_from_utf_8 (buffer.copied_general_as_utf_8 (str))
 		end
 
 feature -- Set external strings

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
-	revision: "36"
+	date: "2024-11-07 12:31:45 GMT (Thursday 7th November 2024)"
+	revision: "37"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -17,9 +17,9 @@ inherit
 
 	FCGI_SHARED_HEADER
 
-	EL_SHARED_DOCUMENT_TYPES; EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_SCOPES
+	EL_SHARED_DOCUMENT_TYPES; EL_SHARED_HTTP_STATUS; EL_SHARED_STRING_8_BUFFER_POOL
 
-	EL_SHARED_STRING_8_BUFFER_SCOPES; EL_SHARED_UTF_8_ZCODEC
+	EL_SHARED_UTF_8_ZCODEC
 
 	EL_SHARED_DOCUMENT_TYPES
 		export
@@ -123,8 +123,8 @@ feature -- Basic operations
 				if status = Http_status.ok then
 					set_cookie_headers
 				end
-				across String_8_scope as scope loop
-					buffer := scope.item
+				if attached String_8_pool.biggest_item as borrowed then
+					buffer := borrowed.empty
 					header_list.sort_by_key (True)
 					if attached header_list as list then
 						from list.start until list.after loop
@@ -141,6 +141,7 @@ feature -- Basic operations
 					end
 
 					broker.write_stdout (buffer)
+					borrowed.return
 				end
 				write_ok := broker.write_ok
 				if write_ok then
