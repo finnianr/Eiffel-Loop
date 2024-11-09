@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 15:14:59 GMT (Tuesday 5th November 2024)"
-	revision: "42"
+	date: "2024-11-08 9:46:12 GMT (Friday 8th November 2024)"
+	revision: "43"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -318,7 +318,7 @@ feature {NONE} -- Implementation
 		require
 			not_utf_8: not codec.is_utf_encoded
 		do
-			if attached String_8_pool.borrowed_item as borrowed then
+			if attached String_8_pool.sufficient_item (str.count) as borrowed then
 				if attached borrowed.sized (str.count) as str_8 then
 					codec.encode_as_string_8 (str, str_8.area, 0)
 					put_encoded_string_8 (str_8)

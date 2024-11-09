@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 18:52:10 GMT (Tuesday 5th November 2024)"
-	revision: "17"
+	date: "2024-11-08 9:13:05 GMT (Friday 8th November 2024)"
+	revision: "18"
 
 class
 	TL_STRING
@@ -78,8 +78,8 @@ feature -- Conversion
 
 	to_string: ZSTRING
 		do
-			if attached String_32_pool.borrowed_item as borrowed then
-				if attached borrowed.sufficient (count) as str_32 then
+			if attached String_32_pool.sufficient_item (count) as borrowed then
+				if attached borrowed.empty as str_32 then
 					append_to_string_32 (str_32)
 					Result := str_32
 				end
@@ -90,8 +90,8 @@ feature -- Conversion
 	to_string_32: STRING_32
 		-- unicode string
 		do
-			if attached String_32_pool.borrowed_item as borrowed then
-				if attached borrowed.sufficient (count) as str_32 then
+			if attached String_32_pool.sufficient_item (count) as borrowed then
+				if attached borrowed.empty as str_32 then
 					append_to_string_32 (str_32)
 					Result := str_32.twin
 				end

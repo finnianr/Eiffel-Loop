@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 11:17:05 GMT (Sunday 28th January 2024)"
-	revision: "8"
+	date: "2024-11-09 8:08:31 GMT (Saturday 9th November 2024)"
+	revision: "9"
 
 deferred class
 	EL_TITLED_WINDOW_WITH_CONSOLE_MANAGER
@@ -16,11 +16,13 @@ inherit
 	EL_TITLED_WINDOW
 		rename
 			extend as window_extend
+		undefine
+			new_lio
 		redefine
-			initialize
+			initialize, redirect_main_thread_to_console
 		end
 
-	EL_MODULE_ACTION; EL_MODULE_VISION_2
+	EL_MODULE_ACTION; EL_MODULE_LOG; EL_MODULE_LOG_MANAGER; EL_MODULE_VISION_2
 
 	EL_SHARED_EV_APPLICATION
 
@@ -88,6 +90,14 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
+	blank_space (a_width: INTEGER): EV_FRAME
+			--
+		do
+			create Result
+			Result.set_style ({EV_FRAME_CONSTANTS}.Ev_frame_raised)
+			Result.set_minimum_width (a_width)
+		end
+
 	extend (v: like item)
 			--
 		do
@@ -100,19 +110,16 @@ feature {NONE} -- Implementation
 			component_box.extend_unexpanded (v)
 		end
 
-	blank_space (a_width: INTEGER): EV_FRAME
-			--
-		do
-			create Result
-			Result.set_style ({EV_FRAME_CONSTANTS}.Ev_frame_raised)
-			Result.set_minimum_width (a_width)
-		end
-
 	horizontal_separator (a_height: INTEGER): EV_HORIZONTAL_SEPARATOR
 			--
 		do
 			create Result
 			Result.set_minimum_height (a_height)
+		end
+
+	redirect_main_thread_to_console
+		do
+			Log_manager.redirect_main_thread_to_console
 		end
 
 	vertical_separator (a_width: INTEGER): EV_VERTICAL_SEPARATOR
@@ -122,18 +129,25 @@ feature {NONE} -- Implementation
 			Result.set_minimum_width (a_width)
 		end
 
+feature {NONE} -- Internal attributes
+
 	component_box: EL_VERTICAL_BOX
 
 	tool_bar: EL_HORIZONTAL_BOX
 
 feature {NONE} -- Constants
 
-	console_accelerator_keys_enabled: BOOLEAN
+	Toolbar_border_width: INTEGER
 			--
-		do
-			Result := true
+		once
+			Result := Screen.horizontal_pixels (0.2)
 		end
 
+	Toolbar_padding_width: INTEGER
+			--
+		once
+			Result := Screen.horizontal_pixels (0.2)
+		end
 	Window_border_cms: REAL
 			--
 		once
@@ -148,15 +162,10 @@ feature {NONE} -- Constants
 			Result := 0.1
 		end
 
-	Toolbar_border_width: INTEGER
+	console_accelerator_keys_enabled: BOOLEAN
 			--
-		once
-			Result := Screen.horizontal_pixels (0.2)
+		do
+			Result := true
 		end
 
-	Toolbar_padding_width: INTEGER
-			--
-		once
-			Result := Screen.horizontal_pixels (0.2)
-		end
 end

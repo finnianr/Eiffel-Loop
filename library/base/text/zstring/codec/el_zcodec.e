@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 15:27:21 GMT (Thursday 7th November 2024)"
-	revision: "79"
+	date: "2024-11-08 9:11:25 GMT (Friday 8th November 2024)"
+	revision: "80"
 
 deferred class
 	EL_ZCODEC
@@ -412,7 +412,7 @@ feature -- Encoding operations
 			i, count: INTEGER
 		do
 			count := unicode_in.count
-			if attached String_8_pool.closest_item (count) as borrowed then
+			if attached String_8_pool.sufficient_item (count) as borrowed then
 				if attached borrowed.empty as string_8 and then attached string_8.area as l_area then
 					encode_as_string_8 (unicode_in, l_area, 0)
 					from i := 0 until i = count loop

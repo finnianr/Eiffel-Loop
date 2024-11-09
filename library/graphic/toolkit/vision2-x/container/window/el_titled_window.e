@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-28 17:45:20 GMT (Sunday 28th January 2024)"
-	revision: "15"
+	date: "2024-11-09 8:04:51 GMT (Saturday 9th November 2024)"
+	revision: "16"
 
 class
 	EL_TITLED_WINDOW
@@ -25,7 +25,7 @@ inherit
 			implementation, create_implementation
 		end
 
-	EL_MODULE_ACTION; EL_MODULE_LOG; EL_MODULE_LOG_MANAGER; EL_MODULE_SCREEN
+	EL_MODULE_ACTION; EL_MODULE_LIO; EL_MODULE_SCREEN
 
 	EL_SHARED_DEFAULT_PIXMAPS; EL_SHARED_THREAD_MANAGER
 
@@ -35,15 +35,10 @@ create
 feature {EL_VISION_2_USER_INTERFACE} -- Initialization
 
 	make
-		require
-			logged_application: is_logged_application
 		do
 			default_create
 			create thread_check_timer
 			set_close_request_actions
---			show_actions.extend_kamikaze (agent on_initial_show)
-
---			GUI.do_once_on_idle (agent on_initial_show)
 		end
 
 	prepare_to_show
@@ -79,8 +74,8 @@ feature {EL_VISION_2_USER_INTERFACE} -- Event handlers
 	on_close_request
 			--
 		do
-			log.enter ("on_close_request")
-			Log_manager.redirect_main_thread_to_console
+			lio.enter ("on_close_request")
+			redirect_main_thread_to_console
 			Thread_manager.stop_all
 			if Thread_manager.all_threads_stopped then
 				close_application
@@ -89,7 +84,7 @@ feature {EL_VISION_2_USER_INTERFACE} -- Event handlers
 				thread_check_timer.actions.extend (agent try_close_application)
 				thread_check_timer.set_interval (Thread_status_update_interval_ms)
 			end
-			log.exit
+			lio.exit
 		end
 
 feature {EV_ANY, EV_ANY_I, EV_ANY_HANDLER} -- Implementation
@@ -118,7 +113,9 @@ feature {NONE} -- Implementation
 			create {EL_TITLED_WINDOW_IMP} implementation.make
 		end
 
-	thread_check_timer: EV_TIMEOUT
+	redirect_main_thread_to_console
+		do
+		end
 
 	try_close_application
 		local
@@ -131,6 +128,10 @@ feature {NONE} -- Implementation
 				close_application
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	thread_check_timer: EV_TIMEOUT
 
 feature {NONE} -- Constants
 

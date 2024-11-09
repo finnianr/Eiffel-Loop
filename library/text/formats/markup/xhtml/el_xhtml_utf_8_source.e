@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 12:58:28 GMT (Thursday 7th November 2024)"
-	revision: "11"
+	date: "2024-11-08 9:11:25 GMT (Friday 8th November 2024)"
+	revision: "12"
 
 class
 	EL_XHTML_UTF_8_SOURCE
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 			source.append (root_open)
 			source.append_character ('%N')
 
-			if attached String_8_pool.closest_item (a_body.count) as borrowed then
+			if attached String_8_pool.sufficient_item (a_body.count) as borrowed then
 				body := borrowed.empty
 				body.append (a_body)
 				from until body.is_empty loop

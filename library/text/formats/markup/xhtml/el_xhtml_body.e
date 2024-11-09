@@ -6,18 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:42:09 GMT (Wednesday 6th November 2024)"
-	revision: "4"
+	date: "2024-11-08 11:35:00 GMT (Friday 8th November 2024)"
+	revision: "5"
 
-class
-	EL_XHTML_BODY
-
-inherit
-	ANY
+class EL_XHTML_BODY inherit ANY
 
 	EL_MODULE_FILE
-
-	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make
@@ -45,13 +39,10 @@ feature -- Access
 
 	to_xhtml_doc: STRING
 		do
-			if attached String_8_pool.borrowed_item as borrowed then
-				XHTML_template.put_array (<<
-					["title", borrowed.copied_general_as_utf_8 (name)], ["body", content]
-				>>)
-				Result := XHTML_template.substituted
-				borrowed.return
-			end
+			XHTML_template.put_array (<<
+				["title", name.to_utf_8], ["body", content]
+			>>)
+			Result := XHTML_template.substituted
 		end
 
 feature -- Element change

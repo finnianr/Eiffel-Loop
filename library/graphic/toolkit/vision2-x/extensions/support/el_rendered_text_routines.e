@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:44:44 GMT (Wednesday 6th November 2024)"
-	revision: "46"
+	date: "2024-11-08 11:39:48 GMT (Friday 8th November 2024)"
+	revision: "47"
 
 class
 	EL_RENDERED_TEXT_ROUTINES
@@ -99,7 +99,7 @@ feature -- Contract support
 
 	is_word_wrappable (a_text: READABLE_STRING_GENERAL; a_font: EV_FONT; a_width: INTEGER): BOOLEAN
 		do
-			if attached String_pool.borrowed_item as borrowed then
+			if attached String_pool.sufficient_item (a_text.count) as borrowed then
 				Result := across borrowed.to_same (a_text).split ('%N') as line all
 					all_words_fit_width (line.item, a_font, a_width)
 				end

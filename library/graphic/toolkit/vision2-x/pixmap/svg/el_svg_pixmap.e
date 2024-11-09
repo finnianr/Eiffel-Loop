@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-27 18:31:02 GMT (Monday 27th March 2023)"
-	revision: "18"
+	date: "2024-11-09 8:58:43 GMT (Saturday 9th November 2024)"
+	revision: "19"
 
 class
 	EL_SVG_PIXMAP
@@ -31,7 +31,7 @@ inherit
 
 	EL_MODULE_DIRECTORY
 
-	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
+	EL_SHARED_PROGRESS_LISTENER
 
 create
 	default_create, make_from_other,
@@ -321,7 +321,7 @@ feature {EL_SVG_PIXMAP} -- Implementation
 				create png_image_file.make_open_write (png_output_path)
 				render_svg (png_image_file, svg_uri, l_svg_xml, dimension, background_color.rgb_32_bit)
 				png_image_file.close
-				progress_listener.on_notify (l_svg_xml.count)
+				progress_listener.notify_tick
 			end
 			if png_output_path.exists then
 				set_with_named_path (pixmap_path)

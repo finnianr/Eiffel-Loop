@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "15"
+	date: "2024-11-09 9:33:55 GMT (Saturday 9th November 2024)"
+	revision: "16"
 
 deferred class
 	EL_MODULE_LIO
@@ -29,6 +29,15 @@ inherit
 	EL_SHARED_BASE_OPTION
 
 feature {NONE} -- Access
+
+	effective_lio: EL_LOGGABLE
+		do
+			if is_lio_enabled then
+				Result := Lio
+			else
+				Result := Silent_io
+			end
+		end
 
 	lio: EL_LOGGABLE
 		do

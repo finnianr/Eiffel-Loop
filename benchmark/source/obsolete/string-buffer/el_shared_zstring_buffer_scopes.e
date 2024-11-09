@@ -18,11 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 11:12:49 GMT (Tuesday 20th August 2024)"
-	revision: "3"
+	date: "2024-11-08 9:03:18 GMT (Friday 8th November 2024)"
+	revision: "4"
 
 deferred class
 	EL_SHARED_ZSTRING_BUFFER_SCOPES
+
+obsolete
+	"Use EL_SHARED_ZSTRING_BUFFER_POOL"
 
 inherit
 	EL_ANY_SHARED

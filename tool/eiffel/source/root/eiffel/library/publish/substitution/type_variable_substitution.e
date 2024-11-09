@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:27:08 GMT (Wednesday 6th November 2024)"
-	revision: "19"
+	date: "2024-11-08 10:15:28 GMT (Friday 8th November 2024)"
+	revision: "20"
 
 class
 	TYPE_VARIABLE_SUBSTITUTION
@@ -65,29 +65,32 @@ feature -- Basic operations
 
 	substitute_html (html_string: ZSTRING)
 		local
-			previous_end_index, preceding_start_index, preceding_end_index: INTEGER
-			buffer: ZSTRING; class_link: CLASS_LINK
+			previous_end_index, preceding_start_index, preceding_end_index, l_count: INTEGER
+			class_link: CLASS_LINK
 		do
-			if attached Class_link_list as list and then attached String_pool.borrowed_item as borrowed then
+			if attached Class_link_list as list then
 				list.fill (html_string)
-
-				buffer := borrowed.sufficient (html_string.count + list.character_count (link_text_count, relative_page_dir))
-				from list.start until list.after loop
-					class_link := list.item
-					preceding_start_index := previous_end_index + 1
-					preceding_end_index := class_link.start_index - 1
-					if (preceding_end_index - preceding_start_index + 1) > 0 then
-						buffer.append_substring (html_string, preceding_start_index, preceding_end_index)
+				l_count := html_string.count + list.character_count (link_text_count, relative_page_dir)
+				if attached String_pool.sufficient_item (l_count) as borrowed then
+					if attached borrowed.empty as buffer then
+						from list.start until list.after loop
+							class_link := list.item
+							preceding_start_index := previous_end_index + 1
+							preceding_end_index := class_link.start_index - 1
+							if (preceding_end_index - preceding_start_index + 1) > 0 then
+								buffer.append_substring (html_string, preceding_start_index, preceding_end_index)
+							end
+							buffer.append (new_link_markup (class_link))
+							previous_end_index := class_link.end_index
+							list.forth
+						end
+						if html_string.count - previous_end_index > 0 then
+							buffer.append_substring (html_string, previous_end_index + 1, html_string.count)
+						end
+						html_string.copy (buffer)
 					end
-					buffer.append (new_link_markup (class_link))
-					previous_end_index := class_link.end_index
-					list.forth
+					borrowed.return
 				end
-				if html_string.count - previous_end_index > 0 then
-					buffer.append_substring (html_string, previous_end_index + 1, html_string.count)
-				end
-				html_string.copy (buffer)
-				borrowed.return
 			end
 		end
 

@@ -18,18 +18,24 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:53:33 GMT (Tuesday 20th August 2024)"
-	revision: "3"
+	date: "2024-11-08 9:02:46 GMT (Friday 8th November 2024)"
+	revision: "4"
 
 deferred class
 	EL_SHARED_STRING_8_BUFFER_SCOPES
 
+obsolete
+	"Use EL_SHARED_STRING_8_BUFFER_POOL"
+
 inherit
 	EL_ANY_SHARED
 
-	EL_SHARED_STRING_POOLS
-
 feature {NONE} -- Constants
+
+	Shared_string_8_pool: EL_STRING_POOL [STRING_8]
+		once
+			create Result.make (8)
+		end
 
 	String_8_scope: EL_BORROWED_STRING_SCOPE [STRING_8, EL_BORROWED_STRING_8_CURSOR]
 		-- defines across loop scope in which a single `STRING_8' buffer can be borrowed

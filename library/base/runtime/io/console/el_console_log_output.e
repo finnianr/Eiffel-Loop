@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:11:37 GMT (Wednesday 6th November 2024)"
-	revision: "42"
+	date: "2024-11-08 10:21:18 GMT (Friday 8th November 2024)"
+	revision: "43"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -284,7 +284,7 @@ feature -- Basic operations
 
 	flush
 		-- Write contents of buffer to file if it is free (not locked by another thread)
-		-- Return strings of type {STRING_32} to recyle pool
+		-- Return strings of type {STRING_8} to recyle pool
 		do
 			buffer.do_all (agent flush_string_general)
 			buffer.wipe_out

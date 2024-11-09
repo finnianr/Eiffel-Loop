@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 9:38:57 GMT (Wednesday 6th November 2024)"
-	revision: "11"
+	date: "2024-11-08 9:32:02 GMT (Friday 8th November 2024)"
+	revision: "12"
 
 deferred class
 	EL_STRING_32_BUFFER_I
@@ -73,7 +73,7 @@ feature -- Access
 
 	empty: STRING_32
 		do
-			Result := Buffer
+			Result := buffer
 			Result.wipe_out
 		end
 
@@ -87,12 +87,6 @@ feature -- Access
 		do
 			Result := sufficient (n)
 			Result.set_count (n)
-		end
-
-	sufficient (n: INTEGER): STRING_32
-		do
-			Result := empty
-			Result.grow (n)
 		end
 
 feature {NONE} -- Implementation

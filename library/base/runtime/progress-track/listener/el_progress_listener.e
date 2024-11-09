@@ -6,11 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-11-09 10:01:10 GMT (Saturday 9th November 2024)"
+	revision: "5"
 
-class
-	EL_PROGRESS_LISTENER
+class EL_PROGRESS_LISTENER inherit ANY
+
+	EL_MODULE_LIO
 
 create
 	make
@@ -33,6 +34,7 @@ feature -- Basic operations
 		do
 			display.set_progress (1.0)
 			display.on_finish
+			log_outcome ("tick_count", final_tick_count , tick_count)
 			reset
 		end
 
@@ -46,6 +48,21 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	log_outcome (name: STRING; expected_count, actual_count: INTEGER)
+		do
+			if is_lio_enabled then
+				lio.put_string (display.generator)
+				lio.put_spaces (1)
+				lio.put_integer_field (name, actual_count)
+				if actual_count = expected_count then
+					lio.put_string (" OK")
+				else
+					lio.put_integer_field (" Expected " + name, expected_count)
+				end
+				lio.put_new_line
+			end
+		end
 
 	reset
 		do

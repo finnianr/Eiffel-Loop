@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "15"
+	date: "2024-11-09 9:57:09 GMT (Saturday 9th November 2024)"
+	revision: "16"
 
 class
 	EL_DATA_TRANSFER_PROGRESS_LISTENER
@@ -23,7 +23,7 @@ inherit
 			finish, reset
 		end
 
-	EL_MODULE_FILE; EL_MODULE_LIO
+	EL_MODULE_FILE
 
 create
 	make
@@ -99,15 +99,7 @@ feature -- Basic operations
 		do
 			display.set_progress (1.0)
 			display.on_finish
-			if is_lio_enabled then
-				lio.put_integer_field (display.generator + " byte_count", byte_count)
-				if byte_count = estimated_byte_count then
-					lio.put_string (" estimate OK")
-				else
-					lio.put_integer_field (" estimated_byte_count", estimated_byte_count)
-				end
-				lio.put_new_line
-			end
+			log_outcome ("byte_count", estimated_byte_count, byte_count)
 			reset
 		end
 

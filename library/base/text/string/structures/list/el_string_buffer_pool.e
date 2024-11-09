@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 15:17:10 GMT (Thursday 7th November 2024)"
-	revision: "1"
+	date: "2024-11-08 9:11:25 GMT (Friday 8th November 2024)"
+	revision: "2"
 
 class
 	EL_STRING_BUFFER_POOL [B -> EL_STRING_BUFFER [STRING_GENERAL, READABLE_STRING_GENERAL] create default_create end]
@@ -109,11 +109,11 @@ feature -- Access
 			Result.borrow
 		end
 
-	closest_item (a_capacity: INTEGER): B
-		-- buffer item with `count >= capacity' or else the closest in capacity
+	sufficient_item (a_capacity: INTEGER): B
+		-- buffer item with sufficient `a_capacity'
 		-- (call `return' to release as available item)
 		local
-			i, max_capacity: INTEGER; i_th_item: B; big_enough: BOOLEAN
+			i: INTEGER; i_th_item: B; big_enough: BOOLEAN
 		do
 			if attached area_v2 as l_area then
 				Result := default_item

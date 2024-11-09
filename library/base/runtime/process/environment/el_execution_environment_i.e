@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 15:24:22 GMT (Thursday 7th November 2024)"
-	revision: "40"
+	date: "2024-11-08 9:11:25 GMT (Friday 8th November 2024)"
+	revision: "41"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -193,7 +193,7 @@ feature -- Status setting
 		local
 			s32: EL_STRING_32_ROUTINES; c_env: NATIVE_STRING; l_key: IMMUTABLE_STRING_32
 		do
-			if attached String_32_pool.closest_item (value.count + key.count + 1) as borrowed then
+			if attached String_32_pool.sufficient_item (value.count + key.count + 1) as borrowed then
 				if attached borrowed.empty as str then
 					s32.append_to (str, key)
 					str.append_character ('=')

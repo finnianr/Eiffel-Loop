@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:31:13 GMT (Wednesday 6th November 2024)"
-	revision: "48"
+	date: "2024-11-08 9:11:25 GMT (Friday 8th November 2024)"
+	revision: "49"
 
 class
 	EL_URI
@@ -175,8 +175,8 @@ feature -- Conversion
 		-- decoded unicode string
 		do
 			if query_start_index > 0 then
-				if attached String_32_pool.borrowed_item as borrowed then
-					if attached borrowed.sufficient (count - occurrences ('%%') * 2) as decoded then
+				if attached String_32_pool.sufficient_item (count - occurrences ('%%') * 2) as borrowed then
+					if attached borrowed.empty as decoded then
 						to_uri_path.decode_to (decoded)
 						decoded.append_character ('?')
 						decoded_query.append_to_string_32 (decoded)

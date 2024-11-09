@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:45:53 GMT (Wednesday 6th November 2024)"
-	revision: "9"
+	date: "2024-11-08 8:57:46 GMT (Friday 8th November 2024)"
+	revision: "10"
 
 deferred class
 	EL_STRING_CONVERSION_TABLE_IMPLEMENTATION
@@ -18,8 +18,6 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_HANDLER
-
 	EL_MODULE_EIFFEL; EL_MODULE_NAMING
 
 	EL_MODULE_TUPLE
@@ -27,12 +25,7 @@ inherit
 			Tuple as Tuple_
 		end
 
-	EL_SHARED_FACTORIES; EL_SHARED_STRING_8_BUFFER_POOL; EL_SHARED_STRING_32_BUFFER_POOL
-
-	EL_SHARED_ZSTRING_BUFFER_POOL
-		rename
-			String_pool as ZString_pool
-		end
+	EL_SHARED_FACTORIES; EL_STRING_POOL_ROUTINES
 
 feature {NONE} -- Initialization
 
@@ -117,18 +110,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	string_pool (str: READABLE_STRING_GENERAL): like STRING_BUFFER_POOL
-		do
-			inspect string_storage_type (str)
-				when '1' then
-					Result := String_8_pool
-				when '4' then
-					Result := String_32_pool
-				when 'X' then
-					Result := ZString_pool
-			end
-		end
-
 feature {NONE} -- Factory
 
 	new_expanded_table: EL_HASH_TABLE [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY], TYPE [ANY]]
@@ -187,15 +168,6 @@ feature {NONE} -- Internal attributes
 	real_64_converter: EL_STRING_TO_REAL_64
 
 	split_list_area: SPECIAL [like new_split_list_types.item]
-
-feature {NONE} -- Type definitions
-
-	STRING_BUFFER_POOL: EL_STRING_BUFFER_POOL [EL_STRING_BUFFER [STRING_GENERAL, READABLE_STRING_GENERAL]]
-		require
-			never_called: False
-		once
-
-		end
 
 feature {NONE} -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 9:31:00 GMT (Wednesday 6th November 2024)"
-	revision: "8"
+	date: "2024-11-08 9:21:07 GMT (Friday 8th November 2024)"
+	revision: "9"
 
 deferred class
 	EL_ZSTRING_BUFFER_I
@@ -64,12 +64,6 @@ feature -- Access
 		do
 			Result := sufficient (n)
 			Result.set_count (n)
-		end
-
-	sufficient (n: INTEGER): ZSTRING
-		do
-			Result := empty
-			Result.grow (n)
 		end
 
 feature {NONE} -- Implementation

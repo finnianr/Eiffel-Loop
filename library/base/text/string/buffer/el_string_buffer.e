@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 15:13:54 GMT (Thursday 7th November 2024)"
-	revision: "7"
+	date: "2024-11-08 9:45:37 GMT (Friday 8th November 2024)"
+	revision: "8"
 
 deferred class
 	EL_STRING_BUFFER [S -> STRING_GENERAL create make end, READABLE -> READABLE_STRING_GENERAL]
@@ -78,8 +78,15 @@ feature -- Access
 			valid_size: Result.count = n
 		end
 
-	sufficient (n: INTEGER): S
-		deferred
+	sufficient (a_capacity: INTEGER): S
+		do
+			if buffer.capacity < a_capacity then
+				resize (a_capacity)
+			end
+			Result := empty
+		ensure
+			big_enough: Result.capacity >= a_capacity
+			is_empty: Result.is_empty
 		end
 
 	to_same (general: READABLE_STRING_GENERAL): S
@@ -143,6 +150,7 @@ feature -- Basic operations
 
 	resize (a_capacity: INTEGER)
 		do
+		-- Buffer might be once variable
 			buffer.standard_copy (create {S}.make (a_capacity))
 		end
 

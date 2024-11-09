@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:55 GMT (Friday 10th March 2023)"
-	revision: "15"
+	date: "2024-11-09 10:27:00 GMT (Saturday 9th November 2024)"
+	revision: "16"
 
 deferred class
 	EL_BOX
@@ -30,17 +30,17 @@ feature {NONE} -- Initialization
 			set_spacing_cms (a_border_cms, a_padding_cms)
 		end
 
-	make_unexpanded (a_border_cms, a_padding_cms: REAL; widgets: ARRAY [EV_WIDGET])
-		do
-			make (a_border_cms, a_padding_cms)
-			append_unexpanded (widgets)
-		end
-
 	make_centered (a_border_cms, a_padding_cms: REAL; widgets: ARRAY [EV_WIDGET])
 		-- sandwich unexpanded `widgets' with two expanded cells
 		do
 			make (a_border_cms, a_padding_cms)
 			replace_centered (widgets)
+		end
+
+	make_unexpanded (a_border_cms, a_padding_cms: REAL; widgets: ARRAY [EV_WIDGET])
+		do
+			make (a_border_cms, a_padding_cms)
+			append_unexpanded (widgets)
 		end
 
 feature -- Element change
@@ -115,6 +115,29 @@ feature -- Element change
 			l_widgets.put_front (create {EL_EXPANDED_CELL})
 			l_widgets.extend (create {EL_EXPANDED_CELL})
 			append_unexpanded (l_widgets.to_array)
+		end
+
+	replace_items (old_widgets, new_widgets: ARRAY [EV_WIDGET])
+		-- replace existing `old_widgets' with `new_widgets'
+		require
+			same_count: old_widgets.count = new_widgets.count
+		local
+			i: INTEGER; not_expanded: BOOLEAN
+		do
+			from i := 1 until i > old_widgets.count loop
+				if attached old_widgets [i] as old_item then
+					not_expanded := not is_item_expanded (old_item)
+
+					start; search (old_item)
+					if not after then
+						replace (new_widgets [i])
+						if not_expanded then
+							disable_item_expand (new_widgets [i])
+						end
+					end
+				end
+				i := i + 1
+			end
 		end
 
 feature -- Status setting
