@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2024-11-10 13:27:47 GMT (Sunday 10th November 2024)"
+	revision: "5"
 
 deferred class
-	EL_NOTIFIABLE_WIDGET
+	EL_NOTIFIABLE_WIDGET [G -> EV_WIDGET]
 
 inherit
-	EL_REPLACEABLE_WIDGET_ITEM
+	EL_WIDGET_REPLACEMENT [G]
 
 	EL_EVENT_LISTENER
 		rename

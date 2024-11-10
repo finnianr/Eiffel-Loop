@@ -8,26 +8,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:54:44 GMT (Monday 23rd September 2024)"
-	revision: "20"
+	date: "2024-11-10 15:02:55 GMT (Sunday 10th November 2024)"
+	revision: "21"
 
 deferred class
 	EL_MENU
 
 inherit
-	EL_REPLACEABLE_ITEM
-		rename
-			item as menu,
-			new_item as new_menu,
-			replace_item as replace_menu
-		export
-			{ANY} menu
-		end
-
 	EL_KEYBOARD_ACCELERATED
 		rename
 			new_accelerator_table as default_accelerator_table
 		end
+
+	EL_ITEM_LIST_REPLACEMENT [EV_MENU]
 
 	EL_MODULE_LOG; EL_MODULE_SCREEN
 
@@ -64,6 +57,8 @@ feature -- Access
 			end
 		end
 
+	menu: like new_menu
+
 	name: ZSTRING
 		deferred
 		end
@@ -72,7 +67,8 @@ feature -- Basic operations
 
 	update
 		do
-			replace_menu -- Replaces menu_bar menu with new one
+		-- Replaces menu_bar menu with new one
+			menu := replaced_item (menu, new_menu)
 			fill; adjust_menu_texts; adjust_items_sensitivity
 		end
 

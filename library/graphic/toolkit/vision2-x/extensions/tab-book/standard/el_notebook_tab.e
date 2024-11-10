@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 12:51:30 GMT (Friday 12th July 2024)"
-	revision: "10"
+	date: "2024-11-10 13:21:06 GMT (Sunday 10th November 2024)"
+	revision: "11"
 
 class
 	EL_NOTEBOOK_TAB [W -> EV_WINDOW]
@@ -15,14 +15,9 @@ class
 inherit
 	EV_NOTEBOOK_TAB
 
-	EL_REPLACEABLE_WIDGET_ITEM
+	EL_WIDGET_REPLACEMENT [EL_VERTICAL_BOX]
 		rename
-			item as content_box,
-			new_item as new_content_box,
-			replace_item as update,
 			Widget as Widget_
-		export
-			{ANY} update
 		end
 
 create
@@ -63,6 +58,13 @@ feature -- Element change
 			set_text (name_shown (name).to_string_32)
 		end
 
+feature -- Basic operations
+
+	update
+		do
+			content_box := replaced (content_box, new_content_box)
+		end
+
 feature {EL_FIXED_TAB_BOOK} -- Events
 
 	on_deselected
@@ -75,7 +77,7 @@ feature {EL_FIXED_TAB_BOOK} -- Events
 
 feature {NONE} -- Implementation
 
-	new_content_box: like tab_content.new_box
+	new_content_box: EL_VERTICAL_BOX
 		do
 			Result := tab_content.new_box
 		end
@@ -83,6 +85,8 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	book: EL_FIXED_TAB_BOOK [W]
+
+	content_box: like new_content_box
 
 	max_tab_text_width: INTEGER
 

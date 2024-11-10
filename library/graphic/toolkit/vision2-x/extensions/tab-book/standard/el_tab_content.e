@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:05 GMT (Tuesday 15th November 2022)"
-	revision: "9"
+	date: "2024-11-10 13:14:06 GMT (Sunday 10th November 2024)"
+	revision: "10"
 
 deferred class
 	EL_TAB_CONTENT [W -> EV_WINDOW]
@@ -41,7 +41,6 @@ feature -- Access
 feature {EL_NOTEBOOK_TAB} -- Factory
 
 	new_box: EL_VERTICAL_BOX
-			--
 		do
 			create Result.make_unexpanded (border_cms, padding_cms, new_widgets)
 		end

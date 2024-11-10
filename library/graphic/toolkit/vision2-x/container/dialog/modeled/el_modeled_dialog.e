@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:20:30 GMT (Monday 23rd September 2024)"
-	revision: "14"
+	date: "2024-11-10 12:59:47 GMT (Sunday 10th November 2024)"
+	revision: "15"
 
 deferred class
 	EL_MODELED_DIALOG
@@ -127,13 +127,12 @@ feature -- Element change
 
 	replace_default_button
 		-- replace the `default_button' with a new one
-		local
-			new_default: like new_default_button
 		do
-			new_default := new_default_button
-			Widget.replace (default_button, new_default)
-			default_button := new_default
-			window.set_default_push_button (new_default)
+			if attached new_default_button as new_default then
+				Widget.replace (default_button, new_default)
+				default_button := new_default
+				window.set_default_push_button (new_default)
+			end
 		end
 
 	set_title (a_title: separate READABLE_STRING_GENERAL)

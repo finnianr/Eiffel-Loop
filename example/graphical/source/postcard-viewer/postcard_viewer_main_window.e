@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2024-11-10 10:55:55 GMT (Sunday 10th November 2024)"
+	revision: "7"
 
 class
 	POSTCARD_VIEWER_MAIN_WINDOW
@@ -23,11 +23,7 @@ inherit
 			default_create, copy, is_equal
 		end
 
-	EL_MODULE_LOG
-
-	EL_MODULE_ACTION
-
-	EL_MODULE_DIRECTORY
+	EL_MODULE_ACTION; EL_MODULE_DIRECTORY
 
 create
 	make

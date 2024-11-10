@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 10:02:51 GMT (Tuesday 27th August 2024)"
-	revision: "11"
+	date: "2024-11-10 13:00:32 GMT (Sunday 10th November 2024)"
+	revision: "12"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -184,7 +184,7 @@ feature -- Basic operations
 			ev_application.process_graphical_events
 		end
 
-	replace (widget, new_widget: EV_WIDGET)
+	frozen replace (widget, new_widget: EV_WIDGET)
 		-- replace `item' in `widget.parent' with `new_widget'
 		local
 			is_expanded: BOOLEAN
@@ -211,7 +211,7 @@ feature -- Basic operations
 			end
 		end
 
-	replace_item (item, new_item: EV_ITEM)
+	frozen replace_item (item, new_item: EV_ITEM)
 		do
 			if attached {EV_DYNAMIC_LIST [EV_CONTAINABLE]} item.parent as list then
 				list.start; list.search (item)

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 9:36:55 GMT (Monday 9th September 2024)"
-	revision: "37"
+	date: "2024-11-10 14:26:03 GMT (Sunday 10th November 2024)"
+	revision: "38"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -24,19 +24,7 @@ inherit
 			make
 		end
 
-	EL_REPLACEABLE_WIDGET_ITEM
-		rename
-			item as pixmap,
-			new_item as new_pixmap,
-			replace_item as replace_pixmap
-		end
-
-	EL_REPLACEABLE_WIDGET_ITEM_2
-		rename
-			item as font_drop_down,
-			new_item as new_font_drop_down,
-			replace_item as replace_font_drop_down
-		end
+	EL_WIDGET_REPLACEMENT [EL_PIXMAP]
 
 	EL_GEOMETRY_MATH
 		rename
@@ -329,11 +317,26 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	replace_font_drop_down
+		do
+			if attached new_font_drop_down as new then
+				Widget.replace (font_drop_down, new)
+				font_drop_down := new
+			end
+		end
+
+	replace_pixmap
+		do
+			pixmap := replaced (pixmap, new_pixmap)
+		end
+
 	set_dimensions
 		do
 		end
 
 feature {NONE} -- Internal attributes
+
+	font_drop_down: like new_font_drop_down
 
 	font_family: STRING
 
@@ -344,6 +347,8 @@ feature {NONE} -- Internal attributes
 	font_width_bitmap: NATURAL_8
 
 	picture_box: EL_HORIZONTAL_BOX
+
+	pixmap: like new_pixmap
 
 	text_angle: INTEGER
 

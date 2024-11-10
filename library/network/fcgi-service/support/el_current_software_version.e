@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-22 9:49:24 GMT (Tuesday 22nd November 2022)"
-	revision: "7"
+	date: "2024-11-09 12:46:16 GMT (Saturday 9th November 2024)"
+	revision: "8"
 
 class
 	EL_CURRENT_SOFTWARE_VERSION
@@ -17,6 +17,11 @@ inherit
 		rename
 			make as make_version,
 			compact_version as actual_compact_version
+		end
+
+	EL_UPDATEABLE
+		undefine
+			is_equal, out
 		end
 
 	EL_MODULE_FILE
@@ -48,26 +53,22 @@ feature -- Access
 			Result := compact_version.to_reference
 		end
 
-feature -- Element change
+	modification_time: INTEGER
+		-- Unix modification time
+		do
+			Result := version_path.modification_time
+		end
 
-	update
+feature {NONE} -- Implementation
+
+	do_update
 		do
 			if attached File.line_one (version_path) as line_one and then line_one.occurrences ('.') = 2 then
 				set_from_string (line_one)
-				time_stamp := File.modification_time (version_path)
 			end
 		end
 
-feature -- Status query
-
-	is_modified: BOOLEAN
-		do
-			Result := version_path.modification_time > time_stamp
-		end
-
 feature {NONE} -- Internal attributes
-
-	time_stamp: INTEGER
 
 	version_path: FILE_PATH
 

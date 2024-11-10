@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-09 10:27:00 GMT (Saturday 9th November 2024)"
-	revision: "16"
+	date: "2024-11-10 14:42:24 GMT (Sunday 10th November 2024)"
+	revision: "17"
 
 deferred class
 	EL_BOX
@@ -68,16 +68,20 @@ feature -- Element change
 	append_array (a_widgets: ARRAY [EV_WIDGET])
 			--
 		do
-			a_widgets.do_all (agent extend)
+			across a_widgets as array loop
+				extend (array.item)
+			end
 		end
 
 	append_unexpanded (a_widgets: ARRAY [EV_WIDGET])
 		--
 		do
-			across a_widgets as widget loop
-				extend (widget.item)
-				if not attached {EL_EXPANDABLE} widget.item then
-					disable_item_expand (widget.item)
+			across a_widgets as array loop
+				if attached array.item as widget then
+					extend (widget)
+					if not attached {EL_EXPANDABLE} widget then
+						disable_item_expand (widget)
+					end
 				end
 			end
 		end

@@ -778,3 +778,6 @@ Improvements to http client resource exists routine
 Sat 2nd Nov 2024, 18:12:25
 New class EL_RESOURCE_URL
 
+Sat 9th Nov 2024, 10:45:25
+EL_TITLED_WINDOW no longer inherits EL_MODULE_LOG
+

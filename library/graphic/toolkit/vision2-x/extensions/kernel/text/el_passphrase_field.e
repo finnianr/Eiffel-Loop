@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-06 17:47:24 GMT (Tuesday 6th February 2024)"
-	revision: "8"
+	date: "2024-11-10 13:25:51 GMT (Sunday 10th November 2024)"
+	revision: "9"
 
 class
 	EL_PASSPHRASE_FIELD
@@ -15,10 +15,7 @@ class
 inherit
 	ANY
 
-	EL_REPLACEABLE_WIDGET_ITEM
-		export
-			{ANY} item
-		end
+	EL_WIDGET_REPLACEMENT [EV_TEXT_FIELD]
 
 	EL_MODULE_ACTION
 
@@ -39,6 +36,8 @@ feature -- Access
 
 	on_change: EL_EVENT_BROADCASTER
 
+	item: like new_item
+
 	text: ZSTRING
 
 feature -- Element change
@@ -50,6 +49,11 @@ feature -- Element change
 			if attached mirror as m then
 				m.fill_blank
 			end
+		end
+
+	replace_item
+		do
+			item := replaced (item, new_item)
 		end
 
 	set_mirror (a_mirror: like Current)
