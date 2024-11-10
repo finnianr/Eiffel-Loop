@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 11:31:19 GMT (Friday 21st June 2024)"
-	revision: "20"
+	date: "2024-11-10 17:17:02 GMT (Sunday 10th November 2024)"
+	revision: "21"
 
 deferred class
 	EL_CREATEABLE_FROM_NODE_SCAN
@@ -17,8 +17,7 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			actual_item as actual_node_source,
-			item as node_source,
+			cached_item as actual_node_source,
 			new_item as new_node_source
 		end
 
@@ -102,6 +101,11 @@ feature {NONE} -- Implementation
 
 	new_node_source: EL_DOCUMENT_NODE_SCAN_SOURCE
 		deferred
+		end
+
+	node_source: like new_node_source
+		do
+			Result := lazy_item
 		end
 
 	parse_event_source_type: TYPE [EL_PARSE_EVENT_SOURCE]

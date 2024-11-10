@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 10:21:07 GMT (Tuesday 2nd April 2024)"
-	revision: "14"
+	date: "2024-11-10 17:18:23 GMT (Sunday 10th November 2024)"
+	revision: "15"
 
 deferred class
 	EL_WORK_DISTRIBUTER [G, R -> ROUTINE]
@@ -25,9 +25,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as collection_list,
 			new_item as new_collection_list,
-			actual_item as actual_collection_list
+			cached_item as actual_collection_list
 		end
 
 feature {NONE} -- Initialization
@@ -183,6 +182,11 @@ feature {EL_WORK_DISTRIBUTION_THREAD} -- Event handling
 		end
 
 feature {NONE} -- Implementation
+
+	collection_list: like new_collection_list
+		do
+			Result := lazy_item
+		end
 
 	move (routines: like applied; completed_list: LIST [G])
 		do

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "80"
+	date: "2024-11-10 17:16:11 GMT (Sunday 10th November 2024)"
+	revision: "81"
 
 class
 	EL_CLASS_META_DATA
@@ -19,9 +19,8 @@ class
 inherit
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as alphabetical_list,
 			new_item as new_alphabetical_list,
-			actual_item as actual_alphabetical_list
+			cached_item as actual_alphabetical_list
 		end
 
 	EL_MODULE_EIFFEL; EL_MODULE_NAMING
@@ -79,6 +78,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	alphabetical_list: like new_alphabetical_list
+		do
+			Result := lazy_item
+		end
 
 	field_indices_subset (name_list: STRING): EL_FIELD_INDICES_SET
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-20 19:33:27 GMT (Wednesday 20th December 2023)"
-	revision: "6"
+	date: "2024-11-10 17:28:27 GMT (Sunday 10th November 2024)"
+	revision: "7"
 
 class
 	EL_DEFERRED_CELL [G]
@@ -25,11 +25,18 @@ feature {NONE} -- Initialization
 			item_factory := a_item_factory
 		end
 
+feature -- Access
+
+	item: like new_item
+		do
+			Result := lazy_item
+		end
+
 feature -- Element change
 
 	update
 		do
-			actual_item := new_item
+			cached_item := new_item
 		end
 
 feature {NONE} -- Implementation

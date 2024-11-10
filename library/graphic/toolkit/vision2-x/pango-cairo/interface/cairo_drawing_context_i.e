@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-05 13:01:18 GMT (Thursday 5th October 2023)"
-	revision: "16"
+	date: "2024-11-10 17:23:30 GMT (Sunday 10th November 2024)"
+	revision: "17"
 
 deferred class
 	CAIRO_DRAWING_CONTEXT_I
@@ -19,13 +19,11 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as text_layout,
 			new_item as new_text_layout
 		end
 
 	EL_LAZY_ATTRIBUTE_2
 		rename
-			item as pango_context,
 			new_item as new_pango_context
 		end
 
@@ -178,7 +176,7 @@ feature -- Text drawing
 			show_text (a_text)
 		end
 
-feature -- Factory
+feature {NONE} -- Factory
 
 	new_pango_context: CAIRO_PANGO_CONTEXT
 		do
@@ -198,9 +196,18 @@ feature {NONE} -- Implementation
 			Cairo.destroy (this)
 		end
 
+	pango_context: CAIRO_PANGO_CONTEXT
+		do
+			Result := lazy_item_2
+		end
+
 	restore_color
 		do
 			set_color (color)
 		end
 
+	text_layout: like new_text_layout
+		do
+			Result := lazy_item
+		end
 end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:47:33 GMT (Sunday 22nd September 2024)"
-	revision: "46"
+	date: "2024-11-10 17:27:18 GMT (Sunday 10th November 2024)"
+	revision: "47"
 
 class
 	EL_LOCALE
@@ -38,9 +38,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as date_text,
 			new_item as new_date_text,
-			actual_item as actual_date_text
+			cached_item as actual_date_text
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM; EL_MODULE_PYXIS
@@ -91,6 +90,11 @@ feature -- Access
 			restrict_access -- synchronized
 				create Result.make_from_special (Locale_table.key_list.area)
 			end_restriction
+		end
+
+	date_text: like new_date_text
+		do
+			Result := lazy_item
 		end
 
 	default_language: STRING

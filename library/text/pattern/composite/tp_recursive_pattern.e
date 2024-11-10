@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:16:09 GMT (Monday 23rd September 2024)"
-	revision: "4"
+	date: "2024-11-10 17:20:23 GMT (Sunday 10th November 2024)"
+	revision: "5"
 
 class
 	TP_RECURSIVE_PATTERN
@@ -20,8 +20,7 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			actual_item as actual_nested_pattern,
-			item as nested_pattern,
+			cached_item as actual_nested_pattern,
 			new_item as new_nested_pattern
 		undefine
 			is_equal
@@ -96,6 +95,11 @@ feature {NONE} -- Implementation
 			Result := [nested_pattern.name]
 		end
 
+	nested_pattern: like new_nested_pattern
+		do
+			Result := lazy_item
+		end
+
 	new_nested_pattern: TP_PATTERN
 		do
 			new_pattern.apply
@@ -120,4 +124,3 @@ feature {NONE} -- Constants
 			Result := "recurse (%S)"
 		end
 end
-

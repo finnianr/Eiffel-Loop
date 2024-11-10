@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2024-11-10 17:09:36 GMT (Sunday 10th November 2024)"
+	revision: "6"
 
 deferred class
 	EL_SYSTEM_ROUTINES_I
@@ -34,17 +34,20 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as cpu_info,
 			new_item as new_cpu_info
 		end
 
 	EL_LAZY_ATTRIBUTE_2
 		rename
-			item as user_list,
 			new_item as new_user_list
 		end
 
 feature -- Access
+
+	cpu_info: like new_cpu_info
+		do
+			Result := lazy_item
+		end
 
 	processor_count: INTEGER
 		-- number of CPU threads
@@ -55,6 +58,11 @@ feature -- Access
 	scaled_processor_count (cpu_percentage: INTEGER): INTEGER
 		do
 			Result := (Processor_count * cpu_percentage / 100).rounded
+		end
+
+	user_list: like new_user_list
+		do
+			Result := lazy_item_2
 		end
 
 	user_permutation_list (user_dir_list: ITERABLE [DIR_PATH]): EL_ARRAYED_LIST [DIR_PATH]

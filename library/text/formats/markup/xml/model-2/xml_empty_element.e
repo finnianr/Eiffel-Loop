@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:39:40 GMT (Wednesday 6th November 2024)"
-	revision: "22"
+	date: "2024-11-10 17:20:53 GMT (Sunday 10th November 2024)"
+	revision: "23"
 
 class
 	XML_EMPTY_ELEMENT
@@ -20,9 +20,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as attribute_list,
 			new_item as new_attribute_list,
-			actual_item as actual_attribute_list
+			cached_item as actual_attribute_list
 		undefine
 			copy, is_equal
 		end
@@ -47,6 +46,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	attribute_list: like new_attribute_list
+		do
+			Result := lazy_item
+		end
 
 	name: ZSTRING
 		do

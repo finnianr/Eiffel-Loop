@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 10:15:47 GMT (Saturday 23rd December 2023)"
-	revision: "12"
+	date: "2024-11-10 17:31:28 GMT (Sunday 10th November 2024)"
+	revision: "13"
 
 class
 	EL_NAMED_THREAD
@@ -15,14 +15,20 @@ class
 inherit
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as name,
 			new_item as new_name,
-			actual_item as actual_name
+			cached_item as actual_name
+		end
+
+feature -- Access
+
+	name: like new_name
+		do
+			Result := lazy_item
 		end
 
 feature -- Element change
 
-	set_name (a_name: like name)
+	set_name (a_name: like new_name)
 		do
 			actual_name := a_name
 		end

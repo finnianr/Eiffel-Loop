@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 17:14:33 GMT (Sunday 25th August 2024)"
-	revision: "17"
+	date: "2024-11-10 17:18:59 GMT (Sunday 10th November 2024)"
+	revision: "18"
 
 class
 	FCGI_SERVLET_REQUEST
@@ -20,9 +20,8 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as method_parameters,
 			new_item as new_method_parameters,
-			actual_item as actual_method_parameters
+			cached_item as actual_method_parameters
 		end
 
 create
@@ -47,6 +46,11 @@ feature -- Access
 		end
 
 	headers: FCGI_HTTP_HEADERS
+
+	method_parameters: like new_method_parameters
+		do
+			Result := lazy_item
+		end
 
 	parameters: like broker.parameters
 		do

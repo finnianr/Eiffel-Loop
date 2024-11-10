@@ -14,36 +14,37 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2024-11-10 17:15:06 GMT (Sunday 10th November 2024)"
+	revision: "5"
 
 deferred class
 	EL_LAZY_ATTRIBUTE
 
-feature -- Access
+feature {NONE} -- Implementation
 
-	item: like new_item
+	lazy_item: like new_item
 		do
-			if attached actual_item as obj then
-				Result := obj
+			if attached cached_item as l_item then
+				Result := l_item
 			else
 				Result := new_item
-				actual_item := Result
+				cached_item := Result
 			end
 		end
 
-feature -- Element change
-
 	reset_item
 		do
-			actual_item := Void
+			cached_item := Void
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Deferred
 
 	new_item: ANY
 		deferred
 		end
 
-	actual_item: detachable like new_item
+feature {NONE} -- Internal attributes
+
+	cached_item: detachable like new_item
+
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 15:20:50 GMT (Tuesday 5th November 2024)"
-	revision: "18"
+	date: "2024-11-10 17:17:57 GMT (Sunday 10th November 2024)"
+	revision: "19"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -15,9 +15,8 @@ deferred class
 inherit
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as type_description,
 			new_item as new_type_description,
-			actual_item as actual_type_description
+			cached_item as actual_type_description
 		end
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -54,6 +53,11 @@ feature -- Access
 	abstract_type: INTEGER
 
 	type: TYPE [ANY]
+
+	type_description: like new_type_description
+		do
+			Result := lazy_item
+		end
 
 	type_id: INTEGER
 

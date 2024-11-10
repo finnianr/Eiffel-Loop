@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
-	revision: "18"
+	date: "2024-11-10 17:19:31 GMT (Sunday 10th November 2024)"
+	revision: "19"
 
 class
 	TL_ID3_PICTURE
@@ -15,9 +15,8 @@ class
 inherit
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as data,
 			new_item as new_data,
-			actual_item as actual_data
+			cached_item as actual_data
 		redefine
 			is_equal
 		end
@@ -81,14 +80,9 @@ feature -- Access
 			Result := Checksum_.data (data)
 		end
 
-	new_data: MANAGED_POINTER
-		-- picture data
+	data: like new_data
 		do
-			if file_path.exists then
-				Result := File.data (file_path)
-			else
-				create Result.make (0)
-			end
+			Result := lazy_item
 		end
 
 	description: ZSTRING
@@ -161,6 +155,16 @@ feature {NONE} -- Implementation
 			Result := a_mime_type.substring (a_mime_type.index_of ('/', 1) + 1, a_mime_type.count)
 			if Result ~ once "jpg" then
 				Result.insert_character ('e', 3)
+			end
+		end
+
+	new_data: MANAGED_POINTER
+		-- picture data
+		do
+			if file_path.exists then
+				Result := File.data (file_path)
+			else
+				create Result.make (0)
 			end
 		end
 

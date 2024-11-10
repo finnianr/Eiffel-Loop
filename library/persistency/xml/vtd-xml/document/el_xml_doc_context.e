@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:07:45 GMT (Monday 23rd September 2024)"
-	revision: "31"
+	date: "2024-11-10 17:18:41 GMT (Sunday 10th November 2024)"
+	revision: "32"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -25,7 +25,6 @@ inherit
 
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as namespace_table,
 			new_item as new_namespace_table
 		end
 
@@ -168,6 +167,11 @@ feature -- Access
 	file_path: FILE_PATH
 
 	last_exception: detachable EL_VTD_EXCEPTION
+
+	namespace_table: like new_namespace_table
+		do
+			Result := lazy_item
+		end
 
 	processing_instruction (a_name: STRING): detachable STRING
 		-- processing instruction with `a_name' or `Void' if not found

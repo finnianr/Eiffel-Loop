@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:31:32 GMT (Wednesday 6th November 2024)"
-	revision: "4"
+	date: "2024-11-10 17:16:30 GMT (Sunday 10th November 2024)"
+	revision: "5"
 
 deferred class
 	EL_CODE_TEXT_TABLE_I
@@ -32,9 +32,8 @@ deferred class
 inherit
 	EL_LAZY_ATTRIBUTE
 		rename
-			item as cache,
 			new_item as new_cache,
-			actual_item as actual_cache
+			cached_item as actual_cache
 		end
 
 	EL_STRING_GENERAL_ROUTINES
@@ -96,6 +95,11 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	cache: like new_cache
+		do
+			Result := lazy_item
+		end
 
 	search (code: INTEGER_64; line_list: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER; utf_8_encoded: BOOLEAN)
 		local
