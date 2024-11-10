@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 14:26:03 GMT (Sunday 10th November 2024)"
-	revision: "38"
+	date: "2024-11-10 15:25:17 GMT (Sunday 10th November 2024)"
+	revision: "39"
 
 class
 	PANGO_CAIRO_TEST_MAIN_WINDOW
@@ -25,6 +25,8 @@ inherit
 		end
 
 	EL_WIDGET_REPLACEMENT [EL_PIXMAP]
+
+	EL_WIDGET_2_REPLACEMENT [EL_FONT_FAMILY_DROP_DOWN_BOX]
 
 	EL_GEOMETRY_MATH
 		rename
@@ -239,7 +241,8 @@ feature {NONE} -- Event handling
 	on_style_change
 		do
 			font_family := default_font_family
-			replace_font_drop_down; replace_pixmap
+			font_drop_down := replaced_2 (font_drop_down, new_font_drop_down)
+			replace_pixmap
 			Action.do_once_on_idle (agent display_fonts)
 		end
 
@@ -314,14 +317,6 @@ feature {NONE} -- Implementation
 				Result := << 2 >>
 			else
 				create Result.make_empty
-			end
-		end
-
-	replace_font_drop_down
-		do
-			if attached new_font_drop_down as new then
-				Widget.replace (font_drop_down, new)
-				font_drop_down := new
 			end
 		end
 
