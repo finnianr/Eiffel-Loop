@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 13:00:32 GMT (Sunday 10th November 2024)"
-	revision: "12"
+	date: "2024-11-11 9:49:36 GMT (Monday 11th November 2024)"
+	revision: "13"
 
 frozen class
 	EL_WIDGET_ROUTINES
@@ -211,6 +211,21 @@ feature -- Basic operations
 			end
 		end
 
+	frozen replace_list (widget_list, new_widgets_list: INDEXABLE [EV_WIDGET, INTEGER])
+		-- replace widgets in `widget_list' with corresponding widget in `new_widgets_list'
+		require
+			same_lower: widget_list.lower = new_widgets_list.lower
+			same_upper: widget_list.upper = new_widgets_list.upper
+		local
+			i: INTEGER
+		do
+			from i := widget_list.lower until i > widget_list.upper loop
+				replace (widget_list [i], new_widgets_list [i])
+				widget_list [i] := new_widgets_list [i]
+				i := i + 1
+			end
+		end
+
 	frozen replace_item (item, new_item: EV_ITEM)
 		do
 			if attached {EV_DYNAMIC_LIST [EV_CONTAINABLE]} item.parent as list then
@@ -223,9 +238,11 @@ feature -- Basic operations
 
 feature -- Status change
 
-	enable_all_sensitive_if (item_list: ARRAY [EV_SENSITIVE]; condition_true: BOOLEAN)
+	enable_all_sensitive_if (item_list: ITERABLE [EV_SENSITIVE]; condition_true: BOOLEAN)
 		do
-			item_list.do_all (agent enable_sensitive_if (?, condition_true))
+			across item_list as list loop
+				enable_sensitive_if (list.item, condition_true)
+			end
 		end
 
 	enable_sensitive_if (widget: EV_SENSITIVE; condition_true: BOOLEAN)

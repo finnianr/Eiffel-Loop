@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 14:42:24 GMT (Sunday 10th November 2024)"
-	revision: "17"
+	date: "2024-11-11 8:56:55 GMT (Monday 11th November 2024)"
+	revision: "18"
 
 deferred class
 	EL_BOX
@@ -119,29 +119,6 @@ feature -- Element change
 			l_widgets.put_front (create {EL_EXPANDED_CELL})
 			l_widgets.extend (create {EL_EXPANDED_CELL})
 			append_unexpanded (l_widgets.to_array)
-		end
-
-	replace_items (old_widgets, new_widgets: ARRAY [EV_WIDGET])
-		-- replace existing `old_widgets' with `new_widgets'
-		require
-			same_count: old_widgets.count = new_widgets.count
-		local
-			i: INTEGER; not_expanded: BOOLEAN
-		do
-			from i := 1 until i > old_widgets.count loop
-				if attached old_widgets [i] as old_item then
-					not_expanded := not is_item_expanded (old_item)
-
-					start; search (old_item)
-					if not after then
-						replace (new_widgets [i])
-						if not_expanded then
-							disable_item_expand (new_widgets [i])
-						end
-					end
-				end
-				i := i + 1
-			end
 		end
 
 feature -- Status setting
