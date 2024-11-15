@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 9:29:09 GMT (Sunday 22nd September 2024)"
-	revision: "24"
+	date: "2024-11-14 16:18:32 GMT (Thursday 14th November 2024)"
+	revision: "25"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -240,6 +240,11 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
+		end
+
+	new_argument_array: ARRAY [STRING_32]
+		do
+
 		end
 
 feature {NONE} -- Internal attributes

@@ -28,8 +28,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-19 16:11:23 GMT (Sunday 19th November 2023)"
-	revision: "17"
+	date: "2024-11-15 9:53:22 GMT (Friday 15th November 2024)"
+	revision: "18"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -49,36 +49,42 @@ inherit
 			default_source_text, reset
 		end
 
+	EL_STRING_GENERAL_ROUTINES
+
 	TP_FACTORY
 
-	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_LOG
+	EL_MODULE_EXCEPTION; EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_LOG
 
 create
 	make
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (
-		a_output_path: FILE_PATH; a_year: INTEGER; a_base_currency, a_date_format: STRING
-		a_currency_list: EL_STRING_8_LIST
-	)
+	make (a_output_path: FILE_PATH; a_base_currency, a_date_format: STRING)
 		local
-			date, dec_30_th: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]
+			date, dec_30_th: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]; year: INTEGER
 		do
-			output_path := a_output_path; year := a_year; base_currency := a_base_currency
-			date_format := a_date_format; currency_list := a_currency_list
+			output_path := a_output_path; base_currency := a_base_currency; date_format := a_date_format
 
 			make_default
 
 			create parsed
-			currency_code := Empty_string_8
+			create currency_code.make_empty
 			create exchange_rate_table.make (365)
-			create dec_30_th.make (a_year, 12, 30)
+			html_path_list := OS.file_list (output_path.parent, "*.html")
+			if html_path_list.count > 0 and then attached html_path_list.first_path as html_path then
+				year := html_path.base_name.substring_to_reversed ('-').to_integer
+				create dec_30_th.make (year, 12, 30)
 
-			from create date.make (a_year, 1, 1) until date > dec_30_th loop
-				create rate_array.make_filled (r.one, a_currency_list.count + 1)
-				exchange_rate_table.extend (date.ordered_compact_date, rate_array)
-				date.day_forth
+				from create date.make (year, 1, 1) until date > dec_30_th loop
+					create rate_array.make_filled (r.one, html_path_list.count + 1)
+					exchange_rate_table.extend (date.ordered_compact_date, rate_array)
+					date.day_forth
+				end
+				html_path_list.sort (False)
+			else
+				create exchange_rate_table.make_empty
+				put_error_message (ZSTRING ("ERROR: no HTML exchange pages found in %S folder.") #$ [output_path.parent])
 			end
 		end
 
@@ -92,10 +98,10 @@ feature -- Basic operations
 		local
 			csv_file: PLAIN_TEXT_FILE; i, i_final: INTEGER
 		do
-			across currency_list as code until has_error loop
-				currency_code := code.item
-				column_index := code.cursor_index
-				append_rates
+			across html_path_list as path until has_error loop
+				currency_code := file_currency_code (path.item)
+				column_index := path.cursor_index
+				parse_html (path.item)
 			end
 			if has_error then
 				print_errors (lio)
@@ -104,16 +110,16 @@ feature -- Basic operations
 				create csv_file.make_open_write (output_path)
 
 				csv_file.put_string ("Column No.,2")
-				across currency_list as list loop
+				across html_path_list as list loop
 					csv_file.put_character (',')
 					csv_file.put_integer (list.cursor_index + 2)
 				end
 				csv_file.put_new_line
 
 				csv_file.put_string ("," + base_currency + " (1)")
-				across currency_list as list loop
+				across html_path_list as list loop
 					csv_file.put_character (',')
-					csv_file.put_string (list.item + " to " + base_currency)
+					csv_file.put_string (file_currency_code (list.item) + " to " + base_currency)
 				end
 				csv_file.put_new_line
 
@@ -135,25 +141,14 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	append_rates
-		local
-			page_file: EL_CACHED_HTTP_FILE
-		do
-			lio.put_labeled_string ("Data source", history_url)
-			lio.put_new_line
-			lio.put_string ("Parsing ")
-			previous_index := 0
-			create page_file.make (history_url, 10_000)
-			reset_pattern
-			set_source_text (File.plain_text (page_file.path))
-			find_all (Void)
-			lio.put_line (" OK")
-			lio.put_new_line
-		end
-
 	default_source_text: STRING
 		do
 			Result := Empty_string_8
+		end
+
+	file_currency_code (html_path: FILE_PATH): STRING
+		do
+			Result := html_path.base_name.substring_to ('-')
 		end
 
 	formatted (compact_date: INTEGER): STRING
@@ -164,14 +159,8 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	history_url: ZSTRING
-		do
-			Result := Url_template #$ [currency_code, base_currency, year]
-		end
-
 	new_pattern: like all_of
-		-- match string like: "USD = &#8364;0.8857</td><td><a href="/USD-EUR-15_12_2021"
-		-- match string like: (02/01/2022)</td><td data-title="Closing Rate">&#36;1 USD = &#8364;0.8793</td>
+		-- match string like: (01/01/2023)</td><td data-title="Closing Rate">&#36;1 USD = &#8364;0.9343</td>
 		do
 			Result := all_of (<<
 			-- match "(02/01/2022)</td>"
@@ -200,6 +189,19 @@ feature {NONE} -- Implementation
 				date.set_date (parsed.year, parsed.month, parsed.day)
 				Result := date.ordered_compact_date
 			end
+		end
+
+	parse_html (html_path: FILE_PATH)
+		do
+			lio.put_labeled_string ("Data source", html_path.base)
+			lio.put_new_line
+			lio.put_string ("Parsing ")
+			previous_index := 0
+			reset_pattern
+			set_source_text (File.plain_text (html_path))
+			find_all (Void)
+			lio.put_line (" OK")
+			lio.put_new_line
 		end
 
 	reset
@@ -255,11 +257,12 @@ feature {NONE} -- Internal attributes
 
 	currency_code: STRING
 
-	currency_list: EL_STRING_8_LIST
-
 	date_format: STRING
 
 	exchange_rate_table: EL_KEY_INDEXED_ARRAYED_MAP_LIST [INTEGER, SPECIAL [REAL]]
+		-- cannot use EL_HASH_TABLE because it lacks a routine `go_i_th (index)'
+
+	html_path_list: EL_FILE_PATH_LIST
 
 	output_path: FILE_PATH
 
@@ -267,22 +270,13 @@ feature {NONE} -- Internal attributes
 
 	previous_index: INTEGER
 
-	year: INTEGER
-
 feature {NONE} -- Constants
 
 	Delimiter: STRING = "</a></td></tr>"
 
-	Link_suffix: STRING = "-exchange-rate-history"
-
 	Shared_date: EL_DATE
 		once
 			create Result.make_now
-		end
-
-	Url_template: ZSTRING
-		once
-			Result := "https://www.exchangerates.org.uk/%S-%S-spot-exchange-rates-history-%S.html"
 		end
 
 end

@@ -781,3 +781,6 @@ New class EL_RESOURCE_URL
 Sat 9th Nov 2024, 10:45:25
 EL_TITLED_WINDOW no longer inherits EL_MODULE_LOG
 
+Mon 11th Nov 2024, 10:07:48
+New routine EL_WIDGET_ROUTINES.replace_list
+

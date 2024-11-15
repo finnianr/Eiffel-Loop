@@ -1,3 +1,6 @@
+Ver 1.13.2 (15 Nov 2024)
+* Changed CURRENCY_EXCHANGE_HISTORY_APP to read from manually downloaded files
+
 Ver 1.13.1 (23 Oct 2024)
 * New app TRIM_BASH_HISTORY_APP
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 18:41:59 GMT (Saturday 5th October 2024)"
-	revision: "37"
+	date: "2024-11-15 9:50:48 GMT (Friday 15th November 2024)"
+	revision: "38"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -173,6 +173,11 @@ feature -- Access
 					end
 				end
 			end
+		end
+
+	iteration_index: INTEGER
+		do
+			Result := position + 1
 		end
 
 	item_list, linear_representation: EL_ARRAYED_LIST [G]
