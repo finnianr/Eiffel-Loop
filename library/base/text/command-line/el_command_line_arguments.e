@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-16 15:59:14 GMT (Saturday 16th November 2024)"
-	revision: "27"
+	date: "2024-11-16 17:03:06 GMT (Saturday 16th November 2024)"
+	revision: "28"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 		local
 			i, equals_index, i_upper, start_index, end_index: INTEGER
 			item, name: ZSTRING; i_th_arg: IMMUTABLE_STRING_32
-			s: EL_STRING_32_ROUTINES; i_th_is_value: BOOLEAN
+			s: EL_STRING_32_ROUTINES
 		do
 			option_sign := option_sign_cell.item
 			i_upper := argument_count
@@ -48,7 +48,6 @@ feature {NONE} -- Initialization
 			create name.make_empty
 			from i := 0 until i > i_upper loop
 				i_th_arg := i_th_argument_string (i)
-				i_th_is_value := False
 				inspect i
 					when 0 then
 						command_path := i_th_arg
@@ -64,20 +63,16 @@ feature {NONE} -- Initialization
 						name := i_th_arg.shared_substring (start_index, end_index)
 						if name.count > 0 and then name.is_code_identifier then
 							if equals_index > 2 then
-								create item.make_from_string (i_th_arg.shared_substring (equals_index + 1, i_th_arg.count))
+								create item.make_from_substring (i_th_arg, equals_index + 1, i_th_arg.count)
 								values_table.extend (item, name)
 							else
 								values_table.extend_area (Empty_area, name)
 							end
 						else
-							i_th_is_value := True
+							extend_values (name, i_th_arg)
 						end
 					else
-						i_th_is_value := True
-					end
-					if i_th_is_value then
-						create item.make_from_string (i_th_arg)
-						values_table.extend (name, item)
+						extend_values (name, i_th_arg)
 					end
 				end
 				i := i + 1
@@ -101,6 +96,16 @@ feature -- Access
 			has_value: has_value (name)
 		do
 			Result := value (name)
+		end
+
+	file_path_list (name: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
+		do
+			if attached value_list (name) as string_list then
+				create Result.make (string_list.count)
+				across string_list as list loop
+					Result.extend (list.item)
+				end
+			end
 		end
 
 	i_th (index: INTEGER): ZSTRING
@@ -129,16 +134,6 @@ feature -- Access
 				Result := option_list [index]
 			else
 				create Result.make_empty
-			end
-		end
-
-	value_file_path_list (name: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
-		do
-			if attached value_list (name) as string_list then
-				create Result.make (string_list.count)
-				across string_list as list loop
-					Result.extend (list.item)
-				end
 			end
 		end
 
@@ -222,6 +217,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	extend_values (name: ZSTRING; i_th_arg: IMMUTABLE_STRING_32)
+		do
+			values_table.extend (name, create {ZSTRING}.make_from_string (i_th_arg))
+		end
 
 	z_key (name: READABLE_STRING_GENERAL): ZSTRING
 		local
