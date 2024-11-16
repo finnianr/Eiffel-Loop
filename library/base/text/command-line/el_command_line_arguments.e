@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-16 15:33:15 GMT (Saturday 16th November 2024)"
-	revision: "26"
+	date: "2024-11-16 15:59:14 GMT (Saturday 16th November 2024)"
+	revision: "27"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 								create item.make_from_string (i_th_arg.shared_substring (equals_index + 1, i_th_arg.count))
 								values_table.extend (item, name)
 							else
-								values_table.extend_area (create {SPECIAL [ZSTRING]}.make_empty (2), name)
+								values_table.extend_area (Empty_area, name)
 							end
 						else
 							i_th_is_value := True
@@ -207,7 +207,7 @@ feature -- Basic operations
 		-- set attribute in object that match command command options
 		do
 			across object.field_table as table loop
-				if attached value_area (table.key) as area and then area /= Default_area then
+				if values_table.has_key (z_key (table.key)) and attached values_table.found_area as area then
 					if area.count > 0 then
 						table.item.set_from_string (object, area [0])
 
@@ -230,13 +230,12 @@ feature {NONE} -- Implementation
 			Result := buffer.to_same (name)
 		end
 
-	value_area (name: READABLE_STRING_GENERAL): like Default_area
-			-- string value of name value pair arguments
+	value_area (name: READABLE_STRING_GENERAL): like Empty_area
 		do
 			if values_table.has_key (z_key (name)) then
 				Result := values_table.found_area
 			else
-				Result := Default_area
+				Result := Empty_area
 			end
 		end
 
@@ -248,7 +247,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Default_area: SPECIAL [ZSTRING]
+	Empty_area: SPECIAL [ZSTRING]
 		once ("PROCESS")
 			create Result.make_empty (0)
 		end
