@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-14 16:18:32 GMT (Thursday 14th November 2024)"
-	revision: "25"
+	date: "2024-11-16 15:33:15 GMT (Saturday 16th November 2024)"
+	revision: "26"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -29,6 +29,8 @@ inherit
 
 	EL_REFLECTION_HANDLER
 
+	EL_CHARACTER_32_CONSTANTS
+
 create
 	make
 
@@ -36,41 +38,51 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			i, equals_index: INTEGER; item: ZSTRING; item_32: STRING_32
+			i, equals_index, i_upper, start_index, end_index: INTEGER
+			item, name: ZSTRING; i_th_arg: IMMUTABLE_STRING_32
+			s: EL_STRING_32_ROUTINES; i_th_is_value: BOOLEAN
 		do
 			option_sign := option_sign_cell.item
-
-			create is_i_th_option.make_filled (False, 1, argument_count)
-			create argument_list.make (argument_count)
-			from i := 0 until i > argument_count loop
-				item_32 := i_th_argument_string (i)
-				if i = 0 then
-					command_path := item_32
-
-				elseif is_option (item_32) then
-					argument_list.extend (create {ZSTRING}.make_from_substring (item_32, 2, item_32.count))
-					is_i_th_option [i] := True
+			i_upper := argument_count
+			create values_table.make_equal ((i_upper // 2).max (1))
+			create name.make_empty
+			from i := 0 until i > i_upper loop
+				i_th_arg := i_th_argument_string (i)
+				i_th_is_value := False
+				inspect i
+					when 0 then
+						command_path := i_th_arg
 				else
-					argument_list.extend (item_32)
+					if s.starts_with_character (i_th_arg, option_sign) then
+						equals_index := i_th_arg.index_of ('=', 1)
+						start_index := 2
+						if equals_index > 0 then
+							end_index := equals_index - 1
+						else
+							end_index := i_th_arg.count
+						end
+						name := i_th_arg.shared_substring (start_index, end_index)
+						if name.count > 0 and then name.is_code_identifier then
+							if equals_index > 2 then
+								create item.make_from_string (i_th_arg.shared_substring (equals_index + 1, i_th_arg.count))
+								values_table.extend (item, name)
+							else
+								values_table.extend_area (create {SPECIAL [ZSTRING]}.make_empty (2), name)
+							end
+						else
+							i_th_is_value := True
+						end
+					else
+						i_th_is_value := True
+					end
+					if i_th_is_value then
+						create item.make_from_string (i_th_arg)
+						values_table.extend (name, item)
+					end
 				end
 				i := i + 1
 			end
-			create value_table.make_equal (argument_list.count)
-			across argument_list as list loop
-				item := list.item; i := list.cursor_index
-				if is_i_th_option [i] then
---					handle case of -name=value
-					equals_index := item.index_of ('=', 1)
-					if equals_index > 2 then
-						value_table.put (item.substring_end (equals_index + 1), item.substring (1, equals_index - 1))
-
-					elseif i + 1 > argument_list.count or else is_i_th_option [i + 1] then
-						value_table.put (Default_value, item)
-					else
-						value_table.put (argument_list.i_th (i + 1), item)
-					end
-				end
-			end
+			option_list := values_table.key_list
 		end
 
 feature -- Access
@@ -91,52 +103,42 @@ feature -- Access
 			Result := value (name)
 		end
 
-	i_th (i: INTEGER): ZSTRING
+	i_th (index: INTEGER): ZSTRING
 		require
-			item_exists: 1 <= i and i <= argument_count
+			valid_index: valid_index (index)
 		do
-			Result := argument_list.i_th (i).twin
+			create Result.make_from_string (argument (index))
 		end
 
 	integer (name: READABLE_STRING_GENERAL): INTEGER
 		require
 			integer_value_exists: has_integer (name)
 		do
-			if value_table.has_general_key (name) and then value_table.found_item.is_integer then
-				Result := value_table.found_item.to_integer
+			if attached value_area (name) as area and then area.count > 0 then
+				Result := area [0].to_integer
 			end
 		end
+
+	option_list: EL_ARRAYED_LIST [ZSTRING]
 
 	option_name (index: INTEGER): ZSTRING
+		require
+			valid_index: option_list.valid_index (index)
 		do
-			if argument_list.valid_index (index) then
-				Result := argument_list.i_th (index).twin
-				Result.prune_all_leading ('-')
+			if option_list.valid_index (index) then
+				Result := option_list [index]
 			else
 				create Result.make_empty
 			end
 		end
 
-	remaining_file_paths (name: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
-		local
-			l_remaining_items: like remaining_items
+	value_file_path_list (name: READABLE_STRING_GENERAL): EL_FILE_PATH_LIST
 		do
-			l_remaining_items := remaining_items (name)
-			create Result.make (l_remaining_items.count)
-			across l_remaining_items as string loop
-				Result.extend (string.item)
-			end
-		end
-
-	remaining_items (name: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
-		local
-			index: INTEGER
-		do
-			index := index_of_word_option (name)
-			if 0 < index and index < argument_count then
-				Result := argument_list.sub_list (index + 1, argument_count)
-			else
-				create Result.make_empty
+			if attached value_list (name) as string_list then
+				create Result.make (string_list.count)
+				across string_list as list loop
+					Result.extend (list.item)
+				end
 			end
 		end
 
@@ -145,58 +147,58 @@ feature -- Access
 		require
 			has_value: has_value (name)
 		do
-			if value_table.has_general_key (name) and then value_table.found_item /= Default_value then
-				Result := value_table.found_item
+			if attached value_area (name) as area and then area.count > 0 then
+				Result := area [0]
 			else
 				create Result.make_empty
 			end
 		end
 
+	value_list (name: READABLE_STRING_GENERAL): EL_ZSTRING_LIST
+		do
+			if attached value_area (name) as area and then area.count > 0 then
+				create Result.make_from_special (area)
+			end
+		end
+
 feature -- Status query
 
-	character_option_exists (character_option: CHARACTER_32): BOOLEAN
+	character_option_exists (option: CHARACTER_32): BOOLEAN
 			--
 		do
-			Result := word_option_exists (character_option.out)
+			Result := word_option_exists (char (option))
 		end
 
 	has_integer (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := has_value (name) and then value_table.found_item.is_integer
+			if attached value_area (name) as area and then area.count > 0 then
+				Result := area [0].is_integer
+			end
 		end
 
 	has_value (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := value_table.has_general_key (name) and then value_table.found_item /= Default_value
+			if attached value_area (name) as area then
+				Result := area.count > 0
+			end
 		end
 
-	is_last_word_option (name: READABLE_STRING_GENERAL): BOOLEAN
+	is_value_list (name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if value_table.has_general (name) then
-				Result := value_table.key_list.last.same_string_general (name)
+			if attached value_area (name) as area then
+				Result := area.count > 1
 			end
 		end
 
 	word_option_exists (name: READABLE_STRING_GENERAL): BOOLEAN
 			--
 		do
-			Result := value_table.has_general (name)
+			Result := values_table.has (z_key (name))
 		end
 
-feature -- Measurement
-
-	index_of_word_option (name: READABLE_STRING_GENERAL): INTEGER
-
+	valid_index (index: INTEGER): BOOLEAN
 		do
-			across argument_list as list until Result.to_boolean loop
-				if is_i_th_option [list.cursor_index]
-					and then attached list.item as item
-					and then item.starts_with_general (name)
-					and then (item.count = name.count or else item [name.count + 1] = '=')
-				then
-					Result := list.cursor_index
-				end
-			end
+			Result := 0 <= index and index <= argument_count
 		end
 
 feature -- Basic operations
@@ -205,13 +207,15 @@ feature -- Basic operations
 		-- set attribute in object that match command command options
 		do
 			across object.field_table as table loop
-				if value_table.has_general_key (table.key) then
-					if attached {EL_REFLECTED_BOOLEAN} table.item as boolean then
+				if attached value_area (table.key) as area and then area /= Default_area then
+					if area.count > 0 then
+						table.item.set_from_string (object, area [0])
+
+					elseif attached {EL_REFLECTED_BOOLEAN} table.item as boolean then
 						boolean.set (object, True)
+
 					elseif attached {EL_REFLECTED_BOOLEAN_REF} table.item as boolean then
 						boolean.set_from_integer (object, 1)
-					else
-						table.item.set_from_string (object, value_table.found_item)
 					end
 				end
 			end
@@ -219,49 +223,34 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	is_option (str: STRING_32): BOOLEAN
-		-- `True' if `str' appears to be a command line option or has form: -name=value
+	z_key (name: READABLE_STRING_GENERAL): ZSTRING
 		local
-			c: CHARACTER_32; found_equals: BOOLEAN
+			buffer: EL_ZSTRING_BUFFER_ROUTINES
 		do
-			Result := str.count >= 2
-			across str as char until not Result or found_equals loop
-				c := char.item
-				inspect char.cursor_index
-					when 1 then
-						Result := c = option_sign
-					when 2 then
-						Result := c.is_alpha
-				else
-					if c = '=' then
-						found_equals := True
-					else
-						Result := c.is_alpha_numeric or else c = '_'
-					end
-				end
-			end
+			Result := buffer.to_same (name)
 		end
 
-	new_argument_array: ARRAY [STRING_32]
+	value_area (name: READABLE_STRING_GENERAL): like Default_area
+			-- string value of name value pair arguments
 		do
-
+			if values_table.has_key (z_key (name)) then
+				Result := values_table.found_area
+			else
+				Result := Default_area
+			end
 		end
 
 feature {NONE} -- Internal attributes
 
-	argument_list: EL_ZSTRING_LIST
-
-	is_i_th_option: ARRAY [BOOLEAN]
-
 	option_sign: CHARACTER_32
 
-	value_table: EL_ZSTRING_HASH_TABLE [ZSTRING]
+	values_table: EL_GROUPED_LIST_TABLE [ZSTRING, ZSTRING]
 
 feature {NONE} -- Constants
 
-	Default_value: ZSTRING
+	Default_area: SPECIAL [ZSTRING]
 		once ("PROCESS")
-			create Result.make_empty
+			create Result.make_empty (0)
 		end
 
 end

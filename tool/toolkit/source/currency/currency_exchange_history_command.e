@@ -1,6 +1,18 @@
 note
-	description: "Compile CSV spreadsheet of historical currency exchange rates for multiple currencies"
+	description: "[
+		Compile CSV spreadsheet of historical currency exchange rates for multiple currencies
+	]"
 	notes: "[
+		**Download HTML**
+		
+		Manually download data into output folder from site ''exchangerates.org.uk'' as in example:
+		
+			https://www.exchangerates.org.uk/GBP-EUR-spot-exchange-rates-history-2023.html
+			https://www.exchangerates.org.uk/USD-EUR-spot-exchange-rates-history-2023.html
+			
+		The second currency (EUR) in file name is the base currency. For some reason using
+		the **curl** program will not work, you need to use a browser.
+			
 		**Sample output**
 		
 			Column No.,2,3,4
@@ -28,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-15 9:53:22 GMT (Friday 15th November 2024)"
-	revision: "18"
+	date: "2024-11-15 10:27:34 GMT (Friday 15th November 2024)"
+	revision: "19"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -60,20 +72,25 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_output_path: FILE_PATH; a_base_currency, a_date_format: STRING)
+	make (a_output_path: FILE_PATH; a_date_format: STRING)
 		local
 			date, dec_30_th: EL_DATE; r: REAL; rate_array: SPECIAL [REAL]; year: INTEGER
 		do
-			output_path := a_output_path; base_currency := a_base_currency; date_format := a_date_format
+			output_path := a_output_path; date_format := a_date_format
 
 			make_default
 
 			create parsed
 			create currency_code.make_empty
+			create base_currency.make_empty
 			create exchange_rate_table.make (365)
+
 			html_path_list := OS.file_list (output_path.parent, "*.html")
 			if html_path_list.count > 0 and then attached html_path_list.first_path as html_path then
-				year := html_path.base_name.substring_to_reversed ('-').to_integer
+				if attached html_path.base_name.to_string_8.split ('-') as parts and then parts.count > 3 then
+					year := parts.last.to_integer
+					base_currency := parts [2]
+				end
 				create dec_30_th.make (year, 12, 30)
 
 				from create date.make (year, 1, 1) until date > dec_30_th loop
@@ -81,7 +98,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 					exchange_rate_table.extend (date.ordered_compact_date, rate_array)
 					date.day_forth
 				end
-				html_path_list.sort (False)
+				html_path_list.sort (False) -- USD before GBP
 			else
 				create exchange_rate_table.make_empty
 				put_error_message (ZSTRING ("ERROR: no HTML exchange pages found in %S folder.") #$ [output_path.parent])

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:59:58 GMT (Saturday 28th September 2024)"
-	revision: "26"
+	date: "2024-11-16 15:36:07 GMT (Saturday 16th November 2024)"
+	revision: "27"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -87,8 +87,8 @@ feature {NONE} -- Factory
 			separator: CHARACTER_32
 		do
 			if is_bag then
-				if Args.is_last_word_option (argument.word_option) then
-					Result := Args.remaining_items (argument.word_option)
+				if Args.is_value_list (argument.word_option) then
+					Result := Args.value_list (argument.word_option)
 				else
 					separator := ';'
 					if not string_value.has (separator) then
@@ -97,7 +97,8 @@ feature {NONE} -- Factory
 					create Result.make_adjusted_split (string_value, separator, {EL_SIDE}.Left)
 				end
 			else
-				create Result.make_from_array (<< string_value >>)
+				create Result.make (1)
+				Result.extend (string_value)
 			end
 		end
 

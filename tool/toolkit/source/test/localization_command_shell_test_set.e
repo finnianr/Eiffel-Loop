@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 17:40:40 GMT (Friday 10th March 2023)"
-	revision: "15"
+	date: "2024-11-15 10:32:27 GMT (Friday 15th November 2024)"
+	revision: "16"
 
 class
 	LOCALIZATION_COMMAND_SHELL_TEST_SET
@@ -56,9 +56,7 @@ feature {NONE} -- Constants
 
 	Unchecked_de_list: EL_ZSTRING_LIST
 		once
-			create Result.make_from_array (<<
-				"{credits}", {STRING_32} "{€}", "Enter a passphrase"
-			>>)
+			Result := {STRING_32} "{credits}, {€}, {taoistiching}, Enter a passphrase"
 		end
 
 end
