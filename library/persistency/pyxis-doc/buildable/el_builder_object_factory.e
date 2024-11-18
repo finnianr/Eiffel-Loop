@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "10"
+	date: "2024-11-18 13:16:12 GMT (Monday 18th November 2024)"
+	revision: "11"
 
 class
 	EL_BUILDER_OBJECT_FACTORY [G -> EL_BUILDABLE_FROM_NODE_SCAN, DEFAULT -> G, TYPE_SET -> TUPLE create default_create end]
@@ -21,9 +21,7 @@ inherit
 			default_create
 		end
 
-	EL_MODULE_PYXIS
-
-	EL_MODULE_LIO
+	EL_MODULE_LIO; EL_MODULE_PYXIS; EL_MODULE_TUPLE
 
 create
 	make, default_create
@@ -79,11 +77,11 @@ feature -- Access
 		end
 
 	new_pyxis_path (make_from_file: PROCEDURE [G]): FILE_PATH
-		local
-			p: EL_PROCEDURE [G]
 		do
-			p := make_from_file
-			if p.closed_count = 1 and then attached {FILE_PATH} p.closed_operands.reference_item (1) as path then
+			if attached Tuple.closed_operands (make_from_file) as operands
+				and then operands.count = 1
+				and then attached {FILE_PATH} operands.reference_item (1) as path
+			then
 				Result := path
 			else
 				create Result

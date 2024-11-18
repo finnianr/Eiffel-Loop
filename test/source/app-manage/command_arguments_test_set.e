@@ -1,13 +1,13 @@
 note
-	description: "Test suite for Amazon Instant Access API"
+	description: "Test set for ${EL_COMMAND_ARGUMENT} and ${EL_COMMAND_LINE_ARGUMENTS}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-18 13:07:42 GMT (Monday 18th November 2024)"
-	revision: "45"
+	date: "2024-11-18 13:19:58 GMT (Monday 18th November 2024)"
+	revision: "1"
 
 class
 	COMMAND_ARGUMENTS_TEST_SET
