@@ -194,6 +194,7 @@ publish-repository:
 		# Test
 		ecf:
 			"test/test.ecf#amazon_ia"
+			"test/test.ecf#app_manage"
 			"test/test.ecf#base"
 			"test/test.ecf#c_language_interface"
 			"test/test.ecf#common"

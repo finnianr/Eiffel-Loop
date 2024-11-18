@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-16 14:33:24 GMT (Saturday 16th November 2024)"
-	revision: "21"
+	date: "2024-11-18 9:55:34 GMT (Monday 18th November 2024)"
+	revision: "22"
 
 class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make_expanded end]
@@ -32,7 +32,7 @@ feature {NONE} -- Implementation
 	new_list (string_value: ZSTRING): EL_ZSTRING_LIST
 		do
 			if is_bag then
-				Result := Args.value_list (argument.word_option)
+				Result := argument.as_value_list
 			else
 				Result := Precursor (string_value)
 			end

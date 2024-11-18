@@ -8,16 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-16 15:36:07 GMT (Saturday 16th November 2024)"
-	revision: "27"
+	date: "2024-11-18 10:17:25 GMT (Monday 18th November 2024)"
+	revision: "28"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
-
-inherit
-	ANY
-
-	EL_MODULE_ARGS
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -39,8 +34,8 @@ feature -- Basic operations
 			string_value: ZSTRING; ref_argument: ANY
 			has_argument, has_default_argument: BOOLEAN
 		do
-			if Args.has_value (argument.word_option) then
-				string_value := Args.value (argument.word_option)
+			if argument.has_value then
+				string_value := argument.string_value
 				has_argument := True
 			else
 				create string_value.make_empty
@@ -87,8 +82,8 @@ feature {NONE} -- Factory
 			separator: CHARACTER_32
 		do
 			if is_bag then
-				if Args.is_value_list (argument.word_option) then
-					Result := Args.value_list (argument.word_option)
+				if argument.is_value_list then
+					Result := argument.as_value_list
 				else
 					separator := ';'
 					if not string_value.has (separator) then
@@ -208,7 +203,7 @@ feature {NONE} -- Implementation
 		do
 			create Result.make_from_general (({G}).name)
 			Result.to_lower
-			if Result.starts_with (El_prefix) then
+			if Result.starts_with_general (El_prefix) then
 				Result.remove_head (3)
 			end
 			Result.replace_character ('_', ' ')

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 15:23:13 GMT (Sunday 21st July 2024)"
-	revision: "23"
+	date: "2024-11-18 10:12:22 GMT (Monday 18th November 2024)"
+	revision: "24"
 
 frozen class
 	EL_ZCODEC_FACTORY
@@ -32,8 +32,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_STRING_8_CONSTANTS
 
 feature -- Access
 
@@ -58,11 +56,14 @@ feature -- Access
 		-- user specified code for use with `ZSTRING' defined by command line option `-zstring_codec' or else
 		-- instance of `EL_ISO_8859_15_ZCODEC' by default
 		local
-			i: INTEGER; codec_name: READABLE_STRING_GENERAL; l_encoding: NATURAL
+			i, i_upper: INTEGER; codec_name: IMMUTABLE_STRING_32; l_encoding: NATURAL
+			option_name: STRING_32
 		do
-			codec_name := Empty_string_8
-			from i := 1 until codec_name.count > 0 or else i > argument_count loop
-				if argument (i).same_string_general (Codec_option_name) and then i < argument_count then
+			option_name := Codec_option_name
+			create codec_name.make_empty
+			i_upper := argument_count
+			from i := 1 until codec_name.count > 0 or else i > i_upper loop
+				if option_name.same_string (argument (i)) and then i < i_upper then
 					codec_name := argument (i + 1)
 				end
 				i := i + 1

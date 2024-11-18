@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 16:34:13 GMT (Tuesday 24th September 2024)"
-	revision: "72"
+	date: "2024-11-18 10:54:25 GMT (Monday 18th November 2024)"
+	revision: "73"
 
 deferred class
 	COMMON_APPLICATION_ROOT
@@ -25,6 +25,9 @@ inherit
 
 	-- Test amazon-instant-access.ecf
 		AMAZON_INSTANT_ACCESS_AUTOTEST_APP,
+
+	-- Test app-manage.ecf
+		APP_MANAGE_AUTOTEST_APP,
 
 	-- Test base.ecf
 		BASE_AUTOTEST_APP,

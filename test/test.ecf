@@ -145,6 +145,14 @@ Tests for Eiffel interface to Amazon Instant Access API.
 See class ${AMAZON_INSTANT_ACCESS_TEST_APP}
 			</description>
 		</cluster>
+		<cluster name = "app_manage" location = "source/app-manage" recursive = "true">
+			<description>
+app-manage.ecf
+
+Tests for Eiffel application and sub-application management and implementation.
+See class ${EL_MULTI_APPLICATION_ROOT} and ${EL_APPLICATION}
+			</description>
+		</cluster>
 		<cluster name = "base" location = "source/base" recursive = "true">
 			<description>
 base.ecf (Eiffel-Loop)

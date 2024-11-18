@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:12:35 GMT (Sunday 25th August 2024)"
-	revision: "8"
+	date: "2024-11-18 13:08:31 GMT (Monday 18th November 2024)"
+	revision: "9"
 
 class
 	EL_BOOLEAN_OPERAND_SETTER
@@ -29,7 +29,11 @@ feature {NONE} -- Implementation
 
 	value (str: ZSTRING): BOOLEAN
 		do
-			Result := Args.word_option_exists (argument.word_option)
+			if argument.has_value then
+				Result := argument.string_value.to_boolean
+			else
+				Result := argument.exists
+			end
 		end
 
 end

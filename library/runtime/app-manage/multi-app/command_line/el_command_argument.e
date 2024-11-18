@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "29"
+	date: "2024-11-18 11:21:27 GMT (Monday 18th November 2024)"
+	revision: "30"
 
 class
 	EL_COMMAND_ARGUMENT
@@ -18,6 +18,9 @@ inherit
 	EL_FACTORY_CLIENT
 
 	EL_MODULE_ARGS
+		rename
+			Args as Command_line_arguments
+		end
 
 create
 	make
@@ -30,6 +33,7 @@ feature {NONE} -- Initialization
 			create help_description.make_from_general (a_help_description)
 			create validation_table.make_equal (0)
 			operands := Default_operands
+			command_line := Command_line_arguments
 		end
 
 feature -- Access
@@ -38,6 +42,11 @@ feature -- Access
 
 	manager: EL_FALLIBLE
 
+	string_value: ZSTRING
+		do
+			Result := command_line.value (word_option)
+		end
+
 	validation_table: EL_ZSTRING_HASH_TABLE [PREDICATE]
 		-- table of argument validation checks by description
 
@@ -45,7 +54,22 @@ feature -- Access
 
 feature -- Status query
 
+	exists: BOOLEAN
+		do
+			Result := command_line.option_exists (word_option)
+		end
+
+	has_value: BOOLEAN
+		do
+			Result := command_line.has_value (word_option)
+		end
+
 	is_required: BOOLEAN
+
+	is_value_list: BOOLEAN
+		do
+			Result := command_line.is_value_list (word_option)
+		end
 
 	operands_and_index_set: BOOLEAN
 		do
@@ -58,21 +82,11 @@ feature -- Status query
 		do
 		end
 
-feature -- Status change
+feature -- Conversion
 
-	set_required
+	as_value_list: EL_ZSTRING_LIST
 		do
-			is_required := True
-		end
-
-	set_optional
-		do
-			is_required := False
-		end
-
-	set_operands (a_operands: TUPLE; a_index: INTEGER)
-		do
-			operands := a_operands; index := a_index
+			Result := command_line.value_list (word_option)
 		end
 
 feature -- Basic operations
@@ -120,7 +134,33 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Status change
+
+	set_operands (a_operands: TUPLE; a_index: INTEGER)
+		do
+			operands := a_operands; index := a_index
+		end
+
+	set_optional
+		do
+			is_required := False
+		end
+
+	set_required
+		do
+			is_required := True
+		end
+
+feature -- Element change
+
+	set_command_line (a_command_line: EL_COMMAND_LINE_ARGUMENTS)
+		do
+			command_line := a_command_line
+		end
+
 feature {EL_MAKE_OPERAND_SETTER} -- Internal attributes
+
+	command_line: EL_COMMAND_LINE_ARGUMENTS
 
 	index: INTEGER
 

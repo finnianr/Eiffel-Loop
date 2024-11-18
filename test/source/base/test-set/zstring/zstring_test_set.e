@@ -1,7 +1,7 @@
 ﻿note
 	description: "Tests for class ${EL_ZSTRING}"
 	notes: "[
-		Don't forget to also run the test with the latin-15 codec specified on command line.
+		Don't forget to also run the test with the ISO-8859-1 codec specified on command line.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-01 13:57:11 GMT (Tuesday 1st October 2024)"
-	revision: "133"
+	date: "2024-11-18 10:39:33 GMT (Monday 18th November 2024)"
+	revision: "134"
 
 class
 	ZSTRING_TEST_SET

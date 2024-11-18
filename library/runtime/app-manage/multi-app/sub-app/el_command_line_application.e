@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-29 7:52:26 GMT (Monday 29th July 2024)"
-	revision: "62"
+	date: "2024-11-18 11:20:44 GMT (Monday 18th November 2024)"
+	revision: "63"
 
 deferred class
 	EL_COMMAND_LINE_APPLICATION [C -> EL_APPLICATION_COMMAND]
@@ -207,11 +207,8 @@ feature {NONE} -- Implementation
 
 	make_operands: TUPLE
 		-- closed operands of `make_command'
-		local
-			procedure: EL_PROCEDURE
 		do
-			create procedure.make (make_command)
-			Result := procedure.closed_operands
+			Result := Tuple.closed_operands (make_command)
 		end
 
 	new_command: like command

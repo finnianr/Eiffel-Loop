@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-10 9:02:44 GMT (Tuesday 10th September 2024)"
-	revision: "11"
+	date: "2024-11-18 10:32:55 GMT (Monday 18th November 2024)"
+	revision: "12"
 
 deferred class
 	EL_BATCH_AUTOTEST_APP
@@ -58,7 +58,7 @@ feature {NONE} -- Implementation
 
 			lio.put_line (cmd_list.joined_words)
 			lio.put_new_line
-			if Args.word_option_exists ("workbench") then
+			if Args.option_exists ("workbench") then
 				cmd_list [1] := W_code_template #$ [execution.item ("ISE_PLATFORM"), Executable.name]
 			else
 				cmd_list [1] := Executable.path

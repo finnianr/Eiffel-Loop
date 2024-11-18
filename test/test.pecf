@@ -163,6 +163,15 @@ system:
 					See class ${AMAZON_INSTANT_ACCESS_TEST_APP}
 				"""
 		cluster_tree:
+			app_manage = "source/app-manage"
+			description:
+				"""
+					app-manage.ecf
+					
+					Tests for Eiffel application and sub-application management and implementation.
+					See class ${EL_MULTI_APPLICATION_ROOT} and ${EL_APPLICATION}
+				"""
+		cluster_tree:
 			base = "source/base"
 			description:
 				"""

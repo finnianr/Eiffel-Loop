@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2024-11-18 9:54:47 GMT (Monday 18th November 2024)"
+	revision: "10"
 
 class
 	EL_ZSTRING_TABLE_OPERAND_SETTER
@@ -25,10 +25,12 @@ feature {NONE} -- Implementation
 
 	try_put_operand
 		do
-			if attached {like value} operands.item (index) as args_table then
+			if attached {like value} operands.item (index) as args_table
+				and then attached argument.command_line as command_line
+			then
 				across args_table as arg loop
-					if Args.has_value (arg.key) then
-						args_table [arg.key] := Args.value (arg.key)
+					if command_line.has_value (arg.key) then
+						args_table [arg.key] := command_line.value (arg.key)
 					end
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-14 16:18:37 GMT (Thursday 14th November 2024)"
-	revision: "15"
+	date: "2024-11-17 9:13:05 GMT (Sunday 17th November 2024)"
+	revision: "16"
 
 deferred class
 	EL_MODULE_ARGS
@@ -20,7 +20,7 @@ feature {NONE} -- Constants
 	Args: EL_COMMAND_LINE_ARGUMENTS
 			--
 		once
-			create Result.make
+			create Result.make_default
 		end
 
 end
