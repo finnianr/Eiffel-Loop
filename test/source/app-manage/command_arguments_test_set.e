@@ -1,13 +1,16 @@
 note
-	description: "Test set for ${EL_COMMAND_ARGUMENT} and ${EL_COMMAND_LINE_ARGUMENTS}"
+	description: "[
+		Test set for ${EL_COMMAND_ARGUMENT}, ${EL_COMMAND_LINE_ARGUMENTS}, and descendants
+		of ${EL_MAKE_OPERAND_SETTER}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 13:40:36 GMT (Tuesday 19th November 2024)"
-	revision: "4"
+	date: "2024-11-19 16:40:37 GMT (Tuesday 19th November 2024)"
+	revision: "5"
 
 class
 	COMMAND_ARGUMENTS_TEST_SET
@@ -40,6 +43,7 @@ feature {NONE} -- Initialization
 				["buildable_operand_setter",				 agent test_buildable_operand_setter],
 				["integer_operand_setter",					 agent test_integer_operand_setter],
 				["makeable_from_string_operand_setter", agent test_makeable_from_string_operand_setter],
+				["path_operand_setter",						 agent test_path_operand_setter],
 				["string_list_operand_setter",			 agent test_string_list_operand_setter],
 				["table_operand_setter",					 agent test_table_operand_setter]
 			>>)
@@ -152,6 +156,32 @@ feature -- Tests
 			end
 		end
 
+	test_path_operand_setter
+		note
+			testing: "[
+				covers/{EL_COMMAND_ARGUMENT}.try_put_argument,
+				covers/{EL_MAKE_OPERAND_SETTER}.try_put_operand,
+				covers/{EL_PATH_OPERAND_SETTER}.value,
+				covers/{EL_COMMAND_LINE_ARGUMENTS}.make
+			]"
+		local
+			make_routine: PROCEDURE; file_path_out: FILE_PATH
+		do
+			create file_path_out
+			across command_array_list ("file", "$EIFFEL_LOOP/test/data/txt/file.txt") as list loop
+				if attached list.item as argument_array then
+					make_routine := agent make_path (create {FILE_PATH}, file_path_out)
+
+					if attached new_argument (make_routine, "file", argument_array) as argument then
+						argument.try_put_argument
+						make_routine.apply
+						assert ("exists", file_path_out.exists)
+						assert ("same base name", file_path_out.same_base ("file.txt"))
+					end
+				end
+			end
+		end
+
 	test_string_list_operand_setter
 		note
 			testing: "[
@@ -213,19 +243,7 @@ feature -- Tests
 			end
 		end
 
-feature {NONE} -- Implementation
-
-	command_array_list (name, value: STRING): EL_ARRAYED_LIST [ARRAY [STRING]]
-		-- create two variation_list of name value pairt
-		-- For example: `<< "-encoding=ISO-8859-1" >>' AND `<< "-encoding", "ISO-8859-1" >>'
-		local
-			option: STRING
-		do
-			create Result.make (2)
-			option := hyphen + name
-			Result.extend (<< char ('=').joined (option, value) >>)
-			Result.extend (<< option, value >>)
-		end
+feature {NONE} -- Faux make routines
 
 	make_boolean (flag: BOOLEAN; flag_out: BOOLEAN_REF)
 		do
@@ -245,12 +263,34 @@ feature {NONE} -- Implementation
 			integer_out.set_item (integer)
 		end
 
+	make_path (file_path, file_path_out: FILE_PATH)
+		do
+			file_path_out.copy (file_path)
+		end
+
 	make_string_list (list: EL_STRING_8_LIST)
 		do
 		end
 
 	make_string_table (table: EL_HASH_TABLE [INTEGER, STRING])
 		do
+		end
+
+feature {NONE} -- Implementation
+
+	command_array_list (name, value: STRING): EL_ARRAYED_LIST [ARRAY [STRING]]
+		-- Two variations of command line array with `name' and `value' pair
+		-- For example:
+
+		--		1. << "-encoding=ISO-8859-1" >>
+		--		2. << "-encoding", "ISO-8859-1" >>
+		local
+			option: STRING
+		do
+			create Result.make (2)
+			option := hyphen + name
+			Result.extend (<< char ('=').joined (option, value) >>)
+			Result.extend (<< option, value >>)
 		end
 
 	new_argument (make_routine: PROCEDURE; option_name: STRING; argument_array: ARRAY [STRING]): EL_COMMAND_ARGUMENT

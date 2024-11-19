@@ -1,13 +1,13 @@
 note
-	description: "Sets an' operand conforming to  ${EL_PATH} in `make' routine argument tuple"
+	description: "Sets an operand conforming to ${EL_PATH} in `make' routine argument tuple"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 9:52:28 GMT (Tuesday 19th November 2024)"
-	revision: "23"
+	date: "2024-11-19 16:22:02 GMT (Tuesday 19th November 2024)"
+	revision: "24"
 
 class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make_expanded end]
@@ -31,10 +31,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Implementation
 
-	value (str: ZSTRING): G
+	value (path: ZSTRING): G
+		-- `ARGUMENTS_32' only expands `$' arguments in workbench mode
+		-- So for finalized exe we need this
 		do
-			create Result.make_expanded (str)
-			-- `ARGUMENTS_32' only expands `$' arguments in workbench mode
-			-- So for finalized exe we need this line
+			create Result.make_expanded (path)
 		end
 end

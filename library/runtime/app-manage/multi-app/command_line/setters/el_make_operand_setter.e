@@ -1,6 +1,6 @@
 note
 	description: "[
-		Sets the command operands for the generic `command` in class `${EL_COMMAND_LINE_APPLICATION}`
+		Sets the command operands for the generic `command' in class ${EL_COMMAND_LINE_APPLICATION}
 	]"
 	tests: "Class ${COMMAND_ARGUMENTS_TEST_SET}"
 	descendants: "[
@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 13:16:54 GMT (Tuesday 19th November 2024)"
-	revision: "30"
+	date: "2024-11-19 13:45:37 GMT (Tuesday 19th November 2024)"
+	revision: "31"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
