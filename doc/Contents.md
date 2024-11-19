@@ -1974,6 +1974,10 @@ See class [TAGLIB_AUTOTEST_APP](https://github.com/finnianr/Eiffel-Loop/test/sou
 
 Tests for Eiffel interface to Amazon Instant Access API. See class [AMAZON_INSTANT_ACCESS_TEST_APP](invalid-class-name)
 
+## app-manage.ecf
+
+Tests for Eiffel application and sub-application management and implementation. See class [EL_MULTI_APPLICATION_ROOT](https://github.com/finnianr/Eiffel-Loop/library/runtime/app-manage/multi-app/el_multi_application_root.e) and [EL_APPLICATION](https://github.com/finnianr/Eiffel-Loop/library/runtime/app-manage/multi-app/sub-app/el_application.e)
+
 ## base.ecf (Eiffel-Loop)
 
 Test Eiffel-Loop base classes. See [BASE_AUTOTEST_APP](https://github.com/finnianr/Eiffel-Loop/test/source/base/base_autotest_app.e)

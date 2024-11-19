@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-18 9:55:34 GMT (Monday 18th November 2024)"
-	revision: "22"
+	date: "2024-11-19 9:52:28 GMT (Tuesday 19th November 2024)"
+	revision: "23"
 
 class
 	EL_PATH_OPERAND_SETTER [G -> EL_PATH create make_expanded end]
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MAKE_OPERAND_SETTER [EL_PATH]
 		redefine
-			default_argument_setter, new_list, value
+			default_argument_setter, value
 		end
 
 feature {NONE} -- Implementation
@@ -26,15 +26,6 @@ feature {NONE} -- Implementation
 				Result := agent {EL_COMMAND_ARGUMENT_ERROR}.set_path_error (a_value)
 			else
 				Result := agent {EL_COMMAND_ARGUMENT_ERROR}.set_invalid_argument (a_description)
-			end
-		end
-
-	new_list (string_value: ZSTRING): EL_ZSTRING_LIST
-		do
-			if is_bag then
-				Result := argument.as_value_list
-			else
-				Result := Precursor (string_value)
 			end
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-18 10:17:25 GMT (Monday 18th November 2024)"
-	revision: "28"
+	date: "2024-11-19 9:55:25 GMT (Tuesday 19th November 2024)"
+	revision: "29"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
@@ -221,4 +221,5 @@ feature {NONE} -- Constants
 		once
 			Result := "el_"
 		end
+
 end
