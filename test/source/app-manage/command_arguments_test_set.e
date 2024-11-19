@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 11:00:54 GMT (Tuesday 19th November 2024)"
-	revision: "2"
+	date: "2024-11-19 13:13:38 GMT (Tuesday 19th November 2024)"
+	revision: "3"
 
 class
 	COMMAND_ARGUMENTS_TEST_SET
@@ -37,10 +37,11 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["boolean_operand_setter",					 agent test_boolean_operand_setter],
+				["buildable_operand_setter",				 agent test_buildable_operand_setter],
 				["integer_operand_setter",					 agent test_integer_operand_setter],
 				["makeable_from_string_operand_setter", agent test_makeable_from_string_operand_setter],
-				["table_operand_setter",					 agent test_table_operand_setter],
-				["string_list_operand_setter",			 agent test_string_list_operand_setter]
+				["string_list_operand_setter",			 agent test_string_list_operand_setter],
+				["table_operand_setter",					 agent test_table_operand_setter]
 			>>)
 		end
 
@@ -71,6 +72,33 @@ feature -- Tests
 						make_routine.apply
 						assert ("is true", l_flag.item)
 					end
+				end
+			end
+		end
+
+	test_buildable_operand_setter
+		note
+			testing: "[
+				covers/{EL_COMMAND_ARGUMENT}.try_put_argument,
+				covers/{EL_BUILDABLE_FROM_FILE_OPERAND_SETTER}.build_object,
+				covers/{EL_COMMAND_LINE_ARGUMENTS}.make
+			]"
+		local
+			make_routine: PROCEDURE; bioinfo: BIOINFORMATIC_COMMANDS
+			bioinfo_path: STRING
+		do
+			bioinfo_path := "data/vtd-xml/bioinfo.xml"
+			across <<
+				 << "-xml_path=" + bioinfo_path >>,
+				 << "-xml_path", bioinfo_path >>
+			>> as array loop
+				if attached array.item as argument_array then
+					create bioinfo.make
+					make_routine := agent make_buildable (bioinfo)
+					if attached new_argument (make_routine, "xml_path", argument_array) as argument then
+						argument.try_put_argument
+					end
+					assert ("6 commands", bioinfo.commands.count = 6)
 				end
 			end
 		end
@@ -126,7 +154,6 @@ feature -- Tests
 
 					if attached new_argument (make_routine, "encoding", argument_array) as argument then
 						argument.try_put_argument
-						make_routine.apply
 						assert ("is Latin-1", encoding.code = {EL_ENCODING_TYPE}.Latin_1 )
 					end
 				end
@@ -182,7 +209,6 @@ feature -- Tests
 					make_routine := agent make_string_table (table)
 					if attached new_argument (make_routine, "any", argument_array) as argument then
 						argument.try_put_argument
-						make_routine.apply
 					end
 					across << "a", "b" >> as key loop
 						assert ("same value", table [key.item] = key.cursor_index)
@@ -196,6 +222,10 @@ feature {NONE} -- Implementation
 	make_boolean (flag: BOOLEAN; flag_out: BOOLEAN_REF)
 		do
 			flag_out.set_item (flag)
+		end
+
+	make_buildable (bioinfo: BIOINFORMATIC_COMMANDS)
+		do
 		end
 
 	make_encoding (encoding: EL_ENCODING)

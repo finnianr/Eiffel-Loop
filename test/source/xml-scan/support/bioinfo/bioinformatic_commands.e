@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:16:45 GMT (Sunday 22nd September 2024)"
-	revision: "6"
+	date: "2024-11-19 12:50:20 GMT (Tuesday 19th November 2024)"
+	revision: "7"
 
 class
 	BIOINFORMATIC_COMMANDS
@@ -74,7 +74,6 @@ feature {NONE} -- Build from XML
 	Root_node_name: STRING = "bix"
 
 note
-
 	notes: "[
 		**Example Document**
 

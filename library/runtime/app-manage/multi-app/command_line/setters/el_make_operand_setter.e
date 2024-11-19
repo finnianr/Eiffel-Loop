@@ -2,14 +2,24 @@ note
 	description: "[
 		Sets the command operands for the generic `command` in class `${EL_COMMAND_LINE_APPLICATION}`
 	]"
+	tests: "Class ${COMMAND_ARGUMENTS_TEST_SET}"
+	descendants: "[
+			EL_MAKE_OPERAND_SETTER* [G]
+				${EL_OPERAND_SETTER [G]}
+				${EL_MAKEABLE_FROM_ZSTRING_OPERAND_SETTER}
+				${EL_BOOLEAN_OPERAND_SETTER}
+				${EL_PATH_OPERAND_SETTER [G -> EL_PATH create make_expanded end]}
+					${EL_BUILDABLE_FROM_FILE_OPERAND_SETTER}
+				${EL_STRING_TABLE_OPERAND_SETTER}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 9:55:25 GMT (Tuesday 19th November 2024)"
-	revision: "29"
+	date: "2024-11-19 13:16:54 GMT (Tuesday 19th November 2024)"
+	revision: "30"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
