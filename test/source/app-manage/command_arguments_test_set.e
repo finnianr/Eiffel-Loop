@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 13:13:38 GMT (Tuesday 19th November 2024)"
-	revision: "3"
+	date: "2024-11-19 13:40:36 GMT (Tuesday 19th November 2024)"
+	revision: "4"
 
 class
 	COMMAND_ARGUMENTS_TEST_SET
@@ -24,7 +24,7 @@ inherit
 
 	EL_MODULE_ARGS; EL_MODULE_TUPLE
 
-	EL_ZSTRING_CONSTANTS
+	EL_ZSTRING_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 
 create
 	make
@@ -57,14 +57,15 @@ feature -- Tests
 			]"
 		local
 			make_routine: PROCEDURE; l_flag: BOOLEAN_REF
+			variation_list: like command_array_list
 		do
 			create l_flag
+			variation_list := command_array_list ("flag", "True")
+			variation_list.put_front (<< "-flag" >>)
 
-			across <<
-				<< "-flag" >>, << "-flag=True" >>, << "-flag", "True" >>
-			>> as array loop
+			across variation_list as list loop
 				l_flag.set_item (False)
-				if attached array.item as argument_array then
+				if attached list.item as argument_array then
 					make_routine := agent make_boolean (False, l_flag)
 
 					if attached new_argument (make_routine, "flag", argument_array) as argument then
@@ -85,14 +86,9 @@ feature -- Tests
 			]"
 		local
 			make_routine: PROCEDURE; bioinfo: BIOINFORMATIC_COMMANDS
-			bioinfo_path: STRING
 		do
-			bioinfo_path := "data/vtd-xml/bioinfo.xml"
-			across <<
-				 << "-xml_path=" + bioinfo_path >>,
-				 << "-xml_path", bioinfo_path >>
-			>> as array loop
-				if attached array.item as argument_array then
+			across command_array_list ("xml_path", "data/vtd-xml/bioinfo.xml") as list loop
+				if attached list.item as argument_array then
 					create bioinfo.make
 					make_routine := agent make_buildable (bioinfo)
 					if attached new_argument (make_routine, "xml_path", argument_array) as argument then
@@ -116,11 +112,9 @@ feature -- Tests
 		do
 			create l_integer
 
-			across <<
-				 << "-integer=10" >>, << "-integer", "10" >>
-			>> as array loop
+			across command_array_list ("integer", "10") as list loop
 				l_integer.set_item (0)
-				if attached array.item as argument_array then
+				if attached list.item as argument_array then
 					make_routine := agent make_integer (0, l_integer)
 
 					if attached new_argument (make_routine, "integer", argument_array) as argument then
@@ -145,11 +139,9 @@ feature -- Tests
 		do
 			create encoding.make_default
 
-			across <<
-				 << "-encoding=ISO-8859-1" >>, << "-encoding", "ISO-8859-1" >>
-			>> as array loop
+			across command_array_list ("encoding", "ISO-8859-1") as list loop
 				encoding.set_utf (8)
-				if attached array.item as argument_array then
+				if attached list.item as argument_array then
 					make_routine := agent make_encoding (encoding)
 
 					if attached new_argument (make_routine, "encoding", argument_array) as argument then
@@ -170,16 +162,18 @@ feature -- Tests
 		local
 			currency_list, make_operand: EL_STRING_8_LIST
 			make_routine: PROCEDURE; euro_usd: STRING
+			variation_list: like command_array_list
 		do
 			euro_usd := "EUR, USD"
 			currency_list := euro_usd
 			create make_operand.make_empty
 
-			across <<
-				<< "-currencies", currency_list [1], currency_list [2] >>,
-				<< "-currencies=" + euro_usd >>
-			>> as array loop
-				if attached array.item as argument_array then
+			variation_list := command_array_list ("currencies", euro_usd)
+			variation_list.finish
+			variation_list.replace (<< variation_list.last [1], currency_list [1], currency_list [2] >>)
+
+			across variation_list as list loop
+				if attached list.item as argument_array then
 					make_operand.wipe_out
 					make_routine := agent make_string_list (make_operand)
 					if attached new_argument (make_routine, "currencies", argument_array) as argument then
@@ -199,13 +193,15 @@ feature -- Tests
 			]"
 		local
 			make_routine: PROCEDURE; table: EL_HASH_TABLE [INTEGER, STRING]
+			variation_list: like command_array_list
 		do
 			create table.make (3)
-			across <<
+			create variation_list.make_from_array (<<
 				 << "-a=1", "-b=2" >>, << "-a", "1", "-b" , "2" >>
-			>> as array loop
+			>>)
+			across variation_list as list loop
 				table ["a"] := 0; table ["b"] := 0
-				if attached array.item as argument_array then
+				if attached list.item as argument_array then
 					make_routine := agent make_string_table (table)
 					if attached new_argument (make_routine, "any", argument_array) as argument then
 						argument.try_put_argument
@@ -218,6 +214,18 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
+
+	command_array_list (name, value: STRING): EL_ARRAYED_LIST [ARRAY [STRING]]
+		-- create two variation_list of name value pairt
+		-- For example: `<< "-encoding=ISO-8859-1" >>' AND `<< "-encoding", "ISO-8859-1" >>'
+		local
+			option: STRING
+		do
+			create Result.make (2)
+			option := hyphen + name
+			Result.extend (<< char ('=').joined (option, value) >>)
+			Result.extend (<< option, value >>)
+		end
 
 	make_boolean (flag: BOOLEAN; flag_out: BOOLEAN_REF)
 		do
