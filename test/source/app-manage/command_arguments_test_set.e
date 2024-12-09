@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 16:40:37 GMT (Tuesday 19th November 2024)"
-	revision: "5"
+	date: "2024-11-19 16:42:46 GMT (Tuesday 19th November 2024)"
+	revision: "6"
 
 class
 	COMMAND_ARGUMENTS_TEST_SET
@@ -227,7 +227,8 @@ feature -- Tests
 		do
 			create table.make (3)
 			create variation_list.make_from_array (<<
-				 << "-a=1", "-b=2" >>, << "-a", "1", "-b" , "2" >>
+				 << "-a=1", "-b=2" >>,
+				 << "-a", "1", "-b" , "2" >>
 			>>)
 			across variation_list as list loop
 				table ["a"] := 0; table ["b"] := 0

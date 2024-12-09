@@ -6,7 +6,7 @@
 		<meta name="Audience" content="all"/>
 		<meta name="Content-language" content="english"/>
 	#if $is_site_map_page then
-		<meta name="Description" content="A collection of more than 3000 classes for the Eiffel language including libraries, example programs and development tools."/>
+		<meta name="Description" content="A collection of almost 4000 classes for the Eiffel language including libraries, example programs and development tools."/>
 	#else
 		<meta name="Description" content="Source code for Eiffel $category_title: $name"/>
 	#end

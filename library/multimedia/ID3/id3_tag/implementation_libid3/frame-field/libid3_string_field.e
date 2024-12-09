@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 11:13:55 GMT (Thursday 7th November 2024)"
-	revision: "13"
+	date: "2024-11-21 10:05:38 GMT (Thursday 21st November 2024)"
+	revision: "14"
 
 class
 	LIBID3_STRING_FIELD
@@ -28,6 +28,8 @@ inherit
 
 	EL_SHARED_STRING_8_BUFFER_POOL
 
+	EL_SHARED_STRING_32_BUFFER_POOL
+
 create
 	make
 
@@ -35,12 +37,22 @@ feature -- Access
 
 	string: ZSTRING
 			--
+		local
+			conv: EL_UTF_CONVERTER
 		do
 			if encoding = Encoding_enum.ISO_8859_1 then
 				create Result.make_from_general (shared_latin)
 
-			elseif Encoding_enum.is_utf_16 (encoding) then
-				Result := text_32 -- A bit strange that only Big Endian decoding works
+			elseif Encoding_enum.is_utf_16 (encoding)
+				and then attached String_32_pool.sufficient_item (count) as borrowed
+				and then attached Unicode_buffer as data
+			then
+				if attached borrowed.empty as str_32 then
+					data.set_from_pointer (cpp_unicode_text (self_ptr), count * 2 + 2)
+					conv.utf_16_be_0_pointer_into_string_32 (data, str_32)
+					Result := str_32 -- A bit strange that only Big Endian decoding works
+				end
+				borrowed.return
 
 			elseif encoding = Encoding_enum.UTF_8 then
 				create Result.make_from_utf_8 (shared_latin)
@@ -97,17 +109,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	text_32: STRING_32
-		local
-			data: like Unicode_buffer; buffer: EL_STRING_32_BUFFER_ROUTINES
-			conv: EL_UTF_CONVERTER
-		do
-			Result := buffer.empty
-			data := Unicode_buffer
-			data.set_from_pointer (cpp_unicode_text (self_ptr), count * 2 + 2)
-			conv.utf_16_be_0_pointer_into_string_32 (data, Result)
-		end
 
 	set_text_unicode (str: STRING_32)
 			--

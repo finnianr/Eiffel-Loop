@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:15:48 GMT (Thursday 9th November 2023)"
-	revision: "21"
+	date: "2024-12-09 12:19:45 GMT (Monday 9th December 2024)"
+	revision: "22"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -17,6 +17,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -44,6 +46,7 @@ feature -- Basic operations
 			--
 		local
 			new_line_split: EL_SPLIT_ZSTRING_ON_CHARACTER; template_path: FILE_PATH
+			medium: EL_ZSTRING_IO_MEDIUM
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
 				if attached template_file_path (context) as path then
@@ -60,20 +63,18 @@ feature -- Basic operations
 					Evolicity_templates.put_file (template_path, output)
 				end
 				if Evolicity_templates.is_nested_output_indented then
-					across ZSTRING_io_medium_scope as scope loop
-						if attached scope.item as medium then
-							medium.open_write
-							Evolicity_templates.merge (template_path, new_context, medium)
-							new_line_split := medium.text.split ('%N')
-							medium.close
-							across new_line_split as line loop
-								if not tabs.is_empty then
-									output.put_encoded_string_8 (tabs)
-								end
-								output.put_string (line.item)
-								output.put_new_line
+					if attached String_pool.borrowed_item as borrowed then
+						create medium.make_open_write_to_text (borrowed.empty)
+						Evolicity_templates.merge (template_path, new_context, medium)
+						across medium.text.split ('%N') as line loop
+							if not tabs.is_empty then
+								output.put_encoded_string_8 (tabs)
 							end
+							output.put_string (line.item)
+							output.put_new_line
 						end
+						medium.close
+						borrowed.return
 					end
 				else
 					Evolicity_templates.merge (template_path, new_context, output)
@@ -84,17 +85,5 @@ feature -- Basic operations
 feature {NONE} -- Internal attributes
 
 	template_name_variable_ref: EVOLICITY_VARIABLE_REFERENCE
-
-feature {NONE} -- Constants
-
-	ZSTRING_io_medium_scope: EL_BORROWED_OBJECT_SCOPE [EL_ZSTRING_IO_MEDIUM]
-		-- scope from which an instance of `EL_ZSTRING_IO_MEDIUM' can be borrowed
-		local
-			factory: EL_MAKEABLE_TO_SIZE_FACTORY [EL_ZSTRING_IO_MEDIUM]
-		once
-			-- Using `factory' avoids keeping a reference to `Current' with an anonymous agent
-			create factory
-			create Result.make_with_agent (agent factory.new_item (500))
-		end
 
 end

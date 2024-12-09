@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-14 14:10:13 GMT (Thursday 14th March 2024)"
-	revision: "29"
+	date: "2024-12-09 13:36:21 GMT (Monday 9th December 2024)"
+	revision: "30"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -64,6 +64,10 @@ feature -- Tests
 	test_buildable_from_node_scan
 		-- 10 Feb 2020
 		-- OBJECT_BUILDER_TEST_SET.test_buildable_from_node_scan
+		note
+			testing: "[
+				covers/{EVOLICITY_EVALUATE_DIRECTIVE}.execute
+			]"
 		do
 			across factory_types as type loop
 				build (type.item)
