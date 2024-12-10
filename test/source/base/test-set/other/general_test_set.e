@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 18:11:38 GMT (Tuesday 5th November 2024)"
-	revision: "62"
+	date: "2024-12-10 11:26:57 GMT (Tuesday 10th December 2024)"
+	revision: "63"
 
 class
 	GENERAL_TEST_SET
@@ -44,6 +44,7 @@ feature {NONE} -- Initialization
 				["make_relative_directory",	 agent test_make_relative_directory],
 				["math_precision",				 agent test_math_precision],
 				["named_thread",					 agent test_named_thread],
+				["object_scope",					 agent test_object_scope],
 				["output_medium_encoding",		 agent test_output_medium_encoding],
 				["plain_text_line_source",		 agent test_plain_text_line_source],
 				["reverse_managed_pointer",	 agent test_reverse_managed_pointer],
@@ -238,6 +239,20 @@ feature -- Tests
 		do
 			create t
 			assert ("same string", t.name.same_string ("Named Thread"))
+		end
+
+	test_object_scope
+		-- GENERAL_TEST_SET.test_object_scope
+		local
+			app_cache: DIR_PATH
+		do
+			app_cache := Directory.App_cache.twin
+			if attached workarea_app_cache_dir_scope as scope then
+				assert ("same parent", Directory.App_cache.parent ~ Work_area_dir)
+				assert_same_string (Void, Directory.App_cache.base, app_cache.base)
+				scope.revert
+			end
+			assert ("same directory", app_cache ~ Directory.App_cache)
 		end
 
 	test_output_medium_encoding
@@ -454,6 +469,13 @@ feature -- Tests
 			assert ("major is 1", v.major (01_02_03) = 1)
 			assert ("minor is 2", v.minor (01_02_03) = 2)
 			assert ("release is 3", v.release (01_02_03) = 3)
+		end
+
+feature {NONE} -- Implementation
+
+	workarea_app_cache_dir_scope: EL_OBJECT_SCOPE [EL_DIR_PATH]
+		do
+			create Result.make (Directory.App_cache, Work_area_dir #+ Directory.App_cache.base)
 		end
 
 feature {NONE} -- Constants

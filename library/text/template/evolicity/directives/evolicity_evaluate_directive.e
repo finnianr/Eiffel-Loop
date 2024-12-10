@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-09 12:19:45 GMT (Monday 9th December 2024)"
-	revision: "22"
+	date: "2024-12-10 10:02:55 GMT (Tuesday 10th December 2024)"
+	revision: "23"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -34,7 +34,7 @@ feature -- Initialization
 
 feature -- Element change
 
-	set_template_name_variable_ref (a_template_name_variable_ref: like template_name_variable_ref)
+	set_template_name_variable_ref (a_template_name_variable_ref: EVOLICITY_VARIABLE_REFERENCE)
 			--
 		do
 			template_name_variable_ref := a_template_name_variable_ref
