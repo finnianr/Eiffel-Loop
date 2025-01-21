@@ -1,7 +1,7 @@
 note
 	description: "[
 		Defines a scope in which the contents of a once object are temporarily replaced by the contents
-		of another object of the same type.
+		of another object of the same type using the `standard_copy' routine of class **ANY**.
 	]"
 	instructions: "[
 		Usage Pattern:
@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-10 11:56:09 GMT (Tuesday 10th December 2024)"
-	revision: "1"
+	date: "2024-12-15 10:14:03 GMT (Sunday 15th December 2024)"
+	revision: "2"
 
 class
 	EL_OBJECT_SCOPE [G -> ANY create default_create end]
@@ -54,8 +54,8 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	revert
-		-- revert `once_object' back to original state
+	exit
+		-- exit scope reverting `once_object' back to it's original state
 		do
 			once_object.standard_copy (once_copy)
 		end

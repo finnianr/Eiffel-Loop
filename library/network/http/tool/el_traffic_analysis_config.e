@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-01-06 12:08:14 GMT (Friday 6th January 2023)"
-	revision: "7"
+	date: "2025-01-21 11:21:50 GMT (Tuesday 21st January 2025)"
+	revision: "8"
 
 class
 	EL_TRAFFIC_ANALYSIS_CONFIG
@@ -24,7 +24,7 @@ create
 
 feature -- Access
 
-	archived_web_logs: FILE_PATH
+	log_path: FILE_PATH
 
 	crawler_substrings: EL_ZSTRING_LIST
 

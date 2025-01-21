@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-10 11:26:57 GMT (Tuesday 10th December 2024)"
-	revision: "63"
+	date: "2024-12-15 10:18:07 GMT (Sunday 15th December 2024)"
+	revision: "64"
 
 class
 	GENERAL_TEST_SET
@@ -244,15 +244,17 @@ feature -- Tests
 	test_object_scope
 		-- GENERAL_TEST_SET.test_object_scope
 		local
-			app_cache: DIR_PATH
+			app_cache: DIR_PATH; base: ZSTRING
 		do
+			base := Directory.App_cache.base
 			app_cache := Directory.App_cache.twin
 			if attached workarea_app_cache_dir_scope as scope then
 				assert ("same parent", Directory.App_cache.parent ~ Work_area_dir)
 				assert_same_string (Void, Directory.App_cache.base, app_cache.base)
-				scope.revert
+				scope.exit
 			end
 			assert ("same directory", app_cache ~ Directory.App_cache)
+			assert ("same base reference", base = Directory.App_cache.base)
 		end
 
 	test_output_medium_encoding

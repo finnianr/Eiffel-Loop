@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-10 15:38:34 GMT (Wednesday 10th July 2024)"
-	revision: "2"
+	date: "2025-01-21 11:36:53 GMT (Tuesday 21st January 2025)"
+	revision: "3"
 
 class
 	EL_GUNZIP_LIST_COMMAND

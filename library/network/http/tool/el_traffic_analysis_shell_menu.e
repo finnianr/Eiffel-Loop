@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:41:49 GMT (Sunday 22nd September 2024)"
-	revision: "12"
+	date: "2025-01-21 16:19:10 GMT (Tuesday 21st January 2025)"
+	revision: "13"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -18,7 +18,7 @@ inherit
 			make as make_shell
 		end
 
-	EL_MODULE_COMMAND; EL_MODULE_DATE_TIME; EL_MODULE_DIRECTORY
+	EL_MODULE_COMMAND; EL_MODULE_DATE_TIME; EL_MODULE_DIRECTORY; EL_MODULE_FILE
 	EL_MODULE_LIO; EL_MODULE_OS; EL_MODULE_TUPLE
 
 	EL_SHARED_FORMAT_FACTORY
@@ -42,21 +42,29 @@ feature -- Constants
 
 feature {NONE} -- Commands
 
-	analyse_log (log_gz_path: FILE_PATH)
+	analyse_log (log_path: FILE_PATH)
+		-- analyse `log_path' and uncompress to temporary file if it ends with "gz" extension
+		-- (The first log is usually not compressed)
 		local
-			analysis_cmd: EL_TRAFFIC_ANALYSIS_COMMAND
+			analysis_cmd: EL_TRAFFIC_ANALYSIS_COMMAND; temp_log_path: FILE_PATH
 		do
-			if attached (Directory.temporary + (log_gz_path.base_name + ".log")) as log_path then
-				if attached Unzip_command as cmd then
-					cmd.set_file_path (log_gz_path)
-					cmd.set_unzipped_path (log_path)
-					cmd.execute
-					if log_path.exists then
-						create analysis_cmd.make (log_path, config)
-						analysis_cmd.execute
-						OS.File_system.remove_file (log_path)
-					end
-				end
+			temp_log_path := Directory.temporary + log_path.base_name
+			temp_log_path.add_extension ("log")
+
+			if log_path.has_extension (Extension_gz) and then attached Unzip_command as cmd then
+				cmd.set_file_path (log_path)
+				cmd.set_unzipped_path (temp_log_path)
+				cmd.execute
+
+			elseif attached File_list_command as cmd then
+				cmd.put_path (cmd.var.input_path, log_path)
+				cmd.put_path (cmd.var.output_path, temp_log_path)
+				cmd.execute
+			end
+			if temp_log_path.exists then
+				create analysis_cmd.make (temp_log_path, config)
+				analysis_cmd.execute
+				OS.File_system.remove_file (temp_log_path)
 			end
 		end
 
@@ -64,20 +72,26 @@ feature {NONE} -- Factory
 
 	new_command_table: like command_table
 		local
-			label: ZSTRING; size_mb: STRING
+			label: ZSTRING; formatted_size_mb: STRING; size_mb: DOUBLE
+			log_path_wilcard: FILE_PATH
 		do
-			if attached OS.file_pattern_list (config.archived_web_logs) as file_list then
+			log_path_wilcard := config.log_path.twin
+			log_path_wilcard.add_extension ("*")
+			if attached OS.file_pattern_list (log_path_wilcard) as file_list then
 				create Result.make (file_list.count)
 				file_list.order_by (agent {FILE_PATH}.modification_time, False)
 				across file_list as list loop
-					if attached Date_time.modification_time (list.item) as date
-						and then attached Zip_list_command as cmd
-					then
-						cmd.set_zip_path (list.item)
-						size_mb := Format.double ("99.9").formatted (cmd.size_mb)
+					if attached list.item as path and then attached Date_time.modification_time (path) as date then
+						if path.has_extension (Extension_gz) and then attached Zip_list_command as cmd then
+							cmd.set_zip_path (path)
+							size_mb := cmd.size_mb
+						else
+							size_mb := File.megabyte_count (path)
+						end
+						formatted_size_mb := Format.double ("99.9").formatted (size_mb)
 
-						label := Label_template #$ [date.formatted_out (Date_format), size_mb]
-						Result.put (agent analyse_log (list.item), label)
+						label := Label_template #$ [date.formatted_out (Date_format), formatted_size_mb]
+						Result.put (agent analyse_log (path), label)
 					end
 				end
 			end
@@ -87,11 +101,12 @@ feature {NONE} -- Internal attributes
 
 	config: EL_TRAFFIC_ANALYSIS_CONFIG
 
-feature {NONE} -- Constants
+feature {NONE} -- OS commands
 
-	Label_template: ZSTRING
+	File_list_command: EL_PARSED_OS_COMMAND [TUPLE [input_path, output_path: STRING]]
 		once
-			Result := "%S (%S MB)"
+			create Result.make_command ("cat $input_path > $output_path")
+			Result.sudo.enable
 		end
 
 	Unzip_command: EL_GUNZIP_COMMAND
@@ -106,5 +121,18 @@ feature {NONE} -- Constants
 			Result.sudo.enable
 		end
 
+feature {NONE} -- Constants
+
 	Date_format: STRING = " yyyy/[0]mm Mmm [0]dd"
+
+	Extension_gz: ZSTRING
+		once
+			Result := "gz"
+		end
+
+	Label_template: ZSTRING
+		once
+			Result := "%S (%S MB)"
+		end
+
 end

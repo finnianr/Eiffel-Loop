@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 10:43:54 GMT (Saturday 5th October 2024)"
-	revision: "28"
+	date: "2024-12-15 10:18:07 GMT (Sunday 15th December 2024)"
+	revision: "29"
 
 class
 	LOCALE_COMPILER_TEST_SET
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_compile_tree
-		-- TRANSLATION_TREE_COMPILER_TEST_SET.test_compile_tree
+		-- LOCALE_COMPILER_TEST_SET.test_compile_tree
 		note
 			testing: "[
 				covers/{EL_PYXIS_TREE_COMPILER}.execute,
@@ -91,18 +91,17 @@ feature {NONE} -- Implementation
 
 	compile_twice (translations_table: EL_HASH_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING])
 		local
-			command: EL_PYXIS_LOCALE_COMPILER; build_dir: DIR_PATH
+			command: EL_PYXIS_LOCALE_COMPILER
 		do
 			across 1 |..| 2 as n loop
 				lio.put_integer_field ("Run", n.item)
 				lio.put_new_line
 				create command.make ("", work_area_dir, Locales_dir)
-			-- Save build directory
-				build_dir := command.Localization_build_dir.twin
-				command.Localization_build_dir.copy (Work_area_dir #+ "localization")
-				command.execute
-			-- Restore build directory
-				command.Localization_build_dir.copy (build_dir)
+				if attached command.localization_build_dir_scope (Work_area_dir #+ "localization") as scope then
+				-- `command.Localization_build_dir' temporarily changed
+					command.execute
+					scope.exit
+				end
 				if n.item = 1 then
 					translations_table.merge (command.translations_table)
 				end

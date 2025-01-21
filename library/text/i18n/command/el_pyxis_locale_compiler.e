@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:17:00 GMT (Sunday 25th August 2024)"
-	revision: "2"
+	date: "2024-12-15 10:19:03 GMT (Sunday 15th December 2024)"
+	revision: "3"
 
 class
 	EL_PYXIS_LOCALE_COMPILER
@@ -71,6 +71,11 @@ feature -- Access
 	Description: STRING = "Compile Pyxis translation files into multiple locale files"
 
 	translations_table: EL_AGENT_CACHE_TABLE [EL_TRANSLATION_ITEMS_LIST, STRING]
+
+	localization_build_dir_scope (a_build_dir: DIR_PATH): EL_OBJECT_SCOPE [DIR_PATH]
+		do
+			create Result.make (Localization_build_dir, a_build_dir)
+		end
 
 feature {NONE} -- Implementation
 
@@ -197,7 +202,7 @@ feature {NONE} -- Internal attributes
 
 	same_list_and_table_count: BOOLEAN
 
-feature {EL_LOCALIZATION_TEST} -- Constants
+feature {NONE} -- Constants
 
 	Dat: ZSTRING
 		once

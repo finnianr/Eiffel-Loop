@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-10 10:02:55 GMT (Tuesday 10th December 2024)"
-	revision: "23"
+	date: "2024-12-11 9:49:45 GMT (Wednesday 11th December 2024)"
+	revision: "24"
 
 class
 	EVOLICITY_EVALUATE_DIRECTIVE
@@ -45,8 +45,7 @@ feature -- Basic operations
 	execute (context: EVOLICITY_CONTEXT; output: EL_OUTPUT_MEDIUM)
 			--
 		local
-			new_line_split: EL_SPLIT_ZSTRING_ON_CHARACTER; template_path: FILE_PATH
-			medium: EL_ZSTRING_IO_MEDIUM
+			template_path: FILE_PATH; medium: EL_ZSTRING_IO_MEDIUM
 		do
 			if attached {EVOLICITY_CONTEXT} context.referenced_item (variable_ref) as new_context then
 				if attached template_file_path (context) as path then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-10 11:42:54 GMT (Tuesday 10th December 2024)"
-	revision: "12"
+	date: "2024-12-15 10:17:09 GMT (Sunday 15th December 2024)"
+	revision: "13"
 
 deferred class
 	EL_INSTALLER_MAIN_WINDOW
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 				Precursor
 				set_icon_pixmap (Desktop_menu_icon.pixmap (png_logo_icon))
 				updates_info := new_updates_info
-				scope.revert
+				scope.exit
 			end
 		end
 

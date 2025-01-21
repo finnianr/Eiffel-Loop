@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-10 11:42:54 GMT (Tuesday 10th December 2024)"
-	revision: "25"
+	date: "2024-12-15 10:17:16 GMT (Sunday 15th December 2024)"
+	revision: "26"
 
 class
 	EL_FILE_COPY_INSTALLER_BOX
@@ -120,7 +120,7 @@ feature {NONE} -- Factory
 			Result.align_text_center
 			if attached package_images_scope as scope then
 				Result.set_tile_pixmap (Image_.of_height_cms (Main.png_title_background, 1.5))
-				scope.revert
+				scope.exit
 			end
 		end
 
