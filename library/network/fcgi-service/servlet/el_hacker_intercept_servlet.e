@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:00:12 GMT (Monday 23rd September 2024)"
-	revision: "33"
+	date: "2025-01-23 15:11:30 GMT (Thursday 23rd January 2025)"
+	revision: "34"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -196,6 +196,9 @@ feature {NONE} -- Implementation
 					if status.http_blocked then
 						log_status (ip_number, port, True)
 						status.allow (port) -- Try again to set firewall rule
+
+					elseif request.headers.user_agent.is_empty then
+						put_block_rule := True
 
 					elseif filter_table.is_hacker_probe (request.relative_path_info.as_lower) then
 						put_block_rule := True

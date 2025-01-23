@@ -787,3 +787,6 @@ New routine EL_WIDGET_ROUTINES.replace_list
 Sat 16th Nov 2024, 10:49:18
 Fix currency_exchange_history
 
+Wed 22nd Jan 2025, 10:12:28
+Traffic analysis fixes
+

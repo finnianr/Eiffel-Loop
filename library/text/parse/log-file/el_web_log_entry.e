@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:13:29 GMT (Friday 13th September 2024)"
-	revision: "21"
+	date: "2025-01-22 12:07:09 GMT (Wednesday 22nd January 2025)"
+	revision: "22"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -33,6 +33,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make, make_default
@@ -205,20 +207,23 @@ feature {NONE} -- Implementation
 		local
 			name, part: ZSTRING
 		do
-			name := Buffer.copied (a_name)
-			name.replace_set_members_8 (Current, ' ') -- `has_punctuation' defines set
-			name.to_lower
+			if attached String_pool.borrowed_item as borrowed then
+				name := borrowed.copied (a_name)
+				name.replace_set_members_8 (Current, ' ') -- `has_punctuation' defines set
+				name.to_lower
 
-			Result := List_buffer
-			Result.wipe_out
-			across name.split (' ') as split loop
-				if split.item_count > 0 then
-					Agent_word_set.put_copy (split.item)
-					part := Agent_word_set.found_item
-					if not part.item_8 (1).is_digit and then not Excluded_agents_words.has (part) then
-						Result.extend (part)
+				Result := List_buffer
+				Result.wipe_out
+				across name.split (' ') as split loop
+					if split.item_count > 0 then
+						Agent_word_set.put_copy (split.item)
+						part := Agent_word_set.found_item
+						if not part.item_8 (1).is_digit and then not Excluded_agents_words.has (part) then
+							Result.extend (part)
+						end
 					end
 				end
+				borrowed.return
 			end
 			Result.unique_sort
 		end
@@ -266,11 +271,6 @@ feature {NONE} -- Date/Time
 		end
 
 feature {NONE} -- Constants
-
-	Buffer: EL_ZSTRING_BUFFER
-		once
-			create Result
-		end
 
 	Excluded_agents_words: EL_ZSTRING_LIST
 		once

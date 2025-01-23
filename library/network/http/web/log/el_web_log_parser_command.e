@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:15:04 GMT (Friday 13th September 2024)"
-	revision: "10"
+	date: "2025-01-23 16:52:40 GMT (Thursday 23rd January 2025)"
+	revision: "11"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -21,9 +21,20 @@ inherit
 
 	EL_FILE_OPEN_ROUTINES
 
-feature {EL_COMMAND_CLIENT} -- Initialization
+feature {NONE} -- Initialization
 
-	make (a_log_path: FILE_PATH)
+	make_default
+		do
+			create log_path
+		end
+
+feature -- Access
+
+	log_path: FILE_PATH
+
+feature -- Element change
+
+	set_log_path (a_log_path: FILE_PATH)
 		do
 			log_path := a_log_path
 		end
@@ -31,6 +42,8 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature -- Basic operations
 
 	execute
+		require else
+			log_path_exists: log_path.exists
 		local
 			count: INTEGER
 		do
@@ -72,10 +85,6 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (line)
 		end
-
-feature {NONE} -- Internal attributes
-
-	log_path: FILE_PATH
 
 feature {NONE} -- Constants
 

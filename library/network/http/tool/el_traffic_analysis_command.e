@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:59:56 GMT (Sunday 22nd September 2024)"
-	revision: "30"
+	date: "2025-01-23 16:51:43 GMT (Thursday 23rd January 2025)"
+	revision: "32"
 
 class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -17,15 +17,13 @@ inherit
 	EL_APPLICATION_COMMAND
 
 	EL_WEB_LOG_PARSER_COMMAND
-		rename
-			make as make_parser
 		redefine
 			execute
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_GEOLOCATION; EL_MODULE_IP_ADDRESS
+	EL_MODULE_DIRECTORY; EL_MODULE_GEOLOCATION; EL_MODULE_IP_ADDRESS; EL_MODULE_TRACK
 
-	EL_MODULE_TRACK
+	EL_MODULE_USER_INPUT
 
 	EL_SHARED_FORMAT_FACTORY
 
@@ -34,9 +32,9 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_log_path: FILE_PATH; a_config: like config)
+	make (a_config: like config)
 		do
-			make_parser (a_log_path)
+			make_default
 			config := a_config
 			Geolocation.try_restore (Directory.Sub_app_data)
 			create buffer
@@ -78,11 +76,13 @@ feature -- Basic operations
 		-- select entries that have a `request_uri_group' set
 			selected_entry_list := human_entry_list.query_if (agent {EL_WEB_LOG_ENTRY}.is_selected)
 
-			-- Cache locations
+		-- Cache locations
 			lio.put_line ("Getting IP address locations:")
 
 			Track.progress (Console_display, selected_entry_list.count, agent fill_human_agent_table)
 
+			lio.put_line ("Storing geolocation data")
+			Geolocation.store (Directory.Sub_app_data)
 			lio.put_new_line_x2
 
 			across << bot_agent_table, human_agent_table >> as table loop
@@ -96,6 +96,7 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 				lio.put_new_line
+				User_input.press_enter
 			end
 
 			lio.put_line ("SELECTED HUMAN VISITS")
@@ -103,14 +104,12 @@ feature -- Basic operations
 			month_groups.item_area_set.do_all (agent print_month)
 
 		-- Percentage visits from mobile devices
-			mobile_count := selected_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)
-			mobile_proportion := (mobile_count * 100) // selected_entry_list.count
-			lio.put_labeled_string ("Mobile traffic", Format.integer_as_string (mobile_proportion, "99%%"))
-			lio.put_new_line
-
-			lio.put_line ("Storing geolocation data")
-			Geolocation.store (Directory.Sub_app_data)
-			lio.put_new_line
+			if selected_entry_list.count > 0 then
+				mobile_count := selected_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)
+				mobile_proportion := (mobile_count * 100) // selected_entry_list.count
+				lio.put_labeled_string ("Mobile traffic", Format.integer_as_string (mobile_proportion, "99%%"))
+				lio.put_new_line
+			end
 		end
 
 feature {NONE} -- Implementation
