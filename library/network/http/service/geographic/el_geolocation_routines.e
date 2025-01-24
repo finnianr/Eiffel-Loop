@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-12 6:29:00 GMT (Friday 12th July 2024)"
-	revision: "2"
+	date: "2025-01-24 13:54:22 GMT (Friday 24th January 2025)"
+	revision: "3"
 
 class
 	EL_GEOLOCATION_ROUTINES
@@ -19,8 +19,6 @@ inherit
 	ANY
 
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
-
-	EL_SHARED_PROGRESS_LISTENER
 
 feature -- Basic operations
 
@@ -56,7 +54,6 @@ feature -- Access
 					Result := location
 				end
 			end
-			progress_listener.notify_tick
 		end
 
 feature {NONE} -- Implementation

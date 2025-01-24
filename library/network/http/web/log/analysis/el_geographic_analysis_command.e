@@ -1,5 +1,7 @@
 note
-	description: "Object to analyse web-server log geographically according to configuration"
+	description: "[
+		Command to analyse web-server log geographically according to configuration
+	]"
 	notes: "See end of class"
 
 	author: "Finnian Reilly"
@@ -7,23 +9,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-23 16:51:43 GMT (Thursday 23rd January 2025)"
-	revision: "32"
+	date: "2025-01-24 14:17:44 GMT (Friday 24th January 2025)"
+	revision: "33"
 
 class
-	EL_TRAFFIC_ANALYSIS_COMMAND
+	EL_GEOGRAPHIC_ANALYSIS_COMMAND
 
 inherit
-	EL_APPLICATION_COMMAND
-
 	EL_WEB_LOG_PARSER_COMMAND
 		redefine
-			execute
+			execute, make_default, is_selected
 		end
-
-	EL_MODULE_DIRECTORY; EL_MODULE_GEOLOCATION; EL_MODULE_IP_ADDRESS; EL_MODULE_TRACK
-
-	EL_MODULE_USER_INPUT
 
 	EL_SHARED_FORMAT_FACTORY
 
@@ -34,56 +30,39 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (a_config: like config)
 		do
-			make_default
 			config := a_config
-			Geolocation.try_restore (Directory.Sub_app_data)
-			create buffer
-			create page_table.make_equal (50)
-			create bot_agent_table.make_equal (50)
-			create human_agent_table.make_equal (50)
-			create human_entry_list.make (500)
-			create selected_entry_list.make (0)
+			make_default
 			across config.page_list as page loop
 				page_table.extend_area (create {SPECIAL [NATURAL]}.make_empty (50), page.item)
 			end
 		end
 
-feature -- Constants
-
-	Description: STRING = "Analyse web traffic from cherokee log file"
+	make_default
+		do
+			Precursor
+			create buffer
+			create page_table.make_equal (50)
+			create bot_agent_table.make_equal (50)
+			create last_uri_stem.make_empty
+			create human_agent_table.make_equal (50)
+			create human_entry_list.make (500)
+		end
 
 feature -- Basic operations
 
 	execute
 		local
-			found: BOOLEAN; mobile_count, mobile_proportion: INTEGER
+			mobile_count, mobile_proportion: INTEGER
 		do
 			Precursor -- parse log file
-
-		-- Mark entries that match one of `config.page_list'
-			across human_entry_list as list loop
-				if attached list.item as entry then
-					found := False
-					across config.page_list as page until found loop
-						if entry.request_uri.starts_with (page.item) then
-							entry.set_request_uri_group (page.item)
-							found := True
-						end
-					end
-				end
-			end
-
-		-- select entries that have a `request_uri_group' set
-			selected_entry_list := human_entry_list.query_if (agent {EL_WEB_LOG_ENTRY}.is_selected)
 
 		-- Cache locations
 			lio.put_line ("Getting IP address locations:")
 
-			Track.progress (Console_display, selected_entry_list.count, agent fill_human_agent_table)
+			Track.progress (Console_display, human_entry_list.count, agent fill_human_agent_table)
 
-			lio.put_line ("Storing geolocation data")
-			Geolocation.store (Directory.Sub_app_data)
-			lio.put_new_line_x2
+			lio.put_new_line
+			store_geolocation_data
 
 			across << bot_agent_table, human_agent_table >> as table loop
 				if table.cursor_index = 1 then
@@ -103,10 +82,22 @@ feature -- Basic operations
 			lio.put_new_line
 			month_groups.item_area_set.do_all (agent print_month)
 
+			if not_found_list.count > 0 then
+				lio.put_line ("HUMAN REQUESTS NOT FOUND")
+				across not_found_list as list loop
+					if attached list.item as entry then
+						lio.put_string_field (entry.status_code.out,entry.request_uri)
+						lio.put_new_line
+					end
+				end
+				User_input.press_enter
+				lio.put_new_line
+			end
+
 		-- Percentage visits from mobile devices
-			if selected_entry_list.count > 0 then
-				mobile_count := selected_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)
-				mobile_proportion := (mobile_count * 100) // selected_entry_list.count
+			if human_entry_list.count > 0 then
+				mobile_count := human_entry_list.count_of (agent {EL_WEB_LOG_ENTRY}.has_mobile_agent)
+				mobile_proportion := (mobile_count * 100) // human_entry_list.count
 				lio.put_labeled_string ("Mobile traffic", Format.integer_as_string (mobile_proportion, "99%%"))
 				lio.put_new_line
 			end
@@ -118,8 +109,13 @@ feature {NONE} -- Implementation
 		do
 			if is_bot (entry) then
 				bot_agent_table.put (entry.stripped_user_agent)
-			else
+
+			elseif entry.status_code = 200 then
 				human_entry_list.extend (entry)
+			-- Mark entries that match one of `config.page_list'
+				entry.set_request_uri_group (last_uri_stem)
+			else
+				not_found_list.extend (entry)
 			end
 		end
 
@@ -130,13 +126,11 @@ feature {NONE} -- Implementation
 
 	fill_human_agent_table
 		-- fill `human_agent_table' and cache geolocations
-		local
-			location: ZSTRING
 		do
-			across selected_entry_list as list loop
-				if attached list.item as entry then
-					location := Geolocation.for_number (entry.ip_number)
+			across human_entry_list as list loop
+				if attached list.item as entry and then attached Geolocation.for_number (entry.ip_number) then
 					human_agent_table.put (entry.stripped_user_agent)
+					progress_listener.notify_tick
 				end
 			end
 		end
@@ -152,9 +146,26 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_selected (line: ZSTRING): BOOLEAN
+		local
+			uri_index: INTEGER
+		do
+			uri_index := index_of_request_uri (line)
+			if uri_index > 0 then
+				across config.page_list as page until Result loop
+					if attached page.item as uri_stem then
+						if line.same_characters (uri_stem, 1, uri_stem.count, uri_index) then
+							last_uri_stem := uri_stem
+							Result := True
+						end
+					end
+				end
+			end
+		end
+
 	month_groups: EL_FUNCTION_GROUPED_SET_TABLE [EL_WEB_LOG_ENTRY, INTEGER]
 		do
-			create Result.make_from_list (agent entry_month, selected_entry_list)
+			create Result.make_from_list (agent entry_month, human_entry_list)
 		end
 
 	print_month (entry_list: SPECIAL [EL_WEB_LOG_ENTRY])
@@ -203,10 +214,9 @@ feature {NONE} -- Internal attributes
 
 	human_entry_list: EL_QUERYABLE_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
 
-	page_table: EL_GROUPED_SET_TABLE [NATURAL, ZSTRING]
+	last_uri_stem: ZSTRING
 
-	selected_entry_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY];
-		-- human entries that match the configuration page_list items
+	page_table: EL_GROUPED_SET_TABLE [NATURAL, ZSTRING];
 
 note
 	notes: "[

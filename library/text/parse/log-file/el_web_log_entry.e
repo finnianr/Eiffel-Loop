@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-22 12:07:09 GMT (Wednesday 22nd January 2025)"
-	revision: "22"
+	date: "2025-01-24 12:41:28 GMT (Friday 24th January 2025)"
+	revision: "23"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -78,7 +78,7 @@ feature {NONE} -- Initialization
 					when 3 then
 						part.adjust
 						index := part.index_of (' ', 1)
-						status_code := part.substring (1, index - 1).to_natural
+						status_code := part.substring (1, index - 1).to_natural_16
 						byte_count := part.substring_end (index + 1).to_natural
 					when 4 then
 						if part.is_character ('-') then
@@ -105,11 +105,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Status query
-
-	is_selected: BOOLEAN
-		do
-			Result := request_uri_group.count > 0
-		end
 
 	has_mobile_agent: BOOLEAN
 		do
@@ -163,7 +158,7 @@ feature -- Access
 
 	request_uri: ZSTRING
 
-	status_code: NATURAL
+	status_code: NATURAL_16
 
 	stripped_user_agent: ZSTRING
 		-- lower case `user_agent' stripped of punctuation and version numbers
