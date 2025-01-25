@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:16:57 GMT (Friday 4th October 2024)"
-	revision: "41"
+	date: "2025-01-25 7:59:22 GMT (Saturday 25th January 2025)"
+	revision: "42"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 
 		EL_NETWORK_DEVICE_IMP, EL_NETWORK_DEVICE_LIST_IMP,
 
-		EL_TRAFFIC_ANALYSIS_COMMAND,
+		EL_GEOGRAPHIC_ANALYSIS_COMMAND,
 
 		EL_WAYBACK_CLOSEST,
 		EL_WEB_LOG_PARSER_COMMAND,

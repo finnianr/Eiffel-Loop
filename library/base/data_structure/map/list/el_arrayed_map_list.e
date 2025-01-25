@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-30 15:45:55 GMT (Monday 30th September 2024)"
-	revision: "37"
+	date: "2025-01-25 16:33:42 GMT (Saturday 25th January 2025)"
+	revision: "38"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -302,8 +302,19 @@ feature -- Basic operations
 
 	sort_by_key (in_ascending_order: BOOLEAN)
 		do
-			if attached {SPECIAL [COMPARABLE]} area as comparables then
-				sort_comparables (comparables, in_ascending_order)
+			if attached {SPECIAL [COMPARABLE]} area as l_area then
+				indexed_sort (l_area, in_ascending_order)
+			end
+		end
+
+	sort_by_key_then_value (ascending_keys, ascending_values: BOOLEAN)
+		do
+			if attached {SPECIAL [COMPARABLE]} area as key_area then
+				if attached {SPECIAL [COMPARABLE]} internal_value_list.area as value_area then
+					indexed_sort_then_group (key_area, value_area, ascending_keys, ascending_values)
+				else
+					indexed_sort (key_area, ascending_keys)
+				end
 			end
 		end
 
@@ -311,8 +322,21 @@ feature -- Basic operations
 		require
 			sortable_by_value: is_value_sortable
 		do
-			if attached {SPECIAL [COMPARABLE]} internal_value_list.area as comparables then
-				sort_comparables (comparables, in_ascending_order)
+			if attached {SPECIAL [COMPARABLE]} internal_value_list.area as l_area then
+				indexed_sort (l_area, in_ascending_order)
+			end
+		end
+
+	sort_by_value_then_key (ascending_values, ascending_keys: BOOLEAN)
+		require
+			sortable_by_value: is_value_sortable
+		do
+			if attached {SPECIAL [COMPARABLE]} internal_value_list.area as value_area then
+				if attached {SPECIAL [COMPARABLE]} area as key_area then
+					indexed_sort_then_group (value_area, key_area, ascending_values, ascending_keys)
+				else
+					indexed_sort (value_area, ascending_values)
+				end
 			end
 		end
 
@@ -389,11 +413,22 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	sort_comparables (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
+	indexed_sort (a_area: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)
 		local
 			sorted: EL_SORTED_INDEX_LIST
 		do
-			create sorted.make (comparables, in_ascending_order)
+			create sorted.make (a_area, in_ascending_order)
+			reorder (sorted)
+			internal_value_list.reorder (sorted)
+		end
+
+	indexed_sort_then_group (
+		a_area, groups_area: SPECIAL [COMPARABLE]; in_ascending_order, ascending_group: BOOLEAN
+	)
+		local
+			sorted: EL_SORTED_MAP_INDEX_LIST
+		do
+			create sorted.make (a_area, groups_area, in_ascending_order, ascending_group)
 			reorder (sorted)
 			internal_value_list.reorder (sorted)
 		end

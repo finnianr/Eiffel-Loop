@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 17:02:00 GMT (Saturday 5th October 2024)"
-	revision: "54"
+	date: "2025-01-25 16:29:12 GMT (Saturday 25th January 2025)"
+	revision: "55"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -58,6 +58,7 @@ feature {NONE} -- Initialization
 				["query_and_summation",			agent test_query_and_summation],
 				["string_8_list",					agent test_string_8_list],
 				["arrayed_map_list",				agent test_arrayed_map_list],
+				["arrayed_map_group_sort",		agent test_arrayed_map_group_sort],
 				["arrayed_map_sort",				agent test_arrayed_map_sort],
 				["circular_indexing",			agent test_circular_indexing],
 				["container_sum",					agent test_container_sum],
@@ -274,6 +275,52 @@ feature -- WIDGET Tests
 		end
 
 feature -- Test
+
+	test_arrayed_map_group_sort
+		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_group_sort
+		local
+			word_set: EL_HASH_SET [STRING]; length_to_word_map: EL_ARRAYED_MAP_LIST [INTEGER, STRING]
+			word_list: EL_STRING_8_LIST; previous_key: INTEGER; previous_value, sort_order: STRING
+		do
+			create word_set.make_equal (500)
+			across I_ching_hexagram_titles as title loop
+				create word_list.make_split (title.item, ' ')
+				across word_list as list loop
+					if attached list.item as word then
+						word.prune_all (',')
+						word_set.put (word)
+					end
+				end
+			end
+			create length_to_word_map.make (word_set.count)
+			across word_set as set loop
+				length_to_word_map.extend (set.item.count, set.item)
+			end
+
+			if attached length_to_word_map as map then
+				across << True, False >> as ascending_value loop
+					sort_order := if ascending_value.item then "ascending" else "descending" end
+					lio.put_labeled_string ("sorting word count groups", sort_order)
+					lio.put_new_line
+					map.sort_by_key_then_value (True, ascending_value.item)
+					previous_key := map.i_th_key (1); previous_value := map.i_th_value (1)
+					from map.go_i_th (2) until map.after loop
+						if map.item_key = previous_key then
+							if ascending_value.item then
+								assert (sort_order + " word order", map.item_value > previous_value)
+							else
+								assert (sort_order + " word order", map.item_value < previous_value)
+							end
+						else
+							assert ("ascending word count", map.item_key > previous_key)
+							previous_key := map.item_key
+							previous_value := map.item_value
+						end
+						map.forth
+					end
+				end
+			end
+		end
 
 	test_arrayed_map_list
 		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_list
