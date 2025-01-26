@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-24 14:17:44 GMT (Friday 24th January 2025)"
-	revision: "33"
+	date: "2025-01-26 18:04:00 GMT (Sunday 26th January 2025)"
+	revision: "34"
 
 class
 	EL_GEOGRAPHIC_ANALYSIS_COMMAND
 
 inherit
-	EL_WEB_LOG_PARSER_COMMAND
+	EL_TRAFFIC_ANALYSIS_COMMAND
 		redefine
 			execute, make_default, is_selected
 		end
@@ -28,15 +28,6 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
-	make (a_config: like config)
-		do
-			config := a_config
-			make_default
-			across config.page_list as page loop
-				page_table.extend_area (create {SPECIAL [NATURAL]}.make_empty (50), page.item)
-			end
-		end
-
 	make_default
 		do
 			Precursor
@@ -46,6 +37,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create last_uri_stem.make_empty
 			create human_agent_table.make_equal (50)
 			create human_entry_list.make (500)
+			across config.page_list as page loop
+				page_table.extend_area (create {SPECIAL [NATURAL]}.make_empty (50), page.item)
+			end
 		end
 
 feature -- Basic operations
@@ -128,7 +122,7 @@ feature {NONE} -- Implementation
 		-- fill `human_agent_table' and cache geolocations
 		do
 			across human_entry_list as list loop
-				if attached list.item as entry and then attached Geolocation.for_number (entry.ip_number) then
+				if attached list.item as entry and then attached entry.geographic_location then
 					human_agent_table.put (entry.stripped_user_agent)
 					progress_listener.notify_tick
 				end
@@ -207,8 +201,6 @@ feature {NONE} -- Internal attributes
 	bot_agent_table: EL_COUNTER_TABLE [ZSTRING]
 
 	buffer: EL_ZSTRING_BUFFER
-
-	config: EL_TRAFFIC_ANALYSIS_CONFIG
 
 	human_agent_table: EL_COUNTER_TABLE [ZSTRING]
 

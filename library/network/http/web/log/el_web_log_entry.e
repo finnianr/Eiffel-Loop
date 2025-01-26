@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-24 12:41:28 GMT (Friday 24th January 2025)"
-	revision: "23"
+	date: "2025-01-26 10:58:28 GMT (Sunday 26th January 2025)"
+	revision: "24"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -20,9 +20,7 @@ inherit
 			Date as Date_
 		end
 
-	EL_MODULE_IP_ADDRESS
-
-	EL_ZSTRING_CONSTANTS
+	EL_MODULE_IP_ADDRESS ; EL_MODULE_GEOLOCATION
 
 	EL_SET [CHARACTER_8]
 		rename
@@ -33,6 +31,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_ZSTRING_CONSTANTS
 
 	EL_SHARED_ZSTRING_BUFFER_POOL
 
@@ -143,7 +143,7 @@ feature -- Date/time
 			create Result.make_by_compact_time (compact_time)
 		end
 
-feature -- Access
+feature -- Attribute access
 
 	request_uri_group: ZSTRING
 		-- used in report analysis and set externally
@@ -160,6 +160,15 @@ feature -- Access
 
 	status_code: NATURAL_16
 
+	user_agent: ZSTRING
+
+feature -- Access
+
+	geographic_location: ZSTRING
+		do
+			Result := Geolocation.for_number (ip_number)
+		end
+
 	stripped_user_agent: ZSTRING
 		-- lower case `user_agent' stripped of punctuation and version numbers
 		do
@@ -167,7 +176,23 @@ feature -- Access
 			Result.to_lower
 		end
 
-	user_agent: ZSTRING
+	request_uri_stem: ZSTRING
+		-- first path step of `request_uri' and parameters after '?' cropped
+		local
+			slash_2_index: INTEGER
+		do
+			if attached request_uri as uri then
+				Result := uri.substring_to ('?')
+				if uri.count > 2 and then uri.item_8 (1) = '/' then
+					slash_2_index := uri.index_of ('/', 2)
+					if slash_2_index > 0 then
+						Result.keep_head (slash_2_index - 1)
+					end
+				end
+			else
+				create Result.make_empty
+			end
+		end
 
 feature -- Basic operations
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-24 13:02:32 GMT (Friday 24th January 2025)"
-	revision: "15"
+	date: "2025-01-26 18:12:26 GMT (Sunday 26th January 2025)"
+	revision: "16"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -37,17 +37,17 @@ feature {NONE} -- Commands
 
 	geographic_analysis
 		local
-			shell: EL_GEOGRAPHIC_ANALYSIS_SHELL_MENU
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_GEOGRAPHIC_ANALYSIS_COMMAND]
 		do
-			create shell.make (config_path)
+			create shell.make ("GEOGRAPHIC REPORT BY MONTH", config_path)
 			shell.run_command_loop
 		end
 
 	status_404_analysis
 		local
-			shell: EL_404_ANALYSIS_SHELL_MENU
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_404_GEOGRAPHIC_ANALYSIS_COMMAND]
 		do
-			create shell.make (config_path)
+			create shell.make ("PAGES NOT FOUND REPORT", config_path)
 			shell.run_command_loop
 		end
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-25 16:33:42 GMT (Saturday 25th January 2025)"
-	revision: "38"
+	date: "2025-01-26 11:11:01 GMT (Sunday 26th January 2025)"
+	revision: "39"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -131,6 +131,7 @@ feature -- Access
 feature -- Conversion
 
 	to_grouped_list_table: EL_GROUPED_LIST_TABLE [G, HASHABLE]
+		-- group values into table by `item_key'
 		do
 			if attached {like to_grouped_list_table} new_grouped_table (Grouped_list_type) as table then
 				Result := table
@@ -139,6 +140,7 @@ feature -- Conversion
 		end
 
 	to_grouped_set_table: EL_GROUPED_SET_TABLE [G, HASHABLE]
+		-- group value set into table by `item_key'
 		do
 			if attached {like to_grouped_set_table} new_grouped_table (Grouped_set_type) as table then
 				Result := table

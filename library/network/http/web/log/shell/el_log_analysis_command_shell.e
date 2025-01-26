@@ -1,16 +1,18 @@
 note
-	description: "Abstract class for web log analysis shells"
+	description: "[
+		Command shell to analyse web logs with command conforming to ${EL_TRAFFIC_ANALYSIS_COMMAND}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-24 11:29:58 GMT (Friday 24th January 2025)"
-	revision: "1"
+	date: "2025-01-26 18:15:09 GMT (Sunday 26th January 2025)"
+	revision: "2"
 
-deferred class
-	EL_LOG_ANALYSIS_COMMAND_SHELL
+class
+	EL_LOG_ANALYSIS_COMMAND_SHELL [COMMAND -> EL_TRAFFIC_ANALYSIS_COMMAND create make end]
 
 inherit
 	EL_COMMAND_SHELL_I
@@ -18,9 +20,12 @@ inherit
 			make as make_shell
 		end
 
+create
+	make
+
 feature {NONE} -- Initialization
 
-	make (config_path: FILE_PATH)
+	make (title: STRING; config_path: FILE_PATH)
 		require
 			config_exists: config_path.exists
 		do
@@ -32,7 +37,7 @@ feature {NONE} -- Implementation
 
 	analyse (web_log: EL_WEB_SERVER_LOG)
 		do
-			web_log.do_analysis (new_parser_command)
+			web_log.do_analysis (create {COMMAND}.make (config))
 		end
 
 	new_command_table: like command_table
@@ -44,16 +49,6 @@ feature {NONE} -- Implementation
 			across log_list as list loop
 				Result.put (agent analyse (list.item), list.item.description)
 			end
-		end
-
-feature {NONE} -- Deferred
-
-	 new_parser_command: EL_WEB_LOG_PARSER_COMMAND
-		deferred
-		end
-
-	title: STRING
-		deferred
 		end
 
 feature {NONE} -- Internal attributes

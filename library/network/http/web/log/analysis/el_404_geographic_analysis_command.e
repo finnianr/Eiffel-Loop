@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-24 15:49:06 GMT (Friday 24th January 2025)"
-	revision: "1"
+	date: "2025-01-26 18:04:00 GMT (Sunday 26th January 2025)"
+	revision: "2"
 
 class
-	EL_404_ANALYSIS_COMMAND
+	EL_404_GEOGRAPHIC_ANALYSIS_COMMAND
 
 inherit
-	EL_WEB_LOG_PARSER_COMMAND
-		rename
-			make_default as make
+	EL_TRAFFIC_ANALYSIS_COMMAND
 		redefine
-			execute, make, is_selected
+			execute, make_default, is_selected
 		end
 
 	EL_SHARED_HTTP_STATUS
@@ -27,60 +25,71 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make_default
 		do
 			Precursor
-			create ip_grouped_entry_table.make (1000)
+			create location_grouped_entry_table.make (1000)
+			create user_agent_table.make_equal (500)
 		end
 
 feature -- Basic operations
 
 	execute
 		local
-			user_agent_set: EL_HASH_SET [ZSTRING]; request_list: EL_ZSTRING_LIST
+			request_stem_set: EL_HASH_SET [ZSTRING]; request_list: EL_ZSTRING_LIST
 			request_counter_table: EL_COUNTER_TABLE [ZSTRING]; occurrence_count: NATURAL
+			ip_address_to_request_stem_map_list: EL_ARRAYED_MAP_LIST [NATURAL, ZSTRING]
 		do
 			Precursor
-			create user_agent_set.make_equal (50)
+			create request_stem_set.make_equal (50)
 			create request_counter_table.make (500)
 			create request_list.make (50)
+			create ip_address_to_request_stem_map_list.make (500)
 
 		-- Cache locations
 			lio.put_line ("Getting IP address locations:")
 
-			Track.progress (Console_display, not_found_list.count, agent fill_ip_grouped_entry_table)
+			Track.progress (Console_display, not_found_list.count, agent fill_location_grouped_entry_table)
 			lio.put_new_line
 			store_geolocation_data
 
-			if attached ip_grouped_entry_table as table then
+			if attached location_grouped_entry_table as table then
 				from table.start until table.after loop
-					if attached table.item_for_iteration as entry_list
-						and then attached table.key_for_iteration as ip_number
-					then
-						lio.put_labeled_string (Ip_address.to_string (ip_number), Geolocation.for_number (ip_number))
-						lio.put_new_line
-						user_agent_set.wipe_out
+					lio.put_labeled_string ("404 REQUESTS FROM", table.key_for_iteration)
+					lio.put_new_line
+
+					if attached table.item_for_iteration as entry_list then
+						ip_address_to_request_stem_map_list.wipe_out
+						request_stem_set.wipe_out
 						across entry_list as list loop
-							if list.cursor_index = 1 then
-								lio.put_line (list.item.user_agent)
-							end
-							if attached cropped_user_agent (list.item.request_uri) as request_stem then
-								user_agent_set.put (request_stem)
+							if attached list.item as entry and then attached entry.request_uri_stem as request_stem then
 								request_counter_table.put (request_stem)
+								request_stem_set.put (request_stem)
+								ip_address_to_request_stem_map_list.extend (entry.ip_number, request_stem_set.found_item)
 							end
 						end
-						if attached user_agent_set.to_list as user_agent_list then
-							user_agent_list.sort (True)
-							across user_agent_list as list loop
-								if list.cursor_index > 1 then
-									lio.put_string (Semicolon_space)
+
+						ip_address_to_request_stem_map_list.sort_by_key_then_value (True, True)
+						if attached {EL_GROUPED_SET_TABLE [ZSTRING, NATURAL]}
+							ip_address_to_request_stem_map_list.to_grouped_set_table as uri_grouped_by_ip
+						then
+							across uri_grouped_by_ip as ip_group loop
+								lio.put_line (Ip_address.to_string (ip_group.key))
+								lio.put_labeled_string ("Agent", user_agent_table [ip_group.key])
+								lio.put_new_line
+								across ip_group.item as list loop
+									if list.cursor_index > 1 then
+										lio.put_string (Semicolon_space)
+									end
+									lio.put_string (list.item)
 								end
-								lio.put_string (list.item)
+								lio.put_new_line
 							end
 							lio.put_new_line
 						end
 					end
 					table.forth
+					lio.put_new_line
 				end
 			end
 			if request_counter_table.count > 0 then
@@ -101,19 +110,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	cropped_user_agent (str: ZSTRING): ZSTRING
-		local
-			slash_2_index: INTEGER
-		do
-			Result := str.substring_to ('?')
-			if str.count > 2 and then str.item_8 (1) = '/' then
-				slash_2_index := str.index_of ('/', 2)
-				if slash_2_index > 0 then
-					Result.keep_head (slash_2_index - 1)
-				end
-			end
-		end
 
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
@@ -139,13 +135,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	fill_ip_grouped_entry_table
+	fill_location_grouped_entry_table
 		do
 			across not_found_list as list loop
-				if attached list.item as entry and then attached Geolocation.for_number (entry.ip_number) then
-					ip_grouped_entry_table.extend (entry.ip_number, entry)
-					progress_listener.notify_tick
+				if attached list.item as entry then
+					location_grouped_entry_table.extend (entry.geographic_location, entry)
+					user_agent_table.put (entry.user_agent, entry.ip_number)
 				end
+				progress_listener.notify_tick
 			end
 		end
 
@@ -156,7 +153,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	ip_grouped_entry_table: EL_GROUPED_SET_TABLE [EL_WEB_LOG_ENTRY, NATURAL]
+	location_grouped_entry_table: EL_GROUPED_SET_TABLE [EL_WEB_LOG_ENTRY, ZSTRING]
+
+	user_agent_table: EL_HASH_TABLE [ZSTRING, NATURAL]
+		-- look up user agent from IP number
 
 feature {NONE} -- Constants
 
