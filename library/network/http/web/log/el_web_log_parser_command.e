@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-26 11:01:21 GMT (Sunday 26th January 2025)"
-	revision: "13"
+	date: "2025-01-27 15:48:17 GMT (Monday 27th January 2025)"
+	revision: "14"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -19,11 +19,7 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_TRACK; EL_MODULE_USER_INPUT
 
-	EL_ITERATION_OUTPUT
-
-	EL_FILE_OPEN_ROUTINES
-
-	EL_SHARED_PROGRESS_LISTENER
+	EL_SHARED_DATA_TRANSFER_PROGRESS_LISTENER
 
 feature {NONE} -- Initialization
 
@@ -31,6 +27,7 @@ feature {NONE} -- Initialization
 		do
 			create log_path
 			create not_found_list.make (0)
+			create invalid_line_list.make (0)
 			Geolocation.try_restore (geolocation_data_dir)
 		end
 
@@ -51,34 +48,37 @@ feature -- Basic operations
 		require else
 			log_path_exists: log_path.exists
 		local
-			count, ignored_count: INTEGER
+			file: PLAIN_TEXT_FILE
 		do
-			reset_dot_count
 			default_entry.reset_cache
-			if is_lio_enabled then
-				lio.put_labeled_string ("Reading log entries", log_path.base)
+			lio.put_labeled_string ("Reading log entries", log_path.base)
+			lio.put_new_line
+
+			create file.make_open_read (log_path)
+			Track.data_transfer (Console_display, file.count, agent do_with_file (file))
+
+			lio.put_new_line
+			lio.put_line ("Storing geolocation data")
+			Geolocation.store (geolocation_data_dir)
+			lio.put_new_line
+
+			if invalid_line_list.count > 0 then
+				lio.put_integer_field ("INVALID LOG LINES", invalid_line_list.count)
+				lio.put_new_line
+				lio.put_line ("(Do not contain exactly 6 double quotes)")
+				across invalid_line_list as list loop
+					lio.put_line (list.item)
+				end
+				User_input.press_enter
 				lio.put_new_line
 			end
-			if attached open_lines (log_path, Latin_1) as line_source then
-				across line_source as line loop
-					print_progress (line.cursor_index.to_natural_32)
-					if line.shared_item.occurrences ('%"') = 6 and then is_selected (line.shared_item) then
-						do_with (new_web_log_entry (line.shared_item))
-						count := count + 1
-					else
-						ignored_count := ignored_count + 1
-					end
-				end
-				line_source.close
+
+			lio.put_line ("LOG LINE COUNTS")
+			lio.put_integer_field ("Selected", selected_count)
+			if ignored_count > 0 then
+				lio.put_integer_field (" Ignored", ignored_count)
 			end
-			if is_lio_enabled then
-				lio.put_new_line
-				lio.put_integer_field ("Selected entries", count)
-				if ignored_count > 0 then
-					lio.put_integer_field (" Ignored entries", ignored_count)
-				end
-				lio.put_new_line_x2
-			end
+			lio.put_new_line_x2
 		end
 
 feature {NONE} -- Implementation
@@ -92,12 +92,60 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
+	do_with_file (file: PLAIN_TEXT_FILE)
+		local
+			done: BOOLEAN; quote_count, start_index, end_index, i: INTEGER
+			s: EL_STRING_8_ROUTINES
+		do
+			from until done loop
+				file.read_line
+				if file.end_of_file then
+					done := True
+
+				elseif attached file.last_string as line then
+					quote_count := line.occurrences ('%"')
+					if quote_count > 6 then
+					-- EXAMPLE: 47.76.72.62 - - [21/Jan/2025:13:40:40 +0000]
+					--	"GET /index.php?lang=../usr/pearcmd&+config+/&/<?echo(md5("hi"));?>+/tmp/index1.php HTTP/1.1"
+					--	404 530 "-" "Custom-AsyncHttpClient"
+
+					-- Replace excess quotes with single quotes, for example replace "hi" with 'hi'.
+						end_index := line.count
+						from i := 0 until i = 4 or end_index = 0 loop
+							end_index := line.last_index_of ('"', end_index - 1)
+							i := i + 1
+						end
+						start_index := line.index_of ('"', 1)
+						if (i = 4 and start_index > 0 and start_index <= end_index)
+							and then attached line.substring (start_index + 1, end_index - 1) as substring
+						then
+							s.replace_character (substring, '"', '%'')
+							line.replace_substring (substring, start_index + 1, end_index - 1)
+						end
+						quote_count := line.occurrences ('%"')
+					end
+					if quote_count /= 6 then
+						invalid_line_list.extend (line.twin)
+
+					elseif is_selected (line) then
+						do_with (new_web_log_entry (line))
+						selected_count := selected_count + 1
+					else
+						ignored_count := ignored_count + 1
+					end
+					progress_listener.on_notify (line.count + 1)
+				end
+			end
+			file.close
+			progress_listener.finish
+		end
+
 	geolocation_data_dir: DIR_PATH
 		do
 			Result := Directory.Sub_app_data #+ generator.as_lower
 		end
 
-	index_of_request_uri (line: ZSTRING): INTEGER
+	index_of_request_uri (line: STRING): INTEGER
 		do
 			Result := line.index_of (']', 1)
 			if Result > 0 and then Result + 2 < line.count and then line [Result + 2] = '"' then
@@ -108,7 +156,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_selected (line: ZSTRING): BOOLEAN
+	is_selected (line: STRING): BOOLEAN
 		-- when `True' line is included for call to `do_with'
 		do
 			Result := True
@@ -119,27 +167,16 @@ feature {NONE} -- Implementation
 			create Result.make (line)
 		end
 
-	store_geolocation_data
-		do
-			if is_lio_enabled then
-				lio.put_line ("Storing geolocation data")
-			end
-			Geolocation.store (geolocation_data_dir)
-			if is_lio_enabled then
-				lio.put_new_line_x2
-			end
-		end
-
 feature {NONE} -- Internal attributes
 
 	not_found_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
 		-- human visitor requests that did not have 200 as status code
 
-feature {NONE} -- Constants
+	invalid_line_list: EL_STRING_8_LIST
+		-- lines that do not have exactly 6 double quotes
 
-	Iterations_per_dot: NATURAL_32
-		once
-			Result := 100
-		end
+	selected_count: INTEGER
+
+	ignored_count: INTEGER
 
 end

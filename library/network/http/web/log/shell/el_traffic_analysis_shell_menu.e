@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-26 18:12:26 GMT (Sunday 26th January 2025)"
-	revision: "16"
+	date: "2025-01-27 9:59:09 GMT (Monday 27th January 2025)"
+	revision: "17"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -35,19 +35,35 @@ feature -- Constants
 
 feature {NONE} -- Commands
 
-	geographic_analysis
+	selected_geographic
 		local
 			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_GEOGRAPHIC_ANALYSIS_COMMAND]
 		do
-			create shell.make ("GEOGRAPHIC REPORT BY MONTH", config_path)
+			create shell.make ("SELECTED PAGES REPORT BY MONTH AND GEOGRAPHIC LOCATION", config_path)
 			shell.run_command_loop
 		end
 
-	status_404_analysis
+	status_404_geographic
 		local
 			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_404_GEOGRAPHIC_ANALYSIS_COMMAND]
 		do
-			create shell.make ("PAGES NOT FOUND REPORT", config_path)
+			create shell.make ("404 REPORT BY GEOGRAPHIC LOCATION", config_path)
+			shell.run_command_loop
+		end
+
+	status_404_request_count
+		local
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_404_REQUEST_COUNT_ANALYSIS_COMMAND]
+		do
+			create shell.make ("404 REPORT BY USER AGENT", config_path)
+			shell.run_command_loop
+		end
+
+	status_404_user_agent
+		local
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_404_USER_AGENT_ANALYSIS_COMMAND]
+		do
+			create shell.make ("404 REPORT BY USER AGENT", config_path)
 			shell.run_command_loop
 		end
 
@@ -56,8 +72,10 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make_assignments (<<
-				["Visitor geographic location by month", agent geographic_analysis],
-				["Summary report of bad visitors",		  agent status_404_analysis]
+				["Visitor geographic location by month",			  agent selected_geographic],
+				["Request 404 status by geopraphic location",	  agent status_404_geographic],
+				["Request 404 status by user agent with summary", agent status_404_user_agent],
+				["Request 404 status request count summary",		  agent status_404_request_count]
 			>>)
 		end
 

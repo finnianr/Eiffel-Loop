@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-26 18:04:00 GMT (Sunday 26th January 2025)"
-	revision: "34"
+	date: "2025-01-27 8:39:31 GMT (Monday 27th January 2025)"
+	revision: "35"
 
 class
 	EL_GEOGRAPHIC_ANALYSIS_COMMAND
@@ -50,13 +50,12 @@ feature -- Basic operations
 		do
 			Precursor -- parse log file
 
-		-- Cache locations
-			lio.put_line ("Getting IP address locations:")
-
-			Track.progress (Console_display, human_entry_list.count, agent fill_human_agent_table)
-
+			across human_entry_list as list loop
+				if attached list.item as entry then
+					human_agent_table.put (entry.stripped_user_agent)
+				end
+			end
 			lio.put_new_line
-			store_geolocation_data
 
 			across << bot_agent_table, human_agent_table >> as table loop
 				if table.cursor_index = 1 then
@@ -108,6 +107,7 @@ feature {NONE} -- Implementation
 				human_entry_list.extend (entry)
 			-- Mark entries that match one of `config.page_list'
 				entry.set_request_uri_group (last_uri_stem)
+				entry.cache_location
 			else
 				not_found_list.extend (entry)
 			end
@@ -118,20 +118,9 @@ feature {NONE} -- Implementation
 			Result := entry.compact_date |>> 8
 		end
 
-	fill_human_agent_table
-		-- fill `human_agent_table' and cache geolocations
-		do
-			across human_entry_list as list loop
-				if attached list.item as entry and then attached entry.geographic_location then
-					human_agent_table.put (entry.stripped_user_agent)
-					progress_listener.notify_tick
-				end
-			end
-		end
-
 	is_bot (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		local
-			user_agent: ZSTRING
+			user_agent: STRING
 		do
 			user_agent := buffer.copied (entry.user_agent)
 			user_agent.to_lower
@@ -140,7 +129,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_selected (line: ZSTRING): BOOLEAN
+	is_selected (line: STRING): BOOLEAN
 		local
 			uri_index: INTEGER
 		do
@@ -198,17 +187,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	bot_agent_table: EL_COUNTER_TABLE [ZSTRING]
+	bot_agent_table: EL_COUNTER_TABLE [STRING]
 
-	buffer: EL_ZSTRING_BUFFER
+	buffer: EL_STRING_8_BUFFER
 
-	human_agent_table: EL_COUNTER_TABLE [ZSTRING]
+	human_agent_table: EL_COUNTER_TABLE [STRING]
 
 	human_entry_list: EL_QUERYABLE_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
 
-	last_uri_stem: ZSTRING
+	last_uri_stem: STRING
 
-	page_table: EL_GROUPED_SET_TABLE [NATURAL, ZSTRING];
+	page_table: EL_GROUPED_SET_TABLE [NATURAL, STRING];
 
 note
 	notes: "[

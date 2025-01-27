@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-26 10:58:28 GMT (Sunday 26th January 2025)"
-	revision: "24"
+	date: "2025-01-27 17:59:19 GMT (Monday 27th January 2025)"
+	revision: "25"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -32,24 +32,26 @@ inherit
 			{NONE} all
 		end
 
-	EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_ZSTRING_BUFFER_POOL
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make, make_default
 
 feature {NONE} -- Initialization
 
-	make (line: ZSTRING)
+	make (line: STRING)
 		require
 			valid_line: line.occurrences (Quote) = 6
 		local
-			index, field_index: INTEGER; part: ZSTRING; value_set: like new_string_set
+			index, field_index: INTEGER; part: STRING; value_set: like new_string_set
+			line_split: EL_SPLIT_ON_CHARACTER [STRING]; s: EL_STRING_8_ROUTINES
 		do
 			make_default
-			across line.split (Quote) as list loop
-				part := list.item; field_index := list.cursor_index
+			create line_split.make (line, Quote)
+			across line_split as split loop
+				part := split.item; field_index := split.cursor_index
 				if Field_cache_array.valid_index (field_index) then
 					value_set := Field_cache_array [field_index]
 				else
@@ -57,7 +59,7 @@ feature {NONE} -- Initialization
 				end
 				inspect field_index
 					when 1 then
-						if attached part.substring_to (' ') as address then
+						if attached s.substring_to (part, ' ') as address then
 							ip_number := Ip_address.to_number (address)
 							index := part.index_of ('[', address.count + 3) + 1
 						end
@@ -65,24 +67,24 @@ feature {NONE} -- Initialization
 						index := index + 12
 						compact_time := Time_parser.to_compact_time (part.substring (index, index + 7))
 					when 2 then
-						Http_command_set.put (part.substring_to (' '))
+						Http_command_set.put (s.substring_to (part, ' '))
 						http_command := Http_command_set.found_item
 
 						index := part.substring_index (Http_protocol, http_command.count + 1)
 						if index.to_boolean then
 							value_set.put (part.substring (http_command.count + 2, index - 2))
 						else
-							value_set.put_copy (Empty_string)
+							value_set.put_copy (Empty_string_8)
 						end
 						request_uri := value_set.found_item
 					when 3 then
 						part.adjust
 						index := part.index_of (' ', 1)
 						status_code := part.substring (1, index - 1).to_natural_16
-						byte_count := part.substring_end (index + 1).to_natural
+						byte_count := part.substring (index + 1, part.count).to_natural
 					when 4 then
-						if part.is_character ('-') then
-							value_set.put_copy (Empty_string)
+						if s.is_character (part, '-') then
+							value_set.put_copy (Empty_string_8)
 						else
 							value_set.put_copy (part)
 						end
@@ -97,11 +99,11 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
-			request_uri_group := Empty_string
-			http_command := Empty_string
-			referer := Empty_string
-			request_uri := Empty_string
-			user_agent := Empty_string
+			request_uri_group := Empty_string_8
+			http_command := Empty_string_8
+			referer := Empty_string_8
+			request_uri := Empty_string_8
+			user_agent := Empty_string_8
 		end
 
 feature -- Status query
@@ -115,7 +117,7 @@ feature -- Status query
 
 feature -- Element change
 
-	set_request_uri_group (a_request_uri_group: ZSTRING)
+	set_request_uri_group (a_request_uri_group: STRING)
 		do
 			request_uri_group := a_request_uri_group
 		end
@@ -145,22 +147,22 @@ feature -- Date/time
 
 feature -- Attribute access
 
-	request_uri_group: ZSTRING
-		-- used in report analysis and set externally
-
 	byte_count: NATURAL
 
-	http_command: ZSTRING
+	http_command: STRING
 
 	ip_number: NATURAL
 
-	referer: ZSTRING
+	referer: STRING
 
-	request_uri: ZSTRING
+	request_uri: STRING
+
+	request_uri_group: STRING
+		-- used in report analysis and set externally
 
 	status_code: NATURAL_16
 
-	user_agent: ZSTRING
+	user_agent: STRING
 
 feature -- Access
 
@@ -169,32 +171,42 @@ feature -- Access
 			Result := Geolocation.for_number (ip_number)
 		end
 
-	stripped_user_agent: ZSTRING
+	request_stem_lower: STRING
+		-- lower case first path step of `request_uri' with parameters after '?' cropped
+		local
+			slash_2_index: INTEGER; s: EL_STRING_8_ROUTINES
+		do
+			if attached request_uri as uri then
+				Result := s.substring_to (uri, '?')
+				if uri.count > 2 and then uri [1] = '/' then
+					slash_2_index := uri.index_of ('/', 2)
+					if slash_2_index > 0 then
+						Result.keep_head (slash_2_index - 1)
+					end
+					Result.remove_head (1)
+				end
+				Result.to_lower
+			else
+				create Result.make_empty
+			end
+		end
+
+	stripped_user_agent: STRING
 		-- lower case `user_agent' stripped of punctuation and version numbers
 		do
 			Result := stripped_lower (user_agent).joined_words
 			Result.to_lower
 		end
 
-	request_uri_stem: ZSTRING
-		-- first path step of `request_uri' and parameters after '?' cropped
-		local
-			slash_2_index: INTEGER
+feature -- Basic operations
+
+	cache_location
+		-- add geographic location to built-in cache
 		do
-			if attached request_uri as uri then
-				Result := uri.substring_to ('?')
-				if uri.count > 2 and then uri.item_8 (1) = '/' then
-					slash_2_index := uri.index_of ('/', 2)
-					if slash_2_index > 0 then
-						Result.keep_head (slash_2_index - 1)
-					end
-				end
-			else
-				create Result.make_empty
+			if attached Geolocation.for_number (ip_number) then
+				do_nothing
 			end
 		end
-
-feature -- Basic operations
 
 	reset_cache
 		-- reset field cache
@@ -216,29 +228,31 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_string_set: EL_HASH_SET [ZSTRING]
+	new_string_set: EL_HASH_SET [STRING]
 		do
 			create Result.make_equal (3)
 		end
 
-	stripped_lower (a_name: ZSTRING): EL_ZSTRING_LIST
+	stripped_lower (a_name: STRING): EL_STRING_8_LIST
 		-- if `a_name' is "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
 		-- `Result.joined_words' is "firefox linux rv x11 x86_64"
 		local
-			name, part: ZSTRING
+			name, part: STRING; name_split: EL_SPLIT_ON_CHARACTER [STRING]
+			s: EL_STRING_8_ROUTINES
 		do
-			if attached String_pool.borrowed_item as borrowed then
+			if attached String_8_pool.borrowed_item as borrowed then
 				name := borrowed.copied (a_name)
-				name.replace_set_members_8 (Current, ' ') -- `has_punctuation' defines set
+				s.replace_set_members (name, Current, ' ') -- `has_punctuation' defines set
 				name.to_lower
 
 				Result := List_buffer
 				Result.wipe_out
-				across name.split (' ') as split loop
+				create name_split.make (name, ' ')
+				across name_split as split loop
 					if split.item_count > 0 then
 						Agent_word_set.put_copy (split.item)
 						part := Agent_word_set.found_item
-						if not part.item_8 (1).is_digit and then not Excluded_agents_words.has (part) then
+						if not part [1].is_digit and then not Excluded_agents_words.has (part) then
 							Result.extend (part)
 						end
 					end
@@ -250,17 +264,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- String sets
 
-	Agent_word_set: EL_HASH_SET [ZSTRING]
+	Agent_word_set: EL_HASH_SET [STRING]
 		once
 			Result := Field_cache_array [1]
 		end
 
-	Default_value_set: EL_HASH_SET [ZSTRING]
+	Default_value_set: EL_HASH_SET [STRING]
 		once
 			create Result.make_equal (0)
 		end
 
-	Field_cache_array: ARRAY [EL_HASH_SET [ZSTRING]]
+	Field_cache_array: ARRAY [EL_HASH_SET [STRING]]
 		once
 			create Result.make_filled (Default_value_set, 1, Field_count)
 			across 1 |..| Field_count as index loop
@@ -268,7 +282,7 @@ feature {NONE} -- String sets
 			end
 		end
 
-	Http_command_set: EL_HASH_SET [ZSTRING]
+	Http_command_set: EL_HASH_SET [STRING]
 		once
 			Result := Field_cache_array [1]
 		end
@@ -292,28 +306,25 @@ feature {NONE} -- Date/Time
 
 feature {NONE} -- Constants
 
-	Excluded_agents_words: EL_ZSTRING_LIST
+	Excluded_agents_words: EL_STRING_8_LIST
 		once
 			Result := "compatible, like, chrome, gecko, khtml, mozilla, safari"
 		end
 
-	List_buffer: EL_ZSTRING_LIST
+	Field_count: INTEGER = 6
+
+	Http_protocol: STRING = "HTTP/1."
+
+	List_buffer: EL_STRING_8_LIST
 		once
 			create Result.make (10)
 		end
 
-	Field_count: INTEGER = 6
-
-	Http_protocol: ZSTRING
-		once
-			Result := "HTTP/1."
-		end
-
-	Mobile_agents: EL_ZSTRING_LIST
+	Mobile_agents: EL_STRING_8_LIST
 		once
 			Result := "mobile, Mobile"
 		end
 
-	Quote: CHARACTER_32 = '%"'
+	Quote: CHARACTER = '%"'
 
 end

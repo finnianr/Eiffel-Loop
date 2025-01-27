@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-03 18:22:07 GMT (Sunday 3rd November 2024)"
-	revision: "33"
+	date: "2025-01-27 8:35:34 GMT (Monday 27th January 2025)"
+	revision: "34"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -292,6 +292,24 @@ feature -- Transform
 			if a_old.is_character_8 and a_new.is_character_8 then
 				replace_character (target, a_old.to_character_8, a_new.to_character_8)
 			end
+		end
+
+	replace_set_members (target: STRING_8; set: EL_SET [CHARACTER_8]; a_new: CHARACTER_8)
+		-- Replace all characters that are member of `set' with the `a_new' character
+		local
+			i, l_count: INTEGER; c_i: CHARACTER_8
+		do
+			l_count := target.count
+			if attached target.area as l_area then
+				from i := 0 until i = l_count loop
+					c_i := l_area [i]
+					if set.has (c_i) then
+						l_area [i] := a_new
+					end
+					i := i + 1
+				end
+			end
+			target.set_count (l_count) -- reset `internal_hash_code' to 0
 		end
 
 feature -- Adjust
