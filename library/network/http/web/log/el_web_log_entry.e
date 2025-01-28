@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-27 17:59:19 GMT (Monday 27th January 2025)"
-	revision: "25"
+	date: "2025-01-28 13:37:14 GMT (Tuesday 28th January 2025)"
+	revision: "26"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -173,29 +173,37 @@ feature -- Access
 
 	request_stem_lower: STRING
 		-- lower case first path step of `request_uri' with parameters after '?' cropped
+		-- and leading '/' removed
+		-- Eg. "/one/two?x=10" => "one"
 		local
-			slash_2_index: INTEGER; s: EL_STRING_8_ROUTINES
+			slash_2_index, qm_index: INTEGER
 		do
-			if attached request_uri as uri then
-				Result := s.substring_to (uri, '?')
-				if uri.count > 2 and then uri [1] = '/' then
-					slash_2_index := uri.index_of ('/', 2)
-					if slash_2_index > 0 then
-						Result.keep_head (slash_2_index - 1)
-					end
-					Result.remove_head (1)
+			if attached String_8_pool.borrowed_item as borrowed
+				and then attached borrowed.copied_lower (request_uri) as str
+			then
+				qm_index := str.index_of ('?', 1)
+				if qm_index > 0 then
+					str.keep_head (qm_index - 1)
 				end
-				Result.to_lower
+				if str.count > 2 and then str [1] = '/' then
+					slash_2_index := str.index_of ('/', 2)
+					if slash_2_index > 0 then
+						str.keep_head (slash_2_index - 1)
+					end
+					str.remove_head (1) -- removes '/'
+				end
+				Request_stem_set.put_copy (str)
+				Result := Request_stem_set.found_item
+				borrowed.return
 			else
-				create Result.make_empty
+				Result := Empty_string_8
 			end
 		end
 
-	stripped_user_agent: STRING
+	normalized_user_agent: STRING
 		-- lower case `user_agent' stripped of punctuation and version numbers
 		do
 			Result := stripped_lower (user_agent).joined_words
-			Result.to_lower
 		end
 
 feature -- Basic operations
@@ -237,13 +245,12 @@ feature {NONE} -- Implementation
 		-- if `a_name' is "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
 		-- `Result.joined_words' is "firefox linux rv x11 x86_64"
 		local
-			name, part: STRING; name_split: EL_SPLIT_ON_CHARACTER [STRING]
+			name: STRING; name_split: EL_SPLIT_ON_CHARACTER [STRING]
 			s: EL_STRING_8_ROUTINES
 		do
 			if attached String_8_pool.borrowed_item as borrowed then
-				name := borrowed.copied (a_name)
-				s.replace_set_members (name, Current, ' ') -- `has_punctuation' defines set
-				name.to_lower
+				name := borrowed.copied_lower (a_name)
+				s.replace_set_members (name, Current, ' ') -- set defined by function `has_punctuation'
 
 				Result := List_buffer
 				Result.wipe_out
@@ -251,8 +258,9 @@ feature {NONE} -- Implementation
 				across name_split as split loop
 					if split.item_count > 0 then
 						Agent_word_set.put_copy (split.item)
-						part := Agent_word_set.found_item
-						if not part [1].is_digit and then not Excluded_agents_words.has (part) then
+						if attached Agent_word_set.found_item as part
+							and then not part [1].is_digit and then not Excluded_agents_words.has (part)
+						then
 							Result.extend (part)
 						end
 					end
@@ -326,5 +334,10 @@ feature {NONE} -- Constants
 		end
 
 	Quote: CHARACTER = '%"'
+
+	Request_stem_set: EL_HASH_SET [STRING]
+		once
+			create Result.make_equal (500)
+		end
 
 end

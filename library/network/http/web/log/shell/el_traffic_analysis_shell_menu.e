@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-27 9:59:09 GMT (Monday 27th January 2025)"
-	revision: "17"
+	date: "2025-01-28 8:13:07 GMT (Tuesday 28th January 2025)"
+	revision: "18"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -45,7 +45,7 @@ feature {NONE} -- Commands
 
 	status_404_geographic
 		local
-			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_404_GEOGRAPHIC_ANALYSIS_COMMAND]
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_GEOGRAPHIC_404_ANALYSIS_COMMAND]
 		do
 			create shell.make ("404 REPORT BY GEOGRAPHIC LOCATION", config_path)
 			shell.run_command_loop
@@ -53,7 +53,7 @@ feature {NONE} -- Commands
 
 	status_404_request_count
 		local
-			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_404_REQUEST_COUNT_ANALYSIS_COMMAND]
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_REQUEST_COUNT_404_ANALYSIS_COMMAND]
 		do
 			create shell.make ("404 REPORT BY USER AGENT", config_path)
 			shell.run_command_loop
@@ -61,7 +61,7 @@ feature {NONE} -- Commands
 
 	status_404_user_agent
 		local
-			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_404_USER_AGENT_ANALYSIS_COMMAND]
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_USER_AGENT_404_ANALYSIS_COMMAND]
 		do
 			create shell.make ("404 REPORT BY USER AGENT", config_path)
 			shell.run_command_loop

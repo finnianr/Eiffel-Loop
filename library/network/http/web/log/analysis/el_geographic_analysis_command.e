@@ -1,6 +1,9 @@
 note
 	description: "[
 		Command to analyse web-server log geographically according to configuration
+		${EL_TRAFFIC_ANALYSIS_CONFIG}. Features a summary of normalized user agents
+		in sub-headings "HUMAN" or "BOTS". This is followed by report showing number
+		of requests for each configured page, grouped by country or state.
 	]"
 	notes: "See end of class"
 
@@ -9,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-27 8:39:31 GMT (Monday 27th January 2025)"
-	revision: "35"
+	date: "2025-01-28 13:44:24 GMT (Tuesday 28th January 2025)"
+	revision: "36"
 
 class
 	EL_GEOGRAPHIC_ANALYSIS_COMMAND
@@ -51,9 +54,7 @@ feature -- Basic operations
 			Precursor -- parse log file
 
 			across human_entry_list as list loop
-				if attached list.item as entry then
-					human_agent_table.put (entry.stripped_user_agent)
-				end
+				human_agent_table.put (list.item.normalized_user_agent)
 			end
 			lio.put_new_line
 
@@ -101,9 +102,9 @@ feature {NONE} -- Implementation
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
 			if is_bot (entry) then
-				bot_agent_table.put (entry.stripped_user_agent)
+				bot_agent_table.put (entry.normalized_user_agent)
 
-			elseif entry.status_code = 200 then
+			elseif Status_200_or_301.has (entry.status_code) then
 				human_entry_list.extend (entry)
 			-- Mark entries that match one of `config.page_list'
 				entry.set_request_uri_group (last_uri_stem)
@@ -199,6 +200,14 @@ feature {NONE} -- Internal attributes
 
 	page_table: EL_GROUPED_SET_TABLE [NATURAL, STRING];
 
+feature {NONE} -- Constants
+
+	Status_200_or_301: ARRAY [NATURAL_16]
+		-- OK or Moved permently (often the result of http request for https resource)
+		once
+			Result := << 200, 300 >>
+		end
+
 note
 	notes: "[
 		**Example Configuration**
@@ -231,6 +240,35 @@ note
 						"netcraftsurveyagent"
 						"python"
 						"qwantify"
+						
+		**Output Example**
+
+			WEB CRAWLER AGENTS
+			android applewebkit bot build com google googlebot html http linux mmb29p mobile nexus www: 658
+			com externalhit_uatext facebook facebookexternalhit http php www: 362
+
+			HUMAN AGENTS
+			applewebkit cpu iphone mac mobile os version x: 641
+			applewebkit nt win64 windows x64: 208
+			firefox linux rv x11 x86_64: 83
+			applewebkit intel mac macintosh os x: 76
+			
+			-- MONTH: January 2025 --
+
+			/en/artworks.html: 9
+
+			  United States of America: 2
+			  Netherlands (Kingdom of the): 2
+			  Germany: 1
+			  Israel: 1
+
+			/en/concept.html: 11
+
+			  Germany: 3
+			  Japan: 1
+			  Estonia: 1
+			  Russian Federation: 1
+
 	]"
 
 end
