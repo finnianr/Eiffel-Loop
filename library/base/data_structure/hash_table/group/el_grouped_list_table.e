@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-01 11:06:41 GMT (Friday 1st November 2024)"
-	revision: "14"
+	date: "2025-01-30 17:56:17 GMT (Thursday 30th January 2025)"
+	revision: "15"
 
 class
 	EL_GROUPED_LIST_TABLE [G, K -> HASHABLE]
@@ -125,6 +125,25 @@ feature -- Basic operations
 			item_position := old_position
 		end
 
+	sort_by_item_count (ascending_order: BOOLEAN)
+		-- sort by the number of items in each group
+		local
+			sorted_table: like Current
+		do
+			if attached key_list as sorted_keys then
+				sorted_keys.order_by (agent group_count, ascending_order)
+				if object_comparison then
+					create sorted_table.make_equal (count)
+				else
+					create sorted_table.make (count)
+				end
+				across sorted_keys as list loop
+					sorted_table.extend_area (item_area (list.item), list.item)
+				end
+				standard_copy (sorted_table)
+			end
+		end
+
 	wipe_out_lists
 		-- wipe out list items
 		do
@@ -152,6 +171,13 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	group_count (a_key: K): INTEGER
+		do
+			if attached item_area (a_key) as group then
+				Result := group.count
+			end
+		end
 
 	internal_extend (list: like found_list; key: K; new_item: G)
 		local

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-30 7:30:28 GMT (Thursday 30th January 2025)"
-	revision: "5"
+	date: "2025-01-30 17:51:15 GMT (Thursday 30th January 2025)"
+	revision: "6"
 
 class
 	EL_GEOGRAPHIC_404_ANALYSIS_COMMAND
@@ -39,30 +39,27 @@ feature -- Basic operations
 	execute
 		local
 			user_agent_group_table: EL_REQUESTS_GROUPED_BY_USER_AGENT
-			location_counter_table: EL_COUNTER_TABLE [ZSTRING]
-			minimum_size: INTEGER
 		do
 			Precursor
-			minimum_size := (not_found_list.count // 20).max (20)
-			create user_agent_group_table.make (minimum_size)
-			create location_counter_table.make_equal (minimum_size)
+			create user_agent_group_table.make ((not_found_list.count // 20).max (20))
 
 			across not_found_list as list loop
 				if attached list.item as entry and then attached entry.geographic_location as location then
 					location_grouped_entry_table.extend (location, entry)
-					location_counter_table.put (location)
 				end
 			end
 			lio.put_new_line
 
-			across location_counter_table.as_sorted_list (False) as map loop
-				if location_grouped_entry_table.has_key (map.key) then
-					lio.put_natural (map.value)
-					lio.put_labeled_string (" 404 REQUESTS FROM", map.key)
+			location_grouped_entry_table.sort_by_item_count (False)
+
+			across location_grouped_entry_table as table loop
+				if attached table.key as location then
+					lio.put_integer (table.item_area.count)
+					lio.put_labeled_string (" 404 REQUESTS FROM", location)
 					lio.tab_right
 					lio.put_new_line
 					user_agent_group_table.wipe_out
-					across location_grouped_entry_table.found_area as area loop
+					across table.item_area as area loop
 						user_agent_group_table.extend (area.item)
 					end
 					user_agent_group_table.display (False, " FROM AGENT")
