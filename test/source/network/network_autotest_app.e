@@ -10,6 +10,7 @@ note
 			${FTP_PROTOCOL_TEST_SET}
 			${SIMPLE_CLIENT_SERVER_TEST_SET}
 			${NETWORK_TEST_SET}
+			${URL_FILTER_TABLE_TEST_SET}
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-25 7:59:22 GMT (Saturday 25th January 2025)"
-	revision: "42"
+	date: "2025-01-29 9:18:19 GMT (Wednesday 29th January 2025)"
+	revision: "43"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -27,7 +28,8 @@ inherit
 	EL_CRC_32_AUTOTEST_APPLICATION [
 		FTP_PROTOCOL_TEST_SET,
 		SIMPLE_CLIENT_SERVER_TEST_SET,
-		NETWORK_TEST_SET
+		NETWORK_TEST_SET,
+		URL_FILTER_TABLE_TEST_SET
 	]
 		redefine
 			log_filter_set, visible_types

@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 7:21:49 GMT (Monday 2nd September 2024)"
-	revision: "3"
+	date: "2025-01-29 9:21:30 GMT (Wednesday 29th January 2025)"
+	revision: "4"
 
 class
 	EL_URL_FILTER_TABLE
 
 inherit
 	EL_GROUPED_SET_TABLE [ZSTRING, STRING]
+		export
+			{NONE} all
+			{ANY} extend
+		end
 
 	EL_MODULE_TUPLE
 
@@ -59,8 +63,16 @@ feature {NONE} -- Implementation
 		end
 
 	matches_predicate (path_lower, substring: ZSTRING; predicate_name: STRING): BOOLEAN
+		local
+			index_of_slash: INTEGER
 		do
-			if predicate_name = Predicate.starts_with then
+			if predicate_name = Predicate.first_step then
+				index_of_slash := path_lower.index_of ('/', 1)
+				if index_of_slash = substring.count + 1 then
+					Result := path_lower.same_characters (substring, 1, substring.count, 1)
+				end
+
+			elseif predicate_name = Predicate.starts_with then
 				Result := path_lower.starts_with (substring)
 
 			elseif predicate_name = Predicate.ends_with then
@@ -91,10 +103,10 @@ feature {NONE} -- Constants
 	Maximum_digits: INTEGER = 3
 		-- maximum number of digits allowed in path
 
-	Predicate: TUPLE [starts_with, has_substring, ends_with, is_equal_: STRING]
+	Predicate: TUPLE [first_step, starts_with, has_substring, ends_with, is_equal_: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "starts_with, has_substring, ends_with, is_equal")
+			Tuple.fill (Result, "first_step, starts_with, has_substring, ends_with, is_equal")
 		end
 
 end

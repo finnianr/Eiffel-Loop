@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 13:15:58 GMT (Tuesday 28th January 2025)"
-	revision: "1"
+	date: "2025-01-30 7:30:00 GMT (Thursday 30th January 2025)"
+	revision: "2"
 
 class
 	EL_REQUESTS_GROUPED_BY_USER_AGENT
@@ -40,15 +40,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	extend (entry: EL_WEB_LOG_ENTRY)
-		do
-			if attached entry.normalized_user_agent as user_agent then
-				counter_table.put (user_agent)
-				extend_table (user_agent, entry.request_stem_lower)
-			end
-		end
-
-	display (user_prompt: BOOLEAN)
+	display (user_prompt: BOOLEAN; label: STRING)
 		local
 			previous_count: NATURAL; l_string_list: EL_STRING_8_LIST
 		do
@@ -56,18 +48,25 @@ feature -- Basic operations
 
 			across counter_table.as_sorted_list (False) as agent_to_count_map loop
 				if has_key (agent_to_count_map.key) then
-					lio.put_labeled_string ("AGENT", agent_to_count_map.key)
-					lio.put_new_line
-					lio.put_natural_field ("Total requests", agent_to_count_map.value)
+					lio.put_natural (agent_to_count_map.value)
+					lio.put_labeled_string (label, agent_to_count_map.key)
 					lio.put_new_line
 
 					create l_string_list.make_from_special (found_set.area)
-					l_string_list.display_grouped (lio)
+					l_string_list.display_grouped (lio, 120)
 					if user_prompt and then agent_to_count_map.value < previous_count then
 						previous_count := agent_to_count_map.value
 						User_input.press_enter
 					end
 				end
+			end
+		end
+
+	extend (entry: EL_WEB_LOG_ENTRY)
+		do
+			if attached entry.normalized_user_agent as user_agent then
+				counter_table.put (user_agent)
+				extend_table (user_agent, entry.request_stem_lower)
 			end
 		end
 
@@ -77,7 +76,7 @@ feature -- Basic operations
 			counter_table.wipe_out
 		end
 
-feature {NONE} -- Initialization
+feature {NONE} -- Internal attributes
 
 	counter_table: EL_COUNTER_TABLE [STRING]
 end

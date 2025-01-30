@@ -17,14 +17,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 8:26:46 GMT (Tuesday 28th January 2025)"
-	revision: "2"
+	date: "2025-01-29 11:42:18 GMT (Wednesday 29th January 2025)"
+	revision: "3"
 
 deferred class
 	EL_TRAFFIC_ANALYSIS_COMMAND
 
 inherit
 	EL_WEB_LOG_PARSER_COMMAND
+
+	EL_SHARED_HTTP_STATUS
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
@@ -37,5 +39,12 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 feature {NONE} -- Internal attributes
 
 	config: EL_TRAFFIC_ANALYSIS_CONFIG
+
+feature {NONE} -- Constants
+
+	Found_status_list: ARRAY [NATURAL_16]
+		once
+			Result := << Http_status.ok, Http_status.moved_permanently, Http_status.not_modified >>
+		end
 
 end

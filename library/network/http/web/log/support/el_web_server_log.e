@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-23 17:56:37 GMT (Thursday 23rd January 2025)"
-	revision: "1"
+	date: "2025-01-29 11:24:14 GMT (Wednesday 29th January 2025)"
+	revision: "2"
 
 class
 	EL_WEB_SERVER_LOG
@@ -46,7 +46,7 @@ feature -- Access
 			date: EL_DATE_TIME
 		do
 			date := Date_time.modification_time (path)
-			Result := Info_template #$ [date.formatted_out (Date_format), formatted_size_mb]
+			Result := Info_template #$ [date.formatted_out (Date_format), path.base, formatted_size_mb]
 		end
 
 	formatted_size_mb: STRING
@@ -94,6 +94,7 @@ feature -- Basic operations
 			end
 			if temp_log_path.exists then
 				parser_cmd.set_log_path (temp_log_path)
+				parser_cmd.set_log_name (path.base)
 				parser_cmd.execute
 				OS.File_system.remove_file (temp_log_path)
 			end
@@ -130,7 +131,7 @@ feature {NONE} -- Constants
 
 	Info_template: ZSTRING
 		once
-			Result := "%S (%S MB)"
+			Result := "%S %S (%S MB)"
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 8:53:48 GMT (Tuesday 28th January 2025)"
-	revision: "24"
+	date: "2025-01-30 7:23:45 GMT (Thursday 30th January 2025)"
+	revision: "25"
 
 class
 	EL_STRING_8_LIST
@@ -41,10 +41,10 @@ feature -- Access
 
 feature -- Basic operations
 
-	display_grouped (log: EL_LOGGABLE)
+	display_grouped (log: EL_LOGGABLE; max_line_count: INTEGER)
 		-- display strings grouped on each line by first character in alphabetical order
 		local
-			first_character: CHARACTER
+			first_character: CHARACTER; line_count: INTEGER
 		do
 			if count > 0 and then attached twin as sorted then
 				sorted.sort (True)
@@ -57,11 +57,18 @@ feature -- Basic operations
 							if str.count > 0 and then first_character /= str [1] then
 								log.put_new_line
 								first_character := str [1]
+								line_count := 0
+
+							elseif line_count + str.count > max_line_count then
+								log.put_new_line
+								line_count := 0
 							else
 								log.put_string (Semicolon_space)
+								line_count := line_count + 2
 							end
 						end
 						log.put_string (str)
+						line_count := line_count + str.count
 					end
 				end
 				log.put_new_line

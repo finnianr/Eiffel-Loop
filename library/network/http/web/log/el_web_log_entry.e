@@ -1,13 +1,13 @@
 note
-	description: "Parse Apache or Cherokee web-server log entry"
+	description: "Parse Apache or Cherokee web-server log entry into fields"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 13:37:14 GMT (Tuesday 28th January 2025)"
-	revision: "26"
+	date: "2025-01-29 8:29:53 GMT (Wednesday 29th January 2025)"
+	revision: "27"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -122,7 +122,7 @@ feature -- Element change
 			request_uri_group := a_request_uri_group
 		end
 
-feature -- Date/time
+feature -- Date/time fields
 
 	compact_date: INTEGER
 		-- Year, month, day coded for fast comparison between dates.
@@ -145,7 +145,7 @@ feature -- Date/time
 			create Result.make_by_compact_time (compact_time)
 		end
 
-feature -- Attribute access
+feature -- Log fields
 
 	byte_count: NATURAL
 
@@ -156,9 +156,6 @@ feature -- Attribute access
 	referer: STRING
 
 	request_uri: STRING
-
-	request_uri_group: STRING
-		-- used in report analysis and set externally
 
 	status_code: NATURAL_16
 
@@ -199,6 +196,9 @@ feature -- Access
 				Result := Empty_string_8
 			end
 		end
+
+	request_uri_group: STRING
+		-- used in report analysis and set externally
 
 	normalized_user_agent: STRING
 		-- lower case `user_agent' stripped of punctuation and version numbers

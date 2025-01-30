@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 13:33:18 GMT (Tuesday 28th January 2025)"
-	revision: "15"
+	date: "2025-01-29 11:19:40 GMT (Wednesday 29th January 2025)"
+	revision: "16"
 
 deferred class
 	EL_WEB_LOG_PARSER_COMMAND
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			create log_path
+			create log_name.make_empty
 			create not_found_list.make (0)
 			create invalid_line_list.make (0)
 			Geolocation.try_restore (geolocation_data_dir)
@@ -42,9 +43,16 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	log_name: ZSTRING
+
 	log_path: FILE_PATH
 
 feature -- Element change
+
+	set_log_name (a_log_name: ZSTRING)
+		do
+			log_name := a_log_name
+		end
 
 	set_log_path (a_log_path: FILE_PATH)
 		do
@@ -60,7 +68,7 @@ feature -- Basic operations
 			file: PLAIN_TEXT_FILE
 		do
 			default_entry.reset_cache
-			lio.put_labeled_string ("Reading log entries", log_path.base)
+			lio.put_labeled_string ("Reading log", log_name)
 			lio.put_new_line
 
 			create file.make_open_read (log_path)
@@ -178,14 +186,14 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	not_found_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
-		-- human visitor requests that did not have 200 as status code
+	ignored_count: INTEGER
 
 	invalid_line_list: EL_STRING_8_LIST
 		-- lines that do not have exactly 6 double quotes
 
-	selected_count: INTEGER
+	not_found_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
+		-- human visitor requests that did not have 200 as status code
 
-	ignored_count: INTEGER
+	selected_count: INTEGER
 
 end

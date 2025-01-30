@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 13:13:47 GMT (Tuesday 28th January 2025)"
-	revision: "2"
+	date: "2025-01-30 7:30:28 GMT (Thursday 30th January 2025)"
+	revision: "3"
 
 class
 	EL_USER_AGENT_404_ANALYSIS_COMMAND
@@ -37,7 +37,7 @@ feature -- Basic operations
 			across not_found_list as list loop
 				user_agent_group_table.extend (list.item)
 			end
-			user_agent_group_table.display (True)
+			user_agent_group_table.display (True, " 404 REQUESTS FROM AGENT")
 		end
 
 note

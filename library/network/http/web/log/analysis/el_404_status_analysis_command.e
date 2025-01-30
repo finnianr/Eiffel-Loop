@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 10:01:38 GMT (Tuesday 28th January 2025)"
-	revision: "2"
+	date: "2025-01-29 11:40:16 GMT (Wednesday 29th January 2025)"
+	revision: "3"
 
 class
 	EL_404_STATUS_ANALYSIS_COMMAND
@@ -19,8 +19,6 @@ inherit
 		redefine
 			is_selected
 		end
-
-	EL_SHARED_HTTP_STATUS
 
 feature {NONE} -- Implementation
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 13:44:24 GMT (Tuesday 28th January 2025)"
-	revision: "36"
+	date: "2025-01-29 11:42:18 GMT (Wednesday 29th January 2025)"
+	revision: "37"
 
 class
 	EL_GEOGRAPHIC_ANALYSIS_COMMAND
@@ -104,7 +104,7 @@ feature {NONE} -- Implementation
 			if is_bot (entry) then
 				bot_agent_table.put (entry.normalized_user_agent)
 
-			elseif Status_200_or_301.has (entry.status_code) then
+			elseif Found_status_list.has (entry.status_code) then
 				human_entry_list.extend (entry)
 			-- Mark entries that match one of `config.page_list'
 				entry.set_request_uri_group (last_uri_stem)
@@ -199,14 +199,6 @@ feature {NONE} -- Internal attributes
 	last_uri_stem: STRING
 
 	page_table: EL_GROUPED_SET_TABLE [NATURAL, STRING];
-
-feature {NONE} -- Constants
-
-	Status_200_or_301: ARRAY [NATURAL_16]
-		-- OK or Moved permently (often the result of http request for https resource)
-		once
-			Result := << 200, 300 >>
-		end
 
 note
 	notes: "[

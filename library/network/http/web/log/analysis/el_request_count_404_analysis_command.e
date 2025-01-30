@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 13:06:13 GMT (Tuesday 28th January 2025)"
-	revision: "2"
+	date: "2025-01-30 7:16:41 GMT (Thursday 30th January 2025)"
+	revision: "3"
 
 class
 	EL_REQUEST_COUNT_404_ANALYSIS_COMMAND
@@ -63,7 +63,7 @@ feature {NONE} -- Implementation
 			if request_list.count > 0 then
 				lio.put_natural_field ("OCCURRENCES", occurrence_count)
 				lio.put_new_line
-				request_list.display_grouped (lio)
+				request_list.display_grouped (lio, 100)
 				lio.put_new_line
 				request_list.wipe_out
 			end
