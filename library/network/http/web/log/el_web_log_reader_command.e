@@ -1,5 +1,12 @@
 note
-	description: "Web log parser command"
+	description: "[
+		Abstraction to iterate over the lines in a log file and process selected lines
+		that have been parsed with class ${EL_WEB_LOG_ENTRY}.
+	]"
+	notes: "[
+		Routine `is_selected' defines subset of lines for parsing.
+		Routine `do_with' processes parsed entry in descendant.
+	]"
 	descendants: "[
 			EL_WEB_LOG_PARSER_COMMAND*
 				${EL_TRAFFIC_ANALYSIS_COMMAND*}
@@ -15,11 +22,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 11:19:40 GMT (Wednesday 29th January 2025)"
-	revision: "16"
+	date: "2025-01-31 9:14:35 GMT (Friday 31st January 2025)"
+	revision: "17"
 
 deferred class
-	EL_WEB_LOG_PARSER_COMMAND
+	EL_WEB_LOG_READER_COMMAND
 
 inherit
 	EL_COMMAND
@@ -36,6 +43,7 @@ feature {NONE} -- Initialization
 		do
 			create log_path
 			create log_name.make_empty
+			create request_method.make_empty
 			create not_found_list.make (0)
 			create invalid_line_list.make (0)
 			Geolocation.try_restore (geolocation_data_dir)
@@ -47,6 +55,8 @@ feature -- Access
 
 	log_path: FILE_PATH
 
+	request_method: STRING
+
 feature -- Element change
 
 	set_log_name (a_log_name: ZSTRING)
@@ -57,6 +67,11 @@ feature -- Element change
 	set_log_path (a_log_path: FILE_PATH)
 		do
 			log_path := a_log_path
+		end
+
+	set_request_method (a_request_method: STRING)
+		do
+			request_method := a_request_method
 		end
 
 feature -- Basic operations
@@ -144,6 +159,9 @@ feature {NONE} -- Implementation
 					if quote_count /= 6 then
 						invalid_line_list.extend (line.twin)
 
+					elseif not is_method_selected (line) then
+						ignored_count := ignored_count + 1
+
 					elseif is_selected (line) then
 						do_with (new_web_log_entry (line))
 						selected_count := selected_count + 1
@@ -177,6 +195,24 @@ feature {NONE} -- Implementation
 		-- when `True' line is included for call to `do_with'
 		do
 			Result := True
+		end
+
+	is_method_selected (line: STRING): BOOLEAN
+		-- `True' if HTTP request in `line' method matches `request_method'
+		local
+			start_index, end_index, l_count: INTEGER
+		do
+			if request_method.is_empty then
+				Result := True
+			else
+				start_index := line.index_of ('"', 1)
+				if start_index > 0 then
+					end_index := line.index_of (' ', start_index + 1)
+					if end_index > 0 and then request_method.count = end_index - start_index - 1 then
+						Result := line.same_characters (request_method, 1, request_method.count, start_index + 1)
+					end
+				end
+			end
 		end
 
 	new_web_log_entry (line: ZSTRING): EL_WEB_LOG_ENTRY

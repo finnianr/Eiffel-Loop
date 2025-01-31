@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 6:40:51 GMT (Wednesday 28th August 2024)"
-	revision: "9"
+	date: "2025-01-31 8:32:56 GMT (Friday 31st January 2025)"
+	revision: "10"
 
 class
-	FCGI_HEADER_ENUMERATION
+	FCGI_HEADER_ENUM
 
 inherit
 	EL_ENUMERATION_NATURAL_8

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-30 18:06:34 GMT (Thursday 30th January 2025)"
-	revision: "3"
+	date: "2025-01-30 18:16:52 GMT (Thursday 30th January 2025)"
+	revision: "4"
 
 class
 	EL_REQUESTS_GROUPED_BY_USER_AGENT
@@ -35,7 +35,7 @@ feature -- Basic operations
 			previous_count: INTEGER; l_string_list: EL_STRING_8_LIST
 		do
 			previous_count := previous_count.Max_value
-			sort_by_item_count (False)
+			sort_by_item_count (False) -- user agents with most requests at top
 			from start until after loop
 				if attached key_for_iteration as user_agent
 					and then attached item_area_for_iteration as request_array

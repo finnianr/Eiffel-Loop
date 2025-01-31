@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 11:24:14 GMT (Wednesday 29th January 2025)"
-	revision: "2"
+	date: "2025-01-31 8:49:47 GMT (Friday 31st January 2025)"
+	revision: "3"
 
 class
 	EL_WEB_SERVER_LOG
@@ -73,7 +73,7 @@ feature -- Status query
 
 feature -- Basic operations
 
-	do_analysis (parser_cmd: EL_WEB_LOG_PARSER_COMMAND)
+	do_analysis (parser_cmd: EL_WEB_LOG_READER_COMMAND)
 		-- write `path' file to temporary file uncompressing it if `is_compressed' is true
 		-- and then analyze with `parser_cmd'
 		local

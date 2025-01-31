@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "34"
+	date: "2025-01-31 8:34:23 GMT (Friday 31st January 2025)"
+	revision: "35"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -269,7 +269,7 @@ feature {NONE} -- Constants
 			Result := "%S://%S:%S%S"
 		end
 
-	Method: FCGI_REQUEST_METHOD_ENUMERATON
+	Method: FCGI_REQUEST_METHOD_ENUM
 		once
 			create Result.make
 		end

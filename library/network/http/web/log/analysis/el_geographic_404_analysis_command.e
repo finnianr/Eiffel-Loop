@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-30 17:51:15 GMT (Thursday 30th January 2025)"
-	revision: "6"
+	date: "2025-01-30 18:17:25 GMT (Thursday 30th January 2025)"
+	revision: "7"
 
 class
 	EL_GEOGRAPHIC_404_ANALYSIS_COMMAND
@@ -50,7 +50,7 @@ feature -- Basic operations
 			end
 			lio.put_new_line
 
-			location_grouped_entry_table.sort_by_item_count (False)
+			location_grouped_entry_table.sort_by_item_count (False) -- location with most requests at the top
 
 			across location_grouped_entry_table as table loop
 				if attached table.key as location then

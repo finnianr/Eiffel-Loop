@@ -17,14 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 11:42:18 GMT (Wednesday 29th January 2025)"
-	revision: "3"
+	date: "2025-01-31 8:49:47 GMT (Friday 31st January 2025)"
+	revision: "4"
 
 deferred class
 	EL_TRAFFIC_ANALYSIS_COMMAND
 
 inherit
-	EL_WEB_LOG_PARSER_COMMAND
+	EL_WEB_LOG_READER_COMMAND
 
 	EL_SHARED_HTTP_STATUS
 
