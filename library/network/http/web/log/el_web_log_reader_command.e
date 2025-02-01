@@ -11,7 +11,7 @@ note
 			EL_WEB_LOG_PARSER_COMMAND*
 				${EL_TRAFFIC_ANALYSIS_COMMAND*}
 					${EL_404_STATUS_ANALYSIS_COMMAND}
-						${EL_REQUEST_COUNT_404_ANALYSIS_COMMAND}
+						${EL_URI_STEM_404_ANALYSIS_COMMAND}
 						${EL_GEOGRAPHIC_404_ANALYSIS_COMMAND}
 						${EL_USER_AGENT_404_ANALYSIS_COMMAND}
 					${EL_GEOGRAPHIC_ANALYSIS_COMMAND}
@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-31 9:14:35 GMT (Friday 31st January 2025)"
-	revision: "17"
+	date: "2025-02-01 8:45:21 GMT (Saturday 1st February 2025)"
+	revision: "18"
 
 deferred class
 	EL_WEB_LOG_READER_COMMAND

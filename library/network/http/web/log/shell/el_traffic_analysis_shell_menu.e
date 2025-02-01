@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-28 8:13:07 GMT (Tuesday 28th January 2025)"
-	revision: "18"
+	date: "2025-02-01 9:11:46 GMT (Saturday 1st February 2025)"
+	revision: "19"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -51,11 +51,19 @@ feature {NONE} -- Commands
 			shell.run_command_loop
 		end
 
-	status_404_request_count
+	status_404_uri_extension_occurrences
 		local
-			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_REQUEST_COUNT_404_ANALYSIS_COMMAND]
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_URI_EXTENSION_404_ANALYSIS_COMMAND]
 		do
-			create shell.make ("404 REPORT BY USER AGENT", config_path)
+			create shell.make ("404 REPORT OF EXTENSION OCCURRENCE FREQUENCY", config_path)
+			shell.run_command_loop
+		end
+
+	status_404_uri_stem_occurrences
+		local
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_URI_STEM_404_ANALYSIS_COMMAND]
+		do
+			create shell.make ("404 REPORT OF STEM OCCURRENCE FREQUENCY", config_path)
 			shell.run_command_loop
 		end
 
@@ -72,10 +80,11 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make_assignments (<<
-				["Visitor geographic location by month",			  agent selected_geographic],
-				["Request 404 status by geopraphic location",	  agent status_404_geographic],
-				["Request 404 status by user agent with summary", agent status_404_user_agent],
-				["Request 404 status request count summary",		  agent status_404_request_count]
+				["Visitor geographic location by month",				  agent selected_geographic],
+				["404 status by geopraphic location",					  agent status_404_geographic],
+				["404 status by user agent with summary",				  agent status_404_user_agent],
+				["404 status by uri stem occurrence frequency",		  agent status_404_uri_stem_occurrences],
+				["404 status by uri extension occurrence frequency", agent status_404_uri_extension_occurrences]
 			>>)
 		end
 

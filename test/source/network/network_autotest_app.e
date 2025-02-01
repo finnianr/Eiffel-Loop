@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 9:18:19 GMT (Wednesday 29th January 2025)"
-	revision: "43"
+	date: "2025-01-31 9:41:56 GMT (Friday 31st January 2025)"
+	revision: "44"
 
 class
 	NETWORK_AUTOTEST_APP
@@ -55,7 +55,7 @@ feature {NONE} -- Implementation
 		EL_GEOGRAPHIC_ANALYSIS_COMMAND,
 
 		EL_WAYBACK_CLOSEST,
-		EL_WEB_LOG_PARSER_COMMAND,
+		EL_WEB_LOG_READER_COMMAND,
 		EL_XML_NETWORK_MESSENGER
 	]
 		do

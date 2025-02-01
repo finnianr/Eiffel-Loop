@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 8:29:53 GMT (Wednesday 29th January 2025)"
-	revision: "27"
+	date: "2025-02-01 9:24:34 GMT (Saturday 1st February 2025)"
+	revision: "28"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -173,15 +173,12 @@ feature -- Access
 		-- and leading '/' removed
 		-- Eg. "/one/two?x=10" => "one"
 		local
-			slash_2_index, qm_index: INTEGER
+			slash_2_index: INTEGER
 		do
 			if attached String_8_pool.borrowed_item as borrowed
 				and then attached borrowed.copied_lower (request_uri) as str
 			then
-				qm_index := str.index_of ('?', 1)
-				if qm_index > 0 then
-					str.keep_head (qm_index - 1)
-				end
+				strip_parameters (str)
 				if str.count > 2 and then str [1] = '/' then
 					slash_2_index := str.index_of ('/', 2)
 					if slash_2_index > 0 then
@@ -189,8 +186,33 @@ feature -- Access
 					end
 					str.remove_head (1) -- removes '/'
 				end
-				Request_stem_set.put_copy (str)
-				Result := Request_stem_set.found_item
+				str.keep_head (4)
+				Word_part_set.put_copy (str)
+				Result := Word_part_set.found_item
+				borrowed.return
+			else
+				Result := Empty_string_8
+			end
+		end
+
+	request_uri_extension: STRING
+		-- dot extension of `request_uri'
+		-- empty string if no dot.
+		local
+			dot_index: INTEGER
+		do
+			if attached String_8_pool.borrowed_item as borrowed
+				and then attached borrowed.copied_lower (request_uri) as str
+			then
+				strip_parameters (str)
+				dot_index := str.last_index_of ('.', str.count)
+				if dot_index > 0 then
+					str.keep_tail (str.count - dot_index + 1)
+					Word_part_set.put_copy (str)
+					Result := Word_part_set.found_item
+				else
+					Result := Empty_string_8
+				end
 				borrowed.return
 			else
 				Result := Empty_string_8
@@ -270,6 +292,17 @@ feature {NONE} -- Implementation
 			Result.unique_sort
 		end
 
+	strip_parameters (str: STRING)
+		-- keep text before '?' character
+		local
+			qm_index: INTEGER
+		do
+			qm_index := str.index_of ('?', 1)
+			if qm_index > 0 then
+				str.keep_head (qm_index - 1)
+			end
+		end
+
 feature {NONE} -- String sets
 
 	Agent_word_set: EL_HASH_SET [STRING]
@@ -335,7 +368,7 @@ feature {NONE} -- Constants
 
 	Quote: CHARACTER = '%"'
 
-	Request_stem_set: EL_HASH_SET [STRING]
+	Word_part_set: EL_HASH_SET [STRING]
 		once
 			create Result.make_equal (500)
 		end

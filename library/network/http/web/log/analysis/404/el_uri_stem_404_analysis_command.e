@@ -1,7 +1,7 @@
 note
 	description: "[
 		${EL_404_STATUS_ANALYSIS_COMMAND} command to analyze URI requests with
-		status 404 (not found) by frequency of the normalize URI stem defined
+		status 404 (not found) by frequency of the normalized URI stem defined
 		by function ${EL_WEB_LOG_ENTRY}.request_stem_lower
 	]"
 	notes: "See end of class"
@@ -11,17 +11,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-30 7:16:41 GMT (Thursday 30th January 2025)"
-	revision: "3"
+	date: "2025-02-01 9:27:50 GMT (Saturday 1st February 2025)"
+	revision: "4"
 
 class
-	EL_REQUEST_COUNT_404_ANALYSIS_COMMAND
+	EL_URI_STEM_404_ANALYSIS_COMMAND
 
 inherit
 	EL_404_STATUS_ANALYSIS_COMMAND
 		redefine
 			execute
 		end
+
+	EL_MODULE_NAMING
 
 create
 	make
@@ -38,11 +40,12 @@ feature -- Basic operations
 			create request_list.make (50)
 
 			across not_found_list as list loop
-				if attached list.item as entry then
-					request_counter_table.put (entry.request_stem_lower)
-				end
+				request_counter_table.put (uri_part (list.item))
 			end
-			lio.put_line ("REQUEST URI STEM OCCURRENCE FREQUENCY")
+			if attached Naming.class_with_separator (Current, ' ', 1, 3) as name then
+				lio.put_substitution ("REQUEST %S OCCURRENCE FREQUENCY", [name])
+				lio.put_new_line
+			end
 			across request_counter_table.as_sorted_list (False) as map loop
 				if occurrence_count /= map.value.item then
 					if occurrence_count > 0 then
@@ -69,6 +72,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	uri_part (entry: EL_WEB_LOG_ENTRY): STRING
+		do
+			Result := entry.request_stem_lower
+		end
+
 note
 	notes: "[
 		EXAMPLE REPORT
@@ -77,16 +85,15 @@ note
 			LOG LINE COUNTS
 			Selected: 1098 Ignored: 3191
 
-			CROPPED REQUEST URI OCCURRENCE FREQUENCY
-			OCCURRENCES: 18
-			css
-			owa
-			web; wp
+			REQUEST URI EXTENSION OCCURRENCE FREQUENCY
+			OCCURRENCES: 13
+			.png
 
-			OCCURRENCES: 10
-			_phpmyadmin
-			phpmyadmin1; phpmyadmin2; phpmyadmin3; phpmyadmin4; phpmyadmin5; phpmyadmin_; pma
-			website; wp-login.php
+			OCCURRENCES: 4
+			.git/config
+
+			OCCURRENCES: 3
+			.json; .shtml
 	]"
 
 end
