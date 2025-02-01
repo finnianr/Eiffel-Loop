@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-01 9:24:34 GMT (Saturday 1st February 2025)"
-	revision: "28"
+	date: "2025-02-01 14:06:15 GMT (Saturday 1st February 2025)"
+	revision: "29"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -168,25 +168,30 @@ feature -- Access
 			Result := Geolocation.for_number (ip_number)
 		end
 
+	normalized_user_agent: STRING
+		-- lower case `user_agent' stripped of punctuation and version numbers
+		do
+			Result := stripped_lower (user_agent).joined_words
+		end
+
 	request_stem_lower: STRING
 		-- lower case first path step of `request_uri' with parameters after '?' cropped
 		-- and leading '/' removed
 		-- Eg. "/one/two?x=10" => "one"
 		local
-			slash_2_index: INTEGER
+			slash_index: INTEGER
 		do
-			if attached String_8_pool.borrowed_item as borrowed
-				and then attached borrowed.copied_lower (request_uri) as str
+			if attached uri_interval as interval
+				and then attached String_8_pool.borrowed_item as borrowed
+				and then attached borrowed.copied_substring (request_uri, interval.start_index, interval.end_index) as str
 			then
-				strip_parameters (str)
-				if str.count > 2 and then str [1] = '/' then
-					slash_2_index := str.index_of ('/', 2)
-					if slash_2_index > 0 then
-						str.keep_head (slash_2_index - 1)
-					end
-					str.remove_head (1) -- removes '/'
+				slash_index := str.index_of ('/', 1)
+				if slash_index > 0 then
+					str.keep_head ((slash_index - 1).min (4))
+				else
+					str.keep_head (4)
 				end
-				str.keep_head (4)
+				str.to_lower
 				Word_part_set.put_copy (str)
 				Result := Word_part_set.found_item
 				borrowed.return
@@ -197,36 +202,39 @@ feature -- Access
 
 	request_uri_extension: STRING
 		-- dot extension of `request_uri'
-		-- empty string if no dot.
+		-- empty string if no dot extension or is not composed of alphabetical characters.
 		local
-			dot_index: INTEGER
+			dot_index, slash_index, i, i_final: INTEGER; s: EL_STRING_8_ROUTINES
+			is_alpha: BOOLEAN
 		do
-			if attached String_8_pool.borrowed_item as borrowed
-				and then attached borrowed.copied_lower (request_uri) as str
+			Result := Empty_string_8
+			if attached uri_interval as interval
+				and then attached String_8_pool.borrowed_item as borrowed
+				and then attached borrowed.copied_substring (request_uri, interval.start_index, interval.end_index) as str
 			then
-				strip_parameters (str)
 				dot_index := str.last_index_of ('.', str.count)
-				if dot_index > 0 then
+				slash_index := str.last_index_of ('/', str.count)
+				if dot_index > slash_index + 1 then
 					str.keep_tail (str.count - dot_index + 1)
-					Word_part_set.put_copy (str)
-					Result := Word_part_set.found_item
-				else
-					Result := Empty_string_8
+					str.to_lower
+					i_final := str.count - 1
+					if attached str.area as area then
+						from is_alpha := True; i := 1 until not is_alpha or i > i_final loop
+							is_alpha := area [i].is_alpha
+							i := i + 1
+						end
+					end
+					if is_alpha then
+						Word_part_set.put_copy (str)
+						Result := Word_part_set.found_item
+					end
 				end
 				borrowed.return
-			else
-				Result := Empty_string_8
 			end
 		end
 
 	request_uri_group: STRING
 		-- used in report analysis and set externally
-
-	normalized_user_agent: STRING
-		-- lower case `user_agent' stripped of punctuation and version numbers
-		do
-			Result := stripped_lower (user_agent).joined_words
-		end
 
 feature -- Basic operations
 
@@ -292,15 +300,25 @@ feature {NONE} -- Implementation
 			Result.unique_sort
 		end
 
-	strip_parameters (str: STRING)
-		-- keep text before '?' character
+	uri_interval: TUPLE [start_index, end_index: INTEGER]
+		-- interval between leading '/' and '?' (if any)
 		local
-			qm_index: INTEGER
+			start_index, end_index: INTEGER
 		do
-			qm_index := str.index_of ('?', 1)
-			if qm_index > 0 then
-				str.keep_head (qm_index - 1)
+			if attached request_uri as uri then
+				if uri.count > 0 then
+					start_index := if uri [1] = '/' then 2 else 1 end
+					end_index := uri.index_of ('?', start_index)
+					if end_index = 0 then
+						end_index := uri.count
+					else
+						end_index := end_index - 1
+					end
+				else
+					start_index := 1
+				end
 			end
+			Result := [start_index, end_index]
 		end
 
 feature {NONE} -- String sets
