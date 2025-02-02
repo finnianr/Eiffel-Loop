@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 9:31:34 GMT (Thursday 21st December 2023)"
-	revision: "27"
+	date: "2025-02-02 12:31:31 GMT (Sunday 2nd February 2025)"
+	revision: "28"
 
 deferred class
 	EL_LOGGABLE
@@ -174,6 +174,44 @@ feature -- String output
 		deferred
 		end
 
+	put_words (words: FINITE [READABLE_STRING_GENERAL]; max_line_count: INTEGER)
+		-- display words grouped on each line by first character in alphabetical order
+		local
+			first_character: CHARACTER_32; line_count: INTEGER
+			word_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+		do
+			if words.count > 0 then
+				create word_list.make_from (words)
+				word_list.sort (True)
+				if word_list.first.count > 0 then
+					first_character := word_list.first [1]
+				end
+				across word_list as list loop
+					if attached list.item as str then
+						if list.cursor_index > 1 then
+							if str.count > 0 and then first_character /= str [1] then
+								put_new_line
+								first_character := str [1]
+								line_count := 0
+
+							elseif line_count + str.count > max_line_count then
+								put_new_line
+								line_count := 0
+							else
+								set_text_color (Color.Purple)
+								put_string (Semicolon_space)
+								set_text_color (Color.Default)
+								line_count := line_count + 2
+							end
+						end
+						put_string (str)
+						line_count := line_count + str.count
+					end
+				end
+				put_new_line
+			end
+		end
+
 	put_index_labeled_string (indexable: ANY; label_or_format: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
 		-- output integer index value associated with `indexable' object that may conform to one of:
 		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
@@ -183,7 +221,7 @@ feature -- String output
 		--		1. A template if it contains a substitution placeholder '%S' for the `indexable' value (Eg. "i_th [%S]")
 		--		2. A padding format for the `indexable' value if all the characters are equal to '9'
 		--		3. Or else a prefix before the `indexable' value
-		
+
 		require
 			is_indexable: is_indexable (indexable)
 		deferred
@@ -300,5 +338,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make (0)
 		end
+
+	Semicolon_space: STRING = "; "
 
 end

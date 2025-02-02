@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 9:28:48 GMT (Wednesday 29th January 2025)"
-	revision: "1"
+	date: "2025-02-02 12:15:29 GMT (Sunday 2nd February 2025)"
+	revision: "2"
 
 class
 	URL_FILTER_TABLE_TEST_SET
@@ -23,24 +23,25 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["first_step_match",	agent test_first_step_match]
+				["is_hacker_probe",	agent test_is_hacker_probe]
 			>>)
 		end
 
 feature -- Test
 
-	test_first_step_match
-		-- URL_FILTER_TABLE_TEST_SET.test_first_step_match
+	test_is_hacker_probe
+		-- URL_FILTER_TABLE_TEST_SET.test_is_hacker_probe
 		local
-			filter: EL_URL_FILTER_TABLE; uri_array: EL_ZSTRING_LIST
+			filter: EL_URL_FILTER_TABLE
 		do
 			create filter.make (7)
-			uri_array := "bot/api, bottle"
 			if attached filter.new_predicate_list as predicate_list then
-				assert ("first_step", predicate_list.first ~ "first_step")
 				filter.extend (predicate_list.first, "bot")
-				assert ("is hacker", filter.is_hacker_probe (uri_array [1]))
-				assert ("is not hacker", not filter.is_hacker_probe (uri_array [2]))
+				filter.extend (predicate_list.last, "store")
+
+				assert ("match", filter.is_hacker_probe ("bot/api"))
+				assert ("match", filter.is_hacker_probe (".ds_store"))
+				assert ("not match", not filter.is_hacker_probe ("/en/home.html"))
 			end
 		end
 

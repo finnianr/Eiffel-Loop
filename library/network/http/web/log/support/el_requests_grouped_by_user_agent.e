@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-30 18:16:52 GMT (Thursday 30th January 2025)"
-	revision: "4"
+	date: "2025-02-02 12:29:14 GMT (Sunday 2nd February 2025)"
+	revision: "5"
 
 class
 	EL_REQUESTS_GROUPED_BY_USER_AGENT
@@ -45,7 +45,7 @@ feature -- Basic operations
 					lio.put_new_line
 
 					create l_string_list.make_from_special (request_array)
-					l_string_list.display_grouped (lio, 120)
+					lio.put_words (l_string_list, 120)
 					if user_prompt and then request_array.count < previous_count then
 						previous_count := request_array.count
 						User_input.press_enter

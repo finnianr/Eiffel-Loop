@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-30 7:23:45 GMT (Thursday 30th January 2025)"
-	revision: "25"
+	date: "2025-02-02 12:26:53 GMT (Sunday 2nd February 2025)"
+	revision: "26"
 
 class
 	EL_STRING_8_LIST
@@ -39,42 +39,6 @@ feature -- Access
 			end
 		end
 
-feature -- Basic operations
-
-	display_grouped (log: EL_LOGGABLE; max_line_count: INTEGER)
-		-- display strings grouped on each line by first character in alphabetical order
-		local
-			first_character: CHARACTER; line_count: INTEGER
-		do
-			if count > 0 and then attached twin as sorted then
-				sorted.sort (True)
-				if sorted.first.count > 0 then
-					first_character := sorted.first [1]
-				end
-				across sorted as list loop
-					if attached list.item as str then
-						if list.cursor_index > 1 then
-							if str.count > 0 and then first_character /= str [1] then
-								log.put_new_line
-								first_character := str [1]
-								line_count := 0
-
-							elseif line_count + str.count > max_line_count then
-								log.put_new_line
-								line_count := 0
-							else
-								log.put_string (Semicolon_space)
-								line_count := line_count + 2
-							end
-						end
-						log.put_string (str)
-						line_count := line_count + str.count
-					end
-				end
-				log.put_new_line
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	add_to_checksum (crc: like crc_generator; str: STRING_8)
@@ -91,9 +55,5 @@ feature {NONE} -- Implementation
 		do
 			Result := tab * a_count
 		end
-
-feature {NONE} -- Constants
-
-	Semicolon_space: STRING = "; "
 
 end
