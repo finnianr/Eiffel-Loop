@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-30 8:11:26 GMT (Friday 30th June 2023)"
-	revision: "5"
+	date: "2025-02-02 12:41:09 GMT (Sunday 2nd February 2025)"
+	revision: "6"
 
 deferred class
 	EL_LOGGABLE_CONSTANTS
@@ -33,7 +33,7 @@ feature -- Contract Support
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Constants
 
 	Color: EL_CONSOLE_COLORS
 		once ("PROCESS")
@@ -47,5 +47,7 @@ feature {NONE} -- Implementation
 				{INDEXABLE_ITERATION_CURSOR [ANY]}, {LINEAR [ANY]}, {INTEGER_32_REF}, {NATURAL_32_REF}
 			>>
 		end
+
+	Semicolon_space: STRING = "; "
 
 end

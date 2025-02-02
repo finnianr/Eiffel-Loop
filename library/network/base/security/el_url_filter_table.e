@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-01 11:30:58 GMT (Saturday 1st February 2025)"
-	revision: "5"
+	date: "2025-02-02 12:53:02 GMT (Sunday 2nd February 2025)"
+	revision: "6"
 
 class
 	EL_URL_FILTER_TABLE
@@ -63,8 +63,16 @@ feature {NONE} -- Implementation
 		end
 
 	matches_predicate (path_lower, substring: ZSTRING; predicate_name: STRING): BOOLEAN
+		local
+			dot_index: INTEGER
 		do
-			if predicate_name = Predicate.starts_with then
+			if predicate_name = Predicate.has_extension then
+				dot_index := path_lower.count - substring.count
+				if path_lower.valid_index (dot_index) and then path_lower.item_8 (dot_index) = '.' then
+					Result := path_lower.same_characters (substring, 1, substring.count, dot_index + 1)
+				end
+
+			elseif predicate_name = Predicate.starts_with then
 				Result := path_lower.starts_with (substring)
 
 			elseif predicate_name = Predicate.ends_with then
@@ -90,10 +98,10 @@ feature {NONE} -- Constants
 	Maximum_digits: INTEGER = 3
 		-- maximum number of digits allowed in path
 
-	Predicate: TUPLE [starts_with, ends_with: STRING]
+	Predicate: TUPLE [has_extension, starts_with, ends_with: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "starts_with, ends_with")
+			Tuple.fill (Result, "has_extension, starts_with, ends_with")
 		end
 
 end

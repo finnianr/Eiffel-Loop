@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-01 14:06:15 GMT (Saturday 1st February 2025)"
-	revision: "29"
+	date: "2025-02-02 12:45:40 GMT (Sunday 2nd February 2025)"
+	revision: "30"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -215,7 +215,7 @@ feature -- Access
 				dot_index := str.last_index_of ('.', str.count)
 				slash_index := str.last_index_of ('/', str.count)
 				if dot_index > slash_index + 1 then
-					str.keep_tail (str.count - dot_index + 1)
+					str.keep_tail (str.count - dot_index)
 					str.to_lower
 					i_final := str.count - 1
 					if attached str.area as area then

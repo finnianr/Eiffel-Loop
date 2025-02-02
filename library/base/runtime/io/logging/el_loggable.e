@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-02 12:31:31 GMT (Sunday 2nd February 2025)"
-	revision: "28"
+	date: "2025-02-02 12:41:09 GMT (Sunday 2nd February 2025)"
+	revision: "29"
 
 deferred class
 	EL_LOGGABLE
@@ -198,7 +198,7 @@ feature -- String output
 								put_new_line
 								line_count := 0
 							else
-								set_text_color (Color.Purple)
+								set_text_color_light (Color.Purple)
 								put_string (Semicolon_space)
 								set_text_color (Color.Default)
 								line_count := line_count + 2
@@ -338,7 +338,5 @@ feature {NONE} -- Constants
 		once
 			create Result.make (0)
 		end
-
-	Semicolon_space: STRING = "; "
 
 end
