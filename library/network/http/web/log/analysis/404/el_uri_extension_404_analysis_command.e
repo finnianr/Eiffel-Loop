@@ -1,8 +1,9 @@
 note
 	description: "[
-		${EL_404_STATUS_ANALYSIS_COMMAND} command to analyze URI requests with
-		status 404 (not found) by frequency of the URI extension defined
-		by function ${EL_WEB_LOG_ENTRY}.request_extension
+		Command to analyze URI requests with status 404 (not found) by frequency of the
+		URI extension defined by function ${EL_WEB_LOG_ENTRY}.request_extension.
+		Saves selected extensions in `configuration_words_path' to help configure
+		${EL_HACKER_INTERCEPT_CONFIG} import file.
 	]"
 	notes: "See end of class"
 
@@ -11,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-01 9:18:25 GMT (Saturday 1st February 2025)"
-	revision: "1"
+	date: "2025-02-03 14:42:05 GMT (Monday 3rd February 2025)"
+	revision: "2"
 
 class
 	EL_URI_EXTENSION_404_ANALYSIS_COMMAND
@@ -20,13 +21,19 @@ class
 inherit
 	EL_URI_STEM_404_ANALYSIS_COMMAND
 		redefine
-			uri_part
+			configuration_words_path, uri_part
 		end
 
 create
 	make
 
 feature {NONE} -- Implementation
+
+	configuration_words_path: FILE_PATH
+		-- text file containing all `uri_part' that occur a minimum number of times specified by user
+		do
+			Result := config.text_output_dir + "match-has_extension.txt"
+		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING
 		do

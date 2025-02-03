@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-01 9:11:46 GMT (Saturday 1st February 2025)"
-	revision: "19"
+	date: "2025-02-03 14:50:17 GMT (Monday 3rd February 2025)"
+	revision: "20"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -83,8 +83,8 @@ feature {NONE} -- Factory
 				["Visitor geographic location by month",				  agent selected_geographic],
 				["404 status by geopraphic location",					  agent status_404_geographic],
 				["404 status by user agent with summary",				  agent status_404_user_agent],
-				["404 status by uri stem occurrence frequency",		  agent status_404_uri_stem_occurrences],
-				["404 status by uri extension occurrence frequency", agent status_404_uri_extension_occurrences]
+				["404 status by URI stem occurrence frequency",		  agent status_404_uri_stem_occurrences],
+				["404 status by URI extension occurrence frequency", agent status_404_uri_extension_occurrences]
 			>>)
 		end
 

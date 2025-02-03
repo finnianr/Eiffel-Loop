@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-02 12:41:09 GMT (Sunday 2nd February 2025)"
-	revision: "29"
+	date: "2025-02-03 13:54:09 GMT (Monday 3rd February 2025)"
+	revision: "30"
 
 deferred class
 	EL_LOGGABLE
@@ -185,30 +185,30 @@ feature -- String output
 				word_list.sort (True)
 				if word_list.first.count > 0 then
 					first_character := word_list.first [1]
-				end
-				across word_list as list loop
-					if attached list.item as str then
-						if list.cursor_index > 1 then
-							if str.count > 0 and then first_character /= str [1] then
-								put_new_line
-								first_character := str [1]
-								line_count := 0
+					across word_list as list loop
+						if attached list.item as str then
+							if list.cursor_index > 1 then
+								if str.count > 0 and then first_character /= str [1] then
+									put_new_line
+									first_character := str [1]
+									line_count := 0
 
-							elseif line_count + str.count > max_line_count then
-								put_new_line
-								line_count := 0
-							else
-								set_text_color_light (Color.Purple)
-								put_string (Semicolon_space)
-								set_text_color (Color.Default)
-								line_count := line_count + 2
+								elseif line_count + str.count > max_line_count then
+									put_new_line
+									line_count := 0
+								else
+									set_text_color_light (Color.Purple)
+									put_string (Semicolon_space)
+									set_text_color (Color.Default)
+									line_count := line_count + 2
+								end
 							end
+							put_string (str)
+							line_count := line_count + str.count
 						end
-						put_string (str)
-						line_count := line_count + str.count
 					end
+					put_new_line
 				end
-				put_new_line
 			end
 		end
 

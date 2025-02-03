@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 13:51:32 GMT (Monday 3rd February 2025)"
-	revision: "21"
+	date: "2025-02-03 13:55:24 GMT (Monday 3rd February 2025)"
+	revision: "22"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -146,7 +146,7 @@ feature -- Access
 		end
 
 	joined_grouped_words (a_separator: READABLE_STRING_GENERAL; max_line_count: INTEGER): like item
-		-- words joined by `a_separator' sorted alphabetically and grouped by first character
+		-- all `item' words joined by `a_separator' sorted alphabetically and grouped by first character
 		-- and word-wrapped to `max_line_count' per line.
 		local
 			first_character: CHARACTER_32; line_count: INTEGER
@@ -157,26 +157,29 @@ feature -- Access
 			create separator.make (a_separator.count)
 			separator.append (a_separator)
 			create word_list.make_from (Current)
-			word_list.sort (True)
 
-			across word_list as list loop
-				if attached list.item as str then
-					if list.cursor_index > 1 then
-						if str.count > 0 and then first_character /= str [1] then
-							Result.append_code ({EL_ASCII}.Newline)
-							first_character := str [1]
-							line_count := 0
+			if word_list.first.count > 0 then
+				word_list.sort (True)
+				first_character := word_list.first [1]
+				across word_list as list loop
+					if attached list.item as str then
+						if list.cursor_index > 1 then
+							if str.count > 0 and then first_character /= str [1] then
+								Result.append_code ({EL_ASCII}.Newline)
+								first_character := str [1]
+								line_count := 0
 
-						elseif line_count + str.count > max_line_count then
-							Result.append_code ({EL_ASCII}.Newline)
-							line_count := 0
-						else
-							Result.append (separator)
-							line_count := line_count + 2
+							elseif line_count + str.count > max_line_count then
+								Result.append_code ({EL_ASCII}.Newline)
+								line_count := 0
+							else
+								Result.append (separator)
+								line_count := line_count + 2
+							end
 						end
+						Result.append (str)
+						line_count := line_count + str.count
 					end
-					Result.append (str)
-					line_count := line_count + str.count
 				end
 			end
 		end
