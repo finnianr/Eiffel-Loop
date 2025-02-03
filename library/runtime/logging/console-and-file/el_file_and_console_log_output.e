@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 14:24:22 GMT (Tuesday 5th November 2024)"
-	revision: "21"
+	date: "2025-02-03 12:44:50 GMT (Monday 3rd February 2025)"
+	revision: "22"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -45,7 +45,7 @@ inherit
 			mutex as write_mutex
 		end
 
-	EL_SHARED_STRING_8_BUFFER_POOL
+	EL_SHARED_STRING_8_BUFFER_POOL; EL_SHARED_STRING_8_CURSOR
 
 create
 	make
@@ -112,8 +112,17 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	write_console (str: READABLE_STRING_GENERAL)
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			if attached String_8_pool.borrowed_item as borrowed then
+			if str.is_string_8 and then attached {STRING_8} str as str_8 and then cursor_8 (str_8).all_ascii then
+			-- string is ASCII
+				put_file_string (str_8)
+				if is_directed_to_console then
+					std_output.put_string (str_8)
+				end
+
+			elseif attached String_8_pool.borrowed_item as borrowed then
 				if attached borrowed.copied_general_as_utf_8 (str) as l_utf_8 then
 					put_file_string (l_utf_8)
 					if is_directed_to_console then
