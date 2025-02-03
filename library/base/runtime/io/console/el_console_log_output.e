@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 10:21:18 GMT (Friday 8th November 2024)"
-	revision: "43"
+	date: "2025-02-03 12:26:40 GMT (Monday 3rd February 2025)"
+	revision: "44"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -194,11 +194,7 @@ feature -- Output
 			i: INTEGER
 		do
 			buffer.extend (new_line_prompt)
-			from
-				i := 1
-			until
-				i > tab_repeat_count
-			loop
+			from i := 1 until i > tab_repeat_count loop
 				buffer.extend (Tab_string)
 				i := i + 1
 			end
@@ -210,13 +206,26 @@ feature -- Output
 			buffer.extend (a_path.to_string)
 		end
 
-	put_quoted_string (a_str: READABLE_STRING_GENERAL; quote_mark: STRING)
+	put_quoted_character (uc: CHARACTER_32)
 		do
+			put_character ('%'')
 			set_text_color (Color.Yellow)
-			put_string (quote_mark)
-			put_string_general (a_str)
-			put_string (quote_mark)
+			if uc.is_character_8 then
+				put_character (uc.to_character_8)
+			else
+				put_string_general (create {STRING_32}.make_filled (uc, 1))
+			end
 			set_text_color (Color.Default)
+			put_character ('%'')
+		end
+
+	put_quoted_string (a_str: READABLE_STRING_GENERAL)
+		do
+			put_character ('"')
+			set_text_color (Color.Yellow)
+			put_string_general (a_str)
+			set_text_color (Color.Default)
+			put_character ('"')
 		end
 
 	put_separator

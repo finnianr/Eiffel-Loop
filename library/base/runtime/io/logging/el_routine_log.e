@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 10:59:18 GMT (Wednesday 6th November 2024)"
-	revision: "37"
+	date: "2025-02-03 11:29:18 GMT (Monday 3rd February 2025)"
+	revision: "38"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -327,7 +327,7 @@ feature -- String output
 		do
 			if attached output as op then
 				op.put_label (label)
-				op.put_quoted_string (field_value, Double_quote)
+				op.put_quoted_string (field_value)
 				op.flush
 			end
 		end
@@ -352,7 +352,7 @@ feature -- String output
 
 				if field_value.count > max_length and then attached String_pool.borrowed_item as borrowed then
 					leading_count := (max_length * 0.8).rounded; trailing_count := (max_length * 0.2).rounded
-					
+
 					if attached borrowed.copied_substring_general (field_value, 1, leading_count) as str then
 						str.right_adjust
 						str.append_string (Ellipisis_break)
@@ -548,14 +548,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Double_quote: STRING = "%""
-
 	Ellipisis_break: ZSTRING
 		once
 			Result := "..%N%N.."
 		end
-
-	Single_quote: STRING = "'"
 
 	Timer: EL_EXECUTION_TIMER
 		once ("OBJECT")

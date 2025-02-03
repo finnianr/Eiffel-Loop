@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-27 7:56:49 GMT (Monday 27th January 2025)"
-	revision: "10"
+	date: "2025-02-03 11:05:43 GMT (Monday 3rd February 2025)"
+	revision: "11"
 
 class
 	EL_TRAFFIC_ANALYSIS_CONFIG
@@ -29,6 +29,10 @@ feature -- Access
 	crawler_substrings: EL_STRING_8_LIST
 
 	page_list: EL_STRING_8_LIST
+
+	text_output_dir: DIR_PATH
+		-- path to save combined output of reports from class `EL_URI_EXTENSION_404_ANALYSIS_COMMAND'
+		-- and `EL_URI_STEM_404_ANALYSIS_COMMAND' to cut and paste into hacker intercept configuration
 
 feature {NONE} -- Constants
 

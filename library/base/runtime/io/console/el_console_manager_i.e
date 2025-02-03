@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:08:12 GMT (Friday 13th September 2024)"
-	revision: "19"
+	date: "2025-02-03 12:20:02 GMT (Monday 3rd February 2025)"
+	revision: "20"
 
 deferred class
 	EL_CONSOLE_MANAGER_I
@@ -33,6 +33,8 @@ feature {NONE} -- Initialization
 		do
 			make_default
 			create visible_types.make_equal (20)
+			create buffer_medium.make (0)
+			buffer_medium.set_encoding_other (Encoding)
 		end
 
 feature -- Access
@@ -56,7 +58,7 @@ feature -- Access
 	encoded (str: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): STRING
 		-- string encoded for console
 		do
-			if attached Once_buffer as buffer then
+			if attached buffer_medium as buffer then
 				buffer.wipe_out
 				buffer.put_string_general (str)
 				if keep_ref then
@@ -127,11 +129,5 @@ feature {NONE} -- Internal attributes
 
 	visible_types: EL_HASH_SET [INTEGER]
 
-feature {NONE} -- Constants
-
-	Once_buffer: EL_STRING_8_IO_MEDIUM
-		once
-			create Result.make (0)
-			Result.set_encoding_other (Encoding)
-		end
+	buffer_medium: EL_STRING_8_IO_MEDIUM
 end
