@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 14:41:57 GMT (Saturday 5th October 2024)"
-	revision: "20"
+	date: "2025-02-03 13:51:32 GMT (Monday 3rd February 2025)"
+	revision: "21"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -145,16 +145,52 @@ feature -- Access
 			Result := joined_with (' ', False)
 		end
 
+	joined_grouped_words (a_separator: READABLE_STRING_GENERAL; max_line_count: INTEGER): like item
+		-- words joined by `a_separator' sorted alphabetically and grouped by first character
+		-- and word-wrapped to `max_line_count' per line.
+		local
+			first_character: CHARACTER_32; line_count: INTEGER
+			separator: like item; word_list: EL_ARRAYED_LIST [S]
+		do
+			create Result.make (character_count + (count - 1) * a_separator.count)
+
+			create separator.make (a_separator.count)
+			separator.append (a_separator)
+			create word_list.make_from (Current)
+			word_list.sort (True)
+
+			across word_list as list loop
+				if attached list.item as str then
+					if list.cursor_index > 1 then
+						if str.count > 0 and then first_character /= str [1] then
+							Result.append_code ({EL_ASCII}.Newline)
+							first_character := str [1]
+							line_count := 0
+
+						elseif line_count + str.count > max_line_count then
+							Result.append_code ({EL_ASCII}.Newline)
+							line_count := 0
+						else
+							Result.append (separator)
+							line_count := line_count + 2
+						end
+					end
+					Result.append (str)
+					line_count := line_count + str.count
+				end
+			end
+		end
+
 feature -- Basic operations
 
-	append_separated_to (str: like item; separator_general: READABLE_STRING_GENERAL)
-		-- append parts to `str' using separator string `separator_general'
+	append_separated_to (str: like item; a_separator: READABLE_STRING_GENERAL)
+		-- append parts to `str' using separator string `a_separator'
 		local
 			separator: like item
 		do
 			push_cursor
-			create separator.make (separator_general.count)
-			separator.append (separator_general)
+			create separator.make (a_separator.count)
+			separator.append (a_separator)
 			from start until after loop
 				if index > 1 then
 					str.append (separator)
