@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 15:16:54 GMT (Monday 3rd February 2025)"
-	revision: "7"
+	date: "2025-02-03 15:31:10 GMT (Monday 3rd February 2025)"
+	revision: "8"
 
 class
 	EL_COUNTER_TABLE [K -> HASHABLE]
@@ -37,6 +37,7 @@ feature -- Access
 		end
 
 	as_count_group_table: EL_GROUPED_LIST_TABLE [K, NATURAL]
+		-- table of items grouped by count
 		do
 			create Result.make ((count // 10).max (10))
 			from start until after loop

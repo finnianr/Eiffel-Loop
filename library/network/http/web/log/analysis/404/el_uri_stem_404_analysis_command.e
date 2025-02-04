@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 15:26:04 GMT (Monday 3rd February 2025)"
-	revision: "6"
+	date: "2025-02-04 8:53:43 GMT (Tuesday 4th February 2025)"
+	revision: "7"
 
 class
 	EL_URI_STEM_404_ANALYSIS_COMMAND
@@ -70,7 +70,9 @@ feature -- Basic operations
 					request_list.wipe_out
 					across request_counter_table as table loop
 						if table.item >= minimum_occurrences then
-							request_list.extend (table.key)
+							if include_uri_part (table.key) then
+								request_list.extend (table.key)
+							end
 						end
 					end
 					File_system.make_directory (path.parent)
@@ -82,6 +84,11 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	include_uri_part (a_uri_part: STRING): BOOLEAN
+		do
+			Result := not across config.root_directory_list as dir some dir.item.starts_with (a_uri_part) end
+		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING
 		do
