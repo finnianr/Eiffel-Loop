@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 10:14:39 GMT (Friday 7th February 2025)"
-	revision: "32"
+	date: "2025-02-07 17:00:06 GMT (Friday 7th February 2025)"
+	revision: "33"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -184,7 +184,7 @@ feature -- Access
 		-- dot extension of `request_uri'
 		-- empty string if no dot extension or is not composed of alphabetical characters.
 		local
-			dot_index, slash_index, i, i_final: INTEGER; s: EL_STRING_8_ROUTINES
+			dot_index, slash_index, i, i_final: INTEGER
 			is_alpha: BOOLEAN
 		do
 			Result := Empty_string_8
@@ -236,7 +236,7 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	trimmed_request_uri (buffer: EL_STRING_8_BUFFER_I): STRING
-		-- part of `request_uri' between leading '/' and '?' copied into a `buffer'
+		-- buffered characters of `request_uri' between leading '/' and '?'
 		local
 			start_index, end_index: INTEGER
 		do

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 8:57:46 GMT (Friday 8th November 2024)"
-	revision: "10"
+	date: "2025-02-07 16:51:23 GMT (Friday 7th February 2025)"
+	revision: "11"
 
 deferred class
-	EL_STRING_CONVERSION_TABLE_IMPLEMENTATION
+	EL_STRING_CONVERSION_TABLE_BASE
 
 inherit
 	REFLECTOR_CONSTANTS

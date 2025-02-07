@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "6"
+	date: "2025-02-07 16:55:11 GMT (Friday 7th February 2025)"
+	revision: "7"
 
 deferred class
-	EL_XPATH_NODE_CONTEXT_IMPLEMENTATION
+	EL_XPATH_NODE_CONTEXT_BASE
 
 inherit
 	EL_OWNED_C_OBJECT -- VTDNav

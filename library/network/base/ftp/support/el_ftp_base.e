@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 14:26:21 GMT (Tuesday 5th November 2024)"
-	revision: "25"
+	date: "2025-02-07 16:55:03 GMT (Friday 7th February 2025)"
+	revision: "26"
 
 deferred class
-	EL_FTP_IMPLEMENTATION
+	EL_FTP_BASE
 
 inherit
 	EL_FTP_NETWORK_RESOURCE

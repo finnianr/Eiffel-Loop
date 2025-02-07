@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:07:58 GMT (Monday 23rd September 2024)"
-	revision: "28"
+	date: "2025-02-07 16:55:11 GMT (Friday 7th February 2025)"
+	revision: "29"
 
 class
 	EL_XPATH_NODE_CONTEXT
 
 inherit
-	EL_XPATH_NODE_CONTEXT_IMPLEMENTATION
+	EL_XPATH_NODE_CONTEXT_BASE
 
 create
 	make_from_other

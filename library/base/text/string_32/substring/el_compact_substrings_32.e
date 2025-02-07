@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-31 11:42:12 GMT (Sunday 31st March 2024)"
-	revision: "73"
+	date: "2025-02-07 16:51:30 GMT (Friday 7th February 2025)"
+	revision: "74"
 
 class
 	EL_COMPACT_SUBSTRINGS_32
@@ -19,7 +19,7 @@ inherit
 
 	EL_EXTENDABLE_AREA_IMP [CHARACTER_32]
 		export
-			{EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION} area
+			{EL_COMPACT_SUBSTRINGS_32_BASE} area
 		end
 
 create

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 9:11:25 GMT (Friday 8th November 2024)"
-	revision: "49"
+	date: "2025-02-07 16:51:28 GMT (Friday 7th February 2025)"
+	revision: "50"
 
 class
 	EL_URI
@@ -37,7 +37,7 @@ inherit
 			to_string_32
 		end
 
-	EL_URI_IMPLEMENTATION
+	EL_URI_BASE
 		export
 			{STRING_HANDLER} Colon_slash_x2
 		undefine

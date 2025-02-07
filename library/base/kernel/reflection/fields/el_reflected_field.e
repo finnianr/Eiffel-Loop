@@ -7,14 +7,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 11:29:13 GMT (Sunday 22nd September 2024)"
-	revision: "66"
+	date: "2025-02-07 16:51:14 GMT (Friday 7th February 2025)"
+	revision: "67"
 
 deferred class
 	EL_REFLECTED_FIELD
 
 inherit
-	EL_REFLECTED_FIELD_IMPLEMENTATION
+	EL_REFLECTED_FIELD_BASE
 		redefine
 			is_equal
 		end

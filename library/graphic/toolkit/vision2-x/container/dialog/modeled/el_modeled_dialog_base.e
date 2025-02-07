@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 13:21:51 GMT (Sunday 10th November 2024)"
-	revision: "16"
+	date: "2025-02-07 16:54:49 GMT (Friday 7th February 2025)"
+	revision: "17"
 
 deferred class
-	EL_MODELED_DIALOG_IMPLEMENTATION
+	EL_MODELED_DIALOG_BASE
 
 inherit
 	EV_ANY_HANDLER

@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 18:39:14 GMT (Tuesday 5th November 2024)"
-	revision: "11"
+	date: "2025-02-07 16:51:18 GMT (Friday 7th February 2025)"
+	revision: "12"
 
 deferred class
-	EL_PATH_STEPS_IMPLEMENTATION
+	EL_PATH_STEPS_BASE
 
 inherit
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE_SYSTEM; EL_MODULE_ITERABLE
@@ -73,9 +73,9 @@ feature -- Status report
 			Result := (1 <= i) and (i <= count)
 		end
 
-feature {EL_PATH_STEPS_IMPLEMENTATION} -- Implementation
+feature {EL_PATH_STEPS_BASE} -- Implementation
 
-	append (a_steps: EL_PATH_STEPS_IMPLEMENTATION)
+	append (a_steps: EL_PATH_STEPS_BASE)
 			-- Append a copy of `s'.
 		local
 			c, old_count, new_count: INTEGER
@@ -158,7 +158,7 @@ feature {NONE} -- Implementation
 			Result.remove_head (1)
 		end
 
-feature {EL_PATH_STEPS_IMPLEMENTATION} -- Internal attributes
+feature {EL_PATH_STEPS_BASE} -- Internal attributes
 
 	area: SPECIAL [INTEGER]
 

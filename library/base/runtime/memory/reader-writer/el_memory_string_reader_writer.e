@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:02:07 GMT (Sunday 25th August 2024)"
-	revision: "17"
+	date: "2025-02-07 16:51:20 GMT (Friday 7th February 2025)"
+	revision: "18"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
 
 inherit
-	EL_MEMORY_READER_WRITER_IMPLEMENTATION
+	EL_MEMORY_READER_WRITER_BASE
 
 	EL_ZCODE_CONVERSION
 		export

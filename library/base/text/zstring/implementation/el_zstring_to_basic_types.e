@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "5"
 
 deferred class
 	EL_ZSTRING_TO_BASIC_TYPES
 
 inherit
-	EL_ZSTRING_IMPLEMENTATION
+	EL_ZSTRING_BASE
 
 	EL_TYPE_CONVERSION_HANDLER
 

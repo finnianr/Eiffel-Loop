@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:30:43 GMT (Tuesday 27th August 2024)"
-	revision: "34"
+	date: "2025-02-07 16:51:30 GMT (Friday 7th February 2025)"
+	revision: "35"
 
 deferred class
-	EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION
+	EL_COMPACT_SUBSTRINGS_32_BASE
 
 inherit
 	EL_EXTENDABLE_AREA [CHARACTER_32]

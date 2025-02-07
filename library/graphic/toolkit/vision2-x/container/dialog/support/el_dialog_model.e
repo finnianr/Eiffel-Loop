@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:50:40 GMT (Tuesday 27th August 2024)"
-	revision: "25"
+	date: "2025-02-07 16:54:58 GMT (Friday 7th February 2025)"
+	revision: "26"
 
 class
 	EL_DIALOG_MODEL
 
 inherit
-	EL_DIALOG_MODEL_IMPLEMENTATION
+	EL_DIALOG_MODEL_BASE
 
 	EL_STRING_GENERAL_ROUTINES
 

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-01 8:45:21 GMT (Saturday 1st February 2025)"
-	revision: "18"
+	date: "2025-02-07 17:00:07 GMT (Friday 7th February 2025)"
+	revision: "19"
 
 deferred class
 	EL_WEB_LOG_READER_COMMAND
@@ -200,7 +200,7 @@ feature {NONE} -- Implementation
 	is_method_selected (line: STRING): BOOLEAN
 		-- `True' if HTTP request in `line' method matches `request_method'
 		local
-			start_index, end_index, l_count: INTEGER
+			start_index, end_index: INTEGER
 		do
 			if request_method.is_empty then
 				Result := True

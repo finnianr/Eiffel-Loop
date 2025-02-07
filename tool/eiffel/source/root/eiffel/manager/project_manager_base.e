@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-23 8:47:14 GMT (Saturday 23rd March 2024)"
-	revision: "6"
+	date: "2025-02-07 16:57:41 GMT (Friday 7th February 2025)"
+	revision: "7"
 
 deferred class
-	PROJECT_MANAGER_IMPLEMENTATION
+	PROJECT_MANAGER_BASE
 
 inherit
 	EL_COMMAND_SHELL_I

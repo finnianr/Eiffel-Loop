@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:48:00 GMT (Sunday 25th August 2024)"
-	revision: "60"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "61"
 
 deferred class
 	EL_PREPENDABLE_ZSTRING
 
 inherit
-	EL_ZSTRING_IMPLEMENTATION
+	EL_ZSTRING_BASE
 
 feature {NONE} -- Prepend numeric
 
@@ -139,7 +139,7 @@ feature {NONE} -- Prepending
 
 feature {NONE} -- Implementation
 
-	internal_prepend (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
+	internal_prepend (s: EL_ZSTRING_CHARACTER_8_BASE)
 			-- Prepend characters of `s' at front.
 		do
 			internal_insert_string (s, 1)

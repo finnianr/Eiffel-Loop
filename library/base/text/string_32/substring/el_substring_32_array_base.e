@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2025-02-07 16:51:32 GMT (Friday 7th February 2025)"
+	revision: "17"
 
 deferred class
-	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
+	EL_SUBSTRING_32_ARRAY_BASE
 
 inherit
 	EL_ZCODE_CONVERSION
@@ -65,7 +65,7 @@ feature {NONE} -- Factory
 			increment_count (Result, value (area_1, 0) + value (area_2, 0) - (delta // 2))
 		end
 
-feature {EL_SUBSTRING_32_ARRAY_IMPLEMENTATION} -- Access
+feature {EL_SUBSTRING_32_ARRAY_BASE} -- Access
 
 	area: SPECIAL [CHARACTER_32]
 		deferred
@@ -180,7 +180,7 @@ feature {NONE} -- Implementation
 			a_area.put (upper.to_character_32, i + 1)
 		end
 
-	start (array: EL_SUBSTRING_32_ARRAY_IMPLEMENTATION): EL_SUBSTRING_32_ARRAY_ITERATOR
+	start (array: EL_SUBSTRING_32_ARRAY_BASE): EL_SUBSTRING_32_ARRAY_ITERATOR
 		do
 			if array = Current then
 				Result := Once_iterator [0]

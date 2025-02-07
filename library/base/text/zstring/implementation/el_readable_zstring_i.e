@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:14:56 GMT (Sunday 25th August 2024)"
-	revision: "19"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "20"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -234,7 +234,7 @@ feature {NONE} -- Implementation
 note
 	descendants: "[
 			EL_READABLE_ZSTRING_I*
-				${EL_ZSTRING_IMPLEMENTATION*}
+				${EL_ZSTRING_BASE*}
 					${EL_ZSTRING_TO_BASIC_TYPES*}
 						${EL_READABLE_ZSTRING*}
 							${EL_ZSTRING}

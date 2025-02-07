@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:21:00 GMT (Sunday 25th August 2024)"
-	revision: "33"
+	date: "2025-02-07 16:51:43 GMT (Friday 7th February 2025)"
+	revision: "34"
 
 deferred class
-	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
+	EL_ZSTRING_CHARACTER_8_BASE
 
 inherit
 	EL_SHARED_STRING_8_CURSOR
@@ -186,7 +186,7 @@ feature -- Conversion
 
 feature -- Comparison
 
-	same_characters (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+	same_characters (other: EL_ZSTRING_CHARACTER_8_BASE; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
 		require
@@ -207,7 +207,7 @@ feature -- Comparison
 					and then Result = current_substring.same_string (other.substring (start_pos, end_pos))
 		end
 
-	same_string (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION): BOOLEAN
+	same_string (other: EL_ZSTRING_CHARACTER_8_BASE): BOOLEAN
 			-- Do `Current' and `other' have same character sequence?
 		require
 			other_not_void: other /= Void
@@ -244,7 +244,7 @@ feature {NONE} -- Element change
 			-- all_char: For every `i' in 1..`capacity', `item' (`i') = `c'
 		end
 
-	insert_string (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; i: INTEGER)
+	insert_string (s: EL_ZSTRING_CHARACTER_8_BASE; i: INTEGER)
 			-- Insert `s' at index `i', shifting characters between ranks
 			-- `i' and `count' rightwards.
 		require
@@ -299,7 +299,7 @@ feature {NONE} -- Element change
 
 feature {NONE} -- Implementation
 
-	share (other: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION)
+	share (other: EL_ZSTRING_CHARACTER_8_BASE)
 			-- Make current string share the text of `other'.
 			-- Subsequent changes to the characters of current string
 			-- will also affect `other', and conversely.
@@ -334,7 +334,7 @@ feature -- Removal
 			same_capacity: capacity = old capacity
 		end
 
-feature {EL_ZSTRING_CHARACTER_8_IMPLEMENTATION, EL_STRING_8_IMPLEMENTATION} -- Implementation
+feature {EL_ZSTRING_CHARACTER_8_BASE, EL_STRING_8_BASE} -- Implementation
 
 	area_lower: INTEGER
 			-- Minimum index
@@ -439,7 +439,7 @@ feature {NONE} -- Deferred
 
 feature -- Constants
 
-	String_8: EL_STRING_8_IMPLEMENTATION
+	String_8: EL_STRING_8_BASE
 		once
 			create Result.make
 		end

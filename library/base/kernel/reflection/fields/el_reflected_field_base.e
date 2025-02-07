@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2025-02-07 16:51:14 GMT (Friday 7th February 2025)"
+	revision: "5"
 
 deferred class
-	EL_REFLECTED_FIELD_IMPLEMENTATION
+	EL_REFLECTED_FIELD_BASE
 
 inherit
 	EL_NAMEABLE [IMMUTABLE_STRING_8]

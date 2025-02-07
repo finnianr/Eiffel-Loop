@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 12:26:40 GMT (Friday 30th August 2024)"
-	revision: "73"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "74"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
 
 inherit
-	EL_ZSTRING_IMPLEMENTATION
+	EL_ZSTRING_BASE
 		export
 			{ANY} is_compatible, is_compatible_substring, Substitute
 		end
@@ -477,7 +477,7 @@ feature {NONE} -- Implementation
 			appended: substring (old count + 1, count).same_string_general (general)
 		end
 
-	internal_append (s: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; old_count: INTEGER)
+	internal_append (s: EL_ZSTRING_CHARACTER_8_BASE; old_count: INTEGER)
 			-- Append characters of `s' at end.
 		local
 			new_count, s_count: INTEGER

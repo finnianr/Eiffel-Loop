@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:41:32 GMT (Sunday 6th October 2024)"
-	revision: "157"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "158"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -26,7 +26,7 @@ inherit
 			to_upper_area as unencoded_to_upper_area
 		export
 			{NONE} unencoded_to_lower_area, unencoded_to_upper_area
-			{EL_ZSTRING_IMPLEMENTATION, STRING_HANDLER} unencoded_area
+			{EL_ZSTRING_BASE, STRING_HANDLER} unencoded_area
 		undefine
 --			Initialization
 			make,
@@ -71,9 +71,9 @@ inherit
 			{STRING_HANDLER, EL_OCCURRENCE_INTERVALS}
 				compatible_string_8, empty_unencoded_buffer, item_8, order_comparison,
 				set_unencoded_from_buffer
-			{EL_ZSTRING_ITERATION_CURSOR, EL_STRING_8_IMPLEMENTATION}
+			{EL_ZSTRING_ITERATION_CURSOR, EL_STRING_8_BASE}
 				area_lower, area_upper, area, unencoded_area
-			{EL_ZSTRING_IMPLEMENTATION}
+			{EL_ZSTRING_BASE}
 				unencoded_i_th_substring, unencoded_first_lower, unencoded_first_upper, unencoded_interval_sequence,
 				unencoded_fill_list
 			{EL_ZCODEC} codec
@@ -579,7 +579,7 @@ feature -- Comparison
 			end
 		end
 
-feature {EL_ZSTRING_IMPLEMENTATION} -- Duplication
+feature {EL_ZSTRING_BASE} -- Duplication
 
 	copy (other: like Current)
 		-- Reinitialize by copying the characters of `other'.

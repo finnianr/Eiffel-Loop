@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:36:29 GMT (Sunday 6th October 2024)"
-	revision: "123"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "124"
 
 class
 	EL_ZSTRING
@@ -57,7 +57,7 @@ inherit
 --				Contract support
 				Encoding
 			{EL_SHARED_ZSTRING_CODEC} order_comparison
-			{EL_ZSTRING_IMPLEMENTATION} append_string_general_for_type
+			{EL_ZSTRING_BASE} append_string_general_for_type
 			{EL_ZCODEC} Once_interval_list
 		redefine
 			new_list

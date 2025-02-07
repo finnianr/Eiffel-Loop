@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-11 9:04:40 GMT (Thursday 11th July 2024)"
-	revision: "14"
+	date: "2025-02-07 16:51:20 GMT (Friday 7th February 2025)"
+	revision: "15"
 
 deferred class
-	EL_MEMORY_READER_WRITER_IMPLEMENTATION
+	EL_MEMORY_READER_WRITER_BASE
 
 inherit
 	EL_READABLE

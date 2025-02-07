@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 15:29:47 GMT (Tuesday 5th November 2024)"
-	revision: "13"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "14"
 
 class
-	EL_ZCODEC_IMPLEMENTATION
+	EL_ZCODEC_BASE
 
 inherit
 	EL_ENCODING_BASE
@@ -76,7 +76,7 @@ feature {NONE} -- Internal attributes
 	latin_characters: SPECIAL [CHARACTER]
 
 	shared_interval_list: EL_ARRAYED_INTERVAL_LIST
-		-- initialized from {EL_ZSTRING_IMPLEMENTATION}.Once_interval_list
+		-- initialized from {EL_ZSTRING_BASE}.Once_interval_list
 
 feature {NONE} -- Constants
 

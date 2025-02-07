@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:26:12 GMT (Friday 20th September 2024)"
-	revision: "10"
+	date: "2025-02-07 16:57:36 GMT (Friday 7th February 2025)"
+	revision: "11"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -47,9 +47,9 @@ feature -- Tests
 		note
 			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.left_adjust"
 		do
-			do_pruning_test ({STRING_TEST_IMPLEMENTATION}.Left_adjust)
-			do_pruning_test ({STRING_TEST_IMPLEMENTATION}.Right_adjust)
-			do_pruning_test ({STRING_TEST_IMPLEMENTATION}.Both_adjust)
+			do_pruning_test ({STRING_TEST_BASE}.Left_adjust)
+			do_pruning_test ({STRING_TEST_BASE}.Right_adjust)
+			do_pruning_test ({STRING_TEST_BASE}.Both_adjust)
 		end
 
 	test_case_changing
@@ -167,14 +167,14 @@ feature -- Tests
 			russian := Text.cyrillic_line_32
 			russian.prune_all_leading ('%N') -- tests `keep_tail (count)'
 
-			do_pruning_test ({STRING_TEST_IMPLEMENTATION}.Prune_leading)
+			do_pruning_test ({STRING_TEST_BASE}.Prune_leading)
 		end
 
 	test_prune_trailing
 		note
 			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.prune_all_trailing"
 		do
-			do_pruning_test ({STRING_TEST_IMPLEMENTATION}.Prune_trailing)
+			do_pruning_test ({STRING_TEST_BASE}.Prune_trailing)
 		end
 
 	test_remove_head
@@ -441,7 +441,7 @@ feature {NONE} -- Implementation
 				across << Text.Tab_character, Text.Ogham_space_mark >> as c loop
 					across 1 |..| 2 as n loop
 						inspect type
-							when {STRING_TEST_IMPLEMENTATION}.Right_adjust, {STRING_TEST_IMPLEMENTATION}.Prune_trailing then
+							when {STRING_TEST_BASE}.Right_adjust, {STRING_TEST_BASE}.Prune_trailing then
 								test.s_32.append_character (c.item)
 								op_name := "append_character"
 						else

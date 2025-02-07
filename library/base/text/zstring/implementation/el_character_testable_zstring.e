@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-16 13:49:46 GMT (Monday 16th September 2024)"
-	revision: "7"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "8"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
 
 inherit
-	EL_ZSTRING_IMPLEMENTATION
+	EL_ZSTRING_BASE
 		export
 			{ANY} Max_ascii, Substitute
 		end

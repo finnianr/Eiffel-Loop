@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:30:13 GMT (Tuesday 27th August 2024)"
-	revision: "76"
+	date: "2025-02-07 16:51:30 GMT (Friday 7th February 2025)"
+	revision: "77"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_I
 
 inherit
-	EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION
+	EL_COMPACT_SUBSTRINGS_32_BASE
 		export
 			{EL_ZCODE_CONVERSION} is_valid, substring_list, Buffer
 			{STRING_HANDLER} area

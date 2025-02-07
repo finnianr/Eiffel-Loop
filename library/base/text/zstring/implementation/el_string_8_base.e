@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:04:48 GMT (Tuesday 20th August 2024)"
-	revision: "19"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "20"
 
 class
-	EL_STRING_8_IMPLEMENTATION
+	EL_STRING_8_BASE
 
 inherit
 	ANY
@@ -37,7 +37,7 @@ feature -- Status query
 			Result := injected (target, 0).ends_with (injected (other, 1))
 		end
 
-	has (target: EL_ZSTRING_IMPLEMENTATION; c: CHARACTER_8): BOOLEAN
+	has (target: EL_ZSTRING_BASE; c: CHARACTER_8): BOOLEAN
 			-- Does string include `c'?
 		do
 			Result := injected (target, 0).has (c)
@@ -55,7 +55,7 @@ feature -- Status query
 
 feature -- Measurement
 
-	occurrences (target: EL_ZSTRING_IMPLEMENTATION; c: CHARACTER_8): INTEGER
+	occurrences (target: EL_ZSTRING_BASE; c: CHARACTER_8): INTEGER
 			-- Number of times `c' appears in the string
 		do
 			Result := injected (target, 0).occurrences (c)
@@ -235,7 +235,7 @@ feature -- Access
 			Result.set_from_c (latin_1_ptr)
 		end
 
-	injected (zstr: EL_ZSTRING_CHARACTER_8_IMPLEMENTATION; i: INTEGER): EL_STRING_8
+	injected (zstr: EL_ZSTRING_CHARACTER_8_BASE; i: INTEGER): EL_STRING_8
 		require
 			valid_index: valid_index (i)
 		do

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:21:33 GMT (Wednesday 6th November 2024)"
-	revision: "41"
+	date: "2025-02-07 16:51:23 GMT (Friday 7th February 2025)"
+	revision: "42"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -26,7 +26,7 @@ inherit
 			{ANY} has, has_type, found_item
 		end
 
-	EL_STRING_CONVERSION_TABLE_IMPLEMENTATION
+	EL_STRING_CONVERSION_TABLE_BASE
 		undefine
 			copy, default_create, is_equal
 		end

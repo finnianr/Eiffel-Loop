@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-22 11:00:15 GMT (Tuesday 22nd October 2024)"
-	revision: "56"
+	date: "2025-02-07 16:55:07 GMT (Friday 7th February 2025)"
+	revision: "57"
 
 class
 	EL_HTTP_CONNECTION
@@ -24,7 +24,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_HTTP_CONNECTION_IMPLEMENTATION
+	EL_HTTP_CONNECTION_BASE
 		rename
 			is_valid as is_valid_option_constant
 		export

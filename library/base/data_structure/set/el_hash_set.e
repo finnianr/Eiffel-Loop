@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 14:41:30 GMT (Saturday 5th October 2024)"
-	revision: "33"
+	date: "2025-02-07 16:50:48 GMT (Friday 7th February 2025)"
+	revision: "34"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
 
 inherit
-	EL_HASH_SET_IMPLEMENTATION [H]
+	EL_HASH_SET_BASE [H]
 		export
 			{EL_HASH_SET, EL_HASH_SET_ITERATION_CURSOR} append_to, content, key_tester, set_key_tester
 		redefine

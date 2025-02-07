@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:30:12 GMT (Wednesday 6th November 2024)"
-	revision: "11"
+	date: "2025-02-07 16:51:28 GMT (Friday 7th February 2025)"
+	revision: "12"
 
 deferred class
-	EL_URI_IMPLEMENTATION
+	EL_URI_BASE
 
 inherit
 	EL_STRING_HANDLER

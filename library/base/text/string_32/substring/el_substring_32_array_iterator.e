@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2025-02-07 16:51:32 GMT (Friday 7th February 2025)"
+	revision: "9"
 
 class
 	EL_SUBSTRING_32_ARRAY_ITERATOR
@@ -20,7 +20,7 @@ inherit
 
 	DEBUG_OUTPUT undefine default_create end
 
-	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
+	EL_SUBSTRING_32_ARRAY_BASE
 		rename
 			start as array_iterator
 		export

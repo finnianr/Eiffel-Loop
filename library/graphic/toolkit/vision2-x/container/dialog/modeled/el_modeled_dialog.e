@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 12:59:47 GMT (Sunday 10th November 2024)"
-	revision: "15"
+	date: "2025-02-07 16:54:49 GMT (Friday 7th February 2025)"
+	revision: "16"
 
 deferred class
 	EL_MODELED_DIALOG
 
 inherit
-	EL_MODELED_DIALOG_IMPLEMENTATION
+	EL_MODELED_DIALOG_BASE
 
 	EL_KEYBOARD_ACCELERATED
 

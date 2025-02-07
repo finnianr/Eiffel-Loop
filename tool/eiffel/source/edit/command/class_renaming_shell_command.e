@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:29:00 GMT (Friday 7th February 2025)"
-	revision: "11"
+	date: "2025-02-07 17:06:03 GMT (Friday 7th February 2025)"
+	revision: "12"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -73,13 +73,18 @@ feature {NONE} -- Commands
 	rename_suffix_prefix
 		local
 			command: CLASS_RENAMING_COMMAND; old_pattern, new_pattern: ZSTRING
-			s: EL_STRING_8_ROUTINES; suffix_count, prefix_count: INTEGER
+			suffix_count, prefix_count: INTEGER; break: BOOLEAN
 		do
 			old_pattern := User_input.line ("Enter class suffix/prefix pattern (Eg. *_IMPLEMENTATION)")
 			old_pattern.to_lower
-			new_pattern := User_input.line ("Enter replacement pattern (Eg. *_BASE)")
-			new_pattern.to_lower
-			if not (old_pattern.occurrences ('*') = 1 and new_pattern.occurrences ('*') = 1) then
+			if not User_input.escape_pressed then
+				new_pattern := User_input.line ("Enter replacement pattern (Eg. *_BASE)")
+				new_pattern.to_lower
+			end
+			if User_input.escape_pressed then
+				do_nothing
+
+			elseif not (old_pattern.occurrences ('*') = 1 and new_pattern.occurrences ('*') = 1) then
 				lio.put_labeled_string (Invalid_pattern, "Each must start or end with a '*' wildcard")
 				lio.put_new_line
 
@@ -101,8 +106,8 @@ feature {NONE} -- Commands
 			end
 			if suffix_count > 0 or prefix_count > 0 then
 				read_manifest_files
-				across manifest.source_tree_list as tree loop
-					across tree.item.path_list as list loop
+				across manifest.source_tree_list as tree until break loop
+					across tree.item.path_list as list until break loop
 						if attached list.item.base_name as base_name and then base_name.matches_wildcard (old_pattern) then
 							old_name.wipe_out
 							base_name.append_to_string_8 (old_name)
@@ -123,8 +128,12 @@ feature {NONE} -- Commands
 							end
 							new_name.to_upper
 							if User_input.approved_action_y_n (Rename_prompt #$ [old_name, new_name]) then
-								create command.make (manifest, old_name, new_name)
-								command.execute
+								if User_input.escape_pressed then
+									break := True
+								else
+									create command.make (manifest, old_name, new_name)
+									command.execute
+								end
 							end
 						end
 					end

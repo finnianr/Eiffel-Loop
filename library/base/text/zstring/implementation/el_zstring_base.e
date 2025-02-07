@@ -1,6 +1,6 @@
 note
 	description: "[
-		Core implementation of ${ZSTRING} using an 8 bit array to store characters encodeable
+		Implementation base of ${ZSTRING} using an 8 bit array to store characters encodeable
 		by `codec', and a compacted array of 32-bit arrays to encode any character not defined by the 8-bit encoding.
 	]"
 
@@ -9,11 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 20:02:39 GMT (Saturday 31st August 2024)"
-	revision: "107"
+	date: "2025-02-07 16:53:18 GMT (Friday 7th February 2025)"
+	revision: "108"
 
 deferred class
-	EL_ZSTRING_IMPLEMENTATION
+	EL_ZSTRING_BASE
 
 inherit
 	EL_COMPACT_SUBSTRINGS_32_I
@@ -73,7 +73,7 @@ inherit
 			is_equal, copy, out
 		end
 
-	EL_ZSTRING_CHARACTER_8_IMPLEMENTATION
+	EL_ZSTRING_CHARACTER_8_BASE
 		rename
 			fill_character as internal_fill_character,
 			hash_code as area_hash_code,
@@ -286,7 +286,7 @@ feature -- Contract Support
 			end
 		end
 
-feature {EL_ZSTRING_IMPLEMENTATION} -- Status query
+feature {EL_ZSTRING_BASE} -- Status query
 
 	elks_checking: BOOLEAN
 		deferred

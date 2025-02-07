@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 8:22:14 GMT (Friday 17th May 2024)"
-	revision: "8"
+	date: "2025-02-07 16:51:32 GMT (Friday 7th February 2025)"
+	revision: "9"
 
 class
 	EL_SUBSTRING_32_BUFFER
@@ -40,7 +40,7 @@ inherit
 
 	EL_ZCODE_CONVERSION
 
-	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
+	EL_SUBSTRING_32_ARRAY_BASE
 		export
 			{NONE} all
 			{STRING_HANDLER} Substring_buffer

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-06 8:39:30 GMT (Thursday 6th February 2025)"
-	revision: "8"
+	date: "2025-02-07 17:00:07 GMT (Friday 7th February 2025)"
+	revision: "9"
 
 class
 	EL_URI_STEM_404_ANALYSIS_COMMAND
@@ -35,7 +35,7 @@ feature -- Basic operations
 		local
 			request_list: EL_STRING_8_LIST; natural_input: EL_USER_INPUT_VALUE [NATURAL]
 			request_counter_table: EL_COUNTER_TABLE [STRING]; prompt: STRING
-			occurrence_count, minimum_occurrences: NATURAL
+			minimum_occurrences: NATURAL
 		do
 			Precursor
 			create request_counter_table.make (500)

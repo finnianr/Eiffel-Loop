@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:09:18 GMT (Sunday 22nd September 2024)"
-	revision: "9"
+	date: "2025-02-07 16:55:07 GMT (Friday 7th February 2025)"
+	revision: "10"
 
 class
 	EL_CURL_HEADER_TABLE
@@ -20,7 +20,7 @@ inherit
 create
 	make_equal
 
-feature {EL_HTTP_CONNECTION_IMPLEMENTATION} -- Access
+feature {EL_HTTP_CONNECTION_BASE} -- Access
 
 	to_curl_string_list: POINTER
 		local

@@ -1,3 +1,6 @@
+Ver 2.2.17 (7 Feb 2025)
+* New Eiffel tool to rename classes by suffix/prefix wildcards
+
 Ver 2.2.16 (16 Oct 2024)
 * Prevent login prompt for REPOSITORY_SOURCE_LINK_EXPANDER
 

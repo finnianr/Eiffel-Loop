@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:16:08 GMT (Sunday 8th September 2024)"
-	revision: "26"
+	date: "2025-02-07 16:51:20 GMT (Friday 7th February 2025)"
+	revision: "27"
 
 deferred class
 	EL_WRITABLE
@@ -205,7 +205,7 @@ note
 					${EL_MD5_128}
 					${EL_HMAC_SHA_256}
 					${EL_SHA_256}
-				${EL_MEMORY_READER_WRITER_IMPLEMENTATION*}
+				${EL_MEMORY_READER_WRITER_BASE*}
 					${EL_MEMORY_READER_WRITER}
 						${ECD_READER_WRITER [G -> EL_STORABLE create make_default end]}
 							${ECD_ENCRYPTABLE_READER_WRITER [G -> EL_STORABLE create make_default end]}

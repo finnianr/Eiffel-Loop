@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-25 9:52:48 GMT (Sunday 25th December 2022)"
-	revision: "27"
+	date: "2025-02-07 16:51:20 GMT (Friday 7th February 2025)"
+	revision: "28"
 
 class
 	EL_MEMORY_READER_WRITER
 
 inherit
-	EL_MEMORY_READER_WRITER_IMPLEMENTATION
+	EL_MEMORY_READER_WRITER_BASE
 		export
 			{EL_STORABLE_HANDLER} set_count, buffer, count, make_with_buffer
 		end

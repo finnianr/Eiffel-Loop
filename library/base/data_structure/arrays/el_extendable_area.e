@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 14:48:54 GMT (Thursday 4th April 2024)"
-	revision: "11"
+	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
+	revision: "12"
 
 deferred class
 	EL_EXTENDABLE_AREA [G]
@@ -76,10 +76,10 @@ note
 	descendants: "[
 			EL_EXTENDABLE_AREA* [G]
 				${EL_SUBSTRING_32_BUFFER}
-				${EL_COMPACT_SUBSTRINGS_32_IMPLEMENTATION*}
+				${EL_COMPACT_SUBSTRINGS_32_BASE*}
 					${EL_COMPACT_SUBSTRINGS_32_I*}
 						${EL_COMPACT_SUBSTRINGS_32}
 							${EL_COMPACT_SUBSTRINGS_32_BUFFER}
-						${EL_ZSTRING_IMPLEMENTATION*}
+						${EL_ZSTRING_BASE*}
 	]"
 end

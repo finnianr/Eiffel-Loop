@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 8:33:33 GMT (Monday 15th April 2024)"
-	revision: "27"
+	date: "2025-02-07 16:57:36 GMT (Friday 7th February 2025)"
+	revision: "28"
 
 class
-	STRING_TEST_IMPLEMENTATION
+	STRING_TEST_BASE
 
 inherit
 	ANY

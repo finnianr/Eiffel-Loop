@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 11:20:54 GMT (Sunday 22nd September 2024)"
-	revision: "2"
+	date: "2025-02-07 16:50:48 GMT (Friday 7th February 2025)"
+	revision: "3"
 
 deferred class
-	EL_HASH_SET_IMPLEMENTATION [H -> HASHABLE]
+	EL_HASH_SET_BASE [H -> HASHABLE]
 
 inherit
 	TRAVERSABLE_SUBSET [H]
@@ -310,7 +310,7 @@ feature {NONE} -- Deferred
 			item_if_found: found implies (found_item = content.item (position))
 		end
 
-feature {EL_HASH_SET_IMPLEMENTATION, EL_HASH_SET_ITERATION_CURSOR} -- Internal attributes access
+feature {EL_HASH_SET_BASE, EL_HASH_SET_ITERATION_CURSOR} -- Internal attributes access
 
 	content: SPECIAL [detachable H]
 		-- Content

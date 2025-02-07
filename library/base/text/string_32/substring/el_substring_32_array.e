@@ -23,14 +23,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:49:34 GMT (Tuesday 27th August 2024)"
-	revision: "29"
+	date: "2025-02-07 16:51:32 GMT (Friday 7th February 2025)"
+	revision: "30"
 
 class
 	EL_SUBSTRING_32_ARRAY
 
 inherit
-	EL_SUBSTRING_32_ARRAY_IMPLEMENTATION
+	EL_SUBSTRING_32_ARRAY_BASE
 		export
 			{ANY} valid_index
 		end

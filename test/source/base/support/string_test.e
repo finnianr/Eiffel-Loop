@@ -9,14 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 8:30:54 GMT (Monday 15th April 2024)"
-	revision: "37"
+	date: "2025-02-07 16:57:36 GMT (Friday 7th February 2025)"
+	revision: "38"
 
 class
 	STRING_TEST
 
 inherit
-	STRING_TEST_IMPLEMENTATION
+	STRING_TEST_BASE
 
 create
 	default_create, make, make_filled

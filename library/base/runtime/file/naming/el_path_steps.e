@@ -11,14 +11,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 10:02:02 GMT (Wednesday 6th November 2024)"
-	revision: "28"
+	date: "2025-02-07 16:51:18 GMT (Friday 7th February 2025)"
+	revision: "29"
 
 class
 	EL_PATH_STEPS
 
 inherit
-	EL_PATH_STEPS_IMPLEMENTATION
+	EL_PATH_STEPS_BASE
 		redefine
 			default_create
 		end
