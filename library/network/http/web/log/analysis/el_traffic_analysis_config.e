@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-04 8:49:28 GMT (Tuesday 4th February 2025)"
-	revision: "12"
+	date: "2025-02-06 8:39:12 GMT (Thursday 6th February 2025)"
+	revision: "13"
 
 class
 	EL_TRAFFIC_ANALYSIS_CONFIG
@@ -36,8 +36,9 @@ feature -- Access
 		-- path to save combined output of reports from class `EL_URI_EXTENSION_404_ANALYSIS_COMMAND'
 		-- and `EL_URI_STEM_404_ANALYSIS_COMMAND' to cut and paste into hacker intercept configuration
 
-	root_directory_list: EL_STRING_8_LIST
-		-- list of directory names in www root
+	standard_file_list: EL_STRING_8_LIST
+		-- list of standard files and directory names that must
+		-- not be blocked by hacker intercept service
 
 feature {NONE} -- Constants
 

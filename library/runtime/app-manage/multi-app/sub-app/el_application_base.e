@@ -1,16 +1,16 @@
 note
-	description: "Implementation details for class ${EL_APPLICATION}"
+	description: "Implementation base for class ${EL_APPLICATION}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:10:41 GMT (Wednesday 25th September 2024)"
-	revision: "2"
+	date: "2025-02-07 16:37:11 GMT (Friday 7th February 2025)"
+	revision: "3"
 
 deferred class
-	EL_APPLICATION_IMPLEMENTATION
+	EL_APPLICATION_BASE
 
 inherit
 	EL_MODULE_BUILD_INFO; EL_MODULE_EXCEPTION; EL_MODULE_EXECUTABLE; EL_MODULE_DIRECTORY

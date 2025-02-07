@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-04 8:53:43 GMT (Tuesday 4th February 2025)"
-	revision: "7"
+	date: "2025-02-06 8:39:30 GMT (Thursday 6th February 2025)"
+	revision: "8"
 
 class
 	EL_URI_STEM_404_ANALYSIS_COMMAND
@@ -87,7 +87,9 @@ feature {NONE} -- Implementation
 
 	include_uri_part (a_uri_part: STRING): BOOLEAN
 		do
-			Result := not across config.root_directory_list as dir some dir.item.starts_with (a_uri_part) end
+			Result := across config.standard_file_list as dir all
+				not dir.item.starts_with (a_uri_part)
+			end
 		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:07:03 GMT (Sunday 22nd September 2024)"
-	revision: "10"
+	date: "2025-02-07 16:29:00 GMT (Friday 7th February 2025)"
+	revision: "11"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -70,44 +70,63 @@ feature {NONE} -- Commands
 			loop_until_quit
 		end
 
-	rename_text_process_library
+	rename_suffix_prefix
 		local
-			command: CLASS_RENAMING_COMMAND; l_prefix: STRING
-			suffix_table: EL_HASH_TABLE [STRING, STRING]
+			command: CLASS_RENAMING_COMMAND; old_pattern, new_pattern: ZSTRING
+			s: EL_STRING_8_ROUTINES; suffix_count, prefix_count: INTEGER
 		do
-			create suffix_table.make_assignments (<<
-				["_TEXT_PATTERN", "_PATTERN"],
-				["_TEXT_PATTERN_FACTORY", "_FACTORY"],
-				["_PATTERN_FACTORY", "_FACTORY"],
-				["_CHARACTER", "_CHAR"]
-			>>)
-			across manifest.source_tree_list as tree loop
-				across tree.item.path_list as list loop
-					if list.item.parent.has_step ("pattern") then
-						old_name.wipe_out
-						list.item.base_name.append_to_string_8 (old_name)
-						old_name.to_upper
-						new_name := old_name.twin
+			old_pattern := User_input.line ("Enter class suffix/prefix pattern (Eg. *_IMPLEMENTATION)")
+			old_pattern.to_lower
+			new_pattern := User_input.line ("Enter replacement pattern (Eg. *_BASE)")
+			new_pattern.to_lower
+			if not (old_pattern.occurrences ('*') = 1 and new_pattern.occurrences ('*') = 1) then
+				lio.put_labeled_string (Invalid_pattern, "Each must start or end with a '*' wildcard")
+				lio.put_new_line
 
-						l_prefix := "EL_MATCH_"
-						if new_name.starts_with (l_prefix) then
-							new_name.replace_substring ("TP_", 1, l_prefix.count)
-						else
-							new_name.replace_substring ("TP", 1, 2)
-						end
-						if new_name.ends_with ("_TP") then
-							new_name.remove_tail (3)
-						end
-						new_name.replace_substring_all ("_STRING_8_", "_RSTRING_")
-						across suffix_table as table loop
-							if new_name.ends_with (table.key) then
-								new_name.remove_tail (table.key.count)
-								new_name.append (table.item)
+			elseif old_pattern.starts_with_character ('*') then
+				if new_pattern.starts_with_character ('*') then
+					suffix_count := old_pattern.count - 1
+				else
+					lio.put_labeled_string (Invalid_pattern, "Suffix replacement must start with '*' wildcard")
+					lio.put_new_line
+				end
+
+			elseif old_pattern.ends_with_character ('*')  then
+				if new_pattern.ends_with_character ('*') then
+					prefix_count := old_pattern.count - 1
+				else
+					lio.put_labeled_string (Invalid_pattern, "Prefix replacement must end with '*' wildcard")
+					lio.put_new_line
+				end
+			end
+			if suffix_count > 0 or prefix_count > 0 then
+				read_manifest_files
+				across manifest.source_tree_list as tree loop
+					across tree.item.path_list as list loop
+						if attached list.item.base_name as base_name and then base_name.matches_wildcard (old_pattern) then
+							old_name.wipe_out
+							base_name.append_to_string_8 (old_name)
+							old_name.to_upper
+							new_name := old_name.twin
+
+							if suffix_count > 0 then
+								new_name.remove_tail (suffix_count)
+								if new_pattern.count >= 2 then
+									new_name.append_substring (new_pattern.to_latin_1, 2, new_pattern.count)
+								end
+
+							elseif prefix_count > 0 then
+								new_name.remove_head (prefix_count)
+								if new_pattern.count - 1 >= 1 then
+									new_name.prepend_substring (new_pattern.to_latin_1, 1, new_pattern.count - 1)
+								end
+							end
+							new_name.to_upper
+							if User_input.approved_action_y_n (Rename_prompt #$ [old_name, new_name]) then
+								create command.make (manifest, old_name, new_name)
+								command.execute
 							end
 						end
-						lio.put_line (new_name)
-						create command.make (manifest, old_name, new_name)
-						command.execute
 					end
 				end
 			end
@@ -156,7 +175,7 @@ feature {NONE} -- Implementation
 					if old_name.starts_with (prefix_letters) then
 						new_name := old_name.substring (prefix_letters.count + 1, old_name.count)
 					else
-						lio.put_labeled_string ("Error", "Class name does not start with " + prefix_letters)
+						lio.put_labeled_string ("Invalid_pattern", "Class name does not start with " + prefix_letters)
 						lio.put_new_line
 						new_name.wipe_out
 					end
@@ -177,9 +196,9 @@ feature {NONE} -- Factory
 	new_command_table: like command_table
 		do
 			create Result.make_assignments (<<
-				["Rename classes",		agent rename_classes],
-				["Remove prefix",			agent remove_prefix],
-				["Rename text-process",	agent rename_text_process_library]
+				["Rename classes",		 agent rename_classes],
+				["Remove prefix",			 agent remove_prefix],
+				["Rename suffix/prefix", agent rename_suffix_prefix]
 			>>)
 		end
 
@@ -193,4 +212,12 @@ feature {NONE} -- Internal attributes
 
 	user_quit: BOOLEAN
 
+feature {NONE} -- Constants
+
+	Invalid_pattern: STRING = "Invalid pattern"
+
+	Rename_prompt: ZSTRING
+		once
+			Result := "Rename %S as %S"
+		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:44:30 GMT (Sunday 25th August 2024)"
-	revision: "48"
+	date: "2025-02-07 16:11:54 GMT (Friday 7th February 2025)"
+	revision: "49"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -50,44 +50,46 @@ feature -- Start/End comparisons
 
 	ends_with (other: READABLE_STRING_32): BOOLEAN
 		local
-			other_count: INTEGER
+			other_count, start_index: INTEGER
 		do
 			other_count := other.count
+			start_index := count - other_count + 1
 			if other_count = 0 then
 				Result := True
 
-			elseif other.count > count then
-				do_nothing
+			elseif not valid_index (start_index) then
+				Result := False
 
 			elseif same_type (other) then
 				if attached {ZSTRING} other as z_str then
-					Result := same_characters_zstring (z_str, 1, other.count, count - other_count + 1)
+					Result := same_characters_zstring (z_str, 1, other.count, start_index)
 				end
 
 			else
-				Result := same_characters_32 (other, 1, other_count, count - other_count + 1, False)
+				Result := same_characters_32 (other, 1, other_count, start_index, False)
 			end
 		end
 
 	ends_with_general (other: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			other_count: INTEGER
+			other_count, start_index: INTEGER
 		do
 			other_count := other.count
-			if other.is_string_8 and then attached {READABLE_STRING_8} other as str_8 then
-				inspect other_count
-					when 0 then
-						Result := True
-				else
-					Result := same_characters_8 (str_8, 1, other_count, count - other_count + 1, False)
-				end
+			start_index := count - other_count + 1
+			if other_count = 0 then
+				Result := True
+
+			elseif not valid_index (start_index) then
+				Result := False
+
+			elseif other.is_string_8 and then attached {READABLE_STRING_8} other as str_8 then
+				Result := same_characters_8 (str_8, 1, other_count, start_index, False)
 
 			elseif same_type (other) and then attached {EL_READABLE_ZSTRING} other as z_str then
-				Result := same_characters_zstring (z_str, 1, other_count, count - other_count + 1)
+				Result := same_characters_zstring (z_str, 1, other_count, start_index)
 
 			elseif attached {READABLE_STRING_32} other as str_32 then
-
-				Result := same_characters_32 (str_32, 1, other_count, count - other_count + 1, False)
+				Result := same_characters_32 (str_32, 1, other_count, start_index, False)
 			end
 		end
 
@@ -145,10 +147,10 @@ feature -- Start/End comparisons
 				Result := True
 
 			elseif other_count > count then
-				do_nothing
+				Result := False
 
 			elseif same_type (other) and then attached {ZSTRING} other as z_str then
-				Result := same_characters_zstring (z_str, 1, other.count, 1)
+				Result := same_characters_zstring (z_str, 1, other_count, 1)
 
 			else
 				Result := same_characters_32 (other, 1, other_count, 1, False)
@@ -156,23 +158,27 @@ feature -- Start/End comparisons
 		end
 
 	starts_with_general (other: READABLE_STRING_GENERAL): BOOLEAN
+		local
+			other_count: INTEGER
 		do
-			if other.is_string_8 and then attached {READABLE_STRING_8} other as str_8 then
-				inspect other.count
-					when 0 then
-						Result := True
-				else
-					Result := same_characters_8 (str_8, 1, other.count, 1, False)
-				end
+			other_count := other.count
+			if other_count = 0 then
+				Result := True
+
+			elseif other_count > count then
+				Result := False
+
+			elseif other.is_string_8 and then attached {READABLE_STRING_8} other as str_8 then
+				Result := same_characters_8 (str_8, 1, other_count, 1, False)
 
 			elseif same_type (other) then
 				if attached {ZSTRING} other as z_str then
-					Result := same_characters_zstring (z_str, 1, other.count, 1)
+					Result := same_characters_zstring (z_str, 1, other_count, 1)
 				end
 
 			elseif attached {READABLE_STRING_32} other as str_32 then
 
-				Result := same_characters_32 (str_32, 1, other.count, 1, False)
+				Result := same_characters_32 (str_32, 1, other_count, 1, False)
 			end
 		end
 
@@ -364,6 +370,11 @@ feature {NONE} -- Implementation
 	): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
+		require
+			valid_start_pos: other.valid_index (start_pos)
+			valid_end_pos: other.valid_index (end_pos)
+			valid_bounds: (start_pos <= end_pos) or (start_pos = end_pos + 1)
+			valid_index_pos: valid_index (start_index)
 		local
 			end_index: INTEGER
 		do
