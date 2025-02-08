@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-17 14:21:08 GMT (Sunday 17th March 2024)"
-	revision: "13"
+	date: "2025-02-08 15:32:42 GMT (Saturday 8th February 2025)"
+	revision: "14"
 
 class
 	EL_HACKER_INTERCEPT_CONFIG
@@ -28,7 +28,9 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			create filter_table.make (5)
+			create filter_table.make
+			create last_white_list_name.make_empty
+			slash := '/'
 			Precursor
 		end
 
@@ -37,7 +39,7 @@ feature -- Access
 	ban_rule_duration: INTEGER
 		-- max. number of days old for http deny rule to be applied before expiring
 
-	filter_table: EL_URL_FILTER_TABLE
+	filter_table: EL_URI_FILTER_TABLE
 
 feature {NONE} -- Build from XML
 
@@ -45,22 +47,58 @@ feature {NONE} -- Build from XML
 		do
 			across node.adjusted (False).lines as line loop
 				across line.item.split (';') as split loop
-					filter_table.extend (a_predicate, split.item_copy)
+					filter_table.extend (split.item_copy, a_predicate)
 				end
 			end
 		end
 
+	append_white_listed (is_directory_item: BOOLEAN)
+		do
+			across node.adjusted (False).lines as line loop
+				across line.item.split (';') as split loop
+					if is_directory_item then
+						filter_table.put_whitelist (slash.joined (last_white_list_name, split.item))
+					else
+						if last_white_list_name.is_empty then
+							filter_table.put_whitelist (split.item_copy)
+						elseif split.item.count = 1 and then split.item [1] = '/' then
+							filter_table.put_whitelist (last_white_list_name.twin)
+						else
+							filter_table.put_whitelist (slash.joined (split.item, last_white_list_name))
+						end
+					end
+				end
+			end
+			last_white_list_name.wipe_out
+		end
+
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			--
-		local
-			l_xpath: STRING
 		do
-			Result := Precursor+ ["@ban_rule_duration",	 agent do ban_rule_duration := node end]
-			across filter_table.new_predicate_list as list loop
-				l_xpath := Xpath_match_list #$ [list.item]
-				Result [l_xpath] := agent append_filter (list.item)
+			Result := Precursor
+			Result.append_tuples (<<
+				["@ban_rule_duration",						agent do ban_rule_duration := node end],
+				["@maximum_uri_digits",						agent do filter_table.set_maximum_uri_digits (node) end],
+
+				["white_listed/item/@name",				agent do node.set (last_white_list_name) end],
+				["white_listed/item/text()",				agent append_white_listed (False)],
+
+				["white_listed/directory_item/@name",	agent do node.set (last_white_list_name) end],
+				["white_listed/directory_item/text()",	agent append_white_listed (True)]
+			>>)
+
+			across filter_table.predicate_list as list loop
+				if attached (Xpath_match_list #$ [list.item]) as l_xpath then
+					Result [l_xpath] := agent append_filter (list.item)
+				end
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	last_white_list_name: ZSTRING
+
+	slash: EL_CHARACTER_32
 
 feature {NONE} -- Internal attributes
 

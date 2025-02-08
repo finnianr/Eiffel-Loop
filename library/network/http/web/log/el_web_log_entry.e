@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 17:00:06 GMT (Friday 7th February 2025)"
-	revision: "33"
+	date: "2025-02-08 9:01:16 GMT (Saturday 8th February 2025)"
+	revision: "34"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -155,7 +155,7 @@ feature -- Access
 			Result := stripped_lower (user_agent).joined_words
 		end
 
-	request_stem_lower: STRING
+	request_uri_step: STRING
 		-- lower case first path step of `request_uri' with parameters after '?' cropped
 		-- and leading '/' removed
 		-- Eg. "/one/two?x=10" => "one"
@@ -167,9 +167,7 @@ feature -- Access
 			then
 				slash_index := str.index_of ('/', 1)
 				if slash_index > 0 then
-					str.keep_head ((slash_index - 1).min (4))
-				else
-					str.keep_head (4)
+					str.keep_head (slash_index - 1)
 				end
 				str.to_lower
 				Word_part_set.put_copy (str)

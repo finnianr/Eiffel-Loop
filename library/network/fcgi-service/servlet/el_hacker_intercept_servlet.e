@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-23 15:11:30 GMT (Thursday 23rd January 2025)"
-	revision: "34"
+	date: "2025-02-08 15:21:24 GMT (Saturday 8th February 2025)"
+	revision: "35"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -397,7 +397,7 @@ feature {NONE} -- Internal attributes
 	file_mutex: EL_NAMED_FILE_LOCK
 		-- file_mutex for writing to `block_ip_path' so that script reading file must wait to process
 
-	filter_table: EL_URL_FILTER_TABLE
+	filter_table: EL_URI_FILTER_TABLE
 
 	monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
 

@@ -12,22 +12,35 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 17:00:07 GMT (Friday 7th February 2025)"
-	revision: "9"
+	date: "2025-02-08 16:32:09 GMT (Saturday 8th February 2025)"
+	revision: "10"
 
 class
-	EL_URI_STEM_404_ANALYSIS_COMMAND
+	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
 
 inherit
 	EL_404_STATUS_ANALYSIS_COMMAND
 		redefine
-			execute
+			execute, make_default
 		end
+
+	EL_URI_FILTER_BASE
 
 	EL_MODULE_NAMING; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
 
+	EL_SHARED_ZSTRING_BUFFER_POOL
+
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make_default
+		do
+			Precursor
+			create root_names_set.make_from (root_names_list, True)
+			set_maximum_uri_digits (config.maximum_uri_digits)
+		end
 
 feature -- Basic operations
 
@@ -75,8 +88,9 @@ feature -- Basic operations
 							end
 						end
 					end
+					request_list.sort (True)
 					File_system.make_directory (path.parent)
-					File.write_text (path, request_list.joined_grouped_words (";", 80))
+					File.write_text (path, request_list.joined_grouped_words (";", 160))
 					Lio.put_path_field ("Saved %S", path)
 					Lio.put_new_line_x2
 				end
@@ -87,21 +101,36 @@ feature {NONE} -- Implementation
 
 	include_uri_part (a_uri_part: STRING): BOOLEAN
 		do
-			Result := across config.standard_file_list as dir all
-				not dir.item.starts_with (a_uri_part)
+			Result := not (has_excess_digits (a_uri_part) or else root_names_set.has (a_uri_part))
+		end
+
+	has_excess_digits (a_uri_part: STRING): BOOLEAN
+		do
+			if attached String_pool.borrowed_item as borrowed then
+				Result := digit_count_exceeded (borrowed.copied_general (a_uri_part))
+				borrowed.return
 			end
+		end
+
+	root_names_list: EL_STRING_8_LIST
+		do
+			Result := config.root_names_list
 		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING
 		do
-			Result := entry.request_stem_lower
+			Result := entry.request_uri_step
 		end
 
 	configuration_words_path: FILE_PATH
 		-- text file containing all `uri_part' that occur a minimum number of times specified by user
 		do
-			Result := config.text_output_dir + "match-starts_with.txt"
+			Result := config.text_output_dir + "match-first_step.txt"
 		end
+
+feature {NONE} -- Internal attributes
+
+	root_names_set: EL_HASH_SET [STRING];
 
 note
 	notes: "[

@@ -9,7 +9,8 @@ note
 				${EL_404_STATUS_ANALYSIS_COMMAND}
 					${EL_GEOGRAPHIC_404_ANALYSIS_COMMAND}
 					${EL_USER_AGENT_404_ANALYSIS_COMMAND}
-					${EL_URI_STEM_404_ANALYSIS_COMMAND}
+					${EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND}
+						${EL_URI_EXTENSION_404_ANALYSIS_COMMAND}
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-01 8:45:48 GMT (Saturday 1st February 2025)"
-	revision: "5"
+	date: "2025-02-08 9:32:16 GMT (Saturday 8th February 2025)"
+	revision: "6"
 
 deferred class
 	EL_TRAFFIC_ANALYSIS_COMMAND

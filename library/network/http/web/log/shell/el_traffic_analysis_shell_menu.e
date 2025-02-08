@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 14:50:17 GMT (Monday 3rd February 2025)"
-	revision: "20"
+	date: "2025-02-08 9:36:45 GMT (Saturday 8th February 2025)"
+	revision: "21"
 
 class
 	EL_TRAFFIC_ANALYSIS_SHELL_MENU
@@ -59,11 +59,11 @@ feature {NONE} -- Commands
 			shell.run_command_loop
 		end
 
-	status_404_uri_stem_occurrences
+	status_404_uri_1st_step_occurrences
 		local
-			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_URI_STEM_404_ANALYSIS_COMMAND]
+			shell: EL_LOG_ANALYSIS_COMMAND_SHELL [EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND]
 		do
-			create shell.make ("404 REPORT OF STEM OCCURRENCE FREQUENCY", config_path)
+			create shell.make ("404 REPORT OF 1st STEP OCCURRENCE FREQUENCY", config_path)
 			shell.run_command_loop
 		end
 
@@ -83,7 +83,7 @@ feature {NONE} -- Factory
 				["Visitor geographic location by month",				  agent selected_geographic],
 				["404 status by geopraphic location",					  agent status_404_geographic],
 				["404 status by user agent with summary",				  agent status_404_user_agent],
-				["404 status by URI stem occurrence frequency",		  agent status_404_uri_stem_occurrences],
+				["404 status by URI 1st step occurrence frequency",  agent status_404_uri_1st_step_occurrences],
 				["404 status by URI extension occurrence frequency", agent status_404_uri_extension_occurrences]
 			>>)
 		end

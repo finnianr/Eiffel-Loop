@@ -12,28 +12,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-04 8:57:32 GMT (Tuesday 4th February 2025)"
-	revision: "3"
+	date: "2025-02-08 16:33:29 GMT (Saturday 8th February 2025)"
+	revision: "4"
 
 class
 	EL_URI_EXTENSION_404_ANALYSIS_COMMAND
 
 inherit
-	EL_URI_STEM_404_ANALYSIS_COMMAND
+	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
+		rename
+			root_names_list as extension_list,
+			root_names_set as extension_set
 		redefine
-			configuration_words_path, include_uri_part, make_default, uri_part
+			configuration_words_path, extension_list, include_uri_part, uri_part
 		end
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make_default
-		do
-			Precursor
-			create extension_set.make_from (config.extension_set, True)
-		end
 
 feature {NONE} -- Implementation
 
@@ -43,19 +38,20 @@ feature {NONE} -- Implementation
 			Result := config.text_output_dir + "match-has_extension.txt"
 		end
 
-	include_uri_part (a_uri_part: STRING): BOOLEAN
+	extension_list: EL_STRING_8_LIST
 		do
-			Result := not extension_set.has (a_uri_part)
+			Result := config.extension_list
+		end
+
+	include_uri_part (uri_extension: STRING): BOOLEAN
+		do
+			Result := not extension_set.has (uri_extension)
 		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING
 		do
 			Result := entry.request_uri_extension
 		end
-
-feature {NONE} -- Internal attributes
-
-	extension_set: EL_HASH_SET [STRING];
 
 note
 	notes: "[

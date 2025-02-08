@@ -7,23 +7,15 @@ note
 		Routine `is_selected' defines subset of lines for parsing.
 		Routine `do_with' processes parsed entry in descendant.
 	]"
-	descendants: "[
-			EL_WEB_LOG_PARSER_COMMAND*
-				${EL_TRAFFIC_ANALYSIS_COMMAND*}
-					${EL_404_STATUS_ANALYSIS_COMMAND}
-						${EL_URI_STEM_404_ANALYSIS_COMMAND}
-						${EL_GEOGRAPHIC_404_ANALYSIS_COMMAND}
-						${EL_USER_AGENT_404_ANALYSIS_COMMAND}
-					${EL_GEOGRAPHIC_ANALYSIS_COMMAND}
-	]"
+	descendants: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 17:00:07 GMT (Friday 7th February 2025)"
-	revision: "19"
+	date: "2025-02-08 9:34:30 GMT (Saturday 8th February 2025)"
+	revision: "20"
 
 deferred class
 	EL_WEB_LOG_READER_COMMAND
@@ -230,6 +222,23 @@ feature {NONE} -- Internal attributes
 	not_found_list: EL_ARRAYED_LIST [EL_WEB_LOG_ENTRY]
 		-- human visitor requests that did not have 200 as status code
 
-	selected_count: INTEGER
+	selected_count: INTEGER;
+
+note
+	descendants: "[
+			EL_WEB_LOG_READER_COMMAND*
+				${EL_GEOGRAPHIC_ANALYSIS_COMMAND}
+				${EL_404_STATUS_ANALYSIS_COMMAND}
+					${EL_GEOGRAPHIC_404_ANALYSIS_COMMAND}
+					${EL_USER_AGENT_404_ANALYSIS_COMMAND}
+					${EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND}
+						${EL_URI_EXTENSION_404_ANALYSIS_COMMAND}
+				${EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND}
+				${EL_USER_AGENT_404_ANALYSIS_COMMAND}
+				${EL_GEOGRAPHIC_404_ANALYSIS_COMMAND}
+				${EL_TRAFFIC_ANALYSIS_COMMAND*}
+					${EL_GEOGRAPHIC_ANALYSIS_COMMAND}
+					${EL_404_STATUS_ANALYSIS_COMMAND}
+	]"
 
 end
