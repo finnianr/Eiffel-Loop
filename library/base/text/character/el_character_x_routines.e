@@ -1,16 +1,16 @@
 note
-	description: "expanded class of character routines"
+	description: "Base class for ${EL_CHARACTER_8_ROUTINES} and ${EL_CHARACTER_32_ROUTINES}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-15 7:52:37 GMT (Sunday 15th September 2024)"
-	revision: "35"
+	date: "2025-02-09 11:50:57 GMT (Sunday 9th February 2025)"
+	revision: "36"
 
 deferred class
-	EL_CHARACTER_ROUTINES [G -> COMPARABLE]
+	EL_CHARACTER_X_ROUTINES [G -> COMPARABLE]
 
 inherit
 	EL_BIT_COUNTABLE
@@ -48,6 +48,21 @@ feature -- Status query
 		do
 			from Result := True; i := start_index until not Result or i > end_index loop
 				if set.has (area [i]) then
+					i := i + 1
+				else
+					Result := False
+				end
+			end
+		end
+
+	is_alpha_numeric_area (area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if set of characters in `area' between `start_index' to `end_index'
+		-- is a subset of `set'
+		local
+			i: INTEGER
+		do
+			from Result := True; i := start_index until not Result or i > end_index loop
+				if is_i_th_alpha_numeric (area, i) then
 					i := i + 1
 				else
 					Result := False
@@ -148,6 +163,10 @@ feature -- Measurement
 		end
 
 feature {NONE} -- Implementation
+
+	is_i_th_alpha_numeric (area: SPECIAL [G]; i: INTEGER): BOOLEAN
+		deferred
+		end
 
 	i_th_code (area: SPECIAL [G]; i: INTEGER): INTEGER
 		deferred

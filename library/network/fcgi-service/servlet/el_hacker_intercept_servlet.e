@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 15:21:24 GMT (Saturday 8th February 2025)"
-	revision: "35"
+	date: "2025-02-09 17:41:09 GMT (Sunday 9th February 2025)"
+	revision: "36"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -202,6 +202,9 @@ feature {NONE} -- Implementation
 
 					elseif filter_table.is_hacker_probe (request.relative_path_info.as_lower) then
 						put_block_rule := True
+					else
+						log.put_labeled_string ("Permitted 404", request.relative_path_info)
+						log.put_new_line
 					end
 				else -- is mail spammer or ssh hacker
 					if status.is_blocked (port) then

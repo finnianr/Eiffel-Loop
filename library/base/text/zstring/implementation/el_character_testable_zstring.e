@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "8"
+	date: "2025-02-09 14:09:08 GMT (Sunday 9th February 2025)"
+	revision: "9"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -299,17 +299,15 @@ feature -- Indexed query
 		local
 			c_i: CHARACTER
 		do
-			if attached area as c then
-				c_i := area [i - 1]
-				inspect character_8_band (c_i)
-					when Substitute then
-						Result := unencoded_item (i).is_alpha_numeric
+			c_i := area [i - 1]
+			inspect character_8_band (c_i)
+				when Substitute then
+					Result := unencoded_item (i).is_alpha_numeric
 
-					when Ascii_range then
-						Result := c_i.is_alpha_numeric
-				else
-					Result := Codec.is_alphanumeric (c_i.natural_32_code)
-				end
+				when Ascii_range then
+					Result := c_i.is_alpha_numeric
+			else
+				Result := Codec.is_alphanumeric (c_i.natural_32_code)
 			end
 		end
 

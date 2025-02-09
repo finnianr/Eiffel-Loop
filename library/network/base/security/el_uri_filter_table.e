@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 15:28:44 GMT (Saturday 8th February 2025)"
-	revision: "7"
+	date: "2025-02-09 15:58:40 GMT (Sunday 9th February 2025)"
+	revision: "8"
 
 class
 	EL_URI_FILTER_TABLE
@@ -85,11 +85,11 @@ feature {NONE} -- Implementation
 	iteration_item_matches (path_lower, path_first_step, path_extension: ZSTRING): BOOLEAN
 		do
 			if attached key_for_iteration as predicate_name and then attached item_for_iteration as word_set then
-				if predicate_name = Predicate.first_step then
-					Result := word_set.has (path_first_step)
-
-				elseif predicate_name = Predicate.has_extension then
+				if predicate_name = Predicate.has_extension then
 					Result := path_extension.count > 0 and then word_set.has (path_extension)
+
+				elseif predicate_name = Predicate.first_step then
+					Result := word_set.has (path_first_step)
 
 				elseif predicate_name = Predicate.starts_with then
 					Result := across word_set as set some path_lower.starts_with (set.item) end
@@ -107,10 +107,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Predicate: TUPLE [first_step, has_extension, starts_with, ends_with: STRING]
+	Predicate: TUPLE [has_extension, first_step, starts_with, ends_with: STRING]
 		once
 			create Result
-			Tuple.fill (Result, "first_step, has_extension, starts_with, ends_with")
+			Tuple.fill (Result, "has_extension, first_step, starts_with, ends_with")
 		end
 
 end

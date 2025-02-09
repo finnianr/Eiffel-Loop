@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 9:01:16 GMT (Saturday 8th February 2025)"
-	revision: "34"
+	date: "2025-02-09 12:02:04 GMT (Sunday 9th February 2025)"
+	revision: "35"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -182,8 +182,7 @@ feature -- Access
 		-- dot extension of `request_uri'
 		-- empty string if no dot extension or is not composed of alphabetical characters.
 		local
-			dot_index, slash_index, i, i_final: INTEGER
-			is_alpha: BOOLEAN
+			dot_index, slash_index: INTEGER; s8: EL_STRING_8_ROUTINES
 		do
 			Result := Empty_string_8
 			if attached String_8_pool.borrowed_item as borrowed
@@ -194,14 +193,7 @@ feature -- Access
 				if dot_index > 0 and then dot_index > slash_index + 1 then
 					str.keep_tail (str.count - dot_index)
 					str.to_lower
-					i_final := str.count - 1
-					if attached str.area as area then
-						from is_alpha := True; i := 1 until not is_alpha or i > i_final loop
-							is_alpha := area [i].is_alpha
-							i := i + 1
-						end
-					end
-					if is_alpha then
+					if s8.is_alpha_numeric (str) then
 						Word_part_set.put_copy (str)
 						Result := Word_part_set.found_item
 					end

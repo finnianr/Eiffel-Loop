@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 16:32:09 GMT (Saturday 8th February 2025)"
-	revision: "10"
+	date: "2025-02-09 11:10:24 GMT (Sunday 9th February 2025)"
+	revision: "11"
 
 class
 	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
@@ -39,6 +39,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create root_names_set.make_from (root_names_list, True)
+			create foreign_extension_set.make_equal (0)
 			set_maximum_uri_digits (config.maximum_uri_digits)
 		end
 
@@ -48,15 +49,18 @@ feature -- Basic operations
 		local
 			request_list: EL_STRING_8_LIST; natural_input: EL_USER_INPUT_VALUE [NATURAL]
 			request_counter_table: EL_COUNTER_TABLE [STRING]; prompt: STRING
-			minimum_occurrences: NATURAL
+			minimum_occurrences: NATURAL; filter_extensions: BOOLEAN
 		do
 			Precursor
 			create request_counter_table.make (500)
 			create request_list.make (50)
-
+			ask_to_filter_extensions
+			filter_extensions := foreign_extension_set.count > 0
 			across not_found_list as list loop
-				if attached uri_part (list.item) as str and then str.count > 0 then
-					request_counter_table.put (str)
+				if filter_extensions implies not has_foreign_extension (list.item) then
+					if attached uri_part (list.item) as str and then str.count > 0 then
+						request_counter_table.put (str)
+					end
 				end
 			end
 			if attached Naming.class_with_separator (Current, ' ', 1, 3) as name then
@@ -99,9 +103,22 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	include_uri_part (a_uri_part: STRING): BOOLEAN
+	ask_to_filter_extensions
+		local
+			extension_list: EL_STRING_8_LIST
 		do
-			Result := not (has_excess_digits (a_uri_part) or else root_names_set.has (a_uri_part))
+			lio.put_labeled_lines ("Foreign extensions", config.foreign_extensions.split ('%N'))
+			lio.put_new_line
+			if User_input.approved_action_y_n ("Exclude foreign extensions") then
+				create extension_list.make_multiline_words (config.foreign_extensions, ';', 0)
+				create foreign_extension_set.make_from (extension_list, True)
+			end
+		end
+
+	configuration_words_path: FILE_PATH
+		-- text file containing all `uri_part' that occur a minimum number of times specified by user
+		do
+			Result := config.text_output_dir + "match-first_step.txt"
 		end
 
 	has_excess_digits (a_uri_part: STRING): BOOLEAN
@@ -109,6 +126,18 @@ feature {NONE} -- Implementation
 			if attached String_pool.borrowed_item as borrowed then
 				Result := digit_count_exceeded (borrowed.copied_general (a_uri_part))
 				borrowed.return
+			end
+		end
+
+	include_uri_part (a_uri_part: STRING): BOOLEAN
+		do
+			Result := not (has_excess_digits (a_uri_part) or else root_names_set.has (a_uri_part))
+		end
+
+	has_foreign_extension (entry: EL_WEB_LOG_ENTRY): BOOLEAN
+		do
+			if attached entry.request_uri_extension as extension and then extension.count > 0 then
+				Result := foreign_extension_set.has (extension)
 			end
 		end
 
@@ -122,13 +151,9 @@ feature {NONE} -- Implementation
 			Result := entry.request_uri_step
 		end
 
-	configuration_words_path: FILE_PATH
-		-- text file containing all `uri_part' that occur a minimum number of times specified by user
-		do
-			Result := config.text_output_dir + "match-first_step.txt"
-		end
-
 feature {NONE} -- Internal attributes
+
+	foreign_extension_set: EL_HASH_SET [STRING]
 
 	root_names_set: EL_HASH_SET [STRING];
 

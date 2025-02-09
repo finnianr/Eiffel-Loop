@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-27 8:35:34 GMT (Monday 27th January 2025)"
-	revision: "34"
+	date: "2025-02-09 14:19:10 GMT (Sunday 9th February 2025)"
+	revision: "35"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -109,7 +109,7 @@ feature -- Character query
 			end
 		end
 
-	is_character (str: STRING; uc: CHARACTER_32): BOOLEAN
+	is_character (str: READABLE_STRING_8; uc: CHARACTER_32): BOOLEAN
 		-- `True' if `str.same_string (uc.out)' is true
 		do
 			Result := str.count = 1 and then str [1] = uc
@@ -229,6 +229,12 @@ feature -- Factory
 	new_list (comma_separated: STRING_8): EL_STRING_8_LIST
 		do
 			create Result.make_comma_split (comma_separated)
+		end
+
+	new_line_list (str: STRING_8): EL_STRING_8_LIST
+		-- lit of
+		do
+			create Result.make_split (str, '%N')
 		end
 
 	shared_substring (s: STRING_8; new_count: INTEGER): STRING_8

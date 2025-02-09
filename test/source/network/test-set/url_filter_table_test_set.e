@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 15:02:01 GMT (Saturday 8th February 2025)"
-	revision: "4"
+	date: "2025-02-09 11:39:20 GMT (Sunday 9th February 2025)"
+	revision: "5"
 
 class
 	URL_FILTER_TABLE_TEST_SET
@@ -40,7 +40,7 @@ feature -- Test
 			]"
 		local
 			first_step, has_extension, starts_with, ends_with: STRING
-			filter: EL_URL_FILTER_TABLE
+			filter: EL_URI_FILTER_TABLE
 		do
 			create filter.make
 			if attached filter.predicate_list as predicate_list then

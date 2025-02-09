@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:34:39 GMT (Sunday 6th October 2024)"
-	revision: "49"
+	date: "2025-02-09 14:20:41 GMT (Sunday 9th February 2025)"
+	revision: "50"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -245,6 +245,12 @@ feature -- Status query
 	has_member (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
 		-- `True' if at least one character in `str' is a member of `set'
 		deferred
+		end
+
+	is_alpha_numeric (str: READABLE_STRING_X): BOOLEAN
+		-- `True' if `target' is an Eiffel identifier
+		do
+			Result := cursor (str).all_alpha_numeric
 		end
 
 	is_canonically_spaced (s: READABLE_STRING_X): BOOLEAN

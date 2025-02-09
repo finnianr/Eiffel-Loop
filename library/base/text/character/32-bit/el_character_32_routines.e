@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-15 7:52:38 GMT (Sunday 15th September 2024)"
-	revision: "19"
+	date: "2025-02-09 12:30:56 GMT (Sunday 9th February 2025)"
+	revision: "20"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
 
 inherit
-	EL_CHARACTER_ROUTINES [CHARACTER_32]
+	EL_CHARACTER_X_ROUTINES [CHARACTER_32]
 
 	EL_32_BIT_IMPLEMENTATION
 
@@ -69,6 +69,11 @@ feature -- Area query
 		end
 
 feature {NONE} -- Implementation
+
+	is_i_th_alpha_numeric (area: SPECIAL [CHARACTER_32]; i: INTEGER): BOOLEAN
+		do
+			Result := area [i].is_alpha_numeric
+		end
 
 	i_th_code (area: SPECIAL [CHARACTER_32]; i: INTEGER): INTEGER
 		do

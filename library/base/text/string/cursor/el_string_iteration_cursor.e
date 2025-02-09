@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 15:33:56 GMT (Saturday 5th October 2024)"
-	revision: "31"
+	date: "2025-02-09 13:58:47 GMT (Sunday 9th February 2025)"
+	revision: "32"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -225,6 +225,11 @@ feature -- Basic operations
 		end
 
 feature -- Status query
+
+	all_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		deferred
+		end
 
 	all_ascii: BOOLEAN
 		deferred

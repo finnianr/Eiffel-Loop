@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-18 10:39:33 GMT (Monday 18th November 2024)"
-	revision: "134"
+	date: "2025-02-09 15:55:29 GMT (Sunday 9th February 2025)"
+	revision: "135"
 
 class
 	ZSTRING_TEST_SET
@@ -46,6 +46,7 @@ feature {NONE} -- Initialization
 				["has",									agent test_has],
 				["has_between",						agent test_has_between],
 				["has_enclosing",						agent test_has_enclosing],
+				["is_alpha_numeric",					agent test_is_alpha_numeric],
 				["is_canonically_spaced",			agent test_is_canonically_spaced],
 				["order_comparison",					agent test_order_comparison],
 				["sort",									agent test_sort],
@@ -430,6 +431,38 @@ feature -- Status query tests
 			across Text.words as word loop
 				create test.make (word.item)
 				assert ("has_enclosing OK", test.has_enclosing)
+			end
+		end
+
+	test_is_alpha_numeric
+		-- ZSTRING_TEST_SET.test_is_alpha_numeric
+		note
+			testing: "[
+				covers/{ZSTRING}.is_alpha_numeric,
+				covers/{EL_READABLE_STRING_X_ROUTINES}.is_alpha_numeric,
+				covers/{EL_STRING_32_ITERATION_CURSOR}.all_alpha_numeric,
+				covers/{EL_CHARACTER_X_ROUTINES}.is_alpha_numeric_area
+			]"
+		local
+			str: ZSTRING; s32: EL_STRING_32_ROUTINES
+			str_is_alpha_numeric, str_32_is_alpha_numeric: BOOLEAN
+		do
+			across Text.lines_32 as list loop
+				if attached list.item as str_32 then
+					str := str_32
+					across ", :-" as c loop
+						str.prune_all (c.item); str_32.prune_all (c.item)
+					end
+					str_is_alpha_numeric := str.is_alpha_numeric
+					str_32_is_alpha_numeric := s32.is_alpha_numeric (str_32)
+					assert ("same result", str_is_alpha_numeric = str_32_is_alpha_numeric)
+					inspect list.cursor_index
+						when 1 .. 3, 5 then
+							assert ("is_alpha_numeric", str_is_alpha_numeric)
+					else
+						assert ("not is_alpha_numeric", not str_is_alpha_numeric)
+					end
+				end
 			end
 		end
 

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 16:33:29 GMT (Saturday 8th February 2025)"
-	revision: "4"
+	date: "2025-02-09 11:14:39 GMT (Sunday 9th February 2025)"
+	revision: "5"
 
 class
 	EL_URI_EXTENSION_404_ANALYSIS_COMMAND
@@ -24,7 +24,7 @@ inherit
 			root_names_list as extension_list,
 			root_names_set as extension_set
 		redefine
-			configuration_words_path, extension_list, include_uri_part, uri_part
+			configuration_words_path, extension_list, include_uri_part, ask_to_filter_extensions, uri_part
 		end
 
 create
@@ -40,12 +40,17 @@ feature {NONE} -- Implementation
 
 	extension_list: EL_STRING_8_LIST
 		do
-			Result := config.extension_list
+			create Result.make_multiline_words (config.site_extensions, ';', 0)
 		end
 
 	include_uri_part (uri_extension: STRING): BOOLEAN
 		do
 			Result := not extension_set.has (uri_extension)
+		end
+
+	ask_to_filter_extensions
+		do
+			do_nothing
 		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING

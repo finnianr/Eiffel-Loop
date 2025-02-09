@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 12:44:50 GMT (Monday 3rd February 2025)"
-	revision: "22"
+	date: "2025-02-09 11:40:25 GMT (Sunday 9th February 2025)"
+	revision: "23"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -112,8 +112,6 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	write_console (str: READABLE_STRING_GENERAL)
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			if str.is_string_8 and then attached {STRING_8} str as str_8 and then cursor_8 (str_8).all_ascii then
 			-- string is ASCII

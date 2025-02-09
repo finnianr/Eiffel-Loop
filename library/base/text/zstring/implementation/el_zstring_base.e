@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:53:18 GMT (Friday 7th February 2025)"
-	revision: "108"
+	date: "2025-02-09 15:47:56 GMT (Sunday 9th February 2025)"
+	revision: "109"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -223,6 +223,28 @@ feature -- Status query
 				Result := String_8.has (Current, a_z_code.to_character_8)
 			else
 				Result := unencoded_has (z_code_to_unicode (a_z_code).to_character_32)
+			end
+		end
+
+	is_alpha_numeric: BOOLEAN
+		local
+			c_i: CHARACTER; i, i_final: INTEGER
+		do
+			if attached area as c then
+				i_final := count - 1
+				from i := 0; Result := True until not Result or i > i_final loop
+					c_i := c [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							Result := unencoded_item (i + 1).is_alpha_numeric
+
+						when Ascii_range then
+							Result := c_i.is_alpha_numeric
+					else
+						Result := Codec.is_alphanumeric (c_i.natural_32_code)
+					end
+					i := i + 1
+				end
 			end
 		end
 

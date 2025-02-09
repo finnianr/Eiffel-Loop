@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:30:45 GMT (Sunday 6th October 2024)"
-	revision: "33"
+	date: "2025-02-09 14:13:00 GMT (Sunday 9th February 2025)"
+	revision: "34"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -160,6 +160,12 @@ feature -- Measurement
 		end
 
 feature -- Status query
+
+	all_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		do
+			Result := target.is_alpha_numeric
+		end
 
 	all_ascii: BOOLEAN
 		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127

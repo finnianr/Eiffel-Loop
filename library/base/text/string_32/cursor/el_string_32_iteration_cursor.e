@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 8:53:39 GMT (Sunday 14th April 2024)"
-	revision: "20"
+	date: "2025-02-09 13:59:25 GMT (Sunday 9th February 2025)"
+	revision: "21"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -52,6 +52,14 @@ feature -- Basic operations
 		end
 
 feature -- Status query
+
+	all_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		local
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			Result := c32.is_alpha_numeric_area (area, area_first_index, area_last_index)
+		end
 
 	all_ascii: BOOLEAN
 		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
