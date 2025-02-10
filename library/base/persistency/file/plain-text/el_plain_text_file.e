@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-14 7:18:25 GMT (Saturday 14th September 2024)"
-	revision: "17"
+	date: "2025-02-10 9:44:02 GMT (Monday 10th February 2025)"
+	revision: "18"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -135,19 +135,65 @@ feature -- Access
 
 	last_string: ZSTRING
 
-	lines: EL_PLAIN_TEXT_LINE_SOURCE
-		do
-			create Result.make_from_file (Current)
-		end
-
 	path: EL_FILE_PATH
 		do
 			create Result.make (internal_name)
 		end
 
-	string_8_lines: EL_ITERABLE_SPLIT [STRING, ANY]
+feature -- Factory
+
+	new_lines: EL_PLAIN_TEXT_LINE_SOURCE
+		-- iterable line source
+		require
+			closed: is_closed and then exists
 		do
-			Result := File.plain_text_lines (path)
+			create Result.make_from_file (Current)
+		end
+
+	new_line_list_8, new_latin_1_list, new_utf_8_list: EL_STRING_8_LIST
+		-- latin-1 or raw UTF-8 encoded lines
+		require
+			closed: is_closed and then exists
+		local
+			done: BOOLEAN; size_calculated: BOOLEAN_REF
+		do
+			create size_calculated
+			create Result.make (100)
+			open_read
+			from until done loop
+				read_line_8
+				if end_of_file then
+					done := True
+				else
+					grow_if_full (size_calculated, Result)
+					Result.extend (last_string_8.twin)
+				end
+			end
+			trim_excess (Result)
+			close
+		end
+
+	new_line_list: EL_ZSTRING_LIST
+		-- list of lines decoded according to `encoding'
+		require
+			closed: is_closed and then exists
+		local
+			done: BOOLEAN; size_calculated: BOOLEAN_REF
+		do
+			create size_calculated
+			create Result.make (100)
+			open_read
+			from until done loop
+				read_line
+				if end_of_file then
+					done := True
+				else
+					grow_if_full (size_calculated, Result)
+					Result.extend (last_string.twin)
+				end
+			end
+			trim_excess (Result)
+			close
 		end
 
 feature -- Status query
@@ -203,6 +249,26 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	grow_if_full (size_calculated: BOOLEAN_REF; list: EL_STRING_LIST [STRING_GENERAL])
+		local
+			average_line_length: DOUBLE
+		do
+			if not size_calculated.item and then list.full then
+			-- wait until enough lines read to calculate average
+				average_line_length := list.character_count / list.count
+				list.grow ((count / average_line_length).rounded)
+				size_calculated.set_item (True)
+			end
+		end
+
+	trim_excess (list: EL_STRING_LIST [STRING_GENERAL])
+		-- trim if excess capacity is more than 10 %
+		do
+			if (list.capacity - list.count) / list.capacity > 0.1 then
+				list.trim
+			end
+		end
 
 	unicode_count (utf_lines: STRING): INTEGER
 		local

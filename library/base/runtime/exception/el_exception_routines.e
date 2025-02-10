@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:20 GMT (Saturday 22nd June 2024)"
-	revision: "23"
+	date: "2025-02-10 10:55:36 GMT (Monday 10th February 2025)"
+	revision: "24"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -41,7 +41,11 @@ feature -- Access
 
 	last_exception: EXCEPTION
 		do
-			Result := manager.last_exception
+			if attached last_cause as cause then
+				Result := cause
+			else
+				Result := manager.last_exception
+			end
 		end
 
 	last_out: STRING
@@ -65,7 +69,7 @@ feature -- Access
 
 	last_trace: STRING_32
 		do
-			if attached {EXCEPTION} last_exception as l_last then
+			if attached last_exception as l_last then
 				Result := l_last.trace
 			else
 				create Result.make_empty
@@ -91,6 +95,13 @@ feature -- Status setting
 	catch (code: INTEGER)
 		do
 			general.catch (code)
+		end
+
+feature -- Element change
+
+	set_last_cause (a_last_cause: detachable EXCEPTION)
+		do
+			last_cause := a_last_cause
 		end
 
 feature -- Basic operations
@@ -148,6 +159,8 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Internal attributes
+
+	last_cause: detachable EXCEPTION
 
 	internal_exceptions: EXCEPTIONS
 

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-25 16:29:12 GMT (Saturday 25th January 2025)"
-	revision: "55"
+	date: "2025-02-10 9:18:38 GMT (Monday 10th February 2025)"
+	revision: "56"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -278,6 +278,11 @@ feature -- Test
 
 	test_arrayed_map_group_sort
 		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_map_group_sort
+		note
+			testing: "[
+				covers/{EL_ARRAYED_MAP_LIST}.sort_by_key_then_value,
+				covers/{EL_PLAIN_TEXT_FILE}.new_line_list
+			]"
 		local
 			word_set: EL_HASH_SET [STRING]; length_to_word_map: EL_ARRAYED_MAP_LIST [INTEGER, STRING]
 			word_list: EL_STRING_8_LIST; previous_key: INTEGER; previous_value, sort_order: STRING

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # notifications received from service HACKER_INTERCEPT_SERVICE_APP
+# MASTER COPY is in Eiffel-Loop/Bash_library
 
 domain_name=$1
 name=${domain_name%%.*}
@@ -8,6 +9,14 @@ name=${domain_name%%.*}
 dir_path=/var/local/$domain_name
 txt_path=$dir_path/block-ip.txt
 lock_path=$dir_path/block-ip.lock
+
+if [[ ! -d "$dir_path" ]]; then
+	mkdir dir_path
+fi
+
+if [[ ! -e "$txt_path" ]]; then
+	touch "$txt_path"
+fi
 
 echo "Listening for changes to: $txt_path"
 
@@ -32,11 +41,15 @@ while inotifywait -q -e close_write $txt_path 1>/dev/null; do
 				cmd="ufw delete deny from $ip to any port $port"
 			fi
 			echo $cmd
-			# do command
-			$cmd
+			if [[ "$2" != "-test" ]]
+			then
+				# log command
+				echo $cmd >> /var/log/ip_address_blocking.log
+				# execute command
+				$cmd
+			fi
 		fi
 	done < $txt_path
 	 
 	flock --unlock "$lock_fd"
 done
-

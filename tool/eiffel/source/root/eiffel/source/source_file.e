@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 7:26:33 GMT (Friday 13th September 2024)"
-	revision: "12"
+	date: "2025-02-10 9:54:07 GMT (Monday 10th February 2025)"
+	revision: "13"
 
 class
 	SOURCE_FILE
@@ -35,7 +35,7 @@ feature -- Access
 
 	editable_lines: EDITABLE_SOURCE_LINES
 		do
-			create Result.make_from (lines)
+			create Result.make_from (new_lines)
 		end
 
 feature {NONE} -- Implementation

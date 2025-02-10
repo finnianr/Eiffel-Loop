@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 17:11:09 GMT (Sunday 25th August 2024)"
-	revision: "34"
+	date: "2025-02-10 10:56:00 GMT (Monday 10th February 2025)"
+	revision: "35"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -241,7 +241,7 @@ feature {NONE} -- Implementation
 	do_transitions
 		-- iterate over state transitions
 		local
-			except: EXCEPTION; signal: INTEGER
+			cause: EXCEPTION; signal: INTEGER
 		do
 			if state /= Final then
 				from state := agent accepting_connection until state = Final loop
@@ -249,27 +249,28 @@ feature {NONE} -- Implementation
 				end
 			end
 		rescue
-			except := Exception.last_exception.cause -- `cause' gets cause of ROUTINE_FAILURE
+			cause := Exception.last_exception.cause -- `cause' gets cause of ROUTINE_FAILURE
 
-			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} except as os then
+			if attached {OPERATING_SYSTEM_SIGNAL_FAILURE} cause as os then
 				signal := os.signal_code
-			elseif attached {IO_FAILURE} except then
+			elseif attached {IO_FAILURE} cause then
 				-- arrives here in workbench mode
 				if broker.is_pipe_broken then
 					signal := Unix_signals.broken_pipe
 				end
 			end
 			if Unix_signals.is_termination (signal) then
-				log_message (except.generator, except.description)
+				log_message (cause.generator, cause.description)
 				log_message ("Ctrl-C detected", "shutting down ..")
 				state := Final
 				retry
 			elseif signal = Unix_signals.broken_pipe then
 				broker.close
-				log_message (except.generator, Unix_signals.broken_pipe_message)
+				log_message (cause.generator, Unix_signals.broken_pipe_message)
 				retry
 			else
-				log_message ("Exiting after unrescueable exception", except.generator)
+				log_message ("Exiting after unrescueable exception", cause.generator)
+				Exception.set_last_cause (cause)
 				Exception.write_last_trace (Current)
 			end
 		end

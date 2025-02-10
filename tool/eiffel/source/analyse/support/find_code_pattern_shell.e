@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:07:04 GMT (Sunday 22nd September 2024)"
-	revision: "4"
+	date: "2025-02-10 9:54:31 GMT (Monday 10th February 2025)"
+	revision: "5"
 
 class
 	FIND_CODE_PATTERN_SHELL
@@ -122,7 +122,7 @@ feature {NONE} -- Implementation
 			source: SOURCE_FILE
 		do
 			create source.make_open_read (source_path)
-			find (source.lines)
+			find (source.new_lines)
 			source.close
 		end
 

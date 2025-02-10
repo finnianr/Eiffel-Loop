@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 11:40:25 GMT (Sunday 9th February 2025)"
-	revision: "23"
+	date: "2025-02-10 9:46:06 GMT (Monday 10th February 2025)"
+	revision: "24"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -154,14 +154,11 @@ feature {NONE} -- Implementation
 				-- 2nd time is work around to bug (once should have been sufficent)
 				close; open_read
 
-				from
-					if not write_entire_log and then count > Tail_character_count then
-						move (count - tail_character_count)
-						next_line
-					end
-				until
-					off
-				loop
+				if not write_entire_log and then count > Tail_character_count then
+					move (count - tail_character_count)
+					next_line
+				end
+				from until off loop
 					read_line
 					std_output.put_string (last_string)
 					if not off then

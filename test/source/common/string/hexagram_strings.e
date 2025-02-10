@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-07 8:48:40 GMT (Saturday 7th September 2024)"
-	revision: "20"
+	date: "2025-02-10 9:30:00 GMT (Monday 10th February 2025)"
+	revision: "21"
 
 class
 	HEXAGRAM_STRINGS
@@ -49,19 +49,10 @@ feature -- Access
 
 	English_titles: EL_STRING_8_LIST
 		local
-			txt_file: PLAIN_TEXT_FILE; done: BOOLEAN
+			txt_file: EL_PLAIN_TEXT_FILE
 		once
-			create Result.make (64)
-			create txt_file.make_open_read (Hexagrams_path)
-			from until done loop
-				txt_file.read_line
-				if txt_file.end_of_file then
-					done := True
-				else
-					Result.extend (txt_file.last_string.twin)
-				end
-			end
-			txt_file.close
+			create txt_file.make_with_name (Hexagrams_path)
+			Result := txt_file.new_latin_1_list
 		end
 
 	Hexagram_1_array: ARRAY [READABLE_STRING_GENERAL]
