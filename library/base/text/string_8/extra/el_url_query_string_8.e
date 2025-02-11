@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:05:57 GMT (Tuesday 20th August 2024)"
-	revision: "7"
+	date: "2025-02-11 14:20:34 GMT (Tuesday 11th February 2025)"
+	revision: "8"
 
 class
 	EL_URL_QUERY_STRING_8
@@ -31,7 +31,7 @@ inherit
 		end
 
 create
-	make_encoded, make_empty, make
+	make_encoded, make_empty, make, make_from_general
 
 feature {NONE} -- Implementation
 

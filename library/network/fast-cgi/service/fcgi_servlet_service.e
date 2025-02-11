@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 10:56:00 GMT (Monday 10th February 2025)"
-	revision: "35"
+	date: "2025-02-11 18:12:05 GMT (Tuesday 11th February 2025)"
+	revision: "36"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -269,6 +269,7 @@ feature {NONE} -- Implementation
 				log_message (cause.generator, Unix_signals.broken_pipe_message)
 				retry
 			else
+				lio.put_new_line
 				log_message ("Exiting after unrescueable exception", cause.generator)
 				Exception.set_last_cause (cause)
 				Exception.write_last_trace (Current)

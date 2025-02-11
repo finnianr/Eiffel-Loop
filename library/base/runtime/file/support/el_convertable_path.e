@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-27 8:49:08 GMT (Friday 27th September 2024)"
-	revision: "49"
+	date: "2025-02-11 15:20:00 GMT (Tuesday 11th February 2025)"
+	revision: "50"
 
 deferred class
 	EL_CONVERTABLE_PATH
@@ -117,6 +117,17 @@ feature -- Conversion
 			uri := empty_uri_path
 			append_to_uri (uri)
 			create Result.make (uri)
+		end
+
+	to_uri_string: STRING
+		local
+			u: EL_URI_ROUTINES
+		do
+			if attached String_pool.borrowed_item as borrowed and then attached borrowed.empty as str then
+				append_to (str)
+				Result := u.to_uri_string (str)
+				borrowed.return
+			end
 		end
 
 	to_utf_8: STRING

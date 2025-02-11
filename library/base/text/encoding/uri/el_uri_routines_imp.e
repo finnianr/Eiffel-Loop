@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:22 GMT (Saturday 22nd June 2024)"
-	revision: "20"
+	date: "2025-02-11 15:04:45 GMT (Tuesday 11th February 2025)"
+	revision: "21"
 
 class
 	EL_URI_ROUTINES_IMP
@@ -16,6 +16,14 @@ inherit
 	ANY
 
 	EL_STRING_GENERAL_ROUTINES
+		export
+			{NONE} all
+		end
+
+	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+		export
+			{NONE} all
+		end
 
 	EL_PROTOCOL_CONSTANTS
 
@@ -156,6 +164,17 @@ feature -- Factory
 				create {EL_URL_QUERY_STRING_8} Result.make_empty
 			else
 				create Result.make_empty
+			end
+		end
+
+feature -- Conversion
+
+	to_uri_string (general: READABLE_STRING_GENERAL): STRING
+		do
+			if shared_cursor (general).all_ascii then
+				Result := general.to_string_8
+			else
+				create {EL_URI_STRING_8} Result.make_from_general (general)
 			end
 		end
 

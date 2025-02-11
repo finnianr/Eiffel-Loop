@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:46:25 GMT (Wednesday 25th September 2024)"
-	revision: "37"
+	date: "2025-02-11 15:09:31 GMT (Tuesday 11th February 2025)"
+	revision: "38"
 
 class
 	URI_TEST_SET
@@ -26,20 +26,45 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["uri_assignments",		 agent test_uri_assignments],
-				["uri_join",				 agent test_uri_join],
-				["uri_path_plus_joins",	 agent test_uri_path_plus_joins],
-				["uri_parent",				 agent test_uri_parent],
-				["url",						 agent test_url],
-				["url_parts",				 agent test_url_parts],
-				["url_query_hash_table", agent test_url_query_hash_table],
-				["url_query_part",		 agent test_url_query_part],
-				["url_to_string",			 agent test_url_to_string],
-				["utf_8_sequence",		 agent test_utf_8_sequence]
+				["general_to_uri_string", agent test_general_to_uri_string],
+				["uri_assignments",		  agent test_uri_assignments],
+				["uri_join",				  agent test_uri_join],
+				["uri_parent",				  agent test_uri_parent],
+				["uri_path_plus_joins",	  agent test_uri_path_plus_joins],
+				["url",						  agent test_url],
+				["url_parts",				  agent test_url_parts],
+				["url_query_hash_table",  agent test_url_query_hash_table],
+				["url_query_part",		  agent test_url_query_part],
+				["url_to_string",			  agent test_url_to_string],
+				["utf_8_sequence",		  agent test_utf_8_sequence]
 			>>)
 		end
 
 feature -- Tests
+
+	test_general_to_uri_string
+		-- URI_TEST_SET.test_general_to_uri_string
+		note
+			testing: "[
+				covers/{EL_URI_ROUTINES_IMP}.to_uri_string,
+				covers/{EL_URI_STRING_8}.make_from_general
+			]"
+		local
+			uri: EL_URI_ROUTINES; s: EL_STRING_8_ROUTINES
+			uri_string: STRING; string_list: ARRAY [ZSTRING]
+		do
+			string_list := << "manual/Journaleinträge.html", "manual/Journal entry.html#edit" >>
+			across string_list as str loop
+				uri_string := uri.to_uri_string (str.item)
+				if str.is_first then
+					assert ("type is EL_URI_STRING_8", uri_string.generating_type ~ {EL_URI_STRING_8})
+					assert_same_string (Void, uri_string, "manual/Journaleintr%%C3%%A4ge.html")
+				else
+					assert ("type is STRING_8", uri_string.generating_type ~ {STRING_8})
+					assert_same_string (Void, uri_string, string_list [2])
+				end
+			end
+		end
 
 	test_uri_assignments
 		-- URI_TEST_SET.test_uri_assignments

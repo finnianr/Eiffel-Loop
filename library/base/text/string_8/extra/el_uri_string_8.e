@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:05:54 GMT (Tuesday 20th August 2024)"
-	revision: "13"
+	date: "2025-02-11 14:20:54 GMT (Tuesday 11th February 2025)"
+	revision: "14"
 
 class
 	EL_URI_STRING_8
@@ -29,7 +29,7 @@ inherit
 		end
 
 create
-	make_encoded, make_empty, make
+	make_encoded, make_empty, make, make_from_general
 
 convert
 	make_encoded ({STRING})

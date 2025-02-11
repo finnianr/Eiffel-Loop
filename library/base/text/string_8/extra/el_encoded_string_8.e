@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-31 14:03:10 GMT (Thursday 31st October 2024)"
-	revision: "25"
+	date: "2025-02-11 14:27:32 GMT (Tuesday 11th February 2025)"
+	revision: "26"
 
 deferred class
 	EL_ENCODED_STRING_8
@@ -31,11 +31,24 @@ inherit
 			{STRING_HANDLER} set_count, append_raw_8, item, put, grow
 		end
 
+feature {NONE} -- Initialization
+
+	make_from_general (general: READABLE_STRING_GENERAL)
+		do
+			make (general.count)
+			append_general (general)
+		end
+
 feature -- Conversion
 
 	as_string_8: STRING
 		do
 			create Result.make_from_string (Current)
+		end
+
+	decode_to (output: STRING_32)
+		do
+			decoded_substring_to (1, count, output)
 		end
 
 	decoded: ZSTRING
@@ -51,11 +64,6 @@ feature -- Conversion
 	decoded_8: STRING_8
 		do
 			Result := decoded_32 (False).to_string_8
-		end
-
-	decode_to (output: STRING_32)
-		do
-			decoded_substring_to (1, count, output)
 		end
 
 	to_utf_8, to_latin_1: STRING
@@ -209,6 +217,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_reserved (c: CHARACTER_32): BOOLEAN
+		deferred
+		end
+
 	is_sequence (a_area: like area; offset: INTEGER): BOOLEAN
 		local
 			i: INTEGER
@@ -236,10 +248,6 @@ feature {NONE} -- Implementation
 				when '0' .. '9', 'A' .. 'Z', 'a' .. 'z'then
 					Result := True
 			else end
-		end
-
-	is_reserved (c: CHARACTER_32): BOOLEAN
-		deferred
 		end
 
 	sequence_code (a_area: like area; offset: INTEGER): NATURAL
