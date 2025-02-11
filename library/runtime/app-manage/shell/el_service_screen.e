@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-22 9:34:57 GMT (Wednesday 22nd May 2024)"
-	revision: "14"
+	date: "2025-02-11 6:29:39 GMT (Tuesday 11th February 2025)"
+	revision: "15"
 
 class
 	EL_SERVICE_SCREEN
@@ -21,7 +21,7 @@ inherit
 			on_context_exit
 		end
 
-	EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
+	EL_MODULE_EXECUTABLE; EL_MODULE_NAMING; EL_MODULE_TUPLE
 
 	EL_CHARACTER_32_CONSTANTS
 
@@ -30,13 +30,13 @@ create
 
 feature -- Configuration
 
-	developer: BOOLEAN
-		-- `True' if command should be visible only on developer machine
-
 	bash_command: ZSTRING
 		-- name of script with options arguments after .sh extension
 
 	command_args: ZSTRING
+
+	developer: BOOLEAN
+		-- `True' if command should be visible only on developer machine
 
 	history_count: INTEGER
 
@@ -67,6 +67,29 @@ feature -- Status query
 	is_command: BOOLEAN
 		do
 			Result := bash_command.count > 0
+		end
+
+feature -- Element change
+
+	expand_command_args (variable_table: EL_ZSTRING_TABLE)
+		-- expand $EMAIL and $DOMAIN variables in `command_args'
+		local
+			template: EL_TEMPLATE [ZSTRING]
+		do
+			create template.make (command_args)
+			template.disable_strict
+			across variable_table as table loop
+				template.put (table.key, table.item)
+			end
+			command_args := template.substituted
+		end
+
+	set_default_name
+		do
+			if name.is_empty and then attached command_args.substring_to (' ') as option_name then
+				option_name.prune_all_leading ('-')
+				name.append_string_general (Naming.class_description (option_name, Naming.No_words))
+			end
 		end
 
 feature -- Basic operations

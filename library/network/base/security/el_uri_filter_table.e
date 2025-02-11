@@ -1,13 +1,13 @@
 note
-	description: "URL filters for hostile web-server traffic"
+	description: "URL filters for malicious web-server traffic"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 17:22:27 GMT (Monday 10th February 2025)"
-	revision: "9"
+	date: "2025-02-11 4:39:45 GMT (Tuesday 11th February 2025)"
+	revision: "10"
 
 class
 	EL_URI_FILTER_TABLE

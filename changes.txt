@@ -793,3 +793,6 @@ Traffic analysis fixes
 Thu 30th Jan 2025, 10:26:54
 Three 404 web log reports
 
+Mon 10th Feb 2025, 18:40:05
+New routines for EL_PLAIN_TEXT_FILE new_line_list: EL_ZSTRING_LIST
+

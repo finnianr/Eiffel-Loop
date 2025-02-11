@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 16:36:47 GMT (Monday 10th February 2025)"
-	revision: "13"
+	date: "2025-02-11 5:28:42 GMT (Tuesday 11th February 2025)"
+	revision: "14"
 
 class
 	EL_SERVICE_CONFIGURATION
@@ -64,9 +64,8 @@ feature {NONE} -- Factory
 	new_variable_table: EL_ZSTRING_TABLE
 		do
 			create Result.make_assignments (<<
-				["$EMAIL",		  notification_email],
-				["$DOMAIN",		  domain],
-				["$TEST_OPTION", test_option]
+				["EMAIL",	notification_email],
+				["DOMAIN",	domain]
 			>>)
 		end
 

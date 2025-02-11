@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:10:20 GMT (Friday 4th October 2024)"
-	revision: "8"
+	date: "2025-02-11 6:28:15 GMT (Tuesday 11th February 2025)"
+	revision: "9"
 
 class
 	EL_SERVICE_SCREEN_LIST
@@ -17,8 +17,6 @@ inherit
 		rename
 			initialize as initialize_list
 		end
-
-	EL_MODULE_NAMING
 
 	EL_STRING_8_CONSTANTS
 
@@ -40,20 +38,11 @@ feature -- Measurement
 feature -- Basic operations
 
 	initialize (variable_table: EL_ZSTRING_TABLE)
-		local
-			name, option_name: ZSTRING
 		do
 			across Current as list loop
-				name := list.item.name
-				if name.is_empty then
-					option_name := list.item.command_args.substring_to (' ')
-					option_name.prune_all_leading ('-')
-					name.append_string_general (Naming.class_description (option_name, Naming.No_words))
-				end
-			-- substitute $EMAIL and $DOMAIN
-				across variable_table as table loop
-					list.item.command_args.replace_substring_all (table.key, table.item)
-				end
+				list.item.set_default_name
+			-- expand $EMAIL and $DOMAIN variables
+				list.item.expand_command_args (variable_table)
 			end
 			replace_active
 			order_by (agent {EL_SERVICE_SCREEN}.sort_name, True)

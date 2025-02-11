@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 11:15:18 GMT (Sunday 9th February 2025)"
-	revision: "15"
+	date: "2025-02-11 6:41:43 GMT (Tuesday 11th February 2025)"
+	revision: "16"
 
 class
 	EL_TRAFFIC_ANALYSIS_CONFIG
@@ -24,7 +24,8 @@ create
 
 feature -- Access
 
-	crawler_substrings: EL_STRING_8_LIST
+	crawler_substrings: STRING_8
+		-- (on multiple lines separated by ';')
 
 	site_extensions: STRING_8
 		-- legitimate extensions used in website

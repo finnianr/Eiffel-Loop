@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 11:42:18 GMT (Wednesday 29th January 2025)"
-	revision: "37"
+	date: "2025-02-11 6:43:59 GMT (Tuesday 11th February 2025)"
+	revision: "38"
 
 class
 	EL_GEOGRAPHIC_ANALYSIS_COMMAND
@@ -35,6 +35,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			Precursor
 			create buffer
+			create crawler_substring_list.make_multiline_words (config.crawler_substrings, ';', 0)
 			create page_table.make_equal (50)
 			create bot_agent_table.make_equal (50)
 			create last_uri_stem.make_empty
@@ -125,8 +126,8 @@ feature {NONE} -- Implementation
 		do
 			user_agent := buffer.copied (entry.user_agent)
 			user_agent.to_lower
-			Result := across config.crawler_substrings as substring some
-				user_agent.has_substring (substring.item)
+			Result := across crawler_substring_list as list some
+				user_agent.has_substring (list.item)
 			end
 		end
 
@@ -191,6 +192,8 @@ feature {NONE} -- Internal attributes
 	bot_agent_table: EL_COUNTER_TABLE [STRING]
 
 	buffer: EL_STRING_8_BUFFER
+
+	crawler_substring_list: EL_STRING_8_LIST
 
 	human_agent_table: EL_COUNTER_TABLE [STRING]
 
