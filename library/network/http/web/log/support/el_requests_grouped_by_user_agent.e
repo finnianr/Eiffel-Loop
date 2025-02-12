@@ -1,6 +1,6 @@
 note
 	description: "[
-		Group sets of ${EL_WEB_LOG_ENTRY}.request_uri_step by ${EL_WEB_LOG_ENTRY}.user_agent
+		Group sets of ${EL_WEB_LOG_ENTRY}.uri_step by ${EL_WEB_LOG_ENTRY}.user_agent
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 9:02:09 GMT (Saturday 8th February 2025)"
-	revision: "6"
+	date: "2025-02-12 14:32:13 GMT (Wednesday 12th February 2025)"
+	revision: "7"
 
 class
 	EL_REQUESTS_GROUPED_BY_USER_AGENT
@@ -57,7 +57,7 @@ feature -- Basic operations
 
 	extend (entry: EL_WEB_LOG_ENTRY)
 		do
-			extend_table (entry.normalized_user_agent, entry.request_uri_step)
+			extend_table (entry.normalized_user_agent, entry.uri_step)
 		end
 
 end

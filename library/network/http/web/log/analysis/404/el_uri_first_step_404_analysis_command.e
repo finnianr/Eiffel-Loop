@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 11:10:24 GMT (Sunday 9th February 2025)"
-	revision: "11"
+	date: "2025-02-12 15:00:43 GMT (Wednesday 12th February 2025)"
+	revision: "12"
 
 class
 	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
@@ -24,11 +24,7 @@ inherit
 			execute, make_default
 		end
 
-	EL_URI_FILTER_BASE
-
 	EL_MODULE_NAMING; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
-
-	EL_SHARED_ZSTRING_BUFFER_POOL
 
 create
 	make
@@ -40,7 +36,6 @@ feature {NONE} -- Initialization
 			Precursor
 			create root_names_set.make_from (root_names_list, True)
 			create foreign_extension_set.make_equal (0)
-			set_maximum_uri_digits (config.maximum_uri_digits)
 		end
 
 feature -- Basic operations
@@ -50,6 +45,7 @@ feature -- Basic operations
 			request_list: EL_STRING_8_LIST; natural_input: EL_USER_INPUT_VALUE [NATURAL]
 			request_counter_table: EL_COUNTER_TABLE [STRING]; prompt: STRING
 			minimum_occurrences: NATURAL; filter_extensions: BOOLEAN
+			excess_digit_count: INTEGER
 		do
 			Precursor
 			create request_counter_table.make (500)
@@ -57,12 +53,19 @@ feature -- Basic operations
 			ask_to_filter_extensions
 			filter_extensions := foreign_extension_set.count > 0
 			across not_found_list as list loop
-				if filter_extensions implies not has_foreign_extension (list.item) then
-					if attached uri_part (list.item) as str and then str.count > 0 then
-						request_counter_table.put (str)
+				if attached list.item as entry then
+					if entry.has_excess_digits then
+						excess_digit_count := excess_digit_count + 1
+
+					elseif filter_extensions implies not has_foreign_extension (entry) then
+						if attached uri_part (entry) as str and then str.count > 0 then
+							request_counter_table.put (str)
+						end
 					end
 				end
 			end
+			lio.put_integer_field ("Entries with digit count > " + config.maximum_uri_digits.out, excess_digit_count)
+			lio.put_new_line
 			if attached Naming.class_with_separator (Current, ' ', 1, 3) as name then
 				lio.put_substitution ("REQUEST %S OCCURRENCE FREQUENCY", [name])
 				lio.put_new_line
@@ -73,7 +76,11 @@ feature -- Basic operations
 					create request_list.make_from_special (table.item_area)
 					lio.put_natural_field ("OCCURRENCES", table.key)
 					lio.put_new_line
-					lio.put_words (request_list, 100)
+					if is_word_output then
+						lio.put_words (request_list, 100)
+					else
+						lio.put_labeled_lines ("URI paths", request_list)
+					end
 					lio.put_new_line
 				end
 			end
@@ -94,7 +101,11 @@ feature -- Basic operations
 					end
 					request_list.sort (True)
 					File_system.make_directory (path.parent)
-					File.write_text (path, request_list.joined_grouped_words (";", 160))
+					if is_word_output then
+						File.write_text (path, request_list.joined_grouped_words (";", 160))
+					else
+						File.write_text (path, request_list.joined_lines)
+					end
 					Lio.put_path_field ("Saved %S", path)
 					Lio.put_new_line_x2
 				end
@@ -121,22 +132,19 @@ feature {NONE} -- Implementation
 			Result := config.text_output_dir + "match-first_step.txt"
 		end
 
-	has_excess_digits (a_uri_part: STRING): BOOLEAN
+	is_word_output: BOOLEAN
 		do
-			if attached String_pool.borrowed_item as borrowed then
-				Result := digit_count_exceeded (borrowed.copied_general (a_uri_part))
-				borrowed.return
-			end
+			Result := True
 		end
 
-	include_uri_part (a_uri_part: STRING): BOOLEAN
+	include_uri_part (uri_first_step: STRING): BOOLEAN
 		do
-			Result := not (has_excess_digits (a_uri_part) or else root_names_set.has (a_uri_part))
+			Result := not root_names_set.has (uri_first_step)
 		end
 
 	has_foreign_extension (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		do
-			if attached entry.request_uri_extension as extension and then extension.count > 0 then
+			if attached entry.uri_extension as extension and then extension.count > 0 then
 				Result := foreign_extension_set.has (extension)
 			end
 		end
@@ -148,7 +156,7 @@ feature {NONE} -- Implementation
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING
 		do
-			Result := entry.request_uri_step
+			Result := entry.uri_step
 		end
 
 feature {NONE} -- Internal attributes

@@ -1,7 +1,7 @@
 note
 	description: "[
 		Command to analyze URI requests with status 404 (not found) by frequency of the
-		URI extension defined by function ${EL_WEB_LOG_ENTRY}.uri_extension.
+		request URI path defined by function ${EL_WEB_LOG_ENTRY}.uri_path.
 		Saves selected extensions in `configuration_words_path' to help configure
 		${EL_HACKER_INTERCEPT_CONFIG} import file.
 	]"
@@ -12,19 +12,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-12 14:33:54 GMT (Wednesday 12th February 2025)"
+	date: "2025-02-12 14:59:18 GMT (Wednesday 12th February 2025)"
 	revision: "6"
 
 class
-	EL_URI_EXTENSION_404_ANALYSIS_COMMAND
+	EL_URI_PATH_404_ANALYSIS_COMMAND
 
 inherit
 	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
-		rename
-			root_names_list as extension_list,
-			root_names_set as extension_set
 		redefine
-			configuration_words_path, extension_list, include_uri_part, ask_to_filter_extensions, uri_part
+			configuration_words_path, include_uri_part, is_word_output, uri_part
 		end
 
 create
@@ -35,27 +32,24 @@ feature {NONE} -- Implementation
 	configuration_words_path: FILE_PATH
 		-- text file containing all `uri_part' that occur a minimum number of times specified by user
 		do
-			Result := config.text_output_dir + "match-has_extension.txt"
+			Result := config.text_output_dir + "match-has_path.txt"
 		end
 
-	extension_list: EL_STRING_8_LIST
+	include_uri_part (uri_path: STRING): BOOLEAN
 		do
-			create Result.make_multiline_words (config.site_extensions, ';', 0)
+			Result := across root_names_list as list all
+				not uri_path.starts_with (list.item)
+			end
 		end
 
-	include_uri_part (uri_extension: STRING): BOOLEAN
+	is_word_output: BOOLEAN
 		do
-			Result := not extension_set.has (uri_extension)
-		end
-
-	ask_to_filter_extensions
-		do
-			do_nothing
+			Result := False
 		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING
 		do
-			Result := entry.uri_extension
+			Result := entry.uri_path
 		end
 
 note

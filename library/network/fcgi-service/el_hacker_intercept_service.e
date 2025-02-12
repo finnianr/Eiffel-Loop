@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 7:20:44 GMT (Monday 26th August 2024)"
-	revision: "20"
+	date: "2025-02-12 10:25:22 GMT (Wednesday 12th February 2025)"
+	revision: "21"
 
 class
 	EL_HACKER_INTERCEPT_SERVICE
@@ -18,7 +18,7 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			config, error_check, description, on_shutdown, log_separator
+			config, error_check, description, log_separator
 		end
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE
@@ -74,17 +74,6 @@ feature -- Status query
 			Result := True
 		end
 
-feature {NONE} -- Event handling
-
-	on_shutdown
-		do
-			if servlet_table.has_key (Default_servlet_key)
-				and then attached {EL_HACKER_INTERCEPT_SERVLET} servlet_table.found_item as servlet
-			then
-				servlet.store_status_table (Firewall_status_data_path)
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	initialize_servlets
@@ -116,10 +105,5 @@ feature {NONE} -- Implementation
 feature {EL_HACKER_INTERCEPT_SERVLET} -- Constants
 
 	IP_blocking_script_name: STRING = "run_service_ip_address_blocking.sh"
-
-	Firewall_status_data_path: FILE_PATH
-		once
-			Result := Directory.Sub_app_data + "firewall-status.dat"
-		end
 
 end

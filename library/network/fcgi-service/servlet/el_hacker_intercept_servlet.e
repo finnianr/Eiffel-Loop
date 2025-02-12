@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 16:47:39 GMT (Monday 10th February 2025)"
-	revision: "37"
+	date: "2025-02-12 10:26:19 GMT (Wednesday 12th February 2025)"
+	revision: "38"
 
 class
 	EL_HACKER_INTERCEPT_SERVLET
@@ -22,7 +22,7 @@ inherit
 		rename
 			make as make_servlet
 		redefine
-			service
+			on_shutdown, service
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 			end
 			filter_table := a_service.config.filter_table
 
-			if attached a_service.Firewall_status_data_path as path and then path.exists then
+			if attached Firewall_status_data_path as path and then path.exists then
 				firewall_status_table := new_stored_status_table (path)
 				log_firewall_summary ("Retrieved blocks")
 			else
@@ -75,7 +75,7 @@ feature -- Basic operations
 		local
 			ip_number: NATURAL
 		do
-			log.enter_no_header ("serve")
+			log.enter ("serve")
 
 			check_todays_logs
 
@@ -108,13 +108,7 @@ feature -- Basic operations
 			log.put_labeled_string ("Located", Geolocation.for_number (ip_number))
 			log.put_new_line
 
-			log.exit_no_trailer
-		end
-
-	store_status_table (path: FILE_PATH)
-		do
-			log_firewall_summary ("Storing blocks")
-			new_firewall_status_list.store_as (path)
+			log.exit
 		end
 
 feature -- Status query
@@ -329,6 +323,13 @@ feature {NONE} -- Implementation
 			log.put_new_line
 		end
 
+	on_shutdown
+		-- called when service is shutting down
+		do
+			log_firewall_summary ("Storing blocks")
+			new_firewall_status_list.store_as (Firewall_status_data_path)
+		end
+
 	put_rule (a_command: STRING; address: NATURAL_32; a_port: NATURAL_16)
 		do
 			if attached rule_buffer as buffer then
@@ -380,12 +381,14 @@ feature {NONE} -- Implementation
 		require
 			ends_with_new_line: rule_buffer.count > 0 implies rule_buffer [rule_buffer.count] = '%N'
 		do
+			log.enter ("update_firewall")
 			if rule_buffer.count > 0 then
 				file_mutex.try_until_locked (50)
 				File.write_text (block_ip_path, rule_buffer)
 				file_mutex.unlock
 			end
 			rule_buffer.wipe_out
+			log.exit
 		end
 
 feature {NONE} -- Internal attributes
@@ -419,6 +422,11 @@ feature {NONE} -- Constants
 	Firewall_status: EL_FIREWALL_STATUS
 		once
 			create Result
+		end
+
+	Firewall_status_data_path: FILE_PATH
+		once
+			Result := Directory.Sub_app_data + "firewall-status.dat"
 		end
 
 note

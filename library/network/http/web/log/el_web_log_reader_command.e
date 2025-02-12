@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 9:34:30 GMT (Saturday 8th February 2025)"
-	revision: "20"
+	date: "2025-02-12 15:03:50 GMT (Wednesday 12th February 2025)"
+	revision: "21"
 
 deferred class
 	EL_WEB_LOG_READER_COMMAND
@@ -169,7 +169,7 @@ feature {NONE} -- Implementation
 
 	geolocation_data_dir: DIR_PATH
 		do
-			Result := Directory.Sub_app_data #+ generator.as_lower
+			Result := Directory.Sub_app_data
 		end
 
 	index_of_request_uri (line: STRING): INTEGER

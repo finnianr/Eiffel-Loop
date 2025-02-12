@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 18:12:05 GMT (Tuesday 11th February 2025)"
-	revision: "36"
+	date: "2025-02-12 10:28:05 GMT (Wednesday 12th February 2025)"
+	revision: "37"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -259,6 +259,7 @@ feature {NONE} -- Implementation
 					signal := Unix_signals.broken_pipe
 				end
 			end
+			lio.put_new_line
 			if Unix_signals.is_termination (signal) then
 				log_message (cause.generator, cause.description)
 				log_message ("Ctrl-C detected", "shutting down ..")
@@ -269,10 +270,11 @@ feature {NONE} -- Implementation
 				log_message (cause.generator, Unix_signals.broken_pipe_message)
 				retry
 			else
-				lio.put_new_line
 				log_message ("Exiting after unrescueable exception", cause.generator)
 				Exception.set_last_cause (cause)
 				Exception.write_last_trace (Current)
+				state := Final
+				retry
 			end
 		end
 

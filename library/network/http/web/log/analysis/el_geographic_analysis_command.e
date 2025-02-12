@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 6:43:59 GMT (Tuesday 11th February 2025)"
-	revision: "38"
+	date: "2025-02-12 14:48:06 GMT (Wednesday 12th February 2025)"
+	revision: "39"
 
 class
 	EL_GEOGRAPHIC_ANALYSIS_COMMAND
@@ -81,7 +81,7 @@ feature -- Basic operations
 				lio.put_line ("HUMAN REQUESTS NOT FOUND")
 				across not_found_list as list loop
 					if attached list.item as entry then
-						lio.put_string_field (entry.status_code.out,entry.request_uri)
+						lio.put_string_field (entry.status_code.out, entry.uri_path)
 						lio.put_new_line
 					end
 				end
@@ -102,13 +102,14 @@ feature {NONE} -- Implementation
 
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
+			entry.set_maximum_uri_digits (config.maximum_uri_digits)
 			if is_bot (entry) then
 				bot_agent_table.put (entry.normalized_user_agent)
 
 			elseif Found_status_list.has (entry.status_code) then
 				human_entry_list.extend (entry)
 			-- Mark entries that match one of `config.page_list'
-				entry.set_request_uri_group (last_uri_stem)
+				entry.set_uri_group (last_uri_stem)
 				entry.cache_location
 			else
 				not_found_list.extend (entry)
@@ -167,7 +168,7 @@ feature {NONE} -- Implementation
 						lio.put_string (" --")
 						lio.put_new_line_x2
 					end
-					page_table.extend (entry.request_uri_group, entry.ip_number)
+					page_table.extend (entry.uri_group, entry.ip_number)
 				end
 			end
 			across page_table as page loop

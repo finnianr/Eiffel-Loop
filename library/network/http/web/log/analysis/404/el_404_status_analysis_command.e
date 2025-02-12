@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 11:40:16 GMT (Wednesday 29th January 2025)"
-	revision: "3"
+	date: "2025-02-12 14:47:47 GMT (Wednesday 12th February 2025)"
+	revision: "4"
 
 class
 	EL_404_STATUS_ANALYSIS_COMMAND
@@ -24,6 +24,7 @@ feature {NONE} -- Implementation
 
 	do_with (entry: EL_WEB_LOG_ENTRY)
 		do
+			entry.set_maximum_uri_digits (config.maximum_uri_digits)
 			if entry.status_code = Http_status.not_found then
 				not_found_list.extend (entry)
 				entry.cache_location

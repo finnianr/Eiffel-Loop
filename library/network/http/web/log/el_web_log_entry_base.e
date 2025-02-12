@@ -7,13 +7,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 10:20:58 GMT (Friday 7th February 2025)"
-	revision: "1"
+	date: "2025-02-12 14:37:32 GMT (Wednesday 12th February 2025)"
+	revision: "2"
 
 deferred class
 	EL_WEB_LOG_ENTRY_BASE
 
 inherit
+	EL_URI_FILTER_BASE
+		export
+			{NONE} all
+			{ANY} set_maximum_uri_digits, maximum_uri_digits
+		end
+
 	EL_MODULE_DATE
 		rename
 			Date as Date_
@@ -33,7 +39,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	EL_SHARED_STRING_8_BUFFER_POOL
+	EL_SHARED_STRING_8_BUFFER_POOL; EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature {NONE} -- Implementation
 
@@ -47,9 +53,42 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_string_set: EL_HASH_SET [STRING]
+	keep_first_step (uri: STRING)
+		-- keep only the first step of `uri'
+		local
+			slash_index: INTEGER
 		do
-			create Result.make_equal (3)
+			slash_index := uri.index_of ('/', 1)
+			if slash_index > 0 then
+				uri.keep_head (slash_index - 1)
+			end
+		end
+
+	new_uri_extension (uri: STRING): STRING
+		local
+			dot_index, slash_index: INTEGER; s8: EL_STRING_8_ROUTINES
+			extension: STRING
+		do
+			Result := Empty_string_8
+
+			dot_index := uri.last_index_of ('.', uri.count)
+			slash_index := uri.last_index_of ('/', uri.count)
+			if dot_index > 0 and then dot_index > slash_index + 1 then
+				extension := uri.substring (dot_index + 1, uri.count)
+				if s8.is_alpha_numeric (Result) then
+					Result := extension
+				end
+			end
+		end
+
+	shared_string (string_set: EL_HASH_SET [STRING]; str: STRING): STRING
+		do
+			if str.is_empty then
+				Result := Empty_string_8
+			else
+				string_set.put_copy (str)
+				Result := string_set.found_item
+			end
 		end
 
 	stripped_lower (a_name: STRING): EL_STRING_8_LIST
@@ -85,25 +124,27 @@ feature {NONE} -- String sets
 
 	Agent_word_set: EL_HASH_SET [STRING]
 		once
-			Result := Field_cache_array [1]
-		end
-
-	Default_value_set: EL_HASH_SET [STRING]
-		once
-			create Result.make_equal (0)
-		end
-
-	Field_cache_array: ARRAY [EL_HASH_SET [STRING]]
-		once
-			create Result.make_filled (Default_value_set, 1, Field_count)
-			across 1 |..| Field_count as index loop
-				Result [index.item] := new_string_set
-			end
+			create Result.make_equal (500)
 		end
 
 	Http_command_set: EL_HASH_SET [STRING]
 		once
-			Result := Field_cache_array [1]
+			create Result.make_equal (5)
+		end
+
+	Referer_set: EL_HASH_SET [STRING]
+		once
+			create Result.make_equal (500)
+		end
+
+	Request_uri_path_set: EL_HASH_SET [STRING]
+		once
+			create Result.make_equal (500)
+		end
+
+	Word_part_set: EL_HASH_SET [STRING]
+		once
+			create Result.make_equal (500)
 		end
 
 feature {NONE} -- Date/Time
@@ -145,10 +186,5 @@ feature {NONE} -- Constants
 		end
 
 	Quote: CHARACTER = '%"'
-
-	Word_part_set: EL_HASH_SET [STRING]
-		once
-			create Result.make_equal (500)
-		end
 
 end
