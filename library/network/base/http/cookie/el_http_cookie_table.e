@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:15:12 GMT (Sunday 22nd September 2024)"
-	revision: "18"
+	date: "2025-02-13 13:53:53 GMT (Thursday 13th February 2025)"
+	revision: "19"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -69,7 +69,7 @@ feature {NONE} -- State handlers
 
 	parse_cookie (line: STRING)
 		local
-			tab_splitter: EL_SPLIT_ON_CHARACTER [STRING]; value: ZSTRING;
+			tab_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]; value: ZSTRING;
 			cookie_value: EL_COOKIE_STRING_8; name: IMMUTABLE_STRING_8
 		do
 			create tab_splitter.make (line, '%T')

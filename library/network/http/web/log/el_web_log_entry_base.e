@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-12 14:37:32 GMT (Wednesday 12th February 2025)"
-	revision: "2"
+	date: "2025-02-13 13:56:45 GMT (Thursday 13th February 2025)"
+	revision: "3"
 
 deferred class
 	EL_WEB_LOG_ENTRY_BASE
@@ -95,7 +95,7 @@ feature {NONE} -- Implementation
 		-- if `a_name' is "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
 		-- `Result.joined_words' is "firefox linux rv x11 x86_64"
 		local
-			name: STRING; name_split: EL_SPLIT_ON_CHARACTER [STRING]
+			name: STRING; name_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			s: EL_STRING_8_ROUTINES
 		do
 			if attached String_8_pool.borrowed_item as borrowed then

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 16:56:44 GMT (Tuesday 5th November 2024)"
-	revision: "36"
+	date: "2025-02-13 13:57:04 GMT (Thursday 13th February 2025)"
+	revision: "37"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -375,7 +375,7 @@ feature {NONE} -- States
 
 feature {NONE} -- Constants
 
-	Line_splitter: EL_SPLIT_ON_CHARACTER [STRING]
+	Line_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]
 		once
 			create Result.make (Empty_string_8, New_line_character)
 		end

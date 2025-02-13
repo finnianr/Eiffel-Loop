@@ -1,21 +1,23 @@
 note
-	description: "Test ${EL_URL_FILTER_TABLE}."
+	description: "Test classes in `network/security' directory"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 11:39:20 GMT (Sunday 9th February 2025)"
-	revision: "5"
+	date: "2025-02-13 18:29:03 GMT (Thursday 13th February 2025)"
+	revision: "6"
 
 class
-	URL_FILTER_TABLE_TEST_SET
+	SECURITY_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
 	EL_MODULE_IP_ADDRESS
+
+	SHARED_DEV_ENVIRON
 
 feature {NONE} -- Initialization
 
@@ -23,14 +25,15 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["is_hacker_probe",	agent test_is_hacker_probe]
+				["ufw_user_rules",  agent test_ufw_user_rules],
+				["is_hacker_probe", agent test_is_hacker_probe]
 			>>)
 		end
 
 feature -- Test
 
 	test_is_hacker_probe
-		-- URL_FILTER_TABLE_TEST_SET.test_is_hacker_probe
+		-- SECURITY_TEST_SET.test_is_hacker_probe
 		note
 			testing: "[
 				covers/{EL_URL_FILTER_TABLE}.matches,
@@ -70,4 +73,23 @@ feature -- Test
 			end
 		end
 
+	test_ufw_user_rules
+		-- SECURITY_TEST_SET.test_ufw_user_rules
+		local
+			rules: EL_UFW_USER_RULES
+		do
+			if attached new_file_list ("*.rules").first_path as rules_path then
+				create rules.make (rules_path)
+				rules.write (work_area_data_dir + "updated.rules")
+				rules.limit_entries (2)
+				rules.write (work_area_data_dir + "limited.rules")
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	source_dir: DIR_PATH
+		do
+			Result := Dev_environ.EL_test_data_dir #+ "security"
+		end
 end

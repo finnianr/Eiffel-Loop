@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 12:09:35 GMT (Friday 30th August 2024)"
-	revision: "14"
+	date: "2025-02-13 13:59:09 GMT (Thursday 13th February 2025)"
+	revision: "15"
 
 deferred class
 	GROUPED_ECF_LINES
 
 inherit
-	EL_SPLIT_ON_CHARACTER [STRING]
+	EL_SPLIT_ON_CHARACTER_8 [STRING]
 		rename
 			make as make_split
 		export
@@ -183,7 +183,7 @@ feature {NONE} -- Constants
 			create Result.make (7)
 		end
 
-	Once_pair_splitter: EL_SPLIT_ON_CHARACTER [STRING]
+	Once_pair_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]
 		once
 			create Result.make_adjusted ("", ';', {EL_SIDE}.Left)
 		end

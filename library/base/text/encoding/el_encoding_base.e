@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 13:26:20 GMT (Monday 23rd September 2024)"
-	revision: "28"
+	date: "2025-02-13 13:56:28 GMT (Thursday 13th February 2025)"
+	revision: "29"
 
 deferred class
 	EL_ENCODING_BASE
@@ -237,7 +237,7 @@ feature -- Conversion
 
 	name_to_encoding (a_name: READABLE_STRING_GENERAL): NATURAL
 		local
-			hypen_split: EL_SPLIT_ON_CHARACTER [STRING]
+			hypen_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			part: STRING; l_type, l_id: NATURAL; mismatch: BOOLEAN
 		do
 			create hypen_split.make (a_name.to_string_8, '-')

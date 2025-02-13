@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-04 18:44:36 GMT (Saturday 4th November 2023)"
-	revision: "3"
+	date: "2025-02-13 15:23:35 GMT (Thursday 13th February 2025)"
+	revision: "4"
 
 class
 	EL_ADDRESS_FIREWALL_STATUS
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	compact_status: NATURAL_64
-		-- status that can be expande
+		-- status that can be expanded
 
 	ip4_number: NATURAL
 		-- address number

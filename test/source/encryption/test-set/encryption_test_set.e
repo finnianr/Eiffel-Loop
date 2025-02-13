@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-01 16:17:11 GMT (Monday 1st January 2024)"
-	revision: "23"
+	date: "2025-02-13 15:10:12 GMT (Thursday 13th February 2025)"
+	revision: "24"
 
 class
 	ENCRYPTION_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 		redefine
-			make, on_prepare, on_clean
+			on_prepare, on_clean
 		end
 
 	SHARED_DEV_ENVIRON; EL_SHARED_PASSPHRASE_TEXTS

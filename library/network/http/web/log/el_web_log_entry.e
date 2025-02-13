@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-12 14:42:41 GMT (Wednesday 12th February 2025)"
-	revision: "36"
+	date: "2025-02-13 13:59:42 GMT (Thursday 13th February 2025)"
+	revision: "37"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 		require
 			valid_line: line.occurrences (Quote) = 6
 		local
-			line_split: EL_SPLIT_ON_CHARACTER [STRING]; s: EL_STRING_8_ROUTINES
+			line_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; s: EL_STRING_8_ROUTINES
 			index, offset, field_index, qmark_index: INTEGER; part: STRING;
 		do
 			make_default

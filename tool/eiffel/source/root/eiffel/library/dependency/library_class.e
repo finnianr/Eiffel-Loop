@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:14:18 GMT (Friday 20th September 2024)"
-	revision: "7"
+	date: "2025-02-13 13:58:20 GMT (Thursday 13th February 2025)"
+	revision: "8"
 
 class
 	LIBRARY_CLASS
@@ -63,7 +63,7 @@ feature {NONE} -- Line state
 
 	compile_class_names (line: STRING)
 		local
-			splitter: EL_SPLIT_ON_CHARACTER [STRING]; word: STRING
+			splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]; word: STRING
 		do
 			line.left_adjust
 			create splitter.make (line, ' ')

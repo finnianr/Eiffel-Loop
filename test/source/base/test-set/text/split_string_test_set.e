@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 12:49:26 GMT (Sunday 6th October 2024)"
-	revision: "65"
+	date: "2025-02-13 13:57:58 GMT (Thursday 13th February 2025)"
+	revision: "66"
 
 class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -385,7 +385,7 @@ feature -- Tests
 		note
 			testing: "covers/{EL_SPLIT_ON_CHARACTER}.new_cursor"
 		local
-			character_split: EL_SPLIT_ON_CHARACTER [STRING]
+			character_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			split_list: EL_STRING_8_LIST
 		do
 			create character_split.make (",a,b,c,", ',')

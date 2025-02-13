@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 12:44:15 GMT (Thursday 7th November 2024)"
-	revision: "40"
+	date: "2025-02-13 13:57:32 GMT (Thursday 13th February 2025)"
+	revision: "41"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -132,7 +132,7 @@ feature {NONE} -- Implementation
 	new_field_index (utf_8_json: STRING): EL_ARRAYED_LIST [INTEGER]
 		-- index table of character to right of first quote-mark for each line
 		local
-			splitter: EL_SPLIT_ON_CHARACTER [STRING]; i: INTEGER; found: BOOLEAN
+			splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]; i: INTEGER; found: BOOLEAN
 		do
 			create Result.make (utf_8_json.occurrences ('%N') + 1)
 			create splitter.make (utf_8_json, '%N')

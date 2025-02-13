@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2025-02-13 13:56:14 GMT (Thursday 13th February 2025)"
+	revision: "5"
 
 class
 	EL_VERSION_ARRAY
@@ -85,7 +85,7 @@ feature -- Initialization
 			end
 			valid_parts: Digit_range.has ((version.occurrences ('.') + 1) * a_digit_count)
 		local
-			splitter: EL_SPLIT_ON_CHARACTER [STRING]
+			splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]
 		do
 			make_filled (0, 1, version.occurrences ('.') + 1)
 			digit_count := a_digit_count

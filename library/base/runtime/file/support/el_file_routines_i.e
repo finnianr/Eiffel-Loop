@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 16:51:07 GMT (Friday 13th September 2024)"
-	revision: "23"
+	date: "2025-02-13 13:54:23 GMT (Thursday 13th February 2025)"
+	revision: "24"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -205,10 +205,10 @@ feature -- File content
 					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")
 
 				else
-					create {EL_SPLIT_ON_CHARACTER [STRING]} Result.make (content, '%N')
+					create {EL_SPLIT_ON_CHARACTER_8 [STRING]} Result.make (content, '%N')
 				end
 			else
-				create {EL_SPLIT_ON_CHARACTER [STRING]} Result.make (Empty_string_8, '%N')
+				create {EL_SPLIT_ON_CHARACTER_8 [STRING]} Result.make (Empty_string_8, '%N')
 			end
 		end
 

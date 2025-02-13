@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:55:11 GMT (Friday 7th February 2025)"
-	revision: "29"
+	date: "2025-02-13 13:57:21 GMT (Thursday 13th February 2025)"
+	revision: "30"
 
 class
 	EL_XPATH_NODE_CONTEXT
@@ -115,7 +115,7 @@ feature -- Basic operations
 		require
 			same_field_count: tuple.count = a_xpath_list.occurrences (',') + 1
 		local
-			xpath_splitter: EL_SPLIT_ON_CHARACTER [STRING]; index, type_id: INTEGER
+			xpath_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]; index, type_id: INTEGER
 			tuple_type: TYPE [TUPLE]; xpath: STRING
 		do
 			tuple_type := tuple.generating_type
