@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:13:29 GMT (Friday 13th September 2024)"
-	revision: "4"
+	date: "2025-02-14 15:44:46 GMT (Friday 14th February 2025)"
+	revision: "5"
 
 deferred class
 	EL_TODAYS_LOG_ENTRIES
@@ -48,6 +48,11 @@ feature -- Deferred
 		deferred
 		ensure
 			not_zero: Result > 0
+		end
+
+	port: NATURAL_16
+		-- associated port number
+		deferred
 		end
 
 feature -- Element change

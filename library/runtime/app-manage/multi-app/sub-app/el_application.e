@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:36:13 GMT (Friday 7th February 2025)"
-	revision: "94"
+	date: "2025-02-14 10:25:00 GMT (Friday 14th February 2025)"
+	revision: "95"
 
 deferred class
 	EL_APPLICATION
@@ -69,7 +69,7 @@ feature {EL_FACTORY_CLIENT} -- Initialization
 				do_application
 			end
 			if attached app_mutex as mutex and then not is_another_launched then
-				mutex.unlock
+				mutex.try_remove
 			end
 		end
 

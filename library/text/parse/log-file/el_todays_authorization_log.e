@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-10-30 10:59:30 GMT (Monday 30th October 2023)"
-	revision: "5"
+	date: "2025-02-14 15:47:14 GMT (Friday 14th February 2025)"
+	revision: "6"
 
 class
 	EL_TODAYS_AUTHORIZATION_LOG
@@ -54,6 +54,9 @@ feature {NONE} -- Constants
 		once
 			Result := " from "
 		end
+
+	Port: NATURAL_16 = 22
+		-- SSH port number
 
 	Warning_list: EL_STRING_8_LIST
 		once

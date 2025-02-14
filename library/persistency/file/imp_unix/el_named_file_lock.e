@@ -9,17 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 17:58:02 GMT (Monday 26th August 2024)"
-	revision: "8"
+	date: "2025-02-14 10:23:50 GMT (Friday 14th February 2025)"
+	revision: "9"
 
 class
 	EL_NAMED_FILE_LOCK
 
 inherit
 	EL_NAMED_FILE_LOCK_I
-		redefine
-			unlock
-		end
 
 create
 	make
@@ -47,15 +44,6 @@ feature -- Status change
 			if descriptor.to_boolean and then c_close (descriptor) = 0 then
 				descriptor := 0
 			end
-		end
-
-	unlock
-		do
-			if is_locked then
-				Precursor; remove_file
-			end
-		ensure then
-			file_removed: not is_writeable and then old is_locked implies not path.exists
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:40:19 GMT (Sunday 6th October 2024)"
-	revision: "15"
+	date: "2025-02-14 10:24:29 GMT (Friday 14th February 2025)"
+	revision: "16"
 
 class
 	EL_APPLICATION_MUTEX
@@ -52,6 +52,18 @@ feature {NONE} -- Implementation
 			list.prune_all_empty -- option might be empty
 
 			make_for_path (Lock_dir + list.joined ('.'))
+		end
+
+feature -- Basic operations
+
+	try_remove
+		-- remove if the mutex is owned
+		do
+			if is_locked then
+				unlock; remove_file
+			end
+		ensure
+			file_removed: not is_writeable and then old is_locked implies not path.exists
 		end
 
 feature {NONE} -- Constants

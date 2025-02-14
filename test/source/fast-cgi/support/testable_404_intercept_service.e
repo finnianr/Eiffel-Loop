@@ -1,19 +1,19 @@
 note
-	description: "Test version of ${EL_HACKER_INTERCEPT_SERVICE}"
+	description: "Test version of ${EL_404_INTERCEPT_SERVICE}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 7:20:03 GMT (Monday 26th August 2024)"
-	revision: "1"
+	date: "2025-02-14 14:27:32 GMT (Friday 14th February 2025)"
+	revision: "2"
 
 class
-	HACKER_INTERCEPT_TEST_SERVICE
+	TESTABLE_404_INTERCEPT_SERVICE
 
 inherit
-	EL_HACKER_INTERCEPT_SERVICE
+	EL_404_INTERCEPT_SERVICE
 		redefine
 			new_servlet
 		end
@@ -22,7 +22,7 @@ create
 
 feature {NONE} -- Implementation
 
-	new_servlet: TEST_HACKER_INTERCEPT_SERVLET
+	new_servlet: TESTABLE_404_INTERCEPT_SERVLET
 		do
 			create Result.make (Current)
 		end

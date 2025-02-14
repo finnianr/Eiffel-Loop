@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 18:33:50 GMT (Thursday 13th February 2025)"
-	revision: "1"
+	date: "2025-02-14 16:11:57 GMT (Friday 14th February 2025)"
+	revision: "2"
 
 class
 	EL_UFW_USER_RULES
@@ -37,7 +37,7 @@ inherit
 	EL_SHARED_SERVICE_PORT
 
 create
-	make, make_default
+	make
 
 feature {NONE} -- Initialization
 
@@ -53,29 +53,75 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_default
+feature -- Measurement
+
+	denied_count (ip_number: NATURAL): INTEGER
+		-- number of ports on which `ip_number' is denied access
+		local
+			b: EL_BIT_ROUTINES
 		do
-			make ("/lib/ufw/user.rules")
+			Result := b.ones_count_32 (denied_access_table [ip_number])
+		end
+
+	denied_list (ip_number: NATURAL): EL_STRING_8_LIST
+		-- string with list of denied ports
+		local
+			bitmap: NATURAL_8
+		do
+			bitmap := denied_access_table [ip_number]
+			create Result.make (Port_list.count)
+			across Port_list as port loop
+				if bitmap.bit_test (bit_index (port.item)) then
+					Result.extend (Service_port.name (port.item))
+				end
+			end
 		end
 
 feature -- Basic operations
 
+	display_summary (log: EL_LOGGABLE; heading: READABLE_STRING_GENERAL)
+		local
+			bit_index_list: EL_ARRAYED_RESULT_LIST [NATURAL_16, INTEGER]
+			occurrence_counts: SPECIAL [INTEGER]; i: INTEGER
+		do
+			create bit_index_list.make (Port_list, agent bit_index)
+			create occurrence_counts.make_filled (0, Port_list.count)
+			across denied_access_table as table loop
+				across bit_index_list as list loop
+					if table.item.bit_test (list.item) then
+						i := list.item
+						occurrence_counts [i] :=  occurrence_counts [i] + 1
+					end
+				end
+			end
+			log.put_line (heading)
+			across Port_list as list loop
+				if attached Service_port.name (list.item) as name then
+					log.put_integer_field (name + " count", occurrence_counts [bit_index (list.item)])
+					log.put_new_line
+				end
+			end
+		end
+
 	limit_entries (max_count: INTEGER)
 		-- remove older entries to bring number down to `max_count'
-		local
-			removed_count, i: INTEGER
 		do
-			if denied_access_table.count > max_count
-				and then attached denied_access_table.key_list as ip_list
-			then
-				removed_count := denied_access_table.count - max_count
-				from i := 1 until i > removed_count loop
-					denied_access_table.remove (ip_list [i])
-					i := i + 1
-				end
+			if denied_access_table.count > max_count then
+				denied_access_table.remove_head (denied_access_table.count - max_count)
 			end
 		ensure
 			limited_to_max_count: denied_access_table.count <= max_count
+		end
+
+	put_entry (ip_number: NATURAL; port: NATURAL_16)
+		local
+			bit_map: NATURAL_8; i: INTEGER
+		do
+			bit_map := denied_access_table [ip_number]
+			i := bit_index (port)
+			if i >= 0 then
+				denied_access_table [ip_number] := bit_map.set_bit (True, i)
+			end
 		end
 
 	write (path: EL_FILE_PATH)
@@ -114,14 +160,16 @@ feature -- Basic operations
 			rules.close
 		end
 
-	put_entry (ip_number: NATURAL; port: NATURAL_16)
+feature -- Status query
+
+	is_denied (ip_number: NATURAL; port: NATURAL_16): BOOLEAN
+		-- `True' if `ip_number' is denied access on `port'
 		local
-			bit_map: NATURAL_8; i: INTEGER
+			i: INTEGER
 		do
-			bit_map := denied_access_table [ip_number]
 			i := bit_index (port)
 			if i >= 0 then
-				denied_access_table [ip_number] := bit_map.set_bit (True, i)
+				Result := denied_access_table [ip_number].bit_test (i)
 			end
 		end
 

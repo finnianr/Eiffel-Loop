@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 14:49:57 GMT (Thursday 11th January 2024)"
-	revision: "6"
+	date: "2025-02-14 15:47:25 GMT (Friday 14th February 2025)"
+	revision: "7"
 
 class
 	EL_TODAYS_SENDMAIL_LOG
@@ -64,6 +64,9 @@ feature {NONE} -- Constants
 		once
 			Result := "]: "
 		end
+
+	Port: NATURAL_16 = 25
+		-- SMTP port
 
 	Warning_list: EL_STRING_8_LIST
 		once

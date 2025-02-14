@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 4:39:45 GMT (Tuesday 11th February 2025)"
-	revision: "10"
+	date: "2025-02-14 16:24:58 GMT (Friday 14th February 2025)"
+	revision: "11"
 
 class
 	EL_URI_FILTER_TABLE
@@ -43,9 +43,12 @@ feature {NONE} -- Initialization
 
 feature -- Status report
 
-	is_hacker_probe (path_lower: ZSTRING): BOOLEAN
+	is_hacker_probe (path_lower: ZSTRING; user_agent: STRING): BOOLEAN
 		do
-			if whitelist_set.has (path_lower) then
+			if user_agent.is_empty then
+				Result := True
+				
+			elseif whitelist_set.has (path_lower) then
 				Result := False
 
 			elseif digit_count_exceeded (path_lower) then

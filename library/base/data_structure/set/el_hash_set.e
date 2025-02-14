@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:50:48 GMT (Friday 7th February 2025)"
-	revision: "34"
+	date: "2025-02-14 12:05:18 GMT (Friday 14th February 2025)"
+	revision: "35"
 
 class
 	EL_HASH_SET [H -> HASHABLE]

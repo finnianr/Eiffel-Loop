@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 16:36:33 GMT (Tuesday 24th September 2024)"
-	revision: "10"
+	date: "2025-02-14 13:48:08 GMT (Friday 14th February 2025)"
+	revision: "11"
 
 class
 	COMPILED_CLASSES
@@ -31,7 +31,7 @@ feature {NONE} -- Compile extra
 
 	el_fast_cgi: TUPLE [
 		EL_DIVERGENT_SERVLET,
-		EL_HACKER_INTERCEPT_SERVICE,
+		EL_404_INTERCEPT_SERVICE,
 		EL_IP_ECHO_SERVLET,
 		EL_OK_SERVLET,
 		EL_SOFTWARE_VERSION_INFO_SERVLET,

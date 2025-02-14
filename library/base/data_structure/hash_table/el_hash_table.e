@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-15 9:50:48 GMT (Friday 15th November 2024)"
-	revision: "38"
+	date: "2025-02-14 12:21:49 GMT (Friday 14th February 2025)"
+	revision: "39"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -290,6 +290,33 @@ feature -- Basic operations
 					end
 				end
 			end
+		end
+
+	remove_head (n: INTEGER)
+		-- remove first `n' items
+		local
+			i, pos, last_index: INTEGER; break: BOOLEAN
+		do
+			if attached empty_duplicate ((count - n).max (0)) as new_table
+				and then attached keys as l_keys and then attached content as l_content
+				and then attached deleted_marks as is_deleted
+			then
+				last_index := l_keys.count - 1
+				from i := 1; pos := -1 until break loop
+					pos := next_iteration_index (pos, last_index, is_deleted)
+					if pos > last_index then
+						break := True
+
+					elseif i > n then
+						new_table.extend (l_content [pos], l_keys [pos])
+					end
+					i := i + 1
+				end
+				copy (new_table)
+			end
+		ensure
+			valid_count: n < old count implies count = old count - n
+			valid_count: n >= old count implies is_empty
 		end
 
 	reverse_sort

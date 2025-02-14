@@ -10,16 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:27:43 GMT (Saturday 20th January 2024)"
-	revision: "5"
+	date: "2025-02-14 15:40:15 GMT (Friday 14th February 2025)"
+	revision: "6"
 
 class
-	TEST_HACKER_INTERCEPT_SERVLET
+	TESTABLE_404_INTERCEPT_SERVLET
 
 inherit
-	EL_HACKER_INTERCEPT_SERVLET
+	EL_404_INTERCEPT_SERVLET
 		redefine
-			day_now, request_remote_address_32, new_monitored_logs
+			request_remote_address_32, make, new_authorization_log, new_sendmail_log
 		end
 
 	EL_MODULE_DIRECTORY
@@ -29,44 +29,45 @@ inherit
 create
 	make
 
-feature {NONE} -- Factory
+feature {NONE} -- Initialization
 
-	new_monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
+	make (a_service: EL_404_INTERCEPT_SERVICE)
 		do
-			Result := <<
-				create {TEST_AUTHORIZATION_LOG}.make,
-				create {TEST_SENDMAIL_LOG}.make
-			>>
-			across Result as list loop
+			Precursor (a_service)
+			across monitored_logs as list loop
 				if attached (Log_dir + Directory.new (list.item.log_path).base) as log_path then
 					list.item.log_path.share (log_path.to_string)
 				end
 			end
 		ensure then
-			test_log_exists: across Result as list all Directory.new (list.item.log_path).exists end
+			test_log_exists: across monitored_logs as list all Directory.new (list.item.log_path).exists end
+		end
+
+feature {NONE} -- Factory
+
+	new_authorization_log: TEST_AUTHORIZATION_LOG
+		do
+			create Result.make
+		end
+
+	new_sendmail_log: TEST_SENDMAIL_LOG
+		do
+			create Result.make
 		end
 
 feature {NONE} -- Implementation
 
 	request_remote_address_32: NATURAL
 		do
+			index := index + 1
 			Result := IP_address.to_number (IP_list.circular_i_th (index))
 		end
 
-	day_now: INTEGER
-		do
-			Result := Precursor + index
-			index := index + 1
-		end
+feature {NONE} -- Internal attributes
 
 	index: INTEGER
 
 feature {NONE} -- Constants
-
-	Log_dir: EL_DIR_PATH
-		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "test/data/network"
-		end
 
 	IP_list: EL_STRING_8_LIST
 		-- some real world IP address that were trying to hack myching.software
@@ -79,5 +80,9 @@ feature {NONE} -- Constants
 
 	Invalid_mail_ip: STRING = "80.94.95.181"
 
+	Log_dir: EL_DIR_PATH
+		once
+			Result := Dev_environ.Eiffel_loop_dir #+ "test/data/network"
+		end
 
 end
