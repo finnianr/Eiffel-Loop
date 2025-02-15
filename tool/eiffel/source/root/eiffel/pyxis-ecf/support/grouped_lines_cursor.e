@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 5:20:38 GMT (Thursday 17th August 2023)"
-	revision: "6"
+	date: "2025-02-15 16:58:31 GMT (Saturday 15th February 2025)"
+	revision: "7"
 
 class
 	GROUPED_LINES_CURSOR
 
 inherit
-	EL_SPLIT_ON_CHARACTER_CURSOR [STRING]
+	EL_SPLIT_ON_CHARACTER_8_CURSOR [STRING]
 		rename
 			make as make_cursor
 		redefine

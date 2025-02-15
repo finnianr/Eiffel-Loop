@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 17:40:35 GMT (Friday 14th February 2025)"
-	revision: "22"
+	date: "2025-02-15 9:51:21 GMT (Saturday 15th February 2025)"
+	revision: "23"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -19,13 +19,21 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			config, error_check, description, log_separator
+			config, error_check, description, make, log_separator
 		end
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE
 
 create
 	make_port, make
+
+feature {EL_COMMAND_CLIENT} -- Initialization
+
+	make (config_path: FILE_PATH)
+		do
+			Precursor (config_path)
+			rules_path := config.server_socket_path.parent + Active_rule_path.base
+		end
 
 feature -- Access
 
@@ -36,6 +44,9 @@ feature -- Access
 
 	config: EL_404_INTERCEPT_CONFIG
 
+	rules_path: FILE_PATH
+		-- path to file: /var/local/<$domain>/user.rules
+
 feature -- Basic operations
 
 	error_check (application: EL_FALLIBLE)
@@ -44,9 +55,20 @@ feature -- Basic operations
 			sendmail: EL_TODAYS_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
 		do
 			create sendmail.make
+			if not rules_path.exists then
+				create error.make ("missing rules file")
+				error.extend (rules_path)
+				application.put (error)
+
+			end
+			if not is_update_script_operational then
+				create error.make (Update_firewall_script_name)
+				error.extend (Error_template #$ [config.screen_session_name])
+				application.put (error)
+
+			end
 			if not sendmail.is_log_readable then
 				create error.make (sendmail.Default_log_path)
-				application.put (error)
 				if is_user_in_admin_group then
 					error.set_lines ("File not readable")
 				else
@@ -59,20 +81,18 @@ feature -- Basic operations
 						Then re-login for command to take effect.
 					]")
 				end
+				application.put (error)
 			end
-		end
-
-	send_blocking_script_alert
-		do
-			do_nothing
 		end
 
 feature -- Status query
 
-	is_blocking_script_operational: BOOLEAN
-		-- `True' if run_service_ip_address_blocking.sh script is operational
+	is_update_script_operational: BOOLEAN
+		-- `True' if run_service_update_firewall.sh script is operational
+		-- as a screen command session
 		do
-			Result := True
+			Screen_list_command.execute
+			Result := Screen_list_command.name_list.has (config.screen_session_name)
 		end
 
 feature {NONE} -- Implementation
@@ -104,6 +124,22 @@ feature {NONE} -- Implementation
 		end
 
 feature {EL_404_INTERCEPT_SERVLET} -- Constants
+
+	Active_rule_path: FILE_PATH
+		-- this file is updated by script run_service_update_firewall.sh
+		once
+			Result := "/lib/ufw/user.rules"
+		end
+
+	Error_template: ZSTRING
+		once
+			Result := "Active screen session name %"%S%" not found"
+		end
+
+	Screen_list_command: EL_SCREEN_SESSIONS_COMMAND
+		once
+			create Result.make
+		end
 
 	Update_firewall_script_name: STRING = "run_service_update_firewall.sh"
 

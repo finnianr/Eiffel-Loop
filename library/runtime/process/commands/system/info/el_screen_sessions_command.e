@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 9:05:47 GMT (Friday 13th September 2024)"
-	revision: "3"
+	date: "2025-02-15 13:42:31 GMT (Saturday 15th February 2025)"
+	revision: "4"
 
 class
 	EL_SCREEN_SESSIONS_COMMAND
@@ -61,17 +61,15 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	do_with_lines (list: like new_output_lines)
+	do_with_lines (output_lines: like new_output_lines)
 		do
-			from list.start until list.after loop
-				if list.item_count >= 2
-					and then attached list.shared_item.starts_with_character ('%T')
+			across output_lines as list loop
+				if list.cursor_index > 1 and then list.shared_item.starts_with_character ('%T')
 					and then attached list.shared_item.substring_end (2) as line
 				then
 					session_list.extend (new_session_info (line))
 					name_list.extend (session_list.last.name)
 				end
-				list.forth
 			end
 		end
 

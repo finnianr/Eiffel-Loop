@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 16:39:56 GMT (Friday 14th February 2025)"
-	revision: "7"
+	date: "2025-02-15 10:49:43 GMT (Saturday 15th February 2025)"
+	revision: "8"
 
 class
 	SECURITY_TEST_SET
@@ -76,14 +76,22 @@ feature -- Test
 	test_ufw_user_rules
 		-- SECURITY_TEST_SET.test_ufw_user_rules
 		local
-			rules: EL_UFW_USER_RULES
+			rules: EL_UFW_USER_RULES; l_digest: STRING
 		do
 			if attached new_file_list ("*.rules").first_path as rules_path then
 				create rules.make (rules_path)
-				rules.display_summary (lio, "RULE SUMMARY")
-				rules.write (work_area_data_dir + "updated.rules")
-				rules.limit_entries (2)
-				rules.write (work_area_data_dir + "limited.rules")
+				across << "updated.rules", "limited.rules" >> as name loop
+					if name.is_last then
+						rules.limit_entries (2)
+					end
+					rules.display_summary (lio, "RULE SUMMARY")
+					lio.put_new_line
+					rules.set_path (work_area_data_dir + name.item)
+					rules.store
+					l_digest := if name.is_first then "SGUyrMx2AUMkAtNCwc4Jag==" else "Pw0TGyxl0CC4iP27WpCpkw==" end
+					assert_same_digest (Plain_text, rules.path, l_digest)
+
+				end
 			end
 		end
 

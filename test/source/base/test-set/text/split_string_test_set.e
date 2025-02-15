@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:57:58 GMT (Thursday 13th February 2025)"
-	revision: "66"
+	date: "2025-02-15 17:25:13 GMT (Saturday 15th February 2025)"
+	revision: "67"
 
 class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 				["immutable_grid_32",			 agent test_immutable_grid_32],
 				["immutable_string_32_split",	 agent test_immutable_string_32_split],
 				["item_count",						 agent test_item_count],
+				["list_to_grid",					 agent test_list_to_grid],
 				["occurrence_editor",			 agent test_occurrence_editor],
 				["occurrence_intervals",		 agent test_occurrence_intervals],
 				["path_split",						 agent test_path_split],
@@ -283,6 +284,15 @@ feature -- Tests
 				list.forth
 			end
 			assert ("has_item_count_zero", has_item_count_zero)
+		end
+
+	test_list_to_grid
+		-- SPLIT_STRING_TEST_SET.test_list_to_grid
+		local
+			string_list: EL_STRING_8_LIST
+		do
+			create string_list.make_word_split (Text.latin_1_list.first)
+			lio.put_labeled_lines ("GRID", string_list.joined_grid (3, 6).split ('%N'))
 		end
 
 	test_occurrence_editor

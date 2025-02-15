@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 18:11:34 GMT (Friday 14th February 2025)"
-	revision: "39"
+	date: "2025-02-15 16:22:53 GMT (Saturday 15th February 2025)"
+	revision: "40"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -41,22 +41,18 @@ feature {NONE} -- Initialization
 
 	make (a_service: EL_404_INTERCEPT_SERVICE)
 		local
-			sudo_cat_command: EL_OS_COMMAND
+			mutex_path: FILE_PATH
 		do
 			make_servlet (a_service)
 			monitored_logs := << new_authorization_log, new_sendmail_log >>
 
-			rules_path := a_service.config.server_socket_path.parent + Active_rule_path.base
-			create file_mutex.make (rules_path.with_new_extension ("lock"))
-
-			if not rules_path.exists then
-				create sudo_cat_command.make (Sudo_cat_template #$ [Active_rule_path, rules_path])
-			-- copy file "/lib/ufw/user.rules" to `rules_path' without root ownership
-				sudo_cat_command.execute
-			end
-			filter_table := a_service.config.filter_table
-			create rules.make (rules_path)
+			create rules.make (a_service.rules_path)
 			rules.display_summary (log, "FIREWALL DENY RULES")
+
+			mutex_path := rules.path.twin
+			mutex_path.add_extension ("lock")
+			create file_mutex.make (mutex_path)
+			filter_table := a_service.config.filter_table
 		end
 
 feature -- Basic operations
@@ -78,17 +74,8 @@ feature -- Basic operations
 
 			check_ip_address (ip_number, Service_port.HTTP)
 
-			if service.is_blocking_script_operational then
-				if script_alert_sent then
-					script_alert_sent := False
-				end
+			if update_pending then
 				update_firewall
-
-			elseif not script_alert_sent then
-			-- accummulates rules in `rule_buffer' until such time as
-			-- run_service_ip_address_blocking.sh is relaunched
-				service.send_blocking_script_alert
-				script_alert_sent := True
 			end
 
 		-- While geo-location is being looked up for address, (which can take a second or two)
@@ -99,14 +86,8 @@ feature -- Basic operations
 			response.send_error (
 				Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
 			)
-
 			log.exit
 		end
-
-feature -- Status query
-
-	script_alert_sent: BOOLEAN
-		-- `True' if alert was sent after `service.is_blocking_script_operational' became false
 
 feature {NONE} -- Implementation
 
@@ -119,7 +100,7 @@ feature {NONE} -- Implementation
 				elseif attached request.relative_path_info.as_lower as lower_path
 					and then filter_table.is_hacker_probe (lower_path, request.headers.user_agent)
 				then
-					rules_changed := True
+					update_pending := True
 				else
 					log.put_labeled_string ("Permitted 404", request.relative_path_info)
 					log.put_new_line
@@ -128,10 +109,10 @@ feature {NONE} -- Implementation
 				if rules.is_denied (ip_number, port) then
 					log_status (ip_number, port, True)
 				else
-					rules_changed := True
+					update_pending := True
 				end
 			end
-			if rules_changed then
+			if update_pending then
 				log_status (ip_number, port, False)
 				Service_port.related (port).do_all (agent rules.put_entry (ip_number, ?))
 			end
@@ -179,22 +160,19 @@ feature {NONE} -- Implementation
 		-- (run_service_update_firewall.sh)
 		do
 			log.enter ("update_firewall")
-			if rules_changed then
-				rules.limit_entries (service.config.maximum_rule_count)
-				file_mutex.try_until_locked (50)
-				rules.write (rules_path)
-				file_mutex.unlock
-			end
-			rules_changed := False
+			rules.limit_entries (service.config.maximum_rule_count)
+			lio.put_integer_field ("Count of blocked addresses", rules.ip_address_count)
+			lio.put_new_line
+			file_mutex.try_until_locked (50)
+			rules.store
+			file_mutex.unlock
+			update_pending := False
 			log.exit
 		end
 
 feature {NONE} -- Internal attributes
 
-	rules_changed: BOOLEAN
-
-	rules_path: FILE_PATH
-		-- path to file: /var/local/<$domain>/user.rules
+	update_pending: BOOLEAN
 
 	file_mutex: EL_NAMED_FILE_LOCK
 		-- file_mutex for writing to `rules_path' so that script reading file must wait to process
@@ -205,19 +183,7 @@ feature {NONE} -- Internal attributes
 
 	rules: EL_UFW_USER_RULES
 
-	service: EL_404_INTERCEPT_SERVICE
-
-feature {NONE} -- Constants
-
-	Active_rule_path: FILE_PATH
-		once
-			Result := "/lib/ufw/user.rules"
-		end
-
-	Sudo_cat_template: ZSTRING
-		once
-			Result := "sudo cat %S > %S"
-		end
+	service: EL_404_INTERCEPT_SERVICE;
 
 note
 	notes: "[
@@ -226,7 +192,7 @@ note
 		
 		To install the script for testing type:
 		
-			sudo cp --update $EIFFEL_LOOP/Bash_library/network/run_service_ip_address_blocking.sh /usr/local/bin
+			sudo cp --update $EIFFEL_LOOP/Bash_library/network/run_service_update_firewall.sh /usr/local/bin
 
 		The configuration file for ${EL_SERVICE_CONFIGURATION} needs an entry like the following to invoke
 		the script:
@@ -238,7 +204,7 @@ note
 						name = "IP address blocking"; history_count = 200; sudo = true
 						bash_command:
 							"""
-								run_service_ip_address_blocking.sh myching.software
+								run_service_update_firewall.sh myching.software
 							"""
 
 	]"

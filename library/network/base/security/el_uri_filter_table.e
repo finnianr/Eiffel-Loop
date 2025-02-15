@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 16:24:58 GMT (Friday 14th February 2025)"
-	revision: "11"
+	date: "2025-02-15 14:01:02 GMT (Saturday 15th February 2025)"
+	revision: "12"
 
 class
 	EL_URI_FILTER_TABLE
@@ -47,7 +47,7 @@ feature -- Status report
 		do
 			if user_agent.is_empty then
 				Result := True
-				
+
 			elseif whitelist_set.has (path_lower) then
 				Result := False
 
@@ -88,8 +88,8 @@ feature {NONE} -- Implementation
 	iteration_item_matches (path_lower, path_first_step, path_extension: ZSTRING): BOOLEAN
 		do
 			if attached key_for_iteration as predicate_name and then attached item_for_iteration as word_set then
-				if predicate_name = Predicate.has_extension then
-					Result := path_extension.count > 0 and then word_set.has (path_extension)
+				if predicate_name = Predicate.has_extension and then path_extension.count > 0 then
+					Result := word_set.has (path_extension)
 
 				elseif predicate_name = Predicate.first_step then
 					Result := word_set.has (path_first_step)

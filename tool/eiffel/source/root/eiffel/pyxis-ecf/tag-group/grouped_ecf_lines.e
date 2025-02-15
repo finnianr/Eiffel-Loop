@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:59:09 GMT (Thursday 13th February 2025)"
-	revision: "15"
+	date: "2025-02-15 16:58:31 GMT (Saturday 15th February 2025)"
+	revision: "16"
 
 deferred class
 	GROUPED_ECF_LINES

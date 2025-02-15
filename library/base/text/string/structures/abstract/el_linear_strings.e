@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 13:55:24 GMT (Monday 3rd February 2025)"
-	revision: "22"
+	date: "2025-02-15 17:28:12 GMT (Saturday 15th February 2025)"
+	revision: "23"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -98,6 +98,17 @@ feature -- Access
 	joined (a_separator: CHARACTER_32): like item
 		do
 			Result := joined_with (a_separator, False)
+		end
+
+	joined_grid (column_count, maximum_width: INTEGER): like item
+		local
+			row_count, result_count, width_count, line_count, row, column: INTEGER
+		do
+			row_count := count // column_count
+			width_count := maximum_width + 1 -- +1 for space or new line
+			line_count := width_count * column_count
+			result_count := line_count * column_count
+			create Result.make (result_count)
 		end
 
 	joined_lines: like item

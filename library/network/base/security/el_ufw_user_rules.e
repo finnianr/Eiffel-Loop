@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 16:11:57 GMT (Friday 14th February 2025)"
-	revision: "2"
+	date: "2025-02-15 17:27:57 GMT (Saturday 15th February 2025)"
+	revision: "3"
 
 class
 	EL_UFW_USER_RULES
@@ -41,19 +41,38 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_file_path: FILE_PATH)
+	make (a_path: FILE_PATH)
 		do
 			make_machine
+			path := a_path
 			create head_lines.make (30)
 			create tail_lines.make (50)
 
-			if attached File.plain_text_lines (a_file_path) as lines then
+			if attached File.plain_text_lines (a_path) as lines then
 				create denied_access_table.make ((lines.count // 8).max (50))
 				do_with_split (agent find_deny_rule, lines, False)
 			end
 		end
 
+feature -- Access
+
+	path: FILE_PATH
+		-- path to store rules in when `store' is called
+
+feature -- Element change
+
+	set_path (a_path: FILE_PATH)
+		do
+			path := a_path
+		end
+
 feature -- Measurement
+
+	ip_address_count: INTEGER
+		-- number of IP addresses with denied access rules
+		do
+			Result := denied_access_table.count
+		end
 
 	denied_count (ip_number: NATURAL): INTEGER
 		-- number of ports on which `ip_number' is denied access
@@ -124,7 +143,7 @@ feature -- Basic operations
 			end
 		end
 
-	write (path: EL_FILE_PATH)
+	store
 		local
 			rules: PLAIN_TEXT_FILE; i: INTEGER
 			denied_ports: NATURAL_8
@@ -266,7 +285,7 @@ feature {NONE} -- Constants
 			Tuple.fill (Result, "address, port")
 		end
 
-feature {NONE} -- Strings
+feature {NONE} -- UFW rule identifiers
 
 	Allow_rule_start: STRING = "### tuple ### allow"
 

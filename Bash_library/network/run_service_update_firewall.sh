@@ -12,15 +12,6 @@
 
 # license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 
-
-domain_name=$1
-name=${domain_name%%.*}
-
-dir_path=/var/local/$domain_name
-rules_path=$dir_path/user.rules
-lock_path=$dir_path/rules.lock
-last_digest=""
-
 set_digest (){
 	exec {lock_fd}>$lock_path || exit 1
 	flock --exclusive "$lock_fd"
@@ -37,12 +28,25 @@ install_rules (){
 	flock --unlock "$lock_fd"
 }
 
+# SCRIPT START
+
+domain_name=$1
+user=$2
+name=${domain_name%%.*}
+
+dir_path=/var/local/$domain_name
+rules_path=$dir_path/user.rules
+lock_path=$rules_path.lock
+last_digest=""
+
 if [[ ! -d "$dir_path" ]]; then
-	mkdir dir_path
+	mkdir $dir_path
 fi
 
 if [[ ! -e "$rules_path" ]]; then
-	touch "$rules_path"
+	cp /lib/ufw/user.rules $dir_path
+	chown $user:www-data $rules_path
+	chmod 644 $rules_path
 fi
 
 # Dry run on dev machine
@@ -56,7 +60,7 @@ echo "Listening for changes to: $rules_path"
 
 while inotifywait -q -e close_write $rules_path 1>/dev/null; do
 	set_digest
-	while "$digest" != "$last_digest"; do
+	while [[ "$digest" != "$last_digest" ]]; do
 		echo Updating firewall rules
 		# if not a dry run on dev machine
 		if [[ -v dry_run ]]; then

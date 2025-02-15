@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2025-02-15 13:47:33 GMT (Saturday 15th February 2025)"
+	revision: "3"
 
 class
 	FCGI_STDOUT_CONTENT_RECORD
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	default_create
 		do
 			Precursor
-			create byte_content.make (0)
+			create byte_content.share_from_pointer (default_pointer, 0)
 		end
 
 feature -- Element change

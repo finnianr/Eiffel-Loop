@@ -796,3 +796,6 @@ Three 404 web log reports
 Mon 10th Feb 2025, 18:40:05
 New routines for EL_PLAIN_TEXT_FILE new_line_list: EL_ZSTRING_LIST
 
+Fri 14th Feb 2025, 18:18:00
+Implementing new EL_404_INTERCEPT_SERVLET using run_service_update_firewall.sh
+

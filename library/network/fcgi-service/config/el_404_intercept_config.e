@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 12:39:52 GMT (Friday 14th February 2025)"
-	revision: "15"
+	date: "2025-02-15 10:30:22 GMT (Saturday 15th February 2025)"
+	revision: "16"
 
 class
 	EL_404_INTERCEPT_CONFIG
@@ -30,6 +30,7 @@ feature {NONE} -- Initialization
 		do
 			create filter_table.make
 			create last_white_list_name.make_empty
+			screen_session_name := "Firewall updating service"
 			slash := '/'
 			Precursor
 		end
@@ -41,6 +42,10 @@ feature -- Access
 		-- Older blocks are removed to make way for newer ones.
 
 	filter_table: EL_URI_FILTER_TABLE
+
+	screen_session_name: ZSTRING
+		-- screen session name of the address blocking script: run_service_update_firewall.sh
+		-- See screen command -S option
 
 feature {NONE} -- Build from XML
 
@@ -55,22 +60,26 @@ feature {NONE} -- Build from XML
 
 	append_white_listed (is_directory_item: BOOLEAN)
 		do
-			across node.adjusted (False).lines as line loop
-				across line.item.split (';') as split loop
-					if is_directory_item then
-						filter_table.put_whitelist (slash.joined (last_white_list_name, split.item))
-					else
-						if last_white_list_name.is_empty then
-							filter_table.put_whitelist (split.item_copy)
-						elseif split.item.count = 1 and then split.item [1] = '/' then
-							filter_table.put_whitelist (last_white_list_name.twin)
+			if attached last_white_list_name as name then
+				across node.adjusted (False).lines as line loop
+					across line.item.split (';') as split loop
+						if is_directory_item then
+							filter_table.put_whitelist (slash.joined (name, split.item))
 						else
-							filter_table.put_whitelist (slash.joined (split.item, last_white_list_name))
+							if name.is_empty then
+								filter_table.put_whitelist (split.item_copy)
+
+							elseif split.item.count = 1 and then split.item [1] = '.' then
+							-- '.' indicates the file is in the root directory
+								filter_table.put_whitelist (name.twin)
+							else
+								filter_table.put_whitelist (slash.joined (split.item, name))
+							end
 						end
 					end
 				end
+				name.wipe_out
 			end
-			last_white_list_name.wipe_out
 		end
 
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
@@ -80,6 +89,7 @@ feature {NONE} -- Build from XML
 			Result.append_tuples (<<
 				["@maximum_rule_count",						agent do maximum_rule_count := node end],
 				["@maximum_uri_digits",						agent do filter_table.set_maximum_uri_digits (node) end],
+				["@screen_session_name",					agent do node.set (screen_session_name) end],
 
 				["white_listed/item/@name",				agent do node.set (last_white_list_name) end],
 				["white_listed/item/text()",				agent append_white_listed (False)],
