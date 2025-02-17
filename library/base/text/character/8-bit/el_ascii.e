@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 13:28:58 GMT (Tuesday 20th August 2024)"
-	revision: "7"
+	date: "2025-02-16 8:40:29 GMT (Sunday 16th February 2025)"
+	revision: "8"
 
 expanded class
 	EL_ASCII
@@ -16,6 +16,8 @@ inherit
 	EL_EXPANDED_ROUTINES
 
 feature -- Punctuation
+
+	Dot: NATURAL = 46
 
 	Doublequote: NATURAL = 34
 

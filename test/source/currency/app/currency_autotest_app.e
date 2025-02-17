@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2025-02-17 8:51:47 GMT (Monday 17th February 2025)"
+	revision: "5"
 
 class
 	CURRENCY_AUTOTEST_APP
 
 inherit
-	EL_AUTOTEST_APPLICATION [CURRENCY_TEST_SET]
+	EL_CRC_32_AUTOTEST_APPLICATION [CURRENCY_TEST_SET]
 
 create
 	make

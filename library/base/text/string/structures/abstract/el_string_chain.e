@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-02 14:19:51 GMT (Wednesday 2nd October 2024)"
-	revision: "55"
+	date: "2025-02-17 8:26:09 GMT (Monday 17th February 2025)"
+	revision: "56"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]

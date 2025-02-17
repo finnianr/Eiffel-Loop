@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-15 10:49:43 GMT (Saturday 15th February 2025)"
-	revision: "8"
+	date: "2025-02-17 8:43:35 GMT (Monday 17th February 2025)"
+	revision: "9"
 
 class
 	SECURITY_TEST_SET
@@ -49,7 +49,7 @@ feature -- Test
 			if attached filter.predicate_list as predicate_list then
 				assert ("4 predicate names", predicate_list.count = 4)
 
-				first_step := predicate_list [1]; has_extension := predicate_list [2]
+				has_extension := predicate_list [1]; first_step := predicate_list [2];
 				starts_with := predicate_list [3]; ends_with := predicate_list [4]
 
 				assert_same_string (Void, first_step, "first_step")

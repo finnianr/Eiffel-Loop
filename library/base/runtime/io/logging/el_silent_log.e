@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-21 9:30:41 GMT (Thursday 21st December 2023)"
-	revision: "21"
+	date: "2025-02-17 8:24:34 GMT (Monday 17th February 2025)"
+	revision: "22"
 
 class
 	EL_SILENT_LOG
@@ -152,6 +152,11 @@ feature -- Output
 feature -- String output
 
 	put_classname (a_name: READABLE_STRING_8)
+		do
+		end
+
+	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count: INTEGER)
+		-- display lines across `column_count' columns
 		do
 		end
 

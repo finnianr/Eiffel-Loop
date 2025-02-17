@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 11:29:18 GMT (Monday 3rd February 2025)"
-	revision: "38"
+	date: "2025-02-17 10:19:03 GMT (Monday 17th February 2025)"
+	revision: "39"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -231,6 +231,40 @@ feature -- String output
 		do
 			if attached output as op then
 				op.put_classname (a_name)
+				op.flush
+			end
+		end
+
+	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count: INTEGER)
+		-- display lines across `column_count' columns
+		local
+			line_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+			row, column, row_count, index, padding_width, max_column_width: INTEGER
+		do
+			create line_list.make_from_list (lines)
+
+			row_count := line_list.count // column_count
+			if line_list.count \\ column_count > 0 then
+				row_count := row_count + 1
+			end
+			max_column_width := line_list.max_integer (agent {READABLE_STRING_GENERAL}.count)
+
+			if attached output as op then
+				from row := 0 until row = row_count loop
+					from column := 1 until column > column_count loop
+						index := (column - 1) * row_count + row + 1
+						if line_list.valid_index (index) then
+							op.put_string (line_list [index])
+							if column < column_count then
+								padding_width := max_column_width - line_list [index].count + 1
+								op.put_string (Space * padding_width)
+							end
+						end
+						column := column + 1
+					end
+					op.put_new_line
+					row := row + 1
+				end
 				op.flush
 			end
 		end

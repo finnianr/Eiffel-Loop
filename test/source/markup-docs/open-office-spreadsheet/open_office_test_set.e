@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "33"
+	date: "2025-02-17 8:47:11 GMT (Monday 17th February 2025)"
+	revision: "34"
 
 class
 	OPEN_OFFICE_TEST_SET
@@ -43,11 +43,13 @@ feature -- Tests
 
 	test_open_office_spreadsheet
 		note
-			testing: "covers/{EL_SPREAD_SHEET}.make", "covers/{EL_XPATH_NODE_CONTEXT}.do_query",
-						"covers/{EL_XML_DOC_CONTEXT}.new_namespace_table",
-						"covers/{EL_XPATH_NODE_CONTEXT}.context_list, covers/{EL_XPATH_NODE_CONTEXT}.find_node",
-						"covers/{EL_XPATH_NODE_CONTEXT}.query",
-						"covers/{EL_ROUTINE_LOG}.put_field_list"
+			testing: "[
+				covers/{EL_SPREAD_SHEET}.make, covers/{EL_XPATH_NODE_CONTEXT}.do_query,
+				covers/{EL_XML_DOC_CONTEXT}.new_namespace_table,
+				covers/{EL_XPATH_NODE_CONTEXT}.context_list, covers/{EL_XPATH_NODE_CONTEXT}.find_node,
+				covers/{EL_XPATH_NODE_CONTEXT}.query,
+				covers/{EL_ROUTINE_LOG}.put_field_list
+			]"
 		local
 			xdoc: EL_XML_DOC_CONTEXT; file_path: FILE_PATH
 		do

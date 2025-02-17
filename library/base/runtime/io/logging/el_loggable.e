@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 13:54:09 GMT (Monday 3rd February 2025)"
-	revision: "30"
+	date: "2025-02-17 13:00:18 GMT (Monday 17th February 2025)"
+	revision: "31"
 
 deferred class
 	EL_LOGGABLE
@@ -168,20 +168,27 @@ feature -- String output
 		deferred
 		end
 
+	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count: INTEGER)
+		-- display lines across `column_count' columns
+		require
+			not_zero: column_count > 0
+		deferred
+		end
+
 	put_curtailed_string_field (label, field_value: READABLE_STRING_GENERAL; max_length: INTEGER)
 		-- put curtailed version of `field_value' to log file edited to fit into `max_length', with ellipsis dots inserted
 		-- at 80% of `max_length'
 		deferred
 		end
 
-	put_words (words: FINITE [READABLE_STRING_GENERAL]; max_line_count: INTEGER)
+	put_words (words: ITERABLE [READABLE_STRING_GENERAL]; max_line_count: INTEGER)
 		-- display words grouped on each line by first character in alphabetical order
 		local
-			first_character: CHARACTER_32; line_count: INTEGER
 			word_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+			first_character: CHARACTER_32; line_count: INTEGER
 		do
-			if words.count > 0 then
-				create word_list.make_from (words)
+			create word_list.make_from_list (words)
+			if word_list.count > 0 then
 				word_list.sort (True)
 				if word_list.first.count > 0 then
 					first_character := word_list.first [1]
@@ -212,7 +219,9 @@ feature -- String output
 			end
 		end
 
-	put_index_labeled_string (indexable: ANY; label_or_format: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)
+	put_index_labeled_string (
+		indexable: ANY; label_or_format: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL
+	)
 		-- output integer index value associated with `indexable' object that may conform to one of:
 		--		`LINEAR', `INDEXABLE_ITERATION_CURSOR', `INTEGER_32_REF', `NATURAL_32_REF'
 

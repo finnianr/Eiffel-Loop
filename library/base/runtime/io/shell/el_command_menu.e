@@ -24,15 +24,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:42 GMT (Thursday 5th September 2024)"
-	revision: "17"
+	date: "2025-02-17 10:26:00 GMT (Monday 17th February 2025)"
+	revision: "18"
 
 class
 	EL_COMMAND_MENU
 
 inherit
 	ANY
-	
+
 	EL_MODULE_LIO; EL_MODULE_USER_INPUT
 
 	EL_CHARACTER_8_CONSTANTS
@@ -46,9 +46,15 @@ feature {NONE} -- Initialization
 		local
 			 math: EL_INTEGER_MATH
 		do
-			create name.make_from_general (a_name); options := a_options; row_count := a_row_count
+			create name.make_from_general (a_name); options := a_options
+			row_count := a_row_count.min (a_options.count)
+			column_count := a_options.count // row_count
+			if a_options.count \\ row_count > 0 then
+				column_count := column_count + 1
+			end
 			create option_number.make (math.digit_count (a_options.count))
-			max_column_widths := new_max_column_widths
+			create max_column_widths.make_filled (0, 1, column_count)
+			fill_max_column_widths
 		end
 
 feature -- Access
@@ -75,20 +81,21 @@ feature -- Basic operations
 
 	display
 		local
-			row, column, index: INTEGER
+			row, column, index, padding_width: INTEGER
 		do
 			lio.put_labeled_string ("MENU", name)
 			lio.put_new_line
 			lio.put_line (User_input.ESC_to_quit)
 			lio.put_new_line
-			from row := 0 until row > options.count.min (row_count - 1) loop
-				from column := 1 until column > (full_column_count + 1) loop
+			from row := 0 until row > row_count loop
+				from column := 1 until column > column_count loop
 					index := (column - 1) * row_count + row + 1
 					if options.valid_index (index) then
-						if column > 1 then
-							lio.put_string (Space * padding_width (row, column - 1))
-						end
 						lio.put_labeled_string (option_number.formatted (index), options [index])
+						if column < column_count then
+							padding_width := max_column_widths [column] - options [index].count + 1 - option_number.width - 1
+							lio.put_string (Space * padding_width)
+						end
 					end
 					column := column + 1
 				end
@@ -100,42 +107,31 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	full_column_count: INTEGER
-			-- count of columns that are full
-		do
-			Result := options.count // row_count
-		end
-
-	new_max_column_widths: ARRAY [INTEGER]
+	fill_max_column_widths
 		local
-			column, i, index, width: INTEGER; menu_item: ZSTRING
+			column, row, index, width: INTEGER
 		do
-			create Result.make_filled (0, 1, full_column_count)
-			from column := 1 until column > full_column_count loop
-				from i := 1 until i > row_count loop
-					index := (column - 1) * row_count + i
-					menu_item := options [index]
-					width := menu_item.count + option_number.width + 2 -- ": "
-					if width > Result [column] then
-						Result [column] := width
+			from column := 1 until column > column_count loop
+				from row := 0 until row = row_count loop
+					index := (column - 1) * row_count + row + 1
+					if options.valid_index (index) then
+						width := options [index].count + option_number.width + 2 -- ": "
+						if width > max_column_widths [column] then
+							max_column_widths [column] := width
+						end
 					end
-					i := i + 1
+					row := row + 1
 				end
 				column := column + 1
 			end
 		end
 
-	padding_width (row, column: INTEGER): INTEGER
-		local
-			index: INTEGER
-		do
-			index := (column - 1) * row_count + row + 1
-			Result := max_column_widths [column] - options.item (index).count + 1 - option_number.width - 1
-		end
-
 feature {NONE} -- Internal attributes
 
-	max_column_widths: like new_max_column_widths
+	column_count: INTEGER
+		-- count of columns
+
+	max_column_widths: ARRAY [INTEGER]
 
 	option_number: FORMAT_INTEGER
 

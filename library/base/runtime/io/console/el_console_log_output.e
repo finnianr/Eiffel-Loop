@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-03 12:26:40 GMT (Monday 3rd February 2025)"
-	revision: "44"
+	date: "2025-02-17 8:16:19 GMT (Monday 17th February 2025)"
+	revision: "45"
 
 class
 	EL_CONSOLE_LOG_OUTPUT
@@ -234,7 +234,7 @@ feature -- Output
 			put_new_line
 		end
 
-	put_string (s: STRING)
+	put_string (s: READABLE_STRING_GENERAL)
 		do
 			buffer.extend (s)
 		end

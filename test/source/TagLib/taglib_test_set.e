@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 13:31:17 GMT (Monday 23rd September 2024)"
-	revision: "54"
+	date: "2025-02-17 8:38:51 GMT (Monday 17th February 2025)"
+	revision: "55"
 
 class
 	TAGLIB_TEST_SET
@@ -43,18 +43,18 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["comments", agent test_comments],
-				["musicbrainz", agent test_musicbrainz],
-				["picture_edit", agent test_picture_edit],
-				["picture_mime_types", agent test_picture_mime_types],
+				["comments",				 agent test_comments],
 				["get_set_basic_fields", agent test_get_set_basic_fields],
-				["read_v2_frames", agent test_read_v2_frames],
-				["string_conversion", agent test_string_conversion],
-				["string_list", agent test_string_list],
-				["string_setting", agent test_string_setting],
-				["ufid", agent test_ufid],
-				["user_text", agent test_user_text],
-				["major_version_change", agent test_major_version_change]
+				["major_version_change", agent test_major_version_change],
+				["musicbrainz",			 agent test_musicbrainz],
+				["picture_edit",			 agent test_picture_edit],
+				["picture_mime_types",	 agent test_picture_mime_types],
+				["read_v2_frames",		 agent test_read_v2_frames],
+				["string_conversion",	 agent test_string_conversion],
+				["string_setting",		 agent test_string_setting],
+				["tl_string_list",		 agent test_tl_string_list],
+				["ufid",						 agent test_ufid],
+				["user_text",				 agent test_user_text]
 			>>)
 		end
 
@@ -83,6 +83,31 @@ feature -- Tests
 			across table as str loop
 				mp3.tag.set_comment_with (musicmatch + str.key, str.item)
 				assert_same_string (Void, mp3.tag.comment_with (musicmatch + str.key).text, str.item)
+			end
+		end
+
+	test_get_set_basic_fields
+		do
+			across file_list as path loop
+				do_test (
+					"get_set_basic_fields", Checksum_table.item (path.item.base).get_set_basic_fields,
+					agent get_set_basic_fields, [path.item.relative_path (Work_area_dir)]
+				)
+			end
+		end
+
+	test_major_version_change
+		local
+			mp3: TL_MPEG_FILE
+		do
+			file_list.find_first_base (Silence_240_mp3)
+			if file_list.found then
+				create mp3.make (file_list.path)
+				assert ("major version 4", mp3.id3_version.major = 4)
+				mp3.save_version (3)
+				mp3.dispose
+				create mp3.make (file_list.path)
+				assert ("major version 3", mp3.id3_version.major = 3)
 			end
 		end
 
@@ -134,16 +159,6 @@ feature -- Tests
 			end
 		end
 
-	test_get_set_basic_fields
-		do
-			across file_list as path loop
-				do_test (
-					"get_set_basic_fields", Checksum_table.item (path.item.base).get_set_basic_fields,
-					agent get_set_basic_fields, [path.item.relative_path (Work_area_dir)]
-				)
-			end
-		end
-
 	test_read_v2_frames
 		-- TAGLIB_TEST_SET.test_read_v2_frames
 		do
@@ -166,16 +181,6 @@ feature -- Tests
 			end
 		end
 
-	test_string_list
-		local
-			list: EL_ZSTRING_LIST
-		do
-			create list.make_adjusted_split ("one, two, three", ',', {EL_SIDE}.Left)
-			Once_string_list.wipe_out
-			Once_string_list.append (list)
-			assert ("same list", list ~ Once_string_list.to_list)
-		end
-
 	test_string_setting
 		-- TAGLIB_TEST_SET.string_setting
 		local
@@ -189,6 +194,16 @@ feature -- Tests
 					assert ("title set", mp3.tag.title ~ title)
 				end
 			end
+		end
+
+	test_tl_string_list
+		local
+			list: EL_ZSTRING_LIST
+		do
+			create list.make_adjusted_split ("one, two, three", ',', {EL_SIDE}.Left)
+			Once_string_list.wipe_out -- TL_STRING_LIST
+			Once_string_list.append (list)
+			assert ("same list", list ~ Once_string_list.to_list)
 		end
 
 	test_ufid
@@ -242,62 +257,16 @@ feature -- Tests
 			assert ("all examples found", count = user_text_table.count)
 		end
 
-	test_major_version_change
-		local
-			mp3: TL_MPEG_FILE
-		do
-			file_list.find_first_base (Silence_240_mp3)
-			if file_list.found then
-				create mp3.make (file_list.path)
-				assert ("major version 4", mp3.id3_version.major = 4)
-				mp3.save_version (3)
-				mp3.dispose
-				create mp3.make (file_list.path)
-				assert ("major version 3", mp3.id3_version.major = 3)
-			end
-		end
-
 feature {NONE} -- Implementation
-
-	enclosed (a_str: ZSTRING): ZSTRING
-		do
-			Result := a_str.enclosed ('(', ')')
-		end
 
 	checksums (a_print_tag, a_print_frames: NATURAL): like Checksum_table.item
 		do
 			Result := [a_print_tag, a_print_frames]
 		end
 
-	print_field (name: STRING; value: ZSTRING)
-		local
-			list: EL_SPLIT_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
+	enclosed (a_str: ZSTRING): ZSTRING
 		do
-			if value.has ('%N') then
-				if value.has_substring (CR_new_line) then
-					create list.make_by_string (value, CR_new_line)
-				else
-					create list.make_by_string (value, s.character_string ('%N'))
-				end
-				lio.put_labeled_string (name, "%"[")
-				lio.tab_right
-				lio.put_new_line
-				across << list.first_item_copy, s.n_character_string ('.', 2), list.last_item_copy >> as line loop
-					lio.put_string (line.item)
-					if line.is_last then
-						lio.tab_left
-					end
-					lio.put_new_line
-				end
-				lio.set_text_color (Color.Yellow)
-				lio.put_string ("]%"")
-				lio.set_text_color (Color.Default)
-			elseif value.count >= 80 then
-				lio.put_curtailed_string_field (name, value, 80)
-			else
-				lio.put_string_field (name, value)
-			end
-			lio.put_new_line
+			Result := a_str.enclosed ('(', ')')
 		end
 
 	get_set_basic_fields (relative_path: FILE_PATH)
@@ -339,6 +308,37 @@ feature {NONE} -- Implementation
 					end
 				end
 			end
+		end
+
+	print_field (name: STRING; value: ZSTRING)
+		local
+			list: EL_SPLIT_ZSTRING_LIST; s: EL_ZSTRING_ROUTINES
+		do
+			if value.has ('%N') then
+				if value.has_substring (CR_new_line) then
+					create list.make_by_string (value, CR_new_line)
+				else
+					create list.make_by_string (value, s.character_string ('%N'))
+				end
+				lio.put_labeled_string (name, "%"[")
+				lio.tab_right
+				lio.put_new_line
+				across << list.first_item_copy, s.n_character_string ('.', 2), list.last_item_copy >> as line loop
+					lio.put_string (line.item)
+					if line.is_last then
+						lio.tab_left
+					end
+					lio.put_new_line
+				end
+				lio.set_text_color (Color.Yellow)
+				lio.put_string ("]%"")
+				lio.set_text_color (Color.Default)
+			elseif value.count >= 80 then
+				lio.put_curtailed_string_field (name, value, 80)
+			else
+				lio.put_string_field (name, value)
+			end
+			lio.put_new_line
 		end
 
 	print_v2_frames (relative_path: FILE_PATH)
@@ -438,6 +438,11 @@ feature {NONE} -- Constants
 			Result := Dev_environ.EL_test_data_dir #+ "id3$"
 		end
 
+	Get_set_names: EL_STRING_8_LIST
+		once
+			create Result.make_adjusted_split ("album, artist, comment, genre, title, track, year", ',', {EL_SIDE}.Left)
+		end
+
 	Get_set_routines: ARRAY [ROUTINE]
 		once
 			Result := <<
@@ -451,16 +456,6 @@ feature {NONE} -- Constants
 			>>
 		ensure
 			twice_number_of_names: Result.count // Get_set_names.count = 2
-		end
-
-	Get_set_names: EL_STRING_8_LIST
-		once
-			create Result.make_adjusted_split ("album, artist, comment, genre, title, track, year", ',', {EL_SIDE}.Left)
-		end
-
-	Unicode_230_tag: ZSTRING
-		once
-			Result := "230-unicode.tag"
 		end
 
 	Picture_230_tag: ZSTRING
@@ -481,6 +476,11 @@ feature {NONE} -- Constants
 	Top_png_path: FILE_PATH
 		once
 			Result := Dev_environ.Eiffel_loop_dir + "doc/images/top.png"
+		end
+
+	Unicode_230_tag: ZSTRING
+		once
+			Result := "230-unicode.tag"
 		end
 
 end

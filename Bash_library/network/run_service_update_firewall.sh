@@ -12,19 +12,26 @@
 
 # license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
 
+echo_waiting (){
+	echo "Waiting for change to: $rules_path"
+}
+
+install_rules (){
+	exec {lock_fd}>$lock_path || exit 1
+	flock --exclusive "$lock_fd"
+
+	cp $rules_path /lib/ufw
+
+	flock --unlock "$lock_fd"
+}
+
 set_digest (){
 	exec {lock_fd}>$lock_path || exit 1
 	flock --exclusive "$lock_fd"
 
 	local output=$(md5sum $rules_path)
 	digest=${output%% *}
-	flock --unlock "$lock_fd"
-}
 
-install_rules (){
-	exec {lock_fd}>$lock_path || exit 1
-	flock --exclusive "$lock_fd"
-	cp $rules_path /lib/ufw
 	flock --unlock "$lock_fd"
 }
 
@@ -44,6 +51,7 @@ if [[ ! -d "$dir_path" ]]; then
 fi
 
 if [[ ! -e "$rules_path" ]]; then
+	echo Copying "/lib/ufw/user.rules"
 	cp /lib/ufw/user.rules $dir_path
 	chown $user:www-data $rules_path
 	chmod 644 $rules_path
@@ -56,19 +64,24 @@ else
 	unset dry_run
 fi
 
-echo "Listening for changes to: $rules_path"
+echo_waiting
 
 while inotifywait -q -e close_write $rules_path 1>/dev/null; do
 	set_digest
 	while [[ "$digest" != "$last_digest" ]]; do
-		echo Updating firewall rules
-		# if not a dry run on dev machine
 		if [[ -v dry_run ]]; then
-			install_rules;	ufw reload
+		#	Is dev machine
+			echo SKIP\: install_rules\; ufw reload
 		else
-			echo ufw reload
+			echo install_rules\; ufw reload
+			install_rules; ufw reload
+			echo reloaded
 		fi
 		last_digest="$digest"
 		set_digest
+		printf 'Digest: %s\n' "$digest"
+		printf 'Last  : %s\n' "$last_digest"
+
 	done
+	echo_waiting
 done

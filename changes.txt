@@ -799,3 +799,6 @@ New routines for EL_PLAIN_TEXT_FILE new_line_list: EL_ZSTRING_LIST
 Fri 14th Feb 2025, 18:18:00
 Implementing new EL_404_INTERCEPT_SERVLET using run_service_update_firewall.sh
 
+Sat 15th Feb 2025, 17:32:32
+Dynamically modified /lib/ufw/user.rules with hacker intercept servlet
+

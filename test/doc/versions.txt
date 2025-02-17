@@ -1,3 +1,6 @@
+Ver 1.6.5 (17 Feb 2025)
+* New routine EL_ROUTINE_LOG.put_columns
+
 Ver 1.6.4 (1 Sep 2024)
 * Added character_8_band to string classes
 
