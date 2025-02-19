@@ -3,8 +3,9 @@
 # MASTER COPY of this script is in: Eiffel-Loop/Bash_library
 
 # Description: 
-#	Install new firewall rules in /var/local
-# HACKER_INTERCEPT_SERVICE_APP
+#	Monitors UFW firewall rules written to /var/local/<$domain_name>/user.rules
+#	by EL_404_INTERCEPT_SERVLET. Each time the rules change the new rules
+#	are installed in /lib/ufw and the ufw service is reloaded
 
 # author: "Finnian Reilly"
 # copyright: "Copyright (c) 2011-2025 Finnian Reilly"
@@ -81,7 +82,6 @@ while inotifywait -q -e close_write $rules_path 1>/dev/null; do
 		set_digest
 		printf 'Digest: %s\n' "$digest"
 		printf 'Last  : %s\n' "$last_digest"
-
 	done
 	echo_waiting
 done

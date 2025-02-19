@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 8:25:26 GMT (Monday 17th February 2025)"
-	revision: "32"
+	date: "2025-02-19 9:24:11 GMT (Wednesday 19th February 2025)"
+	revision: "33"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -185,10 +185,11 @@ feature -- String output
 			log_sink.put_classname (a_name)
 		end
 
-	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count: INTEGER)
-		-- display lines across `column_count' columns
+	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count, maximum_width: INTEGER)
+		-- display lines across `column_count' columns with `maximum_width' characters
+		-- if `maximum_width' is 0 then calculate maximum width of 'lines'
 		do
-			log_sink.put_columns (lines, column_count)
+			log_sink.put_columns (lines, column_count, maximum_width)
 		end
 
 	put_index_labeled_string (indexable: ANY; label_or_format: detachable READABLE_STRING_GENERAL; str: READABLE_STRING_GENERAL)

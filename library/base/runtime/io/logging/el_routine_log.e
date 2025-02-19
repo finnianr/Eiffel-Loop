@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 10:19:03 GMT (Monday 17th February 2025)"
-	revision: "39"
+	date: "2025-02-19 9:47:23 GMT (Wednesday 19th February 2025)"
+	revision: "40"
 
 deferred class
 	EL_ROUTINE_LOG
@@ -235,11 +235,13 @@ feature -- String output
 			end
 		end
 
-	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count: INTEGER)
-		-- display lines across `column_count' columns
+	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count, maximum_width: INTEGER)
+		-- display lines across `column_count' columns with `maximum_width' characters
+		-- if `maximum_width' is 0 then calculate maximum width of 'lines'
 		local
 			line_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
-			row, column, row_count, index, padding_width, max_column_width: INTEGER
+			row, column, row_count, index, padding_width, max_column_width, line_count: INTEGER
+			use_substring: BOOLEAN
 		do
 			create line_list.make_from_list (lines)
 
@@ -247,16 +249,30 @@ feature -- String output
 			if line_list.count \\ column_count > 0 then
 				row_count := row_count + 1
 			end
-			max_column_width := line_list.max_integer (agent {READABLE_STRING_GENERAL}.count)
+			if maximum_width = 0 then
+				max_column_width := line_list.max_integer (agent {READABLE_STRING_GENERAL}.count)
+			else
+				use_substring := True
+				max_column_width := maximum_width
+			end
 
 			if attached output as op then
 				from row := 0 until row = row_count loop
 					from column := 1 until column > column_count loop
 						index := (column - 1) * row_count + row + 1
 						if line_list.valid_index (index) then
-							op.put_string (line_list [index])
+							line_count := line_list [index].count
+							if use_substring and then line_count > max_column_width then
+								op.put_string (line_list [index].substring (1, max_column_width))
+							else
+								op.put_string (line_list [index])
+							end
 							if column < column_count then
-								padding_width := max_column_width - line_list [index].count + 1
+								if use_substring then
+									padding_width := max_column_width - line_count.min (max_column_width) + 1
+								else
+									padding_width := max_column_width - line_count + 1
+								end
 								op.put_string (Space * padding_width)
 							end
 						end

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-08 15:28:11 GMT (Saturday 8th February 2025)"
-	revision: "1"
+	date: "2025-02-19 17:23:30 GMT (Wednesday 19th February 2025)"
+	revision: "2"
 
 deferred class
 	EL_URI_FILTER_BASE
 
 inherit
-	EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 feature -- Access
 
@@ -29,31 +29,31 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	dot_extension (path_lower: ZSTRING): ZSTRING
+	dot_extension (path_lower: STRING): STRING
 		local
 			dot_index: INTEGER
 		do
 			dot_index := path_lower.last_index_of ('.', path_lower.count)
 			if dot_index > 1 then
-				Result := path_lower.substring_end (dot_index + 1)
+				Result := path_lower.substring (dot_index + 1, path_lower.count)
 			else
-				Result := Empty_string
+				Result := Empty_string_8
 			end
 		end
 
-	digit_count (path_lower: ZSTRING): INTEGER
+	digit_count (path_lower: STRING): INTEGER
 		local
 			i: INTEGER
 		do
 			from i := 1 until i > path_lower.count loop
-				if path_lower.is_numeric_item (i) then
+				if path_lower [i].is_digit then
 					Result := Result + 1
 				end
 				i := i + 1
 			end
 		end
 
-	digit_count_exceeded (path_lower: ZSTRING): BOOLEAN
+	digit_count_exceeded (path_lower: STRING): BOOLEAN
 		-- filter requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
 		-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
 		do
@@ -62,7 +62,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_digit_count_exception (path_lower: ZSTRING): BOOLEAN
+	is_digit_count_exception (path_lower: STRING): BOOLEAN
 		do
 			Result := Image_file_extensions.has (dot_extension (path_lower))
 				or else path_lower.starts_with (PKI_validation)
@@ -70,12 +70,12 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Image_file_extensions: EL_ZSTRING_LIST
+	Image_file_extensions: EL_STRING_8_LIST
 		once
 			Result := "jpg, jpeg, png"
 		end
 
-	PKI_validation: ZSTRING
+	PKI_validation: STRING
 		once
 			Result := ".well-known/pki-validation"
 		end

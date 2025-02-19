@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 8:24:34 GMT (Monday 17th February 2025)"
-	revision: "22"
+	date: "2025-02-19 9:23:44 GMT (Wednesday 19th February 2025)"
+	revision: "23"
 
 class
 	EL_SILENT_LOG
@@ -155,8 +155,9 @@ feature -- String output
 		do
 		end
 
-	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count: INTEGER)
-		-- display lines across `column_count' columns
+	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count, maximum_width: INTEGER)
+		-- display lines across `column_count' columns with `maximum_width' characters
+		-- if `maximum_width' is 0 then calculate maximum width of 'lines'
 		do
 		end
 

@@ -12,19 +12,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-12 14:33:54 GMT (Wednesday 12th February 2025)"
-	revision: "6"
+	date: "2025-02-19 17:47:04 GMT (Wednesday 19th February 2025)"
+	revision: "7"
 
 class
 	EL_URI_EXTENSION_404_ANALYSIS_COMMAND
 
 inherit
-	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
+	EL_URI_SUBSTRING_404_ANALYSIS_COMMAND
 		rename
 			root_names_list as extension_list,
 			root_names_set as extension_set
 		redefine
-			configuration_words_path, extension_list, include_uri_part, ask_to_filter_extensions, uri_part
+			extension_list, ask_to_filter_extensions
 		end
 
 create
@@ -32,10 +32,9 @@ create
 
 feature {NONE} -- Implementation
 
-	configuration_words_path: FILE_PATH
-		-- text file containing all `uri_part' that occur a minimum number of times specified by user
+	ask_to_filter_extensions
 		do
-			Result := config.text_output_dir + "match-has_extension.txt"
+			do_nothing
 		end
 
 	extension_list: EL_STRING_8_LIST
@@ -43,14 +42,27 @@ feature {NONE} -- Implementation
 			create Result.make_multiline_words (config.site_extensions, ';', 0)
 		end
 
+	grid_column_count: INTEGER
+		-- number of grid columns to display `uri_path'
+		do
+			Result := 5
+		end
+
+	grid_column_width: INTEGER
+		-- maxium column width to display `uri_path' in grid columns
+		do
+			Result := 5
+		end
+
 	include_uri_part (uri_extension: STRING): BOOLEAN
 		do
 			Result := not extension_set.has (uri_extension)
 		end
 
-	ask_to_filter_extensions
+	predicate_name: STRING
+		-- predicate name for EL_URI_FILTER_TABLE
 		do
-			do_nothing
+			Result := Predicate.has_extension
 		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING

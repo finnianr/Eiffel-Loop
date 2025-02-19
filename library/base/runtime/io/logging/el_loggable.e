@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 13:00:18 GMT (Monday 17th February 2025)"
-	revision: "31"
+	date: "2025-02-19 9:23:29 GMT (Wednesday 19th February 2025)"
+	revision: "32"
 
 deferred class
 	EL_LOGGABLE
@@ -168,8 +168,9 @@ feature -- String output
 		deferred
 		end
 
-	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count: INTEGER)
-		-- display lines across `column_count' columns
+	put_columns (lines: ITERABLE [READABLE_STRING_GENERAL]; column_count, maximum_width: INTEGER)
+		-- display lines across `column_count' columns with `maximum_width' characters
+		-- if `maximum_width' is 0 then calculate maximum width of 'lines'
 		require
 			not_zero: column_count > 0
 		deferred

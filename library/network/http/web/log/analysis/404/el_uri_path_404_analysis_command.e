@@ -12,27 +12,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-12 14:59:18 GMT (Wednesday 12th February 2025)"
-	revision: "6"
+	date: "2025-02-19 17:45:32 GMT (Wednesday 19th February 2025)"
+	revision: "7"
 
 class
 	EL_URI_PATH_404_ANALYSIS_COMMAND
 
 inherit
-	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
-		redefine
-			configuration_words_path, include_uri_part, is_word_output, uri_part
-		end
+	EL_URI_SUBSTRING_404_ANALYSIS_COMMAND
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	configuration_words_path: FILE_PATH
-		-- text file containing all `uri_part' that occur a minimum number of times specified by user
+	grid_column_count: INTEGER
+		-- number of grid columns to display `uri_path'
 		do
-			Result := config.text_output_dir + "match-has_path.txt"
+			Result := 1
+		end
+
+	grid_column_width: INTEGER
+		-- maxium column width to display `uri_path' in grid columns
+		do
+			Result := 120
 		end
 
 	include_uri_part (uri_path: STRING): BOOLEAN
@@ -42,9 +45,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_word_output: BOOLEAN
+	predicate_name: STRING
+		-- predicate name for EL_URI_FILTER_TABLE
 		do
-			Result := False
+			Result := "has_path"
 		end
 
 	uri_part (entry: EL_WEB_LOG_ENTRY): STRING

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 13:29:16 GMT (Wednesday 25th September 2024)"
-	revision: "38"
+	date: "2025-02-19 14:57:54 GMT (Wednesday 19th February 2025)"
+	revision: "39"
 
 class
 	EL_TEST_TEXT
@@ -160,6 +160,18 @@ feature -- Lists
 			across << Euro_symbol, G_clef [1], Mu_symbol, Dollor_symbol, Tab_character >> as c loop
 				uc := c.item
 				Result.extend (uc.to_string)
+			end
+		end
+
+	latin_1_words, words_8: EL_STRING_8_LIST
+		do
+			create Result.make (50)
+			across lines_32 as line loop
+				across line.item.split (' ') as split loop
+					if attached split.item as word and then word.is_valid_as_string_8 then
+						Result.extend (word.to_string_8)
+					end
+				end
 			end
 		end
 

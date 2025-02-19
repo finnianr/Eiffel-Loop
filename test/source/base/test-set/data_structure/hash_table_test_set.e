@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:42:14 GMT (Sunday 6th October 2024)"
-	revision: "53"
+	date: "2025-02-19 15:28:17 GMT (Wednesday 19th February 2025)"
+	revision: "54"
 
 class
 	HASH_TABLE_TEST_SET
@@ -42,17 +42,18 @@ feature {NONE} -- Initialization
 				["hash_set",							 agent test_hash_set],
 				["hash_set_operations",				 agent test_hash_set_operations],
 				["hash_set_put",						 agent test_hash_set_put],
+				["hash_table",							 agent test_hash_table],
 				["hash_table_insertion",			 agent test_hash_table_insertion],
+				["hash_table_sort",					 agent test_hash_table_sort],
 				["immutable_error_code_table",	 agent test_immutable_error_code_table],
 				["immutable_string_32_table",		 agent test_immutable_string_32_table],
 				["immutable_string_8_table",		 agent test_immutable_string_8_table],
+				["immutable_string_set",			 agent test_immutable_string_set],
 				["immutable_string_table_memory", agent test_immutable_string_table_memory],
 				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
 				["string_general_table",			 agent test_string_general_table],
 				["string_table",						 agent test_string_table],
 				["table_cursor",						 agent test_table_cursor],
-				["hash_table",							 agent test_hash_table],
-				["hash_table_sort",					 agent test_hash_table_sort],
 				["zstring_table",						 agent test_zstring_table]
 			>>)
 		end
@@ -508,6 +509,27 @@ feature -- Test
 				end
 			else
 				failed ("same count")
+			end
+		end
+
+	test_immutable_string_set
+		-- HASH_TABLE_TEST_SET.test_immutable_string_set
+		note
+			testing: "[
+				covers/{EL_IMMUTABLE_STRING_8_SET}.make,
+				covers/{EL_IMMUTABLE_KEY_8_LOOKUP}.has_key_8
+			]"
+		local
+			word_set: EL_IMMUTABLE_STRING_8_SET
+		do
+			if attached Text.latin_1_words as word_list then
+				create word_set.make (word_list.joined_lines)
+				across word_list as list loop
+					if attached list.item as word then
+						assert ("set member", word_set.has_key_8 (word))
+						assert_same_string (Void, word_set.found_item, word)
+					end
+				end
 			end
 		end
 

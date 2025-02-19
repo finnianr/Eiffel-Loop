@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-15 10:30:22 GMT (Saturday 15th February 2025)"
-	revision: "16"
+	date: "2025-02-19 17:41:23 GMT (Wednesday 19th February 2025)"
+	revision: "17"
 
 class
 	EL_404_INTERCEPT_CONFIG
@@ -15,10 +15,12 @@ class
 inherit
 	FCGI_SERVICE_CONFIG
 		redefine
-			building_action_table, make_default
+			building_action_table, make_default, make_from_file, on_context_exit
 		end
 
-	EL_MODULE_TUPLE
+	EL_MODULE_FILE
+
+	EL_URI_FILTER_CONSTANTS
 
 create
 	make_default, make_from_file
@@ -33,6 +35,12 @@ feature {NONE} -- Initialization
 			screen_session_name := "Firewall updating service"
 			slash := '/'
 			Precursor
+		end
+
+	make_from_file (a_file_path: FILE_PATH)
+		do
+			dir_path := a_file_path.parent
+			Precursor (a_file_path)
 		end
 
 feature -- Access
@@ -50,12 +58,17 @@ feature -- Access
 feature {NONE} -- Build from XML
 
 	append_filter (a_predicate: STRING)
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			across node.adjusted (False).lines as line loop
-				across line.item.split (';') as split loop
-					filter_table.extend (split.item_copy, a_predicate)
-				end
+			if attached node.adjusted_8 (False) as lines then
+				s.replace_character (lines, ';', '%N')
+				filter_table.extend (lines, a_predicate)
 			end
+		end
+
+	append_filter_set (a_predicate: STRING)
+		do
 		end
 
 	append_white_listed (is_directory_item: BOOLEAN)
@@ -97,25 +110,28 @@ feature {NONE} -- Build from XML
 				["white_listed/directory_item/@name",	agent do node.set (last_white_list_name) end],
 				["white_listed/directory_item/text()",	agent append_white_listed (True)]
 			>>)
+			across << Predicate.starts_with, Predicate.ends_with >> as p loop
+				Result [Xpath_match_text #$ [p.item]] := agent append_filter (p.item)
+			end
+		end
 
-			across filter_table.predicate_list as list loop
-				if attached (Xpath_match_list #$ [list.item]) as l_xpath then
-					Result [l_xpath] := agent append_filter (list.item)
+	on_context_exit
+		do
+			across << Predicate.has_extension, Predicate.first_step >> as p loop
+				if attached (dir_path + File_match_text #$ [p.item]) as path
+					and then path.exists
+				then
+					filter_table.extend (File.plain_text (path), p.item)
 				end
 			end
 		end
 
 feature {NONE} -- Internal attributes
 
+	dir_path: DIR_PATH
+
 	last_white_list_name: ZSTRING
 
 	slash: EL_CHARACTER_32
-
-feature {NONE} -- Internal attributes
-
-	Xpath_match_list: ZSTRING
-		once
-			Result := "match-%S/text()"
-		end
 
 end

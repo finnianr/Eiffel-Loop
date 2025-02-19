@@ -1,7 +1,9 @@
 note
 	description: "[
 		Intercept hacking attempts, returning 404 `file not found' message as plaintext
-		and creating firewall rule blocking IP address.
+		and creating firewall rule blocking IP address for malicious requests.
+		
+		Also scans auth.log and mail.log for attacks and blocks those as well.
 	]"
 	notes: "See end of class"
 
@@ -10,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 14:18:48 GMT (Monday 17th February 2025)"
-	revision: "41"
+	date: "2025-02-19 16:56:19 GMT (Wednesday 19th February 2025)"
+	revision: "42"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -43,10 +45,9 @@ feature {NONE} -- Initialization
 			create additional_rules_table.make (4)
 			create address_list.make (10)
 			create ip_address_set.make (10)
-
 			create rules.make (a_service.rules_path)
-			rules.display_summary (log, "FIREWALL DENY RULES")
 
+			rules.display_summary (log, "FIREWALL DENY RULES")
 			mutex_path := rules.path.twin
 			mutex_path.add_extension ("lock")
 			create file_mutex.make (mutex_path)
@@ -104,9 +105,7 @@ feature {NONE} -- Implementation
 				log.put_new_line
 
 			elseif port = Service_port.HTTP then
-				if attached request.relative_path_info.as_lower as lower_path
-					and then filter_table.is_hacker_probe (lower_path, request.headers.user_agent)
-				then
+				if filter_table.is_hacker_probe (lower_utf_8_path, request.headers.user_agent) then
 					additional_rules_table.extend (port, ip_number)
 				else
 					log.put_labeled_string (once "Permitted 404 request", request.relative_path_info)
@@ -115,6 +114,11 @@ feature {NONE} -- Implementation
 			else -- is mail spammer or ssh hacker
 				additional_rules_table.extend (port, ip_number)
 			end
+		end
+
+	lower_utf_8_path: STRING
+		do
+			Result := request.relative_path_info.as_lower.to_utf_8
 		end
 
 	new_authorization_log: EL_TODAYS_AUTHORIZATION_LOG
@@ -155,7 +159,7 @@ feature {NONE} -- Implementation
 					ip_address_set.put (ip_number)
 					Service_port.related (port).do_all (agent rules.put_entry (ip_number, ?))
 				end
-				lio.put_columns (address_list, 5)
+				lio.put_columns (address_list, 5, 0)
 			end
 			lio.put_new_line
 

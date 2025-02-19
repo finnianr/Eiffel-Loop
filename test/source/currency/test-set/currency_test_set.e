@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 9:56:32 GMT (Monday 17th February 2025)"
-	revision: "6"
+	date: "2025-02-19 9:24:46 GMT (Wednesday 19th February 2025)"
+	revision: "7"
 
 class
 	CURRENCY_TEST_SET
@@ -73,7 +73,7 @@ feature {NONE} -- Implementation
 			from column_count := 3 until column_count > 5 loop
 				lio.put_integer_field ("Columns", column_count)
 				lio.put_new_line
-				lio.put_columns (name_list, column_count)
+				lio.put_columns (name_list, column_count, 0)
 				lio.put_new_line
 				column_count := column_count + 1
 			end
