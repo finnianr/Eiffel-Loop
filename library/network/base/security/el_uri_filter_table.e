@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 17:30:08 GMT (Wednesday 19th February 2025)"
-	revision: "13"
+	date: "2025-02-20 18:44:45 GMT (Thursday 20th February 2025)"
+	revision: "14"
 
 class
 	EL_URI_FILTER_TABLE
@@ -21,9 +21,9 @@ inherit
 			{NONE} all
 		end
 
-	EL_URI_FILTER_CONSTANTS
-
 	EL_URI_FILTER_BASE
+
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make
@@ -36,6 +36,8 @@ feature {NONE} -- Initialization
 			create predicate_list.make_from_tuple (Predicate)
 			predicate_list.compare_references
 			create whitelist_set.make_equal (100)
+			create whitelist_stem_list.make (10)
+			create excluded_first_characters.make (10)
 		end
 
 feature -- Status report
@@ -47,7 +49,7 @@ feature -- Status report
 			if user_agent.is_empty then
 				Result := True
 
-			elseif whitelist_set.has (path_lower) then
+			elseif is_whitelisted (path_lower) then
 				Result := False
 
 			elseif digit_count_exceeded (path_lower) then
@@ -70,17 +72,47 @@ feature -- Basic operations
 
 	extend (manifest_lines, predicate_key: STRING)
 		require
+			no_trailing_empty_line: manifest_lines.count > 0 implies manifest_lines [manifest_lines.count] /= '%N'
 			predicate_in_list: predicate_list.has (predicate_key)
+		local
+			string_set: EL_IMMUTABLE_STRING_8_SET
 		do
-			extend_table (create {EL_IMMUTABLE_STRING_8_SET}.make (manifest_lines), predicate_key)
+			create string_set.make (manifest_lines)
+			extend_table (string_set, predicate_key)
+
+		-- Optimize single character comparison by putting them in `excluded_first_characters'			
+			if predicate_key = Predicate.starts_with then
+				across string_set.to_array as list loop
+					if attached list.item as word and then word.count = 1 then
+						excluded_first_characters.extend (word [1])
+						string_set.prune (word)
+					end
+				end
+			end
 		end
 
 	put_whitelist (path_lower: STRING)
+		local
+			s: EL_STRING_8_ROUTINES
 		do
-			whitelist_set.put (path_lower)
+			if s.ends_with_character (path_lower, '*') then
+				path_lower.remove_tail (1)
+				whitelist_stem_list.extend (path_lower)
+			else
+				whitelist_set.put (path_lower)
+			end
 		end
 
 feature {NONE} -- Implementation
+
+	is_whitelisted (path_lower: STRING): BOOLEAN
+		-- True if `path_lower' is whitelisted
+		do
+			Result := whitelist_set.has (path_lower)
+			if not Result then
+				Result := across whitelist_stem_list as list some path_lower.starts_with (list.item) end
+			end
+		end
 
 	iteration_item_matches (path_lower, path_first_step, path_extension: STRING): BOOLEAN
 		do
@@ -92,7 +124,12 @@ feature {NONE} -- Implementation
 					Result := word_set.has_8 (path_first_step)
 
 				elseif predicate_name = Predicate.starts_with then
-					Result := across word_set as set some path_lower.starts_with (set.item) end
+					if path_lower.count > 0 then
+						Result := excluded_first_characters.has (path_lower [1])
+					end
+					if not Result then
+						Result := across word_set as set some path_lower.starts_with (set.item) end
+					end
 
 				elseif predicate_name = Predicate.ends_with then
 					Result := across word_set as set some path_lower.ends_with (set.item) end
@@ -101,7 +138,20 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	match_output_dir: DIR_PATH
+		-- location of "match-*.txt" files for use in EL_URI_FILTER_TABLE
+		do
+			create Result
+		end
+
 feature {NONE} -- Internal attributes
+
+	excluded_first_characters: STRING
+		-- characters that should not be the first character in URI path
+
+	whitelist_stem_list: EL_STRING_8_LIST
+		-- list of URI path stems matched with `starts_with'
+		-- eg. "images/apple-touch-icon" matches "images/apple-touch-icon-152x152.png"
 
 	whitelist_set: EL_HASH_SET [STRING]
 

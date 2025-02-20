@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-15 9:51:21 GMT (Saturday 15th February 2025)"
-	revision: "23"
+	date: "2025-02-20 11:13:57 GMT (Thursday 20th February 2025)"
+	revision: "24"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -55,6 +55,13 @@ feature -- Basic operations
 			sendmail: EL_TODAYS_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
 		do
 			create sendmail.make
+			if attached config.missing_match_files as name_list and then name_list.count > 0 then
+				create error.make ("Missing URI matching lists in configuration directory")
+				across name_list as list loop
+					error.extend (list.item)
+				end
+				application.put (error)
+			end
 			if not rules_path.exists then
 				create error.make ("missing rules file")
 				error.extend (rules_path)

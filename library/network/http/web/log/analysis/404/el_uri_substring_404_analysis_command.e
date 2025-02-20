@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 17:46:39 GMT (Wednesday 19th February 2025)"
-	revision: "1"
+	date: "2025-02-20 15:21:24 GMT (Thursday 20th February 2025)"
+	revision: "2"
 
 deferred class
 	EL_URI_SUBSTRING_404_ANALYSIS_COMMAND
@@ -33,6 +33,7 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create root_names_set.make_from (root_names_list, True)
+			create foreign_starts_with_set.make_empty
 			create foreign_extension_set.make_equal (0)
 		end
 
@@ -42,25 +43,34 @@ feature -- Basic operations
 		local
 			request_list: EL_STRING_8_LIST; natural_input: EL_USER_INPUT_VALUE [NATURAL]
 			request_counter_table: EL_COUNTER_TABLE [STRING]; prompt: STRING
-			minimum_occurrences: NATURAL; filter_extensions: BOOLEAN
-			excess_digit_count: INTEGER
+			minimum_occurrences: NATURAL; excess_digit_count: INTEGER
+			utf: EL_UTF_8_CONVERTER; invalid_utf_8: BOOLEAN
 		do
 			Precursor
 			create request_counter_table.make (500)
 			create request_list.make (50)
 			ask_to_filter_extensions
-			filter_extensions := foreign_extension_set.count > 0
 			across not_found_list as list loop
 				if attached list.item as entry then
 					if entry.has_excess_digits then
 						excess_digit_count := excess_digit_count + 1
 
-					elseif filter_extensions implies not has_foreign_extension (entry) then
+					elseif not utf.is_valid_string_8 (entry.uri_path) then
+						if not invalid_utf_8 then
+							lio.put_line ("INVALID UTF-8")
+							invalid_utf_8 := True
+						end
+						lio.put_line (entry.uri_path)
+
+					elseif filter_foreign implies not matches_foreign (entry) then
 						if attached uri_part (entry) as str and then str.count > 0 then
 							request_counter_table.put (str)
 						end
 					end
 				end
+			end
+			if invalid_utf_8 then
+				User_input.press_enter
 			end
 			lio.put_integer_field ("Entries with digit count > " + config.maximum_uri_digits.out, excess_digit_count)
 			lio.put_new_line
@@ -111,20 +121,33 @@ feature {NONE} -- Implementation
 
 	ask_to_filter_extensions
 		do
-			if attached config.foreign_extensions as foreign_extensions then
-				lio.put_line ("Foreign extensions")
-				lio.put_columns (foreign_extensions.split ('%N'), 8, 6)
+			filter_foreign := False
+			across << Predicate.has_extension, Predicate.starts_with >> as p loop
+				lio.put_labeled_string ("PREDICATE", p.item)
 				lio.put_new_line
-				if User_input.approved_action_y_n ("Exclude foreign extensions") then
-					create foreign_extension_set.make (foreign_extensions)
+				if attached config.new_match_manifest (p.item) as lines then
+					lio.put_columns (lines.split ('%N'), 8, 6)
+					lio.put_new_line
+					if User_input.approved_action_y_n ("Exclude entries matching " + p.item) then
+						filter_foreign := True
+						if p.item = Predicate.has_extension then
+							create foreign_extension_set.make (lines)
+
+						elseif p.item = Predicate.starts_with  then
+							create foreign_starts_with_set.make_with_lines (lines)
+						end
+					end
 				end
 			end
 		end
 
-	has_foreign_extension (entry: EL_WEB_LOG_ENTRY): BOOLEAN
+	matches_foreign (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		do
 			if attached entry.uri_extension as extension and then extension.count > 0 then
 				Result := foreign_extension_set.has_8 (extension)
+			end
+			if not Result then
+				Result := across foreign_starts_with_set as set some entry.uri_path.starts_with (set.item) end
 			end
 		end
 
@@ -160,7 +183,11 @@ feature -- Deferred
 
 feature {NONE} -- Internal attributes
 
+	filter_foreign: BOOLEAN
+
 	foreign_extension_set: EL_IMMUTABLE_STRING_8_SET
+
+	foreign_starts_with_set: EL_STRING_8_LIST
 
 	root_names_set: EL_HASH_SET [STRING];
 

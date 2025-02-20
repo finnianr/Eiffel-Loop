@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:56:45 GMT (Thursday 13th February 2025)"
-	revision: "3"
+	date: "2025-02-20 12:14:13 GMT (Thursday 20th February 2025)"
+	revision: "4"
 
 deferred class
 	EL_WEB_LOG_ENTRY_BASE
@@ -62,6 +62,12 @@ feature {NONE} -- Implementation
 			if slash_index > 0 then
 				uri.keep_head (slash_index - 1)
 			end
+		end
+
+	match_output_dir: DIR_PATH
+		-- location of "match-*.txt" files for use in EL_URI_FILTER_TABLE
+		do
+			create Result
 		end
 
 	new_uri_extension (uri: STRING): STRING

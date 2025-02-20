@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 17:41:23 GMT (Wednesday 19th February 2025)"
-	revision: "17"
+	date: "2025-02-20 18:43:29 GMT (Thursday 20th February 2025)"
+	revision: "18"
 
 class
 	EL_404_INTERCEPT_CONFIG
@@ -18,9 +18,10 @@ inherit
 			building_action_table, make_default, make_from_file, on_context_exit
 		end
 
-	EL_MODULE_FILE
-
-	EL_URI_FILTER_CONSTANTS
+	EL_URI_FILTER_BASE
+		rename
+			match_output_dir as dir_path
+		end
 
 create
 	make_default, make_from_file
@@ -45,48 +46,49 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	filter_table: EL_URI_FILTER_TABLE
+
 	maximum_rule_count: INTEGER
 		-- max. number of IP addresses that can be blocked with
 		-- Older blocks are removed to make way for newer ones.
-
-	filter_table: EL_URI_FILTER_TABLE
 
 	screen_session_name: ZSTRING
 		-- screen session name of the address blocking script: run_service_update_firewall.sh
 		-- See screen command -S option
 
-feature {NONE} -- Build from XML
+feature -- Status query
 
-	append_filter (a_predicate: STRING)
-		local
-			s: EL_STRING_8_ROUTINES
+	missing_match_files: EL_STRING_8_LIST
 		do
-			if attached node.adjusted_8 (False) as lines then
-				s.replace_character (lines, ';', '%N')
-				filter_table.extend (lines, a_predicate)
+			create Result.make (0)
+			across filter_table.predicate_list as p loop
+				if attached (dir_path + File_match_text #$ [p.item]) as path and then not path.exists then
+					Result.extend (path.base)
+				end
 			end
 		end
 
-	append_filter_set (a_predicate: STRING)
-		do
-		end
+feature {NONE} -- Build from XML
 
 	append_white_listed (is_directory_item: BOOLEAN)
+		local
+			word_list: EL_STRING_8_LIST
 		do
 			if attached last_white_list_name as name then
-				across node.adjusted (False).lines as line loop
-					across line.item.split (';') as split loop
+				create word_list.make_multiline_words (node.adjusted_8 (False), ';', 0)
+				across word_list as list loop
+					if attached list.item as word then
 						if is_directory_item then
-							filter_table.put_whitelist (slash.joined (name, split.item))
+							filter_table.put_whitelist (slash.joined (name, word))
 						else
 							if name.is_empty then
-								filter_table.put_whitelist (split.item_copy)
+								filter_table.put_whitelist (word)
 
-							elseif split.item.count = 1 and then split.item [1] = '.' then
+							elseif word.count = 1 and then word [1] = '.' then
 							-- '.' indicates the file is in the root directory
 								filter_table.put_whitelist (name.twin)
 							else
-								filter_table.put_whitelist (slash.joined (split.item, name))
+								filter_table.put_whitelist (slash.joined (word, name))
 							end
 						end
 					end
@@ -104,24 +106,19 @@ feature {NONE} -- Build from XML
 				["@maximum_uri_digits",						agent do filter_table.set_maximum_uri_digits (node) end],
 				["@screen_session_name",					agent do node.set (screen_session_name) end],
 
-				["white_listed/item/@name",				agent do node.set (last_white_list_name) end],
+				["white_listed/item/@name",				agent do node.set_8 (last_white_list_name) end],
 				["white_listed/item/text()",				agent append_white_listed (False)],
 
-				["white_listed/directory_item/@name",	agent do node.set (last_white_list_name) end],
+				["white_listed/directory_item/@name",	agent do node.set_8 (last_white_list_name) end],
 				["white_listed/directory_item/text()",	agent append_white_listed (True)]
 			>>)
-			across << Predicate.starts_with, Predicate.ends_with >> as p loop
-				Result [Xpath_match_text #$ [p.item]] := agent append_filter (p.item)
-			end
 		end
 
 	on_context_exit
 		do
-			across << Predicate.has_extension, Predicate.first_step >> as p loop
-				if attached (dir_path + File_match_text #$ [p.item]) as path
-					and then path.exists
-				then
-					filter_table.extend (File.plain_text (path), p.item)
+			across filter_table.predicate_list as p loop
+				if attached new_match_manifest (p.item) as manifest and then manifest.count > 0 then
+					filter_table.extend (manifest, p.item)
 				end
 			end
 		end
@@ -130,7 +127,7 @@ feature {NONE} -- Internal attributes
 
 	dir_path: DIR_PATH
 
-	last_white_list_name: ZSTRING
+	last_white_list_name: STRING
 
 	slash: EL_CHARACTER_32
 

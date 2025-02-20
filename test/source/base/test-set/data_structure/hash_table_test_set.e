@@ -1,13 +1,13 @@
 ﻿note
-	description: "Hash table test set"
+	description: "Test descendants of ${HASH_TABLE} class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 15:28:17 GMT (Wednesday 19th February 2025)"
-	revision: "54"
+	date: "2025-02-20 8:48:47 GMT (Thursday 20th February 2025)"
+	revision: "55"
 
 class
 	HASH_TABLE_TEST_SET
@@ -36,29 +36,25 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["character_32_table",				 agent test_character_32_table],
-				["code_text_table",					 agent test_code_text_table],
-				["compressed_table",					 agent test_compressed_table],
-				["hash_set",							 agent test_hash_set],
-				["hash_set_operations",				 agent test_hash_set_operations],
-				["hash_set_put",						 agent test_hash_set_put],
-				["hash_table",							 agent test_hash_table],
-				["hash_table_insertion",			 agent test_hash_table_insertion],
-				["hash_table_sort",					 agent test_hash_table_sort],
-				["immutable_error_code_table",	 agent test_immutable_error_code_table],
-				["immutable_string_32_table",		 agent test_immutable_string_32_table],
-				["immutable_string_8_table",		 agent test_immutable_string_8_table],
-				["immutable_string_set",			 agent test_immutable_string_set],
-				["immutable_string_table_memory", agent test_immutable_string_table_memory],
-				["immutable_utf_8_table",			 agent test_immutable_utf_8_table],
-				["string_general_table",			 agent test_string_general_table],
-				["string_table",						 agent test_string_table],
-				["table_cursor",						 agent test_table_cursor],
-				["zstring_table",						 agent test_zstring_table]
+				["character_32_table",	 agent test_character_32_table],
+				["code_text_table",		 agent test_code_text_table],
+				["compressed_table",		 agent test_compressed_table],
+				["el_table_cursor",		 agent test_el_table_cursor],
+				["el_table_insertion",	 agent test_el_table_insertion],
+				["el_table_sort",			 agent test_el_table_sort],
+				["make_from_keys",		 agent test_make_from_keys],
+				["string_table",			 agent test_string_table],
+				["string_table_memory",	 agent test_string_table_memory],
+				["string_general_table", agent test_string_general_table],
+				["zstring_table",			 agent test_zstring_table],
+				["error_code_table",		 agent test_error_code_table],
+				["string_32_table",		 agent test_string_32_table],
+				["string_8_table",		 agent test_string_8_table],
+				["utf_8_table",			 agent test_utf_8_table]
 			>>)
 		end
 
-feature -- Test
+feature -- General tests
 
 	test_character_32_table
 		note
@@ -123,174 +119,49 @@ feature -- Test
 			assert ("same value", geo_info ~ geo_info_table.found_item)
 		end
 
-	test_hash_set
-		-- HASH_TABLE_TEST_SET.test_hash_set
+	test_el_table_cursor
 		note
 			testing: "[
-				covers/{EL_HASH_SET}.has,
-				covers/{EL_HASH_SET}.has_key,
-				covers/{EL_HASH_SET}.is_equal,
-				covers/{EL_HASH_SET}.make_from,
-				covers/{EL_HASH_SET}.put,
-				covers/{EL_HASH_SET}.put_copy,
-				covers/{EL_HASH_SET}.prune,
-				covers/{EL_HASH_SET}.wipe_out
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.forth
+				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.make
 			]"
 		local
-			code_set: EL_HASH_SET [INTEGER]; range_0_to_9, range_0_to_4: INTEGER_INTERVAL
-			set_1, set_2: EL_HASH_SET [ZSTRING]; continent_set: EL_HASH_SET [STRING]
-		do
-			if attached Text.lines as lines then
-			-- comparison reference VS object
-				create set_1.make_from (lines, False)
-				assert ("all found", across lines as ln all set_1.has (ln.item) end)
-				assert ("none found", across Text.lines as ln all not set_1.has (ln.item) end)
-
-				create set_1.make_from (lines, True)
-				assert ("all found", across Text.lines as ln all set_1.has (ln.item) end)
-
-			-- wipe_out, to_list
-				create set_1.make_from (lines, True)
-				create set_2.make_from (lines, True)
-				set_2.wipe_out
-				assert ("zero count", set_2.count = 0)
-				assert ("is empty", set_2.to_list.is_empty)
-				across set_1.to_list as list loop
-					set_2.put (list.item)
-				end
-				assert ("same sets", set_1 ~ set_2)
-
-			-- prune
-				range_0_to_9 := 0 |..| 9
-				create code_set.make_from (range_0_to_9, False)
-
-				range_0_to_4 := 0 |..| 4
-				across range_0_to_4 as code loop
-					code_set.prune (code.item)
-				end
-				assert ("same count", code_set.count = range_0_to_9.count - range_0_to_4.count)
-
-			-- put, put_copy, has_key
-				continent_set := Text.continents
-				continent_set.put_copy (Empty_string_8)
-				assert ("has empty", continent_set.has (Empty_string_8))
-				continent_set.put_copy (Empty_string_8)
-				if continent_set.has_key (Empty_string_8) then
-					assert ("same value", continent_set.found_item ~ Empty_string)
-					assert ("different references", continent_set.found_item /= Empty_string)
-				end
-			end
-		end
-
-	test_hash_set_operations
-		-- HASH_TABLE_TEST_SET.test_hash_set_operations
-		note
-			testing: "[
-				covers/{EL_HASH_SET}.disjoint,
-				covers/{EL_HASH_SET}.is_equal,
-				covers/{EL_HASH_SET}.is_subset,
-				covers/{EL_HASH_SET}.make_from,
-				covers/{EL_HASH_SET}.make,
-				covers/{EL_HASH_SET}.make_equal,
-				covers/{EL_HASH_SET}.merge,
-				covers/{EL_HASH_SET}.put
-				covers/{EL_HASH_SET}.subset_include,
-				covers/{EL_HASH_SET}.subset_exclude,
-				covers/{EL_HASH_SET}.subtract,
-				covers/{EL_HASH_SET}.to_list
-			]"
-		local
-			set_all, set_latin_1, set_not_latin_1: EL_HASH_SET [ZSTRING]
-		do
-			if attached Text.lines as lines then
-				create set_all.make_from (lines, True)
-
-				set_latin_1 := set_all.subset_include (agent {ZSTRING}.is_valid_as_string_8)
-				set_not_latin_1 := set_all.subset_exclude (agent {ZSTRING}.is_valid_as_string_8)
-
-				assert ("4 Latin-1 strings", set_latin_1.count = 4)
-				assert ("Total - Latin-1 count", lines.count - set_latin_1.count = set_not_latin_1.count)
-				assert ("disjoint sets", set_latin_1.disjoint (set_not_latin_1))
-
-				assert ("subset of all", set_latin_1.is_subset (set_all))
-
-				set_all.subtract (set_latin_1)
-				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
-				if attached set_all.to_list as not_latin_1_list then
-					assert ("same count", not_latin_1_list.count = set_all.count)
-				end
-
-				set_all.merge (set_latin_1)
-				assert ("Full set again", set_all.count = lines.count)
-				set_all.intersect (set_not_latin_1)
-				assert ("remaining not Latin-1", set_all ~ set_not_latin_1)
-			end
-		end
-
-	test_hash_set_put
-		-- HASH_TABLE_TEST_SET.test_hash_set_put
-		note
-			testing: "[
-				covers/{EL_HASH_SET}.put
-			]"
-		local
-			word_set: EL_HASH_SET [STRING]; word_table: HASH_TABLE [STRING, STRING]
+			word_table: EL_HASH_TABLE [STRING, STRING]; word_list: EL_ARRAYED_LIST [STRING]
 			word_count: INTEGER
 		do
-			create word_set.make_equal (500)
 			create word_table.make_equal (500)
 
 			across Hexagram.English_titles as title loop
 				across title.item.split (' ') as split loop
 					if attached split.item as word then
-						word_set.put (word)
 						word_table.put (word, word)
-						assert ("both inserted", word_set.inserted = word_table.inserted)
-						word_count := word_count + 1
 					end
 				end
 			end
-			assert ("same count", word_set.count = word_table.count)
-			lio.put_integer_field ("word count", word_count)
-			lio.put_integer_field (" unique word count", word_set.count)
-			lio.put_new_line
-		end
-
-	test_hash_table
-		-- HASH_TABLE_TEST_SET.test_hash_table
-		note
-			testing: "[
-				covers/{EL_HASH_TABLE}.make_from_keys,
-				covers/{EL_HASH_TABLE}.item_area,
-				covers/{EL_HASH_TABLE}.item_list,
-				covers/{EL_CONTAINER_STRUCTURE}.do_for_all,
-				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer
-			]"
-		local
-			word_count_table: EL_HASH_TABLE [INTEGER, STRING]
-			word_count_list: EL_ARRAYED_LIST [INTEGER]
-			total_count: INTEGER
-		do
-			if attached Text.lines_8 as string_8_lines then
-				create word_count_table.make_from_keys (string_8_lines, agent {STRING}.count, False)
-				across string_8_lines as line loop
-					if word_count_table.has_key (line.item) then
-						assert ("same count", word_count_table.found_item = line.item.count)
-						total_count := total_count + line.item.count
-					else
-						failed ("has line")
+			across word_table.key_list as list loop
+				if attached list.item as word then
+					if word.count <= 4 then
+						word_table.remove (word)
 					end
 				end
-				create word_count_list.make (word_count_table.count)
-				word_count_table.do_for_all (agent word_count_list.extend)
-				assert ("same list", word_count_list ~ word_count_table.item_list)
-
-				assert ("same total", total_count = word_count_table.sum_integer (agent integer))
+			end
+			word_list := word_table.key_list
+			word_list.start
+			across word_table as table until word_list.after loop
+				assert ("same index", word_list.index = table.cursor_index)
+				assert_same_string (Void, word_list.item, table.item)
+				word_list.forth
+			end
+			word_list.finish
+			across word_table.new_cursor.reversed as table until word_list.before loop
+				assert ("same index", word_table.count - word_list.index + 1 = table.cursor_index)
+				assert_same_string (Void, word_list.item, table.item)
+				word_list.back
 			end
 		end
 
-	test_hash_table_insertion
-		-- HASH_TABLE_TEST_SET.test_hash_table_insertion
+	test_el_table_insertion
+		-- HASH_TABLE_TEST_SET.test_el_table_insertion
 		note
 			testing: "[
 				covers/{EL_HASH_TABLE}.put,
@@ -330,8 +201,8 @@ feature -- Test
 			assert ("has copy", set.found_item ~ key and set.found_item /= key)
 		end
 
-	test_hash_table_sort
-		-- HASH_TABLE_TEST_SET.test_hash_table_sort
+	test_el_table_sort
+		-- HASH_TABLE_TEST_SET.test_el_table_sort
 		note
 			testing: "[
 				covers/{EL_HASH_TABLE}.sort_by_key,
@@ -400,8 +271,141 @@ feature -- Test
 			end
 		end
 
-	test_immutable_error_code_table
-		-- HASH_TABLE_TEST_SET.test_immutable_error_code_table
+	test_make_from_keys
+		-- HASH_TABLE_TEST_SET.test_make_from_keys
+		note
+			testing: "[
+				covers/{EL_HASH_TABLE}.make_from_keys,
+				covers/{EL_HASH_TABLE}.item_area,
+				covers/{EL_HASH_TABLE}.item_list,
+				covers/{EL_CONTAINER_STRUCTURE}.do_for_all,
+				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer
+			]"
+		local
+			word_count_table: EL_HASH_TABLE [INTEGER, STRING]
+			word_count_list: EL_ARRAYED_LIST [INTEGER]
+			total_count: INTEGER
+		do
+			if attached Text.lines_8 as string_8_lines then
+				create word_count_table.make_from_keys (string_8_lines, agent {STRING}.count, False)
+				across string_8_lines as line loop
+					if word_count_table.has_key (line.item) then
+						assert ("same count", word_count_table.found_item = line.item.count)
+						total_count := total_count + line.item.count
+					else
+						failed ("has line")
+					end
+				end
+				create word_count_list.make (word_count_table.count)
+				word_count_table.do_for_all (agent word_count_list.extend)
+				assert ("same list", word_count_list ~ word_count_table.item_list)
+
+				assert ("same total", total_count = word_count_table.sum_integer (agent integer))
+			end
+		end
+
+	test_string_general_table
+		-- HASH_TABLE_TEST_SET.test_string_general_table
+		local
+			key_list, search_key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
+			table: EL_STRING_GENERAL_TABLE [INTEGER]; key: READABLE_STRING_GENERAL
+		do
+			create table.make (3)
+			across Currency_name_manifest.split ('%N') as line loop
+				across new_string_type_list (line.item) as key_type loop
+					key := key_type.item
+					table.wipe_out
+					table.extend (key.count, key)
+					across new_string_type_list (key) as list loop
+						if attached list.item as search_key then
+							if table.has_key (search_key) then
+								assert ("same count", table.found_item = search_key.count)
+							else
+								failed ("key not found")
+							end
+						end
+					end
+				end
+			end
+		end
+
+	test_string_table
+		local
+			table: EL_STRING_HASH_TABLE [INTEGER, ZSTRING]
+			key_1: ZSTRING; key_2: STRING_32; key_3: STRING
+		do
+			key_1 := "1"; key_2 := "2"; key_3 := "3"
+			create table.make_assignments (<<
+				[key_1, key_1.to_integer],
+				[key_2, key_2.to_integer],
+				[key_3, key_3.to_integer]
+			>>)
+			assert ("same value", table [key_1] = 1)
+			assert ("same value", table [key_2] = 2)
+			assert ("same value", table [key_3] = 3)
+		end
+
+	test_string_table_memory
+		-- HASH_TABLE_TEST_SET.test_string_table_memory
+		note
+			testing: "covers/{EL_IMMUTABLE_STRING_TABLE}.make"
+		local
+			standard_table: HASH_TABLE [STRING, STRING]
+			item_count, table_object_count, objects_per_string, objects_per_immutable,
+			standard_size, immutable_size, standard_object_count, immutable_object_count: INTEGER
+		do
+			create standard_table.make_equal (Feature_expansion_table.count)
+			across Feature_expansion_table as table loop
+				standard_table.extend (table.item, table.key)
+			end
+			immutable_size := Eiffel.deep_physical_size (Feature_expansion_table)
+			standard_size := Eiffel.deep_physical_size (standard_table)
+			lio.put_integer_field ("Standard size", standard_size)
+			lio.put_integer_field (" Immutable size", immutable_size)
+			lio.put_new_line
+			assert ("56 %% less memory", 100 - immutable_size * 100 // standard_size = 56)
+
+			item_count := Feature_expansion_table.count
+			table_object_count := 5; objects_per_string := 2; objects_per_immutable := 1
+
+			standard_object_count := table_object_count + objects_per_string * 2 * item_count
+			immutable_object_count := (table_object_count + objects_per_string) + objects_per_immutable * item_count
+			lio.put_integer_field ("Table item count", item_count)
+			lio.put_integer_field (" Standard object count", standard_object_count)
+			lio.put_integer_field (" Immutable object count", immutable_object_count)
+			lio.put_new_line
+
+			assert ("71 %% fewer objects", 100 - immutable_object_count * 100 // standard_object_count = 71)
+		end
+
+	test_zstring_table
+		-- HASH_TABLE_TEST_SET.test_zstring_table
+		note
+			testing: "[
+				covers/{EL_ZSTRING_TABLE}.make,
+				covert/{EL_TABLE_INTERVAL_MAP_LIST}.make
+			]"
+		local
+			currency_table: EL_ZSTRING_TABLE; manifest: ZSTRING
+		do
+			manifest := Currency_manifest
+			currency_table := Currency_manifest
+			across currency_table as table loop
+				if attached table.item.split ('%N') as item_lines then
+					lio.put_labeled_lines (table.key, item_lines)
+					assert ("found in manifest", manifest.has_substring (table.key + char (':').as_string_8 (1)))
+					assert ("at least one line", item_lines.count > 0)
+					across item_lines as line loop
+						assert ("found in manifest", manifest.has_substring (Tab + line.item))
+					end
+				end
+			end
+		end
+
+feature -- Immutable string table tests
+
+	test_error_code_table
+		-- HASH_TABLE_TEST_SET.test_error_code_table
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make_code_map,
@@ -445,8 +449,8 @@ feature -- Test
 			end
 		end
 
-	test_immutable_string_32_table
-		-- HASH_TABLE_TEST_SET.test_immutable_string_32_table
+	test_string_32_table
+		-- HASH_TABLE_TEST_SET.test_string_32_table
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
@@ -479,8 +483,8 @@ feature -- Test
 			end
 		end
 
-	test_immutable_string_8_table
-		-- HASH_TABLE_TEST_SET.test_immutable_string_8_table
+	test_string_8_table
+		-- HASH_TABLE_TEST_SET.test_string_8_table
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make,
@@ -512,62 +516,8 @@ feature -- Test
 			end
 		end
 
-	test_immutable_string_set
-		-- HASH_TABLE_TEST_SET.test_immutable_string_set
-		note
-			testing: "[
-				covers/{EL_IMMUTABLE_STRING_8_SET}.make,
-				covers/{EL_IMMUTABLE_KEY_8_LOOKUP}.has_key_8
-			]"
-		local
-			word_set: EL_IMMUTABLE_STRING_8_SET
-		do
-			if attached Text.latin_1_words as word_list then
-				create word_set.make (word_list.joined_lines)
-				across word_list as list loop
-					if attached list.item as word then
-						assert ("set member", word_set.has_key_8 (word))
-						assert_same_string (Void, word_set.found_item, word)
-					end
-				end
-			end
-		end
-
-	test_immutable_string_table_memory
-		-- HASH_TABLE_TEST_SET.test_immutable_string_table_memory
-		note
-			testing: "covers/{EL_IMMUTABLE_STRING_TABLE}.make"
-		local
-			standard_table: HASH_TABLE [STRING, STRING]
-			item_count, table_object_count, objects_per_string, objects_per_immutable,
-			standard_size, immutable_size, standard_object_count, immutable_object_count: INTEGER
-		do
-			create standard_table.make_equal (Feature_expansion_table.count)
-			across Feature_expansion_table as table loop
-				standard_table.extend (table.item, table.key)
-			end
-			immutable_size := Eiffel.deep_physical_size (Feature_expansion_table)
-			standard_size := Eiffel.deep_physical_size (standard_table)
-			lio.put_integer_field ("Standard size", standard_size)
-			lio.put_integer_field (" Immutable size", immutable_size)
-			lio.put_new_line
-			assert ("56 %% less memory", 100 - immutable_size * 100 // standard_size = 56)
-
-			item_count := Feature_expansion_table.count
-			table_object_count := 5; objects_per_string := 2; objects_per_immutable := 1
-
-			standard_object_count := table_object_count + objects_per_string * 2 * item_count
-			immutable_object_count := (table_object_count + objects_per_string) + objects_per_immutable * item_count
-			lio.put_integer_field ("Table item count", item_count)
-			lio.put_integer_field (" Standard object count", standard_object_count)
-			lio.put_integer_field (" Immutable object count", immutable_object_count)
-			lio.put_new_line
-
-			assert ("71 %% fewer objects", 100 - immutable_object_count * 100 // standard_object_count = 71)
-		end
-
-	test_immutable_utf_8_table
-		-- HASH_TABLE_TEST_SET.test_immutable_utf_8_table
+	test_utf_8_table
+		-- HASH_TABLE_TEST_SET.test_utf_8_table
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_TABLE}.make_assignments,
@@ -649,112 +599,6 @@ feature -- Test
 				end
 			else
 				failed ("found currency_symbols")
-			end
-		end
-
-	test_string_general_table
-		-- HASH_TABLE_TEST_SET.test_string_general_table
-		local
-			key_list, search_key_list: ARRAYED_LIST [READABLE_STRING_GENERAL]
-			table: EL_STRING_GENERAL_TABLE [INTEGER]; key: READABLE_STRING_GENERAL
-		do
-			create table.make (3)
-			across Currency_name_manifest.split ('%N') as line loop
-				across new_string_type_list (line.item) as key_type loop
-					key := key_type.item
-					table.wipe_out
-					table.extend (key.count, key)
-					across new_string_type_list (key) as list loop
-						if attached list.item as search_key then
-							if table.has_key (search_key) then
-								assert ("same count", table.found_item = search_key.count)
-							else
-								failed ("key not found")
-							end
-						end
-					end
-				end
-			end
-		end
-
-	test_string_table
-		local
-			table: EL_STRING_HASH_TABLE [INTEGER, ZSTRING]
-			key_1: ZSTRING; key_2: STRING_32; key_3: STRING
-		do
-			key_1 := "1"; key_2 := "2"; key_3 := "3"
-			create table.make_assignments (<<
-				[key_1, key_1.to_integer],
-				[key_2, key_2.to_integer],
-				[key_3, key_3.to_integer]
-			>>)
-			assert ("same value", table [key_1] = 1)
-			assert ("same value", table [key_2] = 2)
-			assert ("same value", table [key_3] = 3)
-		end
-
-	test_table_cursor
-		note
-			testing: "[
-				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.forth
-				covers/{EL_HASH_TABLE_ITERATION_CURSOR}.make
-			]"
-		local
-			word_table: EL_HASH_TABLE [STRING, STRING]; word_list: EL_ARRAYED_LIST [STRING]
-			word_count: INTEGER
-		do
-			create word_table.make_equal (500)
-
-			across Hexagram.English_titles as title loop
-				across title.item.split (' ') as split loop
-					if attached split.item as word then
-						word_table.put (word, word)
-					end
-				end
-			end
-			across word_table.key_list as list loop
-				if attached list.item as word then
-					if word.count <= 4 then
-						word_table.remove (word)
-					end
-				end
-			end
-			word_list := word_table.key_list
-			word_list.start
-			across word_table as table until word_list.after loop
-				assert ("same index", word_list.index = table.cursor_index)
-				assert_same_string (Void, word_list.item, table.item)
-				word_list.forth
-			end
-			word_list.finish
-			across word_table.new_cursor.reversed as table until word_list.before loop
-				assert ("same index", word_table.count - word_list.index + 1 = table.cursor_index)
-				assert_same_string (Void, word_list.item, table.item)
-				word_list.back
-			end
-		end
-
-	test_zstring_table
-		-- HASH_TABLE_TEST_SET.test_zstring_table
-		note
-			testing: "[
-				covers/{EL_ZSTRING_TABLE}.make,
-				covert/{EL_TABLE_INTERVAL_MAP_LIST}.make
-			]"
-		local
-			currency_table: EL_ZSTRING_TABLE; manifest: ZSTRING
-		do
-			manifest := Currency_manifest
-			currency_table := Currency_manifest
-			across currency_table as table loop
-				if attached table.item.split ('%N') as item_lines then
-					lio.put_labeled_lines (table.key, item_lines)
-					assert ("found in manifest", manifest.has_substring (table.key + char (':').as_string_8 (1)))
-					assert ("at least one line", item_lines.count > 0)
-					across item_lines as line loop
-						assert ("found in manifest", manifest.has_substring (Tab + line.item))
-					end
-				end
 			end
 		end
 

@@ -6,19 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 17:23:30 GMT (Wednesday 19th February 2025)"
-	revision: "2"
+	date: "2025-02-20 12:31:25 GMT (Thursday 20th February 2025)"
+	revision: "3"
 
 deferred class
 	EL_URI_FILTER_BASE
 
 inherit
+	EL_MODULE_FILE
+
+	EL_URI_FILTER_CONSTANTS
+
 	EL_STRING_8_CONSTANTS
 
 feature -- Access
 
 	maximum_uri_digits: INTEGER
-		-- maximum number of digits allowed in path
+		-- maximum number of digits expected in uri. Any more considered a hacking attempt.
 
 feature -- Element change
 
@@ -27,19 +31,21 @@ feature -- Element change
 			maximum_uri_digits := a_maximum_uri_digits
 		end
 
-feature {NONE} -- Implementation
+feature -- Factory
 
-	dot_extension (path_lower: STRING): STRING
-		local
-			dot_index: INTEGER
+	new_match_manifest (predicate_name: STRING): STRING
 		do
-			dot_index := path_lower.last_index_of ('.', path_lower.count)
-			if dot_index > 1 then
-				Result := path_lower.substring (dot_index + 1, path_lower.count)
-			else
-				Result := Empty_string_8
+			if attached (match_output_dir + File_match_text #$ [predicate_name]) as path then
+				if path.exists and then attached File.plain_text (path) as text then
+					text.right_adjust
+					Result := text
+				else
+					create Result.make_empty
+				end
 			end
 		end
+
+feature {NONE} -- Implementation
 
 	digit_count (path_lower: STRING): INTEGER
 		local
@@ -62,10 +68,29 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	dot_extension (path_lower: STRING): STRING
+		local
+			dot_index: INTEGER
+		do
+			dot_index := path_lower.last_index_of ('.', path_lower.count)
+			if dot_index > 1 then
+				Result := path_lower.substring (dot_index + 1, path_lower.count)
+			else
+				Result := Empty_string_8
+			end
+		end
+
 	is_digit_count_exception (path_lower: STRING): BOOLEAN
 		do
 			Result := Image_file_extensions.has (dot_extension (path_lower))
-				or else path_lower.starts_with (PKI_validation)
+							or else path_lower.starts_with (PKI_validation)
+		end
+
+feature {NONE} -- Deferred
+
+	match_output_dir: DIR_PATH
+		-- location of "match-*.txt" files for use in EL_URI_FILTER_TABLE
+		deferred
 		end
 
 feature {NONE} -- Constants
