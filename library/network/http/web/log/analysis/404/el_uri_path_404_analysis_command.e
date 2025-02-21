@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 17:45:32 GMT (Wednesday 19th February 2025)"
-	revision: "7"
+	date: "2025-02-21 9:33:55 GMT (Friday 21st February 2025)"
+	revision: "8"
 
 class
 	EL_URI_PATH_404_ANALYSIS_COMMAND
@@ -26,6 +26,14 @@ create
 
 feature {NONE} -- Implementation
 
+	excluded (entry: EL_WEB_LOG_ENTRY): BOOLEAN
+		-- `True' if entry should be excluded from report
+		do
+			Result := across root_names_list as list some
+				entry.uri_path.starts_with (list.item)
+			end
+		end
+
 	grid_column_count: INTEGER
 		-- number of grid columns to display `uri_path'
 		do
@@ -36,13 +44,6 @@ feature {NONE} -- Implementation
 		-- maxium column width to display `uri_path' in grid columns
 		do
 			Result := 120
-		end
-
-	include_uri_part (uri_path: STRING): BOOLEAN
-		do
-			Result := across root_names_list as list all
-				not uri_path.starts_with (list.item)
-			end
 		end
 
 	predicate_name: STRING

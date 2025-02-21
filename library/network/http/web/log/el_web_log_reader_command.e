@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-12 15:03:50 GMT (Wednesday 12th February 2025)"
-	revision: "21"
+	date: "2025-02-21 8:28:28 GMT (Friday 21st February 2025)"
+	revision: "22"
 
 deferred class
 	EL_WEB_LOG_READER_COMMAND
@@ -164,7 +164,6 @@ feature {NONE} -- Implementation
 				end
 			end
 			file.close
-			progress_listener.finish
 		end
 
 	geolocation_data_dir: DIR_PATH

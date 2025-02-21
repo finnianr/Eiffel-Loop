@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-20 18:43:29 GMT (Thursday 20th February 2025)"
-	revision: "18"
+	date: "2025-02-21 8:51:14 GMT (Friday 21st February 2025)"
+	revision: "19"
 
 class
 	EL_404_INTERCEPT_CONFIG
@@ -62,7 +62,7 @@ feature -- Status query
 		do
 			create Result.make (0)
 			across filter_table.predicate_list as p loop
-				if attached (dir_path + File_match_text #$ [p.item]) as path and then not path.exists then
+				if attached new_match_path (p.item) as path and then not path.exists then
 					Result.extend (path.base)
 				end
 			end

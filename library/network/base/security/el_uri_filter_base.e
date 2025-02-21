@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-20 12:31:25 GMT (Thursday 20th February 2025)"
-	revision: "3"
+	date: "2025-02-21 9:04:41 GMT (Friday 21st February 2025)"
+	revision: "4"
 
 deferred class
 	EL_URI_FILTER_BASE
@@ -33,9 +33,15 @@ feature -- Element change
 
 feature -- Factory
 
+	new_match_path (predicate_name: STRING): FILE_PATH
+		-- path to text file listing for predicate `predicate_name'
+		do
+			Result := match_output_dir + File_match_text #$ [predicate_name]
+		end
+
 	new_match_manifest (predicate_name: STRING): STRING
 		do
-			if attached (match_output_dir + File_match_text #$ [predicate_name]) as path then
+			if attached new_match_path (predicate_name) as path then
 				if path.exists and then attached File.plain_text (path) as text then
 					text.right_adjust
 					Result := text
@@ -63,7 +69,9 @@ feature {NONE} -- Implementation
 		-- filter requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
 		-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
 		do
-			if digit_count (path_lower) > maximum_uri_digits and then not is_digit_count_exception (path_lower) then
+			if digit_count (path_lower) > maximum_uri_digits
+				and then not Image_extension_set.has (dot_extension (path_lower))
+			then
 				Result := True
 			end
 		end
@@ -80,12 +88,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_digit_count_exception (path_lower: STRING): BOOLEAN
-		do
-			Result := Image_file_extensions.has (dot_extension (path_lower))
-							or else path_lower.starts_with (PKI_validation)
-		end
-
 feature {NONE} -- Deferred
 
 	match_output_dir: DIR_PATH
@@ -95,14 +97,9 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Constants
 
-	Image_file_extensions: EL_STRING_8_LIST
+	Image_extension_set: EL_HASH_SET [STRING]
 		once
-			Result := "jpg, jpeg, png"
-		end
-
-	PKI_validation: STRING
-		once
-			Result := ".well-known/pki-validation"
+			create Result.make_from (("bmp;gif;ico;jpg;jpeg;png;tiff;tif;webp").split (';'), True)
 		end
 
 end

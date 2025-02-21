@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 17:47:04 GMT (Wednesday 19th February 2025)"
-	revision: "13"
+	date: "2025-02-21 9:35:36 GMT (Friday 21st February 2025)"
+	revision: "14"
 
 class
 	EL_URI_FIRST_STEP_404_ANALYSIS_COMMAND
@@ -38,9 +38,10 @@ feature {NONE} -- Implementation
 			Result := 15
 		end
 
-	include_uri_part (uri_first_step: STRING): BOOLEAN
+	excluded (entry: EL_WEB_LOG_ENTRY): BOOLEAN
+		-- `True' if entry should be excluded from report
 		do
-			Result := not root_names_set.has (uri_first_step)
+			Result := root_names_set.has (entry.uri_step)
 		end
 
 	predicate_name: STRING

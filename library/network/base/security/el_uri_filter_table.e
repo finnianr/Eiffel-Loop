@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-20 18:44:45 GMT (Thursday 20th February 2025)"
-	revision: "14"
+	date: "2025-02-21 6:56:19 GMT (Friday 21st February 2025)"
+	revision: "15"
 
 class
 	EL_URI_FILTER_TABLE
@@ -41,6 +41,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Status report
+
+	has_excluded_first_characters: BOOLEAN
+		do
+			Result := excluded_first_characters.count > 0
+		end
 
 	is_hacker_probe (path_lower, user_agent: STRING): BOOLEAN
 		local
@@ -89,6 +94,11 @@ feature -- Basic operations
 					end
 				end
 			end
+		ensure
+			starts_with_table_has_no_string_count_eq_1: has_key (Predicate.starts_with) implies
+				across found_item as table all
+					table.item.count /= 1
+				end
 		end
 
 	put_whitelist (path_lower: STRING)
@@ -96,8 +106,7 @@ feature -- Basic operations
 			s: EL_STRING_8_ROUTINES
 		do
 			if s.ends_with_character (path_lower, '*') then
-				path_lower.remove_tail (1)
-				whitelist_stem_list.extend (path_lower)
+				whitelist_stem_list.extend (path_lower.substring (1, path_lower.count - 1))
 			else
 				whitelist_set.put (path_lower)
 			end

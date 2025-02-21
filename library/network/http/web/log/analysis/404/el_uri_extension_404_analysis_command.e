@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 17:47:04 GMT (Wednesday 19th February 2025)"
-	revision: "7"
+	date: "2025-02-21 9:45:52 GMT (Friday 21st February 2025)"
+	revision: "8"
 
 class
 	EL_URI_EXTENSION_404_ANALYSIS_COMMAND
@@ -37,6 +37,12 @@ feature {NONE} -- Implementation
 			do_nothing
 		end
 
+	excluded (entry: EL_WEB_LOG_ENTRY): BOOLEAN
+		-- `True' if entry should be excluded from report
+		do
+			Result := extension_set.has (entry.uri_extension)
+		end
+
 	extension_list: EL_STRING_8_LIST
 		do
 			create Result.make_multiline_words (config.site_extensions, ';', 0)
@@ -45,18 +51,13 @@ feature {NONE} -- Implementation
 	grid_column_count: INTEGER
 		-- number of grid columns to display `uri_path'
 		do
-			Result := 5
+			Result := 6
 		end
 
 	grid_column_width: INTEGER
 		-- maxium column width to display `uri_path' in grid columns
 		do
-			Result := 5
-		end
-
-	include_uri_part (uri_extension: STRING): BOOLEAN
-		do
-			Result := not extension_set.has (uri_extension)
+			Result := 10
 		end
 
 	predicate_name: STRING

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-27 9:01:13 GMT (Monday 27th January 2025)"
-	revision: "17"
+	date: "2025-02-21 8:19:25 GMT (Friday 21st February 2025)"
+	revision: "18"
 
 class
 	EL_DATA_TRANSFER_PROGRESS_LISTENER
@@ -97,9 +97,8 @@ feature -- Basic operations
 
 	finish
 		do
-			display.set_progress (1.0)
+			display.on_finish
 			if not attached {EL_CONSOLE_PROGRESS_DISPLAY} display then
-				display.on_finish
 				log_outcome ("byte_count", estimated_byte_count, byte_count)
 			end
 			reset

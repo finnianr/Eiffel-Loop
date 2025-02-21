@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-20 15:21:24 GMT (Thursday 20th February 2025)"
-	revision: "2"
+	date: "2025-02-21 9:36:18 GMT (Friday 21st February 2025)"
+	revision: "3"
 
 deferred class
 	EL_URI_SUBSTRING_404_ANALYSIS_COMMAND
@@ -63,7 +63,7 @@ feature -- Basic operations
 						lio.put_line (entry.uri_path)
 
 					elseif filter_foreign implies not matches_foreign (entry) then
-						if attached uri_part (entry) as str and then str.count > 0 then
+						if not excluded (entry) and then attached uri_part (entry) as str and then str.count > 0 then
 							request_counter_table.put (str)
 						end
 					end
@@ -93,7 +93,7 @@ feature -- Basic operations
 					lio.put_new_line
 				end
 			end
-			if attached (config.match_output_dir + File_match_text #$ [predicate_name]) as path then
+			if attached config.new_match_path (predicate_name) as path then
 			-- save all `uri_part' if they occur a minimum number of times specified by user.
 			-- Useful for configuring `EL_HACKER_INTERCEPT_CONFIG' import file.
 				prompt := "Enter minimum occurrences for inclusion in file " + path.base.to_latin_1
@@ -103,9 +103,7 @@ feature -- Basic operations
 					request_list.wipe_out
 					across request_counter_table as table loop
 						if table.item >= minimum_occurrences then
-							if include_uri_part (table.key) then
-								request_list.extend (table.key)
-							end
+							request_list.extend (table.key)
 						end
 					end
 					request_list.sort (True)
@@ -158,6 +156,11 @@ feature {NONE} -- Implementation
 
 feature -- Deferred
 
+	excluded (entry: EL_WEB_LOG_ENTRY): BOOLEAN
+		-- `True' if entry should be excluded from report
+		deferred
+		end
+
 	grid_column_count: INTEGER
 		-- number of grid columns to display `uri_path'
 		deferred
@@ -165,10 +168,6 @@ feature -- Deferred
 
 	grid_column_width: INTEGER
 		-- maxium column width to display `uri_path' in grid columns
-		deferred
-		end
-
-	include_uri_part (uri_first_step: STRING): BOOLEAN
 		deferred
 		end
 
@@ -189,6 +188,6 @@ feature {NONE} -- Internal attributes
 
 	foreign_starts_with_set: EL_STRING_8_LIST
 
-	root_names_set: EL_HASH_SET [STRING];
+	root_names_set: EL_HASH_SET [STRING]
 
 end
