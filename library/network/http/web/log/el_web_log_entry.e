@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:59:42 GMT (Thursday 13th February 2025)"
-	revision: "37"
+	date: "2025-02-21 12:59:11 GMT (Friday 21st February 2025)"
+	revision: "38"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -84,16 +84,20 @@ feature {NONE} -- Initialization
 							user_agent := shared_string (Agent_word_set, part)
 						end
 
-				else end
+				else
+					do_nothing
+				end
 			end
 		end
 
 	make_default
 		do
-			uri_group := Empty_string_8
 			http_command := Empty_string_8
 			referer := Empty_string_8
+			uri_extension := Empty_string_8
+			uri_group := Empty_string_8
 			uri_parameters := Empty_string_8
+			uri_path := Empty_string_8
 			uri_step := Empty_string_8
 			user_agent := Empty_string_8
 		end
