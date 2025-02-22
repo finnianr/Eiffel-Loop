@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 16:56:19 GMT (Wednesday 19th February 2025)"
-	revision: "42"
+	date: "2025-02-22 9:37:42 GMT (Saturday 22nd February 2025)"
+	revision: "43"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -70,6 +70,7 @@ feature -- Basic operations
 					check_ip_address (address.item, list.item.port)
 				end
 			end
+			is_whitelisted := False
 			ip_number := request_remote_address_32
 
 			check_ip_address (ip_number, Service_port.HTTP)
@@ -81,7 +82,10 @@ feature -- Basic operations
 
 		-- While geo-location is being looked up for address, (which can take a second or two)
 		-- a firewall rule is being added in time for next intrusion from same address
-			log.put_labeled_string (once "Location " + address_string (ip_number), Geolocation.for_number (ip_number))
+			log.put_string (Whitelisted [is_whitelisted])
+			log.put_labeled_string (once " URI", request.relative_path_info)
+			log.put_new_line
+			log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
 			log.put_new_line
 
 			response.send_error (
@@ -108,8 +112,7 @@ feature {NONE} -- Implementation
 				if filter_table.is_hacker_probe (lower_utf_8_path, request.headers.user_agent) then
 					additional_rules_table.extend (port, ip_number)
 				else
-					log.put_labeled_string (once "Permitted 404 request", request.relative_path_info)
-					log.put_new_line
+					is_whitelisted := True
 				end
 			else -- is mail spammer or ssh hacker
 				additional_rules_table.extend (port, ip_number)
@@ -194,11 +197,21 @@ feature {NONE} -- Internal attributes
 
 	ip_address_set: EL_HASH_SET [NATURAL]
 
+	is_whitelisted: BOOLEAN
+		-- Is URI request whitelisted
+
 	monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
 
 	rules: EL_UFW_USER_RULES
 
-	service: EL_404_INTERCEPT_SERVICE;
+	service: EL_404_INTERCEPT_SERVICE
+
+feature {NONE} -- Constants
+
+	Whitelisted: EL_BOOLEAN_INDEXABLE [STRING]
+		once
+			create Result.make ("Malicious", "Whitelisted")
+		end
 
 note
 	notes: "[

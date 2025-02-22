@@ -51,6 +51,20 @@ if [[ ! -d "$dir_path" ]]; then
 	mkdir $dir_path
 fi
 
+# Check if live host or dev machine
+if [[ $(hostname) != $domain_name ]]; then
+	is_dev_machine=true
+
+	echo Service is in testing mode on development machine
+
+	# start fresh on dev machine
+	if [[ -e $rules_path ]]; then
+		rm $rules_path
+	fi
+else
+	unset is_dev_machine
+fi
+	
 if [[ ! -e "$rules_path" ]]; then
 	echo Copying "/lib/ufw/user.rules"
 	cp /lib/ufw/user.rules $dir_path
@@ -58,20 +72,12 @@ if [[ ! -e "$rules_path" ]]; then
 	chmod 644 $rules_path
 fi
 
-# Dry run on dev machine
-if [[ "$(hostname)" != "$domain_name" ]]; then
-	dry_run=true
-else
-	unset dry_run
-fi
-
 echo_waiting
 
 while inotifywait -q -e close_write $rules_path 1>/dev/null; do
 	set_digest
-	while [[ "$digest" != "$last_digest" ]]; do
-		if [[ -v dry_run ]]; then
-		#	Is dev machine
+	while [[ $digest != $last_digest ]]; do
+		if [[ -v is_dev_machine ]]; then
 			echo SKIP\: install_rules\; ufw reload
 		else
 			echo install_rules\; ufw reload
