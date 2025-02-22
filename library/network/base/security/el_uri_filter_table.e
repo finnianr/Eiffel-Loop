@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-21 6:56:19 GMT (Friday 21st February 2025)"
-	revision: "15"
+	date: "2025-02-22 14:45:13 GMT (Saturday 22nd February 2025)"
+	revision: "16"
 
 class
 	EL_URI_FILTER_TABLE
@@ -54,9 +54,6 @@ feature -- Status report
 			if user_agent.is_empty then
 				Result := True
 
-			elseif is_whitelisted (path_lower) then
-				Result := False
-
 			elseif digit_count_exceeded (path_lower) then
 				-- filter requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
 				-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
@@ -65,6 +62,17 @@ feature -- Status report
 				from start until after or Result loop
 					Result := iteration_item_matches (path_lower, s.substring_to (path_lower, '/'), dot_extension (path_lower))
 					forth
+				end
+			end
+		end
+
+	is_whitelisted (path_lower, user_agent: STRING): BOOLEAN
+		-- True if `path_lower' is whitelisted
+		do
+			if user_agent.count > 0 then
+				Result := whitelist_set.has (path_lower)
+				if not Result then
+					Result := across whitelist_stem_list as list some path_lower.starts_with (list.item) end
 				end
 			end
 		end
@@ -113,15 +121,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
-
-	is_whitelisted (path_lower: STRING): BOOLEAN
-		-- True if `path_lower' is whitelisted
-		do
-			Result := whitelist_set.has (path_lower)
-			if not Result then
-				Result := across whitelist_stem_list as list some path_lower.starts_with (list.item) end
-			end
-		end
 
 	iteration_item_matches (path_lower, path_first_step, path_extension: STRING): BOOLEAN
 		do

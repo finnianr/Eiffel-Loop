@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-21 7:03:00 GMT (Friday 21st February 2025)"
-	revision: "10"
+	date: "2025-02-22 15:05:49 GMT (Saturday 22nd February 2025)"
+	revision: "11"
 
 class
 	SECURITY_TEST_SET
@@ -26,6 +26,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["is_hacker_probe", agent test_is_hacker_probe],
+				["is_whitelisted",  agent test_is_whitelisted],
 				["ufw_user_rules",  agent test_ufw_user_rules]
 			>>)
 		end
@@ -68,12 +69,6 @@ feature -- Test
 					assert ("max digits OK for image", not filter.is_hacker_probe ("images/picture-256x256.jpeg", User_agent))
 				end
 
-				if attached (".well-known/pki-validation/") as pki_validation then
-					filter.set_maximum_uri_digits (3)
-					filter.put_whitelist (pki_validation + "*")
-					assert ("validation file OK", not filter.is_hacker_probe (pki_validation + "87543bde9176626.txt", User_agent))
-				end
-
 				filter.extend (".", starts_with)
 				assert ("has_excluded_first_characters", filter.has_excluded_first_characters)
 				assert (".env", filter.is_hacker_probe (".env", User_agent))
@@ -84,13 +79,27 @@ feature -- Test
 				filter.extend ("bot", first_step)
 				assert ("starts with bot", filter.is_hacker_probe ("bot/api", User_agent))
 
-				filter.put_whitelist ("bot/permitted")
-				assert ("permitted bot", not filter.is_hacker_probe ("bot/permitted", User_agent))
-
 				filter.extend ("store", ends_with)
 				assert ("match", filter.is_hacker_probe (".ds_store", User_agent))
 
 				assert ("not match", not filter.is_hacker_probe ("en/home.html", User_agent))
+			end
+		end
+
+	test_is_whitelisted
+		-- SECURITY_TEST_SET.test_is_whitelisted
+		local
+			filter: EL_URI_FILTER_TABLE
+		do
+			create filter.make
+			if attached (".well-known/pki-validation/") as pki_validation then
+				filter.put_whitelist (pki_validation + "*")
+				assert ("whitelisted URI", filter.is_whitelisted (pki_validation + "87543bde9176626.txt", User_agent))
+			end
+
+			if attached ("bot/permitted") as uri then
+				filter.put_whitelist (uri)
+				assert ("whitelisted", filter.is_whitelisted (uri, User_agent))
 			end
 		end
 

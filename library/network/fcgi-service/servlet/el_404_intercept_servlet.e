@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-22 9:37:42 GMT (Saturday 22nd February 2025)"
-	revision: "43"
+	date: "2025-02-22 15:10:39 GMT (Saturday 22nd February 2025)"
+	revision: "44"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -26,7 +26,7 @@ inherit
 			on_shutdown, service
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_GEOLOCATION
+	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_GEOLOCATION; EL_MODULE_TUPLE
 
 	EL_SHARED_SERVICE_PORT
 
@@ -70,7 +70,7 @@ feature -- Basic operations
 					check_ip_address (address.item, list.item.port)
 				end
 			end
-			is_whitelisted := False
+			request_status := Threat.default_
 			ip_number := request_remote_address_32
 
 			check_ip_address (ip_number, Service_port.HTTP)
@@ -82,7 +82,7 @@ feature -- Basic operations
 
 		-- While geo-location is being looked up for address, (which can take a second or two)
 		-- a firewall rule is being added in time for next intrusion from same address
-			log.put_string (Whitelisted [is_whitelisted])
+			log.put_string (request_status)
 			log.put_labeled_string (once " URI", request.relative_path_info)
 			log.put_new_line
 			log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
@@ -107,12 +107,19 @@ feature {NONE} -- Implementation
 			-- Firewall rule exists but has not yet taken effect
 				log.put_labeled_string (Service_port.name (port) + once " denied to", address_string (ip_number))
 				log.put_new_line
+				if port = Service_port.HTTP then
+					request_status := Threat.malicious
+				end
 
-			elseif port = Service_port.HTTP then
-				if filter_table.is_hacker_probe (lower_utf_8_path, request.headers.user_agent) then
+			elseif port = Service_port.HTTP and then attached lower_utf_8_path as path then
+				if filter_table.is_whitelisted (path, request.headers.user_agent) then
+					request_status := Threat.whitelisted
+
+				elseif filter_table.is_hacker_probe (path, request.headers.user_agent) then
 					additional_rules_table.extend (port, ip_number)
+					request_status := Threat.malicious
 				else
-					is_whitelisted := True
+					request_status := Threat.suspicious
 				end
 			else -- is mail spammer or ssh hacker
 				additional_rules_table.extend (port, ip_number)
@@ -140,6 +147,7 @@ feature {NONE} -- Implementation
 		end
 
 	request_remote_address_32: NATURAL
+		-- redefined in test servlet
 		do
 			Result := request.remote_address_32
 		end
@@ -197,8 +205,8 @@ feature {NONE} -- Internal attributes
 
 	ip_address_set: EL_HASH_SET [NATURAL]
 
-	is_whitelisted: BOOLEAN
-		-- Is URI request whitelisted
+	request_status: IMMUTABLE_STRING_8
+		-- URI request security status
 
 	monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
 
@@ -208,9 +216,10 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Whitelisted: EL_BOOLEAN_INDEXABLE [STRING]
+	Threat: TUPLE [default_, malicious, suspicious, whitelisted: IMMUTABLE_STRING_8]
 		once
-			create Result.make ("Malicious", "Whitelisted")
+			create Result
+			Tuple.fill_immutable (Result, "Default, Malicious, Suspicious, Whitelisted")
 		end
 
 note
