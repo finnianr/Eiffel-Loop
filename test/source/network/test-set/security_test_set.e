@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-22 15:05:49 GMT (Saturday 22nd February 2025)"
-	revision: "11"
+	date: "2025-02-23 8:12:34 GMT (Sunday 23rd February 2025)"
+	revision: "12"
 
 class
 	SECURITY_TEST_SET
@@ -60,29 +60,29 @@ feature -- Test
 
 				across << 3, 50 >> as n loop
 					filter.set_maximum_uri_digits (n.item)
-					max_digits_exceeded := filter.is_hacker_probe ("87543bde9176626b120898f9141058", User_agent)
+					max_digits_exceeded := filter.is_hacker_probe ("87543bde9176626b120898f9141058")
 					if n.is_first then
 						assert ("max digits exceeded", max_digits_exceeded)
 					else
 						assert ("not max digits exceeded", not max_digits_exceeded)
 					end
-					assert ("max digits OK for image", not filter.is_hacker_probe ("images/picture-256x256.jpeg", User_agent))
+					assert ("max digits OK for image", not filter.is_hacker_probe ("images/picture-256x256.jpeg"))
 				end
 
 				filter.extend (".", starts_with)
 				assert ("has_excluded_first_characters", filter.has_excluded_first_characters)
-				assert (".env", filter.is_hacker_probe (".env", User_agent))
+				assert (".env", filter.is_hacker_probe (".env"))
 
 				filter.extend ("asp", has_extension)
-				assert ("extension asp", filter.is_hacker_probe ("home/index.asp", User_agent))
+				assert ("extension asp", filter.is_hacker_probe ("home/index.asp"))
 
 				filter.extend ("bot", first_step)
-				assert ("starts with bot", filter.is_hacker_probe ("bot/api", User_agent))
+				assert ("starts with bot", filter.is_hacker_probe ("bot/api"))
 
 				filter.extend ("store", ends_with)
-				assert ("match", filter.is_hacker_probe (".ds_store", User_agent))
+				assert ("match", filter.is_hacker_probe (".ds_store"))
 
-				assert ("not match", not filter.is_hacker_probe ("en/home.html", User_agent))
+				assert ("not match", not filter.is_hacker_probe ("en/home.html"))
 			end
 		end
 
@@ -94,12 +94,12 @@ feature -- Test
 			create filter.make
 			if attached (".well-known/pki-validation/") as pki_validation then
 				filter.put_whitelist (pki_validation + "*")
-				assert ("whitelisted URI", filter.is_whitelisted (pki_validation + "87543bde9176626.txt", User_agent))
+				assert ("whitelisted URI", filter.is_whitelisted (pki_validation + "87543bde9176626.txt"))
 			end
 
 			if attached ("bot/permitted") as uri then
 				filter.put_whitelist (uri)
-				assert ("whitelisted", filter.is_whitelisted (uri, User_agent))
+				assert ("whitelisted", filter.is_whitelisted (uri))
 			end
 		end
 
@@ -131,8 +131,4 @@ feature {NONE} -- Implementation
 		do
 			Result := Dev_environ.EL_test_data_dir #+ "security"
 		end
-
-feature -- Constants
-
-	User_agent: STRING = "Mozzilla firefox"
 end

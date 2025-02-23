@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "27"
+	date: "2025-02-23 8:25:28 GMT (Sunday 23rd February 2025)"
+	revision: "28"
 
 class
 	EL_LOG_MANAGER
@@ -358,6 +358,7 @@ feature {EL_LOG_PRUNE_COMMAND} -- Factory
 		end
 
 	new_log_path_list (name: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [FILE_PATH]
+		-- list of log file paths with highest version number first
 		local
 			log_path_list: EL_FILE_PATH_LIST
 		do

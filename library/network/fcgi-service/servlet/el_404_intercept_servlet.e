@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-22 15:10:39 GMT (Saturday 22nd February 2025)"
-	revision: "44"
+	date: "2025-02-23 9:26:51 GMT (Sunday 23rd February 2025)"
+	revision: "45"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -26,7 +26,9 @@ inherit
 			on_shutdown, service
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_GEOLOCATION; EL_MODULE_TUPLE
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE
+
+	EL_MODULE_GEOLOCATION; EL_MODULE_TUPLE
 
 	EL_SHARED_SERVICE_PORT
 
@@ -109,13 +111,21 @@ feature {NONE} -- Implementation
 				log.put_new_line
 				if port = Service_port.HTTP then
 					request_status := Threat.malicious
+				-- stall for time while ufw finishes reloading updated rules
+					execution.sleep (500)
 				end
 
-			elseif port = Service_port.HTTP and then attached lower_utf_8_path as path then
-				if filter_table.is_whitelisted (path, request.headers.user_agent) then
+			elseif port = Service_port.HTTP
+				and then attached request.relative_path_info.as_lower.to_utf_8 as path
+			then
+				if request.headers.user_agent.is_empty then
+					additional_rules_table.extend (port, ip_number)
+					request_status := Threat.malicious
+
+				elseif filter_table.is_whitelisted (path) then
 					request_status := Threat.whitelisted
 
-				elseif filter_table.is_hacker_probe (path, request.headers.user_agent) then
+				elseif filter_table.is_hacker_probe (path) then
 					additional_rules_table.extend (port, ip_number)
 					request_status := Threat.malicious
 				else
@@ -124,11 +134,6 @@ feature {NONE} -- Implementation
 			else -- is mail spammer or ssh hacker
 				additional_rules_table.extend (port, ip_number)
 			end
-		end
-
-	lower_utf_8_path: STRING
-		do
-			Result := request.relative_path_info.as_lower.to_utf_8
 		end
 
 	new_authorization_log: EL_TODAYS_AUTHORIZATION_LOG

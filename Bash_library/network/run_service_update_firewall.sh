@@ -26,6 +26,15 @@ install_rules (){
 	flock --unlock "$lock_fd"
 }
 
+# Function to measure execution time in milliseconds
+measure_time() {
+    local start_time=$(date +%s%3N)  # Get start time in milliseconds
+    "$@"                            # Execute the command
+    local end_time=$(date +%s%3N)    # Get end time in milliseconds
+    local duration=$((end_time - start_time))
+    echo "Execution time: ${duration} ms"
+}
+
 set_digest (){
 	exec {lock_fd}>$lock_path || exit 1
 	flock --exclusive "$lock_fd"
@@ -81,8 +90,7 @@ while inotifywait -q -e close_write $rules_path 1>/dev/null; do
 			echo SKIP\: install_rules\; ufw reload
 		else
 			echo install_rules\; ufw reload
-			install_rules; ufw reload
-			echo reloaded
+			install_rules; measure_time ufw reload
 		fi
 		last_digest="$digest"
 		set_digest

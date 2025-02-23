@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-22 14:45:13 GMT (Saturday 22nd February 2025)"
-	revision: "16"
+	date: "2025-02-23 8:11:11 GMT (Sunday 23rd February 2025)"
+	revision: "17"
 
 class
 	EL_URI_FILTER_TABLE
@@ -47,14 +47,11 @@ feature -- Status report
 			Result := excluded_first_characters.count > 0
 		end
 
-	is_hacker_probe (path_lower, user_agent: STRING): BOOLEAN
+	is_hacker_probe (path_lower: STRING): BOOLEAN
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			if user_agent.is_empty then
-				Result := True
-
-			elseif digit_count_exceeded (path_lower) then
+			if digit_count_exceeded (path_lower) then
 				-- filter requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
 				-- but allow: "GET /images/favicon/196x196.png HTTP/1.1"
 				Result := True
@@ -66,14 +63,12 @@ feature -- Status report
 			end
 		end
 
-	is_whitelisted (path_lower, user_agent: STRING): BOOLEAN
+	is_whitelisted (path_lower: STRING): BOOLEAN
 		-- True if `path_lower' is whitelisted
 		do
-			if user_agent.count > 0 then
-				Result := whitelist_set.has (path_lower)
-				if not Result then
-					Result := across whitelist_stem_list as list some path_lower.starts_with (list.item) end
-				end
+			Result := whitelist_set.has (path_lower)
+			if not Result then
+				Result := across whitelist_stem_list as list some path_lower.starts_with (list.item) end
 			end
 		end
 

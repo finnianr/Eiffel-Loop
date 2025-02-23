@@ -4,7 +4,7 @@ note
 		
 		Usage:
 		
-			command -log_prune -keep <number to keep>
+			<command-name> -log_prune -keep <number to keep>
 	]"
 
 	author: "Finnian Reilly"
@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-19 9:30:07 GMT (Sunday 19th January 2025)"
-	revision: "2"
+	date: "2025-02-23 8:21:02 GMT (Sunday 23rd February 2025)"
+	revision: "3"
 
 class
 	EL_LOG_PRUNE_APP
