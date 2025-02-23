@@ -55,6 +55,7 @@ dir_path=/var/local/$domain_name
 rules_path=$dir_path/user.rules
 lock_path=$rules_path.lock
 last_digest=""
+description="Firewall updating service"
 
 if [[ ! -d "$dir_path" ]]; then
 	mkdir $dir_path

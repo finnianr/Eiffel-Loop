@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 15:44:46 GMT (Friday 14th February 2025)"
-	revision: "5"
+	date: "2025-02-23 11:46:29 GMT (Sunday 23rd February 2025)"
+	revision: "6"
 
 deferred class
 	EL_TODAYS_LOG_ENTRIES
@@ -159,13 +159,16 @@ feature {NONE} -- Factory
 
 	new_todays_lines (date_string: STRING): EL_STRING_8_LIST
 		local
-			log: PLAIN_TEXT_FILE
+			log: PLAIN_TEXT_FILE; break: BOOLEAN
 		do
 			create Result.make (300)
 			create log.make_open_read (log_path)
-			from until log.end_of_file loop
+			from until break loop
 				log.read_line
-				if log.last_string.starts_with (date_string) then
+				if log.end_of_file then
+					break := True
+					
+				elseif log.last_string.starts_with (date_string) then
 					Result.extend (log.last_string.string)
 				end
 			end

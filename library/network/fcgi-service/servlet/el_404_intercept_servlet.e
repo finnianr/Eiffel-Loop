@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 9:26:51 GMT (Sunday 23rd February 2025)"
-	revision: "45"
+	date: "2025-02-23 14:00:54 GMT (Sunday 23rd February 2025)"
+	revision: "46"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -42,7 +42,9 @@ feature {NONE} -- Initialization
 			mutex_path: FILE_PATH
 		do
 			make_servlet (a_service)
-			monitored_logs := << new_authorization_log, new_sendmail_log >>
+			create monitored_logs.make_equal (2)
+			monitored_logs [URI.auth_log_modified] := new_authorization_log
+			monitored_logs [URI.mail_log_modified] := new_sendmail_log
 
 			create additional_rules_table.make (4)
 			create address_list.make (10)
@@ -61,21 +63,28 @@ feature -- Basic operations
 
 	serve
 		local
-			ip_number: NATURAL
+			ip_number: NATURAL; log_notification_received: BOOLEAN
 		do
 			log.enter ("serve")
 
 		-- check mail.log and auth.log for hacker intrusions
-			across monitored_logs as list loop
-				list.item.update_hacker_ip_list
-				across list.item.new_hacker_ip_list as address loop
-					check_ip_address (address.item, list.item.port)
+			if attached request.relative_path_info.to_shared_immutable_8 as path
+				and then monitored_logs.has_key (path)
+				and then attached monitored_logs.found_item as system_log
+			then
+				log_notification_received := True
+				system_log.update_hacker_ip_list
+				across system_log.new_hacker_ip_list as address loop
+					check_ip_address (address.item, system_log.port)
 				end
 			end
+
 			request_status := Threat.default_
 			ip_number := request_remote_address_32
 
-			check_ip_address (ip_number, Service_port.HTTP)
+			if not log_notification_received then
+				check_ip_address (ip_number, Service_port.HTTP)
+			end
 
 			if additional_rules_table.count > 0 then
 				update_firewall
@@ -87,8 +96,10 @@ feature -- Basic operations
 			log.put_string (request_status)
 			log.put_labeled_string (once " URI", request.relative_path_info)
 			log.put_new_line
-			log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
-			log.put_new_line
+			if not log_notification_received then
+				log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
+				log.put_new_line
+			end
 
 			response.send_error (
 				Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
@@ -213,7 +224,7 @@ feature {NONE} -- Internal attributes
 	request_status: IMMUTABLE_STRING_8
 		-- URI request security status
 
-	monitored_logs: ARRAY [EL_TODAYS_LOG_ENTRIES]
+	monitored_logs: HASH_TABLE [EL_TODAYS_LOG_ENTRIES, IMMUTABLE_STRING_8]
 
 	rules: EL_UFW_USER_RULES
 
@@ -225,6 +236,12 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill_immutable (Result, "Default, Malicious, Suspicious, Whitelisted")
+		end
+
+	URI: TUPLE [auth_log_modified, mail_log_modified: IMMUTABLE_STRING_8]
+		once
+			create Result
+			Tuple.fill_immutable (Result, "auth_log_modified, mail_log_modified")
 		end
 
 note

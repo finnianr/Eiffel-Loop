@@ -805,3 +805,6 @@ Dynamically modified /lib/ufw/user.rules with hacker intercept servlet
 Thu 20th Feb 2025, 19:02:50
 Optimizing traffic analysis and 404 intercept URI matching
 
+Sun 23rd Feb 2025, 9:41:11
+stall for time while ufw finishes reloading updated rules
+
