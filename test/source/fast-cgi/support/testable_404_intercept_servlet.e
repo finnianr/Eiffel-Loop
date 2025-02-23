@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 15:40:15 GMT (Friday 14th February 2025)"
-	revision: "6"
+	date: "2025-02-23 16:12:26 GMT (Sunday 23rd February 2025)"
+	revision: "7"
 
 class
 	TESTABLE_404_INTERCEPT_SERVLET
@@ -45,12 +45,12 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Factory
 
-	new_authorization_log: TEST_AUTHORIZATION_LOG
+	new_authorization_log: TEST_AUTH_LOG_ENTRIES
 		do
 			create Result.make
 		end
 
-	new_sendmail_log: TEST_SENDMAIL_LOG
+	new_sendmail_log: TEST_MAIL_LOG_ENTRIES
 		do
 			create Result.make
 		end

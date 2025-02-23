@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 15:47:14 GMT (Friday 14th February 2025)"
-	revision: "6"
+	date: "2025-02-23 16:10:26 GMT (Sunday 23rd February 2025)"
+	revision: "7"
 
 class
-	EL_TODAYS_AUTHORIZATION_LOG
+	EL_RECENT_AUTH_LOG_ENTRIES
 
 inherit
-	EL_TODAYS_LOG_ENTRIES
+	EL_RECENT_LOG_ENTRIES
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 10:35:08 GMT (Saturday 24th August 2024)"
-	revision: "76"
+	date: "2025-02-23 17:46:35 GMT (Sunday 23rd February 2025)"
+	revision: "77"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -177,41 +177,6 @@ feature -- List joining
 		end
 
 feature -- Transformed
-
-	bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32): STRING_X
-		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
-		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
-		require
-			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
-		local
-			left_index, right_index: INTEGER; content: READABLE_STRING_GENERAL
-			c32: EL_CHARACTER_32_ROUTINES
-		do
-			left_index := str.index_of (left_bracket, 1)
-			if left_index > 0 and then attached cursor (str) as l_cursor then
-				right_index := str.index_of (c32.right_bracket (left_bracket), left_index + 1)
-				right_index := l_cursor.matching_bracket_index (left_index)
-				if right_index > 0 then
-					content := str.substring (left_index + 1, right_index - 1)
-					create Result.make (content.count)
-					append_to (Result, content)
-				else
-					create Result.make (0)
-				end
-			else
-				create Result.make (0)
-			end
-		end
-
-	curtailed (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
-		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
-		do
-			if str.count > max_count - 2 then
-				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
-			else
-				Result := str
-			end
-		end
 
 	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): STRING_X
 			--

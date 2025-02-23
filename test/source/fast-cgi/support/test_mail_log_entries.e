@@ -8,29 +8,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2025-02-23 18:36:47 GMT (Sunday 23rd February 2025)"
+	revision: "4"
 
 class
-	TEST_SENDMAIL_LOG
+	TEST_MAIL_LOG_ENTRIES
 
 inherit
-	EL_TODAYS_SENDMAIL_LOG
+	EL_RECENT_MAIL_LOG_ENTRIES
 		redefine
-			is_new_day
+			Default_log_path
 		end
 
 create
 	make
 
-feature {NONE} -- Implementation
+feature -- Constants
 
-	is_new_day: BOOLEAN
-		-- fixed to Oct 8th for test purposes
-		do
-			Result := Precursor
-			today.set_day (8)
-			today.set_month (10)
+	Default_log_path: STRING
+		once
+			Result := "workarea/mail.log"
 		end
 
 end

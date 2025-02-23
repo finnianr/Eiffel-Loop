@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 14:20:41 GMT (Sunday 9th February 2025)"
-	revision: "50"
+	date: "2025-02-23 17:57:03 GMT (Sunday 23rd February 2025)"
+	revision: "51"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -460,6 +460,30 @@ feature -- Substring
 			end
 		end
 
+	bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32): READABLE_STRING_X
+		-- first substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
+		do
+			Result := new_bracketed (str, left_bracket, False)
+		end
+
+	bracketed_last (str: READABLE_STRING_X; left_bracket: CHARACTER_32): READABLE_STRING_X
+		-- last substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
+		do
+			Result := new_bracketed (str, left_bracket, True)
+		end
+
+	curtailed (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
+		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded
+		do
+			if str.count > max_count - 2 then
+				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
+			else
+				Result := str
+			end
+		end
+
 	sandwiched_parts (str: READABLE_STRING_X; separator: CHARACTER_32; head_count, tail_count: INTEGER): READABLE_STRING_X
 		-- joined substring of split list defined by `separator' after `head_count' and `tail_count' parts
 		-- have been removed from head and tail of list respectively
@@ -569,6 +593,33 @@ feature -- Substring
 		end
 
 feature {NONE} -- Implementation
+
+	new_bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32; right_to_left: BOOLEAN): READABLE_STRING_X
+		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
+		require
+			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
+		local
+			left_index, right_index: INTEGER; content: READABLE_STRING_GENERAL
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			if right_to_left then
+				left_index := last_index_of (str, left_bracket, str.count)
+			else
+				left_index := index_of (str, left_bracket, 1)
+			end
+			if left_index > 0 and then attached cursor (str) as l_cursor then
+				right_index := index_of (str, c32.right_bracket (left_bracket), left_index + 1)
+				right_index := l_cursor.matching_bracket_index (left_index)
+				if right_index > 0 then
+					Result := str.substring (left_index + 1, right_index - 1)
+				else
+					Result := str.substring (1, 0)
+				end
+			else
+				Result := str.substring (1, 0)
+			end
+		end
 
 	null: TYPED_POINTER [INTEGER]
 		do

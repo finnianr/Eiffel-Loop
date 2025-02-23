@@ -8,29 +8,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2025-02-23 16:24:02 GMT (Sunday 23rd February 2025)"
+	revision: "4"
 
 class
-	TEST_AUTHORIZATION_LOG
+	TEST_AUTH_LOG_ENTRIES
 
 inherit
-	EL_TODAYS_AUTHORIZATION_LOG
-		redefine
-			is_new_day
-		end
+	EL_RECENT_AUTH_LOG_ENTRIES
 
 create
 	make
-
-feature {NONE} -- Implementation
-
-	is_new_day: BOOLEAN
-		-- fixed to Oct 22th for test purposes
-		do
-			Result := Precursor
-			today.set_day (22)
-			today.set_month (10)
-		end
 
 end

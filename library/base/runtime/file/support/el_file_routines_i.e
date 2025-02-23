@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:54:23 GMT (Thursday 13th February 2025)"
-	revision: "24"
+	date: "2025-02-23 18:55:14 GMT (Sunday 23rd February 2025)"
+	revision: "25"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -178,6 +178,7 @@ feature -- File content
 			if {PLATFORM}.is_unix and then has_windows_line_break (Result) then
 				Result.prune_all ('%R')
 			end
+			Result.right_adjust
 		end
 
 	plain_text_bomless (file_path: FILE_PATH): READABLE_STRING_8

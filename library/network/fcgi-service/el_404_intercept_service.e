@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-20 11:13:57 GMT (Thursday 20th February 2025)"
-	revision: "24"
+	date: "2025-02-23 16:11:07 GMT (Sunday 23rd February 2025)"
+	revision: "25"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -52,7 +52,7 @@ feature -- Basic operations
 	error_check (application: EL_FALLIBLE)
 		-- check for errors before execution
 		local
-			sendmail: EL_TODAYS_SENDMAIL_LOG; error: EL_ERROR_DESCRIPTION
+			sendmail: EL_RECENT_MAIL_LOG_ENTRIES; error: EL_ERROR_DESCRIPTION
 		do
 			create sendmail.make
 			if attached config.missing_match_files as name_list and then name_list.count > 0 then

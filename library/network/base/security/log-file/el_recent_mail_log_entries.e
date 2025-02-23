@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 15:47:25 GMT (Friday 14th February 2025)"
-	revision: "7"
+	date: "2025-02-23 18:26:15 GMT (Sunday 23rd February 2025)"
+	revision: "8"
 
 class
-	EL_TODAYS_SENDMAIL_LOG
+	EL_RECENT_MAIL_LOG_ENTRIES
 
 inherit
-	EL_TODAYS_LOG_ENTRIES
+	EL_RECENT_LOG_ENTRIES
 		rename
 			new_hacker_ip_list as new_spammer_ip_list,
 			update_hacker_ip_list as update_spammer_ip_list
@@ -44,32 +44,20 @@ feature {NONE} -- Implementation
 		-- Extract IP address from log entry
 		-- Oct 26 14:45:16 myching sm-mta[30359]: 39QEjFLv030359: rejecting commands from [103.187.190.12]
 		local
-			start_index: INTEGER; address: STRING; s: EL_STRING_8_ROUTINES
+			s: EL_STRING_8_ROUTINES
 		do
-			start_index := line.substring_index (Message_start_marker, 1)
-			if start_index > 0 then
-			-- Start of message
-				start_index := line.index_of ('[', start_index + Message_start_marker.count)
-				if start_index > 0 then
-					start_index := start_index + 1
-					address := s.substring_to_from (line, ']', $start_index)
-					Result := IP_address.to_number (address)
-				end
+			if attached s.bracketed_last (line, '[') as address and then address.occurrences ('.') = 3 then
+				Result := IP_address.to_number (address)
 			end
 		end
 
 feature {NONE} -- Constants
-
-	Message_start_marker: STRING
-		once
-			Result := "]: "
-		end
 
 	Port: NATURAL_16 = 25
 		-- SMTP port
 
 	Warning_list: EL_STRING_8_LIST
 		once
-			Result := "Connection rate limit exceeded, Relaying denied"
+			Result := "Connection rate limit exceeded, Relaying denied, rejecting commands from"
 		end
 end

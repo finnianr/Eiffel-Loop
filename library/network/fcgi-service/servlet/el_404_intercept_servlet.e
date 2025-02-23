@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 14:00:54 GMT (Sunday 23rd February 2025)"
-	revision: "46"
+	date: "2025-02-23 16:11:07 GMT (Sunday 23rd February 2025)"
+	revision: "47"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -147,12 +147,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_authorization_log: EL_TODAYS_AUTHORIZATION_LOG
+	new_authorization_log: EL_RECENT_AUTH_LOG_ENTRIES
 		do
 			create Result.make
 		end
 
-	new_sendmail_log: EL_TODAYS_SENDMAIL_LOG
+	new_sendmail_log: EL_RECENT_MAIL_LOG_ENTRIES
 		do
 			create Result.make
 		end
@@ -224,7 +224,7 @@ feature {NONE} -- Internal attributes
 	request_status: IMMUTABLE_STRING_8
 		-- URI request security status
 
-	monitored_logs: HASH_TABLE [EL_TODAYS_LOG_ENTRIES, IMMUTABLE_STRING_8]
+	monitored_logs: HASH_TABLE [EL_RECENT_LOG_ENTRIES, IMMUTABLE_STRING_8]
 
 	rules: EL_UFW_USER_RULES
 
