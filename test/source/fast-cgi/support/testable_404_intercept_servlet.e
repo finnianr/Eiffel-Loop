@@ -1,6 +1,6 @@
 note
 	description: "[
-		Development testing for ${EL_HACKER_INTERCEPT_SERVLET} using *.log data in
+		Development testing for ${EL_404_INTERCEPT_SERVLET} using *.log data in
 		
 			$EIFFEL_LOOP/test/data/network
 	]"
@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 16:12:26 GMT (Sunday 23rd February 2025)"
-	revision: "7"
+	date: "2025-02-24 13:11:57 GMT (Monday 24th February 2025)"
+	revision: "8"
 
 class
 	TESTABLE_404_INTERCEPT_SERVLET
@@ -19,41 +19,11 @@ class
 inherit
 	EL_404_INTERCEPT_SERVLET
 		redefine
-			request_remote_address_32, make, new_authorization_log, new_sendmail_log
+			request_remote_address_32
 		end
-
-	EL_MODULE_DIRECTORY
-
-	SHARED_DEV_ENVIRON
 
 create
 	make
-
-feature {NONE} -- Initialization
-
-	make (a_service: EL_404_INTERCEPT_SERVICE)
-		do
-			Precursor (a_service)
-			across monitored_logs as list loop
-				if attached (Log_dir + Directory.new (list.item.log_path).base) as log_path then
-					list.item.log_path.share (log_path.to_string)
-				end
-			end
-		ensure then
-			test_log_exists: across monitored_logs as list all Directory.new (list.item.log_path).exists end
-		end
-
-feature {NONE} -- Factory
-
-	new_authorization_log: TEST_AUTH_LOG_ENTRIES
-		do
-			create Result.make
-		end
-
-	new_sendmail_log: TEST_MAIL_LOG_ENTRIES
-		do
-			create Result.make
-		end
 
 feature {NONE} -- Implementation
 
@@ -79,10 +49,5 @@ feature {NONE} -- Constants
 	Invalid_auth_ip: STRING = "177.54.130.127"
 
 	Invalid_mail_ip: STRING = "80.94.95.181"
-
-	Log_dir: EL_DIR_PATH
-		once
-			Result := Dev_environ.Eiffel_loop_dir #+ "test/data/network"
-		end
 
 end

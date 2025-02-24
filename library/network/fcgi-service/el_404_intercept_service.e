@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 8:29:55 GMT (Monday 24th February 2025)"
-	revision: "26"
+	date: "2025-02-24 13:38:20 GMT (Monday 24th February 2025)"
+	revision: "27"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -19,10 +19,10 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			config, error_check, description, make, log_separator
+			config, error_check, description, make, log_request, log_separator
 		end
 
-	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE
+	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
 
 create
 	make_port, make
@@ -33,6 +33,9 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		do
 			Precursor (config_path)
 			rules_path := config.server_socket_path.parent + Active_rule_path.base
+			create monitored_logs.make_equal (2)
+			monitored_logs [URI.auth_log_modified] := new_authorization_log
+			monitored_logs [URI.mail_log_modified] := new_sendmail_log
 		end
 
 feature -- Access
@@ -106,7 +109,8 @@ feature {NONE} -- Implementation
 
 	initialize_servlets
 		do
-			servlet_table [Default_servlet_key] := new_servlet
+			servlet := new_servlet
+			servlet_table [Default_servlet_key] := servlet
 		end
 
 	is_user_in_admin_group: BOOLEAN
@@ -120,15 +124,52 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	log_request (relative_path: ZSTRING; servlet_info: STRING)
+		do
+			if monitored_logs.has_key (relative_path.to_shared_immutable_8)
+				and then attached monitored_logs.found_item as system_log
+			then
+				system_log.update_intruder_list
+				if system_log.intruder_list.count > 0 then
+					servlet.set_system_log (system_log)
+					Precursor (relative_path, servlet_info)
+				else
+					servlet.set_system_log (Void)
+				-- Don't log output if nothing updated
+				end
+			else
+				servlet.set_system_log (Void)
+				Precursor (relative_path, servlet_info)
+			end
+		end
+
 	log_separator
 		do
 			lio.put_new_line
+		end
+
+feature {NONE} -- Factory
+
+	new_authorization_log: EL_RECENT_AUTH_LOG_ENTRIES
+		do
+			create Result.make
+		end
+
+	new_sendmail_log: EL_RECENT_MAIL_LOG_ENTRIES
+		do
+			create Result.make
 		end
 
 	new_servlet: EL_404_INTERCEPT_SERVLET
 		do
 			create Result.make (Current)
 		end
+
+feature {NONE} -- Internal attributes
+
+	monitored_logs: HASH_TABLE [EL_RECENT_LOG_ENTRIES, IMMUTABLE_STRING_8]
+
+	servlet: EL_404_INTERCEPT_SERVLET
 
 feature {EL_404_INTERCEPT_SERVLET} -- Constants
 
@@ -146,6 +187,12 @@ feature {EL_404_INTERCEPT_SERVLET} -- Constants
 	Screen_list_command: EL_SCREEN_SESSIONS_COMMAND
 		once
 			create Result.make
+		end
+
+	URI: TUPLE [auth_log_modified, mail_log_modified: IMMUTABLE_STRING_8]
+		once
+			create Result
+			Tuple.fill_immutable (Result, "auth_log_modified, mail_log_modified")
 		end
 
 	Update_firewall_script_name: STRING = "run_service_update_firewall.sh"

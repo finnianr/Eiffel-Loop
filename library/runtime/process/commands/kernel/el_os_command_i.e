@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:23:27 GMT (Sunday 22nd September 2024)"
-	revision: "65"
+	date: "2025-02-24 12:51:27 GMT (Monday 24th February 2025)"
+	revision: "66"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -59,7 +59,7 @@ inherit
 			make_default, new_transient_fields
 		end
 
-	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO
+	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_NAMING
 
 	EL_OS_COMMAND_CONSTANTS
 
@@ -244,20 +244,18 @@ feature {NONE} -- Implementation
 	display (lines: LIST [ZSTRING])
 			-- display word wrapped command
 		local
-			current_working_directory, printable_line, name, prompt, blank_prompt: ZSTRING
-			max_width: INTEGER; words: EL_ZSTRING_SPLIT_INTERVALS
+			current_working_directory, printable_line, prompt, blank_prompt: ZSTRING
+			max_width, head_count, tail_count: INTEGER; words: EL_ZSTRING_SPLIT_INTERVALS
+			name: STRING
 		do
 			current_working_directory := Directory.current_working
-			name := generator
-			if name.starts_with (EL_prefix) then
-				name.remove_head (3)
+			if attached generating_type as type then
+				head_count := if Naming.is_eiffel_loop (type.name) then 1 else 0 end
+				tail_count := if type.name.ends_with (Command_suffix) then 1 else 0 end
+				name := Naming.class_with_separator (type, ' ', head_count, tail_count)
+				create blank_prompt.make_filled (' ', name.count)
+				prompt := name
 			end
-			if name.ends_with (Command_suffix) then
-				name.remove_tail (8)
-			end
-			name.replace_character ('_', ' ')
-			create blank_prompt.make_filled (' ', name.count)
-			prompt := name
 
 			max_width := 100 - prompt.count  - 2
 

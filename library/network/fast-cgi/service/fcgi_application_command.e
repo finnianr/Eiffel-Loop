@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 9:20:08 GMT (Friday 30th August 2024)"
-	revision: "4"
+	date: "2025-02-24 13:36:25 GMT (Monday 24th February 2025)"
+	revision: "5"
 
 deferred class
 	FCGI_APPLICATION_COMMAND
@@ -99,9 +99,7 @@ feature {NONE} -- String constants
 
 	Service_info_template: ZSTRING
 		once
-			Result := "[
-				"#" with servlet #
-			]"
+			Result := "%S (%"%S%")"
 		end
 
 	Servlet_app_log_category: STRING = "servlet.app"

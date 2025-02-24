@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 7:57:44 GMT (Monday 24th February 2025)"
-	revision: "48"
+	date: "2025-02-24 13:42:10 GMT (Monday 24th February 2025)"
+	revision: "49"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -42,9 +42,6 @@ feature {NONE} -- Initialization
 			mutex_path: FILE_PATH
 		do
 			make_servlet (a_service)
-			create monitored_logs.make_equal (2)
-			monitored_logs [URI.auth_log_modified] := new_authorization_log
-			monitored_logs [URI.mail_log_modified] := new_sendmail_log
 
 			create additional_rules_table.make (4)
 			create address_list.make (10)
@@ -63,19 +60,15 @@ feature -- Basic operations
 
 	serve
 		local
-			ip_number: NATURAL; smtp_or_ssh_threat: BOOLEAN
+			ip_number: NATURAL; smtp_or_ssh_port: NATURAL_16
 		do
 			request_status := Threat.default_
 
 		-- check mail.log and auth.log for hacker intrusions
-			if attached request.relative_path_info.to_shared_immutable_8 as path
-				and then monitored_logs.has_key (path)
-				and then attached monitored_logs.found_item as system_log
-			then
-				system_log.update_intruder_list
-				across system_log.intruder_list as address loop
-					check_ip_address (address.item, system_log.port)
-					smtp_or_ssh_threat := True
+			if attached system_log as sys_log then
+				across sys_log.intruder_list as address loop
+					check_ip_address (address.item, sys_log.port)
+					smtp_or_ssh_port := sys_log.port
 				end
 			else
 				ip_number := request_remote_address_32
@@ -92,21 +85,28 @@ feature -- Basic operations
 
 			-- While geo-location is being looked up for address, (which can take a second or two)
 			-- a firewall rule is being added in time for next intrusion from same address
-				if smtp_or_ssh_threat then
-					log.put_labeled_string (once "LOG FILE", request.relative_path_info)
+				log.put_string (request_status)
+				if smtp_or_ssh_port.to_boolean then
+					log.put_spaces (1)
+					log.put_labeled_string (Service_port.name (smtp_or_ssh_port), request.relative_path_info)
+					response.set_content_ok
 				else
-					log.put_string (request_status)
 					log.put_labeled_string (once " URI", request.relative_path_info)
 					log.put_new_line
 					log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
+					response.send_error (
+						Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
+					)
 				end
-				log.put_new_line
-
-				response.send_error (
-					Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
-				)
 				log.exit
 			end
+		end
+
+feature -- Element change
+
+	set_system_log (a_system_log: like system_log)
+		do
+			system_log := a_system_log
 		end
 
 feature {NONE} -- Implementation
@@ -148,16 +148,6 @@ feature {NONE} -- Implementation
 				additional_rules_table.extend (port, ip_number)
 				request_status := Threat.malicious
 			end
-		end
-
-	new_authorization_log: EL_RECENT_AUTH_LOG_ENTRIES
-		do
-			create Result.make
-		end
-
-	new_sendmail_log: EL_RECENT_MAIL_LOG_ENTRIES
-		do
-			create Result.make
 		end
 
 	on_shutdown
@@ -227,11 +217,11 @@ feature {NONE} -- Internal attributes
 	request_status: IMMUTABLE_STRING_8
 		-- URI request security status
 
-	monitored_logs: HASH_TABLE [EL_RECENT_LOG_ENTRIES, IMMUTABLE_STRING_8]
-
 	rules: EL_UFW_USER_RULES
 
 	service: EL_404_INTERCEPT_SERVICE
+
+	system_log: detachable EL_RECENT_LOG_ENTRIES
 
 feature {NONE} -- Constants
 
@@ -239,12 +229,6 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill_immutable (Result, "Default, Malicious, Suspicious, Whitelisted")
-		end
-
-	URI: TUPLE [auth_log_modified, mail_log_modified: IMMUTABLE_STRING_8]
-		once
-			create Result
-			Tuple.fill_immutable (Result, "auth_log_modified, mail_log_modified")
 		end
 
 note

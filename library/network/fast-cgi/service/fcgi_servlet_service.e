@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 8:02:23 GMT (Monday 24th February 2025)"
-	revision: "38"
+	date: "2025-02-24 13:31:50 GMT (Monday 24th February 2025)"
+	revision: "39"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -167,8 +167,6 @@ feature {NONE} -- States
 
 	processing_request (table: like servlet_table)
 			-- Redefined process request to have type of response and request object defined in servlet
-		local
-			path: ZSTRING
 		do
 			if attached broker.relative_path_info as relative_path then
 				table.search (relative_path)
@@ -176,8 +174,7 @@ feature {NONE} -- States
 					table.search (Default_servlet_key)
 				end
 				if table.found then
-					path := Service_info_template #$ [relative_path, table.found_item.servlet_info]
-					log_request (path)
+					log_request (relative_path, table.found_item.description)
 					if log_parameters_enabled and then attached broker.parameters.query_string as query_string
 						and then query_string.count > 0
 					then
@@ -278,14 +275,16 @@ feature {NONE} -- Implementation
 			Result := False
 		end
 
-	log_request (path: ZSTRING)
+	log_request (relative_path: ZSTRING; servlet_info: STRING)
 		do
-			date_time.update
-			if date_time.date.ordered_compact_date /= compact_date then
-				lio.put_line (Date.formatted (date_time.date, Date_format))
-				compact_date := date_time.date.ordered_compact_date
+			if attached (Service_info_template #$ [relative_path, servlet_info]) as str then
+				date_time.update
+				if date_time.date.ordered_compact_date /= compact_date then
+					lio.put_line (Date.formatted (date_time.date, Date_format))
+					compact_date := date_time.date.ordered_compact_date
+				end
+				log_message (date_time.time.formatted_out (Time_format), str)
 			end
-			log_message (date_time.time.formatted_out (Time_format), path)
 		end
 
 	new_config (file_path: FILE_PATH): like config

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:12:27 GMT (Friday 13th September 2024)"
-	revision: "45"
+	date: "2025-02-24 12:48:31 GMT (Monday 24th February 2025)"
+	revision: "46"
 
 class
 	EL_NAMING_ROUTINES
@@ -30,6 +30,8 @@ inherit
 
 feature -- Constants
 
+	EL_prefix: STRING = "EL_"
+
 	Empty_word_set: EL_HASH_SET [STRING]
 		once
 			create Result.make_equal (0)
@@ -39,6 +41,13 @@ feature -- Constants
 		once
 			create Result.make_empty
 		end
+
+feature -- Status query
+
+	is_eiffel_loop (name: READABLE_STRING_8): BOOLEAN
+		 do
+		 	Result := name.starts_with (EL_prefix)
+		 end
 
 feature -- Class name derivations
 

@@ -6,25 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 12:11:59 GMT (Saturday 22nd July 2023)"
-	revision: "3"
+	date: "2025-02-24 12:37:02 GMT (Monday 24th February 2025)"
+	revision: "4"
 
 class
 	EL_OS_COMMAND_CONSTANTS
 
 feature {NONE} -- Strings
 
-	Command_suffix: ZSTRING
-		once
-			Result := "_COMMAND"
-		end
+	Command_suffix: STRING = "_COMMAND"
 
 	Enabled_suffix: STRING = "_enabled"
-
-	EL_prefix: ZSTRING
-		once
-			Result := "EL_"
-		end
 
 	Error_redirection_operator: ZSTRING
 		once

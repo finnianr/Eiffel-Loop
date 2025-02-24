@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 8:05:00 GMT (Monday 24th February 2025)"
-	revision: "26"
+	date: "2025-02-24 13:31:50 GMT (Monday 24th February 2025)"
+	revision: "27"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_DATE_TIME; EL_MODULE_IP_ADDRESS; EL_MODULE_LOG
+	EL_MODULE_DATE_TIME; EL_MODULE_IP_ADDRESS; EL_MODULE_LOG; EL_MODULE_NAMING
 
 	EL_SHARED_HTTP_STATUS; EL_SHARED_DOCUMENT_TYPES
 
@@ -38,10 +38,15 @@ feature -- Access
 		do
 		end
 
-	servlet_info: STRING
+	description: STRING
 			-- Information about the servlet, such as, author, version and copyright.
+		local
+			head_count: INTEGER
 		do
-			Result := generator
+			if attached generating_type as type then
+				head_count := if Naming.is_eiffel_loop (type.name) then 1 else 0 end
+				Result := Naming.class_with_separator_as_lower (type, ' ', head_count, 0)
+			end
 		end
 
 feature -- Basic operations
