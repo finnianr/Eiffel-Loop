@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 13:31:50 GMT (Monday 24th February 2025)"
-	revision: "39"
+	date: "2025-02-24 14:29:24 GMT (Monday 24th February 2025)"
+	revision: "40"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -277,7 +277,7 @@ feature {NONE} -- Implementation
 
 	log_request (relative_path: ZSTRING; servlet_info: STRING)
 		do
-			if attached (Service_info_template #$ [relative_path, servlet_info]) as str then
+			if attached (Service_info_template #$ [servlet_info, relative_path]) as str then
 				date_time.update
 				if date_time.date.ordered_compact_date /= compact_date then
 					lio.put_line (Date.formatted (date_time.date, Date_format))

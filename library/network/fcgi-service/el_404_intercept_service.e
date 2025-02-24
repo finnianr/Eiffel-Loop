@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 13:38:20 GMT (Monday 24th February 2025)"
-	revision: "27"
+	date: "2025-02-24 14:22:02 GMT (Monday 24th February 2025)"
+	revision: "28"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -130,12 +130,9 @@ feature {NONE} -- Implementation
 				and then attached monitored_logs.found_item as system_log
 			then
 				system_log.update_intruder_list
-				if system_log.intruder_list.count > 0 then
-					servlet.set_system_log (system_log)
+				servlet.set_system_log (system_log)
+				if system_log.has_intruder then
 					Precursor (relative_path, servlet_info)
-				else
-					servlet.set_system_log (Void)
-				-- Don't log output if nothing updated
 				end
 			else
 				servlet.set_system_log (Void)

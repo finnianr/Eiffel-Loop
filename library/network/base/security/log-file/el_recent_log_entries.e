@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 5:14:11 GMT (Monday 24th February 2025)"
-	revision: "8"
+	date: "2025-02-24 14:21:27 GMT (Monday 24th February 2025)"
+	revision: "9"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -33,10 +33,17 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	log_path: STRING
-
 	intruder_list: EL_ARRAYED_LIST [NATURAL]
 		-- list of new IP addresses of hackers since last call to `update_malicious_list'
+
+	log_path: STRING
+
+feature -- Status query
+
+	has_intruder: BOOLEAN
+		do
+			Result := intruder_list.count > 0
+		end
 
 feature -- Deferred
 
@@ -136,10 +143,10 @@ feature {NONE} -- Internal attributes
 
 	buffer: EL_STRING_8_BUFFER
 
+	date_time: EL_DATE_TIME
+
 	relay_hacker_set: EL_HASH_SET [NATURAL]
 		-- set of ip numbers that maybe forged and have rate limit exceeded warning
-
-	date_time: EL_DATE_TIME
 
 	time_compact: INTEGER
 

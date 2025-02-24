@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 13:42:10 GMT (Monday 24th February 2025)"
-	revision: "49"
+	date: "2025-02-24 14:30:27 GMT (Monday 24th February 2025)"
+	revision: "50"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -66,15 +66,14 @@ feature -- Basic operations
 
 		-- check mail.log and auth.log for hacker intrusions
 			if attached system_log as sys_log then
-				across sys_log.intruder_list as address loop
-					check_ip_address (address.item, sys_log.port)
+				if sys_log.has_intruder then
+					sys_log.intruder_list.do_all (agent check_ip_address (?, sys_log.port))
 					smtp_or_ssh_port := sys_log.port
 				end
 			else
 				ip_number := request_remote_address_32
 				check_ip_address (ip_number, Service_port.HTTP)
 			end
-
 			if request_status /= Threat.default_ then
 				log.enter ("serve")
 
@@ -98,6 +97,7 @@ feature -- Basic operations
 						Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
 					)
 				end
+				log.put_new_line
 				log.exit
 			end
 		end
