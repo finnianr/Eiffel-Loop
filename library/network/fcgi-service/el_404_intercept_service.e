@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 14:22:02 GMT (Monday 24th February 2025)"
-	revision: "28"
+	date: "2025-02-24 15:03:22 GMT (Monday 24th February 2025)"
+	revision: "29"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -19,7 +19,7 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			config, error_check, description, make, log_request, log_separator
+			config, error_check, description, make, log_request
 		end
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
@@ -138,11 +138,6 @@ feature {NONE} -- Implementation
 				servlet.set_system_log (Void)
 				Precursor (relative_path, servlet_info)
 			end
-		end
-
-	log_separator
-		do
-			lio.put_new_line
 		end
 
 feature {NONE} -- Factory

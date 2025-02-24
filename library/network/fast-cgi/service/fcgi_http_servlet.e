@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 13:31:50 GMT (Monday 24th February 2025)"
-	revision: "27"
+	date: "2025-02-24 14:36:11 GMT (Monday 24th February 2025)"
+	revision: "28"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -52,16 +52,16 @@ feature -- Access
 feature -- Basic operations
 
 	log_service_error
-			-- Called if service routine generates an exception; may be redefined by descendents
+		-- Called if service routine generates an exception; may be redefined by descendents
 		do
 			-- Nothing by default
 		end
 
 	log_write_error (the_response: FCGI_SERVLET_RESPONSE)
-			-- Called if there was a problem sending response to the client
-			-- May be redefined by descendents
+		-- Called if there was a problem sending response to the client
+		-- May be redefined by descendents
 		do
-			-- Nothing by default
+			do_nothing
 		end
 
 	serve_request
