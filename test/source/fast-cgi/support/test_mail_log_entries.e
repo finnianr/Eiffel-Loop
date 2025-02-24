@@ -1,6 +1,6 @@
 note
 	description: "[
-		Test ${EL_TODAYS_SENDMAIL_LOG} using data from: `test/data/network/mail.log'
+		Test ${EL_RECENT_MAIL_LOG_ENTRIES} using `mail.*' files from `data/network/security'
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 18:36:47 GMT (Sunday 23rd February 2025)"
-	revision: "4"
+	date: "2025-02-24 6:02:21 GMT (Monday 24th February 2025)"
+	revision: "5"
 
 class
 	TEST_MAIL_LOG_ENTRIES

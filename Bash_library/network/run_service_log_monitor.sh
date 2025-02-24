@@ -28,8 +28,12 @@ fi
 
 echo Monitoring /var/log/$log_name.log
 
-inotifywait -m -e modify /var/log/$log_name.log | while read -r filename event; do
-	echo "$filename was modified"
+inotifywait -m -e modify /var/log/$log_name.log | while read -r log_path event; do
+	echo "$log_path was modified"
+	# Wait until batch of lines added
+	sleep 0.25
+	tail -n 5 $log_path
 #	Notify EL_404_INTERCEPT_SERVLET to update firewall rules
-	curl $http_options://localhost/${log_name}_log_modified
+	curl $http_options://localhost/${log_name}_log_modified > /dev/null
+	echo Notified servlet
 done

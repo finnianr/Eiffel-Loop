@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-24 13:54:22 GMT (Friday 24th January 2025)"
-	revision: "3"
+	date: "2025-02-24 8:11:06 GMT (Monday 24th February 2025)"
+	revision: "4"
 
 class
 	EL_GEOLOCATION_ROUTINES
@@ -42,16 +42,21 @@ feature -- Access
 		-- `country_name' for `ip_number'
 		-- with `region' added for big countries
 		do
-		-- api.iplocation.net does not have a request limit (July 2024)
-			Result := IP_country_table.item (ip_number)
+			if ip_number = 0x7F000001 then
+			-- Localhost
+				Result := "Here"
+			else
+			-- api.iplocation.net does not have a request limit (July 2024)
+				Result := IP_country_table.item (ip_number)
 
-		-- Add region for big countries
-			if Big_country_list.has (Result) then
-			-- ipapi.co service is free for a limited number of request
-				if attached IP_country_region_table.item (ip_number) as location
-					and then location.count > 2 -- (", ").count = 2
-				then
-					Result := location
+			-- Add region for big countries
+				if Big_country_list.has (Result) then
+				-- ipapi.co service is free for a limited number of request
+					if attached IP_country_region_table.item (ip_number) as location
+						and then location.count > 2 -- (", ").count = 2
+					then
+						Result := location
+					end
 				end
 			end
 		end

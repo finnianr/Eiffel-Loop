@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-04 10:35:17 GMT (Monday 4th November 2024)"
-	revision: "25"
+	date: "2025-02-24 8:05:00 GMT (Monday 24th February 2025)"
+	revision: "26"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -61,7 +61,7 @@ feature -- Basic operations
 
 	serve_request
 		local
-			message: STRING
+			action: STRING
 		do
 			log.enter_no_header (once "serve_request")
 
@@ -85,12 +85,9 @@ feature -- Basic operations
 			response.send
 
 			if response.write_ok then
-				if response.is_head_request then
-					message := once "HEAD content bytes"
-				else
-					message := once "Sent content bytes"
-				end
-				log.put_integer_field (message, response.content_length)
+				action := if response.is_head_request then once "HEAD" else once "Sent" end
+				log.put_string (action)
+				log.put_integer_field (once " content bytes", response.content_length)
 				log.put_new_line
 
 				service.broker.set_end_request_listener (request)

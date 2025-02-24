@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-12 10:28:05 GMT (Wednesday 12th February 2025)"
-	revision: "37"
+	date: "2025-02-24 8:02:23 GMT (Monday 24th February 2025)"
+	revision: "38"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -177,12 +177,7 @@ feature {NONE} -- States
 				end
 				if table.found then
 					path := Service_info_template #$ [relative_path, table.found_item.servlet_info]
-					date_time.update
-					if date_time.date.ordered_compact_date /= compact_date then
-						lio.put_line (Date.formatted (date_time.date, Date_format))
-						compact_date := date_time.date.ordered_compact_date
-					end
-					log_message (date_time.time.formatted_out (Time_format), path)
+					log_request (path)
 					if log_parameters_enabled and then attached broker.parameters.query_string as query_string
 						and then query_string.count > 0
 					then
@@ -281,6 +276,16 @@ feature {NONE} -- Implementation
 	log_parameters_enabled: BOOLEAN
 		do
 			Result := False
+		end
+
+	log_request (path: ZSTRING)
+		do
+			date_time.update
+			if date_time.date.ordered_compact_date /= compact_date then
+				lio.put_line (Date.formatted (date_time.date, Date_format))
+				compact_date := date_time.date.ordered_compact_date
+			end
+			log_message (date_time.time.formatted_out (Time_format), path)
 		end
 
 	new_config (file_path: FILE_PATH): like config

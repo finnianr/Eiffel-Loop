@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 18:28:17 GMT (Sunday 23rd February 2025)"
-	revision: "7"
+	date: "2025-02-24 5:14:11 GMT (Monday 24th February 2025)"
+	revision: "8"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 			log_path := default_log_path
 			create buffer
 			create relay_hacker_set.make_equal (20)
-			create new_hacker_ip_list.make (10)
+			create intruder_list.make (10)
 			create today.make_now_utc
 			create date_time.make_now
 		end
@@ -35,8 +35,8 @@ feature -- Access
 
 	log_path: STRING
 
-	new_hacker_ip_list: EL_ARRAYED_LIST [NATURAL]
-		-- list of new IP addresses of hackers since last call to `update_hacker_ip_list'
+	intruder_list: EL_ARRAYED_LIST [NATURAL]
+		-- list of new IP addresses of hackers since last call to `update_malicious_list'
 
 feature -- Deferred
 
@@ -44,7 +44,7 @@ feature -- Deferred
 		deferred
 		end
 
-	new_ip_number (line: STRING): NATURAL
+	parsed_address (line: STRING): NATURAL
 		deferred
 		ensure
 			not_zero: Result > 0
@@ -57,26 +57,18 @@ feature -- Deferred
 
 feature -- Element change
 
-	update_hacker_ip_list
-		-- scan tail of log with today's date to update `new_hacker_ip_list' with ip number of log entry
+	update_intruder_list
+		-- scan tail of log with today's date to update `intruder_ip_list' with ip number of log entry
 		-- containing any string in `warning_list'
 		require
 			is_log_readable: log_path = Default_log_path implies is_log_readable
-		local
-			day_updated: BOOLEAN; line: STRING
 		do
-			new_hacker_ip_list.wipe_out
-			across new_tail_lines.query_if (agent is_new_entry) as list loop
-				line := list.item
-				if across warning_list as warning some line.has_substring (warning.item) end then
-					relay_hacker_set.put (new_ip_number (line))
-					if relay_hacker_set.inserted then
-						new_hacker_ip_list.extend (relay_hacker_set.found_item)
-					end
-				end
-				if list.is_last then
-					time_compact := new_compact_time (line)
-				end
+			intruder_list.wipe_out
+			if attached new_tail_lines.query_if (agent is_new_entry) as line_list
+				 and then line_list.count > 0
+			then
+				parse_lines (line_list)
+				time_compact := new_compact_time (line_list.last)
 			end
 		end
 
@@ -90,6 +82,19 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
+	extend_intruder_list (line: STRING)
+		local
+			address: NATURAL
+		do
+			address := parsed_address (line)
+			if address.to_boolean then
+				relay_hacker_set.put (address)
+				if relay_hacker_set.inserted then
+					intruder_list.extend (relay_hacker_set.found_item)
+				end
+			end
+		end
+
 	is_new_entry (line: STRING): BOOLEAN
 		do
 			Result := new_compact_time (line) >= time_compact
@@ -99,14 +104,15 @@ feature {NONE} -- Factory
 
 	new_compact_time (line: STRING): INTEGER
 		do
-			if attached buffer.empty as time_string then
-				time_string.append_integer (today.year)
-				time_string.append_character (' ')
-				time_string.append_substring (line, 1, 15)
-				if time_string [10] = ' ' then
-					time_string.remove (10)
+			if attached buffer.empty as str then
+				str.append_integer (today.year)
+				str.append_character (' ')
+				str.append_substring (line, 1, 15)
+			-- Remove double space "2025 Feb  2 18:13:19" for single digit dates
+				if str [10] = ' ' then
+					str.remove (10)
 				end
-				date_time.make_with_format (time_string, Date_time_format)
+				date_time.make_with_format (str, Date_time_format)
 				Result := date_time.time_stamp
 			end
 		end
@@ -122,7 +128,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Deferred
 
-	warning_list: EL_STRING_8_LIST
+	parse_lines (line_list: LIST [STRING])
 		deferred
 		end
 

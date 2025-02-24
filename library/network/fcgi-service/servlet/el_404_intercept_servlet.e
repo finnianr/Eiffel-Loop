@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 16:11:07 GMT (Sunday 23rd February 2025)"
-	revision: "47"
+	date: "2025-02-24 7:57:44 GMT (Monday 24th February 2025)"
+	revision: "48"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -63,48 +63,50 @@ feature -- Basic operations
 
 	serve
 		local
-			ip_number: NATURAL; log_notification_received: BOOLEAN
+			ip_number: NATURAL; smtp_or_ssh_threat: BOOLEAN
 		do
-			log.enter ("serve")
+			request_status := Threat.default_
 
 		-- check mail.log and auth.log for hacker intrusions
 			if attached request.relative_path_info.to_shared_immutable_8 as path
 				and then monitored_logs.has_key (path)
 				and then attached monitored_logs.found_item as system_log
 			then
-				log_notification_received := True
-				system_log.update_hacker_ip_list
-				across system_log.new_hacker_ip_list as address loop
+				system_log.update_intruder_list
+				across system_log.intruder_list as address loop
 					check_ip_address (address.item, system_log.port)
+					smtp_or_ssh_threat := True
 				end
-			end
-
-			request_status := Threat.default_
-			ip_number := request_remote_address_32
-
-			if not log_notification_received then
+			else
+				ip_number := request_remote_address_32
 				check_ip_address (ip_number, Service_port.HTTP)
 			end
 
-			if additional_rules_table.count > 0 then
-				update_firewall
-				additional_rules_table.wipe_out
-			end
+			if request_status /= Threat.default_ then
+				log.enter ("serve")
 
-		-- While geo-location is being looked up for address, (which can take a second or two)
-		-- a firewall rule is being added in time for next intrusion from same address
-			log.put_string (request_status)
-			log.put_labeled_string (once " URI", request.relative_path_info)
-			log.put_new_line
-			if not log_notification_received then
-				log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
+				if additional_rules_table.count > 0 then
+					update_firewall
+					additional_rules_table.wipe_out
+				end
+
+			-- While geo-location is being looked up for address, (which can take a second or two)
+			-- a firewall rule is being added in time for next intrusion from same address
+				if smtp_or_ssh_threat then
+					log.put_labeled_string (once "LOG FILE", request.relative_path_info)
+				else
+					log.put_string (request_status)
+					log.put_labeled_string (once " URI", request.relative_path_info)
+					log.put_new_line
+					log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
+				end
 				log.put_new_line
-			end
 
-			response.send_error (
-				Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
-			)
-			log.exit
+				response.send_error (
+					Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
+				)
+				log.exit
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -117,10 +119,10 @@ feature {NONE} -- Implementation
 	check_ip_address (ip_number: NATURAL; port: NATURAL_16)
 		do
 			if rules.is_denied (ip_number, port) then
-			-- Firewall rule exists but has not yet taken effect
-				log.put_labeled_string (Service_port.name (port) + once " denied to", address_string (ip_number))
-				log.put_new_line
 				if port = Service_port.HTTP then
+				-- Firewall rule exists but has not yet taken effect
+					log.put_labeled_string (Service_port.name (port) + once " denied to", address_string (ip_number))
+					log.put_new_line
 					request_status := Threat.malicious
 				-- stall for time while ufw finishes reloading updated rules
 					execution.sleep (500)
@@ -144,6 +146,7 @@ feature {NONE} -- Implementation
 				end
 			else -- is mail spammer or ssh hacker
 				additional_rules_table.extend (port, ip_number)
+				request_status := Threat.malicious
 			end
 		end
 

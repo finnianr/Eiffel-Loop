@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 18:59:15 GMT (Sunday 23rd February 2025)"
-	revision: "13"
+	date: "2025-02-24 6:07:05 GMT (Monday 24th February 2025)"
+	revision: "14"
 
 class
 	SECURITY_TEST_SET
@@ -25,11 +25,10 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["is_hacker_probe",	agent test_is_hacker_probe],
-				["is_whitelisted",	agent test_is_whitelisted],
-				["mail_log_entries",	agent test_mail_log_entries],
-				["log_entries",		agent test_log_entries],
-				["ufw_user_rules",	agent test_ufw_user_rules]
+				["is_hacker_probe",	  agent test_is_hacker_probe],
+				["is_whitelisted",	  agent test_is_whitelisted],
+				["recent_log_entries", agent test_recent_log_entries],
+				["ufw_user_rules",	  agent test_ufw_user_rules]
 			>>)
 		end
 
@@ -105,65 +104,43 @@ feature -- Test
 			end
 		end
 
-	test_log_entries
+	test_recent_log_entries
+		-- SECURITY_TEST_SET.test_recent_log_entries
 		local
-			log: EL_RECENT_LOG_ENTRIES; ip_set: EL_HASH_SET [STRING]
-			ip_list: EL_STRING_8_LIST
+			log_file: PLAIN_TEXT_FILE; expected_ip_addresses: ARRAY [STRING]
+			ip_list_expected, ip_list: EL_STRING_8_LIST; log_path: FILE_PATH
+			log_entries: ARRAY [EL_RECENT_LOG_ENTRIES]
 		do
-			across <<
-				"77.90.185.59, 80.94.95.181, 45.66.230.184, 87.120.84.6, 87.120.84.72", -- mail.log
-				"177.54.130.127, 43.155.185.104, 37.32.22.47" -- auth.log
-			>> as csv loop
-				ip_list := csv.item
-				create ip_set.make_from (ip_list, True)
-
-				if csv.is_first then
-					create {TEST_MAIL_LOG_ENTRIES} log.make
-				else
-					create {TEST_AUTH_LOG_ENTRIES} log.make
-				end
-				lio.put_labeled_string ("Scanning with " + log.generator, log.log_path)
-				lio.put_new_line
-
-				log.update_hacker_ip_list
-				if attached log.new_hacker_ip_list as list then
-					assert ("all new found", list.count = ip_set.count)
-					from list.start until list.after loop
-						assert ("expected IP", ip_set.has (Ip_address.to_string (list.item)))
-						list.forth
+			log_entries := << create {TEST_MAIL_LOG_ENTRIES}.make, create {TEST_AUTH_LOG_ENTRIES}.make >>
+			expected_ip_addresses := <<
+				"152.32.180.98, 165.154.233.80, 80.94.95.71", "218.92.0.136, 159.203.183.63"
+			>>
+			across log_entries as list loop
+				if attached list.item as entries then
+					ip_list_expected := expected_ip_addresses [list.cursor_index]
+					log_path := entries.log_path
+					lio.put_path_field ("Testing", log_path)
+					lio.put_new_line
+					create ip_list.make (3)
+					create log_file.make_with_name (Work_area_dir #+ log_path.base)
+					across new_file_list (log_path.base_name + ".*") as path loop
+						lio.put_path_field ("Appending", path.item)
+						lio.put_new_line
+						if path.is_first then
+							log_file.open_write
+						else
+							log_file.open_append
+						end
+						log_file.put_string (File.plain_text (path.item))
+						log_file.close
+						entries.update_intruder_list
+						across entries.intruder_list as address loop
+							ip_list.extend (Ip_address.to_string (address.item))
+						end
 					end
+					assert ("IP list OK", ip_list_expected ~ ip_list)
+					lio.put_new_line
 				end
-				log.update_hacker_ip_list
-				assert ("nothing new", log.new_hacker_ip_list.is_empty)
-
-				assert ("adm member", log.is_log_readable)
-			end
-		end
-
-
-	test_mail_log_entries
-		-- SECURITY_TEST_SET.test_mail_log_entries
-		local
-			mail_log: PLAIN_TEXT_FILE; entries: TEST_MAIL_LOG_ENTRIES
-		do
-			create entries.make
-			create mail_log.make_with_name (Work_area_dir #+ "mail.log")
-			across new_file_list ("mail.*") as path loop
-				if path.is_first then
-					mail_log.open_write
-				else
-					mail_log.open_append
-				end
-				mail_log.put_string (File.plain_text (path.item))
-				mail_log.close
-				entries.update_spammer_ip_list
-				across entries.new_spammer_ip_list as list loop
-					if not list.is_first then
-						lio.put_spaces (1)
-					end
-					lio.put_string (Ip_address.to_string (list.item))
-				end
-				lio.put_new_line
 			end
 		end
 
