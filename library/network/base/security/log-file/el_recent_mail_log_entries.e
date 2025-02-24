@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 5:14:18 GMT (Monday 24th February 2025)"
-	revision: "9"
+	date: "2025-02-24 18:33:50 GMT (Monday 24th February 2025)"
+	revision: "10"
 
 class
 	EL_RECENT_MAIL_LOG_ENTRIES
@@ -24,8 +24,8 @@ class
 inherit
 	EL_RECENT_LOG_ENTRIES
 		rename
-			intruder_list as spammer_list,
-			update_intruder_list as update_spammer_list
+			intruder_set as spammer_list,
+			update_intruder_set as update_spammer_list
 		end
 
 create

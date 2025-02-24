@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 15:03:22 GMT (Monday 24th February 2025)"
-	revision: "29"
+	date: "2025-02-24 18:33:50 GMT (Monday 24th February 2025)"
+	revision: "30"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -129,7 +129,7 @@ feature {NONE} -- Implementation
 			if monitored_logs.has_key (relative_path.to_shared_immutable_8)
 				and then attached monitored_logs.found_item as system_log
 			then
-				system_log.update_intruder_list
+				system_log.update_intruder_set
 				servlet.set_system_log (system_log)
 				if system_log.has_intruder then
 					Precursor (relative_path, servlet_info)

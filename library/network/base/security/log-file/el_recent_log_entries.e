@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 14:21:27 GMT (Monday 24th February 2025)"
-	revision: "9"
+	date: "2025-02-24 18:38:42 GMT (Monday 24th February 2025)"
+	revision: "10"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -25,16 +25,15 @@ feature {NONE} -- Initialization
 		do
 			log_path := default_log_path
 			create buffer
-			create relay_hacker_set.make_equal (20)
-			create intruder_list.make (10)
+			create intruder_set.make (10)
 			create today.make_now_utc
 			create date_time.make_now
 		end
 
 feature -- Access
 
-	intruder_list: EL_ARRAYED_LIST [NATURAL]
-		-- list of new IP addresses of hackers since last call to `update_malicious_list'
+	intruder_set: EL_HASH_SET [NATURAL]
+		-- set of new IP addresses of hackers since last call to `update_malicious_set'
 
 	log_path: STRING
 
@@ -42,7 +41,7 @@ feature -- Status query
 
 	has_intruder: BOOLEAN
 		do
-			Result := intruder_list.count > 0
+			Result := intruder_set.count > 0
 		end
 
 feature -- Deferred
@@ -64,18 +63,17 @@ feature -- Deferred
 
 feature -- Element change
 
-	update_intruder_list
-		-- scan tail of log with today's date to update `intruder_ip_list' with ip number of log entry
-		-- containing any string in `warning_list'
+	update_intruder_set
+		-- scan tail of log with today's date to update `intruder_set' with IP number of log entry
 		require
 			is_log_readable: log_path = Default_log_path implies is_log_readable
 		do
-			intruder_list.wipe_out
-			if attached new_tail_lines.query_if (agent is_new_entry) as line_list
-				 and then line_list.count > 0
-			then
-				parse_lines (line_list)
-				time_compact := new_compact_time (line_list.last)
+			intruder_set.wipe_out
+			if attached new_tail_lines.query_if (agent is_new_entry) as line_list then
+				if line_list.count > 0  then
+					parse_lines (line_list)
+					time_compact := new_compact_time (line_list.last)
+				end
 			end
 		end
 
@@ -95,10 +93,7 @@ feature {NONE} -- Implementation
 		do
 			address := parsed_address (line)
 			if address.to_boolean then
-				relay_hacker_set.put (address)
-				if relay_hacker_set.inserted then
-					intruder_list.extend (relay_hacker_set.found_item)
-				end
+				intruder_set.put (address)
 			end
 		end
 
@@ -144,9 +139,6 @@ feature {NONE} -- Internal attributes
 	buffer: EL_STRING_8_BUFFER
 
 	date_time: EL_DATE_TIME
-
-	relay_hacker_set: EL_HASH_SET [NATURAL]
-		-- set of ip numbers that maybe forged and have rate limit exceeded warning
 
 	time_compact: INTEGER
 

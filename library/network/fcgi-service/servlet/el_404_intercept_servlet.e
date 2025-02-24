@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 15:00:22 GMT (Monday 24th February 2025)"
-	revision: "51"
+	date: "2025-02-24 18:43:03 GMT (Monday 24th February 2025)"
+	revision: "52"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -43,9 +43,7 @@ feature {NONE} -- Initialization
 		do
 			make_servlet (a_service)
 
-			create additional_rules_table.make (4)
-			create address_list.make (10)
-			create ip_address_set.make (10)
+			create banned_list.make (5)
 			create rules.make (a_service.rules_path)
 
 			rules.display_summary (log, "FIREWALL DENY RULES")
@@ -60,45 +58,52 @@ feature -- Basic operations
 
 	serve
 		local
-			ip_number: NATURAL; smtp_or_ssh_port: NATURAL_16
+			ip_number: NATURAL
 		do
 			request_status := Threat.default_
+			banned_list.wipe_out
 
 		-- check mail.log and auth.log for hacker intrusions
 			if attached system_log as sys_log then
-				if sys_log.has_intruder then
-					sys_log.intruder_list.do_all (agent check_ip_address (?, sys_log.port))
-					smtp_or_ssh_port := sys_log.port
-				end
+				port := sys_log.port
+				sys_log.intruder_set.to_list.do_all (agent check_ip_address)
 			else
+				port := Service_port.HTTP
 				ip_number := request_remote_address_32
-				check_ip_address (ip_number, Service_port.HTTP)
+				check_ip_address (ip_number)
 			end
 			if request_status /= Threat.default_ then
 				log.enter ("serve")
 
-				if additional_rules_table.count > 0 then
+				if banned_list.count > 0 then
 					update_firewall
-					additional_rules_table.wipe_out
 				end
 
 			-- While geo-location is being looked up for address, (which can take a second or two)
 			-- a firewall rule is being added in time for next intrusion from same address
-				log.put_string (request_status)
-				if smtp_or_ssh_port.to_boolean then
-					log.put_spaces (1)
-					log.put_labeled_string (Service_port.name (smtp_or_ssh_port), request.relative_path_info)
-					response.set_content_ok
-				else
-					log.put_labeled_string (once " URI", request.relative_path_info)
+				log.put_labeled_string (request_status, Service_port.name (port))
+				log.put_spaces (1)
+				if attached request.relative_path_info as path then
+					log.put_string (path)
+					if path.count <= 30 and banned_list.count = 1 then
+						log.put_spaces (1)
+					else
+						log.put_new_line
+					end
+				end
+				across banned_list as list loop
+					log.put_labeled_string (address_string (list.item), Geolocation.for_number (list.item))
 					log.put_new_line
-					log.put_labeled_string (once "HTTP " + address_string (ip_number), Geolocation.for_number (ip_number))
+				end
+				if port = Service_port.HTTP then
 					response.send_error (
 						Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
 					)
+				else
+					response.set_content_ok
 				end
-				log.put_new_line
 				log.exit
+				log.put_new_line
 			end
 		end
 
@@ -116,7 +121,7 @@ feature {NONE} -- Implementation
 			Result := IP_address.to_string (ip_number)
 		end
 
-	check_ip_address (ip_number: NATURAL; port: NATURAL_16)
+	check_ip_address (ip_number: NATURAL)
 		do
 			if rules.is_denied (ip_number, port) then
 				if port = Service_port.HTTP then
@@ -128,24 +133,22 @@ feature {NONE} -- Implementation
 					execution.sleep (500)
 				end
 
-			elseif port = Service_port.HTTP
-				and then attached request.relative_path_info.as_lower.to_utf_8 as path
-			then
+			elseif port = Service_port.HTTP and then attached request.relative_path_info.as_lower.to_utf_8 as path then
 				if request.headers.user_agent.is_empty then
-					additional_rules_table.extend (port, ip_number)
+					banned_list.extend (ip_number)
 					request_status := Threat.malicious
 
 				elseif filter_table.is_whitelisted (path) then
 					request_status := Threat.whitelisted
 
 				elseif filter_table.is_hacker_probe (path) then
-					additional_rules_table.extend (port, ip_number)
+					banned_list.extend (ip_number)
 					request_status := Threat.malicious
 				else
 					request_status := Threat.suspicious
 				end
 			else -- is mail spammer or ssh hacker
-				additional_rules_table.extend (port, ip_number)
+				banned_list.extend (ip_number)
 				request_status := Threat.malicious
 			end
 		end
@@ -162,29 +165,14 @@ feature {NONE} -- Implementation
 		end
 
 	update_firewall
-		-- update firewall rules from `additional_rules_table' using Bash script monitoring `rules_path'
+		-- update firewall rules from `banned_list' using Bash script monitoring `rules_path'
 		-- (run_service_update_firewall.sh)
 		local
-			port: NATURAL_16; ip_number: NATURAL
+			ip_number: NATURAL
 		do
-			ip_address_set.wipe_out
-			across additional_rules_table as table loop
-				port := table.key
-				lio.put_labeled_string (once "Port", Service_port.name (port))
-				lio.put_new_line
-				address_list.wipe_out
-				across table.item_area as list loop
-					ip_number := list.item
-					address_list.extend (address_string (ip_number))
-					ip_address_set.put (ip_number)
-					Service_port.related (port).do_all (agent rules.put_entry (ip_number, ?))
-				end
-				lio.put_columns (address_list, 5, 0)
-			end
-			lio.put_new_line
-
-			across ip_address_set as set loop
-				ip_number := set.item
+			across banned_list as list loop
+				ip_number := list.item
+				Service_port.related (port).do_all (agent rules.put_entry (ip_number, ?))
 				if rules.denied_count (ip_number) > 2
 					and then attached rules.denied_list (ip_number).joined_with_string (", ") as port_list
 				then
@@ -194,7 +182,7 @@ feature {NONE} -- Implementation
 			end
 			rules.limit_entries (service.config.maximum_rule_count)
 			file_mutex.try_until_locked (50)
-			log.put_labeled_substitution (once "Storing", once "%S additional rules.", [additional_rules_table.sum_item_count])
+			log.put_labeled_substitution (once "Storing", once "%S additional rules.", [banned_list.count])
 			rules.store
 			lio.put_integer_field (once " New count", rules.ip_address_count)
 			lio.put_new_line_x2
@@ -203,16 +191,16 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	additional_rules_table: EL_GROUPED_LIST_TABLE [NATURAL, NATURAL_16]
-
-	address_list: EL_STRING_8_LIST
+	banned_list: EL_ARRAYED_LIST [NATURAL]
+		-- banned list of IP address
 
 	file_mutex: EL_NAMED_FILE_LOCK
 		-- file_mutex for writing to `rules_path' so that script reading file must wait to process
 
 	filter_table: EL_URI_FILTER_TABLE
 
-	ip_address_set: EL_HASH_SET [NATURAL]
+	port: NATURAL_16
+		-- port of attack
 
 	request_status: IMMUTABLE_STRING_8
 		-- URI request security status
