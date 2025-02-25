@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 13:36:25 GMT (Monday 24th February 2025)"
-	revision: "5"
+	date: "2025-02-25 9:11:05 GMT (Tuesday 25th February 2025)"
+	revision: "6"
 
 deferred class
 	FCGI_APPLICATION_COMMAND
@@ -80,12 +80,6 @@ feature {NONE} -- Implementation
 				end
 				lio.put_new_line
 			end
-		end
-
-	log_separator
-		-- log new-line or something after each request
-		do
-			do_nothing
 		end
 
 feature {NONE} -- String constants

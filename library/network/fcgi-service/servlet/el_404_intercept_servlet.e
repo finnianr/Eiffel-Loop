@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 18:43:03 GMT (Monday 24th February 2025)"
-	revision: "52"
+	date: "2025-02-25 12:20:45 GMT (Tuesday 25th February 2025)"
+	revision: "53"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -50,6 +50,7 @@ feature {NONE} -- Initialization
 			mutex_path := rules.path.twin
 			mutex_path.add_extension ("lock")
 			create file_mutex.make (mutex_path)
+			create timer.make
 			filter_table := a_service.config.filter_table
 			Geolocation.try_restore (Directory.Sub_app_data)
 		end
@@ -57,43 +58,48 @@ feature {NONE} -- Initialization
 feature -- Basic operations
 
 	serve
-		local
-			ip_number: NATURAL
 		do
-			request_status := Threat.default_
 			banned_list.wipe_out
-
-		-- check mail.log and auth.log for hacker intrusions
 			if attached system_log as sys_log then
 				port := sys_log.port
-				sys_log.intruder_set.to_list.do_all (agent check_ip_address)
+			-- checked mail.log and auth.log for hacker intrusions
+				sys_log.intruder_set.to_list.do_all (agent categorize_request)
 			else
 				port := Service_port.HTTP
-				ip_number := request_remote_address_32
-				check_ip_address (ip_number)
+				categorize_request (request_remote_address_32)
 			end
-			if request_status /= Threat.default_ then
+			if banned_list.count > 0 then
 				log.enter ("serve")
 
-				if banned_list.count > 0 then
+				if banned_list.has_value (Status.malicious) then
 					update_firewall
 				end
 
 			-- While geo-location is being looked up for address, (which can take a second or two)
 			-- a firewall rule is being added in time for next intrusion from same address
-				log.put_labeled_string (request_status, Service_port.name (port))
-				log.put_spaces (1)
-				if attached request.relative_path_info as path then
-					log.put_string (path)
-					if path.count <= 30 and banned_list.count = 1 then
-						log.put_spaces (1)
-					else
+
+				timer.start -- time geolocation lookups which involve network calls
+				across banned_list as list loop
+					log.put_labeled_string (Service_port.name (port), list.value)
+					log.put_spaces (1)
+					if attached request.relative_path_info as path
+						and then attached Geolocation.for_number (list.key) as location
+					then
+						log.put_string (path)
+						if path.count + location.count <= 70 then
+							log.put_spaces (1) -- fits on one line
+						else
+							log.put_new_line -- split on two lines
+						end
+						log.put_labeled_string (address_string (list.key), location)
 						log.put_new_line
 					end
 				end
-				across banned_list as list loop
-					log.put_labeled_string (address_string (list.item), Geolocation.for_number (list.item))
-					log.put_new_line
+				timer.stop
+				if banned_list.has_value (Status.pending_rule) then
+				-- stall for time while ufw finishes reloading updated rules
+					lio.put_line ("Waiting for a second for rule to take effect..")
+					execution.sleep ((1000 - timer.elapsed_millisecs).max (0))
 				end
 				if port = Service_port.HTTP then
 					response.send_error (
@@ -103,15 +109,25 @@ feature -- Basic operations
 					response.set_content_ok
 				end
 				log.exit
-				log.put_new_line
 			end
 		end
+
+feature -- Access
+
+	system_log: detachable EL_RECENT_LOG_ENTRIES
 
 feature -- Element change
 
 	set_system_log (a_system_log: like system_log)
 		do
 			system_log := a_system_log
+		end
+
+feature -- Status query
+
+	has_system_log: BOOLEAN
+		do
+			Result := attached system_log
 		end
 
 feature {NONE} -- Implementation
@@ -121,35 +137,26 @@ feature {NONE} -- Implementation
 			Result := IP_address.to_string (ip_number)
 		end
 
-	check_ip_address (ip_number: NATURAL)
+	categorize_request (ip_number: NATURAL)
 		do
 			if rules.is_denied (ip_number, port) then
-				if port = Service_port.HTTP then
-				-- Firewall rule exists but has not yet taken effect
-					log.put_labeled_string (Service_port.name (port) + once " denied to", address_string (ip_number))
-					log.put_new_line
-					request_status := Threat.malicious
-				-- stall for time while ufw finishes reloading updated rules
-					execution.sleep (500)
-				end
+			-- Firewall rule exists but has not yet taken effect
+				banned_list.extend (ip_number, Status.pending_rule)
 
 			elseif port = Service_port.HTTP and then attached request.relative_path_info.as_lower.to_utf_8 as path then
 				if request.headers.user_agent.is_empty then
-					banned_list.extend (ip_number)
-					request_status := Threat.malicious
+					banned_list.extend (ip_number, Status.malicious)
 
 				elseif filter_table.is_whitelisted (path) then
-					request_status := Threat.whitelisted
+					banned_list.extend (ip_number, Status.whitelisted)
 
 				elseif filter_table.is_hacker_probe (path) then
-					banned_list.extend (ip_number)
-					request_status := Threat.malicious
+					banned_list.extend (ip_number, Status.malicious)
 				else
-					request_status := Threat.suspicious
+					banned_list.extend (ip_number, Status.suspicious)
 				end
 			else -- is mail spammer or ssh hacker
-				banned_list.extend (ip_number)
-				request_status := Threat.malicious
+				banned_list.extend (ip_number, Status.malicious)
 			end
 		end
 
@@ -171,13 +178,15 @@ feature {NONE} -- Implementation
 			ip_number: NATURAL
 		do
 			across banned_list as list loop
-				ip_number := list.item
-				Service_port.related (port).do_all (agent rules.put_entry (ip_number, ?))
-				if rules.denied_count (ip_number) > 2
-					and then attached rules.denied_list (ip_number).joined_with_string (", ") as port_list
-				then
-					log.put_labeled_string (once "Multi-port attack " + port_list, address_string (ip_number))
-					log.put_new_line
+				if list.value = Status.malicious then
+					ip_number := list.key
+					Service_port.related (port).do_all (agent rules.put_entry (ip_number, ?))
+					if rules.denied_count (ip_number) > 2
+						and then attached rules.denied_list (ip_number).joined_with_string (", ") as port_list
+					then
+						log.put_labeled_string (once "Multi-port attack " + port_list, address_string (ip_number))
+						log.put_new_line
+					end
 				end
 			end
 			rules.limit_entries (service.config.maximum_rule_count)
@@ -191,8 +200,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	banned_list: EL_ARRAYED_LIST [NATURAL]
-		-- banned list of IP address
+	banned_list: EL_ARRAYED_MAP_LIST [NATURAL, IMMUTABLE_STRING_8]
+		-- banned list of IP address mapped to thread status
 
 	file_mutex: EL_NAMED_FILE_LOCK
 		-- file_mutex for writing to `rules_path' so that script reading file must wait to process
@@ -202,21 +211,18 @@ feature {NONE} -- Internal attributes
 	port: NATURAL_16
 		-- port of attack
 
-	request_status: IMMUTABLE_STRING_8
-		-- URI request security status
-
 	rules: EL_UFW_USER_RULES
 
 	service: EL_404_INTERCEPT_SERVICE
 
-	system_log: detachable EL_RECENT_LOG_ENTRIES
+	timer: EL_EXECUTION_TIMER
 
 feature {NONE} -- Constants
 
-	Threat: TUPLE [default_, malicious, suspicious, whitelisted: IMMUTABLE_STRING_8]
+	Status: TUPLE [malicious, pending_rule, suspicious, whitelisted: IMMUTABLE_STRING_8]
 		once
 			create Result
-			Tuple.fill_immutable (Result, "Default, Malicious, Suspicious, Whitelisted")
+			Tuple.fill_immutable (Result, "Malicious, Pending rule, Suspicious, Whitelisted")
 		end
 
 note

@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 8:11:06 GMT (Monday 24th February 2025)"
-	revision: "4"
+	date: "2025-02-25 10:52:13 GMT (Tuesday 25th February 2025)"
+	revision: "5"
 
 class
 	EL_GEOLOCATION_ROUTINES
 
 inherit
 	ANY
+
+	EL_MODULE_IP_ADDRESS
 
 	EL_SHARED_IP_ADDRESS_GEOLOCATION
 
@@ -42,7 +44,7 @@ feature -- Access
 		-- `country_name' for `ip_number'
 		-- with `region' added for big countries
 		do
-			if ip_number = 0x7F000001 then
+			if ip_number = IP_address.Loop_back then
 			-- Localhost
 				Result := "Here"
 			else

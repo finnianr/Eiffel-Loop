@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-26 11:11:01 GMT (Sunday 26th January 2025)"
-	revision: "39"
+	date: "2025-02-25 9:51:22 GMT (Tuesday 25th February 2025)"
+	revision: "40"
 
 class
 	EL_ARRAYED_MAP_LIST [K, G]
@@ -200,6 +200,11 @@ feature -- Status query
 					end
 				end
 			pop_cursor
+		end
+
+	has_value (v: like item_value): BOOLEAN
+		do
+			Result := internal_value_list.has (v)
 		end
 
 	is_value_sortable: BOOLEAN

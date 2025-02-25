@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 14:29:24 GMT (Monday 24th February 2025)"
-	revision: "40"
+	date: "2025-02-25 9:14:45 GMT (Tuesday 25th February 2025)"
+	revision: "41"
 
 deferred class
 	FCGI_SERVLET_SERVICE
@@ -181,7 +181,7 @@ feature {NONE} -- States
 						log_parameters (query_string)
 					end
 					table.found_item.serve_request
-					log_separator
+					on_served
 				else
 					on_missing_servlet (create {FCGI_SERVLET_RESPONSE}.make (broker))
 				end
@@ -290,6 +290,11 @@ feature {NONE} -- Implementation
 	new_config (file_path: FILE_PATH): like config
 		do
 			create Result.make_from_file (file_path)
+		end
+
+	on_served
+		-- Called each time a request as been served
+		do
 		end
 
 feature {FCGI_HTTP_SERVLET, FCGI_SERVLET_REQUEST} -- Access

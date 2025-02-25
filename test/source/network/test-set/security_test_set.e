@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 6:07:05 GMT (Monday 24th February 2025)"
-	revision: "14"
+	date: "2025-02-25 10:45:28 GMT (Tuesday 25th February 2025)"
+	revision: "15"
 
 class
 	SECURITY_TEST_SET
@@ -107,21 +107,22 @@ feature -- Test
 	test_recent_log_entries
 		-- SECURITY_TEST_SET.test_recent_log_entries
 		local
-			log_file: PLAIN_TEXT_FILE; expected_ip_addresses: ARRAY [STRING]
-			ip_list_expected, ip_list: EL_STRING_8_LIST; log_path: FILE_PATH
-			log_entries: ARRAY [EL_RECENT_LOG_ENTRIES]
+			log_file: PLAIN_TEXT_FILE; expected_ip_addresses: ARRAY [EL_STRING_8_LIST]
+			ip_set, ip_expected_set: EL_HASH_SET [STRING]; log_entries: ARRAY [EL_RECENT_LOG_ENTRIES]
+			log_path: FILE_PATH
 		do
 			log_entries := << create {TEST_MAIL_LOG_ENTRIES}.make, create {TEST_AUTH_LOG_ENTRIES}.make >>
 			expected_ip_addresses := <<
 				"152.32.180.98, 165.154.233.80, 80.94.95.71", "218.92.0.136, 159.203.183.63"
 			>>
+			create ip_set.make_equal (3)
 			across log_entries as list loop
 				if attached list.item as entries then
-					ip_list_expected := expected_ip_addresses [list.cursor_index]
+					create ip_expected_set.make_from (expected_ip_addresses [list.cursor_index], True)
 					log_path := entries.log_path
 					lio.put_path_field ("Testing", log_path)
 					lio.put_new_line
-					create ip_list.make (3)
+					ip_set.wipe_out
 					create log_file.make_with_name (Work_area_dir #+ log_path.base)
 					across new_file_list (log_path.base_name + ".*") as path loop
 						lio.put_path_field ("Appending", path.item)
@@ -133,12 +134,12 @@ feature -- Test
 						end
 						log_file.put_string (File.plain_text (path.item))
 						log_file.close
-						entries.update_intruder_list
-						across entries.intruder_list as address loop
-							ip_list.extend (Ip_address.to_string (address.item))
+						entries.update_intruder_set
+						across entries.intruder_set as address loop
+							ip_set.put (Ip_address.to_string (address.item))
 						end
 					end
-					assert ("IP list OK", ip_list_expected ~ ip_list)
+					assert ("IP list OK", ip_expected_set ~ ip_set)
 					lio.put_new_line
 				end
 			end

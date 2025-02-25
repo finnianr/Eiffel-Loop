@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 18:33:50 GMT (Monday 24th February 2025)"
-	revision: "30"
+	date: "2025-02-25 12:21:14 GMT (Tuesday 25th February 2025)"
+	revision: "31"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -19,10 +19,10 @@ class
 inherit
 	FCGI_SERVLET_SERVICE
 		redefine
-			config, error_check, description, make, log_request
+			config, error_check, description, make, log_request, on_served
 		end
 
-	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_TUPLE
+	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_IP_ADDRESS; EL_MODULE_TUPLE
 
 create
 	make_port, make
@@ -129,6 +129,7 @@ feature {NONE} -- Implementation
 			if monitored_logs.has_key (relative_path.to_shared_immutable_8)
 				and then attached monitored_logs.found_item as system_log
 			then
+			-- check mail.log or auth.log for hacker intrusions
 				system_log.update_intruder_set
 				servlet.set_system_log (system_log)
 				if system_log.has_intruder then
@@ -137,6 +138,18 @@ feature {NONE} -- Implementation
 			else
 				servlet.set_system_log (Void)
 				Precursor (relative_path, servlet_info)
+			end
+		end
+
+	on_served
+		-- called each time a request as been served
+		do
+			if attached servlet.system_log as sys_log then
+				if sys_log.has_intruder then
+					log.put_new_line
+				end
+			else
+				log.put_new_line
 			end
 		end
 

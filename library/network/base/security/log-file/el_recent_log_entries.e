@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 18:38:42 GMT (Monday 24th February 2025)"
-	revision: "10"
+	date: "2025-02-25 10:26:55 GMT (Tuesday 25th February 2025)"
+	revision: "11"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 			address: NATURAL
 		do
 			address := parsed_address (line)
-			if address.to_boolean then
+			if address.to_boolean and then address /= Ip_address.Loop_back then
 				intruder_set.put (address)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 18:32:19 GMT (Sunday 23rd February 2025)"
-	revision: "14"
+	date: "2025-02-25 10:26:55 GMT (Tuesday 25th February 2025)"
+	revision: "15"
 
 class
 	NETWORK_TEST_SET
@@ -42,7 +42,7 @@ feature -- Tests
 
 	test_ip_address_conversion
 		do
-			assert ("same string", IP_address.to_string (IP_address.Loop_back_address) ~ "127.0.0.1")
+			assert ("same string", IP_address.to_string (IP_address.Loop_back) ~ "127.0.0.1")
 		end
 
 feature {NONE} -- Implementation

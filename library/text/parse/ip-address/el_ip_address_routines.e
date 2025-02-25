@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:57:44 GMT (Thursday 13th February 2025)"
-	revision: "13"
+	date: "2025-02-25 10:26:55 GMT (Tuesday 25th February 2025)"
+	revision: "14"
 
 class
 	EL_IP_ADDRESS_ROUTINES
@@ -45,7 +45,7 @@ feature -- Conversion
 			valid_format: is_valid (address)
 		do
 			if address ~ Loop_back_one then
-				Result := Loop_back_address
+				Result := Loop_back
 
 			elseif address.occurrences ('.') = 3 then
 				Dot_split.set_target (address)
@@ -87,7 +87,8 @@ feature -- Basic operations
 
 feature -- Constants
 
-	Loop_back_address: NATURAL = 0x7F_00_00_01
+	Loop_back: NATURAL = 0x7F_00_00_01
+		-- 127.0.0.1
 
 feature {NONE} -- Implementation
 
