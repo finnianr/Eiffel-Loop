@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 15:25:47 GMT (Tuesday 25th February 2025)"
-	revision: "12"
+	date: "2025-02-25 16:12:18 GMT (Tuesday 25th February 2025)"
+	revision: "13"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -101,7 +101,7 @@ feature {NONE} -- Implementation
 				intruder_history_set.put (address)
 			-- only added to `intruder_list' never encountered before
 				if intruder_history_set.inserted then
-					intruder_list.put (address)
+					intruder_list.extend (address)
 				end
 			end
 		end
