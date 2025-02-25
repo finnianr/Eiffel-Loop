@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 10:26:55 GMT (Tuesday 25th February 2025)"
-	revision: "11"
+	date: "2025-02-25 15:25:47 GMT (Tuesday 25th February 2025)"
+	revision: "12"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -21,27 +21,32 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_tail_count: INTEGER)
 		do
+			tail_count := a_tail_count
 			log_path := default_log_path
+			tail_count := a_tail_count.max (30)
 			create buffer
-			create intruder_set.make (10)
+			create intruder_list.make (10)
+			create intruder_history_set.make (10)
 			create today.make_now_utc
 			create date_time.make_now
 		end
 
 feature -- Access
 
-	intruder_set: EL_HASH_SET [NATURAL]
-		-- set of new IP addresses of hackers since last call to `update_malicious_set'
+	intruder_list: EL_ARRAYED_LIST [NATURAL]
+		-- set of never before encountered intruder addresses after calling `update_intruder_list'
 
 	log_path: STRING
+
+	tail_count: INTEGER
 
 feature -- Status query
 
 	has_intruder: BOOLEAN
 		do
-			Result := intruder_set.count > 0
+			Result := intruder_list.count > 0
 		end
 
 feature -- Deferred
@@ -63,12 +68,12 @@ feature -- Deferred
 
 feature -- Element change
 
-	update_intruder_set
+	update_intruder_list
 		-- scan tail of log with today's date to update `intruder_set' with IP number of log entry
 		require
 			is_log_readable: log_path = Default_log_path implies is_log_readable
 		do
-			intruder_set.wipe_out
+			intruder_list.wipe_out
 			if attached new_tail_lines.query_if (agent is_new_entry) as line_list then
 				if line_list.count > 0  then
 					parse_lines (line_list)
@@ -92,8 +97,12 @@ feature {NONE} -- Implementation
 			address: NATURAL
 		do
 			address := parsed_address (line)
-			if address.to_boolean and then address /= Ip_address.Loop_back then
-				intruder_set.put (address)
+			if address > 0 and address /= Ip_address.Loop_back then
+				intruder_history_set.put (address)
+			-- only added to `intruder_list' never encountered before
+				if intruder_history_set.inserted then
+					intruder_list.put (address)
+				end
 			end
 		end
 
@@ -121,8 +130,9 @@ feature {NONE} -- Factory
 
 	new_tail_lines: EL_STRING_8_LIST
 		do
-			if attached Tail_command as cmd then
-				cmd.put_string (Var_path, log_path)
+			if attached Tail_command as cmd and then attached cmd.variables as var then
+				cmd.put_integer (var.tail_count, tail_count)
+				cmd.put_string (var.path, log_path)
 				cmd.execute
 				create Result.make_from_general (cmd.lines)
 			end
@@ -140,6 +150,9 @@ feature {NONE} -- Internal attributes
 
 	date_time: EL_DATE_TIME
 
+	intruder_history_set: EL_HASH_SET [NATURAL]
+		-- set of all intruder IP addresses encounterd
+
 	time_compact: INTEGER
 
 	today: EL_DATE
@@ -148,10 +161,8 @@ feature {NONE} -- Constants
 
 	Date_time_format: STRING = "yyyy Mmm dd [0]hh:[0]mi:[0]ss"
 
-	Tail_command: EL_CAPTURED_OS_COMMAND
+	Tail_command: EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [tail_count, path: STRING]]
 		once
-			create Result.make ("tail -n 30 $path")
+			create Result.make_command ("tail -n $tail_count $path")
 		end
-
-	Var_path: STRING = "path"
 end

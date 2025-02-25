@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 12:21:14 GMT (Tuesday 25th February 2025)"
-	revision: "31"
+	date: "2025-02-25 15:21:02 GMT (Tuesday 25th February 2025)"
+	revision: "32"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -57,7 +57,7 @@ feature -- Basic operations
 		local
 			sendmail: EL_RECENT_MAIL_LOG_ENTRIES; error: EL_ERROR_DESCRIPTION
 		do
-			create sendmail.make
+			create sendmail.make (30)
 			if attached config.missing_match_files as name_list and then name_list.count > 0 then
 				create error.make ("Missing URI matching lists in configuration directory")
 				across name_list as list loop
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 				and then attached monitored_logs.found_item as system_log
 			then
 			-- check mail.log or auth.log for hacker intrusions
-				system_log.update_intruder_set
+				system_log.update_intruder_list
 				servlet.set_system_log (system_log)
 				if system_log.has_intruder then
 					Precursor (relative_path, servlet_info)
@@ -157,12 +157,12 @@ feature {NONE} -- Factory
 
 	new_authorization_log: EL_RECENT_AUTH_LOG_ENTRIES
 		do
-			create Result.make
+			create Result.make (config.log_tail_count)
 		end
 
 	new_sendmail_log: EL_RECENT_MAIL_LOG_ENTRIES
 		do
-			create Result.make
+			create Result.make (config.log_tail_count)
 		end
 
 	new_servlet: EL_404_INTERCEPT_SERVLET

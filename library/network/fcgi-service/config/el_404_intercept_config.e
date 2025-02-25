@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-21 8:51:14 GMT (Friday 21st February 2025)"
-	revision: "19"
+	date: "2025-02-25 15:26:56 GMT (Tuesday 25th February 2025)"
+	revision: "20"
 
 class
 	EL_404_INTERCEPT_CONFIG
@@ -51,6 +51,9 @@ feature -- Access
 	maximum_rule_count: INTEGER
 		-- max. number of IP addresses that can be blocked with
 		-- Older blocks are removed to make way for newer ones.
+
+	log_tail_count: INTEGER
+		-- number of tail lines to scan if auth.log or mail.log updated
 
 	screen_session_name: ZSTRING
 		-- screen session name of the address blocking script: run_service_update_firewall.sh
@@ -102,6 +105,7 @@ feature {NONE} -- Build from XML
 		do
 			Result := Precursor
 			Result.append_tuples (<<
+				["@log_tail_count",							agent do log_tail_count := node end],
 				["@maximum_rule_count",						agent do maximum_rule_count := node end],
 				["@maximum_uri_digits",						agent do filter_table.set_maximum_uri_digits (node) end],
 				["@screen_session_name",					agent do node.set (screen_session_name) end],

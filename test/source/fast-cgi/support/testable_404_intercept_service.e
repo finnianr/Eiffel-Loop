@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 13:11:22 GMT (Monday 24th February 2025)"
-	revision: "3"
+	date: "2025-02-25 15:21:02 GMT (Tuesday 25th February 2025)"
+	revision: "4"
 
 class
 	TESTABLE_404_INTERCEPT_SERVICE
@@ -41,12 +41,12 @@ feature {NONE} -- Implementation
 
 	new_authorization_log: TEST_AUTH_LOG_ENTRIES
 		do
-			create Result.make
+			create Result.make (config.log_tail_count)
 		end
 
 	new_sendmail_log: TEST_MAIL_LOG_ENTRIES
 		do
-			create Result.make
+			create Result.make (config.log_tail_count)
 		end
 
 	new_servlet: TESTABLE_404_INTERCEPT_SERVLET

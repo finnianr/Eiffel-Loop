@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 12:20:45 GMT (Tuesday 25th February 2025)"
-	revision: "53"
+	date: "2025-02-25 15:23:46 GMT (Tuesday 25th February 2025)"
+	revision: "54"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -63,7 +63,7 @@ feature -- Basic operations
 			if attached system_log as sys_log then
 				port := sys_log.port
 			-- checked mail.log and auth.log for hacker intrusions
-				sys_log.intruder_set.to_list.do_all (agent categorize_request)
+				sys_log.intruder_list.do_all (agent categorize_request)
 			else
 				port := Service_port.HTTP
 				categorize_request (request_remote_address_32)
@@ -98,8 +98,8 @@ feature -- Basic operations
 				timer.stop
 				if banned_list.has_value (Status.pending_rule) then
 				-- stall for time while ufw finishes reloading updated rules
-					lio.put_line ("Waiting for a second for rule to take effect..")
-					execution.sleep ((1000 - timer.elapsed_millisecs).max (0))
+					lio.put_line ("Waiting for 1/2 second for rule to take effect..")
+					execution.sleep ((500 - timer.elapsed_millisecs).max (0))
 				end
 				if port = Service_port.HTTP then
 					response.send_error (

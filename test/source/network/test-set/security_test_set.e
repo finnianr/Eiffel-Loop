@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 10:45:28 GMT (Tuesday 25th February 2025)"
-	revision: "15"
+	date: "2025-02-25 15:19:17 GMT (Tuesday 25th February 2025)"
+	revision: "16"
 
 class
 	SECURITY_TEST_SET
@@ -111,7 +111,7 @@ feature -- Test
 			ip_set, ip_expected_set: EL_HASH_SET [STRING]; log_entries: ARRAY [EL_RECENT_LOG_ENTRIES]
 			log_path: FILE_PATH
 		do
-			log_entries := << create {TEST_MAIL_LOG_ENTRIES}.make, create {TEST_AUTH_LOG_ENTRIES}.make >>
+			log_entries := << create {TEST_MAIL_LOG_ENTRIES}.make (30), create {TEST_AUTH_LOG_ENTRIES}.make (30) >>
 			expected_ip_addresses := <<
 				"152.32.180.98, 165.154.233.80, 80.94.95.71", "218.92.0.136, 159.203.183.63"
 			>>
@@ -134,8 +134,8 @@ feature -- Test
 						end
 						log_file.put_string (File.plain_text (path.item))
 						log_file.close
-						entries.update_intruder_set
-						across entries.intruder_set as address loop
+						entries.update_intruder_list
+						across entries.intruder_list as address loop
 							ip_set.put (Ip_address.to_string (address.item))
 						end
 					end

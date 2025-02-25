@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 5:40:22 GMT (Monday 24th February 2025)"
-	revision: "8"
+	date: "2025-02-25 15:18:58 GMT (Tuesday 25th February 2025)"
+	revision: "9"
 
 class
 	EL_RECENT_AUTH_LOG_ENTRIES
@@ -37,10 +37,10 @@ create
 
 feature {NONE} -- Initialization
 
-	make
+	make (a_tail_count: INTEGER)
 		do
 			make_machine
-			Precursor
+			Precursor (a_tail_count)
 		end
 
 feature {NONE} -- Line states
