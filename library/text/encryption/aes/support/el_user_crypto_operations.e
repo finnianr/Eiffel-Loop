@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:13:56 GMT (Friday 13th September 2024)"
-	revision: "11"
+	date: "2025-02-28 11:59:21 GMT (Friday 28th February 2025)"
+	revision: "12"
 
 expanded class
 	EL_USER_CRYPTO_OPERATIONS
@@ -209,10 +209,10 @@ feature {NONE} -- Implementation
 				create cipher_file.make_open_write (output_path)
 				cipher_file.set_encrypter (encrypter)
 
-				from plain_text.read_line_8 until plain_text.after loop
-					cipher_file.put_encoded_string_8 (plain_text.last_string_8)
+				from plain_text.read_line until plain_text.after loop
+					cipher_file.put_encoded_string_8 (plain_text.last_string)
 					cipher_file.put_new_line
-					plain_text.read_line_8
+					plain_text.read_line
 				end
 				cipher_file.close; plain_text.close
 			end

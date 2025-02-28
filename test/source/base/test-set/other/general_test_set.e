@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-15 10:18:07 GMT (Sunday 15th December 2024)"
-	revision: "64"
+	date: "2025-02-28 14:42:14 GMT (Friday 28th February 2025)"
+	revision: "65"
 
 class
 	GENERAL_TEST_SET
@@ -15,11 +15,11 @@ class
 inherit
 	EL_FILE_DATA_TEST_SET
 
-	EL_MODULE_BASE_64; EL_MODULE_CONSOLE; EL_MODULE_EXECUTABLE
+	EL_MODULE_BASE_64; EL_MODULE_EXECUTABLE
 
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
 
-	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT
+	EL_SHARED_TEST_TEXT
 
 	SHARED_HEXAGRAM_STRINGS; SHARED_DEV_ENVIRON
 
@@ -38,15 +38,11 @@ feature {NONE} -- Initialization
 				["average_line_count",			 agent test_average_line_count],
 				["base_64_codec_1",				 agent test_base_64_codec_1],
 				["base_64_codec_2",				 agent test_base_64_codec_2],
-				["encodeables",					 agent test_encodeables],
 				["environment_put",				 agent test_environment_put],
-				["is_file_writable",				 agent test_is_file_writable],
 				["make_relative_directory",	 agent test_make_relative_directory],
 				["math_precision",				 agent test_math_precision],
 				["named_thread",					 agent test_named_thread],
 				["object_scope",					 agent test_object_scope],
-				["output_medium_encoding",		 agent test_output_medium_encoding],
-				["plain_text_line_source",		 agent test_plain_text_line_source],
 				["reverse_managed_pointer",	 agent test_reverse_managed_pointer],
 				["search_path",					 agent test_search_path],
 				["version_array",					 agent test_version_array],
@@ -121,7 +117,7 @@ feature -- Tests
 			parts: EL_ZSTRING_LIST; padding_permutation_set: EL_HASH_SET [STRING]
 		do
 			create padding_permutation_set.make_equal (3)
-			across Hexagram.String_arrays as array loop
+			across Hexagram.String_arrays.new_cursor as array loop
 				create parts.make_from_general (array.item)
 				zstr := parts.joined_words
 				base_64_str := Base_64.encoded (zstr.to_utf_8, True)
@@ -142,42 +138,6 @@ feature -- Tests
 			assert ("all == endings found", padding_permutation_set.count = 3 )
 		end
 
-	test_encodeables
-		-- GENERAL_TEST_SET.test_encodeables
-		note
-			testing: "[
-				covers/{EL_OUTPUT_MEDIUM}.put_other,
-				covers/{EL_ENCODING_BASE}.set_from_name
-			]"
-		local
-			buffer: EL_STRING_8_IO_MEDIUM; encoding: ENCODING
-			is_ansi: BOOLEAN; line: EL_STRING_8
-		do
-			create buffer.make (50)
-			buffer.set_encoding_other (Encodings.Utf_8)
-			assert ("is utf-8", buffer.encoded_as_utf (8))
-
-			create encoding.make ("850")
-			buffer.set_encoding_from_name ("cp850")
-			assert ("same encoding", buffer.encoding_other ~ encoding)
-
-			buffer.set_encoding_other (Console.Encoding)
-			is_ansi := Console.code_page.has_substring ("ANSI")
-
-			across Text.lines_8 as list loop
-				create line.make_from_string (list.item)
-				if attached Encodings.Unicode as unicode then
-					if is_ansi implies line.is_ascii then
-						Buffer.wipe_out
-						Buffer.put_string_8 (line)
-						unicode.convert_to (Console.Encoding, line)
-						assert ("conversion successful", unicode.last_conversion_successful)
-						assert_same_string (Void, Buffer.text, unicode.last_converted_string_8)
-					end
-				end
-			end
-		end
-
 	test_environment_put
 		-- GENERAL_TEST_SET.test_environment_put
 		local
@@ -189,21 +149,6 @@ feature -- Tests
 			assert_same_string (Void, value, Execution_environment.item (name))
 			Execution_environment.put ("", name)
 			assert ("not attached", not attached Execution_environment.item_32 (name))
-		end
-
-	test_is_file_writable
-		-- GENERAL_TEST_SET.test_is_file_writable
-		local
-			ec_path, test_ecf: FILE_PATH
-		do
-			create ec_path.make_expanded ("$ISE_EIFFEL/studio/spec/$ISE_PLATFORM/bin/ec")
-			if {PLATFORM}.is_windows then
-				ec_path.add_extension ("exe")
-			end
-			test_ecf := Directory.current_working + "test.ecf"
-
-			assert ("ec.exe is not writable", not File.is_writable (ec_path))
-			assert ("test.ecf is writable", File.is_writable (test_ecf))
 		end
 
 	test_make_relative_directory
@@ -255,122 +200,6 @@ feature -- Tests
 			end
 			assert ("same directory", app_cache ~ Directory.App_cache)
 			assert ("same base reference", base = Directory.App_cache.base)
-		end
-
-	test_output_medium_encoding
-		-- GENERAL_TEST_SET.test_output_medium_encoding
-		note
-			testing: "[
-				covers/{EL_OUTPUT_MEDIUM}.put_string,
-				covers/{EL_OUTPUT_MEDIUM}.put_string_32,
-				covers/{EL_OUTPUT_MEDIUM}.put_string_8,
-				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.to_array,
-				covers/{EL_PLAIN_TEXT_FILE}.read_line,
-				covers/{EL_FILE_OPEN_ROUTINES}.open_lines,
-				covers/{EL_FILE_GENERAL_LINE_SOURCE}.extend_special,
-				covers/{EL_ZCODEC}.encode_substring, covers/{EL_ZCODEC}.encode_substring_32,
-				covers/{EL_ZCODEC}.encode_sub_zstring
-			]"
-		local
-			encoding: EL_ENCODEABLE_AS_TEXT; file_out: EL_PLAIN_TEXT_FILE
-			path: FILE_PATH; str, str_item: ZSTRING; str_8: detachable STRING
-		do
-			across << Windows_class, Latin_class, Utf_8 >> as encoding_type loop
-				across Text.lines_32 as list loop
-					if attached list.item as str_32 then
-						str := str_32
-						if str_32.is_valid_as_string_8 then
-							str_8 := str_32
-						else
-							str_8 := Void
-						end
-						encoding := Text.natural_encoding (str_32, encoding_type.item)
-						path := Work_area_dir + (encoding.encoding_name + ".txt")
-						create file_out.make_open_write (path)
-						file_out.set_encoding (encoding)
-						file_out.put_line (str)
-						if attached str_8 as s8 then
-							file_out.put_string_8 (s8)
-						else
-							file_out.put_line (str_32)
-						end
-						file_out.close
-						if attached open_lines (path, encoding.encoding).to_array as array then
-							assert ("two lines", array.count = 2)
-							str_item := array [1]
-							assert ("equal to ZSTRING", str ~ str_item)
-							if attached str_8 as s8 then
-								assert ("is latin-1", array [2].is_valid_as_string_8)
-								assert ("equal to STRING_8", str_8 ~ array [2].to_string_8)
-							else
-								assert ("equal to STRING_32", str_32 ~ array [2].to_string_32)
-							end
-						end
-					end
-				end
-			end
-		end
-
-	test_plain_text_line_source
-		-- GENERAL_TEST_SET.test_plain_text_line_source
-		note
-			testing: "[
-				covers/{EL_FILE_OPEN_ROUTINES}.open,
-				covers/{EL_LINE_SOURCE_ITERATION_CURSOR}.forth,
-				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.make,
-				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.forth,
-				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.as_list,
-				covers/{EL_PLAIN_TEXT_FILE}.average_line_count,
-				covers/{EL_READABLE_ZSTRING}.substring_to_reversed,
-				covers/{EL_SPLIT_ZSTRING_ON_STRING}.make
-			]"
-		local
-			header_path, output_path: FILE_PATH; description, part: ZSTRING; code: STRING
-			line_list: EL_ZSTRING_LIST; count: INTEGER
-		do
-			header_path := Dev_environ.El_test_data_dir + "code/C/unix/error-codes.h"
-			output_path := Work_area_dir + header_path.base
-			output_path.replace_extension ("txt")
-
-			if attached open_lines (header_path, Latin_1) as line_source
-				and then attached open (output_path, Write) as output
-			then
-				output.set_latin_encoding (1)
-				across line_source as line loop
-					across line.shared_item.split_on_string (C_comment_mark) as list loop
-						part := list.item
-						if part.count > 0 then
-							part.adjust
-							if list.cursor_index = 1 then
-								code := part.substring_to_reversed ('%T')
-								code.left_adjust
-							else
-								part.remove_tail (3)
-								description := part
-							end
-						end
-					end
-					if code.is_integer_32 then
-						if output.count > 0 then
-							output.put_new_line
-						end
-						output.put_string_8 (code); output.put_string_8 (":%N%T")
-						output.put_string (description)
-					end
-					count := count + 1
-				end
-				output.close
-				assert_same_digest (Plain_text, output_path, "RLAGdnzdvWEwm0pukVZZ7Q==")
-				create line_list.make (count)
-				if attached line_source as list then
-					from list.start until list.after loop
-						line_list.extend (list.item_copy)
-						list.forth
-					end
-					assert ("closed", line_source.is_closed)
-					assert ("same list", line_list ~ line_source.as_list)
-				end
-			end
 		end
 
 	test_reverse_managed_pointer
@@ -480,10 +309,4 @@ feature {NONE} -- Implementation
 			create Result.make (Directory.App_cache, Work_area_dir #+ Directory.App_cache.base)
 		end
 
-feature {NONE} -- Constants
-
-	C_comment_mark: ZSTRING
-		once
-			Result := "/*"
-		end
 end

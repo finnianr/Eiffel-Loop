@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 18:08:34 GMT (Sunday 23rd February 2025)"
-	revision: "35"
+	date: "2025-02-28 14:43:22 GMT (Friday 28th February 2025)"
+	revision: "36"
 
 class
 	STRING_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_SIDE_ROUTINES
 
-	EL_SHARED_TEST_TEXT
+	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT
 
 	EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_CURSOR
 
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 				["adjusted_immutable_string",	agent test_adjusted_immutable_string],
 				["bracketed",						agent test_bracketed],
 				["delimited_list",				agent test_delimited_list],
+				["encodeables",					agent test_encodeables],
 				["immutable_string_manager",	agent test_immutable_string_manager],
 				["match_wildcard",				agent test_match_wildcard],
 				["name_table",						agent test_name_table],
@@ -131,6 +132,42 @@ feature -- Tests
 			assert ("delimited_list OK", str ~ Text.Mixed_text)
 		ensure
 			line_2_starts_with_W: Text.lines_32.i_th (2).item (1) = 'W'
+		end
+
+	test_encodeables
+		-- STRING_TEST_SET.test_encodeables
+		note
+			testing: "[
+				covers/{EL_OUTPUT_MEDIUM}.put_other,
+				covers/{EL_ENCODING_BASE}.set_from_name
+			]"
+		local
+			buffer: EL_STRING_8_IO_MEDIUM; encoding: ENCODING
+			is_ansi: BOOLEAN; line: EL_STRING_8
+		do
+			create buffer.make (50)
+			buffer.set_encoding_other (Encodings.Utf_8)
+			assert ("is utf-8", buffer.encoded_as_utf (8))
+
+			create encoding.make ("850")
+			buffer.set_encoding_from_name ("cp850")
+			assert ("same encoding", buffer.encoding_other ~ encoding)
+
+			buffer.set_encoding_other (Console.Encoding)
+			is_ansi := Console.code_page.has_substring ("ANSI")
+
+			across Text.lines_8 as list loop
+				create line.make_from_string (list.item)
+				if attached Encodings.Unicode as unicode then
+					if is_ansi implies line.is_ascii then
+						Buffer.wipe_out
+						Buffer.put_string_8 (line)
+						unicode.convert_to (Console.Encoding, line)
+						assert ("conversion successful", unicode.last_conversion_successful)
+						assert_same_string (Void, Buffer.text, unicode.last_converted_string_8)
+					end
+				end
+			end
 		end
 
 	test_immutable_string_manager

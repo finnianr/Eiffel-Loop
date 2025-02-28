@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 12:01:51 GMT (Friday 13th September 2024)"
-	revision: "35"
+	date: "2025-02-28 8:28:43 GMT (Friday 28th February 2025)"
+	revision: "36"
 
 class
 	EL_PLAIN_TEXT_LINE_SOURCE
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 
 	update_item
 		do
-			shared_item := file.last_string
+			shared_item := file.last_decoded
 		end
 
 feature {NONE} -- Constants

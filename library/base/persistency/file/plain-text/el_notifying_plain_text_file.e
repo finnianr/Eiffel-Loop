@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:25:26 GMT (Thursday 9th November 2023)"
-	revision: "12"
+	date: "2025-02-28 11:57:42 GMT (Friday 28th February 2025)"
+	revision: "13"
 
 class
 	EL_NOTIFYING_PLAIN_TEXT_FILE
@@ -18,9 +18,7 @@ inherit
 			index as position,
 			path as ise_path,
 			put_string as put_encoded_string_8,
-			put_character as put_encoded_character_8,
-			last_string as last_string_8,
-			read_line as read_line_8
+			put_character as put_encoded_character_8
 		undefine
 			is_plain_text, make_with_path, make_with_name
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 18:55:14 GMT (Sunday 23rd February 2025)"
-	revision: "25"
+	date: "2025-02-28 11:58:54 GMT (Friday 28th February 2025)"
+	revision: "26"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -161,8 +161,8 @@ feature -- File content
 				if file.is_empty then
 					create Result.make_empty
 				else
-					file.read_line_8
-					Result := file.last_string_8
+					file.read_line
+					Result := file.last_string
 					if {PLATFORM}.is_unix then
 						Result.prune_all_trailing ('%R')
 					end

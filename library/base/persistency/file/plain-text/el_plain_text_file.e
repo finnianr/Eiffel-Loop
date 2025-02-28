@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 9:44:02 GMT (Monday 10th February 2025)"
-	revision: "18"
+	date: "2025-02-28 16:10:07 GMT (Friday 28th February 2025)"
+	revision: "19"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -20,12 +20,12 @@ inherit
 		rename
 			put_string as put_encoded_string_8,
 			put_character as put_encoded_character_8,
-			path as ise_path,
-			last_string as last_string_8,
-			read_line as read_line_8
+			path as ise_path
 		redefine
 			make_with_name, make_with_path, open_read
 		end
+
+	ITERABLE [STRING]
 
 	EL_OUTPUT_MEDIUM
 		rename
@@ -57,7 +57,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			create last_string.make_empty
+			create last_decoded_line.make_empty
 		end
 
 	make_with_name (fn: READABLE_STRING_GENERAL)
@@ -133,14 +133,110 @@ feature -- Measurement
 
 feature -- Access
 
-	last_string: ZSTRING
+	decoded: EL_DECODED_TEXT_FILE_LINES
+		do
+			create Result.make (Current)
+		end
+
+	last_decoded: ZSTRING
+		-- `last_string' decoded according to current `file_encoding' using
+		-- shared string `last_decoded_line'
+		do
+			Result := last_decoded_line
+			Result.wipe_out
+			if attached last_string as raw_line then
+				if encoded_as_utf (16) then -- little endian
+					if not end_of_file then
+						read_character -- skip '%U' after '%N'
+					end
+					raw_line.prune_all_trailing ('%U')
+					raw_line.prune_all_trailing ('%R')
+				else
+					raw_line.prune_all_trailing ('%R')
+					if raw_line.has (Substitute) then
+						raw_line.prune_all (Substitute) -- Reserved by `EL_ZSTRING' as Unicode placeholder
+					end
+				end
+				if encoding_type = Other_class and then attached encoding_other as l_encoding then
+					Result.append_encoded_any (raw_line, l_encoding)
+				else
+					Result.append_encoded (raw_line, file_encoding)
+				end
+			end
+
+		end
 
 	path: EL_FILE_PATH
 		do
 			create Result.make (internal_name)
 		end
 
+feature -- Basic operations
+
+	fill_list (list: EL_STRING_LIST [STRING_GENERAL])
+		-- fill `list' with lines
+		require
+			closed: is_closed and then exists
+			valid_type: List_types.has (list.generating_type)
+		local
+			done, size_calculated: BOOLEAN; average_line_length: DOUBLE
+			type_index: INTEGER
+		do
+			type_index := List_types.index_of (list.generating_type, 1)
+			open_read
+			from until done loop
+				read_line
+				if end_of_file then
+					done := True
+				else
+					if not size_calculated and then list.full then
+					-- wait until enough lines read to calculate average
+						average_line_length := list.character_count / list.count
+						list.grow ((count / average_line_length).rounded)
+						size_calculated := True
+					end
+					inspect type_index
+						when 1 then
+							list.extend (last_string.twin)
+						when 2 then
+							list.extend (last_decoded.to_string_32)
+						when 3 then
+							list.extend (last_decoded.twin)
+					else
+					end
+				end
+			end
+		-- Trim if excess capacity is more than 10 %
+			if (list.capacity - list.count) / list.capacity > 0.1 then
+				list.trim
+			end
+			close
+		end
+
 feature -- Factory
+
+	new_cursor: EL_TEXT_FILE_LINE_CURSOR
+		do
+			create Result.make (Current)
+		end
+
+	new_line_list: EL_ZSTRING_LIST
+		-- list of lines decoded according to `encoding'
+		require
+			closed: is_closed and then exists
+		do
+			create Result.make (100)
+			fill_list (Result)
+		end
+
+	new_line_list_8, new_latin_1_list, new_utf_8_list: EL_STRING_8_LIST
+		-- latin-1 or raw UTF-8 encoded lines
+		require
+			closed: is_closed and then exists
+		do
+			create Result.make (100)
+			fill_list (Result)
+		end
 
 	new_lines: EL_PLAIN_TEXT_LINE_SOURCE
 		-- iterable line source
@@ -148,52 +244,6 @@ feature -- Factory
 			closed: is_closed and then exists
 		do
 			create Result.make_from_file (Current)
-		end
-
-	new_line_list_8, new_latin_1_list, new_utf_8_list: EL_STRING_8_LIST
-		-- latin-1 or raw UTF-8 encoded lines
-		require
-			closed: is_closed and then exists
-		local
-			done: BOOLEAN; size_calculated: BOOLEAN_REF
-		do
-			create size_calculated
-			create Result.make (100)
-			open_read
-			from until done loop
-				read_line_8
-				if end_of_file then
-					done := True
-				else
-					grow_if_full (size_calculated, Result)
-					Result.extend (last_string_8.twin)
-				end
-			end
-			trim_excess (Result)
-			close
-		end
-
-	new_line_list: EL_ZSTRING_LIST
-		-- list of lines decoded according to `encoding'
-		require
-			closed: is_closed and then exists
-		local
-			done: BOOLEAN; size_calculated: BOOLEAN_REF
-		do
-			create size_calculated
-			create Result.make (100)
-			open_read
-			from until done loop
-				read_line
-				if end_of_file then
-					done := True
-				else
-					grow_if_full (size_calculated, Result)
-					Result.extend (last_string.twin)
-				end
-			end
-			trim_excess (Result)
-			close
 		end
 
 feature -- Status query
@@ -220,55 +270,14 @@ feature -- Status setting
 			end
 		end
 
-feature -- Basic operations
+feature -- Constants
 
-	read_line
-		do
-			read_line_8
-			if attached last_string_8 as raw_line then
-				if encoded_as_utf (16) then -- little endian
-					if not end_of_file then
-						read_character -- skip '%U' after '%N'
-					end
-					raw_line.prune_all_trailing ('%U')
-					raw_line.prune_all_trailing ('%R')
-				else
-					raw_line.prune_all_trailing ('%R')
-					if raw_line.has (Substitute) then
-						raw_line.prune_all (Substitute) -- Reserved by `EL_ZSTRING' as Unicode placeholder
-					end
-				end
-				last_string.wipe_out
-
-				if encoding_type = Other_class and then attached encoding_other as l_encoding then
-					last_string.append_encoded_any (raw_line, l_encoding)
-				else
-					last_string.append_encoded (raw_line, file_encoding)
-				end
-			end
+	List_types: ARRAYED_LIST [TYPE [EL_STRING_LIST [STRING_GENERAL]]]
+		once
+			create Result.make_from_array (<< {EL_STRING_8_LIST}, {EL_STRING_32_LIST}, {EL_ZSTRING_LIST} >>)
 		end
 
 feature {NONE} -- Implementation
-
-	grow_if_full (size_calculated: BOOLEAN_REF; list: EL_STRING_LIST [STRING_GENERAL])
-		local
-			average_line_length: DOUBLE
-		do
-			if not size_calculated.item and then list.full then
-			-- wait until enough lines read to calculate average
-				average_line_length := list.character_count / list.count
-				list.grow ((count / average_line_length).rounded)
-				size_calculated.set_item (True)
-			end
-		end
-
-	trim_excess (list: EL_STRING_LIST [STRING_GENERAL])
-		-- trim if excess capacity is more than 10 %
-		do
-			if (list.capacity - list.count) / list.capacity > 0.1 then
-				list.trim
-			end
-		end
 
 	unicode_count (utf_lines: STRING): INTEGER
 		local
@@ -283,4 +292,9 @@ feature {NONE} -- Implementation
 			else
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	last_decoded_line: ZSTRING
+
 end

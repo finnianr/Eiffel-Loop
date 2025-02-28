@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 14:20:39 GMT (Tuesday 5th November 2024)"
-	revision: "20"
+	date: "2025-02-28 11:58:53 GMT (Friday 28th February 2025)"
+	revision: "21"
 
 class
 	EL_ENCRYPTION_ROUTINES
@@ -86,11 +86,11 @@ feature {NONE} -- Implementation
 			if attached String_8_pool.borrowed_item as buffer then
 				Result := buffer.empty
 				from until file.end_of_file loop
-					file.read_line_8
+					file.read_line
 					if not Result.is_empty then
 						Result.append_character ('%N')
 					end
-					Result.append (file.last_string_8)
+					Result.append (file.last_string)
 					Result.prune_all_trailing ('%R')
 				end
 				Result := Result.twin

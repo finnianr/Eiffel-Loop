@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:42 GMT (Thursday 5th September 2024)"
-	revision: "5"
+	date: "2025-02-28 15:27:37 GMT (Friday 28th February 2025)"
+	revision: "6"
 
 class
 	EL_NATURAL_32_COUNTER
@@ -18,7 +18,7 @@ inherit
 	NATURAL_32_REF
 		export
 			{NONE} all
-			{ANY} item, set_item
+			{ANY} item, set_item, to_integer_32
 		end
 
 feature -- Element change
