@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-15 17:27:57 GMT (Saturday 15th February 2025)"
-	revision: "3"
+	date: "2025-03-02 8:10:34 GMT (Sunday 2nd March 2025)"
+	revision: "4"
 
 class
 	EL_UFW_USER_RULES
@@ -275,8 +275,10 @@ feature {NONE} -- Constants
 	Port_list: ARRAYED_LIST [NATURAL_16]
 		once
 			create Result.make_from_array (<<
-				Service_port.HTTP, Service_port.HTTPS, Service_port.SMTP, Service_port.SSH
+				Service_port.HTTPS, Service_port.HTTP, Service_port.SMTP, Service_port.SSH
 			>>)
+		ensure
+			same_order_as_ufw: Result.first = Service_port.HTTPS
 		end
 
 	Var: TUPLE [address, port: STRING]

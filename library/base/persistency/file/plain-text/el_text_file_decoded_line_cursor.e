@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 15:52:58 GMT (Friday 28th February 2025)"
-	revision: "1"
+	date: "2025-02-28 16:34:05 GMT (Friday 28th February 2025)"
+	revision: "2"
 
 class
 	EL_TEXT_FILE_DECODED_LINE_CURSOR
@@ -23,8 +23,14 @@ create
 
 feature -- Access
 
+	item_32: STRING_32
+		do
+			Result := file.last_decoded.to_string_32
+		end
+
 	shared_item: ZSTRING
 		do
 			Result := file.last_decoded
 		end
+
 end

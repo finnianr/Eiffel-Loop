@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2025-03-02 10:48:38 GMT (Sunday 2nd March 2025)"
+	revision: "4"
 
 class
 	EL_GBP_EXCHANGE_RATE_TABLE
@@ -22,7 +22,7 @@ feature {NONE} -- Constants
 
 	Base_currency: NATURAL_8
 		once
-			Result := Currency.GBP
+			Result := Currency_enum.GBP
 		end
 
 end

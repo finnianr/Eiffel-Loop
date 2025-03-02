@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 10:26:55 GMT (Tuesday 25th February 2025)"
-	revision: "14"
+	date: "2025-03-01 9:36:39 GMT (Saturday 1st March 2025)"
+	revision: "15"
 
 class
 	EL_IP_ADDRESS_ROUTINES
@@ -40,20 +40,43 @@ feature -- Contract Support
 
 feature -- Conversion
 
+	substring_as_number (address: STRING; start_index, end_index: INTEGER): NATURAL
+		require
+			valid_indices: end_index >= start_index
+								implies address.valid_index (start_index) and address.valid_index (end_index)
+		local
+			i, i_upper, left_shift_count: INTEGER; c_i: CHARACTER; add_byte: BOOLEAN
+			byte: NATURAL
+		do
+			if attached address.area as area then
+				left_shift_count := 24
+				from i := start_index - 1; i_upper := end_index - 1 until i > i_upper loop
+					c_i := area [i]
+					inspect c_i
+						when '.' then
+							add_byte := True
+					else
+						byte := byte * 10 + (c_i |-| '0').to_natural_32
+						add_byte := i = i_upper
+					end
+					if add_byte then
+						Result := Result | (byte |<< left_shift_count)
+						left_shift_count := left_shift_count - 8
+						byte := 0
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	to_number (address: STRING): NATURAL
 		require
 			valid_format: is_valid (address)
 		do
 			if address ~ Loop_back_one then
 				Result := Loop_back
-
-			elseif address.occurrences ('.') = 3 then
-				Dot_split.set_target (address)
-				number := 0
-				across Dot_split as list loop
-					append_byte (list.item)
-				end
-				Result := number
+			else
+				Result := substring_as_number (address, 1, address.count)
 			end
 		ensure
 			reversible: address /= Loop_back_one implies address ~ to_string (Result)
@@ -102,11 +125,6 @@ feature {NONE} -- Internal attributes
 	number: NATURAL
 
 feature {NONE} -- Constants
-
-	Dot_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
-		once
-			create Result.make (Empty_string_8, '.')
-		end
 
 	Loop_back_one: STRING =  "::1"
 

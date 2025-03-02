@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "22"
+	date: "2025-03-02 14:55:16 GMT (Sunday 2nd March 2025)"
+	revision: "23"
 
 class
 	EL_BOOK_CHAPTER
@@ -123,7 +123,6 @@ feature {NONE} -- Evolicity fields
 		end
 
 	getter_function_table: like getter_functions
-			--
 		do
 			create Result.make_assignments (<<
 				["file_name",			agent: ZSTRING do Result := output_path.base end],

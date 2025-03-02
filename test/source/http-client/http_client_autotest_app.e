@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 9:13:17 GMT (Wednesday 29th January 2025)"
-	revision: "69"
+	date: "2025-03-02 10:30:14 GMT (Sunday 2nd March 2025)"
+	revision: "70"
 
 class
 	HTTP_CLIENT_AUTOTEST_APP
@@ -31,7 +31,11 @@ create
 
 feature {NONE} -- Implementation
 
-	compile: TUPLE [EL_CACHED_XML_HTTP_CONNECTION]
+	compile: TUPLE [
+		EL_CACHED_XML_HTTP_CONNECTION,
+		EL_MODULE_WEB_ARCHIVE,
+		EL_TRAFFIC_ANALYSIS_SHELL_MENU
+	]
 		do
 			create Result
 		end

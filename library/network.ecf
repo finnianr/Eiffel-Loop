@@ -38,6 +38,7 @@ Common networking classes
 		<library name = "EL_c_api" location = "C-language-interface.ecf"/>
 		<library name = "EL_doc_scan" location = "document-scan.ecf"/>
 		<library name = "EL_encryption" location = "encryption.ecf"/>
+		<library name = "EL_evolicity" location = "evolicity.ecf"/>
 		<library name = "EL_file_process" location = "file-processing.ecf"/>
 		<library name = "EL_os_command" location = "os-command.ecf"/>
 		<library name = "EL_pyxis_scan" location = "pyxis-scan.ecf"/>

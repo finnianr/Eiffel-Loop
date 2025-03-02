@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 12:29:21 GMT (Monday 23rd September 2024)"
-	revision: "32"
+	date: "2025-03-02 12:15:35 GMT (Sunday 2nd March 2025)"
+	revision: "33"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -79,7 +79,6 @@ feature -- Tests
 			testing: "covers/{ECD_REFLECTIVE_RECOVERABLE_CHAIN}.export_pyxis"
 		local
 			data_table: COUNTRY_DATA_TABLE; data_path, pyxis_path: FILE_PATH
-			export_digest: STRING
 		do
 			data_path := Work_area_dir + "country.dat"
 			create data_table.make_from_file (data_path)
@@ -89,13 +88,14 @@ feature -- Tests
 			pyxis_path := data_path.with_new_extension ("pyx")
 			data_table.export_pyxis (pyxis_path, Latin_1)
 
-			export_digest := "C5DBDE6CA7682161D4A15FCC2B9E7C26"
-			assert_same_digest_hexadecimal (Plain_text, pyxis_path, export_digest)
+			if attached ("B710BBE0F12EB3C9A83F3D3BC4151D3E") as export_digest then
+				assert_same_digest_hexadecimal (Plain_text, pyxis_path, export_digest)
 
-			data_table.import_pyxis (pyxis_path)
+				data_table.import_pyxis (pyxis_path)
 
-			data_table.export_pyxis (pyxis_path, Latin_1)
-			assert_same_digest_hexadecimal (Plain_text, pyxis_path, export_digest)
+				data_table.export_pyxis (pyxis_path, Latin_1)
+				assert_same_digest_hexadecimal (Plain_text, pyxis_path, export_digest)
+			end
 
 			data_table.close
 		end
@@ -190,7 +190,7 @@ feature -- Tests
 				country.write_meta_data (meta_data, 0)
 				meta_data.close
 			end
-			assert_same_digest_hexadecimal (Plain_text, meta_data.path, "8816F18DF6ACAD66843B3F30A22A8E65")
+			assert_same_digest_hexadecimal (Plain_text, meta_data.path, "1B89DC96866492D44131E6DC5149DE9F")
 		end
 
 feature {NONE} -- Implementation

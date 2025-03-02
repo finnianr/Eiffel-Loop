@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 8:33:58 GMT (Sunday 13th October 2024)"
-	revision: "8"
+	date: "2025-03-02 10:20:21 GMT (Sunday 2nd March 2025)"
+	revision: "9"
 
 class
-	EL_FIREWALL_STATUS
+	FIREWALL_STATUS
 
 inherit
 	EL_COMPACTABLE_REFLECTIVE

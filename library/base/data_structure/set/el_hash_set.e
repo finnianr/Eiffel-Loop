@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 12:05:18 GMT (Friday 14th February 2025)"
-	revision: "35"
+	date: "2025-03-02 15:11:41 GMT (Sunday 2nd March 2025)"
+	revision: "36"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -427,7 +427,7 @@ feature -- Cursor movement
 	after, off: BOOLEAN
 		-- Is the iteration cursor off ?
 		do
-			Result := iteration_position > capacity - 1
+			Result := is_off_position (iteration_position)
 		end
 
 	forth
@@ -485,6 +485,12 @@ feature {NONE} -- Implementation
 			Result.set_key_tester (tester)
 		ensure
 			same_key_tester: Result.key_tester = key_tester
+		end
+
+	is_off_position (pos: INTEGER): BOOLEAN
+			-- Is `pos' a cursor position outside the authorized range?
+		do
+			Result := pos < 0 or pos >= count
 		end
 
 	subset_strategy_selection (v: H; other: EL_HASH_SET [H]): SUBSET_STRATEGY_HASHABLE [H]

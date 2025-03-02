@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 16:10:07 GMT (Friday 28th February 2025)"
-	revision: "19"
+	date: "2025-02-28 16:29:28 GMT (Friday 28th February 2025)"
+	revision: "20"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -134,6 +134,7 @@ feature -- Measurement
 feature -- Access
 
 	decoded: EL_DECODED_TEXT_FILE_LINES
+		-- Iterable object to iterate decoded lines as ZSTRING strings
 		do
 			create Result.make (Current)
 		end

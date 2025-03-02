@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-17 7:59:07 GMT (Friday 17th May 2024)"
-	revision: "4"
+	date: "2025-03-02 10:53:37 GMT (Sunday 2nd March 2025)"
+	revision: "5"
 
 class
 	C_LANGUAGE_INTERFACE_AUTOTEST_APP
@@ -30,9 +30,12 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
+		EL_C_DATA,
 		EL_CPP_BOOLEAN_VECTOR,
-		EL_CPP_ITERATION_CURSOR [ANY],
-		EL_CPP_STD_ITERATION_CURSOR [ANY]
+		EL_CPP_ITERATOR [EL_CPP_OBJECT],
+		EL_CPP_LIST [EL_CPP_ITERATION_CURSOR [EL_CPP_OBJECT], EL_CPP_OBJECT],
+		EL_CPP_STD_ITERATION_CURSOR [ANY],
+		EL_IMMOVEABLE
 	]
 		do
 			create Result

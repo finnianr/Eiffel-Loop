@@ -1,13 +1,18 @@
 note
-	description: "${STRING_8} line iteration cursor for ${EL_PLAIN_TEXT_FILE}"
+	description: "Abstract cursor to iterate lines of a ${EL_PLAIN_TEXT_FILE} file"
+	descendants: "[
+			EL_TEXT_FILE_ITERATION_CURSOR* [S -> ${STRING_GENERAL}]
+				${EL_TEXT_FILE_LINE_CURSOR}
+				${EL_TEXT_FILE_DECODED_LINE_CURSOR}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 15:52:58 GMT (Friday 28th February 2025)"
-	revision: "1"
+	date: "2025-02-28 16:32:51 GMT (Friday 28th February 2025)"
+	revision: "2"
 
 deferred class
 	EL_TEXT_FILE_ITERATION_CURSOR [S -> STRING_GENERAL]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-17 10:08:27 GMT (Thursday 17th October 2024)"
-	revision: "74"
+	date: "2025-03-02 10:20:21 GMT (Sunday 2nd March 2025)"
+	revision: "75"
 
 class
 	REFLECTION_TEST_SET
@@ -84,7 +84,7 @@ feature -- Tests
 				covers/{EL_COMPACTABLE_REFLECTIVE}.compact_value
 			]"
 		local
-			date_1: COMPACTABLE_DATE; date: DATE; status, status_2: EL_FIREWALL_STATUS
+			date_1: COMPACTABLE_DATE; date: DATE; status, status_2: FIREWALL_STATUS
 			compact_64: NATURAL_64; date_2: RANGE_COMPACTABLE_DATE; compact_date: INTEGER
 			status_3: RANGE_FIREWALL_STATUS
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-21 12:59:11 GMT (Friday 21st February 2025)"
-	revision: "38"
+	date: "2025-03-01 9:40:38 GMT (Saturday 1st March 2025)"
+	revision: "39"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -35,13 +35,16 @@ feature {NONE} -- Initialization
 				part := split.item; field_index := split.cursor_index
 				inspect field_index
 					when 1 then
-						if attached s.substring_to (part, ' ') as address then
-							ip_number := Ip_address.to_number (address)
-							index := part.index_of ('[', address.count + 3) + 1
+						index := part.index_of (' ', 1)
+						if index > 0 then
+							ip_number := Ip_address.substring_as_number (part, 1, index - 1)
+							index := part.index_of ('[', index + 1) + 1
+							if index > 0 then
+								compact_date := Date_parser.to_ordered_compact_date (part.substring (index, index + 10))
+								index := index + 12
+								compact_time := Time_parser.to_compact_time (part.substring (index, index + 7))
+							end
 						end
-						compact_date := Date_parser.to_ordered_compact_date (part.substring (index, index + 10))
-						index := index + 12
-						compact_time := Time_parser.to_compact_time (part.substring (index, index + 7))
 					when 2 then
 						http_command := shared_string (Http_command_set, s.substring_to (part, ' '))
 
@@ -76,7 +79,7 @@ feature {NONE} -- Initialization
 						status_code := part.substring (1, index - 1).to_natural_16
 						byte_count := part.substring (index + 1, part.count).to_natural
 					when 4 then
-						if s.is_character (part, '-') then
+						if not s.is_character (part, '-') then
 							referer := shared_string (Referer_set, part)
 						end
 					when Field_count then

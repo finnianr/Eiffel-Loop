@@ -1,7 +1,7 @@
 note
 	description: "[
-		Helper class to iterate a ${EL_PLAIN_TEXT_FILE} as decoded ${ZSTRING} lines.
-		Use routine ${EL_PLAIN_TEXT_FILE}.decoded.
+		Helper class to iterate a ${EL_PLAIN_TEXT_FILE} as decoded ${ZSTRING} lines
+		using routine ${EL_PLAIN_TEXT_FILE}.decoded.
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 16:22:01 GMT (Friday 28th February 2025)"
-	revision: "1"
+	date: "2025-02-28 16:27:57 GMT (Friday 28th February 2025)"
+	revision: "2"
 
 class
 	EL_DECODED_TEXT_FILE_LINES

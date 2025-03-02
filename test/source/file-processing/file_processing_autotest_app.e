@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 11:11:02 GMT (Tuesday 14th May 2024)"
-	revision: "24"
+	date: "2025-03-02 10:39:13 GMT (Sunday 2nd March 2025)"
+	revision: "25"
 
 class
 	FILE_PROCESSING_AUTOTEST_APP
@@ -41,6 +41,8 @@ feature {NONE} -- Implementation
 		EL_DIRECTORY_TREE_FILE_PROCESSOR,
 
 		EL_FILE_SWAPPER, EL_FILE_TREE_COMMAND,
+
+		EL_KEY_IDENTIFIABLE, EL_KEY_IDENTIFIABLE_STORABLE,
 
 		EL_UPDATEABLE_FILE
 	]

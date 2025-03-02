@@ -50,6 +50,7 @@ system:
 			EL_c_api = "C-language-interface.ecf"
 			EL_doc_scan = "document-scan.ecf"
 			EL_encryption = "encryption.ecf"
+			EL_evolicity = "evolicity.ecf"
 			EL_file_process = "file-processing.ecf"
 			EL_os_command = "os-command.ecf"
 			EL_pyxis_scan = "pyxis-scan.ecf"

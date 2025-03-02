@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:50:48 GMT (Friday 7th February 2025)"
-	revision: "3"
+	date: "2025-03-02 15:04:12 GMT (Sunday 2nd March 2025)"
+	revision: "4"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			end
 			create content.make_filled (default_value, capacity)
 			create insertion_marks.make_filled (False, capacity)
-			count := 0; control := 0; position := 0; iteration_position := 0
+			count := 0; control := 0; position := 0; iteration_position := n + 1
 			compare_references
 			found_item := default_value
 		ensure

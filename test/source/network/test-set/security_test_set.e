@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 16:12:39 GMT (Tuesday 25th February 2025)"
-	revision: "17"
+	date: "2025-03-02 15:27:56 GMT (Sunday 2nd March 2025)"
+	revision: "18"
 
 class
 	SECURITY_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_IP_ADDRESS
 
-	SHARED_DEV_ENVIRON
+	SHARED_DEV_ENVIRON; EL_SHARED_SERVICE_PORT
 
 feature {NONE} -- Initialization
 
@@ -25,6 +25,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["banned_ip_table",	  agent test_banned_ip_table],
 				["is_hacker_probe",	  agent test_is_hacker_probe],
 				["is_whitelisted",	  agent test_is_whitelisted],
 				["recent_log_entries", agent test_recent_log_entries],
@@ -33,6 +34,28 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Test
+
+	test_banned_ip_table
+		-- SECURITY_TEST_SET.test_banned_ip_table
+		local
+			ip_table: EL_BANNED_IP_TABLE; ip_list: EL_STRING_8_LIST
+			n: NATURAL_16; rules_path: FILE_PATH; l_digest: STRING
+		do
+			create ip_table.make (Service_port.http)
+			ip_list := "152.32.180.98, 165.154.233.80, 80.94.95.71"
+
+			across << n.zero, Service_port.https >> as port loop
+				ip_table.set_related_port (port.item)
+				across ip_list as list loop
+					ip_table.put (IP_address.to_number (list.item))
+				end
+				rules_path := Work_area_dir + "ip-tables.txt"
+				ip_table.set_output_path (rules_path)
+				ip_table.serialize_all
+				l_digest := if port.is_first then "XT3pcmgZ+AJS3oyq7/eyyQ==" else "QXaphOc3rmjLg2Z96XMX0A==" end
+				assert_same_digest (Plain_text, rules_path, l_digest)
+			end
+		end
 
 	test_is_hacker_probe
 		-- SECURITY_TEST_SET.test_is_hacker_probe
@@ -160,7 +183,7 @@ feature -- Test
 					lio.put_new_line
 					rules.set_path (work_area_data_dir + name.item)
 					rules.store
-					l_digest := if name.is_first then "SGUyrMx2AUMkAtNCwc4Jag==" else "Pw0TGyxl0CC4iP27WpCpkw==" end
+					l_digest := if name.is_first then "OcrZsb2rLpOqCtvhracbZQ==" else "Mh35RJk35F4FciNVb8Ef7Q==" end
 					assert_same_digest (Plain_text, rules.path, l_digest)
 
 				end
