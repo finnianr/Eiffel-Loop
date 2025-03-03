@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:13:35 GMT (Sunday 22nd September 2024)"
-	revision: "9"
+	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
+	revision: "10"
 
 class
 	EL_OBJECT_FIELDS_TABLE
@@ -20,7 +20,7 @@ inherit
 		export
 			{NONE} all
 			{ANY} count, found, found_index,
-				has_immutable, has_immutable_key, has_key_8, has_8, has_general, has_key_general
+				has_immutable, has_immutable_key, has_key, has, has_general, has_key_general
 		end
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL
@@ -146,14 +146,14 @@ feature -- Status query
 
 	has_tuple_field (name: READABLE_STRING_8): BOOLEAN
 		do
-			if has_key_8 (name) then
+			if has_key (name) then
 				Result := {ISE_RUNTIME}.type_conforms_to (found_static_type, Class_id.TUPLE)
 			end
 		end
 
 	valid_field_names (field_list: ITERABLE [READABLE_STRING_8]): BOOLEAN
 		do
-			Result := across field_list as list all has_8 (list.item) end
+			Result := across field_list as list all has (list.item) end
 		end
 
 	valid_tuple_name_list (field_name, name_list: IMMUTABLE_STRING_8): BOOLEAN

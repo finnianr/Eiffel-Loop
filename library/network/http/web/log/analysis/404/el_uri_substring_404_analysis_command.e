@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-21 9:36:18 GMT (Friday 21st February 2025)"
-	revision: "3"
+	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
+	revision: "4"
 
 deferred class
 	EL_URI_SUBSTRING_404_ANALYSIS_COMMAND
@@ -142,7 +142,7 @@ feature {NONE} -- Implementation
 	matches_foreign (entry: EL_WEB_LOG_ENTRY): BOOLEAN
 		do
 			if attached entry.uri_extension as extension and then extension.count > 0 then
-				Result := foreign_extension_set.has_8 (extension)
+				Result := foreign_extension_set.has (extension)
 			end
 			if not Result then
 				Result := across foreign_starts_with_set as set some entry.uri_path.starts_with (set.item) end

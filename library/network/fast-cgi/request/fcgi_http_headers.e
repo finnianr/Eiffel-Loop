@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:49:23 GMT (Sunday 22nd September 2024)"
-	revision: "26"
+	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
+	revision: "27"
 
 class
 	FCGI_HTTP_HEADERS
@@ -89,7 +89,7 @@ feature -- Access
 			create Result.make (Iterable.count (name_list))
 			across name_list as name loop
 				l_name := translater.imported (name.item)
-				if field_table.has_key_8 (l_name) then
+				if field_table.has_key (l_name) then
 					Result.extend (field_string (field_table.found_item), name.item)
 				else
 					if custom_table.has_key (l_name) then

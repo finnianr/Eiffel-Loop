@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-03 16:27:47 GMT (Thursday 3rd October 2024)"
-	revision: "36"
+	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
+	revision: "37"
 
 class
 	EL_FIELD_TABLE
@@ -19,7 +19,7 @@ inherit
 		export
 			{EL_REFLECTION_HANDLER} all
 			{ANY} extend, found, found_item, count, start, after, forth,
-					has_immutable_key, has_immutable, has_8, has_key_8,
+					has_immutable_key, has_immutable, has, has_key,
 					item_for_iteration, key_for_iteration, current_keys
 		end
 

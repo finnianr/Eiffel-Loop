@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:41:10 GMT (Monday 23rd September 2024)"
-	revision: "8"
+	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
+	revision: "9"
 
 class
 	EL_TUPLE_FIELD_TABLE
@@ -61,7 +61,7 @@ feature -- Basic operations
 		local
 			tuple_name_list: EL_STRING_8_LIST
 		do
-			if has_key_8 (tuple.name) then
+			if has_key (tuple.name) then
 				create tuple_name_list.make_comma_split (found_item) -- ignores leading tab
 				tuple.set_field_name_list (tuple_name_list)
 			end

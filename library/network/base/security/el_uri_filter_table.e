@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 8:11:11 GMT (Sunday 23rd February 2025)"
-	revision: "17"
+	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
+	revision: "18"
 
 class
 	EL_URI_FILTER_TABLE
@@ -121,10 +121,10 @@ feature {NONE} -- Implementation
 		do
 			if attached key_for_iteration as predicate_name and then attached item_for_iteration as word_set then
 				if predicate_name = Predicate.has_extension and then path_extension.count > 0 then
-					Result := word_set.has_8 (path_extension)
+					Result := word_set.has (path_extension)
 
 				elseif predicate_name = Predicate.first_step then
-					Result := word_set.has_8 (path_first_step)
+					Result := word_set.has (path_first_step)
 
 				elseif predicate_name = Predicate.starts_with then
 					if path_lower.count > 0 then

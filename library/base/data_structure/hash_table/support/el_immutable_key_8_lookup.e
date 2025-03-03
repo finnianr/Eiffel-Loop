@@ -1,7 +1,7 @@
 note
 	description: "[
 		Abstraction for looking up tables with keys of type ${IMMUTABLE_STRING_8} with
-		a key conforming to ${READABLE_STRING_GENERAL}
+		a key conforming to either ${READABLE_STRING_GENERAL} or specifically to ${READABLE_STRING_8}
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:06:07 GMT (Sunday 25th August 2024)"
-	revision: "9"
+	date: "2025-03-03 8:52:26 GMT (Monday 3rd March 2025)"
+	revision: "10"
 
 deferred class
 	EL_IMMUTABLE_KEY_8_LOOKUP
@@ -26,12 +26,7 @@ feature -- Status query
 		deferred
 		end
 
-	has_immutable (a_key: IMMUTABLE_STRING_8): BOOLEAN
-		-- Is there an item in the table with key `a_key'?
-		deferred
-		end
-
-	has_8 (a_key: READABLE_STRING_8): BOOLEAN
+	has (a_key: READABLE_STRING_8): BOOLEAN
 		-- Is there an item in the table with key `a_key'?
 		do
 			Result := has_immutable (Immutable_8.as_shared (a_key))
@@ -42,14 +37,19 @@ feature -- Status query
 		-- If so, set `found_item' to the found item.
 		do
 			if a_key.is_string_8 then
-				Result := has_8 (as_readable_string_8 (a_key))
+				Result := has (as_readable_string_8 (a_key))
 
 			elseif is_zstring (a_key) and then has_immutable (as_zstring (a_key).to_shared_immutable_8) then
 				-- works if all the characters are ASCII and is very fast
 				Result := True
 			else
-				Result := has_8 (Key_buffer.to_same (a_key))
+				Result := has (Key_buffer.to_same (a_key))
 			end
+		end
+
+	has_immutable (a_key: IMMUTABLE_STRING_8): BOOLEAN
+		-- Is there an item in the table with key `a_key'?
+		deferred
 		end
 
 feature -- Set found_item
@@ -60,7 +60,7 @@ feature -- Set found_item
 		deferred
 		end
 
-	has_key_8 (a_key: READABLE_STRING_8): BOOLEAN
+	has_key (a_key: READABLE_STRING_8): BOOLEAN
 		-- Is there an item in the table with key `a_key'?
 		-- If so, set `found_item' to the found item.
 		do
@@ -72,13 +72,13 @@ feature -- Set found_item
 		-- If so, set `found_item' to the found item.
 		do
 			if a_key.is_string_8 then
-				Result := has_key_8 (as_readable_string_8 (a_key))
+				Result := has_key (as_readable_string_8 (a_key))
 
 			elseif is_zstring (a_key) and then has_immutable_key (as_zstring (a_key).to_shared_immutable_8) then
 				-- works if all the characters are ASCII and is very fast
 				Result := True
 			else
-				Result := has_key_8 (Key_buffer.to_same (a_key))
+				Result := has_key (Key_buffer.to_same (a_key))
 			end
 		end
 

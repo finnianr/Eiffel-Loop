@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 17:16:11 GMT (Sunday 10th November 2024)"
-	revision: "81"
+	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
+	revision: "82"
 
 class
 	EL_CLASS_META_DATA
@@ -67,7 +67,7 @@ feature {NONE} -- Initialization
 				end
 			end
 			across target.new_representations as representation loop
-				if field_table.has_key_8 (representation.key) then
+				if field_table.has_key (representation.key) then
 					field_table.found_item.set_representation (representation.item)
 				end
 			end

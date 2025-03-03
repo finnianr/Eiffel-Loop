@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-03 16:27:07 GMT (Thursday 3rd October 2024)"
-	revision: "94"
+	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
+	revision: "95"
 
 deferred class
 	EL_REFLECTIVE
@@ -175,7 +175,7 @@ feature -- Element change
 			if attached field_table as table then
 				from until i = other_field_set.count loop
 					other_field := other_field_set [i]
-					if attached table.has_key_8 (other_field.name)
+					if attached table.has_key (other_field.name)
 						and then attached table.found_item as field
 						and then other_field.same_type (field)
 						and then other_field.type_id = field.type_id
@@ -213,7 +213,7 @@ feature {EL_REFLECTIVE, EL_REFLECTION_HANDLER} -- Factory
 			valid_field_names: valid_field_names (Result.hidden_fields)
 			valid_value_append_fields:
 				across Result.escape_fields as name all
-					field_info_table.has_8 (name.item)
+					field_info_table.has (name.item)
 				end
 		end
 

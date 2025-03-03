@@ -1,6 +1,6 @@
 note
 	description: "[
-		Table of ${EL_ZSTRING} strings with immutable keys of type ${IMMUTABLE_STRING_8}
+		Table of ${ZSTRING} strings with immutable keys of type ${IMMUTABLE_STRING_8}
 		and createable from parsed general text with format
 		
 			key_1:
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:52:41 GMT (Sunday 22nd September 2024)"
-	revision: "23"
+	date: "2025-03-03 8:35:34 GMT (Monday 3rd March 2025)"
+	revision: "24"
 
 class
 	EL_ZSTRING_TABLE
@@ -26,15 +26,16 @@ class
 inherit
 	EL_HASH_TABLE [ZSTRING, IMMUTABLE_STRING_8]
 		rename
+			has as has_immutable,
+			has_key as has_immutable_key,
+			item as item_at,
 			make as make_sized,
 			make_assignments as make_from_tuples
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_IMMUTABLE_KEY_8_LOOKUP
 
 	EL_CHARACTER_8_CONSTANTS
-
-	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
 	make, make_assignments, make_indented_eiffel, make_sized, make_from_table
@@ -81,6 +82,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	item alias "[]" (key: READABLE_STRING_8): detachable ZSTRING
+		do
+			Result := item_at (Immutable_8.as_shared (key))
+		end
 
 	name_list: EL_STRING_8_LIST
 		do

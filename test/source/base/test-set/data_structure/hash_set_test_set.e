@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-20 8:52:28 GMT (Thursday 20th February 2025)"
-	revision: "1"
+	date: "2025-03-03 8:49:44 GMT (Monday 3rd March 2025)"
+	revision: "2"
 
 class
 	HASH_SET_TEST_SET
@@ -101,7 +101,7 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_IMMUTABLE_STRING_8_SET}.make,
-				covers/{EL_IMMUTABLE_KEY_8_LOOKUP}.has_key_8
+				covers/{EL_IMMUTABLE_KEY_8_LOOKUP}.has_key
 			]"
 		local
 			word_set: EL_IMMUTABLE_STRING_8_SET
@@ -110,7 +110,7 @@ feature -- Test
 				create word_set.make (word_list.joined_lines)
 				across word_list as list loop
 					if attached list.item as word then
-						assert ("set member", word_set.has_key_8 (word))
+						assert ("set member", word_set.has_key (word))
 						assert_same_string (Void, word_set.found_item, word)
 					end
 				end

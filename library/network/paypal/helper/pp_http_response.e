@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:33:26 GMT (Monday 23rd September 2024)"
-	revision: "20"
+	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
+	revision: "21"
 
 class
 	PP_HTTP_RESPONSE
@@ -52,7 +52,7 @@ feature -- Basic operations
 		do
 			across error_list as list loop
 				code := Code_prefix + list.item.code.out
-				if Error_table.has_key_8 (code) then
+				if Error_table.has_key (code) then
 					lio.put_labeled_lines (list.item.severity, Error_table.found_item_lines)
 				else
 					lio.put_labeled_string (list.item.severity, "Unknown error")

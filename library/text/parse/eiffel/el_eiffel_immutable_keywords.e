@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:15:57 GMT (Monday 23rd September 2024)"
-	revision: "5"
+	date: "2025-03-03 8:49:31 GMT (Monday 3rd March 2025)"
+	revision: "6"
 
 deferred class
 	EL_EIFFEL_IMMUTABLE_KEYWORDS
@@ -105,42 +105,42 @@ feature {NONE} -- Keyword types
 	Type_block: INTEGER_64
 		-- indicates block of statements
 		once
-			if Keyword_type_table.has_key_8 ("if") then
+			if Keyword_type_table.has_key ("if") then
 				Result := Keyword_type_table.found_interval
 			end
 		ensure
 			same_type:
 				across ("inspect,from,across").split (',') as word all
-					Keyword_type_table.has_key_8 (word.item) implies Keyword_type_table.found_interval = Result
+					Keyword_type_table.has_key (word.item) implies Keyword_type_table.found_interval = Result
 				end
 		end
 
 	Type_debug: INTEGER_64
 		-- indicates block of statements for debugging
 		once
-			if Keyword_type_table.has_key_8 ("debug") then
+			if Keyword_type_table.has_key ("debug") then
 				Result := Keyword_type_table.found_interval
 			end
 		ensure
 			same_type:
-				Keyword_type_table.has_key_8 ("check") implies Keyword_type_table.found_interval = Result
+				Keyword_type_table.has_key ("check") implies Keyword_type_table.found_interval = Result
 		end
 
 	Type_end_block: INTEGER_64
 		-- indicates end of block of statements
 		once
-			if Keyword_type_table.has_key_8 ("end") then
+			if Keyword_type_table.has_key ("end") then
 				Result := Keyword_type_table.found_interval
 			end
 		ensure
 			same_type:
-				Keyword_type_table.has_key_8 ("ensure") implies Keyword_type_table.found_interval = Result
+				Keyword_type_table.has_key ("ensure") implies Keyword_type_table.found_interval = Result
 		end
 
 	Type_external: INTEGER_64
 		-- external routine
 		once
-			if Keyword_type_table.has_key_8 ("external") then
+			if Keyword_type_table.has_key ("external") then
 				Result := Keyword_type_table.found_interval
 			end
 		end
@@ -148,37 +148,37 @@ feature {NONE} -- Keyword types
 	Type_note: INTEGER_64
 		-- some kind of purely informational note
 		once
-			if Keyword_type_table.has_key_8 ("note") then
+			if Keyword_type_table.has_key ("note") then
 				Result := Keyword_type_table.found_interval
 			end
 		ensure
 			same_type:
 				across ("indexing,feature,obsolete").split (',') as word all
-					Keyword_type_table.has_key_8 (word.item) implies Keyword_type_table.found_interval = Result
+					Keyword_type_table.has_key (word.item) implies Keyword_type_table.found_interval = Result
 				end
 		end
 
 	Type_operator: INTEGER_64
 		-- operator keyword
 		once
-			if Keyword_type_table.has_key_8 ("or") then
+			if Keyword_type_table.has_key ("or") then
 				Result := Keyword_type_table.found_interval
 			end
 		ensure
 			same_type:
 				across ("and,old,implies,not,xor").split (',') as word all
-					Keyword_type_table.has_key_8 (word.item) implies Keyword_type_table.found_interval = Result
+					Keyword_type_table.has_key (word.item) implies Keyword_type_table.found_interval = Result
 				end
 		end
 
 	Type_routine: INTEGER_64
 		-- indicates start of routine
 		once
-			if Keyword_type_table.has_key_8 ("do") then
+			if Keyword_type_table.has_key ("do") then
 				Result := Keyword_type_table.found_interval
 			end
 		ensure
-			same_type: Keyword_type_table.has_key_8 ("once") implies Keyword_type_table.found_interval = Result
+			same_type: Keyword_type_table.has_key ("once") implies Keyword_type_table.found_interval = Result
 		end
 
 end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 8:22:46 GMT (Saturday 31st August 2024)"
-	revision: "20"
+	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
+	revision: "21"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -28,7 +28,7 @@ inherit
 			item_for_iteration as utf_8_item_for_iteration,
 			unidented_item_for_iteration as unidented_utf_8_item_for_iteration
 		redefine
-			copy_attributes, new_cursor, has_key_8, has_8, has_general, has_key_general
+			copy_attributes, new_cursor, has_key, has, has_general, has_key_general
 		end
 
 create
@@ -152,7 +152,7 @@ feature -- Access
 
 feature -- Status query
 
-	has_8 (a_key: READABLE_STRING_8): BOOLEAN
+	has (a_key: READABLE_STRING_8): BOOLEAN
 		-- Is there an item in the table with key `a_key'?
 		require else
 			valid_key_8: valid_key_8 (a_key)
@@ -197,7 +197,7 @@ feature -- Status query
 
 feature -- Set found_item
 
-	has_key_8 (a_key: READABLE_STRING_8): BOOLEAN
+	has_key (a_key: READABLE_STRING_8): BOOLEAN
 		-- Is there an item in the table with key `a_key'?
 		-- If so, set `found_item' to the found item.
 		require else

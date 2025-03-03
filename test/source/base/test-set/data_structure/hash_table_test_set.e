@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-20 8:48:47 GMT (Thursday 20th February 2025)"
-	revision: "55"
+	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
+	revision: "56"
 
 class
 	HASH_TABLE_TEST_SET
@@ -551,7 +551,7 @@ feature -- Immutable string table tests
 					failed ("has immutable key")
 				end
 			end
-			if table_utf_8.has_key_8 ("currency_symbols") then
+			if table_utf_8.has_key ("currency_symbols") then
 				euro_name := "euro"; create euro_symbol.make_filled (Text.Euro_symbol, 1)
 				create currency_table.make_assignments (table_utf_8.found_item)
 				create currency_table_utf_8.make_assignments_utf_8 (table_utf_8.found_item_unindented)
@@ -563,7 +563,7 @@ feature -- Immutable string table tests
 				else
 					failed ("found euro")
 				end
-				if currency_table_utf_8.has_key_8 (euro_name) then
+				if currency_table_utf_8.has_key (euro_name) then
 					assert_same_string (Void, currency_table_utf_8.found_item, euro_symbol)
 				else
 					failed ("has euro entry")

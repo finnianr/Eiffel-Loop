@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 12:55:10 GMT (Tuesday 27th August 2024)"
-	revision: "17"
+	date: "2025-03-03 8:47:25 GMT (Monday 3rd March 2025)"
+	revision: "18"
 
 class
 	EL_IMMUTABLE_STRING_8_TABLE
@@ -18,7 +18,7 @@ class
 inherit
 	EL_IMMUTABLE_STRING_TABLE [STRING_8, IMMUTABLE_STRING_8]
 		rename
-			has_key_x as has_key_8,
+			has_key_x as has_key,
 			shared_cursor as shared_cursor_8,
 			string as string_8
 		undefine
@@ -38,7 +38,7 @@ feature -- Status query
 
 	has_key_code (a_code: INTEGER_64): BOOLEAN
 		do
-			Result := has_key_8 (Key_buffer.integer_string (a_code))
+			Result := has_key (Key_buffer.integer_string (a_code))
 		end
 
 feature -- Access
