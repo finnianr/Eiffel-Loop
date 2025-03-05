@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 15:26:56 GMT (Tuesday 25th February 2025)"
-	revision: "20"
+	date: "2025-03-05 9:43:59 GMT (Wednesday 5th March 2025)"
+	revision: "21"
 
 class
 	EL_404_INTERCEPT_CONFIG
@@ -49,14 +49,14 @@ feature -- Access
 	filter_table: EL_URI_FILTER_TABLE
 
 	maximum_rule_count: INTEGER
-		-- max. number of IP addresses that can be blocked with
+		-- max. number of IP address per protocol that can be blocked with iptables
 		-- Older blocks are removed to make way for newer ones.
 
 	log_tail_count: INTEGER
 		-- number of tail lines to scan if auth.log or mail.log updated
 
 	screen_session_name: ZSTRING
-		-- screen session name of the address blocking script: run_service_update_firewall.sh
+		-- screen session name of the address blocking script: run_service_update_ip_bans.sh
 		-- See screen command -S option
 
 feature -- Status query

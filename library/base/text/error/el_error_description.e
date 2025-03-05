@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-20 10:36:32 GMT (Wednesday 20th March 2024)"
-	revision: "8"
+	date: "2025-03-05 9:36:10 GMT (Wednesday 5th March 2025)"
+	revision: "9"
 
 class
 	EL_ERROR_DESCRIPTION
@@ -17,12 +17,13 @@ inherit
 		rename
 			make as make_list,
 			count as line_count,
+			extend as extend_list,
 			first as first_line,
 			last as last_line,
 			item as line
 		export
 			{NONE} all
-			{ANY} extend, first_line, last_line, append, append_sequence,
+			{ANY} extend_list, first_line, last_line, append, append_sequence,
 				line_count, line, new_cursor, forth, start, after
 		redefine
 			initialize
@@ -62,6 +63,11 @@ feature -- Access
 
 feature -- Element change
 
+	extend (a_string: READABLE_STRING_GENERAL)
+		do
+			extend_list (ZSTRING (a_string))
+		end
+
 	set_code (a_code: INTEGER)
 		do
 			code := a_code
@@ -76,6 +82,11 @@ feature -- Element change
 		do
 			wipe_out
 			append_split (a_string, '%N', 0)
+		end
+
+	extend_substituted (template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		do
+			extend_list (ZSTRING (template) #$ inserts)
 		end
 
 	set_list (a_list: ARRAYED_LIST [ZSTRING])

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 15:21:02 GMT (Tuesday 25th February 2025)"
-	revision: "32"
+	date: "2025-03-05 12:31:33 GMT (Wednesday 5th March 2025)"
+	revision: "33"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -30,9 +30,17 @@ create
 feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make (config_path: FILE_PATH)
+		local
+			ip_tables_set: EL_BANNED_IP_TABLES_SET
 		do
 			Precursor (config_path)
-			rules_path := config.server_socket_path.parent + Active_rule_path.base
+
+		-- From script: run_service_update_ip_bans.sh	
+		-- dir_path=/var/local/$domain_name
+		-- rules_path=$dir_path/iptable-$1.rules
+			create ip_tables_set.make_empty
+			rules_path := config.server_socket_path.parent + ip_tables_set.updates_name
+
 			create monitored_logs.make_equal (2)
 			monitored_logs [URI.auth_log_modified] := new_authorization_log
 			monitored_logs [URI.mail_log_modified] := new_sendmail_log
@@ -48,7 +56,7 @@ feature -- Access
 	config: EL_404_INTERCEPT_CONFIG
 
 	rules_path: FILE_PATH
-		-- path to file: /var/local/<$domain>/user.rules
+		-- path to file: /var/local/<$domain>/iptable-new.rules
 
 feature -- Basic operations
 
@@ -73,7 +81,7 @@ feature -- Basic operations
 			end
 			if not is_update_script_operational then
 				create error.make (Update_firewall_script_name)
-				error.extend (Error_template #$ [config.screen_session_name])
+				error.extend_substituted ("Active screen session name %"%S%" not found", [config.screen_session_name])
 				application.put (error)
 
 			end
@@ -98,7 +106,7 @@ feature -- Basic operations
 feature -- Status query
 
 	is_update_script_operational: BOOLEAN
-		-- `True' if run_service_update_firewall.sh script is operational
+		-- `True' if run_service_update_ip_bans.sh script is operational
 		-- as a screen command session
 		do
 			Screen_list_command.execute
@@ -178,17 +186,6 @@ feature {NONE} -- Internal attributes
 
 feature {EL_404_INTERCEPT_SERVLET} -- Constants
 
-	Active_rule_path: FILE_PATH
-		-- this file is updated by script run_service_update_firewall.sh
-		once
-			Result := "/lib/ufw/user.rules"
-		end
-
-	Error_template: ZSTRING
-		once
-			Result := "Active screen session name %"%S%" not found"
-		end
-
 	Screen_list_command: EL_SCREEN_SESSIONS_COMMAND
 		once
 			create Result.make
@@ -200,6 +197,6 @@ feature {EL_404_INTERCEPT_SERVLET} -- Constants
 			Tuple.fill_immutable (Result, "auth_log_modified, mail_log_modified")
 		end
 
-	Update_firewall_script_name: STRING = "run_service_update_firewall.sh"
+	Update_firewall_script_name: STRING = "run_service_update_ip_bans.sh"
 
 end

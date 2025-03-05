@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 12:21:49 GMT (Friday 14th February 2025)"
-	revision: "39"
+	date: "2025-03-04 7:29:39 GMT (Tuesday 4th March 2025)"
+	revision: "40"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]

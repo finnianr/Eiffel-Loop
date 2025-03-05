@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 15:23:46 GMT (Tuesday 25th February 2025)"
-	revision: "54"
+	date: "2025-03-05 12:55:06 GMT (Wednesday 5th March 2025)"
+	revision: "55"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -28,7 +28,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE
 
-	EL_MODULE_GEOLOCATION; EL_MODULE_TUPLE
+	EL_MODULE_GEOLOCATION; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT
 
 	EL_SHARED_SERVICE_PORT
 
@@ -38,18 +38,22 @@ create
 feature {NONE} -- Initialization
 
 	make (a_service: EL_404_INTERCEPT_SERVICE)
-		local
-			mutex_path: FILE_PATH
 		do
 			make_servlet (a_service)
 
 			create banned_list.make (5)
-			create rules.make (a_service.rules_path)
+			create banned_tables.make_from_keys (
+				<< Service_port.HTTP, Service_port.SMTP, Service_port.SSH >>,
+				agent new_banned_table, False
+			)
+			banned_tables [Service_port.HTTP].set_related_port (Service_port.HTTPS)
 
-			rules.display_summary (log, "FIREWALL DENY RULES")
-			mutex_path := rules.path.twin
-			mutex_path.add_extension ("lock")
-			create file_mutex.make (mutex_path)
+			lio.put_line ("BANNED IP RULES")
+			across banned_tables as table loop
+				lio.put_integer_field (table.item.port_name, table.item.count)
+				lio.put_new_line
+			end
+			create file_mutex.make (rules_path.parent + "iptables.lock")
 			create timer.make
 			filter_table := a_service.config.filter_table
 			Geolocation.try_restore (Directory.Sub_app_data)
@@ -63,16 +67,20 @@ feature -- Basic operations
 			if attached system_log as sys_log then
 				port := sys_log.port
 			-- checked mail.log and auth.log for hacker intrusions
-				sys_log.intruder_list.do_all (agent categorize_request)
+				if banned_tables.has_key (port) then
+					sys_log.intruder_list.do_all (agent categorize_request)
+				end
 			else
 				port := Service_port.HTTP
-				categorize_request (request_remote_address_32)
+				if banned_tables.has_key (port) then
+					categorize_request (request_remote_address_32)
+				end
 			end
 			if banned_list.count > 0 then
 				log.enter ("serve")
 
-				if banned_list.has_value (Status.malicious) then
-					update_firewall
+				if banned_list.has_value (Status.malicious) and then banned_tables.found then
+					update_firewall (banned_tables.found_item)
 				end
 
 			-- While geo-location is being looked up for address, (which can take a second or two)
@@ -98,8 +106,8 @@ feature -- Basic operations
 				timer.stop
 				if banned_list.has_value (Status.pending_rule) then
 				-- stall for time while ufw finishes reloading updated rules
-					lio.put_line ("Waiting for 1/2 second for rule to take effect..")
-					execution.sleep ((500 - timer.elapsed_millisecs).max (0))
+					lio.put_line ("Waiting for 0.2 seconds for rule to take effect..")
+					execution.sleep ((200 - timer.elapsed_millisecs).max (0))
 				end
 				if port = Service_port.HTTP then
 					response.send_error (
@@ -138,8 +146,10 @@ feature {NONE} -- Implementation
 		end
 
 	categorize_request (ip_number: NATURAL)
+		require
+			banned_table_found: banned_tables.found
 		do
-			if rules.is_denied (ip_number, port) then
+			if banned_tables.found_item.has_address (ip_number) then
 			-- Firewall rule exists but has not yet taken effect
 				banned_list.extend (ip_number, Status.pending_rule)
 
@@ -160,8 +170,40 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	on_shutdown
+	new_banned_table (a_port: NATURAL_16): EL_BANNED_IP_TABLES_SET
 		do
+			create Result.make (a_port, rules_path.parent, 100)
+			if a_port = Service_port.http then
+				Result.set_related_port (Service_port.https)
+			end
+		end
+
+	on_shutdown
+		local
+			ports_table: EL_PORT_BIT_MAP_TABLE; inserts: TUPLE
+		do
+			create ports_table.make (Port_list, rule_count)
+			across banned_tables as table loop
+				if attached table.item as ip_set then
+					ports_table.append (ip_set) -- merge 3 tables into one
+					ip_set.limit_entries (service.config.maximum_rule_count)
+					lio.put_labeled_substitution ("Saving", "%S %S rules", [ip_set.count, ip_set.port_name])
+					lio.put_new_line
+					ip_set.serialize_all
+				end
+			end
+		-- Report on any multi-port attacks
+			if attached ports_table.multi_port_map_list as map_list and then map_list.count > 0 then
+				lio.put_new_line
+				lio.put_line ("MULTI-PORT ATTACKS")
+				across map_list as list loop
+					inserts := [list.value, Ip_address.to_string (list.key)]
+					lio.put_labeled_substitution (Geolocation.for_number (list.key), "%S (%S)", inserts)
+					lio.put_new_line
+				end
+				lio.put_new_line
+				User_input.press_enter
+			end
 			Geolocation.store (Directory.Sub_app_data)
 		end
 
@@ -171,29 +213,35 @@ feature {NONE} -- Implementation
 			Result := request.remote_address_32
 		end
 
-	update_firewall
+	rule_count: INTEGER
+		do
+			Result := banned_tables.sum_integer (agent {EL_BANNED_IP_TABLES_SET}.count)
+		end
+
+	rules_path: FILE_PATH
+		do
+			Result := service.rules_path
+		end
+
+	update_firewall (ip_tables_set: EL_BANNED_IP_TABLES_SET)
 		-- update firewall rules from `banned_list' using Bash script monitoring `rules_path'
-		-- (run_service_update_firewall.sh)
+		-- (run_service_update_ip_bans.sh)
 		local
-			ip_number: NATURAL
+			malicious_count: INTEGER
 		do
 			across banned_list as list loop
 				if list.value = Status.malicious then
-					ip_number := list.key
-					Service_port.related (port).do_all (agent rules.put_entry (ip_number, ?))
-					if rules.denied_count (ip_number) > 2
-						and then attached rules.denied_list (ip_number).joined_with_string (", ") as port_list
-					then
-						log.put_labeled_string (once "Multi-port attack " + port_list, address_string (ip_number))
-						log.put_new_line
-					end
+					ip_tables_set.put (list.key)
+					malicious_count := malicious_count + 1
 				end
 			end
-			rules.limit_entries (service.config.maximum_rule_count)
 			file_mutex.try_until_locked (50)
-			log.put_labeled_substitution (once "Storing", once "%S additional rules.", [banned_list.count])
-			rules.store
-			lio.put_integer_field (once " New count", rules.ip_address_count)
+			log.put_labeled_substitution (once "Storing", once "%S additional rules.", [malicious_count])
+
+			ip_tables_set.serialize_recent -- closing file notifies Bash script line
+		--	while inotifywait -q -e close_write $rules_path 1>/dev/null; do
+
+			lio.put_integer_field (once " New count", rule_count)
 			lio.put_new_line_x2
 			file_mutex.unlock
 		end
@@ -203,6 +251,8 @@ feature {NONE} -- Internal attributes
 	banned_list: EL_ARRAYED_MAP_LIST [NATURAL, IMMUTABLE_STRING_8]
 		-- banned list of IP address mapped to thread status
 
+	banned_tables: EL_HASH_TABLE [EL_BANNED_IP_TABLES_SET, NATURAL_16]
+
 	file_mutex: EL_NAMED_FILE_LOCK
 		-- file_mutex for writing to `rules_path' so that script reading file must wait to process
 
@@ -211,13 +261,16 @@ feature {NONE} -- Internal attributes
 	port: NATURAL_16
 		-- port of attack
 
-	rules: EL_UFW_USER_RULES
-
 	service: EL_404_INTERCEPT_SERVICE
 
 	timer: EL_EXECUTION_TIMER
 
 feature {NONE} -- Constants
+
+	Port_list: ARRAY [NATURAL_16]
+		once
+			Result := << Service_port.HTTP, Service_port.SMTP, Service_port.SSH >>
+		end
 
 	Status: TUPLE [malicious, pending_rule, suspicious, whitelisted: IMMUTABLE_STRING_8]
 		once
@@ -232,7 +285,7 @@ note
 		
 		To install the script for testing type:
 		
-			sudo cp --update $EIFFEL_LOOP/Bash_library/network/run_service_update_firewall.sh /usr/local/bin
+			sudo cp --update $EIFFEL_LOOP/Bash_library/network/run_service_update_ip_bans.sh /usr/local/bin
 
 		The configuration file for ${EL_SERVICE_CONFIGURATION} needs an entry like the following to invoke
 		the script:
@@ -244,7 +297,7 @@ note
 						name = "Firewall updating service"; history_count = 200; sudo = true
 						bash_command:
 							"""
-								run_service_update_firewall.sh myching.software
+								run_service_update_ip_bans.sh myching.software
 							"""
 
 	]"

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 12:15:19 GMT (Friday 13th September 2024)"
-	revision: "13"
+	date: "2025-03-05 12:49:07 GMT (Wednesday 5th March 2025)"
+	revision: "14"
 
 deferred class
 	EL_FILE_OPEN_ROUTINES
@@ -41,6 +41,15 @@ feature {NONE} -- Basic operations
 				create Result.make_with_name (path)
 			end
 			open_file (Result, mode)
+		end
+
+	frozen open_as (path: READABLE_STRING_GENERAL; mode, encoding: NATURAL): EL_PLAIN_TEXT_FILE
+		-- text file opened in `mode' with assumed `encoding'
+		require
+			valid_encoding: valid_encoding (encoding)
+		do
+			Result := open (path, mode)
+			Result.set_encoding (encoding)
 		end
 
 	frozen open_lines (path: READABLE_STRING_GENERAL; a_encoding: NATURAL): EL_PLAIN_TEXT_LINE_SOURCE
