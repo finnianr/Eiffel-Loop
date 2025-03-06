@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 9:00:39 GMT (Tuesday 9th July 2024)"
-	revision: "4"
+	date: "2025-03-06 8:39:46 GMT (Thursday 6th March 2025)"
+	revision: "5"
 
 class
 	EL_SSH_MD5_HASH_COMMAND
@@ -37,7 +37,7 @@ inherit
 		undefine
 			execute, make_command, make_default, default_name, make_with_template, valid_tuple
 		redefine
-			set_mode, set_target_path
+			set_target_path
 		end
 
 create
@@ -51,7 +51,7 @@ feature {NONE} -- Implementation
 			check
 				same_variable_names: MD5_var.mode ~ Var.mode and MD5_var.target_path ~ Var.target_path
 			end
-			set_text_mode
+			set_text
 		end
 
 feature -- Element change
@@ -63,11 +63,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	set_mode (mode: STRING)
-		do
-			put_string (Var.mode, mode)
-		end
 
 	var_user_domain: STRING
 		do

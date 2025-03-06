@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 13:27:45 GMT (Monday 23rd September 2024)"
-	revision: "23"
+	date: "2025-03-06 9:17:07 GMT (Thursday 6th March 2025)"
+	revision: "24"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -133,7 +133,7 @@ feature {NONE} -- Implementation
 	do_with_lines (line_list: like new_output_lines)
 			--
 		local
-			line, value, field_name, qualifier: ZSTRING
+			line, value, field_name: ZSTRING
 			found: BOOLEAN; value_column, count: INTEGER
 		do
 			across line_list as list loop
@@ -141,9 +141,8 @@ feature {NONE} -- Implementation
 					line := list.item_copy
 					line.remove_head (Name.exif.count + 1)
 					value_column := 56; found := False
-					across Name_part_list as part until found loop
-						qualifier := part.item
-						if line.starts_with (qualifier) then
+					across Name as part until found loop
+						if attached {ZSTRING} part.item as qualifier and then line.starts_with (qualifier) then
 							if qualifier = Name.thumbnail then
 								line.remove (qualifier.count + 1) -- Remove dot
 								value_column := value_column - 1
@@ -222,11 +221,6 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill (Result, "Exif, Image, Make, Photo, Thumbnail")
-		end
-
-	Name_part_list: EL_ZSTRING_LIST
-		once
-			create Result.make_from_tuple (Name)
 		end
 
 	Template: STRING = "exiv2 -p a $file_path"

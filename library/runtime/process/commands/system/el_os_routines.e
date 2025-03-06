@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 10:41:58 GMT (Saturday 5th October 2024)"
-	revision: "33"
+	date: "2025-03-06 8:54:02 GMT (Thursday 6th March 2025)"
+	revision: "34"
 
 class
 	EL_OS_ROUTINES
@@ -175,19 +175,6 @@ feature -- File query
 			Result := md5_digest (path, True)
 		end
 
-	md5_digest (path: FILE_PATH; binary_mode: BOOLEAN): STRING
-		require
-			md5sum_available: md5sum_available
-		do
-			if attached Md5_sum_cmd as cmd then
-				cmd.set_target_path (path)
-				cmd.set_binary (binary_mode)
-				Result := cmd.digest_string
-			else
-				Result := Empty_string_8
-			end
-		end
-
 	md5_text_digest (path: FILE_PATH): STRING
 		do
 			Result := md5_digest (path, False)
@@ -218,6 +205,25 @@ feature -- Contract Support
 		-- `True' if md5sum command is in search path
 		do
 			Result := Executable.search_path_has ("md5sum")
+		end
+
+feature {NONE} -- Implementation
+
+	md5_digest (path: FILE_PATH; binary_mode: BOOLEAN): STRING
+		require
+			md5sum_available: md5sum_available
+		do
+			if attached MD5_sum_cmd as cmd then
+				cmd.set_target_path (path)
+				if binary_mode then
+					cmd.set_binary
+				else
+					cmd.set_text
+				end
+				Result := cmd.digest_string
+			else
+				Result := Empty_string_8
+			end
 		end
 
 feature {NONE} -- Constants
@@ -265,15 +271,15 @@ feature {NONE} -- Constants
 			create {EL_FIND_FILES_COMMAND_IMP} Result.make_default
 		end
 
+	MD5_sum_cmd: EL_MD5_HASH_COMMAND
+		once
+			create Result.make
+		end
+
 	Make_directory_cmd: EL_MAKE_DIRECTORY_COMMAND_I
 			--
 		once
 			create {EL_MAKE_DIRECTORY_COMMAND_IMP} Result.make_default
-		end
-
-	MD5_sum_cmd: EL_MD5_HASH_COMMAND
-		once
-			create Result.make
 		end
 
 	Move_file_cmd: EL_MOVE_FILE_COMMAND_I

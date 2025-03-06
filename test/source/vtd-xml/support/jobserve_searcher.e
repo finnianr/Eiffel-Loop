@@ -35,8 +35,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-12 20:31:24 GMT (Friday 12th January 2024)"
-	revision: "10"
+	date: "2025-03-06 14:22:43 GMT (Thursday 6th March 2025)"
+	revision: "11"
 
 class
 	JOBSERVE_SEARCHER
@@ -91,7 +91,6 @@ feature -- Basic operations
 				lio.put_integer_interval_field ("Duration", job.item.duration_interval)
 				lio.put_new_line
 			end
-
 			jobs_result_set.save_as_xml (results_path)
 		end
 

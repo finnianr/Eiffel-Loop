@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-27 8:59:25 GMT (Friday 27th September 2024)"
-	revision: "36"
+	date: "2025-03-06 9:25:26 GMT (Thursday 6th March 2025)"
+	revision: "37"
 
 class
 	PATH_TEST_SET
@@ -302,7 +302,7 @@ feature -- Tests
 
 	test_path_steps
 		note
-			testing: "covers/{EL_PATH_STEPS}.same_i_th_step"
+			testing: "covers/{EL_PATH_STEPS}.i_th_same_as"
 		local
 			dir_path: EL_PATH_STEPS
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-09 11:54:22 GMT (Wednesday 9th October 2024)"
-	revision: "19"
+	date: "2025-03-06 17:43:54 GMT (Thursday 6th March 2025)"
+	revision: "20"
 
 class
 	TYPE_TEST_SET
@@ -40,7 +40,8 @@ feature {NONE} -- Initialization
 				["find_readable_string_32_types", agent test_find_readable_string_32_types],
 				["string_factory_creation",		 agent test_string_factory_creation],
 				["type_and_type_name_caching",	 agent test_type_and_type_name_caching],
-				["type_iteration",					 agent test_type_iteration]
+				["type_characteristics_query",	 agent test_type_characteristics_query],
+				["type_flag_permutations",			 agent test_type_flag_permutations]
 			>>)
 		end
 
@@ -49,7 +50,7 @@ feature -- Tests
 	test_find_readable_string_32_types
 		-- TYPE_TEST_SET.test_find_readable_string_32_types
 		local
-			type_id, attached_type, type_size: INTEGER; break, conforms_to_type: BOOLEAN
+			type_id, type_size: INTEGER; break: BOOLEAN
 			type_flags: NATURAL_16
 		do
 			from type_id := 0 until break loop
@@ -111,65 +112,82 @@ feature -- Tests
 			end
 		end
 
-	test_type_iteration
-		-- TYPE_TEST_SET.test_type_iteration
-		local
-			type_id, attached_type, type_size: INTEGER; break, conforms_to_type: BOOLEAN
-			type_flags: NATURAL_16
+	test_type_characteristics_query
+		-- TYPE_TEST_SET.test_type_characteristics_query
+		note
+			testing: "[
+				covers/{EL_INTERNAL}.type_flag_names,
+				covers/{EL_EIFFEL_C_API}.eif_type_size,
+				covers/{EL_EIFFEL_C_API}.eif_generic_parameter_count,
+				covers/{EL_EIFFEL_C_API}.eif_type_flags
+			]"
 		do
-			from type_id := 4600 until type_id > 4800 or break loop
-				type_flags := eif_type_flags (type_id)
-				type_size := eif_type_size (type_id)
+			assert_characteristics ({INTEGER_32}, 0, 8, "declared-expanded expanded frozen")
+			assert_characteristics ({SET [ANY]}, 1, 8, "deferred")
+			assert_characteristics ({EL_MUTEX_VALUE [NATURAL]}, 1, 24, "has-dispose")
+			assert_characteristics ({EL_CHOICE [NATURAL]}, 1, 0, "declared-expanded expanded")
+			assert_characteristics ({SPECIAL [INTEGER_32]}, 1, 0, "special frozen")
+			assert_characteristics ({HASH_TABLE [INTEGER, STRING]}, 2, 80, "")
+			assert_characteristics ({TUPLE [STRING]}, 1, 0, "tuple")
+			assert_characteristics ({EL_DYNAMIC_MODULE [EL_DYNAMIC_MODULE_POINTERS]}, 1, 32, "has-dispose deferred")
+			assert_characteristics ({VECTOR_COMPLEX_64}, 0, 176, "composite deferred")
+			assert_characteristics ({ROW_VECTOR_COMPLEX_64}, 0, 176, "composite")
+		end
+
+	test_type_flag_permutations
+		-- TYPE_TEST_SET.test_type_flag_permutations
+		local
+			type_id: INTEGER; break: BOOLEAN
+			type_flags: NATURAL_16; type_flags_set: EL_HASH_SET [NATURAL_16]
+		do
+			create type_flags_set.make (20)
+			from type_id := 1 until type_id > 3_000 or break loop
 				if attached {ISE_RUNTIME}.generating_type_of_type (type_id) as name then
-					lio.put_labeled_string (type_id.out, name)
-					lio.put_integer_field (" Parameters", eif_generic_parameter_count (type_id))
-					lio.put_integer_field (" Size", type_size)
-					if attached Eiffel.type_flag_names (type_flags) as list and then list.count > 0 then
-						lio.put_labeled_string (" Flags", list.joined_words)
+					type_flags := eif_type_flags (type_id)
+					type_flags_set.put (type_flags)
+					if type_flags_set.inserted then
+						lio.put_integer_field (name, type_id)
+						if attached Eiffel.type_flag_names (type_flags) as list and then list.count > 0 then
+							lio.put_labeled_string (" Flags", list.joined_words)
+						end
+						lio.put_new_line
 					end
-					lio.put_new_line
+					type_id := type_id + Eiffel.is_type_expanded (type_flags).to_integer + 1
 				else
+					lio.put_integer_field ("break at type_id", type_id)
+					lio.put_new_line
 					break := True
 				end
-				type_id := type_id + 1 + Eiffel.is_type_expanded (type_flags).to_integer
 			end
-		end
-
-feature -- Basic operations
-
-	conforming_types
-		do
-			if {ISE_RUNTIME}.type_conforms_to (
-				({EL_STANDARD_UNINSTALL_APP}).type_id, ({EL_INSTALLABLE_APPLICATION}).type_id
-				) then
-				lio.put_line ("Conforms")
-			end
-		end
-
-	generic_type_check
-		local
-			list: LIST [STRING_GENERAL]
-			type: TYPE [ANY]
-		do
-			create {EL_ZSTRING_LIST} list.make (0)
-			type := list.generating_type.generic_parameter_type (1)
-		end
-
-	generic_types
-		local
-			type_8, type_32: TYPE [LIST [READABLE_STRING_GENERAL]]
-		do
-			type_8 := {ARRAYED_LIST [STRING]}
-			type_32 := {ARRAYED_LIST [STRING_32]}
-		end
-
-	valid_class_name
-		do
-			lio.put_labeled_string ("FFT_COMPLEX_DOUBLE", Eros_factory.valid_name ("FFT_COMPLEX_64").out)
-			lio.put_new_line
+			assert ("flag permutation count = 11", type_flags_set.count = 11)
 		end
 
 feature {NONE} -- Implementation
+
+	assert_characteristics (type: TYPE [ANY]; a_parameter_count, a_type_size: INTEGER; flags: STRING)
+		local
+			type_id, type_size, parameter_count: INTEGER
+			flag_names, expected_flag_names: EL_STRING_8_LIST
+		do
+			type_id := type.type_id
+			type_size := eif_type_size (type_id)
+			parameter_count := eif_generic_parameter_count (type_id)
+			flag_names := Eiffel.type_flag_names (eif_type_flags (type_id))
+			create expected_flag_names.make_split (flags, ' ')
+
+			if flag_names /~ expected_flag_names or type_size /= a_type_size
+				or parameter_count /= a_parameter_count
+			then
+				lio.put_labeled_string ("Actual characteristics", type.name)
+				lio.put_integer_field (" Parameters", parameter_count)
+				lio.put_integer_field (" Size", type_size)
+				if flag_names.count > 0 then
+					lio.put_labeled_string (" Flags", flag_names.joined_words)
+				end
+				lio.put_new_line
+				failed ("characteristics match")
+			end
+		end
 
 	zstring_type: TYPE [READABLE_STRING_32]
 		do

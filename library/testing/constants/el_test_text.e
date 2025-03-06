@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 14:57:54 GMT (Wednesday 19th February 2025)"
-	revision: "39"
+	date: "2025-03-06 9:10:26 GMT (Thursday 6th March 2025)"
+	revision: "40"
 
 class
 	EL_TEST_TEXT
@@ -214,11 +214,6 @@ feature -- Substitution testing
 		end
 
 	Country_template_canonical: STRING = "Country: ${name}; Code: ${code}; Population: ${population}; Code again: ${code}"
-
-	Country_variables: EL_STRING_8_LIST
-		once
-			create Result.make_from_tuple (Country)
-		end
 
 	country_substituted (name, code: READABLE_STRING_GENERAL; population: INTEGER): STRING
 		local

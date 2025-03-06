@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2025-03-06 9:08:22 GMT (Thursday 6th March 2025)"
+	revision: "15"
 
 class
 	EL_DIGEST_ROUTINES
@@ -89,9 +89,12 @@ feature -- Digests
 		end
 
 	md5_plain_text (path: FILE_PATH): EL_DIGEST_ARRAY
-			--
+		local
+			plain_text: STRING
 		do
-			create Result.make_sink (MD5_128, File.plain_text (path))
+			plain_text := File.plain_text (path)
+			plain_text.append_character ('%N') -- Add back the terminating newline
+			create Result.make_sink (MD5_128, plain_text)
 		end
 
 	md5_raw_data (path: FILE_PATH): EL_DIGEST_ARRAY

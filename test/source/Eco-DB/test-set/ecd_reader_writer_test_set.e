@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-02 12:15:35 GMT (Sunday 2nd March 2025)"
-	revision: "33"
+	date: "2025-03-06 9:55:36 GMT (Thursday 6th March 2025)"
+	revision: "34"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -88,13 +88,13 @@ feature -- Tests
 			pyxis_path := data_path.with_new_extension ("pyx")
 			data_table.export_pyxis (pyxis_path, Latin_1)
 
-			if attached ("B710BBE0F12EB3C9A83F3D3BC4151D3E") as export_digest then
-				assert_same_digest_hexadecimal (Plain_text, pyxis_path, export_digest)
+			if attached ("xdvebKdoIWHUoV/MK558Jg==") as export_digest then
+				assert_same_digest (Plain_text, pyxis_path, export_digest)
 
 				data_table.import_pyxis (pyxis_path)
 
 				data_table.export_pyxis (pyxis_path, Latin_1)
-				assert_same_digest_hexadecimal (Plain_text, pyxis_path, export_digest)
+				assert_same_digest (Plain_text, pyxis_path, export_digest)
 			end
 
 			data_table.close
@@ -190,7 +190,7 @@ feature -- Tests
 				country.write_meta_data (meta_data, 0)
 				meta_data.close
 			end
-			assert_same_digest_hexadecimal (Plain_text, meta_data.path, "1B89DC96866492D44131E6DC5149DE9F")
+			assert_same_digest (Plain_text, meta_data.path, "iBbxjfasrWaEOz8woiqOZQ==")
 		end
 
 feature {NONE} -- Implementation

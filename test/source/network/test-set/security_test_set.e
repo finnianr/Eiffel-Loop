@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-05 10:13:28 GMT (Wednesday 5th March 2025)"
-	revision: "19"
+	date: "2025-03-06 9:38:43 GMT (Thursday 6th March 2025)"
+	revision: "20"
 
 class
 	SECURITY_TEST_SET
@@ -38,11 +38,12 @@ feature -- Test
 	test_banned_ip_table
 		-- SECURITY_TEST_SET.test_banned_ip_table
 		local
-			ip_table: EL_BANNED_IP_TABLES_SET; ip_list: EL_STRING_8_LIST
+			ip_table: EL_BANNED_IP_TABLES_SET; ip_list, digest_list: EL_STRING_8_LIST
 			n: NATURAL_16; l_digest: STRING
 		do
 			create ip_table.make (Service_port.http, Work_area_dir, 100)
 			ip_list := "152.32.180.98, 165.154.233.80, 80.94.95.71"
+			digest_list := "3TG964Lm717w4gCd/YCDsg==, wmlimXqKNEEAeCBZzLj0Uw=="
 
 			across << n.zero, Service_port.https >> as port loop
 				ip_table.set_related_port (port.item)
@@ -50,8 +51,7 @@ feature -- Test
 					ip_table.put (IP_address.to_number (list.item))
 				end
 				ip_table.serialize_all
-				l_digest := if port.is_first then "XT3pcmgZ+AJS3oyq7/eyyQ==" else "QXaphOc3rmjLg2Z96XMX0A==" end
-				assert_same_digest (Plain_text, ip_table.output_path, l_digest)
+				assert_same_digest (Plain_text, ip_table.output_path, digest_list [port.cursor_index])
 			end
 		end
 
@@ -169,8 +169,9 @@ feature -- Test
 	test_ufw_user_rules
 		-- SECURITY_TEST_SET.test_ufw_user_rules
 		local
-			rules: EL_UFW_USER_RULES; l_digest: STRING
+			rules: EL_UFW_USER_RULES; digest_list: EL_STRING_8_LIST
 		do
+			digest_list := "CAmXLsmZICk/2hOe1fErfQ==, +3J7AC/jrrEqGhPG3dnWeA=="
 			if attached new_file_list ("*.rules").first_path as rules_path then
 				create rules.make (rules_path)
 				across << "updated.rules", "limited.rules" >> as name loop
@@ -181,9 +182,7 @@ feature -- Test
 					lio.put_new_line
 					rules.set_path (work_area_data_dir + name.item)
 					rules.store
-					l_digest := if name.is_first then "OcrZsb2rLpOqCtvhracbZQ==" else "Mh35RJk35F4FciNVb8Ef7Q==" end
-					assert_same_digest (Plain_text, rules.path, l_digest)
-
+					assert_same_digest (Plain_text, rules.path, digest_list [name.cursor_index])
 				end
 			end
 		end

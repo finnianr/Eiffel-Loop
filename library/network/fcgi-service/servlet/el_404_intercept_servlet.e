@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-05 12:55:06 GMT (Wednesday 5th March 2025)"
-	revision: "55"
+	date: "2025-03-05 18:33:21 GMT (Wednesday 5th March 2025)"
+	revision: "56"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -80,7 +80,7 @@ feature -- Basic operations
 				log.enter ("serve")
 
 				if banned_list.has_value (Status.malicious) and then banned_tables.found then
-					update_firewall (banned_tables.found_item)
+					update_rules (banned_tables.found_item)
 				end
 
 			-- While geo-location is being looked up for address, (which can take a second or two)
@@ -223,7 +223,7 @@ feature {NONE} -- Implementation
 			Result := service.rules_path
 		end
 
-	update_firewall (ip_tables_set: EL_BANNED_IP_TABLES_SET)
+	update_rules (ip_tables_set: EL_BANNED_IP_TABLES_SET)
 		-- update firewall rules from `banned_list' using Bash script monitoring `rules_path'
 		-- (run_service_update_ip_bans.sh)
 		local

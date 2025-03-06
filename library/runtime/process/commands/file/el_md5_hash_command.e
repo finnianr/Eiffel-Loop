@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-09 8:39:57 GMT (Tuesday 9th July 2024)"
-	revision: "9"
+	date: "2025-03-06 8:59:12 GMT (Thursday 6th March 2025)"
+	revision: "10"
 
 class
 	EL_MD5_HASH_COMMAND
@@ -34,7 +34,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor
-			set_text_mode
+			set_text
 		end
 
 feature -- Access
@@ -52,33 +52,34 @@ feature -- Access
 
 	target_path: FILE_PATH
 
+	mode: IMMUTABLE_STRING_8
+
 feature -- Status query
 
 	is_binary: BOOLEAN
 		-- read in binary mode
+		do
+			Result := mode = Mode_option.binary
+		end
 
 	is_text: BOOLEAN
 		-- read in text mode
 		do
-			Result := not is_binary
+			Result := mode = Mode_option.text
 		end
 
 feature -- Status change
 
-	set_binary (enabled: BOOLEAN)
+	set_binary
+		-- md5sum --binary will compute the checksum including the \r\n
 		do
-			is_binary := enabled
-			set_mode (Binary_mode [enabled])
+			set_mode (Mode_option.binary)
 		end
 
-	set_binary_mode
+	set_text
+		-- md5sum --text will normalize \r\n to \n
 		do
-			set_binary (True)
-		end
-
-	set_text_mode
-		do
-			set_binary (False)
+			set_mode (Mode_option.text)
 		end
 
 feature -- Element change
@@ -91,16 +92,18 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_mode (mode: STRING)
+	set_mode (a_mode: IMMUTABLE_STRING_8)
 		do
-			put_string (Var.mode, mode)
+			mode := a_mode
+			put_string (Var.mode, a_mode)
 		end
 
 feature {NONE} -- Constants
 
-	Binary_mode: EL_BOOLEAN_INDEXABLE [STRING]
-		once
-			create Result.make ("text", "binary")
+	Mode_option: TUPLE [text, binary: IMMUTABLE_STRING_8]
+		once ("PROCESS")
+			create Result
+			Tuple.fill_immutable (Result, "text, binary")
 		end
 
 	Var: TUPLE [mode, target_path: STRING_8]

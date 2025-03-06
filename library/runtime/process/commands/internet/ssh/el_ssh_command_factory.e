@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:20 GMT (Saturday 22nd June 2024)"
-	revision: "3"
+	date: "2025-03-06 8:39:11 GMT (Thursday 6th March 2025)"
+	revision: "4"
 
 class
 	EL_SSH_COMMAND_FACTORY
@@ -98,7 +98,7 @@ feature -- Commands
 		-- text mode digest command
 		do
 			Result := new_md5_digest (target_path)
-			Result.set_binary_mode
+			Result.set_binary
 		end
 
 	new_mirror_directory  (a_source_path, a_destination_path: DIR_PATH): EL_RSYNC_COMMAND_I

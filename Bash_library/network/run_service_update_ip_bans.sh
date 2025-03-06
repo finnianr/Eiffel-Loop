@@ -25,6 +25,8 @@ append_rules (){
 	flock --exclusive "$lock_fd"
 
 	iptables-restore --noflush < $1
+	cat $1
+	echo
 
 	flock --unlock "$lock_fd"
 }
@@ -36,6 +38,7 @@ set_rules_path (){
 # Script begin
 
 domain_name=$1
+user=$2
 name=${domain_name%%.*}
 
 dir_path=/var/local/$domain_name
@@ -76,6 +79,13 @@ done
 
 set_rules_path new
 
+# make sure iptables-new.rules writeable by www-data group (EL_404_INTERCEPT_SERVLET.update_rules)
+if [[ ! -e "$rules_path" ]]; then
+	touch $rules_path
+	chown $user:www-data $rules_path
+	chmod 644 $rules_path
+fi
+
 # make sure updateable rules file exists
 touch $rules_path
 
@@ -84,6 +94,8 @@ echo_waiting
 while inotifywait -q -e close_write $rules_path 1>/dev/null; do
 	if [[ -v is_dev_machine ]]; then
 		echo SKIP\: append_rules $rules_path
+		cat $rules_path
+		echo
 	else
 		echo append_rules $rules_path
 		append_rules $rules_path

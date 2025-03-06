@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 16:20:47 GMT (Friday 28th February 2025)"
-	revision: "1"
+	date: "2025-03-06 9:48:25 GMT (Thursday 6th March 2025)"
+	revision: "2"
 
 class
 	TEXT_FILE_TEST_SET
@@ -136,7 +136,7 @@ feature -- Tests
 		end
 
 	test_plain_text_line_iterator
-		-- TEXT_FILE_TEST_SET.test_plain_text_line_iterator
+		-- TEXT_FILE_TEST_SET.test_plain_t	ext_line_iterator
 		note
 			testing: "[
 				covers/{EL_TEXT_FILE_LINE_CURSOR}.forth
@@ -147,11 +147,10 @@ feature -- Tests
 			create counter
 			header_path := error_codes_path; output_path := error_table_path
 
-			if attached open (error_codes_path, Read) as header_file then
-				header_file.set_latin_encoding (1)
+			if attached open_as (error_codes_path, Read, Latin_1) as header_file then
 				write_indented_codes (output_path, header_file, counter)
 				assert ("close file", header_file.is_closed)
-				assert_same_digest (Plain_text, output_path, "RLAGdnzdvWEwm0pukVZZ7Q==")
+				assert_same_digest (Plain_text, output_path, "5ivDTBX6P3UiElIR0O3KBw==")
 				assert ("132 items", counter.item = 132)
 			end
 		end
@@ -178,7 +177,7 @@ feature -- Tests
 
 			if attached open_lines (header_path, Latin_1) as line_source then
 				write_indented_codes (output_path, line_source, counter)
-				assert_same_digest (Plain_text, output_path, "RLAGdnzdvWEwm0pukVZZ7Q==")
+				assert_same_digest (Plain_text, output_path, "5ivDTBX6P3UiElIR0O3KBw==")
 				assert ("132 items", counter.item = 132)
 
 			-- Test LINEAR [ZSTRING] iteration
