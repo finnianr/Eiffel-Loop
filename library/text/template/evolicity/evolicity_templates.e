@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:38:31 GMT (Sunday 6th October 2024)"
-	revision: "38"
+	date: "2025-03-07 11:45:33 GMT (Friday 7th March 2025)"
+	revision: "39"
 
 class
 	EVOLICITY_TEMPLATES
@@ -101,6 +101,11 @@ feature -- Basic operations
 			writeable: text_file.is_open_write
 		do
 			merge (a_name, context, text_file)
+		-- Many Unix tools expect a newline at the end of the file,
+		-- for example the command iptables-restore will fail if the input file does not have
+		-- "COMMIT%N" as the last line
+
+			text_file.put_new_line
 			text_file.flush; text_file.close
 		end
 

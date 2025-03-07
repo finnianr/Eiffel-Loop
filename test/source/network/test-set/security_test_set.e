@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 9:38:43 GMT (Thursday 6th March 2025)"
-	revision: "20"
+	date: "2025-03-07 14:23:40 GMT (Friday 7th March 2025)"
+	revision: "21"
 
 class
 	SECURITY_TEST_SET
@@ -43,7 +43,7 @@ feature -- Test
 		do
 			create ip_table.make (Service_port.http, Work_area_dir, 100)
 			ip_list := "152.32.180.98, 165.154.233.80, 80.94.95.71"
-			digest_list := "3TG964Lm717w4gCd/YCDsg==, wmlimXqKNEEAeCBZzLj0Uw=="
+			digest_list := "YvcHxIoCKePgovBuYV9ZXA==, m0SUKsBFjlLwYfF5ei5Ryg=="
 
 			across << n.zero, Service_port.https >> as port loop
 				ip_table.set_related_port (port.item)

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-12-09 13:36:21 GMT (Monday 9th December 2024)"
-	revision: "30"
+	date: "2025-03-07 14:13:45 GMT (Friday 7th March 2025)"
+	revision: "31"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -77,7 +77,7 @@ feature -- Tests
 	test_recursive_object_build
 		-- OBJECT_BUILDER_TEST_SET.test_recursive_object_build
 		do
-			do_test ("create_bioinformatic_commands", 2238350059, agent create_bioinformatic_commands, [])
+			do_test ("create_bioinformatic_commands", 2795663237, agent create_bioinformatic_commands, [])
 		end
 
 	test_smart_buildable_from_node_scan
@@ -98,10 +98,10 @@ feature {NONE} -- Implementation
 		do
 			lio.enter_with_args ("build", [type])
 			l_name := Routine_name
-			do_test (l_name, os_checksum (3138840400, 282829992),
+			do_test (l_name, os_checksum (2003533171, 282829992),
 				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_smil_presentation]
 			)
-			do_test (l_name, os_checksum (3086032535, 3664224275),
+			do_test (l_name, os_checksum (396053008, 3664224275),
 				agent build_and_serialize_file, [Name.web_form, agent type.new_web_form]
 			)
 			do_test (l_name, 1024683824, agent build_and_serialize_file, [Name.matrix_average, agent type.new_matrix])
@@ -139,10 +139,10 @@ feature {NONE} -- Implementation
 		do
 			lio.enter_with_args ("smart_build", [type])
 			l_name := Routine_name
-			do_test (l_name, os_checksum (2818342120, 204554000),
+			do_test (l_name, os_checksum (1803675339, 204554000),
 				agent build_and_serialize_file, [Name.smil_presentation, agent type.new_serializeable]
 			)
-			do_test (l_name, os_checksum (540764938, 1303238030),
+			do_test (l_name, os_checksum (2152808333, 1303238030),
 				agent build_and_serialize_file, [Name.web_form, agent type.new_serializeable]
 			)
 			do_test (l_name, 4129507502, agent build_and_serialize_file, [Name.matrix_average, agent type.new_serializeable])

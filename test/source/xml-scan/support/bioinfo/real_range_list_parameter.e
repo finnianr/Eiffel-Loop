@@ -6,56 +6,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-07 16:56:00 GMT (Thursday 7th December 2023)"
-	revision: "8"
+	date: "2025-03-07 14:00:57 GMT (Friday 7th March 2025)"
+	revision: "9"
 
 class
 	REAL_RANGE_LIST_PARAMETER
 
 inherit
-	LIST_PARAMETER [ARRAYED_LIST [REAL]]
-		rename
-			extend_from_node as add_real_range
-		redefine
-			display_item
-		end
+	RANGE_LIST_PARAMETER [REAL]
 
 create
 	make
 
-feature -- Basic operations
-
-	display_item
-			--
-		do
-			log.put_string ("Real range [")
-			log.put_integer (index)
-			log.put_string ("]: ")
-			from item.start until item.after loop
-				log.put_real (item.item, Void)
-				log.put_string (" ")
-				item.forth
-			end
-			log.put_new_line
-		end
-
 feature {NONE} -- Implementation
 
-	last_real_range: like item
-
-feature {NONE} -- Build from XML
-
-	add_real_range
-			--
-		local
-			real_list: EL_ZSTRING_LIST
+	numeric_string (v: REAL): STRING
 		do
-			create real_list.make_split (node.to_string, ',')
-			create last_real_range.make (real_list.count)
-			across real_list as str loop
-				last_real_range.extend (str.item.to_real)
-			end
-			extend (last_real_range)
+			Result := v.out
+		end
+
+	to_numeric (string: ZSTRING): REAL
+		do
+			Result := string.to_real
 		end
 
 end
