@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-07 8:53:57 GMT (Friday 7th March 2025)"
-	revision: "3"
+	date: "2025-03-07 9:35:22 GMT (Friday 7th March 2025)"
+	revision: "4"
 
 class
 	EL_BANNED_IP_TABLES_SET
@@ -233,7 +233,7 @@ feature {NONE} -- Constants
 		end
 
 	Template: STRING = "[
-		@filter
+		*filter
 		:banned-$protocol - [0:0]
 		#if $is_multiport then
 			#foreach $address in $address_list loop

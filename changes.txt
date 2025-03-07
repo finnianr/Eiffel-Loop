@@ -808,3 +808,6 @@ Optimizing traffic analysis and 404 intercept URI matching
 Sun 23rd Feb 2025, 9:41:11
 stall for time while ufw finishes reloading updated rules
 
+Fri 7th Mar 2025, 9:25:08
+New class EL_BANNED_IP_TABLES_SET
+
