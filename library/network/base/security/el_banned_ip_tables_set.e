@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-05 12:52:55 GMT (Wednesday 5th March 2025)"
-	revision: "2"
+	date: "2025-03-07 8:53:57 GMT (Friday 7th March 2025)"
+	revision: "3"
 
 class
 	EL_BANNED_IP_TABLES_SET
@@ -61,7 +61,7 @@ feature -- Initialization
 
 	make (a_port: NATURAL_16; a_dir_path: DIR_PATH; n: INTEGER)
 		local
-			s: EL_STRING_8_ROUTINES
+			index_slash: INTEGER
 		do
 			port := a_port; dir_path := a_dir_path
 			create recent_additions.make (0)
@@ -73,8 +73,11 @@ feature -- Initialization
 			-- read IP addresses from existing rules file
 				if output_path.exists then
 					across open (output_path, Read) as list loop
-						if attached list.item as line and then s.starts_with_character (line, '-') then
-							put_item (parsed_ip_number (line))
+						if attached list.item as line then
+							index_slash := line.substring_index (once "/32 -p tcp", 1) -- ignore udp
+							if index_slash > 0 then
+								put_item (parsed_ip_number (line, index_slash))
+							end
 						end
 					end
 				end
@@ -182,17 +185,14 @@ feature {NONE} -- Implementation
 			Result.recent_additions.standard_copy (recent_additions)
 		end
 
-	parsed_ip_number (line: STRING): NATURAL
+	parsed_ip_number (line: STRING; index_slash: INTEGER): NATURAL
 		-- Parse IP address from "-A banned-http -s 45.148.10.186/32 -p tcp -m multiport --dports 80,443 -j DROP"
 		local
-			index_slash, index_space: INTEGER
+			index_space: INTEGER
 		do
-			index_slash := line.index_of ('/', 1)
-			if index_slash > 0 then
-				index_space := line.last_index_of (' ', index_slash)
-				if index_space > 0 then
-					Result := Ip_address.substring_as_number (line, index_space + 1, index_slash - 1)
-				end
+			index_space := line.last_index_of (' ', index_slash)
+			if index_space > 0 then
+				Result := Ip_address.substring_as_number (line, index_space + 1, index_slash - 1)
 			end
 		ensure
 			valid_number: line.has_substring (Ip_address.to_string (Result) + "/32")
