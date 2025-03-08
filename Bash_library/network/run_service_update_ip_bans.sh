@@ -68,6 +68,8 @@ for protocol in HTTP SSH SMTP; do
 	if ! iptables -F banned-$protocol 2> /dev/null; then
 		echo Creating chain banned-$protocol
 		iptables -N banned-$protocol
+	#	Ensure that packets are dropped before any UFW rules allow them
+		iptables -I INPUT 2 -j banned-$protocol
 	else
 		echo Flushed chain banned-$protocol
 	fi
