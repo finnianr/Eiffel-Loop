@@ -811,3 +811,6 @@ stall for time while ufw finishes reloading updated rules
 Fri 7th Mar 2025, 9:25:08
 New class EL_BANNED_IP_TABLES_SET
 
+Sat 8th Mar 2025, 11:46:24
+Made sure banned-HTTP chain is checked before ufw rules and fixed Bioinfo tests
+

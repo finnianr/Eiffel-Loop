@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:12:58 GMT (Wednesday 25th September 2024)"
-	revision: "26"
+	date: "2025-03-08 13:22:43 GMT (Saturday 8th March 2025)"
+	revision: "27"
 
 deferred class
 	EL_FILE_DATA_TEST_SET
@@ -90,7 +90,26 @@ feature {NONE} -- Assertions
 				end
 				lio.put_string_field ("Actual", actual); lio.put_string_field (" Target", target)
 				lio.put_new_line
-				assert ("same digest", False)
+				failed ("same digest")
+			end
+		end
+
+	assert_same_checksum (a_name: detachable READABLE_STRING_GENERAL; actual: EL_CYCLIC_REDUNDANCY_CHECK_32; target: NATURAL)
+		-- assert `actual.checksum = checksum'
+		local
+			message: STRING
+		do
+			if actual.checksum /= target then
+				message := "CRC checksums differ"
+				if attached a_name as name then
+					lio.put_labeled_string (name, message)
+					lio.put_new_line
+				else
+					lio.put_line (message)
+				end
+				lio.put_natural_field ("Actual", actual.checksum); lio.put_natural_field (" Target", target)
+				lio.put_new_line
+				failed ("same CRC checksum")
 			end
 		end
 

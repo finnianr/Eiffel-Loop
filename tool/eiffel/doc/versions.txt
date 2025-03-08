@@ -1,3 +1,6 @@
+Ver 2.2.18 (8 Mar 2025)
+* Conduct tests after Eiffel-loop changes
+
 Ver 2.2.17 (7 Feb 2025)
 * New Eiffel tool to rename classes by suffix/prefix wildcards
 

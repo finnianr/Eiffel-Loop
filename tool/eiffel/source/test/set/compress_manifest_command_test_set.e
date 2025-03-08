@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 13:02:47 GMT (Thursday 22nd August 2024)"
-	revision: "2"
+	date: "2025-03-08 13:09:33 GMT (Saturday 8th March 2025)"
+	revision: "3"
 
 class
 	COMPRESS_MANIFEST_COMMAND_TEST_SET
@@ -43,7 +43,7 @@ feature -- Tests
 			if attached file_list.first_path as manifest_path then
 				create cmd.make (manifest_path, create {FILE_PATH})
 				cmd.execute
-				assert_same_digest (Plain_text, cmd.output_path, "ySos/qBp1ooewUoV3+uqMw==")
+				assert_same_digest (Plain_text, cmd.output_path, "iaDlon6htXz8H37wVLLt8A==")
 			end
 		end
 
