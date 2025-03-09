@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-07 11:45:33 GMT (Friday 7th March 2025)"
-	revision: "39"
+	date: "2025-03-09 8:25:22 GMT (Sunday 9th March 2025)"
+	revision: "40"
 
 class
 	EVOLICITY_TEMPLATES
@@ -106,7 +106,7 @@ feature -- Basic operations
 		-- "COMMIT%N" as the last line
 
 			text_file.put_new_line
-			text_file.flush; text_file.close
+			text_file.close
 		end
 
 feature -- String output

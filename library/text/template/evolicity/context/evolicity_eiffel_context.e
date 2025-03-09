@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-31 13:28:39 GMT (Monday 31st July 2023)"
-	revision: "23"
+	date: "2025-03-08 17:11:26 GMT (Saturday 8th March 2025)"
+	revision: "24"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -89,9 +89,7 @@ feature {NONE} -- Constants
 
 	Var_current: STRING = "Current"
 
-	Getter_functions_by_type: EL_FUNCTION_RESULT_TABLE [
-		EVOLICITY_EIFFEL_CONTEXT, EVOLICITY_FUNCTION_TABLE
-	]
+	Getter_functions_by_type: EL_FUNCTION_RESULT_TABLE [EVOLICITY_EIFFEL_CONTEXT, EVOLICITY_FUNCTION_TABLE]
 		once
 			create Result.make (19, agent {EVOLICITY_EIFFEL_CONTEXT}.new_getter_functions)
 		end

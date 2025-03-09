@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 15:09:13 GMT (Tuesday 25th February 2025)"
-	revision: "11"
+	date: "2025-03-09 19:28:18 GMT (Sunday 9th March 2025)"
+	revision: "12"
 
 class
 	EL_RECENT_MAIL_LOG_ENTRIES

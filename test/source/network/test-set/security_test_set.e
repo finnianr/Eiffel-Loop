@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-07 14:23:40 GMT (Friday 7th March 2025)"
-	revision: "21"
+	date: "2025-03-09 19:11:56 GMT (Sunday 9th March 2025)"
+	revision: "22"
 
 class
 	SECURITY_TEST_SET
@@ -130,9 +130,10 @@ feature -- Test
 		local
 			log_file: PLAIN_TEXT_FILE; expected_ip_addresses: ARRAY [EL_STRING_8_LIST]
 			ip_set, ip_expected_set: EL_HASH_SET [STRING]; log_entries: ARRAY [EL_RECENT_LOG_ENTRIES]
-			log_path: FILE_PATH
+			log_path: FILE_PATH; auth_log_entries: TEST_AUTH_LOG_ENTRIES
 		do
-			log_entries := << create {TEST_MAIL_LOG_ENTRIES}.make (60), create {TEST_AUTH_LOG_ENTRIES}.make (60) >>
+			create auth_log_entries.make (60)
+			log_entries := << create {TEST_MAIL_LOG_ENTRIES}.make (60), auth_log_entries >>
 			expected_ip_addresses := <<
 				"152.32.180.98, 165.154.233.80, 80.94.95.71", "218.92.0.136, 159.203.183.63"
 			>>
@@ -163,6 +164,9 @@ feature -- Test
 					assert ("IP list OK", ip_expected_set ~ ip_set)
 					lio.put_new_line
 				end
+			end
+			if attached Ip_address.to_number ("95.45.149.152") as ssh_user_ip then
+				assert ("auth.log has 1 white listed", auth_log_entries.white_list.has (ssh_user_ip))
 			end
 		end
 

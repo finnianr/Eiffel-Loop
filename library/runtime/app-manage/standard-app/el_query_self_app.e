@@ -1,7 +1,12 @@
 note
 	description: "[
-		Stanard application to list all running instances of current application with
+		Standard application to list all running instances of current application with
 		it's command line and process ID
+	]"
+	notes: "[
+		Usage:
+		
+			<app-name> -query_self
 	]"
 
 	author: "Finnian Reilly"
@@ -9,14 +14,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-08 14:43:41 GMT (Saturday 8th March 2025)"
-	revision: "1"
+	date: "2025-03-09 9:20:22 GMT (Sunday 9th March 2025)"
+	revision: "2"
 
 class
 	EL_QUERY_SELF_APP
 
 inherit
 	EL_APPLICATION
+		redefine
+			is_valid_platform
+		end
 
 create
 	default_create
@@ -26,6 +34,13 @@ feature {NONE} -- Initiliazation
 	initialize
 			--
 		do
+		end
+
+feature -- Status query
+
+	is_valid_platform: BOOLEAN
+		do
+			Result := {PLATFORM}.is_unix
 		end
 
 feature -- Basic operations
@@ -62,15 +77,13 @@ feature {NONE} -- Implementation
 				and then attached line_list.last as line
 				and then not line.ends_with_general (option_name)
 			then
-				line.remove_head (Truncated_app_name.count + 1)
-				index := line.substring_index (Executable.name, 1)
-				if index > 1 then
-				-- remove absolute path directory
-					line.remove_head (index - 1)
-				end
 				lio.put_labeled_string ("PID", pid)
 				lio.put_spaces (1)
-				lio.put_line (line)
+				index := line.substring_index (Executable.name, Max_name_count + 1)
+				if index > 0 then
+				-- remove absolute path directory
+					lio.put_line (line.substring_end (index + Executable.name.count + 1))
+				end
 			end
 		end
 
@@ -84,12 +97,17 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	Description: STRING = "List all running instances of current application"
+
+	Max_name_count: INTEGER = 15
+		-- maximum length of application name output by pscommand
+
 	Truncated_app_name: ZSTRING
 		once
-			Result := Executable.name.twin
-			Result.keep_head (15)
+			Result := Executable.name
+			if Result.count > Max_name_count then
+				Result := Result.substring (1, Max_name_count)
+			end
 		end
-
-	Description: STRING = "List all running instances of current application"
 
 end

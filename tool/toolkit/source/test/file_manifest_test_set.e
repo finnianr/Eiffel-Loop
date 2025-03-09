@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2025-03-08 17:11:55 GMT (Saturday 8th March 2025)"
+	revision: "11"
 
 class
 	FILE_MANIFEST_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EL_ZSTRING_CONSTANTS
+	EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -34,13 +34,13 @@ feature -- Tests
 
 	test_file_manifest
 		do
-			test_with_template (work_area_data_dir, Empty_string)
+			test_with_template (work_area_data_dir, Empty_string_8)
 			test_with_template (work_area_data_dir, "manifest-template.evol")
 		end
 
 feature {NONE} -- Implementation
 
-	test_with_template (dir_path: DIR_PATH; template_name: ZSTRING)
+	test_with_template (dir_path: DIR_PATH; template_name: STRING)
 		local
 			template_path, output_path: FILE_PATH; manifest: EL_FILE_MANIFEST_LIST
 			command: EL_FILE_MANIFEST_GENERATOR
@@ -67,7 +67,7 @@ feature {NONE} -- Implementation
 			if template_name.is_empty then
 				assert ("same content", manifest ~ command.manifest)
 			else
-				assert_same_digest (Plain_text, output_path, "h+JTfAZXVugLmMokPnE4Hg==")
+				assert_same_digest (Plain_text, output_path, "WC3tHvmq92g8LaJZiaZF8A==")
 			end
 		end
 

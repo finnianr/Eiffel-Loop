@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-05 18:33:21 GMT (Wednesday 5th March 2025)"
-	revision: "56"
+	date: "2025-03-09 8:57:14 GMT (Sunday 9th March 2025)"
+	revision: "57"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -202,9 +202,9 @@ feature {NONE} -- Implementation
 					lio.put_new_line
 				end
 				lio.put_new_line
-				User_input.press_enter
 			end
 			Geolocation.store (Directory.Sub_app_data)
+			User_input.press_enter
 		end
 
 	request_remote_address_32: NATURAL
