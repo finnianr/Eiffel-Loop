@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 19:07:32 GMT (Sunday 9th March 2025)"
-	revision: "14"
+	date: "2025-03-09 20:06:23 GMT (Sunday 9th March 2025)"
+	revision: "15"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -26,9 +26,11 @@ feature {NONE} -- Initialization
 			tail_count := a_tail_count
 			log_path := default_log_path
 			tail_count := a_tail_count.max (30)
+			create white_listed_set.make (2)
+			white_listed_set.put (IP_address.Loop_back)
+
 			create buffer
 			create intruder_list.make (10)
-			create white_list.make_from_array (<< IP_address.Loop_back >>)
 			create intruder_history_set.make (10)
 			create today.make_now_utc
 			create date_time.make_now
@@ -43,8 +45,9 @@ feature -- Access
 
 	tail_count: INTEGER
 
-	white_list: ARRAYED_LIST [NATURAL]
-		-- addresses that cannot be considered intruders
+	white_listed_set: EL_HASH_SET [NATURAL]
+		-- set of addresses that cannot be considered intruders
+		-- (authenticated SSH user address + loop-back)
 
 feature -- Status query
 
@@ -101,7 +104,7 @@ feature {NONE} -- Implementation
 			address: NATURAL
 		do
 			address := parsed_address (line)
-			if address > 0 and then not white_list.has (address) then
+			if address > 0 and then not white_listed_set.has (address) then
 				intruder_history_set.put (address)
 			-- only added to `intruder_list' never encountered before
 				if intruder_history_set.inserted then

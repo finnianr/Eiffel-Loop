@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 19:57:24 GMT (Sunday 9th March 2025)"
-	revision: "10"
+	date: "2025-03-09 20:05:07 GMT (Sunday 9th March 2025)"
+	revision: "11"
 
 class
 	EL_RECENT_AUTH_LOG_ENTRIES
@@ -62,7 +62,7 @@ feature {NONE} -- Line states
 				extend_intruder_list (line)
 
 			elseif has_message (line, Message.accepted_publickey) then
-				white_list.extend (parsed_address (line))
+				white_listed_set.put (parsed_address (line))
 			end
 		end
 
@@ -84,8 +84,7 @@ feature {NONE} -- Implementation
 		end
 
 	parsed_address (line: STRING): NATURAL
-		-- Extract IP address from log entry
-		-- Oct 29 10:49:33 myching sshd[8323]: Invalid user admin from 188.166.217.179
+		-- Extract IP address from log entry according to `last_test'
 		local
 			start_index, end_index: INTEGER
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 19:11:56 GMT (Sunday 9th March 2025)"
-	revision: "22"
+	date: "2025-03-09 20:05:07 GMT (Sunday 9th March 2025)"
+	revision: "23"
 
 class
 	SECURITY_TEST_SET
@@ -166,7 +166,7 @@ feature -- Test
 				end
 			end
 			if attached Ip_address.to_number ("95.45.149.152") as ssh_user_ip then
-				assert ("auth.log has 1 white listed", auth_log_entries.white_list.has (ssh_user_ip))
+				assert ("auth.log has 1 white listed", auth_log_entries.white_listed_set.has (ssh_user_ip))
 			end
 		end
 
