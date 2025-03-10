@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 19:28:18 GMT (Sunday 9th March 2025)"
-	revision: "12"
+	date: "2025-03-10 17:57:38 GMT (Monday 10th March 2025)"
+	revision: "13"
 
 class
 	EL_RECENT_MAIL_LOG_ENTRIES
@@ -26,13 +26,6 @@ inherit
 
 create
 	make
-
-feature -- Constants
-
-	Default_log_path: STRING
-		once
-			Result := "/var/log/mail.log"
-		end
 
 feature {NONE} -- Implementation
 
@@ -47,14 +40,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	parse_lines (line_list: LIST [STRING])
+	do_with (line: STRING)
 		do
-			across line_list as list loop
-				if attached list.item as line
-					and then across warning_list as warning some line.has_substring (warning.item) end
-				then
-					extend_intruder_list (line)
-				end
+			if across warning_list as warning some line.has_substring (warning.item) end then
+				extend_intruder_list (line)
 			end
 		end
 

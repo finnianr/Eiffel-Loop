@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 9:48:25 GMT (Thursday 6th March 2025)"
-	revision: "2"
+	date: "2025-03-10 18:23:06 GMT (Monday 10th March 2025)"
+	revision: "3"
 
 class
 	TEXT_FILE_TEST_SET
@@ -32,7 +32,8 @@ feature {NONE} -- Initialization
 				["output_medium_encoding",		  agent test_output_medium_encoding],
 				["plain_text_decoded_iterator", agent test_plain_text_decoded_iterator],
 				["plain_text_line_iterator",	  agent test_plain_text_line_iterator],
-				["plain_text_line_source",		  agent test_plain_text_line_source]
+				["plain_text_line_source",		  agent test_plain_text_line_source],
+				["plain_text_lines",				  agent test_plain_text_lines]
 			>>)
 		end
 
@@ -191,6 +192,37 @@ feature -- Tests
 					assert ("same list", line_list ~ line_source.as_list)
 				end
 			end
+		end
+
+	test_plain_text_lines
+		-- TEXT_FILE_TEST_SET.test_plain_text_lines
+		note
+			testing: "[
+				covers/{EL_FILE_ROUTINES_I}.plain_text_lines,
+				covers/{EL_SPLIT_ON_CHARACTER_8}.new_cursor,
+				covers/{EL_SPLIT_ON_CHARACTER_8_CURSOR}.forth,
+				covers/{EL_READABLE_STRING_X_ROUTINES}.substring_to_reversed,
+				covers/{EL_READABLE_STRING_X_ROUTINES}.delimited_list
+			]"
+		local
+			header_path, output_path: FILE_PATH; counter: EL_NATURAL_32_COUNTER
+			last_line: STRING
+		do
+			create counter
+			header_path := error_codes_path; output_path := error_table_path
+
+			if attached File.plain_text_lines (header_path) as lines then
+				write_indented_codes (output_path, lines, counter)
+				assert_same_digest (Plain_text, output_path, "5ivDTBX6P3UiElIR0O3KBw==")
+				assert ("132 items", counter.item = 132)
+			end
+			create last_line.make_empty
+			across File.plain_text_lines (header_path) as line loop
+				if line.is_last then
+					last_line := line.item
+				end
+			end
+			assert ("last line OK", last_line.ends_with ("/* State not recoverable */"))
 		end
 
 feature {NONE} -- Implementation

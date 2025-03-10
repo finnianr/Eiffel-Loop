@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 20:05:07 GMT (Sunday 9th March 2025)"
-	revision: "23"
+	date: "2025-03-10 17:29:04 GMT (Monday 10th March 2025)"
+	revision: "24"
 
 class
 	SECURITY_TEST_SET
@@ -15,7 +15,7 @@ class
 inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 
-	EL_MODULE_IP_ADDRESS
+	EL_MODULE_COMMAND; EL_MODULE_IP_ADDRESS
 
 	SHARED_DEV_ENVIRON; EL_SHARED_SERVICE_PORT
 
@@ -130,12 +130,13 @@ feature -- Test
 		local
 			log_file: PLAIN_TEXT_FILE; expected_ip_addresses: ARRAY [EL_STRING_8_LIST]
 			ip_set, ip_expected_set: EL_HASH_SET [STRING]; log_entries: ARRAY [EL_RECENT_LOG_ENTRIES]
-			log_path: FILE_PATH; auth_log_entries: TEST_AUTH_LOG_ENTRIES
+			log_path: FILE_PATH; auth_log_entries: EL_RECENT_AUTH_LOG_ENTRIES
 		do
-			create auth_log_entries.make (60)
-			log_entries := << create {TEST_MAIL_LOG_ENTRIES}.make (60), auth_log_entries >>
+			create auth_log_entries.make ("workarea/tail-auth.log")
+			log_entries := << create {EL_RECENT_MAIL_LOG_ENTRIES}.make ("workarea/tail-mail.log"), auth_log_entries >>
 			expected_ip_addresses := <<
-				"152.32.180.98, 165.154.233.80, 80.94.95.71", "218.92.0.136, 159.203.183.63"
+				"152.32.180.98, 165.154.233.80, 80.94.95.71", -- mail.log
+				"218.92.0.136, 159.203.183.63, 218.92.0.246" -- auth.log
 			>>
 			create ip_set.make_equal (3)
 			across log_entries as list loop
@@ -147,15 +148,12 @@ feature -- Test
 					ip_set.wipe_out
 					create log_file.make_with_name (Work_area_dir #+ log_path.base)
 					across new_file_list (log_path.base_name + ".*") as path loop
-						lio.put_path_field ("Appending", path.item)
+
+						lio.put_path_field ("Copying", path.item)
 						lio.put_new_line
-						if path.is_first then
-							log_file.open_write
-						else
-							log_file.open_append
+						if attached Command.new_copy_file (path.item, log_path) as cmd then
+							cmd.execute
 						end
-						log_file.put_string (File.plain_text (path.item))
-						log_file.close
 						entries.update_intruder_list
 						across entries.intruder_list as address loop
 							ip_set.put (Ip_address.to_string (address.item))

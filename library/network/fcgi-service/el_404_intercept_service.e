@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-05 12:31:33 GMT (Wednesday 5th March 2025)"
-	revision: "33"
+	date: "2025-03-10 17:14:50 GMT (Monday 10th March 2025)"
+	revision: "34"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -63,9 +63,8 @@ feature -- Basic operations
 	error_check (application: EL_FALLIBLE)
 		-- check for errors before execution
 		local
-			sendmail: EL_RECENT_MAIL_LOG_ENTRIES; error: EL_ERROR_DESCRIPTION
+			error: EL_ERROR_DESCRIPTION
 		do
-			create sendmail.make (30)
 			if attached config.missing_match_files as name_list and then name_list.count > 0 then
 				create error.make ("Missing URI matching lists in configuration directory")
 				across name_list as list loop
@@ -84,22 +83,6 @@ feature -- Basic operations
 				error.extend_substituted ("Active screen session name %"%S%" not found", [config.screen_session_name])
 				application.put (error)
 
-			end
-			if not sendmail.is_log_readable then
-				create error.make (sendmail.Default_log_path)
-				if is_user_in_admin_group then
-					error.set_lines ("File not readable")
-				else
-					error.set_lines ("[
-						Current user not part of 'adm' group.
-						Use command:
-						
-							sudo usermod -aG adm <username>
-						
-						Then re-login for command to take effect.
-					]")
-				end
-				application.put (error)
 			end
 		end
 
@@ -165,12 +148,12 @@ feature {NONE} -- Factory
 
 	new_authorization_log: EL_RECENT_AUTH_LOG_ENTRIES
 		do
-			create Result.make (config.log_tail_count)
+			create Result.make (rules_path.parent + "tail-auth.log")
 		end
 
 	new_sendmail_log: EL_RECENT_MAIL_LOG_ENTRIES
 		do
-			create Result.make (config.log_tail_count)
+			create Result.make (rules_path.parent + "tail-mail.log")
 		end
 
 	new_servlet: EL_404_INTERCEPT_SERVLET

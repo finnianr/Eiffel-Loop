@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 11:58:54 GMT (Friday 28th February 2025)"
-	revision: "26"
+	date: "2025-03-10 18:04:11 GMT (Monday 10th March 2025)"
+	revision: "27"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -201,6 +201,7 @@ feature -- File content
 			file_exists: file_path.exists
 		do
 			if attached raw_plain_text (file_path) as content then
+				content.right_adjust
 				if {PLATFORM}.is_unix and then has_windows_line_break (content) then
 					-- Check if content has Windows carriage return
 					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 20:05:07 GMT (Sunday 9th March 2025)"
-	revision: "11"
+	date: "2025-03-10 17:57:38 GMT (Monday 10th March 2025)"
+	revision: "12"
 
 class
 	EL_RECENT_AUTH_LOG_ENTRIES
@@ -24,85 +24,65 @@ class
 inherit
 	EL_RECENT_LOG_ENTRIES
 		redefine
-			make
-		end
-
-	EL_STRING_STATE_MACHINE [STRING]
-		rename
-			make as make_machine
+			check_line
 		end
 
 create
 	make
 
-feature {NONE} -- Initialization
-
-	make (a_tail_count: INTEGER)
-		do
-			make_machine
-			Precursor (a_tail_count)
-		end
-
 feature {NONE} -- Line states
 
 	find_disconnect (line: STRING)
 		do
-			if has_message (line, Message.received_disconnect) then
+			if line.has_substring (Message.received_disconnect) then
+				address_delimiter := ':'
 				extend_intruder_list (line)
-				state := agent find_intrusion
+				state := agent check_line
 			end
 		end
 
-	find_intrusion (line: STRING)
+	check_line (line: STRING)
 		do
 			if line.has_substring (Message.user_root_not_allowed) then
 				state := agent find_disconnect
 
-			elseif has_message (line, Message.invalid_user) then
+			elseif line.has_substring (Message.invalid_user) or else line.has_substring (Message.did_not_receive) then
+				address_delimiter := End_of_line
 				extend_intruder_list (line)
 
-			elseif has_message (line, Message.accepted_publickey) then
+			elseif line.has_substring (Message.accepted_publickey) then
+				address_delimiter := ' '
 				white_listed_set.put (parsed_address (line))
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	has_message (line: STRING; a_message: IMMUTABLE_STRING_8): BOOLEAN
+	do_with (line: STRING)
 		do
-			if line.has_substring (a_message) then
-				last_test := a_message
-				Result := True
-			else
-				last_test := Void
-			end
-		end
-
-	parse_lines (line_list: LIST [STRING])
-		do
-			do_with_lines (agent find_intrusion, line_list)
+			state (line)
 		end
 
 	parsed_address (line: STRING): NATURAL
-		-- Extract IP address from log entry according to `last_test'
+		-- Extract IP address from log entry refering to `address_delimiter'
 		local
 			start_index, end_index: INTEGER
 		do
-			start_index := line.substring_index (From_marker, 1)
+			start_index := line.substring_index (Word_from, 1)
 			if start_index > 0 then
 			-- Start of message
-				start_index := start_index + From_marker.count
-				if last_test = Message.received_disconnect then
-				-- Received disconnect from 218.92.0.136: 11:  [preauth]
-					end_index := line.index_of (':', start_index) - 1
+				start_index := start_index + Word_from.count
+				inspect address_delimiter
+					when ':', ' ' then
+					-- Received disconnect from 218.92.0.136: 11:  [preauth]
+					-- Accepted publickey for finnian from 95.45.149.152 port 38815
+						end_index := line.index_of (address_delimiter, start_index) - 1
 
-				elseif last_test = Message.accepted_publickey then
-				-- Accepted publickey for finnian from 95.45.149.152 port 38815
-					end_index := line.index_of (' ', start_index) - 1
-
-				elseif last_test = Message.invalid_user then
-				-- Invalid user john from 159.203.183.63
-					end_index := line.count
+					when End_of_line then
+					-- Invalid user john from 159.203.183.63
+					-- Did not receive identification string from 218.92.0.246
+						end_index := line.count
+				else
 				end
 				if end_index > start_index then
 					Result := Ip_address.substring_as_number (line, start_index, end_index)
@@ -112,26 +92,28 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	last_test: detachable IMMUTABLE_STRING_8
+	address_delimiter: CHARACTER
 
 feature {NONE} -- Constants
 
-	Default_log_path: STRING
+	End_of_line: CHARACTER = 'E'
+
+	Message: TUPLE [
+		accepted_publickey, did_not_receive, invalid_user, received_disconnect, user_root_not_allowed: IMMUTABLE_STRING_8
+	]
 		once
-			Result := "/var/log/auth.log"
+			create Result
+			Tuple.fill_immutable (Result,
+				"Accepted publickey, Did not receive identification, Invalid user, Received disconnect, User root not allowed"
+			)
 		end
 
-	From_marker: STRING
+	Port: NATURAL_16 = 22
+		-- SSH port number
+
+	Word_from: STRING
 		once
 			Result := " from "
 		end
-
-	Message: TUPLE [accepted_publickey, invalid_user, received_disconnect, user_root_not_allowed: IMMUTABLE_STRING_8]
-		once
-			create Result
-			Tuple.fill_immutable (Result, "Accepted publickey, Invalid user, Received disconnect, User root not allowed")
-		end
-	Port: NATURAL_16 = 22
-		-- SSH port number
 
 end

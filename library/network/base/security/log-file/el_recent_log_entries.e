@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 20:06:23 GMT (Sunday 9th March 2025)"
-	revision: "15"
+	date: "2025-03-10 18:32:33 GMT (Monday 10th March 2025)"
+	revision: "16"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -19,21 +19,18 @@ inherit
 
 	EL_CHARACTER_8_CONSTANTS
 
+	EL_STRING_8_CONSTANTS
+
 feature {NONE} -- Initialization
 
-	make (a_tail_count: INTEGER)
+	make (a_log_path: FILE_PATH)
 		do
-			tail_count := a_tail_count
-			log_path := default_log_path
-			tail_count := a_tail_count.max (30)
-			create white_listed_set.make (2)
-			white_listed_set.put (IP_address.Loop_back)
-
-			create buffer
+			log_path := a_log_path
+			last_line := Empty_string_8
 			create intruder_list.make (10)
 			create intruder_history_set.make (10)
-			create today.make_now_utc
-			create date_time.make_now
+			create white_listed_set.make_from (<< IP_address.Loop_back >>, False)
+			state := agent final
 		end
 
 feature -- Access
@@ -41,13 +38,11 @@ feature -- Access
 	intruder_list: EL_ARRAYED_LIST [NATURAL]
 		-- set of never before encountered intruder addresses after calling `update_intruder_list'
 
-	log_path: STRING
-
-	tail_count: INTEGER
+	log_path: FILE_PATH
 
 	white_listed_set: EL_HASH_SET [NATURAL]
-		-- set of addresses that cannot be considered intruders
-		-- (authenticated SSH user address + loop-back)
+		-- set of IP addresses that cannot be considered intruders
+		-- (address of authenticated SSH user OR loop-back)
 
 feature -- Status query
 
@@ -57,10 +52,6 @@ feature -- Status query
 		end
 
 feature -- Deferred
-
-	default_log_path: STRING
-		deferred
-		end
 
 	parsed_address (line: STRING): NATURAL
 		deferred
@@ -78,13 +69,36 @@ feature -- Element change
 	update_intruder_list
 		-- scan tail of log with today's date to update `intruder_set' with IP number of log entry
 		require
-			is_log_readable: log_path = Default_log_path implies is_log_readable
+			log_is_readable: is_log_readable
+		local
+			continue_from_last: BOOLEAN
 		do
 			intruder_list.wipe_out
-			if attached new_tail_lines.query_if (agent is_new_entry) as line_list then
-				if line_list.count > 0  then
-					parse_lines (line_list)
-					time_compact := new_compact_time (line_list.last)
+
+			if last_line.count > 0 then
+			-- Try to pick up from same line in previous call to `update_intruder_list'
+				across File.plain_text_lines (log_path) as file_line loop
+					if attached file_line.item as line then
+						if continue_from_last then
+							do_with (line)
+						else
+							continue_from_last := line ~ last_line
+						end
+						if file_line.is_last then
+							last_line := line
+						end
+					end
+				end
+			end
+			if not continue_from_last then
+				state := agent check_line
+				across File.plain_text_lines (log_path) as file_line loop
+					if attached file_line.item as line then
+						do_with (line)
+						if file_line.is_last then
+							last_line := line
+						end
+					end
 				end
 			end
 		end
@@ -98,6 +112,10 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	check_line (line: STRING)
+		do
+		end
 
 	extend_intruder_list (line: STRING)
 		local
@@ -113,63 +131,24 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	is_new_entry (line: STRING): BOOLEAN
-		do
-			Result := new_compact_time (line) >= time_compact
-		end
-
-feature {NONE} -- Factory
-
-	new_compact_time (line: STRING): INTEGER
-		do
-			if attached buffer.empty as str then
-				str.append_integer (today.year)
-				str.append_character (' ')
-				str.append_substring (line, 1, 15)
-			-- Remove double space "2025 Feb  2 18:13:19" for single digit dates
-				if str [10] = ' ' then
-					str.remove (10)
-				end
-				date_time.make_with_format (str, Date_time_format)
-				Result := date_time.time_stamp
-			end
-		end
-
-	new_tail_lines: EL_STRING_8_LIST
-		do
-			if attached Tail_command as cmd and then attached cmd.variables as var then
-				cmd.put_integer (var.tail_count, tail_count)
-				cmd.put_string (var.path, log_path)
-				cmd.execute
-				create Result.make_from_general (cmd.lines)
-			end
-		end
-
 feature {NONE} -- Deferred
 
-	parse_lines (line_list: LIST [STRING])
+	final (line: STRING)
+		do
+		end
+
+	do_with (line: STRING)
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
-	buffer: EL_STRING_8_BUFFER
-
-	date_time: EL_DATE_TIME
-
 	intruder_history_set: EL_HASH_SET [NATURAL]
 		-- set of all intruder IP addresses encounterd
 
-	time_compact: INTEGER
+	last_line: STRING
 
-	today: EL_DATE
+	state: PROCEDURE [STRING]
+		-- current line state as log lines are iterated over
 
-feature {NONE} -- Constants
-
-	Date_time_format: STRING = "yyyy Mmm dd [0]hh:[0]mi:[0]ss"
-
-	Tail_command: EL_PARSED_CAPTURED_OS_COMMAND [TUPLE [tail_count, path: STRING]]
-		once
-			create Result.make_command ("tail -n $tail_count $path")
-		end
 end

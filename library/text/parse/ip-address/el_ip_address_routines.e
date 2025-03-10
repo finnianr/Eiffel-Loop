@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-01 9:36:39 GMT (Saturday 1st March 2025)"
-	revision: "15"
+	date: "2025-03-10 10:11:59 GMT (Monday 10th March 2025)"
+	revision: "16"
 
 class
 	EL_IP_ADDRESS_ROUTINES
@@ -44,6 +44,7 @@ feature -- Conversion
 		require
 			valid_indices: end_index >= start_index
 								implies address.valid_index (start_index) and address.valid_index (end_index)
+			has_4_bytes: address.substring (start_index, end_index).occurrences ('.') = 3
 		local
 			i, i_upper, left_shift_count: INTEGER; c_i: CHARACTER; add_byte: BOOLEAN
 			byte: NATURAL
