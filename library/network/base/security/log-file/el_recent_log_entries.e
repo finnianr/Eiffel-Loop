@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-10 18:32:33 GMT (Monday 10th March 2025)"
-	revision: "16"
+	date: "2025-03-11 10:19:32 GMT (Tuesday 11th March 2025)"
+	revision: "17"
 
 deferred class
 	EL_RECENT_LOG_ENTRIES
@@ -67,7 +67,7 @@ feature -- Deferred
 feature -- Element change
 
 	update_intruder_list
-		-- scan tail of log with today's date to update `intruder_set' with IP number of log entry
+		-- scan copy of log tail to update `intruder_set' with IP numbers of any detected attacks
 		require
 			log_is_readable: is_log_readable
 		local
@@ -91,6 +91,7 @@ feature -- Element change
 				end
 			end
 			if not continue_from_last then
+			-- check entire log file from beginning
 				state := agent check_line
 				across File.plain_text_lines (log_path) as file_line loop
 					if attached file_line.item as line then

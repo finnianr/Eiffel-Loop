@@ -4,7 +4,13 @@
 
 # Description: 
 #	Monitors IP tables importable rules written to /var/local/<$domain_name>/iptable-new.rules
-#	by EL_404_INTERCEPT_SERVLET.
+#	by EL_404_INTERCEPT_SERVLET. Each time there are new rules they are imported into IP table
+#	rules using the command: 
+#		iptables-restore --noflush < $rules_path
+
+#	ARGUMENTS:
+#		$1 domain name of website
+#		$2 value of $USER variable in calling process
 
 # author: "Finnian Reilly"
 # copyright: "Copyright (c) 2011-2025 Finnian Reilly"
@@ -37,8 +43,7 @@ set_rules_path (){
 
 # Script begin
 
-domain_name=$1
-user=$2
+domain_name=$1; user=$2
 name=${domain_name%%.*}
 
 dir_path=/var/local/$domain_name

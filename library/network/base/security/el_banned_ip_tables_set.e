@@ -8,7 +8,6 @@ note
 		**Import Example**
 		
 			*filter
-			:banned-http - [0:0]
 			-A banned-HTTP -s 45.148.10.186/32 -p udp -m multiport --dports 80,443 -j DROP
 			-A banned-HTTP -s 45.148.10.186/32 -p tcp -m multiport --dports 80,443 -j DROP
 			COMMIT
@@ -20,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-07 13:13:38 GMT (Friday 7th March 2025)"
-	revision: "5"
+	date: "2025-03-11 7:31:15 GMT (Tuesday 11th March 2025)"
+	revision: "6"
 
 class
 	EL_BANNED_IP_TABLES_SET

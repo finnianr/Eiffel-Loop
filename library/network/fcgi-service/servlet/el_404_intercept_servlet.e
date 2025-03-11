@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-09 8:57:14 GMT (Sunday 9th March 2025)"
-	revision: "57"
+	date: "2025-03-11 10:32:06 GMT (Tuesday 11th March 2025)"
+	revision: "58"
 
 class
 	EL_404_INTERCEPT_SERVLET
@@ -104,12 +104,12 @@ feature -- Basic operations
 					end
 				end
 				timer.stop
-				if banned_list.has_value (Status.pending_rule) then
-				-- stall for time while ufw finishes reloading updated rules
-					lio.put_line ("Waiting for 0.2 seconds for rule to take effect..")
-					execution.sleep ((200 - timer.elapsed_millisecs).max (0))
-				end
 				if port = Service_port.HTTP then
+					if banned_list.has_value (Status.pending_rule) then
+					-- stall for time while iptables finishes applying updated rules
+						lio.put_line ("Waiting for 0.2 seconds for rule to take effect..")
+						execution.sleep ((200 - timer.elapsed_millisecs).max (0))
+					end
 					response.send_error (
 						Http_status.not_found, once "File not found", Text_type.plain, {EL_ENCODING_TYPE}.Latin_1
 					)

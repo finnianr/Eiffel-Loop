@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-10 17:14:50 GMT (Monday 10th March 2025)"
-	revision: "34"
+	date: "2025-03-11 8:26:31 GMT (Tuesday 11th March 2025)"
+	revision: "35"
 
 class
 	EL_404_INTERCEPT_SERVICE
@@ -39,11 +39,12 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 		-- dir_path=/var/local/$domain_name
 		-- rules_path=$dir_path/iptable-$1.rules
 			create ip_tables_set.make_empty
-			rules_path := config.server_socket_path.parent + ip_tables_set.updates_name
+			rules_path := var_local_dir + ip_tables_set.updates_name
 
-			create monitored_logs.make_equal (2)
-			monitored_logs [URI.auth_log_modified] := new_authorization_log
-			monitored_logs [URI.mail_log_modified] := new_sendmail_log
+			create monitored_logs.make_assignments (<<
+				[URI.auth_log_modified, new_authorization_log],
+				[URI.mail_log_modified, new_sendmail_log]
+			>>)
 		end
 
 feature -- Access
@@ -144,16 +145,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	var_local_dir: DIR_PATH
+		do
+			Result := config.server_socket_path.parent
+		end
+
 feature {NONE} -- Factory
 
 	new_authorization_log: EL_RECENT_AUTH_LOG_ENTRIES
 		do
-			create Result.make (rules_path.parent + "tail-auth.log")
+			create Result.make (var_local_dir + "tail-auth.log")
 		end
 
 	new_sendmail_log: EL_RECENT_MAIL_LOG_ENTRIES
 		do
-			create Result.make (rules_path.parent + "tail-mail.log")
+			create Result.make (var_local_dir + "tail-mail.log")
 		end
 
 	new_servlet: EL_404_INTERCEPT_SERVLET
@@ -163,7 +169,7 @@ feature {NONE} -- Factory
 
 feature {NONE} -- Internal attributes
 
-	monitored_logs: HASH_TABLE [EL_RECENT_LOG_ENTRIES, IMMUTABLE_STRING_8]
+	monitored_logs: EL_HASH_TABLE [EL_RECENT_LOG_ENTRIES, IMMUTABLE_STRING_8]
 
 	servlet: EL_404_INTERCEPT_SERVLET
 
