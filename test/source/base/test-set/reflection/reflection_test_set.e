@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:32:35 GMT (Monday 3rd March 2025)"
-	revision: "76"
+	date: "2025-03-13 9:48:51 GMT (Thursday 13th March 2025)"
+	revision: "77"
 
 class
 	REFLECTION_TEST_SET
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 				["default_tuple_initialization",		  agent test_default_tuple_initialization],
 				["enumeration",							  agent test_enumeration],
 				["field_name_search_by_address",		  agent test_field_name_search_by_address],
+				["field_query",							  agent test_field_query],
 				["field_representation",				  agent test_field_representation],
 				["field_value_reset",					  agent test_field_value_reset],
 				["field_value_setter",					  agent test_field_value_setter],
@@ -208,6 +209,23 @@ feature -- Tests
 			testing: "covers/{EL_FIELD_TABLE}.has_address"
 		do
 			assert_same_string (Void, "logging", Log_option.Name_logging)
+		end
+
+	test_field_query
+		-- REFLECTION_TEST_SET.test_field_query
+		note
+			testing: "covers/{EL_FIELD_TABLE}.query_by_type"
+		do
+			if attached new_country (Ireland) as country
+				and then attached country.field_table as table
+			then
+				if attached {LIST [EL_REFLECTED_INTEGER_32]} table.query_by_type ({EL_REFLECTED_INTEGER_32}) as field_list then
+					assert_same_string (Void, field_list [1].name, "date_founded")
+					assert_same_string (Void, field_list [2].name, "population")
+				else
+					failed ("query_by_type not Void")
+				end
+			end
 		end
 
 	test_field_representation

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:19:31 GMT (Friday 13th September 2024)"
-	revision: "8"
+	date: "2025-03-13 16:32:47 GMT (Thursday 13th March 2025)"
+	revision: "9"
 
 class
 	EL_FILE_SOURCE_TEXT
@@ -38,8 +38,7 @@ feature -- Element Change
 			source_text := a_source_text
 		end
 
-		set_source_text_from_file (file_path: FILE_PATH)
-			--
+	set_source_text_from_file (file_path: FILE_PATH)
 		do
 			set_source_text_from_line_source (new_input_lines (file_path))
 		end

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
-	revision: "10"
+	date: "2025-03-13 19:56:20 GMT (Thursday 13th March 2025)"
+	revision: "11"
 
 deferred class
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
@@ -36,7 +36,7 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	context_item (key: STRING; function_args: TUPLE): ANY
+	context_item (key: READABLE_STRING_8; function_args: EL_ARRAYED_LIST [ANY]): ANY
 		local
 			table: EL_FIELD_TABLE
 		do

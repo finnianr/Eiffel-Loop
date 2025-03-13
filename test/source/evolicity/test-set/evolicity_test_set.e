@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 13:30:13 GMT (Monday 23rd September 2024)"
-	revision: "21"
+	date: "2025-03-13 20:19:58 GMT (Thursday 13th March 2025)"
+	revision: "22"
 
 class
 	EVOLICITY_TEST_SET
@@ -35,9 +35,9 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["if_then", agent test_if_then],
+				["if_then",			  agent test_if_then],
 				["iteration_loops", agent test_iteration_loops],
-				["merge_template", agent test_merge_template]
+				["merge_template",  agent test_merge_template]
 			>>)
 		end
 
@@ -56,6 +56,7 @@ feature -- Tests
 		end
 
 	test_merge_template
+		-- EVOLICITY_TEST_SET.test_merge_template
 		local
 			title_var_ref: EVOLICITY_VARIABLE_REFERENCE
 		do
@@ -64,8 +65,68 @@ feature -- Tests
 				assert ("same string", job_list [1].referenced_item (title_var_ref).out ~ "Java XML Developer")
 				assert ("same string", job_list [2].referenced_item (title_var_ref).out ~ "Eiffel Developer")
 
-				do_test ("merge_template", 1591458457, agent merge_template, ["jobserve-results.evol", new_job_info (job_list)])
+				do_test ("merge_template", 1159669919, agent merge_template, ["jobserve-results.evol", new_job_info (job_list)])
 			end
+		end
+
+feature {NONE} -- Factory
+
+	new_container_context: EVOLICITY_CONTEXT_IMP
+		local
+			table: EL_HASH_TABLE [INTEGER, STRING]
+		do
+			create Result.make
+			table := << ["one", 1], ["two", 2], ["three", 3] >>
+			Result.put_any ("value_table", table)
+			Result.put_any ("string_list", table.key_list)
+		end
+
+	new_context: EVOLICITY_CONTEXT_IMP
+		do
+			create Result.make
+		end
+
+	new_job_info (job_list: like new_job_list): EVOLICITY_CONTEXT_IMP
+			--
+		do
+			create Result.make
+			if attached new_context as title then
+				title.put_string ("title", "Jobserve results")
+				Result.put_any ("page", title)
+			end
+			if attached new_context as result_set then
+				result_set.put_any ("result_set", job_list)
+				if attached new_context as job_search then
+					job_search.put_any ("job_search", result_set)
+					Result.put_any ("query", job_search)
+				end
+			end
+		end
+
+	new_job_list: ARRAYED_LIST [JOB_INFORMATION]
+		do
+			create Result.make_from_array (<<
+				create {JOB_INFORMATION}.make (
+					"Java XML Developer", "1 year", "Write XML applications in Java with Eclipse",
+					"Susan Hebridy", "JS238543", "London",
+					new_date (2006, 3, 7), new_date (2006, 3, 17), 42000
+				),
+				create {JOB_INFORMATION}.make (
+					"Eiffel Developer", "permanent", "Write Eiffel applications using EiffelStudio",
+					"Martin Demon", "JS238458", "Dusseldorf",
+					new_date (2006, 2, 7), new_date (2006, 3, 27), 50000
+				)
+			>>)
+		end
+
+	new_tuple_context (x, y: INTEGER; str: STRING): EVOLICITY_TUPLE_CONTEXT
+		do
+			create Result.make ([x, y, str], "x, y, str")
+		end
+
+	new_date (y, m, d: INTEGER): EL_DATE
+		do
+			create Result.make (y, m, d)
 		end
 
 feature {NONE} -- Implementation
@@ -103,56 +164,6 @@ feature {NONE} -- Implementation
 	source_dir: DIR_PATH
 		do
 			Result := Dev_environ.EL_test_data_dir #+ "evol"
-		end
-
-feature {NONE} -- Factory
-
-	new_container_context: EVOLICITY_CONTEXT_IMP
-		local
-			table: EL_HASH_TABLE [INTEGER, STRING]
-		do
-			create Result.make
-			table := << ["one", 1], ["two", 2], ["three", 3] >>
-			Result.put_any ("value_table", table)
-			Result.put_any ("string_list", table.key_list)
-		end
-
-	new_tuple_context (x, y: INTEGER; str: STRING): EVOLICITY_TUPLE_CONTEXT
-		do
-			create Result.make ([x, y, str], "x, y, str")
-		end
-
-	new_job_info (job_list: like new_job_list): EVOLICITY_CONTEXT_IMP
-			--
-		local
-			title_context, query_context, job_search_context: EVOLICITY_CONTEXT_IMP
-			result_set_context: EVOLICITY_CONTEXT;
-		do
-			-- #set ($page.title = "Jobserve results" )
-			create Result.make
-			create title_context.make
-			title_context.put_any ("title", "Jobserve results")
-			Result.put_any ("page", title_context)
-
-			create job_search_context.make
-			job_search_context.put_any ("result_set", job_list)
-			create query_context.make
-			query_context.put_any ("job_search", job_search_context)
-			Result.put_any ("query", query_context)
-		end
-
-	new_job_list: ARRAYED_LIST [JOB_INFORMATION]
-		do
-			create Result.make_from_array (<<
-				create {JOB_INFORMATION}.make (
-					"Java XML Developer", "1 year", "Write XML applications in Java with Eclipse",
-					"7 March 2006", "Susan Hebridy", "JS238543", "17 March 2006", "London", 42000
-				),
-				create {JOB_INFORMATION}.make (
-					"Eiffel Developer", "permanent", "Write Eiffel applications using EiffelStudio",
-					"7 Feb 2006", "Martin Demon", "JS238458", "27 March 2006", "Dusseldorf", 50000
-				)
-			>>)
 		end
 
 feature {NONE} -- Constants

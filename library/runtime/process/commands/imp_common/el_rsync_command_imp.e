@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-23 12:35:59 GMT (Tuesday 23rd April 2024)"
-	revision: "13"
+	date: "2025-03-13 10:21:44 GMT (Thursday 13th March 2025)"
+	revision: "14"
 
 class
 	EL_RSYNC_COMMAND_IMP
@@ -28,28 +28,7 @@ create
 feature -- Access
 
 	Template: STRING = "[
-		rsync
-		#if $archive_enabled then
-			--archive
-		#end
-		#if $compress_enabled then
-			--compress
-		#end
-		#if $delete_enabled then
-			--delete
-		#end
-		#if $no_links_enabled then
-			--no-links
-		#end
-		#if $progress_enabled then
-			--progress
-		#end
-		#if $update_enabled then
-			--update
-		#end
-		#if $verbose_enabled then
-			--verbose
-		#end
+		rsync	$enabled_options
 		#if $has_exclusions then
 			--exclude-from=$exclusions_path
 		#end

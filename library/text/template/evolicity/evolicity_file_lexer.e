@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:51:45 GMT (Tuesday 27th August 2024)"
-	revision: "17"
+	date: "2025-03-13 16:28:49 GMT (Thursday 13th March 2025)"
+	revision: "18"
 
 class
 	EVOLICITY_FILE_LEXER
@@ -155,20 +155,28 @@ feature {NONE} -- Patterns
 			>>)
 		end
 
-	function_call_pattern: like all_of
+	function_argument: like one_of
+		do
+			Result := one_of (<<
+				all_of (<< character_literal ('$'), qualified_evolicity_identifier >>),
+				constant
+			>>)
+		end
+
+	function_call: like all_of
 		do
 			Result := all_of (<<
 				optional_nonbreaking_white_space,
 				left_bracket_pattern,
 				optional_nonbreaking_white_space,
-				constant,
+				function_argument,
 				while_not_p1_repeat_p2 (
 					all_of (<< optional_nonbreaking_white_space, right_bracket_pattern >>),
 					all_of (<<
 						optional_nonbreaking_white_space,
 						character_literal (',') |to| add_token_action (Token.Comma_sign),
 						optional_nonbreaking_white_space,
-						constant
+						function_argument
 					>>)
 				)
 			>>)
@@ -209,15 +217,7 @@ feature {NONE} -- Patterns
 			Result := character_literal ('(') |to| add_token_action (Token.Left_bracket)
 		end
 
-	parenthesized_qualified_variable_name: like all_of
-			--
-		do
-			Result := all_of (<<
-				character_literal ('{'), qualified_variable_name, character_literal ('}')
-			>>)
-		end
-
-	qualified_variable_name: like all_of
+	qualified_evolicity_identifier: like all_of
 			--
 		do
 			Result := all_of (<<
@@ -227,8 +227,7 @@ feature {NONE} -- Patterns
 						character_literal ('.') 	|to| add_token_action (Token.operator_dot),
 						evolicity_identifier 		|to| add_token_action (Token.Unqualified_name)
 					>>)
-				),
-				optional (function_call_pattern)
+				)
 			>>)
 		end
 
@@ -266,11 +265,14 @@ feature {NONE} -- Patterns
 		end
 
 	variable_reference: like all_of
-			-- Eg: ${clip.offset}
+		-- Eg: ${clip.offset} OR $row.format_d_m_y ($row.posted_date)
 		do
 			Result := all_of (<<
 				character_literal ('$'),
-				one_of (<< qualified_variable_name, parenthesized_qualified_variable_name >>)
+				one_of (<<
+					all_of (<< character_literal ('{'), qualified_evolicity_identifier, character_literal ('}') >>),
+					all_of (<< qualified_evolicity_identifier, optional (function_call) >> )
+				>>)
 			>>)
 		end
 

@@ -68,8 +68,8 @@ inotifywait -m -e modify $log_path | while read -r log_path event; do
 
 		last_tail_digest="$tail_digest"
 		copy_log_tail; set_tail_digest
-		printf 'Digest: %s\n' "$tail_digest"
-		printf 'Last  : %s\n' "$last_tail_digest"
+	#	printf 'Digest: %s\n' "$tail_digest"
+	#	printf 'Last  : %s\n' "$last_tail_digest"
 	done
 	echo_waiting
 done

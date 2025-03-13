@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-10 10:10:56 GMT (Friday 10th March 2023)"
-	revision: "26"
+	date: "2025-03-13 15:10:42 GMT (Thursday 13th March 2025)"
+	revision: "27"
 
 class
 	EVOLICITY_COMPILER
@@ -219,6 +219,16 @@ feature {NONE} -- Directives
 
 feature {NONE} -- Expresssions
 
+	argument_pattern: like one_of
+		do
+			Result := one_of (<<
+				qualified_name,
+				keyword (Token.Quoted_string),
+				keyword (Token.double_constant),
+				keyword (Token.integer_64_constant)
+			>>)
+		end
+
 	boolean_expression: like all_of
 			--
 		local
@@ -253,26 +263,16 @@ feature {NONE} -- Expresssions
 			>>)
 		end
 
-	constant_pattern: like one_of
-			--
-		do
-			Result := one_of (<<
-				keyword (Token.Quoted_string),
-				keyword (Token.double_constant),
-				keyword (Token.integer_64_constant)
-			>>)
-		end
-
 	function_call: like all_of
 		do
 			Result := all_of (<<
 				keyword (Token.Left_bracket),
-				constant_pattern,
+				argument_pattern,
 				while_not_p1_repeat_p2 (
 					keyword (Token.Right_bracket),
 					all_of (<<
 						keyword (Token.Comma_sign),
-						constant_pattern
+						argument_pattern
 					>>)
 				)
 			>>)
@@ -307,6 +307,16 @@ feature {NONE} -- Expresssions
 			>>)
 		end
 
+	qualified_name: like all_of
+		do
+			Result := all_of (<<
+				keyword (Token.Unqualified_name),
+				zero_or_more (
+					all_of (<< keyword (Token.operator_dot), keyword (Token.Unqualified_name) >> )
+				)
+			>>)
+		end
+
 	simple_boolean_expression: like one_of
 			--
 		do
@@ -318,13 +328,7 @@ feature {NONE} -- Expresssions
 	variable_reference: like all_of
 			--
 		do
-			Result := all_of (<<
-				keyword (Token.Unqualified_name),
-				zero_or_more (
-					all_of (<< keyword (Token.operator_dot), keyword (Token.Unqualified_name) >> )
-				),
-				optional (function_call)
-			>>)
+			Result := all_of (<< qualified_name, optional (function_call) >>)
 		end
 
 feature {NONE} -- Implementation

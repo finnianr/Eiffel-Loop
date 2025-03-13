@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "19"
+	date: "2025-03-13 19:01:43 GMT (Thursday 13th March 2025)"
+	revision: "20"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -19,7 +19,7 @@ inherit
 
 feature -- Access
 
-	context_item (variable_name: READABLE_STRING_8; function_args: TUPLE): ANY
+	context_item (variable_name: READABLE_STRING_8; function_args: EL_ARRAYED_LIST [ANY]): ANY
 			--
 		do
 			Result := object_table [variable_name]
@@ -239,13 +239,16 @@ feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
 		end
 
 	valid_types_tuple: TUPLE [
-		EVOLICITY_CONTEXT,
+		BOOLEAN_REF,
+		DATE, DATE_TIME,
+		EVOLICITY_CONTEXT, EVOLICITY_FUNCTION_TABLE,
+		EL_PATH,
+		FUNCTION [ANY],
+		NUMERIC,
 		READABLE_STRING_GENERAL,
-		BOOLEAN_REF, EL_PATH, NUMERIC,
-		EL_STRING_8_TABLE [EVOLICITY_CONTEXT],
-		EVOLICITY_FUNCTION_TABLE,
+		TIME,
 --		Collections
-		ITERABLE [ANY], FINITE [ANY], READABLE_INDEXABLE [ANY]
+		ITERABLE [ANY], FINITE [ANY], READABLE_INDEXABLE [ANY], EL_STRING_8_TABLE [EVOLICITY_CONTEXT]
 	]
 		do
 			create Result

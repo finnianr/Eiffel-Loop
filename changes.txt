@@ -814,3 +814,6 @@ New class EL_BANNED_IP_TABLES_SET
 Sat 8th Mar 2025, 11:46:24
 Made sure banned-HTTP chain is checked before ufw rules and fixed Bioinfo tests
 
+Tue 11th Mar 2025, 11:26:26
+run_service_log_monitor.sh now checks for digest in a while loop
+

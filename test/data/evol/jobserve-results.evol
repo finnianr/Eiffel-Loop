@@ -3,20 +3,21 @@
 	<h2>$page.title</h2>
 	<table cellpadding="4" cellspacing="2" border="0" width="100%">
 		<tr>
-			<td valign="top"></td>
+			<td valign="top"><b>Details</b></td>
 			<td valign="top"><b>Location</b></td>
 			<td valign="top"><b>Duration</b></td>
 		</tr>
 	#if $query.job_search.result_set.count > 0 then
 		#foreach $row in $query.job_search.result_set loop
 		<tr>
-			<td valign="top">
+			<td valign="top" width = "50%">
 				<b><a name="$loop_index" href="">$row.title:</a>
 				</b>&nbsp;$row.description
-				<br><b>Posted:</b> $row.date_posted_d_m_y<br>
+				<br><b>Posted:&nbsp;</b>$row.formatted ($row.posted_date, "dd Mmm yyyy")<br>
 				<b>Salary:</b> &#8364; $row.salary
-				<br><b>Ref:</b> $row.job_reference<br> <b>Starting: $row.start_date_d_m_y
-				<br><b>Agent:</b> $row.contact_name
+				<br><b>Ref:</b> $row.job_reference<br>
+				<b>Starting:&nbsp;</b>$row.formatted ($row.start_date, "yyyy, Mmm dd")
+				<br><b>Agent:&nbsp;</b>$row.contact_name
 				<br>
 			</td>
 			<td valign="top">$row.location</td>

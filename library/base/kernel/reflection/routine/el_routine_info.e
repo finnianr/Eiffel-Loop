@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2025-03-13 19:58:31 GMT (Thursday 13th March 2025)"
+	revision: "4"
 
 class
 	EL_ROUTINE_INFO
@@ -22,7 +22,7 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_name: STRING; a_type: like type)
+	make (a_name: READABLE_STRING_8; a_type: like type)
 		do
 			name := a_name; type := a_type
 			if attached {like tuple_type} a_type.generic_parameter_type (1) as l_type then
@@ -39,7 +39,7 @@ feature -- Access
 			create Result.make (tuple_type)
 		end
 
-	name: STRING
+	name: READABLE_STRING_8
 
 	type: TYPE [ROUTINE]
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "9"
+	date: "2025-03-13 17:15:24 GMT (Thursday 13th March 2025)"
+	revision: "10"
 
 class
 	JOB_INFORMATION
@@ -21,29 +21,28 @@ create
 feature -- Initialization
 
 	make (
-		a_title, a_duration, a_description, a_date_posted_d_m_y, a_contact_name: STRING
-		a_job_reference, a_start_date_d_m_y, a_location: STRING
+		a_title, a_duration, a_description, a_contact_name: STRING
+		a_job_reference, a_location: STRING; a_posted_date, a_start_date: EL_DATE
 		a_salary: INTEGER
 	)
 			--
 		do
 			make_default
-			title := a_title
-			duration := a_duration
-			description := a_description
-			date_posted_d_m_y := a_date_posted_d_m_y
-			contact_name := a_contact_name
-			job_reference := a_job_reference
-			start_date_d_m_y := a_start_date_d_m_y
-			location := a_location
-			salary := a_salary
+			title := a_title; duration := a_duration; description := a_description
+			contact_name := a_contact_name; job_reference := a_job_reference
+			posted_date := a_posted_date; start_date := a_start_date
+			location := a_location; salary := a_salary
 		end
+
+feature -- Dates
+
+	posted_date: EL_DATE
+
+	start_date: EL_DATE
 
 feature -- Access
 
 	contact_name: STRING
-
-	date_posted_d_m_y: STRING
 
 	description: STRING
 
@@ -55,9 +54,14 @@ feature -- Access
 
 	salary: INTEGER
 
-	start_date_d_m_y: STRING
-
 	title: STRING
+
+feature {NONE} -- Implementation
+
+	formatted_date (date: EL_DATE; format: STRING): STRING
+		do
+			Result := date.formatted_out (format)
+		end
 
 feature {NONE} -- Evolicity fields
 
@@ -65,15 +69,17 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make_assignments (<<
-				["title",				 agent: STRING do Result := title end],
-				["duration",			 agent: STRING do Result := duration end],
-				["description",		 agent: STRING do Result := description end],
-				["date_posted_d_m_y", agent: STRING do Result := date_posted_d_m_y end],
-				["contact_name",		 agent: STRING do Result := contact_name end],
-				["start_date_d_m_y",	 agent: STRING do Result := start_date_d_m_y end],
-				["job_reference",		 agent: STRING do Result := job_reference end],
-				["location",			 agent: STRING do Result := location end],
-				["salary",				 agent: INTEGER_REF do Result := salary.to_reference end]
+				["title",			agent: STRING do Result := title end],
+				["duration",		agent: STRING do Result := duration end],
+				["description",	agent: STRING do Result := description end],
+				["contact_name",	agent: STRING do Result := contact_name end],
+				["job_reference",	agent: STRING do Result := job_reference end],
+				["location",		agent: STRING do Result := location end],
+
+				["posted_date",	agent: EL_DATE do Result := posted_date end],
+				["start_date",		agent: EL_DATE do Result := start_date end],
+				["formatted",		agent formatted_date],
+				["salary",			agent: INTEGER_REF do Result := salary.to_reference end]
 			>>)
 		end
 

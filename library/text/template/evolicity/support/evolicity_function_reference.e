@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2025-03-13 18:27:51 GMT (Thursday 13th March 2025)"
+	revision: "8"
 
 class
 	EVOLICITY_FUNCTION_REFERENCE
@@ -25,15 +25,15 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_variable_ref_steps: ARRAY [STRING]; a_arguments: TUPLE)
+	make (other: EVOLICITY_VARIABLE_REFERENCE; a_arguments: like Default_arguments)
 		do
-			make_from_array (a_variable_ref_steps)
+			make_from_special (other.area)
 			arguments := a_arguments
 		end
 
 feature -- Access
 
-	arguments: TUPLE
+	arguments: like Default_arguments
 		-- Arguments for eiffel context function with open arguments
 
 end

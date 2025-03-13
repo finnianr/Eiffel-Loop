@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:07 GMT (Tuesday 15th November 2022)"
-	revision: "8"
+	date: "2025-03-13 18:27:19 GMT (Thursday 13th March 2025)"
+	revision: "9"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
@@ -32,7 +32,7 @@ feature -- Access
 			Result := joined ('.')
 		end
 
-	arguments: TUPLE
+	arguments: like Default_arguments
 			-- Arguments for eiffel context function with open arguments
 		do
 			Result := Default_arguments
@@ -40,8 +40,8 @@ feature -- Access
 
 feature {NONE} -- Constants
 
-	Default_arguments: TUPLE
+	Default_arguments: EL_ARRAYED_LIST [ANY]
 		once
-			create Result
+			create Result.make (0)
 		end
 end

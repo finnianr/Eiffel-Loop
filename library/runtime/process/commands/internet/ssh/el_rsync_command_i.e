@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-24 7:27:14 GMT (Wednesday 24th April 2024)"
-	revision: "16"
+	date: "2025-03-13 19:20:36 GMT (Thursday 13th March 2025)"
+	revision: "17"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -39,17 +39,17 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_ssh (a_user_domain: READABLE_STRING_GENERAL; a_source_path, a_destination_path: DIR_PATH)
-		do
-			make (a_source_path, a_destination_path)
-			set_user_domain (a_user_domain)
-		end
-
 	make_default
 			--
 		do
 			create exclude_list.make (0)
 			Precursor
+		end
+
+	make_ssh (a_user_domain: READABLE_STRING_GENERAL; a_source_path, a_destination_path: DIR_PATH)
+		do
+			make (a_source_path, a_destination_path)
+			set_user_domain (a_user_domain)
 		end
 
 feature -- Access
@@ -107,17 +107,36 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor +
-				["destination_path",	agent: ZSTRING do Result := escaped_remote (destination_path) end] +
-				["has_exclusions",	agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end] +
+			Result := Precursor
+			Result.append_tuples (<<
+				["destination_path",	agent: ZSTRING do Result := escaped_remote (destination_path) end],
+				["enabled_options",	agent: STRING do Result := enabled_options.joined_words end],
+				["has_exclusions",	agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end],
 				["user_domain",		agent: ZSTRING do Result := user_domain end]
+			>>)
 		end
 
 feature {NONE} -- Implementation
 
-	var_user_domain: STRING
+	new_boolean_ref_list: EL_ARRAYED_LIST [EL_REFLECTED_BOOLEAN_REF]
 		do
-			create Result.make_empty
+			if attached {like new_boolean_ref_list} field_table.query_by_type ({EL_REFLECTED_BOOLEAN_REF}) as list then
+				Result := list
+			end
+		end
+
+	enabled_options: EL_ZSTRING_LIST
+		do
+			create Result.make (7)
+			across new_boolean_ref_list as list loop
+				if attached list.item as field and then field.index > 14 -- Exclude `sudo' and `timestamp_preserved'
+					and then attached {EL_BOOLEAN_OPTION} field.value (Current) as option
+					and then option.is_enabled
+				then
+					Result.extend ((hyphen * 2) + field.name)
+					Result.last.replace_character ('_', '-')
+				end
+			end
 		end
 
 	escaped_remote (a_path: EL_PATH): ZSTRING
@@ -128,6 +147,11 @@ feature {NONE} -- Implementation
 			else
 				Result := a_path.escaped
 			end
+		end
+
+	var_user_domain: STRING
+		do
+			create Result.make_empty
 		end
 
 feature {NONE} -- Internal attributes

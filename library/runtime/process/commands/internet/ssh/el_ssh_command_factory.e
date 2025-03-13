@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 8:39:11 GMT (Thursday 6th March 2025)"
-	revision: "4"
+	date: "2025-03-13 11:05:20 GMT (Thursday 13th March 2025)"
+	revision: "5"
 
 class
 	EL_SSH_COMMAND_FACTORY
@@ -29,17 +29,17 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_ssh_name: READABLE_STRING_GENERAL)
+	make (a_user_domain: READABLE_STRING_GENERAL)
 		require
-			valid_name: a_ssh_name.count >= 7 and then (4 |..| (a_ssh_name.count - 3)).has (a_ssh_name.index_of ('@', 1))
+			valid_name: a_user_domain.count >= 7 and then (4 |..| (a_user_domain.count - 3)).has (a_user_domain.index_of ('@', 1))
 		do
-			ssh_name := as_zstring (a_ssh_name)
+			user_domain := as_zstring (a_user_domain)
 		end
 
 feature -- Access
 
-	ssh_name: ZSTRING
-		-- defines ssh remote username and address
+	user_domain: ZSTRING
+		-- defines ssh remote username and domain address
 		-- eg. john@75.34.211.13
 
 	md5_digest (target_path: FILE_PATH): STRING
@@ -77,20 +77,20 @@ feature -- Commands
 	new_file_copy (destination_dir: DIR_PATH): EL_SSH_COPY_COMMAND
 		-- copy a single file to remote `destination_dir' using Unix `scp' ssh command
 		do
-			create Result.make (ssh_name)
+			create Result.make (user_domain)
 			Result.set_destination_dir (destination_dir)
 		end
 
 	new_make_directory (target_dir: DIR_PATH): EL_SSH_MAKE_DIRECTORY_COMMAND
 		do
-			create Result.make (ssh_name)
+			create Result.make (user_domain)
 			Result.set_target_dir (target_dir)
 		end
 
 	new_md5_digest (target_path: FILE_PATH): EL_SSH_MD5_HASH_COMMAND
 		-- text mode digest command
 		do
-			create Result.make (ssh_name)
+			create Result.make (user_domain)
 			Result.set_target_path (target_path)
 		end
 
@@ -104,7 +104,7 @@ feature -- Commands
 	new_mirror_directory  (a_source_path, a_destination_path: DIR_PATH): EL_RSYNC_COMMAND_I
 		-- mirror local directory tree on remote host using Unix rsync command
 		do
-			create {EL_RSYNC_COMMAND_IMP} Result.make_ssh (ssh_name, a_source_path, a_destination_path)
+			create {EL_RSYNC_COMMAND_IMP} Result.make_ssh (user_domain, a_source_path, a_destination_path)
 			Result.archive.enable
 			Result.compress.enable
 			Result.delete.enable
@@ -115,7 +115,7 @@ feature -- Commands
 	new_test_directory (target_dir: DIR_PATH): EL_SSH_TEST_DIRECTORY_COMMAND
 		-- ssh command to test for existence of directory on remote host
 		do
-			create Result.make (ssh_name)
+			create Result.make (user_domain)
 			Result.set_target_dir (target_dir)
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-08 17:11:26 GMT (Saturday 8th March 2025)"
-	revision: "24"
+	date: "2025-03-13 19:56:14 GMT (Thursday 13th March 2025)"
+	revision: "25"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -60,7 +60,7 @@ feature {EVOLICITY_EIFFEL_CONTEXT} -- Factory
 
 feature {NONE} -- Implementation
 
-	context_item (key: STRING; function_args: TUPLE): ANY
+	context_item (key: READABLE_STRING_8; function_args: EL_ARRAYED_LIST [ANY]): ANY
 			--
 		require else
 			valid_function_args: getter_functions.valid_function_args (key, function_args)

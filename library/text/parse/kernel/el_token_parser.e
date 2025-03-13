@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-23 10:20:47 GMT (Thursday 23rd February 2023)"
-	revision: "12"
+	date: "2025-03-13 18:42:19 GMT (Thursday 13th March 2025)"
+	revision: "13"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -77,15 +77,21 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	token_occurrences (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
+	occurrences (a_token, end_token: NATURAL; start_index, end_index: INTEGER): INTEGER
+		-- count of `a_token' between `start_index' and `end_index' or until `end_token' is found
 		local
-			i: INTEGER
+			i: INTEGER; break: BOOLEAN; i_th_token: NATURAL
 		do
-			from i := start_index until i > end_index loop
-				if tokens_text.code (i) = a_token then
-					Result := Result + 1
+			from i := start_index until i > end_index or break loop
+				i_th_token := tokens_text.code (i)
+				if i_th_token = end_token then
+					break := True
+				else
+					if i_th_token = a_token then
+						Result := Result + 1
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		end
 

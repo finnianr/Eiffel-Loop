@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
-	revision: "37"
+	date: "2025-03-13 9:29:51 GMT (Thursday 13th March 2025)"
+	revision: "38"
 
 class
 	EL_FIELD_TABLE
@@ -40,14 +40,10 @@ feature {NONE} -- Initialization
 		do
 			translater := a_translater
 			make_equal (n)
-			create last_query.make (0)
 			create imported_table.make (n)
 		end
 
 feature -- Access
-
-	last_query: EL_ARRAYED_LIST [like item]
-		-- results of last query
 
 	new_field_subset (excluded_set: EL_FIELD_INDICES_SET): SPECIAL [EL_REFLECTED_FIELD]
 		local
@@ -137,19 +133,21 @@ feature -- Access
 
 feature -- Basic operations
 
-	query_by_type (type: TYPE [ANY])
+	query_by_type (type: TYPE [EL_REFLECTED_FIELD]): EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+		local
+			type_id: INTEGER
 		do
-			query_by_type_id (type.type_id)
-		end
-
-	query_by_type_id (type_id: INTEGER)
-		do
-			last_query.wipe_out
-			from start until after loop
-				if type_id = Class_id.ANY or else type_id = item_for_iteration.type_id then
-					last_query.extend (item_for_iteration)
+			type_id := type.type_id
+			if attached {like query_by_type} Arrayed_list_factory.new_list (type, count) as new then
+				Result := new
+				from start until after loop
+					if {ISE_RUNTIME}.dynamic_type (item_for_iteration) = type_id then
+						Result.extend (item_for_iteration)
+					end
+					forth
 				end
-				forth
+			else
+				create Result.make_empty
 			end
 		end
 
