@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 17:15:24 GMT (Thursday 13th March 2025)"
-	revision: "10"
+	date: "2025-03-14 9:02:02 GMT (Friday 14th March 2025)"
+	revision: "11"
 
 class
 	JOB_INFORMATION
@@ -56,13 +56,6 @@ feature -- Access
 
 	title: STRING
 
-feature {NONE} -- Implementation
-
-	formatted_date (date: EL_DATE; format: STRING): STRING
-		do
-			Result := date.formatted_out (format)
-		end
-
 feature {NONE} -- Evolicity fields
 
 	getter_function_table: like getter_functions
@@ -78,7 +71,6 @@ feature {NONE} -- Evolicity fields
 
 				["posted_date",	agent: EL_DATE do Result := posted_date end],
 				["start_date",		agent: EL_DATE do Result := start_date end],
-				["formatted",		agent formatted_date],
 				["salary",			agent: INTEGER_REF do Result := salary.to_reference end]
 			>>)
 		end

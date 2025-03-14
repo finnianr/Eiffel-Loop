@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 7:03:04 GMT (Friday 14th March 2025)"
-	revision: "21"
+	date: "2025-03-14 11:11:53 GMT (Friday 14th March 2025)"
+	revision: "22"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -20,11 +20,42 @@ inherit
 feature -- Access
 
 	context_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE; index: INTEGER): ANY
-			--
 		do
-			Result := object_table [variable_ref [index]]
+			if object_table.has_key (variable_ref [index]) then
+				Result := object_table.found_item
+				if attached {FUNCTION [ANY]} Result as function then
+					if function.open_count = variable_ref.arguments_count
+						and then attached variable_ref.new_result (function) as new_result
+					then
+						Result := new_result
+					else
+						Result := invalid_operands_message (function, variable_ref)
+					end
+				end
+			else
+				Result := Undefined_template #$ [variable_ref.out]
+			end
 		ensure
 			valid_result: attached Result as object implies is_valid_type (object)
+		end
+
+	invalid_operands_message (function: FUNCTION [ANY]; variable_ref: EVOLICITY_VARIABLE_REFERENCE): ZSTRING
+		local
+			s: EL_STRING_8_ROUTINES; type_string: STRING_8; index: INTEGER
+		do
+		-- Turn: "FUNCTION [TUPLE [EL_DATE, STRING_8], STRING_8] [0x7..."
+		-- into: "(EL_DATE, STRING_8): STRING_8"
+			type_string := s.bracketed (function.out, '[')
+			type_string.remove_head (6)
+			type_string [1] := '('
+			index := type_string.last_index_of (',', type_string.count)
+			if index > 0 then
+				type_string.replace_substring ("):", index - 1, index)
+			end
+
+			Result := Invalid_operands_template #$ [
+				variable_ref.arguments_count, function.target.generator, variable_ref.out, type_string
+			]
 		end
 
 	referenced_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE): ANY
@@ -100,8 +131,7 @@ feature -- Element change
 		do
 			across name_value_pair_list as list loop
 				if attached list.item as pair
-					and then attached {READABLE_STRING_GENERAL} pair.reference_item (1) as general
-					and then attached general.to_string_8 as variable_name
+					and then attached {READABLE_STRING_8} pair.reference_item (1) as variable_name
 				then
 					inspect pair.item_code (2)
 						when {TUPLE}.Character_8_code then
@@ -167,7 +197,7 @@ feature -- Basic operations
 
 feature {EVOLICITY_CONTEXT} -- Implementation
 
-	 recursive_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE; index: INTEGER): ANY
+	 frozen recursive_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE; index: INTEGER): ANY
 			-- Recurse steps of variable reference to find deepest item
 		require
 			valid_index: variable_ref.valid_index (index)
@@ -207,6 +237,12 @@ feature {EVOLICITY_CONTEXT} -- Implementation
 		end
 
 feature {EVOLICITY_COMPOUND_DIRECTIVE} -- Implementation
+
+	is_function (object: ANY): BOOLEAN
+			-- object conforms to one of following types
+		do
+			Result := attached {FUNCTION [ANY]} object
+		end
 
 	is_valid_iterable (iterable: ITERABLE [ANY]): BOOLEAN
 		-- `True' if iterable object has valid items
@@ -275,6 +311,18 @@ feature {NONE} -- Constants
 				["lower",	 Feature_lower],
 				["upper",	 Feature_upper]
 			>>)
+		end
+
+feature {NONE} -- Constants
+
+	Invalid_operands_template: ZSTRING
+		once
+			Result := "Invalid %S operands for {%S}.%S %S"
+		end
+
+	Undefined_template: ZSTRING
+		once
+			Result := "($%S undefined)"
 		end
 
 	Valid_types: EL_TYPE_ID_ARRAY

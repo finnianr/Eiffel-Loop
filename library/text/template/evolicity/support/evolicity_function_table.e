@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 7:50:53 GMT (Friday 14th March 2025)"
-	revision: "11"
+	date: "2025-03-14 10:31:51 GMT (Friday 14th March 2025)"
+	revision: "12"
 
 class
 	EVOLICITY_FUNCTION_TABLE
@@ -26,18 +26,12 @@ feature -- Access
 		do
 			if attached found_item as function then
 				function.set_target (target)
-				if function.open_count = 0 then
-					function.apply
-					Result := function.last_result
-
-				elseif function.open_count = variable_ref.arguments_count
-					and then attached {EVOLICITY_FUNCTION_REFERENCE} variable_ref as function_reference
-					and then attached function_reference.new_operands (function) as operands
-					and then function.valid_operands (operands)
+				if function.open_count = variable_ref.arguments_count
+					and then attached variable_ref.new_result (function) as new_result
 				then
-					Result := function.item (operands)
+					Result := new_result
 				else
-					Result := Invalid_operands_template #$ [function.open_count, generator, variable_ref [index]]
+					Result := target.invalid_operands_message (function, variable_ref)
 				end
 			end
 		end
@@ -49,10 +43,4 @@ feature -- Contract Support
 			Result := has_key (variable_ref [index]) implies found_item.open_count = variable_ref.arguments_count
 		end
 
-feature {NONE} -- Constants
-
-	Invalid_operands_template: ZSTRING
-		once
-			Result := "Cannot set %S operands for: {%S}.%S"
-		end
 end

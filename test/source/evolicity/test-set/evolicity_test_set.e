@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 8:00:06 GMT (Friday 14th March 2025)"
-	revision: "23"
+	date: "2025-03-14 9:02:47 GMT (Friday 14th March 2025)"
+	revision: "24"
 
 class
 	EVOLICITY_TEST_SET
@@ -99,6 +99,8 @@ feature {NONE} -- Factory
 			--
 		do
 			create Result.make
+			Result.put_any ("formatted", agent formatted_date)
+
 			if attached new_context as title then
 				title.put_string ("title", "Jobserve results")
 				Result.put_any ("page", title)
@@ -139,6 +141,11 @@ feature {NONE} -- Factory
 		end
 
 feature {NONE} -- Implementation
+
+	formatted_date (date: EL_DATE; format: STRING): STRING
+		do
+			Result := date.formatted_out (format)
+		end
 
 	merge_context (name: STRING; context: EVOLICITY_CONTEXT_IMP)
 			--

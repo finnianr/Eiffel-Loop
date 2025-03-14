@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 7:55:41 GMT (Friday 14th March 2025)"
-	revision: "9"
+	date: "2025-03-14 10:20:11 GMT (Friday 14th March 2025)"
+	revision: "10"
 
 class
 	EVOLICITY_FUNCTION_REFERENCE
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_variable
 		redefine
-			arguments_count, set_context
+			arguments_count, is_function, new_result, set_context
 		end
 
 	EL_MODULE_CONVERT_STRING
@@ -52,7 +52,11 @@ feature {NONE} -- Initialization
 					elseif i_th_token = Token.quoted_string then
 						string_arg := parser.source_text_for_token (i)
 						string_arg.remove_quotes
-						arguments.extend (string_arg)
+						if string_arg.is_valid_as_string_8 then
+							arguments.extend (string_arg.to_string_8)
+						else
+							arguments.extend (string_arg)
+						end
 
 					elseif i_th_token = Token.double_constant then
 						arguments.extend (parser.source_text_for_token (i).to_double)
@@ -72,6 +76,38 @@ feature -- Access
 		-- Arguments for eiffel context function with open arguments
 
 	context: EVOLICITY_CONTEXT
+
+	new_result (function: FUNCTION [ANY]): detachable ANY
+		do
+			if attached new_operands (function) as operands
+				and then function.valid_operands (operands)
+			then
+				Result := function.item (operands)
+			end
+		end
+
+feature -- Measurement
+
+	arguments_count: INTEGER
+		do
+			Result := arguments.count
+		end
+
+feature -- Status query
+
+	is_function: BOOLEAN
+		do
+			Result := True
+		end
+
+feature -- Element change
+
+	set_context (a_context: EVOLICITY_CONTEXT)
+		do
+			context := a_context
+		end
+
+feature {NONE} -- Implementation
 
 	new_operands (function: FUNCTION [ANY]): TUPLE
 		local
@@ -105,19 +141,6 @@ feature -- Access
 			end
 		end
 
-feature -- Measurement
-
-	arguments_count: INTEGER
-		do
-			Result := arguments.count
-		end
-
-feature -- Element change
-
-	set_context (a_context: EVOLICITY_CONTEXT)
-		do
-			context := a_context
-		end
 
 feature {NONE} -- Internal attributes
 

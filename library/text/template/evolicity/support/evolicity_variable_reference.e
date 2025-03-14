@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 7:34:06 GMT (Friday 14th March 2025)"
-	revision: "10"
+	date: "2025-03-14 11:16:27 GMT (Friday 14th March 2025)"
+	revision: "11"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
@@ -61,9 +61,24 @@ feature -- Access
 			Result := joined ('.')
 		end
 
+	new_result (function: FUNCTION [ANY]): detachable ANY
+		require
+			valid_open_count: function.open_count = arguments_count
+		do
+			function.apply
+			Result := function.last_result
+		end
+
 feature -- Measurement
 
 	arguments_count: INTEGER
+		do
+			-- For use in EVOLICITY_FUNCTION_REFERENCE redefinition
+		end
+
+feature -- Status query
+
+	is_function: BOOLEAN
 		do
 			-- For use in EVOLICITY_FUNCTION_REFERENCE redefinition
 		end

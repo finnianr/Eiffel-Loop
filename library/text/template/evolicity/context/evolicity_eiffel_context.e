@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 7:50:16 GMT (Friday 14th March 2025)"
-	revision: "26"
+	date: "2025-03-14 10:05:39 GMT (Friday 14th March 2025)"
+	revision: "27"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -73,7 +73,7 @@ feature {NONE} -- Implementation
 					Result := Current
 
 				else
-					Result := Undefined_template #$ [key]
+					Result := Undefined_template #$ [variable_ref.out]
 				end
 			end
 		end
@@ -96,8 +96,4 @@ feature {NONE} -- Constants
 			create Result.make (19, agent {EVOLICITY_EIFFEL_CONTEXT}.new_getter_functions)
 		end
 
-	Undefined_template: ZSTRING
-		once
-			Result := "($%S undefined)"
-		end
 end
