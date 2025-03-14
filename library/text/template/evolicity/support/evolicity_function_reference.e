@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 10:20:11 GMT (Friday 14th March 2025)"
-	revision: "10"
+	date: "2025-03-14 11:34:34 GMT (Friday 14th March 2025)"
+	revision: "11"
 
 class
 	EVOLICITY_FUNCTION_REFERENCE
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_variable
 		redefine
-			arguments_count, is_function, new_result, set_context
+			arguments_count, new_result, set_context
 		end
 
 	EL_MODULE_CONVERT_STRING
@@ -91,13 +91,6 @@ feature -- Measurement
 	arguments_count: INTEGER
 		do
 			Result := arguments.count
-		end
-
-feature -- Status query
-
-	is_function: BOOLEAN
-		do
-			Result := True
 		end
 
 feature -- Element change

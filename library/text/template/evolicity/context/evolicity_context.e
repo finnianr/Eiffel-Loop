@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 11:11:53 GMT (Friday 14th March 2025)"
-	revision: "22"
+	date: "2025-03-14 11:18:50 GMT (Friday 14th March 2025)"
+	revision: "23"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -52,7 +52,6 @@ feature -- Access
 			if index > 0 then
 				type_string.replace_substring ("):", index - 1, index)
 			end
-
 			Result := Invalid_operands_template #$ [
 				variable_ref.arguments_count, function.target.generator, variable_ref.out, type_string
 			]

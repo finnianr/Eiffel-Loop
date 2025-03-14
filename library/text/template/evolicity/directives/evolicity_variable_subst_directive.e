@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2025-03-14 11:24:28 GMT (Friday 14th March 2025)"
+	revision: "11"
 
 class
 	EVOLICITY_VARIABLE_SUBST_DIRECTIVE
@@ -54,7 +54,7 @@ feature -- Basic operations
 					output.put_string_8 (value.out)
 				end
 			else
-				output.put_string (Variable_template #$ [variable_path.joined ('.')])
+				output.put_string (variable_path.canonical)
 			end
 		end
 
@@ -73,12 +73,5 @@ feature {NONE} -- Implementation
 		end
 
 	variable_path: EVOLICITY_VARIABLE_REFERENCE
-
-feature {NONE} -- Constants
-
-	Variable_template: ZSTRING
-		once
-			Result := "${%S}"
-		end
 
 end

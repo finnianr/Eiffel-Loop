@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 5:16:38 GMT (Friday 14th March 2025)"
-	revision: "14"
+	date: "2025-03-14 11:32:39 GMT (Friday 14th March 2025)"
+	revision: "15"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -87,6 +87,19 @@ feature {NONE} -- Implementation
 		do
 			if attached source_interval_list as list then
 				Result := source_text.substring (list.i_th_lower (i), list.i_th_upper (i))
+			end
+		end
+
+	name_for_token (i: INTEGER): IMMUTABLE_STRING_8
+		-- name text with shared `area' corresponding to i'th token in matched_tokens
+		require
+			valid_array_index: source_interval_list.valid_index (i)
+		local
+			start_index, end_index: INTEGER
+		do
+			if attached source_interval_list as list then
+				start_index := list.i_th_lower (i); end_index := list.i_th_upper (i)
+				Result := source_text.to_shared_immutable_8.shared_substring (start_index, end_index)
 			end
 		end
 

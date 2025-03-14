@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 6:10:53 GMT (Friday 14th March 2025)"
-	revision: "12"
+	date: "2025-03-14 11:32:59 GMT (Friday 14th March 2025)"
+	revision: "13"
 
 deferred class
 	EVOLICITY_PARSE_ACTIONS
@@ -355,6 +355,11 @@ feature {NONE} -- Implementation
 feature {EVOLICITY_VARIABLE_REFERENCE} -- Deferred
 
 	index_of (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
+		deferred
+		end
+
+	name_for_token (i: INTEGER): IMMUTABLE_STRING_8
+		-- name text with shared `area' corresponding to i'th token in matched_tokens
 		deferred
 		end
 

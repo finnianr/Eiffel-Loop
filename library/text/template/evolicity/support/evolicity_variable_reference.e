@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 11:16:27 GMT (Friday 14th March 2025)"
-	revision: "11"
+	date: "2025-03-14 11:36:22 GMT (Friday 14th March 2025)"
+	revision: "12"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
 
 inherit
-	EL_STRING_8_LIST
+	EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
 		rename
 			item as step,
 			islast as is_last_step,
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			if attached parser.tokens_text as tokens_text then
 				from i := start_index until i > end_index loop
 					if tokens_text.code (i) = Token.Unqualified_name then
-						extend (parser.source_text_for_token (i))
+						extend (parser.name_for_token (i))
 					end
 					i := i + 1
 				end
@@ -56,9 +56,17 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
-	out, debug_output: STRING
+	canonical: ZSTRING
+		-- Eg. ${object.name}
 		do
-			Result := joined ('.')
+			Result := Variable_template #$ [out]
+		end
+
+	out, debug_output: STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			Result := s.joined_list (Current, '.')
 		end
 
 	new_result (function: FUNCTION [ANY]): detachable ANY
@@ -76,18 +84,18 @@ feature -- Measurement
 			-- For use in EVOLICITY_FUNCTION_REFERENCE redefinition
 		end
 
-feature -- Status query
-
-	is_function: BOOLEAN
-		do
-			-- For use in EVOLICITY_FUNCTION_REFERENCE redefinition
-		end
-
 feature -- Element change
 
 	set_context (context: EVOLICITY_CONTEXT)
 		do
 			-- For use in EVOLICITY_FUNCTION_REFERENCE redefinition
+		end
+
+feature {NONE} -- Constants
+
+	Variable_template: ZSTRING
+		once
+			Result := "${%S}"
 		end
 
 end
