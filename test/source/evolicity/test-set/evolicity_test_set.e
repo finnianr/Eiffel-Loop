@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 20:19:58 GMT (Thursday 13th March 2025)"
-	revision: "22"
+	date: "2025-03-14 8:00:06 GMT (Friday 14th March 2025)"
+	revision: "23"
 
 class
 	EVOLICITY_TEST_SET
@@ -57,6 +57,15 @@ feature -- Tests
 
 	test_merge_template
 		-- EVOLICITY_TEST_SET.test_merge_template
+		note
+			testing: "[
+				covers/{EVOLICITY_FUNCTION_REFERENCE}.make,
+				covers/{EVOLICITY_FUNCTION_REFERENCE}.new_operands,
+				covers/{EVOLICITY_VARIABLE_REFERENCE}.make,
+				covers/{EVOLICITY_FILE_LEXER}.variable_reference,
+				covers/{EVOLICITY_COMPILER}.variable_reference,
+				covers/{EVOLICITY_FUNCTION_TABLE}.found_item_result
+			]"
 		local
 			title_var_ref: EVOLICITY_VARIABLE_REFERENCE
 		do

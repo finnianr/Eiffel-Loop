@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 18:48:10 GMT (Thursday 13th March 2025)"
-	revision: "11"
+	date: "2025-03-14 6:10:53 GMT (Friday 14th March 2025)"
+	revision: "12"
 
 deferred class
 	EVOLICITY_PARSE_ACTIONS
@@ -67,7 +67,7 @@ feature {NONE} -- Actions
 		local
 			boolean_variable: EVOLICITY_BOOLEAN_REFERENCE_EXPRESSION
 		do
-			create boolean_variable.make (tokens_to_variable_ref (start_index, end_index))
+			create boolean_variable.make (new_variable_reference (start_index, end_index))
 			boolean_expression_stack.put (boolean_variable)
 		end
 
@@ -86,7 +86,7 @@ feature {NONE} -- Actions
 				str := source_text_for_token (start_index)
 				create {EVOLICITY_DOUBLE_COMPARABLE} comparable.make_from_string (str)
 			else
-				create {EVOLICITY_COMPARABLE_VARIABLE} comparable.make (tokens_to_variable_ref (start_index, end_index))
+				create {EVOLICITY_COMPARABLE_VARIABLE} comparable.make (new_variable_reference (start_index, end_index))
 			end
 			number_stack.put (comparable)
 		end
@@ -134,9 +134,9 @@ feature {NONE} -- Actions
 					last_evaluate_directive.set_template_name (str)
 				end
 			elseif id = Token.operator_dot then
-				last_evaluate_directive.set_template_name_variable_ref (tokens_to_variable_ref (start_index, end_index))
+				last_evaluate_directive.set_template_name_variable_ref (new_variable_reference (start_index, end_index))
 			else
-				last_evaluate_directive.set_variable_ref (tokens_to_variable_ref (start_index, end_index))
+				last_evaluate_directive.set_variable_ref (new_variable_reference (start_index, end_index))
 			end
 		end
 
@@ -192,7 +192,7 @@ feature {NONE} -- Actions
 				end
 
 			elseif id = Token.operator_dot then
-				last_include_directive.set_variable_ref (tokens_to_variable_ref (start_index, end_index))
+				last_include_directive.set_variable_ref (new_variable_reference (start_index, end_index))
 			end
 		end
 
@@ -205,10 +205,10 @@ feature {NONE} -- Actions
 				compound_directive := loop_directive_stack.item
 
 			elseif id = Token.keyword_in then
-				loop_directive_stack.item.set_iterable_variable_ref (tokens_to_variable_ref (start_index, end_index))
+				loop_directive_stack.item.set_iterable_variable_ref (new_variable_reference (start_index, end_index))
 
 			elseif id = Token.keyword_as then
-				loop_directive_stack.item.put_item_name (tokens_to_variable_ref (start_index, end_index) @ 1)
+				loop_directive_stack.item.put_item_name (new_variable_reference (start_index, end_index) @ 1)
 
 			elseif id  = Token.keyword_end then
 				compound_directive := compound_directive_stack.item
@@ -247,7 +247,7 @@ feature {NONE} -- Actions
 		local
 			variable_subst_directive: EVOLICITY_VARIABLE_SUBST_DIRECTIVE
 		do
-			create variable_subst_directive.make (tokens_to_variable_ref (start_index, end_index))
+			create variable_subst_directive.make (new_variable_reference (start_index, end_index))
 			compound_directive.extend (variable_subst_directive)
 		end
 
@@ -285,39 +285,6 @@ feature {NONE} -- Parse actions
 
 feature {NONE} -- Implementation
 
-	new_function_arguments (position: INTEGER; end_index: INTEGER): like Argument_buffer
-		require
-			start_position_is_left_bracket: tokens_text.code (position) = Token.Left_bracket
-		local
-			i: INTEGER; i_th_token: NATURAL_32; string_arg: ZSTRING
-		do
-			Result := Argument_buffer
-			Result.wipe_out
-			from i := position + 1 until i > end_index loop
-				i_th_token := tokens_text.code (i)
-				if i_th_token = Token.unqualified_name
-					and then attached new_variable_reference (i, end_index, Token.comma_sign) as new
-				then
-					i := new.index
-					Result.extend (new.variable)
-
-				elseif i_th_token = Token.quoted_string then
-					string_arg := source_text_for_token (i)
-					string_arg.remove_quotes
-					Result.extend (string_arg)
-
-				elseif i_th_token = Token.double_constant then
-					Result.extend (source_text_for_token (i).to_double)
-
-				elseif i_th_token = Token.integer_64_constant then
-					Result.extend (source_text_for_token (i).to_integer_64)
-
-				end
-				i := i + 1
-			end
-			Result := Result.twin
-		end
-
 	new_loop_directive (id: NATURAL): EVOLICITY_FOREACH_DIRECTIVE
 		do
 			if id = Token.Keyword_across then
@@ -327,22 +294,19 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_variable_reference (
-		start_index, end_index: INTEGER; end_token: NATURAL
-
-	): TUPLE [index: INTEGER; variable: EVOLICITY_VARIABLE_REFERENCE]
+	new_variable_reference (start_index, end_index: INTEGER): EVOLICITY_VARIABLE_REFERENCE
 			--
 		local
-			i: INTEGER; variable: EVOLICITY_VARIABLE_REFERENCE
+			bracket_index: INTEGER
 		do
-			create variable.make (occurrences (Token.Unqualified_name, end_token, start_index, end_index))
-			from i := start_index until variable.full loop
-				if tokens_text.code (i) = Token.Unqualified_name then
-					variable.extend (source_text_for_token (i))
-				end
-				i := i + 1
+			bracket_index := index_of (Token.Left_bracket, start_index, end_index)
+			if bracket_index > 0 then
+				create {EVOLICITY_FUNCTION_REFERENCE} Result.make (Current, start_index, end_index, bracket_index)
+			else
+				create Result.make (Current, start_index, end_index)
 			end
-			Result := [i, variable]
+		ensure
+			correct_capacity: Result.full
 		end
 
 	set_nested_directive_indent (nested_directive: EVOLICITY_NESTED_TEMPLATE_DIRECTIVE; start_index, end_index: INTEGER)
@@ -376,22 +340,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	tokens_to_variable_ref (start_index, end_index: INTEGER): EVOLICITY_VARIABLE_REFERENCE
-			--
-		do
-			if attached new_variable_reference (start_index, end_index, Token.Left_bracket) as new then
-				if new.index <= end_index and then tokens_text.code (new.index) = Token.Left_bracket
-					and then attached new_function_arguments (new.index, end_index) as arguments
-				then
-					create {EVOLICITY_FUNCTION_REFERENCE} Result.make (new.variable, arguments)
-				else
-					Result := new.variable
-				end
-			end
-		ensure
-			reference_contain_all_steps: Result.full
-		end
-
 	valid_comparison_text (type: NATURAL; start_index, end_index: INTEGER): BOOLEAN
 		do
 			if type = Token.integer_64_constant then
@@ -404,7 +352,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Deferred
+feature {EVOLICITY_VARIABLE_REFERENCE} -- Deferred
+
+	index_of (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
+		deferred
+		end
 
 	tokens_text: STRING_32
 		deferred
@@ -414,8 +366,8 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	occurrences (a_token, end_token: NATURAL; start_index, end_index: INTEGER): INTEGER
-		-- count of `a_token' between `start_index' and `end_index' or until `end_token' is found
+	occurrences (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
+		-- count of `a_token' between `start_index' and `end_index'
 		deferred
 		end
 
@@ -440,11 +392,6 @@ feature {NONE} -- Internal attributes
 	numeric_comparison_stack: LINKED_STACK [EVOLICITY_COMPARISON]
 
 feature {NONE} -- Constants
-
-	Argument_buffer: EL_ARRAYED_LIST [ANY]
-		once
-			create Result.make (3)
-		end
 
 	Spaces_per_tab: INTEGER = 4
 

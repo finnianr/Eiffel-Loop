@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 19:01:43 GMT (Thursday 13th March 2025)"
-	revision: "20"
+	date: "2025-03-14 7:03:04 GMT (Friday 14th March 2025)"
+	revision: "21"
 
 deferred class
 	EVOLICITY_CONTEXT
@@ -19,10 +19,10 @@ inherit
 
 feature -- Access
 
-	context_item (variable_name: READABLE_STRING_8; function_args: EL_ARRAYED_LIST [ANY]): ANY
+	context_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE; index: INTEGER): ANY
 			--
 		do
-			Result := object_table [variable_name]
+			Result := object_table [variable_ref [index]]
 		ensure
 			valid_result: attached Result as object implies is_valid_type (object)
 		end
@@ -30,6 +30,7 @@ feature -- Access
 	referenced_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE): ANY
 			--
 		do
+			variable_ref.set_context (Current)
 			Result := recursive_item (variable_ref, 1)
 		end
 
@@ -174,7 +175,7 @@ feature {EVOLICITY_CONTEXT} -- Implementation
 			index_end: INTEGER
 		do
 			index_end := variable_ref.count
-			Result := context_item (variable_ref [index], variable_ref.arguments)
+			Result := context_item (variable_ref, index)
 			if index < index_end then
 				if index = (index_end - 1) and then Feature_table.has_key (variable_ref [index_end])
 					and then attached {FINITE [ANY]} Result as container

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 18:27:19 GMT (Thursday 13th March 2025)"
-	revision: "9"
+	date: "2025-03-14 7:34:06 GMT (Friday 14th March 2025)"
+	revision: "10"
 
 class
 	EVOLICITY_VARIABLE_REFERENCE
@@ -17,31 +17,62 @@ inherit
 		rename
 			item as step,
 			islast as is_last_step,
-			last as last_step
+			last as last_step,
+			make as make_sized
 		redefine
 			out
 		end
 
+	DEBUG_OUTPUT
+		undefine
+			copy, is_equal
+		redefine
+			out
+		end
+
+	EVOLICITY_SHARED_TOKEN_ENUM
+
 create
-	make_empty, make, make_from_array
+	make_empty, make, make_sized, make_from_array
+
+feature {NONE} -- Initialization
+
+	make (parser: EVOLICITY_PARSE_ACTIONS; start_index, end_index: INTEGER)
+		local
+			i: INTEGER
+		do
+			make_sized (parser.occurrences (Token.Unqualified_name, start_index, end_index))
+			if attached parser.tokens_text as tokens_text then
+				from i := start_index until i > end_index loop
+					if tokens_text.code (i) = Token.Unqualified_name then
+						extend (parser.source_text_for_token (i))
+					end
+					i := i + 1
+				end
+			end
+		ensure
+			correct_capacity: full
+		end
 
 feature -- Access
 
-	out: STRING
+	out, debug_output: STRING
 		do
 			Result := joined ('.')
 		end
 
-	arguments: like Default_arguments
-			-- Arguments for eiffel context function with open arguments
+feature -- Measurement
+
+	arguments_count: INTEGER
 		do
-			Result := Default_arguments
+			-- For use in EVOLICITY_FUNCTION_REFERENCE redefinition
 		end
 
-feature {NONE} -- Constants
+feature -- Element change
 
-	Default_arguments: EL_ARRAYED_LIST [ANY]
-		once
-			create Result.make (0)
+	set_context (context: EVOLICITY_CONTEXT)
+		do
+			-- For use in EVOLICITY_FUNCTION_REFERENCE redefinition
 		end
+
 end

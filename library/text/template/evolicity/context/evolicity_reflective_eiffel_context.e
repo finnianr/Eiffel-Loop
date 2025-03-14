@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 19:56:20 GMT (Thursday 13th March 2025)"
-	revision: "11"
+	date: "2025-03-14 7:14:11 GMT (Friday 14th March 2025)"
+	revision: "12"
 
 deferred class
 	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
@@ -36,22 +36,24 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	context_item (key: READABLE_STRING_8; function_args: EL_ARRAYED_LIST [ANY]): ANY
+	context_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE; index: INTEGER): ANY
 		local
 			table: EL_FIELD_TABLE
 		do
 			table := field_table
-			if table.has_key (key) then
-				if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.found_item as field then
-					Result := field.reference_value (current_reflective)
-				else
-					Result := table.found_item.reference_value (current_reflective)
-					if attached {READABLE_STRING_GENERAL} Result as general then
-						Result := escaped_field (general, table.found_item.type_id)
+			if attached variable_ref [index] as key then
+				if table.has_key (key) then
+					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.found_item as field then
+						Result := field.reference_value (current_reflective)
+					else
+						Result := table.found_item.reference_value (current_reflective)
+						if attached {READABLE_STRING_GENERAL} Result as general then
+							Result := escaped_field (general, table.found_item.type_id)
+						end
 					end
+				else
+					Result := Precursor (variable_ref, index)
 				end
-			else
-				Result := Precursor (key, function_args)
 			end
 		end
 

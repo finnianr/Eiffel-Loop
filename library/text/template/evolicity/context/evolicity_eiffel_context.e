@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 19:56:14 GMT (Thursday 13th March 2025)"
-	revision: "25"
+	date: "2025-03-14 7:50:16 GMT (Friday 14th March 2025)"
+	revision: "26"
 
 deferred class
 	EVOLICITY_EIFFEL_CONTEXT
@@ -60,19 +60,21 @@ feature {EVOLICITY_EIFFEL_CONTEXT} -- Factory
 
 feature {NONE} -- Implementation
 
-	context_item (key: READABLE_STRING_8; function_args: EL_ARRAYED_LIST [ANY]): ANY
+	context_item (variable_ref: EVOLICITY_VARIABLE_REFERENCE; index: INTEGER): ANY
 			--
 		require else
-			valid_function_args: getter_functions.valid_function_args (key, function_args)
+			valid_function_args: getter_functions.valid_function_args (variable_ref, index)
 		do
-			if getter_functions.has_key (key) then
-				Result := getter_functions.found_item_result (Current, key, function_args)
+			if attached variable_ref [index] as key then
+				if getter_functions.has_key (key) then
+					Result := getter_functions.found_item_result (Current, variable_ref, index)
 
-			elseif key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
-				Result := Current
+				elseif key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
+					Result := Current
 
-			else
-				Result := Undefined_template #$ [key]
+				else
+					Result := Undefined_template #$ [key]
+				end
 			end
 		end
 

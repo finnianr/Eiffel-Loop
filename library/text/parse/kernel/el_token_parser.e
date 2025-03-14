@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 18:42:19 GMT (Thursday 13th March 2025)"
-	revision: "13"
+	date: "2025-03-14 5:16:38 GMT (Friday 14th March 2025)"
+	revision: "14"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -61,6 +61,19 @@ feature {NONE} -- Implementation
 			Result := Empty_string_32
 		end
 
+	index_of (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
+		local
+			i: INTEGER
+		do
+			from i := start_index until i > end_index or Result > 0 loop
+				if tokens_text.code (i) = a_token then
+					Result := i
+				else
+					i := i + 1
+				end
+			end
+		end
+
 	keyword, symbol (a_token_id: NATURAL_32): TP_LITERAL_CHAR
 			--
 		do
@@ -77,21 +90,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	occurrences (a_token, end_token: NATURAL; start_index, end_index: INTEGER): INTEGER
-		-- count of `a_token' between `start_index' and `end_index' or until `end_token' is found
+	occurrences (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
+		-- count of `a_token' between `start_index' and `end_index'
 		local
-			i: INTEGER; break: BOOLEAN; i_th_token: NATURAL
+			i: INTEGER
 		do
-			from i := start_index until i > end_index or break loop
-				i_th_token := tokens_text.code (i)
-				if i_th_token = end_token then
-					break := True
-				else
-					if i_th_token = a_token then
-						Result := Result + 1
-					end
-					i := i + 1
+			from i := start_index until i > end_index loop
+				if tokens_text.code (i) = a_token then
+					Result := Result + 1
 				end
+				i := i + 1
 			end
 		end
 
