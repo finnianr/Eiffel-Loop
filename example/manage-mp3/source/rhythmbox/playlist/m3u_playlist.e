@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:19:41 GMT (Monday 23rd September 2024)"
-	revision: "10"
+	date: "2025-03-18 7:03:18 GMT (Tuesday 18th March 2025)"
+	revision: "11"
 
 class
 	M3U_PLAYLIST
 
 inherit
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 
 create
 	make

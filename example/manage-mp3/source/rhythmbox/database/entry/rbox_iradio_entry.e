@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-12 8:47:22 GMT (Saturday 12th October 2024)"
-	revision: "63"
+	date: "2025-03-18 7:03:18 GMT (Tuesday 18th March 2025)"
+	revision: "64"
 
 class
 	RBOX_IRADIO_ENTRY
@@ -23,7 +23,7 @@ inherit
 			make, building_action_table, new_representations, new_transient_fields
 		end
 
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		rename
 			make_default as make
 		undefine
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
-			Precursor {EVOLICITY_SERIALIZEABLE}
+			Precursor {EVC_SERIALIZEABLE}
 			media_type := Media_types.octet_stream
 			string_field_table := Default_string_table
 			music_dir := Database.music_dir

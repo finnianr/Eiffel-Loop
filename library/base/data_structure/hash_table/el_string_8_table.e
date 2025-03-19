@@ -4,7 +4,7 @@ note
 			EL_STRING_8_TABLE [G]
 				${EL_FIELD_VALUE_TABLE [G]}
 				${EL_DATE_FUNCTION_TABLE}
-				${EVOLICITY_FUNCTION_TABLE}
+				${EVC_FUNCTION_TABLE}
 				${EL_XPATH_TOKEN_TABLE}
 	]"
 
@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "8"
+	date: "2025-03-18 7:03:52 GMT (Tuesday 18th March 2025)"
+	revision: "9"
 
 class
 	EL_STRING_8_TABLE [G]

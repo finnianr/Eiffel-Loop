@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:33:05 GMT (Wednesday 6th November 2024)"
-	revision: "9"
+	date: "2025-03-18 7:03:44 GMT (Tuesday 18th March 2025)"
+	revision: "10"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EVOLICITY_CLIENT
+	EVC_CLIENT
 
 	EL_DOCUMENT_CLIENT
 
@@ -103,10 +103,10 @@ feature -- Basic operations
 
 	put_evolicity_element (
 		output: EL_OUTPUT_MEDIUM; name: STRING; building_actions: EL_PROCEDURE_TABLE [STRING]
-		context: EVOLICITY_EIFFEL_CONTEXT; tab_count: INTEGER
+		context: EVC_EIFFEL_CONTEXT; tab_count: INTEGER
 	)
 		-- output a non-reflective `EL_EIF_OBJ_BUILDER_CONTEXT' context which also conforms to
-		-- `EVOLICITY_EIFFEL_CONTEXT'
+		-- `EVC_EIFFEL_CONTEXT'
 		local
 			function: FUNCTION [ANY]; field_name: STRING; element_table: like Element_value_table
 			attribute_count: INTEGER
@@ -188,7 +188,7 @@ feature {NONE} -- Implementation
 								put_element (output, name, tab_count + 1)
 								object := previous_object
 							end
-						elseif attached {EVOLICITY_EIFFEL_CONTEXT} context as evolicity then
+						elseif attached {EVC_EIFFEL_CONTEXT} context as evolicity then
 							put_evolicity_element (output, name, building_actions, evolicity, tab_count + 1)
 						end
 					end

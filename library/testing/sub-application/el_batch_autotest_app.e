@@ -5,6 +5,9 @@ note
 	]"
 	notes: "[
 		Rename `omitted_apps' to `none_omitted' if all test apps to be excuted
+		
+		Option: `-from <type-name>' means start testing from application with type-name.
+		But the type-name can also be equal to keyword "start".
 	]"
 
 	author: "Finnian Reilly"
@@ -12,14 +15,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-18 10:32:55 GMT (Monday 18th November 2024)"
-	revision: "12"
+	date: "2025-03-17 16:44:37 GMT (Monday 17th March 2025)"
+	revision: "13"
 
 deferred class
 	EL_BATCH_AUTOTEST_APP
 
 inherit
 	EL_APPLICATION
+		redefine
+			options_help
+		end
 
 	EL_MODULE_ARGS; EL_MODULE_EXECUTABLE; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
 
@@ -37,11 +43,25 @@ feature -- Basic operations
 
 	run
 		do
-			across Application_list as app until execution.return_code.to_boolean loop
-				if not omission_list.has (app.item.generating_type) then
-					if attached {EL_AUTOTEST_APPLICATION} app.item as test_app then
-						test (test_app, Void)
+			if attached Application_list as list then
+				if attached Args.value (From_option) as type_name and then type_name.count > 0 then
+				-- <command> -from X
+				-- start testing from application X
+					if type_name.same_string ("start") then
+						list.start
+					else
+						list.find_first_equal (type_name.to_latin_1, agent {EL_APPLICATION}.generator)
 					end
+				else
+					list.start
+				end
+				from until list.after or else execution.return_code.to_boolean loop
+					if attached list.item as app and then not omission_list.has (app.generating_type) then
+						if attached {EL_AUTOTEST_APPLICATION} app as test_app then
+							test (test_app, Void)
+						end
+					end
+					list.forth
 				end
 			end
 		end
@@ -69,6 +89,12 @@ feature {NONE} -- Implementation
 	none_omitted: TUPLE
 		do
 			create Result
+		end
+
+	options_help: EL_APPLICATION_HELP_LIST
+		do
+			Result := Precursor
+			Result.extend (From_option, "Start testing from application type name", "")
 		end
 
 	test (test_app: EL_AUTOTEST_APPLICATION; extra_arguments: detachable ARRAY [ZSTRING])
@@ -105,6 +131,8 @@ feature {NONE} -- Constants
 		once
 			Result := ".ecf"
 		end
+
+	From_option: STRING = "from"
 
 	W_code_template: ZSTRING
 		once

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 10:43:36 GMT (Saturday 5th October 2024)"
-	revision: "17"
+	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
+	revision: "18"
 
 class
 	BENCHMARK_HTML
 
 inherit
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		rename
 			make_from_template_and_output as make
 		redefine

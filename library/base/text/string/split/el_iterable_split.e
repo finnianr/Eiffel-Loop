@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 11:33:00 GMT (Friday 22nd December 2023)"
-	revision: "12"
+	date: "2025-03-15 11:42:38 GMT (Saturday 15th March 2025)"
+	revision: "13"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_adjusted (a_target: like target; a_separator: like separator; a_adjustments: INTEGER)
-		-- `a_target' split by `a_separator' character and space adjusted according to `adjustments':
+		-- `a_target' split by `a_separator' character/string and space adjusted according to `adjustments':
 		-- `Both', `Left', `None', `Right' from class `EL_SIDE'.
 		require
 			valid_adjustments: valid_sides (adjustments)

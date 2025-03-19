@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:40:07 GMT (Wednesday 25th September 2024)"
-	revision: "18"
+	date: "2025-03-18 7:01:50 GMT (Tuesday 18th March 2025)"
+	revision: "19"
 
 deferred class
 	COPIED_SVG_DIRECTORY_DATA_TEST_SET
@@ -29,13 +29,13 @@ inherit
 
 	SHARED_DEV_ENVIRON
 
-	EVOLICITY_SHARED_TEMPLATES
+	EVC_SHARED_TEMPLATES
 
 feature {NONE} -- Initialization
 
 	on_prepare
 		local
-			context: EVOLICITY_CONTEXT_IMP
+			context: EVC_CONTEXT_IMP
 		do
 			Precursor
 			svg_path := file_path (Edit_button_svg)

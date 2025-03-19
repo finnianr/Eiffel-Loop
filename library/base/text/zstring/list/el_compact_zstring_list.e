@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:33:45 GMT (Sunday 25th August 2024)"
-	revision: "26"
+	date: "2025-03-15 13:11:04 GMT (Saturday 15th March 2025)"
+	revision: "27"
 
 class
 	EL_COMPACT_ZSTRING_LIST
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 	make_general (general_list: ITERABLE [READABLE_STRING_GENERAL])
 		require
-			no_commas: across general_list as list all not list.item.has (',') end
+			no_commas: not across general_list as list some list.item.has (',') end
 		do
 			make (create {EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make (general_list))
 		end

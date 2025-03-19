@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-10 15:57:51 GMT (Thursday 10th October 2024)"
-	revision: "69"
+	date: "2025-03-18 7:04:19 GMT (Tuesday 18th March 2025)"
+	revision: "70"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -489,7 +489,7 @@ note
 					${EROS_ERRORS_ENUM}
 					${PP_L_VARIABLE_ENUM}
 				${EL_ENUMERATION_NATURAL_32*}
-					${EVOLICITY_TOKEN_ENUM}
+					${EVC_TOKEN_ENUM}
 	]"
 
 end -- class EL_ENUMERATION

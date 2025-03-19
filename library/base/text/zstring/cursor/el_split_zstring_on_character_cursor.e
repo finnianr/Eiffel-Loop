@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:42:07 GMT (Sunday 25th August 2024)"
-	revision: "10"
+	date: "2025-03-15 12:10:59 GMT (Saturday 15th March 2025)"
+	revision: "11"
 
 class
 	EL_SPLIT_ZSTRING_ON_CHARACTER_CURSOR
@@ -17,7 +17,7 @@ class
 inherit
 	EL_SPLIT_ON_CHARACTER_CURSOR [ZSTRING]
 		redefine
-			append_item_to, is_white_space, initialize, set_separator_start
+			append_item_to, is_i_th_white_space, initialize, set_separator_start
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -50,7 +50,7 @@ feature {NONE} -- Implementation
 			separator_zcode := Codec.as_z_code (separator)
 		end
 
-	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
+	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
 		do
 			Result := a_target.is_space_item (i)
 		end

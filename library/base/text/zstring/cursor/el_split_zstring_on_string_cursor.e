@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:42:55 GMT (Tuesday 20th August 2024)"
-	revision: "6"
+	date: "2025-03-15 12:11:00 GMT (Saturday 15th March 2025)"
+	revision: "7"
 
 class
 	EL_SPLIT_ZSTRING_ON_STRING_CURSOR
@@ -19,7 +19,7 @@ inherit
 		rename
 			separator as general_separator
 		redefine
-			is_white_space, initialize, set_separator_start
+			is_i_th_white_space, initialize, set_separator_start
 		end
 
 create
@@ -27,7 +27,7 @@ create
 
 feature {NONE} -- Implementation
 
-	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
+	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
 		do
 			Result := a_target.is_space_item (i)
 		end

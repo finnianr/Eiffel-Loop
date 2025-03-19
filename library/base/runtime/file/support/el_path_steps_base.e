@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:18 GMT (Friday 7th February 2025)"
-	revision: "12"
+	date: "2025-03-17 7:14:59 GMT (Monday 17th March 2025)"
+	revision: "13"
 
 deferred class
 	EL_PATH_STEPS_BASE
@@ -104,12 +104,16 @@ feature {EL_PATH_STEPS_BASE} -- Implementation
 
 	i_th_token (i: INTEGER): INTEGER
 			-- Item at `i'-th position
+		require
+			valid_index: valid_index (i)
 		do
 			Result := area.item (i - 1)
 		end
 
 	put_i_th_token (token: like i_th_token; i: INTEGER_32)
 			-- Replace `i'-th entry, if in index interval, by `token'.
+		require
+			valid_index: valid_index (i)
 		do
 			area.put (token, i - 1)
 		end

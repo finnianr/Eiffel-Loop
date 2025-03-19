@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 9:46:12 GMT (Friday 8th November 2024)"
-	revision: "43"
+	date: "2025-03-17 13:57:44 GMT (Monday 17th March 2025)"
+	revision: "44"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -23,6 +23,7 @@ inherit
 
 	EL_WRITABLE
 		rename
+			write_any as put_any,
 			write_encoded_character_8 as put_encoded_character_8, -- Allows UTF-8 conversion
 			write_encoded_string_8 as put_encoded_readable_string_8,
 
@@ -326,6 +327,8 @@ feature {NONE} -- Implementation
 				borrowed.return
 			end
 		end
+
+feature {NONE} -- Implementation
 
 	put_other (str: READABLE_STRING_GENERAL)
 		require

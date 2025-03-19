@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:15:22 GMT (Sunday 22nd September 2024)"
-	revision: "5"
+	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
+	revision: "6"
 
 class
 	EL_SIGNED_EIFFEL_FIELD
 
 inherit
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 
 	EL_MODULE_BASE_64
 

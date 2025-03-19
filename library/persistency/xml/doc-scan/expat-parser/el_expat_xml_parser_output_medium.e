@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 17:23:53 GMT (Thursday 9th November 2023)"
-	revision: "12"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "13"
 
 class
 	EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM
@@ -46,7 +46,7 @@ feature {NONE}  -- Initialisation
 
 feature -- Basic operations
 
-	parse_from_serializable_object (object: EVOLICITY_SERIALIZEABLE_AS_XML)
+	parse_from_serializable_object (object: EVC_SERIALIZEABLE_AS_XML)
 			--
 		local
 			callback: like new_callback

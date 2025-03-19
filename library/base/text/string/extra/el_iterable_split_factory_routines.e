@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:46:22 GMT (Sunday 25th August 2024)"
-	revision: "9"
+	date: "2025-03-15 11:41:59 GMT (Saturday 15th March 2025)"
+	revision: "10"
 
 expanded class
 	EL_ITERABLE_SPLIT_FACTORY_ROUTINES

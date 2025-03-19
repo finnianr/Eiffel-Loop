@@ -1,9 +1,14 @@
-foreach table iteration:
+foreach value, key in value_table:
 #foreach $value, $key in $value_table loop
 	"$key" => $value
 #end
 
-foreach list iteration:
+foreach item in string_list:
 #foreach $str in $string_list loop
 	item [$loop_index] => "$str"
+#end
+
+foreach item in integer_list:
+#foreach $integer in $integer_list loop
+	item [$loop_index] => "@spell ($integer)"
 #end

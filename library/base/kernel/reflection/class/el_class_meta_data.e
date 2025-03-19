@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
-	revision: "82"
+	date: "2025-03-15 10:57:52 GMT (Saturday 15th March 2025)"
+	revision: "83"
 
 class
 	EL_CLASS_META_DATA
@@ -144,7 +144,7 @@ feature {NONE} -- Factory
 			Result := field_list.ordered_by (agent {EL_REFLECTED_FIELD}.name, True)
 		end
 
-	new_expanded_field (index: INTEGER; name: STRING): EL_REFLECTED_FIELD
+	new_expanded_field (index: INTEGER; name: IMMUTABLE_STRING_8): EL_REFLECTED_FIELD
 		-- have not worked out how to deal with this
 		require
 			never_called: False

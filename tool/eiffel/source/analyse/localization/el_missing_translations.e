@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:07:00 GMT (Sunday 22nd September 2024)"
-	revision: "6"
+	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
+	revision: "7"
 
 class
 	EL_MISSING_TRANSLATIONS
 
 inherit
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		redefine
 			getter_function_table, make_default
 		end

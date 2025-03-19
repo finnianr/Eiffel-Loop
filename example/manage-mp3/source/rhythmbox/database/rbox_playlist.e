@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:50:42 GMT (Wednesday 6th November 2024)"
-	revision: "37"
+	date: "2025-03-18 7:00:33 GMT (Tuesday 18th March 2025)"
+	revision: "38"
 
 class
 	RBOX_PLAYLIST
@@ -30,7 +30,7 @@ inherit
 			make_default
 		end
 
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 		undefine
 			is_equal, copy
 		redefine
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 		do
 			make_playlist (10)
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
-			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+			Precursor {EVC_EIFFEL_CONTEXT}
 			set_name (Empty_string)
 		end
 

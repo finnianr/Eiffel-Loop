@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-03 15:12:21 GMT (Monday 3rd June 2024)"
-	revision: "18"
+	date: "2025-03-19 7:00:57 GMT (Wednesday 19th March 2025)"
+	revision: "19"
 
 deferred class
 	EL_CRC_32_TESTABLE
@@ -29,6 +29,11 @@ inherit
 	EL_SHARED_TEST_CRC
 
 feature {NONE} -- Implementation
+
+	checksum (n: NATURAL): NATURAL
+		do
+			Result := n
+		end
 
 	assert (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		deferred

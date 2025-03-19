@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:36:46 GMT (Sunday 22nd September 2024)"
-	revision: "8"
+	date: "2025-03-18 7:00:33 GMT (Tuesday 18th March 2025)"
+	revision: "9"
 
 class
 	HTML_SONG
 
 inherit
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 		redefine
 			getter_function_table
 		end

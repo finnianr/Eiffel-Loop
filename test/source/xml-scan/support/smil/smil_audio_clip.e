@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:20:18 GMT (Sunday 22nd September 2024)"
-	revision: "12"
+	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
+	revision: "13"
 
 class
 	SMIL_AUDIO_CLIP
@@ -20,7 +20,7 @@ inherit
 			make, on_context_exit
 		end
 
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 		rename
 			make_default as make
 		redefine
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+			Precursor {EVC_EIFFEL_CONTEXT}
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
 			create source.make_empty
 			create title.make_empty

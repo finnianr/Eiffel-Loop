@@ -1,9 +1,14 @@
-across table iteration:
+across value_table:
 #across $value_table as $table loop
 	"$table.key" => $table.item
 #end
 
-across list iteration:
+across string_list:
 #across $string_list as $str loop
 	item [$str.cursor_index] => "$str.item"
+#end
+
+across integer_list:
+#across $integer_list as $integer loop
+	item [$integer.cursor_index] => "@spell ($integer.item)"
 #end

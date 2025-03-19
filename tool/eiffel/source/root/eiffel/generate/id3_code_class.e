@@ -5,7 +5,7 @@ note
 		
 		It looks perhaps as though this class was never used as there were missing lines of code.
 		The target class ${TL_FRAME_ID_ENUM} was likely created manually instead.
-		Missing code completed on above date with update of code for ${EVOLICITY_TUPLE_CONTEXT}
+		Missing code completed on above date with update of code for ${EVC_TUPLE_CONTEXT}
 	]"
 
 	author: "Finnian Reilly"
@@ -13,14 +13,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:07:00 GMT (Sunday 22nd September 2024)"
-	revision: "9"
+	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
+	revision: "10"
 
 class
 	ID3_CODE_CLASS
 
 inherit
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 
 	EL_STRING_8_CONSTANTS
 
@@ -52,7 +52,7 @@ feature -- Implementation
 			Result := "TL_FRAME_CODES_2_" + version.out
 		end
 
-	new_context (code, description: STRING): EVOLICITY_TUPLE_CONTEXT
+	new_context (code, description: STRING): EVC_TUPLE_CONTEXT
 		do
 			create Result.make ([code, description], once "code, description")
 		end

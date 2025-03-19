@@ -9,7 +9,7 @@ note
 		**1.** ${EL_EXPAT_XML_PARSER}: Expat XML parser
 		
 		**2.** ${EL_EXPAT_XML_PARSER_OUTPUT_MEDIUM}: Expat XML parser of XML serializeable objects conforming to
-		${EVOLICITY_SERIALIZEABLE_AS_XML}.
+		${EVC_SERIALIZEABLE_AS_XML}.
 		
 		**3.** ${EL_EXPAT_XML_WITH_CTRL_Z_PARSER}: Expat XML parser with input stream end delimited
 		by Ctrl-Z character. Useful for parsing network streams.
@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 11:30:33 GMT (Friday 21st June 2024)"
-	revision: "25"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "26"
 
 deferred class
 	EL_DOCUMENT_NODE_SCANNER

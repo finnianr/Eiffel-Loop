@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:07:05 GMT (Sunday 22nd September 2024)"
-	revision: "11"
+	date: "2025-03-18 7:04:06 GMT (Tuesday 18th March 2025)"
+	revision: "12"
 
 class
 	CODEBASE_METRICS
@@ -21,14 +21,14 @@ inherit
 
 	EIFFEL_SOURCE_METRICS
 
-	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
+	EVC_REFLECTIVE_EIFFEL_CONTEXT
 		rename
 			make_default as make
 		redefine
 			make
 		end
 
-	EVOLICITY_REFLECTIVE_XML_CONTEXT
+	EVC_REFLECTIVE_XML_CONTEXT
 
 	EL_MODULE_LIO
 

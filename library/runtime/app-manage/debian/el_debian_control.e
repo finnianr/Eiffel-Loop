@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-29 10:13:30 GMT (Wednesday 29th November 2023)"
-	revision: "5"
+	date: "2025-03-18 7:03:14 GMT (Tuesday 18th March 2025)"
+	revision: "6"
 
 class
 	EL_DEBIAN_CONTROL
 
 inherit
-	EVOLICITY_REFLECTIVE_SERIALIZEABLE
+	EVC_REFLECTIVE_SERIALIZEABLE
 		rename
 			escaped_field as unescaped_field,
 			field_included as is_any_field,

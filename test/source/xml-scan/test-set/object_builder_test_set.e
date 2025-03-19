@@ -6,7 +6,7 @@ note
 		* ${EL_PARSE_EVENT_GENERATOR}
 		* ${EL_BINARY_ENCODED_PARSE_EVENT_SOURCE}
 		* ${EL_EXPAT_XML_PARSER}
-		* ${EVOLICITY_SERIALIZEABLE_AS_XML}
+		* ${EVC_SERIALIZEABLE_AS_XML}
 	]"
 
 	author: "Finnian Reilly"
@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-07 14:13:45 GMT (Friday 7th March 2025)"
-	revision: "31"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "32"
 
 class
 	OBJECT_BUILDER_TEST_SET
@@ -66,7 +66,7 @@ feature -- Tests
 		-- OBJECT_BUILDER_TEST_SET.test_buildable_from_node_scan
 		note
 			testing: "[
-				covers/{EVOLICITY_EVALUATE_DIRECTIVE}.execute
+				covers/{EVC_EVALUATE_DIRECTIVE}.execute
 			]"
 		do
 			across factory_types as type loop
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 		do
 			file_path := Work_area_dir + file_name
 			object := new_object (XML_dir.joined_file_tuple (["creatable", file_name]))
-			if attached {EVOLICITY_SERIALIZEABLE_AS_XML} object as serializeable then
+			if attached {EVC_SERIALIZEABLE_AS_XML} object as serializeable then
 				serializeable.save_as_xml (file_path)
 				lio.put_labeled_string ("Digest saved " + file_path.base, raw_file_digest (file_path).to_base_64_string)
 				lio.put_new_line

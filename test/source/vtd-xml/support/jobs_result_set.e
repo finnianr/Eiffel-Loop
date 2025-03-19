@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:37 GMT (Sunday 22nd September 2024)"
-	revision: "10"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "12"
 
 class
 	JOBS_RESULT_SET
@@ -18,7 +18,7 @@ inherit
 			make as make_set
 		end
 
-	EVOLICITY_SERIALIZEABLE_AS_XML
+	EVC_SERIALIZEABLE_AS_XML
 		undefine
 			copy, is_equal
 		redefine
@@ -59,7 +59,6 @@ feature {NONE} -- Implementation
 
 	Template: STRING =
 		-- Substitution template
-
 	"[
 		<html>	
 			<head>
@@ -73,7 +72,7 @@ feature {NONE} -- Implementation
 				#foreach $result in $Current loop
 			    	<h3><a href="$result.job_url">$result.position</a></h3>
 			    	<h4>Duration: $result.duration_interval_lower days</h4>
-					<h4>$result.location ($result.duration_text)</h4>
+					<h4>$result.location&nbsp;($result.duration_text)</h4>
 			    	<p>$result.details</p>
 			    	<p><b>Contact:</b> $result.contact</p>
 			    #end

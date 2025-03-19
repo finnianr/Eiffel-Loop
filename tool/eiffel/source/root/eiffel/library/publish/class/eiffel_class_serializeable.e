@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:20:17 GMT (Wednesday 6th November 2024)"
-	revision: "5"
+	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
+	revision: "6"
 
 deferred class
 	EIFFEL_CLASS_SERIALIZEABLE
 
 inherit
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		rename
 			output_path as html_output_path
 		redefine

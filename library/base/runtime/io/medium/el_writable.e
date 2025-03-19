@@ -7,14 +7,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:20 GMT (Friday 7th February 2025)"
-	revision: "27"
+	date: "2025-03-17 16:12:38 GMT (Monday 17th March 2025)"
+	revision: "28"
 
 deferred class
 	EL_WRITABLE
 
 inherit
 	EL_STRING_HANDLER
+
+	EL_MODULE_EIFFEL
 
 	EL_SHARED_CLASS_ID
 
@@ -121,39 +123,53 @@ feature -- String
 feature -- Other
 
 	write_any (object: ANY)
+		local
+			type_id: INTEGER
 		do
-			inspect Class_id.object_type_category (object)
-				when C_readable_string_8 then
-					if attached {READABLE_STRING_8} object as str_8 then
-						write_string_8 (str_8)
-					end
-				when C_readable_string_32 then
-					if attached {READABLE_STRING_32} object as str_32 then
-						write_string_32 (str_32)
-					end
+			if attached Eiffel as eif then
+				type_id := {ISE_RUNTIME}.dynamic_type (object)
 
-				when C_el_path then
-					if attached {EL_PATH} object as path then
-						write_path (path)
-					end
+				inspect eif.class_id.object_type_category (object)
+					when C_readable_string_8 then
+						if attached {READABLE_STRING_8} object as str_8 then
+							write_string_8 (str_8)
+						end
 
-				when C_el_path_steps then
-					if attached {EL_PATH_STEPS} object as steps then
-						write_path_steps (steps)
-					end
+					when C_readable_string_32 then
+						if attached {READABLE_STRING_32} object as str_32 then
+							write_string_32 (str_32)
+						end
 
-				when C_path then
-					if attached {PATH} object as path then
-						write_ise_path (path)
-					end
-				when C_type_any then
-					if attached {TYPE [ANY]} object as type then
-						write_string_8 (type.name)
-					end
-			else
-				write_any_default (object)
+					when C_el_path then
+						if attached {EL_PATH} object as path then
+							write_string (path.to_string)
+						end
+
+					when C_el_path_steps then
+						if attached {EL_PATH_STEPS} object as steps then
+							write_string (steps.to_string)
+						end
+
+					when C_path then
+						if attached {PATH} object as path then
+							write_string_32 (path.name)
+						end
+
+					when C_real then
+						write_encoded_string_8 (replaced_separator (object.out))
+
+					when C_integer then
+						write_integer_type (eif, type_id, object)
+
+					when C_natural then
+						write_natural_type (eif, type_id, object)
+
+				else
+					write_any_default (object)
+				end
 			end
 		end
+
 
 	write_any_default (object: ANY)
 		do
@@ -184,6 +200,73 @@ feature -- Path
 		do
 			write_string (steps.to_string)
 		end
+
+feature {NONE} -- Implementation
+
+	replaced_separator (item: STRING): STRING
+		-- ensure item uses dot as decimal separator
+		local
+			pos_comma: INTEGER
+		do
+			Result := item
+			pos_comma := Result.index_of (',', 1)
+			if pos_comma > 0 then
+				Result.put ('.', pos_comma)
+			end
+		end
+
+	write_integer_type (eif: like Eiffel; type_id: INTEGER; item: ANY)
+		do
+			if eif.is_expanded_or_reference (eif.class_id.INTEGER_32, type_id)
+				and then attached {INTEGER_32_REF} item as int_32
+			then
+				write_integer_32 (int_32.item)
+
+			elseif eif.is_expanded_or_reference (eif.class_id.INTEGER_64, type_id)
+				and then attached {INTEGER_64_REF} item as int_64
+			then
+				write_integer_64 (int_64.item)
+
+			elseif eif.is_expanded_or_reference (eif.class_id.INTEGER_8, type_id)
+				and then attached {INTEGER_8_REF} item as int_8
+			then
+				write_integer_8 (int_8.item)
+
+			elseif eif.is_expanded_or_reference (eif.class_id.INTEGER_16, type_id)
+				and then attached {INTEGER_16_REF} item as int_16
+			then
+				write_integer_16 (int_16.item)
+			else
+				write_any_default (item)
+			end
+		end
+
+	write_natural_type (eif: like Eiffel; type_id: INTEGER; item: ANY)
+		do
+			if eif.is_expanded_or_reference (eif.class_id.NATURAL_32, type_id)
+				and then attached {NATURAL_32_REF} item as int_32
+			then
+				write_natural_32 (int_32.item)
+
+			elseif eif.is_expanded_or_reference (eif.class_id.NATURAL_64, type_id)
+				and then attached {NATURAL_64_REF} item as int_64
+			then
+				write_natural_64 (int_64.item)
+
+			elseif eif.is_expanded_or_reference (eif.class_id.NATURAL_8, type_id)
+				and then attached {NATURAL_8_REF} item as int_8
+			then
+				write_natural_8 (int_8.item)
+
+			elseif eif.is_expanded_or_reference (eif.class_id.NATURAL_16, type_id)
+				and then attached {NATURAL_16_REF} item as int_16
+			then
+				write_natural_16 (int_16.item)
+			else
+				write_any_default (item)
+			end
+		end
+
 
 note
 	descendants: "[

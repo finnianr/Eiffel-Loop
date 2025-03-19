@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 9:25:26 GMT (Thursday 6th March 2025)"
-	revision: "37"
+	date: "2025-03-17 8:01:16 GMT (Monday 17th March 2025)"
+	revision: "38"
 
 class
 	PATH_TEST_SET
@@ -301,12 +301,14 @@ feature -- Tests
 		end
 
 	test_path_steps
+		-- PATH_TEST_SET.test_path_steps
 		note
 			testing: "covers/{EL_PATH_STEPS}.i_th_same_as"
 		local
 			dir_path: EL_PATH_STEPS
 		do
 			dir_path := String.home_eiffel
+			assert ("joe is 3rd step", dir_path.index_of ("joe", 1) = 3)
 			across dir_path.to_string.split (OS.separator) as step loop
 				assert ("same step", dir_path.i_th_same_as (step.cursor_index, step.item))
 			end

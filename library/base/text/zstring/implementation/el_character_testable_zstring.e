@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 14:09:08 GMT (Sunday 9th February 2025)"
-	revision: "9"
+	date: "2025-03-19 17:41:09 GMT (Wednesday 19th March 2025)"
+	revision: "10"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -231,6 +231,13 @@ feature -- Substring query
 --		ensure
 --			valid_true: Result implies across start_index |..| end_index as index all set.has (item_8 (index.item)) end
 --			valid_false: not Result implies across start_index |..| end_index as index some not set.has (item_8 (index.item)) end
+		end
+
+	is_substring_valid_as_string_8 (start_index, end_index: INTEGER): BOOLEAN
+		require
+			valid_substring_indices: valid_substring_indices (start_index, end_index)
+		do
+			Result := Latin_1_codec.is_encodeable_as_string_8 (current_readable, start_index, end_index)
 		end
 
 	is_substring_whitespace (start_index, end_index: INTEGER): BOOLEAN

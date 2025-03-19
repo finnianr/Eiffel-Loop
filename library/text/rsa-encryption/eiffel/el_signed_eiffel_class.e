@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:27:56 GMT (Monday 23rd September 2024)"
-	revision: "11"
+	date: "2025-03-18 7:03:14 GMT (Tuesday 18th March 2025)"
+	revision: "12"
 
 class
 	EL_SIGNED_EIFFEL_CLASS
 
 inherit
-	EVOLICITY_REFLECTIVE_SERIALIZEABLE
+	EVC_REFLECTIVE_SERIALIZEABLE
 		rename
 			escaped_field as unescaped_field,
 			field_included as is_any_field,

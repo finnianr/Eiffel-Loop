@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 12:21:28 GMT (Sunday 6th October 2024)"
-	revision: "54"
+	date: "2025-03-17 16:30:21 GMT (Monday 17th March 2025)"
+	revision: "55"
 
 class
 	EL_TUPLE_ROUTINES
@@ -26,6 +26,9 @@ inherit
 	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS; EL_TYPE_CATEGORY_CONSTANTS
 
 	EL_SHARED_CLASS_ID
+		rename
+			class_id as shared_class_id
+		end
 
 create
 	make
@@ -38,9 +41,7 @@ feature {NONE} -- Initialization
 			create procedure
 			create empty
 			create counter
-			readable_string_8_types := Class_id.readable_string_8_types
-			readable_string_32_types := Class_id.readable_string_32_types
-			el_path_types := Class_id.el_path_types
+			class_id := shared_class_id
 		end
 
 feature -- Access
@@ -68,6 +69,20 @@ feature -- Access
 		-- Caches results in `types_table'
 		do
 			Result := types_table.item ({ISE_RUNTIME}.dynamic_type (tuple))
+		end
+
+	special_type_array (tuple: TUPLE): SPECIAL [INTEGER]
+		do
+			if attached new_type_array ({ISE_RUNTIME}.dynamic_type (tuple)) as array then
+				create Result.make_empty (array.count)
+				across array as a loop
+					Result.extend (a.item.type_id)
+				end
+			else
+				create Result.make_empty (0)
+			end
+		ensure
+			same_count: Result.count = tuple.count
 		end
 
 feature -- Measurement
@@ -126,7 +141,7 @@ feature -- Measurement
 			-- Reference
 				when {TUPLE}.Reference_code then
 					if attached tuple.reference_item (i) as ref_item then
-						Result := string_width_any (ref_item)
+						Result := Eiffel.string_width (ref_item)
 					end
 			else
 			end
@@ -228,17 +243,19 @@ feature -- Basic operations
 	fill_default (tuple: TUPLE; default_value: ANY)
 		local
 			i: INTEGER; type_id: INTEGER
-			tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
 			type_id := {ISE_RUNTIME}.dynamic_type (default_value)
-			tuple_types := type_array (tuple)
-			from i := 1 until i > tuple.count loop
-				if tuple.item_code (i) = {TUPLE}.Reference_code and then
-					Eiffel.field_conforms_to (type_id, tuple_types [i].type_id)
-				then
-					tuple.put_reference (default_value, i)
+			if attached type_array (tuple) as tuple_types and then attached Eiffel as eif then
+				from i := 1 until i > tuple.count loop
+					inspect tuple.item_code (i)
+						when {TUPLE}.Reference_code then
+							if eif.field_conforms_to (type_id, tuple_types [i].type_id) then
+								tuple.put_reference (default_value, i)
+							end
+					else
+					end
+					i := i + 1
 				end
-				i := i + 1
 			end
 		ensure
 			filled: is_filled (tuple, 1, tuple.count)
@@ -255,7 +272,7 @@ feature -- Basic operations
 			tuple_types := type_array (tuple)
 			create comma_splitter.make_shared_adjusted (csv_list, ',', {EL_SIDE}.Left)
 			across comma_splitter as list until list.cursor_index > tuple.count loop
-				if tuple_types [list.cursor_index].type_id = Class_id.IMMUTABLE_STRING_8 then
+				if tuple_types [list.cursor_index].type_id = class_id.IMMUTABLE_STRING_8 then
 					tuple.put_reference (list.item, list.cursor_index)
 				end
 			end
@@ -520,39 +537,39 @@ feature {NONE} -- Factory
 
 	new_read_path (readable: EL_READABLE; type_id: INTEGER): EL_PATH
 		do
-			if type_id = Class_id.DIR_PATH then
+			if type_id = class_id.DIR_PATH then
 				create {DIR_PATH} Result.make (readable.read_string)
 
-			elseif type_id = Class_id.FILE_PATH then
+			elseif type_id = class_id.FILE_PATH then
 				create {FILE_PATH} Result.make (readable.read_string)
 
-			elseif type_id = Class_id.EL_DIR_URI_PATH then
+			elseif type_id = class_id.EL_DIR_URI_PATH then
 				create {EL_DIR_URI_PATH} Result.make (readable.read_string)
 
-			elseif type_id = Class_id.EL_FILE_URI_PATH then
+			elseif type_id = class_id.EL_FILE_URI_PATH then
 				create {EL_FILE_URI_PATH} Result.make (readable.read_string)
 			end
 		end
 
 	new_read_string_32 (readable: EL_READABLE; type_id: INTEGER): READABLE_STRING_32
 		do
-			if type_id = Class_id.ZSTRING then
+			if type_id = class_id.ZSTRING then
 				Result := readable.read_string
 
-			elseif type_id = Class_id.STRING_32 then
+			elseif type_id = class_id.STRING_32 then
 				Result := readable.read_string_32
 
-			elseif type_id = Class_id.IMMUTABLE_STRING_32 then
+			elseif type_id = class_id.IMMUTABLE_STRING_32 then
 				create {IMMUTABLE_STRING_32} Result.make_from_string_32 (readable.read_string_32)
 			end
 		end
 
 	new_read_string_8 (readable: EL_READABLE; type_id: INTEGER): READABLE_STRING_8
 		do
-			if type_id = Class_id.STRING_8 then
+			if type_id = class_id.STRING_8 then
 				Result := readable.read_string_8
 
-			elseif type_id = Class_id.IMMUTABLE_STRING_8 then
+			elseif type_id = class_id.IMMUTABLE_STRING_8 then
 				create {IMMUTABLE_STRING_8} Result.make_from_string (readable.read_string_8)
 			end
 		end
@@ -566,34 +583,36 @@ feature {NONE} -- Implementation
 
 	reset_i_th_reference (tuple: TUPLE; ref_item: ANY; i, type_id: INTEGER)
 		do
-			if Eiffel.is_bag_type (type_id) and then attached {BAG [ANY]} ref_item as bag then
-			-- includes `STRING_GENERAL'
-				bag.wipe_out; counter.bump
+			if attached Eiffel as eif then
+				if eif.is_bag_type (type_id) and then attached {BAG [ANY]} ref_item as bag then
+				-- includes `STRING_GENERAL'
+					bag.wipe_out; counter.bump
 
-			elseif Eiffel.is_type_in_set (type_id, el_path_types)
-				and then attached {EL_PATH} ref_item as path
-			then
-				path.wipe_out; counter.bump
+				elseif eif.is_type_in_set (type_id, class_id.el_path_types)
+					and then attached {EL_PATH} ref_item as path
+				then
+					path.wipe_out; counter.bump
 
-			elseif type_id = Class_id.PATH and then attached {PATH} ref_item as path then
-				tuple.put_reference (create {PATH}.make_empty, i); counter.bump
+				elseif type_id = class_id.PATH and then attached {PATH} ref_item as path then
+					tuple.put_reference (create {PATH}.make_empty, i); counter.bump
 
-			elseif Eiffel.is_type_in_set (type_id, Class_id.immutable_string_types) and then
-				attached {IMMUTABLE_STRING_GENERAL} ref_item as immutable
-			then
-				if immutable.is_string_8 then
-					tuple.put_reference (create {IMMUTABLE_STRING_8}.make_empty, i)
-					counter.bump
-				else
-					tuple.put_reference (create {IMMUTABLE_STRING_32}.make_empty, i)
-					counter.bump
+				elseif eif.is_type_in_set (type_id, class_id.immutable_string_types) and then
+					attached {IMMUTABLE_STRING_GENERAL} ref_item as immutable
+				then
+					if immutable.is_string_8 then
+						tuple.put_reference (create {IMMUTABLE_STRING_8}.make_empty, i)
+						counter.bump
+					else
+						tuple.put_reference (create {IMMUTABLE_STRING_32}.make_empty, i)
+						counter.bump
+					end
 				end
 			end
 		end
 
 	set_i_th_reference (tuple: TUPLE; i: INTEGER; readable: EL_READABLE; type_id: INTEGER)
 		do
-			inspect Class_id.type_category (type_id)
+			inspect class_id.type_category (type_id)
 				when C_readable_string_8 then
 					tuple.put_reference (new_read_string_8 (readable, type_id), i)
 
@@ -606,53 +625,13 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	string_width_any (object: ANY): INTEGER
-		do
-			inspect Class_id.object_type_category (object)
-				when C_readable_string_8 then
-					if attached {READABLE_STRING_8} object as str_8 then
-						Result := str_8.count
-					end
-				when C_readable_string_32 then
-					if attached {READABLE_STRING_32} object as str_32 then
-						Result := str_32.count
-					end
-
-				when C_el_path then
-					if attached {EL_PATH} object as path then
-						Result := path.count
-					end
-
-				when C_el_path_steps then
-					if attached {EL_PATH_STEPS} object as steps then
-						Result := steps.count
-					end
-
-				when C_path then
-					if attached {PATH} object as path then
-						Result := path.name.count
-					end
-
-				when C_type_any then
-					if attached {TYPE [ANY]} object as type then
-						Result := type.name.count
-					end
-			else
-				Result := object.out.count
-			end
-		end
-
 feature {NONE} -- Internal attributes
+
+	class_id: EL_CLASS_TYPE_ID_ENUM
 
 	counter: EL_NATURAL_32_COUNTER
 
-	el_path_types: SPECIAL [INTEGER]
-
 	procedure: EL_PROCEDURE
-
-	readable_string_32_types: SPECIAL [INTEGER]
-
-	readable_string_8_types: SPECIAL [INTEGER]
 
 	types_table: EL_AGENT_CACHE_TABLE [EL_TUPLE_TYPE_ARRAY, INTEGER]
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 16:45:27 GMT (Tuesday 24th September 2024)"
-	revision: "2"
+	date: "2025-03-19 8:09:31 GMT (Wednesday 19th March 2025)"
+	revision: "3"
 
 class
 	EL_INITIALIZED_ARRAYED_LIST_FACTORY
@@ -28,7 +28,23 @@ feature -- Factory
 
 	new_result_list (fn: FUNCTION [ANY]; size: INTEGER): detachable EL_ARRAYED_LIST [ANY]
 		do
-			Result := new_list (fn.generating_type.generic_parameter_type (2), size)
+			if attached fn.generating_type as type then
+				inspect type.generic_parameter_count
+					when 1 then
+					-- is expanded type
+						Result := new_list (fn.last_result.generating_type, size)
+				else
+				-- is reference type
+					Result := new_list (type.generic_parameter_type (2), size)
+				end
+			end
+		end
+
+feature {NONE} -- Constants
+
+	Type_none: INTEGER
+		once
+			Result := ({NONE}).type_id
 		end
 
 end

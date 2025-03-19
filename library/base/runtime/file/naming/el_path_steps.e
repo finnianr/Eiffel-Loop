@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:18 GMT (Friday 7th February 2025)"
-	revision: "29"
+	date: "2025-03-17 7:16:34 GMT (Monday 17th March 2025)"
+	revision: "30"
 
 class
 	EL_PATH_STEPS

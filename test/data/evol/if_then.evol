@@ -1,28 +1,30 @@
-x = $x
-y = $y
-not ($$x = 1) and $$y = 2
 #if not ($x = 1) and $y = 2 then
-Condition is true
+True
 #else
-Condition is false
+False
 #end
-
-$$x = 1
 #if $x = 1 then
-Condition is true
+True
 #else
-Condition is false
+False
 #end
-
-#if $str.is_empty then
-str is empty
+#if $x /= 1 then
+True
 #else
-str is not empty
+False
 #end
-
-#if $str.count > 0 then
-str.count > 0
+#if $test.str.is_empty then
+True
 #else
-str.count = 0
+False
 #end
-
+#if $test.str.count > 0 then
+True
+#else
+False
+#end
+#if $test.str = "abc" then
+True
+#else
+False
+#end

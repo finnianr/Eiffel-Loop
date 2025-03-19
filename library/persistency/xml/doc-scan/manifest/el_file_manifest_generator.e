@@ -1,7 +1,7 @@
 note
 	description: "[
 		Command to create an XML file manifest of a target directory using either the default Evolicity template
-		or an optional external Evolicity template. See class ${EVOLICITY_SERIALIZEABLE}
+		or an optional external Evolicity template. See class ${EVC_SERIALIZEABLE}
 	]"
 
 	author: "Finnian Reilly"
@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
+	revision: "14"
 
 class
 	EL_FILE_MANIFEST_GENERATOR

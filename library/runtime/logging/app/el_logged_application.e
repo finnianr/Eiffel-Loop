@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:52:43 GMT (Sunday 22nd September 2024)"
-	revision: "29"
+	date: "2025-03-18 7:04:33 GMT (Tuesday 18th March 2025)"
+	revision: "30"
 
 deferred class
 	EL_LOGGED_APPLICATION
@@ -217,7 +217,7 @@ note
 						${XML_SCAN_AUTOTEST_APP}
 						${NETWORK_AUTOTEST_APP}
 						${ECO_DB_AUTOTEST_APP}
-						${EVOLICITY_AUTOTEST_APP}
+						${EVC_AUTOTEST_APP}
 						${I18N_AUTOTEST_APP}
 						${IMAGE_UTILS_AUTOTEST_APP}
 						${OPEN_OFFICE_AUTOTEST_APP}

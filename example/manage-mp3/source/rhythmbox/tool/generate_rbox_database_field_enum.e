@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:49:46 GMT (Saturday 28th September 2024)"
-	revision: "15"
+	date: "2025-03-18 7:03:18 GMT (Tuesday 18th March 2025)"
+	revision: "16"
 
 class
 	GENERATE_RBOX_DATABASE_FIELD_ENUM
@@ -17,7 +17,7 @@ class
 inherit
 	EL_APPLICATION_COMMAND
 
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		redefine
 			make_default
 		end
@@ -44,7 +44,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 			create field_table.make_equal (50)
 			create type_set.make_equal (7)
 			Precursor {EL_PLAIN_TEXT_LINE_STATE_MACHINE}
-			Precursor {EVOLICITY_SERIALIZEABLE}
+			Precursor {EVC_SERIALIZEABLE}
 		end
 
 feature -- Constants

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:48:23 GMT (Sunday 6th October 2024)"
-	revision: "19"
+	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
+	revision: "20"
 
 deferred class
 	EL_XDG_DESKTOP_MENU_ITEM
 
 inherit
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		rename
 			Var as Standard_var
 		redefine
@@ -106,9 +106,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Evolicity reflection
 
-	get_locale_table: EL_HASH_TABLE [EVOLICITY_TUPLE_CONTEXT, STRING]
+	get_locale_table: EL_HASH_TABLE [EVC_TUPLE_CONTEXT, STRING]
 		local
-			context: EVOLICITY_TUPLE_CONTEXT; comment: ZSTRING
+			context: EVC_TUPLE_CONTEXT; comment: ZSTRING
 		do
 			create Result.make_equal (Locale.all_languages.count)
 			across Locale.all_languages as lang loop

@@ -817,3 +817,9 @@ Made sure banned-HTTP chain is checked before ufw rules and fixed Bioinfo tests
 Tue 11th Mar 2025, 11:26:26
 run_service_log_monitor.sh now checks for digest in a while loop
 
+Mon 17th Mar 2025, 18:15:54
+Optimizing Evolicity type casting of item: ANY for output
+
+Tue 18th Mar 2025, 22:27:11
+Optimized comparison of numerics in Evolicity
+

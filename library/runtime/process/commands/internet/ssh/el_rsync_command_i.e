@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 19:20:36 GMT (Thursday 13th March 2025)"
-	revision: "17"
+	date: "2025-03-16 7:12:41 GMT (Sunday 16th March 2025)"
+	revision: "18"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -27,12 +27,9 @@ inherit
 			execute, getter_function_table, make_default
 		end
 
-	EL_SECURE_SHELL_COMMAND
-		rename
-			make as make_with_user_domain,
-			make_with_template as make_default
+	EL_SECURE_SHELL_OS_COMMAND_I
 		redefine
-			escaped_remote
+			make_default
 		end
 
 	EL_FILE_OPEN_ROUTINES
@@ -43,13 +40,13 @@ feature {NONE} -- Initialization
 			--
 		do
 			create exclude_list.make (0)
-			Precursor
+			Precursor {EL_COPY_TREE_COMMAND_I}
 		end
 
-	make_ssh (a_user_domain: READABLE_STRING_GENERAL; a_source_path, a_destination_path: DIR_PATH)
+	make_ssh (a_ssh_context: like ssh_context; a_source_path, a_destination_path: DIR_PATH)
 		do
 			make (a_source_path, a_destination_path)
-			set_user_domain (a_user_domain)
+			ssh_context := a_ssh_context
 		end
 
 feature -- Access
@@ -111,8 +108,7 @@ feature {NONE} -- Evolicity reflection
 			Result.append_tuples (<<
 				["destination_path",	agent: ZSTRING do Result := escaped_remote (destination_path) end],
 				["enabled_options",	agent: STRING do Result := enabled_options.joined_words end],
-				["has_exclusions",	agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end],
-				["user_domain",		agent: ZSTRING do Result := user_domain end]
+				["has_exclusions",	agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end]
 			>>)
 		end
 
@@ -142,16 +138,11 @@ feature {NONE} -- Implementation
 	escaped_remote (a_path: EL_PATH): ZSTRING
 		-- double escape backslash
 		do
-			if user_domain.count > 0 then
-				Result := Precursor (a_path)
+			if ssh_context.user_domain.count > 0 then
+--				Result := ssh.escaped_re (a_path)
 			else
 				Result := a_path.escaped
 			end
-		end
-
-	var_user_domain: STRING
-		do
-			create Result.make_empty
 		end
 
 feature {NONE} -- Internal attributes

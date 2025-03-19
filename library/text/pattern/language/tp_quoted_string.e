@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 11:44:05 GMT (Friday 8th November 2024)"
-	revision: "7"
+	date: "2025-03-19 18:04:08 GMT (Wednesday 19th March 2025)"
+	revision: "8"
 
 deferred class
 	TP_QUOTED_STRING
@@ -83,7 +83,7 @@ feature {NONE} -- Implementation
 			text_count := text.count; offset := a_offset
 			quote_code := as_code (quote); escape_code := as_code (escape_character)
 
-			if i_th_code (offset + 1, text) = quote_code and then attached string_pool.borrowed_item as borrowed then
+			if i_th_code (offset + 1, text) = quote_code and then attached String_pool.borrowed_item as borrowed then
 				escape_pattern := new_escape_sequence
 				collecting_text := attached unescaped_action
 				offset := offset + 1

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:20:04 GMT (Monday 23rd September 2024)"
-	revision: "13"
+	date: "2025-03-18 7:03:18 GMT (Tuesday 18th March 2025)"
+	revision: "14"
 
 class
 	DJ_EVENTS_HTML_INDEX
 
 inherit
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		redefine
 			getter_function_table
 		end
@@ -47,10 +47,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Evolicity fields
 
-	get_events_by_year: EL_ARRAYED_LIST [EVOLICITY_CONTEXT_IMP]
+	get_events_by_year: EL_ARRAYED_LIST [EVC_CONTEXT_IMP]
 		local
 			events_for_year: EL_ARRAYED_LIST [DJ_EVENT_PLAYLIST]
-			year: INTEGER; year_context: EVOLICITY_CONTEXT_IMP
+			year: INTEGER; year_context: EVC_CONTEXT_IMP
 		do
 			create Result.make (10)
 			across events_ordered_by_date as event loop

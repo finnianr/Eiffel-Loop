@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 12:18:46 GMT (Thursday 7th September 2023)"
-	revision: "12"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "13"
 
 class
 	EL_APP_ACTIVATION_KEY
 
 inherit
-	EVOLICITY_SERIALIZEABLE_AS_XML
+	EVC_SERIALIZEABLE_AS_XML
 		redefine
 			make_from_file, make_default, getter_function_table, Template
 		end

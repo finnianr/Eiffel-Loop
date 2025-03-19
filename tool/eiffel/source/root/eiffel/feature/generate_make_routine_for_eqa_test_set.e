@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:07:01 GMT (Sunday 22nd September 2024)"
-	revision: "13"
+	date: "2025-03-18 7:03:36 GMT (Tuesday 18th March 2025)"
+	revision: "14"
 
 class
 	GENERATE_MAKE_ROUTINE_FOR_EQA_TEST_SET
@@ -30,7 +30,7 @@ inherit
 			make as make_feature
 		end
 
-	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
+	EVC_SERIALIZEABLE_AS_ZSTRING
 		rename
 			as_text as make_code_text
 		end

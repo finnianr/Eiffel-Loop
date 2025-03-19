@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:04:50 GMT (Sunday 22nd September 2024)"
-	revision: "24"
+	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
+	revision: "25"
 
 class
 	CODEC_INFO
@@ -22,7 +22,7 @@ inherit
 			make_default
 		end
 
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 		redefine
 			make_default
 		end
@@ -63,7 +63,7 @@ feature {NONE} -- Initialization
 			create unicode_intervals.make_empty
 
 			Precursor {EL_FILE_PARSER}
-			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+			Precursor {EVC_EIFFEL_CONTEXT}
 		end
 
 feature -- Access

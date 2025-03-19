@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-23 14:58:48 GMT (Friday 23rd August 2024)"
-	revision: "13"
+	date: "2025-03-18 17:08:04 GMT (Tuesday 18th March 2025)"
+	revision: "14"
 
 class
 	AGENT_TEST_SET
@@ -28,7 +28,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["function_info", agent test_function_info]
+				["function_info",		  agent test_function_info],
+				["integer_conversion", agent test_integer_conversion]
 			>>)
 		end
 
@@ -50,6 +51,16 @@ feature -- Tests
 				end
 				assert ("same string", info.result_type.name.same_string ("ARRAY [STRING_8]"))
 			end
+		end
+
+	test_integer_conversion
+		-- AGENT_TEST_SET.test_integer_conversion
+		local
+			to_integer_64: FUNCTION [INTEGER_32_REF, INTEGER_64]; n: INTEGER_32_REF
+		do
+			to_integer_64 := agent {INTEGER_32_REF}.to_integer_64
+			n := 3
+			assert ("same number", to_integer_64 (n) = 3)
 		end
 
 feature -- Basic operations

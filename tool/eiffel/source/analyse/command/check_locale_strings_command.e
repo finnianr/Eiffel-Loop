@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:57:25 GMT (Sunday 22nd September 2024)"
-	revision: "33"
+	date: "2025-03-18 7:04:51 GMT (Tuesday 18th March 2025)"
+	revision: "34"
 
 class
 	CHECK_LOCALE_STRINGS_COMMAND
@@ -272,7 +272,7 @@ feature {NONE} -- Internal attributes
 
 	additional_keys_table: EL_ZSTRING_HASH_TABLE [EL_ZSTRING_LIST]
 
-	evolicity_parser_list: ARRAYED_LIST [EVOLICITY_TEMPLATE_PARSER]
+	evolicity_parser_list: ARRAYED_LIST [EVC_TEMPLATE_PARSER]
 
 	included_files: EL_FILE_PATH_LIST
 
@@ -324,7 +324,7 @@ feature {NONE} -- Build from Pyxis
 
 	extend_evolicity_parser_list
 		do
-			evolicity_parser_list.extend (create {EVOLICITY_TEMPLATE_PARSER}.make (node.to_expanded_file_path))
+			evolicity_parser_list.extend (create {EVC_TEMPLATE_PARSER}.make (node.to_expanded_file_path))
 		end
 
 	extend_file_list (list: EL_FILE_PATH_LIST)

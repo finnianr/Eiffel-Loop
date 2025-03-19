@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-07 9:13:22 GMT (Thursday 7th September 2023)"
-	revision: "13"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "14"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
 
 inherit
-	EVOLICITY_SERIALIZEABLE_AS_XML
+	EVC_SERIALIZEABLE_AS_XML
 		rename
 			save_as_xml as store_as
 		export
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 		local
 			xdoc: EL_XML_DOC_CONTEXT
 		do
-			Precursor {EVOLICITY_SERIALIZEABLE_AS_XML} (a_file_path)
+			Precursor {EVC_SERIALIZEABLE_AS_XML} (a_file_path)
 			create xdoc.make_from_file (a_file_path)
 			set_encoding_from_name (xdoc.encoding_name)
 			make_from_xdoc (xdoc)

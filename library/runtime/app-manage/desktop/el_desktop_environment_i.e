@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:50:07 GMT (Sunday 6th October 2024)"
-	revision: "26"
+	date: "2025-03-18 7:03:36 GMT (Tuesday 18th March 2025)"
+	revision: "27"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
 
 inherit
-	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
+	EVC_SERIALIZEABLE_AS_ZSTRING
 		rename
 			serialize_to_file as write_script,
 			as_text as command_args,

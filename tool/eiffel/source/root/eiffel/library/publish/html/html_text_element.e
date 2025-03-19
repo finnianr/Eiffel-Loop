@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2025-03-18 7:03:40 GMT (Tuesday 18th March 2025)"
+	revision: "7"
 
 class
 	HTML_TEXT_ELEMENT
 
 inherit
-	EVOLICITY_SERIALIZEABLE_TEXT_VALUE
+	EVC_SERIALIZEABLE_TEXT_VALUE
 		rename
 			make as make_text
 		redefine

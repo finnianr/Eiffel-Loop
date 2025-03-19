@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 9:02:02 GMT (Friday 14th March 2025)"
-	revision: "11"
+	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
+	revision: "12"
 
 class
 	JOB_INFORMATION
 
 inherit
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 
 create
 	make

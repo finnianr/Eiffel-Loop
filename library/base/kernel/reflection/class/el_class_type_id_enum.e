@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-07 7:55:18 GMT (Monday 7th October 2024)"
-	revision: "36"
+	date: "2025-03-17 16:33:24 GMT (Monday 17th March 2025)"
+	revision: "37"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -22,6 +22,8 @@ inherit
 
 	EL_NUMERIC_TYPE_ID_ENUMERATION
 
+	EL_STRING_TYPE_ID_ENUMERATION
+
 	EL_TYPE_CATEGORY_CONSTANTS
 
 create
@@ -32,24 +34,24 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			unicode_types := <<
-				CHARACTER_32, EL_STRING_32, IMMUTABLE_STRING_32, STRING_32, EL_ZSTRING,
-				FILE_PATH, DIR_PATH, EL_DIR_URI_PATH, EL_FILE_URI_PATH
-			>>
-			character_data_types := <<
-				CHARACTER_8, CHARACTER_32,
-				IMMUTABLE_STRING_8, STRING_8,
-				IMMUTABLE_STRING_32, STRING_32, ZSTRING,
-				FILE_PATH, DIR_PATH, EL_FILE_URI_PATH, EL_DIR_URI_PATH
-			>>
+			integer_types := numeric_types (<< INTEGER_16, INTEGER_32, INTEGER_64, INTEGER_8 >>)
+			natural_types := numeric_types (<< NATURAL_16, NATURAL_32, NATURAL_64, NATURAL_8 >>)
+			real_types := numeric_types (<< REAL_32, REAL_64 >>)
+
 			immutable_string_types := << IMMUTABLE_STRING_8, IMMUTABLE_STRING_32 >>
 			readable_string_8_types := <<
 				IMMUTABLE_STRING_8, STRING_8, EL_STRING_8, EL_URI, EL_URL, EL_UTF_8_STRING
 			>>
 			readable_string_32_types := <<
-				EL_FLOATING_ZSTRING, EL_STRING_32, IMMUTABLE_STRING_32, STRING_32, ZSTRING
+				STRING_32, EL_STRING_32, IMMUTABLE_STRING_32, ZSTRING, EL_FLOATING_ZSTRING
 			>>
 			el_path_types := << EL_FILE_PATH, EL_DIR_PATH, EL_DIR_URI_PATH, EL_FILE_URI_PATH >>
+
+			unicode_types := joined (joined (<< CHARACTER_32 >>, readable_string_32_types), el_path_types)
+			character_data_types := joined (
+				joined (<< CHARACTER_8, CHARACTER_32 >>, el_path_types),
+				joined (readable_string_8_types, readable_string_32_types)
+			)
 		end
 
 feature -- Access
@@ -71,17 +73,27 @@ feature -- Access
 				elseif eif.is_type_in_set (type_id, el_path_types) then
 					Result := C_el_path
 
+				elseif eif.is_type_in_set (type_id, real_types) then
+					Result := C_real
+
+				elseif eif.is_type_in_set (type_id, integer_types) then
+					Result := C_integer
+
+				elseif eif.is_type_in_set (type_id, natural_types) then
+					Result := C_natural
+
 				elseif type_id = EL_PATH_STEPS then
 					Result := C_el_path_steps
 
 				elseif type_id = PATH then
 					Result := C_path
 
+			-- `type_conforms_to' are last because they take longer to execute
 				elseif eif.type_conforms_to (type_id, EL_PATH) then
 					Result := C_el_path
 
 				elseif eif.type_conforms_to (type_id, TYPE__ANY) then
-					Result := C_type_any
+					Result := C_type_any -- TYPE [ANY]
 
 				elseif eif.type_conforms_to (type_id, READABLE_STRING_8) then
 					Result := C_readable_string_8
@@ -101,12 +113,6 @@ feature -- Type sets
 	el_path_types: SPECIAL [INTEGER]
 		-- Eiffel-Loop path types
 
-	immutable_string_types: SPECIAL [INTEGER]
-
-	readable_string_32_types: SPECIAL [INTEGER]
-
-	readable_string_8_types: SPECIAL [INTEGER]
-
 	unicode_types: SPECIAL [INTEGER]
 		-- set of types containing character data from the Unicode character set
 
@@ -115,40 +121,6 @@ feature -- CHARACTER types
 	CHARACTER_32: INTEGER
 
 	CHARACTER_8: INTEGER
-
-feature -- String types
-
-	EL_FLOATING_ZSTRING: INTEGER
-
-	EL_STRING_32: INTEGER
-
-	EL_STRING_8: INTEGER
-
-	EL_URI: INTEGER
-
-	EL_URL: INTEGER
-
-	EL_UTF_8_STRING: INTEGER
-
-	EL_ZSTRING: INTEGER
-
-	IMMUTABLE_STRING_32: INTEGER
-
-	IMMUTABLE_STRING_8: INTEGER
-
-	STRING_32: INTEGER
-
-	STRING_8: INTEGER
-
-feature -- Abstract Strings
-
-	READABLE_STRING_32: INTEGER
-
-	READABLE_STRING_8: INTEGER
-
-	STRING_GENERAL: INTEGER
-
-	READABLE_STRING_GENERAL: INTEGER
 
 feature -- Path types
 
@@ -176,12 +148,6 @@ feature -- Class aliases
 	FILE_PATH: INTEGER
 		do
 			Result := EL_FILE_PATH
-		end
-
-	ZSTRING: INTEGER
-		-- alias
-		do
-			Result := EL_ZSTRING
 		end
 
 feature -- Generic types
@@ -232,5 +198,36 @@ feature -- Other types
 	PATH: INTEGER
 
 	TUPLE: INTEGER
+
+feature {NONE} -- Implementation
+
+	joined (types_1, types_2: SPECIAL [INTEGER]): SPECIAL [INTEGER]
+		local
+			list_1, list_2: EL_ARRAYED_LIST [INTEGER]
+		do
+			create list_1.make_from_special (types_1)
+			create list_2.make_from_special (types_2)
+			list_1.grow (list_1.count + list_2.count)
+			list_1.append (list_2)
+			Result := list_1.area
+		end
+
+	numeric_types (expanded_types: ARRAY [INTEGER]): SPECIAL [INTEGER]
+		-- add corresponding reference types to `expanded_types'
+		require
+			all_expanded:
+				across expanded_types as type all
+					Eiffel.type_of_type (type.item).is_expanded
+				end
+		local
+			list: EL_ARRAYED_LIST [INTEGER]
+		do
+			create list.make_from_array (expanded_types)
+			list.grow (list.count * 2)
+			across expanded_types as type loop
+				list.extend (type.item - 1)
+			end
+			Result := list.area
+		end
 
 end

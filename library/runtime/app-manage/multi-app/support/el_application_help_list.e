@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:33:09 GMT (Sunday 25th August 2024)"
-	revision: "14"
+	date: "2025-03-17 7:42:59 GMT (Monday 17th March 2025)"
+	revision: "15"
 
 class
 	EL_APPLICATION_HELP_LIST
@@ -22,7 +22,8 @@ inherit
 
 	EL_MODULE_LIO
 
-	EL_ZSTRING_CONSTANTS
+	EL_CHARACTER_32_CONSTANTS; EL_ZSTRING_CONSTANTS
+
 
 create
 	make
@@ -39,7 +40,7 @@ feature -- Basic operations
 			sort_by_key (True)
 
 			from start until after loop
-				option := "-" + item_key
+				option := (hyphen * 1) + item_key
 				line_list := item_value.description.split ('%N')
 				lio.put_spaces (4)
 				if line_list.count = 1 and then line_list.first.count <= 70 then

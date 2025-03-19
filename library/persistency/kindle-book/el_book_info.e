@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-31 16:32:30 GMT (Saturday 31st December 2022)"
-	revision: "14"
+	date: "2025-03-18 7:04:06 GMT (Tuesday 18th March 2025)"
+	revision: "15"
 
 class
 	EL_BOOK_INFO
@@ -22,7 +22,7 @@ inherit
 			make_default
 		end
 
-	EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT
+	EVC_REFLECTIVE_EIFFEL_CONTEXT
 		rename
 			getter_function_table as empty_function_table
 		undefine
@@ -31,7 +31,7 @@ inherit
 			make_default
 		end
 
-	EVOLICITY_REFLECTIVE_XML_CONTEXT
+	EVC_REFLECTIVE_XML_CONTEXT
 
 create
 	make_default
@@ -41,7 +41,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT}
-			Precursor {EVOLICITY_REFLECTIVE_EIFFEL_CONTEXT}
+			Precursor {EVC_REFLECTIVE_EIFFEL_CONTEXT}
 		end
 
 feature -- Access

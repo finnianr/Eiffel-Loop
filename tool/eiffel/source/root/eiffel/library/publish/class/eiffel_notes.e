@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:23:15 GMT (Wednesday 6th November 2024)"
-	revision: "40"
+	date: "2025-03-18 7:00:46 GMT (Tuesday 18th March 2025)"
+	revision: "41"
 
 class
 	EIFFEL_NOTES
@@ -61,9 +61,9 @@ feature -- Access
 			end
 		end
 
-	field_list: EL_ARRAYED_LIST [EVOLICITY_TUPLE_CONTEXT]
+	field_list: EL_ARRAYED_LIST [EVC_TUPLE_CONTEXT]
 		local
-			context: EVOLICITY_TUPLE_CONTEXT; element_list: NOTE_HTML_TEXT_ELEMENT_LIST
+			context: EVC_TUPLE_CONTEXT; element_list: NOTE_HTML_TEXT_ELEMENT_LIST
 		do
 			create Result.make (fields.count)
 			across fields as l_field loop

@@ -13,10 +13,10 @@
 			<td valign="top" width = "50%">
 				<b><a name="$loop_index" href="">$row.title:</a>
 				</b>&nbsp;$row.description
-				<br><b>Posted:&nbsp;</b>$formatted ($row.posted_date, "dd Mmm yyyy")<br>
+				<br><b>Posted:&nbsp;</b>@formatted ($row.posted_date, "dd Mmm yyyy")<br>
 				<b>Salary:</b> &#8364; $row.salary
 				<br><b>Ref:</b> $row.job_reference<br>
-				<b>Starting:&nbsp;</b>$formatted ($row.start_date, "yyyy, Mmm dd")
+				<b>Starting:&nbsp;</b>@formatted ($row.start_date, "yyyy, Mmm dd")
 				<br><b>Agent:&nbsp;</b>$row.contact_name
 				<br>
 			</td>

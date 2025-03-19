@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 8:54:52 GMT (Monday 17th February 2025)"
-	revision: "68"
+	date: "2025-03-15 13:20:20 GMT (Saturday 15th March 2025)"
+	revision: "69"
 
 class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -518,6 +518,7 @@ feature -- Tests
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.forth,
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.item,
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_is_empty,
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_has,
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_copy,
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_as,
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_caseless_as
@@ -550,9 +551,17 @@ feature -- Tests
 						else
 							assert ("same string instance", first_item = split.item)
 						end
-						if not split.item_is_empty and then split.item [1] = 'a' then
-							assert ("same as a", split.item_same_as ("a"))
-							assert ("same as A", split.item_same_caseless_as ("A"))
+						if attached split.item as str then
+							if str.count > 0 and then str [1] = 'a' then
+								assert ("has a", split.item_has ('a'))
+								assert ("same as a", split.item_same_as ("a"))
+								assert ("same as A", split.item_same_caseless_as ("A"))
+							else
+								assert ("zero implies empty item", str.count = 0 implies split.item_is_empty)
+								assert ("not has a", not split.item_has ('a'))
+								assert ("not same as a", not split.item_same_as ("a"))
+								assert ("not same as A", not split.item_same_caseless_as ("A"))
+							end
 						end
 						split_list.extend (split.item_copy)
 					end

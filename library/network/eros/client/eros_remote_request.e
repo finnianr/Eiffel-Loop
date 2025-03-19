@@ -25,14 +25,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:06:14 GMT (Monday 23rd September 2024)"
-	revision: "19"
+	date: "2025-03-18 7:03:31 GMT (Tuesday 18th March 2025)"
+	revision: "20"
 
 class
 	EROS_REMOTE_REQUEST
 
 inherit
-	EVOLICITY_SERIALIZEABLE_AS_XML
+	EVC_SERIALIZEABLE_AS_XML
 		rename
 			make_default as make
 		redefine
@@ -107,7 +107,7 @@ feature {NONE} -- Implementation
 							list.append (s.enclosed (string, '%'', '%''))
 						end
 
-					elseif attached {EVOLICITY_SERIALIZEABLE_AS_XML} argument as l_arg then
+					elseif attached {EVC_SERIALIZEABLE_AS_XML} argument as l_arg then
 						serializeable := l_arg
 						list.append (s.enclosed (l_arg.generator, '{', '}'))
 					end
@@ -123,7 +123,7 @@ feature {NONE} -- Internal attributes
 	argument_list: STRING
 		-- string argument_list
 
-	serializeable: EVOLICITY_SERIALIZEABLE_AS_XML
+	serializeable: EVC_SERIALIZEABLE_AS_XML
 		-- serializeable argument to requested routine
 
 feature {NONE} -- Evolicity
@@ -132,7 +132,7 @@ feature {NONE} -- Evolicity
 			--
 		do
 			create Result.make_assignments (<<
-				["serializeable", agent: EVOLICITY_SERIALIZEABLE_AS_XML do Result := serializeable end],
+				["serializeable", agent: EVC_SERIALIZEABLE_AS_XML do Result := serializeable end],
 				["expression",		agent: STRING do Result := expression end]
 			>>)
 		end

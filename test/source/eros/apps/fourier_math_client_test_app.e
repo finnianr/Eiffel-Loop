@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-16 10:16:38 GMT (Friday 16th February 2024)"
-	revision: "24"
+	date: "2025-03-18 7:01:50 GMT (Tuesday 18th March 2025)"
+	revision: "25"
 
 class
 	FOURIER_MATH_CLIENT_TEST_APP
@@ -24,7 +24,7 @@ inherit
 			R_windower_default as Windower_default
 		end
 
-	EVOLICITY_SHARED_TEMPLATES
+	EVC_SHARED_TEMPLATES
 
 	EL_PROTOCOL_CONSTANTS
 

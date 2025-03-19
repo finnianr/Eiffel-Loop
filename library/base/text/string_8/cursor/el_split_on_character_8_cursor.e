@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:52:28 GMT (Tuesday 20th August 2024)"
-	revision: "5"
+	date: "2025-03-15 12:15:13 GMT (Saturday 15th March 2025)"
+	revision: "6"
 
 class
 	EL_SPLIT_ON_CHARACTER_8_CURSOR [S -> READABLE_STRING_8]
@@ -17,7 +17,7 @@ class
 inherit
 	EL_SPLIT_ON_CHARACTER_CURSOR [S]
 		redefine
-			is_white_space, same_caseless_characters, same_characters, set_separator_start
+			is_i_th_white_space, is_i_th_character, same_caseless_characters, same_characters, set_separator_start
 		end
 
 create
@@ -25,9 +25,18 @@ create
 
 feature {NONE} -- Implementation
 
-	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
+	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
+		-- `True' if i'th character of `a_target' is white space
 		do
 			Result := a_target [i].is_space
+		end
+
+	is_i_th_character (a_target: like target; i: INTEGER; uc: CHARACTER_32): BOOLEAN
+		-- `True' if i'th character of `a_target' is equal to `uc'
+		do
+			if uc.is_character_8 then
+				Result := a_target [i] = uc
+			end
 		end
 
  	same_caseless_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN

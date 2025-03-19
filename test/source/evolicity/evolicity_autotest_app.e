@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-13 13:33:53 GMT (Thursday 13th March 2025)"
-	revision: "24"
+	date: "2025-03-18 7:05:50 GMT (Tuesday 18th March 2025)"
+	revision: "25"
 
 class
 	EVOLICITY_AUTOTEST_APP
@@ -25,11 +25,11 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
-		EVOLICITY_CACHEABLE_SERIALIZEABLE,
-		EVOLICITY_LOCALIZED_VARIABLES,
-		EVOLICITY_NUMERIC_EXPRESSION [COMPARABLE],
-		EVOLICITY_TUPLE_CONTEXT,
-		EVOLICITY_XML_VALUE
+		EVC_CACHEABLE_SERIALIZEABLE,
+		EVC_LOCALIZED_VARIABLES,
+		EVC_NUMERIC_EXPRESSION [COMPARABLE],
+		EVC_TUPLE_CONTEXT,
+		EVC_XML_VALUE
 	]
 		do
 			create Result

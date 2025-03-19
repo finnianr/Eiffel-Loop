@@ -17,23 +17,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:35:34 GMT (Monday 3rd March 2025)"
-	revision: "24"
+	date: "2025-03-15 11:04:38 GMT (Saturday 15th March 2025)"
+	revision: "25"
 
 class
 	EL_ZSTRING_TABLE
 
 inherit
-	EL_HASH_TABLE [ZSTRING, IMMUTABLE_STRING_8]
+	EL_IMMUTABLE_KEY_8_TABLE [ZSTRING]
 		rename
-			has as has_immutable,
-			has_key as has_immutable_key,
 			item as item_at,
 			make as make_sized,
 			make_assignments as make_from_tuples
 		end
-
-	EL_IMMUTABLE_KEY_8_LOOKUP
 
 	EL_CHARACTER_8_CONSTANTS
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:23 GMT (Friday 7th February 2025)"
-	revision: "42"
+	date: "2025-03-18 12:42:23 GMT (Tuesday 18th March 2025)"
+	revision: "43"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -155,6 +155,13 @@ feature -- Numeric conversion
 			Result := integer_32_converter.as_type (str)
 		end
 
+	to_integer_64 (str: READABLE_STRING_GENERAL): INTEGER_64
+		require
+			integer_64_string: is_integer_64 (str)
+		do
+			Result := integer_64_converter.as_type (str)
+		end
+
 	to_natural (str: READABLE_STRING_GENERAL): NATURAL_32
 		require
 			natural_string: is_natural (str)
@@ -169,11 +176,30 @@ feature -- Numeric conversion
 			Result := natural_64_converter.as_type (str)
 		end
 
+	to_real_32 (str: READABLE_STRING_GENERAL): REAL_32
+		require
+			real_32_string: is_real_32 (str)
+		do
+			Result := real_32_converter.as_type (str)
+		end
+
+	to_real_64 (str: READABLE_STRING_GENERAL): REAL_64
+		require
+			real_64_string: is_real_64 (str)
+		do
+			Result := real_64_converter.as_type (str)
+		end
+
 feature -- Numeric tests
 
 	is_integer (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := integer_32_converter.is_convertible (str)
+		end
+
+	is_integer_64 (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := integer_64_converter.is_convertible (str)
 		end
 
 	is_natural (str: READABLE_STRING_GENERAL): BOOLEAN
@@ -184,6 +210,16 @@ feature -- Numeric tests
 	is_natural_64 (str: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := natural_64_converter.is_convertible (str)
+		end
+
+	is_real_32 (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := real_32_converter.is_convertible (str)
+		end
+
+	is_real_64 (str: READABLE_STRING_GENERAL): BOOLEAN
+		do
+			Result := real_64_converter.is_convertible (str)
 		end
 
 feature -- Status query

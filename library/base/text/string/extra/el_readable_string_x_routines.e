@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 17:57:03 GMT (Sunday 23rd February 2025)"
-	revision: "51"
+	date: "2025-03-15 12:21:32 GMT (Saturday 15th March 2025)"
+	revision: "52"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -600,8 +600,7 @@ feature {NONE} -- Implementation
 		require
 			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
 		local
-			left_index, right_index: INTEGER; content: READABLE_STRING_GENERAL
-			c32: EL_CHARACTER_32_ROUTINES
+			left_index, right_index: INTEGER; c32: EL_CHARACTER_32_ROUTINES
 		do
 			if right_to_left then
 				left_index := last_index_of (str, left_bracket, str.count)

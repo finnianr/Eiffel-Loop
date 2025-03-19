@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-04 7:29:39 GMT (Tuesday 4th March 2025)"
-	revision: "40"
+	date: "2025-03-18 7:04:14 GMT (Tuesday 18th March 2025)"
+	revision: "41"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -493,7 +493,7 @@ note
 				${EL_STRING_8_TABLE [G]}
 					${EL_FIELD_VALUE_TABLE [G]}
 					${EL_DATE_FUNCTION_TABLE}
-					${EVOLICITY_FUNCTION_TABLE}
+					${EVC_FUNCTION_TABLE}
 					${EL_XPATH_TOKEN_TABLE}
 				${EL_STRING_GENERAL_UNESCAPER* [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]}
 					${EL_STRING_8_UNESCAPER}
@@ -510,7 +510,7 @@ note
 					${EL_IP_ADDRESS_GEOLOCATION_TABLE [G -> EL_IP_ADDRESS_COUNTRY create make end]}
 					${EL_FACTORY_TYPE_ID_TABLE}
 					${EL_NAME_TRANSLATER_TABLE}
-				${EVOLICITY_TEMPLATE_STACK_TABLE}
+				${EVC_TEMPLATE_STACK_TABLE}
 				${EL_SINGLETON_TABLE}
 				${EL_FUNCTIONS_BY_RESULT_TYPE}
 				${EL_FUNCTION_CACHE_TABLE [G, OPEN_ARGS -> TUPLE create default_create end]}

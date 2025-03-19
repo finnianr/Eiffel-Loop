@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:53:53 GMT (Thursday 13th February 2025)"
-	revision: "19"
+	date: "2025-03-15 11:19:33 GMT (Saturday 15th March 2025)"
+	revision: "20"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -70,7 +70,7 @@ feature {NONE} -- State handlers
 	parse_cookie (line: STRING)
 		local
 			tab_splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]; value: ZSTRING;
-			cookie_value: EL_COOKIE_STRING_8; name: IMMUTABLE_STRING_8
+			cookie_value: EL_COOKIE_STRING_8; name: STRING
 		do
 			create tab_splitter.make (line, '%T')
 			across tab_splitter as split loop
@@ -78,7 +78,7 @@ feature {NONE} -- State handlers
 					when 6 then
 						name := split.item_copy
 					when 7 then
-						if split.item.has ('\') then
+						if split.item_has ('\') then
 --							assume to contain octal rather than hexadecimal escape sequences
 							create {EL_OCTAL_COOKIE_STRING_8} cookie_value.make_encoded (split.item)
 						else
@@ -88,7 +88,7 @@ feature {NONE} -- State handlers
 						if value.has_quotes (2) then
 							value.remove_quotes
 						end
-						put (value, name)
+						put_8 (value, name)
 				else
 				end
 			end

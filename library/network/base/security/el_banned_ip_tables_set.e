@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-11 7:31:15 GMT (Tuesday 11th March 2025)"
-	revision: "6"
+	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
+	revision: "7"
 
 class
 	EL_BANNED_IP_TABLES_SET
@@ -39,7 +39,7 @@ inherit
 			empty_duplicate
 		end
 
-	EVOLICITY_SERIALIZEABLE
+	EVC_SERIALIZEABLE
 		export
 			{NONE} all
 			{ANY} output_path, set_output_path

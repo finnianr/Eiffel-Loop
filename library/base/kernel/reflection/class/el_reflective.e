@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
-	revision: "95"
+	date: "2025-03-18 7:03:13 GMT (Tuesday 18th March 2025)"
+	revision: "96"
 
 deferred class
 	EL_REFLECTIVE
@@ -396,7 +396,7 @@ note
 					${EL_HTML_META_VALUES}
 					${EL_NETWORK_DEVICE_IMP}
 					${EL_WAYBACK_CLOSEST}
-					${EVOLICITY_REFLECTIVE_SERIALIZEABLE*}
+					${EVC_REFLECTIVE_SERIALIZEABLE*}
 					${PP_TRANSACTION}
 					${JOB}
 					${JSON_CURRENCY}

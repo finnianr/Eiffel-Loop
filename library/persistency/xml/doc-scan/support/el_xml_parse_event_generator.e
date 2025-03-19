@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "12"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "13"
 
 class
 	EL_XML_PARSE_EVENT_GENERATOR
@@ -33,7 +33,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML; a_output: like output)
+	send_object (object: EVC_SERIALIZEABLE_AS_XML; a_output: like output)
 			-- send `object' to `a_output' as binary encoded XML
 		do
 			output := a_output

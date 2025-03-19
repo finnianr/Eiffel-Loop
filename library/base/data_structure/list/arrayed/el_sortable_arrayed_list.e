@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-03 16:00:39 GMT (Wednesday 3rd April 2024)"
-	revision: "16"
+	date: "2025-03-18 7:04:24 GMT (Tuesday 18th March 2025)"
+	revision: "17"
 
 class
 	EL_SORTABLE_ARRAYED_LIST [G -> COMPARABLE]
@@ -74,8 +74,8 @@ note
 					${EL_IMMUTABLE_UTF_8_LIST}
 				${EL_STRING_LIST [S -> STRING_GENERAL create make end]}
 					${EL_STRING_8_LIST}
-						${EVOLICITY_VARIABLE_REFERENCE}
-							${EVOLICITY_FUNCTION_REFERENCE}
+						${EVC_VARIABLE_REFERENCE}
+							${EVC_FUNCTION_REFERENCE}
 						${AIA_CANONICAL_REQUEST}
 					${EL_STRING_32_LIST}
 					${EL_ZSTRING_LIST}

@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:04:49 GMT (Sunday 22nd September 2024)"
-	revision: "11"
+	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
+	revision: "12"
 
 class
 	LATIN_CHARACTER
 
 inherit
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 		undefine
 			is_equal
 		end

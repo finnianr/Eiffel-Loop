@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 12:51:27 GMT (Monday 24th February 2025)"
-	revision: "66"
+	date: "2025-03-18 7:03:36 GMT (Tuesday 18th March 2025)"
+	revision: "67"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -38,7 +38,7 @@ inherit
 			has_error, reset
 		end
 
-	EVOLICITY_SERIALIZEABLE_AS_ZSTRING
+	EVC_SERIALIZEABLE_AS_ZSTRING
 		rename
 			as_text as system_command
 		export
@@ -71,7 +71,7 @@ feature {NONE} -- Initialization
 			--
 		do
 			Precursor {EL_REFLECTIVELY_SETTABLE}
-			Precursor {EVOLICITY_SERIALIZEABLE_AS_ZSTRING}
+			Precursor {EVC_SERIALIZEABLE_AS_ZSTRING}
 			output_encoding := Utf_8
 			create dry_run
 		end

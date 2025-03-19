@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:00:31 GMT (Sunday 1st September 2024)"
-	revision: "27"
+	date: "2025-03-18 7:01:50 GMT (Tuesday 18th March 2025)"
+	revision: "28"
 
 class
 	ZCODEC_GENERATOR
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_TUPLE
 
-	EVOLICITY_SHARED_TEMPLATES
+	EVC_SHARED_TEMPLATES
 
 	EL_CHARACTER_32_CONSTANTS
 

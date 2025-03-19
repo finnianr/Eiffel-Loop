@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-11 10:33:13 GMT (Tuesday 11th June 2024)"
-	revision: "24"
+	date: "2025-03-18 7:00:46 GMT (Tuesday 18th March 2025)"
+	revision: "25"
 
 class
 	REPOSITORY_SITEMAP_PAGE
@@ -72,10 +72,10 @@ feature {NONE} -- Evolicity fields
 
 feature {NONE} -- Implementation
 
-	category_list: ARRAYED_LIST [EVOLICITY_TUPLE_CONTEXT]
+	category_list: ARRAYED_LIST [EVC_TUPLE_CONTEXT]
 		local
 			category: ZSTRING; list: EL_SORTABLE_ARRAYED_LIST [EIFFEL_CONFIGURATION_INDEX_PAGE]
-			context: EVOLICITY_TUPLE_CONTEXT
+			context: EVC_TUPLE_CONTEXT
 		do
 			create Result.make (ecf_pages.count // 10 + 1)
 			create category.make_empty

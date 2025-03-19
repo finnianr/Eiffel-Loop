@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 14:24:44 GMT (Thursday 6th March 2025)"
-	revision: "12"
+	date: "2025-03-14 12:46:30 GMT (Friday 14th March 2025)"
+	revision: "13"
 
 class
 	JOBSERVE_SEARCHER_TEST_SET
@@ -39,7 +39,7 @@ feature -- Tests
 			if not file_list.is_empty then
 				create searcher.make (file_list.first_path, create {DIR_PATH}, "")
 				searcher.execute
-				assert_same_digest (Plain_text, searcher.results_path, "a0kyWcW0yHLP4rG9x6W1XA==")
+				assert_same_digest (Plain_text, searcher.results_path, "TkBPwxbUD8LWZ1eEuxeBZA==")
 			end
 		end
 

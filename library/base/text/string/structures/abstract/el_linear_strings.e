@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-16 8:43:55 GMT (Sunday 16th February 2025)"
-	revision: "24"
+	date: "2025-03-18 7:04:24 GMT (Tuesday 18th March 2025)"
+	revision: "25"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -306,8 +306,8 @@ note
 					${EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]}
 					${EL_STRING_LIST [S -> STRING_GENERAL create make end]}
 						${EL_STRING_8_LIST}
-							${EVOLICITY_VARIABLE_REFERENCE}
-								${EVOLICITY_FUNCTION_REFERENCE}
+							${EVC_VARIABLE_REFERENCE}
+								${EVC_FUNCTION_REFERENCE}
 							${AIA_CANONICAL_REQUEST}
 						${EL_STRING_32_LIST}
 						${EL_ZSTRING_LIST}

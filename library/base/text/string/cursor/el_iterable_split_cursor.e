@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-16 15:40:46 GMT (Thursday 16th November 2023)"
-	revision: "12"
+	date: "2025-03-15 12:13:18 GMT (Saturday 15th March 2025)"
+	revision: "13"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
@@ -121,9 +121,11 @@ feature -- Status query
 		local
 			i: INTEGER
 		do
-			from i := item_lower until i > item_upper or else Result loop
-				Result := target [i] = uc
-				i := i + 1
+			if attached target as l_target then
+				from i := item_lower until i > item_upper or else Result loop
+					Result := is_i_th_character (l_target, i, uc)
+					i := i + 1
+				end
 			end
 		end
 
@@ -190,7 +192,7 @@ feature -- Cursor movement
 				end
 				if left_adjusted and then attached target as l_target then
 					from until found_first or else item_lower > item_upper loop
-						if is_white_space (l_target, item_lower) then
+						if is_i_th_white_space (l_target, item_lower) then
 							item_lower := item_lower + 1
 						else
 							found_first := True
@@ -200,7 +202,7 @@ feature -- Cursor movement
 				if right_adjusted and then attached target as l_target then
 					found_first := False
 					from until found_first or else item_upper < item_lower  loop
-						if is_white_space (l_target, item_upper) then
+						if is_i_th_white_space (l_target, item_upper) then
 							item_upper := item_upper - 1
 						else
 							found_first := True
@@ -213,11 +215,18 @@ feature -- Cursor movement
 
 feature {NONE} -- Implementation
 
-	is_white_space (a_target: like target; i: INTEGER): BOOLEAN
+	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
+		-- `True' if i'th character of `a_target' is white space
 		local
 			c32: EL_CHARACTER_32_ROUTINES
 		do
 			Result := c32.is_space (a_target [i])
+		end
+
+	is_i_th_character (a_target: like target; i: INTEGER; uc: CHARACTER_32): BOOLEAN
+		-- `True' if i'th character of `a_target' is equal to `uc'
+		do
+			Result := a_target [i] = uc
 		end
 
  	same_caseless_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN

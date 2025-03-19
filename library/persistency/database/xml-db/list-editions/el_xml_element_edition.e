@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 8:59:16 GMT (Monday 21st November 2022)"
-	revision: "8"
+	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
+	revision: "9"
 
 deferred class
 	EL_XML_ELEMENT_EDITION [STORABLE_TYPE -> EL_STORABLE_XML_ELEMENT]
 
 inherit
-	EVOLICITY_SERIALIZEABLE_AS_XML
+	EVC_SERIALIZEABLE_AS_XML
 
 feature -- Access
 

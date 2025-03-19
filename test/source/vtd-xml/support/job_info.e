@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 13:39:38 GMT (Sunday 22nd September 2024)"
-	revision: "9"
+	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
+	revision: "11"
 
 class
 	JOB_INFO
@@ -18,7 +18,7 @@ inherit
 			is_equal
 		end
 
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 		undefine
 			is_equal
 		end
@@ -44,7 +44,7 @@ feature {NONE} -- Initialization
 			location := row_node.query ("location/@value")
 			position := row_node.query ("position/@value")
 			job_url := row_node.query ("job_url/@value")
-			details := row_node.query ("details/@value")
+			details := row_node.query ("details/text()")
 			contact := row_node.query ("contact/@value")
 		end
 

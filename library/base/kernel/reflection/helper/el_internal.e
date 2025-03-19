@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-09 11:50:08 GMT (Wednesday 9th October 2024)"
-	revision: "38"
+	date: "2025-03-18 22:24:17 GMT (Tuesday 18th March 2025)"
+	revision: "40"
 
 class
 	EL_INTERNAL
@@ -35,15 +35,23 @@ inherit
 		end
 
 	EL_EIFFEL_C_API
+		rename
+			eif_type_flags as type_flags
+		export
+			{NONE} all
+			{ANY} type_flags
+		end
 
 	EL_REFLECTION_CONSTANTS; EL_STRING_8_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 		rename
-			Class_id as Class_id_
+			Class_id as Shared_class_id
 		end
 
 	EL_SHARED_FACTORIES
+
+	EL_TYPE_CATEGORY_CONSTANTS
 
 create
 	make
@@ -52,54 +60,159 @@ feature {NONE} -- Initialization
 
 	make
 		do
-			class_id := Class_id_
+			class_id := Shared_class_id
+		end
+
+feature -- Measurement
+
+	integer_width (object: ANY): INTEGER
+		local
+			math: EL_INTEGER_MATH; type_id: INTEGER
+		do
+			type_id := {ISE_RUNTIME}.dynamic_type (object)
+
+			if is_expanded_or_reference (class_id.INTEGER_32, type_id)
+				and then attached {INTEGER_32_REF} object as int_32
+			then
+				Result := math.string_size (int_32.item)
+
+			elseif is_expanded_or_reference (class_id.INTEGER_64, type_id)
+				and then attached {INTEGER_64_REF} object as int_64
+			then
+				Result := math.string_size (int_64.item)
+
+			elseif is_expanded_or_reference (class_id.INTEGER_8, type_id)
+				and then attached {INTEGER_8_REF} object as int_8
+			then
+				Result := math.string_size (int_8.item)
+
+			elseif is_expanded_or_reference (class_id.INTEGER_16, type_id)
+				and then attached {INTEGER_16_REF} object as int_16
+			then
+				Result := math.string_size (int_16.item)
+			else
+				Result := object.out.count
+			end
+		end
+
+	natural_width (object: ANY): INTEGER
+		local
+			math: EL_INTEGER_MATH; type_id: INTEGER
+		do
+			type_id := {ISE_RUNTIME}.dynamic_type (object)
+
+			if is_expanded_or_reference (class_id.NATURAL_32, type_id)
+				and then attached {NATURAL_32_REF} object as nat_32
+			then
+				Result := math.natural_digit_count (nat_32.item)
+
+			elseif is_expanded_or_reference (class_id.NATURAL_64, type_id)
+				and then attached {NATURAL_64_REF} object as nat_64
+			then
+				Result := math.natural_digit_count (nat_64.item)
+
+			elseif is_expanded_or_reference (class_id.NATURAL_8, type_id)
+				and then attached {NATURAL_8_REF} object as nat_8
+			then
+				Result := math.natural_digit_count (nat_8.item)
+
+			elseif is_expanded_or_reference (class_id.NATURAL_16, type_id)
+				and then attached {NATURAL_16_REF} object as nat_16
+			then
+				Result := math.natural_digit_count (nat_16.item)
+			else
+				Result := object.out.count
+			end
+		end
+
+	string_width (object: ANY): INTEGER
+		do
+			inspect class_id.object_type_category (object)
+				when C_readable_string_8 then
+					if attached {READABLE_STRING_8} object as str_8 then
+						Result := str_8.count
+					end
+
+				when C_readable_string_32 then
+					if attached {READABLE_STRING_32} object as str_32 then
+						Result := str_32.count
+					end
+
+				when C_el_path then
+					if attached {EL_PATH} object as path then
+						Result := path.count
+					end
+
+				when C_el_path_steps then
+					if attached {EL_PATH_STEPS} object as steps then
+						Result := steps.count
+					end
+
+				when C_path then
+					if attached {PATH} object as path then
+						Result := path.name.count
+					end
+
+				when C_type_any then
+					if attached {TYPE [ANY]} object as type then
+						Result := type.name.count
+					end
+
+				when C_integer then
+					Result := integer_width (object)
+
+				when C_natural then
+					Result := natural_width (object)
+			else
+				Result := object.out.count
+			end
 		end
 
 feature -- Status type flag
 
-	is_type_composite (type_flags: NATURAL_16): BOOLEAN
+	is_type_composite (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_composite) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_composite) > 0
 		end
 
-	is_type_dead (type_flags: NATURAL_16): BOOLEAN
+	is_type_dead (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_dead) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_dead) > 0
 		end
 
-	is_type_declared_expanded (type_flags: NATURAL_16): BOOLEAN
+	is_type_declared_expanded (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_declared_expanded) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_declared_expanded) > 0
 		end
 
-	is_type_deferred (type_flags: NATURAL_16): BOOLEAN
+	is_type_deferred (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_deferred) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_deferred) > 0
 		end
 
-	is_type_expanded (type_flags: NATURAL_16): BOOLEAN
+	is_type_expanded (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_expanded) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_expanded) > 0
 		end
 
-	is_type_frozen (type_flags: NATURAL_16): BOOLEAN
+	is_type_frozen (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_frozen) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_frozen) > 0
 		end
 
-	is_type_special (type_flags: NATURAL_16): BOOLEAN
+	is_type_special (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_special) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_special) > 0
 		end
 
-	is_type_tuple (type_flags: NATURAL_16): BOOLEAN
+	is_type_tuple (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Is_tuple) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Is_tuple) > 0
 		end
 
-	type_has_dispose (type_flags: NATURAL_16): BOOLEAN
+	type_has_dispose (flags: NATURAL_16): BOOLEAN
 		do
-			Result := (type_flags & {EL_TYPE_FLAG}.Has_dispose) > 0
+			Result := (flags & {EL_TYPE_FLAG}.Has_dispose) > 0
 		end
 
 feature -- Type status
@@ -121,6 +234,13 @@ feature -- Type status
 		-- True if `type_id' conforms to one of `types'
 		do
 			Result := is_reference (basic_type) and then conforms_to_one_of (type_id, types)
+		end
+
+	is_expanded_or_reference (expanded_id, type_id: INTEGER): BOOLEAN
+		require
+			is_expanded: type_of_type (expanded_id).is_expanded
+		do
+			Result := expanded_id = type_id or else expanded_id - 1 = type_id
 		end
 
 	is_generic (type_id: INTEGER): BOOLEAN
@@ -243,6 +363,8 @@ feature -- Access
 			Result := abstract_type_of_type ({ISE_RUNTIME}.dynamic_type (object))
 		end
 
+	class_id: EL_CLASS_TYPE_ID_ENUM
+
 	collection_item_type (type_id: INTEGER): INTEGER
 		require
 			valid_id: is_collection_type (type_id)
@@ -272,6 +394,19 @@ feature -- Access
 			create Result.make (a_object)
 		end
 
+	type_flag_names (flags: NATURAL_16): EL_STRING_8_LIST
+		local
+			i: INTEGER
+		do
+			create Result.make (7)
+			from i := 1 until i > Type_status_array.count loop
+				if flags & (1 |<< (i + 5)).to_natural_16 > 0 then
+					Result.extend (Type_status_array [i])
+				end
+				i := i + 1
+			end
+		end
+
 	type_from_string (class_type: READABLE_STRING_GENERAL): detachable TYPE [ANY]
 		local
 			type_id: INTEGER
@@ -279,19 +414,6 @@ feature -- Access
 			type_id := dynamic_type_from_string (class_type)
 			if type_id > 0 then
 				Result := type_of_type (type_id)
-			end
-		end
-
-	type_flag_names (type_flags: NATURAL_16): EL_STRING_8_LIST
-		local
-			i: INTEGER
-		do
-			create Result.make (7)
-			from i := 1 until i > Type_status_array.count loop
-				if type_flags & (1 |<< (i + 5)).to_natural_16 > 0 then
-					Result.extend (Type_status_array [i])
-				end
-				i := i + 1
 			end
 		end
 
@@ -327,10 +449,6 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	class_id: EL_CLASS_TYPE_ID_ENUM
 
 feature {NONE} -- Constants
 

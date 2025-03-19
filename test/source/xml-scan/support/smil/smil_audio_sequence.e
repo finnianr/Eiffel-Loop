@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:20:19 GMT (Sunday 22nd September 2024)"
-	revision: "9"
+	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
+	revision: "10"
 
 class
 	SMIL_AUDIO_SEQUENCE
@@ -18,7 +18,7 @@ inherit
 			make_default, building_action_table
 		end
 
-	EVOLICITY_EIFFEL_CONTEXT
+	EVC_EIFFEL_CONTEXT
 		redefine
 			make_default
 		end
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 	make_default
 		do
 			Precursor {EL_EIF_OBJ_BUILDER_CONTEXT}
-			Precursor {EVOLICITY_EIFFEL_CONTEXT}
+			Precursor {EVC_EIFFEL_CONTEXT}
 		end
 
 	make

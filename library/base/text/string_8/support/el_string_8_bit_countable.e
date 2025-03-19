@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:57:33 GMT (Tuesday 20th August 2024)"
-	revision: "4"
+	date: "2025-03-18 7:03:53 GMT (Tuesday 18th March 2025)"
+	revision: "5"
 
 deferred class
 	EL_STRING_8_BIT_COUNTABLE [S -> READABLE_STRING_8]
@@ -49,7 +49,7 @@ note
 				${EL_STRING_8_TABLE [G]}
 					${EL_FIELD_VALUE_TABLE [G]}
 					${EL_DATE_FUNCTION_TABLE}
-					${EVOLICITY_FUNCTION_TABLE}
+					${EVC_FUNCTION_TABLE}
 					${EL_XPATH_TOKEN_TABLE}
 	]"
 end

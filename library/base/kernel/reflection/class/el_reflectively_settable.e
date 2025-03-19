@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-01 15:56:58 GMT (Monday 1st April 2024)"
-	revision: "39"
+	date: "2025-03-18 7:03:13 GMT (Tuesday 18th March 2025)"
+	revision: "40"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -101,7 +101,7 @@ note
 					${EL_IP_ADDRESS_GEOLOCATION}
 						${EL_IP_ADDRESS_GEOGRAPHIC_INFO}
 					${EL_TRANSLATION_ITEM}
-				${EVOLICITY_REFLECTIVE_SERIALIZEABLE*}
+				${EVC_REFLECTIVE_SERIALIZEABLE*}
 				${PP_TRANSACTION}
 				${JOB}
 				${JSON_CURRENCY}

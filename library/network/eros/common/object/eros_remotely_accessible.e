@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 9:04:39 GMT (Saturday 11th November 2023)"
-	revision: "17"
+	date: "2025-03-18 7:03:31 GMT (Tuesday 18th March 2025)"
+	revision: "18"
 
 deferred class
 	EROS_REMOTELY_ACCESSIBLE
@@ -46,7 +46,7 @@ feature {EROS_CALL_REQUEST_HANDLER_I} -- Initialization
 
 feature -- Access
 
-	result_object: EVOLICITY_SERIALIZEABLE_AS_XML
+	result_object: EVC_SERIALIZEABLE_AS_XML
 
 feature -- Element change
 
@@ -90,7 +90,7 @@ feature -- Basic operations
 				result_object := Procedure_acknowledgement
 
 			elseif attached {FUNCTION [ANY]} routine.item as function then
-				if attached {EVOLICITY_SERIALIZEABLE_AS_XML} function.last_result as l_result then
+				if attached {EVC_SERIALIZEABLE_AS_XML} function.last_result as l_result then
 					result_object := l_result
 
 				elseif attached {STRING} function.last_result as last_result  then

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-12 7:36:58 GMT (Saturday 12th October 2024)"
-	revision: "61"
+	date: "2025-03-15 13:06:56 GMT (Saturday 15th March 2025)"
+	revision: "62"
 
 class
 	RBOX_SONG
@@ -127,24 +127,14 @@ feature -- Access
 			-- For Nokia phone:
 			-- E:\Music\Tango\Aníbal Troilo\Te Aconsejo Que me Olvides.02.mp3
 		local
-			artists, info: ZSTRING; tanda_name: EL_ZSTRING_LIST
-			destination_dir: DIR_PATH; destination_path: FILE_PATH
+			artists, info: ZSTRING; destination_dir: DIR_PATH; destination_path: FILE_PATH
 		do
 			artists := lead_artist.twin
 			if not album_artists.list.is_empty then
 				artists.append (Bracket_template #$ [album_artist])
 			end
 			if is_cortina then
-				create tanda_name.make_word_split (title)
-				tanda_name.start
-				if not tanda_name.after and then tanda_name.item.has ('.') then
-					tanda_name.remove
-				end
-				tanda_name.finish
-				if not tanda_name.off and then tanda_name.item.has ('_') then
-					tanda_name.remove
-				end
-				info := M3U.info_template #$ [duration, tanda_name.joined_words, Tanda_digits.formatted (tanda_index)]
+				info := M3U.info_template #$ [duration, new_tanda_name, Tanda_digits.formatted (tanda_index)]
 			else
 				info := M3U.info_template #$ [duration, title, artists]
 			end
@@ -430,6 +420,29 @@ feature {NONE} -- Implementation
 	new_representations: like Default_representations
 		do
 			Result := Precursor + ["composer", Composer_set.to_representation]
+		end
+
+	new_tanda_name: ZSTRING
+		-- derive tanda name from `title'
+		local
+			word_list: EL_ZSTRING_LIST; last_index: INTEGER; filtered: BOOLEAN
+		do
+			last_index := title.occurrences (' ') + 1
+			create word_list.make (last_index)
+			across title.split (' ') as word loop
+				if word.cursor_index = 1 then
+					filtered := word.item_has ('.')
+
+				elseif word.cursor_index = last_index then
+					filtered := word.item_has ('_')
+				else
+					filtered := False
+				end
+				if not filtered then
+					word_list.extend (word.item_copy)
+				end
+			end
+			Result := word_list.joined_words
 		end
 
 	normalized_mp3_base_path: FILE_PATH

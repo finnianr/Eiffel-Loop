@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-10 14:31:15 GMT (Monday 10th July 2023)"
-	revision: "11"
+	date: "2025-03-18 7:03:31 GMT (Tuesday 18th March 2025)"
+	revision: "12"
 
 deferred class
 	EROS_REMOTE_XML_OBJECT_EXCHANGER
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 
 feature -- Basic operations
 
-	send_object (object: EVOLICITY_SERIALIZEABLE_AS_XML; socket: EL_STREAM_SOCKET)
+	send_object (object: EVC_SERIALIZEABLE_AS_XML; socket: EL_STREAM_SOCKET)
 			--
 		local
 			text_io: like Latin_1_text_io
