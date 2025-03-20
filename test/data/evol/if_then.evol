@@ -13,6 +13,11 @@ True
 #else
 False
 #end
+#if @test.squared ($x) = 4 then
+True
+#else
+False
+#end
 #if $test.str.is_empty then
 True
 #else
@@ -23,7 +28,17 @@ True
 #else
 False
 #end
-#if $test.str = "abc" then
+#if $test.str = "cat" then
+True
+#else
+False
+#end
+#if $test.dog = "cat" then
+True
+#else
+False
+#end
+#if $test.dog > $test.cat then
 True
 #else
 False

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 18:57:59 GMT (Tuesday 18th March 2025)"
-	revision: "19"
+	date: "2025-03-20 7:38:56 GMT (Thursday 20th March 2025)"
+	revision: "20"
 
 class
 	EVC_FILE_LEXER
@@ -111,9 +111,9 @@ feature {NONE} -- Value Pattern
 			--
 		do
 			Result := one_of (<<
-				quoted_string (Void)	|to| add_token_action (Token.Quoted_string),
-				signed_integer 		|to| add_token_action (Token.integer_64_constant),
-				decimal_constant		|to| add_token_action (Token.double_constant)
+				quoted_string (Void)	|to| add_token_action (Token.Literal_string),
+				signed_integer 		|to| add_token_action (Token.Literal_integer),
+				decimal_constant		|to| add_token_action (Token.literal_real)
 			>>)
 		end
 
@@ -218,7 +218,7 @@ feature {NONE} -- Directive Pattern
 			<< string_literal ("evaluate") |to| agent on_evaluate (Token.keyword_evaluate, ?, ?),
 				character_literal ('('),
 				one_of (<<
-					quoted_string (Void) |to| add_token_action (Token.Quoted_string),
+					quoted_string (Void) |to| add_token_action (Token.Literal_string),
 					template_name_by_class |to| add_token_action (Token.Template_name_identifier),
 					variable_reference
 				>>),
@@ -261,7 +261,7 @@ feature {NONE} -- Directive Pattern
 				string_literal ("include") |to| agent on_include (Token.keyword_include, ?, ?),
 				character_literal ('('),
 				one_of (<<
-					quoted_string (Void) |to| add_token_action (Token.Quoted_string),
+					quoted_string (Void) |to| add_token_action (Token.Literal_string),
 					variable_reference
 				>>),
 				character_literal (')')

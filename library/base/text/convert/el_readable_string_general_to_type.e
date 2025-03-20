@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 17:17:57 GMT (Sunday 10th November 2024)"
-	revision: "19"
+	date: "2025-03-20 12:07:08 GMT (Thursday 20th March 2025)"
+	revision: "20"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -26,9 +26,7 @@ inherit
 
 	EL_TYPE_CONVERSION_HANDLER
 
-	SED_UTILITIES
-		rename
-			abstract_type as abstract_type_of_type
+	EL_TYPE_UTILITIES
 		export
 			{NONE} all
 		end

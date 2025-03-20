@@ -6,21 +6,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 18:37:09 GMT (Wednesday 19th March 2025)"
-	revision: "1"
+	date: "2025-03-20 9:29:20 GMT (Thursday 20th March 2025)"
+	revision: "2"
 
 class
 	EVC_NOT_EQUAL_TO_COMPARISON
 
 inherit
-	EVC_COMPARISON
+	EVC_EQUAL_TO_COMPARISON
+		undefine
+			compare, compare_real_64, compare_integer_64
+		redefine
+			compare_string_8, compare_string_32
+		end
 
 feature {NONE} -- Implementation
 
 	compare (left, right: COMPARABLE)
 			--
 		do
-			is_true := not left.is_equal (right)
+			is_true := left /~ right
 		end
 
 	compare_real_64 (left, right: REAL_64)
@@ -33,9 +38,16 @@ feature {NONE} -- Implementation
 			is_true := left /= right
 		end
 
-	compare_string (left, right: ZSTRING)
+	compare_string_8 (left: READABLE_STRING_8; right: COMPARABLE; right_type_id: INTEGER)
 		do
-			is_true := not left.is_equal (right)
+			Precursor (left, right, right_type_id)
+			is_true := not is_true
+		end
+
+	compare_string_32 (left: READABLE_STRING_32; right: COMPARABLE; right_type_id: INTEGER)
+		do
+			Precursor (left, right, right_type_id)
+			is_true := not is_true
 		end
 
 end

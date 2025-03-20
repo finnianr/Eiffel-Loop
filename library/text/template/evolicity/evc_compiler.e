@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 18:38:38 GMT (Wednesday 19th March 2025)"
-	revision: "29"
+	date: "2025-03-20 8:37:02 GMT (Thursday 20th March 2025)"
+	revision: "30"
 
 class
 	EVC_COMPILER
@@ -186,7 +186,7 @@ feature {NONE} -- Directives
 				keyword (Token.White_text)							|to| evaluate_action (Token.White_text),
 				one_of (<<
 					keyword (Token.Template_name_identifier)	|to| evaluate_action (Token.Template_name_identifier),
-					keyword (Token.Quoted_string)					|to| evaluate_action (Token.Quoted_string),
+					keyword (Token.Literal_string)					|to| evaluate_action (Token.Literal_string),
 					variable_reference 								|to| evaluate_action (Token.operator_dot)
 				>>),
 				variable_reference 									|to| evaluate_action (0)
@@ -200,7 +200,7 @@ feature {NONE} -- Directives
 				keyword (Token.keyword_include)	|to| include_action (Token.keyword_include),
 				keyword (Token.White_text)			|to| include_action (Token.White_text),
 				one_of (<<
-					keyword (Token.Quoted_string)	|to| include_action (Token.Quoted_string),
+					keyword (Token.Literal_string)	|to| include_action (Token.Literal_string),
 					variable_reference 				|to| include_action (Token.operator_dot)
 				>>)
 			>> )
@@ -239,17 +239,38 @@ feature {NONE} -- Expresssions
 			--
 		do
 			Result := one_of (<<
-				numeric_comparison_expression,
+				comparison_expression,
 				value_reference |to| agent on_boolean_variable
 			>>)
 		end
 
-	comparable_numeric: like one_of
+	comparable_item: like one_of
 		do
 			Result := one_of (<<
-				value_reference 							|to| comparable_action (Token.operator_dot),
-				keyword (Token.integer_64_constant)	|to| comparable_action (Token.integer_64_constant),
-				keyword (Token.double_constant)		|to| comparable_action (Token.double_constant)
+				value_reference 						|to| comparable_action (Token.operator_dot),
+				keyword (Token.Literal_integer)	|to| comparable_action (Token.Literal_integer),
+				keyword (Token.literal_real)		|to| comparable_action (Token.literal_real),
+				keyword (Token.Literal_string)	|to| comparable_action (Token.Literal_string)
+			>>)
+		end
+
+	comparison_expression: like all_of
+			--
+		do
+			Result := all_of ( <<
+				comparable_item, comparison_operator, comparable_item
+			>>)
+			Result.set_action_last (agent on_comparison_expression)
+		end
+
+	comparison_operator: like all_of
+			--
+		do
+			Result := one_of ( <<
+				keyword (Token.operator_less_than)		|to| comparison_action ('<'),
+				keyword (Token.operator_greater_than)	|to| comparison_action ('>'),
+				keyword (Token.operator_equal_to) 		|to| comparison_action ('='),
+				keyword (Token.operator_not_equal_to)	|to| comparison_action ('/')
 			>>)
 		end
 
@@ -257,9 +278,9 @@ feature {NONE} -- Expresssions
 		do
 			Result := one_of (<<
 				variable_reference,
-				keyword (Token.Quoted_string),
-				keyword (Token.double_constant),
-				keyword (Token.integer_64_constant)
+				keyword (Token.Literal_string),
+				keyword (Token.literal_real),
+				keyword (Token.Literal_integer)
 			>>)
 		end
 
@@ -289,23 +310,11 @@ feature {NONE} -- Expresssions
 			Result.set_action_last (agent on_boolean_not_expression)
 		end
 
-	numeric_comparison_expression: like all_of
+	simple_boolean_expression: like one_of
 			--
 		do
-			Result := all_of ( <<
-				comparable_numeric, numeric_comparison_operator, comparable_numeric
-			>>)
-			Result.set_action_last (agent on_comparison_expression)
-		end
-
-	numeric_comparison_operator: like all_of
-			--
-		do
-			Result := one_of ( <<
-				keyword (Token.operator_less_than)		|to| numeric_comparison_action ('<'),
-				keyword (Token.operator_greater_than)	|to| numeric_comparison_action ('>'),
-				keyword (Token.operator_equal_to) 		|to| numeric_comparison_action ('='),
-				keyword (Token.operator_not_equal_to)	|to| numeric_comparison_action ('/')
+			Result := one_of (<<
+				negated_boolean_value, boolean_value
 			>>)
 		end
 
@@ -321,14 +330,6 @@ feature {NONE} -- Expresssions
 				zero_or_more (
 					all_of (<< keyword (Token.operator_dot), keyword (Token.Unqualified_name) >> )
 				)
-			>>)
-		end
-
-	simple_boolean_expression: like one_of
-			--
-		do
-			Result := one_of (<<
-				negated_boolean_value, boolean_value
 			>>)
 		end
 

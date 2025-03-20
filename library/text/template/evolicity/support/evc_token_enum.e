@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:45:11 GMT (Tuesday 18th March 2025)"
-	revision: "5"
+	date: "2025-03-20 8:04:36 GMT (Thursday 20th March 2025)"
+	revision: "6"
 
 class
 	EVC_TOKEN_ENUM
@@ -30,11 +30,14 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			loop_keywords := << keyword_across, keyword_foreach >>
+			literals := << literal_real, literal_integer, literal_string >>
 		end
 
 feature -- Access
 
 	loop_keywords: ARRAY [NATURAL]
+
+	literals: ARRAY [NATURAL]
 
 feature -- Keywords
 
@@ -84,26 +87,28 @@ feature -- Operator tokens
 
 	operator_not_equal_to: NATURAL
 
+feature -- Literal value tokens
+
+	literal_real: NATURAL
+
+	literal_integer: NATURAL
+
+	literal_string: NATURAL
+
 feature -- Other tokens
 
-	At_sign: NATURAL
+	at_sign: NATURAL
 
-	Comma_sign: NATURAL
+	comma_sign: NATURAL
 
-	Double_constant: NATURAL
+	double_dollor_sign: NATURAL
 
-	Double_dollor_sign: NATURAL
+	free_text: NATURAL
 
-	Free_text: NATURAL
+	template_name_identifier: NATURAL
 
-	Integer_64_constant: NATURAL
+	unqualified_name: NATURAL
 
-	Quoted_string: NATURAL
-
-	Template_name_identifier: NATURAL
-
-	Unqualified_name: NATURAL
-
-	White_text: NATURAL
+	white_text: NATURAL
 
 end

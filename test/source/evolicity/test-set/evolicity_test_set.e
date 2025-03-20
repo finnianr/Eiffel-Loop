@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 18:44:06 GMT (Wednesday 19th March 2025)"
-	revision: "26"
+	date: "2025-03-20 10:30:40 GMT (Thursday 20th March 2025)"
+	revision: "27"
 
 class
 	EVOLICITY_TEST_SET
@@ -51,19 +51,22 @@ feature -- Tests
 				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_result_list
 			]"
 		local
-			x: NATURAL; y: INTEGER; z: REAL_32; str, abc_str: STRING; boolean_array: ARRAY [BOOLEAN]
-			context: EVC_CONTEXT_IMP
+			x: NATURAL; y: INTEGER; z: REAL_32; str, cat_str: STRING; dog_str: ZSTRING
+			context: EVC_CONTEXT_IMP; boolean_array: ARRAY [BOOLEAN]
 		do
 			create context.make
-			create str.make_empty; abc_str := "abc"
+			create str.make_empty; cat_str := "cat"; dog_str := "dog"
 			context.put_any ("str", str)
+			context.put_any ("cat", cat_str)
+			context.put_any ("dog", dog_str)
+			context.put_any ("squared", agent squared)
 
 			across 1 |..| 2 as n loop
 				inspect n.item
 					when 1 then
 						x := 2; y := 2
 					else
-						x := 1; y := 2; str.append (abc_str)
+						x := 1; y := 2; str.append (cat_str)
 				end
 
 				if attached new_merged_context_lines ("if_then.evol", new_tuple_context ([x, y, z, context])) as lines
@@ -73,9 +76,12 @@ feature -- Tests
 						not (x = 1) and y = 2,
 						x = 1,
 						x /= 1,
+						squared (x) = 4,
 						str.is_empty,
 						str.count > 0,
-						str ~ abc_str
+						str ~ cat_str,
+						dog_str.same_string_general (cat_str),
+						dog_str > cat_str
 					>>
 					assert ("same results", lines_array ~ boolean_array)
 				end
@@ -232,6 +238,11 @@ feature {NONE} -- Implementation
 	source_dir: DIR_PATH
 		do
 			Result := Dev_environ.EL_test_data_dir #+ "evol"
+		end
+
+	squared (x: NATURAL): NATURAL
+		do
+			Result := x * x
 		end
 
 	to_boolean_array (lines: EL_ZSTRING_LIST): ARRAY [BOOLEAN]

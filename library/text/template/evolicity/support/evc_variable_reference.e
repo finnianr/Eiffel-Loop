@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 17:45:06 GMT (Wednesday 19th March 2025)"
-	revision: "14"
+	date: "2025-03-20 8:52:08 GMT (Thursday 20th March 2025)"
+	revision: "15"
 
 class
 	EVC_VARIABLE_REFERENCE
@@ -45,7 +45,7 @@ feature {NONE} -- Initialization
 			if attached parser.tokens_text as tokens_text then
 				from i := start_index until i > end_index loop
 					if tokens_text.code (i) = Token.Unqualified_name then
-						extend (parser.shared_token_text_8 (i))
+						extend (parser.shared_token_text_8 (i, False))
 					end
 					i := i + 1
 				end

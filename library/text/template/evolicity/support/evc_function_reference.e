@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 17:45:45 GMT (Wednesday 19th March 2025)"
-	revision: "13"
+	date: "2025-03-20 11:48:32 GMT (Thursday 20th March 2025)"
+	revision: "14"
 
 class
 	EVC_FUNCTION_REFERENCE
@@ -20,7 +20,7 @@ inherit
 			arguments_count, new_result, set_context
 		end
 
-	EL_MODULE_CONVERT_STRING
+	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
 
 create
 	make
@@ -52,7 +52,7 @@ feature {NONE} -- Initialization
 						end
 						arguments.extend (create {EVC_VARIABLE_REFERENCE}.make (parser, name_index, i - 1))
 
-					elseif i_th_token = Token.quoted_string then
+					elseif i_th_token = Token.Literal_string then
 						string_arg := parser.token_text (i)
 						string_arg.remove_quotes
 						if string_arg.is_valid_as_string_8 then
@@ -61,10 +61,10 @@ feature {NONE} -- Initialization
 							arguments.extend (string_arg)
 						end
 
-					elseif i_th_token = Token.double_constant then
-						arguments.extend (parser.token_text (i).to_double)
+					elseif i_th_token = Token.literal_real then
+						arguments.extend (parser.token_text (i).to_real_64)
 
-					elseif i_th_token = Token.integer_64_constant then
+					elseif i_th_token = Token.Literal_integer then
 						arguments.extend (parser.token_text (i).to_integer_64)
 
 					end
@@ -108,6 +108,7 @@ feature {NONE} -- Implementation
 	new_operands (function: FUNCTION [ANY]): TUPLE
 		local
 			type: TYPE [ANY]; value: ANY; function_info: EL_FUNCTION_INFO
+			value_type_id: INTEGER
 		do
 			if attached internal_function_info as info
 				and then {ISE_RUNTIME}.dynamic_type (function) = info.type.type_id
@@ -126,9 +127,15 @@ feature {NONE} -- Implementation
 						and then attached context.referenced_item (variable) as target_value
 					then
 						value := target_value
+						value_type_id := {ISE_RUNTIME}.dynamic_type (value)
+					else
+						value_type_id := 0
 					end
-					if value.generating_type ~ type then
+					if value_type_id = type.type_id then
 						Result.put (value, arg.cursor_index)
+
+					elseif type.is_expanded and then value_type_id + 1 = type.type_id then
+						Tuple.set_i_th_as_expanded (Result, arg.cursor_index, value)
 
 					elseif attached {READABLE_STRING_GENERAL} value as general then
 						Result.put (Convert_string.to_type (general, type), arg.cursor_index)

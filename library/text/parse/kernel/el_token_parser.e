@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 17:47:09 GMT (Wednesday 19th March 2025)"
-	revision: "17"
+	date: "2025-03-20 8:02:50 GMT (Thursday 20th March 2025)"
+	revision: "18"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -28,6 +28,11 @@ inherit
 	EL_FILE_SOURCE_TEXT
 		redefine
 			make_default, set_source_text
+		end
+
+	EL_TOKEN_TEXT_I
+		export
+			{NONE} all
 		end
 
 	EL_STRING_32_CONSTANTS
@@ -61,72 +66,9 @@ feature {NONE} -- Implementation
 			Result := Empty_string_32
 		end
 
-	index_of (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
-		local
-			i: INTEGER
-		do
-			from i := start_index until i > end_index or Result > 0 loop
-				if tokens_text.code (i) = a_token then
-					Result := i
-				else
-					i := i + 1
-				end
-			end
-		end
-
-	is_token_text_latin_1 (i: INTEGER): BOOLEAN
-		-- `True' if token text is valid as latin-1 string
-		require
-			valid_array_index: source_interval_list.valid_index (i)
-		local
-			start_index, end_index: INTEGER
-		do
-			if attached source_interval_list as list  then
-				start_index := list.i_th_lower (i); end_index := list.i_th_upper (i)
-				Result := source_text.is_substring_valid_as_string_8 (start_index, end_index)
-			end
-		end
-
 	keyword, symbol (a_token_id: NATURAL_32): TP_LITERAL_CHAR
 		do
 			Result := core.new_character_literal (a_token_id.to_character_32)
-		end
-
-	shared_token_text_8 (i: INTEGER): IMMUTABLE_STRING_8
-		-- latin-1 text with shared `area' corresponding to i'th token in matched_tokens
-		require
-			valid_array_index: source_interval_list.valid_index (i)
-			token_text_valid_as_latin_1: is_token_text_latin_1 (i)
-		local
-			start_index, end_index: INTEGER
-		do
-			if attached source_interval_list as list then
-				start_index := list.i_th_lower (i); end_index := list.i_th_upper (i)
-				Result := source_text.to_shared_immutable_8.shared_substring (start_index, end_index)
-			end
-		end
-
-	token_text (i: INTEGER): ZSTRING
-		-- source text corresponding to i'th token in matched_tokens
-		require
-			valid_array_index: source_interval_list.valid_index (i)
-		do
-			if attached source_interval_list as list then
-				Result := source_text.substring (list.i_th_lower (i), list.i_th_upper (i))
-			end
-		end
-
-	occurrences (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
-		-- count of `a_token' between `start_index' and `end_index'
-		local
-			i: INTEGER
-		do
-			from i := start_index until i > end_index loop
-				if tokens_text.code (i) = a_token then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
 		end
 
 feature {NONE} -- Internal attributes

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 11:54:11 GMT (Monday 2nd September 2024)"
-	revision: "11"
+	date: "2025-03-20 12:07:08 GMT (Thursday 20th March 2025)"
+	revision: "12"
 
 class
 	EL_FIELD_TYPE_QUERY [G]
@@ -19,6 +19,8 @@ inherit
 	ANY
 
 	EL_REFLECTION_HANDLER
+
+	EL_TYPE_UTILITIES
 
 	EL_MODULE_EIFFEL
 
@@ -30,7 +32,7 @@ feature {NONE} -- Initialization
 	make (object: EL_REFLECTIVE; conforming: BOOLEAN)
 		do
 			type_id := ({G}).type_id
-			abstract_type := Eiffel.abstract_type_of_type (type_id)
+			abstract_type := abstract_type_of_type (type_id)
 
 			if is_reference then
 				reference_fields := new_reference_fields (object.field_table, conforming)

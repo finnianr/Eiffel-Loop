@@ -6,14 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 22:07:08 GMT (Tuesday 18th March 2025)"
-	revision: "8"
+	date: "2025-03-20 10:01:28 GMT (Thursday 20th March 2025)"
+	revision: "9"
 
 class
 	EVC_GREATER_THAN_COMPARISON
 
 inherit
 	EVC_COMPARISON
+		rename
+			compare_like_string_8 as compare_string_8,
+			compare_like_string_32 as compare_string_32
+		end
 
 feature {NONE} -- Implementation
 
@@ -29,11 +33,6 @@ feature {NONE} -- Implementation
 		end
 
 	compare_integer_64 (left, right: INTEGER_64)
-		do
-			is_true := left > right
-		end
-
-	compare_string (left, right: ZSTRING)
 		do
 			is_true := left > right
 		end

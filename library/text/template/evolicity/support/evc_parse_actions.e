@@ -6,14 +6,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 18:37:50 GMT (Wednesday 19th March 2025)"
-	revision: "15"
+	date: "2025-03-20 9:00:16 GMT (Thursday 20th March 2025)"
+	revision: "16"
 
 deferred class
 	EVC_PARSE_ACTIONS
 
 inherit
 	EVC_SHARED_TOKEN_ENUM
+
+	EL_TOKEN_TEXT_I
+		export
+			{EVC_VARIABLE_REFERENCE} all
+		end
 
 feature {NONE} -- Initialization
 
@@ -23,7 +28,7 @@ feature {NONE} -- Initialization
 			create compound_directive_stack.make
 			create loop_directive_stack.make
 			create if_else_directive_stack.make
-			create numeric_comparison_stack.make
+			create comparison_stack.make
 			create boolean_expression_stack.make
 			create number_stack.make
 			create last_evaluate_directive.make
@@ -76,19 +81,22 @@ feature {NONE} -- Actions
 		require
 			valid_comparison_text: valid_comparison_text (type, start_index, end_index)
 		local
-			comparable: EVC_COMPARABLE; is_constant: BOOLEAN
+			comparable: EVC_COMPARABLE
 		do
-			if type = Token.integer_64_constant or type = Token.double_constant then
-				is_constant := True
+			if type = Token.literal_integer then
+	  			create comparable.make (token_integer_64 (start_index).to_reference)
+
+			elseif type = Token.literal_real then
+	  			create comparable.make (token_real_64 (start_index).to_reference)
+
+			elseif type = Token.literal_string then
+	  			if is_token_text_latin_1 (start_index) then
+		  			create comparable.make (shared_token_text_8 (start_index, True))
+		  		else
+		  			create comparable.make (unquoted_token_text (start_index))
+	  			end
 			else
 				create {EVC_COMPARABLE_VARIABLE} comparable.make (new_variable_reference (start_index, end_index))
-			end
-			if is_constant and then attached shared_token_text_8 (start_index) as number then
-				if type = Token.integer_64_constant then
-		  			create {EVC_INTEGER_64_COMPARABLE} comparable.make (number)
-				else
-					create {EVC_DOUBLE_COMPARABLE} comparable.make (number)
-				end
 			end
 			number_stack.put (comparable)
 		end
@@ -96,12 +104,12 @@ feature {NONE} -- Actions
 	on_comparison_expression (start_index, end_index: INTEGER)
 			--
 		do
-			numeric_comparison_stack.item.set_right_hand_expression (number_stack.item)
+			comparison_stack.item.set_right_hand_expression (number_stack.item)
 			number_stack.remove
-			numeric_comparison_stack.item.set_left_hand_expression (number_stack.item)
+			comparison_stack.item.set_left_hand_expression (number_stack.item)
 			number_stack.remove
-			boolean_expression_stack.put (numeric_comparison_stack.item)
-			numeric_comparison_stack.remove
+			boolean_expression_stack.put (comparison_stack.item)
+			comparison_stack.remove
 		end
 
 	on_dollor_sign_escape (start_index, end_index: INTEGER)
@@ -130,11 +138,9 @@ feature {NONE} -- Actions
 			elseif id = Token.Template_name_identifier then
 				last_evaluate_directive.set_template_name (token_text (start_index))
 
-			elseif id = Token.Quoted_string then
-				if attached token_text (start_index) as str then
-					str.remove_quotes
-					last_evaluate_directive.set_template_name (str)
-				end
+			elseif id = Token.Literal_string then
+				last_evaluate_directive.set_template_name (unquoted_token_text (start_index))
+
 			elseif id = Token.operator_dot then
 				last_evaluate_directive.set_template_name_variable_ref (new_variable_reference (start_index, end_index))
 			else
@@ -187,11 +193,8 @@ feature {NONE} -- Actions
 				-- leading space
 				set_nested_directive_indent (last_include_directive, start_index, end_index)
 
-			elseif id = Token.Quoted_string then
-				if attached token_text (start_index) as str then
-					str.remove_quotes
-					last_include_directive.set_template_name (str)
-				end
+			elseif id = Token.Literal_string then
+				last_include_directive.set_template_name (unquoted_token_text (start_index))
 
 			elseif id = Token.operator_dot then
 				last_include_directive.set_variable_ref (new_variable_reference (start_index, end_index))
@@ -221,7 +224,7 @@ feature {NONE} -- Actions
 			end
 		end
 
-	on_numeric_comparison (symbol: CHARACTER; start_index, end_index: INTEGER)
+	on_comparison (symbol: CHARACTER; start_index, end_index: INTEGER)
 			--
 		local
 			comparison: EVC_COMPARISON
@@ -238,7 +241,7 @@ feature {NONE} -- Actions
 			else
 				create {EVC_EQUAL_TO_COMPARISON} comparison
 			end
-			numeric_comparison_stack.put (comparison)
+			comparison_stack.put (comparison)
 		end
 
 	on_simple_comparison_expression (start_index, end_index: INTEGER)
@@ -281,9 +284,9 @@ feature {NONE} -- Parse actions
 			Result := agent on_loop (id, ?, ?)
 		end
 
-	numeric_comparison_action (symbol: CHARACTER): PROCEDURE [INTEGER, INTEGER]
+	comparison_action (symbol: CHARACTER): PROCEDURE [INTEGER, INTEGER]
 		do
-			Result := agent on_numeric_comparison (symbol, ?, ?)
+			Result := agent on_comparison (symbol, ?, ?)
 		end
 
 feature {NONE} -- Factory
@@ -333,8 +336,10 @@ feature {NONE} -- Implementation
 			create Result.make_empty (end_index - start_index + 1)
 			from i := start_index until i > end_index loop
 				i_th_token := tokens_text.code (i)
+
 				if Token.valid_value (i_th_token) then
 					Result.extend (Token.name (i_th_token))
+
 				elseif attached token_text (i) as text then
 					if text.is_valid_as_string_8 then
 						Result.extend (text.to_string_8)
@@ -348,38 +353,15 @@ feature {NONE} -- Implementation
 
 	valid_comparison_text (type: NATURAL; start_index, end_index: INTEGER): BOOLEAN
 		do
-			if type = Token.integer_64_constant then
+			if type = Token.Literal_integer then
 	  			Result := token_text (start_index).is_integer_64
 
-			elseif type = Token.double_constant then
-	  			Result := token_text (start_index).is_double
+			elseif type = Token.literal_real then
+	  			Result := token_text (start_index).is_real_64
+
 	  		else
 	  			Result := True
 			end
-		end
-
-feature {EVC_VARIABLE_REFERENCE} -- Deferred
-
-	index_of (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
-		deferred
-		end
-
-	shared_token_text_8 (i: INTEGER): IMMUTABLE_STRING_8
-		-- name text with shared `area' corresponding to i'th token in matched_tokens
-		deferred
-		end
-
-	tokens_text: STRING_32
-		deferred
-		end
-
-	token_text (i: INTEGER): ZSTRING
-		deferred
-		end
-
-	occurrences (a_token: NATURAL; start_index, end_index: INTEGER): INTEGER
-		-- count of `a_token' between `start_index' and `end_index'
-		deferred
 		end
 
 feature {NONE} -- Internal attributes
@@ -400,7 +382,7 @@ feature {NONE} -- Internal attributes
 
 	number_stack: LINKED_STACK [EVC_COMPARABLE]
 
-	numeric_comparison_stack: LINKED_STACK [EVC_COMPARISON]
+	comparison_stack: LINKED_STACK [EVC_COMPARISON]
 
 feature {NONE} -- Constants
 

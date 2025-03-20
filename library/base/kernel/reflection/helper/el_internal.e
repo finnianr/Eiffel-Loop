@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 22:24:17 GMT (Tuesday 18th March 2025)"
-	revision: "40"
+	date: "2025-03-20 12:12:14 GMT (Thursday 20th March 2025)"
+	revision: "41"
 
 class
 	EL_INTERNAL
@@ -27,19 +27,9 @@ inherit
 			dynamic_type
 		end
 
-	SED_UTILITIES
-		rename
-			abstract_type as abstract_type_of_type
+	EL_TYPE_UTILITIES
 		export
 			{ANY} abstract_type_of_type
-		end
-
-	EL_EIFFEL_C_API
-		rename
-			eif_type_flags as type_flags
-		export
-			{NONE} all
-			{ANY} type_flags
 		end
 
 	EL_REFLECTION_CONSTANTS; EL_STRING_8_CONSTANTS
@@ -166,53 +156,6 @@ feature -- Measurement
 			else
 				Result := object.out.count
 			end
-		end
-
-feature -- Status type flag
-
-	is_type_composite (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_composite) > 0
-		end
-
-	is_type_dead (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_dead) > 0
-		end
-
-	is_type_declared_expanded (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_declared_expanded) > 0
-		end
-
-	is_type_deferred (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_deferred) > 0
-		end
-
-	is_type_expanded (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_expanded) > 0
-		end
-
-	is_type_frozen (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_frozen) > 0
-		end
-
-	is_type_special (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_special) > 0
-		end
-
-	is_type_tuple (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Is_tuple) > 0
-		end
-
-	type_has_dispose (flags: NATURAL_16): BOOLEAN
-		do
-			Result := (flags & {EL_TYPE_FLAG}.Has_dispose) > 0
 		end
 
 feature -- Type status

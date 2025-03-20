@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 16:14:30 GMT (Wednesday 19th March 2025)"
-	revision: "10"
+	date: "2025-03-20 12:13:30 GMT (Thursday 20th March 2025)"
+	revision: "11"
 
 deferred class
 	EVC_COMPARISON
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EVC_BOOLEAN_EXPRESSION
 
-	SED_UTILITIES
+	EL_TYPE_UTILITIES
 		export
 			{NONE} all
 		end
@@ -29,7 +29,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_ZSTRING_BUFFER_POOL
+	EL_SHARED_ZSTRING_BUFFER_POOL; EL_SHARED_STRING_8_BUFFER_POOL; EL_SHARED_STRING_32_BUFFER_POOL
 
 feature -- Basic operation
 
@@ -37,7 +37,6 @@ feature -- Basic operation
 			--
 		local
 			left, right: COMPARABLE; left_type_id, right_type_id: INTEGER
-			left_integer, right_integer: INTEGER_64
 		do
 			left_hand_expression.evaluate (context); right_hand_expression.evaluate (context)
 			left := left_hand_expression.item; right := right_hand_expression.item
@@ -49,19 +48,14 @@ feature -- Basic operation
 				compare (left, right)
 			else
 				inspect Class_id.type_category (left_type_id)
-					when C_readable_string_8, C_readable_string_32 then
-						inspect Class_id.type_category (right_type_id)
-							when C_readable_string_8, C_readable_string_32 then
-								if attached {READABLE_STRING_GENERAL} left as left_string
-									and then attached {READABLE_STRING_GENERAL} right as right_string
-									and then attached String_pool.borrowed_batch (2) as borrowed
-								then
-									compare_string (borrowed [0].to_same (left_string), borrowed [1].to_same (right_string))
-									String_pool.return (borrowed)
-								end
-						else
+					when C_readable_string_8 then
+						if attached {READABLE_STRING_8} left as left_string_8 then
+							compare_string_8 (left_string_8, right, right_type_id)
 						end
-
+					when C_readable_string_32 then
+						if attached {READABLE_STRING_32} left as left_string_32 then
+							compare_string_8 (left_string_32, right, right_type_id)
+						end
 					when C_integer, C_natural then
 						inspect Class_id.type_category (right_type_id)
 							when C_integer, C_natural then
@@ -99,21 +93,32 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	compare (left, right: COMPARABLE)
-			--
-		deferred
+	compare_like_string_8 (left: READABLE_STRING_8; a_right: COMPARABLE; right_type_id: INTEGER)
+		do
+			inspect Class_id.type_category (right_type_id)
+				when C_readable_string_32 then
+					if attached {READABLE_STRING_32} a_right as right_32
+						and then attached String_pool.borrowed_batch (2) as borrowed
+					then
+						compare (borrowed [0].to_same (left), borrowed [1].to_same (right_32))
+						String_pool.return (borrowed)
+					end
+				when C_readable_string_8 then
+					if attached {READABLE_STRING_8} a_right as right then
+						compare (left.as_string_8, right.as_string_8)
+					end
+			else
+			end
 		end
 
-	compare_real_64 (left, right: REAL_64)
-		deferred
-		end
-
-	compare_integer_64 (left, right: INTEGER_64)
-		deferred
-		end
-
-	compare_string (left, right: ZSTRING)
-		deferred
+	compare_like_string_32 (left: READABLE_STRING_32; a_right: COMPARABLE; right_type_id: INTEGER)
+		do
+			if attached {READABLE_STRING_GENERAL} a_right as right
+				and then attached String_pool.borrowed_batch (2) as borrowed
+			then
+				compare (borrowed [0].to_same (left), borrowed [1].to_same (right))
+				String_pool.return (borrowed)
+			end
 		end
 
 	is_real_type (n: COMPARABLE): BOOLEAN
@@ -124,7 +129,7 @@ feature {NONE} -- Implementation
 
 	to_real_64 (n: COMPARABLE; type_id: INTEGER): REAL_64
 		do
-			inspect abstract_type (type_id + 1)
+			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
 				when Natural_8_type then
 					if attached {NATURAL_8_REF} n as n_8 then
 						Result := n_8.to_real_64
@@ -180,10 +185,10 @@ feature {NONE} -- Implementation
 
 	to_integer_64 (n: COMPARABLE; type_id: INTEGER): INTEGER_64
 		require
-			is_numeric: attached {NUMERIC} n as numeric and then not numeric.generating_type.is_expanded
+			is_numeric: attached {NUMERIC} n as numeric
 			not_real_type: not is_real_type (n)
 		do
-			inspect abstract_type (type_id + 1)
+			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
 				when Natural_8_type then
 					if attached {NATURAL_8_REF} n as n_8 then
 						Result := n_8.to_integer_64
@@ -227,6 +232,28 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Deferred
+
+	compare (left, right: COMPARABLE)
+			--
+		deferred
+		end
+
+	compare_real_64 (left, right: REAL_64)
+		deferred
+		end
+
+	compare_integer_64 (left, right: INTEGER_64)
+		deferred
+		end
+
+	compare_string_8 (left: READABLE_STRING_8; right: COMPARABLE; right_type_id: INTEGER)
+		deferred
+		end
+
+	compare_string_32 (left: READABLE_STRING_32; right: COMPARABLE; right_type_id: INTEGER)
+		deferred
+		end
 
 feature {NONE} -- Internal attributes
 

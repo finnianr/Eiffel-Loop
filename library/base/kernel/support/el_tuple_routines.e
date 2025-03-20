@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 16:30:21 GMT (Monday 17th March 2025)"
-	revision: "55"
+	date: "2025-03-20 11:48:32 GMT (Thursday 20th March 2025)"
+	revision: "56"
 
 class
 	EL_TUPLE_ROUTINES
@@ -439,6 +439,87 @@ feature -- Basic operations
 
 				when {TUPLE}.Reference_code then
 					set_i_th_reference (tuple, i, readable, Eiffel.generic_dynamic_type (tuple, i))
+			else
+			end
+		end
+
+	set_i_th_as_expanded (tuple: TUPLE; i: INTEGER; object: ANY)
+		require
+			valid_index: tuple.valid_index (i)
+		do
+			inspect tuple.item_code (i)
+				when {TUPLE}.Character_8_code then
+					if attached {CHARACTER_8_REF} object as ref then
+						tuple.put_character (ref.item, i)
+					end
+
+				when {TUPLE}.Character_32_code then
+					if attached {CHARACTER_32_REF} object as ref then
+						tuple.put_character_32 (ref.item, i)
+					end
+
+				when {TUPLE}.Boolean_code then
+					if attached {BOOLEAN_REF} object as ref then
+						tuple.put_boolean (ref.item, i)
+					end
+
+				when {TUPLE}.Pointer_code then
+					if attached {POINTER_REF} object as ref then
+						tuple.put_pointer (ref.item, i)
+					end
+
+				when {TUPLE}.Integer_8_code then
+					if attached {INTEGER_8_REF} object as ref then
+						tuple.put_integer_8 (ref.item, i)
+					end
+
+				when {TUPLE}.Integer_16_code then
+					if attached {INTEGER_16_REF} object as ref then
+						tuple.put_integer_16 (ref.item, i)
+					end
+
+				when {TUPLE}.Integer_32_code then
+					if attached {INTEGER_32_REF} object as ref then
+						tuple.put_integer (ref.item, i)
+					end
+
+				when {TUPLE}.Integer_64_code then
+					if attached {INTEGER_64_REF} object as ref then
+						tuple.put_integer_64 (ref.item, i)
+					end
+
+				when {TUPLE}.Natural_8_code then
+					if attached {NATURAL_8_REF} object as ref then
+						tuple.put_natural_8 (ref.item, i)
+					end
+
+				when {TUPLE}.Natural_16_code then
+					if attached {NATURAL_16_REF} object as ref then
+						tuple.put_natural_16 (ref.item, i)
+					end
+
+				when {TUPLE}.Natural_32_code then
+					if attached {NATURAL_32_REF} object as ref then
+						tuple.put_natural_32 (ref.item, i)
+					end
+
+				when {TUPLE}.Natural_64_code then
+					if attached {NATURAL_64_REF} object as ref then
+						tuple.put_natural_64 (ref.item, i)
+					end
+
+				when {TUPLE}.Real_32_code then
+					if attached {REAL_32_REF} object as ref then
+						tuple.put_real_32 (ref.item, i)
+					end
+
+				when {TUPLE}.Real_64_code then
+					if attached {REAL_64_REF} object as ref then
+						tuple.put_real_64 (ref.item, i)
+					end
+
+				when {TUPLE}.Reference_code then
+					tuple.put_reference (object, i)
 			else
 			end
 		end
