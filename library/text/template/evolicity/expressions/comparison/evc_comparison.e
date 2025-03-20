@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 12:13:30 GMT (Thursday 20th March 2025)"
-	revision: "11"
+	date: "2025-03-20 15:36:41 GMT (Thursday 20th March 2025)"
+	revision: "12"
 
 deferred class
 	EVC_COMPARISON
@@ -54,7 +54,7 @@ feature -- Basic operation
 						end
 					when C_readable_string_32 then
 						if attached {READABLE_STRING_32} left as left_string_32 then
-							compare_string_8 (left_string_32, right, right_type_id)
+							compare_string_32 (left_string_32, right, right_type_id)
 						end
 					when C_integer, C_natural then
 						inspect Class_id.type_category (right_type_id)

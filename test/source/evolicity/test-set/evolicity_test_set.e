@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 10:30:40 GMT (Thursday 20th March 2025)"
-	revision: "27"
+	date: "2025-03-20 16:40:48 GMT (Thursday 20th March 2025)"
+	revision: "28"
 
 class
 	EVOLICITY_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_COPIED_DIRECTORY_DATA_TEST_SET
 		undefine
 			new_lio
+		redefine
+			on_prepare
 		end
 
 	EL_CRC_32_TESTABLE
@@ -48,42 +50,63 @@ feature -- Tests
 			testing: "[
 				covers/{EVC_TUPLE_CONTEXT}.make,
 				covers/{EVC_COMPARISON}.evaluate,
-				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_result_list
+				covers/{EVC_COMPARISON}.compare_like_string_8,
+				covers/{EVC_COMPARISON}.compare_like_string_32,
+				covers/{EL_INITIALIZED_ARRAYED_LIST_FACTORY}.new_result_list,
+				covers/{EVC_FUNCTION_REFERENCE}.make,
+				covers/{EVC_FUNCTION_REFERENCE}.new_operands,
+				covers/{EVC_VARIABLE_REFERENCE}.make,
+				covers/{EVC_FILE_LEXER}.value_reference,
+				covers/{EVC_COMPILER}.value_reference
 			]"
 		local
-			x: NATURAL; y: INTEGER; z: REAL_32; str, cat_str: STRING; dog_str: ZSTRING
+			x: NATURAL; y, i: INTEGER; z: REAL_32
+			str, cat_str: STRING; dog_str: ZSTRING; pig_str: STRING_32
 			context: EVC_CONTEXT_IMP; boolean_array: ARRAY [BOOLEAN]
+			animal_list: ARRAY [READABLE_STRING_GENERAL]
 		do
 			create context.make
-			create str.make_empty; cat_str := "cat"; dog_str := "dog"
+			create str.make_empty; cat_str := "cat"; dog_str := "dog"; pig_str := "pig"
 			context.put_any ("str", str)
-			context.put_any ("cat", cat_str)
-			context.put_any ("dog", dog_str)
 			context.put_any ("squared", agent squared)
+			animal_list := << cat_str, dog_str, pig_str >>
+			across animal_list as list loop
+				context.put_any (list.item.to_string_8, list.item)
+			end
 
 			across 1 |..| 2 as n loop
 				inspect n.item
 					when 1 then
-						x := 2; y := 2
+						x := 2; y := 2; z := 2.2
 					else
-						x := 1; y := 2; str.append (cat_str)
+						x := 1; y := 2; z := 2; str.append (cat_str)
 				end
 
-				if attached new_merged_context_lines ("if_then.evol", new_tuple_context ([x, y, z, context])) as lines
+				if attached new_merged_context_lines (If_then_evol, new_tuple_context ([x, y, z, context])) as lines
 					and then attached to_boolean_array (lines) as lines_array
 				then
+				-- equivalent to contents of `If_then_manifest'
 					boolean_array := <<
 						not (x = 1) and y = 2,
 						x = 1,
 						x /= 1,
+						y = z,
 						squared (x) = 4,
 						str.is_empty,
 						str.count > 0,
 						str ~ cat_str,
 						dog_str.same_string_general (cat_str),
-						dog_str > cat_str
+						dog_str > cat_str,
+						cat_str < dog_str,
+						pig_str > dog_str and pig_str > cat_str
 					>>
-					assert ("same results", lines_array ~ boolean_array)
+					assert ("same number of tests", lines_array.count = boolean_array.count)
+					if attached If_then_manifest.split ('%N') as line then
+						across lines_array as array loop
+							i := array.cursor_index
+							assert (line [i], array.item = boolean_array [i])
+						end
+					end
 				end
 			end
 		end
@@ -120,6 +143,22 @@ feature -- Tests
 				assert ("same string", job_list [2].referenced_item (title_var_ref).out ~ "Eiffel Developer")
 
 				do_test ("merge_template", 1595448774, agent merge_template, ["jobserve-results.evol", new_job_info (job_list)])
+			end
+		end
+
+feature {NONE} -- Events
+
+	on_prepare
+		do
+			Precursor
+		-- Generate "evol/if_then.evol" template file
+			if attached open (work_area_data_dir + If_then_evol, Write) as template then
+				across If_then_manifest.split ('%N') as line loop
+					template.put_line (line.item)
+					template.put_lines (True_else_false.split ('%N'))
+					template.put_new_line
+				end
+				template.close
 			end
 		end
 
@@ -256,10 +295,34 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	If_then_manifest: STRING = "[
+		#if not ($x = 1) and $y = 2 then
+		#if $x = 1 then
+		#if $x /= 1 then
+		#if $y = $z then
+		#if @test.squared ($x) = 4 then
+		#if $test.str.is_empty then
+		#if $test.str.count > 0 then
+		#if $test.str = "cat" then
+		#if $test.dog = "cat" then
+		#if $test.dog > $test.cat then
+		#if $test.cat < $test.dog then
+		#if $test.pig > $test.dog and $test.pig > $test.cat then
+	]"
+
+	If_then_evol: STRING = "if_then.evol"
+
 	Integer: EL_FORMAT_INTEGER
 		once
 			create Result.make_width (1)
 		end
+
+	True_else_false: STRING = "[
+		True
+		#else
+		False
+		#end
+	]"
 
 	Utf_8_encoding: EL_ENCODEABLE_AS_TEXT
 		once
