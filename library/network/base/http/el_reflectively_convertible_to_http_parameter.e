@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2025-03-21 12:04:11 GMT (Friday 21st March 2025)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTIVELY_CONVERTIBLE_TO_HTTP_PARAMETER
@@ -27,9 +27,9 @@ feature -- Access
 
 	to_parameter: EL_HTTP_PARAMETER
 		do
-			if attached meta_data.field_list as field_list then
-				if field_list.count = 1 then
-					create {EL_HTTP_NAME_VALUE_PARAMETER} Result.make_from_field (Current, field_list [1])
+			if attached field_list as list then
+				if list.count = 1 then
+					create {EL_HTTP_NAME_VALUE_PARAMETER} Result.make_from_field (Current, list [1])
 				else
 					create {EL_HTTP_PARAMETER_LIST} Result.make_from_object (Current)
 				end

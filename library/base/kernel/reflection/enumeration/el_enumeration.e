@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:04:19 GMT (Tuesday 18th March 2025)"
-	revision: "70"
+	date: "2025-03-21 12:00:15 GMT (Friday 21st March 2025)"
+	revision: "71"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -346,9 +346,9 @@ feature {NONE} -- Implementation
 			Result := field.abstract_type = enum_type
 		end
 
-	i_th_value (field_list: EL_FIELD_LIST; i: INTEGER): N
+	i_th_value (a_field_list: EL_FIELD_LIST; i: INTEGER): N
 		do
-			if attached {like ENUM_FIELD} field_list [i] as field then
+			if attached {like ENUM_FIELD} a_field_list [i] as field then
 				Result := enum_value (field)
 			end
 		end

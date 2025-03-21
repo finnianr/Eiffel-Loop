@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-04 10:25:07 GMT (Thursday 4th April 2024)"
-	revision: "81"
+	date: "2025-03-21 12:21:11 GMT (Friday 21st March 2025)"
+	revision: "82"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -58,7 +58,7 @@ feature -- Basic operations
 			create enumeration_list.make (5)
 			create collection_item_list.make (0)
 			output.put_indented_line (tab_count, "class " + generator)
-			across meta_data.field_list as list loop
+			across field_list as list loop
 				field := list.item
 				-- Number
 				output.put_indented_line (tab_count, "-- " + list.cursor_index.out)
@@ -103,7 +103,7 @@ feature -- Element change
 		local
 			i, l_count: INTEGER_32
 		do
-			if attached meta_data.field_list as list then
+			if attached field_list as list then
 				l_count := list.count
 				from i := 1 until i > l_count loop
 					read_field (list [i], a_reader)

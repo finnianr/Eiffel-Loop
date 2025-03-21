@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:15:11 GMT (Sunday 22nd September 2024)"
-	revision: "21"
+	date: "2025-03-21 12:22:22 GMT (Friday 21st March 2025)"
+	revision: "22"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -19,13 +19,16 @@ inherit
 
 	EL_SHARED_CLASS_ID
 
-feature {NONE} -- Deferred
+feature {EL_REFLECTION_HANDLER} -- Access
 
-	current_reflective: EL_REFLECTIVE
-		deferred
+	field_table: EL_FIELD_TABLE
+		do
+			Result := field_list.table
 		end
 
-	field_name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+feature {EL_REFLECTION_HANDLER} -- Deferred
+
+	current_reflective: EL_REFLECTIVE
 		deferred
 		end
 
@@ -34,7 +37,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	field_table: EL_FIELD_TABLE
+	field_list: EL_FIELD_LIST
 		deferred
 		end
 
@@ -53,11 +56,6 @@ feature {NONE} -- Constants
 			create Result.make_default
 		end
 
-	frozen Default_tuple_field_table: EL_TUPLE_FIELD_TABLE
-		once
-			create Result.make_empty
-		end
-
 	frozen Default_initial_values: EL_ARRAYED_LIST [FUNCTION [ANY]]
 		-- array of functions returning a new value for result type
 		once
@@ -67,6 +65,11 @@ feature {NONE} -- Constants
 	frozen Default_representations: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING]
 		once
 			create Result.make (0)
+		end
+
+	frozen Default_tuple_field_table: EL_TUPLE_FIELD_TABLE
+		once
+			create Result.make_empty
 		end
 
 	frozen Empty_field_set: EL_FIELD_INDICES_SET

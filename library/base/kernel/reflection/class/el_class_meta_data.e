@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:39:20 GMT (Friday 21st March 2025)"
-	revision: "84"
+	date: "2025-03-21 11:50:11 GMT (Friday 21st March 2025)"
+	revision: "85"
 
 class
 	EL_CLASS_META_DATA
@@ -50,31 +50,15 @@ feature {NONE} -- Initialization
 
 			tuple_field_table := a_target.new_tuple_field_table
 
-			field_list := new_field_list
-			if attached a_target.foreign_naming as translater then
-				field_list.set_export_names (translater)
-			end
-			field_table := field_list.to_table (a_target)
+			field_list := new_field_list (a_target.foreign_naming)
+			field_list.fill_table (target.new_representations)
 
 			field_printer := a_target.new_field_printer
 			if attached field_indices_subset (field_printer.hidden_fields) as hidden_fields then
 				field_printer.set_displayable_fields (field_list.special_subset (hidden_fields))
 			end
-
-			if attached a_target.foreign_naming as foreign_naming then
-				across field_table as table loop
-					foreign_naming.inform (table.key)
-				end
-			end
-			across target.new_representations as representation loop
-				if field_table.has_key (representation.key) then
-					field_table.found_item.set_representation (representation.item)
-				end
-			end
 		ensure then
-			same_order: across field_table as table all
-				table.key.is_equal (field_list.i_th (table.cursor_index).name)
-			end
+			valid_field_list: field_list.is_valid
 		end
 
 feature -- Access
@@ -95,8 +79,6 @@ feature -- Access
 		-- reflective target object
 
 	field_list: EL_FIELD_LIST
-
-	field_table: EL_FIELD_TABLE
 
 feature -- Status query
 
@@ -152,11 +134,11 @@ feature {NONE} -- Factory
 			create {EL_REFLECTED_REFERENCE_ANY} Result.make (target, index, name)
 		end
 
-	new_field_list: EL_FIELD_LIST
+	new_field_list (foreign_naming: detachable EL_NAME_TRANSLATER): EL_FIELD_LIST
 		-- list of field names with empty strings in place of excluded fields
 		do
 			if attached field_info_table.new_not_transient_subset (target.new_transient_fields) as name_list then
-				create Result.make (name_list.count)
+				create Result.make (name_list.count, foreign_naming)
 				across name_list as list loop
 					if field_info_table.has_immutable_key (list.item)
 						and then attached field_info_table.found_type_info as field
@@ -167,7 +149,7 @@ feature {NONE} -- Factory
 				end
 				Result.set_order (target.new_field_sorter, field_info_table)
 			else
-				create Result.make (0)
+				create Result.make_empty
 			end
 		end
 

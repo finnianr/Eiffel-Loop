@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:05:03 GMT (Friday 21st March 2025)"
-	revision: "79"
+	date: "2025-03-21 12:23:43 GMT (Friday 21st March 2025)"
+	revision: "80"
 
 class
 	REFLECTION_TEST_SET
@@ -570,7 +570,7 @@ feature -- Tests
 		-- Compact Object Layout: In finalized mode, objects are stored in a more compact form,
 		-- which reduces their memory footprint. As a result, `{INTERNAL}.deep_physical_size' might
 		-- report a smaller size compared to workbench mode				
-			percent := choose [49, 26] #? Executable.is_finalized
+			percent := choose [52, 26] #? Executable.is_finalized
 
 			if space_saved_percent /= percent then
 				failed (percent.out + "%% memory saving")

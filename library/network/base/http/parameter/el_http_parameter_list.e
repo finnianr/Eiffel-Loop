@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-06 11:03:56 GMT (Wednesday 6th December 2023)"
-	revision: "15"
+	date: "2025-03-21 12:15:24 GMT (Friday 21st March 2025)"
+	revision: "16"
 
 class
 	EL_HTTP_PARAMETER_LIST
@@ -40,7 +40,7 @@ feature {NONE} -- Initialization
 		local
 			i: INTEGER
 		do
-			if attached object.meta_data.field_list as field_list then
+			if attached object.field_list as field_list then
 				make_size (field_list.count)
 				from i := 1 until i > field_list.count loop
 					extend (create {EL_HTTP_NAME_VALUE_PARAMETER}.make_from_field (object, field_list [i]))

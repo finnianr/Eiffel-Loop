@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 11:21:43 GMT (Tuesday 5th November 2024)"
-	revision: "29"
+	date: "2025-03-21 12:03:27 GMT (Friday 21st March 2025)"
+	revision: "30"
 
 class
 	AIA_AUTHORIZATION_HEADER
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 
 	make_from_string (str: STRING)
 		local
-			field_list: EL_STRING_8_LIST
+			modified_name_list: EL_STRING_8_LIST
 		do
 			make
 			if attached Buffer.copied (Algorithm_equals) as modified then
@@ -46,8 +46,8 @@ feature {NONE} -- Initialization
 				modified.append (str)
 				modified.insert_character (',', modified.index_of (' ', Algorithm_equals.count))
 
-				create field_list.make_adjusted_split (modified, ',', {EL_SIDE}.Left)
-				field_list.do_all (agent set_field_from_nvp (?, '='))
+				create modified_name_list.make_adjusted_split (modified, ',', {EL_SIDE}.Left)
+				modified_name_list.do_all (agent set_field_from_nvp (?, '='))
 			end
 		end
 

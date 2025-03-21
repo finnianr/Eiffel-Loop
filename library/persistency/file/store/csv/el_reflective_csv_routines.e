@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-22 12:00:40 GMT (Friday 22nd December 2023)"
-	revision: "11"
+	date: "2025-03-21 12:09:08 GMT (Friday 21st March 2025)"
+	revision: "12"
 
 expanded class
 	EL_REFLECTIVE_CSV_ROUTINES
@@ -25,7 +25,7 @@ feature -- Conversion
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.joined_list (object.field_name_list, ',')
+			Result := s.joined_list (object.field_list.name_list, ',')
 		end
 
 	frozen comma_separated_values (object: EL_REFLECTIVE): ZSTRING

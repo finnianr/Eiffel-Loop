@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:39:20 GMT (Friday 21st March 2025)"
-	revision: "97"
+	date: "2025-03-21 12:18:22 GMT (Friday 21st March 2025)"
+	revision: "98"
 
 deferred class
 	EL_REFLECTIVE
@@ -30,7 +30,7 @@ feature {NONE} -- Initialization
 	initialize_fields
 		-- set fields that have not already been initialized with a value
 		do
-			if attached meta_data.field_list as list then
+			if attached field_list as list then
 				from list.start until list.after loop
 					if attached list.item as field and then field.is_uninitialized (Current) then
 						field.initialize (Current)
@@ -40,23 +40,18 @@ feature {NONE} -- Initialization
 			end
 		end
 
-feature -- Access
-
-	field_name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
-		do
-			Result := meta_data.field_list.name_list
-		end
+feature {EL_REFLECTION_HANDLER} -- Access
 
 	query_by_type (type: TYPE [EL_REFLECTED_FIELD]): EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
 		-- list of reflected fields of `type'
 		do
-			Result := meta_data.field_list.query_by_type (type)
+			Result := field_list.query_by_type (type)
 		end
 
 	value_list_for_type (field_type: TYPE [ANY]): EL_ARRAYED_LIST [ANY]
 		-- list of field values in `Current' for fields with type `field_type'
 		do
-			Result := meta_data.field_list.value_list_for_type (current_reflective, field_type)
+			Result := field_list.value_list_for_type (current_reflective, field_type)
 		end
 
 feature -- Measurement
@@ -78,18 +73,18 @@ feature -- Status query
 	has_default_strings: BOOLEAN
 		-- `True' if all string fields are empty
 		do
-			Result := meta_data.field_list.has_default_strings (Current)
+			Result := field_list.has_default_strings (Current)
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Access
 
-	field_table: EL_FIELD_TABLE
+	field_list: EL_FIELD_LIST
 		do
-			if attached internal_field_table as table then
-				Result := table
+			if attached internal_field_list as list then
+				Result := list
 			else
-				Result := meta_data.field_table
-				internal_field_table := Result
+				Result := meta_data.field_list
+				internal_field_list := Result
 			end
 		end
 
@@ -117,14 +112,14 @@ feature -- Comparison
 		end
 
 	is_equal_except (other: like Current): BOOLEAN
-		-- standard `is_equal' except for cached `internal_field_table'
+		-- standard `is_equal' except for cached `internal_field_list'
 		do
 			if Current = other then
 				Result := True
 			else
 			-- make sure cached `field_table' is same for both to do built-in comparison
-				if internal_field_table /= other.internal_field_table then
-					internal_field_table := other.internal_field_table
+				if internal_field_list /= other.internal_field_list then
+					internal_field_list := other.internal_field_list
 				end
 				Result := standard_is_equal (other)
 			end
@@ -153,7 +148,7 @@ feature -- Element change
 		-- fields conforming to `BAG [ANY]' are wiped out (including strings)
 		-- fields conforming to `EL_MAKEABLE_FROM_STRING' are reinitialized
 		do
-			meta_data.field_list.do_all (agent {EL_REFLECTED_FIELD}.reset (Current))
+			field_list.do_all (agent {EL_REFLECTED_FIELD}.reset (Current))
 		end
 
 	set_from_other (other: EL_REFLECTIVE; other_except_list: detachable STRING)
@@ -170,7 +165,7 @@ feature -- Element change
 			else
 				other_except_set := Empty_field_set
 			end
-			other_field_set := other.meta_data.field_list.special_subset (other_except_set)
+			other_field_set := other.field_list.special_subset (other_except_set)
 			if attached field_table as table then
 				from until i = other_field_set.count loop
 					other_field := other_field_set [i]
@@ -298,7 +293,7 @@ feature {EL_REFLECTIVE_I} -- Implementation
 
 	field_name_for_address (field_address: POINTER): STRING
 		do
-			if attached meta_data.field_list.field_with_address (Current, field_address) as field then
+			if attached field_list.field_with_address (Current, field_address) as field then
 				Result := field.name
 			else
 				Result := Empty_string_8
@@ -331,7 +326,7 @@ feature {EL_CLASS_META_DATA, EL_REFLECTIVE_I} -- Implementation
 
 feature {EL_REFLECTIVE} -- Internal attributes
 
-	internal_field_table: detachable like field_table note option: transient attribute end
+	internal_field_list: detachable like field_list note option: transient attribute end
 
 feature {EL_CLASS_META_DATA} -- Constants
 

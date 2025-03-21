@@ -6,23 +6,59 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:49:31 GMT (Friday 21st March 2025)"
-	revision: "28"
+	date: "2025-03-21 12:30:07 GMT (Friday 21st March 2025)"
+	revision: "29"
 
 class
 	EL_FIELD_LIST
 
 inherit
 	EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+		rename
+			make as make_list
+		export
+			{NONE} force
+		redefine
+			extend, initialize
+		end
 
 	EL_REFLECTION_HANDLER
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
-	make
+	make, make_empty
+
+feature {NONE} -- Initialization
+
+	make (n: INTEGER; a_foreign_naming: like foreign_naming)
+		-- Allocate list with `n' items.
+		do
+			foreign_naming := a_foreign_naming
+			make_list (n)
+		end
+
+	initialize
+		do
+			Precursor
+			create table.make (capacity, foreign_naming)
+		end
 
 feature -- Access
+
+	field_hash: NATURAL
+		-- CRC checksum for field names and field types
+		local
+			i: INTEGER
+		do
+			if attached crc_generator as crc and then attached area as field then
+				from i := 0 until i = field.count loop
+					field [i].write_field_hash (crc)
+					i := i + 1
+				end
+				Result := crc.checksum
+			end
+		end
 
 	field_with (object: EL_REFLECTIVE; value: ANY): detachable EL_REFLECTED_FIELD
 		-- Reflected field in `object' for reference `value'. `Void' if not found.
@@ -58,19 +94,6 @@ feature -- Access
 					i := i + 1
 				end
 			end
-		end
-
-	field_hash: NATURAL
-		-- CRC checksum for field names and field types
-		local
-			crc: like crc_generator; i: INTEGER
-		do
-			crc := crc_generator
-			from i := 1 until i > count loop
-				i_th (i).write_field_hash (crc)
-				i := i + 1
-			end
-			Result := crc.checksum
 		end
 
 	name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
@@ -120,6 +143,9 @@ feature -- Access
 				create Result.make_empty (0)
 			end
 		end
+
+	table: EL_FIELD_TABLE
+		-- field table looked up by `item.name'
 
 	type_set: like type_table.item_list
 		-- set of types use in table
@@ -188,43 +214,27 @@ feature -- Status query
 			end
 		end
 
-feature -- Conversion
-
-	to_table (target: EL_REFLECTIVE): EL_FIELD_TABLE
-		local
-			i: INTEGER; l_item: like item
+	is_valid: BOOLEAN
+		-- `True' if `table' has same count as `Current' and items are in same order
 		do
-			create Result.make (count, target.foreign_naming)
-			from i := 1 until i > count loop
-				l_item := i_th (i)
-				Result.extend (l_item, l_item.name)
-				i := i + 1
+			if table.count = count then
+				Result := across table as field all
+					field.key = i_th (field.cursor_index).name
+				end
 			end
 		end
 
 feature -- Basic operations
 
-	set_export_names (translater: EL_NAME_TRANSLATER)
-		local
-			list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
-		do
-		-- Join exported names into one comma-separated `IMMUTABLE_STRING_8'
-			create list.make (string_8_list (agent new_exported_name (?, translater)).joined (',') , ',')
-			from list.start until list.after loop
-				i_th (list.index).set_export_name (list.item)
-				list.forth
-			end
-		end
-
 	set_order (order: EL_FIELD_LIST_ORDER; field_info_table: EL_OBJECT_FIELDS_TABLE)
 		local
 			i, offset, i_final: INTEGER; indices_set: EL_FIELD_INDICES_SET
 		do
-			-- apply `name_sort' sort if attached
+		-- apply `name_sort' sort if attached
 			if attached order.name_sort as name_sort then
 				order_by (name_sort, True)
 			end
-			-- apply field order shifts if not default
+		-- apply field order shifts if not default
 			if order.field_shifts.count > 0 then
 				across order.field_shifts as list loop
 					i := list.item.index; offset := list.item.offset
@@ -233,7 +243,7 @@ feature -- Basic operations
 					end
 				end
 			end
-			-- move any explicitly ordered fields to the end of list
+		-- move any explicitly ordered fields to the end of list
 			if order.reordered_fields.count > 0 then
 				create indices_set.make (field_info_table, order.reordered_fields)
 				i_final := indices_set.count
@@ -283,6 +293,34 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Element change
+
+	extend (field: like item)
+		do
+			Precursor (field)
+			if attached foreign_naming as naming then
+				field.set_export_name (new_exported_name (field, naming))
+				naming.inform (field.name)
+			end
+		end
+
+	fill_table (representation_table: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING])
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > count loop
+				if attached i_th (i) as field then
+					table.extend (field, field.name)
+				end
+				i := i + 1
+			end
+			across representation_table as representation loop
+				if table.has_key (representation.key) then
+					table.found_item.set_representation (representation.item)
+				end
+			end
+		end
+
 feature {NONE} -- Implementation
 
 	i_th_name (i: INTEGER): IMMUTABLE_STRING_8
@@ -294,5 +332,9 @@ feature {NONE} -- Implementation
 		do
 			Result := translater.exported (field.name)
 		end
+
+feature {NONE} -- Internal attributes
+
+	foreign_naming: detachable EL_NAME_TRANSLATER
 
 end

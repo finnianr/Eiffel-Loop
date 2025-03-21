@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:10:19 GMT (Wednesday 25th September 2024)"
-	revision: "33"
+	date: "2025-03-21 12:06:45 GMT (Friday 21st March 2025)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT
@@ -94,7 +94,7 @@ feature {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} -- Factory
 
 	new_importable_list: EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
 		do
-			Result := meta_data.field_list.query_if (agent is_importable)
+			Result := field_list.query_if (agent is_importable)
 			Result.order_by (agent {EL_REFLECTED_FIELD}.name, True)
 		end
 
@@ -148,15 +148,15 @@ feature {NONE} -- Build from XML
 		-- by default xpaths select an element attribute except for field in `element_set' which
 		-- select the text within an element.
 		local
-			field_list: like importable_list; node_type, item_type_id: INTEGER; field: EL_REFLECTED_FIELD
+			import_list: like importable_list; node_type, item_type_id: INTEGER; field: EL_REFLECTED_FIELD
 			l_xpath: STRING; s: EL_STRING_8_ROUTINES
 		do
-			field_list := importable_list
+			import_list := importable_list
 			if type /= {ANY} then
-				field_list := field_list.query_if (agent {EL_REFLECTED_FIELD}.is_type (type.type_id))
+				import_list := import_list.query_if (agent {EL_REFLECTED_FIELD}.is_type (type.type_id))
 			end
-			create Result.make (field_list.count)
-			across field_list as list loop
+			create Result.make (import_list.count)
+			across import_list as list loop
 				field := list.item
 				if element_set.has (field.index) then
 					node_type := Text_element_node

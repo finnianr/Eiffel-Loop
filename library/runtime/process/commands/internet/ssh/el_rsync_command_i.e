@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:28:45 GMT (Friday 21st March 2025)"
-	revision: "19"
+	date: "2025-03-21 12:20:01 GMT (Friday 21st March 2025)"
+	revision: "20"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -133,7 +133,7 @@ feature {NONE} -- Implementation
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			if attached meta_data.field_list.field_with (Current, option) as field then
+			if attached field_list.field_with (Current, option) as field then
 				Result := hyphen * 2 + field.name
 				s.replace_character (Result, '_', '-') -- no-links
 			else

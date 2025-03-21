@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:06:51 GMT (Tuesday 27th August 2024)"
-	revision: "11"
+	date: "2025-03-21 11:58:25 GMT (Friday 21st March 2025)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVE_DESCRIPTIONS
@@ -65,10 +65,6 @@ feature {NONE} -- Deferred implementation
 
 	descriptions: READABLE_STRING_GENERAL
 		-- description of attributes
-		deferred
-		end
-
-	field_table: EL_FIELD_TABLE
 		deferred
 		end
 

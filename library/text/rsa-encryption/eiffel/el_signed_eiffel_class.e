@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:14 GMT (Tuesday 18th March 2025)"
-	revision: "12"
+	date: "2025-03-21 11:59:35 GMT (Friday 21st March 2025)"
+	revision: "13"
 
 class
 	EL_SIGNED_EIFFEL_CLASS
@@ -17,6 +17,7 @@ inherit
 		rename
 			escaped_field as unescaped_field,
 			field_included as is_any_field,
+			field_list as object_field_list,
 			foreign_naming as eiffel_naming
 		export
 			{NONE} all

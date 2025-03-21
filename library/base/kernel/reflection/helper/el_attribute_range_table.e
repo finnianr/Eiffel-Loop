@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:25:36 GMT (Friday 21st March 2025)"
-	revision: "5"
+	date: "2025-03-21 12:16:17 GMT (Friday 21st March 2025)"
+	revision: "6"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -39,6 +39,8 @@ inherit
 		redefine
 			make_equal
 		end
+
+	EL_REFLECTION_HANDLER
 
 create
 	default_create
@@ -91,7 +93,7 @@ feature -- Basic operations
 			b: EL_NATURAL_64_BIT_ROUTINES
 		do
 			make_field_arrays (count)
-			if attached object.meta_data.field_list as field_list then
+			if attached object.field_list as field_list then
 				from start until after loop
 					if attached field_list.field_with_address (object, address_item) as field
 						and then attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field

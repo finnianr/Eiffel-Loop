@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:44 GMT (Tuesday 18th March 2025)"
-	revision: "10"
+	date: "2025-03-21 12:20:10 GMT (Friday 21st March 2025)"
+	revision: "11"
 
 class
 	EL_XML_OBJECT_EXPORTER [G -> EL_REFLECTIVELY_SETTABLE create make_default end]
@@ -59,7 +59,7 @@ feature -- Basic operations
 			if attached {EL_REFLECTIVE_EIF_OBJ_BUILDER_CONTEXT} object as builder_context then
 				field_list := builder_context.importable_list
 			else
-				field_list := object.meta_data.field_list
+				field_list := object.field_list
 			end
 			if attached String_pool.borrowed_item as borrowed then
 				value := borrowed.empty

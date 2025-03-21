@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:13 GMT (Tuesday 18th March 2025)"
-	revision: "40"
+	date: "2025-03-21 12:19:04 GMT (Friday 21st March 2025)"
+	revision: "41"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE
@@ -48,12 +48,12 @@ feature -- Basic operations
 
 	write_to (writable: EL_WRITABLE)
 		do
-			meta_data.field_list.write (Current, writable)
+			field_list.write (Current, writable)
 		end
 
 	write_to_memory (memory: EL_MEMORY_READER_WRITER)
 		do
-			meta_data.field_list.write_to_memory (Current, memory)
+			field_list.write_to_memory (Current, memory)
 		end
 
 feature -- Comparison
