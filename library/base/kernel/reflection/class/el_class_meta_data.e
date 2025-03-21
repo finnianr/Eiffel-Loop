@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 10:57:52 GMT (Saturday 15th March 2025)"
-	revision: "83"
+	date: "2025-03-21 10:39:20 GMT (Friday 21st March 2025)"
+	revision: "84"
 
 class
 	EL_CLASS_META_DATA
@@ -58,7 +58,7 @@ feature {NONE} -- Initialization
 
 			field_printer := a_target.new_field_printer
 			if attached field_indices_subset (field_printer.hidden_fields) as hidden_fields then
-				field_printer.set_displayable_fields (field_table.new_field_subset (hidden_fields))
+				field_printer.set_displayable_fields (field_list.special_subset (hidden_fields))
 			end
 
 			if attached a_target.foreign_naming as foreign_naming then

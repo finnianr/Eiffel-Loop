@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-16 7:12:41 GMT (Sunday 16th March 2025)"
-	revision: "18"
+	date: "2025-03-21 10:28:45 GMT (Friday 21st March 2025)"
+	revision: "19"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -114,25 +114,9 @@ feature {NONE} -- Evolicity reflection
 
 feature {NONE} -- Implementation
 
-	new_boolean_ref_list: EL_ARRAYED_LIST [EL_REFLECTED_BOOLEAN_REF]
+	enabled_options: EL_STRING_8_LIST
 		do
-			if attached {like new_boolean_ref_list} field_table.query_by_type ({EL_REFLECTED_BOOLEAN_REF}) as list then
-				Result := list
-			end
-		end
-
-	enabled_options: EL_ZSTRING_LIST
-		do
-			create Result.make (7)
-			across new_boolean_ref_list as list loop
-				if attached list.item as field and then field.index > 14 -- Exclude `sudo' and `timestamp_preserved'
-					and then attached {EL_BOOLEAN_OPTION} field.value (Current) as option
-					and then option.is_enabled
-				then
-					Result.extend ((hyphen * 2) + field.name)
-					Result.last.replace_character ('_', '-')
-				end
-			end
+			Result := option_list.query_if (agent {EL_BOOLEAN_OPTION}.is_enabled).string_8_list (agent option_name)
 		end
 
 	escaped_remote (a_path: EL_PATH): ZSTRING
@@ -143,6 +127,23 @@ feature {NONE} -- Implementation
 			else
 				Result := a_path.escaped
 			end
+		end
+
+	option_name (option: EL_BOOLEAN_OPTION): STRING
+		local
+			s: EL_STRING_8_ROUTINES
+		do
+			if attached meta_data.field_list.field_with (Current, option) as field then
+				Result := hyphen * 2 + field.name
+				s.replace_character (Result, '_', '-') -- no-links
+			else
+				create Result.make_empty
+			end
+		end
+
+	option_list: EL_ARRAYED_LIST [EL_BOOLEAN_OPTION]
+		do
+			create Result.make_from_array (<< archive, compress, delete, no_links, progress, update, verbose >>)
 		end
 
 feature {NONE} -- Internal attributes

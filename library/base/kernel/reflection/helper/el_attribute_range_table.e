@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-16 13:09:00 GMT (Wednesday 16th October 2024)"
-	revision: "4"
+	date: "2025-03-21 10:25:36 GMT (Friday 21st March 2025)"
+	revision: "5"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -91,15 +91,15 @@ feature -- Basic operations
 			b: EL_NATURAL_64_BIT_ROUTINES
 		do
 			make_field_arrays (count)
-			if attached object.field_table as table then
+			if attached object.meta_data.field_list as field_list then
 				from start until after loop
-					if table.has_address (object, address_item)
-						and then attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} table.found_item as field
+					if attached field_list.field_with_address (object, address_item) as field
+						and then attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field
 						and then attached as_range_64 (range_item) as range_64
 					then
 						bit_count := to_bit_count (range_64)
 						bit_mask := b.filled_bits (bit_count) |<< bit_shift
-						field_array.extend (field)
+						field_array.extend (expanded_field)
 						field_bitshift.extend (bit_shift)
 						field_mask.extend (bit_mask)
 						field_offset.extend (range_64.lower_.to_natural_64)

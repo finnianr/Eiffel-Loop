@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-14 17:22:41 GMT (Monday 14th October 2024)"
-	revision: "9"
+	date: "2025-03-21 10:23:28 GMT (Friday 21st March 2025)"
+	revision: "10"
 
 deferred class
 	EL_COMPACTABLE_REFLECTIVE
@@ -25,7 +25,7 @@ inherit
 			field_included as is_expanded_field,
 			foreign_naming as eiffel_naming
 		export
-			{EL_ATTRIBUTE_BIT_RANGE_TABLE} field_table
+			{EL_ATTRIBUTE_BIT_RANGE_TABLE} meta_data, field_table
 		redefine
 			is_equal
 		end

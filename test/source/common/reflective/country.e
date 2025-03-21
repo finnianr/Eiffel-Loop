@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 12:26:08 GMT (Monday 23rd September 2024)"
-	revision: "43"
+	date: "2025-03-21 10:04:29 GMT (Friday 21st March 2025)"
+	revision: "44"
 
 class
 	COUNTRY
@@ -20,7 +20,7 @@ inherit
 			foreign_naming as eiffel_naming,
 			read_version as read_default_version
 		export
-			{ANY} field_table
+			{ANY} field_table, query_by_type
 		redefine
 			make_default, new_representations, new_tuple_field_table
 		end

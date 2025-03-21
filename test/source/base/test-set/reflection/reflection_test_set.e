@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-14 12:58:13 GMT (Friday 14th March 2025)"
-	revision: "78"
+	date: "2025-03-21 10:05:03 GMT (Friday 21st March 2025)"
+	revision: "79"
 
 class
 	REFLECTION_TEST_SET
@@ -216,10 +216,8 @@ feature -- Tests
 		note
 			testing: "covers/{EL_FIELD_TABLE}.query_by_type"
 		do
-			if attached new_country (Ireland) as country
-				and then attached country.field_table as table
-			then
-				if attached {LIST [EL_REFLECTED_INTEGER_32]} table.query_by_type ({EL_REFLECTED_INTEGER_32}) as field_list then
+			if attached new_country (Ireland) as country then
+				if attached {LIST [EL_REFLECTED_INTEGER_32]} country.query_by_type ({EL_REFLECTED_INTEGER_32}) as field_list then
 					assert_same_string (Void, field_list [1].name, "date_founded")
 					assert_same_string (Void, field_list [2].name, "population")
 				else

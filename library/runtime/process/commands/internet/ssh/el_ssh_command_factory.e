@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-16 7:06:21 GMT (Sunday 16th March 2025)"
-	revision: "6"
+	date: "2025-03-21 9:38:10 GMT (Friday 21st March 2025)"
+	revision: "7"
 
 class
 	EL_SSH_COMMAND_FACTORY
@@ -31,16 +31,18 @@ feature {NONE} -- Initialization
 
 	make (a_user_domain: READABLE_STRING_GENERAL)
 		require
-			valid_name: a_user_domain.count >= 7 and then (4 |..| (a_user_domain.count - 3)).has (a_user_domain.index_of ('@', 1))
+			valid_domain: valid_domain (a_user_domain)
 		do
 			user_domain := as_zstring (a_user_domain)
 		end
 
 feature -- Access
 
-	user_domain: ZSTRING
-		-- defines ssh remote username and domain address
-		-- eg. john@75.34.211.13
+	md5_binary_digest (target_path: FILE_PATH): STRING
+		-- binary mode digest
+		do
+			Result := new_md5_binary_digest (target_path).digest_string
+		end
 
 	md5_digest (target_path: FILE_PATH): STRING
 		-- text mode digest
@@ -48,10 +50,17 @@ feature -- Access
 			Result := new_md5_digest (target_path).digest_string
 		end
 
-	md5_binary_digest (target_path: FILE_PATH): STRING
-		-- binary mode digest
+	user_domain: ZSTRING
+		-- defines ssh remote username and domain address
+		-- eg. john@75.34.211.13
+
+feature -- Contract Support
+
+	valid_domain (domain: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := new_md5_binary_digest (target_path).digest_string
+			if domain.count >= 7 then
+				Result := (4 |..| (domain.count - 3)).has (domain.index_of ('@', 1))
+			end
 		end
 
 feature -- Basic operations
@@ -87,13 +96,6 @@ feature -- Commands
 			Result.set_target_dir (target_dir)
 		end
 
-	new_md5_digest (target_path: FILE_PATH): EL_SSH_MD5_HASH_COMMAND
-		-- text mode digest command
-		do
-			create Result.make (user_domain)
-			Result.set_target_path (target_path)
-		end
-
 	new_md5_binary_digest (target_path: FILE_PATH): EL_SSH_MD5_HASH_COMMAND
 		-- text mode digest command
 		do
@@ -101,12 +103,18 @@ feature -- Commands
 			Result.set_binary
 		end
 
+	new_md5_digest (target_path: FILE_PATH): EL_SSH_MD5_HASH_COMMAND
+		-- text mode digest command
+		do
+			create Result.make (user_domain)
+			Result.set_target_path (target_path)
+		end
+
 	new_mirror_directory  (a_source_path, a_destination_path: DIR_PATH): EL_RSYNC_COMMAND_I
 		-- mirror local directory tree on remote host using Unix rsync command
 		local
 			ssh: EL_SECURE_SHELL_CONTEXT
 		do
-
 			create {EL_RSYNC_COMMAND_IMP} Result.make_ssh (ssh, a_source_path, a_destination_path)
 			Result.archive.enable
 			Result.compress.enable

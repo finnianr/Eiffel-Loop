@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:13 GMT (Tuesday 18th March 2025)"
-	revision: "96"
+	date: "2025-03-21 10:39:20 GMT (Friday 21st March 2025)"
+	revision: "97"
 
 deferred class
 	EL_REFLECTIVE
@@ -47,10 +47,16 @@ feature -- Access
 			Result := meta_data.field_list.name_list
 		end
 
+	query_by_type (type: TYPE [EL_REFLECTED_FIELD]): EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+		-- list of reflected fields of `type'
+		do
+			Result := meta_data.field_list.query_by_type (type)
+		end
+
 	value_list_for_type (field_type: TYPE [ANY]): EL_ARRAYED_LIST [ANY]
 		-- list of field values in `Current' for fields with type `field_type'
 		do
-			Result := field_table.value_list_for_type (current_reflective, field_type)
+			Result := meta_data.field_list.value_list_for_type (current_reflective, field_type)
 		end
 
 feature -- Measurement
@@ -72,14 +78,7 @@ feature -- Status query
 	has_default_strings: BOOLEAN
 		-- `True' if all string fields are empty
 		do
-			Result := True
-			across meta_data.field_list as list until not Result loop
-				if attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} list.item as field
-					and then attached field.value (Current) as string
-				then
-					Result := string.is_empty
-				end
-			end
+			Result := meta_data.field_list.has_default_strings (Current)
 		end
 
 feature {EL_REFLECTION_HANDLER} -- Access
@@ -171,7 +170,7 @@ feature -- Element change
 			else
 				other_except_set := Empty_field_set
 			end
-			other_field_set := other.field_table.new_field_subset (other_except_set)
+			other_field_set := other.meta_data.field_list.special_subset (other_except_set)
 			if attached field_table as table then
 				from until i = other_field_set.count loop
 					other_field := other_field_set [i]
@@ -299,8 +298,8 @@ feature {EL_REFLECTIVE_I} -- Implementation
 
 	field_name_for_address (field_address: POINTER): STRING
 		do
-			if field_table.has_address (Current, field_address) then
-				Result := field_table.found_item.name
+			if attached meta_data.field_list.field_with_address (Current, field_address) as field then
+				Result := field.name
 			else
 				Result := Empty_string_8
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "27"
+	date: "2025-03-21 10:49:31 GMT (Friday 21st March 2025)"
+	revision: "28"
 
 class
 	EL_FIELD_LIST
@@ -23,6 +23,42 @@ create
 	make
 
 feature -- Access
+
+	field_with (object: EL_REFLECTIVE; value: ANY): detachable EL_REFLECTED_FIELD
+		-- Reflected field in `object' for reference `value'. `Void' if not found.
+		require
+			is_reference_value: not value.generating_type.is_expanded
+		local
+			type_id, i: INTEGER
+		do
+			type_id := {ISE_RUNTIME}.dynamic_type (value)
+			if attached area as l_area then
+				from i := 0 until i = l_area.count or attached Result loop
+					if attached l_area [i] as field and then not field.is_expanded
+						and then field.type_id = type_id and then field.value (object) = value
+					then
+						Result := field
+					end
+					i := i + 1
+				end
+			end
+		end
+
+	field_with_address (object: EL_REFLECTIVE; field_address: POINTER): detachable EL_REFLECTED_FIELD
+		-- Reflected field in `object' with field address equal to `field_address'.
+		-- `Void' if not found.
+		local
+			i: INTEGER
+		do
+			if attached area as l_area then
+				from i := 0 until i = l_area.count or attached Result loop
+					if attached l_area [i] as field and then field.address (object) = field_address then
+						Result := field
+					end
+					i := i + 1
+				end
+			end
+		end
 
 	field_hash: NATURAL
 		-- CRC checksum for field names and field types
@@ -40,6 +76,116 @@ feature -- Access
 	name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
 		do
 			create Result.make_filled (count, agent i_th_name)
+		end
+
+	query_by_type (type: TYPE [EL_REFLECTED_FIELD]): EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
+		-- list of reflected fields of `type'
+		local
+			type_id, i: INTEGER
+		do
+			if attached {like query_by_type} Arrayed_list_factory.new_list (type, count) as new
+				and then attached area as l_area
+			then
+				Result := new
+				type_id := type.type_id
+				from i := 0 until i = l_area.count loop
+					if attached l_area [i] as field and then {ISE_RUNTIME}.dynamic_type (field) = type_id then
+						Result.extend (field)
+					end
+					i := i + 1
+				end
+			else
+				create Result.make_empty
+			end
+		end
+
+	special_subset (excluded_set: EL_FIELD_INDICES_SET): SPECIAL [EL_REFLECTED_FIELD]
+		local
+			field_list: ARRAYED_LIST [like item]; i: INTEGER
+		do
+			if excluded_set.count = 0 then
+				Result := area
+
+			elseif attached area as l_area then
+				create field_list.make (count - excluded_set.count)
+				from i := 0 until i = l_area.count loop
+					if attached l_area [i] as field and then not excluded_set.has (field.index) then
+						field_list.extend (field)
+					end
+					i := i + 1
+				end
+				field_list.trim
+				Result := field_list.area
+			else
+				create Result.make_empty (0)
+			end
+		end
+
+	type_set: like type_table.item_list
+		-- set of types use in table
+		do
+			Result := type_table.item_list
+		end
+
+	type_table: EL_HASH_TABLE [TYPE [ANY], INTEGER]
+		local
+			i: INTEGER
+		do
+			create Result.make_equal (count)
+			if attached area as l_area then
+				from i := 0 until i = l_area.count loop
+					if attached l_area [i] as field then
+						Result.put (field.type, field.type_id)
+					end
+					i := i + 1
+				end
+			end
+		end
+
+	value_list_for_type (object: EL_REFLECTIVE; field_type: TYPE [ANY]): EL_ARRAYED_LIST [ANY]
+		-- list of field values in `object' for fields with type `field_type'
+		local
+			type_id, i: INTEGER
+		do
+			if attached Arrayed_list_factory.new_list (field_type, count) as new
+				and then attached area as l_area
+			then
+				Result := new
+				type_id := field_type.type_id
+				from i := 0 until i = l_area.count loop
+					if attached l_area [i] as field and then field.type_id = type_id then
+						if field.is_expanded then
+							Result.extend (field.value (object))
+
+						elseif attached field.value (object) as value then
+							Result.extend (value)
+						end
+					end
+					i := i + 1
+				end
+			else
+				create Result.make_empty
+			end
+		end
+
+feature -- Status query
+
+	has_default_strings (object: EL_REFLECTIVE): BOOLEAN
+		-- `True' if all string fields in `object' are empty
+		local
+			i: INTEGER
+		do
+			Result := True
+			if attached area as l_area then
+				from i := 0 until i = l_area.count or not Result loop
+					if attached l_area [i] as field and then field.is_string_type
+						and then attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
+					then
+						Result := string_field.value (object).is_empty
+					end
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Conversion

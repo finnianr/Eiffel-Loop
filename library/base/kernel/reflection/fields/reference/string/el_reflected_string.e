@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 19:12:11 GMT (Monday 9th September 2024)"
-	revision: "31"
+	date: "2025-03-21 9:22:18 GMT (Friday 21st March 2025)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
@@ -19,7 +19,8 @@ inherit
 		undefine
 			reset, set_from_readable, set_from_memory, write, write_to_memory
 		redefine
-			append_to_string, group_type, post_make, new_factory, to_string, set_from_string_general
+			append_to_string, group_type, is_string_type, post_make, new_factory, to_string,
+			set_from_string_general
 		end
 
 	EL_STRING_HANDLER
@@ -49,6 +50,9 @@ feature -- Status query
 
 	is_conforming: BOOLEAN
 		-- `True' is `S' parameter is not the same as generator name suffix: EL_REFLECTED_*
+
+	Is_string_type: BOOLEAN = True
+		-- `True' if `type' conforms to `{READABLE_STRING_GENERAL}'
 
 feature -- Basic operations
 

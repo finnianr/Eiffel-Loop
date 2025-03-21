@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 9:49:15 GMT (Thursday 20th March 2025)"
-	revision: "9"
+	date: "2025-03-20 17:16:20 GMT (Thursday 20th March 2025)"
+	revision: "10"
 
 class
 	EVC_EQUAL_TO_COMPARISON
@@ -62,8 +62,7 @@ feature {NONE} -- Implementation
 					end
 				when C_readable_string_8 then
 					if attached {READABLE_STRING_8} a_right as right_8 then
-						if attached String_32_pool.sufficient_item (right_8.count) as borrowed
-						then
+						if attached String_32_pool.sufficient_item (right_8.count) as borrowed then
 							is_true := left.same_string (borrowed.copied_general (right_8))
 							borrowed.return
 						end
