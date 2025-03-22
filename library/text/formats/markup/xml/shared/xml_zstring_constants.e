@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2025-03-22 9:15:05 GMT (Saturday 22nd March 2025)"
+	revision: "18"
 
 deferred class
 	XML_ZSTRING_CONSTANTS
@@ -35,14 +35,14 @@ feature {NONE} -- Constants
 
 feature {NONE} -- Escaping
 
-	Xml_escaper: XML_ESCAPER [ZSTRING]
-		once
-			create Result.make
-		end
-
 	Xml_128_plus_escaper: XML_ESCAPER [ZSTRING]
 		once
 			create Result.make_128_plus
+		end
+
+	XML_escaper: XML_ESCAPER [ZSTRING]
+		once
+			create Result.make
 		end
 
 end

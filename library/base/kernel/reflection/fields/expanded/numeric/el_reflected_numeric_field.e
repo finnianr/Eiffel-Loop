@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 12:16:25 GMT (Sunday 25th August 2024)"
-	revision: "31"
+	date: "2025-03-21 18:27:29 GMT (Friday 21st March 2025)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [N]
 		redefine
-			set_from_string
+			is_numeric_type, set_from_string
 		end
 
 feature -- Status query
@@ -26,6 +26,8 @@ feature -- Status query
 		do
 			Result := value (a_object) = l_zero
 		end
+
+	Is_numeric_type: BOOLEAN = True
 
 feature -- Basic operations
 

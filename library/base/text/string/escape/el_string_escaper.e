@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:32:34 GMT (Sunday 22nd September 2024)"
-	revision: "18"
+	date: "2025-03-22 8:35:25 GMT (Saturday 22nd March 2025)"
+	revision: "19"
 
 class
 	EL_STRING_ESCAPER [S -> STRING_GENERAL create make end]
@@ -23,14 +23,23 @@ inherit
 			{EL_STRING_ESCAPER_IMP} has_code, found_code
 		end
 
+	EL_STRING_HANDLER
+
+	EL_MODULE_EXCEPTION
+
 create
 	make
 
 feature {NONE} -- Initialization
 
 	make (escape_table: EL_ESCAPE_TABLE)
+
 		do
-			set_implementation
+			if attached {like implementation} new_implementation as new then
+				implementation := new
+			else
+				Exception.raise_developer ("Unable to assign {%S}.implementation for type %S", [{like Current}, {S}])
+			end
 			escape_code := implementation.to_code (escape_table.escape_character)
 
 			make_sized (escape_table.count)
@@ -123,36 +132,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	set_implementation
+	new_implementation: EL_STRING_ESCAPER_IMP [STRING_GENERAL]
 		do
-			if attached {like implementation} ZSTRING_imp as imp then
-				implementation := imp
-
-			elseif attached {like implementation} STRING_32_imp as imp then
-				implementation := imp
-
-			elseif attached {like implementation} STRING_8_imp as imp then
-				implementation := imp
+			inspect storage_type
+				when '1' then
+					create {EL_STRING_8_ESCAPER_IMP} Result.make
+				when '4' then
+					create {EL_STRING_32_ESCAPER_IMP} Result.make
+				when 'X' then
+					create {EL_ZSTRING_ESCAPER_IMP} Result.make
+			else
+				create {EL_STRING_32_ESCAPER_IMP} Result.make
 			end
-		ensure
-			attached_implementation: attached implementation
 		end
 
-feature {NONE} -- Constants
-
-	STRING_32_imp: EL_STRING_32_ESCAPER_IMP
-		once
-			create Result.make
-		end
-
-	STRING_8_imp: EL_STRING_8_ESCAPER_IMP
-		once
-			create Result.make
-		end
-
-	ZSTRING_imp: EL_ZSTRING_ESCAPER_IMP
-		once
-			create Result.make
+	storage_type: CHARACTER
+		do
+			Result := string_storage_type (create {S}.make (0))
 		end
 
 end

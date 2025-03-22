@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-09 10:57:50 GMT (Friday 9th August 2024)"
-	revision: "37"
+	date: "2025-03-22 12:49:56 GMT (Saturday 22nd March 2025)"
+	revision: "38"
 
 class
 	VTD_XML_TEST_SET
@@ -47,10 +47,11 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["bioinfo_xpath_query",				agent test_bioinfo_xpath_query],
 				["cd_catalog_xpath_query",			agent test_cd_catalog_xpath_query],
+				["following_sibling",				agent test_following_sibling],
 				["query_processing_instruction",	agent test_query_processing_instruction],
 				["root_attribute_selection",		agent test_root_attribute_selection],
 				["svg_xpath_query",					agent test_svg_xpath_query],
-				["following_sibling",				agent test_following_sibling]
+				["xml_file_persistent",				agent test_xml_file_persistent]
 			>>)
 		end
 
@@ -166,6 +167,27 @@ feature -- Tests
 				assert ("same result", svg_sum_query (xdoc, "//svg/g/line/@x1") = 4522)
 				assert ("same result", svg_sum_query (xdoc, "//svg/g/line/@y1") = 13134)
 			end
+		end
+
+	test_xml_file_persistent
+		-- VTD_XML_TEST_SET.test_xml_file_persistent
+		note
+			testing: "[
+				covers/{EL_REFLECTIVE_XML_FILE_PERSISTENT}.make_from_xdoc,
+				covers/{EL_REFLECTIVE_XML_FILE_PERSISTENT}.getter_function_table,
+				covers/{EVC_SERIALIZEABLE_AS_XML}.stored_successfully,
+				covers/{EL_PLAIN_TEXT_FILE}.read_final_line
+			]"
+		local
+			compiler_options, restored_options: MICROSOFT_COMPILER_OPTIONS; save_path: FILE_PATH
+		do
+			create compiler_options.make_default
+			save_path := Work_area_dir + "options.xml"
+			compiler_options.set_output_path (save_path)
+			compiler_options.safe_store
+
+			create restored_options.make_from_file (save_path)
+			assert ("same options", compiler_options ~ restored_options)
 		end
 
 feature {NONE} -- CD-catalog.xml

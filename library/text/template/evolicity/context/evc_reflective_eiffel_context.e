@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:04:25 GMT (Tuesday 18th March 2025)"
-	revision: "13"
+	date: "2025-03-22 8:58:39 GMT (Saturday 22nd March 2025)"
+	revision: "14"
 
 deferred class
 	EVC_REFLECTIVE_EIFFEL_CONTEXT
@@ -42,14 +42,16 @@ feature {NONE} -- Implementation
 		do
 			table := field_table
 			if attached variable_ref [index] as key then
-				if table.has_key (key) then
-					if attached {EL_REFLECTED_NUMERIC_FIELD [NUMERIC]} table.found_item as field then
+				if table.has_key (key) and then attached table.found_item as field then
+					if field.is_string_type
+						and then attached {EL_REFLECTED_STRING [READABLE_STRING_GENERAL]} field as string_field
+					then
+						Result := escaped_field (string_field.value (current_reflective), field.type_id)
+
+					elseif field.is_expanded then
 						Result := field.reference_value (current_reflective)
 					else
-						Result := table.found_item.reference_value (current_reflective)
-						if attached {READABLE_STRING_GENERAL} Result as general then
-							Result := escaped_field (general, table.found_item.type_id)
-						end
+						Result := field.value (current_reflective) -- already a reference
 					end
 				else
 					Result := Precursor (variable_ref, index)

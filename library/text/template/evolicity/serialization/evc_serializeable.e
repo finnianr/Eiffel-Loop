@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
-	revision: "45"
+	date: "2025-03-21 17:44:13 GMT (Friday 21st March 2025)"
+	revision: "46"
 
 deferred class
 	EVC_SERIALIZEABLE
@@ -125,7 +125,7 @@ feature -- Status query
 
 feature {NONE} -- Factory
 
-	new_file (file_path: like output_path): PLAIN_TEXT_FILE
+	new_file (file_path: like output_path): EL_PLAIN_TEXT_FILE
 		do
 			create Result.make_with_name (file_path)
 		end

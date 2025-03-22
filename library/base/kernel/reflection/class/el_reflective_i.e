@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:22:22 GMT (Friday 21st March 2025)"
-	revision: "22"
+	date: "2025-03-21 13:28:16 GMT (Friday 21st March 2025)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -26,7 +26,7 @@ feature {EL_REFLECTION_HANDLER} -- Access
 			Result := field_list.table
 		end
 
-feature {EL_REFLECTION_HANDLER} -- Deferred
+feature {EL_REFLECTIVE_I, EL_REFLECTION_HANDLER} -- Deferred
 
 	current_reflective: EL_REFLECTIVE
 		deferred

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:18:22 GMT (Friday 21st March 2025)"
-	revision: "98"
+	date: "2025-03-21 13:51:25 GMT (Friday 21st March 2025)"
+	revision: "99"
 
 deferred class
 	EL_REFLECTIVE
@@ -107,7 +107,7 @@ feature -- Comparison
 			if Current = other then
 				Result := True
 			else
-				Result := meta_data.all_fields_equal (Current, other)
+				Result := field_list.all_equal (Current, other)
 			end
 		end
 
@@ -305,7 +305,7 @@ feature {EL_REFLECTIVE_I} -- Implementation
 		do
 		end
 
-feature {EL_CLASS_META_DATA, EL_REFLECTIVE_I} -- Implementation
+feature {EL_REFLECTION_HANDLER, EL_REFLECTIVE_I} -- Implementation
 
 	current_reflective: like Current
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:30:07 GMT (Friday 21st March 2025)"
-	revision: "29"
+	date: "2025-03-22 12:21:43 GMT (Saturday 22nd March 2025)"
+	revision: "30"
 
 class
 	EL_FIELD_LIST
@@ -15,11 +15,10 @@ class
 inherit
 	EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
 		rename
-			make as make_list
-		export
-			{NONE} force
+			make as make_list,
+			readable as is_readable
 		redefine
-			extend, initialize
+			initialize
 		end
 
 	EL_REFLECTION_HANDLER
@@ -31,17 +30,42 @@ create
 
 feature {NONE} -- Initialization
 
-	make (n: INTEGER; a_foreign_naming: like foreign_naming)
-		-- Allocate list with `n' items.
-		do
-			foreign_naming := a_foreign_naming
-			make_list (n)
-		end
-
 	initialize
 		do
 			Precursor
 			create table.make (capacity, foreign_naming)
+		end
+
+	make (meta_data: EL_CLASS_META_DATA)
+		do
+			if attached meta_data.field_info_table as info_table
+				and then attached meta_data.target as target
+				and then attached info_table.new_not_transient_subset (target.new_transient_fields) as field_names
+			then
+				foreign_naming := target.foreign_naming
+				make_list (field_names.count)
+				across field_names as list loop
+					if attached list.item as name then
+						if info_table.has_immutable_key (name)
+							and then attached info_table.found_type_info as type_info
+							and then target.field_included (type_info)
+							and then attached meta_data.new_reflected_field (type_info, name) as new_field
+						then
+							extend (new_field)
+							if attached foreign_naming as naming then
+								new_field.set_export_name (naming.exported (new_field.name))
+								naming.inform (new_field.name)
+							end
+						end
+					end
+				end
+				set_order (target.new_field_sorter, info_table)
+				fill_table (target.new_representations)
+			else
+				make_empty
+			end
+		ensure
+			valid_list: is_valid
 		end
 
 feature -- Access
@@ -91,6 +115,19 @@ feature -- Access
 					if attached l_area [i] as field and then field.address (object) = field_address then
 						Result := field
 					end
+					i := i + 1
+				end
+			end
+		end
+
+	indices_set: EL_FIELD_INDICES_SET
+		local
+			i: INTEGER
+		do
+			create Result.make_empty_area (count)
+			if attached area as field then
+				from i := 0 until i = field.count loop
+					Result.extend (field [i].index)
 					i := i + 1
 				end
 			end
@@ -214,6 +251,41 @@ feature -- Status query
 			end
 		end
 
+feature -- Comparison
+
+	all_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
+		-- `True' if all fields in `a_current' and `other' are equal
+		local
+			i: INTEGER
+		do
+			Result := True
+			if attached area as field then
+				from i := 0 until i = field.count or not Result loop
+					Result := field [i].are_equal (a_current, other)
+					i := i + 1
+				end
+			end
+		end
+
+	same_fields (a_current, other: EL_REFLECTIVE; field_set: EL_FIELD_INDICES_SET): BOOLEAN
+		-- `True' if all fields with `field.index' in `field_set' have same value
+		-- for `a_current' and `other' enclosing objects
+		local
+			i: INTEGER
+		do
+			Result := True
+			if attached area as l_area then
+				from i := 0 until i = l_area.count or not Result loop
+					if attached l_area [i] as field and then field_set.has (field.index) then
+						Result := field.are_equal (a_current, other)
+					end
+					i := i + 1
+				end
+			end
+		end
+
+feature -- Contract Support
+
 	is_valid: BOOLEAN
 		-- `True' if `table' has same count as `Current' and items are in same order
 		do
@@ -226,9 +298,82 @@ feature -- Status query
 
 feature -- Basic operations
 
-	set_order (order: EL_FIELD_LIST_ORDER; field_info_table: EL_OBJECT_FIELDS_TABLE)
+	set_all_from_readable (target: EL_REFLECTIVE; readable: EL_READABLE)
 		local
-			i, offset, i_final: INTEGER; indices_set: EL_FIELD_INDICES_SET
+			i: INTEGER
+		do
+			if attached area as field then
+				from i := 0 until i = field.count loop
+					field [i].set_from_readable (target, readable)
+					i := i + 1
+				end
+			end
+		end
+
+	sink (target: EL_REFLECTIVE; sinkable: EL_DATA_SINKABLE)
+		local
+			i: INTEGER
+		do
+			if attached area as field then
+				from i := 0 until i = field.count loop
+					field [i].write (target, sinkable)
+					i := i + 1
+				end
+			end
+		end
+
+	write (target: EL_REFLECTIVE; a_writable: EL_WRITABLE)
+		local
+			i: INTEGER_32
+		do
+			if attached area as field then
+				from i := 0 until i = field.count loop
+					field [i].write (target, a_writable)
+					i := i + 1
+				end
+			end
+		end
+
+	write_to_memory (target: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+		local
+			i: INTEGER_32
+		do
+			if attached area as field then
+				from i := 0 until i = field.count loop
+					field [i].write_to_memory (target, memory)
+					i := i + 1
+				end
+			end
+		end
+
+feature {NONE} -- Implementation
+
+	fill_table (representation_table: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING])
+		-- fill `table' and set field representations to make `Current.is_valid' equal to `True'
+		local
+			i: INTEGER
+		do
+			from i := 1 until i > count loop
+				if attached i_th (i) as field then
+					table.extend (field, field.name)
+					if representation_table.has_key (field.name) then
+						field.set_representation (representation_table.found_item)
+					end
+				end
+				i := i + 1
+			end
+		end
+
+	i_th_name (i: INTEGER): IMMUTABLE_STRING_8
+		do
+			Result := i_th (i).name
+		end
+
+	set_order (order: EL_FIELD_LIST_ORDER; field_info_table: EL_OBJECT_FIELDS_TABLE)
+		require
+			table_not_filled: table.count = 0
+		local
+			i, offset, i_final: INTEGER; l_indices_set: EL_FIELD_INDICES_SET
 		do
 		-- apply `name_sort' sort if attached
 			if attached order.name_sort as name_sort then
@@ -245,92 +390,16 @@ feature -- Basic operations
 			end
 		-- move any explicitly ordered fields to the end of list
 			if order.reordered_fields.count > 0 then
-				create indices_set.make (field_info_table, order.reordered_fields)
-				i_final := indices_set.count
+				create l_indices_set.make (field_info_table, order.reordered_fields)
+				i_final := l_indices_set.count
 				from i := 0 until i = i_final loop
-					find_first_equal (indices_set [i], agent {EL_REFLECTED_FIELD}.index)
+					find_first_equal (l_indices_set [i], agent {EL_REFLECTED_FIELD}.index)
 					if found then
 						shift (count - index)
 					end
 					i := i + 1
 				end
 			end
-		end
-
-	sink (sinkable: EL_DATA_SINKABLE; target: EL_REFLECTIVE)
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > count loop
-				i_th (i).write (target, sinkable)
-				i := i + 1
-			end
-		end
-
-	write (target: EL_REFLECTIVE; a_writable: EL_WRITABLE)
-		local
-			i, i_final: INTEGER_32
-		do
-			if attached area as l_area then
-				i_final := count
-				from i := 0 until i = i_final loop
-					l_area [i].write (target, a_writable)
-					i := i + 1
-				end
-			end
-		end
-
-	write_to_memory (target: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
-		local
-			i, i_final: INTEGER_32
-		do
-			if attached area as l_area then
-				i_final := count
-				from i := 0 until i = i_final loop
-					l_area [i].write_to_memory (target, memory)
-					i := i + 1
-				end
-			end
-		end
-
-feature -- Element change
-
-	extend (field: like item)
-		do
-			Precursor (field)
-			if attached foreign_naming as naming then
-				field.set_export_name (new_exported_name (field, naming))
-				naming.inform (field.name)
-			end
-		end
-
-	fill_table (representation_table: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING])
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > count loop
-				if attached i_th (i) as field then
-					table.extend (field, field.name)
-				end
-				i := i + 1
-			end
-			across representation_table as representation loop
-				if table.has_key (representation.key) then
-					table.found_item.set_representation (representation.item)
-				end
-			end
-		end
-
-feature {NONE} -- Implementation
-
-	i_th_name (i: INTEGER): IMMUTABLE_STRING_8
-		do
-			Result := i_th (i).name
-		end
-
-	new_exported_name (field: EL_REFLECTED_FIELD; translater: EL_NAME_TRANSLATER): STRING
-		do
-			Result := translater.exported (field.name)
 		end
 
 feature {NONE} -- Internal attributes

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 11:50:11 GMT (Friday 21st March 2025)"
-	revision: "85"
+	date: "2025-03-21 14:01:32 GMT (Friday 21st March 2025)"
+	revision: "86"
 
 class
 	EL_CLASS_META_DATA
@@ -50,15 +50,12 @@ feature {NONE} -- Initialization
 
 			tuple_field_table := a_target.new_tuple_field_table
 
-			field_list := new_field_list (a_target.foreign_naming)
-			field_list.fill_table (target.new_representations)
+			create field_list.make (Current)
 
 			field_printer := a_target.new_field_printer
 			if attached field_indices_subset (field_printer.hidden_fields) as hidden_fields then
 				field_printer.set_displayable_fields (field_list.special_subset (hidden_fields))
 			end
-		ensure then
-			valid_field_list: field_list.is_valid
 		end
 
 feature -- Access
@@ -91,34 +88,10 @@ feature -- Status query
 	same_fields (a_current, other: EL_REFLECTIVE; name_list: STRING): BOOLEAN
 		-- `True' if all fields in `name_list' have same value
 		do
-			Result := True
-			if attached field_indices_subset (name_list) as field_set and then attached field_list as list then
-				from list.start until not Result or list.after loop
-					if field_set.has (list.item.index) then
-						Result := list.item.are_equal (a_current, other)
-					end
-					list.forth
-				end
-			end
+			Result := field_list.same_fields (a_current, other, field_indices_subset (name_list))
 		end
 
-feature -- Comparison
-
-	all_fields_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
-		local
-			i, count: INTEGER
-		do
-			if attached field_list as list then
-				count := list.count
-				Result := True
-				from i := 1 until not Result or i > count loop
-					Result := list [i].are_equal (a_current, other)
-					i := i + 1
-				end
-			end
-		end
-
-feature {NONE} -- Factory
+feature {EL_FIELD_LIST} -- Factory
 
 	new_alphabetical_list: EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
 		-- fields sorted alphabetically
@@ -132,25 +105,6 @@ feature {NONE} -- Factory
 			never_called: False
 		do
 			create {EL_REFLECTED_REFERENCE_ANY} Result.make (target, index, name)
-		end
-
-	new_field_list (foreign_naming: detachable EL_NAME_TRANSLATER): EL_FIELD_LIST
-		-- list of field names with empty strings in place of excluded fields
-		do
-			if attached field_info_table.new_not_transient_subset (target.new_transient_fields) as name_list then
-				create Result.make (name_list.count, foreign_naming)
-				across name_list as list loop
-					if field_info_table.has_immutable_key (list.item)
-						and then attached field_info_table.found_type_info as field
-						and then target.field_included (field)
-					then
-						Result.extend (new_reflected_field (field, list.item))
-					end
-				end
-				Result.set_order (target.new_field_sorter, field_info_table)
-			else
-				create Result.make_empty
-			end
 		end
 
 	new_reference_field (field: EL_FIELD_TYPE_PROPERTIES; name: IMMUTABLE_STRING_8): EL_REFLECTED_FIELD

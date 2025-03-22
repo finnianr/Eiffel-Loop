@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 16:42:56 GMT (Sunday 10th December 2023)"
-	revision: "29"
+	date: "2025-03-22 14:36:58 GMT (Saturday 22nd March 2025)"
+	revision: "30"
 
 class
 	XML_ROUTINES_IMP
@@ -15,14 +15,13 @@ class
 inherit
 	EL_MARKUP_ROUTINES
 
-	XML_ZSTRING_CONSTANTS
-		export
-			{NONE} all
-		end
-
 	EL_MODULE_FILE_SYSTEM
 
-	EL_SHARED_FORMAT_FACTORY
+	EL_TYPE_CATEGORY_CONSTANTS
+
+	XML_ZSTRING_CONSTANTS
+
+	EL_SHARED_CLASS_ID; EL_SHARED_FORMAT_FACTORY
 
 feature -- Measurement
 
@@ -77,7 +76,24 @@ feature -- Access
 
 	entity (unicode: CHARACTER_32): ZSTRING
 		do
-			Result := xml_escaper.escape_sequence (unicode)
+			Result := XML_escaper.escape_sequence (unicode)
+		end
+
+	escaper (type_id: INTEGER): XML_ESCAPER [STRING_GENERAL]
+		do
+			inspect Class_id.type_category (type_id)
+				when C_readable_string_8 then
+					Result := XML_escaper_STRING_8
+
+				when C_readable_string_32 then
+					if type_id = Class_id.ZSTRING then
+						Result := XML_escaper
+					else
+						Result := XML_escaper_STRING_32
+					end
+			else
+				Result := XML_escaper_STRING_32
+			end
 		end
 
 	header (a_version: REAL; encoding_name: STRING): ZSTRING
@@ -109,11 +125,6 @@ feature -- Access
 		end
 
 feature -- Document status
-
-	is_xml_declaration (text: READABLE_STRING_8): BOOLEAN
-		do
-			Result := text.count >= 5 and then text [2] = '?' and then text.same_caseless_characters (Xml, 1, 3, 3)
-		end
 
 	is_namespace_aware (a_xml: READABLE_STRING_8): BOOLEAN
 		-- `True' if xmlns name exists in document root element
@@ -162,12 +173,17 @@ feature -- Document status
 			end
 		end
 
+	is_xml_declaration (text: READABLE_STRING_8): BOOLEAN
+		do
+			Result := text.count >= 5 and then text [2] = '?' and then text.same_caseless_characters (Xml, 1, 3, 3)
+		end
+
 feature -- Conversion
 
 	escaped (a_string: ZSTRING): ZSTRING
 			-- Escapes characters: < > & '
 		do
-			Result := a_string.escaped (Xml_escaper)
+			Result := a_string.escaped (XML_escaper)
 		end
 
 	escaped_128_plus (a_string: ZSTRING): ZSTRING
@@ -213,15 +229,6 @@ feature {NONE} -- Implementation
 			Result := char.natural_32_code
 		end
 
-	is_identifier (c: CHARACTER): BOOLEAN
-		do
-			inspect c
-				when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-' then
-					Result := True
-			else
-			end
-		end
-
 	has_element_ending (str: READABLE_STRING_8): BOOLEAN
 		-- `True' if `str' has right angle bracket and is not a comment
 		-- or processing instruction
@@ -252,6 +259,27 @@ feature {NONE} -- Implementation
 				else
 				end
 			end
+		end
+
+	is_identifier (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when 'a' .. 'z', 'A' .. 'Z', '0' .. '9', '_', '-' then
+					Result := True
+			else
+			end
+		end
+
+feature {NONE} -- Constants
+
+	XML_escaper_STRING_32: XML_ESCAPER [STRING_32]
+		once
+			create Result.make
+		end
+
+	XML_escaper_STRING_8: XML_ESCAPER [STRING_8]
+		once
+			create Result.make
 		end
 
 end

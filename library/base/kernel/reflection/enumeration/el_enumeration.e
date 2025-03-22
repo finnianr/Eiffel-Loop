@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:00:15 GMT (Friday 21st March 2025)"
-	revision: "71"
+	date: "2025-03-21 12:34:18 GMT (Friday 21st March 2025)"
+	revision: "72"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -344,13 +344,6 @@ feature {NONE} -- Implementation
 	field_included (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
 			Result := field.abstract_type = enum_type
-		end
-
-	i_th_value (a_field_list: EL_FIELD_LIST; i: INTEGER): N
-		do
-			if attached {like ENUM_FIELD} a_field_list [i] as field then
-				Result := enum_value (field)
-			end
 		end
 
 	lookup_name (a_value: N; exported: BOOLEAN): IMMUTABLE_STRING_8

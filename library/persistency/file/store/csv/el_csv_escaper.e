@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-02 14:33:43 GMT (Wednesday 2nd August 2023)"
-	revision: "3"
+	date: "2025-03-22 8:25:45 GMT (Saturday 22nd March 2025)"
+	revision: "4"
 
 class
 	EL_CSV_ESCAPER [S -> STRING_GENERAL create make end]
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_escaper
 		redefine
-			escaped, implementation, Zstring_imp, String_8_imp, String_32_imp
+			escaped, implementation, new_implementation
 		end
 
 	EL_SHARED_ESCAPE_TABLE
@@ -45,26 +45,25 @@ feature -- Conversion
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	new_implementation: EL_CSV_ESCAPER_IMP [STRING_GENERAL]
+		do
+			inspect storage_type
+				when '1' then
+					create {EL_CSV_STRING_8_ESCAPER_IMP} Result.make
+				when '4' then
+					create {EL_CSV_STRING_32_ESCAPER_IMP} Result.make
+				when 'X' then
+					create {EL_CSV_ZSTRING_ESCAPER_IMP} Result.make
+			else
+				create {EL_CSV_STRING_32_ESCAPER_IMP} Result.make
+			end
+		end
+
 feature {NONE} -- Internal attributes
 
 	implementation: EL_CSV_ESCAPER_IMP [S]
-
-feature {NONE} -- Alternative implementations
-
-	String_32_imp: EL_CSV_STRING_32_ESCAPER_IMP
-		once
-			create Result.make
-		end
-
-	String_8_imp: EL_CSV_STRING_8_ESCAPER_IMP
-		once
-			create Result.make
-		end
-
-	Zstring_imp: EL_CSV_ZSTRING_ESCAPER_IMP
-		once
-			create Result.make
-		end
 
 feature {NONE} -- Constants
 

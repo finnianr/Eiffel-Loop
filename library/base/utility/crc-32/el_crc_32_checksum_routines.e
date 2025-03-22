@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2025-03-22 13:43:50 GMT (Saturday 22nd March 2025)"
+	revision: "15"
 
 class
 	EL_CRC_32_CHECKSUM_ROUTINES
@@ -58,6 +58,13 @@ feature -- Measurement
 			if path.exists and then attached crc_generator as crc then
 				crc.add_file (path)
 				Result := crc.checksum
+			end
+		end
+
+	file_lines (path: FILE_PATH): NATURAL
+		do
+			if path.exists and then attached crc_generator as crc then
+				Result := string_list (File.plain_text_lines (path))
 			end
 		end
 

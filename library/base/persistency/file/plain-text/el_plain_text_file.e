@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 16:29:28 GMT (Friday 28th February 2025)"
-	revision: "20"
+	date: "2025-03-22 14:48:55 GMT (Saturday 22nd March 2025)"
+	revision: "21"
 
 class
 	EL_PLAIN_TEXT_FILE
@@ -212,6 +212,34 @@ feature -- Basic operations
 				list.trim
 			end
 			close
+		end
+
+	read_final_line (offset: INTEGER)
+		-- read final non-empty line starting search `-offset' bytes from end of file
+		-- do not move cursor position
+		-- make result available in `last_string'
+		local
+			l_position: INTEGER; break: BOOLEAN; last_non_empty: detachable STRING
+		do
+			l_position := position
+			finish; move (offset.min (count).opposite)
+			from until break loop
+				read_line
+				if end_of_file then
+					break := True
+				else
+					last_string.right_adjust
+					if last_string.count > 0 then
+						last_non_empty := last_string.twin
+					end
+				end
+			end
+			go (l_position)
+			if attached last_non_empty as last then
+				last_string.share (last)
+			end
+		ensure
+			same_position: position = old position
 		end
 
 feature -- Factory

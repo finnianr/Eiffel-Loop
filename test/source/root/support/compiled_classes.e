@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 13:48:08 GMT (Friday 14th February 2025)"
-	revision: "11"
+	date: "2025-03-22 7:31:31 GMT (Saturday 22nd March 2025)"
+	revision: "12"
 
 class
 	COMPILED_CLASSES
@@ -15,7 +15,7 @@ class
 feature {NONE} -- Compile extra
 
 	compile: TUPLE [
-		EL_TEST_SET_BRIDGE, LIBGCC1, MY_WET_CLASS, MY_DRY_CLASS
+		EL_TEST_SET_BRIDGE, LIBGCC1, MY_WET_CLASS, MY_DRY_CLASS, STORABLE_STRING_LIST
 	]
 		do
 			create Result
@@ -25,6 +25,17 @@ feature {NONE} -- Compile extra
 		EL_STANDARD_REMOVE_DATA_APP
 	]
 		-- app-manage.ecf
+		do
+			create Result
+		end
+
+	el_c_language_interface: TUPLE [
+		EL_C_STRING_8_BE, EL_C_STRING_8_LE,
+		EL_C_STRING_16, EL_C_STRING_16_BE, EL_C_STRING_16_LE,
+		EL_C_STRING_32_BE, EL_C_STRING_32_LE,
+		EL_C_UTF_STRING_8, EL_MODULE_C_DECODER
+	]
+		-- C-language-interface.ecf
 		do
 			create Result
 		end

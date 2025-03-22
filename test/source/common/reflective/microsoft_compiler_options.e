@@ -9,21 +9,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 10:54:22 GMT (Friday 4th October 2024)"
-	revision: "2"
+	date: "2025-03-22 14:25:15 GMT (Saturday 22nd March 2025)"
+	revision: "3"
 
 class
 	MICROSOFT_COMPILER_OPTIONS
 
 inherit
+	EL_REFLECTIVE_XML_FILE_PERSISTENT
+		redefine
+			make_default, is_equal
+		end
+
 	EL_REFLECTIVE
 		rename
-			field_included as is_any_field,
-			foreign_naming as eiffel_naming
+			field_included as is_string_8_field,
+			foreign_naming as kebab_case
+		undefine
+			is_equal
 		end
 
 create
-	make, make_default
+	make, make_default, make_from_file
 
 feature {NONE} -- Initialization
 
@@ -36,6 +43,7 @@ feature {NONE} -- Initialization
 
 	make_default
 		do
+			Precursor
 			make ("x64", "Release", "win7", "")
 		end
 
@@ -92,6 +100,13 @@ feature -- Conversion
 			end
 		end
 
+feature -- Comparison
+
+	is_equal (other: like Current): BOOLEAN
+		do
+			Result := all_fields_equal (other)
+		end
+
 feature -- Constants
 
 	Valid_architectures: EL_STRING_8_LIST
@@ -115,4 +130,10 @@ feature {NONE} -- Implementation
 		do
 			Result := "/" + option
 		end
+
+	is_string_8_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
+		do
+			Result := field.is_readable_string_8
+		end
+
 end

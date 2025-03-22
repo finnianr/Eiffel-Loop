@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 11:44:41 GMT (Monday 14th August 2023)"
-	revision: "20"
+	date: "2025-03-22 10:02:40 GMT (Saturday 22nd March 2025)"
+	revision: "21"
 
 class
 	EL_FIELD_INDICES_SET
@@ -23,7 +23,7 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_empty, make_for_any, make_empty_area
+	make, make_empty, make_empty_area
 
 feature {NONE} -- Initialization
 
@@ -57,14 +57,6 @@ feature {NONE} -- Initialization
 			make_empty_area (0)
 		end
 
-	make_for_any (field_table: EL_FIELD_TABLE)
-		do
-			make_empty_area (field_table.count)
-			across field_table as table loop
-				area.extend (table.item.index)
-			end
-		end
-
 feature -- Measurement
 
 	count: INTEGER
@@ -89,4 +81,17 @@ feature -- Status query
 
 	is_valid: BOOLEAN
 
+	full: BOOLEAN
+		do
+			Result := area.count = area.capacity
+		end
+
+feature -- Element change
+
+	extend (index: INTEGER)
+		require
+			not_full: not full
+		do
+			area.extend (index)
+		end
 end

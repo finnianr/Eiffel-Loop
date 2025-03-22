@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 15:55:29 GMT (Sunday 9th February 2025)"
-	revision: "135"
+	date: "2025-03-22 8:33:40 GMT (Saturday 22nd March 2025)"
+	revision: "136"
 
 class
 	ZSTRING_TEST_SET
@@ -773,10 +773,11 @@ feature -- Duplication tests
 		note
 			testing:	"[
 				covers/{ZSTRING}.append_substring,
-				covers/{ZSTRING}.substitute_tuple
+				covers/{ZSTRING}.substitute_tuple,
+				covers/{EL_WRITABLE}.write_any
 			]"
 		local
-			str_32, template_32: STRING_32; l_word: READABLE_STRING_GENERAL; str, substituted: ZSTRING
+			str_32, template_32: STRING_32; l_word: READABLE_STRING_GENERAL; str, substituted, template: ZSTRING
 			tuple: TUPLE; i, index: INTEGER
 		do
 			across Text.lines_32 as line loop
@@ -794,6 +795,7 @@ feature -- Duplication tests
 							create {STRING} l_word.make_filled (tuple.character_item (i), 1)
 						when {TUPLE}.Character_32_code then
 							create {STRING_32} l_word.make_filled (tuple.character_32_item (i), 1)
+
 						when {TUPLE}.Reference_code then
 							if  attached {READABLE_STRING_GENERAL} tuple.reference_item (i) as word then
 								l_word := word
@@ -813,6 +815,8 @@ feature -- Duplication tests
 				end
 				assert_same_string ("substitute_tuple OK", substituted, str_32)
 			end
+			template := "type: %S"
+			assert_same_string ("type inserted", template #$ [{STRING_8}], "type: STRING_8")
 		end
 
 	test_substring

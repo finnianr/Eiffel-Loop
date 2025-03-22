@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2025-03-21 12:46:59 GMT (Friday 21st March 2025)"
+	revision: "24"
 
 deferred class
 	RBOX_MANAGEMENT_TASK_TEST_SET [T -> RBOX_MANAGEMENT_TASK create make end]
@@ -21,6 +21,9 @@ inherit
 		end
 
 	EL_CRC_32_TESTABLE
+		rename
+			checksum as natural
+		end
 
 	SONG_QUERY_CONDITIONS undefine default_create, is_equal end
 

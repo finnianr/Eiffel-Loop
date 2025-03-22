@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
-	revision: "14"
+	date: "2025-03-22 11:36:54 GMT (Saturday 22nd March 2025)"
+	revision: "15"
 
 deferred class
 	EL_XML_FILE_PERSISTENT
@@ -35,7 +35,7 @@ feature {NONE} -- Initialization
 		local
 			xdoc: EL_XML_DOC_CONTEXT
 		do
-			Precursor {EVC_SERIALIZEABLE_AS_XML} (a_file_path)
+			Precursor (a_file_path)
 			create xdoc.make_from_file (a_file_path)
 			set_encoding_from_name (xdoc.encoding_name)
 			make_from_xdoc (xdoc)

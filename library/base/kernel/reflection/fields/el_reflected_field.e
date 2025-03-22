@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 9:14:44 GMT (Friday 21st March 2025)"
-	revision: "68"
+	date: "2025-03-21 18:26:44 GMT (Friday 21st March 2025)"
+	revision: "69"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -125,6 +125,12 @@ feature -- Status query
 			Result := True
 		end
 
+	is_numeric_type: BOOLEAN
+		-- `True' if `value' type conforms to `NUMERIC'
+		do
+			Result := False
+		end
+
 	is_storable_type: BOOLEAN
 		-- is type storable using `EL_STORABLE' interface
 		do
@@ -132,7 +138,7 @@ feature -- Status query
 		end
 
 	is_string_type: BOOLEAN
-		-- `True' if type conforms to `READABLE_STRING_GENERAL'
+		-- `True' if `value' type conforms to `READABLE_STRING_GENERAL'
 		do
 			Result := False
 		end

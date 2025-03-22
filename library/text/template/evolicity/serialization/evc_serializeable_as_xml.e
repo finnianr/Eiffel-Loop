@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:32 GMT (Tuesday 18th March 2025)"
-	revision: "11"
+	date: "2025-03-22 14:02:33 GMT (Saturday 22nd March 2025)"
+	revision: "12"
 
 deferred class
 	EVC_SERIALIZEABLE_AS_XML
@@ -53,14 +53,12 @@ feature {NONE} -- Implementation
 
 	stored_successfully (a_file: like new_file): BOOLEAN
 		require else
-			xml_template_ends_with_tag: Template.item (Template.count) = '>'
-		local
-			closing_tag: STRING
+			xml_template_ends_with_tag: Template [Template.count] = '>'
 		do
-			closing_tag := "</" + root_element_name + ">"
-			a_file.go (a_file.count - closing_tag.count)
-			a_file.read_line
-			Result := closing_tag ~ a_file.last_string
+			if attached XML.closed_tag (root_element_name) as name then
+				a_file.read_final_line (name.count + 1) -- plus one is necessary it seems
+				Result := name.same_string_general (a_file.last_string)
+			end
 		end
 
 end

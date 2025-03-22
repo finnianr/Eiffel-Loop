@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "5"
+	date: "2025-03-22 10:01:23 GMT (Saturday 22nd March 2025)"
+	revision: "6"
 
 deferred class
 	EL_ELEMENT_NODE_HINTS
@@ -52,7 +52,7 @@ feature {EL_ELEMENT_NODE_HINTS} -- Factory
 	new_element_node_field_set: EL_FIELD_INDICES_SET
 		do
 			if element_node_fields = All_fields then
-				create Result.make_for_any (field_table)
+				Result := field_list.indices_set
 
 			elseif element_node_fields.is_empty then
 				Result := Empty_field_set

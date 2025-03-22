@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 16:12:38 GMT (Monday 17th March 2025)"
-	revision: "28"
+	date: "2025-03-22 8:23:00 GMT (Saturday 22nd March 2025)"
+	revision: "29"
 
 deferred class
 	EL_WRITABLE
@@ -165,7 +165,13 @@ feature -- Other
 						write_natural_type (eif, type_id, object)
 
 				else
-					write_any_default (object)
+					if eif.type_conforms_to (type_id, eif.class_id.type__any) then
+						if attached {TYPE [ANY]} object as type then
+							write_string_8 (type.name)
+						end
+					else
+						write_any_default (object)
+					end
 				end
 			end
 		end

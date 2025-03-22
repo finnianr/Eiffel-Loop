@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:40:01 GMT (Wednesday 6th November 2024)"
-	revision: "15"
+	date: "2025-03-22 9:13:33 GMT (Saturday 22nd March 2025)"
+	revision: "16"
 
 class
 	XML_TEXT_ELEMENT
@@ -107,12 +107,12 @@ feature {NONE} -- Implementation
 
 	write_text (medium: EL_OUTPUT_MEDIUM)
 		local
-			escaper: like Xml_escaper
+			escaper: like XML_escaper
 		do
 			if medium.encoded_as_latin (1) then
 				escaper := Xml_128_plus_escaper
 			else
-				escaper := Xml_escaper
+				escaper := XML_escaper
 			end
 			medium.put_string (escaper.escaped (text, False))
 		end

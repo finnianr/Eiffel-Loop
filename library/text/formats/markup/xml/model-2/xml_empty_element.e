@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 17:20:53 GMT (Sunday 10th November 2024)"
-	revision: "23"
+	date: "2025-03-22 9:14:39 GMT (Saturday 22nd March 2025)"
+	revision: "24"
 
 class
 	XML_EMPTY_ELEMENT
@@ -141,7 +141,7 @@ feature {NONE} -- Implementation
 
 	write_open_element (medium: EL_OUTPUT_MEDIUM)
 		local
-			escaper: like Xml_escaper
+			escaper: like XML_escaper
 		do
 			if attribute_count > 0 then
 				if attached String_pool.borrowed_item as borrowed then
@@ -149,7 +149,7 @@ feature {NONE} -- Implementation
 						if medium.encoded_as_latin (1) then
 							escaper := Xml_128_plus_escaper
 						else
-							escaper := Xml_escaper
+							escaper := XML_escaper
 						end
 						if attached actual_attribute_list as l_attribute_list then
 							across l_attribute_list as attrib loop

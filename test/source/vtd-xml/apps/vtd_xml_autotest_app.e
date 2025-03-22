@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "18"
+	date: "2025-03-21 15:16:06 GMT (Friday 21st March 2025)"
+	revision: "19"
 
 class
 	VTD_XML_AUTOTEST_APP
@@ -34,10 +34,9 @@ create
 feature {NONE} -- Implementation
 
 	compile: TUPLE [
-		EL_C_STRING_8_BE, EL_C_STRING_8_LE,
-		EL_C_STRING_16, EL_C_STRING_16_BE, EL_C_STRING_16_LE,
-		EL_C_STRING_32_BE, EL_C_STRING_32_LE,
-		EL_C_UTF_STRING_8, EL_MODULE_C_DECODER
+		EL_LIST_FROM_XML [EL_XML_CREATEABLE_OBJECT],
+		EL_XML_CREATEABLE_OBJECT,
+		EL_XML_FILE_PERSISTENT
 	]
 		-- from C-language-interface.ecf
 		do
