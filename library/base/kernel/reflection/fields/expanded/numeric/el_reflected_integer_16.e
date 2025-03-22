@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "26"
+	date: "2025-03-22 19:04:55 GMT (Saturday 22nd March 2025)"
+	revision: "27"
 
 class
 	EL_REFLECTED_INTEGER_16
@@ -96,11 +96,6 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_integer_16 (v)
 			end
-		end
-
-	to_value (string: READABLE_STRING_GENERAL): INTEGER_16
-		do
-			Result := string.to_integer_16
 		end
 
 end

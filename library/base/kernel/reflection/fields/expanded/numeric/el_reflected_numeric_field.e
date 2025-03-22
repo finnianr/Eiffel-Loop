@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 18:27:29 GMT (Friday 21st March 2025)"
-	revision: "32"
+	date: "2025-03-22 19:19:26 GMT (Saturday 22nd March 2025)"
+	revision: "33"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -15,10 +15,26 @@ deferred class
 inherit
 	EL_REFLECTED_EXPANDED_FIELD [N]
 		redefine
-			is_numeric_type, set_from_string
+			is_numeric_type, post_make, set_from_string
+		end
+
+	EL_MODULE_CONVERT_STRING
+
+feature {NONE} -- Initialization
+
+	post_make
+		-- initialization after types have been set
+		do
+			if Convert_string.has_converter ({N})
+				and then attached {like convertor} Convert_string.found_item as item
+			then
+				convertor := item
+			end
 		end
 
 feature -- Status query
+
+	Is_numeric_type: BOOLEAN = True
 
 	is_zero (a_object: EL_REFLECTIVE): BOOLEAN
 		local
@@ -26,8 +42,6 @@ feature -- Status query
 		do
 			Result := value (a_object) = l_zero
 		end
-
-	Is_numeric_type: BOOLEAN = True
 
 feature -- Basic operations
 
@@ -69,8 +83,15 @@ feature {NONE} -- Implementation
 		end
 
 	to_value (string: READABLE_STRING_GENERAL): N
-		deferred
+		require
+			convertible: convertor.is_convertible (string)
+		do
+			Result := convertor.as_type (string)
 		end
+
+feature {NONE} -- Internal attributes
+
+	convertor: EL_READABLE_STRING_GENERAL_TO_TYPE [N]
 
 feature {NONE} -- Constants
 
