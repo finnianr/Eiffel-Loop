@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 13:14:41 GMT (Sunday 25th August 2024)"
-	revision: "30"
+	date: "2025-03-23 8:05:50 GMT (Sunday 23rd March 2025)"
+	revision: "31"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -57,7 +57,9 @@ feature -- Status query
 
 	has_string_representation: BOOLEAN
 		do
-			Result := attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} representation
+			if representation /= Void then
+				Result := attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} representation
+			end
 		end
 
 	is_expanded: BOOLEAN

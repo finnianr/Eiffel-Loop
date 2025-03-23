@@ -8,9 +8,9 @@ system:
 	configuration_ns = "1-16-0"; name = el_benchmark; uuid = "2F16B114-67AF-11EB-94F8-A7BEE388CA6C"
 	description:
 		"""
-			Eiffel-Loop Performance Benchmarks
+			Eiffel-Loop Code Performance Benchmarks
 
-			See project cluster for details
+			See doc/benchmark.txt for details
 		"""
 	# classic means C code as an intermediate language
 	target: 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2025-03-23 8:09:13 GMT (Sunday 23rd March 2025)"
+	revision: "24"
 
 class
 	EL_REFLECTED_POINTER
@@ -84,11 +84,12 @@ feature -- Basic operations
 
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			-- This redefinition is a workaround for a segmentation fault in finalized exe
-			if attached {EL_STRING_FIELD_REPRESENTATION [POINTER, ANY]} representation as l_representation then
-				set (a_object, l_representation.to_value (string))
-			else
+		-- This redefinition is a workaround for a segmentation fault in finalized exe
+			if representation = Void then
 				set_directly (a_object, string)
+
+			elseif attached {EL_STRING_FIELD_REPRESENTATION [POINTER, ANY]} representation as l_representation then
+				set (a_object, l_representation.to_value (string))
 			end
 		end
 

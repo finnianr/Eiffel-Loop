@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:21:11 GMT (Friday 21st March 2025)"
-	revision: "82"
+	date: "2025-03-23 8:08:26 GMT (Sunday 23rd March 2025)"
+	revision: "83"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE

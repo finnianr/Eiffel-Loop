@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "26"
+	date: "2025-03-23 8:04:01 GMT (Sunday 23rd March 2025)"
+	revision: "27"
 
 class
 	EL_REFLECTED_CHARACTER_8
@@ -78,10 +78,11 @@ feature -- Basic operations
 	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
 			-- This redefinition is a workaround for a segmentation fault in finalized exe
-			if attached {EL_STRING_FIELD_REPRESENTATION [CHARACTER_8, ANY]} representation as l_representation then
-				set (a_object, l_representation.to_value (string))
-			else
+			if representation = Void then
 				set_directly (a_object, string)
+
+			elseif attached {EL_STRING_FIELD_REPRESENTATION [CHARACTER_8, ANY]} representation as l_representation then
+				set (a_object, l_representation.to_value (string))
 			end
 		end
 

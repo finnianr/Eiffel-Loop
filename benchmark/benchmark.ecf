@@ -5,9 +5,9 @@
 -->
 <system name = "el_benchmark" uuid = "2F16B114-67AF-11EB-94F8-A7BEE388CA6C" xmlns = "http://www.eiffel.com/developers/xml/configuration-1-16-0" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.eiffel.com/developers/xml/configuration-1-16-0 http://www.eiffel.com/developers/xml/configuration-1-16-0.xsd">
 	<description>
-Eiffel-Loop Performance Benchmarks
+Eiffel-Loop Code Performance Benchmarks
 
-See project cluster for details
+See doc/benchmark.txt for details
 	</description>
 	<!--classic means C code as an intermediate language-->
 	<target name = "classic">
