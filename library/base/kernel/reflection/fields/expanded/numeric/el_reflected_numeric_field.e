@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-23 7:55:51 GMT (Sunday 23rd March 2025)"
-	revision: "34"
+	date: "2025-03-24 11:24:21 GMT (Monday 24th March 2025)"
+	revision: "35"
 
 deferred class
 	EL_REFLECTED_NUMERIC_FIELD [N -> NUMERIC]
@@ -25,7 +25,7 @@ feature {NONE} -- Initialization
 	post_make
 		-- initialization after types have been set
 		do
-			if Convert_string.has_converter ({N})
+			if Convert_string.has_type (type_id)
 				and then attached {like convertor} Convert_string.found_item as item
 			then
 				convertor := item
@@ -65,7 +65,12 @@ feature {NONE} -- Implementation
 
 	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
 		do
-			set (a_object, to_value (string))
+			if string.is_immutable then
+			-- workaround for bug in {STRING_TO_INTEGER_CONVERTOR}.parse_string_with_type
+				set (a_object, convertor.as_type (string)) -- benchmark passes: 503.0 times (-55.4%)
+			else
+				set (a_object, to_value (string)) -- benchmark passes: 1128.0 times (100%)
+			end
 		end
 
 	to_string_directly (a_object: EL_REFLECTIVE): STRING
@@ -84,10 +89,7 @@ feature {NONE} -- Implementation
 		end
 
 	to_value (string: READABLE_STRING_GENERAL): N
-		require
-			convertible: convertor.is_convertible (string)
-		do
-			Result := convertor.as_type (string)
+		deferred
 		end
 
 feature {NONE} -- Internal attributes

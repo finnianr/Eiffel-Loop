@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 12:42:23 GMT (Tuesday 18th March 2025)"
-	revision: "43"
+	date: "2025-03-24 7:16:45 GMT (Monday 24th March 2025)"
+	revision: "44"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -26,12 +26,21 @@ inherit
 			{ANY} has, has_type, found_item
 		end
 
-	EL_STRING_CONVERSION_TABLE_BASE
+	EL_STRING_NUMERIC_CONVERSION
+		rename
+			make as make_numeric
 		undefine
 			copy, default_create, is_equal
 		end
 
-	EL_SHARED_FACTORIES; EL_SHARED_CLASS_ID
+	EL_MODULE_EIFFEL; EL_MODULE_NAMING
+
+	EL_MODULE_TUPLE
+		rename
+			Tuple as Tuple_
+		end
+
+	EL_STRING_POOL_ROUTINES; EL_SHARED_FACTORIES; EL_SHARED_CLASS_ID
 
 create
 	make
@@ -42,7 +51,14 @@ feature {NONE} -- Initialization
 		local
 			type_array: EL_TUPLE_TYPE_ARRAY
 		do
-			make_implementation
+			make_numeric
+
+			create boolean_8_converter.make
+
+			create character_8_converter.make
+			create character_32_converter.make
+
+			split_list_area := new_split_list_types.area
 
 			create type_array.make_from_tuple (converter_types)
 			make_sized (type_array.count)
@@ -61,6 +77,9 @@ feature {NONE} -- Initialization
 			end
 		ensure
 			table_complete: count = converter_types.count
+			valid_type_1: split_list_by_type ('1') = split_list_area [0]
+			valid_type_4: split_list_by_type ('4') = split_list_area [1]
+			valid_type_X: split_list_by_type ('X') = split_list_area [2]
 		end
 
 feature -- Access
@@ -88,138 +107,6 @@ feature -- Access
 					Result.extend (found_item.type)
 				end
 			end
-		end
-
-feature -- Integer substrings
-
-	substring_to_integer_16 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_16
-		do
-			Result := integer_16_converter.substring_as_type (str, start_index, end_index)
-		end
-
-	substring_to_integer_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_32
-		do
-			Result := integer_32_converter.substring_as_type (str, start_index, end_index)
-		end
-
-	substring_to_integer_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_64
-		do
-			Result := integer_64_converter.substring_as_type (str, start_index, end_index)
-		end
-
-	substring_to_integer_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): INTEGER_8
-		do
-			Result := integer_8_converter.substring_as_type (str, start_index, end_index)
-		end
-
-feature -- Natural substrings
-
-	substring_to_natural_16 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_16
-		do
-			Result := natural_16_converter.substring_as_type (str, start_index, end_index)
-		end
-
-	substring_to_natural_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_32
-		do
-			Result := natural_32_converter.substring_as_type (str, start_index, end_index)
-		end
-
-	substring_to_natural_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_64
-		do
-			Result := natural_64_converter.substring_as_type (str, start_index, end_index)
-		end
-
-	substring_to_natural_8 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): NATURAL_8
-		do
-			Result := natural_8_converter.substring_as_type (str, start_index, end_index)
-		end
-
-feature -- Real substrings
-
-	substring_to_real_32 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): REAL_32
-		do
-			Result := real_32_converter.substring_as_type (str, start_index, end_index)
-		end
-
-	substring_to_real_64 (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): REAL_64
-		do
-			Result := real_64_converter.substring_as_type (str, start_index, end_index)
-		end
-
-feature -- Numeric conversion
-
-	to_integer (str: READABLE_STRING_GENERAL): INTEGER
-		require
-			integer_string: is_integer (str)
-		do
-			Result := integer_32_converter.as_type (str)
-		end
-
-	to_integer_64 (str: READABLE_STRING_GENERAL): INTEGER_64
-		require
-			integer_64_string: is_integer_64 (str)
-		do
-			Result := integer_64_converter.as_type (str)
-		end
-
-	to_natural (str: READABLE_STRING_GENERAL): NATURAL_32
-		require
-			natural_string: is_natural (str)
-		do
-			Result := natural_32_converter.as_type (str)
-		end
-
-	to_natural_64 (str: READABLE_STRING_GENERAL): NATURAL_64
-		require
-			natural_string: is_natural (str)
-		do
-			Result := natural_64_converter.as_type (str)
-		end
-
-	to_real_32 (str: READABLE_STRING_GENERAL): REAL_32
-		require
-			real_32_string: is_real_32 (str)
-		do
-			Result := real_32_converter.as_type (str)
-		end
-
-	to_real_64 (str: READABLE_STRING_GENERAL): REAL_64
-		require
-			real_64_string: is_real_64 (str)
-		do
-			Result := real_64_converter.as_type (str)
-		end
-
-feature -- Numeric tests
-
-	is_integer (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := integer_32_converter.is_convertible (str)
-		end
-
-	is_integer_64 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := integer_64_converter.is_convertible (str)
-		end
-
-	is_natural (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := natural_32_converter.is_convertible (str)
-		end
-
-	is_natural_64 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := natural_64_converter.is_convertible (str)
-		end
-
-	is_real_32 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := real_32_converter.is_convertible (str)
-		end
-
-	is_real_64 (str: READABLE_STRING_GENERAL): BOOLEAN
-		do
-			Result := real_64_converter.is_convertible (str)
 		end
 
 feature -- Status query
@@ -421,6 +308,106 @@ feature -- Basic operations
 				Result := factory.new_item (borrowed.copied (str))
 				borrowed.return
 			end
+		end
+
+feature {NONE} -- Factory
+
+	new_expanded_table: EL_HASH_TABLE [EL_READABLE_STRING_GENERAL_TO_TYPE [ANY], TYPE [ANY]]
+		local
+			current_object: REFLECTED_REFERENCE_OBJECT; i, type_id: INTEGER
+		do
+			create Result.make (20)
+			create current_object.make (Current)
+			from i := 1 until i > current_object.field_count loop
+				type_id := current_object.field_static_type (i)
+				if {ISE_RUNTIME}.type_conforms_to (type_id, Converter_base_id)
+					and then attached current_object.reference_field (i) as ref
+					and then attached {EL_READABLE_STRING_GENERAL_TO_TYPE [ANY]} ref as converter
+				then
+					Result.extend (converter, converter.generating_type)
+				end
+				i := i + 1
+			end
+		end
+
+	new_split_list_types: ARRAY [EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]]
+		do
+			Result := <<
+				create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_empty,
+				create {EL_SPLIT_IMMUTABLE_STRING_32_LIST}.make_empty,
+				create {EL_SPLIT_ZSTRING_LIST}.make_empty
+			>>
+		end
+
+feature {NONE} -- Implementation
+
+	converter_types: TUPLE [
+			EL_STRING_TO_INTEGER_8,
+			EL_STRING_TO_INTEGER_16,
+			EL_STRING_TO_INTEGER_32,
+			EL_STRING_TO_INTEGER_64,
+
+			EL_STRING_TO_NATURAL_8,
+			EL_STRING_TO_NATURAL_16,
+			EL_STRING_TO_NATURAL_32,
+			EL_STRING_TO_NATURAL_64,
+
+			EL_STRING_TO_REAL_32,
+			EL_STRING_TO_REAL_64,
+
+			EL_STRING_TO_BOOLEAN,
+			EL_STRING_TO_CHARACTER_8,
+			EL_STRING_TO_CHARACTER_32,
+
+			EL_STRING_TO_STRING_8, EL_STRING_TO_STRING_32, EL_STRING_TO_ZSTRING,
+			EL_STRING_TO_IMMUTABLE_STRING_8, EL_STRING_TO_IMMUTABLE_STRING_32,
+
+			EL_STRING_TO_DIR_PATH, EL_STRING_TO_FILE_PATH,
+			EL_STRING_TO_DIR_URI_PATH, EL_STRING_TO_FILE_URI_PATH
+	]
+		do
+			create Result
+		end
+
+	filled_split_list (
+		csv_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER
+	): like new_split_list_types.item
+		-- reusable split list
+		do
+			Result := split_list_by_type (string_storage_type (csv_list))
+			Result.fill_general (csv_list, separator, adjustments)
+		end
+
+	split_list_by_type (storage_type: CHARACTER): like new_split_list_types.item
+		-- reusable split list
+		require
+			valid_type: valid_string_storage_type (storage_type)
+		do
+			inspect storage_type
+				when '1' then
+					Result := split_list_area [0]
+				when '4' then
+					Result := split_list_area [1]
+				when 'X' then
+					Result := split_list_area [2]
+			end
+		end
+
+feature {NONE} -- Internal attributes
+
+	boolean_8_converter: EL_STRING_TO_BOOLEAN
+
+	character_32_converter: EL_STRING_TO_CHARACTER_32
+
+	character_8_converter: EL_STRING_TO_CHARACTER_8
+
+	split_list_area: SPECIAL [like new_split_list_types.item]
+
+feature {NONE} -- Constants
+
+	Converter_base_id: INTEGER
+		once
+			Result := ({EL_READABLE_STRING_GENERAL_TO_TYPE [ANY]}).type_id
 		end
 
 note

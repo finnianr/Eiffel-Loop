@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 10:07:21 GMT (Tuesday 5th November 2024)"
-	revision: "45"
+	date: "2025-03-24 7:25:05 GMT (Monday 24th March 2025)"
+	revision: "46"
 
 class
 	STRING_BENCHMARK_SHELL
@@ -38,6 +38,7 @@ feature {NONE} -- Implementation
 		MAKE_GENERAL_COMPARISON,
 
 		STRING_CONCATENATION_COMPARISON,
+		STRING_CONVERSION_COMPARISON,
 		STRING_SPLIT_ITERATION_COMPARISON,
 		STRING_ITEM_8_VS_ITEM,
 		STRING_8_SPLIT_VS_SPLIT_ON_CHARACTER_8,

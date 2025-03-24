@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 19:04:54 GMT (Saturday 22nd March 2025)"
-	revision: "27"
+	date: "2025-03-24 11:13:09 GMT (Monday 24th March 2025)"
+	revision: "28"
 
 class
 	EL_REFLECTED_NATURAL_32
@@ -102,6 +102,11 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_natural_32 (v)
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): NATURAL_32
+		do
+			Result := string.to_natural_32
 		end
 
 end

@@ -101,21 +101,20 @@ The fastest method is to test if `representation = Void'. Other methods are 1/3 
 
 Passes over 500 millisecs (in descending order)
 
-method 2 :  47911.0 times (100%)
-method 3 :  32334.0 times (-32.5%)
-method 1 :  31783.0 times (-33.7%)
-
+	method 2 :  47911.0 times (100%)
+	method 3 :  32334.0 times (-32.5%)
+	method 1 :  31783.0 times (-33.7%)
 
 **6 October 2024**
 
 Finding a ${ZSTRING} type at the end of list of 500 STRING_8 objects.
 
-	across string_general_list as list
-	
-1. some list.item.generating_type = {ZSTRING} end
-2. some {ISE_RUNTIME}.dynamic_type (list.item) = ZSTRING end (** THE WINNER **)
-3. some {ISE_RUNTIME}.dynamic_type (list.item) = ({ZSTRING}).type_id end
-4. some list.item.same_type (Zstring_object)
+	Result := across string_general_list as list
+		1. some list.item.generating_type = {ZSTRING}
+		2. some {ISE_RUNTIME}.dynamic_type (list.item) = ZSTRING -- THE WINNER
+		3. some {ISE_RUNTIME}.dynamic_type (list.item) = ({ZSTRING}).type_id
+		4. some list.item.same_type (Zstring_object)
+	end
 
 Passes over 2000 millisecs (in descending order)
 
@@ -129,10 +128,14 @@ Passes over 2000 millisecs (in descending order)
 Testing if ${ZSTRING} conforms to ${READABLE_STRING_32} using class ${EL_INTERNAL}
 and ${EL_CLASS_TYPE_ID_ENUM}
 
-1. Result := attached {READABLE_STRING_32} str
-2. Result := field_conforms_to (dynamic_type (str), class_id.READABLE_STRING_32)
-3. Result := class_id.readable_string_32_types.has (dynamic_type (str)) -- ARRAY [INTEGER]
-4. Result := is_type_in_set (dynamic_type (str), class_id.readable_string_32_types) (** THE WINNER **)
+	when 1 then
+		Result := attached {READABLE_STRING_32} str
+	when 2 then
+		Result := field_conforms_to (dynamic_type (str), class_id.READABLE_STRING_32)
+	when 3 then
+		Result := class_id.readable_string_32_types.has (dynamic_type (str)) -- ARRAY [INTEGER]
+	when 4 then
+		Result := is_type_in_set (dynamic_type (str), class_id.readable_string_32_types) -- THE WINNER
 
 Passes over 500 millisecs (in descending order)
 

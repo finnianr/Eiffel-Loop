@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 19:04:53 GMT (Saturday 22nd March 2025)"
-	revision: "24"
+	date: "2025-03-24 11:14:14 GMT (Monday 24th March 2025)"
+	revision: "25"
 
 class
 	EL_REFLECTED_REAL_64
@@ -91,6 +91,11 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_real_64 (v)
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): REAL_64
+		do
+			Result := string.to_real_64
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 19:04:55 GMT (Saturday 22nd March 2025)"
-	revision: "28"
+	date: "2025-03-24 11:11:45 GMT (Monday 24th March 2025)"
+	revision: "29"
 
 class
 	EL_REFLECTED_INTEGER_32
@@ -103,6 +103,11 @@ feature {NONE} -- Implementation
 			if attached value (a_object) as v then
 				str.append_integer_32 (v)
 			end
+		end
+
+	to_value (string: READABLE_STRING_GENERAL): INTEGER_32
+		do
+			Result := string.to_integer_32
 		end
 
 end
