@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 17:26:49 GMT (Saturday 5th October 2024)"
-	revision: "26"
+	date: "2025-03-25 8:19:30 GMT (Tuesday 25th March 2025)"
+	revision: "27"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -31,6 +31,11 @@ feature -- Access
 		end
 
 feature -- Queries
+
+	first: G
+		do
+			Result := container_first (current_container)
+		end
 
 	inverse_query_if (condition: EL_PREDICATE_QUERY_CONDITION [G]): like query
 		do
@@ -407,17 +412,39 @@ feature {NONE} -- Implementation
 				Result := finite.count
 
 			elseif attached {READABLE_INDEXABLE [ANY]} container as array then
-				Result :=  array.upper - array.lower + 1
+				Result := array.upper - array.lower + 1
 
-			elseif attached {BINARY_TREE [ANY]} container as tree then
-				Result :=  tree.count
+			elseif attached {TREE [ANY]} container as tree then
+				Result := tree.count
 
 			elseif attached {SEARCH_TABLE [HASHABLE]} container as table then
-				Result :=  table.count
+				Result := table.count
 
 			elseif attached {ITERABLE [ANY]} container as current_iterable then
 				across current_iterable as list loop
 					Result := Result + 1
+				end
+			end
+		end
+
+	container_first (container: CONTAINER [G]): G
+		local
+			break: BOOLEAN
+		do
+			if attached {READABLE_INDEXABLE [G]} container as array then
+				Result :=  array [array.lower]
+
+			elseif attached {ITERABLE [G]} container as current_iterable then
+				across current_iterable as list until break loop
+					Result := list.item; break := True
+				end
+
+			elseif attached {TREE [G]} container as tree then
+				if attached tree.child_cursor as cursor then
+					from tree.child_start until tree.child_off or break loop
+						Result := tree.item; break := True
+					end
+					tree.child_go_to (cursor)
 				end
 			end
 		end

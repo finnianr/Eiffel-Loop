@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:14:48 GMT (Friday 21st March 2025)"
-	revision: "68"
+	date: "2025-03-25 16:11:35 GMT (Tuesday 25th March 2025)"
+	revision: "69"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -88,14 +88,14 @@ feature -- Access
 			end
 		end
 
+	output_encoding: NATURAL
+
 	success_code: INTEGER
 		-- exit code that indicates command ran without error
 		-- default is 0
 
 	working_directory: DIR_PATH
 		-- temporary working directory used only for the command execution
-
-	output_encoding: NATURAL
 
 feature -- Status query
 
@@ -138,7 +138,35 @@ feature -- Status query
 		-- if option is enabled allows a permitted user to execute a command as the superuser
 		-- on Unix or Administrator on Windows platform
 
+feature -- Contract Support
+
+	template_has (name: READABLE_STRING_8): BOOLEAN
+		-- `True' if `template' has reference to variable `name'
+		local
+			index: INTEGER
+		do
+			across << "$", "${" >> as list until Result loop
+				if attached list.item as symbol and then attached (symbol + name) as name_reference then
+					index := template.substring_index (name_reference, 1)
+					if index > 0 then
+						index := index + name_reference.count
+						inspect symbol.count
+							when 2 then
+								Result := template.valid_index (index) implies template [index] = '}'
+						else
+							Result := template.valid_index (index) implies not template [index].is_alpha_numeric
+						end
+					end
+				end
+			end
+		end
+
 feature -- Element change
+
+	set_output_encoding (a_output_encoding: NATURAL)
+		do
+			output_encoding := a_output_encoding
+		end
 
 	set_success_code (a_code: INTEGER)
 		do
@@ -149,11 +177,6 @@ feature -- Element change
 		-- set a temporary working directory used only for the command execution
 		do
 			working_directory := a_working_directory
-		end
-
-	set_output_encoding (a_output_encoding: NATURAL)
-		do
-			output_encoding := a_output_encoding
 		end
 
 feature -- Status change
@@ -205,19 +228,14 @@ feature -- Basic operations
 
 feature {NONE} -- Evolicity reflection
 
-	get_escaped_path (field: EL_REFLECTED_PATH): ZSTRING
-		do
-			Result := field.value (Current).escaped
-		end
-
 	get_boolean_ref (field: EL_REFLECTED_BOOLEAN_REF): BOOLEAN_REF
 		do
 			Result := field.value (Current)
 		end
 
-	to_boolean_ref (field: EL_REFLECTED_BOOLEAN): BOOLEAN_REF
+	get_escaped_path (field: EL_REFLECTED_PATH): ZSTRING
 		do
-			Result := field.value (Current).to_reference
+			Result := field.value (Current).escaped
 		end
 
 	getter_function_table: like getter_functions
@@ -237,6 +255,11 @@ feature {NONE} -- Evolicity reflection
 					Result [field.name + Enabled_suffix] := agent get_boolean_ref (field)
 				end
 			end
+		end
+
+	to_boolean_ref (field: EL_REFLECTED_BOOLEAN): BOOLEAN_REF
+		do
+			Result := field.value (Current).to_reference
 		end
 
 feature {NONE} -- Implementation
@@ -419,13 +442,13 @@ feature {NONE} -- Deferred implementation
 		deferred
 		end
 
-	null_redirection: ZSTRING
-		deferred
-		end
-
 	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
 		require
 			path_exists: file_path.exists
+		deferred
+		end
+
+	null_redirection: ZSTRING
 		deferred
 		end
 

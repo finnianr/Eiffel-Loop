@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:20:01 GMT (Friday 21st March 2025)"
-	revision: "20"
+	date: "2025-03-25 18:59:10 GMT (Tuesday 25th March 2025)"
+	revision: "21"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -27,12 +27,14 @@ inherit
 			execute, getter_function_table, make_default
 		end
 
-	EL_SECURE_SHELL_OS_COMMAND_I
+	EL_SECURE_SHELL_OS_COMMAND
 		redefine
-			make_default
+			getter_function_table
 		end
 
 	EL_FILE_OPEN_ROUTINES
+
+	EL_CHARACTER_8_CONSTANTS
 
 feature {NONE} -- Initialization
 
@@ -41,12 +43,6 @@ feature {NONE} -- Initialization
 		do
 			create exclude_list.make (0)
 			Precursor {EL_COPY_TREE_COMMAND_I}
-		end
-
-	make_ssh (a_ssh_context: like ssh_context; a_source_path, a_destination_path: DIR_PATH)
-		do
-			make (a_source_path, a_destination_path)
-			ssh_context := a_ssh_context
 		end
 
 feature -- Access
@@ -104,9 +100,11 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor
+			Result := Precursor {EL_COPY_TREE_COMMAND_I}
+			Result.merge (Precursor {EL_SECURE_SHELL_OS_COMMAND})
+
 			Result.append_tuples (<<
-				["destination_path",	agent: ZSTRING do Result := escaped_remote (destination_path) end],
+				["destination_path",	agent: ZSTRING do Result := destination_path.escaped end],
 				["enabled_options",	agent: STRING do Result := enabled_options.joined_words end],
 				["has_exclusions",	agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end]
 			>>)
@@ -116,29 +114,20 @@ feature {NONE} -- Implementation
 
 	enabled_options: EL_STRING_8_LIST
 		do
-			Result := option_list.query_if (agent {EL_BOOLEAN_OPTION}.is_enabled).string_8_list (agent option_name)
-		end
-
-	escaped_remote (a_path: EL_PATH): ZSTRING
-		-- double escape backslash
-		do
-			if ssh_context.user_domain.count > 0 then
---				Result := ssh.escaped_re (a_path)
-			else
-				Result := a_path.escaped
+			if attached option_list.query_if (agent {EL_BOOLEAN_OPTION}.is_enabled) as enabled_list then
+				create Result.make (enabled_list.count)
+				across field_list.name_list_for (Current, enabled_list) as list loop
+					Result.extend (option_name (list.item))
+				end
 			end
 		end
 
-	option_name (option: EL_BOOLEAN_OPTION): STRING
+	option_name (name: IMMUTABLE_STRING_8): STRING
 		local
 			s: EL_STRING_8_ROUTINES
 		do
-			if attached field_list.field_with (Current, option) as field then
-				Result := hyphen * 2 + field.name
-				s.replace_character (Result, '_', '-') -- no-links
-			else
-				create Result.make_empty
-			end
+			Result := hyphen * 2 + name
+			s.replace_character (Result, '_', '-') -- no-links
 		end
 
 	option_list: EL_ARRAYED_LIST [EL_BOOLEAN_OPTION]

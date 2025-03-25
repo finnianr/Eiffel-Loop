@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 12:12:14 GMT (Thursday 20th March 2025)"
-	revision: "41"
+	date: "2025-03-25 8:27:37 GMT (Tuesday 25th March 2025)"
+	revision: "42"
 
 class
 	EL_INTERNAL
@@ -42,6 +42,8 @@ inherit
 	EL_SHARED_FACTORIES
 
 	EL_TYPE_CATEGORY_CONSTANTS
+
+	EL_CONTAINER_CONVERSION [ANY]
 
 create
 	make
@@ -275,6 +277,28 @@ feature -- Type status
 				Result := type_id = set [i]
 				i := i + 1
 			end
+		end
+
+	is_uniform_type (container: CONTAINER [ANY]): BOOLEAN
+		-- `True' if items in `container' are all the same type
+		local
+			i, type_first: INTEGER
+		do
+			Result := True
+			if attached as_structure (container) as structure
+				and then attached structure.to_special_shared as area and then area.count > 0
+			then
+				type_first := {ISE_RUNTIME}.dynamic_type (area [0])
+				from i := 1 until i = area.count or not Result loop
+					Result := {ISE_RUNTIME}.dynamic_type (area [i]) = type_first
+					i := i + 1
+				end
+			end
+		end
+
+	same_type_as (item: ANY; type_id: INTEGER): BOOLEAN
+		do
+			Result := {ISE_RUNTIME}.dynamic_type (item) = type_id
 		end
 
 feature -- Conformance checking

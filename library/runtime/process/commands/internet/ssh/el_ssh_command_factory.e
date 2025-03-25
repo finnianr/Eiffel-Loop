@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 9:38:10 GMT (Friday 21st March 2025)"
-	revision: "7"
+	date: "2025-03-25 15:54:00 GMT (Tuesday 25th March 2025)"
+	revision: "8"
 
 class
 	EL_SSH_COMMAND_FACTORY
@@ -112,10 +112,8 @@ feature -- Commands
 
 	new_mirror_directory  (a_source_path, a_destination_path: DIR_PATH): EL_RSYNC_COMMAND_I
 		-- mirror local directory tree on remote host using Unix rsync command
-		local
-			ssh: EL_SECURE_SHELL_CONTEXT
 		do
-			create {EL_RSYNC_COMMAND_IMP} Result.make_ssh (ssh, a_source_path, a_destination_path)
+			create {EL_RSYNC_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
 			Result.archive.enable
 			Result.compress.enable
 			Result.delete.enable

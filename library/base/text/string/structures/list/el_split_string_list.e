@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 17:07:52 GMT (Saturday 5th October 2024)"
-	revision: "51"
+	date: "2025-03-25 8:01:10 GMT (Tuesday 25th March 2025)"
+	revision: "52"
 
 class
 	EL_SPLIT_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -41,7 +41,7 @@ inherit
 		rename
 			item as item_copy
 		undefine
-			count, copy, character_count, do_meeting, has, is_equal, off, out, occurrences,
+			count, copy, character_count, do_meeting, first, has, is_equal, off, out, occurrences,
 			push_cursor, pop_cursor
 		redefine
 			character_count

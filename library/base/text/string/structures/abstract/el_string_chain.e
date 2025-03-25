@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 8:26:09 GMT (Monday 17th February 2025)"
-	revision: "56"
+	date: "2025-03-25 8:00:41 GMT (Tuesday 25th March 2025)"
+	revision: "57"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -22,7 +22,7 @@ inherit
 
 	EL_LINEAR_STRINGS [S]
 		undefine
-			find_first_equal, search, has, occurrences, off
+			first, find_first_equal, search, has, occurrences, off
 		end
 
 	PART_COMPARATOR [S]

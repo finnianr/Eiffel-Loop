@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:41:59 GMT (Friday 20th September 2024)"
-	revision: "35"
+	date: "2025-03-25 13:03:41 GMT (Tuesday 25th March 2025)"
+	revision: "36"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -366,9 +366,8 @@ feature -- Test
 		note
 			testing: "[
 				covers/{EL_SUBST_VARIABLE_PARSER}.parse,
-				covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_object,
-				covers/{EL_SUBST_VARIABLE_PARSER}.set_variables_from_array,
-				covers/{EL_MARKUP_ROUTINES}.book_mark_anchor_markup
+				covers/{EL_TEMPLATE_LIST}.put_fields,
+				covers/{EL_TEMPLATE_LIST}.put_array
 			]"
 		local
 			template_list: ARRAY [EL_SUBSTITUTION_TEMPLATE [STRING_GENERAL]]; target_text: STRING

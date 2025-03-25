@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:13:35 GMT (Sunday 22nd September 2024)"
-	revision: "24"
+	date: "2025-03-25 14:33:35 GMT (Tuesday 25th March 2025)"
+	revision: "25"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -145,7 +145,7 @@ feature {NONE} -- Implementation
 			extend (place_holder)
 		end
 
-feature {NONE} -- Internal attributes
+feature {EL_REFLECTION_HANDLER} -- Internal attributes
 
 	place_holder_table: EL_STRING_8_TABLE [S];
 		-- variable name list

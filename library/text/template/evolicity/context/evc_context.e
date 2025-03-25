@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-19 17:18:02 GMT (Wednesday 19th March 2025)"
-	revision: "25"
+	date: "2025-03-25 18:47:55 GMT (Tuesday 25th March 2025)"
+	revision: "26"
 
 deferred class
 	EVC_CONTEXT
@@ -47,10 +47,12 @@ feature -- Access
 		-- into: "(EL_DATE, STRING_8): STRING_8"
 			type_string := s.bracketed (function.out, '[')
 			type_string.remove_head (6)
-			type_string [1] := '('
-			index := type_string.last_index_of (',', type_string.count)
-			if index > 0 then
-				type_string.replace_substring ("):", index - 1, index)
+			if function.open_count > 0 then
+				type_string [1] := '('
+				index := type_string.last_index_of (',', type_string.count)
+				if index > 0 then
+					type_string.replace_substring ("):", index - 1, index)
+				end
 			end
 			Result := Invalid_operands_template #$ [
 				variable_ref.arguments_count, function.target.generator, variable_ref.out, type_string

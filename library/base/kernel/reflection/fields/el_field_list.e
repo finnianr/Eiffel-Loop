@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 12:21:43 GMT (Saturday 22nd March 2025)"
-	revision: "30"
+	date: "2025-03-25 9:16:05 GMT (Tuesday 25th March 2025)"
+	revision: "31"
 
 class
 	EL_FIELD_LIST
@@ -21,9 +21,17 @@ inherit
 			initialize
 		end
 
+	EL_CONTAINER_CONVERSION [ANY]
+		rename
+			as_structure as as_any_structure
+		undefine
+			copy, is_equal
+		end
+
 	EL_REFLECTION_HANDLER
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
+
 
 create
 	make, make_empty
@@ -133,9 +141,36 @@ feature -- Access
 			end
 		end
 
-	name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
+	name_list: EL_IMMUTABLE_STRING_8_LIST
 		do
 			create Result.make_filled (count, agent i_th_name)
+		end
+
+	name_list_for (object: EL_REFLECTIVE; value_list: CONTAINER [ANY]): EL_IMMUTABLE_STRING_8_LIST
+		-- list of field names in enclosing `object' corresponding to reference values
+		-- of uniform type contained in `value_list'.
+		require
+			uniform_types: is_uniform_type (value_list)
+		local
+			i, type_first, value_count: INTEGER
+		do
+			if attached as_any_structure (value_list) as value_structure then
+				value_count := value_structure.count
+				create Result.make (value_count)
+				if value_count > 0 and then attached area as l_area then
+					type_first := {ISE_RUNTIME}.dynamic_type (value_structure.first)
+					from i := 0 until i = l_area.count loop
+						if attached l_area [i] as field and then field.type_id = type_first
+							and then value_list.has (field.value (object))
+						then
+							Result.extend (field.name)
+						end
+						i := i + 1
+					end
+				end
+			else
+				create Result.make_empty
+			end
 		end
 
 	query_by_type (type: TYPE [EL_REFLECTED_FIELD]): EL_ARRAYED_LIST [EL_REFLECTED_FIELD]
@@ -294,6 +329,12 @@ feature -- Contract Support
 					field.key = i_th (field.cursor_index).name
 				end
 			end
+		end
+
+	is_uniform_type (container: CONTAINER [ANY]): BOOLEAN
+		-- `True' if items in `container' are all the same type
+		do
+			Result := Eiffel.is_uniform_type (container)
 		end
 
 feature -- Basic operations

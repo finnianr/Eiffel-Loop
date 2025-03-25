@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 19:21:03 GMT (Saturday 22nd March 2025)"
-	revision: "81"
+	date: "2025-03-25 9:14:02 GMT (Tuesday 25th March 2025)"
+	revision: "82"
 
 class
 	REFLECTION_TEST_SET
@@ -39,7 +39,8 @@ feature {NONE} -- Initialization
 				["compactable_objects",					  agent test_compactable_objects],
 				["default_tuple_initialization",		  agent test_default_tuple_initialization],
 				["enumeration",							  agent test_enumeration],
-				["field_name_search_by_address",		  agent test_field_name_search_by_address],
+				["field_name_list_for",					  agent test_field_name_list_for],
+				["field_with_address",					  agent test_field_with_address],
 				["field_query",							  agent test_field_query],
 				["field_representation",				  agent test_field_representation],
 				["field_value_reset",					  agent test_field_value_reset],
@@ -54,10 +55,10 @@ feature {NONE} -- Initialization
 				["parameterized_type_id",				  agent test_parameterized_type_id],
 				["reflected_collection_factory",		  agent test_reflected_collection_factory],
 				["reflected_integer_list",				  agent test_reflected_integer_list],
-				["reflection",								  agent test_reflection],
 				["reflective_string_constants",		  agent test_reflective_string_constants],
 				["reflective_string_table",			  agent test_reflective_string_table],
 				["set_from_other",						  agent test_set_from_other],
+				["settable_from_string",				  agent test_settable_from_string],
 				["size_reporting",						  agent test_size_reporting],
 				["substituted_type_id",					  agent test_substituted_type_id],
 				["value_list",								  agent test_value_list]
@@ -203,18 +204,28 @@ feature -- Tests
 			end
 		end
 
-	test_field_name_search_by_address
-		-- REFLECTION_TEST_SET.test_field_name_search_by_address
+	test_field_name_list_for
+		-- REFLECTION_TEST_SET.test_field_name_list_for
 		note
-			testing: "covers/{EL_FIELD_TABLE}.has_address"
+			testing: "[
+				covers/{EL_FIELD_LIST}.name_list_for,
+				covers/{EL_INTERNAL}.is_uniform_type,
+				covers/{EL_CONTAINER_STRUCTURE}.container_first
+			]"
 		do
-			assert_same_string (Void, "logging", Log_option.Name_logging)
+			if attached new_country (Ireland) as country
+				and then attached country.string_8_field_names as name_list
+			then
+				assert ("count is 2", name_list.count = 2)
+				assert_same_string ("fist is code", name_list.first, "code")
+				assert_same_string ("fist is continent", name_list.last, "continent")
+			end
 		end
 
 	test_field_query
 		-- REFLECTION_TEST_SET.test_field_query
 		note
-			testing: "covers/{EL_FIELD_TABLE}.query_by_type"
+			testing: "covers/{EL_FIELD_LIST}.query_by_type"
 		do
 			if attached new_country (Ireland) as country then
 				if attached {LIST [EL_REFLECTED_INTEGER_32]} country.query_by_type ({EL_REFLECTED_INTEGER_32}) as field_list then
@@ -322,6 +333,14 @@ feature -- Tests
 					end
 				end
 			end
+		end
+
+	test_field_with_address
+		-- REFLECTION_TEST_SET.test_field_with_address
+		note
+			testing: "covers/{EL_FIELD_LIST}.field_with_address"
+		do
+			assert_same_string (Void, "logging", Log_option.Name_logging)
 		end
 
 	test_http_headers
@@ -513,24 +532,6 @@ feature -- Tests
 			assert ("integer_list initialized", attached l_test.integer_list)
 		end
 
-	test_reflection
-		-- REFLECTION_TEST_SET.test_reflection
-		local
-			table: EL_HASH_TABLE [STRING_32, IMMUTABLE_STRING_8]; object: MY_DRY_CLASS
-		do
-			create object.make_default
-			create table.make_equal (object.field_table.count)
-			across object.field_table as l_field loop
-				if l_field.key.same_string ("boolean") then
-					table [l_field.key] := "True"
-				else
-					table [l_field.key] := l_field.cursor_index.out
-				end
-			end
-			create object.make (table)
-			assert ("table ~ object.data_export", table ~ object.data_export)
-		end
-
 	test_reflective_string_constants
 		local
 			name: NAME_CONSTANTS
@@ -596,6 +597,30 @@ feature -- Tests
 			create country_2.make_default
 			country_2.set_from_other (country, Void)
 			check_values_ireland (country_2)
+		end
+
+	test_settable_from_string
+		-- REFLECTION_TEST_SET.test_settable_from_string
+		note
+			testing: "[
+				covers/{EL_SETTABLE_FROM_STRING}.to_table,
+				covers/{EL_SETTABLE_FROM_STRING}.make_from_table
+			]"
+		local
+			table: EL_HASH_TABLE [STRING_32, IMMUTABLE_STRING_8]; object: MY_DRY_CLASS
+		do
+			create object.make_default
+			create table.make_equal (object.field_table.count)
+			across object.field_table as l_field loop
+				if l_field.key.same_string ("boolean") then
+					table [l_field.key] := "True"
+				else
+					table [l_field.key] := l_field.cursor_index.out
+				end
+			end
+			create object.make (table)
+		-- to_table renamed as data_export
+			assert ("table ~ object.data_export", table ~ object.data_export)
 		end
 
 	test_size_reporting

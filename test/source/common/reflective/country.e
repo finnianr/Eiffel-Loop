@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:04:29 GMT (Friday 21st March 2025)"
-	revision: "44"
+	date: "2025-03-25 9:13:22 GMT (Tuesday 25th March 2025)"
+	revision: "45"
 
 class
 	COUNTRY
@@ -50,6 +50,18 @@ feature {NONE} -- Initialization
 
 feature -- Access
 
+	currency_name: IMMUTABLE_STRING_8
+		do
+			Result := Currency_enum.name (currency)
+		end
+
+	string_8_field_names: like field_list.name_list
+		do
+			Result := field_list.name_list_for (Current, << code, continent >>)
+		end
+
+feature -- Attribute fields
+
 	brics_member: BOOLEAN_REF
 
 	code: STRING
@@ -57,11 +69,6 @@ feature -- Access
 	continent: STRING
 
 	currency: NATURAL_8
-
-	currency_name: IMMUTABLE_STRING_8
-		do
-			Result := Currency_enum.name (currency)
-		end
 
 	date_founded: INTEGER
 

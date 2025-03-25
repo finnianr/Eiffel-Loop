@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:31:51 GMT (Sunday 6th October 2024)"
-	revision: "29"
+	date: "2025-03-25 15:23:21 GMT (Tuesday 25th March 2025)"
+	revision: "30"
 
 class
 	EL_OS_COMMAND
@@ -68,23 +68,27 @@ feature -- Status query
 
 feature -- Element change
 
-	put_object (object: EL_REFLECTIVE)
-		local
-			table: EL_FIELD_TABLE; field: EL_REFLECTED_FIELD
+	put_fields (object: EL_REFLECTIVE)
 		do
-			table := object.field_table
-			from table.start until table.after loop
-				field := table.item_for_iteration
-				if template.has (field.name) then
-					if attached {EL_REFLECTED_PATH} field as path_field then
-						template.put_any (field.name, path_field.value (object).escaped)
-					elseif attached {EL_REFLECTED_URI [EL_URI]} field as uri_field then
-						template.put_any (field.name, File_system.escaped_path (uri_field.value (object)))
-					else
-						template.put_any (field.name, field.to_string (object))
+			if attached object.field_table as l_field_table then
+				across template.place_holder_table as table loop
+					if l_field_table.has_key_general (table.key) and then attached l_field_table.found_item as field
+						and then attached table.item as place_holder
+					then
+						place_holder.wipe_out
+						if field.is_expanded then
+							field.append_to_string (object, place_holder)
+
+						elseif attached {EL_REFLECTED_PATH} field as path_field then
+							place_holder.append (path_field.value (object).escaped)
+
+						elseif attached {EL_REFLECTED_URI [EL_URI]} field as uri_field then
+							place_holder.append (File_system.escaped_path (uri_field.value (object)))
+						else
+							field.append_to_string (object, place_holder)
+						end
 					end
 				end
-				table.forth
 			end
 		end
 

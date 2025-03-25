@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-15 8:33:38 GMT (Sunday 15th September 2024)"
-	revision: "27"
+	date: "2025-03-25 14:29:21 GMT (Tuesday 25th March 2025)"
+	revision: "28"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
@@ -57,6 +57,28 @@ feature -- Access
 			Result.set_target (general)
 		end
 
+feature -- Factory
+
+	new_template (general: READABLE_STRING_GENERAL): EL_TEMPLATE [STRING_GENERAL]
+		do
+			inspect string_storage_type (general)
+				when '1' then
+					if attached {READABLE_STRING_8} general as str_8 then
+						create {EL_TEMPLATE [STRING_8]} Result.make (str_8)
+					end
+
+				when 'X' then
+					if attached {ZSTRING} general as z_str then
+						create {EL_TEMPLATE [ZSTRING]} Result.make (z_str)
+					end
+			else
+				if attached {READABLE_STRING_32} general as str_32 then
+					create {EL_TEMPLATE [STRING_32]} Result.make (str_32)
+				end
+			end
+		end
+
+
 feature -- Measurement
 
 	character_count (list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
@@ -69,18 +91,6 @@ feature -- Measurement
 			end
 		end
 
-
-	utf_8_storage_count (list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
-		do
-			across list as ln loop
-				if Result > 0 then
-					Result := Result + separator_count
-				end
-				if attached shared_cursor (ln.item) as c then
-					Result := Result + c.utf_8_byte_count
-				end
-			end
-		end
 
 	maximum_count (strings: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
 			--
@@ -125,15 +135,19 @@ feature -- Measurement
 			p.put_integer_32 (end_index, p_end_index)
 		end
 
-feature -- Status query
-
-	is_character (str: READABLE_STRING_GENERAL; uc: CHARACTER_32): BOOLEAN
-		-- `True' if `str.same_string (uc.out)' is true
+	utf_8_storage_count (list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
 		do
-			Result := str.count = 1 and then str [1] = uc
-		ensure
-			definition: Result implies str.occurrences (uc) = 1
+			across list as ln loop
+				if Result > 0 then
+					Result := Result + separator_count
+				end
+				if attached shared_cursor (ln.item) as c then
+					Result := Result + c.utf_8_byte_count
+				end
+			end
 		end
+
+feature -- Status query
 
 	is_ascii_string_8 (str: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if str conforms to `READABLE_STRING_8' and all characters are in ASCII range
@@ -141,6 +155,14 @@ feature -- Status query
 			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 				Result := shared_cursor_8 (str_8).all_ascii
 			end
+		end
+
+	is_character (str: READABLE_STRING_GENERAL; uc: CHARACTER_32): BOOLEAN
+		-- `True' if `str.same_string (uc.out)' is true
+		do
+			Result := str.count = 1 and then str [1] = uc
+		ensure
+			definition: Result implies str.occurrences (uc) = 1
 		end
 
 	valid_assignments (a_manifest: READABLE_STRING_GENERAL): BOOLEAN
@@ -158,12 +180,6 @@ feature -- Status query
 
 feature -- Conversion
 
-	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
-		-- `str' converted to type `basic_type'
-		do
-			Result := Convert_string.to_type (str, basic_type)
-		end
-
 	to_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
 		do
 			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
@@ -171,6 +187,12 @@ feature -- Conversion
 			then
 				Result := str_8
 			end
+		end
+
+	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
+		-- `str' converted to type `basic_type'
+		do
+			Result := Convert_string.to_type (str, basic_type)
 		end
 
 feature -- Basic operations

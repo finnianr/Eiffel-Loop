@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 16:26:55 GMT (Monday 25th March 2024)"
-	revision: "1"
+	date: "2025-03-25 14:14:35 GMT (Tuesday 25th March 2025)"
+	revision: "2"
 
 deferred class
 	EL_TEMPLATE_LIST [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]
@@ -97,21 +97,15 @@ feature -- Set variable values
 	put_fields (object: ANY)
 		-- set variables in template that match field names of `object'
 		local
-			meta_object: like new_current_object; table: EL_FIELD_TABLE
 			i, field_count: INTEGER
 		do
-			if attached {EL_REFLECTIVE} object as reflective then
-				table := reflective.field_table
-				from table.start until table.after loop
-					if attached field_key (table.key_for_iteration) as field_name
-						and then (is_strict implies has (field_name))
-					then
-						put_general (field_name, table.item_for_iteration.to_string (reflective))
+			if attached {EL_REFLECTIVE} object as reflective and then attached reflective.field_table as field_table then
+				across place_holder_table as table loop
+					if field_table.has_key_general (table.key) then
+						put_general (table.key, field_table.found_item.to_string (reflective))
 					end
-					table.forth
 				end
-			else
-				meta_object := new_current_object (object)
+			elseif attached new_current_object (object) as meta_object then
 				field_count := meta_object.field_count
 				from i := 1 until i > field_count loop
 					if attached field_key (meta_object.field_name (i)) as field_name
@@ -152,6 +146,10 @@ feature {NONE} -- Implementation
 		end
 
 	key (str: KEY): READABLE_STRING_GENERAL
+		deferred
+		end
+
+	place_holder_table: EL_HASH_TABLE [S, KEY]
 		deferred
 		end
 
