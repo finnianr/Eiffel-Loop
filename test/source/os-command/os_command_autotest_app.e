@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-02 10:45:22 GMT (Sunday 2nd March 2025)"
-	revision: "84"
+	date: "2025-03-27 12:21:24 GMT (Thursday 27th March 2025)"
+	revision: "85"
 
 class
 	OS_COMMAND_AUTOTEST_APP
@@ -50,7 +50,6 @@ feature {NONE} -- Implementation
 		EL_NOTIFY_SEND_ERROR_COMMAND,
 		EL_SET_GNOME_SETTING_COMMAND,
 
-		EL_SSH_COMMAND_FACTORY,
 		EL_SSH_MIRROR_BACKUP,
 		EL_SYMLINK_LISTING_COMMAND,
 		EL_VIDEO_TO_MP3_COMMAND_IMP

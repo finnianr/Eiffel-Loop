@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 8:54:02 GMT (Thursday 6th March 2025)"
-	revision: "34"
+	date: "2025-03-26 17:16:08 GMT (Wednesday 26th March 2025)"
+	revision: "35"
 
 class
 	EL_OS_ROUTINES
@@ -222,7 +222,7 @@ feature {NONE} -- Implementation
 				end
 				Result := cmd.digest_string
 			else
-				Result := Empty_string_8
+				create Result.make_empty
 			end
 		end
 
@@ -271,9 +271,9 @@ feature {NONE} -- Constants
 			create {EL_FIND_FILES_COMMAND_IMP} Result.make_default
 		end
 
-	MD5_sum_cmd: EL_MD5_HASH_COMMAND
+	MD5_sum_cmd: EL_MD5_HASH_COMMAND_I
 		once
-			create Result.make
+			create {EL_MD5_HASH_COMMAND_IMP} Result.make_default
 		end
 
 	Make_directory_cmd: EL_MAKE_DIRECTORY_COMMAND_I

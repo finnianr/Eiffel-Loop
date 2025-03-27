@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-18 10:15:03 GMT (Friday 18th October 2024)"
-	revision: "24"
+	date: "2025-03-26 10:34:01 GMT (Wednesday 26th March 2025)"
+	revision: "25"
 
 deferred class
 	EL_COMMAND_SHELL_I
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 			template: EL_TEMPLATE [ZSTRING]; description: ZSTRING
 			has_expansions: BOOLEAN
 		do
+			make_default
 			if attached new_command_table as table then
 				create command_table.make (table.count + 1)
 				set_standard_options (command_table)
@@ -56,6 +57,10 @@ feature {NONE} -- Initialization
 					end
 				end
 			end
+		end
+
+	make_default
+		do
 		end
 
 feature -- Measurement

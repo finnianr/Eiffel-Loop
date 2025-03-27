@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:25:20 GMT (Friday 13th September 2024)"
-	revision: "14"
+	date: "2025-03-27 6:49:00 GMT (Thursday 27th March 2025)"
+	revision: "15"
 
 deferred class
 	EL_EXTRACT_MP3_INFO_COMMAND_I
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 		local
 			last_character_is_T_or_U_count, pos_field_delimiter: INTEGER
 			T_or_U_set: ARRAY [CHARACTER_32]; last_character: CHARACTER_32
-			l_field_name, field_value: ZSTRING
+			l_field_name, l_field_value: ZSTRING
 		do
 			T_or_U_set := << 'T', 'U' >>
 			from lines.start until lines.after loop
@@ -57,9 +57,9 @@ feature {NONE} -- Implementation
 					pos_field_delimiter := line.substring_index (Field_delimiter, 1)
 					if pos_field_delimiter > 0 then
 						l_field_name := line.substring (1, pos_field_delimiter - 1)
-						field_value := line.substring_end (pos_field_delimiter + Field_delimiter.count)
-						fields [l_field_name] := field_value
-						if T_or_U_set.has (field_value.item (field_value.count)) then
+						l_field_value := line.substring_end (pos_field_delimiter + Field_delimiter.count)
+						fields [l_field_name] := l_field_value
+						if T_or_U_set.has (l_field_value.item (l_field_value.count)) then
 							last_character_is_T_or_U_count := last_character_is_T_or_U_count + 1
 						end
 					end

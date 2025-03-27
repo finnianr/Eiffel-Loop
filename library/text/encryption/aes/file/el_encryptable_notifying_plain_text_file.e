@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 11:59:21 GMT (Friday 28th February 2025)"
-	revision: "17"
+	date: "2025-03-27 7:48:15 GMT (Thursday 27th March 2025)"
+	revision: "18"
 
 class
 	EL_ENCRYPTABLE_NOTIFYING_PLAIN_TEXT_FILE
@@ -59,12 +59,21 @@ feature -- Write string
 
 	put_string (str: ZSTRING)
 		do
-			put_string_general (str)
+			if attached String_8_pool.borrowed_item as borrowed
+				and then attached borrowed.empty as str_8
+			then
+				str.append_to_utf_8 (str_8)
+				put_encoded_string_8 (str_8)
+				borrowed.return
+			end
 		end
 
-	put_string_8 (str: STRING)
+	put_string_8 (str: READABLE_STRING_8)
 		do
-			put_string_general (str)
+			if attached String_8_pool.borrowed_item as borrowed then
+				put_encoded_string_8 (borrowed.copied_as_utf_8 (str))
+				borrowed.return
+			end
 		end
 
 	put_encoded_string_8 (s: STRING)

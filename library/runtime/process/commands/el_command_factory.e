@@ -6,13 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 13:35:24 GMT (Monday 22nd April 2024)"
-	revision: "26"
+	date: "2025-03-27 11:35:19 GMT (Thursday 27th March 2025)"
+	revision: "28"
 
 class
 	EL_COMMAND_FACTORY
 
 feature -- Linux only commands
+
+	launch_gedit (file_path: FILE_PATH)
+		local
+			gedit_cmd: EL_FILE_UTILITY_COMMAND
+		do
+			create gedit_cmd.make ("gedit")
+			gedit_cmd.set_path (file_path)
+			gedit_cmd.execute
+		end
 
 	new_set_executable_mode_cmd (script_path: FILE_PATH): EL_OS_COMMAND
 		local
@@ -22,15 +31,6 @@ feature -- Linux only commands
 			create Result.make ("chmod 0755 $PATH")
 			Result.fill_variables (var)
 			Result.put_path (var.path, script_path)
-		end
-
-	launch_gedit (file_path: FILE_PATH)
-		local
-			gedit_cmd: EL_FILE_UTILITY_COMMAND
-		do
-			create gedit_cmd.make ("gedit")
-			gedit_cmd.set_path (file_path)
-			gedit_cmd.execute
 		end
 
 	sudo_execute (cmd: EL_OS_COMMAND_I)
@@ -87,6 +87,21 @@ feature -- File management
 			create {EL_DELETE_TREE_COMMAND_IMP} Result.make (a_path)
 		end
 
+	new_directory_sync  (a_source_path, a_destination_path: DIR_PATH): EL_RSYNC_COMMAND_I
+		-- mirror local directory tree using Unix rsync command
+		do
+			create {EL_RSYNC_COMMAND_IMP} Result.make (a_source_path, a_destination_path)
+		end
+
+	new_file_sync  (a_source_path: FILE_PATH; a_destination_path: DIR_PATH): EL_RSYNC_COMMAND_I
+		-- mirror local file(s) using Unix rsync command
+		-- `a_source_path.base' may contain wildcards
+		do
+			create {EL_RSYNC_COMMAND_IMP} Result.make_default
+			Result.set_source_file_path (a_source_path)
+			Result.set_destination_dir (a_destination_path)
+		end
+
 	new_link_file (target_path, link_path: EL_PATH): EL_CREATE_LINK_COMMAND_I
 		-- create symbolic link
 		do
@@ -98,6 +113,11 @@ feature -- File management
 	new_make_directory (a_path: DIR_PATH): EL_MAKE_DIRECTORY_COMMAND_I
 		do
 			create {EL_MAKE_DIRECTORY_COMMAND_IMP} Result.make (a_path)
+		end
+
+	new_md5_hash (a_path: FILE_PATH): EL_MD5_HASH_COMMAND_I
+		do
+			create {EL_MD5_HASH_COMMAND_IMP} Result.make (a_path)
 		end
 
 	new_move_file (a_source_path: FILE_PATH; a_destination_path: EL_PATH): EL_MOVE_FILE_COMMAND_I

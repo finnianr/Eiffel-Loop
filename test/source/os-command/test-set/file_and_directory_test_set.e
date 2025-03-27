@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 11:29:04 GMT (Wednesday 25th September 2024)"
-	revision: "46"
+	date: "2025-03-27 11:28:38 GMT (Thursday 27th March 2025)"
+	revision: "48"
 
 class
 	FILE_AND_DIRECTORY_TEST_SET
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 				["find_files",						  agent test_find_files],
 				["find_files_absolute",			  agent test_find_files_absolute],
 				["gio_virtual_file_system",	  agent test_gio_virtual_file_system],
+				["mirror_directory",				  agent test_mirror_directory],
 				["read_directories",				  agent test_read_directories],
 				["read_directory_files",		  agent test_read_directory_files],
 				["search_path_list",				  agent test_search_path_list]
@@ -177,6 +178,26 @@ feature -- Tests
 		do
 			if {PLATFORM}.is_unix then
 				test_unix_gio_virtual_file_system
+			end
+		end
+
+	test_mirror_directory
+		-- FILE_AND_DIRECTORY_TEST_SET.test_mirror_directory
+		local
+			mint_dir: DIR_PATH
+		do
+			mint_dir := Work_area_dir #+ "Help-pages/Mint"
+			if attached Command.new_directory_sync (mint_dir, Work_area_dir) as cmd then
+				cmd.enable_all_except (<< cmd.update, cmd.no_links >>)
+				cmd.execute
+				if attached File_system.files (mint_dir, True) as mint_list
+					and then attached File_system.files (Work_area_dir #+ "Mint", True) as mirror_list
+				then
+					assert ("same file count", mint_list.count = mirror_list.count)
+					across mint_list as list loop
+						assert_same_string ("same base name", mirror_list [list.cursor_index].base, list.item.base)
+					end
+				end
 			end
 		end
 

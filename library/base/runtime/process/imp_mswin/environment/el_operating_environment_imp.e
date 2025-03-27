@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2025-03-27 9:24:14 GMT (Thursday 27th March 2025)"
+	revision: "10"
 
 class
 	EL_OPERATING_ENVIRONMENT_IMP
@@ -23,6 +23,9 @@ feature -- Constants
 
 	Command_option_prefix: CHARACTER = '/'
 		-- Character used to prefix option in command line
+
+	Path_quote: CHARACTER = '"'
+		-- quotation mark to enclose paths that contain spaces
 
 	Search_path_separator: CHARACTER = ';'
 		-- Character used to separate paths in a directorysearch path on this platform.

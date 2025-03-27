@@ -826,3 +826,6 @@ Optimized comparison of numerics in Evolicity
 Sun 23rd Mar 2025, 8:21:17
 Benchmarked testing a detachable attribute before doing action
 
+Wed 26th Mar 2025, 18:28:01
+Rewrite of EL_MD5_HASH_COMMAND command
+

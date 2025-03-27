@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-24 9:10:18 GMT (Thursday 24th October 2024)"
-	revision: "3"
+	date: "2025-03-26 16:12:08 GMT (Wednesday 26th March 2025)"
+	revision: "4"
 
 class
 	TRIM_BASH_HISTORY_APP
@@ -50,10 +50,8 @@ feature -- Basic operations
 					if attached line.item as ln then
 						if ln.count > 4 and then not line_set.has (ln) then
 							line_set.put (ln)
-							if line_set.count > 1 then
-								file_out.put_new_line
-							end
 							file_out.put_encoded_string_8 (ln)
+							file_out.put_new_line
 						end
 					end
 				end

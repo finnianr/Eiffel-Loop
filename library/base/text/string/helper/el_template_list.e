@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 14:14:35 GMT (Tuesday 25th March 2025)"
-	revision: "2"
+	date: "2025-03-26 7:39:11 GMT (Wednesday 26th March 2025)"
+	revision: "3"
 
 deferred class
 	EL_TEMPLATE_LIST [S -> STRING_GENERAL create make end, KEY -> READABLE_STRING_GENERAL]
@@ -44,7 +44,23 @@ feature {NONE} -- Initialization
 			Precursor; is_strict := True
 		end
 
+feature -- Measurement
+
+	variables_set_count: INTEGER
+		do
+			across place_holder_table as table loop
+				if table.item.count > 0 then
+					Result := Result + 1
+				end
+			end
+		end
+
 feature -- Status query
+
+	all_variables_set: BOOLEAN
+		do
+			Result := variables_set_count = place_holder_table.count
+		end
 
 	has (name: KEY): BOOLEAN
 		deferred
@@ -135,13 +151,23 @@ feature -- Set variable values
 			put (name, quoted)
 		end
 
+	reset
+		-- reset variable place holders to empty
+		do
+			across place_holder_table as table loop
+				table.item.keep_head (0)
+			end
+		ensure
+			no_variables_set: variables_set_count = 0
+		end
+
 feature {NONE} -- Implementation
 
-	found_item (name: KEY): detachable S
+	field_key (str: READABLE_STRING_8): KEY
 		deferred
 		end
 
-	field_key (str: READABLE_STRING_8): KEY
+	found_item (name: KEY): detachable S
 		deferred
 		end
 

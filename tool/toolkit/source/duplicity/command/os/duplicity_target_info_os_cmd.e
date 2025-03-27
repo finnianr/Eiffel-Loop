@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-10 17:04:23 GMT (Sunday 10th December 2023)"
-	revision: "11"
+	date: "2025-03-26 9:45:32 GMT (Wednesday 26th March 2025)"
+	revision: "12"
 
 class
 	DUPLICITY_TARGET_INFO_OS_CMD
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 			make_command (Command_template)
 			create backup_contents.make_empty
 			create backup_statistics.make_empty
-			put_object (arguments)
+			put_fields (arguments)
 			set_working_directory (target_dir.parent)
 			execute
 			if has_error then

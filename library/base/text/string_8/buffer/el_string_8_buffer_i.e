@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 9:20:48 GMT (Friday 8th November 2024)"
-	revision: "18"
+	date: "2025-03-27 7:43:21 GMT (Thursday 27th March 2025)"
+	revision: "19"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -26,6 +26,12 @@ feature -- Access
 		do
 			Result := empty
 			Result.append (str_8)
+		end
+
+	copied_as_utf_8 (str_8: READABLE_STRING_8): STRING
+		do
+			Result := empty
+			shared_cursor_8 (str_8).append_to_utf_8 (Result)
 		end
 
 	copied_general (general: READABLE_STRING_GENERAL): STRING

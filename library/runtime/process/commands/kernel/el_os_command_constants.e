@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 12:37:02 GMT (Monday 24th February 2025)"
-	revision: "4"
+	date: "2025-03-27 7:16:34 GMT (Thursday 27th March 2025)"
+	revision: "5"
 
 class
 	EL_OS_COMMAND_CONSTANTS
@@ -53,6 +53,11 @@ feature {NONE} -- Constants
 	File_system_mutex: MUTEX
 		once ("PROCESS")
 			create Result.make
+		end
+
+	Sudo_command: ZSTRING
+		once
+			Result := "sudo"
 		end
 
 end

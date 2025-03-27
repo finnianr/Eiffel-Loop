@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-07-22 12:16:45 GMT (Saturday 22nd July 2023)"
-	revision: "16"
+	date: "2025-03-26 17:23:39 GMT (Wednesday 26th March 2025)"
+	revision: "17"
 
 deferred class
 	EL_CAPTURED_OS_COMMAND_I
@@ -58,9 +58,21 @@ feature {NONE} -- Implementation
 			File_system_mutex.unlock
 		end
 
-	do_with_lines (lines: like new_output_lines)
+	do_with_lines (line_source: like new_output_lines)
 			--
 		deferred
+		end
+
+	i_th_line (line_source: like new_output_lines; i: INTEGER): detachable ZSTRING
+		local
+			break: BOOLEAN
+		do
+			across line_source as line until break loop
+				if line.cursor_index = i then
+					Result := line.item_copy
+					break := True
+				end
+			end
 		end
 
 	output_file_path: FILE_PATH

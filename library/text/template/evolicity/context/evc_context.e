@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 18:47:55 GMT (Tuesday 25th March 2025)"
-	revision: "26"
+	date: "2025-03-27 10:31:23 GMT (Thursday 27th March 2025)"
+	revision: "27"
 
 deferred class
 	EVC_CONTEXT
@@ -278,6 +278,7 @@ feature {EVC_COMPOUND_DIRECTIVE} -- Implementation
 
 	valid_types_tuple: TUPLE [
 		BOOLEAN_REF,
+		CHARACTER_8_REF, CHARACTER_32_REF,
 		DATE, DATE_TIME,
 		EVC_CONTEXT, EVC_FUNCTION_TABLE,
 		EL_PATH,

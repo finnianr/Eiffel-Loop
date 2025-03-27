@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 15:23:21 GMT (Tuesday 25th March 2025)"
-	revision: "30"
+	date: "2025-03-27 11:07:05 GMT (Thursday 27th March 2025)"
+	revision: "32"
 
 class
 	EL_OS_COMMAND
@@ -60,6 +60,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Status query
+
+	all_variables_set: BOOLEAN
+		do
+			Result := template.all_variables_set
+		end
 
 	has_variable (name: READABLE_STRING_8): BOOLEAN
 		do

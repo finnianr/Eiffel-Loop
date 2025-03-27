@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:18:28 GMT (Sunday 22nd September 2024)"
-	revision: "10"
+	date: "2025-03-26 7:30:10 GMT (Wednesday 26th March 2025)"
+	revision: "11"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -27,13 +27,14 @@ inherit
 	EL_SUBST_VARIABLE_PARSER
 		rename
 			set_source_text as set_parser_text,
-			name_list as pattern_name_list
+			name_list as pattern_name_list,
+			reset as parser_reset
 		export
 			{NONE} all
 		undefine
 			copy, is_equal
 		redefine
-			make_default, parse, reset, default_source_text
+			make_default, parser_reset, default_source_text
 		end
 
 feature {NONE} -- Initialization
@@ -78,13 +79,6 @@ feature -- Status query
 
 feature -- Element change
 
-	reset
-		do
-			Precursor
-			wipe_out
-			place_holder_table.wipe_out
-		end
-
 	set_template (a_template: READABLE_STRING_GENERAL)
 			--
 		do
@@ -92,6 +86,8 @@ feature -- Element change
 			actual_template.append (a_template)
 			set_parser_text (actual_template)
 			parse
+		ensure
+			valid_syntax: fully_matched
 		end
 
 	set_empty_variables
@@ -101,7 +97,7 @@ feature -- Element change
 			end
 		end
 
-feature {NONE} -- Implementation: parsing actions
+feature {NONE} -- Parsing events
 
 	on_literal_text (start_index, end_index: INTEGER)
 			--
@@ -167,13 +163,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	parse
-			--
+	parser_reset
 		do
-			wipe_out
 			Precursor
-		ensure then
-			valid_command_syntax: fully_matched
+			wipe_out
+			place_holder_table.wipe_out
 		end
 
 	template: like actual_template

@@ -6,6 +6,8 @@ note
 	notes: "[
 		For remote transfer by [https://linux.die.net/man/1/ssh ssh] use ${EL_SSH_COMMAND_FACTORY}.new_mirror_directory
 		and `new_copy_files' to create an instance.
+		
+		`source_path.base' may contain a wildcard operator, `*.txt' for example
 	]"
 
 	author: "Finnian Reilly"
@@ -13,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 18:59:10 GMT (Tuesday 25th March 2025)"
-	revision: "21"
+	date: "2025-03-27 11:06:16 GMT (Thursday 27th March 2025)"
+	revision: "23"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -51,25 +53,40 @@ feature -- Access
 		-- file patterns for exclusion from transfer
 		-- see --exclude option in rsync man
 
-feature -- Basic operations
+	source_file_path: FILE_PATH
 
-	execute
+feature -- Status query
+
+	make_remote_dir: EL_BOOLEAN_OPTION
+
+feature -- Status change
+
+	enable_all_except (exception_list: ARRAY [EL_BOOLEAN_OPTION])
+		require
+			valid_options: across exception_list as list all option_list.has (list.item) end
 		do
-			if exclude_list.count > 0 then
-				exclusions_path := new_temporary_file_path ("exclude")
-				File_system.make_directory (exclusions_path.parent)
-				if attached open (exclusions_path, Write) as file then
-					file.put_lines (exclude_list)
-					file.close
-				end
-				Precursor
-				File_system.remove_file (exclusions_path)
-			else
-				Precursor
+			across option_list as list loop
+				list.item.set_state (not exception_list.has (list.item))
 			end
 		end
 
-feature -- Options
+feature -- Option groups
+
+	enabled_option_list: EL_ARRAYED_LIST [EL_BOOLEAN_OPTION]
+		-- enabled rsync options
+		do
+			create Result.make_from_if (option_list, agent {EL_BOOLEAN_OPTION}.is_enabled)
+		end
+
+	option_list: ARRAY [EL_BOOLEAN_OPTION]
+		-- all rsync options
+		do
+			Result := << archive, compress, delete, no_links, progress, update, verbose >>
+		ensure
+			seven: Result.count = 7
+		end
+
+feature -- Options for rsync
 
 	archive: EL_BOOLEAN_OPTION
 		-- This is equivalent to -rlptgoD.
@@ -95,7 +112,43 @@ feature -- Options
 	verbose: EL_BOOLEAN_OPTION
 		-- This option increases the amount of information you are given during the transfer.
 
+feature -- Element change
+
+	set_source_file_path (a_source_file_path: FILE_PATH)
+		do
+			source_file_path := a_source_file_path
+			source_path.set_path (a_source_file_path.to_string)
+		end
+
+feature -- Basic operations
+
+	execute
+		do
+			if exclude_list.count > 0 then
+				exclusions_path := new_temporary_file_path ("exclude")
+				File_system.make_directory (exclusions_path.parent)
+				if attached open (exclusions_path, Write) as file then
+					file.put_lines (exclude_list)
+					file.close
+				end
+				Precursor
+				File_system.remove_file (exclusions_path)
+			else
+				Precursor
+			end
+		end
+
 feature {NONE} -- Evolicity reflection
+
+	get_trailing_slash: CHARACTER_8_REF
+		-- '/' if `source_file_path' is not empty else ' '
+		do
+			if source_file_path.is_empty then
+				Result := ' '
+			else
+				Result := '/'
+			end
+		end
 
 	getter_function_table: like getter_functions
 			--
@@ -104,35 +157,27 @@ feature {NONE} -- Evolicity reflection
 			Result.merge (Precursor {EL_SECURE_SHELL_OS_COMMAND})
 
 			Result.append_tuples (<<
-				["destination_path",	agent: ZSTRING do Result := destination_path.escaped end],
-				["enabled_options",	agent: STRING do Result := enabled_options.joined_words end],
-				["has_exclusions",	agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end]
+				["enabled_options",	  agent: STRING do Result := enabled_options.joined_words end],
+				["has_exclusions",	  agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end],
+				["destination_parent", agent: ZSTRING do Result := destination_path.parent.escaped end],
+				["trailing_slash",	  agent get_trailing_slash]
 			>>)
 		end
 
 feature {NONE} -- Implementation
 
 	enabled_options: EL_STRING_8_LIST
+		local
+			s: EL_STRING_8_ROUTINES; option_name: STRING
 		do
-			if attached option_list.query_if (agent {EL_BOOLEAN_OPTION}.is_enabled) as enabled_list then
+			if attached enabled_option_list as enabled_list then
 				create Result.make (enabled_list.count)
 				across field_list.name_list_for (Current, enabled_list) as list loop
-					Result.extend (option_name (list.item))
+					option_name := hyphen * 2 + list.item
+					s.replace_character (option_name, '_', '-') -- no-links
+					Result.extend (option_name)
 				end
 			end
-		end
-
-	option_name (name: IMMUTABLE_STRING_8): STRING
-		local
-			s: EL_STRING_8_ROUTINES
-		do
-			Result := hyphen * 2 + name
-			s.replace_character (Result, '_', '-') -- no-links
-		end
-
-	option_list: EL_ARRAYED_LIST [EL_BOOLEAN_OPTION]
-		do
-			create Result.make_from_array (<< archive, compress, delete, no_links, progress, update, verbose >>)
 		end
 
 feature {NONE} -- Internal attributes

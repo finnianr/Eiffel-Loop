@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-05 15:27:42 GMT (Sunday 5th November 2023)"
-	revision: "11"
+	date: "2025-03-27 9:23:45 GMT (Thursday 27th March 2025)"
+	revision: "12"
 
 deferred class
 	EL_OPERATING_ENVIRONMENT_I
@@ -35,6 +35,11 @@ feature -- Access
 		end
 
 	dynamic_module_extension: STRING
+		deferred
+		end
+
+	path_quote: CHARACTER
+		-- quotation mark to enclose paths that contain spaces
 		deferred
 		end
 

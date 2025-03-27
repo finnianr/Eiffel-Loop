@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-29 11:43:14 GMT (Friday 29th March 2024)"
-	revision: "14"
+	date: "2025-03-27 6:47:34 GMT (Thursday 27th March 2025)"
+	revision: "15"
 
 deferred class
 	EL_CPU_INFO_COMMAND_I
@@ -34,7 +34,7 @@ inherit
 		rename
 			name as field_name,
 			integer as field_integer,
-			value as field_value
+			value as pair_value
 		export
 			{NONE} all
 		end
@@ -64,7 +64,7 @@ feature {NONE} -- Implementation
 	find_model_name (line: ZSTRING)
 		do
 			if field_name (line) ~ Field.model_name then
-				model_name := field_value (line)
+				model_name := pair_value (line)
 				state := agent find_processors
 			end
 		end

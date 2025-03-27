@@ -1,13 +1,13 @@
 note
-	description: "Single path operand command i"
+	description: "Single path operand command"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-22 13:25:04 GMT (Monday 22nd April 2024)"
-	revision: "16"
+	date: "2025-03-26 16:43:44 GMT (Wednesday 26th March 2025)"
+	revision: "17"
 
 deferred class
 	EL_SINGLE_PATH_OPERAND_COMMAND_I

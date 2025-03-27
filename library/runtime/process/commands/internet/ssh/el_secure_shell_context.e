@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 19:40:27 GMT (Tuesday 25th March 2025)"
-	revision: "17"
+	date: "2025-03-26 7:51:03 GMT (Wednesday 26th March 2025)"
+	revision: "18"
 
 class
 	EL_SECURE_SHELL_CONTEXT
@@ -43,6 +43,8 @@ feature {NONE} -- Initialization
 		do
 			Precursor
 			create user_domain.make_empty
+			create ssh_command_list.make (2)
+			ssh_command_list.extend ("ssh")
 			ssh_option := Empty_string_8
 		end
 
@@ -78,30 +80,30 @@ feature -- Status query
 
 	is_open: BOOLEAN
 		do
-			Result := SSH_command.count > 0
+			Result := ssh_option.count > 0
 		end
 
 feature -- Status change
 
 	close
-		local
-			ssh_close: EL_OS_COMMAND
 		do
-			ssh_option := new_socket_option
-			create ssh_close.make_with_name ("ssh_close", "ssh -O exit $ssh_option $user_domain")
-			ssh_close.put_fields (Current)
-			ssh_close.execute
-			ssh_option := Empty_string_8
+			if is_open then
+				new_ssh_command ("ssh_close", "ssh -O exit $ssh_option $user_domain").execute
+				ssh_command_list.remove_tail (1)
+				ssh_option := Empty_string_8
+			end
+		ensure
+			ssh_option_empty: ssh_option.count = 0
+			only_ssh: ssh_command_list.count = 1
 		end
 
 	open
-		local
-			ssh_open: EL_OS_COMMAND
 		do
 			ssh_option := new_socket_option
-			create ssh_open.make_with_name ("ssh_open", "ssh -M $ssh_option -N -f $user_domain")
-			ssh_open.put_fields (Current)
-			ssh_open.execute
+			ssh_command_list.extend (ssh_option)
+			new_ssh_command ("ssh_open", "ssh -M $ssh_option -N -f $user_domain").execute
+		ensure
+			ssh_over_socket: ssh_command_list.count = 2
 		end
 
 feature -- Element change
@@ -114,6 +116,14 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	new_ssh_command (name, a_template: STRING): EL_OS_COMMAND
+		do
+			create Result.make_with_name (name, a_template)
+			Result.put_fields (Current)
+		ensure
+			variables_set: Result.all_variables_set
+		end
+
 	new_socket_option: STRING
 		do
 			Result := Socket_option_template #$ [Directory.home, domain_name]
@@ -121,27 +131,22 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Evolicity reflection
 
-	get_socket_command: STRING
-		do
-			Result := space.joined (SSH_command, ssh_option)
-		end
-
 	getter_function_table: like getter_functions
 			--
 		do
 			create Result.make_assignments (<<
-				["command",		 agent get_socket_command],
+				["command",		 agent: STRING do Result := ssh_command_list.joined_words end],
 				["user_domain", agent: ZSTRING do Result := user_domain end]
 			>>)
 		end
 
 feature {NONE} -- Internal attributes
 
+	ssh_command_list: EL_STRING_8_LIST
+
 	ssh_option: STRING
 
 feature {NONE} -- Constants
-
-	SSH_command: STRING = "ssh"
 
 	Socket_option_template: ZSTRING
 		once

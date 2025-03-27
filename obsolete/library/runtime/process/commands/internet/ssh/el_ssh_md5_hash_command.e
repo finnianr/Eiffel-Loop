@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 8:39:46 GMT (Thursday 6th March 2025)"
-	revision: "5"
+	date: "2025-03-26 7:43:40 GMT (Wednesday 26th March 2025)"
+	revision: "6"
 
 class
 	EL_SSH_MD5_HASH_COMMAND
@@ -35,7 +35,7 @@ inherit
 			make as make_with_template,
 			Var as MD5_var
 		undefine
-			execute, make_command, make_default, default_name, make_with_template, valid_tuple
+			all_variables_set, default_name, execute, make_command, make_default, make_with_template, valid_tuple
 		redefine
 			set_target_path
 		end

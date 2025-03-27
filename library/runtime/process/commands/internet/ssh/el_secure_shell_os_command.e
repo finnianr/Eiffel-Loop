@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 19:18:02 GMT (Tuesday 25th March 2025)"
-	revision: "17"
+	date: "2025-03-27 14:43:35 GMT (Thursday 27th March 2025)"
+	revision: "19"
 
 deferred class
 	EL_SECURE_SHELL_OS_COMMAND
@@ -23,9 +23,16 @@ inherit
 
 feature -- Access
 
-	ssh_context: detachable EL_SECURE_SHELL_CONTEXT
+	ssh_context: detachable EL_SECURE_SHELL_CONTEXT note option: transient attribute end
+		-- optional SSH context
+		-- (transient attribute prevents default creation by EL_OS_COMMAND_I)
 
 feature -- Status query
+
+	has_error: BOOLEAN
+		-- True if the command returned an error code on exit
+		deferred
+		end
 
 	is_remote_destination: BOOLEAN
 		do
@@ -41,21 +48,32 @@ feature -- Element change
 			valid_template: template_has (Var_is_remote_destination)
 		end
 
+feature -- Basic operations
+
+	print_error (a_description: detachable READABLE_STRING_GENERAL)
+		deferred
+		end
+
 feature {NONE} -- Implementation
 
-	ssh_escaped (escaped_path: ZSTRING): ZSTRING
-		-- double escape backslash
+	remote (escaped_path: ZSTRING): ZSTRING
+		--replace local user with remote user in destination path
 		local
-			steps: EL_PATH_STEPS
+			step_list: EL_ZSTRING_LIST
 		do
-			steps := escaped_path
-		-- replace local user with remote user in destination path
-			if steps.index_of (Operating_environ.user_name, 1) = 3 then
-				steps [3] := ssh_context.user_name
+			if ssh_context.user_name ~ Operating_environ.user_name then
+				Result := escaped_path.twin
+			else
+				create step_list.make_adjusted_split (escaped_path, '/', 0)
+				if step_list.index_of (Operating_environ.user_name, 1) = 3 then
+					step_list [3] := ssh_context.user_name
+				end
+				Result := step_list.joined ('/')
 			end
-			Result := steps
-			if {PLATFORM}.is_unix then
-				Result.replace_substring_all (char ('\') * 1, char ('\') * 2)
+		-- turn escaped string into a quoted string which removes the need for escaping
+			if Result.has ('\') then
+				Result.prune_all ('\')
+				Result.quote (1) -- single quote
 			end
 		end
 
@@ -78,7 +96,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: EVC_FUNCTION_TABLE
 		do
 			create Result.make_assignments (<<
-				["ssh_escaped",				 agent ssh_escaped],
+				["remote", agent remote],
 				[Var_is_remote_destination, agent get_is_remote_destination],
 				[Var_ssh,						 agent get_ssh_context]
 			>>)

@@ -16,16 +16,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 16:11:35 GMT (Tuesday 25th March 2025)"
-	revision: "69"
+	date: "2025-03-27 14:42:41 GMT (Thursday 27th March 2025)"
+	revision: "71"
 
 deferred class
 	EL_OS_COMMAND_I
 
 inherit
-	EL_COMMAND
-
-	EL_OS_DEPENDENT
+	EL_OS_COMMAND_BASE_I
+		export
+			{EL_OS_COMMAND_I} new_temporary_file_path
+		redefine
+			context_item, make_default
+		end
 
 	EL_FALLIBLE
 		rename
@@ -38,40 +41,12 @@ inherit
 			has_error, reset
 		end
 
-	EVC_SERIALIZEABLE_AS_ZSTRING
-		rename
-			as_text as system_command
-		export
-			{NONE} all
-		redefine
-			make_default, system_command
-		end
-
-	EL_REFLECTIVELY_SETTABLE
-		rename
-			field_included as is_any_field,
-			foreign_naming as eiffel_naming
-		export
-			{NONE} all
-		undefine
-			is_equal
-		redefine
-			make_default, new_transient_fields
-		end
-
-	EL_MODULE_DIRECTORY; EL_MODULE_EXECUTABLE; EL_MODULE_LIO; EL_MODULE_NAMING
-
-	EL_OS_COMMAND_CONSTANTS
-
-	EL_SHARED_OPERATING_ENVIRON
-
 feature {NONE} -- Initialization
 
 	make_default
 			--
 		do
-			Precursor {EL_REFLECTIVELY_SETTABLE}
-			Precursor {EVC_SERIALIZEABLE_AS_ZSTRING}
+			Precursor
 			output_encoding := Utf_8
 			create dry_run
 		end
@@ -138,29 +113,6 @@ feature -- Status query
 		-- if option is enabled allows a permitted user to execute a command as the superuser
 		-- on Unix or Administrator on Windows platform
 
-feature -- Contract Support
-
-	template_has (name: READABLE_STRING_8): BOOLEAN
-		-- `True' if `template' has reference to variable `name'
-		local
-			index: INTEGER
-		do
-			across << "$", "${" >> as list until Result loop
-				if attached list.item as symbol and then attached (symbol + name) as name_reference then
-					index := template.substring_index (name_reference, 1)
-					if index > 0 then
-						index := index + name_reference.count
-						inspect symbol.count
-							when 2 then
-								Result := template.valid_index (index) implies template [index] = '}'
-						else
-							Result := template.valid_index (index) implies not template [index].is_alpha_numeric
-						end
-					end
-				end
-			end
-		end
-
 feature -- Element change
 
 	set_output_encoding (a_output_encoding: NATURAL)
@@ -215,103 +167,42 @@ feature -- Basic operations
 		end
 
 	print_error (a_description: detachable READABLE_STRING_GENERAL)
+		local
+			description: READABLE_STRING_GENERAL
 		do
 			if attached error_list as list then
 				lio.put_new_line
-				if attached a_description as description then
-					lio.put_labeled_string ("ERROR", description)
-					lio.put_new_line
+				if attached a_description as str then
+					description := str
+				else
+					description := generator
 				end
+				lio.put_labeled_string ("ERROR", description)
+				lio.put_new_line
 				list.first.print_to (lio)
 			end
 		end
 
-feature {NONE} -- Evolicity reflection
-
-	get_boolean_ref (field: EL_REFLECTED_BOOLEAN_REF): BOOLEAN_REF
-		do
-			Result := field.value (Current)
-		end
-
-	get_escaped_path (field: EL_REFLECTED_PATH): ZSTRING
-		do
-			Result := field.value (Current).escaped
-		end
-
-	getter_function_table: like getter_functions
-			--
-		do
-			create Result.make (11)
-			across field_list as list loop
-				if attached {EL_REFLECTED_BOOLEAN} list.item as field then
-					Result [field.name] := agent to_boolean_ref (field)
-
-				elseif attached {EL_REFLECTED_PATH} list.item as field then
-					Result [field.name] := agent get_escaped_path (field)
-
-				elseif attached {EL_REFLECTED_BOOLEAN_REF} list.item as field
-					and then field.type_id = Class_id.EL_BOOLEAN_OPTION
-				then
-					Result [field.name + Enabled_suffix] := agent get_boolean_ref (field)
-				end
-			end
-		end
-
-	to_boolean_ref (field: EL_REFLECTED_BOOLEAN): BOOLEAN_REF
-		do
-			Result := field.value (Current).to_reference
-		end
-
 feature {NONE} -- Implementation
 
-	display (lines: LIST [ZSTRING])
-			-- display word wrapped command
-		local
-			current_working_directory, printable_line, prompt, blank_prompt: ZSTRING
-			max_width, head_count, tail_count: INTEGER; words: EL_ZSTRING_SPLIT_INTERVALS
-			name: STRING
+	context_item (variable_ref: EVC_VARIABLE_REFERENCE; index: INTEGER): ANY
 		do
-			current_working_directory := Directory.current_working
-			if attached generating_type as type then
-				head_count := if Naming.is_eiffel_loop (type.name) then 1 else 0 end
-				tail_count := if type.name.ends_with (Command_suffix) then 1 else 0 end
-				name := Naming.class_with_separator (type, ' ', head_count, tail_count)
-				create blank_prompt.make_filled (' ', name.count)
-				prompt := name
-			end
+			if attached variable_ref [index] as key then
+				if getter_functions.has_key (key) then
+					Result := getter_functions.found_item_result (Current, variable_ref, index)
 
-			max_width := 100 - prompt.count  - 2
+				elseif field_table.has_key (key) then
+					Result := field_value (field_table.found_item)
 
-			create printable_line.make (200)
-			across lines as line loop
-				line.item.replace_substring_all (current_working_directory, Variable_cwd)
-				line.item.left_adjust
-
-				create words.make (line.item, ' ')
-				from words.start until words.after loop
-					if words.item_count > 0 then
-						if not printable_line.is_empty then
-							printable_line.append_character (' ')
-						end
-						printable_line.append_substring (line.item, words.item_lower, words.item_upper)
-						if printable_line.count > max_width then
-							printable_line.remove_tail (words.item_count)
-							lio.put_labeled_string (prompt, printable_line)
-							lio.put_new_line
-							printable_line.wipe_out
-							printable_line.append_substring (line.item, words.item_lower, words.item_upper)
-							prompt := blank_prompt
-						end
-					end
-					words.forth
+				elseif key.same_caseless_characters (Var_current, 1, Var_current.count, 1) then
+					Result := Current
+				else
+					Result := Undefined_template #$ [variable_ref.out]
 				end
 			end
-			lio.put_labeled_string (prompt, printable_line)
-			lio.put_new_line
 		end
 
 	do_command (a_system_command: like system_command)
-			--
 		local
 			command_parts: EL_ZSTRING_LIST; error_path: FILE_PATH; working_dir: DIR_PATH
 		do
@@ -361,10 +252,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	on_error (error: EL_ERROR_DESCRIPTION)
-		do
-		end
-
 	reset
 		-- Executed before do_command
 		do
@@ -375,12 +262,6 @@ feature {NONE} -- Implementation
 	set_has_error (return_code: INTEGER)
 		do
 			has_error := return_code /= success_code
-		end
-
-	system_command: ZSTRING
-		do
-			Result := Precursor
-			Result.left_adjust
 		end
 
 	temporary_error_file_path: FILE_PATH
@@ -401,72 +282,7 @@ feature {EL_OS_COMMAND_I} -- Factory
 			end
 		end
 
-	new_error: EL_ERROR_DESCRIPTION
-		do
-			create Result.make_code (Execution_environment.return_code)
-		end
-
-	new_temporary_file_path (a_extension: STRING): FILE_PATH
-		-- uniquely numbered temporary file in temporary area set by env label "TEMP"
-		do
-			Result := Temporary_path_format #$ [
-				Operating_environ.temp_directory_name, Executable.user_qualified_name,
-				new_temporary_name, a_extension
-			]
-			-- check if directory already exists with root ownership (perhaps created by installer program)
-			-- (Using sudo command does not mean that the user name changes to root)
-			if Result.parent.exists and then not File_system.is_writeable_directory (Result.parent) then
-				Result.set_parent_path (Result.parent.to_string + "-2")
-			end
-			Result := Result.next_version_path
-		end
-
-	new_temporary_name: ZSTRING
-		do
-			Result := generator
-		end
-
-	new_transient_fields: STRING
-		do
-			Result := Precursor + "[
-				, dry_run, getter_functions, internal_error_list, is_forked,
-				has_error, on_encoding_change, encoding_other, output_path, template_path
-			]"
-		end
-
-feature {NONE} -- Deferred implementation
-
-	command_prefix: ZSTRING
-		-- For Windows to force unicode output using "cmd /U /C"
-		-- Empty in Unix
-		deferred
-		end
-
-	new_output_lines (file_path: FILE_PATH): EL_PLAIN_TEXT_LINE_SOURCE
-		require
-			path_exists: file_path.exists
-		deferred
-		end
-
-	null_redirection: ZSTRING
-		deferred
-		end
-
-	run_as_administrator (command_parts: EL_ZSTRING_LIST)
-		deferred
-		end
-
-	template: READABLE_STRING_GENERAL
-			--
-		deferred
-		end
-
 feature {NONE} -- Constants
-
-	Sudo_command: ZSTRING
-		once
-			Result := "sudo"
-		end
 
 	Temporary_error_path_by_type: EL_FUNCTION_RESULT_TABLE [EL_OS_COMMAND_I, FILE_PATH]
 		once
