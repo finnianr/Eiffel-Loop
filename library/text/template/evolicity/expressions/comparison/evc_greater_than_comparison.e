@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 10:01:28 GMT (Thursday 20th March 2025)"
-	revision: "9"
+	date: "2025-03-28 8:54:25 GMT (Friday 28th March 2025)"
+	revision: "10"
 
 class
 	EVC_GREATER_THAN_COMPARISON
@@ -18,6 +18,9 @@ inherit
 			compare_like_string_8 as compare_string_8,
 			compare_like_string_32 as compare_string_32
 		end
+
+create
+	make
 
 feature {NONE} -- Implementation
 

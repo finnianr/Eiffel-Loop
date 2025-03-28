@@ -1,13 +1,14 @@
 note
 	description: "Operating system command interface"
 	notes: "[
-		**Routine getter_function_table**
+		**Routine getter_functions table**
 
-		This routine automatically adds the following field types to the table
+		This routine automatically adds the following field types to the `getter_functions' table
+		so they can be referenced in the Evolicity template string.
 
 		1. ${EL_BOOLEAN_OPTION} will be added with the modified name: `<field-name>_enabled'
 
-		2. ${BOOLEAN} fields will be added with the field name as is.
+		2. Any field conforming to ${EL_PATH} will be added using the agent function `get_escaped_path'.
 	]"
 	descendants: "See end of class"
 
@@ -16,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 14:42:41 GMT (Thursday 27th March 2025)"
-	revision: "71"
+	date: "2025-03-27 18:23:53 GMT (Thursday 27th March 2025)"
+	revision: "72"
 
 deferred class
 	EL_OS_COMMAND_I

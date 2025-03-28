@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 17:16:20 GMT (Thursday 20th March 2025)"
-	revision: "10"
+	date: "2025-03-28 8:54:39 GMT (Friday 28th March 2025)"
+	revision: "11"
 
 class
 	EVC_EQUAL_TO_COMPARISON
 
 inherit
 	EVC_COMPARISON
+
+create
+	make
 
 feature {NONE} -- Implementation
 

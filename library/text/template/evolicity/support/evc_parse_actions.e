@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 9:00:16 GMT (Thursday 20th March 2025)"
-	revision: "16"
+	date: "2025-03-28 8:54:57 GMT (Friday 28th March 2025)"
+	revision: "17"
 
 deferred class
 	EVC_PARSE_ACTIONS
@@ -231,15 +231,15 @@ feature {NONE} -- Actions
 		do
 			inspect symbol
 				when '<' then
-		  			create {EVC_LESS_THAN_COMPARISON} comparison
+		  			create {EVC_LESS_THAN_COMPARISON} comparison.make
 		  		when '>' then
-		  			create {EVC_GREATER_THAN_COMPARISON} comparison
+		  			create {EVC_GREATER_THAN_COMPARISON} comparison.make
 		  		when '=' then
-					create {EVC_EQUAL_TO_COMPARISON} comparison
+					create {EVC_EQUAL_TO_COMPARISON} comparison.make
 		  		when '/' then
-					create {EVC_NOT_EQUAL_TO_COMPARISON} comparison
+					create {EVC_NOT_EQUAL_TO_COMPARISON} comparison.make
 			else
-				create {EVC_EQUAL_TO_COMPARISON} comparison
+				create {EVC_EQUAL_TO_COMPARISON} comparison.make
 			end
 			comparison_stack.put (comparison)
 		end

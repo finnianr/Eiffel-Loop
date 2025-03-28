@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-02 11:56:44 GMT (Monday 2nd September 2024)"
-	revision: "7"
+	date: "2025-03-28 7:22:58 GMT (Friday 28th March 2025)"
+	revision: "8"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
@@ -20,7 +20,6 @@ inherit
 			collection_item_type as collection_item_type_for_type,
 			make as make_default,
 			dynamic_type as object_dynamic_type,
-			is_reference as is_abstract_type_a_reference,
 			is_readable_string_32 as is_object_readable_string_32
 		export
 			{NONE} all

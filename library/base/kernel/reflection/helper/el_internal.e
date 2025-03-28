@@ -15,15 +15,15 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 8:27:37 GMT (Tuesday 25th March 2025)"
-	revision: "42"
+	date: "2025-03-28 8:39:00 GMT (Friday 28th March 2025)"
+	revision: "43"
 
 class
 	EL_INTERNAL
 
 inherit
 	INTERNAL
-		redefine
+		undefine
 			dynamic_type
 		end
 
@@ -57,67 +57,41 @@ feature {NONE} -- Initialization
 
 feature -- Measurement
 
-	integer_width (object: ANY): INTEGER
+	natural_width (n: ANY; type_id: INTEGER): INTEGER
+		require
+			correct_type_id: dynamic_type (n) = type_id
+			is_natural_type: is_type_in_set (type_id, class_id.natural_types)
 		local
-			math: EL_INTEGER_MATH; type_id: INTEGER
+			math: EL_INTEGER_MATH
 		do
-			type_id := {ISE_RUNTIME}.dynamic_type (object)
+			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
+				when Natural_8_type then
+					if attached {NATURAL_8_REF} n as n_8 then
+						Result := math.natural_digit_count (n_8.item)
+					end
 
-			if is_expanded_or_reference (class_id.INTEGER_32, type_id)
-				and then attached {INTEGER_32_REF} object as int_32
-			then
-				Result := math.string_size (int_32.item)
+				when Natural_16_type then
+					if attached {NATURAL_16_REF} n as n_16 then
+						Result := math.natural_digit_count (n_16.item)
+					end
 
-			elseif is_expanded_or_reference (class_id.INTEGER_64, type_id)
-				and then attached {INTEGER_64_REF} object as int_64
-			then
-				Result := math.string_size (int_64.item)
+				when Natural_32_type then
+					if attached {NATURAL_32_REF} n as n_32 then
+						Result := math.natural_digit_count (n_32.item)
+					end
 
-			elseif is_expanded_or_reference (class_id.INTEGER_8, type_id)
-				and then attached {INTEGER_8_REF} object as int_8
-			then
-				Result := math.string_size (int_8.item)
-
-			elseif is_expanded_or_reference (class_id.INTEGER_16, type_id)
-				and then attached {INTEGER_16_REF} object as int_16
-			then
-				Result := math.string_size (int_16.item)
+				when Natural_64_type then
+					if attached {NATURAL_64_REF} n as n_64 then
+						Result := math.natural_digit_count (n_64.item)
+					end
 			else
-				Result := object.out.count
-			end
-		end
-
-	natural_width (object: ANY): INTEGER
-		local
-			math: EL_INTEGER_MATH; type_id: INTEGER
-		do
-			type_id := {ISE_RUNTIME}.dynamic_type (object)
-
-			if is_expanded_or_reference (class_id.NATURAL_32, type_id)
-				and then attached {NATURAL_32_REF} object as nat_32
-			then
-				Result := math.natural_digit_count (nat_32.item)
-
-			elseif is_expanded_or_reference (class_id.NATURAL_64, type_id)
-				and then attached {NATURAL_64_REF} object as nat_64
-			then
-				Result := math.natural_digit_count (nat_64.item)
-
-			elseif is_expanded_or_reference (class_id.NATURAL_8, type_id)
-				and then attached {NATURAL_8_REF} object as nat_8
-			then
-				Result := math.natural_digit_count (nat_8.item)
-
-			elseif is_expanded_or_reference (class_id.NATURAL_16, type_id)
-				and then attached {NATURAL_16_REF} object as nat_16
-			then
-				Result := math.natural_digit_count (nat_16.item)
-			else
-				Result := object.out.count
+				Result := n.out.count
 			end
 		end
 
 	string_width (object: ANY): INTEGER
+		local
+			math: EL_INTEGER_MATH
 		do
 			inspect class_id.object_type_category (object)
 				when C_readable_string_8 then
@@ -151,12 +125,125 @@ feature -- Measurement
 					end
 
 				when C_integer then
-					Result := integer_width (object)
+					Result := math.string_size (to_integer_64 (object, dynamic_type (object)))
 
 				when C_natural then
-					Result := natural_width (object)
+					Result := natural_width (object, dynamic_type (object))
 			else
 				Result := object.out.count
+			end
+		end
+
+feature -- Conversion
+
+	to_integer_64 (n: ANY; type_id: INTEGER): INTEGER_64
+		require
+			correct_type_id: dynamic_type (n) = type_id
+			is_natural_or_integer_type:
+				across << Class_id.natural_types, Class_id.integer_types >> as set some
+					is_type_in_set (type_id, set.item)
+				end
+		do
+			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
+				when Natural_8_type then
+					if attached {NATURAL_8_REF} n as n_8 then
+						Result := n_8.to_integer_64
+					end
+
+				when Natural_16_type then
+					if attached {NATURAL_16_REF} n as n_16 then
+						Result := n_16.to_integer_64
+					end
+
+				when Natural_32_type then
+					if attached {NATURAL_32_REF} n as n_32 then
+						Result := n_32.to_integer_64
+					end
+
+				when Natural_64_type then
+					if attached {NATURAL_64_REF} n as n_64 then
+						Result := n_64.to_integer_64
+					end
+
+				when Integer_8_type then
+					if attached {INTEGER_8_REF} n as i_8 then
+						Result := i_8.to_integer_64
+					end
+
+				when Integer_16_type then
+					if attached {INTEGER_16_REF} n as i_16 then
+						Result := i_16.to_integer_64
+					end
+
+				when Integer_32_type then
+					if attached {INTEGER_32_REF} n as i_32 then
+						Result := i_32.to_integer_64
+					end
+
+				when Integer_64_type then
+					if attached {INTEGER_64_REF} n as i_64 then
+						Result := i_64.item
+					end
+			else
+			end
+		end
+
+	to_real_64 (n: ANY; type_id: INTEGER): REAL_64
+		require
+			correct_type_id: dynamic_type (n) = type_id
+			numeric_type: type_conforms_to (type_id, class_id.NUMERIC)
+		do
+			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
+				when Natural_8_type then
+					if attached {NATURAL_8_REF} n as n_8 then
+						Result := n_8.to_real_64
+					end
+
+				when Natural_16_type then
+					if attached {NATURAL_16_REF} n as n_16 then
+						Result := n_16.to_real_64
+					end
+
+				when Natural_32_type then
+					if attached {NATURAL_32_REF} n as n_32 then
+						Result := n_32.to_real_64
+					end
+
+				when Natural_64_type then
+					if attached {NATURAL_64_REF} n as n_64 then
+						Result := n_64.to_real_64
+					end
+
+				when Integer_8_type then
+					if attached {INTEGER_8_REF} n as i_8 then
+						Result := i_8.to_double
+					end
+
+				when Integer_16_type then
+					if attached {INTEGER_16_REF} n as i_16 then
+						Result := i_16.to_double
+					end
+
+				when Integer_32_type then
+					if attached {INTEGER_32_REF} n as i_32 then
+						Result := i_32.to_double
+					end
+
+				when Integer_64_type then
+					if attached {INTEGER_64_REF} n as i_64 then
+						Result := i_64.to_double
+					end
+
+				when Real_32_type then
+					if attached {REAL_32_REF} n as r_32 then
+						Result := r_32.to_double
+					end
+
+				when Real_64_type then
+					if attached {REAL_64_REF} n as r_64 then
+						Result := r_64.item
+					end
+			else
 			end
 		end
 
@@ -165,20 +252,30 @@ feature -- Type status
 	field_conforms_to_collection (basic_type, type_id: INTEGER): BOOLEAN
 		-- True if `type_id' conforms to COLLECTION [X] where x is a string or an expanded type
 		do
-			if is_reference (basic_type) then
-				Result := type_conforms_to (type_id, class_id.COLLECTION__ANY)
+			inspect basic_type
+				when Reference_type then
+					Result := type_conforms_to (type_id, class_id.COLLECTION__ANY)
+			else
 			end
 		end
 
 	field_conforms_to_date_time (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			Result := is_reference (basic_type) and then field_conforms_to (type_id, class_id.DATE_TIME)
+			inspect basic_type
+				when Reference_type then
+					Result := field_conforms_to (type_id, class_id.DATE_TIME)
+			else
+			end
 		end
 
 	field_conforms_to_one_of (basic_type, type_id: INTEGER; types: ARRAY [INTEGER]): BOOLEAN
 		-- True if `type_id' conforms to one of `types'
 		do
-			Result := is_reference (basic_type) and then conforms_to_one_of (type_id, types)
+			inspect basic_type
+				when Reference_type then
+					Result := conforms_to_one_of (type_id, types)
+			else
+			end
 		end
 
 	is_expanded_or_reference (expanded_id, type_id: INTEGER): BOOLEAN
@@ -199,9 +296,9 @@ feature -- Type status
 			end
 		end
 
-	is_reference (basic_type: INTEGER): BOOLEAN
+	is_real_type (type_id: INTEGER): BOOLEAN
 		do
-			Result := basic_type = Reference_type
+			Result := is_type_in_set (type_id, class_id.real_types)
 		end
 
 	is_storable_collection_type (type_id: INTEGER): BOOLEAN
@@ -217,17 +314,18 @@ feature -- Type status
 		local
 			tuple_types: EL_TUPLE_TYPE_ARRAY
 		do
-			if basic_type = Reference_type then
-				if type_conforms_to (type_id, class_id.TUPLE) then
-					create tuple_types.make_from_static (type_id)
---					TUPLE items must be expanded or strings
-					Result := across tuple_types as type all
-						type.item.is_expanded
-							or else String_reference_types.there_exists (agent type_conforms_to (type.item.type_id, ?))
+			inspect basic_type
+				when Reference_type then
+					if type_conforms_to (type_id, class_id.TUPLE) then
+						create tuple_types.make_from_static (type_id)
+					-- TUPLE items must be expanded or strings
+						Result := across tuple_types as type all
+							type.item.is_expanded
+								or else String_reference_types.there_exists (agent type_conforms_to (type.item.type_id, ?))
+						end
+					else
+						Result := Storable_reference_types.there_exists (agent type_conforms_to (type_id, ?))
 					end
-				else
-					Result := Storable_reference_types.there_exists (agent type_conforms_to (type_id, ?))
-				end
 			else
 				Result := True
 			end
@@ -248,8 +346,10 @@ feature -- Type status
 
 	is_table_type (basic_type, type_id: INTEGER): BOOLEAN
 		do
-			if basic_type = Reference_type then
-				Result := type_conforms_to (type_id, ({HASH_TABLE [ANY, HASHABLE]}).type_id)
+			inspect basic_type
+				when Reference_type then
+					Result := type_conforms_to (type_id, ({HASH_TABLE [ANY, HASHABLE]}).type_id)
+			else
 			end
 		end
 
@@ -266,16 +366,6 @@ feature -- Type status
 			else
 				-- is expanded type
 				Result := True
-			end
-		end
-
-	is_type_in_set (type_id: INTEGER; set: SPECIAL [INTEGER]): BOOLEAN
-		local
-			i: INTEGER
-		do
-			from until i = set.count or Result loop
-				Result := type_id = set [i]
-				i := i + 1
 			end
 		end
 
@@ -325,11 +415,6 @@ feature -- Conformance checking
 
 feature -- Access
 
-	abstract_type (object: ANY): INTEGER
-		do
-			Result := abstract_type_of_type ({ISE_RUNTIME}.dynamic_type (object))
-		end
-
 	class_id: EL_CLASS_TYPE_ID_ENUM
 
 	collection_item_type (type_id: INTEGER): INTEGER
@@ -344,11 +429,6 @@ feature -- Access
 			then
 				Result := list.area.generating_type.generic_parameter_type (1).type_id
 			end
-		end
-
-	dynamic_type (object: separate ANY): INTEGER
-		do
-			Result := {ISE_RUNTIME}.dynamic_type (object)
 		end
 
 	new_object (type: TYPE [ANY]): detachable ANY

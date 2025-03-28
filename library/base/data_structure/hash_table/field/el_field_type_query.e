@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 12:07:08 GMT (Thursday 20th March 2025)"
-	revision: "12"
+	date: "2025-03-28 7:28:18 GMT (Friday 28th March 2025)"
+	revision: "13"
 
 class
 	EL_FIELD_TYPE_QUERY [G]
@@ -21,6 +21,9 @@ inherit
 	EL_REFLECTION_HANDLER
 
 	EL_TYPE_UTILITIES
+		rename
+			abstract_type as abstract_type_of
+		end
 
 	EL_MODULE_EIFFEL
 

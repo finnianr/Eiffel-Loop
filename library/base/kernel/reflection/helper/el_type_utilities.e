@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 12:18:16 GMT (Thursday 20th March 2025)"
-	revision: "1"
+	date: "2025-03-28 8:39:00 GMT (Friday 28th March 2025)"
+	revision: "2"
 
 class
 	EL_TYPE_UTILITIES
@@ -29,6 +29,11 @@ inherit
 
 feature -- Access
 
+	abstract_type (object: ANY): INTEGER
+		do
+			Result := abstract_type_of_type ({ISE_RUNTIME}.dynamic_type (object))
+		end
+
 	abstract_type_of_type (a_type_id: INTEGER): INTEGER
 		-- Abstract type of `a_type_id'.
 		do
@@ -42,11 +47,26 @@ feature -- Access
 			end
 		end
 
+	dynamic_type (object: separate ANY): INTEGER
+		do
+			Result := {ISE_RUNTIME}.dynamic_type (object)
+		end
+
 feature -- Status query
 
 	is_reference_type (type_id: INTEGER): BOOLEAN
 		do
 			Result := not is_type_expanded (type_flags (type_id))
+		end
+
+	is_type_in_set (type_id: INTEGER; set: SPECIAL [INTEGER]): BOOLEAN
+		local
+			i: INTEGER
+		do
+			from until i = set.count or Result loop
+				Result := type_id = set [i]
+				i := i + 1
+			end
 		end
 
 feature -- Status type flag

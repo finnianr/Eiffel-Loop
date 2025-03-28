@@ -829,3 +829,6 @@ Benchmarked testing a detachable attribute before doing action
 Wed 26th Mar 2025, 18:28:01
 Rewrite of EL_MD5_HASH_COMMAND command
 
+Thu 27th Mar 2025, 16:20:13
+Made EL_SSH_COMMAND_FACTORY classes obsolete
+

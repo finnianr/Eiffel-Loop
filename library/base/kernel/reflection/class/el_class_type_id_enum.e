@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 16:33:24 GMT (Monday 17th March 2025)"
-	revision: "37"
+	date: "2025-03-28 8:42:50 GMT (Friday 28th March 2025)"
+	revision: "38"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -18,7 +18,10 @@ inherit
 			make
 		end
 
-	EL_MODULE_EIFFEL
+	EL_TYPE_UTILITIES
+		export
+			{NONE} all
+		end
 
 	EL_NUMERIC_TYPE_ID_ENUMERATION
 
@@ -63,45 +66,43 @@ feature -- Access
 
 	type_category (type_id: INTEGER): NATURAL_8
 		do
-			if attached Eiffel as eif then
-				if eif.is_type_in_set (type_id, readable_string_8_types) then
-					Result := C_readable_string_8
+			if is_type_in_set (type_id, readable_string_8_types) then
+				Result := C_readable_string_8
 
-				elseif eif.is_type_in_set (type_id, readable_string_32_types) then
-					Result := C_readable_string_32
+			elseif is_type_in_set (type_id, readable_string_32_types) then
+				Result := C_readable_string_32
 
-				elseif eif.is_type_in_set (type_id, el_path_types) then
-					Result := C_el_path
+			elseif is_type_in_set (type_id, el_path_types) then
+				Result := C_el_path
 
-				elseif eif.is_type_in_set (type_id, real_types) then
-					Result := C_real
+			elseif is_type_in_set (type_id, real_types) then
+				Result := C_real
 
-				elseif eif.is_type_in_set (type_id, integer_types) then
-					Result := C_integer
+			elseif is_type_in_set (type_id, integer_types) then
+				Result := C_integer
 
-				elseif eif.is_type_in_set (type_id, natural_types) then
-					Result := C_natural
+			elseif is_type_in_set (type_id, natural_types) then
+				Result := C_natural
 
-				elseif type_id = EL_PATH_STEPS then
-					Result := C_el_path_steps
+			elseif type_id = EL_PATH_STEPS then
+				Result := C_el_path_steps
 
-				elseif type_id = PATH then
-					Result := C_path
+			elseif type_id = PATH then
+				Result := C_path
 
-			-- `type_conforms_to' are last because they take longer to execute
-				elseif eif.type_conforms_to (type_id, EL_PATH) then
-					Result := C_el_path
+		-- `type_conforms_to' are last because they take longer to execute
+			elseif type_conforms_to (type_id, EL_PATH) then
+				Result := C_el_path
 
-				elseif eif.type_conforms_to (type_id, TYPE__ANY) then
-					Result := C_type_any -- TYPE [ANY]
+			elseif type_conforms_to (type_id, TYPE__ANY) then
+				Result := C_type_any -- TYPE [ANY]
 
-				elseif eif.type_conforms_to (type_id, READABLE_STRING_8) then
-					Result := C_readable_string_8
+			elseif type_conforms_to (type_id, READABLE_STRING_8) then
+				Result := C_readable_string_8
 
-				elseif eif.type_conforms_to (type_id, READABLE_STRING_32) then
-					Result := C_readable_string_32
+			elseif type_conforms_to (type_id, READABLE_STRING_32) then
+				Result := C_readable_string_32
 
-				end
 			end
 		end
 
@@ -170,6 +171,8 @@ feature -- Generic types
 	HASH_TABLE__ANY__HASHABLE: INTEGER
 		-- HASH_TABLE [ANY, HASHABLE]
 
+	NUMERIC: INTEGER
+
 	TYPE__ANY: INTEGER
 		-- TYPE [ANY]
 
@@ -217,7 +220,7 @@ feature {NONE} -- Implementation
 		require
 			all_expanded:
 				across expanded_types as type all
-					Eiffel.type_of_type (type.item).is_expanded
+					type_of_type (type.item).is_expanded
 				end
 		local
 			list: EL_ARRAYED_LIST [INTEGER]

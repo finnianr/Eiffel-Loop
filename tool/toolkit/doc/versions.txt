@@ -1,3 +1,6 @@
+Ver 1.13.3 (27 Mar 2025)
+* Fixed missing newline in bash history cleaning app
+
 Ver 1.13.2 (15 Nov 2024)
 * Changed CURRENCY_EXCHANGE_HISTORY_APP to read from manually downloaded files
 

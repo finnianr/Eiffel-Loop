@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 11:48:32 GMT (Thursday 20th March 2025)"
-	revision: "56"
+	date: "2025-03-28 8:49:08 GMT (Friday 28th March 2025)"
+	revision: "57"
 
 class
 	EL_TUPLE_ROUTINES
@@ -21,14 +21,18 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL
+	EL_INTERNAL
+		rename
+			string_width as string_width_of
+		export
+			{NONE} all
+		redefine
+			make
+		end
+
+	EL_MODULE_CONVERT_STRING
 
 	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS; EL_TYPE_CATEGORY_CONSTANTS
-
-	EL_SHARED_CLASS_ID
-		rename
-			class_id as shared_class_id
-		end
 
 create
 	make
@@ -37,11 +41,11 @@ feature {NONE} -- Initialization
 
 	make
 		do
+			Precursor
 			create types_table.make (17, agent new_type_array)
 			create procedure
 			create empty
 			create counter
-			class_id := shared_class_id
 		end
 
 feature -- Access
@@ -141,7 +145,7 @@ feature -- Measurement
 			-- Reference
 				when {TUPLE}.Reference_code then
 					if attached tuple.reference_item (i) as ref_item then
-						Result := Eiffel.string_width (ref_item)
+						Result := string_width_of (ref_item)
 					end
 			else
 			end
@@ -245,11 +249,11 @@ feature -- Basic operations
 			i: INTEGER; type_id: INTEGER
 		do
 			type_id := {ISE_RUNTIME}.dynamic_type (default_value)
-			if attached type_array (tuple) as tuple_types and then attached Eiffel as eif then
+			if attached type_array (tuple) as tuple_types then
 				from i := 1 until i > tuple.count loop
 					inspect tuple.item_code (i)
 						when {TUPLE}.Reference_code then
-							if eif.field_conforms_to (type_id, tuple_types [i].type_id) then
+							if field_conforms_to (type_id, tuple_types [i].type_id) then
 								tuple.put_reference (default_value, i)
 							end
 					else
@@ -298,7 +302,7 @@ feature -- Basic operations
 			across comma_splitter as list until (start_index + list.cursor_index - 1) > tuple.count loop
 				index := start_index + list.cursor_index - 1
 				if tuple.item_code (index) = {TUPLE}.Reference_code and then
-					Eiffel.field_conforms_to (result_type_id, tuple_types [index].type_id)
+					field_conforms_to (result_type_id, tuple_types [index].type_id)
 					and then attached a_new_item (list.item_copy) as new
 				then
 					tuple.put_reference (new, index)
@@ -384,7 +388,7 @@ feature -- Basic operations
 
 				when {TUPLE}.Reference_code then
 					reset_i_th_reference (
-						tuple, tuple.reference_item (i), i, Eiffel.generic_dynamic_type (tuple, i)
+						tuple, tuple.reference_item (i), i, generic_dynamic_type (tuple, i)
 					)
 			else
 			end
@@ -438,7 +442,7 @@ feature -- Basic operations
 					tuple.put_real_64 (readable.read_real_64, i)
 
 				when {TUPLE}.Reference_code then
-					set_i_th_reference (tuple, i, readable, Eiffel.generic_dynamic_type (tuple, i))
+					set_i_th_reference (tuple, i, readable, generic_dynamic_type (tuple, i))
 			else
 			end
 		end
@@ -664,29 +668,27 @@ feature {NONE} -- Implementation
 
 	reset_i_th_reference (tuple: TUPLE; ref_item: ANY; i, type_id: INTEGER)
 		do
-			if attached Eiffel as eif then
-				if eif.is_bag_type (type_id) and then attached {BAG [ANY]} ref_item as bag then
-				-- includes `STRING_GENERAL'
-					bag.wipe_out; counter.bump
+			if is_bag_type (type_id) and then attached {BAG [ANY]} ref_item as bag then
+			-- includes `STRING_GENERAL'
+				bag.wipe_out; counter.bump
 
-				elseif eif.is_type_in_set (type_id, class_id.el_path_types)
-					and then attached {EL_PATH} ref_item as path
-				then
-					path.wipe_out; counter.bump
+			elseif is_type_in_set (type_id, class_id.el_path_types)
+				and then attached {EL_PATH} ref_item as path
+			then
+				path.wipe_out; counter.bump
 
-				elseif type_id = class_id.PATH and then attached {PATH} ref_item as path then
-					tuple.put_reference (create {PATH}.make_empty, i); counter.bump
+			elseif type_id = class_id.PATH and then attached {PATH} ref_item as path then
+				tuple.put_reference (create {PATH}.make_empty, i); counter.bump
 
-				elseif eif.is_type_in_set (type_id, class_id.immutable_string_types) and then
-					attached {IMMUTABLE_STRING_GENERAL} ref_item as immutable
-				then
-					if immutable.is_string_8 then
-						tuple.put_reference (create {IMMUTABLE_STRING_8}.make_empty, i)
-						counter.bump
-					else
-						tuple.put_reference (create {IMMUTABLE_STRING_32}.make_empty, i)
-						counter.bump
-					end
+			elseif is_type_in_set (type_id, class_id.immutable_string_types) and then
+				attached {IMMUTABLE_STRING_GENERAL} ref_item as immutable
+			then
+				if immutable.is_string_8 then
+					tuple.put_reference (create {IMMUTABLE_STRING_8}.make_empty, i)
+					counter.bump
+				else
+					tuple.put_reference (create {IMMUTABLE_STRING_32}.make_empty, i)
+					counter.bump
 				end
 			end
 		end
@@ -707,8 +709,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	class_id: EL_CLASS_TYPE_ID_ENUM
 
 	counter: EL_NATURAL_32_COUNTER
 

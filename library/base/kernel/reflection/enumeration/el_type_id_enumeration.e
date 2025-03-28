@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-10 8:45:17 GMT (Tuesday 10th September 2024)"
-	revision: "15"
+	date: "2025-03-28 8:50:17 GMT (Friday 28th March 2025)"
+	revision: "16"
 
 class
 	EL_TYPE_ID_ENUMERATION
@@ -69,8 +69,7 @@ feature {NONE} -- Contract Support
 
 	all_types_set: BOOLEAN
 		local
-			this: REFLECTED_REFERENCE_OBJECT
-			i, count: INTEGER
+			this: REFLECTED_REFERENCE_OBJECT; i, count: INTEGER
 		do
 			create this.make (Current)
 			count := this.field_count

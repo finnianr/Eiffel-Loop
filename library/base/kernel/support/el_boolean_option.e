@@ -3,34 +3,15 @@ note
 		A ${BOOLEAN_REF} that conforms to ${EL_MAKEABLE_FROM_STRING [STRING_8]}.
 		Boolean option that can be enabled or disabled and can optionally notify an action procedure.
 	]"
-	notes: "[
-		While not as memory efficient, this class is suggested as a more convenient alternative to
-		following frequently seen code pattern.
-
-			feature -- Status query
-			
-				is_option_enabled: BOOLEAN
-
-			feature -- Status change
-
-				disable_option
-					do
-						is_option_enabled := True
-					end
-
-				enable_option
-					do
-						is_option_enabled := False
-					end
-	]"
+	notes: "See end of class"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-21 8:18:48 GMT (Wednesday 21st August 2024)"
-	revision: "10"
+	date: "2025-03-27 18:28:54 GMT (Thursday 27th March 2025)"
+	revision: "11"
 
 class
 	EL_BOOLEAN_OPTION
@@ -132,5 +113,32 @@ feature -- Basic operations
 
 feature {NONE} -- Internal attributes
 
-	action: detachable PROCEDURE [BOOLEAN]
+	action: detachable PROCEDURE [BOOLEAN];
+
+note
+	notes: "[
+		While not as memory efficient, this class is suggested as a more convenient alternative to
+		following frequently seen code pattern.
+
+			feature -- Status query
+
+				is_option_enabled: BOOLEAN
+
+			feature -- Status change
+
+				disable_option
+					do
+						is_option_enabled := True
+					end
+
+				enable_option
+					do
+						is_option_enabled := False
+					end
+
+		It is very useful when used in implementing descendants of the class ${EL_OS_COMMAND_I}.
+		Read the class notes on how fields of this type can be referenced in the
+		OS command Evolicity template as `<field-name>_enabled'.
+	]"
+
 end

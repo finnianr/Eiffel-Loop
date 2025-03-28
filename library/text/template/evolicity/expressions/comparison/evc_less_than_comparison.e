@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 10:01:28 GMT (Thursday 20th March 2025)"
-	revision: "9"
+	date: "2025-03-28 8:54:30 GMT (Friday 28th March 2025)"
+	revision: "10"
 
 class
 	EVC_LESS_THAN_COMPARISON
@@ -20,7 +20,7 @@ inherit
 		end
 
 create
-	default_create
+	make
 
 feature {NONE} -- Implementation
 
