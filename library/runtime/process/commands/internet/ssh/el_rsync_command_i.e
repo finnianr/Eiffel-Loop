@@ -15,16 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 11:06:16 GMT (Thursday 27th March 2025)"
-	revision: "23"
+	date: "2025-03-28 15:13:18 GMT (Friday 28th March 2025)"
+	revision: "24"
 
 deferred class
 	EL_RSYNC_COMMAND_I
 
 inherit
-	EL_COPY_TREE_COMMAND_I
-		rename
-			set_destination_path as set_destination_dir
+	EL_MIRROR_TREE_COMMAND_I
 		redefine
 			execute, getter_function_table, make_default
 		end
@@ -40,11 +38,17 @@ inherit
 
 feature {NONE} -- Initialization
 
+	make_ssh_backup (config: EL_SSH_MIRROR_BACKUP)
+		do
+			make_backup (config)
+			set_ssh_context (create {EL_SECURE_SHELL_CONTEXT}.make (config.user_host))
+		end
+
 	make_default
 			--
 		do
 			create exclude_list.make (0)
-			Precursor {EL_COPY_TREE_COMMAND_I}
+			Precursor {EL_MIRROR_TREE_COMMAND_I}
 		end
 
 feature -- Access
@@ -90,7 +94,7 @@ feature -- Options for rsync
 
 	archive: EL_BOOLEAN_OPTION
 		-- This is equivalent to -rlptgoD.
-		-- It is a quick way of saying you want recursion and want  to  preserve  almost  everything
+		-- It is a quick way of saying you want recursion and want to preserve almost everything
 
 	compress: EL_BOOLEAN_OPTION
 		-- compress files during transfer
@@ -153,7 +157,7 @@ feature {NONE} -- Evolicity reflection
 	getter_function_table: like getter_functions
 			--
 		do
-			Result := Precursor {EL_COPY_TREE_COMMAND_I}
+			Result := Precursor {EL_MIRROR_TREE_COMMAND_I}
 			Result.merge (Precursor {EL_SECURE_SHELL_OS_COMMAND})
 
 			Result.append_tuples (<<

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "22"
+	date: "2025-03-28 15:47:15 GMT (Friday 28th March 2025)"
+	revision: "23"
 
 class
 	DUPLICITY_BACKUP_APP
@@ -38,11 +38,10 @@ feature {NONE} -- Implementation
 	visible_types: TUPLE [
 		DUPLICITY_TARGET_INFO_OS_CMD,
 		EL_CAPTURED_OS_COMMAND,
-		EL_FILE_RSYNC_COMMAND,
 		EL_FTP_MIRROR_BACKUP,
-		EL_FTP_MIRROR_COMMAND,
 		EL_OS_COMMAND,
-		EL_SSH_RSYNC_COMMAND
+		EL_FTP_COPY_TREE_COMMAND_IMP,
+		EL_RSYNC_COMMAND_IMP
 	]
 		do
 			create Result

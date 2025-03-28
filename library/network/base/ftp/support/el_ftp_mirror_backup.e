@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:57:24 GMT (Monday 23rd September 2024)"
-	revision: "6"
+	date: "2025-03-28 15:39:44 GMT (Friday 28th March 2025)"
+	revision: "7"
 
 class
 	EL_FTP_MIRROR_BACKUP
@@ -77,10 +77,9 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	new_command (backup_target_dir: DIR_PATH): EL_FTP_MIRROR_COMMAND
+	new_command (backup_target_dir: DIR_PATH): EL_FTP_COPY_TREE_COMMAND_I
 		do
-			create Result.make (Current)
-			Result.set_target_dir (backup_dir #+ backup_target_dir.base)
+			create {EL_FTP_COPY_TREE_COMMAND_IMP} Result.make_backup (Current, backup_target_dir.base)
 		end
 
 	url_key: STRING

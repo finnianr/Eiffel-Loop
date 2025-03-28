@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 11:33:31 GMT (Thursday 27th March 2025)"
-	revision: "17"
+	date: "2025-03-28 13:57:13 GMT (Friday 28th March 2025)"
+	revision: "18"
 
 class
 	EL_RSYNC_COMMAND_IMP
@@ -23,7 +23,7 @@ inherit
 		end
 
 create
-	make, make_default
+	make, make_backup, make_ssh_backup, make_default
 
 feature -- Access
 

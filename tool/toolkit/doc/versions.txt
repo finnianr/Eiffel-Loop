@@ -1,3 +1,6 @@
+Ver 1.13.4 (28 Mar 2025)
+* Reimplementation of {EL_MIRROR_BACKUP}.new_command for all descendants
+
 Ver 1.13.3 (27 Mar 2025)
 * Fixed missing newline in bash history cleaning app
 

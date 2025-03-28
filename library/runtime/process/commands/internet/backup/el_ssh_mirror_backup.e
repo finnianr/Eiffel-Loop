@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 12:24:58 GMT (Thursday 27th March 2025)"
-	revision: "4"
+	date: "2025-03-28 15:39:26 GMT (Friday 28th March 2025)"
+	revision: "5"
 
 class
 	EL_SSH_MIRROR_BACKUP
@@ -20,6 +20,8 @@ inherit
 			element_node_fields as Empty_set
 		end
 
+	EL_CHARACTER_32_CONSTANTS
+
 create
 	make
 
@@ -29,11 +31,19 @@ feature -- Access
 
 	user: ZSTRING
 
+	user_host: ZSTRING
+		do
+			Result := char ('@').joined (user, host)
+		end
+
 feature {NONE} -- Implementation
 
-	new_command (backup_target_dir: DIR_PATH): EL_SSH_RSYNC_COMMAND
+	new_command (backup_target_dir: DIR_PATH): EL_RSYNC_COMMAND_I
 		do
-			create Result.make (Current)
+			create {EL_RSYNC_COMMAND_IMP} Result.make_ssh_backup (Current)
+			Result.archive.enable
+			Result.compress.enable
+			Result.verbose.enable
 		end
 
 end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 11:21:41 GMT (Tuesday 14th May 2024)"
-	revision: "3"
+	date: "2025-03-28 15:40:02 GMT (Friday 28th March 2025)"
+	revision: "4"
 
 class
 	EL_FILE_MIRROR_BACKUP
@@ -41,9 +41,11 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	new_command (backup_target_dir: DIR_PATH): EL_FILE_RSYNC_COMMAND
+	new_command (backup_target_dir: DIR_PATH): EL_RSYNC_COMMAND_I
 		do
-			create Result.make (Current)
+			create {EL_RSYNC_COMMAND_IMP} Result.make_backup (Current)
+			Result.archive.enable
+			Result.verbose.enable
 		end
 
 feature {NONE} -- Constants

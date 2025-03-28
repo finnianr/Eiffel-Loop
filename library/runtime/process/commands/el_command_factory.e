@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 11:35:19 GMT (Thursday 27th March 2025)"
-	revision: "28"
+	date: "2025-03-28 14:09:16 GMT (Friday 28th March 2025)"
+	revision: "29"
 
 class
 	EL_COMMAND_FACTORY
@@ -99,7 +99,7 @@ feature -- File management
 		do
 			create {EL_RSYNC_COMMAND_IMP} Result.make_default
 			Result.set_source_file_path (a_source_path)
-			Result.set_destination_dir (a_destination_path)
+			Result.set_destination_path (a_destination_path)
 		end
 
 	new_link_file (target_path, link_path: EL_PATH): EL_CREATE_LINK_COMMAND_I

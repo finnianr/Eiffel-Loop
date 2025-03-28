@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 8:39:00 GMT (Friday 28th March 2025)"
-	revision: "43"
+	date: "2025-03-28 16:03:57 GMT (Friday 28th March 2025)"
+	revision: "44"
 
 class
 	EL_INTERNAL
@@ -32,7 +32,7 @@ inherit
 			{ANY} abstract_type_of_type
 		end
 
-	EL_REFLECTION_CONSTANTS; EL_STRING_8_CONSTANTS
+	EL_REFLECTION_CONSTANTS; EL_TYPE_CATEGORY_CONSTANTS
 
 	EL_SHARED_CLASS_ID
 		rename
@@ -40,10 +40,6 @@ inherit
 		end
 
 	EL_SHARED_FACTORIES
-
-	EL_TYPE_CATEGORY_CONSTANTS
-
-	EL_CONTAINER_CONVERSION [ANY]
 
 create
 	make
@@ -59,7 +55,7 @@ feature -- Measurement
 
 	natural_width (n: ANY; type_id: INTEGER): INTEGER
 		require
-			correct_type_id: dynamic_type (n) = type_id
+			correct_type_id: same_type_as (n, type_id)
 			is_natural_type: is_type_in_set (type_id, class_id.natural_types)
 		local
 			math: EL_INTEGER_MATH
@@ -138,9 +134,9 @@ feature -- Conversion
 
 	to_integer_64 (n: ANY; type_id: INTEGER): INTEGER_64
 		require
-			correct_type_id: dynamic_type (n) = type_id
+			correct_type_id: same_type_as (n, type_id)
 			is_natural_or_integer_type:
-				across << Class_id.natural_types, Class_id.integer_types >> as set some
+				across << class_id.natural_types, class_id.integer_types >> as set some
 					is_type_in_set (type_id, set.item)
 				end
 		do
@@ -190,7 +186,7 @@ feature -- Conversion
 
 	to_real_64 (n: ANY; type_id: INTEGER): REAL_64
 		require
-			correct_type_id: dynamic_type (n) = type_id
+			correct_type_id: same_type_as (n, type_id)
 			numeric_type: type_conforms_to (type_id, class_id.NUMERIC)
 		do
 			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
@@ -369,28 +365,6 @@ feature -- Type status
 			end
 		end
 
-	is_uniform_type (container: CONTAINER [ANY]): BOOLEAN
-		-- `True' if items in `container' are all the same type
-		local
-			i, type_first: INTEGER
-		do
-			Result := True
-			if attached as_structure (container) as structure
-				and then attached structure.to_special_shared as area and then area.count > 0
-			then
-				type_first := {ISE_RUNTIME}.dynamic_type (area [0])
-				from i := 1 until i = area.count or not Result loop
-					Result := {ISE_RUNTIME}.dynamic_type (area [i]) = type_first
-					i := i + 1
-				end
-			end
-		end
-
-	same_type_as (item: ANY; type_id: INTEGER): BOOLEAN
-		do
-			Result := {ISE_RUNTIME}.dynamic_type (item) = type_id
-		end
-
 feature -- Conformance checking
 
 	is_bag_type (type_id: INTEGER): BOOLEAN
@@ -441,19 +415,6 @@ feature -- Access
 			create Result.make (a_object)
 		end
 
-	type_flag_names (flags: NATURAL_16): EL_STRING_8_LIST
-		local
-			i: INTEGER
-		do
-			create Result.make (7)
-			from i := 1 until i > Type_status_array.count loop
-				if flags & (1 |<< (i + 5)).to_natural_16 > 0 then
-					Result.extend (Type_status_array [i])
-				end
-				i := i + 1
-			end
-		end
-
 	type_from_string (class_type: READABLE_STRING_GENERAL): detachable TYPE [ANY]
 		local
 			type_id: INTEGER
@@ -495,13 +456,6 @@ feature {NONE} -- Implementation
 				Result := field_conforms_to (type_id, types [i])
 				i := i + 1
 			end
-		end
-
-feature {NONE} -- Constants
-
-	Type_status_array: EL_STRING_8_LIST
-		once
-			Result := "tuple, special, declared-expanded, expanded, has-dispose, composite, deferred, frozen, dead"
 		end
 
 end

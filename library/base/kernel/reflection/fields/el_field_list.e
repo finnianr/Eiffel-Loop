@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 9:16:05 GMT (Tuesday 25th March 2025)"
-	revision: "31"
+	date: "2025-03-28 16:00:09 GMT (Friday 28th March 2025)"
+	revision: "32"
 
 class
 	EL_FIELD_LIST
@@ -21,9 +21,12 @@ inherit
 			initialize
 		end
 
-	EL_CONTAINER_CONVERSION [ANY]
+	EL_TYPE_UTILITIES
 		rename
 			as_structure as as_any_structure
+		export
+			{NONE} all
+			{ANY} is_uniform_type
 		undefine
 			copy, is_equal
 		end
@@ -329,12 +332,6 @@ feature -- Contract Support
 					field.key = i_th (field.cursor_index).name
 				end
 			end
-		end
-
-	is_uniform_type (container: CONTAINER [ANY]): BOOLEAN
-		-- `True' if items in `container' are all the same type
-		do
-			Result := Eiffel.is_uniform_type (container)
 		end
 
 feature -- Basic operations
