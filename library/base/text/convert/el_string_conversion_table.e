@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-24 7:16:45 GMT (Monday 24th March 2025)"
-	revision: "44"
+	date: "2025-03-29 13:38:59 GMT (Saturday 29th March 2025)"
+	revision: "45"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -94,8 +94,9 @@ feature -- Access
 		do
 			if has_type (type.type_id) then
 				Result := found_item.type_description
-			else
-				Result := Naming.class_description_from (type, Naming.No_words)
+
+			elseif attached Naming.new_type_words (type) as words then
+				Result := words.description
 			end
 		end
 

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:04:33 GMT (Tuesday 18th March 2025)"
-	revision: "28"
+	date: "2025-03-29 14:47:57 GMT (Saturday 29th March 2025)"
+	revision: "29"
 
 deferred class
 	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -105,18 +105,15 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	description: STRING
-		local
-			name: STRING
 		do
 			Result := "Call EQA test sets for:%N"
 			across new_test_type_list as type loop
-				name := type.item.name
-				if name.ends_with (Test_set_suffix) then
-					name.remove_tail (Test_set_suffix.count)
+				if attached Naming.new_type_words (type.item) as type_words then
+					type_words.remove_suffix (Test_set_suffix)
+					Result.append ("%N   ")
+					Result.append (type_words.description)
+					Result.append (" classes")
 				end
-				Result.append ("%N   ")
-				Result.append (Naming.class_description (name, Naming.No_words))
-				Result.append (" classes")
 			end
 		end
 
@@ -169,7 +166,10 @@ feature {NONE} -- Constants
 
 	Test_prefix: STRING = "test_"
 
-	Test_set_suffix: STRING = "_TEST_SET"
+	Test_set_suffix: ARRAY [STRING]
+		once
+			Result := << "TEST_SET" >>
+		end
 
 note
 	descendants: "[

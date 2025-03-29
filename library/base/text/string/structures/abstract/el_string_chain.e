@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 8:00:41 GMT (Tuesday 25th March 2025)"
-	revision: "57"
+	date: "2025-03-29 9:10:25 GMT (Saturday 29th March 2025)"
+	revision: "58"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
 
 inherit
-	EL_CHAIN [S]
-		rename
-			joined as joined_chain
-		end
+	EL_READABLE_STRING_CHAIN [S]
 
 	HASHABLE
 
@@ -25,37 +22,11 @@ inherit
 			first, find_first_equal, search, has, occurrences, off
 		end
 
-	PART_COMPARATOR [S]
-		undefine
-			copy, is_equal
-		end
-
 	EL_MODULE_ITERABLE; EL_MODULE_CONVERT_STRING
 
 	EL_STRING_GENERAL_ROUTINES
 
 feature {NONE} -- Initialization
-
-	make (n: INTEGER)
-		deferred
-		end
-
-	make_empty
-		deferred
-		end
-
-	make_from (container: CONTAINER [S])
-		do
-			if attached as_structure (container) as structure then
-				make_from_special (structure.to_special)
-			else
-				make_empty
-			end
-		end
-
-	make_from_special (a_area: SPECIAL [S])
-		deferred
-		end
 
 	make_from_substrings (a_string: READABLE_STRING_GENERAL; a_start_index: INTEGER; count_list: ITERABLE [INTEGER])
 		-- make from consecutive substrings in `a_string' with counts in `count_list' starting from `a_start_index'
@@ -91,74 +62,6 @@ feature {NONE} -- Initialization
 	make_word_split (a_string: READABLE_STRING_GENERAL)
 		do
 			make_split (a_string, ' ')
-		end
-
-feature -- Measurement
-
-	item_count: INTEGER
-		do
-			Result := item.count
-		end
-
-	item_indent: INTEGER
-		local
-			i: INTEGER; done: BOOLEAN
-		do
-			from i := 1 until done or i > item.count loop
-				if item [i] = '%T' then
-					Result := Result + 1
-				else
-					done := True
-				end
-				i := i + 1
-			end
-		end
-
-	longest_count: INTEGER
-		-- count of longest string
-		do
-			push_cursor
-			from start until after loop
-				Result := Result.max (item.count)
-				forth
-			end
-			pop_cursor
-		end
-
-feature -- Access
-
-	first_or_empty: S
-		do
-			if count > 0 then
-				Result := first
-			else
-				create Result.make (0)
-			end
-		end
-
-feature -- Status query
-
-	is_indented: BOOLEAN
-		-- `True' if all non-empty lines start with a tab character
-		 do
-		 	Result := across Current as str all
-		 		str.item.count > 0 implies str.item.starts_with (Tabulation)
-		 	end
-		 end
-
-	same_items (a_list: ITERABLE [S]): BOOLEAN
-		local
-			l_cursor: ITERATION_CURSOR [S]
-		do
-			push_cursor
-			if Iterable.count (a_list) = count then
-				Result := True
-				from start; l_cursor := a_list.new_cursor until after or not Result loop
-					Result := item ~ l_cursor.item
-					forth; l_cursor.forth
-				end
-			end
-			pop_cursor
 		end
 
 feature -- Format items
@@ -247,6 +150,26 @@ feature -- Format items
 			pop_cursor
 		end
 
+	wrap (line_width: INTEGER)
+		local
+			previous_item: S
+		do
+			push_cursor
+			if not is_empty then
+				from start; forth until after loop
+					previous_item := i_th (index - 1)
+					if (previous_item.count + item.count + 1) < line_width then
+						previous_item.append_code (32)
+						previous_item.append (item)
+						remove
+					else
+						forth
+					end
+				end
+			end
+			pop_cursor
+		end
+
 feature -- Element change
 
 	append_comma_separated (a_string: READABLE_STRING_GENERAL)
@@ -316,96 +239,6 @@ feature -- Element change
 			end
 		end
 
-	set_first_and_last (a_first, a_last: S)
-		do
-			if not is_empty then
-				put_i_th (a_first, 1); put_i_th (a_last, count)
-			end
-		end
-
-feature -- Basic operations
-
-	sort (in_ascending_order: BOOLEAN)
-		local
-			quick: QUICK_SORTER [S]
-		do
-			create quick.make (Current)
-
-			if in_ascending_order then
-				quick.sort (Current)
-			else
-				quick.reverse_sort (Current)
-			end
-		end
-
-feature -- Removal
-
-	prune_all_empty
-			-- Remove empty items
-		do
-			from start until after loop
-				if item.is_empty then
-					remove
-				else
-					forth
-				end
-			end
-		end
-
-	unique_sort
-		-- ascending sort removing duplicates
-		local
-			previous: like item
-		do
-			sort (True)
-			from start until after loop
-				if index = 1 then
-					previous := item
-					forth
-
-				elseif item ~ previous then
-					remove
-				else
-					previous := item
-					forth
-				end
-			end
-		end
-
-	wrap (line_width: INTEGER)
-		local
-			previous_item: S
-		do
-			push_cursor
-			if not is_empty then
-				from start; forth until after loop
-					previous_item := i_th (index - 1)
-					if (previous_item.count + item.count + 1) < line_width then
-						previous_item.append_code (32)
-						previous_item.append (item)
-						remove
-					else
-						forth
-					end
-				end
-			end
-			pop_cursor
-		end
-
-feature -- Resizing
-
-	grow (i: INTEGER)
-			-- Change the capacity to at least `i'.
-		deferred
-		end
-
-feature -- Contract Support
-
-	valid_adjustments (bitmap: INTEGER): BOOLEAN
-		do
-			Result := 0 <= bitmap and then bitmap <= {EL_SIDE}.Both
-		end
-
 feature {NONE} -- Implementation
 
 	append_intervals (a_string: READABLE_STRING_GENERAL; intervals: EL_SPLIT_INTERVALS)
@@ -415,11 +248,6 @@ feature {NONE} -- Implementation
 				extend (new_string (a_string.substring (intervals.item_lower, intervals.item_upper)))
 				intervals.forth
 			end
-		end
-
-	less_than (u, v: S): BOOLEAN
-		do
-			Result := u.is_less (v)
 		end
 
 	new_string (general: READABLE_STRING_GENERAL): S

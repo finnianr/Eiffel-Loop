@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:23:37 GMT (Wednesday 6th November 2024)"
-	revision: "32"
+	date: "2025-03-29 14:46:54 GMT (Saturday 29th March 2025)"
+	revision: "33"
 
 class
 	HTML_TEXT_ELEMENT_LIST
@@ -199,7 +199,7 @@ feature {NONE} -- Implementation
 								short_enough := True
 							end
 						end
-						if attached words.joined_words as tail_line then
+						if attached words.as_word_string as tail_line then
 							create spaces.make_filled (' ', Class_link_list.adjusted_count (line) - excess_count)
 							Result.extend (spaces + tail_line)
 						end

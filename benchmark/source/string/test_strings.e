@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-30 18:20:44 GMT (Wednesday 30th August 2023)"
-	revision: "9"
+	date: "2025-03-29 16:05:20 GMT (Saturday 29th March 2025)"
+	revision: "10"
 
 deferred class
 	TEST_STRINGS [S -> STRING_GENERAL create make end, R -> STRING_ROUTINES [S] create default_create end]
@@ -251,7 +251,7 @@ feature {NONE} -- Factory
 		do
 			create words.make_word_split (str)
 			create Result
-			Result.first_two := words.sub_list (1, words.count.min (2)).joined_words
+			Result.first_two := words.sub_list (1, words.count.min (2)).as_word_string
 			Result.first_two_32 := Result.first_two.to_string_32
 		end
 
@@ -299,7 +299,7 @@ feature {NONE} -- Factory
 					parts_32.extend (new_filled (array.item [format_columns [i]]))
 					i := i + 1
 				end
-				Result.extend (parts_32.joined_words)
+				Result.extend (parts_32.as_word_string)
 			end
 		end
 
@@ -334,7 +334,7 @@ feature {NONE} -- Factory
 		do
 			create words.make_word_split (str)
 			create Result
-			Result.last_two := words.sub_list ((words.count - 1).max (1), words.count).joined_words
+			Result.last_two := words.sub_list ((words.count - 1).max (1), words.count).as_word_string
 			Result.last_two_32 := Result.last_two.to_string_32
 		end
 

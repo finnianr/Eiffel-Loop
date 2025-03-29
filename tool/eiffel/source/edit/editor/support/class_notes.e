@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 9:59:48 GMT (Saturday 5th October 2024)"
-	revision: "15"
+	date: "2025-03-29 14:50:28 GMT (Saturday 29th March 2025)"
+	revision: "16"
 
 class
 	CLASS_NOTES
@@ -104,8 +104,12 @@ feature {NONE} -- Implementation
 		end
 
 	default_description: ZSTRING
+		local
+			words: EL_CLASS_NAME_WORDS
 		do
-			Result := Naming.class_description (class_name, excluded_words)
+			create words.make_from_name (class_name)
+			words.remove_words (excluded_words)
+			Result := words.description
 		end
 
 	is_field (line: ZSTRING): BOOLEAN

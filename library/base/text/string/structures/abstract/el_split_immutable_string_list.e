@@ -6,12 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:52:42 GMT (Sunday 25th August 2024)"
-	revision: "8"
+	date: "2025-03-29 12:04:55 GMT (Saturday 29th March 2025)"
+	revision: "9"
 
 deferred class
 	EL_SPLIT_IMMUTABLE_STRING_LIST [
-		GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end
+		GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end
 	]
 
 inherit
@@ -67,6 +67,30 @@ feature -- Numeric items
 			if attached {NATURAL_32} Convert_string.to_type_of_type (item, Class_id.NATURAL_32) as n32 then
 				Result := n32
 			end
+		end
+
+feature -- Conversion
+
+	joined_with (separator: CHARACTER_32): GENERAL
+		local
+			i: INTEGER; code: NATURAL
+		do
+			create Result.make (character_count + count - 1)
+			code := separator.natural_32_code
+			if attached area as a then
+				from until i = a.count loop
+					if i > 0 then
+						Result.append_code (code)
+					end
+					Result.append_substring (target_string, a [i], a [i + 1])
+					i := i + 2
+				end
+			end
+		end
+
+	as_word_string: GENERAL
+		do
+			Result := joined_with (' ')
 		end
 
 feature {NONE} -- Implementation

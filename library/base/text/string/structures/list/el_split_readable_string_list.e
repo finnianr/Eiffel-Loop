@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 15:46:45 GMT (Saturday 5th October 2024)"
-	revision: "45"
+	date: "2025-03-29 12:51:10 GMT (Saturday 29th March 2025)"
+	revision: "46"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -37,13 +37,13 @@ inherit
 			{NONE} all
 			{ANY} before, back, forth, after, go_i_th, index, is_sortable, off, prunable,
 				query, query_if, query_not_in, query_in, query_is_equal,
-				readable, start, valid_index,
+				readable, start, valid_index, writable,
 				Lower_index
 			{ARRAYED_LIST_ITERATION_CURSOR} empty_area
 		undefine
 			count, make_empty, is_equal, upper_index, sort
 		redefine
-			at, do_meeting, has, i_th, item, new_cursor, wipe_out
+			at, do_meeting, has, i_th, item, new_cursor, remove, wipe_out
 		end
 
 	EL_STRING_SPLIT_CONTAINER [S]
@@ -403,6 +403,15 @@ feature -- Removal
 		end
 
 feature -- Removal
+
+	remove
+		do
+			if attached to_intervals as l_intervals then
+				l_intervals.go_i_th (index)
+				l_intervals.remove
+				area := l_intervals.area
+			end
+		end
 
 	remove_head (n: INTEGER)
 		do

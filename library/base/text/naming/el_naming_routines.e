@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 12:48:31 GMT (Monday 24th February 2025)"
-	revision: "46"
+	date: "2025-03-29 15:38:20 GMT (Saturday 29th March 2025)"
+	revision: "47"
 
 class
 	EL_NAMING_ROUTINES
@@ -28,26 +28,26 @@ inherit
 
 	EL_SHARED_STRING_8_CURSOR
 
+feature -- Factory
+
+	new_class_words (object: ANY): EL_CLASS_NAME_WORDS
+		do
+			create Result.make (object)
+		end
+
+	new_type_words (type: TYPE [ANY]): EL_CLASS_NAME_WORDS
+		do
+			create Result.make_from_type (type)
+		end
+
 feature -- Constants
 
-	EL_prefix: STRING = "EL_"
+	EL_prefix: STRING = "EL"
 
 	Empty_word_set: EL_HASH_SET [STRING]
 		once
 			create Result.make_equal (0)
 		end
-
-	No_words: EL_STRING_8_LIST
-		once
-			create Result.make_empty
-		end
-
-feature -- Status query
-
-	is_eiffel_loop (name: READABLE_STRING_8): BOOLEAN
-		 do
-		 	Result := name.starts_with (EL_prefix)
-		 end
 
 feature -- Class name derivations
 
@@ -82,60 +82,20 @@ feature -- Class name derivations
 			Result := class_with_separator (object_or_type, '_', head_count, tail_count)
 		end
 
-	class_description (a_type_name: STRING; excluded_words: EL_STRING_8_LIST): STRING
-		-- derive English description from object or object type
-		-- Words <= 3 are left capitalized
-		-- Class parameters result in suffix " for type X"
-		require
-			using_no_words_for_empty: excluded_words.is_empty implies excluded_words = No_words
-		local
-			word_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
-			word, name: STRING; s: EL_STRING_8_ROUTINES
-		do
-			name := s.substring_to (a_type_name, '[')
-			name.right_adjust
-
-			create word_split.make (name, '_')
-			create Result.make (word_split.target.count)
-			across word_split as split loop
-				word := split.item
-				if Result.count > 0 then
-					Result.extend (' ')
-				end
-				if excluded_words.has (word) then
-					if Result.count > 1 then
-						Result.remove_tail (1)
-					end
-				else
-					if word.count > 3 then
-						word.to_lower
-					end
-					Result.append (word)
-				end
-			end
-			Result [1] := Result [1].as_upper
-			if name.count < a_type_name.count then
-				name := s.substring_to_reversed (a_type_name, '[')
-				name.remove_tail (1)
-				Result.append (" for type ")
-				Result.append (name)
-			end
-		end
-
-	class_description_from (object_or_type: ANY; excluded_words: EL_STRING_8_LIST): STRING
-		do
-			Result := class_description (type_name (object_or_type), excluded_words)
-		end
-
 	class_with_separator (object_or_type: ANY; separator: CHARACTER; head_count, tail_count: INTEGER): STRING
 		-- class name of `object_or_type' (object if not conforming to TYPE [ANY])
 		-- with `head_count' words removed from head and `tail_count' words removed from tail
 		require
 			valid_head_tail_count: head_count + tail_count <= type_name (object_or_type).occurrences ('_') + 1
 		local
-			s: EL_STRING_8_ROUTINES; name: STRING
+			s: EL_STRING_8_ROUTINES; name: IMMUTABLE_STRING_8; index: INTEGER
 		do
-			name := s.substring_to (type_name (object_or_type), ' ') -- Removes any generic parameters
+			name := type_name (object_or_type)
+		-- Remove any generic parameters
+			index := name.index_of (' ', 1)
+			if index > 0 then
+				name := name.shared_substring (1, index - 1)
+			end
 			Result := s.sandwiched_parts (name, '_', head_count, tail_count)
 			if separator /= '_' then
 				s.replace_character (Result, '_', separator)
@@ -387,13 +347,13 @@ feature -- Export names
 
 feature -- Contract Support
 
-	type_name (object_or_type: ANY): STRING
+	type_name (object_or_type: ANY): IMMUTABLE_STRING_8
 		-- type name of object or object type
 		do
-			if attached {TYPE [ANY]} object_or_type as type then
-				Result := {ISE_RUNTIME}.generating_type_of_type (type.type_id)
-			else
-				Result := object_or_type.generator
+			Result := object_or_type.generating_type.name
+			if Result.starts_with (Type_prefix) then
+			-- remove surrounding "TYPE []"
+				Result := Result.shared_substring (7, Result.count - 1)
 			end
 		end
 
@@ -409,5 +369,7 @@ feature {NONE} -- Constants
 		once
 			create Result.make (Empty_name, '_')
 		end
+
+	Type_prefix: STRING = "TYPE ["
 
 end

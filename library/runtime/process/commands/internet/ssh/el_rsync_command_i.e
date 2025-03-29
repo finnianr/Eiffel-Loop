@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 15:13:18 GMT (Friday 28th March 2025)"
-	revision: "24"
+	date: "2025-03-29 12:05:50 GMT (Saturday 29th March 2025)"
+	revision: "25"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -161,7 +161,7 @@ feature {NONE} -- Evolicity reflection
 			Result.merge (Precursor {EL_SECURE_SHELL_OS_COMMAND})
 
 			Result.append_tuples (<<
-				["enabled_options",	  agent: STRING do Result := enabled_options.joined_words end],
+				["enabled_options",	  agent: STRING do Result := enabled_options.as_word_string end],
 				["has_exclusions",	  agent: BOOLEAN_REF do Result := (not exclude_list.is_empty).to_reference end],
 				["destination_parent", agent: ZSTRING do Result := destination_path.parent.escaped end],
 				["trailing_slash",	  agent get_trailing_slash]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 14:18:55 GMT (Sunday 9th February 2025)"
-	revision: "63"
+	date: "2025-03-29 15:55:35 GMT (Saturday 29th March 2025)"
+	revision: "64"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -250,11 +250,26 @@ feature {NONE} -- Implementation
 			str.replace_substring (insert, start_index, end_index)
 		end
 
+	split_on_character (str: READABLE_STRING_32; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_32]
+		do
+			if str.is_immutable then
+				Result := Split_immutable_string_32
+			else
+				Result := Split_string_32
+			end
+			Result.set_target (str); Result.set_separator (separator)
+		end
+
 feature {NONE} -- Constants
 
 	Asterisk: CHARACTER_32 = '*'
 
-	Split_on_character: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
+	Split_string_32: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
+		once
+			create Result.make (Empty_string_32, '_')
+		end
+
+	Split_immutable_string_32: EL_SPLIT_ON_CHARACTER_32 [IMMUTABLE_STRING_32]
 		once
 			create Result.make (Empty_string_32, '_')
 		end

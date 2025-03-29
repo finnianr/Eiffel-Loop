@@ -1,3 +1,6 @@
+Ver 2.3.0 (29 Mar 2025)
+* Revised OS command and Evolicity implementation
+
 Ver 2.2.18 (8 Mar 2025)
 * Conduct tests after Eiffel-loop changes
 
@@ -620,4 +623,3 @@ Fixed expansion of [$source MY_CLASS] in sitemap page.
 
 1.0.0
 Moved sub-applications from toolkit project
-

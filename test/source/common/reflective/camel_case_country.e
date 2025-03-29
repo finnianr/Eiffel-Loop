@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:28:36 GMT (Tuesday 27th August 2024)"
-	revision: "14"
+	date: "2025-03-29 13:11:34 GMT (Saturday 29th March 2025)"
+	revision: "15"
 
 class
 	CAMEL_CASE_COUNTRY
@@ -27,6 +27,6 @@ feature {NONE} -- Implementation
 
 	camel_case: EL_NAME_TRANSLATER
 		do
-			Result := camel_case_translater ({EL_CASE}.Default)
+			Result := camel_case_translater ({EL_CASE}.Default_)
 		end
 end

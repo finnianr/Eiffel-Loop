@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:43:17 GMT (Sunday 22nd September 2024)"
-	revision: "28"
+	date: "2025-03-29 16:04:17 GMT (Saturday 29th March 2025)"
+	revision: "29"
 
 class
 	DJ_EVENT_PLAYLIST
@@ -70,7 +70,7 @@ feature {NONE} -- Initialization
 				create date.make_now
 				is_publishable := False
 			end
-			venue := word_list.joined_words
+			venue := word_list.as_word_string
 			across playlist as l_song loop
 				extend (l_song.item)
 			end

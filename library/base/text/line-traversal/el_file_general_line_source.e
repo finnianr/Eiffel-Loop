@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-18 9:28:47 GMT (Wednesday 18th September 2024)"
-	revision: "11"
+	date: "2025-03-29 16:08:35 GMT (Saturday 29th March 2025)"
+	revision: "12"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
@@ -37,7 +37,7 @@ inherit
 			Encoding as Encoding_
 		end
 
-	EL_MODULE_File
+	EL_MODULE_FILE
 		rename
 			File as File_
 		end

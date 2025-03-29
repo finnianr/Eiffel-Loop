@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-11 15:19:28 GMT (Thursday 11th January 2024)"
-	revision: "15"
+	date: "2025-03-29 14:47:58 GMT (Saturday 29th March 2025)"
+	revision: "16"
 
 deferred class
 	EL_YOUTUBE_STREAM
@@ -85,7 +85,7 @@ feature -- Access
 			parts: EL_ZSTRING_LIST
 		do
 			create parts.make_from_general (name_parts)
-			Result := parts.joined_words
+			Result := parts.as_word_string
 		end
 
 	type: STRING

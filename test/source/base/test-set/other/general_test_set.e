@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 14:42:14 GMT (Friday 28th February 2025)"
-	revision: "65"
+	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
+	revision: "66"
 
 class
 	GENERAL_TEST_SET
@@ -119,7 +119,7 @@ feature -- Tests
 			create padding_permutation_set.make_equal (3)
 			across Hexagram.String_arrays.new_cursor as array loop
 				create parts.make_from_general (array.item)
-				zstr := parts.joined_words
+				zstr := parts.as_word_string
 				base_64_str := Base_64.encoded (zstr.to_utf_8, True)
 				last_8_characters := base_64_str.substring (base_64_str.count - 8 + 1, base_64_str.count)
 				last_8_characters.prune ('%N')

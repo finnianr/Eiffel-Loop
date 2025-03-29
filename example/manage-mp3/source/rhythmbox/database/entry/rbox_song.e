@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 13:06:56 GMT (Saturday 15th March 2025)"
-	revision: "62"
+	date: "2025-03-29 16:04:07 GMT (Saturday 29th March 2025)"
+	revision: "63"
 
 class
 	RBOX_SONG
@@ -442,7 +442,7 @@ feature {NONE} -- Implementation
 					word_list.extend (word.item_copy)
 				end
 			end
-			Result := word_list.joined_words
+			Result := word_list.as_word_string
 		end
 
 	normalized_mp3_base_path: FILE_PATH

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 17:43:54 GMT (Thursday 6th March 2025)"
-	revision: "20"
+	date: "2025-03-29 12:05:48 GMT (Saturday 29th March 2025)"
+	revision: "21"
 
 class
 	TYPE_TEST_SET
@@ -148,7 +148,7 @@ feature -- Tests
 					if type_flags_set.inserted then
 						lio.put_integer_field (name, type_id)
 						if attached Eiffel.type_flag_names (type_flags) as list and then list.count > 0 then
-							lio.put_labeled_string (" Flags", list.joined_words)
+							lio.put_labeled_string (" Flags", list.as_word_string)
 						end
 						lio.put_new_line
 					end
@@ -182,7 +182,7 @@ feature {NONE} -- Implementation
 				lio.put_integer_field (" Parameters", parameter_count)
 				lio.put_integer_field (" Size", type_size)
 				if flag_names.count > 0 then
-					lio.put_labeled_string (" Flags", flag_names.joined_words)
+					lio.put_labeled_string (" Flags", flag_names.as_word_string)
 				end
 				lio.put_new_line
 				failed ("characteristics match")

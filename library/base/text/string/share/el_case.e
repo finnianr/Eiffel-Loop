@@ -6,24 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-23 15:35:30 GMT (Tuesday 23rd July 2024)"
-	revision: "5"
+	date: "2025-03-29 13:09:53 GMT (Saturday 29th March 2025)"
+	revision: "6"
 
 class
 	EL_CASE
-
-inherit
-	ANY
-		rename
-			default as default_object
-		end
 
 feature -- Contract Support
 
 	frozen is_valid (case: NATURAL_8): BOOLEAN
 		do
 			inspect case
-				when Default, Lower, Proper, Sentence, Upper then
+				when Default_, Lower, Proper, Sentence, Upper then
 					Result := True
 			else
 
@@ -32,7 +26,7 @@ feature -- Contract Support
 
 feature -- Constants
 
-	Default: NATURAL_8 = 0
+	Default_: NATURAL_8 = 0
 
 	Lower: NATURAL_8 = 1
 		-- Flag 001

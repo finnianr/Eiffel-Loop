@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 9:54:31 GMT (Monday 10th February 2025)"
-	revision: "5"
+	date: "2025-03-29 14:51:16 GMT (Saturday 29th March 2025)"
+	revision: "6"
 
 class
 	FIND_CODE_PATTERN_SHELL
@@ -17,7 +17,7 @@ inherit
 		rename
 			make as make_shell
 		undefine
-			error_check
+			error_check, make_default
 		select
 			execute
 		end
@@ -40,7 +40,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make_default
 		do
-			Precursor
+			Precursor {SOURCE_MANIFEST_COMMAND}
 			create match_table.make_equal (20)
 			make_shell ("PATTERN MENU", 10)
 		end

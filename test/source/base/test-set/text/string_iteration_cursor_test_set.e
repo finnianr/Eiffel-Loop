@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-07 9:22:22 GMT (Monday 7th August 2023)"
-	revision: "6"
+	date: "2025-03-29 8:31:15 GMT (Saturday 29th March 2025)"
+	revision: "7"
 
 class
 	STRING_ITERATION_CURSOR_TEST_SET
@@ -38,15 +38,16 @@ feature -- Tests
 
 	test_measurements
 		note
-			testing:
-				"covers/{EL_STRING_8_ITERATION_CURSOR}.leading_occurrences",
-				"covers/{EL_STRING_8_ITERATION_CURSOR}.leading_white_count",
-				"covers/{EL_STRING_8_ITERATION_CURSOR}.trailing_white_count",
+			testing: "[
+				covers/{EL_STRING_8_ITERATION_CURSOR}.leading_occurrences,
+				covers/{EL_STRING_8_ITERATION_CURSOR}.leading_white_count,
+				covers/{EL_STRING_8_ITERATION_CURSOR}.trailing_white_count,
 
-				"covers/{EL_STRING_32_ITERATION_CURSOR}.leading_occurrences",
-				"covers/{EL_STRING_32_ITERATION_CURSOR}.leading_white_count",
-				"covers/{EL_STRING_32_ITERATION_CURSOR}.trailing_white_count",
-				"covers/{EL_STRING_32_ITERATION_CURSOR}.latin_1_count"
+				covers/{EL_STRING_32_ITERATION_CURSOR}.leading_occurrences,
+				covers/{EL_STRING_32_ITERATION_CURSOR}.leading_white_count,
+				covers/{EL_STRING_32_ITERATION_CURSOR}.trailing_white_count,
+				covers/{EL_STRING_32_ITERATION_CURSOR}.latin_1_count
+			]"
 		do
 			assert ("1 leading tab", cursor_8 (padded_8 ('%T')).leading_occurrences ('%T') = 1)
 			assert ("1 leading space", cursor_8 (padded_8 (' ')).leading_white_count = 1)
@@ -65,11 +66,12 @@ feature -- Tests
 	test_status_query
 		-- STRING_ITERATION_CURSOR_TEST_SET.test_status_query
 		note
-			testing:
-				"covers/{EL_STRING_8_ITERATION_CURSOR}.is_ascii_substring",
-				"covers/{EL_STRING_8_ITERATION_CURSOR}.all_ascii",
-				"covers/{EL_STRING_8_ITERATION_CURSOR}.is_eiffel_lower",
-				"covers/{EL_STRING_8_ITERATION_CURSOR}.is_eiffel_upper"
+			testing: "[
+				covers/{EL_STRING_8_ITERATION_CURSOR}.is_ascii_substring,
+				covers/{EL_STRING_8_ITERATION_CURSOR}.all_ascii,
+				covers/{EL_STRING_8_ITERATION_CURSOR}.is_eiffel_lower,
+				covers/{EL_STRING_8_ITERATION_CURSOR}.is_eiffel_upper
+			]"
 		do
 			if attached padded_8 ((0xA9).to_character_8) as non_ascii_padding then
 				assert ("is ascii substring", cursor_8 (non_ascii_padding).is_ascii_substring (2, 4))

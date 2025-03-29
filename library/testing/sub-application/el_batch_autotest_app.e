@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 16:44:37 GMT (Monday 17th March 2025)"
-	revision: "13"
+	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
+	revision: "14"
 
 deferred class
 	EL_BATCH_AUTOTEST_APP
@@ -76,14 +76,14 @@ feature {NONE} -- Implementation
 			cmd_list.extend (Executable.name)
 			cmd_list.append_sequence (arguments_list)
 
-			lio.put_line (cmd_list.joined_words)
+			lio.put_line (cmd_list.as_word_string)
 			lio.put_new_line
 			if Args.option_exists ("workbench") then
 				cmd_list [1] := W_code_template #$ [execution.item ("ISE_PLATFORM"), Executable.name]
 			else
 				cmd_list [1] := Executable.path
 			end
-			execution.system (cmd_list.joined_words)
+			execution.system (cmd_list.as_word_string)
 		end
 
 	none_omitted: TUPLE

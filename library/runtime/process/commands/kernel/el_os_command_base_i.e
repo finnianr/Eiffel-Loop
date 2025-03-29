@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 11:06:16 GMT (Thursday 27th March 2025)"
-	revision: "1"
+	date: "2025-03-29 12:04:56 GMT (Saturday 29th March 2025)"
+	revision: "2"
 
 deferred class
 	EL_OS_COMMAND_BASE_I
@@ -118,14 +118,13 @@ feature {NONE} -- Implementation
 			-- display word wrapped command
 		local
 			current_working_directory, printable_line, prompt, blank_prompt: ZSTRING
-			max_width, head_count, tail_count: INTEGER; words: EL_ZSTRING_SPLIT_INTERVALS
-			name: STRING
+			max_width: INTEGER; words: EL_ZSTRING_SPLIT_INTERVALS; name: STRING
 		do
 			current_working_directory := Directory.current_working
-			if attached generating_type as type then
-				head_count := if Naming.is_eiffel_loop (type.name) then 1 else 0 end
-				tail_count := if type.name.ends_with (Command_suffix) then 1 else 0 end
-				name := Naming.class_with_separator (type, ' ', head_count, tail_count)
+			if attached Naming.new_class_words (Current) as class_words then
+				class_words.remove_el_prefix
+				class_words.remove_suffix (IMP_COMMAND_suffix)
+				name := class_words.as_word_string
 				create blank_prompt.make_filled (' ', name.count)
 				prompt := name
 			end

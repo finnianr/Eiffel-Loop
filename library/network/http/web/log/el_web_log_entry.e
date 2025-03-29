@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-01 9:40:38 GMT (Saturday 1st March 2025)"
-	revision: "39"
+	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
+	revision: "40"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -214,7 +214,7 @@ feature -- Access
 	normalized_user_agent: STRING
 		-- lower case `user_agent' stripped of punctuation and version numbers
 		do
-			Result := stripped_lower (user_agent).joined_words
+			Result := stripped_lower (user_agent).as_word_string
 		end
 
 feature -- Basic operations

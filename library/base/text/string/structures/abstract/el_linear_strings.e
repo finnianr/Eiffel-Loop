@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:04:24 GMT (Tuesday 18th March 2025)"
-	revision: "25"
+	date: "2025-03-29 12:06:17 GMT (Saturday 29th March 2025)"
+	revision: "26"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -49,7 +49,7 @@ feature -- Measurement
 
 feature -- Access
 
-	as_string_32_list: ARRAYED_LIST [STRING_32]
+	as_string_32_list: EL_ARRAYED_LIST [STRING_32]
 		do
 			push_cursor
 			create Result.make (count)
@@ -70,6 +70,12 @@ feature -- Access
 				forth
 			end
 			pop_cursor
+		end
+
+	as_word_string: like item
+			-- joined with space character
+		do
+			Result := joined_with (' ', False)
 		end
 
 	comma_separated: like item
@@ -137,12 +143,6 @@ feature -- Access
 		do
 			create Result.make (character_count + (count - 1) * a_separator.count)
 			append_separated_to (Result, a_separator)
-		end
-
-	joined_words: like item
-			-- joined with space character
-		do
-			Result := joined_with (' ', False)
 		end
 
 	joined_grouped_words (a_separator: READABLE_STRING_GENERAL; max_line_count: INTEGER): like item

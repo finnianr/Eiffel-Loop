@@ -6,15 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 7:16:34 GMT (Thursday 27th March 2025)"
-	revision: "5"
+	date: "2025-03-29 10:38:31 GMT (Saturday 29th March 2025)"
+	revision: "6"
 
 class
 	EL_OS_COMMAND_CONSTANTS
 
 feature {NONE} -- Strings
 
-	Command_suffix: STRING = "_COMMAND"
+	IMP_COMMAND_suffix: ARRAY [STRING]
+		once
+			Result := << "IMP", "COMMAND" >>
+		ensure
+			imp_first: Result.item (1)[1] = 'I'
+		end
 
 	Enabled_suffix: STRING = "_enabled"
 

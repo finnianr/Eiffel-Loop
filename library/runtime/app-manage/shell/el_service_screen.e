@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 6:29:39 GMT (Tuesday 11th February 2025)"
-	revision: "15"
+	date: "2025-03-29 14:01:57 GMT (Saturday 29th March 2025)"
+	revision: "16"
 
 class
 	EL_SERVICE_SCREEN
@@ -85,10 +85,13 @@ feature -- Element change
 		end
 
 	set_default_name
+		local
+			words: EL_CLASS_NAME_WORDS
 		do
 			if name.is_empty and then attached command_args.substring_to (' ') as option_name then
 				option_name.prune_all_leading ('-')
-				name.append_string_general (Naming.class_description (option_name, Naming.No_words))
+				create words.make_from_name (option_name.to_string_8)
+				name.append_string_general (words.description)
 			end
 		end
 
@@ -123,7 +126,7 @@ feature {NONE} -- Implementation
 
 	screen_command: EL_OS_COMMAND
 		do
-			create Result.make (new_command_parts.joined_words)
+			create Result.make (new_command_parts.as_word_string)
 		end
 
 feature {NONE} -- Event handler

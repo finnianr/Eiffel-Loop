@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "11"
+	date: "2025-03-29 13:10:59 GMT (Saturday 29th March 2025)"
+	revision: "12"
 
 deferred class
 	EL_NAME_TRANSLATER
@@ -100,7 +100,7 @@ feature {NONE} -- Constants
 
 	Default_case: NATURAL_8
 		once
-			Result := {EL_CASE}.default
+			Result := {EL_CASE}.Default_
 		end
 
 	Name_buffer: EL_STRING_8_BUFFER

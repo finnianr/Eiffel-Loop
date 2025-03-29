@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 17:06:03 GMT (Friday 7th February 2025)"
-	revision: "12"
+	date: "2025-03-29 14:51:16 GMT (Saturday 29th March 2025)"
+	revision: "13"
 
 class
 	CLASS_RENAMING_SHELL_COMMAND
@@ -24,7 +24,7 @@ inherit
 			make as make_shell,
 			user_exit as user_exit_shell
 		undefine
-			error_check
+			error_check, make_default
 		end
 
 	SOURCE_MANIFEST_COMMAND
@@ -43,7 +43,7 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 
 	make_default
 		do
-			Precursor
+			Precursor {SOURCE_MANIFEST_COMMAND}
 			create new_name.make_empty
 			create prefix_letters.make_empty
 			create old_name.make_empty

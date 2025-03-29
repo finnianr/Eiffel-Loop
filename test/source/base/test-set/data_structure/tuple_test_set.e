@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-09 14:20:34 GMT (Wednesday 9th October 2024)"
-	revision: "2"
+	date: "2025-03-29 12:05:50 GMT (Saturday 29th March 2025)"
+	revision: "3"
 
 class TUPLE_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -119,7 +119,7 @@ feature -- Tests
 			create t1
 			name_and_address := "Finnian Reilly, Dunboyne Co Meath"
 			Tuple.fill_with_new (t1, name_and_address, agent new_word_list, 3)
-			assert_same_string (Void, name_and_address, t1.full_name.joined_words + ", " + t1.address.joined_words)
+			assert_same_string (Void, name_and_address, t1.full_name.as_word_string + ", " + t1.address.as_word_string)
 		end
 
 feature {NONE} -- Implementation

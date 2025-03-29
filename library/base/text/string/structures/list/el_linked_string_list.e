@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 14:39:29 GMT (Saturday 5th October 2024)"
-	revision: "13"
+	date: "2025-03-29 8:51:26 GMT (Saturday 29th March 2025)"
+	revision: "14"
 
 class
 	EL_LINKED_STRING_LIST [S -> STRING_GENERAL create make, make_empty end]
@@ -30,7 +30,8 @@ inherit
 		end
 
 create
-	make_empty, make_split, make_with_lines, make_word_split, make_adjusted_split, make_from_special
+	make, make_empty, make_with_lines, make_from_special, make_from, make_from_substrings,
+	make_split, make_adjusted_split, make_word_split, make_comma_split
 
 feature {NONE} -- Initialization
 

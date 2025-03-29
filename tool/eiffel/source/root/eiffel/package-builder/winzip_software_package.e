@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-01 11:36:23 GMT (Sunday 1st September 2024)"
-	revision: "33"
+	date: "2025-03-29 14:52:09 GMT (Saturday 29th March 2025)"
+	revision: "34"
 
 class
 	WINZIP_SOFTWARE_PACKAGE
@@ -206,7 +206,7 @@ feature {NONE} -- Implementation
 			zip_cmd: EL_OS_COMMAND
 		do
 			create zip_cmd.make ("wzzip -a -rP $zip_archive_path package\*")
-			zip_cmd.put_object (Current)
+			zip_cmd.put_fields (Current)
 			zip_cmd.set_working_directory ("build/" + ise_platform)
 			zip_cmd.dry_run.set_state (dry_run)
 			zip_cmd.execute

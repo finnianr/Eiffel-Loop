@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-07 14:17:04 GMT (Friday 7th March 2025)"
-	revision: "1"
+	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
+	revision: "2"
 
 deferred class
 	RANGE_LIST_PARAMETER [N -> NUMERIC]
@@ -25,7 +25,7 @@ feature -- Basic operations
 		do
 			name := Naming.class_as_snake_lower (Current, 0, 3)
 			name.to_proper
-			if attached item.string_8_list (agent numeric_string).joined_words as number_string then
+			if attached item.string_8_list (agent numeric_string).as_word_string as number_string then
 				log.put_index_labeled_string (index.to_reference, name + " range [%S]", number_string)
 			end
 			log.put_new_line

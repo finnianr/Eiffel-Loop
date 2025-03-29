@@ -832,3 +832,6 @@ Rewrite of EL_MD5_HASH_COMMAND command
 Thu 27th Mar 2025, 16:20:13
 Made EL_SSH_COMMAND_FACTORY classes obsolete
 
+Fri 28th Mar 2025, 16:21:36
+Reimplementation of {EL_MIRROR_BACKUP}.new_command for all descendants
+

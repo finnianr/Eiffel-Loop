@@ -18,11 +18,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-19 13:45:37 GMT (Tuesday 19th November 2024)"
-	revision: "31"
+	date: "2025-03-29 12:04:55 GMT (Saturday 29th March 2025)"
+	revision: "32"
 
 deferred class
 	EL_MAKE_OPERAND_SETTER [G]
+
+inherit
+	ANY; EL_MODULE_NAMING
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -211,12 +214,11 @@ feature {NONE} -- Implementation
 
 	value_description: ZSTRING
 		do
-			create Result.make_from_general (({G}).name)
-			Result.to_lower
-			if Result.starts_with_general (El_prefix) then
-				Result.remove_head (3)
+			if attached Naming.new_type_words ({G}) as words then
+				words.remove_el_prefix
+				Result := words.as_word_string
 			end
-			Result.replace_character ('_', ' ')
+			Result.to_lower
 		end
 
 feature {NONE} -- Internal attributes
@@ -224,12 +226,5 @@ feature {NONE} -- Internal attributes
 	argument: EL_COMMAND_ARGUMENT
 
 	is_bag: BOOLEAN
-
-feature {NONE} -- Constants
-
-	El_prefix: ZSTRING
-		once
-			Result := "el_"
-		end
 
 end

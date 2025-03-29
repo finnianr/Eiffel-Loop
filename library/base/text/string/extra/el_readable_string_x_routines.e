@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 12:21:32 GMT (Saturday 15th March 2025)"
-	revision: "52"
+	date: "2025-03-29 15:51:48 GMT (Saturday 29th March 2025)"
+	revision: "53"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -18,7 +18,14 @@ deferred class
 	]
 
 inherit
-	ANY
+	EL_CASE
+		rename
+			is_valid as is_valid_case,
+			Upper as Upper_case,
+			Lower as Lower_case
+		export
+			{NONE} all
+		end
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
 
@@ -84,8 +91,7 @@ feature -- Access
 						index := index + 1
 					end
 				end
-				if found and then attached split_on_character as split_list then
-					split_list.set_target (name_list); split_list.set_separator (',')
+				if found and then attached split_on_character (name_list, ',') as split_list then
 					found := False
 					i := n_set.lower
 					across split_list as list until found loop
@@ -364,6 +370,13 @@ feature -- Status query
 			end
 		end
 
+	valid_substring_indices (str: READABLE_STRING_X; start_index, end_index: INTEGER): BOOLEAN
+		do
+			if str.valid_index (start_index) then
+				Result := end_index >= start_index - 1 and end_index <= str.count
+			end
+		end
+
 feature -- Comparison
 
 	caseless_ends_with (big, small: READABLE_STRING_X): BOOLEAN
@@ -491,9 +504,7 @@ feature -- Substring
 			start_index, end_index, index, first_cursor_index, last_cursor_index: INTEGER
 		do
 			if head_count + tail_count > 0 then
-				if attached split_on_character as split_list then
-					split_list.set_target (str); split_list.set_separator (separator)
-
+				if attached split_on_character (str, separator) as split_list then
 					first_cursor_index := head_count + 1
 					last_cursor_index := split_list.count - tail_count
 
@@ -692,7 +703,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	split_on_character: EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
+	split_on_character (str: READABLE_STRING_X; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
 		deferred
 		end
 

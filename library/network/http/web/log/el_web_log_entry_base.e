@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-21 9:48:58 GMT (Friday 21st February 2025)"
-	revision: "5"
+	date: "2025-03-29 16:04:35 GMT (Saturday 29th March 2025)"
+	revision: "6"
 
 deferred class
 	EL_WEB_LOG_ENTRY_BASE
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 	stripped_lower (a_name: STRING): EL_STRING_8_LIST
 		-- if `a_name' is "Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0"
-		-- `Result.joined_words' is "firefox linux rv x11 x86_64"
+		-- `Result.as_word_string' is "firefox linux rv x11 x86_64"
 		local
 			name: STRING; name_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
 			s: EL_STRING_8_ROUTINES

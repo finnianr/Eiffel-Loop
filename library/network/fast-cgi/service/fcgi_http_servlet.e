@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-24 14:36:11 GMT (Monday 24th February 2025)"
-	revision: "28"
+	date: "2025-03-29 12:04:56 GMT (Saturday 29th March 2025)"
+	revision: "29"
 
 deferred class
 	FCGI_HTTP_SERVLET
@@ -40,12 +40,10 @@ feature -- Access
 
 	description: STRING
 			-- Information about the servlet, such as, author, version and copyright.
-		local
-			head_count: INTEGER
 		do
-			if attached generating_type as type then
-				head_count := if Naming.is_eiffel_loop (type.name) then 1 else 0 end
-				Result := Naming.class_with_separator_as_lower (type, ' ', head_count, 0)
+			if attached Naming.new_class_words (Current) as words then
+				words.remove_el_prefix
+				Result := words.as_word_string
 			end
 		end
 

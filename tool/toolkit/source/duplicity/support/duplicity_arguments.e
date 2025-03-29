@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2025-03-29 14:47:57 GMT (Saturday 29th March 2025)"
+	revision: "8"
 
 class
 	DUPLICITY_ARGUMENTS
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 				option_list.extend ("--encrypt-key")
 				option_list.extend (backup.encryption_key)
 			end
-			options := option_list.joined_words
+			options := option_list.as_word_string
 
 			append_exclusions (backup.exclude_any_list)
 			append_exclusions (backup.exclude_files_list)

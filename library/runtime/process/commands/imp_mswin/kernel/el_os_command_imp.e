@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-18 7:39:34 GMT (Wednesday 18th September 2024)"
-	revision: "25"
+	date: "2025-03-29 16:04:48 GMT (Saturday 29th March 2025)"
+	revision: "26"
 
 deferred class
 	EL_OS_COMMAND_IMP
@@ -49,7 +49,7 @@ feature {NONE} -- Implementation
 					extended_parts.extend (part.item)
 				end
 			end
-			cmd.set_command_and_parameters (extended_parts.joined_words)
+			cmd.set_command_and_parameters (extended_parts.as_word_string)
 			cmd.enable_hide
 			cmd.enable_administrator
 			cmd.execute

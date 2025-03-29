@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "81"
+	date: "2025-03-29 13:10:59 GMT (Saturday 29th March 2025)"
+	revision: "82"
 
 deferred class
 	EL_ZCODEC
@@ -574,7 +574,7 @@ feature {NONE} -- Implementation
 		unencoded_characters: EL_COMPACT_SUBSTRINGS_32_I
 	)
 		require
-			valid_case: case /= {EL_CASE}.Default and then (create {EL_CASE}).is_valid (case)
+			valid_case: case /= {EL_CASE}.Default_ and then (create {EL_CASE}).is_valid (case)
 		local
 			unicode_substitute, uc_i: CHARACTER_32; new_c, c_i: CHARACTER; i: INTEGER
 			state_alpha, block_index: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION

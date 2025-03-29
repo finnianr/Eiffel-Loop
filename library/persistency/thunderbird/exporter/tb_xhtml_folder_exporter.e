@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 15:53:26 GMT (Tuesday 5th November 2024)"
-	revision: "42"
+	date: "2025-03-29 12:05:49 GMT (Saturday 29th March 2025)"
+	revision: "43"
 
 deferred class
 	TB_XHTML_FOLDER_EXPORTER
@@ -213,7 +213,7 @@ feature {NONE} -- Editing
 		do
 			create list.make_adjusted_by_string (target, Line_feed_entity, {EL_SIDE}.Both)
 			if list.count > 1 then
-				target.share (list.joined_words)
+				target.share (list.as_word_string)
 			end
 		end
 

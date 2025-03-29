@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:34:02 GMT (Wednesday 6th November 2024)"
-	revision: "39"
+	date: "2025-03-29 15:50:10 GMT (Saturday 29th March 2025)"
+	revision: "40"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -315,6 +315,12 @@ feature {NONE} -- Implementation
 			str.replace_substring (insert, start_index, end_index)
 		end
 
+	split_on_character (str: EL_READABLE_ZSTRING; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [EL_READABLE_ZSTRING]
+		do
+			Result := Split_string
+			Result.set_target (str); Result.set_separator (separator)
+		end
+
 	to_z_code (character: CHARACTER_32): NATURAL_32
 		do
 			Result := Codec.as_z_code (character)
@@ -340,7 +346,7 @@ feature {NONE} -- Constants
 			create Result
 		end
 
-	Split_on_character: EL_SPLIT_ZSTRING_ON_CHARACTER
+	Split_string: EL_SPLIT_ZSTRING_ON_CHARACTER
 		once
 			create Result.make (Empty_string, '_')
 		end

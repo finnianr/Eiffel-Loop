@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:28:10 GMT (Saturday 23rd December 2023)"
-	revision: "4"
+	date: "2025-03-29 13:10:34 GMT (Saturday 29th March 2025)"
+	revision: "5"
 
 deferred class
 	EL_NAMING_CONVENTIONS
@@ -19,22 +19,22 @@ feature {NONE} -- Default Conventions
 
 	camel_case: EL_NAME_TRANSLATER
 		do
-			Result := camel_case_translater (Case.Default)
+			Result := camel_case_translater (Case.Default_)
 		end
 
 	default_english: EL_NAME_TRANSLATER
 		do
-			Result := english_translater (Case.Default)
+			Result := english_translater (Case.Default_)
 		end
 
 	kebab_case: EL_NAME_TRANSLATER
 		do
-			Result := kebab_case_translater (Case.Default)
+			Result := kebab_case_translater (Case.Default_)
 		end
 
 	snake_case: EL_NAME_TRANSLATER
 		do
-			Result := snake_case_translater (Case.Default)
+			Result := snake_case_translater (Case.Default_)
 		end
 
 feature {NONE} -- Other Conventions

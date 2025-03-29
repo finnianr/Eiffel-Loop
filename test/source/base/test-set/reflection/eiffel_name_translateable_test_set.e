@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-06 14:41:48 GMT (Sunday 6th August 2023)"
-	revision: "12"
+	date: "2025-03-29 15:23:10 GMT (Saturday 29th March 2025)"
+	revision: "13"
 
 class
 	EIFFEL_NAME_TRANSLATEABLE_TEST_SET
@@ -27,9 +27,11 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["class_as_kebab_lower", agent test_class_as_kebab_lower],
-				["class_as_snake_upper", agent test_class_as_snake_upper],
 				["class_as_snake_lower", agent test_class_as_snake_lower],
-				["naming",					 agent test_naming]
+				["class_as_snake_upper", agent test_class_as_snake_upper],
+				["class_name_words",		 agent test_class_name_words],
+				["naming",					 agent test_naming],
+				["type_name",				 agent test_type_name]
 			>>)
 		end
 
@@ -68,25 +70,62 @@ feature -- Tests
 			assert_same_string (Void, name, "CHARACTER_8")
 		end
 
+	test_class_name_words
+		-- EIFFEL_NAME_TRANSLATEABLE_TEST_SET.test_class_name_words
+		note
+			testing: "[
+				covers/{EL_CLASS_NAME_WORDS}.remove_el_prefix,
+				covers/{EL_CLASS_NAME_WORDS}.description
+			]"
+		local
+			name_words: EL_CLASS_NAME_WORDS; description: STRING
+		do
+			across 1 |..| 2 as n loop
+				create name_words.make_from_type ({EL_COPY_TREE_COMMAND_IMP})
+				if n.item = 1 then
+					name_words.remove_el_prefix
+					name_words.remove_suffix (<< "IMP", "COMMAND" >>)
+				else
+					name_words.remove_words (<< "EL", "IMP", "COMMAND" >>)
+				end
+				assert_same_string (Void, name_words.as_word_string, "COPY TREE")
+			end
+
+			if attached Naming.new_type_words ({EL_SPLIT_READABLE_STRING_LIST [STRING]}) as words then
+				words.remove_el_prefix
+				description := words.description
+			end
+			assert ("expected description", description ~ "Split readable string list for type STRING_8")
+
+			if attached Naming.new_class_words (Current) as words then
+				words.remove_el_prefix
+				description := words.description
+			end
+			assert ("expected description", description ~ "Eiffel name translateable test SET")
+		end
+
 	test_naming
 		note
-			testing: "covers/{EL_NAMING_ROUTINES}.to_title",
-						"covers/{EL_NAMING_ROUTINES}.class_description"
+			testing: "[
+				covers/{EL_NAMING_ROUTINES}.to_title,
+				covers/{EL_CLASS_NAME_WORDS}.remove_el_prefix,
+				covers/{EL_CLASS_NAME_WORDS}.description
+			]"
 		local
-			eif_name, title, description: STRING
-			excluded_words: EL_STRING_8_LIST
+			eif_name, title: STRING
 		do
 			eif_name := "hex_11_software"
 			create title.make (eif_name.count)
 			Naming.to_title (eif_name, title, ' ', Naming.empty_word_set)
 			assert ("is title", title ~ "Hex 11 Software")
+		end
 
-			excluded_words := "EL"
-			description := Naming.class_description_from ({EL_SPLIT_READABLE_STRING_LIST [STRING]}, excluded_words)
-			assert ("expected description", description ~ "Split readable string list for type STRING_8")
-
-			description := Naming.class_description_from (Current, excluded_words)
-			assert ("expected description", description ~ "Eiffel name translateable test SET")
+	test_type_name
+		local
+			name: STRING
+		do
+			name := Naming.type_name ({LIST [STRING_8]})
+			assert_same_string (Void, name, "LIST [STRING_8]")
 		end
 
 end

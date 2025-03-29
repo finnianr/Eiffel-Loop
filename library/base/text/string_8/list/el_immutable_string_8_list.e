@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 7:19:26 GMT (Tuesday 25th March 2025)"
-	revision: "4"
+	date: "2025-03-29 14:46:32 GMT (Saturday 29th March 2025)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_STRING_8_LIST
@@ -24,7 +24,7 @@ inherit
 		end
 
 create
-	make, make_empty, make_filled, make_from_for, make_from, make_from_if
+	make, make_empty, make_filled, make_from_for, make_from, make_from_if, make_from_tuple
 
 feature -- Measurement
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 14:19:10 GMT (Sunday 9th February 2025)"
-	revision: "35"
+	date: "2025-03-29 15:54:48 GMT (Saturday 29th March 2025)"
+	revision: "36"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -73,6 +73,16 @@ feature -- Basic operations
 	set_upper (str: STRING_8; i: INTEGER)
 		do
 			str.put (str [i].upper, i)
+		end
+
+	set_substring_lower (str: STRING_8; start_index, end_index: INTEGER)
+		do
+			set_substring_case (str, start_index, end_index, Lower_case)
+		end
+
+	set_substring_upper (str: STRING_8; start_index, end_index: INTEGER)
+		do
+			set_substring_case (str, start_index, end_index, Upper_case)
 		end
 
 feature -- Character query
@@ -401,11 +411,46 @@ feature {NONE} -- Implementation
 			str.replace_substring (insert, start_index, end_index)
 		end
 
+	split_on_character (str: READABLE_STRING_8; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_8]
+		do
+			if str.is_immutable then
+				Result := Split_immutable_string_8
+			else
+				Result := Split_string_8
+			end
+			Result.set_target (str); Result.set_separator (separator)
+		end
+
+	set_substring_case (str: STRING_8; start_index, end_index: INTEGER; case: NATURAL_8)
+		require
+			valid_case: is_valid_case (case)
+			valid_indices: valid_substring_indices (str, start_index, end_index)
+		local
+			i: INTEGER
+		do
+			from i := start_index until i > end_index loop
+				inspect case
+					when Lower_case then
+						set_lower (str, i)
+
+					when Upper_case then
+						set_upper (str, i)
+				else
+				end
+				i := i + 1
+			end
+		end
+
 feature {NONE} -- Constants
 
 	Asterisk: CHARACTER_8 = '*'
 
-	Split_on_character: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
+	Split_string_8: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
+		once
+			create Result.make (Empty_string_8, '_')
+		end
+
+	Split_immutable_string_8: EL_SPLIT_ON_CHARACTER_8 [IMMUTABLE_STRING_8]
 		once
 			create Result.make (Empty_string_8, '_')
 		end

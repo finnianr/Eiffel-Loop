@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 18:23:53 GMT (Thursday 27th March 2025)"
-	revision: "72"
+	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
+	revision: "73"
 
 deferred class
 	EL_OS_COMMAND_I
@@ -148,21 +148,20 @@ feature -- Basic operations
 			--
 		require else
 			valid_platform: is_valid_platform
-		local
-			l_command: like system_command
 		do
 			reset
-			l_command := system_command
-			if l_command.is_empty then
-				lio.put_string_field ("Error in command template", generator)
-				lio.put_new_line
-			else
-				if dry_run.is_enabled or else is_lio_enabled then
-					display (l_command.lines)
-				end
-				if dry_run.is_disabled then
-					l_command.translate_or_delete (Tab_and_new_line, Null_and_space)
-					do_command (l_command)
+			if attached system_command as l_command then
+				if l_command.is_empty then
+					lio.put_string_field ("Error in command template", generator)
+					lio.put_new_line
+				else
+					if dry_run.is_enabled or else is_lio_enabled then
+						display (l_command.lines)
+					end
+					if dry_run.is_disabled then
+						l_command.translate_or_delete (Tab_and_new_line, Null_and_space)
+						do_command (l_command)
+					end
 				end
 			end
 		end
@@ -218,7 +217,7 @@ feature {NONE} -- Implementation
 			command_parts.prune_all_empty -- `command_prefix' is empty on Unix
 
 			if is_forked then
-				Execution_environment.launch (command_parts.joined_words)
+				Execution_environment.launch (command_parts.as_word_string)
 
 				if not working_dir.is_empty then
 					Execution_environment.pop_current_working
@@ -232,7 +231,7 @@ feature {NONE} -- Implementation
 				if {PLATFORM}.is_windows and then administrator.is_enabled then
 					run_as_administrator (command_parts)
 				else
-					Execution_environment.system (command_parts.joined_words)
+					Execution_environment.system (command_parts.as_word_string)
 					set_has_error (Execution_environment.return_code)
 				end
 

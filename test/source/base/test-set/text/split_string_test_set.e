@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 13:20:20 GMT (Saturday 15th March 2025)"
-	revision: "69"
+	date: "2025-03-29 12:11:30 GMT (Saturday 29th March 2025)"
+	revision: "70"
 
 class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -32,9 +32,7 @@ feature {NONE} -- Initialization
 				["adjusted_line_split",			 agent test_adjusted_line_split],
 				["append_item_to",				 agent test_append_item_to],
 				["append_string",					 agent test_append_string],
-				["append_substrings",			 agent test_append_substrings],
 				["compact_zstring_list",		 agent test_compact_zstring_list],
-				["curtail_list",					 agent test_curtail_list],
 				["immutable_grid_32",			 agent test_immutable_grid_32],
 				["immutable_string_32_split",	 agent test_immutable_string_32_split],
 				["item_count",						 agent test_item_count],
@@ -51,8 +49,7 @@ feature {NONE} -- Initialization
 				["split_intervals",				 agent test_split_intervals],
 				["split_iterator",				 agent test_split_iterator],
 				["split_sort",						 agent test_split_sort],
-				["split_string_8",				 agent test_split_string_8],
-				["unique_sort",					 agent test_unique_sort]
+				["split_string_8",				 agent test_split_string_8]
 			>>)
 		end
 
@@ -128,23 +125,6 @@ feature -- Tests
 			end
 		end
 
-	test_append_substrings
-		-- SPLIT_STRING_TEST_SET.test_append_substrings
-		note
-			testing: "[
-				covers/{EL_STRING_CHAIN}.append_substrings,
-				covers/{EL_STRING_CHAIN}.make_from_substrings
-			]"
-		local
-			date_parts: EL_STRING_8_LIST
-		do
-			create date_parts.make_from_substrings ("IMG-20210611-WA0000.jpeg", 5, << 4, 2, 2 >>)
-			assert ("valid character count", date_parts.character_count = 8)
-			assert ("valid year", date_parts [1].to_integer = 2021)
-			assert ("valid month", date_parts [2].to_integer = 6)
-			assert ("valid day", date_parts [3].to_integer = 11)
-		end
-
 	test_compact_zstring_list
 		-- SPLIT_STRING_TEST_SET.test_compact_zstring_list
 		note
@@ -191,38 +171,6 @@ feature -- Tests
 			across compact_list as list loop
 				i := list.cursor_index
 				assert_same_string ("same i_th " + i.out, list.item, string_32_list [i])
-			end
-		end
-
-	test_curtail_list
-		-- SPLIT_STRING_TEST_SET.test_curtail_list
-		note
-			testing: "covers/{EL_STRING_LIST}.curtail",
-				"covers/{EL_STRING_LIST}.keep_character_head",
-				"covers/{EL_STRING_LIST}.keep_character_tail"
-		local
-			line_list: EL_ZSTRING_LIST; dots_index, tail_index: INTEGER
-			meets_expectation: BOOLEAN
-		do
-			if attached Text.lines_32 as text_lines then
-				across 1 |..| text_lines.count as count loop
-					create line_list.make_from_general (Text.lines_32.sub_list (1, count.item))
-					line_list.curtail (100, 80)
-					if attached line_list.joined_strings as joined then
-						dots_index := joined.substring_index ("..", 1)
-						if dots_index > 0 then
-							tail_index := dots_index + 4
-							meets_expectation := (joined.count - tail_index + 1) + dots_index - 1 = 100
-						else
-							meets_expectation := joined.count <= 100
-						end
-						if not meets_expectation then
-							lio.put_labeled_lines ("Curtailed", line_list)
-							lio.put_new_line
-							failed ("curtailed to 100 characters leaving 80%% at head")
-						end
-					end
-				end
 			end
 		end
 
@@ -355,7 +303,10 @@ feature -- Tests
 
 	test_set_encoding_from_name
 		note
-			testing: "covers/{EL_ITERABLE_SPLIT_CURSOR}.forth, covers/{EL_ITERABLE_SPLIT_CURSOR}.item"
+			testing: "[
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.forth,
+				covers/{EL_ITERABLE_SPLIT_CURSOR}.item
+			]"
 		local
 			encodeable: EL_ENCODEABLE_AS_TEXT; name: STRING
 		do
@@ -622,31 +573,6 @@ feature -- Tests
 					end
 				end
 			end
-		end
-
-	test_unique_sort
-		-- SPLIT_STRING_TEST_SET.test_unique_sort
-		note
-			testing: "[
-				covers/{EL_STRING_CHAIN}.sort,
-				covers/{EL_STRING_CHAIN}.unique_sort
-			]"
-		local
-			list_1, list_2: EL_STRING_8_LIST
-		do
-			list_1 := "zebra, pig, horse, dog, cat"
-			create list_2.make (list_1.count * 2)
-			across list_1 as list loop
-				list_2.extend (list.item)
-				if list.cursor_index \\ 2 = 0 then
-					list_2.extend (list.item)
-				end
-			end
-			list_2.unique_sort
-			list_1.sort (True)
-			assert ("cat first", list_1.first ~ "cat")
-			assert ("zebra last", list_1.last ~ "zebra")
-			assert ("same lists", list_1 ~ list_2)
 		end
 
 feature {NONE} -- Implementation

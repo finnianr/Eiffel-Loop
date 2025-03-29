@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:54:58 GMT (Friday 7th February 2025)"
-	revision: "5"
+	date: "2025-03-29 14:55:02 GMT (Saturday 29th March 2025)"
+	revision: "6"
 
 deferred class
 	EL_DIALOG_MODEL_BASE
@@ -44,7 +44,7 @@ feature {NONE} -- Implementation
 				l_text := as_zstring (paragraph.item)
 				if text.has ('%N') then
 					create lines.make_with_lines (l_text)
-					Result.extend (lines.joined_words)
+					Result.extend (lines.as_word_string)
 				else
 					Result.extend (l_text)
 				end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:36 GMT (Tuesday 18th March 2025)"
-	revision: "27"
+	date: "2025-03-29 12:05:49 GMT (Saturday 29th March 2025)"
+	revision: "28"
 
 deferred class
 	EL_DESKTOP_ENVIRONMENT_I
@@ -108,7 +108,7 @@ feature -- Element change
 					option.item.prepend_character ('-')
 				end
 			end
-			command_line_options.share (option_list.joined_words)
+			command_line_options.share (option_list.as_word_string)
 		end
 
 	set_app_compatibility (flags: STRING)
@@ -144,7 +144,7 @@ feature {NONE} -- Implementation
 			lines: EL_ZSTRING_LIST
 		do
 			create lines.make_adjusted_split (command_args_template, '%N', {EL_SIDE}.Left)
-			Result := lines.joined_words
+			Result := lines.as_word_string
 			Result.prune ('%T')
 		end
 

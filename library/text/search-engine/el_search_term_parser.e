@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:46:05 GMT (Tuesday 27th August 2024)"
-	revision: "25"
+	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
+	revision: "26"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -240,7 +240,7 @@ feature {NONE} -- Implementation
 				if words.count = 1 then
 					create word_tokens.make (0)
 				else
-					word_tokens := word_token_table.paragraph_tokens (words.subchain (1, words.count - 1).joined_words)
+					word_tokens := word_token_table.paragraph_tokens (words.subchain (1, words.count - 1).as_word_string)
 				end
 				add_one_of_words_search_term_condition (word_tokens, words.last)
 			end

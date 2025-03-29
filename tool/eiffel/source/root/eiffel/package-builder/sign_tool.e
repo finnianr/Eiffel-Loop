@@ -24,8 +24,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-06-22 13:20:31 GMT (Thursday 22nd June 2023)"
-	revision: "3"
+	date: "2025-03-29 14:51:59 GMT (Saturday 29th March 2025)"
+	revision: "4"
 
 class
 	SIGN_TOOL
@@ -95,7 +95,7 @@ feature -- Basic operations
 				if not bin_dir.is_empty then
 					cmd.set_working_directory (bin_dir)
 				end
-				cmd.put_object (Current)
+				cmd.put_fields (Current)
 				cmd.dry_run.set_state (dry_run)
 				cmd.execute
 				if cmd.has_error then
@@ -113,7 +113,7 @@ feature {NONE} -- Implementation
 		do
 			create lines.make_with_lines (options_template)
 			lines.put_front (Signtool_sign)
-			create Result.make (lines.joined_words)
+			create Result.make (lines.as_word_string)
 		end
 
 feature {NONE} -- Internal attributes

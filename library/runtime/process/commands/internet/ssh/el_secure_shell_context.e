@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-26 7:51:03 GMT (Wednesday 26th March 2025)"
-	revision: "18"
+	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
+	revision: "19"
 
 class
 	EL_SECURE_SHELL_CONTEXT
@@ -135,7 +135,7 @@ feature {NONE} -- Evolicity reflection
 			--
 		do
 			create Result.make_assignments (<<
-				["command",		 agent: STRING do Result := ssh_command_list.joined_words end],
+				["command",		 agent: STRING do Result := ssh_command_list.as_word_string end],
 				["user_domain", agent: ZSTRING do Result := user_domain end]
 			>>)
 		end

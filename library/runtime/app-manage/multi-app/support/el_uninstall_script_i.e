@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
-	revision: "28"
+	date: "2025-03-29 12:05:50 GMT (Saturday 29th March 2025)"
+	revision: "29"
 
 deferred class
 	EL_UNINSTALL_SCRIPT_I
@@ -169,7 +169,7 @@ feature {NONE} -- Evolicity fields
 				["title",							agent: ZSTRING do Result := uninstall_app.Name end],
 				["remove_files_script_path",	agent: ZSTRING do Result := remove_files_script_path.escaped end],
 				["return_prompt",					agent: ZSTRING do Result := Phrase.hit_return_to_finish.as_upper end],
-				["uninstall_command",			agent: ZSTRING do Result := uninstall_command.joined_words end]
+				["uninstall_command",			agent: ZSTRING do Result := uninstall_command.as_word_string end]
 			>>)
 		end
 

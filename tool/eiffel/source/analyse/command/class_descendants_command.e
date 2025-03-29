@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-02 8:45:07 GMT (Tuesday 2nd April 2024)"
-	revision: "35"
+	date: "2025-03-29 14:51:58 GMT (Saturday 29th March 2025)"
+	revision: "36"
 
 class
 	CLASS_DESCENDANTS_COMMAND
@@ -77,7 +77,7 @@ feature -- Basic operations
 				if not output_dir.exists then
 					File_system.make_directory (output_dir)
 				end
-				Descendants_command.put_object (Current)
+				Descendants_command.put_fields (Current)
 				Descendants_command.execute
 				reformat_output
 				lio.put_line ("DONE")
