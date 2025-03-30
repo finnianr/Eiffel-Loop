@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-24 8:35:21 GMT (Sunday 24th September 2023)"
-	revision: "15"
+	date: "2025-03-30 13:57:35 GMT (Sunday 30th March 2025)"
+	revision: "16"
 
 class
 	EL_FONT
@@ -18,7 +18,7 @@ inherit
 			implementation, create_implementation, string_width
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_SCREEN
 

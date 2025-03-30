@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:06:17 GMT (Saturday 29th March 2025)"
-	revision: "26"
+	date: "2025-03-29 19:14:58 GMT (Saturday 29th March 2025)"
+	revision: "27"
 
 deferred class
 	EL_LINEAR_STRINGS [S -> STRING_GENERAL create make end]
@@ -73,7 +73,7 @@ feature -- Access
 		end
 
 	as_word_string: like item
-			-- joined with space character
+		-- joined with space character
 		do
 			Result := joined_with (' ', False)
 		end

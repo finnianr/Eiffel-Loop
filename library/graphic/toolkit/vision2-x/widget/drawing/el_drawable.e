@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-14 10:31:45 GMT (Wednesday 14th February 2024)"
-	revision: "19"
+	date: "2025-03-30 13:54:31 GMT (Sunday 30th March 2025)"
+	revision: "20"
 
 deferred class
 	EL_DRAWABLE
@@ -23,7 +23,7 @@ inherit
 
 	EL_RECTANGULAR
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature -- Drawing operations
 

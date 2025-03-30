@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 12:55:10 GMT (Tuesday 27th August 2024)"
-	revision: "17"
+	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
+	revision: "18"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -25,7 +25,7 @@ inherit
 			bit_count
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 13:57:44 GMT (Monday 17th March 2025)"
-	revision: "44"
+	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
+	revision: "45"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -49,7 +49,7 @@ inherit
 			put_string_general
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
 		rename
 			is_character as is_string_character,
 			occurrences as string_occurrences

@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-10 17:16:30 GMT (Sunday 10th November 2024)"
-	revision: "5"
+	date: "2025-03-30 13:50:47 GMT (Sunday 30th March 2025)"
+	revision: "6"
 
 deferred class
 	EL_CODE_TEXT_TABLE_I
@@ -36,7 +36,7 @@ inherit
 			cached_item as actual_cache
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_CONVERT_STRING
 

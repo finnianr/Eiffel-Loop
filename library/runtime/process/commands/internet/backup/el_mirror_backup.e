@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 15:40:54 GMT (Friday 28th March 2025)"
-	revision: "15"
+	date: "2025-03-29 19:21:05 GMT (Saturday 29th March 2025)"
+	revision: "16"
 
 deferred class
 	EL_MIRROR_BACKUP
@@ -31,6 +31,8 @@ feature -- Access
 	protocol: STRING
 		do
 			Result := Naming.class_as_snake_lower (Current, 1, 2)
+		ensure
+			one_word: not Result.has ('_')
 		end
 
 	to_string: ZSTRING

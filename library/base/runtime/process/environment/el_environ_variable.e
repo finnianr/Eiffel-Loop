@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:21 GMT (Saturday 22nd June 2024)"
-	revision: "14"
+	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
+	revision: "15"
 
 class
 	EL_ENVIRON_VARIABLE
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make, make_assigned, default_create

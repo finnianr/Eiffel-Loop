@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:50:24 GMT (Monday 23rd September 2024)"
-	revision: "10"
+	date: "2025-03-30 13:50:49 GMT (Sunday 30th March 2025)"
+	revision: "11"
 
 class
 	EL_PATH_STEP_TABLE
@@ -31,7 +31,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make

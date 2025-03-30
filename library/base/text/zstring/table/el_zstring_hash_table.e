@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:38:21 GMT (Monday 23rd September 2024)"
-	revision: "19"
+	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
+	revision: "20"
 
 class
 	EL_ZSTRING_HASH_TABLE [G]
@@ -18,7 +18,7 @@ inherit
 			new_key
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 		rename
 			 as_zstring as new_key
 		end

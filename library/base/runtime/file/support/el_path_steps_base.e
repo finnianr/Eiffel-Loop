@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 7:14:59 GMT (Monday 17th March 2025)"
-	revision: "13"
+	date: "2025-03-30 13:50:49 GMT (Sunday 30th March 2025)"
+	revision: "14"
 
 deferred class
 	EL_PATH_STEPS_BASE
@@ -21,7 +21,7 @@ inherit
 			{ANY} Separator
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_PATH_BUFFER_ROUTINES
 

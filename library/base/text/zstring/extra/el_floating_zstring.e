@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:44:38 GMT (Sunday 25th August 2024)"
-	revision: "3"
+	date: "2025-03-30 14:54:25 GMT (Sunday 30th March 2025)"
+	revision: "4"
 
 class
 	EL_FLOATING_ZSTRING
@@ -31,6 +31,12 @@ inherit
 		end
 
 	EL_SIDE_ROUTINES
+		rename
+			as_readable_string_8 as general_as_readable_string_8,
+			as_readable_string_32 as general_as_readable_string_32
+		export
+			{NONE} all
+		end
 
 create
 	make_empty

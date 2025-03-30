@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-12 17:18:54 GMT (Thursday 12th September 2024)"
-	revision: "5"
+	date: "2025-03-30 14:57:28 GMT (Sunday 30th March 2025)"
+	revision: "6"
 
 deferred class
 	EL_SIDE_ROUTINES
@@ -25,13 +25,16 @@ inherit
 			copy, default_create, is_equal, out
 		end
 
+	EL_STRING_GENERAL_ROUTINES_I
+		export
+			{NONE} all
+		end
+
 feature {NONE} -- Implementation
 
 	side_name (a_side: INTEGER): STRING
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.selected (a_side, 0 |..| Both_sides, "None, Left, Right, Both")
+			Result := super_8 (once "None, Left, Right, Both").selected_substring (a_side, 0 |..| Both_sides)
 		end
 
 feature {NONE} -- Contract Support

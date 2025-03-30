@@ -40,8 +40,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-15 10:27:34 GMT (Friday 15th November 2024)"
-	revision: "19"
+	date: "2025-03-30 13:56:22 GMT (Sunday 30th March 2025)"
+	revision: "20"
 
 class
 	CURRENCY_EXCHANGE_HISTORY_COMMAND
@@ -61,7 +61,7 @@ inherit
 			default_source_text, reset
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	TP_FACTORY
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 9:42:17 GMT (Tuesday 18th March 2025)"
-	revision: "16"
+	date: "2025-03-30 13:50:50 GMT (Sunday 30th March 2025)"
+	revision: "17"
 
 deferred class
 	EL_FILE_LEXER
@@ -21,7 +21,7 @@ inherit
 			make_default
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	TP_SHARED_OPTIMIZED_FACTORY
 

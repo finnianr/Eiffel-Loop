@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
-	revision: "56"
+	date: "2025-03-30 13:50:43 GMT (Sunday 30th March 2025)"
+	revision: "57"
 
 class
 	HASH_TABLE_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_MODULE_EIFFEL; EL_MODULE_EXECUTABLE
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	JSON_TEST_DATA
 

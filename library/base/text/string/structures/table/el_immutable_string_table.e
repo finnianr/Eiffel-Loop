@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 14:31:34 GMT (Sunday 22nd September 2024)"
-	revision: "33"
+	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
+	revision: "34"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -44,7 +44,7 @@ inherit
 			copy, default_create, is_equal
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
 		rename
 			occurrences as text_occurrences,
 			shared_cursor as shared_cursor_general,

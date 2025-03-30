@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 10:31:23 GMT (Thursday 27th March 2025)"
-	revision: "27"
+	date: "2025-03-30 13:50:43 GMT (Sunday 30th March 2025)"
+	revision: "28"
 
 deferred class
 	EVC_CONTEXT
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature -- Access
 

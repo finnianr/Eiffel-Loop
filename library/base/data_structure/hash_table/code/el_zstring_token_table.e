@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 16:44:33 GMT (Tuesday 24th September 2024)"
-	revision: "18"
+	date: "2025-03-30 13:50:49 GMT (Sunday 30th March 2025)"
+	revision: "19"
 
 class
 	EL_ZSTRING_TOKEN_TABLE
@@ -25,7 +25,7 @@ inherit
 			put, make, is_equal, wipe_out
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make

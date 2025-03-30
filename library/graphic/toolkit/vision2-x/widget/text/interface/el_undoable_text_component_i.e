@@ -1,13 +1,13 @@
 note
-	description: "Undoable text component i"
+	description: "Abstraction for undoable text input"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-19 9:49:28 GMT (Friday 19th July 2024)"
-	revision: "14"
+	date: "2025-03-30 13:55:44 GMT (Sunday 30th March 2025)"
+	revision: "15"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_I
@@ -18,7 +18,7 @@ inherit
 			{EL_TEXT_EDITION_HISTORY} delete_selection, paste, select_all, select_region
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_OS_DEPENDENT
 

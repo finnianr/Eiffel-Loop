@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 11:41:52 GMT (Saturday 15th March 2025)"
-	revision: "25"
+	date: "2025-03-30 13:50:46 GMT (Sunday 30th March 2025)"
+	revision: "26"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_FILE_OPEN_ROUTINES
 

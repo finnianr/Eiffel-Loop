@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 9:13:33 GMT (Saturday 22nd March 2025)"
-	revision: "16"
+	date: "2025-03-30 13:50:47 GMT (Sunday 30th March 2025)"
+	revision: "17"
 
 class
 	XML_TEXT_ELEMENT
@@ -24,7 +24,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make, make_empty

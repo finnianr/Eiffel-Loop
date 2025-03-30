@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 5:28:42 GMT (Tuesday 11th February 2025)"
-	revision: "14"
+	date: "2025-03-30 13:51:25 GMT (Sunday 30th March 2025)"
+	revision: "15"
 
 class
 	EL_SERVICE_CONFIGURATION
@@ -21,7 +21,7 @@ inherit
 			on_context_exit
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make

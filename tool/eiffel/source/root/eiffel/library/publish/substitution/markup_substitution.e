@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-02 13:37:27 GMT (Sunday 2nd June 2024)"
-	revision: "20"
+	date: "2025-03-30 13:58:37 GMT (Sunday 30th March 2025)"
+	revision: "21"
 
 class
 	MARKUP_SUBSTITUTION
@@ -21,7 +21,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_ZSTRING_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-27 11:07:41 GMT (Saturday 27th January 2024)"
-	revision: "10"
+	date: "2025-03-30 13:59:16 GMT (Sunday 30th March 2025)"
+	revision: "11"
 
 class
 	EL_FILE_OPEN_DIALOG
@@ -18,7 +18,7 @@ inherit
 			file_path as file_path_string
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_ACTION
 

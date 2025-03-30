@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 13:04:49 GMT (Sunday 6th October 2024)"
-	revision: "19"
+	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
+	revision: "20"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -15,7 +15,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_EIFFEL_KEYWORDS
 		export

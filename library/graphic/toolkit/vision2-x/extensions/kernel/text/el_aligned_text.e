@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:58:06 GMT (Tuesday 27th August 2024)"
-	revision: "9"
+	date: "2025-03-30 13:54:24 GMT (Sunday 30th March 2025)"
+	revision: "10"
 
 class
 	EL_ALIGNED_TEXT
@@ -30,7 +30,7 @@ inherit
 			{ANY} x, y, height, width, set_height, set_y, bottom
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_ACTION
 

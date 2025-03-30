@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 15:55:35 GMT (Saturday 29th March 2025)"
-	revision: "64"
+	date: "2025-03-30 17:32:08 GMT (Sunday 30th March 2025)"
+	revision: "65"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -269,7 +269,7 @@ feature {NONE} -- Constants
 			create Result.make (Empty_string_32, '_')
 		end
 
-	Split_immutable_string_32: EL_SPLIT_ON_CHARACTER_32 [IMMUTABLE_STRING_32]
+	Split_immutable_string_32: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
 		once
 			create Result.make (Empty_string_32, '_')
 		end

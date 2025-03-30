@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-14 10:24:29 GMT (Friday 14th February 2025)"
-	revision: "16"
+	date: "2025-03-30 13:50:43 GMT (Sunday 30th March 2025)"
+	revision: "17"
 
 class
 	EL_APPLICATION_MUTEX
@@ -22,7 +22,7 @@ inherit
 
 	EL_CHARACTER_32_CONSTANTS
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_DIRECTORY
 

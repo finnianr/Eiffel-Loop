@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:43 GMT (Friday 7th February 2025)"
-	revision: "28"
+	date: "2025-03-30 18:21:47 GMT (Sunday 30th March 2025)"
+	revision: "29"
 
 class
 	EL_STRING_8
@@ -18,6 +18,8 @@ inherit
 			{EL_STRING_8_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER}
 				Ctoi_convertor, Ctor_convertor, is_valid_integer_or_natural
+		redefine
+			make, share
 		end
 
 	EL_STRING_BIT_COUNTABLE [STRING_8]
@@ -26,10 +28,20 @@ inherit
 
 	EL_SHARED_STRING_8_BUFFER_POOL
 
+	EL_EXTENDED_STRING_GENERAL [CHARACTER_8]
+
+	EL_STRING_8_CONSTANTS
+
 create
 	make_from_zstring, make_empty, make, make_from_string
 
 feature {NONE} -- Initialization
+
+	make (n: INTEGER)
+		do
+			Precursor (n)
+			shared_string := Empty_string_8
+		end
 
 	make_from_zstring (zstr: EL_ZSTRING_CHARACTER_8_BASE)
 		do
@@ -156,6 +168,15 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
+	share (other: STRING_8)
+			-- Make current string share the text of `other'.
+			-- Subsequent changes to the characters of current string
+			-- will also affect `other', and conversely.
+		do
+			Precursor (other)
+			shared_string := other
+		end
+
 	unescape (unescaper: EL_STRING_8_UNESCAPER)
 		local
 			uc: CHARACTER_32
@@ -174,6 +195,35 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	to_char (uc: CHARACTER_32): CHARACTER_8
+		do
+			Result := uc.to_character_8
+		end
+
+	is_i_th (a_area: like area; i: INTEGER; c: CHARACTER_8): BOOLEAN
+		-- `True' if i'th character is equal to `c'
+		do
+			Result := a_area [i] = c
+		end
+
+	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
+		-- `True' if i'th character in `a_area'  is alphabetical or numeric
+		do
+			Result := a_area [i].is_alpha
+		end
+
+	is_i_th_alpha_numeric (a_area: like area; i: INTEGER): BOOLEAN
+		-- `True' if i'th character in `a_area'  is alphabetical or numeric
+		do
+			Result := a_area [i].is_alpha_numeric
+		end
+
+	new_substring (start_index, end_index: INTEGER): STRING_8
+		do
+			create Result.make_empty
+			Result.share (substring (start_index, end_index))
+		end
 
 	same_area_items (a, b: like area; a_offset, b_offset, n: INTEGER): BOOLEAN
 			-- Are the `n' characters of `b' from `b_offset' position the same as
@@ -209,6 +259,35 @@ feature {NONE} -- Implementation
 			end
 		ensure
 			valid_on_empty_area: (n = 0) implies Result
+		end
+
+	split_on_character (separator: CHARACTER_8): like Split_string_8
+		do
+			Result := Split_string_8
+			Result.set_target (Current); Result.set_separator (separator)
+		end
+
+	update_shared
+		do
+			shared_string.share (Current)
+		end
+
+feature {NONE} -- Internal attributes
+
+	shared_string: STRING_8
+
+feature {NONE} -- Type definitions
+
+	READABLE: READABLE_STRING_8
+		once
+			create {STRING_8} Result.make_empty
+		end
+
+feature {NONE} -- Constants
+
+	Split_string_8: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
+		once
+			create Result.make (Empty_string_8, '_')
 		end
 
 end

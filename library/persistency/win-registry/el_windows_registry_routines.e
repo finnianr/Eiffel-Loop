@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 14:10:27 GMT (Sunday 8th September 2024)"
-	revision: "11"
+	date: "2025-03-30 13:55:57 GMT (Sunday 30th March 2025)"
+	revision: "12"
 
 class
 	EL_WINDOWS_REGISTRY_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	EL_MEMORY_ROUTINES
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	WEL_REGISTRY_ACCESS_MODE
 		export

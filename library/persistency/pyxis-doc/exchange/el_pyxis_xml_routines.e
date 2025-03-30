@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 8:38:49 GMT (Friday 13th September 2024)"
-	revision: "36"
+	date: "2025-03-30 13:50:48 GMT (Sunday 30th March 2025)"
+	revision: "37"
 
 class
 	EL_PYXIS_XML_ROUTINES
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_FILE
 

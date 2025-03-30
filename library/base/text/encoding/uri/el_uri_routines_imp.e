@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 15:04:45 GMT (Tuesday 11th February 2025)"
-	revision: "21"
+	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
+	revision: "22"
 
 class
 	EL_URI_ROUTINES_IMP
@@ -15,12 +15,12 @@ class
 inherit
 	ANY
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 		export
 			{NONE} all
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
 		export
 			{NONE} all
 		end

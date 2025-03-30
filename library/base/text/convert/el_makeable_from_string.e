@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-24 16:58:45 GMT (Saturday 24th August 2024)"
-	revision: "9"
+	date: "2025-03-30 13:50:46 GMT (Sunday 30th March 2025)"
+	revision: "10"
 
 deferred class
 	EL_MAKEABLE_FROM_STRING [S-> STRING_GENERAL create make end]
@@ -18,7 +18,7 @@ inherit
 			make as make_default
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	DEBUG_OUTPUT
 

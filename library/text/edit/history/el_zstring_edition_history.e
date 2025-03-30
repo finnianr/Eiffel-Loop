@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-22 5:26:22 GMT (Saturday 22nd June 2024)"
-	revision: "11"
+	date: "2025-03-30 13:50:49 GMT (Sunday 30th March 2025)"
+	revision: "12"
 
 class
 	EL_ZSTRING_EDITION_HISTORY
@@ -15,7 +15,7 @@ class
 inherit
 	EL_STRING_EDITION_HISTORY [ZSTRING]
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make

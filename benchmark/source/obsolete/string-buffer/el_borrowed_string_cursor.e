@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 9:47:47 GMT (Tuesday 5th November 2024)"
-	revision: "17"
+	date: "2025-03-30 14:12:29 GMT (Sunday 30th March 2025)"
+	revision: "18"
 
 deferred class
 	EL_BORROWED_STRING_CURSOR [S -> STRING_GENERAL create make end]
@@ -27,12 +27,12 @@ inherit
 
 	EL_STRING_HANDLER
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
 		export
 			{NONE} all
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature {NONE} -- Initialization
 

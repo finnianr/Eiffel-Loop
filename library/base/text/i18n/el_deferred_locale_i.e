@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 9:26:33 GMT (Sunday 22nd September 2024)"
-	revision: "32"
+	date: "2025-03-30 13:50:45 GMT (Sunday 30th March 2025)"
+	revision: "33"
 
 deferred class
 	EL_DEFERRED_LOCALE_I
@@ -27,7 +27,7 @@ inherit
 
 	EL_MODULE_TUPLE
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_LOCALE_CONSTANTS
 

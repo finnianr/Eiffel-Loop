@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-19 9:24:11 GMT (Wednesday 19th February 2025)"
-	revision: "33"
+	date: "2025-03-30 13:50:48 GMT (Sunday 30th March 2025)"
+	revision: "34"
 
 class
 	EL_CONSOLE_ONLY_LOG
@@ -24,7 +24,7 @@ inherit
 			make
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_CONSOLE
 

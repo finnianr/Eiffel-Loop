@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:11:52 GMT (Sunday 8th September 2024)"
-	revision: "15"
+	date: "2025-03-30 14:10:20 GMT (Sunday 30th March 2025)"
+	revision: "16"
 
 class
-	EL_ZLIB_ROUTINES_IMP
+	EL_ZLIB_ROUTINES_I
 
 inherit
 	EL_ZLIB_API

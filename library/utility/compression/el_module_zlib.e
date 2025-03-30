@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-22 8:28:33 GMT (Thursday 22nd August 2024)"
-	revision: "11"
+	date: "2025-03-30 14:07:13 GMT (Sunday 30th March 2025)"
+	revision: "12"
 
 deferred class
 	EL_MODULE_ZLIB
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Zlib: EL_ZLIB_ROUTINES_IMP
+	Zlib: EL_ZLIB_ROUTINES_I
 		once
 			create Result
 		end

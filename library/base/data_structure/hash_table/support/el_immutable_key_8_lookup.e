@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:52:26 GMT (Monday 3rd March 2025)"
-	revision: "10"
+	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
+	revision: "11"
 
 deferred class
 	EL_IMMUTABLE_KEY_8_LOOKUP
@@ -18,7 +18,7 @@ deferred class
 inherit
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature -- Status query
 

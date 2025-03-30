@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 9:46:06 GMT (Monday 10th February 2025)"
-	revision: "24"
+	date: "2025-03-30 13:50:47 GMT (Sunday 30th March 2025)"
+	revision: "25"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -38,7 +38,7 @@ inherit
 			{EL_LOG_MANAGER} close, name, delete, wipe_out, open_write, flush_file, path
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SINGLE_THREAD_ACCESS
 		rename

@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "11"
+	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
+	revision: "12"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -38,7 +38,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
 		export
 			{NONE} all
 		end

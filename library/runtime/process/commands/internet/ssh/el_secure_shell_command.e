@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "14"
+	date: "2025-03-30 13:51:25 GMT (Sunday 30th March 2025)"
+	revision: "15"
 
 deferred class
 	EL_SECURE_SHELL_COMMAND
@@ -31,7 +31,7 @@ inherit
 
 	EL_CHARACTER_32_CONSTANTS
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature {NONE} -- Initialization
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 15:12:19 GMT (Sunday 22nd September 2024)"
-	revision: "15"
+	date: "2025-03-30 13:54:13 GMT (Sunday 30th March 2025)"
+	revision: "16"
 
 class
 	EL_MESSAGE_DIALOG
@@ -23,7 +23,7 @@ inherit
 			add_locale_button, locale_button, set_text, set_title
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_WORD
 

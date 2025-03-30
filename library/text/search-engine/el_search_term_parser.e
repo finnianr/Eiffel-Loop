@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
-	revision: "26"
+	date: "2025-03-30 13:50:47 GMT (Sunday 30th March 2025)"
+	revision: "27"
 
 class
 	EL_SEARCH_TERM_PARSER [G -> EL_WORD_SEARCHABLE]
@@ -30,7 +30,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make

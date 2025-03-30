@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-28 14:43:22 GMT (Friday 28th February 2025)"
-	revision: "36"
+	date: "2025-03-30 18:03:43 GMT (Sunday 30th March 2025)"
+	revision: "37"
 
 class
 	STRING_TEST_SET
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 				["match_wildcard",				agent test_match_wildcard],
 				["name_table",						agent test_name_table],
 				["name_value_pair",				agent test_name_value_pair],
+				["remove_bookends",				agent test_remove_bookends],
 				["selected_name",					agent test_selected_name],
 				["variable_pattern",				agent test_variable_pattern],
 				["word_count",						agent test_word_count]
@@ -299,11 +300,21 @@ feature -- Tests
 			assert ("is 3", pair.value ~ "3")
 		end
 
+	test_remove_bookends
+		-- STRING_TEST_SET.test_remove_bookends
+		local
+			str: STRING
+		do
+			str := "{VAR}"
+			super_8 (str).remove_bookends ('{', '}')
+			assert_same_string (Void, str, "VAR")
+		end
+
 	test_selected_name
 		-- STRING_TEST_SET.test_selected_name
 		note
 			testing: "[
-				covers/{EL_READABLE_STRING_X_ROUTINES}.selected,
+				covers/{EL_EXTENDED_STRING_GENERAL}.selected_substring,
 				covers/{EL_SIDE_ROUTINES}.side_name
 			]"
 		do
@@ -315,6 +326,7 @@ feature -- Tests
 		-- STRING_TEST_SET.test_variable_pattern
 		note
 			testing: "[
+				covers/{EL_EXTENDED_STRING_GENERAL}.is_variable_reference,
 				covers/{EL_READABLE_STRING_X_ROUTINES}.is_variable_reference,
 				covers/{EL_COMPARABLE_ZSTRING}.matches_wildcard
 			]"
@@ -325,6 +337,7 @@ feature -- Tests
 			across << "$index", "${index}", "index" >> as list loop
 				if attached list.item as str_8 then
 					assert ("matches", str_8 [1] = '$' implies s.is_variable_reference (str_8))
+					assert ("matches", str_8 [1] = '$' implies super_8 (str_8).is_variable_reference)
 					str := str_8
 					assert ("matches", str [1] = '$' implies z.is_variable_reference (str))
 				end

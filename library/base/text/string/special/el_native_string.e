@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 11:41:45 GMT (Friday 8th November 2024)"
-	revision: "8"
+	date: "2025-03-30 13:50:48 GMT (Sunday 30th March 2025)"
+	revision: "9"
 
 class
 	EL_NATIVE_STRING
@@ -20,7 +20,7 @@ inherit
 			set_substring
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_STRING_32_BUFFER_POOL
 

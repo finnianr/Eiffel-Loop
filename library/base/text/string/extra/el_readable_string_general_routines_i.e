@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 14:29:21 GMT (Tuesday 25th March 2025)"
-	revision: "28"
+	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
+	revision: "29"
 
 deferred class
-	EL_READABLE_STRING_GENERAL_ROUTINES_IMP
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
 
 inherit
 	EL_MODULE_CONVERT_STRING

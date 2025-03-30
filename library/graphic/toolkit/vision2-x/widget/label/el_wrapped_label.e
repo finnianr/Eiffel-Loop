@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:56:00 GMT (Tuesday 27th August 2024)"
-	revision: "8"
+	date: "2025-03-30 13:54:59 GMT (Sunday 30th March 2025)"
+	revision: "9"
 
 class
 	EL_WRAPPED_LABEL
@@ -33,7 +33,7 @@ inherit
 			align_text_top, align_text_vertical_center, align_text_bottom
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_SCREEN
 

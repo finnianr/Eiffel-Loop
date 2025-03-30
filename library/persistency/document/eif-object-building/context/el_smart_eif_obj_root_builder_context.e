@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-12-07 9:06:44 GMT (Wednesday 7th December 2022)"
-	revision: "11"
+	date: "2025-03-30 18:30:10 GMT (Sunday 30th March 2025)"
+	revision: "12"
 
 class
 	EL_SMART_EIF_OBJ_ROOT_BUILDER_CONTEXT
@@ -25,6 +25,11 @@ inherit
 	EL_EIF_OBJ_ROOT_BUILDER_CONTEXT
 		redefine
 			make
+		end
+
+	EL_STRING_GENERAL_ROUTINES_I
+		export
+			{NONE} all
 		end
 
 	EL_MODULE_EIFFEL
@@ -49,10 +54,10 @@ feature {NONE} -- Event handling
 		-- and put result in `smart_buildable.result_stack'
 		local
 			class_name: STRING_8; result_stack: ARRAYED_STACK [EL_BUILDABLE_FROM_NODE_SCAN]
-			target_created: BOOLEAN; s: EL_STRING_8_ROUTINES
+			target_created: BOOLEAN
 		do
 			class_name := node.to_string_8
-			s.remove_bookends (class_name, once "{}")
+			super_8 (class_name).remove_bookends ('{', '}')
 			if attached {EL_SMART_BUILDABLE_FROM_NODE_SCAN} target as smart_buildable then
 				result_stack := smart_buildable.result_stack
 				result_stack.wipe_out

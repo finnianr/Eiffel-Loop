@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:50:53 GMT (Sunday 22nd September 2024)"
-	revision: "25"
+	date: "2025-03-30 13:51:25 GMT (Sunday 30th March 2025)"
+	revision: "26"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -20,7 +20,7 @@ inherit
 			set_standard_options
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_FACTORY_CLIENT
 

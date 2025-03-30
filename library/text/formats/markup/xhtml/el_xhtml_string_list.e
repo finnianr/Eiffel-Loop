@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 9:14:39 GMT (Saturday 22nd March 2025)"
-	revision: "29"
+	date: "2025-03-30 13:50:49 GMT (Sunday 30th March 2025)"
+	revision: "30"
 
 class
 	EL_XHTML_STRING_LIST
@@ -27,7 +27,7 @@ inherit
 			call
 		end
 
-	EL_STRING_GENERAL_ROUTINES
+	EL_STRING_GENERAL_ROUTINES_I
 
 	XML_ZSTRING_CONSTANTS
 
