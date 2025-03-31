@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:57:36 GMT (Friday 7th February 2025)"
-	revision: "11"
+	date: "2025-03-31 10:50:37 GMT (Monday 31st March 2025)"
+	revision: "12"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -64,7 +64,7 @@ feature -- Tests
 			lower, upper, str_32: STRING_32; str: ZSTRING
 			word_intervals: EL_SPLIT_INTERVALS
 		do
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				lower := word.item.as_lower
 				upper := lower.as_upper
 				change_case (lower, upper)
@@ -96,7 +96,7 @@ feature -- Tests
 			test: STRING_TEST
 		do
 			create test
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				test.set (word.item)
 				test.s_32.prepend_character ('"'); test.s_32.append_character ('"')
 				test.zs.quote (2)
@@ -126,7 +126,7 @@ feature -- Tests
 			test: STRING_TEST
 		do
 			create test
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				test.set (word.item)
 				assert_same_string ("mirror OK", test.zs.mirrored, test.s_32.mirrored)
 			end
@@ -145,7 +145,7 @@ feature -- Tests
 					assert ("prune_all OK", test.is_same)
 				end
 			end
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				test.set (word.item)
 				from until test.s_32.is_empty loop
 					uc := test.s_32 [1]
@@ -225,7 +225,7 @@ feature -- Tests
 			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.replace_character"
 		local
 			test: STRING_TEST; uc_new, uc_old: CHARACTER_32
-			s: EL_STRING_32_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			across Text.cyrillic_line_32 as uc loop
 				test := Text.cyrillic_line_32
@@ -233,7 +233,7 @@ feature -- Tests
 					uc_old := uc.item
 					uc_new := test.s_32 [uc.cursor_index + 1]
 				end
-				s.replace_character (test.s_32, uc_old, uc_new)
+				sg.super_32 (test.s_32).replace_character (uc_old, uc_new)
 				test.zs.replace_character (uc_old, uc_new)
 				assert ("replace_character OK", test.is_same)
 			end
@@ -344,13 +344,13 @@ feature -- Tests
 		note
 			testing:	"[
 				covers/{EL_TRANSFORMABLE_ZSTRING}.to_canonically_spaced,
-				covers/{EL_STRING_X_ROUTINES}.to_canonically_spaced,
-				covers/{EL_READABLE_ZSTRING}.is_canonically_spaced
-				covers/{EL_STRING_X_ROUTINES}.is_canonically_spaced,
+				covers/{EL_READABLE_ZSTRING}.is_canonically_spaced,
+				covers/{EL_EXTENDED_STRING_GENERAL}.to_canonically_spaced,
+				covers/{EL_EXTENDED_STRING_GENERAL}.is_canonically_spaced
 			]"
 		local
 			canonical, line, not_canonical_line, white_space: ZSTRING; str_32: STRING_32
-			count: INTEGER; tab_space: SPECIAL [CHARACTER_32]; s32: EL_STRING_32_ROUTINES
+			count: INTEGER; tab_space: SPECIAL [CHARACTER_32]; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			create tab_space.make_filled ('%T', 2)
 			tab_space [1] := ' '
@@ -374,7 +374,7 @@ feature -- Tests
 			across Text.lines_32 as list loop
 				line := list.item
 				assert ("canonically spaced", line.is_canonically_spaced)
-				assert ("STRING_32 canonically spaced", s32.is_canonically_spaced (line.to_string_32))
+				assert ("STRING_32 canonically spaced", sg.super_32 (line.to_string_32).is_canonically_spaced)
 
 				create not_canonical_line.make (line.count * 2)
 				count := 0
@@ -392,7 +392,7 @@ feature -- Tests
 				not_canonical_line.to_canonically_spaced
 				assert_same_string ("same as canonical", line, not_canonical_line)
 
-				s32.to_canonically_spaced (str_32)
+				sg.super_32 (str_32).to_canonically_spaced
 				assert ("same string", not_canonical_line.to_string_32 ~ str_32)
 			end
 		end
@@ -436,7 +436,7 @@ feature {NONE} -- Implementation
 			test: STRING_TEST; op_name: STRING
 		do
 			create test
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				test.set (word.item)
 				across << Text.Tab_character, Text.Ogham_space_mark >> as c loop
 					across 1 |..| 2 as n loop

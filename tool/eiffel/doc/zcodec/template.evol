@@ -167,7 +167,6 @@ feature -- Character query
 			end
 		end
 #end
-
 	is_upper (code: NATURAL): BOOLEAN
 		do
 			inspect code 

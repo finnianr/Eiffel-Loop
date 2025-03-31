@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 8:33:40 GMT (Saturday 22nd March 2025)"
-	revision: "136"
+	date: "2025-03-31 8:37:04 GMT (Monday 31st March 2025)"
+	revision: "137"
 
 class
 	ZSTRING_TEST_SET
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 				["shared_z_code_pattern",			agent test_shared_z_code_pattern],
 				["substring_split",					agent test_substring_split],
 				["to_general",							agent test_to_general],
+				["remove_double",						agent test_remove_double],
 				["remove_substring",					agent test_remove_substring],
 				["insert_character",					agent test_insert_character],
 				["insert_remove",						agent test_insert_remove],
@@ -82,7 +83,7 @@ feature -- General tests
 			s32: EL_STRING_32_ROUTINES
 		do
 			create str_32.make_empty
-			across Text.words as list loop
+			across Text.words_32 as list loop
 				zstr := list.item
 				zstr.fill_with_z_code (str_32)
 				create zstr_2.make_from_zcode_area (s32.to_code_array (str_32))
@@ -170,6 +171,23 @@ feature -- Conversion tests
 
 feature -- Removal tests
 
+	test_remove_double
+		-- ZSTRING_TEST_SET.test_remove_double
+		note
+			testing: "covers/{ZSTRING}.remove_double"
+		local
+			template, quoted, str: ZSTRING
+		do
+			template := "%"%S%""
+			across Text.words_32 as word loop
+				str := word.item
+				quoted := template #$ [str]
+				assert ("in quotes", quoted [2] = str [1] and quoted [quoted.count - 1] = str [str.count])
+				quoted.remove_double
+				assert ("same word", quoted ~ str)
+			end
+		end
+
 	test_remove_substring
 		note
 			testing: "covers/{ZSTRING}.remove_substring"
@@ -193,7 +211,7 @@ feature -- Removal tests
 					offset := offset + (interval.item.count // 2).max (1)
 				end
 			end
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				test.set (word.item)
 				test.zs.remove_substring (1, test.zs.count)
 				test.s_32.remove_substring (1, test.s_32.count)
@@ -210,7 +228,7 @@ feature -- Element change tests
 		local
 			str_32, word_32: STRING_32; word: ZSTRING; uc_1, uc_2: CHARACTER_32
 		do
-			across Text.words as list loop
+			across Text.words_32 as list loop
 				word_32 := list.item
 				if word_32.count > 1 then
 					word := word_32
@@ -428,7 +446,7 @@ feature -- Status query tests
 		local
 			test: STRING_TEST
 		do
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				create test.make (word.item)
 				assert ("has_enclosing OK", test.has_enclosing)
 			end
@@ -496,8 +514,8 @@ feature -- Status query tests
 			list_32: EL_STRING_32_LIST; list: EL_ZSTRING_LIST
 			left_32, right_32: STRING_32; left, right: ZSTRING
 		do
-			list_32 := Text.words
-			create list.make_from_general (Text.words)
+			list_32 := Text.words_32
+			create list.make_from_general (Text.words_32)
 			list_32.ascending_sort; list.ascending_sort
 			across list_32 as str_32 loop
 				assert ("same string", str_32.item ~ list.i_th (str_32.cursor_index).to_string_32)
@@ -584,7 +602,7 @@ feature -- Removal tests
 			test: STRING_TEST; i: INTEGER
 		do
 			create test
-			across Text.words as word loop
+			across Text.words_32 as word loop
 				from i := 1 until i > word.item.count loop
 					test.set (word.item)
 					test.zs.remove (i); test.s_32.remove (i)

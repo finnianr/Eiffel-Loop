@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:48 GMT (Sunday 30th March 2025)"
-	revision: "26"
+	date: "2025-03-31 8:20:39 GMT (Monday 31st March 2025)"
+	revision: "27"
 
 class
 	EL_USER_INPUT
@@ -113,11 +113,7 @@ feature -- Input
 		do
 			Result := line (prompt)
 			Result.adjust
-			across 1 |..| 2 as type loop
-				if Result.has_quotes (type.item) then
-					Result.remove_quotes
-				end
-			end
+			Result.remove_quotes
 		end
 
 feature {NONE} -- Implementation

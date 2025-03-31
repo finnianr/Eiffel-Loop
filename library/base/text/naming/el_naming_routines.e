@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 15:38:20 GMT (Saturday 29th March 2025)"
-	revision: "47"
+	date: "2025-03-31 11:10:11 GMT (Monday 31st March 2025)"
+	revision: "48"
 
 class
 	EL_NAMING_ROUTINES
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_SHARED_STRING_8_CURSOR
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature -- Factory
 
@@ -98,7 +100,7 @@ feature -- Class name derivations
 			end
 			Result := s.sandwiched_parts (name, '_', head_count, tail_count)
 			if separator /= '_' then
-				s.replace_character (Result, '_', separator)
+				super_8 (Result).replace_character ('_', separator)
 			end
 		end
 
@@ -189,12 +191,10 @@ feature -- Import names
 		-- from words separated by `separator'
 		require
 			empty_name_out: name_out.is_empty
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
 			name_out.to_lower
-			s.replace_character (name_out, separator, '_')
+			super_8 (name_out).replace_character (separator, '_')
 		end
 
 	from_snake_case_lower (name_in: READABLE_STRING_8; name_out: STRING)
@@ -284,11 +284,9 @@ feature -- Export names
 	to_kebab_case (name_in: READABLE_STRING_8; name_out: STRING)
 		require
 			empty_name_out: name_out.is_empty
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			name_out.append (name_in)
-			s.replace_character (name_out, '_', '-')
+			super_8 (name_out).replace_character ('_', '-')
 		end
 
 	to_kebab_case_lower (name_in: READABLE_STRING_8; name_out: STRING)

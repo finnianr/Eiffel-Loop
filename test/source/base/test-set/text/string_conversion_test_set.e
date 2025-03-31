@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:59:13 GMT (Friday 20th September 2024)"
-	revision: "31"
+	date: "2025-03-31 11:03:30 GMT (Monday 31st March 2025)"
+	revision: "32"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -334,15 +334,15 @@ feature {NONE} -- Implementation
 	)
 		local
 			str_32, escaped_32: STRING_32; str, escaped: ZSTRING
-			s: EL_STRING_32_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			across << True, False >> as replace_space loop
 				across Text.lines_32 as string loop
 					str_32 := string.item.twin
 					if replace_space.item then
-						s.replace_character (str_32, ' ', '/')
+						sg.super_32 (str_32).replace_character (' ', '/')
 					else
-						s.replace_character (str_32, '+', '&')
+						sg.super_32 (str_32).replace_character ('+', '&')
 					end
 					str := str_32
 					escaped := escaper.escaped (str, True)

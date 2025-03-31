@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "3"
+	date: "2025-03-31 8:07:57 GMT (Monday 31st March 2025)"
+	revision: "4"
 
 deferred class
 	EL_NAME_VALUE_PAIR_ROUTINES
@@ -60,9 +60,7 @@ feature -- Access
 			if index > 0 and then index + 1 <= text.count then
 				Result := text.substring_end (index + 1)
 				Result.adjust
-				if Result.has_quotes (2) then
-					Result.remove_quotes
-				end
+				Result.remove_double
 			else
 				create Result.make_empty
 			end

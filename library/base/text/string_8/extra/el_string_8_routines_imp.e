@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 17:32:24 GMT (Sunday 30th March 2025)"
-	revision: "37"
+	date: "2025-03-31 13:41:37 GMT (Monday 31st March 2025)"
+	revision: "38"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -16,13 +16,12 @@ inherit
 	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8, CHARACTER_8]
 		rename
 			shared_cursor_8 as cursor,
-			replace_character as replace_character_32,
 			character_string as character_32_string,
 			n_character_string as n_character_32_string
 		undefine
 			bit_count
 		redefine
-			replace_character_32, is_character
+			is_character
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
@@ -288,28 +287,6 @@ feature -- Measurement
 
 feature -- Transform
 
-	replace_character (target: STRING_8; a_old, a_new: CHARACTER)
-		local
-			i, i_final: INTEGER; area: SPECIAL [CHARACTER]
-		do
-			area := target.area; i_final := target.count
-			from i := 0 until i = i_final loop
-				if area [i] = a_old then
-					area [i] := a_new
-				end
-				i := i + 1
-			end
-		end
-
-	replace_character_32 (target: STRING_8; a_old, a_new: CHARACTER_32)
-		require else
-			are_character_8: a_old.is_character_8 and a_new.is_character_8
-		do
-			if a_old.is_character_8 and a_new.is_character_8 then
-				replace_character (target, a_old.to_character_8, a_new.to_character_8)
-			end
-		end
-
 	replace_set_members (target: STRING_8; set: EL_SET [CHARACTER_8]; a_new: CHARACTER_8)
 		-- Replace all characters that are member of `set' with the `a_new' character
 		local
@@ -329,11 +306,6 @@ feature -- Transform
 		end
 
 feature -- Adjust
-
-	prune_all_leading (str: STRING_8; c: CHARACTER_32)
-		do
-			str.prune_all_leading (c.to_character_8)
-		end
 
 	pruned (str: STRING_8; c: CHARACTER_32): STRING_8
 		do

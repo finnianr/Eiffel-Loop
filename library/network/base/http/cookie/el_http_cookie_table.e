@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 11:19:33 GMT (Saturday 15th March 2025)"
-	revision: "20"
+	date: "2025-03-31 8:04:42 GMT (Monday 31st March 2025)"
+	revision: "21"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -85,9 +85,7 @@ feature {NONE} -- State handlers
 							cookie_value := split.item
 						end
 						value := cookie_value.decoded
-						if value.has_quotes (2) then
-							value.remove_quotes
-						end
+						value.remove_double
 						put_8 (value, name)
 				else
 				end

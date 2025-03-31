@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 13:07:37 GMT (Tuesday 27th August 2024)"
-	revision: "44"
+	date: "2025-03-31 11:04:28 GMT (Monday 31st March 2025)"
+	revision: "45"
 
 class
 	AMAZON_INSTANT_ACCESS_TEST_SET
@@ -359,7 +359,7 @@ feature {NONE} -- Implementation
 		-- 	2
 		-- ..
 		local
-			header, http_name: STRING; s: EL_STRING_8_ROUTINES
+			header, http_name: STRING; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			create Result.make (Signed_headers.character_count * 2)
 			across Signed_headers as list loop
@@ -368,7 +368,7 @@ feature {NONE} -- Implementation
 					Result.append_character ('%N')
 				end
 				http_name := "HTTP_" + header.as_upper
-				s.replace_character (http_name, '-', '_')
+				sg.super_8 (http_name).replace_character ('-', '_')
 				Result.append (http_name)
 				Result.append (":%N%T")
 				Result.append_integer (list.cursor_index)

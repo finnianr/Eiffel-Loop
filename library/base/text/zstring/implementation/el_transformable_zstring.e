@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "77"
+	date: "2025-03-31 8:18:40 GMT (Monday 31st March 2025)"
+	revision: "78"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -501,6 +501,34 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			remove_tail (trailing_occurrences (uc))
 		end
 
+	remove_bookends (left, right: CHARACTER)
+		require
+			ascii_characters: left.code <= 0x7F and right.code <= 0x7F
+		do
+			if count >= 2 and then attached area as l_area
+				and then l_area [0] = left and then l_area [count - 1] = right
+			then
+				set_count (count - 2)
+				l_area.move_data (1, 0, count)
+				if has_mixed_encoding then
+					shift_unencoded_from (1, -1)
+				end
+			end
+		end
+
+	remove_double
+		-- remove double quotes if they exist
+		do
+			remove_bookends ('"', '"')
+		end
+
+	remove_ends
+		do
+			if count >= 2 then
+				remove_head (1); remove_tail (1)
+			end
+		end
+
 	remove_head (n: INTEGER)
 			-- Remove first `n' characters;
 			-- if `n' > `count', remove all.
@@ -518,10 +546,21 @@ feature {EL_READABLE_ZSTRING} -- Removal
 		end
 
 	remove_quotes
-		require
-			long_enough: count >= 2
+		-- remove double or single quote
+		local
+			l_count: INTEGER
 		do
-			remove_head (1); remove_tail (1)
+			l_count := count
+			remove_double
+			if l_count /= count then
+				remove_single
+			end
+		end
+
+	remove_single
+		-- remove single quotes if they exist
+		do
+			remove_bookends ('%'', '%'')
 		end
 
 	remove_tail (n: INTEGER)

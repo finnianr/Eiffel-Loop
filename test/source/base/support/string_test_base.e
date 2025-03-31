@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:57:36 GMT (Friday 7th February 2025)"
-	revision: "28"
+	date: "2025-03-31 11:12:58 GMT (Monday 31st March 2025)"
+	revision: "29"
 
 class
 	STRING_TEST_BASE
@@ -21,6 +21,8 @@ inherit
 	EL_SHARED_TEST_TEXT
 
 	EL_STRING_32_CONSTANTS
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature {NONE} -- Initialization
 
@@ -226,12 +228,10 @@ feature {NONE} -- Implementation
 		-- Workaround for failing post-conditions on euro symbol
 		require
 			s_32_target: s_32_action.target = s_32
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			s.replace_character (s_32, Text.Euro_symbol, '¤')
+			super_32 (s_32).replace_character (Text.Euro_symbol, '¤')
 			s_32_action.apply
-			s.replace_character (s_32, '¤', Text.Euro_symbol)
+			super_32 (s_32).replace_character ('¤', Text.Euro_symbol)
 		end
 
 	new_occurrence_intervals (a_text, pattern: STRING_32): EL_SEQUENTIAL_INTERVALS

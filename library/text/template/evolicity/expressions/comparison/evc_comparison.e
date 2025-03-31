@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 16:05:57 GMT (Friday 28th March 2025)"
-	revision: "14"
+	date: "2025-03-31 19:19:42 GMT (Monday 31st March 2025)"
+	revision: "15"
 
 deferred class
 	EVC_COMPARISON
@@ -33,8 +33,7 @@ feature -- Basic operation
 			left_hand_expression.evaluate (context); right_hand_expression.evaluate (context)
 			left := left_hand_expression.item; right := right_hand_expression.item
 
-			left_type_id := {ISE_RUNTIME}.dynamic_type (left)
-			right_type_id := {ISE_RUNTIME}.dynamic_type (right)
+			left_type_id := dynamic_type (left); right_type_id := dynamic_type (right)
 
 			if left_type_id = right_type_id then
 				compare (left, right)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 15:05:05 GMT (Thursday 17th August 2023)"
-	revision: "9"
+	date: "2025-03-31 11:22:07 GMT (Monday 31st March 2025)"
+	revision: "10"
 
 class
 	JAVA_CLASS_REFERENCE
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 	make (package_name, jclass_name: STRING)
 			--
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if package_name.count > 0 then
 				qualified_class_name := Dot.joined (package_name, jclass_name)
@@ -48,7 +48,7 @@ feature {NONE} -- Initialization
 			end
 			create jni_type_signature.make (qualified_class_name.count + 2)
 			jni_type_signature.append (qualified_class_name)
-			s.replace_character (jni_type_signature, '.', '/')
+			sg.super_8 (jni_type_signature).replace_character ('.', '/')
 			-- use in intermediate stage
 			java_class_id := jni.find_class_pointer (jni_type_signature)
 

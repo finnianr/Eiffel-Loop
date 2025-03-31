@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-21 8:48:51 GMT (Saturday 21st September 2024)"
-	revision: "44"
+	date: "2025-03-31 18:11:41 GMT (Monday 31st March 2025)"
+	revision: "45"
 
 class
 	EIFFEL_TEST_SET
@@ -35,6 +35,7 @@ feature {NONE} -- Initialization
 				["array_reference_size",		 agent test_array_reference_size],
 				["deep_physical_size",			 agent test_deep_physical_size],
 				["equality_tester_comparison", agent test_equality_tester_comparison],
+				["integer_64_conversion",		 agent test_integer_64_conversion],
 				["managed_pointer_twin",		 agent test_managed_pointer_twin],
 				["natural_constant",				 agent test_natural_constant],
 				["string_field_counts",			 agent test_string_field_counts],
@@ -81,6 +82,21 @@ feature -- Tests
 		do
 			create tester_1; create tester_2
 			assert ("different", tester_1 /~ tester_2)
+		end
+
+	test_integer_64_conversion
+		-- EIFFEL_TEST_SET.test_integer_64_conversion
+		local
+			int_32: INTEGER_32_REF; int_64: INTEGER_64_REF
+			int_32_type, int_64_type: INTEGER
+		do
+			int_32 := 32; int_64 := int_32.to_integer_64
+			assert ("same value", int_32.to_integer_64 = int_64.item)
+			if attached Eiffel as eif then
+				int_32_type := eif.dynamic_type (int_32)
+				int_64_type := eif.dynamic_type (int_64)
+				assert ("same value", eif.to_integer_64 (int_32, int_32_type) = eif.to_integer_64 (int_64, int_64_type))
+			end
 		end
 
 	test_managed_pointer_twin

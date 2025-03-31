@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 8:29:20 GMT (Tuesday 27th August 2024)"
-	revision: "15"
+	date: "2025-03-31 9:11:21 GMT (Monday 31st March 2025)"
+	revision: "16"
 
 class
 	LIBRARIES_ECF_LINES
@@ -56,8 +56,6 @@ feature -- Status query
 feature -- Element change
 
 	set_from_line (line: STRING)
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			if not first_line_removed
 				and then not attached location_dir and then line.has_substring (Location)
@@ -65,7 +63,7 @@ feature -- Element change
 				and then nvp_list.count = 1 and then nvp_list.first.name ~ Location
 				and then attached nvp_list.first.value as dir
 			then
-				s.remove_double_quote (dir)
+				super_8 (dir).remove_double
 				if dir [dir.count] /= '/' then
 					dir.append_character ('/')
 				end

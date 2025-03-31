@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-15 16:58:31 GMT (Saturday 15th February 2025)"
-	revision: "16"
+	date: "2025-03-31 9:10:28 GMT (Monday 31st March 2025)"
+	revision: "17"
 
 deferred class
 	GROUPED_ECF_LINES
@@ -22,6 +22,8 @@ inherit
 		redefine
 			count, new_cursor
 		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	PYXIS_ECF_CONSTANTS
 

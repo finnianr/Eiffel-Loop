@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 15:15:56 GMT (Wednesday 25th September 2024)"
-	revision: "71"
+	date: "2025-03-31 8:03:19 GMT (Monday 31st March 2025)"
+	revision: "72"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -398,7 +398,7 @@ feature -- Factory
 					if step.starts_with_character ('/') and then step.ends_with_character ('$')
 						and then not step.ends_with_general (once ".e$")
 					then
-						step.remove_quotes
+						step.remove_ends
 						Result.extend (source_dir #+ step)
 					end
 				end

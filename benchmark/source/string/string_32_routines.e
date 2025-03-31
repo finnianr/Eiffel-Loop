@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 12:47:49 GMT (Monday 26th August 2024)"
-	revision: "4"
+	date: "2025-03-31 12:53:02 GMT (Monday 31st March 2025)"
+	revision: "5"
 
 class
 	STRING_32_ROUTINES
 
 inherit
 	STRING_ROUTINES [STRING_32]
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature -- Concatenation
 
@@ -108,10 +110,8 @@ feature -- Basic operations
 		end
 
 	replace_character (target: STRING_32; uc_old, uc_new: CHARACTER_32)
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			s.replace_character (target, uc_old, uc_new)
+			super_32 (target).replace_character (uc_old, uc_new)
 		end
 
 	replace_substring (target, insertion: STRING_32; start_index, end_index: INTEGER)
@@ -135,17 +135,13 @@ feature -- Basic operations
 		end
 
 	translate (target, old_characters, new_characters: STRING_32)
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			s.translate (target, old_characters, new_characters)
+			super_32 (target).translate (old_characters, new_characters)
 		end
 
 	translate_general (str: STRING_32; old_characters, new_characters: READABLE_STRING_GENERAL)
-		local
-			s: EL_STRING_32_ROUTINES
 		do
-			s.translate (str, old_characters.to_string_8, new_characters.to_string_8)
+			super_32 (str).translate (old_characters.to_string_8, new_characters.to_string_8)
 		end
 
 	wipe_out (str: STRING_32)

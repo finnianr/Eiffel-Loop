@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "7"
+	date: "2025-03-31 12:54:52 GMT (Monday 31st March 2025)"
+	revision: "8"
 
 class
 	BINARY_DECODE_APP
@@ -22,17 +22,17 @@ feature {NONE} -- Initialization
 
 	initialize
 		local
-			file_path: FILE_PATH; string_8: EL_STRING_8_ROUTINES
+			file_path: FILE_PATH; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			file_path := Args.file_path (option_name)
-			-- Get location of file
+		-- Get location of file
 			if file_path.exists then
 				-- Assign the text of the file to a STRING if the file exists
 				file_text := File.plain_text (file_path)
 
-				-- replace all new line characters with a space which
-				-- has the effect of joining all lines together as one long line
-				string_8.replace_character (file_text, '%N', ' ')
+			-- replace all new line characters with a space which
+			-- has the effect of joining all lines together as one long line
+				sg.super_8 (file_text).replace_character ('%N', ' ')
 			else
 				lio.put_path_field ("Cannot file", file_path)
 				lio.put_new_line

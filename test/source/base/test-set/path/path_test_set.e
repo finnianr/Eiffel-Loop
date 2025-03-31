@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 8:01:16 GMT (Monday 17th March 2025)"
-	revision: "38"
+	date: "2025-03-31 11:03:53 GMT (Monday 31st March 2025)"
+	revision: "39"
 
 class
 	PATH_TEST_SET
@@ -452,11 +452,11 @@ feature {NONE} -- Implementation
 
 	to_platform (str: STRING): STRING
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if is_windows then
 				Result := str.twin
-				s.replace_character (str, '/', '\')
+				sg.super_8 (str).replace_character ('/', '\')
 			else
 				Result := str
 			end

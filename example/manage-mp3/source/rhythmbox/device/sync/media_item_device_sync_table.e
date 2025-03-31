@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 6:38:54 GMT (Monday 23rd September 2024)"
-	revision: "16"
+	date: "2025-03-31 11:21:23 GMT (Monday 31st March 2025)"
+	revision: "17"
 
 class
 	MEDIA_ITEM_DEVICE_SYNC_TABLE
@@ -45,13 +45,13 @@ feature {NONE} -- Initialization
 			--
 		local
 			node_list: EL_XPATH_NODE_CONTEXT_LIST; id: STRING
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			node_list := xdoc.context_list ("//item")
 			accommodate (node_list.count)
 			across node_list as l_item loop
 				id := l_item.node [Attribute_id]
-				s.replace_character (id, '-', ':')
+				sg.super_8 (id).replace_character ('-', ':')
 				put (create {like item}.make_from_xpath_context (id, l_item.node), id)
 			end
 		end

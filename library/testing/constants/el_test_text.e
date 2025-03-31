@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 9:10:26 GMT (Thursday 6th March 2025)"
-	revision: "40"
+	date: "2025-03-31 8:28:26 GMT (Monday 31st March 2025)"
+	revision: "41"
 
 class
 	EL_TEST_TEXT
@@ -175,7 +175,12 @@ feature -- Lists
 			end
 		end
 
-	words: EL_STRING_32_LIST
+	words: EL_ZSTRING_LIST
+		do
+			create Result.make_from_general (words_32)
+		end
+
+	words_32: EL_STRING_32_LIST
 		do
 			create Result.make (50)
 			across lines_32 as line loop

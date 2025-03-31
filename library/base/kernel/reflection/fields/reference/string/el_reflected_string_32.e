@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-02 12:20:01 GMT (Friday 2nd February 2024)"
-	revision: "15"
+	date: "2025-03-31 13:21:18 GMT (Monday 31st March 2025)"
+	revision: "16"
 
 class
 	EL_REFLECTED_STRING_32
@@ -62,11 +62,9 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	replaced (str: STRING_32; content: READABLE_STRING_GENERAL): STRING_32
-		local
-			s: EL_STRING_32_ROUTINES
 		do
 			Result := str
-			s.replace (str, content)
+			super_32 (str).replace (content)
 		end
 
 	strict_type_id: INTEGER

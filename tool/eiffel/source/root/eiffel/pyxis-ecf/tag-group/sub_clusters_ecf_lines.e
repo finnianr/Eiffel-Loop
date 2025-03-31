@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2025-03-31 9:11:38 GMT (Monday 31st March 2025)"
+	revision: "4"
 
 class
 	SUB_CLUSTERS_ECF_LINES
@@ -26,10 +26,8 @@ create
 feature {NONE} -- Implementation
 
 	adjust_value (value: STRING)
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			s.remove_double_quote (value)
+			super_8 (value).remove_double
 		end
 
 feature {NONE} -- Constants

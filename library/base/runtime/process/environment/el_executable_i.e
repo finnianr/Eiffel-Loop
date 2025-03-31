@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "17"
+	date: "2025-03-31 8:06:59 GMT (Monday 31st March 2025)"
+	revision: "18"
 
 deferred class
 	EL_EXECUTABLE_I
@@ -152,9 +152,7 @@ feature -- Basic operations
 		do
 			new_path := search_path
 			bin_path := a_path.twin
-			if bin_path.has_quotes (2) then
-				bin_path.remove_quotes
-			end
+			bin_path.remove_double
 			-- if the path is not already set in env label "path"
 			if new_path.substring_index (bin_path,1) = 0  then
 				new_path.append_character (';')

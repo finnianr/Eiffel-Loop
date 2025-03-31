@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 9:36:33 GMT (Sunday 22nd September 2024)"
-	revision: "13"
+	date: "2025-03-31 7:57:53 GMT (Monday 31st March 2025)"
+	revision: "14"
 
 class
 	EL_SPREAD_SHEET_TABLE
@@ -125,7 +125,7 @@ feature {NONE} -- Implementation
 			create columns.make_empty
 			across defined_ranges as range loop
 				create cell_range_address.make_adjusted_split (range.key, '.', {EL_SIDE}.Left)
-				cell_range_address.first.remove_quotes
+				cell_range_address.first.remove_ends
 				if cell_range_address.first ~ name then
 					create column_interval.make (
 						cell_range_address [2].z_code (1).to_integer_32 - 64,

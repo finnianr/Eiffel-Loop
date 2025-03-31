@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:22:02 GMT (Wednesday 6th November 2024)"
-	revision: "31"
+	date: "2025-03-31 11:00:52 GMT (Monday 31st March 2025)"
+	revision: "32"
 
 class
 	MARKUP_ESCAPE_TEST_SET
@@ -96,15 +96,15 @@ feature {NONE} -- Implementation
 	escape (escaper: XML_ESCAPER [STRING_GENERAL])
 		local
 			str_32: STRING_32; xml: ZSTRING
-			root: EL_XML_DOC_CONTEXT; s: EL_STRING_32_ROUTINES
+			root: EL_XML_DOC_CONTEXT; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			across Text.lines_32 as string loop
 				str_32 := string.item.twin
 				inspect string.cursor_index
 					when 5 then
-						s.replace_character (str_32, '´', '%'')
+						sg.super_32 (str_32).replace_character ('´', '%'')
 					when 6 then
-						s.replace_character (str_32, ' ', '&')
+						sg.super_32 (str_32).replace_character (' ', '&')
 				else
 				end
 				if attached escaper.escaped (str_32, False) as escaped then

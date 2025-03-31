@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 17:28:37 GMT (Sunday 30th March 2025)"
-	revision: "54"
+	date: "2025-03-31 9:05:20 GMT (Monday 31st March 2025)"
+	revision: "55"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -208,7 +208,7 @@ feature -- Character query
 			end
 		end
 
-	has_double_quotes (s: READABLE_STRING_X): BOOLEAN
+	has_double (s: READABLE_STRING_X): BOOLEAN
 			--
 		do
 			Result := has_quotes (s, 2)
@@ -230,7 +230,7 @@ feature -- Character query
 			end
 		end
 
-	has_single_quotes (s: READABLE_STRING_X): BOOLEAN
+	has_single (s: READABLE_STRING_X): BOOLEAN
 			--
 		do
 			Result := has_quotes (s, 1)

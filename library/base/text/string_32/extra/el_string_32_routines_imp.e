@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 17:32:08 GMT (Sunday 30th March 2025)"
-	revision: "65"
+	date: "2025-03-31 13:40:26 GMT (Monday 31st March 2025)"
+	revision: "66"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -192,11 +192,6 @@ feature -- Factory
 		end
 
 feature -- Adjust
-
-	prune_all_leading (str: STRING_32; c: CHARACTER_32)
-		do
-			str.prune_all_leading (c)
-		end
 
 	pruned (str: STRING_32; c: CHARACTER_32): STRING_32
 		do

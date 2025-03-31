@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-03 9:36:04 GMT (Sunday 3rd December 2023)"
-	revision: "16"
+	date: "2025-03-31 11:20:47 GMT (Monday 31st March 2025)"
+	revision: "17"
 
 class
 	GITHUB_CONFIGURATION
@@ -30,10 +30,10 @@ feature {NONE} -- Initialization
 	make (a_file_path: FILE_PATH)
 			--
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			Precursor (a_file_path)
-			s.replace_character (rsync_template, '%N', ' ')
+			sg.super_32 (rsync_template).replace_character ('%N', ' ')
 		end
 
 feature -- Access

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-19 11:13:10 GMT (Saturday 19th November 2022)"
-	revision: "3"
+	date: "2025-03-31 11:06:44 GMT (Monday 31st March 2025)"
+	revision: "4"
 
 class
 	EL_PYXIS_DOC_ATTRIBUTE_PARSER
@@ -35,14 +35,12 @@ feature {NONE} -- Title parsing actions
 
 	on_name (start_index, end_index: INTEGER)
 			--
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			attribute_list.extend
 			if attached attribute_list.last.raw_name as name then
 				name.wipe_out
 				name.append_substring (source_text, start_index, end_index)
-				s.replace_character (name, '.', ':')
+				name.replace_character ('.', ':')
 			end
 		end
 

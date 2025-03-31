@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:57:36 GMT (Friday 7th February 2025)"
-	revision: "38"
+	date: "2025-03-31 12:37:27 GMT (Monday 31st March 2025)"
+	revision: "39"
 
 class
 	STRING_TEST
@@ -224,7 +224,7 @@ feature -- Test editing
 
 	translate (and_delete: BOOLEAN): BOOLEAN
 		local
-			old_set, new_set: READABLE_STRING_GENERAL; s: EL_STRING_32_ROUTINES
+			old_set, new_set: READABLE_STRING_GENERAL
 		do
 			if attached s_8_old as str_8 then
 				old_set := str_8
@@ -237,10 +237,10 @@ feature -- Test editing
 				new_set := s_32_new
 			end
 			if and_delete then
-				s.translate_or_delete (s_32, old_set, new_set)
+				super_32 (s_32).translate_or_delete (old_set, new_set)
 				zs.translate_or_delete (old_set, new_set)
 			else
-				s.translate (s_32, old_set, new_set)
+				super_32 (s_32).translate (old_set, new_set)
 				zs.translate (old_set, new_set)
 			end
 			Result := zs.same_string (s_32)

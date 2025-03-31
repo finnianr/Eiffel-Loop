@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-08 11:55:18 GMT (Saturday 8th March 2025)"
-	revision: "18"
+	date: "2025-03-31 15:14:31 GMT (Monday 31st March 2025)"
+	revision: "19"
 
 class
 	ZCODEC_GENERATOR_TEST_SET
 
 inherit
 	EL_FILE_DATA_TEST_SET
+
+	EL_MODULE_USER_INPUT
 
 create
 	make
@@ -36,28 +38,28 @@ feature -- Tests
 
 	test_latin_11
 		do
-			test_generation ("iso_8859_11", "cK50sRqB/ciRkZiYcmg60Q==")
+			test_generation ("iso_8859_11", "HlPdtNyp7UJW6uSnFpMqrQ==")
 		end
 
 	test_latin_15
 		do
-			test_generation ("iso_8859_15", "Y50blKUlE1Wp5dYs1hp/TA==")
+			test_generation ("iso_8859_15", "TqbM2RwMt+DAJy2PKM0vtA==")
 		end
 
 	test_latin_2
 		do
-			test_generation ("iso_8859_2", "gVO308Qk18OBkyX25+hyAg==")
+			test_generation ("iso_8859_2", "USPQtusZVe2UaCqtFxbrIA==")
 		end
 
 	test_latin_6
 		-- output for Latin-6 `latin_set_from_array' looks out of line in Gedit but is OK in EiffelStudio
 		do
-			test_generation ("iso_8859_6", "oGHuOFaMQ68OjHEA3trazg==")
+			test_generation ("iso_8859_6", "HFC7s6VGGNH/KHDREAefjQ==")
 		end
 
 	test_windows_1252
 		do
-			test_generation ("windows_1252", "00jpaNkxyILGWOO7p9KzXg==")
+			test_generation ("windows_1252", "I48MhsqXE00uYpG0NqKfMA==")
 		end
 
 feature {NONE} -- Implementation
@@ -77,6 +79,7 @@ feature {NONE} -- Implementation
 				lio.put_integer_field ("Comparing content digest for id", id)
 				lio.put_new_line
 				assert ("has BOM", File.has_utf_8_bom (source_path))
+				User_input.press_enter
 				assert_same_digest (Plain_text, source_path, expected_digest)
 				count := count + 1
 			else

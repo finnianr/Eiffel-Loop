@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:22:16 GMT (Saturday 23rd December 2023)"
-	revision: "10"
+	date: "2025-03-31 11:11:42 GMT (Monday 31st March 2025)"
+	revision: "11"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER
@@ -56,11 +56,11 @@ feature -- Conversion
 	imported (foreign_name: READABLE_STRING_8): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			create Result.make (foreign_name.count)
 			if attached Name_buffer.copied (foreign_name) as name then
-				s.replace_character (name, ' ', '-')
+				sg.super_8 (name).replace_character (' ', '-')
 				from_kebab_case (name, Result)
 			end
 		end

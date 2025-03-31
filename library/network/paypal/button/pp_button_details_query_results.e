@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-01 11:49:16 GMT (Friday 1st March 2024)"
-	revision: "16"
+	date: "2025-03-31 8:01:59 GMT (Monday 31st March 2025)"
+	revision: "17"
 
 class
 	PP_BUTTON_DETAILS_QUERY_RESULTS
@@ -89,9 +89,7 @@ feature {NONE} -- Implementation
 
 	set_name_value (key, value: EL_ZSTRING)
 		do
-			if value.has_quotes (2) then
-				value.remove_quotes
-			end
+			value.remove_double
 			Precursor (key, value)
 		end
 

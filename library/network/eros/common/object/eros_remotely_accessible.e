@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:31 GMT (Tuesday 18th March 2025)"
-	revision: "18"
+	date: "2025-03-31 9:25:24 GMT (Monday 31st March 2025)"
+	revision: "19"
 
 deferred class
 	EROS_REMOTELY_ACCESSIBLE
@@ -121,15 +121,15 @@ feature {NONE} -- Implementation
 
 	set_request_arguments (call_argument: detachable EL_BUILDABLE_FROM_NODE_SCAN)
 		local
-			argument: STRING; i: INTEGER; s: EL_STRING_8_ROUTINES
+			argument: STRING; i: INTEGER; s: EL_STRING_GENERAL_ROUTINES
 		do
 			from i := 1 until i > argument_list.count or has_error loop
 				argument := argument_list [i]
-				if s.has_single_quotes (argument) then
-					s.remove_single_quote (argument)
+				if attached s.super_8 (argument) as arg and then arg.has_single then
+					arg.remove_single
 					set_string_argument (i, argument)
 
-				elseif s.has_enclosing (argument, '{', '}')
+				elseif s.super_8 (argument).has_enclosing ('{', '}')
 					and then attached call_argument as deserialized_object
 				then
 					set_deserialized_object_argument (i, argument, deserialized_object)

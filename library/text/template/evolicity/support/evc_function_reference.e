@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 11:48:32 GMT (Thursday 20th March 2025)"
-	revision: "14"
+	date: "2025-03-31 7:57:52 GMT (Monday 31st March 2025)"
+	revision: "15"
 
 class
 	EVC_FUNCTION_REFERENCE
@@ -54,7 +54,7 @@ feature {NONE} -- Initialization
 
 					elseif i_th_token = Token.Literal_string then
 						string_arg := parser.token_text (i)
-						string_arg.remove_quotes
+						string_arg.remove_ends
 						if string_arg.is_valid_as_string_8 then
 							arguments.extend (string_arg.to_string_8)
 						else

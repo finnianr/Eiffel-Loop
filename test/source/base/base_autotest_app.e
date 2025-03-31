@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 8:39:25 GMT (Saturday 29th March 2025)"
-	revision: "200"
+	date: "2025-03-31 8:44:02 GMT (Monday 31st March 2025)"
+	revision: "201"
 
 class
 	BASE_AUTOTEST_APP
@@ -283,7 +283,7 @@ feature {NONE} -- Compiled classes
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_MODULE_UTF_8,
 
-		EL_SHARED_SYMBOL
+		EL_SHARED_SYMBOL, EL_STRING_GENERAL_ROUTINES
 	]
 		do
 			create Result

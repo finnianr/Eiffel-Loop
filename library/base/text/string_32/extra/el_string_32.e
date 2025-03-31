@@ -6,19 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 18:21:48 GMT (Sunday 30th March 2025)"
-	revision: "14"
+	date: "2025-03-31 13:18:06 GMT (Monday 31st March 2025)"
+	revision: "15"
 
 class
 	EL_STRING_32
 
 inherit
 	STRING_32
+		rename
+			replace_character as replace_every_character
 		export
 			{EL_STRING_32_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER} Ctoi_convertor, Ctor_convertor
 		redefine
-			make, share
+			append_string_general, make, share, trim
 		end
 
 	EL_STRING_BIT_COUNTABLE [STRING_32]
@@ -35,7 +37,7 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			Precursor (n)
-			shared_string := Empty_string_32
+			shared_string := Current
 		end
 
 feature -- Element change
@@ -89,18 +91,18 @@ feature -- Comparison
 			end
 		end
 
+feature -- Element change
+
+	append_string_general (str: READABLE_STRING_GENERAL)
+		do
+			if is_zstring (str) and then attached {ZSTRING} str as z_str then
+				z_str.append_to_string_32 (Current)
+			else
+				Precursor (str)
+			end
+		end
+
 feature {NONE} -- Implementation
-
-	to_char (uc: CHARACTER_32): CHARACTER_32
-		do
-			Result := uc
-		end
-
-	is_i_th (a_area: like area; i: INTEGER; c: CHARACTER_32): BOOLEAN
-		-- `True' if i'th character is equal to `c'
-		do
-			Result := a_area [i] = c
-		end
 
 	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
 		-- `True' if i'th character in `a_area'  is alphabetical or numeric
@@ -112,6 +114,12 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `a_area'  is alphabetical or numeric
 		do
 			Result := a_area [i].is_alpha_numeric
+		end
+
+	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN
+		-- `True' if i'th character in `a_area'  is white space
+		do
+			Result := unicode.is_space (a_area [i])
 		end
 
 	new_substring (start_index, end_index: INTEGER): STRING_32
@@ -162,9 +170,31 @@ feature {NONE} -- Implementation
 			Result.set_target (Current); Result.set_separator (separator)
 		end
 
+	to_char (uc: CHARACTER_32): CHARACTER_32
+		do
+			Result := uc
+		end
+
+	to_character_32 (uc: CHARACTER_32): CHARACTER_32
+		do
+			Result := uc
+		end
+
+	trim
+		 -- reallocate to new size
+		do
+			if shared_string = Current then
+				Precursor
+			else
+				shared_string.trim
+			end
+		end
+
 	update_shared
 		do
-			shared_string.share (Current)
+			if shared_string /= Current then
+				shared_string.share (Current)
+			end
 		end
 
 feature {NONE} -- Internal attributes

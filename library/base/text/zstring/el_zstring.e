@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "124"
+	date: "2025-03-31 8:20:52 GMT (Monday 31st March 2025)"
+	revision: "125"
 
 class
 	EL_ZSTRING
@@ -52,7 +52,8 @@ inherit
 				to_canonically_spaced, to_lower, to_proper, to_upper, translate_or_delete,
 				unescape,
 --				Removal
-				keep_head, keep_tail, left_adjust, remove_head, remove_quotes, remove_tail, right_adjust,
+				keep_head, keep_tail, left_adjust, remove_bookends, remove_double, remove_head, remove_ends, remove_tail,
+				right_adjust, remove_single, remove_quotes,
 				prune_all_leading, prune_all_trailing,
 --				Contract support
 				Encoding

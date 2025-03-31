@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-09 12:16:52 GMT (Thursday 9th November 2023)"
-	revision: "9"
+	date: "2025-03-31 10:58:49 GMT (Monday 31st March 2025)"
+	revision: "10"
 
 class
 	EL_PYXIS_LINE
@@ -223,10 +223,10 @@ feature {STRING_HANDLER, EL_PYXIS_PARSER} -- Implementation
 
 	xml_element: STRING
 		local
-			s_8: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			Result := Buffer.copied_substring (Current, start_index, end_index - 1)
-			s_8.replace_character (Result, '.', ':')
+			sg.super_8 (Result).replace_character ('.', ':')
 		end
 
 feature {NONE} -- Constants

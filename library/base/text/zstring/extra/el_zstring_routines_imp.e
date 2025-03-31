@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 15:50:10 GMT (Saturday 29th March 2025)"
-	revision: "40"
+	date: "2025-03-31 13:30:32 GMT (Monday 31st March 2025)"
+	revision: "41"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -23,7 +23,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			adjusted, to_canonically_spaced, to_z_code, replace_character, translate_with_deletion
+			adjusted, to_z_code
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
@@ -233,25 +233,10 @@ feature -- Basic operations
 
 feature -- Adjust
 
-	prune_all_leading (str: ZSTRING; c: CHARACTER_32)
-		do
-			str.prune_all_leading (c)
-		end
-
 	pruned (str: ZSTRING; c: CHARACTER_32): ZSTRING
 		do
 			create Result.make_from_other (str)
 			Result.prune_all (c)
-		end
-
-	replace_character (target: ZSTRING; uc_old, uc_new: CHARACTER_32)
-		do
-			target.replace_character (uc_old, uc_new)
-		end
-
-	to_canonically_spaced (str: ZSTRING)
-		do
-			str.to_canonically_spaced
 		end
 
 	wipe_out (str: ZSTRING)
@@ -324,17 +309,6 @@ feature {NONE} -- Implementation
 	to_z_code (character: CHARACTER_32): NATURAL_32
 		do
 			Result := Codec.as_z_code (character)
-		end
-
-	translate_with_deletion (
-		target: ZSTRING; old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN
-	)
-		do
-			if delete_null then
-				target.translate_or_delete (old_characters, new_characters)
-			else
-				target.translate (old_characters, new_characters)
-			end
 		end
 
 feature {NONE} -- Constants

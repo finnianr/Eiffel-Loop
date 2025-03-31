@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:05:50 GMT (Saturday 29th March 2025)"
-	revision: "25"
+	date: "2025-03-31 11:12:27 GMT (Monday 31st March 2025)"
+	revision: "26"
 
 deferred class
 	EL_RSYNC_COMMAND_I
@@ -172,13 +172,13 @@ feature {NONE} -- Implementation
 
 	enabled_options: EL_STRING_8_LIST
 		local
-			s: EL_STRING_8_ROUTINES; option_name: STRING
+			option_name: STRING
 		do
 			if attached enabled_option_list as enabled_list then
 				create Result.make (enabled_list.count)
 				across field_list.name_list_for (Current, enabled_list) as list loop
 					option_name := hyphen * 2 + list.item
-					s.replace_character (option_name, '_', '-') -- no-links
+					super_8 (option_name).replace_character ('_', '-') -- no-links
 					Result.extend (option_name)
 				end
 			end

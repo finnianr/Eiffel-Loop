@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-23 17:46:35 GMT (Sunday 23rd February 2025)"
-	revision: "77"
+	date: "2025-03-31 13:45:28 GMT (Monday 31st March 2025)"
+	revision: "78"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -17,15 +17,6 @@ deferred class
 
 inherit
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X, C]
-
-feature -- Basic operations
-
-	replace (str: STRING_X; content: READABLE_STRING_GENERAL)
-		-- replace all characters of `str' wih new `content'
-		do
-			wipe_out (str)
-			append_to (str, content)
-		end
 
 feature -- Factory
 
@@ -130,7 +121,7 @@ feature -- Factory
 
 feature -- List joining
 
-	joined (a, b: READABLE_STRING_X): STRING_X
+	joined (a, b: READABLE_STRING_GENERAL): STRING_X
 		do
 			create Result.make (a.count + b.count)
 			append_to (Result, a); append_to (Result, b)
@@ -187,27 +178,6 @@ feature -- Transformed
 			Result.append_code (to_code (right))
 		end
 
-	leading_delimited (text, delimiter: STRING_X; include_delimiter: BOOLEAN): STRING_X
-			--
-		do
-			if attached Shared_intervals as intervals then
-				intervals.wipe_out
-				intervals.fill_by_string_general (text, delimiter, 0)
-				intervals.start
-				if intervals.after then
-					create Result.make (0)
-				else
-					if include_delimiter then
-						Result := text.substring (1, intervals.item_upper)
-					else
-						Result := text.substring (1, intervals.item_lower - 1)
-					end
-				end
-			else
-				create Result.make (0)
-			end
-		end
-
 	pruned (str: READABLE_STRING_GENERAL; c: CHARACTER_32): STRING_X
 		deferred
 		end
@@ -251,65 +221,6 @@ feature -- Transformed
 
 feature -- Adjust
 
-	prune_all_leading (str: STRING_X; c: CHARACTER_32)
-		deferred
-		end
-
-	remove_bookends (str: STRING_X; ends: READABLE_STRING_GENERAL)
-		require
-			ends_has_2_characters: ends.count = 2
-		do
-			if str.item (1) = ends.item (1) then
-				str.keep_tail (str.count - 1)
-			end
-			if str.item (str.count) = ends.item (2) then
-				str.set_count (str.count - 1)
-			end
-		end
-
-	remove_double_quote (quoted_str: STRING_X)
-			--
-		do
-			remove_bookends (quoted_str, once "%"%"" )
-		end
-
-	remove_single_quote (quoted_str: STRING_X)
-			--
-		do
-			remove_bookends (quoted_str, once "''" )
-		end
-
-	to_canonically_spaced (str: STRING_X)
-		-- adjust string so that `is_canonically_spaced' becomes true
-		local
-			uc_i: CHARACTER_32; i, j, upper, space_count: INTEGER
-			c32: EL_CHARACTER_32_ROUTINES
-		do
-			if attached {READABLE_STRING_X} str as s and then not is_canonically_spaced (s) then
-				upper := str.count
-				from i := 1; j := 1 until i > upper loop
-					uc_i := str [i]
-					if c32.is_space (uc_i) then
-						space_count := space_count + 1
-					else
-						space_count := 0
-					end
-					inspect space_count
-						when 0 then
-							str.put_code (uc_i.natural_32_code, j)
-							j := j + 1
-
-						when 1 then
-							str.put_code ({EL_ASCII}.space, j)
-							j := j + 1
-					else
-					end
-					i := i + 1
-				end
-				str.keep_head (j - 1)
-			end
-		end
-
 	wipe_out (str: STRING_X)
 		deferred
 		end
@@ -320,60 +231,6 @@ feature -- Transform
 		do
 			if not str.is_empty then
 				str.put_code (to_code (str.item (1).as_upper), 1)
-			end
-		end
-
-	replace_character (target: STRING_X; uc_old, uc_new: CHARACTER_32)
-		local
-			i: INTEGER; code_old, code_new: NATURAL
-		do
-			code_old := to_code (uc_old); code_new := to_code (uc_new)
-			from i := 1 until i > target.count loop
-				if target.code (i) = code_old then
-					target.put_code (code_new, i)
-				end
-				i := i + 1
-			end
-		end
-
-	translate (target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL)
-		-- replace all characters in `old_characters' with corresponding character in `new_characters'.
-		do
-			translate_with_deletion (target, old_characters, new_characters, False)
-		end
-
-	translate_or_delete (target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL)
-		-- replace all characters in `old_characters' with corresponding character in `new_characters'.
-		-- and removing any characters corresponding to null value '%U'
-		do
-			translate_with_deletion (target, old_characters, new_characters, True)
-		end
-
-feature {NONE} -- Implementation
-
-	translate_with_deletion (
-		target: STRING_X; old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN
-	)
-		require
-			each_old_has_new: old_characters.count = new_characters.count
-		local
-			source: STRING_X; uc: CHARACTER_32; i, index: INTEGER
-			new_code: NATURAL
-		do
-			source := target.twin
-			target.set_count (0)
-			from i := 1 until i > source.count loop
-				uc := source [i]
-				index := old_characters.index_of (uc, 1)
-				if index > 0 then
-					new_code := to_code (new_characters [index])
-					if delete_null implies new_code > 0 then
-						target.append_code (new_code)
-					end
-				else
-					target.append_code (to_code (uc))
-				end
-				i := i + 1
 			end
 		end
 

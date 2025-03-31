@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "6"
+	date: "2025-03-31 9:11:51 GMT (Monday 31st March 2025)"
+	revision: "7"
 
 class
 	SYSTEM_ECF_LINES
@@ -41,14 +41,14 @@ feature -- Element change
 
 	set_from_line (line: STRING)
 		local
-			nvp: ECF_NAME_VALUE_PAIR; s: EL_STRING_8_ROUTINES
+			nvp: ECF_NAME_VALUE_PAIR
 		do
 			if attached shared_name_value_list (line) as nvp_list then
 				across nvp_list as list loop
 					nvp := list.item
 					if nvp.name ~ Name.configuration_ns then
 						version.share (nvp.value)
-						s.remove_double_quote (version)
+						super_8 (version).remove_double
 					elseif nvp.name ~ Name.name then
 						if name_uuid_pair.name.count = 0 then
 							name_uuid_pair.name.share (nvp.value)

@@ -6,20 +6,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 18:21:47 GMT (Sunday 30th March 2025)"
-	revision: "29"
+	date: "2025-03-31 13:18:06 GMT (Monday 31st March 2025)"
+	revision: "30"
 
 class
 	EL_STRING_8
 
 inherit
 	STRING_8
+		rename
+			replace_character as replace_every_character
 		export
 			{EL_STRING_8_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER}
 				Ctoi_convertor, Ctor_convertor, is_valid_integer_or_natural
 		redefine
-			make, share
+			append_string_general, make, share, trim
 		end
 
 	EL_STRING_BIT_COUNTABLE [STRING_8]
@@ -40,7 +42,7 @@ feature {NONE} -- Initialization
 	make (n: INTEGER)
 		do
 			Precursor (n)
-			shared_string := Empty_string_8
+			shared_string := Current
 		end
 
 	make_from_zstring (zstr: EL_ZSTRING_CHARACTER_8_BASE)
@@ -138,6 +140,15 @@ feature -- Element change
 			internal_hash_code := 0
 		end
 
+	append_string_general (str: READABLE_STRING_GENERAL)
+		do
+			if is_zstring (str) and then attached {ZSTRING} str as z_str then
+				z_str.append_to_string_8 (Current)
+			else
+				Precursor (str)
+			end
+		end
+
 	set_area_and_count (a_area: like area; a_count: INTEGER)
 		do
 			area := a_area; count := a_count
@@ -196,17 +207,6 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	to_char (uc: CHARACTER_32): CHARACTER_8
-		do
-			Result := uc.to_character_8
-		end
-
-	is_i_th (a_area: like area; i: INTEGER; c: CHARACTER_8): BOOLEAN
-		-- `True' if i'th character is equal to `c'
-		do
-			Result := a_area [i] = c
-		end
-
 	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
 		-- `True' if i'th character in `a_area'  is alphabetical or numeric
 		do
@@ -217,6 +217,12 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `a_area'  is alphabetical or numeric
 		do
 			Result := a_area [i].is_alpha_numeric
+		end
+
+	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN
+		-- `True' if i'th character in `a_area'  is white space
+		do
+			Result := a_area [i].is_space
 		end
 
 	new_substring (start_index, end_index: INTEGER): STRING_8
@@ -267,9 +273,31 @@ feature {NONE} -- Implementation
 			Result.set_target (Current); Result.set_separator (separator)
 		end
 
+	to_char (uc: CHARACTER_32): CHARACTER_8
+		do
+			Result := uc.to_character_8
+		end
+
+	to_character_32 (c: CHARACTER_8): CHARACTER_32
+		do
+			Result := c.to_character_32
+		end
+
+	trim
+		 -- reallocate to new size
+		do
+			if shared_string = Current then
+				Precursor
+			else
+				shared_string.trim
+			end
+		end
+
 	update_shared
 		do
-			shared_string.share (Current)
+			if shared_string /= Current then
+				shared_string.share (Current)
+			end
 		end
 
 feature {NONE} -- Internal attributes

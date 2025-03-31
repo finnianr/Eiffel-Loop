@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2025-03-31 11:01:33 GMT (Monday 31st March 2025)"
+	revision: "11"
 
 class
 	UUID_TEST_SET
@@ -69,14 +69,14 @@ feature -- Tests
 			]"
 		local
 			uuid: EL_UUID; same_string, s1, s2: STRING
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			same_string := "same string"
 			uuid := Digest.md5 (same_string).to_uuid
 			s1 := uuid.to_string; s2 := uuid.out
 			assert (same_string, s1 ~ s2)
 
-			s.replace_character (s2, '-', ':')
+			sg.super_8 (s2).replace_character ('-', ':')
 			assert (same_string, uuid.to_delimited (':') ~ s2)
 		end
 

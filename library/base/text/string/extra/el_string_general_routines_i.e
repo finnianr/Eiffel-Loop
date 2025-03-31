@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
-	revision: "14"
+	date: "2025-03-31 10:12:59 GMT (Monday 31st March 2025)"
+	revision: "15"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -59,7 +59,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	super_32 (str: STRING_8): EL_STRING_32
+	super_32 (str: STRING_32): EL_STRING_32
 		do
 			Result := Shared_super_32
 			Result.share (str)

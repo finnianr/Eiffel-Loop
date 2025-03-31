@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 15:09:31 GMT (Tuesday 11th February 2025)"
-	revision: "38"
+	date: "2025-03-31 11:02:35 GMT (Monday 31st March 2025)"
+	revision: "39"
 
 class
 	URI_TEST_SET
@@ -442,7 +442,7 @@ feature {NONE} -- Constants
 
 	Book_data: TUPLE [encoded: STRING; values: STRING_32]
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		once
 			create Result
 			Result.encoded := "[
@@ -450,7 +450,7 @@ feature {NONE} -- Constants
 				price=%E2%82%AC+10.00
 				publisher=Barnes+%26+Noble&discount=10%25
 			]"
-			s.replace_character (Result.encoded, '%N', '&')
+			sg.super_8 (Result.encoded).replace_character ('%N', '&')
 			Result.values := {STRING_32} "Günter (Wilhelm) Grass/The Tin Drum, € 10.00, Barnes & Noble, 10%%"
 		end
 

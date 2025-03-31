@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 9:41:43 GMT (Wednesday 6th November 2024)"
-	revision: "47"
+	date: "2025-03-31 12:31:30 GMT (Monday 31st March 2025)"
+	revision: "48"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -15,6 +15,8 @@ class
 inherit
 	EL_UTF_8_STRING
 		rename
+			to_canonically_spaced as to_canonically_spaced_8,
+			to_character_32  as char_to_character_32,
 			is_empty as is_raw_empty,
 			make as make_with_capacity
 		export
@@ -405,7 +407,6 @@ feature {NONE} -- Implementation
 feature {EL_DOCUMENT_CLIENT} -- Internal attributes
 
 	raw_name: EL_UTF_8_STRING
-
 
 feature {NONE} -- Constants
 

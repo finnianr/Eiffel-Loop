@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "12"
+	date: "2025-03-31 8:08:16 GMT (Monday 31st March 2025)"
+	revision: "13"
 
 class
 	EL_OS_RELEASE_IMP
@@ -76,9 +76,7 @@ feature {NONE} -- Implementation
 	field_value (field_id, line: ZSTRING): ZSTRING
 		do
 			Result := line.substring_end (field_id.count + 1)
-			if Result.has_quotes (2) then
-				Result.remove_quotes
-			end
+			Result.remove_double
 		end
 
 feature {NONE} -- Constants

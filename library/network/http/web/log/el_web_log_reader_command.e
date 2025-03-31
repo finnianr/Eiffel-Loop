@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-21 8:28:28 GMT (Friday 21st February 2025)"
-	revision: "22"
+	date: "2025-03-31 11:00:00 GMT (Monday 31st March 2025)"
+	revision: "23"
 
 deferred class
 	EL_WEB_LOG_READER_COMMAND
@@ -119,7 +119,7 @@ feature {NONE} -- Implementation
 	do_with_file (file: PLAIN_TEXT_FILE)
 		local
 			done: BOOLEAN; quote_count, start_index, end_index, i: INTEGER
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			from until done loop
 				file.read_line
@@ -143,7 +143,7 @@ feature {NONE} -- Implementation
 						if (i = 4 and start_index > 0 and start_index <= end_index)
 							and then attached line.substring (start_index + 1, end_index - 1) as substring
 						then
-							s.replace_character (substring, '"', '%'')
+							sg.super_8 (substring).replace_character ('"', '%'')
 							line.replace_substring (substring, start_index + 1, end_index - 1)
 						end
 						quote_count := line.occurrences ('%"')
