@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:51:04 GMT (Monday 31st March 2025)"
-	revision: "2"
+	date: "2025-04-01 9:01:46 GMT (Tuesday 1st April 2025)"
+	revision: "3"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -30,6 +30,11 @@ feature -- Measurement
 		end
 
 feature -- Status query
+
+	has_alpha: BOOLEAN
+		do
+			Result := substring_has_alpha (area, 0, count - 1)
+		end
 
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
@@ -316,6 +321,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	substring_has_alpha (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
+		local
+			i: INTEGER
+		do
+			from i := start_index until Result or else i > end_index loop
+				Result := is_i_th_alpha (a_area, i)
+				i := i + 1
+			end
+		end
+
 feature {NONE} -- Deferred
 
 	area: SPECIAL [CHAR]
@@ -376,7 +391,7 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Type definitions
 
-	READABLE: READABLE_STRING_GENERAL
+	READABLE_X: READABLE_STRING_GENERAL
 		require
 			never_called: False
 		deferred

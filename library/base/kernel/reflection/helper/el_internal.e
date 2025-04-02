@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 16:03:57 GMT (Friday 28th March 2025)"
-	revision: "44"
+	date: "2025-04-02 12:48:01 GMT (Wednesday 2nd April 2025)"
+	revision: "45"
 
 class
 	EL_INTERNAL
@@ -60,7 +60,7 @@ feature -- Measurement
 		local
 			math: EL_INTEGER_MATH
 		do
-			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
+			inspect abstract_type_of_type_plus (type_id)
 				when Natural_8_type then
 					if attached {NATURAL_8_REF} n as n_8 then
 						Result := math.natural_digit_count (n_8.item)
@@ -140,7 +140,7 @@ feature -- Conversion
 					is_type_in_set (type_id, set.item)
 				end
 		do
-			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
+			inspect abstract_type_of_type_plus (type_id)
 				when Natural_8_type then
 					if attached {NATURAL_8_REF} n as n_8 then
 						Result := n_8.to_integer_64
@@ -189,7 +189,7 @@ feature -- Conversion
 			correct_type_id: same_type_as (n, type_id)
 			numeric_type: type_conforms_to (type_id, class_id.NUMERIC)
 		do
-			inspect abstract_type_of_type (type_id + is_reference_type (type_id).to_integer)
+			inspect abstract_type_of_type_plus (type_id)
 				when Natural_8_type then
 					if attached {NATURAL_8_REF} n as n_8 then
 						Result := n_8.to_real_64

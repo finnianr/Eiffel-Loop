@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:18:06 GMT (Monday 31st March 2025)"
-	revision: "15"
+	date: "2025-04-01 8:23:00 GMT (Tuesday 1st April 2025)"
+	revision: "16"
 
 class
 	EL_STRING_32
@@ -26,6 +26,9 @@ inherit
 	EL_STRING_BIT_COUNTABLE [STRING_32]
 
 	EL_EXTENDED_STRING_GENERAL [CHARACTER_32]
+		rename
+			READABLE_X as READABLE_32
+		end
 
 	EL_STRING_32_CONSTANTS
 
@@ -203,9 +206,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Type definitions
 
-	READABLE: READABLE_STRING_32
+	READABLE_32: READABLE_STRING_32
 		once
-			create {STRING_32} Result.make_empty
+			Result := Empty_string_32
 		end
 
 feature {NONE} -- Constants

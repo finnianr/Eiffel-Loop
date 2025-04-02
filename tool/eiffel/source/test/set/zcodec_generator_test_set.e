@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 15:14:31 GMT (Monday 31st March 2025)"
-	revision: "19"
+	date: "2025-04-02 13:21:21 GMT (Wednesday 2nd April 2025)"
+	revision: "20"
 
 class
 	ZCODEC_GENERATOR_TEST_SET
 
 inherit
 	EL_FILE_DATA_TEST_SET
-
-	EL_MODULE_USER_INPUT
 
 create
 	make
@@ -26,10 +24,10 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["latin_2",		  agent test_latin_2],
-				["latin_6",		  agent test_latin_6],
 				["latin_11",	  agent test_latin_11],
 				["latin_15",	  agent test_latin_15],
+				["latin_2",		  agent test_latin_2],
+				["latin_6",		  agent test_latin_6],
 				["windows_1252", agent test_windows_1252]
 			>>)
 		end
@@ -76,10 +74,9 @@ feature {NONE} -- Implementation
 			id := s.substring_to_reversed (selected_codec, '_').to_integer
 			source_path := Work_area_dir + Base_name_template #$ [selected_codec]
 			if source_path.exists then
-				lio.put_integer_field ("Comparing content digest for id", id)
+				lio.put_integer_field ("Comparing content digest for codec", id)
 				lio.put_new_line
 				assert ("has BOM", File.has_utf_8_bom (source_path))
-				User_input.press_enter
 				assert_same_digest (Plain_text, source_path, expected_digest)
 				count := count + 1
 			else

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 9:05:20 GMT (Monday 31st March 2025)"
-	revision: "55"
+	date: "2025-04-01 11:30:30 GMT (Tuesday 1st April 2025)"
+	revision: "56"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -18,33 +18,7 @@ deferred class
 	]
 
 inherit
-	EL_CASE
-		rename
-			is_valid as is_valid_case,
-			Upper as Upper_case,
-			Lower as Lower_case
-		export
-			{NONE} all
-		end
-
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
-
-	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]
-
-	EL_SIDE_ROUTINES
-		rename
-			to_unicode_general as to_unicode,
-			valid_sides as valid_adjustments
-		export
-			{ANY} as_zstring, ZSTRING, to_unicode, valid_adjustments
-		end
-
-	EL_STRING_8_CONSTANTS
-
-	EL_ZSTRING_CONSTANTS
-		rename
-			String_searcher as ZString_searcher
-		end
+	EL_READABLE_STRING_X_ROUTINES_BASE [READABLE_STRING_X, C]
 
 feature -- Access
 
@@ -55,15 +29,6 @@ feature -- Access
 		do
 			Result := Once_occurence_intervals.emptied
 			fill_intervals (Result, target, pattern)
-			if keep_ref then
-				Result := Result.twin
-			end
-		end
-
-	split_intervals (target: READABLE_STRING_X; separator: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_SPLIT_INTERVALS
-		do
-			Result := Once_split_intervals.emptied
-			fill_intervals (Result, target, separator)
 			if keep_ref then
 				Result := Result.twin
 			end
@@ -110,6 +75,15 @@ feature -- Access
 			end
 		end
 
+	split_intervals (target: READABLE_STRING_X; separator: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_SPLIT_INTERVALS
+		do
+			Result := Once_split_intervals.emptied
+			fill_intervals (Result, target, separator)
+			if keep_ref then
+				Result := Result.twin
+			end
+		end
+
 	to_utf_8 (str: READABLE_STRING_X): STRING
 		do
 			if attached cursor (str) as c then
@@ -139,18 +113,18 @@ feature -- Measurement
 		-- but if `exclude_variable_references' is `True', substract cound of substrings
 		-- that are variable references defined by `is_variable_reference'
 		local
-			i, upper, word_index: INTEGER; state_find_word: BOOLEAN; c32: EL_CHARACTER_32_ROUTINES
+			i, upper, word_index: INTEGER; state_find_word: BOOLEAN
 		do
 			upper := str.count
 			state_find_word := True
 			from i := 1 until i > upper loop
 				if state_find_word then
-					from until i > upper or else not c32.is_space (str [i]) loop
+					from until i > upper or else not is_i_th_space (str, i) loop
 						i := i + 1
 					end
 					word_index := i
 				else
-					from until i > upper or else c32.is_space (str [i]) loop
+					from until i > upper or else is_i_th_space (str, i) loop
 						i := i + 1
 					end
 					if attached new_shared_substring (str, word_index, i - 1) as word
@@ -167,7 +141,7 @@ feature -- Measurement
 
 feature -- Lists
 
-	delimited_list (text: READABLE_STRING_X; delimiter: READABLE_STRING_GENERAL): EL_ARRAYED_LIST [READABLE_STRING_X]
+	delimited_list (text: READABLE_STRING_X; delimiter: READABLE_STRING_GENERAL): like substring_list
 		-- `text' split into arrayed list by `delimiter' string
 		do
 			Result := substring_list (text, split_intervals (text, delimiter, False))
@@ -179,7 +153,7 @@ feature -- Lists
 			Result := to_list (text, ',', {EL_SIDE}.Left)
 		end
 
-	to_list (text: READABLE_STRING_X; uc: CHARACTER_32; adjustments: INTEGER): EL_ARRAYED_LIST [READABLE_STRING_X]
+	to_list (text: READABLE_STRING_X; uc: CHARACTER_32; adjustments: INTEGER): like substring_list
 		-- `text' split by `uc' character and space adjusted according to `adjustments':
 		-- `Both', `Left', `None', `Right' from class `EL_SIDE'.
 		require
@@ -251,32 +225,6 @@ feature -- Status query
 		-- `True' if `target' is an Eiffel identifier
 		do
 			Result := cursor (str).all_alpha_numeric
-		end
-
-	is_canonically_spaced (s: READABLE_STRING_X): BOOLEAN
-		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
-		local
-			uc_i: CHARACTER_32; i, upper, space_count: INTEGER
-			c32: EL_CHARACTER_32_ROUTINES
-		do
-			Result := True; upper := s.count
-			from i := 1 until not Result or else i > upper loop
-				uc_i := s [i]
-				if c32.is_space (uc_i) then
-					space_count := space_count + 1
-				else
-					space_count := 0
-				end
-				inspect space_count
-					when 0 then
-						do_nothing
-					when 1 then
-						Result := uc_i = ' '
-				else
-					Result := False
-				end
-				i := i + 1
-			end
 		end
 
 	is_eiffel (s: READABLE_STRING_X): BOOLEAN
@@ -361,13 +309,6 @@ feature -- Status query
 						i := i + 1
 					end
 				end
-			end
-		end
-
-	valid_substring_indices (str: READABLE_STRING_X; start_index, end_index: INTEGER): BOOLEAN
-		do
-			if str.valid_index (start_index) then
-				Result := end_index >= start_index - 1 and end_index <= str.count
 			end
 		end
 
@@ -595,130 +536,6 @@ feature -- Substring
 			else
 				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	new_bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32; right_to_left: BOOLEAN): READABLE_STRING_X
-		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
-		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
-		require
-			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
-		local
-			left_index, right_index: INTEGER; c32: EL_CHARACTER_32_ROUTINES
-		do
-			if right_to_left then
-				left_index := last_index_of (str, left_bracket, str.count)
-			else
-				left_index := index_of (str, left_bracket, 1)
-			end
-			if left_index > 0 and then attached cursor (str) as l_cursor then
-				right_index := index_of (str, c32.right_bracket (left_bracket), left_index + 1)
-				right_index := l_cursor.matching_bracket_index (left_index)
-				if right_index > 0 then
-					Result := str.substring (left_index + 1, right_index - 1)
-				else
-					Result := str.substring (1, 0)
-				end
-			else
-				Result := str.substring (1, 0)
-			end
-		end
-
-	null: TYPED_POINTER [INTEGER]
-		do
-		end
-
-	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): like to_list
-		do
-			create Result.make (intervals.count)
-			from intervals.start until intervals.after loop
-				Result.extend (text.substring (intervals.item_lower, intervals.item_upper))
-				intervals.forth
-			end
-		end
-
-	to_code (character: CHARACTER_32): NATURAL_32
-		do
-			Result := character.natural_32_code
-		end
-
-feature {NONE} -- Deferred
-
-	asterisk: C
-		deferred
-		end
-
-	as_canonically_spaced (s: READABLE_STRING_X): READABLE_STRING_X
-		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
-		deferred
-		end
-
-	cursor (s: READABLE_STRING_X): EL_STRING_ITERATION_CURSOR
-		deferred
-		end
-
-	ends_with (s, trailing: READABLE_STRING_X): BOOLEAN
-		deferred
-		end
-
-	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	is_i_th_alpha (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical
-		deferred
-		end
-
-	is_i_th_alpha_numeric (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical or numeric
-		deferred
-		end
-
-	is_i_th_identifier (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is an identifier
-		deferred
-		end
-
-	index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index: INTEGER): INTEGER
-		deferred
-		end
-
-	last_index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		deferred
-		end
-
-	new_shared_substring (s: READABLE_STRING_X; start_index, end_index: INTEGER): READABLE_STRING_X
-		deferred
-		end
-
-	same_string (a, b: READABLE_STRING_X): BOOLEAN
-		deferred
-		end
-
-	split_on_character (str: READABLE_STRING_X; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
-		deferred
-		end
-
-	string_searcher: STRING_SEARCHER
-		deferred
-		end
-
-	starts_with (s, leading: READABLE_STRING_X): BOOLEAN
-		deferred
-		end
-
-feature {NONE} -- Constants
-
-	Once_occurence_intervals: EL_OCCURRENCE_INTERVALS
-		once
-			create Result.make_empty
-		end
-
-	Once_split_intervals: EL_SPLIT_INTERVALS
-		once
-			create Result.make_empty
 		end
 
 end

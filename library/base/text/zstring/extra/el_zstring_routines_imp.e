@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:30:32 GMT (Monday 31st March 2025)"
-	revision: "41"
+	date: "2025-04-01 10:26:14 GMT (Tuesday 1st April 2025)"
+	revision: "42"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -278,6 +278,12 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character is alphabetical or numeric
 		do
 			Result := str.is_alpha_numeric_item (i)
+		end
+
+	is_i_th_space (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is white space
+		do
+			Result := str.is_space_item (i)
 		end
 
 	index_of (str: EL_READABLE_ZSTRING; uc: CHARACTER_32; start_index: INTEGER): INTEGER

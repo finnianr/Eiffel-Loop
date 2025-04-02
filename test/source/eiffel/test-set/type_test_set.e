@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:05:48 GMT (Saturday 29th March 2025)"
-	revision: "21"
+	date: "2025-04-02 8:48:20 GMT (Wednesday 2nd April 2025)"
+	revision: "22"
 
 class
 	TYPE_TEST_SET
@@ -38,6 +38,7 @@ feature {NONE} -- Initialization
 		do
 			make_named (<<
 				["find_readable_string_32_types", agent test_find_readable_string_32_types],
+				["reference_expanded_type_id",	 agent test_reference_expanded_type_id],
 				["string_factory_creation",		 agent test_string_factory_creation],
 				["type_and_type_name_caching",	 agent test_type_and_type_name_caching],
 				["type_characteristics_query",	 agent test_type_characteristics_query],
@@ -68,6 +69,37 @@ feature -- Tests
 					end
 				end
 				type_id := type_id + 1 + Eiffel.is_type_expanded (type_flags).to_integer
+			end
+		end
+
+	test_reference_expanded_type_id
+		-- TYPE_TEST_SET.test_reference_expanded_type_id
+		local
+			type_name: STRING; bit_width: INTEGER
+		do
+			across << "INTEGER", "NATURAL", "REAL" >> as type loop
+				if attached type.item as root then
+					create type_name.make_from_string (root)
+					from bit_width := 8 until bit_width > 64 loop
+						type_name.keep_head (root.count)
+						if type.is_last implies bit_width >= 32 then
+							across << "", "_REF" >> as suffix loop
+								if suffix.is_first then
+									type_name.append_character ('_')
+									type_name.append_integer (bit_width)
+								end
+								type_name.append (suffix.item)
+								lio.put_integer_field (type_name, Eiffel.dynamic_type_from_string (type_name))
+								if suffix.is_last then
+									lio.put_new_line
+								else
+									lio.put_spaces (1)
+								end
+							end
+						end
+						bit_width := bit_width * 2
+					end
+				end
 			end
 		end
 

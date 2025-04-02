@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:41:37 GMT (Monday 31st March 2025)"
-	revision: "38"
+	date: "2025-04-01 10:28:18 GMT (Tuesday 1st April 2025)"
+	revision: "39"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -371,6 +371,12 @@ feature {NONE} -- Implementation
 		do
 			c := str [i]
 			Result := c.is_alpha_numeric or else c = '_'
+		end
+
+	is_i_th_space (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is white space
+		do
+			Result := str [i].is_space
 		end
 
 	new_shared_substring (s: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8

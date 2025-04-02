@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 18:03:43 GMT (Sunday 30th March 2025)"
-	revision: "37"
+	date: "2025-04-01 10:10:35 GMT (Tuesday 1st April 2025)"
+	revision: "38"
 
 class
 	STRING_TEST_SET
@@ -351,15 +351,24 @@ feature -- Tests
 				covers/{EL_READABLE_STRING_X_ROUTINES}.word_count
 			]"
 		local
-			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES
-			str: ZSTRING; str_8: STRING
+			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES; word_count: INTEGER
+			string: STRING; string_type_list: ARRAY [STRING_GENERAL]
 		do
-			across 1 |..| 2 as n loop
-				str_8 := "one; ${index} two%T patrick's"
-				str := str_8
-				assert ("3 words", s.word_count (str_8, True) = 3)
-				str_8.prepend ("%N "); str_8.append ("%N ")
-				str := str_8
+			string := "one; ${index} two%T patrick's"
+			string_type_list := << string, ZSTRING (string) >>
+			across string_type_list as list loop
+				if attached list.item as l_text then
+					across 1 |..| 2 as n loop
+						if l_text.is_string_8 and then attached {STRING} l_text as str_8 then
+							word_count := s.word_count (str_8, True)
+
+						elseif attached {ZSTRING} l_text as z_str then
+							word_count := z.word_count (z_str, True)
+						end
+						assert ("3 words", word_count = 3)
+						l_text.prepend ("%N "); l_text.append ("%N ")
+					end
+				end
 			end
 		end
 

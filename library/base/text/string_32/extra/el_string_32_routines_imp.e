@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:40:26 GMT (Monday 31st March 2025)"
-	revision: "66"
+	date: "2025-04-01 10:28:02 GMT (Tuesday 1st April 2025)"
+	revision: "67"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -78,6 +78,14 @@ feature -- Character query
 		do
 			c := str [i]
 			Result := c.is_alpha_numeric or c = '_'
+		end
+
+	is_i_th_space (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
+		-- `True' if i'th character is white space
+		local
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			Result := c32.is_space (str [i])
 		end
 
 	is_subset_of (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN

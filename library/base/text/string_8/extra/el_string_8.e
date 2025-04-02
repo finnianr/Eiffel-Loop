@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:18:06 GMT (Monday 31st March 2025)"
-	revision: "30"
+	date: "2025-04-01 8:23:18 GMT (Tuesday 1st April 2025)"
+	revision: "31"
 
 class
 	EL_STRING_8
@@ -24,13 +24,16 @@ inherit
 			append_string_general, make, share, trim
 		end
 
+	EL_EXTENDED_STRING_GENERAL [CHARACTER_8]
+		rename
+			READABLE_X as READABLE_8
+		end
+
 	EL_STRING_BIT_COUNTABLE [STRING_8]
 
 	EL_SHARED_STRING_8_CURSOR
 
 	EL_SHARED_STRING_8_BUFFER_POOL
-
-	EL_EXTENDED_STRING_GENERAL [CHARACTER_8]
 
 	EL_STRING_8_CONSTANTS
 
@@ -306,9 +309,9 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Type definitions
 
-	READABLE: READABLE_STRING_8
+	READABLE_8: READABLE_STRING_8
 		once
-			create {STRING_8} Result.make_empty
+			Result := Empty_string_8
 		end
 
 feature {NONE} -- Constants

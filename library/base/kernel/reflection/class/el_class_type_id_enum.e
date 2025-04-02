@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 8:42:50 GMT (Friday 28th March 2025)"
-	revision: "38"
+	date: "2025-04-02 12:36:21 GMT (Wednesday 2nd April 2025)"
+	revision: "39"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -228,7 +228,7 @@ feature {NONE} -- Implementation
 			create list.make_from_array (expanded_types)
 			list.grow (list.count * 2)
 			across expanded_types as type loop
-				list.extend (type.item - 1)
+				list.extend (reference_type_of (type.item))
 			end
 			Result := list.area
 		end
