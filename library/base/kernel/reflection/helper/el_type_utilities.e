@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 12:49:24 GMT (Wednesday 2nd April 2025)"
-	revision: "4"
+	date: "2025-04-02 18:05:05 GMT (Wednesday 2nd April 2025)"
+	revision: "5"
 
 class
 	EL_TYPE_UTILITIES
@@ -43,7 +43,7 @@ feature -- Access
 		do
 			Result := sparse_array_item (Abstract_type_array, a_type_id)
 			inspect Result
-				when 0 then
+				when {REFLECTOR_CONSTANTS}.None_type then
 					Result := {REFLECTOR_CONSTANTS}.reference_type
 			else
 			end
@@ -52,12 +52,10 @@ feature -- Access
 	abstract_type_of_type_plus (a_type_id: INTEGER): INTEGER
 		-- The same as `abstract_type_of_type' except `a_type_id' might also be
 		-- the reference version of an expanded type, `({NATURAL_8_REF}).type_id' for example.
-		local
-			type_name: STRING
 		do
 			Result := sparse_array_item (Abstract_type_array_plus, a_type_id)
 			inspect Result
-				when 0 then
+				when {REFLECTOR_CONSTANTS}.None_type then
 					Result := {REFLECTOR_CONSTANTS}.reference_type
 			else
 			end
@@ -179,11 +177,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_sparse_array (map_dynamic_to_abstract: EL_ARRAYED_MAP_LIST [INTEGER, INTEGER]): ARRAY [INTEGER]
+	new_sparse_array (map_list: EL_ARRAYED_MAP_LIST [INTEGER, INTEGER]): ARRAY [INTEGER]
 		do
-			map_dynamic_to_abstract.sort_by_key (True)
-			create Result.make_filled (0, map_dynamic_to_abstract.first_key, map_dynamic_to_abstract.last_key)
-			across map_dynamic_to_abstract as map loop
+			map_list.sort_by_key (True)
+			create Result.make_filled ({REFLECTOR_CONSTANTS}.None_type, map_list.first_key, map_list.last_key)
+			across map_list as map loop
 				Result [map.key] := map.value
 			end
 		end
@@ -210,6 +208,8 @@ feature {NONE} -- Implementation
 		do
 			if array.valid_index (i) then
 				Result := array [i]
+			else
+				Result := {REFLECTOR_CONSTANTS}.Reference_type
 			end
 		end
 
@@ -234,7 +234,7 @@ feature {NONE} -- Constants
 			create map_dynamic_to_abstract.make (Special_type_mapping.count * 2)
 			if attached Abstract_type_array as type then
 				from type_id := type.lower until type_id > type.upper loop
-					if type [type_id] > 0 then
+					if type [type_id] /= {REFLECTOR_CONSTANTS}.None_type then
 						map_dynamic_to_abstract.extend (type_id, type [type_id])
 						map_dynamic_to_abstract.extend (reference_type_of (type_id), type [type_id])
 					end

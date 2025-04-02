@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 8:48:20 GMT (Wednesday 2nd April 2025)"
-	revision: "22"
+	date: "2025-04-02 18:31:50 GMT (Wednesday 2nd April 2025)"
+	revision: "23"
 
 class
 	TYPE_TEST_SET
@@ -37,8 +37,8 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["abstract_type_of_type_plus",	 agent test_abstract_type_of_type_plus],
 				["find_readable_string_32_types", agent test_find_readable_string_32_types],
-				["reference_expanded_type_id",	 agent test_reference_expanded_type_id],
 				["string_factory_creation",		 agent test_string_factory_creation],
 				["type_and_type_name_caching",	 agent test_type_and_type_name_caching],
 				["type_characteristics_query",	 agent test_type_characteristics_query],
@@ -47,6 +47,52 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
+
+	test_abstract_type_of_type_plus
+		-- TYPE_TEST_SET.test_abstract_type_of_type_plus
+		note
+			testing: "[
+				covers/{EL_TYPE_UTILITIES}.abstract_type_of_type_plus
+			]"
+		local
+			null_array: ARRAY [POINTER_REF]; null: POINTER; type_id, l_type, last_abstract_type: INTEGER
+			type_name: STRING; bit_width: INTEGER
+		do
+		-- Important to test type with abstract type of zero
+			null_array := << null, null.to_reference >>
+			across null_array as array loop
+				l_type := Eiffel.abstract_type_of_type_plus (Eiffel.dynamic_type (array.item))
+				assert ("valid abstract type", l_type = {REFLECTOR_CONSTANTS}.Pointer_type)
+			end
+
+			across << "INTEGER", "NATURAL", "REAL" >> as type loop
+				if attached type.item as root then
+					create type_name.make_from_string (root)
+					from bit_width := 8 until bit_width > 64 loop
+						type_name.keep_head (root.count)
+						if type.is_last implies bit_width >= 32 then
+							across << "", "_REF" >> as suffix loop
+								if suffix.is_first then
+									type_name.append_character ('_')
+									type_name.append_integer (bit_width)
+								end
+								type_name.append (suffix.item)
+								last_abstract_type := Eiffel.abstract_type_of_type_plus (type_id)
+								type_id := Eiffel.dynamic_type_from_string (type_name)
+								lio.put_integer_field (type_name, type_id)
+								if suffix.is_last then
+									lio.put_new_line
+									assert ("same abstract type", last_abstract_type = Eiffel.abstract_type_of_type_plus (type_id))
+								else
+									lio.put_spaces (1)
+								end
+							end
+						end
+						bit_width := bit_width * 2
+					end
+				end
+			end
+		end
 
 	test_find_readable_string_32_types
 		-- TYPE_TEST_SET.test_find_readable_string_32_types
@@ -69,37 +115,6 @@ feature -- Tests
 					end
 				end
 				type_id := type_id + 1 + Eiffel.is_type_expanded (type_flags).to_integer
-			end
-		end
-
-	test_reference_expanded_type_id
-		-- TYPE_TEST_SET.test_reference_expanded_type_id
-		local
-			type_name: STRING; bit_width: INTEGER
-		do
-			across << "INTEGER", "NATURAL", "REAL" >> as type loop
-				if attached type.item as root then
-					create type_name.make_from_string (root)
-					from bit_width := 8 until bit_width > 64 loop
-						type_name.keep_head (root.count)
-						if type.is_last implies bit_width >= 32 then
-							across << "", "_REF" >> as suffix loop
-								if suffix.is_first then
-									type_name.append_character ('_')
-									type_name.append_integer (bit_width)
-								end
-								type_name.append (suffix.item)
-								lio.put_integer_field (type_name, Eiffel.dynamic_type_from_string (type_name))
-								if suffix.is_last then
-									lio.put_new_line
-								else
-									lio.put_spaces (1)
-								end
-							end
-						end
-						bit_width := bit_width * 2
-					end
-				end
 			end
 		end
 
