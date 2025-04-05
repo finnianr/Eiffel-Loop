@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:25:20 GMT (Saturday 5th April 2025)"
-	revision: "26"
+	date: "2025-04-05 18:39:07 GMT (Saturday 5th April 2025)"
+	revision: "27"
 
 class
 	EL_UTF_8_ZCODEC
@@ -79,7 +79,7 @@ feature -- Conversion
 		-- returns `utf_8' string as unicode
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
 		do
-			if cursor_8 (a_utf_8).all_ascii then
+			if super_readable_8 (a_utf_8).is_ascii then
 				Result := a_utf_8
 			else
 				Unicode_buffer.set_from_utf_8 (a_utf_8)

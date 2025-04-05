@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:33:52 GMT (Saturday 5th April 2025)"
-	revision: "32"
+	date: "2025-04-05 16:09:35 GMT (Saturday 5th April 2025)"
+	revision: "33"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -136,14 +136,6 @@ feature -- Measurement
 
 feature -- Status query
 
-	is_ascii_string_8 (str: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if str conforms to `READABLE_STRING_8' and all characters are in ASCII range
-		do
-			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
-				Result := shared_cursor_8 (str_8).all_ascii
-			end
-		end
-
 	is_character (str: READABLE_STRING_GENERAL; uc: CHARACTER_32): BOOLEAN
 		-- `True' if `str.same_string (uc.out)' is true
 		do
@@ -166,15 +158,6 @@ feature -- Status query
 		end
 
 feature -- Conversion
-
-	to_ascii_string_8 (general: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
-		do
-			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8
-				and then shared_cursor_8 (str_8).all_ascii
-			then
-				Result := str_8
-			end
-		end
 
 	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
 		-- `str' converted to type `basic_type'

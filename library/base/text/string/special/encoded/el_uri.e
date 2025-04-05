@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:28 GMT (Friday 7th February 2025)"
-	revision: "50"
+	date: "2025-04-05 18:37:33 GMT (Saturday 5th April 2025)"
+	revision: "51"
 
 class
 	EL_URI
@@ -56,7 +56,7 @@ feature {NONE} -- Initialization
 		require
 			valid_uri: uri.substring_index (Colon_slash_x2, 1) > 1
 		do
-			if cursor_8 (uri).all_ascii then
+			if super_readable_8 (uri).is_ascii then
 				make_from_string (uri)
 			else
 				make_from_unencoded (uri)
@@ -361,7 +361,7 @@ feature -- Contract Support
 
 	is_unencoded (str: READABLE_STRING_8): BOOLEAN
 		do
-			Result := cursor_8 (str).all_ascii
+			Result := super_readable_8 (str).is_ascii
 		end
 
 feature {NONE} -- Implementation

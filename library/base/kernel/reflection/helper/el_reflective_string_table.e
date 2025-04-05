@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
-	revision: "12"
+	date: "2025-04-05 18:39:08 GMT (Saturday 5th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -38,10 +38,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
-		export
-			{NONE} all
-		end
+	EL_STRING_HANDLER
 
 feature {NONE} -- Initialization
 
@@ -49,10 +46,13 @@ feature {NONE} -- Initialization
 		local
 			utf_8_table: EL_IMMUTABLE_UTF_8_TABLE; ir: EL_INTERVAL_ROUTINES
 			start_index, end_index: INTEGER_32; compact_interval: INTEGER_64
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			make_reflected
-			if attached {STRING_8} table_text as str_8 and then s.is_ascii_string_8 (str_8) then
+			if table_text.is_string_8
+				and then attached {READABLE_STRING_8} table_text as str_8
+				and then sg.super_readable_8 (str_8).is_ascii
+			then
 				create utf_8_table.make_utf_8 ({EL_TABLE_FORMAT}.Indented_eiffel, str_8)
 			else
 				create utf_8_table.make ({EL_TABLE_FORMAT}.Indented_eiffel, table_text)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 12:57:54 GMT (Saturday 5th April 2025)"
-	revision: "3"
+	date: "2025-04-05 18:34:50 GMT (Saturday 5th April 2025)"
+	revision: "4"
 
 class
 	EL_EXTENDED_READABLE_ZSTRING
@@ -18,12 +18,14 @@ inherit
 			area as unencoded_area,
 			empty_target as empty_string
 		redefine
-			all_ascii, is_ascii, all_ascii_in_range,
+			is_alpha_numeric, is_ascii, all_ascii_in_range,
 			ends_with_character, has_alpha, has_member, starts_with_character,
 			append_to, append_to_string_32, append_to_string_8, append_to_utf_8,
 			append_substring_to_special_32, append_substring_to_special_8,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space,
-			matches_wildcard, new_shared_substring, same_string, write_utf_8_to
+			latin_1_count, leading_occurrences, leading_white_count,
+			matches_wildcard, new_shared_substring, same_string, trailing_white_count,
+			write_utf_8_to
 		end
 
 	STRING_32_ITERATION_CURSOR
@@ -47,9 +49,54 @@ inherit
 create
 	make_empty
 
+feature -- Measurement
+
+	latin_1_count: INTEGER
+		local
+			i, i_upper, l_block_index: INTEGER; c_i: CHARACTER; uc: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			if attached area as l_area and then attached unencoded_area as unencoded
+				and then attached unicode_table as unicode
+			then
+				i_upper := index_upper
+				from i := 0 until i > i_upper loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc := iter.item ($l_block_index, unencoded, i - index_lower + 1)
+					else
+						uc := unicode [c_i.code]
+					end
+					Result := Result + uc.is_character_8.to_integer
+					i := i + 1
+				end
+			end
+		end
+
+	leading_occurrences (uc: CHARACTER_32): INTEGER
+		do
+			Result := target.leading_occurrences (uc)
+		end
+
+	leading_white_count: INTEGER
+		do
+			Result := target.leading_white_space
+		end
+
+	trailing_white_count: INTEGER
+		do
+			Result := target.trailing_white_space
+		end
+
 feature -- Character query
 
-	all_ascii, is_ascii: BOOLEAN
+	is_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		do
+			Result := target.is_alpha_numeric
+		end
+
+	is_ascii: BOOLEAN
 		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
 		do
 			Result := target.is_ascii
@@ -120,14 +167,14 @@ feature {STRING_HANDLER} -- Basic operations
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			codec.decode (n, area, destination, 0)
-			if attached area as l_area and then attached unencoded_area as area_32
+			if attached area as l_area and then attached unencoded_area as unencoded
 				and then attached unicode_table as unicode
 			then
 				i_upper := source_index + index_lower + n - 1
 				from i := source_index + index_lower until i > i_upper loop
 					c_i := l_area [i]
 					if c_i = Substitute then
-						uc := iter.item ($l_block_index, area_32, i - index_lower + 1)
+						uc := iter.item ($l_block_index, unencoded, i - index_lower + 1)
 					else
 						uc := unicode [c_i.code]
 					end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-24 7:09:48 GMT (Wednesday 24th July 2024)"
-	revision: "2"
+	date: "2025-04-05 18:36:41 GMT (Saturday 5th April 2025)"
+	revision: "3"
 
 class
 	EL_MERGED_PYXIS_LINE_LIST
@@ -70,10 +70,8 @@ feature {NONE} -- Line states
 feature {NONE} -- Implementation
 
 	extend_as_utf_8 (line: STRING)
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			if encoding.encoded_as_utf (8) or else s.is_ascii_string_8 (line) then
+			if encoding.encoded_as_utf (8) or else super_8 (line).is_ascii then
 				extend (line)
 			elseif attached buffer.empty as str then
 				str.append_encodeable (line, encoding)

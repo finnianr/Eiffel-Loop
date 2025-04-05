@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 15:08:11 GMT (Friday 4th April 2025)"
-	revision: "1"
+	date: "2025-04-05 15:44:54 GMT (Saturday 5th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8
@@ -18,6 +18,8 @@ inherit
 	EL_EXTENDED_READABLE_STRING [CHARACTER_8]
 		rename
 			READABLE_X as READABLE_8
+		undefine
+			latin_1_count
 		redefine
 			target
 		end

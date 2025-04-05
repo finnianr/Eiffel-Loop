@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:01:31 GMT (Saturday 5th April 2025)"
-	revision: "76"
+	date: "2025-04-05 15:53:25 GMT (Saturday 5th April 2025)"
+	revision: "77"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -418,12 +418,12 @@ feature {STRING_HANDLER} -- Contract support
 
 	is_ascii_string (str: READABLE_STRING_8): BOOLEAN
 		do
-			Result := cursor_8 (str).all_ascii
+			Result := super_readable_8 (str).is_ascii
 		end
 
 	is_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
 		do
-			Result := cursor_8 (str).is_ascii_substring (start_index, end_index)
+			Result := super_readable_8 (str).is_ascii_substring (start_index, end_index)
 		end
 
 	valid_encoding (a_encoding: NATURAL): BOOLEAN

@@ -10,16 +10,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:17:41 GMT (Monday 23rd September 2024)"
-	revision: "39"
+	date: "2025-04-05 18:35:56 GMT (Saturday 5th April 2025)"
+	revision: "40"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
 
 inherit
-	EL_STRING_HANDLER
-
 	EL_REFLECTION_HANDLER
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
@@ -152,7 +152,7 @@ feature -- Element change
 		do
 			if attached name_value_pair as pair then
 				pair.set_from_string (nvp_line, delimiter)
-				if cursor (pair.name).all_ascii then
+				if extended_string (pair.name).is_ascii then
 					set_field (pair.name, pair.value)
 				end
 			end
@@ -268,7 +268,7 @@ feature -- Contract Support
 
 feature {NONE} -- Deferred
 
-	cursor (s: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
+	extended_string (s: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		deferred
 		end
 

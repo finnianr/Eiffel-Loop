@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 8:59:06 GMT (Friday 4th April 2025)"
-	revision: "138"
+	date: "2025-04-05 18:31:32 GMT (Saturday 5th April 2025)"
+	revision: "139"
 
 class
 	ZSTRING_TEST_SET
@@ -462,8 +462,7 @@ feature -- Status query tests
 				covers/{EL_CHARACTER_X_ROUTINES}.is_alpha_numeric_area
 			]"
 		local
-			str: ZSTRING; s32: EL_STRING_32_ROUTINES
-			str_is_alpha_numeric, str_32_is_alpha_numeric: BOOLEAN
+			str: ZSTRING; str_is_alpha_numeric, str_32_is_alpha_numeric: BOOLEAN
 		do
 			across Text.lines_32 as list loop
 				if attached list.item as str_32 then
@@ -472,7 +471,7 @@ feature -- Status query tests
 						str.prune_all (c.item); str_32.prune_all (c.item)
 					end
 					str_is_alpha_numeric := str.is_alpha_numeric
-					str_32_is_alpha_numeric := s32.is_alpha_numeric (str_32)
+					str_32_is_alpha_numeric := super_32 (str_32).is_alpha_numeric
 					assert ("same result", str_is_alpha_numeric = str_32_is_alpha_numeric)
 					inspect list.cursor_index
 						when 1 .. 3, 5 then

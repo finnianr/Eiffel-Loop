@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 9:11:53 GMT (Friday 4th April 2025)"
-	revision: "3"
+	date: "2025-04-05 18:30:46 GMT (Saturday 5th April 2025)"
+	revision: "4"
 
 deferred class
 	ZSTRING_EQA_TEST_SET
@@ -17,9 +17,37 @@ inherit
 
 	EL_SHARED_TEST_TEXT
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_ZSTRING_CONSTANTS
+
+feature {NONE} -- Implementation
+
+	padded_32 (c: CHARACTER_32): IMMUTABLE_STRING_32
+		local
+			str: STRING_32; outer: IMMUTABLE_STRING_32
+		do
+			str := "abc"
+			across 1 |..| 2 as n loop
+				str.append_character (c)
+				str.prepend_character (c)
+			end
+			outer := str
+			Result := outer.shared_substring (2, 6)
+		end
+
+	padded_8 (c: CHARACTER_8): IMMUTABLE_STRING_8
+		local
+			str: STRING_8; outer: IMMUTABLE_STRING_8
+		do
+			str := "abc"
+			across 1 |..| 2 as n loop
+				str.append_character (c)
+				str.prepend_character (c)
+			end
+			outer := str
+			Result := outer.shared_substring (2, 6)
+		end
 
 feature {NONE} -- Factory
 

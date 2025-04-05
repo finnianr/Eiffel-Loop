@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:24:19 GMT (Saturday 5th April 2025)"
-	revision: "59"
+	date: "2025-04-05 18:41:43 GMT (Saturday 5th April 2025)"
+	revision: "60"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -218,12 +218,6 @@ feature -- Status query
 			Result := extended_string (str).has_member (set)
 		end
 
-	is_alpha_numeric (str: READABLE_STRING_X): BOOLEAN
-		-- `True' if `target' is an Eiffel identifier
-		do
-			Result := cursor (str).all_alpha_numeric
-		end
-
 	is_eiffel (s: READABLE_STRING_X): BOOLEAN
 		-- `True' if `target' is an Eiffel identifier
 		do
@@ -346,9 +340,9 @@ feature -- Substring
 		local
 			start_index, end_index: INTEGER
 		do
-			end_index := str.count - cursor (str).trailing_white_count
+			end_index := str.count - extended_string (str).trailing_white_count
 			if end_index.to_boolean then
-				start_index := cursor (str).leading_white_count + 1
+				start_index := extended_string (str).leading_white_count + 1
 			else
 				start_index := 1
 			end

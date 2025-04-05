@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 15:57:33 GMT (Friday 4th April 2025)"
-	revision: "26"
+	date: "2025-04-05 18:40:06 GMT (Saturday 5th April 2025)"
+	revision: "27"
 
 class
 	IMMUTABLE_STRING_TEST
@@ -92,6 +92,13 @@ feature -- Test comparisons
 
 feature -- Extended ZSTRING
 
+	is_ascii (substring_is_ascii: BOOLEAN)
+		do
+			across new_general_substring_list as list loop
+				test.assert ("methods agree", substring_is_ascii = super_readable_general (list.item).is_ascii)
+			end
+		end
+
 	append_substring_to_string_32 (a_value: STRING_32; intervals: EL_SPLIT_INTERVALS)
 		-- EL_EXTENDED_READABLE_ZSTRING.append_substring_to_string_32
 		local
@@ -127,14 +134,14 @@ feature -- Extended ZSTRING
 	is_ascii_substring (intervals: EL_SPLIT_INTERVALS; is_ascii_interval: BOOLEAN)
 		-- EL_EXTENDED_READABLE_ZSTRING.append_substring_to_string_8
 		local
-			start_index, end_index: INTEGER_32; is_ascii: BOOLEAN
+			start_index, end_index: INTEGER_32; l_result: BOOLEAN
 		do
 			across new_general_list as list loop
 				start_index := intervals.item_lower; end_index := intervals.item_upper
 				if attached super_readable_general (list.item) as general then
-					is_ascii := general.is_ascii_substring (start_index, end_index)
+					l_result := general.is_ascii_substring (start_index, end_index)
 				end
-				test.assert ("methods agree", is_ascii_interval = is_ascii)
+				test.assert ("methods agree", l_result = is_ascii_interval)
 			end
 		end
 

@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:57:32 GMT (Thursday 13th February 2025)"
-	revision: "41"
+	date: "2025-04-05 18:39:05 GMT (Saturday 5th April 2025)"
+	revision: "42"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -25,13 +25,13 @@ deferred class
 inherit
 	EL_REFLECTIVE_I
 
-	EL_REFLECTION_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_NAMING
 
 	JSON_CONSTANTS
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_ZSTRING_BUFFER_POOL
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature {NONE} -- Initialization
 
@@ -102,7 +102,7 @@ feature -- Element change
 						and then attached table.found_item as field
 						and then attached json_list.item_value_utf_8 (False) as utf_8_value
 					then
-						if not utf_8_value.has ('\') and then cursor_8 (utf_8_value).all_ascii then
+						if not utf_8_value.has ('\') and then super_8 (utf_8_value).is_ascii then
 							if attached {EL_REFLECTED_STRING_8} field as str_8_field then
 								str_8_field.set (current_reflective, utf_8_value.twin)
 							else

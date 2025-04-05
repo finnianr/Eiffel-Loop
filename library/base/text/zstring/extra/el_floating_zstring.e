@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 8:27:48 GMT (Saturday 5th April 2025)"
-	revision: "5"
+	date: "2025-04-05 16:00:18 GMT (Saturday 5th April 2025)"
+	revision: "6"
 
 class
 	EL_FLOATING_ZSTRING
@@ -26,14 +26,6 @@ inherit
 			starts_with_character as full_starts_with_character,
 			starts_with as full_starts_with,
 			share as share_zstring
-		export
-			{NONE} all
-		end
-
-	EL_SIDE_ROUTINES
-		rename
-			as_readable_string_8 as general_as_readable_string_8,
-			as_readable_string_32 as general_as_readable_string_32
 		export
 			{NONE} all
 		end

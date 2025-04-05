@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "14"
+	date: "2025-04-05 16:19:21 GMT (Saturday 5th April 2025)"
+	revision: "15"
 
 class
 	EL_ZCODEC_BASE
@@ -34,11 +34,11 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_NAMING
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_BUFFER_POOL
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 	EL_ZSTRING_CONSTANTS
 

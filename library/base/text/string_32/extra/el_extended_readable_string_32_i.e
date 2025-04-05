@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 8:03:45 GMT (Saturday 5th April 2025)"
-	revision: "2"
+	date: "2025-04-05 18:34:09 GMT (Saturday 5th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -23,6 +23,16 @@ inherit
 	EL_STRING_32_CONSTANTS
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
+
+feature -- Status query
+
+	is_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		local
+			c32: EL_CHARACTER_32_ROUTINES
+		do
+			Result := c32.is_alpha_numeric_area (area, index_lower, index_upper)
+		end
 
 feature {NONE} -- Implementation
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:31:22 GMT (Saturday 5th April 2025)"
-	revision: "15"
+	date: "2025-04-05 18:39:05 GMT (Saturday 5th April 2025)"
+	revision: "16"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 							if attached {STRING_8} general as str_8
 								and then attached super_8 (str_8) as super_str_8
 							then
-								if super_str_8.all_ascii then
+								if super_str_8.is_ascii then
 									utf_8_item := str_8
 								else
 									utf_8_item := super_str_8.to_utf_8

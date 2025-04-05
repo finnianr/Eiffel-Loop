@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:59 GMT (Thursday 3rd April 2025)"
-	revision: "22"
+	date: "2025-04-05 18:24:05 GMT (Saturday 5th April 2025)"
+	revision: "23"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -54,22 +54,6 @@ feature -- Basic operations
 
 feature -- Status query
 
-	all_alpha_numeric: BOOLEAN
-		-- `True' if all characters in `target' are alphabetical or numerical
-		local
-			c32: EL_CHARACTER_32_ROUTINES
-		do
-			Result := c32.is_alpha_numeric_area (area, index_lower, index_upper)
-		end
-
-	all_ascii: BOOLEAN
-		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
-		local
-			c32: EL_CHARACTER_32_ROUTINES
-		do
-			Result := c32.is_ascii_area (area, index_lower, index_upper)
-		end
-
 	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `uc' occurs between `start_index' and `end_index'
 		local
@@ -110,19 +94,6 @@ feature -- Measurement
 			last_i := index_upper; l_area := area
 			from i := index_lower until i > last_i or else l_area [i] /= uc loop
 				i := i + 1
-			end
-			Result := i - index_lower
-		end
-
-	leading_white_count: INTEGER
-		local
-			i, last_i: INTEGER; l_area: like area
-		do
-			last_i := index_upper; l_area := area
-			if attached Unicode_property as p then
-				from i := index_lower until i > last_i or else not p.is_space (l_area [i]) loop
-					i := i + 1
-				end
 			end
 			Result := i - index_lower
 		end

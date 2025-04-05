@@ -6,14 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:43 GMT (Friday 7th February 2025)"
-	revision: "34"
+	date: "2025-04-05 16:27:03 GMT (Saturday 5th April 2025)"
+	revision: "35"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_BASE
 
 inherit
 	EL_SHARED_STRING_8_CURSOR
+
+	EL_SIDE_ROUTINES -- inherits EL_STRING_GENERAL_ROUTINES_I
+		rename
+			as_readable_string_8 as as_readable_string_8_,
+			as_readable_string_32 as as_readable_string_32_
+		export
+			{NONE} all
+			{ANY} is_ascii_string_8 -- Contract support
+		end
 
 feature {NONE} -- Initialization
 
@@ -163,13 +172,6 @@ feature -- Resizing
 			end
 		ensure then
 			same_string: same_string (old twin)
-		end
-
-feature -- Contract support
-
-	is_ascii_string_8 (str: READABLE_STRING_8): BOOLEAN
-		do
-			Result := cursor_8 (str).all_ascii
 		end
 
 feature -- Conversion

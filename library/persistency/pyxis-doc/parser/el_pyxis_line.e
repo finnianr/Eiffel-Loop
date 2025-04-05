@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 10:58:49 GMT (Monday 31st March 2025)"
-	revision: "10"
+	date: "2025-04-05 15:39:29 GMT (Saturday 5th April 2025)"
+	revision: "11"
 
 class
 	EL_PYXIS_LINE
@@ -23,8 +23,6 @@ inherit
 		redefine
 			is_double, share
 		end
-
-	EL_SHARED_STRING_8_CURSOR
 
 	EL_PYXIS_PARSER_CONSTANTS
 
@@ -113,13 +111,15 @@ feature -- Element change
 		end
 
 	share (line: STRING_8)
+		local
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			Precursor (line)
-			end_index := line.count - cursor_8 (line).trailing_white_count
+			end_index := line.count - sg.super_8 (line).trailing_white_count
 			if end_index = 0 then
 				set_start_index (1)
 			else
-				set_start_index (cursor_8 (line).leading_occurrences ('%T') + 1)
+				set_start_index (sg.super_8 (line).leading_occurrences ('%T') + 1)
 			end
 		end
 

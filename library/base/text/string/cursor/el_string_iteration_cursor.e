@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:42:41 GMT (Saturday 5th April 2025)"
-	revision: "34"
+	date: "2025-04-05 18:56:16 GMT (Saturday 5th April 2025)"
+	revision: "36"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -104,15 +104,6 @@ feature -- Basic operations
 
 feature -- Status query
 
-	all_alpha_numeric: BOOLEAN
-		-- `True' if all characters in `target' are alphabetical or numerical
-		deferred
-		end
-
-	all_ascii: BOOLEAN
-		deferred
-		end
-
 	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `uc' occurs between `start_index' and `end_index'
 		require
@@ -155,16 +146,6 @@ feature -- Status query
 		end
 
 feature -- Contract Support
-
-	ends_with_target (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
-		do
-			Result := target.same_characters (str, index, str.count, 1)
-		end
-
-	ends_with_target_substring (str: READABLE_STRING_GENERAL; target_index, index: INTEGER): BOOLEAN
-		do
-			Result := target.same_characters (str, index, str.count, target_index)
-		end
 
 	is_valid_as_string_8: BOOLEAN
 		do
@@ -225,18 +206,6 @@ feature -- Measurement
 		deferred
 		end
 
-	latin_1_count: INTEGER
-		deferred
-		end
-
-	leading_occurrences (uc: CHARACTER_32): INTEGER
-		deferred
-		end
-
-	leading_white_count: INTEGER
-		deferred
-		end
-
 	occurrences_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
 		-- `True' if `uc' occurs between `start_index' and `end_index'
 		require
@@ -260,10 +229,6 @@ feature -- Measurement
 		end
 
 	target_count: INTEGER
-		deferred
-		end
-
-	trailing_white_count: INTEGER
 		deferred
 		end
 

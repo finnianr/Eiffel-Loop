@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:31:12 GMT (Sunday 25th August 2024)"
-	revision: "18"
+	date: "2025-04-05 16:37:42 GMT (Saturday 5th April 2025)"
+	revision: "19"
 
 deferred class
 	EL_SETTABLE_FROM_ZSTRING
@@ -19,10 +19,8 @@ deferred class
 inherit
 	EL_SETTABLE_FROM_STRING
 		rename
-			cursor as cursor_z
+			extended_string as super_readable
 		end
-
-	EL_SHARED_ZSTRING_CURSOR
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 

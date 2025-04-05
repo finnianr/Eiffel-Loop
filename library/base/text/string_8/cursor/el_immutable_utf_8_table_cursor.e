@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:20:34 GMT (Sunday 25th August 2024)"
-	revision: "5"
+	date: "2025-04-05 18:35:56 GMT (Saturday 5th April 2025)"
+	revision: "6"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE_CURSOR
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_UTF_8
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make
@@ -37,7 +37,7 @@ feature -- Access
 	item_32: STRING_32
 		do
 			if attached utf_8_item as str_8 then
-				if cursor_8 (str_8).all_ascii then
+				if super_readable_8 (str_8).is_ascii then
 					Result := str_8.to_string_32
 				else
 					create Result.make (Utf_8.unicode_count (str_8))
@@ -49,7 +49,7 @@ feature -- Access
 	item_8, item_latin_1: STRING_8
 		do
 			if attached utf_8_item as str_8 then
-				if cursor_8 (str_8).all_ascii then
+				if super_readable_8 (str_8).is_ascii then
 					Result := str_8
 				else
 					create Result.make (Utf_8.unicode_count (str_8))

@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 16:21:09 GMT (Friday 4th April 2025)"
-	revision: "1"
+	date: "2025-04-05 18:36:24 GMT (Saturday 5th April 2025)"
+	revision: "2"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
 
 inherit
 	ZSTRING_EQA_TEST_SET
-
-	EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
-
-	EL_SHARED_ZSTRING_CODEC
 
 create
 	make
@@ -30,7 +26,8 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["append_substring_to_string_32", agent test_append_substring_to_string_32],
 				["append_substring_to_string_8",	 agent test_append_substring_to_string_8],
-				["is_ascii_substring",				 agent test_is_ascii_substring],
+				["character_counts",					 agent test_character_counts],
+				["ascii_query",						 agent test_ascii_query],
 				["same_string",						 agent test_same_string]
 			>>)
 		end
@@ -87,10 +84,11 @@ feature -- Tests
 			end
 		end
 
-	test_is_ascii_substring
-		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_is_ascii_substring
+	test_ascii_query
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_ascii_query
 		note
 			testing: "[
+				covers/{EL_EXTENDED_READABLE_STRING_I).is_ascii,
 				covers/{EL_EXTENDED_READABLE_STRING_I).is_ascii_substring,
 				covers/{EL_EXTENDED_READABLE_ZSTRING}.all_ascii_in_range,
 				covers/{EL_CHARACTER_X_ROUTINES}.is_ascii_area
@@ -105,9 +103,89 @@ feature -- Tests
 						str_32 := line.item.substring (interval.item_lower, interval.item_upper)
 						is_ascii_interval := across str_32 as uc all uc.item.code <= {ASCII}.Last_ascii end
 						test.is_ascii_substring (interval, is_ascii_interval)
+
+						test.set_substrings (interval.item_lower, interval.item_upper)
+						test.is_ascii (is_ascii_interval)
+
 						interval.forth
 					end
 				end
+			end
+			if attached padded_8 ((0xA9).to_character_8) as non_ascii_padding then
+				assert ("not all ascii characters", not super_8 (non_ascii_padding).is_ascii)
+			end
+			assert ("all ascii characters", super_8 (padded_8 ('%T')).is_ascii)
+		end
+
+	test_character_counts
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_character_counts
+		note
+			testing: "[
+				covers/{EL_EXTENDED_READABLE_STRING_I}.leading_occurrences,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.leading_white_count,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.trailing_white_count,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.latin_1_count,
+				covers/{EL_EXTENDED_READABLE_ZSTRING}.leading_occurrences,
+				covers/{EL_EXTENDED_READABLE_ZSTRING}.leading_white_count,
+				covers/{EL_EXTENDED_READABLE_ZSTRING}.trailing_white_count,
+				covers/{EL_EXTENDED_READABLE_ZSTRING}.latin_1_count
+			]"
+		local
+			character_string: STRING_32; result_ok: BOOLEAN; character_32: CHARACTER_32
+			z_str: ZSTRING
+		do
+			character_string := "%T - -"; character_string.extend (Text.Euro_symbol)
+			assert ("6 characters", character_string.count = 6)
+			across character_string as character loop
+					character_32 := character.item
+					if attached padded_32 (character_32) as str then
+						z_str := str
+						inspect character.cursor_index
+							when 1 then
+								assert ("is tab", character_32 = '%T')
+								if super_readable (z_str).leading_occurrences (character_32) = 1 then
+									result_ok := super_readable_32 (str).leading_occurrences (character_32) = 1
+								else
+									failed ("1 leading tab")
+								end
+							when 2 then
+								assert ("is space", character_32 = ' ')
+								if super_readable (z_str).leading_white_count = 1 then
+									result_ok := super_readable_32 (str).leading_white_count = 1
+								else
+									failed ("1 leading space")
+								end
+							when 3 then
+								assert ("is hyphen", character_32 = '-')
+								if super_readable (z_str).leading_white_count = 0 then
+									result_ok := super_readable_32 (str).leading_white_count = 0
+								else
+									failed ("0 leading space")
+								end
+							when 4 then
+								assert ("is space", character_32 = ' ')
+								if super_readable (z_str).trailing_white_count = 1 then
+									result_ok := super_readable_32 (str).trailing_white_count = 1
+								else
+									failed ("1 trailing space")
+								end
+							when 5 then
+								assert ("is hyphen", character_32 = '-')
+								if super_readable (z_str).trailing_white_count = 0 then
+									result_ok := super_readable_32 (str).trailing_white_count = 0
+								else
+									failed ("0 trailing space")
+								end
+							when 6 then
+								assert ("is euro", character_32 = Text.Euro_symbol)
+								if super_readable (z_str).latin_1_count = 3 then
+									result_ok := super_readable_32 (str).latin_1_count = 3
+								else
+									failed ("3 latin-1 characters")
+								end
+						else
+						end
+					end
 			end
 		end
 

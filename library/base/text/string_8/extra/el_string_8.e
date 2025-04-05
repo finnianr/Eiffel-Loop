@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 15:37:50 GMT (Friday 4th April 2025)"
-	revision: "32"
+	date: "2025-04-05 14:35:27 GMT (Saturday 5th April 2025)"
+	revision: "33"
 
 class
 	EL_STRING_8
@@ -36,8 +36,6 @@ inherit
 			as_readable_string_32 as general_as_readable_string_32,
 			as_readable_string_8 as general_as_readable_string_8
 		end
-
-	EL_SHARED_STRING_8_CURSOR
 
 	EL_SHARED_STRING_8_BUFFER_POOL
 
@@ -75,18 +73,6 @@ feature -- Comparison
 			if a.count = b.count then
 				Result := same_area_items (a.area, b.area, a.area_lower, b.area_lower, a.count)
 			end
-		end
-
-feature -- Measurement
-
-	leading_white_count: INTEGER
-		do
-			Result := cursor_8 (Current).leading_white_count
-		end
-
-	trailing_white_count: INTEGER
-		do
-			Result := cursor_8 (Current).trailing_white_count
 		end
 
 feature -- Basic operations

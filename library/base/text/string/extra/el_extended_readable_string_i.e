@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:30:34 GMT (Saturday 5th April 2025)"
-	revision: "3"
+	date: "2025-04-05 18:34:32 GMT (Saturday 5th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -35,6 +35,56 @@ feature -- Measurement
 			Result := target.count
 		end
 
+	latin_1_count: INTEGER
+		local
+			i, last_i: INTEGER; l_area: like area
+		do
+			last_i := index_upper; l_area := area
+			from i := index_lower until i > last_i loop
+				if to_natural_32_code (l_area [i]) <= 0xFF then
+					Result := Result + 1
+				end
+				i := i + 1
+			end
+		end
+
+	leading_occurrences (c: CHAR): INTEGER
+		local
+			i, last_i: INTEGER; l_area: like area
+		do
+			last_i := index_upper; l_area := area
+			from i := index_lower until i > last_i or else l_area [i] /= c loop
+				i := i + 1
+			end
+			Result := i - index_lower
+		end
+
+	leading_white_count: INTEGER
+		local
+			i, last_i: INTEGER; l_area: like area
+		do
+			last_i := index_upper; l_area := area
+			if attached Unicode_property as unicode then
+				from i := index_lower until i > last_i or else not is_i_th_space (l_area, i, unicode) loop
+					i := i + 1
+				end
+			end
+			Result := i - index_lower
+		end
+
+	trailing_white_count: INTEGER
+		local
+			i, first_i: INTEGER; l_area: like area
+		do
+			first_i := index_lower; l_area := area
+			if attached Unicode_property as unicode then
+				from i := index_upper until i < first_i or else not is_i_th_space (l_area, i, unicode) loop
+					i := i - 1
+				end
+			end
+			Result := index_upper - i
+		end
+
 	utf_8_byte_count: INTEGER
 		local
 			i, upper: INTEGER
@@ -49,10 +99,15 @@ feature -- Measurement
 
 feature -- Character query
 
-	all_ascii, is_ascii: BOOLEAN
+	is_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		deferred
+		end
+
+	is_ascii: BOOLEAN
 		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
 		do
-			Result := all_ascii_in_range (area, 0, index_upper)
+			Result := all_ascii_in_range (area, index_lower, index_upper)
 		end
 
 	ends_with_character (c: CHAR): BOOLEAN

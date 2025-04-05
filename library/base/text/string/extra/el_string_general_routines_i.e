@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:34:43 GMT (Saturday 5th April 2025)"
-	revision: "17"
+	date: "2025-04-05 18:35:55 GMT (Saturday 5th April 2025)"
+	revision: "18"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -59,6 +59,14 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_ascii_string_8 (str: READABLE_STRING_GENERAL): BOOLEAN
+		-- `True' if str conforms to `READABLE_STRING_8' and all characters are in ASCII range
+		do
+			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
+				Result := super_readable_8 (str_8).is_ascii
+			end
+		end
+
 	super_32 (str: STRING_32): EL_STRING_32
 		do
 			Result := Shared_super_32
@@ -100,6 +108,15 @@ feature {NONE} -- Implementation
 				Result := Shared_super_readable_32
 			end
 			Result.set_target (str)
+		end
+
+	to_ascii_string_8 (str: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
+		do
+			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8
+				and then super_readable_8 (str_8).is_ascii
+			then
+				Result := str_8
+			end
 		end
 
 feature {NONE} -- Constants

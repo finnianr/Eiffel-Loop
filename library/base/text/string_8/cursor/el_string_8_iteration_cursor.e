@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:57:19 GMT (Thursday 3rd April 2025)"
-	revision: "22"
+	date: "2025-04-05 18:23:54 GMT (Saturday 5th April 2025)"
+	revision: "23"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -45,20 +45,6 @@ feature -- Transforms
 
 feature -- Status query
 
-	all_alpha_numeric: BOOLEAN
-		-- `True' if all characters in `target' are alphabetical or numerical
-		local
-			c8: EL_CHARACTER_8_ROUTINES
-		do
-			Result := c8.is_alpha_numeric_area (area, index_lower, index_upper)
-		end
-
-	all_ascii: BOOLEAN
-		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
-		do
-			Result := is_ascii_substring (1, target.count)
-		end
-
 	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `uc' occurs between `start_index' and `end_index'
 		local
@@ -92,49 +78,9 @@ feature -- Status query
 
 feature -- Measurement
 
-	latin_1_count: INTEGER
-		do
-			Result := target.count
-		end
-
-	leading_occurrences (uc: CHARACTER_32): INTEGER
-		require else
-			latin_1: uc.is_character_8
-		local
-			i, last_i: INTEGER; l_area: like area; c: CHARACTER
-		do
-			c := uc.to_character_8; last_i := index_upper; l_area := area
-			from i := index_lower until i > last_i or else l_area [i] /= c loop
-				i := i + 1
-			end
-			Result := i - index_lower
-		end
-
-	leading_white_count: INTEGER
-		local
-			i, last_i: INTEGER; l_area: like area
-		do
-			last_i := index_upper; l_area := area
-			from i := index_lower until i > last_i or else not l_area [i].is_space loop
-				i := i + 1
-			end
-			Result := i - index_lower
-		end
-
 	target_count: INTEGER
 		do
 			Result := target.count
-		end
-
-	trailing_white_count: INTEGER
-		local
-			i, first_i: INTEGER; l_area: like area
-		do
-			first_i := index_lower; l_area := area
-			from i := index_upper until i < first_i or else not l_area [i].is_space loop
-				i := i - 1
-			end
-			Result := index_upper - i
 		end
 
 feature -- Basic operations

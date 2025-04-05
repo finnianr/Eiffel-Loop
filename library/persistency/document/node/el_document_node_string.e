@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 10:59:55 GMT (Friday 4th April 2025)"
-	revision: "49"
+	date: "2025-04-05 18:35:12 GMT (Saturday 5th April 2025)"
+	revision: "50"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -32,7 +32,7 @@ inherit
 					prepend, prepend_character,
 					-- Status query
 					has, has_substring, starts_with, raw_string, raw_string_8, raw_string_32,
-					all_ascii, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty,
+					is_ascii, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty,
 					same_string_general
 		redefine
 			append_to_string, append_utf_8_to_string_8, append_utf_8_to_string_32,

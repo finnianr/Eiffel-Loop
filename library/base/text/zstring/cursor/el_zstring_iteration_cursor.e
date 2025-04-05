@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:42:52 GMT (Saturday 5th April 2025)"
-	revision: "36"
+	date: "2025-04-05 18:22:43 GMT (Saturday 5th April 2025)"
+	revision: "37"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -102,56 +102,12 @@ feature -- Basic operations
 
 feature -- Measurement
 
-	latin_1_count: INTEGER
-		local
-			i, last_i: INTEGER; l_area: like area
-		do
-			last_i := index_upper; l_area := area
-			from i := index_lower until i > last_i loop
-				if l_area.item (i).natural_32_code <= 0xFF then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
-		end
-
-	leading_occurrences (uc: CHARACTER_32): INTEGER
-		do
-			Result := target.leading_occurrences (uc)
-		end
-
-	leading_white_count: INTEGER
-		do
-			Result := target.leading_white_space
-		end
-
 	target_count: INTEGER
 		do
 			Result := target.count
 		end
 
-	trailing_white_count: INTEGER
-		do
-			Result := target.trailing_white_space
-		end
-
 feature -- Status query
-
-	all_alpha_numeric: BOOLEAN
-		-- `True' if all characters in `target' are alphabetical or numerical
-		do
-			Result := target.is_alpha_numeric
-		end
-
-	all_ascii: BOOLEAN
-		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
-		local
-			c_8: EL_CHARACTER_8_ROUTINES
-		do
-			if not target.has_mixed_encoding then
-				Result := c_8.is_ascii_area (area, index_lower, index_upper)
-			end
-		end
 
 	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if `uc' occurrs between `start_index' and `end_index'

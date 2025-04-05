@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:16:56 GMT (Saturday 5th April 2025)"
-	revision: "2"
+	date: "2025-04-05 18:33:16 GMT (Saturday 5th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -17,12 +17,29 @@ inherit
 		rename
 			READABLE_X as READABLE_8
 		redefine
-			target
+			latin_1_count, target
 		end
 
 	EL_STRING_8_CONSTANTS
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
+
+feature -- Measurement
+
+	latin_1_count: INTEGER
+		do
+			Result := count
+		end
+
+feature -- Status query
+
+	is_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		local
+			c8: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c8.is_alpha_numeric_area (area, index_lower, index_upper)
+		end
 
 feature {NONE} -- Implementation
 

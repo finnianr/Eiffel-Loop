@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 14:53:50 GMT (Friday 4th April 2025)"
-	revision: "1"
+	date: "2025-04-05 15:45:23 GMT (Saturday 5th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_EXTENDED_STRING_8
@@ -19,6 +19,8 @@ inherit
 		rename
 			empty_target as empty_string_8,
 			READABLE_X AS READABLE_8
+		undefine
+			latin_1_count
 		redefine
 			shared_string
 		end
@@ -28,7 +30,6 @@ inherit
 			empty_target as empty_string_8,
 			target as shared_string
 		end
-
 
 feature {NONE} -- Implementation
 

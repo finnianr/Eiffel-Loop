@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:57:04 GMT (Thursday 13th February 2025)"
-	revision: "37"
+	date: "2025-04-05 18:37:19 GMT (Saturday 5th April 2025)"
+	revision: "38"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -33,7 +33,7 @@ inherit
 
 	EL_CHARACTER_8_CONSTANTS; EL_STRING_8_CONSTANTS; XML_STRING_8_CONSTANTS
 
-	EL_SHARED_FORMAT_FACTORY; EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -312,7 +312,7 @@ feature {NONE} -- Implementation
 
 	put_output_string (a_str: STRING; is_escaped: BOOLEAN)
 		local
-			str: STRING
+			str: STRING; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if is_escaped then
 				str := a_str
@@ -320,7 +320,7 @@ feature {NONE} -- Implementation
 				str := escaped_reserved (a_str)
 			end
 			if attached encodeable_output as l_output and then l_output.encoding /= encoding
-				and then attached not cursor_8 (str).all_ascii
+				and then attached not sg.super_8 (str).is_ascii
 				and then attached buffer.empty as z_str
 			then
 				z_str.append_encoded (str, encoding)

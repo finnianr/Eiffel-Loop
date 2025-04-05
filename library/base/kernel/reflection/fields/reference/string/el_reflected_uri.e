@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-02 12:20:26 GMT (Friday 2nd February 2024)"
-	revision: "17"
+	date: "2025-04-05 16:12:08 GMT (Saturday 5th April 2025)"
+	revision: "18"
 
 class
 	EL_REFLECTED_URI [U -> EL_URI create make end]
@@ -87,13 +87,11 @@ feature -- Basic operations
 feature {NONE} -- Implementation
 
 	replaced (uri: like value; content: READABLE_STRING_GENERAL): like value
-		local
-			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			Result := uri
 			uri.wipe_out
 			if content.has_substring (uri.Colon_slash_x2) then
-				if attached r.to_ascii_string_8 (content) as ascii_str then
+				if attached to_ascii_string_8 (content) as ascii_str then
 					uri.append (ascii_str)
 				else
 					uri.append_general (content)

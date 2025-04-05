@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 9:55:58 GMT (Sunday 9th February 2025)"
-	revision: "27"
+	date: "2025-04-05 15:37:56 GMT (Saturday 5th April 2025)"
+	revision: "28"
 
 class
 	EL_STRING_8_LIST
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_CHARACTER_8_CONSTANTS
-
-	EL_SHARED_STRING_8_CURSOR
 
 create
 	make, make_empty, make_with_lines, make_filled, make_from_special,
@@ -62,9 +60,7 @@ feature -- Access
 
 	item_indent: INTEGER
 		do
-			if attached cursor_8 (item) as c8 then
-				Result := c8.leading_occurrences ('%T')
-			end
+			Result := super_8 (item).leading_occurrences ('%T')
 		end
 
 feature {NONE} -- Implementation

@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:41:27 GMT (Saturday 5th April 2025)"
-	revision: "4"
+	date: "2025-04-05 13:50:20 GMT (Saturday 5th April 2025)"
+	revision: "5"
 
 class
 	EL_UTF_8_CONVERTER_IMP
 
 inherit
 	ANY
-
---	EL_SHARED_STRING_8_CURSOR
 
 	EL_STRING_GENERAL_ROUTINES_I
 
@@ -63,7 +61,7 @@ feature -- Conversion
 		end
 
 	string_32_to_string_8 (s: READABLE_STRING_32): STRING_8
-			-- UTF-8 sequence corresponding to `s'.
+		-- UTF-8 sequence corresponding to `s'.
 		local
 			c: UTF_CONVERTER
 		do
@@ -151,6 +149,8 @@ feature -- Measurement
 		end
 
 	frozen storage_count (iterable_list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
+		-- total  UTF-8 string byte count to store `iterable_list' of strings
+		-- joined with `separator_count' of ASCII characters
 		do
 			across iterable_list as list loop
 				if Result > 0 then

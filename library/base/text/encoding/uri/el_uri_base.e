@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:28 GMT (Friday 7th February 2025)"
-	revision: "12"
+	date: "2025-04-05 16:14:44 GMT (Saturday 5th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_URI_BASE
@@ -19,7 +19,11 @@ inherit
 
 	EL_SHARED_ZSTRING_BUFFER_POOL; EL_SHARED_STRING_32_BUFFER_POOL; EL_SHARED_STRING_8_BUFFER_POOL
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_STRING_GENERAL_ROUTINES_I
+		rename
+			as_readable_string_8 as as_readable_string_8_,
+			as_readable_string_32 as as_readable_string_32_
+		end
 
 feature {NONE} -- Part index
 

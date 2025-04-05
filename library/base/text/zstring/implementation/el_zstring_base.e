@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:07:39 GMT (Saturday 5th April 2025)"
-	revision: "111"
+	date: "2025-04-05 16:25:22 GMT (Saturday 5th April 2025)"
+	revision: "112"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -382,13 +382,11 @@ feature {NONE} -- Implementation
 	encode_substring (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER)
 		require
 			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
-		local
-			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if attached Once_interval_list.emptied as unencoded_intervals then
 				codec.encode_substring_general (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
 
-				if unencoded_intervals.count > 0 and then attached sg.super_readable_general (a_unicode) as general then
+				if unencoded_intervals.count > 0 and then attached super_readable_general (a_unicode) as general then
 					if has_mixed_encoding then
 						append_unencoded_intervals (general, unencoded_intervals, area_offset - start_index + 1)
 					else

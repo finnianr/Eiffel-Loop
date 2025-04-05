@@ -135,7 +135,7 @@ method 1 :  15.0 times (-76.9%)
 ````
 **26 August 2024**
 
-Testing if [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) conforms to [READABLE_STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/readable_string_32_chart.html) using class [EL_INTERNAL](https://github.com/finnianr/Eiffel-Loop/library/base/kernel/reflection/helper/el_internal.e) and [EL_CLASS_TYPE_ID_ENUM](https://github.com/finnianr/Eiffel-Loop/library/base/kernel/reflection/class/el_class_type_id_enum.e)
+Testing if [ZSTRING](https://github.com/finnianr/Eiffel-Loop/library/base/text/zstring/el_zstring.e) conforms to [READABLE_STRING_32](https://www.eiffel.org/files/doc/static/trunk/libraries/base/readable_string_32_chart.html) using class [EL_INTERNAL](invalid-class-name) and [EL_CLASS_TYPE_ID_ENUM](https://github.com/finnianr/Eiffel-Loop/library/base/kernel/reflection/class/el_class_type_id_enum.e)
 
 ````eiffel
 when 1 then

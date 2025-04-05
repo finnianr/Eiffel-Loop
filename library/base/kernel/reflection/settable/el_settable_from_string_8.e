@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 10:52:41 GMT (Sunday 25th August 2024)"
-	revision: "12"
+	date: "2025-04-05 16:36:41 GMT (Saturday 5th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_SETTABLE_FROM_STRING_8
@@ -18,10 +18,8 @@ deferred class
 inherit
 	EL_SETTABLE_FROM_STRING
 		rename
-			cursor as cursor_8
+			extended_string as super_8
 		end
-
-	EL_SHARED_STRING_8_CURSOR
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 

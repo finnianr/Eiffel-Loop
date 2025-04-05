@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 16:04:35 GMT (Saturday 29th March 2025)"
-	revision: "6"
+	date: "2025-04-05 18:39:06 GMT (Saturday 5th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_WEB_LOG_ENTRY_BASE
@@ -72,7 +72,7 @@ feature {NONE} -- Implementation
 
 	new_uri_extension (uri: STRING): STRING
 		local
-			dot_index, slash_index: INTEGER; s8: EL_STRING_8_ROUTINES
+			dot_index, slash_index: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 			extension: STRING
 		do
 			Result := Empty_string_8
@@ -81,7 +81,7 @@ feature {NONE} -- Implementation
 			slash_index := uri.last_index_of ('/', uri.count)
 			if dot_index > 0 and then dot_index > slash_index + 1 then
 				extension := uri.substring (dot_index + 1, uri.count)
-				if s8.is_alpha_numeric (extension) then
+				if sg.super_8 (extension).is_alpha_numeric then
 					Result := extension
 				end
 			end

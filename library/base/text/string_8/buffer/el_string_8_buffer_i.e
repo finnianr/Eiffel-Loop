@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 12:45:58 GMT (Saturday 5th April 2025)"
-	revision: "21"
+	date: "2025-04-05 14:39:27 GMT (Saturday 5th April 2025)"
+	revision: "22"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
-
-	EL_SHARED_STRING_8_CURSOR
 
 feature -- Access
 
@@ -92,12 +90,12 @@ feature {NONE} -- Implementation
 
 	leading_white_count (str: READABLE_STRING_8): INTEGER
 		do
-			Result := cursor_8 (str).leading_white_count
+			Result := super_readable_8 (str).leading_white_count
 		end
 
 	trailing_white_count (str: READABLE_STRING_8): INTEGER
 		do
-			Result := cursor_8 (str).trailing_white_count
+			Result := super_readable_8 (str).trailing_white_count
 		end
 
 	to_lower (str: STRING_8)

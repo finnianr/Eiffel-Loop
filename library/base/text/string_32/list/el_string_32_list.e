@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-11 8:07:52 GMT (Wednesday 11th September 2024)"
-	revision: "22"
+	date: "2025-04-05 15:37:04 GMT (Saturday 5th April 2025)"
+	revision: "23"
 
 class
 	EL_STRING_32_LIST
@@ -17,8 +17,6 @@ inherit
 		redefine
 			add_to_checksum, item_indent, new_string, tab_string
 		end
-
-	EL_SHARED_STRING_32_CURSOR
 
 	EL_CHARACTER_32_CONSTANTS
 
@@ -34,9 +32,7 @@ feature -- Access
 
 	item_indent: INTEGER
 		do
-			if attached cursor_32 (item) as c32 then
-				Result := c32.leading_occurrences ('%T')
-			end
+			Result := super_32 (item).leading_occurrences ('%T')
 		end
 
 feature {NONE} -- Implementation

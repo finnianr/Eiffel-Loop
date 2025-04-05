@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
-	revision: "83"
+	date: "2025-04-05 18:39:07 GMT (Saturday 5th April 2025)"
+	revision: "84"
 
 deferred class
 	EL_ZCODEC
@@ -273,8 +273,10 @@ feature -- Encoding operations
 		do
 			inspect string_storage_type (unicode_in)
 				when '1' then
-					if attached {READABLE_STRING_8} unicode_in as s_8 and then attached cursor_8 (s_8) as c_8 then
-						unicode := unicode_table; in_offset := c_8.index_lower; area := c_8.area
+					if attached {READABLE_STRING_8} unicode_in as uc_in
+						and then attached super_readable_8 (uc_in) as s_8
+					then
+						unicode := unicode_table; in_offset := s_8.index_lower; area := s_8.area
 						i_lower := start_index + in_offset - 1
 						i_upper := end_index + in_offset - 1
 						out_i := i_lower - in_offset + out_offset - start_index + 1
@@ -329,10 +331,10 @@ feature -- Encoding operations
 			utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
 		do
 			l_unicodes := unicode_table; is_utf_8_in := utf_type = 8
-			if attached cursor_8 (utf_in) as cursor then
-				area := cursor.area; end_index := cursor.index_upper
+			if attached super_readable_8 (utf_in) as s_8 then
+				area := s_8.area; end_index := s_8.index_upper
 				last_upper := unencoded_characters.last_upper
-				from i := cursor.index_lower; j := out_offset until i > end_index loop
+				from i := s_8.index_lower; j := out_offset until i > end_index loop
 					if is_utf_8_in then
 						leading_byte := area [i].natural_32_code
 						byte_count := utf_8.sequence_count (leading_byte)
@@ -373,8 +375,8 @@ feature -- Encoding operations
 			i, out_i, code_i, in_offset: INTEGER; interval: NATURAL_64; c: CHARACTER; uc: CHARACTER_32
 			c_8_area: SPECIAL [CHARACTER_8]; o_unicode, unicode: like unicode_table
 		do
-			if attached cursor_8 (str_8) as c_8 then
-				in_offset := c_8.index_lower; c_8_area := c_8.area
+			if attached super_readable_8 (str_8) as s_8 then
+				in_offset := s_8.index_lower; c_8_area := s_8.area
 				if id = other.id then
 					encoded_out.copy_data (c_8_area, start_index + in_offset - 1, out_offset, end_index - start_index + 1)
 				else
@@ -493,7 +495,7 @@ feature -- Text conversion
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
 		do
-			if encoded_as_latin (1) or else cursor_8 (encoded).all_ascii then
+			if encoded_as_latin (1) or else super_readable_8 (encoded).is_ascii then
 				Result := encoded
 			else
 				Unicode_buffer.set_from_encoded (Current, encoded)
@@ -745,10 +747,10 @@ feature {NONE} -- Implementation
 			i, i_lower, i_upper, out_i, in_offset: INTEGER; latin_c: CHARACTER
 			interval: NATURAL_64; encode_default: BOOLEAN; uc_i: CHARACTER_32
 		do
-			if attached cursor_32 (unicode_in) as c_32 and then attached c_32.area as area_32
+			if attached super_readable_32 (unicode_in) as s_32 and then attached s_32.area as area_32
 				 and then attached unicode_table as unicode
 			then
-				in_offset := c_32.index_lower
+				in_offset := s_32.index_lower
 				i_lower := start_index + in_offset - 1
 				i_upper := end_index + in_offset - 1
 				out_i := i_lower - in_offset + out_offset - start_index + 1
