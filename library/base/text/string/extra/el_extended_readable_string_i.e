@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:43:13 GMT (Saturday 5th April 2025)"
-	revision: "2"
+	date: "2025-04-05 13:30:34 GMT (Saturday 5th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -261,6 +261,30 @@ feature -- Basic operations
 						utf_8.set_area (code_i)
 						utf_8.write (utf_8_out)
 					end
+					i := i + 1
+				end
+			end
+		end
+
+feature -- Conversion
+
+	to_utf_8: STRING
+		do
+			create Result.make (utf_8_byte_count)
+			append_to_utf_8 (Result)
+		end
+
+feature {STRING_HANDLER} -- Basic operations
+
+	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		-- append `n' unicode characters starting at `source_index' to `destination' array
+		local
+			i, i_upper: INTEGER
+		do
+			if attached area as l_area then
+				i_upper := source_index + index_lower + n
+				from i := source_index + index_lower until i = i_upper loop
+					destination.extend (to_character_32 (l_area [i]))
 					i := i + 1
 				end
 			end

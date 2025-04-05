@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:55:41 GMT (Saturday 5th April 2025)"
-	revision: "58"
+	date: "2025-04-05 13:24:19 GMT (Saturday 5th April 2025)"
+	revision: "59"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -84,11 +84,11 @@ feature -- Access
 			end
 		end
 
-	to_utf_8 (str: READABLE_STRING_X): STRING
+	to_utf_8 (a_str: READABLE_STRING_X): STRING
 		do
-			if attached cursor (str) as c then
-				create Result.make (c.utf_8_byte_count)
-				c.append_to_utf_8 (Result)
+			if attached extended_string (a_str) as str then
+				create Result.make (str.utf_8_byte_count)
+				str.append_to_utf_8 (Result)
 			end
 		end
 
@@ -169,12 +169,12 @@ feature -- Character query
 
 	ends_with_character (str: READABLE_STRING_X; c: C): BOOLEAN
 		do
-			Result := super_readable (str).ends_with_character (c)
+			Result := extended_string (str).ends_with_character (c)
 		end
 
 	has_alpha (str: READABLE_STRING_X): BOOLEAN
 		do
-			Result := super_readable (str).has_alpha
+			Result := extended_string (str).has_alpha
 		end
 
 	has_double (s: READABLE_STRING_X): BOOLEAN
@@ -207,7 +207,7 @@ feature -- Character query
 
 	starts_with_character (str: READABLE_STRING_X; c: C): BOOLEAN
 		do
-			Result := super_readable (str).starts_with_character (c)
+			Result := extended_string (str).starts_with_character (c)
 		end
 
 feature -- Status query
@@ -215,7 +215,7 @@ feature -- Status query
 	has_member (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
 		-- `True' if at least one character in `str' is a member of `set'
 		do
-			Result := super_readable (str).has_member (set)
+			Result := extended_string (str).has_member (set)
 		end
 
 	is_alpha_numeric (str: READABLE_STRING_X): BOOLEAN

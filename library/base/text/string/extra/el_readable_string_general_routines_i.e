@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 10:04:35 GMT (Thursday 3rd April 2025)"
-	revision: "31"
+	date: "2025-04-05 13:33:52 GMT (Saturday 5th April 2025)"
+	revision: "32"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -132,18 +132,6 @@ feature -- Measurement
 				end
 			end
 			p.put_integer_32 (end_index, p_end_index)
-		end
-
-	utf_8_storage_count (list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
-		do
-			across list as ln loop
-				if Result > 0 then
-					Result := Result + separator_count
-				end
-				if attached shared_cursor (ln.item) as c then
-					Result := Result + c.utf_8_byte_count
-				end
-			end
 		end
 
 feature -- Status query

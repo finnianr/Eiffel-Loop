@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
-	revision: "21"
+	date: "2025-04-05 13:21:51 GMT (Saturday 5th April 2025)"
+	revision: "22"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -162,7 +162,7 @@ feature -- Status query
 					Result := Precursor (a_key)
 			else
 				if is_utf_8_encoded then
-					if shared_cursor_8 (a_key).all_ascii then
+					if super_readable_8 (a_key).all_ascii then
 						Result := Precursor (a_key)
 					else
 						Result := Precursor (utf_8_key (a_key))
@@ -181,7 +181,7 @@ feature -- Status query
 			else
 				if is_utf_8_encoded then
 					if a_key.is_string_8 and then attached {READABLE_STRING_8} a_key as key_8
-						and then shared_cursor_8 (key_8).all_ascii
+						and then super_readable_8 (key_8).all_ascii
 					then
 						Result := has_immutable (key_8)
 					else
@@ -208,7 +208,7 @@ feature -- Set found_item
 					Result := Precursor (a_key)
 			else
 				if is_utf_8_encoded then
-					if shared_cursor_8 (a_key).all_ascii then
+					if super_readable_8 (a_key).all_ascii then
 						Result := Precursor (a_key)
 					else
 						Result := Precursor (utf_8_key (a_key))
@@ -227,7 +227,7 @@ feature -- Set found_item
 			else
 				if is_utf_8_encoded then
 					if a_key.is_string_8 and then attached {READABLE_STRING_8} a_key as key_8
-						and then shared_cursor_8 (key_8).all_ascii
+						and then super_readable_8 (key_8).all_ascii
 					then
 						Result := has_immutable_key (key_8)
 					else
@@ -269,7 +269,7 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 	as_utf_8 (manifest_string: READABLE_STRING_GENERAL): STRING
 		do
 			create Result.make (manifest_string.count)
-			shared_cursor_general (manifest_string).append_to_utf_8 (Result)
+			super_readable_general (manifest_string).append_to_utf_8 (Result)
 		end
 
 	copy_attributes (other: like Current)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 11:39:51 GMT (Thursday 3rd April 2025)"
-	revision: "40"
+	date: "2025-04-05 13:23:31 GMT (Saturday 5th April 2025)"
+	revision: "41"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -18,7 +18,7 @@ inherit
 			character_string as character_32_string,
 			n_character_string as n_character_32_string,
 			shared_cursor_8 as cursor,
-			super_readable as super_readable_8
+			extended_string as super_readable_8
 		undefine
 			bit_count
 		redefine

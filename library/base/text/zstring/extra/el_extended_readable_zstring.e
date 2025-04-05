@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:52:05 GMT (Saturday 5th April 2025)"
-	revision: "2"
+	date: "2025-04-05 12:57:54 GMT (Saturday 5th April 2025)"
+	revision: "3"
 
 class
 	EL_EXTENDED_READABLE_ZSTRING
@@ -20,7 +20,7 @@ inherit
 		redefine
 			all_ascii, is_ascii, all_ascii_in_range,
 			ends_with_character, has_alpha, has_member, starts_with_character,
-			append_to_string_32, append_to_string_8, append_to_utf_8,
+			append_to, append_to_string_32, append_to_string_8, append_to_utf_8,
 			append_substring_to_special_32, append_substring_to_special_8,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space,
 			matches_wildcard, new_shared_substring, same_string, write_utf_8_to
@@ -110,6 +110,31 @@ feature -- Basic operations
 	write_utf_8_to (utf_8_out: EL_WRITABLE)
 		do
 			target.write_utf_8_to (utf_8_out)
+		end
+
+feature {STRING_HANDLER} -- Basic operations
+
+	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		local
+			i, i_upper, l_block_index: INTEGER; c_i: CHARACTER; uc: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			codec.decode (n, area, destination, 0)
+			if attached area as l_area and then attached unencoded_area as area_32
+				and then attached unicode_table as unicode
+			then
+				i_upper := source_index + index_lower + n - 1
+				from i := source_index + index_lower until i > i_upper loop
+					c_i := l_area [i]
+					if c_i = Substitute then
+						uc := iter.item ($l_block_index, area_32, i - index_lower + 1)
+					else
+						uc := unicode [c_i.code]
+					end
+					destination.extend (uc)
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Element change

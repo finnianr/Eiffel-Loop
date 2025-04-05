@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
-	revision: "18"
+	date: "2025-04-05 13:18:16 GMT (Saturday 5th April 2025)"
+	revision: "19"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -19,7 +19,7 @@ inherit
 	EL_IMMUTABLE_STRING_TABLE [STRING_32, IMMUTABLE_STRING_32]
 		rename
 			has_key_x as has_key_32,
-			shared_cursor as shared_cursor_32,
+			extended_string as super_readable_32,
 			string as string_32
 		undefine
 			bit_count

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
-	revision: "35"
+	date: "2025-04-05 13:19:55 GMT (Saturday 5th April 2025)"
+	revision: "36"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -44,14 +44,7 @@ inherit
 			copy, default_create, is_equal
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
-		rename
-			occurrences as text_occurrences,
-			shared_cursor as shared_cursor_general,
-			valid_assignments as valid_assignments_general
-		export
-			{NONE} all
-		end
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_CONVERT_STRING
 
@@ -417,13 +410,13 @@ feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
 			manifest := other.manifest; format := other.format
 		end
 
-	immutable_interval (str: IMMUTABLE): INTEGER_64
+	immutable_interval (a_str: IMMUTABLE): INTEGER_64
 		do
-			if attached shared_cursor (str) as c then
-				Result := compact_interval (c.index_lower + 1, c.index_upper + 1)
+			if attached extended_string (a_str) as str then
+				Result := compact_interval (str.index_lower + 1, str.index_upper + 1)
 			end
 		ensure
-			reversible: new_item_substring (Result) ~ str
+			reversible: new_item_substring (Result) ~ a_str
 		end
 
 	new_item_substring (interval: INTEGER_64): IMMUTABLE
@@ -445,7 +438,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	shared_cursor (str: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
+	extended_string (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		deferred
 		end
 

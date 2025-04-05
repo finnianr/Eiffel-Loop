@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:53:23 GMT (Sunday 25th August 2024)"
-	revision: "14"
+	date: "2025-04-05 13:31:22 GMT (Saturday 5th April 2025)"
+	revision: "15"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -33,11 +33,11 @@ inherit
 			copy, is_equal
 		end
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_ITERABLE
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR; EL_SHARED_UTF_8_SEQUENCE
+	EL_SHARED_UTF_8_SEQUENCE
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string,
@@ -57,16 +57,18 @@ feature {NONE} -- Initialization
 				if attached list.item as general then
 					inspect string_storage_type (general)
 						when '1' then
-							if attached {STRING_8} general as str_8 then
-								if cursor_8 (str_8).all_ascii then
+							if attached {STRING_8} general as str_8
+								and then attached super_8 (str_8) as super_str_8
+							then
+								if super_str_8.all_ascii then
 									utf_8_item := str_8
 								else
-									utf_8_item := cursor_8 (str_8).to_utf_8
+									utf_8_item := super_str_8.to_utf_8
 								end
 							end
 						when '4' then
 							if attached {READABLE_STRING_32} general as str_32 then
-								utf_8_item := cursor_32 (str_32).to_utf_8
+								utf_8_item := super_readable_32 (str_32).to_utf_8
 							end
 
 						when 'X' then

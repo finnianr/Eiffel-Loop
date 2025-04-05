@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 14:12:48 GMT (Friday 4th April 2025)"
-	revision: "23"
+	date: "2025-04-05 12:41:58 GMT (Saturday 5th April 2025)"
+	revision: "24"
 
 class
 	EL_UTF_8_STRING
@@ -169,16 +169,18 @@ feature -- String setting
 			end
 		end
 
-	set_string_8 (str_8: STRING_8; adjust_whitespace: BOOLEAN)
+	set_string_8 (str_8_out: STRING_8; adjust_whitespace: BOOLEAN)
+		local
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			str_8.wipe_out
-			if attached space_adjusted (adjust_whitespace) as l_adjusted and then l_adjusted.count > 0 then
-				if attached cursor_8 (l_adjusted) as c8 then
-					if c8.all_ascii then
-						c8.append_to_string_8 (str_8)
-					else
-						append_utf_8_to_string_8 (l_adjusted, str_8)
-					end
+			str_8_out.wipe_out
+			if attached space_adjusted (adjust_whitespace) as l_adjusted and then l_adjusted.count > 0
+				and then attached sg.super_readable_8 (l_adjusted) as str
+			then
+				if str.all_ascii then
+					str.append_to_string_8 (str_8_out)
+				else
+					append_utf_8_to_string_8 (l_adjusted, str_8_out)
 				end
 			end
 		end

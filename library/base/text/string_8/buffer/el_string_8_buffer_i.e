@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 13:03:31 GMT (Thursday 3rd April 2025)"
-	revision: "20"
+	date: "2025-04-05 12:45:58 GMT (Saturday 5th April 2025)"
+	revision: "21"
 
 deferred class
 	EL_STRING_8_BUFFER_I
@@ -20,6 +20,8 @@ inherit
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
 
+	EL_SHARED_STRING_8_CURSOR
+
 feature -- Access
 
 	copied (str_8: READABLE_STRING_8): STRING
@@ -31,19 +33,19 @@ feature -- Access
 	copied_as_utf_8 (str_8: READABLE_STRING_8): STRING
 		do
 			Result := empty
-			shared_cursor_8 (str_8).append_to_utf_8 (Result)
+			super_readable_8 (str_8).append_to_utf_8 (Result)
 		end
 
 	copied_general (general: READABLE_STRING_GENERAL): STRING
 		do
 			Result := empty
-			shared_cursor (general).append_to_string_8 (Result)
+			super_readable_general (general).append_to_string_8 (Result)
 		end
 
 	copied_general_as_utf_8 (general: READABLE_STRING_GENERAL): STRING
 		do
 			Result := empty
-			shared_cursor (general).append_to_utf_8 (Result)
+			super_readable_general (general).append_to_utf_8 (Result)
 		end
 
 	copied_substring (str_8: READABLE_STRING_8; start_index, end_index: INTEGER): STRING
@@ -55,7 +57,7 @@ feature -- Access
 	copied_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_8
 		do
 			Result := empty
-			shared_cursor (general).append_substring_to_string_8 (Result, start_index, end_index)
+			super_readable_general (general).append_substring_to_string_8 (Result, start_index, end_index)
 		end
 
 	empty: STRING_8
@@ -90,12 +92,12 @@ feature {NONE} -- Implementation
 
 	leading_white_count (str: READABLE_STRING_8): INTEGER
 		do
-			Result := shared_cursor_8 (str).leading_white_count
+			Result := cursor_8 (str).leading_white_count
 		end
 
 	trailing_white_count (str: READABLE_STRING_8): INTEGER
 		do
-			Result := shared_cursor_8 (str).trailing_white_count
+			Result := cursor_8 (str).trailing_white_count
 		end
 
 	to_lower (str: STRING_8)

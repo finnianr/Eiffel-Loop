@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
-	revision: "3"
+	date: "2025-04-05 13:41:27 GMT (Saturday 5th April 2025)"
+	revision: "4"
 
 class
 	EL_UTF_8_CONVERTER_IMP
@@ -15,9 +15,9 @@ class
 inherit
 	ANY
 
-	EL_SHARED_STRING_8_CURSOR
+--	EL_SHARED_STRING_8_CURSOR
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature -- Conversion
 
@@ -108,23 +108,23 @@ feature -- Measurement
 			end
 		end
 
-	frozen unicode_count (s: READABLE_STRING_8): INTEGER
+	frozen unicode_count (str: READABLE_STRING_8): INTEGER
 		do
-			if attached cursor_8 (s) as c then
-				Result := array_unicode_count (c.area, c.index_lower, c.index_upper)
+			if attached super_readable_8 (str) as s then
+				Result := array_unicode_count (s.area, s.index_lower, s.index_upper)
 			end
 		end
 
-	frozen unicode_substring_count (s: READABLE_STRING_8; start_index, end_index: INTEGER): INTEGER
+	frozen unicode_substring_count (str: READABLE_STRING_8; start_index, end_index: INTEGER): INTEGER
 		require
-			valid_start_index: s.valid_index (start_index)
-			valid_end_index: end_index >= start_index - 1 and end_index <= s.count
+			valid_start_index: str.valid_index (start_index)
+			valid_end_index: end_index >= start_index - 1 and end_index <= str.count
 		local
 			first_index: INTEGER
 		do
-			if attached cursor_8 (s) as c then
-				first_index := c.index_lower + start_index - 1
-				Result := array_unicode_count (c.area, first_index, first_index + end_index - start_index)
+			if attached super_readable_8 (str) as s then
+				first_index := s.index_lower + start_index - 1
+				Result := array_unicode_count (s.area, first_index, first_index + end_index - start_index)
 			end
 		end
 
@@ -150,6 +150,18 @@ feature -- Measurement
 			end
 		end
 
+	frozen storage_count (iterable_list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
+		do
+			across iterable_list as list loop
+				if Result > 0 then
+					Result := Result + separator_count
+				end
+				if attached super_readable_general (list.item) as str then
+					Result := Result + str.utf_8_byte_count
+				end
+			end
+		end
+
 feature -- Status report
 
 	is_valid_string_8 (s: READABLE_STRING_8): BOOLEAN
@@ -167,15 +179,15 @@ feature -- Basic operations
 			substring_8_into_string_general (s, 1, s.count, a_result)
 		end
 
-	substring_8_into_string_general (s: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_GENERAL)
+	substring_8_into_string_general (str: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_GENERAL)
 			-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 			area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
 			s8: EL_STRING_8_ROUTINES; s32: EL_STRING_32_ROUTINES; sz: EL_ZSTRING_ROUTINES
 		do
-			if attached cursor_8 (s) as cursor then
-				area := cursor.area; offset := cursor.index_lower
+			if attached super_readable_8 (str) as s then
+				area := s.area; offset := s.index_lower
 			end
 			n := end_index - start_index + 1
 			if n > 0 then
@@ -209,9 +221,9 @@ feature -- Basic operations
 				end
 			end
 		ensure
-			roundtrip: attached s.substring (start_index, end_index) as str and then is_valid_string_8 (str)
+			roundtrip: attached str.substring (start_index, end_index) as s and then is_valid_string_8 (s)
 				implies
-					utf_32_string_to_string_8 (a_result.substring (old a_result.count + 1, a_result.count)).same_string (str)
+					utf_32_string_to_string_8 (a_result.substring (old a_result.count + 1, a_result.count)).same_string (s)
 		end
 
 end

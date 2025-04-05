@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:30 GMT (Friday 7th February 2025)"
-	revision: "77"
+	date: "2025-04-05 13:10:18 GMT (Saturday 5th April 2025)"
+	revision: "78"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_I
@@ -99,7 +99,8 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_intervals (
-		a_cursor: EL_STRING_ITERATION_CURSOR; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32
+		readable_8: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; interval_list: EL_ARRAYED_INTERVAL_LIST
+		area_offset: INTEGER_32
 	)
 		local
 			i, upper, lower: INTEGER; l_area: like area
@@ -110,7 +111,7 @@ feature {NONE} -- Initialization
 					lower := interval_area [i]; upper := interval_area [i + 1]
 					l_area.extend (lower.to_character_32)
 					l_area.extend (upper.to_character_32)
-					a_cursor.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					readable_8.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
 					i := i + 2
 				end
 			end
@@ -587,7 +588,8 @@ feature -- Element change
 		end
 
 	append_intervals (
-		a_cursor: EL_STRING_ITERATION_CURSOR; interval_list: EL_ARRAYED_INTERVAL_LIST; area_offset: INTEGER_32
+		readable_8: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; interval_list: EL_ARRAYED_INTERVAL_LIST
+		area_offset: INTEGER_32
 	)
 		require
 			not_empty: not_empty
@@ -613,7 +615,7 @@ feature -- Element change
 						l_area.extend (lower.to_character_32)
 						l_area.extend (upper.to_character_32)
 					end
-					a_cursor.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					readable_8.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
 					i := i + 2
 				end
 			end

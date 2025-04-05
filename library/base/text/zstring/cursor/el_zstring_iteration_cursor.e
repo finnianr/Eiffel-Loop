@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 14:20:29 GMT (Thursday 3rd April 2025)"
-	revision: "35"
+	date: "2025-04-05 13:42:52 GMT (Saturday 5th April 2025)"
+	revision: "36"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -19,7 +19,7 @@ inherit
 		export
 			{NONE} fill_z_codes
 		redefine
-			append_to_string_8, append_to_utf_8, fill_z_codes, utf_8_byte_count, write_utf_8_to
+			fill_z_codes
 		end
 
 	STRING_32_ITERATION_CURSOR
@@ -95,24 +95,9 @@ feature -- Basic operations
 			end
 		end
 
-	append_to_string_8 (str: STRING_8)
-		do
-			target.append_to_string_8 (str)
-		end
-
-	append_to_utf_8 (utf_8_out: STRING_8)
-		do
-			target.append_to_utf_8 (utf_8_out)
-		end
-
 	fill_z_codes (destination: STRING_32)
 		do
 			target.fill_with_z_code (destination)
-		end
-
-	write_utf_8_to (utf_8_out: EL_WRITABLE)
-		do
-			target.write_utf_8_to (utf_8_out)
 		end
 
 feature -- Measurement
@@ -148,11 +133,6 @@ feature -- Measurement
 	trailing_white_count: INTEGER
 		do
 			Result := target.trailing_white_space
-		end
-
-	utf_8_byte_count: INTEGER
-		do
-			Result := target.utf_8_byte_count
 		end
 
 feature -- Status query

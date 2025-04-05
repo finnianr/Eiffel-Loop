@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 8:27:47 GMT (Saturday 5th April 2025)"
-	revision: "3"
+	date: "2025-04-05 13:23:31 GMT (Saturday 5th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -123,7 +123,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	super_readable (str: READABLE_STRING_X): EL_EXTENDED_READABLE_STRING_I [C]
+	extended_string (str: READABLE_STRING_X): EL_EXTENDED_READABLE_STRING_I [C]
 		deferred
 		end
 

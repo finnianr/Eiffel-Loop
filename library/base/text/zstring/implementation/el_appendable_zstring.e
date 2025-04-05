@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 14:12:47 GMT (Thursday 3rd April 2025)"
-	revision: "75"
+	date: "2025-04-05 13:01:31 GMT (Saturday 5th April 2025)"
+	revision: "76"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -79,7 +79,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; u: UTF_CONVERTER; r: EL_READABLE_STRING_GENERAL_ROUTINES
+			offset: INTEGER; u: UTF_CONVERTER; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			-- UTF-16 must be first to test as it can look like ascii
 			inspect str_encoding
@@ -105,11 +105,11 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 				then
 					offset := count; accommodate (str.count)
 					codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
-					if unencoded_intervals.count > 0 and then attached r.shared_cursor (str) as l_cursor then
+					if unencoded_intervals.count > 0 and then attached sg.super_readable_8 (str) as readable_8 then
 						if has_mixed_encoding then
-							append_unencoded_intervals (l_cursor, unencoded_intervals, offset)
+							append_unencoded_intervals (readable_8, unencoded_intervals, offset)
 						else
-							make_from_intervals (l_cursor, unencoded_intervals, offset)
+							make_from_intervals (readable_8, unencoded_intervals, offset)
 						end
 						re_encode_intervals (l_codec, unencoded_intervals)
 					end
