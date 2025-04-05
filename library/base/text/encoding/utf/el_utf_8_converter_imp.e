@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 15:18:11 GMT (Friday 13th September 2024)"
-	revision: "2"
+	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
+	revision: "3"
 
 class
 	EL_UTF_8_CONVERTER_IMP
@@ -111,7 +111,7 @@ feature -- Measurement
 	frozen unicode_count (s: READABLE_STRING_8): INTEGER
 		do
 			if attached cursor_8 (s) as c then
-				Result := array_unicode_count (c.area, c.area_first_index, c.area_last_index)
+				Result := array_unicode_count (c.area, c.index_lower, c.index_upper)
 			end
 		end
 
@@ -123,7 +123,7 @@ feature -- Measurement
 			first_index: INTEGER
 		do
 			if attached cursor_8 (s) as c then
-				first_index := c.area_first_index + start_index - 1
+				first_index := c.index_lower + start_index - 1
 				Result := array_unicode_count (c.area, first_index, first_index + end_index - start_index)
 			end
 		end
@@ -175,7 +175,7 @@ feature -- Basic operations
 			s8: EL_STRING_8_ROUTINES; s32: EL_STRING_32_ROUTINES; sz: EL_ZSTRING_ROUTINES
 		do
 			if attached cursor_8 (s) as cursor then
-				area := cursor.area; offset := cursor.area_first_index
+				area := cursor.area; offset := cursor.index_lower
 			end
 			n := end_index - start_index + 1
 			if n > 0 then

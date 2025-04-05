@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:17:20 GMT (Sunday 25th August 2024)"
-	revision: "22"
+	date: "2025-04-04 14:12:48 GMT (Friday 4th April 2025)"
+	revision: "23"
 
 class
 	EL_UTF_8_STRING
@@ -159,11 +159,11 @@ feature -- String setting
 		do
 			str_32.wipe_out
 			if attached space_adjusted (adjust_whitespace) as l_adjusted and then l_adjusted.count > 0 then
-				if attached cursor_8 (l_adjusted) as c8 then
-					if c8.all_ascii then
-						c8.append_to_string_32 (str_32)
+				if attached super_readable_8 (l_adjusted) as s8 then
+					if s8.all_ascii then
+						s8.append_to_string_32 (str_32)
 					else
-						append_to_string_32 (str_32, l_adjusted)
+						append_utf_8_to_string_32 (l_adjusted, str_32)
 					end
 				end
 			end
@@ -177,7 +177,7 @@ feature -- String setting
 					if c8.all_ascii then
 						c8.append_to_string_8 (str_8)
 					else
-						append_to_string_8 (str_8, l_adjusted)
+						append_utf_8_to_string_8 (l_adjusted, str_8)
 					end
 				end
 			end
@@ -190,18 +190,18 @@ feature {NONE} -- Implementation
 			zstr.append_utf_8 (utf_8)
 		end
 
-	append_to_string_32 (str_32: STRING_32; str_8: READABLE_STRING_8)
+	append_utf_8_to_string_32 (utf_8_in: READABLE_STRING_8; str_32_out: STRING_32)
 		local
 			utf_8: EL_UTF_8_CONVERTER
 		do
-			utf_8.string_8_into_string_general (str_8, str_32)
+			utf_8.string_8_into_string_general (utf_8_in, str_32_out)
 		end
 
-	append_to_string_8 (target: STRING; str_8: READABLE_STRING_8)
+	append_utf_8_to_string_8 (utf_8_in: READABLE_STRING_8; str_8_out: STRING)
 		local
 			utf_8: EL_UTF_8_CONVERTER
 		do
-			utf_8.string_8_into_string_general (str_8, target)
+			utf_8.string_8_into_string_general (utf_8_in, str_8_out)
 		end
 
 	space_adjusted (adjust_whitespace: BOOLEAN): READABLE_STRING_8
@@ -229,11 +229,6 @@ feature {NONE} -- Constants
 	Buffer_32: STRING_32
 		once
 			create Result.make_empty
-		end
-
-	Immutable_8: EL_IMMUTABLE_8_MANAGER
-		once
-			create Result
 		end
 
 end

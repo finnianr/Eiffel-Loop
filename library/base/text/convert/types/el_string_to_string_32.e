@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2025-04-03 14:23:22 GMT (Thursday 3rd April 2025)"
+	revision: "9"
 
 class
 	EL_STRING_TO_STRING_32
@@ -36,7 +36,7 @@ feature -- Conversion
 	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_32
 		do
 			create Result.make (end_index - start_index + 1)
-			shared_cursor (str).append_substring_to_string_32 (Result, start_index, end_index)
+			super_readable_general (str).append_substring_to_string_32 (Result, start_index, end_index)
 		end
 
 end

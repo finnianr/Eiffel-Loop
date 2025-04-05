@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 13:21:43 GMT (Monday 26th August 2024)"
-	revision: "15"
+	date: "2025-04-05 10:04:57 GMT (Saturday 5th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_MODULE_EIFFEL
@@ -17,7 +17,7 @@ inherit
 
 feature {NONE} -- Constants
 
-	Eiffel: EL_INTERNAL
+	Eiffel: EL_EXTENDED_REFLECTOR
 			--
 		once
 			create Result.make

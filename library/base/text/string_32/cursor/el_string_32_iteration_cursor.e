@@ -6,24 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 13:59:25 GMT (Sunday 9th February 2025)"
-	revision: "21"
+	date: "2025-04-03 8:56:59 GMT (Thursday 3rd April 2025)"
+	revision: "22"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
 
 inherit
 	EL_STRING_ITERATION_CURSOR
-		rename
-			set_target as make
-		end
 
 	STRING_32_ITERATION_CURSOR
+		rename
+			make as set_target,
+			area_first_index as index_lower,
+			area_last_index as index_upper
 		export
-			{EL_SHARED_STRING_32_CURSOR, STRING_HANDLER} area, area_first_index, area_last_index, make
+			{EL_SHARED_STRING_32_CURSOR, STRING_HANDLER} area, index_lower, index_upper
 		end
 
-	EL_32_BIT_IMPLEMENTATION
+	EL_STRING_BIT_COUNTABLE [STRING_32]
 
 	EL_SHARED_UNICODE_PROPERTY
 
@@ -40,7 +41,7 @@ feature -- Transforms
 	filtered (included: PREDICATE [CHARACTER_32]): STRING_32
 		do
 			create Result.make (target.count)
-			area.do_if_in_bounds (agent Result.extend, included, area_first_index, area_last_index)
+			area.do_if_in_bounds (agent Result.extend, included, index_lower, index_upper)
 			Result.trim
 		end
 
@@ -48,7 +49,7 @@ feature -- Basic operations
 
 	append_to (destination: like area; source_index, n: INTEGER)
 		do
-			destination.copy_data (area, source_index + area_first_index, destination.count, n)
+			destination.copy_data (area, source_index + index_lower, destination.count, n)
 		end
 
 feature -- Status query
@@ -58,7 +59,7 @@ feature -- Status query
 		local
 			c32: EL_CHARACTER_32_ROUTINES
 		do
-			Result := c32.is_alpha_numeric_area (area, area_first_index, area_last_index)
+			Result := c32.is_alpha_numeric_area (area, index_lower, index_upper)
 		end
 
 	all_ascii: BOOLEAN
@@ -66,7 +67,7 @@ feature -- Status query
 		local
 			c32: EL_CHARACTER_32_ROUTINES
 		do
-			Result := c32.is_ascii_area (area, area_first_index, area_last_index)
+			Result := c32.is_ascii_area (area, index_lower, index_upper)
 		end
 
 	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
@@ -76,7 +77,7 @@ feature -- Status query
 		do
 			if target.valid_index (start_index) then
 				count := target.count.min (end_index) - start_index + 1
-				i := start_index + area_first_index - 1
+				i := start_index + index_lower - 1
 				i_final := i + count
 				if attached area as l_area then
 					from until i = i_final or Result loop
@@ -93,8 +94,8 @@ feature -- Measurement
 		local
 			i, last_i: INTEGER; l_area: like area
 		do
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i loop
+			last_i := index_upper; l_area := area
+			from i := index_lower until i > last_i loop
 				if l_area.item (i).natural_32_code <= 0xFF then
 					Result := Result + 1
 				end
@@ -106,24 +107,24 @@ feature -- Measurement
 		local
 			i, last_i: INTEGER; l_area: like area
 		do
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i or else l_area [i] /= uc loop
+			last_i := index_upper; l_area := area
+			from i := index_lower until i > last_i or else l_area [i] /= uc loop
 				i := i + 1
 			end
-			Result := i - area_first_index
+			Result := i - index_lower
 		end
 
 	leading_white_count: INTEGER
 		local
 			i, last_i: INTEGER; l_area: like area
 		do
-			last_i := area_last_index; l_area := area
+			last_i := index_upper; l_area := area
 			if attached Unicode_property as p then
-				from i := area_first_index until i > last_i or else not p.is_space (l_area [i]) loop
+				from i := index_lower until i > last_i or else not p.is_space (l_area [i]) loop
 					i := i + 1
 				end
 			end
-			Result := i - area_first_index
+			Result := i - index_lower
 		end
 
 	target_count: INTEGER
@@ -135,13 +136,13 @@ feature -- Measurement
 		local
 			i, first_i: INTEGER; l_area: like area
 		do
-			first_i := area_first_index; l_area := area
+			first_i := index_lower; l_area := area
 			if attached Unicode_property as p then
-				from i := area_last_index until i < first_i or else not p.is_space (l_area [i]) loop
+				from i := index_upper until i < first_i or else not p.is_space (l_area [i]) loop
 					i := i - 1
 				end
 			end
-			Result := area_last_index - i
+			Result := index_upper - i
 		end
 
 feature {NONE} -- Implementation

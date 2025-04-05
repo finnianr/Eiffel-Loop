@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:57:29 GMT (Sunday 30th March 2025)"
-	revision: "8"
+	date: "2025-04-05 12:08:01 GMT (Saturday 5th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_TEXTABLE
@@ -18,7 +18,10 @@ inherit
 			set_text
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
+		export
+			{NONE} all
+		end
 
 feature -- Element change
 

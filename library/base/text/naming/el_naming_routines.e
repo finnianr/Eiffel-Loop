@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 11:10:11 GMT (Monday 31st March 2025)"
-	revision: "48"
+	date: "2025-04-03 8:56:27 GMT (Thursday 3rd April 2025)"
+	revision: "49"
 
 class
 	EL_NAMING_ROUTINES
@@ -120,7 +120,7 @@ feature -- Import names
 			i, state, first_index, last_index: INTEGER; c: CHARACTER
 		do
 			if attached cursor_8 (name_in) as c8 and then attached c8.area as area then
-				first_index := c8.area_first_index; last_index := c8.area_last_index
+				first_index := c8.index_lower; last_index := c8.index_upper
 				if name_in.count > 0 then
 					c := area.item (first_index)
 					if c.is_digit then
@@ -222,7 +222,7 @@ feature -- Export names
 			i, first_index, last_index: INTEGER; c: CHARACTER; s: EL_STRING_8_ROUTINES
 		do
 			if name_in.has ('_') and then attached cursor_8 (name_in) as c8 and then attached c8.area as area then
-				first_index := c8.area_first_index; last_index := c8.area_last_index
+				first_index := c8.index_lower; last_index := c8.index_upper
 				from i := first_index until i > last_index loop
 					c := area [i]
 					if c = '_' then

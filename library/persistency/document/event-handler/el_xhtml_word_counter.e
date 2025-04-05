@@ -1,13 +1,13 @@
 note
-	description: "Xhtml word counter"
+	description: "XHTML word counter"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-15 7:17:31 GMT (Monday 15th July 2024)"
-	revision: "13"
+	date: "2025-04-05 11:59:13 GMT (Saturday 5th April 2025)"
+	revision: "14"
 
 class
 	EL_XHTML_WORD_COUNTER

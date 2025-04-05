@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:48:42 GMT (Friday 20th September 2024)"
-	revision: "6"
+	date: "2025-04-05 12:17:29 GMT (Saturday 5th April 2025)"
+	revision: "7"
 
 class
 	TEST_STRING_32
@@ -22,7 +22,7 @@ feature -- Measurement
 
 	storage_bytes (s: STRING_32): INTEGER
 		do
-			Result := Eiffel.physical_size (s) + Eiffel.physical_size (s.area)
+			Result := property (s).physical_size + property (s.area).physical_size
 		end
 
 feature {NONE} -- Factory

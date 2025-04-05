@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 8:23:00 GMT (Tuesday 1st April 2025)"
-	revision: "16"
+	date: "2025-04-04 15:37:40 GMT (Friday 4th April 2025)"
+	revision: "17"
 
 class
 	EL_STRING_32
@@ -19,18 +19,18 @@ inherit
 		export
 			{EL_STRING_32_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER} Ctoi_convertor, Ctor_convertor
+		undefine
+			same_string
 		redefine
 			append_string_general, make, share, trim
 		end
 
-	EL_STRING_BIT_COUNTABLE [STRING_32]
-
-	EL_EXTENDED_STRING_GENERAL [CHARACTER_32]
+	EL_EXTENDED_STRING_32
 		rename
-			READABLE_X as READABLE_32
+			empty_target as empty_string_32
+		undefine
+			count, is_valid_as_string_8, valid_index
 		end
-
-	EL_STRING_32_CONSTANTS
 
 create
 	make_empty
@@ -107,80 +107,26 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
-		do
-			Result := a_area [i].is_alpha
-		end
-
-	is_i_th_alpha_numeric (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
-		do
-			Result := a_area [i].is_alpha_numeric
-		end
-
-	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN
-		-- `True' if i'th character in `a_area'  is white space
-		do
-			Result := unicode.is_space (a_area [i])
-		end
-
 	new_substring (start_index, end_index: INTEGER): STRING_32
 		do
 			create Result.make_empty
 			Result.share (substring (start_index, end_index))
 		end
 
-	same_area_items (a, b: like area; a_offset, b_offset, n: INTEGER): BOOLEAN
-			-- Are the `n' characters of `b' from `b_offset' position the same as
-			-- the `n' characters of `a' from `a_offset'?
-		require
-			other_not_void: b /= Void
-			source_index_non_negative: b_offset >= 0
-			destination_index_non_negative: a_offset >= 0
-			n_non_negative: n >= 0
-			n_is_small_enough_for_source: b_offset + n <= b.count
-			n_is_small_enough_for_destination: a_offset + n <= a.count
-		local
-			i, j, nb: INTEGER
+	other_area (other: READABLE_STRING_32): like area
 		do
-			if a = b and a_offset = b_offset then
-				Result := True
-			else
-				Result := True
-				from
-					i := b_offset
-					j := a_offset
-					nb := b_offset + n
-				until
-					i = nb
-				loop
-					if b [i] /= a [j] then
-						Result := False
-						i := nb - 1
-					end
-					i := i + 1
-					j := j + 1
-				end
-			end
-		ensure
-			valid_on_empty_area: (n = 0) implies Result
+			Result := other.area
+		end
+
+	other_index_lower (other: READABLE_STRING_32): INTEGER
+		do
+			Result := other.area_lower
 		end
 
 	split_on_character (separator: CHARACTER_32): like Split_string_32
 		do
 			Result := Split_string_32
 			Result.set_target (Current); Result.set_separator (separator)
-		end
-
-	to_char (uc: CHARACTER_32): CHARACTER_32
-		do
-			Result := uc
-		end
-
-	to_character_32 (uc: CHARACTER_32): CHARACTER_32
-		do
-			Result := uc
 		end
 
 	trim
@@ -203,13 +149,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	shared_string: STRING_32
-
-feature {NONE} -- Type definitions
-
-	READABLE_32: READABLE_STRING_32
-		once
-			Result := Empty_string_32
-		end
 
 feature {NONE} -- Constants
 

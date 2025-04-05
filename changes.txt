@@ -835,3 +835,6 @@ Made EL_SSH_COMMAND_FACTORY classes obsolete
 Fri 28th Mar 2025, 16:21:36
 Reimplementation of {EL_MIRROR_BACKUP}.new_command for all descendants
 
+Fri 4th Apr 2025, 16:42:47
+Migrating to use EL_EXTENDED_STRING* class for super routines
+

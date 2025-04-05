@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 11:34:10 GMT (Sunday 22nd September 2024)"
-	revision: "50"
+	date: "2025-04-05 9:46:13 GMT (Saturday 5th April 2025)"
+	revision: "51"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -21,6 +21,8 @@ inherit
 		redefine
 			initialize, post_make, value, is_initialized, set_from_memory, write_to_memory
 		end
+
+	EL_OBJECT_PROPERTY_I
 
 	EL_SHARED_READER_WRITER_TABLE
 
@@ -51,7 +53,7 @@ feature -- Access
 	size_of (a_object: EL_REFLECTIVE): INTEGER
 		-- size of field object
 		do
-			Result := Eiffel.deep_physical_size (value (a_object))
+			Result := property (value (a_object)).deep_physical_size
 		end
 
 	value (a_object: EL_REFLECTIVE): G

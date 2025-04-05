@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-14 18:08:05 GMT (Monday 14th August 2023)"
-	revision: "22"
+	date: "2025-04-03 9:01:55 GMT (Thursday 3rd April 2025)"
+	revision: "23"
 
 class
 	JSON_NAME_VALUE_LIST
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 	make (a_utf_8_json: READABLE_STRING_8)
 		do
 			if attached cursor_8 (a_utf_8_json) as json then
-				utf_8_json := Immutable_8.new_substring (json.area, json.area_first_index, a_utf_8_json.count)
+				utf_8_json := Immutable_8.new_substring (json.area, json.index_lower, a_utf_8_json.count)
 			end
 			create internal_utf_8_item.make (50)
 			create internal_name.make (20)

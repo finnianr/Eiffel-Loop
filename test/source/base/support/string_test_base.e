@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 11:12:58 GMT (Monday 31st March 2025)"
-	revision: "29"
+	date: "2025-04-04 16:32:27 GMT (Friday 4th April 2025)"
+	revision: "30"
 
 class
 	STRING_TEST_BASE
 
 inherit
 	ANY
-	 	redefine
-	 		default_create
-	 	end
 
 	EL_SHARED_TEST_TEXT
 
@@ -26,21 +23,15 @@ inherit
 
 feature {NONE} -- Initialization
 
-	default_create
+	make_empty (a_test: like test)
 		do
-			make_filled (' ', 0)
+			make (a_test, Empty_string_32.twin)
 		end
 
-	make (str: STRING_32)
+	make (a_test: like test; str_32: STRING_32)
 		do
-			set (str)
-			s_32_substring := s_32; zs_substring := zs
-		end
-
-	make_filled (c: CHARACTER_32; n: INTEGER)
-		do
-			create s_32.make_filled (c, n)
-			create zs.make_filled (c, n)
+			test := a_test
+			set (str_32)
 			s_32_substring := s_32; zs_substring := zs
 		end
 
@@ -126,6 +117,16 @@ feature -- Element change
 			end
 		end
 
+	set_filled (c: CHARACTER_32; n: INTEGER)
+		do
+			create s_32.make_filled (c, n)
+			if c.is_character_8 then
+				create s_8.make_filled (c.to_character_8, n)
+			end
+			create zs.make_filled (c, n)
+			s_32_substring := s_32; zs_substring := zs
+		end
+
 	set_old_new (a_old, a_new: STRING_32)
 		do
 			s_32_old := a_old; s_32_new := a_new
@@ -148,8 +149,8 @@ feature -- Element change
 			s_32_substring := s_32.substring (start_index, end_index)
 			create zs_substring.make_from_string (s_32_substring)
 
-			if s_32_substring.is_valid_as_string_8 then
-				s_8_substring := s_32_substring.to_string_8
+			if attached s_8 as str_8 then
+				s_8_substring := str_8.substring (start_index, end_index)
 			else
 				s_8_substring := Void
 			end
@@ -234,6 +235,35 @@ feature {NONE} -- Implementation
 			super_32 (s_32).replace_character ('¤', Text.Euro_symbol)
 		end
 
+	same_indices (index_list: ARRAYED_LIST [INTEGER]; intervals: EL_OCCURRENCE_INTERVALS): BOOLEAN
+		do
+			if index_list.count = intervals.count and then attached intervals as list then
+				Result := True
+				from list.start until not Result or list.after loop
+					Result := list.item_lower = index_list [list.index]
+					list.forth
+				end
+			end
+		end
+
+feature {NONE} -- Factory
+
+	new_general_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+		do
+			create Result.make_from_array (<< s_32, zs >>)
+			if attached s_8 as str_8 then
+				Result.extend (str_8)
+			end
+		end
+
+	new_general_substring_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+		do
+			create Result.make_from_array (<< s_32_substring, zs_substring >>)
+			if attached s_8_substring as str_8 then
+				Result.extend (str_8)
+			end
+		end
+
 	new_occurrence_intervals (a_text, pattern: STRING_32): EL_SEQUENTIAL_INTERVALS
 		-- reference function to make occurence interval list of `pattern' in `a_text'
 		local
@@ -283,16 +313,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	same_indices (index_list: ARRAYED_LIST [INTEGER]; intervals: EL_OCCURRENCE_INTERVALS): BOOLEAN
-		do
-			if index_list.count = intervals.count and then attached intervals as list then
-				Result := True
-				from list.start until not Result or list.after loop
-					Result := list.item_lower = index_list [list.index]
-					list.forth
-				end
-			end
-		end
+feature {NONE} -- Internal attributes
+
+	test: EL_EQA_TEST_SET
 
 feature {NONE} -- Constants
 

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-29 10:24:35 GMT (Sunday 29th September 2024)"
-	revision: "29"
+	date: "2025-04-05 8:20:14 GMT (Saturday 5th April 2025)"
+	revision: "31"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -57,7 +57,7 @@ feature -- Factory
 			create Result
 		end
 
-feature {NONE} -- Implementation
+feature -- Assertions
 
 	assert_32 (a_tag: READABLE_STRING_GENERAL; a_condition: BOOLEAN)
 		do
@@ -128,12 +128,29 @@ feature {NONE} -- Implementation
 			assert_32 (a_tag, False)
 		end
 
+feature {NONE} -- Implementation
+
 	os_checksum (unix, windows: NATURAL): NATURAL
 		do
 			if {PLATFORM}.is_unix then
 				Result := unix
 			else
 				Result := windows
+			end
+		end
+
+	new_string_type_list (str: READABLE_STRING_GENERAL): ARRAYED_LIST [READABLE_STRING_GENERAL]
+		-- list of 5 permutations of string type for `str'
+		do
+			create Result.make (5)
+			if attached str.to_string_32 as str_32 then
+				Result.extend (str_32)
+				Result.extend (create {IMMUTABLE_STRING_32}.make_from_string (str_32))
+				if str_32.is_valid_as_string_8 and then attached str_32.to_string_8 as str_8 then
+					Result.extend (str_8)
+					Result.extend (create {IMMUTABLE_STRING_8}.make_from_string (str_8))
+				end
+				Result.extend (create {ZSTRING}.make_from_string (str_32))
 			end
 		end
 

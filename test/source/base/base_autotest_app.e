@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:44:02 GMT (Monday 31st March 2025)"
-	revision: "201"
+	date: "2025-04-05 11:57:16 GMT (Saturday 5th April 2025)"
+	revision: "203"
 
 class
 	BASE_AUTOTEST_APP
@@ -27,6 +27,7 @@ inherit
 		DATE_TIME_TEST_SET,
 
 		EIFFEL_NAME_TRANSLATEABLE_TEST_SET,
+		EXTENDED_READABLE_ZSTRING_TEST_SET,
 		GENERAL_TEST_SET,
 		GROUPED_TABLE_TEST_SET,
 		HASH_SET_TEST_SET,
@@ -57,6 +58,8 @@ inherit
 		ZSTRING_TOKEN_TABLE_TEST_SET,
 		ZSTRING_TRANSFORMABLE_TEST_SET
 	]
+		rename
+			zstring as new_zstring
 		redefine
 			visible_types
 		end
@@ -318,6 +321,7 @@ note
 			${CONTAINER_STRUCTURE_TEST_SET},
 			${DATA_DIGESTS_TEST_SET},
 			${DATE_TIME_TEST_SET},
+			${EXTENDED_READABLE_ZSTRING_TEST_SET},
 			${EIFFEL_NAME_TRANSLATEABLE_TEST_SET},
 			${GENERAL_TEST_SET},
 			${GROUPED_TABLE_TEST_SET},

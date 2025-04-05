@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:37:04 GMT (Monday 31st March 2025)"
-	revision: "137"
+	date: "2025-04-04 8:59:06 GMT (Friday 4th April 2025)"
+	revision: "138"
 
 class
 	ZSTRING_TEST_SET
@@ -103,7 +103,7 @@ feature -- Conversion tests
 			test: STRING_TEST; i: INTEGER
 			z_code_string: STRING_32; general: READABLE_STRING_GENERAL
 		do
-			create test
+			create test.make_empty (Current)
 		 	across Text.lines_32 as line loop
 		 		test.set (line.item)
 		 		z_code_string := test.zs.shared_z_code_pattern (1)
@@ -162,7 +162,7 @@ feature -- Conversion tests
 		local
 			test: STRING_TEST
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.set (line.item)
 				assert ("to_general OK", test.to_general)
@@ -195,7 +195,7 @@ feature -- Removal tests
 			test: STRING_TEST; substring: STRING_32
 			l_interval: INTEGER_INTERVAL; i, lower, upper, offset: INTEGER
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.word_intervals as interval loop
 				from offset := 0 until offset > (interval.item.count // 2).max (1) loop
 					l_interval := (interval.item.lower + offset) |..| (interval.item.upper + offset)
@@ -252,7 +252,7 @@ feature -- Element change tests
 			test: STRING_TEST; G_clef: ZSTRING; word_list: EL_SPLIT_ZSTRING_LIST
 			start_index, mid_index, end_index: INTEGER
 		do
-			create test
+			create test.make_empty (Current)
 			G_clef := Text.G_clef
 			across Text.lines_32 as line loop
 				test.set (line.item)
@@ -297,7 +297,7 @@ feature -- Element change tests
 			z_code, old_z_code: NATURAL
 		do
 			uc := 'д'; z_code := Codec.as_z_code (uc)
-			test := Text.cyrillic_line_32
+			test := new_test (Text.cyrillic_line_32)
 			across << true, false >> as test_put_z_code loop
 				across Text.cyrillic_line_32 as c loop
 					i := c.cursor_index; old_uc := c.item
@@ -447,7 +447,7 @@ feature -- Status query tests
 			test: STRING_TEST
 		do
 			across Text.words_32 as word loop
-				create test.make (word.item)
+				test := new_test (word.item)
 				assert ("has_enclosing OK", test.has_enclosing)
 			end
 		end
@@ -554,7 +554,7 @@ feature -- Status query tests
 			test: STRING_TEST; start_index, end_index: INTEGER_32
 		do
 			across Text.lines_32 as line loop
-				create test.make (line.item)
+				test := new_test (line.item)
 				inspect line.cursor_index
 					when 1 then
 						end_index := test.s_32.count
@@ -601,7 +601,7 @@ feature -- Removal tests
 		local
 			test: STRING_TEST; i: INTEGER
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.words_32 as word loop
 				from i := 1 until i > word.item.count loop
 					test.set (word.item)
@@ -645,7 +645,7 @@ feature -- Access tests
 			test: STRING_TEST; uc: CHARACTER_32
 			index, index_32, i: INTEGER
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.set (line.item)
 				across Text.character_set as set loop
@@ -665,7 +665,7 @@ feature -- Access tests
 			test: STRING_TEST; uc: CHARACTER_32
 			index, index_32, i: INTEGER
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.set (line.item)
 				across Text.character_set as set loop
@@ -688,7 +688,7 @@ feature -- Access tests
 		local
 			test: STRING_TEST
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.set (line.item)
 				across test.zs as c loop
@@ -703,7 +703,7 @@ feature -- Access tests
 		local
 			test: STRING_TEST; uc: CHARACTER_32
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.set (line.item)
 				across Text.character_set as set loop
@@ -725,7 +725,7 @@ feature -- Access tests
 		do
 			assertion_ok := "substring_index OK"
 			across Text.lines_32 as line loop
-				create test.make (line.item)
+				test := new_test (line.item)
 				across test.all_word_interval_permutations as permutation loop
 					if attached permutation.item as list then
 						from list.start until list.after loop
@@ -753,8 +753,9 @@ feature -- Access tests
 
 			create boundary_intervals.make (str_32, '%N')
 
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
-				test := line.item
+				test.set (line.item)
 				bound_start_pos := boundary_intervals.i_th_lower (line.cursor_index)
 				bound_end_pos := boundary_intervals.i_th_upper (line.cursor_index)
 
@@ -778,7 +779,7 @@ feature -- Access tests
 		local
 			test: STRING_TEST
 		do
-			test := Text.Mixed_text
+			test := new_test (Text.Mixed_text)
 			across Text.Character_set as c loop
 				assert ("same index", test.zs.index_of (c.item, 1) = test.s_32.index_of (c.item, 1))
 			end
@@ -852,7 +853,7 @@ feature -- Duplication tests
 		do
 			assertion_ok := "substring OK"
 			across Text.lines_32 as line loop
-				create test.make (line.item)
+				test := new_test (line.item)
 				across test.all_word_interval_permutations as permutation loop
 					if attached permutation.item as list then
 						from list.start until list.after loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 10:28:02 GMT (Tuesday 1st April 2025)"
-	revision: "67"
+	date: "2025-04-03 11:39:50 GMT (Thursday 3rd April 2025)"
+	revision: "68"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -15,7 +15,8 @@ class
 inherit
 	EL_STRING_X_ROUTINES [STRING_32, READABLE_STRING_32, CHARACTER_32]
 		rename
-			shared_cursor_32 as cursor
+			shared_cursor_32 as cursor,
+			super_readable as super_readable_32
 		undefine
 			bit_count
 		end
@@ -28,14 +29,6 @@ inherit
 
 feature -- Character query
 
-	ends_with_character (s: STRING_32; c: CHARACTER_32): BOOLEAN
-		local
-			i: INTEGER
-		do
-			i := s.count
-			Result := i > 0 and then s [i] = c
-		end
-
 	has_enclosing (s: READABLE_STRING_32; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
 		local
@@ -47,16 +40,6 @@ feature -- Character query
 					do_nothing
 			else
 				Result := s [1] = c_first and then s [upper] = c_last
-			end
-		end
-
-	has_member (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN
-		-- `True' if at least one character in `str' is a member of `set'
-		local
-			r: EL_CHARACTER_32_ROUTINES
-		do
-			if attached cursor (str) as c then
-				Result := r.has_member (set, c.area, c.area_first_index, c.area_last_index)
 			end
 		end
 
@@ -94,13 +77,8 @@ feature -- Character query
 			r: EL_CHARACTER_32_ROUTINES
 		do
 			if attached cursor (str) as c then
-				Result := r.is_subset_of (set, c.area, c.area_first_index, c.area_last_index)
+				Result := r.is_subset_of (set, c.area, c.index_lower, c.index_upper)
 			end
-		end
-
-	starts_with_character (s: STRING_32; c: CHARACTER_32): BOOLEAN
-		do
-			Result := s.count > 0 and then s [1] = c
 		end
 
 feature -- Comparison

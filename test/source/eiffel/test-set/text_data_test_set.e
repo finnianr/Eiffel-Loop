@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:53:23 GMT (Tuesday 27th August 2024)"
-	revision: "41"
+	date: "2025-04-05 9:55:41 GMT (Saturday 5th April 2025)"
+	revision: "42"
 
 class
 	TEXT_DATA_TEST_SET
@@ -40,8 +40,10 @@ feature -- Tests
 
 	test_zstring_memory_on_boundary
 		-- TEXT_DATA_TEST_SET.test_zstring_memory_on_boundary
+		local
+			o: EL_OBJECT_PROPERTY
 		do
-			assert ("size = 48", Eiffel.physical_size (create {EL_ZSTRING}.make_empty) = 48)
+			assert ("size = 48", o.property (create {EL_ZSTRING}.make_empty).physical_size = 48)
 		-- Adding an INTEGER_32 attribute to ZSTRING will make size = 64 which is
 		-- a 16 byte increase equivalent to 2 x INTEGER_32. So 48 is aligned with some boundary.
 		end

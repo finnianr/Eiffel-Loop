@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:36:40 GMT (Tuesday 20th August 2024)"
-	revision: "9"
+	date: "2025-04-05 11:31:31 GMT (Saturday 5th April 2025)"
+	revision: "11"
 
 class
 	EL_IMMUTABLE_32_MANAGER
 
 inherit
 	EL_IMMUTABLE_STRING_MANAGER [CHARACTER_32, READABLE_STRING_32, IMMUTABLE_STRING_32]
-		rename
-			cursor as cursor_32
 		undefine
 			bit_count
 		end
@@ -51,7 +49,7 @@ feature {NONE} -- Contract Support
 	same_area_items (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER): BOOLEAN
 		do
 			if attached cursor_32 (item) as c then
-				Result := c.area.same_items (a_area, offset, c.area_first_index, a_count)
+				Result := c.area.same_items (a_area, offset, c.index_lower, a_count)
 			end
 		end
 
@@ -60,6 +58,11 @@ feature {NONE} -- Implementation
 	is_space (a_area: SPECIAL [CHARACTER_32]; i: INTEGER): BOOLEAN
 		do
 			Result := is_space_character (a_area [i]) -- workaround for finalization bug
+		end
+
+	new_immutable_substring (str: IMMUTABLE_STRING_32; start_index, end_index: INTEGER): IMMUTABLE_STRING_32
+		do
+			Result := str.shared_substring (start_index, end_index)
 		end
 
 	string_area (str: READABLE_STRING_32): SPECIAL [CHARACTER_32]

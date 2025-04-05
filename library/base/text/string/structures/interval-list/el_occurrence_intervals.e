@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:47 GMT (Sunday 30th March 2025)"
-	revision: "36"
+	date: "2025-04-05 8:27:48 GMT (Saturday 5th April 2025)"
+	revision: "37"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -26,7 +26,7 @@ inherit
 
 	EL_SIDE_ROUTINES
 		rename
-			valid_sides as valid_adjustments
+			valid_side as valid_adjustments
 		export
 			{ANY} valid_adjustments
 		end

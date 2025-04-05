@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 7:44:01 GMT (Sunday 25th August 2024)"
-	revision: "12"
+	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
+	revision: "13"
 
 deferred class
 	EL_BASE_POWER_2_CONVERTER
@@ -174,7 +174,7 @@ feature {NONE} -- Implementation
 					if attached {READABLE_STRING_8} str as str_8
 						and then attached cursor_8 (str_8) as cursor
 					then
-						Result.offset := cursor.area_first_index
+						Result.offset := cursor.index_lower
 						Result.area := cursor.area
 					end
 				when '4' then

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-23 8:05:50 GMT (Sunday 23rd March 2025)"
-	revision: "31"
+	date: "2025-04-03 8:53:12 GMT (Thursday 3rd April 2025)"
+	revision: "32"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -85,7 +85,7 @@ feature -- Basic operations
 			inspect abstract_type
 				when Character_32_type, Character_8_type then
 					if attached Utf_8_sequence as sequence and then attached cursor_8 (utf_8) as c then
-						sequence.fill (c.area, c.area_first_index)
+						sequence.fill (c.area, c.index_lower)
 						set_from_natural_64 (a_object, sequence.to_unicode)
 					end
 			else

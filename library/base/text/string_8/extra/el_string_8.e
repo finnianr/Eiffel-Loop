@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 8:23:18 GMT (Tuesday 1st April 2025)"
-	revision: "31"
+	date: "2025-04-04 15:37:50 GMT (Friday 4th April 2025)"
+	revision: "32"
 
 class
 	EL_STRING_8
@@ -20,22 +20,26 @@ inherit
 			{EL_STRING_8_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER}
 				Ctoi_convertor, Ctor_convertor, is_valid_integer_or_natural
+		undefine
+			same_string
 		redefine
 			append_string_general, make, share, trim
 		end
 
-	EL_EXTENDED_STRING_GENERAL [CHARACTER_8]
-		rename
-			READABLE_X as READABLE_8
+	EL_EXTENDED_STRING_8
+		undefine
+			count, is_valid_as_string_8, valid_index
 		end
 
-	EL_STRING_BIT_COUNTABLE [STRING_8]
+	EL_STRING_GENERAL_ROUTINES_I
+		rename
+			as_readable_string_32 as general_as_readable_string_32,
+			as_readable_string_8 as general_as_readable_string_8
+		end
 
 	EL_SHARED_STRING_8_CURSOR
 
 	EL_SHARED_STRING_8_BUFFER_POOL
-
-	EL_STRING_8_CONSTANTS
 
 create
 	make_from_zstring, make_empty, make, make_from_string
@@ -61,14 +65,6 @@ feature -- Staus query
 			if count > 0 and then attached area as l_area then
 				Result := l_area [0].is_space or else l_area [count - 1].is_space
 			end
-		end
-
-	is_ascii: BOOLEAN
-		-- `True' if all characters in `Current' are in the ASCII character range
-		local
-			c: EL_CHARACTER_8_ROUTINES
-		do
-			Result := c.is_ascii_area (area, area_lower, area_upper)
 		end
 
 feature -- Comparison
@@ -210,80 +206,26 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
-		do
-			Result := a_area [i].is_alpha
-		end
-
-	is_i_th_alpha_numeric (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
-		do
-			Result := a_area [i].is_alpha_numeric
-		end
-
-	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN
-		-- `True' if i'th character in `a_area'  is white space
-		do
-			Result := a_area [i].is_space
-		end
-
 	new_substring (start_index, end_index: INTEGER): STRING_8
 		do
 			create Result.make_empty
 			Result.share (substring (start_index, end_index))
 		end
 
-	same_area_items (a, b: like area; a_offset, b_offset, n: INTEGER): BOOLEAN
-			-- Are the `n' characters of `b' from `b_offset' position the same as
-			-- the `n' characters of `a' from `a_offset'?
-		require
-			other_not_void: b /= Void
-			source_index_non_negative: b_offset >= 0
-			destination_index_non_negative: a_offset >= 0
-			n_non_negative: n >= 0
-			n_is_small_enough_for_source: b_offset + n <= b.count
-			n_is_small_enough_for_destination: a_offset + n <= a.count
-		local
-			i, j, nb: INTEGER
+	other_area (other: READABLE_STRING_8): like area
 		do
-			if a = b and a_offset = b_offset then
-				Result := True
-			else
-				Result := True
-				from
-					i := b_offset
-					j := a_offset
-					nb := b_offset + n
-				until
-					i = nb
-				loop
-					if b [i] /= a [j] then
-						Result := False
-						i := nb - 1
-					end
-					i := i + 1
-					j := j + 1
-				end
-			end
-		ensure
-			valid_on_empty_area: (n = 0) implies Result
+			Result := other.area
+		end
+
+	other_index_lower (other: READABLE_STRING_8): INTEGER
+		do
+			Result := other.area_lower
 		end
 
 	split_on_character (separator: CHARACTER_8): like Split_string_8
 		do
 			Result := Split_string_8
 			Result.set_target (Current); Result.set_separator (separator)
-		end
-
-	to_char (uc: CHARACTER_32): CHARACTER_8
-		do
-			Result := uc.to_character_8
-		end
-
-	to_character_32 (c: CHARACTER_8): CHARACTER_32
-		do
-			Result := c.to_character_32
 		end
 
 	trim
@@ -306,13 +248,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	shared_string: STRING_8
-
-feature {NONE} -- Type definitions
-
-	READABLE_8: READABLE_STRING_8
-		once
-			Result := Empty_string_8
-		end
 
 feature {NONE} -- Constants
 

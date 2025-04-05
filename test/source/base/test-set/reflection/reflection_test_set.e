@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-27 16:24:39 GMT (Thursday 27th March 2025)"
-	revision: "83"
+	date: "2025-04-05 9:50:48 GMT (Saturday 5th April 2025)"
+	revision: "84"
 
 class
 	REFLECTION_TEST_SET
@@ -15,7 +15,9 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL; EL_MODULE_FACTORY; EL_MODULE_EXECUTABLE
+	EL_OBJECT_PROPERTY_I
+
+	EL_MODULE_FACTORY; EL_MODULE_EXECUTABLE
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -561,8 +563,8 @@ feature -- Tests
 			assert_same_http_status (table.continue, Http_status.continue)
 			assert_same_http_status (table.not_acceptable, Http_status.not_acceptable)
 
-			table_size := Eiffel.deep_physical_size (table) - table.text_manifest_size
-			enum_size := Eiffel.deep_physical_size (Http_status)
+			table_size := property (table).deep_physical_size - table.text_manifest_size
+			enum_size := property (Http_status).deep_physical_size
 			space_saved_percent := (enum_size - table_size) * 100 // enum_size
 			lio.put_integer_field ("Memory saving", space_saved_percent)
 			lio.put_character ('%%')
@@ -633,16 +635,16 @@ feature -- Tests
 			lio.put_integer_field ("size of INTEGER_64", {PLATFORM}.Integer_64_bytes)
 			lio.put_new_line
 			asn_string := geo_info.asn_
-			lio.put_integer_field ("size of EL_CODE_STRING " + asn_string, Eiffel.deep_physical_size (asn_string))
+			lio.put_integer_field ("size of EL_CODE_STRING " + asn_string, property (asn_string).deep_physical_size)
 			lio.put_new_line
-			assert ("12 times bigger", Eiffel.deep_physical_size (asn_string) // {PLATFORM}.Integer_64_bytes = 12)
+			assert ("12 times bigger", property (asn_string).deep_physical_size // {PLATFORM}.Integer_64_bytes = 12)
 
 			create l_info
-			lio.put_integer_field ("size of instance SIZE_TEST", Eiffel.deep_physical_size (l_info))
+			lio.put_integer_field ("size of instance SIZE_TEST", property (l_info).deep_physical_size)
 			lio.put_new_line
 
 			expected_size := Object_header_size + {PLATFORM}.Integer_64_bytes * 4
-			assert ("same size", Eiffel.deep_physical_size (l_info) = expected_size)
+			assert ("same size", property (l_info).deep_physical_size = expected_size)
 		end
 
 	test_substituted_type_id

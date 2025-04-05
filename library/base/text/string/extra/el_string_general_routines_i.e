@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 10:12:59 GMT (Monday 31st March 2025)"
-	revision: "15"
+	date: "2025-04-04 12:41:19 GMT (Friday 4th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -71,15 +71,35 @@ feature {NONE} -- Implementation
 			Result.share (str)
 		end
 
-	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+	super_readable_32 (str: READABLE_STRING_32): EL_READABLE_STRING_32
 		do
-			if is_zstring (general) and then attached {ZSTRING} general as z_str then
-				Result := z_str.to_general -- Result can be either `STRING_8' or `STRING_32'
+			Result := Shared_super_readable_32
+			Result.set_target (str)
+		end
+
+	super_readable_8 (str: READABLE_STRING_8): EL_READABLE_STRING_8
+		do
+			Result := Shared_super_readable_8
+			Result.set_target (str)
+		end
+
+	super_readable (str: EL_READABLE_ZSTRING): EL_EXTENDED_READABLE_ZSTRING
+		do
+			Result := Shared_super_readable
+			Result.set_target (str)
+		end
+
+	super_readable_general (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING [COMPARABLE]
+		do
+			inspect string_storage_type (str)
+				when '1' then
+					Result := Shared_super_readable_8
+				when 'X' then
+					Result := Shared_super_readable
 			else
-				Result := general
+				Result := Shared_super_readable_32
 			end
-		ensure
-			not_zstring: not attached {EL_READABLE_ZSTRING} Result
+			Result.set_target (str)
 		end
 
 feature {NONE} -- Constants
@@ -90,6 +110,21 @@ feature {NONE} -- Constants
 		end
 
 	Shared_super_8: EL_STRING_8
+		once
+			create Result.make_empty
+		end
+
+	Shared_super_readable_32: EL_READABLE_STRING_32
+		once
+			create Result.make_empty
+		end
+
+	Shared_super_readable_8: EL_READABLE_STRING_8
+		once
+			create Result.make_empty
+		end
+
+	Shared_super_readable: EL_EXTENDED_READABLE_ZSTRING
 		once
 			create Result.make_empty
 		end

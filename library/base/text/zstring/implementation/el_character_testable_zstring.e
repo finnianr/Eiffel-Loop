@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:19:48 GMT (Monday 31st March 2025)"
-	revision: "11"
+	date: "2025-04-04 7:13:57 GMT (Friday 4th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_CHARACTER_TESTABLE_ZSTRING
@@ -129,7 +129,7 @@ feature -- Substring query
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			upper_i := count - 1
-			if attached unicode_table as l_unicode_table and then attached area as l_area
+			if attached unicode_table as uc_table and then attached area as l_area
 				and then attached unencoded_area as area_32
 			then
 				from i := 0 until i > upper_i or Result loop
@@ -141,7 +141,7 @@ feature -- Substring query
 						when Ascii_range then
 							uc_i := c_i
 					else
-						uc_i := l_unicode_table [c_i.code]
+						uc_i := uc_table [c_i.code]
 					end
 					if set.has (uc_i) then
 						Result := True
@@ -177,7 +177,7 @@ feature -- Substring query
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			upper_i := end_index - 1
-			if attached unicode_table as l_unicode_table and then attached area as l_area
+			if attached unicode_table as uc_table and then attached area as l_area
 				and then attached unencoded_area as area_32
 			then
 				Result := True
@@ -190,7 +190,7 @@ feature -- Substring query
 						when Ascii_range then
 							uc_i := c_i
 					else
-						uc_i := l_unicode_table [c_i.code]
+						uc_i := uc_table [c_i.code]
 					end
 					if not set.has (uc_i) then
 						Result := False
@@ -367,6 +367,32 @@ feature -- Indexed query
 		end
 
 feature -- Presence query
+
+	has_alpha: BOOLEAN
+		-- `True' if `str' has an alphabetical character
+		local
+			i, block_index, i_final: INTEGER; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+			c_i: CHARACTER
+		do
+			if attached unencoded_area as area_32 and then attached area as l_area
+				and then attached Codec as l_codec
+			then
+				i_final := count
+				from i := 0 until Result or else i = i_final loop
+					c_i := l_area [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							Result := iter.item ($block_index, area_32, i + 1).is_alpha
+
+						when Ascii_range then
+							Result := c_i.is_alpha
+					else
+						Result := l_codec.is_alpha (c_i.natural_32_code)
+					end
+					i := i + 1
+				end
+			end
+		end
 
 	has_alpha_numeric: BOOLEAN
 		-- `True' if `str' has an alpha numeric character

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:34:45 GMT (Wednesday 6th November 2024)"
-	revision: "18"
+	date: "2025-04-05 9:42:58 GMT (Saturday 5th April 2025)"
+	revision: "19"
 
 class
 	JSON_INTERVALS_OBJECT [FIELD_ENUM -> EL_ENUMERATION_NATURAL_16 create make end]
@@ -24,7 +24,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_EIFFEL
+	EL_OBJECT_PROPERTY_I
 
 	EL_SHARED_ZSTRING_BUFFER_POOL
 
@@ -68,8 +68,8 @@ feature -- Measurement
 	physical_size: INTEGER
 		do
 			-- `field' enumeration is not included because it is shared across objects
-			Result := Eiffel.physical_size (Current) + Eiffel.deep_physical_size (text_values)
-							+ Eiffel.deep_physical_size (area_v2)
+			Result := property (Current).physical_size + property (text_values).deep_physical_size
+							+ property (area_v2).deep_physical_size
 		end
 
 feature {JSON_INTERVALS_OBJECT} -- Factory

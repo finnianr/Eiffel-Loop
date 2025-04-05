@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 12:31:30 GMT (Monday 31st March 2025)"
-	revision: "48"
+	date: "2025-04-04 10:59:55 GMT (Friday 4th April 2025)"
+	revision: "49"
 
 class
 	EL_DOCUMENT_NODE_STRING
@@ -17,6 +17,7 @@ inherit
 		rename
 			to_canonically_spaced as to_canonically_spaced_8,
 			to_character_32  as char_to_character_32,
+			to_character_8  as char_to_character_8,
 			is_empty as is_raw_empty,
 			make as make_with_capacity
 		export
@@ -31,10 +32,10 @@ inherit
 					prepend, prepend_character,
 					-- Status query
 					has, has_substring, starts_with, raw_string, raw_string_8, raw_string_32,
-					is_ascii, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty,
+					all_ascii, is_boolean, is_double, is_integer, is_real, is_valid_as_string_8, is_raw_empty,
 					same_string_general
 		redefine
-			append_to_string, append_to_string_8, append_to_string_32,
+			append_to_string, append_utf_8_to_string_8, append_utf_8_to_string_32,
 			as_string_32, to_string_32, as_string_8, to_boolean, to_string_8, to_string,
 			unicode_count
 		end
@@ -335,45 +336,45 @@ feature {NONE} -- Implementation
 			zstr.append_encoded (str_8, encoding_code)
 		end
 
-	append_to_string_32 (str_32: STRING_32; str_8: READABLE_STRING_8)
+	append_utf_8_to_string_32 (utf_8_in: READABLE_STRING_8; str_32_out: STRING_32)
 		do
 			if encoded_as_utf (8) then
-				Precursor (str_32, str_8)
+				Precursor (utf_8_in, str_32_out)
 
 			elseif encoded_as_latin (1) then
-				str_32.append_string_general (str_8)
+				str_32_out.append_string_general (utf_8_in)
 
 			elseif attached as_encoding as encoding then
-				encoding.convert_to (Encodings.Unicode, str_8)
+				encoding.convert_to (Encodings.Unicode, utf_8_in)
 
 				if encoding.last_conversion_successful then
 					check
 						no_lost_data: not encoding.last_conversion_lost_data
 					end
-					str_32.append_string_general (encoding.last_converted_string)
+					str_32_out.append_string_general (encoding.last_converted_string)
 				else
-					str_32.append_string_general (str_8)
+					str_32_out.append_string_general (utf_8_in)
 				end
 			end
 		end
 
-	append_to_string_8 (target: STRING; str_8: READABLE_STRING_8)
+	append_utf_8_to_string_8 (utf_8_in: READABLE_STRING_8; str_8_out: STRING)
 		do
 			if encoded_as_utf (8) then
-				Precursor (target, str_8)
+				Precursor (utf_8_in, str_8_out)
 
 			elseif encoded_as_latin (1) then
-				target.append (str_8)
+				str_8_out.append (utf_8_in)
 
 			elseif attached as_encoding as encoding then
-				encoding.convert_to (Encodings.Latin_1, str_8)
+				encoding.convert_to (Encodings.Latin_1, utf_8_in)
 				if encoding.last_conversion_successful then
 					check
 						no_lost_data: not encoding.last_conversion_lost_data
 					end
-					target.append (encoding.last_converted_string_8)
+					str_8_out.append (encoding.last_converted_string_8)
 				else
-					target.append (str_8)
+					str_8_out.append (utf_8_in)
 				end
 			end
 		end

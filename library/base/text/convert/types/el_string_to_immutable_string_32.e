@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "8"
+	date: "2025-04-03 14:23:11 GMT (Thursday 3rd April 2025)"
+	revision: "9"
 
 class
 	EL_STRING_TO_IMMUTABLE_STRING_32
@@ -40,7 +40,7 @@ feature -- Conversion
 			str_32: STRING_32
 		do
 			create str_32.make (end_index - start_index + 1)
-			shared_cursor (str).append_substring_to_string_32 (str_32, start_index, end_index)
+			super_readable_general (str).append_substring_to_string_32 (str_32, start_index, end_index)
 			Result := Immutable_32.as_shared (str_32)
 		end
 

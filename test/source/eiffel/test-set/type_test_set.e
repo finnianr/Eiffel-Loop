@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 18:31:50 GMT (Wednesday 2nd April 2025)"
-	revision: "23"
+	date: "2025-04-04 18:02:59 GMT (Friday 4th April 2025)"
+	revision: "24"
 
 class
 	TYPE_TEST_SET
@@ -15,18 +15,18 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL
-
-	EL_SHARED_FACTORIES
-
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_CLASS_ID
-
 	EL_EIFFEL_C_API
 		undefine
 			default_create
 		end
+
+	EL_STRING_HANDLER
+
+	EL_MODULE_EIFFEL
+
+	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_CLASS_ID; EL_SHARED_FACTORIES
 
 create
 	make
@@ -56,8 +56,10 @@ feature -- Tests
 			]"
 		local
 			null_array: ARRAY [POINTER_REF]; null: POINTER; type_id, l_type, last_abstract_type: INTEGER
-			type_name: STRING; bit_width: INTEGER
+			type_name, integer_ref_name: STRING; bit_width: INTEGER
 		do
+			integer_ref_name := "INTEGER_32_REF"
+
 		-- Important to test type with abstract type of zero
 			null_array := << null, null.to_reference >>
 			across null_array as array loop
@@ -78,7 +80,10 @@ feature -- Tests
 								end
 								type_name.append (suffix.item)
 								last_abstract_type := Eiffel.abstract_type_of_type_plus (type_id)
-								type_id := Eiffel.dynamic_type_from_string (type_name)
+								if type_name ~ integer_ref_name then
+									do_nothing
+								end
+								type_id := Eiffel.dynamic_type_from_string (type_name.twin) -- must be twinned for search to work
 								lio.put_integer_field (type_name, type_id)
 								if suffix.is_last then
 									lio.put_new_line

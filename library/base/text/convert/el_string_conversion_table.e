@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 13:38:59 GMT (Saturday 29th March 2025)"
-	revision: "45"
+	date: "2025-04-05 8:27:49 GMT (Saturday 5th April 2025)"
+	revision: "46"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -31,6 +31,11 @@ inherit
 			make as make_numeric
 		undefine
 			copy, default_create, is_equal
+		end
+
+	EL_SIDE_ROUTINES
+		export
+			{ANY} valid_side
 		end
 
 	EL_MODULE_EIFFEL; EL_MODULE_NAMING
@@ -86,6 +91,8 @@ feature -- Access
 
 	split_list (value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like filled_split_list
 		-- split `value_list' with white space adjustments: `Both', `Left', `None', `Right'. (See class `EL_SIDE')
+		require
+			valid_side: valid_side (adjustments)
 		do
 			Result := filled_split_list (value_list, separator, adjustments).twin
 		end

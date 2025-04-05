@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 7:22:58 GMT (Friday 28th March 2025)"
-	revision: "8"
+	date: "2025-04-05 10:04:57 GMT (Saturday 5th April 2025)"
+	revision: "9"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
 
 inherit
-	EL_INTERNAL
+	EL_EXTENDED_REFLECTOR
 		rename
 			abstract_type as object_abstract_type,
 			conforms_to as object_conforms_to,

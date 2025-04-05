@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:43 GMT (Sunday 30th March 2025)"
-	revision: "57"
+	date: "2025-04-05 9:47:16 GMT (Saturday 5th April 2025)"
+	revision: "58"
 
 class
 	HASH_TABLE_TEST_SET
@@ -15,9 +15,11 @@ class
 inherit
 	EL_EQA_TEST_SET
 
-	EL_MODULE_EIFFEL; EL_MODULE_EXECUTABLE
+	EL_MODULE_EXECUTABLE
 
 	EL_STRING_GENERAL_ROUTINES_I
+
+	EL_OBJECT_PROPERTY_I
 
 	JSON_TEST_DATA
 
@@ -358,8 +360,8 @@ feature -- General tests
 			across Feature_expansion_table as table loop
 				standard_table.extend (table.item, table.key)
 			end
-			immutable_size := Eiffel.deep_physical_size (Feature_expansion_table)
-			standard_size := Eiffel.deep_physical_size (standard_table)
+			immutable_size := property (Feature_expansion_table).deep_physical_size
+			standard_size := property (standard_table).deep_physical_size
 			lio.put_integer_field ("Standard size", standard_size)
 			lio.put_integer_field (" Immutable size", immutable_size)
 			lio.put_new_line
@@ -641,18 +643,6 @@ feature {NONE} -- Implementation
 				yen := ¥
 				copy := ©
 			]")
-		end
-
-	new_string_type_list (str: READABLE_STRING_GENERAL): ARRAYED_LIST [READABLE_STRING_GENERAL]
-		do
-			create Result.make_from_array (<<
-				str.to_string_32, create {IMMUTABLE_STRING_32}.make_from_string (str.to_string_32),
-				create {ZSTRING}.make_from_general (str)
-			>>)
-			if str.is_valid_as_string_8 then
-				Result.extend (str.to_string_8)
-				Result.extend (create {IMMUTABLE_STRING_8}.make_from_string (str.to_string_8))
-			end
 		end
 
 feature {NONE} -- Constants

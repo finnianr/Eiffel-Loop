@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 16:05:20 GMT (Saturday 29th March 2025)"
-	revision: "10"
+	date: "2025-04-05 12:16:53 GMT (Saturday 5th April 2025)"
+	revision: "11"
 
 deferred class
 	TEST_STRINGS [S -> STRING_GENERAL create make end, R -> STRING_ROUTINES [S] create default_create end]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_MODULE_EIFFEL
+	EL_OBJECT_PROPERTY_I
 
 	SHARED_HEXAGRAM_STRINGS
 

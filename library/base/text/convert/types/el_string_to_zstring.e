@@ -6,23 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:46 GMT (Sunday 30th March 2025)"
-	revision: "12"
+	date: "2025-04-03 14:22:01 GMT (Thursday 3rd April 2025)"
+	revision: "13"
 
 class
 	EL_STRING_TO_ZSTRING
 
 inherit
 	EL_TO_STRING_GENERAL_TYPE [ZSTRING]
-		redefine
-			is_latin_1
-		end
-
-	EL_STRING_GENERAL_ROUTINES_I
 		rename
 			as_zstring as as_type
 		export
 			{ANY} as_type
+		redefine
+			is_latin_1
 		end
 
 create

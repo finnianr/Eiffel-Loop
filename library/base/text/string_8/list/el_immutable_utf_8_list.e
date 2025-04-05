@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "2"
+	date: "2025-04-03 9:02:53 GMT (Thursday 3rd April 2025)"
+	revision: "3"
 
 class
 	EL_IMMUTABLE_UTF_8_LIST
@@ -35,7 +35,7 @@ feature -- Measurement
 	item_index_of (uc: CHARACTER_32): INTEGER
 		do
 			if attached cursor_8 (item) as c8 then
-				Result := Utf_8_sequence.character_index_of (uc, c8.area, c8.area_first_index, c8.area_last_index)
+				Result := Utf_8_sequence.character_index_of (uc, c8.area, c8.index_lower, c8.index_upper)
 			end
 		end
 
@@ -48,12 +48,12 @@ feature {NONE} -- Implementation
 		do
 			if attached Utf_8_sequence as utf_8 then
 				if attached cursor_8 (u) as c8 then
-					u_area := c8.area; u_index := c8.area_first_index
+					u_area := c8.area; u_index := c8.index_lower
 				end
 				u_count := unicode_count (u)
 
 				if attached cursor_8 (v) as c8 then
-					v_area := c8.area; v_index := c8.area_first_index
+					v_area := c8.area; v_index := c8.index_lower
 				end
 				v_count := unicode_count (v)
 

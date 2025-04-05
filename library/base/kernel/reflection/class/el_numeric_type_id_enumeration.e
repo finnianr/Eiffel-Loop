@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 10:52:03 GMT (Monday 17th March 2025)"
-	revision: "2"
+	date: "2025-04-03 8:04:06 GMT (Thursday 3rd April 2025)"
+	revision: "3"
 
 class
 	EL_NUMERIC_TYPE_ID_ENUMERATION
@@ -19,6 +19,9 @@ feature -- Type sets
 
 	natural_types: SPECIAL [INTEGER]
 		-- set of NATURAL_x types including reference variations
+
+	whole_number_types: SPECIAL [INTEGER]
+		-- set of NATURAL_x and INTEGER_x types including reference variations
 
 	real_types: SPECIAL [INTEGER]
 		-- set of REAL_x types including reference variations

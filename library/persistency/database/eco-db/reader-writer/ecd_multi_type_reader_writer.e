@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:06:29 GMT (Monday 23rd September 2024)"
-	revision: "11"
+	date: "2025-04-05 10:24:11 GMT (Saturday 5th April 2025)"
+	revision: "12"
 
 class
 	ECD_MULTI_TYPE_READER_WRITER [G -> EL_STORABLE create make_default end]
@@ -19,8 +19,6 @@ inherit
 		redefine
 			write, read_header, write_header, new_item
 		end
-
-	EL_MODULE_EIFFEL
 
 create
 	make
@@ -43,7 +41,7 @@ feature -- Basic operations
 
 	write (a_writeable: EL_STORABLE; a_file: RAW_FILE)
 		do
-			if type_index_table.has_key (Eiffel.dynamic_type (a_writeable)) then
+			if type_index_table.has_key ({ISE_RUNTIME}.dynamic_type (a_writeable)) then
 				type_index := type_index_table.found_item
 			else
 				type_index := 0

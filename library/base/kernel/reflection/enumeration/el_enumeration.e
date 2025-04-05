@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:34:18 GMT (Friday 21st March 2025)"
-	revision: "72"
+	date: "2025-04-05 9:39:41 GMT (Saturday 5th April 2025)"
+	revision: "73"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -56,6 +56,8 @@ inherit
 		end
 
 	EL_BIT_COUNTABLE
+
+	EL_OBJECT_PROPERTY_I
 
 feature {NONE} -- Initialization
 
@@ -91,7 +93,7 @@ feature {NONE} -- Initialization
 				use_array := True
 			else
 				create name_table.make (enum_list.count)
-				size_table := Eiffel.deep_physical_size (name_table)
+				size_table := property (name_table).deep_physical_size
 				array_max_count := (size_table - Array_size_overhead) // {PLATFORM}.pointer_bytes
 				if range_count <= array_max_count then
 					use_array := True
@@ -432,7 +434,7 @@ feature {NONE} -- Constants
 
 	Array_size_overhead: INTEGER
 		once
-			Result := Eiffel.physical_size (<< True >>) + Eiffel.Object_overhead
+			Result := property (<< True >>).physical_size + Object_overhead
 		end
 
 	Default_name: IMMUTABLE_STRING_8

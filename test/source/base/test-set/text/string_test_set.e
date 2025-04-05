@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 10:10:35 GMT (Tuesday 1st April 2025)"
-	revision: "38"
+	date: "2025-04-05 11:54:40 GMT (Saturday 5th April 2025)"
+	revision: "40"
 
 class
 	STRING_TEST_SET
@@ -17,11 +17,22 @@ inherit
 
 	EL_SIDE_ROUTINES
 
+	EL_MODULE_CONVERT_STRING
+
+	EL_STRING_GENERAL_ROUTINES_I
+
 	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT
 
 	EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_CURSOR
 
 	SHARED_COLOR_ENUM
+
+	EL_SET [CHARACTER_8]
+		rename
+			has as has_a_to_c
+		undefine
+			default_create
+		end
 
 create
 	make
@@ -40,6 +51,7 @@ feature {NONE} -- Initialization
 				["match_wildcard",				agent test_match_wildcard],
 				["name_table",						agent test_name_table],
 				["name_value_pair",				agent test_name_value_pair],
+				["readable_has_member",			agent test_readable_has_member],
 				["remove_bookends",				agent test_remove_bookends],
 				["selected_name",					agent test_selected_name],
 				["variable_pattern",				agent test_variable_pattern],
@@ -214,25 +226,29 @@ feature -- Tests
 		-- STRING_TEST_SET.test_match_wildcard
 		note
 			testing: "[
-				covers/{EL_READABLE_STRING_X_ROUTINES}.matches_wildcard,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.matches_wildcard,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.new_shared_substring,
+				covers/{EL_IMMUTABLE_STRING_MANAGER}.shared_substring,
+				covers/{EL_STRING_CONVERSION_TABLE}.split_list,
 				covers/{EL_COMPARABLE_ZSTRING}.matches_wildcard
 			]"
 		local
-			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES
-			word_8: STRING; word, pattern: ZSTRING
+			word: EL_EXTENDED_READABLE_STRING [COMPARABLE]; empty_pattern, pattern: READABLE_STRING_GENERAL
 		do
-			word_8 := "encylopedia"
-
-			across << "*dia", "enc*", "*lop*", "*", word_8 >> as list loop
-				if attached list.item as pattern_8 then
-					word := word_8
-					pattern := pattern_8
-					assert ("matches", s.matches_wildcard (word_8, pattern_8))
-					assert ("matches", z.matches_wildcard (word, pattern))
-					assert ("matches", word.matches_wildcard (pattern))
+			across new_string_type_list ("encylopedia, *dia, enc*, *lop*, *") as csv_list loop
+				if attached Convert_string.split_list (csv_list.item, ',', {EL_SIDE}.Left) as split_list then
+					across split_list as list loop
+						if list.cursor_index = 1 then
+							word := super_readable_general (list.item)
+							empty_pattern := list.item.substring (1, 0)
+							assert ("empty not matched", not word.matches_wildcard (empty_pattern))
+						else
+							pattern := list.item
+							assert ("matches wildcard", word.matches_wildcard (pattern))
+						end
+					end
 				end
 			end
-			assert ("no match", not word.matches_wildcard (""))
 		end
 
 	test_name_table
@@ -298,6 +314,22 @@ feature -- Tests
 			end
 			create pair.make_quoted ("a = %"3%"", '=')
 			assert ("is 3", pair.value ~ "3")
+		end
+
+	test_readable_has_member
+		-- STRING_TEST_SET.test_readable_has_member
+		note
+			testing: "[
+				covers/{EL_EXTENDED_READABLE_STRING}.has_member,
+				covers/{EL_READABLE_STRING_X_ROUTINES}.has_member
+			]"
+		local
+			str, abc, def: IMMUTABLE_STRING_8; s: EL_STRING_8_ROUTINES
+		do
+			str := "abcdef"; abc := str.shared_substring (1, 3); def := str.shared_substring (4, 6)
+			assert ("in set", s.has_member (str, Current))
+			assert ("in set", s.has_member (abc, Current))
+			assert ("not in set", not s.has_member (def, Current))
 		end
 
 	test_remove_bookends
@@ -372,4 +404,14 @@ feature -- Tests
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	has_a_to_c (c: CHARACTER): BOOLEAN
+		do
+			inspect c
+				when 'a' .. 'c' then
+					Result := True
+			else
+			end
+		end
 end

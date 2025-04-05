@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
-	revision: "31"
+	date: "2025-04-03 14:03:49 GMT (Thursday 3rd April 2025)"
+	revision: "32"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -38,7 +38,7 @@ inherit
 			write_pointer as sink_pointer
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
+	EL_STRING_GENERAL_ROUTINES_I
 		export
 			{NONE} all
 		end
@@ -292,11 +292,10 @@ feature -- String sinks
 				sink_string (z_str)
 
 			elseif utf_8_mode_enabled then
-				shared_cursor (in).write_utf_8_to (Current)
+				super_readable_32 (in).write_utf_8_to (Current)
 			else
-				if in.is_immutable and then attached shared_cursor_32 (in) as c then
-					l_area := c.area
-					i_lower := c.area_first_index; i_upper := c.area_last_index
+				if in.is_immutable and then attached super_readable_32 (in) as s then
+					l_area := s.area; i_lower := s.index_lower; i_upper := s.index_upper
 
 				elseif attached {STRING_32} in as str_32 then
 					l_area := str_32.area; i_upper := str_32.count - 1
@@ -313,11 +312,10 @@ feature -- String sinks
 			l_area: SPECIAL [CHARACTER_8]; i, i_lower, i_upper: INTEGER
 		do
 			if utf_8_mode_enabled then
-				shared_cursor_8 (in).write_utf_8_to (Current)
+				super_readable_8 (in).write_utf_8_to (Current)
 			else
-				if in.is_immutable and then attached shared_cursor_8 (in) as c then
-					l_area := c.area
-					i_lower := c.area_first_index; i_upper := c.area_last_index
+				if in.is_immutable and then attached super_readable_8 (in) as s then
+					l_area := s.area; i_lower := s.index_lower; i_upper := s.index_upper
 
 				elseif attached {STRING_8} in as str_32 then
 					l_area := str_32.area; i_upper := str_32.count - 1

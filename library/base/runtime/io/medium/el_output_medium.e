@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
-	revision: "45"
+	date: "2025-04-03 14:10:14 GMT (Thursday 3rd April 2025)"
+	revision: "46"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -49,10 +49,7 @@ inherit
 			put_string_general
 		end
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
-		rename
-			is_character as is_string_character,
-			occurrences as string_occurrences
+	EL_STRING_GENERAL_ROUTINES_I
 		export
 			{NONE} all
 		end
@@ -229,7 +226,8 @@ feature -- String output
 		do
 			inspect encoding
 				when Utf_8 then
-					shared_cursor (str).write_utf_8_to (Current)
+				-- `str' might be a ZSTRING
+					super_readable_general (str).write_utf_8_to (Current)
 
 				when Other_class then
 					put_other (str)
@@ -246,7 +244,7 @@ feature -- String output
 		do
 			inspect encoding
 				when Utf_8 then
-					shared_cursor_8 (str).write_utf_8_to (Current)
+					super_readable_8 (str).write_utf_8_to (Current)
 
 				when Other_class then
 					put_string_general (str)
@@ -267,7 +265,7 @@ feature -- String output
 					put_other (str)
 
 				when Utf_8 then
-					shared_cursor (str).write_utf_8_to (Current)
+					super_readable_general (str).write_utf_8_to (Current)
 			else
 				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 					put_string_8 (str_8)

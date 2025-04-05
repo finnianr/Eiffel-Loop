@@ -6,24 +6,25 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 14:01:01 GMT (Sunday 9th February 2025)"
-	revision: "21"
+	date: "2025-04-03 8:57:19 GMT (Thursday 3rd April 2025)"
+	revision: "22"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
 
 inherit
 	EL_STRING_ITERATION_CURSOR
-		rename
-			set_target as make
-		end
 
 	STRING_8_ITERATION_CURSOR
+		rename
+			area_first_index as index_lower,
+			area_last_index as index_upper,
+			make as set_target
 		export
-			{EL_SHARED_STRING_8_CURSOR, STRING_HANDLER} area, area_first_index, area_last_index, make
+			{EL_SHARED_STRING_8_CURSOR, STRING_HANDLER} area, index_lower, index_upper
 		end
 
-	EL_8_BIT_IMPLEMENTATION
+	EL_STRING_BIT_COUNTABLE [STRING_8]
 
 	EL_STRING_8_CONSTANTS
 		rename
@@ -38,7 +39,7 @@ feature -- Transforms
 	filtered (included: PREDICATE [CHARACTER]): STRING
 		do
 			create Result.make (target.count)
-			area.do_if_in_bounds (agent Result.extend, included, area_first_index, area_last_index)
+			area.do_if_in_bounds (agent Result.extend, included, index_lower, index_upper)
 			Result.trim
 		end
 
@@ -49,9 +50,9 @@ feature -- Status query
 		local
 			c8: EL_CHARACTER_8_ROUTINES
 		do
-			Result := c8.is_alpha_numeric_area (area, area_first_index, area_last_index)
+			Result := c8.is_alpha_numeric_area (area, index_lower, index_upper)
 		end
-		
+
 	all_ascii: BOOLEAN
 		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
 		do
@@ -66,7 +67,7 @@ feature -- Status query
 			if uc.is_character_8 and then target.valid_index (start_index) then
 				c := uc.to_character_8
 				count := target.count.min (end_index) - start_index + 1
-				i := start_index + area_first_index - 1
+				i := start_index + index_lower - 1
 				i_final := i + count
 				if attached area as l_area then
 					from until i = i_final or Result loop
@@ -85,8 +86,8 @@ feature -- Status query
 		local
 			c_8: EL_CHARACTER_8_ROUTINES; l_last_index: INTEGER
 		do
-			l_last_index := area_last_index - (target.count - end_index)
-			Result := c_8.is_ascii_area (area, area_first_index + start_index - 1, l_last_index)
+			l_last_index := index_upper - (target.count - end_index)
+			Result := c_8.is_ascii_area (area, index_lower + start_index - 1, l_last_index)
 		end
 
 feature -- Measurement
@@ -102,22 +103,22 @@ feature -- Measurement
 		local
 			i, last_i: INTEGER; l_area: like area; c: CHARACTER
 		do
-			c := uc.to_character_8; last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i or else l_area [i] /= c loop
+			c := uc.to_character_8; last_i := index_upper; l_area := area
+			from i := index_lower until i > last_i or else l_area [i] /= c loop
 				i := i + 1
 			end
-			Result := i - area_first_index
+			Result := i - index_lower
 		end
 
 	leading_white_count: INTEGER
 		local
 			i, last_i: INTEGER; l_area: like area
 		do
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i or else not l_area [i].is_space loop
+			last_i := index_upper; l_area := area
+			from i := index_lower until i > last_i or else not l_area [i].is_space loop
 				i := i + 1
 			end
-			Result := i - area_first_index
+			Result := i - index_lower
 		end
 
 	target_count: INTEGER
@@ -129,11 +130,11 @@ feature -- Measurement
 		local
 			i, first_i: INTEGER; l_area: like area
 		do
-			first_i := area_first_index; l_area := area
-			from i := area_last_index until i < first_i or else not l_area [i].is_space loop
+			first_i := index_lower; l_area := area
+			from i := index_upper until i < first_i or else not l_area [i].is_space loop
 				i := i - 1
 			end
-			Result := area_last_index - i
+			Result := index_upper - i
 		end
 
 feature -- Basic operations
@@ -143,8 +144,8 @@ feature -- Basic operations
 			i, i_final: INTEGER
 		do
 			if attached area as l_area then
-				i_final := source_index + area_first_index + n
-				from i := source_index + area_first_index until i = i_final loop
+				i_final := source_index + index_lower + n
+				from i := source_index + index_lower until i = i_final loop
 					destination.extend (l_area [i].to_character_32)
 					i := i + 1
 				end

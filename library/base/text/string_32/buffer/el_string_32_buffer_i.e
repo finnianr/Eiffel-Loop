@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 9:32:02 GMT (Friday 8th November 2024)"
-	revision: "12"
+	date: "2025-04-03 14:38:11 GMT (Thursday 3rd April 2025)"
+	revision: "13"
 
 deferred class
 	EL_STRING_32_BUFFER_I
@@ -33,19 +33,23 @@ feature -- Access
 	copied_general (general: READABLE_STRING_GENERAL): STRING_32
 		do
 			Result := empty
-			shared_cursor (general).append_to_string_32 (Result)
+			super_readable_general (general).append_to_string_32 (Result)
 		end
 
 	copied_substring (str_32: READABLE_STRING_32; start_index, end_index: INTEGER): STRING_32
 		do
 			Result := empty
-			shared_cursor (str_32).append_substring_to_string_32 (Result, start_index, end_index)
+			if is_zstring (str_32) and then attached {ZSTRING} str_32 as z_str then
+				super_readable (z_str).append_substring_to_string_32 (Result, start_index, end_index)
+			else
+				super_readable_32 (str_32).append_substring_to_string_32 (Result, start_index, end_index)
+			end
 		end
 
 	copied_substring_general (general: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_32
 		do
 			Result := empty
-			shared_cursor (general).append_substring_to_string_32 (Result, start_index, end_index)
+			super_readable_general (general).append_substring_to_string_32 (Result, start_index, end_index)
 		end
 
 	copied_utf_8_0 (data: MANAGED_POINTER): STRING_32

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-31 19:53:26 GMT (Saturday 31st August 2024)"
-	revision: "9"
+	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
+	revision: "10"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_8
@@ -31,7 +31,7 @@ feature -- Element change
 	set_other_area (a_cursor: like string_cursor)
 		do
 			other_area := a_cursor.area
-			other_area_first_index := a_cursor.area_first_index
+			other_area_first_index := a_cursor.index_lower
 		end
 
 feature {NONE} -- Implementation

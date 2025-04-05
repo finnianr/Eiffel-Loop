@@ -15,17 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 12:48:01 GMT (Wednesday 2nd April 2025)"
-	revision: "45"
+	date: "2025-04-05 10:09:50 GMT (Saturday 5th April 2025)"
+	revision: "47"
 
 class
-	EL_INTERNAL
+	EL_EXTENDED_REFLECTOR
 
 inherit
-	INTERNAL
-		undefine
-			dynamic_type
-		end
+	EL_REFLECTOR
 
 	EL_TYPE_UTILITIES
 		export
@@ -135,10 +132,7 @@ feature -- Conversion
 	to_integer_64 (n: ANY; type_id: INTEGER): INTEGER_64
 		require
 			correct_type_id: same_type_as (n, type_id)
-			is_natural_or_integer_type:
-				across << class_id.natural_types, class_id.integer_types >> as set some
-					is_type_in_set (type_id, set.item)
-				end
+			is_natural_or_integer_type: is_type_in_set (type_id, class_id.whole_number_types)
 		do
 			inspect abstract_type_of_type_plus (type_id)
 				when Natural_8_type then
@@ -405,38 +399,10 @@ feature -- Access
 			end
 		end
 
-	new_object (type: TYPE [ANY]): detachable ANY
-		do
-			Result := new_instance_of (type.type_id)
-		end
-
 	reflected (a_object: ANY): EL_REFLECTED_REFERENCE_OBJECT
 		do
 			create Result.make (a_object)
 		end
-
-	type_from_string (class_type: READABLE_STRING_GENERAL): detachable TYPE [ANY]
-		local
-			type_id: INTEGER
-		do
-			type_id := dynamic_type_from_string (class_type)
-			if type_id > 0 then
-				Result := type_of_type (type_id)
-			end
-		end
-
-feature -- Constants
-
-	Basic_types: EL_ARRAYED_LIST [TYPE [ANY]]
-		once
-			create Result.make (Special_type_mapping.count)
-			across Special_type_mapping as table loop
-				Result.extend (type_of_type (table.key))
-			end
-		end
-
-	Object_overhead: INTEGER = 32
-		-- memory overhead for any object excluding all attributes
 
 feature -- Contract Support
 

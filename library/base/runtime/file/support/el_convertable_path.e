@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 15:20:00 GMT (Tuesday 11th February 2025)"
-	revision: "50"
+	date: "2025-04-03 13:16:20 GMT (Thursday 3rd April 2025)"
+	revision: "51"
 
 deferred class
 	EL_CONVERTABLE_PATH
@@ -54,7 +54,7 @@ feature -- Measurement
 					if attached {ZSTRING} i_th_part as zstr then
 						Result := Result + zstr.utf_8_byte_count
 					else
-						Result := Result + shared_cursor (i_th_part).utf_8_byte_count
+						Result := Result + super_readable_general (part_string (i)).utf_8_byte_count
 					end
 				end
 				i := i + 1
@@ -140,7 +140,7 @@ feature -- Conversion
 					if attached {ZSTRING} i_th_part as zstr then
 						zstr.append_to_utf_8 (Result)
 					else
-						shared_cursor (i_th_part).append_to_utf_8 (Result)
+						super_readable_general (i_th_part).append_to_utf_8 (Result)
 					end
 				end
 				i := i + 1
@@ -209,7 +209,7 @@ feature -- Append to other
 					if attached {ZSTRING} general as zstr then
 						zstr.append_to_utf_8 (utf_8_out)
 					else
-						shared_cursor (general).append_to_utf_8 (utf_8_out)
+						super_readable_general (general).append_to_utf_8 (utf_8_out)
 					end
 				end
 				i := i + 1

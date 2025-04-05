@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 15:42:13 GMT (Sunday 8th September 2024)"
-	revision: "6"
+	date: "2025-04-05 8:27:48 GMT (Saturday 5th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]
@@ -17,7 +17,7 @@ deferred class
 inherit
 	EL_SIDE_ROUTINES
 		rename
-			valid_sides as valid_adjustments
+			valid_side as valid_adjustments
 		export
 			{ANY} valid_adjustments
 		end

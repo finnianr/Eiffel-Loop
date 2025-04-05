@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 11:30:30 GMT (Tuesday 1st April 2025)"
-	revision: "1"
+	date: "2025-04-05 8:27:47 GMT (Saturday 5th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -30,10 +30,10 @@ inherit
 
 	EL_SIDE_ROUTINES
 		rename
-			to_unicode_general as to_unicode,
-			valid_sides as valid_adjustments
+			super_readable as super_readable_zstring,
+			valid_side as valid_adjustments
 		export
-			{ANY} as_zstring, ZSTRING, to_unicode, valid_adjustments
+			{ANY} as_zstring, ZSTRING, valid_adjustments
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -120,6 +120,10 @@ feature {NONE} -- Deferred
 		end
 
 	starts_with (s, leading: READABLE_STRING_X): BOOLEAN
+		deferred
+		end
+
+	super_readable (str: READABLE_STRING_X): EL_EXTENDED_READABLE_STRING_I [C]
 		deferred
 		end
 

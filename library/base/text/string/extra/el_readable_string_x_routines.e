@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 11:30:30 GMT (Tuesday 1st April 2025)"
-	revision: "56"
+	date: "2025-04-05 11:55:41 GMT (Saturday 5th April 2025)"
+	revision: "58"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -167,19 +167,14 @@ feature -- Lists
 
 feature -- Character query
 
-	ends_with_character (s: READABLE_STRING_x; c: C): BOOLEAN
-		deferred
+	ends_with_character (str: READABLE_STRING_X; c: C): BOOLEAN
+		do
+			Result := super_readable (str).ends_with_character (c)
 		end
 
 	has_alpha (str: READABLE_STRING_X): BOOLEAN
-		local
-			i, upper: INTEGER
 		do
-			upper := str.count
-			from i := 1 until Result or else i > upper loop
-				Result := is_i_th_alpha (str, i)
-				i := i + 1
-			end
+			Result := super_readable (str).has_alpha
 		end
 
 	has_double (s: READABLE_STRING_X): BOOLEAN
@@ -210,15 +205,17 @@ feature -- Character query
 			Result := has_quotes (s, 1)
 		end
 
-	starts_with_character (s: READABLE_STRING_x; c: C): BOOLEAN
-		deferred
+	starts_with_character (str: READABLE_STRING_X; c: C): BOOLEAN
+		do
+			Result := super_readable (str).starts_with_character (c)
 		end
 
 feature -- Status query
 
 	has_member (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
 		-- `True' if at least one character in `str' is a member of `set'
-		deferred
+		do
+			Result := super_readable (str).has_member (set)
 		end
 
 	is_alpha_numeric (str: READABLE_STRING_X): BOOLEAN
@@ -322,52 +319,6 @@ feature -- Comparison
 
 			elseif big.count >= small.count then
 				Result := occurs_caseless_at (big, small, big.count - small.count + 1)
-			end
-		end
-
-	matches_wildcard (s, wildcard: READABLE_STRING_X): BOOLEAN
-		-- try to match `wildcard' search term against string `s' with an asterisk either to the left,
-		-- to the right or on both sides
-		local
-			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
-			search_string: READABLE_STRING_X
-		do
-			start_index := 1; end_index := wildcard.count
-			inspect wildcard.count
-				when 0 then
-				when 1 then
-					if wildcard [1].code = {ASCII}.Star then
-						any_ending := True; any_start := True
-					end
-			else
-				if ends_with_character (wildcard, asterisk)  then
-					end_index := end_index - 1
-					any_ending := True
-				end
-				if starts_with_character (wildcard, asterisk) then
-					start_index := start_index + 1
-					any_start := True
-				end
-			end
-			if start_index - end_index + 1 = wildcard.count then
-				search_string := wildcard
-			else
-				search_string := new_shared_substring (wildcard, start_index, end_index)
-			end
-			if any_ending and any_start then
-				if wildcard.count = 1 then
-					Result := True
-				else
-					Result := s.has_substring (search_string)
-				end
-
-			elseif any_ending then
-				Result := starts_with (s, search_string)
-
-			elseif any_start then
-				Result := ends_with (s, search_string)
-			else
-				Result := same_string (s, wildcard)
 			end
 		end
 

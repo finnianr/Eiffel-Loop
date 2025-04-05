@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:57:28 GMT (Sunday 30th March 2025)"
-	revision: "6"
+	date: "2025-04-05 8:29:18 GMT (Saturday 5th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_SIDE_ROUTINES
@@ -33,6 +33,8 @@ inherit
 feature {NONE} -- Implementation
 
 	side_name (a_side: INTEGER): STRING
+		require
+			valid_side: valid_side (a_side)
 		do
 			Result := super_8 (once "None, Left, Right, Both").selected_substring (a_side, 0 |..| Both_sides)
 		end
@@ -58,7 +60,7 @@ feature {NONE} -- Contract Support
 			end
 		end
 
-	frozen valid_sides (bitmap: INTEGER): BOOLEAN
+	frozen valid_side (bitmap: INTEGER): BOOLEAN
 		do
 			Result := No_sides <= bitmap and then bitmap <= Both_sides
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:48:54 GMT (Friday 20th September 2024)"
-	revision: "7"
+	date: "2025-04-05 12:18:22 GMT (Saturday 5th April 2025)"
+	revision: "8"
 
 class
 	TEST_ZSTRING
@@ -22,9 +22,9 @@ feature -- Measurement
 
 	storage_bytes (s: ZSTRING): INTEGER
 		do
-			Result := Eiffel.physical_size (s) + Eiffel.physical_size (s.area)
+			Result := property (s).physical_size + property (s.area).physical_size
 			if s.has_mixed_encoding then
-				Result := Result + Eiffel.physical_size (s.unencoded_area)
+				Result := Result + property (s.unencoded_area).physical_size
 			end
 		end
 

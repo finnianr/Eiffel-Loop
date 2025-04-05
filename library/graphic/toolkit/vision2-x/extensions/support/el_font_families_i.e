@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:37:07 GMT (Wednesday 6th November 2024)"
-	revision: "10"
+	date: "2025-04-05 12:14:06 GMT (Saturday 5th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_FONT_FAMILIES_I
@@ -20,7 +20,9 @@ inherit
 			{NONE} all
 		end
 
-	EL_MODULE_EIFFEL; EL_MODULE_TEXT
+	EL_OBJECT_PROPERTY
+
+	EL_MODULE_TEXT
 
 	EL_SHARED_ZSTRING_BUFFER_POOL
 
@@ -67,8 +69,8 @@ feature -- Measurement
 		local
 			table_size, map_size: INTEGER
 		do
-			table_size := Eiffel.deep_physical_size (property_table)
-			map_size := Eiffel.deep_physical_size (new_font_families_map)
+			table_size := property (property_table).deep_physical_size
+			map_size := property (new_font_families_map).deep_physical_size
 			Result := (map_size - table_size) * 100 // map_size
 		end
 

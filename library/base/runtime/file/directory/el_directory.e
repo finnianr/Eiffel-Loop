@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-27 7:55:13 GMT (Saturday 27th April 2024)"
-	revision: "32"
+	date: "2025-04-03 14:16:55 GMT (Thursday 3rd April 2025)"
+	revision: "33"
 
 class
 	EL_DIRECTORY
@@ -181,12 +181,12 @@ feature -- Element change
 	set_path_name (a_path: READABLE_STRING_GENERAL)
 			-- Set `path' with `a_path'.
 		local
-			r: EL_READABLE_STRING_GENERAL_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if attached internal_path as l_path then
 				l_path.wipe_out
-				if attached r.shared_cursor (a_path) as cursor then
-					cursor.append_to_string_32 (l_path)
+				if attached sg.super_readable_general (a_path) as general then
+					general.append_to_string_32 (l_path)
 				end
 				set_internal_path (l_path)
 			end
@@ -330,7 +330,7 @@ feature {EL_DIRECTORY, EL_DIRECTORY_ITERATION_CURSOR} -- Implementation
 							sub_dir.set_path_name (entry.item_path (False))
 							Result := Result + sub_dir.entry_type_count (True, entry_type)
 						end
-						
+
 					elseif entry_type = Type_file then
 						Result := Result + 1
 					end

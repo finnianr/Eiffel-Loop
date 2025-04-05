@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-29 7:53:36 GMT (Thursday 29th August 2024)"
-	revision: "4"
+	date: "2025-04-05 9:47:58 GMT (Saturday 5th April 2025)"
+	revision: "5"
 
 class
 	HTTP_STATUS_TABLE
 
 inherit
 	EL_REFLECTIVE_STRING_TABLE
+
+	EL_OBJECT_PROPERTY_I
 
 create
 	make_default
@@ -22,7 +24,7 @@ feature -- Measurement
 
 	text_manifest_size: INTEGER
 		do
-			Result := Eiffel.deep_physical_size (new_table_text)
+			Result := property (new_table_text).deep_physical_size
 		end
 
 feature -- 1xx codes

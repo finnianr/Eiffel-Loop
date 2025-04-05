@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:54:13 GMT (Sunday 30th March 2025)"
-	revision: "16"
+	date: "2025-04-05 12:12:10 GMT (Saturday 5th April 2025)"
+	revision: "17"
 
 class
 	EL_MESSAGE_DIALOG
@@ -23,15 +23,15 @@ inherit
 			add_locale_button, locale_button, set_text, set_title
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
-
 	EL_SHARED_WORD
 
 feature {NONE} -- Initialization
 
 	make_with_template (template: READABLE_STRING_GENERAL; inserts: TUPLE)
+		local
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			make_with_text (as_zstring (template).substituted_tuple (inserts).to_unicode)
+			make_with_text (sg.as_zstring (template).substituted_tuple (inserts).to_unicode)
 		end
 
 feature -- Element change
@@ -42,8 +42,10 @@ feature -- Element change
 		end
 
 	set_text (a_text: READABLE_STRING_GENERAL)
+		local
+			r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Precursor (to_unicode_general (a_text))
+			Precursor (r.to_unicode_general (a_text))
 		end
 
 	set_title (a_title: separate READABLE_STRING_GENERAL)

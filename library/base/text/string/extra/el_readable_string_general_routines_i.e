@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:47:21 GMT (Monday 31st March 2025)"
-	revision: "30"
+	date: "2025-04-03 10:04:35 GMT (Thursday 3rd April 2025)"
+	revision: "31"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -192,6 +192,17 @@ feature -- Conversion
 		-- `str' converted to type `basic_type'
 		do
 			Result := Convert_string.to_type (str, basic_type)
+		end
+
+	to_unicode_general (general: READABLE_STRING_GENERAL): READABLE_STRING_GENERAL
+		do
+			if is_zstring (general) and then attached {ZSTRING} general as z_str then
+				Result := z_str.to_general -- Result can be either `STRING_8' or `STRING_32'
+			else
+				Result := general
+			end
+		ensure
+			not_zstring: not attached {EL_READABLE_ZSTRING} Result
 		end
 
 feature -- Basic operations

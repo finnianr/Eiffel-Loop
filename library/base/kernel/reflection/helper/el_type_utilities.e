@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 18:05:05 GMT (Wednesday 2nd April 2025)"
-	revision: "5"
+	date: "2025-04-03 8:01:13 GMT (Thursday 3rd April 2025)"
+	revision: "6"
 
 class
 	EL_TYPE_UTILITIES
@@ -41,24 +41,14 @@ feature -- Access
 	abstract_type_of_type (a_type_id: INTEGER): INTEGER
 		-- Abstract type of `a_type_id'.
 		do
-			Result := sparse_array_item (Abstract_type_array, a_type_id)
-			inspect Result
-				when {REFLECTOR_CONSTANTS}.None_type then
-					Result := {REFLECTOR_CONSTANTS}.reference_type
-			else
-			end
+			Result := abstract_type_item (Abstract_type_array, a_type_id)
 		end
 
 	abstract_type_of_type_plus (a_type_id: INTEGER): INTEGER
 		-- The same as `abstract_type_of_type' except `a_type_id' might also be
 		-- the reference version of an expanded type, `({NATURAL_8_REF}).type_id' for example.
 		do
-			Result := sparse_array_item (Abstract_type_array_plus, a_type_id)
-			inspect Result
-				when {REFLECTOR_CONSTANTS}.None_type then
-					Result := {REFLECTOR_CONSTANTS}.reference_type
-			else
-			end
+			Result := abstract_type_item (Abstract_type_array_plus, a_type_id)
 		end
 
 	dynamic_type (object: separate ANY): INTEGER
@@ -167,6 +157,20 @@ feature -- Status type flag
 
 feature {NONE} -- Implementation
 
+	abstract_type_item (array: ARRAY [INTEGER]; i: INTEGER): INTEGER
+		do
+			if array.valid_index (i) then
+				Result := array [i]
+			else
+				Result := {REFLECTOR_CONSTANTS}.Reference_type
+			end
+			inspect Result
+				when {REFLECTOR_CONSTANTS}.None_type then
+					Result := {REFLECTOR_CONSTANTS}.reference_type
+			else
+			end
+		end
+
 	is_reference_name_of (type_id: INTEGER; expanded_type: STRING_8): BOOLEAN
 		-- `True' if `type_id' is reference version of `expanded_type'
 		do
@@ -174,15 +178,6 @@ feature {NONE} -- Implementation
 				and then ref_name.count = expanded_type.count + 4 and then ref_name.starts_with (expanded_type)
 			then
 				Result := ref_name.same_characters ("_REF", 1, 4, expanded_type.count + 1)
-			end
-		end
-
-	new_sparse_array (map_list: EL_ARRAYED_MAP_LIST [INTEGER, INTEGER]): ARRAY [INTEGER]
-		do
-			map_list.sort_by_key (True)
-			create Result.make_filled ({REFLECTOR_CONSTANTS}.None_type, map_list.first_key, map_list.last_key)
-			across map_list as map loop
-				Result [map.key] := map.value
 			end
 		end
 
@@ -204,44 +199,41 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	sparse_array_item (array: ARRAY [INTEGER]; i: INTEGER): INTEGER
-		do
-			if array.valid_index (i) then
-				Result := array [i]
-			else
-				Result := {REFLECTOR_CONSTANTS}.Reference_type
-			end
-		end
-
 feature {NONE} -- Constants
 
 	Abstract_type_array: ARRAY [INTEGER]
 		-- `Special_type_mapping' as sparse array for faster lookup
 		local
-			map_dynamic_to_abstract: EL_ARRAYED_MAP_LIST [INTEGER, INTEGER]
+			map_list: EL_ARRAYED_MAP_LIST [INTEGER, INTEGER]
 		once
-			create map_dynamic_to_abstract.make_from_table (Special_type_mapping)
-			Result := new_sparse_array (map_dynamic_to_abstract)
+			create map_list.make_from_table (Special_type_mapping)
+			map_list.sort_by_key (True)
+			create Result.make_filled ({REFLECTOR_CONSTANTS}.None_type, map_list.first_key, map_list.last_key)
+			across map_list as map loop
+				Result [map.key] := map.value
+			end
 		end
 
 	Abstract_type_array_plus: ARRAY [INTEGER]
 		-- `Abstract_type_array' with the addition of reference versions of basic expanded types
 		-- Eg. << ({BOOLEAN_REF}).type_id, ({NATURAL_8_REF}).type_id, .. >>
 		local
-			map_dynamic_to_abstract: EL_ARRAYED_MAP_LIST [INTEGER, INTEGER]
-			type_id: INTEGER
+			type_id, lower, upper, l_type: INTEGER
 		once
-			create map_dynamic_to_abstract.make (Special_type_mapping.count * 2)
-			if attached Abstract_type_array as type then
-				from type_id := type.lower until type_id > type.upper loop
-					if type [type_id] /= {REFLECTOR_CONSTANTS}.None_type then
-						map_dynamic_to_abstract.extend (type_id, type [type_id])
-						map_dynamic_to_abstract.extend (reference_type_of (type_id), type [type_id])
+			lower := Abstract_type_array.lower; upper := Abstract_type_array.upper
+			create Result.make_filled ({REFLECTOR_CONSTANTS}.None_type, reference_type_of (lower), upper)
+			if attached Abstract_type_array as array then
+				from type_id := lower until type_id > upper loop
+					l_type := array [type_id]
+					inspect l_type
+						when {REFLECTOR_CONSTANTS}.None_type then
+							do_Nothing
+					else
+						Result [type_id] := l_type; Result [reference_type_of (type_id)] := l_type
 					end
 					type_id := type_id + 1
 				end
 			end
-			Result := new_sparse_array (map_dynamic_to_abstract)
 		end
 
 	Type_status_array: EL_STRING_8_LIST

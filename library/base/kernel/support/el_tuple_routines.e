@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 8:49:08 GMT (Friday 28th March 2025)"
-	revision: "57"
+	date: "2025-04-05 10:04:57 GMT (Saturday 5th April 2025)"
+	revision: "58"
 
 class
 	EL_TUPLE_ROUTINES
@@ -21,7 +21,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_INTERNAL
+	EL_EXTENDED_REFLECTOR
 		rename
 			string_width as string_width_of
 		export
@@ -29,6 +29,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_OBJECT_PROPERTY_I
 
 	EL_MODULE_CONVERT_STRING
 
@@ -388,7 +390,7 @@ feature -- Basic operations
 
 				when {TUPLE}.Reference_code then
 					reset_i_th_reference (
-						tuple, tuple.reference_item (i), i, generic_dynamic_type (tuple, i)
+						tuple, tuple.reference_item (i), i, property (tuple).generic_dynamic_type (i)
 					)
 			else
 			end
@@ -442,7 +444,7 @@ feature -- Basic operations
 					tuple.put_real_64 (readable.read_real_64, i)
 
 				when {TUPLE}.Reference_code then
-					set_i_th_reference (tuple, i, readable, generic_dynamic_type (tuple, i))
+					set_i_th_reference (tuple, i, readable, property (tuple).generic_dynamic_type (i))
 			else
 			end
 		end

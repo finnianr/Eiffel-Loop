@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 13:32:03 GMT (Monday 23rd September 2024)"
-	revision: "12"
+	date: "2025-04-03 9:01:16 GMT (Thursday 3rd April 2025)"
+	revision: "13"
 
 class
 	JSON_PARSED_INTERVALS
@@ -92,7 +92,7 @@ feature {NONE} -- Implementation
 			i, open_count, offset: INTEGER; l_area: like cursor_8.area
 		do
 			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.area_first_index
+				l_area := c.area; offset := c.index_lower
 				from i := start_index until i > json_count or Result > 0 loop
 					inspect l_area [i + offset - 1]
 						when '[' then
@@ -118,7 +118,7 @@ feature {NONE} -- Implementation
 			i, offset: INTEGER; l_area: like cursor_8.area
 		do
 			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.area_first_index
+				l_area := c.area; offset := c.index_lower
 				from i := start_index until i > json_count or Result > 0 loop
 					if l_area [i + offset - 1] = '"' and then l_area [i + offset] /= '/' then
 						Result := i - 1
@@ -134,7 +134,7 @@ feature {NONE} -- Implementation
 			i, offset: INTEGER; l_area: like cursor_8.area
 		do
 			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.area_first_index
+				l_area := c.area; offset := c.index_lower
 				from i := start_index until i > json_count or Result > 0 loop
 					inspect l_area [i + offset - 1]
 						when '0' .. '9', '+', '-', '.', 'E', 'e' then
@@ -201,7 +201,7 @@ feature {NONE} -- Implementation
 			i, offset: INTEGER; l_area: like cursor_8.area
 		do
 			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.area_first_index
+				l_area := c.area; offset := c.index_lower
 				from i := start_index until i = 0 or else l_area [i + offset - 1] = '"' loop
 					i := i - 1
 				end

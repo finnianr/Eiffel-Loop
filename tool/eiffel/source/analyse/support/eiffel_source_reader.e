@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-06 16:37:42 GMT (Thursday 6th June 2024)"
-	revision: "10"
+	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
+	revision: "11"
 
 deferred class
 	EIFFEL_SOURCE_READER
@@ -60,7 +60,7 @@ feature {NONE} -- Initialization
 				if a_encoding = Utf_8 then
 					bom_offset := 3
 				end
-				analyze (c8.area, c8.area_first_index + bom_offset, c8.area_last_index)
+				analyze (c8.area, c8.index_lower + bom_offset, c8.index_upper)
 			end
 		end
 

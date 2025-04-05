@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 12:36:21 GMT (Wednesday 2nd April 2025)"
-	revision: "39"
+	date: "2025-04-03 8:06:50 GMT (Thursday 3rd April 2025)"
+	revision: "40"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -39,6 +39,8 @@ feature {NONE} -- Initialization
 			Precursor
 			integer_types := numeric_types (<< INTEGER_16, INTEGER_32, INTEGER_64, INTEGER_8 >>)
 			natural_types := numeric_types (<< NATURAL_16, NATURAL_32, NATURAL_64, NATURAL_8 >>)
+			whole_number_types := joined (integer_types, natural_types)
+
 			real_types := numeric_types (<< REAL_32, REAL_64 >>)
 
 			immutable_string_types := << IMMUTABLE_STRING_8, IMMUTABLE_STRING_32 >>

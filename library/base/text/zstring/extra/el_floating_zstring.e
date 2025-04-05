@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:54:25 GMT (Sunday 30th March 2025)"
-	revision: "4"
+	date: "2025-04-05 8:27:48 GMT (Saturday 5th April 2025)"
+	revision: "5"
 
 class
 	EL_FLOATING_ZSTRING
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 	same_characters_at (other: READABLE_STRING_32; side: INTEGER): BOOLEAN
 		require
-			valid_side: valid_sides (side)
+			valid_side: valid_side (side)
 		local
 			index: INTEGER
 		do

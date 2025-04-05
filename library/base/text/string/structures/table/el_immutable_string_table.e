@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
-	revision: "34"
+	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
+	revision: "35"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -420,7 +420,7 @@ feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
 	immutable_interval (str: IMMUTABLE): INTEGER_64
 		do
 			if attached shared_cursor (str) as c then
-				Result := compact_interval (c.area_first_index + 1, c.area_last_index + 1)
+				Result := compact_interval (c.index_lower + 1, c.index_upper + 1)
 			end
 		ensure
 			reversible: new_item_substring (Result) ~ str

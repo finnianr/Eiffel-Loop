@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:40:42 GMT (Sunday 6th October 2024)"
-	revision: "36"
+	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
+	revision: "37"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -266,7 +266,7 @@ feature -- Add strings
 				add_string (z_str)
 
 			elseif attached cursor_32 (str) as c then
-				add_to_checksum (c.area.base_address + c.area_first_index, str.count, character_32_bytes)
+				add_to_checksum (c.area.base_address + c.index_lower, str.count, character_32_bytes)
 			end
 		end
 
@@ -274,7 +274,7 @@ feature -- Add strings
 			--
 		do
 			if attached cursor_8 (str) as c then
-				add_to_checksum (c.area.base_address + c.area_first_index, str.count, character_8_bytes)
+				add_to_checksum (c.area.base_address + c.index_lower, str.count, character_8_bytes)
 			end
 		end
 

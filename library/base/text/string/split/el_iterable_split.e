@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 11:42:38 GMT (Saturday 15th March 2025)"
-	revision: "13"
+	date: "2025-04-05 8:27:48 GMT (Saturday 5th April 2025)"
+	revision: "14"
 
 deferred class
 	EL_ITERABLE_SPLIT [S -> READABLE_STRING_GENERAL, G]
@@ -28,7 +28,7 @@ feature {NONE} -- Initialization
 		-- `a_target' split by `a_separator' character/string and space adjusted according to `adjustments':
 		-- `Both', `Left', `None', `Right' from class `EL_SIDE'.
 		require
-			valid_adjustments: valid_sides (adjustments)
+			valid_adjustments: valid_side (adjustments)
 		do
 			target := a_target; separator := a_separator; adjustments := a_adjustments
 		end

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 13:58:47 GMT (Sunday 9th February 2025)"
-	revision: "32"
+	date: "2025-04-03 17:46:18 GMT (Thursday 3rd April 2025)"
+	revision: "33"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -33,12 +33,13 @@ inherit
 feature {NONE} -- Initialization
 
 	make (t: like target)
-		deferred
+		do
+			set_target (t)
 		end
 
 	make_empty
 		do
-			make (empty_target)
+			set_target (empty_target)
 		end
 
 feature -- Element change
@@ -71,7 +72,7 @@ feature -- Basic operations
 				str.grow (offset + l_count)
 				str.set_count (offset + l_count)
 
-				i_lower := area_first_index + start_index - 1
+				i_lower := index_lower + start_index - 1
 				i_upper := i_lower + l_count - 1; l_area := area
 				if attached str.area as str_area then
 					from i := i_lower until i > i_upper loop
@@ -100,7 +101,7 @@ feature -- Basic operations
 				str.grow (offset + l_count)
 				str.set_count (offset + l_count)
 
-				i_lower := area_first_index + start_index - 1
+				i_lower := index_lower + start_index - 1
 				i_upper := i_lower + l_count - 1; l_area := area
 				if attached str.area as str_area then
 					from i := i_lower until i > i_upper loop
@@ -128,19 +129,14 @@ feature -- Basic operations
 			append_substring_to_string_8 (str, 1, target.count)
 		end
 
-	append_to_string_32 (str: STRING_32)
-		do
-			append_substring_to_string_32 (str, 1, target.count)
-		end
-
 	append_to_utf_8 (utf_8_out: STRING_8)
 		local
 			i, i_upper: INTEGER; code_i: NATURAL
 		do
 			utf_8_out.grow (utf_8_out.count + utf_8_byte_count)
-			i_upper := area_last_index
+			i_upper := index_upper
 			if attached area as l_area and then attached Utf_8_sequence as utf_8 then
-				from i := area_first_index until i > i_upper loop
+				from i := index_lower until i > i_upper loop
 					code_i := i_th_character_32 (l_area, i).natural_32_code
 					if code_i <= 0x7F then
 						utf_8_out.append_character (code_i.to_character_8)
@@ -164,8 +160,8 @@ feature -- Basic operations
 			if attached destination.area as destination_area and then attached area as l_area
 				and then attached codec as l_codec
 			then
-				i_upper := area_last_index
-				from i := area_first_index until i > i_upper loop
+				i_upper := index_upper
+				from i := index_lower until i > i_upper loop
 					code := l_codec.as_z_code (i_th_character_32 (l_area, i))
 					destination_area [j] := code.to_character_32
 					i := i + 1; j := j +1
@@ -185,7 +181,7 @@ feature -- Basic operations
 		do
 			l_count := end_index - start_index + 1
 			convertor.reset (type)
-			i_lower := area_first_index + start_index - 1
+			i_lower := index_lower + start_index - 1
 			if attached area as l_area then
 				i_upper := i_lower + l_count - 1
 				from i := i_lower until i > i_upper or failed loop
@@ -209,9 +205,9 @@ feature -- Basic operations
 		local
 			i, i_upper: INTEGER; code_i: NATURAL
 		do
-			i_upper := area_last_index
+			i_upper := index_upper
 			if attached area as l_area and then attached Utf_8_sequence as utf_8 then
-				from i := area_first_index until i > i_upper loop
+				from i := index_lower until i > i_upper loop
 					code_i := i_th_unicode (l_area, i)
 					if code_i <= 0x7F then
 						utf_8_out.write_encoded_character_8 (code_i.to_character_8)
@@ -273,7 +269,19 @@ feature -- Status query
 		local
 			c: EL_CHARACTER_8_ROUTINES
 		do
-			Result := c.is_left_bracket (i_th_character_8 (area, area_first_index + index - 1))
+			Result := c.is_left_bracket (i_th_character_8 (area, index_lower + index - 1))
+		end
+
+feature -- Contract Support
+
+	ends_with_target (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
+		do
+			Result := target.same_characters (str, index, str.count, 1)
+		end
+
+	ends_with_target_substring (str: READABLE_STRING_GENERAL; target_index, index: INTEGER): BOOLEAN
+		do
+			Result := target.same_characters (str, index, str.count, target_index)
 		end
 
 	is_valid_as_string_8: BOOLEAN
@@ -296,8 +304,8 @@ feature -- Search
 			i, i_upper, i_lower, nest_count: INTEGER; found: BOOLEAN
 			left_bracket, right_bracket, c: CHARACTER; c8: EL_CHARACTER_8_ROUTINES
 		do
-			i_upper := area_last_index
-			i_lower := area_first_index + index
+			i_upper := index_upper
+			i_lower := index_lower + index
 			if attached area as l_area then
 				left_bracket := i_th_character_8 (l_area, i_lower - 1)
 				right_bracket := c8.right_bracket (left_bracket)
@@ -327,11 +335,11 @@ feature -- Search
 
 feature -- Measurement
 
-	area_first_index: INTEGER
+	index_lower: INTEGER
 		deferred
 		end
 
-	area_last_index: INTEGER
+	index_upper: INTEGER
 		deferred
 		end
 
@@ -358,7 +366,7 @@ feature -- Measurement
 		do
 			l_count := end_index - start_index + 1
 			if l_count > 0 and then attached area as l_area then
-				i_lower := area_first_index + start_index - 1
+				i_lower := index_lower + start_index - 1
 				i_upper := i_lower + l_count - 1
 				from i := i_lower until i > i_upper loop
 					if i_th_character_32 (l_area, i) = uc then
@@ -381,9 +389,9 @@ feature -- Measurement
 		local
 			i, i_upper: INTEGER; uc: NATURAL
 		do
-			i_upper := area_last_index
+			i_upper := index_upper
 			if attached area as l_area then
-				from i := area_first_index until i > i_upper loop
+				from i := index_lower until i > i_upper loop
 					uc := i_th_unicode (l_area, i)
 					Result := Result + utf_8_character_byte_count (uc)
 					i := i + 1
@@ -397,9 +405,9 @@ feature {NONE} -- Implementation
 		local
 			i_lower: BOOLEAN; i, i_upper: INTEGER; l_area: like area
 		do
-			i_upper := area_last_index; l_area := area
+			i_upper := index_upper; l_area := area
 			Result := target_count > 0; i_lower := True
-			from i := area_first_index until i > i_upper or not Result loop
+			from i := index_lower until i > i_upper or not Result loop
 				Result := is_i_th_eiffel_identifier (l_area, i, case_code, i_lower)
 				if i_lower then
 					i_lower := False
@@ -408,19 +416,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	ends_with_target (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
-		do
-			Result := target.same_characters (str, index, str.count, 1)
-		end
-
-	ends_with_target_substring (str: READABLE_STRING_GENERAL; target_index, index: INTEGER): BOOLEAN
-		do
-			Result := target.same_characters (str, index, str.count, target_index)
-		end
-
 feature {STRING_HANDLER} -- Deferred
 
-	area: SPECIAL [ANY]
+	area: SPECIAL [COMPARABLE]
 		deferred
 		end
 

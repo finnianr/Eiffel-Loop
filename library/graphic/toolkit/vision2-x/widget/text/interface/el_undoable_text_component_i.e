@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:55:44 GMT (Sunday 30th March 2025)"
-	revision: "15"
+	date: "2025-04-05 12:09:02 GMT (Saturday 5th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_UNDOABLE_TEXT_COMPONENT_I
@@ -18,7 +18,10 @@ inherit
 			{EL_TEXT_EDITION_HISTORY} delete_selection, paste, select_all, select_region
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
+		export
+			{NONE} all
+		end
 
 	EL_OS_DEPENDENT
 

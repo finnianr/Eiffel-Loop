@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-06 18:43:16 GMT (Tuesday 6th August 2024)"
-	revision: "28"
+	date: "2025-04-05 12:16:22 GMT (Saturday 5th April 2025)"
+	revision: "29"
 
 deferred class
 	STRING_BENCHMARK
@@ -593,9 +593,9 @@ feature {NONE} -- Implementation
 
 	do_test (routine_name, a_format: STRING; procedure: PROCEDURE)
 		local
-			count: DOUBLE; s: EL_STRING_8_ROUTINES
+			count: DOUBLE; sg: EL_STRING_GENERAL_ROUTINES
 		do
-			if routine_filter.count > 0 implies s.matches_wildcard (routine_name, routine_filter) then
+			if routine_filter.count > 0 implies sg.super_8 (routine_name).matches_wildcard (routine_filter) then
 				test := new_test_strings (routine_name, a_format)
 
 				lio.put_labeled_string (generator, routine_name);

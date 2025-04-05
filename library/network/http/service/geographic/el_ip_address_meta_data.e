@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:06 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2025-04-05 9:44:10 GMT (Saturday 5th April 2025)"
+	revision: "6"
 
 class
 	EL_IP_ADDRESS_META_DATA
@@ -22,11 +22,11 @@ feature -- Review
 
 	print_memory (lio: EL_LOGGABLE)
 		do
-			lio.put_integer_field ("Current size", Eiffel.physical_size (Current))
+			lio.put_integer_field ("Current size", property (Current).physical_size)
 			lio.put_new_line
-			lio.put_integer_field ("text_values size", Eiffel.deep_physical_size (text_values))
+			lio.put_integer_field ("text_values size", property (text_values).deep_physical_size)
 			lio.put_new_line
-			lio.put_integer_field ("area_v2 size", Eiffel.deep_physical_size (area_v2))
+			lio.put_integer_field ("area_v2 size", property (area_v2).deep_physical_size)
 			lio.put_new_line
 		end
 

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
-	revision: "14"
+	date: "2025-04-03 13:16:42 GMT (Thursday 3rd April 2025)"
+	revision: "15"
 
 deferred class
 	EL_PATH_PARENT
@@ -37,10 +37,7 @@ inherit
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_FORMAT
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
-		export
-			{NONE} all
-		end
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_ZSTRING_BUFFER_POOL
 

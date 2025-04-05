@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 12:37:27 GMT (Monday 31st March 2025)"
-	revision: "39"
+	date: "2025-04-04 16:24:57 GMT (Friday 4th April 2025)"
+	revision: "40"
 
 class
 	STRING_TEST
@@ -19,10 +19,7 @@ inherit
 	STRING_TEST_BASE
 
 create
-	default_create, make, make_filled
-
-convert
-	make ({STRING_32})
+	make, make_empty
 
 feature -- Access
 
@@ -269,6 +266,32 @@ feature -- Test comparisons
 		do
 			substring := zs.substring (start_index, end_index)
 			Result := substring.to_string_32 ~ s_32.substring (start_index, end_index)
+		end
+
+	same_string
+		-- EL_EXTENDED_READABLE_ZSTRING.same_string
+		local
+			found: BOOLEAN; count, index_space: INTEGER
+			last_word: READABLE_STRING_GENERAL
+		do
+			if attached new_general_substring_list as substring_list then
+				across new_general_list as list loop
+					if attached list.item as general then
+						index_space := general.last_index_of (' ', general.count)
+						last_word := general.substring (index_space + 1, general.count)
+						found := False
+						across substring_list as list_2 until found loop
+							if attached list_2.item as substring
+								and then last_word.same_type (substring)
+							then
+								test.assert ("same string", super_readable_general (last_word).same_string (substring))
+								found := True; count := count + 1
+							end
+						end
+					end
+				end
+				test.assert (" tests", count = substring_list.count)
+			end
 		end
 
 feature -- Test splitting

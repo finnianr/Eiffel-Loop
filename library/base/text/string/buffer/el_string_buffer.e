@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
-	revision: "9"
+	date: "2025-04-03 14:34:57 GMT (Thursday 3rd April 2025)"
+	revision: "10"
 
 deferred class
 	EL_STRING_BUFFER [S -> STRING_GENERAL create make end, READABLE -> READABLE_STRING_GENERAL]
@@ -19,6 +19,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_STRING_BIT_COUNTABLE [READABLE]
 

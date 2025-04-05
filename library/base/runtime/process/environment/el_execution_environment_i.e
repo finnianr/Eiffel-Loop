@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:48 GMT (Sunday 30th March 2025)"
-	revision: "42"
+	date: "2025-04-03 10:08:33 GMT (Thursday 3rd April 2025)"
+	revision: "43"
 
 deferred class
 	EL_EXECUTION_ENVIRONMENT_I
@@ -192,6 +192,7 @@ feature -- Status setting
 	put (value, key: READABLE_STRING_GENERAL)
 		local
 			s32: EL_STRING_32_ROUTINES; c_env: NATIVE_STRING; l_key: IMMUTABLE_STRING_32
+			sg: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			if attached String_32_pool.sufficient_item (value.count + key.count + 1) as borrowed then
 				if attached borrowed.empty as str then
@@ -202,7 +203,7 @@ feature -- Status setting
 				end
 				borrowed.return
 			end
-			create l_key.make_from_string_general (to_unicode_general (key))
+			create l_key.make_from_string_general (sg.to_unicode_general (key))
 			environ.force (c_env, l_key)
 			return_code := eif_putenv (c_env.item)
 		end

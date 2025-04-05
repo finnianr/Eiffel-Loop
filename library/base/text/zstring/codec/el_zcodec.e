@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 13:10:59 GMT (Saturday 29th March 2025)"
-	revision: "82"
+	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
+	revision: "83"
 
 deferred class
 	EL_ZCODEC
@@ -274,7 +274,7 @@ feature -- Encoding operations
 			inspect string_storage_type (unicode_in)
 				when '1' then
 					if attached {READABLE_STRING_8} unicode_in as s_8 and then attached cursor_8 (s_8) as c_8 then
-						unicode := unicode_table; in_offset := c_8.area_first_index; area := c_8.area
+						unicode := unicode_table; in_offset := c_8.index_lower; area := c_8.area
 						i_lower := start_index + in_offset - 1
 						i_upper := end_index + in_offset - 1
 						out_i := i_lower - in_offset + out_offset - start_index + 1
@@ -330,9 +330,9 @@ feature -- Encoding operations
 		do
 			l_unicodes := unicode_table; is_utf_8_in := utf_type = 8
 			if attached cursor_8 (utf_in) as cursor then
-				area := cursor.area; end_index := cursor.area_last_index
+				area := cursor.area; end_index := cursor.index_upper
 				last_upper := unencoded_characters.last_upper
-				from i := cursor.area_first_index; j := out_offset until i > end_index loop
+				from i := cursor.index_lower; j := out_offset until i > end_index loop
 					if is_utf_8_in then
 						leading_byte := area [i].natural_32_code
 						byte_count := utf_8.sequence_count (leading_byte)
@@ -374,7 +374,7 @@ feature -- Encoding operations
 			c_8_area: SPECIAL [CHARACTER_8]; o_unicode, unicode: like unicode_table
 		do
 			if attached cursor_8 (str_8) as c_8 then
-				in_offset := c_8.area_first_index; c_8_area := c_8.area
+				in_offset := c_8.index_lower; c_8_area := c_8.area
 				if id = other.id then
 					encoded_out.copy_data (c_8_area, start_index + in_offset - 1, out_offset, end_index - start_index + 1)
 				else
@@ -748,7 +748,7 @@ feature {NONE} -- Implementation
 			if attached cursor_32 (unicode_in) as c_32 and then attached c_32.area as area_32
 				 and then attached unicode_table as unicode
 			then
-				in_offset := c_32.area_first_index
+				in_offset := c_32.index_lower
 				i_lower := start_index + in_offset - 1
 				i_upper := end_index + in_offset - 1
 				out_i := i_lower - in_offset + out_offset - start_index + 1

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 13:51:25 GMT (Friday 21st March 2025)"
-	revision: "99"
+	date: "2025-04-05 9:54:21 GMT (Saturday 5th April 2025)"
+	revision: "100"
 
 deferred class
 	EL_REFLECTIVE
@@ -59,8 +59,10 @@ feature -- Measurement
 	deep_physical_size: INTEGER
 		-- deep physical size excluding the `field_table' which is shared across objects of
 		-- the same type
+		local
+			o: EL_OBJECT_PROPERTY
 		do
-			Result := Eiffel.physical_size (Current)
+			Result := o.property (Current).physical_size
 			across field_table as table loop
 				if attached {EL_REFLECTED_REFERENCE [ANY]} table.item as field then
 					Result := Result + field.size_of (Current)

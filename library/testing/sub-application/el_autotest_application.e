@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 14:47:57 GMT (Saturday 29th March 2025)"
-	revision: "29"
+	date: "2025-04-05 11:58:31 GMT (Saturday 5th April 2025)"
+	revision: "30"
 
 deferred class
 	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -29,7 +29,9 @@ inherit
 			is_logging_active, init_console_and_logging
 		end
 
-	EL_MODULE_ARGS; EL_MODULE_EIFFEL; EL_MODULE_NAMING
+	EL_STRING_GENERAL_ROUTINES_I
+
+	EL_MODULE_ARGS; EL_MODULE_NAMING
 
 feature {NONE} -- Initialization
 
@@ -138,10 +140,8 @@ feature {NONE} -- Implementation
 		end
 
 	matching_type_name (type: TYPE [EL_EQA_TEST_SET]): BOOLEAN
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.matches_wildcard (type.name, test_set_name)
+			Result := super_readable_8 (type.name).matches_wildcard (test_set_name)
 		end
 
 	new_test_type_list: EL_TUPLE_TYPE_LIST [EL_EQA_TEST_SET]

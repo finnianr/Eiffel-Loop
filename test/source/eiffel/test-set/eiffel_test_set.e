@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 18:11:41 GMT (Monday 31st March 2025)"
-	revision: "45"
+	date: "2025-04-05 9:37:22 GMT (Saturday 5th April 2025)"
+	revision: "46"
 
 class
 	EIFFEL_TEST_SET
@@ -22,6 +22,8 @@ inherit
 	EL_ZSTRING_CONSTANTS; EL_STRING_32_CONSTANTS
 
 	EL_SHARED_NATIVE_STRING
+
+	EL_OBJECT_PROPERTY_I
 
 create
 	make
@@ -54,8 +56,8 @@ feature -- Tests
 		do
 			across << 16, 32, 64, 128 >> as size loop
 				create object_array.make_empty (size.item)
-				array_size := Eiffel.physical_size (object_array)
-				reference_size := (array_size - Eiffel.Object_overhead) // object_array.capacity
+				array_size := property (object_array).physical_size
+				reference_size := (array_size - Object_overhead) // object_array.capacity
 				assert ("reference size same as pointer", reference_size = {PLATFORM}.pointer_bytes)
 			end
 		end
@@ -68,9 +70,9 @@ feature -- Tests
 			create immutable_8.make_filled (' ', 64)
 			create array.make_filled (immutable_8, 2)
 			array [1] := immutable_8.shared_substring (1, 64)
-			size_1 := Eiffel.deep_physical_size (array)
+			size_1 := property (array).deep_physical_size
 			array [1] := immutable_8.to_string_8
-			size_2 := Eiffel.deep_physical_size (array)
+			size_2 := property (array).deep_physical_size
 
 			delta := size_2 - size_1
 			assert ("immutable.area not counted twice", delta = 112)
@@ -130,7 +132,7 @@ feature -- Tests
 	test_string_sizes
 		-- EIFFEL_TEST_SET.test_string_sizes
 		do
-			assert ("same size", Eiffel.physical_size (Empty_string) = Eiffel.physical_size (Empty_string_32))
+			assert ("same size", property (Empty_string).physical_size = property (Empty_string_32).physical_size)
 		end
 
 	test_unix_sigterm
@@ -354,10 +356,10 @@ feature -- Basic operations
 		local
 			field_count, i: INTEGER
 		do
-			field_count := Eiffel.field_count (Current)
+			field_count := property (Current).field_count
 			from i := 1 until i > field_count loop
-				lio.put_index_labeled_string (i, Void, Eiffel.field_name (i, Current))
-				lio.put_character (' '); lio.put_boolean (Eiffel.is_field_transient (i, Current))
+				lio.put_index_labeled_string (i, Void, property (Current).field_name (i))
+				lio.put_character (' '); lio.put_boolean (property (Current).is_field_transient (i))
 				lio.put_new_line
 				i := i + 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 13:18:44 GMT (Saturday 11th November 2023)"
-	revision: "4"
+	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
+	revision: "5"
 
 expanded class
 	EL_UTF_16_LE_CONVERTER
@@ -75,8 +75,8 @@ feature -- Measurement
 		do
 			if attached cursor_8 (s) as cursor then
 				area := cursor.area
-				end_index := cursor.area_last_index
-				from i := cursor.area_first_index until i > end_index loop
+				end_index := cursor.index_upper
+				from i := cursor.index_lower until i > end_index loop
 					Result := Result + 1
 					i := i + sequence_count (area [i].natural_32_code | (area [i + 1].natural_32_code |<< 8))
 				end
@@ -115,7 +115,7 @@ feature -- Basic operations
 			area: SPECIAL [CHARACTER_8]
 		do
 			if attached cursor_8 (s) as c then
-				area := c.area; offset := c.area_first_index
+				area := c.area; offset := c.index_lower
 			end
 			n := end_index - start_index + 1
 			i_final := offset + start_index + n - 1

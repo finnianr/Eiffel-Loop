@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:18:40 GMT (Monday 31st March 2025)"
-	revision: "78"
+	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
+	revision: "79"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -628,7 +628,7 @@ feature {NONE} -- Implementation
 			if general.is_string_8 and then attached compatible_string_8 (general) as str_8 then
 				if str_8.is_immutable and then attached cursor_8 (str_8) as c then
 					create Result.make_empty (str_8.count)
-					Result.copy_data (c.area, c.area_first_index, 0, str_8.count)
+					Result.copy_data (c.area, c.index_lower, 0, str_8.count)
 
 				elseif attached {STRING_8} str_8 as s then
 					Result := s.area

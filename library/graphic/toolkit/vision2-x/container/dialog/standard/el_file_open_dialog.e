@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:59:16 GMT (Sunday 30th March 2025)"
-	revision: "11"
+	date: "2025-04-05 12:12:56 GMT (Saturday 5th April 2025)"
+	revision: "12"
 
 class
 	EL_FILE_OPEN_DIALOG
@@ -17,8 +17,6 @@ inherit
 		rename
 			file_path as file_path_string
 		end
-
-	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_ACTION
 
@@ -32,7 +30,7 @@ feature {NONE} -- Initialization
 		last_open_dir: DIR_PATH; a_open: like open
 	)
 		local
-			extension_list: EL_ZSTRING_LIST; i: INTEGER
+			extension_list: EL_ZSTRING_LIST; i: INTEGER; r: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
 			open := a_open
 			create extension_list.make_from_general (extensions)
@@ -40,7 +38,7 @@ feature {NONE} -- Initialization
 				extension_list [i] := Star_dot + extension_list [i]
 				i := i + 1
 			end
-			make_with_title (to_unicode_general (a_title))
+			make_with_title (r.to_unicode_general (a_title))
 			filters.extend ([
 				extension_list.joined (';').to_unicode,
 				Filter_template.substituted_tuple ([description, extension_list.joined_with_string ("; ")]).to_unicode
@@ -69,7 +67,7 @@ feature {NONE} -- Constants
 		once
 			Result := "%S (%S)"
 		end
-		
+
 	Star_dot: ZSTRING
 		once
 			Result := "*."

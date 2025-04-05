@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 10:50:37 GMT (Monday 31st March 2025)"
-	revision: "12"
+	date: "2025-04-04 8:59:05 GMT (Friday 4th April 2025)"
+	revision: "13"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -95,7 +95,7 @@ feature -- Tests
 		local
 			test: STRING_TEST
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.words_32 as word loop
 				test.set (word.item)
 				test.s_32.prepend_character ('"'); test.s_32.append_character ('"')
@@ -110,8 +110,9 @@ feature -- Tests
 		local
 			test: STRING_TEST
 		do
+			create test.make_empty (Current)
 			across 1 |..| 2 as index loop
-				create test.make_filled (Text.cyrillic_line_32 [index.item], 3)
+				test.set_filled (Text.cyrillic_line_32 [index.item], 3)
 				assert ("same string", test.is_same)
 			end
 		end
@@ -125,7 +126,7 @@ feature -- Tests
 		local
 			test: STRING_TEST
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.words_32 as word loop
 				test.set (word.item)
 				assert_same_string ("mirror OK", test.zs.mirrored, test.s_32.mirrored)
@@ -136,7 +137,7 @@ feature -- Tests
 		local
 			test: STRING_TEST; uc: CHARACTER_32
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.character_set as set loop
 				uc := set.item
 				across Text.lines_32 as line loop
@@ -186,7 +187,7 @@ feature -- Tests
 		local
 			test: STRING_TEST; pos: INTEGER
 		do
-			test := Text.Mixed_text.twin
+			test := new_test (Text.Mixed_text.twin)
 			from until test.s_32.is_empty loop
 				pos := test.s_32.index_of (' ', test.s_32.count)
 				if pos > 0 then
@@ -207,7 +208,7 @@ feature -- Tests
 		local
 			test: STRING_TEST; pos: INTEGER
 		do
-			test := Text.Mixed_text.twin
+			test := new_test (Text.Mixed_text.twin)
 			from until test.s_32.is_empty loop
 				pos := test.s_32.last_index_of (' ', test.s_32.count)
 				if pos > 0 then
@@ -224,11 +225,10 @@ feature -- Tests
 		note
 			testing:	"covers/{EL_TRANSFORMABLE_ZSTRING}.replace_character"
 		local
-			test: STRING_TEST; uc_new, uc_old: CHARACTER_32
-			sg: EL_STRING_GENERAL_ROUTINES
+			test: STRING_TEST; uc_new, uc_old: CHARACTER_32; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			across Text.cyrillic_line_32 as uc loop
-				test := Text.cyrillic_line_32
+				test := new_test (Text.cyrillic_line_32)
 				if not uc.is_last then
 					uc_old := uc.item
 					uc_new := test.s_32 [uc.cursor_index + 1]
@@ -247,7 +247,7 @@ feature -- Tests
 			space_intervals: EL_OCCURRENCE_INTERVALS; test, word_pair: STRING_TEST
 			line_list: like Text.lines_32
 		do
-			create test; create word_pair
+			create test.make_empty (Current) ; create word_pair.make_empty (Current)
 			create space_intervals.make_empty
 			create word_list_32.make (50)
 			line_list := Text.lines_32
@@ -284,7 +284,7 @@ feature -- Tests
 			word, word_A, first_word: STRING_32; i: INTEGER; s32: EL_STRING_32_ROUTINES
 		do
 			create word_list.make (20)
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				first_word := s32.substring_to (line.item, ' ')
 				word_A := "A"
@@ -410,7 +410,7 @@ feature -- Tests
 						across line.split (' ') as split loop
 							if attached split.item as word and then attached new_characters_set (word) as old_set then
 								create new_set.make_filled (c.item, old_set.count)
-								create test.make (line.twin)
+								test := new_test (line.twin)
 								test.set_old_new (old_set, new_set)
 								assert ("translate OK", test.translate (c.item.code = 0))
 							end
@@ -435,7 +435,7 @@ feature {NONE} -- Implementation
 		local
 			test: STRING_TEST; op_name: STRING
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.words_32 as word loop
 				test.set (word.item)
 				across << Text.Tab_character, Text.Ogham_space_mark >> as c loop

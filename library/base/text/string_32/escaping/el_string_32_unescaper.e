@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:45:05 GMT (Tuesday 20th August 2024)"
-	revision: "9"
+	date: "2025-04-03 9:02:35 GMT (Thursday 3rd April 2025)"
+	revision: "10"
 
 class
 	EL_STRING_32_UNESCAPER
@@ -65,8 +65,8 @@ feature {NONE} -- Implementation
 			esc_char := escape_code.to_character_32
 			if attached cursor_32 (str) as l_cursor then
 				l_area := l_cursor.area
-				first_index := l_cursor.area_first_index
-				last_index := l_cursor.area_last_index
+				first_index := l_cursor.index_lower
+				last_index := l_cursor.index_upper
 			end
 
 			create Result.make_empty (str.count)

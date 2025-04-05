@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 10:26:14 GMT (Tuesday 1st April 2025)"
-	revision: "42"
+	date: "2025-04-03 11:39:50 GMT (Thursday 3rd April 2025)"
+	revision: "43"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -19,6 +19,7 @@ inherit
 	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING, CHARACTER_32]
 		rename
 			to_code as to_z_code,
+			super_readable as super_readable_zstring,
 			ZString_searcher as String_searcher
 		undefine
 			bit_count
@@ -158,14 +159,6 @@ feature -- Conversion
 
 feature -- Character query
 
-	ends_with_character (s: ZSTRING; c: CHARACTER_32): BOOLEAN
-		local
-			i: INTEGER
-		do
-			i := s.count
-			Result := i > 0 and then s [i] = c
-		end
-
 	has_enclosing (s: EL_READABLE_ZSTRING; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
 		do
@@ -176,12 +169,6 @@ feature -- Character query
 					Result := s [1] = c_first and then s [s.count] = c_last
 				end
 			end
-		end
-
-	has_member (str: EL_READABLE_ZSTRING; set: EL_SET [CHARACTER_32]): BOOLEAN
-		-- `True' if at least one character in `str' is a member of `set'
-		do
-			Result := str.has_member (set)
 		end
 
 	is_i_th_identifier (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
@@ -198,11 +185,6 @@ feature -- Character query
 		-- `True' if set of all characters in `str' is a subset of `set'
 		do
 			Result := str.is_subset_of (set)
-		end
-
-	starts_with_character (s: ZSTRING; c: CHARACTER_32): BOOLEAN
-		do
-			Result := s.count > 0 and then s [1] = c
 		end
 
 feature -- Basic operations

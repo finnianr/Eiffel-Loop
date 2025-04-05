@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 14:13:00 GMT (Sunday 9th February 2025)"
-	revision: "34"
+	date: "2025-04-03 14:20:29 GMT (Thursday 3rd April 2025)"
+	revision: "35"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -15,20 +15,21 @@ class
 inherit
 	EL_STRING_ITERATION_CURSOR
 		rename
-			Unicode_table as Shared_unicode_table,
-			set_target as make
+			Unicode_table as Shared_unicode_table
 		export
 			{NONE} fill_z_codes
 		redefine
-			append_to_string_8, append_to_string_32, append_to_utf_8,
-			fill_z_codes, utf_8_byte_count, write_utf_8_to
+			append_to_string_8, append_to_utf_8, fill_z_codes, utf_8_byte_count, write_utf_8_to
 		end
 
 	STRING_32_ITERATION_CURSOR
 		rename
-			area as unencoded_area
+			area as unencoded_area,
+			area_first_index as index_lower,
+			area_last_index as index_upper,
+			make as set_target
 		redefine
-			item, make, target
+			item, set_target, target
 		end
 
 	EL_ZSTRING_CONSTANTS
@@ -41,9 +42,9 @@ inherit
 create
 	make, make_empty
 
-feature {EL_SHARED_ZSTRING_CURSOR} -- Initialization
+feature-- Element change
 
-	make (a_target: EL_READABLE_ZSTRING)
+	set_target (a_target: EL_READABLE_ZSTRING)
 		do
 			Precursor (a_target)
 			block_index := 0; area := a_target.area
@@ -80,11 +81,11 @@ feature -- Basic operations
 			codec.decode (n, area, destination, 0)
 			unicode := codec.unicode_table
 			if attached area as l_area and then attached unencoded_area as area_32 then
-				i_final := source_index + area_first_index + n
-				from i := source_index + area_first_index until i = i_final loop
+				i_final := source_index + index_lower + n
+				from i := source_index + index_lower until i = i_final loop
 					c_i := l_area [i]
 					if c_i = Substitute then
-						uc := iter.item ($l_block_index, area_32, i - area_first_index + 1)
+						uc := iter.item ($l_block_index, area_32, i - index_lower + 1)
 					else
 						uc := unicode [c_i.code]
 					end
@@ -97,11 +98,6 @@ feature -- Basic operations
 	append_to_string_8 (str: STRING_8)
 		do
 			target.append_to_string_8 (str)
-		end
-
-	append_to_string_32 (str: STRING_32)
-		do
-			target.append_to_string_32 (str)
 		end
 
 	append_to_utf_8 (utf_8_out: STRING_8)
@@ -125,8 +121,8 @@ feature -- Measurement
 		local
 			i, last_i: INTEGER; l_area: like area
 		do
-			last_i := area_last_index; l_area := area
-			from i := area_first_index until i > last_i loop
+			last_i := index_upper; l_area := area
+			from i := index_lower until i > last_i loop
 				if l_area.item (i).natural_32_code <= 0xFF then
 					Result := Result + 1
 				end
@@ -173,7 +169,7 @@ feature -- Status query
 			c_8: EL_CHARACTER_8_ROUTINES
 		do
 			if not target.has_mixed_encoding then
-				Result := c_8.is_ascii_area (area, area_first_index, area_last_index)
+				Result := c_8.is_ascii_area (area, index_lower, index_upper)
 			end
 		end
 

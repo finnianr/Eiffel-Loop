@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:19:34 GMT (Friday 20th September 2024)"
-	revision: "6"
+	date: "2025-04-04 8:53:26 GMT (Friday 4th April 2025)"
+	revision: "7"
 
 class
 	ZSTRING_CONVERTABLE_TEST_SET
@@ -41,7 +41,7 @@ feature -- Tests
 			list: LIST [ZSTRING]; list_32: LIST [STRING_32]
 			test: STRING_TEST; i: INTEGER
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.set (line.item)
 				from i := 1 until i > 3 loop
@@ -86,7 +86,7 @@ feature -- Tests
 		local
 			test: STRING_TEST
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.set (line.item)
 				assert ("strings the same", test.is_same)

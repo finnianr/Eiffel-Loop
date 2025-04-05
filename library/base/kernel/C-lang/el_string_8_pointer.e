@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:47:20 GMT (Tuesday 27th August 2024)"
-	revision: "5"
+	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
+	revision: "6"
 
 class
 	EL_STRING_8_POINTER
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 				area := c.area
 				-- Prevent garbage collector from moving or collecting `area'
 				adopted_area := eif_adopt (area)
-				area_first_index := c.area_first_index
+				area_first_index := c.index_lower
 				share_from_pointer (area.base_address + area_first_index, string.count)
 			end
 		end

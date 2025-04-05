@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:42:15 GMT (Tuesday 27th August 2024)"
-	revision: "16"
+	date: "2025-04-05 11:31:11 GMT (Saturday 5th April 2025)"
+	revision: "18"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -23,7 +23,7 @@ inherit
 
 	EL_SIDE_ROUTINES
 		export
-			{ANY} valid_sides
+			{ANY} valid_side
 		end
 
 feature -- Access
@@ -32,9 +32,12 @@ feature -- Access
 		local
 			l_count: INTEGER
 		do
-			if attached cursor (str) as c and then attached {SPECIAL [C]} c.area as str_area then
+			if str.is_immutable and then attached {S} str as immutable_str then
+				Result := new_immutable_substring (immutable_str, start_index, end_index)
+
+			elseif attached string_area (str) as str_area then
 				l_count := end_index - start_index + 1
-				Result := new_substring (str_area, c.area_first_index + start_index - 1, l_count)
+				Result := new_substring (str_area, start_index - 1, l_count)
 			end
 		end
 
@@ -51,7 +54,7 @@ feature -- Element change
 		require
 			valid_count: a_count >= 0
 			valid_offset_and_count: a_count > 0 implies a_area.valid_index (offset + a_count - 1)
-			valid_sides: valid_sides (sides)
+			valid_sides: valid_side (sides)
 		local
 			l_count, l_offset, offset_upper: INTEGER
 		do
@@ -141,10 +144,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred
 
-	cursor (str: GENERAL): EL_STRING_ITERATION_CURSOR
-		deferred
-		end
-
 	is_space (a_area: SPECIAL [C]; i: INTEGER): BOOLEAN
 		deferred
 		end
@@ -154,6 +153,10 @@ feature {NONE} -- Deferred
 		end
 
 	item_has_right_padding: BOOLEAN
+		deferred
+		end
+
+	new_immutable_substring (str: S; start_index, end_index: INTEGER): like new_substring
 		deferred
 		end
 

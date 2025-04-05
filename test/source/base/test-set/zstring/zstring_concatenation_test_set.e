@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:57:36 GMT (Friday 7th February 2025)"
-	revision: "7"
+	date: "2025-04-04 14:04:34 GMT (Friday 4th April 2025)"
+	revision: "8"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
@@ -54,7 +54,7 @@ feature -- Appending tests
 			unicode: ENCODING
 		do
 			create encodeable.make_default
-			create test
+			create test.make_empty (Current)
 			unicode := Encodings.Unicode
 		 	across Text.lines_32 as line loop
 		 		test.set (line.item)
@@ -118,28 +118,24 @@ feature -- Appending tests
 				covers/{ZSTRING}.substring
 			]"
 		local
-			test: STRING_TEST; substring_size, start_index, end_index: INTEGER
+			substring_size, start_index, end_index: INTEGER
 		do
-			across << False, True >> as boolean loop
-				if boolean.item then
-					create test
-				else
-					create {IMMUTABLE_STRING_TEST} test
-				end
-
-				across << 3, 5, 7 >> as n loop
-					substring_size := n.item
-					across Text.lines_32 as line loop
-						test.set (line.item)
-						test.zs.wipe_out
-						end_index := 0
-						from start_index := 1 until end_index = test.s_32.count loop
-							end_index := (start_index + substring_size - 1).min (test.s_32.count)
-							test.set_substrings (start_index, end_index)
-							assert ("append_string_general OK", test.append_string_general)
-							start_index := start_index + substring_size
+			across new_tests_with_immutable as list loop
+				if attached list.item as test then
+					across << 3, 5, 7 >> as n loop
+						substring_size := n.item
+						across Text.lines_32 as line loop
+							test.set (line.item)
+							test.zs.wipe_out
+							end_index := 0
+							from start_index := 1 until end_index = test.s_32.count loop
+								end_index := (start_index + substring_size - 1).min (test.s_32.count)
+								test.set_substrings (start_index, end_index)
+								assert ("append_string_general OK", test.append_string_general)
+								start_index := start_index + substring_size
+							end
+							assert ("same size strings", test.is_same_size)
 						end
-						assert ("same size strings", test.is_same_size)
 					end
 				end
 			end
@@ -152,27 +148,23 @@ feature -- Appending tests
 				covers/{EL_APPENDABLE_ZSTRING}.substring
 			]"
 		local
-			test: STRING_TEST; substring_size, start_index, end_index: INTEGER
+			substring_size, start_index, end_index: INTEGER
 		do
-			across << False, True >> as boolean loop
-				if boolean.item then
-					create test
-				else
-					create {IMMUTABLE_STRING_TEST} test
-				end
-
-				across << 3, 5, 7 >> as n loop
-					substring_size := n.item
-					across Text.lines_32 as line loop
-						test.set (line.item)
-						test.zs.wipe_out
-						end_index := 0
-						from start_index := 1 until end_index = test.s_32.count loop
-							end_index := (start_index + substring_size - 1).min (test.s_32.count)
-							assert ("append_substring_general OK", test.append_substring_general (start_index, end_index))
-							start_index := start_index + substring_size
+			across new_tests_with_immutable as list loop
+				if attached list.item as test then
+					across << 3, 5, 7 >> as n loop
+						substring_size := n.item
+						across Text.lines_32 as line loop
+							test.set (line.item)
+							test.zs.wipe_out
+							end_index := 0
+							from start_index := 1 until end_index = test.s_32.count loop
+								end_index := (start_index + substring_size - 1).min (test.s_32.count)
+								assert ("append_substring_general OK", test.append_substring_general (start_index, end_index))
+								start_index := start_index + substring_size
+							end
+							assert ("same size strings", test.is_same_size)
 						end
-						assert ("same size strings", test.is_same_size)
 					end
 				end
 			end
@@ -229,7 +221,7 @@ feature -- Appending tests
 		local
 			utf_8: STRING; conv: EL_UTF_CONVERTER; test: STRING_TEST
 		do
-			create test
+			create test.make_empty (Current)
 			across Text.lines_32 as line loop
 				test.wipe_out
 				across conv.string_32_to_utf_8_string_8 (line.item).split (' ') as utf_word loop
@@ -258,28 +250,24 @@ feature -- Prepending tests
 				covers/{EL_READABLE_ZSTRING}.substring
 			]"
 		local
-			test: STRING_TEST; substring_size, start_index, end_index: INTEGER
+			substring_size, start_index, end_index: INTEGER
 		do
-			across << False, True >> as boolean loop
-				if boolean.item then
-					create test
-				else
-					create {IMMUTABLE_STRING_TEST} test
-				end
-
-				across << 3, 5, 7 >> as n loop
-					substring_size := n.item
-					across Text.lines_32 as line loop
-						test.set (line.item)
-						test.zs.wipe_out
-						start_index := test.s_32.count
-						from end_index := test.s_32.count until start_index = 1 loop
-							start_index := (end_index - substring_size + 1).max (1)
-							test.set_substrings (start_index, end_index)
-							assert ("prepend_string_general OK", test.prepend_string_general)
-							end_index := end_index - substring_size
+			across new_tests_with_immutable as list loop
+				if attached list.item as test then
+					across << 3, 5, 7 >> as n loop
+						substring_size := n.item
+						across Text.lines_32 as line loop
+							test.set (line.item)
+							test.zs.wipe_out
+							start_index := test.s_32.count
+							from end_index := test.s_32.count until start_index = 1 loop
+								start_index := (end_index - substring_size + 1).max (1)
+								test.set_substrings (start_index, end_index)
+								assert ("prepend_string_general OK", test.prepend_string_general)
+								end_index := end_index - substring_size
+							end
+							assert ("same size strings", test.is_same_size)
 						end
-						assert ("same size strings", test.is_same_size)
 					end
 				end
 			end
@@ -293,7 +281,7 @@ feature -- Prepending tests
 		do
 			across Text.lines_32 as line_32 loop
 				line := line_32.item
-				create test
+				create test.make_empty (Current)
 				create word_list.make (line_32.item, ' ')
 				start_index := 1
 				from word_list.start until word_list.after loop
@@ -315,12 +303,11 @@ feature {NONE} -- Implementation
 		local
 			test, substring_text: STRING_TEST; i, count: INTEGER
 		do
-			create test
+			create test.make_empty (Current)
 			count := (Text.Mixed_text.count // 5) * 5
 			from i := 1 until i > count loop
-				substring_text := Text.Mixed_text.substring (i, i + 4)
+				substring_text := new_test (Text.Mixed_text.substring (i, i + 4))
 				test.extend_strings (type, substring_text)
-
 				assert (test.append_type_name (type) + " OK", test.is_same)
 				i := i + 5
 			end

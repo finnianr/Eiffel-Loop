@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 9:56:23 GMT (Tuesday 27th August 2024)"
-	revision: "11"
+	date: "2025-04-05 12:08:25 GMT (Saturday 5th April 2025)"
+	revision: "12"
 
 class
 	EL_COMBO_BOX
@@ -22,6 +22,7 @@ inherit
 
 	EL_TEXTABLE
 		rename
+			occurrences as text_occurrences,
 			set_text as set_editable_text
 		undefine
 			is_equal, is_in_default_state

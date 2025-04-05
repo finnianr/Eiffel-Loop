@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-15 7:43:53 GMT (Monday 15th April 2024)"
-	revision: "25"
+	date: "2025-04-04 15:57:33 GMT (Friday 4th April 2025)"
+	revision: "26"
 
 class
 	IMMUTABLE_STRING_TEST
@@ -17,7 +17,8 @@ class
 inherit
 	STRING_TEST
 		redefine
-			s_8_substring, s_32_substring, set, set_substrings, new_split_list_array, split_intervals
+			s_8_substring, s_32_substring, set, set_substrings,
+			new_general_list, new_split_list_array, split_intervals
 		end
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
@@ -31,10 +32,7 @@ inherit
 		end
 
 create
-	default_create, make, make_filled
-
-convert
-	make ({STRING_32})
+	make, make_empty
 
 feature -- Strings
 
@@ -92,7 +90,64 @@ feature -- Test comparisons
 			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
 		end
 
+feature -- Extended ZSTRING
+
+	append_substring_to_string_32 (a_value: STRING_32; intervals: EL_SPLIT_INTERVALS)
+		-- EL_EXTENDED_READABLE_ZSTRING.append_substring_to_string_32
+		local
+			value: STRING_32; start_index, end_index: INTEGER_32
+		do
+			value := a_value.substring (1, 3)
+			across new_general_list as list loop
+				if attached list.item as general then
+					value.keep_head (3)
+					start_index := intervals.item_lower; end_index := intervals.item_upper
+					super_readable_general (general).append_substring_to_string_32 (value, start_index, end_index)
+					test.assert ("same appended strings", value ~ a_value)
+				end
+			end
+		end
+
+	append_substring_to_string_8 (a_value: STRING_8; intervals: EL_SPLIT_INTERVALS)
+		-- EL_EXTENDED_READABLE_ZSTRING.append_substring_to_string_8
+		local
+			value: STRING_8; start_index, end_index: INTEGER_32
+		do
+			value := a_value.substring (1, 3)
+			across new_general_list as list loop
+				if attached list.item as general then
+					value.keep_head (3)
+					start_index := intervals.item_lower; end_index := intervals.item_upper
+					super_readable_general (general).append_substring_to_string_8 (value, start_index, end_index)
+					test.assert ("same appended strings", value ~ a_value)
+				end
+			end
+		end
+
+	is_ascii_substring (intervals: EL_SPLIT_INTERVALS; is_ascii_interval: BOOLEAN)
+		-- EL_EXTENDED_READABLE_ZSTRING.append_substring_to_string_8
+		local
+			start_index, end_index: INTEGER_32; is_ascii: BOOLEAN
+		do
+			across new_general_list as list loop
+				start_index := intervals.item_lower; end_index := intervals.item_upper
+				if attached super_readable_general (list.item) as general then
+					is_ascii := general.is_ascii_substring (start_index, end_index)
+				end
+				test.assert ("methods agree", is_ascii_interval = is_ascii)
+			end
+		end
+
 feature {NONE} -- Implementation
+
+	new_general_list: EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+		do
+			Result := Precursor
+			Result.extend (immutable_32)
+			if attached immutable_8 as str_8 then
+				Result.extend (str_8)
+			end
+		end
 
 	new_split_list_array: ARRAYED_LIST [EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL]]
 		do

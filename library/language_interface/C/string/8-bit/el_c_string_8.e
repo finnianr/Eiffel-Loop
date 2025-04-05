@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-09-27 18:15:39 GMT (Wednesday 27th September 2023)"
-	revision: "10"
+	date: "2025-04-03 9:02:11 GMT (Thursday 3rd April 2025)"
+	revision: "11"
 
 class
 	EL_C_STRING_8
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 			capacity := count + 1
 			make_buffer (capacity)
 			if attached cursor_8 (string) as c8 then
-				put_special_character_8 (c8.area, c8.area_first_index, 0, count)
+				put_special_character_8 (c8.area, c8.index_lower, 0, count)
 				put_natural_8 (0, count)
 			end
 		end

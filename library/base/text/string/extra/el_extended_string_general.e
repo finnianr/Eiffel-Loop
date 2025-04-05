@@ -6,35 +6,27 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-01 9:01:46 GMT (Tuesday 1st April 2025)"
-	revision: "3"
+	date: "2025-04-04 13:08:27 GMT (Friday 4th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
 
 inherit
-	EL_BIT_COUNTABLE
-
-	EL_SHARED_UNICODE_PROPERTY
-
-	EL_STRING_HANDLER
+	EL_EXTENDED_READABLE_STRING_I [CHAR]
+		rename
+			target as shared_string
+		undefine
+			count, is_valid_as_string_8, valid_index
+		end
 
 feature -- Measurement
-
-	count: INTEGER
-		deferred
-		end
 
 	occurrences (c: CHAR): INTEGER
 		deferred
 		end
 
 feature -- Status query
-
-	has_alpha: BOOLEAN
-		do
-			Result := substring_has_alpha (area, 0, count - 1)
-		end
 
 	is_canonically_spaced: BOOLEAN
 		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
@@ -293,6 +285,11 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
+	index_upper: INTEGER
+		do
+			Result := count - 1
+		end
+
 	translate_with_deletion (old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN)
 		require
 			each_old_has_new: old_characters.count = new_characters.count
@@ -321,38 +318,9 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	substring_has_alpha (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
-		local
-			i: INTEGER
-		do
-			from i := start_index until Result or else i > end_index loop
-				Result := is_i_th_alpha (a_area, i)
-				i := i + 1
-			end
-		end
-
 feature {NONE} -- Deferred
 
-	area: SPECIAL [CHAR]
-		deferred
-		end
-
 	append_string_general (str: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area' is alphabetical
-		deferred
-		end
-
-	is_i_th_alpha_numeric (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
-		deferred
-		end
-
-	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN
-		-- `True' if i'th character in `a_area'  is white space
 		deferred
 		end
 
@@ -361,10 +329,6 @@ feature {NONE} -- Deferred
 		end
 
 	set_count (n: INTEGER)
-		deferred
-		end
-
-	shared_string: STRING_GENERAL
 		deferred
 		end
 
@@ -377,10 +341,6 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	to_character_32 (c: CHAR): CHARACTER_32
-		deferred
-		end
-
 	update_shared
 		deferred
 		end
@@ -389,11 +349,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-feature {NONE} -- Type definitions
+feature {NONE} -- Constants
 
-	READABLE_X: READABLE_STRING_GENERAL
-		require
-			never_called: False
-		deferred
-		end
+	Index_lower: INTEGER	= 0
 end

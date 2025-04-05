@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:06:38 GMT (Sunday 22nd September 2024)"
-	revision: "6"
+	date: "2025-04-05 9:52:03 GMT (Saturday 5th April 2025)"
+	revision: "7"
 
 class
 	EL_COMPRESSION_TABLE [G -> EL_STORABLE create make_default end, K -> HASHABLE]
@@ -28,8 +28,6 @@ inherit
 		end
 
 	EL_STORABLE_HANDLER
-
-	EL_MODULE_EIFFEL
 
 create
 	make
@@ -58,8 +56,10 @@ feature -- Measurement
 
 	size_compressed_item: INTEGER
 		-- Physical size of compressed item
+		local
+			o: EL_OBJECT_PROPERTY
 		do
-			Result := Eiffel.physical_size (found_buffer) + found_buffer.count
+			Result := o.property (found_buffer).physical_size + found_buffer.count
 		end
 
 feature -- Status query
