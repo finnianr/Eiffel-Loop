@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:18:04 GMT (Sunday 25th August 2024)"
-	revision: "27"
+	date: "2025-04-06 7:07:17 GMT (Sunday 6th April 2025)"
+	revision: "28"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -23,7 +23,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			append_z_code, item_has, proper_cased,
+			append_z_code, extended_string, item_has, proper_cased,
 			separator_z_code, default_target, fill_intervals_by_string, trim_string
 		end
 
@@ -74,6 +74,11 @@ feature {NONE} -- Implementation
 	append_z_code (str: ZSTRING; z_code: NATURAL)
 		do
 			str.append_z_code (z_code)
+		end
+
+	extended_string (str: EL_READABLE_ZSTRING): like super_readable
+		do
+			Result := super_readable (str)
 		end
 
 	proper_cased (word: ZSTRING): ZSTRING

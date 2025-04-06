@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 9:01:16 GMT (Thursday 3rd April 2025)"
-	revision: "13"
+	date: "2025-04-06 11:48:03 GMT (Sunday 6th April 2025)"
+	revision: "14"
 
 class
 	JSON_PARSED_INTERVALS
@@ -21,8 +21,6 @@ inherit
 			{NONE} all
 			{ANY} go_i_th, start, forth, after, off, count, index, valid_index, found
 		end
-
-	EL_SHARED_STRING_8_CURSOR
 
 create
 	make, make_grouped, make_parsed
@@ -89,10 +87,10 @@ feature {NONE} -- Implementation
 
 	index_of_balanced_bracket (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
 		local
-			i, open_count, offset: INTEGER; l_area: like cursor_8.area
+			i, open_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
-			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.index_lower
+			if attached super_8 (json) as s then
+				l_area := s.area; offset := s.index_lower
 				from i := start_index until i > json_count or Result > 0 loop
 					inspect l_area [i + offset - 1]
 						when '[' then
@@ -115,10 +113,10 @@ feature {NONE} -- Implementation
 
 	index_of_end_quote (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
 		local
-			i, offset: INTEGER; l_area: like cursor_8.area
+			i, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
-			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.index_lower
+			if attached super_8 (json) as s then
+				l_area := s.area; offset := s.index_lower
 				from i := start_index until i > json_count or Result > 0 loop
 					if l_area [i + offset - 1] = '"' and then l_area [i + offset] /= '/' then
 						Result := i - 1
@@ -131,10 +129,10 @@ feature {NONE} -- Implementation
 
 	last_non_numeric_index (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
 		local
-			i, offset: INTEGER; l_area: like cursor_8.area
+			i, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
-			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.index_lower
+			if attached super_8 (json) as s then
+				l_area := s.area; offset := s.index_lower
 				from i := start_index until i > json_count or Result > 0 loop
 					inspect l_area [i + offset - 1]
 						when '0' .. '9', '+', '-', '.', 'E', 'e' then
@@ -198,10 +196,10 @@ feature {NONE} -- Implementation
 
 	previous_index_of_end_quote (json: READABLE_STRING_8; start_index: INTEGER): INTEGER
 		local
-			i, offset: INTEGER; l_area: like cursor_8.area
+			i, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
 		do
-			if attached cursor_8 (json) as c then
-				l_area := c.area; offset := c.index_lower
+			if attached super_readable_8 (json) as s then
+				l_area := s.area; offset := s.index_lower
 				from i := start_index until i = 0 or else l_area [i + offset - 1] = '"' loop
 					i := i - 1
 				end

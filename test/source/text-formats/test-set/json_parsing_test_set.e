@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:22:09 GMT (Saturday 20th January 2024)"
-	revision: "34"
+	date: "2025-04-06 11:39:39 GMT (Sunday 6th April 2025)"
+	revision: "35"
 
 class
 	JSON_PARSING_TEST_SET
@@ -50,7 +50,10 @@ feature -- Tests
 
 	test_across_iteration
 		note
-			testing: "covers/{JSON_PARSED_INTERVALS}.make, covers/{JSON_ZNAME_VALUE_LIST}.new_cursor"
+			testing: "[
+				covers/{JSON_PARSED_INTERVALS}.make,
+				covers/{JSON_ZNAME_VALUE_LIST}.new_cursor
+			]"
 		local
 			list: JSON_ZNAME_VALUE_LIST; checksum_1: NATURAL
 			crc: like crc_generator

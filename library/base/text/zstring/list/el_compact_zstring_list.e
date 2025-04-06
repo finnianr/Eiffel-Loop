@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 13:11:04 GMT (Saturday 15th March 2025)"
-	revision: "27"
+	date: "2025-04-06 7:02:29 GMT (Sunday 6th April 2025)"
+	revision: "28"
 
 class
 	EL_COMPACT_ZSTRING_LIST
@@ -23,7 +23,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			at, count, default_target, i_th, item, item_index_of,
+			at, count, default_target, extended_string, i_th, item, item_index_of,
 			make_empty, new_cursor, sort
 		end
 
@@ -115,6 +115,11 @@ feature {NONE} -- Implementation
 	default_target: ZSTRING
 		do
 			Result := Empty_string
+		end
+
+	extended_string (general: EL_READABLE_ZSTRING): like super_readable
+		do
+			Result := super_readable (general)
 		end
 
 feature {EL_COMPACT_ZSTRING_ITERATION_CURSOR} -- Internal attributes

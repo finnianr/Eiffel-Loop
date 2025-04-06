@@ -9,14 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:54:26 GMT (Monday 23rd September 2024)"
-	revision: "6"
+	date: "2025-04-06 6:31:45 GMT (Sunday 6th April 2025)"
+	revision: "7"
 
 class
 	EL_IMMUTABLE_STRING_8_GRID
 
 inherit
 	EL_IMMUTABLE_STRING_GRID [STRING_8, IMMUTABLE_STRING_8]
+		rename
+			extended_string as super_readable_8
 		undefine
 			bit_count
 		end

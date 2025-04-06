@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 8:27:48 GMT (Saturday 5th April 2025)"
-	revision: "7"
+	date: "2025-04-06 7:01:10 GMT (Sunday 6th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]
@@ -27,6 +27,8 @@ inherit
 	EL_STRING_BIT_COUNTABLE [S]
 
 	EL_STRING_8_CONSTANTS
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature {NONE} -- Initialization
 
@@ -163,11 +165,9 @@ feature {EL_SPLIT_READABLE_STRING_ITERATION_CURSOR} -- Implementation
 			target := a_target; adjustments := a_adjustments
 		end
 
-	shared_cursor: EL_STRING_ITERATION_CURSOR
-		local
-			c: EL_READABLE_STRING_GENERAL_ROUTINES
+	extended_string (general: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
-			Result := c.shared_cursor (target)
+			Result := super_readable_general (general)
 		end
 
 	string_strict_cmp (left_index, right_index, n: INTEGER): INTEGER

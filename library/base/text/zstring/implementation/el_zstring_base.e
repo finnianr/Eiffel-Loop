@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 16:25:22 GMT (Saturday 5th April 2025)"
-	revision: "112"
+	date: "2025-04-06 6:04:06 GMT (Sunday 6th April 2025)"
+	revision: "113"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -97,6 +97,11 @@ inherit
 		end
 
 	EL_READABLE_ZSTRING_I
+
+	EL_INDEXABLE_FROM_1
+		rename
+			valid_indices_range as valid_substring_indices
+		end
 
 feature -- Access
 
@@ -298,13 +303,6 @@ feature -- Contract Support
 			if start_index = 1 and then end_index = count then
 			else
 				Result := substring (start_index, end_index)
-			end
-		end
-
-	valid_substring_indices (start_index, end_index: INTEGER): BOOLEAN
-		do
-			if valid_index (start_index) then
-				Result := end_index >= start_index - 1 and end_index <= count
 			end
 		end
 

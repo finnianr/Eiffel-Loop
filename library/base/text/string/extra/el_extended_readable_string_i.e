@@ -6,27 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:34:32 GMT (Saturday 5th April 2025)"
-	revision: "4"
+	date: "2025-04-06 19:08:48 GMT (Sunday 6th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
 
 inherit
-	EL_BIT_COUNTABLE
-
-	EL_UC_ROUTINES
-		rename
-			utf_8_byte_count as code_utf_8_byte_count
+	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR]
 		export
-			{NONE} all
-		undefine
-			copy, is_equal, out
+			{STRING_HANDLER} area, index_lower, index_upper
 		end
-
-	EL_STRING_HANDLER
-
-	EL_SHARED_UNICODE_PROPERTY; EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Measurement
 
@@ -97,18 +87,38 @@ feature -- Measurement
 			end
 		end
 
-feature -- Character query
-
-	is_alpha_numeric: BOOLEAN
-		-- `True' if all characters in `target' are alphabetical or numerical
-		deferred
-		end
-
-	is_ascii: BOOLEAN
-		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
+	word_count (exclude_variable_references: BOOLEAN): INTEGER
+		-- count of all substrings of `str' that are separated by whitespace
+		-- but if `exclude_variable_references' is `True', substract count of substrings
+		-- that are variable references defined by `is_variable_reference'
+		local
+			i, i_upper, word_index: INTEGER; state_find_word: BOOLEAN
+			word: like new_readable
 		do
-			Result := all_ascii_in_range (area, index_lower, index_upper)
+			word := new_readable
+			i_upper := index_upper
+			state_find_word := True
+			if attached area as l_area and then attached Unicode_property as unicode then
+				from i := index_lower until i > i_upper loop
+					if state_find_word then
+						i := index_of_character_type_change (l_area, i, i_upper, state_find_word, unicode)
+						word_index := i
+					else
+						i := index_of_character_type_change (l_area, i, i_upper, state_find_word, unicode)
+						word.set_target (new_shared_substring (target, word_index + 1, i))
+						if word.has_alpha then
+							if exclude_variable_references implies not word.is_variable_reference then
+								Result := Result + 1
+							end
+						end
+					end
+					state_find_word := not state_find_word
+					i := i + 1
+				end
+			end
 		end
+
+feature -- Character query
 
 	ends_with_character (c: CHAR): BOOLEAN
 		do
@@ -118,6 +128,24 @@ feature -- Character query
 	has_alpha: BOOLEAN
 		do
 			Result := substring_has_alpha (area, index_lower, index_upper)
+		end
+
+	has_character_in_bounds (c: CHAR; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `uc' occurs between `start_index' and `end_index'
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
+		local
+			i, i_upper: INTEGER
+		do
+			if valid_index (start_index) then
+				i_upper := upper_abs (end_index)
+				if attached area as l_area then
+					from i := lower_abs (start_index) until i > i_upper or Result loop
+						Result := l_area [i] = c
+						i := i + 1
+					end
+				end
+			end
 		end
 
 	has_member (set: EL_SET [CHAR]): BOOLEAN
@@ -133,17 +161,32 @@ feature -- Character query
 			end
 		end
 
+	is_alpha_numeric: BOOLEAN
+		-- `True' if all characters in `target' are alphabetical or numerical
+		deferred
+		end
+
+	is_ascii: BOOLEAN
+		-- `True' if all characters in `target' are in the ASCII character set: 0 .. 127
+		do
+			Result := all_ascii_in_range (area, index_lower, index_upper)
+		end
+
 	is_ascii_substring (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)'
 		-- are in the ASCII character set: 0 .. 127
 		require
-			valid_end_index: end_index <= count
-		local
-			lower, upper: INTEGER
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		do
-			upper := index_upper - (count - end_index)
-			lower := index_lower + start_index - 1
-			Result := all_ascii_in_range (area, lower, upper)
+			Result := all_ascii_in_range (area, lower_abs (start_index), upper_abs (end_index))
+		end
+
+	is_alpha_numeric_substring (start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if all characters in `target.substring (start_index, end_index)' are alpha-numeric
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
+		do
+			Result := all_alpha_numeric_in_range (area, lower_abs (start_index), upper_abs (end_index))
 		end
 
 	starts_with_character (c: CHAR): BOOLEAN
@@ -159,6 +202,27 @@ feature -- Status query
 
 	has_substring (other: READABLE_STRING_GENERAL): BOOLEAN
 		deferred
+		end
+
+	is_variable_reference: BOOLEAN
+		-- `True' if `Current' is one of two variable reference forms
+
+		-- 1. $<C identifier>
+		-- 2. ${<C identifier>}
+		local
+			i_lower, i_upper, l_count: INTEGER
+		do
+			if attached target as str then
+				l_count := str.count
+				if l_count >= 2 and then str [1] = '$' then
+					i_lower := index_lower + 1; i_upper := index_upper
+				-- check if like: ${name}
+					if str [2] = '{' and then l_count > 3 and then str [l_count] = '}' then
+						i_lower := i_lower + 1; i_upper := i_upper - 1
+					end
+					Result := is_c_identifier_in_range (area, i_lower, i_upper)
+				end
+			end
 		end
 
 	matches_wildcard (wildcard: like READABLE_X): BOOLEAN
@@ -226,9 +290,7 @@ feature -- Basic operations
 
 	append_substring_to_string_32 (str: STRING_32; start_index, end_index: INTEGER)
 		require
-			valid_start_end_index: start_index <= end_index + 1
-			valid_start: valid_index (start_index)
-			valid_end: end_index > 0 implies valid_index (end_index)
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		local
 			i_upper, i_lower, l_count, offset: INTEGER
 		do
@@ -249,9 +311,7 @@ feature -- Basic operations
 
 	append_substring_to_string_8 (str: STRING_8; start_index, end_index: INTEGER)
 		require
-			valid_start_end_index: start_index <= end_index + 1
-			valid_start: valid_index (start_index)
-			valid_end: end_index > 0 implies valid_index (end_index)
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		local
 			i_upper, i_lower, l_count, offset: INTEGER
 		do
@@ -345,33 +405,20 @@ feature {STRING_HANDLER} -- Basic operations
 			end
 		end
 
-feature -- Contract Support
-
-	ends_with_target (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
-		do
-			Result := target.same_characters (str, index, str.count, 1)
-		end
-
-	ends_with_target_substring (str: READABLE_STRING_GENERAL; target_index, index: INTEGER): BOOLEAN
-		do
-			Result := target.same_characters (str, index, str.count, target_index)
-		end
-
-	is_valid_as_string_8: BOOLEAN
-		do
-			Result := target.is_valid_as_string_8
-		end
-
-	valid_index (i: INTEGER): BOOLEAN
-		do
-			Result := target.valid_index (i)
-		end
-
 feature {NONE} -- Implementation
 
-	all_ascii_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
-		deferred
+	all_alpha_numeric_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are alpha-numeric
+		local
+			i: INTEGER
+		do
+			from Result := True; i := i_lower until not Result or i > i_upper loop
+				if is_i_th_alpha_numeric (a_area, i) then
+					i := i + 1
+				else
+					Result := False
+				end
+			end
 		end
 
 	append_substring_to_special_32 (
@@ -402,16 +449,36 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	new_shared_substring (str: like READABLE_X; start_index, end_index: INTEGER): like READABLE_X
-		deferred
+	lower_abs (start_index: INTEGER): INTEGER
+		-- translate `start_index' to absolute `area' index
+		do
+			Result := index_lower + start_index - 1
 		end
 
-	other_area (other: like READABLE_X): like area
-		deferred
-		end
-
-	other_index_lower (other: like READABLE_X): INTEGER
-		deferred
+	index_of_character_type_change (
+		a_area: like area; i_lower, i_upper: INTEGER; find_word: BOOLEAN; unicode: like Unicode_property
+	): INTEGER
+		-- index of next character that changes status from `c.is_space' to `not c.is_space'
+		-- when `find_word' is true look for change to `not c.is_space'
+		local
+			i: INTEGER; break: BOOLEAN
+		do
+			from i := i_lower until i > i_upper or break loop
+				if find_word then
+					if not is_i_th_space (a_area, i, unicode) then
+						break := True
+					else
+						i := i + 1
+					end
+				else
+					if is_i_th_space (a_area, i, unicode) then
+						break := True
+					else
+						i := i + 1
+					end
+				end
+			end
+			Result := i
 		end
 
 	same_area_items (a, b: like area; a_offset, b_offset, n: INTEGER): BOOLEAN
@@ -460,61 +527,10 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {STRING_HANDLER} -- Deferred
-
-	area: SPECIAL [CHAR]
-		deferred
-		end
-
-	empty_target: like target
-		deferred
-		end
-
-	index_lower: INTEGER
-		deferred
-		end
-
-	index_upper: INTEGER
-		deferred
-		end
-
-	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area' is alphabetical
-		deferred
-		end
-
-	is_i_th_alpha_numeric (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
-		deferred
-		end
-
-	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN
-		-- `True' if i'th character in `a_area'  is white space
-		deferred
-		end
-
-	target: READABLE_STRING_GENERAL
-		deferred
-		end
-
-	to_character_32 (c: CHAR): CHARACTER_32
-		deferred
-		end
-
-	to_character_8 (c: CHAR): CHARACTER_8
-		deferred
-		end
-
-	to_natural_32_code (c: CHAR): NATURAL
-		deferred
-		end
-
-feature {NONE} -- Type definitions
-
-	READABLE_X: READABLE_STRING_GENERAL
-		require
-			never_called: False
-		deferred
+	upper_abs (end_index: INTEGER): INTEGER
+		-- translate `end_index' to absolute `area' index
+		do
+			Result := index_upper - (count - end_index)
 		end
 
 end

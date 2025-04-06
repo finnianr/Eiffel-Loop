@@ -6,18 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 11:50:57 GMT (Sunday 9th February 2025)"
-	revision: "36"
+	date: "2025-04-06 17:40:54 GMT (Sunday 6th April 2025)"
+	revision: "37"
 
 deferred class
-	EL_CHARACTER_X_ROUTINES [G -> COMPARABLE]
+	EL_CHARACTER_X_ROUTINES [CHAR -> COMPARABLE]
 
 inherit
 	EL_BIT_COUNTABLE
 
 feature -- Access
 
-	right_bracket (left_bracket: G): G
+	right_bracket (left_bracket: CHAR): CHAR
 		require
 			is_left: is_left_bracket (left_bracket)
 		deferred
@@ -25,7 +25,7 @@ feature -- Access
 
 feature -- Status query
 
-	has_member (set: EL_SET [G]; area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
+	has_member (set: EL_SET [CHAR]; area: SPECIAL [CHAR]; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' at least one character in `area' between `start_index' to `end_index'
 		-- is a member of `set'
 		local
@@ -40,13 +40,13 @@ feature -- Status query
 			end
 		end
 
-	is_subset_of (set: EL_SET [G]; area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
+	is_subset_of (set: EL_SET [CHAR]; area: SPECIAL [CHAR]; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if set of characters in `area' between `start_index' to `end_index'
 		-- is a subset of `set'
 		local
 			i: INTEGER
 		do
-			from Result := True; i := start_index until not Result or i > end_index loop
+			from Result := True; i := start_index until i > end_index or not Result loop
 				if set.has (area [i]) then
 					i := i + 1
 				else
@@ -55,13 +55,13 @@ feature -- Status query
 			end
 		end
 
-	is_alpha_numeric_area (area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
+	is_alpha_numeric_area (area: SPECIAL [CHAR]; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if set of characters in `area' between `start_index' to `end_index'
 		-- is a subset of `set'
 		local
 			i: INTEGER
 		do
-			from Result := True; i := start_index until not Result or i > end_index loop
+			from Result := True; i := start_index until i > end_index or not Result loop
 				if is_i_th_alpha_numeric (area, i) then
 					i := i + 1
 				else
@@ -70,7 +70,7 @@ feature -- Status query
 			end
 		end
 
-	is_ascii_area (area: SPECIAL [G]; start_index, end_index: INTEGER): BOOLEAN
+	is_ascii_area (area: SPECIAL [CHAR]; start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `area' are in the ASCII character set range: 0 .. 127
 		require
 			valid_start_index: start_index < area.count
@@ -79,7 +79,7 @@ feature -- Status query
 			Result := leading_ascii_count (area, start_index, end_index) = end_index - start_index + 1
 		end
 
-	is_ascii_alpha (c: G): BOOLEAN
+	is_ascii_alpha (c: CHAR): BOOLEAN
 		do
 			inspect to_character_8 (c)
 				when 'a' .. 'z', 'A' .. 'Z' then
@@ -88,7 +88,23 @@ feature -- Status query
 			end
 		end
 
-	is_left_bracket (c: G): BOOLEAN
+	is_c_identifier_area (area: SPECIAL [CHAR]; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if set of characters in `area' between `start_index' to `end_index'
+		-- is a subset of `set'
+		local
+			i: INTEGER
+		do
+			Result := True
+			from i := start_index until i > end_index or not Result loop
+				if is_c_identifier (area [i], i = start_index) then
+					i := i + 1
+				else
+					Result := False
+				end
+			end
+		end
+
+	is_left_bracket (c: CHAR): BOOLEAN
 		do
 			inspect right_bracket_offset (c)
 				when 1, 2 then
@@ -122,7 +138,7 @@ feature -- Status query
 		end
 
 	same_caseless_sub_array (
-		area_1, area_2: SPECIAL [G]; offset_1, offset_2, comparison_count: INTEGER
+		area_1, area_2: SPECIAL [CHAR]; offset_1, offset_2, comparison_count: INTEGER
 	): BOOLEAN
 		require
 			valid_offset_1: area_1.valid_index (offset_1 + comparison_count - 1)
@@ -139,7 +155,7 @@ feature -- Status query
 
 feature -- Measurement
 
-	leading_ascii_count (area: SPECIAL [G]; start_index, end_index: INTEGER): INTEGER
+	leading_ascii_count (area: SPECIAL [CHAR]; start_index, end_index: INTEGER): INTEGER
 		require
 			valid_start_index: start_index < area.count
 			valid_end_index: end_index < area.count
@@ -156,27 +172,33 @@ feature -- Measurement
 			end
 		end
 
-	right_bracket_offset (c: G): INTEGER
+	right_bracket_offset (c: CHAR): INTEGER
 		-- code offset to right bracket if `c' is a left bracket in ASCII range
 		-- or else zero
 		deferred
 		end
 
-feature {NONE} -- Implementation
+feature {NONE} -- Deferred
 
-	is_i_th_alpha_numeric (area: SPECIAL [G]; i: INTEGER): BOOLEAN
+	is_c_identifier (c: CHAR; is_first: BOOLEAN): BOOLEAN
+		-- `True' if `c' is valid character in C language identifier
+		-- where `is_first' indicates if `c' is first character in identifer
 		deferred
 		end
 
-	i_th_code (area: SPECIAL [G]; i: INTEGER): INTEGER
+	is_i_th_alpha_numeric (area: SPECIAL [CHAR]; i: INTEGER): BOOLEAN
 		deferred
 		end
 
-	same_caseless_character (a, b: G): BOOLEAN
+	i_th_code (area: SPECIAL [CHAR]; i: INTEGER): INTEGER
 		deferred
 		end
 
-	to_character_8 (c: G): CHARACTER_8
+	same_caseless_character (a, b: CHAR): BOOLEAN
+		deferred
+		end
+
+	to_character_8 (c: CHAR): CHARACTER_8
 		deferred
 		end
 

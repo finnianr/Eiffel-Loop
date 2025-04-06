@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:34:50 GMT (Saturday 5th April 2025)"
-	revision: "4"
+	date: "2025-04-06 19:08:42 GMT (Sunday 6th April 2025)"
+	revision: "5"
 
 class
 	EL_EXTENDED_READABLE_ZSTRING
@@ -18,14 +18,16 @@ inherit
 			area as unencoded_area,
 			empty_target as empty_string
 		redefine
-			is_alpha_numeric, is_ascii, all_ascii_in_range,
-			ends_with_character, has_alpha, has_member, starts_with_character,
+			all_alpha_numeric_in_range, all_ascii_in_range,
 			append_to, append_to_string_32, append_to_string_8, append_to_utf_8,
 			append_substring_to_special_32, append_substring_to_special_8,
-			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space,
+			ends_with_character,
+			has_alpha, has_member, has_character_in_bounds,
+			is_alpha_numeric, is_ascii, is_c_identifier_in_range,
+			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space, index_of_character_type_change,
 			latin_1_count, leading_occurrences, leading_white_count,
-			matches_wildcard, new_shared_substring, same_string, trailing_white_count,
-			write_utf_8_to
+			matches_wildcard, new_shared_substring, new_readable,
+			same_string, starts_with_character, trailing_white_count, write_utf_8_to
 		end
 
 	STRING_32_ITERATION_CURSOR
@@ -112,6 +114,12 @@ feature -- Character query
 			Result := target.has_alpha
 		end
 
+	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if `uc' occurrs between `start_index' and `end_index'
+		do
+			Result := target.has_between (uc, start_index, end_index)
+		end
+
 	has_member (set: EL_SET [CHARACTER_32]): BOOLEAN
 		-- `True' if at least one character in `str' is a member of `set'
 		do
@@ -194,6 +202,29 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	all_alpha_numeric_in_range (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are alpha-numeric
+		local
+			i, block_index: INTEGER; c_i: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			if attached Unicode_table as uc_table and then attached area as l_area then
+				Result := True
+				from i := i_lower until i > i_upper or not Result loop
+					c_i := l_area [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							Result := iter.item ($block_index, unencoded, i + 1).is_alpha_numeric
+
+						when Ascii_range then
+							Result := c_i.is_alpha_numeric
+					else
+						Result := uc_table [c_i.code].is_alpha_numeric
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	all_ascii_in_range (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
 		local
@@ -270,6 +301,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	is_c_identifier_in_range (unencoded: like unencoded_area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
+		-- a C language identifier
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_c_identifier_area (area, i_lower, i_upper)
+		end
+
 	is_i_th_alpha (unencoded: like unencoded_area; i: INTEGER): BOOLEAN
 		-- `True' if i'th character in `area'  is alphabetical or numeric
 		do
@@ -286,6 +326,50 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `unencoded'  is white space
 		do
 			Result := target.is_space_item (i - 1)
+		end
+
+	index_of_character_type_change (
+		unencoded: like unencoded_area; i_lower, i_upper: INTEGER; find_word: BOOLEAN; unicode: like Unicode_property
+	): INTEGER
+		-- index of next character that changes status from `c.is_space' to `not c.is_space'
+		-- when `find_word' is true look for change to `not c.is_space'
+		local
+			i, block_index: INTEGER; c_i: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+			i_th_is_space, break: BOOLEAN
+		do
+			if attached Unicode_table as uc_table and then attached area as l_area then
+				from i := i_lower until i > i_upper or break loop
+					c_i := l_area [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							i_th_is_space := unicode.is_space (iter.item ($block_index, unencoded, i + 1))
+
+						when Ascii_range then
+							i_th_is_space := c_i.is_space
+					else
+						i_th_is_space := unicode.is_space (uc_table [c_i.code])
+					end
+					if find_word then
+						if not i_th_is_space then
+							break := True
+						else
+							i := i + 1
+						end
+					else
+						if i_th_is_space then
+							break := True
+						else
+							i := i + 1
+						end
+					end
+				end
+			end
+			Result := i
+		end
+
+	new_readable: EL_EXTENDED_READABLE_ZSTRING
+		do
+			create Result.make_empty
 		end
 
 	new_shared_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING

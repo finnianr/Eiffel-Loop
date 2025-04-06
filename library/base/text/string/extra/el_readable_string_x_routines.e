@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:41:43 GMT (Saturday 5th April 2025)"
-	revision: "60"
+	date: "2025-04-06 18:20:31 GMT (Sunday 6th April 2025)"
+	revision: "61"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -110,7 +110,7 @@ feature -- Measurement
 
 	word_count (str: READABLE_STRING_X; exclude_variable_references: BOOLEAN): INTEGER
 		-- count of all substrings of `str' that are separated by whitespace
-		-- but if `exclude_variable_references' is `True', substract cound of substrings
+		-- but if `exclude_variable_references' is `True', substract count of substrings
 		-- that are variable references defined by `is_variable_reference'
 		local
 			i, upper, word_index: INTEGER; state_find_word: BOOLEAN

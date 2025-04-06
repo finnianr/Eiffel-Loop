@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:36:24 GMT (Saturday 5th April 2025)"
-	revision: "2"
+	date: "2025-04-06 19:18:39 GMT (Sunday 6th April 2025)"
+	revision: "3"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
 
 inherit
 	ZSTRING_EQA_TEST_SET
+
+	EL_MODULE_CONVERT_STRING
 
 create
 	make
@@ -26,9 +28,11 @@ feature {NONE} -- Initialization
 			make_named (<<
 				["append_substring_to_string_32", agent test_append_substring_to_string_32],
 				["append_substring_to_string_8",	 agent test_append_substring_to_string_8],
-				["character_counts",					 agent test_character_counts],
 				["ascii_query",						 agent test_ascii_query],
-				["same_string",						 agent test_same_string]
+				["character_counts",					 agent test_character_counts],
+				["is_variable_reference",			 agent test_is_variable_reference],
+				["same_string",						 agent test_same_string],
+				["word_count",							 agent test_word_count]
 			>>)
 		end
 
@@ -189,6 +193,22 @@ feature -- Tests
 			end
 		end
 
+	test_is_variable_reference
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_is_variable_reference
+		local
+			is_variable_reference: ARRAY [BOOLEAN]; i: INTEGER
+		do
+			is_variable_reference := << True, False, True, False >>
+			across new_string_type_list ("$index, $in-dex, ${index}, index") as csv_list loop
+				across Convert_string.split_list (csv_list.item, ',', {EL_SIDE}.Left) as list loop
+					if attached list.item as str and then attached super_readable_general (str) as super_str then
+						i := list.cursor_index
+						assert ("expected result", super_str.is_variable_reference = is_variable_reference [i])
+					end
+				end
+			end
+		end
+
 	test_same_string
 		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_same_string
 		note
@@ -211,4 +231,26 @@ feature -- Tests
 			end
 		end
 
+	test_word_count
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_word_count
+		note
+			testing: "[
+				covers/{EL_READABLE_STRING_X_ROUTINES}.word_count
+			]"
+		local
+			string: STRING; word_count: INTEGER
+		do
+			string := "one; ${index} two%T patrick's"
+			across 1 |..| 2 as n loop
+				across new_string_type_list (string) as type_list loop
+					across type_list as list loop
+						if attached list.item as l_text then
+							word_count := super_readable_general (l_text).word_count (True)
+							assert ("3 words", word_count = 3)
+						end
+					end
+				end
+				string.prepend ("%N "); string.append ("%N ")
+			end
+		end
 end

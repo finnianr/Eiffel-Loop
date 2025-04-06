@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 18:22:01 GMT (Wednesday 6th November 2024)"
-	revision: "6"
+	date: "2025-04-06 6:51:59 GMT (Sunday 6th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_OCCURRENCE_EDITOR [S -> STRING_GENERAL create make end]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_STRING_SPLIT_CONTAINER [S]
 		undefine
-			is_equal
+			is_equal, extended_string
 		redefine
 			make_empty
 		end

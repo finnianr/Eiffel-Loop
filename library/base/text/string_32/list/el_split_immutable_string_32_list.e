@@ -9,19 +9,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:47:01 GMT (Tuesday 20th August 2024)"
-	revision: "17"
+	date: "2025-04-06 6:59:22 GMT (Sunday 6th April 2025)"
+	revision: "18"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_32_LIST
 
 inherit
 	EL_SPLIT_IMMUTABLE_STRING_LIST [STRING_32, IMMUTABLE_STRING_32]
+		rename
+			extended_string as super_readable_32
 		undefine
 			bit_count
 		redefine
 			fill_general, fill_general_by_string, fill_intervals_by_string,
-			shared_target_substring, shared_cursor
+			shared_target_substring
 		end
 
 	EL_STRING_BIT_COUNTABLE [IMMUTABLE_STRING_32]
@@ -68,11 +70,6 @@ feature {NONE} -- Implementation
 	new_shared (a_target: STRING_32): IMMUTABLE_STRING_32
 		do
 			Result := Immutable_32.new_substring (a_target.area, 0, a_target.count)
-		end
-
-	shared_cursor: EL_STRING_32_ITERATION_CURSOR
-		do
-			Result := cursor_32 (target_string)
 		end
 
 	shared_target_substring (lower, upper: INTEGER): IMMUTABLE_STRING_32

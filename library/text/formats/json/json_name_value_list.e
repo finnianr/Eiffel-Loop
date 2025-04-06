@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 9:01:55 GMT (Thursday 3rd April 2025)"
-	revision: "23"
+	date: "2025-04-06 11:24:38 GMT (Sunday 6th April 2025)"
+	revision: "24"
 
 class
 	JSON_NAME_VALUE_LIST
@@ -31,8 +31,6 @@ inherit
 			JSON as JSON_string
 		end
 
-	EL_SHARED_STRING_8_CURSOR
-
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
@@ -42,9 +40,7 @@ feature {NONE} -- Initialization
 
 	make (a_utf_8_json: READABLE_STRING_8)
 		do
-			if attached cursor_8 (a_utf_8_json) as json then
-				utf_8_json := Immutable_8.new_substring (json.area, json.index_lower, a_utf_8_json.count)
-			end
+			utf_8_json := Immutable_8.as_shared (a_utf_8_json)
 			create internal_utf_8_item.make (50)
 			create internal_name.make (20)
 

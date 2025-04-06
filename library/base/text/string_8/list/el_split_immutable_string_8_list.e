@@ -9,19 +9,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 18:07:04 GMT (Sunday 14th April 2024)"
-	revision: "16"
+	date: "2025-04-06 7:03:09 GMT (Sunday 6th April 2025)"
+	revision: "17"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
 
 inherit
 	EL_SPLIT_IMMUTABLE_STRING_LIST [STRING_8, IMMUTABLE_STRING_8]
+		rename
+			extended_string as super_readable_8
 		undefine
 			bit_count, same_i_th_character
 		redefine
 			fill_general, fill_general_by_string, fill_intervals_by_string,
-			shared_target_substring, shared_cursor
+			shared_target_substring
 		end
 
 	EL_STRING_BIT_COUNTABLE [IMMUTABLE_STRING_8]

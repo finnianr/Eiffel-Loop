@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 12:30:56 GMT (Sunday 9th February 2025)"
-	revision: "20"
+	date: "2025-04-06 17:35:04 GMT (Sunday 6th April 2025)"
+	revision: "21"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -56,6 +56,22 @@ feature -- Measurement
 			end
 		end
 
+feature -- Status query
+
+	is_c_identifier (c: CHARACTER_32; is_first: BOOLEAN): BOOLEAN
+		-- `True' if `c' is valid character in C language identifier
+		-- where `is_first' indicates if `c' is first character in identifer
+		do
+			inspect c
+				when 'a' .. 'z', 'A' .. 'Z' then
+					Result := True
+
+				when '0' .. '9', '_' then
+					Result := not is_first
+			else
+			end
+		end
+
 feature -- Area query
 
 	is_i_th_eiffel_identifier (area: SPECIAL [CHARACTER_32]; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
@@ -70,14 +86,14 @@ feature -- Area query
 
 feature {NONE} -- Implementation
 
-	is_i_th_alpha_numeric (area: SPECIAL [CHARACTER_32]; i: INTEGER): BOOLEAN
-		do
-			Result := area [i].is_alpha_numeric
-		end
-
 	i_th_code (area: SPECIAL [CHARACTER_32]; i: INTEGER): INTEGER
 		do
 			Result := area [i].code
+		end
+
+	is_i_th_alpha_numeric (area: SPECIAL [CHARACTER_32]; i: INTEGER): BOOLEAN
+		do
+			Result := area [i].is_alpha_numeric
 		end
 
 	same_caseless_character (a, b: CHARACTER_32): BOOLEAN

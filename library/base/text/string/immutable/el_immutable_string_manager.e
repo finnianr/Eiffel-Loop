@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:31:11 GMT (Saturday 5th April 2025)"
-	revision: "18"
+	date: "2025-04-06 11:23:25 GMT (Sunday 6th April 2025)"
+	revision: "19"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
@@ -32,8 +32,8 @@ feature -- Access
 		local
 			l_count: INTEGER
 		do
-			if str.is_immutable and then attached {S} str as immutable_str then
-				Result := new_immutable_substring (immutable_str, start_index, end_index)
+			if str.is_immutable and then attached {like item} str as immutable then
+				Result := new_immutable_substring (immutable, start_index, end_index)
 
 			elseif attached string_area (str) as str_area then
 				l_count := end_index - start_index + 1

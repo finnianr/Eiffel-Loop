@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 14:35:27 GMT (Saturday 5th April 2025)"
-	revision: "33"
+	date: "2025-04-06 18:36:32 GMT (Sunday 6th April 2025)"
+	revision: "34"
 
 class
 	EL_STRING_8
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_EXTENDED_STRING_8
+		rename
+			set_target as share
 		undefine
 			count, is_valid_as_string_8, valid_index
 		end

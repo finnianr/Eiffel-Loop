@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 18:27:05 GMT (Tuesday 5th November 2024)"
-	revision: "9"
+	date: "2025-04-06 6:29:50 GMT (Sunday 6th April 2025)"
+	revision: "10"
 
 class
 	EL_ZSTRING_OCCURRENCE_EDITOR
 
 inherit
 	EL_OCCURRENCE_EDITOR [ZSTRING]
-		undefine
-			shared_cursor
+		rename
+			extended_string as super_readable
 		redefine
 			default_target, is_equal, target
 		end
@@ -54,11 +54,6 @@ feature {NONE} -- Implementation
 	default_target: ZSTRING
 		do
 			Result := Empty_string
-		end
-
-	shared_cursor: EL_STRING_ITERATION_CURSOR
-		do
-			Result := cursor_z (target)
 		end
 
 	wipe_out_target

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:22:43 GMT (Saturday 5th April 2025)"
-	revision: "37"
+	date: "2025-04-06 6:17:15 GMT (Sunday 6th April 2025)"
+	revision: "38"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -105,14 +105,6 @@ feature -- Measurement
 	target_count: INTEGER
 		do
 			Result := target.count
-		end
-
-feature -- Status query
-
-	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `uc' occurrs between `start_index' and `end_index'
-		do
-			Result := target.has_between (uc, start_index, end_index)
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 18:44:32 GMT (Tuesday 5th November 2024)"
-	revision: "10"
+	date: "2025-04-06 7:04:58 GMT (Sunday 6th April 2025)"
+	revision: "11"
 
 class
 	EL_STRING_32_OCCURRENCE_EDITOR
@@ -15,9 +15,10 @@ class
 inherit
 	EL_OCCURRENCE_EDITOR [STRING_32]
 		rename
-			string_pool as String_32_pool
+			string_pool as String_32_pool,
+			extended_string as super_readable_32
 		undefine
-			bit_count, shared_cursor
+			bit_count
 		redefine
 			default_target, target
 		end
@@ -40,8 +41,6 @@ inherit
 
 	EL_STRING_32_BIT_COUNTABLE [READABLE_STRING_32]
 
-	EL_SHARED_STRING_32_CURSOR
-
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string
 
@@ -57,11 +56,6 @@ feature {NONE} -- Implementation
 	default_target: STRING_32
 		do
 			Result := Empty_string_32
-		end
-
-	shared_cursor: EL_STRING_ITERATION_CURSOR
-		do
-			Result := Cursor_32 (target)
 		end
 
 	wipe_out_target

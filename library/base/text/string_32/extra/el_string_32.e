@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 15:37:40 GMT (Friday 4th April 2025)"
-	revision: "17"
+	date: "2025-04-06 18:36:17 GMT (Sunday 6th April 2025)"
+	revision: "18"
 
 class
 	EL_STRING_32
@@ -27,7 +27,8 @@ inherit
 
 	EL_EXTENDED_STRING_32
 		rename
-			empty_target as empty_string_32
+			empty_target as empty_string_32,
+			set_target as share
 		undefine
 			count, is_valid_as_string_8, valid_index
 		end

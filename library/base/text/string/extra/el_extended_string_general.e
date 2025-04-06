@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 13:08:27 GMT (Friday 4th April 2025)"
-	revision: "4"
+	date: "2025-04-06 12:58:43 GMT (Sunday 6th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -53,36 +53,6 @@ feature -- Status query
 						Result := False
 					end
 					i := i + 1
-				end
-			end
-		end
-
-	is_variable_reference: BOOLEAN
-		-- `True' if `Current' is one of two variable reference forms
-
-		-- 1. $<C identifier>
-		-- 2. ${<C identifier>}
-		local
-			lower, upper, i: INTEGER; dollor, left_brace, right_brace, underscore: CHAR
-		do
-			dollor := to_char ('$'); left_brace := to_char ('{'); right_brace := to_char ('}')
-			underscore  := to_char ('_')
-			upper := count - 1
-			if attached area as l_area and then count >= 2 and then l_area [0] = dollor then
-				if l_area [1] = left_brace and then upper > 2 then
-				-- like: ${name}
-					if l_area [upper] = right_brace then
-						lower := 2; upper := upper - 1
-					end
-				else
-					lower := 1
-				end
-				if valid_index (lower + 1) then
-					Result := is_i_th_alpha (l_area, lower)
-					from i := lower until i > upper or not Result loop
-						Result := is_i_th_alpha_numeric (l_area, i) or else l_area [i] = underscore
-						i := i + 1
-					end
 				end
 			end
 		end

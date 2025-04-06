@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 18:08:34 GMT (Tuesday 5th November 2024)"
-	revision: "10"
+	date: "2025-04-06 7:03:47 GMT (Sunday 6th April 2025)"
+	revision: "11"
 
 class
 	EL_STRING_8_OCCURRENCE_EDITOR
@@ -15,11 +15,12 @@ class
 inherit
 	EL_OCCURRENCE_EDITOR [STRING_8]
 		rename
-			string_pool as String_8_pool
+			string_pool as String_8_pool,
+			extended_string as super_readable_8
 		undefine
 			bit_count, same_i_th_character
 		redefine
-			default_target, is_equal, shared_cursor, target
+			default_target, is_equal, target
 		end
 
 	EL_STRING_8_OCCURRENCE_INTERVALS

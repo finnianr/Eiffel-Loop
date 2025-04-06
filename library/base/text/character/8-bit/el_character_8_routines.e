@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-09 12:30:41 GMT (Sunday 9th February 2025)"
-	revision: "33"
+	date: "2025-04-06 17:37:28 GMT (Sunday 6th April 2025)"
+	revision: "34"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -45,7 +45,7 @@ feature -- Measurement
 
 feature -- Status query
 
-	is_a_to_z_caseless (c: CHARACTER): BOOLEAN
+	is_a_to_z_caseless (c: CHARACTER_8): BOOLEAN
 		do
 			inspect c
 				when 'a' .. 'z', 'A' .. 'Z' then
@@ -54,7 +54,7 @@ feature -- Status query
 			end
 		end
 
-	is_a_to_z_lower (c: CHARACTER): BOOLEAN
+	is_a_to_z_lower (c: CHARACTER_8): BOOLEAN
 		do
 			inspect c
 				when 'a' .. 'z' then
@@ -63,7 +63,7 @@ feature -- Status query
 			end
 		end
 
-	is_a_to_z_upper (c: CHARACTER): BOOLEAN
+	is_a_to_z_upper (c: CHARACTER_8): BOOLEAN
 		do
 			inspect c
 				when 'A' .. 'Z' then
@@ -72,7 +72,7 @@ feature -- Status query
 			end
 		end
 
-	is_c_identifier (c: CHARACTER; is_first: BOOLEAN): BOOLEAN
+	is_c_identifier (c: CHARACTER_8; is_first: BOOLEAN): BOOLEAN
 		-- `True' if `c' is valid character in C language identifier
 		-- where `is_first' indicates if `c' is first character in identifer
 		do
@@ -91,14 +91,14 @@ feature -- Status query
 			Result := is_valid_eiffel_case (area [i], case_code, first_i)
 		end
 
-	is_latin1_alpha (c: CHARACTER): BOOLEAN
+	is_latin1_alpha (c: CHARACTER_8): BOOLEAN
 			--
 		do
 			Result := is_latin1_lower (c) or else is_latin1_upper (c) or else c.code.to_natural_32 = Sharp_s
 						or else c.code.to_natural_32 = Y_dieresis
 		end
 
-	is_latin1_lower (c: CHARACTER): BOOLEAN
+	is_latin1_lower (c: CHARACTER_8): BOOLEAN
 			--
 		local
 			code: NATURAL
@@ -120,7 +120,7 @@ feature -- Status query
 			end
 		end
 
-	is_latin1_upper (c: CHARACTER): BOOLEAN
+	is_latin1_upper (c: CHARACTER_8): BOOLEAN
 			--
 		local
 			code: NATURAL
@@ -144,14 +144,14 @@ feature -- Status query
 
 feature -- Conversion
 
-	digit_to_integer (c: CHARACTER): INTEGER
+	digit_to_integer (c: CHARACTER_8): INTEGER
 		require
 			is_digit: '0' <= c and c <= '9'
 		do
 			Result := c.code - ('0').code
 		end
 
-	hex_digit_to_decimal (c: CHARACTER): INTEGER
+	hex_digit_to_decimal (c: CHARACTER_8): INTEGER
 		-- Hex digit to decimal (base 10)
 		do
 			inspect c
@@ -163,7 +163,7 @@ feature -- Conversion
 			end
 		end
 
-	latin1_lower_case (c: CHARACTER): CHARACTER
+	latin1_lower_case (c: CHARACTER_8): CHARACTER_8
 			--
 		local
 			code: NATURAL
@@ -185,7 +185,7 @@ feature -- Conversion
 			end
 		end
 
-	latin1_upper_case (c: CHARACTER): CHARACTER
+	latin1_upper_case (c: CHARACTER_8): CHARACTER_8
 			--
 		local
 			code: NATURAL

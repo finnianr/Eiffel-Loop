@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "10"
+	date: "2025-04-06 6:54:51 GMT (Sunday 6th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_IMMUTABLE_STRING_GRID [GENERAL -> STRING_GENERAL, IMMUTABLE -> IMMUTABLE_STRING_GENERAL create make end]
@@ -28,6 +28,8 @@ inherit
 		export
 			{NONE} all
 			{ANY} cell_count
+		undefine
+			extended_string
 		end
 
 	EL_STRING_BIT_COUNTABLE [IMMUTABLE]

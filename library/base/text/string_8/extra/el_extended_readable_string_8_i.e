@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:33:16 GMT (Saturday 5th April 2025)"
-	revision: "3"
+	date: "2025-04-06 18:37:49 GMT (Sunday 6th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -51,6 +51,15 @@ feature {NONE} -- Implementation
 			Result := c.is_ascii_area (area, i_lower, i_upper)
 		end
 
+	is_c_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
+		-- a C language identifier
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_c_identifier_area (area, i_lower, i_upper)
+		end
+
 	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN
 		-- `True' if i'th character in `a_area'  is alphabetical or numeric
 		do
@@ -67,6 +76,11 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `a_area'  is white space
 		do
 			Result := a_area [i].is_space
+		end
+
+	new_readable: EL_READABLE_STRING_8
+		do
+			create Result.make_empty
 		end
 
 	new_shared_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8

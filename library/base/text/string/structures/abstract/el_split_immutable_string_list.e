@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:04:55 GMT (Saturday 29th March 2025)"
-	revision: "9"
+	date: "2025-04-06 6:55:32 GMT (Sunday 6th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_SPLIT_IMMUTABLE_STRING_LIST [
@@ -18,6 +18,8 @@ inherit
 	EL_SPLIT_READABLE_STRING_LIST [IMMUTABLE]
 		rename
 			target_substring as shared_target_substring
+		undefine
+			extended_string
 		redefine
 			double_item, integer_item, natural_item
 		end

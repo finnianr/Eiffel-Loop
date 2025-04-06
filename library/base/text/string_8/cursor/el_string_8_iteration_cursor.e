@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:23:54 GMT (Saturday 5th April 2025)"
-	revision: "23"
+	date: "2025-04-06 6:16:59 GMT (Sunday 6th April 2025)"
+	revision: "24"
 
 class
 	EL_STRING_8_ITERATION_CURSOR
@@ -44,25 +44,6 @@ feature -- Transforms
 		end
 
 feature -- Status query
-
-	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `uc' occurs between `start_index' and `end_index'
-		local
-			count, i, i_final: INTEGER; c: CHARACTER_8
-		do
-			if uc.is_character_8 and then target.valid_index (start_index) then
-				c := uc.to_character_8
-				count := target.count.min (end_index) - start_index + 1
-				i := start_index + index_lower - 1
-				i_final := i + count
-				if attached area as l_area then
-					from until i = i_final or Result loop
-						Result := l_area [i] = c
-						i := i + 1
-					end
-				end
-			end
-		end
 
 	is_ascii_substring (start_index, end_index: INTEGER): BOOLEAN
 		-- `True' if all characters in `target.substring (start_index, end_index)'

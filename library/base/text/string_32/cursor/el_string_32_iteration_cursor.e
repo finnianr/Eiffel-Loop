@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:24:05 GMT (Saturday 5th April 2025)"
-	revision: "23"
+	date: "2025-04-06 6:12:38 GMT (Sunday 6th April 2025)"
+	revision: "24"
 
 class
 	EL_STRING_32_ITERATION_CURSOR
@@ -50,26 +50,6 @@ feature -- Basic operations
 	append_to (destination: like area; source_index, n: INTEGER)
 		do
 			destination.copy_data (area, source_index + index_lower, destination.count, n)
-		end
-
-feature -- Status query
-
-	has_character_in_bounds (uc: CHARACTER_32; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `uc' occurs between `start_index' and `end_index'
-		local
-			count, i, i_final: INTEGER
-		do
-			if target.valid_index (start_index) then
-				count := target.count.min (end_index) - start_index + 1
-				i := start_index + index_lower - 1
-				i_final := i + count
-				if attached area as l_area then
-					from until i = i_final or Result loop
-						Result := l_area [i] = uc
-						i := i + 1
-					end
-				end
-			end
 		end
 
 feature -- Measurement

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:51:10 GMT (Saturday 29th March 2025)"
-	revision: "46"
+	date: "2025-04-06 12:01:58 GMT (Sunday 6th April 2025)"
+	revision: "47"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -219,10 +219,12 @@ feature -- Status query
 		local
 			i: INTEGER
 		do
-			i := (index - 1) * 2
 			if attached area as a then
-				Result := shared_cursor.has_character_in_bounds (uc, a [i], a [i + 1])
+				i := (index - 1) * 2
+				Result := extended_string (target_string).has_character_in_bounds (uc, a [i], a [i + 1])
 			end
+		ensure
+			same_result: Result = item.has (uc)
 		end
 
 	item_has_substring (str: READABLE_STRING_GENERAL): BOOLEAN

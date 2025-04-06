@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-04-14 18:07:04 GMT (Sunday 14th April 2024)"
-	revision: "25"
+	date: "2025-04-06 7:04:40 GMT (Sunday 6th April 2025)"
+	revision: "26"
 
 class
 	EL_SPLIT_STRING_8_LIST
@@ -20,7 +20,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			default_target, fill_intervals_by_string, same_i_th_character, trim_string
+			default_target, extended_string, fill_intervals_by_string, same_i_th_character, trim_string
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [STRING_8]
@@ -43,6 +43,11 @@ feature {NONE} -- Implementation
 	default_target: STRING_8
 		do
 			Result := Empty_string_8
+		end
+
+	extended_string (str_8: READABLE_STRING_8): like super_readable_8
+		do
+			Result := super_readable_8 (str_8)
 		end
 
 	fill_intervals_by_string (a_target: STRING_8; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)

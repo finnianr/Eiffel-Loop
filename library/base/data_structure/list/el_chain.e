@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 8:00:16 GMT (Tuesday 25th March 2025)"
-	revision: "60"
+	date: "2025-04-06 6:06:08 GMT (Sunday 6th April 2025)"
+	revision: "61"
 
 deferred class EL_CHAIN [G]
 
@@ -27,6 +27,8 @@ inherit
 		redefine
 			find_first_equal
 		end
+
+	EL_INDEXABLE_FROM_1
 
 	EL_INTEGER_MATH
 		export

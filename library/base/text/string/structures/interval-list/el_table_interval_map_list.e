@@ -19,8 +19,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 18:01:23 GMT (Sunday 21st July 2024)"
-	revision: "2"
+	date: "2025-04-06 6:22:13 GMT (Sunday 6th April 2025)"
+	revision: "3"
 
 class
 	EL_TABLE_INTERVAL_MAP_LIST
@@ -40,16 +40,16 @@ feature {NONE} -- Initialization
 		local
 			value_start_index, value_end_index, start_index, end_index, line_count: INTEGER
 			list: EL_SPLIT_INTERVALS; ir: EL_INTERVAL_ROUTINES; key_interval: INTEGER_64
-			rs: EL_READABLE_STRING_GENERAL_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			create list.make (table_text, '%N')
 			make_sized (list.count)
-			if attached rs.shared_cursor (table_text) as text_cursor then
+			if attached sg.super_readable_general (table_text) as super_table_text then
 				from list.start until list.after loop
 					start_index := list.item_lower; end_index := list.item_upper
 					line_count := end_index - start_index + 1
 					if line_count >= 2 and then table_text [start_index] /= '%T' and then table_text [end_index] = ':'
-						and then not text_cursor.has_character_in_bounds (' ', start_index, end_index - 1)
+						and then not super_table_text.has_character_in_bounds (' ', start_index, end_index - 1)
 					then
 						if value_end_index > 0 then
 							extend (key_interval, ir.compact (value_start_index, value_end_index))
