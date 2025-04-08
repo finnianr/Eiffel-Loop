@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 18:37:49 GMT (Sunday 6th April 2025)"
-	revision: "4"
+	date: "2025-04-07 10:52:54 GMT (Monday 7th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -88,8 +88,12 @@ feature {NONE} -- Implementation
 			Result := Immutable_8.shared_substring (str, start_index, end_index)
 		end
 
-	target: READABLE_STRING_8
-		deferred
+	right_bracket_index (a_area: like area; left_bracket: CHARACTER_8; start_index, end_index: INTEGER): INTEGER
+		-- index of right bracket corresponding to `left_bracket'. `-1' if not found.
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.right_bracket_index (a_area, left_bracket, start_index, end_index)
 		end
 
 	to_char (uc: CHARACTER_32): CHARACTER_8
@@ -110,6 +114,12 @@ feature {NONE} -- Implementation
 	to_natural_32_code (c: CHARACTER_8): NATURAL
 		do
 			Result := c.natural_32_code
+		end
+
+feature {NONE} -- Deferred
+
+	target: READABLE_STRING_8
+		deferred
 		end
 
 feature {NONE} -- Type definitions

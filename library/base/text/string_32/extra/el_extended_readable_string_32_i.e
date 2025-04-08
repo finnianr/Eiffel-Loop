@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 18:39:24 GMT (Sunday 6th April 2025)"
-	revision: "4"
+	date: "2025-04-07 10:53:28 GMT (Monday 7th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -71,19 +71,23 @@ feature {NONE} -- Implementation
 			Result := unicode.is_space (a_area [i])
 		end
 
-	new_shared_substring (str: READABLE_STRING_32; start_index, end_index: INTEGER): READABLE_STRING_32
-		do
-			Result := Immutable_32.shared_substring (str, start_index, end_index)
-		end
-
 	new_readable: EL_EXTENDED_READABLE_STRING_32
 		do
 		-- Required to compile EL_EXTENDED_READABLE_ZSTRING
 			create {EL_READABLE_STRING_32} Result.make_empty
 		end
 
-	target: READABLE_STRING_32
-		deferred
+	new_shared_substring (str: READABLE_STRING_32; start_index, end_index: INTEGER): READABLE_STRING_32
+		do
+			Result := Immutable_32.shared_substring (str, start_index, end_index)
+		end
+
+	right_bracket_index (a_area: like area; left_bracket: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
+		-- index of right bracket corresponding to `left_bracket'. `-1' if not found.
+		local
+			c: EL_CHARACTER_32_ROUTINES
+		do
+			Result := c.right_bracket_index (a_area, left_bracket, start_index, end_index)
 		end
 
 	to_char (uc: CHARACTER_32): CHARACTER_32
@@ -106,6 +110,12 @@ feature {NONE} -- Implementation
 	to_natural_32_code (uc: CHARACTER_32): NATURAL
 		do
 			Result := uc.natural_32_code
+		end
+
+feature {NONE} -- Deferred
+
+	target: READABLE_STRING_32
+		deferred
 		end
 
 feature {NONE} -- Type definitions

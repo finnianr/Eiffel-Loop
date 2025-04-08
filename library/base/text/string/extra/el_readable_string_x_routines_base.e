@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:23:31 GMT (Saturday 5th April 2025)"
-	revision: "4"
+	date: "2025-04-07 12:24:11 GMT (Monday 7th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -142,9 +142,9 @@ feature {NONE} -- Implementation
 			else
 				left_index := index_of (str, left_bracket, 1)
 			end
-			if left_index > 0 and then attached cursor (str) as l_cursor then
+			if left_index > 0 and then attached extended_string (str) as s then
 				right_index := index_of (str, c32.right_bracket (left_bracket), left_index + 1)
-				right_index := l_cursor.matching_bracket_index (left_index)
+				right_index := s.matching_bracket_index (left_index)
 				if right_index > 0 then
 					Result := str.substring (left_index + 1, right_index - 1)
 				else

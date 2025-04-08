@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "65"
+	date: "2025-04-07 9:30:08 GMT (Monday 7th April 2025)"
+	revision: "66"
 
 deferred class
 	EL_SEARCHABLE_ZSTRING
@@ -80,13 +80,13 @@ feature -- Index position
 
 	substring_index (other: READABLE_STRING_GENERAL; start_index: INTEGER): INTEGER
 		local
-			r: EL_READABLE_STRING_GENERAL_ROUTINES; return_default: BOOLEAN; type_code: CHARACTER
+			return_default: BOOLEAN; other_storage_type: CHARACTER
 		do
-			type_code := string_storage_type (other)
+			other_storage_type := string_storage_type (other)
 			inspect other.count
 				when 1 then
 				-- character search
-					inspect type_code
+					inspect other_storage_type
 						when 'X' then
 						-- Seems to be 1% faster
 							if attached {EL_READABLE_ZSTRING} other as z_str then
@@ -97,7 +97,7 @@ feature -- Index position
 					end
 			else
 			-- string search
-				inspect type_code
+				inspect other_storage_type
 					when '1' then
 						if attached compatible_string_8 (other) as str_8 then
 							Result := String_8.substring_index_compatible (Current, str_8, start_index)
@@ -111,28 +111,26 @@ feature -- Index position
 				else
 					return_default := True
 				end
-				if return_default and then attached String_searcher as searcher
-					and then attached Z_code_pattern_array [0] as z_code_string
-				then
-					r.shared_cursor_by_type (other, type_code).fill_z_codes (z_code_string)
-					searcher.initialize_deltas (z_code_string)
-					Result := searcher.substring_index_with_deltas (current_readable, z_code_string, start_index, count)
+				if return_default and then attached String_searcher as searcher then
+					searcher.initialize_z_code_deltas_for_type (other, other_storage_type)
+					Result := searcher.substring_index_with_z_code_pattern (current_readable, start_index, count)
 				end
 			end
 		end
 
 	substring_index_in_bounds (other: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER): INTEGER
 		local
-			r: EL_READABLE_STRING_GENERAL_ROUTINES; return_default: BOOLEAN; type_code: CHARACTER
+			return_default: BOOLEAN; other_storage_type: CHARACTER
 		do
-			type_code := string_storage_type (other)
-			inspect type_code
+			other_storage_type := string_storage_type (other)
+			inspect other_storage_type
 				when '1' then
 					if attached compatible_string_8 (other) as str_8 then
 						Result := String_8.substring_index_in_bounds_compatible (Current, str_8, start_pos, end_pos)
 					else
 						return_default := True
 					end
+
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} other as z_str then
 						Result := substring_index_in_bounds_zstring (z_str, start_pos, end_pos)
@@ -141,12 +139,9 @@ feature -- Index position
 			else
 				return_default := True
 			end
-			if return_default and then attached String_searcher as searcher
-				and then attached Z_code_pattern_array [0] as z_code_string
-			then
-				r.shared_cursor_by_type (other, type_code).fill_z_codes (z_code_string)
-				searcher.initialize_deltas (z_code_string)
-				Result := searcher.substring_index_with_deltas (current_readable, z_code_string, start_pos, end_pos)
+			if return_default and then attached String_searcher as searcher then
+				searcher.initialize_z_code_deltas_for_type (other, other_storage_type)
+				Result := searcher.substring_index_with_z_code_pattern (current_readable, start_pos, end_pos)
 			end
 		end
 
@@ -282,40 +277,13 @@ feature -- Basic operations
 			if a_pattern.is_string_8 and then attached compatible_string_8 (a_pattern) as str_8 then
 				String_8.fill_index_list (list, Current, str_8)
 			else
-				internal_fill_index_list (list, shared_z_code_pattern_general (a_pattern, 1))
+				internal_fill_index_list (list, a_pattern)
 			end
 		end
 
 	fill_index_list_by_character (list: ARRAYED_LIST [INTEGER]; uc: CHARACTER_32)
 		do
 			fill_index_list_by_z_code (list, Codec.as_z_code (uc))
-		end
-
-feature {EL_SHARED_ZSTRING_CODEC, EL_SEARCHABLE_ZSTRING} -- Implementation
-
-	shared_z_code_pattern (index: INTEGER): STRING_32
-			-- Current expanded as `z_code' sequence
-		require
-			valid_index: 1 <= index and index <= 2
-		do
-			Result := Z_code_pattern_array [index - 1]
-			fill_with_z_code (Result)
-		end
-
-	shared_z_code_pattern_general (pattern: READABLE_STRING_GENERAL; index: INTEGER): STRING_32
-		local
-			r: EL_READABLE_STRING_GENERAL_ROUTINES; type_code: CHARACTER
-		do
-			type_code := string_storage_type (pattern)
-			inspect type_code
-				when 'X' then
-					if attached {EL_READABLE_ZSTRING} pattern as z_pattern then
-						Result := z_pattern.shared_z_code_pattern (index)
-					end
-			else
-				Result := Z_code_pattern_array [index - 1]
-				r.shared_cursor_by_type (pattern, type_code).fill_z_codes (Result)
-			end
 		end
 
 feature {NONE} -- Implementation
@@ -353,16 +321,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	internal_fill_index_list (list: ARRAYED_LIST [INTEGER]; z_code_pattern: STRING_32)
+	internal_fill_index_list (list: ARRAYED_LIST [INTEGER]; a_pattern: READABLE_STRING_GENERAL)
 		-- fill `list' with all indices of `a_pattern' found in `Current'
 		local
 			index, l_count, pattern_count: INTEGER
 		do
-			pattern_count := z_code_pattern.count; l_count := count
-			if attached string_searcher as searcher then
-				searcher.initialize_deltas (z_code_pattern)
+			pattern_count := a_pattern.count; l_count := count
+			if attached String_searcher as searcher then
+				searcher.initialize_z_code_deltas (a_pattern)
 				from index := 1 until index = 0 or else index > l_count - pattern_count + 1 loop
-					index := searcher.substring_index_with_deltas (current_readable, z_code_pattern, index, l_count)
+					index := searcher.substring_index_with_z_code_pattern (current_readable, index, l_count)
 					if index > 0 then
 						list.extend (index)
 						index := index + pattern_count
@@ -387,7 +355,7 @@ feature {NONE} -- Implementation
 						if delimiter_count = 1 then
 							fill_index_list_by_z_code (Result, delimiter.z_code (1))
 						else
-							internal_fill_index_list (Result, delimiter.shared_z_code_pattern (1))
+							internal_fill_index_list (Result, delimiter)
 						end
 
 					when Only_other then
@@ -404,35 +372,34 @@ feature {NONE} -- Implementation
 	internal_substring_index_list_general (delimiter: READABLE_STRING_GENERAL): ARRAYED_LIST [INTEGER]
 		-- shared list of indices of `str' occurring in `Current'
 		local
-			delimiter_count: INTEGER; type_code: CHARACTER
+			delimiter_count: INTEGER; delimiter_storage_type: CHARACTER
 		do
-			type_code := string_storage_type (delimiter)
-			inspect type_code
+			delimiter_storage_type := string_storage_type (delimiter)
+			inspect delimiter_storage_type
+				when '1' then
+					Result := Once_substring_indices.emptied
+					delimiter_count := delimiter.count
+
+					if delimiter = current_readable or else delimiter_count = 0 then
+						Result.extend (1)
+
+					elseif delimiter_count = 1 then
+						fill_index_list_by_character (Result, delimiter [1])
+
+					elseif attached compatible_string_8 (delimiter) as str_8 then
+						String_8.fill_index_list (Result, Current, str_8)
+					else
+						Result := internal_substring_index_list (adapted_argument_for_type (delimiter, delimiter_storage_type, 1))
+					end
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} delimiter as z_str then
 						Result := internal_substring_index_list (z_str)
 					end
 				when '4' then
-					Result := internal_substring_index_list (adapted_argument_for_type (delimiter, type_code, 1))
+					Result := internal_substring_index_list (adapted_argument_for_type (delimiter, delimiter_storage_type, 1))
 
 			else
-				check
-					is_READABLE_STRING_8: type_code = '1'
-				end
-				Result := Once_substring_indices.emptied
-				delimiter_count := delimiter.count
-
-				if delimiter = current_readable or else delimiter_count = 0 then
-					Result.extend (1)
-
-				elseif delimiter_count = 1 then
-					fill_index_list_by_character (Result, delimiter [1])
-
-				elseif attached compatible_string_8 (delimiter) as str_8 then
-					String_8.fill_index_list (Result, Current, str_8)
-				else
-					Result := internal_substring_index_list (adapted_argument_for_type (delimiter, type_code, 1))
-				end
+				create Result.make (0)
 			end
 		end
 
@@ -464,12 +431,11 @@ feature {NONE} -- Implementation
 			inspect current_other_bitmap (has_mixed_in_range, other.has_mixed_encoding)
 				when Both_have_mixed_encoding then
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (
-						current_readable, other.shared_z_code_pattern (1), start_pos, end_pos
-					)
+					Result := String_searcher.sub_zstring_index (current_readable, other, start_pos, end_pos)
 
 				when Only_current, Neither then
 					Result := String_8.substring_index_in_bounds (Current, other, start_pos, end_pos)
+
 				when Only_other then
 					Result := 0
 			else
@@ -487,7 +453,7 @@ feature {NONE} -- Implementation
 
 				when Both_have_mixed_encoding then
 					-- Make calls to `code' more efficient by caching calls to `unencoded_code' in expanded string
-					Result := String_searcher.substring_index (current_readable, other.shared_z_code_pattern (1), start_index, count)
+					Result := String_searcher.sub_zstring_index (current_readable, other, start_index, count)
 
 				when Only_other then
 					Result := 0
@@ -501,12 +467,6 @@ feature {NONE} -- Constants
 		once
 			create Result.make_filled (create {EL_OCCURRENCE_INTERVALS}.make_empty, 2)
 			Result [1] := create {EL_OCCURRENCE_INTERVALS}.make_empty
-		end
-
-	Z_code_pattern_array: SPECIAL [STRING_32]
-		once
-			create Result.make_filled (create {STRING_32}.make_empty, 2)
-			Result [1] := create {STRING_32}.make_empty
 		end
 
 end

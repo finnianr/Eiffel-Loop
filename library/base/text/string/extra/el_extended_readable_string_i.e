@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 19:08:48 GMT (Sunday 6th April 2025)"
-	revision: "5"
+	date: "2025-04-07 18:07:12 GMT (Monday 7th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -16,6 +16,22 @@ inherit
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR]
 		export
 			{STRING_HANDLER} area, index_lower, index_upper
+		end
+
+feature -- Access
+
+	matching_bracket_index (index: INTEGER): INTEGER
+		require
+			valid_index: valid_index (index)
+			left_bracket_at_index: is_left_bracket_at (index)
+		local
+			right_index: INTEGER; left_bracket: CHAR
+		do
+			left_bracket := to_char (target [index])
+			right_index := right_bracket_index (area, left_bracket, index_lower + index, index_upper)
+			if right_index > 0 then
+				Result := right_index - index_lower + 1
+			end
 		end
 
 feature -- Measurement
@@ -187,6 +203,15 @@ feature -- Character query
 			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		do
 			Result := all_alpha_numeric_in_range (area, lower_abs (start_index), upper_abs (end_index))
+		end
+
+	is_left_bracket_at (index: INTEGER): BOOLEAN
+		require
+			valid_index: valid_index (index)
+		local
+			c: EL_CHARACTER_32_ROUTINES
+		do
+			Result := c.is_left_bracket (target [index])
 		end
 
 	starts_with_character (c: CHAR): BOOLEAN
@@ -362,6 +387,38 @@ feature -- Basic operations
 			end
 		end
 
+	fill_z_codes (destination: STRING_32)
+		-- fill destination with z_codes
+		local
+			i, i_upper, j: INTEGER; code: NATURAL
+		do
+			destination.grow (count)
+			destination.set_count (count)
+
+			if attached destination.area as destination_area and then attached area as l_area
+				and then attached codec as l_codec
+			then
+				i_upper := index_upper
+				from i := index_lower until i > i_upper loop
+					code := l_codec.as_z_code (to_character_32 (l_area [i]))
+					destination_area [j] := code.to_character_32
+					i := i + 1; j := j +1
+				end
+				destination_area [j] := '%U'
+			end
+		end
+
+	parse (type: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR)
+		do
+			parse_substring (type, 1, target.count, convertor)
+		end
+
+	parse_substring (type, start_index, end_index: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR)
+		do
+			convertor.reset (type)
+			parse_substring_in_range (area, type, lower_abs (start_index), upper_abs (end_index), convertor)
+		end
+
 	write_utf_8_to (utf_8_out: EL_WRITABLE)
 		local
 			i, i_upper: INTEGER; code_i: NATURAL
@@ -479,6 +536,31 @@ feature {NONE} -- Implementation
 				end
 			end
 			Result := i
+		end
+
+	parse_substring_in_range (a_area: like area; type, i_lower, i_upper: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR)
+		local
+			i: INTEGER; failed: BOOLEAN; c_i: CHARACTER_8
+		do
+			from i := i_lower until i > i_upper or failed loop
+				c_i := to_character_8 (a_area [i])
+				inspect c_i
+					when '0' .. '9', 'e', 'E', '.', '+', '-' then
+						convertor.parse_character (c_i)
+						if convertor.parse_successful then
+							i := i + 1
+						else
+							failed := True
+						end
+				else
+					convertor.reset (type); failed := True
+				end
+			end
+		end
+
+	right_bracket_index (a_area: like area; left_bracket: CHAR; start_index, end_index: INTEGER): INTEGER
+		-- index of right bracket corresponding to `left_bracket'. `-1' if not found.
+		deferred
 		end
 
 	same_area_items (a, b: like area; a_offset, b_offset, n: INTEGER): BOOLEAN

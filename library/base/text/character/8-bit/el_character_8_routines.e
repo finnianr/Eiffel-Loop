@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 17:37:28 GMT (Sunday 6th April 2025)"
-	revision: "34"
+	date: "2025-04-07 10:33:40 GMT (Monday 7th April 2025)"
+	revision: "35"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -20,13 +20,6 @@ inherit
 	EL_EXPANDED_ROUTINES
 
 	EL_LATIN_1
-
-feature -- Access
-
-	right_bracket (left_bracket: CHARACTER_8): CHARACTER_8
-		do
-			Result := left_bracket + right_bracket_offset (left_bracket)
-		end
 
 feature -- Measurement
 
@@ -217,6 +210,11 @@ feature {NONE} -- Implementation
 	i_th_code (area: SPECIAL [CHARACTER_8]; i: INTEGER): INTEGER
 		do
 			Result := area [i].code
+		end
+
+	shifted_character (c: CHARACTER_8; offset: INTEGER): CHARACTER_8
+		do
+			Result := c + offset
 		end
 
 	same_caseless_character (a, b: CHARACTER_8): BOOLEAN

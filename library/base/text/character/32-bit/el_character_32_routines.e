@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 17:35:04 GMT (Sunday 6th April 2025)"
-	revision: "21"
+	date: "2025-04-07 10:33:41 GMT (Monday 7th April 2025)"
+	revision: "22"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -22,24 +22,6 @@ inherit
 	EL_UNICODE_PROPERTY
 
 	EL_SHARED_UTF_8_SEQUENCE
-
-feature -- Access
-
-	right_bracket (left_bracket: CHARACTER_32): CHARACTER_32
-		do
-			Result := left_bracket + right_bracket_offset (left_bracket).to_natural_32
-		end
-
-feature -- Basic operations
-
-	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITABLE)
-		local
-			sequence: like Utf_8_sequence
-		do
-			sequence := Utf_8_sequence
-			sequence.set (uc)
-			sequence.write (writeable)
-		end
 
 feature -- Measurement
 
@@ -72,6 +54,17 @@ feature -- Status query
 			end
 		end
 
+feature -- Basic operations
+
+	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITABLE)
+		local
+			sequence: like Utf_8_sequence
+		do
+			sequence := Utf_8_sequence
+			sequence.set (uc)
+			sequence.write (writeable)
+		end
+
 feature -- Area query
 
 	is_i_th_eiffel_identifier (area: SPECIAL [CHARACTER_32]; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
@@ -94,6 +87,11 @@ feature {NONE} -- Implementation
 	is_i_th_alpha_numeric (area: SPECIAL [CHARACTER_32]; i: INTEGER): BOOLEAN
 		do
 			Result := area [i].is_alpha_numeric
+		end
+
+	shifted_character (c: CHARACTER_32; offset: INTEGER): CHARACTER_32
+		do
+			Result := c + offset.to_natural_32
 		end
 
 	same_caseless_character (a, b: CHARACTER_32): BOOLEAN

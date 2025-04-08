@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 18:36:17 GMT (Sunday 6th April 2025)"
-	revision: "18"
+	date: "2025-04-07 7:07:14 GMT (Monday 7th April 2025)"
+	revision: "19"
 
 class
 	EL_STRING_32
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 
 feature -- Element change
 
-	set_from_encoded (codec: EL_ZCODEC; encoded: READABLE_STRING_8)
+	set_from_encoded (a_codec: EL_ZCODEC; encoded: READABLE_STRING_8)
 		local
 			l_area: SPECIAL [CHARACTER_8]; l_lower: INTEGER
 		do
@@ -59,7 +59,7 @@ feature -- Element change
 			end
 			grow (encoded.count)
 			set_count (encoded.count)
-			codec.decode (encoded.count, l_area, area, 0)
+			a_codec.decode (encoded.count, l_area, area, 0)
 		end
 
 	set_from_string (zstr: EL_READABLE_ZSTRING)

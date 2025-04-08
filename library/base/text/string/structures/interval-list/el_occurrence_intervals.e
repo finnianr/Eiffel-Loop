@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 8:27:48 GMT (Saturday 5th April 2025)"
-	revision: "37"
+	date: "2025-04-07 8:12:56 GMT (Monday 7th April 2025)"
+	revision: "38"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -144,9 +144,9 @@ feature -- Element change
 						fill_intervals (target.to_shared_immutable_8, str_8, String_8_searcher, '%U', adjustments)
 					end
 
-				elseif attached target.shared_z_code_pattern_general (pattern, 1) as z_code_pattern then
-					String_searcher.initialize_deltas (z_code_pattern)
-					fill_intervals (target, z_code_pattern, String_searcher, '%U', adjustments)
+				elseif attached String_searcher as searcher then
+					searcher.initialize_z_code_deltas (pattern)
+					fill_intervals (target, searcher.z_code_pattern, String_searcher, '%U', adjustments)
 				end
 			end
 		end

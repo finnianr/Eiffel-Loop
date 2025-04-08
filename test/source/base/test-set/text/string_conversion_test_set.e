@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 11:03:30 GMT (Monday 31st March 2025)"
-	revision: "32"
+	date: "2025-04-08 7:41:20 GMT (Tuesday 8th April 2025)"
+	revision: "33"
 
 class
 	STRING_CONVERSION_TEST_SET
@@ -43,7 +43,7 @@ feature {NONE} -- Initialization
 				["eiffel_string_escaped",				 agent test_eiffel_string_escaped],
 				["encodeable_as_string_8",				 agent test_encodeable_as_string_8],
 				["encoding_conversion",					 agent test_encoding_conversion],
-				["immutable_to_integer_or_natural",	 agent test_immutable_to_integer_or_natural],
+				["substring_to_numeric",				 agent test_substring_to_numeric],
 				["number_formatting",					 agent test_number_formatting],
 				["python_escape",							 agent test_python_escape],
 				["substitution_marker_unescape",		 agent test_substitution_marker_unescape],
@@ -195,41 +195,16 @@ feature -- Tests
 			end
 		end
 
-	test_immutable_to_integer_or_natural
-		-- STRING_CONVERSION_TEST_SET.test_immutable_to_integer_or_natural
-		local
-			value: IMMUTABLE_STRING_8; value_2: STRING_8; lower, upper: INTEGER
-			number_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST; csv_list: STRING
+	test_substring_to_numeric
+		-- STRING_CONVERSION_TEST_SET.test_substring_to_numeric
 		do
-			csv_list := "1a, 10, -10, 1.03"
-			create number_list.make_shared_adjusted (csv_list, ',', {EL_SIDE}.Left)
-			if attached number_list as list then
-				from list.start until list.after loop
-					value := list.item; value_2 := value
-					lower := list.item_lower; upper := list.item_upper
-					if value_2.is_natural then
-						assert ("is natural", Convert_string.is_natural (value))
-						assert ("same value", Convert_string.to_natural (value) = value_2.to_natural)
-						if attached {NATURAL} Convert_string.substring_to_type (csv_list, lower, upper, {NATURAL}) as n then
-							assert ("same value", n = value_2.to_natural)
-						else
-							failed ("convert substring to NATURAL")
-						end
-					else
-						assert ("is not natural", not Convert_string.is_natural (value))
+			across new_string_type_list ("1a, 10, -10, 1.03") as csv_list loop
+				across Convert_string.split_list (csv_list.item, ',', {EL_SIDE}.Left) as list loop
+					if attached list.item as value and then attached value.to_string_8 as str_8 then
+						check_if_natural (value, csv_list.item, str_8, list.item_lower, list.item_upper)
+						check_if_integer (value, csv_list.item, str_8, list.item_lower, list.item_upper)
+						check_if_real (value, csv_list.item, str_8, list.item_lower, list.item_upper)
 					end
-					if value_2.is_integer then
-						assert ("is integer", Convert_string.is_integer (value))
-						assert ("same value", Convert_string.to_integer (value) = value_2.to_integer)
-						if attached {INTEGER} Convert_string.substring_to_type (csv_list, lower, upper, {INTEGER}) as n then
-							assert ("same value", n = value_2.to_integer)
-						else
-							failed ("convert substring to INTEGER")
-						end
-					else
-						assert ("is not integer", not Convert_string.is_integer (value))
-					end
-					list.forth
 				end
 			end
 		end
@@ -328,6 +303,57 @@ feature -- Tests
 		end
 
 feature {NONE} -- Implementation
+
+	check_if_natural (value, csv_list: READABLE_STRING_GENERAL; str_8: STRING; lower, upper: INTEGER)
+		do
+			if attached Convert_string as cs then
+				if str_8.is_natural then
+					assert ("is natural", cs.is_natural (value))
+					assert ("same value", cs.to_natural (value) = str_8.to_natural)
+					if attached {NATURAL} cs.substring_to_type (csv_list, lower, upper, {NATURAL}) as n then
+						assert ("same value", n = str_8.to_natural)
+					else
+						failed ("convert substring to NATURAL")
+					end
+				else
+					assert ("is not natural", not cs.is_natural (value))
+				end
+			end
+		end
+
+	check_if_integer (value, csv_list: READABLE_STRING_GENERAL; str_8: STRING; lower, upper: INTEGER)
+		do
+			if attached Convert_string as cs then
+				if str_8.is_integer then
+					assert ("is integer", cs.is_integer (value))
+					assert ("same value", cs.to_integer (value) = str_8.to_integer)
+					if attached {INTEGER} cs.substring_to_type (csv_list, lower, upper, {INTEGER}) as n then
+						assert ("same value", n = str_8.to_integer)
+					else
+						failed ("convert substring to INTEGER")
+					end
+				else
+					assert ("is not integer", not cs.is_integer (value))
+				end
+			end
+		end
+
+	check_if_real (value, csv_list: READABLE_STRING_GENERAL; str_8: STRING; lower, upper: INTEGER)
+		do
+			if attached Convert_string as cs then
+				if str_8.has ('a') then
+					assert ("is not real_32", not cs.is_real_32 (value))
+				else
+					assert ("is real_32", cs.is_real_32 (value))
+					assert ("same value", cs.to_real_32 (value) = str_8.to_real_32)
+					if attached {REAL_32} cs.substring_to_type (csv_list, lower, upper, {REAL_32}) as real then
+						assert ("same value", real = str_8.to_real_32)
+					else
+						failed ("convert substring to INTEGER")
+					end
+				end
+			end
+		end
 
 	escape_test (
 		name: STRING; escaper: EL_STRING_ESCAPER [ZSTRING]; escaper_32: EL_STRING_ESCAPER [STRING_32]

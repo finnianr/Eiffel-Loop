@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 18:36:53 GMT (Sunday 6th April 2025)"
-	revision: "1"
+	date: "2025-04-07 7:06:50 GMT (Monday 7th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -31,7 +31,7 @@ inherit
 
 	EL_STRING_HANDLER
 
-	EL_SHARED_UNICODE_PROPERTY; EL_SHARED_UTF_8_SEQUENCE
+	EL_SHARED_UNICODE_PROPERTY; EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_ZSTRING_CODEC
 
 feature -- Element change
 

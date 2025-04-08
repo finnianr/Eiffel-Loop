@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:05:50 GMT (Saturday 29th March 2025)"
-	revision: "3"
+	date: "2025-04-08 8:02:32 GMT (Tuesday 8th April 2025)"
+	revision: "4"
 
 class TUPLE_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -71,41 +71,34 @@ feature -- Tests
 
 	test_fill_tuple
 		-- TUPLE_TEST_SET.test_fill_tuple
+		note
+			testing: "[
+				covers/{EL_TUPLE_ROUTINES}.fill_from_list
+			]"
 		local
 			t1: TUPLE [animal: ZSTRING; letter: CHARACTER; weight: DOUBLE; age: INTEGER]
-			t2: TUPLE [currency: IMMUTABLE_STRING_8; symbol: STRING_32]
-			data_lines: STRING_32; data_str: READABLE_STRING_GENERAL
-			string_types: ARRAY [TYPE [ANY]]; type: TYPE [ANY]; is_string_8: BOOLEAN
+			t2: TUPLE [currency: IMMUTABLE_STRING_8; symbol: CHARACTER_32]
+			data_lines: STRING_32
 		do
 			data_lines := {STRING_32} "cat, C, 6.5, 4%NEuro, €"
-			string_types := << {STRING_8}, {STRING_32}, {ZSTRING}, {IMMUTABLE_STRING_8}, {IMMUTABLE_STRING_32} >>
 
-			across data_lines.split ('%N') as list loop
-				data_str := list.item
-				across string_types as types loop
-					type := types.item
-					if Convert_string.is_convertible (data_str, type) then
-						if attached Convert_string.to_type (data_str, type) as general
-							and then attached {READABLE_STRING_GENERAL} general as converted_str
-						then
-							data_str := converted_str
-							if data_str.occurrences (',') = 3 then
+			across data_lines.split ('%N') as line loop
+				across new_string_type_list (line.item) as string loop
+					if attached string.item as data_str then
+						inspect data_str.occurrences (',')
+							when 3 then
 								create t1
 								Tuple.fill (t1, data_str)
 								assert ("cat", t1.animal.same_string ("cat"))
 								assert ("C", t1.letter = 'C')
 								assert ("6.5 kg", t1.weight = 6.5)
 								assert ("4 years", t1.age = 4)
-							else
-								create t2
-								tuple.fill (t2, data_str)
-								assert ("same currency", t2.currency.same_string ("Euro"))
-								assert ("same symbol", t2.symbol.count = 1 and data_lines.ends_with (t2.symbol))
-							end
+						else
+							create t2
+							tuple.fill (t2, data_str)
+							assert ("same currency", t2.currency.same_string ("Euro"))
+							assert ("same symbol", t2.symbol = data_lines [data_lines.count])
 						end
-					else
-						is_string_8 := {ISE_RUNTIME}.type_conforms_to (type.type_id, ({READABLE_STRING_8}).type_id)
-						assert ("euro not convertible to 8-bit string", data_str.starts_with ("Euro") and is_string_8)
 					end
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "7"
+	date: "2025-04-07 18:16:29 GMT (Monday 7th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_NUMERIC [N -> NUMERIC]
@@ -31,7 +31,7 @@ feature -- Status query
 		-- `True' if `str' is convertible to type `N'
 		do
 			if attached Convertor as l_convertor then
-				shared_cursor (str).parse (l_convertor, numeric_type)
+				super_readable_general (str).parse (numeric_type, l_convertor)
 				Result := l_convertor.is_integral_integer
 			end
 		end
@@ -39,7 +39,7 @@ feature -- Status query
 	is_substring_convertible (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
 		do
 			if attached Convertor as l_convertor then
-				shared_cursor (str).parse_substring (l_convertor, numeric_type, start_index, end_index)
+				super_readable_general (str).parse_substring (numeric_type, start_index, end_index, l_convertor)
 				Result := l_convertor.is_integral_integer
 			end
 		end
@@ -54,13 +54,13 @@ feature {NONE} -- Implementation
 	converted (str: READABLE_STRING_GENERAL): STRING_TO_INTEGER_CONVERTOR
 		do
 			Result := Convertor
-			shared_cursor (str).parse (Result, Type_no_limitation)
+			super_readable_general (str).parse (Type_no_limitation, Result)
 		end
 
 	converted_substring (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): STRING_TO_INTEGER_CONVERTOR
 		do
 			Result := Convertor
-			shared_cursor (str).parse_substring (Result, Type_no_limitation, start_index, end_index)
+			super_readable_general (str).parse_substring (Type_no_limitation, start_index, end_index, Result)
 		end
 
 	new_type_description: STRING

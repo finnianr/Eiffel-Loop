@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
-	revision: "79"
+	date: "2025-04-07 8:38:15 GMT (Monday 7th April 2025)"
+	revision: "80"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -20,6 +20,8 @@ inherit
 	EL_PREPENDABLE_ZSTRING
 
 	EL_CHARACTER_32_CONSTANTS
+
+	EL_SHARED_STRING_32_BUFFER_POOL
 
 feature {EL_READABLE_ZSTRING} -- Basic operations
 
@@ -926,8 +928,9 @@ feature {NONE} -- Implementation
 					set_count (j); l_area [j] := '%U'
 
 				elseif attached empty_unencoded_buffer as l_new_unencoded
-					and then attached shared_z_code_pattern_general (old_characters, 1) as old_expanded
-					and then attached shared_z_code_pattern_general (new_characters, 2) as new_expanded
+					and then attached String_32_pool.borrowed_batch (2) as borrowed
+					and then attached borrowed [0].copied_z_codes (old_characters) as old_expanded
+					and then attached borrowed [1].copied_z_codes (new_characters) as new_expanded
 				then
 					last_upper := l_new_unencoded.last_upper
 					from until i > upper_index loop
@@ -952,6 +955,7 @@ feature {NONE} -- Implementation
 					set_count (j); l_area [j] := '%U'
 					l_new_unencoded.set_last_upper (last_upper)
 					set_unencoded_from_buffer (l_new_unencoded)
+					String_32_pool.return (borrowed)
 				end
 			end
 		ensure

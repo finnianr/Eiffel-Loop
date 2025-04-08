@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 6:04:06 GMT (Sunday 6th April 2025)"
-	revision: "113"
+	date: "2025-04-07 11:30:04 GMT (Monday 7th April 2025)"
+	revision: "114"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -102,6 +102,8 @@ inherit
 		rename
 			valid_indices_range as valid_substring_indices
 		end
+
+	EL_SHARED_IMMUTABLE_8_MANAGER
 
 feature -- Access
 

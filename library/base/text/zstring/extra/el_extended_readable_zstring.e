@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 19:08:42 GMT (Sunday 6th April 2025)"
-	revision: "5"
+	date: "2025-04-07 18:06:09 GMT (Monday 7th April 2025)"
+	revision: "6"
 
 class
 	EL_EXTENDED_READABLE_ZSTRING
@@ -21,12 +21,13 @@ inherit
 			all_alpha_numeric_in_range, all_ascii_in_range,
 			append_to, append_to_string_32, append_to_string_8, append_to_utf_8,
 			append_substring_to_special_32, append_substring_to_special_8,
-			ends_with_character,
+			ends_with_character, fill_z_codes,
 			has_alpha, has_member, has_character_in_bounds,
 			is_alpha_numeric, is_ascii, is_c_identifier_in_range,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space, index_of_character_type_change,
 			latin_1_count, leading_occurrences, leading_white_count,
 			matches_wildcard, new_shared_substring, new_readable,
+			parse_substring_in_range, right_bracket_index,
 			same_string, starts_with_character, trailing_white_count, write_utf_8_to
 		end
 
@@ -160,6 +161,11 @@ feature -- Basic operations
 	append_to_utf_8 (utf_8_out: STRING_8)
 		do
 			target.append_to_utf_8 (utf_8_out)
+		end
+
+	fill_z_codes (destination: STRING_32)
+		do
+			target.fill_with_z_code (destination)
 		end
 
 	write_utf_8_to (utf_8_out: EL_WRITABLE)
@@ -387,6 +393,38 @@ feature {NONE} -- Implementation
 	other_index_lower (other: EL_READABLE_ZSTRING): INTEGER
 		do
 			Result := 0
+		end
+
+	parse_substring_in_range (
+		unencoded: like unencoded_area; type, i_lower, i_upper: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR
+	)
+		local
+			i: INTEGER; failed: BOOLEAN; c_i: CHARACTER_8
+		do
+			if attached area as l_area then
+				from i := i_lower until i > i_upper or failed loop
+					c_i := l_area [i]
+					inspect c_i
+						when '0' .. '9', 'e', 'E', '.', '+', '-' then
+							convertor.parse_character (c_i)
+							if convertor.parse_successful then
+								i := i + 1
+							else
+								failed := True
+							end
+					else
+						convertor.reset (type); failed := True
+					end
+				end
+			end
+		end
+
+	right_bracket_index (unencoded: like unencoded_area; left_bracket: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
+		-- index of right bracket corresponding to `left_bracket'. `-1' if not found.
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.right_bracket_index (area, left_bracket.to_character_8, start_index, end_index)
 		end
 
 feature {NONE} -- Internal attriutes

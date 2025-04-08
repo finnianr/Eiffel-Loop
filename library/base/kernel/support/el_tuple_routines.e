@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 10:04:57 GMT (Saturday 5th April 2025)"
-	revision: "58"
+	date: "2025-04-08 7:18:41 GMT (Tuesday 8th April 2025)"
+	revision: "59"
 
 class
 	EL_TUPLE_ROUTINES
@@ -29,6 +29,8 @@ inherit
 		redefine
 			make
 		end
+
+	EL_STRING_HANDLER
 
 	EL_OBJECT_PROPERTY_I
 
@@ -71,12 +73,6 @@ feature -- Access
 			Result := counter.item.to_integer_32
 		end
 
-	type_array (tuple: TUPLE): EL_TUPLE_TYPE_ARRAY
-		-- Caches results in `types_table'
-		do
-			Result := types_table.item ({ISE_RUNTIME}.dynamic_type (tuple))
-		end
-
 	special_type_array (tuple: TUPLE): SPECIAL [INTEGER]
 		do
 			if attached new_type_array ({ISE_RUNTIME}.dynamic_type (tuple)) as array then
@@ -89,6 +85,12 @@ feature -- Access
 			end
 		ensure
 			same_count: Result.count = tuple.count
+		end
+
+	type_array (tuple: TUPLE): EL_TUPLE_TYPE_ARRAY
+		-- Caches results in `types_table'
+		do
+			Result := types_table.item ({ISE_RUNTIME}.dynamic_type (tuple))
 		end
 
 feature -- Measurement
@@ -243,7 +245,7 @@ feature -- Basic operations
 		-- TUPLE may contain any of types STRING_8, STRING_32, ZSTRING
 		-- items are left adjusted if `left_adjusted' is True
 		do
-			Convert_string.fill_tuple (tuple, csv_list, ',', left_adjusted)
+			fill_from_list (tuple, Convert_string.split_list (csv_list, ',', left_adjusted.to_integer))
 		end
 
 	fill_default (tuple: TUPLE; default_value: ANY)
@@ -261,6 +263,22 @@ feature -- Basic operations
 					else
 					end
 					i := i + 1
+				end
+			end
+		ensure
+			filled: is_filled (tuple, 1, tuple.count)
+		end
+
+	fill_from_list (tuple: TUPLE; list: like Convert_string.split_list)
+		require
+			enough_list_items: tuple.count <= list.count
+		do
+			if attached list.target_string as string and then attached Convert_string as cs
+				and then attached type_array (tuple) as type
+			then
+				from list.start until list.after or else list.index > tuple.count loop
+					put_i_th (tuple, list.index, string, list.item_lower, list.item_upper, type [list.index].type_id, cs)
+					list.forth
 				end
 			end
 		ensure
@@ -316,7 +334,7 @@ feature -- Basic operations
 
 	line_fill (tuple: TUPLE; line_list: READABLE_STRING_GENERAL)
 		do
-			Convert_string.fill_tuple (tuple, line_list, '%N', False)
+			fill_from_list (tuple, Convert_string.split_list (line_list, '%N', 0))
 		end
 
 	read (tuple: TUPLE; readable: EL_READABLE)
@@ -620,6 +638,29 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Contract Support
+
+	is_convertible (
+		tuple: TUPLE; part_list: READABLE_STRING_GENERAL; separator: CHARACTER; left_adjusted: BOOLEAN
+	): BOOLEAN
+		local
+			type_id: INTEGER
+		do
+			if part_list.occurrences (separator) + 1 >= tuple.count and then attached type_array (tuple) as type
+				and then attached Convert_string as cs
+			then
+				Result := True
+				if attached cs.filled_split_list (part_list, separator, left_adjusted.to_integer) as list then
+					from list.start until list.after or else not Result or else list.index > tuple.count loop
+						Result := cs.is_substring_convertible_to_type (
+							part_list, list.item_lower, list.item_upper, type [list.index].type_id
+						)
+						list.forth
+					end
+				end
+			end
+		end
+
 feature {NONE} -- Factory
 
 	new_read_path (readable: EL_READABLE; type_id: INTEGER): EL_PATH
@@ -667,6 +708,63 @@ feature {NONE} -- Factory
 		end
 
 feature {NONE} -- Implementation
+
+	put_i_th (
+		tuple: TUPLE; i: INTEGER; string: READABLE_STRING_GENERAL; lower, upper, type_id: INTEGER
+		cs: like Convert_string
+	)
+		require
+			valid_index: tuple.valid_index (i)
+			i_th_convertible_to_type: cs.is_substring_convertible_to_type (string, lower, upper, type_id)
+		do
+			inspect tuple.item_code (i)
+				when {TUPLE}.Character_8_code then
+					tuple.put_character (string [lower].to_character_8, i)
+
+				when {TUPLE}.Character_32_code then
+					tuple.put_character_32 (string [lower], i)
+
+				when {TUPLE}.Boolean_code then
+					tuple.put_boolean (cs.boolean.substring_as_type (string, lower, upper), i)
+
+				when {TUPLE}.Pointer_code then
+					do_nothing
+
+				when {TUPLE}.Integer_8_code then
+					tuple.put_integer_8 (cs.substring_to_integer_8 (string, lower, upper), i)
+
+				when {TUPLE}.Integer_16_code then
+					tuple.put_integer_16 (cs.substring_to_integer_16 (string, lower, upper), i)
+
+				when {TUPLE}.Integer_32_code then
+					tuple.put_integer (cs.substring_to_integer_32 (string, lower, upper), i)
+
+				when {TUPLE}.Integer_64_code then
+					tuple.put_integer_64 (cs.substring_to_integer_64 (string, lower, upper), i)
+
+				when {TUPLE}.Natural_8_code then
+					tuple.put_natural_8 (cs.substring_to_natural_8 (string, lower, upper), i)
+
+				when {TUPLE}.Natural_16_code then
+					tuple.put_natural_16 (cs.substring_to_natural_16 (string, lower, upper), i)
+
+				when {TUPLE}.Natural_32_code then
+					tuple.put_natural_32 (cs.substring_to_natural_32 (string, lower, upper), i)
+
+				when {TUPLE}.Natural_64_code then
+					tuple.put_natural_64 (cs.substring_to_natural_64 (string, lower, upper), i)
+
+				when {TUPLE}.Real_32_code then
+					tuple.put_real_32 (cs.substring_to_real_32 (string, lower, upper), i)
+
+				when {TUPLE}.Real_64_code then
+					tuple.put_real_64 (cs.substring_to_real_64 (string, lower, upper), i)
+
+				when {TUPLE}.Reference_code then
+					tuple.put_reference (cs.substring_to_type_of_type (string, lower, upper, type_id), i)
+			else
+			end
+		end
 
 	reset_i_th_reference (tuple: TUPLE; ref_item: ANY; i, type_id: INTEGER)
 		do

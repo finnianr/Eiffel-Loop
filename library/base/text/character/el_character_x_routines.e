@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 17:40:54 GMT (Sunday 6th April 2025)"
-	revision: "37"
+	date: "2025-04-07 10:47:32 GMT (Monday 7th April 2025)"
+	revision: "38"
 
 deferred class
 	EL_CHARACTER_X_ROUTINES [CHAR -> COMPARABLE]
@@ -20,7 +20,39 @@ feature -- Access
 	right_bracket (left_bracket: CHAR): CHAR
 		require
 			is_left: is_left_bracket (left_bracket)
-		deferred
+		do
+			Result := shifted_character (left_bracket, right_bracket_offset (left_bracket))
+		end
+
+	right_bracket_index (area: SPECIAL [CHAR]; left_bracket: CHAR; start_index, end_index: INTEGER): INTEGER
+		-- index of right bracket corresponding to `left_bracket'. `-1' if not found.
+		local
+			i, nest_count: INTEGER; c, l_right_bracket: CHAR; found: BOOLEAN
+		do
+			l_right_bracket := right_bracket (left_bracket)
+			from i := start_index until found or i > end_index loop
+				c := area [i]
+				if c = left_bracket then
+					nest_count := nest_count + 1
+				else
+					inspect nest_count
+						when 0 then
+							if c = l_right_bracket then
+								found := True
+							end
+					else
+						if c = l_right_bracket then
+							nest_count := nest_count - 1
+						end
+					end
+				end
+				i := i + 1
+			end
+			if found then
+				Result := i - 1
+			else
+				Result := i.one.opposite
+			end
 		end
 
 feature -- Status query
@@ -191,6 +223,10 @@ feature {NONE} -- Deferred
 		end
 
 	i_th_code (area: SPECIAL [CHAR]; i: INTEGER): INTEGER
+		deferred
+		end
+
+	shifted_character (c: CHAR; offset: INTEGER): CHAR
 		deferred
 		end
 

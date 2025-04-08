@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:31:32 GMT (Saturday 5th April 2025)"
-	revision: "139"
+	date: "2025-04-07 9:09:17 GMT (Monday 7th April 2025)"
+	revision: "140"
 
 class
 	ZSTRING_TEST_SET
@@ -20,7 +20,7 @@ inherit
 
 	EL_STRING_32_CONSTANTS; EL_CHARACTER_32_CONSTANTS
 
-	EL_SHARED_ZSTRING_CODEC
+	EL_SHARED_STRING_32_BUFFER_POOL; EL_SHARED_ZSTRING_CODEC
 
 create
 	make
@@ -97,24 +97,28 @@ feature -- Conversion tests
 		-- ZSTRING_TEST_SET.test_shared_z_code_pattern
 		note
 			testing:	"[
-				covers/{EL_SEARCHABLE_ZSTRING}.shared_z_code_pattern
+				covers/{EL_SEARCHABLE_ZSTRING}.shared_z_code_pattern,
+				covers/{EL_STRING_32_BUFFER_I}.copied_z_codes
 			]"
 		local
-			test: STRING_TEST; i: INTEGER
 			z_code_string: STRING_32; general: READABLE_STRING_GENERAL
+			test: STRING_TEST; i: INTEGER
 		do
 			create test.make_empty (Current)
 		 	across Text.lines_32 as line loop
 		 		test.set (line.item)
-		 		z_code_string := test.zs.shared_z_code_pattern (1)
-		 		if z_code_string.count = test.zs.count then
-		 			general := test.zs
-		 			from i := 1 until i > z_code_string.count loop
-		 				assert ("same code", general.code (i) = z_code_string.code (i))
-		 				i := i + 1
-		 			end
-		 		else
-		 			failed ("expanded same length")
+		 		if attached String_32_pool.sufficient_item (test.zs.count) as borrowed then
+			 		z_code_string := borrowed.copied_z_codes (test.zs)
+			 		if z_code_string.count = test.zs.count then
+			 			general := test.zs
+			 			from i := 1 until i > z_code_string.count loop
+			 				assert ("same code", general.code (i) = z_code_string.code (i))
+			 				i := i + 1
+			 			end
+			 		else
+			 			failed ("expanded same length")
+			 		end
+			 		borrowed.return
 		 		end
 		 	end
 		end
@@ -740,8 +744,13 @@ feature -- Access tests
 		end
 
 	test_substring_index_in_bounds
+		-- ZSTRING_TEST_SET.test_substring_index_in_bounds
 		note
-			testing: "covers/{EL_SEARCHABLE_ZSTRING}.substring_index_in_bounds"
+			testing: "[
+				covers/{EL_SEARCHABLE_ZSTRING}.substring_index_in_bounds,
+				covers/{EL_ZSTRING_SEARCHER}.initialize_z_code_deltas_for_type,
+				covers/{EL_ZSTRING_SEARCHER}.substring_index_with_z_code_pattern
+			]"
 		local
 			test: STRING_TEST; start_index, end_index, bound_start_pos, bound_end_pos: INTEGER
 			boundary_intervals: EL_SPLIT_INTERVALS; str_32: STRING_32; str: ZSTRING

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
-	revision: "20"
+	date: "2025-04-07 12:19:21 GMT (Monday 7th April 2025)"
+	revision: "21"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -24,66 +24,49 @@ inherit
 
 	EL_EIFFEL_CONSTANTS
 
-	EL_SHARED_ZSTRING_CURSOR
-
 feature -- Conversion
 
 	class_name (a_text: READABLE_STRING_GENERAL): ZSTRING
 		local
-			break: BOOLEAN; i: INTEGER; c: CHARACTER; text: ZSTRING
+			break: BOOLEAN; i, i_upper: INTEGER; c: CHARACTER; text: ZSTRING
 		do
 			text := as_zstring (a_text)
 			create Result.make (text.count)
-			if starts_with_upper_letter (text) then
-				Result.append_character (text [1])
-				from i := 2 until i > text.count or break loop
-					c := text.item_8 (i)
-					if Class_name_character_set.has (c) then
-						Result.append_character (c)
+			if starts_with_upper_letter (text) and then attached text.area as area
+				and then attached Class_name_character_set as character_set
+			then
+				i_upper := text.count - 1
+				from i := 0 until i > i_upper or break loop
+					if character_set.has (area [i]) then
+						i := i + 1
 					else
 						break := True
 					end
-					i := i + 1
 				end
+				Result.append_substring (text, 1, i)
 			end
 		end
 
-	class_parameter_list (a_text: READABLE_STRING_GENERAL): EL_SEQUENTIAL_INTERVALS
+	class_parameter_list (a_text: READABLE_STRING_GENERAL): EL_SPLIT_INTERVALS
 		-- list of parameter type substring intervals
 		require
 			has_left_bracket: a_text.has ('[')
 			all_brackets_matched: a_text.occurrences ('[') = a_text.occurrences (']')
 		local
-			i, index, upper, start_index, end_index: INTEGER; c: CHARACTER
-			text: ZSTRING; appending: BOOLEAN
+			index, upper: INTEGER; text: ZSTRING
 		do
 			text := as_zstring (a_text)
-			create Result.make (2)
 			index := text.index_of ('[', 1)
-			if index > 0 then
-				upper:= cursor_z (text).matching_bracket_index (index) - 1
-				from i := index + 1 until i > upper loop
-					c := text.item_8 (i)
-					if Class_name_character_set.has (c) then
-						if appending then
-							end_index := i
-						else
-							start_index := i
-							end_index := i
-							appending := True
-						end
-					else
-						if appending then
-							Result.extend (start_index, end_index)
-							start_index := 0; end_index := 0
-							appending := False
-						end
-					end
-					i := i + 1
+			if index > 0 and then attached Once_split_intervals as interval then
+				upper:= super_readable (text).matching_bracket_index (index) - 1
+				interval.fill (text.immutable_substring_8 (index + 1, upper), ',', {EL_SIDE}.Left)
+				create Result.make_sized (interval.count)
+				from interval.start until interval.after loop
+					Result.extend (interval.item_lower + index, interval.item_upper + index)
+					interval.forth
 				end
-				if start_index > 0 and then end_index - start_index + 1  > 0 then
-					Result.extend (start_index, end_index)
-				end
+			else
+				create Result.make_empty
 			end
 		end
 
@@ -211,6 +194,11 @@ feature {NONE} -- Constants
 	Brace_asterisk: ZSTRING
 		once
 			Result := "*}"
+		end
+
+	Once_split_intervals: EL_SPLIT_INTERVALS
+		once
+			create Result.make_empty
 		end
 
 end

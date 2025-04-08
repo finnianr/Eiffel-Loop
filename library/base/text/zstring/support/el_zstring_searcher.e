@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:38:12 GMT (Sunday 6th October 2024)"
-	revision: "16"
+	date: "2025-04-07 8:56:23 GMT (Monday 7th April 2025)"
+	revision: "17"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -17,10 +17,10 @@ inherit
 		rename
 			max_code_point_value as max_code_point_integer
 		redefine
-			internal_initialize_deltas
+			internal_initialize_deltas, make
 		end
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_ZCODE_CONVERSION
 
@@ -28,6 +28,27 @@ inherit
 
 create
 	make
+
+feature {NONE} -- Initialization
+
+	make
+		do
+			Precursor
+			create Z_code_pattern.make_empty
+		end
+
+feature -- Initialization
+
+	initialize_z_code_deltas (pattern: READABLE_STRING_GENERAL)
+		do
+			initialize_z_code_deltas_for_type (pattern, string_storage_type (pattern))
+		end
+
+	initialize_z_code_deltas_for_type (pattern: READABLE_STRING_GENERAL; type_code: CHARACTER)
+		do
+			super_by_type (pattern, type_code).fill_z_codes (z_code_pattern)
+			initialize_deltas (z_code_pattern)
+		end
 
 feature -- Search
 
@@ -115,6 +136,12 @@ feature -- Search
 			end
 		end
 
+	sub_zstring_index (a_string: like string_type; a_pattern: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
+		do
+			a_pattern.fill_with_z_code (z_code_pattern)
+			Result := substring_index (a_string, z_code_pattern, start_pos, end_pos)
+		end
+
 	substring_index_with_deltas (
 		a_string: like String_type; a_pattern: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER
 	): INTEGER
@@ -178,6 +205,12 @@ feature -- Search
 			end
 		end
 
+	substring_index_with_z_code_pattern (a_string: like String_type; start_pos, end_pos: INTEGER): INTEGER
+		-- substring index with pattern previously initialized by `initialize_z_code_deltas'
+		do
+			Result := substring_index_with_deltas (a_string, z_code_pattern, start_pos, end_pos)
+		end
+
 feature {NONE} -- Implementation
 
 	internal_initialize_deltas (a_pattern: READABLE_STRING_GENERAL; a_pattern_count: INTEGER; a_deltas: like deltas)
@@ -206,14 +239,16 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {STRING_HANDLER} -- Internal attributes
+
+	z_code_pattern: STRING_32
+
 feature {NONE} -- Constants
 
-	String_type: EL_READABLE_ZSTRING
-		require else
-			never_called: False
-		once
-			Result := Empty_string
-		end
+	Max_code_point_integer: INTEGER = 2000
+		-- We optimize the search for the first 2000 code points of Unicode (i.e. using 8KB of memory).
+
+		-- Ideally we want this to be type NATURAL but we are stuck with how it's defined in STRING_SEARCHER
 
 	Max_code_point_value: NATURAL = 2_000
 		-- We optimize the search for the first 2000 code points of Unicode (i.e. using 8KB of memory).
@@ -223,9 +258,11 @@ feature {NONE} -- Constants
 
 		--    if l_char_code <= max_code_point_integer then
 
-	Max_code_point_integer: INTEGER = 2000
-		-- We optimize the search for the first 2000 code points of Unicode (i.e. using 8KB of memory).
-
-		-- Ideally we want this to be type NATURAL but we are stuck with how it's defined in STRING_SEARCHER
+	String_type: EL_READABLE_ZSTRING
+		require else
+			never_called: False
+		once
+			Result := Empty_string
+		end
 
 end

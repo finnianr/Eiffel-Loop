@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "158"
+	date: "2025-04-07 12:20:23 GMT (Monday 7th April 2025)"
+	revision: "159"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -408,6 +408,15 @@ feature -- Substrings
 			else
 				Result := substring (left_count + 1, count - trailing_white_space)
 			end
+		end
+
+	immutable_substring_8 (start_index, end_index: INTEGER): IMMUTABLE_STRING_8
+		-- shared immutable substring that shares same `area' as `Current'
+		require
+			completely_encoded: not has_mixed_encoding
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
+		do
+			Result := Immutable_8.new_substring (area, start_index - 1, end_index - start_index + 1)
 		end
 
 	slice (start_index, end_index: INTEGER): like Current

@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 6:18:29 GMT (Sunday 6th April 2025)"
-	revision: "37"
+	date: "2025-04-07 18:17:31 GMT (Monday 7th April 2025)"
+	revision: "38"
 
 deferred class
 	EL_STRING_ITERATION_CURSOR
@@ -48,60 +48,6 @@ feature -- Element change
 		deferred
 		end
 
-feature -- Basic operations
-
-	fill_z_codes (destination: STRING_32)
-		-- fill destination with z_codes
-		local
-			i, i_upper, j: INTEGER; code: NATURAL
-		do
-			destination.grow (target.count)
-			destination.set_count (target.count)
-
-			if attached destination.area as destination_area and then attached area as l_area
-				and then attached codec as l_codec
-			then
-				i_upper := index_upper
-				from i := index_lower until i > i_upper loop
-					code := l_codec.as_z_code (i_th_character_32 (l_area, i))
-					destination_area [j] := code.to_character_32
-					i := i + 1; j := j +1
-				end
-				destination_area [j] := '%U'
-			end
-		end
-
-	parse (convertor: STRING_TO_NUMERIC_CONVERTOR; type: INTEGER)
-		do
-			parse_substring (convertor, type, 1, target.count)
-		end
-
-	parse_substring (convertor: STRING_TO_NUMERIC_CONVERTOR; type, start_index, end_index: INTEGER)
-		local
-			i, i_upper, i_lower, l_count: INTEGER; failed: BOOLEAN; c: CHARACTER_8
-		do
-			l_count := end_index - start_index + 1
-			convertor.reset (type)
-			i_lower := index_lower + start_index - 1
-			if attached area as l_area then
-				i_upper := i_lower + l_count - 1
-				from i := i_lower until i > i_upper or failed loop
-					c := i_th_character_8 (l_area, i)
-					inspect c
-						when '0' .. '9', 'e', 'E', '.', '+', '-' then
-							convertor.parse_character (c)
-							if convertor.parse_successful then
-								i := i + 1
-							else
-								failed := True
-							end
-					else
-						convertor.reset (type); failed := True
-					end
-				end
-			end
-		end
-
 feature -- Status query
 
 	is_eiffel: BOOLEAN
@@ -128,15 +74,6 @@ feature -- Status query
 			Result := is_area_eiffel_identifier ({EL_CASE}.Upper)
 		end
 
-	is_left_bracket_at (index: INTEGER): BOOLEAN
-		require
-			valid_index: valid_index (index)
-		local
-			c: EL_CHARACTER_8_ROUTINES
-		do
-			Result := c.is_left_bracket (i_th_character_8 (area, index_lower + index - 1))
-		end
-
 feature -- Contract Support
 
 	is_valid_as_string_8: BOOLEAN
@@ -147,45 +84,6 @@ feature -- Contract Support
 	valid_index (i: INTEGER): BOOLEAN
 		do
 			Result := target.valid_index (i)
-		end
-
-feature -- Search
-
-	matching_bracket_index (index: INTEGER): INTEGER
-		require
-			valid_index: valid_index (index)
-			left_bracket_at_index: is_left_bracket_at (index)
-		local
-			i, i_upper, i_lower, nest_count: INTEGER; found: BOOLEAN
-			left_bracket, right_bracket, c: CHARACTER; c8: EL_CHARACTER_8_ROUTINES
-		do
-			i_upper := index_upper
-			i_lower := index_lower + index
-			if attached area as l_area then
-				left_bracket := i_th_character_8 (l_area, i_lower - 1)
-				right_bracket := c8.right_bracket (left_bracket)
-				from i := i_lower until found or i > i_upper loop
-					c := i_th_character_8 (l_area, i)
-					if c = left_bracket then
-						nest_count := nest_count + 1
-					else
-						inspect nest_count
-							when 0 then
-								if c = right_bracket then
-									found := True
-								end
-						else
-							if c = right_bracket then
-								nest_count := nest_count - 1
-							end
-						end
-					end
-					i := i + 1
-				end
-				if found then
-					Result := i
-				end
-			end
 		end
 
 feature -- Measurement

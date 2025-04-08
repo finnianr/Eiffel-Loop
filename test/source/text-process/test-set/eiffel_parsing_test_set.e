@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 12:27:45 GMT (Monday 23rd September 2024)"
-	revision: "11"
+	date: "2025-04-07 12:16:45 GMT (Monday 7th April 2025)"
+	revision: "12"
 
 class
 	EIFFEL_PARSING_TEST_SET
@@ -83,21 +83,27 @@ feature -- Tests
 		-- EIFFEL_PARSING_TEST_SET.test_parameter_parsing
 		note
 			testing: "[
-				covers/{EL_EIFFEL_SOURCE_ROUTINES}.class_parameter_list
+				covers/{EL_EIFFEL_SOURCE_ROUTINES}.class_parameter_list,
+				covers/{EL_EIFFEL_SOURCE_ROUTINES}.class_name,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.matching_bracket_index
 			]"
 		local
-			eif: EL_EIFFEL_SOURCE_ROUTINES; type, parameter: STRING
+			eif: EL_EIFFEL_SOURCE_ROUTINES; type, parameter_1, parameter_2: TYPE [ANY]
 		do
-			type := "HASH_TABLE [INTEGER, STRING]"
-			if attached eif.class_parameter_list (type) as parameter_list then
+			type := {HASH_TABLE [LIST [INTEGER], STRING]}
+			parameter_1 := {LIST [INTEGER]}
+			parameter_2 := {STRING}
+			assert_same_string (Void, eif.class_name (type.name), "HASH_TABLE")
+			if attached eif.class_parameter_list (type.name) as parameter_list then
 				if parameter_list.count = 2 then
 					across parameter_list as list loop
-						parameter := type.substring (list.item_lower, list.item_upper)
-						inspect list.cursor_index
-							when 1 then
-								assert_same_string (Void, parameter, "INTEGER")
-							when 2 then
-								assert_same_string (Void, parameter, "STRING")
+						if attached type.name.substring (list.item_lower, list.item_upper) as parameter then
+							inspect list.cursor_index
+								when 1 then
+									assert_same_string (Void, parameter, parameter_1.name)
+								when 2 then
+									assert_same_string (Void, parameter, parameter_2.name)
+							end
 						end
 					end
 				else

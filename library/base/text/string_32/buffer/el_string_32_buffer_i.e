@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 14:39:00 GMT (Saturday 5th April 2025)"
-	revision: "15"
+	date: "2025-04-07 8:33:59 GMT (Monday 7th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_STRING_32_BUFFER_I
@@ -34,6 +34,13 @@ feature -- Access
 		do
 			Result := empty
 			super_readable_general (general).append_to_string_32 (Result)
+		end
+
+	copied_z_codes (general: READABLE_STRING_GENERAL): STRING_32
+		-- copy `general' using codes compatible with {EL_ZSTRING}.z_code
+		do
+			Result := empty
+			super_readable_general (general).fill_z_codes (Result)
 		end
 
 	copied_substring (str_32: READABLE_STRING_32; start_index, end_index: INTEGER): STRING_32

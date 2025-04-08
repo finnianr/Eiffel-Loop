@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 8:27:49 GMT (Saturday 5th April 2025)"
-	revision: "46"
+	date: "2025-04-08 7:19:06 GMT (Tuesday 8th April 2025)"
+	revision: "47"
 
 class
 	EL_STRING_CONVERSION_TABLE
@@ -40,11 +40,6 @@ inherit
 
 	EL_MODULE_EIFFEL; EL_MODULE_NAMING
 
-	EL_MODULE_TUPLE
-		rename
-			Tuple as Tuple_
-		end
-
 	EL_STRING_POOL_ROUTINES; EL_SHARED_FACTORIES; EL_SHARED_CLASS_ID
 
 create
@@ -58,10 +53,10 @@ feature {NONE} -- Initialization
 		do
 			make_numeric
 
-			create boolean_8_converter.make
+			create boolean.make
 
-			create character_8_converter.make
-			create character_32_converter.make
+			create character_8.make
+			create character_32.make
 
 			split_list_area := new_split_list_types.area
 
@@ -88,6 +83,12 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	boolean: EL_STRING_TO_BOOLEAN
+
+	character_32: EL_STRING_TO_CHARACTER_32
+
+	character_8: EL_STRING_TO_CHARACTER_8
 
 	split_list (value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER): like filled_split_list
 		-- split `value_list' with white space adjustments: `Both', `Left', `None', `Right'. (See class `EL_SIDE')
@@ -158,25 +159,6 @@ feature -- Status query
 			end
 		end
 
-	is_convertible_tuple (
-		tuple: TUPLE; part_list: READABLE_STRING_GENERAL; separator: CHARACTER; left_adjusted: BOOLEAN
-	): BOOLEAN
-		local
-			type_array: EL_TUPLE_TYPE_ARRAY; type_id: INTEGER
-		do
-			if part_list.occurrences (separator) + 1 >= tuple.count then
-				type_array := Tuple_.type_array (tuple)
-				Result := True
-				if attached filled_split_list (part_list, separator, left_adjusted.to_integer) as list then
-					from list.start until list.after or else not Result or else list.index > tuple.count loop
-						type_id := type_array [list.index].type_id
-						Result := is_substring_convertible_to_type (part_list, list.item_lower, list.item_upper, type_id)
-						list.forth
-					end
-				end
-			end
-		end
-
 	is_latin_1 (type: TYPE [ANY]): BOOLEAN
 		-- `True' if type can be always be represented by Latin-1 encoded string
 		do
@@ -221,46 +203,6 @@ feature -- Basic operations
 			end
 		ensure
 			filled: csv_list.count > 0 implies chain.count - old chain.count = csv_list.occurrences (',') + 1
-		end
-
-	fill_tuple (tuple: TUPLE; part_list: READABLE_STRING_GENERAL; separator: CHARACTER; left_adjusted: BOOLEAN)
-		-- fill tuple with STRING items from `part_list' of strings separated by `separator'
-		-- TUPLE may contain any of types in `current_keys'
-		-- items are left adjusted if `left_adjusted' is True
-		require
-			tuple_convertible: is_convertible_tuple (tuple, part_list, separator, left_adjusted)
-		do
-			fill_tuple_from_list (tuple, split_list (part_list, separator, left_adjusted.to_integer))
-		end
-
-	fill_tuple_from_list (tuple: TUPLE; list: like split_list)
-		require
-			same_count: list.count = tuple.count
-		local
-			type_array: EL_TUPLE_TYPE_ARRAY; l_item_type: TYPE [ANY]
-			type_id, lower, upper, index: INTEGER
-		do
-			type_array := Tuple_.type_array (tuple)
-			if attached list.target_string as list_string then
-				from list.start until list.after or else list.index > tuple.count loop
-					index := list.index
-					l_item_type := type_array [index]
-					lower := list.item_lower; upper := list.item_upper
-					type_id := l_item_type.type_id
-					if is_substring_convertible_to_type (list_string, lower, upper, type_id) then
-						if tuple.is_reference_item (index) then
-							tuple.put_reference (substring_to_type_of_type (list_string, lower, upper, type_id), index)
-						else
-							tuple.put (substring_to_type_of_type (list_string, lower, upper, type_id), index)
-						end
-					else
-						check i_th_type_convertible: True end
-					end
-					list.forth
-				end
-			end
-		ensure
-			filled: Tuple_.is_filled (tuple, 1, tuple.count)
 		end
 
 	substring_to_type (
@@ -347,7 +289,7 @@ feature {NONE} -- Factory
 			>>
 		end
 
-feature {NONE} -- Implementation
+feature {EL_TUPLE_ROUTINES} -- Implementation
 
 	converter_types: TUPLE [
 			EL_STRING_TO_INTEGER_8,
@@ -402,12 +344,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Internal attributes
-
-	boolean_8_converter: EL_STRING_TO_BOOLEAN
-
-	character_32_converter: EL_STRING_TO_CHARACTER_32
-
-	character_8_converter: EL_STRING_TO_CHARACTER_8
 
 	split_list_area: SPECIAL [like new_split_list_types.item]
 

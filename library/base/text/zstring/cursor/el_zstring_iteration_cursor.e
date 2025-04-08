@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 6:17:15 GMT (Sunday 6th April 2025)"
-	revision: "38"
+	date: "2025-04-07 7:04:24 GMT (Monday 7th April 2025)"
+	revision: "39"
 
 class
 	EL_ZSTRING_ITERATION_CURSOR
@@ -16,10 +16,6 @@ inherit
 	EL_STRING_ITERATION_CURSOR
 		rename
 			Unicode_table as Shared_unicode_table
-		export
-			{NONE} fill_z_codes
-		redefine
-			fill_z_codes
 		end
 
 	STRING_32_ITERATION_CURSOR
@@ -93,11 +89,6 @@ feature -- Basic operations
 					i := i + 1
 				end
 			end
-		end
-
-	fill_z_codes (destination: STRING_32)
-		do
-			target.fill_with_z_code (destination)
 		end
 
 feature -- Measurement

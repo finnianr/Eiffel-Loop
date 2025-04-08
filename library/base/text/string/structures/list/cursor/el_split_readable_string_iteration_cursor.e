@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-08 18:48:55 GMT (Sunday 8th September 2024)"
-	revision: "6"
+	date: "2025-04-08 7:44:24 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 class
 	EL_SPLIT_READABLE_STRING_ITERATION_CURSOR [S -> READABLE_STRING_GENERAL create make end]
@@ -35,6 +35,16 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	item_lower: INTEGER
+		do
+			Result := area [(index - 1) * 2]
+		end
+
+	item_upper: INTEGER
+		do
+			Result := area [(index - 1) * 2 + 1]
+		end
 
 	item, item_copy: S
 		local

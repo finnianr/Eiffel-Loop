@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 14:33:25 GMT (Thursday 3rd April 2025)"
-	revision: "23"
+	date: "2025-04-07 18:17:52 GMT (Monday 7th April 2025)"
+	revision: "24"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_TYPE [G]
@@ -17,11 +17,6 @@ inherit
 		rename
 			new_item as new_type_description,
 			cached_item as actual_type_description
-		end
-
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
-		export
-			{NONE} all
 		end
 
 	EL_STRING_GENERAL_ROUTINES_I

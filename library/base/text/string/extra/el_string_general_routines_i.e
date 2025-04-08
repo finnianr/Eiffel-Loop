@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:35:55 GMT (Saturday 5th April 2025)"
-	revision: "18"
+	date: "2025-04-07 8:20:05 GMT (Monday 7th April 2025)"
+	revision: "19"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -99,9 +99,17 @@ feature {NONE} -- Implementation
 
 	super_readable_general (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING [COMPARABLE]
 		do
-			inspect string_storage_type (str)
+			Result := super_by_type (str, string_storage_type (str))
+		end
+
+	super_by_type (str: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_READABLE_STRING [COMPARABLE]
+		require
+			valid_type_code: valid_string_storage_type (type_code)
+		do
+			inspect type_code
 				when '1' then
 					Result := Shared_super_readable_8
+
 				when 'X' then
 					Result := Shared_super_readable
 			else

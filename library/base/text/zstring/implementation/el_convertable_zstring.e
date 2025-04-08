@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 13:23:04 GMT (Tuesday 5th November 2024)"
-	revision: "76"
+	date: "2025-04-07 11:29:32 GMT (Monday 7th April 2025)"
+	revision: "77"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -22,7 +22,7 @@ inherit
 
 	EL_WRITEABLE_ZSTRING
 
-	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_BUFFER_POOL
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 	EL_SET [CHARACTER]
 		rename
