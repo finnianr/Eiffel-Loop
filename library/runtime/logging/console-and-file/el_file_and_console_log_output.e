@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:39:08 GMT (Saturday 5th April 2025)"
-	revision: "26"
+	date: "2025-04-08 15:57:24 GMT (Tuesday 8th April 2025)"
+	revision: "27"
 
 class
 	EL_FILE_AND_CONSOLE_LOG_OUTPUT
@@ -45,7 +45,7 @@ inherit
 			mutex as write_mutex
 		end
 
-	EL_SHARED_STRING_8_BUFFER_POOL; EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
 	make

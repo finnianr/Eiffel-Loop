@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:39:05 GMT (Saturday 5th April 2025)"
-	revision: "16"
+	date: "2025-04-08 14:47:15 GMT (Tuesday 8th April 2025)"
+	revision: "17"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -112,8 +112,8 @@ feature -- Measurement
 		-- index of `uc' relative to `item_start_index - 1'
 		-- 0 if `uc' does not occurr within item bounds
 		do
-			if attached cursor_8 (target_string) as c8 then
-				Result := Utf_8_sequence.character_index_of (uc, c8.area, item_lower - 1, item_upper - 1)
+			if attached extended_target as target then
+				Result := Utf_8_sequence.character_index_of (uc, target.area, item_lower - 1, item_upper - 1)
 			end
 		end
 
@@ -140,22 +140,22 @@ feature {NONE} -- Implementation
 		local
 			left_index, right_index, left_count, right_count: INTEGER
 		do
-			if attached Utf_8_sequence as utf_8 and then attached cursor_8 (target_string) as c8
+			if attached Utf_8_sequence as utf_8 and then attached extended_target as t
 				and then attached area as a
 			then
 				left_index := a [i] - 1
-				left_count := array_unicode_count (c8.area, left_index, a [i + 1] - 1)
+				left_count := array_unicode_count (t.area, left_index, a [i + 1] - 1)
 
 				right_index := a [j] - 1
-				right_count := array_unicode_count (c8.area, right_index, a [j + 1] - 1)
+				right_count := array_unicode_count (t.area, right_index, a [j + 1] - 1)
 
 				if right_count = left_count then
-					Result := utf_8.strict_comparison (c8.area, c8.area, right_index, left_index, right_count) > 0
+					Result := utf_8.strict_comparison (t.area, t.area, right_index, left_index, right_count) > 0
 				else
 					if left_count < right_count then
-						Result := utf_8.strict_comparison (c8.area, c8.area, right_index, left_index, left_count) >= 0
+						Result := utf_8.strict_comparison (t.area, t.area, right_index, left_index, left_count) >= 0
 					else
-						Result := utf_8.strict_comparison (c8.area, c8.area, right_index, left_index, right_count) > 0
+						Result := utf_8.strict_comparison (t.area, t.area, right_index, left_index, right_count) > 0
 					end
 				end
 			end

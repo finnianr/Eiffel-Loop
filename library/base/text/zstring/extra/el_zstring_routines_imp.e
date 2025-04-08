@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:23:31 GMT (Saturday 5th April 2025)"
-	revision: "44"
+	date: "2025-04-08 14:16:52 GMT (Tuesday 8th April 2025)"
+	revision: "45"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -19,7 +19,7 @@ inherit
 	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING, CHARACTER_32]
 		rename
 			to_code as to_z_code,
-			extended_string as super_readable_zstring,
+			super_readable as extended_string,
 			ZString_searcher as String_searcher
 		undefine
 			bit_count
@@ -238,11 +238,6 @@ feature {NONE} -- Implementation
 		do
 			create Result.make (s.count)
 			Result.append (s)
-		end
-
-	cursor (s: EL_READABLE_ZSTRING): EL_ZSTRING_ITERATION_CURSOR
-		do
-			Result := s.new_cursor
 		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL)

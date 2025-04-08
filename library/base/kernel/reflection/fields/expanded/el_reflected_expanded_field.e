@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:53:12 GMT (Thursday 3rd April 2025)"
-	revision: "32"
+	date: "2025-04-08 14:39:10 GMT (Tuesday 8th April 2025)"
+	revision: "33"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -24,7 +24,9 @@ inherit
 			is_equal
 		end
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_UTF_8_SEQUENCE
+	EL_STRING_GENERAL_ROUTINES_I
+
+	EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Basic operations
 
@@ -84,8 +86,8 @@ feature -- Basic operations
 		do
 			inspect abstract_type
 				when Character_32_type, Character_8_type then
-					if attached Utf_8_sequence as sequence and then attached cursor_8 (utf_8) as c then
-						sequence.fill (c.area, c.index_lower)
+					if attached Utf_8_sequence as sequence and then attached super_readable_8 (utf_8) as super then
+						sequence.fill (super.area, super.index_lower)
 						set_from_natural_64 (a_object, sequence.to_unicode)
 					end
 			else

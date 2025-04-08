@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 12:13:14 GMT (Saturday 22nd March 2025)"
-	revision: "8"
+	date: "2025-04-08 15:58:25 GMT (Tuesday 8th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_XPATH_NODE_CONTEXT_BASE
@@ -57,9 +57,7 @@ inherit
 
 	EL_MODULE_LIO; EL_MODULE_XML
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_IMMUTABLE_8_MANAGER
-
-	EL_SHARED_CLASS_ID
+	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_CLASS_ID
 
 feature -- Numeric values
 

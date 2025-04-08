@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 9:02:11 GMT (Thursday 3rd April 2025)"
-	revision: "11"
+	date: "2025-04-08 14:34:46 GMT (Tuesday 8th April 2025)"
+	revision: "12"
 
 class
 	EL_C_STRING_8
@@ -25,7 +25,7 @@ inherit
 
 	EL_8_BIT_IMPLEMENTATION
 
-	EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_STRING_8_CURSOR
+	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
 	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size,
@@ -42,8 +42,8 @@ feature {NONE} -- Initialization
 			count := string.count
 			capacity := count + 1
 			make_buffer (capacity)
-			if attached cursor_8 (string) as c8 then
-				put_special_character_8 (c8.area, c8.index_lower, 0, count)
+			if attached super_readable_8 (string) as super then
+				put_special_character_8 (super.area, super.index_lower, 0, count)
 				put_natural_8 (0, count)
 			end
 		end

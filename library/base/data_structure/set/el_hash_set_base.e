@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 9:28:18 GMT (Monday 3rd March 2025)"
-	revision: "6"
+	date: "2025-04-08 11:11:34 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_HASH_SET_BASE [H -> HASHABLE]
@@ -283,6 +283,10 @@ feature {NONE} -- Implementation
 				end
 			end
 			position := pos
+		end
+
+	new_key_tester: like key_tester
+		do
 		end
 
 	soon_full: BOOLEAN

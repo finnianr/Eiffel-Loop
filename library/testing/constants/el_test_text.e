@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:28:26 GMT (Monday 31st March 2025)"
-	revision: "41"
+	date: "2025-04-08 12:56:48 GMT (Tuesday 8th April 2025)"
+	revision: "42"
 
 class
 	EL_TEST_TEXT
@@ -97,20 +97,6 @@ feature -- Access
 				Result := Windows | 1250
 			end
 		end
-
-feature -- Eiffel
-
-	Eiffel_assignment: STRING = "[
-		str := "1%N2%"/3"
-	]"
-
-	Eiffel_type_declarations: STRING = "[
-		STRING
-		ARRAY [STRING]
-		HASH_TABLE [STRING, STRING]
-		ARRAY [HASH_TABLE [STRING, STRING]]
-		HASH_TABLE [ARRAY [HASH_TABLE [STRING, STRING]], STRING]
-	]"
 
 feature -- Lists
 
@@ -241,10 +227,6 @@ feature -- Substitution testing
 
 feature -- STRING_32 contants
 
-	Lower_case_characters: STRING_32 = "™ÿaàöžšœ" --
-
-	Lower_case_mu: STRING_32 = "µ symbol"
-
 	Mixed_text: STRING_32 = "[
 		и рыбку съесть, и в воду не лезть
 		Wanting to eat a fish without first catching it from the waters
@@ -254,11 +236,6 @@ feature -- STRING_32 contants
 		Le Quattro Stagioni ´L´Estate`- I. Allegro non molto
 		Price € 100
 	]"
-
-	Upper_case_characters: STRING_32 = "™ŸAÀÖŽŠŒ"
-
-	Upper_case_mu: STRING_32 = "Μ SYMBOL"
-
 feature -- Constants
 
 	Character_set: ARRAY [CHARACTER_32]
@@ -268,8 +245,6 @@ feature -- Constants
 			create hash_set.make_from (Mixed_text, False)
 			Result := hash_set.to_list.to_array
 		end
-
-	Escaped_substitution_marker: STRING = "%%%S"
 
 	Substituted_words: ARRAY [TUPLE]
 		once

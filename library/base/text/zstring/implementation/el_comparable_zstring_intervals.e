@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:33:07 GMT (Tuesday 27th August 2024)"
-	revision: "6"
+	date: "2025-04-08 14:08:07 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 deferred class
-	EL_COMPARABLE_ZSTRING_INTERVALS [C, S -> READABLE_INDEXABLE [C]]
+	EL_COMPARABLE_ZSTRING_INTERVALS [CHAR -> COMPARABLE, S -> READABLE_INDEXABLE [CHAR]]
 
 inherit
 	EL_ZSTRING_INTERVALS
@@ -20,7 +20,7 @@ inherit
 			make, set
 		end
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_ZSTRING_CODEC
 		rename
@@ -49,7 +49,7 @@ feature -- Element change
 			other_area_reset: other_area = default_other_area
 		end
 
-	set_other_area (a_cursor: like string_cursor)
+	set_other_area (a_string: like extended_string)
 		deferred
 		end
 
@@ -105,7 +105,7 @@ feature {NONE} -- Implementation
 			list_count, l_count, other_offset, overlap_status, comparison_count: INTEGER
 			i, list_i, lower_A, upper_A, lower_B, upper_B, other_i, current_i: INTEGER
 			l_unencoded: like unencoded_area; l_area: like area; ir: EL_INTERVAL_ROUTINES
-			o_area: SPECIAL [C]
+			o_area: SPECIAL [CHAR]
 		do
 			l_unencoded := unencoded_area
 			if is_empty then
@@ -165,14 +165,14 @@ feature {NONE} -- Deferred
 		end
 
 	same_interval_characters (
-		current_area: like unencoded_area; a_other_area: SPECIAL [C]
+		current_area: like unencoded_area; a_other_area: SPECIAL [CHAR]
 		other_i, current_i, comparison_count: INTEGER
 
 	): BOOLEAN
 		deferred
 		end
 
-	string_cursor (str: S): GENERAL_SPECIAL_ITERATION_CURSOR [C, S]
+	extended_string (str: S): EL_EXTENDED_READABLE_STRING_I [CHAR]
 		deferred
 		end
 
@@ -182,9 +182,9 @@ feature {NONE} -- Internal attributes
 
 	unicode_table: SPECIAL [CHARACTER_32]
 
-	other_area: SPECIAL [C]
+	other_area: SPECIAL [CHAR]
 
-	default_other_area: SPECIAL [C]
+	default_other_area: SPECIAL [CHAR]
 
 	other_area_first_index: INTEGER
 

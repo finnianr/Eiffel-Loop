@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
-	revision: "10"
+	date: "2025-04-08 19:02:01 GMT (Tuesday 8th April 2025)"
+	revision: "11"
 
 class
 	EL_OBJECT_FIELDS_TABLE
@@ -209,10 +209,8 @@ feature {NONE} -- Implementation
 
 	is_once_field (name: IMMUTABLE_STRING_8): BOOLEAN
 		-- `True' if `name' is a once ("OBJECT") field name
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.starts_with_character (name, '_')
+			Result := super_readable_8 (name).starts_with_character ('_')
 		end
 
 	new_indices_subset (name_list: STRING): EL_FIELD_INDICES_SET

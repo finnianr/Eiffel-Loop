@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:31:31 GMT (Saturday 5th April 2025)"
-	revision: "11"
+	date: "2025-04-08 14:25:47 GMT (Tuesday 8th April 2025)"
+	revision: "12"
 
 class
 	EL_IMMUTABLE_32_MANAGER
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [IMMUTABLE_STRING_32]
-
-	EL_SHARED_STRING_32_CURSOR
 
 	CHARACTER_PROPERTY
 		rename
@@ -48,7 +46,7 @@ feature {NONE} -- Contract Support
 
 	same_area_items (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER): BOOLEAN
 		do
-			if attached cursor_32 (item) as c then
+			if attached super_readable_32 (item) as c then
 				Result := c.area.same_items (a_area, offset, c.index_lower, a_count)
 			end
 		end

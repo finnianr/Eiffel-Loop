@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:47:49 GMT (Monday 3rd March 2025)"
-	revision: "18"
+	date: "2025-04-08 18:57:56 GMT (Tuesday 8th April 2025)"
+	revision: "19"
 
 class
 	EL_URI_FILTER_TABLE
@@ -106,9 +106,9 @@ feature -- Basic operations
 
 	put_whitelist (path_lower: STRING)
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			if s.ends_with_character (path_lower, '*') then
+			if sg.super_8 (path_lower).ends_with_character ('*') then
 				whitelist_stem_list.extend (path_lower.substring (1, path_lower.count - 1))
 			else
 				whitelist_set.put (path_lower)

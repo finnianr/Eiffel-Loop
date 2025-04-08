@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 18:20:31 GMT (Sunday 6th April 2025)"
-	revision: "61"
+	date: "2025-04-08 19:00:13 GMT (Tuesday 8th April 2025)"
+	revision: "62"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -108,37 +108,6 @@ feature -- Measurement
 			end
 		end
 
-	word_count (str: READABLE_STRING_X; exclude_variable_references: BOOLEAN): INTEGER
-		-- count of all substrings of `str' that are separated by whitespace
-		-- but if `exclude_variable_references' is `True', substract count of substrings
-		-- that are variable references defined by `is_variable_reference'
-		local
-			i, upper, word_index: INTEGER; state_find_word: BOOLEAN
-		do
-			upper := str.count
-			state_find_word := True
-			from i := 1 until i > upper loop
-				if state_find_word then
-					from until i > upper or else not is_i_th_space (str, i) loop
-						i := i + 1
-					end
-					word_index := i
-				else
-					from until i > upper or else is_i_th_space (str, i) loop
-						i := i + 1
-					end
-					if attached new_shared_substring (str, word_index, i - 1) as word
-						and then has_alpha (word)
-						and then exclude_variable_references implies not is_variable_reference (word)
-					then
-						Result := Result + 1
-					end
-				end
-				state_find_word := not state_find_word
-				i := i + 1
-			end
-		end
-
 feature -- Lists
 
 	delimited_list (text: READABLE_STRING_X; delimiter: READABLE_STRING_GENERAL): like substring_list
@@ -166,16 +135,6 @@ feature -- Lists
 		end
 
 feature -- Character query
-
-	ends_with_character (str: READABLE_STRING_X; c: C): BOOLEAN
-		do
-			Result := extended_string (str).ends_with_character (c)
-		end
-
-	has_alpha (str: READABLE_STRING_X): BOOLEAN
-		do
-			Result := extended_string (str).has_alpha
-		end
 
 	has_double (s: READABLE_STRING_X): BOOLEAN
 			--
@@ -205,11 +164,6 @@ feature -- Character query
 			Result := has_quotes (s, 1)
 		end
 
-	starts_with_character (str: READABLE_STRING_X; c: C): BOOLEAN
-		do
-			Result := extended_string (str).starts_with_character (c)
-		end
-
 feature -- Status query
 
 	has_member (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
@@ -218,22 +172,10 @@ feature -- Status query
 			Result := extended_string (str).has_member (set)
 		end
 
-	is_eiffel (s: READABLE_STRING_X): BOOLEAN
-		-- `True' if `target' is an Eiffel identifier
+	is_eiffel (str: READABLE_STRING_X): BOOLEAN
+		-- `True' if `str' is an Eiffel identifier
 		do
-			Result := cursor (s).is_eiffel
-		end
-
-	is_eiffel_lower (s: READABLE_STRING_X): BOOLEAN
-		-- `True' if `target' is a lower-case Eiffel identifier
-		do
-			Result := cursor (s).is_eiffel_lower
-		end
-
-	is_eiffel_upper (s: READABLE_STRING_X): BOOLEAN
-		-- `True' if `target' is an upper-case Eiffel identifier
-		do
-			Result := cursor (s).is_eiffel_upper
+			Result := extended_string (str).is_eiffel
 		end
 
 	is_identifier_boundary (str: READABLE_STRING_X; lower, upper: INTEGER): BOOLEAN

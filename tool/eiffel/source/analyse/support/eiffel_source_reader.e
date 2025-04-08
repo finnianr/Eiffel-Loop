@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
-	revision: "11"
+	date: "2025-04-08 18:33:01 GMT (Tuesday 8th April 2025)"
+	revision: "12"
 
 deferred class
 	EIFFEL_SOURCE_READER
@@ -24,9 +24,11 @@ inherit
 			type as encoding_type
 		end
 
+	EL_STRING_GENERAL_ROUTINES_I
+
 	EL_MODULE_FILE
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_IMMUTABLE_8_MANAGER
+	EL_SHARED_IMMUTABLE_8_MANAGER
 
 	EL_EIFFEL_IMMUTABLE_KEYWORDS
 
@@ -55,12 +57,12 @@ feature {NONE} -- Initialization
 		do
 			make_encoding (a_encoding)
 			initialize
-			if attached cursor_8 (source) as c8 then
+			if attached super_readable_8 (source) as super then
 				byte_count := source.count
 				if a_encoding = Utf_8 then
 					bom_offset := 3
 				end
-				analyze (c8.area, c8.index_lower + bom_offset, c8.index_upper)
+				analyze (super.area, super.index_lower + bom_offset, super.index_upper)
 			end
 		end
 

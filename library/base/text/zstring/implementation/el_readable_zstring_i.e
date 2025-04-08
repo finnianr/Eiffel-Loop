@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 8:39:04 GMT (Monday 7th April 2025)"
-	revision: "22"
+	date: "2025-04-08 15:56:18 GMT (Tuesday 8th April 2025)"
+	revision: "23"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -18,7 +18,7 @@ inherit
 
 	EL_SHARED_ENCODINGS; EL_SHARED_IMMUTABLE_8_MANAGER; EL_SHARED_ZSTRING_CODEC
 
-	EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Contract Support
 

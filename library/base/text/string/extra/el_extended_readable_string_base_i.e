@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 7:06:50 GMT (Monday 7th April 2025)"
-	revision: "2"
+	date: "2025-04-08 15:41:33 GMT (Tuesday 8th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -19,6 +19,8 @@ inherit
 		end
 
 	EL_BIT_COUNTABLE
+
+	EL_CASE_CONTRACT
 
 	EL_UC_ROUTINES
 		rename
@@ -87,6 +89,10 @@ feature {NONE} -- Deferred
 	is_c_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
 		-- a C language identifier
+		deferred
+		end
+
+	is_eiffel_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER; case: NATURAL_8): BOOLEAN
 		deferred
 		end
 

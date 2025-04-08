@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:59:13 GMT (Saturday 5th April 2025)"
-	revision: "14"
+	date: "2025-04-08 18:26:13 GMT (Tuesday 8th April 2025)"
+	revision: "15"
 
 class
 	EL_XHTML_WORD_COUNTER
@@ -69,9 +69,9 @@ feature {NONE} -- Implementation
 
 	word_count (str: ZSTRING): INTEGER
 		local
-			s: EL_ZSTRING_ROUTINES
+			sc: EL_STRING_GENERAL_ROUTINES
 		do
-			Result := s.word_count (str, True)
+			Result := sc.super_readable (str).word_count (True)
 		end
 
 feature {NONE} -- Constants

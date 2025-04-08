@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:20 GMT (Friday 7th February 2025)"
-	revision: "15"
+	date: "2025-04-08 14:28:00 GMT (Tuesday 8th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_MEMORY_READER_WRITER_BASE
@@ -34,6 +34,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature {NONE} -- Initialization
 

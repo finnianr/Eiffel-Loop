@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 6:59:22 GMT (Sunday 6th April 2025)"
-	revision: "18"
+	date: "2025-04-08 15:56:56 GMT (Tuesday 8th April 2025)"
+	revision: "19"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_32_LIST
@@ -29,8 +29,6 @@ inherit
 	EL_STRING_BIT_COUNTABLE [IMMUTABLE_STRING_32]
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
-
-	EL_SHARED_STRING_32_CURSOR
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string,

@@ -8,10 +8,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:14:03 GMT (Sunday 30th March 2025)"
-	revision: "10"
+	date: "2025-04-08 14:40:54 GMT (Tuesday 8th April 2025)"
+	revision: "11"
 
-expanded class
+frozen expanded class
 	EL_READABLE_STRING_GENERAL_ROUTINES
 
 inherit

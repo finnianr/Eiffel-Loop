@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 11:30:04 GMT (Monday 7th April 2025)"
-	revision: "114"
+	date: "2025-04-08 14:52:46 GMT (Tuesday 8th April 2025)"
+	revision: "115"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -453,10 +453,12 @@ feature {NONE} -- Implementation
 			i_lower, i_upper: INTEGER
 		do
 			if general.is_immutable then
-				if attached {READABLE_STRING_8} general as readable_8	and then attached cursor_8 (readable_8) as c then
-					i_lower := c.index_lower + start_index - 1
+				if attached {READABLE_STRING_8} general as readable_8
+					and then attached super_readable_8 (readable_8) as super
+				then
+					i_lower := super.index_lower + start_index - 1
 					i_upper := i_lower + end_index - start_index
-					if Codec.is_compatible_string_8 (c.area, i_lower, i_upper) then
+					if Codec.is_compatible_string_8 (super.area, i_lower, i_upper) then
 						Result := readable_8
 					end
 				end

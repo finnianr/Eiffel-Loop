@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-18 12:32:53 GMT (Monday 18th November 2024)"
-	revision: "29"
+	date: "2025-04-08 19:01:24 GMT (Tuesday 8th April 2025)"
+	revision: "30"
 
 class
 	EL_COMMAND_LINE_ARGUMENTS
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 		local
 			i, equals_index, i_upper, start_index, end_index: INTEGER
 			item, name: ZSTRING; i_th_arg: IMMUTABLE_STRING_32
-			s: EL_STRING_32_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			command_path := a_command_path
 			option_sign := option_sign_cell.item
@@ -51,7 +51,7 @@ feature {NONE} -- Initialization
 			create name.make_empty
 			from i := 1 until i > a_argument.upper loop
 				i_th_arg := a_argument [i]
-				if s.starts_with_character (i_th_arg, option_sign) then
+				if sg.super_readable_32 (i_th_arg).starts_with_character (option_sign) then
 					equals_index := i_th_arg.index_of ('=', 1)
 					start_index := 2
 					if equals_index > 0 then

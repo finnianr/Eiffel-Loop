@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 12:19:21 GMT (Monday 7th April 2025)"
-	revision: "21"
+	date: "2025-04-08 10:07:53 GMT (Tuesday 8th April 2025)"
+	revision: "22"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -28,7 +28,7 @@ feature -- Conversion
 
 	class_name (a_text: READABLE_STRING_GENERAL): ZSTRING
 		local
-			break: BOOLEAN; i, i_upper: INTEGER; c: CHARACTER; text: ZSTRING
+			break: BOOLEAN; i, i_upper: INTEGER; text: ZSTRING
 		do
 			text := as_zstring (a_text)
 			create Result.make (text.count)

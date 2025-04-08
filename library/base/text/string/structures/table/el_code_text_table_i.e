@@ -23,8 +23,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:47 GMT (Sunday 30th March 2025)"
-	revision: "6"
+	date: "2025-04-08 19:05:18 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_CODE_TEXT_TABLE_I
@@ -103,13 +103,13 @@ feature {NONE} -- Implementation
 
 	search (code: INTEGER_64; line_list: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER; utf_8_encoded: BOOLEAN)
 		local
-			s: EL_STRING_8_ROUTINES; done, code_found: BOOLEAN; unindented: IMMUTABLE_STRING_8
+			done, code_found: BOOLEAN; unindented: IMMUTABLE_STRING_8
 		do
 			found_item := default_item
 			across line_list as list until done loop
-				if attached list.item as line then
+				if attached list.item as line and then attached super_readable_8 (line) as super_line then
 					if code_found then
-						if s.starts_with_character (line, '%T') then
+						if super_line.starts_with_character ('%T') then
 							if found_item.count > 0 then
 								found_item.append_character_8 ('%N')
 							end
@@ -126,8 +126,8 @@ feature {NONE} -- Implementation
 						else
 							done := True
 						end
-					elseif s.ends_with_character (line, ':')
-						and then not s.starts_with_character (line, '%T')
+					elseif super_line.ends_with_character (':')
+						and then not super_line.starts_with_character ('%T')
 						and then code = Convert_string.substring_to_integer_64 (line, 1, line.count - 1)
 					then
 						code_found := True

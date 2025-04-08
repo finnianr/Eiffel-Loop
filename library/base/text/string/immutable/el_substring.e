@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 14:12:28 GMT (Sunday 30th March 2025)"
-	revision: "8"
+	date: "2025-04-08 12:10:27 GMT (Tuesday 8th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_SUBSTRING [S -> STRING_GENERAL create make end]
@@ -37,6 +37,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_STRING_BIT_COUNTABLE [S]
 
@@ -70,9 +72,9 @@ feature -- Access
 			utf_8: EL_UTF_8_CONVERTER
 		do
 			Result := utf_8.unicode_substring_count (utf_8_manifest, start_index + 1, end_index)
-			if attached shared_cursor_8 (utf_8_manifest) as cursor then
+			if attached super_readable_8 (utf_8_manifest) as super then
 			-- subtract count of leading tabs by counting lines
-				Result := Result - cursor.occurrences_in_bounds ('%N', start_index + 1, end_index)
+				Result := Result - super.occurrences_in_bounds ('%N', start_index + 1, end_index)
 			end
 		end
 

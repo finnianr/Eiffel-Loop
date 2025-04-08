@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 16:12:08 GMT (Saturday 5th April 2025)"
-	revision: "18"
+	date: "2025-04-08 15:58:03 GMT (Tuesday 8th April 2025)"
+	revision: "19"
 
 class
 	EL_REFLECTED_URI [U -> EL_URI create make end]
@@ -17,8 +17,6 @@ inherit
 		redefine
 			group_type, value_type
 		end
-
-	EL_SHARED_STRING_8_CURSOR
 
 create
 	make

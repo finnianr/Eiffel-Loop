@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 18:07:12 GMT (Monday 7th April 2025)"
-	revision: "6"
+	date: "2025-04-08 15:47:28 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -19,6 +19,14 @@ inherit
 		end
 
 feature -- Access
+
+	filter (included: PREDICATE [CHAR]; output: INDEXABLE [CHAR, INTEGER])
+		do
+			area.do_if_in_bounds (agent output.extend, included, index_lower, index_upper)
+			if attached {RESIZABLE [CHAR]} output as resizable then
+				resizable.trim
+			end
+		end
 
 	matching_bracket_index (index: INTEGER): INTEGER
 		require
@@ -76,6 +84,14 @@ feature -- Measurement
 				end
 			end
 			Result := i - index_lower
+		end
+
+	occurrences_in_bounds (c: CHAR; start_index, end_index: INTEGER): INTEGER
+		-- count of `c' occurrences between `start_index' and `end_index'
+		do
+			if count > 0 then
+				Result := occurrences_in_area_bounds( area, c, lower_abs (start_index), upper_abs (end_index))
+			end
 		end
 
 	trailing_white_count: INTEGER
@@ -203,6 +219,32 @@ feature -- Character query
 			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		do
 			Result := all_alpha_numeric_in_range (area, lower_abs (start_index), upper_abs (end_index))
+		end
+
+feature -- Status query
+
+	is_eiffel: BOOLEAN
+		-- `True' if `target' is an Eiffel identifier
+		do
+			Result := is_eiffel_identifier ({EL_CASE}.Lower | {EL_CASE}.Upper)
+		end
+
+	is_eiffel_lower: BOOLEAN
+		-- `True' if `target' is a lower-case Eiffel identifier
+		do
+			Result := is_eiffel_identifier ({EL_CASE}.Lower)
+		end
+
+	is_eiffel_title: BOOLEAN
+		-- `True' if `target' is an title-case Eiffel identifier
+		do
+			Result := is_eiffel_identifier ({EL_CASE}.Proper | {EL_CASE}.Lower)
+		end
+
+	is_eiffel_upper: BOOLEAN
+		-- `True' if `target' is an upper-case Eiffel identifier
+		do
+			Result := is_eiffel_identifier ({EL_CASE}.Upper)
 		end
 
 	is_left_bracket_at (index: INTEGER): BOOLEAN
@@ -512,6 +554,15 @@ feature {NONE} -- Implementation
 			Result := index_lower + start_index - 1
 		end
 
+	is_eiffel_identifier (case: NATURAL_8): BOOLEAN
+		require
+			valid_case: is_valid_case (case)
+		do
+			if count > 0 then
+				Result := is_eiffel_identifier_in_range (area, index_lower, index_upper, case)
+			end
+		end
+
 	index_of_character_type_change (
 		a_area: like area; i_lower, i_upper: INTEGER; find_word: BOOLEAN; unicode: like Unicode_property
 	): INTEGER
@@ -536,6 +587,17 @@ feature {NONE} -- Implementation
 				end
 			end
 			Result := i
+		end
+
+	occurrences_in_area_bounds (a_area: like area; c: CHAR; i_lower, i_upper: INTEGER): INTEGER
+		-- count of `c' occurrences in area between `i_lower' and `i_upper'
+		local
+			i: INTEGER
+		do
+			from i := i_lower until i > i_upper loop
+				Result := Result + (a_area [i] = c).to_integer
+				i := i + 1
+			end
 		end
 
 	parse_substring_in_range (a_area: like area; type, i_lower, i_upper: INTEGER; convertor: STRING_TO_NUMERIC_CONVERTOR)

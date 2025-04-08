@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "50"
+	date: "2025-04-08 13:34:09 GMT (Tuesday 8th April 2025)"
+	revision: "51"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -360,7 +360,7 @@ feature {NONE} -- Implementation
 			if end_index <= count and then
 				attached shared_comparator_string_8 (start_index, end_index, case_insensitive) as list
 			then
-				list.set_other_area (cursor_8 (other))
+				list.set_other_area (super_readable_8 (other))
 				Result := list.same_characters (area, start_pos - start_index)
 			end
 		end
@@ -382,7 +382,7 @@ feature {NONE} -- Implementation
 			if end_index <= count and then
 				attached shared_comparator_string_32 (start_index, end_index, case_insensitive) as list
 			then
-				list.set_other_area (cursor_32 (other))
+				list.set_other_area (super_readable_32 (other))
 				Result := list.same_characters (area, start_pos - start_index)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 12:24:11 GMT (Monday 7th April 2025)"
-	revision: "5"
+	date: "2025-04-08 14:21:56 GMT (Tuesday 8th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -15,25 +15,22 @@ deferred class
 	]
 
 inherit
-	EL_CASE
-		rename
-			is_valid as is_valid_case,
-			Upper as Upper_case,
-			Lower as Lower_case
-		export
-			{NONE} all
-		end
+	ANY
 
-	EL_READABLE_STRING_GENERAL_ROUTINES_I
+	EL_CASE_CONTRACT
 
 	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]
 
-	EL_SIDE_ROUTINES
+	EL_SIDE_ROUTINES -- inherits EL_STRING_GENERAL_ROUTINES_I
 		rename
-			super_readable as super_readable_zstring,
 			valid_side as valid_adjustments
 		export
 			{ANY} as_zstring, ZSTRING, valid_adjustments
+		end
+
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
+		rename
+			occurrences as text_occurrences
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -60,10 +57,6 @@ feature {NONE} -- Deferred
 
 	as_canonically_spaced (s: READABLE_STRING_X): READABLE_STRING_X
 		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
-		deferred
-		end
-
-	cursor (s: READABLE_STRING_X): EL_STRING_ITERATION_CURSOR
 		deferred
 		end
 

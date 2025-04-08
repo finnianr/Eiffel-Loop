@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:27 GMT (Thursday 3rd April 2025)"
-	revision: "49"
+	date: "2025-04-08 14:38:08 GMT (Tuesday 8th April 2025)"
+	revision: "50"
 
 class
 	EL_NAMING_ROUTINES
@@ -25,8 +25,6 @@ inherit
 		rename
 			Empty_string_8 as Empty_name
 		end
-
-	EL_SHARED_STRING_8_CURSOR
 
 	EL_STRING_GENERAL_ROUTINES_I
 
@@ -119,8 +117,8 @@ feature -- Import names
 		local
 			i, state, first_index, last_index: INTEGER; c: CHARACTER
 		do
-			if attached cursor_8 (name_in) as c8 and then attached c8.area as area then
-				first_index := c8.index_lower; last_index := c8.index_upper
+			if attached super_readable_8 (name_in) as super and then attached super.area as area then
+				first_index := super.index_lower; last_index := super.index_upper
 				if name_in.count > 0 then
 					c := area.item (first_index)
 					if c.is_digit then
@@ -221,8 +219,10 @@ feature -- Export names
 		local
 			i, first_index, last_index: INTEGER; c: CHARACTER; s: EL_STRING_8_ROUTINES
 		do
-			if name_in.has ('_') and then attached cursor_8 (name_in) as c8 and then attached c8.area as area then
-				first_index := c8.index_lower; last_index := c8.index_upper
+			if name_in.has ('_') and then attached super_readable_8 (name_in) as super
+				and then attached super.area as area
+			then
+				first_index := super.index_lower; last_index := super.index_upper
 				from i := first_index until i > last_index loop
 					c := area [i]
 					if c = '_' then

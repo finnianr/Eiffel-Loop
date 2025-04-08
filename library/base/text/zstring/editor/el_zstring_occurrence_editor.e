@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 6:29:50 GMT (Sunday 6th April 2025)"
-	revision: "10"
+	date: "2025-04-08 15:59:21 GMT (Tuesday 8th April 2025)"
+	revision: "11"
 
 class
 	EL_ZSTRING_OCCURRENCE_EDITOR
@@ -36,8 +36,6 @@ inherit
 		end
 
 	EL_SHARED_ZSTRING_BUFFER_POOL
-
-	EL_SHARED_ZSTRING_CURSOR
 
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string

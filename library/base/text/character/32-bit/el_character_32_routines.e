@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 10:33:41 GMT (Monday 7th April 2025)"
-	revision: "22"
+	date: "2025-04-08 10:28:11 GMT (Tuesday 8th April 2025)"
+	revision: "23"
 
 expanded class
 	EL_CHARACTER_32_ROUTINES
@@ -54,6 +54,30 @@ feature -- Status query
 			end
 		end
 
+	is_valid_eiffel_case (c: CHARACTER_32; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
+		do
+			inspect c
+				when 'a' .. 'z' then
+					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
+						Result := False
+					else
+						Result := (case_code & {EL_CASE}.lower).to_boolean
+					end
+
+				when 'A' .. 'Z' then
+					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
+						Result := True
+					else
+						Result := (case_code & {EL_CASE}.upper).to_boolean
+					end
+
+				when '0' .. '9', '_' then
+					Result := not first_i
+			else
+				Result := False
+			end
+		end
+
 feature -- Basic operations
 
 	write_utf_8 (uc: CHARACTER_32; writeable: EL_WRITABLE)
@@ -63,18 +87,6 @@ feature -- Basic operations
 			sequence := Utf_8_sequence
 			sequence.set (uc)
 			sequence.write (writeable)
-		end
-
-feature -- Area query
-
-	is_i_th_eiffel_identifier (area: SPECIAL [CHARACTER_32]; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
-		local
-			uc: CHARACTER_32
-		do
-			uc := area [i]
-			if uc.is_character_8 then
-				Result := is_valid_eiffel_case (uc.to_character_8, case_code, first_i)
-			end
 		end
 
 feature {NONE} -- Implementation

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
-	revision: "6"
+	date: "2025-04-08 14:49:03 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 class
 	EL_STRING_8_POINTER
@@ -26,11 +26,9 @@ inherit
 			dispose
 		end
 
-	EL_STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_EIFFEL_C_API undefine copy, is_equal end
-
-	EL_SHARED_STRING_8_CURSOR
 
 create
 	make
@@ -42,11 +40,11 @@ feature {NONE} -- Initialization
 
 	make (string: READABLE_STRING_8)
 		do
-			if attached cursor_8 (string) as c then
-				area := c.area
+			if attached super_readable_8 (string) as super then
+				area := super.area
 				-- Prevent garbage collector from moving or collecting `area'
 				adopted_area := eif_adopt (area)
-				area_first_index := c.index_lower
+				area_first_index := super.index_lower
 				share_from_pointer (area.base_address + area_first_index, string.count)
 			end
 		end

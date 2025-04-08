@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 9:09:17 GMT (Monday 7th April 2025)"
-	revision: "140"
+	date: "2025-04-08 13:02:34 GMT (Tuesday 8th April 2025)"
+	revision: "141"
 
 class
 	ZSTRING_TEST_SET
@@ -559,16 +559,19 @@ feature -- Status query tests
 			across Text.lines_32 as line loop
 				test := new_test (line.item)
 				inspect line.cursor_index
-					when 1 then
+					when Line_cyrillic then
 						end_index := test.s_32.count
 						test.set_substrings (end_index - 1, end_index)
-					when 2 then
+
+					when Line_ascii then
 						start_index := test.s_32.substring_index ("at", 1)
 						test.set_substrings (start_index, start_index + 1)
-					when 3 then
+
+					when Line_accented then
 						start_index := test.s_32.index_of ('ú', 1)
 						test.set_substrings (start_index, start_index)
-					when 6 then -- Le Quattro Stagioni
+						
+					when Line_quattro then
 						start_index := test.s_32.index_of ('´', 1)
 						test.set_substrings (start_index, start_index)
 				else
@@ -811,7 +814,7 @@ feature -- Duplication tests
 				str_32 := line.item
 				if line.cursor_index = 1 then
 					-- Test escaping the substitution marker
-					str_32.replace_substring_all ({STRING_32} "воду", Text.Escaped_substitution_marker)
+					str_32.replace_substring_all ({STRING_32} "воду", Escaped_substitution_marker)
 				end
 				template_32 := str_32.twin
 				tuple := Text.Substituted_words [line.cursor_index]
@@ -838,7 +841,7 @@ feature -- Duplication tests
 				substituted := str.substituted_tuple (tuple)
 				if line.cursor_index = 1 then
 					index := substituted.index_of ('%S', 1)
-					substituted.replace_substring_general (Text.Escaped_substitution_marker, index, index)
+					substituted.replace_substring_general (Escaped_substitution_marker, index, index)
 				end
 				assert_same_string ("substitute_tuple OK", substituted, str_32)
 			end

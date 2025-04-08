@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:13:27 GMT (Friday 13th September 2024)"
-	revision: "56"
+	date: "2025-04-08 15:57:49 GMT (Tuesday 8th April 2025)"
+	revision: "57"
 
 class
 	EL_PYXIS_PARSER
@@ -26,8 +26,6 @@ inherit
 	EL_PYXIS_UNESCAPE_CONSTANTS; EL_PYXIS_PARSER_CONSTANTS
 
 	EL_CHARACTER_8_CONSTANTS
-
-	EL_SHARED_STRING_8_CURSOR
 
 	EL_SHARED_CLASS_ID
 

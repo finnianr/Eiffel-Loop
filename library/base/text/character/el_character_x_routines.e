@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 10:47:32 GMT (Monday 7th April 2025)"
-	revision: "38"
+	date: "2025-04-08 9:50:33 GMT (Tuesday 8th April 2025)"
+	revision: "39"
 
 deferred class
 	EL_CHARACTER_X_ROUTINES [CHAR -> COMPARABLE]
 
 inherit
 	EL_BIT_COUNTABLE
+
+	EL_CASE_CONTRACT
 
 feature -- Access
 
@@ -136,36 +138,30 @@ feature -- Status query
 			end
 		end
 
+	is_eiffel_identifier_area (area: SPECIAL [CHAR]; start_index, end_index: INTEGER; case_code: NATURAL_8): BOOLEAN
+		-- `True' if set of characters in `area' between `start_index' to `end_index'
+		-- is a subset of `set'
+		require
+			valid_case: is_valid_case (case_code)
+		local
+			i: INTEGER
+		do
+			Result := True
+			from i := start_index until i > end_index or not Result loop
+				if is_valid_eiffel_case (area [i], case_code, i = start_index) then
+					i := i + 1
+				else
+					Result := False
+				end
+			end
+		end
+
 	is_left_bracket (c: CHAR): BOOLEAN
 		do
 			inspect right_bracket_offset (c)
 				when 1, 2 then
 					Result := True
 			else
-			end
-		end
-
-	is_valid_eiffel_case (c: CHARACTER_8; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
-		do
-			inspect c
-				when 'a' .. 'z' then
-					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
-						Result := False
-					else
-						Result := (case_code & {EL_CASE}.lower).to_boolean
-					end
-
-				when 'A' .. 'Z' then
-					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
-						Result := True
-					else
-						Result := (case_code & {EL_CASE}.upper).to_boolean
-					end
-
-				when '0' .. '9', '_' then
-					Result := not first_i
-			else
-				Result := False
 			end
 		end
 
@@ -215,6 +211,10 @@ feature {NONE} -- Deferred
 	is_c_identifier (c: CHAR; is_first: BOOLEAN): BOOLEAN
 		-- `True' if `c' is valid character in C language identifier
 		-- where `is_first' indicates if `c' is first character in identifer
+		deferred
+		end
+
+	is_valid_eiffel_case (c: CHAR; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
 		deferred
 		end
 

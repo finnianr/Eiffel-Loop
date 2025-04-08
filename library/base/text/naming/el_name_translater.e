@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 13:10:59 GMT (Saturday 29th March 2025)"
-	revision: "12"
+	date: "2025-04-08 9:51:15 GMT (Tuesday 8th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_NAME_TRANSLATER
@@ -23,6 +23,8 @@ inherit
 		redefine
 			default_create
 		end
+
+	EL_CASE_CONTRACT
 
 feature {NONE} -- Initialization
 
@@ -42,7 +44,7 @@ feature {NONE} -- Initialization
 
 	make_case (case: NATURAL_8)
 		require
-			valid_case: (create {EL_CASE}).is_valid (case)
+			valid_case: is_valid_case (case)
 		do
 			default_create
 			foreign_case := case

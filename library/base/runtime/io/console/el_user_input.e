@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:20:39 GMT (Monday 31st March 2025)"
-	revision: "27"
+	date: "2025-04-08 19:06:31 GMT (Tuesday 8th April 2025)"
+	revision: "28"
 
 class
 	EL_USER_INPUT
@@ -47,10 +47,8 @@ feature -- Status query
 
 	escape_pressed: BOOLEAN
 		-- `True' if last user line input was `Quit_character' character
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			Result := s.starts_with_character (io.last_string, Quit_character)
+			Result := super_8 (io.last_string).starts_with_character (Quit_character)
 		end
 
 feature -- Basic operations

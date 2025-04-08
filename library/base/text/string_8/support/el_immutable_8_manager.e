@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:31:41 GMT (Saturday 5th April 2025)"
-	revision: "9"
+	date: "2025-04-08 14:26:36 GMT (Tuesday 8th April 2025)"
+	revision: "10"
 
 class
 	EL_IMMUTABLE_8_MANAGER
@@ -19,8 +19,6 @@ inherit
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [IMMUTABLE_STRING_8]
-
-	EL_SHARED_STRING_8_CURSOR
 
 feature -- Status query
 
@@ -38,8 +36,8 @@ feature {NONE} -- Contract Support
 
 	same_area_items (a_area: SPECIAL [CHARACTER_8]; offset, a_count: INTEGER): BOOLEAN
 		do
-			if attached cursor_8 (item) as c then
-				Result := c.area.same_items (a_area, offset, c.index_lower, a_count)
+			if attached super_readable_8 (item) as super then
+				Result := super.area.same_items (a_area, offset, super.index_lower, a_count)
 			end
 		end
 feature {NONE} -- Implementation

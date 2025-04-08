@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:58:20 GMT (Thursday 13th February 2025)"
-	revision: "8"
+	date: "2025-04-08 13:15:33 GMT (Tuesday 8th April 2025)"
+	revision: "9"
 
 class
 	LIBRARY_CLASS
@@ -22,7 +22,7 @@ inherit
 
 	EL_MODULE_FILE
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make
@@ -42,7 +42,7 @@ feature -- Access
 
 	circular_dependent: detachable LIBRARY_CLASS
 
-	class_reference_set: EL_HASH_SET [STRING]
+	class_reference_set: EL_NAME_SET
 
 	name: STRING
 
@@ -63,16 +63,18 @@ feature {NONE} -- Line state
 
 	compile_class_names (line: STRING)
 		local
-			splitter: EL_SPLIT_ON_CHARACTER_8 [STRING]; word: STRING
+			split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		do
 			line.left_adjust
-			create splitter.make (line, ' ')
-			across splitter as split loop
-				word := split.item
-				if cursor_8 (word).is_eiffel_upper and then word /~ name then
-					if not class_reference_set.has (word) then
-						class_reference_set.put (word.twin)
+			create split_list.make_shared_adjusted (line, ' ', 0)
+			if attached split_list as list then
+				from list.start until list.after loop
+					if not list.item_same_as (name) and then attached list.item as word then
+						if super_readable_8 (word).is_eiffel_upper and then not class_reference_set.has (word) then
+							class_reference_set.put (word)
+						end
 					end
+					list.forth
 				end
 			end
 		end

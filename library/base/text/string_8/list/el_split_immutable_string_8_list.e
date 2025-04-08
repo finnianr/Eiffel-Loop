@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 7:03:09 GMT (Sunday 6th April 2025)"
-	revision: "17"
+	date: "2025-04-08 14:47:01 GMT (Tuesday 8th April 2025)"
+	revision: "18"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -29,8 +29,6 @@ inherit
 	EL_STRING_BIT_COUNTABLE [IMMUTABLE_STRING_8]
 
 	EL_SHARED_IMMUTABLE_8_MANAGER
-
-	EL_SHARED_STRING_8_CURSOR
 
 create
 	make_by_string, make_adjusted, make_adjusted_by_string,
@@ -77,9 +75,9 @@ feature {NONE} -- Implementation
 			Result := a_target [i] = uc.to_character_8
 		end
 
-	shared_cursor: EL_STRING_8_ITERATION_CURSOR
+	extended_target: EL_EXTENDED_READABLE_STRING_I [CHARACTER]
 		do
-			Result := cursor_8 (target_string)
+			Result := super_readable_8 (target_string)
 		end
 
 	shared_target_substring (lower, upper: INTEGER): IMMUTABLE_STRING_8

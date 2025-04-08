@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
-	revision: "10"
+	date: "2025-04-08 14:49:57 GMT (Tuesday 8th April 2025)"
+	revision: "11"
 
 class
 	EL_STRING_8_UNESCAPER
@@ -16,8 +16,6 @@ inherit
 	EL_STRING_GENERAL_UNESCAPER [READABLE_STRING_8, STRING_8]
 
 	EL_STRING_8_CONSTANTS
-
-	EL_SHARED_STRING_8_CURSOR
 
 create
 	make
@@ -63,10 +61,9 @@ feature {NONE} -- Implementation
 			char_i, esc_char: CHARACTER_8
 		do
 			esc_char := escape_code.to_character_8
-			if attached cursor_8 (str) as l_cursor then
-				l_area := l_cursor.area
-				first_index := l_cursor.index_lower
-				last_index := l_cursor.index_upper
+			if attached super_readable_8 (str) as super then
+				l_area := super.area
+				first_index := super.index_lower; last_index := super.index_upper
 			end
 
 			create Result.make_empty (str.count)

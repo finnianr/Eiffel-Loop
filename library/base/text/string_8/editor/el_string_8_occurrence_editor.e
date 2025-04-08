@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 7:03:47 GMT (Sunday 6th April 2025)"
-	revision: "11"
+	date: "2025-04-08 15:58:49 GMT (Tuesday 8th April 2025)"
+	revision: "12"
 
 class
 	EL_STRING_8_OCCURRENCE_EDITOR
@@ -41,8 +41,6 @@ inherit
 
 	EL_SHARED_STRING_8_BUFFER_POOL
 
-	EL_SHARED_STRING_8_CURSOR
-
 create
 	make, make_empty, make_by_string, make_adjusted, make_adjusted_by_string
 
@@ -63,11 +61,6 @@ feature {NONE} -- Implementation
 	same_i_th_character (a_target: STRING_8; i: INTEGER; uc: CHARACTER_32): BOOLEAN
 		do
 			Result := a_target [i] = uc.to_character_8
-		end
-
-	shared_cursor: EL_STRING_ITERATION_CURSOR
-		do
-			Result := Cursor_8 (target)
 		end
 
 	wipe_out_target

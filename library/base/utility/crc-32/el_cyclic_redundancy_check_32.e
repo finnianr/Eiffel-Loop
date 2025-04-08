@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
-	revision: "37"
+	date: "2025-04-08 14:24:55 GMT (Tuesday 8th April 2025)"
+	revision: "38"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -41,9 +41,11 @@ inherit
 			add_ise_path, add_path
 		end
 
+	EL_STRING_GENERAL_ROUTINES_I
+
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
 
-	EL_SHARED_PATH_MANAGER; EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_PATH_MANAGER
 
 	PLATFORM
 		export
@@ -265,16 +267,16 @@ feature -- Add strings
 			if is_zstring (str) and then attached {ZSTRING} str as z_str then
 				add_string (z_str)
 
-			elseif attached cursor_32 (str) as c then
-				add_to_checksum (c.area.base_address + c.index_lower, str.count, character_32_bytes)
+			elseif attached super_readable_32 (str) as super then
+				add_to_checksum (super.area.base_address + super.index_lower, str.count, character_32_bytes)
 			end
 		end
 
 	add_string_8 (str: READABLE_STRING_8)
 			--
 		do
-			if attached cursor_8 (str) as c then
-				add_to_checksum (c.area.base_address + c.index_lower, str.count, character_8_bytes)
+			if attached super_readable_8 (str) as super then
+				add_to_checksum (super.area.base_address + super.index_lower, str.count, character_8_bytes)
 			end
 		end
 

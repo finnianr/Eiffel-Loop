@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:57:16 GMT (Saturday 5th April 2025)"
-	revision: "203"
+	date: "2025-04-08 18:08:14 GMT (Tuesday 8th April 2025)"
+	revision: "204"
 
 class
 	BASE_AUTOTEST_APP
@@ -38,7 +38,6 @@ inherit
 		SE_ARRAY2_TEST_SET,
 		SPLIT_STRING_TEST_SET,
 		STRING_CONVERSION_TEST_SET,
-		STRING_ITERATION_CURSOR_TEST_SET,
 		STRING_LIST_TEST_SET,
 		STRING_TEST_SET,
 		SUBSTRING_32_ARRAY_TEST_SET,
@@ -285,6 +284,7 @@ feature {NONE} -- Compiled classes
 
 		EL_MAKEABLE_FROM_STRING [STRING_GENERAL],
 		EL_MODULE_UTF_8,
+		EL_NAME_SET,
 
 		EL_SHARED_SYMBOL, EL_STRING_GENERAL_ROUTINES
 	]
@@ -332,7 +332,6 @@ note
 			${SE_ARRAY2_TEST_SET},
 			${SPLIT_STRING_TEST_SET},
 			${STRING_CONVERSION_TEST_SET},
-			${STRING_ITERATION_CURSOR_TEST_SET},
 			${STRING_LIST_TEST_SET},
 			${STRING_TEST_SET},
 			${SUBSTRING_32_ARRAY_TEST_SET},

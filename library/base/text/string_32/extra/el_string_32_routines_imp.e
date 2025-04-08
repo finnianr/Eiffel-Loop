@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:23:31 GMT (Saturday 5th April 2025)"
-	revision: "69"
+	date: "2025-04-08 14:14:50 GMT (Tuesday 8th April 2025)"
+	revision: "70"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -15,8 +15,7 @@ class
 inherit
 	EL_STRING_X_ROUTINES [STRING_32, READABLE_STRING_32, CHARACTER_32]
 		rename
-			shared_cursor_32 as cursor,
-			extended_string as super_readable_32
+			super_readable_32 as extended_string
 		undefine
 			bit_count
 		end
@@ -74,10 +73,10 @@ feature -- Character query
 	is_subset_of (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN
 		-- `True' if set of all characters in `str' is a subset of `set'
 		local
-			r: EL_CHARACTER_32_ROUTINES
+			c: EL_CHARACTER_32_ROUTINES
 		do
-			if attached cursor (str) as c then
-				Result := r.is_subset_of (set, c.area, c.index_lower, c.index_upper)
+			if attached super_32 (str) as s then
+				Result := c.is_subset_of (set, s.area, s.index_lower, s.index_upper)
 			end
 		end
 

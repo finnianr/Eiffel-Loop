@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 9:02:53 GMT (Thursday 3rd April 2025)"
-	revision: "3"
+	date: "2025-04-08 14:36:27 GMT (Tuesday 8th April 2025)"
+	revision: "4"
 
 class
 	EL_IMMUTABLE_UTF_8_LIST
@@ -25,7 +25,7 @@ inherit
 			copy, is_equal
 		end
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_UTF_8_SEQUENCE
+	EL_SHARED_UTF_8_SEQUENCE
 
 create
 	make, make_empty
@@ -34,8 +34,8 @@ feature -- Measurement
 
 	item_index_of (uc: CHARACTER_32): INTEGER
 		do
-			if attached cursor_8 (item) as c8 then
-				Result := Utf_8_sequence.character_index_of (uc, c8.area, c8.index_lower, c8.index_upper)
+			if attached super_readable_8 (item) as super then
+				Result := Utf_8_sequence.character_index_of (uc, super.area, super.index_lower, super.index_upper)
 			end
 		end
 
@@ -47,13 +47,13 @@ feature {NONE} -- Implementation
 			u_area, v_area: SPECIAL [CHARACTER]
 		do
 			if attached Utf_8_sequence as utf_8 then
-				if attached cursor_8 (u) as c8 then
-					u_area := c8.area; u_index := c8.index_lower
+				if attached super_readable_8 (u) as super then
+					u_area := super.area; u_index := super.index_lower
 				end
 				u_count := unicode_count (u)
 
-				if attached cursor_8 (v) as c8 then
-					v_area := c8.area; v_index := c8.index_lower
+				if attached super_readable_8 (v) as super then
+					v_area := super.area; v_index := super.index_lower
 				end
 				v_count := unicode_count (v)
 

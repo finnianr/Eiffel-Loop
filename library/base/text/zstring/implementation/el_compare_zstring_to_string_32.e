@@ -9,18 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:53:13 GMT (Thursday 3rd April 2025)"
-	revision: "9"
+	date: "2025-04-08 14:08:53 GMT (Tuesday 8th April 2025)"
+	revision: "10"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_32
 
 inherit
 	EL_COMPARABLE_ZSTRING_INTERVALS [CHARACTER_32, READABLE_STRING_32]
-
-	EL_SHARED_STRING_32_CURSOR
 		rename
-			cursor_32 as string_cursor
+			super_readable_32 as extended_string
 		end
 
 create
@@ -28,10 +26,10 @@ create
 
 feature -- Element change
 
-	set_other_area (a_cursor: like string_cursor)
+	set_other_area (a_string: like extended_string)
 		do
-			other_area := a_cursor.area
-			other_area_first_index := a_cursor.index_lower
+			other_area := a_string.area
+			other_area_first_index := a_string.index_lower
 		end
 
 feature {NONE} -- Implementation

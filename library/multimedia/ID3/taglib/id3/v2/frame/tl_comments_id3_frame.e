@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-11-11 14:30:54 GMT (Saturday 11th November 2023)"
-	revision: "11"
+	date: "2025-04-08 15:52:41 GMT (Tuesday 8th April 2025)"
+	revision: "12"
 
 class
 	TL_COMMENTS_ID3_FRAME
@@ -22,11 +22,9 @@ inherit
 			{TL_ID3_FRAME_ITERATION_CURSOR} cpp_conforms
 		end
 
-	TL_SHARED_BYTE_VECTOR
+	TL_SHARED_BYTE_VECTOR; TL_SHARED_ONCE_STRING
 
-	TL_SHARED_ONCE_STRING
-
-	EL_SHARED_STRING_8_CURSOR
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make, make_from_pointer
@@ -48,10 +46,11 @@ feature -- Access
 			c: EL_CHARACTER_8_ROUTINES
 		do
 			cpp_get_language (self_ptr, Once_byte_vector.self_ptr)
+			if attached Once_byte_vector.to_string_8 as tmp_str then
+				create Result.make (tmp_str.count)
 			-- Filter anything that is not in set 'a' .. 'z', 'A' .. 'Z'
 			-- (weird characters found in test files)
-			if attached Once_byte_vector.to_string_8 as tmp_str then
-				Result := cursor_8 (tmp_str).filtered (agent c.is_a_to_z_caseless)
+				super_8 (tmp_str).filter (agent c.is_a_to_z_caseless, Result)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 10:52:54 GMT (Monday 7th April 2025)"
-	revision: "5"
+	date: "2025-04-08 15:38:51 GMT (Tuesday 8th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -58,6 +58,13 @@ feature {NONE} -- Implementation
 			c: EL_CHARACTER_8_ROUTINES
 		do
 			Result := c.is_c_identifier_area (area, i_lower, i_upper)
+		end
+
+	is_eiffel_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER; case: NATURAL_8): BOOLEAN
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_eiffel_identifier_area (area, i_lower, i_upper, case)
 		end
 
 	is_i_th_alpha (a_area: like area; i: INTEGER): BOOLEAN

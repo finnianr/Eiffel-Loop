@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
-	revision: "21"
+	date: "2025-04-08 18:59:50 GMT (Tuesday 8th April 2025)"
+	revision: "22"
 
 class
 	PP_HTTP_RESPONSE
@@ -115,14 +115,12 @@ feature {NONE} -- Implementation
 
 	set_name_value (key, value: EL_ZSTRING)
 		local
-			table: like field_table; s: EL_STRING_8_ROUTINES
 			index_dot: INTEGER
 		do
-			table := field_table
-			if table.has_imported_key (key) then
+			if attached field_table as table and then table.has_imported_key (key) then
 				if attached {EL_REFLECTED_DATE_TIME} table.found_item as date_time then
 					index_dot := value.last_index_of ('.', value.count)
-					if s.ends_with_character (date_time.format (Current), 'Z') and then index_dot > 0 then
+					if super_8 (date_time.format (Current)).ends_with_character ('Z') and then index_dot > 0 then
 					-- Correct invalid "2023-12-05T05:56:21.668" to "2023-12-05T05:56:21Z"
 					-- (happens when an internal error is being reported)
 						value.replace_substring_general (char ('Z'), index_dot, value.count)

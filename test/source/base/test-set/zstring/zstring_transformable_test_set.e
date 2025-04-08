@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 8:59:05 GMT (Friday 4th April 2025)"
-	revision: "13"
+	date: "2025-04-08 12:58:02 GMT (Tuesday 8th April 2025)"
+	revision: "14"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -69,7 +69,7 @@ feature -- Tests
 				upper := lower.as_upper
 				change_case (lower, upper)
 			end
-			change_case (Text.Lower_case_characters, Text.Upper_case_characters)
+			change_case (Lower_case_characters, Upper_case_characters)
 
 			across Text.lines_32 as line until line.cursor_index > 2 loop
 				str_32 := line.item; str := str_32

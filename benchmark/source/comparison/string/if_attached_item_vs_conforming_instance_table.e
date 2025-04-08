@@ -27,29 +27,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 9:31:24 GMT (Sunday 6th October 2024)"
-	revision: "7"
+	date: "2025-04-08 18:54:39 GMT (Tuesday 8th April 2025)"
+	revision: "8"
 
 class
 	IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE
 
 inherit
 	STRING_BENCHMARK_COMPARISON
-
-	EL_SHARED_STRING_8_CURSOR
-		rename
-			cursor_8 as shared_cursor_8
-		end
-
-	EL_SHARED_STRING_32_CURSOR
-		rename
-			cursor_32 as shared_cursor_32
-		end
-
-	EL_SHARED_ZSTRING_CURSOR
-		rename
-			cursor_z as shared_cursor_z
-		end
 
 	EL_SHARED_CLASS_ID
 
@@ -89,8 +74,8 @@ feature -- Basic operations
 			end
 
 			compare ("compare branching to table", <<
-				["if general.is_string_32", agent use_shared_cursor_elseif (mixed_string_list)],
-				["Class_id inspect",			 agent use_shared_cursor_class_id (mixed_string_list)],
+				["if general.is_string_32", agent use_super_readable_elseif (mixed_string_list)],
+				["Class_id inspect",			 agent use_super_readable_class_id (mixed_string_list)],
 				["tuple sorter class",		 agent use_tuple_sort (mixed_string_list)],
 				["sorter class",				 agent use_sorter_class (mixed_string_list)],
 				["type id hash lookup",		 agent use_hash_table (mixed_string_list)],
@@ -102,122 +87,122 @@ feature {NONE} -- Target routines
 
 	use_map_list (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
 		local
-			l_cursor: EL_STRING_ITERATION_CURSOR
+			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				l_cursor := Cursor_type_map.shared (list.item)
+				super := Extended_string_type_map.extended_string (list.item)
 			end
 		end
 
-	use_shared_cursor_class_id (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
+	use_super_readable_class_id (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
 		local
-			l_cursor: EL_STRING_ITERATION_CURSOR; c: EL_READABLE_STRING_GENERAL_ROUTINES
+			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; sc: EL_STRING_GENERAL_ROUTINES
 		do
 			across mixed_string_list as list loop
-				l_cursor := c.shared_cursor (list.item)
+				super := sc.super_readable_general (list.item)
 			end
 		end
 
-	use_shared_cursor_elseif (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
+	use_super_readable_elseif (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
 		local
-			l_cursor: EL_STRING_ITERATION_CURSOR
+			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				l_cursor := shared_cursor_elseif (list.item)
+				super := super_readable_elseif (list.item)
 			end
 		end
 
 	use_sorter_class (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
 		local
-			l_cursor: EL_STRING_ITERATION_CURSOR
+			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				l_cursor := shared_cursor_sorter_class (list.item)
+				super := super_readable_sorter_class (list.item)
 			end
 		end
 
 	use_tuple_sort (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
 		local
-			l_cursor: EL_STRING_ITERATION_CURSOR
+			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				l_cursor := shared_cursor_tuple_assign (list.item)
+				super := super_readable_tuple_assign (list.item)
 			end
 		end
 
 feature {NONE} -- Implementation
 
-	shared_cursor_elseif (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
+	super_readable_elseif (general: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			if general.is_string_32 then
 				if attached {EL_READABLE_ZSTRING} general as zstr then
-					Result := shared_cursor_z (zstr)
+					Result := super_readable (zstr)
 
 				elseif attached {READABLE_STRING_32} general as str_32 then
-					Result := shared_cursor_32 (str_32)
+					Result := super_readable_32 (str_32)
 				else
-					Result := shared_cursor_32 (general.to_string_32)
+					Result := super_readable_32 (general.to_string_32)
 				end
 
 			elseif attached {READABLE_STRING_8} general as str_8 then
-				Result := shared_cursor_8 (str_8)
+				Result := super_readable_8 (str_8)
 			else
-				Result := shared_cursor_32 (general.to_string_32)
+				Result := super_readable_32 (general.to_string_32)
 			end
 		end
 
-	shared_cursor_sorter_class (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
+	super_readable_sorter_class (general: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			if attached Type_sorter as sorter then
 				sorter.set_from (general)
 				inspect sorter.string_storage_type
 					when '1' then
-						Result := shared_cursor_8 (sorter.readable_8)
+						Result := super_readable_8 (sorter.readable_8)
 
 					when '4' then
-						Result := shared_cursor_32 (sorter.readable_32)
+						Result := super_readable_32 (sorter.readable_32)
 
 					when 'X' then
-						Result := shared_cursor_z (sorter.readable_z)
+						Result := super_readable (sorter.readable_z)
 				end
 			end
 		end
 
-	shared_cursor_tuple_assign (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
+	super_readable_tuple_assign (general: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		local
 			sorter: STRING_TUPLE_ASSIGN_SORTER
 		do
 			if attached sorter.allocated (general) as tuple then
 				inspect tuple.storage_type
 					when '1' then
-						Result := shared_cursor_8 (tuple.readable_8)
+						Result := super_readable_8 (tuple.readable_8)
 
 					when '4' then
-						Result := shared_cursor_32 (tuple.readable_32)
+						Result := super_readable_32 (tuple.readable_32)
 
 					when 'X' then
-						Result := shared_cursor_z (tuple.readable_Z)
+						Result := super_readable (tuple.readable_Z)
 				end
 			end
 		end
 
 	use_hash_table (mixed_string_list: ARRAYED_LIST [READABLE_STRING_GENERAL])
 		local
-			l_cursor: EL_STRING_ITERATION_CURSOR
+			super: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			across mixed_string_list as list loop
-				l_cursor := String_cursor.shared (list.item)
+				super := String_cursor.shared (list.item)
 			end
 		end
 
 feature {NONE} -- Constants
 
-	Cursor_type_map: STRING_ITERATION_CURSOR_TYPE_MAP
+	Extended_string_type_map: EXTENDED_READABLE_STRING_TYPE_MAP
 		once
 			create Result.make
 		end
 
-	String_cursor: STRING_ITERATION_CURSOR_TABLE
+	String_cursor: EXTENDED_READABLE_STRING_TABLE
 			--
 		once
 			create Result.make

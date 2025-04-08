@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-15 11:37:32 GMT (Monday 15th January 2024)"
-	revision: "12"
+	date: "2025-04-08 18:30:04 GMT (Tuesday 8th April 2025)"
+	revision: "13"
 
 deferred class
 	STRING_BENCHMARK_COMPARISON
@@ -23,7 +23,7 @@ inherit
 
 	EL_STRING_8_CONSTANTS
 
-	STRING_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature {NONE} -- Constants
 

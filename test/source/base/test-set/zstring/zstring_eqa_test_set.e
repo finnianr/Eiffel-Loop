@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:30:46 GMT (Saturday 5th April 2025)"
-	revision: "4"
+	date: "2025-04-08 12:55:37 GMT (Tuesday 8th April 2025)"
+	revision: "5"
 
 deferred class
 	ZSTRING_EQA_TEST_SET
@@ -19,7 +19,7 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES_I
 
-	EL_ZSTRING_CONSTANTS
+	EL_TEST_TEXT_CONSTANTS; EL_ZSTRING_CONSTANTS
 
 feature {NONE} -- Implementation
 

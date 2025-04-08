@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 13:03:41 GMT (Tuesday 25th March 2025)"
-	revision: "36"
+	date: "2025-04-08 12:59:08 GMT (Tuesday 8th April 2025)"
+	revision: "37"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -32,7 +32,7 @@ inherit
 
 	EL_SHARED_TEST_TEXT; EL_SHARED_TEST_NUMBERS; EL_SHARED_TEST_XDOC_DATA
 
-	EL_STRING_8_CONSTANTS
+	EL_TEST_TEXT_CONSTANTS; EL_STRING_8_CONSTANTS
 
 create
 	make
@@ -123,10 +123,10 @@ feature -- Test
 			line_pattern := while_not_p_match_any (end_of_line_character)
 			line_pattern.set_leading_text_action (agent on_line (?, ?, line_list))
 			pattern := zero_or_more (line_pattern)
-			set_source_text (Text.Eiffel_type_declarations)
+			set_source_text (Eiffel_type_declarations)
 			pattern.parse (source_text)
 			if pattern.is_matched then
-				across Text.Eiffel_type_declarations.split ('%N') as line loop
+				across Eiffel_type_declarations.split ('%N') as line loop
 					if line_list.valid_index (line.cursor_index) then
 						assert_same_string ("text reconstructed", line_list [line.cursor_index], line.item)
 					else
@@ -148,7 +148,7 @@ feature -- Test
 			create padding.make_filled (' ', 2)
 			create output.make_empty
 			pattern := class_name |to| agent append_to (?, ?, output)
-			across Text.Eiffel_type_declarations.split ('%N') as line loop
+			across Eiffel_type_declarations.split ('%N') as line loop
 				set_source_text (line.item)
 				source_text.prepend (padding); source_text.append (padding)
 				output.wipe_out
@@ -202,7 +202,7 @@ feature -- Test
 			name := "STRING"
 			create output.make_empty
 			pattern := hash_table_pattern (agent append_to (?, ?, output))
-			set_source_text (Text.Eiffel_type_declarations)
+			set_source_text (Eiffel_type_declarations)
 			pattern.find_all (source_text, Void)
 			assert ("same text", output ~ name.multiplied (6))
 		end
@@ -353,7 +353,7 @@ feature -- Test
 			core := optimal_core (type_string)
 
 			eiffel_type := class_type
-			across Text.Eiffel_type_declarations.split ('%N') as line loop
+			across Eiffel_type_declarations.split ('%N') as line loop
 				type_string := line.item
 				assert ("match OK", type_string.matches (eiffel_type))
 				type_string := type_string + " X"

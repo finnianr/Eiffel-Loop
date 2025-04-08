@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 8:02:32 GMT (Tuesday 8th April 2025)"
-	revision: "4"
+	date: "2025-04-08 15:51:38 GMT (Tuesday 8th April 2025)"
+	revision: "5"
 
 class TUPLE_TEST_SET inherit EL_EQA_TEST_SET
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_STRING_GENERAL_ROUTINES_I
 
 create
 	make
@@ -51,7 +51,7 @@ feature -- Tests
 			create name_list.make_from_tuple (name)
 			assert ("same count", name_list.count = name.count)
 			across name_list as list loop
-				if attached cursor_8 (list.item).area as item_area then
+				if attached super_readable_8 (list.item).area as item_area then
 					if attached shared_area as area then
 						assert ("same area", area = item_area)
 					else

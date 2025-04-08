@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 8:38:15 GMT (Monday 7th April 2025)"
-	revision: "80"
+	date: "2025-04-08 14:53:42 GMT (Tuesday 8th April 2025)"
+	revision: "81"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -628,9 +628,9 @@ feature {NONE} -- Implementation
 	fully_encoded_area (general: READABLE_STRING_GENERAL; index: INTEGER): detachable like area
 		do
 			if general.is_string_8 and then attached compatible_string_8 (general) as str_8 then
-				if str_8.is_immutable and then attached cursor_8 (str_8) as c then
+				if str_8.is_immutable and then attached super_readable_8 (str_8) as super then
 					create Result.make_empty (str_8.count)
-					Result.copy_data (c.area, c.index_lower, 0, str_8.count)
+					Result.copy_data (super.area, super.index_lower, 0, str_8.count)
 
 				elseif attached {STRING_8} str_8 as s then
 					Result := s.area

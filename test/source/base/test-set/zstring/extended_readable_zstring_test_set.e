@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 19:18:39 GMT (Sunday 6th April 2025)"
-	revision: "3"
+	date: "2025-04-08 15:53:34 GMT (Tuesday 8th April 2025)"
+	revision: "4"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -30,7 +30,10 @@ feature {NONE} -- Initialization
 				["append_substring_to_string_8",	 agent test_append_substring_to_string_8],
 				["ascii_query",						 agent test_ascii_query],
 				["character_counts",					 agent test_character_counts],
+				["filtered",							 agent test_filtered],
+				["is_eiffel_name",					 agent test_is_eiffel_name],
 				["is_variable_reference",			 agent test_is_variable_reference],
+				["occurrences_in_bounds",			 agent test_occurrences_in_bounds],
 				["same_string",						 agent test_same_string],
 				["word_count",							 agent test_word_count]
 			>>)
@@ -193,6 +196,39 @@ feature -- Tests
 			end
 		end
 
+	test_filtered
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_filtered
+		note
+			testing: "covers/{EL_EXTENDED_READABLE_STRING_I}.filtered"
+		local
+			c: EL_CHARACTER_8_ROUTINES; str:	 STRING
+		do
+			create str.make_empty
+			super_readable_8 (padded_8 ('%T')).filter (agent c.is_a_to_z_lower, str)
+			assert ("is abc", str ~ "abc" )
+			assert ("trimmed", str.capacity = str.count)
+		end
+
+	test_is_eiffel_name
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_is_eiffel_name
+		note
+			testing: "[
+				covers/{EL_EXTENDED_READABLE_STRING_I}.is_eiffel_title,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.is_eiffel_lower,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.is_eiffel_upper
+			]"
+		do
+			if attached padded_8 ('%T').shared_substring (2, 4) as abc then
+			-- test uing immutable string
+				assert ("abc", abc.same_string ("abc"))
+				assert ("is eiffel lower", super_readable_8 (abc).is_eiffel_lower)
+				assert ("is not eiffel upper", not super_readable_8 (abc).is_eiffel_upper)
+				assert ("is not eiffel title", not super_readable_8 (abc).is_eiffel_title)
+				assert ("is not eiffel title", not super_readable_8 (abc.as_upper).is_eiffel_title)
+				assert ("is eiffel title", super_readable_8 ("Abc").is_eiffel_title)
+			end
+		end
+
 	test_is_variable_reference
 		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_is_variable_reference
 		local
@@ -205,6 +241,27 @@ feature -- Tests
 						i := list.cursor_index
 						assert ("expected result", super_str.is_variable_reference = is_variable_reference [i])
 					end
+				end
+			end
+		end
+
+	test_occurrences_in_bounds
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_occurrences_in_bounds
+		local
+			expected_occurrences, occurrences: INTEGER; first: CHARACTER_32
+		do
+			across Text.lines as line loop
+				if attached line.item as str then
+					first := str [1]
+					occurrences := super_readable (str).occurrences_in_bounds (first, 5, str.count - 5)
+					inspect line.cursor_index
+						when Line_cyrillic, Line_accented, Line_quattro then
+							expected_occurrences := 1
+						when Line_ascii, Line_latin_1, Line_latin_15, Line_euro then
+							expected_occurrences := 0
+					else
+					end
+					assert ("as expected", expected_occurrences = occurrences)
 				end
 			end
 		end

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 7:18:41 GMT (Tuesday 8th April 2025)"
-	revision: "59"
+	date: "2025-04-08 10:39:13 GMT (Tuesday 8th April 2025)"
+	revision: "60"
 
 class
 	EL_TUPLE_ROUTINES
@@ -643,8 +643,6 @@ feature -- Contract Support
 	is_convertible (
 		tuple: TUPLE; part_list: READABLE_STRING_GENERAL; separator: CHARACTER; left_adjusted: BOOLEAN
 	): BOOLEAN
-		local
-			type_id: INTEGER
 		do
 			if part_list.occurrences (separator) + 1 >= tuple.count and then attached type_array (tuple) as type
 				and then attached Convert_string as cs

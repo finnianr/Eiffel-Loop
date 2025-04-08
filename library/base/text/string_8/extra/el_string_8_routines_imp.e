@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:23:31 GMT (Saturday 5th April 2025)"
-	revision: "41"
+	date: "2025-04-08 14:21:03 GMT (Tuesday 8th April 2025)"
+	revision: "42"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -17,8 +17,7 @@ inherit
 		rename
 			character_string as character_32_string,
 			n_character_string as n_character_32_string,
-			shared_cursor_8 as cursor,
-			extended_string as super_readable_8
+			super_readable_8 as extended_string
 		undefine
 			bit_count
 		redefine
@@ -77,12 +76,12 @@ feature -- Basic operations
 
 	set_substring_lower (str: STRING_8; start_index, end_index: INTEGER)
 		do
-			set_substring_case (str, start_index, end_index, Lower_case)
+			set_substring_case (str, start_index, end_index, {EL_CASE}.Lower)
 		end
 
 	set_substring_upper (str: STRING_8; start_index, end_index: INTEGER)
 		do
-			set_substring_case (str, start_index, end_index, Upper_case)
+			set_substring_case (str, start_index, end_index, {EL_CASE}.Upper)
 		end
 
 feature -- Character query
@@ -110,10 +109,10 @@ feature -- Character query
 	is_subset_of (str: READABLE_STRING_8; set: EL_SET [CHARACTER_8]): BOOLEAN
 		-- `True' if set of all characters in `str' is a subset of `set'
 		local
-			r: EL_CHARACTER_8_ROUTINES
+			c: EL_CHARACTER_8_ROUTINES
 		do
-			if attached cursor (str) as c then
-				Result := r.is_subset_of (set, c.area, c.index_lower, c.index_upper)
+			if attached extended_string (str) as s then
+				Result := c.is_subset_of (set, s.area, s.index_lower, s.index_upper)
 			end
 		end
 
@@ -386,10 +385,10 @@ feature {NONE} -- Implementation
 		do
 			from i := start_index until i > end_index loop
 				inspect case
-					when Lower_case then
+					when {EL_CASE}.Lower then
 						set_lower (str, i)
 
-					when Upper_case then
+					when {EL_CASE}.Upper then
 						set_upper (str, i)
 				else
 				end

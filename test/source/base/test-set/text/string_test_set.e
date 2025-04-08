@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:54:40 GMT (Saturday 5th April 2025)"
-	revision: "40"
+	date: "2025-04-08 18:24:13 GMT (Tuesday 8th April 2025)"
+	revision: "41"
 
 class
 	STRING_TEST_SET
@@ -22,8 +22,6 @@ inherit
 	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT
-
-	EL_SHARED_STRING_32_CURSOR; EL_SHARED_STRING_8_CURSOR
 
 	SHARED_COLOR_ENUM
 
@@ -54,8 +52,7 @@ feature {NONE} -- Initialization
 				["readable_has_member",			agent test_readable_has_member],
 				["remove_bookends",				agent test_remove_bookends],
 				["selected_name",					agent test_selected_name],
-				["variable_pattern",				agent test_variable_pattern],
-				["word_count",						agent test_word_count]
+				["variable_pattern",				agent test_variable_pattern]
 			>>)
 		end
 
@@ -200,23 +197,23 @@ feature -- Tests
 					if attached line_item_8.split (' ') as words then
 						word_8 := words [2]
 						word_index := line.item.substring_index (word_8, 1)
-						if attached cursor_8 (line_item_8) as cursor then
-							manager_8.set_item (cursor.area, word_index - 1, word_8.count)
+						if attached super_8 (line_item_8) as super then
+							manager_8.set_item (super.area, word_index - 1, word_8.count)
 							assert_same_string (Void, manager_8.item, word_8)
 							word_8 := words [1]
 	--						same as first word
-							assert_same_string (Void, manager_8.new_substring (cursor.area, 0, word_8.count), word_8)
+							assert_same_string (Void, manager_8.new_substring (super.area, 0, word_8.count), word_8)
 						end
 					end
 				elseif attached line.item.split (' ') as words then
 					word_32 := words [2]
 					word_index := line.item.substring_index (word_32, 1)
-					if attached cursor_32 (line.item) as cursor then
-						manager_32.set_item (cursor.area, word_index - 1, word_32.count)
+					if attached super_32 (line.item) as super then
+						manager_32.set_item (super.area, word_index - 1, word_32.count)
 						assert_same_string (Void, manager_32.item, word_32)
 						word_32 := words [1]
 --						same as first word
-						assert_same_string (Void, manager_32.new_substring (cursor.area, 0, word_32.count), word_32)
+						assert_same_string (Void, manager_32.new_substring (super.area, 0, word_32.count), word_32)
 					end
 				end
 			end
@@ -372,34 +369,6 @@ feature -- Tests
 					assert ("matches", str_8 [1] = '$' implies super_8 (str_8).is_variable_reference)
 					str := str_8
 					assert ("matches", str [1] = '$' implies z.is_variable_reference (str))
-				end
-			end
-		end
-
-	test_word_count
-		-- STRING_TEST_SET.test_word_count
-		note
-			testing: "[
-				covers/{EL_READABLE_STRING_X_ROUTINES}.word_count
-			]"
-		local
-			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES; word_count: INTEGER
-			string: STRING; string_type_list: ARRAY [STRING_GENERAL]
-		do
-			string := "one; ${index} two%T patrick's"
-			string_type_list := << string, ZSTRING (string) >>
-			across string_type_list as list loop
-				if attached list.item as l_text then
-					across 1 |..| 2 as n loop
-						if l_text.is_string_8 and then attached {STRING} l_text as str_8 then
-							word_count := s.word_count (str_8, True)
-
-						elseif attached {ZSTRING} l_text as z_str then
-							word_count := z.word_count (z_str, True)
-						end
-						assert ("3 words", word_count = 3)
-						l_text.prepend ("%N "); l_text.append ("%N ")
-					end
 				end
 			end
 		end

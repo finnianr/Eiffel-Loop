@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 16:27:03 GMT (Saturday 5th April 2025)"
-	revision: "35"
+	date: "2025-04-08 14:51:42 GMT (Tuesday 8th April 2025)"
+	revision: "36"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_BASE
 
 inherit
-	EL_SHARED_STRING_8_CURSOR
-
 	EL_SIDE_ROUTINES -- inherits EL_STRING_GENERAL_ROUTINES_I
 		rename
 			as_readable_string_8 as as_readable_string_8_,

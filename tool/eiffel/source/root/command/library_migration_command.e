@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 9:16:01 GMT (Friday 20th September 2024)"
-	revision: "31"
+	date: "2025-04-08 11:15:41 GMT (Tuesday 8th April 2025)"
+	revision: "32"
 
 class
 	LIBRARY_MIGRATION_COMMAND
@@ -52,7 +52,7 @@ feature -- Basic operations
 
 	execute
 		local
-			reference_set, removal_set: EL_HASH_SET [STRING]
+			reference_set, removal_set: EL_NAME_SET
 			i: INTEGER; destination_path, source_path: FILE_PATH
 			name_array: ARRAY [STRING]
 		do
@@ -99,7 +99,7 @@ feature {NONE} -- Implementation
 
 	bind_circular
 		local
-			circular_set: EL_HASH_SET [STRING]
+			circular_set: EL_NAME_SET
 		do
 			create circular_set.make_equal (10)
 			across class_list as list loop
@@ -130,7 +130,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	in_set (a_class: LIBRARY_CLASS; removal_set: EL_HASH_SET [STRING]): BOOLEAN
+	in_set (a_class: LIBRARY_CLASS; removal_set: EL_NAME_SET): BOOLEAN
 		do
 			Result := removal_set.has (a_class.name)
 		end
@@ -177,7 +177,7 @@ feature {NONE} -- Internal attributes
 
 	home_dir: DIR_PATH
 
-	library_set: EL_HASH_SET [STRING]
+	library_set: EL_HASH_SET [READABLE_STRING_8]
 
 feature {NONE} -- Constants
 

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 9:16:09 GMT (Monday 3rd March 2025)"
-	revision: "37"
+	date: "2025-04-08 11:13:52 GMT (Tuesday 8th April 2025)"
+	revision: "38"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -20,7 +20,8 @@ class
 inherit
 	EL_HASH_SET_BASE [H]
 		export
-			{EL_HASH_SET, EL_HASH_SET_ITERATION_CURSOR} append_to, content, key_tester, set_key_tester
+			{EL_HASH_SET, EL_HASH_SET_ITERATION_CURSOR} append_to, content, key_tester
+			{ANY} set_key_tester
 		redefine
 			copy, is_equal, is_subset, intersect, subtract
 		end
@@ -65,7 +66,7 @@ feature {NONE} -- Initialization
 		require
 			n_non_negative: n >= 0
 		do
-			make_with_key_tester (n, Void)
+			make_with_key_tester (n, new_key_tester)
 			compare_references
 		ensure
 			capacity_big_enough: capacity >= n
@@ -78,7 +79,7 @@ feature {NONE} -- Initialization
 		require
 			n_non_negative: n >= 0
 		do
-			make_with_key_tester (n, Void)
+			make_with_key_tester (n, new_key_tester)
 			compare_objects
 		ensure
 			capacity_big_enough: capacity >= n

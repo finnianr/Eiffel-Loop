@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 18:06:09 GMT (Monday 7th April 2025)"
-	revision: "6"
+	date: "2025-04-08 15:44:01 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 class
 	EL_EXTENDED_READABLE_ZSTRING
@@ -23,11 +23,11 @@ inherit
 			append_substring_to_special_32, append_substring_to_special_8,
 			ends_with_character, fill_z_codes,
 			has_alpha, has_member, has_character_in_bounds,
-			is_alpha_numeric, is_ascii, is_c_identifier_in_range,
+			is_alpha_numeric, is_ascii, is_c_identifier_in_range, is_eiffel_identifier_in_range,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space, index_of_character_type_change,
 			latin_1_count, leading_occurrences, leading_white_count,
-			matches_wildcard, new_shared_substring, new_readable,
-			parse_substring_in_range, right_bracket_index,
+			matches_wildcard, new_readable, new_shared_substring,
+			occurrences_in_area_bounds, parse_substring_in_range, right_bracket_index,
 			same_string, starts_with_character, trailing_white_count, write_utf_8_to
 		end
 
@@ -316,6 +316,16 @@ feature {NONE} -- Implementation
 			Result := c.is_c_identifier_area (area, i_lower, i_upper)
 		end
 
+	is_eiffel_identifier_in_range (
+		unencoded: like unencoded_area; i_lower, i_upper: INTEGER case: NATURAL_8
+	): BOOLEAN
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_eiffel_identifier_area (area, i_lower, i_upper, case)
+		end
+
+
 	is_i_th_alpha (unencoded: like unencoded_area; i: INTEGER): BOOLEAN
 		-- `True' if i'th character in `area'  is alphabetical or numeric
 		do
@@ -381,6 +391,37 @@ feature {NONE} -- Implementation
 	new_shared_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING
 		do
 			Result := Substring_buffer.copied_substring (str, start_index, end_index)
+		end
+
+	occurrences_in_area_bounds (unencoded: like unencoded_area; uc: CHARACTER_32; i_lower, i_upper: INTEGER): INTEGER
+		-- count of `c' occurrences in area between `i_lower' and `i_upper'
+		local
+			i, block_index: INTEGER; c_i, ascii_uc: CHARACTER_8; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			if uc.natural_32_code <= 0x7F then
+				ascii_uc := uc.to_character_8
+			end
+			if attached Unicode_table as uc_table and then attached area as l_area then
+				from i := i_lower until i > i_upper loop
+					inspect ascii_uc
+						when '%U' then
+							c_i := l_area [i]
+							inspect character_8_band (c_i)
+								when Substitute then
+									Result := Result + (iter.item ($block_index, unencoded, i + 1) = uc).to_integer
+
+								when Ascii_range then
+									do_nothing
+							else
+								Result := Result + (uc_table [c_i.code] = uc).to_integer
+							end
+					else
+					-- `uc' is ASCII character
+						Result := Result + (l_area [i] = ascii_uc).to_integer
+					end
+					i := i + 1
+				end
+			end
 		end
 
 	other_area (other: EL_READABLE_ZSTRING): like unencoded_area

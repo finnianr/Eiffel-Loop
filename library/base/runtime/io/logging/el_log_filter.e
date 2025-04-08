@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:10:43 GMT (Friday 13th September 2024)"
-	revision: "20"
+	date: "2025-04-08 19:06:00 GMT (Tuesday 8th April 2025)"
+	revision: "21"
 
 class
 	EL_LOG_FILTER
@@ -55,7 +55,7 @@ feature -- Basic operations
 
 	print_to (log: EL_LOGGABLE)
 		local
-			name: STRING; index: INTEGER; s: EL_STRING_8_ROUTINES
+			name: STRING; index: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if class_type.type_id /= - 1 then
 				log.put_new_line
@@ -73,7 +73,7 @@ feature -- Basic operations
 				else
 					across routine_set as set loop
 						name := set.item
-						if s.starts_with_character (name, '-') then
+						if sg.super_8 (name).starts_with_character ('-') then
 							log.put_string (name.substring (2, name.count))
 							log.put_string (" (Disabled)")
 						else

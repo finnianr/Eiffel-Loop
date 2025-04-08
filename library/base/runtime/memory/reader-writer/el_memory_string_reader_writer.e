@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:27 GMT (Thursday 3rd April 2025)"
-	revision: "19"
+	date: "2025-04-08 14:29:09 GMT (Tuesday 8th April 2025)"
+	revision: "20"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -19,8 +19,6 @@ inherit
 		export
 			{NONE} all
 		end
-
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
 
 feature -- Measurement
 
@@ -255,9 +253,9 @@ feature -- Write operations
 				buf.put_integer_32 (str.count, pos)
 				pos := pos + Integer_32_bytes
 
-				if attached cursor_32 (str) as c then
-					area := c.area; first_index := c.index_lower
-					last_index := c.index_upper
+				if attached super_readable_32 (str) as super then
+					area := super.area; first_index := super.index_lower
+					last_index := super.index_upper
 				end
 				from i := first_index until i > last_index loop
 					compressed_32 := new_compressed_natural_32 (area [i].natural_32_code, is_native)
@@ -276,10 +274,9 @@ feature -- Write operations
 			area: SPECIAL [CHARACTER_8]
 		do
 			write_compressed_natural_32 (str.count.to_natural_32)
-			if attached cursor_8 (str) as cursor then
-				area := cursor.area
-				first_index := cursor.index_lower
-				last_index := cursor.index_upper
+			if attached super_readable_8 (str) as super then
+				area := super.area
+				first_index := super.index_lower; last_index := super.index_upper
 			end
 			if attached big_enough_buffer (str.count) as buf then
 				pos := count

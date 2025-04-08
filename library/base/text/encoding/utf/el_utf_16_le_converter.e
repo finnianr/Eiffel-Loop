@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:56:26 GMT (Thursday 3rd April 2025)"
-	revision: "5"
+	date: "2025-04-08 14:55:31 GMT (Tuesday 8th April 2025)"
+	revision: "6"
 
 expanded class
 	EL_UTF_16_LE_CONVERTER
@@ -15,7 +15,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_SHARED_STRING_8_CURSOR
+	EL_STRING_GENERAL_ROUTINES_I
 
 feature -- Conversion
 
@@ -73,10 +73,10 @@ feature -- Measurement
 		local
 			i, end_index: INTEGER; area: SPECIAL [CHARACTER]
 		do
-			if attached cursor_8 (s) as cursor then
-				area := cursor.area
-				end_index := cursor.index_upper
-				from i := cursor.index_lower until i > end_index loop
+			if attached super_readable_8 (s) as super then
+				area := super.area
+				end_index := super.index_upper
+				from i := super.index_lower until i > end_index loop
 					Result := Result + 1
 					i := i + sequence_count (area [i].natural_32_code | (area [i + 1].natural_32_code |<< 8))
 				end
@@ -114,8 +114,8 @@ feature -- Basic operations
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 			area: SPECIAL [CHARACTER_8]
 		do
-			if attached cursor_8 (s) as c then
-				area := c.area; offset := c.index_lower
+			if attached super_readable_8 (s) as super then
+				area := super.area; offset := super.index_lower
 			end
 			n := end_index - start_index + 1
 			i_final := offset + start_index + n - 1

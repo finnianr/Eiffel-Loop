@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-07 11:11:09 GMT (Sunday 7th January 2024)"
-	revision: "17"
+	date: "2025-04-08 14:34:04 GMT (Tuesday 8th April 2025)"
+	revision: "18"
 
 deferred class
 	EL_C_STRING
@@ -29,6 +29,8 @@ inherit
 	EL_MEMORY_ROUTINES undefine copy, default_create, is_equal end
 
 	EL_BIT_COUNTABLE
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
 

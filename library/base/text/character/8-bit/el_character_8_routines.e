@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 10:33:40 GMT (Monday 7th April 2025)"
-	revision: "35"
+	date: "2025-04-08 10:28:57 GMT (Tuesday 8th April 2025)"
+	revision: "36"
 
 expanded class
 	EL_CHARACTER_8_ROUTINES
@@ -79,11 +79,6 @@ feature -- Status query
 			end
 		end
 
-	is_i_th_eiffel_identifier (area: SPECIAL [CHARACTER_8]; i: INTEGER; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
-		do
-			Result := is_valid_eiffel_case (area [i], case_code, first_i)
-		end
-
 	is_latin1_alpha (c: CHARACTER_8): BOOLEAN
 			--
 		do
@@ -132,6 +127,30 @@ feature -- Status query
 
 				else
 				end
+			end
+		end
+
+	is_valid_eiffel_case (c: CHARACTER_8; case_code: NATURAL; first_i: BOOLEAN): BOOLEAN
+		do
+			inspect c
+				when 'a' .. 'z' then
+					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
+						Result := False
+					else
+						Result := (case_code & {EL_CASE}.lower).to_boolean
+					end
+
+				when 'A' .. 'Z' then
+					if (case_code & {EL_CASE}.Proper).to_boolean and then first_i then
+						Result := True
+					else
+						Result := (case_code & {EL_CASE}.upper).to_boolean
+					end
+
+				when '0' .. '9', '_' then
+					Result := not first_i
+			else
+				Result := False
 			end
 		end
 

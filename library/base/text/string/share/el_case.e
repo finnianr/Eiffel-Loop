@@ -6,23 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 13:09:53 GMT (Saturday 29th March 2025)"
-	revision: "6"
+	date: "2025-04-08 9:43:29 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
-class
+frozen class
 	EL_CASE
-
-feature -- Contract Support
-
-	frozen is_valid (case: NATURAL_8): BOOLEAN
-		do
-			inspect case
-				when Default_, Lower, Proper, Sentence, Upper then
-					Result := True
-			else
-
-			end
-		end
 
 feature -- Constants
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 16:09:35 GMT (Saturday 5th April 2025)"
-	revision: "33"
+	date: "2025-04-08 15:56:03 GMT (Tuesday 8th April 2025)"
+	revision: "34"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -17,45 +17,7 @@ inherit
 
 	EL_SHARED_FILLED_STRING_TABLES
 
-	EL_SHARED_STRING_8_CURSOR
-		rename
-			cursor_8 as shared_cursor_8
-		end
-
-	EL_SHARED_STRING_32_CURSOR
-		rename
-			cursor_32 as shared_cursor_32
-		end
-
-	EL_SHARED_ZSTRING_CURSOR
-		rename
-			cursor_z as shared_cursor_z
-		end
-
 	EL_STRING_HANDLER
-
-feature -- Access
-
-	shared_cursor (general: READABLE_STRING_GENERAL): EL_STRING_ITERATION_CURSOR
-		do
-			Result := shared_cursor_by_type (general, string_storage_type (general))
-		end
-
-	shared_cursor_by_type (general: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_STRING_ITERATION_CURSOR
-		require
-			valid_type_code: valid_string_storage_type (type_code)
-		do
-			inspect type_code
-				when '1' then
-					Result := String_8_iteration_cursor
-
-				when 'X' then
-					Result := String_iteration_cursor
-			else
-				Result := String_32_iteration_cursor
-			end
-			Result.set_target (general)
-		end
 
 feature -- Factory
 
