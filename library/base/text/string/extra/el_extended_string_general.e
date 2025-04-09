@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 12:58:43 GMT (Sunday 6th April 2025)"
-	revision: "5"
+	date: "2025-04-09 13:54:57 GMT (Wednesday 9th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -24,37 +24,6 @@ feature -- Measurement
 
 	occurrences (c: CHAR): INTEGER
 		deferred
-		end
-
-feature -- Status query
-
-	is_canonically_spaced: BOOLEAN
-		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
-		local
-			c_i, space: CHAR; i, i_final, space_count: INTEGER; is_space: BOOLEAN
-		do
-			space := to_char (' ')
-			if attached area as l_area and then attached Unicode_property as unicode then
-				Result := True; i_final := count
-				from i := 0 until not Result or else i = i_final loop
-					c_i := l_area [i]
-					is_space := is_i_th_space (l_area, i, unicode)
-					if is_space then
-						space_count := space_count + 1
-					else
-						space_count := 0
-					end
-					inspect space_count
-						when 0 then
-							do_nothing
-						when 1 then
-							Result := c_i = space
-					else
-						Result := False
-					end
-					i := i + 1
-				end
-			end
 		end
 
 	valid_index (i: INTEGER): BOOLEAN
@@ -147,6 +116,18 @@ feature -- Substring
 		end
 
 feature -- Element change
+
+	append_area_32 (a_area: SPECIAL [CHARACTER_32])
+		local
+			new_count: INTEGER
+		do
+			new_count := count + a_area.count
+			grow (new_count)
+			copy_area_32_data (area, a_area)
+			area [new_count] := to_char ('%U')
+			set_count (new_count)
+			update_shared
+		end
 
 	remove_bookends (left, right: CHAR)
 		do
@@ -291,6 +272,15 @@ feature {NONE} -- Implementation
 feature {NONE} -- Deferred
 
 	append_string_general (str: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	copy_area_32_data (a_area: like area; source: SPECIAL [CHARACTER_32])
+		deferred
+		end
+
+	grow (newsize: INTEGER)
+		-- Ensure that the capacity is at least `newsize'.
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 14:04:34 GMT (Friday 4th April 2025)"
-	revision: "8"
+	date: "2025-04-09 14:10:54 GMT (Wednesday 9th April 2025)"
+	revision: "9"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
@@ -85,6 +85,7 @@ feature -- Appending tests
 		end
 
 	test_append_replaced
+		-- ZSTRING_CONCATENATION_TEST_SET.test_append_replaced
 		note
 			testing: "covers/{EL_APPENDABLE_ZSTRING}.append_replaced"
 		local

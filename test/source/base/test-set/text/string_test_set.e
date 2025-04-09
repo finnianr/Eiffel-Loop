@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:24:13 GMT (Tuesday 8th April 2025)"
-	revision: "41"
+	date: "2025-04-09 11:31:49 GMT (Wednesday 9th April 2025)"
+	revision: "42"
 
 class
 	STRING_TEST_SET
@@ -41,41 +41,19 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["adjusted_immutable_string",	agent test_adjusted_immutable_string],
 				["bracketed",						agent test_bracketed],
 				["delimited_list",				agent test_delimited_list],
 				["encodeables",					agent test_encodeables],
-				["immutable_string_manager",	agent test_immutable_string_manager],
 				["match_wildcard",				agent test_match_wildcard],
 				["name_table",						agent test_name_table],
 				["name_value_pair",				agent test_name_value_pair],
 				["readable_has_member",			agent test_readable_has_member],
 				["remove_bookends",				agent test_remove_bookends],
-				["selected_name",					agent test_selected_name],
-				["variable_pattern",				agent test_variable_pattern]
+				["selected_name",					agent test_selected_name]
 			>>)
 		end
 
 feature -- Tests
-
-	test_adjusted_immutable_string
-		-- STRING_TEST_SET.test_adjusted_immutable_string
-		note
-			testing: "[
-				covers/{EL_IMMUTABLE_STRING_MANAGER}.set_adjusted_item
-			]"
-		local
-			str, adjusted: STRING_8; manager_8: EL_IMMUTABLE_8_MANAGER
-		do
-			create manager_8
-			across << "  abc  ", "abc", " abc", "abc ", "" >> as list loop
-				str := list.item
-				adjusted := str.twin
-				adjusted.adjust
-				manager_8.set_adjusted_item (str.area, 0, str.count, {EL_SIDE}.Both)
-				assert_same_string ("adjusted immutable", manager_8.item, adjusted)
-			end
-		end
 
 	test_bracketed
 		-- STRING_TEST_SET.test_bracketed
@@ -175,45 +153,6 @@ feature -- Tests
 						unicode.convert_to (Console.Encoding, line)
 						assert ("conversion successful", unicode.last_conversion_successful)
 						assert_same_string (Void, Buffer.text, unicode.last_converted_string_8)
-					end
-				end
-			end
-		end
-
-	test_immutable_string_manager
-		-- STRING_TEST_SET.test_immutable_string_manager
-		note
-			testing: "[
-				covers/{EL_IMMUTABLE_STRING_MANAGER}.set_item,
-				covers/{EL_IMMUTABLE_STRING_MANAGER}.new_substring
-			]"
-		local
-			manager_32: EL_IMMUTABLE_32_MANAGER; manager_8: EL_IMMUTABLE_8_MANAGER
-			word_8: STRING_8; word_32: STRING_32; word_index: INTEGER
-		do
-			create manager_32; create manager_8
-			across Text.lines_32 as line loop
-				if line.item.is_valid_as_string_8 and then attached line.item.to_string_8 as line_item_8 then
-					if attached line_item_8.split (' ') as words then
-						word_8 := words [2]
-						word_index := line.item.substring_index (word_8, 1)
-						if attached super_8 (line_item_8) as super then
-							manager_8.set_item (super.area, word_index - 1, word_8.count)
-							assert_same_string (Void, manager_8.item, word_8)
-							word_8 := words [1]
-	--						same as first word
-							assert_same_string (Void, manager_8.new_substring (super.area, 0, word_8.count), word_8)
-						end
-					end
-				elseif attached line.item.split (' ') as words then
-					word_32 := words [2]
-					word_index := line.item.substring_index (word_32, 1)
-					if attached super_32 (line.item) as super then
-						manager_32.set_item (super.area, word_index - 1, word_32.count)
-						assert_same_string (Void, manager_32.item, word_32)
-						word_32 := words [1]
---						same as first word
-						assert_same_string (Void, manager_32.new_substring (super.area, 0, word_32.count), word_32)
 					end
 				end
 			end
@@ -349,28 +288,6 @@ feature -- Tests
 		do
 			assert_same_string (Void, side_name ({EL_SIDE}.None), "None")
 			assert_same_string (Void, side_name ({EL_SIDE}.Right), "Right")
-		end
-
-	test_variable_pattern
-		-- STRING_TEST_SET.test_variable_pattern
-		note
-			testing: "[
-				covers/{EL_EXTENDED_STRING_GENERAL}.is_variable_reference,
-				covers/{EL_READABLE_STRING_X_ROUTINES}.is_variable_reference,
-				covers/{EL_COMPARABLE_ZSTRING}.matches_wildcard
-			]"
-		local
-			z: EL_ZSTRING_ROUTINES; s: EL_STRING_8_ROUTINES
-			str: ZSTRING
-		do
-			across << "$index", "${index}", "index" >> as list loop
-				if attached list.item as str_8 then
-					assert ("matches", str_8 [1] = '$' implies s.is_variable_reference (str_8))
-					assert ("matches", str_8 [1] = '$' implies super_8 (str_8).is_variable_reference)
-					str := str_8
-					assert ("matches", str [1] = '$' implies z.is_variable_reference (str))
-				end
-			end
 		end
 
 feature {NONE} -- Implementation

@@ -6,19 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:51:42 GMT (Tuesday 8th April 2025)"
-	revision: "36"
+	date: "2025-04-09 12:23:18 GMT (Wednesday 9th April 2025)"
+	revision: "37"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_BASE
 
 inherit
-	EL_SIDE_ROUTINES -- inherits EL_STRING_GENERAL_ROUTINES_I
+	EL_SIDE_ROUTINES
+
+	EL_STRING_GENERAL_ROUTINES_I
 		rename
-			as_readable_string_8 as as_readable_string_8_,
-			as_readable_string_32 as as_readable_string_32_
+			as_readable_string_8 as general_as_readable_string_8,
+			as_readable_string_32 as general_as_readable_string_32
 		export
-			{NONE} all
 			{ANY} is_ascii_string_8 -- Contract support
 		end
 

@@ -8,14 +8,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 11:23:25 GMT (Sunday 6th April 2025)"
-	revision: "19"
+	date: "2025-04-09 12:47:26 GMT (Wednesday 9th April 2025)"
+	revision: "20"
 
 deferred class
-	EL_IMMUTABLE_STRING_MANAGER [C, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end]
+	EL_IMMUTABLE_STRING_MANAGER [
+		CHAR -> COMPARABLE, GENERAL -> READABLE_STRING_GENERAL, S -> IMMUTABLE_STRING_GENERAL create make_empty end
+	]
 
 inherit
 	EL_OBJECT_MANGER [S]
+		redefine
+			default_create
+		end
 
 	EL_STRING_HANDLER
 
@@ -24,6 +29,18 @@ inherit
 	EL_SIDE_ROUTINES
 		export
 			{ANY} valid_side
+		end
+
+feature {NONE} -- Initialization
+
+	default_create
+		do
+			Precursor
+			initialize
+		end
+		
+	initialize
+		deferred
 		end
 
 feature -- Access
@@ -48,7 +65,7 @@ feature -- Access
 
 feature -- Element change
 
-	set_adjusted_item (a_area: SPECIAL [C]; offset, a_count, sides: INTEGER)
+	set_adjusted_item (a_area: SPECIAL [CHAR]; offset, a_count, sides: INTEGER)
 		-- set immutable `item' from `a_area' with white space removed from ends specified by `sides'
 		-- See class `EL_SIDE'
 		require
@@ -77,7 +94,7 @@ feature -- Element change
 			adjusted_right: has_right_side (sides) implies not item_has_right_padding
 		end
 
-	set_item (a_area: SPECIAL [C]; offset, a_count: INTEGER)
+	set_item (a_area: SPECIAL [CHAR]; offset, a_count: INTEGER)
 		require
 			valid_count: a_count >= 0
 			valid_offset_and_count: a_count > 0 implies a_area.valid_index (offset + a_count - 1)
@@ -112,7 +129,7 @@ feature -- Element change
 
 feature -- Factory
 
-	new_substring (a_area: SPECIAL [C]; offset, a_count: INTEGER): like item
+	new_substring (a_area: SPECIAL [CHAR]; offset, a_count: INTEGER): like item
 		do
 			set_item (a_area, offset, a_count)
 			Result := item.twin
@@ -131,8 +148,12 @@ feature -- Conversion
 
 feature {NONE} -- Contract Support
 
-	same_area_items (a_area: SPECIAL [C]; offset, a_count: INTEGER): BOOLEAN
-		deferred
+	same_area_items (a_area: SPECIAL [CHAR]; offset, a_count: INTEGER): BOOLEAN
+		do
+			if attached extended_string as super then
+				super.set_target (item)
+				Result := super.area.same_items (a_area, offset, super.index_lower, a_count)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -144,7 +165,11 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred
 
-	is_space (a_area: SPECIAL [C]; i: INTEGER): BOOLEAN
+	extended_string: EL_EXTENDED_READABLE_STRING_I [CHAR]
+		deferred
+		end
+
+	is_space (a_area: SPECIAL [CHAR]; i: INTEGER): BOOLEAN
 		deferred
 		end
 
@@ -160,7 +185,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	string_area (str: GENERAL): SPECIAL [C]
+	string_area (str: GENERAL): SPECIAL [CHAR]
 		deferred
 		end
 

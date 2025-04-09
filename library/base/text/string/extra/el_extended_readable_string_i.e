@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:47:28 GMT (Tuesday 8th April 2025)"
-	revision: "7"
+	date: "2025-04-09 13:21:07 GMT (Wednesday 9th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -221,7 +221,41 @@ feature -- Character query
 			Result := all_alpha_numeric_in_range (area, lower_abs (start_index), upper_abs (end_index))
 		end
 
+	starts_with_character (c: CHAR): BOOLEAN
+		do
+			Result := index_upper >= index_lower and then area [index_lower] = c
+		end
+
 feature -- Status query
+
+	is_canonically_spaced: BOOLEAN
+		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
+		local
+			c_i, space: CHAR; i, i_upper, space_count: INTEGER; is_space: BOOLEAN
+		do
+			space := to_char (' ')
+			if attached area as l_area and then attached Unicode_property as unicode then
+				Result := True; i_upper := index_upper
+				from i := index_lower until not Result or else i > i_upper loop
+					c_i := l_area [i]
+					is_space := is_i_th_space (l_area, i, unicode)
+					if is_space then
+						space_count := space_count + 1
+					else
+						space_count := 0
+					end
+					inspect space_count
+						when 0 then
+							do_nothing
+						when 1 then
+							Result := c_i = space
+					else
+						Result := False
+					end
+					i := i + 1
+				end
+			end
+		end
 
 	is_eiffel: BOOLEAN
 		-- `True' if `target' is an Eiffel identifier
@@ -254,11 +288,6 @@ feature -- Status query
 			c: EL_CHARACTER_32_ROUTINES
 		do
 			Result := c.is_left_bracket (target [index])
-		end
-
-	starts_with_character (c: CHAR): BOOLEAN
-		do
-			Result := index_upper >= index_lower and then area [index_lower] = c
 		end
 
 feature -- Status query
@@ -351,6 +380,14 @@ feature -- Status query
 
 	starts_with (leading: like READABLE_X): BOOLEAN
 		deferred
+		end
+
+feature -- Conversion
+
+	to_utf_8: STRING
+		do
+			create Result.make (utf_8_byte_count)
+			append_to_utf_8 (Result)
 		end
 
 feature -- Basic operations
@@ -480,28 +517,29 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Conversion
-
-	to_utf_8: STRING
-		do
-			create Result.make (utf_8_byte_count)
-			append_to_utf_8 (Result)
-		end
-
 feature {STRING_HANDLER} -- Basic operations
 
-	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
-		-- append `n' unicode characters starting at `source_index' to `destination' array
+	append_to (special_out: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+		-- append `n' unicode characters starting at `source_index' to `special_out' array
+		require
+			big_enough: (special_out.capacity - special_out.count) >= n
 		local
 			i, i_upper: INTEGER
 		do
 			if attached area as l_area then
-				i_upper := source_index + index_lower + n
-				from i := source_index + index_lower until i = i_upper loop
-					destination.extend (to_character_32 (l_area [i]))
+				i_upper := (source_index + index_lower + n - 1).min (index_upper)
+				from i := source_index + index_lower until i > i_upper loop
+					special_out.extend (to_character_32 (l_area [i]))
 					i := i + 1
 				end
 			end
+		end
+
+	append_to_special_32 (special_out: SPECIAL [CHARACTER_32])
+		require
+			big_enough: (special_out.capacity - special_out.count) >= count
+		do
+			append_to (special_out, 0, count)
 		end
 
 feature {NONE} -- Implementation

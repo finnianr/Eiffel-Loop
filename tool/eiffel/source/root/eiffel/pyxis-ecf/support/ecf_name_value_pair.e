@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-30 12:08:39 GMT (Friday 30th August 2024)"
-	revision: "6"
+	date: "2025-04-08 19:17:13 GMT (Tuesday 8th April 2025)"
+	revision: "7"
 
 class
 	ECF_NAME_VALUE_PAIR
@@ -25,10 +25,10 @@ feature {NONE} -- Initialization
 
 	make (str: STRING)
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			make_name_value (str, '=')
-			if s.ends_with_character (name, '/') then
+			if sg.super_8 (name).ends_with_character ('/') then
 				is_excluded_value := True
 				name.remove_tail (1)
 				name.right_adjust

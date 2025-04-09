@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:21:56 GMT (Tuesday 8th April 2025)"
-	revision: "6"
+	date: "2025-04-09 12:23:58 GMT (Wednesday 9th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -21,11 +21,16 @@ inherit
 
 	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]
 
-	EL_SIDE_ROUTINES -- inherits EL_STRING_GENERAL_ROUTINES_I
+	EL_SIDE_ROUTINES
 		rename
 			valid_side as valid_adjustments
 		export
-			{ANY} as_zstring, ZSTRING, valid_adjustments
+			{ANY} valid_adjustments
+		end
+
+	EL_STRING_GENERAL_ROUTINES_I
+		export
+			{ANY} as_zstring, ZSTRING
 		end
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_I

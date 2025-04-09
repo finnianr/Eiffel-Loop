@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:41:59 GMT (Friday 20th September 2024)"
-	revision: "13"
+	date: "2025-04-09 9:24:24 GMT (Wednesday 9th April 2025)"
+	revision: "14"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -79,14 +79,26 @@ feature {NONE} -- Implementation
 
 	test_utf_8 (str_32: STRING_32; leading_count, trailing_count: INTEGER)
 		local
-			utf_8_string: STRING_8; utf_8: EL_UTF_8_CONVERTER; substring_32: STRING_32
+			utf_8_string: STRING_8; utf_8: EL_UTF_8_CONVERTER
+			substring: STRING_GENERAL
 		do
 			utf_8_string := utf_8.string_32_to_string_8 (str_32)
-			create substring_32.make_empty
-			utf_8.substring_8_into_string_general (
-				utf_8_string, leading_count + 1, utf_8_string.count - trailing_count, substring_32
-			)
-			assert ("same string", str_32.substring (leading_count + 1, str_32.count - trailing_count) ~ substring_32)
+			across 1 |..| 2 as n loop
+				if str_32.is_valid_as_string_8 then
+					create {STRING_8} substring.make_empty
+				else
+					inspect n.item
+						when 1 then
+							create {STRING_32} substring.make_empty
+						when 2 then
+							create {ZSTRING} substring.make_empty
+					end
+				end
+				utf_8.substring_8_into_string_general (
+					utf_8_string, leading_count + 1, utf_8_string.count - trailing_count, substring
+				)
+				assert_same_string (Void, substring, str_32.substring (leading_count + 1, str_32.count - trailing_count))
+			end
 		end
 
 end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:08:14 GMT (Tuesday 8th April 2025)"
-	revision: "204"
+	date: "2025-04-09 11:31:49 GMT (Wednesday 9th April 2025)"
+	revision: "205"
 
 class
 	BASE_AUTOTEST_APP
@@ -28,10 +28,15 @@ inherit
 
 		EIFFEL_NAME_TRANSLATEABLE_TEST_SET,
 		EXTENDED_READABLE_ZSTRING_TEST_SET,
+
 		GENERAL_TEST_SET,
 		GROUPED_TABLE_TEST_SET,
+
 		HASH_SET_TEST_SET,
 		HASH_TABLE_TEST_SET,
+
+		IMMUTABLE_STRING_MANAGER_TEST_SET,
+
 		PATH_TEST_SET,
 		REFLECTION_TEST_SET,
 
@@ -327,6 +332,7 @@ note
 			${GROUPED_TABLE_TEST_SET},
 			${HASH_SET_TEST_SET},
 			${HASH_TABLE_TEST_SET},
+			${IMMUTABLE_STRING_MANAGER_TEST_SET},
 			${PATH_TEST_SET},
 			${REFLECTION_TEST_SET},
 			${SE_ARRAY2_TEST_SET},

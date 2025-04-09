@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:50:20 GMT (Saturday 5th April 2025)"
-	revision: "5"
+	date: "2025-04-09 14:08:05 GMT (Wednesday 9th April 2025)"
+	revision: "6"
 
 class
 	EL_UTF_8_CONVERTER_IMP
@@ -184,7 +184,7 @@ feature -- Basic operations
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 			area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
-			s8: EL_STRING_8_ROUTINES; s32: EL_STRING_32_ROUTINES; sz: EL_ZSTRING_ROUTINES
+			sz: EL_ZSTRING_ROUTINES
 		do
 			if attached super_readable_8 (str) as s then
 				area := s.area; offset := s.index_lower
@@ -202,15 +202,15 @@ feature -- Basic operations
 				inspect string_storage_type (a_result)
 					when '1' then
 						if attached {STRING_8} a_result as str_8 then
-							s8.append_area_32 (str_8, area_32)
+							super_8 (str_8).append_area_32 (area_32)
 						end
 					when '4' then
 						if attached {STRING_32} a_result as str_32 then
-							s32.append_area_32 (str_32, area_32)
+							super_32 (str_32).append_area_32 (area_32)
 						end
 					when 'X' then
 						if attached {ZSTRING} a_result as zstr then
-							sz.append_area_32 (zstr, area_32)
+							zstr.append_area_32 (area_32)
 						end
 				else
 					i_final := area_32.count

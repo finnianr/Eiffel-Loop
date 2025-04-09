@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 15:53:25 GMT (Saturday 5th April 2025)"
-	revision: "77"
+	date: "2025-04-09 14:05:12 GMT (Wednesday 9th April 2025)"
+	revision: "78"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -30,6 +30,15 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			is_ascii: is_ascii_string (str)
 		do
 			append_string_8 (str)
+		end
+
+	append_area_32 (a_area: SPECIAL [CHARACTER_32])
+		local
+			offset: INTEGER
+		do
+			Immutable_32.set_item (a_area, 0, a_area.count)
+			offset := count
+			accommodate (a_area.count); encode (Immutable_32.item, offset)
 		end
 
 	append_compatible (latin_1: READABLE_STRING_8)

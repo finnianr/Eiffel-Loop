@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 10:23:28 GMT (Tuesday 8th April 2025)"
-	revision: "79"
+	date: "2025-04-09 14:13:25 GMT (Wednesday 9th April 2025)"
+	revision: "80"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -235,10 +235,6 @@ feature -- Transform
 		end
 
 feature {NONE} -- Deferred
-
-	append_area_32 (str: STRING_X; area: SPECIAL [CHARACTER_32])
-		deferred
-		end
 
 	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_X)
 		deferred

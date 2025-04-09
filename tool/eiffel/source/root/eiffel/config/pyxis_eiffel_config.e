@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:54:18 GMT (Sunday 22nd September 2024)"
-	revision: "12"
+	date: "2025-04-08 19:17:49 GMT (Tuesday 8th April 2025)"
+	revision: "13"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 	partial_source_text: STRING
 		-- source_text up as far as end of version information
 		local
-			found: BOOLEAN; s: EL_STRING_8_ROUTINES
+			found: BOOLEAN; sg: EL_STRING_GENERAL_ROUTINES; s: EL_STRING_8_ROUTINES
 		do
 			if attached line_intervals as list then
 				list.go_i_th (version_element_index + 1)
@@ -125,7 +125,7 @@ feature {NONE} -- Implementation
 				from until found or list.after loop
 					if attached list.item as item then
 						item.adjust
-						if s.ends_with_character (item, ':') then
+						if sg.super_8 (item).ends_with_character (':') then
 							found := s.is_identifier_boundary (item, 1, item.count - 1)
 						end
 					end

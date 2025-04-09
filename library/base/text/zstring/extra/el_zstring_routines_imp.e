@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:16:52 GMT (Tuesday 8th April 2025)"
-	revision: "45"
+	date: "2025-04-09 14:09:32 GMT (Wednesday 9th April 2025)"
+	revision: "46"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -188,12 +188,6 @@ feature -- Character query
 		end
 
 feature -- Basic operations
-
-	append_area_32 (str: ZSTRING; area: SPECIAL [CHARACTER_32])
-		do
-			Immutable_32.set_item (area, 0, area.count)
-			str.append_string_general (Immutable_32.item)
-		end
 
 	append_to (str: ZSTRING; extra: READABLE_STRING_GENERAL)
 		do

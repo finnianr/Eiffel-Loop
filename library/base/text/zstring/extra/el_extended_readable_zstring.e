@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:44:01 GMT (Tuesday 8th April 2025)"
-	revision: "7"
+	date: "2025-04-09 13:23:01 GMT (Wednesday 9th April 2025)"
+	revision: "8"
 
 class
 	EL_EXTENDED_READABLE_ZSTRING
@@ -23,7 +23,8 @@ inherit
 			append_substring_to_special_32, append_substring_to_special_8,
 			ends_with_character, fill_z_codes,
 			has_alpha, has_member, has_character_in_bounds,
-			is_alpha_numeric, is_ascii, is_c_identifier_in_range, is_eiffel_identifier_in_range,
+			is_alpha_numeric, is_ascii, is_canonically_spaced,
+			is_c_identifier_in_range, is_eiffel_identifier_in_range,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space, index_of_character_type_change,
 			latin_1_count, leading_occurrences, leading_white_count,
 			matches_wildcard, new_readable, new_shared_substring,
@@ -105,6 +106,12 @@ feature -- Character query
 			Result := target.is_ascii
 		end
 
+	is_canonically_spaced: BOOLEAN
+		-- `True' if the longest substring of whitespace consists of one space character (ASCII 32)
+		do
+			Result := target.is_canonically_spaced
+		end
+
 	ends_with_character (uc: CHARACTER_32): BOOLEAN
 		do
 			Result := target.ends_with_character (uc)
@@ -175,24 +182,27 @@ feature -- Basic operations
 
 feature {STRING_HANDLER} -- Basic operations
 
-	append_to (destination: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
+	append_to (special_out: SPECIAL [CHARACTER_32]; source_index, n: INTEGER)
 		local
-			i, i_upper, l_block_index: INTEGER; c_i: CHARACTER; uc: CHARACTER_32
+			i, i_upper, l_block_index: INTEGER; c_i: CHARACTER
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
-			codec.decode (n, area, destination, 0)
+			codec.decode (n, area, special_out, 0)
 			if attached area as l_area and then attached unencoded_area as unencoded
 				and then attached unicode_table as unicode
 			then
-				i_upper := source_index + index_lower + n - 1
-				from i := source_index + index_lower until i > i_upper loop
+				i_upper := (index_lower + source_index + n - 1).min (index_upper)
+				from i := index_lower + source_index until i > i_upper loop
 					c_i := l_area [i]
-					if c_i = Substitute then
-						uc := iter.item ($l_block_index, unencoded, i - index_lower + 1)
+					inspect character_8_band (c_i)
+						when Substitute then
+							special_out.extend (iter.item ($l_block_index, unencoded, i - index_lower + 1))
+
+						when Ascii_range then
+							special_out.extend (c_i)
 					else
-						uc := unicode [c_i.code]
+						special_out.extend (unicode [c_i.code])
 					end
-					destination.extend (uc)
 					i := i + 1
 				end
 			end

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:20:52 GMT (Monday 31st March 2025)"
-	revision: "125"
+	date: "2025-04-09 14:07:20 GMT (Wednesday 9th April 2025)"
+	revision: "126"
 
 class
 	EL_ZSTRING
@@ -27,7 +27,7 @@ inherit
 		export
 			{ANY}
 --				Element change
-				append_boolean, append_character, append_character_8,
+				append_boolean, append_area_32, append_character, append_character_8,
 
 				append_double, append_real, append_integer, append_natural,
 				append_real_32, append_real_64, append_rounded_real, append_rounded_double,

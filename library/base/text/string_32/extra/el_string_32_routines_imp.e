@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:14:50 GMT (Tuesday 8th April 2025)"
-	revision: "70"
+	date: "2025-04-09 14:09:13 GMT (Wednesday 9th April 2025)"
+	revision: "71"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -110,17 +110,6 @@ feature -- Comparison
 		end
 
 feature -- Basic operations
-
-	append_area_32 (str: STRING_32; area: SPECIAL [CHARACTER_32])
-		local
-			new_count: INTEGER
-		do
-			new_count := str.count + area.count
-			str.grow (new_count)
-			str.area.copy_data (area, 0, str.count, area.count)
-			str.area [new_count] := '%U'
-			str.set_count (new_count)
-		end
 
 	append_to (str: STRING_32; extra: READABLE_STRING_GENERAL)
 		do

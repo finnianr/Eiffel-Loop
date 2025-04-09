@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 19:00:13 GMT (Tuesday 8th April 2025)"
-	revision: "62"
+	date: "2025-04-08 23:24:50 GMT (Tuesday 8th April 2025)"
+	revision: "63"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -136,32 +136,9 @@ feature -- Lists
 
 feature -- Character query
 
-	has_double (s: READABLE_STRING_X): BOOLEAN
-			--
-		do
-			Result := has_quotes (s, 2)
-		end
-
 	has_enclosing (s: READABLE_STRING_X; c_first, c_last: CHARACTER_32): BOOLEAN
 			--
 		deferred
-		end
-
-	has_quotes (s: READABLE_STRING_X; type: INTEGER): BOOLEAN
-		require
-			double_or_single: 1 <= type and type <= 2
-		do
-			if type = 1 then
-				Result := has_enclosing (s, '%'', '%'')
-			else
-				Result := has_enclosing (s, '"', '"')
-			end
-		end
-
-	has_single (s: READABLE_STRING_X): BOOLEAN
-			--
-		do
-			Result := has_quotes (s, 1)
 		end
 
 feature -- Status query
@@ -196,53 +173,6 @@ feature -- Status query
 	is_subset_of (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
 		-- `True' if set of all characters in `str' is a subset of `set'
 		deferred
-		end
-
-	is_variable_name (str: READABLE_STRING_X): BOOLEAN
-		local
-			i, upper: INTEGER
-		do
-			upper := str.count
-			Result := upper > 1
-			from i := 1 until not Result or i > upper loop
-				inspect i
-					when 1 then
-						Result := str [i] = '$'
-					when 2 then
-						Result := is_i_th_alpha (str, i)
-				else
-					Result := is_i_th_alpha_numeric (str, i) or else str [i] = '_'
-				end
-				i := i + 1
-			end
-		end
-
-	is_variable_reference (str: READABLE_STRING_X): BOOLEAN
-		-- `True' if str is one of two variable reference forms
-
-		-- 1. $<C identifier>
-		-- 2. ${<C identifier>}
-		local
-			lower, upper, i: INTEGER
-		do
-			upper := str.count
-			if str.count >= 2 and then str [1] = '$' then
-				if str [2] = '{' and then upper > 3 then
-				-- like: ${name}
-					if str [upper] = '}' then
-						lower := 3; upper := upper - 1
-					end
-				else
-					lower := 2
-				end
-				if str.valid_index (lower) then
-					Result := is_i_th_alpha (str, lower)
-					from i := lower until i > upper or not Result loop
-						Result := is_i_th_alpha_numeric (str, i) or else str [i] = '_'
-						i := i + 1
-					end
-				end
-			end
 		end
 
 feature -- Comparison

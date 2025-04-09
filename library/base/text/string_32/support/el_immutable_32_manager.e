@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:25:47 GMT (Tuesday 8th April 2025)"
-	revision: "12"
+	date: "2025-04-09 12:51:34 GMT (Wednesday 9th April 2025)"
+	revision: "13"
 
 class
 	EL_IMMUTABLE_32_MANAGER
@@ -30,6 +30,14 @@ inherit
 			default_create
 		end
 
+feature {NONE} -- Initialization
+
+	initialize
+		do
+		-- cannot use shared extended string because it will cause a circular call
+			create extended_string.make_empty
+		end
+
 feature -- Status query
 
 	item_has_left_padding: BOOLEAN
@@ -40,15 +48,6 @@ feature -- Status query
 	item_has_right_padding: BOOLEAN
 		do
 			Result := item.count > 0 and then is_space_character (item [item.count])
-		end
-
-feature {NONE} -- Contract Support
-
-	same_area_items (a_area: SPECIAL [CHARACTER_32]; offset, a_count: INTEGER): BOOLEAN
-		do
-			if attached super_readable_32 (item) as c then
-				Result := c.area.same_items (a_area, offset, c.index_lower, a_count)
-			end
 		end
 
 feature {NONE} -- Implementation
@@ -71,6 +70,10 @@ feature {NONE} -- Implementation
 				Result := str.as_string_32.area
 			end
 		end
+
+feature {NONE} -- Internal attributes
+
+	extended_string: EL_READABLE_STRING_32
 
 feature {NONE} -- Constants
 

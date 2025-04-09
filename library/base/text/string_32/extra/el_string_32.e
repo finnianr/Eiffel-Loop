@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:43:25 GMT (Tuesday 8th April 2025)"
-	revision: "20"
+	date: "2025-04-09 13:58:17 GMT (Wednesday 9th April 2025)"
+	revision: "21"
 
 class
 	EL_STRING_32
@@ -107,6 +107,11 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	copy_area_32_data (a_area: like area; source: SPECIAL [CHARACTER_32])
+		do
+			a_area.copy_data (source, 0, count, source.count)
+		end
 
 	new_substring (start_index, end_index: INTEGER): STRING_32
 		do

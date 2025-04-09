@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:43:35 GMT (Tuesday 8th April 2025)"
-	revision: "35"
+	date: "2025-04-09 13:40:54 GMT (Wednesday 9th April 2025)"
+	revision: "36"
 
 class
 	EL_STRING_8
@@ -193,6 +193,22 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
+
+	copy_area_32_data (a_area: like area; source: SPECIAL [CHARACTER_32])
+		local
+			i, i_upper, offset: INTEGER; uc: CHARACTER_32
+		do
+			i_upper := source.count - 1
+			from i := 0 until i > i_upper loop
+				uc := source [i]
+				if uc.is_character_8 then
+					a_area [i + offset] := uc.to_character_8
+				else
+					a_area [i + offset] := '%/26/'
+				end
+				i := i + 1
+			end
+		end
 
 	new_substring (start_index, end_index: INTEGER): STRING_8
 		do
