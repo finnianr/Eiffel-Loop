@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 10:07:53 GMT (Tuesday 8th April 2025)"
-	revision: "22"
+	date: "2025-04-11 15:02:56 GMT (Friday 11th April 2025)"
+	revision: "23"
 
 expanded class
 	EL_EIFFEL_SOURCE_ROUTINES
@@ -58,7 +58,7 @@ feature -- Conversion
 			text := as_zstring (a_text)
 			index := text.index_of ('[', 1)
 			if index > 0 and then attached Once_split_intervals as interval then
-				upper:= super_readable (text).matching_bracket_index (index) - 1
+				upper:= super_z (text).matching_bracket_index (index) - 1
 				interval.fill (text.immutable_substring_8 (index + 1, upper), ',', {EL_SIDE}.Left)
 				create Result.make_sized (interval.count)
 				from interval.start until interval.after loop

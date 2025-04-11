@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 7:07:17 GMT (Sunday 6th April 2025)"
-	revision: "28"
+	date: "2025-04-11 15:02:55 GMT (Friday 11th April 2025)"
+	revision: "29"
 
 class
 	EL_SPLIT_ZSTRING_LIST
@@ -76,9 +76,9 @@ feature {NONE} -- Implementation
 			str.append_z_code (z_code)
 		end
 
-	extended_string (str: EL_READABLE_ZSTRING): like super_readable
+	extended_string (str: ZSTRING): like super_z
 		do
-			Result := super_readable (str)
+			Result := super_z (str)
 		end
 
 	proper_cased (word: ZSTRING): ZSTRING

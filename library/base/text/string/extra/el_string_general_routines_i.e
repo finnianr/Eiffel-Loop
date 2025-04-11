@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 8:20:05 GMT (Monday 7th April 2025)"
-	revision: "19"
+	date: "2025-04-11 15:06:51 GMT (Friday 11th April 2025)"
+	revision: "20"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -79,6 +79,12 @@ feature {NONE} -- Implementation
 			Result.share (str)
 		end
 
+	super_z (str: ZSTRING): EL_EXTENDED_ZSTRING
+		do
+			Result := Shared_super
+			Result.share (str)
+		end
+
 	super_readable_32 (str: READABLE_STRING_32): EL_READABLE_STRING_32
 		do
 			Result := Shared_super_readable_32
@@ -91,18 +97,12 @@ feature {NONE} -- Implementation
 			Result.set_target (str)
 		end
 
-	super_readable (str: EL_READABLE_ZSTRING): EL_EXTENDED_READABLE_ZSTRING
-		do
-			Result := Shared_super_readable
-			Result.set_target (str)
-		end
-
-	super_readable_general (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING [COMPARABLE]
+	super_readable_general (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			Result := super_by_type (str, string_storage_type (str))
 		end
 
-	super_by_type (str: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_READABLE_STRING [COMPARABLE]
+	super_by_type (str: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		require
 			valid_type_code: valid_string_storage_type (type_code)
 		do
@@ -111,7 +111,7 @@ feature {NONE} -- Implementation
 					Result := Shared_super_readable_8
 
 				when 'X' then
-					Result := Shared_super_readable
+					Result := Shared_super
 			else
 				Result := Shared_super_readable_32
 			end
@@ -139,17 +139,17 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
+	Shared_super: EL_EXTENDED_ZSTRING
+		once
+			create Result.make_empty
+		end
+
 	Shared_super_readable_32: EL_READABLE_STRING_32
 		once
 			create Result.make_empty
 		end
 
 	Shared_super_readable_8: EL_READABLE_STRING_8
-		once
-			create Result.make_empty
-		end
-
-	Shared_super_readable: EL_EXTENDED_READABLE_ZSTRING
 		once
 			create Result.make_empty
 		end

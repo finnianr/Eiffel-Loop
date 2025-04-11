@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 13:58:17 GMT (Wednesday 9th April 2025)"
-	revision: "21"
+	date: "2025-04-11 15:11:54 GMT (Friday 11th April 2025)"
+	revision: "22"
 
 class
 	EL_STRING_32
@@ -15,14 +15,15 @@ class
 inherit
 	STRING_32
 		rename
-			replace_character as replace_every_character
+			replace_character as replace_every_character,
+			set_count as set_string_count
 		export
 			{EL_STRING_32_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER} Ctoi_convertor, Ctor_convertor
 		undefine
 			same_string
 		redefine
-			append_string_general, make, share, trim
+			append_string_general, make, resize, share, trim
 		end
 
 	EL_EXTENDED_STRING_32
@@ -113,6 +114,11 @@ feature {NONE} -- Implementation
 			a_area.copy_data (source, 0, count, source.count)
 		end
 
+	new_readable: EL_STRING_32
+		do
+			create Result.make_empty
+		end
+
 	new_substring (start_index, end_index: INTEGER): STRING_32
 		do
 			create Result.make_empty
@@ -129,6 +135,23 @@ feature {NONE} -- Implementation
 			Result := other.area_lower
 		end
 
+	resize (newsize: INTEGER)
+		-- Rearrange string so that it can accommodate at least `newsize' characters.
+		do
+			Precursor (newsize)
+			if shared_string /= Current then
+				shared_string.share (Current)
+			end
+		end
+
+	set_count (n: INTEGER)
+		do
+			set_string_count (n)
+			if shared_string /= Current then
+				shared_string.set_count (n)
+			end
+		end
+
 	split_on_character (separator: CHARACTER_32): like Split_string_32
 		do
 			Result := Split_string_32
@@ -138,17 +161,11 @@ feature {NONE} -- Implementation
 	trim
 		 -- reallocate to new size
 		do
-			if shared_string = Current then
+			if attached area as l_area then
 				Precursor
-			else
-				shared_string.trim
-			end
-		end
-
-	update_shared
-		do
-			if shared_string /= Current then
-				shared_string.share (Current)
+				if l_area /= area and then shared_string /= Current then
+					shared_string.share (Current)
+				end
 			end
 		end
 

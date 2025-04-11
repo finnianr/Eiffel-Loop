@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 14:07:20 GMT (Wednesday 9th April 2025)"
-	revision: "126"
+	date: "2025-04-11 8:44:11 GMT (Friday 11th April 2025)"
+	revision: "127"
 
 class
 	EL_ZSTRING
@@ -168,6 +168,13 @@ convert
 	make_from_general ({STRING_8, STRING_32, IMMUTABLE_STRING_8, IMMUTABLE_STRING_32}),
 --	to
 	to_string_32: {STRING_32}, to_latin_1: {STRING}
+
+feature {NONE} -- Initialization
+
+	make_shared (other: ZSTRING)
+		do
+			share (other)
+		end
 
 feature -- Duplication
 
@@ -330,6 +337,21 @@ feature -- Element change
 				wipe_out
 				append_string_general (latin)
 			end
+		end
+
+	share (other: ZSTRING)
+		do
+			internal_share (other)
+			unencoded_area := other.unencoded_area
+		end
+
+	share_8 (latin_1: STRING_8)
+		--
+		require
+			is_shareable_8 (latin_1)
+		do
+			area := latin_1.area; unencoded_area := Empty_unencoded
+			set_count (latin_1.count)
 		end
 
 	substitute_tuple (inserts: TUPLE)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:28:15 GMT (Tuesday 8th April 2025)"
-	revision: "33"
+	date: "2025-04-11 15:02:52 GMT (Friday 11th April 2025)"
+	revision: "34"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -217,13 +217,13 @@ feature -- Measurement
 			create l_result.make_empty
 			across Current as token loop
 				if token.is_character_data_item then
-					Result := Result + sc.super_readable (token.item_string).word_count (True)
+					Result := Result + sc.super_z (token.item_string).word_count (True)
 
 				elseif token.is_attribute_name then
 					l_result := token.item_string_8
 
 				elseif token.is_attribute and then included_attributes.has (l_result) then
-					Result := Result + sc.super_readable (token.item_string).word_count (True)
+					Result := Result + sc.super_z (token.item_string).word_count (True)
 				end
 			end
 		end

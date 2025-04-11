@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 12:20:23 GMT (Monday 7th April 2025)"
-	revision: "159"
+	date: "2025-04-11 8:43:28 GMT (Friday 11th April 2025)"
+	revision: "160"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -240,11 +240,6 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_shared (other: like Current)
-		do
-			share (other)
-		end
-
 feature -- Access
 
 	fuzzy_index (other: READABLE_STRING_GENERAL; start_index: INTEGER; fuzz: INTEGER): INTEGER
@@ -289,21 +284,6 @@ feature -- Access
 		do
 			create Result.make (Current)
 			Result.start
-		end
-
-	share (other: like Current)
-		do
-			internal_share (other)
-			unencoded_area := other.unencoded_area
-		end
-
-	share_8 (latin_1: STRING_8)
-		--
-		require
-			is_shareable_8 (latin_1)
-		do
-			area := latin_1.area; unencoded_area := Empty_unencoded
-			set_count (latin_1.count)
 		end
 
 feature -- Status query

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:53:42 GMT (Tuesday 8th April 2025)"
-	revision: "81"
+	date: "2025-04-11 9:01:39 GMT (Friday 11th April 2025)"
+	revision: "82"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -503,17 +503,30 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			remove_tail (trailing_occurrences (uc))
 		end
 
-	remove_bookends (left, right: CHARACTER)
-		require
-			ascii_characters: left.code <= 0x7F and right.code <= 0x7F
+	remove_bookends (a_left, a_right: CHARACTER_32)
+		local
+			left_matches, right_matches: BOOLEAN; left, right: CHARACTER_8
 		do
-			if count >= 2 and then attached area as l_area
-				and then l_area [0] = left and then l_area [count - 1] = right
-			then
-				set_count (count - 2)
-				l_area.move_data (1, 0, count)
-				if has_mixed_encoding then
-					shift_unencoded_from (1, -1)
+			left := encoded_character (a_left); left := encoded_character (a_right)
+			if count >= 2 and then attached area as l_area then
+				inspect left
+					when Substitute then
+						left_matches := item (1) = a_left
+				else
+					left_matches := l_area [0] = left
+				end
+				inspect right
+					when Substitute then
+						right_matches := item (count) = a_right
+				else
+					right_matches := l_area [count - 1] = right
+				end
+				if left_matches and right_matches then
+					set_count (count - 2)
+					l_area.move_data (1, 0, count)
+					if has_mixed_encoding then
+						shift_unencoded_from (1, -1)
+					end
 				end
 			end
 		end

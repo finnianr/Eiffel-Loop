@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 14:08:05 GMT (Wednesday 9th April 2025)"
-	revision: "6"
+	date: "2025-04-11 8:42:52 GMT (Friday 11th April 2025)"
+	revision: "7"
 
 class
 	EL_UTF_8_CONVERTER_IMP
@@ -184,7 +184,6 @@ feature -- Basic operations
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 			area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
-			sz: EL_ZSTRING_ROUTINES
 		do
 			if attached super_readable_8 (str) as s then
 				area := s.area; offset := s.index_lower

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:59:21 GMT (Tuesday 8th April 2025)"
-	revision: "11"
+	date: "2025-04-11 15:05:30 GMT (Friday 11th April 2025)"
+	revision: "12"
 
 class
 	EL_ZSTRING_OCCURRENCE_EDITOR
@@ -15,7 +15,7 @@ class
 inherit
 	EL_OCCURRENCE_EDITOR [ZSTRING]
 		rename
-			extended_string as super_readable
+			extended_string as super_z
 		redefine
 			default_target, is_equal, target
 		end

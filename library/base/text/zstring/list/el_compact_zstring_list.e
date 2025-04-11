@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 7:02:29 GMT (Sunday 6th April 2025)"
-	revision: "28"
+	date: "2025-04-11 15:02:55 GMT (Friday 11th April 2025)"
+	revision: "29"
 
 class
 	EL_COMPACT_ZSTRING_LIST
@@ -117,9 +117,9 @@ feature {NONE} -- Implementation
 			Result := Empty_string
 		end
 
-	extended_string (general: EL_READABLE_ZSTRING): like super_readable
+	extended_string (general: ZSTRING): like super_z
 		do
-			Result := super_readable (general)
+			Result := super_z (general)
 		end
 
 feature {EL_COMPACT_ZSTRING_ITERATION_CURSOR} -- Internal attributes

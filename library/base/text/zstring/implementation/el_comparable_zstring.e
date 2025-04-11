@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 13:34:09 GMT (Tuesday 8th April 2025)"
-	revision: "51"
+	date: "2025-04-11 12:14:41 GMT (Friday 11th April 2025)"
+	revision: "52"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_BASE
+
+	EL_ZSTRING_CONSTANTS
 
 feature -- Status query
 
@@ -93,7 +95,12 @@ feature -- Start/End comparisons
 			end
 		end
 
-	matches_wildcard (wildcard: READABLE_STRING_GENERAL): BOOLEAN
+	matches_wildcard (wildcard: READABLE_STRING_32): BOOLEAN
+		do
+			Result := matches_wildcard_general (wildcard)
+		end
+
+	matches_wildcard_general (wildcard: READABLE_STRING_GENERAL): BOOLEAN
 		local
 			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
 			search_string: READABLE_STRING_GENERAL
@@ -127,14 +134,26 @@ feature -- Start/End comparisons
 				else
 					Result := has_substring (search_string)
 				end
-
 			elseif any_ending then
-				Result := starts_with_general (search_string)
+				if search_string.is_string_32 then
+					Result := starts_with (general_as_readable_string_32 (search_string))
+				else
+					Result := starts_with_general (search_string)
+				end
 
 			elseif any_start then
-				Result := ends_with_general (search_string)
-			else
-				Result := count = end_index and then same_characters_general (wildcard, 1, end_index, 1)
+				if search_string.is_string_32 then
+					Result := ends_with (general_as_readable_string_32 (search_string))
+				else
+					Result := ends_with_general (search_string)
+				end
+
+			elseif count = end_index then
+				if search_string.is_string_32 then
+					Result := same_characters (general_as_readable_string_32 (search_string), 1, end_index, 1)
+				else
+					Result := same_characters_general (search_string, 1, end_index, 1)
+				end
 			end
 		end
 

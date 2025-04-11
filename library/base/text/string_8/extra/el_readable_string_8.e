@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 18:31:49 GMT (Sunday 6th April 2025)"
-	revision: "2"
+	date: "2025-04-11 15:15:31 GMT (Friday 11th April 2025)"
+	revision: "3"
 
 class
 	EL_READABLE_STRING_8
@@ -31,6 +31,11 @@ create
 	make_empty
 
 feature {NONE} -- Implementation
+
+	new_readable: EL_READABLE_STRING_8
+		do
+			create Result.make_empty
+		end
 
 	other_area (other: READABLE_STRING_8): like area
 		do

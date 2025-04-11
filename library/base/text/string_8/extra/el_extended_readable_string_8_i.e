@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:38:51 GMT (Tuesday 8th April 2025)"
-	revision: "6"
+	date: "2025-04-11 15:13:11 GMT (Friday 11th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -83,11 +83,6 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `a_area'  is white space
 		do
 			Result := a_area [i].is_space
-		end
-
-	new_readable: EL_READABLE_STRING_8
-		do
-			create Result.make_empty
 		end
 
 	new_shared_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8

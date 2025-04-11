@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:53:34 GMT (Tuesday 8th April 2025)"
-	revision: "4"
+	date: "2025-04-11 15:02:51 GMT (Friday 11th April 2025)"
+	revision: "5"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -150,42 +150,42 @@ feature -- Tests
 						inspect character.cursor_index
 							when 1 then
 								assert ("is tab", character_32 = '%T')
-								if super_readable (z_str).leading_occurrences (character_32) = 1 then
+								if super_z (z_str).leading_occurrences (character_32) = 1 then
 									result_ok := super_readable_32 (str).leading_occurrences (character_32) = 1
 								else
 									failed ("1 leading tab")
 								end
 							when 2 then
 								assert ("is space", character_32 = ' ')
-								if super_readable (z_str).leading_white_count = 1 then
+								if super_z (z_str).leading_white_count = 1 then
 									result_ok := super_readable_32 (str).leading_white_count = 1
 								else
 									failed ("1 leading space")
 								end
 							when 3 then
 								assert ("is hyphen", character_32 = '-')
-								if super_readable (z_str).leading_white_count = 0 then
+								if super_z (z_str).leading_white_count = 0 then
 									result_ok := super_readable_32 (str).leading_white_count = 0
 								else
 									failed ("0 leading space")
 								end
 							when 4 then
 								assert ("is space", character_32 = ' ')
-								if super_readable (z_str).trailing_white_count = 1 then
+								if super_z (z_str).trailing_white_count = 1 then
 									result_ok := super_readable_32 (str).trailing_white_count = 1
 								else
 									failed ("1 trailing space")
 								end
 							when 5 then
 								assert ("is hyphen", character_32 = '-')
-								if super_readable (z_str).trailing_white_count = 0 then
+								if super_z (z_str).trailing_white_count = 0 then
 									result_ok := super_readable_32 (str).trailing_white_count = 0
 								else
 									failed ("0 trailing space")
 								end
 							when 6 then
 								assert ("is euro", character_32 = Text.Euro_symbol)
-								if super_readable (z_str).latin_1_count = 3 then
+								if super_z (z_str).latin_1_count = 3 then
 									result_ok := super_readable_32 (str).latin_1_count = 3
 								else
 									failed ("3 latin-1 characters")
@@ -253,7 +253,7 @@ feature -- Tests
 			across Text.lines as line loop
 				if attached line.item as str then
 					first := str [1]
-					occurrences := super_readable (str).occurrences_in_bounds (first, 5, str.count - 5)
+					occurrences := super_z (str).occurrences_in_bounds (first, 5, str.count - 5)
 					inspect line.cursor_index
 						when Line_cyrillic, Line_accented, Line_quattro then
 							expected_occurrences := 1

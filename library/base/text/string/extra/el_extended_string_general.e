@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 13:54:57 GMT (Wednesday 9th April 2025)"
-	revision: "6"
+	date: "2025-04-11 9:46:00 GMT (Friday 11th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -126,7 +126,6 @@ feature -- Element change
 			copy_area_32_data (area, a_area)
 			area [new_count] := to_char ('%U')
 			set_count (new_count)
-			update_shared
 		end
 
 	remove_bookends (left, right: CHAR)
@@ -137,7 +136,6 @@ feature -- Element change
 				set_count (count - 2)
 				l_area.move_data (1, 0, count)
 			end
-			update_shared
 		end
 
 	remove_double
@@ -160,7 +158,7 @@ feature -- Element change
 		-- replace all characters of `str' wih new `content'
 		do
 			wipe_out; append_string_general (content)
-			update_shared
+			set_count (count)
 		end
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
@@ -206,7 +204,6 @@ feature -- Element change
 					i := i + 1
 				end
 				set_count (j)
-				update_shared
 				if l_count > 50 and then ((i - j) * 100.0 / l_count).rounded > 15 then
 					trim -- reallocate to new size
 				end
@@ -265,7 +262,6 @@ feature {NONE} -- Implementation
 					i := i + 1
 				end
 				set_count (j)
-				update_shared
 			end
 		end
 
@@ -298,10 +294,6 @@ feature {NONE} -- Deferred
 
 	trim
 		 -- reallocate to new size
-		deferred
-		end
-
-	update_shared
 		deferred
 		end
 

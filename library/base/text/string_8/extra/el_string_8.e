@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 13:40:54 GMT (Wednesday 9th April 2025)"
-	revision: "36"
+	date: "2025-04-11 15:16:13 GMT (Friday 11th April 2025)"
+	revision: "37"
 
 class
 	EL_STRING_8
@@ -15,7 +15,8 @@ class
 inherit
 	STRING_8
 		rename
-			replace_character as replace_every_character
+			replace_character as replace_every_character,
+			set_count as set_string_count
 		export
 			{EL_STRING_8_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER}
@@ -23,7 +24,7 @@ inherit
 		undefine
 			same_string
 		redefine
-			append_string_general, make, share, trim
+			append_string_general, make, resize, share, trim
 		end
 
 	EL_EXTENDED_STRING_8
@@ -210,6 +211,11 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	new_readable: EL_STRING_8
+		do
+			create Result.make_empty
+		end
+
 	new_substring (start_index, end_index: INTEGER): STRING_8
 		do
 			create Result.make_empty
@@ -226,6 +232,23 @@ feature {NONE} -- Implementation
 			Result := other.area_lower
 		end
 
+	resize (newsize: INTEGER)
+		-- Rearrange string so that it can accommodate at least `newsize' characters.
+		do
+			Precursor (newsize)
+			if shared_string /= Current then
+				shared_string.share (Current)
+			end
+		end
+
+	set_count (n: INTEGER)
+		do
+			set_string_count (n)
+			if shared_string /= Current then
+				shared_string.set_count (n)
+			end
+		end
+
 	split_on_character (separator: CHARACTER_8): like Split_string_8
 		do
 			Result := Split_string_8
@@ -235,17 +258,11 @@ feature {NONE} -- Implementation
 	trim
 		 -- reallocate to new size
 		do
-			if shared_string = Current then
+			if attached area as l_area then
 				Precursor
-			else
-				shared_string.trim
-			end
-		end
-
-	update_shared
-		do
-			if shared_string /= Current then
-				shared_string.share (Current)
+				if l_area /= area and then shared_string /= Current then
+					shared_string.share (Current)
+				end
 			end
 		end
 

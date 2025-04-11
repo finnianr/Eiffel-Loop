@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 11:31:49 GMT (Wednesday 9th April 2025)"
-	revision: "42"
+	date: "2025-04-11 13:38:50 GMT (Friday 11th April 2025)"
+	revision: "43"
 
 class
 	STRING_TEST_SET
@@ -169,7 +169,7 @@ feature -- Tests
 				covers/{EL_COMPARABLE_ZSTRING}.matches_wildcard
 			]"
 		local
-			word: EL_EXTENDED_READABLE_STRING [COMPARABLE]; empty_pattern, pattern: READABLE_STRING_GENERAL
+			word: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; empty_pattern, pattern: READABLE_STRING_GENERAL
 		do
 			across new_string_type_list ("encylopedia, *dia, enc*, *lop*, *") as csv_list loop
 				if attached Convert_string.split_list (csv_list.item, ',', {EL_SIDE}.Left) as split_list then
