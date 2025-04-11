@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 12:14:41 GMT (Friday 11th April 2025)"
-	revision: "52"
+	date: "2025-04-11 18:22:34 GMT (Friday 11th April 2025)"
+	revision: "53"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -127,7 +127,6 @@ feature -- Start/End comparisons
 			else
 				search_string := wildcard.substring (start_index, end_index)
 			end
-
 			if any_ending and any_start then
 				if wildcard.count = 1 then
 					Result := True

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:12:19 GMT (Friday 11th April 2025)"
-	revision: "1"
+	date: "2025-04-11 18:17:16 GMT (Friday 11th April 2025)"
+	revision: "2"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -21,7 +21,7 @@ inherit
 		undefine
 			same_string
 		redefine
-			make, resize, share, trim
+			append_area_32, make, resize, share, trim
 		end
 
 	EL_EXTENDED_STRING_32
@@ -30,7 +30,7 @@ inherit
 			empty_target as empty_string,
 			set_target as share
 		undefine
-			append_area_32, append_to_string_32, append_to_string_8, append_to_utf_8,
+			append_to_string_32, append_to_string_8, append_to_utf_8,
 			count,
 			ends_with_character,
 			has_alpha, has_enclosing, has_member, has_quotes,
@@ -45,6 +45,7 @@ inherit
 			String_32_searcher
 		redefine
 			all_alpha_numeric_in_range, all_ascii_in_range,
+			append_area_32,
 			append_substring_to_special_32, append_substring_to_special_8,
 			append_to,
 			index_of_character_type_change,
@@ -73,7 +74,7 @@ feature -- Status query
 		-- `True' if all characters in `target.substring (start_index, end_index)'
 		-- are in the ASCII character set: 0 .. 127
 		do
---			Result := all_ascii_in_range (unen, lower_abs (start_index), upper_abs (end_index))
+			Result := all_ascii_in_range (unencoded_area, lower_abs (start_index), upper_abs (end_index))
 		end
 
 feature -- Element change
@@ -155,6 +156,14 @@ feature {NONE} -- Implementation
 					i := i + 1
 				end
 				Result := not substitute_found and then c.is_ascii_area (area, i_lower, i_upper)
+			end
+		end
+
+	append_area_32 (a_area: SPECIAL [CHARACTER_32])
+		do
+			Precursor {ZSTRING} (a_area)
+			if Current /= shared_string then
+				shared_string.share (Current)
 			end
 		end
 

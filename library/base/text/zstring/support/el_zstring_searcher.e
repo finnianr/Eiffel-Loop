@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 8:56:23 GMT (Monday 7th April 2025)"
-	revision: "17"
+	date: "2025-04-11 17:55:27 GMT (Friday 11th April 2025)"
+	revision: "18"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -46,7 +46,7 @@ feature -- Initialization
 
 	initialize_z_code_deltas_for_type (pattern: READABLE_STRING_GENERAL; type_code: CHARACTER)
 		do
-			super_by_type (pattern, type_code).fill_z_codes (z_code_pattern)
+			super_readable_by_type (pattern, type_code).fill_z_codes (z_code_pattern)
 			initialize_deltas (z_code_pattern)
 		end
 

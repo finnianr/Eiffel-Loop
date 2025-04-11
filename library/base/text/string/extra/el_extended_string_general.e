@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 9:46:00 GMT (Friday 11th April 2025)"
-	revision: "7"
+	date: "2025-04-11 18:10:20 GMT (Friday 11th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -263,6 +263,12 @@ feature {NONE} -- Implementation
 				end
 				set_count (j)
 			end
+		end
+
+feature {EL_STRING_GENERAL_ROUTINES_I} -- Deferred
+
+	share (other: like shared_string)
+		deferred
 		end
 
 feature {NONE} -- Deferred

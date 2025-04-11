@@ -6,15 +6,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 13:33:38 GMT (Friday 11th April 2025)"
-	revision: "2"
+	date: "2025-04-11 17:59:32 GMT (Friday 11th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_EXTENDED_STRING_32
 
 inherit
-	EL_STRING_BIT_COUNTABLE [STRING_32]
-
 	EL_EXTENDED_STRING_GENERAL [CHARACTER_32]
 		rename
 			READABLE_X AS READABLE_32
@@ -26,6 +24,8 @@ inherit
 		rename
 			target as shared_string
 		end
+
+	EL_STRING_BIT_COUNTABLE [STRING_32]
 
 feature {NONE} -- Implementation
 

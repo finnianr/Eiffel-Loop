@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:06:51 GMT (Friday 11th April 2025)"
-	revision: "20"
+	date: "2025-04-11 18:20:22 GMT (Friday 11th April 2025)"
+	revision: "21"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -79,9 +79,26 @@ feature {NONE} -- Implementation
 			Result.share (str)
 		end
 
-	super_z (str: ZSTRING): EL_EXTENDED_ZSTRING
+	super_general (str: STRING_GENERAL): EL_EXTENDED_STRING_GENERAL [COMPARABLE]
+		-- modify `str' with routines from EL_EXTENDED_STRING_GENERAL
 		do
-			Result := Shared_super
+			Result := super_general_by_type (str, string_storage_type (str))
+		end
+
+	super_general_by_type (str: STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_STRING_GENERAL [COMPARABLE]
+		-- modify `str' with routines from EL_EXTENDED_STRING_GENERAL
+		require
+			valid_type_code: valid_string_storage_type (type_code)
+		do
+			inspect type_code
+				when '1' then
+					Result := Shared_super_8
+
+				when 'X' then
+					Result := shared_super_z
+			else
+				Result := Shared_super_32
+			end
 			Result.share (str)
 		end
 
@@ -97,12 +114,7 @@ feature {NONE} -- Implementation
 			Result.set_target (str)
 		end
 
-	super_readable_general (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
-		do
-			Result := super_by_type (str, string_storage_type (str))
-		end
-
-	super_by_type (str: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
+	super_readable_by_type (str: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		require
 			valid_type_code: valid_string_storage_type (type_code)
 		do
@@ -111,11 +123,22 @@ feature {NONE} -- Implementation
 					Result := Shared_super_readable_8
 
 				when 'X' then
-					Result := Shared_super
+					Result := shared_super_z
 			else
 				Result := Shared_super_readable_32
 			end
 			Result.set_target (str)
+		end
+
+	super_readable_general (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
+		do
+			Result := super_readable_by_type (str, string_storage_type (str))
+		end
+
+	super_z (str: ZSTRING): EL_EXTENDED_ZSTRING
+		do
+			Result := shared_super_z
+			Result.share (str)
 		end
 
 	to_ascii_string_8 (str: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
@@ -139,17 +162,17 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	Shared_super: EL_EXTENDED_ZSTRING
-		once
-			create Result.make_empty
-		end
-
 	Shared_super_readable_32: EL_READABLE_STRING_32
 		once
 			create Result.make_empty
 		end
 
 	Shared_super_readable_8: EL_READABLE_STRING_8
+		once
+			create Result.make_empty
+		end
+
+	shared_super_z: EL_EXTENDED_ZSTRING
 		once
 			create Result.make_empty
 		end

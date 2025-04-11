@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 8:42:52 GMT (Friday 11th April 2025)"
-	revision: "7"
+	date: "2025-04-11 18:04:18 GMT (Friday 11th April 2025)"
+	revision: "8"
 
 class
 	EL_UTF_8_CONVERTER_IMP
@@ -180,7 +180,7 @@ feature -- Basic operations
 		end
 
 	substring_8_into_string_general (str: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_GENERAL)
-			-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
+	-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 			area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
@@ -198,26 +198,7 @@ feature -- Basic operations
 					area_32.extend (unicode (area, code, i, byte_count).to_character_32)
 					i := i + byte_count
 				end
-				inspect string_storage_type (a_result)
-					when '1' then
-						if attached {STRING_8} a_result as str_8 then
-							super_8 (str_8).append_area_32 (area_32)
-						end
-					when '4' then
-						if attached {STRING_32} a_result as str_32 then
-							super_32 (str_32).append_area_32 (area_32)
-						end
-					when 'X' then
-						if attached {ZSTRING} a_result as zstr then
-							zstr.append_area_32 (area_32)
-						end
-				else
-					i_final := area_32.count
-					from i := 0 until i = i_final loop
-						a_result.append_code (area_32 [i].natural_32_code)
-						i := i + 1
-					end
-				end
+				super_general (a_result).append_area_32 (area_32)
 			end
 		ensure
 			roundtrip: attached str.substring (start_index, end_index) as s and then is_valid_string_8 (s)
