@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:39 GMT (Friday 11th April 2025)"
-	revision: "41"
+	date: "2025-04-12 9:14:16 GMT (Saturday 12th April 2025)"
+	revision: "42"
 
 class
 	STRING_TEST
@@ -296,21 +296,23 @@ feature -- Test comparisons
 
 feature -- Test splitting
 
-	occurrence_intervals: BOOLEAN
+	occurrence_intervals
 		local
-			intervals_list: ARRAYED_LIST [EL_OCCURRENCE_INTERVALS]
+			zstring_intervals, string_32_intervals, string_8_intervals: EL_OCCURRENCE_INTERVALS
 			intervals_s_32: EL_SEQUENTIAL_INTERVALS
 		do
 			intervals_s_32 := new_occurrence_intervals (s_32, s_32_substring)
 
-			create intervals_list.make_from_array (<<
-				create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, zs_substring),
-				create {EL_OCCURRENCE_INTERVALS}.make_by_string (s_32, s_32_substring)
-			>>)
+			create zstring_intervals.make_by_string (zs, zs_substring)
+			test.assert ("same as zstring", zstring_intervals.same_as (intervals_s_32))
+
+			create string_32_intervals.make_by_string (s_32, s_32_substring)
+			test.assert ("same as string_32", string_32_intervals.same_as (intervals_s_32))
+
 			if attached s_8_substring as str_8 then
-				intervals_list.extend (create {EL_OCCURRENCE_INTERVALS}.make_by_string (zs, str_8))
+				create string_8_intervals.make_by_string (zs, str_8)
+				test.assert ("same as string_8", string_8_intervals.same_as (intervals_s_32))
 			end
-			Result := across intervals_list as list all list.item.same_as (intervals_s_32) end
 		end
 
 	split_intervals: BOOLEAN

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 14:09:13 GMT (Wednesday 9th April 2025)"
-	revision: "71"
+	date: "2025-04-13 7:46:03 GMT (Sunday 13th April 2025)"
+	revision: "72"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -113,7 +113,7 @@ feature -- Basic operations
 
 	append_to (str: STRING_32; extra: READABLE_STRING_GENERAL)
 		do
-			if is_zstring (extra) then
+			if conforms_to_zstring (extra) then
 				as_zstring (extra).append_to_string_32 (str)
 			else
 				str.append_string_general (extra)

@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:58:33 GMT (Tuesday 8th April 2025)"
-	revision: "72"
+	date: "2025-04-12 9:15:27 GMT (Saturday 12th April 2025)"
+	revision: "73"
 
 class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -253,23 +253,21 @@ feature -- Tests
 		note
 			testing: "covers/{EL_OCCURRENCE_INTERVALS}.make_by_string"
 		local
-			pair: STRING_TEST; start_index, end_index, space_index: INTEGER
-			assertion_ok: STRING
+			test: STRING_TEST; start_index, end_index, space_index: INTEGER
 		do
-			assertion_ok := "occurrence_intervals OK"
 			across Text.lines_32 as line loop
-				create pair.make (Current, line.item)
-				space_index := pair.s_32.index_of (' ', 1)
+				create test.make (Current, line.item)
+				space_index := test.s_32.index_of (' ', 1)
 				if space_index > 0 then
-					pair.set_substrings (space_index, space_index)
-					assert (assertion_ok, pair.occurrence_intervals)
+					test.set_substrings (space_index, space_index)
+					test.occurrence_intervals
 				end
-				across pair.all_word_interval_permutations as permutation loop
+				across test.all_word_interval_permutations as permutation loop
 					if attached permutation.item as list then
 						from list.start until list.after loop
 							start_index := list.item_lower; end_index := list.item_upper
-							pair.set_substrings (start_index, end_index)
-							assert (assertion_ok, pair.occurrence_intervals)
+							test.set_substrings (start_index, end_index)
+							test.occurrence_intervals
 							list.forth
 						end
 					end

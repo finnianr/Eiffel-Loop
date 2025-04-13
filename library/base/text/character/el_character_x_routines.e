@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 9:50:33 GMT (Tuesday 8th April 2025)"
-	revision: "39"
+	date: "2025-04-12 7:55:27 GMT (Saturday 12th April 2025)"
+	revision: "40"
 
 deferred class
 	EL_CHARACTER_X_ROUTINES [CHAR -> COMPARABLE]

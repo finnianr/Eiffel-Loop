@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:46:57 GMT (Tuesday 8th April 2025)"
-	revision: "18"
+	date: "2025-04-13 16:38:04 GMT (Sunday 13th April 2025)"
+	revision: "19"
 
 class
 	EL_BORROWED_STRING_8_CURSOR
@@ -45,7 +45,7 @@ feature -- Access
 			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8 then
 				Result.append (str_8)
 
-			elseif is_zstring (general) then
+			elseif conforms_to_zstring (general) then
 				as_zstring (general).append_to_string_8 (Result)
 
 			elseif attached {READABLE_STRING_32} general as str_32 then

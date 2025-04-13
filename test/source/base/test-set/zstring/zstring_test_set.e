@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 13:02:34 GMT (Tuesday 8th April 2025)"
-	revision: "141"
+	date: "2025-04-13 16:23:24 GMT (Sunday 13th April 2025)"
+	revision: "142"
 
 class
 	ZSTRING_TEST_SET
@@ -85,7 +85,7 @@ feature -- General tests
 			create str_32.make_empty
 			across Text.words_32 as list loop
 				zstr := list.item
-				zstr.fill_with_z_code (str_32)
+				zstr.fill_z_codes (str_32)
 				create zstr_2.make_from_zcode_area (s32.to_code_array (str_32))
 				assert_same_string (Void, zstr, zstr_2)
 			end
@@ -180,12 +180,13 @@ feature -- Removal tests
 		note
 			testing: "covers/{ZSTRING}.remove_double"
 		local
-			template, quoted, str: ZSTRING
+			double_quotes, quoted, str: ZSTRING
 		do
-			template := "%"%S%""
+			create double_quotes.make_filled ('"', 2)
 			across Text.words_32 as word loop
 				str := word.item
-				quoted := template #$ [str]
+				quoted := double_quotes.twin
+				quoted.insert_string (str, 2)
 				assert ("in quotes", quoted [2] = str [1] and quoted [quoted.count - 1] = str [str.count])
 				quoted.remove_double
 				assert ("same word", quoted ~ str)
@@ -570,7 +571,7 @@ feature -- Status query tests
 					when Line_accented then
 						start_index := test.s_32.index_of ('ú', 1)
 						test.set_substrings (start_index, start_index)
-						
+
 					when Line_quattro then
 						start_index := test.s_32.index_of ('´', 1)
 						test.set_substrings (start_index, start_index)

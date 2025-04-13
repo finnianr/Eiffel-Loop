@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:55:27 GMT (Friday 11th April 2025)"
-	revision: "18"
+	date: "2025-04-12 9:26:34 GMT (Saturday 12th April 2025)"
+	revision: "19"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -138,7 +138,7 @@ feature -- Search
 
 	sub_zstring_index (a_string: like string_type; a_pattern: EL_READABLE_ZSTRING; start_pos, end_pos: INTEGER): INTEGER
 		do
-			a_pattern.fill_with_z_code (z_code_pattern)
+			a_pattern.fill_z_codes (z_code_pattern)
 			Result := substring_index (a_string, z_code_pattern, start_pos, end_pos)
 		end
 

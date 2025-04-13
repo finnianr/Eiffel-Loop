@@ -5,8 +5,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "5"
+	date: "2025-04-13 16:41:42 GMT (Sunday 13th April 2025)"
+	revision: "6"
 
 class
 	STRING_TYPE_SORTER
@@ -37,7 +37,7 @@ feature -- Access
 						readable_32 := str_32
 					end
 				when 'X' then
-					if attached {EL_READABLE_ZSTRING} general as zstr then
+					if attached {ZSTRING} general as zstr then
 						readable_z := zstr
 					end
 			end
@@ -49,7 +49,7 @@ feature -- Access
 
 	readable_8: READABLE_STRING_32
 
-	readable_z: EL_READABLE_ZSTRING
+	readable_z: ZSTRING
 
 	string_storage_type: CHARACTER
 

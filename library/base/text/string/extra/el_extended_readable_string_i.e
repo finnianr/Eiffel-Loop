@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 13:21:07 GMT (Wednesday 9th April 2025)"
-	revision: "8"
+	date: "2025-04-12 7:58:07 GMT (Saturday 12th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -49,41 +49,32 @@ feature -- Measurement
 			Result := target.count
 		end
 
-	latin_1_count: INTEGER
-		local
-			i, last_i: INTEGER; l_area: like area
-		do
-			last_i := index_upper; l_area := area
-			from i := index_lower until i > last_i loop
-				if to_natural_32_code (l_area [i]) <= 0xFF then
-					Result := Result + 1
-				end
-				i := i + 1
-			end
-		end
-
 	leading_occurrences (c: CHAR): INTEGER
 		local
-			i, last_i: INTEGER; l_area: like area
+			i, i_upper: INTEGER
 		do
-			last_i := index_upper; l_area := area
-			from i := index_lower until i > last_i or else l_area [i] /= c loop
-				i := i + 1
+			if attached area as l_area then
+				i_upper := index_upper
+				from i := index_lower until i > i_upper or else l_area [i] /= c loop
+					i := i + 1
+				end
+				Result := i - index_lower
 			end
-			Result := i - index_lower
 		end
 
 	leading_white_count: INTEGER
 		local
-			i, last_i: INTEGER; l_area: like area
+			i, i_upper: INTEGER
 		do
-			last_i := index_upper; l_area := area
-			if attached Unicode_property as unicode then
-				from i := index_lower until i > last_i or else not is_i_th_space (l_area, i, unicode) loop
-					i := i + 1
+			if attached area as l_area then
+				i_upper := index_upper
+				if attached Unicode_property as unicode then
+					from i := index_lower until i > i_upper or else not is_i_th_space (l_area, i, unicode) loop
+						i := i + 1
+					end
 				end
+				Result := i - index_lower
 			end
-			Result := i - index_lower
 		end
 
 	occurrences_in_bounds (c: CHAR; start_index, end_index: INTEGER): INTEGER
@@ -96,15 +87,17 @@ feature -- Measurement
 
 	trailing_white_count: INTEGER
 		local
-			i, first_i: INTEGER; l_area: like area
+			i, first_i: INTEGER
 		do
-			first_i := index_lower; l_area := area
-			if attached Unicode_property as unicode then
-				from i := index_upper until i < first_i or else not is_i_th_space (l_area, i, unicode) loop
-					i := i - 1
+			if attached area as l_area then
+				first_i := index_lower
+				if attached Unicode_property as unicode then
+					from i := index_upper until i < first_i or else not is_i_th_space (l_area, i, unicode) loop
+						i := i - 1
+					end
 				end
+				Result := index_upper - i
 			end
-			Result := index_upper - i
 		end
 
 	utf_8_byte_count: INTEGER

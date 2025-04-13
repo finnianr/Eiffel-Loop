@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:16:13 GMT (Friday 11th April 2025)"
-	revision: "37"
+	date: "2025-04-13 17:24:32 GMT (Sunday 13th April 2025)"
+	revision: "38"
 
 class
 	EL_STRING_8
@@ -130,7 +130,7 @@ feature -- Element change
 
 	append_string_general (str: READABLE_STRING_GENERAL)
 		do
-			if is_zstring (str) and then attached {ZSTRING} str as z_str then
+			if conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 				z_str.append_to_string_8 (Current)
 			else
 				Precursor (str)
@@ -199,7 +199,7 @@ feature {NONE} -- Implementation
 		local
 			i, i_upper, offset: INTEGER; uc: CHARACTER_32
 		do
-			i_upper := source.count - 1
+			i_upper := source.count - 1; offset := count
 			from i := 0 until i > i_upper loop
 				uc := source [i]
 				if uc.is_character_8 then

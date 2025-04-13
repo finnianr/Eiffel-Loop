@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:56:18 GMT (Tuesday 8th April 2025)"
-	revision: "23"
+	date: "2025-04-12 9:26:32 GMT (Saturday 12th April 2025)"
+	revision: "24"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -48,7 +48,7 @@ feature {NONE} -- Measurement
 			substring_agrees: substring (1, Result).occurrences (uc) = Result
 		end
 
-	leading_white_space: INTEGER
+	leading_white_count: INTEGER
 		deferred
 		end
 
@@ -60,6 +60,10 @@ feature {NONE} -- Measurement
 		deferred
 		end
 
+	substring_index_zstring (other: EL_READABLE_ZSTRING; start_index: INTEGER): INTEGER
+		deferred
+		end
+
 	trailing_occurrences (uc: CHARACTER_32): INTEGER
 		-- Returns count of continous occurrences of `uc' or white space starting from the end
 		deferred
@@ -67,7 +71,7 @@ feature {NONE} -- Measurement
 			substring_agrees: substring (count - Result + 1, count).occurrences (uc) = Result
 		end
 
-	trailing_white_space: INTEGER
+	trailing_white_count: INTEGER
 		deferred
 		end
 
@@ -165,7 +169,7 @@ feature {NONE} -- Implementation
 		deferred
 		end
 
-	fill_with_z_code (str: STRING_32)
+	fill_z_codes (str: STRING_32)
 		deferred
 		ensure
 			reversible: is_reversible_z_code_pattern (current_readable, str)

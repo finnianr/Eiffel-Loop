@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:42:53 GMT (Sunday 22nd September 2024)"
-	revision: "24"
+	date: "2025-04-12 6:55:03 GMT (Saturday 12th April 2025)"
+	revision: "25"
 
 class
 	LOCALIZATION_COMMAND_SHELL
@@ -93,7 +93,7 @@ feature {EQA_TEST_SET} -- Implementation
 				if adjusted.starts_with (Lang_equals)
 					and then not adjusted.has_substring ("check") and then not adjusted.ends_with (EN)
 				then
-					line.replace_substring (adjusted + "; check = false", line.leading_white_space + 1, line.count)
+					line.replace_substring (adjusted + "; check = false", line.leading_white_count + 1, line.count)
 				end
 			end
 

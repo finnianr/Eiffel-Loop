@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 18:17:16 GMT (Friday 11th April 2025)"
-	revision: "2"
+	date: "2025-04-12 9:38:20 GMT (Saturday 12th April 2025)"
+	revision: "3"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -18,8 +18,6 @@ inherit
 			append_to as append_to_other,
 			is_ascii_substring as is_other_ascii_substring,
 			set_count as set_string_count
-		undefine
-			same_string
 		redefine
 			append_area_32, make, resize, share, trim
 		end
@@ -32,28 +30,26 @@ inherit
 		undefine
 			append_to_string_32, append_to_string_8, append_to_utf_8,
 			count,
-			ends_with_character,
+			ends_with_character, fill_z_codes,
 			has_alpha, has_enclosing, has_member, has_quotes,
 			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced, is_valid_as_string_8,
-			leading_occurrences,
+			leading_occurrences, leading_white_count,
 			matches_wildcard,
 			remove_bookends, replace_character, remove_double, remove_single,
-			starts_with_character,
+			same_string, starts_with_character,
 			to_canonically_spaced, to_utf_8,
-			translate, translate_or_delete, translate_with_deletion,
+			trailing_white_count, translate, translate_or_delete, translate_with_deletion,
 			utf_8_byte_count, valid_index, write_utf_8_to,
 			String_32_searcher
 		redefine
 			all_alpha_numeric_in_range, all_ascii_in_range,
-			append_area_32,
-			append_substring_to_special_32, append_substring_to_special_8,
+			append_area_32, append_substring_to_special_32, append_substring_to_special_8,
 			append_to,
 			index_of_character_type_change,
 			is_c_identifier_in_range, is_eiffel_identifier_in_range,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space,
-			new_shared_substring,
-			occurrences_in_area_bounds,
-			parse_substring_in_range,
+			latin_1_count,
+			new_shared_substring, occurrences_in_area_bounds, parse_substring_in_range,
 			right_bracket_index
 		end
 
@@ -66,6 +62,40 @@ feature {NONE} -- Initialization
 		do
 			Precursor (n)
 			shared_string := Current
+		end
+
+feature -- Measurement
+
+	latin_1_count: INTEGER
+		local
+			i, i_upper, block_index: INTEGER; break, already_latin_1: BOOLEAN
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; c_i: CHARACTER
+		do
+			already_latin_1 := Codec.encoded_as_latin (1)
+			if attached unicode_table as l_unicode_table and then attached unencoded_area as area_32
+				and then attached area as l_area
+			then
+				i_upper := area_upper
+				from i := area_lower until break or i > i_upper loop
+					c_i := l_area [i]
+					inspect character_8_band (c_i)
+						when Substitute then
+							if iter.item ($block_index, area_32, i + 1).is_character_8 then
+								Result := Result + 1
+							end
+						when Ascii_range then
+							Result := Result + 1
+					else
+						if already_latin_1 then
+							Result := Result + 1
+
+						elseif l_unicode_table [c_i.code].is_character_8 then
+							Result := Result + 1
+						end
+					end
+					i := i + 1
+				end
+			end
 		end
 
 feature -- Status query
@@ -225,6 +255,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
+	copy_area_32_data (unencoded: like unencoded_area; source: SPECIAL [CHARACTER_32])
+		require else
+			not_applicable: False
+		do
+		end
+
 	index_of_character_type_change (
 		unencoded: like unencoded_area; i_lower, i_upper: INTEGER; find_word: BOOLEAN; a_unicode: like Unicode_property
 	): INTEGER
@@ -300,15 +336,14 @@ feature {NONE} -- Implementation
 			Result := is_space_item (i - 1)
 		end
 
-	copy_area_32_data (unencoded: like unencoded_area; source: SPECIAL [CHARACTER_32])
-		require else
-			not_applicable: False
-		do
-		end
-
 	new_readable: EL_EXTENDED_ZSTRING
 		do
 			create Result.make_empty
+		end
+
+	new_shared_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING
+		do
+			Result := Substring_buffer.copied_substring (str, start_index, end_index)
 		end
 
 	new_substring (start_index, end_index: INTEGER): ZSTRING
@@ -355,11 +390,6 @@ feature {NONE} -- Implementation
 	other_index_lower (other: EL_READABLE_ZSTRING): INTEGER
 		do
 			Result := other.area_lower
-		end
-
-	new_shared_substring (str: EL_READABLE_ZSTRING; start_index, end_index: INTEGER): EL_READABLE_ZSTRING
-		do
-			Result := Substring_buffer.copied_substring (str, start_index, end_index)
 		end
 
 	parse_substring_in_range (

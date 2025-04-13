@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 16:00:18 GMT (Saturday 5th April 2025)"
-	revision: "6"
+	date: "2025-04-12 6:49:40 GMT (Saturday 12th April 2025)"
+	revision: "7"
 
 class
 	EL_FLOATING_ZSTRING
@@ -40,8 +40,8 @@ feature -- Element change
 			internal_share (other)
 			unencoded_area := other.unencoded_area
 			if full_count > 0 then
-				start_index := leading_white_space + 1
-				end_index := full_count - trailing_white_space
+				start_index := leading_white_count + 1
+				end_index := full_count - trailing_white_count
 			else
 				start_index := 1
 				end_index := 0

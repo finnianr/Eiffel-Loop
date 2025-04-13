@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 9:01:39 GMT (Friday 11th April 2025)"
-	revision: "82"
+	date: "2025-04-13 16:21:19 GMT (Sunday 13th April 2025)"
+	revision: "83"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -507,7 +507,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 		local
 			left_matches, right_matches: BOOLEAN; left, right: CHARACTER_8
 		do
-			left := encoded_character (a_left); left := encoded_character (a_right)
+			left := encoded_character (a_left); right := encoded_character (a_right)
 			if count >= 2 and then attached area as l_area then
 				inspect left
 					when Substitute then
@@ -602,7 +602,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 		local
 			trailing_count: INTEGER
 		do
-			trailing_count := trailing_white_space
+			trailing_count := trailing_white_count
 			if trailing_count.to_boolean then
 				keep_head (count - trailing_count)
 			end

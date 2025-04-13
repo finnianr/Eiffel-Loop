@@ -5,8 +5,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:54:39 GMT (Tuesday 8th April 2025)"
-	revision: "6"
+	date: "2025-04-13 16:38:03 GMT (Sunday 13th April 2025)"
+	revision: "7"
 
 class
 	EXTENDED_READABLE_STRING_TYPE_MAP
@@ -29,7 +29,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			make_instance_map (<<
-				[{EL_READABLE_ZSTRING}, Shared_super_readable],
+				[{EL_READABLE_ZSTRING}, Shared_super_z],
 				[{READABLE_STRING_8},	Shared_super_readable_8],
 				[{READABLE_STRING_32},	Shared_super_readable_32]
 			>>)

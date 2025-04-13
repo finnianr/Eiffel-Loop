@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 11:28:21 GMT (Sunday 6th October 2024)"
-	revision: "5"
+	date: "2025-04-13 16:31:21 GMT (Sunday 13th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_STRING_HANDLER
@@ -23,9 +23,11 @@ inherit
 
 feature {NONE} -- Implementation
 
-	is_zstring (general: READABLE_STRING_GENERAL): BOOLEAN
+	conforms_to_zstring (general: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := {ISE_RUNTIME}.dynamic_type (general) = ZSTRING_type_id
+			if general.is_string_32 then
+				Result := {ISE_RUNTIME}.dynamic_type (general) >= READABLE_ZSTRING_type_id
+			end
 		end
 
 	string_storage_type (general: READABLE_STRING_GENERAL): CHARACTER
@@ -33,12 +35,13 @@ feature {NONE} -- Implementation
 		-- 'X' means an indeterminate number for ZSTRING type
 		do
 			if general.is_string_8 then
-				Result := '1' -- bytes
+				Result := '1' -- 1 byte per character
 
-			elseif {ISE_RUNTIME}.dynamic_type (general) = ZSTRING_type_id then
-				Result := 'X'
+			elseif {ISE_RUNTIME}.dynamic_type (general) >= READABLE_ZSTRING_type_id then
+				Result := 'X' -- 1 or 4 bytes per character
+
 			else
-				Result := '4' -- bytes
+				Result := '4' -- 4 bytes per character: STRING_32 etc
 			end
 		ensure
 			valid_code: valid_string_storage_type (Result)
@@ -57,8 +60,9 @@ feature -- Contract Support
 
 feature {NONE} -- Constants
 
-	ZSTRING_type_id: INTEGER
-		once
-			Result := ({ZSTRING}).type_id
+	READABLE_ZSTRING_type_id: INTEGER
+		once ("PROCESS")
+			Result := ({EL_READABLE_ZSTRING}).type_id
 		end
+
 end

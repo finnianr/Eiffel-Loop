@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "27"
+	date: "2025-04-12 9:26:35 GMT (Saturday 12th April 2025)"
+	revision: "28"
 
 deferred class
 	EL_WRITEABLE_ZSTRING
@@ -154,7 +154,7 @@ feature -- Append to other
 
 feature -- Basic operations
 
-	fill_with_z_code (str: STRING_32)
+	fill_z_codes (str: STRING_32)
 		-- fill `str' with z_code characters
 		local
 			i, l_count, block_index: INTEGER; c_i: CHARACTER; z_code_i: NATURAL

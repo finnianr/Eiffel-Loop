@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 18:20:22 GMT (Friday 11th April 2025)"
-	revision: "21"
+	date: "2025-04-13 7:45:58 GMT (Sunday 13th April 2025)"
+	revision: "22"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -52,7 +52,7 @@ feature {NONE} -- Implementation
 	as_zstring (general: READABLE_STRING_GENERAL): ZSTRING
 		-- cast `general' to type `ZSTRING' if possible or else create a new `ZSTRING'
 		do
-			if is_zstring (general) and then attached {ZSTRING} general as z_str then
+			if conforms_to_zstring (general) and then attached {ZSTRING} general as z_str then
 				Result := z_str
 			else
 				create Result.make_from_general (general)

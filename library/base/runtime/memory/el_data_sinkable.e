@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 14:03:49 GMT (Thursday 3rd April 2025)"
-	revision: "32"
+	date: "2025-04-13 7:46:07 GMT (Sunday 13th April 2025)"
+	revision: "33"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -288,7 +288,7 @@ feature -- String sinks
 		local
 			l_area: SPECIAL [CHARACTER_32]; i, i_lower, i_upper: INTEGER
 		do
-			if is_zstring (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
+			if conforms_to_zstring (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
 				sink_string (z_str)
 
 			elseif utf_8_mode_enabled then

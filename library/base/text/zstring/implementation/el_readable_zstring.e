@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 8:43:28 GMT (Friday 11th April 2025)"
-	revision: "160"
+	date: "2025-04-13 7:45:56 GMT (Sunday 13th April 2025)"
+	revision: "161"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -66,7 +66,12 @@ inherit
 
 	EL_CHARACTER_TESTABLE_ZSTRING
 
+
+
+
 	EL_COMPARABLE_ZSTRING
+
+
 		export
 			{STRING_HANDLER, EL_OCCURRENCE_INTERVALS}
 				compatible_string_8, empty_unencoded_buffer, item_8, order_comparison,
@@ -81,14 +86,22 @@ inherit
 
 	EL_CONVERTABLE_ZSTRING
 
+
+
+
 	EL_MEASUREABLE_ZSTRING
 
 	EL_SEARCHABLE_ZSTRING
+
+
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list_general
 		end
 
 	EL_ZSTRING_TO_BASIC_TYPES
+
+
+
 
 	READABLE_INDEXABLE [CHARACTER_32]
 		rename
@@ -137,7 +150,7 @@ feature {NONE} -- Initialization
 
 	make_from_general (s: READABLE_STRING_GENERAL)
 		do
-			if same_type (s) and then attached {ZSTRING} s as z_str then
+			if conforms_to_zstring (s) and then attached {ZSTRING} s as z_str then
 				make_from_other (z_str)
 			else
 				make_filled ('%U', s.count)
@@ -382,11 +395,11 @@ feature -- Substrings
 		local
 			left_count: INTEGER
 		do
-			left_count := leading_white_space
+			left_count := leading_white_count
 			if left_count = count then
 				Result := new_string (0)
 			else
-				Result := substring (left_count + 1, count - trailing_white_space)
+				Result := substring (left_count + 1, count - trailing_white_count)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:06:50 GMT (Thursday 3rd April 2025)"
-	revision: "40"
+	date: "2025-04-13 8:22:31 GMT (Sunday 13th April 2025)"
+	revision: "41"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -44,12 +44,13 @@ feature {NONE} -- Initialization
 			real_types := numeric_types (<< REAL_32, REAL_64 >>)
 
 			immutable_string_types := << IMMUTABLE_STRING_8, IMMUTABLE_STRING_32 >>
+			zstring_types := << EL_ZSTRING, EL_EXTENDED_ZSTRING, EL_FLOATING_ZSTRING >>
 			readable_string_8_types := <<
-				IMMUTABLE_STRING_8, STRING_8, EL_STRING_8, EL_URI, EL_URL, EL_UTF_8_STRING
+				STRING_8, IMMUTABLE_STRING_8, EL_STRING_8, EL_URI, EL_URL, EL_UTF_8_STRING
 			>>
-			readable_string_32_types := <<
-				STRING_32, EL_STRING_32, IMMUTABLE_STRING_32, ZSTRING, EL_FLOATING_ZSTRING
-			>>
+
+			string_32_types := << STRING_32, IMMUTABLE_STRING_32, EL_STRING_32, EL_WORD_TOKEN_LIST >>
+			readable_string_32_types := joined (string_32_types, zstring_types)
 			el_path_types := << EL_FILE_PATH, EL_DIR_PATH, EL_DIR_URI_PATH, EL_FILE_URI_PATH >>
 
 			unicode_types := joined (joined (<< CHARACTER_32 >>, readable_string_32_types), el_path_types)

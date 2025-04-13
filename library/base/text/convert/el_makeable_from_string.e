@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:46 GMT (Sunday 30th March 2025)"
-	revision: "10"
+	date: "2025-04-13 7:46:05 GMT (Sunday 13th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_MAKEABLE_FROM_STRING [S-> STRING_GENERAL create make end]
@@ -53,7 +53,7 @@ feature {NONE} -- Implementation
 	new_string (general: READABLE_STRING_GENERAL): S
 		do
 			create Result.make (general.count)
-			if is_zstring (general) then
+			if conforms_to_zstring (general) then
 				as_zstring (general).append_to_general (Result)
 			else
 				Result.append (general)

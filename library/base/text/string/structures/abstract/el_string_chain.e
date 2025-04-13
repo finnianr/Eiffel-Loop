@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:44 GMT (Sunday 30th March 2025)"
-	revision: "59"
+	date: "2025-04-13 7:46:04 GMT (Sunday 13th April 2025)"
+	revision: "60"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -256,7 +256,7 @@ feature {NONE} -- Implementation
 				Result := str
 			else
 				create Result.make (general.count)
-				if is_zstring (general) then
+				if conforms_to_zstring (general) then
 					as_zstring (general).append_to_general (Result)
 				else
 					Result.append (general)

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:13:11 GMT (Friday 11th April 2025)"
-	revision: "7"
+	date: "2025-04-13 17:48:16 GMT (Sunday 13th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -17,7 +17,7 @@ inherit
 		rename
 			READABLE_X as READABLE_8
 		redefine
-			latin_1_count, target
+			convertible_to_char, latin_1_count, target
 		end
 
 	EL_STRING_8_CONSTANTS
@@ -49,6 +49,11 @@ feature {NONE} -- Implementation
 			c: EL_CHARACTER_8_ROUTINES
 		do
 			Result := c.is_ascii_area (area, i_lower, i_upper)
+		end
+
+	convertible_to_char (uc: CHARACTER_32): BOOLEAN
+		do
+			Result := uc.is_character_8
 		end
 
 	is_c_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN

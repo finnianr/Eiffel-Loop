@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:43 GMT (Sunday 30th March 2025)"
-	revision: "11"
+	date: "2025-04-13 7:46:00 GMT (Sunday 13th April 2025)"
+	revision: "12"
 
 class
 	EL_STRING_GENERAL_TABLE [G]
@@ -34,11 +34,11 @@ feature -- Comparison
 					Result := search_key.same_string (key)
 				end
 
-			elseif is_zstring (search_key) and then attached {ZSTRING} search_key as z_str then
+			elseif conforms_to_zstring (search_key) and then attached {ZSTRING} search_key as z_str then
 			-- ZSTRING has it's own implementation of `same_characters_general'
 				Result := z_str.same_string_general (key)
 
-			elseif is_zstring (key) and then attached {ZSTRING} key as z_str then
+			elseif conforms_to_zstring (key) and then attached {ZSTRING} key as z_str then
 				Result := z_str.same_string_general (search_key)
 
 			elseif key.is_string_32 then

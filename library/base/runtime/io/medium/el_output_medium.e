@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:35 GMT (Friday 11th April 2025)"
-	revision: "47"
+	date: "2025-04-13 7:45:56 GMT (Sunday 13th April 2025)"
+	revision: "48"
 
 deferred class
 	EL_OUTPUT_MEDIUM
@@ -232,7 +232,7 @@ feature -- String output
 				when Other_class then
 					put_other (str)
 			else
-				if is_zstring (str) and then attached {ZSTRING} str as z_str then
+				if conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 					put_string (z_str)
 				else
 					put_codec_encoded (str)
@@ -270,7 +270,7 @@ feature -- String output
 				if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 					put_string_8 (str_8)
 
-				elseif is_zstring (str) and then attached {ZSTRING} str as z_str then
+				elseif conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 					put_string (z_str)
 
 				else

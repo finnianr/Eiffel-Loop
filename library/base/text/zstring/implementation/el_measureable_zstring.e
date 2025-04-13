@@ -6,14 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:50 GMT (Friday 7th February 2025)"
-	revision: "29"
+	date: "2025-04-12 6:53:26 GMT (Saturday 12th April 2025)"
+	revision: "30"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_BASE
+		
+			
+		
 
 feature -- Measurement
 
@@ -55,7 +58,7 @@ feature -- Measurement
 			end
 		end
 
-	leading_white_space: INTEGER
+	leading_white_count: INTEGER
 		do
 			Result := internal_leading_white_space (area, count)
 		end
@@ -133,7 +136,7 @@ feature -- Measurement
 			end
 		end
 
-	trailing_white_space: INTEGER
+	trailing_white_count: INTEGER
 		do
 			Result := internal_trailing_white_space (area)
 		end

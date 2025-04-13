@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-07 8:12:56 GMT (Monday 7th April 2025)"
-	revision: "38"
+	date: "2025-04-13 7:46:04 GMT (Sunday 13th April 2025)"
+	revision: "39"
 
 class
 	EL_OCCURRENCE_INTERVALS
@@ -77,11 +77,11 @@ feature -- Element change
 				when 1 then
 					fill (target, pattern [1], adjustments)
 			else
-				if is_zstring (target) and then attached {EL_READABLE_ZSTRING} target as z_target then
+				if conforms_to_zstring (target) and then attached {EL_READABLE_ZSTRING} target as z_target then
 					fill_by_string (z_target, pattern, adjustments)
 
 				elseif attached String_32_searcher as searcher then
-					if is_zstring (pattern) then
+					if conforms_to_zstring (pattern) then
 						l_pattern := pattern.to_string_32
 					else
 						l_pattern := pattern
@@ -121,7 +121,7 @@ feature -- Element change
 			if target.is_string_8 and then attached {READABLE_STRING_8} target as str_8 then
 				fill_by_string_8 (str_8, pattern, adjustments)
 
-			elseif is_zstring (target) and then attached {EL_READABLE_ZSTRING} target as z_target then
+			elseif conforms_to_zstring (target) and then attached {EL_READABLE_ZSTRING} target as z_target then
 				fill_by_string (z_target, pattern, adjustments)
 
 			elseif attached {READABLE_STRING_32} target as str_32 then

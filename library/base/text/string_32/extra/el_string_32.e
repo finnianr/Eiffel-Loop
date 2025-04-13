@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:11:54 GMT (Friday 11th April 2025)"
-	revision: "22"
+	date: "2025-04-13 7:46:06 GMT (Sunday 13th April 2025)"
+	revision: "23"
 
 class
 	EL_STRING_32
@@ -100,7 +100,7 @@ feature -- Element change
 
 	append_string_general (str: READABLE_STRING_GENERAL)
 		do
-			if is_zstring (str) and then attached {ZSTRING} str as z_str then
+			if conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 				z_str.append_to_string_32 (Current)
 			else
 				Precursor (str)

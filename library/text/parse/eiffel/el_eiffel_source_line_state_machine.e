@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 13:20:05 GMT (Sunday 6th October 2024)"
-	revision: "23"
+	date: "2025-04-12 6:46:37 GMT (Saturday 12th April 2025)"
+	revision: "24"
 
 class
 	EL_EIFFEL_SOURCE_LINE_STATE_MACHINE
@@ -118,7 +118,7 @@ feature {NONE} -- Implementation
 				if index > 0 and then line.valid_index (index + 1)
 					and then Verbatim_markers.open.has (line.item_8 (index + 1))
 				then
-					Result := line.leading_white_space = index - 1
+					Result := line.leading_white_count = index - 1
 				end
 			end
 		end

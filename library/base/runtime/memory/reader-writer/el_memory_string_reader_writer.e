@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:29:09 GMT (Tuesday 8th April 2025)"
-	revision: "20"
+	date: "2025-04-13 7:45:55 GMT (Sunday 13th April 2025)"
+	revision: "21"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -245,7 +245,7 @@ feature -- Write operations
 			i, pos, first_index, last_index: INTEGER; compressed_32: SPECIAL [NATURAL_8]
 			area: SPECIAL [CHARACTER_32]; is_native: BOOLEAN
 		do
-			if is_zstring (str) and then attached {ZSTRING} str as z_str then
+			if conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 				write_string (z_str)
 
 			elseif attached big_enough_buffer (size_of_string_32 (str)) as buf then

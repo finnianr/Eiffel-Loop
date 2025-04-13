@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 18:10:20 GMT (Friday 11th April 2025)"
-	revision: "8"
+	date: "2025-04-13 17:53:29 GMT (Sunday 13th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -126,6 +126,12 @@ feature -- Element change
 			copy_area_32_data (area, a_area)
 			area [new_count] := to_char ('%U')
 			set_count (new_count)
+		ensure
+			valid_count: count = old count + a_area.count
+			area_first_appended:
+				convertible_to_char (a_area [0]) implies shared_string [old count + 1] = a_area [0]
+			area_last_appended:
+				convertible_to_char (a_area [a_area.count - 1]) implies shared_string [count] = a_area [a_area.count - 1]
 		end
 
 	remove_bookends (left, right: CHAR)

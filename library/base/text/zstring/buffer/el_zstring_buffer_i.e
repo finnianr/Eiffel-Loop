@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-08 9:21:07 GMT (Friday 8th November 2024)"
-	revision: "9"
+	date: "2025-04-12 6:49:42 GMT (Saturday 12th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_ZSTRING_BUFFER_I
@@ -70,12 +70,12 @@ feature {NONE} -- Implementation
 
 	leading_white_count (str: EL_READABLE_ZSTRING): INTEGER
 		do
-			Result := str.leading_white_space
+			Result := str.leading_white_count
 		end
 
 	trailing_white_count (str: EL_READABLE_ZSTRING): INTEGER
 		do
-			Result := str.trailing_white_space
+			Result := str.trailing_white_count
 		end
 
 	to_lower (str: ZSTRING)

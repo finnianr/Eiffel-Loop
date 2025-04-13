@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 14:05:12 GMT (Wednesday 9th April 2025)"
-	revision: "78"
+	date: "2025-04-13 7:46:02 GMT (Sunday 13th April 2025)"
+	revision: "79"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -247,7 +247,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 			if general.is_string_8 and then attached compatible_substring_8 (general, start_index, end_index) as str_8 then
 				append_compatible_substring_8 (str_8, start_index, end_index)
 
-			elseif same_type (general) then
+			elseif conforms_to_zstring (general) then
 				if attached {EL_READABLE_ZSTRING} general as z_str then
 					append_substring (z_str, start_index, end_index)
 				end

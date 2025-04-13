@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:18:16 GMT (Saturday 5th April 2025)"
-	revision: "19"
+	date: "2025-04-13 7:46:06 GMT (Sunday 13th April 2025)"
+	revision: "20"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -42,7 +42,7 @@ feature -- Status query
 		local
 			l_key: READABLE_STRING_32
 		do
-			if is_zstring (a_key) then
+			if conforms_to_zstring (a_key) then
 			-- ZSTRING
 				l_key := a_key.to_string_32
 			else
@@ -60,7 +60,7 @@ feature -- Status query
 		local
 			l_key: READABLE_STRING_32
 		do
-			if a_key.is_string_32 and then not is_zstring (a_key)
+			if a_key.is_string_32 and then not conforms_to_zstring (a_key)
 				and then attached {READABLE_STRING_32} a_key as key_32
 			then
 				l_key := key_32

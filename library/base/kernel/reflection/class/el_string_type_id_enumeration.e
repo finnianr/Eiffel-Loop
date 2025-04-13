@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-17 10:47:07 GMT (Monday 17th March 2025)"
-	revision: "1"
+	date: "2025-04-13 8:25:48 GMT (Sunday 13th April 2025)"
+	revision: "2"
 
 class
 	EL_STRING_TYPE_ID_ENUMERATION
@@ -28,17 +28,23 @@ feature -- Type sets
 
 	readable_string_8_types: SPECIAL [INTEGER]
 
+	string_32_types: SPECIAL [INTEGER]
+
+	zstring_types: SPECIAL [INTEGER]
+
 feature -- Abstract Strings
 
 	READABLE_STRING_32: INTEGER
 
 	READABLE_STRING_8: INTEGER
 
-	STRING_GENERAL: INTEGER
-
 	READABLE_STRING_GENERAL: INTEGER
 
+	STRING_GENERAL: INTEGER
+
 feature -- String types
+
+	EL_EXTENDED_ZSTRING: INTEGER
 
 	EL_FLOATING_ZSTRING: INTEGER
 
@@ -61,5 +67,7 @@ feature -- String types
 	STRING_32: INTEGER
 
 	STRING_8: INTEGER
+
+	EL_WORD_TOKEN_LIST: INTEGER
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:24:55 GMT (Tuesday 8th April 2025)"
-	revision: "38"
+	date: "2025-04-13 7:46:03 GMT (Sunday 13th April 2025)"
+	revision: "39"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -264,7 +264,7 @@ feature -- Add strings
 	add_string_32 (str: READABLE_STRING_32)
 			--
 		do
-			if is_zstring (str) and then attached {ZSTRING} str as z_str then
+			if conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 				add_string (z_str)
 
 			elseif attached super_readable_32 (str) as super then

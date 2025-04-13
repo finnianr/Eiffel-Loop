@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:02:49 GMT (Friday 11th April 2025)"
-	revision: "47"
+	date: "2025-04-12 6:49:41 GMT (Saturday 12th April 2025)"
+	revision: "48"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -87,9 +87,9 @@ feature -- Substring
 		local
 			start_index, end_index: INTEGER
 		do
-			end_index := str.count - str.trailing_white_space
+			end_index := str.count - str.trailing_white_count
 			if end_index.to_boolean then
-				start_index := str.leading_white_space + 1
+				start_index := str.leading_white_count + 1
 			else
 				start_index := 1
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 18:22:34 GMT (Friday 11th April 2025)"
-	revision: "53"
+	date: "2025-04-13 16:33:09 GMT (Sunday 13th April 2025)"
+	revision: "54"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -16,6 +16,8 @@ inherit
 	EL_ZSTRING_BASE
 
 	EL_ZSTRING_CONSTANTS
+
+	EL_SHARED_ZSTRING_BUFFER_POOL
 
 feature -- Status query
 
@@ -34,7 +36,7 @@ feature -- Start/End comparisons
 			if str.count = 0 then
 				Result := True
 			else
-				white_count := leading_white_space
+				white_count := leading_white_count
 				if count - white_count >= str.count then
 					Result := same_characters_general (str, 1, str.count, white_count + 1)
 				end
@@ -62,10 +64,8 @@ feature -- Start/End comparisons
 			elseif not valid_index (start_index) then
 				Result := False
 
-			elseif same_type (other) then
-				if attached {ZSTRING} other as z_str then
-					Result := same_characters_zstring (z_str, 1, other.count, start_index)
-				end
+			elseif conforms_to_zstring (other) and then attached {EL_READABLE_ZSTRING} other as z_str then
+				Result := same_characters_zstring (z_str, 1, other.count, start_index)
 
 			else
 				Result := same_characters_32 (other, 1, other_count, start_index, False)
@@ -87,7 +87,7 @@ feature -- Start/End comparisons
 			elseif other.is_string_8 and then attached {READABLE_STRING_8} other as str_8 then
 				Result := same_characters_8 (str_8, 1, other_count, start_index, False)
 
-			elseif same_type (other) and then attached {EL_READABLE_ZSTRING} other as z_str then
+			elseif conforms_to_zstring (other) and then attached {EL_READABLE_ZSTRING} other as z_str then
 				Result := same_characters_zstring (z_str, 1, other_count, start_index)
 
 			elseif attached {READABLE_STRING_32} other as str_32 then
@@ -102,8 +102,8 @@ feature -- Start/End comparisons
 
 	matches_wildcard_general (wildcard: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			any_ending, any_start: BOOLEAN; start_index, end_index: INTEGER
-			search_string: READABLE_STRING_GENERAL
+			any_ending, any_start: BOOLEAN; start_index, end_index, stem_count: INTEGER
+			search_string: ZSTRING
 		do
 			start_index := 1; end_index := wildcard.count
 			inspect wildcard.count
@@ -122,37 +122,30 @@ feature -- Start/End comparisons
 					any_start := True
 				end
 			end
-			if start_index - end_index + 1 = wildcard.count then
-				search_string := wildcard
-			else
-				search_string := wildcard.substring (start_index, end_index)
-			end
-			if any_ending and any_start then
-				if wildcard.count = 1 then
-					Result := True
+			stem_count := end_index - start_index + 1
+			if attached String_pool.sufficient_item (stem_count) as borrowed then
+				if stem_count = wildcard.count then
+					search_string := borrowed.to_same (wildcard)
 				else
-					Result := has_substring (search_string)
+					search_string := borrowed.copied_substring_general (wildcard, start_index, end_index)
 				end
-			elseif any_ending then
-				if search_string.is_string_32 then
-					Result := starts_with (general_as_readable_string_32 (search_string))
-				else
-					Result := starts_with_general (search_string)
-				end
+				if any_ending and any_start then
+					inspect wildcard.count
+						when 0, 1 then
+							Result := True -- *
+					else
+						Result := substring_index_zstring (search_string, 1) > 0
+					end
+				elseif any_ending then
+					Result := same_characters_zstring (search_string, 1, search_string.count, 1)
 
-			elseif any_start then
-				if search_string.is_string_32 then
-					Result := ends_with (general_as_readable_string_32 (search_string))
-				else
-					Result := ends_with_general (search_string)
-				end
+				elseif any_start then
+					Result := same_characters_zstring (search_string, 1, search_string.count, count - search_string.count + 1)
 
-			elseif count = end_index then
-				if search_string.is_string_32 then
-					Result := same_characters (general_as_readable_string_32 (search_string), 1, end_index, 1)
-				else
-					Result := same_characters_general (search_string, 1, end_index, 1)
+				elseif count = end_index then
+					Result := same_characters_zstring (search_string, 1, end_index, 1)
 				end
+				borrowed.return
 			end
 		end
 
@@ -167,7 +160,7 @@ feature -- Start/End comparisons
 			elseif other_count > count then
 				Result := False
 
-			elseif same_type (other) and then attached {ZSTRING} other as z_str then
+			elseif conforms_to_zstring (other) and then attached {EL_READABLE_ZSTRING} other as z_str then
 				Result := same_characters_zstring (z_str, 1, other_count, 1)
 
 			else
@@ -189,7 +182,7 @@ feature -- Start/End comparisons
 			elseif other.is_string_8 and then attached {READABLE_STRING_8} other as str_8 then
 				Result := same_characters_8 (str_8, 1, other_count, 1, False)
 
-			elseif same_type (other) then
+			elseif conforms_to_zstring (other) then
 				if attached {ZSTRING} other as z_str then
 					Result := same_characters_zstring (z_str, 1, other_count, 1)
 				end
@@ -225,7 +218,7 @@ feature -- Comparison
 		-- Are characters of `other' within bounds `start_pos' and `end_pos'
 		-- caseless identical to characters of current string starting at index `start_index'.
 		do
-			if same_type (other) and then attached {ZSTRING} other as z_str then
+			if conforms_to_zstring (other) and then attached {ZSTRING} other as z_str then
 				Result := same_caseless_characters_zstring (z_str, start_pos, end_pos, start_index)
 			else
 				Result := same_characters_32 (other, start_pos, end_pos, start_index, True)
@@ -254,7 +247,7 @@ feature -- Comparison
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		do
-			if same_type (other) and then attached {ZSTRING} other as z_str then
+			if conforms_to_zstring (other) and then attached {ZSTRING} other as z_str then
 				Result := same_characters_zstring (z_str, start_pos, end_pos, start_index)
 			else
 				Result := same_characters_32 (other, start_pos, end_pos, start_index, False)

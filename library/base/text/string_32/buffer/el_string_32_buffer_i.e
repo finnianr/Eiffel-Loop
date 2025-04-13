@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:41 GMT (Friday 11th April 2025)"
-	revision: "18"
+	date: "2025-04-13 7:46:03 GMT (Sunday 13th April 2025)"
+	revision: "19"
 
 deferred class
 	EL_STRING_32_BUFFER_I
@@ -46,7 +46,7 @@ feature -- Access
 	copied_substring (str_32: READABLE_STRING_32; start_index, end_index: INTEGER): STRING_32
 		do
 			Result := empty
-			if is_zstring (str_32) and then attached {ZSTRING} str_32 as z_str then
+			if conforms_to_zstring (str_32) and then attached {ZSTRING} str_32 as z_str then
 				super_z (z_str).append_substring_to_string_32 (Result, start_index, end_index)
 			else
 				super_readable_32 (str_32).append_substring_to_string_32 (Result, start_index, end_index)

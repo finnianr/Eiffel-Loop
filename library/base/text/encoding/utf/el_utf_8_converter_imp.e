@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 18:04:18 GMT (Friday 11th April 2025)"
-	revision: "8"
+	date: "2025-04-13 17:06:35 GMT (Sunday 13th April 2025)"
+	revision: "9"
 
 class
 	EL_UTF_8_CONVERTER_IMP
@@ -42,7 +42,7 @@ feature -- Conversion
 		end
 
 	utf_32_string_to_string_8 (s: READABLE_STRING_GENERAL): STRING_8
-			-- UTF-8 sequence corresponding to `s' interpreted as a UTF-32 sequence.
+		-- UTF-8 sequence corresponding to `s' interpreted as a UTF-32 sequence.
 		local
 			c: UTF_CONVERTER
 		do

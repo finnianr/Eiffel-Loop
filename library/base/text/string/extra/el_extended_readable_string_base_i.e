@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:41:33 GMT (Tuesday 8th April 2025)"
-	revision: "3"
+	date: "2025-04-13 17:47:58 GMT (Sunday 13th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -43,6 +43,11 @@ feature -- Element change
 
 feature -- Contract Support
 
+	convertible_to_char (uc: CHARACTER_32): BOOLEAN
+		do
+			Result := True
+		end
+
 	ends_with_target (str: READABLE_STRING_GENERAL; index: INTEGER): BOOLEAN
 		do
 			Result := target.same_characters (str, index, str.count, 1)
@@ -63,11 +68,7 @@ feature -- Contract Support
 			Result := target.valid_index (i)
 		end
 
-feature {NONE} -- Deferred
-
-	area: SPECIAL [CHAR]
-		deferred
-		end
+feature {NONE} -- Measurement
 
 	index_lower: INTEGER
 		deferred
@@ -77,14 +78,11 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	all_ascii_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
-		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
+	latin_1_count: INTEGER
 		deferred
 		end
 
-	empty_target: like target
-		deferred
-		end
+feature {NONE} -- Character query
 
 	is_c_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
@@ -111,6 +109,39 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+feature {NONE} -- Conversion
+
+	to_char (uc: CHARACTER_32): CHAR
+		deferred
+		end
+
+	to_character_32 (c: CHAR): CHARACTER_32
+		deferred
+		end
+
+	to_character_8 (c: CHAR): CHARACTER_8
+		deferred
+		end
+
+	to_natural_32_code (c: CHAR): NATURAL
+		deferred
+		end
+
+feature {NONE} -- Deferred
+
+	all_ascii_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
+		-- `True' if all characters in `a_area' from `i_lower' to `i_upper' are in the ASCII character range
+		deferred
+		end
+
+	area: SPECIAL [CHAR]
+		deferred
+		end
+
+	empty_target: like target
+		deferred
+		end
+
 	new_readable: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		deferred
 		end
@@ -128,22 +159,6 @@ feature {NONE} -- Deferred
 		end
 
 	target: READABLE_STRING_GENERAL
-		deferred
-		end
-
-	to_char (uc: CHARACTER_32): CHAR
-		deferred
-		end
-
-	to_character_32 (c: CHAR): CHARACTER_32
-		deferred
-		end
-
-	to_character_8 (c: CHAR): CHARACTER_8
-		deferred
-		end
-
-	to_natural_32_code (c: CHAR): NATURAL
 		deferred
 		end
 

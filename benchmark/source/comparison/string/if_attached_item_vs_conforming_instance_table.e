@@ -27,8 +27,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:54:39 GMT (Tuesday 8th April 2025)"
-	revision: "8"
+	date: "2025-04-13 16:41:51 GMT (Sunday 13th April 2025)"
+	revision: "9"
 
 class
 	IF_ATTACHED_ITEM_VS_CONFORMING_INSTANCE_TABLE
@@ -135,8 +135,8 @@ feature {NONE} -- Implementation
 	super_readable_elseif (general: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
 			if general.is_string_32 then
-				if attached {EL_READABLE_ZSTRING} general as zstr then
-					Result := super_readable (zstr)
+				if attached {ZSTRING} general as zstr then
+					Result := super_z (zstr)
 
 				elseif attached {READABLE_STRING_32} general as str_32 then
 					Result := super_readable_32 (str_32)
@@ -163,7 +163,7 @@ feature {NONE} -- Implementation
 						Result := super_readable_32 (sorter.readable_32)
 
 					when 'X' then
-						Result := super_readable (sorter.readable_z)
+						Result := super_z (sorter.readable_z)
 				end
 			end
 		end
@@ -181,7 +181,7 @@ feature {NONE} -- Implementation
 						Result := super_readable_32 (tuple.readable_32)
 
 					when 'X' then
-						Result := super_readable (tuple.readable_Z)
+						Result := super_z (tuple.readable_Z)
 				end
 			end
 		end

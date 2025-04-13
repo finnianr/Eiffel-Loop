@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:59:04 GMT (Friday 11th April 2025)"
-	revision: "8"
+	date: "2025-04-12 7:59:35 GMT (Saturday 12th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -23,6 +23,21 @@ inherit
 	EL_STRING_32_CONSTANTS
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
+
+feature -- Measurement
+
+	latin_1_count: INTEGER
+		local
+			i, i_upper: INTEGER
+		do
+			if attached area as l_area then
+				i_upper := index_upper
+				from i := index_lower until i > i_upper or else not l_area [i].is_character_8 loop
+					i := i + 1
+				end
+				Result := i - index_lower
+			end
+		end
 
 feature -- Status query
 

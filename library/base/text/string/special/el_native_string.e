@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:48 GMT (Sunday 30th March 2025)"
-	revision: "9"
+	date: "2025-04-13 7:45:59 GMT (Sunday 13th April 2025)"
+	revision: "10"
 
 class
 	EL_NATIVE_STRING
@@ -86,7 +86,7 @@ feature -- Element change
 		local
 			count: INTEGER
 		do
-			if is_zstring (a_string) then
+			if conforms_to_zstring (a_string) then
 				count := end_index - start_index + 1
 				if attached String_32_pool.sufficient_item (count) as borrowed then
 					Precursor (borrowed.copied_substring_general (a_string, start_index, end_index), 1, count)
