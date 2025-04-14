@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 6:49:41 GMT (Saturday 12th April 2025)"
-	revision: "48"
+	date: "2025-04-14 14:45:14 GMT (Monday 14th April 2025)"
+	revision: "49"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -158,23 +158,6 @@ feature -- Conversion
 		end
 
 feature -- Character query
-
-	has_enclosing (s: EL_READABLE_ZSTRING; c_first, c_last: CHARACTER_32): BOOLEAN
-			--
-		do
-			if s.count >= 2 then
-				if c_first.natural_32_code <= 127 and c_last.natural_32_code <= 127 then
-					Result := s.item_8 (1) = c_first and then s.item_8 (s.count) = c_last
-				else
-					Result := s [1] = c_first and then s [s.count] = c_last
-				end
-			end
-		end
-
-	is_i_th_identifier (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
-		do
-			Result := str.is_alpha_numeric_item (i) or else str.item_8 (i) = '_'
-		end
 
 	is_punctuation (c: CHARACTER_32): BOOLEAN
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:45:08 GMT (Monday 3rd March 2025)"
-	revision: "28"
+	date: "2025-04-14 8:04:39 GMT (Monday 14th April 2025)"
+	revision: "29"
 
 deferred class
 	THUNDERBIRD_EQA_TEST_SET
@@ -129,13 +129,13 @@ feature {NONE} -- Factory
 
 	new_metadata_name (name: STRING): STRING
 		local
-			s: EL_STRING_8_ROUTINES; XML: XML_ROUTINES
+			XML: XML_ROUTINES
 		do
 			if name.ends_with ("-date") then
-				Result :=  s.substring_to_reversed (name, '-')
+				Result :=  super_8 (name).substring_to_reversed ('-')
 
 			elseif name.ends_with ("-heading") then
-				Result :=  s.substring_to (name, '-')
+				Result :=  super_8 (name).substring_to ('-')
 
 			else
 				Result := name

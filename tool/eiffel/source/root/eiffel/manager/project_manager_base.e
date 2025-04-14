@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:57:41 GMT (Friday 7th February 2025)"
-	revision: "7"
+	date: "2025-04-14 8:50:01 GMT (Monday 14th April 2025)"
+	revision: "8"
 
 deferred class
 	PROJECT_MANAGER_BASE
@@ -18,15 +18,17 @@ inherit
 			make as make_shell
 		end
 
+	EL_STRING_GENERAL_ROUTINES_I
+
 	EL_MODULE_COMMAND; EL_MODULE_DIRECTORY; EL_MODULE_OS; EL_MODULE_USER_INPUT
 
 feature {NONE} -- Initialization
 
 	make_menu
 		local
-			title: STRING; s: EL_STRING_8_ROUTINES
+			title: STRING
 		do
-			title := s.substring_to (generator, '_')
+			title := super_8 (generator).substring_to ('_')
 			make_shell (Menu_template #$ [title, config.ecf_pyxis_path.base], 10)
 		end
 

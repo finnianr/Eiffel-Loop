@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 19:17:49 GMT (Tuesday 8th April 2025)"
-	revision: "13"
+	date: "2025-04-14 14:48:54 GMT (Monday 14th April 2025)"
+	revision: "14"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -126,7 +126,7 @@ feature {NONE} -- Implementation
 					if attached list.item as item then
 						item.adjust
 						if sg.super_8 (item).ends_with_character (':') then
-							found := s.is_identifier_boundary (item, 1, item.count - 1)
+							found := sg.super_8 (item).is_identifier_boundary (1, item.count - 1)
 						end
 					end
 					if not found then

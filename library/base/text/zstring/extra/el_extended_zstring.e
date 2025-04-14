@@ -1,13 +1,16 @@
 note
-	description: "Extended zstring"
+	description: "[
+		Capabilities of ${ZSTRING} extended with routines from ${EL_EXTENDED_READABLE_STRING_I} and
+		${EL_EXTENDED_STRING_GENERAL}.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 9:38:20 GMT (Saturday 12th April 2025)"
-	revision: "3"
+	date: "2025-04-14 14:19:27 GMT (Monday 14th April 2025)"
+	revision: "4"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -31,12 +34,15 @@ inherit
 			append_to_string_32, append_to_string_8, append_to_utf_8,
 			count,
 			ends_with_character, fill_z_codes,
-			has_alpha, has_enclosing, has_member, has_quotes,
-			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced, is_valid_as_string_8,
+			has, has_alpha, has_enclosing, has_member, has_quotes,
+			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced,
+			is_character,
+			is_valid_as_string_8,
 			leading_occurrences, leading_white_count,
-			matches_wildcard,
+			matches_wildcard, null, quoted,
 			remove_bookends, replace_character, remove_double, remove_single,
 			same_string, starts_with_character,
+			substring_to, substring_to_from, substring_to_reversed, substring_to_reversed_from,
 			to_canonically_spaced, to_utf_8,
 			trailing_white_count, translate, translate_or_delete, translate_with_deletion,
 			utf_8_byte_count, valid_index, write_utf_8_to,
@@ -47,7 +53,7 @@ inherit
 			append_to,
 			index_of_character_type_change,
 			is_c_identifier_in_range, is_eiffel_identifier_in_range,
-			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_space,
+			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_identifier, is_i_th_space,
 			latin_1_count,
 			new_shared_substring, occurrences_in_area_bounds, parse_substring_in_range,
 			right_bracket_index
@@ -328,6 +334,14 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `area'  is alphabetical or numeric
 		do
 			Result := is_alpha_numeric_item (i - 1)
+		end
+
+	is_i_th_identifier (unencoded: like unencoded_area; i: INTEGER): BOOLEAN
+		-- `True' if i'th character in `area' is a code identifier character
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_c_identifier (area [i], False)
 		end
 
 	is_i_th_space (unencoded: like unencoded_area; i: INTEGER; a_unicode: EL_UNICODE_PROPERTY): BOOLEAN

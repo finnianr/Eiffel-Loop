@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-13 19:08:14 GMT (Friday 13th September 2024)"
-	revision: "7"
+	date: "2025-04-14 7:49:04 GMT (Monday 14th April 2025)"
+	revision: "8"
 
 class
 	TB_EMAIL_LIST
@@ -76,7 +76,7 @@ feature {NONE} -- Implementation
 
 	find_empty_line (line: STRING)
 		local
-			start_index: INTEGER; s: EL_STRING_8_ROUTINES
+			start_index: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 			name, value: STRING
 		do
 			if line.is_empty then
@@ -86,7 +86,7 @@ feature {NONE} -- Implementation
 				field_list.last_value.append (line)
 			else
 				start_index := 1
-				name := s.substring_to_from (line, ':', $start_index)
+				name := sg.super_8 (line).substring_to_from (':', $start_index)
 				value := line.substring (start_index + 1, line.count)
 				field_list.extend (name, value)
 			end

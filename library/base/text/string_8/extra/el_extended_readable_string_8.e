@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 17:49:28 GMT (Sunday 13th April 2025)"
-	revision: "3"
+	date: "2025-04-14 8:32:59 GMT (Monday 14th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8
@@ -22,6 +22,20 @@ inherit
 			convertible_to_char
 		redefine
 			target
+		end
+
+feature -- Measurement
+
+	index_of (c: CHARACTER_8; start_index: INTEGER): INTEGER
+		-- Position of first occurrence of `c' at or after `start_index', 0 if none.
+		do
+			Result := target.index_of (c, start_index)
+		end
+
+	last_index_of (c: CHARACTER_8; start_index_from_end: INTEGER): INTEGER
+		-- Position of last occurrence of `c', 0 if none.
+		do
+			Result := target.last_index_of (c, start_index_from_end)
 		end
 
 feature -- Status query

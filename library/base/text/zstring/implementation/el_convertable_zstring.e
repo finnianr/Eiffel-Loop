@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:22:56 GMT (Tuesday 8th April 2025)"
-	revision: "78"
+	date: "2025-04-14 9:42:51 GMT (Monday 14th April 2025)"
+	revision: "79"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -408,7 +408,6 @@ feature -- Conversion
 			end
 			Result := enclosed (c, c)
 		end
-
 
 	stripped: like Current
 		do

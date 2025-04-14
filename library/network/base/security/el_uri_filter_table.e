@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:57:56 GMT (Tuesday 8th April 2025)"
-	revision: "19"
+	date: "2025-04-14 8:07:46 GMT (Monday 14th April 2025)"
+	revision: "20"
 
 class
 	EL_URI_FILTER_TABLE
@@ -49,7 +49,7 @@ feature -- Status report
 
 	is_hacker_probe (path_lower: STRING): BOOLEAN
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if digit_count_exceeded (path_lower) then
 				-- filter requests like: "GET /87543bde9176626b120898f9141058 HTTP/1.1"
@@ -57,7 +57,9 @@ feature -- Status report
 				Result := True
 			else
 				from start until after or Result loop
-					Result := iteration_item_matches (path_lower, s.substring_to (path_lower, '/'), dot_extension (path_lower))
+					if attached sg.super_8 (path_lower).substring_to ('/') as first_step then
+						Result := iteration_item_matches (path_lower, first_step, dot_extension (path_lower))
+					end
 					forth
 				end
 			end

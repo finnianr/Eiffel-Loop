@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 23:24:50 GMT (Tuesday 8th April 2025)"
-	revision: "63"
+	date: "2025-04-14 14:45:57 GMT (Monday 14th April 2025)"
+	revision: "64"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -134,41 +134,7 @@ feature -- Lists
 			end
 		end
 
-feature -- Character query
-
-	has_enclosing (s: READABLE_STRING_X; c_first, c_last: CHARACTER_32): BOOLEAN
-			--
-		deferred
-		end
-
 feature -- Status query
-
-	has_member (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
-		-- `True' if at least one character in `str' is a member of `set'
-		do
-			Result := extended_string (str).has_member (set)
-		end
-
-	is_eiffel (str: READABLE_STRING_X): BOOLEAN
-		-- `True' if `str' is an Eiffel identifier
-		do
-			Result := extended_string (str).is_eiffel
-		end
-
-	is_identifier_boundary (str: READABLE_STRING_X; lower, upper: INTEGER): BOOLEAN
-		-- `True' if indices `lower' to `upper' are an identifier boundary
-		require
-			valid_lower: lower >= 1
-			valid_upper: upper <= str.count
-		do
-			Result := True
-			if upper + 1 <= str.count then
-				Result := not is_i_th_identifier (str, upper + 1)
-			end
-			if Result and then lower - 1 >= 1 then
-				Result := not is_i_th_identifier (str, lower - 1)
-			end
-		end
 
 	is_subset_of (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
 		-- `True' if set of all characters in `str' is a subset of `set'
@@ -277,71 +243,6 @@ feature -- Substring
 				end
 			else
 				Result := str
-			end
-		end
-
-	substring_to (str: READABLE_STRING_X; uc: CHARACTER_32): READABLE_STRING_X
-		-- `substring_to_from' from start of string
-		do
-			Result := substring_to_from (str, uc, null)
-		end
-
-	substring_to_from (str: READABLE_STRING_X; uc: CHARACTER_32; start_index_ptr: TYPED_POINTER [INTEGER]): READABLE_STRING_X
-		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `uc'
-		-- or else `substring_end (start_index)' if `uc' not found
-		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
-		-- write new start_index back to `start_index_ptr'
-		-- if `uc' not found then new `start_index' is `count + 1'
-		local
-			start_index, index: INTEGER; pointer: EL_POINTER_ROUTINES
-		do
-			if start_index_ptr.is_default_pointer then
-				start_index := 1
-			else
-				start_index := pointer.read_integer_32 (start_index_ptr)
-			end
-			index := index_of (str, uc, start_index)
-			if index > 0 then
-				Result := str.substring (start_index, index - 1)
-				start_index := index + 1
-			else
-				Result := str.substring (start_index, str.count)
-				start_index := str.count + 1
-			end
-			if not start_index_ptr.is_default_pointer then
-				start_index_ptr.memory_copy ($start_index, {PLATFORM}.Integer_32_bytes)
-			end
-		end
-
-	substring_to_reversed (str: READABLE_STRING_X; uc: CHARACTER_32): READABLE_STRING_X
-		-- `substring_to_reversed_from' from end of string
-		do
-			Result := substring_to_reversed_from (str, uc, null)
-		end
-
-	substring_to_reversed_from (
-		str: READABLE_STRING_X; uc: CHARACTER_32; start_index_from_end_ptr: TYPED_POINTER [INTEGER]
-	): READABLE_STRING_X
-		-- the same as `substring_to' except going from right to left
-		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
-		local
-			start_index_from_end, index: INTEGER; pointer: EL_POINTER_ROUTINES
-		do
-			if start_index_from_end_ptr.is_default_pointer then
-				start_index_from_end := str.count
-			else
-				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
-			end
-			index := last_index_of (str, uc, start_index_from_end)
-			if index > 0 then
-				Result := str.substring (index + 1, start_index_from_end)
-				start_index_from_end := index - 1
-			else
-				Result := str.substring (1, start_index_from_end)
-				start_index_from_end := 0
-			end
-			if not start_index_from_end_ptr.is_default_pointer then
-				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 

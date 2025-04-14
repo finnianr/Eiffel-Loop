@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:23:28 GMT (Saturday 20th January 2024)"
-	revision: "14"
+	date: "2025-04-14 8:38:03 GMT (Monday 14th April 2025)"
+	revision: "15"
 
 class
 	DOCUMENT_NODE_STRING_TEST_SET
@@ -86,12 +86,12 @@ feature -- Tests
 
 							elseif attached {STRING_32} type.item as str then
 								encoded.set_string_32 (str, True)
-								assert ("is same symbol", s32.is_character (str, symbol.item))
+								assert ("is same symbol", super_32 (str).is_character (symbol.item))
 								assert_same_string (Void, str, encoded.adjusted_32 (False))
 
 							elseif symbol.item.is_character_8 and then attached {STRING_8} type.item as str then
 								encoded.set_string_8 (str, True)
-								assert ("is same symbol", s8.is_character (str, symbol.item))
+								assert ("is same symbol", super_8 (str).is_character (symbol.item.to_character_8))
 								assert_same_string (Void, str, encoded.adjusted_8 (False))
 							end
 						end

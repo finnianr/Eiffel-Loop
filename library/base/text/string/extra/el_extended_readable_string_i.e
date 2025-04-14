@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 7:58:07 GMT (Saturday 12th April 2025)"
-	revision: "9"
+	date: "2025-04-14 14:21:07 GMT (Monday 14th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -28,17 +28,66 @@ feature -- Access
 			end
 		end
 
-	matching_bracket_index (index: INTEGER): INTEGER
-		require
-			valid_index: valid_index (index)
-			left_bracket_at_index: is_left_bracket_at (index)
-		local
-			right_index: INTEGER; left_bracket: CHAR
+	substring_to (c: CHAR): like target
+		-- `substring_to_from' from start of string
 		do
-			left_bracket := to_char (target [index])
-			right_index := right_bracket_index (area, left_bracket, index_lower + index, index_upper)
-			if right_index > 0 then
-				Result := right_index - index_lower + 1
+			Result := substring_to_from (c, null)
+		end
+
+	substring_to_from (c: CHAR; start_index_ptr: TYPED_POINTER [INTEGER]): like target
+		-- substring from INTEGER at memory location `start_index_ptr' up to but not including index of `c'
+		-- or else `substring_end (start_index)' if `c' not found
+		-- `start_index' is 1 if `start_index_ptr = Default_pointer'
+		-- write new start_index back to `start_index_ptr'
+		-- if `c' not found then new `start_index' is `count + 1'
+		local
+			start_index, index: INTEGER; pointer: EL_POINTER_ROUTINES
+		do
+			if start_index_ptr.is_default_pointer then
+				start_index := 1
+			else
+				start_index := pointer.read_integer_32 (start_index_ptr)
+			end
+			index := index_of (c, start_index)
+			if index > 0 then
+				Result := target.substring (start_index, index - 1)
+				start_index := index + 1
+			else
+				Result := target.substring (start_index, count)
+				start_index := count + 1
+			end
+			if not start_index_ptr.is_default_pointer then
+				start_index_ptr.memory_copy ($start_index, {PLATFORM}.Integer_32_bytes)
+			end
+		end
+
+	substring_to_reversed (c: CHAR): like target
+		-- `substring_to_reversed_from' from end of string
+		do
+			Result := substring_to_reversed_from (c, null)
+		end
+
+	substring_to_reversed_from (c: CHAR; start_index_from_end_ptr: TYPED_POINTER [INTEGER]): like target
+		-- the same as `substring_to' except going from right to left
+		-- if `c' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
+		local
+			start_index_from_end, index: INTEGER; pointer: EL_POINTER_ROUTINES
+		do
+			if start_index_from_end_ptr.is_default_pointer then
+				start_index_from_end := count
+			else
+				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
+			end
+			index := last_index_of (c, start_index_from_end)
+			if index > 0 then
+				Result := target.substring (index + 1, start_index_from_end)
+				start_index_from_end := index - 1
+			else
+				Result := target.substring (1, start_index_from_end)
+				start_index_from_end := 0
+			end
+			if not start_index_from_end_ptr.is_default_pointer then
+				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 
@@ -74,6 +123,20 @@ feature -- Measurement
 					end
 				end
 				Result := i - index_lower
+			end
+		end
+
+	matching_bracket_index (index: INTEGER): INTEGER
+		require
+			valid_index: valid_index (index)
+			left_bracket_at_index: is_left_bracket_at (index)
+		local
+			right_index: INTEGER; left_bracket: CHAR
+		do
+			left_bracket := to_char (target [index])
+			right_index := right_bracket_index (area, left_bracket, index_lower + index, index_upper)
+			if right_index > 0 then
+				Result := right_index - index_lower + 1
 			end
 		end
 
@@ -156,7 +219,7 @@ feature -- Character query
 		end
 
 	has_character_in_bounds (c: CHAR; start_index, end_index: INTEGER): BOOLEAN
-		-- `True' if `uc' occurs between `start_index' and `end_index'
+		-- `True' if `c' occurs between `start_index' and `end_index'
 		require
 			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		local
@@ -171,6 +234,22 @@ feature -- Character query
 					end
 				end
 			end
+		end
+
+	has_enclosing (c_first, c_last: CHAR): BOOLEAN
+			--
+		do
+			inspect count
+				when 0, 1 then
+					do_nothing
+			else
+				if attached area as l_area then
+					Result := l_area [index_lower] = c_first and then l_area [index_upper] = c_last
+				end
+			end
+		ensure
+			definition: Result implies
+				target [1] = to_character_32 (c_first) and target [target.count] = to_character_32 (c_last)
 		end
 
 	has_member (set: EL_SET [CHAR]): BOOLEAN
@@ -272,6 +351,27 @@ feature -- Status query
 		-- `True' if `target' is an upper-case Eiffel identifier
 		do
 			Result := is_eiffel_identifier ({EL_CASE}.Upper)
+		end
+
+	is_identifier_boundary (start_index, end_index: INTEGER): BOOLEAN
+		-- `True' if indices `lower' to `upper' are an identifier boundary
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
+		local
+			left_index, right_index, i: INTEGER
+		do
+			Result := True
+			left_index := start_index - 1; right_index := end_index + 1
+			if attached area as l_area then
+				if left_index >= 1 then
+					i := lower_abs (left_index)
+					Result := not is_i_th_identifier (l_area, i)
+				end
+				if Result and then right_index <= count then
+					i := upper_abs (right_index)
+					Result := not is_i_th_identifier (l_area, i)
+				end
+			end
 		end
 
 	is_left_bracket_at (index: INTEGER): BOOLEAN
@@ -618,6 +718,10 @@ feature {NONE} -- Implementation
 				end
 			end
 			Result := i
+		end
+
+	null: TYPED_POINTER [INTEGER]
+		do
 		end
 
 	occurrences_in_area_bounds (a_area: like area; c: CHAR; i_lower, i_upper: INTEGER): INTEGER

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:02:52 GMT (Friday 11th April 2025)"
-	revision: "34"
+	date: "2025-04-14 8:22:51 GMT (Monday 14th April 2025)"
+	revision: "35"
 
 class
 	EL_XML_DOC_CONTEXT
@@ -249,7 +249,7 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 
 	new_namespace_table: EL_HASH_TABLE [STRING, STRING]
 		local
-			stage, last_token: INTEGER; s: EL_STRING_8_ROUTINES
+			stage, last_token: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			create Result.make_equal (3)
 			stage := 1
@@ -264,7 +264,7 @@ feature {EL_DOCUMENT_TOKEN_ITERATOR} -- Implementation
 								if ns_name ~ XML.xmlns then
 									Result.put (create {STRING}.make_empty, Default_name)
 								else
-									Result.put (create {STRING}.make_empty, s.substring_to_reversed (ns_name, ':'))
+									Result.put (create {STRING}.make_empty, sg.super_8 (ns_name).substring_to_reversed (':'))
 								end
 							end
 

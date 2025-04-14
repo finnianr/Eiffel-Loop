@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 17:48:16 GMT (Sunday 13th April 2025)"
-	revision: "8"
+	date: "2025-04-14 14:18:21 GMT (Monday 14th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -33,12 +33,24 @@ feature -- Measurement
 
 feature -- Status query
 
+	has (c: CHARACTER_8): BOOLEAN
+		-- `True' if `target' has `c'
+		do
+			Result := target.has (c)
+		end
+
 	is_alpha_numeric: BOOLEAN
 		-- `True' if all characters in `target' are alphabetical or numerical
 		local
 			c8: EL_CHARACTER_8_ROUTINES
 		do
 			Result := c8.is_alpha_numeric_area (area, index_lower, index_upper)
+		end
+
+	is_character (c: CHARACTER_8): BOOLEAN
+		-- `True' if `target' consists exactly of one character `c'
+		do
+			Result := count = 1 and then target [1] = c
 		end
 
 feature {NONE} -- Implementation
@@ -79,9 +91,17 @@ feature {NONE} -- Implementation
 		end
 
 	is_i_th_alpha_numeric (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
+		-- `True' if i'th character in `a_area' is alphabetical or numeric
 		do
 			Result := a_area [i].is_alpha_numeric
+		end
+
+	is_i_th_identifier (a_area: like area; i: INTEGER): BOOLEAN
+		-- `True' if i'th character in `a_area' is a code identifier character
+		local
+			c: EL_CHARACTER_8_ROUTINES
+		do
+			Result := c.is_c_identifier (a_area [i], False)
 		end
 
 	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN

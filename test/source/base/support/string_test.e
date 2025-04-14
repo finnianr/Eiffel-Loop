@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 9:14:16 GMT (Saturday 12th April 2025)"
-	revision: "42"
+	date: "2025-04-14 10:26:58 GMT (Monday 14th April 2025)"
+	revision: "43"
 
 class
 	STRING_TEST
@@ -442,19 +442,21 @@ feature -- Status query
 			end
 		end
 
-	has_enclosing: BOOLEAN
+	has_enclosing
 		local
-			first, last: CHARACTER_32; s32: EL_STRING_32_ROUTINES; s8: EL_STRING_8_ROUTINES
-			offset: INTEGER
+			first, last: CHARACTER_32; first_8, last_8: CHARACTER_8; offset: INTEGER
+			is_zs_enclosed: BOOLEAN
 		do
-			Result := True
-			from offset := 1 until not Result or offset < 0 loop
+			from offset := 1 until offset < 0 loop
 				first := s_32 [1] + offset.to_natural_32; last := s_32 [s_32.count] + offset.to_natural_32
-				Result := zs.has_enclosing (first, last) = s32.has_enclosing (s_32, first, last)
+				is_zs_enclosed := zs.has_enclosing (first, last)
+				test.assert ("same result", is_zs_enclosed = super_32 (s_32).has_enclosing (first, last))
 				offset := offset - 1
 			end
-			if Result and then attached s_8_substring as str_8 then
-				Result := zs.has_enclosing (first, last) = s8.has_enclosing (str_8, first, last)
+			if attached s_8_substring as str_8 then
+				is_zs_enclosed := zs.has_enclosing (first, last)
+				first_8 := first.to_character_8; last_8 := last.to_character_8
+				test.assert ("same result", is_zs_enclosed = super_8 (str_8).has_enclosing (first_8, last_8))
 			end
 		end
 

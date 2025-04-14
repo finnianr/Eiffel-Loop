@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
-	revision: "40"
+	date: "2025-04-14 8:19:05 GMT (Monday 14th April 2025)"
+	revision: "41"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 		require
 			valid_line: line.occurrences (Quote) = 6
 		local
-			line_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; s: EL_STRING_8_ROUTINES
+			line_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; sg: EL_STRING_GENERAL_ROUTINES
 			index, offset, field_index, qmark_index: INTEGER; part: STRING;
 		do
 			make_default
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 							end
 						end
 					when 2 then
-						http_command := shared_string (Http_command_set, s.substring_to (part, ' '))
+						http_command := shared_string (Http_command_set, sg.super_8 (part).substring_to (' '))
 
 						index := part.substring_index (Http_protocol, http_command.count + 1)
 						if index.to_boolean then
@@ -79,7 +79,7 @@ feature {NONE} -- Initialization
 						status_code := part.substring (1, index - 1).to_natural_16
 						byte_count := part.substring (index + 1, part.count).to_natural
 					when 4 then
-						if not s.is_character (part, '-') then
+						if not sg.super_8 (part).is_character ('-') then
 							referer := shared_string (Referer_set, part)
 						end
 					when Field_count then

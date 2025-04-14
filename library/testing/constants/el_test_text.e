@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 12:56:48 GMT (Tuesday 8th April 2025)"
-	revision: "42"
+	date: "2025-04-14 8:21:06 GMT (Monday 14th April 2025)"
+	revision: "43"
 
 class
 	EL_TEST_TEXT
@@ -112,9 +112,9 @@ feature -- Lists
 
 	cyrillic_line_32: STRING_32
 		local
-			s: EL_STRING_32_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			Result := s.substring_to (Mixed_text, '%N')
+			Result := sg.super_32 (Mixed_text).substring_to ('%N')
 		end
 
 	lines: EL_ZSTRING_LIST

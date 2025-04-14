@@ -1,13 +1,16 @@
 note
-	description: "Extended ${STRING_32}"
+	description: "[
+		Capabilities of ${STRING_32} extended with routines from ${EL_EXTENDED_READABLE_STRING_I} and
+		${EL_EXTENDED_STRING_GENERAL}.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:46:06 GMT (Sunday 13th April 2025)"
-	revision: "23"
+	date: "2025-04-14 9:51:43 GMT (Monday 14th April 2025)"
+	revision: "24"
 
 class
 	EL_STRING_32
@@ -31,7 +34,7 @@ inherit
 			empty_target as empty_string_32,
 			set_target as share
 		undefine
-			count, is_valid_as_string_8, valid_index
+			count, has, is_valid_as_string_8, valid_index
 		end
 
 create
@@ -84,6 +87,17 @@ feature -- Element change
 		do
 			Precursor (other)
 			shared_string := other
+		end
+
+feature -- Duplication
+
+	enclosed (left, right: CHARACTER_32): STRING_32
+		-- copy of target with `left' and `right' character prepended and appended
+		do
+			create Result.make (count + 2)
+			Result.append_character (left)
+			Result.append_string (shared_string)
+			Result.append_character (right)
 		end
 
 feature -- Comparison

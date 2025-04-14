@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "16"
+	date: "2025-04-14 9:02:04 GMT (Monday 14th April 2025)"
+	revision: "17"
 
 class
 	CAIRO_PANGO_FONT
@@ -108,9 +108,9 @@ feature -- Element change
 		require
 			is_utf_8_encoded: valid_encoding (name_utf_8)
 		local
-			c_name: ANY; offset: INTEGER; s: EL_STRING_8_ROUTINES
+			c_name: ANY; offset: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 		do
-			if s.starts_with_character (name_utf_8, '@') then
+			if sg.super_8 (name_utf_8).starts_with_character ('@') then
 				offset := 1 -- @SimSun -> SimSun
 			end
 			c_name := name_utf_8.to_c

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 19:16:55 GMT (Tuesday 8th April 2025)"
-	revision: "5"
+	date: "2025-04-14 8:50:50 GMT (Monday 14th April 2025)"
+	revision: "6"
 
 class
 	EIFGENS_MANAGER_SHELL_COMMAND
@@ -74,7 +74,7 @@ feature {NONE} -- Commands
 		-- #7  0x0000000000fb0f21 in F2009_11721 ()
 		--	#8  0x0000000000a15a1b in F3252_38179 ()
 		local
-			f_marker_index: INTEGER; s: EL_STRING_8_ROUTINES; gdb_txt_path: FILE_PATH
+			f_marker_index: INTEGER; gdb_txt_path: FILE_PATH
 			f_marker, line, f_name: STRING
 		do
 			gdb_txt_path := "workarea/gdb.txt"; f_marker := " F"
@@ -89,7 +89,7 @@ feature {NONE} -- Commands
 							f_marker_index := line.substring_index (f_marker, 1)
 							if f_marker_index > 0 then
 								f_marker_index := f_marker_index + f_marker.count - 1
-								f_name := s.substring_to_from (line, ' ', $f_marker_index)
+								f_name := super_8 (line).substring_to_from (' ', $f_marker_index)
 								if name_table.has_key (f_name) then
 									line.remove_tail (2)
 									if line.count < 16 then
@@ -186,7 +186,7 @@ feature {NONE} -- Implementation
 								function_name.prune ('}')
 								c_name_index := end_index + comment_end.count
 								from found := False until found loop
-									c_name := s.substring_to_from (source, ' ', $c_name_index)
+									c_name := super_8 (source).substring_to_from (' ', $c_name_index)
 									if is_eiffel_c_name (c_name) then
 										Result.extend (function_name, c_name)
 										found := True

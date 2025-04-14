@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:37:19 GMT (Saturday 5th April 2025)"
-	revision: "38"
+	date: "2025-04-14 10:43:00 GMT (Monday 14th April 2025)"
+	revision: "39"
 
 class
 	EL_XML_TEXT_GENERATOR
@@ -23,6 +23,8 @@ inherit
 		redefine
 			make_default, on_meta_data
 		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SET [CHARACTER_8]
 		rename
@@ -190,10 +192,8 @@ feature {NONE} -- Implementation
 		end
 
 	escaped_reserved (str: STRING): STRING
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			if s.has_member (str, Current) then
+			if super_8 (str).has_member (Current) then
 				Result := buffer_8.empty
 				Xml_escaper.escape_into (str, Result)
 			else
@@ -211,14 +211,12 @@ feature {NONE} -- Implementation
 		end
 
 	new_reusable_name_value_pair (node: EL_DOCUMENT_NODE_STRING): STRING_8
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			Result := buffer_8.empty
 			Result.append_character (' ')
 			Result.append (node.raw_name)
 			Result.append (Value_equals_separator)
-			if s.has_member (node, Current) then
+			if super_readable_8 (node).has_member (Current) then
 				Xml_escaper.escape_into (node, Result)
 			else
 				Result.append (node)

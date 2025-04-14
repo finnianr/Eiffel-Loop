@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 12:23:58 GMT (Wednesday 9th April 2025)"
-	revision: "7"
+	date: "2025-04-14 14:45:24 GMT (Monday 14th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -83,11 +83,6 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	is_i_th_identifier (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is an identifier
-		deferred
-		end
-
 	is_i_th_space (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
 		-- `True' if i'th character is white space
 		deferred
@@ -151,10 +146,6 @@ feature {NONE} -- Implementation
 			else
 				Result := str.substring (1, 0)
 			end
-		end
-
-	null: TYPED_POINTER [INTEGER]
-		do
 		end
 
 	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): EL_ARRAYED_LIST [READABLE_STRING_X]

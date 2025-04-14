@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 12:58:02 GMT (Tuesday 8th April 2025)"
-	revision: "14"
+	date: "2025-04-14 10:04:57 GMT (Monday 14th April 2025)"
+	revision: "15"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -86,11 +86,12 @@ feature -- Tests
 		end
 
 	test_enclose
-		-- EL_TRANSFORMABLE_ZSTRING.test_enclose
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_enclose
 		note
 			testing:	"[
 				covers/{EL_TRANSFORMABLE_ZSTRING}.enclose,
-				covers/{EL_TRANSFORMABLE_ZSTRING}.quote
+				covers/{EL_TRANSFORMABLE_ZSTRING}.quoted,
+				covers/{EL_EXTENDED_STRING_GENERAL}.quoted
 			]"
 		local
 			test: STRING_TEST
@@ -98,9 +99,11 @@ feature -- Tests
 			create test.make_empty (Current)
 			across Text.words_32 as word loop
 				test.set (word.item)
-				test.s_32.prepend_character ('"'); test.s_32.append_character ('"')
-				test.zs.quote (2)
-				assert ("enclose OK", test.is_same)
+				if word.cursor_index = Line_latin_1 then
+					super_32 (test.s_32).replace_character ('=', '"') -- "Latin-1: ¼ + ¾ " 1"
+				end
+			-- 3 is appropriate quotes type
+				assert_same_string ("enclose OK", test.zs.quoted (3), super_32 (test.s_32).quoted (3))
 			end
 		end
 
@@ -281,12 +284,12 @@ feature -- Tests
 			]"
 		local
 			test: STRING_TEST; word_list, s_32_words: EL_STRING_32_LIST
-			word, word_A, first_word: STRING_32; i: INTEGER; s32: EL_STRING_32_ROUTINES
+			word, word_A, first_word: STRING_32; i: INTEGER
 		do
 			create word_list.make (20)
 			create test.make_empty (Current)
 			across Text.lines_32 as line loop
-				first_word := s32.substring_to (line.item, ' ')
+				first_word := super_32 (line.item).substring_to (' ')
 				word_A := "A"
 				test.set (line.item)
 				across << word_A, first_word + first_word >> as list loop

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
-	revision: "25"
+	date: "2025-04-14 7:51:48 GMT (Monday 14th April 2025)"
+	revision: "26"
 
 class
 	PAYPAL_TEST_SET
@@ -50,13 +50,13 @@ feature -- Test
 	test_pp_button_query_error_response
 		-- PAYPAL_TEST_SET.test_pp_button_query_error_response
 		local
-			results: PP_BUTTON_QUERY_RESULTS; code: INTEGER; line: STRING; s: EL_STRING_8_ROUTINES
+			results: PP_BUTTON_QUERY_RESULTS; code: INTEGER; line: STRING
 		do
 			across << Button_result_error, Internal_error >> as uri_query loop
 				if attached uri_query.item.split ('%N') as list then
 					line := list [list.count - 1]
 				end
-				code := s.substring_to_reversed (line, '=').to_integer
+				code := super_8 (line).substring_to_reversed ('=').to_integer
 				create results.make (new_query (uri_query.item))
 				if results.has_errors then
 					results.print_errors
@@ -72,8 +72,7 @@ feature -- Test
 
 	test_pp_date_format
 		local
-			date_time: EL_DATE_TIME; pp_date: PP_DATE_TIME
-			date_string: STRING
+			date_time: EL_DATE_TIME; pp_date: PP_DATE_TIME; date_string: STRING
 		do
 			create date_time.make (2018, 4, 10, 10, 22, 41)
 			date_string := "Tue Apr 10 2018 09:22:41 GMT-0100 (GMT)"

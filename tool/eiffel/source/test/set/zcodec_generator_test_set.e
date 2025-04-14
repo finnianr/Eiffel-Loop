@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-02 13:21:21 GMT (Wednesday 2nd April 2025)"
-	revision: "20"
+	date: "2025-04-14 8:44:49 GMT (Monday 14th April 2025)"
+	revision: "21"
 
 class
 	ZCODEC_GENERATOR_TEST_SET
@@ -64,14 +64,14 @@ feature {NONE} -- Implementation
 
 	test_generation (selected_codec, expected_digest: STRING)
 		local
-			command: ZCODEC_GENERATOR; count, id: INTEGER; s: EL_STRING_8_ROUTINES
+			command: ZCODEC_GENERATOR; count, id: INTEGER
 			source_path: FILE_PATH
 		do
 			create command.make ("test-data/sources/C/decoder.c", "doc/zcodec/template.evol")
 			command.set_selected_codec (selected_codec)
 			command.execute
 			lio.put_new_line
-			id := s.substring_to_reversed (selected_codec, '_').to_integer
+			id := super_8 (selected_codec).substring_to_reversed ('_').to_integer
 			source_path := Work_area_dir + Base_name_template #$ [selected_codec]
 			if source_path.exists then
 				lio.put_integer_field ("Comparing content digest for codec", id)

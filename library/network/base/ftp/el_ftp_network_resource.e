@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-14 7:50:12 GMT (Tuesday 14th May 2024)"
-	revision: "6"
+	date: "2025-04-14 8:11:38 GMT (Monday 14th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_FTP_NETWORK_RESOURCE
@@ -21,6 +21,8 @@ inherit
 		redefine
 			address, is_open, put, read, reuse_connection, make, main_socket
 		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_FTP_COMMAND_CONSTANTS
 
@@ -289,7 +291,7 @@ feature {NONE} -- Implementation
 	last_reply_code: NATURAL_16
 		do
 			if attached last_reply as l_reply and then l_reply.count > 0 and then l_reply [1].is_digit then
-				Result := String_8.substring_to (l_reply, ' ').to_natural_16
+				Result := super_8 (l_reply).substring_to (' ').to_natural_16
 			end
 		end
 

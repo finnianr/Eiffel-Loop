@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:50:48 GMT (Saturday 5th April 2025)"
-	revision: "84"
+	date: "2025-04-14 8:08:22 GMT (Monday 14th April 2025)"
+	revision: "85"
 
 class
 	REFLECTION_TEST_SET
@@ -713,10 +713,10 @@ feature {NONE} -- Constants
 
 	assert_same_http_status (status: EL_SUBSTRING_8; status_code: NATURAL_16)
 		local
-			string, code_string: STRING; code: NATURAL_16; s: EL_STRING_8_ROUTINES
+			string, code_string: STRING; code: NATURAL_16
 		do
 			string := status
-			code_string := s.substring_to (string, ' ')
+			code_string := super_8 (string).substring_to (' ')
 			string.remove_head (code_string.count + 1)
 			assert ("same status code", code_string.to_natural_16 = status_code)
 			if attached Http_status.description (status_code) as description then

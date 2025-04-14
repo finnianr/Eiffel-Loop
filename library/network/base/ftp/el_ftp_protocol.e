@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:55:03 GMT (Friday 7th February 2025)"
-	revision: "48"
+	date: "2025-04-14 8:13:46 GMT (Monday 14th April 2025)"
+	revision: "49"
 
 class
 	EL_FTP_PROTOCOL
 
 inherit
 	EL_FTP_BASE
+
+	EL_MODULE_EXECUTION_ENVIRONMENT
 
 create
 	make_write, make_read

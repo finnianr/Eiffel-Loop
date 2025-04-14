@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 10:57:38 GMT (Monday 31st March 2025)"
-	revision: "5"
+	date: "2025-04-14 7:42:59 GMT (Monday 14th April 2025)"
+	revision: "6"
 
 class
 	EL_FTP_STREAM_SOCKET
@@ -41,17 +41,17 @@ feature {NONE} -- Initialization
 		require
 			valid_port_specification: port_specification.has ('(') and then port_specification.occurrences (',') = 5
 		local
-			s: EL_STRING_8_ROUTINES; number_list, ip_address: STRING; index, i: INTEGER
-			port_number, byte: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES; number_list, ip_address: STRING; index, i: INTEGER
+			port_number, byte: INTEGER
 		do
 			resource := a_resource
-			number_list := s.substring_to_reversed (port_specification, '(')
+			number_list := sg.super_8 (port_specification).substring_to_reversed ('(')
 			index := number_list.last_index_of (')', number_list.count)
 			if index > 0 then
 				number_list.keep_head (index - 1)
 				index := number_list.count
 				from i := 0 until i > 8 loop
-					byte := s.substring_to_reversed_from (number_list, ',', $index).to_integer
+					byte := sg.super_8 (number_list).substring_to_reversed_from (',', $index).to_integer
 					port_number := port_number | (byte |<< i)
 					i := i + 8
 				end

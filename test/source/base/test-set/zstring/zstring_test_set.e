@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 16:23:24 GMT (Sunday 13th April 2025)"
-	revision: "142"
+	date: "2025-04-14 10:28:13 GMT (Monday 14th April 2025)"
+	revision: "143"
 
 class
 	ZSTRING_TEST_SET
@@ -445,15 +445,11 @@ feature -- Status query tests
 		note
 			testing: "[
 				covers/{EL_READABLE_ZSTRING}.has_enclosing,
-				covers/{EL_STRING_32_ROUTINES_IMP}.has_enclosing,
-				covers/{EL_STRING_8_ROUTINES_IMP}.has_enclosing
+				covers/{EL_EXTENDED_READABLE_STRING_I}.has_enclosing
 			]"
-		local
-			test: STRING_TEST
 		do
 			across Text.words_32 as word loop
-				test := new_test (word.item)
-				assert ("has_enclosing OK", test.has_enclosing)
+				new_test (word.item).has_enclosing
 			end
 		end
 

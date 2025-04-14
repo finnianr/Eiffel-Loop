@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:55:03 GMT (Friday 7th February 2025)"
-	revision: "26"
+	date: "2025-04-14 8:13:22 GMT (Monday 14th April 2025)"
+	revision: "27"
 
 deferred class
 	EL_FTP_BASE
@@ -20,6 +20,8 @@ inherit
 			make as make_ftp,
 			last_reply as last_reply_utf_8
 		end
+
+	EL_MODULE_FILE; EL_MODULE_LIO
 
 	EL_ITERATION_ROUTINES
 
@@ -45,7 +47,7 @@ feature -- Measurement
 		do
 			send_path (Command.size, file_path, << Reply.file_status >>)
 			if last_succeeded then
-				Result := String_8.substring_to_reversed (last_reply_utf_8, ' ').to_integer
+				Result := super_8 (last_reply_utf_8).substring_to_reversed (' ').to_integer
 			end
 		end
 
@@ -221,7 +223,7 @@ feature {NONE} -- Implementation
 			upper_command: STRING
 		do
 			if is_lio_enabled then
-				upper_command := String_8.substring_to (cmd, ' ')
+				upper_command := super_8 (cmd).substring_to (' ')
 				upper_command.to_upper
 				lio.put_labeled_string (upper_command + " error", message)
 				lio.put_new_line

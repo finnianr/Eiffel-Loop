@@ -25,8 +25,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:31 GMT (Tuesday 18th March 2025)"
-	revision: "20"
+	date: "2025-04-14 9:38:43 GMT (Monday 14th April 2025)"
+	revision: "21"
 
 class
 	EROS_REMOTE_REQUEST
@@ -90,7 +90,6 @@ feature {NONE} -- Implementation
 			--
 		local
 			i: INTEGER; argument: ANY; list: STRING
-			s: EL_STRING_8_ROUTINES
 		do
 			list := argument_list
 			list.wipe_out
@@ -104,12 +103,12 @@ feature {NONE} -- Implementation
 						if routines_table.has (string) then
 							list.append (string)
 						else
-							list.append (s.enclosed (string, '%'', '%''))
+							list.append (super_8 (string).enclosed ('%'', '%''))
 						end
 
 					elseif attached {EVC_SERIALIZEABLE_AS_XML} argument as l_arg then
 						serializeable := l_arg
-						list.append (s.enclosed (l_arg.generator, '{', '}'))
+						list.append (super_8 (l_arg.generator).enclosed ('{', '}'))
 					end
 				else
 					list.append (args.item (i).out)

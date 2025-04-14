@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 17:47:58 GMT (Sunday 13th April 2025)"
-	revision: "4"
+	date: "2025-04-14 14:14:42 GMT (Monday 14th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -58,6 +58,14 @@ feature -- Contract Support
 			Result := target.same_characters (str, index, str.count, target_index)
 		end
 
+	is_identifier_string (str: like READABLE_X): BOOLEAN
+		do
+			if attached new_readable as super then
+				super.set_target (str)
+				Result := super.is_eiffel
+			end
+		end
+
 	is_valid_as_string_8: BOOLEAN
 		do
 			Result := target.is_valid_as_string_8
@@ -74,7 +82,17 @@ feature {NONE} -- Measurement
 		deferred
 		end
 
+	index_of (c: CHAR; start_index: INTEGER): INTEGER
+		-- Position of first occurrence of `c' at or after `start_index', 0 if none.
+		deferred
+		end
+
 	index_upper: INTEGER
+		deferred
+		end
+
+	last_index_of (c: CHAR; start_index_from_end: INTEGER): INTEGER
+		-- Position of last occurrence of `c', 0 if none.
 		deferred
 		end
 
@@ -84,10 +102,24 @@ feature {NONE} -- Measurement
 
 feature {NONE} -- Character query
 
+	has (c: CHAR): BOOLEAN
+		-- `True' if `target' has `c'
+		deferred
+		ensure
+			definition: target.has (to_character_32 (c))
+		end
+
 	is_c_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER): BOOLEAN
 		-- `True' if characters in `a_area' from `i_lower' to `i_upper' constitute
 		-- a C language identifier
 		deferred
+		end
+
+	is_character (c: CHAR): BOOLEAN
+		-- `True' if `target' consists exactly of one character `c'
+		deferred
+		ensure
+			definition: Result implies target.count = 1 and then target.occurrences (to_character_32 (c)) = 1
 		end
 
 	is_eiffel_identifier_in_range (a_area: like area; i_lower, i_upper: INTEGER; case: NATURAL_8): BOOLEAN
@@ -100,7 +132,12 @@ feature {NONE} -- Character query
 		end
 
 	is_i_th_alpha_numeric (a_area: like area; i: INTEGER): BOOLEAN
-		-- `True' if i'th character in `a_area'  is alphabetical or numeric
+		-- `True' if i'th character in `a_area' is alphabetical or numeric
+		deferred
+		end
+
+	is_i_th_identifier (a_area: like area; i: INTEGER): BOOLEAN
+		-- `True' if i'th character in `a_area' is a code identifier character
 		deferred
 		end
 

@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 12:49:01 GMT (Wednesday 9th April 2025)"
-	revision: "1"
+	date: "2025-04-14 7:54:02 GMT (Monday 14th April 2025)"
+	revision: "2"
 
 class
 	IMMUTABLE_STRING_MANAGER_TEST_SET
 
 inherit
 	EL_EQA_TEST_SET
-
-	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_SHARED_TEST_TEXT
 
@@ -101,7 +99,6 @@ feature -- Tests
 		local
 			manager_32: EL_IMMUTABLE_32_MANAGER; manager_8: EL_IMMUTABLE_8_MANAGER
 			line_32: STRING_32; substring_32: IMMUTABLE_STRING_32
-			s32: EL_STRING_32_ROUTINES
 		do
 			create manager_32; create manager_8
 			across Text.lines_32 as line loop
@@ -111,7 +108,7 @@ feature -- Tests
 					else
 						line_32 := str_32.twin
 						substring_32 := manager_32.shared_substring (str_32, 1, str_32.index_of (' ', 1) - 1)
-						assert_same_string (Void, s32.substring_to (str_32, ' '), substring_32)
+						assert_same_string (Void, super_32 (str_32).substring_to (' '), substring_32)
 						assert_same_string ("str_32 unchanged", str_32, line_32)
 					end
 				end

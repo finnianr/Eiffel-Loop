@@ -1,13 +1,16 @@
 note
-	description: "Extensions for ${STRING_8}"
+	description: "[
+		Capabilities of ${STRING_8} extended with routines from ${EL_EXTENDED_READABLE_STRING_I} and
+		${EL_EXTENDED_STRING_GENERAL}.
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 17:24:32 GMT (Sunday 13th April 2025)"
-	revision: "38"
+	date: "2025-04-14 9:51:57 GMT (Monday 14th April 2025)"
+	revision: "39"
 
 class
 	EL_STRING_8
@@ -31,7 +34,7 @@ inherit
 		rename
 			set_target as share
 		undefine
-			count, is_valid_as_string_8, valid_index
+			count, has, is_valid_as_string_8, valid_index
 		end
 
 	EL_STRING_GENERAL_ROUTINES_I
@@ -191,6 +194,17 @@ feature -- Element change
 					borrowed.return
 				end
 			end
+		end
+
+feature -- Duplication
+
+	enclosed (left, right: CHARACTER_8): STRING_8
+		-- copy of target with `left' and `right' character prepended and appended
+		do
+			create Result.make (count + 2)
+			Result.append_character (left)
+			Result.append_string (shared_string)
+			Result.append_character (right)
 		end
 
 feature {NONE} -- Implementation

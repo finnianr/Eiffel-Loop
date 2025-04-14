@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 14:13:25 GMT (Wednesday 9th April 2025)"
-	revision: "80"
+	date: "2025-04-14 14:39:50 GMT (Monday 14th April 2025)"
+	revision: "81"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -169,54 +169,8 @@ feature -- List joining
 
 feature -- Transformed
 
-	enclosed (str: READABLE_STRING_GENERAL; left, right: CHARACTER_32): STRING_X
-			--
-		do
-			create Result.make (str.count + 2)
-			Result.append_code (to_code (left))
-			append_to (Result, str)
-			Result.append_code (to_code (right))
-		end
-
 	pruned (str: READABLE_STRING_GENERAL; c: CHARACTER_32): STRING_X
 		deferred
-		end
-
-	quoted (str: READABLE_STRING_GENERAL; quote_type: INTEGER): STRING_X
-		require
-			single_or_double: (1 |..| 2).has (quote_type)
-		local
-			c: CHARACTER
-		do
-			inspect quote_type
-				when 1 then
-					c := '%''
-			else
-				c := '"'
-			end
-			Result := enclosed (str, c, c)
-		end
-
-	replaced_identifier (str, old_id, new_id: READABLE_STRING_X): STRING_X
-		-- copy of `str' with each each Eiffel identifier `old_id' replaced with `new_id'
-		require
-			both_identifiers: is_eiffel (old_id) and is_eiffel (new_id)
-		local
-			intervals: EL_OCCURRENCE_INTERVALS
-		do
-			create intervals.make_by_string (str, old_id)
-			if new_id.count > old_id.count then
-				Result := new (str.count + (new_id.count - old_id.count) * intervals.count)
-			else
-				Result := new (str.count)
-			end
-			Result.append (str)
-			from intervals.finish until intervals.before loop
-				if is_identifier_boundary (str, intervals.item_lower, intervals.item_upper) then
-					replace_substring (Result, new_id, intervals.item_lower, intervals.item_upper)
-				end
-				intervals.back
-			end
 		end
 
 feature -- Adjust

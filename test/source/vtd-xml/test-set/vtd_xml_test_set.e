@@ -16,8 +16,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-22 12:49:56 GMT (Saturday 22nd March 2025)"
-	revision: "38"
+	date: "2025-04-14 8:03:47 GMT (Monday 14th April 2025)"
+	revision: "39"
 
 class
 	VTD_XML_TEST_SET
@@ -102,8 +102,7 @@ feature -- Tests
 		-- as a by product we get a text table of all Windows error codes with messages
 		local
 			node: EL_XPATH_NODE_CONTEXT; manifest_file: PLAIN_TEXT_FILE
-			manifest_path: FILE_PATH; s: EL_STRING_8_ROUTINES
-			message: STRING
+			manifest_path: FILE_PATH
 		do
 			manifest_path := work_dir + "system-error-codes.txt"
 			if attached new_xdoc ("mswin-error-codes.xml") as xdoc then
@@ -111,13 +110,12 @@ feature -- Tests
 				across xdoc.context_list ("/table/p") as list loop
 					node := list.node
 					if node.has_attribute (Attribute_id) then
-						if attached node.query (Following_sibling #$ [1]) as code then
-							manifest_file.put_string (s.substring_to (code.as_string_8, ' '))
+						if attached node.query (Following_sibling #$ [1]).as_string_8 as code then
+							manifest_file.put_string (super_8 (code).substring_to (' '))
 							manifest_file.put_character (':')
 							manifest_file.put_new_line
 						end
-						if attached node.query (Following_sibling #$ [2]) as code then
-							message := code.as_string_8
+						if attached node.query (Following_sibling #$ [2]).as_string_8 as message then
 							message.adjust
 							across message.split ('%N') as line loop
 								manifest_file.put_character ('%T')

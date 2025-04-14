@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 8:20:14 GMT (Saturday 5th April 2025)"
-	revision: "31"
+	date: "2025-04-14 7:51:03 GMT (Monday 14th April 2025)"
+	revision: "32"
 
 deferred class
 	EL_EQA_TEST_SET
@@ -24,6 +24,8 @@ inherit
 			on_clean, on_prepare, assert_32
 		end
 
+	EL_STRING_GENERAL_ROUTINES_I
+
 	EL_MAKEABLE undefine default_create end
 
 	EL_MODULE_LIO -- so test can still be run in AutoTest tool
@@ -31,6 +33,7 @@ inherit
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_OS
 
 	EL_SHARED_DIGESTS; EL_SHARED_TEST_CRC
+
 
 feature {NONE} -- Initialization
 

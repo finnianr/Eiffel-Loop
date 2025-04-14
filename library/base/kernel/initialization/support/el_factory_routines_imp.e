@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-07 11:11:57 GMT (Saturday 7th September 2024)"
-	revision: "6"
+	date: "2025-04-14 14:42:53 GMT (Monday 14th April 2025)"
+	revision: "7"
 
 class
 	EL_FACTORY_ROUTINES_IMP
@@ -63,7 +63,7 @@ feature -- Access
 		require
 			conforms_to_target: type_conforms_to (conforming_target_id, target_type.type_id)
 		local
-			intervals: EL_OCCURRENCE_INTERVALS; s_8: EL_STRING_8_ROUTINES
+			intervals: EL_OCCURRENCE_INTERVALS; sg: EL_STRING_GENERAL_ROUTINES
 			class_type: STRING; conforming_name: IMMUTABLE_STRING_8
 			lower, upper: INTEGER
 		do
@@ -73,7 +73,7 @@ feature -- Access
 			if attached intervals as list then
 				from list.finish until list.before loop
 					lower := list.item_lower; upper := list.item_upper
-					if s_8.is_identifier_boundary (factory_type.name, lower, upper) then
+					if sg.super_readable_8 (factory_type.name).is_identifier_boundary (lower, upper) then
 						class_type.replace_substring (conforming_name, lower, upper)
 					end
 					list.back

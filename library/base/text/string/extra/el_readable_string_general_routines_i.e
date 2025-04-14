@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:45:58 GMT (Sunday 13th April 2025)"
-	revision: "35"
+	date: "2025-04-14 8:26:59 GMT (Monday 14th April 2025)"
+	revision: "36"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -97,14 +97,6 @@ feature -- Measurement
 		end
 
 feature -- Status query
-
-	is_character (str: READABLE_STRING_GENERAL; uc: CHARACTER_32): BOOLEAN
-		-- `True' if `str.same_string (uc.out)' is true
-		do
-			Result := str.count = 1 and then str [1] = uc
-		ensure
-			definition: Result implies str.occurrences (uc) = 1
-		end
 
 	valid_assignments (a_manifest: READABLE_STRING_GENERAL): BOOLEAN
 		local

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-10 18:23:06 GMT (Monday 10th March 2025)"
-	revision: "3"
+	date: "2025-04-14 7:55:47 GMT (Monday 14th April 2025)"
+	revision: "4"
 
 class
 	TEXT_FILE_TEST_SET
@@ -242,7 +242,7 @@ feature {NONE} -- Implementation
 		output_path: FILE_PATH; file_lines: ITERABLE [STRING_GENERAL]; counter: EL_NATURAL_32_COUNTER
 	)
 		local
-			description, part: STRING; code: STRING; s: EL_STRING_8_ROUTINES
+			description, part, code: STRING; s: EL_STRING_8_ROUTINES
 		do
 			if attached open (output_path, Write) as output then
 				output.set_latin_encoding (1)
@@ -252,7 +252,7 @@ feature {NONE} -- Implementation
 						if part.count > 0 then
 							part.adjust
 							if list.cursor_index = 1 then
-								code := s.substring_to_reversed (part, '%T')
+								code := super_8 (part).substring_to_reversed ('%T')
 								code.left_adjust
 							else
 								part.remove_tail (3)

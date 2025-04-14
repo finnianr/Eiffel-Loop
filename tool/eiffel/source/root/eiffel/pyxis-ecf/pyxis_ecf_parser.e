@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:06:59 GMT (Sunday 22nd September 2024)"
-	revision: "34"
+	date: "2025-04-14 8:48:07 GMT (Monday 14th April 2025)"
+	revision: "35"
 
 class
 	PYXIS_ECF_PARSER
@@ -50,7 +50,7 @@ feature {NONE} -- Implemenatation
 
 	call_state_procedure (a_line: STRING)
 		local
-			equal_index: INTEGER; line: EL_PYXIS_LINE; s: EL_STRING_8_ROUTINES
+			equal_index: INTEGER; line: EL_PYXIS_LINE; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			line := to_pyxis_line (a_line)
 			equal_index := line.index_of_equals
@@ -113,7 +113,7 @@ feature {NONE} -- Implemenatation
 					Precursor (line)
 				end
 			elseif attached line.element_name as tag and then Name.externals_set.has (tag) then
-				c_platform := s.substring_to (tag, '_')
+				c_platform := sg.super_8 (tag).substring_to ('_')
 				c_platform_indent := line.indent_count
 			else
 				Precursor (line)

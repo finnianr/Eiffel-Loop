@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 15:07:59 GMT (Friday 4th April 2025)"
-	revision: "1"
+	date: "2025-04-14 8:34:22 GMT (Monday 14th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32
@@ -20,6 +20,20 @@ inherit
 			READABLE_X as READABLE_32
 		redefine
 			target
+		end
+
+feature -- Measurement
+
+	index_of (c: CHARACTER_32; start_index: INTEGER): INTEGER
+		-- Position of first occurrence of `c' at or after `start_index', 0 if none.
+		do
+			Result := target.index_of (c, start_index)
+		end
+
+	last_index_of (c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
+		-- Position of last occurrence of `c', 0 if none.
+		do
+			Result := target.last_index_of (c, start_index_from_end)
 		end
 
 feature -- Status query

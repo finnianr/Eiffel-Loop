@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 11:02:35 GMT (Monday 31st March 2025)"
-	revision: "39"
+	date: "2025-04-14 7:52:48 GMT (Monday 14th April 2025)"
+	revision: "40"
 
 class
 	URI_TEST_SET
@@ -200,7 +200,7 @@ feature -- Tests
 			url_string.append_string (book_info.author_title)
 			create url.make_from_general (url_string)
 
-			encoded_author_title := s.substring_to (Book_data.encoded, '&')
+			encoded_author_title := super_8 (Book_data.encoded).substring_to ('&')
 			assert_same_string (Void, amazon_query + "?" + encoded_author_title, url)
 
 			title_fragment := "#title"
@@ -441,8 +441,6 @@ feature {NONE} -- Implementation
 feature {NONE} -- Constants
 
 	Book_data: TUPLE [encoded: STRING; values: STRING_32]
-		local
-			sg: EL_STRING_GENERAL_ROUTINES
 		once
 			create Result
 			Result.encoded := "[
@@ -450,7 +448,7 @@ feature {NONE} -- Constants
 				price=%E2%82%AC+10.00
 				publisher=Barnes+%26+Noble&discount=10%25
 			]"
-			sg.super_8 (Result.encoded).replace_character ('%N', '&')
+			super_8 (Result.encoded).replace_character ('%N', '&')
 			Result.values := {STRING_32} "Günter (Wilhelm) Grass/The Tin Drum, € 10.00, Barnes & Noble, 10%%"
 		end
 

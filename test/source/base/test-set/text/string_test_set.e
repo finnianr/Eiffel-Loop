@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:41 GMT (Friday 11th April 2025)"
-	revision: "44"
+	date: "2025-04-14 10:40:44 GMT (Monday 14th April 2025)"
+	revision: "45"
 
 class
 	STRING_TEST_SET
@@ -260,12 +260,12 @@ feature -- Tests
 				covers/{EL_READABLE_STRING_X_ROUTINES}.has_member
 			]"
 		local
-			str, abc, def: IMMUTABLE_STRING_8; s: EL_STRING_8_ROUTINES
+			str, abc, def: IMMUTABLE_STRING_8
 		do
 			str := "abcdef"; abc := str.shared_substring (1, 3); def := str.shared_substring (4, 6)
-			assert ("in set", s.has_member (str, Current))
-			assert ("in set", s.has_member (abc, Current))
-			assert ("not in set", not s.has_member (def, Current))
+			assert ("in set", super_readable_8 (str).has_member (Current))
+			assert ("in set", super_readable_8 (abc).has_member (Current))
+			assert ("not in set", not super_readable_8 (def).has_member (Current))
 		end
 
 	test_remove_bookends

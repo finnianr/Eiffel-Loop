@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:46:03 GMT (Sunday 13th April 2025)"
-	revision: "72"
+	date: "2025-04-14 14:44:57 GMT (Monday 14th April 2025)"
+	revision: "73"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -28,20 +28,6 @@ inherit
 
 feature -- Character query
 
-	has_enclosing (s: READABLE_STRING_32; c_first, c_last: CHARACTER_32): BOOLEAN
-			--
-		local
-			upper: INTEGER
-		do
-			upper := s.count
-			inspect upper
-				when 0, 1 then
-					do_nothing
-			else
-				Result := s [1] = c_first and then s [upper] = c_last
-			end
-		end
-
 	is_i_th_alpha (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
 		-- `True' if i'th character is alphabetical
 		do
@@ -52,14 +38,6 @@ feature -- Character query
 		-- `True' if i'th character is alphabetical or numeric
 		do
 			Result := str [i].is_alpha_numeric
-		end
-
-	is_i_th_identifier (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
-		local
-			c: CHARACTER_32
-		do
-			c := str [i]
-			Result := c.is_alpha_numeric or c = '_'
 		end
 
 	is_i_th_space (str: READABLE_STRING_32; i: INTEGER): BOOLEAN

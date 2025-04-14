@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 7:59:35 GMT (Saturday 12th April 2025)"
-	revision: "9"
+	date: "2025-04-14 14:18:05 GMT (Monday 14th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -41,12 +41,24 @@ feature -- Measurement
 
 feature -- Status query
 
+	has (uc: CHARACTER_32): BOOLEAN
+		-- `True' if `target' has `uc'
+		do
+			Result := target.has (uc)
+		end
+
 	is_alpha_numeric: BOOLEAN
 		-- `True' if all characters in `target' are alphabetical or numerical
 		local
 			c32: EL_CHARACTER_32_ROUTINES
 		do
 			Result := c32.is_alpha_numeric_area (area, index_lower, index_upper)
+		end
+
+	is_character (uc: CHARACTER_32): BOOLEAN
+		-- `True' if `target' consists exactly of one character `uc'
+		do
+			Result := count = 1 and then target [1] = uc
 		end
 
 feature {NONE} -- Implementation
@@ -85,6 +97,14 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character in `a_area'  is alphabetical or numeric
 		do
 			Result := a_area [i].is_alpha_numeric
+		end
+
+	is_i_th_identifier (a_area: like area; i: INTEGER): BOOLEAN
+		-- `True' if i'th character in `a_area' is a code identifier character
+		local
+			c: EL_CHARACTER_32_ROUTINES
+		do
+			Result := c.is_c_identifier (a_area [i], False)
 		end
 
 	is_i_th_space (a_area: like area; i: INTEGER; unicode: EL_UNICODE_PROPERTY): BOOLEAN

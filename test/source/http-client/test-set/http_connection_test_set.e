@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-29 9:14:56 GMT (Wednesday 29th January 2025)"
-	revision: "76"
+	date: "2025-04-14 8:37:24 GMT (Monday 14th April 2025)"
+	revision: "77"
 
 class
 	HTTP_CONNECTION_TEST_SET
@@ -537,7 +537,7 @@ feature {NONE} -- Factory
 			create Result.make_equal (pair_list.count)
 			from pair_list.start until pair_list.after loop
 				create value.make_encoded (pair_list.item_value (False).to_latin_1)
-				if not s.is_character (value, '{') then
+				if not super_readable_8 (value).is_character ('{') then
 					Result.set_string (pair_list.item_name (True), value.decoded)
 				end
 				pair_list.forth

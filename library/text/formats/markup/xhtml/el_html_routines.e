@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 10:16:53 GMT (Wednesday 6th November 2024)"
-	revision: "31"
+	date: "2025-04-14 14:43:19 GMT (Monday 14th April 2025)"
+	revision: "32"
 
 class
 	EL_HTML_ROUTINES
@@ -60,13 +60,13 @@ feature -- Access
 		-- 	1. <meta charset="UTF-8" />
 		-- 	2. <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		local
-			index, i: INTEGER; s: EL_STRING_8_ROUTINES
+			index, i: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 			cr: EL_CHARACTER_8_ROUTINES; c: CHARACTER_8
 		do
 			Result := {CODE_PAGE_CONSTANTS}.Utf8
 
 			index := xhtml.substring_index (Charset, 1)
-			if index > 0 and then s.is_identifier_boundary (xhtml, index, index + Charset.count - 1) then
+			if index > 0 and then sg.super_readable_8 (xhtml).is_identifier_boundary (index, index + Charset.count - 1) then
 				create Result.make (10)
 				from i := index + Charset.count until Result.count > 3 and xhtml [i] = '"' loop
 					c := xhtml [i]

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 14:09:25 GMT (Wednesday 9th April 2025)"
-	revision: "43"
+	date: "2025-04-14 14:45:06 GMT (Monday 14th April 2025)"
+	revision: "44"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -20,8 +20,6 @@ inherit
 			super_readable_8 as extended_string
 		undefine
 			bit_count
-		redefine
-			is_character
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
@@ -62,26 +60,6 @@ feature -- Basic operations
 		end
 
 feature -- Character query
-
-	has_enclosing (s: READABLE_STRING_8; c_first, c_last: CHARACTER_32): BOOLEAN
-			--
-		local
-			upper: INTEGER
-		do
-			upper := s.count
-			inspect upper
-				when 0, 1 then
-					do_nothing
-			else
-				Result := s [1] = c_first and then s [upper] = c_last
-			end
-		end
-
-	is_character (str: READABLE_STRING_8; uc: CHARACTER_32): BOOLEAN
-		-- `True' if `str.same_string (uc.out)' is true
-		do
-			Result := str.count = 1 and then str [1] = uc
-		end
 
 	is_subset_of (str: READABLE_STRING_8; set: EL_SET [CHARACTER_8]): BOOLEAN
 		-- `True' if set of all characters in `str' is a subset of `set'
@@ -317,14 +295,6 @@ feature {NONE} -- Implementation
 		-- `True' if i'th character is alphabetical or numeric
 		do
 			Result := str [i].is_alpha_numeric
-		end
-
-	is_i_th_identifier (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
-		local
-			c: CHARACTER
-		do
-			c := str [i]
-			Result := c.is_alpha_numeric or else c = '_'
 		end
 
 	is_i_th_space (str: READABLE_STRING_8; i: INTEGER): BOOLEAN

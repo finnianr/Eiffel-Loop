@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 11:58:31 GMT (Saturday 5th April 2025)"
-	revision: "30"
+	date: "2025-04-14 7:50:01 GMT (Monday 14th April 2025)"
+	revision: "31"
 
 deferred class
 	EL_AUTOTEST_APPLICATION [EQA_TYPES -> TUPLE create default_create end]
@@ -37,10 +37,10 @@ feature {NONE} -- Initialization
 
 	init_console_and_logging
 		local
-			s: EL_STRING_8_ROUTINES; start_index, count: INTEGER
+			start_index, count: INTEGER
 		do
 			start_index := 1; count := App_option.test_set.count
-			test_set_name := s.substring_to_from (App_option.test_set, '.', $start_index)
+			test_set_name := super_8 (App_option.test_set).substring_to_from ('.', $start_index)
 			if start_index < count then
 				test_name := App_option.test_set.substring (start_index, count)
 				if test_name.starts_with (Test_prefix) then

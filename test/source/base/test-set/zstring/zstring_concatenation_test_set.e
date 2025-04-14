@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 14:10:54 GMT (Wednesday 9th April 2025)"
-	revision: "9"
+	date: "2025-04-14 9:37:45 GMT (Monday 14th April 2025)"
+	revision: "10"
 
 class
 	ZSTRING_CONCATENATION_TEST_SET
@@ -99,7 +99,7 @@ feature -- Appending tests
 				str_32.wipe_out; zstr.wipe_out
 				across Text.lines_32 as list until list.cursor_index > 3 loop
 					if n.item = 2 then
-						line_32 := s.enclosed (list.item, ' ', ' ')
+						line_32 := super_32 (list.item).enclosed (' ', ' ')
 					else
 						line_32 := list.item
 					end

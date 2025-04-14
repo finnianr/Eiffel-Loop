@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:55:07 GMT (Friday 7th February 2025)"
-	revision: "57"
+	date: "2025-04-14 8:05:43 GMT (Monday 14th April 2025)"
+	revision: "58"
 
 class
 	EL_HTTP_CONNECTION
@@ -81,13 +81,13 @@ feature -- Access
 	page_error_code: NATURAL_16
 		-- http error code parsed from document page
 		local
-			bracket_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; s: EL_STRING_8_ROUTINES
+			bracket_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if is_html_response then
 				create bracket_split.make (last_string, '>')
 				across bracket_split as split until Result > 0 loop
 					if last_string [split.item_lower].is_digit
-						and then attached s.substring_to (split.item, ' ') as code_string
+						and then attached sg.super_8 (split.item).substring_to (' ') as code_string
 					then
 						Result := code_string.to_natural_16
 					end

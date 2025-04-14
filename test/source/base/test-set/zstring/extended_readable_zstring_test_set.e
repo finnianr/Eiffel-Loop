@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 6:49:43 GMT (Saturday 12th April 2025)"
-	revision: "7"
+	date: "2025-04-14 14:38:45 GMT (Monday 14th April 2025)"
+	revision: "8"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -34,6 +34,7 @@ feature {NONE} -- Initialization
 				["is_eiffel_name",					 agent test_is_eiffel_name],
 				["is_variable_reference",			 agent test_is_variable_reference],
 				["occurrences_in_bounds",			 agent test_occurrences_in_bounds],
+				["replaced_identifier",				 agent test_replaced_identifier],
 				["same_string",						 agent test_same_string],
 				["word_count",							 agent test_word_count]
 			>>)
@@ -262,6 +263,28 @@ feature -- Tests
 					else
 					end
 					assert ("as expected", expected_occurrences = occurrences)
+				end
+			end
+		end
+
+	test_replaced_identifier
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_replaced_identifier
+		note
+			testing: "[
+				covers/{EL_EXTENDED_READABLE_STRING_I).is_identifier_boundary,
+				covers/{EL_EXTENDED_READABLE_ZSTRING}.is_identifier_boundary
+				covers/{EL_EXTENDED_STRING_GENERAL}.replaced_identifier
+			]"
+		do
+			across new_string_type_list ("has_substring, has, has_8, chase:has:hash") as string_list loop
+				if attached string_list.item.split (':') as parts then
+					if attached {STRING_GENERAL} parts.first as csv_list
+						and then attached parts [2] as old_id
+						and then attached parts.last as new_id
+						and then attached super_general (csv_list) as str
+					then
+						assert_same_string (Void, str.replaced_identifier (old_id, new_id), "has_substring, hash, has_8, chase")
+					end
 				end
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-25 14:14:57 GMT (Wednesday 25th September 2024)"
-	revision: "4"
+	date: "2025-04-14 8:12:38 GMT (Monday 14th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_FTP_COMMAND_CONSTANTS
@@ -22,9 +22,7 @@ inherit
 			is_equal
 		end
 
-	EL_MODULE_EXCEPTION; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM
-
-	EL_MODULE_LIO; EL_MODULE_TUPLE; EL_MODULE_STRING_8; EL_MODULE_USER_INPUT
+	EL_MODULE_TUPLE
 
 	EL_STRING_8_CONSTANTS; EL_CHARACTER_8_CONSTANTS
 

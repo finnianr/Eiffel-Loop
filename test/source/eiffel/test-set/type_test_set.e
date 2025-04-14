@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-04 18:02:59 GMT (Friday 4th April 2025)"
-	revision: "24"
+	date: "2025-04-14 9:09:34 GMT (Monday 14th April 2025)"
+	revision: "25"
 
 class
 	TYPE_TEST_SET
@@ -193,7 +193,7 @@ feature -- Tests
 			type_flags: NATURAL_16; type_flags_set: EL_HASH_SET [NATURAL_16]
 		do
 			create type_flags_set.make (20)
-			from type_id := 1 until type_id > 3_000 or break loop
+			from type_id := 1 until type_id > 3_100 or break loop
 				if attached {ISE_RUNTIME}.generating_type_of_type (type_id) as name then
 					type_flags := eif_type_flags (type_id)
 					type_flags_set.put (type_flags)

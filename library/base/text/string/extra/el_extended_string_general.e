@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 17:53:29 GMT (Sunday 13th April 2025)"
-	revision: "9"
+	date: "2025-04-14 14:35:51 GMT (Monday 14th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -18,6 +18,39 @@ inherit
 			target as shared_string
 		undefine
 			count, is_valid_as_string_8, valid_index
+		end
+
+feature -- Duplication
+
+	enclosed (left, right: CHAR): like shared_string
+		-- copy of target with `left' and `right' character prepended and appended
+		deferred
+		ensure
+			definition:
+				Result [1] = to_character_32 (left) and Result [Result.count] = to_character_32 (right)
+				and Result.substring (2, Result.count - 1) ~ shared_string
+		end
+
+	quoted (type: INTEGER): like shared_string
+		require
+			type_is_single_double_or_appropriate: 1 <= type and type <= 3
+		local
+			c: CHAR
+		do
+			inspect type
+				when 1 then
+					c := to_char ('%'')
+
+				when 3 then -- appropriate for content
+					if has (to_char ('"')) then
+						c := to_char ('%'')
+					else
+						c := to_char ('"')
+					end
+			else
+				c := to_char ('"')
+			end
+			Result := enclosed (c, c)
 		end
 
 feature -- Measurement
@@ -37,14 +70,6 @@ feature -- Enclosure query
 			--
 		do
 			Result := has_quotes (2)
-		end
-
-	has_enclosing (left, right: CHAR): BOOLEAN
-			--
-		do
-			if count >= 2 and then attached area as l_area then
-				Result := l_area [0] = left and then l_area [count - 1] = right
-			end
 		end
 
 	has_quotes (type: INTEGER): BOOLEAN
@@ -183,6 +208,30 @@ feature -- Element change
 			end
 		end
 
+	replaced_identifier (old_id, new_id: like READABLE_X): like shared_string
+		-- copy of `str' with each each Eiffel identifier `old_id' replaced with `new_id'
+		require
+			both_identifiers: is_identifier_string (old_id) and is_identifier_string (new_id)
+		local
+			intervals: EL_OCCURRENCE_INTERVALS; new_count: INTEGER
+		do
+			Result := shared_string.twin
+		-- Important to save `shared_string' first as `intervals.make_by_string' makes call to `set_target'
+			create intervals.make_by_string (shared_string, old_id)
+			set_target (Result)
+			if new_id.count > old_id.count then
+				new_count := count + (new_id.count - old_id.count) * intervals.count
+				grow (new_count)
+			end
+			from intervals.finish until intervals.before loop
+				if is_identifier_boundary (intervals.item_lower, intervals.item_upper) then
+					replace_substring (new_id, intervals.item_lower, intervals.item_upper)
+				end
+				intervals.back
+			end
+			set_count (count)
+		end
+
 	to_canonically_spaced
 		-- adjust string so that `is_canonically_spaced' becomes true
 		local
@@ -248,16 +297,16 @@ feature {NONE} -- Implementation
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
-			c, new_char, null: CHAR; i, j, index, upper: INTEGER
+			c, new_char, null_char: CHAR; i, j, index, upper: INTEGER
 		do
 			if attached area as l_area then
-				null := to_char ('%U')
+				null_char := to_char ('%U')
 				from upper := count - 1 until i > upper loop
 					c := l_area [i]
 					index := old_characters.index_of (to_character_32 (c), 1)
 					if index > 0 then
 						new_char := to_char (new_characters [index])
-						if delete_null implies new_char > null then
+						if delete_null implies new_char > null_char then
 							l_area [j] := new_char
 							j := j + 1
 						end
@@ -293,6 +342,10 @@ feature {NONE} -- Deferred
 		end
 
 	new_substring (start_index, end_index: INTEGER): like shared_string
+		deferred
+		end
+
+	replace_substring (str: like readable_x; start_index, end_index: INTEGER)
 		deferred
 		end
 
