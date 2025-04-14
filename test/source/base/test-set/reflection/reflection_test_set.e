@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:08:22 GMT (Monday 14th April 2025)"
-	revision: "85"
+	date: "2025-04-14 19:55:00 GMT (Monday 14th April 2025)"
+	revision: "86"
 
 class
 	REFLECTION_TEST_SET
@@ -42,18 +42,19 @@ feature {NONE} -- Initialization
 				["default_tuple_initialization",		  agent test_default_tuple_initialization],
 				["enumeration",							  agent test_enumeration],
 				["field_name_list_for",					  agent test_field_name_list_for],
-				["field_with_address",					  agent test_field_with_address],
 				["field_query",							  agent test_field_query],
 				["field_representation",				  agent test_field_representation],
 				["field_value_reset",					  agent test_field_value_reset],
 				["field_value_setter",					  agent test_field_value_setter],
 				["field_value_table",					  agent test_field_value_table],
+				["field_with_address",					  agent test_field_with_address],
 				["http_headers",							  agent test_http_headers],
 				["initialized_object_factory",		  agent test_initialized_object_factory],
 				["make_object_from_camel_case_table", agent test_make_object_from_camel_case_table],
 				["make_object_from_table",				  agent test_make_object_from_table],
 				["makeable_object_factory",			  agent test_makeable_object_factory],
 				["new_parameterized_item",				  agent test_new_parameterized_item],
+				["new_factory",							  agent test_new_factory],
 				["parameterized_type_id",				  agent test_parameterized_type_id],
 				["reflected_collection_factory",		  agent test_reflected_collection_factory],
 				["reflected_integer_list",				  agent test_reflected_integer_list],
@@ -467,6 +468,24 @@ feature -- Tests
 				assert_same_string (Void, type.name, vector.generator)
 			else
 				failed ("vector created")
+			end
+		end
+
+	test_new_factory
+		-- REFLECTION_TEST_SET.test_new_factory
+		note
+			testing: "[
+				covers/{EL_FACTORY_TYPE_ID_TABLE}.new_item
+			]"
+		local
+			type_id, factory_id: INTEGER
+		do
+			type_id := ({COLUMN_VECTOR_COMPLEX_64}).type_id
+			factory_id := ({EL_MAKEABLE_FACTORY [COLUMN_VECTOR_COMPLEX_64]}).type_id
+			if attached Factory.new ({EL_MAKEABLE_FACTORY [EL_MAKEABLE]}, type_id) as l_factory then
+				assert ("same type", factory_id = {ISE_RUNTIME}.dynamic_type (l_factory))
+			else
+				failed ("create COLUMN_VECTOR_COMPLEX_64 factory")
 			end
 		end
 

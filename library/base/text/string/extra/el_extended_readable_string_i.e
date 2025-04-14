@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:21:07 GMT (Monday 14th April 2025)"
-	revision: "10"
+	date: "2025-04-14 19:57:30 GMT (Monday 14th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -96,6 +96,21 @@ feature -- Measurement
 	count: INTEGER
 		do
 			Result := target.count
+		end
+
+	between_interval (left, right: CHAR): INTEGER_64
+		-- compact substring interval between first `left' character from the start
+		-- and last `right' character from the end.
+		local
+			left_index, right_index: INTEGER; ir: EL_INTERVAL_ROUTINES
+		do
+			left_index := index_of (left, 1)
+			if left_index > 0 then
+				right_index := last_index_of (right, count)
+				if right_index > 0 then
+					Result := ir.compact (left_index + 1, right_index - 1)
+				end
+			end
 		end
 
 	leading_occurrences (c: CHAR): INTEGER

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:45:57 GMT (Monday 14th April 2025)"
-	revision: "64"
+	date: "2025-04-14 18:20:04 GMT (Monday 14th April 2025)"
+	revision: "65"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -89,22 +89,6 @@ feature -- Access
 			if attached extended_string (a_str) as str then
 				create Result.make (str.utf_8_byte_count)
 				str.append_to_utf_8 (Result)
-			end
-		end
-
-feature -- Measurement
-
-	between_interval (str: READABLE_STRING_X; left, right: CHARACTER_32): INTEGER_64
-		-- compact substring interval between `left' and `right' character
-		local
-			left_index, right_index: INTEGER; ir: EL_INTERVAL_ROUTINES
-		do
-			left_index := index_of (str, left, 1)
-			if left_index > 0 then
-				right_index := last_index_of (str, right, str.count)
-				if right_index > 0 then
-					Result := ir.compact (left_index + 1, right_index - 1)
-				end
 			end
 		end
 

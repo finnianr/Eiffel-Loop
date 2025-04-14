@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:45:06 GMT (Monday 14th April 2025)"
-	revision: "44"
+	date: "2025-04-14 14:58:23 GMT (Monday 14th April 2025)"
+	revision: "45"
 
 class
 	EL_STRING_8_ROUTINES_IMP
@@ -283,24 +283,6 @@ feature {NONE} -- Implementation
 	last_index_of (str: READABLE_STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
 		do
 			Result := str.last_index_of (c.to_character_8, start_index_from_end)
-		end
-
-	is_i_th_alpha (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical
-		do
-			Result := str [i].is_alpha
-		end
-
-	is_i_th_alpha_numeric (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical or numeric
-		do
-			Result := str [i].is_alpha_numeric
-		end
-
-	is_i_th_space (str: READABLE_STRING_8; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is white space
-		do
-			Result := str [i].is_space
 		end
 
 	new_shared_substring (s: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8

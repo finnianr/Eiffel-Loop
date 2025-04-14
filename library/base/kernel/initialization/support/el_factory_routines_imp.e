@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:42:53 GMT (Monday 14th April 2025)"
-	revision: "7"
+	date: "2025-04-14 20:07:40 GMT (Monday 14th April 2025)"
+	revision: "8"
 
 class
 	EL_FACTORY_ROUTINES_IMP
@@ -21,39 +21,40 @@ inherit
 			{ANY} type_conforms_to
 		end
 
+	EL_TYPE_UTILITIES
+		export
+			{NONE} all
+		end
+
 feature -- Access
 
 	parameterized_type_id (base_type: TYPE [ANY]; parameter_types: ARRAY [TYPE [ANY]]): INTEGER
 		require
-			same_paramater_count: parameter_count (base_type) = parameter_types.count
+			same_parameter_count: parameter_count (base_type) = parameter_types.count
 		local
-			interval: INTEGER_64; s: EL_STRING_8_ROUTINES; ir: EL_INTERVAL_ROUTINES
-			base_type_template: STRING; left_index, right_index, start_index, end_index, i: INTEGER
+			base_type_template, substituted_type_list: STRING_8; start_index, end_index, i: INTEGER
 			interval_list: EL_SPLIT_INTERVALS
 		do
-			base_type_template := base_type.name
-			interval := s.between_interval (base_type_template, '[', ']')
-			if interval > 0 then
-				left_index := ir.to_lower (interval) - 1
-				right_index := ir.to_upper (interval) + 1
-
-				base_type_template [left_index] := ','; base_type_template [right_index] := ','
-				create interval_list.make (base_type_template, ',')
-				base_type_template [left_index] := '['; base_type_template [right_index] := ']'
-
-				if attached interval_list as list and then list.count > 2 then
+			if attached parameter_list (base_type) as type_list and then type_list.count > 0 then
+				substituted_type_list := type_list
+				create interval_list.make (type_list, ',')
+				if attached interval_list as list then
 					i := parameter_types.count
-					from list.finish; list.back until list.before or i = 0 loop
+					from list.finish until list.before or i = 0 loop
 						start_index := list.item_lower + (i > 1).to_integer
 						end_index := list.item_upper
 						if attached parameter_types [i].name as name then
-							base_type_template.replace_substring (name, start_index, end_index)
+							substituted_type_list.replace_substring (name, start_index, end_index)
 						end
 						i := i - 1
 						list.back
 					end
-					Result := dynamic_type_from_string (base_type_template)
 				end
+				base_type_template := base_type.name
+				start_index := base_type_template.count - type_list.count
+				end_index := base_type_template.count - 1
+				base_type_template.replace_substring (substituted_type_list, start_index, end_index)
+				Result := dynamic_type_from_string (base_type_template)
 			end
 		end
 
@@ -63,9 +64,8 @@ feature -- Access
 		require
 			conforms_to_target: type_conforms_to (conforming_target_id, target_type.type_id)
 		local
-			intervals: EL_OCCURRENCE_INTERVALS; sg: EL_STRING_GENERAL_ROUTINES
-			class_type: STRING; conforming_name: IMMUTABLE_STRING_8
-			lower, upper: INTEGER
+			intervals: EL_OCCURRENCE_INTERVALS; class_type: STRING; conforming_name: IMMUTABLE_STRING_8
+			lower, upper: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			conforming_name := type_of_type (conforming_target_id).name
 			create intervals.make_by_string (factory_type.name, target_type.name)
@@ -120,14 +120,9 @@ feature -- Factory
 feature -- Contract Support
 
 	parameter_count (base_type: TYPE [ANY]): INTEGER
-		local
-			interval: INTEGER_64; s: EL_STRING_8_ROUTINES; ir: EL_INTERVAL_ROUTINES
 		do
-			if attached base_type.name as name then
-				interval := s.between_interval (name, '[', ']')
-				if interval > 0 then
-					Result := name.shared_substring (ir.to_lower (interval), ir.to_upper (interval)).occurrences (',') + 1
-				end
+			if attached parameter_list (base_type) as list and then list.count > 0 then
+				Result := list.occurrences (',') + 1
 			end
 		end
 

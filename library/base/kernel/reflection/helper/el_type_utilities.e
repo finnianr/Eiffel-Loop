@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-03 8:01:13 GMT (Thursday 3rd April 2025)"
-	revision: "6"
+	date: "2025-04-14 19:59:10 GMT (Monday 14th April 2025)"
+	revision: "7"
 
 class
 	EL_TYPE_UTILITIES
@@ -54,6 +54,26 @@ feature -- Access
 	dynamic_type (object: separate ANY): INTEGER
 		do
 			Result := {ISE_RUNTIME}.dynamic_type (object)
+		end
+
+	parameter_list (type: TYPE [ANY]): IMMUTABLE_STRING_8
+		-- parameter list as a shared sub-string from `type.name'
+		local
+			left_index, right_index: INTEGER
+		do
+			if attached type.name as name then
+				left_index := name.index_of ('[', 1)
+				if left_index > 0 then
+					right_index := name.last_index_of (']', name.count)
+					if right_index > 0 then
+						Result := name.shared_substring (left_index + 1, right_index - 1)
+					else
+						Result := name.shared_substring (1, 0)
+					end
+				else
+					Result := name.shared_substring (1, 0)
+				end
+			end
 		end
 
 	type_flag_names (flags: NATURAL_16): EL_STRING_8_LIST

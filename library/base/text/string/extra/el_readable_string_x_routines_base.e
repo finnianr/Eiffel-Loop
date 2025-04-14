@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:45:24 GMT (Monday 14th April 2025)"
-	revision: "8"
+	date: "2025-04-14 14:58:37 GMT (Monday 14th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -70,21 +70,6 @@ feature {NONE} -- Deferred
 		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	is_i_th_alpha (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical
-		deferred
-		end
-
-	is_i_th_alpha_numeric (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical or numeric
-		deferred
-		end
-
-	is_i_th_space (str: READABLE_STRING_X; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is white space
 		deferred
 		end
 

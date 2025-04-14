@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:45:14 GMT (Monday 14th April 2025)"
-	revision: "49"
+	date: "2025-04-14 14:58:30 GMT (Monday 14th April 2025)"
+	revision: "50"
 
 class
 	EL_ZSTRING_ROUTINES_IMP
@@ -220,24 +220,6 @@ feature {NONE} -- Implementation
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string (target, pattern, 0)
-		end
-
-	is_i_th_alpha (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical
-		do
-			Result := str.is_alpha_item (i)
-		end
-
-	is_i_th_alpha_numeric (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical or numeric
-		do
-			Result := str.is_alpha_numeric_item (i)
-		end
-
-	is_i_th_space (str: EL_READABLE_ZSTRING; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is white space
-		do
-			Result := str.is_space_item (i)
 		end
 
 	index_of (str: EL_READABLE_ZSTRING; uc: CHARACTER_32; start_index: INTEGER): INTEGER

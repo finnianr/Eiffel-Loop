@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:44:57 GMT (Monday 14th April 2025)"
-	revision: "73"
+	date: "2025-04-14 14:58:15 GMT (Monday 14th April 2025)"
+	revision: "74"
 
 class
 	EL_STRING_32_ROUTINES_IMP
@@ -27,26 +27,6 @@ inherit
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
 feature -- Character query
-
-	is_i_th_alpha (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical
-		do
-			Result := str [i].is_alpha
-		end
-
-	is_i_th_alpha_numeric (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is alphabetical or numeric
-		do
-			Result := str [i].is_alpha_numeric
-		end
-
-	is_i_th_space (str: READABLE_STRING_32; i: INTEGER): BOOLEAN
-		-- `True' if i'th character is white space
-		local
-			c32: EL_CHARACTER_32_ROUTINES
-		do
-			Result := c32.is_space (str [i])
-		end
 
 	is_subset_of (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN
 		-- `True' if set of all characters in `str' is a subset of `set'
