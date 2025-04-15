@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:00:46 GMT (Tuesday 18th March 2025)"
-	revision: "41"
+	date: "2025-04-15 9:16:42 GMT (Tuesday 15th April 2025)"
+	revision: "42"
 
 class
 	EIFFEL_NOTES
@@ -20,7 +20,7 @@ inherit
 			make_default
 		end
 
-	EL_MODULE_STRING; EL_MODULE_TUPLE; EL_MODULE_USER_INPUT; EL_MODULE_XML
+	EL_MODULE_TUPLE; EL_MODULE_USER_INPUT; EL_MODULE_XML
 
 	EL_EIFFEL_KEYWORDS; EL_CHARACTER_32_CONSTANTS; PUBLISHER_CONSTANTS
 
@@ -155,7 +155,7 @@ feature {NONE} -- Line states
 					when '"' then
 						text.remove_tail (1)
 						if last_field_name ~ Field_description
-							and then Standard_descriptions.there_exists (agent String.starts_with (text, ?))
+							and then Standard_descriptions.there_exists (agent starts_with (text, ?))
 						then
 							text.wipe_out
 						end
@@ -205,7 +205,7 @@ feature {NONE} -- Line states
 				end
 				note_lines.wipe_out
 			end
-			Note_end_keywords.find_first_true (agent String.starts_with (line, ?))
+			Note_end_keywords.find_first_true (agent starts_with (line, ?))
 			if Note_end_keywords.found then
 				state := agent find_note_section
 
@@ -258,6 +258,11 @@ feature {NONE} -- Implementation
 	new_title (name: ZSTRING): ZSTRING
 		do
 			Result := name.as_proper_case; Result.replace_character ('_', ' ')
+		end
+
+	starts_with (str, leading_str: ZSTRING): BOOLEAN
+		do
+			Result := str.starts_with (leading_str)
 		end
 
 feature {NONE} -- Internal attributes

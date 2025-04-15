@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:19:02 GMT (Sunday 25th August 2024)"
-	revision: "12"
+	date: "2025-04-15 12:26:46 GMT (Tuesday 15th April 2025)"
+	revision: "13"
 
 class
 	EL_TEXT_MATCHER
 
 inherit
-	EL_PARSER
-		redefine
-			default_source_text
-		end
+	EL_ZSTRING_PARSER
 
 	TP_FACTORY
 		export
@@ -77,11 +74,6 @@ feature {NONE} -- Implementation
 	increment (start_index, end_index: INTEGER; count: INTEGER_REF)
 		do
 			count.set_item (count + 1)
-		end
-
-	default_source_text: ZSTRING
-		do
-			Result := Empty_string
 		end
 
 end

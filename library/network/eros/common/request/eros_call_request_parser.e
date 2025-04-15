@@ -15,20 +15,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:32:52 GMT (Monday 21st November 2022)"
-	revision: "16"
+	date: "2025-04-15 15:23:19 GMT (Tuesday 15th April 2025)"
+	revision: "17"
 
 class
 	EROS_CALL_REQUEST_PARSER
 
 inherit
-	EL_PARSER
+	EL_PARSER_8
 		rename
 			make_default as make,
 			source_text as call_text,
 			default_source_text as default_call_text
 		redefine
-			make, reset, default_call_text
+			make, reset
 		end
 
 	TP_EIFFEL_FACTORY
@@ -181,8 +181,4 @@ feature {NONE} -- Implementation
 			argument_list.wipe_out
 		end
 
-	default_call_text: STRING
-		do
-			Result := Empty_string_8
-		end
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 13:28:16 GMT (Friday 21st March 2025)"
-	revision: "23"
+	date: "2025-04-15 11:18:34 GMT (Tuesday 15th April 2025)"
+	revision: "24"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -19,7 +19,7 @@ inherit
 
 	EL_SHARED_CLASS_ID
 
-feature {EL_REFLECTION_HANDLER} -- Access
+feature {EL_REFLECTION_HANDLER, EL_STRING_GENERAL_ROUTINES_I} -- Access
 
 	field_table: EL_FIELD_TABLE
 		do

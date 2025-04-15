@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:58:37 GMT (Monday 14th April 2025)"
-	revision: "9"
+	date: "2025-04-15 9:54:27 GMT (Tuesday 15th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
@@ -26,11 +26,6 @@ inherit
 			valid_side as valid_adjustments
 		export
 			{ANY} valid_adjustments
-		end
-
-	EL_STRING_GENERAL_ROUTINES_I
-		export
-			{ANY} as_zstring, ZSTRING
 		end
 
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -56,32 +51,7 @@ feature -- Contract Support
 
 feature {NONE} -- Deferred
 
-	asterisk: C
-		deferred
-		end
-
-	as_canonically_spaced (s: READABLE_STRING_X): READABLE_STRING_X
-		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
-		deferred
-		end
-
-	ends_with (s, trailing: READABLE_STRING_X): BOOLEAN
-		deferred
-		end
-
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index: INTEGER): INTEGER
-		deferred
-		end
-
-	last_index_of (str: READABLE_STRING_X; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		deferred
-		end
-
-	new_shared_substring (s: READABLE_STRING_X; start_index, end_index: INTEGER): READABLE_STRING_X
 		deferred
 		end
 
@@ -93,45 +63,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	string_searcher: STRING_SEARCHER
-		deferred
-		end
-
-	starts_with (s, leading: READABLE_STRING_X): BOOLEAN
-		deferred
-		end
-
-	extended_string (str: READABLE_STRING_X): EL_EXTENDED_READABLE_STRING_I [C]
-		deferred
-		end
-
 feature {NONE} -- Implementation
-
-	new_bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32; right_to_left: BOOLEAN): READABLE_STRING_X
-		-- substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
-		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
-		require
-			valid_left_bracket: (create {EL_CHARACTER_32_ROUTINES}).is_left_bracket (left_bracket)
-		local
-			left_index, right_index: INTEGER; c32: EL_CHARACTER_32_ROUTINES
-		do
-			if right_to_left then
-				left_index := last_index_of (str, left_bracket, str.count)
-			else
-				left_index := index_of (str, left_bracket, 1)
-			end
-			if left_index > 0 and then attached extended_string (str) as s then
-				right_index := index_of (str, c32.right_bracket (left_bracket), left_index + 1)
-				right_index := s.matching_bracket_index (left_index)
-				if right_index > 0 then
-					Result := str.substring (left_index + 1, right_index - 1)
-				else
-					Result := str.substring (1, 0)
-				end
-			else
-				Result := str.substring (1, 0)
-			end
-		end
 
 	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): EL_ARRAYED_LIST [READABLE_STRING_X]
 		do

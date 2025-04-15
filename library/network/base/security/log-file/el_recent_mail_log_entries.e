@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-10 17:57:38 GMT (Monday 10th March 2025)"
-	revision: "13"
+	date: "2025-04-15 9:09:17 GMT (Tuesday 15th April 2025)"
+	revision: "14"
 
 class
 	EL_RECENT_MAIL_LOG_ENTRIES
@@ -33,9 +33,9 @@ feature {NONE} -- Implementation
 		-- Extract IP address from log entry
 		-- Oct 26 14:45:16 myching sm-mta[30359]: 39QEjFLv030359: rejecting commands from [103.187.190.12]
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			if attached s.bracketed_last (line, '[') as address and then address.occurrences ('.') = 3 then
+			if attached sg.super_8 (line).bracketed_last ('[') as address and then address.occurrences ('.') = 3 then
 				Result := IP_address.to_number (address)
 			end
 		end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:03:19 GMT (Monday 31st March 2025)"
-	revision: "72"
+	date: "2025-04-15 15:58:37 GMT (Tuesday 15th April 2025)"
+	revision: "73"
 
 class
 	EIFFEL_CONFIGURATION_FILE
@@ -104,15 +104,13 @@ feature -- Access
 
 	category_index_title: ZSTRING
 		-- Category title for sitemap index
-		local
-			s: EL_ZSTRING_ROUTINES
 		do
 			if category.is_empty then
 				Result := category
 			elseif category [category.count] = 'y' then
 				Result := category.substring (1, category.count - 1) + Y_plural
 			else
-				Result := category + s.character_string ('s')
+				Result := category + Shared_super_z.character_string ('s')
 			end
 		end
 

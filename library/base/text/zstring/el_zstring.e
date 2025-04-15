@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 8:44:11 GMT (Friday 11th April 2025)"
-	revision: "127"
+	date: "2025-04-15 12:01:57 GMT (Tuesday 15th April 2025)"
+	revision: "128"
 
 class
 	EL_ZSTRING
@@ -171,9 +171,12 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_shared (other: ZSTRING)
+	make_shared (other: ZSTRING; n: INTEGER)
+		require
+			valid_new_count: n <= other.count
 		do
 			share (other)
+			set_count (n)
 		end
 
 feature -- Duplication

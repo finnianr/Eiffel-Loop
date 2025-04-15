@@ -25,19 +25,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:55 GMT (Monday 21st November 2022)"
-	revision: "5"
+	date: "2025-04-15 15:22:43 GMT (Tuesday 15th April 2025)"
+	revision: "6"
 
 class
 	EL_XPATH_PARSER
 
 inherit
-	EL_PARSER
+	EL_PARSER_8
 		rename
 			make_default as make,
 			fully_matched as is_attribute_selector_by_attribute_value
 		redefine
-			parse, make, default_source_text
+			parse, make
 		end
 
 	TP_C_LANGUAGE_FACTORY
@@ -153,13 +153,6 @@ feature {NONE} -- Grammar
 				xml_identifier |to| agent on_element_name,
 				optional (attribute_value_predicate_pattern)
 			>>)
-		end
-
-feature {NONE} -- Implementation
-
-	default_source_text: STRING_8
-		do
-			Result := Empty_string_8
 		end
 
 end

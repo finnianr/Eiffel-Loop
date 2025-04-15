@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 9:51:15 GMT (Tuesday 8th April 2025)"
-	revision: "85"
+	date: "2025-04-15 7:36:35 GMT (Tuesday 15th April 2025)"
+	revision: "86"
 
 deferred class
 	EL_ZCODEC
@@ -532,6 +532,32 @@ feature -- Character conversion
 			end
 		ensure
 			reversible: z_code_as_unicode (Result) = uc.natural_32_code
+		end
+
+	as_z_code_character (uc: CHARACTER_32): CHARACTER_32
+			-- Returns hybrid code of latin and unicode
+			-- Single byte codes are reserved for latin encoding.
+			-- Unicode characters below 0xFF are shifted into the private use range: 0xE000 .. 0xF8FF
+			-- See https://en.wikipedia.org/wiki/Private_Use_Areas
+		local
+			c: CHARACTER; uc_code: INTEGER
+		do
+			uc_code := uc.code
+			if uc_code <= Max_ascii_code then
+				Result := uc
+
+			elseif uc_code <= Max_8_bit_code and then unicode_table [uc_code] = uc then
+				Result := uc
+			else
+				c := latin_character (uc)
+				if c = '%U' then
+					Result := unicode_to_z_code (uc.natural_32_code).to_character_32
+				else
+					Result := c
+				end
+			end
+		ensure
+			reversible: z_code_as_unicode (Result.natural_32_code) = uc.natural_32_code
 		end
 
 	encoded_character (uc: CHARACTER_32): CHARACTER

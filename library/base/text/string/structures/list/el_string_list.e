@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:04:24 GMT (Tuesday 18th March 2025)"
-	revision: "42"
+	date: "2025-04-15 11:25:36 GMT (Tuesday 15th April 2025)"
+	revision: "43"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -145,10 +145,9 @@ feature -- Removal
 		-- and inserting two ellipsis (..) at the head and tail boundary mark
 		local
 			line_list: like Current; dots: like item
-			s: EL_STRING_8_ROUTINES
 		do
 			if maximum_count < character_count then
-				dots := new_string (s.n_character_string ('.', 2))
+				dots := new_string (Shared_super_8.filled ('.', 2))
 				line_list := twin
 				keep_character_head ((maximum_count * leading_percent / 100).rounded)
 				last.append (dots)

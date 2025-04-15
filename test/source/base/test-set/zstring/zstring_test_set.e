@@ -9,8 +9,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 10:28:13 GMT (Monday 14th April 2025)"
-	revision: "143"
+	date: "2025-04-15 7:46:35 GMT (Tuesday 15th April 2025)"
+	revision: "144"
 
 class
 	ZSTRING_TEST_SET
@@ -125,8 +125,13 @@ feature -- Conversion tests
 
 	test_substring_split
 		note
-			testing: "covers/{ZSTRING}.substring_split", "covers/{ZSTRING}.split_intervals",
-						"covers/{ZSTRING}.substring_intervals"
+			testing: "[
+				covers/{ZSTRING}.substring_split,
+				covers/{ZSTRING}.split_intervals,
+				covers/{ZSTRING}.substring_intervals,
+				covers/{EL_ZSTRING_SEARCHER}.initialize_z_code_deltas_for_type,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.fill_z_codes
+			]"
 		local
 			str, delimiter, str_2, l_substring: ZSTRING
 		do

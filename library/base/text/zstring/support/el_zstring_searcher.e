@@ -1,13 +1,13 @@
 note
-	description: "Zstring searcher"
+	description: "Searcher for ${ZSTRING} strings"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 9:26:34 GMT (Saturday 12th April 2025)"
-	revision: "19"
+	date: "2025-04-15 7:54:38 GMT (Tuesday 15th April 2025)"
+	revision: "20"
 
 frozen class
 	EL_ZSTRING_SEARCHER
@@ -20,7 +20,7 @@ inherit
 			internal_initialize_deltas, make
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_STRING_HANDLER
 
 	EL_ZCODE_CONVERSION
 
@@ -32,9 +32,13 @@ create
 feature {NONE} -- Initialization
 
 	make
+		require else
+			not_using_shared_extended_strings: not attached {EL_STRING_GENERAL_ROUTINES_I} Current
 		do
 			Precursor
 			create Z_code_pattern.make_empty
+			create super_readable_32.make_empty
+			create super_readable_8.make_empty
 		end
 
 feature -- Initialization
@@ -45,8 +49,24 @@ feature -- Initialization
 		end
 
 	initialize_z_code_deltas_for_type (pattern: READABLE_STRING_GENERAL; type_code: CHARACTER)
+		local
+			extended_string: detachable EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
 		do
-			super_readable_by_type (pattern, type_code).fill_z_codes (z_code_pattern)
+			inspect type_code
+				when '1' then
+					extended_string := super_readable_8
+
+				when '4' then
+					extended_string := super_readable_32
+			else
+				if attached {ZSTRING} pattern as z_str then
+					z_str.fill_z_codes (z_code_pattern)
+				end
+			end
+			if extended_string /= void and then attached extended_string as extended then
+				extended.set_target (pattern)
+				extended.fill_z_codes (z_code_pattern)
+			end
 			initialize_deltas (z_code_pattern)
 		end
 
@@ -57,10 +77,10 @@ feature -- Search
 			-- `a_string' with 0..`fuzzy' mismatches between `a_string' and `a_pattern'.
 			-- 0 if there are no fuzzy matches.
 		local
-			i, j, l_min_offset, l_end_pos, l_area_lower, l_pattern_count, l_nb_mismatched, block_index: INTEGER
+			i, j, l_min_offset, end_index, l_area_lower, pattern_count, l_nb_mismatched, block_index: INTEGER
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; area_32: like String_type.unencoded_area
 			l_matched: BOOLEAN; l_deltas_array: like deltas_array
-			l_area: SPECIAL [CHARACTER]; l_char_code: NATURAL
+			l_area: SPECIAL [CHARACTER]; char_code: NATURAL
 		do
 			if fuzzy = a_pattern.count then
 					-- More mismatches than the pattern length.
@@ -74,26 +94,26 @@ feature -- Search
 					if l_deltas_array /= Void then
 						l_area := a_string.area; area_32 := a_string.unencoded_area
 						from
-							l_pattern_count := a_pattern.count
+							pattern_count := a_pattern.count
 							l_area_lower := a_string.area_lower
 							i := start_pos + l_area_lower
-							l_end_pos := end_pos + 1 + l_area_lower
+							end_index := end_pos + 1 + l_area_lower
 						until
-							i + l_pattern_count > l_end_pos
+							i + pattern_count > end_index
 						loop
 							from
 								j := 0
 								l_nb_mismatched := 0
 								l_matched := True
 							until
-								j = l_pattern_count
+								j = pattern_count
 							loop
-								l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + j - 1)
-								if l_char_code /= a_pattern.code (j + 1) then
+								char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + j - 1)
+								if char_code /= a_pattern.code (j + 1) then
 									l_nb_mismatched := l_nb_mismatched + 1;
 									if l_nb_mismatched > fuzzy then
 											-- Too many mismatched, so we stop
-										j := l_pattern_count - 1	-- Jump out of loop
+										j := pattern_count - 1	-- Jump out of loop
 										l_matched := False
 									end
 								end
@@ -103,24 +123,24 @@ feature -- Search
 							if l_matched then
 									-- We got the substring
 								Result := i - l_area_lower
-								i := l_end_pos	-- Jump out of loop
+								i := end_index	-- Jump out of loop
 							else
-								if i + l_pattern_count <= end_pos then
+								if i + pattern_count <= end_pos then
 										-- Pattern was not found, compute shift to next location
 									from
 										j := 0
-										l_min_offset := l_pattern_count + 1
+										l_min_offset := pattern_count + 1
 									until
 										j > fuzzy
 									loop
-										l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + l_pattern_count - j - 1)
-										if l_char_code > Max_code_point_value then
+										char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + pattern_count - j - 1)
+										if char_code > Max_code_point_value then
 												-- No optimization for a characters above
 												-- `Max_code_point_value'.
 											l_min_offset := 1
 											j := fuzzy + 1 -- Jump out of loop
 										else
-											l_min_offset := l_min_offset.min (l_deltas_array.item (j).item (l_char_code.to_integer_32))
+											l_min_offset := l_min_offset.min (l_deltas_array.item (j).item (char_code.to_integer_32))
 										end
 										j := j + 1
 									end
@@ -145,10 +165,10 @@ feature -- Search
 	substring_index_with_deltas (
 		a_string: like String_type; a_pattern: READABLE_STRING_GENERAL; start_pos, end_pos: INTEGER
 	): INTEGER
-			-- Position of first occurrence of `a_pattern' at or after `start_pos' in `a_string'.
-			-- 0 if there are no matches.
+		-- Position of first occurrence of `a_pattern' at or after `start_pos' in `a_string'.
+		-- 0 if there are no matches.
 		local
-			i, j, l_end_pos, l_pattern_count, l_area_lower, block_index: INTEGER; l_char_code: NATURAL
+			i, j, end_index, pattern_count, l_area_lower, block_index: INTEGER; char_code: NATURAL
 			l_matched: BOOLEAN; l_deltas: like deltas; l_area: SPECIAL [CHARACTER]
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; area_32: like String_type.unencoded_area
 		do
@@ -157,45 +177,45 @@ feature -- Search
 					Result := 1
 				end
 			else
-				l_pattern_count := a_pattern.count
-				check l_pattern_count_positive: l_pattern_count > 0 end
+				pattern_count := a_pattern.count
+				check l_pattern_count_positive: pattern_count > 0 end
 				l_area := a_string.area; area_32 := a_string.unencoded_area
 				from
 					l_area_lower := a_string.area_lower
 					i := start_pos + l_area_lower
 					l_deltas := deltas
-					l_end_pos := end_pos + 1 + l_area_lower
+					end_index := end_pos + 1 + l_area_lower
 				until
-					i + l_pattern_count > l_end_pos
+					i + pattern_count > end_index
 				loop
 					from
 						j := 0
 						l_matched := True
 					until
-						j = l_pattern_count
+						j = pattern_count
 					loop
-						l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + j - 1)
-						if l_char_code /= a_pattern.code (j + 1) then
-								-- Mismatch, so we stop
-							j := l_pattern_count - 1	-- Jump out of loop
+						char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + j - 1)
+						if char_code /= a_pattern.code (j + 1) then
+						-- Mismatch, so we stop
+							j := pattern_count - 1 -- Jump out of loop
 							l_matched := False
 						end
 						j := j + 1
 					end
 
 					if l_matched then
-							-- We got the substring
+					-- We got the substring
 						Result := i - l_area_lower
-						i := l_end_pos	-- Jump out of loop
+						i := end_index	-- Jump out of loop
 					else
-							-- Pattern was not found, shift to next location
-						if i + l_pattern_count <= end_pos then
-							l_char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + l_pattern_count - 1)
-							if l_char_code > Max_code_point_value then
+					-- Pattern was not found, shift to next location
+						if i + pattern_count <= end_pos then
+							char_code := iter.i_th_z_code ($block_index, l_area, area_32, i + pattern_count - 1)
+							if char_code > Max_code_point_value then
 									-- Character is too big, we revert to a slow comparison
 								i := i + 1
 							else
-								i := i + l_deltas.item (l_char_code.to_integer_32)
+								i := i + l_deltas.item (char_code.to_integer_32)
 							end
 						else
 							i := i + 1
@@ -217,7 +237,7 @@ feature {NONE} -- Implementation
 			-- Initialize `a_deltas' with `a_pattern'.
 			-- Optimized for the top `max_code_point_value' characters only.
 		local
-			i: INTEGER; l_char_code: NATURAL
+			i: INTEGER; char_code: NATURAL
 		do
 				-- Initialize the delta table (one more than pattern count).
 			a_deltas.fill_with (a_pattern_count + 1, 0, Max_code_point_integer)
@@ -231,9 +251,9 @@ feature {NONE} -- Implementation
 			until
 				i = a_pattern_count
 			loop
-				l_char_code := a_pattern.code (i + 1)
-				if l_char_code <= max_code_point_value then
-					a_deltas.put (a_pattern_count - i, l_char_code.to_integer_32)
+				char_code := a_pattern.code (i + 1)
+				if char_code <= max_code_point_value then
+					a_deltas.put (a_pattern_count - i, char_code.to_integer_32)
 				end
 				i := i + 1
 			end
@@ -242,6 +262,10 @@ feature {NONE} -- Implementation
 feature {STRING_HANDLER} -- Internal attributes
 
 	z_code_pattern: STRING_32
+
+	super_readable_32: EL_READABLE_STRING_32
+
+	super_readable_8: EL_READABLE_STRING_8
 
 feature {NONE} -- Constants
 
@@ -256,7 +280,7 @@ feature {NONE} -- Constants
 		-- We need the NATURAL value because of the z_code `Sign_bit', which means we cannot
 		-- compare with an integer. This conditional will not branch correctly:
 
-		--    if l_char_code <= max_code_point_integer then
+		--    if char_code <= max_code_point_integer then
 
 	String_type: EL_READABLE_ZSTRING
 		require else

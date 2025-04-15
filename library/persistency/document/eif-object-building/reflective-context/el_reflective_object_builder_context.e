@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 8:06:39 GMT (Monday 23rd September 2024)"
-	revision: "11"
+	date: "2025-04-15 11:19:26 GMT (Tuesday 15th April 2025)"
+	revision: "12"
 
 class
 	EL_REFLECTIVE_OBJECT_BUILDER_CONTEXT
@@ -15,7 +15,7 @@ class
 inherit
 	EL_EIF_OBJ_BUILDER_CONTEXT
 
-	EL_REFLECTION_HANDLER
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_EIFFEL; EL_MODULE_TUPLE
 
@@ -48,14 +48,14 @@ feature {NONE} -- Build from XML
 	building_action_table: EL_PROCEDURE_TABLE [STRING]
 			-- Nodes relative to root element: bix
 		local
-			l_xpath: STRING; field: EL_REFLECTED_FIELD; s: EL_STRING_8_ROUTINES
 			type: EL_ATTRIBUTE_TYPE_ROUTINES; item_type_id: INTEGER
+			l_xpath: STRING; field: EL_REFLECTED_FIELD
 		do
 			create Result.make (object.field_table.count)
 			across object.field_table as table loop
 				field := table.item
 				if type.attribute_id (object, field) > 0 then
-					l_xpath := s.character_string ('@') + field.name
+					l_xpath := Shared_super_8.character_string ('@') + field.name
 					if field.has_representation then
 						Result [l_xpath] := agent set_from_representation (field)
 					else

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:57:41 GMT (Friday 7th February 2025)"
-	revision: "20"
+	date: "2025-04-15 9:30:41 GMT (Tuesday 15th April 2025)"
+	revision: "21"
 
 class
 	PROJECT_MANAGER_SHELL
@@ -113,7 +113,7 @@ feature {NONE} -- Commands
 
 	rename_source_classes
 		local
-			shell: CLASS_RENAMING_SHELL_COMMAND
+			shell: CLASS_RENAMING_COMMAND_SHELL
 		do
 			create shell.make (Directory.current_working + "source")
 			shell.run_command_loop

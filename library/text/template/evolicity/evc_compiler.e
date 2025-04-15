@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 8:37:02 GMT (Thursday 20th March 2025)"
-	revision: "30"
+	date: "2025-04-15 15:20:20 GMT (Tuesday 15th April 2025)"
+	revision: "31"
 
 class
 	EVC_COMPILER
@@ -337,7 +337,6 @@ feature {NONE} -- Implementation
 
 	read_tokens_text (compiled_source_path: FILE_PATH)
 		local
-			l_tokens_text: like tokens_text; l_token_text_array: like source_interval_list
 			i, count, lower, upper: INTEGER
 		do
 			if attached open_raw (compiled_source_path, Read) as compiled_source then
@@ -347,22 +346,24 @@ feature {NONE} -- Implementation
 				compiled_source.read_integer
 				count := compiled_source.last_integer
 				create tokens_text.make (count)
-				l_tokens_text := tokens_text
-				from i := 1 until i > count loop
-					compiled_source.read_natural
-					l_tokens_text.append_code (compiled_source.last_natural)
-					i := i + 1
+				if attached tokens_text as tokens then
+					from i := 1 until i > count loop
+						compiled_source.read_natural
+						tokens.append_code (compiled_source.last_natural)
+						i := i + 1
+					end
 				end
 
 				compiled_source.read_integer
 				count := compiled_source.last_integer
 				source_interval_list.grow (count)
-				l_token_text_array := source_interval_list
-				from i := 1 until i > count loop
-					compiled_source.read_integer; lower := compiled_source.last_integer
-					compiled_source.read_integer; upper := compiled_source.last_integer
-					l_token_text_array.extend (lower, upper)
-					i := i + 1
+				if attached source_interval_list as list then
+					from i := 1 until i > count loop
+						compiled_source.read_integer; lower := compiled_source.last_integer
+						compiled_source.read_integer; upper := compiled_source.last_integer
+						list.extend (lower, upper)
+						i := i + 1
+					end
 				end
 				compiled_source.close
 			end
@@ -379,11 +380,11 @@ feature {NONE} -- Implementation
 
 	write_tokens_text (compiled_source_path: FILE_PATH)
 		local
-			area: like tokens_text.area; array_area: like source_interval_list.area
 			i, i_final, count: INTEGER
 		do
-			if attached open_raw (compiled_source_path, Write) as compiled_source then
-				area := tokens_text.area
+			if attached open_raw (compiled_source_path, Write) as compiled_source
+				and then attached tokens_text.area as area
+			then
 				count := tokens_text.count
 				compiled_source.put_natural_32 (Build_info.version_number)
 				compiled_source.put_integer (count)
@@ -391,14 +392,14 @@ feature {NONE} -- Implementation
 					compiled_source.put_natural (area.item (i).natural_32_code)
 					i := i + 1
 				end
-
-				array_area := source_interval_list.area
-				count := source_interval_list.count
-				compiled_source.put_integer (count)
-				i_final := count * 2
-				from i := 0 until i = i_final loop
-					compiled_source.put_integer_32 (array_area [i])
-					i := i + 1
+				if attached source_interval_list.area as array_area then
+					count := source_interval_list.count
+					compiled_source.put_integer (count)
+					i_final := count * 2
+					from i := 0 until i = i_final loop
+						compiled_source.put_integer_32 (array_area [i])
+						i := i + 1
+					end
 				end
 				compiled_source.close
 			end

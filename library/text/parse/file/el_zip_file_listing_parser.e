@@ -6,19 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "7"
+	date: "2025-04-15 15:23:52 GMT (Tuesday 15th April 2025)"
+	revision: "8"
 
 class
 	EL_ZIP_FILE_LISTING_PARSER
 
 inherit
-	EL_PARSER
+	EL_PARSER_8
 		rename
 			make_default as make,
 			new_pattern as archived_file_listing_pattern
-		redefine
-			default_source_text
 		end
 
 	TP_FACTORY
@@ -51,11 +49,6 @@ feature {NONE} -- Implementation
 				white_space,
 				zero_or_more (any_character) |to| agent on_file_name
 			>>)
-		end
-
-	default_source_text: STRING
-		do
-			Result := Empty_string_8
 		end
 
 	on_file_name (start_index, end_index: INTEGER)

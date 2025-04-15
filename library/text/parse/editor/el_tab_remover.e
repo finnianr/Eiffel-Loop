@@ -6,18 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:43:23 GMT (Sunday 6th October 2024)"
-	revision: "8"
+	date: "2025-04-15 12:23:52 GMT (Tuesday 15th April 2025)"
+	revision: "9"
 
 class
 	EL_TAB_REMOVER
 
 inherit
-	EL_PARSER
+	EL_ZSTRING_PARSER
 		rename
 			new_pattern as line_pattern
-		redefine
-			default_source_text
 		end
 
 	TP_FACTORY
@@ -122,11 +120,6 @@ feature {NONE} -- Match actions
 		end
 
 feature {NONE} -- Implementation
-
-	default_source_text: ZSTRING
-		do
-			Result := Empty_string
-		end
 
 	is_blank_line (line: ZSTRING): BOOLEAN
 		local

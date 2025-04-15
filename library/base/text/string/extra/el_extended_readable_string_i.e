@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 19:57:30 GMT (Monday 14th April 2025)"
-	revision: "11"
+	date: "2025-04-15 10:09:48 GMT (Tuesday 15th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -20,12 +20,47 @@ inherit
 
 feature -- Access
 
+	adjusted_substring: like target
+		-- substring of target without leading and trailing whitespace
+		local
+			start_index, end_index: INTEGER
+		do
+			end_index := count - trailing_white_count
+			if end_index.to_boolean then
+				start_index := leading_white_count + 1
+			else
+				start_index := 1
+			end
+			if start_index = 1 and then end_index = count then
+				Result := target
+
+			elseif target.is_immutable and then attached {IMMUTABLE_STRING_GENERAL} target as immutable then
+				Result := shared_substring (immutable, start_index, end_index)
+			else
+				Result := target.substring (start_index, end_index)
+			end
+		end
+
 	filter (included: PREDICATE [CHAR]; output: INDEXABLE [CHAR, INTEGER])
 		do
 			area.do_if_in_bounds (agent output.extend, included, index_lower, index_upper)
 			if attached {RESIZABLE [CHAR]} output as resizable then
 				resizable.trim
 			end
+		end
+
+	bracketed (left_bracket: CHAR): like target
+		-- first substring of enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not has (left_bracket)' or no matching right bracket
+		do
+			Result := bracketed_substring (left_bracket, False)
+		end
+
+	bracketed_last (left_bracket: CHAR): like target
+		-- last substring of enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
+		do
+			Result := bracketed_substring (left_bracket, True)
 		end
 
 	substring_to (c: CHAR): like target
@@ -308,6 +343,20 @@ feature -- Character query
 			Result := all_alpha_numeric_in_range (area, lower_abs (start_index), upper_abs (end_index))
 		end
 
+	is_subset_of (set: EL_SET [CHAR]): BOOLEAN
+		-- `True' if all characters are a member of `set'
+		local
+			i, i_upper: INTEGER
+		do
+			if attached area as l_area then
+				i_upper := index_upper; Result := True
+				from i := index_lower until i > i_upper or not Result loop
+					Result := set.has (l_area [i])
+					i := i + 1
+				end
+			end
+		end
+
 	starts_with_character (c: CHAR): BOOLEAN
 		do
 			Result := index_upper >= index_lower and then area [index_lower] = c
@@ -577,7 +626,7 @@ feature -- Basic operations
 	fill_z_codes (destination: STRING_32)
 		-- fill destination with z_codes
 		local
-			i, i_upper, j: INTEGER; code: NATURAL
+			i, i_upper, j: INTEGER
 		do
 			destination.grow (count)
 			destination.set_count (count)
@@ -587,8 +636,7 @@ feature -- Basic operations
 			then
 				i_upper := index_upper
 				from i := index_lower until i > i_upper loop
-					code := l_codec.as_z_code (to_character_32 (l_area [i]))
-					destination_area [j] := code.to_character_32
+					destination_area [j] := l_codec.as_z_code_character (to_character_32 (l_area [i]))
 					i := i + 1; j := j +1
 				end
 				destination_area [j] := '%U'
@@ -691,6 +739,33 @@ feature {NONE} -- Implementation
 				area_8 [offset] := to_character_8 (a_area [i])
 				offset := offset + 1
 				i := i + 1
+			end
+		end
+
+	bracketed_substring (left_bracket: CHAR; right_to_left: BOOLEAN): like target
+		-- substring of `target' enclosed by one of matching paired characters: {}, [], (), <>
+		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
+		require
+			valid_left_bracket: is_left_bracket (left_bracket)
+		local
+			left_index, right_index, start_index, end_index: INTEGER
+		do
+			start_index := 1; end_index := 0
+			if right_to_left then
+				left_index := last_index_of (left_bracket, count)
+			else
+				left_index := index_of (left_bracket, 1)
+			end
+			if left_index > 0 then
+				right_index := matching_bracket_index (left_index)
+				if right_index > 0 then
+					start_index := left_index + 1; end_index := right_index - 1
+				end
+			end
+			if target.is_immutable and then attached {IMMUTABLE_STRING_GENERAL} target as immutable then
+				Result := shared_substring (immutable, start_index, end_index)
+			else
+				Result := target.substring (start_index, end_index)
 			end
 		end
 

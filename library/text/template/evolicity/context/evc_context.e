@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:43 GMT (Sunday 30th March 2025)"
-	revision: "28"
+	date: "2025-04-15 9:08:30 GMT (Tuesday 15th April 2025)"
+	revision: "29"
 
 deferred class
 	EVC_CONTEXT
@@ -41,11 +41,11 @@ feature -- Access
 
 	invalid_operands_message (function: FUNCTION [ANY]; variable_ref: EVC_VARIABLE_REFERENCE): ZSTRING
 		local
-			s: EL_STRING_8_ROUTINES; type_string: STRING_8; index: INTEGER
+			type_string: STRING_8; index: INTEGER
 		do
 		-- Turn: "FUNCTION [TUPLE [EL_DATE, STRING_8], STRING_8] [0x7..."
 		-- into: "(EL_DATE, STRING_8): STRING_8"
-			type_string := s.bracketed (function.out, '[')
+			type_string := super_8 (function.out).bracketed ('[')
 			type_string.remove_head (6)
 			if function.open_count > 0 then
 				type_string [1] := '('

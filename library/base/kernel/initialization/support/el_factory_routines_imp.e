@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 20:07:40 GMT (Monday 14th April 2025)"
-	revision: "8"
+	date: "2025-04-15 6:36:23 GMT (Tuesday 15th April 2025)"
+	revision: "9"
 
 class
 	EL_FACTORY_ROUTINES_IMP
@@ -35,7 +35,7 @@ feature -- Access
 			base_type_template, substituted_type_list: STRING_8; start_index, end_index, i: INTEGER
 			interval_list: EL_SPLIT_INTERVALS
 		do
-			if attached parameter_list (base_type) as type_list and then type_list.count > 0 then
+			if attached type_parameters (base_type) as type_list and then type_list.count > 0 then
 				substituted_type_list := type_list
 				create interval_list.make (type_list, ',')
 				if attached interval_list as list then
@@ -121,7 +121,7 @@ feature -- Contract Support
 
 	parameter_count (base_type: TYPE [ANY]): INTEGER
 		do
-			if attached parameter_list (base_type) as list and then list.count > 0 then
+			if attached type_parameters (base_type) as list and then list.count > 0 then
 				Result := list.occurrences (',') + 1
 			end
 		end

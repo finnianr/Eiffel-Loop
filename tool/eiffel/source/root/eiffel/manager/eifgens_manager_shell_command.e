@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:50:50 GMT (Monday 14th April 2025)"
-	revision: "6"
+	date: "2025-04-15 15:58:37 GMT (Tuesday 15th April 2025)"
+	revision: "7"
 
 class
 	EIFGENS_MANAGER_SHELL_COMMAND
@@ -135,10 +135,12 @@ feature {NONE} -- Implementation
 	is_eiffel_c_name (name: STRING): BOOLEAN
 		-- `True' if `name' is something like "F2009_11721"
 		local
-			sg: EL_STRING_GENERAL_ROUTINES; s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			if sg.super_8 (name).starts_with_character ('F') and then name.occurrences ('_') = 1 then
-				Result := s.is_subset_of (name, Current) -- `is_eiffel_c_name_character'
+			if attached sg.super_8 (name) as super_name and then super_name.starts_with_character ('F')
+				and then name.occurrences ('_') = 1
+			then
+				Result := super_name.is_subset_of (Current) -- `is_eiffel_c_name_character'
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:14:42 GMT (Monday 14th April 2025)"
-	revision: "5"
+	date: "2025-04-15 8:48:58 GMT (Tuesday 15th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -146,6 +146,10 @@ feature {NONE} -- Character query
 		deferred
 		end
 
+	is_left_bracket (c: CHAR): BOOLEAN
+		deferred
+		end
+
 feature {NONE} -- Conversion
 
 	to_char (uc: CHARACTER_32): CHAR
@@ -192,6 +196,10 @@ feature {NONE} -- Deferred
 		end
 
 	other_index_lower (other: like READABLE_X): INTEGER
+		deferred
+		end
+
+	shared_substring (a_target: IMMUTABLE_STRING_GENERAL; start_index, end_index: INTEGER_32): IMMUTABLE_STRING_GENERAL
 		deferred
 		end
 

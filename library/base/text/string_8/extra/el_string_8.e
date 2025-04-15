@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 9:51:57 GMT (Monday 14th April 2025)"
-	revision: "39"
+	date: "2025-04-15 15:37:39 GMT (Tuesday 15th April 2025)"
+	revision: "40"
 
 class
 	EL_STRING_8
@@ -205,6 +205,26 @@ feature -- Duplication
 			Result.append_character (left)
 			Result.append_string (shared_string)
 			Result.append_character (right)
+		end
+
+	filled (c: CHARACTER_8; n: INTEGER): STRING_8
+		-- shared string filled with `n' number of `c' characters repeated
+		do
+			Result := Character_string_8_table.item (c, n)
+		end
+
+	pruned (c: CHARACTER_8): STRING_8
+		do
+			create Result.make_from_string (Current)
+			Result.prune_all (c)
+		end
+
+	shared_leading (end_index: INTEGER): STRING_8
+		-- leading substring of `shared_string' from 1 to `end_index'
+		do
+			create Result.make_empty
+			Result.share (shared_string)
+			Result.set_count (end_index)
 		end
 
 feature {NONE} -- Implementation

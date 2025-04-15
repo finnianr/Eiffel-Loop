@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:43:15 GMT (Sunday 6th October 2024)"
-	revision: "16"
+	date: "2025-04-15 15:40:42 GMT (Tuesday 15th April 2025)"
+	revision: "17"
 
 deferred class
 	EL_PARSER
@@ -96,7 +96,7 @@ feature -- Element change
 
 	set_substring_source_text (a_source_text: like default_source_text; start_index, end_index: INTEGER)
 		local
-			s_8: EL_STRING_8_ROUTINES; s_32: EL_STRING_32_ROUTINES; z: EL_ZSTRING_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			inspect string_storage_type (a_source_text)
 				when '1' then
@@ -104,7 +104,7 @@ feature -- Element change
 						set_source_text (str_8.shared_substring (start_index, end_index))
 
 					elseif attached {STRING_8} a_source_text as str_8 then
-						set_source_text (s_8.shared_substring (str_8, end_index))
+						set_source_text (sg.super_8 (str_8).shared_leading (end_index))
 						start_offset := start_index - 1
 					end
 				when '4' then
@@ -112,12 +112,12 @@ feature -- Element change
 						set_source_text (str_32.shared_substring (start_index, end_index))
 
 					elseif attached {STRING_32} a_source_text as str_32 then
-						set_source_text (s_32.shared_substring (str_32, end_index))
+						set_source_text (sg.super_32 (str_32).shared_leading (end_index))
 						start_offset := start_index - 1
 					end
 				when 'X' then
 					if attached {ZSTRING} a_source_text as zstr then
-						set_source_text (z.shared_substring (zstr, end_index))
+						set_source_text (create {ZSTRING}.make_shared (zstr, end_index))
 						start_offset := start_index - 1
 					end
 			end

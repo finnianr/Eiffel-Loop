@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:46:04 GMT (Sunday 13th April 2025)"
-	revision: "60"
+	date: "2025-04-15 6:40:15 GMT (Tuesday 15th April 2025)"
+	revision: "61"
 
 deferred class
 	EL_STRING_CHAIN [S -> STRING_GENERAL create make end]
@@ -182,7 +182,6 @@ feature -- Element change
 			valid_adjustments: valid_adjustments (adjustments)
 		do
 			if attached Split_intervals as intervals then
-				intervals.wipe_out
 				intervals.fill (a_string, delimiter, adjustments)
 				append_intervals (a_string, intervals)
 			end

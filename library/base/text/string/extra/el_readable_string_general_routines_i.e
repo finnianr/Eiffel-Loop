@@ -6,16 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:26:59 GMT (Monday 14th April 2025)"
-	revision: "36"
+	date: "2025-04-15 11:59:10 GMT (Tuesday 15th April 2025)"
+	revision: "37"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
 
 inherit
 	EL_MODULE_CONVERT_STRING
-
-	EL_SHARED_FILLED_STRING_TABLES
 
 	EL_STRING_HANDLER
 

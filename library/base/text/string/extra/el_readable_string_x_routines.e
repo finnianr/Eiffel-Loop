@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 18:20:04 GMT (Monday 14th April 2025)"
-	revision: "65"
+	date: "2025-04-15 12:00:18 GMT (Tuesday 15th April 2025)"
+	revision: "66"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -19,6 +19,8 @@ deferred class
 
 inherit
 	EL_READABLE_STRING_X_ROUTINES_BASE [READABLE_STRING_X, C]
+
+	EL_SHARED_FILLED_STRING_TABLES
 
 feature -- Access
 
@@ -34,61 +36,12 @@ feature -- Access
 			end
 		end
 
-	selected (n: INTEGER; n_set: READABLE_INDEXABLE [INTEGER]; name_list: READABLE_STRING_X): READABLE_STRING_X
-		require
-			name_count_matches: n_set.upper - n_set.lower = name_list.occurrences (',')
-		local
-			index, i, start_index, end_index: INTEGER; found: BOOLEAN
-		do
-			if name_list.count = 0 then
-				Result := name_list.substring (1, 0)
-			else
-				from index := n_set.lower until index > n_set.upper or found loop
-					if n_set [index] = n then
-						found := True
-					else
-						index := index + 1
-					end
-				end
-				if found and then attached split_on_character (name_list, ',') as split_list then
-					found := False
-					i := n_set.lower
-					across split_list as list until found loop
-						if i = index then
-							start_index := list.item_lower; end_index := list.item_upper
-							if name_list [start_index] = ' ' then
-								start_index :=  start_index + 1
-							end
-							found := True
-						else
-							i := i + 1
-						end
-					end
-					if found then
-						Result := name_list.substring (start_index, end_index)
-					else
-						Result := name_list.substring (1, 0)
-					end
-				else
-					Result := name_list.substring (1, 0)
-				end
-			end
-		end
-
 	split_intervals (target: READABLE_STRING_X; separator: READABLE_STRING_GENERAL; keep_ref: BOOLEAN): EL_SPLIT_INTERVALS
 		do
 			Result := Once_split_intervals.emptied
 			fill_intervals (Result, target, separator)
 			if keep_ref then
 				Result := Result.twin
-			end
-		end
-
-	to_utf_8 (a_str: READABLE_STRING_X): STRING
-		do
-			if attached extended_string (a_str) as str then
-				create Result.make (str.utf_8_byte_count)
-				str.append_to_utf_8 (Result)
 			end
 		end
 
@@ -116,13 +69,6 @@ feature -- Lists
 				intervals.fill (text, uc, adjustments)
 				Result := substring_list (text, intervals)
 			end
-		end
-
-feature -- Status query
-
-	is_subset_of (str: READABLE_STRING_X; set: EL_SET [C]): BOOLEAN
-		-- `True' if set of all characters in `str' is a subset of `set'
-		deferred
 		end
 
 feature -- Comparison
@@ -157,37 +103,6 @@ feature -- Comparison
 		end
 
 feature -- Substring
-
-	adjusted (str: READABLE_STRING_X): READABLE_STRING_X
-		local
-			start_index, end_index: INTEGER
-		do
-			end_index := str.count - extended_string (str).trailing_white_count
-			if end_index.to_boolean then
-				start_index := extended_string (str).leading_white_count + 1
-			else
-				start_index := 1
-			end
-			if start_index = 1 and then end_index = str.count then
-				Result := str
-			else
-				Result := str.substring (start_index, end_index)
-			end
-		end
-
-	bracketed (str: READABLE_STRING_X; left_bracket: CHARACTER_32): READABLE_STRING_X
-		-- first substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
-		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
-		do
-			Result := new_bracketed (str, left_bracket, False)
-		end
-
-	bracketed_last (str: READABLE_STRING_X; left_bracket: CHARACTER_32): READABLE_STRING_X
-		-- last substring of `str' enclosed by one of matching paired characters: {}, [], (), <>
-		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
-		do
-			Result := new_bracketed (str, left_bracket, True)
-		end
 
 	curtailed (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
 		-- `str' curtailed to `max_count' with added ellipsis where `max_count' is exceeded

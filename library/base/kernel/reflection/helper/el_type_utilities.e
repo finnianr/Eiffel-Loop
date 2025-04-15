@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 19:59:10 GMT (Monday 14th April 2025)"
-	revision: "7"
+	date: "2025-04-15 6:36:24 GMT (Tuesday 15th April 2025)"
+	revision: "8"
 
 class
 	EL_TYPE_UTILITIES
@@ -56,8 +56,8 @@ feature -- Access
 			Result := {ISE_RUNTIME}.dynamic_type (object)
 		end
 
-	parameter_list (type: TYPE [ANY]): IMMUTABLE_STRING_8
-		-- parameter list as a shared sub-string from `type.name'
+	type_parameters (type: TYPE [ANY]): IMMUTABLE_STRING_8
+		-- type parameter list as a shared sub-string from `type.name'
 		local
 			left_index, right_index: INTEGER
 		do

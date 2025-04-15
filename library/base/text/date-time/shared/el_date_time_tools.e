@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 13:34:05 GMT (Tuesday 5th November 2024)"
-	revision: "18"
+	date: "2025-04-15 10:55:35 GMT (Tuesday 15th April 2025)"
+	revision: "19"
 
 class
 	EL_DATE_TIME_TOOLS
 
 inherit
 	DATE_TIME_TOOLS
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_MODULE_TUPLE
 
@@ -87,14 +89,12 @@ feature -- Integer field representations
 feature -- Constants
 
 	ISO_8601: TUPLE [time, time_extended, date, date_extended, format, format_extended: STRING]
-		local
-			s: EL_STRING_8_ROUTINES
 		once
 			create Result
 			Result.time_extended := "[0]hh:[0]mi:[0]ss"
-			Result.time := s.pruned (Result.time_extended, ':')
+			Result.time := super_8 (Result.time_extended).pruned (':')
 			Result.date_extended := "yyyy-[0]mm-[0]dd"
-			Result.date := s.pruned (Result.date_extended, '-')
+			Result.date := super_8 (Result.date_extended).pruned ('-')
 
 			Result.format := Result.date + "T" + Result.time + "Z"
 			Result.format_extended := Result.date_extended + "T" + Result.time_extended + "Z"

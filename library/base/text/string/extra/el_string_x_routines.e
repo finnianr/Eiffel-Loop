@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:39:50 GMT (Monday 14th April 2025)"
-	revision: "81"
+	date: "2025-04-15 15:42:36 GMT (Tuesday 15th April 2025)"
+	revision: "82"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -19,18 +19,6 @@ inherit
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X, C]
 
 feature -- Factory
-
-	character_string (uc: CHARACTER_32): STRING_X
-		-- shared instance of string with `uc' character
-		deferred
-		end
-
-	n_character_string (uc: CHARACTER_32; n: INTEGER): STRING_X
-		-- shared instance of string with `n' times `uc' character
-		deferred
-		ensure
-			valid_result: Result.occurrences (uc) = n.to_integer_32
-		end
 
 	new (n: INTEGER): STRING_X
 			-- width * count spaces
@@ -112,13 +100,6 @@ feature -- Factory
 			file.close
 		end
 
-	shared_substring (s: STRING_X; new_count: INTEGER): STRING_X
-		-- `s.substring (1, new_count)' with shared area
-		require
-			valid_count: new_count <= s.count
-		deferred
-		end
-
 feature -- List joining
 
 	joined (a, b: READABLE_STRING_GENERAL): STRING_X
@@ -167,18 +148,6 @@ feature -- List joining
 			append_to (Result, a); append_to (Result, separator); append_to (Result, b)
 		end
 
-feature -- Transformed
-
-	pruned (str: READABLE_STRING_GENERAL; c: CHARACTER_32): STRING_X
-		deferred
-		end
-
-feature -- Adjust
-
-	wipe_out (str: STRING_X)
-		deferred
-		end
-
 feature -- Transform
 
 	first_to_upper (str: STRING_GENERAL)
@@ -195,10 +164,6 @@ feature {NONE} -- Deferred
 		end
 
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	replace_substring (str: STRING_X; insert: READABLE_STRING_X; start_index, end_index: INTEGER)
 		deferred
 		end
 

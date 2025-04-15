@@ -1,3 +1,6 @@
+Ver 2.3.1 (15 Apr 2025)
+* Fixed circular initialisation in command shells that inherit SOURCE_MANIFEST_COMMAND
+
 Ver 2.3.0 (29 Mar 2025)
 * Revised OS command and Evolicity implementation
 

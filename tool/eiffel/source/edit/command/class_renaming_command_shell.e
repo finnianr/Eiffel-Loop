@@ -12,11 +12,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 14:51:16 GMT (Saturday 29th March 2025)"
-	revision: "13"
+	date: "2025-04-15 9:30:41 GMT (Tuesday 15th April 2025)"
+	revision: "14"
 
 class
-	CLASS_RENAMING_SHELL_COMMAND
+	CLASS_RENAMING_COMMAND_SHELL
 
 inherit
 	EL_APPLICATION_COMMAND_SHELL
@@ -31,7 +31,7 @@ inherit
 		undefine
 			execute
 		redefine
-			make_default
+			make_from_manifest, make_default
 		end
 
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE; EL_MODULE_LIO; EL_MODULE_USER_INPUT
@@ -41,13 +41,18 @@ create
 
 feature {EL_COMMAND_CLIENT} -- Initialization
 
+	make_from_manifest (a_manifest: SOURCE_MANIFEST)
+		do
+			make_shell ("RENAME MENU", 10)
+			manifest := a_manifest
+		end
+
 	make_default
 		do
 			Precursor {SOURCE_MANIFEST_COMMAND}
 			create new_name.make_empty
 			create prefix_letters.make_empty
 			create old_name.make_empty
-			make_shell ("RENAME MENU", 10)
 		end
 
 feature -- Constants

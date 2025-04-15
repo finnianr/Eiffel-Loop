@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 10:40:44 GMT (Monday 14th April 2025)"
-	revision: "45"
+	date: "2025-04-15 9:06:44 GMT (Tuesday 15th April 2025)"
+	revision: "46"
 
 class
 	STRING_TEST_SET
@@ -41,7 +41,6 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["bracketed",						agent test_bracketed],
 				["delimited_list",				agent test_delimited_list],
 				["encodeables",					agent test_encodeables],
 				["match_wildcard",				agent test_match_wildcard],
@@ -54,34 +53,6 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
-
-	test_bracketed
-		-- STRING_TEST_SET.test_bracketed
-		note
-			testing: "[
-				covers/{EL_READABLE_STRING_X_ROUTINES}.bracketed,
-				covers/{EL_CHARACTER_ROUTINES}.right_bracket,
-				covers/{EL_STRING_ITERATION_CURSOR}.matching_bracket_index
-			]"
-		local
-			s: EL_STRING_8_ROUTINES; content: STRING
-			name, name_2: IMMUTABLE_STRING_8; type_array: ARRAY [TYPE [ANY]]
-		do
-			type_array := << {ARRAYED_LIST [INTEGER]}, {ARRAYED_LIST [CELL [INTEGER]]} >>
-			across type_array as array loop
-				across << False, True >> as is_last loop
-					name := array.item.name
-					if is_last.item then
-						content := s.bracketed_last (name, '[')
-						name_2 := ({INTEGER}).name
-					else
-						content := s.bracketed (name, '[')
-						name_2 := if array.is_first then ({INTEGER}).name else ({CELL [INTEGER]}).name end
-					end
-					assert_same_string (Void, content, name_2)
-				end
-			end
-		end
 
 	test_delimited_list
 		note

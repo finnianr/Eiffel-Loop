@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 12:59:08 GMT (Tuesday 8th April 2025)"
-	revision: "37"
+	date: "2025-04-15 11:29:22 GMT (Tuesday 15th April 2025)"
+	revision: "38"
 
 class
 	PATTERN_MATCH_TEST_SET
@@ -249,6 +249,7 @@ feature -- Test
 		end
 
 	test_pyxis_attribute_parser
+		-- PATTERN_MATCH_TEST_SET.test_pyxis_attribute_parser
 		local
 			parser: PYXIS_ATTRIBUTE_TEST_PARSER; index: INTEGER
 			leading_tabs, trailing_spaces, source_line_1, source_line_2: STRING

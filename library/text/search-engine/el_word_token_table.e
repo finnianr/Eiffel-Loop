@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 10:50:36 GMT (Sunday 6th October 2024)"
-	revision: "21"
+	date: "2025-04-15 15:55:15 GMT (Tuesday 15th April 2025)"
+	revision: "22"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -49,8 +49,8 @@ feature -- Status query
 	valid_token_list (tokens: EL_WORD_TOKEN_LIST; paragraph_list: EL_CHAIN [ZSTRING]): BOOLEAN
 		-- quick check to make sure `tokens' meets basic conditions to be valid
 		local
-			last_word_lower: ZSTRING; s: EL_ZSTRING_ROUTINES
 			non_empty_count, last_word_start_index, last_word_end_index, last_index: INTEGER
+			last_word_lower: ZSTRING
 		do
 			-- Iterate in reverse to find last non empty line
 			-- and count number of non empty lines
@@ -58,7 +58,7 @@ feature -- Status query
 				if paragraph.item.has_alpha_numeric then
 					non_empty_count := non_empty_count + 1
 					if last_word_start_index = 0 then
-						last_word_start_index := s.last_word_start_index (paragraph.item, $last_word_end_index)
+						last_word_start_index := super_z (paragraph.item).last_word_start_index ($last_word_end_index)
 						last_index := paragraph_list.count - paragraph.cursor_index + 1
 					end
 				end

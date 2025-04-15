@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:19:27 GMT (Monday 14th April 2025)"
-	revision: "4"
+	date: "2025-04-15 15:54:33 GMT (Tuesday 15th April 2025)"
+	revision: "5"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -29,15 +29,15 @@ inherit
 		rename
 			area as unencoded_area,
 			empty_target as empty_string,
-			set_target as share
+			set_target as share,
+			shared_substring as shared_immutable_substring
 		undefine
 			append_to_string_32, append_to_string_8, append_to_utf_8,
 			count,
 			ends_with_character, fill_z_codes,
 			has, has_alpha, has_enclosing, has_member, has_quotes,
 			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced,
-			is_character,
-			is_valid_as_string_8,
+			is_character, is_subset_of, is_valid_as_string_8,
 			leading_occurrences, leading_white_count,
 			matches_wildcard, null, quoted,
 			remove_bookends, replace_character, remove_double, remove_single,
@@ -104,6 +104,33 @@ feature -- Measurement
 			end
 		end
 
+	last_word_start_index (end_index_ptr: TYPED_POINTER [INTEGER]): INTEGER
+		-- start index of last alpha-numeric word and end index
+		-- written to `end_index_ptr' if not equal to `default_pointer'
+		local
+			i: INTEGER; found: BOOLEAN; p: EL_POINTER_ROUTINES
+		do
+			from i := count until i = 0 or found loop
+				if is_alpha_numeric_item (i) then
+					found := True
+				else
+					i := i - 1
+				end
+			end
+			if found and then not end_index_ptr.is_default_pointer then
+				p.put_integer_32 (i, end_index_ptr)
+			end
+			found := False
+			from until i = 0 or found loop
+				if is_alpha_numeric_item (i) then
+					Result := i
+				else
+					found := True
+				end
+				i := i - 1
+			end
+		end
+
 feature -- Status query
 
 	is_ascii_substring (start_index, end_index: INTEGER): BOOLEAN
@@ -122,6 +149,26 @@ feature -- Element change
 		do
 			Precursor (other)
 			shared_string := other
+		end
+
+feature -- Duplication
+
+	filled (uc: CHARACTER_32; n: INTEGER): ZSTRING
+		-- shared string filled with `n' number of `uc' characters repeated
+		do
+			Result := Character_string_table.item (uc, n)
+		end
+
+	pruned (c: CHARACTER_32): STRING_32
+		do
+			create Result.make_from_string (Current)
+			Result.prune_all (c)
+		end
+
+	shared_leading (end_index: INTEGER): ZSTRING
+		-- leading substring of `shared_string' from 1 to `end_index'
+		do
+			create Result.make_shared (shared_string, end_index)
 		end
 
 feature {STRING_HANDLER} -- Basic operations

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:35:51 GMT (Monday 14th April 2025)"
-	revision: "10"
+	date: "2025-04-15 15:35:02 GMT (Tuesday 15th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -20,7 +20,14 @@ inherit
 			count, is_valid_as_string_8, valid_index
 		end
 
+	EL_SHARED_FILLED_STRING_TABLES
+
 feature -- Duplication
+
+	character_string, filled_1 (c: CHAR): like shared_string
+		do
+			Result := filled (c, 1)
+		end
 
 	enclosed (left, right: CHAR): like shared_string
 		-- copy of target with `left' and `right' character prepended and appended
@@ -29,6 +36,17 @@ feature -- Duplication
 			definition:
 				Result [1] = to_character_32 (left) and Result [Result.count] = to_character_32 (right)
 				and Result.substring (2, Result.count - 1) ~ shared_string
+		end
+
+	filled (c: CHAR; n: INTEGER): like shared_string
+		-- shared string filled with `n' number of `c' characters repeated
+		deferred
+		ensure
+			definition: Result.occurrences (to_character_32 (c)) = n
+		end
+
+	pruned (c: CHAR): like shared_string
+		deferred
 		end
 
 	quoted (type: INTEGER): like shared_string
@@ -138,6 +156,13 @@ feature -- Substring
 					Result := new_substring (1, 0)
 				end
 			end
+		end
+
+	shared_leading (end_index: INTEGER): like shared_string
+		-- leading substring of `shared_string' from 1 to `end_index'
+		require
+			valid_count: end_index <= count
+		deferred
 		end
 
 feature -- Element change

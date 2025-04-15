@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:24:56 GMT (Monday 21st November 2022)"
-	revision: "4"
+	date: "2025-04-15 12:08:02 GMT (Tuesday 15th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_PYXIS_ATTRIBUTE_PARSER
 
 inherit
-	EL_PARSER
+	EL_PARSER_8
 
 	TP_FACTORY
 		export

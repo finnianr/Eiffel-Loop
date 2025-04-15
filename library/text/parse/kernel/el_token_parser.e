@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 8:02:50 GMT (Thursday 20th March 2025)"
-	revision: "18"
+	date: "2025-04-15 15:13:42 GMT (Tuesday 15th April 2025)"
+	revision: "19"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
 
 inherit
-	EL_PARSER
+	EL_PARSER_32
 		rename
 			source_text as tokens_text,
 			set_source_text as set_tokens_text,
@@ -22,7 +22,7 @@ inherit
 			{NONE} all
 			{ANY} parse
 		redefine
-			make_default, default_tokens_text
+			make_default
 		end
 
 	EL_FILE_SOURCE_TEXT
@@ -42,7 +42,7 @@ feature {NONE} -- Initialization
 	make_default
 			--
 		do
-			Precursor {EL_PARSER}
+			Precursor {EL_PARSER_32}
 			Precursor {EL_FILE_SOURCE_TEXT}
 			create source_interval_list.make (0)
 		end
@@ -60,11 +60,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	default_tokens_text: STRING_32
-		do
-			Result := Empty_string_32
-		end
 
 	keyword, symbol (a_token_id: NATURAL_32): TP_LITERAL_CHAR
 		do

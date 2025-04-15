@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:18:05 GMT (Monday 14th April 2025)"
-	revision: "10"
+	date: "2025-04-15 8:50:20 GMT (Tuesday 15th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -113,6 +113,13 @@ feature {NONE} -- Implementation
 			Result := unicode.is_space (a_area [i])
 		end
 
+	is_left_bracket (c: CHARACTER_32): BOOLEAN
+		local
+			r: EL_CHARACTER_32_ROUTINES
+		do
+			Result := r.is_left_bracket (c)
+		end
+
 	new_shared_substring (str: READABLE_STRING_32; start_index, end_index: INTEGER): READABLE_STRING_32
 		do
 			Result := Immutable_32.shared_substring (str, start_index, end_index)
@@ -124,6 +131,11 @@ feature {NONE} -- Implementation
 			c: EL_CHARACTER_32_ROUTINES
 		do
 			Result := c.right_bracket_index (a_area, left_bracket, start_index, end_index)
+		end
+
+	shared_substring (a_target: IMMUTABLE_STRING_32; start_index, end_index: INTEGER_32): IMMUTABLE_STRING_32
+		do
+			Result := a_target.shared_substring (start_index, end_index)
 		end
 
 	to_char (uc: CHARACTER_32): CHARACTER_32

@@ -6,18 +6,21 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:58:15 GMT (Monday 14th April 2025)"
-	revision: "74"
+	date: "2025-04-15 15:42:08 GMT (Tuesday 15th April 2025)"
+	revision: "75"
 
 class
 	EL_STRING_32_ROUTINES_IMP
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_32, READABLE_STRING_32, CHARACTER_32]
-		rename
-			super_readable_32 as extended_string
 		undefine
 			bit_count
+		end
+
+	EL_STRING_GENERAL_ROUTINES_I
+		export
+			{ANY} as_zstring, ZSTRING
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
@@ -26,24 +29,7 @@ inherit
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
-feature -- Character query
-
-	is_subset_of (str: READABLE_STRING_32; set: EL_SET [CHARACTER_32]): BOOLEAN
-		-- `True' if set of all characters in `str' is a subset of `set'
-		local
-			c: EL_CHARACTER_32_ROUTINES
-		do
-			if attached super_32 (str) as s then
-				Result := c.is_subset_of (set, s.area, s.index_lower, s.index_upper)
-			end
-		end
-
 feature -- Comparison
-
-	ends_with (s, trailing: STRING_32): BOOLEAN
-		do
-			Result := s.ends_with (trailing)
-		end
 
 	occurs_at (big, small: STRING_32; index: INTEGER): BOOLEAN
 		-- `True' if `small' string occurs in `big' string at `index'
@@ -60,11 +46,6 @@ feature -- Comparison
 	same_string (a, b: READABLE_STRING_32): BOOLEAN
 		do
 			Result := EL_string_32.same_strings (a, b)
-		end
-
-	starts_with (s, leading: STRING_32): BOOLEAN
-		do
-			Result := s.starts_with (leading)
 		end
 
 feature -- Basic operations
@@ -98,42 +79,9 @@ feature -- Conversion
 
 feature -- Factory
 
-	character_string (uc: CHARACTER_32): STRING_32
-		-- shared instance of string with `uc' character
-		do
-			Result := Character_string_32_table.item (uc, 1)
-		end
-
-	n_character_string (uc: CHARACTER_32; n: INTEGER): STRING_32
-		-- shared instance of string with `n' times `uc' character
-		do
-			Result := Character_string_32_table.item (uc, n)
-		end
-
 	new_list (comma_separated: STRING_32): EL_STRING_32_LIST
 		do
 			create Result.make_comma_split (comma_separated)
-		end
-
-	shared_substring (s: STRING_32; new_count: INTEGER): STRING_32
-		-- `s.substring (1, new_count)' with shared area
-		do
-			create Result.make (0)
-			Result.share (s)
-			Result.set_count (new_count)
-		end
-
-feature -- Adjust
-
-	pruned (str: STRING_32; c: CHARACTER_32): STRING_32
-		do
-			create Result.make_from_string (str)
-			Result.prune_all (c)
-		end
-
-	wipe_out (str: STRING_32)
-		do
-			str.wipe_out
 		end
 
 feature {NONE} -- Implementation
@@ -145,36 +93,9 @@ feature {NONE} -- Implementation
 			u8.string_8_into_string_general (utf_8, output)
 		end
 
-	as_canonically_spaced (s: READABLE_STRING_32): STRING_32
-		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
-		do
-			create Result.make (s.count)
-			Result.append (s)
-		end
-
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string_32 (target, pattern, 0)
-		end
-
-	index_of (str: READABLE_STRING_32; uc: CHARACTER_32; start_index: INTEGER): INTEGER
-		do
-			Result := str.index_of (uc, start_index)
-		end
-
-	last_index_of (str: READABLE_STRING_32; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		do
-			Result := str.last_index_of (c, start_index_from_end)
-		end
-
-	new_shared_substring (s: READABLE_STRING_32; start_index, end_index: INTEGER): READABLE_STRING_32
-		do
-			Result := Immutable_32.shared_substring (s, start_index, end_index)
-		end
-
-	replace_substring (str: STRING_32; insert: READABLE_STRING_32; start_index, end_index: INTEGER)
-		do
-			str.replace_substring (insert, start_index, end_index)
 		end
 
 	split_on_character (str: READABLE_STRING_32; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_32]
@@ -189,8 +110,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Asterisk: CHARACTER_32 = '*'
-
 	Split_string_32: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
 		once
 			create Result.make (Empty_string_32, '_')
@@ -199,11 +118,6 @@ feature {NONE} -- Constants
 	Split_immutable_string_32: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
 		once
 			create Result.make (Empty_string_32, '_')
-		end
-
-	String_searcher: STRING_32_SEARCHER
-		once
-			Result := EL_string_32.string_searcher
 		end
 
 end

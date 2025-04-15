@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-26 7:30:10 GMT (Wednesday 26th March 2025)"
-	revision: "11"
+	date: "2025-04-15 15:28:17 GMT (Tuesday 15th April 2025)"
+	revision: "12"
 
 class
 	EL_SUBSTITUTION_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
@@ -102,9 +102,7 @@ feature {NONE} -- Parsing events
 	on_literal_text (start_index, end_index: INTEGER)
 			--
 		do
-			if attached {S} source_text.substring (start_index, end_index) as str then
-				extend (str)
-			end
+			extend (new_source_substring (start_index, end_index))
 		end
 
 	on_substitution_variable (start_index, end_index: INTEGER)
@@ -131,12 +129,9 @@ feature {NONE} -- Parsing events
 
 feature {NONE} -- Implementation
 
-	default_source_text: READABLE_STRING_GENERAL
-		local
-			str: S
+	default_source_text: S
 		do
-			create str.make_empty
-			Result := str
+			create Result.make_empty
 		end
 
 	field_key (name: READABLE_STRING_8): S

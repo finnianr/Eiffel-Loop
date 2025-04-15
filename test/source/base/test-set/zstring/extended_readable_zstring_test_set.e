@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:38:45 GMT (Monday 14th April 2025)"
-	revision: "8"
+	date: "2025-04-15 9:05:26 GMT (Tuesday 15th April 2025)"
+	revision: "9"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -29,6 +29,7 @@ feature {NONE} -- Initialization
 				["append_substring_to_string_32", agent test_append_substring_to_string_32],
 				["append_substring_to_string_8",	 agent test_append_substring_to_string_8],
 				["ascii_query",						 agent test_ascii_query],
+				["bracketed",							 agent test_bracketed],
 				["character_counts",					 agent test_character_counts],
 				["filtered",							 agent test_filtered],
 				["is_eiffel_name",					 agent test_is_eiffel_name],
@@ -123,6 +124,35 @@ feature -- Tests
 				assert ("not all ascii characters", not super_8 (non_ascii_padding).is_ascii)
 			end
 			assert ("all ascii characters", super_8 (padded_8 ('%T')).is_ascii)
+		end
+
+	test_bracketed
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_bracketed
+		note
+			testing: "[
+				covers/{EL_EXTENDED_READABLE_STRING_I}.bracketed_substring,
+				covers/{EL_EXTENDED_READABLE_STRING_I}.matching_bracket_index,
+				covers/{EL_CHARACTER_X_ROUTINES}.right_bracket_index
+			]"
+		local
+			name, name_2: IMMUTABLE_STRING_8; type_array: ARRAY [TYPE [ANY]]
+			content: READABLE_STRING_8
+		do
+			type_array := << {ARRAYED_LIST [INTEGER]}, {ARRAYED_LIST [CELL [INTEGER]]} >>
+			across type_array as array loop
+				across << False, True >> as is_last loop
+					name := array.item.name
+					if is_last.item then
+						content := super_readable_8 (name).bracketed_last ('[')
+						name_2 := ({INTEGER}).name
+					else
+						content := super_readable_8 (name).bracketed ('[')
+						name_2 := if array.is_first then ({INTEGER}).name else ({CELL [INTEGER]}).name end
+					end
+					assert ("content is immutable", content.is_immutable)
+					assert_same_string (Void, content, name_2)
+				end
+			end
 		end
 
 	test_character_counts

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:48:54 GMT (Monday 14th April 2025)"
-	revision: "14"
+	date: "2025-04-15 9:12:13 GMT (Tuesday 15th April 2025)"
+	revision: "15"
 
 class
 	PYXIS_EIFFEL_CONFIG
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 	partial_source_text: STRING
 		-- source_text up as far as end of version information
 		local
-			found: BOOLEAN; sg: EL_STRING_GENERAL_ROUTINES; s: EL_STRING_8_ROUTINES
+			found: BOOLEAN; sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if attached line_intervals as list then
 				list.go_i_th (version_element_index + 1)

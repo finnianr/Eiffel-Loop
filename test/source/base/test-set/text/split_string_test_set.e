@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 9:15:27 GMT (Saturday 12th April 2025)"
-	revision: "73"
+	date: "2025-04-15 11:23:20 GMT (Tuesday 15th April 2025)"
+	revision: "74"
 
 class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -217,10 +217,10 @@ feature -- Tests
 	test_item_count
 		local
 			str: ZSTRING; has_item_count_zero: BOOLEAN
-			list: EL_SEQUENTIAL_INTERVALS; s: EL_ZSTRING_ROUTINES
+			list: EL_SEQUENTIAL_INTERVALS
 		do
 			str := "A B C "
-			list := str.split_intervals (s.character_string (' '))
+			list := str.split_intervals (Shared_super_z.character_string (' '))
 			assert ("count is 4", list.count = 4)
 			list.finish
 			assert ("last item is empty", str.substring (list.item_lower, list.item_upper).is_empty)

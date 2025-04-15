@@ -6,22 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-21 14:29:58 GMT (Monday 21st November 2022)"
-	revision: "7"
+	date: "2025-04-15 15:15:58 GMT (Tuesday 15th April 2025)"
+	revision: "8"
 
 class
 	EL_FTP_REPLY_PARSER
 
 inherit
-	EL_PARSER
+	EL_PARSER_8
 		rename
 			make_default as make,
 			parse as parse_complete
 		export
 			{NONE} all
 			{ANY} set_source_text
-		redefine
-			default_source_text
 		end
 
 	TP_FACTORY
@@ -85,13 +83,6 @@ feature {NONE} -- Pattern
 
 				double_quote
 			>> )
-		end
-
-feature {NONE} -- Implementation
-
-	default_source_text: STRING
-		do
-			Result := Empty_string_8
 		end
 
 end

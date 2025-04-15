@@ -6,18 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 14:58:23 GMT (Monday 14th April 2025)"
-	revision: "45"
+	date: "2025-04-15 15:42:17 GMT (Tuesday 15th April 2025)"
+	revision: "46"
 
 class
 	EL_STRING_8_ROUTINES_IMP
 
 inherit
 	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8, CHARACTER_8]
-		rename
-			character_string as character_32_string,
-			n_character_string as n_character_32_string,
-			super_readable_8 as extended_string
 		undefine
 			bit_count
 		end
@@ -59,24 +55,7 @@ feature -- Basic operations
 			set_substring_case (str, start_index, end_index, {EL_CASE}.Upper)
 		end
 
-feature -- Character query
-
-	is_subset_of (str: READABLE_STRING_8; set: EL_SET [CHARACTER_8]): BOOLEAN
-		-- `True' if set of all characters in `str' is a subset of `set'
-		local
-			c: EL_CHARACTER_8_ROUTINES
-		do
-			if attached extended_string (str) as s then
-				Result := c.is_subset_of (set, s.area, s.index_lower, s.index_upper)
-			end
-		end
-
 feature -- Comparison
-
-	ends_with (s, trailing: READABLE_STRING_8): BOOLEAN
-		do
-			Result := s.ends_with (trailing)
-		end
 
 	occurs_at (big, small: READABLE_STRING_8; index: INTEGER): BOOLEAN
 		-- `True' if `small' string occurs in `big' string at `index'
@@ -93,11 +72,6 @@ feature -- Comparison
 	same_string (a, b: READABLE_STRING_8): BOOLEAN
 		do
 			Result := EL_string_8.same_strings (a, b)
-		end
-
-	starts_with (s, leading: READABLE_STRING_8): BOOLEAN
-		do
-			Result := s.starts_with (leading)
 		end
 
 feature -- Conversion
@@ -143,30 +117,6 @@ feature -- Conversion
 
 feature -- Factory
 
-	character_string (c: CHARACTER): STRING_8
-		-- shared instance of string with `uc' character
-		do
-			Result := Character_string_8_table.item (c, 1)
-		end
-
-	n_character_string (c: CHARACTER; n: INTEGER): STRING_8
-		-- shared instance of string with `n' times `uc' character
-		do
-			Result := Character_string_8_table.item (c, n)
-		end
-
-	character_32_string (uc: CHARACTER_32): STRING_8
-		-- shared instance of string with `uc' character
-		do
-			Result := character_string (uc.to_character_8)
-		end
-
-	n_character_32_string (uc: CHARACTER_32; n: INTEGER): STRING_8
-		-- shared instance of string with `n' times `uc' character
-		do
-			Result := n_character_string (uc.to_character_8, n)
-		end
-
 	new_list (comma_separated: STRING_8): EL_STRING_8_LIST
 		do
 			create Result.make_comma_split (comma_separated)
@@ -176,14 +126,6 @@ feature -- Factory
 		-- lit of
 		do
 			create Result.make_split (str, '%N')
-		end
-
-	shared_substring (s: STRING_8; new_count: INTEGER): STRING_8
-		-- `s.substring (1, new_count)' with shared area
-		do
-			create Result.make (0)
-			Result.share (s)
-			Result.set_count (new_count)
 		end
 
 feature -- Measurement
@@ -237,21 +179,6 @@ feature -- Transform
 			target.set_count (l_count) -- reset `internal_hash_code' to 0
 		end
 
-feature -- Adjust
-
-	pruned (str: STRING_8; c: CHARACTER_32): STRING_8
-		do
-			create Result.make_from_string (str)
-			if c.is_character_8 then
-				Result.prune_all (c.to_character_8)
-			end
-		end
-
-	wipe_out (str: STRING_8)
-		do
-			str.wipe_out
-		end
-
 feature {NONE} -- Implementation
 
 	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_8)
@@ -261,38 +188,9 @@ feature {NONE} -- Implementation
 			u8.string_8_into_string_general (utf_8, output)
 		end
 
-	as_canonically_spaced (s: READABLE_STRING_8): STRING_8
-		-- copy of `s' with each substring of whitespace consisting of one space character (ASCII 32)
-		do
-			create Result.make (s.count)
-			Result.append (s)
-		end
-
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_8; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string_8 (target, pattern, 0)
-		end
-
-	index_of (str: READABLE_STRING_8; uc: CHARACTER_32; start_index: INTEGER): INTEGER
-		do
-			if uc.is_character_8 then
-				Result := str.index_of (uc.to_character_8, start_index)
-			end
-		end
-
-	last_index_of (str: READABLE_STRING_8; c: CHARACTER_32; start_index_from_end: INTEGER): INTEGER
-		do
-			Result := str.last_index_of (c.to_character_8, start_index_from_end)
-		end
-
-	new_shared_substring (s: READABLE_STRING_8; start_index, end_index: INTEGER): READABLE_STRING_8
-		do
-			Result := Immutable_8.shared_substring (s, start_index, end_index)
-		end
-
-	replace_substring (str: STRING_8; insert: READABLE_STRING_8; start_index, end_index: INTEGER)
-		do
-			str.replace_substring (insert, start_index, end_index)
 		end
 
 	split_on_character (str: READABLE_STRING_8; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_8]
@@ -327,8 +225,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Asterisk: CHARACTER_8 = '*'
-
 	Split_string_8: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
 		once
 			create Result.make (Empty_string_8, '_')
@@ -337,11 +233,6 @@ feature {NONE} -- Constants
 	Split_immutable_string_8: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER
 		once
 			create Result.make (Empty_string_8, '_')
-		end
-
-	String_searcher: STRING_8_SEARCHER
-		once
-			Result := EL_string_8.string_searcher
 		end
 
 end
