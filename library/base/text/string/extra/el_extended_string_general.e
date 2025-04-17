@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 16:00:17 GMT (Wednesday 16th April 2025)"
-	revision: "12"
+	date: "2025-04-17 14:09:49 GMT (Thursday 17th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -73,10 +73,6 @@ feature -- Duplication
 
 feature -- Measurement
 
-	occurrences (c: CHAR): INTEGER
-		deferred
-		end
-
 	valid_index (i: INTEGER): BOOLEAN
 		-- Is `i' within the bounds of the string?
 		deferred
@@ -113,50 +109,6 @@ feature -- Enclosure query
 		end
 
 feature -- Substring
-
-	selected_substring (n: INTEGER; n_set: READABLE_INDEXABLE [INTEGER]): like shared_string
-		require
-			name_count_matches: n_set.upper - n_set.lower = occurrences (to_char (','))
-		local
-			index, i, start_index, end_index: INTEGER; found: BOOLEAN; space: CHAR
-		do
-			if count = 0 then
-				Result := new_substring (1, 0)
-			else
-				from index := n_set.lower until index > n_set.upper or found loop
-					if n_set [index] = n then
-						found := True
-					else
-						index := index + 1
-					end
-				end
-				if found and then attached split_on_character (to_char (',')) as split_list then
-					found := False
-					i := n_set.lower
-					if attached area as l_area then
-						space := to_char (' ')
-						across split_list as list until found loop
-							if i = index then
-								start_index := list.item_lower; end_index := list.item_upper
-								if l_area [start_index - 1] = space then
-									start_index :=  start_index + 1
-								end
-								found := True
-							else
-								i := i + 1
-							end
-						end
-					end
-					if found then
-						Result := new_substring (start_index, end_index)
-					else
-						Result := new_substring (1, 0)
-					end
-				else
-					Result := new_substring (1, 0)
-				end
-			end
-		end
 
 	shared_leading (end_index: INTEGER): like shared_string
 		-- leading substring of `shared_string' from 1 to `end_index'
@@ -375,10 +327,6 @@ feature {NONE} -- Deferred
 		end
 
 	set_count (n: INTEGER)
-		deferred
-		end
-
-	split_on_character (separator: CHAR): EL_SPLIT_ON_CHARACTER [like shared_string, COMPARABLE]
 		deferred
 		end
 

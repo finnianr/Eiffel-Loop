@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 8:56:10 GMT (Thursday 17th April 2025)"
-	revision: "16"
+	date: "2025-04-17 12:45:28 GMT (Thursday 17th April 2025)"
+	revision: "17"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [RSTRING -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE, SEPARATOR]
@@ -207,8 +207,8 @@ feature -- Cursor movement
 
 feature {EL_ITERABLE_SPLIT} -- Implementation
 
-	fill_item (a_item: like internal_item)
-		deferred
+	fill_item (a_item: STRING_GENERAL)
+		do
 		end
 
 	i_th_character (a_target: like target; i: INTEGER): CHAR

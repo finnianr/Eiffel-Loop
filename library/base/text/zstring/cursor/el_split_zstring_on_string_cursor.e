@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 8:59:34 GMT (Thursday 17th April 2025)"
-	revision: "10"
+	date: "2025-04-17 12:50:53 GMT (Thursday 17th April 2025)"
+	revision: "11"
 
 class
 	EL_SPLIT_ZSTRING_ON_STRING_CURSOR
@@ -40,16 +40,11 @@ feature -- Access
 		-- client routine
 		do
 			Result := internal_item
-			fill_item (Result)
+			Result.wipe_out
+			Result.append_substring (target, item_lower, item_upper)
 		end
 
 feature {NONE} -- Implementation
-
-	fill_item (a_item: like internal_item)
-		do
-			a_item.wipe_out
-			a_item.append_substring (target, item_lower, item_upper)
-		end
 
 	i_th_character (a_target: like target; i: INTEGER): CHARACTER_32
 		-- i'th character of `a_target'

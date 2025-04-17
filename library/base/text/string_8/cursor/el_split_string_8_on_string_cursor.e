@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 8:42:32 GMT (Thursday 17th April 2025)"
-	revision: "3"
+	date: "2025-04-17 12:46:33 GMT (Thursday 17th April 2025)"
+	revision: "4"
 
 class
 	EL_SPLIT_STRING_8_ON_STRING_CURSOR [RSTRING -> READABLE_STRING_8]
@@ -17,7 +17,7 @@ class
 inherit
 	EL_SPLIT_ON_STRING_CURSOR [RSTRING, CHARACTER_8]
 		redefine
-			is_i_th_white_space, internal_item
+			fill_item, is_i_th_white_space, internal_item
 		end
 
 create
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	fill_item (a_item: like internal_item)
+	fill_item (a_item: STRING_8)
 		do
 			a_item.wipe_out
 			a_item.append_substring (target, item_lower, item_upper)

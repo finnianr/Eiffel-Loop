@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 15:38:55 GMT (Wednesday 16th April 2025)"
-	revision: "7"
+	date: "2025-04-17 14:34:19 GMT (Thursday 17th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -30,6 +30,11 @@ inherit
 	EL_POINTER_ROUTINES_I
 
 	EL_STRING_HANDLER
+
+	EL_SIDE_ROUTINES
+		export
+			{ANY} valid_side
+		end
 
 	EL_SHARED_UNICODE_PROPERTY; EL_SHARED_UTF_8_SEQUENCE; EL_SHARED_ZSTRING_CODEC
 
@@ -72,6 +77,23 @@ feature -- Contract Support
 	valid_index (i: INTEGER): BOOLEAN
 		do
 			Result := target.valid_index (i)
+		end
+
+feature -- Conversion
+
+	split (c: CHAR): EL_SPLIT_ON_CHARACTER [like target, CHAR]
+		-- left adjusted iterable split of `target'
+		deferred
+		end
+
+	split_adjusted (c: CHAR; adjustments: INTEGER): like split
+		require
+			valid_side: valid_side (adjustments)
+		deferred
+		end
+
+	to_char (uc: CHARACTER_32): CHAR
+		deferred
 		end
 
 feature {NONE} -- Measurement
@@ -149,14 +171,6 @@ feature {NONE} -- Character query
 		end
 
 feature {NONE} -- Conversion
-
---	split (c: CHAR): EL_ITERABLE_SPLIT [like target, CHAR]
---		deferred
---		end
-
-	to_char (uc: CHARACTER_32): CHAR
-		deferred
-		end
 
 	to_character_32 (c: CHAR): CHARACTER_32
 		deferred

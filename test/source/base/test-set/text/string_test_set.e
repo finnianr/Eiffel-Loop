@@ -6,14 +6,14 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 9:06:44 GMT (Tuesday 15th April 2025)"
-	revision: "46"
+	date: "2025-04-17 14:14:51 GMT (Thursday 17th April 2025)"
+	revision: "47"
 
 class
 	STRING_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	ZSTRING_EQA_TEST_SET
 
 	EL_SIDE_ROUTINES
 
@@ -21,7 +21,7 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES_I
 
-	EL_SHARED_ENCODINGS; EL_SHARED_TEST_TEXT
+	EL_SHARED_ENCODINGS
 
 	SHARED_COLOR_ENUM
 
@@ -256,9 +256,19 @@ feature -- Tests
 				covers/{EL_EXTENDED_STRING_GENERAL}.selected_substring,
 				covers/{EL_SIDE_ROUTINES}.side_name
 			]"
+		local
+			none, right: READABLE_STRING_GENERAL; range: INTEGER_INTERVAL
 		do
-			assert_same_string (Void, side_name ({EL_SIDE}.None), "None")
-			assert_same_string (Void, side_name ({EL_SIDE}.Right), "Right")
+			range := 0 |..| Both_sides
+			across new_string_type_list (Side_name_list) as list loop
+				if attached list.item as name_list then
+					none := super_readable_general (name_list).selected_substring ({EL_SIDE}.None, range)
+					assert_same_string (Void, none, "None")
+
+					right := super_readable_general (name_list).selected_substring ({EL_SIDE}.Right, range)
+					assert_same_string (Void, right, "Right")
+				end
+			end
 		end
 
 feature {NONE} -- Implementation

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 17:43:44 GMT (Tuesday 15th April 2025)"
-	revision: "62"
+	date: "2025-04-17 15:24:50 GMT (Thursday 17th April 2025)"
+	revision: "63"
 
 class
 	EL_TUPLE_ROUTINES
@@ -27,7 +27,12 @@ inherit
 			make
 		end
 
-	EL_STRING_HANDLER
+	EL_SIDE_ROUTINES
+		export
+			{ANY} valid_side
+		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_OBJECT_PROPERTY_I
 
@@ -242,7 +247,7 @@ feature -- Basic operations
 		-- TUPLE may contain any of types STRING_8, STRING_32, ZSTRING
 		-- items are left adjusted if `left_adjusted' is True
 		do
-			fill_from_list (tuple, Convert_string.split_list (csv_list, ',', left_adjusted.to_integer))
+			fill_for_separator (tuple, csv_list, ',', left_adjusted.to_integer)
 		end
 
 	fill_default (tuple: TUPLE; default_value: ANY)
@@ -266,15 +271,35 @@ feature -- Basic operations
 			filled: is_filled (tuple, 1, tuple.count)
 		end
 
-	fill_from_list (tuple: TUPLE; list: like Convert_string.split_list)
+	fill_for_separator (tuple: TUPLE; value_list: READABLE_STRING_GENERAL; separator: CHARACTER; adjustments: INTEGER)
+		require
+			valid_adjustments: valid_side (adjustments)
+			enough_list_items: tuple.count <= value_list.occurrences (separator) + 1
+		local
+			i: INTEGER
+		do
+			if attached Convert_string as cs and then attached type_array (tuple) as type then
+				across split_adjusted (value_list, separator, adjustments) as list loop
+					i := list.cursor_index
+					put_i_th (tuple, i, value_list, list.item_lower, list.item_upper, type [i].type_id, cs)
+				end
+			end
+		ensure
+			filled: is_filled (tuple, 1, tuple.count)
+		end
+
+	fill_from_list (tuple: TUPLE; list: EL_SPLIT_READABLE_STRING_LIST [READABLE_STRING_GENERAL])
 		require
 			enough_list_items: tuple.count <= list.count
+		local
+			i: INTEGER
 		do
 			if attached list.target_string as string and then attached Convert_string as cs
 				and then attached type_array (tuple) as type
 			then
 				from list.start until list.after or else list.index > tuple.count loop
-					put_i_th (tuple, list.index, string, list.item_lower, list.item_upper, type [list.index].type_id, cs)
+					i := list.index
+					put_i_th (tuple, i, string, list.item_lower, list.item_upper, type [i].type_id, cs)
 					list.forth
 				end
 			end
@@ -331,7 +356,7 @@ feature -- Basic operations
 
 	line_fill (tuple: TUPLE; line_list: READABLE_STRING_GENERAL)
 		do
-			fill_from_list (tuple, Convert_string.split_list (line_list, '%N', 0))
+			fill_for_separator (tuple, line_list, '%N', 0)
 		end
 
 	read (tuple: TUPLE; readable: EL_READABLE)

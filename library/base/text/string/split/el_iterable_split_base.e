@@ -6,16 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 22:21:08 GMT (Wednesday 16th April 2025)"
-	revision: "1"
+	date: "2025-04-17 13:36:40 GMT (Thursday 17th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_ITERABLE_SPLIT_BASE [RSTRING -> READABLE_STRING_GENERAL, SEPARATOR]
 
 inherit
 	EL_SIDE_ROUTINES
+		export
+			{ANY} valid_side
+		end
 
 feature {NONE} -- Initialization
+
+	initialize
+		deferred
+		end
 
 	make (a_target: like target; a_separator: like separator)
 		do
@@ -28,22 +35,19 @@ feature {NONE} -- Initialization
 		require
 			valid_adjustments: valid_side (adjustments)
 		do
-			target := a_target; separator := a_separator; adjustments := a_adjustments
+			target := a_target; adjustments := a_adjustments
+			set_separator (a_separator)
 			initialize
-		end
-	
-	initialize
-		deferred
 		end
 
 feature -- Access
-
-	target: RSTRING
 
 	separator_count: INTEGER
 		do
 			Result := 1
 		end
+
+	target: RSTRING
 
 feature -- Status query
 
@@ -59,6 +63,13 @@ feature -- Status query
 
 feature -- Element change
 
+	set_adjustments (a_adjustments: like adjustments)
+		require
+			valid_side: valid_side (a_adjustments)
+		do
+			adjustments := a_adjustments
+		end
+
 	set_separator (a_separator: like separator)
 		do
 			separator := a_separator
@@ -68,7 +79,6 @@ feature -- Element change
 		do
 			target := a_target
 		end
-
 
 feature {NONE} -- Internal attributes
 

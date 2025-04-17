@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 15:39:36 GMT (Wednesday 16th April 2025)"
-	revision: "6"
+	date: "2025-04-17 14:53:43 GMT (Thursday 17th April 2025)"
+	revision: "7"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -20,7 +20,9 @@ inherit
 		rename
 			append_to as append_to_other,
 			is_ascii_substring as is_other_ascii_substring,
-			set_count as set_string_count
+			set_count as set_string_count,
+			split as zstring_split,
+			split_adjusted as split_adjusted_general
 		redefine
 			append_area_32, make, resize, share, trim
 		end
@@ -39,7 +41,7 @@ inherit
 			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced,
 			is_character, is_subset_of, is_valid_as_string_8,
 			leading_occurrences, leading_white_count,
-			matches_wildcard, null, quoted,
+			matches_wildcard, null, occurrences, quoted,
 			remove_bookends, replace_character, remove_double, remove_single,
 			same_string, starts_with_character,
 			substring_to, substring_to_from, substring_to_reversed, substring_to_reversed_from,
@@ -56,7 +58,7 @@ inherit
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_identifier, is_i_th_space,
 			latin_1_count,
 			new_shared_substring, occurrences_in_area_bounds, parse_substring_in_range,
-			right_bracket_index
+			right_bracket_index, split, split_adjusted
 		end
 
 create
@@ -169,6 +171,20 @@ feature -- Duplication
 		-- leading substring of `shared_string' from 1 to `end_index'
 		do
 			create Result.make_shared (shared_string, end_index)
+		end
+
+feature -- Conversion
+
+	split (uc: CHARACTER_32): EL_SPLIT_ON_CHARACTER [like shared_string, CHARACTER_32]
+		-- left adjusted iterable split of `shared_string'
+		do
+			Result := split_adjusted (uc, Left_side)
+		end
+
+	split_adjusted (uc: CHARACTER_32; adjustments: INTEGER): like split
+		do
+			Result := Once_split_zstring
+			Result.set_adjustments (adjustments); Result.set_separator (uc); Result.set_target (shared_string)
 		end
 
 feature {STRING_HANDLER} -- Basic operations
@@ -502,12 +518,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	split_on_character (separator: CHARACTER_32): like Split_string_32
-		do
-			Result := Split_string_32
-			Result.set_target (Current); Result.set_separator (separator)
-		end
-
 	trim
 		 -- reallocate to new size
 		do
@@ -525,7 +535,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Split_string_32: EL_SPLIT_ZSTRING_ON_CHARACTER
+	Once_split_zstring: EL_SPLIT_ZSTRING_ON_CHARACTER
 		once
 			create Result.make (Empty_string, '_')
 		end

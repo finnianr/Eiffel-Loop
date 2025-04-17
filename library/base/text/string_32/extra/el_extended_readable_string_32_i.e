@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 15:39:10 GMT (Wednesday 16th April 2025)"
-	revision: "12"
+	date: "2025-04-17 14:00:07 GMT (Thursday 17th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -63,9 +63,20 @@ feature -- Status query
 
 feature -- Conversion
 
---	split (c: CHARACTER_32): EL_SPLIT_ON_CHARACTER_32 [like target]
---		do
---		end
+	split (uc: CHARACTER_32): EL_SPLIT_ON_CHARACTER [like target, CHARACTER_32]
+		do
+			Result := split_adjusted (uc, Left_side)
+		end
+
+	split_adjusted (uc: CHARACTER_32; adjustments: INTEGER): like split
+		do
+			if target.is_immutable then
+				Result := Once_split_immutable_on_character_32
+			else
+				Result := Once_split_on_character_32
+			end
+			Result.set_adjustments (adjustments); Result.set_separator (uc); Result.set_target (target)
+		end
 
 feature {NONE} -- Implementation
 
@@ -177,6 +188,18 @@ feature {NONE} -- Type definitions
 	READABLE_32: READABLE_STRING_32
 		once
 			Result := Empty_string_32
+		end
+
+feature {NONE} -- Constants
+
+	Once_split_on_character_32: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
+		once
+			create Result.make (Empty_string_32, '_')
+		end
+
+	Once_split_immutable_on_character_32: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
+		once
+			create Result.make (Empty_string_32, '_')
 		end
 
 end

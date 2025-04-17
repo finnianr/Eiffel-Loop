@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 12:20:31 GMT (Wednesday 9th April 2025)"
-	revision: "8"
+	date: "2025-04-17 13:50:33 GMT (Thursday 17th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_SIDE_ROUTINES
@@ -33,7 +33,7 @@ feature {NONE} -- Implementation
 		local
 			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			Result := sg.super_8 (once "None, Left, Right, Both").selected_substring (a_side, 0 |..| Both_sides)
+			Result := sg.super_8 (Side_name_list).selected_substring (a_side, 0 |..| Both_sides)
 		end
 
 feature {NONE} -- Contract Support
@@ -48,6 +48,11 @@ feature {NONE} -- Contract Support
 			Result := (bitmap & Right_side).to_boolean
 		end
 
+	frozen valid_side (bitmap: INTEGER): BOOLEAN
+		do
+			Result := No_sides <= bitmap and then bitmap <= Both_sides
+		end
+
 	frozen valid_side_left_or_right (bitmap: INTEGER): BOOLEAN
 		do
 			inspect bitmap
@@ -57,10 +62,9 @@ feature {NONE} -- Contract Support
 			end
 		end
 
-	frozen valid_side (bitmap: INTEGER): BOOLEAN
-		do
-			Result := No_sides <= bitmap and then bitmap <= Both_sides
-		end
+feature {NONE} -- Constants
+
+	Side_name_list: STRING = "None, Left, Right, Both"
 
 invariant
 	left_is_one: Left_side = 1 -- Allows `left_adjusted.to_integer'

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 15:28:44 GMT (Wednesday 16th April 2025)"
-	revision: "26"
+	date: "2025-04-17 14:10:17 GMT (Thursday 17th April 2025)"
+	revision: "27"
 
 class
 	EL_STRING_32
@@ -35,7 +35,7 @@ inherit
 			empty_target as empty_string_32,
 			set_target as share
 		undefine
-			count, has, is_valid_as_string_8, valid_index
+			count, has, is_valid_as_string_8, occurrences, valid_index
 		end
 
 create
@@ -187,12 +187,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	split_on_character (separator: CHARACTER_32): like Split_string_32
-		do
-			Result := Split_string_32
-			Result.set_target (Current); Result.set_separator (separator)
-		end
-
 	trim
 		 -- reallocate to new size
 		do
@@ -207,12 +201,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	shared_string: STRING_32
-
-feature {NONE} -- Constants
-
-	Split_string_32: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
-		once
-			create Result.make (Empty_string_32, '_')
-		end
 
 end

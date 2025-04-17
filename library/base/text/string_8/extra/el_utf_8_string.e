@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:36:56 GMT (Saturday 5th April 2025)"
-	revision: "25"
+	date: "2025-04-17 14:56:16 GMT (Thursday 17th April 2025)"
+	revision: "26"
 
 class
 	EL_UTF_8_STRING
@@ -18,6 +18,13 @@ inherit
 			as_string_8 as as_latin_1,
 			to_string_8 as to_latin_1,
 			set as set_from
+		end
+
+	EL_STRING_GENERAL_ROUTINES_I
+		rename
+			as_readable_string_32 as general_as_readable_string_32,
+			as_readable_string_8 as general_as_readable_string_8,
+			split_adjusted as split_adjusted_general
 		end
 
 create

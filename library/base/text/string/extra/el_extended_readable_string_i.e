@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 18:36:02 GMT (Tuesday 15th April 2025)"
-	revision: "13"
+	date: "2025-04-17 14:36:16 GMT (Thursday 17th April 2025)"
+	revision: "14"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -72,6 +72,42 @@ feature -- Access
 		-- Empty string if `not str.has (left_bracket)' or no matching right bracket
 		do
 			Result := bracketed_substring (left_bracket, True)
+		end
+
+	selected_substring (n: INTEGER; n_set: READABLE_INDEXABLE [INTEGER]): like target
+		require
+			name_count_matches: n_set.upper - n_set.lower = occurrences (to_char (','))
+		local
+			index, i, start_index, end_index: INTEGER; found: BOOLEAN
+		do
+			if count > 0 then
+				from index := n_set.lower until index > n_set.upper or found loop
+					if n_set [index] = n then
+						found := True
+					else
+						index := index + 1
+					end
+				end
+				if found and then attached split (to_char (',')) as split_list then
+					found := False
+					i := n_set.lower
+					if attached area as l_area then
+						across split_list as list until found loop
+							if i = index then
+								start_index := list.item_lower; end_index := list.item_upper
+								found := True
+							else
+								i := i + 1
+							end
+						end
+					end
+				end
+			end
+			if found then
+				Result := target.substring (start_index, end_index)
+			else
+				Result := target.substring (1, 0)
+			end
 		end
 
 	substring_to (c: CHAR): like target
@@ -201,11 +237,16 @@ feature -- Measurement
 			end
 		end
 
+	occurrences (c: CHAR): INTEGER
+		do
+			Result := occurrences_in_bounds (c, 1, count)
+		end
+
 	occurrences_in_bounds (c: CHAR; start_index, end_index: INTEGER): INTEGER
 		-- count of `c' occurrences between `start_index' and `end_index'
 		do
 			if count > 0 then
-				Result := occurrences_in_area_bounds( area, c, lower_abs (start_index), upper_abs (end_index))
+				Result := occurrences_in_area_bounds (area, c, lower_abs (start_index), upper_abs (end_index))
 			end
 		end
 

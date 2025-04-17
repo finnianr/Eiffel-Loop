@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 8:42:55 GMT (Thursday 17th April 2025)"
-	revision: "10"
+	date: "2025-04-17 12:47:03 GMT (Thursday 17th April 2025)"
+	revision: "11"
 
 class
 	EL_SPLIT_ON_CHARACTER_32_CURSOR [S -> READABLE_STRING_32]
@@ -17,7 +17,7 @@ class
 inherit
 	EL_SPLIT_ON_CHARACTER_CURSOR [S, CHARACTER_32]
 		redefine
-			internal_item, same_caseless_characters, same_characters
+			fill_item, internal_item, same_caseless_characters, same_characters
 		end
 
 create
@@ -25,7 +25,7 @@ create
 
 feature {NONE} -- Implementation
 
-	fill_item (a_item: like internal_item)
+	fill_item (a_item: STRING_32)
 		do
 			a_item.wipe_out
 			a_item.append_substring (target, item_lower, item_upper)

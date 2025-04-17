@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 15:28:54 GMT (Wednesday 16th April 2025)"
-	revision: "41"
+	date: "2025-04-17 14:55:44 GMT (Thursday 17th April 2025)"
+	revision: "42"
 
 class
 	EL_STRING_8
@@ -35,13 +35,7 @@ inherit
 		rename
 			set_target as share
 		undefine
-			count, has, is_valid_as_string_8, valid_index
-		end
-
-	EL_STRING_GENERAL_ROUTINES_I
-		rename
-			as_readable_string_32 as general_as_readable_string_32,
-			as_readable_string_8 as general_as_readable_string_8
+			count, has, is_valid_as_string_8, occurrences, valid_index
 		end
 
 	EL_SHARED_STRING_8_BUFFER_POOL
@@ -284,12 +278,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	split_on_character (separator: CHARACTER_8): like Split_string_8
-		do
-			Result := Split_string_8
-			Result.set_target (Current); Result.set_separator (separator)
-		end
-
 	trim
 		 -- reallocate to new size
 		do
@@ -304,12 +292,5 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	shared_string: STRING_8
-
-feature {NONE} -- Constants
-
-	Split_string_8: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
-		once
-			create Result.make (Empty_string_8, '_')
-		end
 
 end

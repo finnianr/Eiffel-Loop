@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 15:39:24 GMT (Wednesday 16th April 2025)"
-	revision: "11"
+	date: "2025-04-17 13:59:30 GMT (Thursday 17th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -55,9 +55,20 @@ feature -- Status query
 
 feature -- Conversion
 
---	split (c: CHARACTER_8): EL_SPLIT_ON_CHARACTER_8 [like target]
---		do
---		end
+	split (c: CHARACTER_8): EL_SPLIT_ON_CHARACTER [like target, CHARACTER_8]
+		do
+			Result := split_adjusted (c, Left_side)
+		end
+
+	split_adjusted (c: CHARACTER_8; adjustments: INTEGER): like split
+		do
+			if target.is_immutable then
+				Result := Once_split_immutable_on_character_8
+			else
+				Result := Once_split_on_character_8
+			end
+			Result.set_adjustments (adjustments); Result.set_separator (c); Result.set_target (target)
+		end
 
 feature {NONE} -- Implementation
 
@@ -174,4 +185,15 @@ feature {NONE} -- Type definitions
 			Result := Empty_string_8
 		end
 
+feature {NONE} -- Constants
+
+	Once_split_on_character_8: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
+		once
+			create Result.make (Empty_string_8, '_')
+		end
+
+	Once_split_immutable_on_character_8: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER
+		once
+			create Result.make (Empty_string_8, '_')
+		end
 end

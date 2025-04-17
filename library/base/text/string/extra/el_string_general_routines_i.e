@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:45:58 GMT (Sunday 13th April 2025)"
-	revision: "22"
+	date: "2025-04-17 15:02:30 GMT (Thursday 17th April 2025)"
+	revision: "23"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -64,6 +64,30 @@ feature {NONE} -- Implementation
 		do
 			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8 then
 				Result := super_readable_8 (str_8).is_ascii
+			end
+		end
+
+	split_adjusted (
+		value_list: READABLE_STRING_GENERAL; separator: CHARACTER_32; adjustments: INTEGER
+
+	): EL_SPLIT_ON_CHARACTER [READABLE_STRING_GENERAL, COMPARABLE]
+		require
+			valid_separator: value_list.is_string_8 implies separator.is_character_8
+		do
+			inspect string_storage_type (value_list)
+				when '1' then
+					if attached {READABLE_STRING_8} value_list as str_8 then
+						Result := super_readable_8 (str_8).split_adjusted (separator.to_character_8, adjustments)
+					end
+
+				when 'X' then
+					if attached {ZSTRING} value_list as str_z then
+						Result := super_z (str_z).split_adjusted (separator, adjustments)
+					end
+			else
+				if attached {READABLE_STRING_32} value_list as str_32 then
+					Result := super_readable_32 (str_32).split_adjusted (separator, adjustments)
+				end
 			end
 		end
 
