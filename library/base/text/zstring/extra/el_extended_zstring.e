@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:54:33 GMT (Tuesday 15th April 2025)"
-	revision: "5"
+	date: "2025-04-16 15:39:36 GMT (Wednesday 16th April 2025)"
+	revision: "6"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -108,7 +108,7 @@ feature -- Measurement
 		-- start index of last alpha-numeric word and end index
 		-- written to `end_index_ptr' if not equal to `default_pointer'
 		local
-			i: INTEGER; found: BOOLEAN; p: EL_POINTER_ROUTINES
+			i: INTEGER; found: BOOLEAN
 		do
 			from i := count until i = 0 or found loop
 				if is_alpha_numeric_item (i) then
@@ -118,7 +118,7 @@ feature -- Measurement
 				end
 			end
 			if found and then not end_index_ptr.is_default_pointer then
-				p.put_integer_32 (i, end_index_ptr)
+				put_integer_32 (i, end_index_ptr)
 			end
 			found := False
 			from until i = 0 or found loop

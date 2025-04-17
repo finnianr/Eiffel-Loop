@@ -1,6 +1,6 @@
 note
 	description: "[
-		UTF-8 string converter as expanded version of ${EL_UTF_8_CONVERTER_IMP} for local use
+		UTF-8 string converter as expanded version of ${EL_UTF_8_CONVERTER_I} for local use
 	]"
 
 	author: "Finnian Reilly"
@@ -8,14 +8,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 18:09:22 GMT (Sunday 25th August 2024)"
-	revision: "14"
+	date: "2025-04-15 17:46:59 GMT (Tuesday 15th April 2025)"
+	revision: "15"
 
-expanded class
+frozen expanded class
 	EL_UTF_8_CONVERTER
 
 inherit
-	EL_UTF_8_CONVERTER_IMP
+	EL_UTF_8_CONVERTER_I
+		export
+			{ANY} all
+		end
 
 	EL_EXPANDED_ROUTINES
 

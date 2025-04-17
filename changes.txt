@@ -838,3 +838,9 @@ Reimplementation of {EL_MIRROR_BACKUP}.new_command for all descendants
 Fri 4th Apr 2025, 16:42:47
 Migrating to use EL_EXTENDED_STRING* class for super routines
 
+Tue 15th Apr 2025, 16:17:37
+Moved many routines from EL_READABLE_STRING_X_ROUTINES to EL_EXTENDED_READABLE_STRING_I
+
+Wed 16th Apr 2025, 19:18:25
+Include character type in EL_ITERABLE_SPLIT
+

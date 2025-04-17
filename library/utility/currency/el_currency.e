@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:03:19 GMT (Tuesday 18th March 2025)"
-	revision: "26"
+	date: "2025-04-15 17:43:53 GMT (Tuesday 15th April 2025)"
+	revision: "27"
 
 class
 	EL_CURRENCY
@@ -15,10 +15,7 @@ class
 inherit
 	EVC_SERIALIZEABLE
 
-	EL_INTEGER_MATH
-		export
-			{NONE} all
-		end
+	EL_INTEGER_MATH_I
 
 	EL_MODULE_DEFERRED_LOCALE
 

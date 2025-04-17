@@ -6,11 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-19 18:31:13 GMT (Wednesday 19th June 2024)"
-	revision: "5"
+	date: "2025-04-16 22:26:22 GMT (Wednesday 16th April 2025)"
+	revision: "7"
 
 class
-	EL_READABLE_STRING_STATE_MACHINE [S -> READABLE_STRING_GENERAL]
+	EL_READABLE_STRING_STATE_MACHINE [S -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE]
 
 inherit
 	EL_STATE_MACHINE [S]
@@ -22,7 +22,7 @@ inherit
 
 feature -- Basic operations
 
-	do_with_split (initial: like state; splitter: EL_ITERABLE_SPLIT [S, ANY]; keep_ref: BOOLEAN)
+	do_with_split (initial: like state; splitter: EL_ITERABLE_SPLIT [S, CHAR, ANY]; keep_ref: BOOLEAN)
 		local
 			l_final: like final
 		do

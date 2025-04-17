@@ -20,14 +20,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 14:33:35 GMT (Tuesday 25th March 2025)"
-	revision: "25"
+	date: "2025-04-16 17:53:03 GMT (Wednesday 16th April 2025)"
+	revision: "26"
 
 class
 	EL_TEMPLATE [S -> STRING_GENERAL create make, make_empty end]
 
 inherit
 	EL_TEMPLATE_LIST [S, READABLE_STRING_8]
+		rename
+			Iterable as Iterable_
+		end
 
 create
 	make
@@ -39,48 +42,49 @@ feature {NONE} -- Initialization
 
 	make (a_template: READABLE_STRING_GENERAL)
 		local
-			dollor_split: EL_SPLIT_ON_CHARACTER [S]; item, template: S
+			iterable: EL_ITERABLE_SPLIT_FACTORY_ROUTINES; template: S
 			i, length, variable_count, offset, item_count: INTEGER
 			previous_end_character: CHARACTER_32
 		do
 			template := new_string (a_template)
-			create dollor_split.make (template, '$')
 			variable_count := a_template.occurrences ('$')
 			create place_holder_table.make (variable_count)
 			make_list (variable_count * 2)
-			across dollor_split as list loop
-				item_count := list.item_count
-				item := list.item; offset := list.item_lower
-				if list.cursor_index = 1 or else previous_end_character = '%%' then
-					if previous_end_character = '%%' then
-						last.put_code ({EL_ASCII}.Dollar, last.count)
-					end
-					if item_count > 0 then
-						extend (item.twin)
-					end
-				else
-					length := 0
-					from i := 1 until i > item_count loop
-						inspect item [i]
-							when 'a'.. 'z', 'A'.. 'Z', '0' .. '9', '_', '{' then
-								length := length + 1
-								i := i + 1
-							when '}' then
-								length := length + 1
+			across iterable.new_split_on_character (template, '$') as list loop
+				offset := list.item_lower
+				if attached {S} list.item as item then
+					item_count := item.count
+					if list.cursor_index = 1 or else previous_end_character = '%%' then
+						if previous_end_character = '%%' then
+							last.put_code ({EL_ASCII}.Dollar, last.count)
+						end
+						if item_count > 0 then
+							extend (item.twin)
+						end
+					else
+						length := 0
+						from i := 1 until i > item_count loop
+							inspect item [i]
+								when 'a'.. 'z', 'A'.. 'Z', '0' .. '9', '_', '{' then
+									length := length + 1
+									i := i + 1
+								when '}' then
+									length := length + 1
+									i := item_count + 1
+							else
 								i := item_count + 1
-						else
-							i := item_count + 1
+							end
+						end
+						put_substitution (template.substring (offset - 1, offset + length - 1))
+						if length < item_count then
+							extend (item.substring (length + 1, item_count))
 						end
 					end
-					put_substitution (template.substring (offset - 1, offset + length - 1))
-					if length < item_count then
-						extend (item.substring (length + 1, item_count))
+					if item_count > 0 then
+						previous_end_character := item [item_count]
+					else
+						previous_end_character := '%U'
 					end
-				end
-				if item_count > 0 then
-					previous_end_character := item [item_count]
-				else
-					previous_end_character := '%U'
 				end
 			end
 		end

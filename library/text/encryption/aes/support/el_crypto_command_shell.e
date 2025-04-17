@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:31:20 GMT (Sunday 22nd September 2024)"
-	revision: "43"
+	date: "2025-04-15 17:59:58 GMT (Tuesday 15th April 2025)"
+	revision: "44"
 
 class
 	EL_CRYPTO_COMMAND_SHELL
@@ -22,10 +22,7 @@ inherit
 			description
 		end
 
-	EL_USER_CRYPTO_OPERATIONS
-		export
-			{NONE} all
-		end
+	EL_USER_CRYPTO_OPERATIONS_I
 
 create
 	make

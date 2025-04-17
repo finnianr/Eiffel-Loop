@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 10:09:48 GMT (Tuesday 15th April 2025)"
-	revision: "12"
+	date: "2025-04-15 18:36:02 GMT (Tuesday 15th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -42,8 +42,19 @@ feature -- Access
 		end
 
 	filter (included: PREDICATE [CHAR]; output: INDEXABLE [CHAR, INTEGER])
+		local
+			i, i_upper: INTEGER; c: CHAR
 		do
-			area.do_if_in_bounds (agent output.extend, included, index_lower, index_upper)
+			if attached area as l_area then
+				i_upper := index_upper
+				from i := index_lower until i > i_upper loop
+					c := l_area [i]
+					if included (c) then
+						output.extend (c)
+					end
+					i := i + 1
+				end
+			end
 			if attached {RESIZABLE [CHAR]} output as resizable then
 				resizable.trim
 			end
@@ -76,12 +87,12 @@ feature -- Access
 		-- write new start_index back to `start_index_ptr'
 		-- if `c' not found then new `start_index' is `count + 1'
 		local
-			start_index, index: INTEGER; pointer: EL_POINTER_ROUTINES
+			start_index, index: INTEGER
 		do
 			if start_index_ptr.is_default_pointer then
 				start_index := 1
 			else
-				start_index := pointer.read_integer_32 (start_index_ptr)
+				start_index := read_integer_32 (start_index_ptr)
 			end
 			index := index_of (c, start_index)
 			if index > 0 then
@@ -106,12 +117,12 @@ feature -- Access
 		-- the same as `substring_to' except going from right to left
 		-- if `c' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local
-			start_index_from_end, index: INTEGER; pointer: EL_POINTER_ROUTINES
+			start_index_from_end, index: INTEGER
 		do
 			if start_index_from_end_ptr.is_default_pointer then
 				start_index_from_end := count
 			else
-				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
+				start_index_from_end := read_integer_32 (start_index_from_end_ptr)
 			end
 			index := last_index_of (c, start_index_from_end)
 			if index > 0 then
@@ -122,7 +133,7 @@ feature -- Access
 				start_index_from_end := 0
 			end
 			if not start_index_from_end_ptr.is_default_pointer then
-				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
+				put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-21 11:12:56 GMT (Saturday 21st September 2024)"
-	revision: "1"
+	date: "2025-04-16 10:28:18 GMT (Wednesday 16th April 2025)"
+	revision: "2"
 
 class
 	EL_HASH_SET_ITERATION_CURSOR [K -> HASHABLE]

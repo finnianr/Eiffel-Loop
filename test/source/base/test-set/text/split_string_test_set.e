@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 11:23:20 GMT (Tuesday 15th April 2025)"
-	revision: "74"
+	date: "2025-04-16 22:31:48 GMT (Wednesday 16th April 2025)"
+	revision: "76"
 
 class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
@@ -473,8 +473,8 @@ feature -- Tests
 				covers/{EL_ITERABLE_SPLIT_CURSOR}.item_same_caseless_as
 			]"
 		local
-			string_split: EL_SPLIT_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
-			splitter_array: ARRAY [EL_ITERABLE_SPLIT [STRING, ANY]]
+			string_split: EL_SPLIT_STRING_8_ON_STRING [STRING]; character_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
+			splitter_array: ARRAY [EL_ITERABLE_SPLIT [READABLE_STRING_8, CHARACTER_8, ANY]]
 			split_list: EL_STRING_8_LIST; str_list, bracket_pair, first_item: STRING
 			adjustments: INTEGER
 		do

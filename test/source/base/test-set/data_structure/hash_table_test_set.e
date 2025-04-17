@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:47:16 GMT (Saturday 5th April 2025)"
-	revision: "58"
+	date: "2025-04-16 11:37:08 GMT (Wednesday 16th April 2025)"
+	revision: "59"
 
 class
 	HASH_TABLE_TEST_SET
@@ -299,7 +299,7 @@ feature -- General tests
 					end
 				end
 				create word_count_list.make (word_count_table.count)
-				word_count_table.do_for_all (agent word_count_list.extend)
+				word_count_table.do_action_for_all (agent word_count_list.extend)
 				assert ("same list", word_count_list ~ word_count_table.item_list)
 
 				assert ("same total", total_count = word_count_table.sum_integer (agent integer))

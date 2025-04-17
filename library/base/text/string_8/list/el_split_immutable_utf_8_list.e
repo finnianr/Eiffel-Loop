@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:47:15 GMT (Tuesday 8th April 2025)"
-	revision: "17"
+	date: "2025-04-15 17:47:23 GMT (Tuesday 15th April 2025)"
+	revision: "18"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -23,14 +23,10 @@ inherit
 			append_lines_to, less_than, item_index_of, unicode_count
 		end
 
-	EL_UTF_8_CONVERTER
+	EL_UTF_8_CONVERTER_I
 		rename
 			unicode_count as substring_unicode_count,
 			substring_8_into_string_general as utf_8_substring_into_string_general
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
 		end
 
 	EL_STRING_GENERAL_ROUTINES_I

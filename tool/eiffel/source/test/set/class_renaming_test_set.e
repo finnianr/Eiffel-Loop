@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 10:56:51 GMT (Saturday 5th October 2024)"
-	revision: "15"
+	date: "2025-04-16 18:27:10 GMT (Wednesday 16th April 2025)"
+	revision: "16"
 
 class
 	CLASS_RENAMING_TEST_SET
@@ -36,7 +36,7 @@ feature -- Tests
 	test_renaming
 		local
 			command: CLASS_RENAMING_COMMAND; digest_table: like new_file_digest_table
-			string_8_counter: EL_SPLIT_ON_STRING [STRING]
+			string_8_counter: EL_SPLIT_STRING_8_ON_STRING [STRING_8]
 			manifest: SOURCE_MANIFEST
 		do
 			digest_table := new_file_digest_table

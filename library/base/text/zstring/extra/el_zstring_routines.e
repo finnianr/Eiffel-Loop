@@ -6,10 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 11:16:54 GMT (Tuesday 20th August 2024)"
-	revision: "32"
+	date: "2025-04-16 13:19:34 GMT (Wednesday 16th April 2025)"
+	revision: "33"
 
-expanded class
+frozen expanded class
 	EL_ZSTRING_ROUTINES
 
 inherit

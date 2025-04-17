@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:37:39 GMT (Tuesday 15th April 2025)"
-	revision: "40"
+	date: "2025-04-16 15:28:54 GMT (Wednesday 16th April 2025)"
+	revision: "41"
 
 class
 	EL_STRING_8
@@ -19,7 +19,8 @@ inherit
 	STRING_8
 		rename
 			replace_character as replace_every_character,
-			set_count as set_string_count
+			set_count as set_string_count,
+			split as split_list
 		export
 			{EL_STRING_8_CONSTANTS} String_searcher
 			{EL_TYPE_CONVERSION_HANDLER}

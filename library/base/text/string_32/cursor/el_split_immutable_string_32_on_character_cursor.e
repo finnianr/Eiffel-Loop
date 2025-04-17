@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:38:52 GMT (Tuesday 20th August 2024)"
-	revision: "10"
+	date: "2025-04-16 22:33:53 GMT (Wednesday 16th April 2025)"
+	revision: "11"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER_CURSOR
@@ -22,7 +22,7 @@ inherit
 		end
 
 create
-	make
+	make_adjusted
 
 feature -- Access
 

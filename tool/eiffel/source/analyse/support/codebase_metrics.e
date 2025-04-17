@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:04:06 GMT (Tuesday 18th March 2025)"
-	revision: "12"
+	date: "2025-04-15 17:56:08 GMT (Tuesday 15th April 2025)"
+	revision: "13"
 
 class
 	CODEBASE_METRICS
@@ -30,12 +30,9 @@ inherit
 
 	EVC_REFLECTIVE_XML_CONTEXT
 
-	EL_MODULE_LIO
+	EL_DOUBLE_MATH_I
 
-	EL_DOUBLE_MATH
-		export
-			{NONE} all
-		end
+	EL_MODULE_LIO
 
 create
 	make

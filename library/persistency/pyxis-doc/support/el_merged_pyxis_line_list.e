@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:36:41 GMT (Saturday 5th April 2025)"
-	revision: "3"
+	date: "2025-04-16 18:13:31 GMT (Wednesday 16th April 2025)"
+	revision: "4"
 
 class
 	EL_MERGED_PYXIS_LINE_LIST
@@ -18,7 +18,7 @@ inherit
 			make as make_sized
 		end
 
-	EL_STRING_STATE_MACHINE [STRING]
+	EL_STRING_STATE_MACHINE [STRING_8, CHARACTER_8]
 		rename
 			make as make_machine
 		undefine

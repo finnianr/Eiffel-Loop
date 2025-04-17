@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 11:13:52 GMT (Tuesday 8th April 2025)"
-	revision: "38"
+	date: "2025-04-16 11:33:33 GMT (Wednesday 16th April 2025)"
+	revision: "39"
 
 class
 	EL_HASH_SET [H -> HASHABLE]
@@ -101,7 +101,7 @@ feature {NONE} -- Initialization
 		-- introduce duplicates, destroying the set property.)
 				object_comparison := a_object_comparison
 
-				structure.do_for_all (agent put)
+				structure.do_for_all (create {EL_PUT_IN_COLLECTION_ACTION [H]}.make (Current))
 			else
 				make (0)
 				object_comparison := a_object_comparison

@@ -9,17 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 8:24:39 GMT (Sunday 13th April 2025)"
-	revision: "61"
+	date: "2025-04-15 17:43:44 GMT (Tuesday 15th April 2025)"
+	revision: "62"
 
 class
 	EL_TUPLE_ROUTINES
 
 inherit
-	EL_INTEGER_MATH
-		export
-			{NONE} all
-		end
+	EL_INTEGER_MATH_I
 
 	EL_EXTENDED_REFLECTOR
 		rename

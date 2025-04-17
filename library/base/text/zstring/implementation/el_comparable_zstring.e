@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 16:33:09 GMT (Sunday 13th April 2025)"
-	revision: "54"
+	date: "2025-04-16 13:08:46 GMT (Wednesday 16th April 2025)"
+	revision: "55"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -191,6 +191,11 @@ feature -- Start/End comparisons
 
 				Result := same_characters_32 (str_32, 1, other_count, 1, False)
 			end
+		end
+
+	starts_with_zstring (other: ZSTRING): BOOLEAN
+		do
+			Result := starts_with (other)
 		end
 
 feature -- Comparison

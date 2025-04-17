@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 12:01:58 GMT (Sunday 6th April 2025)"
-	revision: "47"
+	date: "2025-04-16 14:19:02 GMT (Wednesday 16th April 2025)"
+	revision: "48"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -43,7 +43,7 @@ inherit
 		undefine
 			count, make_empty, is_equal, upper_index, sort
 		redefine
-			at, do_meeting, has, i_th, item, new_cursor, remove, wipe_out
+			at, do_for_all, do_meeting, has, i_th, item, new_cursor, remove, wipe_out
 		end
 
 	EL_STRING_SPLIT_CONTAINER [S]
@@ -295,16 +295,21 @@ feature -- Basic operations
 			end
 		end
 
-	do_meeting (action: PROCEDURE [S]; condition: EL_QUERY_CONDITION [S])
-		local
-			i, l_count: INTEGER
+	do_for_all (action: EL_CONTAINER_ACTION [S])
 		do
-			l_count := count
-			from i := 1 until i > l_count loop
-				if attached i_th (i) as string and then condition.met (string) then
-					action (string)
+			do_meeting (action, any_item)
+		end
+
+	do_meeting (action: EL_CONTAINER_ACTION [S]; condition: EL_QUERY_CONDITION [S])
+		-- perform `action' for each item meeting `condition'
+		local
+			i: INTEGER
+		do
+			if attached area as a then
+				from until i = a.count loop
+					action.do_if (target_substring (a [i], a [i + 1]), condition)
+					i := i + 2
 				end
-				i := i + 1
 			end
 		end
 

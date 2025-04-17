@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-11 14:20:40 GMT (Tuesday 11th February 2025)"
-	revision: "15"
+	date: "2025-04-16 17:32:22 GMT (Wednesday 16th April 2025)"
+	revision: "16"
 
 class
 	EL_URI_QUERY_STRING_8
@@ -30,7 +30,7 @@ feature -- Element change
 		require
 			balance_equals_and_ampersand: query_string.occurrences ('=') = query_string.occurrences ('&') + 1
 		local
-			value_list: EL_SPLIT_ON_CHARACTER [STRING_32]; pair: STRING_32
+			value_list: EL_SPLIT_ON_CHARACTER_32 [STRING_32]; pair: STRING_32
 			index_equal: INTEGER; not_first: BOOLEAN
 		do
 			create value_list.make (query_string, '&')

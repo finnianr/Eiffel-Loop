@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 13:30:40 GMT (Tuesday 5th November 2024)"
-	revision: "12"
+	date: "2025-04-15 17:37:05 GMT (Tuesday 15th April 2025)"
+	revision: "13"
 
 class
 	EL_C_UTF_STRING_8
@@ -20,12 +20,7 @@ inherit
 			fill_string
 		end
 
-	EL_UC_ROUTINES
-		export
-			{NONE} all
-		undefine
-			default_create, is_equal, copy
-		end
+	EL_UC_ROUTINES_I
 
 create
 	default_create, make_owned, make_shared, make_owned_of_size, make_shared_of_size, make,

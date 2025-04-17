@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-25 8:19:30 GMT (Tuesday 25th March 2025)"
-	revision: "27"
+	date: "2025-04-16 11:56:50 GMT (Wednesday 16th April 2025)"
+	revision: "28"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -50,9 +50,7 @@ feature -- Queries
 			l_count := count
 			if l_count > 0 then
 				create Result.make (l_count)
-				if attached Result.area as area then
-					do_meeting (agent area.extend, condition)
-				end
+				do_meeting (create {EL_EXTEND_SPECIAL_ACTION [G]}.make (Result.area), condition)
 				if Result.count > 5 and then (Result.count / l_count) < 0.95 then
 					Result.trim
 				end
@@ -106,11 +104,11 @@ feature -- Measurement
 	count_meeting (condition: EL_QUERY_CONDITION [G]): INTEGER
 		-- count of items meeting `condition'
 		local
-			counter: EL_NATURAL_32_COUNTER
+			counter: EL_COUNTING_ACTION [G]
 		do
 			create counter
-			do_meeting (agent bump_counter (?, counter), condition)
-			Result := counter.item.as_integer_32
+			do_meeting (counter, condition)
+			Result := counter.count
 		end
 
 	count_of (condition: EL_PREDICATE_QUERY_CONDITION [G]): INTEGER
@@ -250,24 +248,45 @@ feature -- String result list
 
 feature -- Basic operations
 
-	do_for_all (action: PROCEDURE [G])
+	do_action_for_all (action: PROCEDURE [G])
 		do
 			if attached item_area as area then
 				area.do_all_in_bounds (action, 0, count - 1)
 			else
-				do_meeting (action, create {EL_ANY_QUERY_CONDITION [G]})
+				do_action_meeting (action, any_item)
 			end
 		end
 
-	do_meeting (action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
+	do_action_meeting (action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
 		-- list of indices meeting `condition'
+		do
+			do_meeting (create {EL_CALL_PROCEDURE_ACTION [G]}.make (action), condition)
+		end
+
+	do_for_all (action: EL_CONTAINER_ACTION [G])
+		local
+			i, i_upper: INTEGER
+		do
+			if attached item_area as area then
+				i_upper := area.count - 1
+				from i := 0 until i > i_upper loop
+					action.do_with (area [i])
+					i := i + 1
+				end
+			else
+				do_meeting (action, any_item)
+			end
+		end
+
+	do_meeting (action: EL_CONTAINER_ACTION [G]; condition: EL_QUERY_CONDITION [G])
+		-- perform `action' for each item meeting `condition'
 		local
 			i, upper, i_upper: INTEGER
 		do
 			if attached item_area as area then
 				i_upper := count - 1
 				from i := 0 until i > i_upper loop
-					do_if_met (area [i], action, condition)
+					action.do_if (area [i], condition)
 					i := i + 1
 				end
 
@@ -275,7 +294,7 @@ feature -- Basic operations
 			-- Better to prioritise for linked lists
 				push_cursor
 				from list.start until list.after loop
-					do_if_met (list.item, action, condition)
+					action.do_if (list.item, condition)
 					list.forth
 				end
 				pop_cursor
@@ -283,18 +302,18 @@ feature -- Basic operations
 			elseif attached {READABLE_INDEXABLE [G]} current_container as indexable then
 				upper := indexable.upper
 				from i := indexable.lower until i > upper loop
-					do_if_met (indexable [i], action, condition)
+					action.do_if (indexable [i], condition)
 					i := i + 1
 				end
 
 			elseif attached {ITERABLE [G]} current_container as iterable_list then
 				across iterable_list as list loop
-					do_if_met (list.item, action, condition)
+					action.do_if (list.item, condition)
 				end
 
 			elseif attached current_container.linear_representation as list then
 				from list.start until list.after loop
-					do_if_met (list.item, action, condition)
+					action.do_if (list.item, condition)
 					list.forth
 				end
 			end
@@ -384,13 +403,18 @@ feature {EL_CONTAINER_HANDLER} -- Implementation
 				end
 			else
 				create Result.make_empty (count)
-				do_for_all (agent extend_special (?, Result))
+				do_for_all (create {EL_EXTEND_SPECIAL_ACTION [G]}.make (Result))
 			end
 		ensure
 			valid_count: same_count implies Result.count = count
 		end
 
 feature {NONE} -- Implementation
+
+	any_item: EL_ANY_QUERY_CONDITION [G]
+		do
+			create Result
+		end
 
 	as_structure (container: CONTAINER [G]): EL_CONTAINER_STRUCTURE [G]
 		do
@@ -399,11 +423,6 @@ feature {NONE} -- Implementation
 			else
 				create {EL_CONTAINER_WRAPPER [G]} Result.make (container)
 			end
-		end
-
-	bump_counter (item: G; counter: EL_NATURAL_32_COUNTER)
-		do
-			counter.bump
 		end
 
 	container_count (container: CONTAINER [ANY]): INTEGER
@@ -447,18 +466,6 @@ feature {NONE} -- Implementation
 					tree.child_go_to (cursor)
 				end
 			end
-		end
-
-	do_if_met (item: G; action: PROCEDURE [G]; condition: EL_QUERY_CONDITION [G])
-		do
-			if condition.met (item) then
-				action (item)
-			end
-		end
-
-	extend_special (item: G; area: SPECIAL [G])
-		do
-			area.extend (item)
 		end
 
 	item_area: detachable SPECIAL [G]

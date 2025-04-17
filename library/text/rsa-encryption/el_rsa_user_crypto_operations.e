@@ -8,14 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2025-04-15 18:01:12 GMT (Tuesday 15th April 2025)"
+	revision: "4"
 
 expanded class
 	EL_RSA_USER_CRYPTO_OPERATIONS
 
 inherit
-	EL_USER_CRYPTO_OPERATIONS
+	EL_USER_CRYPTO_OPERATIONS_I
 
 	EL_EXPANDED_ROUTINES
 

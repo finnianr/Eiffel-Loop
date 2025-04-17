@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 13:15:33 GMT (Tuesday 8th April 2025)"
-	revision: "9"
+	date: "2025-04-16 18:25:42 GMT (Wednesday 16th April 2025)"
+	revision: "10"
 
 class
 	LIBRARY_CLASS
 
 inherit
-	EL_STRING_STATE_MACHINE [STRING]
+	EL_STRING_STATE_MACHINE [STRING_8, CHARACTER_8]
 		rename
 			make as make_machine
 		redefine

@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2008-04-21 19:24:48 GMT (Monday 21st April 2008)"
-	revision: "7"
+	date: "2025-04-15 17:36:23 GMT (Tuesday 15th April 2025)"
+	revision: "8"
 
 class
 	EL_UTF_SEQUENCE
@@ -20,7 +20,7 @@ class
 inherit
 	TO_SPECIAL [NATURAL]
 
-	EL_UC_ROUTINES
+	EL_UC_ROUTINES_I
 		rename
 			utf_8_byte_count as byte_count
 		end

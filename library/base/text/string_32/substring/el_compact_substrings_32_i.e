@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 13:10:18 GMT (Saturday 5th April 2025)"
-	revision: "78"
+	date: "2025-04-16 7:06:56 GMT (Wednesday 16th April 2025)"
+	revision: "79"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_I
@@ -243,12 +243,12 @@ feature -- Search index
 	index_of (uc: CHARACTER_32; start_index: INTEGER; block_index_ptr: TYPED_POINTER [INTEGER]): INTEGER
 		local
 			i, j, lower, upper, count: INTEGER; l_area: like area
-			pointer: EL_POINTER_ROUTINES; persistent_block_index: BOOLEAN
+			persistent_block_index: BOOLEAN
 		do
 			l_area := area
 			persistent_block_index := not block_index_ptr.is_default_pointer
 			if persistent_block_index then
-				i := pointer.read_integer_32 (block_index_ptr)
+				i := read_integer_32 (block_index_ptr)
 			end
 			from until Result > 0 or else i = l_area.count loop
 				lower := l_area [i].code; upper := l_area [i + 1].code
@@ -266,7 +266,7 @@ feature -- Search index
 				end
 			end
 			if persistent_block_index then
-				pointer.put_integer_32 (i, block_index_ptr)
+				put_integer_32 (i, block_index_ptr)
 			end
 		end
 

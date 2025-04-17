@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 8:50:38 GMT (Tuesday 15th April 2025)"
-	revision: "10"
+	date: "2025-04-16 15:39:24 GMT (Wednesday 16th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -52,6 +52,12 @@ feature -- Status query
 		do
 			Result := count = 1 and then target [1] = c
 		end
+
+feature -- Conversion
+
+--	split (c: CHARACTER_8): EL_SPLIT_ON_CHARACTER_8 [like target]
+--		do
+--		end
 
 feature {NONE} -- Implementation
 

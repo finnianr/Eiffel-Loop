@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-17 7:52:44 GMT (Monday 17th February 2025)"
-	revision: "78"
+	date: "2025-04-16 11:52:13 GMT (Wednesday 16th April 2025)"
+	revision: "79"
 
 class
 	EL_ARRAYED_LIST [G]
@@ -38,7 +38,7 @@ inherit
 		rename
 			accommodate as grow
 		export
-			{NONE} do_for_all
+			{NONE} do_action_for_all
 		undefine
 			do_all, do_if, for_all, search, copy, order_by, occurrences, to_array,
 		-- Query

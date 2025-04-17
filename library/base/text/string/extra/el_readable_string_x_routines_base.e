@@ -6,20 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 9:54:27 GMT (Tuesday 15th April 2025)"
-	revision: "10"
+	date: "2025-04-16 16:03:42 GMT (Wednesday 16th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES_BASE [
-		READABLE_STRING_X -> READABLE_STRING_GENERAL, C -> COMPARABLE -- CHARACTER_X
+		RSTRING -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE -- CHARACTER_X
 	]
 
 inherit
-	ANY
+	EL_ROUTINES
 
 	EL_CASE_CONTRACT
 
-	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]
+	EL_STRING_BIT_COUNTABLE [RSTRING]
 
 	EL_SIDE_ROUTINES
 		rename
@@ -42,7 +42,7 @@ inherit
 
 feature -- Contract Support
 
-	valid_substring_indices (str: READABLE_STRING_X; start_index, end_index: INTEGER): BOOLEAN
+	valid_substring_indices (str: RSTRING; start_index, end_index: INTEGER): BOOLEAN
 		do
 			if str.valid_index (start_index) then
 				Result := end_index >= start_index - 1 and end_index <= str.count
@@ -51,21 +51,21 @@ feature -- Contract Support
 
 feature {NONE} -- Deferred
 
-	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
+	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: RSTRING; pattern: READABLE_STRING_GENERAL)
 		deferred
 		end
 
-	same_string (a, b: READABLE_STRING_X): BOOLEAN
+	same_string (a, b: RSTRING): BOOLEAN
 		deferred
 		end
 
-	split_on_character (str: READABLE_STRING_X; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_X]
+	split_on_character (str: RSTRING; separator: CHAR): EL_SPLIT_ON_CHARACTER [RSTRING, CHAR]
 		deferred
 		end
 
 feature {NONE} -- Implementation
 
-	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): EL_ARRAYED_LIST [READABLE_STRING_X]
+	substring_list (text: RSTRING; intervals: EL_SEQUENTIAL_INTERVALS): EL_ARRAYED_LIST [RSTRING]
 		do
 			create Result.make (intervals.count)
 			from intervals.start until intervals.after loop

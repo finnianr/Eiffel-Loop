@@ -1,22 +1,24 @@
 note
-	description: "Cursor for `target' string sections split by separator of type **G**"
+	description: "Cursor for `target' string sections split by separator of type **SEP**"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 12:13:18 GMT (Saturday 15th March 2025)"
-	revision: "13"
+	date: "2025-04-16 22:29:24 GMT (Wednesday 16th April 2025)"
+	revision: "15"
 
 deferred class
-	EL_ITERABLE_SPLIT_CURSOR [S -> READABLE_STRING_GENERAL, G]
+	EL_ITERABLE_SPLIT_CURSOR [RSTRING -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE, SEPARATOR]
 
 inherit
-	ITERATION_CURSOR [S]
+	ITERATION_CURSOR [RSTRING]
 		rename
 			item as item_copy
 		end
+
+	EL_ITERABLE_SPLIT_BASE [RSTRING, SEPARATOR]
 
 	EL_LIST_ITEM_SUBSTRING_CONVERSION
 
@@ -24,13 +26,6 @@ feature {NONE} -- Initialization
 
 	initialize
 		do
-		end
-
-	make (a_target: like target; a_separator: like separator; left_adjust, right_adjust: BOOLEAN)
-		do
-			target := a_target; separator := a_separator
-			left_adjusted := left_adjust; right_adjusted := right_adjust
-			initialize
 			forth
 		end
 
@@ -69,13 +64,13 @@ feature -- Access
 			Result := item_upper - item_lower + 1
 		end
 
-	item_index_of (uc: CHARACTER_32; start_index: INTEGER): INTEGER
+	item_index_of (c: CHAR; start_index: INTEGER): INTEGER
 		local
 			i: INTEGER
 		do
-			if start_index <= item_count then
+			if attached target as l_target and then start_index <= item_count then
 				from i := item_lower + start_index - 1 until i > item_upper or else Result > 0 loop
-					if target [i] = uc then
+					if i_th_character (l_target, i) = c then
 						Result := i - item_lower + 1
 					end
 					i := i + 1
@@ -83,11 +78,11 @@ feature -- Access
 			end
 		end
 
-	item_upper: INTEGER
-		-- end index of `item' in `target' string
-
 	item_lower: INTEGER
 		-- start index of `item' in `target' string
+
+	item_upper: INTEGER
+		-- end index of `item' in `target' string
 
 feature -- Optimized operations
 
@@ -117,13 +112,13 @@ feature -- Status query
 	is_last: BOOLEAN
 		-- `True' if cursor is currently on the last `item'
 
-	item_has (uc: CHARACTER_32): BOOLEAN
+	item_has (c: CHAR): BOOLEAN
 		local
 			i: INTEGER
 		do
 			if attached target as l_target then
 				from i := item_lower until i > item_upper or else Result loop
-					Result := is_i_th_character (l_target, i, uc)
+					Result := i_th_character (l_target, i) = c
 					i := i + 1
 				end
 			end
@@ -164,10 +159,6 @@ feature -- Status query
 				Result := same_characters (target, str, 1, str.count, item_lower)
 			end
 		end
-
-	left_adjusted: BOOLEAN
-
-	right_adjusted: BOOLEAN
 
 feature -- Cursor movement
 
@@ -213,30 +204,26 @@ feature -- Cursor movement
 			end
 		end
 
-feature {NONE} -- Implementation
+feature {EL_ITERABLE_SPLIT} -- Implementation
+
+	i_th_character (a_target: like target; i: INTEGER): CHAR
+		-- i'th character of `a_target'
+		deferred
+		end
 
 	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
 		-- `True' if i'th character of `a_target' is white space
-		local
-			c32: EL_CHARACTER_32_ROUTINES
-		do
-			Result := c32.is_space (a_target [i])
+		deferred
 		end
 
-	is_i_th_character (a_target: like target; i: INTEGER; uc: CHARACTER_32): BOOLEAN
-		-- `True' if i'th character of `a_target' is equal to `uc'
-		do
-			Result := a_target [i] = uc
-		end
-
- 	same_caseless_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+	same_caseless_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- caseless identical to characters of current string starting at index `index_pos'.
 		do
 			Result := a_target.same_caseless_characters (other, start_pos, end_pos, index_pos)
 		end
 
- 	same_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
+	same_characters (a_target, other: like target; start_pos, end_pos, index_pos: INTEGER): BOOLEAN
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `index_pos'.
 		do
@@ -251,18 +238,10 @@ feature {NONE} -- Internal attributes
 
 	internal_item: detachable like target
 
-	separator: G
-
-	separator_count: INTEGER
-		deferred
-		end
-
 	separator_end: INTEGER
 		-- end index of separator
 
 	separator_start: INTEGER
 		-- start index of separator
-
-	target: S
 
 end

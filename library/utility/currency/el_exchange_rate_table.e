@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-24 18:23:58 GMT (Tuesday 24th September 2024)"
-	revision: "18"
+	date: "2025-04-15 17:43:36 GMT (Tuesday 15th April 2025)"
+	revision: "19"
 
 deferred class
 	EL_EXCHANGE_RATE_TABLE
@@ -20,10 +20,7 @@ inherit
 			fill as fill_from
 		end
 
-	EL_INTEGER_MATH
-		undefine
-			copy, default_create, is_equal
-		end
+	EL_INTEGER_MATH_I
 
 	EL_MODULE_LIO
 

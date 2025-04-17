@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 16:08:35 GMT (Saturday 29th March 2025)"
-	revision: "12"
+	date: "2025-04-16 10:04:00 GMT (Wednesday 16th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_FILE_GENERAL_LINE_SOURCE [S -> STRING_GENERAL create make end]
@@ -19,8 +19,6 @@ inherit
 	EL_LINEAR [S]
 		rename
 			item as item_copy
-		redefine
-			extend_special
 		end
 
 	ITERABLE [S]
@@ -276,12 +274,6 @@ feature {NONE} -- Implementation
 					set_encoding (info.encoding)
 				end
 			end
-		end
-
-	extend_special (item: S; area: SPECIAL [S])
-		-- fixes `to_array' and `to_special'
-		do
-			area.extend (item.twin)
 		end
 
 	finish

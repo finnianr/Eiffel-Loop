@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 16:00:04 GMT (Sunday 22nd September 2024)"
-	revision: "11"
+	date: "2025-04-16 13:13:06 GMT (Wednesday 16th April 2025)"
+	revision: "12"
 
 deferred class
 	PLAYLIST
@@ -28,13 +28,14 @@ feature -- Access
 		require
 			song_item_is_cortina: song.is_cortina
 		local
-			s: EL_ZSTRING_ROUTINES
+			i: INTEGER
 		do
 			if islast then
 				Result := Tanda.the_end
 			else
-				if valid_index (index + 1) then
-					Tanda_types.find_first_true (agent s.starts_with (i_th (index + 1).genre, ?))
+				i := index + 1
+				if valid_index (i) and then attached i_th (i).genre as genre then
+					Tanda_types.find_first_true (agent genre.starts_with_zstring)
 					if Tanda_types.after then
 						Result := Tanda.other
 					else

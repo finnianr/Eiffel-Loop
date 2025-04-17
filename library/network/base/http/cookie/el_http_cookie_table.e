@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 8:04:42 GMT (Monday 31st March 2025)"
-	revision: "21"
+	date: "2025-04-16 18:13:25 GMT (Wednesday 16th April 2025)"
+	revision: "22"
 
 class
 	EL_HTTP_COOKIE_TABLE
@@ -28,7 +28,7 @@ inherit
 			default_create
 		end
 
-	EL_STRING_STATE_MACHINE [STRING_8]
+	EL_STRING_STATE_MACHINE [STRING_8, CHARACTER_8]
 		rename
 			make as make_machine
 		undefine

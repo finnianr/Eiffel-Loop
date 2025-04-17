@@ -8,26 +8,19 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 11:44:00 GMT (Saturday 15th March 2025)"
-	revision: "6"
+	date: "2025-04-16 22:17:58 GMT (Wednesday 16th April 2025)"
+	revision: "8"
 
-class
-	EL_SPLIT_ON_CHARACTER_CURSOR [S -> READABLE_STRING_GENERAL]
+deferred class
+	EL_SPLIT_ON_CHARACTER_CURSOR [RSTRING -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE]
 
 inherit
-	EL_ITERABLE_SPLIT_CURSOR [S, CHARACTER_32]
-
-create
-	make
+	EL_ITERABLE_SPLIT_CURSOR [RSTRING, CHAR, CHAR]
 
 feature {NONE} -- Implementation
 
 	set_separator_start
-		do
-			separator_start := target.index_of (separator, separator_end + 1)
+		deferred
 		end
 
-feature {NONE} -- Constants
-
-	Separator_count: INTEGER = 1
 end

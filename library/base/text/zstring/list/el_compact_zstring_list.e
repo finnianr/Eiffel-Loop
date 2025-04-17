@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:02:55 GMT (Friday 11th April 2025)"
-	revision: "29"
+	date: "2025-04-16 14:15:32 GMT (Wednesday 16th April 2025)"
+	revision: "30"
 
 class
 	EL_COMPACT_ZSTRING_LIST
@@ -23,7 +23,7 @@ inherit
 		undefine
 			bit_count
 		redefine
-			at, count, default_target, extended_string, i_th, item, item_index_of,
+			at, count, default_target, do_meeting, extended_string, i_th, item, item_index_of,
 			make_empty, new_cursor, sort
 		end
 
@@ -104,6 +104,18 @@ feature -- Access
 		end
 
 feature -- Basic operations
+
+	do_meeting (action: EL_CONTAINER_ACTION [ZSTRING]; condition: EL_QUERY_CONDITION [ZSTRING])
+		-- perform `action' for each item meeting `condition'
+		local
+			i, l_count: INTEGER
+		do
+			l_count := count
+			from i := 1 until i > l_count loop
+				action.do_if (i_th (i), condition)
+				i := i + 1
+			end
+		end
 
 	sort (in_ascending_order: BOOLEAN)
 		do

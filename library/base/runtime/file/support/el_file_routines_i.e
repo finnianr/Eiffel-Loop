@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-10 18:04:11 GMT (Monday 10th March 2025)"
-	revision: "27"
+	date: "2025-04-16 22:29:55 GMT (Wednesday 16th April 2025)"
+	revision: "29"
 
 deferred class
 	EL_FILE_ROUTINES_I
@@ -196,7 +196,7 @@ feature -- File content
 			end
 		end
 
-	plain_text_lines (file_path: FILE_PATH): EL_ITERABLE_SPLIT [STRING, ANY]
+	plain_text_lines (file_path: FILE_PATH): EL_ITERABLE_SPLIT [STRING_8, CHARACTER_8, ANY]
 		require
 			file_exists: file_path.exists
 		do
@@ -204,7 +204,7 @@ feature -- File content
 				content.right_adjust
 				if {PLATFORM}.is_unix and then has_windows_line_break (content) then
 					-- Check if content has Windows carriage return
-					create {EL_SPLIT_ON_STRING [STRING]} Result.make (content, "%R%N")
+					create {EL_SPLIT_STRING_8_ON_STRING [STRING]} Result.make (content, "%R%N")
 
 				else
 					create {EL_SPLIT_ON_CHARACTER_8 [STRING]} Result.make (content, '%N')

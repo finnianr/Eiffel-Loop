@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 16:04:07 GMT (Saturday 29th March 2025)"
-	revision: "63"
+	date: "2025-04-16 13:14:38 GMT (Wednesday 16th April 2025)"
+	revision: "64"
 
 class
 	RBOX_SONG
@@ -37,11 +37,11 @@ inherit
 
 	RBOX_SONG_FIELDS undefine is_equal end
 
+	EL_MODULE_FILE; EL_MODULE_OS
+
 	M3U_PLAY_LIST_CONSTANTS
 
 	EL_ZSTRING_CONSTANTS
-
-	EL_MODULE_FILE; EL_MODULE_OS; EL_MODULE_STRING
 
 create
 	make
@@ -277,13 +277,14 @@ feature -- Element change
 				if l_type.is_empty then
 					csv_list := text
 					album_artists := [Unknown_string, csv_list]
-				else
+
+				elseif attached Artist_type_list as type_list then
 					csv_list := field.value (text)
-					Artist_type_list.find_first_true (agent String.starts_with (l_type, ?))
-					if Artist_type_list.after then
+					type_list.find_first_true (agent l_type.starts_with_zstring)
+					if type_list.after then
 						album_artists := [l_type, csv_list]
 					else
-						album_artists := [Artist_type_list.item, csv_list]
+						album_artists := [type_list.item, csv_list]
 					end
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:36:27 GMT (Tuesday 8th April 2025)"
-	revision: "4"
+	date: "2025-04-15 17:47:13 GMT (Tuesday 15th April 2025)"
+	revision: "5"
 
 class
 	EL_IMMUTABLE_UTF_8_LIST
@@ -18,12 +18,7 @@ inherit
 			item_index_of, less_than
 		end
 
-	EL_UTF_8_CONVERTER
-		export
-			{NONE} all
-		undefine
-			copy, is_equal
-		end
+	EL_UTF_8_CONVERTER_I
 
 	EL_SHARED_UTF_8_SEQUENCE
 

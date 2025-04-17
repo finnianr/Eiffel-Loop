@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-08-17 16:44:24 GMT (Thursday 17th August 2023)"
-	revision: "20"
+	date: "2025-04-16 17:39:21 GMT (Wednesday 16th April 2025)"
+	revision: "21"
 
 deferred class
 	EL_WORD_SEARCHABLE
@@ -72,7 +72,7 @@ feature -- Access
 	word_match_extracts (search_words: ARRAYED_LIST [EL_WORD_TOKEN_LIST]): ARRAYED_LIST [like keywords_in_bold]
 			--
 		local
-			new_line_splitter: EL_SPLIT_ON_CHARACTER [EL_WORD_TOKEN_LIST]
+			new_line_splitter: EL_SPLIT_ON_CHARACTER_32 [EL_WORD_TOKEN_LIST]
 			tokens: EL_WORD_TOKEN_LIST
 		do
 			if search_words.is_empty then

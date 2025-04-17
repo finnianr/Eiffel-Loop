@@ -9,24 +9,28 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 11:41:26 GMT (Saturday 15th March 2025)"
-	revision: "8"
+	date: "2025-04-16 22:25:34 GMT (Wednesday 16th April 2025)"
+	revision: "10"
 
-class
-	EL_SPLIT_ON_STRING [S -> READABLE_STRING_GENERAL]
+deferred class
+	EL_SPLIT_ON_STRING [RSTRING -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE]
 
 inherit
-	EL_ITERABLE_SPLIT [S, READABLE_STRING_GENERAL]
-
-create
-	make, make_adjusted
+	EL_ITERABLE_SPLIT [RSTRING, CHAR, READABLE_STRING_GENERAL]
 
 feature -- Access
 
-	new_cursor: EL_SPLIT_ON_STRING_CURSOR [S]
+	new_cursor: EL_SPLIT_ON_STRING_CURSOR [RSTRING, CHAR]
 			-- Fresh cursor associated with current structure
-		do
-			create Result.make (target, separator, left_adjusted, right_adjusted)
+		deferred
 		end
 
+feature -- Measurement
+
+	count: INTEGER
+		do
+			across Current as item loop
+				Result := Result + 1
+			end
+		end
 end

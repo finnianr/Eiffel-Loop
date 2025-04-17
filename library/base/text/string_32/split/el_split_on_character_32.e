@@ -9,16 +9,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 11:42:11 GMT (Saturday 15th March 2025)"
-	revision: "10"
+	date: "2025-04-16 22:35:18 GMT (Wednesday 16th April 2025)"
+	revision: "12"
 
 class
 	EL_SPLIT_ON_CHARACTER_32 [S -> READABLE_STRING_32]
 
 inherit
-	EL_SPLIT_ON_CHARACTER [S]
+	EL_SPLIT_ON_CHARACTER [S, CHARACTER_32]
 		redefine
-			count, new_cursor
+			new_cursor
 		end
 
 create
@@ -29,11 +29,19 @@ feature -- Access
 	new_cursor: EL_SPLIT_ON_CHARACTER_32_CURSOR [S]
 			-- Fresh cursor associated with current structure
 		do
-			create Result.make (target, separator, left_adjusted, right_adjusted)
+			create Result.make_adjusted (target, separator, adjustments)
 		end
+
+feature -- Measurement
 
 	count: INTEGER
 		do
 			Result := target.occurrences (separator) + 1
+		end
+
+feature {NONE} -- Type definitions
+
+	SEPARATOR_TYPE: CHARACTER_32
+		do
 		end
 end

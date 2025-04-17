@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:38:08 GMT (Tuesday 8th April 2025)"
-	revision: "50"
+	date: "2025-04-16 14:22:35 GMT (Wednesday 16th April 2025)"
+	revision: "51"
 
 class
 	EL_NAMING_ROUTINES
@@ -88,7 +88,8 @@ feature -- Class name derivations
 		require
 			valid_head_tail_count: head_count + tail_count <= type_name (object_or_type).occurrences ('_') + 1
 		local
-			s: EL_STRING_8_ROUTINES; name: IMMUTABLE_STRING_8; index: INTEGER
+			name: IMMUTABLE_STRING_8; index, start_index, end_index: INTEGER
+			word_intervals: EL_SPLIT_INTERVALS
 		do
 			name := type_name (object_or_type)
 		-- Remove any generic parameters
@@ -96,9 +97,22 @@ feature -- Class name derivations
 			if index > 0 then
 				name := name.shared_substring (1, index - 1)
 			end
-			Result := s.sandwiched_parts (name, '_', head_count, tail_count)
-			if separator /= '_' then
-				super_8 (Result).replace_character ('_', separator)
+			create word_intervals.make (name, '_')
+			start_index := head_count + 1
+			end_index := word_intervals.count - tail_count
+			if end_index >= start_index and then word_intervals.valid_index (start_index)
+				and then attached word_intervals as interval
+			then
+				create Result.make (name.count)
+				from interval.go_i_th (start_index) until interval.index > end_index loop
+					if interval.index > start_index then
+						Result.append_character (separator)
+					end
+					Result.append_substring (name, interval.item_lower, interval.item_upper)
+					interval.forth
+				end
+			else
+				create Result.make_empty
 			end
 		end
 

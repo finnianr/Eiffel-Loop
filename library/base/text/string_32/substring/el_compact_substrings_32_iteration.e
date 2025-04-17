@@ -12,17 +12,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2025-04-15 17:25:17 GMT (Tuesday 15th April 2025)"
+	revision: "14"
 
 expanded class
 	EL_COMPACT_SUBSTRINGS_32_ITERATION
 
 inherit
-	EL_POINTER_ROUTINES
-		export
-			{NONE} all
-		end
+	EL_POINTER_ROUTINES_I
 
 	EL_ZCODE_CONVERSION
 

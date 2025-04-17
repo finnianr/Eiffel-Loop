@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:45:56 GMT (Sunday 13th April 2025)"
-	revision: "161"
+	date: "2025-04-15 18:41:15 GMT (Tuesday 15th April 2025)"
+	revision: "162"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -66,12 +66,7 @@ inherit
 
 	EL_CHARACTER_TESTABLE_ZSTRING
 
-
-
-
 	EL_COMPARABLE_ZSTRING
-
-
 		export
 			{STRING_HANDLER, EL_OCCURRENCE_INTERVALS}
 				compatible_string_8, empty_unencoded_buffer, item_8, order_comparison,
@@ -86,22 +81,14 @@ inherit
 
 	EL_CONVERTABLE_ZSTRING
 
-
-
-
 	EL_MEASUREABLE_ZSTRING
 
 	EL_SEARCHABLE_ZSTRING
-
-
 		export
 			{EL_APPENDABLE_ZSTRING} internal_substring_index_list_general
 		end
 
 	EL_ZSTRING_TO_BASIC_TYPES
-
-
-
 
 	READABLE_INDEXABLE [CHARACTER_32]
 		rename
@@ -111,6 +98,8 @@ inherit
 		redefine
 			new_cursor
 		end
+
+	EL_POINTER_ROUTINES_I
 
 	EL_MODULO_INDEXABLE
 		undefine
@@ -510,12 +499,12 @@ feature -- Substrings
 		-- write new start_index back to `start_index_int32_ptr'
 		-- if `uc' not found then new `start_index' is `count + 1'
 		local
-			start_index, index: INTEGER; pointer: EL_POINTER_ROUTINES
+			start_index, index: INTEGER
 		do
 			if start_index_int32_ptr.is_default_pointer then
 				start_index := 1
 			else
-				start_index := pointer.read_integer_32 (start_index_int32_ptr)
+				start_index := read_integer_32 (start_index_int32_ptr)
 			end
 			index := index_of (uc, start_index)
 			if index > 0 then
@@ -526,7 +515,7 @@ feature -- Substrings
 				start_index := count + 1
 			end
 			if not start_index_int32_ptr.is_default_pointer then
-				pointer.put_integer_32 (start_index, start_index_int32_ptr)
+				put_integer_32 (start_index, start_index_int32_ptr)
 			end
 		end
 
@@ -540,12 +529,12 @@ feature -- Substrings
 		-- the same as `substring_to' except going from right to left
 		-- if `uc' not found `start_index_from_end' is set to `0' and written back to `start_index_from_end_ptr'
 		local
-			start_index_from_end, index: INTEGER; pointer: EL_POINTER_ROUTINES
+			start_index_from_end, index: INTEGER
 		do
 			if start_index_from_end_ptr.is_default_pointer then
 				start_index_from_end := count
 			else
-				start_index_from_end := pointer.read_integer_32 (start_index_from_end_ptr)
+				start_index_from_end := read_integer_32 (start_index_from_end_ptr)
 			end
 			index := last_index_of (uc, start_index_from_end)
 			if index > 0 then
@@ -556,7 +545,7 @@ feature -- Substrings
 				start_index_from_end := 0
 			end
 			if not start_index_from_end_ptr.is_default_pointer then
-				pointer.put_integer_32 (start_index_from_end, start_index_from_end_ptr)
+				put_integer_32 (start_index_from_end, start_index_from_end_ptr)
 			end
 		end
 

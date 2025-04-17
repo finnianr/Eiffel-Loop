@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-20 12:39:32 GMT (Tuesday 20th August 2024)"
-	revision: "9"
+	date: "2025-04-16 22:35:32 GMT (Wednesday 16th April 2025)"
+	revision: "10"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
@@ -28,7 +28,7 @@ feature -- Access
 	new_cursor: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER_CURSOR
 			-- Fresh cursor associated with current structure
 		do
-			create Result.make (target, separator, left_adjusted, right_adjusted)
+			create Result.make_adjusted (target, separator, adjustments)
 		end
 
 end

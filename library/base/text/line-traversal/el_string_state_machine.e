@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-19 18:31:34 GMT (Wednesday 19th June 2024)"
-	revision: "6"
+	date: "2025-04-16 18:12:43 GMT (Wednesday 16th April 2025)"
+	revision: "7"
 
 class
-	EL_STRING_STATE_MACHINE [S -> STRING_GENERAL]
+	EL_STRING_STATE_MACHINE [S -> STRING_GENERAL, CHAR -> COMPARABLE]
 
 inherit
-	EL_READABLE_STRING_STATE_MACHINE [S]
+	EL_READABLE_STRING_STATE_MACHINE [S, CHAR]
 
 feature -- Basic operations
 

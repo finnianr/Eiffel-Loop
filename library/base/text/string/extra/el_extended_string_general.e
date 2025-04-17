@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:35:02 GMT (Tuesday 15th April 2025)"
-	revision: "11"
+	date: "2025-04-16 16:00:17 GMT (Wednesday 16th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -378,7 +378,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	split_on_character (separator: CHAR): EL_SPLIT_ON_CHARACTER [like shared_string]
+	split_on_character (separator: CHAR): EL_SPLIT_ON_CHARACTER [like shared_string, COMPARABLE]
 		deferred
 		end
 

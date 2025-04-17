@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:20:07 GMT (Tuesday 8th April 2025)"
-	revision: "37"
+	date: "2025-04-15 17:40:57 GMT (Tuesday 15th April 2025)"
+	revision: "38"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -34,14 +34,10 @@ inherit
 
 	EL_STRING_BIT_COUNTABLE [GENERAL]
 
-	EL_INTERVAL_ROUTINES
+	EL_INTERVAL_ROUTINES_I
 		rename
 			count as interval_count,
 			compact as compact_interval
-		export
-			{NONE} all
-		undefine
-			copy, default_create, is_equal
 		end
 
 	EL_STRING_GENERAL_ROUTINES_I

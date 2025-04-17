@@ -15,14 +15,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-19 18:30:34 GMT (Wednesday 19th June 2024)"
-	revision: "27"
+	date: "2025-04-16 18:13:06 GMT (Wednesday 16th April 2025)"
+	revision: "28"
 
 class
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
 
 inherit
-	EL_STRING_STATE_MACHINE [ZSTRING]
+	EL_STRING_STATE_MACHINE [ZSTRING, CHARACTER_32]
 		redefine
 			call
 		end

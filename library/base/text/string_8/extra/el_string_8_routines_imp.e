@@ -6,13 +6,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:42:17 GMT (Tuesday 15th April 2025)"
-	revision: "46"
+	date: "2025-04-16 16:02:32 GMT (Wednesday 16th April 2025)"
+	revision: "47"
 
-class
-	EL_STRING_8_ROUTINES_IMP
+class EL_STRING_8_ROUTINES_IMP inherit ANY
 
-inherit
 	EL_STRING_X_ROUTINES [STRING_8, READABLE_STRING_8, CHARACTER_8]
 		undefine
 			bit_count
@@ -193,7 +191,7 @@ feature {NONE} -- Implementation
 			intervals.fill_by_string_8 (target, pattern, 0)
 		end
 
-	split_on_character (str: READABLE_STRING_8; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [READABLE_STRING_8]
+	split_on_character (str: READABLE_STRING_8; separator: CHARACTER_8): EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]
 		do
 			if str.is_immutable then
 				Result := Split_immutable_string_8

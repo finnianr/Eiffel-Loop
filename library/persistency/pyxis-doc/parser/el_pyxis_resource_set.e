@@ -8,14 +8,13 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 15:13:24 GMT (Tuesday 5th November 2024)"
-	revision: "16"
+	date: "2025-04-16 7:56:20 GMT (Wednesday 16th April 2025)"
+	revision: "17"
 
 class
 	EL_PYXIS_RESOURCE_SET
 
 inherit
-
 	EL_MODULE_DIRECTORY; EL_MODULE_FILE_SYSTEM; EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_PYXIS
 
 	EL_PLAIN_TEXT_LINE_STATE_MACHINE
@@ -55,10 +54,9 @@ feature {NONE} -- Initialization
 			-- merge all Pyxis files into monolithic file
 			-- Fatal crash when using this from EL_LOCALE_ROUTINES
 		local
-			pyxis_lines: EL_PLAIN_TEXT_LINE_SOURCE
-			pyxis_out: PLAIN_TEXT_FILE
-			pyxis_file_paths: like xml_file_paths
+			pyxis_lines: EL_PLAIN_TEXT_LINE_SOURCE; pyxis_out: PLAIN_TEXT_FILE
 			monolithic_pyxis_path: FILE_PATH; xml_out: EL_PLAIN_TEXT_FILE
+			pyxis_file_paths: like xml_file_paths
 		do
 			make_machine
 			directory_name := a_directory_name
@@ -67,7 +65,7 @@ feature {NONE} -- Initialization
 			create xml_file_paths.make_from_array (<< monolithic_pyxis_path.with_new_extension ("xml") >>)
 
 			pyxis_file_paths := File_system.files_with_extension (pyxis_source_dir, "pyx", True)
-			if pyxis_file_paths.first.modification_time  > monolithic_xml_file_path.modification_time then
+			if pyxis_file_paths.first.modification_time > monolithic_xml_file_path.modification_time then
 				create pyxis_out.make_open_write (monolithic_pyxis_path)
 				across pyxis_file_paths as pyxis_file_path loop
 					create pyxis_lines.make_utf_8 (pyxis_file_path.item)

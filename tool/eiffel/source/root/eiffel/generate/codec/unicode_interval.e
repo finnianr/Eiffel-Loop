@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:00:34 GMT (Tuesday 18th March 2025)"
-	revision: "8"
+	date: "2025-04-16 8:23:11 GMT (Wednesday 16th April 2025)"
+	revision: "9"
 
 class
 	UNICODE_INTERVAL
@@ -35,16 +35,16 @@ convert
 
 feature {NONE} -- Initialization
 
-	make_default
-		do
-			create latin_characters.make (7)
-			Precursor
-		end
-
 	make (a_interval: INTEGER_INTERVAL)
 		do
 			make_interval (a_interval.lower, a_interval.upper)
 			make_default
+		end
+
+	make_default
+		do
+			create latin_characters.make (7)
+			Precursor
 		end
 
 feature -- Access
@@ -80,10 +80,10 @@ feature {NONE} -- Evolicity fields
 			--
 		do
 			create Result.make_assignments (<<
-				["lower_character", agent: ZSTRING do Result := character (lower.to_natural_32) end ],
-				["upper_character", agent: ZSTRING do Result := character (upper.to_natural_32) end ],
+				["lower_character",		  agent: ZSTRING do Result := character (lower.to_natural_32) end ],
+				["upper_character",		  agent: ZSTRING do Result := character (upper.to_natural_32) end ],
 				["first_latin_character", agent: LATIN_CHARACTER do Result := latin_characters.first end],
-				["latin_characters", agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end]
+				["latin_characters",		  agent: ITERABLE [LATIN_CHARACTER] do Result := latin_characters end]
 			>>)
 		end
 

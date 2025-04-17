@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-07 16:51:30 GMT (Friday 7th February 2025)"
-	revision: "35"
+	date: "2025-04-16 7:05:51 GMT (Wednesday 16th April 2025)"
+	revision: "36"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_BASE
@@ -21,6 +21,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_POINTER_ROUTINES_I
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
 

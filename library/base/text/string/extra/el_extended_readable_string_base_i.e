@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 8:48:58 GMT (Tuesday 15th April 2025)"
-	revision: "6"
+	date: "2025-04-16 15:38:55 GMT (Wednesday 16th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -22,14 +22,12 @@ inherit
 
 	EL_CASE_CONTRACT
 
-	EL_UC_ROUTINES
+	EL_UC_ROUTINES_I
 		rename
 			utf_8_byte_count as code_utf_8_byte_count
-		export
-			{NONE} all
-		undefine
-			copy, is_equal, out
 		end
+
+	EL_POINTER_ROUTINES_I
 
 	EL_STRING_HANDLER
 
@@ -151,6 +149,10 @@ feature {NONE} -- Character query
 		end
 
 feature {NONE} -- Conversion
+
+--	split (c: CHAR): EL_ITERABLE_SPLIT [like target, CHAR]
+--		deferred
+--		end
 
 	to_char (uc: CHARACTER_32): CHAR
 		deferred

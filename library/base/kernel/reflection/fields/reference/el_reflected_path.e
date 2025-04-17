@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:16:14 GMT (Sunday 25th August 2024)"
-	revision: "22"
+	date: "2025-04-16 13:20:08 GMT (Wednesday 16th April 2025)"
+	revision: "23"
 
 class
 	EL_REFLECTED_PATH
@@ -16,13 +16,6 @@ inherit
 	EL_REFLECTED_HASHABLE_REFERENCE [EL_PATH]
 		redefine
 			is_abstract, reset, set_from_readable, set_from_string, to_string, write
-		end
-
-	EL_ZSTRING_ROUTINES_IMP
-		export
-			{NONE} all
-		undefine
-			is_equal
 		end
 
 create

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-04 8:12:52 GMT (Tuesday 4th March 2025)"
-	revision: "5"
+	date: "2025-04-16 18:13:35 GMT (Wednesday 16th April 2025)"
+	revision: "6"
 
 class
 	EL_UFW_USER_RULES
@@ -18,7 +18,7 @@ class
 inherit
 	ANY
 
-	EL_STRING_STATE_MACHINE [STRING_8]
+	EL_STRING_STATE_MACHINE [STRING_8, CHARACTER_8]
 		rename
 			make as make_default
 		undefine

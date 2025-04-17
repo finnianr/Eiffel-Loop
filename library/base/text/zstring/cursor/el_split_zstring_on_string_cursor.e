@@ -1,6 +1,6 @@
 note
 	description: "[
-		Optimized implementation of ${EL_SPLIT_ON_STRING_CURSOR [ZSTRING]}
+		Implementation of ${EL_SPLIT_STRING_32_ON_STRING_CURSOR} optimized for ${ZSTRING}
 	]"
 
 	author: "Finnian Reilly"
@@ -8,22 +8,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-15 12:11:00 GMT (Saturday 15th March 2025)"
-	revision: "7"
+	date: "2025-04-16 22:36:42 GMT (Wednesday 16th April 2025)"
+	revision: "9"
 
 class
 	EL_SPLIT_ZSTRING_ON_STRING_CURSOR
 
 inherit
-	EL_SPLIT_ON_STRING_CURSOR [ZSTRING]
-		rename
-			separator as general_separator
+	EL_SPLIT_STRING_32_ON_STRING_CURSOR [ZSTRING]
 		redefine
-			is_i_th_white_space, initialize, set_separator_start
+			is_i_th_white_space
 		end
 
 create
-	make
+	make_adjusted
 
 feature {NONE} -- Implementation
 
@@ -31,23 +29,5 @@ feature {NONE} -- Implementation
 		do
 			Result := a_target.is_space_item (i)
 		end
-
-	initialize
-		do
-			if attached {ZSTRING} general_separator as l_seperator then
-				separator := l_seperator
-			else
-				create separator.make_from_general (general_separator)
-			end
-		end
-
-	set_separator_start
-		do
-			separator_start := target.substring_index (separator, separator_end + 1)
-		end
-
-feature {NONE} -- Internal attributes
-
-	separator: ZSTRING
 
 end

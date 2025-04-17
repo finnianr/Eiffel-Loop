@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 12:00:18 GMT (Tuesday 15th April 2025)"
-	revision: "66"
+	date: "2025-04-16 14:24:31 GMT (Wednesday 16th April 2025)"
+	revision: "67"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [
@@ -109,37 +109,6 @@ feature -- Substring
 		do
 			if str.count > max_count - 2 then
 				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
-			else
-				Result := str
-			end
-		end
-
-	sandwiched_parts (str: READABLE_STRING_X; separator: CHARACTER_32; head_count, tail_count: INTEGER): READABLE_STRING_X
-		-- joined substring of split list defined by `separator' after `head_count' and `tail_count' parts
-		-- have been removed from head and tail of list respectively
-		local
-			start_index, end_index, index, first_cursor_index, last_cursor_index: INTEGER
-		do
-			if head_count + tail_count > 0 then
-				if attached split_on_character (str, separator) as split_list then
-					first_cursor_index := head_count + 1
-					last_cursor_index := split_list.count - tail_count
-
-					across split_list as list loop
-						index := list.cursor_index
-						if index = first_cursor_index then
-							start_index := list.item_lower
-						end
-						if index = last_cursor_index then
-							end_index := list.item_upper
-						end
-					end
-					if start_index > 0 and end_index > 0 then
-						Result := str.substring (start_index, end_index)
-					else
-						Result := str.substring (1, 0)
-					end
-				end
 			else
 				Result := str
 			end

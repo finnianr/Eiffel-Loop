@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 12:16:17 GMT (Friday 21st March 2025)"
-	revision: "6"
+	date: "2025-04-16 18:32:53 GMT (Wednesday 16th April 2025)"
+	revision: "7"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -29,7 +29,7 @@ inherit
 			compact_value, make_field_arrays, set_from_compact
 		end
 
-	EL_HASH_TABLE [INTEGER_INTERVAL, TYPED_POINTER [ANY]]
+	EL_HASH_TABLE [INTEGER_INTERVAL, POINTER]
 		rename
 			key_for_iteration as address_item,
 			item_for_iteration as range_item

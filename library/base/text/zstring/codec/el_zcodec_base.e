@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 9:47:26 GMT (Tuesday 8th April 2025)"
-	revision: "16"
+	date: "2025-04-15 17:37:16 GMT (Tuesday 15th April 2025)"
+	revision: "17"
 
 class
 	EL_ZCODEC_BASE
@@ -27,11 +27,9 @@ inherit
 			z_code_to_unicode as multi_byte_z_code_to_unicode
 		end
 
-	EL_UC_ROUTINES
+	EL_UC_ROUTINES_I
 		rename
 			utf_8_byte_count as character_utf_8_byte_count
-		export
-			{NONE} all
 		end
 
 	EL_CASE_CONTRACT

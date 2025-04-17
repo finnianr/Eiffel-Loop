@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 6:36:24 GMT (Tuesday 15th April 2025)"
-	revision: "8"
+	date: "2025-04-16 8:46:36 GMT (Wednesday 16th April 2025)"
+	revision: "9"
 
 class
 	EL_TYPE_UTILITIES

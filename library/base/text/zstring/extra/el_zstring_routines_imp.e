@@ -9,13 +9,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:53:16 GMT (Tuesday 15th April 2025)"
-	revision: "51"
+	date: "2025-04-16 18:16:57 GMT (Wednesday 16th April 2025)"
+	revision: "52"
 
-class
-	EL_ZSTRING_ROUTINES_IMP
+class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
-inherit
 	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING, CHARACTER_32]
 		rename
 			to_code as to_z_code,
@@ -113,7 +111,7 @@ feature {NONE} -- Implementation
 			intervals.fill_by_string (target, pattern, 0)
 		end
 
-	split_on_character (str: EL_READABLE_ZSTRING; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER [EL_READABLE_ZSTRING]
+	split_on_character (str: ZSTRING; separator: CHARACTER_32): EL_SPLIT_ZSTRING_ON_CHARACTER
 		do
 			Result := Split_string
 			Result.set_target (str); Result.set_separator (separator)

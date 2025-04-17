@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 11:37:39 GMT (Wednesday 6th November 2024)"
-	revision: "15"
+	date: "2025-04-16 17:39:46 GMT (Wednesday 16th April 2025)"
+	revision: "16"
 
 class
 	TB_ATTRIBUTE_EDIT_TABLE
@@ -35,7 +35,7 @@ feature -- Basic operations
 			is_element: element.enclosed_with ("<>")
 		local
 			start_index, end_index: INTEGER; XML: XML_ROUTINES
-			name, ending: ZSTRING; quote_splitter: EL_SPLIT_ON_CHARACTER [ZSTRING]
+			name, ending: ZSTRING; quote_splitter: EL_SPLIT_ZSTRING_ON_CHARACTER
 		do
 			start_index := element.index_of ('=', 1)
 			if start_index > 0 then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:46 GMT (Sunday 30th March 2025)"
-	revision: "26"
+	date: "2025-04-16 16:01:53 GMT (Wednesday 16th April 2025)"
+	revision: "27"
 
 class
 	EL_EXCEPTION_ROUTINES
@@ -76,7 +76,7 @@ feature -- Access
 			end
 		end
 
-	last_trace_splitter: EL_SPLIT_ON_CHARACTER [STRING_32]
+	last_trace_splitter: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
 		do
 			create Result.make (last_trace, '%N')
 		end

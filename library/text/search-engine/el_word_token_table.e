@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:55:15 GMT (Tuesday 15th April 2025)"
-	revision: "22"
+	date: "2025-04-15 16:29:08 GMT (Tuesday 15th April 2025)"
+	revision: "23"
 
 class
 	EL_WORD_TOKEN_TABLE
@@ -54,12 +54,12 @@ feature -- Status query
 		do
 			-- Iterate in reverse to find last non empty line
 			-- and count number of non empty lines
-			across paragraph_list.new_cursor.reversed as paragraph loop
-				if paragraph.item.has_alpha_numeric then
+			across paragraph_list.new_cursor.reversed as list loop
+				if attached list.item as paragraph and then paragraph.has_alpha_numeric then
 					non_empty_count := non_empty_count + 1
 					if last_word_start_index = 0 then
-						last_word_start_index := super_z (paragraph.item).last_word_start_index ($last_word_end_index)
-						last_index := paragraph_list.count - paragraph.cursor_index + 1
+						last_word_start_index := super_z (paragraph).last_word_start_index ($last_word_end_index)
+						last_index := paragraph_list.count - list.cursor_index + 1
 					end
 				end
 			end
