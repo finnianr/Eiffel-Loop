@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 22:29:24 GMT (Wednesday 16th April 2025)"
-	revision: "15"
+	date: "2025-04-17 8:56:10 GMT (Thursday 17th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_ITERABLE_SPLIT_CURSOR [RSTRING -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE, SEPARATOR]
@@ -26,6 +26,9 @@ feature {NONE} -- Initialization
 
 	initialize
 		do
+			if not target.is_immutable and then attached {STRING_GENERAL} target as general then
+				internal_item := general.substring (1, 0)
+			end
 			forth
 		end
 
@@ -39,14 +42,12 @@ feature -- Access
 		-- use `item_copy' if you intend to keep a reference to `item' beyond the scope of the
 		-- client routine
 		do
-			if attached {STRING_GENERAL} target as l_target then
-				if attached {STRING_GENERAL} internal_item as l_item then
-					l_item.keep_head (0)
-					l_item.append_substring (l_target, item_lower, item_upper)
-					Result := internal_item
+			if attached internal_item as l_item then
+				fill_item (l_item)
+				if attached {like target} l_item as substring_item then
+					Result := substring_item
 				else
 					Result := item_copy
-					internal_item := Result
 				end
 			else
 				Result := item_copy
@@ -206,6 +207,10 @@ feature -- Cursor movement
 
 feature {EL_ITERABLE_SPLIT} -- Implementation
 
+	fill_item (a_item: like internal_item)
+		deferred
+		end
+
 	i_th_character (a_target: like target; i: INTEGER): CHAR
 		-- i'th character of `a_target'
 		deferred
@@ -236,7 +241,7 @@ feature {EL_ITERABLE_SPLIT} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	internal_item: detachable like target
+	internal_item: detachable STRING_GENERAL
 
 	separator_end: INTEGER
 		-- end index of separator

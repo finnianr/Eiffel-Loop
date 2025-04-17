@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 22:33:29 GMT (Wednesday 16th April 2025)"
-	revision: "8"
+	date: "2025-04-17 7:42:28 GMT (Thursday 17th April 2025)"
+	revision: "9"
 
 class
 	EL_SPLIT_ZSTRING_ON_CHARACTER
@@ -36,11 +36,5 @@ feature -- Measurement
 	count: INTEGER
 		do
 			Result := target.occurrences (separator) + 1
-		end
-
-feature {NONE} -- Type definitions
-
-	SEPARATOR_TYPE: CHARACTER_32
-		do
 		end
 end

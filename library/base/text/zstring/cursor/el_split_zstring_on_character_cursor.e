@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 6:34:33 GMT (Thursday 17th April 2025)"
-	revision: "13"
+	date: "2025-04-17 9:01:54 GMT (Thursday 17th April 2025)"
+	revision: "14"
 
 class
 	EL_SPLIT_ZSTRING_ON_CHARACTER_CURSOR
@@ -17,7 +17,8 @@ class
 inherit
 	EL_SPLIT_ON_CHARACTER_CURSOR [ZSTRING, CHARACTER_32]
 		redefine
-			append_item_to, is_i_th_white_space, initialize, separator, set_separator_start
+			append_item_to, is_i_th_white_space, item, initialize, internal_item,
+			separator, set_separator_start
 		end
 
 	EL_SHARED_ZSTRING_CODEC
@@ -26,6 +27,27 @@ inherit
 
 create
 	make_adjusted
+
+feature {NONE} -- Initialization
+
+	initialize
+		do
+			separator_zcode := Codec.as_z_code (separator)
+			create internal_item.make_empty
+			forth
+		end
+
+feature -- Access
+
+	item: like target
+		-- dynamic singular substring of `target' at current split position if the
+		-- `target' conforms to `STRING_GENERAL' else the value of `item_copy'
+		-- use `item_copy' if you intend to keep a reference to `item' beyond the scope of the
+		-- client routine
+		do
+			Result := internal_item
+			fill_item (Result)
+		end
 
 feature -- Basic operations
 
@@ -45,21 +67,21 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	initialize
+	fill_item (a_item: like internal_item)
 		do
-			separator_zcode := Codec.as_z_code (separator)
-			forth
-		end
-
-	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
-		do
-			Result := a_target.is_space_item (i)
+			a_item.wipe_out
+			a_item.append_substring (target, item_lower, item_upper)
 		end
 
 	i_th_character (a_target: like target; i: INTEGER): CHARACTER_32
 		-- i'th character of `a_target'
 		do
 			Result := a_target [i]
+		end
+
+	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
+		do
+			Result := a_target.is_space_item (i)
 		end
 
 	set_separator_start
@@ -69,8 +91,10 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	separator_zcode: NATURAL
+	internal_item: ZSTRING
 
 	separator: CHARACTER_32
+
+	separator_zcode: NATURAL
 
 end

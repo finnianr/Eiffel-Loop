@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 22:35:18 GMT (Wednesday 16th April 2025)"
-	revision: "12"
+	date: "2025-04-17 8:21:23 GMT (Thursday 17th April 2025)"
+	revision: "13"
 
 class
 	EL_SPLIT_ON_CHARACTER_32 [S -> READABLE_STRING_32]
@@ -39,9 +39,10 @@ feature -- Measurement
 			Result := target.occurrences (separator) + 1
 		end
 
-feature {NONE} -- Type definitions
+feature {NONE} -- Implementation
 
-	SEPARATOR_TYPE: CHARACTER_32
+	filled_item (a_item: STRING_32): like target
 		do
 		end
+
 end

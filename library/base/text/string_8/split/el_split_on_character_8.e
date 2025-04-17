@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 22:35:44 GMT (Wednesday 16th April 2025)"
-	revision: "11"
+	date: "2025-04-17 8:21:40 GMT (Thursday 17th April 2025)"
+	revision: "12"
 
 class
 	EL_SPLIT_ON_CHARACTER_8 [S -> READABLE_STRING_8]
@@ -35,6 +35,12 @@ feature -- Access
 	count: INTEGER
 		do
 			Result := target.occurrences (separator) + 1
+		end
+
+feature {NONE} -- Implementation
+
+	filled_item (a_item: STRING_8): like target
+		do
 		end
 
 end

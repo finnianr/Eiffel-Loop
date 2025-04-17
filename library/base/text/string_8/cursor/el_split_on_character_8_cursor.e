@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 22:34:02 GMT (Wednesday 16th April 2025)"
-	revision: "8"
+	date: "2025-04-17 8:42:47 GMT (Thursday 17th April 2025)"
+	revision: "9"
 
 class
 	EL_SPLIT_ON_CHARACTER_8_CURSOR [RSTRING -> READABLE_STRING_8]
@@ -17,13 +17,19 @@ class
 inherit
 	EL_SPLIT_ON_CHARACTER_CURSOR [RSTRING, CHARACTER_8]
 		redefine
-			same_caseless_characters, same_characters, separator
+			internal_item, same_caseless_characters, same_characters
 		end
 
 create
 	make_adjusted
 
 feature {NONE} -- Implementation
+
+	fill_item (a_item: like internal_item)
+		do
+			a_item.wipe_out
+			a_item.append_substring (target, item_lower, item_upper)
+		end
 
 	is_i_th_white_space (a_target: like target; i: INTEGER): BOOLEAN
 		-- `True' if i'th character of `a_target' is white space
@@ -58,6 +64,6 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	separator: CHARACTER_8
+	internal_item: detachable STRING_8
 
 end
