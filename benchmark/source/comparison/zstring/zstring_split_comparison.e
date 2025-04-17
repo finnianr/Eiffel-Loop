@@ -1,13 +1,19 @@
 note
 	description: "${ZSTRING} split comparison"
+	notes: "[
+		Passes over 500 millisecs (in descending order)
+
+			{ZSTRING}.split_intervals      : 1229.0 times (100%)
+			EL_SPLIT_STRING_LIST [ZSTRING] : 1206.0 times (-1.9%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "18"
+	date: "2025-04-17 9:21:42 GMT (Thursday 17th April 2025)"
+	revision: "19"
 
 class
 	ZSTRING_SPLIT_COMPARISON

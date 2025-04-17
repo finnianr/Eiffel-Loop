@@ -1,12 +1,19 @@
 note
+	description: "[
+		Benchmark shell menu ${STRING_BENCHMARK_SHELL} for string related performance tests
+	]"
+	notes: "[
+		Usage:
+			el_benchmark -string_benchmark
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "27"
+	date: "2025-04-17 9:14:02 GMT (Thursday 17th April 2025)"
+	revision: "28"
 
 class
 	STRING_BENCHMARK_APP

@@ -6,10 +6,10 @@ note
 		${EL_ZSTRING}.split_list now incorporated into ${EL_ZSTRING_LIST}.make_split,
 		so benchmark cannot be repeated, but originally this is the score:
 		
-		Passes over 250 millisecs (in descending order)
+		Passes over 500 millisecs (in descending order)
 
-			ZSTRING.split_list         : 24500.0 times (100%)
-			EL_ZSTRING_LIST.make_split : 14231.0 times (-41.9%)
+			ZSTRING.split_list         :  49048.0 times (100%)
+			EL_ZSTRING_LIST.make_split :  45982.0 times (-6.3%)
 	]"
 
 	author: "Finnian Reilly"
@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-06 9:32:39 GMT (Sunday 6th October 2024)"
-	revision: "21"
+	date: "2025-04-17 9:20:37 GMT (Thursday 17th April 2025)"
+	revision: "22"
 
 class
 	ZSTRING_SPLIT_LIST_COMPARISON

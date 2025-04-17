@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "12"
+	date: "2025-04-17 9:10:04 GMT (Thursday 17th April 2025)"
+	revision: "13"
 
 class
 	LINE_STATE_MACHINE_COMPARISON
@@ -28,22 +28,22 @@ feature -- Basic operations
 
 	execute
 		local
-			lines: EL_ITERABLE_SPLIT [STRING, ANY]
+			lines: EL_ITERABLE_SPLIT [STRING_8, CHARACTER_8, ANY]
 			csv_path: FILE_PATH; parser: CSV_STATE_PARSER [POINTER]
 		do
 			csv_path := "$EIFFEL_LOOP/test/data/csv/JobServe.csv"
 			csv_path.expand
 			lines := File.plain_text_lines (csv_path)
 			compare (Description, <<
-				["Using PROCEDURE states", 		agent using_procedure_states (lines)],
-				["Using INTEGER states", 			agent using_integer_states (lines)],
-				["Using POINTER states", 			agent using_pointer_states (lines)]
+				["Using PROCEDURE states", agent using_procedure_states (lines)],
+				["Using INTEGER states", 	agent using_integer_states (lines)],
+				["Using POINTER states", 	agent using_pointer_states (lines)]
 			>>)
 		end
 
 feature {NONE} -- String append variations
 
-	using_procedure_states (lines: EL_ITERABLE_SPLIT [STRING, ANY])
+	using_procedure_states (lines: EL_ITERABLE_SPLIT [STRING_8, CHARACTER_8, ANY])
 		local
 			parser: CSV_PROCEDURE_STATE_PARSER
 		do
@@ -53,7 +53,7 @@ feature {NONE} -- String append variations
 			end
 		end
 
-	using_integer_states (lines: EL_ITERABLE_SPLIT [STRING, ANY])
+	using_integer_states (lines: EL_ITERABLE_SPLIT [STRING_8, CHARACTER_8, ANY])
 		local
 			parser: CSV_INTEGER_STATE_PARSER
 		do
@@ -63,7 +63,7 @@ feature {NONE} -- String append variations
 			end
 		end
 
-	using_pointer_states (lines: EL_ITERABLE_SPLIT [STRING, ANY])
+	using_pointer_states (lines: EL_ITERABLE_SPLIT [STRING_8, CHARACTER_8, ANY])
 		local
 			parser: CSV_POINTER_STATE_PARSER
 		do

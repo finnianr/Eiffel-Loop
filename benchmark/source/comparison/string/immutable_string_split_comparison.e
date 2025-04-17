@@ -1,13 +1,20 @@
 note
 	description: "Compare iterating immutable VS changeable string list"
+	notes: "[
+		RESULTS: compare split list iteration
+		Passes over 500 millisecs (in descending order)
+
+			EL_SPLIT_IMMUTABLE_STRING_32_LIST : 15849.0 times (100%)
+			EL_SPLIT_STRING_32_LIST           :  5068.0 times (-68.0%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "15"
+	date: "2025-04-17 9:26:38 GMT (Thursday 17th April 2025)"
+	revision: "16"
 
 class
 	IMMUTABLE_STRING_SPLIT_COMPARISON
@@ -37,7 +44,7 @@ feature -- Basic operations
 			create split_list_2.make_shared_adjusted (Name_manifest, ',', {EL_SIDE}.Left)
 
 			compare ("compare split list iteration", <<
-				["EL_SPLIT_STRING_32_LIST", agent changeable_split_list (split_list_1)],
+				["EL_SPLIT_STRING_32_LIST",			  agent changeable_split_list (split_list_1)],
 				["EL_SPLIT_IMMUTABLE_STRING_32_LIST", agent immutable_split_list (split_list_2)]
 			>>)
 		end

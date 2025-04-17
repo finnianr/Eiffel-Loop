@@ -1,13 +1,28 @@
 note
 	description: "String split iteration comparison"
+	notes: "[
+		RESULTS: counting list items
+		Passes over 500 millisecs (in descending order)
+
+			EL_SPLIT_ON_CHARACTER_8 [STRING] :  3624.0 times (100%)
+			EL_SPLIT_STRING_8_LIST           :  2724.0 times (-24.8%)
+			{STRING_8}.split                 :  1165.0 times (-67.9%)
+
+		RESULTS: finding specific list item
+		Passes over 500 millisecs (in descending order)
+
+			EL_SPLIT_ON_CHARACTER_8 [STRING] : 2761.0 times (100%)
+			EL_SPLIT_STRING_8_LIST           : 1196.0 times (-56.7%)
+			{STRING_8}.split                 : 1066.0 times (-61.4%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "8"
+	date: "2025-04-17 9:24:36 GMT (Thursday 17th April 2025)"
+	revision: "9"
 
 class
 	STRING_SPLIT_ITERATION_COMPARISON
