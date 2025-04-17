@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-09 14:49:17 GMT (Wednesday 9th October 2024)"
-	revision: "5"
+	date: "2025-04-17 19:06:41 GMT (Thursday 17th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
@@ -167,28 +167,27 @@ feature {NONE} -- Result arithmetic
 
 	integer_arithmetic: EL_CONTAINER_ARITHMETIC [G, INTEGER]
 		do
-			create Result.make (current_container)
+			create Result.make (current_structure)
 		end
 
 	natural_arithmetic: EL_CONTAINER_ARITHMETIC [G, NATURAL]
 		do
-			create Result.make (current_container)
+			create Result.make (current_structure)
 		end
 
 	real_arithmetic: EL_CONTAINER_ARITHMETIC [G, REAL]
 		do
-			create Result.make (current_container)
+			create Result.make (current_structure)
 		end
 
 	double_arithmetic: EL_CONTAINER_ARITHMETIC [G, DOUBLE]
 		do
-			create Result.make (current_container)
+			create Result.make (current_structure)
 		end
 
 feature {NONE} -- Deferred implementation
 
-	current_container: CONTAINER [G]
-		-- assign Current to Result in descendant
+	current_structure: EL_CONTAINER_STRUCTURE [G]
 		deferred
 		end
 

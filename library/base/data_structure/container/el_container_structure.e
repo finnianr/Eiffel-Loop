@@ -10,25 +10,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 11:56:50 GMT (Wednesday 16th April 2025)"
-	revision: "28"
+	date: "2025-04-17 18:59:01 GMT (Thursday 17th April 2025)"
+	revision: "29"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
 
 inherit
-	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
-
-	EL_MODULE_EIFFEL; EL_MODULE_ITERABLE
-
-	EL_SHARED_FACTORIES
-
-feature -- Access
-
-	item_type: TYPE [G]
-		do
-			Result := {G}
+	EL_CONTAINER_STRUCTURE_BASE [G]
+		export
+			{EL_CONTAINER_HANDLER} new_special
+			{EL_CONTAINER_ARITHMETIC} item_area
 		end
+
+	EL_CUMULATIVE_CONTAINER_ARITHMETIC [G]
 
 feature -- Queries
 
@@ -116,11 +111,6 @@ feature -- Measurement
 			Result := count_meeting (condition)
 		end
 
-	count: INTEGER
-		do
-			Result := container_count (current_container)
-		end
-
 feature -- Conversion
 
 	slice: EL_SLICEABLE_SPECIAL [G]
@@ -142,18 +132,18 @@ feature -- Conversion
 			create Result.make_from_special (to_special)
 		end
 
-	to_special_shared: SPECIAL [G]
-		-- special array which is shared if `Current' conforms to ` [G]'
-		do
-			Result := new_special (True, False)
-		end
-
 	to_special: SPECIAL [G]
 		-- special array with same count
 		do
 			Result := new_special (False, True)
 		ensure
 			same_count: Result.count = count
+		end
+
+	to_special_shared: SPECIAL [G]
+		-- special array which is shared if `Current' conforms to ` [G]'
+		do
+			Result := new_special (True, False)
 		end
 
 feature -- Function result list
@@ -268,7 +258,8 @@ feature -- Basic operations
 			i, i_upper: INTEGER
 		do
 			if attached item_area as area then
-				i_upper := area.count - 1
+			-- use `count' and not `area.count' because container might be a string with a null character
+				i_upper := count - 1
 				from i := 0 until i > i_upper loop
 					action.do_with (area [i])
 					i := i + 1
@@ -281,40 +272,48 @@ feature -- Basic operations
 	do_meeting (action: EL_CONTAINER_ACTION [G]; condition: EL_QUERY_CONDITION [G])
 		-- perform `action' for each item meeting `condition'
 		local
-			i, upper, i_upper: INTEGER
+			i, upper, i_upper: INTEGER; l_area: SPECIAL [G]
 		do
-			if attached item_area as area then
-				i_upper := count - 1
-				from i := 0 until i > i_upper loop
-					action.do_if (area [i], condition)
-					i := i + 1
-				end
-
-			elseif attached {LINEAR [G]} current_container as list then
-			-- Better to prioritise for linked lists
-				push_cursor
-				from list.start until list.after loop
-					action.do_if (list.item, condition)
-					list.forth
-				end
-				pop_cursor
-
-			elseif attached {READABLE_INDEXABLE [G]} current_container as indexable then
-				upper := indexable.upper
-				from i := indexable.lower until i > upper loop
-					action.do_if (indexable [i], condition)
-					i := i + 1
-				end
-
-			elseif attached {ITERABLE [G]} current_container as iterable_list then
-				across iterable_list as list loop
-					action.do_if (list.item, condition)
-				end
-
-			elseif attached current_container.linear_representation as list then
-				from list.start until list.after loop
-					action.do_if (list.item, condition)
-					list.forth
+			if attached current_container as container then
+				inspect type_of_container (container)
+					when Type_special, Type_string then
+						if attached item_area as area then
+							i_upper := count - 1
+							from i := 0 until i > i_upper loop
+								action.do_if (area [i], condition)
+								i := i + 1
+							end
+						end
+					when Type_linear then
+						if attached {LINEAR [G]} container as list then
+							push_cursor
+							from list.start until list.after loop
+								action.do_if (list.item, condition)
+								list.forth
+							end
+							pop_cursor
+						end
+					when Type_indexable then
+						if attached {READABLE_INDEXABLE [G]} container as indexable then
+							upper := indexable.upper
+							from i := indexable.lower until i > upper loop
+								action.do_if (indexable [i], condition)
+								i := i + 1
+							end
+						end
+					when Type_iterable then
+						if attached {ITERABLE [G]} container as iterable_list then
+							across iterable_list as list loop
+								action.do_if (list.item, condition)
+							end
+						end
+				else
+					if attached container.linear_representation as list then
+						from list.start until list.after loop
+							action.do_if (list.item, condition)
+							list.forth
+						end
+					end
 				end
 			end
 		end
@@ -358,134 +357,11 @@ feature -- Basic operations
 			end
 		end
 
-feature -- Contract Support
-
-	object_comparison: BOOLEAN
-		do
-			Result := current_container.object_comparison
-		end
-
-	result_type (value: FUNCTION [G, ANY]): TYPE [ANY]
-
-		do
-			Result := value.generating_type.generic_parameter_type (2)
-		end
-
-	valid_open_argument (to_value: FUNCTION [G, ANY]): BOOLEAN
-		-- `True' if `to_value' has single open argument that is the same as `item_type'
-		do
-			if attached to_value.generating_type.generic_parameter_type (1) as argument_types
-				and then argument_types.generic_parameter_count = 1
-			then
-				Result := argument_types.generic_parameter_type (1) ~ item_type
-			end
-		end
-
-feature {EL_CONTAINER_HANDLER} -- Implementation
-
-	new_special (shared: BOOLEAN; same_count: BOOLEAN): SPECIAL [G]
-		local
-			one_extra: INTEGER
-		do
-			if attached item_area as area then
-				if shared then
-					if same_count and then is_string_container then
-						Result := area.resized_area (count)
-					else
-						Result := area
-					end
-				else
-				--	one extra for string null terminator
-					if is_string_container and not same_count then
-						one_extra := 1
-					end
-					Result := area.resized_area (count + one_extra)
-				end
-			else
-				create Result.make_empty (count)
-				do_for_all (create {EL_EXTEND_SPECIAL_ACTION [G]}.make (Result))
-			end
-		ensure
-			valid_count: same_count implies Result.count = count
-		end
-
 feature {NONE} -- Implementation
 
-	any_item: EL_ANY_QUERY_CONDITION [G]
+	current_structure: EL_CONTAINER_STRUCTURE [G]
 		do
-			create Result
-		end
-
-	as_structure (container: CONTAINER [G]): EL_CONTAINER_STRUCTURE [G]
-		do
-			if attached {EL_CONTAINER_STRUCTURE [G]} container as structure then
-				Result := structure
-			else
-				create {EL_CONTAINER_WRAPPER [G]} Result.make (container)
-			end
-		end
-
-	container_count (container: CONTAINER [ANY]): INTEGER
-		do
-			if attached {FINITE [ANY]} container as finite then
-				Result := finite.count
-
-			elseif attached {READABLE_INDEXABLE [ANY]} container as array then
-				Result := array.upper - array.lower + 1
-
-			elseif attached {TREE [ANY]} container as tree then
-				Result := tree.count
-
-			elseif attached {SEARCH_TABLE [HASHABLE]} container as table then
-				Result := table.count
-
-			elseif attached {ITERABLE [ANY]} container as current_iterable then
-				across current_iterable as list loop
-					Result := Result + 1
-				end
-			end
-		end
-
-	container_first (container: CONTAINER [G]): G
-		local
-			break: BOOLEAN
-		do
-			if attached {READABLE_INDEXABLE [G]} container as array then
-				Result :=  array [array.lower]
-
-			elseif attached {ITERABLE [G]} container as current_iterable then
-				across current_iterable as list until break loop
-					Result := list.item; break := True
-				end
-
-			elseif attached {TREE [G]} container as tree then
-				if attached tree.child_cursor as cursor then
-					from tree.child_start until tree.child_off or break loop
-						Result := tree.item; break := True
-					end
-					tree.child_go_to (cursor)
-				end
-			end
-		end
-
-	item_area: detachable SPECIAL [G]
-		do
-		end
-
-	is_string_container: BOOLEAN
-		do
-		end
-
-feature {NONE} -- Constants
-
-	Cursor_stack: ARRAYED_STACK [CURSOR]
-		once
-			create Result.make (5)
-		end
-
-	Index_stack: ARRAYED_STACK [INTEGER]
-		once
-			create Result.make (5)
+			Result := Current
 		end
 
 note

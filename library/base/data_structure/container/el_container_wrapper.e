@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-05 17:13:25 GMT (Saturday 5th October 2024)"
-	revision: "5"
+	date: "2025-04-17 18:22:17 GMT (Thursday 17th April 2025)"
+	revision: "6"
 
 class
 	EL_CONTAINER_WRAPPER [G]
@@ -17,7 +17,7 @@ inherit
 		rename
 			current_container as container
 		redefine
-			count, is_string_container, item_area
+			count, is_string_container, item_area, type_of_container
 		end
 
 create
@@ -28,13 +28,16 @@ feature {NONE} -- Initialization
 	make (a_container: CONTAINER [G])
 		do
 			container := a_container
-			if attached {TO_SPECIAL [G]} a_container as array
-				and then attached {FINITE [G]} a_container as finite
-			then
-			-- Immutable strings do not conform to CONTAINER
-				is_string_container := attached {STRING_GENERAL} a_container
-				item_area := array.area
-				count := finite.count
+			type := container_type (a_container)
+			inspect type
+				when Type_special, Type_string then
+					if attached {TO_SPECIAL [G]} a_container as special
+						and then attached {FINITE [G]} a_container as finite
+					then
+					-- Immutable strings do not conform to CONTAINER
+						item_area := special.area
+						count := finite.count
+					end
 			else
 				count := container_count (a_container)
 			end
@@ -44,12 +47,24 @@ feature -- Measurement
 
 	count: INTEGER
 
+feature {NONE} -- Implementation
+
+	type_of_container (a_container: CONTAINER [ANY]): NATURAL_8
+		do
+			Result := type
+		end
+
+	is_string_container: BOOLEAN
+		do
+			Result := type = Type_string
+		end
+
 feature {NONE} -- Internal attributes
 
 	container: CONTAINER [G]
 
 	item_area: detachable SPECIAL [G]
 
-	is_string_container: BOOLEAN
+	type: NATURAL_8
 
 end

@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-10 9:18:38 GMT (Monday 10th February 2025)"
-	revision: "56"
+	date: "2025-04-17 19:05:55 GMT (Thursday 17th April 2025)"
+	revision: "57"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -39,6 +39,11 @@ inherit
 		end
 
 	SHARED_COLOR_ENUM
+
+	EL_CONTAINER_CONVERSION [CHARACTER]
+		undefine
+			default_create
+		end
 
 create
 	make
@@ -434,15 +439,19 @@ feature -- Test
 	test_container_sum
 		-- CONTAINER_STRUCTURE_TEST_SET.test_container_sum
 		note
-			testing: "covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting"
+			testing: "[
+				covers/{EL_CONTAINER_ARITHMETIC}.sum_meeting,
+				covers/{EL_CONTAINER_CONVERSION}.as_structure
+			]"
 		local
 			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
+			wrapper: EL_CONTAINER_WRAPPER [CHARACTER]
 		do
 			across Container_types as type loop
 				if attached new_character_container (type.item) as container then
 					lio.put_labeled_string ("Type", container.generator)
 					lio.put_new_line
-					create summator.make (container)
+					create summator.make (as_structure (container))
 					assert ("sum is 6", summator.sum_meeting (agent to_integer, character_is_digit) = 6 )
 				end
 			end

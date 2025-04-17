@@ -11,20 +11,22 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 11:34:42 GMT (Wednesday 16th April 2025)"
-	revision: "23"
+	date: "2025-04-17 19:06:16 GMT (Thursday 17th April 2025)"
+	revision: "24"
 
 class
 	EL_CONTAINER_ARITHMETIC [G, N -> NUMERIC]
 
 inherit
 	EL_CONTAINER_STRUCTURE [G]
-		rename
-			current_container as container
 		export
 			{NONE} all
 			{ANY} valid_open_argument
+		redefine
+			item_area
 		end
+
+	EL_CONTAINER_HANDLER
 
 	REFLECTOR_CONSTANTS
 		export
@@ -36,11 +38,12 @@ create
 
 feature {NONE} -- Initialization
 
-	make (a_container: like container)
+	make (structure: EL_CONTAINER_STRUCTURE [G])
 		require
 			valid_numeric_type: valid_numeric_type
 		do
-			container := a_container
+			current_container := structure.current_container
+			item_area := structure.item_area
 		end
 
 feature -- Access
@@ -130,7 +133,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	container: CONTAINER [G]
+	current_container: CONTAINER [G]
+
+	item_area: detachable SPECIAL [G]
 
 feature {NONE} -- Constants
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-01 12:27:10 GMT (Tuesday 1st October 2024)"
-	revision: "1"
+	date: "2025-04-17 17:20:39 GMT (Thursday 17th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_MODULO_INDEXABLE
