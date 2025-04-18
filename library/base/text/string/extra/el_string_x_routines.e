@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:42:36 GMT (Tuesday 15th April 2025)"
-	revision: "82"
+	date: "2025-04-18 15:21:01 GMT (Friday 18th April 2025)"
+	revision: "83"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -26,19 +26,6 @@ feature -- Factory
 			create Result.make (n)
 		end
 
-	new_from_string_8 (str: READABLE_STRING_8; utf_8_encoded: BOOLEAN): STRING_X
-		local
-			u8: EL_UTF_8_CONVERTER
-		do
-			if utf_8_encoded then
-				create Result.make (u8.unicode_count (str))
-				append_utf_8_to (str, Result)
-			else
-				Result := new (str.count)
-				Result.append (str)
-			end
-		end
-
 	new_from_immutable_8 (
 		str: IMMUTABLE_STRING_8; start_index, end_index: INTEGER_32; unindent, utf_8_encoded: BOOLEAN
 
@@ -52,24 +39,19 @@ feature -- Factory
 		require
 			valid_start_index: str.valid_index (start_index)
 			valid_end_index: end_index >= start_index implies str.valid_index (end_index)
-		local
-			split_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
 		do
 			if end_index - start_index + 1 = 0 then
 				create Result.make (0)
 
 			elseif unindent and then str [start_index] = '%T' then
 				if attached str.shared_substring (start_index + 1, end_index) as lines then
-					if lines.has ('%N') then
-						if utf_8_encoded then
-							split_list := Immutable_utf_8_list
-						else
-							split_list := Immutable_latin_1_list
-						end
+					if lines.has ('%N') and then attached Immutable_string_8_split_list [utf_8_encoded] as split_list then
 						split_list.fill_by_string (lines, New_line_tab, 0)
 						if split_list.count > 0 then
 							create Result.make (split_list.unicode_count + split_list.count - 1)
-							split_list.append_lines_to (Result)
+							append_lines_to (Result, split_list)
+						else
+							create Result.make (0)
 						end
 					else
 						Result := new_from_string_8 (lines, utf_8_encoded)
@@ -80,6 +62,19 @@ feature -- Factory
 			end
 		ensure
 			calculated_correct_size: Result.count = Result.capacity
+		end
+
+	new_from_string_8 (str: READABLE_STRING_8; utf_8_encoded: BOOLEAN): STRING_X
+		local
+			u8: EL_UTF_8_CONVERTER
+		do
+			if utf_8_encoded then
+				create Result.make (u8.unicode_count (str))
+				append_utf_8_to (str, Result)
+			else
+				Result := new (str.count)
+				Result.append (str)
+			end
 		end
 
 	new_list (comma_separated: STRING_X): EL_STRING_LIST [STRING_X]
@@ -159,11 +154,15 @@ feature -- Transform
 
 feature {NONE} -- Deferred
 
-	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_X)
+	append_lines_to (str: STRING_X; lines: EL_SPLIT_IMMUTABLE_STRING_8_LIST)
 		deferred
 		end
 
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_X)
 		deferred
 		end
 
@@ -175,16 +174,15 @@ feature {NONE} -- Deferred
 
 feature {NONE} -- Constants
 
+	Immutable_string_8_split_list: EL_BOOLEAN_INDEXABLE [EL_SPLIT_IMMUTABLE_STRING_8_LIST]
+		-- False -> latin-1; True -> UTF-8
+		once
+			create Result.make (
+				create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_empty,
+				create {EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make_empty
+			)
+		end
+
 	New_line_tab: STRING = "%N%T"
-
-	Immutable_utf_8_list: EL_SPLIT_IMMUTABLE_UTF_8_LIST
-		once
-			create Result.make_empty
-		end
-
-	Immutable_latin_1_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
-		once
-			create Result.make_empty
-		end
 
 end

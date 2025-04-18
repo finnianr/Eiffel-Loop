@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 9:16:04 GMT (Friday 18th April 2025)"
-	revision: "49"
+	date: "2025-04-18 15:28:08 GMT (Friday 18th April 2025)"
+	revision: "50"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -283,21 +283,6 @@ feature -- Status query
 		end
 
 feature -- Basic operations
-
-	append_lines_to (output: STRING_GENERAL)
-		local
-			i: INTEGER
-		do
-			if attached area as a then
-				from until i = a.count loop
-					if output.count > 0 then
-						output.append_code ({EL_ASCII}.Newline)
-					end
-					output.append_substring (target_string, a [i], a [i + 1])
-					i := i + 2
-				end
-			end
-		end
 
 	do_for_all (action: EL_CONTAINER_ACTION [S])
 		do

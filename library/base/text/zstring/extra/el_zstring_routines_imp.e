@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 18:16:57 GMT (Wednesday 16th April 2025)"
-	revision: "52"
+	date: "2025-04-18 15:41:07 GMT (Friday 18th April 2025)"
+	revision: "53"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
@@ -100,6 +100,16 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	append_lines_to (str: ZSTRING; line_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST)
+		do
+			across line_list as list loop
+				if str.count > 0 then
+					str.append_character ('%N')
+				end
+				list.append_item_to (str)
+			end
+		end
 
 	append_utf_8_to (utf_8: READABLE_STRING_8; output: ZSTRING)
 		do

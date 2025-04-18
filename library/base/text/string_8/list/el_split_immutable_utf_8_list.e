@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 17:47:23 GMT (Tuesday 15th April 2025)"
-	revision: "18"
+	date: "2025-04-18 15:32:32 GMT (Friday 18th April 2025)"
+	revision: "19"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -20,7 +20,7 @@ inherit
 			i_th_count as i_th_utf_8_count,
 			item_count as utf_8_item_count
 		redefine
-			append_lines_to, less_than, item_index_of, unicode_count
+			less_than, item_index_of, is_utf_8_encoded, new_cursor, unicode_count
 		end
 
 	EL_UTF_8_CONVERTER_I
@@ -78,6 +78,17 @@ feature {NONE} -- Initialization
 			make_split (utf_8_list.joined (','), ',')
 		end
 
+feature -- Access
+
+	new_cursor: EL_SPLIT_UTF_8_IMMUTABLE_STRING_8_ITERATION_CURSOR
+		do
+			create Result.make (Current)
+		end
+
+feature -- Status query
+
+	Is_utf_8_encoded: BOOLEAN = True
+
 feature -- Measurement
 
 	unicode_count: INTEGER
@@ -110,23 +121,6 @@ feature -- Measurement
 		do
 			if attached extended_target as target then
 				Result := Utf_8_sequence.character_index_of (uc, target.area, item_lower - 1, item_upper - 1)
-			end
-		end
-
-feature -- Basic operations
-
-	append_lines_to (output: STRING_GENERAL)
-		local
-			i: INTEGER
-		do
-			if attached area as a then
-				from until i = a.count loop
-					if output.count > 0 then
-						output.append_code ({EL_ASCII}.Newline)
-					end
-					utf_8_substring_into_string_general (target_string, a [i], a [i + 1], output)
-					i := i + 2
-				end
 			end
 		end
 

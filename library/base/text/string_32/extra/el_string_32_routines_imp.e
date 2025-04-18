@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 16:04:25 GMT (Wednesday 16th April 2025)"
-	revision: "76"
+	date: "2025-04-18 15:52:45 GMT (Friday 18th April 2025)"
+	revision: "77"
 
 class EL_STRING_32_ROUTINES_IMP inherit ANY
 
@@ -83,6 +83,16 @@ feature -- Factory
 		end
 
 feature {NONE} -- Implementation
+
+	append_lines_to (str_32: STRING_32; line_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST)
+		do
+			across line_list as list loop
+				if str_32.count > 0 then
+					str_32.append_character ('%N')
+				end
+				list.append_item_to_string_32 (str_32)
+			end
+		end
 
 	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_32)
 		local

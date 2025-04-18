@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:37 GMT (Friday 11th April 2025)"
-	revision: "9"
+	date: "2025-04-18 13:53:18 GMT (Friday 18th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]
@@ -98,42 +98,42 @@ feature -- Status query
 
 feature -- Element change
 
-	fill (a_target: S; pattern: CHARACTER_32; a_adjustments: INTEGER)
+	fill (a_target: S; separator: CHARACTER_32; a_adjustments: INTEGER)
 		do
 			set_target (a_target, a_adjustments)
-			fill_intervals (a_target, Empty_string_8, String_8_searcher, pattern, a_adjustments)
+			fill_intervals (a_target, Empty_string_8, String_8_searcher, separator, a_adjustments)
 		end
 
-	fill_by_string (a_target: S; pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+	fill_by_string (a_target: S; separator: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
 			set_target (a_target, a_adjustments)
-			fill_intervals_by_string (a_target, pattern, a_adjustments)
+			fill_intervals_by_string (a_target, separator, a_adjustments)
 		end
 
-	fill_general (a_target: READABLE_STRING_GENERAL; pattern: CHARACTER_32; a_adjustments: INTEGER)
+	fill_general (a_target: READABLE_STRING_GENERAL; separator: CHARACTER_32; a_adjustments: INTEGER)
 		do
 			if attached {like target} a_target as l_target then
-				fill (l_target, pattern, a_adjustments)
+				fill (l_target, separator, a_adjustments)
 			end
 		end
 
-	fill_general_by_string (a_target, pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+	fill_general_by_string (a_target, separator: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
 			if attached {like target} a_target as l_target then
-				fill_by_string (l_target, pattern, a_adjustments)
+				fill_by_string (l_target, separator, a_adjustments)
 			end
 		end
 
 feature -- Deferred
 
 	fill_intervals (
-		a_target, a_pattern: READABLE_STRING_GENERAL; searcher: STRING_SEARCHER
+		a_target, a_separator: READABLE_STRING_GENERAL; searcher: STRING_SEARCHER
 		uc: CHARACTER_32; a_adjustments: INTEGER
 	)
 		deferred
 		end
 
-	fill_intervals_by_string (a_target, pattern: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
+	fill_intervals_by_string (a_target, separator: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		deferred
 		end
 

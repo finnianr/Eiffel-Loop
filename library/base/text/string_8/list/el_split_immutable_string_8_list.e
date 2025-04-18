@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:47:01 GMT (Tuesday 8th April 2025)"
-	revision: "18"
+	date: "2025-04-18 14:56:48 GMT (Friday 18th April 2025)"
+	revision: "19"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -23,7 +23,7 @@ inherit
 			bit_count, same_i_th_character
 		redefine
 			fill_general, fill_general_by_string, fill_intervals_by_string,
-			shared_target_substring
+			new_cursor, shared_target_substring
 		end
 
 	EL_STRING_BIT_COUNTABLE [IMMUTABLE_STRING_8]
@@ -34,6 +34,20 @@ create
 	make_by_string, make_adjusted, make_adjusted_by_string,
 	make_shared_by_string, make_shared_adjusted, make_shared_adjusted_by_string,
 	make_empty, make
+
+feature -- Access
+
+	new_cursor: EL_SPLIT_IMMUTABLE_STRING_8_ITERATION_CURSOR
+		do
+			create Result.make (Current)
+		end
+
+feature -- Status query
+
+	is_utf_8_encoded: BOOLEAN
+		do
+			Result := False
+		end
 
 feature -- Element change
 
@@ -59,6 +73,11 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
+	extended_target: EL_EXTENDED_READABLE_STRING_I [CHARACTER]
+		do
+			Result := super_readable_8 (target_string)
+		end
+
 	fill_intervals_by_string (a_target: IMMUTABLE_STRING_8; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do
 			area_intervals.fill_by_string_8 (a_target, delimiter, a_adjustments)
@@ -73,11 +92,6 @@ feature {NONE} -- Implementation
 	same_i_th_character (a_target: IMMUTABLE_STRING_8; i: INTEGER; uc: CHARACTER_32): BOOLEAN
 		do
 			Result := a_target [i] = uc.to_character_8
-		end
-
-	extended_target: EL_EXTENDED_READABLE_STRING_I [CHARACTER]
-		do
-			Result := super_readable_8 (target_string)
 		end
 
 	shared_target_substring (lower, upper: INTEGER): IMMUTABLE_STRING_8
