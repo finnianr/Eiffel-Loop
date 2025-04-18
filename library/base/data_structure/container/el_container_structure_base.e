@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 18:58:30 GMT (Thursday 17th April 2025)"
-	revision: "1"
+	date: "2025-04-18 8:41:38 GMT (Friday 18th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_CONTAINER_STRUCTURE_BASE [G]
@@ -75,18 +75,47 @@ feature {NONE} -- Implementation
 			if attached {FINITE [ANY]} container as finite then
 				Result := finite.count
 
-			elseif attached {READABLE_INDEXABLE [ANY]} container as array then
-				Result := array.upper - array.lower + 1
+			else
+				inspect type_of_container (container)
+					when Type_indexable then
+						if attached {READABLE_INDEXABLE [ANY]} container as array then
+							Result := array.upper - array.lower + 1
+						end
+					when Type_tree then
+						if attached {TREE [ANY]} container as tree then
+							Result := tree.count
+						end
+				else
+					if attached {ITERABLE [ANY]} container as iterable_container then
+						Result := Iterable.count (iterable_container)
+					end
+				end
+			end
+		end
 
-			elseif attached {TREE [ANY]} container as tree then
-				Result := tree.count
-
-			elseif attached {SEARCH_TABLE [HASHABLE]} container as table then
-				Result := table.count
-
-			elseif attached {ITERABLE [ANY]} container as current_iterable then
-				across current_iterable as list loop
-					Result := Result + 1
+	container_first (container: CONTAINER [G]): G
+		local
+			break: BOOLEAN
+		do
+			inspect type_of_container (container)
+				when Type_indexable then
+					if attached {READABLE_INDEXABLE [G]} container as array then
+						Result :=  array [array.lower]
+					end
+				when Type_tree then
+					if attached {TREE [G]} container as tree then
+						if attached tree.child_cursor as cursor then
+							from tree.child_start until tree.child_off or break loop
+								Result := tree.item; break := True
+							end
+							tree.child_go_to (cursor)
+						end
+					end
+			else
+				if attached {ITERABLE [G]} container as current_iterable then
+					across current_iterable as list until break loop
+						Result := list.item; break := True
+					end
 				end
 			end
 		end
@@ -101,7 +130,12 @@ feature {NONE} -- Implementation
 					Result := type_map.found_item
 
 				else
-					if attached {TO_SPECIAL [G]} container as special
+					if attached {EL_INTERVAL_LIST} container then
+					-- the area of types conforming to EL_INTERVAL_LIST have 2 area items for each
+					-- item so need to distinguish them for `do_for_all'
+						Result := Type_interval_list
+
+					elseif attached {TO_SPECIAL [G]} container as special
 						and then attached {FINITE [G]} container as finite
 					then
 						if attached {STRING_GENERAL} container then
@@ -109,6 +143,9 @@ feature {NONE} -- Implementation
 						else
 							Result := Type_special
 						end
+
+					elseif attached {TREE [G]} container then
+						Result := Type_tree
 
 					elseif attached {LINEAR [G]} container then
 					-- Better to prioritise for linked lists and also `EL_FILE_GENERAL_LINE_SOURCE'
@@ -128,33 +165,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	container_first (container: CONTAINER [G]): G
-		local
-			break: BOOLEAN
+	do_meeting_for_tree (tree: TREE [G]; action: EL_CONTAINER_ACTION [G]; condition: EL_QUERY_CONDITION [G])
+		-- recursively perform `action' for each `tree' item meeting `condition'
 		do
-			if attached {READABLE_INDEXABLE [G]} container as array then
-				Result :=  array [array.lower]
-
-			elseif attached {ITERABLE [G]} container as current_iterable then
-				across current_iterable as list until break loop
-					Result := list.item; break := True
+			action.do_if (tree.item, condition)
+			from tree.child_start until tree.child_off loop
+				if attached tree.child as child then
+					do_meeting_for_tree (child, action, condition)
 				end
-
-			elseif attached {TREE [G]} container as tree then
-				if attached tree.child_cursor as cursor then
-					from tree.child_start until tree.child_off or break loop
-						Result := tree.item; break := True
-					end
-					tree.child_go_to (cursor)
-				end
+				tree.child_forth
 			end
 		end
 
-	item_area: detachable SPECIAL [G]
+	is_string_container: BOOLEAN
 		do
 		end
 
-	is_string_container: BOOLEAN
+	item_area: detachable SPECIAL [G]
 		do
 		end
 
@@ -218,16 +245,20 @@ feature {NONE} -- Constants
 			create Result.make (5)
 		end
 
-	Type_special: NATURAL_8 = 1
+	Type_default: NATURAL_8 = 1
 
-	Type_linear: NATURAL_8 = 2
+	Type_indexable: NATURAL_8 = 2
 
-	Type_indexable: NATURAL_8 = 3
+	Type_interval_list: NATURAL_8 = 3
 
 	Type_iterable: NATURAL_8 = 4
 
-	Type_string: NATURAL_8 = 5
+	Type_linear: NATURAL_8 = 5
 
-	Type_default: NATURAL_8 = 6
+	Type_special: NATURAL_8 = 6
+
+	Type_string: NATURAL_8 = 7
+
+	Type_tree: NATURAL_8 = 8
 
 end

@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 14:19:02 GMT (Wednesday 16th April 2025)"
-	revision: "48"
+	date: "2025-04-18 9:16:04 GMT (Friday 18th April 2025)"
+	revision: "49"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]
@@ -24,6 +24,10 @@ class
 inherit
 	EL_ARRAYED_LIST [S]
 		rename
+			do_all as index_do_all,
+			do_if as index_do_if,
+			for_all as index_for_all,
+			there_exists as index_there_exists,
 			make as make_sized,
 			area_v2 as empty_area_v2,
 			area as empty_area,

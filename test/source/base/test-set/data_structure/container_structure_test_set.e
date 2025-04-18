@@ -17,33 +17,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 19:05:55 GMT (Thursday 17th April 2025)"
-	revision: "57"
+	date: "2025-04-18 9:21:42 GMT (Friday 18th April 2025)"
+	revision: "58"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
-
-	EL_SHARED_ZCODEC_FACTORY
-
-	EL_ENCODING_TYPE
-
-	HEXAGRAM_STRINGS
-		rename
-			English_titles as I_ching_hexagram_titles,
-			Name_list as Mandarin_name_list
-		undefine
-			default_create
-		end
-
-	SHARED_COLOR_ENUM
-
-	EL_CONTAINER_CONVERSION [CHARACTER]
-		undefine
-			default_create
-		end
+	CONTAINER_EQA_TEST_SET
 
 create
 	make
@@ -62,11 +43,12 @@ feature {NONE} -- Initialization
 				["order_by_descending_width",	agent test_order_by_descending_width],
 				["query_and_summation",			agent test_query_and_summation],
 				["string_8_list",					agent test_string_8_list],
-				["arrayed_map_list",				agent test_arrayed_map_list],
 				["arrayed_map_group_sort",		agent test_arrayed_map_group_sort],
+				["arrayed_map_list",				agent test_arrayed_map_list],
 				["arrayed_map_sort",				agent test_arrayed_map_sort],
 				["circular_indexing",			agent test_circular_indexing],
 				["container_sum",					agent test_container_sum],
+				["file_line_source",				agent test_file_line_source],
 				["make_filtered_array",			agent test_make_filtered_array],
 				["result_list_character",		agent test_result_list_character],
 				["result_list_string",			agent test_result_list_string],
@@ -347,8 +329,8 @@ feature -- Test
 			character_set: EL_HASH_SET [CHARACTER]
 		do
 			create character_set.make_from (Character_string, False)
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
+			across new_character_containers as list loop
+				if attached list.item as container then
 					lio.put_labeled_string ("Type", container.generator)
 					lio.put_new_line
 					create character_to_code_map.make_from_keys (container, agent ascii_code)
@@ -447,8 +429,8 @@ feature -- Test
 			summator: EL_CONTAINER_ARITHMETIC [CHARACTER, INTEGER]
 			wrapper: EL_CONTAINER_WRAPPER [CHARACTER]
 		do
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
+			across new_character_containers as list loop
+				if attached list.item as container then
 					lio.put_labeled_string ("Type", container.generator)
 					lio.put_new_line
 					create summator.make (as_structure (container))
@@ -457,19 +439,59 @@ feature -- Test
 			end
 		end
 
+	test_file_line_source
+		note
+			testing: "[
+				covers/{EL_CUMULATIVE_CONTAINER_ARITHMETIC}.sum_integer_meeting,
+				covers/{EL_SPLIT_READABLE_STRING_LIST}.do_meeting
+			]"
+		local
+			line_source: EL_PLAIN_TEXT_LINE_SOURCE; boot_lines: EL_ZSTRING_LIST
+			boot: EL_ZSTRING; base_set: EL_HASH_SET [EL_ZSTRING]; path: FILE_PATH
+			step_count: INTEGER; has_boot: EL_PREDICATE_QUERY_CONDITION [ZSTRING]
+			split_list: EL_SPLIT_ZSTRING_LIST; counter: INTEGER_REF
+			add_step_count: EL_CALL_PROCEDURE_ACTION [ZSTRING]
+		do
+			create line_source.make_utf_8 (Dev_environ.El_test_data_dir + "txt/help-files.txt")
+			boot := "/boot/"
+
+			assert ("total step count is 64", line_source.sum_integer (agent path_step_count) = 64)
+
+			has_boot := agent line_has_word (?, boot)
+			step_count := line_source.sum_integer_meeting (agent path_step_count, has_boot)
+			assert ("total step count with %"/boot/%" is 12", step_count = 12)
+
+			create boot_lines.make_from_if (line_source, agent line_has_word (?, boot))
+			lio.put_labeled_lines ("has step %"/boot/%"", boot_lines)
+			assert ("3 boot lines", boot_lines.count = 3)
+
+			create base_set.make_equal (boot_lines.count)
+			across boot_lines as line loop
+				path := line.item
+				base_set.put (path.base)
+			end
+			assert ("3 base names", base_set.count = 3)
+
+			create split_list.make (boot_lines.joined_lines, '%N')
+			create counter
+			create add_step_count.make (agent add_path_step_count (?, counter))
+			split_list.do_for_all (add_step_count)
+			assert ("step count is ", counter.item = 12)
+		end
+
 	test_make_filtered_array
 		note
 			testing: "covers/{EL_ARRAYED_LIST}.make_from_for"
 		local
-			list: EL_ARRAYED_LIST [CHARACTER]
+			arrayed_list: EL_ARRAYED_LIST [CHARACTER]
 		do
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
+			across new_character_containers as list loop
+				if attached list.item as container then
 					lio.put_labeled_string ("Type", container.generator)
 					lio.put_new_line
-					create list.make_from_if (container, agent is_character_digit)
+					create arrayed_list.make_from_if (container, agent is_character_digit)
 
-					assert ("same digits", list.to_array ~ << '1', '2' , '3' >>)
+					assert ("same digits", arrayed_list.to_array ~ << '1', '2' , '3' >>)
 				end
 			end
 		end
@@ -484,17 +506,17 @@ feature -- Test
 		local
 			result_list: EL_ARRAYED_RESULT_LIST [CHARACTER, INTEGER]
 		do
-			across Container_types as type loop
-				if attached new_character_container (type.item) as container then
-					if attached {LINEAR [CHARACTER]} container as list then
-						list.start
+			across new_character_containers as list loop
+				if attached list.item as container then
+					if attached {LINEAR [CHARACTER]} container as linear then
+						linear.start
 					end
 					lio.put_labeled_string ("Type", container.generator)
 					lio.put_new_line
 					create result_list.make_from_for (container, character_is_digit, agent to_integer)
 					assert ("array is 1, 2, 3", result_list.to_array ~ << 1, 2, 3 >> )
-					if attached {LINEAR [CHARACTER]} container as list then
-						assert ("index = 1", list.index = 1)
+					if attached {LINEAR [CHARACTER]} container as linear then
+						assert ("index = 1", linear.index = 1)
 					end
 				end
 			end
@@ -543,153 +565,6 @@ feature -- Test
 			assert ("entire string", abcd_list.slice [0, -1] ~ abcd_list.area)
 			assert ("empty", abcd_list.slice [1, 0] ~ empty)
 			assert ("empty", abcd_list.slice [-1, -2] ~ empty)
-		end
-
-feature {NONE} -- Widget Implementation
-
-	any_widget: EL_ANY_QUERY_CONDITION [WIDGET]
-		do
-			create Result
-		end
-
-	color_is (a_color: NATURAL_8): EL_PREDICATE_QUERY_CONDITION [WIDGET]
-		do
-			Result := agent {WIDGET}.is_color (a_color)
-		end
-
-	widget_colors: EL_ARRAYED_LIST [NATURAL_8]
-		do
-			create Result.make (10)
-			across Widget_list as list loop
-				Result.extend (list.item.color)
-			end
-		end
-
-	widget_has_width (widget: WIDGET; a_width: INTEGER): BOOLEAN
-		do
-			Result := widget.width = a_width
-		end
-
-feature {NONE} -- Implementation
-
-	ascii_code (c: CHARACTER): NATURAL
-		do
-			Result := c.natural_32_code
-		end
-
-	character_is_digit: EL_PREDICATE_QUERY_CONDITION [CHARACTER]
-		do
-			Result := agent is_character_digit
-		end
-
-	is_character_digit (c: CHARACTER): BOOLEAN
-		do
-			Result := c.is_digit
-		end
-
-	new_character_container (type: INTEGER): CONTAINER [CHARACTER]
-		local
-			table: HASH_TABLE [CHARACTER, NATURAL]; tree: BINARY_SEARCH_TREE [CHARACTER]
-			linked: LINKED_LIST [CHARACTER]; set: EL_HASH_SET [CHARACTER]
-			immutable_8: IMMUTABLE_STRING_8
-		do
-			inspect type
-				when Array_type then
-					if attached {ARRAYED_LIST [CHARACTER_8]} Character_string.linear_representation as list then
-						Result := list.to_array
-					end
-
-				when Hash_table_type then
-					create table.make_equal (3)
-					across Character_string as str loop
-						table.put (str.item, str.item.natural_32_code)
-					end
-					Result := table
-
-				when Hash_set_type then
-					create set.make_equal (3)
-					across Character_string as str loop
-						set.put (str.item)
-					end
-					Result := set
-
-				when Binary_tree_type then
-					create tree.make (Character_string [1])
-					across Character_string as str loop
-						if str.cursor_index > 1 then
-							tree.put (str.item)
-						end
-					end
-					Result := tree
-
-				when Linked_list_type then
-					create linked.make
-					across Character_string as str loop
-						linked.extend (str.item)
-					end
-					Result := linked
-
-				when List_type then
-					Result := Character_string.linear_representation
-
-				when String_type then
-					Result := Character_string
-			else
-
-			end
-		end
-
-	to_character_string (c: CHARACTER): STRING
-		do
-			Result := c.out
-		end
-
-	to_integer (c: CHARACTER): INTEGER
-		local
-			c8: EL_CHARACTER_8_ROUTINES
-		do
-			Result := c8.digit_to_integer (c)
-		end
-
-feature {NONE} -- Container types
-
-	Array_type: INTEGER = 1
-
-	Binary_tree_type: INTEGER = 2
-
-	Hash_set_type: INTEGER = 3
-
-	Hash_table_type: INTEGER = 4
-
-	Linked_list_type: INTEGER = 5
-
-	List_type: INTEGER = 6
-
-	String_type: INTEGER = 7
-
-feature {NONE} -- Constants
-
-	Character_string: STRING = "a1-b2-c3"
-
-	Container_types: INTEGER_INTERVAL
-		once
-			Result := Array_type |..| String_type
-		end
-
-	Widget_list: EL_ARRAYED_LIST [WIDGET]
-		once
-			create Result.make_from_array (<<
-				[Color.red, 200], [Color.blue, 300], [Color.green, 100], [Color.blue, 500], [Color.red, 1200]
-			>>)
-		end
-
-	Widget_table: EL_HASH_TABLE [WIDGET, STRING]
-		do
-			create Result.make_assignments (<<
-				["red",	 create {WIDGET}.make_2 (Color.red, 1200)],
-				["blue",	 create {WIDGET}.make_2 (Color.blue, 300)],
-				["green", create {WIDGET}.make_2 (Color.blue, 100)]
-			>>)
 		end
 
 end

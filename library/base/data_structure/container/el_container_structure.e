@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 18:59:01 GMT (Thursday 17th April 2025)"
-	revision: "29"
+	date: "2025-04-18 8:38:46 GMT (Friday 18th April 2025)"
+	revision: "30"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -257,13 +257,18 @@ feature -- Basic operations
 		local
 			i, i_upper: INTEGER
 		do
-			if attached item_area as area then
-			-- use `count' and not `area.count' because container might be a string with a null character
-				i_upper := count - 1
-				from i := 0 until i > i_upper loop
-					action.do_with (area [i])
-					i := i + 1
-				end
+			inspect type_of_container (current_container)
+				when Type_special then
+					if attached item_area as area then
+					-- use `count' and not `area.count' because container might be a string with a null character
+						i_upper := count - 1
+						from i := 0 until i > i_upper loop
+							action.do_with (area [i])
+							i := i + 1
+						end
+					else
+						do_meeting (action, any_item)
+					end
 			else
 				do_meeting (action, any_item)
 			end
@@ -284,7 +289,7 @@ feature -- Basic operations
 								i := i + 1
 							end
 						end
-					when Type_linear then
+					when Type_interval_list, Type_linear then
 						if attached {LINEAR [G]} container as list then
 							push_cursor
 							from list.start until list.after loop
@@ -307,6 +312,11 @@ feature -- Basic operations
 								action.do_if (list.item, condition)
 							end
 						end
+					when Type_tree then
+						if attached {TREE [G]} container as tree then
+							do_meeting_for_tree (tree, action, condition)
+						end
+
 				else
 					if attached container.linear_representation as list then
 						from list.start until list.after loop
