@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 19:55:00 GMT (Monday 14th April 2025)"
-	revision: "86"
+	date: "2025-04-18 21:25:46 GMT (Friday 18th April 2025)"
+	revision: "87"
 
 class
 	REFLECTION_TEST_SET
@@ -17,7 +17,7 @@ inherit
 
 	EL_OBJECT_PROPERTY_I
 
-	EL_MODULE_FACTORY; EL_MODULE_EXECUTABLE
+	EL_MODULE_FACTORY; EL_MODULE_EXECUTABLE; EL_MODULE_USER_INPUT
 
 	EL_SHARED_CURRENCY_ENUM
 
@@ -100,7 +100,14 @@ feature -- Tests
 			assert ("same compact", date_1.compact_date = date.ordered_compact_date)
 
 			create date_2.make (2005, 12, 30) -- using range intervals to define each field
-			assert ("fits into 27 bits", date_2.upper_bit_index = 27)
+			if date_2.upper_bit_index = 27 then
+				do_nothing
+			else
+				lio.put_integer_field ("date_2.upper_bit_index", date_2.upper_bit_index)
+				lio.put_new_line
+				User_input.press_enter
+				failed ("fits into 27 bits")
+			end
 			compact_date := date_2.compact_date
 			assert ("same as", compact_date = 0x031CEB7D)
 
@@ -592,7 +599,7 @@ feature -- Tests
 		-- Compact Object Layout: In finalized mode, objects are stored in a more compact form,
 		-- which reduces their memory footprint. As a result, `{INTERNAL}.deep_physical_size' might
 		-- report a smaller size compared to workbench mode				
-			percent := choose [53, 35] #? Executable.is_finalized
+			percent := choose [53, 36] #? Executable.is_finalized
 
 			if space_saved_percent /= percent then
 				failed (percent.out + "%% memory saving")

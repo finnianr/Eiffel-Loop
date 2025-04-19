@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 15:02:30 GMT (Thursday 17th April 2025)"
-	revision: "23"
+	date: "2025-04-19 14:15:50 GMT (Saturday 19th April 2025)"
+	revision: "24"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -175,6 +175,16 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Constants
+
+	Character_area_32: EL_CHARACTER_32_AREA_ACCESS
+		once
+			create Result.make_empty
+		end
+
+	Character_area_8: EL_CHARACTER_8_AREA_ACCESS
+		once
+			create Result.make_empty
+		end
 
 	Shared_super_32: EL_STRING_32
 		once

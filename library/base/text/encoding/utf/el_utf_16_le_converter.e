@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:55:31 GMT (Tuesday 8th April 2025)"
-	revision: "6"
+	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
+	revision: "7"
 
 expanded class
 	EL_UTF_16_LE_CONVERTER
@@ -71,12 +71,10 @@ feature -- Measurement
 
 	frozen unicode_count (s: READABLE_STRING_8): INTEGER
 		local
-			i, end_index: INTEGER; area: SPECIAL [CHARACTER]
+			i, i_lower, i_upper: INTEGER
 		do
-			if attached super_readable_8 (s) as super then
-				area := super.area
-				end_index := super.index_upper
-				from i := super.index_lower until i > end_index loop
+			if attached Character_area_8.get (s, $i_lower, $i_upper) as area then
+				from i := i_lower until i > i_upper loop
 					Result := Result + 1
 					i := i + sequence_count (area [i].natural_32_code | (area [i + 1].natural_32_code |<< 8))
 				end
@@ -114,9 +112,7 @@ feature -- Basic operations
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
 			area: SPECIAL [CHARACTER_8]
 		do
-			if attached super_readable_8 (s) as super then
-				area := super.area; offset := super.index_lower
-			end
+			area := Character_area_8.get_lower (s, $offset)
 			n := end_index - start_index + 1
 			i_final := offset + start_index + n - 1
 			a_result.grow (a_result.count + n)

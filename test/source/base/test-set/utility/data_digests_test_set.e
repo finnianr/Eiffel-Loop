@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 7:59:13 GMT (Friday 20th September 2024)"
-	revision: "28"
+	date: "2025-04-19 13:26:56 GMT (Saturday 19th April 2025)"
+	revision: "29"
 
 class
 	DATA_DIGESTS_TEST_SET
@@ -56,9 +56,11 @@ feature -- Tests
 
 	test_file_crc_32
 		note
-			testing: "covers/{EL_CRC_32_CHECKSUM_ROUTINES}.utf_8_file_content",
-						"covers/{EL_CRC_32_CHECKSUM_ROUTINES}.string_list",
-						"covers/{EL_PLAIN_TEXT_LINE_SOURCE}.start" -- when file is closed
+			testing: "[
+				covers/{EL_CRC_32_CHECKSUM_ROUTINES}.utf_8_file_content,
+				covers/{EL_CRC_32_CHECKSUM_ROUTINES}.string_list,
+				covers/{EL_PLAIN_TEXT_LINE_SOURCE}.start
+			]" -- when file is closed
 		local
 			file_path: FILE_PATH
 		do
@@ -76,9 +78,11 @@ feature -- Tests
 	test_md5_128
 		-- DATA_DIGESTS_TEST_SET.test_md5_128
 		note
-			testing: "covers/{EL_DATA_SINKABLE}.sink_string_8",
-						"covers/{EL_DATA_SINKABLE}.sink_string",
-						"covers/{EL_DATA_SINKABLE}.sink_character_array"
+			testing: "[
+				covers/{EL_DATA_SINKABLE}.sink_string_8,
+				covers/{EL_DATA_SINKABLE}.sink_string,
+				covers/{EL_DATA_SINKABLE}.sink_character_array
+			]"
 		local
 			str_8: STRING; zstr: ZSTRING; md5: EL_MD5_128
 		do

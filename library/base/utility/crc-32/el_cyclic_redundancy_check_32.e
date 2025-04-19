@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:46:03 GMT (Sunday 13th April 2025)"
-	revision: "39"
+	date: "2025-04-19 15:07:17 GMT (Saturday 19th April 2025)"
+	revision: "40"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -263,20 +263,24 @@ feature -- Add strings
 
 	add_string_32 (str: READABLE_STRING_32)
 			--
+		local
+			index_lower: INTEGER
 		do
 			if conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 				add_string (z_str)
 
-			elseif attached super_readable_32 (str) as super then
-				add_to_checksum (super.area.base_address + super.index_lower, str.count, character_32_bytes)
+			elseif attached Character_area_32.get_lower (str, $index_lower) as area then
+				add_to_checksum (area.base_address + index_lower, str.count, character_32_bytes)
 			end
 		end
 
 	add_string_8 (str: READABLE_STRING_8)
 			--
+		local
+			index_lower: INTEGER
 		do
-			if attached super_readable_8 (str) as super then
-				add_to_checksum (super.area.base_address + super.index_lower, str.count, character_8_bytes)
+			if attached Character_area_8.get_lower (str, $index_lower) as area then
+				add_to_checksum (area.base_address + index_lower, str.count, character_8_bytes)
 			end
 		end
 

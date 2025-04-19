@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 11:59:10 GMT (Tuesday 15th April 2025)"
-	revision: "37"
+	date: "2025-04-19 7:20:49 GMT (Saturday 19th April 2025)"
+	revision: "38"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -73,7 +73,7 @@ feature -- Measurement
 
 	start_plus_end_assignment_indices (line: READABLE_STRING_GENERAL; p_end_index: TYPED_POINTER [INTEGER]): INTEGER
 		local
-			p: EL_POINTER_ROUTINES; assign_index, end_index: INTEGER
+			p: EL_TYPED_POINTER_ROUTINES; assign_index, end_index: INTEGER
 		do
 			assign_index := line.substring_index (assign_symbol, 1)
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 14:09:49 GMT (Thursday 17th April 2025)"
-	revision: "13"
+	date: "2025-04-19 9:09:12 GMT (Saturday 19th April 2025)"
+	revision: "14"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -128,6 +128,7 @@ feature -- Element change
 			copy_area_32_data (area, a_area)
 			area [new_count] := to_char ('%U')
 			set_count (new_count)
+			update_shared
 		ensure
 			valid_count: count = old count + a_area.count
 			area_first_appended:
@@ -144,6 +145,7 @@ feature -- Element change
 				set_count (count - 2)
 				l_area.move_data (1, 0, count)
 			end
+			update_shared
 		end
 
 	remove_double
@@ -167,6 +169,7 @@ feature -- Element change
 		do
 			wipe_out; append_string_general (content)
 			set_count (count)
+			update_shared
 		end
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
@@ -207,6 +210,7 @@ feature -- Element change
 				intervals.back
 			end
 			set_count (count)
+			update_shared
 		end
 
 	to_canonically_spaced
@@ -239,6 +243,7 @@ feature -- Element change
 				if l_count > 50 and then ((i - j) * 100.0 / l_count).rounded > 15 then
 					trim -- reallocate to new size
 				end
+				update_shared
 			end
 		ensure
 			canonically_spaced: is_canonically_spaced
@@ -293,7 +298,7 @@ feature {NONE} -- Implementation
 					end
 					i := i + 1
 				end
-				set_count (j)
+				set_count (j); update_shared
 			end
 		end
 
@@ -313,8 +318,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	grow (newsize: INTEGER)
-		-- Ensure that the capacity is at least `newsize'.
+	grow (n: INTEGER)
 		deferred
 		end
 
@@ -326,12 +330,20 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	resize (new_size: INTEGER)
+		deferred
+		end
+
 	set_count (n: INTEGER)
 		deferred
 		end
 
 	trim
-		 -- reallocate to new size
+		deferred
+		end
+
+	update_shared
+		 -- update `shared_string'
 		deferred
 		end
 

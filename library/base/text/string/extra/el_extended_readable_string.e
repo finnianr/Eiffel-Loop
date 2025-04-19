@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 18:09:58 GMT (Sunday 6th April 2025)"
-	revision: "2"
+	date: "2025-04-19 14:28:59 GMT (Saturday 19th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING [CHAR -> COMPARABLE]
@@ -23,8 +23,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_empty
-		do
-			make (empty_target)
+		deferred
 		end
 
 end

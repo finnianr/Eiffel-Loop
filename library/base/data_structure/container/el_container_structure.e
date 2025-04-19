@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 8:38:46 GMT (Friday 18th April 2025)"
-	revision: "30"
+	date: "2025-04-19 13:25:39 GMT (Saturday 19th April 2025)"
+	revision: "31"
 
 deferred class
 	EL_CONTAINER_STRUCTURE [G]
@@ -277,7 +277,7 @@ feature -- Basic operations
 	do_meeting (action: EL_CONTAINER_ACTION [G]; condition: EL_QUERY_CONDITION [G])
 		-- perform `action' for each item meeting `condition'
 		local
-			i, upper, i_upper: INTEGER; l_area: SPECIAL [G]
+			i, upper, i_upper: INTEGER
 		do
 			if attached current_container as container then
 				inspect type_of_container (container)

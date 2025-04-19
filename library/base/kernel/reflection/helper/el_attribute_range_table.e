@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 18:32:53 GMT (Wednesday 16th April 2025)"
-	revision: "7"
+	date: "2025-04-19 11:41:38 GMT (Saturday 19th April 2025)"
+	revision: "8"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -23,33 +23,21 @@ inherit
 	EL_ATTRIBUTE_BIT_RANGE_TABLE
 		rename
 			make as make_masks
-		undefine
-			copy, default_create, is_equal
 		redefine
 			compact_value, make_field_arrays, set_from_compact
-		end
-
-	EL_HASH_TABLE [INTEGER_INTERVAL, POINTER]
-		rename
-			key_for_iteration as address_item,
-			item_for_iteration as range_item
-		export
-			{NONE} all
-			{ANY} valid_key, force
-		redefine
-			make_equal
 		end
 
 	EL_REFLECTION_HANDLER
 
 create
-	default_create
+	make
 
 feature {NONE} -- Initialization
 
-	make_equal (n: INTEGER)
+	make (field_list: EL_FIELD_LIST)
+		-- make with `field_list' of object implementing EL_COMPACTABLE_REFLECTIVE
 		do
-			Precursor (n)
+			create field_range_map.make (field_list.count)
 			make_field_arrays (0)
 		end
 
@@ -57,6 +45,13 @@ feature {NONE} -- Initialization
 		do
 			Precursor (n)
 			create field_offset.make_empty (n)
+		end
+
+feature -- Measurement
+
+	count: INTEGER
+		do
+			Result := field_range_map.count
 		end
 
 feature -- Access
@@ -87,32 +82,30 @@ feature -- Access
 
 feature -- Basic operations
 
-	initialize (object: EL_COMPACTABLE_REFLECTIVE)
+	initialize
+		require
+			all_fields_set: all_fields_set
 		local
-			bit_count, bit_shift: INTEGER; bit_mask: NATURAL_64
-			b: EL_NATURAL_64_BIT_ROUTINES
+			bit_count, bit_shift: INTEGER; bit_mask: NATURAL_64; b: EL_NATURAL_64_BIT_ROUTINES
 		do
 			make_field_arrays (count)
-			if attached object.field_list as field_list then
-				from start until after loop
-					if attached field_list.field_with_address (object, address_item) as field
-						and then attached {EL_REFLECTED_EXPANDED_FIELD [ANY]} field as expanded_field
-						and then attached as_range_64 (range_item) as range_64
-					then
+			if attached field_range_map as list then
+				from list.start until list.after loop
+					if attached list.item_key as expanded_field and then attached list.item_value as range_64 then
 						bit_count := to_bit_count (range_64)
 						bit_mask := b.filled_bits (bit_count) |<< bit_shift
 						field_array.extend (expanded_field)
 						field_bitshift.extend (bit_shift)
 						field_mask.extend (bit_mask)
-						field_offset.extend (range_64.lower_.to_natural_64)
+						field_offset.extend (range_64.lower.to_natural_64)
 						bit_shift := bit_shift + bit_count
 					end
-					forth
+					list.forth
 				end
 			end
-			is_initialized := object.field_table.count = field_array.count
+			is_initialized := True
+			create field_range_map.make (0) -- recover area memory
 		ensure
-			initialized: is_initialized
 			no_masks_overlap: no_masks_overlap
 		end
 
@@ -137,6 +130,31 @@ feature -- Basic operations
 			end
 		end
 
+feature -- Element change
+
+	set_32 (a_field: detachable like field_array.item; lower, upper: INTEGER)
+		require
+			attached_field: a_field /= Void
+		do
+			set_64 (a_field, lower.to_integer_64, upper.to_integer_64)
+		end
+
+	set_64 (a_field: detachable like field_array.item; lower, upper: INTEGER_64)
+		require
+			attached_field: a_field /= Void
+		do
+			if attached a_field as field then
+				field_range_map.extend (field, create {EL_INTEGER_64_INTERVAL}.make (lower, upper))
+			end
+		end
+
+feature -- Contract Support
+
+	all_fields_set: BOOLEAN
+		do
+			Result := field_range_map.full
+		end
+
 feature {NONE} -- Implementation
 
 	frozen is_negative (n: NATURAL_64): BOOLEAN
@@ -149,29 +167,22 @@ feature {NONE} -- Implementation
 			Result := (n - 1).bit_not
 		end
 
-	frozen as_range_64 (range: INTEGER_INTERVAL): TUPLE [lower_, upper_: INTEGER_64]
-		do
-			if attached {EL_INTEGER_64_INTERVAL} range as range_64 then
-				Result := [range_64.lower, range_64.upper]
-			else
-				Result := [range.lower.to_integer_64, range.upper.to_integer_64]
-			end
-		end
-
-	frozen to_bit_count (range: like as_range_64): INTEGER
+	frozen to_bit_count (range: EL_INTEGER_64_INTERVAL): INTEGER
 		local
 			b: EL_BIT_ROUTINES; lower, upper, maximum: NATURAL_64
 		do
-			lower := range.lower_.abs.to_natural_64
-			upper := range.upper_.to_natural_64
-			maximum := if range.lower_ >= 0 then upper - lower else upper + lower end
+			lower := range.lower.abs.to_natural_64
+			upper := range.upper.to_natural_64
+			maximum := if range.lower >= 0 then upper - lower else upper + lower end
 			Result := 64 - b.leading_zeros_count_64 (maximum)
 		end
 
 feature {NONE} -- Internal attributes
 
-	field_offset: SPECIAL [NATURAL_64];
+	field_offset: SPECIAL [NATURAL_64]
 		-- offset to shift range.lower to zero
+
+	field_range_map: EL_ARRAYED_MAP_LIST [EL_REFLECTED_EXPANDED_FIELD [ANY], EL_INTEGER_64_INTERVAL];
 
 note
 	notes: "[
@@ -183,24 +194,16 @@ note
 
 				Range_table: EL_ATTRIBUTE_RANGE_TABLE
 					once
-						create Result
-						Result [$day] := 1 |..| 31
-						Result [$month] := 1 |..| 12
-						Result [$year] := -100_000 |..| 100_000
-						Result.initialize (Current)
+						create Result.make (field_list)
+						Result.set_32 (field ($day), 1, 31)
+						Result.set_32 (field ($month), 1, 12)
+						Result.set_64 (field ($year), -100_000, 100_000)
+						Result.initialize
 					end
-			end
 
 		**Large Values**
 
-		To specify range values greater than ${INTEGER_32_REF}.Max_value use the `range' function
-		defined as:
-
-			range (lower, upper: INTEGER_64): EL_INTEGER_64_INTERVAL
-				do
-					create Result.make (lower, upper)
-				end
-
+		To specify range values greater than ${INTEGER_32_REF}.Max_value use the `set_64' routine
 	]"
 
 end

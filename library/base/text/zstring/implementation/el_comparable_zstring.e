@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 13:08:46 GMT (Wednesday 16th April 2025)"
-	revision: "55"
+	date: "2025-04-19 15:07:16 GMT (Saturday 19th April 2025)"
+	revision: "56"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -370,13 +370,14 @@ feature {NONE} -- Implementation
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		local
-			end_index: INTEGER
+			end_index, other_index_lower: INTEGER
 		do
 			end_index := start_index + end_pos - start_pos
 			if end_index <= count and then
 				attached shared_comparator_string_8 (start_index, end_index, case_insensitive) as list
+				and then attached Character_area_8.get_lower (other, $other_index_lower) as other_area
 			then
-				list.set_other_area (super_readable_8 (other))
+				list.set_other_area (other_area, other_index_lower)
 				Result := list.same_characters (area, start_pos - start_index)
 			end
 		end
@@ -392,13 +393,14 @@ feature {NONE} -- Implementation
 			valid_bounds: (start_pos <= end_pos) or (start_pos = end_pos + 1)
 			valid_index_pos: valid_index (start_index)
 		local
-			end_index: INTEGER
+			end_index, other_index_lower: INTEGER
 		do
 			end_index := start_index + end_pos - start_pos
 			if end_index <= count and then
 				attached shared_comparator_string_32 (start_index, end_index, case_insensitive) as list
+				and then attached Character_area_32.get_lower (other, $other_index_lower) as other_area
 			then
-				list.set_other_area (super_readable_32 (other))
+				list.set_other_area (other_area, other_index_lower)
 				Result := list.same_characters (area, start_pos - start_index)
 			end
 		end

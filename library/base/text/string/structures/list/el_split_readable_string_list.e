@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 15:28:08 GMT (Friday 18th April 2025)"
-	revision: "50"
+	date: "2025-04-19 7:46:37 GMT (Saturday 19th April 2025)"
+	revision: "51"
 
 class
 	EL_SPLIT_READABLE_STRING_LIST [S -> READABLE_STRING_GENERAL create make end]

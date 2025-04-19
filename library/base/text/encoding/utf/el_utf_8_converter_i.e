@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 17:46:17 GMT (Tuesday 15th April 2025)"
-	revision: "10"
+	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_UTF_8_CONVERTER_I
@@ -107,9 +107,11 @@ feature {NONE} -- Measurement
 		end
 
 	frozen unicode_count (str: READABLE_STRING_8): INTEGER
+		local
+			index_lower, index_upper: INTEGER
 		do
-			if attached super_readable_8 (str) as s then
-				Result := array_unicode_count (s.area, s.index_lower, s.index_upper)
+			if attached Character_area_8.get (str, $index_lower, $index_upper) as area then
+				Result := array_unicode_count (area, index_lower, index_upper)
 			end
 		end
 
@@ -118,11 +120,11 @@ feature {NONE} -- Measurement
 			valid_start_index: str.valid_index (start_index)
 			valid_end_index: end_index >= start_index - 1 and end_index <= str.count
 		local
-			first_index: INTEGER
+			first_index, index_lower: INTEGER
 		do
-			if attached super_readable_8 (str) as s then
-				first_index := s.index_lower + start_index - 1
-				Result := array_unicode_count (s.area, first_index, first_index + end_index - start_index)
+			if attached Character_area_8.get_lower (str, $index_lower) as area then
+				first_index := index_lower + start_index - 1
+				Result := array_unicode_count (area, first_index, first_index + end_index - start_index)
 			end
 		end
 
@@ -183,22 +185,21 @@ feature {NONE} -- Basic operations
 	-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
 		local
 			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
-			area: SPECIAL [CHARACTER_8]; area_32: SPECIAL [CHARACTER_32]
+			area_32: SPECIAL [CHARACTER_32]
 		do
-			if attached super_readable_8 (str) as s then
-				area := s.area; offset := s.index_lower
-			end
-			n := end_index - start_index + 1
-			if n > 0 then
-				i_final := offset + start_index + n - 1
-				create area_32.make_empty (n)
-				from i := offset + start_index - 1 until i >= i_final loop
-					code := area [i].natural_32_code
-					byte_count := sequence_count (code)
-					area_32.extend (unicode (area, code, i, byte_count).to_character_32)
-					i := i + byte_count
+			if attached Character_area_8.get_lower (str, $offset) as area then
+				n := end_index - start_index + 1
+				if n > 0 then
+					i_final := offset + start_index + n - 1
+					create area_32.make_empty (n)
+					from i := offset + start_index - 1 until i >= i_final loop
+						code := area [i].natural_32_code
+						byte_count := sequence_count (code)
+						area_32.extend (unicode (area, code, i, byte_count).to_character_32)
+						i := i + byte_count
+					end
+					super_general (a_result).append_area_32 (area_32)
 				end
-				super_general (a_result).append_area_32 (area_32)
 			end
 		ensure
 			roundtrip: attached str.substring (start_index, end_index) as s and then is_valid_string_8 (s)

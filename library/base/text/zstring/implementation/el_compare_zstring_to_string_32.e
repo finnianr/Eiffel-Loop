@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:08:53 GMT (Tuesday 8th April 2025)"
-	revision: "10"
+	date: "2025-04-19 14:58:30 GMT (Saturday 19th April 2025)"
+	revision: "11"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_32
@@ -26,10 +26,9 @@ create
 
 feature -- Element change
 
-	set_other_area (a_string: like extended_string)
+	set_other_area (a_area: SPECIAL [CHARACTER_32]; index_lower: INTEGER)
 		do
-			other_area := a_string.area
-			other_area_first_index := a_string.index_lower
+			other_area := a_area; other_area_first_index := index_lower
 		end
 
 feature {NONE} -- Implementation

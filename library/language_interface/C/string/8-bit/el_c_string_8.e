@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:34:46 GMT (Tuesday 8th April 2025)"
-	revision: "12"
+	date: "2025-04-19 15:08:40 GMT (Saturday 19th April 2025)"
+	revision: "13"
 
 class
 	EL_C_STRING_8
@@ -38,12 +38,14 @@ feature {NONE} -- Initialization
 
 	make_from_string (string: READABLE_STRING_8)
 			--
+		local
+			index_lower: INTEGER
 		do
 			count := string.count
 			capacity := count + 1
 			make_buffer (capacity)
-			if attached super_readable_8 (string) as super then
-				put_special_character_8 (super.area, super.index_lower, 0, count)
+			if attached Character_area_8.get_lower (string, $index_lower) as area then
+				put_special_character_8 (area, index_lower, 0, count)
 				put_natural_8 (0, count)
 			end
 		end

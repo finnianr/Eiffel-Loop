@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 16:02:47 GMT (Friday 18th April 2025)"
-	revision: "1"
+	date: "2025-04-18 21:45:38 GMT (Friday 18th April 2025)"
+	revision: "2"
 
 class
 	EL_SPLIT_UTF_8_IMMUTABLE_STRING_8_ITERATION_CURSOR
@@ -47,7 +47,7 @@ feature -- Basic operations
 	append_item_to_string_32 (str_32: STRING_32)
 		do
 			if attached String_pool.borrowed_item as borrowed and then attached borrowed.empty as str then
-				append_item_to (str); str.append_to_string_8 (str_32)
+				append_item_to (str); str.append_to_string_32 (str_32)
 				borrowed.return
 			end
 		end

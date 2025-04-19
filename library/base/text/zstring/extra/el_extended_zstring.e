@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 14:53:43 GMT (Thursday 17th April 2025)"
-	revision: "7"
+	date: "2025-04-19 14:33:23 GMT (Saturday 19th April 2025)"
+	revision: "8"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -20,17 +20,15 @@ inherit
 		rename
 			append_to as append_to_other,
 			is_ascii_substring as is_other_ascii_substring,
-			set_count as set_string_count,
 			split as zstring_split,
 			split_adjusted as split_adjusted_general
 		redefine
-			append_area_32, make, resize, share, trim
+			append_area_32, make, trim, share
 		end
 
 	EL_EXTENDED_STRING_32
 		rename
 			area as unencoded_area,
-			empty_target as empty_string,
 			set_target as share,
 			shared_substring as shared_immutable_substring
 		undefine
@@ -493,13 +491,12 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	resize (newsize: INTEGER)
-		-- Rearrange string so that it can accommodate at least `newsize' characters.
+	trim
+		-- Fix for BOUNDED invariant when calling `update_shared'
+		--		valid_count: count <= capacity
 		do
-			Precursor (newsize)
-			if shared_string /= Current then
-				shared_string.share (Current)
-			end
+			shared_string.set_count (count)
+			Precursor
 		end
 
 	right_bracket_index (unencoded: like unencoded_area; left_bracket: CHARACTER_32; start_index, end_index: INTEGER): INTEGER
@@ -510,22 +507,11 @@ feature {NONE} -- Implementation
 			Result := c.right_bracket_index (area, left_bracket.to_character_8, start_index, end_index)
 		end
 
-	set_count (n: INTEGER)
+	update_shared
+		 -- update `shared_string'
 		do
-			set_string_count (n)
 			if shared_string /= Current then
-				shared_string.set_count (n)
-			end
-		end
-
-	trim
-		 -- reallocate to new size
-		do
-			if attached area as l_area then
-				Precursor
-				if l_area /= area and then shared_string /= Current then
-					shared_string.share (Current)
-				end
+				shared_string.share (Current)
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:45:55 GMT (Sunday 13th April 2025)"
-	revision: "21"
+	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
+	revision: "22"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -242,8 +242,8 @@ feature -- Write operations
 
 	write_string_32 (str: READABLE_STRING_32)
 		local
-			i, pos, first_index, last_index: INTEGER; compressed_32: SPECIAL [NATURAL_8]
-			area: SPECIAL [CHARACTER_32]; is_native: BOOLEAN
+			i, pos, i_lower, i_upper: INTEGER; compressed_32: SPECIAL [NATURAL_8]
+			is_native: BOOLEAN
 		do
 			if conforms_to_zstring (str) and then attached {ZSTRING} str as z_str then
 				write_string (z_str)
@@ -253,15 +253,13 @@ feature -- Write operations
 				buf.put_integer_32 (str.count, pos)
 				pos := pos + Integer_32_bytes
 
-				if attached super_readable_32 (str) as super then
-					area := super.area; first_index := super.index_lower
-					last_index := super.index_upper
-				end
-				from i := first_index until i > last_index loop
-					compressed_32 := new_compressed_natural_32 (area [i].natural_32_code, is_native)
-					buf.put_special_natural_8 (compressed_32, 0, pos, compressed_32.count)
-					pos := pos + compressed_32.count
-					i := i + 1
+				if attached Character_area_32.get (str, $i_lower, $i_upper) as area then
+					from i := i_lower until i > i_upper loop
+						compressed_32 := new_compressed_natural_32 (area [i].natural_32_code, is_native)
+						buf.put_special_natural_8 (compressed_32, 0, pos, compressed_32.count)
+						pos := pos + compressed_32.count
+						i := i + 1
+					end
 				end
 				count := pos
 			end
@@ -270,17 +268,15 @@ feature -- Write operations
 	write_string_8 (str: READABLE_STRING_8)
 			-- Write `str'.
 		local
-			i, pos, first_index, last_index: INTEGER
-			area: SPECIAL [CHARACTER_8]
+			i, pos, i_lower, i_upper: INTEGER; area: SPECIAL [CHARACTER_8]
 		do
 			write_compressed_natural_32 (str.count.to_natural_32)
-			if attached super_readable_8 (str) as super then
-				area := super.area
-				first_index := super.index_lower; last_index := super.index_upper
+			if attached Character_area_8.get (str, $i_lower, $i_upper) as l_area then
+				area := l_area
 			end
 			if attached big_enough_buffer (str.count) as buf then
 				pos := count
-				from i := first_index until i > last_index loop
+				from i := i_lower until i > i_upper loop
 					buf.put_character (area [i], pos)
 					pos := pos + 1
 					i := i + 1

@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:49:03 GMT (Tuesday 8th April 2025)"
-	revision: "7"
+	date: "2025-04-19 15:09:02 GMT (Saturday 19th April 2025)"
+	revision: "8"
 
 class
 	EL_STRING_8_POINTER
@@ -39,12 +39,14 @@ convert
 feature {NONE} -- Initialization
 
 	make (string: READABLE_STRING_8)
+		local
+			index_lower: INTEGER
 		do
-			if attached super_readable_8 (string) as super then
-				area := super.area
+			if attached Character_area_8.get_lower (string, $index_lower) as l_area then
+				area := l_area
 				-- Prevent garbage collector from moving or collecting `area'
 				adopted_area := eif_adopt (area)
-				area_first_index := super.index_lower
+				area_first_index := index_lower
 				share_from_pointer (area.base_address + area_first_index, string.count)
 			end
 		end

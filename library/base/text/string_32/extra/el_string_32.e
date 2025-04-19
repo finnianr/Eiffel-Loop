@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 14:10:17 GMT (Thursday 17th April 2025)"
-	revision: "27"
+	date: "2025-04-19 14:30:43 GMT (Saturday 19th April 2025)"
+	revision: "28"
 
 class
 	EL_STRING_32
@@ -19,7 +19,6 @@ inherit
 	STRING_32
 		rename
 			replace_character as replace_every_character,
-			set_count as set_string_count,
 			split as split_list
 		export
 			{EL_STRING_32_CONSTANTS} String_searcher
@@ -27,12 +26,11 @@ inherit
 		undefine
 			same_string
 		redefine
-			append_string_general, make, resize, share, trim
+			append_string_general, make, trim, share
 		end
 
 	EL_EXTENDED_STRING_32
 		rename
-			empty_target as empty_string_32,
 			set_target as share
 		undefine
 			count, has, is_valid_as_string_8, occurrences, valid_index
@@ -170,31 +168,19 @@ feature {NONE} -- Implementation
 			Result := other.area_lower
 		end
 
-	resize (newsize: INTEGER)
-		-- Rearrange string so that it can accommodate at least `newsize' characters.
+	trim
+		-- Fix for BOUNDED invariant when calling `update_shared'
+		--		valid_count: count <= capacity
 		do
-			Precursor (newsize)
+			shared_string.set_count (count)
+			Precursor
+		end
+
+	update_shared
+		 -- update `shared_string'
+		do
 			if shared_string /= Current then
 				shared_string.share (Current)
-			end
-		end
-
-	set_count (n: INTEGER)
-		do
-			set_string_count (n)
-			if shared_string /= Current then
-				shared_string.set_count (n)
-			end
-		end
-
-	trim
-		 -- reallocate to new size
-		do
-			if attached area as l_area then
-				Precursor
-				if l_area /= area and then shared_string /= Current then
-					shared_string.share (Current)
-				end
 			end
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-14 8:10:49 GMT (Monday 14th October 2024)"
-	revision: "2"
+	date: "2025-04-19 10:59:27 GMT (Saturday 19th April 2025)"
+	revision: "3"
 
 class
 	RANGE_COMPACTABLE_DATE
@@ -25,12 +25,11 @@ feature {NONE} -- Constants
 
 	Range_table: EL_ATTRIBUTE_RANGE_TABLE
 		once
-			create Result
-			Result [$day] := 1 |..| 31
-			Result [$month] := 1 |..| 12
-			Result [$year] := range (-100_000, 100_000)
-
-			Result.initialize (Current)
+			create Result.make (field_list)
+			Result.set_32 (field ($day), 1, 31)
+			Result.set_32 (field ($month), 1, 12)
+			Result.set_64 (field ($year), -100_000, 100_000)
+			Result.initialize
 		end
 
 end

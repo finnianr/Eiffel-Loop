@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 12:31:45 GMT (Saturday 5th April 2025)"
-	revision: "14"
+	date: "2025-04-19 15:07:17 GMT (Saturday 19th April 2025)"
+	revision: "15"
 
 deferred class
 	EL_BASE_POWER_2_CONVERTER
@@ -169,19 +169,19 @@ feature {NONE} -- Implementation
 		str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER
 
 	): TUPLE [area: SPECIAL [CHARACTER]; offset: INTEGER]
+		local
+			index_lower: INTEGER
 		do
 			create Result
 			inspect string_storage_type (str)
 				when '1' then
 					if attached {READABLE_STRING_8} str as str_8
-						and then attached super_readable_8 (str_8) as s
+						and then attached Character_area_8.get_lower (str_8, $index_lower) as area
 					then
-						Result.offset := s.index_lower; Result.area := s.area
+						Result.offset := index_lower; Result.area := area
 					end
 				when '4' then
-					if attached {READABLE_STRING_32} str as str_32
-						and then attached Buffer.empty as substring
-					then
+					if attached {READABLE_STRING_32} str as str_32 and then attached Buffer.empty as substring then
 						super_readable_32 (str_32).append_substring_to_string_8 (substring, start_index, end_index)
 						Result.area := substring.area
 					end

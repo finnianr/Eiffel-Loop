@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:08:07 GMT (Tuesday 8th April 2025)"
-	revision: "7"
+	date: "2025-04-19 14:57:35 GMT (Saturday 19th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_COMPARABLE_ZSTRING_INTERVALS [CHAR -> COMPARABLE, S -> READABLE_INDEXABLE [CHAR]]
@@ -49,7 +49,7 @@ feature -- Element change
 			other_area_reset: other_area = default_other_area
 		end
 
-	set_other_area (a_string: like extended_string)
+	set_other_area (a_area: SPECIAL [CHAR]; index_lower: INTEGER)
 		deferred
 		end
 

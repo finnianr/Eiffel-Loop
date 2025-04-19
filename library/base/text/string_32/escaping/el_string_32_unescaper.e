@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:30:36 GMT (Tuesday 8th April 2025)"
-	revision: "11"
+	date: "2025-04-19 15:06:54 GMT (Saturday 19th April 2025)"
+	revision: "12"
 
 class
 	EL_STRING_32_UNESCAPER
@@ -56,18 +56,14 @@ feature {NONE} -- Implementation
 
 	unescaped_array (str: READABLE_STRING_32): SPECIAL [CHARACTER_32]
 		local
-			i, seq_count, first_index, last_index: INTEGER
+			i, seq_count, i_lower, i_upper: INTEGER
 			l_area: SPECIAL [CHARACTER_32]
 			char_i, esc_char: CHARACTER_32
 		do
 			esc_char := escape_code.to_character_32
-			if attached super_readable_32 (str) as super then
-				l_area := super.area
-				first_index := super.index_lower; last_index := super.index_upper
-			end
-
+			l_area := Character_area_32.get (str, $i_lower, $i_upper)
 			create Result.make_empty (str.count)
-			from i := first_index until i > last_index loop
+			from i := i_lower until i > i_upper loop
 				char_i := l_area.item (i)
 				if char_i = esc_char then
 					seq_count := sequence_count (str, i + 2)

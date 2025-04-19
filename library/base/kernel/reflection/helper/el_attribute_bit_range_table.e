@@ -30,8 +30,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-13 20:16:51 GMT (Sunday 13th October 2024)"
-	revision: "10"
+	date: "2025-04-19 10:02:23 GMT (Saturday 19th April 2025)"
+	revision: "11"
 
 class
 	EL_ATTRIBUTE_BIT_RANGE_TABLE

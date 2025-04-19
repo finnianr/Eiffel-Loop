@@ -6,23 +6,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:16:44 GMT (Friday 11th April 2025)"
-	revision: "3"
+	date: "2025-04-19 15:04:08 GMT (Saturday 19th April 2025)"
+	revision: "4"
 
 class
 	EL_READABLE_STRING_32
 
 inherit
 	EL_EXTENDED_READABLE_STRING_32
-		rename
-			empty_target as empty_string_32
-		end
 
-	STRING_32_ITERATION_CURSOR
-		rename
-			area_first_index as index_lower,
-			area_last_index as index_upper,
-			make as set_target
+	EL_CHARACTER_32_AREA_ACCESS
+		export
+			{NONE} all
 		end
 
 	EL_STRING_BIT_COUNTABLE [READABLE_STRING_32]

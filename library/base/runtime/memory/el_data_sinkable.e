@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:46:07 GMT (Sunday 13th April 2025)"
-	revision: "33"
+	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
+	revision: "34"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -286,22 +286,17 @@ feature -- String sinks
 
 	sink_string_32 (in: READABLE_STRING_32)
 		local
-			l_area: SPECIAL [CHARACTER_32]; i, i_lower, i_upper: INTEGER
+			i, i_lower, i_upper: INTEGER
 		do
 			if conforms_to_zstring (in) and then attached {EL_READABLE_ZSTRING} in as z_str then
 				sink_string (z_str)
 
 			elseif utf_8_mode_enabled then
 				super_readable_32 (in).write_utf_8_to (Current)
-			else
-				if in.is_immutable and then attached super_readable_32 (in) as s then
-					l_area := s.area; i_lower := s.index_lower; i_upper := s.index_upper
 
-				elseif attached {STRING_32} in as str_32 then
-					l_area := str_32.area; i_upper := str_32.count - 1
-				end
+			elseif attached Character_area_32.get (in, $i_lower, $i_upper) as area then
 				from i := i_lower until i > i_upper loop
-					sink_natural_32 (l_area [i].natural_32_code)
+					sink_natural_32 (area [i].natural_32_code)
 					i := i + 1
 				end
 			end
@@ -309,19 +304,14 @@ feature -- String sinks
 
 	sink_string_8 (in: READABLE_STRING_8)
 		local
-			l_area: SPECIAL [CHARACTER_8]; i, i_lower, i_upper: INTEGER
+			i, i_lower, i_upper: INTEGER
 		do
 			if utf_8_mode_enabled then
 				super_readable_8 (in).write_utf_8_to (Current)
-			else
-				if in.is_immutable and then attached super_readable_8 (in) as s then
-					l_area := s.area; i_lower := s.index_lower; i_upper := s.index_upper
 
-				elseif attached {STRING_8} in as str_32 then
-					l_area := str_32.area; i_upper := str_32.count - 1
-				end
+			elseif attached Character_area_8.get (in, $i_lower, $i_upper) as area then
 				from i := i_lower until i > i_upper loop
-					sink_raw_character_8 (l_area [i])
+					sink_raw_character_8 (area [i])
 					i := i + 1
 				end
 			end

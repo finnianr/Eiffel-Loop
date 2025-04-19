@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 7:36:28 GMT (Thursday 17th April 2025)"
-	revision: "87"
+	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
+	revision: "88"
 
 deferred class
 	EL_ZCODEC
@@ -274,9 +274,9 @@ feature -- Encoding operations
 			inspect string_storage_type (unicode_in)
 				when '1' then
 					if attached {READABLE_STRING_8} unicode_in as uc_in
-						and then attached super_readable_8 (uc_in) as s_8
+						and then attached Character_area_8.get_lower (uc_in, $in_offset) as l_area
 					then
-						unicode := unicode_table; in_offset := s_8.index_lower; area := s_8.area
+						unicode := unicode_table; area := l_area
 						i_lower := start_index + in_offset - 1
 						i_upper := end_index + in_offset - 1
 						out_i := i_lower - in_offset + out_offset - start_index + 1
@@ -325,16 +325,16 @@ feature -- Encoding operations
 			valid_utf_16_input: utf_type = 16 implies utf_in.count \\ 2 = 0
 			valid_offset_and_count: valid_offset_and_count (unicode_count, encoded_out, out_offset)
 		local
-			i, j, byte_count, end_index, last_upper: INTEGER; leading_byte, unicode, code_1: NATURAL
-			uc: CHARACTER_32; c: CHARACTER; area: SPECIAL [CHARACTER]
-			l_unicodes: like unicode_table; is_utf_8_in: BOOLEAN
+			i, j, byte_count, i_lower, i_upper, last_upper: INTEGER; leading_byte, unicode, code_1: NATURAL
 			utf_8: EL_UTF_8_CONVERTER; utf_16_le: EL_UTF_16_LE_CONVERTER
+			uc: CHARACTER_32; c: CHARACTER; is_utf_8_in: BOOLEAN
 		do
-			l_unicodes := unicode_table; is_utf_8_in := utf_type = 8
-			if attached super_readable_8 (utf_in) as s_8 then
-				area := s_8.area; end_index := s_8.index_upper
+			is_utf_8_in := utf_type = 8
+			if attached Character_area_8.get (utf_in, $i_lower, $i_upper) as area
+				and then attached unicode_table as uc_table
+			then
 				last_upper := unencoded_characters.last_upper
-				from i := s_8.index_lower; j := out_offset until i > end_index loop
+				from i := i_lower; j := out_offset until i > i_upper loop
 					if is_utf_8_in then
 						leading_byte := area [i].natural_32_code
 						byte_count := utf_8.sequence_count (leading_byte)
@@ -345,7 +345,7 @@ feature -- Encoding operations
 						unicode := utf_16_le.unicode (area, code_1, i, byte_count)
 					end
 					uc := unicode.to_character_32
-					if unicode <= 0xFF and then l_unicodes [uc.code] = uc then
+					if unicode <= 0xFF and then uc_table [uc.code] = uc then
 						encoded_out [j] := uc.to_character_8
 					else
 						c := latin_character (uc)
@@ -373,10 +373,9 @@ feature -- Encoding operations
 			valid_offset_and_count: valid_offset_and_count (end_index - start_index + 1, encoded_out, out_offset)
 		local
 			i, out_i, code_i, in_offset: INTEGER; interval: NATURAL_64; c: CHARACTER; uc: CHARACTER_32
-			c_8_area: SPECIAL [CHARACTER_8]; o_unicode, unicode: like unicode_table
+			o_unicode, unicode: like unicode_table
 		do
-			if attached super_readable_8 (str_8) as s_8 then
-				in_offset := s_8.index_lower; c_8_area := s_8.area
+			if attached Character_area_8.get_lower (str_8, $in_offset) as c_8_area then
 				if id = other.id then
 					encoded_out.copy_data (c_8_area, start_index + in_offset - 1, out_offset, end_index - start_index + 1)
 				else
@@ -773,10 +772,9 @@ feature {NONE} -- Implementation
 			i, i_lower, i_upper, out_i, in_offset: INTEGER; latin_c: CHARACTER
 			interval: NATURAL_64; encode_default: BOOLEAN; uc_i: CHARACTER_32
 		do
-			if attached super_readable_32 (unicode_in) as s_32 and then attached s_32.area as area_32
+			if attached Character_area_32.get_lower (unicode_in, $in_offset) as area_32
 				 and then attached unicode_table as unicode
 			then
-				in_offset := s_32.index_lower
 				i_lower := start_index + in_offset - 1
 				i_upper := end_index + in_offset - 1
 				out_i := i_lower - in_offset + out_offset - start_index + 1
@@ -817,7 +815,7 @@ feature {NONE} -- Implementation
 		require
 			not_default_pointer: not state_alpha_ptr.is_default_pointer
 		local
-			p: EL_POINTER_ROUTINES
+			p: EL_TYPED_POINTER_ROUTINES
 		do
 			inspect state_alpha
 				when 1 then

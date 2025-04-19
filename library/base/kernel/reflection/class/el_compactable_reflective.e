@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 10:23:28 GMT (Friday 21st March 2025)"
-	revision: "10"
+	date: "2025-04-19 10:48:09 GMT (Saturday 19th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_COMPACTABLE_REFLECTIVE
@@ -193,9 +193,13 @@ feature -- Comparison
 
 feature {NONE} -- Implementation
 
-	range (lower, upper: INTEGER_64): EL_INTEGER_64_INTERVAL
+	field (field_address: TYPED_POINTER [ANY]): detachable EL_REFLECTED_EXPANDED_FIELD [ANY]
 		do
-			create Result.make (lower, upper)
+			if attached field_list.field_with_address (Current, field_address) as l_field
+				and then attached {like field} l_field as l_expanded
+			then
+				Result := l_expanded
+			end
 		end
 
 feature {NONE} -- Deferred

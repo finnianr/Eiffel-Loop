@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 15:21:01 GMT (Friday 18th April 2025)"
-	revision: "83"
+	date: "2025-04-19 7:47:32 GMT (Saturday 19th April 2025)"
+	revision: "84"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -175,11 +175,10 @@ feature {NONE} -- Deferred
 feature {NONE} -- Constants
 
 	Immutable_string_8_split_list: EL_BOOLEAN_INDEXABLE [EL_SPLIT_IMMUTABLE_STRING_8_LIST]
-		-- False -> latin-1; True -> UTF-8
 		once
 			create Result.make (
-				create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_empty,
-				create {EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make_empty
+				create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_empty, -- False -> latin-1
+				create {EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make_empty		-- True  -> UTF-8
 			)
 		end
 

@@ -5,8 +5,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "14"
+	date: "2025-04-19 8:04:06 GMT (Saturday 19th April 2025)"
+	revision: "15"
 
 class
 	P_I_TH_LOWER_UPPER_VS_INLINE_CODE
@@ -21,6 +21,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_TYPED_POINTER_ROUTINES_I
 
 create
 	make
@@ -53,12 +55,12 @@ feature {NONE} -- Implemenatation
 
 	test_i_th_lower_upper
 		local
-			i, n, lower, upper: INTEGER; ir: EL_INTERVAL_ROUTINES; p: EL_POINTER_ROUTINES
+			i, n, lower, upper: INTEGER; ir: EL_INTERVAL_ROUTINES
 			compact: INTEGER_64
 		do
 			n := area.count
 			from i := 1 until i > n loop
-				lower := p.i_th_lower_upper (area, i, $upper)
+				lower := i_th_lower_upper (area, i, $upper)
 				compact := ir.compact (lower, upper)
 				i := i + 1
 			end
@@ -76,6 +78,25 @@ feature {NONE} -- Implemenatation
 					compact := ir.compact (a [j], a [j + 1])
 				end
 				i := i + 1
+			end
+		end
+
+	i_th_lower_upper (a_area: SPECIAL [INTEGER]; i: INTEGER; upper_ptr: TYPED_POINTER [INTEGER]): INTEGER
+		-- (Removed from EL_TYPED_POINTER_ROUTINES_I)
+		-- i'th lower index setting integer at `upper_ptr' memory location as a side-effect
+		obsolete
+			"Too slow: inline code is faster x 100"
+		require
+			attached_upper: upper_ptr /= default_pointer
+		local
+			j, k: INTEGER
+		do
+			j := (i - 1) * 2; k := j + 1
+			if k < a_area.count then
+				Result := area [j]
+				put_integer_32 (a_area [k], upper_ptr)
+			else
+				Result := 1
 			end
 		end
 

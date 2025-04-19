@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 18:41:15 GMT (Tuesday 15th April 2025)"
-	revision: "162"
+	date: "2025-04-19 7:20:00 GMT (Saturday 19th April 2025)"
+	revision: "163"
 
 deferred class
 	EL_READABLE_ZSTRING
@@ -99,7 +99,7 @@ inherit
 			new_cursor
 		end
 
-	EL_POINTER_ROUTINES_I
+	EL_TYPED_POINTER_ROUTINES_I
 
 	EL_MODULO_INDEXABLE
 		undefine

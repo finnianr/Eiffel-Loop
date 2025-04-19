@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 14:34:19 GMT (Thursday 17th April 2025)"
-	revision: "8"
+	date: "2025-04-19 14:30:25 GMT (Saturday 19th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -27,7 +27,7 @@ inherit
 			utf_8_byte_count as code_utf_8_byte_count
 		end
 
-	EL_POINTER_ROUTINES_I
+	EL_TYPED_POINTER_ROUTINES_I
 
 	EL_STRING_HANDLER
 
@@ -192,10 +192,6 @@ feature {NONE} -- Deferred
 		end
 
 	area: SPECIAL [CHAR]
-		deferred
-		end
-
-	empty_target: like target
 		deferred
 		end
 

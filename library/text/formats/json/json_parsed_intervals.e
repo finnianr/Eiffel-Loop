@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-06 11:48:03 GMT (Sunday 6th April 2025)"
-	revision: "14"
+	date: "2025-04-19 15:09:44 GMT (Saturday 19th April 2025)"
+	revision: "15"
 
 class
 	JSON_PARSED_INTERVALS
@@ -183,7 +183,6 @@ feature {NONE} -- Implementation
 
 						when '{' then
 							lower := j; upper := j
-
 					else
 					end
 					if upper > 0 then
@@ -196,10 +195,9 @@ feature {NONE} -- Implementation
 
 	previous_index_of_end_quote (json: READABLE_STRING_8; start_index: INTEGER): INTEGER
 		local
-			i, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
+			i, offset: INTEGER
 		do
-			if attached super_readable_8 (json) as s then
-				l_area := s.area; offset := s.index_lower
+			if attached Character_area_8.get_lower (json, $offset) as l_area then
 				from i := start_index until i = 0 or else l_area [i + offset - 1] = '"' loop
 					i := i - 1
 				end

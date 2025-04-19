@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:39:10 GMT (Tuesday 8th April 2025)"
-	revision: "33"
+	date: "2025-04-19 15:07:16 GMT (Saturday 19th April 2025)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -83,11 +83,15 @@ feature -- Basic operations
 		end
 
 	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
+		local
+			index_lower: INTEGER
 		do
 			inspect abstract_type
 				when Character_32_type, Character_8_type then
-					if attached Utf_8_sequence as sequence and then attached super_readable_8 (utf_8) as super then
-						sequence.fill (super.area, super.index_lower)
+					if attached Utf_8_sequence as sequence
+						and then attached Character_area_8.get_lower (utf_8, $index_lower) as area
+					then
+						sequence.fill (area, index_lower)
 						set_from_natural_64 (a_object, sequence.to_unicode)
 					end
 			else
