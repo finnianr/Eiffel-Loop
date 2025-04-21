@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:16 GMT (Saturday 19th April 2025)"
-	revision: "56"
+	date: "2025-04-19 17:40:31 GMT (Saturday 19th April 2025)"
+	revision: "57"
 
 deferred class
 	EL_COMPARABLE_ZSTRING
@@ -370,15 +370,13 @@ feature {NONE} -- Implementation
 			-- Are characters of `other' within bounds `start_pos' and `end_pos'
 			-- identical to characters of current string starting at index `start_index'.
 		local
-			end_index, other_index_lower: INTEGER
+			end_index: INTEGER
 		do
 			end_index := start_index + end_pos - start_pos
 			if end_index <= count and then
-				attached shared_comparator_string_8 (start_index, end_index, case_insensitive) as list
-				and then attached Character_area_8.get_lower (other, $other_index_lower) as other_area
+				attached shared_comparator_string_8 (start_index, end_index, case_insensitive, other) as comparator
 			then
-				list.set_other_area (other_area, other_index_lower)
-				Result := list.same_characters (area, start_pos - start_index)
+				Result := comparator.same_characters (area, start_pos - start_index)
 			end
 		end
 
@@ -393,15 +391,13 @@ feature {NONE} -- Implementation
 			valid_bounds: (start_pos <= end_pos) or (start_pos = end_pos + 1)
 			valid_index_pos: valid_index (start_index)
 		local
-			end_index, other_index_lower: INTEGER
+			end_index: INTEGER
 		do
 			end_index := start_index + end_pos - start_pos
 			if end_index <= count and then
-				attached shared_comparator_string_32 (start_index, end_index, case_insensitive) as list
-				and then attached Character_area_32.get_lower (other, $other_index_lower) as other_area
+				attached shared_comparator_string_32 (start_index, end_index, case_insensitive, other) as comparator
 			then
-				list.set_other_area (other_area, other_index_lower)
-				Result := list.same_characters (area, start_pos - start_index)
+				Result := comparator.same_characters (area, start_pos - start_index)
 			end
 		end
 
@@ -420,7 +416,7 @@ feature {NONE} -- Implementation
 		end
 
 	shared_comparator_string_8 (
-		start_index, end_index: INTEGER; case_insensitive: BOOLEAN
+		start_index, end_index: INTEGER; case_insensitive: BOOLEAN; other: READABLE_STRING_8
 	): EL_COMPARE_ZSTRING_TO_STRING_8
 		do
 			if case_insensitive then
@@ -429,10 +425,11 @@ feature {NONE} -- Implementation
 				Result := Comparator_string_8
 			end
 			Result.set (unencoded_area, start_index, end_index)
+			Result.set_other_area (other)
 		end
 
 	shared_comparator_string_32 (
-		start_index, end_index: INTEGER; case_insensitive: BOOLEAN
+		start_index, end_index: INTEGER; case_insensitive: BOOLEAN; other: READABLE_STRING_32
 	): EL_COMPARE_ZSTRING_TO_STRING_32
 		do
 			if case_insensitive then
@@ -441,6 +438,7 @@ feature {NONE} -- Implementation
 				Result := Comparator_string_32
 			end
 			Result.set (unencoded_area, start_index, end_index)
+			Result.set_other_area (other)
 		end
 
 feature {NONE} -- Constants

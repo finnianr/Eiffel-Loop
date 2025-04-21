@@ -13,14 +13,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 14:15:50 GMT (Saturday 19th April 2025)"
-	revision: "24"
+	date: "2025-04-20 15:27:58 GMT (Sunday 20th April 2025)"
+	revision: "25"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
 
 inherit
-	EL_STRING_HANDLER
+	EL_EXTENDED_STRING_SELECTION
+
+	EL_EXTENDED_READABLE_STRING_SELECTION
 
 feature {NONE} -- Implementation
 
@@ -91,80 +93,6 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	super_32 (str: STRING_32): EL_STRING_32
-		do
-			Result := Shared_super_32
-			Result.share (str)
-		end
-
-	super_8 (str: STRING_8): EL_STRING_8
-		do
-			Result := Shared_super_8
-			Result.share (str)
-		end
-
-	super_general (str: STRING_GENERAL): EL_EXTENDED_STRING_GENERAL [COMPARABLE]
-		-- modify `str' with routines from EL_EXTENDED_STRING_GENERAL
-		do
-			Result := super_general_by_type (str, string_storage_type (str))
-		end
-
-	super_general_by_type (str: STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_STRING_GENERAL [COMPARABLE]
-		-- modify `str' with routines from EL_EXTENDED_STRING_GENERAL
-		require
-			valid_type_code: valid_string_storage_type (type_code)
-		do
-			inspect type_code
-				when '1' then
-					Result := Shared_super_8
-
-				when 'X' then
-					Result := shared_super_z
-			else
-				Result := Shared_super_32
-			end
-			Result.share (str)
-		end
-
-	super_readable_32 (str: READABLE_STRING_32): EL_READABLE_STRING_32
-		do
-			Result := Shared_super_readable_32
-			Result.set_target (str)
-		end
-
-	super_readable_8 (str: READABLE_STRING_8): EL_READABLE_STRING_8
-		do
-			Result := Shared_super_readable_8
-			Result.set_target (str)
-		end
-
-	super_readable_by_type (str: READABLE_STRING_GENERAL; type_code: CHARACTER): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
-		require
-			valid_type_code: valid_string_storage_type (type_code)
-		do
-			inspect type_code
-				when '1' then
-					Result := Shared_super_readable_8
-
-				when 'X' then
-					Result := shared_super_z
-			else
-				Result := Shared_super_readable_32
-			end
-			Result.set_target (str)
-		end
-
-	super_readable_general (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
-		do
-			Result := super_readable_by_type (str, string_storage_type (str))
-		end
-
-	super_z (str: ZSTRING): EL_EXTENDED_ZSTRING
-		do
-			Result := shared_super_z
-			Result.share (str)
-		end
-
 	to_ascii_string_8 (str: READABLE_STRING_GENERAL): detachable READABLE_STRING_8
 		do
 			if str.is_string_8 and then attached {READABLE_STRING_8} str as str_8
@@ -174,17 +102,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {NONE} -- Constants
-
-	Character_area_32: EL_CHARACTER_32_AREA_ACCESS
-		once
-			create Result.make_empty
-		end
-
-	Character_area_8: EL_CHARACTER_8_AREA_ACCESS
-		once
-			create Result.make_empty
-		end
+feature {NONE} -- Mutable strings
 
 	Shared_super_32: EL_STRING_32
 		once
@@ -196,6 +114,13 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
+	Shared_super_z: EL_EXTENDED_ZSTRING
+		once
+			create Result.make_empty
+		end
+
+feature {NONE} -- Readable strings
+
 	Shared_super_readable_32: EL_READABLE_STRING_32
 		once
 			create Result.make_empty
@@ -206,7 +131,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	shared_super_z: EL_EXTENDED_ZSTRING
+	Shared_super_readable_z: EL_EXTENDED_ZSTRING
 		once
 			create Result.make_empty
 		end

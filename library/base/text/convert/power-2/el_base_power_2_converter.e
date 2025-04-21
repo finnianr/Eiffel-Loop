@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:17 GMT (Saturday 19th April 2025)"
-	revision: "15"
+	date: "2025-04-20 11:58:26 GMT (Sunday 20th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_BASE_POWER_2_CONVERTER
@@ -15,9 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_STRING_GENERAL_ROUTINES_I
-
---	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_32_CURSOR
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 	EL_STRING_HANDLER
 
@@ -181,9 +179,10 @@ feature {NONE} -- Implementation
 						Result.offset := index_lower; Result.area := area
 					end
 				when '4' then
-					if attached {READABLE_STRING_32} str as str_32 and then attached Buffer.empty as substring then
-						super_readable_32 (str_32).append_substring_to_string_8 (substring, start_index, end_index)
-						Result.area := substring.area
+					if attached {READABLE_STRING_32} str as str_32
+						and then attached Buffer.copied_substring_general (str_32, start_index, end_index) as substring
+					then
+						Result.area := Character_area_8.get_lower (substring, $index_lower)
 					end
 				when 'X' then
 					if attached {EL_READABLE_ZSTRING} str as zstr then

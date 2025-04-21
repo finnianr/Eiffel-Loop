@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 11:41:38 GMT (Saturday 19th April 2025)"
-	revision: "8"
+	date: "2025-04-19 17:47:52 GMT (Saturday 19th April 2025)"
+	revision: "9"
 
 class
 	EL_ATTRIBUTE_RANGE_TABLE
@@ -133,6 +133,7 @@ feature -- Basic operations
 feature -- Element change
 
 	set_32 (a_field: detachable like field_array.item; lower, upper: INTEGER)
+		-- set numeric range of expanded field `a_field' for 32 bit values
 		require
 			attached_field: a_field /= Void
 		do
@@ -140,6 +141,7 @@ feature -- Element change
 		end
 
 	set_64 (a_field: detachable like field_array.item; lower, upper: INTEGER_64)
+		-- set numeric range of expanded field `a_field' for 64 bit values
 		require
 			attached_field: a_field /= Void
 		do

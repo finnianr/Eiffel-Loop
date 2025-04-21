@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
-	revision: "7"
+	date: "2025-04-20 11:38:54 GMT (Sunday 20th April 2025)"
+	revision: "8"
 
 expanded class
 	EL_UTF_16_LE_CONVERTER
@@ -15,7 +15,7 @@ expanded class
 inherit
 	EL_EXPANDED_ROUTINES
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 feature -- Conversion
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
-	revision: "22"
+	date: "2025-04-20 11:41:30 GMT (Sunday 20th April 2025)"
+	revision: "23"
 
 deferred class
 	EL_MEMORY_STRING_READER_WRITER
@@ -19,6 +19,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 feature -- Measurement
 

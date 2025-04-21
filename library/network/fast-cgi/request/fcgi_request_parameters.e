@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-01-31 8:34:23 GMT (Friday 31st January 2025)"
-	revision: "35"
+	date: "2025-04-21 8:07:55 GMT (Monday 21st April 2025)"
+	revision: "36"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -179,7 +179,7 @@ feature -- STRING_8 parameters
 
 feature -- EL_SUBSTRING_8 parameters
 
-	auth_type: EL_SUBSTRING_8
+	auth_type: EL_MANIFEST_SUBSTRING_8
 
 feature -- ZSTRING parameters
 
@@ -193,25 +193,25 @@ feature -- ZSTRING parameters
 
 feature -- EL_ZSUBSTRING parameters
 
-	gateway_interface: EL_ZSUBSTRING
+	gateway_interface: EL_MANIFEST_SUB_ZSTRING
 
-	document_root: EL_ZSUBSTRING
+	document_root: EL_MANIFEST_SUB_ZSTRING
 
-	path_translated: EL_ZSUBSTRING
+	path_translated: EL_MANIFEST_SUB_ZSTRING
 
-	remote_ident: EL_ZSUBSTRING
+	remote_ident: EL_MANIFEST_SUB_ZSTRING
 
-	remote_user: EL_ZSUBSTRING
+	remote_user: EL_MANIFEST_SUB_ZSTRING
 
-	script_filename: EL_ZSUBSTRING
+	script_filename: EL_MANIFEST_SUB_ZSTRING
 
-	script_name: EL_ZSUBSTRING
+	script_name: EL_MANIFEST_SUB_ZSTRING
 
-	script_url: EL_ZSUBSTRING
+	script_url: EL_MANIFEST_SUB_ZSTRING
 
-	server_addr: EL_ZSUBSTRING
+	server_addr: EL_MANIFEST_SUB_ZSTRING
 
-	server_signature: EL_ZSUBSTRING
+	server_signature: EL_MANIFEST_SUB_ZSTRING
 
 feature {NONE} -- Implementation
 

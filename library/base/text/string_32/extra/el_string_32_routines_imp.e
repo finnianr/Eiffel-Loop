@@ -6,19 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 15:52:45 GMT (Friday 18th April 2025)"
-	revision: "77"
+	date: "2025-04-21 8:58:34 GMT (Monday 21st April 2025)"
+	revision: "78"
 
 class EL_STRING_32_ROUTINES_IMP inherit ANY
 
 	EL_STRING_X_ROUTINES [STRING_32, READABLE_STRING_32, CHARACTER_32]
 		undefine
 			bit_count
-		end
-
-	EL_STRING_GENERAL_ROUTINES_I
-		export
-			{ANY} as_zstring, ZSTRING
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
@@ -49,9 +44,11 @@ feature -- Comparison
 feature -- Basic operations
 
 	append_to (str: STRING_32; extra: READABLE_STRING_GENERAL)
+		local
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if conforms_to_zstring (extra) then
-				as_zstring (extra).append_to_string_32 (str)
+				sg.as_zstring (extra).append_to_string_32 (str)
 			else
 				str.append_string_general (extra)
 			end
@@ -83,23 +80,6 @@ feature -- Factory
 		end
 
 feature {NONE} -- Implementation
-
-	append_lines_to (str_32: STRING_32; line_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST)
-		do
-			across line_list as list loop
-				if str_32.count > 0 then
-					str_32.append_character ('%N')
-				end
-				list.append_item_to_string_32 (str_32)
-			end
-		end
-
-	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_32)
-		local
-			u8: EL_UTF_8_CONVERTER
-		do
-			u8.string_8_into_string_general (utf_8, output)
-		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL)
 		do

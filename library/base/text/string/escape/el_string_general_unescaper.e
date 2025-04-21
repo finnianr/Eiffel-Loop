@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 14:29:47 GMT (Tuesday 8th April 2025)"
-	revision: "10"
+	date: "2025-04-20 11:42:10 GMT (Sunday 20th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_STRING_GENERAL_UNESCAPER [R -> READABLE_STRING_GENERAL, G -> STRING_GENERAL]
@@ -20,7 +20,9 @@ inherit
 			{NONE} all
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_STRING_HANDLER
+
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 feature {NONE} -- Initialization
 

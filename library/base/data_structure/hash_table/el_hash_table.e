@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-18 7:04:14 GMT (Tuesday 18th March 2025)"
-	revision: "41"
+	date: "2025-04-21 9:14:36 GMT (Monday 21st April 2025)"
+	revision: "42"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -60,69 +60,6 @@ feature {NONE} -- Initialization
 			append_tuples (array)
 		end
 
-	make_from_manifest_32 (
-		to_key: FUNCTION [IMMUTABLE_STRING_32, K]; to_item: FUNCTION [IMMUTABLE_STRING_32, G]
-		a_object_comparison: BOOLEAN; a_manifest: STRING_32
-	)
-		require
-			valid_manifest: valid_manifest (a_manifest)
-		local
-			line, key_string, item_string: IMMUTABLE_STRING_32; start_index, end_index: INTEGER
-			line_split: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
-			rs: EL_READABLE_STRING_GENERAL_ROUTINES
-		do
-			Immutable_32.set_item (a_manifest.area, 0, a_manifest.count)
-			create line_split.make (Immutable_32.item, '%N')
-			make (line_split.count)
-			object_comparison := a_object_comparison
-			across line_split as split loop
-				line := split.item
-				start_index := rs.start_plus_end_assignment_indices (line, $end_index)
-				if end_index > 0 and start_index > 0 then
-					key_string := line.shared_substring (1, end_index)
-					item_string := line.shared_substring (start_index, line.count)
-					extend (to_item (item_string), to_key (key_string))
-				end
-			end
-		end
-
-	make_from_manifest_8 (
-		to_key: FUNCTION [IMMUTABLE_STRING_8, K]; to_item: FUNCTION [IMMUTABLE_STRING_8, G]
-		a_object_comparison: BOOLEAN; a_manifest: STRING_8
-	)
-		require
-			valid_manifest: valid_manifest (a_manifest)
-		local
-			line, key_string, item_string: IMMUTABLE_STRING_8; end_index, start_index: INTEGER
-			line_split: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER
-			rs: EL_READABLE_STRING_GENERAL_ROUTINES
-		do
-			Immutable_8.set_item (a_manifest.area, 0, a_manifest.count)
-			create line_split.make (Immutable_8.item, '%N')
-			make (line_split.count)
-			object_comparison := a_object_comparison
-
-			across line_split as split loop
-				line := split.item
-				start_index := rs.start_plus_end_assignment_indices (line, $end_index)
-				if end_index > 0 and start_index > 0 then
-					key_string := line.shared_substring (1, end_index)
-					item_string := line.shared_substring (start_index, line.count)
-					extend (to_item (item_string), to_key (key_string))
-				end
-			end
-		end
-
-	make_from_map_list (map: EL_ARRAYED_MAP_LIST [K, G]; a_object_comparison: BOOLEAN)
-		do
-			make (map.count)
-			object_comparison := a_object_comparison
-			from map.start until map.after loop
-				put (map.item_value, map.item_key)
-				map.forth
-			end
-		end
-
 	make_from_keys (key_container: CONTAINER [K]; to_item: FUNCTION [K, G]; a_object_comparison: BOOLEAN)
 		require
 			valid_open_operands: as_key_structure (key_container).valid_open_argument (to_item)
@@ -146,6 +83,67 @@ feature {NONE} -- Initialization
 			else
 				make (1)
 				object_comparison := a_object_comparison
+			end
+		end
+
+	make_from_manifest_32 (
+		to_key: FUNCTION [IMMUTABLE_STRING_32, K]; to_item: FUNCTION [IMMUTABLE_STRING_32, G]
+		a_object_comparison: BOOLEAN; a_manifest: STRING_32
+	)
+		require
+			valid_manifest: valid_manifest (a_manifest)
+		local
+			line, key_string, item_string: IMMUTABLE_STRING_32; start_index, end_index: INTEGER
+			line_split: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
+		do
+			Immutable_32.set_item (a_manifest.area, 0, a_manifest.count)
+			create line_split.make (Immutable_32.item, '%N')
+			make (line_split.count)
+			object_comparison := a_object_comparison
+			across line_split as split loop
+				line := split.item
+				start_index := Manifest_item.start_plus_end_assignment_indices (line, $end_index)
+				if end_index > 0 and start_index > 0 then
+					key_string := line.shared_substring (1, end_index)
+					item_string := line.shared_substring (start_index, line.count)
+					extend (to_item (item_string), to_key (key_string))
+				end
+			end
+		end
+
+	make_from_manifest_8 (
+		to_key: FUNCTION [IMMUTABLE_STRING_8, K]; to_item: FUNCTION [IMMUTABLE_STRING_8, G]
+		a_object_comparison: BOOLEAN; a_manifest: STRING_8
+	)
+		require
+			valid_manifest: valid_manifest (a_manifest)
+		local
+			line, key_string, item_string: IMMUTABLE_STRING_8; end_index, start_index: INTEGER
+			line_split: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER
+		do
+			Immutable_8.set_item (a_manifest.area, 0, a_manifest.count)
+			create line_split.make (Immutable_8.item, '%N')
+			make (line_split.count)
+			object_comparison := a_object_comparison
+
+			across line_split as split loop
+				line := split.item
+				start_index := Manifest_item.start_plus_end_assignment_indices (line, $end_index)
+				if end_index > 0 and start_index > 0 then
+					key_string := line.shared_substring (1, end_index)
+					item_string := line.shared_substring (start_index, line.count)
+					extend (to_item (item_string), to_key (key_string))
+				end
+			end
+		end
+
+	make_from_map_list (map: EL_ARRAYED_MAP_LIST [K, G]; a_object_comparison: BOOLEAN)
+		do
+			make (map.count)
+			object_comparison := a_object_comparison
+			from map.start until map.after loop
+				put (map.item_value, map.item_key)
+				map.forth
 			end
 		end
 
@@ -175,14 +173,14 @@ feature -- Access
 			end
 		end
 
-	iteration_index: INTEGER
-		do
-			Result := position + 1
-		end
-
 	item_list, linear_representation: EL_ARRAYED_LIST [G]
 		do
 			create Result.make_from_special (item_area)
+		end
+
+	iteration_index: INTEGER
+		do
+			Result := position + 1
 		end
 
 	key_array, current_keys: ARRAY [K]
@@ -360,10 +358,8 @@ feature -- Contract Support
 		end
 
 	valid_manifest (a_manifest: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			rs: EL_READABLE_STRING_GENERAL_ROUTINES
 		do
-			Result := rs.valid_assignments (a_manifest)
+			Result := Manifest_item.valid_assignments (a_manifest)
 		end
 
 feature -- Type definitions
@@ -440,6 +436,13 @@ feature {EL_HASH_TABLE_ITERATION_CURSOR} -- Implementation
 			end
 		ensure
 			same_item: attached old item_cell as old_item implies old_item.item = item_for_iteration
+		end
+
+feature {NONE} -- Constants
+
+	Manifest_item: EL_MANIFEST_SUBSTRING_8
+		once
+			create Result.make_empty
 		end
 
 note

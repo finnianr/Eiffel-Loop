@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:09:44 GMT (Saturday 19th April 2025)"
-	revision: "15"
+	date: "2025-04-20 14:11:12 GMT (Sunday 20th April 2025)"
+	revision: "16"
 
 class
 	JSON_PARSED_INTERVALS
@@ -87,10 +87,9 @@ feature {NONE} -- Implementation
 
 	index_of_balanced_bracket (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
 		local
-			i, open_count, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
+			i, open_count, offset: INTEGER
 		do
-			if attached super_8 (json) as s then
-				l_area := s.area; offset := s.index_lower
+			if attached Character_area_8.get_lower (json, $offset) as l_area then
 				from i := start_index until i > json_count or Result > 0 loop
 					inspect l_area [i + offset - 1]
 						when '[' then
@@ -113,10 +112,9 @@ feature {NONE} -- Implementation
 
 	index_of_end_quote (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
 		local
-			i, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
+			i, offset: INTEGER
 		do
-			if attached super_8 (json) as s then
-				l_area := s.area; offset := s.index_lower
+			if attached Character_area_8.get_lower (json, $offset) as l_area then
 				from i := start_index until i > json_count or Result > 0 loop
 					if l_area [i + offset - 1] = '"' and then l_area [i + offset] /= '/' then
 						Result := i - 1
@@ -129,10 +127,9 @@ feature {NONE} -- Implementation
 
 	last_non_numeric_index (json: READABLE_STRING_8; start_index, json_count: INTEGER): INTEGER
 		local
-			i, offset: INTEGER; l_area: SPECIAL [CHARACTER_8]
+			i, offset: INTEGER
 		do
-			if attached super_8 (json) as s then
-				l_area := s.area; offset := s.index_lower
+			if attached Character_area_8.get_lower (json, $offset) as l_area then
 				from i := start_index until i > json_count or Result > 0 loop
 					inspect l_area [i + offset - 1]
 						when '0' .. '9', '+', '-', '.', 'E', 'e' then

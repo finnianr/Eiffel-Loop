@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:39:08 GMT (Saturday 5th April 2025)"
-	revision: "13"
+	date: "2025-04-21 8:11:34 GMT (Monday 21st April 2025)"
+	revision: "14"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -89,6 +89,29 @@ feature {NONE} -- Deferred
 
 	new_table_text: READABLE_STRING_GENERAL
 		deferred
+		end
+
+feature {NONE} -- Type definitions
+
+	ITEM_8: EL_MANIFEST_SUBSTRING_8
+		require
+			never_called: False
+		once
+			create Result.make_empty
+		end
+
+	ITEM_32: EL_MANIFEST_SUBSTRING_32
+		require
+			never_called: False
+		once
+			create Result.make_empty
+		end
+
+	ITEM_Z: EL_MANIFEST_SUB_ZSTRING
+		require
+			never_called: False
+		once
+			create Result.make_empty
 		end
 
 end

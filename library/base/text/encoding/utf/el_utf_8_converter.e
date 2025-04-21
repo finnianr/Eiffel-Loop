@@ -8,17 +8,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 17:46:59 GMT (Tuesday 15th April 2025)"
-	revision: "15"
+	date: "2025-04-20 8:59:30 GMT (Sunday 20th April 2025)"
+	revision: "16"
 
 frozen expanded class
 	EL_UTF_8_CONVERTER
 
 inherit
-	EL_UTF_8_CONVERTER_I
-		export
-			{ANY} all
-		end
+	EL_UTF_8_CONVERTER_IMP
 
 	EL_EXPANDED_ROUTINES
 

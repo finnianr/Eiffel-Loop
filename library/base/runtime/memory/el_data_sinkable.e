@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
-	revision: "34"
+	date: "2025-04-20 11:41:13 GMT (Sunday 20th April 2025)"
+	revision: "35"
 
 deferred class
 	EL_DATA_SINKABLE
@@ -43,7 +43,7 @@ inherit
 			{NONE} all
 		end
 
-	EL_SHARED_UTF_8_SEQUENCE
+	EL_SHARED_CHARACTER_AREA_ACCESS; EL_SHARED_UTF_8_SEQUENCE
 
 feature -- Measurement
 

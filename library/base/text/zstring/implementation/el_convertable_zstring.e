@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 9:42:51 GMT (Monday 14th April 2025)"
-	revision: "79"
+	date: "2025-04-20 11:18:32 GMT (Sunday 20th April 2025)"
+	revision: "80"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -91,11 +91,13 @@ feature -- To Strings
 		end
 
 	to_immutable_32: IMMUTABLE_STRING_32
+		local
+			index_lower: INTEGER
 		do
 			create Result.make_filled (' ', count)
-			if attached super_readable_32 (Result) as super then
-				codec.decode (count, area, super.area, 0)
-				write_unencoded (super.area, 0, count, False)
+			if attached Character_area_32.get_lower (Result, $index_lower) as l_area then
+				codec.decode (count, area, l_area, 0)
+				write_unencoded (l_area, 0, count, False)
 			end
 		end
 

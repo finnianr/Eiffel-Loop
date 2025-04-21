@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:47:58 GMT (Saturday 5th April 2025)"
-	revision: "5"
+	date: "2025-04-21 8:11:53 GMT (Monday 21st April 2025)"
+	revision: "6"
 
 class
 	HTTP_STATUS_TABLE
@@ -49,7 +49,7 @@ feature -- 2xx codes
 	non_authoritative_information: like ok
 		-- Metainformation in header not definitive.
 
-	ok: EL_SUBSTRING_8
+	ok: like ITEM_8
 		-- Request succeeded normally.
 
 	partial_content: like ok

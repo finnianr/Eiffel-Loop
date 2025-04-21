@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:06:54 GMT (Saturday 19th April 2025)"
-	revision: "1"
+	date: "2025-04-20 17:22:40 GMT (Sunday 20th April 2025)"
+	revision: "2"
 
 class
 	EL_CHARACTER_32_AREA_ACCESS
@@ -40,6 +40,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	get_area (str: READABLE_STRING_32): like area
+		do
+			Result := str.area
+		end
 
 	get_lower (str: READABLE_STRING_32; index_lower_ptr: TYPED_POINTER [INTEGER]): like area
 		do

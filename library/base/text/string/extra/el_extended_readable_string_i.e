@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 14:36:16 GMT (Thursday 17th April 2025)"
-	revision: "14"
+	date: "2025-04-20 9:04:22 GMT (Sunday 20th April 2025)"
+	revision: "15"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -657,20 +657,30 @@ feature -- Basic operations
 
 	append_to_utf_8 (utf_8_out: STRING_8)
 		local
-			i, upper: INTEGER; code_i: NATURAL
+			i, j, upper: INTEGER; code_i: NATURAL
 		do
-			utf_8_out.grow (utf_8_out.count + utf_8_byte_count)
-			upper := index_upper
-			if attached area as l_area and then attached Utf_8_sequence as utf_8 then
-				from i := index_lower until i > upper loop
-					code_i := to_character_32 (l_area [i]).natural_32_code
-					if code_i <= 0x7F then
-						utf_8_out.append_character (code_i.to_character_8)
-					else
-						utf_8.set_area (code_i)
-						utf_8.append_to_string (utf_8_out)
+			if is_ascii then
+				append_to_string_8 (utf_8_out)
+
+			elseif attached area as l_area and then attached Utf_8_sequence as utf_8 then
+				utf_8_out.grow (utf_8_out.count + utf_8_byte_count)
+				upper := index_upper
+				if attached utf_8_out.area as area_out then
+					j := utf_8_out.count
+					from i := index_lower until i > upper loop
+						code_i := to_character_32 (l_area [i]).natural_32_code
+						if code_i <= 0x7F then
+							area_out [j] := code_i.to_character_8
+							j := j + 1
+						else
+							utf_8.set_area (code_i)
+							utf_8.write_to (area_out, j)
+							j := j + utf_8.count
+						end
+						i := i + 1
 					end
-					i := i + 1
+					area_out [j] := '%U'
+					utf_8_out.set_count (j)
 				end
 			end
 		end

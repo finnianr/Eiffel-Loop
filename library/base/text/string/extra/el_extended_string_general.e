@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 9:09:12 GMT (Saturday 19th April 2025)"
-	revision: "14"
+	date: "2025-04-20 15:11:57 GMT (Sunday 20th April 2025)"
+	revision: "15"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -123,18 +123,25 @@ feature -- Element change
 		local
 			new_count: INTEGER
 		do
-			new_count := count + a_area.count
-			grow (new_count)
-			copy_area_32_data (area, a_area)
-			area [new_count] := to_char ('%U')
-			set_count (new_count)
-			update_shared
+			if a_area.count > 0 then
+				new_count := count + a_area.count
+				grow (new_count)
+				copy_area_32_data (area, a_area)
+				area [new_count] := to_char ('%U')
+				set_count (new_count)
+				update_shared
+			end
 		ensure
 			valid_count: count = old count + a_area.count
-			area_first_appended:
-				convertible_to_char (a_area [0]) implies shared_string [old count + 1] = a_area [0]
-			area_last_appended:
-				convertible_to_char (a_area [a_area.count - 1]) implies shared_string [count] = a_area [a_area.count - 1]
+			appended:
+				a_area.count > 0 implies shared_string.substring (old count + 1, count).same_string (new_string_32 (a_area))
+		end
+
+	append_utf_8 (utf_8: READABLE_STRING_8)
+		local
+			converter: EL_UTF_8_CONVERTER
+		do
+			append_area_32 (converter.new_unicode_zero_array (utf_8, 1, utf_8.count))
 		end
 
 	remove_bookends (left, right: CHAR)
@@ -275,6 +282,12 @@ feature {NONE} -- Implementation
 			Result := count - 1
 		end
 
+	new_string_32 (a_area: SPECIAL [CHARACTER_32]): STRING_32
+		do
+			create Result.make_filled (' ', a_area.count)
+			Result.area.copy_data (a_area, 0, 0, a_area.count)
+		end
+
 	translate_with_deletion (old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN)
 		require
 			each_old_has_new: old_characters.count = new_characters.count
@@ -302,7 +315,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-feature {EL_STRING_GENERAL_ROUTINES_I} -- Deferred
+feature {EL_EXTENDED_STRING_SELECTION} -- Deferred
 
 	share (other: like shared_string)
 		deferred

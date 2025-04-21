@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 7:06:56 GMT (Wednesday 16th April 2025)"
-	revision: "79"
+	date: "2025-04-21 7:12:40 GMT (Monday 21st April 2025)"
+	revision: "80"
 
 deferred class
 	EL_COMPACT_SUBSTRINGS_32_I
@@ -26,6 +26,8 @@ inherit
 			{STRING_HANDLER} area
 			{ANY} interval_sequence
 		end
+
+	EL_EXTENDED_READABLE_STRING_SELECTION
 
 feature {NONE} -- Initialization
 
@@ -99,7 +101,7 @@ feature {NONE} -- Initialization
 		end
 
 	make_from_intervals (
-		readable_8: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; interval_list: EL_ARRAYED_INTERVAL_LIST
+		source: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; interval_list: EL_ARRAYED_INTERVAL_LIST
 		area_offset: INTEGER_32
 	)
 		local
@@ -111,7 +113,7 @@ feature {NONE} -- Initialization
 					lower := interval_area [i]; upper := interval_area [i + 1]
 					l_area.extend (lower.to_character_32)
 					l_area.extend (upper.to_character_32)
-					readable_8.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					source.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
 					i := i + 2
 				end
 			end
@@ -588,7 +590,7 @@ feature -- Element change
 		end
 
 	append_intervals (
-		readable_8: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; interval_list: EL_ARRAYED_INTERVAL_LIST
+		source: EL_EXTENDED_READABLE_STRING_I [COMPARABLE]; interval_list: EL_ARRAYED_INTERVAL_LIST
 		area_offset: INTEGER_32
 	)
 		require
@@ -615,7 +617,7 @@ feature -- Element change
 						l_area.extend (lower.to_character_32)
 						l_area.extend (upper.to_character_32)
 					end
-					readable_8.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
+					source.append_to (l_area, lower - area_offset - 1, upper - lower + 1)
 					i := i + 2
 				end
 			end
@@ -1089,6 +1091,23 @@ feature -- Duplication
 		do
 			create Result.make_from_other (Current)
 			Result.shift (offset)
+		end
+
+feature {NONE} -- Constants
+
+	Shared_super_readable_32: EL_READABLE_STRING_32
+		once
+			create Result.make_empty
+		end
+
+	Shared_super_readable_8: EL_READABLE_STRING_8
+		once
+			create Result.make_empty
+		end
+
+	Shared_super_readable_z: EL_EXTENDED_ZSTRING
+		once
+			create Result.make_empty
 		end
 
 note

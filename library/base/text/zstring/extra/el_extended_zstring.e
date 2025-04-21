@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 14:33:23 GMT (Saturday 19th April 2025)"
-	revision: "8"
+	date: "2025-04-20 17:02:12 GMT (Sunday 20th April 2025)"
+	revision: "9"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -20,10 +20,9 @@ inherit
 		rename
 			append_to as append_to_other,
 			is_ascii_substring as is_other_ascii_substring,
-			split as zstring_split,
-			split_adjusted as split_adjusted_general
+			split as zstring_split
 		redefine
-			append_area_32, make, trim, share
+			append_area_32, append_utf_8, make, trim, share
 		end
 
 	EL_EXTENDED_STRING_32
@@ -50,7 +49,7 @@ inherit
 		redefine
 			all_alpha_numeric_in_range, all_ascii_in_range,
 			append_area_32, append_substring_to_special_32, append_substring_to_special_8,
-			append_to,
+			append_to, append_utf_8,
 			index_of_character_type_change,
 			is_c_identifier_in_range, is_eiffel_identifier_in_range,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_identifier, is_i_th_space,
@@ -141,6 +140,12 @@ feature -- Status query
 		end
 
 feature -- Element change
+
+	append_utf_8 (utf_8_string: READABLE_STRING_8)
+		do
+			Precursor {ZSTRING} (utf_8_string)
+			update_shared
+		end
 
 	share (other: EL_ZSTRING)
 			-- Make current string share the text of `other'.

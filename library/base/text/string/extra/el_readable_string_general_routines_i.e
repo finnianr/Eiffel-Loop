@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 7:20:49 GMT (Saturday 19th April 2025)"
-	revision: "38"
+	date: "2025-04-21 9:20:09 GMT (Monday 21st April 2025)"
+	revision: "39"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -71,44 +71,6 @@ feature -- Measurement
 			end
 		end
 
-	start_plus_end_assignment_indices (line: READABLE_STRING_GENERAL; p_end_index: TYPED_POINTER [INTEGER]): INTEGER
-		local
-			p: EL_TYPED_POINTER_ROUTINES; assign_index, end_index: INTEGER
-		do
-			assign_index := line.substring_index (assign_symbol, 1)
-
-			if assign_index > 0 and line.valid_index (assign_index - 1) then
-				if line [assign_index - 1] = ' ' then
-					end_index := assign_index - 2
-				else
-					end_index := assign_index - 1
-				end
-			end
-			if assign_index > 0 and line.valid_index (assign_index + 2) then
-				if line [assign_index + 2] = ' ' then
-					Result := assign_index + 3
-				else
-					Result := assign_index + 2
-				end
-			end
-			p.put_integer_32 (end_index, p_end_index)
-		end
-
-feature -- Status query
-
-	valid_assignments (a_manifest: READABLE_STRING_GENERAL): BOOLEAN
-		local
-			start_index, end_index: INTEGER
-		do
-			Result := True
-			across a_manifest.split ('%N') as list until not Result loop
-				if attached list.item as line then
-					start_index := start_plus_end_assignment_indices (line, $end_index)
-					Result := end_index >= 1 and start_index <= line.count
-				end
-			end
-		end
-
 feature -- Conversion
 
 	to_type (str: READABLE_STRING_GENERAL; basic_type: TYPE [ANY]): detachable ANY
@@ -156,8 +118,6 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Constants
-
-	Assign_symbol: STRING = ":="
 
 	Shared_intervals: EL_OCCURRENCE_INTERVALS
 		once

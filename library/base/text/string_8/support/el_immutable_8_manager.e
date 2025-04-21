@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 12:51:25 GMT (Wednesday 9th April 2025)"
-	revision: "11"
+	date: "2025-04-20 16:02:17 GMT (Sunday 20th April 2025)"
+	revision: "12"
 
 class
 	EL_IMMUTABLE_8_MANAGER
@@ -24,8 +24,6 @@ feature {NONE} -- Initialization
 
 	initialize
 		do
-		-- cannot use shared extended string because it will cause a circular call
-			create extended_string.make_empty
 		end
 
 feature -- Status query
@@ -38,6 +36,17 @@ feature -- Status query
 	item_has_right_padding: BOOLEAN
 		do
 			Result := item.count > 0 and then item [item.count].is_space
+		end
+
+feature {NONE} -- Contract Support
+
+	same_area_items (a_area: SPECIAL [CHARACTER_8]; offset, a_count: INTEGER): BOOLEAN
+		local
+			index_lower: INTEGER
+		do
+			if attached Character_area_8.get_lower (item, $index_lower) as l_area then
+				Result := l_area.same_items (a_area, offset, index_lower, a_count)
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -60,10 +69,6 @@ feature {NONE} -- Implementation
 				Result := str.as_string_8.area
 			end
 		end
-
-feature {NONE} -- Internal attributes
-
-	extended_string: EL_READABLE_STRING_8
 
 feature {NONE} -- Constants
 

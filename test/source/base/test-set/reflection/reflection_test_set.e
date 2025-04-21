@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 21:25:46 GMT (Friday 18th April 2025)"
-	revision: "87"
+	date: "2025-04-21 8:06:16 GMT (Monday 21st April 2025)"
+	revision: "88"
 
 class
 	REFLECTION_TEST_SET
@@ -19,14 +19,12 @@ inherit
 
 	EL_MODULE_FACTORY; EL_MODULE_EXECUTABLE; EL_MODULE_USER_INPUT
 
-	EL_SHARED_CURRENCY_ENUM
-
 	JSON_TEST_DATA; COUNTRY_TEST_DATA
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_SHARED_CURRENCY_ENUM; EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION; EL_SHARED_HTTP_STATUS
-	EL_SHARED_SERVICE_PORT
+	EL_SHARED_CURRENCY_ENUM; EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION
+	EL_SHARED_HTTP_STATUS; EL_SHARED_SERVICE_PORT
 
 create
 	make
@@ -737,7 +735,7 @@ feature {NONE} -- Constants
 
 	String_8: STRING_8 = "string_8"
 
-	assert_same_http_status (status: EL_SUBSTRING_8; status_code: NATURAL_16)
+	assert_same_http_status (status: EL_MANIFEST_SUBSTRING_8; status_code: NATURAL_16)
 		local
 			string, code_string: STRING; code: NATURAL_16
 		do

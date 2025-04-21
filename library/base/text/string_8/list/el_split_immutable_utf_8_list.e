@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 11:47:04 GMT (Saturday 19th April 2025)"
-	revision: "20"
+	date: "2025-04-20 16:13:54 GMT (Sunday 20th April 2025)"
+	revision: "21"
 
 class
 	EL_SPLIT_IMMUTABLE_UTF_8_LIST
@@ -25,11 +25,12 @@ inherit
 
 	EL_UTF_8_CONVERTER_I
 		rename
-			unicode_count as substring_unicode_count,
+			storage_count as utf_8_storage_count,
+			unicode_count as utf_8_unicode_count,
 			substring_8_into_string_general as utf_8_substring_into_string_general
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 	EL_MODULE_ITERABLE
 
@@ -46,36 +47,16 @@ feature {NONE} -- Initialization
 		require
 			no_commas: across general_list as list all not list.item.has (',') end
 		local
-			utf_8_list: EL_STRING_8_LIST; utf_8_item: STRING_8
+			utf_8_csv_list: STRING_8
 		do
-			create utf_8_list.make (Iterable.count (general_list))
+			create utf_8_csv_list.make (utf_8_storage_count (general_list, 1))
 			across general_list as list loop
-				if attached list.item as general then
-					inspect string_storage_type (general)
-						when '1' then
-							if attached {STRING_8} general as str_8
-								and then attached super_8 (str_8) as super_str_8
-							then
-								if super_str_8.is_ascii then
-									utf_8_item := str_8
-								else
-									utf_8_item := super_str_8.to_utf_8
-								end
-							end
-						when '4' then
-							if attached {READABLE_STRING_32} general as str_32 then
-								utf_8_item := super_readable_32 (str_32).to_utf_8
-							end
-
-						when 'X' then
-							if attached {EL_READABLE_ZSTRING} general as zstr then
-								utf_8_item := zstr.to_utf_8
-							end
-					end
-					utf_8_list.extend (utf_8_item)
+				if utf_8_csv_list.count > 0 then
+					utf_8_csv_list.append_character (',')
 				end
+				super_readable_general (list.item).append_to_utf_8 (utf_8_csv_list)
 			end
-			make_split (utf_8_list.joined (','), ',')
+			make_split (utf_8_csv_list, ',')
 		end
 
 feature -- Access
@@ -118,9 +99,11 @@ feature -- Measurement
 	item_index_of (uc: CHARACTER_32): INTEGER
 		-- index of `uc' relative to `item_start_index - 1'
 		-- 0 if `uc' does not occurr within item bounds
+		local
+			index_lower: INTEGER
 		do
-			if attached extended_target as target then
-				Result := Utf_8_sequence.character_index_of (uc, target.area, item_lower - 1, item_upper - 1)
+			if attached Character_area_8.get_lower (target_string, $index_lower) as l_area then
+				Result := Utf_8_sequence.character_index_of (uc, l_area, item_lower - 1, item_upper - 1)
 			end
 		end
 
@@ -128,24 +111,25 @@ feature {NONE} -- Implementation
 
 	less_than (i, j: INTEGER): BOOLEAN
 		local
-			left_index, right_index, left_count, right_count: INTEGER
+			index_lower, left_index, right_index, left_count, right_count: INTEGER
 		do
-			if attached Utf_8_sequence as utf_8 and then attached extended_target as t
+			if attached Utf_8_sequence as utf_8
+				and then attached Character_area_8.get_lower (target_string, $index_lower) as t_area
 				and then attached area as a
 			then
 				left_index := a [i] - 1
-				left_count := array_unicode_count (t.area, left_index, a [i + 1] - 1)
+				left_count := array_unicode_count (t_area, left_index, a [i + 1] - 1)
 
 				right_index := a [j] - 1
-				right_count := array_unicode_count (t.area, right_index, a [j + 1] - 1)
+				right_count := array_unicode_count (t_area, right_index, a [j + 1] - 1)
 
 				if right_count = left_count then
-					Result := utf_8.strict_comparison (t.area, t.area, right_index, left_index, right_count) > 0
+					Result := utf_8.strict_comparison (t_area, t_area, right_index, left_index, right_count) > 0
 				else
 					if left_count < right_count then
-						Result := utf_8.strict_comparison (t.area, t.area, right_index, left_index, left_count) >= 0
+						Result := utf_8.strict_comparison (t_area, t_area, right_index, left_index, left_count) >= 0
 					else
-						Result := utf_8.strict_comparison (t.area, t.area, right_index, left_index, right_count) > 0
+						Result := utf_8.strict_comparison (t_area, t_area, right_index, left_index, right_count) > 0
 					end
 				end
 			end
@@ -153,7 +137,7 @@ feature {NONE} -- Implementation
 
 	target_substring_count (start_index, end_index: INTEGER): INTEGER
 		do
-			Result := substring_unicode_count (shared_target_substring (start_index, end_index))
+			Result := utf_8_unicode_count (shared_target_substring (start_index, end_index))
 		end
 
 end

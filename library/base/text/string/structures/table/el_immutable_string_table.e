@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 17:40:57 GMT (Tuesday 15th April 2025)"
-	revision: "38"
+	date: "2025-04-21 9:34:38 GMT (Monday 21st April 2025)"
+	revision: "39"
 
 deferred class
 	EL_IMMUTABLE_STRING_TABLE [GENERAL -> STRING_GENERAL create make end, IMMUTABLE -> IMMUTABLE_STRING_GENERAL]
@@ -40,11 +40,11 @@ inherit
 			compact as compact_interval
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_STRING_HANDLER
 
 	EL_MODULE_CONVERT_STRING
 
-	EL_SHARED_CLASS_ID
+	EL_SHARED_CLASS_ID; EL_SHARED_CHARACTER_AREA_ACCESS
 
 feature {NONE} -- Initialization
 
@@ -114,7 +114,7 @@ feature {NONE} -- Initialization
 				list.fill (manifest, '%N', 0)
 				make_equal (list.count // 2)
 				from list.start until list.after loop
-					start_index := string.start_plus_end_assignment_indices (list.item, $end_index)
+					start_index := Manifest_item.start_plus_end_assignment_indices (list.item, $end_index)
 					if end_index > 0 and start_index > 0 then
 						offset := list.item_lower - 1
 						interval := compact_interval (start_index + offset, list.item_upper)
@@ -302,7 +302,7 @@ feature -- Access
 				Result.append (found_item)
 			end
 		ensure
-			same_as_found_item_lines: Result ~ string.joined_lines (found_item_lines)
+			same_as_found_item_lines: Result ~ new_list (found_item_lines).joined_lines
 		end
 
 	item (key: IMMUTABLE): IMMUTABLE
@@ -334,7 +334,7 @@ feature -- Contract Support
 		-- `True' if each line contains a ":=" substring with optional
 		-- whitespace padding either side
 		do
-			Result := string.valid_assignments (a_manifest)
+			Result := Manifest_item.valid_assignments (a_manifest)
 		end
 
 	valid_comma_separated (a_manifest: GENERAL): BOOLEAN
@@ -406,21 +406,22 @@ feature {EL_IMMUTABLE_STRING_TABLE_CURSOR} -- Implementation
 			manifest := other.manifest; format := other.format
 		end
 
-	immutable_interval (a_str: IMMUTABLE): INTEGER_64
-		do
-			if attached extended_string (a_str) as str then
-				Result := compact_interval (str.index_lower + 1, str.index_upper + 1)
-			end
-		ensure
-			reversible: new_item_substring (Result) ~ a_str
-		end
-
 	new_item_substring (interval: INTEGER_64): IMMUTABLE
 		do
 			Result := new_substring (manifest, to_lower (interval), to_upper (interval))
 		end
 
 feature {NONE} -- Deferred
+
+	immutable_interval (a_str: IMMUTABLE): INTEGER_64
+		deferred
+		ensure
+			reversible: new_item_substring (Result) ~ a_str
+		end
+
+	new_list (iterable_list: ITERABLE [IMMUTABLE]): EL_STRING_LIST [GENERAL]
+		deferred
+		end
 
 	new_shared (a_manifest: GENERAL): IMMUTABLE
 		deferred
@@ -435,10 +436,6 @@ feature {NONE} -- Deferred
 		end
 
 	extended_string (str: READABLE_STRING_GENERAL): EL_EXTENDED_READABLE_STRING_I [COMPARABLE]
-		deferred
-		end
-
-	string: EL_STRING_X_ROUTINES [GENERAL, READABLE_STRING_GENERAL, COMPARABLE]
 		deferred
 		end
 

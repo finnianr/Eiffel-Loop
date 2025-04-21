@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:38 GMT (Friday 11th April 2025)"
-	revision: "24"
+	date: "2025-04-21 8:52:25 GMT (Monday 21st April 2025)"
+	revision: "25"
 
 class
 	EL_IMMUTABLE_UTF_8_TABLE
@@ -26,7 +26,8 @@ inherit
 			make_assignments as make_assignments_encoded,
 			found_item as found_utf_8_item,
 			item_for_iteration as utf_8_item_for_iteration,
-			unidented_item_for_iteration as unidented_utf_8_item_for_iteration
+			unidented_item_for_iteration as unidented_utf_8_item_for_iteration,
+			Manifest_item as Manifest_item_8
 		redefine
 			copy_attributes, new_cursor, has_key, has, has_general, has_key_general
 		end
@@ -288,13 +289,13 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 
 	new_item (interval: INTEGER_64): ZSTRING
 		local
-			s: EL_ZSTRING_ROUTINES; start_index, end_index: INTEGER_32
+			start_index, end_index: INTEGER_32
 		do
 			start_index := to_lower (interval); end_index := to_upper (interval)
 			inspect format
 				when {EL_TABLE_FORMAT}.indented, {EL_TABLE_FORMAT}.indented_eiffel then
 				-- multiple lines
-					Result := s.new_from_immutable_8 (manifest, start_index, end_index, True, is_utf_8_encoded)
+					Result := Manifest_item.new_from_immutable_8 (manifest, start_index, end_index, True, is_utf_8_encoded)
 			else
 				create Result.make (end_index - start_index + 1)
 				if is_utf_8_encoded then
@@ -312,4 +313,10 @@ feature {EL_IMMUTABLE_UTF_8_TABLE_CURSOR} -- Implementation
 			end
 	 	end
 
+feature {NONE} -- Constants
+
+	Manifest_item: EL_MANIFEST_SUB_ZSTRING
+		once
+			create Result.make_empty
+		end
 end

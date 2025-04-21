@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 14:56:48 GMT (Friday 18th April 2025)"
-	revision: "19"
+	date: "2025-04-20 16:14:34 GMT (Sunday 20th April 2025)"
+	revision: "20"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -72,11 +72,6 @@ feature -- Element change
 		end
 
 feature {NONE} -- Implementation
-
-	extended_target: EL_EXTENDED_READABLE_STRING_I [CHARACTER]
-		do
-			Result := super_readable_8 (target_string)
-		end
 
 	fill_intervals_by_string (a_target: IMMUTABLE_STRING_8; delimiter: READABLE_STRING_GENERAL; a_adjustments: INTEGER)
 		do

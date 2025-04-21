@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 13:53:18 GMT (Friday 18th April 2025)"
-	revision: "10"
+	date: "2025-04-20 16:15:13 GMT (Sunday 20th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_STRING_SPLIT_CONTAINER [S -> READABLE_STRING_GENERAL create make end]

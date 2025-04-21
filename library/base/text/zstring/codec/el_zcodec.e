@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
-	revision: "88"
+	date: "2025-04-20 11:58:05 GMT (Sunday 20th April 2025)"
+	revision: "89"
 
 deferred class
 	EL_ZCODEC
@@ -494,7 +494,7 @@ feature -- Text conversion
 		-- returns `encoded' string as unicode assuming the encoding matches `Current' codec
 		-- when keeping a reference to `Result' specify `keeping_ref' as `True'
 		do
-			if encoded_as_latin (1) or else super_readable_8 (encoded).is_ascii then
+			if encoded_as_latin (1) or else Empty_string.is_ascii_string (encoded) then
 				Result := encoded
 			else
 				Unicode_buffer.set_from_encoded (Current, encoded)

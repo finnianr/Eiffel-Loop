@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 12:23:18 GMT (Wednesday 9th April 2025)"
-	revision: "37"
+	date: "2025-04-20 11:46:40 GMT (Sunday 20th April 2025)"
+	revision: "38"
 
 deferred class
 	EL_ZSTRING_CHARACTER_8_BASE
@@ -15,13 +15,7 @@ deferred class
 inherit
 	EL_SIDE_ROUTINES
 
-	EL_STRING_GENERAL_ROUTINES_I
-		rename
-			as_readable_string_8 as general_as_readable_string_8,
-			as_readable_string_32 as general_as_readable_string_32
-		export
-			{ANY} is_ascii_string_8 -- Contract support
-		end
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 feature {NONE} -- Initialization
 
@@ -227,6 +221,23 @@ feature -- Comparison
 			definition: Result = (string ~ other.string)
 		end
 
+feature -- Contract Support
+
+	is_ascii_string (str_8: READABLE_STRING_8): BOOLEAN
+		-- `True'  if all characters in `str_8' are in the ASCII range
+		do
+			Result := is_ascii_substring (str_8, 1, str_8.count)
+		end
+
+	is_ascii_substring (str_8: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
+		local
+			index_lower, index_upper: INTEGER; c: EL_CHARACTER_8_ROUTINES
+		do
+			if attached Character_area_8.get (str_8, $index_lower, $index_upper) as l_area then
+				Result := c.is_ascii_area (l_area, index_lower + start_index - 1, index_upper - (str_8.count - end_index))
+			end
+		end
+
 feature {NONE} -- Element change
 
 	fill_character (c: CHARACTER_8)
@@ -406,7 +417,7 @@ feature {EL_ZSTRING_CHARACTER_8_BASE, EL_STRING_8_BASE} -- Implementation
 
 	set_from_ascii (str: READABLE_STRING_8)
 		require
-			is_7_bit: is_ascii_string_8 (str)
+			is_7_bit: is_ascii_string (str)
 		local
 			s: STRING_8
 		do

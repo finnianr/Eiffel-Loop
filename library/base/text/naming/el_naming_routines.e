@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
-	revision: "52"
+	date: "2025-04-20 11:50:54 GMT (Sunday 20th April 2025)"
+	revision: "53"
 
 class
 	EL_NAMING_ROUTINES
@@ -27,6 +27,8 @@ inherit
 		end
 
 	EL_STRING_GENERAL_ROUTINES_I
+
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 feature -- Factory
 

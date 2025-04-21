@@ -1,6 +1,7 @@
 note
 	description: "[
-		Provide access to unexported attributes ${READABLE_STRING_8}.area_lower and ${READABLE_STRING_8}.area_upper
+		Provide access to unexported attributes ${READABLE_STRING_8}.area_lower
+		and ${READABLE_STRING_8}.area_upper
 	]"
 
 	author: "Finnian Reilly"
@@ -8,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
-	revision: "1"
+	date: "2025-04-20 17:17:52 GMT (Sunday 20th April 2025)"
+	revision: "2"
 
 class
 	EL_CHARACTER_8_AREA_ACCESS
@@ -40,6 +41,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	get_area (str: READABLE_STRING_8): like area
+		do
+			Result := str.area
+		end
 
 	get_lower (str: READABLE_STRING_8; index_lower_ptr: TYPED_POINTER [INTEGER]): like area
 		do

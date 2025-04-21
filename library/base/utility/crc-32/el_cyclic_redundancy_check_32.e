@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:17 GMT (Saturday 19th April 2025)"
-	revision: "40"
+	date: "2025-04-20 11:42:25 GMT (Sunday 20th April 2025)"
+	revision: "41"
 
 class
 	EL_CYCLIC_REDUNDANCY_CHECK_32
@@ -41,7 +41,7 @@ inherit
 			add_ise_path, add_path
 		end
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 	EL_MODULE_FILE; EL_MODULE_FILE_SYSTEM; EL_MODULE_TUPLE
 

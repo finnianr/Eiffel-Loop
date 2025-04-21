@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:31 GMT (Saturday 19th April 2025)"
-	revision: "11"
+	date: "2025-04-20 11:39:56 GMT (Sunday 20th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_UTF_8_CONVERTER_I
@@ -17,7 +17,32 @@ inherit
 
 	EL_STRING_GENERAL_ROUTINES_I
 
+	EL_SHARED_CHARACTER_AREA_ACCESS
+
+	EL_SHARED_INDEXABLE
+
 feature {NONE} -- Conversion
+
+	string_32_to_string_8 (s: READABLE_STRING_32): STRING_8
+		-- UTF-8 sequence corresponding to `s'.
+		local
+			c: UTF_CONVERTER
+		do
+			inspect string_storage_type (s)
+				when 'X' then
+					if attached {ZSTRING} s as zstr then
+						Result := zstr.to_utf_8
+					end
+			else
+				Result := c.string_32_to_utf_8_string_8 (s)
+			end
+		end
+
+	to_string_32 (utf_8: READABLE_STRING_8): STRING_32
+		do
+			create Result.make (unicode_count (utf_8))
+			string_8_into_string_general (utf_8, Result)
+		end
 
 	frozen unicode (area: SPECIAL [CHARACTER_8]; leading_byte: NATURAL_32; offset, byte_count: INTEGER): NATURAL
 		-- return unicode encoded as `byte_count' bytes from `offset' in `area'
@@ -60,28 +85,29 @@ feature {NONE} -- Conversion
 			end
 		end
 
-	string_32_to_string_8 (s: READABLE_STRING_32): STRING_8
-		-- UTF-8 sequence corresponding to `s'.
+feature {NONE} -- Measurement
+
+	frozen array_unicode_count (area: SPECIAL [CHARACTER]; first_index, last_index: INTEGER): INTEGER
 		local
-			c: UTF_CONVERTER
+			i: INTEGER
 		do
-			inspect string_storage_type (s)
-				when 'X' then
-					if attached {ZSTRING} s as zstr then
-						Result := zstr.to_utf_8
-					end
-			else
-				Result := c.string_32_to_utf_8_string_8 (s)
+			from i := first_index until i > last_index loop
+				Result := Result + 1
+				i := i + sequence_count (area [i].natural_32_code)
 			end
 		end
 
-	to_string_32 (utf_8: READABLE_STRING_8): STRING_32
+	frozen memory_unicode_count (area: MANAGED_POINTER; first_index, last_index: INTEGER): INTEGER
+		require
+			valid_indices: first_index >= last_index + 1 and then last_index <= area.count
+		local
+			i: INTEGER
 		do
-			create Result.make (unicode_count (utf_8))
-			string_8_into_string_general (utf_8, Result)
+			from i := first_index until i > last_index loop
+				Result := Result + 1
+				i := i + sequence_count (area.read_character (i).natural_32_code)
+			end
 		end
-
-feature {NONE} -- Measurement
 
 	frozen sequence_count (first_code: NATURAL): INTEGER
 		-- utf-8 byte count indicated by first code in sequence
@@ -106,50 +132,6 @@ feature {NONE} -- Measurement
 			end
 		end
 
-	frozen unicode_count (str: READABLE_STRING_8): INTEGER
-		local
-			index_lower, index_upper: INTEGER
-		do
-			if attached Character_area_8.get (str, $index_lower, $index_upper) as area then
-				Result := array_unicode_count (area, index_lower, index_upper)
-			end
-		end
-
-	frozen unicode_substring_count (str: READABLE_STRING_8; start_index, end_index: INTEGER): INTEGER
-		require
-			valid_start_index: str.valid_index (start_index)
-			valid_end_index: end_index >= start_index - 1 and end_index <= str.count
-		local
-			first_index, index_lower: INTEGER
-		do
-			if attached Character_area_8.get_lower (str, $index_lower) as area then
-				first_index := index_lower + start_index - 1
-				Result := array_unicode_count (area, first_index, first_index + end_index - start_index)
-			end
-		end
-
-	frozen array_unicode_count (area: SPECIAL [CHARACTER]; first_index, last_index: INTEGER): INTEGER
-		local
-			i: INTEGER
-		do
-			from i := first_index until i > last_index loop
-				Result := Result + 1
-				i := i + sequence_count (area [i].natural_32_code)
-			end
-		end
-
-	frozen memory_unicode_count (area: MANAGED_POINTER; first_index, last_index: INTEGER): INTEGER
-		require
-			valid_indices: first_index >= last_index + 1 and then last_index <= area.count
-		local
-			i: INTEGER
-		do
-			from i := first_index until i > last_index loop
-				Result := Result + 1
-				i := i + sequence_count (area.read_character (i).natural_32_code)
-			end
-		end
-
 	frozen storage_count (iterable_list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
 		-- total  UTF-8 string byte count to store `iterable_list' of strings
 		-- joined with `separator_count' of ASCII characters
@@ -164,6 +146,28 @@ feature {NONE} -- Measurement
 			end
 		end
 
+	frozen unicode_count (str: READABLE_STRING_8): INTEGER
+		local
+			index_lower, index_upper: INTEGER
+		do
+			if attached Character_area_8.get (str, $index_lower, $index_upper) as area then
+				Result := array_unicode_count (area, index_lower, index_upper)
+			end
+		end
+
+	frozen unicode_substring_count (str: READABLE_STRING_8; start_index, end_index: INTEGER): INTEGER
+		require
+			valid_start_index: str.valid_index (start_index)
+			valid_start_end_index: indexable (str).valid_indices_range (start_index, end_index)
+		local
+			first_index, index_lower: INTEGER
+		do
+			if attached Character_area_8.get_lower (str, $index_lower) as area then
+				first_index := index_lower + start_index - 1
+				Result := array_unicode_count (area, first_index, first_index + end_index - start_index)
+			end
+		end
+
 feature {NONE} -- Status report
 
 	is_valid_string_8 (s: READABLE_STRING_8): BOOLEAN
@@ -172,6 +176,27 @@ feature {NONE} -- Status report
 			c: UTF_CONVERTER
 		do
 			Result := c.is_valid_utf_8_string_8 (s)
+		end
+
+feature {NONE} -- Factory
+
+	new_unicode_zero_array (str: READABLE_STRING_8; start_index, end_index: INTEGER): SPECIAL [CHARACTER_32]
+		require
+			valid_start_end_index: indexable (str).valid_indices_range (start_index, end_index)
+		local
+			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
+		do
+			n := end_index - start_index + 1
+			create Result.make_empty (n.max (0))
+			if n > 0 and then attached Character_area_8.get_lower (str, $offset) as area then
+				i_final := offset + start_index + n - 1
+				from i := offset + start_index - 1 until i >= i_final loop
+					code := area [i].natural_32_code
+					byte_count := sequence_count (code)
+					Result.extend (unicode (area, code, i, byte_count).to_character_32)
+					i := i + byte_count
+				end
+			end
 		end
 
 feature {NONE} -- Basic operations
@@ -183,28 +208,13 @@ feature {NONE} -- Basic operations
 
 	substring_8_into_string_general (str: READABLE_STRING_8; start_index, end_index: INTEGER; a_result: STRING_GENERAL)
 	-- Copy STRING_32 corresponding to UTF-8 sequence `s.substring (start_index, end_index)' appended into `a_result'.
-		local
-			i, i_final, n, offset, byte_count: INTEGER; code: NATURAL_32
-			area_32: SPECIAL [CHARACTER_32]
 		do
-			if attached Character_area_8.get_lower (str, $offset) as area then
-				n := end_index - start_index + 1
-				if n > 0 then
-					i_final := offset + start_index + n - 1
-					create area_32.make_empty (n)
-					from i := offset + start_index - 1 until i >= i_final loop
-						code := area [i].natural_32_code
-						byte_count := sequence_count (code)
-						area_32.extend (unicode (area, code, i, byte_count).to_character_32)
-						i := i + byte_count
-					end
-					super_general (a_result).append_area_32 (area_32)
-				end
-			end
+			super_general (a_result).append_area_32 (new_unicode_zero_array (str, start_index, end_index))
 		ensure
-			roundtrip: attached str.substring (start_index, end_index) as s and then is_valid_string_8 (s)
-				implies
-					utf_32_string_to_string_8 (a_result.substring (old a_result.count + 1, a_result.count)).same_string (s)
+			roundtrip:
+				attached str.substring (start_index, end_index) as str_substring and then is_valid_string_8 (str_substring)
+				and then attached a_result.substring (old a_result.count + 1, a_result.count) as appended_part
+				implies utf_32_string_to_string_8 (appended_part).same_string (str_substring)
 		end
 
 end

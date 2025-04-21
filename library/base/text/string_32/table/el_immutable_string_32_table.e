@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:46:06 GMT (Sunday 13th April 2025)"
-	revision: "20"
+	date: "2025-04-21 9:44:50 GMT (Monday 21st April 2025)"
+	revision: "21"
 
 class
 	EL_IMMUTABLE_STRING_32_TABLE
@@ -19,8 +19,7 @@ inherit
 	EL_IMMUTABLE_STRING_TABLE [STRING_32, IMMUTABLE_STRING_32]
 		rename
 			has_key_x as has_key_32,
-			extended_string as super_readable_32,
-			string as string_32
+			extended_string as super_readable_32
 		undefine
 			bit_count
 		end
@@ -28,8 +27,6 @@ inherit
 	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
-
-	EL_MODULE_STRING_32
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
 
@@ -71,6 +68,20 @@ feature -- Status query
 		end
 
 feature {NONE} -- Implementation
+
+	immutable_interval (a_str: IMMUTABLE_STRING_32): INTEGER_64
+		local
+			index_lower, index_upper: INTEGER
+		do
+			if attached Character_area_32.get (a_str, $index_lower, $index_upper) as l_area then
+				Result := compact_interval (index_lower + 1, index_upper + 1)
+			end
+		end
+
+	new_list (iterable_list: ITERABLE [IMMUTABLE_STRING_32]): EL_STRING_32_LIST
+		do
+			create Result.make_from_general (iterable_list)
+		end
 
 	new_shared (a_manifest: STRING_32): IMMUTABLE_STRING_32
 		do

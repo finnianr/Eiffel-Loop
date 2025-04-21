@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 7:50:12 GMT (Tuesday 27th August 2024)"
-	revision: "20"
+	date: "2025-04-20 7:26:42 GMT (Sunday 20th April 2025)"
+	revision: "21"
 
 class
 	EL_UTF_8_SEQUENCE
@@ -304,12 +304,29 @@ feature -- Basic operations
 
 	write (writeable: EL_WRITABLE)
 		local
-			i, l_count: INTEGER; l_area: like area
+			i, i_upper: INTEGER
 		do
-			l_area := area; l_count := count
-			from i := 0 until i = l_count loop
-				writeable.write_encoded_character_8 (l_area [i].to_character_8)
-				i := i + 1
+			 i_upper := count - 1
+			if attached area as l_area then
+				from i := 0 until i > i_upper loop
+					writeable.write_encoded_character_8 (l_area [i].to_character_8)
+					i := i + 1
+				end
+			end
+		end
+
+	write_to (area_out: SPECIAL [CHARACTER]; offset: INTEGER)
+		require
+			enough_space: offset + count <= area_out.capacity
+		local
+			i, i_upper: INTEGER
+		do
+			i_upper := count - 1
+			if attached area as l_area then
+				from i := 0 until i > i_upper loop
+					area_out [i + offset] := l_area [i].to_character_8
+					i := i + 1
+				end
 			end
 		end
 

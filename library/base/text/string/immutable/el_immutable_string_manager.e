@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 12:47:26 GMT (Wednesday 9th April 2025)"
-	revision: "20"
+	date: "2025-04-20 15:59:16 GMT (Sunday 20th April 2025)"
+	revision: "21"
 
 deferred class
 	EL_IMMUTABLE_STRING_MANAGER [
@@ -31,6 +31,8 @@ inherit
 			{ANY} valid_side
 		end
 
+	EL_SHARED_CHARACTER_AREA_ACCESS
+
 feature {NONE} -- Initialization
 
 	default_create
@@ -38,7 +40,7 @@ feature {NONE} -- Initialization
 			Precursor
 			initialize
 		end
-		
+
 	initialize
 		deferred
 		end
@@ -146,16 +148,6 @@ feature -- Conversion
 			end
 		end
 
-feature {NONE} -- Contract Support
-
-	same_area_items (a_area: SPECIAL [CHAR]; offset, a_count: INTEGER): BOOLEAN
-		do
-			if attached extended_string as super then
-				super.set_target (item)
-				Result := super.area.same_items (a_area, offset, super.index_lower, a_count)
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	new_item: S
@@ -164,10 +156,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Deferred
-
-	extended_string: EL_EXTENDED_READABLE_STRING_I [CHAR]
-		deferred
-		end
 
 	is_space (a_area: SPECIAL [CHAR]; i: INTEGER): BOOLEAN
 		deferred
@@ -182,6 +170,10 @@ feature {NONE} -- Deferred
 		end
 
 	new_immutable_substring (str: S; start_index, end_index: INTEGER): like new_substring
+		deferred
+		end
+
+	same_area_items (a_area: SPECIAL [CHAR]; offset, a_count: INTEGER): BOOLEAN
 		deferred
 		end
 

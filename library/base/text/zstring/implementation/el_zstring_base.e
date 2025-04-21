@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 15:07:17 GMT (Saturday 19th April 2025)"
-	revision: "117"
+	date: "2025-04-21 7:16:51 GMT (Monday 21st April 2025)"
+	revision: "118"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -374,23 +374,23 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	encode (a_unicode: READABLE_STRING_GENERAL; area_offset: INTEGER)
+	encode (general: READABLE_STRING_GENERAL; area_offset: INTEGER)
 		do
-			encode_substring (a_unicode, 1, a_unicode.count, area_offset)
+			encode_substring (general, 1, general.count, area_offset)
 		end
 
-	encode_substring (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER)
+	encode_substring (general: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER)
 		require
-			valid_area_offset: valid_area_offset (a_unicode, start_index, end_index, area_offset)
+			valid_area_offset: valid_area_offset (general, start_index, end_index, area_offset)
 		do
 			if attached Once_interval_list.emptied as unencoded_intervals then
-				codec.encode_substring_general (a_unicode, area, start_index, end_index, area_offset, unencoded_intervals)
+				codec.encode_substring_general (general, area, start_index, end_index, area_offset, unencoded_intervals)
 
-				if unencoded_intervals.count > 0 and then attached super_readable_general (a_unicode) as general then
+				if unencoded_intervals.count > 0 and attached super_readable_general (general) as str then
 					if has_mixed_encoding then
-						append_unencoded_intervals (general, unencoded_intervals, area_offset - start_index + 1)
+						append_unencoded_intervals (str, unencoded_intervals, area_offset - start_index + 1)
 					else
-						make_from_intervals (general, unencoded_intervals, area_offset - start_index + 1)
+						make_from_intervals (str, unencoded_intervals, area_offset - start_index + 1)
 					end
 				end
 			end
@@ -491,7 +491,7 @@ feature {NONE} -- Implementation
 			codec.to_upper (a, start_index, end_index, Current)
 		end
 
-	valid_area_offset (a_unicode: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER): BOOLEAN
+	valid_area_offset (general: READABLE_STRING_GENERAL; start_index, end_index, area_offset: INTEGER): BOOLEAN
 		local
 			l_count: INTEGER
 		do

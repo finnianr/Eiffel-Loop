@@ -6,75 +6,23 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 7:47:32 GMT (Saturday 19th April 2025)"
-	revision: "84"
+	date: "2025-04-21 9:38:04 GMT (Monday 21st April 2025)"
+	revision: "85"
 
 deferred class
 	EL_STRING_X_ROUTINES [
 		STRING_X -> STRING_GENERAL create make end, READABLE_STRING_X -> READABLE_STRING_GENERAL,
-		C -> COMPARABLE -- CHARACTER_X
+		CHAR -> COMPARABLE -- CHARACTER_X
 	]
 
 inherit
-	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X, C]
+	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X, CHAR]
 
 feature -- Factory
 
 	new (n: INTEGER): STRING_X
-			-- width * count spaces
 		do
 			create Result.make (n)
-		end
-
-	new_from_immutable_8 (
-		str: IMMUTABLE_STRING_8; start_index, end_index: INTEGER_32; unindent, utf_8_encoded: BOOLEAN
-
-	): STRING_X
-		-- new string of type `STRING_X' consisting of decoded UTF-8 text
-
-		--		`str.shared_substring (start_index, end_index)'
-
-		-- if `unindent' is true, and character at `start_index' is a tab, then all lines
-		-- are unindented by one tab.
-		require
-			valid_start_index: str.valid_index (start_index)
-			valid_end_index: end_index >= start_index implies str.valid_index (end_index)
-		do
-			if end_index - start_index + 1 = 0 then
-				create Result.make (0)
-
-			elseif unindent and then str [start_index] = '%T' then
-				if attached str.shared_substring (start_index + 1, end_index) as lines then
-					if lines.has ('%N') and then attached Immutable_string_8_split_list [utf_8_encoded] as split_list then
-						split_list.fill_by_string (lines, New_line_tab, 0)
-						if split_list.count > 0 then
-							create Result.make (split_list.unicode_count + split_list.count - 1)
-							append_lines_to (Result, split_list)
-						else
-							create Result.make (0)
-						end
-					else
-						Result := new_from_string_8 (lines, utf_8_encoded)
-					end
-				end
-			else
-				Result := new_from_string_8 (str.shared_substring (start_index, end_index), utf_8_encoded)
-			end
-		ensure
-			calculated_correct_size: Result.count = Result.capacity
-		end
-
-	new_from_string_8 (str: READABLE_STRING_8; utf_8_encoded: BOOLEAN): STRING_X
-		local
-			u8: EL_UTF_8_CONVERTER
-		do
-			if utf_8_encoded then
-				create Result.make (u8.unicode_count (str))
-				append_utf_8_to (str, Result)
-			else
-				Result := new (str.count)
-				Result.append (str)
-			end
 		end
 
 	new_list (comma_separated: STRING_X): EL_STRING_LIST [STRING_X]
@@ -99,7 +47,7 @@ feature -- List joining
 
 	joined (a, b: READABLE_STRING_GENERAL): STRING_X
 		do
-			create Result.make (a.count + b.count)
+			Result := new (a.count + b.count)
 			append_to (Result, a); append_to (Result, b)
 		end
 
@@ -114,7 +62,7 @@ feature -- List joining
 		do
 			code := to_code (separator) -- might be z_code for ZSTRING
 			char_count := character_count (list, 1)
-			create Result.make (char_count)
+			Result := new (char_count)
 			across list as ln loop
 				if Result.count > 0 then
 					Result.append_code (code)
@@ -128,7 +76,7 @@ feature -- List joining
 			char_count: INTEGER
 		do
 			char_count := character_count (list, separator.count)
-			create Result.make (char_count)
+			Result := new (char_count)
 			across list as ln loop
 				if Result.count > 0 then
 					append_to (Result, separator)
@@ -139,7 +87,7 @@ feature -- List joining
 
 	joined_with (a, b, separator: READABLE_STRING_X): STRING_X
 		do
-			create Result.make (a.count + b.count + separator.count)
+			Result := new (a.count + b.count + separator.count)
 			append_to (Result, a); append_to (Result, separator); append_to (Result, b)
 		end
 
@@ -154,15 +102,7 @@ feature -- Transform
 
 feature {NONE} -- Deferred
 
-	append_lines_to (str: STRING_X; lines: EL_SPLIT_IMMUTABLE_STRING_8_LIST)
-		deferred
-		end
-
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_X)
 		deferred
 		end
 
@@ -171,17 +111,5 @@ feature {NONE} -- Deferred
 			valid_index: 0 < i and i <= str.count
 		deferred
 		end
-
-feature {NONE} -- Constants
-
-	Immutable_string_8_split_list: EL_BOOLEAN_INDEXABLE [EL_SPLIT_IMMUTABLE_STRING_8_LIST]
-		once
-			create Result.make (
-				create {EL_SPLIT_IMMUTABLE_STRING_8_LIST}.make_empty, -- False -> latin-1
-				create {EL_SPLIT_IMMUTABLE_UTF_8_LIST}.make_empty		-- True  -> UTF-8
-			)
-		end
-
-	New_line_tab: STRING = "%N%T"
 
 end

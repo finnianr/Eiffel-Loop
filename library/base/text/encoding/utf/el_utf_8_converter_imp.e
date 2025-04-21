@@ -9,18 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 17:51:12 GMT (Tuesday 15th April 2025)"
-	revision: "1"
+	date: "2025-04-20 9:04:10 GMT (Sunday 20th April 2025)"
+	revision: "2"
 
-class
-	EL_UTF_8_CONVERTER_IMP
+class EL_UTF_8_CONVERTER_IMP inherit ANY
 
-inherit
 	EL_UTF_8_CONVERTER_I
 		export
 			{ANY} all
 		end
-
-	ANY
 
 end

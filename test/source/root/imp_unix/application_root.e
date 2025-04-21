@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 11:43:11 GMT (Saturday 19th April 2025)"
-	revision: "81"
+	date: "2025-04-20 6:53:51 GMT (Sunday 20th April 2025)"
+	revision: "82"
 
 class
 	APPLICATION_ROOT
@@ -28,7 +28,7 @@ feature {NONE} -- Implementation
 	create_singletons
 		do
 			Precursor
-			-- Ensure LD_LIBRARY_PATH set for Unix
+		-- Ensure LD_LIBRARY_PATH set for Unix
 			Execution_environment.set_library_path
 		end
 

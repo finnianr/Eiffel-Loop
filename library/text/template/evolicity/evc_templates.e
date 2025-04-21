@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:50:47 GMT (Sunday 30th March 2025)"
-	revision: "43"
+	date: "2025-04-20 6:41:32 GMT (Sunday 20th April 2025)"
+	revision: "44"
 
 class
 	EVC_TEMPLATES
@@ -21,9 +21,7 @@ class
 inherit
 	EL_THREAD_ACCESS [HASH_TABLE [EVC_COMPILER, FILE_PATH]]
 
-	EL_MODULE_EXCEPTION
-
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_MODULE_EIFFEL; EL_MODULE_EXCEPTION
 
 	EL_MODULE_DEFERRED_LOCALE
 
@@ -39,6 +37,7 @@ feature {NONE} -- Initialization
 		do
 			create stack_table.make_equal (19)
 			enable_indentation
+			create name_table.make (7, agent new_template_name)
 		end
 
 feature -- Basic operations
@@ -159,7 +158,7 @@ feature -- Element change
 
 	put_source (a_name: FILE_PATH; template_source: READABLE_STRING_GENERAL)
 		do
-			put (a_name, as_zstring (template_source), Void)
+			put (a_name, template_source, Void)
 		end
 
 feature -- Status change
@@ -199,6 +198,15 @@ feature -- Removal
 
 feature -- Factory
 
+	new_name (object_or_type: ANY): FILE_PATH
+		do
+			if attached {TYPE [ANY]} object_or_type as type then
+				Result := name_table.item (type.type_id)
+			else
+				Result := name_table.item ({ISE_RUNTIME}.dynamic_type (object_or_type))
+			end
+		end
+
 	new_translation_key_table: EL_ZSTRING_TABLE
 		-- table of translation keys of the form "{evol.<variable-name>}" by Evolicity variable name
 		do
@@ -218,12 +226,19 @@ feature -- Contract Support
 
 	is_type_template (key_path: FILE_PATH): BOOLEAN
 		do
-			Result := key_path.has_extension ("template") and then key_path.base_name.enclosed_with (Brace_pair)
+			Result := key_path.has_extension (Extension_template) and then key_path.base_name.enclosed_with (Brace_pair)
 		end
 
 feature {NONE} -- Implementation
 
-	put (key_path: FILE_PATH; template_source: ZSTRING; file_encoding: detachable EL_ENCODING_BASE)
+	new_template_name (type_id: INTEGER): FILE_PATH
+		do
+			Result := Brace_pair
+			Result.base.insert_string_general (Eiffel.type_of_type (type_id).name, 2)
+			Result.add_extension (Extension_template)
+		end
+
+	put (key_path: FILE_PATH; template_source: READABLE_STRING_GENERAL; file_encoding: detachable EL_ENCODING_BASE)
 		-- put compiled template into the thread safe global `Mutex_compiler_table' template table
 
 		-- if `file_encoding' attached then compile template stored in file path `key_path'
@@ -250,7 +265,7 @@ feature {NONE} -- Implementation
 						compiler.set_encoding_from_other (encoding)
 						compiler.set_source_text_from_file (key_path)
 					else
-						compiler.set_source_text (template_source)
+						compiler.set_source_text_general (template_source)
 					end
 					compiler.parse
 					if compiler.parse_succeeded then
@@ -269,6 +284,8 @@ feature {NONE} -- Internal attributes
 		-- stacks of compiled templates
 		-- This design enables use of recursive templates
 
+	name_table: EL_AGENT_CACHE_TABLE [FILE_PATH, INTEGER]
+
 feature {NONE} -- Global attributes
 
 	Mutex_compiler_table: EL_MUTEX_REFERENCE [HASH_TABLE [EVC_COMPILER, FILE_PATH]]
@@ -279,7 +296,12 @@ feature {NONE} -- Global attributes
 
 feature {NONE} -- Constants
 
-	Brace_pair: STRING = "{}"
+	Brace_pair: ZSTRING
+		once
+			Result := "{}"
+		end
+
+	Extension_template: STRING = "template"
 
 	Translation_key_prefix: ZSTRING
 		once

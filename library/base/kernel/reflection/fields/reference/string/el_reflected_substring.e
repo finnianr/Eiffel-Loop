@@ -6,14 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 17:27:29 GMT (Sunday 25th August 2024)"
-	revision: "1"
+	date: "2025-04-21 8:31:19 GMT (Monday 21st April 2025)"
+	revision: "2"
 
 class
 	EL_REFLECTED_SUBSTRING
 
 inherit
-	EL_REFLECTED_REFERENCE [EL_SUBSTRING [STRING_GENERAL]]
+	EL_REFLECTED_REFERENCE [EL_MANIFEST_SUBSTRING [STRING_GENERAL, COMPARABLE]]
 		redefine
 			reset, set_from_string, set_from_utf_8
 		end

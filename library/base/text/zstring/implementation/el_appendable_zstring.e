@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 7:46:02 GMT (Sunday 13th April 2025)"
-	revision: "79"
+	date: "2025-04-21 7:14:17 GMT (Monday 21st April 2025)"
+	revision: "80"
 
 deferred class
 	EL_APPENDABLE_ZSTRING
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_ZSTRING_BASE
 		export
-			{ANY} is_compatible, is_compatible_substring, Substitute
+			{ANY} is_ascii_string, is_compatible, is_compatible_substring, Substitute
 		end
 
 	EL_MODULE_ENCODING
@@ -88,7 +88,7 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 		require
 			valid_encoding: valid_encoding (str_encoding)
 		local
-			offset: INTEGER; u: UTF_CONVERTER; sg: EL_STRING_GENERAL_ROUTINES
+			offset: INTEGER; u: UTF_CONVERTER
 		do
 			-- UTF-16 must be first to test as it can look like ascii
 			inspect str_encoding
@@ -114,11 +114,11 @@ feature {EL_READABLE_ZSTRING, STRING_HANDLER} -- Append strings
 				then
 					offset := count; accommodate (str.count)
 					codec.re_encode_substring (l_codec, str, area, 1, str.count, offset, unencoded_intervals)
-					if unencoded_intervals.count > 0 and then attached sg.super_readable_8 (str) as readable_8 then
+					if unencoded_intervals.count > 0 then
 						if has_mixed_encoding then
-							append_unencoded_intervals (readable_8, unencoded_intervals, offset)
+							append_unencoded_intervals (super_readable_8 (str), unencoded_intervals, offset)
 						else
-							make_from_intervals (readable_8, unencoded_intervals, offset)
+							make_from_intervals (super_readable_8 (str), unencoded_intervals, offset)
 						end
 						re_encode_intervals (l_codec, unencoded_intervals)
 					end
@@ -424,16 +424,6 @@ feature {STRING_HANDLER} -- Append REAL
 		end
 
 feature {STRING_HANDLER} -- Contract support
-
-	is_ascii_string (str: READABLE_STRING_8): BOOLEAN
-		do
-			Result := super_readable_8 (str).is_ascii
-		end
-
-	is_ascii_substring (str: READABLE_STRING_8; start_index, end_index: INTEGER): BOOLEAN
-		do
-			Result := super_readable_8 (str).is_ascii_substring (start_index, end_index)
-		end
 
 	valid_encoding (a_encoding: NATURAL): BOOLEAN
 		-- `True' when `a_encoding' is `Mixed_utf_8_latin_1', UTF-8/16, Latin, or Windows

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 12:43:03 GMT (Saturday 5th April 2025)"
-	revision: "11"
+	date: "2025-04-20 15:25:48 GMT (Sunday 20th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_STRING_BUFFER [S -> STRING_GENERAL create make end, READABLE -> READABLE_STRING_GENERAL]
@@ -15,7 +15,7 @@ deferred class
 inherit
 	ANY
 
-	EL_STRING_GENERAL_ROUTINES_I
+	EL_EXTENDED_READABLE_STRING_SELECTION
 
 	EL_STRING_BIT_COUNTABLE [READABLE]
 
@@ -171,6 +171,23 @@ feature {NONE} -- Implementation
 
 	trailing_white_count (s: READABLE): INTEGER
 		deferred
+		end
+
+feature {NONE} -- Constants
+
+	Shared_super_readable_32: EL_READABLE_STRING_32
+		once
+			create Result.make_empty
+		end
+
+	Shared_super_readable_8: EL_READABLE_STRING_8
+		once
+			create Result.make_empty
+		end
+
+	Shared_super_readable_z: EL_EXTENDED_ZSTRING
+		once
+			create Result.make_empty
 		end
 
 end

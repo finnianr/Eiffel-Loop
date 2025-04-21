@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 9:24:24 GMT (Wednesday 9th April 2025)"
-	revision: "14"
+	date: "2025-04-20 9:36:22 GMT (Sunday 20th April 2025)"
+	revision: "15"
 
 class
 	UTF_CONVERTER_TEST_SET
@@ -49,19 +49,30 @@ feature {NONE} -- Implementation
 
 	do_test (test_utf: PROCEDURE [STRING_32, INTEGER, INTEGER])
 		local
-			str_32: STRING_32; i, leading_count, trailing_count: INTEGER
+			str_32: STRING_32; i, start_index, end_index: INTEGER
+			break: BOOLEAN
 		do
 			across Text.lines_32 as line loop
 				str_32 := line.item
-				from i := 1 until i > str_32.count or else str_32.code (i) > 0x7F loop
-					i := i + 1
+				break := False
+				from i := str_32.count until i < 1 or break loop
+					if str_32.code (i) > 0x7F then
+						break := True
+					else
+						i := i - 1
+					end
 				end
-				leading_count := i - 1
-				from i := str_32.count until i = 0 or else str_32.code (i) > 0x7F loop
-					i := i - 1
+				end_index := i
+				break := False
+				from i := 1 until i > end_index or break loop
+					if str_32.code (i) > 0x7F then
+						break := True
+					else
+						i := i + 1
+					end
 				end
-				trailing_count := str_32.count - i
-				test_utf (str_32, leading_count, trailing_count)
+				start_index := i
+				test_utf (str_32, start_index - 1, str_32.count - end_index)
 			end
 		end
 

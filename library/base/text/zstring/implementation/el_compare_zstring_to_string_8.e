@@ -9,26 +9,26 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 14:58:09 GMT (Saturday 19th April 2025)"
-	revision: "12"
+	date: "2025-04-19 17:33:02 GMT (Saturday 19th April 2025)"
+	revision: "13"
 
 class
 	EL_COMPARE_ZSTRING_TO_STRING_8
 
 inherit
 	EL_COMPARABLE_ZSTRING_INTERVALS [CHARACTER_8, READABLE_STRING_8]
-		rename
-			super_readable_8 as extended_string
-		end
 
 create
 	make
 
 feature -- Element change
 
-	set_other_area (a_area: SPECIAL [CHARACTER_8]; index_lower: INTEGER)
+	set_other_area (other: READABLE_STRING_8)
+		local
+			index_lower: INTEGER
 		do
-			other_area := a_area; other_area_first_index := index_lower
+			other_area := Character_area_8.get_lower (other, $index_lower)
+			other_area_first_index := index_lower
 		end
 
 feature {NONE} -- Implementation

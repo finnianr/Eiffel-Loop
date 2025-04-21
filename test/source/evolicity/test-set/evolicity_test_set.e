@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-20 16:40:48 GMT (Thursday 20th March 2025)"
-	revision: "28"
+	date: "2025-04-20 6:45:20 GMT (Sunday 20th April 2025)"
+	revision: "29"
 
 class
 	EVOLICITY_TEST_SET
@@ -20,9 +20,9 @@ inherit
 			on_prepare
 		end
 
-	EL_CRC_32_TESTABLE
-
 	EL_MODULE_TUPLE
+
+	EL_CRC_32_TESTABLE
 
 	EVC_SHARED_TEMPLATES
 
@@ -37,6 +37,7 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
+				["function_call",	  agent test_function_call],
 				["if_then",			  agent test_if_then],
 				["iteration_loops", agent test_iteration_loops],
 				["merge_template",  agent test_merge_template]
@@ -44,6 +45,30 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Tests
+
+	test_function_call
+		note
+			testing: "[
+				covers/{EVC_FUNCTION_REFERENCE}.make
+			]"
+		-- EVOLICITY_TEST_SET.test_function_call
+		local
+			template, merged: STRING; name: FILE_PATH; context: EVC_CONTEXT_IMP
+			z: REAL_32; x: NATURAL; y: INTEGER
+		do
+			template := "@test.squared ($x)"; name := Evolicity_templates.new_name (Current)
+			Evolicity_templates.put_source (name, template)
+
+			create context.make
+			context.put_any ("squared", agent squared)
+			x := 2
+			merged := Evolicity_templates.merged_to_utf_8 (name, new_tuple_context ([x, y, z, context]))
+			if merged.is_natural then
+				assert ("x * x = squared (x)", squared (x) = merged.to_natural)
+			else
+				failed ("not natural")
+			end
+		end
 
 	test_if_then
 		note
@@ -295,6 +320,8 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
+	If_then_evol: STRING = "if_then.evol"
+
 	If_then_manifest: STRING = "[
 		#if not ($x = 1) and $y = 2 then
 		#if $x = 1 then
@@ -309,8 +336,6 @@ feature {NONE} -- Constants
 		#if $test.cat < $test.dog then
 		#if $test.pig > $test.dog and $test.pig > $test.cat then
 	]"
-
-	If_then_evol: STRING = "if_then.evol"
 
 	Integer: EL_FORMAT_INTEGER
 		once

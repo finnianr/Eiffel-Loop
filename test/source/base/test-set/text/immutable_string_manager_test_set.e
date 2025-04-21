@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 7:54:02 GMT (Monday 14th April 2025)"
-	revision: "2"
+	date: "2025-04-20 17:22:06 GMT (Sunday 20th April 2025)"
+	revision: "3"
 
 class
 	IMMUTABLE_STRING_MANAGER_TEST_SET
@@ -16,6 +16,8 @@ inherit
 	EL_EQA_TEST_SET
 
 	EL_SHARED_TEST_TEXT
+
+	EL_SHARED_CHARACTER_AREA_ACCESS
 
 create
 	make
@@ -71,23 +73,23 @@ feature -- Tests
 						if attached str_8.split (' ') as words then
 							word_8 := words [2]
 							word_index := line.item.substring_index (word_8, 1)
-							if attached super_8 (str_8) as super then
-								manager_8.set_item (super.area, word_index - 1, word_8.count)
+							if attached Character_area_8.get_area (str_8) as area then
+								manager_8.set_item (area, word_index - 1, word_8.count)
 								assert_same_string (Void, manager_8.item, word_8)
 								word_8 := words [1]
 	--						same as first word
-								assert_same_string (Void, manager_8.new_substring (super.area, 0, word_8.count), word_8)
+								assert_same_string (Void, manager_8.new_substring (area, 0, word_8.count), word_8)
 							end
 						end
 					elseif attached str_32.split (' ') as words then
 						word_32 := words [2]
 						word_index := line.item.substring_index (word_32, 1)
-						if attached super_32 (line.item) as super then
-							manager_32.set_item (super.area, word_index - 1, word_32.count)
+						if attached Character_area_32.get_area (line.item) as area then
+							manager_32.set_item (area, word_index - 1, word_32.count)
 							assert_same_string (Void, manager_32.item, word_32)
 							word_32 := words [1]
 	--						same as first word
-							assert_same_string (Void, manager_32.new_substring (super.area, 0, word_32.count), word_32)
+							assert_same_string (Void, manager_32.new_substring (area, 0, word_32.count), word_32)
 						end
 					end
 				end

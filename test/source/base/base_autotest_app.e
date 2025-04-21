@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-09 11:31:49 GMT (Wednesday 9th April 2025)"
-	revision: "205"
+	date: "2025-04-21 8:07:55 GMT (Monday 21st April 2025)"
+	revision: "206"
 
 class
 	BASE_AUTOTEST_APP
@@ -241,7 +241,7 @@ feature {NONE} -- Compiled classes
 		EL_STRING_32_TABLE [ANY],
 		EL_STRING_32_SPLIT_INTERVALS,
 		EL_STYLED_STRING_32_LIST,
-		EL_SUBSTRING_32,
+		EL_MANIFEST_SUBSTRING_32,
 		EL_URI_QUERY_STRING_32_HASH_TABLE
 	]
 		do
@@ -300,7 +300,7 @@ feature {NONE} -- Compiled classes
 	zstring: TUPLE [
 		EL_LINKED_STRING_LIST [STRING_GENERAL],
 		EL_STYLED_ZSTRING_LIST,
-		EL_ZSUBSTRING
+		EL_MANIFEST_SUB_ZSTRING
 	]
 		do
 			create Result

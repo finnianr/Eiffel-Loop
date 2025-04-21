@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 15:52:15 GMT (Friday 18th April 2025)"
-	revision: "48"
+	date: "2025-04-21 8:56:49 GMT (Monday 21st April 2025)"
+	revision: "49"
 
 class EL_STRING_8_ROUTINES_IMP inherit ANY
 
@@ -178,23 +178,6 @@ feature -- Transform
 		end
 
 feature {NONE} -- Implementation
-
-	append_lines_to (str_8: STRING_8; line_list: EL_SPLIT_IMMUTABLE_STRING_8_LIST)
-		do
-			across line_list as list loop
-				if str_8.count > 0 then
-					str_8.append_character ('%N')
-				end
-				list.append_item_to_string_8 (str_8)
-			end
-		end
-
-	append_utf_8_to (utf_8: READABLE_STRING_8; output: STRING_8)
-		local
-			u8: EL_UTF_8_CONVERTER
-		do
-			u8.string_8_into_string_general (utf_8, output)
-		end
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_8; pattern: READABLE_STRING_GENERAL)
 		do

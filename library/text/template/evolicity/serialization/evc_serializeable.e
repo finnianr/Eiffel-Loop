@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 17:44:13 GMT (Friday 21st March 2025)"
-	revision: "46"
+	date: "2025-04-20 6:38:53 GMT (Sunday 20th April 2025)"
+	revision: "47"
 
 deferred class
 	EVC_SERIALIZEABLE
@@ -149,12 +149,6 @@ feature {NONE} -- Factory
 			end
 		end
 
-	new_template_name (type_id: INTEGER): FILE_PATH
-		do
-			create Result
-			Result.set_base (Template_name_template #$ [Eiffel.type_of_type (type_id).name])
-		end
-
 feature {NONE} -- Implementation
 
 	file_must_exist: BOOLEAN
@@ -191,7 +185,7 @@ feature {NONE} -- Implementation
 			--
 		do
 			if template_path.is_empty then
-				Result := Template_names.item ({ISE_RUNTIME}.dynamic_type (Current))
+				Result := Evolicity_templates.new_name (Current)
 			else
 				Result := template_path
 			end
@@ -216,16 +210,6 @@ feature {NONE} -- Constants
 		once
 			create Result
 			Tuple.fill_immutable (Result, "encoding_name, template_name, to_xml, current")
-		end
-
-	Template_name_template: ZSTRING
-		once
-			Result := "{%S}.template"
-		end
-
-	Template_names: EL_AGENT_CACHE_TABLE [FILE_PATH, INTEGER]
-		once
-			create Result.make (7, agent new_template_name)
 		end
 
 end

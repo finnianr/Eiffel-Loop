@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 15:13:42 GMT (Tuesday 15th April 2025)"
-	revision: "19"
+	date: "2025-04-20 6:09:00 GMT (Sunday 20th April 2025)"
+	revision: "20"
 
 deferred class
 	EL_TOKEN_PARSER  [L -> EL_FILE_LEXER create make end]
@@ -35,6 +35,8 @@ inherit
 			{NONE} all
 		end
 
+	EL_STRING_GENERAL_ROUTINES_I
+
 	EL_STRING_32_CONSTANTS
 
 feature {NONE} -- Initialization
@@ -48,6 +50,11 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Element change
+
+	set_source_text_general (a_source_text: READABLE_STRING_GENERAL)
+		do
+			set_source_text (as_zstring (a_source_text))
+		end
 
 	set_source_text (a_source_text: ZSTRING)
 		local
