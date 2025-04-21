@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 9:13:57 GMT (Sunday 20th April 2025)"
-	revision: "10"
+	date: "2025-04-21 11:59:48 GMT (Monday 21st April 2025)"
+	revision: "11"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -200,6 +200,16 @@ feature {NONE} -- Deferred
 		end
 
 	new_shared_substring (str: like READABLE_X; start_index, end_index: INTEGER): like READABLE_X
+		deferred
+		end
+
+	occurs_at (smaller: like READABLE_X; index: INTEGER): BOOLEAN
+		-- `True' if `smaller' string occurs in `Current' at `index'
+		deferred
+		end
+
+	occurs_caseless_at (smaller: like READABLE_X; index: INTEGER): BOOLEAN
+		-- `True' if `smaller' string occurs in `big' string at `index' regardless of case
 		deferred
 		end
 

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-13 13:56:28 GMT (Thursday 13th February 2025)"
-	revision: "29"
+	date: "2025-04-21 12:22:13 GMT (Monday 21st April 2025)"
+	revision: "30"
 
 deferred class
 	EL_ENCODING_BASE
@@ -272,9 +272,9 @@ feature -- Contract Support
 
 	same_as_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		local
-			s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			Result := s.same_caseless (name, a_name.to_string_8)
+			Result := sg.super_8 (name).same_caseless (a_name.to_string_8)
 		end
 
 	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN

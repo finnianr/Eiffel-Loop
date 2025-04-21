@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 8:58:34 GMT (Monday 21st April 2025)"
-	revision: "78"
+	date: "2025-04-21 12:26:49 GMT (Monday 21st April 2025)"
+	revision: "79"
 
 class EL_STRING_32_ROUTINES_IMP inherit ANY
 
@@ -21,25 +21,6 @@ class EL_STRING_32_ROUTINES_IMP inherit ANY
 	EL_STRING_32_CONSTANTS
 
 	EL_SHARED_IMMUTABLE_32_MANAGER
-
-feature -- Comparison
-
-	occurs_at (big, small: STRING_32; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index'
-		do
-			Result := big.same_characters (small, 1, small.count, index)
-		end
-
-	occurs_caseless_at (big, small: STRING_32; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index' regardless of case
-		do
-			Result := big.same_caseless_characters (small, 1, small.count, index)
-		end
-
-	same_string (a, b: READABLE_STRING_32): BOOLEAN
-		do
-			Result := EL_string_32.same_strings (a, b)
-		end
 
 feature -- Basic operations
 

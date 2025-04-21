@@ -9,16 +9,30 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 14:24:31 GMT (Wednesday 16th April 2025)"
-	revision: "67"
+	date: "2025-04-21 12:30:36 GMT (Monday 21st April 2025)"
+	revision: "68"
 
 deferred class
-	EL_READABLE_STRING_X_ROUTINES [
-		READABLE_STRING_X -> READABLE_STRING_GENERAL, C -> COMPARABLE -- CHARACTER_X
-	]
+	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE]
 
 inherit
-	EL_READABLE_STRING_X_ROUTINES_BASE [READABLE_STRING_X, C]
+	EL_READABLE_STRING_GENERAL_ROUTINES_I
+		rename
+			occurrences as text_occurrences
+		end
+
+	EL_ROUTINES
+
+	EL_CASE_CONTRACT
+
+	EL_STRING_BIT_COUNTABLE [READABLE_STRING_X]
+
+	EL_SIDE_ROUTINES
+		rename
+			valid_side as valid_adjustments
+		export
+			{ANY} valid_adjustments
+		end
 
 	EL_SHARED_FILLED_STRING_TABLES
 
@@ -71,37 +85,6 @@ feature -- Lists
 			end
 		end
 
-feature -- Comparison
-
-	caseless_ends_with (big, small: READABLE_STRING_X): BOOLEAN
-		-- `True' if `big.ends_with (small)' is true regardless of case of `small'
-		do
-			if small.is_empty then
-				Result := True
-
-			elseif big.count >= small.count then
-				Result := occurs_caseless_at (big, small, big.count - small.count + 1)
-			end
-		end
-
-	occurs_at (big, small: READABLE_STRING_X; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index'
-		deferred
-		end
-
-	occurs_caseless_at (big, small: READABLE_STRING_X; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index' regardless of case
-		deferred
-		end
-
-	same_caseless (a, b: READABLE_STRING_X): BOOLEAN
-		-- `True' `a' and `b' are the same regardless of case
-		do
-			if a.count = b.count then
-				Result := occurs_caseless_at (a, b, 1)
-			end
-		end
-
 feature -- Substring
 
 	curtailed (str: READABLE_STRING_X; max_count: INTEGER): READABLE_STRING_X
@@ -122,6 +105,53 @@ feature -- Substring
 			else
 				Result := str.substring (1, max_count - 2) + Character_string_8_table.item ('.', 2)
 			end
+		end
+
+feature -- Contract Support
+
+	valid_substring_indices (str: READABLE_STRING_X; start_index, end_index: INTEGER): BOOLEAN
+		do
+			if str.valid_index (start_index) then
+				Result := end_index >= start_index - 1 and end_index <= str.count
+			end
+		end
+
+feature {NONE} -- Deferred
+
+	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
+		deferred
+		end
+
+	split_on_character (str: READABLE_STRING_X; separator: CHAR): EL_SPLIT_ON_CHARACTER [READABLE_STRING_X, CHAR]
+		deferred
+		end
+
+feature {NONE} -- Implementation
+
+	substring_list (text: READABLE_STRING_X; intervals: EL_SEQUENTIAL_INTERVALS): EL_ARRAYED_LIST [READABLE_STRING_X]
+		do
+			create Result.make (intervals.count)
+			from intervals.start until intervals.after loop
+				Result.extend (text.substring (intervals.item_lower, intervals.item_upper))
+				intervals.forth
+			end
+		end
+
+	to_code (character: CHARACTER_32): NATURAL_32
+		do
+			Result := character.natural_32_code
+		end
+
+feature {NONE} -- Constants
+
+	Once_occurence_intervals: EL_OCCURRENCE_INTERVALS
+		once
+			create Result.make_empty
+		end
+
+	Once_split_intervals: EL_SPLIT_INTERVALS
+		once
+			create Result.make_empty
 		end
 
 end

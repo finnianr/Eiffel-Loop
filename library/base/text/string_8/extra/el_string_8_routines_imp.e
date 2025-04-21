@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 8:56:49 GMT (Monday 21st April 2025)"
-	revision: "49"
+	date: "2025-04-21 12:26:22 GMT (Monday 21st April 2025)"
+	revision: "50"
 
 class EL_STRING_8_ROUTINES_IMP inherit ANY
 
@@ -51,25 +51,6 @@ feature -- Basic operations
 	set_substring_upper (str: STRING_8; start_index, end_index: INTEGER)
 		do
 			set_substring_case (str, start_index, end_index, {EL_CASE}.Upper)
-		end
-
-feature -- Comparison
-
-	occurs_at (big, small: READABLE_STRING_8; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index'
-		do
-			Result := big.same_characters (small, 1, small.count, index)
-		end
-
-	occurs_caseless_at (big, small: READABLE_STRING_8; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index' regardless of case
-		do
-			Result := big.same_caseless_characters (small, 1, small.count, index)
-		end
-
-	same_string (a, b: READABLE_STRING_8): BOOLEAN
-		do
-			Result := EL_string_8.same_strings (a, b)
 		end
 
 feature -- Conversion

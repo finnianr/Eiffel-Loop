@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-02-23 9:24:41 GMT (Friday 23rd February 2024)"
-	revision: "13"
+	date: "2025-04-21 12:38:32 GMT (Monday 21st April 2025)"
+	revision: "14"
 
 class
 	EL_DATE_FORMATS
@@ -15,7 +15,7 @@ class
 inherit
 	ANY
 
-	EL_MODULE_TUPLE
+	EL_MODULE_ITERABLE; EL_MODULE_TUPLE
 
 feature -- Constants
 
@@ -71,10 +71,8 @@ feature -- Format strings
 feature -- Factory
 
 	new_format (parts: ARRAY [IMMUTABLE_STRING_8]): STRING
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			create Result.make (s.character_count (parts, 2) + 1)
+			create Result.make (Iterable.character_count (parts, 2) + 1)
 
 			across parts as p loop
 				if p.cursor_index > 1 then

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 17:02:12 GMT (Sunday 20th April 2025)"
-	revision: "9"
+	date: "2025-04-21 12:07:58 GMT (Monday 21st April 2025)"
+	revision: "10"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -54,7 +54,8 @@ inherit
 			is_c_identifier_in_range, is_eiffel_identifier_in_range,
 			is_i_th_alpha, is_i_th_alpha_numeric, is_i_th_identifier, is_i_th_space,
 			latin_1_count,
-			new_shared_substring, occurrences_in_area_bounds, parse_substring_in_range,
+			new_shared_substring, occurrences_in_area_bounds, occurs_at, occurs_caseless_at,
+			parse_substring_in_range,
 			right_bracket_index, split, split_adjusted
 		end
 
@@ -139,6 +140,18 @@ feature -- Status query
 			Result := all_ascii_in_range (unencoded_area, lower_abs (start_index), upper_abs (end_index))
 		end
 
+	occurs_at (smaller: ZSTRING; index: INTEGER): BOOLEAN
+		-- `True' if `smaller' string occurs in `Current' at `index'
+		do
+			Result := same_characters (smaller, 1, smaller.count, index)
+		end
+
+	occurs_caseless_at (smaller: ZSTRING; index: INTEGER): BOOLEAN
+		-- `True' if `smaller' string occurs in `big' string at `index' regardless of case
+		do
+			Result := same_caseless_characters (smaller, 1, smaller.count, index)
+		end
+
 feature -- Element change
 
 	append_utf_8 (utf_8_string: READABLE_STRING_8)
@@ -147,7 +160,7 @@ feature -- Element change
 			update_shared
 		end
 
-	share (other: EL_ZSTRING)
+	share (other: ZSTRING)
 			-- Make current string share the text of `other'.
 			-- Subsequent changes to the characters of current string
 			-- will also affect `other', and conversely.

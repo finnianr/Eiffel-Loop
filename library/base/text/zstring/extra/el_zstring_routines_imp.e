@@ -9,15 +9,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 8:56:54 GMT (Monday 21st April 2025)"
-	revision: "54"
+	date: "2025-04-21 12:26:40 GMT (Monday 21st April 2025)"
+	revision: "55"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
 	EL_STRING_X_ROUTINES [ZSTRING, EL_READABLE_ZSTRING, CHARACTER_32]
 		rename
-			to_code as to_z_code,
-			ZString_searcher as String_searcher
+			to_code as to_z_code
 		undefine
 			bit_count
 		redefine
@@ -26,34 +25,15 @@ class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
 	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
 
-	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_32_MANAGER
+	EL_ZSTRING_CONSTANTS
 
-	EL_SHARED_ZSTRING_CODEC
+	EL_SHARED_ESCAPE_TABLE; EL_SHARED_ZSTRING_CODEC
 
 feature -- Factory
 
 	new_list (comma_separated: ZSTRING): EL_ZSTRING_LIST
 		do
 			create Result.make_comma_split (comma_separated)
-		end
-
-feature -- Comparison
-
-	occurs_at (big, small: ZSTRING; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index'
-		do
-			Result := big.same_characters (small, 1, small.count, index)
-		end
-
-	occurs_caseless_at (big, small: ZSTRING; index: INTEGER): BOOLEAN
-		-- `True' if `small' string occurs in `big' string at `index' regardless of case
-		do
-			Result := big.same_caseless_characters (small, 1, small.count, index)
-		end
-
-	same_string (a, b: EL_READABLE_ZSTRING): BOOLEAN
-		do
-			Result := a.same_string (b)
 		end
 
 feature -- Conversion

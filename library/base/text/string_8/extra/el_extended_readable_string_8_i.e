@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 13:59:30 GMT (Thursday 17th April 2025)"
-	revision: "12"
+	date: "2025-04-21 12:11:10 GMT (Monday 21st April 2025)"
+	revision: "13"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -51,6 +51,18 @@ feature -- Status query
 		-- `True' if `target' consists exactly of one character `c'
 		do
 			Result := count = 1 and then target [1] = c
+		end
+
+	occurs_at (smaller: READABLE_STRING_8; index: INTEGER): BOOLEAN
+		-- `True' if `smaller' string occurs in `Current' at `index'
+		do
+			Result := target.same_characters (smaller, 1, smaller.count, index)
+		end
+
+	occurs_caseless_at (smaller: READABLE_STRING_8; index: INTEGER): BOOLEAN
+		-- `True' if `smaller' string occurs in `big' string at `index' regardless of case
+		do
+			Result := target.same_caseless_characters (smaller, 1, smaller.count, index)
 		end
 
 feature -- Conversion

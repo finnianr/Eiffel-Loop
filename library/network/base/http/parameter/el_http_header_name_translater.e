@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-12-23 9:24:16 GMT (Saturday 23rd December 2023)"
-	revision: "6"
+	date: "2025-04-21 12:23:08 GMT (Monday 21st April 2025)"
+	revision: "7"
 
 class
 	EL_HTTP_HEADER_NAME_TRANSLATER
@@ -25,10 +25,8 @@ feature -- Conversion
 
 	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
-		local
-			s: EL_STRING_8_ROUTINES
 		do
-			if s.same_caseless (eiffel_name, Etag) then
+			if super_readable_8 (eiffel_name).same_caseless (Etag) then
 				Result := Etag
 			else
 				Result := Precursor (eiffel_name)

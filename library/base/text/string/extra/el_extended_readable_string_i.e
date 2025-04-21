@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 9:04:22 GMT (Sunday 20th April 2025)"
-	revision: "15"
+	date: "2025-04-21 12:18:47 GMT (Monday 21st April 2025)"
+	revision: "16"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -499,7 +499,18 @@ feature -- Status query
 			Result := c.is_left_bracket (target [index])
 		end
 
-feature -- Status query
+feature -- Substring query
+
+	caseless_ends_with (smaller: like READABLE_X): BOOLEAN
+		-- `True' if `ends_with (smaller)' is true regardless of case of `smaller'
+		do
+			if smaller.is_empty then
+				Result := True
+
+			elseif count >= smaller.count then
+				Result := occurs_caseless_at (smaller, count - smaller.count + 1)
+			end
+		end
 
 	ends_with (leading: like READABLE_X): BOOLEAN
 		deferred
@@ -508,6 +519,31 @@ feature -- Status query
 	has_substring (other: READABLE_STRING_GENERAL): BOOLEAN
 		deferred
 		end
+
+	same_caseless (other: like READABLE_X): BOOLEAN
+		-- `True' if `Current' and `other' are the same regardless of case
+		do
+			if count = other.count then
+				Result := occurs_caseless_at (other, 1)
+			end
+		end
+
+	same_string (other: like READABLE_X): BOOLEAN
+		-- work around for bug in `{SPECIAL}.same_items' affecting `{IMMUTABLE_STRING_8}.same_string'
+		local
+			l_count: INTEGER
+		do
+			l_count := count
+			if l_count > 0 and then l_count = other.count then
+				Result := same_area_items (area, other_area (other), index_lower, other_index_lower (other), l_count)
+			end
+		end
+
+	starts_with (leading: like READABLE_X): BOOLEAN
+		deferred
+		end
+
+feature -- Status query
 
 	is_variable_reference: BOOLEAN
 		-- `True' if `Current' is one of two variable reference forms
@@ -574,21 +610,6 @@ feature -- Status query
 			else
 				Result := same_string (wildcard)
 			end
-		end
-
-	same_string (other: like READABLE_X): BOOLEAN
-		-- work around for bug in `{SPECIAL}.same_items' affecting `{IMMUTABLE_STRING_8}.same_string'
-		local
-			l_count: INTEGER
-		do
-			l_count := count
-			if l_count > 0 and then l_count = other.count then
-				Result := same_area_items (area, other_area (other), index_lower, other_index_lower (other), l_count)
-			end
-		end
-
-	starts_with (leading: like READABLE_X): BOOLEAN
-		deferred
 		end
 
 feature -- Conversion

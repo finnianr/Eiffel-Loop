@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 9:38:04 GMT (Monday 21st April 2025)"
-	revision: "85"
+	date: "2025-04-21 12:37:43 GMT (Monday 21st April 2025)"
+	revision: "86"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -17,6 +17,8 @@ deferred class
 
 inherit
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X, CHAR]
+
+	EL_MODULE_ITERABLE
 
 feature -- Factory
 
@@ -61,7 +63,7 @@ feature -- List joining
 			char_count: INTEGER; code: NATURAL_32
 		do
 			code := to_code (separator) -- might be z_code for ZSTRING
-			char_count := character_count (list, 1)
+			char_count := Iterable.character_count (list, 1)
 			Result := new (char_count)
 			across list as ln loop
 				if Result.count > 0 then
@@ -75,7 +77,7 @@ feature -- List joining
 		local
 			char_count: INTEGER
 		do
-			char_count := character_count (list, separator.count)
+			char_count := Iterable.character_count (list, separator.count)
 			Result := new (char_count)
 			across list as ln loop
 				if Result.count > 0 then

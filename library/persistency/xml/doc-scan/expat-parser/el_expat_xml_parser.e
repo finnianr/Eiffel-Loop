@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-06-21 14:23:23 GMT (Friday 21st June 2024)"
-	revision: "29"
+	date: "2025-04-21 12:58:37 GMT (Monday 21st April 2025)"
+	revision: "30"
 
 class
 	EL_EXPAT_XML_PARSER
@@ -48,7 +48,7 @@ inherit
 			make_parser, set_fixed_address
 		end
 
-	EL_MODULE_EXCEPTION
+	EL_MODULE_EXCEPTION; EL_MODULE_ITERABLE
 
 	EL_SHARED_CLASS_ID; EL_SHARED_ZCODEC_FACTORY
 
@@ -80,24 +80,15 @@ feature {NONE}  -- Initialisation
 
 feature -- Basic operations
 
-	parse_from_lines (a_lines: ITERABLE [STRING])
+	parse_from_lines (a_lines: ITERABLE [STRING_8])
 		local
-			callback: like new_callback; r: EL_READABLE_STRING_GENERAL_ROUTINES
-			joined_lines: STRING
+			callback: like new_callback; string_list: EL_STRING_8_LIST
 		do
 			reset
 			callback := new_callback
 			create source.make_from_general (a_lines.generator)
-			create joined_lines.make (r.character_count (a_lines, 1))
-			across a_lines as line until not is_correct loop
-				inspect joined_lines.count
-					when 0 then
-				else
-					joined_lines.extend ('%N')
-				end
-				joined_lines.append (line.item)
-			end
-			parse_string_and_set_error (joined_lines, False)
+			create string_list.make_from_iterable (a_lines, True) -- filter empty lines
+			parse_string_and_set_error (string_list.joined_lines, False)
 			parse_final (callback)
 		end
 

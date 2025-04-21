@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 9:20:09 GMT (Monday 21st April 2025)"
-	revision: "39"
+	date: "2025-04-21 12:36:20 GMT (Monday 21st April 2025)"
+	revision: "40"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_ROUTINES_I
@@ -40,26 +40,6 @@ feature -- Factory
 
 
 feature -- Measurement
-
-	character_count (list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
-		do
-			across list as ln loop
-				if Result > 0 then
-					Result := Result + separator_count
-				end
-				Result := Result + ln.item.count
-			end
-		end
-
-	maximum_count (strings: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
-			--
-		do
-			across strings as str loop
-				if str.item.count > Result then
-					Result := str.item.count
-				end
-			end
-		end
 
 	occurrences (text, search_string: READABLE_STRING_GENERAL): INTEGER
 			--

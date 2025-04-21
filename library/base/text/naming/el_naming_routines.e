@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 11:50:54 GMT (Sunday 20th April 2025)"
-	revision: "53"
+	date: "2025-04-21 12:19:59 GMT (Monday 21st April 2025)"
+	revision: "54"
 
 class
 	EL_NAMING_ROUTINES
@@ -285,7 +285,7 @@ feature -- Export names
 					if word.count > 0 then
 						s.set_upper (word, 1)
 					end
-				elseif s.caseless_ends_with (english_out, once "NON") then
+				elseif super_8 (english_out).caseless_ends_with (once "NON") then
 					english_out.append_character ('-')
 
 				else

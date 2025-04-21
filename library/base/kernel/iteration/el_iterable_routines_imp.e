@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "9"
+	date: "2025-04-21 12:51:46 GMT (Monday 21st April 2025)"
+	revision: "10"
 
 class
 	EL_ITERABLE_ROUTINES_IMP [G]
@@ -26,6 +26,26 @@ feature -- Measurement
 			else
 				across iterable as it loop
 					Result := Result + 1
+				end
+			end
+		end
+
+	character_count (list: ITERABLE [READABLE_STRING_GENERAL]; separator_count: INTEGER): INTEGER
+		do
+			across list as ln loop
+				if Result > 0 then
+					Result := Result + separator_count
+				end
+				Result := Result + ln.item.count
+			end
+		end
+
+	max_character_count (strings: ITERABLE [READABLE_STRING_GENERAL]): INTEGER
+		-- maximum character count of `strings'
+		do
+			across strings as str loop
+				if str.item.count > Result then
+					Result := str.item.count
 				end
 			end
 		end

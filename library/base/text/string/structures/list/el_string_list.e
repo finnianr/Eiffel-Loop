@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 11:25:36 GMT (Tuesday 15th April 2025)"
-	revision: "43"
+	date: "2025-04-21 12:56:58 GMT (Monday 21st April 2025)"
+	revision: "44"
 
 class
 	EL_STRING_LIST [S -> STRING_GENERAL create make end]
@@ -55,7 +55,8 @@ inherit
 
 create
 	make, make_empty, make_filled, make_split, make_with_lines,
-	make_word_split, make_from_array, make_from, make_from_tuple, make_from_general
+	make_word_split, make_from_array, make_from, make_from_iterable,
+	make_from_tuple, make_from_general
 
 convert
 	make_from_array ({ARRAY [S]})
@@ -77,6 +78,18 @@ feature {NONE} -- Initialization
 		do
 			make (tuple.count)
 			append_tuple (tuple)
+		end
+
+	make_from_iterable (iterable_list: ITERABLE [S]; filter_empty: BOOLEAN)
+		do
+			make (Iterable.count (iterable_list))
+			across iterable_list as list loop
+				if attached list.item as str then
+					if filter_empty implies str.count > 0 then
+						extend (str)
+					end
+				end
+			end
 		end
 
 feature -- Measurement

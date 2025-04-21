@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 15:37:04 GMT (Saturday 5th April 2025)"
-	revision: "23"
+	date: "2025-04-21 12:57:22 GMT (Monday 21st April 2025)"
+	revision: "24"
 
 class
 	EL_STRING_32_LIST
@@ -22,7 +22,8 @@ inherit
 
 create
 	make, make_empty, make_with_lines, make_filled, make_from_special,
-	make_from, make_from_substrings, make_from_array, make_from_tuple, make_from_general,
+	make_from, make_from_substrings, make_from_array, make_from_iterable,
+	make_from_tuple, make_from_general,
 	make_split, make_adjusted_split, make_word_split, make_comma_split
 
 convert
