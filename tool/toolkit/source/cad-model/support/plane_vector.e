@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 10:07:39 GMT (Monday 21st April 2025)"
-	revision: "6"
+	date: "2025-04-21 13:06:33 GMT (Monday 21st April 2025)"
+	revision: "7"
 
 class
 	PLANE_VECTOR
@@ -20,11 +20,6 @@ inherit
 		end
 
 	EL_DOUBLE_MATH_I
-		export
-			{NONE} all
-		undefine
-			copy, is_equal, out
-		end
 
 create
 	make

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-13 8:22:31 GMT (Sunday 13th April 2025)"
-	revision: "41"
+	date: "2025-04-21 13:21:49 GMT (Monday 21st April 2025)"
+	revision: "42"
 
 class
 	EL_CLASS_TYPE_ID_ENUM
@@ -41,6 +41,7 @@ feature {NONE} -- Initialization
 			natural_types := numeric_types (<< NATURAL_16, NATURAL_32, NATURAL_64, NATURAL_8 >>)
 			whole_number_types := joined (integer_types, natural_types)
 
+			manifest_substring_types := << EL_MANIFEST_SUBSTRING_32, EL_MANIFEST_SUBSTRING_8, EL_MANIFEST_SUB_ZSTRING >>
 			real_types := numeric_types (<< REAL_32, REAL_64 >>)
 
 			immutable_string_types := << IMMUTABLE_STRING_8, IMMUTABLE_STRING_32 >>
@@ -167,9 +168,6 @@ feature -- Generic types
 
 	EL_MAKEABLE_FROM_STRING__STRING_GENERAL: INTEGER
 		-- EL_MAKEABLE_FROM_STRING [STRING_GENERAL]
-
-	EL_SUBSTRING__STRING_GENERAL: INTEGER
-		-- EL_SUBSTRING [STRING_GENERAL]
 
 	HASH_TABLE__ANY__HASHABLE: INTEGER
 		-- HASH_TABLE [ANY, HASHABLE]

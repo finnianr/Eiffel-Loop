@@ -6,14 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 10:20:29 GMT (Monday 21st April 2025)"
-	revision: "2"
+	date: "2025-04-21 13:07:26 GMT (Monday 21st April 2025)"
+	revision: "3"
 
 deferred class
 	EL_DOUBLE_MATH_I
 
 inherit
 	DOUBLE_MATH
+		export
+			{NONE} all
 		undefine
 			copy, default_create, is_equal, out
 		end

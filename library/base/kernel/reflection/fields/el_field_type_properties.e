@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 10:04:57 GMT (Saturday 5th April 2025)"
-	revision: "9"
+	date: "2025-04-21 14:23:51 GMT (Monday 21st April 2025)"
+	revision: "10"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
@@ -94,6 +94,12 @@ feature -- Status query
 	is_expanded: BOOLEAN
 		do
 			Result := abstract_type /= Reference_type
+		end
+
+	is_manifest_substring: BOOLEAN
+		-- `True' if field type conforms to EL_MANIFEST_SUBSTRING
+		do
+			Result := is_type_in_set (static_type, class_id.manifest_substring_types)
 		end
 
 	is_pointer: BOOLEAN

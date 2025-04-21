@@ -1,16 +1,16 @@
 note
-	description: "${EL_REFLECTED_REFERENCE} for field conforming to ${EL_REFLECTED_REFERENCE}"
+	description: "${EL_REFLECTED_REFERENCE} for field conforming to ${EL_MANIFEST_SUBSTRING}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 8:31:19 GMT (Monday 21st April 2025)"
-	revision: "2"
+	date: "2025-04-21 14:24:27 GMT (Monday 21st April 2025)"
+	revision: "3"
 
 class
-	EL_REFLECTED_SUBSTRING
+	EL_REFLECTED_MANIFEST_SUBSTRING
 
 inherit
 	EL_REFLECTED_REFERENCE [EL_MANIFEST_SUBSTRING [STRING_GENERAL, COMPARABLE]]

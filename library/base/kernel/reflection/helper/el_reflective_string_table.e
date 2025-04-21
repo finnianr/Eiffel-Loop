@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 8:11:34 GMT (Monday 21st April 2025)"
-	revision: "14"
+	date: "2025-04-21 14:24:27 GMT (Monday 21st April 2025)"
+	revision: "15"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -31,7 +31,7 @@ deferred class
 inherit
 	EL_REFLECTIVELY_SETTABLE
 		rename
-			field_included as is_substring_field,
+			field_included as is_manifest_substring,
 			foreign_naming as eiffel_naming,
 			make_default as make_reflected
 		export
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 			if attached utf_8_table as table then
 				from table.start until table.after loop
 					if field_table.has_immutable_key (table.key_for_iteration)
-						and then attached {EL_REFLECTED_SUBSTRING} field_table.found_item as substring_field
+						and then attached {EL_REFLECTED_MANIFEST_SUBSTRING} field_table.found_item as substring_field
 						and then attached substring_field.value (Current) as substring
 					then
 						compact_interval := table.interval_item_for_iteration
@@ -80,9 +80,9 @@ feature {NONE} -- Initialization
 
 feature {NONE} -- Field tests
 
-	is_substring_field (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
+	is_manifest_substring (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
-			Result := field.conforms_to (Class_id.EL_SUBSTRING__STRING_GENERAL)
+			Result := field.is_manifest_substring
 		end
 
 feature {NONE} -- Deferred

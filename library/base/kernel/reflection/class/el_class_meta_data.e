@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 14:01:32 GMT (Friday 21st March 2025)"
-	revision: "86"
+	date: "2025-04-21 14:24:27 GMT (Monday 21st April 2025)"
+	revision: "87"
 
 class
 	EL_CLASS_META_DATA
@@ -121,8 +121,8 @@ feature {EL_FIELD_LIST} -- Factory
 			elseif attached matched_collection_factory (type_id) as collection then
 				Result := collection.new_field (target, index, name)
 
-			elseif field.conforms_to (Class_id.EL_SUBSTRING__STRING_GENERAL) then
-				create {EL_REFLECTED_SUBSTRING} Result.make (target, index, name)
+			elseif field.is_manifest_substring then
+				create {EL_REFLECTED_MANIFEST_SUBSTRING} Result.make (target, index, name)
 			else
 				create {EL_REFLECTED_REFERENCE_ANY} Result.make (target, index, name)
 			end
