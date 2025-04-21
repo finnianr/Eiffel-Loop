@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-27 10:01:54 GMT (Tuesday 27th August 2024)"
-	revision: "34"
+	date: "2025-04-21 10:18:21 GMT (Monday 21st April 2025)"
+	revision: "35"
 
 class
 	EL_RECTANGLE
@@ -17,13 +17,9 @@ inherit
 
 	EL_MODULE_SCREEN; EL_MODULE_ORIENTATION ; EL_MODULE_TEXT
 
-	EL_DOUBLE_MATH
+	EL_DOUBLE_MATH_I
 		rename
 			log as natural_log
-		export
-			{NONE} all
-		undefine
-			out
 		end
 
 	EL_DIRECTION_CONSTANTS

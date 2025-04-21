@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:26 GMT (Saturday 20th January 2024)"
-	revision: "10"
+	date: "2025-04-21 10:13:06 GMT (Monday 21st April 2025)"
+	revision: "11"
 
 class
 	EL_YOUTUBE_VIDEO_STREAM_LIST
@@ -22,6 +22,8 @@ inherit
 
 	EL_MODULE_FORMAT
 
+	EL_STRING_GENERAL_ROUTINES_I
+
 create
 	make
 
@@ -29,10 +31,10 @@ feature {NONE} -- Implementation
 
 	display_extra (name_count: INTEGER)
 		local
-			s: EL_STRING_8_ROUTINES; option: STRING
+			option: STRING
 		do
 			option := Format.padded_integer (count + 1, 2) + ". Audio track only"
-			lio.put_labeled_string (option + s.n_character_string (' ', name_count - option.count), "   0p, (no video)")
+			lio.put_labeled_string (option + Shared_super_8.filled (' ', name_count - option.count), "   0p, (no video)")
 			lio.put_new_line
 		end
 

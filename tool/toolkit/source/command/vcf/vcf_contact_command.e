@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "4"
+	date: "2025-04-21 10:06:54 GMT (Monday 21st April 2025)"
+	revision: "5"
 
 deferred class
 	VCF_CONTACT_COMMAND
@@ -15,7 +15,7 @@ deferred class
 inherit
 	EL_APPLICATION_COMMAND
 
-	EL_STRING_STATE_MACHINE [STRING]
+	EL_STRING_STATE_MACHINE [STRING_8, CHARACTER_8]
 		rename
 			make as make_machine
 		end

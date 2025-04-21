@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 8:46:36 GMT (Wednesday 16th April 2025)"
-	revision: "9"
+	date: "2025-04-21 11:39:10 GMT (Monday 21st April 2025)"
+	revision: "10"
 
 class
 	EL_TYPE_UTILITIES
@@ -126,6 +126,14 @@ feature -- Status query
 	same_type_as (item: ANY; type_id: INTEGER): BOOLEAN
 		do
 			Result := dynamic_type (item) = type_id
+		end
+
+	same_abstract_types (type_id_1, type_id_2: INTEGER): BOOLEAN
+		-- `True' if abstract type of both `type_id_1' and `type_id_2' are the same
+		-- even if one is the reference type ancestor of an expanded type.
+		-- For example: {BOOLEAN_REF}.type_id and {BOOLEAN}.type_id will be the same.
+		do
+			Result := abstract_type_of_type_plus (type_id_1) = abstract_type_of_type_plus (type_id_2)
 		end
 
 feature -- Status type flag

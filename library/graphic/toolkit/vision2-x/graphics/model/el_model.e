@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-05 7:39:42 GMT (Thursday 5th September 2024)"
-	revision: "19"
+	date: "2025-04-21 10:18:08 GMT (Monday 21st April 2025)"
+	revision: "20"
 
 deferred class
 	EL_MODEL
@@ -36,12 +36,7 @@ inherit
 
 	EL_SHARED_DEFAULT_PIXMAPS
 
-	EL_INTEGER_MATH
-		export
-			{NONE} all
-		undefine
-			copy, default_create
-		end
+	EL_INTEGER_MATH_I
 
 feature -- Access
 

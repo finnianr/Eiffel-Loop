@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:46:16 GMT (Monday 14th April 2025)"
-	revision: "16"
+	date: "2025-04-21 10:05:36 GMT (Monday 21st April 2025)"
+	revision: "17"
 
 class
 	CLASS_LINK_OCCURRENCE_INTERVALS
@@ -102,6 +102,7 @@ feature -- Access
 		-- or zero if link is invalid
 		local
 			name_count, start_index, end_index, bracket_index, offset: INTEGER
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			start_index := item_lower; end_index := item_upper
 			if code_text.valid_index (start_index) and then code_text.valid_index (end_index)
@@ -113,7 +114,7 @@ feature -- Access
 					bracket_index := index_of_bracket (code_text, start_index + 2, end_index - 1)
 					if bracket_index > 0 then
 					-- check [] brackets are evenly balanced and finish just before '}'
-						if super_z (code_text).matching_bracket_index (bracket_index) = end_index - 1 then
+						if sg.super_z (code_text).matching_bracket_index (bracket_index) = end_index - 1 then
 							Result := Link_type_parameterized
 						end
 					else
