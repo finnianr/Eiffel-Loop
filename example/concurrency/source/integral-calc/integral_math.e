@@ -6,14 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:03 GMT (Tuesday 15th November 2022)"
-	revision: "5"
+	date: "2025-04-21 14:33:34 GMT (Monday 21st April 2025)"
+	revision: "6"
 
-class
-	INTEGRAL_MATH
+class INTEGRAL_MATH inherit ANY
 
-inherit
-	EL_DOUBLE_MATH
+	EL_DOUBLE_MATH_I
 		rename
 			integral as math_integral
 		end

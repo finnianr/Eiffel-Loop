@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 14:23:51 GMT (Monday 21st April 2025)"
-	revision: "10"
+	date: "2025-04-21 14:26:58 GMT (Monday 21st April 2025)"
+	revision: "11"
 
 class
 	EL_FIELD_TYPE_PROPERTIES
@@ -127,6 +127,7 @@ feature -- Status query
 		end
 
 	is_storable: BOOLEAN
+		-- `True' if field type conforms to EL_STORABLE
 		local
 			type_id: INTEGER
 		do
@@ -147,6 +148,7 @@ feature -- Status query
 		end
 
 	is_table: BOOLEAN
+		-- `True' if field type conforms to HASH_TABLE
 		do
 			Result := is_table_type (abstract_type, static_type)
 		end

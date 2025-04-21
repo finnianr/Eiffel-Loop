@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 11:08:22 GMT (Thursday 7th November 2024)"
-	revision: "12"
+	date: "2025-04-21 14:32:30 GMT (Monday 21st April 2025)"
+	revision: "13"
 
 class
 	J_STRING
@@ -22,14 +22,11 @@ inherit
 
 	JAVA_LANG_JPACKAGE
 
-	EL_SHARED_STRING_8_CURSOR; EL_SHARED_STRING_8_BUFFER_POOL
+	EL_SHARED_STRING_8_BUFFER_POOL
 
 create
-	default_create,
-	make,
-	make_from_utf_8,
-	make_from_string,
-	make_from_string_8,
+	default_create, make,
+	make_from_string, make_from_string_8, make_from_utf_8,
 	make_from_java_method_result,
 	make_from_java_attribute,
 	make_from_java_object,
