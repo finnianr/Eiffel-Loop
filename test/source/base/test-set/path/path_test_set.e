@@ -6,14 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 11:03:53 GMT (Monday 31st March 2025)"
-	revision: "39"
+	date: "2025-04-22 8:11:40 GMT (Tuesday 22nd April 2025)"
+	revision: "40"
 
-class
-	PATH_TEST_SET
+class	PATH_TEST_SET inherit EIFFEL_LOOP_TEST_SET
 
-inherit
-	EIFFEL_LOOP_TEST_SET
+	BASE_TEST_SET
 
 	PLATFORM
 		export

@@ -6,14 +6,10 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 11:37:08 GMT (Wednesday 16th April 2025)"
-	revision: "59"
+	date: "2025-04-22 16:54:56 GMT (Tuesday 22nd April 2025)"
+	revision: "60"
 
-class
-	HASH_TABLE_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
+class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_MODULE_EXECUTABLE
 
@@ -22,8 +18,6 @@ inherit
 	EL_OBJECT_PROPERTY_I
 
 	JSON_TEST_DATA
-
-	EL_SHARED_TEST_TEXT; SHARED_HEXAGRAM_STRINGS
 
 	EL_CHARACTER_32_CONSTANTS; FEATURE_CONSTANTS
 
@@ -45,9 +39,10 @@ feature {NONE} -- Initialization
 				["el_table_insertion",	 agent test_el_table_insertion],
 				["el_table_sort",			 agent test_el_table_sort],
 				["make_from_keys",		 agent test_make_from_keys],
+				["sparse_array_table",	 agent test_sparse_array_table],
+				["string_general_table", agent test_string_general_table],
 				["string_table",			 agent test_string_table],
 				["string_table_memory",	 agent test_string_table_memory],
-				["string_general_table", agent test_string_general_table],
 				["zstring_table",			 agent test_zstring_table],
 				["error_code_table",		 agent test_error_code_table],
 				["string_32_table",		 agent test_string_32_table],
@@ -303,6 +298,31 @@ feature -- General tests
 				assert ("same list", word_count_list ~ word_count_table.item_list)
 
 				assert ("same total", total_count = word_count_table.sum_integer (agent integer))
+			end
+		end
+
+	test_sparse_array_table
+		-- HASH_TABLE_TEST_SET.test_sparse_array_table
+		local
+			sparse_table: COMPUTED_INTEGER_64_TABLE; format: EL_FORMAT_INTEGER
+			source_table: EL_HASH_TABLE [INTEGER_64, INTEGER_16]; square: INTEGER_64
+			n, multiplier: INTEGER_16
+		do
+			create format.make_width (1)
+			across << 1 , 10 >> as step_size loop
+				multiplier := step_size.item.to_integer_16
+				create source_table.make (50)
+				across -25 |..| 25 as list loop
+					n := list.item.to_integer_16 * multiplier
+					square := n.to_integer_64 * n.to_integer_64
+					source_table.extend (square, n)
+				end
+				create sparse_table.make (source_table)
+				across -25 |..| 25 as list loop
+					n := list.item.to_integer_16 * multiplier
+					assert ("same spelling", source_table [n] = sparse_table [n])
+				end
+				assert ("not array indexed", multiplier > 1 implies not sparse_table.is_array_indexed)
 			end
 		end
 

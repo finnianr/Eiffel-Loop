@@ -6,18 +6,12 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 7:55:47 GMT (Monday 14th April 2025)"
-	revision: "4"
+	date: "2025-04-22 8:26:22 GMT (Tuesday 22nd April 2025)"
+	revision: "5"
 
-class
-	TEXT_FILE_TEST_SET
+class TEXT_FILE_TEST_SET inherit	EL_FILE_DATA_TEST_SET
 
-inherit
-	EL_FILE_DATA_TEST_SET
-
-	EL_SHARED_TEST_TEXT
-
-	SHARED_DEV_ENVIRON
+	BASE_TEST_SET
 
 create
 	make

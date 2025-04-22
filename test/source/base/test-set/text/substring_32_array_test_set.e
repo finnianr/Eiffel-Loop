@@ -8,18 +8,12 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-20 8:03:19 GMT (Friday 20th September 2024)"
-	revision: "33"
+	date: "2025-04-22 8:25:28 GMT (Tuesday 22nd April 2025)"
+	revision: "34"
 
-class
-	SUBSTRING_32_ARRAY_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
+class	SUBSTRING_32_ARRAY_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_ZCODE_CONVERSION undefine default_create end
-
-	EL_SHARED_TEST_TEXT
 
 create
 	make

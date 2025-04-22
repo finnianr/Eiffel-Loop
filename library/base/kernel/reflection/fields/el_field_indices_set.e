@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:14:44 GMT (Saturday 5th April 2025)"
-	revision: "22"
+	date: "2025-04-22 11:49:03 GMT (Tuesday 22nd April 2025)"
+	revision: "23"
 
 class
 	EL_FIELD_INDICES_SET
@@ -16,14 +16,16 @@ inherit
 	TO_SPECIAL [INTEGER]
 		export
 			{NONE} all
-			{ANY} item
-			{EL_OBJECT_FIELDS_TABLE} area
+			{ANY} valid_index, item
+			{EL_REFLECTION_HANDLER} area
 		end
+
+	EL_MODULE_EIFFEL
 
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_empty, make_empty_area
+	make, make_empty, make_empty_area, make_from
 
 feature {NONE} -- Initialization
 
@@ -57,6 +59,28 @@ feature {NONE} -- Initialization
 			make_empty_area (0)
 		end
 
+	make_from (a_object: ANY; field_names: STRING)
+		-- index of each field in `field_names' in the order in which they are listed
+		local
+			field_list: EL_SPLIT_STRING_8_LIST
+		do
+			if field_names.is_empty then
+				make_empty
+				is_valid := True
+
+			elseif attached Eiffel.reflected (a_object).new_index_table as index_table then
+				create field_list.make_adjusted (field_names, ',', {EL_SIDE}.Left)
+				make_empty_area (field_list.count)
+				from field_list.start until field_list.after loop
+					if index_table.has_key (field_list.item) then
+						extend (index_table.found_item)
+					end
+					field_list.forth
+				end
+				is_valid := count = field_list.count
+			end
+		end
+
 feature -- Measurement
 
 	count: INTEGER
@@ -65,6 +89,11 @@ feature -- Measurement
 		end
 
 feature -- Status query
+
+	full: BOOLEAN
+		do
+			Result := area.count = area.capacity
+		end
 
 	has (v: INTEGER): BOOLEAN
 		local
@@ -80,11 +109,6 @@ feature -- Status query
 		end
 
 	is_valid: BOOLEAN
-
-	full: BOOLEAN
-		do
-			Result := area.count = area.capacity
-		end
 
 feature -- Element change
 

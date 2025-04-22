@@ -6,10 +6,10 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-16 22:31:48 GMT (Wednesday 16th April 2025)"
-	revision: "76"
+	date: "2025-04-22 8:26:53 GMT (Tuesday 22nd April 2025)"
+	revision: "77"
 
-class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
+class SPLIT_STRING_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_STRING_8_CONSTANTS
 
@@ -17,7 +17,7 @@ class SPLIT_STRING_TEST_SET inherit EL_EQA_TEST_SET
 
 	EL_MODULE_TUPLE
 
-	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32; EL_SHARED_TEST_TEXT
+	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
 create
 	make

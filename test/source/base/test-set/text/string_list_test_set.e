@@ -6,13 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 8:56:05 GMT (Saturday 29th March 2025)"
-	revision: "1"
+	date: "2025-04-22 8:13:57 GMT (Tuesday 22nd April 2025)"
+	revision: "2"
 
-class
-	STRING_LIST_TEST_SET inherit EL_EQA_TEST_SET
-
-	EL_SHARED_TEST_TEXT
+class STRING_LIST_TEST_SET inherit BASE_EQA_TEST_SET
 
 create
 	make

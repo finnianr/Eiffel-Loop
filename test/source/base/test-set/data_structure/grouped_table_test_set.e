@@ -6,22 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-26 8:16:06 GMT (Thursday 26th September 2024)"
-	revision: "1"
+	date: "2025-04-22 8:22:10 GMT (Tuesday 22nd April 2025)"
+	revision: "2"
 
-class
-	GROUPED_TABLE_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
-
-	HEXAGRAM_STRINGS
-		rename
-			English_titles as I_ching_hexagram_titles,
-			Name_list as Mandarin_name_list
-		undefine
-			default_create
-		end
+class GROUPED_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
 create
 	make
@@ -128,8 +116,8 @@ feature {NONE} -- Implementation
 
 	new_word_list: EL_STRING_8_LIST
 		do
-			create Result.make (I_ching_hexagram_titles.character_count // 6)
-			across I_ching_hexagram_titles as title loop
+			create Result.make (Hexagram.English_titles.character_count // 6)
+			across Hexagram.English_titles as title loop
 				across title.item.split (' ') as word loop
 					Result.extend (word.item)
 					Result.last.to_lower

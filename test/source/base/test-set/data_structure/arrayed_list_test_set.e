@@ -6,14 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-23 14:58:27 GMT (Friday 23rd August 2024)"
-	revision: "13"
+	date: "2025-04-22 8:06:36 GMT (Tuesday 22nd April 2025)"
+	revision: "14"
 
-class
-	ARRAYED_LIST_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
+class ARRAYED_LIST_TEST_SET inherit BASE_EQA_TEST_SET
 
 create
 	make

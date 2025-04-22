@@ -6,16 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 9:36:22 GMT (Sunday 20th April 2025)"
-	revision: "15"
+	date: "2025-04-22 8:27:35 GMT (Tuesday 22nd April 2025)"
+	revision: "16"
 
-class
-	UTF_CONVERTER_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
-
-	EL_SHARED_TEST_TEXT
+class	UTF_CONVERTER_TEST_SET inherit BASE_EQA_TEST_SET
 
 create
 	make

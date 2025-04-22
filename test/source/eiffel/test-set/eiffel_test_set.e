@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:37:22 GMT (Saturday 5th April 2025)"
-	revision: "46"
+	date: "2025-04-22 14:16:31 GMT (Tuesday 22nd April 2025)"
+	revision: "47"
 
 class
 	EIFFEL_TEST_SET
@@ -40,6 +40,7 @@ feature {NONE} -- Initialization
 				["integer_64_conversion",		 agent test_integer_64_conversion],
 				["managed_pointer_twin",		 agent test_managed_pointer_twin],
 				["natural_constant",				 agent test_natural_constant],
+				["special_element_size",		 agent test_special_element_size],
 				["string_field_counts",			 agent test_string_field_counts],
 				["string_sizes",					 agent test_string_sizes],
 				["unix_sigterm",					 agent test_unix_sigterm]
@@ -117,6 +118,22 @@ feature -- Tests
 	test_natural_constant
 		do
 			assert ("same value", {EL_ASCII}.Newline = {EL_ASCII}.Line_feed)
+		end
+
+	test_special_element_size
+		-- EIFFEL_TEST_SET.test_special_element_size
+		local
+			str: STRING; physical_size, special_size: INTEGER
+		do
+			create str.make_filled ('.', 63)
+			if attached str.area as area then
+				physical_size := property (area).physical_size
+				special_size := Eiffel.special_size (area)
+				lio.put_integer_field ("special_size", special_size)
+				lio.put_integer_field (" physical_size", physical_size)
+				lio.put_new_line
+				assert ("SPECIAL overhead is 32 bytes", physical_size - special_size = Object_overhead)
+			end
 		end
 
 	test_string_field_counts

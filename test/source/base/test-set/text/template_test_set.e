@@ -6,14 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-03-25 8:18:28 GMT (Monday 25th March 2024)"
-	revision: "17"
+	date: "2025-04-22 8:25:39 GMT (Tuesday 22nd April 2025)"
+	revision: "18"
 
-class
-	TEMPLATE_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
+class TEMPLATE_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_MODULE_EXECUTION_ENVIRONMENT
 

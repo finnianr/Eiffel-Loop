@@ -6,25 +6,20 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 8:06:16 GMT (Monday 21st April 2025)"
-	revision: "88"
+	date: "2025-04-22 8:12:13 GMT (Tuesday 22nd April 2025)"
+	revision: "89"
 
-class
-	REFLECTION_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
+class	REFLECTION_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_OBJECT_PROPERTY_I
-
-	EL_MODULE_FACTORY; EL_MODULE_EXECUTABLE; EL_MODULE_USER_INPUT
 
 	JSON_TEST_DATA; COUNTRY_TEST_DATA
 
 	EL_REFLECTION_CONSTANTS
 
-	EL_SHARED_CURRENCY_ENUM; EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION
-	EL_SHARED_HTTP_STATUS; EL_SHARED_SERVICE_PORT
+	EL_MODULE_FACTORY; EL_MODULE_USER_INPUT
+
+	EL_SHARED_FACTORIES; EL_SHARED_LOG_OPTION; EL_SHARED_SERVICE_PORT
 
 create
 	make
@@ -38,10 +33,8 @@ feature {NONE} -- Initialization
 				["arrayed_list_initialization",		  agent test_arrayed_list_initialization],
 				["compactable_objects",					  agent test_compactable_objects],
 				["default_tuple_initialization",		  agent test_default_tuple_initialization],
-				["enumeration",							  agent test_enumeration],
 				["field_name_list_for",					  agent test_field_name_list_for],
 				["field_query",							  agent test_field_query],
-				["field_representation",				  agent test_field_representation],
 				["field_value_reset",					  agent test_field_value_reset],
 				["field_value_setter",					  agent test_field_value_setter],
 				["field_value_table",					  agent test_field_value_table],
@@ -57,7 +50,6 @@ feature {NONE} -- Initialization
 				["reflected_collection_factory",		  agent test_reflected_collection_factory],
 				["reflected_integer_list",				  agent test_reflected_integer_list],
 				["reflective_string_constants",		  agent test_reflective_string_constants],
-				["reflective_string_table",			  agent test_reflective_string_table],
 				["set_from_other",						  agent test_set_from_other],
 				["settable_from_string",				  agent test_settable_from_string],
 				["size_reporting",						  agent test_size_reporting],
@@ -161,57 +153,6 @@ feature -- Tests
 			end
 		end
 
-	test_enumeration
-		-- REFLECTION_TEST_SET.test_enumeration
-		note
-			testing: "[
-				covers/{EL_ENUMERATION}.as_list,
-				covers/{EL_ENUMERATION}.description,
-				covers/{EL_ENUMERATION}.name,
-				covers/{EL_ENUMERATION}.field_name,
-				covers/{EL_ENUMERATION}.has_field_name,
-				covers/{EL_ENUMERATION}.value
-			]"
-		local
-			string_encoding: TL_STRING_ENCODING_ENUM
-		do
-			if Http_status.valid_description_keys then
-				assert_same_string (Void, Http_status.description (Http_status.continue), "Client can continue.")
-			else
-				failed ("valid_description_keys")
-			end
-		-- `Http_status' using `field_by_value_array'
-			assert_same_string ("404 is not found", Http_status.field_name (404), "not_found")
-			assert_same_string ("404 is not found", Http_status.name (404), "Not found")
-			assert ("Not found = 404", Http_status.value ("Not found") = 404)
-			if Http_status.has_field_name ("not_found") then
-				assert ("is 404", Http_status.found_value = 404)
-			else
-				failed ("has_field_name")
-			end
-			if attached Http_status.as_list as list then
-				assert ("first is 100", list.first.to_integer_32 = 100)
-				assert ("last is 510", list.last.to_integer_32 = 510)
-			end
-		-- `Currency_enum' using `field_by_value_array'
-			assert_same_string (Void, Currency_enum.name (Currency_enum.EUR), "EUR")
-			assert_same_string (Void, Currency_enum.field_name (Currency_enum.EUR), "eur")
-			if attached Currency_enum.as_list as list then
-				assert ("first is AUD", list.first = Currency_enum.AUD)
-				assert ("last is ZAR", list.last = Currency_enum.ZAR)
-			end
-
-		-- Class `TL_STRING_ENCODING_ENUM' using `field_by_value_array' (non-continuous array)
-			create string_encoding.make
-			if attached string_encoding.as_list as list then
-				assert ("first is latin_1", list.first = string_encoding.latin_1)
-				assert ("last is utf_16_little_endian", list.last = string_encoding.utf_16_little_endian)
-				assert_same_string (Void,
-					string_encoding.name (string_encoding.utf_16_little_endian), "UTF 16 little endian"
-				)
-			end
-		end
-
 	test_field_name_list_for
 		-- REFLECTION_TEST_SET.test_field_name_list_for
 		note
@@ -243,14 +184,6 @@ feature -- Tests
 					failed ("query_by_type not Void")
 				end
 			end
-		end
-
-	test_field_representation
-		local
-			representation: EL_ENUMERATION_REPRESENTATION [NATURAL_8]
-		do
-			representation := Currency_enum.to_representation
-			assert ("EURO is 9", representation.to_value ("EUR") = (9).to_natural_8)
 		end
 
 	test_field_value_reset
@@ -567,43 +500,6 @@ feature -- Tests
 			assert ("equal strings", name.immutable_string_8 ~ Immutable_string_8)
 		end
 
-	test_reflective_string_table
-		-- REFLECTION_TEST_SET.test_reflective_string_table
-		note
-			testing: "[
-				covers/{EL_STRING_ITERATION_CURSOR}.occurrences_in_bounds,
-				covers/{EL_TABLE_INTERVAL_MAP_LIST}.make,
-				covers/{EL_REFLECTIVE_STRING_TABLE}.make,
-				covers/{EL_SUBSTRING}.count,
-				covers/{EL_SUBSTRING}.lines
-			]"
-		local
-			table: HTTP_STATUS_TABLE; space_saved_percent: INTEGER
-			enum_size, table_size, percent: INTEGER; choose: EL_CHOICE [INTEGER]
-		do
-			create table.make_default
-			assert_same_http_status (table.ok, Http_status.ok)
-			assert_same_http_status (table.found, Http_status.found)
-			assert_same_http_status (table.continue, Http_status.continue)
-			assert_same_http_status (table.not_acceptable, Http_status.not_acceptable)
-
-			table_size := property (table).deep_physical_size - table.text_manifest_size
-			enum_size := property (Http_status).deep_physical_size
-			space_saved_percent := (enum_size - table_size) * 100 // enum_size
-			lio.put_integer_field ("Memory saving", space_saved_percent)
-			lio.put_character ('%%')
-			lio.put_new_line
-
-		-- Compact Object Layout: In finalized mode, objects are stored in a more compact form,
-		-- which reduces their memory footprint. As a result, `{INTERNAL}.deep_physical_size' might
-		-- report a smaller size compared to workbench mode				
-			percent := choose [53, 36] #? Executable.is_finalized
-
-			if space_saved_percent /= percent then
-				failed (percent.out + "%% memory saving")
-			end
-		end
-
 	test_set_from_other
 		-- REFLECTION_TEST_SET.test_set_from_other
 		note
@@ -734,19 +630,5 @@ feature {NONE} -- Constants
 		end
 
 	String_8: STRING_8 = "string_8"
-
-	assert_same_http_status (status: EL_MANIFEST_SUBSTRING_8; status_code: NATURAL_16)
-		local
-			string, code_string: STRING; code: NATURAL_16
-		do
-			string := status
-			code_string := super_8 (string).substring_to (' ')
-			string.remove_head (code_string.count + 1)
-			assert ("same status code", code_string.to_natural_16 = status_code)
-			if attached Http_status.description (status_code) as description then
-				assert ("same count", status.count - code_string.count - 1 = description.count)
-				assert_same_string ("same description", string, description)
-			end
-		end
 
 end

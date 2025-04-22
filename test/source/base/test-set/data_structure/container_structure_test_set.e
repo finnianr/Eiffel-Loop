@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 9:21:42 GMT (Friday 18th April 2025)"
-	revision: "58"
+	date: "2025-04-22 8:21:12 GMT (Tuesday 22nd April 2025)"
+	revision: "59"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -275,7 +275,7 @@ feature -- Test
 			word_list: EL_STRING_8_LIST; previous_key: INTEGER; previous_value, sort_order: STRING
 		do
 			create word_set.make_equal (500)
-			across I_ching_hexagram_titles as title loop
+			across Hexagram.English_titles as title loop
 				create word_list.make_split (title.item, ' ')
 				across word_list as list loop
 					if attached list.item as word then

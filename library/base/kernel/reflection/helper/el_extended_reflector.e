@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 10:09:50 GMT (Saturday 5th April 2025)"
-	revision: "47"
+	date: "2025-04-22 14:10:39 GMT (Tuesday 22nd April 2025)"
+	revision: "48"
 
 class
 	EL_EXTENDED_REFLECTOR
@@ -46,6 +46,29 @@ feature {NONE} -- Initialization
 	make
 		do
 			class_id := Shared_class_id
+		end
+
+feature -- Access
+
+	class_id: EL_CLASS_TYPE_ID_ENUM
+
+	collection_item_type (type_id: INTEGER): INTEGER
+		require
+			valid_id: is_collection_type (type_id)
+		do
+			if generic_count_of_type (type_id) > 0 then
+				Result := generic_dynamic_type_of_type (type_id, 1)
+
+			elseif type_conforms_to (type_id, class_id.ARRAYED_LIST__ANY)
+				and then attached Arrayed_list_factory.new_item_from_type_id (type_id) as list
+			then
+				Result := list.area.generating_type.generic_parameter_type (1).type_id
+			end
+		end
+
+	reflected (a_object: ANY): EL_REFLECTED_REFERENCE_OBJECT
+		do
+			create Result.make (a_object)
 		end
 
 feature -- Measurement
@@ -80,6 +103,11 @@ feature -- Measurement
 			else
 				Result := n.out.count
 			end
+		end
+
+	special_size (area: SPECIAL [ANY]): INTEGER
+		do
+			Result := c_special_element_size ($area) * area.capacity
 		end
 
 	string_width (object: ANY): INTEGER
@@ -381,34 +409,18 @@ feature -- Conformance checking
 			Result := is_type_in_set (dynamic_type (str), class_id.readable_string_32_types)
 		end
 
-feature -- Access
-
-	class_id: EL_CLASS_TYPE_ID_ENUM
-
-	collection_item_type (type_id: INTEGER): INTEGER
-		require
-			valid_id: is_collection_type (type_id)
-		do
-			if generic_count_of_type (type_id) > 0 then
-				Result := generic_dynamic_type_of_type (type_id, 1)
-
-			elseif type_conforms_to (type_id, class_id.ARRAYED_LIST__ANY)
-				and then attached Arrayed_list_factory.new_item_from_type_id (type_id) as list
-			then
-				Result := list.area.generating_type.generic_parameter_type (1).type_id
-			end
-		end
-
-	reflected (a_object: ANY): EL_REFLECTED_REFERENCE_OBJECT
-		do
-			create Result.make (a_object)
-		end
-
 feature -- Contract Support
 
 	is_collection_type (type_id: INTEGER): BOOLEAN
 		do
 			Result := type_conforms_to (type_id, class_id.COLLECTION__ANY)
+		end
+
+feature -- Basic operations
+
+	copy_fields (source_object, destination_object: ANY; field_names: STRING_8)
+		do
+			reflected (source_object).copy_fields_to (destination_object, field_names)
 		end
 
 feature {NONE} -- Implementation
@@ -422,6 +434,18 @@ feature {NONE} -- Implementation
 				Result := field_conforms_to (type_id, types [i])
 				i := i + 1
 			end
+		end
+
+feature {NONE} -- C Externals
+
+	c_special_element_size (area: POINTER): INTEGER
+		-- Inline C call to get the element size of a SPECIAL array
+		external
+			"C inline use eif_built_in.h"
+		alias
+			"[
+				return (EIF_INTEGER) eif_builtin_SPECIAL_element_size ((EIF_REFERENCE)$area);
+			]"
 		end
 
 end

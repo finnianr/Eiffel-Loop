@@ -6,10 +6,10 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 17:18:18 GMT (Sunday 20th April 2025)"
-	revision: "6"
+	date: "2025-04-22 8:06:13 GMT (Tuesday 22nd April 2025)"
+	revision: "7"
 
-class TUPLE_TEST_SET inherit EL_EQA_TEST_SET
+class TUPLE_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
 

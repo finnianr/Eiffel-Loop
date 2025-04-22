@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 11:34:38 GMT (Monday 21st April 2025)"
-	revision: "16"
+	date: "2025-04-21 14:43:53 GMT (Monday 21st April 2025)"
+	revision: "17"
 
 class
 	EVC_FUNCTION_REFERENCE
@@ -27,7 +27,7 @@ inherit
 			as_structure, copy, is_equal, out
 		end
 
-	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL; EL_MODULE_TUPLE
+	EL_MODULE_CONVERT_STRING; EL_MODULE_TUPLE
 
 create
 	make
@@ -126,8 +126,7 @@ feature {NONE} -- Implementation
 
 	new_operands (function: FUNCTION [ANY]): TUPLE
 		local
-			type: TYPE [ANY]; value: ANY
-			value_type_id: INTEGER
+			type: TYPE [ANY]; value: ANY; value_type_id: INTEGER
 		do
 			if attached function_info (function) as info then
 				Result := info.new_tuple_argument

@@ -1,13 +1,13 @@
 note
-	description: "Http headers"
+	description: "HTTP headers"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:22:34 GMT (Monday 14th April 2025)"
-	revision: "33"
+	date: "2025-04-22 7:44:03 GMT (Tuesday 22nd April 2025)"
+	revision: "34"
 
 class
 	EL_HTTP_HEADERS

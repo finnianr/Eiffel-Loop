@@ -6,16 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:49:44 GMT (Monday 3rd March 2025)"
-	revision: "2"
+	date: "2025-04-22 8:22:45 GMT (Tuesday 22nd April 2025)"
+	revision: "3"
 
-class
-	HASH_SET_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
-
-	EL_SHARED_TEST_TEXT; SHARED_HEXAGRAM_STRINGS
+class HASH_SET_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_STRING_8_CONSTANTS; 	EL_ZSTRING_CONSTANTS
 

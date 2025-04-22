@@ -6,14 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 15:23:10 GMT (Saturday 29th March 2025)"
-	revision: "13"
+	date: "2025-04-22 8:12:01 GMT (Tuesday 22nd April 2025)"
+	revision: "14"
 
-class
-	EIFFEL_NAME_TRANSLATEABLE_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
+class	EIFFEL_NAME_TRANSLATEABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_MODULE_NAMING
 

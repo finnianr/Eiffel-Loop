@@ -6,16 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 17:22:06 GMT (Sunday 20th April 2025)"
-	revision: "3"
+	date: "2025-04-22 8:24:20 GMT (Tuesday 22nd April 2025)"
+	revision: "4"
 
-class
-	IMMUTABLE_STRING_MANAGER_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
-
-	EL_SHARED_TEST_TEXT
+class	IMMUTABLE_STRING_MANAGER_TEST_SET inherit	BASE_EQA_TEST_SET
 
 	EL_SHARED_CHARACTER_AREA_ACCESS
 

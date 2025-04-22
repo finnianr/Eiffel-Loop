@@ -14,14 +14,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 12:23:47 GMT (Monday 23rd September 2024)"
-	revision: "12"
+	date: "2025-04-22 8:12:38 GMT (Tuesday 22nd April 2025)"
+	revision: "13"
 
-class
-	BASE_POWER_2_CONVERTER_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
+class BASE_POWER_2_CONVERTER_TEST_SET inherit BASE_EQA_TEST_SET
 
 create
 	make

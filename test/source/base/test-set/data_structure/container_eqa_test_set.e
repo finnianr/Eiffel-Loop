@@ -6,24 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-18 9:11:33 GMT (Friday 18th April 2025)"
-	revision: "1"
+	date: "2025-04-22 8:16:47 GMT (Tuesday 22nd April 2025)"
+	revision: "2"
 
 deferred class
 	CONTAINER_EQA_TEST_SET
 
 inherit
-	EL_EQA_TEST_SET
+	BASE_EQA_TEST_SET
 
 	EL_ENCODING_TYPE
-
-	HEXAGRAM_STRINGS
-		rename
-			English_titles as I_ching_hexagram_titles,
-			Name_list as Mandarin_name_list
-		undefine
-			default_create
-		end
 
 	EL_CONTAINER_CONVERSION [CHARACTER]
 		undefine

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 19:02:01 GMT (Tuesday 8th April 2025)"
-	revision: "11"
+	date: "2025-04-22 10:54:44 GMT (Tuesday 22nd April 2025)"
+	revision: "12"
 
 class
 	EL_OBJECT_FIELDS_TABLE
@@ -22,6 +22,8 @@ inherit
 			{ANY} count, found, found_index,
 				has_immutable, has_immutable_key, has_key, has, has_general, has_key_general
 		end
+
+	EL_REFLECTION_HANDLER
 
 	EL_MODULE_CONVERT_STRING; EL_MODULE_EIFFEL
 

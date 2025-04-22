@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 14:24:27 GMT (Monday 21st April 2025)"
-	revision: "15"
+	date: "2025-04-21 16:49:23 GMT (Monday 21st April 2025)"
+	revision: "16"
 
 deferred class
 	EL_REFLECTIVE_STRING_TABLE
@@ -40,13 +40,14 @@ inherit
 
 	EL_STRING_HANDLER
 
+	EL_INTERVAL_ROUTINES_I
+
 feature {NONE} -- Initialization
 
 	make (table_text: READABLE_STRING_GENERAL)
 		local
-			utf_8_table: EL_IMMUTABLE_UTF_8_TABLE; ir: EL_INTERVAL_ROUTINES
-			start_index, end_index: INTEGER_32; compact_interval: INTEGER_64
-			sg: EL_STRING_GENERAL_ROUTINES
+			utf_8_table: EL_IMMUTABLE_UTF_8_TABLE; sg: EL_STRING_GENERAL_ROUTINES
+			compact_interval: INTEGER_64
 		do
 			make_reflected
 			if table_text.is_string_8
@@ -57,7 +58,6 @@ feature {NONE} -- Initialization
 			else
 				create utf_8_table.make ({EL_TABLE_FORMAT}.Indented_eiffel, table_text)
 			end
-
 			if attached utf_8_table as table then
 				from table.start until table.after loop
 					if field_table.has_immutable_key (table.key_for_iteration)
@@ -65,8 +65,7 @@ feature {NONE} -- Initialization
 						and then attached substring_field.value (Current) as substring
 					then
 						compact_interval := table.interval_item_for_iteration
-						start_index := ir.to_lower (compact_interval); end_index := ir.to_upper (compact_interval)
-						substring.set_string (table.manifest, start_index, end_index)
+						substring.set_string (table.manifest, to_lower (compact_interval), to_upper (compact_interval))
 					end
 					table.forth
 				end

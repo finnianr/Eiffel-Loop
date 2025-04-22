@@ -6,22 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 12:05:51 GMT (Saturday 29th March 2025)"
-	revision: "66"
+	date: "2025-04-22 8:23:23 GMT (Tuesday 22nd April 2025)"
+	revision: "67"
 
-class
-	GENERAL_TEST_SET
+class	GENERAL_TEST_SET inherit EL_FILE_DATA_TEST_SET
 
-inherit
-	EL_FILE_DATA_TEST_SET
+	BASE_TEST_SET
 
 	EL_MODULE_BASE_64; EL_MODULE_EXECUTABLE
 
 	EL_MODULE_EXECUTION_ENVIRONMENT; EL_MODULE_NAMING
-
-	EL_SHARED_TEST_TEXT
-
-	SHARED_HEXAGRAM_STRINGS; SHARED_DEV_ENVIRON
 
 	EL_PROTOCOL_CONSTANTS
 

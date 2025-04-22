@@ -6,16 +6,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 12:55:37 GMT (Tuesday 8th April 2025)"
-	revision: "5"
+	date: "2025-04-22 8:25:13 GMT (Tuesday 22nd April 2025)"
+	revision: "6"
 
-deferred class
-	ZSTRING_EQA_TEST_SET
-
-inherit
-	EL_EQA_TEST_SET
-
-	EL_SHARED_TEST_TEXT
+deferred class	ZSTRING_EQA_TEST_SET inherit BASE_EQA_TEST_SET
 
 	EL_STRING_GENERAL_ROUTINES_I
 

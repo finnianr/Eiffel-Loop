@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:39:41 GMT (Saturday 5th April 2025)"
-	revision: "73"
+	date: "2025-04-22 9:27:54 GMT (Tuesday 22nd April 2025)"
+	revision: "74"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -63,10 +63,33 @@ feature {NONE} -- Initialization
 
 	initialize_fields
 			-- initialize fields with unique value
+		local
+			code_string: ZSTRING; space_index: INTEGER
 		do
-			across field_table as field loop
-				field.item.set_from_integer (Current, field.cursor_index)
+			if codes_in_description and then attached description_table as table then
+				create code_string.make_empty
+				across field_list as list loop
+					code_string.wipe_out
+					if attached {EL_REFLECTED_NUMERIC_FIELD [N]} list.item as field
+						and then table.has_immutable_key (field.name) and then attached table.found_item as l_description
+					then
+						space_index := l_description.index_of (' ', 1)
+						if space_index > 0 then
+							code_string.append_substring (l_description, 1, space_index - 1)
+							if code_string.is_integer then
+								field.set_from_integer (Current, code_string.to_integer)
+								code_found_count := code_found_count + 1
+							end
+						end
+					end
+				end
+			else
+				across field_table as field loop
+					field.item.set_from_integer (Current, field.cursor_index)
+				end
 			end
+		ensure then
+			each_description_has_code: codes_in_description implies code_found_count = field_list.count
 		end
 
 	make
@@ -239,6 +262,13 @@ feature -- Status query
 			if i.plus (1).is_equal (4) then
 
 			end
+		end
+
+	codes_in_description: BOOLEAN
+		-- `True' if enumeration values are found in the `description_table' as the first
+		-- word of each description.
+		do
+			Result := False
 		end
 
 	found_field: BOOLEAN
@@ -429,6 +459,8 @@ feature {NONE} -- Internal attributes
 	lower_index: INTEGER
 
 	upper_index: INTEGER
+
+	code_found_count: INTEGER
 
 feature {NONE} -- Constants
 
