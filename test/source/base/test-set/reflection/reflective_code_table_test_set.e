@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 16:23:11 GMT (Wednesday 23rd April 2025)"
-	revision: "2"
+	date: "2025-04-23 19:21:16 GMT (Wednesday 23rd April 2025)"
+	revision: "3"
 
 class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -28,8 +28,9 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["enumeration_natural_8",	 agent test_enumeration_natural_8],
+				["enumeration_integer_16",	 agent test_enumeration_integer_16],
 				["enumeration_natural_16",	 agent test_enumeration_natural_16],
+				["enumeration_natural_8",	 agent test_enumeration_natural_8],
 				["field_representation",	 agent test_field_representation],
 				["reflective_string_table", agent test_reflective_string_table]
 			>>)
@@ -44,8 +45,28 @@ feature -- Tests
 				covers/{EL_ENUMERATION}.as_list
 			]"
 		local
-			http_enum: HTTP_STATUS_INTEGER_16_ENUM
+			enum: HTTP_STATUS_INTEGER_16_ENUM; enum_2: ARRAY [NATURAL_16]
+			size_proportion, size_enum, size_enum_2: INTEGER
 		do
+			create enum.make_default
+			if attached Http_status as status then
+				enum_2 := << status.continue, status.accepted, status.found, status.bad_request, status.bad_gateway >>
+			end
+			across <<
+				enum.continue, enum.accepted, enum.found, enum.bad_request, enum.bad_gateway
+			>> as code loop
+				assert_same_string (Void, enum.description (code.item), Http_status.description (enum_2 [code.cursor_index]))
+			end
+			size_enum := property (enum).deep_physical_size
+			size_enum_2 := property (Http_status).deep_physical_size
+			size_proportion := (size_enum * 100 / size_enum_2).rounded
+			if size_proportion /= 59 then
+				lio.put_integer_field ("Size " + enum.generator, size_enum)
+				lio.put_new_line
+				lio.put_integer_field ("Size " + Http_status.generator, size_enum_2)
+				lio.put_new_line
+				failed (enum.generator + " is x%% smaller")
+			end
 		end
 
 	test_enumeration_natural_16
