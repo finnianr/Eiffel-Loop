@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-07 9:06:34 GMT (Saturday 7th September 2024)"
-	revision: "2"
+	date: "2025-04-23 10:07:30 GMT (Wednesday 23rd April 2025)"
+	revision: "3"
 
 class
 	EL_GROUPED_LIST_TABLE_ITERATION_CURSOR [G, K -> detachable HASHABLE]

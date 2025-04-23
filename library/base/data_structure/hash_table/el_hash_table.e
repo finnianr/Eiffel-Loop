@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 9:14:36 GMT (Monday 21st April 2025)"
-	revision: "42"
+	date: "2025-04-23 9:57:17 GMT (Wednesday 23rd April 2025)"
+	revision: "43"
 
 class
 	EL_HASH_TABLE [G, K -> HASHABLE]
@@ -379,17 +379,19 @@ feature {EL_HASH_TABLE_ITERATION_CURSOR} -- Implementation
 			Result := Current
 		end
 
-	next_iteration_index (a_position, last_index: INTEGER; is_deleted: like deleted_marks): INTEGER
+	next_iteration_index (a_position, i_upper: INTEGER; is_deleted: like deleted_marks): INTEGER
 		-- Given an iteration position, advanced to the next one taking into account deleted
 		-- slots in the `content' and `keys' structures.
 		require
 			a_position_big_enough: a_position >= -1
-			a_position_small_enough: a_position < keys.count
+			a_position_small_enough: a_position < content.count
+		local
+			i: INTEGER
 		do
-			Result := a_position + 1
-			from until Result > last_index or else not is_deleted [Result] loop
-				Result := Result + 1
+			from i := a_position + 1 until i > i_upper or else not is_deleted [i] loop
+				i := i + 1
 			end
+			Result := i
 		end
 
 	sort_comparables (comparables: SPECIAL [COMPARABLE]; in_ascending_order: BOOLEAN)

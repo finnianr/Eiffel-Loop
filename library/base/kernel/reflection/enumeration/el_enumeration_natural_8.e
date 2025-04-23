@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 9:26:10 GMT (Tuesday 22nd April 2025)"
-	revision: "9"
+	date: "2025-04-23 13:48:16 GMT (Wednesday 23rd April 2025)"
+	revision: "10"
 
 deferred class
 	EL_ENUMERATION_NATURAL_8
@@ -41,28 +41,14 @@ feature {NONE} -- Implementation
 			Result := a_value
 		end
 
-	as_integer (n: NATURAL_8): INTEGER
-		do
-			Result := n.to_integer_32
-		end
-
 	enum_value (field: EL_REFLECTED_NATURAL_8): NATURAL_8
 		do
 			Result := field.value (Current)
 		end
 
-	enum_max_value: INTEGER
-		local
-			n: NATURAL_8
+	new_field_by_value_table (table: HASH_TABLE [like ENUM_FIELD, NATURAL_8]): EL_NATURAL_8_SPARSE_ARRAY [like ENUM_FIELD]
 		do
-			Result := n.Max_value
-		end
-
-	enum_min_value: INTEGER
-		local
-			n: NATURAL_8
-		do
-			Result := n.Min_value
+			create Result.make (table)
 		end
 
 feature -- Type definitions

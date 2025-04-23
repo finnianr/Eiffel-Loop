@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 9:27:54 GMT (Tuesday 22nd April 2025)"
-	revision: "74"
+	date: "2025-04-23 13:48:39 GMT (Wednesday 23rd April 2025)"
+	revision: "75"
 
 deferred class
 	EL_ENUMERATION [N -> NUMERIC]
@@ -94,48 +94,16 @@ feature {NONE} -- Initialization
 
 	make
 		local
-			index, range_count, size_table, array_max_count, i: INTEGER
 			name_table: EL_HASH_TABLE [like ENUM_FIELD, like as_hashable]
-			enum_list: EL_ARRAYED_LIST [like ENUM_FIELD]; enum_array: ARRAY [like ENUM_FIELD]
-			use_array: BOOLEAN
 		do
 			Precursor
-			upper_index := enum_min_value; lower_index := enum_max_value
-			create enum_list.make (field_table.count)
+			create name_table.make (field_table.count)
 			across field_table as table loop
 				if attached {like ENUM_FIELD} table.item as field then
-					index := as_integer (enum_value (field))
-					lower_index := index.min (lower_index); upper_index := index.max (upper_index)
-					enum_list.extend (field)
+					name_table.extend (field, as_hashable (enum_value (field)))
 				end
 			end
-			enum_list.order_by (agent enum_value_integer, True)
-
-			range_count := upper_index - lower_index + 1
-			if range_count = enum_list.count then
-				use_array := True
-			else
-				create name_table.make (enum_list.count)
-				size_table := property (name_table).deep_physical_size
-				array_max_count := (size_table - Array_size_overhead) // {PLATFORM}.pointer_bytes
-				if range_count <= array_max_count then
-					use_array := True
-				else
-				-- enum values must be very spaced out, so hash table is more efficient
-					across enum_list as list loop
-						name_table.extend (list.item, as_hashable (enum_value (list.item)))
-					end
-					field_by_value_table := name_table
-				end
-			end
-			if use_array then
-				create enum_array.make_filled (enum_field, lower_index, upper_index)
-				across enum_list as list loop
-					i := enum_value_integer (list.item)
-					enum_array [i] := list.item
-				end
-				field_by_value_array := enum_array
-			end
+			field_by_value_table := new_field_by_value_table (name_table)
 		ensure then
 			all_values_unique: all_values_unique
 			name_and_values_consistent: name_and_values_consistent
@@ -152,23 +120,14 @@ feature -- Measurement
 feature -- Access
 
 	as_list: EL_ARRAYED_LIST [N]
-		local
-			i: INTEGER
 		do
 			create Result.make (field_table.count)
-			if attached field_by_value_array as array then
-				from i := lower_index until i > upper_index loop
-					if attached array [i] as field and then field /= enum_field then
-						Result.extend (enum_value (field))
-					end
-					i := i + 1
-				end
-
-			elseif attached field_by_value_table as table then
+			if attached field_by_value_table as table then
 				from table.start until table.after loop
 					Result.extend (enum_value (table.item_for_iteration))
 					table.forth
 				end
+				Result.sort (True)
 			end
 		end
 
@@ -244,23 +203,9 @@ feature -- Status query
 
 	all_values_unique: BOOLEAN
 		-- `True' if each enumeration field is asssigned a unique value
-		local
-			l_count, i: INTEGER
 		do
-			if attached field_by_value_array as array then
-				from i := lower_index until i > upper_index loop
-					if array [i].export_name.count > 1 then
-						l_count := l_count + 1
-					end
-					i := i + 1
-				end
-				Result := l_count = count
-
-			elseif attached field_by_value_table as name_table then
+			if attached field_by_value_table as name_table then
 				Result := name_table.count = count
-			end
-			if i.plus (1).is_equal (4) then
-
 			end
 		end
 
@@ -297,16 +242,8 @@ feature -- Status query
 		end
 
 	valid_value (a_value: N): BOOLEAN
-		local
-			i: INTEGER
 		do
-			if attached field_by_value_array as array then
-				i := as_integer (a_value)
-				if array.valid_index (i) then
-					Result := array [i].export_name.count > 0
-				end
-
-			elseif attached field_by_value_table as name_table then
+			if attached field_by_value_table as name_table then
 				Result := name_table.has (as_hashable (a_value))
 			end
 		end
@@ -340,19 +277,8 @@ feature -- Contract Support
 
 	name_and_values_consistent: BOOLEAN
 		-- `True' if all `value' results can be looked up from `name_by_value' items
-		local
-			i: INTEGER
 		do
-			if attached field_by_value_array as array then
-				Result := True
-				from i := lower_index until i > upper_index or not Result loop
-					if array [i].export_name.count > 1 then
-						Result := as_integer (value (array [i].export_name)) = i
-					end
-					i := i + 1
-				end
-
-			elseif attached field_by_value_table as name_table then
+			if attached field_by_value_table as name_table then
 				Result := across name_table as table all
 					 table.key = as_hashable (value (table.item.export_name))
 				end
@@ -368,11 +294,6 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	enum_value_integer (field: like ENUM_FIELD): INTEGER
-		do
-			Result := as_integer (enum_value (field))
-		end
-
 	field_included (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
 		do
 			Result := field.abstract_type = enum_type
@@ -380,21 +301,9 @@ feature {NONE} -- Implementation
 
 	lookup_name (a_value: N; exported: BOOLEAN): IMMUTABLE_STRING_8
 		-- exported name
-		local
-			i: INTEGER
 		do
 			Result := Default_name
-			if attached field_by_value_array as array then
-				i := as_integer (a_value)
-				if array.valid_index (i) then
-					if exported then
-						Result := array [i].export_name
-					else
-						Result := array [i].name
-					end
-				end
-
-			elseif attached field_by_value_table as table and then table.has_key (as_hashable (a_value)) then
+			if attached field_by_value_table as table and then table.has_key (as_hashable (a_value)) then
 				if exported then
 					Result := table.found_item.export_name
 				else
@@ -422,21 +331,9 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	as_integer (n: N): INTEGER
-		deferred
-		end
-
 	description_table: EL_IMMUTABLE_UTF_8_TABLE
 		-- table of descriptions by exported name
 		-- rename to `no_descriptions' if not required
-		deferred
-		end
-
-	enum_max_value: INTEGER
-		deferred
-		end
-
-	enum_min_value: INTEGER
 		deferred
 		end
 
@@ -448,26 +345,20 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	new_field_by_value_table (
+		table: HASH_TABLE [like ENUM_FIELD, like as_hashable]
+
+	): EL_SPARSE_ARRAY_TABLE [like ENUM_FIELD, like as_hashable]
+		deferred
+		end
+
 feature {NONE} -- Internal attributes
 
-	field_by_value_array: detachable ARRAY [like ENUM_FIELD]
-		-- exported name array by value
-
-	field_by_value_table: detachable HASH_TABLE [like ENUM_FIELD, like as_hashable]
-		-- exported name table by value
-
-	lower_index: INTEGER
-
-	upper_index: INTEGER
+	field_by_value_table: like new_field_by_value_table
 
 	code_found_count: INTEGER
 
 feature {NONE} -- Constants
-
-	Array_size_overhead: INTEGER
-		once
-			Result := property (<< True >>).physical_size + Object_overhead
-		end
 
 	Default_name: IMMUTABLE_STRING_8
 		once ("PROCESS")

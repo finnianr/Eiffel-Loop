@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:48:14 GMT (Saturday 28th September 2024)"
-	revision: "7"
+	date: "2025-04-23 9:42:55 GMT (Wednesday 23rd April 2025)"
+	revision: "8"
 
 class
 	TL_STRING_ENCODING_ENUM
@@ -32,8 +32,7 @@ feature {NONE} -- Initialization
 	initialize_fields
 		do
 			latin_1 := 0
-			utf_16  := 1
-			utf_16_big_endian := 2
+			utf_16  := 1; utf_16_big_endian := 2
 			utf_8 := 3
 			utf_16_little_endian := 0x11
 		end

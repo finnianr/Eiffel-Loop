@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 10:10:46 GMT (Monday 23rd September 2024)"
-	revision: "8"
+	date: "2025-04-23 10:07:33 GMT (Wednesday 23rd April 2025)"
+	revision: "9"
 
 class
 	EL_HASH_TABLE_ITERATION_CURSOR [G, K -> detachable HASHABLE]

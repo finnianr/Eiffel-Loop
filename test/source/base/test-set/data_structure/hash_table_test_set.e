@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 16:54:56 GMT (Tuesday 22nd April 2025)"
-	revision: "60"
+	date: "2025-04-23 15:43:41 GMT (Wednesday 23rd April 2025)"
+	revision: "61"
 
 class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -303,26 +303,45 @@ feature -- General tests
 
 	test_sparse_array_table
 		-- HASH_TABLE_TEST_SET.test_sparse_array_table
+		note
+			testing: "[
+				covers/{EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR}.key,
+				covers/{EL_INTEGER_16_SPARSE_ARRAY}.key_for_iteration
+				covers/{EL_INTEGER_16_SPARSE_ARRAY}.to_sparse_array
+			]"
 		local
-			sparse_table: COMPUTED_INTEGER_64_TABLE; format: EL_FORMAT_INTEGER
-			source_table: EL_HASH_TABLE [INTEGER_64, INTEGER_16]; square: INTEGER_64
+			sparse_table: EL_INTEGER_16_SPARSE_ARRAY [INTEGER_64]
+			source_table: EL_HASH_TABLE [INTEGER_64, INTEGER_16]
 			n, multiplier: INTEGER_16
 		do
-			create format.make_width (1)
 			across << 1 , 10 >> as step_size loop
 				multiplier := step_size.item.to_integer_16
 				create source_table.make (50)
 				across -25 |..| 25 as list loop
 					n := list.item.to_integer_16 * multiplier
-					square := n.to_integer_64 * n.to_integer_64
-					source_table.extend (square, n)
+				-- extend with n^2
+					source_table.extend (n.to_integer_64 * n.to_integer_64, n)
 				end
 				create sparse_table.make (source_table)
 				across -25 |..| 25 as list loop
 					n := list.item.to_integer_16 * multiplier
-					assert ("same spelling", source_table [n] = sparse_table [n])
+					assert ("same square", source_table [n] = sparse_table [n])
 				end
 				assert ("not array indexed", multiplier > 1 implies not sparse_table.is_array_indexed)
+				if attached sparse_table as table then
+					from table.start until table.after loop
+						assert ("same item", source_table [table.key_for_iteration] = table.item_for_iteration)
+						table.forth
+					end
+				end
+				across sparse_table as table loop
+					assert ("same item", source_table [table.key] = table.item)
+				end
+				if sparse_table.is_array_indexed and then attached sparse_table.to_sparse_array as array then
+					across source_table as table loop
+						assert ("same item", array [table.key.to_integer_32] = table.item)
+					end
+				end
 			end
 		end
 

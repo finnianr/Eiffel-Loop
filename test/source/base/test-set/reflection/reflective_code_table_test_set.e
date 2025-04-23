@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 9:42:42 GMT (Tuesday 22nd April 2025)"
-	revision: "1"
+	date: "2025-04-23 16:23:11 GMT (Wednesday 23rd April 2025)"
+	revision: "2"
 
 class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -41,9 +41,10 @@ feature -- Tests
 		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_integer_16
 		note
 			testing: "[
-				covers/{EL_ENUMERATION}.as_list,
+				covers/{EL_ENUMERATION}.as_list
 			]"
 		local
+			http_enum: HTTP_STATUS_INTEGER_16_ENUM
 		do
 		end
 

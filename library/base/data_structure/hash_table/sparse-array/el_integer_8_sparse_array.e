@@ -1,28 +1,27 @@
 note
-	description: "Table of computed values for ${INTEGER_16} numbers"
+	description: "Sparse array table with ${INTEGER_8} keys"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 16:55:22 GMT (Tuesday 22nd April 2025)"
+	date: "2025-04-23 9:06:47 GMT (Wednesday 23rd April 2025)"
 	revision: "1"
 
 class
-	COMPUTED_INTEGER_64_TABLE
+	EL_INTEGER_8_SPARSE_ARRAY [G]
 
 inherit
-	EL_SPARSE_ARRAY_TABLE [INTEGER_64, INTEGER_16]
+	EL_SPARSE_ARRAY_TABLE [G, INTEGER_8]
 
 create
 	make
 
 feature {NONE} -- Implementation
 
-	as_integer (a_key: INTEGER_16): INTEGER
+	as_integer (key: INTEGER_8): INTEGER
 		do
-			Result := a_key.to_integer_32
+			Result := key.to_integer_32
 		end
-
 end

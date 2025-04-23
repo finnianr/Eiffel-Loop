@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 12:37:39 GMT (Tuesday 22nd April 2025)"
-	revision: "4"
+	date: "2025-04-23 16:03:50 GMT (Wednesday 23rd April 2025)"
+	revision: "5"
 
 class
 	EL_REFLECTED_REFERENCE_OBJECT
@@ -54,19 +54,35 @@ feature -- Basic operations
 
 	copy_fields_to (a_other: ANY; field_names: STRING)
 		local
-			indices_set, indices_set_other: EL_FIELD_INDICES_SET
 			other: EL_REFLECTED_REFERENCE_OBJECT; i: INTEGER
 		do
-			create indices_set.make_from (enclosing_object, field_names)
-			create indices_set_other.make_from (a_other, field_names)
-			if indices_set.count = indices_set_other.count then
-				create other.make (a_other)
+			create other.make (a_other)
+			if attached new_indices_set (field_names) as indices_set
+				and then attached other.new_indices_set (field_names) as indices_set_other
+				and then indices_set.count = indices_set_other.count
+			then
 				if attached indices_set.area as area and then attached indices_set_other.area as area_other then
 					from until i = indices_set.count loop
 						copy_i_th_field_to (other, area [i], area_other [i])
 						i := i + 1
 					end
 				end
+			end
+		end
+
+feature -- Factory
+
+	new_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
+		local
+			math: EL_INTEGER_MATH; hash_64: NATURAL_64
+		do
+			Hash_code [0] := field_names.hash_code
+			hash_64 := math.hash_key (dynamic_type, Hash_code)
+			if Indices_set_cached.has_key (hash_64) then
+				Result := Indices_set_cached.found_item
+			else
+				create Result.make_from (enclosing_object, field_names)
+				Indices_set_cached.extend (Result, hash_64)
 			end
 		end
 
@@ -128,4 +144,15 @@ feature {NONE} -- Implementation
 			end
 		end
 
+feature {NONE} -- Constants
+
+	Hash_code: SPECIAL [INTEGER]
+		once
+			create Result.make_filled (0, 1)
+		end
+
+	Indices_set_cached: EL_HASH_TABLE [EL_FIELD_INDICES_SET, NATURAL_64]
+		once
+			create Result.make (11)
+		end
 end

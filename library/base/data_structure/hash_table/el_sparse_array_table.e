@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 16:44:34 GMT (Tuesday 22nd April 2025)"
-	revision: "1"
+	date: "2025-04-23 15:32:11 GMT (Wednesday 23rd April 2025)"
+	revision: "2"
 
 deferred class
 	EL_SPARSE_ARRAY_TABLE [G, K -> HASHABLE]
@@ -19,11 +19,16 @@ deferred class
 inherit
 	EL_HASH_TABLE [G, K]
 		rename
-			make as make_sized
+			make as make_sized,
+			previous_iteration_position as table_previous_iteration_position,
+			next_iteration_position as table_next_iteration_position
 		export
 			{NONE} all
+			{ANY} after, content, count, forth, found_item,
+					item_for_iteration, key_for_iteration, off, start
 		redefine
-			has, item, valid_key
+			forth, has, has_key, key_for_iteration, is_off_position, item,
+			next_iteration_index, new_cursor, start, valid_key
 		end
 
 	EL_MODULE_EIFFEL
@@ -34,7 +39,7 @@ feature {NONE} -- Initialization
 
 	make (a_table: HASH_TABLE [G, K])
 		local
-			index_upper, value, array_count: INTEGER; is_value_expanded: BOOLEAN
+			index_upper, value: INTEGER; is_value_expanded: BOOLEAN
 			table_size, i: INTEGER; array: SPECIAL [G]
 		do
 			is_value_expanded := ({G}).is_expanded
@@ -47,17 +52,16 @@ feature {NONE} -- Initialization
 				index_lower := value.min (index_lower)
 				index_upper := value.max (index_upper)
 			end
-			array_count := index_upper - index_lower + 1
-
 			across <<
 				a_table.deleted_marks, a_table.indexes_map, a_table.keys, a_table.content
 			>> as structure loop
 				table_size := table_size + property (structure.item).physical_size
 			end
-			create array.make_filled (computed_default_value, array_count)
+			create array.make_filled (computed_default_value, index_upper - index_lower + 1)
 			if table_size < property (array).physical_size then
 				copy_from (a_table)
 			else
+				is_array_indexed := True; count := a_table.count
 				across a_table as table loop
 					i := as_integer (table.key) - index_lower
 					array [i] := table.item
@@ -65,10 +69,10 @@ feature {NONE} -- Initialization
 						default_value_index := i
 					end
 				end
-				deleted_marks := Empty_deleted_marks
-				indexes_map := Empty_indexes_map
+				deleted_marks := Empty_deleted_marks; indexes_map := Empty_indexes_map
 				create keys.make_empty (0)
 				content := array
+				capacity := a_table.count
 			end
 		end
 
@@ -79,8 +83,32 @@ feature -- Access
 			if deleted_marks = Empty_deleted_marks then
 				Result := content [as_integer (key) - index_lower]
 			else
-				Result := Precursor {EL_HASH_TABLE} (key)
+				Result := Precursor (key)
 			end
+		end
+
+	to_sparse_array: ARRAY [G]
+		require
+			array_indexed: is_array_indexed
+		do
+			create Result.make_from_special (content)
+			Result.rebase (index_lower)
+		end
+
+	key_for_iteration: K
+		-- Key at current cursor position
+		do
+			if is_array_indexed then
+				Result := index_to_key (iteration_position + index_lower)
+			else
+				Result := Precursor
+			end
+		end
+		
+	new_cursor: EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR [G, K]
+		do
+			create Result.make (Current)
+			Result.start
 		end
 
 feature -- Status query
@@ -99,13 +127,48 @@ feature -- Status query
 					end
 				end
 			else
-				Result := Precursor {EL_HASH_TABLE} (key)
+				Result := Precursor (key)
+			end
+		end
+
+	has_key (key: K): BOOLEAN
+		local
+			i: INTEGER; l_item: G
+		do
+			if is_array_indexed then
+				i := as_integer (key) - index_lower
+				if content.valid_index (i) then
+					l_item := content [i]
+					if default_value_index = i then
+						Result := True
+						found_item := l_item
+
+					else
+						Result := content [i] /= computed_default_value
+						found_item := l_item
+
+					end
+					if Result then
+						control := found_constant
+					else
+						control := not_found_constant
+					end
+				end
+			else
+				Result := Precursor (key)
 			end
 		end
 
 	is_array_indexed: BOOLEAN
+
+	is_off_position (pos: INTEGER): BOOLEAN
+			-- Is `pos' a cursor position outside the authorized range?
 		do
-			Result := deleted_marks = Empty_deleted_marks
+			if is_array_indexed then
+				Result := pos < 0 or pos >= content.count
+			else
+				Result := Precursor (pos)
+			end
 		end
 
 	valid_key (key: K): BOOLEAN
@@ -113,8 +176,24 @@ feature -- Status query
 			if is_array_indexed then
 				Result := content.valid_index (as_integer (key) - index_lower)
 			else
-				Result := Precursor {EL_HASH_TABLE} (key)
+				Result := Precursor (key)
 			end
+		end
+
+feature -- Cursor movement
+
+	start
+			-- Bring cursor to first position.
+		do
+				-- Get lower bound of iteration if any.
+			iteration_position := next_iteration_position (-1)
+		end
+
+	forth
+			-- Advance cursor to next occupied position,
+			-- or `off' if no such position remains.
+		do
+			iteration_position := next_iteration_position (iteration_position)
 		end
 
 feature {NONE} -- Implementation
@@ -138,19 +217,73 @@ feature {NONE} -- Implementation
 			keys := other.keys
 			object_comparison := other.object_comparison
 
-			unexported_fields := "[
+			unexported_fields := once "[
 				hash_table_version_64, ht_lowest_deleted_position, ht_deleted_key, ht_deleted_item
 			]"
 			Eiffel.copy_fields (other, Current, unexported_fields)
 		end
 
-feature -- Deferred
+	next_iteration_index (a_position, i_upper: INTEGER; is_deleted: like deleted_marks): INTEGER
+		-- Given an iteration position, advanced to the next one
+		local
+			i: INTEGER; break: BOOLEAN
+		do
+			if is_array_indexed then
+				from i := a_position + 1 until i > i_upper or break loop
+					if i = default_value_index or else content [i] /= computed_default_value then
+						break := True
+					else
+						i := i + 1
+					end
+				end
+				Result := i
+			else
+				Result := Precursor (a_position, i_upper, is_deleted)
+			end
+		end
+
+	next_iteration_position (a_position: INTEGER): INTEGER
+		-- Given an iteration position, advanced to the next one
+		local
+			i, i_upper: INTEGER; break: BOOLEAN
+		do
+			i_upper := content.count - 1
+			from i := a_position + 1 until i > i_upper or break loop
+				if i = default_value_index or else content [i] /= computed_default_value then
+					break := True
+				else
+					i := i + 1
+				end
+			end
+			Result := i
+		end
+
+	previous_iteration_position (a_position: INTEGER): INTEGER
+		-- Given an iteration position, go to the previous one
+		local
+			i: INTEGER; break: BOOLEAN
+		do
+			from i := a_position - 1 until i < 0 or break loop
+				if i = default_value_index or else content [i] /= computed_default_value then
+					break := True
+				else
+					i := i - 1
+				end
+			end
+			Result := i
+		end
+
+feature {EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR} -- Deferred
 
 	as_integer (a_key: K): INTEGER
 		deferred
 		end
 
-feature {NONE} -- Internal attributes
+	index_to_key (index: INTEGER): K
+		deferred
+		end
+
+feature {EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR} -- Internal attributes
 
 	index_lower: INTEGER
 
