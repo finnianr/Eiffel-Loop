@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 11:49:03 GMT (Tuesday 22nd April 2025)"
-	revision: "23"
+	date: "2025-04-24 5:23:47 GMT (Thursday 24th April 2025)"
+	revision: "24"
 
 class
 	EL_FIELD_INDICES_SET
@@ -25,7 +25,7 @@ inherit
 	EL_STRING_8_CONSTANTS
 
 create
-	make, make_empty, make_empty_area, make_from
+	make, make_empty, make_empty_area, make_for_abstract, make_from
 
 feature {NONE} -- Initialization
 
@@ -57,6 +57,22 @@ feature {NONE} -- Initialization
 	make_empty
 		do
 			make_empty_area (0)
+		end
+
+	make_for_abstract (a_object: ANY; abstract_type: INTEGER)
+		local
+			list: EL_ARRAYED_LIST [INTEGER]; i, l_count: INTEGER
+		do
+			if attached Eiffel.reflected (a_object) as object then
+				create list.make (object.field_count)
+				from i := 1 until i > list.capacity loop
+					if object.field_type (i) = abstract_type then
+						list.extend (i)
+					end
+					i := i + 1
+				end
+				area := list.area
+			end
 		end
 
 	make_from (a_object: ANY; field_names: STRING)

@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:48:15 GMT (Saturday 28th September 2024)"
-	revision: "12"
+	date: "2025-04-24 17:17:24 GMT (Thursday 24th April 2025)"
+	revision: "13"
 
 class
-	EL_ENUMERATION_REPRESENTATION [N -> NUMERIC]
+	EL_ENUMERATION_REPRESENTATION [N -> HASHABLE]
 
 inherit
 	EL_STRING_FIELD_REPRESENTATION [N, EL_ENUMERATION [N]]

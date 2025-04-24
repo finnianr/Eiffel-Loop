@@ -31,11 +31,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 13:48:39 GMT (Wednesday 23rd April 2025)"
-	revision: "75"
+	date: "2025-04-24 17:33:58 GMT (Thursday 24th April 2025)"
+	revision: "76"
 
 deferred class
-	EL_ENUMERATION [N -> NUMERIC]
+	EL_ENUMERATION [N -> HASHABLE]
 
 inherit
 	EL_REFLECTIVELY_SETTABLE
@@ -70,7 +70,7 @@ feature {NONE} -- Initialization
 				create code_string.make_empty
 				across field_list as list loop
 					code_string.wipe_out
-					if attached {EL_REFLECTED_NUMERIC_FIELD [N]} list.item as field
+					if attached {like ENUM_FIELD} list.item as field
 						and then table.has_immutable_key (field.name) and then attached table.found_item as l_description
 					then
 						space_index := l_description.index_of (' ', 1)
@@ -84,23 +84,25 @@ feature {NONE} -- Initialization
 					end
 				end
 			else
-				across field_table as field loop
-					field.item.set_from_integer (Current, field.cursor_index)
+				across field_list as list loop
+					list.item.set_from_integer (Current, list.cursor_index)
 				end
 			end
 		ensure then
-			each_description_has_code: codes_in_description implies code_found_count = field_list.count
+			each_description_has_code: codes_in_description implies code_found_count = count
 		end
 
 	make
+		require else
+			valid_enum_type: valid_enum_type
 		local
-			name_table: EL_HASH_TABLE [like ENUM_FIELD, like as_hashable]
+			name_table: EL_HASH_TABLE [like ENUM_FIELD, N]
 		do
 			Precursor
-			create name_table.make (field_table.count)
-			across field_table as table loop
-				if attached {like ENUM_FIELD} table.item as field then
-					name_table.extend (field, as_hashable (enum_value (field)))
+			create name_table.make (count)
+			across field_list as list loop
+				if attached {like ENUM_FIELD} list.item as field then
+					name_table.extend (field, field_value (field))
 				end
 			end
 			field_by_value_table := new_field_by_value_table (name_table)
@@ -114,17 +116,17 @@ feature -- Measurement
 
 	count: INTEGER
 		do
-			Result := field_table.count
+			Result := field_list.count
 		end
 
 feature -- Access
 
 	as_list: EL_ARRAYED_LIST [N]
 		do
-			create Result.make (field_table.count)
+			create Result.make (count)
 			if attached field_by_value_table as table then
 				from table.start until table.after loop
-					Result.extend (enum_value (table.item_for_iteration))
+					Result.extend (field_value (table.item_for_iteration))
 					table.forth
 				end
 				Result.sort (True)
@@ -148,12 +150,12 @@ feature -- Access
 			not_empty: not Result.is_empty
 		end
 
-	found_value: like enum_value
+	found_value: like field_value
 		require
 			found_field: found_field
 		do
 			if attached {like ENUM_FIELD} field_table.found_item as field then
-				Result := enum_value (field)
+				Result := field_value (field)
 			end
 		end
 
@@ -172,7 +174,7 @@ feature -- Access
 			end
 		end
 
-	value (a_name: READABLE_STRING_GENERAL): like enum_value
+	value (a_name: READABLE_STRING_GENERAL): like field_value
 		-- enumuration value from exported `a_name'
 		-- Eg. all uppercase "AUD" for `EL_CURRENCY_ENUM' returns value for field `aud: NATURAL_8'
 		require
@@ -244,7 +246,7 @@ feature -- Status query
 	valid_value (a_value: N): BOOLEAN
 		do
 			if attached field_by_value_table as name_table then
-				Result := name_table.has (as_hashable (a_value))
+				Result := name_table.has (a_value)
 			end
 		end
 
@@ -252,10 +254,10 @@ feature -- Basic operations
 
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
 		do
-			across field_table as table loop
-				if attached {like ENUM_FIELD} table.item as field then
+			across field_list as list loop
+				if attached {like ENUM_FIELD} list.item as field then
 					crc.add_string_8 (field.name)
-					write_value (crc, enum_value (field))
+					write_value (crc, field_value (field))
 				end
 			end
 		end
@@ -263,8 +265,8 @@ feature -- Basic operations
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		do
 			output.put_indented_line (tab_count, "class " + generator)
-			across field_table as table loop
-				output.put_indented_line (tab_count + 1, table.item.name + " = " + table.item.to_string (Current))
+			across field_list as list loop
+				output.put_indented_line (tab_count + 1, list.item.name + " = " + list.item.to_string (Current))
 			end
 			output.put_indented_line (tab_count, "end")
 		end
@@ -278,10 +280,8 @@ feature -- Contract Support
 	name_and_values_consistent: BOOLEAN
 		-- `True' if all `value' results can be looked up from `name_by_value' items
 		do
-			if attached field_by_value_table as name_table then
-				Result := across name_table as table all
-					 table.key = as_hashable (value (table.item.export_name))
-				end
+			Result := across field_by_value_table as table all
+				 table.key = value (table.item.export_name)
 			end
 		end
 
@@ -290,6 +290,11 @@ feature -- Contract Support
 			Result := across description_table as table all
 				field_table.has_immutable (table.key)
 			end
+		end
+
+	valid_enum_type: BOOLEAN
+		do
+			Result := Eiffel.abstract_type_of_type (({N}).type_id) = enum_type
 		end
 
 feature {NONE} -- Implementation
@@ -303,7 +308,7 @@ feature {NONE} -- Implementation
 		-- exported name
 		do
 			Result := Default_name
-			if attached field_by_value_table as table and then table.has_key (as_hashable (a_value)) then
+			if attached field_by_value_table as table and then table.has_key (a_value) then
 				if exported then
 					Result := table.found_item.export_name
 				else
@@ -327,10 +332,6 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	as_hashable (a_value: N): HASHABLE
-		deferred
-		end
-
 	description_table: EL_IMMUTABLE_UTF_8_TABLE
 		-- table of descriptions by exported name
 		-- rename to `no_descriptions' if not required
@@ -341,14 +342,11 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	enum_value (field: like ENUM_FIELD): N
+	field_value (field: like ENUM_FIELD): N
 		deferred
 		end
 
-	new_field_by_value_table (
-		table: HASH_TABLE [like ENUM_FIELD, like as_hashable]
-
-	): EL_SPARSE_ARRAY_TABLE [like ENUM_FIELD, like as_hashable]
+	new_field_by_value_table (table: HASH_TABLE [like ENUM_FIELD, N]): EL_SPARSE_ARRAY_TABLE [like ENUM_FIELD, N]
 		deferred
 		end
 

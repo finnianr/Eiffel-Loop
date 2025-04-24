@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-02-25 10:26:55 GMT (Tuesday 25th February 2025)"
-	revision: "15"
+	date: "2025-04-24 17:18:30 GMT (Thursday 24th April 2025)"
+	revision: "16"
 
 class
 	NETWORK_TEST_SET
@@ -47,7 +47,7 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	enum_array: ARRAY [EL_ENUMERATION [NUMERIC]]
+	enum_array: ARRAY [EL_ENUMERATION [HASHABLE]]
 		do
 			Result := << create {EL_HTTP_STATUS_ENUM}.make, create {EL_NETWORK_DEVICE_TYPE_ENUM}.make >>
 		end

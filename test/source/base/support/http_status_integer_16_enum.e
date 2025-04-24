@@ -1,13 +1,13 @@
 note
-	description: "Http status integer 16 enum"
+	description: "Http status enumeration using class ${EL_ENUMERATION_INTEGER_16}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 16:31:50 GMT (Wednesday 23rd April 2025)"
-	revision: "1"
+	date: "2025-04-24 13:55:06 GMT (Thursday 24th April 2025)"
+	revision: "2"
 
 class
 	HTTP_STATUS_INTEGER_16_ENUM
@@ -21,7 +21,7 @@ inherit
 		end
 
 create
-	make_default
+	make
 
 feature -- 1xx codes
 

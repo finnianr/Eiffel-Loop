@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:34:45 GMT (Tuesday 22nd April 2025)"
-	revision: "207"
+	date: "2025-04-24 17:18:30 GMT (Thursday 24th April 2025)"
+	revision: "208"
 
 class
 	BASE_AUTOTEST_APP
@@ -96,6 +96,7 @@ feature {NONE} -- Compiled classes
 
 		EL_DEFERRED_CELL [ANY],
 		EL_DISCARDING_ARRAYED_LIST [ANY],
+		EL_INTEGER_8_SPARSE_ARRAY [ANY], EL_INTEGER_32_SPARSE_ARRAY [ANY],
 		EL_IS_DELETED_CONDITION [EL_STORABLE],
 		EL_ITERABLE_POOL_SCOPE [ANY],
 		EL_KEY_INDEXED_ARRAYED_MAP_LIST [COMPARABLE, ANY],
@@ -205,7 +206,7 @@ feature {NONE} -- Compiled classes
 		end
 
 	reflection: TUPLE [
-		EL_DATE_TIME_REPRESENTATION, EL_ENUMERATION_VALUE [NUMERIC],
+		EL_DATE_TIME_REPRESENTATION, EL_ENUMERATION_VALUE [HASHABLE],
 		EL_REFLECTED_TIME, EL_REFLECTIVE_BOOLEAN_REF
 	]
 		do
@@ -237,6 +238,7 @@ feature {NONE} -- Compiled classes
 
 	string_32: TUPLE [
 		EL_IMMUTABLE_STRING_32_TABLE,
+		EL_MODULE_STRING_32,
 		EL_STRING_32_BUFFER_ROUTINES,
 		EL_STRING_32_EDITOR,
 		EL_STRING_32_TABLE [ANY],
@@ -251,6 +253,7 @@ feature {NONE} -- Compiled classes
 
 	string_8: TUPLE [
 		EL_IMMUTABLE_STRING_8_GRID,
+		EL_MODULE_STRING_8,
 		EL_STYLED_STRING_8_LIST,
 		EL_STRING_8_UNESCAPER,
 		EL_STRING_8_EDITOR,

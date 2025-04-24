@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 16:03:50 GMT (Wednesday 23rd April 2025)"
-	revision: "5"
+	date: "2025-04-24 5:53:18 GMT (Thursday 24th April 2025)"
+	revision: "6"
 
 class
 	EL_REFLECTED_REFERENCE_OBJECT
@@ -57,8 +57,8 @@ feature -- Basic operations
 			other: EL_REFLECTED_REFERENCE_OBJECT; i: INTEGER
 		do
 			create other.make (a_other)
-			if attached new_indices_set (field_names) as indices_set
-				and then attached other.new_indices_set (field_names) as indices_set_other
+			if attached new_field_set (field_names) as indices_set
+				and then attached other.new_field_set (field_names) as indices_set_other
 				and then indices_set.count = indices_set_other.count
 			then
 				if attached indices_set.area as area and then attached indices_set_other.area as area_other then
@@ -72,7 +72,7 @@ feature -- Basic operations
 
 feature -- Factory
 
-	new_indices_set (field_names: STRING): EL_FIELD_INDICES_SET
+	new_field_set (field_names: STRING): EL_FIELD_INDICES_SET
 		local
 			math: EL_INTEGER_MATH; hash_64: NATURAL_64
 		do
@@ -84,6 +84,11 @@ feature -- Factory
 				create Result.make_from (enclosing_object, field_names)
 				Indices_set_cached.extend (Result, hash_64)
 			end
+		end
+
+	new_field_type_set (abstract_type: INTEGER): EL_FIELD_INDICES_SET
+		do
+			create Result.make_for_abstract (enclosing_object, abstract_type)
 		end
 
 feature {NONE} -- Implementation

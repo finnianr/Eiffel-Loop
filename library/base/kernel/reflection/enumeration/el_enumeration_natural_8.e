@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 13:48:16 GMT (Wednesday 23rd April 2025)"
-	revision: "10"
+	date: "2025-04-24 17:28:19 GMT (Thursday 24th April 2025)"
+	revision: "11"
 
 deferred class
 	EL_ENUMERATION_NATURAL_8
@@ -36,12 +36,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	as_hashable (a_value: NATURAL_8): NATURAL_8
-		do
-			Result := a_value
-		end
-
-	enum_value (field: EL_REFLECTED_NATURAL_8): NATURAL_8
+	field_value (field: EL_REFLECTED_NATURAL_8): NATURAL_8
 		do
 			Result := field.value (Current)
 		end

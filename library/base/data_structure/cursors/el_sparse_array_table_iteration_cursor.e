@@ -8,11 +8,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 11:02:24 GMT (Wednesday 23rd April 2025)"
-	revision: "1"
+	date: "2025-04-24 6:11:09 GMT (Thursday 24th April 2025)"
+	revision: "2"
 
 class
-	EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR [G, K -> detachable HASHABLE]
+	EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR [G, K -> HASHABLE]
 
 inherit
 	EL_HASH_TABLE_ITERATION_CURSOR [G, K]

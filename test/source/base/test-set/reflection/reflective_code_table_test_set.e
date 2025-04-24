@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 19:21:16 GMT (Wednesday 23rd April 2025)"
-	revision: "3"
+	date: "2025-04-24 16:50:05 GMT (Thursday 24th April 2025)"
+	revision: "4"
 
 class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -18,6 +18,8 @@ class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 	EL_MODULE_EXECUTABLE
 
 	EL_SHARED_HTTP_STATUS; EL_SHARED_CURRENCY_ENUM
+
+	EL_HTTP_CODE_DESCRIPTIONS
 
 create
 	make
@@ -42,30 +44,25 @@ feature -- Tests
 		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_integer_16
 		note
 			testing: "[
-				covers/{EL_ENUMERATION}.as_list
+				covers/{EL_ENUMERATION_INTEGER_16}.make,
+				covers/{EL_ENUMERATION_INTEGER_16}.description
 			]"
 		local
-			enum: HTTP_STATUS_INTEGER_16_ENUM; enum_2: ARRAY [NATURAL_16]
-			size_proportion, size_enum, size_enum_2: INTEGER
+			enum: HTTP_STATUS_INTEGER_16_ENUM; description: STRING; name_list: EL_STRING_8_LIST
 		do
-			create enum.make_default
-			if attached Http_status as status then
-				enum_2 := << status.continue, status.accepted, status.found, status.bad_request, status.bad_gateway >>
-			end
-			across <<
-				enum.continue, enum.accepted, enum.found, enum.bad_request, enum.bad_gateway
-			>> as code loop
-				assert_same_string (Void, enum.description (code.item), Http_status.description (enum_2 [code.cursor_index]))
-			end
-			size_enum := property (enum).deep_physical_size
-			size_enum_2 := property (Http_status).deep_physical_size
-			size_proportion := (size_enum * 100 / size_enum_2).rounded
-			if size_proportion /= 59 then
-				lio.put_integer_field ("Size " + enum.generator, size_enum)
-				lio.put_new_line
-				lio.put_integer_field ("Size " + Http_status.generator, size_enum_2)
-				lio.put_new_line
-				failed (enum.generator + " is x%% smaller")
+			create enum.make
+			assert ("valid description keys", enum.valid_description_keys)
+			assert_same_string (Void, enum.description (enum.continue), "100 Client can continue.")
+			if attached code_descriptions as manifest then
+				name_list := "continue, accepted, found, bad_request, bad_gateway"
+				across <<
+					enum.continue, enum.accepted, enum.found, enum.bad_request, enum.bad_gateway
+				>> as code loop
+					description := enum.description (code.item)
+					assert_same_string (Void, enum.field_name (code.item), name_list [code.cursor_index])
+					assert ("starts with code", super_8 (description).substring_to (' ').to_integer_16 = code.item)
+					assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
+				end
 			end
 		end
 
@@ -84,6 +81,13 @@ feature -- Tests
 				covers/{EL_HTTP_CODE_DESCRIPTIONS}.code_descriptions
 			]"
 		do
+			if attached Http_status as s and then attached code_descriptions as manifest then
+				across << s.continue, s.accepted, s.found, s.bad_request, s.bad_gateway >> as code loop
+					if attached s.description (code.item) as description then
+						assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
+					end
+				end
+			end
 			if Http_status.valid_description_keys then
 				assert_same_string (Void, Http_status.description (Http_status.continue), "100 Client can continue.")
 			else
@@ -148,41 +152,24 @@ feature -- Tests
 				covers/{EL_TABLE_INTERVAL_MAP_LIST}.make,
 				covers/{EL_REFLECTIVE_STRING_TABLE}.make,
 				covers/{EL_SUBSTRING}.count,
-				covers/{EL_SUBSTRING}.lines,
-				covers/{EL_HTTP_CODE_DESCRIPTIONS}.code_descriptions
+				covers/{EL_SUBSTRING}.lines
 			]"
 		local
-			table: HTTP_STATUS_TABLE; space_saved_percent: INTEGER
-			enum_size, table_size, percent: INTEGER; choose: EL_CHOICE [INTEGER]
+			status: HTTP_STATUS_TABLE; description, first_line: STRING
 		do
-			create table.make_default
-			assert_same_description (table.ok, Http_status.ok)
-			assert_same_description (table.found, Http_status.found)
-			assert_same_description (table.continue, Http_status.continue)
-			assert_same_description (table.not_acceptable, Http_status.not_acceptable)
-
-			table_size := property (table).deep_physical_size - table.text_manifest_size
-			enum_size := property (Http_status).deep_physical_size
-			space_saved_percent := (enum_size - table_size) * 100 // enum_size
-			lio.put_integer_field ("Memory saving", space_saved_percent)
-			lio.put_character ('%%')
-			lio.put_new_line
-
-		-- Compact Object Layout: In finalized mode, objects are stored in a more compact form,
-		-- which reduces their memory footprint. As a result, `{INTERNAL}.deep_physical_size' might
-		-- report a smaller size compared to workbench mode				
-			percent := choose [53, 36] #? Executable.is_finalized
-
-			if space_saved_percent /= percent then
-				failed (percent.out + "%% memory saving")
+			create status.make_default
+			assert_same_string (Void, status.continue.str, "100 Client can continue.")
+			if attached code_descriptions as manifest then
+				across <<
+					status.continue, status.accepted, status.found, status.bad_request, status.bad_gateway
+				>> as field loop
+					description := field.item.str
+					first_line := super_8 (description).substring_to ('%N')
+					assert_same_string (Void, field.item.lines.first, first_line)
+					assert ("has description", manifest.has_substring (first_line))
+					assert ("tabs removed", not description.has ('%T'))
+				end
 			end
-		end
-
-feature {NONE} -- Implementation
-
-	assert_same_description (status: EL_MANIFEST_SUBSTRING_8; status_code: NATURAL_16)
-		do
-			assert_same_string ("same description", status.string, Http_status.description (status_code))
 		end
 
 end

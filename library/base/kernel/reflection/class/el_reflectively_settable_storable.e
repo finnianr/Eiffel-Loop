@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-23 8:08:26 GMT (Sunday 23rd March 2025)"
-	revision: "83"
+	date: "2025-04-24 17:18:51 GMT (Thursday 24th April 2025)"
+	revision: "84"
 
 deferred class
 	EL_REFLECTIVELY_SETTABLE_STORABLE
@@ -52,7 +52,7 @@ feature -- Basic operations
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		local
 			collection_item_list: ARRAYED_LIST [EL_REFLECTIVELY_SETTABLE_STORABLE]
-			enumeration_list: ARRAYED_LIST [EL_ENUMERATION [NUMERIC]]
+			enumeration_list: ARRAYED_LIST [EL_ENUMERATION [HASHABLE]]
 			field_definition: STRING; field: EL_REFLECTED_FIELD
 		do
 			create enumeration_list.make (5)
@@ -66,7 +66,7 @@ feature -- Basic operations
 				field_definition := new_field_definition (field)
 				if attached {EL_STRING_FIELD_REPRESENTATION [ANY, ANY]} field.representation as representation then
 					representation.append_comment (field_definition)
-					if attached {EL_ENUMERATION [NUMERIC]} representation.item as enumeration then
+					if attached {EL_ENUMERATION [HASHABLE]} representation.item as enumeration then
 						enumeration_list.extend (enumeration)
 					end
 				end

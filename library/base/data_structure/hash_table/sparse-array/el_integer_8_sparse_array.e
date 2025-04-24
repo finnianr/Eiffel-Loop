@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 9:06:47 GMT (Wednesday 23rd April 2025)"
-	revision: "1"
+	date: "2025-04-24 6:21:51 GMT (Thursday 24th April 2025)"
+	revision: "2"
 
 class
 	EL_INTEGER_8_SPARSE_ARRAY [G]
@@ -24,4 +24,10 @@ feature {NONE} -- Implementation
 		do
 			Result := key.to_integer_32
 		end
+
+	index_to_key (index: INTEGER): INTEGER_8
+		do
+			Result := index.to_integer_8
+		end
+
 end

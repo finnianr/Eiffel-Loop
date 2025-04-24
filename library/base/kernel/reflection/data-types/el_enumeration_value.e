@@ -13,11 +13,11 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:54:12 GMT (Saturday 28th September 2024)"
-	revision: "14"
+	date: "2025-04-24 17:16:30 GMT (Thursday 24th April 2025)"
+	revision: "15"
 
 deferred class
-	EL_ENUMERATION_VALUE [N -> NUMERIC]
+	EL_ENUMERATION_VALUE [N -> HASHABLE]
 
 inherit
 	EL_MAKEABLE_FROM_STRING [STRING_8]
