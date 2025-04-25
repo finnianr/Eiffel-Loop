@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 13:13:02 GMT (Friday 25th April 2025)"
-	revision: "1"
+	date: "2025-04-25 13:41:53 GMT (Friday 25th April 2025)"
+	revision: "2"
 
 class
 	STRING_HASH_TABLE_MEMORY_COMPARISON
@@ -30,7 +30,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "Memory: HASH_TABLE [STRING, STRING] VS EL_IMMUTABLE_STRING_8_TABLE"
+	Description: STRING = "HASH_TABLE [STRING, STRING] VS EL_IMMUTABLE_STRING_8_TABLE"
 
 feature -- Basic operations
 

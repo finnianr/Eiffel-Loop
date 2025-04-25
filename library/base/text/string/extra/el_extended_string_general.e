@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:56:56 GMT (Friday 25th April 2025)"
-	revision: "16"
+	date: "2025-04-25 16:32:18 GMT (Friday 25th April 2025)"
+	revision: "17"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -151,6 +151,14 @@ feature -- Element change
 			end
 		end
 
+	put_lower (i: INTEGER)
+		require
+			valid_index: valid_index (i)
+		do
+			area [i - 1] := to_lower_case (area [i - 1])
+			update_shared -- reset hash
+		end
+
 	put_upper (i: INTEGER)
 		require
 			valid_index: valid_index (i)
@@ -196,12 +204,12 @@ feature -- Element change
 
 	replace_character (uc_old, uc_new: CHARACTER_32)
 		local
-			i, upper: INTEGER; old_char, new_char: CHAR
+			i, i_upper: INTEGER; old_char, new_char: CHAR
 		do
 			old_char := to_char (uc_old); new_char := to_char (uc_new)
 			if attached area as l_area then
-				upper := count - 1
-				from until i > upper loop
+				i_upper := count - 1
+				from until i > i_upper loop
 					if l_area [i] = old_char then
 						l_area [i] := new_char
 					end
@@ -233,6 +241,16 @@ feature -- Element change
 			end
 			set_count (count)
 			update_shared
+		end
+
+	set_substring_lower (start_index, end_index: INTEGER)
+		do
+			set_substring_case (start_index, end_index, {EL_CASE}.Lower)
+		end
+
+	set_substring_upper (start_index, end_index: INTEGER)
+		do
+			set_substring_case (start_index, end_index, {EL_CASE}.Upper)
 		end
 
 	to_canonically_spaced
@@ -303,15 +321,38 @@ feature {NONE} -- Implementation
 			Result.area.copy_data (a_area, 0, 0, a_area.count)
 		end
 
+	set_substring_case (start_index, end_index: INTEGER; case: NATURAL_8)
+		require
+			valid_case: is_valid_case (case)
+			valid_indices: valid_substring_indices (start_index, end_index)
+		local
+			i, i_upper: INTEGER
+		do
+			if attached area as l_area then
+				i_upper := end_index - 1
+				from i := start_index - 1 until i > i_upper loop
+					inspect case
+						when {EL_CASE}.Lower then
+							l_area [i] := to_lower_case (area [i])
+
+						when {EL_CASE}.Upper then
+							l_area [i] := to_upper_case (area [i])
+					else
+					end
+					i := i + 1
+				end
+			end
+		end
+
 	translate_with_deletion (old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN)
 		require
 			each_old_has_new: old_characters.count = new_characters.count
 		local
-			c, new_char, null_char: CHAR; i, j, index, upper: INTEGER
+			c, new_char, null_char: CHAR; i, j, index, i_upper: INTEGER
 		do
 			if attached area as l_area then
-				null_char := to_char ('%U')
-				from upper := count - 1 until i > upper loop
+				null_char := to_char ('%U'); i_upper := count - 1
+				from until i > i_upper loop
 					c := l_area [i]
 					index := old_characters.index_of (to_character_32 (c), 1)
 					if index > 0 then

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:54:54 GMT (Friday 25th April 2025)"
-	revision: "85"
+	date: "2025-04-25 16:38:12 GMT (Friday 25th April 2025)"
+	revision: "86"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -22,6 +22,8 @@ inherit
 	EL_CHARACTER_32_CONSTANTS
 
 	EL_SHARED_STRING_32_BUFFER_POOL
+
+	EL_CASE_CONTRACT
 
 feature {EL_READABLE_ZSTRING} -- Basic operations
 
@@ -219,11 +221,19 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			replace_substring_all (tab, space * space_count)
 		end
 
+	put_lower (i: INTEGER)
+		require
+			valid_index: valid_index (i)
+		do
+			codec.to_lower (area, i - 1, i - 1, current_readable)
+			reset_hash
+		end
+
 	put_upper (i: INTEGER)
 		require
 			valid_index: valid_index (i)
 		do
-			codec.to_proper (area, 1, 1, current_readable)
+			codec.to_proper (area, i - 1, i - 1, current_readable)
 			reset_hash
 		end
 
@@ -433,6 +443,16 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 	replace_substring_general (s: READABLE_STRING_GENERAL; start_index, end_index: INTEGER)
 		do
 			replace_substring (adapted_argument (s, 1), start_index, end_index)
+		end
+
+	set_substring_lower (start_index, end_index: INTEGER)
+		do
+			set_substring_case (start_index, end_index, {EL_CASE}.Lower)
+		end
+
+	set_substring_upper (start_index, end_index: INTEGER)
+		do
+			set_substring_case (start_index, end_index, {EL_CASE}.Upper)
 		end
 
 feature {EL_READABLE_ZSTRING} -- Removal
@@ -915,6 +935,22 @@ feature {NONE} -- Implementation
 				)
 			end
 			set_unencoded_from_buffer (buffer)
+		end
+
+	set_substring_case (start_index, end_index: INTEGER; case: NATURAL_8)
+		require
+			valid_case: is_valid_case (case)
+			valid_indices: valid_substring_indices (start_index, end_index)
+		do
+			inspect case
+				when {EL_CASE}.Lower then
+					codec.to_lower (area, start_index - 1, end_index - 1, current_readable)
+
+				when {EL_CASE}.Upper then
+					codec.to_upper (area, start_index - 1, end_index - 1, current_readable)
+			else
+			end
+			reset_hash
 		end
 
 	translate_with_deletion (old_characters, new_characters: READABLE_STRING_GENERAL; delete_null: BOOLEAN)

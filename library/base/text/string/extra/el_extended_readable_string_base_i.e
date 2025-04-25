@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:39:01 GMT (Friday 25th April 2025)"
-	revision: "12"
+	date: "2025-04-25 16:02:54 GMT (Friday 25th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_BASE_I [CHAR -> COMPARABLE]
@@ -177,6 +177,10 @@ feature {NONE} -- Conversion
 		end
 
 	to_character_8 (c: CHAR): CHARACTER_8
+		deferred
+		end
+
+	to_lower_case (c: CHAR): CHAR
 		deferred
 		end
 

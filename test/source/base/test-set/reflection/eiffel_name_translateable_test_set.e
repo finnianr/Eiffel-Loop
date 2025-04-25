@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:12:01 GMT (Tuesday 22nd April 2025)"
-	revision: "14"
+	date: "2025-04-25 16:33:29 GMT (Friday 25th April 2025)"
+	revision: "15"
 
 class	EIFFEL_NAME_TRANSLATEABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -71,7 +71,8 @@ feature -- Tests
 		note
 			testing: "[
 				covers/{EL_CLASS_NAME_WORDS}.remove_el_prefix,
-				covers/{EL_CLASS_NAME_WORDS}.description
+				covers/{EL_CLASS_NAME_WORDS}.description,
+				covers/{EL_EXTENDED_STRING_GENERAL}.set_substring_case
 			]"
 		local
 			name_words: EL_CLASS_NAME_WORDS; description: STRING

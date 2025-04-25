@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:38:56 GMT (Friday 25th April 2025)"
-	revision: "14"
+	date: "2025-04-25 16:03:19 GMT (Friday 25th April 2025)"
+	revision: "15"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_8_I
@@ -177,6 +177,11 @@ feature {NONE} -- Implementation
 	to_character_8 (c: CHARACTER_8): CHARACTER_8
 		do
 			Result := c
+		end
+
+	to_lower_case (c: CHARACTER_8): CHARACTER_8
+		do
+			Result := c.as_lower
 		end
 
 	to_natural_32_code (c: CHARACTER_8): NATURAL

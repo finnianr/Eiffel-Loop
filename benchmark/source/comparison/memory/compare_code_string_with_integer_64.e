@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 13:12:10 GMT (Friday 25th April 2025)"
-	revision: "1"
+	date: "2025-04-25 13:41:38 GMT (Friday 25th April 2025)"
+	revision: "2"
 
 class
 	COMPARE_CODE_STRING_WITH_INTEGER_64
@@ -32,7 +32,7 @@ create
 
 feature -- Access
 
-	Description: STRING = "Memory: EL_CODE_STRING VS INTEGER_64"
+	Description: STRING = "EL_CODE_STRING VS INTEGER_64"
 
 feature -- Basic operations
 

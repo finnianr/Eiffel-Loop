@@ -6,7 +6,7 @@
 		<meta name="Audience" content="all"/>
 		<meta name="Content-language" content="english"/>
 	#if $is_site_map_page then
-		<meta name="Description" content="A collection of almost 4000 classes for the Eiffel language including libraries, example programs and development tools."/>
+		<meta name="Description" content="A collection of more than 4100 classes for the Eiffel language including libraries, example programs and development tools."/>
 	#else
 		<meta name="Description" content="Source code for Eiffel $category_title: $name"/>
 	#end
@@ -43,7 +43,7 @@
 		</div>
 		<div id="footer">
 			<a href="#top" title="Scroll to top of page"><img src="$top_dir/images/top.png" alt="Top of "/></a>
-			<p>Copyright &copy; 2003-2019 Finnian Reilly</p>
+			<p>Copyright &copy; 2003-2025 Finnian Reilly</p>
 		</div>
 	</div>
 	</body>

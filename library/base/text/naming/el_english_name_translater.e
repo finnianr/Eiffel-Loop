@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 11:11:42 GMT (Monday 31st March 2025)"
-	revision: "11"
+	date: "2025-04-25 15:58:20 GMT (Friday 25th April 2025)"
+	revision: "12"
 
 class
 	EL_ENGLISH_NAME_TRANSLATER
@@ -27,22 +27,20 @@ feature -- Conversion
 
 	exported (eiffel_name: READABLE_STRING_8): STRING
 		-- `eiffel_name' exported to a foreign naming convention
-		local
-			s: EL_STRING_8_ROUTINES
 		do
 			create Result.make (eiffel_name.count)
 			to_english (eiffel_name, Result, uppercase_exception_set)
 			inspect foreign_case
 				when {EL_CASE}.lower then
 					Result.to_lower
-					s.set_upper (Result, 1)
+					super_8 (Result).put_upper (1)
 
 				when {EL_CASE}.Proper then
 					if attached Split_intervals as list then
 						list.wipe_out
 						list.fill (Result, ' ', 0)
 						from list.start until list.after loop
-							s.set_upper (Result, list.item_lower)
+							super_8 (Result).put_upper (list.item_lower)
 							list.forth
 						end
 					end

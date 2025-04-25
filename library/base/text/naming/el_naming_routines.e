@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:58:21 GMT (Friday 25th April 2025)"
-	revision: "55"
+	date: "2025-04-25 16:09:02 GMT (Friday 25th April 2025)"
+	revision: "56"
 
 class
 	EL_NAMING_ROUTINES
@@ -232,7 +232,7 @@ feature -- Export names
 		require
 			empty_name_out: name_out.is_empty
 		local
-			i, first_index, last_index: INTEGER; c: CHARACTER; s: EL_STRING_8_ROUTINES
+			i, first_index, last_index: INTEGER; c: CHARACTER
 		do
 			if name_in.has ('_')
 				and then attached Character_area_8.get (name_in, $first_index, $last_index) as area
@@ -273,7 +273,7 @@ feature -- Export names
 		require
 			empty_name_out: english_out.is_empty
 		local
-			s: EL_STRING_8_ROUTINES; word: STRING
+			word: STRING
 		do
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop
@@ -283,7 +283,7 @@ feature -- Export names
 				end
 				if list.cursor_index = 1 then
 					if word.count > 0 then
-						s.set_upper (word, 1)
+						super_8 (word).put_upper (1)
 					end
 				elseif super_8 (english_out).caseless_ends_with (once "NON") then
 					english_out.append_character ('-')
@@ -334,7 +334,7 @@ feature -- Export names
 		require
 			empty_title_out: title_out.is_empty
 		local
-			s: EL_STRING_8_ROUTINES; i: INTEGER; word: STRING
+			i: INTEGER; word: STRING
 		do
 			Underscore_split.set_target (name_in)
 			across Underscore_split as list loop
@@ -351,7 +351,7 @@ feature -- Export names
 						end
 					else
 						list.append_item_to (title_out)
-						s.set_upper (title_out, list.item_lower)
+						super_8 (title_out).put_upper (list.item_lower)
 					end
 				end
 			end

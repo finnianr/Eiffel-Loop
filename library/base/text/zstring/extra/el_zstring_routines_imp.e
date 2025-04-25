@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:26:40 GMT (Monday 21st April 2025)"
-	revision: "55"
+	date: "2025-04-25 16:21:43 GMT (Friday 25th April 2025)"
+	revision: "56"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
@@ -64,11 +64,6 @@ feature -- Basic operations
 	append_to (str: ZSTRING; extra: READABLE_STRING_GENERAL)
 		do
 			str.append_string_general (extra)
-		end
-
-	set_upper (str: ZSTRING; i: INTEGER)
-		do
-			str.put (str [i].upper, i)
 		end
 
 	unescape_substitution_marks (target: ZSTRING)

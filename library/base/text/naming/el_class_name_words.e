@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-29 13:58:54 GMT (Saturday 29th March 2025)"
-	revision: "1"
+	date: "2025-04-25 16:20:05 GMT (Friday 25th April 2025)"
+	revision: "2"
 
 class
 	EL_CLASS_NAME_WORDS
@@ -55,7 +55,7 @@ feature -- Access
 
 	description: STRING
 		local
-			i, l_count: INTEGER; s: EL_STRING_8_ROUTINES
+			i, l_count: INTEGER
 		do
 			create Result.make (character_count + count - 1 + parameters.count)
 			if attached area as a then
@@ -66,12 +66,12 @@ feature -- Access
 					l_count := a [i + 1] - a [i] + 1
 					Result.append_substring (target_string, a [i], a [i + 1])
 					if l_count > 3 then
-						s.set_substring_lower (Result, Result.count - l_count + 1, Result.count)
+						super_8 (Result).set_substring_lower (Result.count - l_count + 1, Result.count)
 					end
 					i := i + 2
 				end
 			end
-			s.set_upper (Result, 1)
+			super_8 (Result).put_upper (1)
 			if parameters.count > 0 then
 				Result.append (once " for type ")
 				Result.append_substring (parameters, 3, parameters.count - 1)

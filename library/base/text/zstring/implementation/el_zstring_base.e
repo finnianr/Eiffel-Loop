@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:51:35 GMT (Friday 25th April 2025)"
-	revision: "119"
+	date: "2025-04-25 16:06:35 GMT (Friday 25th April 2025)"
+	revision: "120"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -51,6 +51,7 @@ inherit
 			occurrences as unencoded_occurrences,
 			overlaps as overlaps_unencoded,
 			put as put_unencoded,
+			put_lower as put_unencoded_lower,
 			put_upper as put_unencoded_upper,
 			remove as remove_unencoded,
 			remove_substring as remove_unencoded_substring,

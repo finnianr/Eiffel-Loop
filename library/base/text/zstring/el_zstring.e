@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:50:24 GMT (Friday 25th April 2025)"
-	revision: "129"
+	date: "2025-04-25 16:39:09 GMT (Friday 25th April 2025)"
+	revision: "130"
 
 class
 	EL_ZSTRING
@@ -46,9 +46,9 @@ inherit
 
 				precede, put_unicode, quote, translate,
 --				Transformation
-				crop, expand_tabs, hide, mirror, put_upper, replace_character, replace_delimited_substring,
+				crop, expand_tabs, hide, mirror, put_lower, put_upper, replace_character, replace_delimited_substring,
 				replace_delimited_substring_general, replace_substring, replace_substring_all, replace_substring_general,
-				replace_set_members_8, replace_set_members, reveal,
+				replace_set_members_8, replace_set_members, reveal, set_substring_lower, set_substring_upper,
 				to_canonically_spaced, to_lower, to_proper, to_upper, translate_or_delete,
 				unescape,
 --				Removal

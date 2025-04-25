@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 9:19:16 GMT (Tuesday 5th November 2024)"
-	revision: "15"
+	date: "2025-04-25 16:25:24 GMT (Friday 25th April 2025)"
+	revision: "16"
 
 class
 	EL_DATE_TIME_CODE_STRING
@@ -201,14 +201,11 @@ feature {NONE} -- Implementation
 		require
 			valid_index: array.valid_index (index)
 		local
-			i: INTEGER; s: EL_STRING_8_ROUTINES
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			str.append (array [index])
 			if case_table.valid_index (code_type) and then case_table [code_type] = {EL_CASE}.Proper then
-				from i := str.count until i < str.count - 1 loop
-					s.set_lower (str, i)
-					i := i - 1
-				end
+				sg.super_8 (str).set_substring_lower (str.count - 1, str.count)
 			end
 		end
 

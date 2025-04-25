@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 6:57:38 GMT (Friday 25th April 2025)"
-	revision: "87"
+	date: "2025-04-25 16:21:57 GMT (Friday 25th April 2025)"
+	revision: "88"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -96,12 +96,6 @@ feature -- List joining
 feature {NONE} -- Deferred
 
 	append_to (str: STRING_X; extra: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	set_upper (str: STRING_X; i: INTEGER)
-		require
-			valid_index: 0 < i and i <= str.count
 		deferred
 		end
 

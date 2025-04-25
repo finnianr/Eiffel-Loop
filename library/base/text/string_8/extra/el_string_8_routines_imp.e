@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:26:22 GMT (Monday 21st April 2025)"
-	revision: "50"
+	date: "2025-04-25 16:28:43 GMT (Friday 25th April 2025)"
+	revision: "51"
 
 class EL_STRING_8_ROUTINES_IMP inherit ANY
 
@@ -31,26 +31,6 @@ feature -- Basic operations
 			else
 				str.append_string_general (extra)
 			end
-		end
-
-	set_lower (str: STRING_8; i: INTEGER)
-		do
-			str.put (str [i].lower, i)
-		end
-
-	set_upper (str: STRING_8; i: INTEGER)
-		do
-			str.put (str [i].upper, i)
-		end
-
-	set_substring_lower (str: STRING_8; start_index, end_index: INTEGER)
-		do
-			set_substring_case (str, start_index, end_index, {EL_CASE}.Lower)
-		end
-
-	set_substring_upper (str: STRING_8; start_index, end_index: INTEGER)
-		do
-			set_substring_case (str, start_index, end_index, {EL_CASE}.Upper)
 		end
 
 feature -- Conversion
@@ -173,26 +153,6 @@ feature {NONE} -- Implementation
 				Result := Split_string_8
 			end
 			Result.set_target (str); Result.set_separator (separator)
-		end
-
-	set_substring_case (str: STRING_8; start_index, end_index: INTEGER; case: NATURAL_8)
-		require
-			valid_case: is_valid_case (case)
-			valid_indices: valid_substring_indices (str, start_index, end_index)
-		local
-			i: INTEGER
-		do
-			from i := start_index until i > end_index loop
-				inspect case
-					when {EL_CASE}.Lower then
-						set_lower (str, i)
-
-					when {EL_CASE}.Upper then
-						set_upper (str, i)
-				else
-				end
-				i := i + 1
-			end
 		end
 
 feature {NONE} -- Constants
