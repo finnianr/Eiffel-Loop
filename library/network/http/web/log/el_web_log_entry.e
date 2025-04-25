@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 13:52:40 GMT (Thursday 24th April 2025)"
-	revision: "42"
+	date: "2025-04-25 7:24:30 GMT (Friday 25th April 2025)"
+	revision: "43"
 
 class
 	EL_WEB_LOG_ENTRY
@@ -76,7 +76,7 @@ feature {NONE} -- Initialization
 					when 3 then
 						part.adjust
 						index := part.index_of (' ', 1)
-						status_code := part.substring (1, index - 1).to_natural_16
+						status_code := part.substring (1, index - 1).to_integer_16
 						byte_count := part.substring (index + 1, part.count).to_natural
 					when 4 then
 						if not sg.super_8 (part).is_character ('-') then
@@ -181,7 +181,7 @@ feature -- Log fields
 			end
 		end
 
-	status_code: NATURAL_16
+	status_code: INTEGER_16
 
 	user_agent: STRING
 

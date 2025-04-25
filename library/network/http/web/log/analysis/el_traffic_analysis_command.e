@@ -18,8 +18,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 13:51:56 GMT (Thursday 24th April 2025)"
-	revision: "8"
+	date: "2025-04-25 7:09:38 GMT (Friday 25th April 2025)"
+	revision: "9"
 
 deferred class
 	EL_TRAFFIC_ANALYSIS_COMMAND
@@ -43,7 +43,7 @@ feature {NONE} -- Internal attributes
 
 feature {NONE} -- Constants
 
-	Found_status_list: ARRAY [NATURAL_16]
+	Found_status_list: ARRAY [INTEGER_16]
 		once
 			Result := << Http_status.ok, Http_status.moved_permanently, Http_status.not_modified >>
 		end

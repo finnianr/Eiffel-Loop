@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 15:43:41 GMT (Wednesday 23rd April 2025)"
-	revision: "61"
+	date: "2025-04-25 7:40:27 GMT (Friday 25th April 2025)"
+	revision: "62"
 
 class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -306,19 +306,23 @@ feature -- General tests
 		note
 			testing: "[
 				covers/{EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR}.key,
-				covers/{EL_INTEGER_16_SPARSE_ARRAY}.key_for_iteration
+				covers/{EL_INTEGER_16_SPARSE_ARRAY}.key_for_iteration,
+				covers/{EL_INTEGER_16_SPARSE_ARRAY}.key_list,
 				covers/{EL_INTEGER_16_SPARSE_ARRAY}.to_sparse_array
 			]"
 		local
 			sparse_table: EL_INTEGER_16_SPARSE_ARRAY [INTEGER_64]
 			source_table: EL_HASH_TABLE [INTEGER_64, INTEGER_16]
-			n, multiplier: INTEGER_16
+			n, multiplier: INTEGER_16; key_list: EL_ARRAYED_LIST [INTEGER_16]
 		do
+			create key_list.make (51)
 			across << 1 , 10 >> as step_size loop
 				multiplier := step_size.item.to_integer_16
 				create source_table.make (50)
+				key_list.wipe_out
 				across -25 |..| 25 as list loop
 					n := list.item.to_integer_16 * multiplier
+					key_list.extend (n)
 				-- extend with n^2
 					source_table.extend (n.to_integer_64 * n.to_integer_64, n)
 				end
@@ -327,6 +331,7 @@ feature -- General tests
 					n := list.item.to_integer_16 * multiplier
 					assert ("same square", source_table [n] = sparse_table [n])
 				end
+				assert ("same key list", key_list ~ sparse_table.key_list)
 				assert ("not array indexed", multiplier > 1 implies not sparse_table.is_array_indexed)
 				if attached sparse_table as table then
 					from table.start until table.after loop

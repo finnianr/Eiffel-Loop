@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 15:11:57 GMT (Sunday 20th April 2025)"
-	revision: "15"
+	date: "2025-04-25 6:56:56 GMT (Friday 25th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -142,6 +142,21 @@ feature -- Element change
 			converter: EL_UTF_8_CONVERTER
 		do
 			append_area_32 (converter.new_unicode_zero_array (utf_8, 1, utf_8.count))
+		end
+
+	first_to_upper
+		do
+			if count > 0 then
+				put_upper (1)
+			end
+		end
+
+	put_upper (i: INTEGER)
+		require
+			valid_index: valid_index (i)
+		do
+			area [i - 1] := to_upper_case (area [i - 1])
+			update_shared -- reset hash
 		end
 
 	remove_bookends (left, right: CHAR)

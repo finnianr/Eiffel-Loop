@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:19:59 GMT (Monday 21st April 2025)"
-	revision: "54"
+	date: "2025-04-25 6:58:21 GMT (Friday 25th April 2025)"
+	revision: "55"
 
 class
 	EL_NAMING_ROUTINES
@@ -253,7 +253,7 @@ feature -- Export names
 				name_out.append (name_in)
 			end
 			if is_title then
-				s.first_to_upper (name_out)
+				super_8 (name_out).first_to_upper
 			end
 		end
 

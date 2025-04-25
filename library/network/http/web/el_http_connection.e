@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:05:43 GMT (Monday 14th April 2025)"
-	revision: "58"
+	date: "2025-04-25 7:24:11 GMT (Friday 25th April 2025)"
+	revision: "59"
 
 class
 	EL_HTTP_CONNECTION
@@ -78,7 +78,7 @@ feature -- Access
 
 	http_version: DOUBLE
 
-	page_error_code: NATURAL_16
+	page_error_code: INTEGER_16
 		-- http error code parsed from document page
 		local
 			bracket_split: EL_SPLIT_ON_CHARACTER_8 [STRING]; sg: EL_STRING_GENERAL_ROUTINES
@@ -89,7 +89,7 @@ feature -- Access
 					if last_string [split.item_lower].is_digit
 						and then attached sg.super_8 (split.item).substring_to (' ') as code_string
 					then
-						Result := code_string.to_natural_16
+						Result := code_string.to_integer_16
 					end
 				end
 			end
@@ -110,7 +110,7 @@ feature -- Access
 
 feature -- Status query
 
-	has_page_error (code: NATURAL_16): BOOLEAN
+	has_page_error (code: INTEGER_16): BOOLEAN
 		do
 			Result := page_error_code = code
 		end

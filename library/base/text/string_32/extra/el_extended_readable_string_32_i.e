@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:10:09 GMT (Monday 21st April 2025)"
-	revision: "15"
+	date: "2025-04-25 6:38:50 GMT (Friday 25th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_32_I
@@ -187,6 +187,11 @@ feature {NONE} -- Implementation
 	to_natural_32_code (uc: CHARACTER_32): NATURAL
 		do
 			Result := uc.natural_32_code
+		end
+
+	to_upper_case (c: CHARACTER_32): CHARACTER_32
+		do
+			Result := c.as_upper
 		end
 
 feature {NONE} -- Deferred

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 17:18:30 GMT (Thursday 24th April 2025)"
-	revision: "16"
+	date: "2025-04-25 7:11:10 GMT (Friday 25th April 2025)"
+	revision: "17"
 
 class
 	NETWORK_TEST_SET
@@ -26,30 +26,24 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["enumerations",			  agent test_enumerations],
-				["ip_address_conversion", agent test_ip_address_conversion]
+				["network_device_type_enum", agent test_network_device_type_enum],
+				["ip_address_conversion",	  agent test_ip_address_conversion]
 			>>)
 		end
 
 feature -- Tests
-
-	test_enumerations
-		do
-			across enum_array as enum loop
-				assert ("name and value consistent for " + enum.item.generator, enum.item.name_and_values_consistent)
-			end
-		end
 
 	test_ip_address_conversion
 		do
 			assert ("same string", IP_address.to_string (IP_address.Loop_back) ~ "127.0.0.1")
 		end
 
-feature {NONE} -- Implementation
-
-	enum_array: ARRAY [EL_ENUMERATION [HASHABLE]]
+	test_network_device_type_enum
+		local
+			enum: EL_NETWORK_DEVICE_TYPE_ENUM
 		do
-			Result := << create {EL_HTTP_STATUS_ENUM}.make, create {EL_NETWORK_DEVICE_TYPE_ENUM}.make >>
+			create enum.make
+			assert ("name and value consistent for " + enum.generator, enum.name_and_values_consistent)
 		end
 
 end

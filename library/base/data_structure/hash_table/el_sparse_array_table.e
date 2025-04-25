@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 15:32:11 GMT (Wednesday 23rd April 2025)"
-	revision: "2"
+	date: "2025-04-25 7:45:04 GMT (Friday 25th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_SPARSE_ARRAY_TABLE [G, K -> HASHABLE]
@@ -27,7 +27,7 @@ inherit
 			{ANY} after, content, count, forth, found_item,
 					item_for_iteration, key_for_iteration, off, start
 		redefine
-			forth, has, has_key, key_for_iteration, is_off_position, item,
+			forth, has, has_key, key_for_iteration, key_list, is_off_position, item,
 			next_iteration_index, new_cursor, start, valid_key
 		end
 
@@ -104,7 +104,26 @@ feature -- Access
 				Result := Precursor
 			end
 		end
-		
+
+	key_list: EL_ARRAYED_LIST [K]
+		local
+			i, i_upper: INTEGER; area: SPECIAL [K]
+		do
+			create area.make_empty (count)
+			if is_array_indexed and then attached content as l_content then
+				i_upper := count - 1
+				from i := 0 until i > i_upper loop
+					if i = default_value_index or else l_content [i] /= computed_default_value then
+						area.extend (index_to_key (index_lower + i))
+					end
+					i := i + 1
+				end
+				create Result.make_from_special (area)
+			else
+				Result := Precursor
+			end
+		end
+
 	new_cursor: EL_SPARSE_ARRAY_TABLE_ITERATION_CURSOR [G, K]
 		do
 			create Result.make (Current)

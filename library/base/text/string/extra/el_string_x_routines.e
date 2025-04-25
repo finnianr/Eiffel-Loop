@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:37:43 GMT (Monday 21st April 2025)"
-	revision: "86"
+	date: "2025-04-25 6:57:38 GMT (Friday 25th April 2025)"
+	revision: "87"
 
 deferred class
 	EL_STRING_X_ROUTINES [
@@ -91,15 +91,6 @@ feature -- List joining
 		do
 			Result := new (a.count + b.count + separator.count)
 			append_to (Result, a); append_to (Result, separator); append_to (Result, b)
-		end
-
-feature -- Transform
-
-	first_to_upper (str: STRING_GENERAL)
-		do
-			if not str.is_empty then
-				str.put_code (to_code (str.item (1).as_upper), 1)
-			end
 		end
 
 feature {NONE} -- Deferred

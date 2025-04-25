@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 16:50:05 GMT (Thursday 24th April 2025)"
-	revision: "4"
+	date: "2025-04-25 8:47:46 GMT (Friday 25th April 2025)"
+	revision: "5"
 
 class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -41,51 +41,26 @@ feature {NONE} -- Initialization
 feature -- Tests
 
 	test_enumeration_integer_16
-		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_integer_16
-		note
-			testing: "[
-				covers/{EL_ENUMERATION_INTEGER_16}.make,
-				covers/{EL_ENUMERATION_INTEGER_16}.description
-			]"
-		local
-			enum: HTTP_STATUS_INTEGER_16_ENUM; description: STRING; name_list: EL_STRING_8_LIST
-		do
-			create enum.make
-			assert ("valid description keys", enum.valid_description_keys)
-			assert_same_string (Void, enum.description (enum.continue), "100 Client can continue.")
-			if attached code_descriptions as manifest then
-				name_list := "continue, accepted, found, bad_request, bad_gateway"
-				across <<
-					enum.continue, enum.accepted, enum.found, enum.bad_request, enum.bad_gateway
-				>> as code loop
-					description := enum.description (code.item)
-					assert_same_string (Void, enum.field_name (code.item), name_list [code.cursor_index])
-					assert ("starts with code", super_8 (description).substring_to (' ').to_integer_16 = code.item)
-					assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
-				end
-			end
-		end
-
-	test_enumeration_natural_16
 		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_natural_16
 		note
 			testing: "[
-				covers/{EL_ENUMERATION}.initialize_fields,
-				covers/{EL_ENUMERATION}.codes_in_description,
-				covers/{EL_ENUMERATION}.as_list,
-				covers/{EL_ENUMERATION}.description,
-				covers/{EL_ENUMERATION}.name,
-				covers/{EL_ENUMERATION}.field_name,
-				covers/{EL_ENUMERATION}.has_field_name,
-				covers/{EL_ENUMERATION}.value,
-				covers/{EL_HTTP_CODE_DESCRIPTIONS}.code_descriptions
+				covers/{EL_ENUMERATION_INTEGER_16}.as_list,
+				covers/{EL_ENUMERATION_INTEGER_16}.description,
+				covers/{EL_ENUMERATION_INTEGER_16}.field_name,
+				covers/{EL_ENUMERATION_INTEGER_16}.has_field_name,
+				covers/{EL_ENUMERATION_INTEGER_16}.make,
+				covers/{EL_ENUMERATION_INTEGER_16}.name
 			]"
+		local
+			code: INTEGER_16; i: INTEGER
 		do
 			if attached Http_status as s and then attached code_descriptions as manifest then
-				across << s.continue, s.accepted, s.found, s.bad_request, s.bad_gateway >> as code loop
-					if attached s.description (code.item) as description then
+				across << s.continue, s.accepted, s.found, s.bad_request, s.bad_gateway >> as list loop
+					code := list.item; i := list.cursor_index
+					if attached s.description (code) as description then
 						assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
 					end
+					assert_same_english_name (i, s.name (code))
 				end
 			end
 			if Http_status.valid_description_keys then
@@ -105,6 +80,41 @@ feature -- Tests
 			if attached Http_status.as_list as list then
 				assert ("first is 100", list.first.to_integer_32 = 100)
 				assert ("last is 510", list.last.to_integer_32 = 510)
+			end
+		end
+
+	test_enumeration_natural_16
+		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_integer_16
+		note
+			testing: "[
+				covers/{EL_ENUMERATION}.initialize_fields,
+				covers/{EL_ENUMERATION}.codes_in_description,
+				covers/{EL_ENUMERATION}.as_list,
+				covers/{EL_ENUMERATION}.description,
+				covers/{EL_ENUMERATION}.name,
+				covers/{EL_ENUMERATION}.field_name,
+				covers/{EL_ENUMERATION}.has_field_name,
+				covers/{EL_ENUMERATION}.value,
+				covers/{EL_HTTP_CODE_DESCRIPTIONS}.code_descriptions
+			]"
+		local
+			enum: HTTP_STATUS_ENUM; description: STRING; i: INTEGER; code: NATURAL_16
+		do
+			create enum.make
+			assert ("valid description keys", enum.valid_description_keys)
+			assert_same_string (Void, enum.description (enum.continue), "100 Client can continue.")
+			if attached code_descriptions as manifest then
+				across <<
+					enum.continue, enum.accepted, enum.found, enum.bad_request, enum.bad_gateway
+				>> as list loop
+					i := list.cursor_index; code := list.item
+					description := enum.description (code.item)
+					assert_same_string (Void, enum.field_name (code), Name_list [i])
+					assert ("starts with code", super_8 (description).substring_to (' ').to_natural_16 = code)
+					assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
+
+					assert_same_english_name (i, enum.name (code))
+				end
 			end
 		end
 
@@ -172,4 +182,24 @@ feature -- Tests
 			end
 		end
 
+feature {NONE} -- Implementation
+
+	assert_same_english_name (i: INTEGER; code_name: STRING)
+		local
+			english_name: STRING
+		do
+			english_name := Name_list [i].twin
+			if attached super_8 (english_name) as name then
+				name.replace_character ('_', ' ')
+				name.first_to_upper
+			end
+			assert_same_string (Void, english_name, code_name)
+		end
+
+feature {NONE} -- Constants
+
+	Name_list: EL_STRING_8_LIST
+		once
+			Result := "continue, accepted, found, bad_request, bad_gateway"
+		end
 end

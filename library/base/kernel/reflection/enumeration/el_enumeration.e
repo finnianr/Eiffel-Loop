@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 17:33:58 GMT (Thursday 24th April 2025)"
-	revision: "76"
+	date: "2025-04-25 7:52:12 GMT (Friday 25th April 2025)"
+	revision: "77"
 
 deferred class
 	EL_ENUMERATION [N -> HASHABLE]
@@ -121,16 +121,10 @@ feature -- Measurement
 
 feature -- Access
 
-	as_list: EL_ARRAYED_LIST [N]
+	as_list: EL_ARRAYED_RESULT_LIST [like ENUM_FIELD, N]
 		do
-			create Result.make (count)
-			if attached field_by_value_table as table then
-				from table.start until table.after loop
-					Result.extend (field_value (table.item_for_iteration))
-					table.forth
-				end
-				Result.sort (True)
-			end
+			create Result.make (field_by_value_table, agent field_value)
+			Result.sort (True)
 		end
 
 	description (a_value: N): ZSTRING
@@ -225,14 +219,14 @@ feature -- Status query
 		end
 
 	has_field_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if has exported `a_name' and `found_value' set to value if found
+		-- `True' if `field_table' has `a_name' and `found_value' set to value if found
 		-- Eg. all lowercase "aud" for `EL_CURRENCY_ENUM' sets value for field `aud: NATURAL_8'
 		do
 			Result := field_table.has_key_general (a_name)
 		end
 
 	has_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
-		-- `True' if has exported `a_name' and `found_value' set to value if found
+		-- `True' if `field_table' has exported `a_name' and `found_value' set to value if found
 		-- Eg. all uppercase "AUD" for `EL_CURRENCY_ENUM' sets value for field `aud: NATURAL_8'
 		do
 			Result := field_table.has_imported_key (a_name)

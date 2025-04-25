@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 13:53:24 GMT (Thursday 24th April 2025)"
-	revision: "35"
+	date: "2025-04-25 7:24:49 GMT (Friday 25th April 2025)"
+	revision: "36"
 
 class
 	EL_HTTP_HEADERS
@@ -46,7 +46,7 @@ feature {NONE} -- Initialization
 					and then attached line.item.split (' ') as parts
 					and then parts.count >= 3
 				then
-					response_code := parts [2].to_natural_16
+					response_code := parts [2].to_integer_16
 
 				elseif line.item_has (':') then
 					set_field_from_nvp (line.item, ':')
@@ -140,7 +140,7 @@ feature -- Access
 			Result := super_8 (content_type).substring_to (';')
 		end
 
-	response_code: NATURAL_16
+	response_code: INTEGER_16
 
 	response_message: IMMUTABLE_STRING_8
 		do

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-07 12:31:45 GMT (Thursday 7th November 2024)"
-	revision: "37"
+	date: "2025-04-25 7:22:51 GMT (Friday 25th April 2025)"
+	revision: "38"
 
 class
 	FCGI_SERVLET_RESPONSE
@@ -63,14 +63,14 @@ feature -- Access
 			Result := broker.socket_error
 		end
 
-	status: NATURAL_16
+	status: INTEGER_16
 		-- The result status that will be send with this response.
 
 	status_message: STRING
 		-- The status message
 		do
 			create Result.make (30)
-			Result.append_natural_16 (status)
+			Result.append_integer_16 (status)
 			Result.append_character (' ')
 			Result.append (Http_status.name (status))
 		end
