@@ -1,10 +1,10 @@
 note
 	description: "[
-		Benchmark shell menu ${STRING_BENCHMARK_SHELL} for string related performance tests
+		Benchmark shell menu ${MEMORY_BENCHMARK_SHELL} for object memory footprint related tests
 	]"
 	notes: "[
 		Usage:
-			el_benchmark -string_benchmark
+			el_benchmark -memory_benchmark
 	]"
 
 	author: "Finnian Reilly"
@@ -12,15 +12,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 10:53:52 GMT (Friday 25th April 2025)"
-	revision: "29"
+	date: "2025-04-25 10:53:43 GMT (Friday 25th April 2025)"
+	revision: "1"
 
 class
-	STRING_BENCHMARK_APP
+	MEMORY_BENCHMARK_APP
 
 inherit
-	BENCHMARK_SHELL_APPLICATION [STRING_BENCHMARK_SHELL]
+	BENCHMARK_SHELL_APPLICATION [MEMORY_BENCHMARK_SHELL]
 
 create
 	make
+
 end

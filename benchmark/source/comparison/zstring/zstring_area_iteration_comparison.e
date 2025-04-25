@@ -5,14 +5,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "29"
+	date: "2025-04-25 12:57:27 GMT (Friday 25th April 2025)"
+	revision: "30"
 
 class
 	ZSTRING_AREA_ITERATION_COMPARISON
 
 inherit
 	STRING_BENCHMARK_COMPARISON
+		rename
+			Character_type as Character_abstract_type
+		end
 
 	HEXAGRAM_NAMES
 		export
@@ -144,7 +147,7 @@ feature {NONE} -- Operations
 					inspect character_8_band (c)
 						when Substitute then
 							do_with (c)
-							
+
 						when Ascii_range then
 							do_with (c)
 					else

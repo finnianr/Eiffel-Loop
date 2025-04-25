@@ -11,8 +11,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 17:48:22 GMT (Sunday 22nd September 2024)"
-	revision: "19"
+	date: "2025-04-25 9:55:07 GMT (Friday 25th April 2025)"
+	revision: "20"
 
 class
 	EL_BENCHMARK_ROUTINE_TABLE
@@ -23,16 +23,7 @@ inherit
 			make as make_sized
 		end
 
-	DOUBLE_MATH
-		undefine
-			is_equal, copy, default_create
-		end
-
 	EL_MODULE_LIO; EL_MODULE_EXECUTABLE; EL_MODULE_MEMORY
-
-	EL_CHARACTER_32_CONSTANTS
-
-	EL_SHARED_FORMAT_FACTORY
 
 create
 	make
@@ -52,17 +43,6 @@ feature -- Access
 
 feature -- Measurement
 
-	max_key_width: INTEGER
-		-- character width of longest key string
-		do
-			from start until after loop
-				if key_for_iteration.count > Result then
-					Result := key_for_iteration.count
-				end
-				forth
-			end
-		end
-
 	trial_duration: INTEGER
 		-- duration of trial in millisecs
 
@@ -71,7 +51,7 @@ feature -- Basic operations
 	perform
 		-- perform comparisons
 		local
-			benchmark: EL_BENCHMARK_ROUTINES; l_count: DOUBLE
+			benchmark: EL_BENCHMARK_ROUTINES; l_count: NATURAL_64
 		do
 			application_count_list.wipe_out
 			across Current as routine loop
@@ -82,18 +62,11 @@ feature -- Basic operations
 				l_count := benchmark.application_count (routine.item, trial_duration)
 				application_count_list.extend (routine.key, l_count)
 			end
-			application_count_list.sort_by_value (False)
 		end
 
 	print_comparison
 		local
-			description_width: INTEGER; highest_count, relative_difference: DOUBLE
-			l_label, formatted_value, relative_percentile: STRING; l_double: FORMAT_DOUBLE
 		do
-			description_width := max_key_width
-			highest_count := application_count_list.first_value
-			create l_double.make (log10 (highest_count).rounded + 3, 1)
-
 			if is_lio_enabled then
 				lio.put_new_line
 				lio.put_labeled_string ("RESULTS", label)
@@ -101,21 +74,7 @@ feature -- Basic operations
 				lio.put_substitution ("Passes over %S millisecs (in descending order)", [trial_duration])
 				lio.put_new_line_x2
 			end
-			if attached application_count_list as list then
-				from list.start until list.after loop
-					l_label := list.item_key + space * (description_width - list.item_key.count + 1)
-					formatted_value := l_double.formatted (list.item_value)
-					if list.isfirst then
-						lio.put_labeled_string (l_label, formatted_value + " times (100%%)")
-					else
-						relative_difference := ((highest_count - list.item_value) / highest_count) * 100
-						relative_percentile := Format.double_as_string (relative_difference, once "999.9%%")
-						lio.put_labeled_string (l_label, Template_relative #$ [formatted_value, relative_percentile])
-					end
-					lio.put_new_line
-					list.forth
-				end
-			end
+			application_count_list.print_comparison (lio, "%S times (%S)")
 		end
 
 feature -- Element change
@@ -127,7 +86,7 @@ feature -- Element change
 
 feature {NONE} -- Internal attributes
 
-	application_count_list: EL_ARRAYED_MAP_LIST [ZSTRING, DOUBLE]
+	application_count_list: EL_NAMED_BENCHMARK_MAP_LIST
 		-- list of number of times that `action' can be applied within the `trial_duration' in milliseconds
 		-- in descending order
 
@@ -136,11 +95,6 @@ feature {NONE} -- Constants
 	Default_trial_duration: INTEGER
 		once
 			Result := 500
-		end
-
-	Template_relative: ZSTRING
-		once
-			Result := "%S times (-%S)"
 		end
 
 end

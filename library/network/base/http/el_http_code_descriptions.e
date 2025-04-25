@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 16:31:18 GMT (Wednesday 23rd April 2025)"
-	revision: "2"
+	date: "2025-04-25 11:14:31 GMT (Friday 25th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_HTTP_CODE_DESCRIPTIONS
@@ -16,13 +16,6 @@ inherit
 	EL_ROUTINES
 
 	EL_OBJECT_PROPERTY_I
-
-feature -- Measurement
-
-	text_manifest_size: INTEGER
-		do
-			Result := property (code_descriptions).deep_physical_size
-		end
 
 feature {NONE} -- Implementation
 

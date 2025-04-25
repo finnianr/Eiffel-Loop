@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-13 14:25:26 GMT (Monday 13th March 2023)"
-	revision: "58"
+	date: "2025-04-25 10:21:48 GMT (Friday 25th April 2025)"
+	revision: "59"
 
 class
 	APPLICATION_ROOT
@@ -15,6 +15,7 @@ class
 inherit
 	EL_MULTI_APPLICATION_ROOT [BUILD_INFO,
 		BENCHMARK_APP,
+		MEMORY_BENCHMARK_APP,
 		PRIMES_BENCHMARK_APP,
 		STRING_BENCHMARK_APP,
 		ZSTRING_BENCHMARK_APP

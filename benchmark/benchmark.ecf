@@ -42,7 +42,9 @@ See doc/benchmark.txt for details
 		<library name = "EL_doc_scan" location = "$EIFFEL_LOOP/library/document-scan.ecf" readonly = "false"/>
 		<library name = "EL_evolicity" location = "$EIFFEL_LOOP/library/evolicity.ecf" readonly = "false"/>
 		<library name = "EL_fast_cgi" location = "$EIFFEL_LOOP/library/fast-cgi.ecf" readonly = "false"/>
+		<library name = "EL_http_client" location = "$EIFFEL_LOOP/library/http-client.ecf" readonly = "false"/>
 		<library name = "EL_logging" location = "$EIFFEL_LOOP/library/logging.ecf" readonly = "false"/>
+		<library name = "EL_network" location = "$EIFFEL_LOOP/library/network.ecf" readonly = "false"/>
 		<library name = "EL_os_command" location = "$EIFFEL_LOOP/library/os-command.ecf" readonly = "false"/>
 		<library name = "EL_search_engine" location = "$EIFFEL_LOOP/library/search-engine.ecf" readonly = "false"/>
 		<library name = "EL_testing" location = "$EIFFEL_LOOP/library/testing.ecf" readonly = "false"/>
@@ -58,6 +60,8 @@ See doc/benchmark.txt for details
 		<cluster name = "test_common" location = "$EIFFEL_LOOP/test/source/common" recursive = "true"/>
 		<!--clusters in common with other project-->
 		<cluster name = "rhythmbox" location = "$EIFFEL_LOOP/example/manage-mp3/source/rhythmbox/constants/common"/>
+		<!--FEATURE_CONSTANTS-->
+		<cluster name = "eiffel_edit" location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"/>
 		<!--Source-->
 		<cluster name = "project" location = "source" recursive = "true">
 			<description>

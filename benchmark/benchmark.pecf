@@ -56,7 +56,9 @@ system:
 			EL_doc_scan = "document-scan.ecf"
 			EL_evolicity = "evolicity.ecf"
 			EL_fast_cgi = "fast-cgi.ecf"
+			EL_http_client = "http-client.ecf"
 			EL_logging = "logging.ecf"
+			EL_network = "network.ecf"
 			EL_os_command = "os-command.ecf"
 			EL_search_engine = "search-engine.ecf"
 			EL_testing = "testing.ecf"
@@ -75,6 +77,10 @@ system:
 		# clusters in common with other project
 		cluster:
 			name = rhythmbox; location = "$EIFFEL_LOOP/example/manage-mp3/source/rhythmbox/constants/common"
+
+		# FEATURE_CONSTANTS
+		cluster:
+			name = eiffel_edit; location = "$EIFFEL_LOOP/tool/eiffel/source/edit/editor/constants"
 			
 		# Source
 		cluster_tree:

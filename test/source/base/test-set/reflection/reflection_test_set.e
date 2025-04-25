@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:12:13 GMT (Tuesday 22nd April 2025)"
-	revision: "89"
+	date: "2025-04-25 13:08:27 GMT (Friday 25th April 2025)"
+	revision: "90"
 
 class	REFLECTION_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -547,24 +547,18 @@ feature -- Tests
 
 	test_size_reporting
 		local
-			geo_info: EL_IP_ADDRESS_GEOGRAPHIC_INFO
-			asn_string: EL_CODE_STRING; n_64, expected_size: INTEGER_64; l_info: SIZE_TEST
+			expected_size, actual_size: INTEGER; l_info: SIZE_TEST
 		do
-			create geo_info.make_from_json (JSON_eiffel_loop_ip)
-
-			lio.put_integer_field ("size of INTEGER_64", {PLATFORM}.Integer_64_bytes)
-			lio.put_new_line
-			asn_string := geo_info.asn_
-			lio.put_integer_field ("size of EL_CODE_STRING " + asn_string, property (asn_string).deep_physical_size)
-			lio.put_new_line
-			assert ("12 times bigger", property (asn_string).deep_physical_size // {PLATFORM}.Integer_64_bytes = 12)
-
 			create l_info
-			lio.put_integer_field ("size of instance SIZE_TEST", property (l_info).deep_physical_size)
-			lio.put_new_line
-
+			actual_size := property (l_info).deep_physical_size
 			expected_size := Object_header_size + {PLATFORM}.Integer_64_bytes * 4
-			assert ("same size", property (l_info).deep_physical_size = expected_size)
+			if actual_size /= expected_size then
+				lio.put_integer_field ("size of instance SIZE_TEST", actual_size)
+				lio.put_integer_field (" expected size", expected_size)
+				lio.put_new_line
+
+				failed ("not expected size")
+			end
 		end
 
 	test_substituted_type_id

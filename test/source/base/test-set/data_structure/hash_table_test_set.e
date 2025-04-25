@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 7:40:27 GMT (Friday 25th April 2025)"
-	revision: "62"
+	date: "2025-04-25 12:32:55 GMT (Friday 25th April 2025)"
+	revision: "63"
 
 class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -32,22 +32,22 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["character_32_table",	 agent test_character_32_table],
-				["code_text_table",		 agent test_code_text_table],
-				["compressed_table",		 agent test_compressed_table],
-				["el_table_cursor",		 agent test_el_table_cursor],
-				["el_table_insertion",	 agent test_el_table_insertion],
-				["el_table_sort",			 agent test_el_table_sort],
-				["make_from_keys",		 agent test_make_from_keys],
-				["sparse_array_table",	 agent test_sparse_array_table],
-				["string_general_table", agent test_string_general_table],
-				["string_table",			 agent test_string_table],
-				["string_table_memory",	 agent test_string_table_memory],
-				["zstring_table",			 agent test_zstring_table],
-				["error_code_table",		 agent test_error_code_table],
-				["string_32_table",		 agent test_string_32_table],
-				["string_8_table",		 agent test_string_8_table],
-				["utf_8_table",			 agent test_utf_8_table]
+				["character_32_table",			agent test_character_32_table],
+				["code_text_table",				agent test_code_text_table],
+				["compressed_table",				agent test_compressed_table],
+				["el_table_cursor",				agent test_el_table_cursor],
+				["el_table_insertion",			agent test_el_table_insertion],
+				["el_table_sort",					agent test_el_table_sort],
+				["make_from_keys",				agent test_make_from_keys],
+				["sparse_array_table",			agent test_sparse_array_table],
+				["string_general_table",		agent test_string_general_table],
+				["string_table",					agent test_string_table],
+				["string_table_object_count",	agent test_string_table_object_count],
+				["zstring_table",					agent test_zstring_table],
+				["error_code_table",				agent test_error_code_table],
+				["string_32_table",				agent test_string_32_table],
+				["string_8_table",				agent test_string_8_table],
+				["utf_8_table",					agent test_utf_8_table]
 			>>)
 		end
 
@@ -391,26 +391,19 @@ feature -- General tests
 			assert ("same value", table [key_3] = 3)
 		end
 
-	test_string_table_memory
-		-- HASH_TABLE_TEST_SET.test_string_table_memory
+	test_string_table_object_count
+		-- HASH_TABLE_TEST_SET.test_string_table_object_count
 		note
 			testing: "covers/{EL_IMMUTABLE_STRING_TABLE}.make"
 		local
 			standard_table: HASH_TABLE [STRING, STRING]
 			item_count, table_object_count, objects_per_string, objects_per_immutable,
-			standard_size, immutable_size, standard_object_count, immutable_object_count: INTEGER
+			standard_object_count, immutable_object_count: INTEGER
 		do
 			create standard_table.make_equal (Feature_expansion_table.count)
 			across Feature_expansion_table as table loop
 				standard_table.extend (table.item, table.key)
 			end
-			immutable_size := property (Feature_expansion_table).deep_physical_size
-			standard_size := property (standard_table).deep_physical_size
-			lio.put_integer_field ("Standard size", standard_size)
-			lio.put_integer_field (" Immutable size", immutable_size)
-			lio.put_new_line
-			assert ("56 %% less memory", 100 - immutable_size * 100 // standard_size = 56)
-
 			item_count := Feature_expansion_table.count
 			table_object_count := 5; objects_per_string := 2; objects_per_immutable := 1
 

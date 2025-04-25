@@ -1,13 +1,20 @@
 note
 	description: "Command shell specialized for performance comparison benchmarks"
+	notes: "[
+		BENCHMARKING: HTTP status enumerations
+
+			HTTP_STATUS_ENUM    : 25648.0 bytes (100%)
+			HTTP_STATUS_TABLE   : 16848.0 bytes (-34.3%)
+			EL_HTTP_STATUS_ENUM :  5376.0 bytes (-79.0%)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-30 13:51:25 GMT (Sunday 30th March 2025)"
-	revision: "26"
+	date: "2025-04-25 11:03:58 GMT (Friday 25th April 2025)"
+	revision: "27"
 
 deferred class
 	EL_BENCHMARK_COMMAND_SHELL
@@ -36,6 +43,13 @@ feature {EL_COMMAND_CLIENT} -- Initialization
 				benchmark_types.log_error (lio, "Invalid benchmark class")
 			end
 			make_shell ("BENCHMARK COMPARISONS", 20)
+		end
+
+feature -- Status query
+
+	is_performance: BOOLEAN
+		do
+			Result := True
 		end
 
 feature {NONE} -- Implementation
@@ -69,7 +83,9 @@ feature {NONE} -- Implementation
 	set_standard_options (table: like new_command_table)
 		do
 			Precursor (table)
-			table ["Set " + Duration_prompt] := agent set_trial_duration
+			if is_performance then
+				table ["Set " + Duration_prompt] := agent set_trial_duration
+			end
 		end
 
 	set_trial_duration
@@ -80,9 +96,9 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Internal attributes
 
-	trial_duration: INTEGER_REF
-
 	benchmark_types: EL_TUPLE_TYPE_LIST [EL_BENCHMARK_COMPARISON]
+
+	trial_duration: INTEGER_REF
 
 feature {NONE} -- Constants
 

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-23 7:16:39 GMT (Sunday 23rd March 2025)"
-	revision: "15"
+	date: "2025-04-25 13:03:13 GMT (Friday 25th April 2025)"
+	revision: "16"
 
 deferred class
 	EL_BENCHMARK_COMPARISON
@@ -16,9 +16,17 @@ deferred class
 inherit
 	EL_COMMAND
 
-	EL_MODULE_LIO
+	EL_MODULE_EIFFEL; EL_MODULE_LIO
 
 	EL_MODULE_EXECUTABLE
+
+	EL_OBJECT_PROPERTY_I
+
+	REFLECTOR_CONSTANTS
+
+		export
+			{NONE} all
+		end
 
 feature {EL_FACTORY_CLIENT} -- Initialization
 
@@ -50,21 +58,86 @@ feature {NONE} -- Implementation
 			if trial_duration.item.to_boolean then
 				table.set_trial_duration (trial_duration.item)
 			end
-			lio.put_new_line
-			lio.put_labeled_string ("Class", generator)
-			lio.put_new_line_x2
-			lio.put_labeled_string ("BENCHMARKING", table.label)
-			lio.put_new_line_x2
-
+			display_header (label)
 			table.perform
 			table.print_comparison
 			lio.put_new_line
+		end
+
+	compare_memory (label: READABLE_STRING_GENERAL; object_list: ARRAY [ANY])
+		local
+			benchmark_list: EL_NAMED_BENCHMARK_MAP_LIST
+		do
+			create benchmark_list.make (object_list.count)
+			across object_list as list loop
+				benchmark_list.extend (list.item.generator, size_of (list.item))
+			end
+			display_header (label)
+			benchmark_list.print_comparison (lio, "%S bytes (%S)")
+			lio.put_new_line
+		end
+
+	display_header (label: READABLE_STRING_GENERAL)
+		do
+			lio.put_new_line
+			lio.put_labeled_string ("Class", generator)
+			lio.put_new_line_x2
+			lio.put_labeled_string ("BENCHMARKING", label)
+			lio.put_new_line_x2
 		end
 
 	initialize
 		do
 			do_nothing
 		end
+
+	size_of (object: ANY): NATURAL_64
+		local
+			byte_count: INTEGER
+		do
+			inspect Eiffel.abstract_type (object)
+				when Boolean_type then
+					byte_count := {PLATFORM}.Boolean_bytes
+				when Character_8_type then
+					byte_count := {PLATFORM}.Character_8_bytes
+				when Character_32_type then
+					byte_count := {PLATFORM}.Character_32_bytes
+
+				when Integer_8_type then
+					byte_count := {PLATFORM}.Integer_8_bytes
+				when Integer_16_type then
+					byte_count := {PLATFORM}.Integer_16_bytes
+				when Integer_32_type then
+					byte_count := {PLATFORM}.Integer_32_bytes
+				when Integer_64_type then
+					byte_count := {PLATFORM}.Integer_64_bytes
+
+				when Natural_8_type then
+					byte_count := {PLATFORM}.Natural_8_bytes
+				when Natural_16_type then
+					byte_count := {PLATFORM}.Natural_16_bytes
+				when Natural_32_type then
+					byte_count := {PLATFORM}.Natural_32_bytes
+				when Natural_64_type then
+					byte_count := {PLATFORM}.Natural_64_bytes
+
+				when Real_32_type then
+					byte_count := {PLATFORM}.Real_32_bytes
+				when Real_64_type then
+					byte_count := {PLATFORM}.Real_64_bytes
+
+				when Pointer_type then
+					byte_count := {PLATFORM}.Pointer_bytes
+
+				when Reference_type then
+					Result := property (object).deep_physical_size_64
+			else
+			end
+			if byte_count > 0 then
+				Result := byte_count.to_natural_64
+			end
+		end
+
 
 feature {NONE} -- Internal attributes
 
