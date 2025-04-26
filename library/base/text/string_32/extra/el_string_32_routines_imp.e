@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:21:33 GMT (Friday 25th April 2025)"
-	revision: "80"
+	date: "2025-04-26 8:46:06 GMT (Saturday 26th April 2025)"
+	revision: "81"
 
 class EL_STRING_32_ROUTINES_IMP inherit ANY
 
@@ -60,28 +60,6 @@ feature {NONE} -- Implementation
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_32; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string_32 (target, pattern, 0)
-		end
-
-	split_on_character (str: READABLE_STRING_32; separator: CHARACTER_32): EL_SPLIT_ON_CHARACTER_32 [READABLE_STRING_32]
-		do
-			if str.is_immutable then
-				Result := Split_immutable_string_32
-			else
-				Result := Split_string_32
-			end
-			Result.set_target (str); Result.set_separator (separator)
-		end
-
-feature {NONE} -- Constants
-
-	Split_string_32: EL_SPLIT_ON_CHARACTER_32 [STRING_32]
-		once
-			create Result.make (Empty_string_32, '_')
-		end
-
-	Split_immutable_string_32: EL_SPLIT_IMMUTABLE_STRING_32_ON_CHARACTER
-		once
-			create Result.make (Empty_string_32, '_')
 		end
 
 end

@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 9:26:32 GMT (Saturday 12th April 2025)"
-	revision: "24"
+	date: "2025-04-26 7:35:47 GMT (Saturday 26th April 2025)"
+	revision: "25"
 
 deferred class
 	EL_READABLE_ZSTRING_I
@@ -33,7 +33,7 @@ feature {NONE} -- Measurement
 		deferred
 		end
 
-	internal_leading_white_space (a_area: SPECIAL [CHARACTER]; a_count: INTEGER): INTEGER
+	internal_leading_white_space (a_area: SPECIAL [CHARACTER]; start_index, end_index: INTEGER): INTEGER
 		deferred
 		end
 

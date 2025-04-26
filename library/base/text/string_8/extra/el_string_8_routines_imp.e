@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:28:43 GMT (Friday 25th April 2025)"
-	revision: "51"
+	date: "2025-04-26 8:45:54 GMT (Saturday 26th April 2025)"
+	revision: "52"
 
 class EL_STRING_8_ROUTINES_IMP inherit ANY
 
@@ -87,37 +87,6 @@ feature -- Factory
 			create Result.make_split (str, '%N')
 		end
 
-feature -- Measurement
-
-	leading_string_count (s: STRING; space_count: INTEGER): INTEGER
-		-- count of leading characters up to `space_count' number of spaces counting from end
-		local
-			i, count: INTEGER
-		do
-			from i := s.count until count = space_count or else i = 0 loop
-				if s [i].is_space then
-					count := count + 1
-				end
-				i := i - 1
-			end
-			Result := i
-		end
-
-	leading_space_count (str: READABLE_STRING_8): INTEGER
-		-- count of leading space characters in `str'
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > str.count loop
-				if str [i].is_space then
-					Result := Result + 1
-				else
-					i := str.count
-				end
-				i := i + 1
-			end
-		end
-
 feature -- Transform
 
 	replace_set_members (target: STRING_8; set: EL_SET [CHARACTER_8]; a_new: CHARACTER_8)
@@ -143,28 +112,6 @@ feature {NONE} -- Implementation
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_8; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string_8 (target, pattern, 0)
-		end
-
-	split_on_character (str: READABLE_STRING_8; separator: CHARACTER_8): EL_SPLIT_ON_CHARACTER_8 [READABLE_STRING_8]
-		do
-			if str.is_immutable then
-				Result := Split_immutable_string_8
-			else
-				Result := Split_string_8
-			end
-			Result.set_target (str); Result.set_separator (separator)
-		end
-
-feature {NONE} -- Constants
-
-	Split_string_8: EL_SPLIT_ON_CHARACTER_8 [STRING_8]
-		once
-			create Result.make (Empty_string_8, '_')
-		end
-
-	Split_immutable_string_8: EL_SPLIT_IMMUTABLE_STRING_8_ON_CHARACTER
-		once
-			create Result.make (Empty_string_8, '_')
 		end
 
 end

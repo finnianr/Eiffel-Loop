@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:18:47 GMT (Monday 21st April 2025)"
-	revision: "16"
+	date: "2025-04-26 8:04:56 GMT (Saturday 26th April 2025)"
+	revision: "17"
 
 deferred class
 	EL_EXTENDED_READABLE_STRING_I [CHAR -> COMPARABLE]
@@ -209,17 +209,26 @@ feature -- Measurement
 		end
 
 	leading_white_count: INTEGER
+		-- count of leading white space characters
+		do
+			Result := leading_substring_white_count (1, count)
+		end
+
+	leading_substring_white_count (start_index, end_index: INTEGER): INTEGER
+		-- count of leading white space characters between `start_index' and `end_index'
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
 		local
-			i, i_upper: INTEGER
+			i, i_lower, i_upper: INTEGER
 		do
 			if attached area as l_area then
-				i_upper := index_upper
+				i_lower := lower_abs (start_index); i_upper := upper_abs (end_index)
 				if attached Unicode_property as unicode then
-					from i := index_lower until i > i_upper or else not is_i_th_space (l_area, i, unicode) loop
+					from i := i_lower until i > i_upper or else not is_i_th_space (l_area, i, unicode) loop
 						i := i + 1
 					end
 				end
-				Result := i - index_lower
+				Result := i - i_lower
 			end
 		end
 

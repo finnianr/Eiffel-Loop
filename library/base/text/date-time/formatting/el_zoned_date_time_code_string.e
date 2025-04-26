@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-04 13:29:02 GMT (Monday 4th November 2024)"
-	revision: "6"
+	date: "2025-04-26 8:38:46 GMT (Saturday 26th April 2025)"
+	revision: "7"
 
 class
 	EL_ZONED_DATE_TIME_CODE_STRING
@@ -53,9 +53,9 @@ feature {NONE} -- Implementation
 	adjusted_format (a_str: STRING): STRING
 		-- `format' with time zone designators removed
 		local
-			s: EL_STRING_8_ROUTINES; end_index: INTEGER
+			sg: EL_STRING_GENERAL_ROUTINES; end_index: INTEGER
 		do
-			end_index := s.leading_string_count (a_str, zone_designator_count)
+			end_index := sg.super_8 (a_str).last_word_end_index (zone_designator_count)
 			Result := a_str.substring (1, end_index)
 		end
 

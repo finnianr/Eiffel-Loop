@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 9:05:26 GMT (Tuesday 15th April 2025)"
-	revision: "9"
+	date: "2025-04-26 8:57:16 GMT (Saturday 26th April 2025)"
+	revision: "10"
 
 class
 	EXTENDED_READABLE_ZSTRING_TEST_SET
@@ -32,11 +32,13 @@ feature {NONE} -- Initialization
 				["bracketed",							 agent test_bracketed],
 				["character_counts",					 agent test_character_counts],
 				["filtered",							 agent test_filtered],
+				["last_word_end_index",				 agent test_last_word_end_index],
 				["is_eiffel_name",					 agent test_is_eiffel_name],
 				["is_variable_reference",			 agent test_is_variable_reference],
 				["occurrences_in_bounds",			 agent test_occurrences_in_bounds],
 				["replaced_identifier",				 agent test_replaced_identifier],
 				["same_string",						 agent test_same_string],
+				["set_substring_lower",				 agent test_set_substring_lower],
 				["word_count",							 agent test_word_count]
 			>>)
 		end
@@ -276,6 +278,16 @@ feature -- Tests
 			end
 		end
 
+	test_last_word_end_index
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_last_word_end_index
+		local
+			format: STRING; end_index: INTEGER
+		do
+			format := "yyyy mmm dd"
+			end_index := super_8 (format).last_word_end_index (2)
+			assert_same_string (Void, format.substring (1, end_index), "yyyy")
+		end
+
 	test_occurrences_in_bounds
 		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_occurrences_in_bounds
 		local
@@ -336,6 +348,49 @@ feature -- Tests
 						index_space := str_32.last_index_of (' ', str_32.count)
 						test.set_substrings (index_space + 1, str_32.count)
 						test.same_string
+					end
+				end
+			end
+		end
+
+	test_set_substring_lower
+		-- EXTENDED_READABLE_ZSTRING_TEST_SET.test_set_substring_lower
+		note
+			testing: "[
+				covers/{EL_EXTENDED_STRING_GENERAL}.set_substring_lower,
+				covers/{EL_EXTENDED_STRING_GENERAL}.set_substring_upper,
+				covers/{EL_EXTENDED_STRING_GENERAL}.put_lower,
+				covers/{EL_EXTENDED_STRING_GENERAL}.put_upper
+			]"
+		local
+			string: STRING
+		do
+			string := "abcd"
+			across << {EL_CASE}.Lower, {EL_CASE}.Upper >> as case loop
+				if case.item = {EL_CASE}.Lower then
+					string.to_upper
+				else
+					string.to_lower
+				end
+				across new_string_type_list (string.twin) as type_list loop
+					if attached {STRING_GENERAL} type_list.item as str
+						and then attached super_general (str) as super
+					then
+						inspect case.item
+							when {EL_CASE}.Lower then
+								assert ("upper case", str [2].is_upper)
+								super.set_substring_lower (2, 3)
+								assert_same_string (Void, str, "AbcD")
+								super.put_lower (4)
+								assert ("is d", str [4] = 'd')
+							when {EL_CASE}.Upper then
+								assert ("lower case", str [2].is_lower)
+								super.set_substring_upper (2, 3)
+								assert_same_string (Void, str, "aBCd")
+								super.put_upper (4)
+								assert ("is D", str [4] = 'D')
+						else
+						end
 					end
 				end
 			end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:38:12 GMT (Friday 25th April 2025)"
-	revision: "86"
+	date: "2025-04-26 7:37:55 GMT (Saturday 26th April 2025)"
+	revision: "87"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -504,7 +504,7 @@ feature {EL_READABLE_ZSTRING} -- Removal
 			space_count, old_count: INTEGER; l_area: like area
 		do
 			l_area := area; old_count := count
-			space_count := internal_leading_white_space (l_area, old_count)
+			space_count := internal_leading_white_space (l_area, 1, old_count)
 
 			if space_count > 0 then
 				if has_unencoded_between (1, space_count) then

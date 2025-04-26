@@ -6,17 +6,17 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-12 6:53:26 GMT (Saturday 12th April 2025)"
-	revision: "30"
+	date: "2025-04-26 7:54:11 GMT (Saturday 26th April 2025)"
+	revision: "31"
 
 deferred class
 	EL_MEASUREABLE_ZSTRING
 
 inherit
 	EL_ZSTRING_BASE
-		
-			
-		
+
+
+
 
 feature -- Measurement
 
@@ -59,8 +59,17 @@ feature -- Measurement
 		end
 
 	leading_white_count: INTEGER
+		-- count of leading white space characters
 		do
-			Result := internal_leading_white_space (area, count)
+			Result := internal_leading_white_space (area, 1, count)
+		end
+
+	leading_substring_white_count (start_index, end_index: INTEGER): INTEGER
+		-- count of leading white space characters between `start_index' and `end_index'
+		require
+			valid_start_end_index: valid_substring_indices (start_index, end_index)
+		do
+			Result := internal_leading_white_space (area, start_index, end_index)
 		end
 
 	occurrences (uc: CHARACTER_32): INTEGER
@@ -148,38 +157,42 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	internal_leading_white_space (a_area: like area; a_count: INTEGER): INTEGER
+	internal_leading_white_space (a_area: like area; start_index, end_index: INTEGER): INTEGER
 		local
 			c32: EL_CHARACTER_32_ROUTINES; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
-			block_index, i: INTEGER; c_i: CHARACTER
+			block_index, i, i_upper: INTEGER; c_i: CHARACTER
 		do
 			-- `Substitute' is space
-			if attached unencoded_area as area_32 and then area_32.count > 0 then
-				from i := 0 until i = a_count loop
+			i_upper := end_index - 1
+
+			if has_mixed_encoding and then has_unencoded_between_optimal (a_area, start_index, end_index)
+				and then attached unencoded_area as area_32
+			then
+				from i := start_index - 1 until i > i_upper loop
 					c_i := a_area [i]
 					inspect c_i
 						when Substitute then
 							if c32.is_space (iter.item ($block_index, area_32, i + 1)) then
 								Result := Result + 1
 							else
-								i := a_count - 1 -- break out of loop
+								i := i_upper -- break out of loop
 							end
 					else
 						if c_i.is_space then
 							Result := Result + 1
 						else
-							i := a_count - 1 -- break out of loop
+							i := i_upper -- break out of loop
 						end
 					end
 					i := i + 1
 				end
 			else
-				from i := 0 until i = a_count loop
+				from i := start_index - 1 until i > i_upper loop
 					c_i := a_area [i]
 					if c_i.is_space then
 						Result := Result + 1
 					else
-						i := a_count - 1 -- break out of loop
+						i := i_upper -- break out of loop
 					end
 					i := i + 1
 				end

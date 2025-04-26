@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-19 9:13:31 GMT (Saturday 19th April 2025)"
-	revision: "43"
+	date: "2025-04-26 8:51:31 GMT (Saturday 26th April 2025)"
+	revision: "44"
 
 class
 	EL_STRING_8
@@ -53,6 +53,25 @@ feature {NONE} -- Initialization
 	make_from_zstring (zstr: EL_ZSTRING_CHARACTER_8_BASE)
 		do
 			set_area_and_count (zstr.area, zstr.count)
+		end
+
+feature -- Access
+
+	last_word_end_index (a_space_count: INTEGER): INTEGER
+		-- count of leading characters up to `a_space_count' number of spaces counting from end
+		-- Eg `last_word_end_index ("yyyy mm dd", 1)' is equal to 7. `item (7)' is 'm'
+		local
+			i, space_count: INTEGER
+		do
+			if attached area as l_area then
+				from i := count - 1 until space_count = a_space_count or i < 0 loop
+					if l_area [i] = ' ' then
+						space_count := space_count + 1
+					end
+					i := i - 1
+				end
+			end
+			Result := i + 1
 		end
 
 feature -- Staus query

@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:21:43 GMT (Friday 25th April 2025)"
-	revision: "56"
+	date: "2025-04-26 8:45:42 GMT (Saturday 26th April 2025)"
+	revision: "57"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
@@ -79,12 +79,6 @@ feature {NONE} -- Implementation
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL)
 		do
 			intervals.fill_by_string (target, pattern, 0)
-		end
-
-	split_on_character (str: ZSTRING; separator: CHARACTER_32): EL_SPLIT_ZSTRING_ON_CHARACTER
-		do
-			Result := Split_string
-			Result.set_target (str); Result.set_separator (separator)
 		end
 
 	to_z_code (character: CHARACTER_32): NATURAL_32

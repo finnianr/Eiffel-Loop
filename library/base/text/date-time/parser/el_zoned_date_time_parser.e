@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-03 16:26:44 GMT (Sunday 3rd November 2024)"
-	revision: "5"
+	date: "2025-04-26 8:42:45 GMT (Saturday 26th April 2025)"
+	revision: "6"
 
 class
 	EL_ZONED_DATE_TIME_PARSER
@@ -80,9 +80,9 @@ feature {NONE} -- Implementation
 	parse
 		local
 			i, offset_hh_mm, sign_index, sign_one, leading_count, old_count: INTEGER
-			zone_string, zone_dezignator: STRING; c: CHARACTER; s: EL_STRING_8_ROUTINES
+			zone_string, zone_dezignator: STRING; c: CHARACTER; sg: EL_STRING_GENERAL_ROUTINES
 		do
-			leading_count := s.leading_string_count (source_string, zone_designator_count)
+			leading_count := sg.super_8 (source_string).last_word_end_index (zone_designator_count)
 			zone_string := source_string.substring (leading_count + 1, source_string.count)
 			old_count := source_string.count
 			source_string.set_count (leading_count)

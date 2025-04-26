@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:06:35 GMT (Friday 25th April 2025)"
-	revision: "120"
+	date: "2025-04-26 7:50:28 GMT (Saturday 26th April 2025)"
+	revision: "121"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -328,9 +328,10 @@ feature {EL_ZSTRING_BASE} -- Status query
 
 	has_substitutes_between (a_area: like area; start_index, end_index: INTEGER): BOOLEAN
 		local
-			i: INTEGER
+			i, i_upper: INTEGER
 		do
-			from i := start_index - 1 until Result or else i = end_index loop
+			i_upper := end_index - 1
+			from i := start_index - 1 until Result or else i > i_upper loop
 				Result := a_area [i] = Substitute
 				i := i + 1
 			end

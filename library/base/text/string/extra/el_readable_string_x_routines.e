@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 12:30:36 GMT (Monday 21st April 2025)"
-	revision: "68"
+	date: "2025-04-26 8:46:16 GMT (Saturday 26th April 2025)"
+	revision: "69"
 
 deferred class
 	EL_READABLE_STRING_X_ROUTINES [READABLE_STRING_X -> READABLE_STRING_GENERAL, CHAR -> COMPARABLE]
@@ -119,10 +119,6 @@ feature -- Contract Support
 feature {NONE} -- Deferred
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: READABLE_STRING_X; pattern: READABLE_STRING_GENERAL)
-		deferred
-		end
-
-	split_on_character (str: READABLE_STRING_X; separator: CHAR): EL_SPLIT_ON_CHARACTER [READABLE_STRING_X, CHAR]
 		deferred
 		end
 

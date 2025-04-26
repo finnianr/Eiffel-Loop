@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:38:47 GMT (Friday 25th April 2025)"
-	revision: "12"
+	date: "2025-04-26 8:01:10 GMT (Saturday 26th April 2025)"
+	revision: "13"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -37,7 +37,7 @@ inherit
 			has, has_alpha, has_enclosing, has_member, has_quotes,
 			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced,
 			is_character, is_subset_of, is_valid_as_string_8,
-			leading_occurrences, leading_white_count,
+			leading_occurrences, leading_substring_white_count, leading_white_count,
 			matches_wildcard, null, occurrences, put_lower, put_upper, quoted,
 			remove_bookends, replace_character, remove_double, remove_single,
 			same_string, set_substring_case, set_substring_lower, set_substring_upper, starts_with_character,
