@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:25 GMT (Saturday 20th January 2024)"
-	revision: "13"
+	date: "2025-04-27 7:38:11 GMT (Sunday 27th April 2025)"
+	revision: "14"
 
 deferred class
 	EL_SHARED_ZSTRING_CODEC
@@ -30,6 +30,11 @@ feature {NONE} -- Constants
 	Codec: EL_ZCODEC
 		once ("PROCESS") -- thread safe proven in repository publisher
 			Result := default_codec
+		end
+
+	Latin_1_codec: EL_ZCODEC
+		once
+			Result := Codec_factory.codec_by ({EL_ENCODING_TYPE}.Latin_1)
 		end
 
 	Unicode_table: SPECIAL [CHARACTER_32]

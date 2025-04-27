@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 17:52:35 GMT (Friday 11th April 2025)"
-	revision: "9"
+	date: "2025-04-27 14:41:16 GMT (Sunday 27th April 2025)"
+	revision: "10"
 
 deferred class
 	EL_READABLE_STRING_GENERAL_TO_NUMERIC [N -> NUMERIC]
@@ -36,6 +36,11 @@ feature -- Status query
 			end
 		end
 
+	is_integer: BOOLEAN
+		do
+			Result := False
+		end
+
 	is_substring_convertible (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): BOOLEAN
 		do
 			if attached Convertor as l_convertor then
@@ -44,9 +49,10 @@ feature -- Status query
 			end
 		end
 
-	is_integer: BOOLEAN
-		do
-			Result := False
+feature -- Conversion
+
+	substring_as_type (str: READABLE_STRING_GENERAL; start_index, end_index: INTEGER): N
+		deferred
 		end
 
 feature {NONE} -- Implementation

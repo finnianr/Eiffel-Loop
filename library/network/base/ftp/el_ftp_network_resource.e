@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:11:38 GMT (Monday 14th April 2025)"
-	revision: "7"
+	date: "2025-04-27 14:25:51 GMT (Sunday 27th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_FTP_NETWORK_RESOURCE
@@ -232,7 +232,7 @@ feature -- Input/Output operations
 	read
 		-- Read packet.
 		local
-			l_packet: like last_packet; code: NATURAL_16
+			l_packet: like last_packet; code: INTEGER_16
 		do
 			if is_proxy_used then
 				check attached proxy_connection as l_proxy then
@@ -288,10 +288,10 @@ feature {NONE} -- Implementation
 			error_code := Connection_refused
 		end
 
-	last_reply_code: NATURAL_16
+	last_reply_code: INTEGER_16
 		do
 			if attached last_reply as l_reply and then l_reply.count > 0 and then l_reply [1].is_digit then
-				Result := super_8 (l_reply).substring_to (' ').to_natural_16
+				Result := super_8 (l_reply).substring_to (' ').to_integer_16
 			end
 		end
 

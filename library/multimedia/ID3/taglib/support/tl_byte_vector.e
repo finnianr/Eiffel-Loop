@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-05 18:12:28 GMT (Tuesday 5th November 2024)"
-	revision: "12"
+	date: "2025-04-27 10:18:54 GMT (Sunday 27th April 2025)"
+	revision: "13"
 
 class
 	TL_BYTE_VECTOR
@@ -104,12 +104,12 @@ feature -- Conversion
 
 	to_string_8: STRING
 		local
-			i, l_count: INTEGER
+			i, i_upper: INTEGER
 		do
-			l_count := count
-			create Result.make_filled ('%U', l_count)
+			i_upper := count
+			create Result.make_filled ('%U', i_upper)
 			if attached Result.area as area then
-				from i := 1 until i > l_count loop
+				from i := 1 until i > i_upper loop
 					area [i - 1] := i_th (i)
 					i := i + 1
 				end

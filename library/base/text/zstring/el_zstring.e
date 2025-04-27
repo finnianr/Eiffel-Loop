@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:39:09 GMT (Friday 25th April 2025)"
-	revision: "130"
+	date: "2025-04-27 9:39:05 GMT (Sunday 27th April 2025)"
+	revision: "131"
 
 class
 	EL_ZSTRING
@@ -362,6 +362,14 @@ feature -- Element change
 			make_from_other (substituted_tuple (inserts))
 		end
 
+	unescape_substitution_marks
+		-- replace "%%S" substrings with '%S'
+		do
+			if has ('%%') then
+				unescape (Substitution_mark_unescaper)
+			end
+		end
+
 feature -- Removal
 
 	prune (uc: CHARACTER_32)
@@ -378,18 +386,19 @@ feature -- Removal
 	prune_all (uc: CHARACTER_32)
 		-- Remove all occurrences of `c'.  (`INDEXABLE' redefinition)
 		local
-			i, j, i_upper, block_index, last_upper: INTEGER; encoded_c, c_i: CHARACTER_8; uc_i: CHARACTER_32
 			c_is_substitute: BOOLEAN; iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+			i, j, i_upper, block_index, last_upper: INTEGER
+			encoded_c, c_i: CHARACTER_8; uc_i: CHARACTER_32
 		do
 			i_upper := count - 1
 			encoded_c := encoded_character (uc); c_is_substitute := encoded_c = Substitute
-			if attached area as l_area and then attached unencoded_area as uc_area and then uc_area.count > 0
-				and then attached empty_unencoded_buffer as buffer
+			if attached empty_unencoded_buffer as buffer
+				and then attached area as l_area  and then attached unencoded_area as uc_area
+				and then attached Unicode_table as uc_table
 			then
-				last_upper := buffer.last_upper
 				from until i > i_upper loop
 					c_i := l_area [i]
-					inspect c_i
+					inspect character_8_band (c_i)
 						when Substitute then
 							uc_i := iter.item ($block_index, uc_area, i + 1)
 							if c_is_substitute implies uc_i /= uc then
@@ -398,25 +407,66 @@ feature -- Removal
 								j := j + 1
 							end
 
+						when Ascii_range then
+							if encoded_c /= c_i then
+								l_area [j] := c_i
+								j := j + 1
+							end
+
 					else
-						if encoded_c /= c_i then
+						if uc_table [c_i.code] /= uc then
 							l_area [j] := c_i
 							j := j + 1
 						end
 					end
 					i := i + 1
 				end
-				buffer.set_last_upper (last_upper)
-				set_unencoded_from_buffer (buffer)
+				if uc_area.count > 0 then
+					buffer.set_last_upper (last_upper)
+					set_unencoded_from_buffer (buffer)
+				end
+			end
+			set_count (j)
+		end
 
-			elseif attached area as l_area then
+	prune_set_members (set: EL_SET [CHARACTER_32])
+		local
+			i, j, i_upper, block_index, last_upper: INTEGER; c_i: CHARACTER_8; uc_i: CHARACTER_32
+			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
+		do
+			i_upper := count - 1
+			if attached empty_unencoded_buffer as buffer
+				and then attached area as l_area  and then attached unencoded_area as uc_area
+				and then attached Unicode_table as uc_table
+			then
 				from until i > i_upper loop
 					c_i := l_area [i]
-					if c_i /= encoded_c then
-						l_area [j] := c_i
-						j := j + 1
+					inspect character_8_band (c_i)
+						when Substitute then
+							uc_i := iter.item ($block_index, uc_area, i + 1)
+							if not set.has (uc_i) then
+								l_area [j] := c_i
+								last_upper := buffer.extend (uc_i, last_upper, j + 1)
+								j := j + 1
+							end
+
+						when Ascii_range then
+							if not set.has (c_i) then
+								l_area [j] := c_i
+								j := j + 1
+							end
+
+					else
+						if not set.has (uc_table [c_i.code]) then
+							l_area [j] := c_i
+							j := j + 1
+						end
 					end
 					i := i + 1
+				end
+				if uc_area.count > 0 then
+					buffer.set_last_upper (last_upper)
+					set_unencoded_from_buffer (buffer)
 				end
 			end
 			set_count (j)
@@ -526,13 +576,6 @@ feature {NONE} -- Implementation
 	write_path_steps (steps: EL_PATH_STEPS)
 		do
 			steps.append_to (Current)
-		end
-
-feature {NONE} -- Constants
-
-	Once_escape_table: EL_HASH_TABLE [NATURAL, NATURAL]
-		once
-			create Result.make (5)
 		end
 
 note

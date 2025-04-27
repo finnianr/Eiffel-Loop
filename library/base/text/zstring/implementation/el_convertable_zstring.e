@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 11:18:32 GMT (Sunday 20th April 2025)"
-	revision: "80"
+	date: "2025-04-27 9:03:46 GMT (Sunday 27th April 2025)"
+	revision: "81"
 
 deferred class
 	EL_CONVERTABLE_ZSTRING
@@ -63,7 +63,7 @@ feature -- To Strings
 			create Result.make (count)
 			Result.set_count (count)
 
-			if attached area as l_area and then attached Unicode_table as l_unicode
+			if attached area as l_area and then attached Unicode_table as uc_table
 				and then attached Result.area as result_area
 			then
 				i_upper := count - 1
@@ -75,7 +75,7 @@ feature -- To Strings
 						when Ascii_range then
 							result_area [i] := c_i
 					else
-						result_area [i] := l_unicode [c_i.code].to_character_8
+						result_area [i] := uc_table [c_i.code].to_character_8
 					end
 					i := i + 1
 				end

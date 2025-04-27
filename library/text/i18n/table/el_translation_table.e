@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-11 15:02:50 GMT (Friday 11th April 2025)"
-	revision: "39"
+	date: "2025-04-27 7:30:32 GMT (Sunday 27th April 2025)"
+	revision: "40"
 
 class
 	EL_TRANSLATION_TABLE
@@ -116,7 +116,7 @@ feature {NONE} -- Implementation
 
 	put (a_translation, translation_id: ZSTRING)
 		local
-			translation: ZSTRING; z: EL_ZSTRING_ROUTINES
+			translation: ZSTRING
 		do
 			if a_translation ~ id_variable then
 				translation := translation_id
@@ -124,7 +124,7 @@ feature {NONE} -- Implementation
 				translation := a_translation
 				translation.prune_all_leading ('%N')
 				translation.right_adjust
-				z.unescape_substitution_marks (translation)
+				translation.unescape_substitution_marks
 			end
 			put_table (translation, translation_id)
 			if conflict then

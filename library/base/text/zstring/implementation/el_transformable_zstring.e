@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 7:37:55 GMT (Saturday 26th April 2025)"
-	revision: "87"
+	date: "2025-04-27 13:18:17 GMT (Sunday 27th April 2025)"
+	revision: "88"
 
 deferred class
 	EL_TRANSFORMABLE_ZSTRING
@@ -71,15 +71,14 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 		do
 			l_count := count
 			if l_count > 1 then
-				if attached unencoded_area as area_32 and then area_32.count > 0
+				if attached unencoded_area as uc_area and then uc_area.count > 0
 					and then attached empty_unencoded_buffer as buffer
 					and then attached area as l_area
 				then
-					last_upper := buffer.last_upper
 					from i := l_count - 1 until i < 0 loop
 						c_i := l_area.item (i)
 						if c_i = Substitute then
-							last_upper := buffer.extend (iter.item ($block_index, area_32, i + 1), last_upper, l_count - i)
+							last_upper := buffer.extend (iter.item ($block_index, uc_area, i + 1), last_upper, l_count - i)
 						end
 						i := i - 1
 					end
@@ -120,7 +119,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			if not is_canonically_spaced
-				and then attached unencoded_area as area_32 and then attached area as l_area
+				and then attached unencoded_area as uc_area and then attached area as l_area
 				and then attached empty_unencoded_buffer as buffer
 			then
 				last_upper := buffer.last_upper
@@ -128,7 +127,7 @@ feature {EL_READABLE_ZSTRING} -- Basic operations
 				from i := 0; j := 0 until i = l_count loop
 					c_i := l_area [i]
 					if c_i = Substitute then
-						uc_i := iter.item ($block_index, area_32, i + 1)
+						uc_i := iter.item ($block_index, uc_area, i + 1)
 						 -- `c.is_space' is workaround for finalization bug
 						is_space := c.is_space (uc_i)
 					else
@@ -247,13 +246,13 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 			if c_new = Substitute then
 				new_unencoded := uc_new
 			end
-			if attached area as l_area and then attached unencoded_area as area_32 then
+			if attached area as l_area and then attached unencoded_area as uc_area then
 				if c_old = Substitute then
-					if area_32.count > 0 then
+					if uc_area.count > 0 then
 						from i := 0 until i = l_count loop
 							inspect l_area [i]
 								when Substitute then
-									if uc_old = iter.item ($block_index, area_32, i + 1) then
+									if uc_old = iter.item ($block_index, uc_area, i + 1) then
 										l_area [i] := c_new
 									end
 							else
@@ -316,18 +315,19 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 	replace_set_members (set: EL_SET [CHARACTER_32]; uc_new: CHARACTER_32)
 		-- Replace all encoded characters that are member of `set' with the `uc_new' character
 		local
-			i, l_count, block_index: INTEGER; c_i, c_new: CHARACTER_8; uc_i: CHARACTER_32
+			i, l_count, block_index, last_upper: INTEGER; c_i, c_new, character_band: CHARACTER_8; uc_i: CHARACTER_32
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION
 		do
 			l_count := count; c_new := encoded_character (uc_new)
-			if attached unicode_table as l_unicode_table and then attached area as l_area
-				and then attached unencoded_area as area_32
+			if attached area as l_area and then attached unencoded_area as uc_area
+				and then attached empty_unencoded_buffer as buffer and then attached unicode_table as l_unicode_table
 			then
 				from i := 0 until i = l_count loop
 					c_i := l_area [i]
-					inspect character_8_band (c_i)
+					character_band := character_8_band (c_i)
+					inspect character_band
 						when Substitute then
-							uc_i:= iter.item ($block_index, area_32, i + 1)
+							uc_i:= iter.item ($block_index, uc_area, i + 1)
 
 						when Ascii_range then
 							uc_i := c_i
@@ -338,11 +338,21 @@ feature {EL_READABLE_ZSTRING} -- Replacement
 						l_area [i] := c_new
 						inspect c_new
 							when Substitute then
-								put (uc_new, i + 1)
+								last_upper := buffer.extend (uc_new, last_upper, i + 1)
+						else
+						end
+					else
+						inspect character_band
+							when Substitute then
+								last_upper := buffer.extend (uc_i, last_upper, i + 1)
 						else
 						end
 					end
 					i := i + 1
+				end
+				if uc_area.count > 0 then
+					buffer.set_last_upper (last_upper)
+					set_unencoded_from_buffer (buffer)
 				end
 			end
 			reset_hash
@@ -900,10 +910,10 @@ feature {NONE} -- Implementation
 		local
 			i, l_count, sum_count_delta, block_index, block_index_new,
 			previous_upper_plus_1, lower, upper, new_lower, new_upper: INTEGER
-			l_area: like area; index_area: SPECIAL [INTEGER]; area_32: SPECIAL [CHARACTER_32]
+			l_area: like area; index_area: SPECIAL [INTEGER]; uc_area: SPECIAL [CHARACTER_32]
 			buffer: like Unencoded_buffer; current_has_substitutes, new_has_substitutes: BOOLEAN
 		do
-			buffer := empty_unencoded_buffer; l_area := area; area_32 := unencoded_area
+			buffer := empty_unencoded_buffer; l_area := area; uc_area := unencoded_area
 			index_area := a_index_list.area;
 			current_has_substitutes := has_mixed_encoding
 			new_has_substitutes := new.has_mixed_encoding
@@ -916,7 +926,7 @@ feature {NONE} -- Implementation
 				l_count := lower - previous_upper_plus_1
 				if current_has_substitutes and then l_count > 0 then
 					buffer.append_substituted (
-						l_area, area_32, $block_index, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count
+						l_area, uc_area, $block_index, previous_upper_plus_1 - 1, new_lower - l_count - 1, l_count
 					)
 				end
 				if new_has_substitutes then
@@ -931,7 +941,7 @@ feature {NONE} -- Implementation
 			l_count := count - previous_upper_plus_1 + 1
 			if current_has_substitutes and then l_count > 0 then
 				buffer.append_substituted (
-					l_area, area_32, $block_index, previous_upper_plus_1 - 1, new_upper, l_count
+					l_area, uc_area, $block_index, previous_upper_plus_1 - 1, new_upper, l_count
 				)
 			end
 			set_unencoded_from_buffer (buffer)
@@ -965,8 +975,8 @@ feature {NONE} -- Implementation
 		do
 			upper_index := count - 1; min_count := old_characters.count.min (new_characters.count)
 
-			if attached area as l_area and then attached unencoded_area as area_32 then
-				if area_32.count = 0
+			if attached area as l_area and then attached unencoded_area as uc_area then
+				if uc_area.count = 0
 					and then attached fully_encoded_area (old_characters, 1) as old_area
 					and then attached fully_encoded_area (new_characters, 2) as new_area
 				then
@@ -991,9 +1001,8 @@ feature {NONE} -- Implementation
 					and then attached borrowed [0].copied_z_codes (old_characters) as old_expanded
 					and then attached borrowed [1].copied_z_codes (new_characters) as new_expanded
 				then
-					last_upper := l_new_unencoded.last_upper
 					from until i > upper_index loop
-						old_z_code := iter.i_th_z_code ($block_index, l_area, area_32, i)
+						old_z_code := iter.i_th_z_code ($block_index, l_area, uc_area, i)
 						index := old_expanded.index_of (old_z_code.to_character_32, 1)
 						if index > 0 then
 							new_z_code := new_expanded.code (index)

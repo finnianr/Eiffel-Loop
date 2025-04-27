@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-01 9:39:37 GMT (Saturday 1st March 2025)"
-	revision: "6"
+	date: "2025-04-27 12:30:28 GMT (Sunday 27th April 2025)"
+	revision: "7"
 
 class
 	WEB_LOG_ENTRY_TEST_SET
@@ -36,7 +36,8 @@ feature -- Test
 				covers/{EL_WEB_LOG_ENTRY}.make,
 				covers/{EL_DATE_TIME_PARSER}.to_ordered_compact_date,
 				covers/{EL_DATE_TIME_PARSER}.to_compact_time,
-				covers/{EL_IP_ADDRESS_ROUTINES}.substring_as_number
+				covers/{EL_IP_ADDRESS_ROUTINES}.substring_as_number,
+				covers/{EL_EXTENDED_STRING_GENERAL}.replace_set_members
 			]"
 		local
 			entry: EL_WEB_LOG_ENTRY; template: EL_TEMPLATE [STRING]

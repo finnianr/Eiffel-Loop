@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 10:26:58 GMT (Monday 14th April 2025)"
-	revision: "43"
+	date: "2025-04-27 13:09:57 GMT (Sunday 27th April 2025)"
+	revision: "44"
 
 class
 	STRING_TEST
@@ -199,6 +199,45 @@ feature -- Test editing
 				zs.remove_substring (index, end_index)
 				s_32.remove_substring (index, end_index)
 				Result := old_count = zs.count and then zs.same_string (s_32)
+			end
+		end
+
+	prune_all (uc: CHARACTER_32)
+		do
+			zs.prune_all (uc); s_32.prune_all (uc)
+			test.assert_same_string (Void, zs, s_32)
+		end
+
+	prune_set_members (a_set: EL_HASH_SET [CHARACTER_32]; set_8: EL_HASH_SET [CHARACTER_8])
+		do
+			zs.prune_set_members (a_set)
+			across a_set as c loop
+				if s_32.has (c.item) then
+					s_32.prune_all (c.item)
+				end
+			end
+			test.assert_same_string (Void, zs, s_32)
+			if attached s_8 as str_8 then
+				super_8 (str_8).prune_set_members (set_8)
+				test.assert_same_string (Void, str_8, s_32)
+			end
+		end
+
+	replace_set_members (a_set: EL_HASH_SET [CHARACTER_32]; set_8: EL_HASH_SET [CHARACTER_8])
+		local
+			bar_count: INTEGER
+		do
+			zs.replace_set_members (a_set, '|')
+			across a_set as c loop
+				if s_32.has (c.item) then
+					super_32 (s_32).replace_character (c.item, '|')
+				end
+			end
+			bar_count := s_32.occurrences ('|')
+			test.assert ("same count of '|'", zs.occurrences ('|') = bar_count)
+			if attached s_8 as str_8 then
+				super_8 (str_8).replace_set_members (set_8, '|')
+				test.assert ("same count of '|'", str_8.occurrences ('|') = bar_count)
 			end
 		end
 

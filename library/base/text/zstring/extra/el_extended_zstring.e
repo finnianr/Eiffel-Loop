@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:01:10 GMT (Saturday 26th April 2025)"
-	revision: "13"
+	date: "2025-04-27 9:42:08 GMT (Sunday 27th April 2025)"
+	revision: "14"
 
 class
 	EL_EXTENDED_ZSTRING
@@ -38,8 +38,8 @@ inherit
 			is_ascii, is_ascii_substring, is_alpha_numeric, is_canonically_spaced,
 			is_character, is_subset_of, is_valid_as_string_8,
 			leading_occurrences, leading_substring_white_count, leading_white_count,
-			matches_wildcard, null, occurrences, put_lower, put_upper, quoted,
-			remove_bookends, replace_character, remove_double, remove_single,
+			matches_wildcard, null, occurrences, prune_set_members, put_lower, put_upper, quoted,
+			remove_bookends, replace_character, remove_double, remove_single, replace_set_members,
 			same_string, set_substring_case, set_substring_lower, set_substring_upper, starts_with_character,
 			substring_to, substring_to_from, substring_to_reversed, substring_to_reversed_from,
 			to_canonically_spaced, to_utf_8,

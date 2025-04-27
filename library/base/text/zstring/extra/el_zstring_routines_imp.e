@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:45:42 GMT (Saturday 26th April 2025)"
-	revision: "57"
+	date: "2025-04-27 7:29:45 GMT (Sunday 27th April 2025)"
+	revision: "58"
 
 class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
@@ -25,9 +25,7 @@ class EL_ZSTRING_ROUTINES_IMP inherit ANY
 
 	EL_STRING_32_BIT_COUNTABLE [ZSTRING]
 
-	EL_ZSTRING_CONSTANTS
-
-	EL_SHARED_ESCAPE_TABLE; EL_SHARED_ZSTRING_CODEC
+	EL_SHARED_ZSTRING_CODEC
 
 feature -- Factory
 
@@ -66,14 +64,6 @@ feature -- Basic operations
 			str.append_string_general (extra)
 		end
 
-	unescape_substitution_marks (target: ZSTRING)
-		-- replace "%S" substrings with '%S'
-		do
-			if target.has ('%%') then
-				target.unescape (Substitution_mark_unescaper)
-			end
-		end
-
 feature {NONE} -- Implementation
 
 	fill_intervals (intervals: EL_OCCURRENCE_INTERVALS; target: EL_READABLE_ZSTRING; pattern: READABLE_STRING_GENERAL)
@@ -84,18 +74,6 @@ feature {NONE} -- Implementation
 	to_z_code (character: CHARACTER_32): NATURAL_32
 		do
 			Result := Codec.as_z_code (character)
-		end
-
-feature {NONE} -- Constants
-
-	Split_string: EL_SPLIT_ZSTRING_ON_CHARACTER
-		once
-			create Result.make (Empty_string, '_')
-		end
-
-	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
-		once
-			create Result.make (Escape_table.Substitution)
 		end
 
 end

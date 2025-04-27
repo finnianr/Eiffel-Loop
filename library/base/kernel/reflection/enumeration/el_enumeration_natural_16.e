@@ -1,13 +1,13 @@
 note
-	description: "Implementation ${EL_ENUMERATION [NATURAL_16]}"
+	description: "Implementation of ${EL_ENUMERATION [NATURAL_16]}"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 17:28:20 GMT (Thursday 24th April 2025)"
-	revision: "11"
+	date: "2025-04-27 14:02:17 GMT (Sunday 27th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_ENUMERATION_NATURAL_16

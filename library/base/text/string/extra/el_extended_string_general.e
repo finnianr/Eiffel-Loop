@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 16:32:18 GMT (Friday 25th April 2025)"
-	revision: "17"
+	date: "2025-04-27 12:34:58 GMT (Sunday 27th April 2025)"
+	revision: "18"
 
 deferred class
 	EL_EXTENDED_STRING_GENERAL [CHAR -> COMPARABLE]
@@ -151,6 +151,25 @@ feature -- Element change
 			end
 		end
 
+	prune_set_members (set: EL_SET [CHAR])
+		local
+			i, j, i_upper: INTEGER; c_i: CHAR
+		do
+			i_upper := count - 1
+			if attached area as l_area then
+				from until i > i_upper loop
+					c_i := l_area [i]
+					if not set.has (c_i) then
+						l_area [j] := c_i
+						j := j + 1
+					end
+					i := i + 1
+				end
+			end
+			set_count (j)
+			update_shared
+		end
+
 	put_lower (i: INTEGER)
 		require
 			valid_index: valid_index (i)
@@ -243,6 +262,24 @@ feature -- Element change
 			update_shared
 		end
 
+	replace_set_members (set: EL_SET [CHAR]; a_new: CHAR)
+		-- Replace all characters that are member of `set' with the `a_new' character
+		local
+			i, i_upper: INTEGER; c_i: CHAR
+		do
+			if attached area as l_area then
+				i_upper := count - 1
+				from i := 0 until i > i_upper loop
+					c_i := l_area [i]
+					if set.has (c_i) then
+						l_area [i] := a_new
+					end
+					i := i + 1
+				end
+			end
+			update_shared
+		end
+
 	set_substring_lower (start_index, end_index: INTEGER)
 		do
 			set_substring_case (start_index, end_index, {EL_CASE}.Lower)
@@ -280,9 +317,6 @@ feature -- Element change
 					i := i + 1
 				end
 				set_count (j)
-				if l_count > 50 and then ((i - j) * 100.0 / l_count).rounded > 15 then
-					trim -- reallocate to new size
-				end
 				update_shared
 			end
 		ensure

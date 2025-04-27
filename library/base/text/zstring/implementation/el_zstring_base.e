@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 7:50:28 GMT (Saturday 26th April 2025)"
-	revision: "121"
+	date: "2025-04-27 7:38:11 GMT (Sunday 27th April 2025)"
+	revision: "122"
 
 deferred class
 	EL_ZSTRING_BASE
@@ -105,7 +105,7 @@ inherit
 			valid_indices_range as valid_substring_indices
 		end
 
-	EL_SHARED_IMMUTABLE_8_MANAGER
+	EL_SHARED_ESCAPE_TABLE; EL_SHARED_IMMUTABLE_8_MANAGER
 
 feature -- Access
 
@@ -527,16 +527,16 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Constants
 
-	Latin_1_codec: EL_ZCODEC
-		once
-			Result := Codec_factory.codec_by ({EL_ENCODING_TYPE}.Latin_1)
-		end
-
 	Once_adapted_argument: SPECIAL [ZSTRING]
 		once
 			create Result.make_filled (create {ZSTRING}.make_empty, 3)
 			Result [1] := create {ZSTRING}.make_empty
 			Result [2] := create {ZSTRING}.make_empty
+		end
+
+	Once_escape_table: EL_HASH_TABLE [NATURAL, NATURAL]
+		once
+			create Result.make (5)
 		end
 
 	Once_interval_list: EL_ARRAYED_INTERVAL_LIST
@@ -552,6 +552,11 @@ feature {NONE} -- Constants
 	Once_substring_indices: EL_ARRAYED_LIST [INTEGER]
 		do
 			create Result.make (5)
+		end
+
+	Substitution_mark_unescaper: EL_ZSTRING_UNESCAPER
+		once
+			create Result.make (Escape_table.Substitution)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:45:54 GMT (Saturday 26th April 2025)"
-	revision: "52"
+	date: "2025-04-27 7:22:47 GMT (Sunday 27th April 2025)"
+	revision: "53"
 
 class EL_STRING_8_ROUTINES_IMP inherit ANY
 
@@ -17,10 +17,6 @@ class EL_STRING_8_ROUTINES_IMP inherit ANY
 		end
 
 	EL_STRING_8_BIT_COUNTABLE [READABLE_STRING_8]
-
-	EL_SHARED_IMMUTABLE_8_MANAGER
-
-	EL_STRING_8_CONSTANTS
 
 feature -- Basic operations
 
@@ -85,26 +81,6 @@ feature -- Factory
 		-- lit of
 		do
 			create Result.make_split (str, '%N')
-		end
-
-feature -- Transform
-
-	replace_set_members (target: STRING_8; set: EL_SET [CHARACTER_8]; a_new: CHARACTER_8)
-		-- Replace all characters that are member of `set' with the `a_new' character
-		local
-			i, l_count: INTEGER; c_i: CHARACTER_8
-		do
-			l_count := target.count
-			if attached target.area as l_area then
-				from i := 0 until i = l_count loop
-					c_i := l_area [i]
-					if set.has (c_i) then
-						l_area [i] := a_new
-					end
-					i := i + 1
-				end
-			end
-			target.set_count (l_count) -- reset `internal_hash_code' to 0
 		end
 
 feature {NONE} -- Implementation

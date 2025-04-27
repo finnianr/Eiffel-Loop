@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:13:46 GMT (Monday 14th April 2025)"
-	revision: "49"
+	date: "2025-04-27 14:26:04 GMT (Sunday 27th April 2025)"
+	revision: "50"
 
 class
 	EL_FTP_PROTOCOL
@@ -381,7 +381,7 @@ feature {NONE} -- Implementation
 			end
 		end
 
-	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
+	send_absolute (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [INTEGER_16])
 		do
 			if a_path.is_absolute then
 				send_path (cmd, a_path, codes)

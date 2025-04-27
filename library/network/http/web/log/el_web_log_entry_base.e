@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:39:06 GMT (Saturday 5th April 2025)"
-	revision: "7"
+	date: "2025-04-27 7:19:07 GMT (Sunday 27th April 2025)"
+	revision: "8"
 
 deferred class
 	EL_WEB_LOG_ENTRY_BASE
@@ -36,6 +36,8 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_STRING_GENERAL_ROUTINES_I
 
 	EL_STRING_8_CONSTANTS
 
@@ -72,8 +74,7 @@ feature {NONE} -- Implementation
 
 	new_uri_extension (uri: STRING): STRING
 		local
-			dot_index, slash_index: INTEGER; sg: EL_STRING_GENERAL_ROUTINES
-			extension: STRING
+			dot_index, slash_index: INTEGER; extension: STRING
 		do
 			Result := Empty_string_8
 
@@ -81,7 +82,7 @@ feature {NONE} -- Implementation
 			slash_index := uri.last_index_of ('/', uri.count)
 			if dot_index > 0 and then dot_index > slash_index + 1 then
 				extension := uri.substring (dot_index + 1, uri.count)
-				if sg.super_8 (extension).is_alpha_numeric then
+				if super_8 (extension).is_alpha_numeric then
 					Result := extension
 				end
 			end
@@ -102,11 +103,10 @@ feature {NONE} -- Implementation
 		-- `Result.as_word_string' is "firefox linux rv x11 x86_64"
 		local
 			name: STRING; name_split: EL_SPLIT_ON_CHARACTER_8 [STRING]
-			s: EL_STRING_8_ROUTINES
 		do
 			if attached String_8_pool.borrowed_item as borrowed then
 				name := borrowed.copied_lower (a_name)
-				s.replace_set_members (name, Current, ' ') -- set defined by function `has_punctuation'
+				super_8 (name).replace_set_members (Current, ' ') -- set defined by function `has_punctuation'
 
 				Result := List_buffer
 				Result.wipe_out

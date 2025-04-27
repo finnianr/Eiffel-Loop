@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-05-13 13:12:47 GMT (Monday 13th May 2024)"
-	revision: "4"
+	date: "2025-04-27 14:26:14 GMT (Sunday 27th April 2025)"
+	revision: "5"
 
 class
 	EL_PROSITE_FTP_PROTOCOL
@@ -88,7 +88,7 @@ feature {NONE} -- Implementation
 	receive_entry_list_response (list_count: INTEGER)
 		-- "226 Closing data connection.%R%N"
 		local
-			code: NATURAL_16
+			code: INTEGER_16
 		do
 			if attached main_socket as socket then
 				socket.get_reply (last_reply_utf_8)

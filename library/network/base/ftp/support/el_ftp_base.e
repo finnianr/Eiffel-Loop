@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 8:13:22 GMT (Monday 14th April 2025)"
-	revision: "27"
+	date: "2025-04-27 14:24:56 GMT (Sunday 27th April 2025)"
+	revision: "28"
 
 deferred class
 	EL_FTP_BASE
@@ -63,7 +63,7 @@ feature -- Status query
 
 feature {NONE} -- Sending commands
 
-	send (cmd: IMMUTABLE_STRING_8; utf_8_path: detachable STRING; codes: ARRAY [NATURAL_16])
+	send (cmd: IMMUTABLE_STRING_8; utf_8_path: detachable STRING; codes: ARRAY [INTEGER_16])
 		require
 			valid_path: cmd [cmd.count] = '%S' implies attached utf_8_path
 		local
@@ -92,7 +92,7 @@ feature {NONE} -- Sending commands
 			end
 		end
 
-	send_command (parts: ARRAY [STRING]; valid_replies: ARRAY [NATURAL_16] error_type_code: INTEGER): BOOLEAN
+	send_command (parts: ARRAY [STRING]; valid_replies: ARRAY [INTEGER_16] error_type_code: INTEGER): BOOLEAN
 		do
 			if attached main_socket as socket then
 				socket.do_command (parts, last_reply_utf_8)
@@ -123,7 +123,7 @@ feature {NONE} -- Sending commands
 			)
 		end
 
-	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [NATURAL_16])
+	send_path (cmd: IMMUTABLE_STRING_8; a_path: EL_PATH; codes: ARRAY [INTEGER_16])
 		-- send command `cmd' with `path' argument and possible success `codes'
 		do
 			send (cmd, a_path.to_unix.to_utf_8, codes)
@@ -201,7 +201,7 @@ feature {NONE} -- Sending commands
 			)
 		end
 
-	try_send (utf_8_command: STRING; valid_replies: ARRAY [NATURAL_16]; done: BOOLEAN_REF)
+	try_send (utf_8_command: STRING; valid_replies: ARRAY [INTEGER_16]; done: BOOLEAN_REF)
 		do
 			reset_error
 			if send_command (<< utf_8_command >>, valid_replies, Wrong_command) then

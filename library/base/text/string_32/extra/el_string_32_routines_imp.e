@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-26 8:46:06 GMT (Saturday 26th April 2025)"
-	revision: "81"
+	date: "2025-04-27 7:23:13 GMT (Sunday 27th April 2025)"
+	revision: "82"
 
 class EL_STRING_32_ROUTINES_IMP inherit ANY
 
@@ -17,10 +17,6 @@ class EL_STRING_32_ROUTINES_IMP inherit ANY
 		end
 
 	EL_STRING_32_BIT_COUNTABLE [STRING_32]
-
-	EL_STRING_32_CONSTANTS
-
-	EL_SHARED_IMMUTABLE_32_MANAGER
 
 feature -- Basic operations
 

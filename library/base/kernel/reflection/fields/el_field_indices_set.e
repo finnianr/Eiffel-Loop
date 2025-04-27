@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 5:23:47 GMT (Thursday 24th April 2025)"
-	revision: "24"
+	date: "2025-04-27 14:13:37 GMT (Sunday 27th April 2025)"
+	revision: "25"
 
 class
 	EL_FIELD_INDICES_SET
@@ -61,7 +61,7 @@ feature {NONE} -- Initialization
 
 	make_for_abstract (a_object: ANY; abstract_type: INTEGER)
 		local
-			list: EL_ARRAYED_LIST [INTEGER]; i, l_count: INTEGER
+			list: EL_ARRAYED_LIST [INTEGER]; i: INTEGER
 		do
 			if attached Eiffel.reflected (a_object) as object then
 				create list.make (object.field_count)

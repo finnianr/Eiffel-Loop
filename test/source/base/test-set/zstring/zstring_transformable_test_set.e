@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-14 10:04:57 GMT (Monday 14th April 2025)"
-	revision: "15"
+	date: "2025-04-27 12:51:02 GMT (Sunday 27th April 2025)"
+	revision: "16"
 
 class
 	ZSTRING_TRANSFORMABLE_TEST_SET
@@ -30,10 +30,12 @@ feature {NONE} -- Initialization
 				["mirror",					  agent test_mirror],
 				["prune_all",				  agent test_prune_all],
 				["prune_leading",			  agent test_prune_leading],
+				["prune_set_members",	  agent test_prune_set_members],
 				["prune_trailing",		  agent test_prune_trailing],
 				["remove_head",			  agent test_remove_head],
 				["remove_tail",			  agent test_remove_tail],
 				["replace_character",	  agent test_replace_character],
+				["replace_set_members",	  agent test_replace_set_members],
 				["replace_substring",	  agent test_replace_substring],
 				["replace_substring_all", agent test_replace_substring_all],
 				["to_canonically_spaced", agent test_to_canonically_spaced],
@@ -121,6 +123,7 @@ feature -- Tests
 		end
 
 	test_mirror
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_mirror
 		note
 			testing:	"[
 				covers/{EL_TRANSFORMABLE_ZSTRING}.mirror,
@@ -137,24 +140,14 @@ feature -- Tests
 		end
 
 	test_prune_all
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_prune_all
 		local
-			test: STRING_TEST; uc: CHARACTER_32
+			test: STRING_TEST
 		do
-			create test.make_empty (Current)
-			across Text.character_set as set loop
-				uc := set.item
-				across Text.lines_32 as line loop
-					test.set (line.item)
-					test.zs.prune_all (uc); test.s_32.prune_all (uc)
-					assert ("prune_all OK", test.is_same)
-				end
-			end
-			across Text.words_32 as word loop
-				test.set (word.item)
-				from until test.s_32.is_empty loop
-					uc := test.s_32 [1]
-					test.s_32.prune_all (uc); test.zs.prune_all (uc)
-					assert ("prune_all OK", test.is_same)
+			across Text.lines_32 as line loop
+				create test.make (Current, line.item)
+				across Text.character_set as set loop
+					test.prune_all (set.item)
 				end
 			end
 		end
@@ -172,6 +165,17 @@ feature -- Tests
 			russian.prune_all_leading ('%N') -- tests `keep_tail (count)'
 
 			do_pruning_test ({STRING_TEST_BASE}.Prune_leading)
+		end
+
+	test_prune_set_members
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_prune_set_members
+		note
+			testing: "[
+				covers/{EL_ZSTRING}.prune_set_members,
+				covers/{EL_EXTENDED_STRING_GENERAL}.prune_set_members
+			]"
+		do
+			do_set_members_test ('p')
 		end
 
 	test_prune_trailing
@@ -240,6 +244,17 @@ feature -- Tests
 				test.zs.replace_character (uc_old, uc_new)
 				assert ("replace_character OK", test.is_same)
 			end
+		end
+
+	test_replace_set_members
+		-- ZSTRING_TRANSFORMABLE_TEST_SET.test_replace_set_members
+		note
+			testing: "[
+				covers/{EL_TRANSFORMABLE_ZSTRING}.replace_set_members,
+				covers/{EL_EXTENDED_STRING_GENERAL}.replace_set_members
+			]"
+		do
+			do_set_members_test ('r')
 		end
 
 	test_replace_substring
@@ -458,6 +473,42 @@ feature {NONE} -- Implementation
 					test.prune (type, c.item)
 
 					assert (test.prune_type_name (type) + " OK", test.is_same)
+				end
+			end
+		end
+
+	do_set_members_test (type: CHARACTER)
+		local
+			test: STRING_TEST; hash_set: EL_HASH_SET [CHARACTER_32]; set_8: EL_HASH_SET [CHARACTER_8]
+			word: STRING_32
+		do
+			across Text.lines_32 as line loop
+				create test.make (Current, line.item)
+				if attached line.item.split (' ') as word_list then
+					inspect line.cursor_index
+						when Line_quattro then
+							word := word_list [4] -- "´L´Estate`"
+						when Line_euro then
+							word := word_list [2]
+					else
+						word := word_list [1]
+					end
+				end
+				create hash_set.make_from (word, True)
+				create set_8.make (word.count)
+				across word as c loop
+					if attached c.item as uc and then uc.is_character_8 then
+						set_8.put (uc.to_character_8)
+					end
+				end
+
+				across Text.character_set as set loop
+					inspect type
+						when 'p' then
+							test.prune_set_members (hash_set, set_8)
+						when 'r' then
+							test.replace_set_members (hash_set, set_8)
+					end
 				end
 			end
 		end

@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 7:45:04 GMT (Friday 25th April 2025)"
-	revision: "3"
+	date: "2025-04-27 10:43:26 GMT (Sunday 27th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_SPARSE_ARRAY_TABLE [G, K -> HASHABLE]
@@ -70,6 +70,7 @@ feature {NONE} -- Initialization
 					end
 				end
 				deleted_marks := Empty_deleted_marks; indexes_map := Empty_indexes_map
+				has_default := a_table.has_default -- satisfy `has_key' "default_case" post-condition
 				create keys.make_empty (0)
 				content := array
 				capacity := a_table.count

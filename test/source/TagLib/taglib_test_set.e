@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 11:22:27 GMT (Tuesday 15th April 2025)"
-	revision: "56"
+	date: "2025-04-27 10:37:13 GMT (Sunday 27th April 2025)"
+	revision: "57"
 
 class
 	TAGLIB_TEST_SET
@@ -128,6 +128,7 @@ feature -- Tests
 		end
 
 	test_picture_edit
+		-- TAGLIB_TEST_SET.test_picture_edit
 		local
 			mp3: TL_MPEG_FILE; picture: TL_ID3_PICTURE
 		do
