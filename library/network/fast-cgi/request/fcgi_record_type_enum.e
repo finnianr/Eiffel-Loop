@@ -20,8 +20,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:29:27 GMT (Monday 28th April 2025)"
-	revision: "8"
+	date: "2025-04-28 17:27:13 GMT (Monday 28th April 2025)"
+	revision: "9"
 
 class
 	FCGI_RECORD_TYPE_ENUM
@@ -29,7 +29,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			new_table_text as Empty_string_8,
+			new_table_text as Empty_text,
 			foreign_naming as Snake_case_upper
 		redefine
 			initialize_fields

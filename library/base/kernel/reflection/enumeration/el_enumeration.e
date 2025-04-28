@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:10:17 GMT (Monday 28th April 2025)"
-	revision: "79"
+	date: "2025-04-28 17:24:43 GMT (Monday 28th April 2025)"
+	revision: "80"
 
 deferred class
 	EL_ENUMERATION [N -> HASHABLE]
@@ -320,10 +320,6 @@ feature {NONE} -- Deferred
 		end
 
 	new_interval_table: like default_interval_table
-		deferred
-		end
-
-	new_table_text: READABLE_STRING_GENERAL
 		deferred
 		end
 

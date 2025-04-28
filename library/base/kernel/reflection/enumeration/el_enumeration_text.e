@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:14:27 GMT (Monday 28th April 2025)"
-	revision: "3"
+	date: "2025-04-28 17:24:30 GMT (Monday 28th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_ENUMERATION_TEXT [N -> HASHABLE]
@@ -117,6 +117,10 @@ feature {NONE} -- Deferred
 		end
 
 	interval_table: EL_SPARSE_ARRAY_TABLE [INTEGER_64, N]
+		deferred
+		end
+
+	new_table_text: READABLE_STRING_GENERAL
 		deferred
 		end
 

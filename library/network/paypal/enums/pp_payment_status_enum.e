@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:30:34 GMT (Monday 28th April 2025)"
-	revision: "13"
+	date: "2025-04-28 17:28:43 GMT (Monday 28th April 2025)"
+	revision: "14"
 
 class
 	PP_PAYMENT_STATUS_ENUM
@@ -19,7 +19,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			new_table_text as Empty_string_8,
+			new_table_text as Empty_text,
 			foreign_naming as Snake_case_title
 		end
 

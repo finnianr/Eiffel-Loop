@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:31:05 GMT (Monday 28th April 2025)"
-	revision: "15"
+	date: "2025-04-28 17:31:00 GMT (Monday 28th April 2025)"
+	revision: "16"
 
 class
 	AIA_RESPONSE_ENUM
@@ -19,7 +19,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			new_table_text as Empty_string_8,
+			new_table_text as Empty_text,
 			foreign_naming as snake_case_upper
 		end
 

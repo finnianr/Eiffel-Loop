@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:32:09 GMT (Monday 28th April 2025)"
-	revision: "9"
+	date: "2025-04-28 17:27:29 GMT (Monday 28th April 2025)"
+	revision: "10"
 
 class
 	TL_STRING_ENCODING_ENUM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			new_table_text as Empty_string_8,
+			new_table_text as Empty_text,
 			foreign_naming as English
 		export
 			{NONE} all

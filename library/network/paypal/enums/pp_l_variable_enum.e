@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:29:11 GMT (Monday 28th April 2025)"
-	revision: "15"
+	date: "2025-04-28 17:29:10 GMT (Monday 28th April 2025)"
+	revision: "16"
 
 class
 	PP_L_VARIABLE_ENUM
@@ -15,7 +15,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			new_table_text as Empty_string_8,
+			new_table_text as Empty_text,
 			foreign_naming as Paypal_naming
 		redefine
 			make

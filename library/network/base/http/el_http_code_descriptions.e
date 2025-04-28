@@ -1,13 +1,20 @@
 note
-	description: "HTTP code descriptions"
+	description: "HTTP code descriptions for testing three kinds of enumeration class"
+	descendants: "[
+			EL_HTTP_CODE_DESCRIPTIONS*
+				${HTTP_STATUS_TABLE}
+				${HTTP_STATUS_ENUM}
+				${REFLECTIVE_CODE_TABLE_TEST_SET}
+				${EL_HTTP_STATUS_ENUM}
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 11:14:31 GMT (Friday 25th April 2025)"
-	revision: "3"
+	date: "2025-04-28 17:32:38 GMT (Monday 28th April 2025)"
+	revision: "4"
 
 deferred class
 	EL_HTTP_CODE_DESCRIPTIONS
