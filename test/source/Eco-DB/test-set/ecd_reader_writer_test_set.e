@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 9:55:36 GMT (Thursday 6th March 2025)"
-	revision: "34"
+	date: "2025-04-28 14:08:27 GMT (Monday 28th April 2025)"
+	revision: "35"
 
 class
 	ECD_READER_WRITER_TEST_SET
@@ -179,6 +179,7 @@ feature -- Tests
 		end
 
 	test_write_meta_data
+		-- ECD_READER_WRITER_TEST_SET.test_write_meta_data
 		note
 			testing: "covers/{EL_REFLECTIVELY_SETTABLE_STORABLE}.write_meta_data"
 		local

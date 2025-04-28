@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:00:05 GMT (Monday 28th April 2025)"
-	revision: "1"
+	date: "2025-04-28 14:30:31 GMT (Monday 28th April 2025)"
+	revision: "2"
 
 class
 	EL_CSV_STRING_8
@@ -18,7 +18,7 @@ inherit
 			extend as extend_character
 		export
 			{NONE} all
-			{ANY} wipe_out
+			{ANY} count, is_empty, wipe_out
 		end
 
 create

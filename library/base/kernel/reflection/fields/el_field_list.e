@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:07:41 GMT (Monday 28th April 2025)"
-	revision: "33"
+	date: "2025-04-28 14:34:59 GMT (Monday 28th April 2025)"
+	revision: "34"
 
 class
 	EL_FIELD_LIST
@@ -54,6 +54,8 @@ feature {NONE} -- Initialization
 		end
 
 	make (meta_data: EL_CLASS_META_DATA)
+		local
+			exported_csv_string: EL_CSV_STRING_8
 		do
 			if attached meta_data.field_info_table as info_table
 				and then attached meta_data.target as target
@@ -61,6 +63,7 @@ feature {NONE} -- Initialization
 			then
 				foreign_naming := target.foreign_naming
 				make_list (field_names.count)
+				create exported_csv_string.make (field_names.count * 20)
 				across field_names as list loop
 					if attached list.item as name then
 						if info_table.has_immutable_key (name)
@@ -70,10 +73,17 @@ feature {NONE} -- Initialization
 						then
 							extend (new_field)
 							if attached foreign_naming as naming then
-								new_field.set_export_name (naming.exported (new_field.name))
+								exported_csv_string.extend (naming.exported (new_field.name))
 								naming.inform (new_field.name)
 							end
 						end
+					end
+				end
+				if exported_csv_string.count > 0
+					and then attached exported_csv_string.to_immutable_list as immutable_list
+				then
+					across immutable_list as list loop
+						i_th (list.cursor_index).set_export_name (list.item)
 					end
 				end
 				set_order (target.new_field_sorter, info_table)
