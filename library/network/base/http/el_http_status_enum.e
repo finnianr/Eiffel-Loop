@@ -8,18 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 7:09:19 GMT (Friday 25th April 2025)"
-	revision: "27"
+	date: "2025-04-28 17:12:12 GMT (Monday 28th April 2025)"
+	revision: "28"
 
 class
 	EL_HTTP_STATUS_ENUM
 
 inherit
-	EL_ENUMERATION_INTEGER_16
+	EL_TABLE_ENUMERATION_INTEGER_16
 		rename
 			name_translater as English
 		redefine
-			initialize
+			initialize, values_in_text
 		end
 
 	EL_HTTP_CODE_DESCRIPTIONS
@@ -40,6 +40,12 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	redirection_codes: ARRAY [INTEGER_16]
+
+feature -- Status query
+
+	values_in_text: BOOLEAN = True
+		-- `True' if enumeration values are found in the `new_table_text' as the first
+		-- word of each description.
 
 feature -- 1xx codes
 

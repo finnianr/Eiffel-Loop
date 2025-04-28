@@ -1,26 +1,22 @@
 note
-	description: "${INTEGER_16} enumeration with descriptive text specifing codes"
+	description: "Enumeration based on a table of text"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:15:40 GMT (Monday 28th April 2025)"
-	revision: "7"
+	date: "2025-04-28 17:09:28 GMT (Monday 28th April 2025)"
+	revision: "1"
 
 deferred class
-	EL_ENUMERATION_INTEGER_16
+	EL_TEXT_TABLE_ENUMERATION [N -> HASHABLE]
 
 inherit
-	EL_ENUMERATION_TEXT [INTEGER_16]
-
-	REFLECTOR_CONSTANTS
-		export
-			{NONE} all
+	EL_ENUMERATION_TEXT [N]
+		rename
+			new_interval_table as new_interval_hash_table
 		end
-
-	EL_REFLECTION_HANDLER
 
 	EL_MODULE_EIFFEL
 
@@ -28,21 +24,8 @@ inherit
 
 feature {NONE} -- Initialization
 
-	make_with (table_text: READABLE_STRING_GENERAL)
-		local
-			field_list: EL_FIELD_LIST
+	initialize
 		do
-			set_utf_8_text (table_text)
-
-			create field_list.make_abstract (Current, Integer_16_type)
-			count := field_list.count
-			create interval_table.make (new_interval_table (field_list))
-			across interval_table.key_list as list loop
-				field_list [list.cursor_index].set_from_integer (Current, list.item.to_integer)
-			end
-			initialize
-		ensure
-			all_fields_assigned: valid_table_keys
 		end
 
 	make
@@ -50,42 +33,55 @@ feature {NONE} -- Initialization
 			make_with (new_table_text)
 		end
 
-	initialize
+	make_with (table_text: READABLE_STRING_GENERAL)
+		local
+			field_list: EL_FIELD_LIST
 		do
+			set_utf_8_text (table_text)
+
+			create field_list.make_abstract (Current, Eiffel.abstract_type_of_type (({N}).type_id))
+			count := field_list.count
+			interval_table := new_interval_table (new_interval_hash_table (field_list))
+			across interval_table.key_list as list loop
+				field_list [list.cursor_index].set_from_integer (Current, as_integer (list.item))
+			end
+			initialize
+		ensure
+			all_fields_assigned: valid_table_keys
 		end
 
 feature -- Access
 
-	as_list: EL_ARRAYED_LIST [INTEGER_16]
+	as_list: EL_ARRAYED_LIST [N]
 		do
 			Result := interval_table.key_list
 			Result.sort (True)
 		end
 
-	field_name (code: INTEGER_16): IMMUTABLE_STRING_8
+	field_name (a_value: N): IMMUTABLE_STRING_8
 		do
-			if interval_table.has_key (code) then
+			if interval_table.has_key (a_value) then
 				Result := field_name_for_interval (interval_table.found_item, utf_8_text)
 			else
 				create Result.make_empty
 			end
 		end
 
-	found_value: INTEGER_16
+	found_value: N
 		do
-			Result := internal_found_value.to_integer_16
+			Result := as_enum (internal_found_value)
 		end
 
-	name (code: INTEGER_16): STRING
+	name (a_value: N): STRING
 		do
 			if attached name_translater as translater then
-				Result := translater.exported (field_name (code))
+				Result := translater.exported (field_name (a_value))
 			else
-				Result := field_name (code)
+				Result := field_name (a_value)
 			end
 		end
 
-	value (a_name: like name): INTEGER_16
+	value (a_name: like name): N
 		-- enumuration value from exported `a_name'
 		-- Eg. all uppercase "AUD" for `EL_CURRENCY_ENUM' returns value for field `aud: NATURAL_8'
 		require
@@ -99,6 +95,10 @@ feature -- Access
 				end
 			end
 		end
+
+feature -- Measurement
+
+	count: INTEGER
 
 feature -- Status query
 
@@ -123,21 +123,7 @@ feature -- Status query
 			Result := internal_has_field_name (to_field_name (a_name), False)
 		end
 
-feature -- Measurement
-
-	count: INTEGER
-
 feature {NONE} -- Implementation
-
-	as_code (a_value: INTEGER): INTEGER_16
-		do
-			Result := a_value.to_integer_16
-		end
-
-	default_translater: detachable EL_NAME_TRANSLATER
-		-- rename `name_translater' to `default_translater' for `name' to return copy of `field_name'
-		do
-		end
 
 	field_name_for_interval (interval: INTEGER_64; text: like utf_8_text): IMMUTABLE_STRING_8
 		local
@@ -155,13 +141,18 @@ feature {NONE} -- Implementation
 			Result := text.shared_substring (start_index, end_index)
 		end
 
+	default_translater: detachable EL_NAME_TRANSLATER
+		-- rename `name_translater' to `default_translater' for `name' to return copy of `field_name'
+		do
+		end
+
 	internal_has_field_name (a_name: like field_name; set_found_value: BOOLEAN): BOOLEAN
 		do
 			if attached utf_8_text as text then
 				across interval_table as table until Result loop
 					if field_name_for_interval (table.item, text) ~ a_name then
 						if set_found_value then
-							internal_found_value := table.key.to_integer_32
+							internal_found_value := as_integer (table.key)
 						end
 						Result := True
 					end
@@ -179,20 +170,24 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred
 
-	new_table_text: READABLE_STRING_GENERAL
-		deferred
-		end
-
 	name_translater: detachable EL_NAME_TRANSLATER
 		-- implement in descendant to make `name' an exported version of `field_name'
 		deferred
 		end
 
+	new_interval_table (hash_table: HASH_TABLE [INTEGER_64, N]): EL_SPARSE_ARRAY_TABLE [INTEGER_64, N]
+		deferred
+		end
+
+	new_table_text: READABLE_STRING_GENERAL
+		deferred
+		end
+
 feature {NONE} -- Internal attributes
 
-	interval_table: EL_INTEGER_16_SPARSE_ARRAY [INTEGER_64]
-		-- map code to description substring compact interval
-
 	internal_found_value: INTEGER
+
+	interval_table: like new_interval_table
+		-- map code to description substring compact interval
 
 end

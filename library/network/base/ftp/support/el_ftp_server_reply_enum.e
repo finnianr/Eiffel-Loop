@@ -8,18 +8,18 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 14:23:55 GMT (Sunday 27th April 2025)"
-	revision: "10"
+	date: "2025-04-28 17:12:34 GMT (Monday 28th April 2025)"
+	revision: "11"
 
 class
 	EL_FTP_SERVER_REPLY_ENUM
 
 inherit
-	EL_ENUMERATION_INTEGER_16
+	EL_TABLE_ENUMERATION_INTEGER_16
 		rename
 			name_translater as English
 		redefine
-			initialize
+			initialize, values_in_text
 		end
 
 create
@@ -48,6 +48,12 @@ feature -- Valid server responses
 		-- generic response
 
 	valid_username: ARRAY [INTEGER_16]
+
+feature -- Status query
+
+	values_in_text: BOOLEAN = True
+		-- `True' if enumeration values are found in the `new_table_text' as the first
+		-- word of each description.
 
 feature -- Access
 

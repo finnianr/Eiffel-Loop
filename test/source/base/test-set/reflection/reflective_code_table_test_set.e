@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:15:40 GMT (Monday 28th April 2025)"
-	revision: "6"
+	date: "2025-04-28 17:20:26 GMT (Monday 28th April 2025)"
+	revision: "7"
 
 class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -30,58 +30,16 @@ feature {NONE} -- Initialization
 		-- initialize `test_table'
 		do
 			make_named (<<
-				["enumeration_integer_16",	 agent test_enumeration_integer_16],
-				["enumeration_natural_16",	 agent test_enumeration_natural_16],
-				["enumeration_natural_8",	 agent test_enumeration_natural_8],
-				["field_representation",	 agent test_field_representation],
-				["reflective_string_table", agent test_reflective_string_table]
+				["enumeration_natural_16",			agent test_enumeration_natural_16],
+				["enumeration_natural_8",			agent test_enumeration_natural_8],
+				["field_representation",			agent test_field_representation],
+				["reflective_string_table",		agent test_reflective_string_table],
+				["table_enumeration_integer_16",	agent test_table_enumeration_integer_16],
+				["table_enumeration_natural_8",	agent test_table_enumeration_natural_8]
 			>>)
 		end
 
 feature -- Tests
-
-	test_enumeration_integer_16
-		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_natural_16
-		note
-			testing: "[
-				covers/{EL_ENUMERATION_INTEGER_16}.as_list,
-				covers/{EL_ENUMERATION_INTEGER_16}.description,
-				covers/{EL_ENUMERATION_INTEGER_16}.field_name,
-				covers/{EL_ENUMERATION_INTEGER_16}.has_field_name,
-				covers/{EL_ENUMERATION_INTEGER_16}.make,
-				covers/{EL_ENUMERATION_INTEGER_16}.name
-			]"
-		local
-			code: INTEGER_16; i: INTEGER
-		do
-			if attached Http_status as s and then attached code_descriptions as manifest then
-				across << s.continue, s.accepted, s.found, s.bad_request, s.bad_gateway >> as list loop
-					code := list.item; i := list.cursor_index
-					if attached s.description (code) as description then
-						assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
-					end
-					assert_same_english_name (i, s.name (code))
-				end
-			end
-			if Http_status.valid_table_keys then
-				assert_same_string (Void, Http_status.description (Http_status.continue), "100 Client can continue.")
-			else
-				failed ("valid_description_keys")
-			end
-		-- `Http_status' using `field_by_value_array'
-			assert_same_string ("404 is not found", Http_status.field_name (404), "not_found")
-			assert_same_string ("404 is not found", Http_status.name (404), "Not found")
-			assert ("Not found = 404", Http_status.value ("Not found") = 404)
-			if Http_status.has_field_name ("not_found") then
-				assert ("is 404", Http_status.found_value = 404)
-			else
-				failed ("has_field_name")
-			end
-			if attached Http_status.as_list as list then
-				assert ("first is 100", list.first.to_integer_32 = 100)
-				assert ("last is 510", list.last.to_integer_32 = 510)
-			end
-		end
 
 	test_enumeration_natural_16
 		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_natural_16
@@ -180,6 +138,58 @@ feature -- Tests
 					assert ("tabs removed", not description.has ('%T'))
 				end
 			end
+		end
+
+	test_table_enumeration_integer_16
+		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_natural_16
+		note
+			testing: "[
+				covers/{EL_ENUMERATION_INTEGER_16}.as_list,
+				covers/{EL_ENUMERATION_INTEGER_16}.description,
+				covers/{EL_ENUMERATION_INTEGER_16}.field_name,
+				covers/{EL_ENUMERATION_INTEGER_16}.has_field_name,
+				covers/{EL_ENUMERATION_INTEGER_16}.make,
+				covers/{EL_ENUMERATION_INTEGER_16}.name
+			]"
+		local
+			code: INTEGER_16; i: INTEGER
+		do
+			if attached Http_status as s and then attached code_descriptions as manifest then
+				across << s.continue, s.accepted, s.found, s.bad_request, s.bad_gateway >> as list loop
+					code := list.item; i := list.cursor_index
+					if attached s.description (code) as description then
+						assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
+					end
+					assert_same_english_name (i, s.name (code))
+				end
+			end
+			if Http_status.valid_table_keys then
+				assert_same_string (Void, Http_status.description (Http_status.continue), "100 Client can continue.")
+			else
+				failed ("valid_description_keys")
+			end
+		-- `Http_status' using `field_by_value_array'
+			assert_same_string ("404 is not found", Http_status.field_name (404), "not_found")
+			assert_same_string ("404 is not found", Http_status.name (404), "Not found")
+			assert ("Not found = 404", Http_status.value ("Not found") = 404)
+			if Http_status.has_field_name ("not_found") then
+				assert ("is 404", Http_status.found_value = 404)
+			else
+				failed ("has_field_name")
+			end
+			if attached Http_status.as_list as list then
+				assert ("first is 100", list.first.to_integer_32 = 100)
+				assert ("last is 510", list.last.to_integer_32 = 510)
+			end
+		end
+
+	test_table_enumeration_natural_8
+		local
+			errors: EROS_ERRORS_ENUM; error_code: NATURAL_8
+		do
+			create errors.make
+			error_code := errors.wrong_number_of_arguments
+			assert_same_string (Void, errors.description (error_code), "Wrong number of arguments to routine")
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:32:23 GMT (Monday 28th April 2025)"
-	revision: "2"
+	date: "2025-04-28 17:14:27 GMT (Monday 28th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_ENUMERATION_TEXT [N -> HASHABLE]
@@ -22,11 +22,12 @@ inherit
 
 	EL_MODULE_CONVERT_STRING
 
-feature -- Access
-
-	as_code (value: INTEGER): N
-		deferred
+	REFLECTOR_CONSTANTS
+		export
+			{NONE} all
 		end
+
+feature -- Access
 
 	description (code: N): ZSTRING
 		local
@@ -39,6 +40,25 @@ feature -- Access
 			else
 				create Result.make_empty
 			end
+		end
+
+feature -- Status query
+
+	values_in_text: BOOLEAN
+		-- `True' if enumeration values are found in the `new_table_text' as the first
+		-- word of each description.
+		do
+			Result := False
+		end
+
+feature -- Conversion
+
+	as_enum (value: INTEGER): N
+		deferred
+		end
+
+	as_integer (value: N): INTEGER
+		deferred
 		end
 
 feature -- Contract Support
@@ -61,11 +81,13 @@ feature {NONE} -- Implementation
 						interval := table.found_interval
 						start_index := to_lower (interval)
 						space_index := utf_8_text.index_of (' ', start_index)
-						if space_index > 0 and then attached Convert_string.integer_32 as integer_32
+						if values_in_text and then space_index > 0 and then attached Convert_string.integer_32 as integer_32
 							and then integer_32.is_substring_convertible (utf_8_text, start_index + 1, space_index - 1)
 						then
 							value := integer_32.substring_as_type (utf_8_text, start_index + 1, space_index - 1)
-							Result.put (interval, as_code (value))
+							Result.put (interval, as_enum (value))
+						else
+							Result.put (interval, as_enum (list.cursor_index))
 						end
 					end
 				end

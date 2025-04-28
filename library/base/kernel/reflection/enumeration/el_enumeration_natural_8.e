@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:34:52 GMT (Monday 28th April 2025)"
-	revision: "12"
+	date: "2025-04-28 16:56:48 GMT (Monday 28th April 2025)"
+	revision: "13"
 
 deferred class
 	EL_ENUMERATION_NATURAL_8
@@ -29,7 +29,7 @@ feature -- Basic operations
 
 feature {NONE} -- Implementation
 
-	as_code (a_value: INTEGER): NATURAL_8
+	as_enum (a_value: INTEGER): NATURAL_8
 		do
 			Result := a_value.to_natural_8
 		end

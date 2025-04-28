@@ -6,16 +6,16 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:33:39 GMT (Monday 28th April 2025)"
-	revision: "12"
+	date: "2025-04-28 17:06:56 GMT (Monday 28th April 2025)"
+	revision: "13"
 
 class
 	EROS_ERRORS_ENUM
 
 inherit
-	EL_ENUMERATION_NATURAL_8
+	EL_TABLE_ENUMERATION_NATURAL_8
 		rename
-			foreign_naming as eiffel_naming
+			name_translater as default_translater
 		end
 
 create

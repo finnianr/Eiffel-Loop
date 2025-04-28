@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:33:07 GMT (Monday 28th April 2025)"
-	revision: "14"
+	date: "2025-04-28 16:56:48 GMT (Monday 28th April 2025)"
+	revision: "15"
 
 class
 	EL_ENUMERATION_REPRESENTATION [N -> HASHABLE]
@@ -61,7 +61,7 @@ feature -- Basic operations
 	to_value (a_name: READABLE_STRING_GENERAL): N
 		do
 			if a_name.is_integer_32 then
-				Result := enumeration.as_code (a_name.to_integer_32)
+				Result := enumeration.as_enum (a_name.to_integer_32)
 
 			else
 				Result := enumeration.value (a_name)

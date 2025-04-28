@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:40:21 GMT (Monday 28th April 2025)"
-	revision: "78"
+	date: "2025-04-28 17:10:17 GMT (Monday 28th April 2025)"
+	revision: "79"
 
 deferred class
 	EL_ENUMERATION [N -> HASHABLE]
@@ -51,15 +51,10 @@ inherit
 	EL_ENUMERATION_TEXT [N]
 		rename
 			new_interval_table as new_interval_hash_table
-		redefine
-			valid_table_keys
-		end
-
-	REFLECTOR_CONSTANTS
-		export
-			{NONE} all
 		undefine
 			is_equal
+		redefine
+			valid_table_keys
 		end
 
 	EL_BIT_COUNTABLE
@@ -180,10 +175,6 @@ feature -- Access
 
 feature -- Conversion
 
-	as_integer (a_value: N): INTEGER
-		deferred
-		end
-
 	to_representation: EL_ENUMERATION_REPRESENTATION [N]
 		-- to reflected expanded field of type `N' representing a `value' of `Current'
 		do
@@ -198,13 +189,6 @@ feature -- Status query
 			if attached field_by_value_table as name_table then
 				Result := name_table.count = count
 			end
-		end
-
-	values_in_text: BOOLEAN
-		-- `True' if enumeration values are found in the `new_table_text' as the first
-		-- word of each description.
-		do
-			Result := False
 		end
 
 	found_field: BOOLEAN

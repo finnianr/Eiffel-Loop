@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-21 8:06:31 GMT (Wednesday 21st August 2024)"
-	revision: "4"
+	date: "2025-04-28 17:19:25 GMT (Monday 28th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_INTERVAL_CONSTANTS
@@ -18,7 +18,7 @@ deferred class
 inherit
 	EL_ANY_SHARED
 
-feature -- Constants
+feature {NONE} -- Constants
 
 	A_overlaps_B_left: INTEGER = 0x11
 

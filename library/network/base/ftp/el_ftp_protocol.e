@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 14:26:04 GMT (Sunday 27th April 2025)"
-	revision: "50"
+	date: "2025-04-28 16:41:13 GMT (Monday 28th April 2025)"
+	revision: "51"
 
 class
 	EL_FTP_PROTOCOL
@@ -365,7 +365,7 @@ feature {NONE} -- Implementation
 						from list.start until list.after loop
 							inspect list.index
 								when 1 then
-									if split_list.natural_16_item /= Reply.closing_data_connection then
+									if split_list.integer_16_item /= Reply.closing_data_connection then
 										error_code := Transmission_error
 									end
 								when 2 then
