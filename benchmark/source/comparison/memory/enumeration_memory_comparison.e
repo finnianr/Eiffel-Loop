@@ -3,11 +3,11 @@ note
 		Compare three enumeration implementations conforming to ${EL_HTTP_CODE_DESCRIPTIONS}
 	]"
 	notes: "[
-		Finalized results (25th April 2025):
+		Finalized results (28th April 2025):
 		
-			HTTP_STATUS_ENUM    : 18048.0 bytes (100%)
-			HTTP_STATUS_TABLE   : 16848.0 bytes (-6.6%)
-			EL_HTTP_STATUS_ENUM :  5376.0 bytes (-70.2%)		
+			HTTP_STATUS_ENUM    : 21312.0 bytes (100%)
+			HTTP_STATUS_TABLE   : 16848.0 bytes (-20.9%)
+			EL_HTTP_STATUS_ENUM :  5376.0 bytes (-74.8%)
 	]"
 
 	author: "Finnian Reilly"
@@ -15,8 +15,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 13:12:27 GMT (Friday 25th April 2025)"
-	revision: "1"
+	date: "2025-04-28 14:45:54 GMT (Monday 28th April 2025)"
+	revision: "2"
 
 class
 	ENUMERATION_MEMORY_COMPARISON
