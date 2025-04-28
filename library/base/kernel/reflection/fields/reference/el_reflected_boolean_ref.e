@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-26 9:04:58 GMT (Monday 26th August 2024)"
-	revision: "18"
+	date: "2025-04-28 10:22:12 GMT (Monday 28th April 2025)"
+	revision: "19"
 
 class
 	EL_REFLECTED_BOOLEAN_REF
@@ -24,41 +24,41 @@ create
 
 feature -- Basic operations
 
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_to_string (object: ANY; str: ZSTRING)
 		do
-			if attached value (a_object) as v then
+			if attached value (object) as v then
 				str.append_boolean (v.item)
 			end
 		end
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			if attached value (a_object) as v then
+			if attached value (object) as v then
 				v.set_item (False)
 			end
 		end
 
-	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER_32)
+	set_from_integer (object: ANY; a_value: INTEGER_32)
 			-- Internal attributes
 		do
-			value (a_object).set_item (a_value.to_boolean)
+			value (object).set_item (a_value.to_boolean)
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
+	set_from_readable (object: ANY; a_value: EL_READABLE)
 		do
-			value (a_object).set_item (a_value.read_boolean)
+			value (object).set_item (a_value.read_boolean)
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; string: READABLE_STRING_GENERAL)
 		do
-			if attached value (a_object) as v and then string.is_boolean then
+			if attached value (object) as v and then string.is_boolean then
 				v.set_item (string.to_boolean)
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		do
-			writeable.write_boolean (value (a_object).item)
+			writeable.write_boolean (value (object).item)
 		end
 
 end

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "4"
+	date: "2025-04-28 10:23:14 GMT (Monday 28th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_REFLECTED_TEMPORAL [G -> ABSOLUTE]
@@ -25,9 +25,9 @@ feature -- Access
 			Result := {ABSOLUTE}
 		end
 
-	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+	to_string (object: ANY): READABLE_STRING_GENERAL
 		do
-			if attached value (a_object) as date_time then
+			if attached value (object) as date_time then
 				Result := date_time.out
 			else
 				create {STRING_8} Result.make_empty
@@ -36,9 +36,9 @@ feature -- Access
 
 feature -- Basic operations
 
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_to_string (object: ANY; str: ZSTRING)
 		do
-			if attached value (a_object) as date_time then
+			if attached value (object) as date_time then
 				if attached {EL_TIME_DATE_I} date_time as el_date_time then
 					el_date_time.default_append_to (str)
 				else
@@ -47,9 +47,9 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_readable (object: ANY; readable: EL_READABLE)
 		do
-			set_from_string (a_object, readable.read_string_8)
+			set_from_string (object, readable.read_string_8)
 		end
 
 feature {NONE} -- Implementation

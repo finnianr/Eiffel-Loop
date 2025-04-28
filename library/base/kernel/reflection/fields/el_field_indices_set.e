@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 14:13:37 GMT (Sunday 27th April 2025)"
-	revision: "25"
+	date: "2025-04-28 10:59:48 GMT (Monday 28th April 2025)"
+	revision: "26"
 
 class
 	EL_FIELD_INDICES_SET
@@ -133,5 +133,42 @@ feature -- Element change
 			not_full: not full
 		do
 			area.extend (index)
+		end
+
+feature -- Factory
+
+	new_name_list (reflected_object: EL_REFLECTED_REFERENCE_OBJECT): EL_SPLIT_IMMUTABLE_STRING_8_LIST
+		-- list of IMMUTABLE_STRING_8 field names for `object' with single shared character area
+		require
+			valid_field_indices: valid_indices (reflected_object)
+		local
+			i, i_upper, index: INTEGER
+		do
+			if attached Once_name_buffer as csv_names then
+				csv_names.wipe_out
+				i_upper := count - 1
+				from until i > i_upper loop
+					csv_names.extend (reflected_object.field_name (item (i)))
+					i := i + 1
+				end
+				Result := csv_names.to_immutable_list
+			else
+				create Result.make_empty
+			end
+		end
+
+feature -- Contract Support
+
+	valid_indices (reflected_object: EL_REFLECTED_REFERENCE_OBJECT): BOOLEAN
+		-- `True' if all indices in set are valid for `reflected_object'
+		do
+			Result := across area as index all index.item <= reflected_object.field_count end
+		end
+
+feature {NONE} -- Constants
+
+	Once_name_buffer: EL_CSV_STRING_8
+		once
+			create Result.make_empty
 		end
 end

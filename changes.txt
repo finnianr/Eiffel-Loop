@@ -844,3 +844,6 @@ Moved many routines from EL_READABLE_STRING_X_ROUTINES to EL_EXTENDED_READABLE_S
 Wed 16th Apr 2025, 19:18:25
 Include character type in EL_ITERABLE_SPLIT
 
+Sun 27th Apr 2025, 16:26:53
+Fully tested EL_TRANSFORMABLE_ZSTRING.replace_set_members and prune_set_members
+

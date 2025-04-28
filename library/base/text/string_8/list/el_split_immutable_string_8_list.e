@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 16:14:34 GMT (Sunday 20th April 2025)"
-	revision: "20"
+	date: "2025-04-28 7:09:37 GMT (Monday 28th April 2025)"
+	revision: "21"
 
 class
 	EL_SPLIT_IMMUTABLE_STRING_8_LIST
@@ -31,9 +31,9 @@ inherit
 	EL_SHARED_IMMUTABLE_8_MANAGER
 
 create
+	make, make_empty,
 	make_by_string, make_adjusted, make_adjusted_by_string,
-	make_shared_by_string, make_shared_adjusted, make_shared_adjusted_by_string,
-	make_empty, make
+	make_shared, make_shared_adjusted, make_shared_adjusted_by_string, make_shared_by_string
 
 feature -- Access
 

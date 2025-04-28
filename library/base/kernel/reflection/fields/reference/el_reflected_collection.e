@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-11-06 10:51:00 GMT (Wednesday 6th November 2024)"
-	revision: "41"
+	date: "2025-04-28 10:24:05 GMT (Monday 28th April 2025)"
+	revision: "42"
 
 class
 	EL_REFLECTED_COLLECTION [G]
@@ -85,11 +85,11 @@ feature -- Access
 
 feature -- Conversion
 
-	to_string (a_object: EL_REFLECTIVE): ZSTRING
+	to_string (object: ANY): ZSTRING
 		local
 			list: EL_ZSTRING_LIST
 		do
-			create list.make_from_general (to_string_list (a_object))
+			create list.make_from_general (to_string_list (object))
 			Result := list.comma_separated
 		end
 
@@ -100,9 +100,9 @@ feature -- Status query
 			Result := Eiffel.is_type_in_set (item_type_id, Class_id.Character_data_types)
 		end
 
-	is_extendible (a_object: EL_REFLECTIVE): BOOLEAN
+	is_extendible (object: ANY): BOOLEAN
 		do
-			Result := attached collection (a_object) and then attached reader_writer
+			Result := attached collection (object) and then attached reader_writer
 		end
 
 	is_reflective_item: BOOLEAN
@@ -112,11 +112,11 @@ feature -- Status query
 
 feature -- Basic operations
 
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_to_string (object: ANY; str: ZSTRING)
 		local
 			i: INTEGER
 		do
-			if attached {ITERABLE [G]} collection (a_object) as reflective_list then
+			if attached {ITERABLE [G]} collection (object) as reflective_list then
 				across reflective_list as list loop
 					i := i + 1
 					if i > 1 then
@@ -129,13 +129,13 @@ feature -- Basic operations
 			end
 		end
 
-	extend_with_new (a_object: EL_REFLECTIVE)
+	extend_with_new (object: ANY)
 		local
 			new_item: G
 		do
-			if attached collection (a_object) as container then
+			if attached collection (object) as container then
 				if attached new_item_function as function then
-					function.set_target (a_object)
+					function.set_target (object)
 					function.apply
 					new_item  := function.last_result
 
@@ -146,23 +146,23 @@ feature -- Basic operations
 			end
 		end
 
-	extend_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	extend_from_readable (object: ANY; readable: EL_READABLE)
 		do
 			if attached reader_writer as reader then
-				collection (a_object).extend (reader.read_item (readable))
+				collection (object).extend (reader.read_item (readable))
 
 			elseif attached {G} Convert_string.to_type_of_type (readable.read_string, item_type_id) as new then
-				collection (a_object).extend (new)
+				collection (object).extend (new)
 			end
 		end
 
-	print_items (a_object: EL_REFLECTIVE; a_lio: EL_LOGGABLE)
+	print_items (object: ANY; a_lio: EL_LOGGABLE)
 		require
 			reflective_item: is_reflective_item
 		local
 			i: INTEGER
 		do
-			if attached {ITERABLE [EL_REFLECTIVE]} collection (a_object) as reflective_list then
+			if attached {ITERABLE [EL_REFLECTIVE]} collection (object) as reflective_list then
 				across reflective_list as list loop
 					i := i + 1
 					a_lio.put_labeled_substitution (name, "[%S]", [i])
@@ -175,12 +175,12 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		local
 			item_count, i: INTEGER
 		do
 			if attached reader_writer as reader
-				and then attached {CHAIN [G]} collection (a_object) as item_list
+				and then attached {CHAIN [G]} collection (object) as item_list
 			then
 				item_count := memory.read_integer_32
 				if attached {ARRAYED_LIST [G]} item_list as array then
@@ -193,11 +193,11 @@ feature -- Basic operations
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; csv_string: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; csv_string: READABLE_STRING_GENERAL)
 		-- if collection conforms to type `CHAIN [G]' when {G} is character data type
 		-- then fill with data from comma separated `csv_string' using left adjusted values
 		do
-			if attached {CHAIN [ANY]} collection (a_object) as chain then
+			if attached {CHAIN [ANY]} collection (object) as chain then
 				if Convert_string.is_convertible_list (item_type_id, csv_string, ',', True) then
 					chain.wipe_out
 					Convert_string.append_to_chain (item_type_id, chain, csv_string, True)
@@ -209,10 +209,10 @@ feature -- Basic operations
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
+	write (object: ANY; writable: EL_WRITABLE)
 		do
 			if attached reader_writer as writer
-				and then attached {FINITE [G]} collection (a_object) as finite
+				and then attached {FINITE [G]} collection (object) as finite
 				and then attached finite.linear_representation as item_list
 			then
 				writable.write_integer_32 (finite.count)
@@ -222,11 +222,11 @@ feature -- Basic operations
 
 feature -- Conversion
 
-	to_string_list (a_object: EL_REFLECTIVE): EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
+	to_string_list (object: ANY): EL_ARRAYED_LIST [READABLE_STRING_GENERAL]
 		local
 			intermediate: EL_ARRAYED_RESULT_LIST [G, READABLE_STRING_GENERAL]
 		do
-			if attached collection (a_object) as container then
+			if attached collection (object) as container then
 				create intermediate.make (container, agent to_item_string)
 				create Result.make_from_special (intermediate.area)
 			else

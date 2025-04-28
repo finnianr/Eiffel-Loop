@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 10:31:05 GMT (Friday 25th April 2025)"
-	revision: "4"
+	date: "2025-04-28 13:06:53 GMT (Monday 28th April 2025)"
+	revision: "5"
 
 class
 	HTTP_STATUS_ENUM
@@ -19,9 +19,10 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
+			new_table_text as code_descriptions,
 			foreign_naming as English
 		redefine
-			codes_in_description, initialize_fields, description_table
+			values_in_text, initialize_fields
 		end
 
 	EL_HTTP_CODE_DESCRIPTIONS
@@ -43,7 +44,7 @@ feature -- Access
 
 feature -- Status query
 
-	Codes_in_description: BOOLEAN = True
+	values_in_text: BOOLEAN = True
 		-- `True' if enumeration values are found in the `description_table' as the first
 		-- word of each description.
 
@@ -225,11 +226,6 @@ feature -- 5xx codes
 		-- Not Extended
 
 feature {NONE} -- Constants
-
-	Description_table: EL_IMMUTABLE_UTF_8_TABLE
-		once
-			Result := code_descriptions
-		end
 
 	English: EL_ENGLISH_NAME_TRANSLATER
 		once

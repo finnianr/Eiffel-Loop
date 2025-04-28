@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-22 11:30:09 GMT (Sunday 22nd September 2024)"
-	revision: "34"
+	date: "2025-04-28 10:22:23 GMT (Monday 28th April 2025)"
+	revision: "35"
 
 class
 	EL_REFLECTED_HASHABLE_REFERENCE [H -> HASHABLE]
@@ -31,19 +31,19 @@ feature -- Status query
 
 feature -- Basic operations
 
-	set (a_object: EL_REFLECTIVE; a_value: H)
+	set (object: ANY; a_value: H)
 		do
 			if is_value_cached and then attached hash_set as l_set then
 				l_set.put_copy (a_value)
-				Precursor (a_object, l_set.found_item)
+				Precursor (object, l_set.found_item)
 			else
-				Precursor (a_object, a_value)
+				Precursor (object, a_value)
 			end
 		end
 
-	set_initial (a_object: EL_REFLECTIVE; a_value: H)
+	set_initial (object: ANY; a_value: H)
 		do
-			Precursor (a_object, a_value)
+			Precursor (object, a_value)
 		end
 
 feature -- Element change

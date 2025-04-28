@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:21:57 GMT (Monday 31st March 2025)"
-	revision: "16"
+	date: "2025-04-28 10:22:47 GMT (Monday 28th April 2025)"
+	revision: "17"
 
 class
 	EL_REFLECTED_STRING_8
@@ -23,63 +23,63 @@ create
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			value (a_object).wipe_out
+			value (object).wipe_out
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as str then
+			if attached value (object) as str then
 				memory.read_into_string_8 (str)
 			end
 		end
 
-	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
+	set_from_node (object: ANY; node: EL_STRING_NODE)
 		do
 			if is_value_cached then
-				set (a_object, node.as_string_8 (False))
+				set (object, node.as_string_8 (False))
 
-			elseif attached value (a_object) as str_8 then
+			elseif attached value (object) as str_8 then
 				node.set_8 (str_8)
 			else
-				set (a_object, node.as_string_8 (True))
+				set (object, node.as_string_8 (True))
 			end
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_readable (object: ANY; readable: EL_READABLE)
 		do
-			set (a_object, readable.read_string_8)
+			set (object, readable.read_string_8)
 		end
 
-	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
+	set_from_utf_8 (object: ANY; utf_8: READABLE_STRING_8)
 		local
 			conv: EL_UTF_8_CONVERTER; count: INTEGER; str: STRING_8
 		do
 			count := conv.unicode_count (utf_8)
 			if count = utf_8.count then
 			-- ASCII characters
-				set (a_object, utf_8)
+				set (object, utf_8)
 			else
-				if attached value (a_object) as v then
+				if attached value (object) as v then
 					str := v
 					str.grow (count)
 				else
 					create str.make (count)
-					set (a_object, str)
+					set (object, str)
 				end
 				conv.string_8_into_string_general (str, str)
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		do
-			writeable.write_string_8 (value (a_object))
+			writeable.write_string_8 (value (object))
 		end
 
-	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	write_to_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			memory.write_string_8 (value (a_object))
+			memory.write_string_8 (value (object))
 		end
 
 feature {NONE} -- Implementation

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 14:41:08 GMT (Wednesday 28th August 2024)"
-	revision: "11"
+	date: "2025-04-28 11:33:39 GMT (Monday 28th April 2025)"
+	revision: "12"
 
 class
 	EROS_ERRORS_ENUM
@@ -16,8 +16,6 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			foreign_naming as eiffel_naming
-		redefine
-			Description_table
 		end
 
 create
@@ -27,9 +25,9 @@ feature -- Access
 
 	argument_type_mismatch: NATURAL_8
 
-	invalid_type: NATURAL_8
-
 	invalid_result: NATURAL_8
+
+	invalid_type: NATURAL_8
 
 	once_function_not_found: NATURAL_8
 
@@ -39,10 +37,10 @@ feature -- Access
 
 	wrong_number_of_arguments: NATURAL_8
 
-feature {NONE} -- Constants
+feature {NONE} -- Implementation
 
-	Description_table: EL_IMMUTABLE_UTF_8_TABLE
-		once
+	new_table_text: STRING
+		do
 			Result := "[
 				argument_type_mismatch:
 					Argument type in processing instruction call and routine tuple do not match

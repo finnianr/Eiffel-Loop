@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "23"
+	date: "2025-04-28 10:23:20 GMT (Monday 28th April 2025)"
+	revision: "24"
 
 class
 	EL_REFLECTED_DATE
@@ -23,39 +23,39 @@ create
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			if attached value (a_object) as date then
+			if attached value (object) as date then
 				date.copy (date.origin)
 			end
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as date then
+			if attached value (object) as date then
 				date.make_by_ordered_compact_date (memory.read_integer_32)
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; string: READABLE_STRING_GENERAL)
 		do
-			if attached value (a_object) as date then
+			if attached value (object) as date then
 				date.make_from_string_default (Buffer_8.copied_general (string))
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
+	write (object: ANY; writable: EL_WRITABLE)
 		do
-			if attached value (a_object) as date then
+			if attached value (object) as date then
 				writable.write_integer_32 (date.ordered_compact_date)
 			end
 		end
 
 feature -- Contract Support
 
-	valid_format (a_object: EL_REFLECTIVE; string: STRING): BOOLEAN
+	valid_format (object: ANY; string: STRING): BOOLEAN
 		do
-			if attached value (a_object) as date then
+			if attached value (object) as date then
 				Result := date.date_valid (string, date.default_format_string)
 			end
 		end

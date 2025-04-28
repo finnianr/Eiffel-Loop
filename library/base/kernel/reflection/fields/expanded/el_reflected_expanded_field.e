@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 11:40:31 GMT (Sunday 20th April 2025)"
-	revision: "35"
+	date: "2025-04-28 10:18:24 GMT (Monday 28th April 2025)"
+	revision: "36"
 
 deferred class
 	EL_REFLECTED_EXPANDED_FIELD [G]
@@ -30,28 +30,28 @@ inherit
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			set_from_integer (a_object, 0)
+			set_from_integer (object, 0)
 		end
 
 feature -- Access
 
-	address (a_object: EL_REFLECTIVE): POINTER
+	address (object: ANY): POINTER
 		local
 			offset: INTEGER
 		do
 			offset := {ISE_RUNTIME}.field_offset_of_type (index, object_type)
-			Result := {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0) + offset
+			Result := {ISE_RUNTIME}.raw_reference_field_at_offset ($object, 0) + offset
 		end
 
-	value (a_object: EL_REFLECTIVE): G
+	value (object: ANY): G
 		deferred
 		end
 
 feature -- Conversion
 
-	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+	to_natural_64 (object: ANY): NATURAL_64
 		deferred
 		end
 
@@ -71,18 +71,18 @@ feature -- Status query
 
 feature -- Comparison
 
-	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
+	are_equal (a_current, other: ANY): BOOLEAN
 		do
 			Result := value (a_current) = value (other)
 		end
 
 feature -- Basic operations
 
-	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
+	set_from_natural_64 (object: ANY; a_value: NATURAL_64)
 		deferred
 		end
 
-	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
+	set_from_utf_8 (object: ANY; utf_8: READABLE_STRING_8)
 		local
 			index_lower: INTEGER
 		do
@@ -92,10 +92,10 @@ feature -- Basic operations
 						and then attached Character_area_8.get_lower (utf_8, $index_lower) as area
 					then
 						sequence.fill (area, index_lower)
-						set_from_natural_64 (a_object, sequence.to_unicode)
+						set_from_natural_64 (object, sequence.to_unicode)
 					end
 			else
-				set_from_string (a_object, utf_8)
+				set_from_string (object, utf_8)
 			end
 		end
 

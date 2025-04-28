@@ -17,8 +17,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 8:21:12 GMT (Tuesday 22nd April 2025)"
-	revision: "59"
+	date: "2025-04-28 13:36:23 GMT (Monday 28th April 2025)"
+	revision: "60"
 
 class
 	CONTAINER_STRUCTURE_TEST_SET
@@ -59,6 +59,7 @@ feature {NONE} -- Initialization
 feature -- WIDGET Tests
 
 	test_arrayed_result_list
+		-- CONTAINER_STRUCTURE_TEST_SET.test_arrayed_result_list
 		note
 			testing: "[
 				covers/{EL_CONTAINER_STRUCTURE}.to_special,

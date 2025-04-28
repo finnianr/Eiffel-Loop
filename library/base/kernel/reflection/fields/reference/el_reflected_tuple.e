@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-17 15:14:28 GMT (Thursday 17th April 2025)"
-	revision: "45"
+	date: "2025-04-28 10:23:57 GMT (Monday 28th April 2025)"
+	revision: "46"
 
 class
 	EL_REFLECTED_TUPLE
@@ -70,15 +70,15 @@ feature -- Status query
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			if attached value (a_object) as tuple then
+			if attached value (object) as tuple then
 				Tuple_.reset (tuple)
 				if tuple.count /= Tuple_.last_reset_count then
-					initialize (a_object)
+					initialize (object)
 				end
 			else
-				initialize (a_object)
+				initialize (object)
 			end
 		end
 
@@ -89,25 +89,25 @@ feature -- Basic operations
 			field_name_list := name_list
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			Tuple_.read (value (a_object), memory)
+			Tuple_.read (value (object), memory)
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; reader: EL_READABLE)
+	set_from_readable (object: ANY; reader: EL_READABLE)
 		do
 			if member_types.is_latin_1_representable then
-				set_from_string (a_object, reader.read_string_8)
+				set_from_string (object, reader.read_string_8)
 			else
-				set_from_string (a_object, reader.read_string)
+				set_from_string (object, reader.read_string)
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; value_list: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; value_list: READABLE_STRING_GENERAL)
 		require else
 			valid_comma_count: default_string_separator implies (value_list.occurrences (',') + 1) = member_types.count
 		do
-			if attached value (a_object) as tuple then
+			if attached value (object) as tuple then
 				if attached new_split_list as new_list and then attached new_list (value_list) as list then
 					Tuple_.fill_from_list (tuple, list)
 
@@ -117,7 +117,7 @@ feature -- Basic operations
 				end
 			end
 		ensure then
-			set: default_string_separator implies lists_match (value_list, to_string (a_object))
+			set: default_string_separator implies lists_match (value_list, to_string (object))
 		end
 
 	set_split_list_function (function: like new_split_list)
@@ -126,9 +126,9 @@ feature -- Basic operations
 			new_split_list := function
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		do
-			if attached value (a_object) as tuple then
+			if attached value (object) as tuple then
 				writeable.write_character_8 ('[')
 				Tuple_.write_with_comma (tuple, writeable, True)
 				writeable.write_character_8 (']')
@@ -145,18 +145,18 @@ feature -- Basic operations
 			end
 		end
 
-	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	write_to_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as tuple then
+			if attached value (object) as tuple then
 				Tuple_.write (tuple, memory, Void)
 			end
 		end
 
 feature -- Conversion
 
-	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+	to_string (object: ANY): READABLE_STRING_GENERAL
 		do
-			if attached value (a_object) as tuple and then attached String_pool.borrowed_item as borrowed then
+			if attached value (object) as tuple and then attached String_pool.borrowed_item as borrowed then
 				if attached borrowed.empty as str then
 					str.append_character_8 ('[')
 					Tuple_.write_with_comma (tuple, str, True)

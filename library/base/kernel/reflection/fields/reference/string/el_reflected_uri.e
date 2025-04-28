@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 15:58:03 GMT (Tuesday 8th April 2025)"
-	revision: "19"
+	date: "2025-04-28 10:22:59 GMT (Monday 28th April 2025)"
+	revision: "20"
 
 class
 	EL_REFLECTED_URI [U -> EL_URI create make end]
@@ -35,49 +35,49 @@ feature -- Access
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			if attached value (a_object) as uri then
+			if attached value (object) as uri then
 				uri.wipe_out
 			end
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as uri then
+			if attached value (object) as uri then
 				memory.read_into_string_8 (uri)
 			end
 		end
 
-	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
+	set_from_node (object: ANY; node: EL_STRING_NODE)
 		do
-			if attached value (a_object) as uri then
-				set (a_object, replaced (uri, node.as_string_8 (False)))
+			if attached value (object) as uri then
+				set (object, replaced (uri, node.as_string_8 (False)))
 			else
-				set (a_object, create {like value}.make (node.as_string_8 (False)))
+				set (object, create {like value}.make (node.as_string_8 (False)))
 			end
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_readable (object: ANY; readable: EL_READABLE)
 		do
-			if attached value (a_object) as uri then
+			if attached value (object) as uri then
 				uri.wipe_out
 				uri.append (readable.read_string_8)
 			else
-				set (a_object, new_uri (readable.read_string_8))
+				set (object, new_uri (readable.read_string_8))
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		do
-			if attached value (a_object) as uri then
+			if attached value (object) as uri then
 				writeable.write_string_8 (uri)
 			end
 		end
 
-	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	write_to_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as uri then
+			if attached value (object) as uri then
 				memory.write_string_8 (uri)
 			end
 		end

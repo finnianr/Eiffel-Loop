@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 8:47:46 GMT (Friday 25th April 2025)"
-	revision: "5"
+	date: "2025-04-28 13:15:40 GMT (Monday 28th April 2025)"
+	revision: "6"
 
 class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -63,7 +63,7 @@ feature -- Tests
 					assert_same_english_name (i, s.name (code))
 				end
 			end
-			if Http_status.valid_description_keys then
+			if Http_status.valid_table_keys then
 				assert_same_string (Void, Http_status.description (Http_status.continue), "100 Client can continue.")
 			else
 				failed ("valid_description_keys")
@@ -84,7 +84,7 @@ feature -- Tests
 		end
 
 	test_enumeration_natural_16
-		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_integer_16
+		-- REFLECTIVE_CODE_TABLE_TEST_SET.test_enumeration_natural_16
 		note
 			testing: "[
 				covers/{EL_ENUMERATION}.initialize_fields,
@@ -101,7 +101,7 @@ feature -- Tests
 			enum: HTTP_STATUS_ENUM; description: STRING; i: INTEGER; code: NATURAL_16
 		do
 			create enum.make
-			assert ("valid description keys", enum.valid_description_keys)
+			assert ("valid description keys", enum.valid_table_keys)
 			assert_same_string (Void, enum.description (enum.continue), "100 Client can continue.")
 			if attached code_descriptions as manifest then
 				across <<

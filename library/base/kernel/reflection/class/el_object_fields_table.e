@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-22 10:54:44 GMT (Tuesday 22nd April 2025)"
-	revision: "12"
+	date: "2025-04-28 7:33:21 GMT (Monday 28th April 2025)"
+	revision: "13"
 
 class
 	EL_OBJECT_FIELDS_TABLE
@@ -38,17 +38,13 @@ feature {NONE} -- Initialization
 		-- if `prune_last_underscore' is `True' remove underscore used to distinguish field name from Eiffel keyword
 		-- if `exclude_once_fields' is `True' exclude `once ("OBJECT")' field names
 		local
-			csv_string, field_name: STRING; i, field_count: INTEGER
-			list: EL_SPLIT_IMMUTABLE_STRING_8_LIST
+			csv_string: EL_CSV_STRING_8; field_name: STRING; i, field_count: INTEGER
 		do
 			dynamic_type := {ISE_RUNTIME}.dynamic_type (a_object)
 			field_count := {ISE_RUNTIME}.field_count_of_type (dynamic_type)
 
 			create csv_string.make (field_count * 30)
 			from i := 1 until i > field_count loop
-				if i > 1 then
-					csv_string.append_character (',')
-				end
 				create field_name.make_from_c ({ISE_RUNTIME}.field_name_of_type (i, dynamic_type))
 
 				-- useful for descendants of `EL_ENUMERATION [NUMERIC]' where you might want an
@@ -57,20 +53,19 @@ feature {NONE} -- Initialization
 				if prune_last_underscore and then field_name [field_name.count] = '_' then
 					field_name.remove_tail (1)
 				end
-				csv_string.append (field_name) -- becomes a table key
+				csv_string.extend (field_name) -- becomes a table key
 				i := i + 1
 			end
-			csv_string.trim -- reduce area to minimum
-			create list.make_shared_adjusted (csv_string, ',', 0)
-			make_sized (list.count)
-
-			from list.start until list.after loop
-				if attached list.item as name then
-					if exclude_once_fields implies not is_once_field (name)  then
-						extend (list.index, name)
+			if attached csv_string.to_immutable_list as list then
+				make_sized (list.count)
+				from list.start until list.after loop
+					if attached list.item as name then
+						if exclude_once_fields implies not is_once_field (name)  then
+							extend (list.index, name)
+						end
 					end
+					list.forth
 				end
-				list.forth
 			end
 			create cached_field_indices_set.make_equal (3, agent new_indices_subset)
 		end

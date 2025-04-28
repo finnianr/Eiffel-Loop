@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 6:21:51 GMT (Thursday 24th April 2025)"
-	revision: "2"
+	date: "2025-04-28 11:43:06 GMT (Monday 28th April 2025)"
+	revision: "3"
 
 class
 	EL_INTEGER_8_SPARSE_ARRAY [G]
@@ -16,7 +16,7 @@ inherit
 	EL_SPARSE_ARRAY_TABLE [G, INTEGER_8]
 
 create
-	make
+	make, make_empty
 
 feature {NONE} -- Implementation
 

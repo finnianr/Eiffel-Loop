@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-23 10:41:51 GMT (Wednesday 23rd April 2025)"
-	revision: "1"
+	date: "2025-04-28 11:43:10 GMT (Monday 28th April 2025)"
+	revision: "2"
 
 class
 	EL_NATURAL_16_SPARSE_ARRAY [G]
@@ -16,7 +16,7 @@ inherit
 	EL_SPARSE_ARRAY_TABLE [G, NATURAL_16]
 
 create
-	make
+	make, make_empty
 
 feature {NONE} -- Implementation
 

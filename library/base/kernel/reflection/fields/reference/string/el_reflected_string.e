@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:20:30 GMT (Monday 31st March 2025)"
-	revision: "33"
+	date: "2025-04-28 10:22:29 GMT (Monday 28th April 2025)"
+	revision: "34"
 
 deferred class
 	EL_REFLECTED_STRING [S -> READABLE_STRING_GENERAL create make end]
@@ -41,9 +41,9 @@ feature -- Access
 			Result := {READABLE_STRING_GENERAL}
 		end
 
-	to_string (a_object: EL_REFLECTIVE): S
+	to_string (object: ANY): S
 		do
-			Result := value (a_object)
+			Result := value (object)
 		end
 
 feature -- Status query
@@ -56,31 +56,31 @@ feature -- Status query
 
 feature -- Basic operations
 
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_to_string (object: ANY; str: ZSTRING)
 		do
-			if attached value (a_object) as v then
+			if attached value (object) as v then
 				str.append_string_general (v)
 			end
 		end
 
-	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
+	set_from_node (object: ANY; node: EL_STRING_NODE)
 		deferred
 		end
 
-	set_from_string_general (a_object: EL_REFLECTIVE; general: READABLE_STRING_GENERAL)
+	set_from_string_general (object: ANY; general: READABLE_STRING_GENERAL)
 		local
 			new: S
 		do
 			if attached {S} general as str then
 				new := str
-			elseif attached value (a_object) as str then
+			elseif attached value (object) as str then
 				new := replaced (str, general)
 			else
 				new := replaced (create {S}.make (general.count), general)
 			end
-			set (a_object, new)
+			set (object, new)
 		ensure then
-			same_string: value (a_object).same_string (general)
+			same_string: value (object).same_string (general)
 		end
 
 feature {NONE} -- Implementation

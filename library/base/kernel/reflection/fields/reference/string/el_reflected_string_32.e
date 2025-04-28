@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-31 13:21:18 GMT (Monday 31st March 2025)"
-	revision: "16"
+	date: "2025-04-28 10:22:42 GMT (Monday 28th April 2025)"
+	revision: "17"
 
 class
 	EL_REFLECTED_STRING_32
@@ -20,43 +20,43 @@ create
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			value (a_object).wipe_out
+			value (object).wipe_out
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as str then
+			if attached value (object) as str then
 				memory.read_into_string_32 (str)
 			end
 		end
 
-	set_from_node (a_object: EL_REFLECTIVE; node: EL_STRING_NODE)
+	set_from_node (object: ANY; node: EL_STRING_NODE)
 		do
 			if is_value_cached then
-				set (a_object, node.as_string_32 (False))
+				set (object, node.as_string_32 (False))
 
-			elseif attached value (a_object) as str_32 then
+			elseif attached value (object) as str_32 then
 				node.set_32 (str_32)
 			else
-				set (a_object, node.as_string_32 (True))
+				set (object, node.as_string_32 (True))
 			end
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_readable (object: ANY; readable: EL_READABLE)
 		do
-			set (a_object, readable.read_string_32)
+			set (object, readable.read_string_32)
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		do
-			writeable.write_string_32 (value (a_object))
+			writeable.write_string_32 (value (object))
 		end
 
-	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	write_to_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			memory.write_string_32 (value (a_object))
+			memory.write_string_32 (value (object))
 		end
 
 feature {NONE} -- Implementation

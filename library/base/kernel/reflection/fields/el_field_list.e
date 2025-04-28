@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-28 16:00:09 GMT (Friday 28th March 2025)"
-	revision: "32"
+	date: "2025-04-28 11:07:41 GMT (Monday 28th April 2025)"
+	revision: "33"
 
 class
 	EL_FIELD_LIST
@@ -35,9 +35,15 @@ inherit
 
 	EL_SHARED_CYCLIC_REDUNDANCY_CHECK_32
 
+	REFLECTOR_CONSTANTS
+		export
+			{NONE} all
+		undefine
+			copy, is_equal
+		end
 
 create
-	make, make_empty
+	make, make_empty, make_abstract
 
 feature {NONE} -- Initialization
 
@@ -79,6 +85,24 @@ feature {NONE} -- Initialization
 			valid_list: is_valid
 		end
 
+	make_abstract (object: ANY; a_abstract_type: INTEGER)
+		-- make list of all fields in `object' matching `a_abstract_type'
+		local
+			field_index: INTEGER
+		do
+			if attached Eiffel.reflected (object) as reflected_object
+				and then attached reflected_object.new_field_type_set (a_abstract_type) as field_type_set
+			then
+				make_list (field_type_set.count)
+				across field_type_set.new_name_list (reflected_object) as name loop
+					field_index := field_type_set [name.cursor_index - 1]
+					extend_for_type (object, field_index, a_abstract_type, name.item)
+				end
+			else
+				make_empty
+			end
+		end
+
 feature -- Access
 
 	field_hash: NATURAL
@@ -95,7 +119,7 @@ feature -- Access
 			end
 		end
 
-	field_with (object: EL_REFLECTIVE; value: ANY): detachable EL_REFLECTED_FIELD
+	field_with (object: ANY; value: ANY): detachable EL_REFLECTED_FIELD
 		-- Reflected field in `object' for reference `value'. `Void' if not found.
 		require
 			is_reference_value: not value.generating_type.is_expanded
@@ -115,7 +139,7 @@ feature -- Access
 			end
 		end
 
-	field_with_address (object: EL_REFLECTIVE; field_address: POINTER): detachable EL_REFLECTED_FIELD
+	field_with_address (object: ANY; field_address: POINTER): detachable EL_REFLECTED_FIELD
 		-- Reflected field in `object' with field address equal to `field_address'.
 		-- `Void' if not found.
 		local
@@ -149,7 +173,7 @@ feature -- Access
 			create Result.make_filled (count, agent i_th_name)
 		end
 
-	name_list_for (object: EL_REFLECTIVE; value_list: CONTAINER [ANY]): EL_IMMUTABLE_STRING_8_LIST
+	name_list_for (object: ANY; value_list: CONTAINER [ANY]): EL_IMMUTABLE_STRING_8_LIST
 		-- list of field names in enclosing `object' corresponding to reference values
 		-- of uniform type contained in `value_list'.
 		require
@@ -243,7 +267,7 @@ feature -- Access
 			end
 		end
 
-	value_list_for_type (object: EL_REFLECTIVE; field_type: TYPE [ANY]): EL_ARRAYED_LIST [ANY]
+	value_list_for_type (object: ANY; field_type: TYPE [ANY]): EL_ARRAYED_LIST [ANY]
 		-- list of field values in `object' for fields with type `field_type'
 		local
 			type_id, i: INTEGER
@@ -271,7 +295,7 @@ feature -- Access
 
 feature -- Status query
 
-	has_default_strings (object: EL_REFLECTIVE): BOOLEAN
+	has_default_strings (object: ANY): BOOLEAN
 		-- `True' if all string fields in `object' are empty
 		local
 			i: INTEGER
@@ -385,6 +409,56 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	extend_for_type (object: ANY; a_index, a_type: INTEGER; a_name: IMMUTABLE_STRING_8)
+		local
+			field: EL_REFLECTED_FIELD
+		do
+			inspect a_type
+				when Integer_8_type then
+					create {EL_REFLECTED_INTEGER_8} field.make (object, a_index, a_name)
+
+				when Integer_16_type then
+					create {EL_REFLECTED_INTEGER_16} field.make (object, a_index, a_name)
+
+				when Integer_32_type then
+					create {EL_REFLECTED_INTEGER_32} field.make (object, a_index, a_name)
+
+				when Integer_64_type then
+					create {EL_REFLECTED_INTEGER_64} field.make (object, a_index, a_name)
+
+				when Natural_8_type then
+					create {EL_REFLECTED_NATURAL_8} field.make (object, a_index, a_name)
+
+				when Natural_16_type then
+					create {EL_REFLECTED_NATURAL_16} field.make (object, a_index, a_name)
+
+				when Natural_32_type then
+					create {EL_REFLECTED_NATURAL_32} field.make (object, a_index, a_name)
+
+				when Natural_64_type then
+					create {EL_REFLECTED_NATURAL_64} field.make (object, a_index, a_name)
+
+				when Real_32_type then
+					create {EL_REFLECTED_REAL_32} field.make (object, a_index, a_name)
+				when Real_64_type then
+					create {EL_REFLECTED_REAL_64} field.make (object, a_index, a_name)
+
+				when Boolean_type then
+					create {EL_REFLECTED_BOOLEAN} field.make (object, a_index, a_name)
+
+				when Character_8_type then
+					create {EL_REFLECTED_CHARACTER_8} field.make (object, a_index, a_name)
+
+				when Character_32_type then
+					create {EL_REFLECTED_CHARACTER_32} field.make (object, a_index, a_name)
+
+				when Reference_type then
+					create {EL_REFLECTED_REFERENCE_ANY} field.make (object, a_index, a_name)
+			else
+			end
+			extend (field)
+		end
 
 	fill_table (representation_table: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING])
 		-- fill `table' and set field representations to make `Current.is_valid' equal to `True'

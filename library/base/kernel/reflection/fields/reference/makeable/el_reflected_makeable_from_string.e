@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-09 19:12:25 GMT (Monday 9th September 2024)"
-	revision: "22"
+	date: "2025-04-28 10:24:13 GMT (Monday 28th April 2025)"
+	revision: "23"
 
 deferred class
 	EL_REFLECTED_MAKEABLE_FROM_STRING [MAKEABLE -> EL_MAKEABLE_FROM_STRING [STRING_GENERAL]]
@@ -39,23 +39,23 @@ feature -- Access
 			Result := {EL_MAKEABLE_FROM_STRING [STRING_GENERAL]}
 		end
 
-	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+	to_string (object: ANY): READABLE_STRING_GENERAL
 		do
-			Result := value (a_object).to_string
+			Result := value (object).to_string
 		end
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			if attached value (a_object) as l_value then
+			if attached value (object) as l_value then
 				l_value.make_default
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; string: READABLE_STRING_GENERAL)
 		do
-			value (a_object).make_from_general (string)
+			value (object).make_from_general (string)
 		end
 
 feature -- Status query

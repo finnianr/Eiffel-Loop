@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-24 11:11:45 GMT (Monday 24th March 2025)"
-	revision: "29"
+	date: "2025-04-28 10:21:23 GMT (Monday 28th April 2025)"
+	revision: "30"
 
 class
 	EL_REFLECTED_INTEGER_32
@@ -25,16 +25,16 @@ create
 
 feature -- Access
 
-	value (a_object: EL_REFLECTIVE): INTEGER_32
+	value (object: ANY): INTEGER_32
 		do
 			Result := {ISE_RUNTIME}.integer_32_field (
-				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($object, 0), 0
 			)
 		end
 
 feature -- Measurement
 
-	size_of (a_object: EL_REFLECTIVE): INTEGER
+	size_of (object: ANY): INTEGER
 		-- size of field object
 		do
 			Result := {PLATFORM}.Integer_32_bytes
@@ -42,53 +42,53 @@ feature -- Measurement
 
 feature -- Conversion
 
-	reference_value (a_object: EL_REFLECTIVE): INTEGER_32_REF
+	reference_value (object: ANY): INTEGER_32_REF
 		do
-			Result := value (a_object).to_reference
+			Result := value (object).to_reference
 		end
 
-	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+	to_natural_64 (object: ANY): NATURAL_64
 		do
-			Result := value (a_object).to_natural_64
+			Result := value (object).to_natural_64
 		end
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			set (a_object, 0)
+			set (object, 0)
 		end
 
-	set (a_object: EL_REFLECTIVE; a_value: INTEGER_32)
+	set (object: ANY; a_value: INTEGER_32)
 		do
 			{ISE_RUNTIME}.set_integer_32_field (
-				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($object, 0), 0, a_value
 			)
 		end
 
-	set_from_double (a_object: EL_REFLECTIVE; a_value: DOUBLE)
+	set_from_double (object: ANY; a_value: DOUBLE)
 		do
-			set (a_object, a_value.rounded)
+			set (object, a_value.rounded)
 		end
 
-	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
+	set_from_integer (object: ANY; a_value: INTEGER)
 		do
-			set (a_object, a_value)
+			set (object, a_value)
 		end
 
-	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
+	set_from_natural_64 (object: ANY; a_value: NATURAL_64)
 		do
-			set (a_object, a_value.to_integer_32)
+			set (object, a_value.to_integer_32)
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_readable (object: ANY; readable: EL_READABLE)
 		do
-			set (a_object, readable.read_integer_32)
+			set (object, readable.read_integer_32)
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		do
-			writeable.write_integer_32 (value (a_object))
+			writeable.write_integer_32 (value (object))
 		end
 
 feature {NONE} -- Implementation
@@ -98,9 +98,9 @@ feature {NONE} -- Implementation
 			string.append_integer (a_value)
 		end
 
-	append_directly (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_directly (object: ANY; str: ZSTRING)
 		do
-			if attached value (a_object) as v then
+			if attached value (object) as v then
 				str.append_integer_32 (v)
 			end
 		end

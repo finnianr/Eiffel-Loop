@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 7:52:12 GMT (Friday 25th April 2025)"
-	revision: "77"
+	date: "2025-04-28 13:40:21 GMT (Monday 28th April 2025)"
+	revision: "78"
 
 deferred class
 	EL_ENUMERATION [N -> HASHABLE]
@@ -46,6 +46,13 @@ inherit
 			{EL_REFLECTION_HANDLER} field_table
 		redefine
 			make, initialize_fields, new_field_sorter
+		end
+
+	EL_ENUMERATION_TEXT [N]
+		rename
+			new_interval_table as new_interval_hash_table
+		redefine
+			valid_table_keys
 		end
 
 	REFLECTOR_CONSTANTS
@@ -63,25 +70,19 @@ feature {NONE} -- Initialization
 
 	initialize_fields
 			-- initialize fields with unique value
-		local
-			code_string: ZSTRING; space_index: INTEGER
 		do
-			if codes_in_description and then attached description_table as table then
-				create code_string.make_empty
-				across field_list as list loop
-					code_string.wipe_out
-					if attached {like ENUM_FIELD} list.item as field
-						and then table.has_immutable_key (field.name) and then attached table.found_item as l_description
-					then
-						space_index := l_description.index_of (' ', 1)
-						if space_index > 0 then
-							code_string.append_substring (l_description, 1, space_index - 1)
-							if code_string.is_integer then
-								field.set_from_integer (Current, code_string.to_integer)
-								code_found_count := code_found_count + 1
-							end
-						end
-					end
+			if attached new_table_text as table_text then
+				set_utf_8_text (table_text)
+				if table_text.is_empty then
+					interval_table := default_interval_table
+				else
+					interval_table := new_interval_table
+				end
+			end
+			if values_in_text and attached field_list as field then
+				across interval_table.key_list as list loop
+					field [list.cursor_index].set_from_integer (Current, as_integer (list.item))
+					text_value_count := text_value_count + 1
 				end
 			else
 				across field_list as list loop
@@ -89,7 +90,7 @@ feature {NONE} -- Initialization
 				end
 			end
 		ensure then
-			each_description_has_code: codes_in_description implies code_found_count = count
+			each_description_has_code: values_in_text implies text_value_count = count
 		end
 
 	make
@@ -109,7 +110,7 @@ feature {NONE} -- Initialization
 		ensure then
 			all_values_unique: all_values_unique
 			name_and_values_consistent: name_and_values_consistent
-			valid_description_keys: valid_description_keys
+			valid_text_table_keys: valid_table_keys
 		end
 
 feature -- Measurement
@@ -119,21 +120,15 @@ feature -- Measurement
 			Result := field_list.count
 		end
 
+	text_value_count: INTEGER
+		-- count of values in string manifest text `new_table_text' that match those in `field_list'
+
 feature -- Access
 
 	as_list: EL_ARRAYED_RESULT_LIST [like ENUM_FIELD, N]
 		do
 			create Result.make (field_by_value_table, agent field_value)
 			Result.sort (True)
-		end
-
-	description (a_value: N): ZSTRING
-		do
-			if description_table.has_immutable_key (field_name (a_value)) then
-				Result := description_table.found_item
-			else
-				create Result.make_empty
-			end
 		end
 
 	field_name (a_value: N): IMMUTABLE_STRING_8
@@ -185,7 +180,7 @@ feature -- Access
 
 feature -- Conversion
 
-	to_compatible (a_value: NATURAL_32): N
+	as_integer (a_value: N): INTEGER
 		deferred
 		end
 
@@ -205,8 +200,8 @@ feature -- Status query
 			end
 		end
 
-	codes_in_description: BOOLEAN
-		-- `True' if enumeration values are found in the `description_table' as the first
+	values_in_text: BOOLEAN
+		-- `True' if enumeration values are found in the `new_table_text' as the first
 		-- word of each description.
 		do
 			Result := False
@@ -279,16 +274,14 @@ feature -- Contract Support
 			end
 		end
 
-	valid_description_keys: BOOLEAN
-		do
-			Result := across description_table as table all
-				field_table.has_immutable (table.key)
-			end
-		end
-
 	valid_enum_type: BOOLEAN
 		do
 			Result := Eiffel.abstract_type_of_type (({N}).type_id) = enum_type
+		end
+
+	valid_table_keys: BOOLEAN
+		do
+			Result := values_in_text implies count = interval_table.count
 		end
 
 feature {NONE} -- Implementation
@@ -326,9 +319,7 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
-	description_table: EL_IMMUTABLE_UTF_8_TABLE
-		-- table of descriptions by exported name
-		-- rename to `no_descriptions' if not required
+	default_interval_table: EL_SPARSE_ARRAY_TABLE [INTEGER_64, N]
 		deferred
 		end
 
@@ -344,23 +335,25 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	new_interval_table: like default_interval_table
+		deferred
+		end
+
+	new_table_text: READABLE_STRING_GENERAL
+		deferred
+		end
+
 feature {NONE} -- Internal attributes
 
 	field_by_value_table: like new_field_by_value_table
 
-	code_found_count: INTEGER
+	interval_table: like default_interval_table
+		-- map code to description substring compact interval
 
 feature {NONE} -- Constants
 
 	Default_name: IMMUTABLE_STRING_8
 		once ("PROCESS")
-			create Result.make_empty
-		end
-
-	frozen No_descriptions: EL_IMMUTABLE_UTF_8_TABLE
-		-- table of descriptions by exported name
-		-- redefine to add descriptions
-		once
 			create Result.make_empty
 		end
 

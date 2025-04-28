@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 16:00:28 GMT (Sunday 27th April 2025)"
-	revision: "1"
+	date: "2025-04-28 13:32:23 GMT (Monday 28th April 2025)"
+	revision: "2"
 
 deferred class
 	EL_ENUMERATION_TEXT [N -> HASHABLE]
@@ -24,6 +24,10 @@ inherit
 
 feature -- Access
 
+	as_code (value: INTEGER): N
+		deferred
+		end
+
 	description (code: N): ZSTRING
 		local
 			interval: INTEGER_64
@@ -37,23 +41,31 @@ feature -- Access
 			end
 		end
 
+feature -- Contract Support
+
+	valid_table_keys: BOOLEAN
+		do
+			Result := count = interval_table.count
+		end
+
 feature {NONE} -- Implementation
 
-	new_interval_table (field_name_list: ARRAYED_LIST [READABLE_STRING_8]): HASH_TABLE [INTEGER_64, N]
+	new_interval_table (field_list: EL_FIELD_LIST): HASH_TABLE [INTEGER_64, N]
 		local
-			interval: INTEGER_64; start_index, space_index: INTEGER
+			interval: INTEGER_64; start_index, space_index, value: INTEGER
 		do
 			if attached new_utf_8_table as table then
 				create Result.make (table.count)
-				across field_name_list as list loop
-					if attached list.item as name and then table.has_key (name) then
+				across field_list as list loop
+					if attached list.item as field and then table.has_key (field.name) then
 						interval := table.found_interval
 						start_index := to_lower (interval)
 						space_index := utf_8_text.index_of (' ', start_index)
-						if space_index > 0 and then attached converter as conv
-							and then conv.is_substring_convertible (utf_8_text, start_index + 1, space_index - 1)
+						if space_index > 0 and then attached Convert_string.integer_32 as integer_32
+							and then integer_32.is_substring_convertible (utf_8_text, start_index + 1, space_index - 1)
 						then
-							Result.put (interval, code_value (conv, start_index + 1, space_index - 1))
+							value := integer_32.substring_as_type (utf_8_text, start_index + 1, space_index - 1)
+							Result.put (interval, as_code (value))
 						end
 					end
 				end
@@ -70,7 +82,7 @@ feature {NONE} -- Implementation
 			sg: EL_STRING_GENERAL_ROUTINES
 		do
 			if table_text.is_empty then
-				create utf_8_text.make_empty
+				utf_8_text := Empty_text
 			else
 				utf_8_text := Immutable_8.as_shared (sg.super_readable_general (table_text).to_utf_8)
 			end
@@ -78,11 +90,7 @@ feature {NONE} -- Implementation
 
 feature {NONE} -- Deferred
 
-	code_value (a_converter: like converter; start_index, end_index: INTEGER): N
-		deferred
-		end
-
-	converter: EL_READABLE_STRING_GENERAL_TO_NUMERIC [NUMERIC]
+	count: INTEGER
 		deferred
 		end
 
@@ -94,4 +102,10 @@ feature {NONE} -- Internal attributes
 
 	utf_8_text: IMMUTABLE_STRING_8
 
+feature {NONE} -- Constants
+
+	Empty_text: IMMUTABLE_STRING_8
+		once
+			create Result.make_empty
+		end
 end

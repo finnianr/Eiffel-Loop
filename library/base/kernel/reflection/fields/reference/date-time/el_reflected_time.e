@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:24 GMT (Saturday 20th January 2024)"
-	revision: "24"
+	date: "2025-04-28 10:23:32 GMT (Monday 28th April 2025)"
+	revision: "25"
 
 class
 	EL_REFLECTED_TIME
@@ -32,30 +32,30 @@ create
 
 feature -- Basic operations
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			if attached value (a_object) as time then
+			if attached value (object) as time then
 				time.copy (time.origin)
 			end
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached value (a_object) as time then
+			if attached value (object) as time then
 				set_from_compact_decimal (time, read_compressed_time (memory))
 			end
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; string: READABLE_STRING_GENERAL)
 		do
-			if attached value (a_object) as time then
+			if attached value (object) as time then
 				time.make_from_string_default (Buffer_8.copied_general (string))
 			end
 		end
 
-	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
+	write (object: ANY; writable: EL_WRITABLE)
 		do
-			if attached value (a_object) as time then
+			if attached value (object) as time then
 				write_compressed_time (time, writable)
 			end
 		end
@@ -76,9 +76,9 @@ feature -- Comparison
 
 feature -- Contract Support
 
-	valid_format (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL): BOOLEAN
+	valid_format (object: ANY; string: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			if attached value (a_object) as time then
+			if attached value (object) as time then
 				Result := time.time_valid (Buffer_8.copied_general (string), time.default_format_string)
 			end
 		end

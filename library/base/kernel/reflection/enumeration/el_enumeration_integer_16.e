@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 16:00:47 GMT (Sunday 27th April 2025)"
-	revision: "6"
+	date: "2025-04-28 13:15:40 GMT (Monday 28th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_ENUMERATION_INTEGER_16
@@ -30,33 +30,19 @@ feature {NONE} -- Initialization
 
 	make_with (table_text: READABLE_STRING_GENERAL)
 		local
-			i, index, i_upper: INTEGER; name_list: EL_STRING_8_LIST
+			field_list: EL_FIELD_LIST
 		do
 			set_utf_8_text (table_text)
 
-			if attached Eiffel.reflected (Current) as l_current
-				and then attached l_current.new_field_type_set (Integer_16_type) as field_set
-			then
-				count := field_set.count
-				create name_list.make (count)
-				i_upper := count - 1
-				from i := 0 until i > i_upper loop
-					index := field_set [i]
-					name_list.extend (l_current.field_name (index))
-					i := i + 1
-				end
-				create interval_table.make (new_interval_table (name_list))
-				if attached interval_table.key_list as code_list then
-					from i := 0 until i > i_upper loop
-						index := field_set [i]
-						l_current.set_integer_16_field (index, code_list [i + 1])
-						i := i + 1
-					end
-				end
+			create field_list.make_abstract (Current, Integer_16_type)
+			count := field_list.count
+			create interval_table.make (new_interval_table (field_list))
+			across interval_table.key_list as list loop
+				field_list [list.cursor_index].set_from_integer (Current, list.item.to_integer)
 			end
 			initialize
 		ensure
-			all_fields_assigned: valid_description_keys
+			all_fields_assigned: valid_table_keys
 		end
 
 	make
@@ -132,11 +118,6 @@ feature -- Status query
 			Result := internal_has_field_name (to_field_name (a_name), True)
 		end
 
-	valid_description_keys: BOOLEAN
-		do
-			Result := count = interval_table.count
-		end
-
 	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
 			Result := internal_has_field_name (to_field_name (a_name), False)
@@ -148,14 +129,9 @@ feature -- Measurement
 
 feature {NONE} -- Implementation
 
-	code_value (a_converter: like converter; start_index, end_index: INTEGER): INTEGER_16
+	as_code (a_value: INTEGER): INTEGER_16
 		do
-			 Result := a_converter.substring_as_type (utf_8_text, start_index, end_index)
-		end
-
-	converter: EL_READABLE_STRING_GENERAL_TO_NUMERIC [INTEGER_16]
-		do
-			Result := Convert_string.integer_16
+			Result := a_value.to_integer_16
 		end
 
 	default_translater: detachable EL_NAME_TRANSLATER
@@ -218,4 +194,5 @@ feature {NONE} -- Internal attributes
 		-- map code to description substring compact interval
 
 	internal_found_value: INTEGER
+
 end

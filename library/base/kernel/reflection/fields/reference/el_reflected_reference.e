@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 9:46:13 GMT (Saturday 5th April 2025)"
-	revision: "51"
+	date: "2025-04-28 10:21:36 GMT (Monday 28th April 2025)"
+	revision: "52"
 
 class
 	EL_REFLECTED_REFERENCE [G]
@@ -40,9 +40,9 @@ feature {EL_CLASS_META_DATA} -- Initialization
 
 feature -- Access
 
-	address (a_object: EL_REFLECTIVE): POINTER
+	address (object: ANY): POINTER
 		do
-			if attached value (a_object) as field_object
+			if attached value (object) as field_object
 				and then attached Once_reference as field_reference
 			then
 				field_reference.set_object (field_object)
@@ -50,17 +50,17 @@ feature -- Access
 			end
 		end
 
-	size_of (a_object: EL_REFLECTIVE): INTEGER
+	size_of (object: ANY): INTEGER
 		-- size of field object
 		do
-			Result := property (value (a_object)).deep_physical_size
+			Result := property (value (object)).deep_physical_size
 		end
 
-	value (a_object: EL_REFLECTIVE): G
+	value (object: ANY): G
 		local
 			object_ptr: POINTER
 		do
-			object_ptr := {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0)
+			object_ptr := {ISE_RUNTIME}.raw_reference_field_at_offset ($object, 0)
 			if attached {G} {ISE_RUNTIME}.reference_field (index, object_ptr, 0) as l_value then
 				Result := l_value
 			else
@@ -75,9 +75,9 @@ feature -- Access
 
 feature -- Conversion
 
-	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+	to_string (object: ANY): READABLE_STRING_GENERAL
 		do
-			Result := value (a_object).out
+			Result := value (object).out
 		end
 
 feature -- Status query
@@ -93,78 +93,78 @@ feature -- Status query
 			Result := attached factory
 		end
 
-	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
+	is_initialized (object: ANY): BOOLEAN
 		do
-			Result := attached {ISE_RUNTIME}.reference_field (index, $a_object, 0)
+			Result := attached {ISE_RUNTIME}.reference_field (index, $object, 0)
 		end
 
 feature -- Basic operations
 
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_to_string (object: ANY; str: ZSTRING)
 		do
-			write (a_object, str)
+			write (object, str)
 		end
 
-	initialize (a_object: EL_REFLECTIVE)
+	initialize (object: ANY)
 		require else
 			initializeable: is_initializeable
 		do
-			set_initial (a_object, new_instance)
+			set_initial (object, new_instance)
 		end
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		do
-			if attached {COLLECTION [ANY]} value (a_object) as collection then
+			if attached {COLLECTION [ANY]} value (object) as collection then
 				collection.wipe_out
 			end
 		end
 
-	set, set_initial (a_object: EL_REFLECTIVE; a_value: G)
+	set, set_initial (object: ANY; a_value: G)
 		-- `set' and `set_initial' are differentiated in `EL_REFLECTED_HASHABLE_REFERENCE'
 		do
 			{ISE_RUNTIME}.set_reference_field (
-				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($object, 0), 0, a_value
 			)
 		end
 
-	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER_32)
+	set_from_integer (object: ANY; a_value: INTEGER_32)
 			-- Internal attributes
 		do
-			set_from_string (a_object, a_value.out)
+			set_from_string (object, a_value.out)
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached reader_writer_extra as extra and then attached value (a_object) as v then
+			if attached reader_writer_extra as extra and then attached value (object) as v then
 				extra.set (v, memory)
 			else
-				set_from_readable (a_object, memory)
+				set_from_readable (object, memory)
 			end
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; a_value: EL_READABLE)
+	set_from_readable (object: ANY; a_value: EL_READABLE)
 		do
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; string: READABLE_STRING_GENERAL)
 		do
 		end
 
-	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
+	set_from_utf_8 (object: ANY; utf_8: READABLE_STRING_8)
 		do
-			set_from_string (a_object, create {ZSTRING}.make_from_utf_8 (utf_8))
+			set_from_string (object, create {ZSTRING}.make_from_utf_8 (utf_8))
 		end
 
-	write (a_object: EL_REFLECTIVE; writable: EL_WRITABLE)
+	write (object: ANY; writable: EL_WRITABLE)
 		do
 		end
 
-	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	write_to_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			if attached reader_writer_extra as interface and then attached value (a_object) as v then
+			if attached reader_writer_extra as interface and then attached value (object) as v then
 				interface.write (v, memory)
 			else
-				write (a_object, memory)
+				write (object, memory)
 			end
 		end
 

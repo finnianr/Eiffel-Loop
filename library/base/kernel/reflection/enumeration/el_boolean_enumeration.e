@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-28 6:39:41 GMT (Wednesday 28th August 2024)"
-	revision: "4"
+	date: "2025-04-28 11:31:50 GMT (Monday 28th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_BOOLEAN_ENUMERATION
@@ -23,7 +23,7 @@ deferred class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			description_table as No_descriptions
+			new_table_text as Empty_string_8
 		redefine
 			initialize_fields
 		end

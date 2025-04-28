@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-28 7:48:14 GMT (Saturday 28th September 2024)"
-	revision: "4"
+	date: "2025-04-28 11:29:19 GMT (Monday 28th April 2025)"
+	revision: "5"
 
 class
 	EL_DOC_TEXT_TYPE_ENUM
@@ -18,7 +18,7 @@ class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			description_table as No_descriptions,
+			new_table_text as Empty_string_8,
 			foreign_naming as eiffel_naming
 		end
 

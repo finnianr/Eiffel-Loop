@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-27 10:43:26 GMT (Sunday 27th April 2025)"
-	revision: "4"
+	date: "2025-04-28 11:42:36 GMT (Monday 28th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_SPARSE_ARRAY_TABLE [G, K -> HASHABLE]
@@ -36,6 +36,11 @@ inherit
 	EL_OBJECT_PROPERTY_I
 
 feature {NONE} -- Initialization
+
+	make_empty
+		do
+			make (create {HASH_TABLE [G, K]}.make (0))
+		end
 
 	make (a_table: HASH_TABLE [G, K])
 		local

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2022-11-15 19:56:04 GMT (Tuesday 15th November 2022)"
-	revision: "2"
+	date: "2025-04-28 10:19:37 GMT (Monday 28th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_REFLECTED_INTEGER_FIELD [N -> NUMERIC]
@@ -20,19 +20,19 @@ inherit
 
 feature -- Basic operations
 
-	set_from_double (a_object: EL_REFLECTIVE; a_value: DOUBLE)
+	set_from_double (object: ANY; a_value: DOUBLE)
 		deferred
 		end
 
 feature {NONE} -- Implementation
 
-	set_directly (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_directly (object: ANY; string: READABLE_STRING_GENERAL)
 		-- set from `DOUBLE' if string has decimal point
 		do
 			if string.has ('.') then
-				set_from_double (a_object, string.to_double)
+				set_from_double (object, string.to_double)
 			else
-				Precursor (a_object, string)
+				Precursor (object, string)
 			end
 		end
 

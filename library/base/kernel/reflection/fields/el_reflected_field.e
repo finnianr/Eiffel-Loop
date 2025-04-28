@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-21 18:26:44 GMT (Friday 21st March 2025)"
-	revision: "69"
+	date: "2025-04-28 10:18:15 GMT (Monday 28th April 2025)"
+	revision: "70"
 
 deferred class
 	EL_REFLECTED_FIELD
@@ -21,12 +21,12 @@ inherit
 
 feature {EL_CLASS_META_DATA} -- Initialization
 
-	make (a_object: EL_REFLECTIVE; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
+	make (object: ANY; a_index: INTEGER; a_name: IMMUTABLE_STRING_8)
 		require
-			reference_object: not a_object.generating_type.is_expanded
+			reference_object: not object.generating_type.is_expanded
 		do
 			index := a_index; name := a_name; export_name := a_name
-			object_type := {ISE_RUNTIME}.dynamic_type (a_object)
+			object_type := {ISE_RUNTIME}.dynamic_type (object)
 			type_id := field_static_type (index)
 			type := Eiffel.type_of_type (type_id)
 			post_make
@@ -69,29 +69,29 @@ feature -- Access deferred
 		deferred
 		end
 
-	address (a_object: EL_REFLECTIVE): POINTER
+	address (object: ANY): POINTER
 		require
-			valid_type: valid_type (a_object)
+			valid_type: valid_type (object)
 		deferred
 		end
 
-	reference_value (a_object: EL_REFLECTIVE): ANY
+	reference_value (object: ANY): ANY
 		deferred
 		end
 
-	to_string (a_object: EL_REFLECTIVE): READABLE_STRING_GENERAL
+	to_string (object: ANY): READABLE_STRING_GENERAL
 		deferred
 		end
 
-	value (a_object: EL_REFLECTIVE): ANY
+	value (object: ANY): ANY
 		require
-			valid_type: valid_type (a_object)
+			valid_type: valid_type (object)
 		deferred
 		end
 
 feature -- Measurement
 
-	size_of (a_object: EL_REFLECTIVE): INTEGER
+	size_of (object: ANY): INTEGER
 		-- size of field object
 		deferred
 		end
@@ -120,7 +120,7 @@ feature -- Status query
 		deferred
 		end
 
-	is_initialized (a_object: EL_REFLECTIVE): BOOLEAN
+	is_initialized (object: ANY): BOOLEAN
 		do
 			Result := True
 		end
@@ -148,28 +148,28 @@ feature -- Status query
 			Result := type_id = a_type_id
 		end
 
-	is_uninitialized (a_object: EL_REFLECTIVE): BOOLEAN
+	is_uninitialized (object: ANY): BOOLEAN
 		do
-			Result := not is_initialized (a_object)
+			Result := not is_initialized (object)
 		end
 
 feature -- Contract Support
 
-	valid_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL): BOOLEAN
+	valid_string (object: ANY; string: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `string' is valid argument for `set_from_string'
 		do
 			Result := True
 		end
 
-	valid_type (a_object: EL_REFLECTIVE): BOOLEAN
-		-- `True' if `a_object' type is correct for this field
+	valid_type (object: ANY): BOOLEAN
+		-- `True' if `object' type is correct for this field
 		do
-			Result := {ISE_RUNTIME}.dynamic_type (a_object) = object_type
+			Result := {ISE_RUNTIME}.dynamic_type (object) = object_type
 		end
 
 feature -- Comparison
 
-	are_equal (a_current, other: EL_REFLECTIVE): BOOLEAN
+	are_equal (a_current, other: ANY): BOOLEAN
 		deferred
 		end
 
@@ -180,52 +180,52 @@ feature -- Comparison
 
 feature -- Basic operations
 
-	append_to_string (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_to_string (object: ANY; str: ZSTRING)
 		deferred
 		end
 
-	initialize (a_object: EL_REFLECTIVE)
+	initialize (object: ANY)
 		require
-			valid_type: valid_type (a_object)
+			valid_type: valid_type (object)
 		do
 		end
 
-	reset (a_object: EL_REFLECTIVE)
+	reset (object: ANY)
 		require
-			valid_type: valid_type (a_object)
+			valid_type: valid_type (object)
 		deferred
 		end
 
-	set (a_object: EL_REFLECTIVE; a_value: like value)
+	set (object: ANY; a_value: like value)
 		require
-			valid_type: valid_type (a_object)
+			valid_type: valid_type (object)
 		deferred
 		end
 
-	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
+	set_from_integer (object: ANY; a_value: INTEGER)
 		deferred
 		end
 
-	set_from_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	set_from_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			set_from_readable (a_object, memory)
+			set_from_readable (object, memory)
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_readable (object: ANY; readable: EL_READABLE)
 		deferred
 		end
 
-	set_from_string (a_object: EL_REFLECTIVE; string: READABLE_STRING_GENERAL)
+	set_from_string (object: ANY; string: READABLE_STRING_GENERAL)
 		require
-			valid_string: valid_string (a_object, string)
+			valid_string: valid_string (object, string)
 		deferred
 		end
 
-	set_from_utf_8 (a_object: EL_REFLECTIVE; utf_8: READABLE_STRING_8)
+	set_from_utf_8 (object: ANY; utf_8: READABLE_STRING_8)
 		deferred
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		deferred
 		end
 
@@ -237,9 +237,9 @@ feature -- Basic operations
 			end
 		end
 
-	write_to_memory (a_object: EL_REFLECTIVE; memory: EL_MEMORY_READER_WRITER)
+	write_to_memory (object: ANY; memory: EL_MEMORY_READER_WRITER)
 		do
-			write (a_object, memory)
+			write (object, memory)
 		end
 
 feature -- Element change

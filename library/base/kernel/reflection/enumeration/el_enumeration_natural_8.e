@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-24 17:28:19 GMT (Thursday 24th April 2025)"
-	revision: "11"
+	date: "2025-04-28 13:34:52 GMT (Monday 28th April 2025)"
+	revision: "12"
 
 deferred class
 	EL_ENUMERATION_NATURAL_8
@@ -20,13 +20,6 @@ inherit
 
 	EL_8_BIT_IMPLEMENTATION
 
-feature -- Conversion
-
-	to_compatible (a_value: NATURAL_32): NATURAL_8
-		do
-			Result := a_value.to_natural_8
-		end
-
 feature -- Basic operations
 
 	write_value (writeable: EL_WRITABLE; a_value: NATURAL_8)
@@ -35,6 +28,16 @@ feature -- Basic operations
 		end
 
 feature {NONE} -- Implementation
+
+	as_code (a_value: INTEGER): NATURAL_8
+		do
+			Result := a_value.to_natural_8
+		end
+
+	as_integer (a_value: NATURAL_8): INTEGER
+		do
+			Result := a_value.to_integer_32
+		end
 
 	field_value (field: EL_REFLECTED_NATURAL_8): NATURAL_8
 		do
@@ -46,11 +49,23 @@ feature {NONE} -- Implementation
 			create Result.make (table)
 		end
 
+	new_interval_table: like default_interval_table
+		do
+			create Result.make (new_interval_hash_table (field_list))
+		end
+
 feature -- Type definitions
 
 	ENUM_FIELD: EL_REFLECTED_NATURAL_8
 		once ("PROCESS")
 			create Result.make (Current, 1, Default_name)
+		end
+
+feature {NONE} -- Constants
+
+	Default_interval_table: EL_NATURAL_8_SPARSE_ARRAY [INTEGER_64]
+		once
+			create Result.make_empty
 		end
 
 end

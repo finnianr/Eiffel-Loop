@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-24 11:14:14 GMT (Monday 24th March 2025)"
-	revision: "25"
+	date: "2025-04-28 10:19:16 GMT (Monday 28th April 2025)"
+	revision: "26"
 
 class
 	EL_REFLECTED_REAL_64
@@ -23,28 +23,28 @@ create
 
 feature -- Access
 
-	value (a_object: EL_REFLECTIVE): DOUBLE
+	value (object: ANY): DOUBLE
 		do
 			Result := {ISE_RUNTIME}.real_64_field (
-				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($object, 0), 0
 			)
 		end
 
 feature -- Conversion
 
-	reference_value (a_object: EL_REFLECTIVE): REAL_64_REF
+	reference_value (object: ANY): REAL_64_REF
 		do
-			Result := value (a_object).to_reference
+			Result := value (object).to_reference
 		end
 
-	to_natural_64 (a_object: EL_REFLECTIVE): NATURAL_64
+	to_natural_64 (object: ANY): NATURAL_64
 		do
-			Result := value (a_object).truncated_to_integer_64.as_natural_64
+			Result := value (object).truncated_to_integer_64.as_natural_64
 		end
 
 feature -- Measurement
 
-	size_of (a_object: EL_REFLECTIVE): INTEGER
+	size_of (object: ANY): INTEGER
 		-- size of field object
 		do
 			Result := {PLATFORM}.Real_64_bytes
@@ -52,31 +52,31 @@ feature -- Measurement
 
 feature -- Basic operations
 
-	set (a_object: EL_REFLECTIVE; a_value: REAL_64)
+	set (object: ANY; a_value: REAL_64)
 		do
 			{ISE_RUNTIME}.set_real_64_field (
-				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($a_object, 0), 0, a_value
+				index, {ISE_RUNTIME}.raw_reference_field_at_offset ($object, 0), 0, a_value
 			)
 		end
 
-	set_from_integer (a_object: EL_REFLECTIVE; a_value: INTEGER)
+	set_from_integer (object: ANY; a_value: INTEGER)
 		do
-			set (a_object, a_value)
+			set (object, a_value)
 		end
 
-	set_from_natural_64 (a_object: EL_REFLECTIVE; a_value: NATURAL_64)
+	set_from_natural_64 (object: ANY; a_value: NATURAL_64)
 		do
-			set (a_object, a_value)
+			set (object, a_value)
 		end
 
-	set_from_readable (a_object: EL_REFLECTIVE; readable: EL_READABLE)
+	set_from_readable (object: ANY; readable: EL_READABLE)
 		do
-			set (a_object, readable.read_real_64)
+			set (object, readable.read_real_64)
 		end
 
-	write (a_object: EL_REFLECTIVE; writeable: EL_WRITABLE)
+	write (object: ANY; writeable: EL_WRITABLE)
 		do
-			writeable.write_real_64 (value (a_object))
+			writeable.write_real_64 (value (object))
 		end
 
 feature {NONE} -- Implementation
@@ -86,9 +86,9 @@ feature {NONE} -- Implementation
 			string.append_double (a_value)
 		end
 
-	append_directly (a_object: EL_REFLECTIVE; str: ZSTRING)
+	append_directly (object: ANY; str: ZSTRING)
 		do
-			if attached value (a_object) as v then
+			if attached value (object) as v then
 				str.append_real_64 (v)
 			end
 		end
