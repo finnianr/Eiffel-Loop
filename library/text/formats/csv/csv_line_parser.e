@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-08-25 8:13:55 GMT (Sunday 25th August 2024)"
-	revision: "26"
+	date: "2025-04-29 9:17:05 GMT (Tuesday 29th April 2025)"
+	revision: "27"
 
 class
 	CSV_LINE_PARSER
@@ -31,7 +31,7 @@ feature {NONE} -- Initialization
 	make
 		do
 			Precursor
-			create fields.make (0)
+			create field_map_list.make (0)
 			create field_string.make_empty
 			set_states
 		end
@@ -40,7 +40,7 @@ feature -- Access
 
 	count: INTEGER
 
-	fields: EL_ARRAYED_MAP_LIST [STRING, ZSTRING]
+	field_map_list: EL_ARRAYED_MAP_LIST [STRING, ZSTRING]
 
 feature -- Basic operations
 
@@ -54,15 +54,14 @@ feature -- Basic operations
 		end
 
 	set_object (object: EL_REFLECTIVE)
-		local
-			table: EL_FIELD_TABLE; field: like fields
 		do
-			table := object.field_table; field := fields
-			from field.start until field.after loop
-				if table.has_imported_key (field.item_key) then
-					table.found_item.set_from_string (object, field.item_value)
+			if attached object.field_export_table as table and then attached field_map_list as list then
+				from list.start until list.after loop
+					if table.has_key (list.item_key) then
+						table.found_item.set_from_string (object, list.item_value)
+					end
+					list.forth
 				end
-				field.forth
 			end
 		end
 
@@ -156,9 +155,9 @@ feature {NONE} -- Implementation
 		do
 			column := column + 1
 			if count = 1 then
-				fields.extend (field_string.twin, Empty_string)
+				field_map_list.extend (field_string.twin, Empty_string)
 			else
-				fields.put_i_th_value (new_string, column)
+				field_map_list.put_i_th_value (new_string, column)
 			end
 			field_string.wipe_out
 		end

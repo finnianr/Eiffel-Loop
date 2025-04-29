@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 10:59:48 GMT (Monday 28th April 2025)"
-	revision: "26"
+	date: "2025-04-29 7:33:35 GMT (Tuesday 29th April 2025)"
+	revision: "27"
 
 class
 	EL_FIELD_INDICES_SET
@@ -142,7 +142,7 @@ feature -- Factory
 		require
 			valid_field_indices: valid_indices (reflected_object)
 		local
-			i, i_upper, index: INTEGER
+			i, i_upper: INTEGER
 		do
 			if attached Once_name_buffer as csv_names then
 				csv_names.wipe_out

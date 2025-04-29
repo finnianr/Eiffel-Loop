@@ -7,8 +7,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-07-21 13:44:17 GMT (Sunday 21st July 2024)"
-	revision: "14"
+	date: "2025-04-29 7:34:26 GMT (Tuesday 29th April 2025)"
+	revision: "15"
 
 class
 	EL_IP_ADDRESS_GEOGRAPHIC_INFO
@@ -192,22 +192,24 @@ feature {NONE} -- Implementation
 
 	new_representations: like Default_representations
 		do
-			Result := Precursor +
-				["ip", Ip_address_representation] +
+			Result := Precursor
+			Result.append_tuples (<<
+				["ip", Ip_address_representation],
 
-				["asn", Code_64_representation] +
-				["utc_offset", Code_64_representation] +
-				["postal", Code_64_representation] +
+				["asn", Code_64_representation],
+				["utc_offset", Code_64_representation],
+				["postal", Code_64_representation],
 
-				["continent_code", Code_16_representation] +
-				["country", Code_16_representation] +
-				["country_code", Code_16_representation] +
+				["continent_code", Code_16_representation],
+				["country", Code_16_representation],
+				["country_code", Code_16_representation],
 
-				["country_code_iso3", Code_32_representation] +
-				["country_tld", Code_32_representation] +
-				["currency", Code_32_representation] +
-				["region_code", Code_32_representation] +
+				["country_code_iso3", Code_32_representation],
+				["country_tld", Code_32_representation],
+				["currency", Code_32_representation],
+				["region_code", Code_32_representation],
 				["version", Code_32_representation]
+			>>)
 		end
 
 feature {NONE} -- Constants

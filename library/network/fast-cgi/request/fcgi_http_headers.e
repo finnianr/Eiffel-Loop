@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-03 8:46:58 GMT (Monday 3rd March 2025)"
-	revision: "27"
+	date: "2025-04-29 9:32:44 GMT (Tuesday 29th April 2025)"
+	revision: "28"
 
 class
 	FCGI_HTTP_HEADERS
@@ -234,7 +234,7 @@ feature -- Element change
 
 feature {NONE} -- Implementation
 
-	set_table_field_utf_8 (table: like field_table; name, value_utf_8: READABLE_STRING_8)
+	set_table_field_utf_8 (table: like field_export_table; name, value_utf_8: READABLE_STRING_8)
 		-- set field with name
 		do
 			Precursor (table, name, value_utf_8)

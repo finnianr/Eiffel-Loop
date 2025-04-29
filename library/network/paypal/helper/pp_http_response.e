@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 18:59:50 GMT (Tuesday 8th April 2025)"
-	revision: "22"
+	date: "2025-04-29 9:15:42 GMT (Tuesday 29th April 2025)"
+	revision: "23"
 
 class
 	PP_HTTP_RESPONSE
@@ -117,7 +117,7 @@ feature {NONE} -- Implementation
 		local
 			index_dot: INTEGER
 		do
-			if attached field_table as table and then table.has_imported_key (key) then
+			if attached field_export_table as table and then table.has_key (key) then
 				if attached {EL_REFLECTED_DATE_TIME} table.found_item as date_time then
 					index_dot := value.last_index_of ('.', value.count)
 					if super_8 (date_time.format (Current)).ends_with_character ('Z') and then index_dot > 0 then

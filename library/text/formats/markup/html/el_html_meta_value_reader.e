@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-02-14 18:38:47 GMT (Tuesday 14th February 2023)"
-	revision: "10"
+	date: "2025-04-29 9:41:59 GMT (Tuesday 29th April 2025)"
+	revision: "11"
 
 class
 	EL_HTML_META_VALUE_READER [M -> EL_HTML_META_VALUES create make end]
@@ -57,7 +57,7 @@ feature {NONE} -- Implementation
 					i := line.substring_right_index (Tag.name, i)
 					if i > 0 then
 						name := line.substring_between (Tag.quote, Tag.quote, i)
-						if meta_value.field_table.has_imported (name) then
+						if meta_value.field_export_table.has (name) then
 							i := line.substring_right_index (Tag.content, i)
 							if i > 0 then
 								value := line.substring_between (Tag.quote, Tag.quote, i)

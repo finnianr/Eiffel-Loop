@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-15 11:18:34 GMT (Tuesday 15th April 2025)"
-	revision: "24"
+	date: "2025-04-29 10:10:35 GMT (Tuesday 29th April 2025)"
+	revision: "25"
 
 deferred class
 	EL_REFLECTIVE_I
@@ -22,8 +22,15 @@ inherit
 feature {EL_REFLECTION_HANDLER, EL_STRING_GENERAL_ROUTINES_I} -- Access
 
 	field_table: EL_FIELD_TABLE
+		-- lookup field `field_list.item' by `field_list.item.name'
 		do
 			Result := field_list.table
+		end
+
+	field_export_table: EL_EXPORT_FIELD_TABLE
+		-- lookup field `field_list.item' by `field_list.foreign_naming.imported'
+		do
+			Result := field_list.export_table
 		end
 
 feature {EL_REFLECTIVE_I, EL_REFLECTION_HANDLER} -- Deferred
@@ -62,7 +69,7 @@ feature {NONE} -- Constants
 			create Result.make_empty
 		end
 
-	frozen Default_representations: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING]
+	frozen Default_representations: EL_IMMUTABLE_KEY_8_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY]]
 		once
 			create Result.make (0)
 		end

@@ -5,8 +5,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-10-04 12:14:07 GMT (Friday 4th October 2024)"
-	revision: "13"
+	date: "2025-04-29 11:04:33 GMT (Tuesday 29th April 2025)"
+	revision: "14"
 
 class
 	HASH_TABLE_VS_NAMEABLES_LIST_SEARCH
@@ -37,8 +37,8 @@ feature -- Basic operations
 			create nameables_list.make (field_table.item_list.to_array)
 
 			compare ("compare search with " + field_table.count.out + " items", <<
-				["Hash",	agent do_hash_search (field_table.current_keys, field_table)],
-				["Binary",	agent do_binary_search (field_table.current_keys, nameables_list)]
+				["Hash",	agent do_hash_search (field_table.name_list, field_table)],
+				["Binary",	agent do_binary_search (field_table.name_list, nameables_list)]
 			>>)
 		end
 

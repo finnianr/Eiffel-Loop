@@ -31,8 +31,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:24:43 GMT (Monday 28th April 2025)"
-	revision: "80"
+	date: "2025-04-29 10:59:40 GMT (Tuesday 29th April 2025)"
+	revision: "81"
 
 deferred class
 	EL_ENUMERATION [N -> HASHABLE]
@@ -134,14 +134,9 @@ feature -- Access
 			not_empty: not Result.is_empty
 		end
 
-	found_value: like field_value
-		require
-			found_field: found_field
-		do
-			if attached {like ENUM_FIELD} field_table.found_item as field then
-				Result := field_value (field)
-			end
-		end
+	found_value: like field_value note option: transient attribute end
+		-- value set after all to `has_field_name' or `has_name'
+		-- (set as transient so as not to be included as an enumeration value)
 
 	name (a_value: N): IMMUTABLE_STRING_8
 		-- field `exported_name' from field value `a_value'
@@ -201,19 +196,33 @@ feature -- Status query
 		-- `True' if `field_table' has `a_name' and `found_value' set to value if found
 		-- Eg. all lowercase "aud" for `EL_CURRENCY_ENUM' sets value for field `aud: NATURAL_8'
 		do
-			Result := field_table.has_key_general (a_name)
+			if attached field_table as table then
+				if table.has_key_general (a_name) and then attached {like ENUM_FIELD} table.found_item as field then
+					Result := True
+					found_value := field_value (field)
+				else
+					found_value := as_enum (0)
+				end
+			end
 		end
 
 	has_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `field_table' has exported `a_name' and `found_value' set to value if found
 		-- Eg. all uppercase "AUD" for `EL_CURRENCY_ENUM' sets value for field `aud: NATURAL_8'
 		do
-			Result := field_table.has_imported_key (a_name)
+			if attached field_export_table as table then
+				if table.has_key (a_name) and then attached {like ENUM_FIELD} table.found_item as field then
+					Result := True
+					found_value := field_value (field)
+				else
+					found_value := as_enum (0)
+				end
+			end
 		end
 
 	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := field_table.has_imported_key (a_name)
+			Result := field_export_table.has (a_name)
 		end
 
 	valid_value (a_value: N): BOOLEAN

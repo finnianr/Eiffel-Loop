@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-01-20 19:18:27 GMT (Saturday 20th January 2024)"
-	revision: "3"
+	date: "2025-04-29 10:28:46 GMT (Tuesday 29th April 2025)"
+	revision: "4"
 
 class
 	DOC_TYPE_TEST_SET
@@ -38,7 +38,7 @@ feature {NONE} -- Initialization
 feature -- Test
 
 	test_document_type
-			--
+		-- DOC_TYPE_TEST_SET.test_document_type
 		note
 			testing: "[
 				covers/{EL_DOC_TYPE}.import,

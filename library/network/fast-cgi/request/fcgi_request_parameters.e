@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-21 8:07:55 GMT (Monday 21st April 2025)"
-	revision: "36"
+	date: "2025-04-29 9:32:54 GMT (Tuesday 29th April 2025)"
+	revision: "37"
 
 class
 	FCGI_REQUEST_PARAMETERS
@@ -228,7 +228,7 @@ feature {NONE} -- Implementation
 			>>)
 		end
 
-	set_table_field_utf_8 (table: like field_table; name, value_utf_8: READABLE_STRING_8)
+	set_table_field_utf_8 (table: like field_export_table; name, value_utf_8: READABLE_STRING_8)
 		local
 			index: INTEGER
 		do

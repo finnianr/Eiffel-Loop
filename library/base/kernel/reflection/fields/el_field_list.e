@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 14:34:59 GMT (Monday 28th April 2025)"
-	revision: "34"
+	date: "2025-04-29 10:10:23 GMT (Tuesday 29th April 2025)"
+	revision: "35"
 
 class
 	EL_FIELD_LIST
@@ -17,8 +17,6 @@ inherit
 		rename
 			make as make_list,
 			readable as is_readable
-		redefine
-			initialize
 		end
 
 	EL_TYPE_UTILITIES
@@ -47,12 +45,6 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize
-		do
-			Precursor
-			create table.make (capacity, foreign_naming)
-		end
-
 	make (meta_data: EL_CLASS_META_DATA)
 		local
 			exported_csv_string: EL_CSV_STRING_8
@@ -60,6 +52,7 @@ feature {NONE} -- Initialization
 			if attached meta_data.field_info_table as info_table
 				and then attached meta_data.target as target
 				and then attached info_table.new_not_transient_subset (target.new_transient_fields) as field_names
+				and then attached target.new_representations as representation_table
 			then
 				foreign_naming := target.foreign_naming
 				make_list (field_names.count)
@@ -72,7 +65,10 @@ feature {NONE} -- Initialization
 							and then attached meta_data.new_reflected_field (type_info, name) as new_field
 						then
 							extend (new_field)
-							if attached foreign_naming as naming then
+							if representation_table.has_key (new_field.name) then
+								new_field.set_representation (representation_table.found_item)
+							end
+							if attached  target.foreign_naming as naming then
 								exported_csv_string.extend (naming.exported (new_field.name))
 								naming.inform (new_field.name)
 							end
@@ -87,12 +83,9 @@ feature {NONE} -- Initialization
 					end
 				end
 				set_order (target.new_field_sorter, info_table)
-				fill_table (target.new_representations)
 			else
 				make_empty
 			end
-		ensure
-			valid_list: is_valid
 		end
 
 	make_abstract (object: ANY; a_abstract_type: INTEGER)
@@ -114,6 +107,17 @@ feature {NONE} -- Initialization
 		end
 
 feature -- Access
+
+	export_table: EL_EXPORT_FIELD_TABLE
+		-- lookup field `item' by `foreign_naming.imported'
+		do
+			if attached internal_export_table as internal then
+				Result := internal
+			else
+				create Result.make (table, foreign_naming)
+				internal_export_table := Result
+			end
+		end
 
 	field_hash: NATURAL
 		-- CRC checksum for field names and field types
@@ -254,7 +258,24 @@ feature -- Access
 		end
 
 	table: EL_FIELD_TABLE
-		-- field table looked up by `item.name'
+		-- lookup field `item' by `item.name'
+		local
+			i: INTEGER
+		do
+			if attached internal_table as internal then
+				Result := internal
+			else
+				create Result.make (count)
+				from i := 1 until i > count loop
+					if attached i_th (i) as field then
+						Result.extend (field, field.name)
+					end
+					i := i + 1
+				end
+
+				internal_table := Result
+			end
+		end
 
 	type_set: like type_table.item_list
 		-- set of types use in table
@@ -352,18 +373,6 @@ feature -- Comparison
 						Result := field.are_equal (a_current, other)
 					end
 					i := i + 1
-				end
-			end
-		end
-
-feature -- Contract Support
-
-	is_valid: BOOLEAN
-		-- `True' if `table' has same count as `Current' and items are in same order
-		do
-			if table.count = count then
-				Result := across table as field all
-					field.key = i_th (field.cursor_index).name
 				end
 			end
 		end
@@ -470,30 +479,12 @@ feature {NONE} -- Implementation
 			extend (field)
 		end
 
-	fill_table (representation_table: EL_HASH_TABLE [EL_FIELD_REPRESENTATION [ANY, ANY], STRING])
-		-- fill `table' and set field representations to make `Current.is_valid' equal to `True'
-		local
-			i: INTEGER
-		do
-			from i := 1 until i > count loop
-				if attached i_th (i) as field then
-					table.extend (field, field.name)
-					if representation_table.has_key (field.name) then
-						field.set_representation (representation_table.found_item)
-					end
-				end
-				i := i + 1
-			end
-		end
-
 	i_th_name (i: INTEGER): IMMUTABLE_STRING_8
 		do
 			Result := i_th (i).name
 		end
 
 	set_order (order: EL_FIELD_LIST_ORDER; field_info_table: EL_OBJECT_FIELDS_TABLE)
-		require
-			table_not_filled: table.count = 0
 		local
 			i, offset, i_final: INTEGER; l_indices_set: EL_FIELD_INDICES_SET
 		do
@@ -527,5 +518,9 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	foreign_naming: detachable EL_NAME_TRANSLATER
+
+	internal_table: detachable EL_FIELD_TABLE
+
+	internal_export_table: detachable EL_EXPORT_FIELD_TABLE
 
 end

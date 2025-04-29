@@ -16,8 +16,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:39:05 GMT (Saturday 5th April 2025)"
-	revision: "42"
+	date: "2025-04-29 9:27:17 GMT (Tuesday 29th April 2025)"
+	revision: "43"
 
 deferred class
 	JSON_SETTABLE_FROM_STRING
@@ -96,9 +96,9 @@ feature -- Element change
 
 	set_from_json_list (json_list: JSON_NAME_VALUE_LIST)
 		do
-			if attached field_table as table then
+			if attached field_export_table as table then
 				from json_list.start until json_list.after loop
-					if table.has_imported_key (json_list.item_name (False))
+					if table.has_key (json_list.item_name (False))
 						and then attached table.found_item as field
 						and then attached json_list.item_value_utf_8 (False) as utf_8_value
 					then

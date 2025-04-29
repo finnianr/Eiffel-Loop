@@ -21,8 +21,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-03-06 9:17:07 GMT (Thursday 6th March 2025)"
-	revision: "24"
+	date: "2025-04-29 9:26:42 GMT (Tuesday 29th April 2025)"
+	revision: "25"
 
 deferred class
 	EL_JPEG_FILE_INFO_COMMAND_I
@@ -136,33 +136,35 @@ feature {NONE} -- Implementation
 			line, value, field_name: ZSTRING
 			found: BOOLEAN; value_column, count: INTEGER
 		do
-			across line_list as list loop
-				if list.shared_item.starts_with (Name.exif) then
-					line := list.item_copy
-					line.remove_head (Name.exif.count + 1)
-					value_column := 56; found := False
-					across Name as part until found loop
-						if attached {ZSTRING} part.item as qualifier and then line.starts_with (qualifier) then
-							if qualifier = Name.thumbnail then
-								line.remove (qualifier.count + 1) -- Remove dot
-								value_column := value_column - 1
-							else
-								line.remove_head (qualifier.count + 1)
-								value_column := value_column - qualifier.count - 1
+			if attached field_export_table as export_table then
+				across line_list as list loop
+					if list.shared_item.starts_with (Name.exif) then
+						line := list.item_copy
+						line.remove_head (Name.exif.count + 1)
+						value_column := 56; found := False
+						across Name as part until found loop
+							if attached {ZSTRING} part.item as qualifier and then line.starts_with (qualifier) then
+								if qualifier = Name.thumbnail then
+									line.remove (qualifier.count + 1) -- Remove dot
+									value_column := value_column - 1
+								else
+									line.remove_head (qualifier.count + 1)
+									value_column := value_column - qualifier.count - 1
+								end
+								field_name := line.substring_to (' ')
+								if field_name ~ Name.make then
+									field_name.prepend_compatible ("Device")
+								end
+								if export_table.has_key (field_name) then
+									value := line.substring_end (value_column)
+									value.right_adjust
+									export_table.found_item.set_from_string (Current, value)
+								end
+								found := True
 							end
-							field_name := line.substring_to (' ')
-							if field_name ~ Name.make then
-								field_name.prepend_compatible ("Device")
-							end
-							if field_table.has_imported_key (field_name) then
-								value := line.substring_end (value_column)
-								value.right_adjust
-								field_table.found_item.set_from_string (Current, value)
-							end
-							found := True
 						end
+						count := count + 1
 					end
-					count := count + 1
 				end
 			end
 			has_meta_data := count.to_boolean

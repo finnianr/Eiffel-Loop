@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-05 18:35:56 GMT (Saturday 5th April 2025)"
-	revision: "40"
+	date: "2025-04-29 9:40:52 GMT (Tuesday 29th April 2025)"
+	revision: "41"
 
 deferred class
 	EL_SETTABLE_FROM_STRING
@@ -71,11 +71,8 @@ feature {NONE} -- Initialization
 feature -- Access
 
 	field_item (name: READABLE_STRING_GENERAL): like new_string
-		local
-			table: like field_table
 		do
-			table := field_table
-			if table.has_imported_key (name) then
+			if attached field_export_table as table and then table.has_key (name) then
 				Result := field_string (table.found_item)
 			else
 				Result := new_string
@@ -119,20 +116,20 @@ feature -- Element change
 			inspect string_storage_type (a_name)
 				when '1' then
 					if attached {READABLE_STRING_8} a_name as name then
-						set_table_field (field_table, name, value)
+						set_table_field (field_export_table, name, value)
 					end
 				when 'X' then
 					if attached {ZSTRING} a_name as name then
-						set_table_field (field_table, name.to_shared_immutable_8, value)
+						set_table_field (field_export_table, name.to_shared_immutable_8, value)
 					end
 			else
-				set_table_field (field_table, Name_buffer.copied_general (a_name), value)
+				set_table_field (field_export_table, Name_buffer.copied_general (a_name), value)
 			end
 		end
 
 	set_field_from_utf_8 (name, utf_8_value: READABLE_STRING_8)
 		do
-			set_table_field_utf_8 (field_table, name, utf_8_value)
+			set_table_field_utf_8 (field_export_table, name, utf_8_value)
 		end
 
 	set_field_from_line (line: like new_string; delimiter: CHARACTER_32)
@@ -165,14 +162,15 @@ feature -- Element change
 		require
 			valid_converted_map_list: valid_converted_map_list (map_list, converted)
 		local
-			table: like field_table; tuple: TUPLE [like new_string]
+			tuple: TUPLE [like new_string]
 		do
-			table := field_table
 			create tuple
-			from map_list.start until map_list.after loop
-				tuple.put (map_list.item_value, 1)
-				set_table_field (table, map_list.item_key, converted.item (tuple))
-				map_list.forth
+			if attached field_export_table as table then
+				from map_list.start until map_list.after loop
+					tuple.put (map_list.item_value, 1)
+					set_table_field (table, map_list.item_key, converted.item (tuple))
+					map_list.forth
+				end
 			end
 		end
 
@@ -194,7 +192,7 @@ feature -- Element change
 
 	set_from_map_list (map_list: EL_ARRAYED_MAP_LIST [STRING, like new_string])
 		do
-			if attached field_table as table then
+			if attached field_export_table as table then
 				from map_list.start until map_list.after loop
 					set_table_field (table, map_list.item_key, map_list.item_value)
 					map_list.forth
@@ -210,7 +208,7 @@ feature -- Element change
 
 	set_from_table (value_table: like to_table)
 		do
-			if attached field_table as table then
+			if attached field_export_table as table then
 				from value_table.start until value_table.after loop
 					set_table_field (table, value_table.key_for_iteration, value_table.item_for_iteration)
 					value_table.forth
@@ -220,7 +218,7 @@ feature -- Element change
 
 	set_from_utf_8_table (value_table: EL_IMMUTABLE_UTF_8_TABLE)
 		do
-			if attached field_table as table then
+			if attached field_export_table as table then
 				from value_table.start until value_table.after loop
 					if attached value_table.unidented_utf_8_item_for_iteration as utf_8_value then
 						set_table_field_utf_8 (table, value_table.key_for_iteration, utf_8_value)
@@ -233,7 +231,7 @@ feature -- Element change
 	set_from_zkey_table (value_table: HASH_TABLE [like new_string, ZSTRING])
 		-- set from table with keys of type `ZSTRING'
 		do
-			if attached field_table as table then
+			if attached field_export_table as table then
 				from value_table.start until value_table.after loop
 					if attached value_table.key_for_iteration.to_shared_immutable_8 as key then
 						set_table_field (table, key, value_table.item_for_iteration)
@@ -249,16 +247,15 @@ feature -- Contract Support
 		map_list: EL_ARRAYED_MAP_LIST [STRING, like new_string]; converted: FUNCTION [like new_string, ANY]
 	): BOOLEAN
 		local
-			converted_type: INTEGER; table: like field_table; tuple: TUPLE [like new_string]
+			converted_type: INTEGER; tuple: TUPLE [like new_string]
 		do
-			table := field_table
-			if not map_list.is_empty then
+			if not map_list.is_empty and then attached field_export_table as table then
 				create tuple
 				tuple.put (map_list.first_value, 1)
 				converted_type := converted.item (tuple).generating_type.type_id
 				Result := True
 				from map_list.start until not Result or map_list.after loop
-					if table.has_imported_key (map_list.item_key) then
+					if table.has_key (map_list.item_key) then
 						Result := table.found_item.type_id = converted_type
 					end
 					map_list.forth
@@ -284,6 +281,10 @@ feature {NONE} -- Deferred
 		deferred
 		end
 
+	field_export_table: EL_EXPORT_FIELD_TABLE
+		deferred
+		end
+
 	meta_data: EL_CLASS_META_DATA
 		deferred
 		end
@@ -298,21 +299,21 @@ feature {NONE} -- Deferred
 
 feature {EL_REFLECTION_HANDLER} -- Implementation
 
-	set_inner_table_field (table: like field_table; name: READABLE_STRING_8; object: EL_REFLECTIVE; value: ANY)
+	set_inner_table_field (table: like field_export_table; name: READABLE_STRING_8; object: EL_REFLECTIVE; value: ANY)
 		local
 			pos_dot: INTEGER; left_part, right_part: READABLE_STRING_8
 		do
 			pos_dot := name.index_of ('.', 1)
 			if pos_dot > 0 then
 				left_part := Immutable_8.shared_substring (name, 1, pos_dot - 1)
-				if table.has_imported_key (left_part)
+				if table.has_key (left_part)
 					and then attached {EL_REFLECTIVE} table.found_item.value (object) as inner_object
 				then
 					right_part := Immutable_8.shared_substring_end (name, pos_dot + 1)
-					set_inner_table_field (inner_object.field_table, right_part, inner_object, value)
+					set_inner_table_field (inner_object.field_export_table, right_part, inner_object, value)
 				end
 
-			elseif table.has_imported_key (name) then
+			elseif table.has_key (name) then
 				set_reflected_field (table.found_item, object, value)
 			end
 		end
@@ -326,18 +327,18 @@ feature {EL_REFLECTION_HANDLER} -- Implementation
 			end
 		end
 
-	set_table_field (table: like field_table; name: READABLE_STRING_8; value: ANY)
+	set_table_field (table: like field_export_table; name: READABLE_STRING_8; value: ANY)
 		do
 			if name.has ('.') then
 				set_inner_table_field (table, name, current_reflective, value)
-			elseif table.has_imported_key (name) then
+			elseif table.has_key (name) then
 				set_reflected_field (table.found_item, current_reflective, value)
 			end
 		end
 
-	set_table_field_utf_8 (table: like field_table; name, utf_8_value: READABLE_STRING_8)
+	set_table_field_utf_8 (table: like field_export_table; name, utf_8_value: READABLE_STRING_8)
 		do
-			if table.has_imported_key (name) then
+			if table.has_key (name) then
 				table.found_item.set_from_utf_8 (current_reflective, utf_8_value)
 			end
 		end
