@@ -22,8 +22,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2023-03-12 11:41:24 GMT (Sunday 12th March 2023)"
-	revision: "8"
+	date: "2025-04-29 11:30:07 GMT (Tuesday 29th April 2025)"
+	revision: "9"
 
 class
 	EL_WAYBACK_CLOSEST
@@ -52,7 +52,7 @@ feature -- Access
 
 	available: BOOLEAN
 
-	status: NATURAL
+	status: INTEGER_16
 
 	timestamp: NATURAL_64
 

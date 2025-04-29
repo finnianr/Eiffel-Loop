@@ -1,13 +1,16 @@
 note
-	description: "A table to look up reflected fields using ${EL_REFLECTED_FIELD}.export_name"
+	description: "[
+		A table to look up reflected fields using ${EL_REFLECTED_FIELD}.export_name
+		or the result of `translater.imported'. (Originating from implementation of ${EL_REFLECTIVE}.foreign_naming)
+	]"
 
 	author: "Finnian Reilly"
 	copyright: "Copyright (c) 2001-2022 Finnian Reilly"
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 10:24:34 GMT (Tuesday 29th April 2025)"
-	revision: "1"
+	date: "2025-04-29 11:25:45 GMT (Tuesday 29th April 2025)"
+	revision: "2"
 
 class
 	EL_EXPORT_FIELD_TABLE
@@ -34,7 +37,7 @@ feature {NONE} -- Initialization
 			if a_translater = Void then
 				copy_from (a_field_table) -- no translations needed
 			else
-				make_table (3) -- keep it small as items are added when needed
+				make_table (3) -- keep it small as items are added only when needed
 			end
 		end
 
@@ -110,6 +113,7 @@ feature {NONE} -- Implementation
 feature {NONE} -- Internal attributes
 
 	translater: detachable EL_NAME_TRANSLATER
+		-- name translater originating from implementation of {EL_REFLECTIVE}.foreign_naming
 
 	field_table: EL_FIELD_TABLE
 		-- table with lowercase Eiffel names
