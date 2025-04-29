@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-08 9:51:15 GMT (Tuesday 8th April 2025)"
-	revision: "13"
+	date: "2025-04-29 13:14:04 GMT (Tuesday 29th April 2025)"
+	revision: "14"
 
 deferred class
 	EL_NAME_TRANSLATER
@@ -69,6 +69,27 @@ feature -- Conversion
 			new_instance: Result /= eiffel_name
 		end
 
+	imported_general (foreign_name: READABLE_STRING_GENERAL): STRING
+		do
+			inspect string_storage_type (foreign_name)
+				when '1' then
+					if attached {READABLE_STRING_8} foreign_name as str_8 then
+						Result := imported (str_8)
+					end
+
+				when 'X' then
+					if attached {ZSTRING} foreign_name as str_z then
+						if str_z.is_ascii then
+							Result := imported (str_z.to_shared_immutable_8)
+						else
+							Result := imported (Name_buffer.copied_general (foreign_name))
+						end
+					end
+			else
+				Result := imported (Name_buffer.copied_general (foreign_name))
+			end
+		end
+
 	imported (foreign_name: READABLE_STRING_8): STRING
 		-- `foreign_name' translated to Eiffel attribute-naming convention
 		deferred
@@ -78,8 +99,9 @@ feature -- Conversion
 
 feature -- Element change
 
-	inform (eiffel_name: IMMUTABLE_STRING_8)
-		-- useful for camelCase descendant
+	put (eiffel_name: IMMUTABLE_STRING_8)
+		-- put `eiffel_name' as camelCase into a table for `imported' routine
+		-- See EL_CAMEL_CASE_TRANSLATER and {EL_FIELD_LIST}.make
 		do
 		end
 

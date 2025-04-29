@@ -13,8 +13,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 15:27:58 GMT (Sunday 20th April 2025)"
-	revision: "25"
+	date: "2025-04-29 13:52:38 GMT (Tuesday 29th April 2025)"
+	revision: "26"
 
 deferred class
 	EL_STRING_GENERAL_ROUTINES_I
@@ -44,8 +44,20 @@ feature {NONE} -- Implementation
 
 	as_readable_string_8 (general: READABLE_STRING_GENERAL): READABLE_STRING_8
 		do
-			if general.is_string_8 and then attached {READABLE_STRING_8} general as str_8 then
-				Result := str_8
+			inspect string_storage_type (general)
+				when '1' then
+					if attached {READABLE_STRING_8} general as str_8 then
+						Result := str_8
+					end
+
+				when 'X' then
+					if attached {ZSTRING} general as str_z then
+						if str_z.is_valid_as_string_8 then
+							Result := str_z.to_shared_immutable_8
+						else
+							Result := str_z.to_string_8
+						end
+					end
 			else
 				Result := general.to_string_8
 			end

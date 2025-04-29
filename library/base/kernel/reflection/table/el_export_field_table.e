@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 11:25:45 GMT (Tuesday 29th April 2025)"
-	revision: "2"
+	date: "2025-04-29 13:03:56 GMT (Tuesday 29th April 2025)"
+	revision: "3"
 
 class
 	EL_EXPORT_FIELD_TABLE
@@ -100,12 +100,10 @@ feature {NONE} -- Implementation
 		local
 			l_result: STRING_8
 		do
-			if attached Name_buffer.to_same (foreign_name) as name_8 then
-				if attached translater as l_translater then
-					l_result := l_translater.imported (name_8)
-				else
-					create l_result.make_from_string (name_8)
-				end
+			if attached translater as l_translater then
+				l_result := l_translater.imported_general (foreign_name)
+			else
+				l_result := foreign_name.as_string_8
 			end
 			Result := Immutable_8.as_shared (l_result)
 		end
@@ -117,12 +115,5 @@ feature {NONE} -- Internal attributes
 
 	field_table: EL_FIELD_TABLE
 		-- table with lowercase Eiffel names
-
-feature {NONE} -- Constants
-
-	Name_buffer: EL_STRING_8_BUFFER
-		once
-			create Result
-		end
 
 end

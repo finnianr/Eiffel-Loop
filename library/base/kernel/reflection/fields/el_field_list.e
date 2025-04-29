@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 10:10:23 GMT (Tuesday 29th April 2025)"
-	revision: "35"
+	date: "2025-04-29 13:15:03 GMT (Tuesday 29th April 2025)"
+	revision: "36"
 
 class
 	EL_FIELD_LIST
@@ -68,9 +68,9 @@ feature {NONE} -- Initialization
 							if representation_table.has_key (new_field.name) then
 								new_field.set_representation (representation_table.found_item)
 							end
-							if attached  target.foreign_naming as naming then
+							if attached target.foreign_naming as naming then
 								exported_csv_string.extend (naming.exported (new_field.name))
-								naming.inform (new_field.name)
+								naming.put (new_field.name)
 							end
 						end
 					end

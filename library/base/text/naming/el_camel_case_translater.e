@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2024-09-23 7:52:15 GMT (Monday 23rd September 2024)"
-	revision: "9"
+	date: "2025-04-29 13:13:20 GMT (Tuesday 29th April 2025)"
+	revision: "10"
 
 class
 	EL_CAMEL_CASE_TRANSLATER
@@ -15,7 +15,7 @@ class
 inherit
 	EL_NAME_TRANSLATER
 		redefine
-			default_create, inform
+			default_create, put
 		end
 
 create
@@ -71,7 +71,8 @@ feature -- Conversion
 
 feature -- Element change
 
-	inform (eiffel_name: IMMUTABLE_STRING_8)
+	put (eiffel_name: IMMUTABLE_STRING_8)
+		-- put `eiffel_name' as camelCase into a table for `imported' routine
 		do
 			inspect foreign_case
 				when {EL_CASE}.lower, {EL_CASE}.upper then

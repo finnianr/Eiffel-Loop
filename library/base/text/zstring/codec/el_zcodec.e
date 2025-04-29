@@ -7,8 +7,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-20 11:58:05 GMT (Sunday 20th April 2025)"
-	revision: "89"
+	date: "2025-04-29 14:15:37 GMT (Tuesday 29th April 2025)"
+	revision: "90"
 
 deferred class
 	EL_ZCODEC
@@ -136,39 +136,43 @@ feature -- Contract Support
 		require
 			valid_start_index: str.valid_index (start_index) and str.valid_index (end_index)
 		local
-			i, in_offset, block_index, i_upper, i_lower: INTEGER; uc_i: CHARACTER_32
+			i, in_offset, block_index, i_upper, i_lower, code_i: INTEGER; uc_i: CHARACTER_32
 			iter: EL_COMPACT_SUBSTRINGS_32_ITERATION; c_i: CHARACTER
 		do
 			if attached str.area as str_area and then attached str.unencoded_area as area_32
 				and then attached unicode_table as unicode
-				and then attached str.codec.unicode_table as zstring_unicode
+				and then attached str.codec.unicode_table as uc_table
 			then
 				in_offset := str.area_lower
 				Result := True
-				if unicode = zstring_unicode then
+				if unicode = uc_table then
 					Result := not str.has_mixed_encoding
 				else
 					i_lower := start_index + in_offset - 1
 					i_upper := end_index + in_offset - 1
 					from i := i_lower until not Result or i > i_upper loop
 						c_i := str_area [i]
-						inspect c_i
+						inspect character_8_band (c_i)
 							when Substitute then
 								uc_i := iter.item ($block_index, area_32, i - in_offset + 1)
+								code_i := uc_i.code
+
+							when Ascii_range then
+								code_i := 0
 						else
-							uc_i := zstring_unicode [c_i.code]
+							uc_i := uc_table [c_i.code]
+							code_i := uc_i.code
 						end
-						inspect uc_i.code
-							when 0 .. Max_ascii_code then
-							--	do nothing for ASCII
+						if code_i > Max_ascii_code then
+							inspect code_i
+								when 0x80 .. Max_8_bit_code  then
+									if unicode [code_i] /= uc_i then
+										Result := latin_character (uc_i) /=  '%U'
+									end
 
-							when 0x80 .. Max_8_bit_code  then
-								if unicode [uc_i.code] /= uc_i then
-									Result := latin_character (uc_i) /=  '%U'
-								end
-
-						else
-							Result := latin_character (uc_i) /=  '%U'
+							else
+								Result := latin_character (uc_i) /=  '%U'
+							end
 						end
 						i := i + 1
 					end
@@ -693,14 +697,14 @@ feature {NONE} -- Implementation
 		do
 			if attached zstr_in.area as area and then attached zstr_in.unencoded_area as area_32
 				and then attached unicode_table as unicode
-				and then attached zstr_in.codec.unicode_table as zstring_unicode
+				and then attached zstr_in.codec.unicode_table as uc_table
 			then
 				in_offset := zstr_in.area_lower
 				i_lower := start_index + in_offset - 1
 				i_upper := end_index + in_offset - 1
 				out_i := i_lower - in_offset + out_offset - start_index + 1
 
-				if unicode = zstring_unicode then
+				if unicode = uc_table then
 					-- same encoding
 					count := end_index - start_index + 1
 					encoded_out.copy_data (zstr_in.area, i_lower, out_offset, count)
@@ -719,26 +723,29 @@ feature {NONE} -- Implementation
 				else
 					from i := i_lower until i > i_upper loop
 						c_i := area [i]
-						inspect c_i
+						inspect character_8_band (c_i)
 							when Substitute then
 								uc_i := iter.item ($block_index, area_32, i - in_offset + 1)
+								code_i := uc_i.code
+
+							when Ascii_range then
+								encoded_out [out_i] := c_i
+								code_i := 0
 						else
-							uc_i := zstring_unicode [c_i.code]
+							uc_i := uc_table [c_i.code]
+							code_i := uc_i.code
 						end
-						code_i := uc_i.code
-
-						inspect code_i
-							when 0 .. Max_ascii_code then
-								encoded_out [out_i] := uc_i.to_character_8
-
-							when 0x80 .. Max_8_bit_code then
-								if unicode [code_i] = uc_i then
-									encoded_out [out_i] := uc_i.to_character_8
-								else
-									encode_default := True
-								end
-						else
-							encode_default := True
+						if code_i > Max_ascii_code then
+							inspect code_i
+								when 0x80 .. Max_8_bit_code then
+									if unicode [code_i] = uc_i then
+										encoded_out [out_i] := uc_i.to_character_8
+									else
+										encode_default := True
+									end
+							else
+								encode_default := True
+							end
 						end
 						if encode_default then
 							latin_c := latin_character (uc_i)
