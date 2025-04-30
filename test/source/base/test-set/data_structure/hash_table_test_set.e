@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-25 12:32:55 GMT (Friday 25th April 2025)"
-	revision: "63"
+	date: "2025-04-30 12:49:37 GMT (Wednesday 30th April 2025)"
+	revision: "64"
 
 class	HASH_TABLE_TEST_SET inherit BASE_EQA_TEST_SET
 
@@ -330,6 +330,12 @@ feature -- General tests
 				across -25 |..| 25 as list loop
 					n := list.item.to_integer_16 * multiplier
 					assert ("same square", source_table [n] = sparse_table [n])
+					if list.is_first then
+						assert ("valid first key", sparse_table.key_list.first = n)
+					end
+					if list.is_last then
+						assert ("valid last key", sparse_table.key_list.last = n)
+					end
 				end
 				assert ("same key list", key_list ~ sparse_table.key_list)
 				assert ("not array indexed", multiplier > 1 implies not sparse_table.is_array_indexed)

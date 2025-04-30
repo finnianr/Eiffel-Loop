@@ -6,8 +6,8 @@
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:30:21 GMT (Monday 28th April 2025)"
-	revision: "8"
+	date: "2025-04-30 8:00:01 GMT (Wednesday 30th April 2025)"
+	revision: "9"
 
 class
 	EL_IPAPI_CO_JSON_FIELD_ENUM
@@ -16,7 +16,7 @@ inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as Snake_case_upper
+			name_translater as Snake_case_upper
 		end
 
 create

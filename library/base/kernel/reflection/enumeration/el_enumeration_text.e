@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:24:30 GMT (Monday 28th April 2025)"
-	revision: "4"
+	date: "2025-04-30 10:32:17 GMT (Wednesday 30th April 2025)"
+	revision: "5"
 
 deferred class
 	EL_ENUMERATION_TEXT [N -> HASHABLE]
@@ -18,7 +18,10 @@ inherit
 			count as interval_count
 		end
 
-	EL_SHARED_IMMUTABLE_8_MANAGER
+	EL_TRANSLATEABLE_KEY_TABLE
+		rename
+			translater as name_translater
+		end
 
 	EL_MODULE_CONVERT_STRING
 
@@ -26,6 +29,12 @@ inherit
 		export
 			{NONE} all
 		end
+
+	EL_NAMING_CONVENTIONS
+
+	EL_MODULE_EIFFEL
+
+	EL_OBJECT_PROPERTY_I
 
 feature -- Access
 
@@ -69,6 +78,27 @@ feature -- Contract Support
 		end
 
 feature {NONE} -- Implementation
+
+	default_translater: detachable EL_NAME_TRANSLATER
+		-- rename `name_translater' to `default_translater' for `name' to return copy of `field_name'
+		do
+		end
+
+	field_name_for_interval (interval: INTEGER_64; text: like utf_8_text): IMMUTABLE_STRING_8
+		local
+			i, start_index, end_index: INTEGER; break: BOOLEAN
+		do
+			end_index := to_lower (interval) - 3
+			from i := end_index - 1 until i = 0 or break loop
+				if text [i] = '%N' then
+					start_index := i; break := True
+				else
+					i := i - 1
+				end
+			end
+			start_index := start_index + 1
+			Result := text.shared_substring (start_index, end_index)
+		end
 
 	new_interval_table (field_list: EL_FIELD_LIST): HASH_TABLE [INTEGER_64, N]
 		local
@@ -131,7 +161,7 @@ feature {NONE} -- Internal attributes
 feature {NONE} -- Constants
 
 	Empty_text: IMMUTABLE_STRING_8
-		once
+		once ("PROCESS")
 			create Result.make_empty
 		end
 end

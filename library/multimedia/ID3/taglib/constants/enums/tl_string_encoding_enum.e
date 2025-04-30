@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:27:29 GMT (Monday 28th April 2025)"
-	revision: "10"
+	date: "2025-04-30 12:22:44 GMT (Wednesday 30th April 2025)"
+	revision: "11"
 
 class
 	TL_STRING_ENCODING_ENUM
@@ -16,7 +16,7 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as English
+			name_translater as English
 		export
 			{NONE} all
 			{ANY} valid_value, name, as_list
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize_fields (field_list: EL_FIELD_LIST)
 		do
 			latin_1 := 0
 			utf_16  := 1; utf_16_big_endian := 2

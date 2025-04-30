@@ -8,8 +8,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:20:26 GMT (Monday 28th April 2025)"
-	revision: "7"
+	date: "2025-04-30 12:12:32 GMT (Wednesday 30th April 2025)"
+	revision: "8"
 
 class	REFLECTIVE_CODE_TABLE_TEST_SET inherit	BASE_EQA_TEST_SET
 
@@ -56,7 +56,7 @@ feature -- Tests
 				covers/{EL_HTTP_CODE_DESCRIPTIONS}.code_descriptions
 			]"
 		local
-			enum: HTTP_STATUS_ENUM; description: STRING; i: INTEGER; code: NATURAL_16
+			enum: HTTP_STATUS_ENUM i: INTEGER; code: NATURAL_16
 		do
 			create enum.make
 			assert ("valid description keys", enum.valid_table_keys)
@@ -66,13 +66,29 @@ feature -- Tests
 					enum.continue, enum.accepted, enum.found, enum.bad_request, enum.bad_gateway
 				>> as list loop
 					i := list.cursor_index; code := list.item
-					description := enum.description (code.item)
-					assert_same_string (Void, enum.field_name (code), Name_list [i])
-					assert ("starts with code", super_8 (description).substring_to (' ').to_natural_16 = code)
-					assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
+					assert ("valid value", enum.valid_value (code))
 
-					assert_same_english_name (i, enum.name (code))
+					assert_same_string (Void, enum.field_name (code), Name_list [i])
+					assert ("has_field_name", enum.has_field_name (Name_list [i]))
+					assert ("found_value OK", enum.found_field and enum.found_value = code)
+
+					if attached enum.description (code.item) as description then
+						assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
+						assert ("starts with code", super_8 (description).substring_to (' ').to_natural_16 = code)
+					end
+
+					if attached english_name (i) as name then
+						assert ("valid_name", enum.valid_name (name))
+						assert_same_string (Void, enum.name (code), name)
+						assert ("same value", code = enum.value (name))
+						assert ("has_name", enum.has_name (name))
+						assert ("found_value OK", enum.found_field and enum.found_value = code)
+					end
 				end
+			end
+			if attached enum.as_list as list then
+				assert ("first is 100", list.first = 100)
+				assert ("last is 510", list.last = 510)
 			end
 		end
 
@@ -160,7 +176,7 @@ feature -- Tests
 					if attached s.description (code) as description then
 						assert ("has description", manifest.has_substring (super_8 (description).substring_to ('%N')))
 					end
-					assert_same_english_name (i, s.name (code))
+					assert_same_string (Void, s.name (code), english_name (i))
 				end
 			end
 			if Http_status.valid_table_keys then
@@ -194,16 +210,13 @@ feature -- Tests
 
 feature {NONE} -- Implementation
 
-	assert_same_english_name (i: INTEGER; code_name: STRING)
-		local
-			english_name: STRING
+	english_name (i: INTEGER): STRING
 		do
-			english_name := Name_list [i].twin
-			if attached super_8 (english_name) as name then
+			Result := Name_list [i].twin
+			if attached super_8 (Result) as name then
 				name.replace_character ('_', ' ')
 				name.first_to_upper
 			end
-			assert_same_string (Void, english_name, code_name)
 		end
 
 feature {NONE} -- Constants

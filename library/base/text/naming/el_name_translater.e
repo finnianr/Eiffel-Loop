@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 13:14:04 GMT (Tuesday 29th April 2025)"
-	revision: "14"
+	date: "2025-04-30 9:42:14 GMT (Wednesday 30th April 2025)"
+	revision: "15"
 
 deferred class
 	EL_NAME_TRANSLATER
@@ -79,7 +79,7 @@ feature -- Conversion
 
 				when 'X' then
 					if attached {ZSTRING} foreign_name as str_z then
-						if str_z.is_ascii then
+						if str_z.is_valid_as_string_8 then
 							Result := imported (str_z.to_shared_immutable_8)
 						else
 							Result := imported (Name_buffer.copied_general (foreign_name))

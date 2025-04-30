@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 13:03:56 GMT (Tuesday 29th April 2025)"
-	revision: "3"
+	date: "2025-04-30 10:17:48 GMT (Wednesday 30th April 2025)"
+	revision: "4"
 
 class
 	EL_EXPORT_FIELD_TABLE
@@ -25,6 +25,8 @@ inherit
 			{NONE} all
 			{ANY} found_item, found
 		end
+
+	EL_TRANSLATEABLE_KEY_TABLE
 
 create
 	make
@@ -96,22 +98,12 @@ feature {NONE} -- Implementation
 			object_comparison := other.object_comparison
 		end
 
-	translated_key (foreign_name: READABLE_STRING_GENERAL): IMMUTABLE_STRING_8
-		local
-			l_result: STRING_8
-		do
-			if attached translater as l_translater then
-				l_result := l_translater.imported_general (foreign_name)
-			else
-				l_result := foreign_name.as_string_8
-			end
-			Result := Immutable_8.as_shared (l_result)
-		end
-
 feature {NONE} -- Internal attributes
 
 	translater: detachable EL_NAME_TRANSLATER
 		-- name translater originating from implementation of {EL_REFLECTIVE}.foreign_naming
+
+feature {NONE} -- Internal attributes
 
 	field_table: EL_FIELD_TABLE
 		-- table with lowercase Eiffel names

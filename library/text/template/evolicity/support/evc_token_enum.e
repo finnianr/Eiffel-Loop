@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:29:45 GMT (Monday 28th April 2025)"
-	revision: "8"
+	date: "2025-04-30 12:27:29 GMT (Wednesday 30th April 2025)"
+	revision: "9"
 
 class
 	EVC_TOKEN_ENUM
@@ -16,9 +16,9 @@ inherit
 	EL_ENUMERATION_NATURAL_32
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as eiffel_naming
+			name_translater as default_translater
 		redefine
-			initialize_fields
+			initialize
 		end
 
 create
@@ -26,9 +26,8 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize
 		do
-			Precursor
 			loop_keywords := << keyword_across, keyword_foreach >>
 			literals := << literal_real, literal_integer, literal_string >>
 		end

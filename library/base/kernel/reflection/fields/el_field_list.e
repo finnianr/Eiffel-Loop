@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 13:15:03 GMT (Tuesday 29th April 2025)"
-	revision: "36"
+	date: "2025-04-30 6:06:06 GMT (Wednesday 30th April 2025)"
+	revision: "37"
 
 class
 	EL_FIELD_LIST
@@ -88,8 +88,9 @@ feature {NONE} -- Initialization
 			end
 		end
 
-	make_abstract (object: ANY; a_abstract_type: INTEGER)
-		-- make list of all fields in `object' matching `a_abstract_type'
+	make_abstract (object: ANY; a_abstract_type: INTEGER; exclude_transient: BOOLEAN)
+		-- make list of all fields in `object' matching `a_abstract_type' and exclude transient fields
+		-- if `exclude_transient' is true
 		local
 			field_index: INTEGER
 		do
@@ -99,7 +100,9 @@ feature {NONE} -- Initialization
 				make_list (field_type_set.count)
 				across field_type_set.new_name_list (reflected_object) as name loop
 					field_index := field_type_set [name.cursor_index - 1]
-					extend_for_type (object, field_index, a_abstract_type, name.item)
+					if exclude_transient implies not reflected_object.is_field_transient (field_index) then
+						extend_for_type (object, field_index, a_abstract_type, name.item)
+					end
 				end
 			else
 				make_empty

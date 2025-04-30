@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 11:42:36 GMT (Monday 28th April 2025)"
-	revision: "5"
+	date: "2025-04-30 12:41:33 GMT (Wednesday 30th April 2025)"
+	revision: "6"
 
 deferred class
 	EL_SPARSE_ARRAY_TABLE [G, K -> HASHABLE]
@@ -117,7 +117,7 @@ feature -- Access
 		do
 			create area.make_empty (count)
 			if is_array_indexed and then attached content as l_content then
-				i_upper := count - 1
+				i_upper := l_content.count - 1
 				from i := 0 until i > i_upper loop
 					if i = default_value_index or else l_content [i] /= computed_default_value then
 						area.extend (index_to_key (index_lower + i))

@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:27:41 GMT (Monday 28th April 2025)"
-	revision: "12"
+	date: "2025-04-30 12:22:54 GMT (Wednesday 30th April 2025)"
+	revision: "13"
 
 class
 	TL_PICTURE_TYPE_ENUM
@@ -16,7 +16,7 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as English
+			name_translater as English
 		export
 			{NONE} all
 			{ANY} value, valid_value, name, as_list
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize_fields (field_list: EL_FIELD_LIST)
 		do
 			artist := 0x08
 			back_cover := 0x04

@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:28:38 GMT (Monday 28th April 2025)"
-	revision: "10"
+	date: "2025-04-30 8:05:25 GMT (Wednesday 30th April 2025)"
+	revision: "11"
 
 class
 	PP_TRANSACTION_TYPE_ENUM
@@ -24,7 +24,7 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as eiffel_naming
+			name_translater as default_translater
 		end
 
 create

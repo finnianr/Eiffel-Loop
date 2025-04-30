@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 13:06:53 GMT (Monday 28th April 2025)"
-	revision: "5"
+	date: "2025-04-30 12:26:46 GMT (Wednesday 30th April 2025)"
+	revision: "6"
 
 class
 	HTTP_STATUS_ENUM
@@ -20,9 +20,9 @@ inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
 			new_table_text as code_descriptions,
-			foreign_naming as English
+			name_translater as English
 		redefine
-			values_in_text, initialize_fields
+			values_in_text, initialize
 		end
 
 	EL_HTTP_CODE_DESCRIPTIONS
@@ -32,9 +32,8 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize
 		do
-			Precursor
 			redirection_codes := << moved_permanently, moved_temporarily, see_other, temporary_redirect >>
 		end
 

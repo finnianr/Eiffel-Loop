@@ -6,8 +6,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:24:20 GMT (Monday 28th April 2025)"
-	revision: "2"
+	date: "2025-04-30 7:55:43 GMT (Wednesday 30th April 2025)"
+	revision: "3"
 
 deferred class
 	EL_TEXT_TABLE_ENUMERATION [N -> HASHABLE]
@@ -39,7 +39,7 @@ feature {NONE} -- Initialization
 		do
 			set_utf_8_text (table_text)
 
-			create field_list.make_abstract (Current, Eiffel.abstract_type_of_type (({N}).type_id))
+			create field_list.make_abstract (Current, Eiffel.abstract_type_of_type (({N}).type_id), True)
 			count := field_list.count
 			interval_table := new_interval_table (new_interval_hash_table (field_list))
 			across interval_table.key_list as list loop
@@ -125,27 +125,6 @@ feature -- Status query
 
 feature {NONE} -- Implementation
 
-	field_name_for_interval (interval: INTEGER_64; text: like utf_8_text): IMMUTABLE_STRING_8
-		local
-			i, start_index, end_index: INTEGER; break: BOOLEAN
-		do
-			end_index := to_lower (interval) - 3
-			from i := end_index - 1 until i = 0 or break loop
-				if text [i] = '%N' then
-					start_index := i; break := True
-				else
-					i := i - 1
-				end
-			end
-			start_index := start_index + 1
-			Result := text.shared_substring (start_index, end_index)
-		end
-
-	default_translater: detachable EL_NAME_TRANSLATER
-		-- rename `name_translater' to `default_translater' for `name' to return copy of `field_name'
-		do
-		end
-
 	internal_has_field_name (a_name: like field_name; set_found_value: BOOLEAN): BOOLEAN
 		do
 			if attached utf_8_text as text then
@@ -169,11 +148,6 @@ feature {NONE} -- Implementation
 		end
 
 feature {NONE} -- Deferred
-
-	name_translater: detachable EL_NAME_TRANSLATER
-		-- implement in descendant to make `name' an exported version of `field_name'
-		deferred
-		end
 
 	new_interval_table (hash_table: HASH_TABLE [INTEGER_64, N]): EL_SPARSE_ARRAY_TABLE [INTEGER_64, N]
 		deferred

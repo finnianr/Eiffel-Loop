@@ -14,8 +14,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:29:22 GMT (Monday 28th April 2025)"
-	revision: "6"
+	date: "2025-04-30 12:25:30 GMT (Wednesday 30th April 2025)"
+	revision: "7"
 
 deferred class
 	EL_BOOLEAN_ENUMERATION
@@ -23,15 +23,16 @@ deferred class
 inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
-			new_table_text as Empty_text
+			new_table_text as Empty_text,
+			name_translater as default_translater
 		redefine
 			initialize_fields
 		end
 
 feature {NONE} -- Initialization
 
-	initialize_fields
-			-- initialize fields with unique value
+	initialize_fields (field_list: EL_FIELD_LIST)
+		-- initialize fields with unique value
 		do
 			is_true := 1
 		end

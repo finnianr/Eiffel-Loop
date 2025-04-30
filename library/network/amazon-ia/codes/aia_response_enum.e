@@ -10,8 +10,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:31:00 GMT (Monday 28th April 2025)"
-	revision: "16"
+	date: "2025-04-30 8:02:27 GMT (Wednesday 30th April 2025)"
+	revision: "17"
 
 class
 	AIA_RESPONSE_ENUM
@@ -20,7 +20,7 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as snake_case_upper
+			name_translater as Snake_case_upper
 		end
 
 create
@@ -42,8 +42,8 @@ feature -- Access
 
 feature {NONE} -- Implementation
 
-	snake_case_upper: EL_NAME_TRANSLATER
-		do
+	Snake_case_upper: EL_NAME_TRANSLATER
+		once
 			Result := snake_case_translater ({EL_CASE}.Upper)
 		end
 

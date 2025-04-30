@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:30:15 GMT (Monday 28th April 2025)"
-	revision: "12"
+	date: "2025-04-30 12:24:00 GMT (Wednesday 30th April 2025)"
+	revision: "13"
 
 class
 	EL_NETWORK_DEVICE_TYPE_ENUM
@@ -22,7 +22,7 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as Snake_case_upper
+			name_translater as Snake_case_upper
 		redefine
 			initialize_fields
 		end
@@ -32,7 +32,7 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize_fields (field_list: EL_FIELD_LIST)
 		do
 			ATM := 37
 			BLUETOOTH := 7 -- Extra identifier not in Microsoft API

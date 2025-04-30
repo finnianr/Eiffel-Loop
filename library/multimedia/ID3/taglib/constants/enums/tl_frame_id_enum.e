@@ -12,8 +12,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:28:31 GMT (Monday 28th April 2025)"
-	revision: "17"
+	date: "2025-04-30 8:06:23 GMT (Wednesday 30th April 2025)"
+	revision: "18"
 
 class
 	TL_FRAME_ID_ENUM
@@ -22,7 +22,7 @@ inherit
 	EL_ENUMERATION_NATURAL_8
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as Snake_case_upper
+			name_translater as Snake_case_upper
 		export
 			{NONE} all
 			{ANY} value, valid_value, name

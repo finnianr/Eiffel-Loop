@@ -9,8 +9,8 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 17:30:09 GMT (Monday 28th April 2025)"
-	revision: "9"
+	date: "2025-04-30 12:23:50 GMT (Wednesday 30th April 2025)"
+	revision: "10"
 
 class
 	EL_SERVICE_PORT_ENUM
@@ -19,7 +19,7 @@ inherit
 	EL_ENUMERATION_NATURAL_16
 		rename
 			new_table_text as Empty_text,
-			foreign_naming as Snake_case_upper
+			name_translater as Snake_case_upper
 		redefine
 			initialize_fields
 		end
@@ -29,7 +29,7 @@ create
 
 feature {NONE} -- Initialization
 
-	initialize_fields
+	initialize_fields (field_list: EL_FIELD_LIST)
 		do
 			DNS := 53
 			FTP := 21

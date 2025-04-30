@@ -6,17 +6,14 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-28 16:56:48 GMT (Monday 28th April 2025)"
-	revision: "13"
+	date: "2025-04-30 12:20:34 GMT (Wednesday 30th April 2025)"
+	revision: "14"
 
 deferred class
 	EL_ENUMERATION_NATURAL_32
 
 inherit
 	EL_ENUMERATION [NATURAL_32]
-		rename
-			enum_type as natural_32_type
-		end
 
 	EL_32_BIT_IMPLEMENTATION
 
@@ -39,26 +36,14 @@ feature {NONE} -- Implementation
 			Result := a_value.to_integer_32
 		end
 
-	field_value (field: EL_REFLECTED_NATURAL_32): NATURAL_32
-		do
-			Result := field.value (Current)
-		end
-
-	new_field_by_value_table (table: HASH_TABLE [like ENUM_FIELD, NATURAL_32]): EL_NATURAL_32_SPARSE_ARRAY [like ENUM_FIELD]
+	new_field_name_table (table: HASH_TABLE [IMMUTABLE_STRING_8, NATURAL_32]): EL_NATURAL_32_SPARSE_ARRAY [IMMUTABLE_STRING_8]
 		do
 			create Result.make (table)
 		end
 
-	new_interval_table: like default_interval_table
+	new_interval_table (field_list: EL_FIELD_LIST): like default_interval_table
 		do
 			create Result.make (new_interval_hash_table (field_list))
-		end
-
-feature -- Type definitions
-
-	ENUM_FIELD: EL_REFLECTED_NATURAL_32
-		once ("PROCESS")
-			create Result.make (Current, 1, Default_name)
 		end
 
 feature {NONE} -- Constants

@@ -31,22 +31,10 @@ note
 	contact: "finnian at eiffel hyphen loop dot com"
 
 	license: "MIT license (See: en.wikipedia.org/wiki/MIT_License)"
-	date: "2025-04-29 10:59:40 GMT (Tuesday 29th April 2025)"
-	revision: "81"
+	date: "2025-04-30 12:26:01 GMT (Wednesday 30th April 2025)"
+	revision: "82"
 
-deferred class
-	EL_ENUMERATION [N -> HASHABLE]
-
-inherit
-	EL_REFLECTIVELY_SETTABLE
-		rename
-			make_default as make
-		export
-			{NONE} all
-			{EL_REFLECTION_HANDLER} field_table
-		redefine
-			make, initialize_fields, new_field_sorter
-		end
+deferred class EL_ENUMERATION [N -> HASHABLE] inherit ANY
 
 	EL_ENUMERATION_TEXT [N]
 		rename
@@ -59,25 +47,25 @@ inherit
 
 	EL_BIT_COUNTABLE
 
-	EL_OBJECT_PROPERTY_I
-
 feature {NONE} -- Initialization
 
-	initialize_fields
-			-- initialize fields with unique value
+	initialize
 		do
-			if attached new_table_text as table_text then
-				set_utf_8_text (table_text)
-				if table_text.is_empty then
-					interval_table := default_interval_table
-				else
-					interval_table := new_interval_table
-				end
-			end
-			if values_in_text and attached field_list as field then
-				across interval_table.key_list as list loop
-					field [list.cursor_index].set_from_integer (Current, as_integer (list.item))
-					text_value_count := text_value_count + 1
+		end
+
+	initialize_fields (field_list: EL_FIELD_LIST)
+		-- initialize fields with unique value
+		do
+			if values_in_text and attached field_list.table as l_field_table then
+				across interval_table as table loop
+					if attached field_name_for_interval (table.item, utf_8_text) as l_name then
+						if l_field_table.has_immutable_key (l_name)
+							and then attached l_field_table.found_item as field
+						then
+							field.set_from_integer (Current, as_integer (table.key))
+							text_value_count := text_value_count + 1
+						end
+					end
 				end
 			else
 				across field_list as list loop
@@ -89,20 +77,32 @@ feature {NONE} -- Initialization
 		end
 
 	make
-		require else
+		require
 			valid_enum_type: valid_enum_type
 		local
-			name_table: EL_HASH_TABLE [like ENUM_FIELD, N]
+			l_name_table: HASH_TABLE [IMMUTABLE_STRING_8, N]
 		do
-			Precursor
-			create name_table.make (count)
-			across field_list as list loop
-				if attached {like ENUM_FIELD} list.item as field then
-					name_table.extend (field, field_value (field))
+		 	if attached new_field_list as field_list then
+			-- obtain values from text table before call to `initialize_fields'
+				if attached new_table_text as table_text then
+					set_utf_8_text (table_text)
+					if table_text.is_empty then
+						interval_table := default_interval_table
+					else
+						interval_table := new_interval_table (field_list)
+					end
 				end
-			end
-			field_by_value_table := new_field_by_value_table (name_table)
-		ensure then
+			 	count := field_list.count
+				initialize_fields (field_list)
+				create l_name_table.make (field_list.count)
+				across field_list as list loop
+					if attached {EL_REFLECTED_INTEGER_FIELD [NUMERIC]} list.item as field then
+						l_name_table.put (field.name, as_enum (field.to_natural_64 (Current).to_integer_32))
+					end
+				end
+		 	end
+			field_name_table := new_field_name_table (l_name_table)
+		ensure
 			all_values_unique: all_values_unique
 			name_and_values_consistent: name_and_values_consistent
 			valid_text_table_keys: valid_table_keys
@@ -110,38 +110,48 @@ feature {NONE} -- Initialization
 
 feature -- Measurement
 
-	count: INTEGER
-		do
-			Result := field_list.count
-		end
+	count: INTEGER note option: transient attribute end
 
-	text_value_count: INTEGER
+	text_value_count: INTEGER note option: transient attribute end
 		-- count of values in string manifest text `new_table_text' that match those in `field_list'
+		-- (set as transient so as not to be included as an enumeration value)
 
 feature -- Access
 
-	as_list: EL_ARRAYED_RESULT_LIST [like ENUM_FIELD, N]
+	as_list: EL_ARRAYED_LIST [N]
 		do
-			create Result.make (field_by_value_table, agent field_value)
+			Result := field_name_table.key_list
 			Result.sort (True)
 		end
 
 	field_name (a_value: N): IMMUTABLE_STRING_8
 		-- field `name' from field value `a_value'
 		do
-			Result := lookup_name (a_value, False)
+			if field_name_table.has_key (a_value) then
+				Result := field_name_table.found_item
+			else
+				Result := Empty_text
+			end
 		ensure
 			not_empty: not Result.is_empty
 		end
 
-	found_value: like field_value note option: transient attribute end
+	found_value: like as_enum note option: transient attribute end
 		-- value set after all to `has_field_name' or `has_name'
 		-- (set as transient so as not to be included as an enumeration value)
 
 	name (a_value: N): IMMUTABLE_STRING_8
 		-- field `exported_name' from field value `a_value'
 		do
-			Result := lookup_name (a_value, True)
+			if attached name_translater as translater then
+				if attached name_table as table and then table.has_key (a_value) then
+					Result := table.found_item
+				else
+					Result := Empty_text
+				end
+			else
+				Result := field_name (a_value)
+			end
 		end
 
 	name_list: EL_ARRAYED_LIST [IMMUTABLE_STRING_8]
@@ -153,7 +163,7 @@ feature -- Access
 			end
 		end
 
-	value (a_name: READABLE_STRING_GENERAL): like field_value
+	value (a_name: READABLE_STRING_GENERAL): like as_enum
 		-- enumuration value from exported `a_name'
 		-- Eg. all uppercase "AUD" for `EL_CURRENCY_ENUM' returns value for field `aud: NATURAL_8'
 		require
@@ -181,73 +191,81 @@ feature -- Status query
 	all_values_unique: BOOLEAN
 		-- `True' if each enumeration field is asssigned a unique value
 		do
-			if attached field_by_value_table as name_table then
-				Result := name_table.count = count
-			end
+			Result := field_name_table.count = count
 		end
 
 	found_field: BOOLEAN
 		-- `True' if call to `has_name' or `has_field_name' finds an enumerated field
-		do
-			Result := field_table.found
-		end
 
 	has_field_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `field_table' has `a_name' and `found_value' set to value if found
 		-- Eg. all lowercase "aud" for `EL_CURRENCY_ENUM' sets value for field `aud: NATURAL_8'
 		do
-			if attached field_table as table then
-				if table.has_key_general (a_name) and then attached {like ENUM_FIELD} table.found_item as field then
-					Result := True
-					found_value := field_value (field)
-				else
-					found_value := as_enum (0)
-				end
+			if attached value_table as table and then table.has_key (as_name_key (a_name)) then
+				Result := True
+				found_value := table.found_item
+			else
+				found_value := as_enum (0)
 			end
+			found_field := Result
 		end
 
 	has_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		-- `True' if `field_table' has exported `a_name' and `found_value' set to value if found
 		-- Eg. all uppercase "AUD" for `EL_CURRENCY_ENUM' sets value for field `aud: NATURAL_8'
 		do
-			if attached field_export_table as table then
-				if table.has_key (a_name) and then attached {like ENUM_FIELD} table.found_item as field then
+			if name_translater = Void then
+				Result := has_field_name (a_name)
+
+			elseif attached value_by_name_table as table then
+				if table.has_key (as_name_key (a_name)) then
+					found_value := table.found_item
 					Result := True
-					found_value := field_value (field)
-				else
-					found_value := as_enum (0)
+
+				elseif attached translated_key (a_name) as key then
+					if value_table.has_key (key) then
+						found_value := value_table.found_item
+						Result := True
+						table.extend (found_value, key)
+					end
 				end
 			end
+			found_field := Result
 		end
 
 	valid_name (a_name: READABLE_STRING_GENERAL): BOOLEAN
 		do
-			Result := field_export_table.has (a_name)
+			if name_translater = Void then
+				Result := value_table.has (as_name_key (a_name))
+
+			elseif attached value_by_name_table as table then
+				if table.has (as_name_key (a_name)) then
+					Result := True
+				else
+					Result := value_table.has (translated_key (a_name))
+				end
+			end
 		end
 
 	valid_value (a_value: N): BOOLEAN
 		do
-			if attached field_by_value_table as name_table then
-				Result := name_table.has (a_value)
-			end
+			Result := field_name_table.has (a_value)
 		end
 
 feature -- Basic operations
 
 	write_crc (crc: EL_CYCLIC_REDUNDANCY_CHECK_32)
 		do
-			across field_list as list loop
-				if attached {like ENUM_FIELD} list.item as field then
-					crc.add_string_8 (field.name)
-					write_value (crc, field_value (field))
-				end
+			across field_name_table as table loop
+				crc.add_string_8 (table.item)
+				write_value (crc, table.key)
 			end
 		end
 
 	write_meta_data (output: EL_OUTPUT_MEDIUM; tab_count: INTEGER)
 		do
 			output.put_indented_line (tab_count, "class " + generator)
-			across field_list as list loop
+			across new_field_list as list loop
 				output.put_indented_line (tab_count + 1, list.item.name + " = " + list.item.to_string (Current))
 			end
 			output.put_indented_line (tab_count, "end")
@@ -262,14 +280,26 @@ feature -- Contract Support
 	name_and_values_consistent: BOOLEAN
 		-- `True' if all `value' results can be looked up from `name_by_value' items
 		do
-			Result := across field_by_value_table as table all
-				 table.key = value (table.item.export_name)
+			if attached name_translater as translater then
+				Result := across field_name_table as table all
+					table.key = value (translater.exported (table.item))
+				end
+			else
+				Result := across field_name_table as table all
+					table.key = value (table.item)
+				end
 			end
 		end
 
 	valid_enum_type: BOOLEAN
 		do
-			Result := Eiffel.abstract_type_of_type (({N}).type_id) = enum_type
+			inspect enum_type
+				when integer_8_type, Integer_16_type, Integer_32_type then
+					Result := True
+				when Natural_8_type, Natural_16_type, Natural_32_type then
+					Result := True
+			else
+			end
 		end
 
 	valid_table_keys: BOOLEAN
@@ -279,72 +309,107 @@ feature -- Contract Support
 
 feature {NONE} -- Implementation
 
-	field_included (field: EL_FIELD_TYPE_PROPERTIES): BOOLEAN
+	as_name_key (a_name: READABLE_STRING_GENERAL): IMMUTABLE_STRING_8
+		local
+			sg: EL_STRING_GENERAL_ROUTINES
 		do
-			Result := field.abstract_type = enum_type
+			Result := Immutable_8.as_shared (sg.as_readable_string_8 (a_name))
 		end
 
-	lookup_name (a_value: N; exported: BOOLEAN): IMMUTABLE_STRING_8
-		-- exported name
+	enum_type: INTEGER
 		do
-			Result := Default_name
-			if attached field_by_value_table as table and then table.has_key (a_value) then
-				if exported then
-					Result := table.found_item.export_name
-				else
-					Result := table.found_item.name
+			Result := Eiffel.abstract_type_of_type (({N}).type_id)
+		end
+
+	name_table: like field_name_table
+		local
+			l_name_table: HASH_TABLE [IMMUTABLE_STRING_8, N]
+		do
+			if attached internal_name_table as table then
+				Result := table
+
+			elseif attached name_translater as translater then
+				create l_name_table.make (field_name_table.count)
+				across field_name_table as table loop
+					l_name_table.extend (translater.exported (table.item), table.key)
 				end
+				Result := new_field_name_table (l_name_table)
+				internal_name_table := Result
 			end
 		end
 
-feature {NONE} -- Factory
-
-	new_field_sorter: like Default_field_order
+	new_field_list: EL_FIELD_LIST
 		do
-			create Result.make_default
-			Result.set_alphabetical_sort
+			create Result.make_abstract (Current, enum_type, True)
+			Result.order_by (agent {EL_REFLECTED_FIELD}.name, True) -- Important for `write_crc'
+		end
+
+	value_by_name_table: EL_HASH_TABLE [N, IMMUTABLE_STRING_8]
+		local
+			exported_names: EL_CSV_STRING_8; i: INTEGER
+		do
+			if attached internal_value_by_name_table as table then
+				Result := table
+			else
+				if attached name_translater as translater then
+					create exported_names.make (field_name_table.count * 20)
+					across field_name_table as table loop
+						exported_names.extend (translater.exported (table.item))
+					end
+					create Result.make (field_name_table.count)
+					if attached exported_names.to_immutable_list as l_name_list then
+						across field_name_table as table loop
+							i := i + 1
+							Result.extend (table.key, l_name_list.i_th (i))
+						end
+					end
+				else
+					create Result.make (0)
+				end
+				internal_value_by_name_table := Result
+			end
+		end
+
+	value_table: EL_HASH_TABLE [N, IMMUTABLE_STRING_8]
+		do
+			if attached internal_value_table as table then
+				Result := table
+			else
+				create Result.make (field_name_table.count)
+				across field_name_table as table loop
+					Result.extend (table.key, table.item)
+				end
+				internal_value_table := Result
+			end
 		end
 
 feature {NONE} -- Deferred
-
-	ENUM_FIELD: EL_REFLECTED_INTEGER_FIELD [NUMERIC]
-		-- Type definition
-		deferred
-		end
 
 	default_interval_table: EL_SPARSE_ARRAY_TABLE [INTEGER_64, N]
 		deferred
 		end
 
-	enum_type: INTEGER
+	new_field_name_table (table: HASH_TABLE [IMMUTABLE_STRING_8, N]): EL_SPARSE_ARRAY_TABLE [IMMUTABLE_STRING_8, N]
 		deferred
 		end
 
-	field_value (field: like ENUM_FIELD): N
-		deferred
-		end
-
-	new_field_by_value_table (table: HASH_TABLE [like ENUM_FIELD, N]): EL_SPARSE_ARRAY_TABLE [like ENUM_FIELD, N]
-		deferred
-		end
-
-	new_interval_table: like default_interval_table
+	new_interval_table (field_list: EL_FIELD_LIST): like default_interval_table
 		deferred
 		end
 
 feature {NONE} -- Internal attributes
 
-	field_by_value_table: like new_field_by_value_table
+	field_name_table: like new_field_name_table
+		-- lookup name by value
 
-	interval_table: like default_interval_table
+	internal_name_table: detachable like field_name_table
+
+	internal_value_by_name_table: like value_by_name_table
+
+	internal_value_table: like value_table
+
+	interval_table: like default_interval_table;
 		-- map code to description substring compact interval
-
-feature {NONE} -- Constants
-
-	Default_name: IMMUTABLE_STRING_8
-		once ("PROCESS")
-			create Result.make_empty
-		end
 
 note
 	instructions: "[
